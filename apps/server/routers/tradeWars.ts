@@ -5,7 +5,7 @@ import { getDb, type DrizzleDb } from "../db";
 import type { TWPlayerState } from "../../db/schema";
 import { twSectors, twPlayerState, twGameLog, twColonies, cards, userCards, users, shipUpgrades, playerBases } from "../../db/schema";
 import { eq, and, sql, inArray, desc, gt } from "drizzle-orm";
-import { fetchCitizenData, fetchPotentialNftData, resolveTradeEmpireBonuses } from "../traitResolver";
+import { fetchCitizenData, resolveTradeEmpireBonuses } from "../traitResolver";
 import { resolveCrewTradeBonuses, mergeCrewBonuses } from "../../shared/crewTradeIntegration";
 import type { CrewTradeInput } from "../../shared/crewTradeIntegration";
 
@@ -130,9 +130,8 @@ async function resolveTradeEmpireBonusesWithCrew(
   db: DrizzleDb,
   userId: number,
   citizen: Parameters<typeof resolveTradeEmpireBonuses>[0],
-  nft: Parameters<typeof resolveTradeEmpireBonuses>[1],
 ) {
-  const baseBonuses = resolveTradeEmpireBonuses(citizen, nft);
+  const baseBonuses = resolveTradeEmpireBonuses(citizen);
   const crewInput = await fetchCrewTradeInput(db, userId);
   if (crewInput) {
     const crewBonuses = resolveCrewTradeBonuses(crewInput);
@@ -153,11 +152,8 @@ export const tradeWarsRouter = router({
     const player = await getOrCreatePlayer(db, ctx.user.id);
     const ship = SHIPS[player.shipType] || SHIPS.scout;
     // Fetch citizen trait bonuses for UI display
-    const [citizen, nft] = await Promise.all([
-      fetchCitizenData(ctx.user.id),
-      fetchPotentialNftData(ctx.user.id),
-    ]);
-    const traitBonuses = await resolveTradeEmpireBonusesWithCrew(db, ctx.user.id, citizen, nft);
+    const citizen = await fetchCitizenData(ctx.user.id);
+    const traitBonuses = await resolveTradeEmpireBonusesWithCrew(db, ctx.user.id, citizen);
     return { ...player, shipInfo: ship, cargoUsed: getCargoUsed(player), traitBonuses };
   }),
 
@@ -237,8 +233,7 @@ export const tradeWarsRouter = router({
         const data = target.sectorData as any;
         // Citizen traits can reduce hazard damage
         const hazardCitizen = await fetchCitizenData(ctx.user.id);
-        const hazardNft = await fetchPotentialNftData(ctx.user.id);
-        const hazardTb = resolveTradeEmpireBonuses(hazardCitizen, hazardNft);
+        const hazardTb = resolveTradeEmpireBonuses(hazardCitizen);
         if (data?.hazardType && Math.random() > (data.avoidChance || 0.5) + hazardTb.hazardResistance) {
           hazardDamage = Math.floor((data.damage || 20) * (1 - hazardTb.shieldDamageReduction));
           hazardMessage = `⚠️ ${data.hazardType.toUpperCase()} DAMAGE: -${hazardDamage} shields!`;
@@ -365,8 +360,7 @@ export const tradeWarsRouter = router({
         
         // Apply citizen trade discount
         const tradeCitizen = await fetchCitizenData(ctx.user.id);
-        const tradeNft = await fetchPotentialNftData(ctx.user.id);
-        const tradeTb = resolveTradeEmpireBonuses(tradeCitizen, tradeNft);
+        const tradeTb = resolveTradeEmpireBonuses(tradeCitizen);
         const discountedPrice = Math.max(1, Math.floor(price * (1 - tradeTb.tradePriceDiscount)));
         const totalCost = discountedPrice * input.quantity;
         if (player.credits < totalCost) return { success: false, message: `Not enough credits. Need ${totalCost}, have ${player.credits}` };
@@ -412,8 +406,7 @@ export const tradeWarsRouter = router({
         
         // Apply citizen trade bonus
         const sellCitizen = await fetchCitizenData(ctx.user.id);
-        const sellNft = await fetchPotentialNftData(ctx.user.id);
-        const sellTb = resolveTradeEmpireBonuses(sellCitizen, sellNft);
+        const sellTb = resolveTradeEmpireBonuses(sellCitizen);
         const totalRevenue = price * input.quantity + sellTb.tradeCreditsBonus;
         
         const updates: Partial<typeof twPlayerState.$inferInsert> = {
@@ -473,8 +466,7 @@ export const tradeWarsRouter = router({
     
     // Also scan 2nd-degree connections — trait scan bonus increases range
     const scanCitizen = await fetchCitizenData(ctx.user.id);
-    const scanNft = await fetchPotentialNftData(ctx.user.id);
-    const scanTb = resolveTradeEmpireBonuses(scanCitizen, scanNft);
+    const scanTb = resolveTradeEmpireBonuses(scanCitizen);
     const scanDepth = 2 + scanTb.scanRangeBonus; // Base 2 + trait bonus
     if (warps.length > 0) {
       const connectedSectors = await db.select().from(twSectors).where(inArray(twSectors.sectorId, warps));
@@ -630,11 +622,8 @@ export const tradeWarsRouter = router({
     const enemyStrength = isDemonEncounter ? Math.floor(baseEnemyStrength * 1.3) : baseEnemyStrength;
     
     // ═══ CITIZEN TRAIT BONUSES ═══
-    const [citizen, nft] = await Promise.all([
-      fetchCitizenData(ctx.user.id),
-      fetchPotentialNftData(ctx.user.id),
-    ]);
-    const tb = resolveTradeEmpireBonuses(citizen, nft);
+    const citizen = await fetchCitizenData(ctx.user.id);
+    const tb = resolveTradeEmpireBonuses(citizen);
 
     // Combat resolution — traits add to player power
     const playerPower = player.fighters + Math.floor(player.shields / 10) + tb.combatPowerBonus;

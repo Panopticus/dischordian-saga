@@ -5,7 +5,7 @@ import { procedureRateLimit } from "../_core/procedureRateLimit";
 import { getDb } from "../db";
 import { cards, userCards, decks, cardGameMatches, characterSheets, dreamBalance, userProgress, pvpMatches } from "../../db/schema";
 import { eq, and, or, like, inArray, notInArray, sql, desc, asc, type SQL } from "drizzle-orm";
-import { fetchCitizenData, fetchPotentialNftData, resolveCardGameBonuses } from "../traitResolver";
+import { fetchCitizenData, resolveCardGameBonuses } from "../traitResolver";
 import { getPlayerExpansionState, getLockedCardIds } from "../services/playerExpansionState";
 import { trackAiResult, trackCollectionSize } from "../achievementTracker";
 import { ripple } from "../services/rippleEngine";
@@ -1173,11 +1173,8 @@ export const cardGameRouter = router({
       const aiDrawPile = aiShuffled.slice(5, 20).map(c => ({ cardId: c.cardId, quantity: 1 }));
 
       // ═══ CITIZEN TRAIT BONUSES ═══
-      const [citizen, nft] = await Promise.all([
-        fetchCitizenData(ctx.user.id),
-        fetchPotentialNftData(ctx.user.id),
-      ]);
-      const traitBonuses = resolveCardGameBonuses(citizen, nft);
+      const citizen = await fetchCitizenData(ctx.user.id);
+      const traitBonuses = resolveCardGameBonuses(citizen);
 
       // Apply Living Universe consequences to card stats
       const fx = await getConsequences();

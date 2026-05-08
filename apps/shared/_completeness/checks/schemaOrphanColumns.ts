@@ -43,22 +43,13 @@ const APPS_DIR = path.join(REPO_ROOT, "apps");
  * NOT included here: columns that are intentionally schema-first per
  * `audit-allow: pending-feature` doc-comments in schema.ts (e.g. the
  * Phase D.5 trade-empire cluster). Those are tracked elsewhere.
+ *
+ * History: `cards.nftTokenId` and `cards.nftPerks` used to be tracked
+ * here; both were removed from schema.ts when the NFT plumbing was
+ * deleted. New orphan columns added here = the gate's reminder to
+ * either ship the consumer or document the deferral.
  */
 const TRACKED_COLUMNS: ReadonlyArray<DeclaredColumn> = [
-  {
-    qualified: "cards.nftTokenId",
-    ignorePathFragments: ["apps/db/", "apps/scripts/", "_completeness/"],
-    consumerPatterns: ["nftTokenId"],
-    purpose:
-      "NFT linkage on Card rows; scoped at landing, never read by any router or UI",
-  },
-  {
-    qualified: "cards.nftPerks",
-    ignorePathFragments: ["apps/db/", "apps/scripts/", "_completeness/"],
-    consumerPatterns: ["nftPerks"],
-    purpose:
-      "per-NFT perk JSON blob on Card rows; scoped at landing, never read",
-  },
   {
     qualified: "characterSheets.avatarUrl",
     ignorePathFragments: ["apps/db/", "apps/scripts/", "_completeness/"],

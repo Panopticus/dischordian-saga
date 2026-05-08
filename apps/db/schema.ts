@@ -329,10 +329,6 @@ export const cards = mysqlTable("cards", {
   era: varchar("era", { length: 128 }),
   /** Season */
   season: varchar("season", { length: 64 }),
-  /** NFT token ID if linked to an NFT */
-  nftTokenId: varchar("nftTokenId", { length: 128 }),
-  /** NFT perks JSON */
-  nftPerks: json("nftPerks").$type<Record<string, unknown>>(),
   /** Disciplines/abilities JSON array */
   disciplines: json("disciplines").$type<string[]>(),
   /** Keywords for game mechanics */
@@ -340,7 +336,7 @@ export const cards = mysqlTable("cards", {
   /** How to unlock this card */
   unlockMethod: mysqlEnum("unlockMethod", [
     "starter", "story", "achievement", "trade", "fight", "exploration",
-    "purchase", "event", "nft", "admin"
+    "purchase", "event", "admin"
   ]).default("starter"),
   /** Unlock condition JSON */
   unlockCondition: json("unlockCondition").$type<Record<string, unknown>>(),

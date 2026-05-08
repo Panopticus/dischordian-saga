@@ -4,7 +4,7 @@ import { getDb } from "../db";
 import { battlePassSeasons, battlePassProgress, dreamBalance, notifications } from "../../db/schema";
 import { eq, and, desc, sql } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
-import { fetchCitizenData, fetchPotentialNftData, resolveQuestBonuses } from "../traitResolver";
+import { fetchCitizenData, resolveQuestBonuses } from "../traitResolver";
 import { logger } from "../logger";
 import {
   getTierFromXp, getTierProgress, getXpSource, MAX_TIER,
@@ -111,11 +111,8 @@ export const battlePassRouter = router({
       const p = progress[0]!;
 
       // Apply trait XP multiplier to battle pass XP
-      const [bpCitizen, bpNft] = await Promise.all([
-        fetchCitizenData(ctx.user.id),
-        fetchPotentialNftData(ctx.user.id),
-      ]);
-      const bpTb = resolveQuestBonuses(bpCitizen, bpNft);
+      const bpCitizen = await fetchCitizenData(ctx.user.id);
+      const bpTb = resolveQuestBonuses(bpCitizen);
       const adjustedXp = Math.round(input.xp * bpTb.battlePassXpMultiplier);
 
       // Apply prestige multiplier on top of trait bonus

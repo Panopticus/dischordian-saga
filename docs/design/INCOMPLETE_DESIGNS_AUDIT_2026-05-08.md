@@ -219,10 +219,10 @@ the runtime would need to grow to drop the count by 1.
 
 (`shared:purification_module` and `shared:breeding_logic` shipped — incidental matches in `economySimulator.ts` / `crewBreeding.ts` clear those artifacts, which is why implemented = 3.)
 
-**`schema.no_orphan_columns` (gap 3)**
-- `cards.nftTokenId` — NFT linkage column, no consumer outside `apps/db/`.
-- `cards.nftPerks` — per-NFT perk JSON blob, no consumer.
+**`schema.no_orphan_columns` (gap 1, was 3)**
 - `characterSheets.avatarUrl` — portrait URL, no consumer in client or server.
+
+*(Closed 2026-05-08: `cards.nftTokenId` and `cards.nftPerks` deleted entirely along with the residual NFT plumbing — `apps/db/0071_drop_nft_card_columns.sql`, 26 source files touched, 221 references removed, ship-check ratchet tightened 3 → 1.)*
 
 **`schema.notification_enum_producers` (gap 14)** — variants declared in `notifications.type` enum (`apps/db/schema.ts:1777`) with no `type: "<variant>"` writer in `apps/server/`:
 - `battle_pass_reward`

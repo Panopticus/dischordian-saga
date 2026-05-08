@@ -5,7 +5,7 @@ import { getDb } from "../db";
 import { trackCraftAction, trackDisenchant, trackCollectionSize } from "../achievementTracker";
 import { cards, userCards, craftingLog, disenchantLog, dreamBalance, userProgress, citizenCharacters, memoryEnergyBalance } from "../../db/schema";
 import { eq, and, sql, desc, inArray } from "drizzle-orm";
-import { fetchCitizenData, fetchPotentialNftData, resolveCraftingBonuses } from "../traitResolver";
+import { fetchCitizenData, resolveCraftingBonuses } from "../traitResolver";
 import { ripple } from "../services/rippleEngine";
 import { getConsequences } from "../services/universeConsequences";
 import { applySubHouseRepDelta } from "../services/subHouseReputationService";
@@ -491,11 +491,8 @@ export const craftingRouter = router({
       }
 
       // Apply citizen trait bonuses to crafting
-      const [craftCitizen, craftNft] = await Promise.all([
-        fetchCitizenData(ctx.user.id),
-        fetchPotentialNftData(ctx.user.id),
-      ]);
-      const craftTb = resolveCraftingBonuses(craftCitizen, craftNft);
+      const craftCitizen = await fetchCitizenData(ctx.user.id);
+      const craftTb = resolveCraftingBonuses(craftCitizen);
 
       // Roll for success — trait bonus increases success rate
       const boostedRate = Math.min(1, recipe.successRate + craftTb.successRateBonus);
@@ -959,14 +956,11 @@ export const craftingRouter = router({
       }
 
       // Apply citizen trait bonuses to success rate.
-      // resolveCraftingBonuses takes (citizen, nft) objects, not a userId.
+      // resolveCraftingBonuses takes a citizen object, not a userId.
       let successRate = input.baseSuccessRate;
       try {
-        const [citizen, nft] = await Promise.all([
-          fetchCitizenData(ctx.user.id),
-          fetchPotentialNftData(ctx.user.id),
-        ]);
-        const bonuses = resolveCraftingBonuses(citizen, nft);
+        const citizen = await fetchCitizenData(ctx.user.id);
+        const bonuses = resolveCraftingBonuses(citizen);
         successRate = Math.min(1, successRate + (bonuses.successRateBonus ?? 0));
       } catch (e) {
         logger.error("[Crafting] Trait bonus resolve failed:", e);

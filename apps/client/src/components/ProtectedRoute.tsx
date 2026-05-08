@@ -66,7 +66,6 @@ export const ROUTE_ROOM_MAP: Record<string, string> = {
   "/achievements": "captains-quarters",
   "/leaderboard": "captains-quarters",
   "/potentials": "captains-quarters",
-  "/potentials/leaderboard": "captains-quarters",
   "/companions": "captains-quarters",
   "/battle-pass": "captains-quarters",
   "/morality-census": "captains-quarters",

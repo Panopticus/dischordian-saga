@@ -7,7 +7,7 @@ import { getDb } from "../db";
 import { dailyQuests, loginCalendar, dreamBalance, notifications, characterSheets } from "../../db/schema";
 import { battlePassXp } from "../services/battlePassXp";
 import { eq, and, sql } from "drizzle-orm";
-import { fetchCitizenData, fetchPotentialNftData, resolveQuestBonuses } from "../traitResolver";
+import { fetchCitizenData, resolveQuestBonuses } from "../traitResolver";
 import { ripple } from "../services/rippleEngine";
 import { getConsequences, getEventDailyQuests } from "../services/universeConsequences";
 import { applyPrestigeBonuses } from "../services/prestigeMultiplier";
@@ -342,11 +342,8 @@ export const dailyQuestsRouter = router({
         .where(eq(dailyQuests.id, record[0].id));
 
       // Fetch citizen trait bonuses for quest rewards
-      const [questCitizen, questNft] = await Promise.all([
-        fetchCitizenData(ctx.user.id),
-        fetchPotentialNftData(ctx.user.id),
-      ]);
-      const questTb = resolveQuestBonuses(questCitizen, questNft);
+      const questCitizen = await fetchCitizenData(ctx.user.id);
+      const questTb = resolveQuestBonuses(questCitizen);
 
       // Apply trait multipliers to quest rewards
       const traitDream = Math.round(record[0].rewardDream * questTb.rewardMultiplier);

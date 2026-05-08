@@ -247,7 +247,7 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     id: "schema.no_orphan_columns",
     name: "No orphan columns in live tables",
     description:
-      "Tracked columns (cards.nftTokenId, cards.nftPerks, characterSheets.avatarUrl) must have at least one consumer outside apps/db/. Adding a new orphan-prone column to a live table = adding a row here.",
+      "Tracked columns (currently characterSheets.avatarUrl) must have at least one consumer outside apps/db/. Adding a new orphan-prone column to a live table = adding a row here.",
     check: () => checkSchemaOrphanColumns(),
     ratchet: { target: 0 },
   },
