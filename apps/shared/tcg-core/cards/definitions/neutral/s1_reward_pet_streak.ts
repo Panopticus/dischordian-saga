@@ -49,7 +49,7 @@ export const cardDef: CardDefinition = {
   trial_categories: ["offensive"] as const,
   verdict_delta: 1,
   balanceException: {
-    reason: "Pet/companion card: smaller stat profile by design (companions are flavor-tier units, not main board threats). UNDER curve by 33%.",
-    reviewer: "2026-05-stat-curve-recalibration",
+    reason: "Reward-tier pet from the win-streak grant pool. Sub-curve flavor unit; rush keyword is the only board-relevant value.",
+    reviewer: "panopticus",
   },
 };

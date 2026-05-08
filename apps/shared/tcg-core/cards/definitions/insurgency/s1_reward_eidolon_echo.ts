@@ -51,7 +51,7 @@ export const cardDef: CardDefinition = {
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
   balanceException: {
-    reason: "Reward/prestige card: designer-tuned outside the standard curve for narrative role; not part of the regular deck-builder balance pool. UNDER curve by 22%.",
-    reviewer: "2026-05-stat-curve-recalibration",
+    reason: "Reward-tier card from the eidolon grant. Heal-on-attack ability gives sustained value across the unit's lifespan. Stats below ladder curve to balance the per-attack heal generation.",
+    reviewer: "panopticus",
   },
 };

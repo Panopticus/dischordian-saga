@@ -55,7 +55,7 @@ export const cardDef: CardDefinition = {
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
   balanceException: {
-    reason: "Ability-driven design: raw stats traded for build-around effect text; the curve over-predicts stats for cards whose power lives in their abilities. UNDER curve by 29%.",
-    reviewer: "2026-05-stat-curve-recalibration",
+    reason: "Grow snowball: +1/+1 at start of owner's turn (post-H2 the keyword is functional). Sub-curve printed line is intentional — by turn 4 the unit is on-curve, by turn 6 it's well above. Matches the grow-archetype design.",
+    reviewer: "panopticus",
   },
 };

@@ -59,7 +59,7 @@ export const cardDef: CardDefinition = {
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
   balanceException: {
-    reason: "Reward/prestige card: designer-tuned outside the standard curve for narrative role; not part of the regular deck-builder balance pool. UNDER curve by 22%.",
-    reviewer: "2026-05-stat-curve-recalibration",
+    reason: "Reward-tier card from the balanced-campaign grant. On-deploy draw + general-heal is the core value. Stats held below ladder curve to prevent campaign rewards from gating competitive play.",
+    reviewer: "panopticus",
   },
 };

@@ -64,7 +64,7 @@ export const cardDef: CardDefinition = {
   trial_categories: ["narrative"] as const,
   verdict_delta: 2,
   balanceException: {
-    reason: "Ability-driven design: raw stats traded for build-around effect text; the curve over-predicts stats for cards whose power lives in their abilities. UNDER curve by 36%.",
-    reviewer: "2026-05-stat-curve-recalibration",
+    reason: "Sacrifice-then-summon ability: sacrifice a friendly + summon a 5/5 token. Net: trade one body for a 5/5 + the Voss 3/4. Sub-curve printed stats reflect the cost of the sacrifice mechanic; combined effective stats far exceed curve.",
+    reviewer: "panopticus",
   },
 };
