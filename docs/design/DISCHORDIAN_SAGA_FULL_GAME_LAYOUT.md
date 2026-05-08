@@ -2238,7 +2238,7 @@ for the Seer's fragment description if reusable.
 
 | File | What's in it | Characters | Line count |
 |---|---|---|---|
-| `docs/production/elara-vo-script.md` | Elara ship-AI VO script with ElevenLabs audio files | Elara | 119 |
+| `docs/archive/2026-05-08-superseded/elara-vo-script.md` | Elara ship-AI VO script with ElevenLabs audio files | Elara | 119 |
 | `docs/production/VOICE_OVER_BIBLE.md` | P0/P1/P2 lines for 8 main characters | Elara, The Human, Agent Zero, Locke, The Source (Kael), The Antiquarian, Shadow Tongue, Narrator | 166 total |
 | `apps/shared/mobileNarratorDialog.ts` | §13 Yin/Yang Dialog Matrix — paired Elara + The Human lines for 14 rooms at 5 trust tiers (F/P/H/V/D) | Elara, The Human | ~60 |
 | `apps/shared/lyraVoxDialog.ts` | Dr. Lyra Vox substrate-voice lines per room (unlocks on "Forgive Neither" path) | Lyra Vox | ~30 |

@@ -25,7 +25,7 @@ All 10 are in `apps/shared/tcg-core/cards/definitions/neutral/engine_demo_cards.
 | `art/cards/s1_neutral_summonednear_001.webp` | The Hospitality Officer | 3 | Unit 2/4 | An attendant at a doorway, hand raised in a precise welcoming gesture, the room beyond uncannily ready. |
 | `art/cards/s1_neutral_struct_001.webp` | The Anchor of Kael | 4 | Structure 4/8 | A massive iron anchor set into the floor of a chamber that has clearly been built around it. Kael's mark cast in iron. |
 
-## Specs (per `docs/production/ART_PRODUCTION_BIBLE.md`)
+## Specs (per `docs/ART_DEPARTMENT_PRODUCTION.md` §2 + §6)
 
 - **Format**: WEBP, sRGB, 1024×1024 minimum (matches existing `art/cards/*.webp`).
 - **Aspect**: square crop; the in-game card frame masks the portrait area.

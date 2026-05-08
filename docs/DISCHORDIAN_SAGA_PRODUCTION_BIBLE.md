@@ -142,8 +142,11 @@ line via `companionComments.ts` (21 prelude entries added in PR #75).
 **System tutors:** Locke (mission_board), Human (inbox), Seer (witnessing),
 Elara (crew_role + beat_f_lockbox). See `apps/shared/preludeSystemTutors.ts`.
 
-**Canon authority:** `docs/production/PRELUDE_SHIP_READY_BIBLE.md` (kept
-separate; cross-audited by `apps/server/preludeBibleAudit.test.ts`).
+**Canon authority:** `docs/archive/2026-05-08-superseded/PRELUDE_SHIP_READY_BIBLE.md`
+(archived in the 2026-05-08 production-doc collapse; preserved as the
+Prelude asset-path snapshot and cross-audited from that path by
+`apps/server/preludeBibleAudit.test.ts`. Live production guidance for
+Prelude assets now lives in `ART_DEPARTMENT_PRODUCTION.md` §3.6 + §6).
 
 ### 3.2 Act 1 — twelve-match memoir, three cycles
 
@@ -340,20 +343,18 @@ separate; sprint history + workflow detail).
 
 ### 6.1 Art
 
-- **Universal prompting doc** for any missing Prelude/Act 1 asset:
-  `docs/production/UNIVERSAL_PROMPTING_DOC_PRELUDE_ACT1.md` — paste-ready
-  prompts for Nano Banana 2 + Seedance 2.0.
-- **Art production bible** (general direction, not Prelude/Act 1 specific):
-  `docs/production/ART_PRODUCTION_BIBLE.md`.
-- **Visual production bible** (UI, cinematics, effects):
-  `docs/production/VISUAL_PRODUCTION_BIBLE.md`.
-- **Per-environment bibles** in `docs/production/`:
-  `MECHRONIS_ART_PROMPTS`, `PARALLAX_ROOMS_ART_BIBLE`,
-  `PLAYER_CABIN_ART_BIBLE`, `LORE_GALLERY_ART_BIBLE`, `STORY_MODE_ART_BIBLE`,
-  `GAME_MODE_ENVIRONMENTS_ART_BIBLE`, `OPTIONAL_COMPONENTS_ART_BIBLE`.
-- **Asset-build workspaces** (manifests + prompt batches):
+- **Single source of truth:** `docs/ART_DEPARTMENT_PRODUCTION.md` — the
+  drag-and-drop production document. §2 has the per-environment art
+  inventory, §3 has the production queue (Prelude / Act 1 / Acts 2-7),
+  §6 has the prompt-pack appendix. The 30+ pre-collapse art bibles
+  (UNIVERSAL_PROMPTING_DOC, ART_PRODUCTION_BIBLE, VISUAL_PRODUCTION_BIBLE,
+  per-environment bibles, etc.) are preserved at
+  `docs/archive/2026-05-08-superseded/` and listed in that doc's §7
+  ledger.
+- **Asset-build workspaces** (manifests + prompt batches still in use):
   `docs/production/prelude-asset-build/` and
-  `docs/production/act1-asset-build/`.
+  `docs/production/act1-asset-build/` and
+  `docs/production/acts-2-7-aaa-final/`.
 - **Card art specs**: `docs/TCG_ART_SPEC.md` + `TCG_ART_SPEC_ADDENDUM.md`,
   plus the `NANO_BANANA_*.md` files at `docs/` root for allegiance, class,
   element/dimension/race, NPC imprints (1/2/3), and Oracle deck.
@@ -378,9 +379,12 @@ Anamorphic lens flare on brightest element. No rendered text in stills.
   replaced the ad-hoc stale allowlist).
 - **Engineer recordings registry:** `apps/shared/engineerRecordings.ts`
   (typed; covers Engineer + Prince audit gap).
-- **Existing scripts:** `docs/production/elara-vo-script.md` (Prelude),
-  prompts under `docs/production/prelude-asset-build/prompts/voice/log5/`
-  (Last Words tease).
+- **Existing scripts:** the Elara Prelude VO script is canonical in
+  `apps/shared/elaraVoManifest.json` (the original
+  `docs/archive/2026-05-08-superseded/elara-vo-script.md` was archived in the 2026-05-08
+  collapse; see `docs/archive/2026-05-08-superseded/`). Additional
+  Last-Words tease prompts live under
+  `docs/production/prelude-asset-build/prompts/voice/log5/`.
 
 ### 6.3 Audio (music + SFX)
 
@@ -393,8 +397,9 @@ Anamorphic lens flare on brightest element. No rendered text in stills.
 ### 6.4 Cutscenes / cinematics
 
 - **Direction:** `docs/design/ANIMATED_CUTSCENES.md` and
-  `docs/production/STORY_MODE_ART_BIBLE.md` and
-  `docs/production/PRODUCTION_BIBLE.md` (Collector's Arena cinematics).
+  `docs/ART_DEPARTMENT_PRODUCTION.md` §3.2 (story-mode cinematics) +
+  §3.3 (Collector's Arena cinematics; folded in from the archived
+  `STORY_MODE_ART_BIBLE` and `PRODUCTION_BIBLE` per the doc's §7 ledger).
 - **Engine:** Seedance 2.0 at 24fps; one continuous camera move + one
   dominant visual idea per shot.
 
@@ -542,10 +547,13 @@ a one-liner under § 9 if the change is canonically significant.
   `docs/CARD_ART_SPECS.md` with table-of-contents per allegiance/class/
   element/NPC.
 
-### 8.7 Known issues from FULL-PROJECT-AUDIT
+### 8.7 Known issues from the system audits
 
-Unresolved items from `docs/design/FULL-PROJECT-AUDIT.md` that haven't
-been closed by recent PRs:
+Unresolved items from the project's tier-categorised systems audit
+(originally `FULL-PROJECT-AUDIT.md`, archived 2026-05-08 and superseded
+by `docs/audits/CONNECTION_AUDIT_2026-05-07.md` +
+`docs/design/INCOMPLETE_DESIGNS_AUDIT_2026-05-08.md`) that haven't been
+closed by recent PRs:
 
 - [ ] **Disenchant log** — schema exists, never written to.
 - [ ] **Defense waves** — schema exists, tower defense doesn't use it.
@@ -601,42 +609,53 @@ high-level state change here.
 - `docs/design/WITNESSING_NARRATIVE_PROPOSAL.md` — 4K+ lines on the
   Witnessing system (bond progression, milestones, chronicles).
 
-### 9.2 Production bibles (kept separate; ratchet-tested)
-- `docs/production/PRELUDE_SHIP_READY_BIBLE.md` — Prelude canonical bible.
-  Cross-audited by `apps/server/preludeBibleAudit.test.ts`.
+### 9.2 Production bibles
+
+The 2026-05-08 collapse folded ~30 separate production / art / asset
+bibles into one drag-and-drop doc. **Use that doc for all art / audio
+/ video production.**
+
+- `docs/ART_DEPARTMENT_PRODUCTION.md` — single source of truth for the
+  art department. §1 stack overview, §2 per-environment inventory,
+  §3 production queue (Prelude / Act 1 / Acts 2-7), §4 cinematics,
+  §5 voice, §6 prompt-pack appendix, §7 archive ledger mapping every
+  collapsed file to its replacement section.
+
+Bibles still kept separate alongside it (act-narrative + active
+references, not folded into the single doc):
+
 - `docs/production/ACT1_NARRATIVE_STRUCTURE.md` — Act 1 canonical bible.
-- `docs/production/SHIP_READY_ASSET_BIBLE.md` — post-Prelude asset
-  production prompts (Nano Banana 2 + Seedance + ElevenLabs) covering
-  all 46 game modes. Mutually exclusive with the Prelude bible.
-- `docs/production/UNIVERSAL_PROMPTING_DOC_PRELUDE_ACT1.md` — paste-ready
-  prompts for missing Prelude/Act 1 assets.
 - `docs/production/ALL_ACTS_ROADMAP.md` — act-name reconciliation +
   timeline.
-- `docs/production/ART_PRODUCTION_BIBLE.md` — general art direction.
-- `docs/production/VISUAL_PRODUCTION_BIBLE.md` — UI / cinematics / effects
-  visual direction.
-- `docs/production/PRODUCTION_BIBLE.md` — Collector's Arena cinematics +
-  music direction.
-- `docs/production/STORY_MODE_ART_BIBLE.md` — story mode cinematic art.
-- `docs/production/VOICE_OVER_BIBLE.md` — VO production guide.
-- `docs/production/COMPLETE_ART_PROMPT_BIBLE.md` — Soul Stones, Eidolons,
-  Spectral, Companions, Rooms, VFX (~112 assets).
+- `docs/production/VOICE_OVER_BIBLE.md` — ElevenLabs voice profiles +
+  pipeline.
+- `docs/production/LIVING_CHARACTER_SHEET_ART_BRIEF.md` — 6-track
+  character rig + cosmetics.
+- `docs/production/GUILD_CUTSCENE_BIBLE.md` — guild signature-cutscene
+  Veo prompts.
+- `docs/production/CASINO_EXPANSION_ART_BIBLE.md` — casino expansion
+  prompts.
+- `docs/production/CUTSCENE_SEEDANCE_PROMPTS.md` — Seedance 2.0
+  cutscene prompts.
+
+The Prelude bible (`PRELUDE_SHIP_READY_BIBLE.md`) is preserved at
+`docs/archive/2026-05-08-superseded/` as a frozen asset-path snapshot
+and continues to be cross-audited by
+`apps/server/preludeBibleAudit.test.ts` from that archived path.
 
 ### 9.3 Per-environment / per-system art bibles
-- `docs/production/MECHRONIS_ART_PROMPTS.md`
-- `docs/production/PARALLAX_ROOMS_ART_BIBLE.md`
-- `docs/production/PLAYER_CABIN_ART_BIBLE.md`
-- `docs/production/LORE_GALLERY_ART_BIBLE.md`
-- `docs/production/GAME_MODE_ENVIRONMENTS_ART_BIBLE.md`
-- `docs/production/OPTIONAL_COMPONENTS_ART_BIBLE.md`
-- `docs/production/PARALLAX_ROOMS_ART_BIBLE.md`
-- `docs/production/PAGE_BACKGROUND_ART_PROMPTS.md`
-- `docs/production/CASINO_EXPANSION_ART_BIBLE.md` — future expansion.
-- `docs/production/CHRISTMAS_IN_JULY_ART_BIBLE.md` — holiday event.
-- `docs/production/BREEDING_SYSTEM_ART_PROMPTS.md` — crew breeding.
-- `docs/production/FIGHTER_LORE_CROSSREF.md` — fighter character index.
-- `docs/production/CELEBRATION_ART_PROMPTS.md` + `CELEBRATION_MECHRONIS_*`.
-- `docs/production/CONSISTENCY_GATE.md` — asset consistency checklist.
+- `docs/production/CASINO_EXPANSION_ART_BIBLE.md` — future expansion (still live).
+- `docs/production/FIGHTER_LORE_CROSSREF.md` — fighter character index (still live).
+- `docs/production/CONSISTENCY_GATE.md` — asset consistency checklist (still live).
+
+The other per-environment / per-system bibles (`MECHRONIS_ART_PROMPTS`,
+`PARALLAX_ROOMS_ART_BIBLE`, `PLAYER_CABIN_ART_BIBLE`,
+`LORE_GALLERY_ART_BIBLE`, `GAME_MODE_ENVIRONMENTS_ART_BIBLE`,
+`OPTIONAL_COMPONENTS_ART_BIBLE`, `PAGE_BACKGROUND_ART_PROMPTS`,
+`CHRISTMAS_IN_JULY_ART_BIBLE`, `BREEDING_SYSTEM_ART_PROMPTS`,
+`CELEBRATION_ART_PROMPTS` + `CELEBRATION_MECHRONIS_*`) were folded into
+`ART_DEPARTMENT_PRODUCTION.md` §2.16 / §6 in the 2026-05-08 collapse.
+The originals are preserved under `docs/archive/2026-05-08-superseded/`.
 
 ### 9.4 Card-art catalog (top-level)
 - `docs/NANO_BANANA_ALLEGIANCE_CARDS.md`
@@ -652,8 +671,10 @@ high-level state change here.
 - `docs/narrative-audit/ACTS_2_7_COMPLETENESS_AUDIT.md` — structural gaps.
 - `docs/narrative-audit/DOC{1,2,3,4}_*` — original writing audit corpus
   (kept as reference).
-- `docs/design/FULL-PROJECT-AUDIT.md` — tier-categorised systems audit
-  (storeItems orphan claim corrected in PR #75).
+- `docs/audits/CONNECTION_AUDIT_2026-05-07.md` +
+  `docs/design/INCOMPLETE_DESIGNS_AUDIT_2026-05-08.md` — tier-categorised
+  systems audit (supersedes the archived `FULL-PROJECT-AUDIT.md`;
+  storeItems orphan claim corrected in PR #75).
 
 ### 9.6 Authoring guides
 - `docs/design/AUTHORING_MORALITY_VARIANTS.md` — Tier 4 variant resolver.
@@ -667,7 +688,9 @@ high-level state change here.
 
 ### 9.8 Transmedia (kept separate)
 - `docs/production/CADES_SFX_PROMPTS.md`
-- `docs/production/DEAD_MANS_CIRCUIT_PRODUCTION.md`
+- Dead Man's Circuit production: folded into
+  `docs/ART_DEPARTMENT_PRODUCTION.md` §3.3 + §2.11 (original
+  `DEAD_MANS_CIRCUIT_PRODUCTION.md` archived 2026-05-08).
 - `docs/silence-in-heaven/ART-PRODUCTION-GUIDE.md`
 - `docs/production/prompts/cades-fps-production-prompts.md`
 - `docs/production/prompts/puzzle-answer-book.md` — DMC puzzle solutions.

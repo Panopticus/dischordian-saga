@@ -435,7 +435,7 @@ export const appRouter = router({
     // (appRouter.arkThemes.get / arkThemes.set). The inline
     // gamification.getTheme / gamification.setTheme pair was
     // never referenced by client code; this extraction closes
-    // docs/design/FULL-PROJECT-AUDIT.md's "arkThemes accessed
+    // docs/archive/2026-05-08-superseded/FULL-PROJECT-AUDIT.md's "arkThemes accessed
     // inline" finding.
   }),
 });

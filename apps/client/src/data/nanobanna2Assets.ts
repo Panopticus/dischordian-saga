@@ -5,7 +5,7 @@ import { assetUrl } from "@/lib/assetUrl";
    Dischordian Companions, Rooms, VFX
    
    Source: s3://dgrsart/NanoBanna2_Art_Assets_112.zip
-   Bible: docs/production/COMPLETE_ART_PROMPT_BIBLE.md
+   Bible: docs/archive/2026-05-08-superseded/COMPLETE_ART_PROMPT_BIBLE.md
    ═══════════════════════════════════════════════════════ */
 
 /* ─── SOUL STONES (3) ─── */

@@ -85,6 +85,6 @@ a follow-up wiring PR.
 - `docs/production/acts-2-7-aaa-final/remaining_work.md` — gap analysis from the artist team.
 - `docs/production/acts-2-7-aaa-final/character_canon_map.md` — character canon refs used.
 - `docs/production/commission-packages/acts-2-7-tranche.csv` — production-target spec.
-- `docs/production/ACTS_2_THROUGH_7_ASSET_BIBLE.md` — older WebP-frame asset bible
+- `docs/archive/2026-05-08-superseded/ACTS_2_THROUGH_7_ASSET_BIBLE.md` — older WebP-frame asset bible
   (still referenced by current runtime; the AAA Final drop supersedes it for
   cinematic + music delivery, but its room/portrait/UI rows are still valid).

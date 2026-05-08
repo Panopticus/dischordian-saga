@@ -9,7 +9,7 @@
  *
  * SCAFFOLD. Full UX spec at:
  *   docs/production/act1/seer-prophecy-mechanic.md
- *   docs/production/UNIVERSAL_PROMPTING_DOC_PRELUDE_ACT1.md §7.1
+ *   docs/archive/2026-05-08-superseded/UNIVERSAL_PROMPTING_DOC_PRELUDE_ACT1.md §7.1
  *
  * No new art asset is required — CSS-only animation over the
  * existing card-back PNG. Double-exposure flicker between two

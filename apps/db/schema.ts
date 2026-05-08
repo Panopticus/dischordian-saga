@@ -7323,7 +7323,7 @@ export const soulStones = mysqlTable("soul_stones", {
 export type SoulStonesRow = typeof soulStones.$inferSelect;
 
 /* ─────────────────────────────────────────────────────────────────
- * PET BREEDING (docs/production/BREEDING_SYSTEM_ART_PROMPTS.md)
+ * PET BREEDING (docs/archive/2026-05-08-superseded/BREEDING_SYSTEM_ART_PROMPTS.md)
  * Pair-based breeding: parentA + parentB → offspring with combined
  * traits. `status` walks queued → incubating → ready → claimed/cancelled.
  * Offspring stats are computed at completion and stored in the

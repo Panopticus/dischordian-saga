@@ -52,7 +52,7 @@
  *
  * Tier-up variants must escalate visually in lockstep with mechanical
  * power per the §10 master template in
- * `docs/production/PROMPT_BOOK_2026-04-25.md`:
+ * `docs/archive/2026-05-08-superseded/PROMPT_BOOK_2026-04-25.md`:
  *
  *   T1 baseline      — mortal scale, single key light, restrained.
  *   T2 awakened      — visible elemental aura, secondary rim-light,

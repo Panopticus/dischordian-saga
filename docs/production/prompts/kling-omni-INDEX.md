@@ -9,7 +9,7 @@
 - `apps/shared/westByGodTracks.ts` — the canonical `klingPrompt` + `seedanceMotion` pairing the player has already been trained on.
 - `docs/production/commission-packages/examples/veo-3.1_one-shot-cinematic.md` — multi-beat per-shot timestamp pattern.
 - `docs/FNORD23_MUSIC_PROMPTS.md` — audio-bed cue ids cited per file.
-- `docs/production/ART_PRODUCTION_BIBLE.md` + `VISUAL_PRODUCTION_BIBLE.md` — palette, faction colors, character look bibles.
+- `docs/archive/2026-05-08-superseded/ART_PRODUCTION_BIBLE.md` + `VISUAL_PRODUCTION_BIBLE.md` — palette, faction colors, character look bibles.
 
 ---
 

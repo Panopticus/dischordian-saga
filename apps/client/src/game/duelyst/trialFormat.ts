@@ -1,7 +1,7 @@
 /* ═══════════════════════════════════════════════════════
    TRIAL FORMAT — Cycle C4 Authority Tribunal ruleset
 
-   Canonical spec: docs/production/ACT_1_SHIP_READY_BIBLE.md
+   Canonical spec: docs/archive/2026-05-08-superseded/ACT_1_SHIP_READY_BIBLE.md
    §16 (engineering) + §2.13 (character / narrative).
 
    The Trial format is a Cycle-C4-only ruleset that runs

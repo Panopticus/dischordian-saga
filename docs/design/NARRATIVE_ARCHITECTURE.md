@@ -249,7 +249,7 @@ Neither knows they are two halves of the same original being.
 - [x] Quest lore text should reference canonical events
 - [x] Epoch quests should align with the 5 album themes
 
-### ART_PRODUCTION_BIBLE.md
+### Art production bible (now `docs/ART_DEPARTMENT_PRODUCTION.md`; original `ART_PRODUCTION_BIBLE.md` archived 2026-05-08)
 - [x] The Warlord = female, blonde, cybernetic
 - [x] Agent Zero = female
 - [x] Update enemy descriptions to reference Kael/Terminus connection
