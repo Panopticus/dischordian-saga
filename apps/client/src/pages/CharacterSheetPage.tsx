@@ -1209,7 +1209,11 @@ export default function CharacterSheetPage() {
 
         {/* ═══════════════════════════════════════════════════
             SECTION 5: DREAM SUBSTRATE RESERVES
+            Gated behind mech_dream_substrate_tutor_seen — the panel
+            reveals after the Engineer's Log on FNORD-23 plays. Until
+            then a new player has no frame for tokens vs bound light.
            ═══════════════════════════════════════════════════ */}
+        {gameState.narrativeFlags?.mech_dream_substrate_tutor_seen && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -1231,10 +1235,15 @@ export default function CharacterSheetPage() {
             </div>
           )}
         </motion.div>
+        )}
 
         {/* ═══════════════════════════════════════════════════
             SECTION 6: SECURITY CLEARANCE & MORALITY
+            Prestige panel gated behind mech_prestige_tutor_seen
+            (The Degen's casino cinematic). Morality block follows
+            its own tutor flag below.
            ═══════════════════════════════════════════════════ */}
+        {gameState.narrativeFlags?.mech_prestige_tutor_seen && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -1298,8 +1307,11 @@ export default function CharacterSheetPage() {
             );
           })()}
         </motion.div>
+        )}
 
-        {/* MORALITY ALIGNMENT */}
+        {/* MORALITY ALIGNMENT — gated behind mech_morality_tutor_seen
+            (The Human's Act 1 closing-branch cinematic) */}
+        {gameState.narrativeFlags?.mech_morality_tutor_seen && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -1321,8 +1333,12 @@ export default function CharacterSheetPage() {
             }}
           />
         </motion.div>
+        )}
 
-        {/* DREAM PARTITION (Character Mind) */}
+        {/* DREAM PARTITION (Character Mind) — gated behind the existing
+            tutorial_dream_explained flag (Elara's Comms-Relay beat).
+            Same flag already gates attribute upgrades above. */}
+        {gameState.narrativeFlags?.tutorial_dream_explained && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -1347,8 +1363,12 @@ export default function CharacterSheetPage() {
             onCompleteInternalizing={completeInternalizingThought}
           />
         </motion.div>
+        )}
 
-        {/* NEURAL RESPEC */}
+        {/* NEURAL RESPEC — gated behind mech_respec_tutor_seen
+            (Engineer's Log "On Un-Choosing"). The button hides until
+            the player has heard the lesson on the bench. */}
+        {gameState.narrativeFlags?.mech_respec_tutor_seen && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -1364,8 +1384,34 @@ export default function CharacterSheetPage() {
             <span className="font-mono text-[8px] text-muted-foreground/30">— Reassign attributes, alignment, or element</span>
           </button>
         </motion.div>
+        )}
 
-        <TraitSummaryPanel isAuthenticated={isAuthenticated} />
+        {/* TRAIT SUMMARY — derived gate. The panel shows once any of
+            the system tutors has fired, so it grows visibly as the
+            player learns the systems that contribute its rows. The
+            rows themselves derive their visibility from each
+            underlying system's tutor-seen flag (handled inside
+            TraitSummaryPanel, not here). */}
+        {(gameState.narrativeFlags?.mech_card_combat_tutor_seen
+          || gameState.narrativeFlags?.mech_deckbuilder_tutor_seen
+          || gameState.narrativeFlags?.mech_allegiances_tutor_seen
+          || gameState.narrativeFlags?.mech_witnessing_tutor_seen
+          || gameState.narrativeFlags?.mech_soul_stones_tutor_seen
+          || gameState.narrativeFlags?.mech_oracle_deck_tutor_seen
+          || gameState.narrativeFlags?.mech_chess_tutor_seen
+          || gameState.narrativeFlags?.mech_sprite_proxy_tutor_seen
+          || gameState.narrativeFlags?.mech_expansion_drops_tutor_seen
+          || gameState.narrativeFlags?.mech_trade_empire_tutor_seen
+          || gameState.narrativeFlags?.mech_crafting_tutor_seen
+          || gameState.narrativeFlags?.mech_dream_substrate_tutor_seen
+          || gameState.narrativeFlags?.mech_respec_tutor_seen
+          || gameState.narrativeFlags?.mech_prestige_tutor_seen
+          || gameState.narrativeFlags?.mech_morality_tutor_seen
+          || gameState.narrativeFlags?.mech_breeding_tutor_seen
+          || gameState.narrativeFlags?.mech_colony_commerce_tutor_seen
+          || gameState.narrativeFlags?.mech_demon_pacts_tutor_seen) && (
+          <TraitSummaryPanel isAuthenticated={isAuthenticated} />
+        )}
 
         {/* ═══════════════════════════════════════════════════
             SECTION 7: OPERATIONAL RECORD
@@ -1469,10 +1515,16 @@ export default function CharacterSheetPage() {
             are server-authoritative via getFactionStandings;
             this widget renders bars and the current band
             (enemy / suspect / neutral / ally / champion).
+
+            Gated behind mech_allegiances_tutor_seen — The Human
+            introduces the eight-banner system at the central
+            pedestal in Act 2 before the panel reveals.
            ═══════════════════════════════════════════════════ */}
-        <div className="my-6">
-          <FactionStandingPanel />
-        </div>
+        {gameState.narrativeFlags?.mech_allegiances_tutor_seen && (
+          <div className="my-6">
+            <FactionStandingPanel />
+          </div>
+        )}
 
         {/* ═══════════════════════════════════════════════════
             SECTION 8: GAME MASTER WARNING

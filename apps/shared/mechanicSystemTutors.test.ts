@@ -16,11 +16,20 @@ const EXPECTED_IDS: readonly MechanicSystemId[] = [
   "sprite_proxy",
   "expansion_drops",
   "trade_empire",
+  // Discovery-gate sheet additions
+  "crafting",
+  "dream_substrate",
+  "neural_respec",
+  "prestige",
+  "morality",
+  "breeding",
+  "colony_commerce",
+  "demon_pacts",
 ];
 
 describe("Mechanic system tutors", () => {
-  it("registers all 10 mechanic tutors", () => {
-    expect(MECHANIC_SYSTEM_TUTORS).toHaveLength(10);
+  it("registers all 18 mechanic tutors", () => {
+    expect(MECHANIC_SYSTEM_TUTORS).toHaveLength(18);
     const ids = new Set(MECHANIC_SYSTEM_TUTORS.map((t) => t.systemId));
     for (const id of EXPECTED_IDS) {
       expect(ids.has(id), `missing tutor for mechanic "${id}"`).toBe(true);
@@ -62,6 +71,14 @@ describe("Mechanic system tutors", () => {
       sprite_proxy: "mech_sprite_proxy_intro_seen",
       expansion_drops: "mech_expansion_drops_intro_seen",
       trade_empire: "mech_trade_empire_intro_seen",
+      crafting: "mech_crafting_intro_seen",
+      dream_substrate: "mech_dream_substrate_intro_seen",
+      neural_respec: "mech_respec_intro_seen",
+      prestige: "mech_prestige_intro_seen",
+      morality: "mech_morality_intro_seen",
+      breeding: "mech_breeding_intro_seen",
+      colony_commerce: "mech_colony_commerce_intro_seen",
+      demon_pacts: "mech_demon_pacts_intro_seen",
     };
     for (const t of MECHANIC_SYSTEM_TUTORS) {
       expect(

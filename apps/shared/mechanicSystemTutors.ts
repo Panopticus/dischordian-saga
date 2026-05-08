@@ -43,7 +43,18 @@ export type MechanicSystemId =
   | "chess"
   | "sprite_proxy"
   | "expansion_drops"
-  | "trade_empire";
+  | "trade_empire"
+  // Discovery-gate sheet additions — each maps to a panel on the
+  // character sheet and reveals it on tutor completion. See
+  // /root/.claude/plans/have-two-stage-tutor-fluttering-toast.md.
+  | "crafting"
+  | "dream_substrate"
+  | "neural_respec"
+  | "prestige"
+  | "morality"
+  | "breeding"
+  | "colony_commerce"
+  | "demon_pacts";
 
 export type MechanicTutorSpeaker =
   | "elara"
@@ -53,7 +64,17 @@ export type MechanicTutorSpeaker =
   | "seer"
   | "game_master"
   | "trade_factor"
-  | "dual";
+  | "dual"
+  // FNORD-23 audio log — no live cinematic; the Engineer's voice
+  // arrives via stolen-sampler playback. UI consumers branch on
+  // tutorFormat: "audio_log" to mount the FNORD-23 player.
+  | "engineer_log"
+  // Pre-recorded Game Master video; UI mounts SongCinematicVideo.
+  | "game_master_recording"
+  // Aleatory broker / multiverse foreshadower — Degens-Casino voice.
+  | "the_degen";
+
+export type MechanicTutorFormat = "cinematic" | "audio_log" | "video_recording";
 
 export interface MechanicSystemTutor {
   systemId: MechanicSystemId;
@@ -75,6 +96,23 @@ export interface MechanicSystemTutor {
    * because they unlock with their respective system access.
    */
   unlockedFromAct: 1 | 2 | 3 | 4 | 5 | 6 | 7;
+  /**
+   * How the tutor renders. Defaults to "cinematic" — the standard
+   * dialogue card. "audio_log" mounts the FNORD-23 player against an
+   * Engineer's Log; "video_recording" mounts SongCinematicVideo.
+   */
+  tutorFormat?: MechanicTutorFormat;
+  /** Asset URLs for video_recording format. */
+  videoAsset?: { videoUrl: string; audioUrl?: string };
+  /** FK into engineerLogs.ts for audio_log format. */
+  audioLogId?: string;
+  /**
+   * Two-stage tutor link. When this tutor's completionFlag fires AND the
+   * named atFlag is set, the toSystemId tutor becomes eligible. Used for
+   * narrative handoffs (Elara teaches breeding → Veska teaches the
+   * colony-ship trade extension once trade_empire is also unlocked).
+   */
+  handoff?: { toSystemId: MechanicSystemId; atFlag: string };
 }
 
 const CARD_COMBAT_TUTOR: MechanicSystemTutor = {
@@ -277,6 +315,191 @@ const TRADE_EMPIRE_TUTOR: MechanicSystemTutor = {
   completionFlag: "mech_trade_empire_tutor_seen",
 };
 
+/* ═══════════════════════════════════════════════════════
+   DISCOVERY-GATE SHEET TUTORS — Phase B additions.
+
+   Eight new tutors covering the character-sheet panels the
+   player has no frame for at creation. See plan file
+   /root/.claude/plans/have-two-stage-tutor-fluttering-toast.md
+   for the full panel-to-tutor mapping and in-game placement.
+   ═══════════════════════════════════════════════════════ */
+
+const CRAFTING_TUTOR: MechanicSystemTutor = {
+  systemId: "crafting",
+  speaker: "engineer_log",
+  unlockedFromAct: 1,
+  tutorFormat: "audio_log",
+  audioLogId: "log_crafting_codex",
+  narrativeJustification:
+    "The Engineer is the canonical workshop voice. Crafting (codex / imprint laser / index wall / binder clasp) is his domain — he authored the rite. Delivered as an Engineer's Log on the FNORD-23 because the bench experience is a craft tradition the player apprentices into, not a face-to-face onboarding.",
+  introText:
+    "Engineer's Log on the FNORD-23 — Crafting Codex. The bench has four motions: ask the codex, fire the imprint laser, walk the index wall, close the binder clasp. The log walks the four motions in order and ends on the closer that the clasp's glow is your receipt; the bench will not lie about whether a craft was honest.",
+  usageHints: {
+    codex_consulted:
+      "Codex page open. Recipes are sentences, not formulas — read the verbs first. The Engineer's notes in the margin are the parts the codex will not say out loud.",
+    imprint_fired:
+      "Imprint laser fired. Hold the substrate steady; the gilt scars if the carrier flinches. A re-imprint costs you nothing but time. Do it.",
+    binder_clasped:
+      "Clasp glows. The craft is yours. The bench logs the maker — every clasp remembers who closed it and the shop hums when the player who made it walks back in.",
+  },
+  triggerFlag: "mech_crafting_intro_seen",
+  completionFlag: "mech_crafting_tutor_seen",
+};
+
+const DREAM_SUBSTRATE_TUTOR: MechanicSystemTutor = {
+  systemId: "dream_substrate",
+  speaker: "engineer_log",
+  unlockedFromAct: 2,
+  tutorFormat: "audio_log",
+  audioLogId: "log_dream_substrate_economy",
+  narrativeJustification:
+    "Dream Substrate is the player's first crystallized currency — Dream tokens, soul-bound dreams, lifetime resonance. The Engineer's storyteller voice frames it as crystallized debt and the difference between spending a dream and burning one. Delivered as an Engineer's Log so the player can sit with the lesson on the bench rather than receive a lecture.",
+  introText:
+    "Engineer's Log on the FNORD-23 — Dream Substrate Economy. The Engineer walks through Dream tokens as crystallized consciousness, soul-bound dreams as locked light, and the lifetime resonance ticker as the only column on your sheet that keeps score across cycles. Closer: spending a dream is a transaction; burning a dream is a confession. The bench respects both.",
+  usageHints: {
+    dream_earned:
+      "Dream credited. The token has weight; carry it for an hour before you spend it. The bench reads steadier when the carrier has held what they're about to spend.",
+    dream_bound:
+      "Dream soul-bound. The light is locked into your column; you cannot trade it, you cannot lose it, but you cannot un-bind it either. Bind only what you would carry to your own funeral.",
+    resonance_ticker_inspected:
+      "Lifetime resonance reads steady. The ticker is the only number on your sheet that does not reset on prestige. Look at it once a cycle. It is the column that remembers you.",
+  },
+  triggerFlag: "mech_dream_substrate_intro_seen",
+  completionFlag: "mech_dream_substrate_tutor_seen",
+};
+
+const NEURAL_RESPEC_TUTOR: MechanicSystemTutor = {
+  systemId: "neural_respec",
+  speaker: "engineer_log",
+  unlockedFromAct: 1,
+  tutorFormat: "audio_log",
+  audioLogId: "log_neural_respec",
+  narrativeJustification:
+    "Respec is mechanically a button on the sheet, but narratively it is the courage of un-choosing — the inverse of a pact-signing. The Engineer's voice is the only one in the cast that can frame it without breaking the dignity of the act. Delivered as an Engineer's Log because the player should hear it once and revisit it before every respec they take after the first.",
+  introText:
+    "Engineer's Log on the FNORD-23 — On Un-Choosing. The Engineer narrates respec as the inverse of Vex Solène's pact-signing: she signed once and it held; you get to unsign, and that is its own grace. The log ends with the only operating instruction: bring the dream cost in your palm before you open the dialog. The cost is part of the courage.",
+  usageHints: {
+    respec_dialog_opened:
+      "Dialog open. Read the line items twice. The respec preview shows you the version of yourself you are about to leave; sit with the leaving for a breath before you commit.",
+    respec_committed:
+      "Respec committed. The bench logs the un-choice. The previous configuration is archived — you can read it from the sheet's history pane any time. Nothing is lost; only re-shelved.",
+    respec_cancelled:
+      "Dialog closed without commit. That is also a choice. The Engineer's Log notes that the players who cancel their first respec without firing it tend to keep the build they were anxious about. The anxiety is sometimes the build's signature.",
+  },
+  triggerFlag: "mech_respec_intro_seen",
+  completionFlag: "mech_respec_tutor_seen",
+};
+
+const PRESTIGE_TUTOR: MechanicSystemTutor = {
+  systemId: "prestige",
+  speaker: "the_degen",
+  unlockedFromAct: 2,
+  tutorFormat: "cinematic",
+  narrativeJustification:
+    "The Degen is the casino's aleatory broker — multiverse-aware, comfortable with risk, the only voice in the cast who can foreshadow the prestige ladder as a multiversal hint without breaking the in-fiction tone. He speaks of clearance tiers as glimpses of perspectives that exist in the next world over, if the player plays their cards right. Locke is canonical for clearance bureaucracy; The Degen is canonical for what the clearance is for.",
+  introText:
+    "The Degen, leaning on the rail of his casino, deals four cards face-up: Operative, Knight, Sentinel, Archon. He flips a fifth card face-down. \"This isn't the only reality, friend. Every clearance tier is a glimpse — you climb the ladder, and the next-world-over leaks a little of itself into your ledger. Better odds. Better resource pulls. Sometimes a perspective you didn't know you were missing. The fifth card I'm not turning over yet. Play your hand right and one day you'll turn it yourself.\"",
+  usageHints: {
+    casino_first_entered:
+      "The Degen, without looking up: \"You smell new. Take a chip on the house. The chip remembers which tables you sit at; the tables remember which chips return.\"",
+    clearance_inspected:
+      "The Degen flicks ash off a non-existent cigarette. \"Each tier, the multiplier on what you carry tilts a percent in your favor. Compounding. Patient money's the only kind that ever wins this room.\"",
+    cycle_reset_eligible:
+      "The Degen taps the felt. \"Ready to flip the table? The reset costs you the run; the run pays you forward into the next-world-over's column. Walk to the prestige floor when you're ready. Don't run. Running tells the room you're nervous.\"",
+  },
+  triggerFlag: "mech_prestige_intro_seen",
+  completionFlag: "mech_prestige_tutor_seen",
+};
+
+const MORALITY_TUTOR: MechanicSystemTutor = {
+  systemId: "morality",
+  speaker: "human",
+  unlockedFromAct: 1,
+  tutorFormat: "cinematic",
+  narrativeJustification:
+    "The Human is the only voice in the cast with three Ages of lived experience on the cost of choices. His tutor lands at the Act 1 closing branch, anchored to his sacrifice/loss arc — by the time he speaks the morality lesson, he has earned the authority to speak it. Elara reads scenes for harm; the Human reads them for wound. Morality is a wound-reading mechanic.",
+  introText:
+    "The Human, in the comms-relay, voice low: \"The meter you see on your sheet is not a scoreboard. It is a wound count. Every Order pull and every Chaos pull writes a line on a body — sometimes yours, sometimes someone you loved. I have flown both columns. I have lost the same person twice — once to each side. The meter is honest; the world adjusts to where you sit on it. Carry it like you carry a name. And if it tilts hard, do not flinch. Look at where the wound is.\"",
+  usageHints: {
+    morality_first_inspected:
+      "The Human, quietly: \"The meter reads what you have done, not what you intended. Read it the way you would read a letter from yourself in five years.\"",
+    morality_high_swing:
+      "The Human: \"The meter just lurched. That happens when the world catches up to a choice you made three cycles ago. The lurch is the receipt. It is allowed to hurt.\"",
+    morality_milestone_unlocked:
+      "The Human: \"A milestone has opened. The themes and unlockables it gates are not rewards — they are the wardrobe of the person you are becoming. Wear what fits. Leave what does not.\"",
+  },
+  triggerFlag: "mech_morality_intro_seen",
+  completionFlag: "mech_morality_tutor_seen",
+};
+
+const BREEDING_TUTOR: MechanicSystemTutor = {
+  systemId: "breeding",
+  speaker: "elara",
+  unlockedFromAct: 3,
+  tutorFormat: "cinematic",
+  narrativeJustification:
+    "Elara is the Ark's narrating voice and the only character with operational access to the Inception Ark's Collector-restoration mandate. The Ark's core function is to repopulate life from the genetic material the Collector harvested before the Fall; breeding is that function, surfaced as a player system at Act 3. Elara's Act 3 opening cinematic is the canonical introduction; she hands off to Veska when colony-ship commerce comes online.",
+  introText:
+    "Elara: \"The Ark was built for one job — to carry life forward when the rest of the galaxy could not. The Collector took genetic samples, code, and signatures from every species the Hierarchy could reach; the Ark holds the registry, and the breeding deck is where the registry becomes bodies. You read a pair, you align their lineages, you commit a cycle. The cycle outputs a body the registry approves of and a generation count the Ark logs forever. Bloodlines mature over generations. The Ark is patient because the work is long.\"",
+  usageHints: {
+    breeding_pair_selected:
+      "Elara: \"The lineages overlap on three traits and diverge on five. The overlap will hold; the divergences are where the next generation invents itself. Commit when the substrate hums.\"",
+    cycle_completed:
+      "Elara: \"Cycle complete. Generation count ticked. The body is in the nursery deck; the registry has logged the lineage. Verify the trait-bonus column on the sheet — the bonuses propagate to your operative through the bloodline column.\"",
+    bloodline_threshold_reached:
+      "Elara: \"A bloodline threshold. The Ark's records show this lineage ready to seed a colony; if you have a hangar slot and a trade lane, Veska can route a colony ship. The work that started here continues over there.\"",
+  },
+  triggerFlag: "mech_breeding_intro_seen",
+  completionFlag: "mech_breeding_tutor_seen",
+  handoff: { toSystemId: "colony_commerce", atFlag: "trade_empire_unlocked" },
+};
+
+const COLONY_COMMERCE_TUTOR: MechanicSystemTutor = {
+  systemId: "colony_commerce",
+  speaker: "trade_factor",
+  unlockedFromAct: 3,
+  tutorFormat: "cinematic",
+  narrativeJustification:
+    "Veska is already the licensed onboarding voice for trade. Colony commerce is the natural extension of the Trade Empire mechanics into the breeding system's outputs — when bloodlines mature, the Ark routes colony ships to discover and seed colony worlds, and Veska is the only character with both the harbor-commerce dialect and the legal authority to underwrite the lanes. This tutor is gated on the breeding handoff: Elara introduces the lineage, Veska commercializes it.",
+  introText:
+    "Veska, at the hangar: \"Bloodline mature. Ark says you have a generation ready to seed. The colony lane is its own contract — the Trade Empire underwrites the voyage, the harbor logs the founding, the lineage logs you as founder of record. Founder reputation compounds across the colony's lifetime; first generation pays slow, third generation pays in dynasty. Sign the lane manifest when the bloodline is named. The naming is the legal moment.\"",
+  usageHints: {
+    colony_lane_signed:
+      "Veska: \"Lane signed. Vessel is rated colony-class, slower than the cargo runs, but the harbor's tariff on a founding voyage is half what it would be on a Core run. The colony's first three generations log to your founder column. After that, the colony chooses its own factor.\"",
+    colony_seeded:
+      "Veska: \"World seeded. The harbor logs the founding date and the bloodline name; the colony's first export starts at Generation Two — about thirty cycles. Patient money. The colonies that come back to you in Generation Five are the ones that pay for everything.\"",
+    founding_milestone:
+      "Veska: \"Three colonies founded. The harbor's founder ledger now lists you alongside the old captains. Founders move differently in the trade ports — a half-percent off every tariff in the sectors you have seeded. The compounding is real. Re-read your manifest.\"",
+  },
+  triggerFlag: "mech_colony_commerce_intro_seen",
+  completionFlag: "mech_colony_commerce_tutor_seen",
+};
+
+const DEMON_PACTS_TUTOR: MechanicSystemTutor = {
+  systemId: "demon_pacts",
+  speaker: "game_master_recording",
+  unlockedFromAct: 4,
+  tutorFormat: "video_recording",
+  videoAsset: {
+    videoUrl: "videos/advocate_history.mp4",
+    audioUrl: "audio/advocate_history_bed.mp3",
+  },
+  narrativeJustification:
+    "The Game Master is dead but his recordings are not. Demon summoning is the system he built after he stopped fighting the Hierarchy and joined it — the Advocate's blood weave is what he learned to use to climb the corporate ladder, and the recording is the canonical introduction to both the mechanic and the Advocate's history. Delivered as a video recording (SongCinematicVideo) discovered as a cached artifact in the Matrix-of-Dreams; subsequent Advocate-arc beats can ship as additional GM recordings.",
+  introText:
+    "[GM RECORDING #1 — \"On the Blood Weave\"] The Game Master, on a recording that pre-dates his death by years: \"You are looking at this because you found the artifact. Good. Stop fighting the Hierarchy. I did and it cost me everything; I joined the Hierarchy and it cost me less. The Advocate taught me the weave — every promotion in this corporation is a pact, and every pact has a body. You bind a fragment, you offer the substrate, you climb. The mechanic is the same one I built into the chess parlor: every move forecloses a different move. Make the trade with your eyes open. The recording continues with her history — listen to it once. You will recognize the shape.\"",
+  usageHints: {
+    pact_inspected:
+      "Game Master, mid-recording: \"The pact reads as a cost column and a benefit column. The benefit is always immediate; the cost is always delayed. Read the delay clause. Most apprentices die on the delay clause.\"",
+    pact_signed:
+      "Game Master, dryly: \"You signed. Of course you did. The signature does not bind you forever; it binds you until the substrate ledger calls in the next pact's payment. Track your obligations. Pay them in order.\"",
+    advocate_arc_advanced:
+      "Game Master: \"The Advocate's name is appearing in your column more often. That is the system noticing you. It is a kind of friendship; it is also a kind of debt. Both are real. Keep the recording handy.\"",
+  },
+  triggerFlag: "mech_demon_pacts_intro_seen",
+  completionFlag: "mech_demon_pacts_tutor_seen",
+};
+
 export const MECHANIC_SYSTEM_TUTORS: readonly MechanicSystemTutor[] = [
   CARD_COMBAT_TUTOR,
   DECKBUILDER_TUTOR,
@@ -288,6 +511,14 @@ export const MECHANIC_SYSTEM_TUTORS: readonly MechanicSystemTutor[] = [
   SPRITE_PROXY_TUTOR,
   EXPANSION_DROPS_TUTOR,
   TRADE_EMPIRE_TUTOR,
+  CRAFTING_TUTOR,
+  DREAM_SUBSTRATE_TUTOR,
+  NEURAL_RESPEC_TUTOR,
+  PRESTIGE_TUTOR,
+  MORALITY_TUTOR,
+  BREEDING_TUTOR,
+  COLONY_COMMERCE_TUTOR,
+  DEMON_PACTS_TUTOR,
 ];
 
 export function getMechanicTutor(

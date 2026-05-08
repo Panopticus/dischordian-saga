@@ -98,6 +98,29 @@ export const NARRATIVE_FLAG_REGISTRY: ReadonlyArray<NarrativeFlagEntry> = [
   /* ─── Forgiveness sub-arc ─── */
   { flag: "forgiveness_choice_made", category: "act_branch", owner: "act_1", notes: "Player committed a forgiveness choice." },
   { flag: "lyra_vox_unlocked", category: "system_unlock", owner: "act_1", notes: "Lyra Vox NPC unlocked via forgiveness path." },
+
+  /* ─── Discovery-gate sheet — mech_* tutor flags ─────────────
+     Producers: apps/shared/flags/mechTutorFlagProducers.ts
+     Consumers: apps/client/src/pages/CharacterSheetPage.tsx
+                (panel-level visibility gates) and
+                apps/shared/mechanicSystemTutors.ts (tutor cards).
+     ─────────────────────────────────────────────────────────── */
+  { flag: "mech_crafting_intro_seen", category: "system_unlock", owner: "mech_crafting", notes: "Crafting Engineer's-Log audio intro has been delivered." },
+  { flag: "mech_crafting_tutor_seen", category: "system_unlock", owner: "mech_crafting", notes: "Crafting tutor card dismissed; bench panel now revealed on the sheet." },
+  { flag: "mech_dream_substrate_intro_seen", category: "system_unlock", owner: "mech_dream_substrate", notes: "Dream Substrate Engineer's-Log audio intro has been delivered." },
+  { flag: "mech_dream_substrate_tutor_seen", category: "system_unlock", owner: "mech_dream_substrate", notes: "Dream Substrate tutor card dismissed; reserves panel now revealed." },
+  { flag: "mech_respec_intro_seen", category: "system_unlock", owner: "mech_respec", notes: "Neural Respec Engineer's-Log audio intro has been delivered." },
+  { flag: "mech_respec_tutor_seen", category: "system_unlock", owner: "mech_respec", notes: "Neural Respec tutor card dismissed; respec button now revealed on the sheet." },
+  { flag: "mech_prestige_intro_seen", category: "system_unlock", owner: "mech_prestige", notes: "The Degen has delivered the prestige multiverse cinematic." },
+  { flag: "mech_prestige_tutor_seen", category: "system_unlock", owner: "mech_prestige", notes: "Prestige tutor card dismissed; security clearance panel now revealed." },
+  { flag: "mech_morality_intro_seen", category: "system_unlock", owner: "mech_morality", notes: "The Human's morality cinematic has played at the Act 1 closing branch." },
+  { flag: "mech_morality_tutor_seen", category: "system_unlock", owner: "mech_morality", notes: "Morality tutor card dismissed; alignment panel now revealed on the sheet." },
+  { flag: "mech_breeding_intro_seen", category: "system_unlock", owner: "mech_breeding", notes: "Elara has introduced the Inception Ark's Collector-restoration mandate at Act 3 open." },
+  { flag: "mech_breeding_tutor_seen", category: "system_unlock", owner: "mech_breeding", notes: "Breeding tutor card dismissed; bloodline registry surfaces unlocked." },
+  { flag: "mech_colony_commerce_intro_seen", category: "system_unlock", owner: "mech_colony_commerce", notes: "Veska has introduced colony-ship commerce as a handoff from breeding." },
+  { flag: "mech_colony_commerce_tutor_seen", category: "system_unlock", owner: "mech_colony_commerce", notes: "Colony commerce tutor card dismissed; founding lanes now eligible at the hangar." },
+  { flag: "mech_demon_pacts_intro_seen", category: "system_unlock", owner: "mech_demon_pacts", notes: "Game Master Recording #1 (Advocate / Blood Weave) has been discovered in the Matrix-of-Dreams." },
+  { flag: "mech_demon_pacts_tutor_seen", category: "system_unlock", owner: "mech_demon_pacts", notes: "Demon pacts tutor card dismissed; pact ledger surface unlocked." },
 ];
 
 /* ─── Helpers ─── */
