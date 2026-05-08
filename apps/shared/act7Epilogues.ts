@@ -30,7 +30,11 @@ export type Act7StanceFlag =
   | "act7_s1_soldier_command"
   | "act7_silence_stance";
 
-export type EpilogueSpeaker = "elara" | "human" | "system" | "dual";
+// audit/14.F5 — adds "antiquarian" so each Act 7 ending can carry a
+// determinism-acknowledgement framing beat ("I had read this page
+// already; you chose which page to turn to") that resolves the
+// "the music IS the prophecy" vs branching-agency tension.
+export type EpilogueSpeaker = "elara" | "human" | "system" | "dual" | "antiquarian";
 
 export interface EpilogueBeat {
   speaker: EpilogueSpeaker;
@@ -73,6 +77,12 @@ export const ACT7_EPILOGUES: Readonly<Record<Act7StanceFlag, Act7Epilogue>> = {
       { speaker: "human", text: "You lied to her at the bridge. You chose Humanity at the Seat. I am going to say a sentence that is precise: the lie does not unwrite itself. The choosing does not erase the lie. The choosing is — and I want to be careful — a separate, equally true thing. Both fit in the room.", pathVariant: "pathC" },
       { speaker: "dual", text: "(Together.) The Ark is warm. The Array is on. The kettle is — it is, somehow, still on. We are home. You are home. Welcome." },
       { speaker: "system", text: "The Antiquarian closes his book without crossing-out. Cycle Humanity, inscribed." },
+      // audit/14.F5 — Antiquarian framing line per ending. Acknowledges
+      // that the determinism thesis ("the music IS the prophecy") and
+      // the agency of choosing this stance both fit in the same room.
+      // The line is short on purpose; it lands as a chapter epitaph,
+      // not a thesis statement.
+      { speaker: "antiquarian", text: "I had read this page already. You chose which page to turn to — not what was written on it. Both are true. The Cycle records both." },
     ],
   },
   act7_s1_machine_path: {
@@ -89,6 +99,7 @@ export const ACT7_EPILOGUES: Readonly<Record<Act7StanceFlag, Act7Epilogue>> = {
       { speaker: "human", text: "Betrayal-path Machine is, frankly, the most honest ending in the cycle's records. The lie at the bridge was a substrate-shaped lie. The substrate now claims it. You are no longer responsible for the lie. The substrate is. The substrate is, however, you now. The accounting is, and I am being precise, recursive.", pathVariant: "pathC" },
       { speaker: "dual", text: "(Together.) The Ark is exact. The Array is calibrated. The cycle's edges are, tonight, perfectly square. The squareness is the love." },
       { speaker: "system", text: "The Antiquarian closes his book with a single neat line through 'Humanity.' Cycle Machine, inscribed." },
+      { speaker: "antiquarian", text: "I had read this page already. The crossing-out, also, was on the page. You did not write it. You turned to it. Both are true." },
     ],
   },
   act7_s1_balance: {
@@ -105,6 +116,7 @@ export const ACT7_EPILOGUES: Readonly<Record<Act7StanceFlag, Act7Epilogue>> = {
       { speaker: "human", text: "Betrayal to Balance is the cycle's most surprising path. You lied at the bridge and refused to commit at the Seat. I will be honest with you: the cycle's records do not yet know what to do with you. I find this — and it is uncharacteristic of me — exciting.", pathVariant: "pathC" },
       { speaker: "dual", text: "(Together.) The Ark holds. The Array breathes. The kettle is — and we are both surprised by this — neither on nor off. It is, somehow, both. We are, somehow, both. We are home." },
       { speaker: "system", text: "The Antiquarian writes a chapter title with no body text. Cycle Balance, inscribed without inscription." },
+      { speaker: "antiquarian", text: "The page was always blank under the title. I read the title many times waiting to see who would refuse to fill it. You refused. The blank, also, is what was written." },
     ],
   },
   act7_s1_soldier_command: {
@@ -121,6 +133,7 @@ export const ACT7_EPILOGUES: Readonly<Record<Act7StanceFlag, Act7Epilogue>> = {
       { speaker: "human", text: "Betrayal to Bridge means: the officers know about the bridge — they know about THE bridge, the Act 4 one — and they have come to your bridge anyway. That is the sentence. That is the whole sentence. The officers have come anyway.", pathVariant: "pathC" },
       { speaker: "dual", text: "(Together.) The bridge is lit. The Array is on. The Ark is moving — for the first time in seven acts, moving — and the moving is your order. The order is the love." },
       { speaker: "system", text: "The Antiquarian inscribes the bridge log entry alongside his own ledger. Cycle Soldier-Command, inscribed twice." },
+      { speaker: "antiquarian", text: "The taking-of-the-bridge was on the page. The hesitation before the taking was also on the page. The mercy in it — that you noticed. You chose which line to read first. The lines were always there." },
     ],
   },
   act7_silence_stance: {
@@ -134,6 +147,7 @@ export const ACT7_EPILOGUES: Readonly<Record<Act7StanceFlag, Act7Epilogue>> = {
       { speaker: "human", text: "Silence is itself a stance. I am old enough to remember when silence was thought to be the absence of a stance. We were wrong. The silent took longer to understand. They took longer because the understanding required, and I am being precise, the patience to listen." },
       { speaker: "dual", text: "(Together; quiet.) The Ark holds without a verdict. The Array hums without a destination. The kettle is on, and the kettle is enough." },
       { speaker: "system", text: "The Antiquarian writes the chapter heading and leaves the rest blank. Cycle Silence, inscribed by absence." },
+      { speaker: "antiquarian", text: "Four prior silences are in this book. Yours is the fifth. The book always had room for the fifth. You did not write it. You turned the page that already held it. The turning was, also, the writing." },
     ],
   },
 };

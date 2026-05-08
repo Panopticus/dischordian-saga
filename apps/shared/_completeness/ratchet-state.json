@@ -9,6 +9,7 @@
     "tcg.trial_category_coverage": 0,
     "db.foreign_key_coverage": 11,
     "db.economic_transaction_coverage": 11,
-    "a11y.void_contrast_coverage": 10
+    "a11y.void_contrast_coverage": 10,
+    "content.card_flavor_quality": 112
   }
 }

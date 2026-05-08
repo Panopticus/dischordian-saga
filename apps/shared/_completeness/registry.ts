@@ -29,6 +29,7 @@ import { checkListVirtualizationAdoption } from "./checks/listVirtualizationAdop
 import { checkAssetPrefetchManifest } from "./checks/assetPrefetchManifest";
 import { checkProcedureRateLimits } from "./checks/procedureRateLimits";
 import { checkVoidContrastCoverage } from "./checks/voidContrastCoverage";
+import { checkCardFlavorQuality } from "./checks/cardFlavorQuality";
 
 export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
   // ─── Card engine ──────────────────────────────────────────
@@ -192,6 +193,18 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "Every fg/bg pair in apps/shared/_completeness/checks/voidContrastCoverage.ts TOKEN_PAIRS has a measured WCAG contrast ratio above its threshold (≥4.5 for normal text, ≥3 for large).",
     check: () => checkVoidContrastCoverage(),
+    ratchet: { target: 0 },
+  },
+  // ─── Content quality ──────────────────────────────────────
+  {
+    // audit/11.F4 — sweep boilerplate "Of the X." / "Outside every
+    // faction…" placeholder flavors. Wave 3.3 closed 409; class/
+    // imprint/allegiance lines remain.
+    id: "content.card_flavor_quality",
+    name: "Card flavor-text quality",
+    description:
+      "Every card with flavorText has length ≥20 and does not match a known boilerplate template (see apps/shared/_completeness/checks/cardFlavorQuality.ts BOILERPLATE_PATTERNS).",
+    check: () => checkCardFlavorQuality(),
     ratchet: { target: 0 },
   },
 ];

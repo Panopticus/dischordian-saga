@@ -228,6 +228,31 @@ export default function LoreTutorialEngine({ tutorial, onComplete, onDismiss }: 
     }
   }, [isLastStep, currentStep]);
 
+  // audit/13.F4 — let players step BACKWARD through narration/dialog
+  // steps. We deliberately don't allow stepping back PAST a `choice`
+  // step: choices apply morality immediately and the audit's "no
+  // back" finding is specifically about that irreversibility. The
+  // player can revisit the just-shown narration to re-read context,
+  // but a committed Light/Dark shift is not undoable here.
+  const stepBack = useCallback(() => {
+    setStepIndex(prev => {
+      let target = prev - 1;
+      // Skip backward through any reward_summary / choice steps —
+      // those committed effects (morality, item grant) are sticky.
+      while (
+        target > 0 &&
+        (tutorial.steps[target]?.type === "choice" ||
+          tutorial.steps[target]?.type === "reward_summary")
+      ) {
+        target -= 1;
+      }
+      return Math.max(0, target);
+    });
+    setSelectedChoice(null);
+    setTextComplete(false);
+    setPhase("dialog");
+  }, [tutorial.steps]);
+
   // Handle choice selection
   const handleChoice = useCallback((choice: TutorialChoice) => {
     setSelectedChoice(choice);
@@ -459,8 +484,21 @@ export default function LoreTutorialEngine({ tutorial, onComplete, onDismiss }: 
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    className="mt-4 flex justify-end"
+                    className="mt-4 flex justify-between items-center"
                   >
+                    {/* audit/13.F4 — Previous-step affordance for
+                        narration/dialog. Disabled on step 0 and
+                        when stepping back would land on a committed
+                        choice (morality already applied — irreversible). */}
+                    <button
+                      onClick={stepBack}
+                      disabled={stepIndex === 0}
+                      className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white/70 text-sm font-mono hover:bg-white/10 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                      aria-label="Previous step"
+                    >
+                      <ChevronRight size={14} className="rotate-180" />
+                      Previous
+                    </button>
                     <button
                       onClick={advanceStep}
                       className="flex items-center gap-2 px-4 py-2 rounded-lg bg-primary/10 border border-primary/30 text-primary text-sm font-mono hover:bg-primary/20 transition-colors"
