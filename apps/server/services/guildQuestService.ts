@@ -9,7 +9,7 @@
  * Event-to-quest mapping is computed from the GUILD_QUESTS catalog
  * at module load; the dispatch loop is O(quests-per-event-kind).
  */
-import { eq, and, sql, inArray } from "drizzle-orm";
+import { eq, and, lt, sql, inArray } from "drizzle-orm";
 import { getDb } from "../db";
 import {
   guildQuestProgress,
@@ -211,7 +211,7 @@ export async function resetGuildQuestsForScope(
     .where(
       and(
         inArray(guildQuestProgress.questKey, scopeKeys),
-        sql`reset_at < ${anchor}`,
+        lt(guildQuestProgress.resetAt, anchor),
       ),
     );
   // Drizzle's MySQL update doesn't return affected count uniformly;
