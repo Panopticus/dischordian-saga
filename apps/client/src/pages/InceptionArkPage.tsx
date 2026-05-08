@@ -178,7 +178,7 @@ const ROOM_FEATURES: Record<string, RoomFeature[]> = {
   ],
   // Locked room previews — show what's coming
   vault: [
-    { name: "Potential Vault", route: "/nft", icon: "💎", status: "preview" },
+    { name: "Potential Vault", route: "/potentials", icon: "💎", status: "preview" },
     { name: "Rare Collection", route: "/cards", icon: "✨", status: "preview" },
   ],
   archive: [

@@ -14,9 +14,7 @@ import {
   resolveGuildWarBonuses,
   resolveQuestBonuses,
   resolveMarketBonuses,
-  nftLevelMultiplier,
   type CitizenData,
-  type PotentialNftData,
 } from "../shared/citizenTraits";
 
 /* ─── TEST FIXTURES ─── */
@@ -40,18 +38,6 @@ function makeCitizen(overrides: Partial<CitizenData> = {}): CitizenData {
   } as CitizenData;
 }
 
-function makeNft(overrides: Partial<PotentialNftData> = {}): PotentialNftData {
-  return {
-    tokenId: 42,
-    level: 5,
-    nftClass: "Oracle",
-    weapon: "Staff",
-    specie: "DeMagi",
-    claimCount: 1,
-    ...overrides,
-  } as PotentialNftData;
-}
-
 /* ═══ CARD GAME BONUSES ═══ */
 
 describe("resolveCardGameBonuses", () => {
@@ -59,7 +45,7 @@ describe("resolveCardGameBonuses", () => {
     for (const species of SPECIES) {
       for (const cls of CLASSES) {
         const citizen = makeCitizen({ species, characterClass: cls });
-        const result = resolveCardGameBonuses(citizen, null);
+        const result = resolveCardGameBonuses(citizen);
 
         expect(result).toBeDefined();
         expect(typeof result.hpBonus).toBe("number");
@@ -79,12 +65,12 @@ describe("resolveCardGameBonuses", () => {
 
   it("DeMagi gets HP bonus from species", () => {
     const citizen = makeCitizen({ species: "demagi" });
-    const result = resolveCardGameBonuses(citizen, null);
+    const result = resolveCardGameBonuses(citizen);
     expect(result.hpBonus).toBeGreaterThan(0);
   });
 
   it("returns defaults for null citizen", () => {
-    const result = resolveCardGameBonuses(null, null);
+    const result = resolveCardGameBonuses(null);
     expect(result.hpBonus).toBe(0);
     expect(result.influenceBonus).toBe(0);
     expect(result.breakdown).toHaveLength(0);
@@ -98,7 +84,7 @@ describe("resolveFightGameBonuses", () => {
     for (const species of SPECIES) {
       for (const cls of CLASSES) {
         const citizen = makeCitizen({ species, characterClass: cls });
-        const result = resolveFightGameBonuses(citizen, null);
+        const result = resolveFightGameBonuses(citizen);
 
         expect(result).toBeDefined();
         expect(typeof result.attackBonus).toBe("number");
@@ -118,13 +104,13 @@ describe("resolveFightGameBonuses", () => {
 
   it("Soldier class gets attack bonus", () => {
     const citizen = makeCitizen({ characterClass: "soldier" });
-    const result = resolveFightGameBonuses(citizen, null);
+    const result = resolveFightGameBonuses(citizen);
     expect(result.attackBonus).toBeGreaterThan(0);
   });
 
   it("Assassin class gets speed and attack bonuses", () => {
     const citizen = makeCitizen({ characterClass: "assassin" });
-    const result = resolveFightGameBonuses(citizen, null);
+    const result = resolveFightGameBonuses(citizen);
     // Assassin is fast and deadly — check speed or attack is boosted
     expect(result.speedBonus + result.attackBonus + result.critChanceBonus).toBeGreaterThan(0);
   });
@@ -137,7 +123,7 @@ describe("resolveChessBonuses", () => {
     for (const species of SPECIES) {
       for (const cls of CLASSES) {
         const citizen = makeCitizen({ species, characterClass: cls });
-        const result = resolveChessBonuses(citizen, null);
+        const result = resolveChessBonuses(citizen);
 
         expect(result).toBeDefined();
         expect(typeof result.timeBonus).toBe("number");
@@ -155,19 +141,19 @@ describe("resolveChessBonuses", () => {
 
   it("Oracle class gets time bonus and reward multiplier", () => {
     const citizen = makeCitizen({ characterClass: "oracle" });
-    const result = resolveChessBonuses(citizen, null);
+    const result = resolveChessBonuses(citizen);
     expect(result.timeBonus).toBeGreaterThan(0);
     expect(result.rewardMultiplier).toBeGreaterThan(1);
   });
 
   it("Spy class gets tricky opening affinity", () => {
     const citizen = makeCitizen({ characterClass: "spy" });
-    const result = resolveChessBonuses(citizen, null);
+    const result = resolveChessBonuses(citizen);
     expect(result.openingAffinity).toBe("tricky");
   });
 
   it("returns defaults for null citizen", () => {
-    const result = resolveChessBonuses(null, null);
+    const result = resolveChessBonuses(null);
     expect(result.timeBonus).toBe(0);
     expect(result.rewardMultiplier).toBe(1);
     expect(result.openingAffinity).toBe("balanced");
@@ -181,7 +167,7 @@ describe("resolveTradeEmpireBonuses", () => {
     for (const species of SPECIES) {
       for (const cls of CLASSES) {
         const citizen = makeCitizen({ species, characterClass: cls });
-        const result = resolveTradeEmpireBonuses(citizen, null);
+        const result = resolveTradeEmpireBonuses(citizen);
 
         expect(result).toBeDefined();
         expect(typeof result.combatPowerBonus).toBe("number");
@@ -199,9 +185,9 @@ describe("resolveTradeEmpireBonuses", () => {
 
   it("Engineer class gets trade empire bonuses", () => {
     const citizen = makeCitizen({ characterClass: "engineer" });
-    const result = resolveTradeEmpireBonuses(citizen, null);
+    const result = resolveTradeEmpireBonuses(citizen);
     // Engineer should have some trade advantage — check combined bonuses
-    const totalBonus = result.combatPowerBonus + result.tradeCreditsBonus + 
+    const totalBonus = result.combatPowerBonus + result.tradeCreditsBonus +
       result.scanRangeBonus + result.bonusTurns + (result.colonyIncomeMultiplier - 1);
     expect(totalBonus).toBeGreaterThan(0);
   });
@@ -213,7 +199,7 @@ describe("resolveCraftingBonuses", () => {
   it("returns valid bonus structure", () => {
     for (const cls of CLASSES) {
       const citizen = makeCitizen({ characterClass: cls });
-      const result = resolveCraftingBonuses(citizen, null);
+      const result = resolveCraftingBonuses(citizen);
 
       expect(result).toBeDefined();
       expect(typeof result.successRateBonus).toBe("number");
@@ -229,8 +215,8 @@ describe("resolveCraftingBonuses", () => {
   it("Engineer class gets highest crafting success bonus", () => {
     const engineer = makeCitizen({ characterClass: "engineer" });
     const soldier = makeCitizen({ characterClass: "soldier" });
-    const engResult = resolveCraftingBonuses(engineer, null);
-    const solResult = resolveCraftingBonuses(soldier, null);
+    const engResult = resolveCraftingBonuses(engineer);
+    const solResult = resolveCraftingBonuses(soldier);
     expect(engResult.successRateBonus).toBeGreaterThan(solResult.successRateBonus);
   });
 });
@@ -241,7 +227,7 @@ describe("resolveExplorationBonuses", () => {
   it("returns valid bonus structure", () => {
     for (const cls of CLASSES) {
       const citizen = makeCitizen({ characterClass: cls });
-      const result = resolveExplorationBonuses(citizen, null);
+      const result = resolveExplorationBonuses(citizen);
 
       expect(result).toBeDefined();
       expect(typeof result.discoveryXpBonus).toBe("number");
@@ -262,7 +248,7 @@ describe("resolveGuildWarBonuses", () => {
     for (const species of SPECIES) {
       for (const cls of CLASSES) {
         const citizen = makeCitizen({ species, characterClass: cls });
-        const result = resolveGuildWarBonuses(citizen, null);
+        const result = resolveGuildWarBonuses(citizen);
 
         expect(result).toBeDefined();
         expect(typeof result.warPointMultiplier).toBe("number");
@@ -279,25 +265,25 @@ describe("resolveGuildWarBonuses", () => {
 
   it("Assassin class gets sabotage bonus", () => {
     const citizen = makeCitizen({ characterClass: "assassin" });
-    const result = resolveGuildWarBonuses(citizen, null);
+    const result = resolveGuildWarBonuses(citizen);
     expect(result.sabotageMultiplier).toBeGreaterThan(1);
   });
 
   it("Engineer class gets reinforce bonus", () => {
     const citizen = makeCitizen({ characterClass: "engineer" });
-    const result = resolveGuildWarBonuses(citizen, null);
+    const result = resolveGuildWarBonuses(citizen);
     expect(result.reinforceMultiplier).toBeGreaterThan(1);
   });
 
   it("fire element boosts fire-aligned territories", () => {
     const citizen = makeCitizen({ element: "fire" });
-    const result = resolveGuildWarBonuses(citizen, null);
+    const result = resolveGuildWarBonuses(citizen);
     expect(result.boostedTerritories.length).toBeGreaterThan(0);
     expect(result.elementTerritoryBonus).toBeGreaterThan(0);
   });
 
   it("returns defaults for null citizen", () => {
-    const result = resolveGuildWarBonuses(null, null);
+    const result = resolveGuildWarBonuses(null);
     expect(result.warPointMultiplier).toBe(1);
     expect(result.captureSpeedMultiplier).toBe(1);
     expect(result.boostedTerritories).toHaveLength(0);
@@ -310,7 +296,7 @@ describe("resolveQuestBonuses", () => {
   it("returns valid bonus structure for all classes", () => {
     for (const cls of CLASSES) {
       const citizen = makeCitizen({ characterClass: cls });
-      const result = resolveQuestBonuses(citizen, null);
+      const result = resolveQuestBonuses(citizen);
 
       expect(result).toBeDefined();
       expect(typeof result.rewardMultiplier).toBe("number");
@@ -328,19 +314,19 @@ describe("resolveQuestBonuses", () => {
   it("Oracle class gets highest quest reward multiplier", () => {
     const oracle = makeCitizen({ characterClass: "oracle" });
     const soldier = makeCitizen({ characterClass: "soldier" });
-    const oracleResult = resolveQuestBonuses(oracle, null);
-    const soldierResult = resolveQuestBonuses(soldier, null);
+    const oracleResult = resolveQuestBonuses(oracle);
+    const soldierResult = resolveQuestBonuses(soldier);
     expect(oracleResult.rewardMultiplier).toBeGreaterThan(soldierResult.rewardMultiplier);
   });
 
   it("Oracle class gets extra daily quest slot", () => {
     const citizen = makeCitizen({ characterClass: "oracle" });
-    const result = resolveQuestBonuses(citizen, null);
+    const result = resolveQuestBonuses(citizen);
     expect(result.dailyQuestSlots).toBeGreaterThan(0);
   });
 
   it("returns defaults for null citizen", () => {
-    const result = resolveQuestBonuses(null, null);
+    const result = resolveQuestBonuses(null);
     expect(result.rewardMultiplier).toBe(1);
     expect(result.battlePassXpMultiplier).toBe(1);
     expect(result.dailyQuestSlots).toBe(0);
@@ -353,7 +339,7 @@ describe("resolveMarketBonuses", () => {
   it("returns valid bonus structure for all classes", () => {
     for (const cls of CLASSES) {
       const citizen = makeCitizen({ characterClass: cls });
-      const result = resolveMarketBonuses(citizen, null);
+      const result = resolveMarketBonuses(citizen);
 
       expect(result).toBeDefined();
       expect(typeof result.taxReduction).toBe("number");
@@ -369,46 +355,21 @@ describe("resolveMarketBonuses", () => {
 
   it("Spy class gets market intel", () => {
     const citizen = makeCitizen({ characterClass: "spy" });
-    const result = resolveMarketBonuses(citizen, null);
+    const result = resolveMarketBonuses(citizen);
     expect(result.marketIntel).toBe(true);
   });
 
   it("Engineer class gets listing slots", () => {
     const citizen = makeCitizen({ characterClass: "engineer" });
-    const result = resolveMarketBonuses(citizen, null);
+    const result = resolveMarketBonuses(citizen);
     expect(result.listingSlots).toBeGreaterThan(0);
   });
 
   it("returns defaults for null citizen", () => {
-    const result = resolveMarketBonuses(null, null);
+    const result = resolveMarketBonuses(null);
     expect(result.taxReduction).toBe(1);
     expect(result.listingSlots).toBe(0);
     expect(result.marketIntel).toBe(false);
-  });
-});
-
-/* ═══ NFT LEVEL MULTIPLIER ═══ */
-
-describe("nftLevelMultiplier", () => {
-  it("returns 1.0 for null NFT", () => {
-    expect(nftLevelMultiplier(null)).toBe(1);
-  });
-
-  it("returns higher multiplier for higher level NFTs", () => {
-    const low = makeNft({ level: 1 });
-    const high = makeNft({ level: 10 });
-    expect(nftLevelMultiplier(high)).toBeGreaterThan(nftLevelMultiplier(low));
-  });
-
-  it("NFT amplifies bonuses across all systems", () => {
-    const citizen = makeCitizen({ characterClass: "oracle" });
-    const nft = makeNft({ level: 5 });
-
-    const withoutNft = resolveChessBonuses(citizen, null);
-    const withNft = resolveChessBonuses(citizen, nft);
-
-    // NFT should amplify the time bonus
-    expect(withNft.timeBonus).toBeGreaterThanOrEqual(withoutNft.timeBonus);
   });
 });
 
@@ -416,40 +377,27 @@ describe("nftLevelMultiplier", () => {
 
 describe("Cross-system consistency", () => {
   it("all resolvers handle null citizen gracefully", () => {
-    expect(() => resolveCardGameBonuses(null, null)).not.toThrow();
-    expect(() => resolveTradeEmpireBonuses(null, null)).not.toThrow();
-    expect(() => resolveFightGameBonuses(null, null)).not.toThrow();
-    expect(() => resolveCraftingBonuses(null, null)).not.toThrow();
-    expect(() => resolveExplorationBonuses(null, null)).not.toThrow();
-    expect(() => resolveChessBonuses(null, null)).not.toThrow();
-    expect(() => resolveGuildWarBonuses(null, null)).not.toThrow();
-    expect(() => resolveQuestBonuses(null, null)).not.toThrow();
-    expect(() => resolveMarketBonuses(null, null)).not.toThrow();
-  });
-
-  it("all resolvers handle null NFT gracefully", () => {
-    const citizen = makeCitizen();
-    expect(() => resolveCardGameBonuses(citizen, null)).not.toThrow();
-    expect(() => resolveTradeEmpireBonuses(citizen, null)).not.toThrow();
-    expect(() => resolveFightGameBonuses(citizen, null)).not.toThrow();
-    expect(() => resolveCraftingBonuses(citizen, null)).not.toThrow();
-    expect(() => resolveExplorationBonuses(citizen, null)).not.toThrow();
-    expect(() => resolveChessBonuses(citizen, null)).not.toThrow();
-    expect(() => resolveGuildWarBonuses(citizen, null)).not.toThrow();
-    expect(() => resolveQuestBonuses(citizen, null)).not.toThrow();
-    expect(() => resolveMarketBonuses(citizen, null)).not.toThrow();
+    expect(() => resolveCardGameBonuses(null)).not.toThrow();
+    expect(() => resolveTradeEmpireBonuses(null)).not.toThrow();
+    expect(() => resolveFightGameBonuses(null)).not.toThrow();
+    expect(() => resolveCraftingBonuses(null)).not.toThrow();
+    expect(() => resolveExplorationBonuses(null)).not.toThrow();
+    expect(() => resolveChessBonuses(null)).not.toThrow();
+    expect(() => resolveGuildWarBonuses(null)).not.toThrow();
+    expect(() => resolveQuestBonuses(null)).not.toThrow();
+    expect(() => resolveMarketBonuses(null)).not.toThrow();
   });
 
   it("every class has unique strengths across systems", () => {
     // Each class should be best at something
     const results = CLASSES.map(cls => ({
       cls,
-      chess: resolveChessBonuses(makeCitizen({ characterClass: cls }), null),
-      fight: resolveFightGameBonuses(makeCitizen({ characterClass: cls }), null),
-      craft: resolveCraftingBonuses(makeCitizen({ characterClass: cls }), null),
-      quest: resolveQuestBonuses(makeCitizen({ characterClass: cls }), null),
-      market: resolveMarketBonuses(makeCitizen({ characterClass: cls }), null),
-      guildWar: resolveGuildWarBonuses(makeCitizen({ characterClass: cls }), null),
+      chess: resolveChessBonuses(makeCitizen({ characterClass: cls })),
+      fight: resolveFightGameBonuses(makeCitizen({ characterClass: cls })),
+      craft: resolveCraftingBonuses(makeCitizen({ characterClass: cls })),
+      quest: resolveQuestBonuses(makeCitizen({ characterClass: cls })),
+      market: resolveMarketBonuses(makeCitizen({ characterClass: cls })),
+      guildWar: resolveGuildWarBonuses(makeCitizen({ characterClass: cls })),
     }));
 
     // Engineer should be best at crafting
@@ -480,7 +428,7 @@ describe("Cross-system consistency", () => {
     ];
 
     for (const resolver of resolvers) {
-      const result = resolver(citizen, null);
+      const result = resolver(citizen);
       for (const item of result.breakdown) {
         expect(typeof item.source).toBe("string");
         expect(typeof item.effect).toBe("string");

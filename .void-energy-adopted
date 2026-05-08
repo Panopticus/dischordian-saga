@@ -267,7 +267,6 @@ apps/client/src/pages/MolGarathTrapsFeedPage.tsx
 apps/client/src/pages/PersonalQuartersPage.tsx
 apps/client/src/pages/PetBattlesPage.tsx
 apps/client/src/pages/PlayerProfilePage.tsx
-apps/client/src/pages/PotentialsLeaderboardPage.tsx
 apps/client/src/pages/PreludePage.tsx
 apps/client/src/pages/PrestigeCycleResetPage.tsx
 apps/client/src/pages/PrestigeQuestPage.tsx

@@ -8,6 +8,13 @@
     "tcg.narrative_flag_bridge_coverage": 0,
     "tcg.trial_category_coverage": 0,
     "db.foreign_key_coverage": 0,
-    "db.economic_transaction_coverage": 0
+    "db.economic_transaction_coverage": 0,
+    "narrative.global_alignment_meter": 4,
+    "narrative.mobile_narrator_adoption": 5,
+    "narrative.shadow_tongue_room_coverage": 0,
+    "narrative.cutscene_components": 5,
+    "design.declared_subsystem_runtime": 8,
+    "schema.no_orphan_columns": 1,
+    "schema.notification_enum_producers": 14
   }
 }

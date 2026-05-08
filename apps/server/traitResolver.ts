@@ -1,15 +1,15 @@
 /* ═══════════════════════════════════════════════════════
    SERVER-SIDE TRAIT RESOLVER
-   
-   Fetches the player's citizen character + NFT data from
-   the database, then delegates to the shared resolver
-   functions. Every game system calls this.
+
+   Fetches the player's citizen character from the database,
+   then delegates to the shared resolver functions. Every
+   game system calls this.
    ═══════════════════════════════════════════════════════ */
 
 import { getDb } from "./db";
 import { citizenCharacters } from "../db/schema";
 import { eq, and } from "drizzle-orm";
-import type { CitizenData, PotentialNftData } from "../shared/citizenTraits";
+import type { CitizenData } from "../shared/citizenTraits";
 import {
   resolveCardGameBonuses,
   resolveTradeEmpireBonuses,
@@ -24,7 +24,6 @@ import {
   resolveDraftBonuses,
   resolveBossMasteryBonuses,
   resolveFriendlyChallengeBonuses,
-  nftLevelMultiplier,
 } from "../shared/citizenTraits";
 import { resolveTowerDefenseBonuses } from "../shared/towerDefense";
 
@@ -56,36 +55,26 @@ export async function fetchCitizenData(userId: number): Promise<CitizenData | nu
   return rows[0] as CitizenData;
 }
 
-/* ─── FETCH NFT DATA (removed — NFT/blockchain backend stripped) ─── */
-
-export async function fetchPotentialNftData(_userId: number): Promise<PotentialNftData | null> {
-  return null;
-}
-
 /* ─── COMBINED FETCH + RESOLVE ─── */
 
 export async function getPlayerTraitBonuses(userId: number) {
-  const [citizen, nft] = await Promise.all([
-    fetchCitizenData(userId),
-    fetchPotentialNftData(userId),
-  ]);
+  const citizen = await fetchCitizenData(userId);
 
   return {
     citizen,
-    nft,
-    cardGame: resolveCardGameBonuses(citizen, nft),
-    tradeEmpire: resolveTradeEmpireBonuses(citizen, nft),
-    fightGame: resolveFightGameBonuses(citizen, nft),
-    crafting: resolveCraftingBonuses(citizen, nft),
-    exploration: resolveExplorationBonuses(citizen, nft),
-    chess: resolveChessBonuses(citizen, nft),
-    guildWar: resolveGuildWarBonuses(citizen, nft),
-    quest: resolveQuestBonuses(citizen, nft),
-    market: resolveMarketBonuses(citizen, nft),
-    pvp: resolvePvpBonuses(citizen, nft),
-    draft: resolveDraftBonuses(citizen, nft),
-    bossMastery: resolveBossMasteryBonuses(citizen, nft),
-    friendlyChallenge: resolveFriendlyChallengeBonuses(citizen, nft),
+    cardGame: resolveCardGameBonuses(citizen),
+    tradeEmpire: resolveTradeEmpireBonuses(citizen),
+    fightGame: resolveFightGameBonuses(citizen),
+    crafting: resolveCraftingBonuses(citizen),
+    exploration: resolveExplorationBonuses(citizen),
+    chess: resolveChessBonuses(citizen),
+    guildWar: resolveGuildWarBonuses(citizen),
+    quest: resolveQuestBonuses(citizen),
+    market: resolveMarketBonuses(citizen),
+    pvp: resolvePvpBonuses(citizen),
+    draft: resolveDraftBonuses(citizen),
+    bossMastery: resolveBossMasteryBonuses(citizen),
+    friendlyChallenge: resolveFriendlyChallengeBonuses(citizen),
     towerDefense: resolveTowerDefenseBonuses({
       characterClass: citizen?.characterClass,
       species: citizen?.species,
@@ -95,7 +84,6 @@ export async function getPlayerTraitBonuses(userId: number) {
         Object.entries(citizen).filter(([k]) => k.startsWith('skill_')).map(([k, v]) => [k.replace('skill_', ''), v as number])
       ) : {},
     }),
-    nftMultiplier: nftLevelMultiplier(nft),
   };
 }
 
@@ -114,5 +102,4 @@ export {
   resolveDraftBonuses,
   resolveBossMasteryBonuses,
   resolveFriendlyChallengeBonuses,
-  nftLevelMultiplier,
 };

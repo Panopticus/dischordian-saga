@@ -13,7 +13,7 @@ import {
   guildWars, guildWarContributions, guilds, guildMembers,
   notifications, dreamBalance, marketTaxPool,
 } from "../../db/schema";
-import { fetchCitizenData, fetchPotentialNftData, resolveGuildWarBonuses } from "../traitResolver";
+import { fetchCitizenData, resolveGuildWarBonuses } from "../traitResolver";
 import { getConsequences } from "../services/universeConsequences";
 import { pressureService } from "../services/pressureService";
 import { warEventCutscene } from "@shared/expansionArt/guildCutsceneVoMap";
@@ -133,11 +133,8 @@ export const guildWarsRouter = router({
       }
 
       // Fetch citizen trait bonuses for guild wars
-      const [warCitizen, warNft] = await Promise.all([
-        fetchCitizenData(ctx.user.id),
-        fetchPotentialNftData(ctx.user.id),
-      ]);
-      const warTb = resolveGuildWarBonuses(warCitizen, warNft);
+      const warCitizen = await fetchCitizenData(ctx.user.id);
+      const warTb = resolveGuildWarBonuses(warCitizen);
 
       // Calculate points — apply trait multiplier
       const basePoints = POINT_VALUES[input.source] || 10;

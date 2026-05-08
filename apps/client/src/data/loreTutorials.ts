@@ -906,7 +906,7 @@ export const LORE_TUTORIALS: LoreTutorial[] = [
     ],
   },
 
-  /* ─── 13. POTENTIALS (NFT) ─── */
+  /* ─── 13. POTENTIALS ─── */
   {
     id: "tut-potentials",
     title: "The Potential Protocol",

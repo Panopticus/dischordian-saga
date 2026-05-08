@@ -838,7 +838,7 @@ for (const master of MASTERS) {
   });
 }
 
-// ─── 12. POTENTIAL NFT CARDS (Classes) ───
+// ─── 12. CLASS-SPECIFIC CARDS ───
 const POTENTIAL_CLASSES = ["spy", "oracle", "assassin", "engineer", "soldier"];
 const POTENTIAL_SPECIES_POOL = ["demagi", "quarchon"];
 
@@ -883,7 +883,7 @@ for (const cls of POTENTIAL_CLASSES) {
       season: null,
       disciplines: JSON.stringify([`${cls.charAt(0).toUpperCase() + cls.slice(1)} Training`, "Potential Awakening"]),
       keywords: JSON.stringify(["potential", cls, species]),
-      unlockMethod: "nft",
+      unlockMethod: "starter",
     });
   }
 }
@@ -917,7 +917,7 @@ for (const name of NEYON_NAMES) {
     season: null,
     disciplines: JSON.stringify(["All Disciplines"]),
     keywords: JSON.stringify(["neyon", "legendary", "cosmic"]),
-    unlockMethod: "nft",
+    unlockMethod: "starter",
   });
 }
 
@@ -1445,7 +1445,7 @@ for (const name of POTENTIAL_NAMES_EXTRA) {
     season: null,
     disciplines: JSON.stringify([`${cls.charAt(0).toUpperCase() + cls.slice(1)} Training`]),
     keywords: JSON.stringify(["potential", cls, species]),
-    unlockMethod: rarity === "epic" ? "nft" : "starter",
+    unlockMethod: "starter",
   });
 }
 
@@ -1780,7 +1780,7 @@ for (const name of FINAL_NAMES) {
     season: null,
     disciplines: JSON.stringify([`${cls.charAt(0).toUpperCase() + cls.slice(1)} Training`]),
     keywords: JSON.stringify(["potential", cls]),
-    unlockMethod: rarity === "epic" ? "nft" : "starter",
+    unlockMethod: "starter",
   });
 }
 

@@ -123,7 +123,7 @@ async function captureCelebrationTeachingSet(
   }
   return { captured };
 }
-import { fetchCitizenData, fetchPotentialNftData, resolveChessBonuses } from "../traitResolver";
+import { fetchCitizenData, resolveChessBonuses } from "../traitResolver";
 import { ripple } from "../services/rippleEngine";
 import { checkFeatureFlag } from "../middleware/featureFlag";
 import { getConsequences } from "../services/universeConsequences";
@@ -630,11 +630,8 @@ export const chessRouter = router({
       }
 
       // Fetch citizen trait bonuses for chess
-      const [chessCitizen, chessNft] = await Promise.all([
-        fetchCitizenData(ctx.user.id),
-        fetchPotentialNftData(ctx.user.id),
-      ]);
-      const chessTb = resolveChessBonuses(chessCitizen, chessNft);
+      const chessCitizen = await fetchCitizenData(ctx.user.id);
+      const chessTb = resolveChessBonuses(chessCitizen);
 
       // Apply time bonus from traits
       const adjustedTimeMs = (input.timeControl * 1000) + (chessTb.timeBonus * 1000);
@@ -2592,11 +2589,8 @@ async function processGameEnd(
     .where(eq(chessGames.id, game.id));
 
   // Calculate and give rewards — apply trait bonuses
-  const [endCitizen, endNft] = await Promise.all([
-    fetchCitizenData(playerId),
-    fetchPotentialNftData(playerId),
-  ]);
-  const endChessTb = resolveChessBonuses(endCitizen, endNft);
+  const endCitizen = await fetchCitizenData(playerId);
+  const endChessTb = resolveChessBonuses(endCitizen);
   const baseRewards = calculateRewards(game.mode, game.aiDifficulty || 3, playerWon, eloChange);
   const rewards = { ...baseRewards } as typeof baseRewards & { traitMultiplier: number; traitSources: string[] };
   const combinedMultiplier = endChessTb.rewardMultiplier * endChessTb.dreamMultiplier;

@@ -64,7 +64,7 @@ import {
   userCards, dreamBalance, twPlayerState, notifications,
   marketTaxPool, guilds, guildMembers,
 } from "../../db/schema";
-import { fetchCitizenData, fetchPotentialNftData, resolveMarketBonuses } from "../traitResolver";
+import { fetchCitizenData, resolveMarketBonuses } from "../traitResolver";
 import { trackIncrement } from "../achievementTracker";
 import { characterSheets } from "../../db/schema";
 import { pressureService } from "../services/pressureService";
@@ -261,11 +261,8 @@ export const marketplaceRouter = router({
       }
 
       // Apply seller trait bonuses — reduced marketplace fees
-      const [sellerCitizen, sellerNft] = await Promise.all([
-        fetchCitizenData(listing[0].sellerId),
-        fetchPotentialNftData(listing[0].sellerId),
-      ]);
-      const sellerTb = resolveMarketBonuses(sellerCitizen, sellerNft);
+      const sellerCitizen = await fetchCitizenData(listing[0].sellerId);
+      const sellerTb = resolveMarketBonuses(sellerCitizen);
       const adjustedTaxRate = TAX_RATE * sellerTb.taxReduction;
       const tax = Math.max(1, Math.floor(totalPrice * adjustedTaxRate));
       const sellerReceives = totalPrice - tax;

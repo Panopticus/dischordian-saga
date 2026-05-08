@@ -263,7 +263,6 @@ export default function TraitSummaryPanel({ isAuthenticated }: { isAuthenticated
   };
 
   const data = traitBonuses.data;
-  const nftMultiplier = data?.nftMultiplier ?? 1.0;
 
   return (
     <motion.div
@@ -287,9 +286,6 @@ export default function TraitSummaryPanel({ isAuthenticated }: { isAuthenticated
             </span>
             <span className="font-mono text-[8px] text-muted-foreground/40">
               Live bonuses across all game systems
-              {nftMultiplier > 1.0 && (
-                <span className="void-text-accent ml-2">✦ {((nftMultiplier - 1) * 100).toFixed(0)}% POTENTIAL BOOST</span>
-              )}
             </span>
           </div>
         </div>
@@ -337,23 +333,6 @@ export default function TraitSummaryPanel({ isAuthenticated }: { isAuthenticated
                 </div>
               ) : (
                 <>
-                  {/* Species Multiplier Banner */}
-                  {nftMultiplier > 1.0 && (
-                    <div className="mb-4 p-2.5 rounded-lg void-bg-sunk border void-border flex items-center gap-2.5">
-                      <div className="w-8 h-8 rounded-full void-bg-sunk border void-border flex items-center justify-center flex-shrink-0">
-                        <Gem size={14} className="void-text-accent" />
-                      </div>
-                      <div>
-                        <span className="font-display text-[10px] font-bold void-text-accent tracking-wider block">
-                          POTENTIAL ACTIVE — {((nftMultiplier - 1) * 100).toFixed(0)}% UNIVERSAL BOOST
-                        </span>
-                        <span className="font-mono text-[8px] text-muted-foreground/50">
-                          Level {data.nft?.level ?? "?"} multiplier applied to all systems
-                        </span>
-                      </div>
-                    </div>
-                  )}
-
                   {/* Expand/Collapse All */}
                   <div className="flex justify-end mb-3">
                     <button

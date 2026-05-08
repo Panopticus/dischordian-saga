@@ -1,10 +1,10 @@
 /* ═══════════════════════════════════════════════════════
    UNIFIED CITIZEN TRAIT RESOLVER
-   
+
    Every game system calls resolveTraitBonuses() with the
-   player's citizen + optional NFT data. Returns bonuses
-   specific to each game context.
-   
+   player's citizen. Returns bonuses specific to each game
+   context.
+
    This is the SINGLE SOURCE OF TRUTH for how character
    builds affect gameplay across the entire app.
    ═══════════════════════════════════════════════════════ */
@@ -24,15 +24,6 @@ export interface CitizenData {
   classLevel: number;   // 1+
   level: number;        // overall citizen level
   gear?: Record<string, unknown> | null; // equipped gear slot→itemId
-}
-
-export interface PotentialNftData {
-  tokenId: number;
-  level: number;        // NFT level (1-100)
-  nftClass?: string | null;
-  weapon?: string | null;
-  specie?: string | null;
-  claimCount?: number;  // how many Potentials the user has claimed
 }
 
 /* ─── OUTPUT TYPES ─── */
@@ -276,26 +267,11 @@ function attrScale(dots: number): number {
 }
 
 /* ═══════════════════════════════════════════════════════
-   POTENTIAL NFT LEVEL MULTIPLIER
-   NFT level 1-100 provides a universal scaling multiplier.
-   Level 1 = 1.0x, Level 50 = 1.25x, Level 100 = 1.5x
-   Having multiple claimed Potentials adds a small stacking bonus.
-   ═══════════════════════════════════════════════════════ */
-
-export function nftLevelMultiplier(nft?: PotentialNftData | null): number {
-  if (!nft) return 1.0;
-  const levelBonus = 1.0 + (nft.level / 200); // 1.0 to 1.5
-  const claimBonus = nft.claimCount ? Math.min(0.1, (nft.claimCount - 1) * 0.02) : 0; // up to +0.1 for 6+ claims
-  return levelBonus + claimBonus;
-}
-
-/* ═══════════════════════════════════════════════════════
    RESOLVER FUNCTIONS — One per game system
    ═══════════════════════════════════════════════════════ */
 
 export function resolveCardGameBonuses(
-  citizen?: CitizenData | null,
-  nft?: PotentialNftData | null
+  citizen?: CitizenData | null
 ): CardGameBonuses {
   const breakdown: Array<{ source: string; effect: string }> = [];
   const result: CardGameBonuses = {
@@ -363,17 +339,6 @@ export function resolveCardGameBonuses(
     breakdown.push({ source: `Class Level ${citizen.classLevel}`, effect: `+${clBonus} HP, +${Math.floor(clBonus / 2)} unit ATK` });
   }
 
-  // NFT level multiplier
-  const multi = nftLevelMultiplier(nft);
-  if (multi > 1.0) {
-    result.hpBonus = Math.round(result.hpBonus * multi);
-    result.globalAttackBonus = Math.round(result.globalAttackBonus * multi);
-    result.globalHealthBonus = Math.round(result.globalHealthBonus * multi);
-    result.influenceBonus = Math.round(result.influenceBonus * multi);
-    result.energyBonus = Math.round(result.energyBonus * multi);
-    breakdown.push({ source: `Potential Lv.${nft!.level}`, effect: `${Math.round((multi - 1) * 100)}% bonus to all stats` });
-  }
-
   // Equipment gear — translate physical stats into card game bonuses.
   // Conversion rate mirrors the old client-side getEquipmentGameBonuses formula:
   //   3 ATK → +1 unit ATK, 3 DEF → +1 unit HP, 1 HP stat → +2 player HP.
@@ -398,8 +363,7 @@ export function resolveCardGameBonuses(
 }
 
 export function resolveTradeEmpireBonuses(
-  citizen?: CitizenData | null,
-  nft?: PotentialNftData | null
+  citizen?: CitizenData | null
 ): TradeEmpireBonuses {
   const breakdown: Array<{ source: string; effect: string }> = [];
   const result: TradeEmpireBonuses = {
@@ -466,15 +430,6 @@ export function resolveTradeEmpireBonuses(
     breakdown.push({ source: `Class Level ${citizen.classLevel}`, effect: `+${clBonus * 2} combat, +${clBonus * 50} trade credits` });
   }
 
-  // NFT multiplier
-  const multi = nftLevelMultiplier(nft);
-  if (multi > 1.0) {
-    result.combatPowerBonus = Math.round(result.combatPowerBonus * multi);
-    result.tradeCreditsBonus = Math.round(result.tradeCreditsBonus * multi);
-    result.xpBonus = Math.round(result.xpBonus * multi);
-    breakdown.push({ source: `Potential Lv.${nft!.level}`, effect: `${Math.round((multi - 1) * 100)}% bonus to combat & trade` });
-  }
-
   // Equipment gear — fleet combat power and mission dispatch speed.
   // Mirrors the old client formula: +1 combat per ATK, +1% mission speed per SPD.
   if (citizen.gear) {
@@ -493,8 +448,7 @@ export function resolveTradeEmpireBonuses(
 }
 
 export function resolveFightGameBonuses(
-  citizen?: CitizenData | null,
-  nft?: PotentialNftData | null
+  citizen?: CitizenData | null
 ): FightGameBonuses {
   const breakdown: Array<{ source: string; effect: string }> = [];
   const result: FightGameBonuses = {
@@ -560,20 +514,7 @@ export function resolveFightGameBonuses(
     breakdown.push({ source: `Class Level ${citizen.classLevel}`, effect: `+${clBonus} ATK/DEF, +${clBonus * 2} HP, ${Math.round(clBonus * 5)}% XP/Dream bonus` });
   }
 
-  // NFT multiplier
-  const multi = nftLevelMultiplier(nft);
-  if (multi > 1.0) {
-    result.attackBonus = Math.round(result.attackBonus * multi);
-    result.defenseBonus = Math.round(result.defenseBonus * multi);
-    result.hpBonus = Math.round(result.hpBonus * multi);
-    result.speedBonus = Math.round(result.speedBonus * multi);
-    result.xpMultiplier *= multi;
-    result.dreamMultiplier *= multi;
-    breakdown.push({ source: `Potential Lv.${nft!.level}`, effect: `${Math.round((multi - 1) * 100)}% bonus to all fight stats` });
-  }
-
   // Equipment gear — direct stat application (ATK/DEF/HP/SPD from equipped items).
-  // Applied AFTER the NFT multiplier so gear bonuses aren't silently double-scaled.
   if (citizen.gear) {
     const gearStats = calculateGearStats(citizen.gear as Record<string, unknown>);
     if (gearStats.totalAtk || gearStats.totalDef || gearStats.totalHp || gearStats.totalSpeed) {
@@ -594,8 +535,7 @@ export function resolveFightGameBonuses(
 }
 
 export function resolveCraftingBonuses(
-  citizen?: CitizenData | null,
-  nft?: PotentialNftData | null
+  citizen?: CitizenData | null
 ): CraftingBonuses {
   const breakdown: Array<{ source: string; effect: string }> = [];
   const result: CraftingBonuses = {
@@ -635,20 +575,11 @@ export function resolveCraftingBonuses(
     breakdown.push({ source: `Class Level ${citizen.classLevel}`, effect: `+${Math.round(clBonus * 2)}% success, ${Math.round(clBonus * 2)}% Dream discount` });
   }
 
-  // NFT multiplier
-  const multi = nftLevelMultiplier(nft);
-  if (multi > 1.0) {
-    result.successRateBonus *= multi;
-    result.bonusOutputChance *= multi;
-    breakdown.push({ source: `Potential Lv.${nft!.level}`, effect: `${Math.round((multi - 1) * 100)}% bonus to crafting success` });
-  }
-
   return result;
 }
 
 export function resolveExplorationBonuses(
-  citizen?: CitizenData | null,
-  nft?: PotentialNftData | null
+  citizen?: CitizenData | null
 ): ExplorationBonuses {
   const breakdown: Array<{ source: string; effect: string }> = [];
   const result: ExplorationBonuses = {
@@ -708,16 +639,6 @@ export function resolveExplorationBonuses(
     breakdown.push({ source: `Citizen Lv.${citizen.level}`, effect: `+${(citizen.level * 0.5).toFixed(1)}% Dream bonus` });
   }
 
-  // NFT multiplier
-  const multi = nftLevelMultiplier(nft);
-  if (multi > 1.0) {
-    result.discoveryXpBonus = Math.round(result.discoveryXpBonus * multi);
-    result.hiddenItemChance *= multi;
-    result.dreamBonus *= multi;
-    result.rarityUpgradeChance = Math.min(0.5, result.rarityUpgradeChance * multi);
-    breakdown.push({ source: `Potential Lv.${nft!.level}`, effect: `${Math.round((multi - 1) * 100)}% exploration bonus` });
-  }
-
   return result;
 }
 
@@ -758,8 +679,7 @@ const SPECIES_CHESS = {
 } as const;
 
 export function resolveChessBonuses(
-  citizen?: CitizenData | null,
-  nft?: PotentialNftData | null
+  citizen?: CitizenData | null
 ): ChessBonuses {
   const breakdown: Array<{ source: string; effect: string }> = [];
   const result: ChessBonuses = {
@@ -815,14 +735,6 @@ export function resolveChessBonuses(
     result.timeBonus += clBonus * 2;
     result.xpMultiplier += clBonus * 0.03;
     breakdown.push({ source: `Class Level ${citizen.classLevel}`, effect: `+${clBonus * 2}s time, +${Math.round(clBonus * 3)}% XP` });
-  }
-
-  // NFT multiplier
-  const multi = nftLevelMultiplier(nft);
-  if (multi > 1.0) {
-    result.rewardMultiplier *= multi;
-    result.dreamMultiplier *= multi;
-    breakdown.push({ source: `Potential Lv.${nft!.level}`, effect: `${Math.round((multi - 1) * 100)}% bonus to rewards` });
   }
 
   // Equipment speed bonus → chess time bonus (+5s per speed stat point)
@@ -887,8 +799,7 @@ const ELEMENT_TERRITORY_MAP: Record<string, string[]> = {
 };
 
 export function resolveGuildWarBonuses(
-  citizen?: CitizenData | null,
-  nft?: PotentialNftData | null
+  citizen?: CitizenData | null
 ): GuildWarBonuses {
   const breakdown: Array<{ source: string; effect: string }> = [];
   const result: GuildWarBonuses = {
@@ -957,14 +868,6 @@ export function resolveGuildWarBonuses(
     breakdown.push({ source: `Class Level ${citizen.classLevel}`, effect: `+${Math.round(clBonus * 2)}% war points` });
   }
 
-  // NFT multiplier
-  const multi = nftLevelMultiplier(nft);
-  if (multi > 1.0) {
-    result.warPointMultiplier *= multi;
-    result.captureSpeedMultiplier *= 1 + (multi - 1) * 0.5;
-    breakdown.push({ source: `Potential Lv.${nft!.level}`, effect: `${Math.round((multi - 1) * 100)}% war point bonus` });
-  }
-
   return result;
 }
 
@@ -1004,8 +907,7 @@ const SPECIES_QUEST = {
 } as const;
 
 export function resolveQuestBonuses(
-  citizen?: CitizenData | null,
-  nft?: PotentialNftData | null
+  citizen?: CitizenData | null
 ): QuestBonuses {
   const breakdown: Array<{ source: string; effect: string }> = [];
   const result: QuestBonuses = {
@@ -1060,14 +962,6 @@ export function resolveQuestBonuses(
     breakdown.push({ source: `Class Level ${citizen.classLevel}`, effect: `+${Math.round(clBonus * 2)}% quest rewards & BP XP` });
   }
 
-  // NFT multiplier
-  const multi = nftLevelMultiplier(nft);
-  if (multi > 1.0) {
-    result.rewardMultiplier *= multi;
-    result.battlePassXpMultiplier *= multi;
-    breakdown.push({ source: `Potential Lv.${nft!.level}`, effect: `${Math.round((multi - 1) * 100)}% bonus to all quest rewards` });
-  }
-
   return result;
 }
 
@@ -1107,8 +1001,7 @@ const SPECIES_MARKET = {
 } as const;
 
 export function resolveMarketBonuses(
-  citizen?: CitizenData | null,
-  nft?: PotentialNftData | null
+  citizen?: CitizenData | null
 ): MarketBonuses {
   const breakdown: Array<{ source: string; effect: string }> = [];
   const result: MarketBonuses = {
@@ -1157,14 +1050,6 @@ export function resolveMarketBonuses(
     breakdown.push({ source: `Class Level ${citizen.classLevel}`, effect: `${Math.round(clBonus)}% tax reduction, +${Math.floor(clBonus / 3)} listings` });
   }
 
-  // NFT multiplier
-  const multi = nftLevelMultiplier(nft);
-  if (multi > 1.0) {
-    result.sellBonus *= multi;
-    result.listingSlots += Math.floor((multi - 1) * 10);
-    breakdown.push({ source: `Potential Lv.${nft!.level}`, effect: `${Math.round((multi - 1) * 100)}% sell bonus, +${Math.floor((multi - 1) * 10)} listings` });
-  }
-
   return result;
 }
 
@@ -1203,8 +1088,7 @@ const SPECIES_PVP = {
   synthetic: { eloLoss: 0,    dream: 1.0,  streak: 1.08 },
 } as const;
 export function resolvePvpBonuses(
-  citizen?: CitizenData | null,
-  nft?: PotentialNftData | null
+  citizen?: CitizenData | null
 ): PvpBonuses {
   const breakdown: Array<{ source: string; effect: string }> = [];
   const result: PvpBonuses = {
@@ -1257,13 +1141,6 @@ export function resolvePvpBonuses(
     result.xpMultiplier *= 1 + clBonus * 0.02;
     breakdown.push({ source: `Class Level ${citizen.classLevel}`, effect: `+${Math.round(clBonus * 2)}% dream & XP from PvP` });
   }
-  // NFT multiplier
-  const multi = nftLevelMultiplier(nft);
-  if (multi > 1.0) {
-    result.dreamMultiplier *= multi;
-    result.eloGainMultiplier *= 1 + (multi - 1) * 0.5;
-    breakdown.push({ source: `Potential Lv.${nft!.level}`, effect: `${Math.round((multi - 1) * 100)}% dream bonus, ${Math.round((multi - 1) * 50)}% elo gain` });
-  }
   return result;
 }
 
@@ -1301,8 +1178,7 @@ const SPECIES_DRAFT = {
   synthetic: { rarity: 0.08, keep: 0, dream: 1.0  },
 } as const;
 export function resolveDraftBonuses(
-  citizen?: CitizenData | null,
-  nft?: PotentialNftData | null
+  citizen?: CitizenData | null
 ): DraftBonuses {
   const breakdown: Array<{ source: string; effect: string }> = [];
   const result: DraftBonuses = {
@@ -1349,13 +1225,6 @@ export function resolveDraftBonuses(
     result.rarityBoostChance += clBonus * 0.02;
     breakdown.push({ source: `Class Level ${citizen.classLevel}`, effect: `+${Math.round(clBonus * 2)}% rarity boost` });
   }
-  // NFT multiplier
-  const multi = nftLevelMultiplier(nft);
-  if (multi > 1.0) {
-    result.dreamMultiplier *= multi;
-    result.extraPicks += Math.floor((multi - 1) * 4);
-    breakdown.push({ source: `Potential Lv.${nft!.level}`, effect: `${Math.round((multi - 1) * 100)}% dream bonus, +${Math.floor((multi - 1) * 4)} extra picks` });
-  }
   return result;
 }
 
@@ -1391,8 +1260,7 @@ const SPECIES_BOSS = {
   synthetic: { defense: 0.03, masteryXp: 1.0,  loot: 1.08 },
 } as const;
 export function resolveBossMasteryBonuses(
-  citizen?: CitizenData | null,
-  nft?: PotentialNftData | null
+  citizen?: CitizenData | null
 ): BossMasteryBonuses {
   const breakdown: Array<{ source: string; effect: string }> = [];
   const result: BossMasteryBonuses = {
@@ -1449,13 +1317,6 @@ export function resolveBossMasteryBonuses(
     result.masteryXpMultiplier *= 1 + clBonus * 0.02;
     breakdown.push({ source: `Class Level ${citizen.classLevel}`, effect: `+${Math.floor(clBonus / 2)} mastery points, +${Math.round(clBonus * 2)}% mastery XP` });
   }
-  // NFT multiplier
-  const multi = nftLevelMultiplier(nft);
-  if (multi > 1.0) {
-    result.lootQualityMultiplier *= multi;
-    result.bossDamageMultiplier *= 1 + (multi - 1) * 0.5;
-    breakdown.push({ source: `Potential Lv.${nft!.level}`, effect: `${Math.round((multi - 1) * 100)}% loot quality, ${Math.round((multi - 1) * 50)}% boss damage` });
-  }
   return result;
 }
 
@@ -1491,8 +1352,7 @@ const SPECIES_FRIENDLY = {
   synthetic: { xp: 1.0,  card: 0.05 },
 } as const;
 export function resolveFriendlyChallengeBonuses(
-  citizen?: CitizenData | null,
-  nft?: PotentialNftData | null
+  citizen?: CitizenData | null
 ): FriendlyChallengeBonuses {
   const breakdown: Array<{ source: string; effect: string }> = [];
   const result: FriendlyChallengeBonuses = {
@@ -1538,13 +1398,6 @@ export function resolveFriendlyChallengeBonuses(
     const clBonus = citizen.classLevel - 1;
     result.dreamMultiplier *= 1 + clBonus * 0.02;
     breakdown.push({ source: `Class Level ${citizen.classLevel}`, effect: `+${Math.round(clBonus * 2)}% dream tokens` });
-  }
-  // NFT multiplier
-  const multi = nftLevelMultiplier(nft);
-  if (multi > 1.0) {
-    result.dreamMultiplier *= multi;
-    result.cardRewardChance += (multi - 1) * 0.1;
-    breakdown.push({ source: `Potential Lv.${nft!.level}`, effect: `${Math.round((multi - 1) * 100)}% dream bonus, +${Math.round((multi - 1) * 10)}% card chance` });
   }
   return result;
 }

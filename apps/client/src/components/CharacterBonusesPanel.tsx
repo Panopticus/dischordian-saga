@@ -223,9 +223,6 @@ export default function CharacterBonusesPanel() {
 
       <p className="font-mono text-[10px] text-muted-foreground mb-4 leading-relaxed">
         Your species, class, element, and attributes provide unique bonuses across all game systems.
-        {b.nftMultiplier > 1 && (
-          <span className="text-accent"> Your potential NFT amplifies all bonuses by {Math.round((b.nftMultiplier - 1) * 100)}%.</span>
-        )}
       </p>
 
       <div className="space-y-2">
