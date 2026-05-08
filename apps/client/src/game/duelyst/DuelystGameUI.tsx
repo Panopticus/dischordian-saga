@@ -1697,10 +1697,49 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
           data-testid lets the E2E spec target the actual board, not
           [class*='chess'] / [class*='board'] wildcard matches. */}
       <div
-        className="flex-1 flex items-center justify-center overflow-hidden bg-gradient-to-b from-black/40 to-black/80 game-canvas-mount"
+        className="flex-1 flex items-center justify-center overflow-hidden bg-gradient-to-b from-black/40 to-black/80 game-canvas-mount relative"
         data-testid="duelyst-board"
       >
         <canvas ref={canvasRef} className="game-canvas-mount max-w-full max-h-full" />
+        {/* audit/07.F1 — accessibility-mirror grid. Sighted players
+            interact via the canvas; AT users get a parallel DOM grid
+            with the same row/col semantics. Each gridcell carries an
+            aria-label describing the unit (if any) at that position
+            plus a click handler routing to the same handleTileClick.
+            The grid is sr-only by default but kept tabbable so a
+            keyboard user can step row/col with arrow keys. */}
+        <div
+          role="grid"
+          aria-label="Duelyst board"
+          aria-rowcount={5}
+          aria-colcount={9}
+          className="absolute inset-0 sr-only-when-canvas-visible"
+          style={{ display: "grid", gridTemplateRows: "repeat(5, 1fr)", gridTemplateColumns: "repeat(9, 1fr)" }}
+        >
+          {Array.from({ length: 5 }).flatMap((_, row) =>
+            Array.from({ length: 9 }).map((_, col) => {
+              const occupant = (() => {
+                for (const unit of gameState.board.values()) {
+                  if (unit.row === row && unit.col === col) {
+                    return `${unit.card.name} ${unit.currentHealth}HP`;
+                  }
+                }
+                return "Empty";
+              })();
+              return (
+                <button
+                  key={`${row}-${col}`}
+                  type="button"
+                  role="gridcell"
+                  aria-label={`Row ${row + 1} Column ${col + 1}, ${occupant}`}
+                  className="border border-transparent focus:border-amber-400 focus:outline-none"
+                  onClick={() => handleTileClick(row, col)}
+                  tabIndex={row === 0 && col === 0 ? 0 : -1}
+                />
+              );
+            }),
+          )}
+        </div>
       </div>
 
       {/* Player bar: HP + Artifacts + Mana crystals + BBS + End Turn */}

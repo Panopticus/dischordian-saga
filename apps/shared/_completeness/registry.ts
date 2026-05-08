@@ -28,6 +28,7 @@ import { checkMobileWiring } from "./checks/mobileWiring";
 import { checkListVirtualizationAdoption } from "./checks/listVirtualizationAdoption";
 import { checkAssetPrefetchManifest } from "./checks/assetPrefetchManifest";
 import { checkProcedureRateLimits } from "./checks/procedureRateLimits";
+import { checkVoidContrastCoverage } from "./checks/voidContrastCoverage";
 
 export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
   // ─── Card engine ──────────────────────────────────────────
@@ -178,5 +179,19 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "docs/built/LORE_BIBLE.md exactly matches scripts/generate-lore-bible.ts output from apps/client/src/data/loredex-data.json. The MD is a generated artifact; loredex-data.json is canonical.",
     check: () => checkLoreBibleDrift(),
+  },
+  // ─── Accessibility ────────────────────────────────────────
+  {
+    // audit/07.F5 — Void Energy fg/bg token pairs must hit WCAG AA
+    // contrast. Currently a RATCHET starting at the worst case
+    // (zero pairs measured) — populated by scripts/audit-contrast.ts
+    // (planned) which renders the page in headless Chrome and reads
+    // computed colours.
+    id: "a11y.void_contrast_coverage",
+    name: "Void Energy contrast coverage",
+    description:
+      "Every fg/bg pair in apps/shared/_completeness/checks/voidContrastCoverage.ts TOKEN_PAIRS has a measured WCAG contrast ratio above its threshold (≥4.5 for normal text, ≥3 for large).",
+    check: () => checkVoidContrastCoverage(),
+    ratchet: { target: 0 },
   },
 ];
