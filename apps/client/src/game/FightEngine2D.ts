@@ -56,8 +56,8 @@ export type AIStyle2D = "aggressive" | "defensive" | "evasive" | "balanced";
 // (Step 3a of the FightEngine2D split). Re-export so existing
 // callers don't break.
 export { type Difficulty2D, type AIDifficultyProfile, AI_PROFILES } from "./fightAi";
-import type { Difficulty2D, AIDifficultyProfile } from "./fightAi";
-import { AI_PROFILES, adaptAggression, idealDistanceFor } from "./fightAi";
+import type { Difficulty2D, AIDifficultyProfile, AIControllerHost } from "./fightAi";
+import { AI_PROFILES, adaptAggression, idealDistanceFor, executeAIDecision } from "./fightAi";
 
 export interface TouchInput2D {
   type: "tap" | "swipe_left" | "swipe_right" | "swipe_up" | "swipe_down" | "hold_start" | "hold_end" | "double_tap" | "triple_tap" | "none";
@@ -2342,217 +2342,35 @@ export class FightEngine2D {
   }
 
   /* ═══ AI SYSTEM ═══ */
+  /**
+   * audit/01.F4 Step 3b — the 211-line behavior body that lived
+   * here previously is now in fightAi.ts as `executeAIDecision`.
+   * The class shrinks to a thin delegator that passes the engine
+   * primitives through an AIControllerHost facade.
+   *
+   * The host facade is constructed lazily on first call and
+   * cached on the instance so per-tick allocation is zero.
+   */
   private processAI(ai: Fighter2D, player: Fighter2D) {
-    ai.aiTimer++;
-    if (ai.aiTimer < ai.aiReactDelay) return;
+    if (!this.aiHost) this.aiHost = this.buildAIHost();
+    executeAIDecision(this.aiHost, ai, player, this.aiProfile);
+  }
 
-    const dist = Math.abs(ai.x - player.x);
-    const profile = this.aiProfile;
+  private aiHost?: AIControllerHost;
 
-    // audit/01.F4 Step 3a — adaptAggression is the pure helper now
-    // exported from ./fightAi. Behaviour identical to the inline
-    // logic that lived here previously; extracting it lets the
-    // upcoming AI-controller refactor (Step 3b) reuse the same
-    // adaptation model without duplicating the magic numbers.
-    const aiHealthRatio = ai.hp / ai.maxHp;
-    const playerHealthRatio = player.hp / player.maxHp;
-    const adapted = adaptAggression(profile, aiHealthRatio, playerHealthRatio);
-    const aggression = adapted.aggression;
-    ai.aiReactDelay = adapted.reactDelay;
-
-    // Mistake check
-    if (Math.random() < profile.mistakeRate) {
-      ai.aiTimer = 0;
-      return;
-    }
-
-    // React to player attacks — block
-    if (this.isInAttackState(player) && dist < 150) {
-      if (Math.random() < profile.blockRate) {
-        // Match block stance to attack type
-        if (player.state.startsWith("crouch_") || player.state.includes("low")) {
-          this.changeState(ai, "block_crouch");
-        } else {
-          this.changeState(ai, Math.random() < 0.3 ? "block_crouch" : "block_stand");
-        }
-        ai.blockFrame = this.frameCount;
-        ai.isParrying = true;
-        ai.parryFrames = PARRY_WINDOW;
-        ai.aiTimer = 0;
-        return;
-      }
-    }
-
-    // Anti-air — react to jumps
-    if (player.airborne && dist < 200 && Math.random() < profile.antiAirRate) {
-      // Vary anti-air option
-      if (dist < 100 && Math.random() < 0.4) {
-        this.changeState(ai, "crouch_heavy"); // Close anti-air
-      } else {
-        this.changeState(ai, "heavy_release"); // Standard anti-air
-      }
-      ai.hitThisAttack = false;
-      ai.aiTimer = 0;
-      return;
-    }
-
-    // Whiff punish — punish recovery with best available option
-    if (this.isInRecovery(player) && dist < 120 && Math.random() < profile.whiffPunishRate) {
-      if (dist < 60 && Math.random() < 0.3) {
-        this.changeState(ai, "throw_startup"); // Close range throw punish
-      } else if (ai.specialMeter >= 100 && Math.random() < 0.4) {
-        this.activateSpecial(ai, 1); // Special punish for big damage
-      } else {
-        const useKick = Math.random() < 0.4;
-        this.changeState(ai, useKick ? "medium_kick" : "medium");
-      }
-      ai.hitThisAttack = false;
-      ai.aiTimer = 0;
-      return;
-    }
-
-    // Combo continuation — chain attacks naturally
-    if (ai.comboCount > 0 && Math.random() < profile.comboAccuracy) {
-      if (ai.comboChain < 2) {
-        const nextState: FighterState2D = ai.comboChain === 0 ? "light_2" : "light_3";
-        this.changeState(ai, nextState);
-        ai.comboChain++;
-        ai.hitThisAttack = false;
-        ai.aiTimer = 0;
-        return;
-      } else if (ai.comboChain === 2) {
-        // Finish combo with medium or special
-        if (ai.specialMeter >= 100 && Math.random() < 0.5) {
-          this.activateSpecial(ai, 1); // Cancel into special for flashy finish
-        } else {
-          this.changeState(ai, "medium");
-        }
-        ai.comboChain = 3;
-        ai.hitThisAttack = false;
-        ai.aiTimer = 0;
-        return;
-      }
-    }
-
-    // Special move usage
-    if (ai.specialMeter >= 100 && Math.random() < profile.specialUseRate && dist < 250) {
-      const level: 1 | 2 | 3 = ai.specialMeter >= 300 ? 3 : ai.specialMeter >= 200 ? 2 : 1;
-      this.activateSpecial(ai, level);
-      ai.aiTimer = 0;
-      return;
-    }
-
-    // Approach or zone based on style
-    if (!this.isActionable(ai)) return;
-
-    const arch = ai.data.frameProfile.archetype;
-    // audit/01.F4 Step 3a — same magic numbers, now sourced from the
-    // shared helper in ./fightAi for cross-module reuse.
-    const idealDist = idealDistanceFor(arch);
-
-    if (dist > idealDist + 50) {
-      // Move closer
-      const dir = ai.x < player.x ? 1 : -1;
-      const walkSpeed = ARCHETYPE_WALK_SPEED[arch] * ai.data.frameProfile.walkSpeedMult;
-      if (dist > idealDist + 150 && Math.random() < aggression * 0.5 && ai.dashCooldownFrames <= 0) {
-        this.changeState(ai, "dash_fwd");
-        ai.vx = dir * walkSpeed * 2.5;
-        ai.dashCooldownFrames = 30;
-      } else if (dist > idealDist + 80 && Math.random() < 0.15) {
-        // Jump-in approach (mix-up vs walking)
-        this.changeState(ai, "jump_fwd");
-        ai.vy = -(ARCHETYPE_JUMP_FORCE[arch] * ai.data.frameProfile.jumpForceMult);
-        ai.airborne = true;
-      } else {
-        ai.vx = dir * walkSpeed;
-        this.changeState(ai, dir === (ai.facingRight ? 1 : -1) ? "walk_fwd" : "walk_back");
-      }
-    } else if (dist < idealDist - 30) {
-      // Move away
-      const dir = ai.x < player.x ? -1 : 1;
-      const walkSpeed = ARCHETYPE_WALK_SPEED[arch] * ai.data.frameProfile.walkSpeedMult;
-      if (Math.random() < 0.25 && ai.dashCooldownFrames <= 0) {
-        this.changeState(ai, "dash_back");
-        ai.vx = dir * walkSpeed * 2.5;
-        ai.dashCooldownFrames = 30;
-      } else {
-        ai.vx = dir * walkSpeed;
-        this.changeState(ai, "walk_back");
-      }
-    } else {
-      // In range — attack with varied options
-      if (Math.random() < aggression) {
-        const roll = Math.random();
-        if (roll < 0.28) {
-          // Punch combo starter
-          this.changeState(ai, "light_1");
-          ai.comboChain = 0;
-        } else if (roll < 0.40) {
-          // Light kick (fast poke)
-          this.changeState(ai, "light_kick");
-        } else if (roll < 0.50) {
-          // Medium kick (mid-range)
-          this.changeState(ai, "medium_kick");
-        } else if (roll < 0.58) {
-          // Heavy kick (high damage, committal)
-          this.changeState(ai, "heavy_kick");
-        } else if (roll < 0.66) {
-          // Medium punch
-          this.changeState(ai, "medium");
-        } else if (roll < 0.74) {
-          // Crouch attack mix-up (low)
-          ai.isCrouching = true;
-          this.changeState(ai, "crouch_light");
-        } else if (roll < 0.80 && dist < 80) {
-          // Throw attempt at close range
-          this.changeState(ai, "throw_startup");
-        } else if (roll < 0.88) {
-          // Jump-in attack for pressure
-          this.changeState(ai, "jump_fwd");
-          ai.vy = -(ARCHETYPE_JUMP_FORCE[arch] * ai.data.frameProfile.jumpForceMult);
-          ai.airborne = true;
-        } else if (roll < 0.94) {
-          // Heavy punch for damage
-          this.changeState(ai, "heavy_charge");
-          ai.heavyChargeFrames = 0;
-        } else {
-          // Dash in for pressure then attack next frame
-          if (ai.dashCooldownFrames <= 0) {
-            const dir = ai.x < player.x ? 1 : -1;
-            const walkSpeed = ARCHETYPE_WALK_SPEED[arch] * ai.data.frameProfile.walkSpeedMult;
-            this.changeState(ai, "dash_fwd");
-            ai.vx = dir * walkSpeed * 2.5;
-            ai.dashCooldownFrames = 30;
-          }
-        }
-        ai.hitThisAttack = false;
-      } else {
-        // Idle — but reposition or feint
-        const idleRoll = Math.random();
-        if (idleRoll < 0.25) {
-          // Walk forward (pressure)
-          const dir = ai.x < player.x ? 1 : -1;
-          const walkSpeed = ARCHETYPE_WALK_SPEED[arch] * ai.data.frameProfile.walkSpeedMult;
-          ai.vx = dir * walkSpeed * 0.5;
-          this.changeState(ai, "walk_fwd");
-        } else if (idleRoll < 0.40) {
-          // Walk back (bait attacks)
-          const dir = ai.x < player.x ? -1 : 1;
-          const walkSpeed = ARCHETYPE_WALK_SPEED[arch] * ai.data.frameProfile.walkSpeedMult;
-          ai.vx = dir * walkSpeed * 0.4;
-          this.changeState(ai, "walk_back");
-        } else if (idleRoll < 0.50) {
-          // Crouch (change posture)
-          ai.isCrouching = true;
-          this.changeState(ai, "crouch");
-        } else {
-          this.changeState(ai, "idle");
-          ai.vx = 0;
-        }
-      }
-    }
-
-    ai.aiTimer = 0;
+  private buildAIHost(): AIControllerHost {
+    const self = this;
+    return {
+      isInAttackState: (f) => self.isInAttackState(f as Fighter2D),
+      isInRecovery: (f) => self.isInRecovery(f as Fighter2D),
+      isActionable: (f) => self.isActionable(f as Fighter2D),
+      changeState: (f, s) => self.changeState(f as Fighter2D, s as FighterState2D),
+      activateSpecial: (a, lvl) => self.activateSpecial(a as Fighter2D, lvl),
+      get frameCount() { return self.frameCount; },
+      parryWindow: PARRY_WINDOW,
+      walkSpeedFor: (arch) => ARCHETYPE_WALK_SPEED[arch as FighterArchetype],
+      jumpForceFor: (arch) => ARCHETYPE_JUMP_FORCE[arch as FighterArchetype],
+    };
   }
 
   /* ═══ HELPER METHODS ═══ */

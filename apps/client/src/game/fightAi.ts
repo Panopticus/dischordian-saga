@@ -1,37 +1,27 @@
 /**
- * fightAi — AI difficulty profiles + helpers.
+ * fightAi — AI difficulty profiles + helpers + behavior runner.
  *
- * audit/01.F4 Step 3a (data layer) of the FightEngine2D split.
+ * audit/01.F4 of the FightEngine2D split.
  *
- * What lives here:
- *   - `Difficulty2D` enum: the four AI tiers (recruit / soldier /
- *     veteran / archon).
- *   - `AIDifficultyProfile` interface: the tunable per-tier knobs
- *     the runtime decision logic reads.
- *   - `AI_PROFILES`: the canonical profile table.
- *   - Pure helpers used by both decision logic and tests.
+ * Step 3a (data layer): difficulty profiles + adaptAggression +
+ * idealDistanceFor — the constants and pure helpers the AI loop
+ * reads.
  *
- * What does NOT live here yet (deferred to Step 3b — needs manual
- * smoke between steps; per docs/refactor-plans/fight-engine-2d-split.md):
- *   - `processAI(ai, player)` — the 218-line behavior method that
- *     today mutates fighter state directly via `this.changeState`,
- *     `this.activateSpecial`, etc. Extracting that to a pure
- *     `decideNextAction(fighter, opponent, profile, frame): AiDecision`
- *     requires (a) defining the AiDecision discriminated union,
- *     (b) reworking processAI to RETURN a decision rather than
- *     mutate, and (c) having the engine class interpret the
- *     decision. That's a behavioral refactor with no test coverage,
- *     so it ships in its own PR with manual smoke at each step.
+ * Step 3b (behavior layer, this commit): the 211-line `processAI`
+ * method that lived inline on FightEngine2D moves here as
+ * `executeAIDecision(host, ai, player, profile)`. The function
+ * still mutates fighter state directly (same imperative shape as
+ * before — a pure-function rewrite would require a discriminated-
+ * union AiDecision type and a separate apply step, which is a
+ * larger behavioral refactor and would void replay determinism).
+ * Instead, we route the few engine-side primitives the loop needs
+ * (state-machine predicates + state mutators + special-move
+ * activator + frame-cluster constants) through an
+ * AIControllerHost facade the engine constructs once per match.
  *
- * The data extracted in this file is enough to:
- *   - Unit-test the profile table (e.g. monotonicity of difficulty
- *     across tiers, sanity bounds on rates).
- *   - Reuse the profile shape from the upcoming sim/AI-controller
- *     extraction without duplicating types.
- *   - Land a parity ratchet that asserts every Difficulty2D value
- *     has a matching AI_PROFILES entry (already implicit via the
- *     `Record<Difficulty2D, AIDifficultyProfile>` type — TypeScript
- *     enforces this at compile time).
+ * Behaviorally identical to the inline processAI it replaces;
+ * the only differences are import path and the host-method
+ * indirection.
  */
 
 /** Four difficulty tiers, easiest → hardest. */
@@ -141,4 +131,289 @@ export function idealDistanceFor(archetype: string): number {
     case "rushdown":  return 100;
     default:          return 180;
   }
+}
+
+/* ═══════════════════════════════════════════════════════
+   STEP 3B — BEHAVIOR LAYER
+   ═══════════════════════════════════════════════════════ */
+
+/**
+ * Structural shape of a fighter the AI loop touches. Defined here
+ * (rather than imported from FightEngine2D) so this module stays
+ * acyclic with the engine — FightEngine2D imports from here, so
+ * we cannot import from there. Fighter2D in FightEngine2D
+ * structurally satisfies this shape.
+ */
+export interface AIFighter {
+  data: {
+    frameProfile: {
+      archetype: string;
+      walkSpeedMult: number;
+      jumpForceMult: number;
+    };
+  };
+  x: number;
+  vx: number;
+  vy: number;
+  facingRight: boolean;
+  hp: number;
+  maxHp: number;
+  state: string;
+  airborne: boolean;
+  isCrouching: boolean;
+  comboCount: number;
+  comboChain: number;
+  specialMeter: number;
+  isParrying: boolean;
+  parryFrames: number;
+  blockFrame: number;
+  heavyChargeFrames: number;
+  aiTimer: number;
+  aiReactDelay: number;
+  hitThisAttack: boolean;
+  dashCooldownFrames: number;
+}
+
+/**
+ * Engine-side primitives the AI loop calls into. The engine
+ * constructs one host per match and passes it to
+ * executeAIDecision on every AI tick.
+ */
+export interface AIControllerHost {
+  isInAttackState(f: AIFighter): boolean;
+  isInRecovery(f: AIFighter): boolean;
+  isActionable(f: AIFighter): boolean;
+  changeState(f: AIFighter, s: string): void;
+  activateSpecial(ai: AIFighter, level: 1 | 2 | 3): void;
+  /** Current global frame counter; the loop uses it to mark
+   *  block-start frames for parry windows. */
+  readonly frameCount: number;
+  /** Frames the AI is parrying after entering a block stance. */
+  readonly parryWindow: number;
+  /** Per-archetype walk speed (px / frame). */
+  walkSpeedFor(archetype: string): number;
+  /** Per-archetype jump force (initial -vy magnitude). */
+  jumpForceFor(archetype: string): number;
+}
+
+/**
+ * Run one AI tick. Returns early via `aiTimer` gating until
+ * `aiReactDelay` frames have elapsed, then chooses + executes
+ * one of the loop's reactive or proactive branches.
+ *
+ * Behaviorally identical to the inline FightEngine2D.processAI
+ * it replaces; only the engine primitives (state predicates +
+ * mutators + special activator + arch tables) are routed via
+ * `host` rather than `this`.
+ */
+export function executeAIDecision(
+  host: AIControllerHost,
+  ai: AIFighter,
+  player: AIFighter,
+  profile: AIDifficultyProfile,
+): void {
+  ai.aiTimer++;
+  if (ai.aiTimer < ai.aiReactDelay) return;
+
+  const dist = Math.abs(ai.x - player.x);
+
+  // Comeback / mercy aggression adapt — same pure helper as
+  // before, just called by name now.
+  const aiHealthRatio = ai.hp / ai.maxHp;
+  const playerHealthRatio = player.hp / player.maxHp;
+  const adapted = adaptAggression(profile, aiHealthRatio, playerHealthRatio);
+  const aggression = adapted.aggression;
+  ai.aiReactDelay = adapted.reactDelay;
+
+  // Mistake check
+  if (Math.random() < profile.mistakeRate) {
+    ai.aiTimer = 0;
+    return;
+  }
+
+  // React to player attacks — block
+  if (host.isInAttackState(player) && dist < 150) {
+    if (Math.random() < profile.blockRate) {
+      // Match block stance to attack type
+      if (player.state.startsWith("crouch_") || player.state.includes("low")) {
+        host.changeState(ai, "block_crouch");
+      } else {
+        host.changeState(ai, Math.random() < 0.3 ? "block_crouch" : "block_stand");
+      }
+      ai.blockFrame = host.frameCount;
+      ai.isParrying = true;
+      ai.parryFrames = host.parryWindow;
+      ai.aiTimer = 0;
+      return;
+    }
+  }
+
+  // Anti-air — react to jumps
+  if (player.airborne && dist < 200 && Math.random() < profile.antiAirRate) {
+    // Vary anti-air option
+    if (dist < 100 && Math.random() < 0.4) {
+      host.changeState(ai, "crouch_heavy"); // Close anti-air
+    } else {
+      host.changeState(ai, "heavy_release"); // Standard anti-air
+    }
+    ai.hitThisAttack = false;
+    ai.aiTimer = 0;
+    return;
+  }
+
+  // Whiff punish — punish recovery with best available option
+  if (host.isInRecovery(player) && dist < 120 && Math.random() < profile.whiffPunishRate) {
+    if (dist < 60 && Math.random() < 0.3) {
+      host.changeState(ai, "throw_startup"); // Close range throw punish
+    } else if (ai.specialMeter >= 100 && Math.random() < 0.4) {
+      host.activateSpecial(ai, 1); // Special punish for big damage
+    } else {
+      const useKick = Math.random() < 0.4;
+      host.changeState(ai, useKick ? "medium_kick" : "medium");
+    }
+    ai.hitThisAttack = false;
+    ai.aiTimer = 0;
+    return;
+  }
+
+  // Combo continuation — chain attacks naturally
+  if (ai.comboCount > 0 && Math.random() < profile.comboAccuracy) {
+    if (ai.comboChain < 2) {
+      const nextState = ai.comboChain === 0 ? "light_2" : "light_3";
+      host.changeState(ai, nextState);
+      ai.comboChain++;
+      ai.hitThisAttack = false;
+      ai.aiTimer = 0;
+      return;
+    } else if (ai.comboChain === 2) {
+      // Finish combo with medium or special
+      if (ai.specialMeter >= 100 && Math.random() < 0.5) {
+        host.activateSpecial(ai, 1); // Cancel into special for flashy finish
+      } else {
+        host.changeState(ai, "medium");
+      }
+      ai.comboChain = 3;
+      ai.hitThisAttack = false;
+      ai.aiTimer = 0;
+      return;
+    }
+  }
+
+  // Special move usage
+  if (ai.specialMeter >= 100 && Math.random() < profile.specialUseRate && dist < 250) {
+    const level: 1 | 2 | 3 = ai.specialMeter >= 300 ? 3 : ai.specialMeter >= 200 ? 2 : 1;
+    host.activateSpecial(ai, level);
+    ai.aiTimer = 0;
+    return;
+  }
+
+  // Approach or zone based on style
+  if (!host.isActionable(ai)) return;
+
+  const arch = ai.data.frameProfile.archetype;
+  const idealDist = idealDistanceFor(arch);
+
+  if (dist > idealDist + 50) {
+    // Move closer
+    const dir = ai.x < player.x ? 1 : -1;
+    const walkSpeed = host.walkSpeedFor(arch) * ai.data.frameProfile.walkSpeedMult;
+    if (dist > idealDist + 150 && Math.random() < aggression * 0.5 && ai.dashCooldownFrames <= 0) {
+      host.changeState(ai, "dash_fwd");
+      ai.vx = dir * walkSpeed * 2.5;
+      ai.dashCooldownFrames = 30;
+    } else if (dist > idealDist + 80 && Math.random() < 0.15) {
+      // Jump-in approach (mix-up vs walking)
+      host.changeState(ai, "jump_fwd");
+      ai.vy = -(host.jumpForceFor(arch) * ai.data.frameProfile.jumpForceMult);
+      ai.airborne = true;
+    } else {
+      ai.vx = dir * walkSpeed;
+      host.changeState(ai, dir === (ai.facingRight ? 1 : -1) ? "walk_fwd" : "walk_back");
+    }
+  } else if (dist < idealDist - 30) {
+    // Move away
+    const dir = ai.x < player.x ? -1 : 1;
+    const walkSpeed = host.walkSpeedFor(arch) * ai.data.frameProfile.walkSpeedMult;
+    if (Math.random() < 0.25 && ai.dashCooldownFrames <= 0) {
+      host.changeState(ai, "dash_back");
+      ai.vx = dir * walkSpeed * 2.5;
+      ai.dashCooldownFrames = 30;
+    } else {
+      ai.vx = dir * walkSpeed;
+      host.changeState(ai, "walk_back");
+    }
+  } else {
+    // In range — attack with varied options
+    if (Math.random() < aggression) {
+      const roll = Math.random();
+      if (roll < 0.28) {
+        // Punch combo starter
+        host.changeState(ai, "light_1");
+        ai.comboChain = 0;
+      } else if (roll < 0.40) {
+        // Light kick (fast poke)
+        host.changeState(ai, "light_kick");
+      } else if (roll < 0.50) {
+        // Medium kick (mid-range)
+        host.changeState(ai, "medium_kick");
+      } else if (roll < 0.58) {
+        // Heavy kick (high damage, committal)
+        host.changeState(ai, "heavy_kick");
+      } else if (roll < 0.66) {
+        // Medium punch
+        host.changeState(ai, "medium");
+      } else if (roll < 0.74) {
+        // Crouch attack mix-up (low)
+        ai.isCrouching = true;
+        host.changeState(ai, "crouch_light");
+      } else if (roll < 0.80 && dist < 80) {
+        // Throw attempt at close range
+        host.changeState(ai, "throw_startup");
+      } else if (roll < 0.88) {
+        // Jump-in attack for pressure
+        host.changeState(ai, "jump_fwd");
+        ai.vy = -(host.jumpForceFor(arch) * ai.data.frameProfile.jumpForceMult);
+        ai.airborne = true;
+      } else if (roll < 0.94) {
+        // Heavy punch for damage
+        host.changeState(ai, "heavy_charge");
+        ai.heavyChargeFrames = 0;
+      } else {
+        // Dash in for pressure then attack next frame
+        if (ai.dashCooldownFrames <= 0) {
+          const dir = ai.x < player.x ? 1 : -1;
+          const walkSpeed = host.walkSpeedFor(arch) * ai.data.frameProfile.walkSpeedMult;
+          host.changeState(ai, "dash_fwd");
+          ai.vx = dir * walkSpeed * 2.5;
+          ai.dashCooldownFrames = 30;
+        }
+      }
+      ai.hitThisAttack = false;
+    } else {
+      // Idle — but reposition or feint
+      const idleRoll = Math.random();
+      if (idleRoll < 0.25) {
+        // Walk forward (pressure)
+        const dir = ai.x < player.x ? 1 : -1;
+        const walkSpeed = host.walkSpeedFor(arch) * ai.data.frameProfile.walkSpeedMult;
+        ai.vx = dir * walkSpeed * 0.5;
+        host.changeState(ai, "walk_fwd");
+      } else if (idleRoll < 0.40) {
+        // Walk back (bait attacks)
+        const dir = ai.x < player.x ? -1 : 1;
+        const walkSpeed = host.walkSpeedFor(arch) * ai.data.frameProfile.walkSpeedMult;
+        ai.vx = dir * walkSpeed * 0.4;
+        host.changeState(ai, "walk_back");
+      } else if (idleRoll < 0.50) {
+        // Crouch (change posture)
+        ai.isCrouching = true;
+        host.changeState(ai, "crouch");
+      } else {
+        host.changeState(ai, "idle");
+        ai.vx = 0;
+      }
+    }
+  }
+
+  ai.aiTimer = 0;
 }
