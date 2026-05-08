@@ -53,6 +53,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Locke never flinches at the cost. He simply adds it to someone else's invoice.",
   rulesVersion: "1.1.0",
-  trial_categories: ["offensive"] as const,
+  trial_categories: ["confession", "offensive"] as const,
   verdict_delta: 1,
 };

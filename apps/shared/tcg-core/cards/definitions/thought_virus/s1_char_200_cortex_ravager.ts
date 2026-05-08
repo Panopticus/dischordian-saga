@@ -40,6 +40,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "It does not speak. It does not need to. Every blow is a sentence erased from your memory.",
   rulesVersion: "1.1.0",
-  trial_categories: ["evidence"] as const,
+  trial_categories: ["confession", "evidence", "reactive"] as const,
   verdict_delta: 1,
 };

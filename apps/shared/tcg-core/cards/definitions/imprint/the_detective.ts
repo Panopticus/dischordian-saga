@@ -31,8 +31,7 @@ export const the_detective_t2: CardDefinition = {
   abilities: [
     { id: "det_t2_draw" as CardDefinition["abilities"][number]["id"],
       trigger: { kind: "on_deploy" },
-      effect: { op: "draw", amount: { kind: "const", value: 1 }, who: "self" } },
-  ],
+      effect: { op: "draw", amount: { kind: "const", value: 1 }, who: "self" } }],
   art: assetUrl("art/cards/imprint/detective_t2.webp"),
   flavorText: "Backstab. On deploy, draw 1. He has already read the next page of the case file.",
   rulesVersion: "1.1.0",
@@ -49,12 +48,11 @@ export const the_detective_t3: CardDefinition = {
   name: "Imprint: The Detective (Rare)",
   faction: "antiquarian", cardType: "unit", rarity: "rare",
   cost: 4, baseStats: { power: 3, health: 4 },
-  keywords: ["backstab", "deathwatch"],
+  keywords: ["backstab"],
   abilities: [
     { id: "det_t3_draw" as CardDefinition["abilities"][number]["id"],
       trigger: { kind: "on_deploy" },
-      effect: { op: "draw", amount: { kind: "const", value: 1 }, who: "self" } },
-  ],
+      effect: { op: "draw", amount: { kind: "const", value: 1 }, who: "self" } }],
   art: assetUrl("art/cards/imprint/detective_t3.webp"),
   flavorText: "Backstab. Deathwatch. On deploy, draw 1. Every corpse is evidence and evidence compounds.",
   rulesVersion: "1.1.0",
@@ -71,12 +69,11 @@ export const the_detective_t4: CardDefinition = {
   name: "Imprint: The Detective (Epic)",
   faction: "antiquarian", cardType: "unit", rarity: "epic",
   cost: 5, baseStats: { power: 4, health: 5 },
-  keywords: ["backstab", "deathwatch"],
+  keywords: ["backstab"],
   abilities: [
     { id: "det_t4_draw" as CardDefinition["abilities"][number]["id"],
       trigger: { kind: "on_deploy" },
-      effect: { op: "draw", amount: { kind: "const", value: 2 }, who: "self" } },
-  ],
+      effect: { op: "draw", amount: { kind: "const", value: 2 }, who: "self" } }],
   art: assetUrl("art/cards/imprint/detective_t4.webp"),
   flavorText: "Backstab. Deathwatch. On deploy, draw 2. He is already reading three pages ahead. He is reading the ending. He is tolerating the ending.",
   rulesVersion: "1.1.0",
@@ -89,12 +86,11 @@ export const the_detective_t5: CardDefinition = {
   name: "The Detective, Final Page",
   faction: "antiquarian", cardType: "unit", rarity: "legendary",
   cost: 6, baseStats: { power: 5, health: 6 },
-  keywords: ["backstab", "deathwatch"],
+  keywords: ["backstab"],
   abilities: [
     { id: "det_t5_draw" as CardDefinition["abilities"][number]["id"],
       trigger: { kind: "on_deploy" },
-      effect: { op: "draw", amount: { kind: "const", value: 3 }, who: "self" } },
-  ],
+      effect: { op: "draw", amount: { kind: "const", value: 3 }, who: "self" } }],
   art: assetUrl("art/cards/imprint/detective_t5.webp"),
   flavorText:
     "Backstab. Deathwatch. On deploy, draw 3. The Detective has been working this case since the first chapter was a rumor. He already knows who did it, he already knows why, he is here because the reader still has to be shown.",
@@ -104,5 +100,4 @@ export const the_detective_t5: CardDefinition = {
 };
 
 export const THE_DETECTIVE_IMPRINT_SET: readonly CardDefinition[] = Object.freeze([
-  the_detective_t1, the_detective_t2, the_detective_t3, the_detective_t4, the_detective_t5,
-]);
+  the_detective_t1, the_detective_t2, the_detective_t3, the_detective_t4, the_detective_t5]);

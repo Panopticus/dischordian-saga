@@ -43,6 +43,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Every war she catalogues makes the next one easier to survive. Twelve endings collected. Yours need not be the thirteenth.",
   rulesVersion: "1.1.0",
-  trial_categories: ["evidence", "narrative"] as const,
+  trial_categories: ["confession", "evidence", "narrative"] as const,
   verdict_delta: 1,
 };

@@ -30,7 +30,7 @@ export const cardDef: CardDefinition = {
   rarity: "epic",
   cost: 5,
   baseStats: { power: 4, health: 6 },
-  keywords: ["deathwatch"],
+  keywords: [],
   abilities: [
     {
       id: "ts_deathwatch_power" as CardDefinition["abilities"][number]["id"],
@@ -41,8 +41,7 @@ export const cardDef: CardDefinition = {
         duration: { kind: "permanent" },
         to: { kind: "self" },
       },
-    },
-  ],
+    }],
   art: assetUrl("art/cards/s1_reward_crew_sacrifice.webp"),
   flavorText:
     "Sacrificed during the Outbreak. Her crew remembers.",
