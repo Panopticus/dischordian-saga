@@ -46,7 +46,10 @@
     "0071_drop_nft_card_columns",
     "0072_drop_dead_notification_variants",
     "0073_trade_missions",
-    "0074_drop_character_sheets_avatar_url"
+    "0074_drop_character_sheets_avatar_url",
+    "0075_global_alignment_meter",
+    "0076_soul_stones",
+    "0077_pet_breeding_pairs"
   ],
   "knownPrefixCollisions": [
     "0037",
