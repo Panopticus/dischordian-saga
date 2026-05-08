@@ -5853,6 +5853,108 @@ export type TradeEmpireUserAggregateRow =
   typeof tradeEmpireUserAggregates.$inferSelect;
 
 /* ═══════════════════════════════════════════════════════
+   COLONY COMMERCE TABLES — Trade Empire Phase B extension.
+   Three normalized tables backing the Veska / Inception-Ark
+   founding-lane surface. See apps/shared/tradeEmpire/colonyCommerce.ts
+   for the type + economics canon and apps/server/routers/colonyCommerce.ts
+   for the runtime.
+   ═══════════════════════════════════════════════════════ */
+
+/**
+ * Active colony lane. One row per founding voyage in flight; on
+ * arrival, the row's status flips to "arrived" and a colonyWorlds
+ * row is created in the same transaction.
+ */
+export const colonyLanes = mysqlTable("colony_lanes", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  /** Stable lane id (e.g., "lane_<userId>_<bloodlineKey>_<sectorId>_<signedAt>"). */
+  laneId: varchar("laneId", { length: 192 }).notNull(),
+  sectorId: varchar("sectorId", { length: 128 }).notNull(),
+  /** ColonyVesselClass — colony_ship_basic / arkforge / panoptic. */
+  vesselClass: varchar("vesselClass", { length: 64 }).notNull(),
+  /**
+   * Bloodline being seeded. References crewBloodlines.bloodlineKey
+   * via the (userId, bloodlineKey) composite — application-level FK,
+   * not a hard SQL FK because crewBloodlines.bloodlineKey is unique
+   * only within (userId, bloodlineKey).
+   */
+  bloodlineKey: varchar("bloodlineKey", { length: 64 }).notNull(),
+  signedAt: bigint("signedAt", { mode: "number" }).notNull(),
+  durationMs: bigint("durationMs", { mode: "number" }).notNull(),
+  /** Dream tokens charged at signing, AFTER founding-tariff + founder discounts. */
+  tariffPaid: int("tariffPaid").notNull().default(0),
+  /** "in_voyage" | "arrived" | "abandoned" */
+  status: varchar("status", { length: 24 }).notNull().default("in_voyage"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  userIdIdx: index("idx_colony_lanes_user_id").on(table.userId),
+  userLaneUniq: uniqueIndex("uniq_colony_lanes_user_lane").on(
+    table.userId,
+    table.laneId,
+  ),
+  userStatusIdx: index("idx_colony_lanes_user_status").on(
+    table.userId,
+    table.status,
+  ),
+}));
+export type ColonyLaneRow = typeof colonyLanes.$inferSelect;
+export type InsertColonyLane = typeof colonyLanes.$inferInsert;
+
+/**
+ * Founded colony world. One row per seeded sector. The colony's
+ * generation count ticks via recordGenerationTick; first export
+ * fires when the count crosses FIRST_EXPORT_GENERATION (= 2).
+ */
+export const colonyWorlds = mysqlTable("colony_worlds", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  /** Stable colony id (mirrors the lane id that birthed it for traceability). */
+  colonyId: varchar("colonyId", { length: 192 }).notNull(),
+  sectorId: varchar("sectorId", { length: 128 }).notNull(),
+  bloodlineKey: varchar("bloodlineKey", { length: 64 }).notNull(),
+  /** Veska's harbor ledger writes the colony's name on signing. */
+  name: varchar("name", { length: 128 }).notNull(),
+  foundedAt: timestamp("foundedAt").defaultNow().notNull(),
+  currentGeneration: int("currentGeneration").notNull().default(1),
+  /** ms-since-epoch of the last export tick; null until first export. */
+  lastExportAt: bigint("lastExportAt", { mode: "number" }),
+  totalExportValue: int("totalExportValue").notNull().default(0),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  userIdIdx: index("idx_colony_worlds_user_id").on(table.userId),
+  userColonyUniq: uniqueIndex("uniq_colony_worlds_user_colony").on(
+    table.userId,
+    table.colonyId,
+  ),
+  userSectorIdx: index("idx_colony_worlds_user_sector").on(
+    table.userId,
+    table.sectorId,
+  ),
+}));
+export type ColonyWorldRow = typeof colonyWorlds.$inferSelect;
+export type InsertColonyWorld = typeof colonyWorlds.$inferInsert;
+
+/**
+ * Per-user founder progress. Single row per user; updated on each
+ * arrival to keep the founder-tier and discount-bps hot-readable
+ * without a COUNT over colonyWorlds.
+ */
+export const colonyFounderProgress = mysqlTable("colony_founder_progress", {
+  userId: int("userId").primaryKey().references(() => users.id, { onDelete: "cascade" }),
+  totalColoniesFounded: int("totalColoniesFounded").notNull().default(0),
+  /** 0..4 — see resolveFounderTier in colonyCommerce.ts. */
+  founderTier: int("founderTier").notNull().default(0),
+  /** Last time founderTier ticked up; null if no tier crossed yet. */
+  lastTierAt: timestamp("lastTierAt"),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+export type ColonyFounderProgressRow =
+  typeof colonyFounderProgress.$inferSelect;
+export type InsertColonyFounderProgress =
+  typeof colonyFounderProgress.$inferInsert;
+
+/* ═══════════════════════════════════════════════════════
    PHASE 6 INFRASTRUCTURE — Per-NPC ask-topics + dialog tree state
    See apps/shared/npcs/askTopics.ts (AskTopic registry) +
    apps/shared/npcs/dialogTrees/ (per-NPC trees) +

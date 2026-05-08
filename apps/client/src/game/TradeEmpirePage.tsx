@@ -46,6 +46,7 @@ import {
 } from "./techTree";
 import { FlaskConical, Coins, Handshake, Skull, Building2, FileSignature } from "lucide-react";
 import { LockeConfidentialLedgerPanel } from "@/components/tradeEmpire/LockeConfidentialLedgerPanel";
+import ColonyCommercePanel from "@/components/tradeEmpire/ColonyCommercePanel";
 import { getDominantGuild } from "@/game/archonTrainingVoices";
 import { getProfessorByArchon } from "@shared/mechronisProfessors";
 import type { LedgerPayoutKind } from "@shared/lockeConfidentialLedger";
@@ -1783,6 +1784,20 @@ export default function TradeEmpirePage() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* ═══════════════════════════════════════════════════════
+          COLONY COMMERCE PANEL — Veska's harbor.
+          Gated behind mech_colony_commerce_tutor_seen (Veska's
+          Act 3→4 hangar cinematic). The panel is the canonical
+          surface for the breeding → trade-empire two-stage handoff:
+          mature bloodlines from the Inception Ark become founding
+          lanes the Trade Empire underwrites.
+         ═══════════════════════════════════════════════════════ */}
+      {gameState.narrativeFlags?.mech_colony_commerce_tutor_seen && (
+        <div className="max-w-6xl mx-auto mt-6 relative z-10">
+          <ColonyCommercePanel />
+        </div>
+      )}
     </div>
   );
 }

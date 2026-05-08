@@ -1,5 +1,5 @@
 {
-  "_comment": "Migration drift baseline. The 42 .sql files listed here exist in apps/db/ but have no corresponding entry in apps/db/meta/_journal.json. They were authored via direct SQL writes (not pnpm db:generate) before the migration-hygiene CI guard was added (CONNECTION_AUDIT 2026-05-07 \u00a73.4). The baseline is grandfathered: PRs that resolve a drifted file (by re-generating it through pnpm db:generate to land both the .sql + journal entry, OR by deleting it if obsolete) MUST remove the corresponding entry here. PRs cannot ADD new entries \u2014 new migrations have to land via the journal flow. See apps/db/migrations/README.md for the cutover plan.",
+  "_comment": "Migration drift baseline. The .sql files listed here exist in apps/db/ but have no corresponding entry in apps/db/meta/_journal.json. They were authored via direct SQL writes (not pnpm db:generate) because the snapshot meta is stale and pnpm db:generate prompts interactively for ~30 stale rename/create decisions before reaching the new schema diff. The baseline is grandfathered: PRs that resolve a drifted file (by re-generating it through pnpm db:generate to land both the .sql + journal entry, OR by deleting it if obsolete) MUST remove the corresponding entry here. New entries land here only when journal flow is unavailable; document the addition in migrations/README.md or the PR description. See apps/db/migrations/README.md for the cutover plan.",
   "driftedSqlFiles": [
     "0036_admin_approval_requests",
     "0037_dead_mans_circuit_lifecycle",
@@ -42,7 +42,8 @@
     "0067_indexes_and_fks",
     "0068_user_blocks",
     "0069_support_impersonation_grants",
-    "0070_user_cohort_columns"
+    "0070_user_cohort_columns",
+    "0072_colony_commerce"
   ],
   "knownPrefixCollisions": [
     "0037",
