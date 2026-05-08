@@ -6,6 +6,11 @@ import { motion } from "framer-motion";
 import {
   Search, Users, MapPin, Swords, Music, Eye, Play, Filter, X, Terminal, Sparkles
 } from "lucide-react";
+import {
+  LOREDEX_CLUSTER_LABELS,
+  LOREDEX_CLUSTER_ORDER,
+  tallyConceptClusters,
+} from "@shared/loredexClusters";
 
 const TYPE_ICONS: Record<string, typeof Users> = {
   character: Users,
@@ -33,23 +38,42 @@ const TYPE_BG: Record<string, string> = {
 
 export default function SearchPage() {
   const searchParams = useSearch();
-  const urlType = new URLSearchParams(searchParams).get("type") || "";
+  const urlParams = new URLSearchParams(searchParams);
+  const urlType = urlParams.get("type") || "";
+  const urlCluster = urlParams.get("cluster") || "";
   const [query, setQuery] = useState("");
   const [activeType, setActiveType] = useState(urlType);
+  const [activeCluster, setActiveCluster] = useState(urlCluster);
   const { entries, search, getByType, discoverEntry, resolveAlias, getAliases } = useLoredex();
   const { playSong } = usePlayer();
 
   useEffect(() => {
     if (urlType) setActiveType(urlType);
-  }, [urlType]);
+    if (urlCluster) {
+      setActiveCluster(urlCluster);
+      // Cluster filter only applies to concepts; force the type
+      // chip so the UI is consistent with the URL parameter.
+      setActiveType("concept");
+    }
+  }, [urlType, urlCluster]);
+
+  // Pre-compute per-cluster counts so the chip rail can show
+  // how many concepts each cluster holds (and hide empty
+  // clusters automatically).
+  const clusterCounts = useMemo(() => tallyConceptClusters(entries), [entries]);
 
   const results = useMemo(() => {
     let filtered = query ? search(query) : entries;
     if (activeType) {
       filtered = filtered.filter((e) => e.type === activeType);
     }
+    if (activeCluster) {
+      filtered = filtered.filter(
+        (e) => e.type === "concept" && (e.cluster ?? "") === activeCluster,
+      );
+    }
     return filtered;
-  }, [query, activeType, entries]);
+  }, [query, activeType, activeCluster, entries]);
 
   const types = ["", "character", "location", "faction", "song", "concept"];
 
@@ -84,7 +108,7 @@ export default function SearchPage() {
       </div>
 
       {/* Type Filters */}
-      <div className="flex flex-wrap gap-2 mb-5">
+      <div className="flex flex-wrap gap-2 mb-3">
         {types.map((type) => {
           const Icon = type ? TYPE_ICONS[type] || Eye : Filter;
           const label = type ? type.toUpperCase() : "ALL";
@@ -94,7 +118,13 @@ export default function SearchPage() {
           return (
             <button
               key={type}
-              onClick={() => setActiveType(active && type ? "" : type)}
+              onClick={() => {
+                const next = active && type ? "" : type;
+                setActiveType(next);
+                // Clearing concept type clears the cluster filter
+                // so the chip row below collapses cleanly.
+                if (next !== "concept") setActiveCluster("");
+              }}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-[10px] font-mono tracking-wider border transition-all ${
                 active
                   ? type ? `${TYPE_BG[type]} ${TYPE_COLORS[type]}` : "bg-primary/15 border-primary/30 text-primary"
@@ -107,10 +137,53 @@ export default function SearchPage() {
         })}
       </div>
 
+      {/* audit/14.F1 — cluster sub-filter, visible only when
+          concept type is active. Each chip filters the result
+          set down to a single thematic cluster. */}
+      {(activeType === "concept" || activeCluster) && (
+        <div
+          className="flex flex-wrap gap-2 mb-5 pl-3 border-l-2 border-[var(--void-success)]/30"
+          data-testid="loredex-cluster-filter-row"
+        >
+          <span className="font-mono text-[9px] tracking-[0.15em] text-muted-foreground/70 self-center">
+            CLUSTER:
+          </span>
+          {LOREDEX_CLUSTER_ORDER.map((cid) => {
+            const count = clusterCounts[cid] ?? 0;
+            if (!count) return null;
+            const active = activeCluster === cid;
+            return (
+              <button
+                key={cid}
+                onClick={() => setActiveCluster(active ? "" : cid)}
+                data-testid={`cluster-chip-${cid}`}
+                data-active={active ? "true" : "false"}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-[10px] font-mono tracking-wider border transition-all ${
+                  active
+                    ? "bg-[var(--void-success-subtle)] border-[var(--void-success)]/40 void-text-energy"
+                    : "bg-secondary/20 border-border/20 text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {LOREDEX_CLUSTER_LABELS[cid] ?? cid} ({count})
+              </button>
+            );
+          })}
+          {activeCluster && (
+            <button
+              onClick={() => setActiveCluster("")}
+              className="flex items-center gap-1 px-2 py-1.5 rounded-md text-[10px] font-mono text-muted-foreground/60 hover:text-foreground transition-colors"
+            >
+              <X size={10} /> CLEAR
+            </button>
+          )}
+        </div>
+      )}
+
       {/* Results Count */}
       <p className="font-mono text-[10px] text-muted-foreground/50 mb-3">
         {results.length} RESULT{results.length !== 1 ? "S" : ""} FOUND
         {query && ` FOR "${query.toUpperCase()}"`}
+        {activeCluster && ` · CLUSTER: ${((LOREDEX_CLUSTER_LABELS as Record<string, string>)[activeCluster] ?? activeCluster).toUpperCase()}`}
       </p>
 
       {/* Results Grid */}
