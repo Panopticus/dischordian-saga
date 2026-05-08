@@ -430,5 +430,266 @@
     "emotion": "tender",
     "bucket": "romance",
     "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "scholar_male_dlg_past_opener_0",
+    "character": "apprentice_scholar_male",
+    "text": "I found a footnote in my grandfather's copy of the Founders' Chronicle that he had written in the margin in a hand that was not his.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "scholar_male_dlg_past_opener_1",
+    "character": "apprentice_scholar_male",
+    "text": "I have spent eleven cycles trying to figure out whose hand it was.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "scholar_male_dlg_past_s_past_warm_reply_0",
+    "character": "apprentice_scholar_male",
+    "text": "I narrowed it to four people. Two of them died before he was born. That makes for an excellent paper and an unsolvable problem. I am, mostly, reconciled.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "scholar_male_dlg_past_s_past_probe_reply_0",
+    "character": "apprentice_scholar_male",
+    "text": "Because the footnote contradicts the body of the text. Whoever wrote it knew something the canon didn't. If I find them, I find a hidden voice. The canon shifts.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "scholar_male_dlg_past_s_past_probe_s_past_probe_deep_reply_0",
+    "character": "apprentice_scholar_male",
+    "text": "'The Founders did not arrive in twelve. They arrived in thirteen. The thirteenth was eaten by procedure.'",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "scholar_male_dlg_past_s_past_probe_s_past_probe_deep_reply_1",
+    "character": "apprentice_scholar_male",
+    "text": "I have not been able to publish it. The disciplines are not ready. I'm telling you because you read me twice before you replied. That is the proper review pace.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "scholar_male_dlg_past_s_past_probe_s_past_probe_back_reply_0",
+    "character": "apprentice_scholar_male",
+    "text": "Sometimes. I have considered the possibility. I have not yet decided to believe it.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "scholar_male_dlg_past_s_past_cold_reply_0",
+    "character": "apprentice_scholar_male",
+    "text": "I prefer to call it a research arc. The decade was well spent. The hobby insults itself.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "scholar_male_dlg_calling_opener_0",
+    "character": "apprentice_scholar_male",
+    "text": "Every page is a conversation between the people who wrote it and the people who read it. The footnotes are the only place the readers get to talk back.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "scholar_male_dlg_calling_opener_1",
+    "character": "apprentice_scholar_male",
+    "text": "I am, mostly, the back-talker.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "scholar_male_dlg_calling_s_call_warm_reply_0",
+    "character": "apprentice_scholar_male",
+    "text": "So the next reader hears more than one voice. Most canon was written by people who thought they were finishing something. They weren't. I keep the conversation open.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "scholar_male_dlg_calling_s_call_probe_reply_0",
+    "character": "apprentice_scholar_male",
+    "text": "Once. I corrected my own correction of someone's correction. It took the disciplines two cycles to find the path back. I learned the lesson — citations have a half-life.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "scholar_male_dlg_calling_s_call_probe_s_call_probe_deep_reply_0",
+    "character": "apprentice_scholar_male",
+    "text": "About six cycles. After that the marginalia outweighs the original. I add a closing note. I publish the whole. The next scholar starts again from clean text. That is the cycle.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "scholar_male_dlg_calling_s_call_probe_s_call_probe_back_reply_0",
+    "character": "apprentice_scholar_male",
+    "text": "I write the closing note before I think I need it. I publish a cycle early, not late. Most of the corners I've seen come from waiting.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "scholar_male_dlg_calling_s_call_cold_reply_0",
+    "character": "apprentice_scholar_male",
+    "text": "Then the conversation closes. The page becomes a tomb. I'd rather have the noise.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "scholar_male_dlg_mortality_opener_0",
+    "character": "apprentice_scholar_male",
+    "text": "If I die, cite me Vancouver style. Year. Title in italics. Page numbers exact. Don't paraphrase.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "scholar_male_dlg_mortality_opener_1",
+    "character": "apprentice_scholar_male",
+    "text": "Above all, do not cite me with the wrong middle initial. The disciplines will know you didn't read me.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "scholar_male_dlg_mortality_s_mort_warm_reply_0",
+    "character": "apprentice_scholar_male",
+    "text": "Then you'll see the corrections I've already made. The third draft is the one to keep. The first two are footnotes to themselves.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "scholar_male_dlg_mortality_s_mort_probe_reply_0",
+    "character": "apprentice_scholar_male",
+    "text": "Yes. Worse than dying. My grandfather's footnote may be misread for centuries. I refuse to be the next misread footnote.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "scholar_male_dlg_mortality_s_mort_probe_s_mort_probe_deep_reply_0",
+    "character": "apprentice_scholar_male",
+    "text": "Read me twice. The first read is the words. The second read is the silences between citations. Most of my arguments live in the silences. Bring me to the bench when you're ready and we'll start on the third draft together.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "scholar_male_dlg_mortality_s_mort_probe_s_mort_probe_back_reply_0",
+    "character": "apprentice_scholar_male",
+    "text": "Doing your best is the citation I want most. The disciplines will catch the rest.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "scholar_male_dlg_mortality_s_mort_cold_reply_0",
+    "character": "apprentice_scholar_male",
+    "text": "No. They keep me from being silenced twice. Once is enough.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "scholar_male_dlg_us_opener_0",
+    "character": "apprentice_scholar_male",
+    "text": "I keep a private folder. Annotations on you. Not for publication.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "scholar_male_dlg_us_opener_1",
+    "character": "apprentice_scholar_male",
+    "text": "The first entry is from cycle two. The most recent is from this morning.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "scholar_male_dlg_us_s_us_warm_reply_0",
+    "character": "apprentice_scholar_male",
+    "text": "Then I'll bring it to your quarters tonight. We'll read it together. You'll find footnotes in your hand that you didn't write. I have been borrowing your phrasing for months.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "scholar_male_dlg_us_s_us_probe_reply_0",
+    "character": "apprentice_scholar_male",
+    "text": "'Subject paused before answering, an action against type. Subject is reconsidering the question. Subject is, in fact, often reconsidering. The footnotes about being decisive should be retracted.'",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "scholar_male_dlg_us_s_us_probe_s_us_probe_deep_reply_0",
+    "character": "apprentice_scholar_male",
+    "text": "Retracted. The retraction is now its own footnote. The folder is heavier. So am I, in a way I am still adjusting to.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "scholar_male_dlg_us_s_us_probe_s_us_probe_step_reply_0",
+    "character": "apprentice_scholar_male",
+    "text": "I'll keep them. The folder will wait. So will I.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "scholar_male_dlg_us_s_us_cold_reply_0",
+    "character": "apprentice_scholar_male",
+    "text": "Then I'll close the folder. It will be the most expensive retraction I have ever filed. I will file it.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
   }
 ]

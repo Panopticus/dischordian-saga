@@ -138,6 +138,24 @@ CREATE TABLE IF NOT EXISTS \`recruitment_quest_progress\` (
 )
 `;
 
+const APPRENTICE_DIALOGUE_PROGRESS_SQL = `
+CREATE TABLE IF NOT EXISTS \`apprentice_dialogue_progress\` (
+  \`id\` INT AUTO_INCREMENT NOT NULL,
+  \`userId\` INT NOT NULL,
+  \`memberKey\` VARCHAR(64) NOT NULL,
+  \`topicId\` VARCHAR(64) NOT NULL,
+  \`pathChoices\` JSON NOT NULL,
+  \`flagsSet\` JSON NOT NULL,
+  \`bondDeltaApplied\` INT NOT NULL DEFAULT 0,
+  \`playedAt\` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT \`apprentice_dialogue_progress_id\` PRIMARY KEY(\`id\`),
+  CONSTRAINT \`uq_adp_user_member_topic\` UNIQUE(\`userId\`, \`memberKey\`, \`topicId\`),
+  CONSTRAINT \`adp_userId_users_id_fk\`
+    FOREIGN KEY (\`userId\`) REFERENCES \`users\`(\`id\`) ON DELETE CASCADE,
+  INDEX \`idx_adp_user_member\` (\`userId\`, \`memberKey\`)
+)
+`;
+
 export async function bootstrapUnifiedRosterTables(): Promise<void> {
   const db = await getDb();
   if (!db) {
@@ -172,6 +190,7 @@ export async function bootstrapUnifiedRosterTables(): Promise<void> {
     await db.execute(sql.raw(NPC_WORLD_DEATH_STATE_SQL));
     await db.execute(sql.raw(APPRENTICE_ROMANCE_ARC_SQL));
     await db.execute(sql.raw(RECRUITMENT_QUEST_PROGRESS_SQL));
+    await db.execute(sql.raw(APPRENTICE_DIALOGUE_PROGRESS_SQL));
     logger.info("[unifiedRosterBootstrap] tables ensured");
   } catch (err) {
     logger.error(

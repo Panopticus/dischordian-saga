@@ -430,5 +430,257 @@
     "emotion": "tender",
     "bucket": "romance",
     "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "wanderer_female_dlg_past_opener_0",
+    "character": "apprentice_wanderer_female",
+    "text": "There was a maintenance tunnel between two greenhouses on the colony I grew up in. It was the only path I was not supposed to take.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "wanderer_female_dlg_past_opener_1",
+    "character": "apprentice_wanderer_female",
+    "text": "I walked it three times a week for nine years.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "wanderer_female_dlg_past_w_past_warm_reply_0",
+    "character": "apprentice_wanderer_female",
+    "text": "The greenhouse keeper. Once. She gave me a cutting from a tomato vine and told me to take a different path home. I planted the tomato in the second greenhouse. She never said anything.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "wanderer_female_dlg_past_w_past_probe_reply_0",
+    "character": "apprentice_wanderer_female",
+    "text": "A door I never opened. The door was locked. The lock was the only one I left alone in the whole colony. I needed something to come back to.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "wanderer_female_dlg_past_w_past_probe_w_past_probe_deep_reply_0",
+    "character": "apprentice_wanderer_female",
+    "text": "Last cycle. The tunnel is collapsed. The door is rubble. I stood outside the rubble for an hour. Then I walked another road. The tomato vine is fine. I checked.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "wanderer_female_dlg_past_w_past_probe_w_past_probe_back_reply_0",
+    "character": "apprentice_wanderer_female",
+    "text": "It is. In some version. The version that's still locked is the version I keep.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "wanderer_female_dlg_past_w_past_cold_reply_0",
+    "character": "apprentice_wanderer_female",
+    "text": "Yes. The excuse and the truth are the same word, said twice.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "wanderer_female_dlg_calling_opener_0",
+    "character": "apprentice_wanderer_female",
+    "text": "Most people stay because the next place is too far. I move because the next place is close enough to walk to before sundown.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "wanderer_female_dlg_calling_opener_1",
+    "character": "apprentice_wanderer_female",
+    "text": "The next place is always close enough.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "wanderer_female_dlg_calling_w_call_warm_reply_0",
+    "character": "apprentice_wanderer_female",
+    "text": "Then we leave at second bell. I won't tell you where. You'll know when we get there. The walk is the destination. The destination is, mostly, an excuse.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "wanderer_female_dlg_calling_w_call_probe_reply_0",
+    "character": "apprentice_wanderer_female",
+    "text": "Twice. Once with a baker. Once with a mountain. Both ended. The baker died. The mountain didn't. I haven't tried since.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "wanderer_female_dlg_calling_w_call_probe_w_call_probe_deep_reply_0",
+    "character": "apprentice_wanderer_female",
+    "text": "It is on Calderon. There is a ridge that looks like a sleeping animal. I sat on the ridge for two cycles. The mountain did not require me to leave. I left anyway. I am still angry at myself about that.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "wanderer_female_dlg_calling_w_call_probe_w_call_probe_back_reply_0",
+    "character": "apprentice_wanderer_female",
+    "text": "Maybe. The kettle's on the long table. That's the longest I've stayed in any one room. I notice the kettle.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "wanderer_female_dlg_calling_w_call_cold_reply_0",
+    "character": "apprentice_wanderer_female",
+    "text": "Sometimes. Most of the time it's circling. Different verb. Different exhaustion.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "wanderer_female_dlg_mortality_opener_0",
+    "character": "apprentice_wanderer_female",
+    "text": "Outside. Walking. Not in a bed.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "wanderer_female_dlg_mortality_opener_1",
+    "character": "apprentice_wanderer_female",
+    "text": "If I die in a bed, you have failed me. I will not haunt you about it. I will be irritated.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "wanderer_female_dlg_mortality_w_mort_warm_reply_0",
+    "character": "apprentice_wanderer_female",
+    "text": "Even a corridor counts. I am not picky. The wind would be best. The wind is rare on arks.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "wanderer_female_dlg_mortality_w_mort_probe_reply_0",
+    "character": "apprentice_wanderer_female",
+    "text": "Then I will adapt. I have adapted to worse. The bed will not be my preference. It will not be my failure.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "wanderer_female_dlg_mortality_w_mort_probe_w_mort_probe_deep_reply_0",
+    "character": "apprentice_wanderer_female",
+    "text": "Then the wind will reach me. That's the only ceremony I want.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "wanderer_female_dlg_mortality_w_mort_probe_w_mort_probe_back_reply_0",
+    "character": "apprentice_wanderer_female",
+    "text": "What you can is what I'm asking. The bed is the only thing I'll be irritated about.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "wanderer_female_dlg_mortality_w_mort_cold_reply_0",
+    "character": "apprentice_wanderer_female",
+    "text": "Then I will die badly. I will say so before I do. Don't pretend it was peaceful. Pretending insults the road.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "wanderer_female_dlg_us_opener_0",
+    "character": "apprentice_wanderer_female",
+    "text": "Three cycles is the longest I've stayed in any one place since the mountain.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "wanderer_female_dlg_us_opener_1",
+    "character": "apprentice_wanderer_female",
+    "text": "I keep meaning to leave. The kettle keeps whistling. I keep listening.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "wanderer_female_dlg_us_w_us_warm_reply_0",
+    "character": "apprentice_wanderer_female",
+    "text": "Then I'll stop meaning to leave. I'll keep meaning to walk in the morning. The walk and the leaving will become different things.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "wanderer_female_dlg_us_w_us_probe_reply_0",
+    "character": "apprentice_wanderer_female",
+    "text": "Because nobody asked me to stay. The greenhouse keeper gave me a cutting and a different path. You give me a kettle and the door open. The two are very similar.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "wanderer_female_dlg_us_w_us_probe_w_us_probe_deep_reply_0",
+    "character": "apprentice_wanderer_female",
+    "text": "Then I'll come back through it. Most of the time. Once or twice I won't. You'll know I will eventually.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "wanderer_female_dlg_us_w_us_probe_w_us_probe_step_reply_0",
+    "character": "apprentice_wanderer_female",
+    "text": "I will. The kettle is patient. So are you, surprisingly.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "wanderer_female_dlg_us_w_us_cold_reply_0",
+    "character": "apprentice_wanderer_female",
+    "text": "Then I will. Not now. Soon. The kettle will whistle for somebody else. You'll have less to listen to. So will I.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
   }
 ]

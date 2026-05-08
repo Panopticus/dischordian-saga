@@ -430,5 +430,257 @@
     "emotion": "tender",
     "bucket": "romance",
     "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "sentinel_male_dlg_past_opener_0",
+    "character": "apprentice_sentinel_male",
+    "text": "I was fourteen. My father's tool shed. I stood the door because someone had broken in twice.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "sentinel_male_dlg_past_opener_1",
+    "character": "apprentice_sentinel_male",
+    "text": "The third time, I caught them. They were eight. I let them keep the screwdriver. They did not come back.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "sentinel_male_dlg_past_se_past_warm_reply_0",
+    "character": "apprentice_sentinel_male",
+    "text": "Because they were eight. Because the screwdriver was old. Because I had stood the door for the right reason and the catching was not the same as the punishment.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "sentinel_male_dlg_past_se_past_probe_reply_0",
+    "character": "apprentice_sentinel_male",
+    "text": "Yes. He saw. He said: 'Good post. Bad outcome.' I disagreed at the time. I agree with half of it now.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "sentinel_male_dlg_past_se_past_probe_se_past_probe_deep_reply_0",
+    "character": "apprentice_sentinel_male",
+    "text": "Good post. The post was correct. The outcome was correct. He was wrong about which half was the half. I learned to argue posts that night.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "sentinel_male_dlg_past_se_past_probe_se_past_probe_back_reply_0",
+    "character": "apprentice_sentinel_male",
+    "text": "I knew the door. The job is more than the door. I learned the rest slower.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "sentinel_male_dlg_past_se_past_cold_reply_0",
+    "character": "apprentice_sentinel_male",
+    "text": "It was. Watches are scaled to the room. The tool shed was my room. I have been promoted since.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "sentinel_male_dlg_calling_opener_0",
+    "character": "apprentice_sentinel_male",
+    "text": "Because someone has to. The relief never comes on time. The post forgives lateness. It does not forgive absence.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "sentinel_male_dlg_calling_opener_1",
+    "character": "apprentice_sentinel_male",
+    "text": "I would rather stand a long watch than miss a short one.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "sentinel_male_dlg_calling_se_call_warm_reply_0",
+    "character": "apprentice_sentinel_male",
+    "text": "Then I will sleep. The first cycle of relief is the hardest. The body has to learn that it is allowed to. I will, eventually, learn.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "sentinel_male_dlg_calling_se_call_probe_reply_0",
+    "character": "apprentice_sentinel_male",
+    "text": "Then I argue it. I have argued three posts in my life. Two arguments worked. The third did not. I stood the third post anyway. The third post turned out to be right. I had been wrong.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "sentinel_male_dlg_calling_se_call_probe_se_call_probe_deep_reply_0",
+    "character": "apprentice_sentinel_male",
+    "text": "The relief came. They confirmed it. I argued the next post differently. The arguments improved. The standing did not change.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "sentinel_male_dlg_calling_se_call_probe_se_call_probe_back_reply_0",
+    "character": "apprentice_sentinel_male",
+    "text": "I will. The argument is part of the post. You'll know I'm doing my job when I disagree.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "sentinel_male_dlg_calling_se_call_cold_reply_0",
+    "character": "apprentice_sentinel_male",
+    "text": "I sit. Between watches. Watches do not sit.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "sentinel_male_dlg_mortality_opener_0",
+    "character": "apprentice_sentinel_male",
+    "text": "If I die at the post, do not skip the watch. Cover it. The post does not stop because I do.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "sentinel_male_dlg_mortality_opener_1",
+    "character": "apprentice_sentinel_male",
+    "text": "If I die away from the post, this is, in fact, a worse failure. Try not to let it happen.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "sentinel_male_dlg_mortality_se_mort_warm_reply_0",
+    "character": "apprentice_sentinel_male",
+    "text": "Then the post will not lapse. That is the only ceremony I want. The post is the body. The body's mine until you take it.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "sentinel_male_dlg_mortality_se_mort_probe_reply_0",
+    "character": "apprentice_sentinel_male",
+    "text": "Then argue it. Then cover it. The order matters. Argument first. Coverage second. Both must happen.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "sentinel_male_dlg_mortality_se_mort_probe_se_mort_probe_deep_reply_0",
+    "character": "apprentice_sentinel_male",
+    "text": "Then you understand. The post is, mostly, an argument shaped like a body. I am content to die at one. Less content to die wrong.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "sentinel_male_dlg_mortality_se_mort_probe_se_mort_probe_back_reply_0",
+    "character": "apprentice_sentinel_male",
+    "text": "Doing your best is the relief I want most.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "sentinel_male_dlg_mortality_se_mort_cold_reply_0",
+    "character": "apprentice_sentinel_male",
+    "text": "Reassignment is for the living. The dead post is a kind of memorial. Do not reassign me. Cover me. The distinction is not pedantic.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "sentinel_male_dlg_us_opener_0",
+    "character": "apprentice_sentinel_male",
+    "text": "Yes. Quietly. The watch likes pairs. Pairs catch what one misses. Most posts I have stood alone. The standing has been worse for it.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "sentinel_male_dlg_us_opener_1",
+    "character": "apprentice_sentinel_male",
+    "text": "I have, in fact, been waiting to ask.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "sentinel_male_dlg_us_se_us_warm_reply_0",
+    "character": "apprentice_sentinel_male",
+    "text": "Then bring tea. Two thermoses. The shift is long. The cold settles in the third hour. The conversation, if any, settles around the fourth.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "sentinel_male_dlg_us_se_us_probe_reply_0",
+    "character": "apprentice_sentinel_male",
+    "text": "The door. The lock. The relief schedule. Eventually: the people on the other side. Eventually: us. The order is important.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "sentinel_male_dlg_us_se_us_probe_se_us_probe_deep_reply_0",
+    "character": "apprentice_sentinel_male",
+    "text": "Then we will get there. The cycle takes about eleven watches. I am, mostly, willing to be patient.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "sentinel_male_dlg_us_se_us_probe_se_us_probe_step_reply_0",
+    "character": "apprentice_sentinel_male",
+    "text": "We don't. The silence is also the watch. I am content with silent watches.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "sentinel_male_dlg_us_se_us_cold_reply_0",
+    "character": "apprentice_sentinel_male",
+    "text": "Then I will continue alone. The post does not require company. The standing is, however, slower without it. I will, mostly, manage.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
   }
 ]

@@ -430,5 +430,257 @@
     "emotion": "tender",
     "bucket": "romance",
     "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "martyr_female_dlg_past_opener_0",
+    "character": "apprentice_martyr_female",
+    "text": "I was eight. My brother was four. He fell off a wall. I caught him with my body. I broke a wrist.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "martyr_female_dlg_past_opener_1",
+    "character": "apprentice_martyr_female",
+    "text": "He said: 'Did you have to?' I said: 'Yes.' We have not had a different conversation since.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "martyr_female_dlg_past_m_past_warm_reply_0",
+    "character": "apprentice_martyr_female",
+    "text": "Alive. Two children. He still asks if I had to. I still say yes. Last cycle he said he was tired of asking. I was tired of saying yes.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "martyr_female_dlg_past_m_past_probe_reply_0",
+    "character": "apprentice_martyr_female",
+    "text": "No. I did it before I knew the word for it. The word came later. The word was a relief. It explained me to myself.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "martyr_female_dlg_past_m_past_probe_m_past_probe_deep_reply_0",
+    "character": "apprentice_martyr_female",
+    "text": "Martyr. I do not love the word. The word is heavy. It has carried me for a long time. I am, mostly, still grateful for the carrying.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "martyr_female_dlg_past_m_past_probe_m_past_probe_back_reply_0",
+    "character": "apprentice_martyr_female",
+    "text": "Don't be. Some of us find the word first. The word finds others. Both ways are hard. The order changes the texture.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "martyr_female_dlg_past_m_past_cold_reply_0",
+    "character": "apprentice_martyr_female",
+    "text": "I know. I have considered the cost. The wrist healed crooked. The crookedness is the only proof I have that it was, in fact, a choice.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "martyr_female_dlg_calling_opener_0",
+    "character": "apprentice_martyr_female",
+    "text": "Because I have done it before. Because the first one didn't kill me. Because the next one might not.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "martyr_female_dlg_calling_opener_1",
+    "character": "apprentice_martyr_female",
+    "text": "Because every other reason has, on close inspection, turned out to be cope.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "martyr_female_dlg_calling_m_call_warm_reply_0",
+    "character": "apprentice_martyr_female",
+    "text": "Then I would not. For a while. I would weigh you against the next person who needed me. You would lose. Not because you are less. Because you would be okay if I did not. The other person would not.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "martyr_female_dlg_calling_m_call_probe_reply_0",
+    "character": "apprentice_martyr_female",
+    "text": "I am working on it. The list is short. You are on it now. The list has lengthened since we met.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "martyr_female_dlg_calling_m_call_probe_m_call_probe_deep_reply_0",
+    "character": "apprentice_martyr_female",
+    "text": "You are on it. The first cycle you held the door for me when I had not asked. I did not say. I am saying now.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "martyr_female_dlg_calling_m_call_probe_m_call_probe_back_reply_0",
+    "character": "apprentice_martyr_female",
+    "text": "I will. The list grows slowly. That is how the list stays a list and not a habit.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "martyr_female_dlg_calling_m_call_cold_reply_0",
+    "character": "apprentice_martyr_female",
+    "text": "I might not be. I am, however, here. As long as I am here, I will be necessary. You will revise the sentence after.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "martyr_female_dlg_mortality_opener_0",
+    "character": "apprentice_martyr_female",
+    "text": "If we go on a mission where the math is clear — where the only way out is through me — let me. Don't save me out of love.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "martyr_female_dlg_mortality_opener_1",
+    "character": "apprentice_martyr_female",
+    "text": "Save me out of usefulness. If I am still useful, save me. If I am not, do not. The distinction matters more than people admit.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "martyr_female_dlg_mortality_m_mort_warm_reply_0",
+    "character": "apprentice_martyr_female",
+    "text": "Then I will be saved badly. I will be alive. I will be wrong about myself. I will, mostly, forgive you. Not entirely.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "martyr_female_dlg_mortality_m_mort_probe_reply_0",
+    "character": "apprentice_martyr_female",
+    "text": "Ask whether the next mission needs me more than this one does. If yes: save me. If no: let me. I will not always know which is which. You will know more often.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "martyr_female_dlg_mortality_m_mort_probe_m_mort_probe_deep_reply_0",
+    "character": "apprentice_martyr_female",
+    "text": "Then we agree. The question is the only ceremony I want before I go. You'll ask it aloud. I'll hear it. I'll go or stay accordingly.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "martyr_female_dlg_mortality_m_mort_probe_m_mort_probe_back_reply_0",
+    "character": "apprentice_martyr_female",
+    "text": "You will. So will I. The wrongness is part of the question. The question is enough.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "martyr_female_dlg_mortality_m_mort_cold_reply_0",
+    "character": "apprentice_martyr_female",
+    "text": "I'm working on it. That's not the same as doing it. Don't ask twice. The asking does not help.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "martyr_female_dlg_us_opener_0",
+    "character": "apprentice_martyr_female",
+    "text": "I am terrible at being given things. I am working on it.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "martyr_female_dlg_us_opener_1",
+    "character": "apprentice_martyr_female",
+    "text": "If you give me something, I will probably try to give it to someone else first. Don't let me.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "martyr_female_dlg_us_m_us_warm_reply_0",
+    "character": "apprentice_martyr_female",
+    "text": "Then I will eat it. I will think about giving the second portion away. I will eat the second portion too. You will be the witness. The witness is the giving.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "martyr_female_dlg_us_m_us_probe_reply_0",
+    "character": "apprentice_martyr_female",
+    "text": "Then I will pretend to sleep so you can sleep. Don't let me. The pretending is the version of me you are trying to retire.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "martyr_female_dlg_us_m_us_probe_m_us_probe_deep_reply_0",
+    "character": "apprentice_martyr_female",
+    "text": "Then I will sleep. Eventually. I have not slept fully in fourteen cycles. I will sleep tonight. The witness is the permission.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "martyr_female_dlg_us_m_us_probe_m_us_probe_step_reply_0",
+    "character": "apprentice_martyr_female",
+    "text": "Keep trying. The trying is the gift. I will start to receive it. Slowly.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "martyr_female_dlg_us_m_us_cold_reply_0",
+    "character": "apprentice_martyr_female",
+    "text": "Don't fix me. The fixing is what people do when they don't know how to receive. You don't have to fix me. You have to let me feed you. That's what receiving will look like.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
   }
 ]

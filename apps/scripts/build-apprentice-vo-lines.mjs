@@ -22,6 +22,7 @@ import { execSync } from "node:child_process";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = join(__dirname, "..", "..");
 const SRC_TS = join(REPO_ROOT, "apps", "shared", "apprenticeVoiceLines.ts");
+const DIALOGUE_TS = join(REPO_ROOT, "apps", "shared", "apprenticeDialogues.ts");
 const OUT_DIR = join(REPO_ROOT, "apps", "scripts");
 
 const ARCHETYPES = [
@@ -75,8 +76,25 @@ async function loadLineBank() {
   return JSON.parse(buf);
 }
 
+/** Pull every NPC line from the BioWare-style branching topics in
+ *  apprenticeDialogues.ts. Returns { archetype: TopicLine[] } where
+ *  each TopicLine carries the topicId + path so we can mint stable
+ *  VO ids that survive re-runs of the generator. */
+async function loadDialogueLines() {
+  const exists = await fs
+    .stat(DIALOGUE_TS)
+    .then(() => true)
+    .catch(() => false);
+  if (!exists) return {};
+  const escaped = DIALOGUE_TS.replace(/\\/g, "\\\\");
+  const dumpCmd = `pnpm tsx -e "import('${escaped}').then(m => { const out = {}; for (const arch of Object.keys(m.APPRENTICE_DIALOGUES)) { const set = m.APPRENTICE_DIALOGUES[arch]; out[arch] = []; for (const t of [set.past, set.calling, set.mortality, set.us]) { for (const l of m.topicLines(t)) out[arch].push(l); } } process.stdout.write(JSON.stringify(out)); })"`;
+  const buf = execSync(dumpCmd, { cwd: REPO_ROOT, encoding: "utf8" });
+  return JSON.parse(buf);
+}
+
 async function main() {
   const bank = await loadLineBank();
+  const dialogues = await loadDialogueLines();
   const summary = [];
   for (const archetype of ARCHETYPES) {
     const lines = bank[archetype];
@@ -84,8 +102,9 @@ async function main() {
       console.warn(`[apprentice-vo] missing lines for ${archetype}`);
       continue;
     }
+    const dialogLines = dialogues[archetype] ?? [];
     for (const gender of GENDERS) {
-      const out = lines.map((l) => ({
+      const baseLines = lines.map((l) => ({
         id: `${archetype}_${gender}_${l.id}`,
         character: `apprentice_${archetype}_${gender}`,
         text: applyPronouns(l.text, gender),
@@ -93,6 +112,16 @@ async function main() {
         bucket: l.bucket,
         file: "shared/apprenticeVoiceLines.ts",
       }));
+      const dialogVO = dialogLines.map((d) => ({
+        id: `${archetype}_${gender}_dlg_${d.topicKind}_${d.path.replace(/[^a-z0-9_]/gi, "_")}`,
+        character: `apprentice_${archetype}_${gender}`,
+        text: applyPronouns(d.text, gender),
+        emotion: "dialogue",
+        bucket: "dialogue",
+        file: "shared/apprenticeDialogues.ts",
+        dialogueTopic: d.topicKind,
+      }));
+      const out = [...baseLines, ...dialogVO];
       const outPath = join(
         OUT_DIR,
         `apprentice-${archetype}-${gender}-lines.json`,

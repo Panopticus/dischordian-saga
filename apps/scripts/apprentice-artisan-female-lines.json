@@ -430,5 +430,257 @@
     "emotion": "tender",
     "bucket": "romance",
     "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "artisan_female_dlg_past_opener_0",
+    "character": "apprentice_artisan_female",
+    "text": "A wooden spoon. I was nine. The handle was crooked. My mother used it for forty years.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "artisan_female_dlg_past_opener_1",
+    "character": "apprentice_artisan_female",
+    "text": "She left a notch on it. The notch is the only signature I have ever wanted on my work.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "artisan_female_dlg_past_a_past_warm_reply_0",
+    "character": "apprentice_artisan_female",
+    "text": "In my workshop. Behind the calibration jig. I take it out when I'm calibrating. The notch reminds me what I'm calibrating *for*.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "artisan_female_dlg_past_a_past_probe_reply_0",
+    "character": "apprentice_artisan_female",
+    "text": "Because the mark says 'I made this.' The notch says 'I used it. It served.' Use is the only review that matters.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "artisan_female_dlg_past_a_past_probe_a_past_probe_deep_reply_0",
+    "character": "apprentice_artisan_female",
+    "text": "Once. A blade I made for a fisherman. He brought it back after twenty years. The handle was worn into the shape of his palm. He wanted me to make it new for his daughter. I made one for the daughter and kept the worn handle. Both of us got what we wanted.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "artisan_female_dlg_past_a_past_probe_a_past_probe_back_reply_0",
+    "character": "apprentice_artisan_female",
+    "text": "Then I'll know I've made the right thing. The notch is the only invoice I accept.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "artisan_female_dlg_past_a_past_cold_reply_0",
+    "character": "apprentice_artisan_female",
+    "text": "It's the only one that didn't lie to me. The fancier myths came later and lasted shorter.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "artisan_female_dlg_calling_opener_0",
+    "character": "apprentice_artisan_female",
+    "text": "There is a single object I am working toward. It is not a commission. It will not be sold. It will not be displayed.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "artisan_female_dlg_calling_opener_1",
+    "character": "apprentice_artisan_female",
+    "text": "It will be left in a drawer in a room I will not own.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "artisan_female_dlg_calling_a_call_warm_reply_0",
+    "character": "apprentice_artisan_female",
+    "text": "A box. The size of a fist. The lid takes seventeen movements to open and the movements are not the same twice. Inside: a single notch. Whoever opens it will know they have been used. They will keep it.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "artisan_female_dlg_calling_a_call_probe_reply_0",
+    "character": "apprentice_artisan_female",
+    "text": "Because the price would lie. The box is not worth a price. It is worth a chance encounter and the right hands. Markets cannot do that.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "artisan_female_dlg_calling_a_call_probe_a_call_probe_deep_reply_0",
+    "character": "apprentice_artisan_female",
+    "text": "If you find it in the right drawer, yes. The drawer is on this ark. The room is not yet built. I am, in fact, working on the room. The box is patient. So am I.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "artisan_female_dlg_calling_a_call_probe_a_call_probe_back_reply_0",
+    "character": "apprentice_artisan_female",
+    "text": "I won't. Markets get enough. The box is for the person who is not the market.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "artisan_female_dlg_calling_a_call_cold_reply_0",
+    "character": "apprentice_artisan_female",
+    "text": "Yes. The market always pays a lot for the things that lie. The box would not survive being bought.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "artisan_female_dlg_mortality_opener_0",
+    "character": "apprentice_artisan_female",
+    "text": "If I die, give every piece I made to someone who will use it. Don't display. Don't archive.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "artisan_female_dlg_mortality_opener_1",
+    "character": "apprentice_artisan_female",
+    "text": "If a piece comes back to my workshop unused, melt it.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "artisan_female_dlg_mortality_a_mort_warm_reply_0",
+    "character": "apprentice_artisan_female",
+    "text": "Then the workshop becomes a useful place. The pieces go where they belong. The notches will accumulate. I will be there in the notches.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "artisan_female_dlg_mortality_a_mort_probe_reply_0",
+    "character": "apprentice_artisan_female",
+    "text": "The box has its own rule. Leave it in the drawer. The right hands will find it. Don't help. Helping breaks the rule.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "artisan_female_dlg_mortality_a_mort_probe_a_mort_probe_deep_reply_0",
+    "character": "apprentice_artisan_female",
+    "text": "Then it waits. The box is patient. The notch on the spoon waited forty years. The box can wait longer.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "artisan_female_dlg_mortality_a_mort_probe_a_mort_probe_back_reply_0",
+    "character": "apprentice_artisan_female",
+    "text": "Thank you. The box is the only thing I leave behind that I do not want managed.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "artisan_female_dlg_mortality_a_mort_cold_reply_0",
+    "character": "apprentice_artisan_female",
+    "text": "Archive is a polite word for storage. Storage is what you do with what failed. Don't insult the work. Use it. Or melt it.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "artisan_female_dlg_us_opener_0",
+    "character": "apprentice_artisan_female",
+    "text": "I made you a thing. It's small. It's heavy. The weight is the point.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "artisan_female_dlg_us_opener_1",
+    "character": "apprentice_artisan_female",
+    "text": "I'll bring it tonight. You'll know what it is when you hold it.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "artisan_female_dlg_us_a_us_warm_reply_0",
+    "character": "apprentice_artisan_female",
+    "text": "Use it. Don't keep it pretty. Wear it down. The notch is the only proof I made it for you.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "artisan_female_dlg_us_a_us_probe_reply_0",
+    "character": "apprentice_artisan_female",
+    "text": "Because you forget what's light. The weight makes you remember the pocket it's in. You will think of me at irregular intervals because of it. That's the design.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "artisan_female_dlg_us_a_us_probe_a_us_probe_deep_reply_0",
+    "character": "apprentice_artisan_female",
+    "text": "Then someone will find it. They will keep it. The notch will travel. I am, in a small way, content with that ending.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "artisan_female_dlg_us_a_us_probe_a_us_probe_step_reply_0",
+    "character": "apprentice_artisan_female",
+    "text": "Good. The pocket gets used to the weight. So do you.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "artisan_female_dlg_us_a_us_cold_reply_0",
+    "character": "apprentice_artisan_female",
+    "text": "Then it's not a gift. It's a tool. Take it. Use it. The notch will not care about the noun.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
   }
 ]

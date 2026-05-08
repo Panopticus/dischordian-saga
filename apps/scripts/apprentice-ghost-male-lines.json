@@ -430,5 +430,284 @@
     "emotion": "soft",
     "bucket": "romance",
     "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "ghost_male_dlg_past_opener_0",
+    "character": "apprentice_ghost_male",
+    "text": "There was a kitchen door in the house I grew up in. The hinge squeaked at exactly thirty-six degrees of opening.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "ghost_male_dlg_past_opener_1",
+    "character": "apprentice_ghost_male",
+    "text": "I learned to walk through it at thirty-five.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "ghost_male_dlg_past_g_past_warm_reply_0",
+    "character": "apprentice_ghost_male",
+    "text": "Being seen by my mother before she had her tea. It saved both of us a lot of resentment. She never thanked me. I never asked her to.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "ghost_male_dlg_past_g_past_probe_reply_0",
+    "character": "apprentice_ghost_male",
+    "text": "Twelve. There was a man in our neighbourhood who liked to know where people were. I learned to be where he was not.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "ghost_male_dlg_past_g_past_probe_g_past_probe_deep_reply_0",
+    "character": "apprentice_ghost_male",
+    "text": "I came for him. Once. He did not see me. He knew I had been there. He moved away within the cycle. I have never confirmed which house.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "ghost_male_dlg_past_g_past_probe_g_past_probe_back_reply_0",
+    "character": "apprentice_ghost_male",
+    "text": "Don't be sorry. The skill is the only thing he gave me. It has paid for itself many times.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "ghost_male_dlg_past_g_past_cold_reply_0",
+    "character": "apprentice_ghost_male",
+    "text": "Common, yes. The detail you missed is the one that made it mine. I won't give it to you tonight.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "ghost_male_dlg_calling_opener_0",
+    "character": "apprentice_ghost_male",
+    "text": "Patterns. The thing that breaks before the thing that breaks.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "ghost_male_dlg_calling_opener_1",
+    "character": "apprentice_ghost_male",
+    "text": "Three of you have it. The other crew don't notice yet. I'm watching to see who breaks visibly first.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "ghost_male_dlg_calling_g_call_warm_reply_0",
+    "character": "apprentice_ghost_male",
+    "text": "I'll tell you when I'm wrong about one of them. You don't need a list of names. You need to be the kind of person whose checking on them is welcome.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "ghost_male_dlg_calling_g_call_probe_reply_0",
+    "character": "apprentice_ghost_male",
+    "text": "You're not on the list. You're the reason the list exists. I started keeping it the first time you slept badly.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "ghost_male_dlg_calling_g_call_probe_g_call_probe_deep_reply_0",
+    "character": "apprentice_ghost_male",
+    "text": "You drink water before you eat. Always. You have done it since the second cycle on this ark. You hadn't done it before. Something taught you. You haven't told anyone what.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "ghost_male_dlg_calling_g_call_probe_g_call_probe_deep_reply_1",
+    "character": "apprentice_ghost_male",
+    "text": "I'll wait for you to tell me. Not the other way around.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "ghost_male_dlg_calling_g_call_probe_g_call_probe_back_reply_0",
+    "character": "apprentice_ghost_male",
+    "text": "Then I'll observe less. You'll know I have. The withdrawal is also information you might want.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "ghost_male_dlg_calling_g_call_cold_reply_0",
+    "character": "apprentice_ghost_male",
+    "text": "The list is the only way I rest. Take it from me and I work harder, not less. I'll keep it quieter.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "ghost_male_dlg_mortality_opener_0",
+    "character": "apprentice_ghost_male",
+    "text": "Don't mark the chair. Don't put a candle on the bench.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "ghost_male_dlg_mortality_opener_1",
+    "character": "apprentice_ghost_male",
+    "text": "If you must do something, leave the cargo-bay window open. I left it like that on purpose.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "ghost_male_dlg_mortality_g_mort_warm_reply_0",
+    "character": "apprentice_ghost_male",
+    "text": "Then mark it small. A piece of chalk on the floor under it. Nobody else will see. You will. I will, where I've gone.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "ghost_male_dlg_mortality_g_mort_probe_reply_0",
+    "character": "apprentice_ghost_male",
+    "text": "Because I left through it twice. Once on purpose. Once because the door was locked and I needed the cycle outside.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "ghost_male_dlg_mortality_g_mort_probe_g_mort_probe_deep_reply_0",
+    "character": "apprentice_ghost_male",
+    "text": "There was a fire. Crew-three didn't make it. I was outside on the rail when the door sealed. I came back through the same window when the heat dropped. The crew wrote me up as a casualty for nine hours.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "ghost_male_dlg_mortality_g_mort_probe_g_mort_probe_deep_reply_1",
+    "character": "apprentice_ghost_male",
+    "text": "I never corrected the record. The version of me who didn't come back is also true.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "ghost_male_dlg_mortality_g_mort_probe_g_mort_probe_back_reply_0",
+    "character": "apprentice_ghost_male",
+    "text": "Just the window. Thank you for not pressing further.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "ghost_male_dlg_mortality_g_mort_cold_reply_0",
+    "character": "apprentice_ghost_male",
+    "text": "Then put my name. Just the name. Not the date. Not the cause. The wall does not need the rest. Neither do I.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "ghost_male_dlg_us_opener_0",
+    "character": "apprentice_ghost_male",
+    "text": "You catch me. Not always. Often enough that I've stopped flinching.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "ghost_male_dlg_us_opener_1",
+    "character": "apprentice_ghost_male",
+    "text": "I keep the count: forty-three times so far. The forty-fourth I'll tell you after.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "ghost_male_dlg_us_g_us_warm_reply_0",
+    "character": "apprentice_ghost_male",
+    "text": "Then meet me in the cargo bay at the third bell. I'll come from the window, not the door. You will see me arrive. I will not flinch.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "ghost_male_dlg_us_g_us_probe_reply_0",
+    "character": "apprentice_ghost_male",
+    "text": "Each one is the version of me you saw. I did not realise how many versions there were until you started cataloguing. You do not write them down. You should know I do.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "ghost_male_dlg_us_g_us_probe_g_us_probe_deep_reply_0",
+    "character": "apprentice_ghost_male",
+    "text": "Twenty-two. Cycle nine. You looked up from a manifest. I was on the gantry. You held the look. I did not move. You went back to the manifest. You wrote nothing.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "ghost_male_dlg_us_g_us_probe_g_us_probe_deep_reply_1",
+    "character": "apprentice_ghost_male",
+    "text": "I wrote: 'She did not write. She let me stand there.'",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "ghost_male_dlg_us_g_us_probe_g_us_probe_step_reply_0",
+    "character": "apprentice_ghost_male",
+    "text": "It's not sad. It's evidence. Most evidence isn't sad until someone reads it wrong.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "ghost_male_dlg_us_g_us_cold_reply_0",
+    "character": "apprentice_ghost_male",
+    "text": "I can stop the count. I can't stop noticing. You'll have to take the noticing without the bookkeeping.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
   }
 ]

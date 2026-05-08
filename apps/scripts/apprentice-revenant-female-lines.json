@@ -430,5 +430,257 @@
     "emotion": "tender",
     "bucket": "romance",
     "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "revenant_female_dlg_past_opener_0",
+    "character": "apprentice_revenant_female",
+    "text": "I had a small flat in a town that has since been renamed. I had two friends and a dog. The dog outlived me by three cycles.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "revenant_female_dlg_past_opener_1",
+    "character": "apprentice_revenant_female",
+    "text": "The first time I kept a list, the dog's name was on it. I had to cross it off before I started.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "revenant_female_dlg_past_r_past_warm_reply_0",
+    "character": "apprentice_revenant_female",
+    "text": "Mauen. She slept on my left hip. I have not had a dog since. I am not sure I am allowed to.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "revenant_female_dlg_past_r_past_probe_reply_0",
+    "character": "apprentice_revenant_female",
+    "text": "Loud. Mauen recognised me. The friends did not. I carried that mismatch for a year.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "revenant_female_dlg_past_r_past_probe_r_past_probe_deep_reply_0",
+    "character": "apprentice_revenant_female",
+    "text": "One did. She was the second-to-last person I closed an account with. She said: 'You came back. The cycle was not done with us.' Then she made tea. The tea was the recognition.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "revenant_female_dlg_past_r_past_probe_r_past_probe_back_reply_0",
+    "character": "apprentice_revenant_female",
+    "text": "The dog knew first. The friends knew slowly. The list lengthened anyway. All three things, true.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "revenant_female_dlg_past_r_past_cold_reply_0",
+    "character": "apprentice_revenant_female",
+    "text": "Most don't. I do. I will be sentimental about the dog. The list takes care of the rest.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "revenant_female_dlg_calling_opener_0",
+    "character": "apprentice_revenant_female",
+    "text": "Three names. The first is in a town that does not exist anymore. The second is in a city that does. The third is on this ark.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "revenant_female_dlg_calling_opener_1",
+    "character": "apprentice_revenant_female",
+    "text": "I will not tell you the third yet.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "revenant_female_dlg_calling_r_call_warm_reply_0",
+    "character": "apprentice_revenant_female",
+    "text": "Then we go next cycle. The town is now a substrate quarry. The name on the list is buried under twelve metres of debris. We will not find a body. We will find what I owed.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "revenant_female_dlg_calling_r_call_probe_reply_0",
+    "character": "apprentice_revenant_female",
+    "text": "Because the name is one of yours. Not you. Someone you trust. I have been waiting to be wrong. I have not been wrong yet.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "revenant_female_dlg_calling_r_call_probe_r_call_probe_deep_reply_0",
+    "character": "apprentice_revenant_female",
+    "text": "I'll tell you the cycle before I close it. Not before. You will need that hour to ask the questions you would not ask if I told you now. I will answer all of them.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "revenant_female_dlg_calling_r_call_probe_r_call_probe_step_reply_0",
+    "character": "apprentice_revenant_female",
+    "text": "Acknowledged. The list waits. So do I.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "revenant_female_dlg_calling_r_call_cold_reply_0",
+    "character": "apprentice_revenant_female",
+    "text": "Unfinished is what death tried first. It didn't take. I'll close them. You can disapprove from a distance.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "revenant_female_dlg_mortality_opener_0",
+    "character": "apprentice_revenant_female",
+    "text": "If I die again, do not bring me back. Once was enough. Twice would mean I have not learned the lesson.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "revenant_female_dlg_mortality_opener_1",
+    "character": "apprentice_revenant_female",
+    "text": "If you bring me back anyway, I will leave the list incomplete on purpose.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "revenant_female_dlg_mortality_r_mort_warm_reply_0",
+    "character": "apprentice_revenant_female",
+    "text": "Thank you. The Hellbox terrifies me. I have read what it does to apprentices. I would rather sleep.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "revenant_female_dlg_mortality_r_mort_probe_reply_0",
+    "character": "apprentice_revenant_female",
+    "text": "That the cycle has rhythms even when it includes us. The first return was a gift the cycle gave me. The second would be theft.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "revenant_female_dlg_mortality_r_mort_probe_r_mort_probe_deep_reply_0",
+    "character": "apprentice_revenant_female",
+    "text": "Then bear it. That's what people who knew me before learned. They did not learn it well. They learned it. So will you.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "revenant_female_dlg_mortality_r_mort_probe_r_mort_probe_back_reply_0",
+    "character": "apprentice_revenant_female",
+    "text": "Sit with it. The cycle will help.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "revenant_female_dlg_mortality_r_mort_cold_reply_0",
+    "character": "apprentice_revenant_female",
+    "text": "Then I'll come back, and I'll leave on the next mission. I will mean it kindly. I will mean it fully.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "revenant_female_dlg_us_opener_0",
+    "character": "apprentice_revenant_female",
+    "text": "You're on it. Not as a debt. As a witness. Different category.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "revenant_female_dlg_us_opener_1",
+    "character": "apprentice_revenant_female",
+    "text": "I added you the first time you walked past my bunk and didn't ask if I was okay. You knew.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "revenant_female_dlg_us_r_us_warm_reply_0",
+    "character": "apprentice_revenant_female",
+    "text": "Then you'll be the longest entry on the list. The witnesses age slower than the debts. Mauen taught me that.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "revenant_female_dlg_us_r_us_probe_reply_0",
+    "character": "apprentice_revenant_female",
+    "text": "They don't. They become me. Some part of them moves into the list itself. After I'm gone, you keep the list. I will have shown you how.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "revenant_female_dlg_us_r_us_probe_r_us_probe_deep_reply_0",
+    "character": "apprentice_revenant_female",
+    "text": "Then come to the bunk after the third bell. I'll show you the columns. You'll see your entry. You'll see Mauen's. The list is small. You'll be ready.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "revenant_female_dlg_us_r_us_probe_r_us_probe_step_reply_0",
+    "character": "apprentice_revenant_female",
+    "text": "I am ready. You are not. The list waits.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "revenant_female_dlg_us_r_us_cold_reply_0",
+    "character": "apprentice_revenant_female",
+    "text": "Off witnesses. On debts, instead. The category is worse. I'll move you back when you're sleeping.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
   }
 ]

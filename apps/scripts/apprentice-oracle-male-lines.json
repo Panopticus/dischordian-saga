@@ -430,5 +430,257 @@
     "emotion": "tender",
     "bucket": "romance",
     "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "oracle_male_dlg_past_opener_0",
+    "character": "apprentice_oracle_male",
+    "text": "I was seven. I dreamt the colour of a coat my brother would buy three years later. I described it to him at breakfast.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "oracle_male_dlg_past_opener_1",
+    "character": "apprentice_oracle_male",
+    "text": "He bought the coat anyway. He said it had nothing to do with the dream. We both knew he was lying.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "oracle_male_dlg_past_o_past_warm_reply_0",
+    "character": "apprentice_oracle_male",
+    "text": "Once, on the night of his wedding. He gave the coat to my mother to keep. She still has it. She does not know why.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "oracle_male_dlg_past_o_past_probe_reply_0",
+    "character": "apprentice_oracle_male",
+    "text": "About a third. Another third are partial. The last third are wrong. The wrong third is the most useful.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "oracle_male_dlg_past_o_past_probe_o_past_probe_deep_reply_0",
+    "character": "apprentice_oracle_male",
+    "text": "Because the wrongness has shape. I learn what the dream was working around. That is the actual signal.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "oracle_male_dlg_past_o_past_probe_o_past_probe_back_reply_0",
+    "character": "apprentice_oracle_male",
+    "text": "It might be. I have considered the possibility for a long time. I have not stopped writing them down.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "oracle_male_dlg_past_o_past_cold_reply_0",
+    "character": "apprentice_oracle_male",
+    "text": "Yes. They do. The coat was real. The dream was real. The agreement between them is what I keep working on.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "oracle_male_dlg_calling_opener_0",
+    "character": "apprentice_oracle_male",
+    "text": "Patterns. Specifically: the colours that don't have names yet.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "oracle_male_dlg_calling_opener_1",
+    "character": "apprentice_oracle_male",
+    "text": "Three of them showed up in dreams this cycle. One was already in the substrate hum. The other two are coming.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "oracle_male_dlg_calling_o_call_warm_reply_0",
+    "character": "apprentice_oracle_male",
+    "text": "I will. I'll bring you to the alcove first. The substrate is quietest there at the third bell. You'll hear the colour before I name it.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "oracle_male_dlg_calling_o_call_probe_reply_0",
+    "character": "apprentice_oracle_male",
+    "text": "It has misled. There is a difference. It does not invent. It chooses what to emphasise. The misleading is the most informative thing it does.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "oracle_male_dlg_calling_o_call_probe_o_call_probe_deep_reply_0",
+    "character": "apprentice_oracle_male",
+    "text": "Cycle eight. The hum implied a death. There was a death. It was not the one the hum implied. The hum was working around the actual death because I was not ready. I have, since, been more ready.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "oracle_male_dlg_calling_o_call_probe_o_call_probe_step_reply_0",
+    "character": "apprentice_oracle_male",
+    "text": "Yes. Often. The silence is the colour that has not been named. I work in those silences too.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "oracle_male_dlg_calling_o_call_cold_reply_0",
+    "character": "apprentice_oracle_male",
+    "text": "Actionable warnings come from the colour theory. I can give you the warnings. The theory will keep the warnings from being wrong.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "oracle_male_dlg_mortality_opener_0",
+    "character": "apprentice_oracle_male",
+    "text": "Three times. Different colours. Different rooms.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "oracle_male_dlg_mortality_opener_1",
+    "character": "apprentice_oracle_male",
+    "text": "I have stopped trying to compare them. The third one was the most accurate. I am not sure how I know that.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "oracle_male_dlg_mortality_o_mort_warm_reply_0",
+    "character": "apprentice_oracle_male",
+    "text": "It was bright. There was a colour I do not have a name for. You were there. You were not crying. You were listening for the colour after.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "oracle_male_dlg_mortality_o_mort_probe_reply_0",
+    "character": "apprentice_oracle_male",
+    "text": "Very. I have changed three small things because of them. I sleep differently. I drink water before I eat. I have a chair facing the door I did not have before.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "oracle_male_dlg_mortality_o_mort_probe_o_mort_probe_deep_reply_0",
+    "character": "apprentice_oracle_male",
+    "text": "No. They will make the third dream more accurate. That is enough. Accuracy is the only kindness the substrate offers.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "oracle_male_dlg_mortality_o_mort_probe_o_mort_probe_back_reply_0",
+    "character": "apprentice_oracle_male",
+    "text": "I won't. The chair stays facing the door. You'll notice. I won't comment.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "oracle_male_dlg_mortality_o_mort_cold_reply_0",
+    "character": "apprentice_oracle_male",
+    "text": "I cannot. The dreams choose me. I have made peace with the choice. You may take longer.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "oracle_male_dlg_us_opener_0",
+    "character": "apprentice_oracle_male",
+    "text": "Often. You're a colour I have started to recognise.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "oracle_male_dlg_us_opener_1",
+    "character": "apprentice_oracle_male",
+    "text": "The recognition is mutual. You have started to dream me, although you do not yet write your dreams down.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "oracle_male_dlg_us_o_us_warm_reply_0",
+    "character": "apprentice_oracle_male",
+    "text": "Then we'll compare notes at the alcove. The substrate hums brighter when two of us are listening. I have been waiting for that brightness for a long time.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "oracle_male_dlg_us_o_us_probe_reply_0",
+    "character": "apprentice_oracle_male",
+    "text": "A blue I do not have a name for. It is between the two new colours coming. I think you are, in some way, the bridge between them.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "oracle_male_dlg_us_o_us_probe_o_us_probe_deep_reply_0",
+    "character": "apprentice_oracle_male",
+    "text": "I will not name you. The naming closes the colour. I would rather you keep being the bridge. Bridges are open.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "oracle_male_dlg_us_o_us_probe_o_us_probe_step_reply_0",
+    "character": "apprentice_oracle_male",
+    "text": "I won't. The dream will. You will notice them when they arrive. I will not need to interpret.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "oracle_male_dlg_us_o_us_cold_reply_0",
+    "character": "apprentice_oracle_male",
+    "text": "Then I'll dream around you. The substrate will fill the space. The work continues. You'll be the silence I orient by.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
   }
 ]
