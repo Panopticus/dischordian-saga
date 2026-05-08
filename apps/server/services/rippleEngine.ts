@@ -1741,6 +1741,29 @@ wovenOn("mini_dlc_installed", "dlc_mini", "guild", async (event) => {
   logger.debug("[woven] dlc_mini→guild mini_dlc_installed", { userId: event.userId });
 });
 
+/* ─── seal_broken — cross-system fan-out ─────────────── */
+// Emitted by sealStateService.recordSealBreak when an act-complete
+// flag transitions. Not declared as a primaryEmits in the
+// WovenSystem registry (it's a derived narrative event, not a
+// system action), but still wires to multiple consumers.
+//
+// woven: yearly -> mysteries
+wovenOn("seal_broken", "yearly", "mysteries", async (event) => {
+  logger.debug("[woven] yearly→mysteries seal_broken", { userId: event.userId, sealNumber: event.sealNumber });
+});
+// woven: yearly -> transmissions
+wovenOn("seal_broken", "yearly", "transmissions", async (event) => {
+  logger.debug("[woven] yearly→transmissions seal_broken", { userId: event.userId, sealNumber: event.sealNumber });
+});
+// woven: yearly -> governance
+wovenOn("seal_broken", "yearly", "governance", async (event) => {
+  logger.debug("[woven] yearly→governance seal_broken", { userId: event.userId, sealNumber: event.sealNumber });
+});
+// woven: yearly -> social
+wovenOn("seal_broken", "yearly", "social", async (event) => {
+  logger.debug("[woven] yearly→social seal_broken", { userId: event.userId, sealNumber: event.sealNumber });
+});
+
 /* ═══════════════════════════════════════════════════════
    EXPORT — Single public interface
    ═══════════════════════════════════════════════════════ */

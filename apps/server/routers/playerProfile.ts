@@ -239,6 +239,50 @@ export const playerProfileRouter = router({
       return { profile: next };
     }),
 
+  /**
+   * Witness Card — public-facing snapshot for the World Tapestry
+   * profile section. Shows the player's dominant horseman, broken
+   * seals (act-completion progress), and a constellation of their
+   * most recent ripples.
+   *
+   * Read-only; intentionally exposes only the high-level signal
+   * (dominantAxis, seal phases) and not the full pressure scores.
+   */
+  witnessCard: protectedProcedure
+    .input(
+      z
+        .object({ targetUserId: z.number().int().positive().optional() })
+        .optional(),
+    )
+    .query(async ({ ctx, input }) => {
+      const targetUserId = input?.targetUserId ?? ctx.user.id;
+      const { worldMoodService } = await import(
+        "../services/worldMoodService"
+      );
+      const { sealStateService } = await import(
+        "../services/sealStateService"
+      );
+      const { rippleLedgerService } = await import(
+        "../services/rippleLedgerService"
+      );
+      const [mood, sealPhases, recentRipples] = await Promise.all([
+        worldMoodService.forPlayer(targetUserId),
+        sealStateService.getSealPhasesForPlayer(targetUserId),
+        rippleLedgerService.recent({ userId: targetUserId, limit: 10 }),
+      ]);
+      return {
+        targetUserId,
+        dominantHorseman: mood.dominantAxis,
+        sealPhases,
+        recentRipples: recentRipples.map((r) => ({
+          eventType: r.eventType,
+          fromSystem: r.fromSystem,
+          toSystems: r.toSystems,
+          emittedAt: r.emittedAt,
+        })),
+      };
+    }),
+
   /** Recent profile events for this user, optionally filtered by
    *  source. Used by the Game Master to cite specific past events
    *  in the Tier 2+ "I see you" reveals, and by the Self-Portrait

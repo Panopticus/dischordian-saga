@@ -174,6 +174,17 @@ export const cosmeticCatalogRouter = router({
         amount: cosmetic.priceDream,
       });
 
+      // Stamp world-weave provenance (latest seal / active yearly /
+      // dominant horseman at grant time). Forward-only.
+      try {
+        const { stampCosmeticProvenance } = await import(
+          "../services/itemProvenanceService"
+        );
+        await stampCosmeticProvenance(ctx.user.id, input.cosmeticId);
+      } catch {
+        // provenance is metadata; stamp failure is not a grant failure.
+      }
+
       return { success: true, granted: cosmetic.id };
     }),
 
@@ -236,6 +247,15 @@ export const cosmeticCatalogRouter = router({
         userId: ctx.user.id,
         amount: cosmetic.priceVoidCrystals,
       });
+
+      try {
+        const { stampCosmeticProvenance } = await import(
+          "../services/itemProvenanceService"
+        );
+        await stampCosmeticProvenance(ctx.user.id, input.cosmeticId);
+      } catch {
+        // provenance is metadata; stamp failure is not a grant failure.
+      }
 
       return { success: true, granted: cosmetic.id };
     }),

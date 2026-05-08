@@ -3201,6 +3201,18 @@ export const cosmeticCatalogOwnership = mysqlTable("cosmetic_catalog_ownership",
   pricePaid: int("pricePaid").notNull().default(0),
   /** Optional: SKU key that granted this when source="bundle". */
   bundleSkuKey: varchar("bundleSkuKey", { length: 100 }),
+  /**
+   * World-weave provenance — the latest seal broken, active yearly
+   * event, and dominant horseman at craft/grant time. Forward-only;
+   * never backfilled on existing rows. Drives the cosmetic-tooltip
+   * "Forged under the Pale Horse, Severance Year 3" line.
+   */
+  provenance: json("provenance").$type<{
+    latestSeal?: number;
+    activeYearly?: string;
+    dominantHorseman?: "conquest" | "war" | "famine" | "death";
+    stampedAt?: string;
+  } | null>(),
   grantedAt: timestamp("grantedAt").defaultNow().notNull(),
 }, (table) => ({
   userIdIdx: index("idx_cosmetic_catalog_ownership_user").on(table.userId),

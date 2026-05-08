@@ -496,6 +496,17 @@ async function startServer() {
     // without waiting for the first hour.
     tickCircuitSeasons().catch(e => console.error("[Circuit] initial tick error:", e));
 
+    // Yearly event scheduler — activates Foundation Day / Severance /
+    // Mechronis Festival / Memorial Day on their anchor dates, closes
+    // them after durationDays, prunes the ripple ledger. Hourly is
+    // plenty: anchor + duration is day-grained and the activation pass
+    // is unique-key-guarded against double-fire.
+    const { yearlyEventScheduler } = await import("../services/yearlyEventScheduler");
+    setInterval(() => {
+      yearlyEventScheduler.tick().catch(e => console.error("[Yearly] tick error:", e));
+    }, ONE_HOUR_MS);
+    yearlyEventScheduler.tick().catch(e => console.error("[Yearly] initial tick error:", e));
+
     // Mystery Engine — hydrate the in-memory dynamic registry
     // from persisted mystery_seeds rows. Runs once on startup
     // before the closure cron, so any vote-spawned mysteries
@@ -700,6 +711,17 @@ async function startServer() {
     );
     bootstrapDreamerAwarenessTable().catch((e) =>
       console.error("[DreamerAwarenessBootstrap] failed:", e),
+    );
+
+    // World-weave tables — yearly_events / yearly_event_participation /
+    // ripple_events / memorial_inscriptions. Schema is in apps/db/schema.ts
+    // but no drizzle migration ships yet (journal drift); same idempotent
+    // DDL pattern as announcementsBootstrap.
+    const { bootstrapWorldWeaveTables } = await import(
+      "../services/worldWeaveBootstrap"
+    );
+    bootstrapWorldWeaveTables().catch((e) =>
+      console.error("[WorldWeaveBootstrap] failed:", e),
     );
 
     // Ensure citizen_characters.foundation exists. Migration 0054 is
