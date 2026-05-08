@@ -13,7 +13,7 @@ const baseMember: SerializedCrewMember = {
   nickname: null,
   species: "human",
   gender: "non-binary",
-  bloodlineId: "founders",
+  bloodlineId: "void_resonance",
   generation: 1,
   parentIds: null,
   children: [],

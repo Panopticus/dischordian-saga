@@ -125,6 +125,9 @@ import { casinoRouter } from "./routers/casino";
 import { christmasInJulyRouter } from "./routers/christmasInJuly";
 import { dischordiaCycleRouter } from "./routers/dischordiaCycle";
 import { crewRouter } from "./routers/crew";
+import { resurrectionRouter } from "./routers/resurrection";
+import { hellboxRouter } from "./routers/hellbox";
+import { npcRecruitRouter } from "./routers/npcRecruit";
 import { storyModeRouter } from "./routers/storyMode";
 import { tutorialRouter } from "./routers/tutorial";
 import { collectionRouter } from "./routers/collection";
@@ -284,6 +287,9 @@ export const appRouter = router({
   christmasInJuly: christmasInJulyRouter,
   dischordiaCycle: dischordiaCycleRouter,
   crew: crewRouter,
+  resurrection: resurrectionRouter,
+  hellbox: hellboxRouter,
+  npcRecruit: npcRecruitRouter,
   storyMode: storyModeRouter,
   tutorial: tutorialRouter,
   engineerLogs: engineerLogsRouter,
