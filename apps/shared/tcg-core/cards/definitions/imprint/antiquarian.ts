@@ -10,7 +10,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
-import { assetUrl } from "../../../../../client/src/lib/assetUrl";
+import { assetUrl } from "@shared/lib/assetUrl";
 export const antiquarian_t1: CardDefinition = {
   id: "s1_imprint_antiquarian_t1" as CardDefinition["id"],
   name: "Imprint: The Antiquarian (Common)",

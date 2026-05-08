@@ -12,7 +12,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
-import { assetUrl } from "../../../../../client/src/lib/assetUrl";
+import { assetUrl } from "@shared/lib/assetUrl";
 export const oracle_01: CardDefinition = {
   id: "s1_class_oracle_01" as CardDefinition["id"],
   name: "Auspex",

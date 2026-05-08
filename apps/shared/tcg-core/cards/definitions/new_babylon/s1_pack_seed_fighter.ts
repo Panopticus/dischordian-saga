@@ -25,7 +25,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
-import { assetUrl } from "../../../../../client/src/lib/assetUrl";
+import { assetUrl } from "@shared/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_seed_fighter" as CardDefinition["id"],
   name: "Akai Shi, the Red Death",

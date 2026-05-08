@@ -21,7 +21,7 @@
 
 import type { ChannelDefinition, InstrumentalTrack } from "./fnord23";
 
-import { assetUrl } from "../../../client/src/lib/assetUrl";
+import { assetUrl } from "@shared/lib/assetUrl";
 /* ═══════════════════════════════════════════════════════
    TRACKS
    Each entry matches the musicPrompt on a single Engineer's

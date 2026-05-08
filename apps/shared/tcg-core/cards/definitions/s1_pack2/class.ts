@@ -13,7 +13,7 @@
  * collide with the existing s1_ defs.
  */
 import type { CardDefinition } from "../../../index";
-import { assetUrl } from "../../../../../client/src/lib/assetUrl";
+import { assetUrl } from "@shared/lib/assetUrl";
 
 export const pack2_class_akai_shi_first_apprentice: CardDefinition = {
   id: "s1_pack2_class_akai_shi_first_apprentice" as CardDefinition["id"],

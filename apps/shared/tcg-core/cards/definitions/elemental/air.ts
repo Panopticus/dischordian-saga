@@ -8,7 +8,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
-import { assetUrl } from "../../../../../client/src/lib/assetUrl";
+import { assetUrl } from "@shared/lib/assetUrl";
 export const air_01: CardDefinition = {
   id: "s1_elem_air_01" as CardDefinition["id"],
   name: "Breeze Whisper",

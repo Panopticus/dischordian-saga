@@ -8,7 +8,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
-import { assetUrl } from "../../../../../client/src/lib/assetUrl";
+import { assetUrl } from "@shared/lib/assetUrl";
 export const tv_alleg_t1: CardDefinition = {
   id: "s1_alleg_thought_virus_t1" as CardDefinition["id"],
   name: "Thought Virus Carrier",

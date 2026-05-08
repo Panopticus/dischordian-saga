@@ -7,7 +7,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
-import { assetUrl } from "../../../../../client/src/lib/assetUrl";
+import { assetUrl } from "@shared/lib/assetUrl";
 export const time_01: CardDefinition = {
   id: "s1_dim_time_01" as CardDefinition["id"],
   name: "Moment Keeper",

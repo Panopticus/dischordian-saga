@@ -13,7 +13,7 @@
  * collide with the existing s1_ defs.
  */
 import type { CardDefinition } from "../../../index";
-import { assetUrl } from "../../../../../client/src/lib/assetUrl";
+import { assetUrl } from "@shared/lib/assetUrl";
 
 export const pack2_dreamer_arcane_monarch: CardDefinition = {
   id: "s1_pack2_dreamer_arcane_monarch" as CardDefinition["id"],

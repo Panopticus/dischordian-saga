@@ -23,7 +23,7 @@
  * the Vision 1 pattern.
  */
 import type { SongSlideshowDef, SlideshowFrame } from "./songSlideshow";
-import { assetUrl } from "../client/src/lib/assetUrl";
+import { assetUrl } from "@shared/lib/assetUrl";
 import { ALBUM1_TRACKS } from "./expansionArt/album1Slideshows";
 import { vfxVideoUrl, vfxKeyframeUrl } from "./expansionArt/cinematicsManifest";
 

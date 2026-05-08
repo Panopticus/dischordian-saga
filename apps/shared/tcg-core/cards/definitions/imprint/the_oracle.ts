@@ -9,7 +9,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
-import { assetUrl } from "../../../../../client/src/lib/assetUrl";
+import { assetUrl } from "@shared/lib/assetUrl";
 export const the_oracle_t1: CardDefinition = {
   id: "s1_imprint_the_oracle_t1" as CardDefinition["id"],
   name: "Imprint: The Oracle (Common)",

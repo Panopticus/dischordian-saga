@@ -30,7 +30,7 @@
  * the F.4 trigger registration.
  */
 import type { CardDefinition } from "../../../index";
-import { assetUrl } from "../../../../../client/src/lib/assetUrl";
+import { assetUrl } from "@shared/lib/assetUrl";
 
 type Ability = CardDefinition["abilities"][number];
 type AbilityId = Ability["id"];

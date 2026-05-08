@@ -58,7 +58,7 @@
    any producer redrop).
    ═══════════════════════════════════════════════════════ */
 
-import { assetUrl } from "../../client/src/lib/assetUrl";
+import { assetUrl } from "@shared/lib/assetUrl";
 import { makeAssetManifest } from "./_assetManifest";
 
 export type Album3TrackId =

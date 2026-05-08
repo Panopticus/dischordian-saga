@@ -19,7 +19,7 @@
  * ```
  */
 
-import { assetUrl } from "../../client/src/lib/assetUrl";
+import { assetUrl } from "@shared/lib/assetUrl";
 
 /** A manifest entry must at minimum carry the id key + the path key
  *  the helper indexes on; additional fields (rarity, category, etc.)

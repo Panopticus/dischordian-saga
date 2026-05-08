@@ -15,7 +15,7 @@
 import { DARREN_FESSLER } from "./darrenFessler";
 import { THE_INVENTOR } from "./theInventor";
 
-import { assetUrl } from "../client/src/lib/assetUrl";
+import { assetUrl } from "@shared/lib/assetUrl";
 /* ─── THE ASSISTANT CARD ─── */
 
 export interface MemorialCard {

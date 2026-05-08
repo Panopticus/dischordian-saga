@@ -8,7 +8,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
-import { assetUrl } from "../../../../../client/src/lib/assetUrl";
+import { assetUrl } from "@shared/lib/assetUrl";
 export const the_detective_t1: CardDefinition = {
   id: "s1_imprint_the_detective_t1" as CardDefinition["id"],
   name: "Imprint: The Detective (Common)",
