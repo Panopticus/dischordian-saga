@@ -26,7 +26,7 @@ export const pack2_class_akai_shi_first_apprentice: CardDefinition = {
   keywords: ["rush"],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/akai_shi_first_apprentice.webp"),
-  flavorText: "A class signature. The school speaks through every blade.",
+  flavorText: "The first cut is not the first cut. The first cut was the breath that preceded it.",
   rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 0,
@@ -43,7 +43,7 @@ export const pack2_class_auspex: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/auspex.webp"),
-  flavorText: "A class signature. The school speaks through every blade.",
+  flavorText: "He reads the pause between heartbeats. The pause names the next heartbeat.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -60,7 +60,7 @@ export const pack2_class_burn_the_handler: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/burn_the_handler.webp"),
-  flavorText: "A class signature. The school speaks through every blade.",
+  flavorText: "You burn the handler. The handler is the part of you that knew the protocol.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -77,7 +77,7 @@ export const pack2_class_cover_name: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/cover_name.webp"),
-  flavorText: "A class signature. The school speaks through every blade.",
+  flavorText: "A cover name worn three years stops being a cover. It becomes the wearer.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -94,7 +94,7 @@ export const pack2_class_dead_drop: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/dead_drop.webp"),
-  flavorText: "A class signature. The school speaks through every blade.",
+  flavorText: "The drop site is found by the trained foot, not the eye. The eye lies; the foot does not.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -111,7 +111,7 @@ export const pack2_class_dual_discipline: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/dual_discipline.webp"),
-  flavorText: "A class signature. The school speaks through every blade.",
+  flavorText: "Two schools in one body. The body chooses, mid-strike, which school it is in.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -128,7 +128,7 @@ export const pack2_class_engineers_apprentice: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/engineers_apprentice.webp"),
-  flavorText: "A class signature. The school speaks through every blade.",
+  flavorText: "She watches the master strip the rifle blind. The rifle reassembles itself by Tuesday.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -145,7 +145,7 @@ export const pack2_class_execute_protocol: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/execute_protocol.webp"),
-  flavorText: "A class signature. The school speaks through every blade.",
+  flavorText: "The protocol is not a plan. The protocol is what runs when the plan has already failed.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -162,7 +162,7 @@ export const pack2_class_field_modification: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/field_modification.webp"),
-  flavorText: "A class signature. The school speaks through every blade.",
+  flavorText: "What the manual forbids, the field demands. The mod is graded by survival.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -179,7 +179,7 @@ export const pack2_class_five_schools_avatar: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/five_schools_avatar.webp"),
-  flavorText: "A class signature. The school speaks through every blade.",
+  flavorText: "He has held all five marks. The marks no longer compete; they take turns.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -196,7 +196,7 @@ export const pack2_class_glass_blade_initiate: CardDefinition = {
   keywords: ["rush"],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/glass_blade_initiate.webp"),
-  flavorText: "A class signature. The school speaks through every blade.",
+  flavorText: "Her blade breaks on the first strike. She is graded on whether the strike still landed.",
   rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 0,
@@ -213,7 +213,7 @@ export const pack2_class_hybrid_initiate: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/hybrid_initiate.webp"),
-  flavorText: "A class signature. The school speaks through every blade.",
+  flavorText: "He took two oaths. Both schools claim him. Neither school owns him.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -230,7 +230,7 @@ export const pack2_class_iron_vanguard: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/iron_vanguard.webp"),
-  flavorText: "A class signature. The school speaks through every blade.",
+  flavorText: "First through the breach. The breach widens because she is in it.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -247,7 +247,7 @@ export const pack2_class_kinetic_containment_sink: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/kinetic_containment_sink.webp"),
-  flavorText: "A class signature. The school speaks through every blade.",
+  flavorText: "He absorbs the strike that should have killed three. The three never knew his name.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -264,7 +264,7 @@ export const pack2_class_last_regiment_standing: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/last_regiment_standing.webp"),
-  flavorText: "A class signature. The school speaks through every blade.",
+  flavorText: "Of the regiment, she is the regiment now. The standard speaks in her cadence.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -281,7 +281,7 @@ export const pack2_class_line_recruit: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/line_recruit.webp"),
-  flavorText: "A class signature. The school speaks through every blade.",
+  flavorText: "Day one on the line. The line teaches by attrition. He is still on the line.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -298,7 +298,7 @@ export const pack2_class_oracles_unbroken_signal: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/oracles_unbroken_signal.webp"),
-  flavorText: "A class signature. The school speaks through every blade.",
+  flavorText: "The signal arrives intact through every jamming field. The Oracle is her own carrier.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -315,7 +315,7 @@ export const pack2_class_prescient_glyph: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/prescient_glyph.webp"),
-  flavorText: "A class signature. The school speaks through every blade.",
+  flavorText: "Drawn the night before. The glyph reads tomorrow's wound and prepares for it.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -332,7 +332,7 @@ export const pack2_class_prototype_blueprint: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/prototype_blueprint.webp"),
-  flavorText: "A class signature. The school speaks through every blade.",
+  flavorText: "The blueprint is illegal in three jurisdictions. The fourth has not heard of it yet.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -349,7 +349,7 @@ export const pack2_class_rally_the_line: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/rally_the_line.webp"),
-  flavorText: "A class signature. The school speaks through every blade.",
+  flavorText: "His voice is shorter than the order he gives. The line moves on the syllable.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -366,7 +366,7 @@ export const pack2_class_reader_of_tomorrows: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/reader_of_tomorrows.webp"),
-  flavorText: "A class signature. The school speaks through every blade.",
+  flavorText: "She reads the next four hours. She does not read past dusk. Dusk reads back.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -383,7 +383,7 @@ export const pack2_class_second_sight: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/second_sight.webp"),
-  flavorText: "A class signature. The school speaks through every blade.",
+  flavorText: "The first sight is what's there. The second sight is what is about to be there.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -400,7 +400,7 @@ export const pack2_class_shieldwall: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/shieldwall.webp"),
-  flavorText: "A class signature. The school speaks through every blade.",
+  flavorText: "Shoulder to shoulder, no gap. The wall is older than any soldier in it.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -417,7 +417,7 @@ export const pack2_class_signal_ghost: CardDefinition = {
   keywords: ["ephemeral"],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/signal_ghost.webp"),
-  flavorText: "A class signature. The school speaks through every blade.",
+  flavorText: "On every monitor, in no room. The signal arrives clean. The ghost arrived first.",
   rulesVersion: "1.1.0",
   trial_categories: ["narrative"] as const,
   verdict_delta: 0,
@@ -434,7 +434,7 @@ export const pack2_class_silent_step: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/silent_step.webp"),
-  flavorText: "A class signature. The school speaks through every blade.",
+  flavorText: "He walks across gravel without sound. The gravel agrees not to mention it.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -451,7 +451,7 @@ export const pack2_class_syncretic_adept: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/syncretic_adept.webp"),
-  flavorText: "A class signature. The school speaks through every blade.",
+  flavorText: "She has eaten three traditions. None of them digest cleanly; all three are in the strike.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -468,7 +468,7 @@ export const pack2_class_three_schools_master: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/three_schools_master.webp"),
-  flavorText: "A class signature. The school speaks through every blade.",
+  flavorText: "He stands at the centre of the triangle. The triangle does not stand without him.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -485,7 +485,7 @@ export const pack2_class_twelfth_archon_apprentice: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/twelfth_archon_apprentice.webp"),
-  flavorText: "A class signature. The school speaks through every blade.",
+  flavorText: "Trained in the unfilled seat. The seat has waited a thousand years for an apprentice.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -502,7 +502,7 @@ export const pack2_class_witness_remover: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/witness_remover.webp"),
-  flavorText: "A class signature. The school speaks through every blade.",
+  flavorText: "There was a third person in the room. There is no longer a third person in the room.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -519,7 +519,7 @@ export const pack2_class_workshop_drone: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/workshop_drone.webp"),
-  flavorText: "A class signature. The school speaks through every blade.",
+  flavorText: "He has not left the workshop in six months. The workshop has begun to leave with him.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,

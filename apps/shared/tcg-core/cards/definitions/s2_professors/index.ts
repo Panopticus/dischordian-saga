@@ -443,7 +443,7 @@ const SIGS: readonly SigDef[] = [
   { professor: "orphic", sigN: 4,
     light: { ability: "Phase-Step", flavor: "Through. Out the other side.", abilities: ORPHIC_LIGHT,
       trialCategories: ["defensive", "reactive"] },
-    dark: { ability: "Dimensional Drift", flavor: "Through... mostly.", abilities: ORPHIC_DARK,
+    dark: { ability: "Dimensional Drift", flavor: "Through... mostly. The other percent files paperwork the universe lost track of.", abilities: ORPHIC_DARK,
       trialCategories: ["narrative", "reactive"] } },
   { professor: "mireille", sigN: 5,
     light: { ability: "Viral Word", flavor: "Believe me. Just for a moment.", abilities: MIREILLE_LIGHT,

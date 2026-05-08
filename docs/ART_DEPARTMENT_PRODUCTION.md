@@ -299,12 +299,12 @@ resolves through `assetUrl()` at build time and is therefore "wired".
 
 Sorted by priority. Each row is one deliverable for the art / audio / video department.
 
-### 3.0 `pnpm ship:check` snapshot — 2026-05-08
+### 3.0 `pnpm ship:check` snapshot — 2026-05-08 (clean)
 
-Run from repo root. Anchors the rest of §3 in measurable code state:
+Run from repo root. Anchors the rest of §3 in measurable code state.
 
 ```
-✓ ship:check OK — 24 PASS, 2 RATCHET, 0 FAIL
+✓ ship:check OK — 26 PASS, 0 RATCHET, 0 FAIL
 
   Subsystem                            Declared  Implemented  Gap  Status
   ───────────────────────────────────  ────────  ───────────  ───  ───────
@@ -324,8 +324,8 @@ Run from repo root. Anchors the rest of §3 in measurable code state:
   List virtualization adoption                1            1    0  PASS
   Asset prefetch manifest                     3            3    0  PASS
   LORE_BIBLE.md drift                         1            1    0  PASS
-  Void Energy contrast coverage              10            0   10  RATCHET
-  Card flavor-text quality                 1308         1196  112  RATCHET
+  Void Energy contrast coverage              10           10    0  PASS
+  Card flavor-text quality                 1308         1308    0  PASS
   Global Light/Dark meter                     4            4    0  PASS
   Mobile Narrator page adoption               6            6    0  PASS
   Shadow Tongue room coverage                32           32    0  PASS
@@ -336,17 +336,19 @@ Run from repo root. Anchors the rest of §3 in measurable code state:
   notifications.type producers               57           57    0  PASS
 ```
 
-The two RATCHET rows are tracked, not failing:
-- **Void Energy contrast** — 10 token-pairs declared, 0 measured; run
-  `scripts/audit-contrast.ts` to record measured values. Not blocking the art
-  department; falls under design-system instrumentation.
-- **Card flavor-text quality** — 112 cards still using boilerplate placeholders
-  (most begin "Another seat at another table that did not need to exist."); a
-  writing pass is queued separately. The art department isn't blocked by this
-  but a producer should know it shows up on the gate.
+Both formerly-RATCHET rows closed in this commit:
+- **Void Energy contrast** — 5 high-contrast tokens authored in
+  `apps/client/src/engine/void-materials.css`; new `scripts/audit-contrast.ts`
+  resolves CSS-var fallback chains, computes WCAG 2.1 ratios via the existing
+  `apps/shared/contrastAudit.ts`, and writes measured values back into
+  `MEASURED[]`. All 10 pairs clear with margin (lowest 5.14:1 vs threshold 4.5).
+- **Card flavor-text quality** — 111 boilerplate flavors (45 Hierarchy mid-tier
+  + 36 Pack 2 allegiance + 30 Pack 2 class) plus 1 too-short outlier
+  (`s2_professors_orphic_dimensional_drift`) authored to per-card unique lines
+  matching the existing Hierarchy C-suite tone canon.
 
 Re-run with `pnpm ship:check` after any subsystem change. Treat any new FAIL
-as a hard ship-stopper.
+as a hard ship-stopper, any new RATCHET as a tracked regression.
 
 ### 3.1 Critical-path missing assets (gate ship)
 

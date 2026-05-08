@@ -26,7 +26,7 @@ export const pack2_allegiance_antiquarian_apprentice_t1: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/allegiance/antiquarian_apprentice_t1.webp"),
-  flavorText: "The oath holds; the bearer remains.",
+  flavorText: "She copies the line. She does not yet understand why the line must survive.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -43,7 +43,7 @@ export const pack2_allegiance_antiquarian_archivekeeper_t5: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/allegiance/antiquarian_archivekeeper_t5.webp"),
-  flavorText: "The oath holds; the bearer remains.",
+  flavorText: "She holds the master key. The vault answers in voices that left the world.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -60,7 +60,7 @@ export const pack2_allegiance_antiquarian_champion_t6: CardDefinition = {
   keywords: ["celerity"],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/allegiance/antiquarian_champion_t6.webp"),
-  flavorText: "The oath holds; the bearer remains.",
+  flavorText: "He has read every page. The pages now read aloud, in his voice, when he is gone.",
   rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 0,
@@ -77,7 +77,7 @@ export const pack2_allegiance_antiquarian_curator_t3: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/allegiance/antiquarian_curator_t3.webp"),
-  flavorText: "The oath holds; the bearer remains.",
+  flavorText: "She tags the artifact, the year, the wound. The wound waits for a witness it can trust.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -94,7 +94,7 @@ export const pack2_allegiance_antiquarian_lorekeeper_t4: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/allegiance/antiquarian_lorekeeper_t4.webp"),
-  flavorText: "The oath holds; the bearer remains.",
+  flavorText: "He has memorised the index. The index has memorised him back.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -111,7 +111,7 @@ export const pack2_allegiance_antiquarian_scholar_t2: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/allegiance/antiquarian_scholar_t2.webp"),
-  flavorText: "The oath holds; the bearer remains.",
+  flavorText: "He reads what was burnt. The reading reconstitutes the page beneath his hands.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -128,7 +128,7 @@ export const pack2_allegiance_architect_champion_t6: CardDefinition = {
   keywords: ["celerity"],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/allegiance/architect_champion_t6.webp"),
-  flavorText: "The oath holds; the bearer remains.",
+  flavorText: "She is the codified outcome of every decision the Architect ever made — including itself.",
   rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 0,
@@ -145,7 +145,7 @@ export const pack2_allegiance_architect_elite_t5: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/allegiance/architect_elite_t5.webp"),
-  flavorText: "The oath holds; the bearer remains.",
+  flavorText: "He approves the policy that approved him. The loop is the architecture.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -162,7 +162,7 @@ export const pack2_allegiance_architect_initiate_t1: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/allegiance/architect_initiate_t1.webp"),
-  flavorText: "The oath holds; the bearer remains.",
+  flavorText: "Issued his first directive. The directive arrived in its envelope already opened.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -179,7 +179,7 @@ export const pack2_allegiance_architect_servant_t2: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/allegiance/architect_servant_t2.webp"),
-  flavorText: "The oath holds; the bearer remains.",
+  flavorText: "She files the exceptions. The exceptions file themselves under her name.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -196,7 +196,7 @@ export const pack2_allegiance_architect_veteran_t3: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/allegiance/architect_veteran_t3.webp"),
-  flavorText: "The oath holds; the bearer remains.",
+  flavorText: "He has seen three corrections to the schema. He no longer remembers the first schema.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -213,7 +213,7 @@ export const pack2_allegiance_architect_victorious_t4: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/allegiance/architect_victorious_t4.webp"),
-  flavorText: "The oath holds; the bearer remains.",
+  flavorText: "She closed the deviation. The deviation was a person. The person was logged.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -230,7 +230,7 @@ export const pack2_allegiance_babylon_champion_t6: CardDefinition = {
   keywords: ["celerity"],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/allegiance/babylon_champion_t6.webp"),
-  flavorText: "The oath holds; the bearer remains.",
+  flavorText: "She is the city's voice in the city's argument with itself.",
   rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 0,
@@ -247,7 +247,7 @@ export const pack2_allegiance_babylon_clerk_t1: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/allegiance/babylon_clerk_t1.webp"),
-  flavorText: "The oath holds; the bearer remains.",
+  flavorText: "Stamps the form. The form has another form behind it. There are always more forms.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -264,7 +264,7 @@ export const pack2_allegiance_babylon_governor_t5: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/allegiance/babylon_governor_t5.webp"),
-  flavorText: "The oath holds; the bearer remains.",
+  flavorText: "He governs by memo. The memo is older than the city. The city was a memo first.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -281,7 +281,7 @@ export const pack2_allegiance_babylon_magistrate_t2: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/allegiance/babylon_magistrate_t2.webp"),
-  flavorText: "The oath holds; the bearer remains.",
+  flavorText: "Hears the case in chambers. The case has been pre-decided in margin notes.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -298,7 +298,7 @@ export const pack2_allegiance_babylon_senator_t4: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/allegiance/babylon_senator_t4.webp"),
-  flavorText: "The oath holds; the bearer remains.",
+  flavorText: "Votes in the chamber. The chamber tallies votes she did not cast.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -315,7 +315,7 @@ export const pack2_allegiance_babylon_tax_collector_t3: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/allegiance/babylon_tax_collector_t3.webp"),
-  flavorText: "The oath holds; the bearer remains.",
+  flavorText: "Counts what you owe. The number rises each time he counts. He counts honestly.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -332,7 +332,7 @@ export const pack2_allegiance_dreamer_acolyte_t1: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/allegiance/dreamer_acolyte_t1.webp"),
-  flavorText: "The oath holds; the bearer remains.",
+  flavorText: "Wakes wrong. Notes it. Goes back to sleep with the page open.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -349,7 +349,7 @@ export const pack2_allegiance_dreamer_champion_t6: CardDefinition = {
   keywords: ["celerity"],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/allegiance/dreamer_champion_t6.webp"),
-  flavorText: "The oath holds; the bearer remains.",
+  flavorText: "She is the dream the dream was dreaming. There is no further nesting.",
   rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 0,
@@ -366,7 +366,7 @@ export const pack2_allegiance_dreamer_dreamwalker_t5: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/allegiance/dreamer_dreamwalker_t5.webp"),
-  flavorText: "The oath holds; the bearer remains.",
+  flavorText: "Moves between sleeps without waking. The sleeps remember; the body forgets.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -383,7 +383,7 @@ export const pack2_allegiance_dreamer_prophet_t4: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/allegiance/dreamer_prophet_t4.webp"),
-  flavorText: "The oath holds; the bearer remains.",
+  flavorText: "Speaks the thing nobody asked for. The thing nobody asked for was always coming.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -400,7 +400,7 @@ export const pack2_allegiance_dreamer_seer_t2: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/allegiance/dreamer_seer_t2.webp"),
-  flavorText: "The oath holds; the bearer remains.",
+  flavorText: "She watches the same dream three nights running. On the fourth, the dream watches her.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -417,7 +417,7 @@ export const pack2_allegiance_dreamer_visionary_t3: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/allegiance/dreamer_visionary_t3.webp"),
-  flavorText: "The oath holds; the bearer remains.",
+  flavorText: "Carries forward what the night handed him. The night was specific. He is specific.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -434,7 +434,7 @@ export const pack2_allegiance_insurgency_cell_leader_t3: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/allegiance/insurgency_cell_leader_t3.webp"),
-  flavorText: "The oath holds; the bearer remains.",
+  flavorText: "Holds the cell of three. None of them know each other. All of them know her.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -451,7 +451,7 @@ export const pack2_allegiance_insurgency_champion_t6: CardDefinition = {
   keywords: ["celerity"],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/allegiance/insurgency_champion_t6.webp"),
-  flavorText: "The oath holds; the bearer remains.",
+  flavorText: "Every survivor of the long war points to her when the historian asks why.",
   rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 0,
@@ -468,7 +468,7 @@ export const pack2_allegiance_insurgency_commander_t4: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/allegiance/insurgency_commander_t4.webp"),
-  flavorText: "The oath holds; the bearer remains.",
+  flavorText: "Calls the column at dawn. The column moves. The dawn was never going to be the same.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -485,7 +485,7 @@ export const pack2_allegiance_insurgency_operative_t2: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/allegiance/insurgency_operative_t2.webp"),
-  flavorText: "The oath holds; the bearer remains.",
+  flavorText: "Walks past the checkpoint with the wrong face. The checkpoint forgets it ever stopped him.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -502,7 +502,7 @@ export const pack2_allegiance_insurgency_recruit_t1: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/allegiance/insurgency_recruit_t1.webp"),
-  flavorText: "The oath holds; the bearer remains.",
+  flavorText: "Took the oath at the river. The river kept moving. The oath did not.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -519,7 +519,7 @@ export const pack2_allegiance_insurgency_warlord_t5: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/allegiance/insurgency_warlord_t5.webp"),
-  flavorText: "The oath holds; the bearer remains.",
+  flavorText: "He has held this front for nine years. The front is his outline, in landscape.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -536,7 +536,7 @@ export const pack2_allegiance_thought_virus_carrier_t1: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/allegiance/thought_virus_carrier_t1.webp"),
-  flavorText: "The oath holds; the bearer remains.",
+  flavorText: "Coughs the wrong word. The wrong word takes root in everyone in the room.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -553,7 +553,7 @@ export const pack2_allegiance_thought_virus_champion_t6: CardDefinition = {
   keywords: ["celerity"],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/allegiance/thought_virus_champion_t6.webp"),
-  flavorText: "The oath holds; the bearer remains.",
+  flavorText: "By the time you've read this card, you've already named it. The naming was the propagation.",
   rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 0,
@@ -570,7 +570,7 @@ export const pack2_allegiance_thought_virus_evangelist_t2: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/allegiance/thought_virus_evangelist_t2.webp"),
-  flavorText: "The oath holds; the bearer remains.",
+  flavorText: "Says it aloud. Says it again. Each repetition fits more cleanly.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -587,7 +587,7 @@ export const pack2_allegiance_thought_virus_prime_vessel_t5: CardDefinition = {
   keywords: ["celerity"],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/allegiance/thought_virus_prime_vessel_t5.webp"),
-  flavorText: "The oath holds; the bearer remains.",
+  flavorText: "She is the original utterance. Everyone since has been a translation.",
   rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 0,
@@ -604,7 +604,7 @@ export const pack2_allegiance_thought_virus_strain_keeper_t3: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/allegiance/thought_virus_strain_keeper_t3.webp"),
-  flavorText: "The oath holds; the bearer remains.",
+  flavorText: "Keeps the variant pure. The variant remembers each speaker individually.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -621,7 +621,7 @@ export const pack2_allegiance_thought_virus_vector_t4: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/allegiance/thought_virus_vector_t4.webp"),
-  flavorText: "The oath holds; the bearer remains.",
+  flavorText: "He is in the room before the door opens. The room has agreed.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,

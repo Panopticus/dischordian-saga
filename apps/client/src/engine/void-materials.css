@@ -48,6 +48,19 @@
   --speed-base: var(--void-speed-base, 300ms);
   --speed-slow: var(--void-speed-slow, 500ms);
 
+  /* High-contrast accessibility palette.
+     Activated when html.high-contrast is set; tokens are defined globally
+     so audit tooling can resolve them without selector state. WCAG AA
+     ratios verified by scripts/audit-contrast.ts:
+       primary-hc/void-hc:    21.0:1 (white on black)
+       error-hc/surface-hc:    8.6:1 (warm orange on near-black)
+       success-hc/surface-hc: 14.4:1 (mint green on near-black) */
+  --bg-void-hc: #000000;
+  --bg-surface-hc: #161620;
+  --energy-primary-hc: #ffffff;
+  --energy-error-hc: #ff9b6a;
+  --energy-success-hc: #7eff9d;
+
   /* Atmosphere-specific typography */
   --font-atmos-heading: var(--void-font-heading, 'Raleway', system-ui, sans-serif);
   --font-atmos-body: var(--void-font-body, 'Inter', system-ui, sans-serif);
