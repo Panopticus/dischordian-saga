@@ -18,6 +18,7 @@ import { ShipThemeOverlay } from "@/components/ShipThemeOverlay";
 import { Progress } from "@/components/ui/progress";
 import { motion, AnimatePresence } from "framer-motion";
 import NotificationBell from "@/components/NotificationBell";
+import WorldMoodWidget from "@/components/WorldMoodWidget";
 
 const ARK_CONTROL_ROOM = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/ark_control_room_04cb4fe3.png";
 
@@ -380,6 +381,7 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
           </span>
         </div>
 
+        <WorldMoodWidget />
         <NotificationBell />
         <Link href="/search" className="p-1.5 rounded-md hover:bg-muted/50 transition-colors group">
           <Search size={16} className="text-muted-foreground/60 group-hover:text-[var(--neon-cyan)] transition-colors" />
