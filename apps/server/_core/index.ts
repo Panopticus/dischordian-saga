@@ -813,6 +813,15 @@ async function startServer() {
       console.error("[CohortColumnsBootstrap] failed:", e),
     );
 
+    // audit/15.R4 — users age-verification columns. Schema declares
+    // dateOfBirth / ageVerificationCountry / ageVerifiedAt but no
+    // journaled migration ships them, so the OAuth upsert errors with
+    // "Unknown column" on first login until this bootstrap runs.
+    const { bootstrapAgeVerificationColumns } = await import("../services/ageVerificationColumnsBootstrap");
+    bootstrapAgeVerificationColumns().catch(e =>
+      console.error("[AgeVerificationColumnsBootstrap] failed:", e),
+    );
+
     // Ensure pvp_ratings exists (#7). Migration 0058 is orphaned
     // from _journal.json; without this table the pvpRanking router
     // throws on every read/write. Failure surface is "MMR badge +
