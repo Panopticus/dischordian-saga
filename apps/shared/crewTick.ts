@@ -15,11 +15,19 @@ import type {
   SerializedPod,
   SerializedFeedEntry,
   CrewRomance,
+  GhostEffectEntry,
+  PendingCrewSideEffect,
 } from "./crewPersistence";
-import { trimFeed } from "./crewPersistence";
+import { trimFeed, MAX_GHOST_EFFECTS } from "./crewPersistence";
 import { CREW_BALANCE } from "./crewBalance";
 import { resolveMission, pickLastWords } from "./crewMissions";
 import { generateAmbientFeedBatch } from "./crewAmbientFeed";
+import {
+  generateEpitaph,
+  calculateMourningEffects,
+  getGhostEffects,
+} from "./apprenticePermadeath";
+import { isResurrectableNpc } from "./resurrectionProtocols";
 
 /* ─── POD TICK ─── */
 
@@ -171,23 +179,151 @@ export function tickMissions(state: CrewState, now: number): CrewState {
     const updatedMembers: SerializedCrewMember[] = [];
     const deceased: SerializedCrewMember[] = [];
     let totalLost = next.roster.totalLost;
+    // Track per-survivor mourning deltas keyed by member id (applied below).
+    const mourningMoraleByMember: Record<string, number> = {};
+    // Ghost effects to append for each casualty (cap-bounded by caller).
+    const newGhostEffects: GhostEffectEntry[] = [];
+    // Side-effects to enqueue (drained by server router after each tick).
+    const newSideEffects: PendingCrewSideEffect[] = [];
     for (const m of next.roster.members) {
       if (!mission.assignedCrewIds.includes(m.id)) {
         updatedMembers.push(m);
         continue;
       }
       if (resolved.resolution?.casualties.includes(m.id)) {
+        const cause = `Lost during ${mission.name}`;
+        const archetype = m.archetype;
+        const epitaph = archetype ? generateEpitaph(archetype, cause) : undefined;
+        // Romance flag: was this member in an active partnership at death?
+        const inRomance = next.romances.some(
+          (r) =>
+            (r.memberAId === m.id || r.memberBId === m.id) &&
+            (r.status === "courtship" || r.status === "partnered"),
+        );
         deceased.push({
           ...m,
           status: "dead" as const,
           health: 0,
           deathRecord: {
             cycle: m.age,
-            cause: `Lost during ${mission.name}`,
+            cause,
             lastWords: pickLastWords(now + m.name.length),
+            ...(epitaph ? { epitaph } : {}),
+            ...(inRomance ? { romanced: true } : {}),
+            ...(typeof m.personalQuestStage === "number"
+              ? { personalQuestStage: m.personalQuestStage }
+              : {}),
           },
         });
         totalLost += 1;
+
+        // Mourning: amplified per-survivor morale deltas keyed by archetype.
+        if (archetype) {
+          const survivorIds = resolved.resolution?.survived ?? [];
+          const survivorMembers = next.roster.members.filter((s) =>
+            survivorIds.includes(s.id),
+          );
+          const survivorArchs = survivorMembers
+            .map((s) => s.archetype ?? "")
+            .filter((a) => a.length > 0);
+          if (survivorArchs.length > 0) {
+            const effects = calculateMourningEffects(archetype, survivorArchs);
+            // Romance amplifies grief 2x for the partner specifically; quest
+            // stage 3 (breaking-point reached) amplifies 1.3x for all.
+            const questAmp =
+              (m.personalQuestStage ?? 0) >= 3 ? 1.3 : 1.0;
+            survivorMembers.forEach((s, idx) => {
+              const eff = effects[idx];
+              if (!eff) return;
+              const partnerAmp =
+                inRomance &&
+                next.romances.some(
+                  (r) =>
+                    (r.memberAId === m.id && r.memberBId === s.id) ||
+                    (r.memberBId === m.id && r.memberAId === s.id),
+                )
+                  ? 2.0
+                  : 1.0;
+              mourningMoraleByMember[s.id] = Math.round(
+                eff.moraleDelta * questAmp * partnerAmp,
+              );
+            });
+          }
+
+          // Ghost effects (FIFO-capped by caller). 2-3 entries per casualty:
+          // one dialogue mention, one object, one ambient.
+          const ghosts = getGhostEffects(m.name, archetype);
+          const baseAt = now;
+          const expiresAt = now + 1000 * 60 * 60 * 24 * 30; // 30d
+          if (ghosts.dialogueMentions[0]) {
+            newGhostEffects.push({
+              fromMemberId: m.id,
+              type: "dialogue_mention",
+              payload: ghosts.dialogueMentions[0],
+              createdAt: baseAt,
+              expiresAt,
+            });
+          }
+          if (ghosts.objectAppearances[0]) {
+            newGhostEffects.push({
+              fromMemberId: m.id,
+              type: "object_appearance",
+              payload: ghosts.objectAppearances[0],
+              createdAt: baseAt,
+              expiresAt,
+            });
+          }
+          if (ghosts.ambientEffects[0]) {
+            newGhostEffects.push({
+              fromMemberId: m.id,
+              type: "ambient_sound",
+              payload: ghosts.ambientEffects[0],
+              createdAt: baseAt,
+              expiresAt,
+            });
+          }
+        }
+
+        /* ─── Named-NPC death (productionPath="recruited") ─── */
+        // The recruited instance is gone permanently; the canonical NPC's
+        // world presence is temporarily blocked, the all-knower mourning
+        // sweep fires, and the Resurrection Protocols quest opens. Path B
+        // (auto-return on Necromancer event) is wired in necromancerCycle.
+        if (
+          m.productionPath === "recruited" &&
+          m.linkedNpcKey &&
+          isResurrectableNpc(m.linkedNpcKey)
+        ) {
+          newSideEffects.push({
+            kind: "npc_world_death",
+            npcKey: m.linkedNpcKey,
+            killedMemberKey: m.id,
+            diedAtCycle: m.age,
+            diedAtMs: now,
+          });
+          newSideEffects.push({
+            kind: "open_resurrection_quest",
+            npcKey: m.linkedNpcKey,
+            killedMemberKey: m.id,
+            deathCycle: m.age,
+            diedAtMs: now,
+          });
+          newSideEffects.push({
+            kind: "mourning_sweep",
+            deceasedNpcKey: m.linkedNpcKey,
+            deceasedMemberKey: m.id,
+            diedAtMs: now,
+          });
+        } else if (m.productionPath === "trained" && m.archetype) {
+          // Apprentice obituary — Loredex entry generation. Not a quest;
+          // just an entry in the obituary section of the player's lore.
+          newSideEffects.push({
+            kind: "apprentice_obituary",
+            deceasedMemberKey: m.id,
+            archetype: m.archetype,
+            diedAtMs: now,
+          });
+        }
         continue;
       }
       if (resolved.resolution?.injured.includes(m.id)) {
@@ -200,10 +336,16 @@ export function tickMissions(state: CrewState, now: number): CrewState {
         });
         continue;
       }
+      // Survivor branch — apply mourning morale on top of mission morale.
+      const baseMoraleDelta = resolved.resolution?.success ? 12 : 4;
+      const mourningDelta = mourningMoraleByMember[m.id] ?? 0;
       updatedMembers.push({
         ...m,
         status: "active",
-        morale: Math.min(100, m.morale + (resolved.resolution?.success ? 12 : 4)),
+        morale: Math.max(
+          0,
+          Math.min(100, m.morale + baseMoraleDelta + mourningDelta),
+        ),
         loyalty: Math.min(100, m.loyalty + (resolved.resolution?.success ? 6 : 2)),
         missionHistory: [...m.missionHistory, mission.id],
       });
@@ -227,6 +369,12 @@ export function tickMissions(state: CrewState, now: number): CrewState {
       actionable: false,
     };
 
+    // Append ghost effects FIFO-capped by MAX_GHOST_EFFECTS.
+    const mergedGhosts = [
+      ...(next.ghosts ?? []),
+      ...newGhostEffects,
+    ].slice(-MAX_GHOST_EFFECTS);
+
     next = {
       ...next,
       missions: next.missions.map(x => (x.id === mission.id ? resolved : x)),
@@ -245,6 +393,11 @@ export function tickMissions(state: CrewState, now: number): CrewState {
       },
       feed: trimFeed([...next.feed, feedEntry]),
       feedUnreadCount: next.feedUnreadCount + 1,
+      ghosts: mergedGhosts,
+      pendingSideEffects: [
+        ...(next.pendingSideEffects ?? []),
+        ...newSideEffects,
+      ],
     };
   }
   return next;
