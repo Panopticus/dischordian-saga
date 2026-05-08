@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { encodeDeckCode, decodeDeckCode } from "@shared/deckCode";
+import { DeckOathBanner } from "@/components/DeckOathBanner";
 
 // ═══════════════════════════════════════════════════════
 // TYPES
@@ -726,6 +727,12 @@ export default function DeckBuilderPage() {
                   className="w-full bg-transparent text-muted-foreground text-xs font-mono outline-none border-b border-transparent focus:border-border/50 transition-colors"
                   placeholder="Deck description (optional)..."
                 />
+
+                {/* Roleplay deck-oath editor — only shown for saved
+                    decks (need a real deckId for the upsert). */}
+                {selectedDeckId && !isCreating && (
+                  <DeckOathBanner mode="editor" deckId={selectedDeckId} />
+                )}
 
                 {/* Stats bar */}
                 <div className="flex items-center gap-3 text-[10px] font-mono text-muted-foreground">

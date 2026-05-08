@@ -101,6 +101,7 @@ export const roleplayRouter = router({
       sigilArt: null,
       recognitionMode: "private" as const,
       calling: null,
+      sigilThemeId: "default" as string | null,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -149,6 +150,7 @@ export const roleplayRouter = router({
       sigilArt: z.string().max(128).nullable().optional(),
       recognitionMode: z.enum(["private", "open", "sealed"]).optional(),
       calling: z.string().max(48).nullable().optional(),
+      sigilThemeId: z.string().max(64).nullable().optional(),
     }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
@@ -171,6 +173,7 @@ export const roleplayRouter = router({
         sigilArt: input.sigilArt ?? null,
         recognitionMode: input.recognitionMode ?? "private" as const,
         calling: input.calling ?? null,
+        sigilThemeId: input.sigilThemeId ?? "default",
       };
 
       if (existing[0]) {
