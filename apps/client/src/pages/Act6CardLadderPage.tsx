@@ -43,6 +43,7 @@ import {
   type ActNTauntPhase,
 } from "@/components/act1/ActNOpponentTauntOverlay";
 import { fireCompanionComment } from "@/lib/companionCommentQueue";
+import { resolveAct3PathDividend } from "@shared/act3PathDividend";
 import LivingBackground from "@/components/LivingBackground";
 import { useActVO } from "@/hooks/useActVO";
 
@@ -112,7 +113,13 @@ const CONFESSION_STANCES: ReadonlyArray<{
 export default function Act6CardLadderPage() {
   const { wins, losses, defeatedOpponents, recordWin, recordLoss } =
     useAct6LadderStore();
-  const { setNarrativeFlag, state: gameState } = useGame();
+  const {
+    setNarrativeFlag,
+    state: gameState,
+    adjustElaraTrust,
+    adjustHumanTrust,
+    shiftMorality,
+  } = useGame();
   const vo = useActVO("6");
   // Prestige-replay meta: if the player ended the previous cycle with
   // `act7_silence_stance`, Act 6's confession room plays a one-shot
@@ -218,6 +225,21 @@ export default function Act6CardLadderPage() {
           vo.speak("human-confession-03");
           vo.speak("human-confession-04");
           vo.speak("human-confession-05");
+
+          // audit/10.F3 — mechanical consequence for the canonical
+          // act3_path_* fork flags. Resolver in @shared/act3PathDividend.
+          const dividend = resolveAct3PathDividend(gameState.narrativeFlags ?? {});
+          if (dividend.elaraTrustDelta) adjustElaraTrust(dividend.elaraTrustDelta);
+          if (dividend.humanTrustDelta) adjustHumanTrust(dividend.humanTrustDelta);
+          if (dividend.moralityDelta) {
+            shiftMorality(
+              dividend.moralityDelta,
+              "act6_ladder",
+              dividend.source ?? "path_dividend",
+              "quest",
+            );
+          }
+          if (dividend.flag) setNarrativeFlag(dividend.flag, true);
         }
       } else {
         recordLoss(currentOpponent.id);
@@ -228,7 +250,17 @@ export default function Act6CardLadderPage() {
       });
       setView("postmatch");
     },
-    [currentOpponent, recordWin, recordLoss, setNarrativeFlag, vo],
+    [
+      currentOpponent,
+      recordWin,
+      recordLoss,
+      setNarrativeFlag,
+      vo,
+      gameState.narrativeFlags,
+      adjustElaraTrust,
+      adjustHumanTrust,
+      shiftMorality,
+    ],
   );
 
   const anyStanceTaken = useMemo(

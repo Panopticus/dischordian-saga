@@ -17,6 +17,7 @@ import {
   maxRarity,
   type EssenceRarity,
 } from "../../client/src/game/essenceHarvest";
+import { writeNarrativeFlag } from "../services/narrativeFlagService";
 
 export const essenceHarvestRouter = router({
   /* ─── Get all of my harvested essences ─── */
@@ -138,6 +139,14 @@ export const essenceHarvestRouter = router({
           count: 1,
           bestRarity: harvestRarity,
         });
+        // audit/10.F5 — first harvest is a narrative milestone.
+        // Drop the sticky flag so The Collector's ledger surfaces
+        // can react (variant resolver / companion comments).
+        await writeNarrativeFlag(
+          ctx.user.id,
+          "essence_harvest_first",
+          "essence_harvest",
+        );
         return {
           fighterId: input.fighterId,
           essenceName: def.name,
@@ -161,10 +170,22 @@ export const essenceHarvestRouter = router({
         })
         .where(eq(arenaEssences.id, existing.id));
 
+      // audit/10.F5 — the tenth harvest of any single fighter
+      // promotes the player to "veteran" and drops a sticky flag.
+      // Idempotent: subsequent harvests re-write the same flag.
+      const newCount = existing.count + 1;
+      if (newCount === 10) {
+        await writeNarrativeFlag(
+          ctx.user.id,
+          "essence_harvest_veteran",
+          "essence_harvest",
+        );
+      }
+
       return {
         fighterId: input.fighterId,
         essenceName: def.name,
-        count: existing.count + 1,
+        count: newCount,
         bestRarity: nextRarity,
         firstHarvest: false,
         upgraded,

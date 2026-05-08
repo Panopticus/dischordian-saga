@@ -44,4 +44,13 @@ export const cardDef: CardDefinition = {
   // every pool — packs, deck-builder, rewards. Only lands in the
   // player's deck via an Acts 2+ unlock route.
   reserved: true,
+  // audit/09.F6 — cost-0 1/1 is over the curve baseline (expected ≤1
+  // total stat at cost 0). Documented as intentional: the card is a
+  // narrative artefact recovered from Lyra Vox's bench, not a budget-
+  // eligible unit; reserved=true keeps it out of pack-opening and
+  // deck-builder rolls.
+  balanceException: {
+    reason: "Narrative artefact recovered via Acts 2+ unlock; reserved from packs and deck-builder. Cost-0 1/1 floor reflects keepsake status, not combat budget.",
+    reviewer: "audit-09.F6",
+  },
 };

@@ -9921,7 +9921,8 @@
       "song_appearances": [],
       "image": "",
       "priority": "normal",
-      "streaming_links": {}
+      "streaming_links": {},
+      "cluster": "audit_discipline"
     },
     {
       "id": "entity_114",
@@ -10626,7 +10627,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "lionism_ethics"
     },
     {
       "id": "entity_degen",
@@ -10673,7 +10675,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "lionism_ethics"
     },
     {
       "id": "entity_akai_shi",
@@ -10749,7 +10752,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "lionism_ethics"
     },
     {
       "id": "concept_iron_lion_imprint",
@@ -10768,7 +10772,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "lionism_ethics"
     },
     {
       "id": "entity_pre_fall_iron_lion",
@@ -10806,7 +10811,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "lionism_ethics"
     },
     {
       "id": "concept_imprint_resonance",
@@ -10825,7 +10831,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "lionism_ethics"
     },
     {
       "id": "concept_lionism_section_4",
@@ -10844,7 +10851,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "lionism_ethics"
     },
     {
       "id": "concept_threshold_doctrine",
@@ -10863,7 +10871,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "lionism_ethics"
     },
     {
       "id": "concept_imprint_dream_argument",
@@ -10882,7 +10891,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "lionism_ethics"
     },
     {
       "id": "concept_seam_holder",
@@ -10901,7 +10911,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "lionism_ethics"
     },
     {
       "id": "concept_degens_commission",
@@ -10958,7 +10969,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "lionism_ethics"
     },
     {
       "id": "concept_three_witnesses_doctrine",
@@ -10977,7 +10989,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "witnessing_doctrine"
     },
     {
       "id": "entity_the_seer",
@@ -11027,7 +11040,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "seer_method"
     },
     {
       "id": "concept_seer_archive",
@@ -11046,7 +11060,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "seer_method"
     },
     {
       "id": "concept_recorded_warning",
@@ -11065,7 +11080,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "seer_method"
     },
     {
       "id": "concept_variant_prophecy",
@@ -11084,7 +11100,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "seer_method"
     },
     {
       "id": "concept_seer_method_note",
@@ -11103,7 +11120,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "seer_method"
     },
     {
       "id": "event_var_1109_pair",
@@ -11141,7 +11159,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "seer_method"
     },
     {
       "id": "concept_audience_drift",
@@ -11160,7 +11179,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "seer_method"
     },
     {
       "id": "concept_seer_does_not_pursue",
@@ -11179,7 +11199,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "seer_method"
     },
     {
       "id": "event_wraith_last_consultation",
@@ -11217,7 +11238,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "seer_method"
     },
     {
       "id": "concept_engineer_credit_ledger",
@@ -11236,7 +11258,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "seer_method"
     },
     {
       "id": "concept_acoustic_signature_drift",
@@ -11255,7 +11278,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "seer_method"
     },
     {
       "id": "concept_seers_sealed_letter",
@@ -11274,7 +11298,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "seer_method"
     },
     {
       "id": "concept_two_listeners",
@@ -11293,7 +11318,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "seer_method"
     },
     {
       "id": "concept_self_cancelling_prophecy",
@@ -11312,7 +11338,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "seer_method"
     },
     {
       "id": "concept_witness_arrival_log",
@@ -11331,7 +11358,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "seer_method"
     },
     {
       "id": "concept_seer_third_discipline",
@@ -11350,7 +11378,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "seer_method"
     },
     {
       "id": "concept_hierophant_paradox_archivist",
@@ -11369,7 +11398,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "seer_method"
     },
     {
       "id": "entity_vex_solene",
@@ -11424,7 +11454,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "seer_method"
     },
     {
       "id": "concept_warlord_fragment_alias",
@@ -11443,7 +11474,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "seer_method"
     },
     {
       "id": "event_dec_7710_recording",
@@ -11481,7 +11513,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "audit_discipline"
     },
     {
       "id": "concept_engineer_witness_clause",
@@ -11500,7 +11533,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "witnessing_doctrine"
     },
     {
       "id": "event_alias_structural_lock",
@@ -11538,7 +11572,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "audit_discipline"
     },
     {
       "id": "entity_vex_apprentice",
@@ -11709,7 +11744,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "seer_method"
     },
     {
       "id": "concept_self_witnessing_recording",
@@ -11728,7 +11764,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "seer_method"
     },
     {
       "id": "concept_unrequested_attendance",
@@ -11747,7 +11784,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "seer_method"
     },
     {
       "id": "concept_alias_closing_options",
@@ -11766,7 +11804,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "seer_method"
     },
     {
       "id": "entity_game_master_archon",
@@ -11898,7 +11937,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "lionism_ethics"
     },
     {
       "id": "concept_matrix_edit_telemetry",
@@ -11917,7 +11957,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "lionism_ethics"
     },
     {
       "id": "concept_honest_editor",
@@ -11936,7 +11977,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "lionism_ethics"
     },
     {
       "id": "entity_brel_sorrash",
@@ -12012,7 +12054,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "imprint_mechanics"
     },
     {
       "id": "concept_velkraals_final_edit",
@@ -12031,7 +12074,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "imprint_mechanics"
     },
     {
       "id": "concept_handoff_as_legacy",
@@ -12050,7 +12094,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "imprint_mechanics"
     },
     {
       "id": "concept_imprint_political_request",
@@ -12069,7 +12114,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "imprint_mechanics"
     },
     {
       "id": "concept_observation_disclaimer_discipline",
@@ -12088,7 +12134,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "imprint_mechanics"
     },
     {
       "id": "concept_brels_first_session",
@@ -12107,7 +12154,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "imprint_mechanics"
     },
     {
       "id": "concept_imprint_letter_to_new_custodian",
@@ -12126,7 +12174,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "imprint_mechanics"
     },
     {
       "id": "concept_xethraal_continuance_letter",
@@ -12145,7 +12194,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "imprint_mechanics"
     },
     {
       "id": "concept_custodianship_as_doctrine",
@@ -12164,7 +12214,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "imprint_mechanics"
     },
     {
       "id": "entity_the_degen",
@@ -12277,7 +12328,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "audit_discipline"
     },
     {
       "id": "concept_brokerage_line_4711",
@@ -12296,7 +12348,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "audit_discipline"
     },
     {
       "id": "concept_mol_vereth_discretion",
@@ -12315,7 +12368,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "audit_discipline"
     },
     {
       "id": "concept_audit_legibility",
@@ -12334,7 +12388,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "audit_discipline"
     },
     {
       "id": "concept_the_coda",
@@ -12429,7 +12484,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "audit_discipline"
     },
     {
       "id": "concept_redacted_attestation",
@@ -12448,7 +12504,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "audit_discipline"
     },
     {
       "id": "concept_ozhul_redirected_monetisation",
@@ -12467,7 +12524,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "audit_discipline"
     },
     {
       "id": "concept_treasurers_release_in_advance",
@@ -12486,7 +12544,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "audit_discipline"
     },
     {
       "id": "concept_settlement_at_empty_table",
@@ -12505,7 +12564,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "audit_discipline"
     },
     {
       "id": "concept_audit_outcome_validates_camouflage",
@@ -12524,7 +12584,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "audit_discipline"
     },
     {
       "id": "concept_degens_letter_to_saga",
@@ -12543,7 +12604,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "audit_discipline"
     },
     {
       "id": "concept_one_night_witness",
@@ -12562,7 +12624,8 @@
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
-      "priority": "normal"
+      "priority": "normal",
+      "cluster": "witnessing_doctrine"
     },
     {
       "id": "the_sacrum_of_severed_silk",

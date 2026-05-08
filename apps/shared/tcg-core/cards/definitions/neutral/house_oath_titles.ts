@@ -33,6 +33,14 @@ export const card_locke_sworn_pen_title: CardDefinition = {
   rulesVersion: "1.1.0",
   reserved: true,
   trial_categories: ["narrative"] as const,
+  // audit/09.F6 — cost-0 1/1 is over the curve baseline. Title cards
+  // are reserved (not pack-rollable / not deck-builder-rollable) and
+  // exist to carry an oath flag for the §5.8 Authority trial; the
+  // 1/1 floor reflects ceremonial stat allocation, not combat budget.
+  balanceException: {
+    reason: "Reserved title card (oath flag carrier for the §5.8 Authority trial). Not pack-rollable; cost-0 1/1 floor is ceremonial, not combat-budgeted.",
+    reviewer: "audit-09.F6",
+  },
 };
 
 export const card_thaloria_witness_title: CardDefinition = {
@@ -51,6 +59,13 @@ export const card_thaloria_witness_title: CardDefinition = {
   rulesVersion: "1.1.0",
   reserved: true,
   trial_categories: ["narrative"] as const,
+  // audit/09.F6 — same rationale as card_locke_sworn_pen_title above:
+  // reserved title card carrying a witness flag for §5.8 Authority
+  // trial; cost-0 1/1 floor is ceremonial, not combat-budgeted.
+  balanceException: {
+    reason: "Reserved title card (witness flag carrier for the §5.8 Authority trial). Not pack-rollable; cost-0 1/1 floor is ceremonial, not combat-budgeted.",
+    reviewer: "audit-09.F6",
+  },
 };
 
 export const HOUSE_OATH_TITLE_CARDS: ReadonlyArray<CardDefinition> = [

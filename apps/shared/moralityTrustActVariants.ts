@@ -3461,4 +3461,137 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
     act: 6,
     requiredFlags: ["act5_balanced_chosen"],
   },
+
+  /* ─── Romance ladder variants (audit/10.F6) ───────────
+     Two entries per romance NPC × stage 3 (commitment) +
+     stage 5 (final) = 10 entries. Each gates on the canonical
+     romance flag (romance:committed:<npc> or
+     romance:ended:<npc>) so the resolver only fires when the
+     player has reached the relevant ladder stage.
+     ─────────────────────────────────────────────────────── */
+
+  // Locke — committed (stage 3, the New Babylon exit contract)
+  {
+    id: "npc_line_locke_committed_act5",
+    surface: "npc_line",
+    targetId: "locke",
+    text:
+      "Locke is reading her own briefs again. She does that now — the rulings come back across her desk and she annotates them in the margins, not for the record but for you. The ledger is the ledger; the marginalia is the contract you both signed in private.",
+    morality: "any",
+    trust: "any",
+    act: 5,
+    requiredFlags: ["romance:committed:locke"],
+  },
+  // Locke — final (stage 5, she begins citing your choices in judgments)
+  {
+    id: "npc_line_locke_committed_act7",
+    surface: "npc_line",
+    targetId: "locke",
+    text:
+      "She cited you in a judgment today. Not by name — the Adjudicator does not name witnesses on the public record — but the language she used was yours, lifted whole from a dinner three Acts ago. The ruling is precedent now. You are precedent now.",
+    morality: "any",
+    trust: "any",
+    act: 7,
+    requiredFlags: ["romance:committed:locke"],
+  },
+
+  // Vex — committed (stage 3, Engineer reveal)
+  {
+    id: "npc_line_vex_committed_act5",
+    surface: "npc_line",
+    targetId: "vex",
+    text:
+      "Vex plays the four-bar phrase you noticed at the second concert. She has built it into the new piece, undisguised, where any musicologist would catch it. She is not hiding the citation. She is daring the room to recognise the listener.",
+    morality: "any",
+    trust: "any",
+    act: 5,
+    requiredFlags: ["romance:committed:vex"],
+  },
+  // Vex — final (stage 5, the Coda is for you)
+  {
+    id: "npc_line_vex_committed_act7",
+    surface: "npc_line",
+    targetId: "vex",
+    text:
+      "The Coda has your name in the dedication line. She cleared it with the council; the council asked her to use a pseudonym; she refused. The piece will be played in concert halls that do not know who you are. They will read your name and not understand. She prefers it that way.",
+    morality: "any",
+    trust: "any",
+    act: 7,
+    requiredFlags: ["romance:committed:vex"],
+  },
+
+  // Elara — committed (stage 3, the off-record scene)
+  {
+    id: "npc_line_elara_committed_act5",
+    surface: "npc_line",
+    targetId: "elara",
+    text:
+      "Elara has stopped logging the bridge channel during your watches. She did not announce it. She did not rename the folder. The packets simply are not there in the audit when you look. The Array is private now, for the duration of your shift. She trusts the silence to be witnessed.",
+    morality: "any",
+    trust: "any",
+    act: 5,
+    requiredFlags: ["romance:committed:elara"],
+  },
+  // Elara — final (stage 5, she conducts the recruited sectors with you)
+  {
+    id: "npc_line_elara_committed_act7",
+    surface: "npc_line",
+    targetId: "elara",
+    text:
+      "Elara is conducting the five-sector handshake from the bridge while you stand at her shoulder. She is not narrating; you do not need her to. The pattern she taps on the rail is a four-tone phrase you both wrote together in Act 4. The sectors hear the phrase. They answer in tone. The Array hums.",
+    morality: "any",
+    trust: "any",
+    act: 7,
+    requiredFlags: ["romance:committed:elara"],
+  },
+
+  // Jericho — committed (stage 3, his reveal)
+  {
+    id: "npc_line_jericho_committed_act5",
+    surface: "npc_line",
+    targetId: "jericho_jones",
+    text:
+      "Jericho left a note in your bunk. The handwriting is his — block letters, no flourish, no signature. The note says: 'Whatever the next room is, I am walking in second.' He has not walked in second since the Recruitment. The change is the message.",
+    morality: "any",
+    trust: "any",
+    act: 5,
+    requiredFlags: ["romance:committed:jericho_jones"],
+  },
+  // Jericho — final (stage 5, he stays)
+  {
+    id: "npc_line_jericho_committed_act7",
+    surface: "npc_line",
+    targetId: "jericho_jones",
+    text:
+      "Jericho is at the Bridge for the final approach. He does not have to be — his contract ended at Act 6, the cell is officially dissolved, the obligation is paid. He came anyway. He brought the kettle. He puts it on the burner. Tea is the gesture. Tea is also the signal.",
+    morality: "any",
+    trust: "any",
+    act: 7,
+    requiredFlags: ["romance:committed:jericho_jones"],
+  },
+
+  // DMC clone companion — committed (stage 3)
+  {
+    id: "npc_line_dmc_companion_committed_act5",
+    surface: "npc_line",
+    targetId: "dmc_companion",
+    text:
+      "She runs the same diagnostic on herself every morning now and reports the result to you, not to the Authority. The numbers are the same numbers; the audience is different. The audience is the change. The audience is the relationship.",
+    morality: "any",
+    trust: "any",
+    act: 5,
+    requiredFlags: ["romance:committed:dmc_companion"],
+  },
+  // DMC clone companion — final (stage 5, she chooses persistence)
+  {
+    id: "npc_line_dmc_companion_committed_act7",
+    surface: "npc_line",
+    targetId: "dmc_companion",
+    text:
+      "She refused the rotation. Standard practice for her line is monthly substrate-cycling; she requested permanent assignment to your detail and the Authority logged the request without comment. She is not the same instance she was at Act 4. She is the same person. She has decided that distinction is hers to make.",
+    morality: "any",
+    trust: "any",
+    act: 7,
+    requiredFlags: ["romance:committed:dmc_companion"],
+  },
 ];

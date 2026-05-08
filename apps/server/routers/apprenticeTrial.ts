@@ -18,6 +18,7 @@ import {
 } from "../services/crewState";
 import { instantiateApprenticeAsCrewMember } from "../../shared/apprenticeToCrew";
 import type { ApprenticeArchetype } from "../../shared/apprentices";
+import { writeNarrativeFlag } from "../services/narrativeFlagService";
 
 const APPRENTICE_ARCHETYPE_KEYS: ReadonlyArray<ApprenticeArchetype> = [
   "zealot", "ghost", "scholar", "revenant", "artisan", "oracle",
@@ -95,6 +96,24 @@ export const apprenticeTrialRouter = router({
         } catch {
           // Best-effort — title grant still succeeded.
         }
+      }
+
+      // audit/10.F5 — graduation also writes sticky narrative flags so
+      // the variant resolver / companion comments / ask topics can
+      // reference the player's apprentice journey without re-querying
+      // the completions table. Idempotent (unique index absorbs
+      // re-writes from cohort replay).
+      if (input.graduated) {
+        await writeNarrativeFlag(
+          ctx.user.id,
+          `apprentice_trial_completed_${input.archetype}`,
+          "apprentice_trial",
+        );
+        await writeNarrativeFlag(
+          ctx.user.id,
+          "apprentice_trial_graduated_any",
+          "apprentice_trial",
+        );
       }
 
       return { ok: true, titlesGranted: granted, crewInstantiated };

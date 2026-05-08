@@ -94,7 +94,7 @@ const chapter1: PotentialQuestlineChapter = {
     },
     {
       speaker: "elara",
-      text: "That's Iron Lion. Seventeen thousand years old. Came through on your channel.",
+      text: "The packet arrived warm. That should not be possible. The signal is seventeen thousand years old and the carrier wave still has heat in it. It is Iron Lion. Came through on your channel.",
       stageDirection: "Elara's voice is quieter than usual — the kind of quiet that means she recognizes the significance.",
     },
     {
@@ -107,7 +107,7 @@ const chapter1: PotentialQuestlineChapter = {
     sol_ch1_investigate_broadcast: [
       {
         speaker: "elara",
-        text: "I can attempt a full reconstruction, but the signal degradation is severe. What I can tell you now is that the broadcast was encoded with a Soldier-class priority header — a classification system that predates the current Ark operating protocols by thousands of years. Iron Lion tagged this as urgent military communication. Whatever he was trying to say, he wanted to make sure a Soldier heard it first.",
+        text: "Reconstruction will hurt to listen to. The decay layer is dense — every recovered word is going to be a word the recording lost the right to keep. I can do it. The protocol it carries is older than the Ark's current handshake by thousands of years; he tagged it Soldier-class so a Soldier would be the one to hear it first. He chose the listener before the listener was born.",
       },
       {
         speaker: "the_human",
@@ -117,7 +117,7 @@ const chapter1: PotentialQuestlineChapter = {
     sol_ch1_humanity_honor: [
       {
         speaker: "elara",
-        text: "The Ark's memorial systems have a protocol for this — honoring Insurgents whose contributions were classified or lost. Iron Lion's record is fragmented, but what exists describes someone who held the line when every strategic model said retreat was the only viable option. He held it anyway.",
+        text: "The breach was wider than the body that held it. That is the line in the fragment I keep returning to. The strategic models on file all say retreat was the correct call — they say it confidently, in clean machine prose, the way they always say it. Iron Lion read those models. He held the line anyway. The Ark has a memorial protocol for the ones who do that. We are inside it now.",
       },
       {
         speaker: "the_human",
@@ -131,7 +131,7 @@ const chapter1: PotentialQuestlineChapter = {
       },
       {
         speaker: "elara",
-        text: "I can confirm the routing. The priority header is genuine, and the queue timestamp predates every other stored communication in the Comms Array by at least four thousand years. This was the first message the system was ever asked to hold. Iron Lion got here first. In every sense.",
+        text: "The queue had to learn how to hold this. Every other communication in the Array's history is younger than the wait this one performed; the substrate has a hum it only makes for the oldest stored signal, and that hum has been Iron Lion's hum since before the Ark recognized hum as a category. The header is genuine. He got here first. In every sense.",
       },
     ],
     sol_ch1_compassionate_accept: [
@@ -141,7 +141,7 @@ const chapter1: PotentialQuestlineChapter = {
       },
       {
         speaker: "elara",
-        text: "The recording is responding to your acknowledgment. There's a secondary data packet embedded in the signal — it was gated behind a Soldier-class voice confirmation. Iron Lion built a call-and-response into the broadcast. He wanted to hear you say it back before he gave you the rest.",
+        text: "Something just opened that I did not know was closed. The signal carrier is shifting — there is a second packet inside it, gated behind your voice. He built a call-and-response into the broadcast. He wanted to hear you say it back before he handed over the rest. The substrate just heard you. It is unfolding.",
       },
       {
         speaker: "the_human",
