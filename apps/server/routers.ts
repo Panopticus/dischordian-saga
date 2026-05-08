@@ -134,6 +134,7 @@ import { resurrectionRouter } from "./routers/resurrection";
 import { hellboxRouter } from "./routers/hellbox";
 import { bloodWeaveRouter } from "./routers/bloodWeave";
 import { npcRecruitRouter } from "./routers/npcRecruit";
+import { recruitmentQuestsRouter } from "./routers/recruitmentQuests";
 import { commonsRouter } from "./routers/commons";
 import { storyModeRouter } from "./routers/storyMode";
 import { tutorialRouter } from "./routers/tutorial";
@@ -305,6 +306,7 @@ export const appRouter = router({
   hellbox: hellboxRouter,
   bloodWeave: bloodWeaveRouter,
   npcRecruit: npcRecruitRouter,
+  recruitmentQuests: recruitmentQuestsRouter,
   commons: commonsRouter,
   storyMode: storyModeRouter,
   tutorial: tutorialRouter,

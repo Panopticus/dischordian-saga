@@ -7483,6 +7483,40 @@ export const apprenticeRomanceArc = mysqlTable("apprentice_romance_arc", {
 }));
 export type ApprenticeRomanceArcRow = typeof apprenticeRomanceArc.$inferSelect;
 
+/** Per-(user, npcKey) progress through the recruitment quest chain
+ *  authored in apps/shared/recruitmentQuests.ts. One row per chain.
+ *  Idempotent — re-opening returns the existing row.
+ *  Outcome ∈ { null (in progress), "recruited_loyal", "recruited_tense",
+ *  "refused" } once the chain reaches a terminal stage. */
+export const recruitmentQuestProgress = mysqlTable("recruitment_quest_progress", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  npcKey: varchar("npcKey", { length: 32 }).notNull(),
+  /** Current stage id within the chain. NULL until first open. */
+  currentStageId: varchar("currentStageId", { length: 64 }),
+  /** Choice ids the player has picked, in order. */
+  choiceHistory: json("choiceHistory").$type<string[]>().default([]).notNull(),
+  /** Narrative flags accumulated from chosen branches. */
+  flagsSet: json("flagsSet").$type<string[]>().default([]).notNull(),
+  /** Terminal outcome — null while in progress. */
+  outcome: varchar("outcome", { length: 32 }),
+  /** Snapshot of the recruit-time modifiers — starting loyalty, stat
+   *  tweaks, relationship tag — captured from the final choice. The
+   *  npcRecruit router reads this to instantiate the crew member. */
+  recruitModifiers: json("recruitModifiers").$type<{
+    startingLoyalty?: number;
+    statTweaks?: Record<string, number>;
+    relationshipTag?: string;
+  } | null>(),
+  startedAt: timestamp("startedAt").defaultNow().notNull(),
+  resolvedAt: timestamp("resolvedAt"),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull().onUpdateNow(),
+}, (t) => ({
+  userNpcIdx: uniqueIndex("uq_rqp_user_npc").on(t.userId, t.npcKey),
+  userIdx: index("idx_rqp_user").on(t.userId),
+}));
+export type RecruitmentQuestProgressRow = typeof recruitmentQuestProgress.$inferSelect;
+
 /* ═══════════════════════════════════════════════════════
    WORLD WEAVE — yearly events, ripple ledger, memorial plaza
 

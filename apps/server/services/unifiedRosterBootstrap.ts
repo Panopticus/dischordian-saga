@@ -117,6 +117,27 @@ CREATE TABLE IF NOT EXISTS \`apprentice_romance_arc\` (
 )
 `;
 
+const RECRUITMENT_QUEST_PROGRESS_SQL = `
+CREATE TABLE IF NOT EXISTS \`recruitment_quest_progress\` (
+  \`id\` INT AUTO_INCREMENT NOT NULL,
+  \`userId\` INT NOT NULL,
+  \`npcKey\` VARCHAR(32) NOT NULL,
+  \`currentStageId\` VARCHAR(64) NULL,
+  \`choiceHistory\` JSON NOT NULL,
+  \`flagsSet\` JSON NOT NULL,
+  \`outcome\` VARCHAR(32) NULL,
+  \`recruitModifiers\` JSON NULL,
+  \`startedAt\` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  \`resolvedAt\` TIMESTAMP NULL,
+  \`updatedAt\` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  CONSTRAINT \`recruitment_quest_progress_id\` PRIMARY KEY(\`id\`),
+  CONSTRAINT \`uq_rqp_user_npc\` UNIQUE(\`userId\`, \`npcKey\`),
+  CONSTRAINT \`rqp_userId_users_id_fk\`
+    FOREIGN KEY (\`userId\`) REFERENCES \`users\`(\`id\`) ON DELETE CASCADE,
+  INDEX \`idx_rqp_user\` (\`userId\`)
+)
+`;
+
 export async function bootstrapUnifiedRosterTables(): Promise<void> {
   const db = await getDb();
   if (!db) {
@@ -150,6 +171,7 @@ export async function bootstrapUnifiedRosterTables(): Promise<void> {
     await db.execute(sql.raw(APPRENTICE_GIFT_LOG_SQL));
     await db.execute(sql.raw(NPC_WORLD_DEATH_STATE_SQL));
     await db.execute(sql.raw(APPRENTICE_ROMANCE_ARC_SQL));
+    await db.execute(sql.raw(RECRUITMENT_QUEST_PROGRESS_SQL));
     logger.info("[unifiedRosterBootstrap] tables ensured");
   } catch (err) {
     logger.error(

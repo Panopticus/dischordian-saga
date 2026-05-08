@@ -40,6 +40,7 @@ import { checkSchemaOrphanColumns } from "./checks/schemaOrphanColumns";
 import { checkNotificationEnumProducers } from "./checks/notificationEnumProducers";
 import { checkApprenticeAuthoringCoverage } from "./checks/apprenticeAuthoringCoverage";
 import { checkCommonsSceneCoverage } from "./checks/commonsSceneCoverage";
+import { checkRecruitmentChainCoverage } from "./checks/recruitmentChainCoverage";
 import { checkWovenSystemRippleCoverage } from "./checks/wovenSystemRippleCoverage";
 import { checkYearlyEventRuntime } from "./checks/yearlyEventRuntime";
 import { checkSevenSealRuntime } from "./checks/sevenSealRuntime";
@@ -315,6 +316,13 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     // Ratcheted — full coverage is a long-tail authoring goal; the
     // gate enforces no-regress as the pool grows.
     ratchet: { target: 0 },
+  },
+  {
+    id: "recruit.chain_coverage",
+    name: "Recruitment chain coverage",
+    description:
+      "Every recruitable NPC has a complete authored chain in recruitmentQuests.ts: briefing, ≥ 3 stages with ≥ 2 choices each, all three terminal outcomes (loyal / tense / refused) reachable, no dangling stage references.",
+    check: () => checkRecruitmentChainCoverage(),
   },
   // ─── World — woven-systems integration (the Two-Ripple Rule) ──
   // Added 2026-05-08 alongside docs/design/INCOMPLETE_DESIGNS_AUDIT
