@@ -123,6 +123,47 @@ export function scoreHandCardForLockout(
     if (offensiveKeywords.has(kw)) score += 5;
   }
 
+  // audit/16 PR 20 (finding TCG4) — late-game scoring override.
+  //
+  // Pre-audit, scoring favoured affordability above all else.
+  // Late game (mana ≥ 6) affordability is a given — every card
+  // in hand is castable — so the early-game weight on
+  // "immediately playable" stops carrying signal. The audit
+  // asked for a late-game branch that uses raw threat + AoE
+  // awareness + combo potential instead.
+  //
+  // The branch ADDS to the existing score (it doesn't replace),
+  // so cards that score well early continue to score well late;
+  // the additions reward late-game-relevant attributes.
+  if (player.mana >= 6) {
+    // Raw threat: stat total per cost dominates vs affordability.
+    // Higher-impact units (huge legendaries, finishers) get a
+    // significant boost in the lockout's "favourable" set.
+    const power = def.baseStats?.power ?? 0;
+    const health = def.baseStats?.health ?? 0;
+    const rawThreat = power + health;
+    if (rawThreat >= 12) score += 20;
+    else if (rawThreat >= 8) score += 12;
+
+    // AoE awareness — cards with `deal_damage_all` or other
+    // board-clearing ops are disproportionately valuable late
+    // because the board is fuller. Detected via collected ops.
+    if (
+      opNames.has("deal_damage_all") ||
+      opNames.has("destroy_all") ||
+      opNames.has("banish_all")
+    ) {
+      score += 18;
+    }
+
+    // Combo potential: spells with multiple effect ops (the
+    // chain length is a proxy for combo flexibility). A 4-op
+    // spell at high mana is usually a finisher; a 2-op spell
+    // is utility.
+    const opCount = opNames.size;
+    if (def.cardType === "spell" && opCount >= 4) score += 10;
+  }
+
   return Math.max(0, score);
 }
 
