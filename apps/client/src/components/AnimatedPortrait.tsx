@@ -73,18 +73,50 @@ function ensureStyles() {
 
 /* ─── TRUST-BASED FILTERS ─── */
 
-function trustFilter(trustLevel: number): string {
+/**
+ * Compose a CSS `filter` string from trust + morality.
+ *
+ * The trust axis is the dominant signal (cold → desaturated cooler
+ * portrait, warm → sepia warmth). audit/16 PR 7 (finding C6 —
+ * Cinematic persona) layers the morality axis on top: a machine-
+ * leaning player sees a faint cyan tint (the AI alignment colour);
+ * humanity-leaning sees a faint amber bloom; balanced is unmodified.
+ *
+ * Visual grammar (now documented as the audit asked for):
+ *   - low trust  + machine    → desaturated, cool, very slight cyan tint
+ *   - low trust  + humanity   → desaturated, cool, very slight amber
+ *   - mid trust  + any        → no filter (the cleanest baseline)
+ *   - high trust + machine    → warm glow + faint cyan rim
+ *   - high trust + humanity   → warm glow + faint amber rim
+ *
+ * Morality contributes at most a +/- 5° hue-rotate so the trust
+ * grammar still dominates — the alignment lens is a flavour,
+ * not a re-skin.
+ */
+function trustFilter(trustLevel: number, moralityScore?: number): string {
   const t = Math.max(0, Math.min(100, trustLevel));
+  // Morality contribution: -5° (machine) to +5° (humanity); 0 at balanced.
+  // moralityScore is a -100..100 axis with bands at ±20 (see
+  // `bandForMorality` in moralityTrustActVariants.ts). We use the
+  // continuous score for smoother visuals rather than the band.
+  const m = moralityScore == null ? 0 : Math.max(-100, Math.min(100, moralityScore));
+  const moralityHueShift = (m / 100) * 5; // -5° (machine) → +5° (humanity)
   if (t < 25) {
     // Low trust: desaturated, cooler tones
     const desat = 0.3 + (t / 25) * 0.3; // 0.3 → 0.6 saturation
-    return `saturate(${desat}) brightness(0.92) sepia(0.08) hue-rotate(-8deg)`;
+    // Compose existing -8° hue-rotate with the morality nudge.
+    const hue = -8 + moralityHueShift;
+    return `saturate(${desat}) brightness(0.92) sepia(0.08) hue-rotate(${hue}deg)`;
   }
   if (t > 75) {
     // High trust: warmer glow, slightly brighter
     const warmth = ((t - 75) / 25) * 0.12; // 0 → 0.12 sepia
     const bright = 1 + ((t - 75) / 25) * 0.08; // 1 → 1.08
-    return `saturate(1.1) brightness(${bright}) sepia(${warmth})`;
+    return `saturate(1.1) brightness(${bright}) sepia(${warmth}) hue-rotate(${moralityHueShift}deg)`;
+  }
+  // Mid-trust band: morality nudge only, no other shifts.
+  if (moralityHueShift !== 0) {
+    return `hue-rotate(${moralityHueShift}deg)`;
   }
   return "none";
 }
@@ -133,6 +165,15 @@ interface AnimatedPortraitProps {
   audio?: HTMLAudioElement | null;
   /** 0–100 trust level with the player */
   trustLevel?: number;
+  /**
+   * audit/16 PR 7 (finding C6). The player's current morality
+   * score on the canonical -100..100 axis (machine ≤ -20,
+   * humanity ≥ 20, else balanced). When provided, the trust
+   * filter layers a faint hue-shift cue on top — machine-cool
+   * vs humanity-warm — so the alignment state is legible in the
+   * portrait grammar. Optional; legacy callers see no change.
+   */
+  moralityScore?: number;
   /** Portrait crop size */
   size?: "bust" | "full";
   className?: string;
@@ -146,6 +187,7 @@ export function AnimatedPortrait({
   isSpeaking = false,
   audio = null,
   trustLevel = 50,
+  moralityScore,
   size = "bust",
   className = "",
 }: AnimatedPortraitProps) {
@@ -199,7 +241,7 @@ export function AnimatedPortrait({
     : "w-full max-w-[256px] aspect-square";
 
   // ─── Filters ───
-  const filter = trustFilter(trustLevel);
+  const filter = trustFilter(trustLevel, moralityScore);
   const speakingBrightness = isSpeaking ? "brightness(1.1)" : "";
   const combinedFilter = [filter, speakingBrightness].filter(Boolean).join(" ") || "none";
 
