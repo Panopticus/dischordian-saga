@@ -46,6 +46,11 @@ import {
   pickLastWords,
   pickBestFitRole,
 } from "../../shared/crewMissions";
+// CREW_MISSION_TEMPLATES is decorated by proceduralMissionFactory's
+// tagsForTemplate helper at module load — every template carries
+// faction/theme/era/danger tags so personal-quest sub-tasks
+// (`mission_tag_complete`) can validate against completion records.
+import { tagsForTemplate } from "../../shared/proceduralMissionFactory";
 import { CREW_BALANCE } from "../../shared/crewBalance";
 import { applyTick as sharedApplyTick } from "../../shared/crewTick";
 import { distributeCrewXp } from "../../shared/crewXpCredit";
@@ -486,6 +491,12 @@ export const crewRouter = router({
 
       const successChance = calculateMissionSuccess(template, assigned);
       const now = Date.now();
+      // Inherit the template's procedural tags so the casualty branch
+      // can persist them on resolution. Pre-decoration templates (legacy
+      // or test fixtures) get a fallback tag set keyed on difficulty.
+      const tags =
+        template.tags ??
+        tagsForTemplate({ factionKey: "neutral", difficulty: template.difficulty });
       const mission: CrewMissionState = {
         id: `crewmission-${now}-${Math.floor(Math.random() * 100000)}`,
         templateId: template.id,
@@ -502,6 +513,7 @@ export const crewRouter = router({
         failureReward: template.failureReward,
         cost: template.cost,
         status: "dispatched",
+        tags,
       };
 
       // Mark crew as on_mission

@@ -47,6 +47,12 @@ import { checkYearlyEventRuntime } from "./checks/yearlyEventRuntime";
 import { checkSevenSealRuntime } from "./checks/sevenSealRuntime";
 import { checkMiniDlcFiveSystemCoverage } from "./checks/miniDlcFiveSystemCoverage";
 import { checkSevenSealEpigraphCoverage } from "./checks/sevenSealEpigraphCoverage";
+import { checkNpcBiowareCoverage } from "./checks/npcBiowareCoverage";
+import { checkNpcDialogueCoverage } from "./checks/npcDialogueCoverage";
+import { checkMissionFactoryConsumerCoverage } from "./checks/missionFactoryConsumerCoverage";
+import { checkLoredexMemberCarryWired } from "./checks/loredexMemberCarryWired";
+import { checkPersonalQuestSubtaskAuthoring } from "./checks/personalQuestSubtaskAuthoring";
+import { checkNpcBanterCommentCoverage } from "./checks/npcBanterCommentCoverage";
 import { checkWheelFollowupCinematicCoverage } from "./checks/wheelFollowupCinematicCoverage";
 
 export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
@@ -374,6 +380,56 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "Every seal in apps/shared/sevenSeals.ts must have an authored epigraph in apps/shared/sevenSealsEpigraphs.ts (openingLine ≤ 80 chars, body 200–600 chars, attribution + citation non-empty). Hard parity — missing epigraphs degrade the SealEpigraphCinematic to the fall-summary fallback.",
     check: () => checkSevenSealEpigraphCoverage(),
+  },
+  // ─── Tier-2/Tier-3 NPC authoring depth ──────────────────────
+  {
+    id: "npc.bioware_coverage",
+    name: "NPC BioWare authoring per NPC",
+    description:
+      "Every NamedNpcKey (12 NPCs across tier-2 and tier-3) has identity (likes/dislikes/wants/signature) and a personal-quest chain matching its tier — tier-2: 3 stages with stage-3 breaking-point choices; tier-3: 1 stage cosmic encounter. Each stage declares ≥3 sub-tasks.",
+    check: () => checkNpcBiowareCoverage(),
+  },
+  {
+    id: "npc.dialogue_coverage",
+    name: "NPC branching dialogues",
+    description:
+      "Every NamedNpcKey has all four BioWare-style topics (past/calling/mortality/us) with non-empty openers, ≥3 entry choices, and ≥1 follow-up node per topic. Hard parity.",
+    check: () => checkNpcDialogueCoverage(),
+  },
+  // ─── Mission factory + consumer migration ────────────────────
+  {
+    id: "mission.factory_consumer_coverage",
+    name: "Mission factory consumer coverage",
+    description:
+      "Every consumer that emits a CrewMissionTemplate (dailyQuests, tradeMissions, crew, collectorsWorkMissions) routes through proceduralMissionFactory.generateMission. Lands at RATCHET — full migration is the closing step of the unified-roster wave.",
+    check: () => checkMissionFactoryConsumerCoverage(),
+    ratchet: { target: 0 },
+  },
+  // ─── Per-member loredex carry wiring ─────────────────────────
+  {
+    id: "loredex.member_carry_wired",
+    name: "Per-member loredex carry wiring",
+    description:
+      "Every loredex_entry_discovered emit site is observed by the rippleEngine carry handler (recordDiscovery) so the dead can stamp memorialAtCycle on unread entries on death. Lands at RATCHET — slideshow + silence-in-heaven emitters added in follow-up.",
+    check: () => checkLoredexMemberCarryWired(),
+    ratchet: { target: 0 },
+  },
+  // ─── Personal-quest sub-task authoring ───────────────────────
+  {
+    id: "personal_quest.subtask_authoring",
+    name: "Personal-quest sub-task authoring",
+    description:
+      "Every (NPC | apprentice) × stage in the personal-quest chains declares ≥3 sub-tasks. Tier-2 NPCs and apprentices have 3 stages; tier-3 NPCs have a single cosmic encounter. Hard parity once apprentice authoring lands; ratcheted during rollout.",
+    check: () => checkPersonalQuestSubtaskAuthoring(),
+    ratchet: { target: 0 },
+  },
+  {
+    id: "npc.banter_comment_coverage",
+    name: "NPC banter + reactive-comment coverage",
+    description:
+      "Every NamedNpcKey has ≥3 reactive comments in NPC_REACTIVE_COMMENTS and ≥3 banter pairs in NPC_BANTER_PAIRS. Hard parity at landing; ratcheted to prevent authoring regressions.",
+    check: () => checkNpcBanterCommentCoverage(),
+    ratchet: { target: 0 },
   },
   {
     // audit/16 PR 4 (Cluster D — finding C1).

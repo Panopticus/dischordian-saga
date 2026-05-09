@@ -3,12 +3,13 @@
    ═══════════════════════════════════════════════════════ */
 
 import { useMemo } from "react";
-import { Skull, Crown } from "lucide-react";
+import { Skull, Crown, BookOpen } from "lucide-react";
 import { FOUNDING_BLOODLINES, type BloodlineId } from "@/game/crewGenetics";
 import type { CrewState, SerializedCrewMember } from "@shared/crewPersistence";
 import { SPECTRAL_ART } from "@/data/nanobanna2Assets";
 import { CREW_SPECIES_TO_SPECTRAL, pickSpectralForId } from "../spectralFormMap";
 import { THE_ASSISTANT_CARD } from "@shared/darrenMemorial";
+import { trpc } from "@/lib/trpc";
 
 interface Props {
   state: CrewState;
@@ -26,6 +27,14 @@ interface BloodlineGraveyardEntry {
 
 export default function MemorialWall({ state }: Props) {
   const deceased = state.roster.deceased;
+  const memorialOnlyQuery = trpc.loredexCarry.getMemorialOnly.useQuery();
+  const memberNameByKey = useMemo(() => {
+    const m = new Map<string, string>();
+    for (const member of [...state.roster.members, ...deceased]) {
+      m.set(member.id, member.name);
+    }
+    return m;
+  }, [state.roster.members, deceased]);
 
   // Build per-bloodline summaries. "Extinct" bloodlines have a founder in the
   // graveyard and zero living members.
@@ -104,12 +113,53 @@ export default function MemorialWall({ state }: Props) {
     );
   }
 
+  const memorialOnlyGroups = memorialOnlyQuery.data ?? [];
+
   return (
     <div className="space-y-6">
       <div className="text-[11px] font-mono text-muted-foreground">
         {deceased.length} name{deceased.length === 1 ? "" : "s"} on the wall ·{" "}
         {state.roster.totalLost} total lost · {state.dmcClonesLost} lost to the Circuit
       </div>
+
+      {/* Carried-but-unread loredex entries — entries the deceased
+          discovered but never finished reading. Now memorial-only. */}
+      {memorialOnlyGroups.length > 0 && (
+        <section>
+          <div className="text-[10px] font-mono uppercase text-muted-foreground mb-2 tracking-wider">
+            ENTRIES CARRIED INTO THE WALL
+          </div>
+          <div className="space-y-2">
+            {memorialOnlyGroups.map((g) => {
+              const name = memberNameByKey.get(g.memberKey) ?? g.memberKey;
+              return (
+                <div
+                  key={g.memberKey}
+                  className="p-3 border border-border/40 rounded bg-background/40"
+                >
+                  <div className="flex items-center justify-between mb-1">
+                    <div className="font-display text-sm font-semibold flex items-center gap-2">
+                      <BookOpen className="w-3 h-3" />
+                      {name}
+                    </div>
+                    <span className="text-[10px] font-mono text-muted-foreground">
+                      cycle {g.memorialAtCycle}
+                    </span>
+                  </div>
+                  <div className="text-[10px] font-mono italic text-foreground/60 mb-2">
+                    Took {g.entries.length} unread entr{g.entries.length === 1 ? "y" : "ies"} with them.
+                  </div>
+                  <ul className="text-[10px] font-mono text-foreground/70 space-y-0.5 pl-4 list-disc">
+                    {g.entries.map((id) => (
+                      <li key={id}>{id}</li>
+                    ))}
+                  </ul>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+      )}
 
       {/* Extinct bloodlines get a dramatic full-width block */}
       {extinctBloodlines.length > 0 && (

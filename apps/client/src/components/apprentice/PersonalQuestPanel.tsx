@@ -23,7 +23,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { toast } from "sonner";
-import { Heart, Skull, ChevronRight, BookOpen, Flag } from "lucide-react";
+import { Heart, Skull, ChevronRight, BookOpen, Flag, Check, Circle } from "lucide-react";
 
 interface Props {
   memberKey: string;
@@ -82,7 +82,7 @@ export default function PersonalQuestPanel({ memberKey }: Props) {
   }
   const data = statusQuery.data;
   if (!data) return null;
-  const { progress, chain, bond, gates } = data;
+  const { progress, chain, bond, gates, subtasks } = data;
   const stage = progress.stage;
   const resolution = progress.resolution;
 
@@ -135,10 +135,17 @@ export default function PersonalQuestPanel({ memberKey }: Props) {
               isCurrent={stage === 1}
               isComplete={stage > 1}
               gateLabel={`Bond ≥ ${gates.advance_to_2} to continue.`}
+              subtasks={subtasks?.stage1.refs ?? []}
+              completed={subtasks?.stage1.completed ?? []}
               actionLabel={
                 stage === 1 ? `Advance to Stage 2 (bond ≥ ${gates.advance_to_2})` : undefined
               }
-              actionDisabled={stage !== 1 || bond < gates.advance_to_2 || advance.isPending}
+              actionDisabled={
+                stage !== 1
+                || bond < gates.advance_to_2
+                || advance.isPending
+                || (subtasks ? !subtasks.stage1.allComplete : false)
+              }
               onAction={() => advance.mutate({ memberKey, fromStage: 1 })}
             />
           ) : null}
@@ -151,10 +158,17 @@ export default function PersonalQuestPanel({ memberKey }: Props) {
               isCurrent={stage === 2}
               isComplete={stage > 2}
               gateLabel={`Bond ≥ ${gates.advance_to_3} to reach the breaking point.`}
+              subtasks={subtasks?.stage2.refs ?? []}
+              completed={subtasks?.stage2.completed ?? []}
               actionLabel={
                 stage === 2 ? `Advance to Stage 3 (bond ≥ ${gates.advance_to_3})` : undefined
               }
-              actionDisabled={stage !== 2 || bond < gates.advance_to_3 || advance.isPending}
+              actionDisabled={
+                stage !== 2
+                || bond < gates.advance_to_3
+                || advance.isPending
+                || (subtasks ? !subtasks.stage2.allComplete : false)
+              }
               onAction={() => advance.mutate({ memberKey, fromStage: 2 })}
             />
           ) : null}
@@ -167,6 +181,9 @@ export default function PersonalQuestPanel({ memberKey }: Props) {
               breakChoice={chain.stage3.breakChoice}
               resolution={resolution}
               pending={resolveMut.isPending}
+              subtasks={subtasks?.stage3.refs ?? []}
+              completed={subtasks?.stage3.completed ?? []}
+              allComplete={subtasks?.stage3.allComplete ?? true}
               onResolve={(choice) =>
                 resolveMut.mutate({ memberKey, choice })
               }
@@ -175,6 +192,42 @@ export default function PersonalQuestPanel({ memberKey }: Props) {
         </CardContent>
       </Card>
     </div>
+  );
+}
+
+interface SubtaskRef {
+  id: string;
+  type: string;
+  targetId: string;
+  label: string;
+}
+
+function SubtaskList(props: {
+  subtasks: SubtaskRef[];
+  completed: boolean[];
+}) {
+  if (props.subtasks.length === 0) return null;
+  return (
+    <ul className="space-y-1 text-xs pt-1">
+      {props.subtasks.map((s, i) => {
+        const done = props.completed[i] ?? false;
+        return (
+          <li
+            key={s.id}
+            className={`flex items-start gap-2 ${
+              done ? "opacity-60" : "opacity-100"
+            }`}
+          >
+            {done ? (
+              <Check className="w-3 h-3 mt-0.5 flex-shrink-0" />
+            ) : (
+              <Circle className="w-3 h-3 mt-0.5 flex-shrink-0" />
+            )}
+            <span className={done ? "line-through" : ""}>{s.label}</span>
+          </li>
+        );
+      })}
+    </ul>
   );
 }
 
@@ -188,6 +241,8 @@ function Stage(props: {
   actionLabel?: string;
   actionDisabled?: boolean;
   onAction?: () => void;
+  subtasks?: SubtaskRef[];
+  completed?: boolean[];
 }) {
   return (
     <div className="rounded border border-foreground/10 p-3 space-y-2">
@@ -203,6 +258,12 @@ function Stage(props: {
         ) : null}
       </div>
       <p className="text-xs opacity-80">{props.description}</p>
+      {props.subtasks && props.subtasks.length > 0 && props.isCurrent ? (
+        <SubtaskList
+          subtasks={props.subtasks}
+          completed={props.completed ?? []}
+        />
+      ) : null}
       {props.actionLabel ? (
         <Button
           size="sm"
@@ -225,6 +286,9 @@ function BreakingPoint(props: {
   breakChoice: { label: string; consequence: string };
   resolution: "deepened" | "broken" | null;
   pending: boolean;
+  subtasks?: SubtaskRef[];
+  completed?: boolean[];
+  allComplete?: boolean;
   onResolve: (choice: "deepened" | "broken") => void;
 }) {
   if (props.resolution) {
@@ -246,17 +310,31 @@ function BreakingPoint(props: {
       </div>
     );
   }
+  const choicesDisabled = props.pending || props.allComplete === false;
   return (
     <div className="rounded border border-amber-500/40 p-3 space-y-3">
       <div>
         <h4 className="text-sm font-semibold">Breaking Point — {props.title}</h4>
         <p className="text-xs opacity-80 mt-1">{props.description}</p>
       </div>
+      {props.subtasks && props.subtasks.length > 0 ? (
+        <div>
+          <SubtaskList
+            subtasks={props.subtasks}
+            completed={props.completed ?? []}
+          />
+          {!props.allComplete ? (
+            <p className="text-xs opacity-70 pt-2">
+              Resolve every sub-task before making the breaking-point choice.
+            </p>
+          ) : null}
+        </div>
+      ) : null}
       <div className="grid gap-2 sm:grid-cols-2">
         <Button
           variant="default"
           size="sm"
-          disabled={props.pending}
+          disabled={choicesDisabled}
           onClick={() => props.onResolve("deepened")}
           className="justify-start text-left h-auto py-2"
         >
@@ -271,7 +349,7 @@ function BreakingPoint(props: {
         <Button
           variant="destructive"
           size="sm"
-          disabled={props.pending}
+          disabled={choicesDisabled}
           onClick={() => props.onResolve("broken")}
           className="justify-start text-left h-auto py-2"
         >

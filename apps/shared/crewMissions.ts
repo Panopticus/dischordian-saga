@@ -21,10 +21,42 @@ import type {
   SerializedCrewMember,
 } from "./crewPersistence";
 import { CREW_BALANCE } from "./crewBalance";
+import { tagsForTemplate } from "./proceduralMissionFactory";
+
+/** Sector → faction key mapping. Used by the tag decorator below to
+ *  surface faction:* tags on every hand-authored CrewMissionTemplate.
+ *  Sectors not listed in the map fall back to "neutral" — the
+ *  sub-task validators ignore neutral-faction tags. */
+const SECTOR_FACTION: Record<string, string> = {
+  debris_belt: "neutral",
+  silent_waypoint: "architect",
+  outer_station: "trader_outpost",
+  violet_trench: "voltari",
+  lesser_hub: "trader_outpost",
+  red_perimeter: "thought_virus",
+  hellgate_fringe: "hierarchy",
+  violet_static: "voltari",
+  collector_annex: "collector",
+  the_trench: "outer_perimeter",
+};
 
 /* ─── TEMPLATES ─── */
 
-export const CREW_MISSION_TEMPLATES: CrewMissionTemplate[] = [
+/** Decorate a hand-authored template with the standard procedural tag
+ *  set so personal-quest sub-tasks (`mission_tag_complete`) work
+ *  uniformly across procedurally-generated and hand-authored missions. */
+function decorate(template: CrewMissionTemplate): CrewMissionTemplate {
+  const factionKey = SECTOR_FACTION[template.sectorId] ?? "neutral";
+  return {
+    ...template,
+    tags: tagsForTemplate({
+      factionKey,
+      difficulty: template.difficulty,
+    }),
+  };
+}
+
+const RAW_CREW_MISSION_TEMPLATES: CrewMissionTemplate[] = [
   // ── Routine (low risk, low reward) ──
   {
     id: "mission_salvage_sweep",
@@ -185,6 +217,11 @@ export const CREW_MISSION_TEMPLATES: CrewMissionTemplate[] = [
     cost: { dream: 80 },
   },
 ];
+
+/** Tag-decorated template list — every entry routed through
+ *  proceduralMissionFactory.tagsForTemplate. */
+export const CREW_MISSION_TEMPLATES: CrewMissionTemplate[] =
+  RAW_CREW_MISSION_TEMPLATES.map(decorate);
 
 export function getMissionTemplate(id: string): CrewMissionTemplate | undefined {
   return CREW_MISSION_TEMPLATES.find(t => t.id === id);

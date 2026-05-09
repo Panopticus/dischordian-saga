@@ -1,4 +1,4 @@
-import { bigint, boolean, int, json, mysqlEnum, mysqlTable, text, timestamp, varchar, uniqueIndex, index } from "drizzle-orm/mysql-core";
+import { bigint, boolean, int, json, mysqlEnum, mysqlTable, text, timestamp, tinyint, varchar, uniqueIndex, index } from "drizzle-orm/mysql-core";
 
 /**
  * Core user table backing auth flow.
@@ -7567,6 +7567,106 @@ export const apprenticeDialogueProgress = mysqlTable("apprentice_dialogue_progre
   userMemberIdx: index("idx_adp_user_member").on(t.userId, t.memberKey),
 }));
 export type ApprenticeDialogueProgressRow = typeof apprenticeDialogueProgress.$inferSelect;
+
+/** Per-(user, memberKey, loredexEntryId) record of a loredex entry the
+ *  crew member discovered while alive. The runtime sets `read=1` when
+ *  the player opens the entry. If the member dies with unread entries,
+ *  the casualty branch in crewTick.ts stamps `memorialAtCycle` for
+ *  every unread row — those entries become memorial-only (readable from
+ *  the Memorial Wall but not the main loredex). The dead literally take
+ *  unread knowledge with them.
+ *
+ *  Hooked from rippleEngine.ts on every `loredex_entry_discovered`
+ *  event. The carrier is the player's currently-deployed member (or
+ *  the most-recent active member if no deployment). */
+export const crewMemberLoredexCarry = mysqlTable("crew_member_loredex_carry", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  /** Crew memberKey of the member carrying this entry. */
+  memberKey: varchar("memberKey", { length: 64 }).notNull(),
+  /** Loredex entry id (e.g. "ep2_04_antiquarian_footnote"). */
+  loredexEntryId: varchar("loredexEntryId", { length: 96 }).notNull(),
+  /** In-game cycle when the carrier discovered the entry. */
+  discoveredAtCycle: int("discoveredAtCycle").notNull(),
+  /** 0 = unread; 1 = read. Toggled when the player opens the entry. */
+  read: tinyint("read").notNull().default(0),
+  /** When the carrier dies with this entry unread, this is set to the
+   *  death cycle. Entries with non-NULL memorialAtCycle render in the
+   *  Memorial Wall and are gated out of the main loredex. */
+  memorialAtCycle: int("memorialAtCycle"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull().onUpdateNow(),
+}, (t) => ({
+  userMemberEntryIdx: uniqueIndex("uq_cmlc_user_member_entry").on(t.userId, t.memberKey, t.loredexEntryId),
+  userMemberIdx: index("idx_cmlc_user_member").on(t.userId, t.memberKey),
+  entryIdx: index("idx_cmlc_entry").on(t.loredexEntryId),
+  memorialIdx: index("idx_cmlc_memorial").on(t.memorialAtCycle),
+}));
+export type CrewMemberLoredexCarryRow = typeof crewMemberLoredexCarry.$inferSelect;
+
+/** Per-(user, npcKey) personal-quest progress for named-NPC chains.
+ *  Mirrors apprenticePersonalQuestProgress but keyed on the canonical
+ *  NPC key (e.g. "the_antiquarian", "the_seer", "the_architect")
+ *  instead of a per-member crew key. Tier-3 cosmic figures use
+ *  stage 1 only (single-encounter); tier-2 NPCs use the full 3-stage
+ *  chain with breaking-point at stage 3. */
+export const npcPersonalQuestProgress = mysqlTable("npc_personal_quest_progress", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  /** Canonical NPC key from npcIdentity.ts NAMED_NPC_KEYS. */
+  npcKey: varchar("npcKey", { length: 32 }).notNull(),
+  /** Tier — "2" (deep-lore) | "3" (cosmic). Cosmic encounters resolve
+   *  on stage 1; tier-2 chains resolve on stage 3. */
+  tier: varchar("tier", { length: 4 }).notNull(),
+  stage: int("stage").notNull().default(0),
+  resolution: varchar("resolution", { length: 16 }),
+  stageStartedAt: json("stageStartedAt").$type<Record<string, number>>().default({}).notNull(),
+  flags: json("flags").$type<Record<string, unknown>>().default({}).notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull().onUpdateNow(),
+}, (t) => ({
+  userNpcIdx: uniqueIndex("uq_npq_user_npc").on(t.userId, t.npcKey),
+  userIdx: index("idx_npq_user").on(t.userId),
+}));
+export type NpcPersonalQuestProgressRow = typeof npcPersonalQuestProgress.$inferSelect;
+
+/** Per-(user, memberKey) log of completed crew missions, tagged for
+ *  sub-task validation. The mission-factory writes one row at
+ *  resolution time; apprenticeQuestSubtaskService validates
+ *  `mission_tag_complete` sub-tasks by querying for a row matching the
+ *  required tag. Keeps tag-based gating decoupled from the mission
+ *  templates themselves (which are now procedurally generated). */
+export const crewMissionCompletionLog = mysqlTable("crew_mission_completion_log", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  memberKey: varchar("memberKey", { length: 64 }).notNull(),
+  missionId: varchar("missionId", { length: 96 }).notNull(),
+  /** Tag set the mission carried at resolution (faction:* / theme:* /
+   *  era:* / danger:*). Joined by comma for cheap LIKE indexing; the
+   *  validator splits on read. */
+  tags: json("tags").$type<string[]>().default([]).notNull(),
+  /** "success" | "partial" | "failure". */
+  outcome: varchar("outcome", { length: 16 }).notNull(),
+  completedAt: timestamp("completedAt").defaultNow().notNull(),
+}, (t) => ({
+  userMemberIdx: index("idx_cmcl_user_member").on(t.userId, t.memberKey),
+  userIdx: index("idx_cmcl_user").on(t.userId),
+}));
+export type CrewMissionCompletionLogRow = typeof crewMissionCompletionLog.$inferSelect;
+
+/** Per-user record of commons scenes the player has witnessed. Used
+ *  by apprenticeQuestSubtaskService.validateCommonsSceneWitnessed for
+ *  the `commons_scene_witnessed` sub-task type. The CommonsRoom UI
+ *  inserts a row whenever a scene plays through to its conclusion. */
+export const commonsScenesWitnessed = mysqlTable("commons_scenes_witnessed", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  sceneId: varchar("sceneId", { length: 96 }).notNull(),
+  witnessedAt: timestamp("witnessedAt").defaultNow().notNull(),
+}, (t) => ({
+  userSceneIdx: uniqueIndex("uq_csw_user_scene").on(t.userId, t.sceneId),
+  userIdx: index("idx_csw_user").on(t.userId),
+}));
+export type CommonsScenesWitnessedRow = typeof commonsScenesWitnessed.$inferSelect;
 
 /* ═══════════════════════════════════════════════════════
    WORLD WEAVE — yearly events, ripple ledger, memorial plaza

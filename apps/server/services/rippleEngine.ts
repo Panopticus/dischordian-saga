@@ -935,6 +935,25 @@ on("loredex_entry_discovered", async (ev) => {
   await palimpsestService.apply(userId, "truthDialogChoice"); // +1 Signal per discovery
 });
 
+// Per-member carry: stamp the discovering crew member as the carrier of
+// the entry. If the member dies with the entry unread, the resurrection
+// drain will mark it memorial-only.
+on("loredex_entry_discovered", async (ev) => {
+  const { userId, entryId } = ev as LoredexDiscoveryEvent;
+  try {
+    const carrySvc = await import("./crewLoredexCarryService");
+    const carrier = await carrySvc.pickActiveCarrier(userId);
+    if (!carrier) return;
+    // The discovery cycle isn't on the event; use 0 as a sentinel — the
+    // carry table stamps memorialAtCycle from death-time, which is what
+    // matters. The discoveredAtCycle column is for future "took N entries
+    // they discovered last week" prose.
+    await carrySvc.recordDiscovery(userId, carrier, entryId, 0);
+  } catch {
+    // Carry tracking is best-effort; never block the event.
+  }
+});
+
 // Governance votes: voting at all is a tiny truth signal (engagement is truth).
 on("governance_vote_cast", async (ev) => {
   const { userId } = ev as GovernanceVoteEvent;

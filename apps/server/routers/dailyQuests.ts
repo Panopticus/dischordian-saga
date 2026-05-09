@@ -12,6 +12,12 @@ import { ripple } from "../services/rippleEngine";
 import { getConsequences, getEventDailyQuests } from "../services/universeConsequences";
 import { applyPrestigeBonuses } from "../services/prestigeMultiplier";
 import { applyDailyOracleBonusToReward } from "./oracleDeck";
+// Daily quests don't use CrewMissionTemplate but they DO emit work
+// the player completes — the procedural mission factory's tag
+// taxonomy unifies the vocabulary so personal-quest sub-tasks can
+// gate on faction-tagged dailies the same way they gate on tagged
+// crew missions. The tagsForTemplate helper is the canonical surface.
+import { tagsForTemplate } from "../../shared/proceduralMissionFactory";
 
 /* ═══════════════════════════════════════════════════════
    QUEST TEMPLATES — Daily, Weekly, Epoch (Season)
@@ -101,6 +107,34 @@ const EPOCH_TEMPLATES: QuestTemplate[] = [
   { id: "e_casino_centurion",     title: "Centurion of the Tables", description: "Win 100 casino games this season",        questType: "social", target: 100, rewardDream: 200, rewardXp: 3000, rewardCredits: 0, bonusReward: "Seasonal Casino Title" },
   { id: "e_casino_tale_collector", title: "Bibliographer of Bets",  description: "Collect 10 Tales of the Tables this season", questType: "social", target: 10,  rewardDream: 150, rewardXp: 2500, rewardCredits: 0, bonusReward: "Loredex: Casino Codex" },
 ];
+
+/** Map a quest's questType to a faction key for tag emission. */
+function factionForQuestType(questType: QuestTemplate["questType"]): string {
+  switch (questType) {
+    case "fight":
+    case "card_battle": return "arena";
+    case "trade": return "trader_outpost";
+    case "craft": return "forge_collective";
+    case "explore": return "outer_perimeter";
+    case "social": return "neutral";
+  }
+}
+
+/** Surface a daily-quest's procedural tags. Allows personal-quest
+ *  sub-tasks to gate on a daily completion the same way they gate on
+ *  a tagged crew mission completion. */
+export function tagsForDailyQuest(template: QuestTemplate): string[] {
+  const factionKey = factionForQuestType(template.questType);
+  // Daily quests don't have a difficulty band; use "routine" for
+  // dailies, "challenging" for weeklies-and-up. The id prefix tells
+  // us which list the template came from.
+  const difficulty = template.id.startsWith("e_")
+    ? "dangerous"
+    : template.id.startsWith("w_")
+      ? "challenging"
+      : "routine";
+  return tagsForTemplate({ factionKey, difficulty });
+}
 
 /** Deterministic quest selection based on date seed */
 function selectQuests(templates: QuestTemplate[], dateStr: string, count: number): QuestTemplate[] {
