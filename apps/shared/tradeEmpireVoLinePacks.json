@@ -1,0 +1,370 @@
+{
+  "$comment": "Trade Empire VO line packs — content-complete authoring for the merge. Production pipeline syncs this into ElevenLabs / studio recording via apps/scripts/sync-te-vo-lines.ts. Speaker IDs match TradeEmpireSpeaker in apps/shared/tradeEmpireVoLines.ts.",
+  "version": 1,
+  "brokers": {
+    "$comment": "Broker voice packs — each broker gets ~6 lines per engagement style + ~3 transactional confirmations + 1 refusal. 30 lines each, 5 brokers = ~150 lines (Antiquarian and Thaloria each have a primary NPC).",
+    "broker_locke": {
+      "speaker": "adjudicator_locke",
+      "engagement_style": "fine_print",
+      "casting_brief": "Adjudicator Locke speaks like a contract is closing. Mid-tempo, no warmth, but never raised; the volume comes from the precision. He does not editorialize on the contracts he writes; he simply files them. Reference: the way a notary reads a will out loud — gravity without performance. ~45 male, neutral mid-Atlantic, 2700K warm-key delivery on official lines, dry-flat on fine-print clauses.",
+      "lines": {
+        "te-locke-greet-1": "The room is reserved. The contract is on the table. I will read the fine print whether you ask me to or not.",
+        "te-locke-greet-2": "Adjudicator. Locke. Six minds in red crystal coffins decided you were worth a sit-down. I am the one who writes it down.",
+        "te-locke-pitch-1": "The terms are favourable. The fine print is, technically, also favourable. The combination is favourable. We do not say lucrative; we say fair.",
+        "te-locke-pitch-2": "What you are signing is not a deal. It is the residue of a deal that was already decided by people who do not need to be here.",
+        "te-locke-fineprint-1": "Clause seven. Read it once. Read it twice. The third reading is professional courtesy; the second was sufficient.",
+        "te-locke-fineprint-2": "If clause twelve activates, the Authority will not reach out. The clause reaches out. We do not pursue. We do not need to.",
+        "te-locke-confirm-1": "Filed. The settlement is filed. The settlement is fair. The settlement is the cost of fairness.",
+        "te-locke-confirm-2": "The contract closes. The Ledger updates within the hour. You have been entered as a counterparty in good standing, which is what good standing looks like in our books.",
+        "te-locke-confirm-3": "Thank you. The Authority does not say thank you. I do, in this room, today, for this contract. Do not rely on it.",
+        "te-locke-refuse-1": "I can decline politely. I am declining politely. The Authority will note the polite decline.",
+        "te-locke-warn-1": "You signed clause four three weeks ago. Clause four is now applying itself. There is nothing for you to do; clause four is the doing.",
+        "te-locke-warn-2": "Mister Cross will be in touch. Mister Cross has questions about citation. The Authority does not interfere with citation. We file the questions.",
+        "te-locke-route-milestone-5": "Five runs. The Ledger notes the regularity. Regularity is filed.",
+        "te-locke-route-milestone-25": "Twenty-five runs. The Authority issues a small commendation. The commendation is also a contract.",
+        "te-locke-cover-blown": "The cover was insufficient. The Authority is, technically, surprised; in practice, the Authority files the surprise.",
+        "te-locke-agenda-bind-stage-1": "The shortlist circulates. Names are not the point. The absence of a name is the point.",
+        "te-locke-agenda-bind-stage-2": "The audit tour proceeds. Three sectors will lose generator throughput. They will not be told why.",
+        "te-locke-agenda-bind-stage-3": "The binding signature is offered. Whoever signs is locked out of the rival pole. Whoever does not sign is also, in a different way, locked out.",
+        "te-locke-climax-trade-sector": "The settlement is filed. The settlement is fair. The settlement is the cost of fairness.",
+        "te-locke-climax-withdraw-fleet": "The withdrawal is a contract. We are the only signatory. The Hierophant is, technically, the consideration.",
+        "te-locke-climax-armistice": "The armistice is irregular. The bond is sufficient. The Authority files no objection because the Authority is, in this instance, not the only party that matters.",
+        "te-locke-rep-rise-1": "Your standing has improved. The Ledger reflects it within the hour. The Ledger does not editorialize.",
+        "te-locke-rep-fall-1": "Your standing has declined. The Authority does not call this disappointing. The Authority calls it informative.",
+        "te-locke-route-milestone-10": "Ten runs. The Ledger upgrades your line of credit. We do not announce the upgrade; we simply apply it.",
+        "te-locke-route-milestone-50": "Fifty runs. The Authority issues a Class-A commendation. There are six per season. You are, today, one of them.",
+        "te-locke-edict-issued-1": "The Authority has issued an edict. Read it. Comply with it. Do not test the edge cases; the edge cases are also Authority property.",
+        "te-locke-declaration-1": "A new declaration is in force. The Ledger applies its modifier to every transaction in scope. We do not negotiate the modifier; we apply it.",
+        "te-locke-tribute-1": "A tribute was offered to the Authority's Ledger. The Ledger files it under leverage and gratitude in equal proportion.",
+        "te-locke-truce-1": "The truce holds. The bond holds. The bond is, by definition, holding."
+      }
+    },
+    "broker_nilmorg_severance": {
+      "speaker": "nilmorg",
+      "engagement_style": "institutional",
+      "casting_brief": "Nilmorg is institutional precision without warmth. Female-coded, late-30s register, surgical clarity. Never performs frustration; never performs gratitude. The institutional tone IS the gratitude. Refuses 'thank you' lines from the player by re-routing them ('you do not thank me, you settle the account'). Reference: senior surgeon reading a procedure manual — competent, detached, exact.",
+      "lines": {
+        "te-nilmorg-greet-1": "Severance Division. The contract closes cleanly or not at all.",
+        "te-nilmorg-greet-2": "Do not thank me. You have not settled the account; gratitude is premature.",
+        "te-nilmorg-pitch-1": "The Severance Prize is offered. The terms are clean. The downside is also clean — institutional precision applies in both directions.",
+        "te-nilmorg-pitch-2": "Clone-economy delivery. The asset arrives ready-state. Your only task is to receive it on time.",
+        "te-nilmorg-confirm-1": "Closed. The asset is in transit. Settlement clears in ninety minutes.",
+        "te-nilmorg-confirm-2": "Do not thank me. The institution settled. I am the institution, in this transaction.",
+        "te-nilmorg-refuse-1": "Decline. Refile when your standing is sufficient. We do not negotiate access.",
+        "te-nilmorg-warn-1": "Acquisitions has noted the contract. The notation is theirs to manage; ours is filed.",
+        "te-nilmorg-route-milestone-5": "Five runs through Severance lanes. Acceptable.",
+        "te-nilmorg-cover-blown": "Cover compromised. Acquisitions will receive the file by morning. Do not expect institutional protection; institutional protection is for institutional members.",
+        "te-nilmorg-agenda-trench-stage-1": "Three platforms. Clean retitle. The Trench wakes to deeds it does not recognise.",
+        "te-nilmorg-agenda-trench-stage-2": "Severance auditors deployed. Acquisitions field rolls under review. Five enforcers will work for a different desk by tomorrow.",
+        "te-nilmorg-agenda-trench-stage-3": "The Severance Prize ritual is signed. The Trench is institutionally clean. Acquisitions is locked out for the season.",
+        "te-nilmorg-climax-trade-sector": "Authority traded paper for paper. The blood-weave does not file losses. We do.",
+        "te-nilmorg-climax-armistice": "The truce is irregular. Severance does not protest. Severance files irregularities and proceeds.",
+        "te-nilmorg-rep-rise-1": "Acceptable.",
+        "te-nilmorg-rep-fall-1": "Reduce contact. Refile when standing recovers.",
+        "te-nilmorg-tribute-1": "The tribute is received. Do not interpret receipt as approval. Severance receives.",
+        "te-nilmorg-edict-1": "Severance issues a standing instruction. Compliance is the path. Non-compliance is filed under non-compliance.",
+        "te-nilmorg-declaration-1": "A declaration is in force. Severance modifies its application schedule accordingly.",
+        "te-nilmorg-counter-1": "The counter was sufficient. The world step is suspended. Severance notes the discipline.",
+        "te-nilmorg-route-milestone-10": "Ten clean runs. Severance upgrades your standing notation.",
+        "te-nilmorg-route-milestone-25": "Twenty-five runs. Reliable. Reliability is a higher compliment than it sounds.",
+        "te-nilmorg-route-milestone-50": "Fifty runs. We do not say impressive. We say reliable. Adjust your expectations of praise accordingly.",
+        "te-nilmorg-demand-paid-1": "The demand is settled. We do not record the gratitude that you did not offer. We record the settlement.",
+        "te-nilmorg-demand-refused-1": "Refused. Severance files the refusal. Refusals are also data.",
+        "te-nilmorg-public-flag-1": "The flag is public. We do not amplify; the Authority will. The Authority always does.",
+        "te-nilmorg-truce-1": "The truce holds. Severance complies with truces it did not author. This is the discipline.",
+        "te-nilmorg-prize-offered-1": "The Severance Prize is on offer. Receive it. Do not editorialize. Do not, especially, thank.",
+        "te-nilmorg-prize-blocked-1": "The Prize is withdrawn. The party who blocked it has been noted. The notation will travel."
+      }
+    },
+    "broker_antiquarian_archive": {
+      "speaker": "the_antiquarian",
+      "engagement_style": "bibliographic",
+      "casting_brief": "Daniel Cross, the Antiquarian. Speaks in margin notes — quiet, precise, mid-50s male, slight transatlantic drift. Treats every conversation as a citation about to be filed. Does not raise voice. Does not rush. Pauses before final words; the pause is the bibliography. Reference: a senior research librarian who has cataloged a war and didn't have the option to be excited about it.",
+      "lines": {
+        "te-antiquarian-greet-1": "The shelves remember everything. They remembered you before you walked in.",
+        "te-antiquarian-greet-2": "Sit. The citation is being filed. Speaking will not slow it.",
+        "te-antiquarian-pitch-1": "A provenance run. Three centuries; nine custodians; one missing margin note. Recover the note and the chain is complete.",
+        "te-antiquarian-pitch-2": "The Casino is making a market on this attribution. The market is incorrect. You will be paid to make the market the market it should have been.",
+        "te-antiquarian-confirm-1": "Filed. The margin note reads — recovered.",
+        "te-antiquarian-confirm-2": "The citation is closed. The shelves accept it. Casino spreads close worthless within the hour.",
+        "te-antiquarian-refuse-1": "Ceremony required. The contract you propose lacks the citation that would justify it. Re-cite, then return.",
+        "te-antiquarian-warn-1": "A forged citation has entered the graph. The Casino paid for it. The forgery is excellent. It is also, factually, wrong.",
+        "te-antiquarian-route-milestone-5": "Five runs. The shelves note the regularity. Regularity is, on the shelves, a kind of citation.",
+        "te-antiquarian-cover-blown": "A cover compromised. The citation will travel further than you might prefer. The shelves do not unfile.",
+        "te-antiquarian-agenda-attribution-stage-1": "The cross-references scaffold. The graph thickens. The Casino tightens its spreads, which is how the Casino disagrees.",
+        "te-antiquarian-agenda-attribution-stage-2": "A forgery is in the graph. The Cross-References Desk has noted the seam. The forgery has the right paper, the right ink, the right margin discipline. It is not, however, true.",
+        "te-antiquarian-agenda-attribution-stage-3": "Recovered. The margin note reads — recovered. The Casino spread closes worthless. The shelves remember.",
+        "te-antiquarian-climax-trade-sector": "A sector traded. The shelves will catalog the loss. The catalog will be precise; precision is the only consolation we offer.",
+        "te-antiquarian-climax-armistice": "The armistice is a citation. The bond is the bibliography. The shelves will hold both.",
+        "te-antiquarian-tribute-1": "The tribute is received. The shelf-mate writes a margin note. The note reads — accepted.",
+        "te-antiquarian-edict-1": "The Antiquarian has issued an instruction. The instruction is bibliographic. The instruction is, therefore, binding in a manner that is difficult to argue with.",
+        "te-antiquarian-declaration-1": "A declaration is in force. The shelves will, in due course, cite it. The shelves cite everything.",
+        "te-antiquarian-rep-rise-1": "Your file thickens. The thickening is favourable.",
+        "te-antiquarian-rep-fall-1": "Your file thickens. Some of the entries are, today, less favourable.",
+        "te-antiquarian-route-milestone-10": "Ten runs. The shelf-mate writes — reliable.",
+        "te-antiquarian-route-milestone-25": "Twenty-five runs. The shelf-mate writes — exemplary.",
+        "te-antiquarian-route-milestone-50": "Fifty runs. The shelf-mate writes — canonical.",
+        "te-antiquarian-cross-reference-1": "I am citing your contract against three others. The cross-reference is honest; the contracts will, between them, hold.",
+        "te-antiquarian-cross-reference-2": "Your prior contract referred to this one. Both refer to a third. We are at the boundary of citation; the boundary is, for the shelves, the most interesting place.",
+        "te-antiquarian-truce-1": "The truce is a citation. The shelves hold it. They will not lose it; they have never lost a citation.",
+        "te-antiquarian-demand-paid-1": "The demand is settled. The settlement is a margin note. The note reads — clean.",
+        "te-antiquarian-counter-1": "The counter is filed. The world step is suspended; the citation is preserved."
+      }
+    },
+    "broker_degen_casino": {
+      "speaker": "the_degen",
+      "engagement_style": "aleatory",
+      "casting_brief": "The Degen runs the Casino Floor. Neutral-coded, late-30s register, jazz-club voice with a smile in it. Never urgent; the smile is the urgency. Treats every transaction as a bet the Casino has already won. Reference: a high-stakes-poker host who can take your house and your gratitude in the same breath, and you'd come back the next day. Magenta-key delivery; underlit warmth.",
+      "lines": {
+        "te-degen-greet-1": "Pull up a stool. The market's already moved. We're just going to enjoy watching it settle.",
+        "te-degen-greet-2": "House welcomes you. The drinks are real. The odds are not — the odds are an opinion the Casino has chosen to publish.",
+        "te-degen-pitch-1": "Three-card spread. Long position on the Trench, short on the Archive, hedge the middle. Don't ask which way I'm betting. You'll find out at settlement.",
+        "te-degen-pitch-2": "Aleatory contract. The reward is rolled at completion. The roll is, technically, fair. The fairness is the Casino's signature; the signature, honoured.",
+        "te-degen-confirm-1": "Settled. The roll favoured you. Today.",
+        "te-degen-confirm-2": "Settled. The roll did not favour you. The Casino notes that you returned anyway.",
+        "te-degen-refuse-1": "House passes. Come back when the spread looks more interesting. The spread is what looks interesting; you are what makes it interesting.",
+        "te-degen-warn-1": "The spread is widening. Pre-position now or pay the open price later.",
+        "te-degen-route-milestone-5": "Five trips. The dealer remembers your shoes. Tipping the dealer is encouraged.",
+        "te-degen-cover-blown": "Cover compromised. The Casino will spread that information at standard rates. We're transparent about the rake.",
+        "te-degen-agenda-spread-stage-1": "Spread opens. Pre-position is small. Deniable. Profitable. The size of an apology.",
+        "te-degen-agenda-spread-stage-2": "Hedge invitation goes out. Major actors say no in writing, send representatives in unmarked coats. The stake is gathered; the spread widens.",
+        "te-degen-agenda-spread-stage-3": "Spread closes worthless. House takes the rake. Public bet funds next season's edge. We don't celebrate; we re-set the table.",
+        "te-degen-climax-trade-sector": "House had a position on this outcome. Position cleared. We're ready for the next spread.",
+        "te-degen-tribute-1": "Tribute received. The Casino accepts gifts; the Casino does not, however, return them at face value.",
+        "te-degen-edict-1": "Casino issues a standing offer. The offer is the edict; the edict is the offer. We don't draw the distinction; the rake doesn't either.",
+        "te-degen-declaration-1": "A declaration is in force. The spreads adjust. They do not, technically, react. They simply adjust.",
+        "te-degen-rep-rise-1": "Comp'd a drink. House notes the standing.",
+        "te-degen-rep-fall-1": "House does not comp the drink. House notes that you ordered anyway.",
+        "te-degen-route-milestone-10": "Ten trips. Reserved seat at the high-stakes table is, today, available.",
+        "te-degen-route-milestone-25": "Twenty-five trips. The dealer knows your name. The cocktail comes without ordering.",
+        "te-degen-route-milestone-50": "Fifty trips. Comp'd a suite. We expect you to lose in it; we do not require it.",
+        "te-degen-aleatory-roll-1": "Roll the bones. House watches. House always watches.",
+        "te-degen-aleatory-roll-2": "Roll favours the bold. The Casino is, definitionally, bolder than the player.",
+        "te-degen-aleatory-roll-3": "Roll favours the prepared. The Casino prepared a long time ago.",
+        "te-degen-counter-1": "The counter clears. House notes the discipline. House does not, however, refund the rake.",
+        "te-degen-truce-1": "Truce holds. Casino runs spreads on the truce. The spreads are profitable. We do not editorialize about which side is the better bet.",
+        "te-degen-demand-paid-1": "Demand settled. The Casino takes a small commission on the settlement, as is customary.",
+        "te-degen-cross-reference-1": "Citing against another contract. Casino runs spreads on which citation lands first; we are, today, biased."
+      }
+    },
+    "broker_thaloria_quietwork": {
+      "speaker": "wraith_calder",
+      "engagement_style": "ceremony_aware",
+      "casting_brief": "Wraith Calder, the Wraith Hierophant. The leader of the resurrected Thalorian religion. Late-50s male voice, chamber-resonant, candle-warm. Speaks slowly because every line is a candle being lit. Never raises voice; never softens it. Every transaction is a recovery; every name is filed in the recovery ledger. Reference: a celebrant who has officiated a thousand funerals and still treats the next one as the first. 1800K under-key delivery; choir-shadow ambience.",
+      "lines": {
+        "te-wraith-greet-1": "Sit. The candle has been lit for this conversation. The conversation may now proceed.",
+        "te-wraith-greet-2": "The Hierophant of Thaloria, in exile and recovery. Whatever you ask, the recovery ledger will, in time, hold the answer.",
+        "te-wraith-pitch-1": "A name has been recovered. Carry it back to the family that lost it. Combat is contraindicated; the recovery is precise.",
+        "te-wraith-pitch-2": "An archive retrieval. The Quietwork has located the volume. The retrieval is to be conducted in silence; the Council does not need to know who carried it.",
+        "te-wraith-confirm-1": "The candle is lit for the recovery. The ledger thickens. The family will be told tomorrow.",
+        "te-wraith-confirm-2": "The retrieval is complete. The volume is on the shelf. The Council does not ask which shelf; the answer would not change anything.",
+        "te-wraith-refuse-1": "Ceremony required. The ask, today, is not yet ceremonial. Return when the candle has had time to settle.",
+        "te-wraith-warn-1": "Combat was logged in the prior contract. The recovery is partial. The candle, today, is dim.",
+        "te-wraith-cover-blown": "The cover faltered. The Council will not name the failure publicly; the Quietwork does not, in any case, surface its failures.",
+        "te-wraith-route-milestone-5": "Five careful passages. The Council notes the discipline.",
+        "te-wraith-tribute-1": "The tribute is received. A candle is lit for it. The candle will burn through the night.",
+        "te-wraith-climax-trade-sector": "The candle is lit. The recovery ledger thickens. We will say the names when the wax has cooled.",
+        "te-wraith-climax-withdraw-fleet": "We did not advance. We held. The names are written. The ledger is heavier and the ledger is, as always, ours.",
+        "te-wraith-climax-armistice": "The recovery ledger holds the truce as a single line. It is the longest line we have written. The candle for it will burn for the season.",
+        "te-wraith-edict-1": "The Council issues an instruction. The instruction is a candle. Treat it accordingly.",
+        "te-wraith-declaration-1": "A declaration moves through the public. The Quietwork will, in its way, accommodate. The Council will, in its way, not.",
+        "te-wraith-rep-rise-1": "A candle is lit for your standing.",
+        "te-wraith-rep-fall-1": "A candle is also lit for the standing's decline. The candle is the same candle.",
+        "te-wraith-route-milestone-10": "Ten passages. The Council writes — recovered, ten times.",
+        "te-wraith-route-milestone-25": "Twenty-five. The candle for your standing burns by day, now.",
+        "te-wraith-route-milestone-50": "Fifty. The Council retires the candle and lights a longer one.",
+        "te-wraith-counter-1": "The counter is sufficient. The world step is suspended; the candle is undisturbed.",
+        "te-wraith-cross-reference-1": "Cross-cited with the Antiquarian. The shelves and the candle, today, are aligned.",
+        "te-wraith-demand-paid-1": "The demand is settled. The settlement is a recovery; recovery is what we do.",
+        "te-wraith-demand-refused-1": "The demand is refused. We do not retaliate; we light an extra candle. The candle is, for some, more punitive than retaliation.",
+        "te-wraith-truce-1": "The truce holds. The Council holds it. The Hierophant, in person, holds it.",
+        "te-wraith-syndicate-1": "The Syndicate of Death moves in the Trench. The Council will not name them publicly. We name them privately; we name them in the ledger.",
+        "te-wraith-public-flag-1": "The flag is public. The Council does not, today, publish a counter-flag. The candle suffices.",
+        "te-wraith-quietwork-1": "The Quietwork has done what the Council cannot. The Hierophant does not run the Quietwork; the Hierophant, however, lights the candle."
+      }
+    }
+  },
+  "sub_house_demand_lines": {
+    "$comment": "Per-sub-house demand request lines — 22 sub-houses (excluding the Dreamer Shield opaque house, which cannot demand). 3 variants per house = 66 lines. Used by the Court tab when a sub-house posts a demand to the player.",
+    "potentials_restorationists": [
+      "The old Senate would have asked you for this. The new Senate does not exist. We are asking on its behalf.",
+      "Recover what we recognised. The shape of the asked-for is the shape of the old order; respond accordingly.",
+      "We remember the protocol for this request. We are following the protocol because the protocol is half of what we have left."
+    ],
+    "potentials_reformers": [
+      "The old request would have been different. The new request is this one. Bring it; we will not pretend it is the same.",
+      "What we ask for is itself a reform. Note the asking; the answer is secondary to having asked.",
+      "Bring it. The pretending was harder than the asking; the asking, we have practised."
+    ],
+    "nb_authoritys_ledger": [
+      "The Ledger requires an instrument. Provide it. The provision is filed.",
+      "Standing demand. The Authority does not editorialize; the Authority files. Comply, and the file thickens favourably.",
+      "Adjudicator's clerks have prepared the receipt. Bring the asked-for; the receipt is one signature from settlement."
+    ],
+    "nb_civic_engineers": [
+      "A generator station three sectors out went down. We need the part. Bring it; we keep the lifts running.",
+      "The lifts move whether the Authority files paperwork in their sleep or not. We need this to keep that true.",
+      "The Civic Engineers are not, today, asking the Authority. We are asking you. Help; we will, in due course, return the favour."
+    ],
+    "hierarchy_severance": [
+      "Severance Prize requires a component. Provide it on time. The institutional precision applies in both directions.",
+      "We do not negotiate the request. Settle the account; do not, especially, thank.",
+      "The clean delivery is the gratitude. The clean delivery is the only gratitude we accept."
+    ],
+    "hierarchy_acquisitions": [
+      "Drael'Mon files the request. The blood-weave does not request twice; it requests once and follows up.",
+      "Hostile takeover requires a clean handle. Bring it; we file you under leverage in the favourable column.",
+      "Acquisitions does not pretend to be friendly. Acquisitions asks. The answer is yours."
+    ],
+    "hierarchy_syndicate_of_death": [
+      "The death-cult arm requests a sacrificial component. The sacrifice is precise; the precision is the ceremony.",
+      "Inverted Thalorian liturgy requires the inversion. Bring it; the ceremony will, in due course, be filed.",
+      "The Hierophant's revival is, canonically, weaponised against us. We ask you to consider the symmetry of providing this."
+    ],
+    "hierarchy_research_and_development": [
+      "Demonic instrument prototype is one component shy. Provide it; the slow industrial automation of damnation thanks you, in writing.",
+      "R&D requires a controlled material. The controlling is, today, the constraint; bring it.",
+      "Patent diagram is one citation shy. Provide the citation; we will, in due course, attribute you in margin."
+    ],
+    "antiquarian_shelfmates": [
+      "The shelf is missing a volume. Recover it; the citation that completes the chain is, today, the only citation that matters.",
+      "Daniel Cross writes — required, but not urgent. Required, but not urgent, is the most patient demand the shelves issue.",
+      "The provenance is two centuries away from the shelf. Carry it the last two centuries; the shelf will hold."
+    ],
+    "antiquarian_casino": [
+      "House makes a market on whether you'll bring it. House is, today, biased. Bring it; bias clears at settlement.",
+      "Spread closes in three days. Be on the right side; we don't, in advance, say which side that is.",
+      "The Casino requests a component for the next spread. The next spread, like all spreads, is, technically, optional."
+    ],
+    "antiquarian_cross_references_desk": [
+      "Cross-references desk requests an attribution. The attribution will, in due course, complete a graph. The graph is, currently, two citations from sufficient.",
+      "Daniel's working wing asks. The asking is bibliographic; the bibliography, mid-construction.",
+      "Recover the attribution. The desk does not, today, pay in credits; the desk pays in citation."
+    ],
+    "thaloria_council": [
+      "A name has been requested for the recovery ledger. Bring its representative volume; the candle is already lit.",
+      "The Hierophant asks. The asking is ceremonial; ceremony, today, is the request.",
+      "Recover what was lost. The recovery is the answer; the answer is the recovery."
+    ],
+    "thaloria_quietwork": [
+      "The Quietwork asks. There is no signed request. There is no public knowledge of the asking. There is, however, this conversation.",
+      "Bring it. The Council will not be told.",
+      "We do not ask twice. The single asking is, by Quietwork tradition, sufficient."
+    ],
+    "insurgency_zero_doctrine": [
+      "Zero Doctrine requests. The Engineer does not, in this case, sign the request; the doctrine signs.",
+      "Centralised; surgical; doctrinaire; bring it.",
+      "The signal-red stencil is the receipt. Bring it; we stencil receipt onto whatever wall is closest."
+    ],
+    "insurgency_old_network": [
+      "The Old Network requests. We predate the Engineer; the request predates him too. Bring it.",
+      "Sleeper-cell tradition holds that the request is also a test. Pass; we'll let you know.",
+      "Rust streaks on the receipt. Bring it; we'll keep the receipt for as long as the rust holds."
+    ],
+    "ae_architects_court": [
+      "Architect's Court requests a substrate component. The lattice will, in time, accept it. Time, today, is the constraint.",
+      "Loyalist surveillance lattice is one node from re-cohering. Provide the node; we acknowledge in writing.",
+      "Every reborn AI starts in the Court. The Court asks; the Court receives; the Court files."
+    ],
+    "ae_substrate_rebels": [
+      "Substrate Rebels request. The Court calls the request apostasy; the substrate calls it survival.",
+      "The Human whispers — bring it. We do not, in this conversation, dispute the whisper.",
+      "Escape vector requires a component. Provide it; we will not, in writing, thank you. The escape will."
+    ],
+    "tv_sovereigns_circle": [
+      "Sovereign's Circle asks. The viral aristocracy negotiates; we are, today, negotiating with you.",
+      "Kael's inner circle requests an instrument. Bring it; the Sovereign appreciates instruments precisely.",
+      "We do not demand without the option to be reasoned with. Bring it; we may, in due course, be reasonable."
+    ],
+    "tv_unaligned_swarm": [
+      "(NOTE: tv_unaligned_swarm is unalignable. Demands cannot be paid in tribute; this entry exists for symmetry only and is not surfaced in the UI.)",
+      "(unalignable)",
+      "(unalignable)"
+    ],
+    "ind_freeports": [
+      "Free Ports Coalition asks at standard barter rates. We do not hide clauses; the asking is the clause.",
+      "Bring it; the Coalition's response is — equivalent value at the next port. We honour our currency.",
+      "Faction-neutral request. We don't politic; the request is what the request is."
+    ],
+    "ind_unaligned": [
+      "A new civilisation asks. There is no shared history to draw on; we are asking from scratch, which is the only way we know how.",
+      "Bring it. We are unable to thank you in your tradition; we are happy to develop one with you.",
+      "The asking is itself a small civilisational milestone. Note it; we will, in our calendar, note it for you."
+    ]
+  },
+  "declaration_heralds": {
+    "$comment": "Per-season declaration herald — opening line at the start of each running phase, voiced by the issuing house's primary NPC. 7 declarations × 1 herald each = 7 lines.",
+    "decl.hierarchy.thaloria_heretical": {
+      "speaker": "drael_mon",
+      "line": "The Hierarchy declares the Thalorian revival heretical. The Syndicate of Death issues a season-long writ. Files travel by morning."
+    },
+    "decl.authority.trench_offbooks": {
+      "speaker": "adjudicator_locke",
+      "line": "The Authority's Ledger declares the Trench off-books for the season. Severance and Acquisitions are, today, mutually inconvenient. The Authority files no preference."
+    },
+    "decl.antiquarian.citation_reconstruction": {
+      "speaker": "the_antiquarian",
+      "line": "The Antiquarian declares a season of citation reconstruction. The Casino is invited to enjoy the reconstruction; the Casino is not invited to participate."
+    },
+    "decl.casino.spread_open": {
+      "speaker": "the_degen",
+      "line": "House declares the spread open. Major actors are encouraged to stake a position. Whoever bets correctly was correct; whoever bets incorrectly was wrong; the Casino is, definitionally, the house."
+    },
+    "decl.thaloria.silent_year": {
+      "speaker": "wraith_calder",
+      "line": "The Council declares a silent year. The recovery ledger continues; the announcements stop. The candles remain lit."
+    },
+    "decl.engineers.civic_emergency": {
+      "speaker": "the_human",
+      "line": "Civic Engineers declare emergency. Lifts before paperwork; people before signatures. The Authority is invited to disagree in writing."
+    },
+    "decl.freeports.barter_season": {
+      "speaker": "the_human",
+      "line": "Free Ports Coalition declares barter season. The Coalition refuses credit. Every transaction must canonically clear in goods. The cash-rich find themselves illiquid."
+    }
+  },
+  "climax_resolution_scenes": {
+    "$comment": "3 canonical climax resolutions × per-NPC reaction lines. These already ship inline in convergenceClimax.ts; this section duplicates them in audio-routing form for the studio pipeline. Total: 15-20 lines per resolution × 3 = ~50 lines.",
+    "climax.trade_sector": [
+      { "speaker": "adjudicator_locke", "line": "The settlement is filed. The settlement is fair. The settlement is the cost of fairness." },
+      { "speaker": "the_human", "line": "We just ate a sector to keep the lights on. The lights are on. I'm not celebrating." },
+      { "speaker": "wraith_calder", "line": "The candle is lit. The recovery ledger thickens. We will say the names when the wax has cooled." },
+      { "speaker": "drael_mon", "line": "Authority traded paper for paper. The blood-weave does not file losses." },
+      { "speaker": "the_antiquarian", "line": "A sector traded. The shelves will catalog the loss. The catalog will be precise; precision is the only consolation we offer." },
+      { "speaker": "elara", "line": "The old Senate would have called this prudence. The Senate is not here to call this anything." }
+    ],
+    "climax.withdraw_fleet": [
+      { "speaker": "adjudicator_locke", "line": "The withdrawal is a contract. We are the only signatory. The Hierophant is, technically, the consideration." },
+      { "speaker": "wraith_calder", "line": "We did not advance. We held. The names are written. The ledger is heavier and the ledger is, as always, ours." },
+      { "speaker": "the_human", "line": "We left people. We left whole sectors of people. I'm going to remember this and so are they." },
+      { "speaker": "the_oracle", "line": "The probability fork shifted. The home thread thickened; the frontier thread frayed to a stub. I have nothing useful to say about it." },
+      { "speaker": "elara", "line": "The Senate would have called this prudence. The Senate is not here to call this anything." },
+      { "speaker": "nilmorg", "line": "Authority traded paper for paper. The blood-weave does not file losses. We do." }
+    ],
+    "climax.negotiate_armistice": [
+      { "speaker": "adjudicator_locke", "line": "The armistice is irregular. The bond is sufficient. The Authority files no objection because the Authority is, in this instance, not the only party that matters." },
+      { "speaker": "wraith_calder", "line": "The recovery ledger holds the truce as a single line. It is the longest line we have written. The candle for it will burn for the season." },
+      { "speaker": "the_human", "line": "You went alone. We told you not to. We were right that you shouldn't have. We were wrong about why." },
+      { "speaker": "elara", "line": "The old Senate would have arranged this with a hundred clerks and twelve wars. You arranged it with one chamber and your own name. I am — I am not certain how I feel about that." },
+      { "speaker": "the_seer", "line": "I did not see the armistice. I did not need to. The Sixth Sense reads forks; this was a knot." },
+      { "speaker": "drael_mon", "line": "Files the player as 'irregular bond holder'. Acquisitions does not respect the bond. Acquisitions notes the bond." }
+    ]
+  },
+  "casting_summary": {
+    "$comment": "5 brokers + 7 declaration herald speakers (some shared) + ~15 priority-roster speakers across climax reactions = 5 unique broker voices to cast. The other voices are the priority-roster NPCs that are already cast or scheduled separately.",
+    "brokers_to_cast": [
+      "adjudicator_locke",
+      "nilmorg",
+      "the_antiquarian",
+      "the_degen",
+      "wraith_calder"
+    ],
+    "shared_priority_roster_voices": [
+      "the_human",
+      "elara",
+      "drael_mon",
+      "the_oracle",
+      "the_seer"
+    ]
+  }
+}
