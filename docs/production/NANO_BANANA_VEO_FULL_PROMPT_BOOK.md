@@ -2722,6 +2722,231 @@ That's **10 named sectors × 5 prosperity states = 50 sector renders**.
 
 ---
 
+## 15. Summoning + sig VFX + card-combat VFX + ambients + SFX
+
+### 15.1 Soul Stones / Castle of Death summoning system
+
+#### `castle_of_death` chamber (still + variants)
+
+> **Default canon (per `docs/design/SOUL_STONES_SYSTEM.md` + `DISCHORDIAN_SAGA_FULL_GAME_LAYOUT.md` Sacrum)**: Shadowed gothic chamber. Central summoning circle inlaid in stone. Seven blood-crystal pedestals arranged in heptagon around circle. Green foxfire sconces wall-mounted (low-burn, ankle-to-eye-height drift). Desiccated architectural details (gargoyle silhouettes, weathered carving). 1920×1080. House style §1.1; palette anchors: Hierarchy crimson #ff1744, foxfire green #00e676, void black, bone-cream.
+> **State `chamber_dormant`** — Circle inlaid, faint rune outlines. Pedestals empty. Sconces low-burn. Asset: `art/rooms/castle_of_death/dormant.webp`.
+> **State `chamber_circle_active`** — Circle glowing fully (red geometry pulsing). Sconces flared higher. Pedestals empty (player just entered the ritual mode). Asset: `art/rooms/castle_of_death/circle_active.webp`.
+> **State `chamber_demon_breached`** — Circle collapsed inward (geometry has folded into a void-shimmer point at center). Pedestals empty (ritual consumed the stones). Sconces guttering. Asset: `art/rooms/castle_of_death/demon_breached.webp`.
+
+#### Blood-crystal pedestal placement minigame
+
+> **`art/rooms/castle_of_death/pedestal_<position>_<state>.webp`** — Per-pedestal renders for the 7-channel placement minigame UI. 7 positions × 3 states (empty / filled-red / filled-violet / filled-gold) = 21 sub-renders. Each pedestal is a hip-high obsidian column with a crystal-cradle at the top; render at 1024×1024 transparent (compose into the chamber via UI overlay). Asset paths: `art/ui/castle_pedestals/<n>_<state>.webp`.
+
+#### Pedestal pulse animation loop
+
+> **`art/vfx/castle_blood_crystals_pulse.webm`** (8s seamless loop, 1920×1080, alpha) — Veo 3.1 motion: 7 blood-crystal pedestals pulsing in synchronized cardiac rhythm (60 BPM). Crystals lit per the placement-state — red/violet/gold mix. Each crystal's pulse causes a ground-rune at its base to flare in time. Style §1.5 with foxfire green ambient. House style §1.1.
+
+#### Demon pet roster — individual sprites + manifestation cinematics
+
+For each of the 10 (+2 unnamed = 12) demon pets:
+
+> **`art/demons/<pet_id>/idle.webp`** (256×256 transparent PNG) — Static idle pose render at the pet's "manifest" form. Style §1.1, palette per the canon row in the table below.
+> **`art/demons/<pet_id>/hover.webm`** (3s seamless loop, 256×256, alpha) — Hover/breath/idle motion loop appropriate to creature.
+
+##### Per-demon canon table (from `docs/design/SOUL_STONES_SYSTEM.md` §2.2)
+
+| Pet id | Patron | Canon visual |
+|---|---|---|
+| `imp_of_ruin` | Xeth'Raal | Tiny imp in tattered business-suit made of glowing contract-text; golden spectacles; miniature leather ledger with red entries; gaunt elongated fingers; permanent too-wide smile; foxfire from ledger |
+| `shadow_hound` | Fenra | Small wolf-creature of living shadow; corporate fur-lined collar with brass nameplate; red glowing eyes; no pawprints; reading-glasses on snout; silent howl pose |
+| `whisper_moth` | Ith'Rael | Nearly-invisible moth — shimmer in air; when visible, wings of overlapping translucent text; eyes are tiny portals into the Abyss |
+| `blood_familiar` | Varkul | Vampiric bat with crystalline red wings; security badge; compound eyes; hangs upside-down from shoulder |
+| `harvest_tendril` | Drael'Mon | Writhing arm-mounted tentacle cluster; consumed-world whispers visible as faint text-clouds at tendril tips |
+| `flayed_lens` | Zyr'Koth | Floating dimensional-membrane eyeball; code-vision aura around iris; pupil dilation visible in the still |
+| `corruptors_mirror` | Syl'Vex | Androgynous tailored figure (1m tall); piercing eye-contact; soft smile; dressed in midnight three-piece |
+| `unmakers_seed` | Mol'Garath | Marble-sized perfect-black void; no reflection, no shadow; sits on player's palm with a faint distortion at the edges |
+| `voice_carrier` | (unnamed-9) | Goat-skull mask floating above a silk-cloth body; mouth always slightly open; carries a single strand of red thread between its hands |
+| `marrow_warden` | (unnamed-10) | Bone-white humanoid 30cm tall; ribcage open showing red-glowing core; carries a lantern made of vertebrae |
+| `lattice_drone` | (Tier 3 arch-demon) | 60cm geometric mech-drone; hovering; six eye-pip cluster; lattice-cage ribs |
+| `chorus_devourer` | (Tier 3 arch-demon) | 1.5m mouthless humanoid; instead of a mouth, a swirling sound-wave-glyph at chest height; eyes solid black |
+
+##### Manifestation cinematics — per pet, frame-chained
+
+For each of 12 pets:
+
+> **`videos/demons/<pet_id>_manifest.mp4`** (26s total, 1920×1080, 24fps, H.264, no music; SFX + dialog only) — 3-shot frame-chained sequence:
+> - **Shot 1: Invocation (8s)**. Necromancer center-frame, summoning circle ignites with green foxfire perimeter. Hand-held micro-shake (3px), runes brighten in cascading sequence (clockwise). Camera low (witnessing from floor). End frame: foxfire reaches inner ring, frozen mid-flare.
+> - **Shot 2: Breach (12s)**. START FRAME = Shot 1 end. Void opens at circle center (perfect-black portal). Demon silhouette emerges first (5s), then detail. Camera slowly pulls back from low to mid-eye-level. End frame: demon fully visible at idle pose.
+> - **Shot 3: Acknowledge (6s)**. START FRAME = Shot 2 end. Necromancer steps aside frame-right. Contract scroll materializes mid-air between them. Demon makes one slight motion (per pet — Imp tips spectacles, Shadow Hound bows once, etc.). End frame: contract scroll fully unrolled, demon and Necromancer both still.
+>
+> **Per-pet motion-prompt overrides for Shot 2 (the breach)**:
+> - `imp_of_ruin`: portal expels a single ledger that lands open at the player's feet; the imp climbs out of the ledger (literal scale-change implied — the imp is the ledger's escape).
+> - `shadow_hound`: portal opens at floor level, hound steps out as a shadow-shape that solidifies into matter only as it crosses the circle's threshold.
+> - `whisper_moth`: portal is a single rip; moth emerges as a shimmer first, only fully visible when it lands on a pedestal.
+> - `blood_familiar`: portal opens at ceiling-height; bat drops upside-down, hovers for 1s, then settles upside-down on Necromancer's offered shoulder.
+> - `harvest_tendril`: portal expels a single tendril at first; over 5s, the tendril mass grows from the portal's edge until it fills.
+> - `flayed_lens`: portal opens; a single eye emerges, makes eye contact with the camera, then floats free.
+> - `corruptors_mirror`: portal opens; a perfectly-tailored figure steps out as if from an elevator. Mirror-finish on the figure's right cheek (visible only at certain angles).
+> - `unmakers_seed`: portal collapses to a perfect-black point; that point is the seed; nothing else emerges.
+> - `voice_carrier`: portal opens; goat-skull mask emerges first, then the silk-body unfurls beneath it like a curtain dropped.
+> - `marrow_warden`: portal opens at floor level; bone-white humanoid climbs out as if from a grave; lantern lit on emergence.
+> - `lattice_drone`: portal opens; geometric mech-drone unfolds out of the portal lattice-edge by lattice-edge over 8s.
+> - `chorus_devourer`: portal opens silently; figure walks out at 1m/s, sound-wave glyph at chest visibly active but **no audio** during this shot — silence is the SFX.
+
+Voice direction: Necromancer's dialog is on a sardonic-baritone profile (§11 fight_necromancer_v1 also fits here), 4 lines per pet (one per shot, plus a closing acknowledgment). Per-pet line scripts ship as `apps/scripts/demon-summon-vo.csv`.
+
+#### Summoning failure cinematic
+
+> **`videos/demons/summoning_failed.mp4`** (4s, 1920×1080) — Veo 3.1: ritual circle shatters inward (cracks propagate through the inlaid stone), creature never manifests, one stone cracks audibly on its pedestal (visible: pedestal at frame-right cracks down the center). Necromancer's sardonic line plays out (see VO csv: `nec_fail_quip_<n>` × 5 variants for randomization). End frame: chamber dim, Necromancer alone center-stage, ritual gone.
+
+#### Soul-stone collection VFX (per stone-state)
+
+> **`art/vfx/soul_stone_red_pulse.webm`** (1.5s loop, 256×256, alpha) — Red corruption-stone glow pulse. 3-frame core + soft halo.
+> **`art/vfx/soul_stone_violet_neutral.webm`** (1.5s loop) — Violet neutral-stone glow.
+> **`art/vfx/soul_stone_gold_purified.webm`** (1.5s loop) — Gold purified-stone glow.
+
+#### Corruption / purification ritual VFX
+
+> **`art/vfx/soul_corruption_chain_bind.webm`** (2s, 1920×1080, alpha) — Stone glows red → red intensifies → chains materialize around it from screen-edges → contract-paper scrolls down from above. Alpha. End on contract fully unrolled.
+> **`art/vfx/purification_cancel.webm`** (0.8s, 1920×1080, alpha) — Stone violet glow fades, ritual-window-frame closes (UI-style frame collapse).
+> **`art/vfx/blood_crystal_seat_fill.webm`** (1s, 1024×1024, alpha) — Pedestal cradle-shader: ascending color-flow from base to crystal-cradle, color matches placed crystal type (3 variants: red / violet / gold).
+> **`art/vfx/ritual_circle_amplify_full.webm`** (3s, 1920×1080, alpha) — All 7 channels filled. Circle perimeter flares with elder-rune sequence in synchronized cascade (each rune fires 100ms apart, 7 runes total, sequence completes at 700ms; remaining 2.3s is sustained-glow with subtle crackle). End frame: circle at peak amplification, ready for breach.
+> **`art/vfx/ritual_circle_reject.webm`** (2s, 1920×1080, alpha) — Wrong combination: circle flares harsh white → inverts (negative-color flash) → collapses inward. End frame: scorched marks on the chamber floor.
+
+### 15.2 Character signature VFX (20 loops)
+
+All renders: 1920×1080, alpha, 24fps, looping (loop length per item).
+Style §1.5 vocabulary; cite the matching character-canon in §2.
+
+> **`art/vfx/elara_cyan_tessellation_loop.webm`** (2s) — Cyan #22d3ee hologram lattice; low-amplitude slow drift; faint scanline overlay every 200ms.
+> **`art/vfx/human_crimson_iris_pulse.webm`** (3s) — Single crimson iris-glow; slow pulse 3-stage; soft outer halo.
+> **`art/vfx/engineer_brass_steam_vent.webm`** (4s) — Sparse brass-tinted steam puffs from goggle-edge + belt-clip positions; particle-like burst at 0.0s, 1.4s, 2.8s.
+> **`art/vfx/authority_amber_runes_flicker.webm`** (2.5s) — 12 amber-gold sigils arranged in two horizontal rows; flicker-in-place rhythm; one rune at a time pulses brighter at 200ms intervals.
+> **`art/vfx/kael_voidblack_static.webm`** (2s) — Void-black noise field with 8% granular static; subtle horizontal scan-line drift.
+> **`art/vfx/meme_chromatic_scanline_drift.webm`** (3s) — RGB channel-separation; CRT scanlines at full resolution; chromatic-ghost trails on edges.
+> **`art/vfx/dreamer_substrate_filament_drift.webm`** (4s) — Iris-cyan #22d3ee filaments drifting in slow vertical wave; very low contrast; ambient.
+> **`art/vfx/thoughtvirus_purple_tendrils.webm`** (3s) — Magenta + violet bleed; infectious tendrils growing from screen-edges inward; never quite reaching center.
+> **`art/vfx/authority_red_lattice_grid.webm`** (2.5s) — Geometric red lines on a perfect grid; rigid; one grid-cell at a time pulses bright.
+> **`art/vfx/celebration_confetti_slowmo.webm`** (5s) — Pastel pop palette (rose, mint, gold, lilac); slow-mo rotation as confetti falls; ~80 confetti pieces visible at any moment.
+> **`art/vfx/panopticon_eye_iris_close.webm`** (2s) — Single mechanical iris-shutter; opens fully at 0.0s, holds 1.4s, closes 0.4s, holds 0.2s, opens at 2.0s back to 0.0s seamless.
+> **`art/vfx/witnessing_pulse_radial_bloom.webm`** (2s) — Cyan + cream layered radial bloom; expands from center to edge over 1.6s, fades over 0.4s, seamless.
+> **`art/vfx/meme_broadcast_static_dropout.webm`** (3s) — Broadcast-quality static; intermittent sync-loss frames (3 sync-loss frames at random intervals).
+> **`art/vfx/collector_dna_helix_rotation.webm`** (4s) — Two glowing green double-helix sample-columns rotating around vertical axis; clockwise.
+> **`art/vfx/necromancer_red_smoke_creep.webm`** (5s) — Viscous red smoke; ground-hugging; creeps from screen-edge inward; very slow.
+> **`art/vfx/warlord_gold_sparks_shower.webm`** (3s) — Yellow welding-sparks; infrequent; sparks fall in arcs from off-screen-top to screen-bottom.
+> **`art/vfx/seer_white_feathers_fall.webm`** (6s) — Slow-descent white feathers; soft-focus; 12 feathers visible at any moment; gentle.
+> **`art/vfx/oracle_starwhisper_twinkle.webm`** (4s) — Glittering pinpoints in deep-blue space; subtle twinkle (each pinpoint independently brightens-dims).
+> **`art/vfx/terminus_orange_swarm_wave.webm`** (4s) — Many small orange particles; wave-like motion (collective wave drift, individual particle Brownian).
+> **`art/vfx/shadowtongue_wraith_smear.webm`** (2s) — Long-exposure black motion-blur; horizontal smear streaks; subtle.
+
+### 15.3 Card-combat VFX (18+ items)
+
+Card-game-engine VFX. All renders: 1024×1024 alpha unless noted, 24fps, loops or one-shots as noted.
+
+> **`art/vfx/card_summon_<faction>.webm`** × 6 (1s each, alpha, 1024×1024) — Unit/spell materializes on board. Faction-specific glow:
+> - `card_summon_hierarchy.webm`: red flare + dust-of-blood particles
+> - `card_summon_insurgency.webm`: orange sparks + small flame-tongues
+> - `card_summon_authority.webm`: crimson + gold ceremonial expand
+> - `card_summon_dreamer.webm`: cyan + cream bloom (witnessing-pulse miniature)
+> - `card_summon_mechronis.webm`: indigo lattice-emerge + brass rivet-flash
+> - `card_summon_terminus.webm`: violet + void-static seizure
+>
+> **`art/vfx/spell_cast_<faction>.webm`** × 6 (0.8s each) — Spell card pulses, effect radiates outward. Faction palettes as above.
+> **`art/vfx/card_attack_impact_<tier>.webm`** × 3 (low/medium/high) — Attacker glows, projectile arc or beam, defender flashes on impact. Tier scales sparkle density + screen-shake-implied magnitude.
+> **`art/vfx/card_death_<faction>.webm`** × 6 (1.2s each) — Card dissolution per faction:
+> - hierarchy: shatter into glass shards
+> - insurgency: burns from edge inward
+> - authority: ceremonial fade with gold dust
+> - dreamer: dissolves into cyan motes
+> - mechronis: collapses lattice-by-lattice
+> - terminus: void-suction implosion
+>
+> **`art/vfx/keyword_<keyword>.webm`** × 15 (looping 1.2s) — One per declared engine keyword. Render the keyword sigil-icon animated:
+> - `keyword_drain.webm`: red wisp drifts from defender to attacker
+> - `keyword_void_energy_spend.webm`: small void-rip + gold spark
+> - `keyword_passive_aura.webm`: faint halo loop around card frame
+> - `keyword_frostbite.webm`: cyan ice-crystals creeping inward
+> - `keyword_burn.webm`: orange flame-tongue licking up
+> - `keyword_poison.webm`: green drop pulses on card
+> - `keyword_shielded.webm`: brass rim-flash
+> - `keyword_silenced.webm`: vertical slash-mute symbol
+> - `keyword_taunt.webm`: red exclamation pulse
+> - `keyword_stealth.webm`: violet shimmer-fade
+> - `keyword_overload.webm`: rune-glyph red overcharge
+> - `keyword_lifesteal.webm`: red wisp returns to attacker, restores HP
+> - `keyword_dual_strike.webm`: two slashes in rapid sequence
+> - `keyword_ranged.webm`: arc projectile silhouette
+> - `keyword_summon_token.webm`: small materialize-puff
+>
+> **`art/vfx/board_corruption_spread.webm`** (3s, 1920×1080, alpha) — Red tendrils creep across all 9×5 board tiles, infect cards. Renders against a transparent board grid (compose at runtime).
+> **`art/vfx/divine_light_activate.webm`** (2s, 1920×1080, alpha) — Golden glow blooms from one board-corner outward; cleanses corruption tiles in path.
+
+### 15.4 Room ambient loops (16 missing)
+
+All renders: 15s seamless loop, mono OGG q=6, normalized -14 LUFS. Asset
+prefix `audio/rooms/<room_id>/ambient.ogg`.
+
+> **`audio/rooms/archives/ambient.ogg`** — Gentle rune-pulse drone (subharmonic 40Hz pad) + occasional crystal-chime (a single bell-tone every 4–6s, randomized).
+> **`audio/rooms/comms_array/ambient.ogg`** — Faint sub-carrier hum + intermittent signal-chirp burst (6–8s apart) + soft static-bed.
+> **`audio/rooms/engineering/ambient.ogg`** — Workshop hum + tool-rack metal-creak (every 3–5s) + faint forge-fire crackle.
+> **`audio/rooms/observation_deck/ambient.ogg`** — Distant ship-hull groan + ventilation whisper + zero impact-sounds (silence is part of the room).
+> **`audio/rooms/shadow_vault/ambient.ogg`** — Eerie containment-chamber hum + low-frequency dread-tone bed + occasional containment-field flicker click.
+> **`audio/rooms/war_room/ambient.ogg`** — Tactical-display low hum + paper-rustle on briefing tables + distant alarm-standby tone.
+> **`audio/rooms/cipher_den/ambient.ogg`** — Encryption-algorithm-style harmonic tone (12-tone mathematical progression) + soft electrical buzz.
+> **`audio/rooms/cargo_bay/ambient.ogg`** — Low warehouse hum + distant cargo-loader hydraulic + faint signal-array chirp.
+> **`audio/rooms/briefing_room/ambient.ogg`** — Sub-deck mechanical hum + lockbox bio-scanner standby chirp (every 7s).
+> **`audio/rooms/player_cabin/ambient.ogg`** — Ship-hum personalized + faint music-implied (no actual melody, just harmonic shimmer suggesting personal radio).
+> **`audio/rooms/pet_garden/ambient.ogg`** — Incubator hum + foxfire-plant rustle + occasional pet-creature wing-flutter / squeak (every 8s).
+> **`audio/rooms/celebration_grand_orientation/ambient.ogg`** — Auditorium hush + governance-hub processor whir + distant footstep-echoes.
+> **`audio/rooms/celebration_tribunal_chamber/ambient.ogg`** — Court-quiet hush + voting-bell low standby tone (every 12s).
+> **`audio/rooms/mechronis_grand_hall/ambient.ogg`** — Industrial piston-rhythm + steam-vent + Architect's seal harmonic-overtone.
+> **`audio/rooms/mechronis_classroom/ambient.ogg`** — Wall-shifting-warp creak (every 4–6s) + holo-display low hum + specimen-unit faint hiss.
+> **`audio/rooms/castle_of_death/ambient.ogg`** — Foxfire-flame whisper + distant organ-low-tone + crypt-water-drip (every 5s).
+
+### 15.5 UI / room-transition SFX (12 items)
+
+All renders: ≤1.5s, OGG q=6, normalized -14 LUFS. Asset prefix `audio/sfx/ui/`.
+
+> **`audio/sfx/ui/door_open_pneumatic.ogg`** (1.5s) — Suno: "pneumatic-hiss + servo-spin + deep-thunk seat at end".
+> **`audio/sfx/ui/door_close_pneumatic.ogg`** (1.2s) — Suno: "reverse pneumatic-hiss + lock-click".
+> **`audio/sfx/ui/cryo_pod_open_frost.ogg`** (2.0s) — Suno: "frost-crackle + cryogas hiss + lid-iris-mechanism whirr".
+> **`audio/sfx/ui/holo_display_materialize.ogg`** (1.5s) — Suno: "high-cyan-shimmer ascending + crystalline-stabilize tone at end".
+> **`audio/sfx/ui/ship_jump_warp.ogg`** (0.8s) — Suno: "low-frequency rising whoosh + sub-bass thump".
+> **`audio/sfx/ui/button_click.ogg`** (0.10s) — Suno: "tight tech-blip with brass undertone, 80ms".
+> **`audio/sfx/ui/page_turn.ogg`** (0.30s) — Suno: "single paper-flick + woody bookbinding creak".
+> **`audio/sfx/ui/dialog_advance_chirp.ogg`** (0.15s) — Suno: "single ascending chirp tone, 120ms".
+> **`audio/sfx/ui/notification_arrival.ogg`** (0.50s) — Suno: "soft glass-bell ping + 200ms tail".
+> **`audio/sfx/ui/level_up_sting.ogg`** (1.20s) — Suno: "ascending 4-note brass-fanfare + glittery-bell tail".
+> **`audio/sfx/ui/rank_increase_medal.ogg`** (0.80s) — Suno: "metal-medallion-clack + brass-resonance".
+> **`audio/sfx/ui/limit_break_ready.ogg`** (1.50s) — Suno: "glittering ascending bell flourish + sustained-tone-hold".
+
+### 15.6 Card-game UI SFX renders (the 10 from §9, with audio engine notes)
+
+§9 specifies the 10 card-game UI SFX prompts (card_hover, card_pickup, etc.).
+Add the following render-and-wire procedures:
+
+> **Render**: Suno 5.1 with the §9 prompts, iZotope RX 11 + Insight 2 chain. Normalize each to -14 LUFS, peak ≤ -1.5 dBTP. Trim to ±5ms of useful onset. Format: 48kHz 16-bit stereo OGG q=6.
+> **Upload**:
+> ```bash
+> pnpm tsx apps/scripts/upload-public-to-s3.ts --prefix audio/sfx/card-game/
+> ```
+> **Wire**: register slugs in `apps/client/src/game/duelyst/sfx.ts`'s `CARD_GAME_UI_SFX` map.
+
+### 15.7 Ritual / Hierarchy SFX (6 items)
+
+> **`audio/sfx/ritual/corruption_activation.ogg`** (2.5s) — Suno: "paper-crinkle + metallic chain-clink + void-whisper harmony".
+> **`audio/sfx/ritual/purification_failure.ogg`** (3.5s) — Suno: "crystal-fracture + 2.5s of perfect silence (the silence IS the SFX)".
+> **`audio/sfx/ritual/circle_amplify_seven.ogg`** (3.0s) — Suno: "7 ascending harmonic tones, one per channel-fill, ending on a consonant chord at 700ms; sustained-glow tail through 3.0s".
+> **`audio/sfx/ritual/demon_manifest_hierarchy.ogg`** (1.8s) — Suno: "guttural bass swell + bone-rattle + final low-thud".
+> **`audio/sfx/ritual/demon_manifest_dreamer.ogg`** (1.8s) — Suno: "choral shimmer + soft-bell flourish + sustained-tone tail".
+> **`audio/sfx/ritual/contract_unroll.ogg`** (1.0s) — Suno: "parchment-unroll-rustle + soft-resonance hum + ink-drop pip at end".
+
+> **Render + upload §15 in one batch**:
+> ```bash
+> pnpm tsx apps/scripts/upload-public-to-s3.ts --prefix audio/
+> pnpm tsx apps/scripts/upload-public-to-s3.ts --prefix art/vfx/
+> pnpm tsx apps/scripts/upload-public-to-s3.ts --prefix art/demons/
+> pnpm tsx apps/scripts/upload-public-to-s3.ts --prefix art/rooms/castle_of_death/
+> pnpm tsx apps/scripts/upload-public-to-s3.ts --prefix videos/demons/
+> ```
+
+---
+
 ## End of prompt book
 
 For anything not covered here — Prelude beat audio re-uploads, FNORD-23
