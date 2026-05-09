@@ -374,6 +374,451 @@ export const REFERENCE_AGENDAS: ReadonlyArray<SeasonAgendaDef> = [
       },
     ],
   },
+  // -----------------------------------------------------------------------
+  // Phase 2 priority-roster agendas — extending the Stage-1 reference set
+  // (Locke, Nilmorg, the Antiquarian-via-the_seer wrapper) with the
+  // remaining active priority-roster NPCs. Each agenda is bible-grounded
+  // and uses the canonical sub-house registry in houses.ts.
+  // -----------------------------------------------------------------------
+  {
+    agendaKey: "agenda.antiquarian.publish_the_citation",
+    npcKey: "the_antiquarian",
+    primaryHouseKey: "antiquarian_cross_references_desk",
+    threatenedHouseKey: "antiquarian_casino",
+    name: "Publish the Programmer's Citation",
+    loreContext:
+      "Daniel Cross spends the season scaffolding a complete cross-reference for the Programmer's earliest writing — the work that became Logos. The Casino Floor has been running open markets on the missing attribution for a decade; Cross intends to close those markets by publishing the scaffolded chain of citations, restoring the attribution to the upper shelf where it belongs. The Hierophant has reserved a corner of the chamber for the published edition.",
+    stages: [
+      {
+        stageId: "scaffold",
+        label: "Citation graph scaffolded",
+        loreContext:
+          "Cross builds the cross-reference graph in his refuge. The graph cites the lost manuscript, then the lost copy of the lost manuscript, then the editor's notes on the copy. Each node holds a single empty box.",
+        tickOffset: 1,
+        worldStepSummary:
+          "The Cross-References Desk circulates a partial citation chain. Casino spreads on the missing attribution narrow.",
+        worldStepDeltas: [
+          { houseKey: "antiquarian_cross_references_desk", delta: 6 },
+          { houseKey: "antiquarian_casino", delta: -3 },
+        ],
+        counter: {
+          description:
+            "Place a high-spread Casino bet on the citation outcome — the Floor needs the market open a little longer.",
+          cost: { kind: "credits", amount: 2500 },
+          counterDeltas: [
+            { houseKey: "antiquarian_casino", delta: 5 },
+            { houseKey: "antiquarian_cross_references_desk", delta: -2 },
+          ],
+        },
+      },
+      {
+        stageId: "fill_the_boxes",
+        label: "The boxes filled",
+        loreContext:
+          "Cross delivers the citation evidence node-by-node. Each empty box on the graph receives a name, a date, and a corroborating witness. The Hierophant is canonically one of the witnesses, and the Inventor restored two of the entries the Shadow Tongue had edited out.",
+        tickOffset: 4,
+        worldStepSummary:
+          "The Antiquarian fills the citation chain. Two Shadow-Tongue redactions are publicly reversed.",
+        worldStepDeltas: [
+          { houseKey: "antiquarian_cross_references_desk", delta: 7 },
+          { houseKey: "antiquarian_casino", delta: -4 },
+        ],
+        counter: {
+          description:
+            "Tribute a Cross-References-aligned artefact (high-attribution craft).",
+          cost: {
+            kind: "tribute_item",
+            receivingHouse: "antiquarian_cross_references_desk",
+            minWeight: 1.0,
+          },
+          counterDeltas: [
+            { houseKey: "antiquarian_cross_references_desk", delta: 9 },
+            { houseKey: "antiquarian_casino", delta: -5 },
+          ],
+          counterSummary:
+            "The player's tribute lands on the citation graph. The graph closes one stage early.",
+        },
+      },
+      {
+        stageId: "publish",
+        label: "Citation published",
+        loreContext:
+          "Cross publishes. The citation is filed on the upper shelf adjacent to the Hierophant's wall of names. The Casino Floor settles its open positions at a loss.",
+        tickOffset: 7,
+        worldStepSummary:
+          "The Programmer's Citation is published. The Casino's attribution market closes.",
+        worldStepDeltas: [
+          { houseKey: "antiquarian_cross_references_desk", delta: 12 },
+          { houseKey: "antiquarian_casino", delta: -8 },
+        ],
+        counter: {
+          description:
+            "Sign the Antiquarian's attribution-audit retainer — co-publish under your name.",
+          cost: { kind: "contract_signed", brokerKey: "broker_antiquarian_archive" },
+          counterDeltas: [
+            { houseKey: "antiquarian_cross_references_desk", delta: 16 },
+            { houseKey: "antiquarian_casino", delta: -10 },
+          ],
+          counterSummary:
+            "The player co-publishes with Cross. The shelf-mate band opens.",
+        },
+      },
+    ],
+    metadata: {
+      bibleAnchor: "the_antiquarian §1.4 — bibliographic precision; attribution as canonical metadata",
+    },
+  },
+  {
+    agendaKey: "agenda.wraith.cultivate_the_successor",
+    npcKey: "wraith_calder",
+    primaryHouseKey: "thaloria_quietwork",
+    threatenedHouseKey: "hierarchy_syndicate_of_death",
+    name: "Cultivate the Successor",
+    loreContext:
+      "Per bible §3.10: the Hierophant's covert inheritance layer is a season-long act of structural cultivation. He identifies the Council of Harmony's named successor, walks them through three thousand years of accumulated method, and prepares the chamber for the hand-off. The Hierarchy's Syndicate of Death — which has historically preyed on the Tamarin faithful — loses operational reach with every successful step. The player observes; the player does not drive.",
+    stages: [
+      {
+        stageId: "identify_successor",
+        label: "Successor identified",
+        loreContext:
+          "The Council of Harmony confirms the named junior priest. The chamber adds a second chair to the writing desk. The Hierophant does not look up; the chair is placed during the day's writing without ceremony.",
+        tickOffset: 2,
+        worldStepSummary:
+          "Quietwork names a junior priest. The Tamarin scholarly community gains a continuity guarantee.",
+        worldStepDeltas: [
+          { houseKey: "thaloria_quietwork", delta: 5 },
+          { houseKey: "hierarchy_syndicate_of_death", delta: -4 },
+        ],
+        counter: {
+          description:
+            "Sit with the Hierophant during a Long Mourning beat — bear witness to the naming.",
+          cost: { kind: "none" },
+          counterDeltas: [
+            { houseKey: "thaloria_quietwork", delta: 7 },
+            { houseKey: "hierarchy_syndicate_of_death", delta: -5 },
+          ],
+          counterSummary:
+            "The player attends the chamber. The successor's first day proceeds without interruption.",
+        },
+      },
+      {
+        stageId: "transmit_method",
+        label: "Method transmitted",
+        loreContext:
+          "Three thousand years of per-name fidelity, distilled into observed practice. The successor writes alongside the Hierophant for one full Thalorian week. Neither speaks. The pen passes back and forth without comment.",
+        tickOffset: 5,
+        worldStepSummary:
+          "Quietwork's restoration discipline is transmitted. Two Shadow-Tongue redactions reverse during the week.",
+        worldStepDeltas: [
+          { houseKey: "thaloria_quietwork", delta: 7 },
+          { houseKey: "hierarchy_syndicate_of_death", delta: -5 },
+        ],
+        counter: {
+          description:
+            "Tribute a Tamarin-aligned attribution (high-fidelity craft) to the chamber.",
+          cost: {
+            kind: "tribute_item",
+            receivingHouse: "thaloria_quietwork",
+            minWeight: 1.0,
+          },
+          counterDeltas: [
+            { houseKey: "thaloria_quietwork", delta: 9 },
+            { houseKey: "hierarchy_syndicate_of_death", delta: -7 },
+          ],
+        },
+      },
+      {
+        stageId: "bequeath",
+        label: "Architecture bequeathed",
+        loreContext:
+          "The Hierophant does not die this season — the death is scheduled per bible §3.9. But the architecture is now transferable. The successor can keep the rate. The Council can keep the Tribunal. The Tamarin community can keep the practice. The inheritance is, structurally, complete. The Hierophant continues writing. The continuation is the point.",
+        tickOffset: 7,
+        worldStepSummary:
+          "The Tamarin inheritance is structurally complete. The Hierarchy's Syndicate of Death loses its claim on the flock.",
+        worldStepDeltas: [
+          { houseKey: "thaloria_quietwork", delta: 12 },
+          { houseKey: "hierarchy_syndicate_of_death", delta: -9 },
+        ],
+        counter: {
+          description:
+            "Sign the Quietwork facilitation retainer — the player accepts the role of parallel inheritor.",
+          cost: { kind: "contract_signed", brokerKey: "broker_thaloria_quietwork" },
+          counterDeltas: [
+            { houseKey: "thaloria_quietwork", delta: 16 },
+            { houseKey: "hierarchy_syndicate_of_death", delta: -12 },
+          ],
+          counterSummary:
+            "The player accepts the parallel-inheritor role at Inheriting band. The chamber adds a third chair.",
+        },
+      },
+    ],
+    requiresRevealStage: "post_arena",
+    metadata: {
+      bibleAnchor: "wraith_calder §3.10 — the covert inheritance layer; observational reveal at Inheriting band only",
+    },
+  },
+  {
+    agendaKey: "agenda.vex.authenticate_the_recording",
+    npcKey: "vex_solene",
+    primaryHouseKey: "insurgency_old_network",
+    threatenedHouseKey: "ae_architects_court",
+    name: "Authenticate the Hierophant Recording",
+    loreContext:
+      "Per bible §4.2: Vex has one Hierophant interview tape with one answer that contradicts his stated cosmology. The Coda has been waiting on a season's worth of cross-checking before publishing. This agenda is the cross-checking — Vex traces the contradiction back to its source, confirms the variance is genuine, and broadcasts the discrepancy to the Coda's audit channel. The Architect's Court has been suppressing similar discrepancies for centuries; the broadcast costs them surveillance reach.",
+    stages: [
+      {
+        stageId: "cross_check",
+        label: "Discrepancy cross-checked",
+        loreContext:
+          "Vex re-listens to the recording with the Antiquarian's notes open. The contradiction holds. She files a chain-of-custody note in the Coda's archive.",
+        tickOffset: 2,
+        worldStepSummary:
+          "The Coda flags a Hierophant cosmology variance. The Architect's surveillance corner reports increased static.",
+        worldStepDeltas: [
+          { houseKey: "insurgency_old_network", delta: 5 },
+          { houseKey: "ae_architects_court", delta: -3 },
+        ],
+        counter: {
+          description:
+            "Tribute an Insurgency-aligned card with high attribution provenance to support the Coda's audit.",
+          cost: {
+            kind: "tribute_card",
+            cardFaction: "insurgency",
+            minRarity: "rare",
+            count: 1,
+          },
+          counterDeltas: [
+            { houseKey: "insurgency_old_network", delta: 7 },
+            { houseKey: "ae_architects_court", delta: -5 },
+          ],
+        },
+      },
+      {
+        stageId: "second_witness",
+        label: "Second witness located",
+        loreContext:
+          "Vex finds someone who was in the chamber during the same window — a junior Council priest, a passing Antiquarian researcher, or a Loredex narrator with relevant audio. The witness corroborates the discrepancy. The Architect's Court loses one of its quiet contractors mid-season.",
+        tickOffset: 5,
+        worldStepSummary:
+          "A second witness corroborates the variance. The Architect's Court loses a contractor.",
+        worldStepDeltas: [
+          { houseKey: "insurgency_old_network", delta: 6 },
+          { houseKey: "ae_architects_court", delta: -4 },
+        ],
+        counter: {
+          description:
+            "Place a high-influence intercession that protects the witness from retaliation.",
+          cost: { kind: "influence", amount: 40 },
+          counterDeltas: [
+            { houseKey: "insurgency_old_network", delta: 8 },
+            { houseKey: "ae_architects_court", delta: -6 },
+          ],
+        },
+      },
+      {
+        stageId: "broadcast",
+        label: "Discrepancy broadcast",
+        loreContext:
+          "Vex publishes to the Coda audit channel. The recording is not the entire interview — only the contradicting clause and its corroboration. The Architect's surveillance loses the next quarter of pretending the cosmology was monolithic.",
+        tickOffset: 7,
+        worldStepSummary:
+          "The Coda broadcasts the Hierophant variance. The Architect's Court reduces public posture for the season's remainder.",
+        worldStepDeltas: [
+          { houseKey: "insurgency_old_network", delta: 11 },
+          { houseKey: "ae_architects_court", delta: -8 },
+        ],
+        counter: {
+          description:
+            "Sign the Coda's joint-broadcast retainer — co-author the audit publication.",
+          cost: { kind: "contract_signed", brokerKey: "broker_independent_freeport" },
+          counterDeltas: [
+            { houseKey: "insurgency_old_network", delta: 15 },
+            { houseKey: "ae_architects_court", delta: -10 },
+          ],
+          counterSummary:
+            "The player co-authors the broadcast. The Coda opens an Inner-Circle slot at session close.",
+        },
+      },
+    ],
+    metadata: {
+      bibleAnchor: "vex_solene §4.12; wraith_calder §4.2 — the Hierophant interview corroboration",
+    },
+  },
+  {
+    agendaKey: "agenda.draelmon.quiet_acquisition",
+    npcKey: "drael_mon",
+    primaryHouseKey: "hierarchy_acquisitions",
+    threatenedHouseKey: "hierarchy_severance",
+    name: "Quiet Acquisition of the Trade Lanes",
+    loreContext:
+      "Drael'Mon spends the season quietly acquiring trade-lane operating rights from the Severance Division. Acquisitions believes the lanes are under-extracted; Severance believes they are stable assets that fund institutional precision. The two desks negotiate around each other for the season; the player can either fund the bid, fund the defence, or stay out and let the Hierarchy spend itself thin.",
+    stages: [
+      {
+        stageId: "scout",
+        label: "Lanes scouted",
+        loreContext:
+          "Drael'Mon's analysts mark which corridors the Trench has been running thin. The list is not public; Severance learns of it the day after the contracts are circulated.",
+        tickOffset: 1,
+        worldStepSummary:
+          "Acquisitions circulates a thin-corridor list. Severance announces a temporary surcharge on flagged routes.",
+        worldStepDeltas: [
+          { houseKey: "hierarchy_acquisitions", delta: 5 },
+          { houseKey: "hierarchy_severance", delta: -3 },
+        ],
+        counter: {
+          description:
+            "Run a route through the flagged corridor; pay the Severance surcharge in person.",
+          cost: { kind: "credits", amount: 4000 },
+          counterDeltas: [
+            { houseKey: "hierarchy_severance", delta: 6 },
+            { houseKey: "hierarchy_acquisitions", delta: -3 },
+          ],
+        },
+      },
+      {
+        stageId: "bid",
+        label: "Sealed bid filed",
+        loreContext:
+          "Drael'Mon files the sealed bid on the most under-extracted corridor. The bid is structured so that Severance must either match in kind or surrender the operating rights for the rest of the season.",
+        tickOffset: 4,
+        worldStepSummary:
+          "Acquisitions files a sealed bid. Severance is forced to match or yield.",
+        worldStepDeltas: [
+          { houseKey: "hierarchy_acquisitions", delta: 7 },
+          { houseKey: "hierarchy_severance", delta: -5 },
+        ],
+        counter: {
+          description:
+            "Tribute a Severance-aligned acquisition (institutional-precision craft) so the desk can match the bid.",
+          cost: {
+            kind: "tribute_item",
+            receivingHouse: "hierarchy_severance",
+            minWeight: 1.0,
+          },
+          counterDeltas: [
+            { houseKey: "hierarchy_severance", delta: 9 },
+            { houseKey: "hierarchy_acquisitions", delta: -6 },
+          ],
+        },
+      },
+      {
+        stageId: "seize",
+        label: "Operating rights seized",
+        loreContext:
+          "Drael'Mon takes the corridor. The Trench's quarterly throughput drops by a third; Acquisitions's by-acquisition revenue rises by a half. The Hierarchy's overall season position is unchanged — the wealth has just moved one desk.",
+        tickOffset: 7,
+        worldStepSummary:
+          "Acquisitions seizes the corridor. Severance's quarterly throughput drops.",
+        worldStepDeltas: [
+          { houseKey: "hierarchy_acquisitions", delta: 12 },
+          { houseKey: "hierarchy_severance", delta: -8 },
+        ],
+        counter: {
+          description:
+            "Sign Drael'Mon's acquisition co-financing retainer — the player takes a quarter of the revenue stream.",
+          cost: { kind: "contract_signed", brokerKey: "broker_nilmorg_severance" },
+          counterDeltas: [
+            { houseKey: "hierarchy_severance", delta: 10 },
+            { houseKey: "hierarchy_acquisitions", delta: -4 },
+          ],
+          counterSummary:
+            "The player takes a Severance-funded counter-position. Acquisitions takes the corridor at a steep discount.",
+        },
+      },
+    ],
+    metadata: {
+      bibleAnchor: "drael_mon — Hierarchy SVP Acquisitions; reasonable in the room, ruinous in the margins",
+    },
+  },
+  {
+    agendaKey: "agenda.oracle.reveal_the_fragment",
+    npcKey: "the_oracle",
+    primaryHouseKey: "dreamer_shield_opaque",
+    threatenedHouseKey: "ae_architects_court",
+    name: "Reveal the Prophecy Fragment",
+    loreContext:
+      "The Oracle holds a prophecy fragment the Architect's Court has been suppressing for three centuries. This season she dispenses it — first as a private hint to a witness, then as a mid-broadcast reveal, then as a public reading. The fragment is canonically true, canonically dangerous to the Architect's surveillance, and canonically not interpretable in only one way. The Dreamer Shield is opaque by canon (per houses.ts) — the agenda advances regardless of player counter; the player's role is to interpret, not block.",
+    stages: [
+      {
+        stageId: "private_hint",
+        label: "Hint given",
+        loreContext:
+          "The Oracle dictates the fragment to a single witness. The witness is canonically the player if the player has reached Witnessed; otherwise an Antiquarian researcher or the Hierophant's Council priest.",
+        tickOffset: 2,
+        worldStepSummary:
+          "The Oracle dictates a prophecy hint to a single witness. Architect surveillance increases.",
+        worldStepDeltas: [
+          { houseKey: "dreamer_shield_opaque", delta: 4 },
+          { houseKey: "ae_architects_court", delta: -2 },
+        ],
+        counter: {
+          description:
+            "Witness the dictation in person — accept the fragment as given, do not paraphrase.",
+          cost: { kind: "none" },
+          counterDeltas: [
+            { houseKey: "dreamer_shield_opaque", delta: 6 },
+            { houseKey: "ae_architects_court", delta: -4 },
+          ],
+          counterSummary:
+            "The player witnesses. The fragment lands canonically intact.",
+        },
+      },
+      {
+        stageId: "mid_broadcast",
+        label: "Mid-broadcast reveal",
+        loreContext:
+          "The Oracle interrupts a Palimpsest broadcast and speaks the fragment over the Host's cadence. The Inventor catches the interruption mid-frame and preserves it in the broadcast archive.",
+        tickOffset: 5,
+        worldStepSummary:
+          "The Oracle speaks the fragment over a broadcast. The Inventor preserves the moment.",
+        worldStepDeltas: [
+          { houseKey: "dreamer_shield_opaque", delta: 6 },
+          { houseKey: "ae_architects_court", delta: -4 },
+        ],
+        counter: {
+          description:
+            "Tribute a Dreamer-faction card to amplify the fragment's reach.",
+          cost: {
+            kind: "tribute_card",
+            cardFaction: "dreamer",
+            minRarity: "uncommon",
+            count: 2,
+          },
+          counterDeltas: [
+            { houseKey: "dreamer_shield_opaque", delta: 8 },
+            { houseKey: "ae_architects_court", delta: -6 },
+          ],
+        },
+      },
+      {
+        stageId: "public_reading",
+        label: "Public reading",
+        loreContext:
+          "The Oracle reads the fragment in full at a public chamber on Thaloria — the Council's antechamber, the Hierophant in the next room writing a name. The Architect's Court loses its three-century editorial privilege over the prophecy.",
+        tickOffset: 7,
+        worldStepSummary:
+          "The Oracle reads the fragment publicly. The Architect's Court loses suppression rights.",
+        worldStepDeltas: [
+          { houseKey: "dreamer_shield_opaque", delta: 11 },
+          { houseKey: "ae_architects_court", delta: -8 },
+        ],
+        counter: {
+          description:
+            "Sit in the antechamber during the reading — the player is canonically named in the prophecy's interpretation if present.",
+          cost: { kind: "none" },
+          counterDeltas: [
+            { houseKey: "dreamer_shield_opaque", delta: 14 },
+            { houseKey: "ae_architects_court", delta: -10 },
+          ],
+          counterSummary:
+            "The player is named in the interpretation. The prophecy's address widens.",
+        },
+      },
+    ],
+    metadata: {
+      bibleAnchor: "the_oracle — prophecy as witnessed dictation, never as instruction",
+    },
+  },
 ];
 
 /** Validate every reference agenda. Used by tests. */
