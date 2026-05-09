@@ -2,17 +2,24 @@
 
 import { describe, it, expect } from "vitest";
 import {
+  CANONICAL_CLIMAX_RESOLUTION_KEYS,
   CLIMAX_RESOLUTIONS,
   CLIMAX_THRESHOLD,
   CLIMAX_WINDOW_MS,
+  getCanonicalClimaxResolutions,
   getClimaxResolution,
   shouldAutoResolve,
   shouldOpenClimax,
 } from "../convergenceClimax";
 
 describe("convergenceClimax — Phase D.5", () => {
-  it("ships exactly 3 bad-options resolutions", () => {
-    expect(CLIMAX_RESOLUTIONS.length).toBe(3);
+  it("ships exactly 3 canonical bad-options resolutions", () => {
+    expect(getCanonicalClimaxResolutions().length).toBe(3);
+    expect(CANONICAL_CLIMAX_RESOLUTION_KEYS).toEqual([
+      "climax.trade_sector",
+      "climax.withdraw_fleet",
+      "climax.negotiate_armistice",
+    ]);
   });
 
   it("every resolution has a non-empty subHouseDeltas list", () => {
@@ -27,8 +34,22 @@ describe("convergenceClimax — Phase D.5", () => {
     }
   });
 
-  it("getClimaxResolution resolves canonical keys", () => {
+  it("every canonical resolution ships full narrative content", () => {
+    for (const r of getCanonicalClimaxResolutions()) {
+      expect(r.narrative.length).toBeGreaterThan(200);
+      expect(r.cinematicSummary.length).toBeGreaterThan(80);
+      expect(r.npcReactions.length).toBeGreaterThan(0);
+      expect(r.cascade.length).toBeGreaterThan(0);
+    }
+  });
+
+  it("getClimaxResolution resolves both canonical and legacy keys", () => {
+    expect(getClimaxResolution("climax.trade_sector")).toBeDefined();
+    expect(getClimaxResolution("climax.withdraw_fleet")).toBeDefined();
+    expect(getClimaxResolution("climax.negotiate_armistice")).toBeDefined();
+    // Legacy aliases preserved for replay determinism.
     expect(getClimaxResolution("climax.sacrifice_a_sector")).toBeDefined();
+    expect(getClimaxResolution("climax.broker_a_truce")).toBeDefined();
     expect(getClimaxResolution("does_not_exist")).toBeUndefined();
   });
 
