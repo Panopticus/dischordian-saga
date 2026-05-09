@@ -69,48 +69,54 @@ export function RedactedLoredexEntry({
   const state = data?.state ?? "visible";
 
   if (state === "redacted") {
-    return redactedView ? <>{redactedView}</> : (
-      <div role="note" aria-label="redacted entry">
-        <span style={{ fontStyle: "italic", opacity: 0.6 }}>[REDACTED]</span>
-      </div>
+    if (redactedView) return <>{redactedView}</>;
+    // Inline-safe default — uses <span> so the component nests cleanly
+    // inside <p>, <h2>, list items, etc. (every existing CorruptibleBio
+    // call site wraps inside text elements).
+    return (
+      <span
+        role="note"
+        aria-label="redacted entry"
+        style={{ fontStyle: "italic", opacity: 0.6 }}
+      >
+        [REDACTED]
+      </span>
     );
   }
 
   if (state === "partial") {
     if (partialView) return <>{partialView}</>;
     return (
-      <div>
+      <>
         <span
           style={{
-            fontSize: "0.75rem",
+            fontSize: "0.75em",
             opacity: 0.7,
-            display: "block",
-            marginBottom: "0.5rem",
+            marginRight: "0.5em",
           }}
         >
-          [partially redacted — some fields not available]
+          [partially redacted]
         </span>
         {children}
-      </div>
+      </>
     );
   }
 
   if (state === "contradictory") {
     if (contradictoryView) return <>{contradictoryView}</>;
     return (
-      <div>
+      <>
         <span
           style={{
-            fontSize: "0.75rem",
+            fontSize: "0.75em",
             opacity: 0.7,
-            display: "block",
-            marginBottom: "0.5rem",
+            marginRight: "0.5em",
           }}
         >
-          [CONTESTED — sources disagree on this entry]
+          [CONTESTED]
         </span>
         {children}
-      </div>
+      </>
     );
   }
 

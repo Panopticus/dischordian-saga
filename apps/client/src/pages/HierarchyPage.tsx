@@ -14,6 +14,7 @@ import { useLoredex } from "@/contexts/LoredexContext";
 import { useGamification } from "@/contexts/GamificationContext";
 import { useGame } from "@/contexts/GameContext";
 import { CorruptibleBio } from "@/components/CorruptibleBio";
+import { RedactedLoredexEntry } from "@/components/RedactedLoredexEntry";
 
 /* ─── Hierarchy Data ─── */
 interface DemonLeader {
@@ -260,11 +261,13 @@ function DemonDetail({ demon, onClose }: { demon: DemonLeader; onClose: () => vo
         {entry?.bio && (
           <div>
             <p className="font-mono text-xs text-muted-foreground/80 leading-relaxed">
-              <CorruptibleBio
-                entryId={entry.id}
-                text={entry.bio}
-                truncate={showFullBio ? undefined : 200}
-              />
+              <RedactedLoredexEntry entryId={entry.id}>
+                <CorruptibleBio
+                  entryId={entry.id}
+                  text={entry.bio}
+                  truncate={showFullBio ? undefined : 200}
+                />
+              </RedactedLoredexEntry>
             </p>
             {entry.bio.length > 200 && (
               <button onClick={() => setShowFullBio(!showFullBio)} className="font-mono text-[10px] mt-1 flex items-center gap-1" style={{ color: demon.color }}>

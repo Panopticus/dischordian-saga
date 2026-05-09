@@ -8,9 +8,18 @@
    faction standing + axis profile + global power level + fired
    reveal triggers per apps/shared/universe/shadowTongue.ts.
 
-   Authentication: protectedProcedure throughout. Per-player
-   state is meaningless without an authenticated user.
+   All procedures are protectedProcedure: per-player state is
+   meaningless without an authenticated user.
    ═══════════════════════════════════════════════════════ */
+
+// audit-allow-proc: resolveBulk, fireTrigger
+// resolveBulk: queued for adoption when paginated Loredex views land
+//   (page-load fan-out); single-entry resolve is the consumed path
+//   today via apps/client/src/components/RedactedLoredexEntry.tsx.
+// fireTrigger: consumed when the first reveal-trigger-firing site
+//   lands (Antiquarian citation surface, encounter-card investigate
+//   button, Coda broadcast notification). The data + service paths
+//   are ready; the surface to fire from is the open follow-up.
 
 import { z } from "zod";
 

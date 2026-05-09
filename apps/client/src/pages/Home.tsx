@@ -23,6 +23,7 @@ import DecisionDeck from "@/components/DecisionDeck";
 import ScrollIndicator from "@/components/ScrollIndicator";
 import PageMeta from "@/components/PageMeta";
 import { CorruptibleBio } from "@/components/CorruptibleBio";
+import { RedactedLoredexEntry } from "@/components/RedactedLoredexEntry";
 import { useLivingUniverse } from "@/hooks/useDailyBrief";
 
 /* ─── BOOT SEQUENCE ─── */
@@ -284,7 +285,9 @@ function DossierCard({ entry, index, onDiscover }: { entry: LoredexEntry; index:
               {/* Redacted bio preview */}
               {entry.bio && (
                 <p className="font-mono text-[10px] text-muted-foreground mt-1.5 line-clamp-2 leading-relaxed">
-                  <CorruptibleBio entryId={entry.id} text={entry.bio} truncate={100} />
+                  <RedactedLoredexEntry entryId={entry.id}>
+                    <CorruptibleBio entryId={entry.id} text={entry.bio} truncate={100} />
+                  </RedactedLoredexEntry>
                 </p>
               )}
             </div>

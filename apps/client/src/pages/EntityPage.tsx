@@ -13,6 +13,7 @@ import { ALBUM1_T01_SLIDESHOW } from "@shared/songSlideshows";
 import { DREAM_ENIGMAS_LAMENT_ID } from "@/lib/dreams";
 import StoryArc from "@/components/StoryArc";
 import RelationshipMiniGraph from "@/components/RelationshipMiniGraph";
+import { RedactedLoredexEntry } from "@/components/RedactedLoredexEntry";
 import LoreAppearancesTimeline from "@/components/LoreAppearancesTimeline";
 import { LoredexWitnessingXrefs } from "@/components/LoredexWitnessingXrefs";
 import { usePageMeta } from "@/hooks/usePageMeta";
@@ -193,7 +194,9 @@ export default function EntityPage() {
               </div>
 
               {displayBio && (
-                <p className="text-sm text-foreground/70 leading-relaxed line-clamp-3">{displayBio}</p>
+                <RedactedLoredexEntry entryId={entry.id}>
+                  <p className="text-sm text-foreground/70 leading-relaxed line-clamp-3">{displayBio}</p>
+                </RedactedLoredexEntry>
               )}
             </motion.div>
           </div>
@@ -217,7 +220,9 @@ export default function EntityPage() {
                 </span>
               )}
             </h2>
-            <p className="text-sm text-foreground/80 leading-relaxed whitespace-pre-line">{displayBio}</p>
+            <RedactedLoredexEntry entryId={entry.id}>
+              <p className="text-sm text-foreground/80 leading-relaxed whitespace-pre-line">{displayBio}</p>
+            </RedactedLoredexEntry>
             {bioOverride && (
               <p className="mt-2 font-mono text-[10px] void-text-system italic">
                 This entry has been altered by the Shadow Tongue's Apprentice path. The original reading is gone.
