@@ -724,6 +724,42 @@ export const tradeEmpireRouter = router({
         ? 90 // rolled over
         : newRep - 10;
 
+      // 4b) Cross-feed: bump dominant sub-house rep for this sector,
+      //     amplified by the active seasonal declaration. Wires the
+      //     economic mission layer into the political court layer.
+      try {
+        const { dominantSubHouseForSector } = await import(
+          "@shared/tradeEmpire/houses"
+        );
+        const dominantHouse = dominantSubHouseForSector(mission.sectorId);
+        if (dominantHouse) {
+          const [
+            { applyDeclarationModifier },
+            { applySubHouseRepDelta },
+            { seasonClockService },
+          ] = await Promise.all([
+            import("@shared/tradeEmpire/declarations"),
+            import("../services/subHouseReputationService"),
+            import("../services/seasonClockService"),
+          ]);
+          const declaration = seasonClockService.getState().declaration;
+          const baseDelta = 3;
+          const modifiedDelta = applyDeclarationModifier(
+            declaration,
+            dominantHouse.houseKey,
+            baseDelta,
+          );
+          await applySubHouseRepDelta(
+            ctx.user.id,
+            dominantHouse.houseKey,
+            modifiedDelta,
+            `mission ${mission.id} completed in ${mission.sectorId}`,
+          );
+        }
+      } catch (subHouseErr) {
+        console.warn("[TradeEmpire] sub-house cross-feed failed", subHouseErr);
+      }
+
       // Thought Virus integration — running the Vox Corridor adds real viral
       // exposure on top of the normal reward, per thoughtVirus.ts lore.
       if (mission.id.startsWith("vox_corridor")) {

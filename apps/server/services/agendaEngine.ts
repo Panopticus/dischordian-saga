@@ -41,6 +41,15 @@ import { tickAdvancesAgendas } from "@shared/tradeEmpire/season";
 import { applySubHouseRepDelta } from "./subHouseReputationService";
 import { postPublicKnowledge } from "./publicKnowledgeService";
 import { seasonClockService } from "./seasonClockService";
+import { bumpConvergence } from "./convergenceClimaxService";
+
+/**
+ * Each world-fired agenda step pushes the doom clock by this much.
+ * Agendas are how the world "moves on you" without the player acting,
+ * so they're the canonical pressure source for the Convergence Climax.
+ * 20 stages of unanswered agendas across one season = climax opens.
+ */
+const CLIMAX_BUMP_PER_WORLD_STEP = 5;
 
 // --- Stage status enum ----------------------------------------------------
 
@@ -196,6 +205,13 @@ async function fireWorldStep(
     "world_fired",
     fullStatus,
     isAllResolved(nextStatus),
+  );
+
+  // Cross-feed: every uncountered agenda step nudges the Convergence
+  // doom clock. The world moving on you is exactly the pressure the
+  // climax was designed to track. See convergenceClimaxService.
+  bumpConvergence(CLIMAX_BUMP_PER_WORLD_STEP).catch(err =>
+    logger.warn("[agendaEngine] convergence bump failed:", err),
   );
 }
 

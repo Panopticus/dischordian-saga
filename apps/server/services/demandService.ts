@@ -241,6 +241,15 @@ export async function payDemand(
     await applySubHouseRepDelta(args.userId, houseKey, 12, `paid demand #${args.demandId}`).catch(
       err => logger.warn("[demands] pay rep delta failed:", err),
     );
+    // Cross-feed: tribute paid to a sub-house lifts your standing in
+    // its anchor sector too (Court layer ↔ Map layer integration).
+    const anchorSector = SUB_HOUSE_REGISTRY[houseKey]?.primarySectorId;
+    if (anchorSector) {
+      const { bumpSectorReputation } = await import("./tradeSectorReputationService");
+      await bumpSectorReputation(args.userId, anchorSector, 1).catch(err =>
+        logger.warn("[demands] pay sector rep cross-feed failed:", err),
+      );
+    }
   }
 
   await postPublicKnowledge({
