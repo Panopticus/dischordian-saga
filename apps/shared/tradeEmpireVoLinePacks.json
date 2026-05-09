@@ -9,15 +9,33 @@
     "the_degen": "r6VqF23i4qBEORazjelf",
     "elara": "xMyNDrPFEtQN8iZtT7l2",
     "human": "oGbGJdgofRR8z0MxwI8L",
-    "wraith_calder": "TODO_WRAITH_CALDER",
-    "the_oracle": "TODO_ORACLE",
-    "the_seer": "TODO_SEER",
+    "wraith_calder": "Vogq3iKs5PJ3cL39gFhW",
+    "the_oracle": "mpeeKhhSuOwXIwvKclcn",
+    "the_seer": "BTfBVfMM9XgZG8GG1bJn",
     "drael_mon": "TODO_DRAEL_MON"
   },
   "casting_status": {
-    "cast_and_pinned": ["locke", "nilmorg", "the_antiquarian", "the_degen", "elara", "human"],
-    "uncast_todo": ["wraith_calder", "the_oracle", "the_seer", "drael_mon"],
-    "notes": "wraith_calder is the largest gap — the broker_thaloria_quietwork pack (29 lines) blocks on this casting. The other 3 (the_oracle, the_seer, drael_mon) appear only in climax_resolution_scenes (1-2 lines each), so the broker packs and per-sub-house demand lines and declaration heralds can begin recording immediately for the 6 cast voices."
+    "cast_and_pinned": ["locke", "nilmorg", "the_antiquarian", "the_degen", "elara", "human", "wraith_calder", "the_oracle", "the_seer"],
+    "uncast_todo": ["drael_mon"],
+    "notes": "Only drael_mon remains uncast (2 lines across climax_resolution_scenes). Casting brief embedded under casting_briefs.drael_mon below. All 5 broker packs (locke / nilmorg / the_antiquarian / the_degen / wraith_calder) are now recordable end-to-end."
+  },
+  "casting_briefs": {
+    "drael_mon": {
+      "character": "Drael'Mon, the Harvester — wet-chrome enforcer for the Hierarchy's Acquisitions wing.",
+      "register": "Mid-50s male-coded. Deep baritone with throat-moisture that never fully clears (the demonic physiology). Never raises volume; the volume comes from the patience.",
+      "delivery": "Speaks slowly. Every sentence is a hostile-acquisition decision being committed to the ledger out loud. Cold-corporate humour at the player's discomfort, never mocking — the humour is the kind that signs a layoff list with a slight smile.",
+      "diction": "Refers to himself and his department in the third person ('Acquisitions does not respect the bond. Acquisitions notes the bond.'). Drael'Mon and the Acquisitions Division are, in his framing, the same instrument; the third-person reference is the politics.",
+      "references": "Senior M&A partner who has personally dissolved a thousand companies. The mol_garath SPEAKER_SETTINGS preset (apps/scripts/generate-act-vo.ts:209) is the closest neighbour — same demonic-corporate logic — but Drael'Mon is wet-chrome enforcer rather than reptilian bureaucrat. Pyramid Head's silence translated into corporate vernacular.",
+      "elevenlabs_settings_starting_point": {
+        "stability": 0.55,
+        "similarity_boost": 0.78,
+        "style": 0.35,
+        "use_speaker_boost": true,
+        "text_prefix": "*wet-chrome enforcer baritone, slow corporate cadence, third-person about Acquisitions, never raises volume; faint throat-moisture in the longest vowels* "
+      },
+      "post": "1500K under-key delivery. Faint blood-weave-rasp reverb on the longest vowels added in post; never explicit, never horror-cliché — the rasp is corporate, not monstrous.",
+      "negative_direction": "No yelling. No theatrical demonic affect. No growling. Drael'Mon is closer to a quiet executive than a cinematic demon; the menace is structural."
+    }
   },
   "brokers": {
     "$comment": "Broker voice packs — each broker gets ~6 lines per engagement style + ~3 transactional confirmations + 1 refusal. 30 lines each, 5 brokers = ~150 lines (Antiquarian and Thaloria each have a primary NPC).",

@@ -84,7 +84,7 @@ Per companion (3+): fleet silhouette + 1 cinematic moment of taking command. Tot
 
 `apps/shared/tradeEmpireVoLinePacks.json` ships a `speaker_voice_ids` registry that resolves each line to its ElevenLabs voice ID at sync time. State as of this commit:
 
-**Cast and pinned (6 speakers — recording can begin immediately):**
+**Cast and pinned (9 speakers — 231 of 233 lines immediately recordable):**
 
 | Speaker | Voice ID | Source |
 |---|---|---|
@@ -94,25 +94,25 @@ Per companion (3+): fleet silhouette + 1 cinematic moment of taking command. Tot
 | `the_degen` | `r6VqF23i4qBEORazjelf` | apps/scripts/generate_degen_vo.py |
 | `elara` | `xMyNDrPFEtQN8iZtT7l2` | act3-vo-lines.json |
 | `human` | `oGbGJdgofRR8z0MxwI8L` | act3-vo-lines.json |
+| `wraith_calder` | `Vogq3iKs5PJ3cL39gFhW` | producer-supplied |
+| `the_oracle` | `mpeeKhhSuOwXIwvKclcn` | producer-supplied |
+| `the_seer` | `BTfBVfMM9XgZG8GG1bJn` | producer-supplied |
 
-**Uncast — TODO placeholders (4 speakers):**
+**Uncast — TODO placeholders (1 speaker):**
 
 | Speaker | Placeholder | Blocks |
 |---|---|---|
-| `wraith_calder` | `TODO_WRAITH_CALDER` | broker_thaloria_quietwork pack (29 lines), Thaloria heralds, climax narratives |
-| `the_oracle` | `TODO_ORACLE` | 1 line in climax.withdraw_fleet |
-| `the_seer` | `TODO_SEER` | 1 line in climax.negotiate_armistice |
-| `drael_mon` | `TODO_DRAEL_MON` | 2 lines across climax scenes |
+| `drael_mon` | `TODO_DRAEL_MON` | 2 lines across climax_resolution_scenes (climax.trade_sector + climax.negotiate_armistice) |
 
-The existing studio pipeline (`apps/scripts/generate-act-vo.ts`) understands `TODO_*` voice IDs and skips them at generation when run with `--skip-todo`, so the wiring lands now and the studio can record cast voices in parallel with casting calls for the four uncast.
+A casting brief for `drael_mon` is embedded inline at `apps/shared/tradeEmpireVoLinePacks.json#casting_briefs.drael_mon` for the casting call.
 
 **Line totals** (all authored, all tied to a speaker):
 
-- Brokers: 5 packs × ~30 lines = 145 lines
+- Brokers: 5 packs × ~30 lines = 145 lines (all 5 packs end-to-end recordable)
 - Sub-house demands: 22 sub-houses × 3 = 66 lines
 - Declaration heralds: 7 lines
 - Climax resolution scenes: 18 lines (3 scenes × 6 NPCs avg)
-- **Total: 233 lines**, of which **199 are immediately recordable** (the 6 cast speakers) and **34 block on casting** (29 Thaloria broker lines + 5 across heralds and climax for wraith_calder/oracle/seer/drael_mon).
+- **Total: 233 lines**, of which **231 are immediately recordable** (9 cast speakers) and **2 block on casting** (Drael'Mon climax lines).
 
 ## Summary
 
