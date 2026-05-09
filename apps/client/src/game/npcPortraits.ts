@@ -156,11 +156,31 @@ export interface HumanRevealStage {
    * cosplayer should target at this stage.
    */
   cosplayGuidance?: string;
+  /**
+   * audit/16 PR 22 (finding C2 — Cinematic persona).
+   *
+   * Optional cinematic id to play when the player first
+   * crosses INTO this reveal stage (i.e. their human-trust
+   * was below `minTrust` last frame and is now in the
+   * `[minTrust, maxTrust]` range). Pre-audit, the reveal
+   * progression happened silently — the portrait crossfaded
+   * but no cinematic punctuated the threshold-cross. The
+   * audit'd intent: each progression beat is a story moment
+   * and should land as one.
+   *
+   * The cinematic-id space is shared with the variant
+   * resolver's `portraitCinematicId` (PR #524 / #537).
+   * Companion-state update logic (queued; not in this PR)
+   * compares previous-frame trust to current-frame trust
+   * and dispatches the cinematic on threshold-cross.
+   */
+  trustThresholdCinematic?: string;
 }
 
 export const HUMAN_REVEAL_STAGES: HumanRevealStage[] = [
   {
     id: "signal-static",
+    trustThresholdCinematic: "cinematic_human_reveal_signal-static",
     label: "SIGNAL STATIC",
     minTrust: 0, maxTrust: 9,
     imageUrl: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775534568/signal-static_rgwpso.jpg",
@@ -170,6 +190,7 @@ export const HUMAN_REVEAL_STAGES: HumanRevealStage[] = [
   },
   {
     id: "signal-ghost",
+    trustThresholdCinematic: "cinematic_human_reveal_signal-ghost",
     label: "SIGNAL GHOST",
     minTrust: 10, maxTrust: 19,
     imageUrl: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775534569/signal-ghost_m8sg2m.jpg",
@@ -179,6 +200,7 @@ export const HUMAN_REVEAL_STAGES: HumanRevealStage[] = [
   },
   {
     id: "signal-fragment",
+    trustThresholdCinematic: "cinematic_human_reveal_signal-fragment",
     label: "SIGNAL FRAGMENT",
     minTrust: 20, maxTrust: 39,
     imageUrl: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775534570/signal-fragment_k0qk9m.jpg",
@@ -188,6 +210,7 @@ export const HUMAN_REVEAL_STAGES: HumanRevealStage[] = [
   },
   {
     id: "signal-convergence",
+    trustThresholdCinematic: "cinematic_human_reveal_signal-convergence",
     label: "SIGNAL CONVERGENCE",
     minTrust: 40, maxTrust: 49,
     imageUrl: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775534568/signal-convergence_zvkve1.jpg",
