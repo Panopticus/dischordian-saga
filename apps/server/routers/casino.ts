@@ -18,6 +18,7 @@ import { procedureRateLimit } from "../_core/procedureRateLimit";
 import { getDb, type DrizzleDb } from "../db";
 import { logger } from "../logger";
 import { grantCardReward } from "../services/cardRewardService";
+import { applyCasinoQuestProgress } from "../services/casinoQuestProgressService";
 import { checkFeatureFlag } from "../middleware/featureFlag";
 import {
   casinoState, casinoResults, casinoJackpotPool, dreamBalance, userAchievements,
@@ -504,6 +505,20 @@ async function executeGame(
       jackpot: result.jackpot,
       detail: result.detail,
       seed,
+    });
+
+    // audit/16 PR 3 — engagement-loop quest progression. Best-effort
+    // (logs + swallows on failure); never blocks the casino play.
+    // Tales-collected snapshot is read off the post-update state
+    // so e_casino_tale_collector picks up the rolled-tale this turn.
+    await applyCasinoQuestProgress(tx, userId, {
+      game,
+      bet,
+      won: result.won,
+      jackpot: result.jackpot,
+      prevStreak: state.currentStreak,
+      newStreak,
+      talesCollectedSeason: collectedTalesNext.length,
     });
 
     // ─── Achievement evaluation ───
