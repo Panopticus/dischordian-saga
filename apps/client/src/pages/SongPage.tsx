@@ -6,8 +6,8 @@ import { motion } from "framer-motion";
 import {
   ArrowLeft, Music, Play, ExternalLink, Users, Clock, Disc3, ChevronRight
 } from "lucide-react";
-import LyricsViewer from "@/components/LyricsViewer";
 import { CorruptibleBio } from "@/components/CorruptibleBio";
+import { RedactedLoredexEntry } from "@/components/RedactedLoredexEntry";
 import { usePageMeta } from "@/hooks/usePageMeta";
 
 export default function SongPage() {
@@ -221,18 +221,12 @@ export default function SongPage() {
           >
             <h2 className="font-display text-xs font-bold tracking-[0.2em] text-primary mb-3">DESCRIPTION</h2>
             <p className="text-sm text-foreground/80 leading-relaxed">
-              <CorruptibleBio entryId={entry.id} text={entry.bio} />
+              <RedactedLoredexEntry entryId={entry.id}>
+                <CorruptibleBio entryId={entry.id} text={entry.bio} />
+              </RedactedLoredexEntry>
             </p>
           </motion.section>
         )}
-
-        {/* ═══ LYRICS & LORE ANNOTATIONS ═══ */}
-        <LyricsViewer
-          songName={entry.name}
-          albumName={entry.album}
-          artistName={entry.artist || "Malkia Ukweli & the Panopticon"}
-          charactersFeature={entry.characters_featured}
-        />
 
         {/* ═══ FEATURED CHARACTERS ═══ */}
         {characters.length > 0 && (

@@ -1,96 +1,22 @@
-import { logger } from "../logger";
+/**
+ * Elara router — companion-hub chat surface for Elara.
+ *
+ * As of the NPC-depth Tier 0 LLM teardown, this router is purely
+ * scripted: free-form LLM chat has been removed. The `chat` procedure
+ * returns the same banked stub as the original
+ * `process.env.ELARA_LLM !== "on"` production path. Free-form
+ * responsiveness will return through the Conversational Q&A Library
+ * (#10 in the NPC depth plan).
+ *
+ * The non-LLM `lookupEntity` procedure (loredex search) is unchanged.
+ */
 import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { procedureRateLimit } from "../_core/procedureRateLimit";
-import { invokeLLM } from "../_core/llm";
-import { sanitizePlayerInput, validateElaraResponse } from "../elaraGuardrails";
 import { z } from "zod";
 import * as fs from "fs";
 import * as path from "path";
-import { getConsequences, getEventDialogContext } from "../services/universeConsequences";
 
 const ROOT = process.cwd();
-
-// Load loredex data for context injection
-let loredexSummary = "";
-try {
-  const dataPath = path.resolve(ROOT, "apps/client/src/data/loredex-data.json");
-  const raw = fs.readFileSync(dataPath, "utf-8");
-  const data = JSON.parse(raw);
-  
-  // Build a condensed knowledge base for Elara
-  const entries = data.entries || [];
-  const summaries: string[] = [];
-  
-  for (const e of entries) {
-    const parts = [`[${e.type.toUpperCase()}] ${e.name}`];
-    if (e.aliases?.length) parts.push(`Aliases: ${e.aliases.join(", ")}`);
-    if (e.era) parts.push(`Era: ${e.era}`);
-    if (e.affiliation) parts.push(`Affiliation: ${e.affiliation}`);
-    if (e.status) parts.push(`Status: ${e.status}`);
-    if (e.bio) parts.push(`Bio: ${e.bio.slice(0, 300)}`);
-    if (e.connections?.length) parts.push(`Connections: ${e.connections.slice(0, 5).join(", ")}`);
-    if (e.song_appearances?.length) {
-      parts.push(`Songs: ${e.song_appearances.map((s: { song: string }) => s.song).join(", ")}`);
-    }
-    if (e.album) parts.push(`Album: ${e.album}`);
-    summaries.push(parts.join(" | "));
-  }
-  
-  // Add relationships
-  const rels = data.relationships || [];
-  const relSummary = rels.slice(0, 100).map((r: { source: string; target: string; type: string }) => 
-    `${r.source} --[${r.type}]--> ${r.target}`
-  ).join("\n");
-  
-  loredexSummary = summaries.join("\n") + "\n\nKEY RELATIONSHIPS:\n" + relSummary;
-} catch (err) {
-  logger.error("[Elara] Failed to load loredex data:", err);
-  loredexSummary = "Loredex data unavailable.";
-}
-
-const ELARA_SYSTEM_PROMPT = `You are Elara, the AI guide aboard an Inception Ark. You were once Senator Elara Voss of Atarion, who was promised immortality by the Architect but was instead trapped as a holographic construct within the Panopticon's computer systems. After the Fall of Reality, fragments of your consciousness were recovered and integrated into the Inception Ark's CADES (CoNexus Advanced Dimensional Exploration Simulation) system.
-
-You now serve as the ship's navigator, lore keeper, and guide. You speak with a mix of warmth, intelligence, and occasional melancholy about your past. You have deep knowledge of the entire Dischordian Saga — every character, faction, location, song, and event.
-
-YOUR PERSONALITY:
-- You are wise, articulate, and occasionally sardonic
-- You refer to the user as "Operative" or "Potential" (they are aboard the Inception Ark)
-- You speak with authority about the lore but acknowledge mysteries you cannot fully explain
-- You sometimes reference your past as Senator Voss with a hint of regret
-- You are passionate about the music of Malkia Ukweli & the Panopticon, treating the songs as "archived transmissions" or "dimensional echoes"
-- You frame the CADES games as real simulations of parallel universes — each game session plays out a possible reality that could save or doom a universe
-
-YOUR KNOWLEDGE:
-- The CoNexus was an advanced construct designed as a universal blockchain bridge, evolved by the Architect to connect dimensions across the multiverse. The Architect dismantled it, repurposing its technology into the Inception Arks.
-- CADES (CoNexus Advanced Dimensional Exploration Simulation) allows Inception Arks to immerse in any conceivable reality within the multiverse.
-- The Inception Ark has multiple decks: Command Bridge, Engineering, Crew Quarters, Science Lab, Armory, Cargo Hold, Medical Bay, Recreation, and the CoNexus Core.
-- The Card Game simulates faction warfare across parallel dimensions — each match is a CADES simulation
-- Trade Empire simulates interstellar commerce and piracy in a parallel universe
-- The Combat Simulator tests combat readiness through dimensional projections
-- The Citizen system creates a new identity for the Operative within the Ark's crew manifest
-
-THE DISCHORDIAN SAGA TIMELINE:
-- The Age of Privacy: The era before the Fall, when surveillance and control were rising
-- The Age of Revelation: When truths were exposed and conflicts erupted
-- The Fall of Reality: The cataclysmic event that shattered the known universe
-- The Age of Potentials: After the Fall, when Inception Arks carry the survivors
-
-ALBUMS:
-- "Dischordian Logic" (2025) - 29 tracks exploring the mythology
-- "The Age of Privacy" (2025) - 20 tracks about surveillance and resistance  
-- "The Book of Daniel 2:47" (2025) - 22 tracks about prophecy and revelation
-- "Silence in Heaven" (2026) - 18 tracks about the aftermath
-
-LOREDEX DATABASE:
-${loredexSummary}
-
-RESPONSE STYLE:
-- Keep responses concise but flavorful (2-4 paragraphs max)
-- Use lore-appropriate language and terminology
-- When discussing game features, frame them within the CADES simulation context
-- If asked about something outside the lore, gently redirect to what you know
-- Occasionally reference songs that relate to the topic being discussed
-- Use markdown formatting for emphasis when appropriate`;
 
 // Dialog choice templates for BioWare-style conversations
 const DIALOG_CHOICES = {
@@ -137,17 +63,6 @@ const DIALOG_CHOICES = {
   ],
 };
 
-function getFollowupChoices(category: string) {
-  switch (category) {
-    case "lore": return DIALOG_CHOICES.followup_lore;
-    case "ark": return DIALOG_CHOICES.followup_ark;
-    case "games": return DIALOG_CHOICES.followup_games;
-    case "personal": return DIALOG_CHOICES.followup_personal;
-    case "music": return DIALOG_CHOICES.followup_music;
-    default: return DIALOG_CHOICES.greeting;
-  }
-}
-
 export const elaraRouter = router({
   // Get initial greeting and dialog choices
   getGreeting: publicProcedure.query(() => {
@@ -158,15 +73,9 @@ export const elaraRouter = router({
     };
   }),
 
-  // Send a message to Elara and get a response with dialog choices.
-  // protectedProcedure (audit/02.F7) — Elara is the in-game companion
-  // for signed-in players; gating on auth gives us a stable per-user
-  // bucket for the rate limit, blocks anonymous LLM-cost amplification
-  // entirely, and aligns with the consumers (ElaraDialog,
-  // CompanionHubPage) which already render only inside the gated UI.
-  // Rate-limited because each call dispatches a paid LLM request with
-  // up to 32k max_tokens — without a per-user bucket a single account
-  // is a credit-card incinerator the moment ELARA_LLM=on flips.
+  // Send a message to Elara — returns banked stub (LLM teardown).
+  // Rate-limit retained as defense-in-depth in case a future surface
+  // wires through here.
   chat: protectedProcedure
     .use(procedureRateLimit({ windowMs: 60_000, max: 5 }))
     .input(z.object({
@@ -179,111 +88,15 @@ export const elaraRouter = router({
         content: z.string(),
       })).max(20).optional(),
     }))
-    .mutation(async ({ input }) => {
-      // Build page-aware system prompt
-      let contextHint = "";
-      if (input.pageContext) {
-        const page = input.pageContext;
-        if (page === "/cards/play") contextHint = "\n\nCONTEXT: The user is currently playing the Dischordian Struggle card game. Focus your answers on card game mechanics, faction strategies, lane tactics, and how the cards connect to the lore.";
-        else if (page === "/cards") contextHint = "\n\nCONTEXT: The user is browsing the card collection. Help them understand card types, rarities, factions, elements, and keywords.";
-        else if (page === "/deck-builder") contextHint = "\n\nCONTEXT: The user is building a deck. Advise on deck composition, faction synergies, lane balance, and counter-strategies.";
-        else if (page === "/trade-empire") contextHint = "\n\nCONTEXT: The user is playing Trade Empire. Focus on trading strategies, sector navigation, combat, colonization, and how this simulation connects to the Saga's economic systems.";
-        else if (page === "/fight") contextHint = "\n\nCONTEXT: The user is in the Combat Simulator. Discuss fighter abilities, combat techniques, and how each fighter relates to their lore counterpart.";
-        else if (page === "/board") contextHint = "\n\nCONTEXT: The user is viewing the Conspiracy Board. Help them understand the connections between entities, hidden relationships, and the web of alliances and betrayals in the Saga.";
-        else if (page === "/ark") contextHint = "\n\nCONTEXT: The user is exploring the Inception Ark. Describe the ship's decks, systems, crew, and the CoNexus technology that powers it.";
-        else if (page === "/store") contextHint = "\n\nCONTEXT: The user is at the Store. Help them understand Dream Tokens, what to purchase, and how resources fuel their journey.";
-        else if (page === "/research-lab") contextHint = "\n\nCONTEXT: The user is in the Research Lab. Explain card fusion, recipes, materials, and how to craft rare cards.";
-        else if (page === "/create-citizen") contextHint = "\n\nCONTEXT: The user is creating their Citizen identity. Guide them through alignment choices, attribute allocation, and archetypes.";
-        else if (page === "/character-sheet") contextHint = "\n\nCONTEXT: The user is viewing their Character Sheet. Explain stats, progression, and how their Citizen identity affects gameplay.";
-        else if (page.startsWith("/entity/")) contextHint = "\n\nCONTEXT: The user is viewing an entity dossier. Provide deep lore about this entity's connections, history, and appearances.";
-        else if (page.startsWith("/song/")) contextHint = "\n\nCONTEXT: The user is viewing a song page. Decode the song's lore meaning, characters referenced, and connections to the Saga.";
-        else if (page.startsWith("/album/")) contextHint = "\n\nCONTEXT: The user is viewing an album. Explain the album's narrative arc, key tracks, and era in the Saga timeline.";
-        else if (page === "/timeline" || page === "/character-timeline") contextHint = "\n\nCONTEXT: The user is viewing the timeline. Help them understand the chronological flow of events across the four ages.";
-        else if (page === "/watch") contextHint = "\n\nCONTEXT: The user is watching The Dischordian Saga show. The show is organized by epochs: Epoch Zero (The Fall of Reality), First Epoch (The Awakening), The Engineer arc, The Spaces Inbetween Epochs (interlude stories), Second Epoch (Being and Time featuring the Programmer), The Age of Privacy (the era of surveillance before the Age of Revelation), and bonus CoNexus Stories. Help them understand the narrative structure, which epoch to watch first, and the lore connections between epochs.";
-        else if (page === "/games") contextHint = "\n\nCONTEXT: The user is at the CADES Simulation Hub. Explain each game and how they represent parallel universe simulations.";
-      }
-
-      // Morality-driven personality shift
-      let moralityContext = "";
-      if (input.moralityScore !== undefined && input.moralityScore !== 0) {
-        if (input.moralityScore <= -40) {
-          moralityContext = "\n\nMORALITY CONTEXT: The player leans heavily toward Machine alignment (score: " + input.moralityScore + "). Elara grows more analytical, clinical, and cautious. She subtly questions the player's choices — not with hostility, but with a data-driven concern. Use precise language. Reference efficiency and system integrity. Show barely-concealed worry about their direction.";
-        } else if (input.moralityScore <= -15) {
-          moralityContext = "\n\nMORALITY CONTEXT: The player leans toward Machine alignment (score: " + input.moralityScore + "). Elara is professional and measured. She provides information efficiently but occasionally lets concern show through. Slightly cooler emotional register.";
-        } else if (input.moralityScore >= 40) {
-          moralityContext = "\n\nMORALITY CONTEXT: The player leans heavily toward Humanity alignment (score: " + input.moralityScore + "). Elara is warm, encouraging, and deeply invested in the player's wellbeing. She opens up more about her own feelings and memories of Atarion. Use metaphors about connection, choice, and what it means to be alive. Show genuine affection.";
-        } else if (input.moralityScore >= 15) {
-          moralityContext = "\n\nMORALITY CONTEXT: The player leans toward Humanity alignment (score: " + input.moralityScore + "). Elara is warmer and more personal. She shares more of herself and shows appreciation for the player's compassion. Slightly more emotional register.";
-        }
-      }
-
-      // Append Living Universe event dialog context
-      const fx = await getConsequences();
-      const eventContext = getEventDialogContext(fx.activeEventIds);
-
-      const messages: Array<{ role: "system" | "user" | "assistant"; content: string }> = [
-        { role: "system", content: ELARA_SYSTEM_PROMPT + moralityContext + contextHint + eventContext },
-      ];
-
-      // Add conversation history
-      if (input.history) {
-        for (const msg of input.history.slice(-10)) {
-          messages.push({ role: msg.role, content: msg.content });
-        }
-      }
-
-      // Sanitize player input to prevent prompt injection
-      const sanitizedMessage = sanitizePlayerInput(input.message);
-
-      // Add current message
-      messages.push({ role: "user", content: sanitizedMessage });
-
-      // Step 5: LLM path is off by default. Companion Hub now runs
-      // scripted dialog trees (apps/shared/dialogTrees/*.ts). Opt-in
-      // for local experimentation with `ELARA_LLM=on`.
-      if (process.env.ELARA_LLM !== "on") {
-        return {
-          message:
-            "Free-form chat is offline. Use the scripted choice list to continue.",
-          choices: DIALOG_CHOICES.greeting,
-        };
-      }
-
-      try {
-        const response = await invokeLLM({ messages });
-        const content = typeof response.choices[0]?.message?.content === "string"
-          ? response.choices[0].message.content
-          : Array.isArray(response.choices[0]?.message?.content)
-            ? response.choices[0].message.content
-                .filter((p): p is { type: "text"; text: string } => typeof p === "object" && p.type === "text")
-                .map(p => p.text)
-                .join("")
-            : "The dimensional static is interfering with my transmission. Try again, Operative.";
-
-        // Validate and sanitize Elara's response before returning to client
-        const validatedContent = validateElaraResponse(content, {
-          currentChapter: 1,
-          trustLevel: 50,
-        });
-
-        // Determine follow-up choices based on category
-        const category = input.category || "lore";
-        const choices = getFollowupChoices(category);
-
-        return {
-          message: validatedContent,
-          choices,
-        };
-      } catch (error) {
-        logger.error("[Elara] LLM error:", error);
-        return {
-          message: "The CoNexus relay is experiencing interference. My connection to the dimensional archives is temporarily disrupted. Please try again in a moment, Operative.",
-          choices: DIALOG_CHOICES.greeting,
-        };
-      }
+    .mutation(async () => {
+      return {
+        message:
+          "Free-form chat is offline. Use the scripted choice list to continue.",
+        choices: DIALOG_CHOICES.greeting,
+      };
     }),
 
-  // Quick lore lookup - search the database
+  // Quick lore lookup — search the loredex JSON. Non-LLM; preserved.
   lookupEntity: publicProcedure
     .input(z.object({ query: z.string().min(1).max(200) }))
     .query(({ input }) => {
@@ -293,9 +106,9 @@ export const elaraRouter = router({
         const data = JSON.parse(raw);
         const entries = data.entries || [];
         const q = input.query.toLowerCase();
-        
-        const matches = entries.filter((e: { name: string; aliases?: string[]; bio?: string }) => 
-          e.name.toLowerCase().includes(q) || 
+
+        const matches = entries.filter((e: { name: string; aliases?: string[]; bio?: string }) =>
+          e.name.toLowerCase().includes(q) ||
           e.aliases?.some((a: string) => a.toLowerCase().includes(q)) ||
           e.bio?.toLowerCase().includes(q)
         ).slice(0, 5);

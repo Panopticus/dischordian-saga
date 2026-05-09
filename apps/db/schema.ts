@@ -5600,6 +5600,161 @@ export const npcPublicFlags = mysqlTable("npc_public_flags", {
 }));
 export type NpcPublicFlagRow = typeof npcPublicFlags.$inferSelect;
 
+/**
+ * Per-NPC episodic memory (NPC depth #6).
+ *
+ * Each row records one memorable thing an NPC has noticed about the
+ * player, keyed by an event-key from apps/shared/npcs/memoryEvents.ts.
+ * Memories are *episodic* — distinct from npc_public_flags (which are
+ * binary, sticky, and globally readable). A memory carries:
+ *
+ *   - eventKey: the typed event-key (e.g. "convoy_spared",
+ *     "loredex_citation", "casino_hot_streak") declared in the
+ *     memory-event registry.
+ *   - polarity: -1, 0, +1 — derived by the writer service from the
+ *     event payload, used by the selector's synthetic-flag projection
+ *     to pick the right pre-voiced variant line.
+ *   - payload: free-form JSON for the writer to attach context (which
+ *     specific convoy was spared, which Loredex entry was cited, etc.)
+ *     so future variant lines can reference specifics.
+ *
+ * Memories are written by the rippleEngine + npcMemoryService when a
+ * recorded event happens. The selector reads them via
+ * synthesizeMemoryFlags() in apps/shared/npcs/memoryEvents.ts and
+ * matches them against per-line `unlockFlags`.
+ *
+ * Optional expiresAt supports "fresh memory" semantics — a memory
+ * past its expiry is treated as forgotten. Default-null memories
+ * persist for the lifetime of the save.
+ */
+export const npcMemory = mysqlTable("npc_memory", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  /** NpcKey from apps/shared/npcs/types.ts. */
+  npcKey: varchar("npcKey", { length: 64 }).notNull(),
+  /** Event-key from apps/shared/npcs/memoryEvents.ts MEMORY_EVENT_REGISTRY. */
+  eventKey: varchar("eventKey", { length: 96 }).notNull(),
+  /** Polarity: -1 = disapproved, 0 = noticed, +1 = approved. */
+  polarity: int("polarity").notNull().default(0),
+  /** Optional JSON payload (specifics the variant line may interpolate). */
+  payload: json("payload").$type<Record<string, unknown>>(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  /** Null = persistent. Set for fading-memory semantics. */
+  expiresAt: timestamp("expiresAt"),
+}, (table) => ({
+  userIdIdx: index("idx_npc_memory_user_id").on(table.userId),
+  userNpcEventIdx: index("idx_npc_memory_user_npc_event").on(
+    table.userId,
+    table.npcKey,
+    table.eventKey,
+  ),
+}));
+export type NpcMemoryRow = typeof npcMemory.$inferSelect;
+export type InsertNpcMemory = typeof npcMemory.$inferInsert;
+
+/**
+ * Per-player Shadow Tongue redaction state (NPC depth #13).
+ *
+ * Tracks (player, entry) pairs where the Shadow Tongue has either
+ * suppressed information or had its suppression broken. Distinct from
+ * the singleton `shadow_tongue_state` (community-wide power level +
+ * room/artifact edits) — this table is per-player Loredex redaction.
+ *
+ * Two row kinds:
+ *   - state rows  (triggerKey IS NULL) — declare the player's current
+ *     redaction state for a Loredex entry (visible/redacted/partial/
+ *     contradictory). Computed lazily by computeRedactionState() and
+ *     persisted opportunistically.
+ *   - trigger rows (triggerKey IS NOT NULL) — record that a reveal
+ *     trigger fired for the player. The encoded key matches the
+ *     output of encodeTriggerKey() in apps/shared/universe/shadowTongue.ts.
+ *
+ * The compound (userId, entryId, triggerKey) uniqueness keeps trigger
+ * rows idempotent and allows multiple state rows to coexist with
+ * trigger rows for the same entry — the service reads triggers first,
+ * then short-circuits the computation if any apply.
+ */
+export const shadowTongueRedactions = mysqlTable("shadow_tongue_redactions", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  /** Loredex entryId from apps/client/src/data/loredex-data.json. */
+  entryId: varchar("entryId", { length: 96 }).notNull(),
+  /**
+   * Encoded trigger key (encodeTriggerKey output) when this row
+   * records a fired reveal trigger; NULL when this row records
+   * computed redaction state.
+   */
+  triggerKey: varchar("triggerKey", { length: 128 }),
+  /**
+   * Resolved redaction state (visible/redacted/partial/contradictory).
+   * Only meaningful when triggerKey IS NULL; otherwise NULL.
+   */
+  redactionState: varchar("redactionState", { length: 32 }),
+  /** Last computed-or-fired-at. */
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  userIdIdx: index("idx_shadow_tongue_redactions_user_id").on(table.userId),
+  userEntryIdx: index("idx_shadow_tongue_redactions_user_entry").on(
+    table.userId,
+    table.entryId,
+  ),
+  // (userId, entryId, triggerKey) uniqueness — triggerKey may be NULL
+  // for state rows, distinct null treatment is MySQL-default.
+  userEntryTriggerUniq: uniqueIndex(
+    "uniq_shadow_tongue_redactions_user_entry_trigger",
+  ).on(table.userId, table.entryId, table.triggerKey),
+}));
+export type ShadowTongueRedactionRow = typeof shadowTongueRedactions.$inferSelect;
+export type InsertShadowTongueRedaction = typeof shadowTongueRedactions.$inferInsert;
+
+/**
+ * Per-player tick-event log (NPC depth #12 — "what happened while
+ * you were away"). The shipping seasonTickService already advances
+ * the world clock and per-user agendas. This table captures the
+ * player-relevant fragments of that activity so they can be
+ * surfaced as a session-resume summary report.
+ *
+ * Each row records one notable in-fiction event: a faction objective
+ * advanced, an NPC agenda stage fired, a Shadow Tongue power tick,
+ * an Architect/Dreamer plot-beat fired, etc. The kind discriminator
+ * matches TickEventKind in apps/shared/universe/tickEvents.ts.
+ *
+ * Acknowledgement: rows have an `acknowledgedAt` column (nullable).
+ * The session-resume report reads every unacknowledged row, then
+ * batch-acknowledges them. Old acknowledged rows are kept for
+ * analytics; a cron can prune past N days.
+ */
+export const tickEvents = mysqlTable("tick_events", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  /** Discriminator. See TickEventKind in shared/universe/tickEvents.ts. */
+  kind: varchar("kind", { length: 64 }).notNull(),
+  /**
+   * Headline summary the report renders by default. May be voiced
+   * via the `voId` field; renderers fall back to text if voId is null.
+   */
+  summary: varchar("summary", { length: 512 }).notNull(),
+  /**
+   * Optional VO id from a per-character or universe-narrator manifest.
+   * If set, the resume-report client plays this audio while showing
+   * the summary text.
+   */
+  voId: varchar("voId", { length: 96 }),
+  /** Free-form payload (faction id, npc key, stage id, etc). */
+  payload: json("payload").$type<Record<string, unknown>>(),
+  occurredAt: timestamp("occurredAt").defaultNow().notNull(),
+  acknowledgedAt: timestamp("acknowledgedAt"),
+}, (table) => ({
+  userIdIdx: index("idx_tick_events_user_id").on(table.userId),
+  userUnackIdx: index("idx_tick_events_user_unack").on(
+    table.userId,
+    table.acknowledgedAt,
+  ),
+}));
+export type TickEventRow = typeof tickEvents.$inferSelect;
+export type InsertTickEvent = typeof tickEvents.$inferInsert;
+
 /* ═══════════════════════════════════════════════════════
    TRADE EMPIRE PHASE 2 — Brokers + multi-stage Contracts
    See apps/shared/tradeEmpire/{brokers,contracts,

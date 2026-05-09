@@ -8,6 +8,7 @@
 import { useLoredex, type LoredexEntry } from "@/contexts/LoredexContext";
 import { useGamification } from "@/contexts/GamificationContext";
 import { CorruptibleBio } from "@/components/CorruptibleBio";
+import { RedactedLoredexEntry } from "@/components/RedactedLoredexEntry";
 import { Link } from "wouter";
 import {
   useState, useMemo, useRef, useCallback, useEffect,
@@ -641,7 +642,9 @@ export default function CharacterTimeline() {
                             <div className="min-w-0">
                               <p className="text-xs font-medium">{entry.name}</p>
                               <p className="text-[10px] text-muted-foreground truncate">
-                                <CorruptibleBio entryId={entry.id} text={entry.bio} truncate={100} />
+                                <RedactedLoredexEntry entryId={entry.id}>
+                                  <CorruptibleBio entryId={entry.id} text={entry.bio} truncate={100} />
+                                </RedactedLoredexEntry>
                               </p>
                             </div>
                           </div>

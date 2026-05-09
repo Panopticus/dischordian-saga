@@ -746,6 +746,36 @@ async function startServer() {
       console.error("[WorldWeaveBootstrap] failed:", e),
     );
 
+    // npc_memory table (NPC depth #6). Schema in apps/db/schema.ts;
+    // idempotent CREATE TABLE IF NOT EXISTS pattern. See
+    // apps/shared/npcs/memoryEvents.ts for event-key registry.
+    const { bootstrapNpcMemoryTable } = await import(
+      "../services/npcMemoryBootstrap"
+    );
+    bootstrapNpcMemoryTable().catch((e) =>
+      console.error("[NpcMemoryBootstrap] failed:", e),
+    );
+
+    // shadow_tongue_redactions table (NPC depth #13). Per-player
+    // Loredex redaction state. See apps/shared/universe/shadowTongue.ts
+    // for the redaction policy module.
+    const { bootstrapShadowTongueRedactionsTable } = await import(
+      "../services/shadowTongueRedactionsBootstrap"
+    );
+    bootstrapShadowTongueRedactionsTable().catch((e) =>
+      console.error("[ShadowTongueRedactionsBootstrap] failed:", e),
+    );
+
+    // tick_events table (NPC depth #12 — "what happened while you
+    // were away" log). See apps/shared/universe/tickEvents.ts for
+    // the typed event payloads.
+    const { bootstrapTickEventsTable } = await import(
+      "../services/tickEventsBootstrap"
+    );
+    bootstrapTickEventsTable().catch((e) =>
+      console.error("[TickEventsBootstrap] failed:", e),
+    );
+
     // Ensure citizen_characters.foundation exists. Migration 0054 is
     // orphaned from _journal.json; without this column every SELECT
     // against citizen_characters fails ("Unknown column 'foundation'")

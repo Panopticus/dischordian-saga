@@ -12,6 +12,8 @@ import { ripple } from "../services/rippleEngine";
 import { getConsequences, getEventDailyQuests } from "../services/universeConsequences";
 import { applyPrestigeBonuses } from "../services/prestigeMultiplier";
 import { applyDailyOracleBonusToReward } from "./oracleDeck";
+import { pickAxisWeightedTemplates } from "@shared/dailyQuestAxisRouter";
+import type { PlayerAxis, AxisMagnitude } from "@shared/npcs/types";
 // Daily quests don't use CrewMissionTemplate but they DO emit work
 // the player completes — the procedural mission factory's tag
 // taxonomy unifies the vocabulary so personal-quest sub-tasks can
@@ -162,6 +164,54 @@ function selectQuests(templates: QuestTemplate[], dateStr: string, count: number
     if (!picked.includes(q)) picked.push(q);
   }
   return picked;
+}
+
+/**
+ * Axis-weighted quest selection (NPC depth #5 wire-in). Same
+ * deterministic-seed contract as selectQuests so the player draws the
+ * same quests every time the function runs for the same period — but
+ * the templates are weighted by the player's 7-axis profile so a
+ * strongly-aggressive player draws fight-shaped quests over
+ * social-shaped ones at higher probability.
+ *
+ * Seed derives from `${dateStr}::${userId}` so two players on the same
+ * date with different axis profiles see different quest pools, AND
+ * each player sees the same pool every time they re-fetch.
+ *
+ * Callers without axes (or before the derive-axes-from-citizen-traits
+ * helper lands) keep using selectQuests.
+ */
+function selectQuestsAxisWeighted(
+  templates: QuestTemplate[],
+  dateStr: string,
+  userId: number,
+  axes: Partial<Record<PlayerAxis, AxisMagnitude>>,
+  count: number,
+): QuestTemplate[] {
+  const seedStr = `${dateStr}::${userId}`;
+  let seed = 0;
+  for (let i = 0; i < seedStr.length; i++) {
+    seed = ((seed << 5) - seed + seedStr.charCodeAt(i)) | 0;
+  }
+  // Mulberry32 derived from the seed — cheap deterministic PRNG.
+  const random = () => {
+    seed = (seed + 0x6d2b79f5) | 0;
+    let t = seed;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+  // pickAxisWeightedTemplates expects AxisTaggedQuestTemplate; QuestTemplate's
+  // `questType` overlaps cleanly so the type-cast is safe — tagByQuestType
+  // applies defaults for any template without explicit `axes` (none today).
+  return pickAxisWeightedTemplates(
+    templates as ReadonlyArray<QuestTemplate & { axes?: ReadonlyArray<PlayerAxis> }>,
+    {
+      count,
+      axes,
+      random,
+    },
+  );
 }
 
 function getTodayStr() { return new Date().toISOString().split("T")[0]; }

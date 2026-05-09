@@ -73,3 +73,43 @@ describe("Agenda data model — phase 1", () => {
     expect(validateAgendaDef(bad).length).toBeGreaterThan(0);
   });
 });
+
+describe("Priority-roster agenda coverage (NPC depth #1)", () => {
+  // Priority-roster NPCs that are most directly faction-anchored should
+  // each own at least one season agenda. NPCs whose roles are not
+  // faction-mechanical (Elara, Eidolon, Companion, Game Master, Meme,
+  // Degen) intentionally omit agendas at this tier.
+  const expectedNpcs = [
+    "adjudicator_locke",
+    "nilmorg",
+    "the_antiquarian",
+    "wraith_calder",
+    "vex_solene",
+    "drael_mon",
+    "the_oracle",
+  ] as const;
+
+  it.each(expectedNpcs)("%s has at least one reference agenda", (npc) => {
+    const agendas = REFERENCE_AGENDAS.filter(a => a.npcKey === npc);
+    expect(agendas.length).toBeGreaterThan(0);
+  });
+
+  it("the_antiquarian agenda anchors on the Cross-References Desk (post-bible-correction)", () => {
+    const agenda = REFERENCE_AGENDAS.find(
+      a => a.npcKey === "the_antiquarian",
+    );
+    expect(agenda).toBeDefined();
+    expect(agenda?.primaryHouseKey).toBe("antiquarian_cross_references_desk");
+  });
+
+  it("wraith_calder Cultivate-the-Successor agenda gates on post_arena reveal", () => {
+    const agenda = REFERENCE_AGENDAS.find(
+      a => a.npcKey === "wraith_calder",
+    );
+    expect(agenda).toBeDefined();
+    expect(agenda?.requiresRevealStage).toBe("post_arena");
+    // Per bible §3.10 — covert layer at Inheriting band only.
+    expect(agenda?.primaryHouseKey).toBe("thaloria_quietwork");
+    expect(agenda?.threatenedHouseKey).toBe("hierarchy_syndicate_of_death");
+  });
+});

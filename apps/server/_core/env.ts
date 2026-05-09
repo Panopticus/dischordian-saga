@@ -62,7 +62,14 @@ export const ENV = {
   // Admin
   ownerOpenId: optional("OWNER_OPEN_ID", process.env.OWNER_OPEN_ID),
 
-  // LLM (required for Elara/Human chat)
+  // Forge proxy gateway — multi-service backend used by image
+  // generation, voice transcription, map generation, notifications,
+  // storage signing, and the generic data API. Was previously also
+  // the LLM chat endpoint; the LLM consumer was removed in the NPC
+  // depth Tier 0 teardown but other services still depend on this
+  // proxy. Variable names retained for back-compat with consumers
+  // (apps/server/_core/imageGeneration.ts, voiceTranscription.ts,
+  // map.ts, notification.ts, dataApi.ts; apps/server/storage.ts).
   forgeApiUrl: optional("LLM_API_URL", process.env.LLM_API_URL),
   forgeApiKey: optional("LLM_API_KEY", process.env.LLM_API_KEY),
 

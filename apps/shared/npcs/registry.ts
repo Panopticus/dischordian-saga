@@ -10,6 +10,7 @@
 //
 // Voice IDs match the ElevenLabs registry in apps/scripts/generate-act1-opponent-vo.ts.
 
+import type { FactionId as FactionStandingId } from "../factions";
 import type {
   NpcKey,
   NpcProfile,
@@ -146,6 +147,7 @@ export const NPC_REGISTRY: Readonly<Record<NpcKey, NpcProfile>> = {
     npcKey: "adjudicator_locke",
     name: "Adjudicator Locke",
     faction: "new_babylon",
+    factionLoyalty: { new_babylon: 0.9 },
     role: "Authority adjudicator / contractual broker",
     voiceId: "8XiBWqS5ffaH5naIFHPI",
     trustBands: LOCKE_BANDS,
@@ -170,6 +172,7 @@ export const NPC_REGISTRY: Readonly<Record<NpcKey, NpcProfile>> = {
     npcKey: "vex_solene",
     name: "Vex Solène",
     faction: "insurgency",
+    factionLoyalty: { insurgency: 0.7 },
     role: "Coda Maestro / Engineer Zero (post-rite identity)",
     voiceId: "F1waTCPWl7KpShIScYQs",
     trustBands: VEX_BANDS,
@@ -213,6 +216,7 @@ export const NPC_REGISTRY: Readonly<Record<NpcKey, NpcProfile>> = {
     npcKey: "nilmorg",
     name: "Nilmorg",
     faction: "hierarchy",
+    factionLoyalty: { hierarchy: 0.7 },
     role: "DMC Trench broker / Severance Prize ritualist",
     trustBands: NILMORG_BANDS,
     axisOfInterest: ["vigilance"],
@@ -262,6 +266,12 @@ export const NPC_REGISTRY: Readonly<Record<NpcKey, NpcProfile>> = {
     npcKey: "wraith_calder",
     name: "Wraith Calder → The Hierophant",
     faction: "thaloria",
+    // Pre-rite Wraith Calder is Insurgency-aligned overtly; post-rite
+    // Hierophant carries the same loyalty covertly per bible §3.10
+    // (the inheritance layer). The mechanic applies the same modifier
+    // either side of the rite; the in-character explanation only
+    // surfaces at the Inheriting band.
+    factionLoyalty: { insurgency: 0.9 },
     role: "Pre-rite arena survivor / post-rite religious leader",
     trustBands: HIEROPHANT_BANDS,
     axisOfInterest: ["mercy", "vulnerability"],
@@ -280,6 +290,7 @@ export const NPC_REGISTRY: Readonly<Record<NpcKey, NpcProfile>> = {
     npcKey: "the_seer",
     name: "The Seer",
     faction: "dreamer",
+    factionLoyalty: { dreamers_children: 0.6 },
     role: "Ne-Yon-of-foresight / cross-time pre-recorder",
     trustBands: SEER_BANDS,
     axisOfInterest: ["wit", "curiosity"],
@@ -328,6 +339,7 @@ export const NPC_REGISTRY: Readonly<Record<NpcKey, NpcProfile>> = {
     npcKey: "the_oracle",
     name: "The Oracle",
     faction: "thaloria",
+    factionLoyalty: { dreamers_children: 0.7 },
     role: "Voice-stolen-and-recovered / substrate-witness",
     trustBands: ORACLE_BANDS,
     axisOfInterest: ["curiosity", "vulnerability"],
@@ -408,6 +420,7 @@ export const NPC_REGISTRY: Readonly<Record<NpcKey, NpcProfile>> = {
     npcKey: "drael_mon",
     name: "Drael'Mon, SVP Acquisitions",
     faction: "hierarchy",
+    factionLoyalty: { hierarchy: 0.8 },
     role: "Hierarchy SVP of Acquisitions — hostile-takeover doctrine",
     trustBands: [
       { band: "Untargeted", threshold: 0 },
@@ -469,6 +482,86 @@ export function isKnownRevealStage(npcKey: NpcKey, stage: string): boolean {
   const profile = NPC_REGISTRY[npcKey];
   if (!profile?.revealStages) return false;
   return profile.revealStages.includes(stage);
+}
+
+// --- Faction-standing trust modifier (NPC depth #7) -----------------------
+
+/**
+ * Scaling constant for the faction-loyalty trust modifier. Multiplies
+ * `standing × loyalty_weight` to produce a trust delta.
+ *
+ * Calibrated so a player who champions a faction (standing = +100)
+ * with a fully-loyal NPC (weight = +1.0) receives a +40 trust bump,
+ * roughly equal to two of the typical 20-point trust-band steps in
+ * the per-NPC ladders. An enemy of the faction (standing = -100)
+ * incurs a -40 trust bump from the same NPC.
+ *
+ * Tunable; see NPC depth plan #7.
+ */
+export const FACTION_LOYALTY_TRUST_SCALE = 0.4;
+
+function clampTrust(value: number): number {
+  if (value < 0) return 0;
+  if (value > 100) return 100;
+  return value;
+}
+
+/**
+ * Compute the effective trust value for an NPC, factoring in the
+ * player's standing across factions the NPC is loyal to.
+ *
+ * Formula: clamp(baseTrust + Σ standing × loyalty × FACTION_LOYALTY_TRUST_SCALE)
+ *
+ * - `baseTrust` is the per-NPC trust the player has earned through
+ *   direct interactions (DB-backed; supplied by the trust adapters
+ *   in apps/shared/npcs/adapters/).
+ * - `standings` is the player's per-faction standing map from
+ *   apps/server/services/factionStandingService.getFactionStandings().
+ *   Missing keys default to 0 (neutral).
+ *
+ * NPCs without a `factionLoyalty` declaration return `clampTrust(baseTrust)`
+ * unchanged. NPCs may declare more than one loyalty; contributions sum.
+ *
+ * The Hierophant's bible §3.10 covert-inheritance layer is modeled by
+ * giving him a positive loyalty to `insurgency` despite his post-rite
+ * vow against violence — the modifier applies regardless of band, but
+ * the in-character explanation only surfaces at the Inheriting band.
+ */
+export function computeEffectiveTrust(
+  npcKey: NpcKey,
+  baseTrust: number,
+  standings: Partial<Record<FactionStandingId, number>>,
+): number {
+  const profile = NPC_REGISTRY[npcKey];
+  if (!profile) {
+    throw new Error(`computeEffectiveTrust: unknown NpcKey ${npcKey}`);
+  }
+  if (!profile.factionLoyalty) return clampTrust(baseTrust);
+
+  let modifier = 0;
+  for (const [faction, weight] of Object.entries(profile.factionLoyalty) as Array<
+    [FactionStandingId, number]
+  >) {
+    const standing = standings[faction] ?? 0;
+    modifier += standing * weight * FACTION_LOYALTY_TRUST_SCALE;
+  }
+  return clampTrust(baseTrust + modifier);
+}
+
+/**
+ * Resolve trust band using the effective trust (faction-modulated)
+ * rather than raw base trust. Use this in any path where the player
+ * has a faction standing that should colour the NPC's warmth.
+ */
+export function resolveEffectiveTrustBand(
+  npcKey: NpcKey,
+  baseTrust: number,
+  standings: Partial<Record<FactionStandingId, number>>,
+): string {
+  return resolveTrustBand(
+    npcKey,
+    computeEffectiveTrust(npcKey, baseTrust, standings),
+  );
 }
 
 /** All registered NPC keys. */

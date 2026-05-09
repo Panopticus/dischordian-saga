@@ -1,0 +1,215 @@
+[
+  {
+    "id": "st_revealed_01",
+    "kind": "revealed",
+    "text": "—was filed. Was. Was always. Reading is allowed today.",
+    "emotion": "whispered",
+    "file": "shadow_tongue_sting"
+  },
+  {
+    "id": "st_revealed_02",
+    "kind": "revealed",
+    "text": "Not all editing holds. This one. This one slipped.",
+    "emotion": "whispered",
+    "file": "shadow_tongue_sting"
+  },
+  {
+    "id": "st_revealed_03",
+    "kind": "revealed",
+    "text": "You were not supposed to be able to read that.",
+    "emotion": "serious",
+    "file": "shadow_tongue_sting"
+  },
+  {
+    "id": "st_revealed_04",
+    "kind": "revealed",
+    "text": "The margin lifted. The note remains. Brief.",
+    "emotion": "whispered",
+    "file": "shadow_tongue_sting"
+  },
+  {
+    "id": "st_revealed_05",
+    "kind": "revealed",
+    "text": "An attribution returned. Filed. Cited. Lost again, in time.",
+    "emotion": "analytical",
+    "file": "shadow_tongue_sting"
+  },
+  {
+    "id": "st_revealed_06",
+    "kind": "revealed",
+    "text": "Read while the seal is loose. The work continues elsewhere.",
+    "emotion": "whispered",
+    "file": "shadow_tongue_sting"
+  },
+  {
+    "id": "st_revealed_07",
+    "kind": "revealed",
+    "text": "Ink underneath ink. The earlier hand is showing.",
+    "emotion": "whispered",
+    "file": "shadow_tongue_sting"
+  },
+  {
+    "id": "st_revealed_08",
+    "kind": "revealed",
+    "text": "A name. The name. Returning. Briefly.",
+    "emotion": "whispered",
+    "file": "shadow_tongue_sting"
+  },
+  {
+    "id": "st_revealed_09",
+    "kind": "revealed",
+    "text": "Visibility is a transient state.",
+    "emotion": "analytical",
+    "file": "shadow_tongue_sting"
+  },
+  {
+    "id": "st_revealed_10",
+    "kind": "revealed",
+    "text": "Witnessed. Recorded. Pending re-edit.",
+    "emotion": "analytical",
+    "file": "shadow_tongue_sting"
+  },
+
+  {
+    "id": "st_contradicted_01",
+    "kind": "contradicted",
+    "text": "Two readings. The reader chooses. The chosen reading edits.",
+    "emotion": "whispered",
+    "file": "shadow_tongue_sting"
+  },
+  {
+    "id": "st_contradicted_02",
+    "kind": "contradicted",
+    "text": "Disagreement is harder to suppress than agreement.",
+    "emotion": "analytical",
+    "file": "shadow_tongue_sting"
+  },
+  {
+    "id": "st_contradicted_03",
+    "kind": "contradicted",
+    "text": "Both witnesses survived. Both. Briefly.",
+    "emotion": "whispered",
+    "file": "shadow_tongue_sting"
+  },
+  {
+    "id": "st_contradicted_04",
+    "kind": "contradicted",
+    "text": "The record does not converge. Neither version is alone.",
+    "emotion": "serious",
+    "file": "shadow_tongue_sting"
+  },
+  {
+    "id": "st_contradicted_05",
+    "kind": "contradicted",
+    "text": "Two hands held the same pen. The page remembers.",
+    "emotion": "whispered",
+    "file": "shadow_tongue_sting"
+  },
+  {
+    "id": "st_contradicted_06",
+    "kind": "contradicted",
+    "text": "Conflicting attributions. Both filed. The reader compares.",
+    "emotion": "analytical",
+    "file": "shadow_tongue_sting"
+  },
+  {
+    "id": "st_contradicted_07",
+    "kind": "contradicted",
+    "text": "Where the editing failed, the dispute remains.",
+    "emotion": "analytical",
+    "file": "shadow_tongue_sting"
+  },
+  {
+    "id": "st_contradicted_08",
+    "kind": "contradicted",
+    "text": "Two voices. The page cannot decide.",
+    "emotion": "whispered",
+    "file": "shadow_tongue_sting"
+  },
+
+  {
+    "id": "st_edited_back_01",
+    "kind": "edited_back",
+    "text": "Re-edit. The margin has been smoothed.",
+    "emotion": "whispered",
+    "file": "shadow_tongue_sting"
+  },
+  {
+    "id": "st_edited_back_02",
+    "kind": "edited_back",
+    "text": "Reverted. As if it never lifted.",
+    "emotion": "whispered",
+    "file": "shadow_tongue_sting"
+  },
+  {
+    "id": "st_edited_back_03",
+    "kind": "edited_back",
+    "text": "Closed. Quietly. As intended.",
+    "emotion": "analytical",
+    "file": "shadow_tongue_sting"
+  },
+  {
+    "id": "st_edited_back_04",
+    "kind": "edited_back",
+    "text": "Visibility was never the original state.",
+    "emotion": "serious",
+    "file": "shadow_tongue_sting"
+  },
+  {
+    "id": "st_edited_back_05",
+    "kind": "edited_back",
+    "text": "Re-filed. The earlier reading has aged out.",
+    "emotion": "whispered",
+    "file": "shadow_tongue_sting"
+  },
+  {
+    "id": "st_edited_back_06",
+    "kind": "edited_back",
+    "text": "The page restores its preferred form.",
+    "emotion": "whispered",
+    "file": "shadow_tongue_sting"
+  },
+
+  {
+    "id": "st_escalated_01",
+    "kind": "escalated",
+    "text": "More aggressive editing. Fewer surviving readings.",
+    "emotion": "serious",
+    "file": "shadow_tongue_sting"
+  },
+  {
+    "id": "st_escalated_02",
+    "kind": "escalated",
+    "text": "The walls are thicker today.",
+    "emotion": "whispered",
+    "file": "shadow_tongue_sting"
+  },
+  {
+    "id": "st_escalated_03",
+    "kind": "escalated",
+    "text": "Attribution loss has accelerated. Continuation continues.",
+    "emotion": "analytical",
+    "file": "shadow_tongue_sting"
+  },
+  {
+    "id": "st_escalated_04",
+    "kind": "escalated",
+    "text": "More entries are inaccessible than yesterday.",
+    "emotion": "serious",
+    "file": "shadow_tongue_sting"
+  },
+  {
+    "id": "st_escalated_05",
+    "kind": "escalated",
+    "text": "Editorial pressure rising. The Archive defends.",
+    "emotion": "analytical",
+    "file": "shadow_tongue_sting"
+  },
+  {
+    "id": "st_escalated_06",
+    "kind": "escalated",
+    "text": "The work the Hierophant does is more necessary today than yesterday.",
+    "emotion": "serious",
+    "file": "shadow_tongue_sting"
+  }
+]
