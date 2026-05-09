@@ -265,6 +265,27 @@ async function computeFactionWarOdds(db: DbLike): Promise<Record<string, number>
   };
 }
 
+/**
+ * audit/16 GA11 — global session-level rate limiter for the casino.
+ *
+ * Per-procedure limits (e.g. playVoidSlots: 30/min) cap any single
+ * game's throughput, but a determined user could still sustain
+ * 30 * 14_games = 420 actions/min by interleaving across all
+ * casino procedures. The harm-reduction audit calls for a
+ * cross-game cap.
+ *
+ * This middleware uses the same windowMs/max tuple across every
+ * play* procedure, so all of them share the same per-user bucket
+ * (the bucket key includes windowMs+max — see procedureRateLimit
+ * for details). 60 actions/minute cross-game is well above
+ * normal play (~20 actions/min sustained even on slot spam) and
+ * cuts off the bot/macro abuse path cleanly.
+ */
+const globalCasinoSessionLimit = procedureRateLimit({
+  windowMs: 60_000,
+  max: 60,
+});
+
 /** Convert the Date → YYYY-MM-DD so we can reset daily counters. */
 function todayString(): string {
   const d = new Date();
@@ -673,6 +694,7 @@ export const casinoRouter = router({
   /** Void Slots — 3 reels, bet multiplied by match tier. */
   playVoidSlots: protectedProcedure
     .use(checkFeatureFlag("casino"))
+    .use(globalCasinoSessionLimit)
     .use(procedureRateLimit({ windowMs: 60_000, max: 30 }))
     .input(z.object({ bet: z.number().min(1).max(1000) }))
     .mutation(async ({ ctx, input }) => {
@@ -684,6 +706,7 @@ export const casinoRouter = router({
   /** Entropy Dice — 2d6 over/under/exact. */
   playEntropyDice: protectedProcedure
     .use(checkFeatureFlag("casino"))
+    .use(globalCasinoSessionLimit)
     .input(z.object({
       bet: z.number().min(1).max(1000),
       prediction: z.enum(["over", "under", "exact"]),
@@ -699,6 +722,7 @@ export const casinoRouter = router({
   /** Nebula Poker — 5-card draw against the Degen. Accepts indices to discard. */
   playNebulaPoker: protectedProcedure
     .use(checkFeatureFlag("casino"))
+    .use(globalCasinoSessionLimit)
     .input(z.object({
       bet: z.number().min(1).max(1000),
       discard: z.array(z.number().min(0).max(4)).max(3),
@@ -714,6 +738,7 @@ export const casinoRouter = router({
   /** Quantum Roulette — bet on one or more factions. */
   playQuantumRoulette: protectedProcedure
     .use(checkFeatureFlag("casino"))
+    .use(globalCasinoSessionLimit)
     .use(procedureRateLimit({ windowMs: 60_000, max: 30 }))
     .input(z.object({
       bet: z.number().min(1).max(1000),
@@ -731,6 +756,7 @@ export const casinoRouter = router({
   /** Pazaak 21 — draws until player stands at `stand` value. */
   playPazaak21: protectedProcedure
     .use(checkFeatureFlag("casino"))
+    .use(globalCasinoSessionLimit)
     .input(z.object({ bet: z.number().min(1).max(1000), stand: z.number().min(10).max(21) }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
@@ -743,6 +769,7 @@ export const casinoRouter = router({
   /** High/Low — sequence of higher/lower guesses. */
   playHighLow: protectedProcedure
     .use(checkFeatureFlag("casino"))
+    .use(globalCasinoSessionLimit)
     .input(z.object({
       bet: z.number().min(1).max(1000),
       guesses: z.array(z.enum(["high", "low"])).min(1).max(10),
@@ -758,6 +785,7 @@ export const casinoRouter = router({
   /** Scratch Cards — fixed 10 Dream cost. */
   playScratchCard: protectedProcedure
     .use(checkFeatureFlag("casino"))
+    .use(globalCasinoSessionLimit)
     .mutation(async ({ ctx }) => {
       const db = await getDb();
       if (!db) throw new Error("DB unavailable");
@@ -767,6 +795,7 @@ export const casinoRouter = router({
   /** Void Blackjack Tournament — bracket of pazaak21 hands. */
   playVoidBlackjackTournament: protectedProcedure
     .use(checkFeatureFlag("casino"))
+    .use(globalCasinoSessionLimit)
     .input(z.object({ bet: z.number().min(50).max(500), stand: z.number().min(10).max(21).default(17) }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
@@ -790,6 +819,7 @@ export const casinoRouter = router({
   /** Liar's Dice — single round vs NPC. */
   playLiarsDice: protectedProcedure
     .use(checkFeatureFlag("casino"))
+    .use(globalCasinoSessionLimit)
     .input(z.object({ bet: z.number().min(20).max(200), call: z.enum(["trust", "liar"]) }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
@@ -813,6 +843,7 @@ export const casinoRouter = router({
    *  current war state; the client only picks which market to bet on. */
   playFactionWarBet: protectedProcedure
     .use(checkFeatureFlag("casino"))
+    .use(globalCasinoSessionLimit)
     .use(procedureRateLimit({ windowMs: 60_000, max: 30 }))
     .input(z.object({
       bet: z.number().min(10).max(1000),
@@ -834,6 +865,7 @@ export const casinoRouter = router({
   /** Dream Roulette — 6 rounds survival. */
   playDreamRoulette: protectedProcedure
     .use(checkFeatureFlag("casino"))
+    .use(globalCasinoSessionLimit)
     .input(z.object({ bet: z.number().min(25).max(300) }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
@@ -846,6 +878,7 @@ export const casinoRouter = router({
   /** Card Battler's Gauntlet — best-of-3 coin flips. */
   playCardBattlersGauntlet: protectedProcedure
     .use(checkFeatureFlag("casino"))
+    .use(globalCasinoSessionLimit)
     .input(z.object({ bet: z.number().min(30).max(250) }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
@@ -858,6 +891,7 @@ export const casinoRouter = router({
   /** Void Bingo — free session. */
   playVoidBingo: protectedProcedure
     .use(checkFeatureFlag("casino"))
+    .use(globalCasinoSessionLimit)
     .mutation(async ({ ctx }) => {
       const db = await getDb();
       if (!db) throw new Error("DB unavailable");
@@ -867,6 +901,7 @@ export const casinoRouter = router({
   /** Void Cases — purchase a case, respect pity timer. */
   playVoidCase: protectedProcedure
     .use(checkFeatureFlag("casino"))
+    .use(globalCasinoSessionLimit)
     .input(z.object({ bet: z.number().min(50).max(500) }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
