@@ -35,6 +35,23 @@ export type TransmissionTrigger =
   | { kind: "room_visited"; roomId: string }
   | { kind: "apprentice_graduates" }
   | { kind: "loredex_discovered"; entityId: string }
+  /**
+   * audit/16 PR 10 (finding AR4 — ARG persona).
+   *
+   * Scheduled broadcast trigger. The transmission becomes
+   * available at a specific real-world UTC datetime — after
+   * which point it behaves like a `flag` trigger that's
+   * always-true. Lets ARG authors ship calendar-anchored
+   * transmissions ("the broadcast arrives Saturday 3pm UTC")
+   * without a side-channel scheduler.
+   *
+   * Server-side delivery (WebSocket push at the airing
+   * moment) is queued for a follow-up; this PR lands the
+   * trigger schema so authors can populate today and the
+   * client's existing pull-based delivery can opt in to
+   * scheduled checks via the predicate helper below.
+   */
+  | { kind: "scheduled_broadcast"; airsAt: string }
   | { kind: "always" };
 
 export interface Transmission {
@@ -771,6 +788,14 @@ export interface PlayerContext {
   narrativeFlags: Record<string, boolean>;
   roomsVisited: string[];
   hasApprenticeGraduate: boolean;
+  /**
+   * audit/16 PR 10 (AR4) — current time used to evaluate
+   * `scheduled_broadcast` triggers. Optional; when omitted,
+   * scheduled broadcasts are treated as not-yet-airing
+   * (caller hasn't opted into time-windowing). Production
+   * callers pass `new Date()`.
+   */
+  now?: Date;
 }
 
 export function isUnlocked(t: Transmission, ctx: PlayerContext): boolean {
@@ -798,6 +823,18 @@ export function isUnlocked(t: Transmission, ctx: PlayerContext): boolean {
     // the same convention here. Lets a broadcast unlock the moment
     // its related lore entry is opened in the codex.
     case "loredex_discovered": return ctx.narrativeFlags[`loredex_${trig.entityId}`] === true;
+    case "scheduled_broadcast": {
+      // audit/16 PR 10 (AR4) — compares the trigger's airsAt
+      // against the player context's `now`. Without `now` the
+      // broadcast is treated as not-yet-airing; this is the
+      // safe default for callers that haven't opted into
+      // time-windowing yet (mirrors the variant-resolver
+      // calendar-window pattern from PR 4).
+      if (!ctx.now) return false;
+      const airs = Date.parse(trig.airsAt);
+      if (!Number.isFinite(airs)) return false;
+      return ctx.now.getTime() >= airs;
+    }
   }
 }
 

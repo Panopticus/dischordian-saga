@@ -341,3 +341,69 @@ describe("ARCHITECT_TRANSMISSIONS — A1 first-contact calibration", () => {
     );
   });
 });
+
+/* ─── audit/16 PR 10 (AR4) — scheduled_broadcast trigger ─── */
+
+describe("isUnlocked — scheduled_broadcast (audit/16 PR 10 AR4)", () => {
+  function buildScheduled(airsAt: string) {
+    return {
+      episodeNumber: 0,
+      epoch: 0 as const,
+      broadcastOrder: 0,
+      title: "test",
+      driveFileId: null,
+      videoUrl: null,
+      lengthSeconds: 0,
+      memeIntro: "",
+      memeOutro: "",
+      relatedLoredexEntries: [],
+      unlockTrigger: { kind: "scheduled_broadcast" as const, airsAt },
+    };
+  }
+
+  const baseCtx = {
+    awakeningStep: "",
+    completedChapters: [],
+    level: 0,
+    elaraTrust: 0,
+    humanTrust: 0,
+    npcTrust: {},
+    moralityScore: 0,
+    narrativeFlags: {},
+    roomsVisited: [],
+    hasApprenticeGraduate: false,
+  };
+
+  it("returns false when ctx.now is omitted (back-compat default)", () => {
+    const t = buildScheduled("2026-05-09T12:00:00Z");
+    expect(isUnlocked(t as never, baseCtx)).toBe(false);
+  });
+
+  it("returns false before airsAt", () => {
+    const t = buildScheduled("2026-05-09T12:00:00Z");
+    expect(
+      isUnlocked(t as never, { ...baseCtx, now: new Date("2026-05-09T11:59:59Z") }),
+    ).toBe(false);
+  });
+
+  it("returns true at the airsAt boundary (inclusive)", () => {
+    const t = buildScheduled("2026-05-09T12:00:00Z");
+    expect(
+      isUnlocked(t as never, { ...baseCtx, now: new Date("2026-05-09T12:00:00Z") }),
+    ).toBe(true);
+  });
+
+  it("returns true after airsAt", () => {
+    const t = buildScheduled("2026-05-09T12:00:00Z");
+    expect(
+      isUnlocked(t as never, { ...baseCtx, now: new Date("2026-05-10T00:00:00Z") }),
+    ).toBe(true);
+  });
+
+  it("returns false for unparseable airsAt (defensive)", () => {
+    const t = buildScheduled("not-a-date");
+    expect(
+      isUnlocked(t as never, { ...baseCtx, now: new Date("2026-05-09T12:00:00Z") }),
+    ).toBe(false);
+  });
+});
