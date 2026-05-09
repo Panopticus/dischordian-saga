@@ -33,8 +33,17 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // ─── CONFIG ───
+// The Loredex Narrator is canonically the Antiquarian (Daniel Cross,
+// the Bibliographic curator of the Antiquarian's Refuge). He is the
+// in-fiction narrator of the saga's archival material — every Loredex
+// entry can be read as his voice reading from his own catalog. The
+// voice id is the canonical Antiquarian voice from
+// apps/scripts/generate-content-pass-vo.ts:134; ELEVENLABS_LOREDEX_NARRATOR_VOICE_ID
+// can override it if a different narrator is ever wanted.
+const ANTIQUARIAN_VOICE_ID = "8GibmYIeMaUJxz5IqEY7";
 const ELEVENLABS_KEY = process.env.ELEVENLABS_API_KEY || "";
-const VOICE_ID = process.env.ELEVENLABS_LOREDEX_NARRATOR_VOICE_ID || "";
+const VOICE_ID =
+  process.env.ELEVENLABS_LOREDEX_NARRATOR_VOICE_ID || ANTIQUARIAN_VOICE_ID;
 const BUCKET = process.env.S3_BUCKET || "dgrsvoices";
 const REGION = process.env.AWS_REGION || "us-east-2";
 const S3_PREFIX = "Loredex Narrator";
@@ -85,10 +94,12 @@ if (fs.existsSync(MANIFEST_PATH)) {
 // ─── ELEVENLABS TTS ───
 async function generateSpeech(text: string): Promise<Buffer> {
   if (!VOICE_ID) {
+    // Defaults to the canonical Antiquarian voice; only fires if
+    // ELEVENLABS_LOREDEX_NARRATOR_VOICE_ID was deliberately set to "".
     throw new Error(
-      "ELEVENLABS_LOREDEX_NARRATOR_VOICE_ID not set. Pick the narrator voice " +
-      "from docs/production/VOICE_OVER_BIBLE.md (or onboard a new one) and " +
-      "export the env var.",
+      "Loredex narrator voice id is empty. Either unset " +
+      "ELEVENLABS_LOREDEX_NARRATOR_VOICE_ID (so the default Antiquarian " +
+      "voice applies) or set it to a real ElevenLabs voice id.",
     );
   }
   const response = await fetch(
