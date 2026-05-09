@@ -23,6 +23,15 @@
 7. [Guild signature cutscenes — 12 professors × {light, dark}](#7-guild-signature-cutscenes)
 8. [Dreamer-vision VFX flashes — 3](#8-dreamer-vision-vfx-flashes)
 9. [Card-game UI SFX — 10 stings](#9-card-game-ui-sfx)
+10. [audit/15 multi-perspective — production-asset additions](#10-audit15-multi-perspective--production-asset-additions)
+    - 10.1 Character turnaround sheets — 50 stills (Cos1)
+    - 10.2 Wheel-followup reaction cinematics — 6 cinematics (C1)
+    - 10.3 Human reveal transition cinematics — 4 cinematics (C2)
+    - 10.4 Act 6 confession-close stance cinematics — 14 cinematics (C4)
+    - 10.5 Chapter-card telegraphs — 28 stills (Strm6)
+    - 10.6 Room state visual overlays — 7 stills (ER2)
+    - 10.7 Blood Weave portrait progression — 40 stills (Cos5b)
+    - 10.8 Manuscript vault — 4 stills (Co1)
 
 ---
 
@@ -1898,6 +1907,584 @@ shot with frame-chained handoff. ~50 s total.
 >
 > Wire each to the card-game UI in `apps/client/src/game/duelyst/sfx.ts`
 > by adding the slug to `CARD_GAME_UI_SFX` map (create if missing).
+
+---
+
+## 10. audit/15 multi-perspective — production-asset additions
+
+> Added 2026-05-08 as the audit/16 deliverable. Every art / cinematic /
+> VFX line-item raised by the 8-persona audit (`docs/audits/2026-05-08-multi-perspective/`)
+> lives here. The engineering work that consumes these assets ships in
+> follow-up PRs (audit/16.NN); this section is the asset-pipeline brief.
+>
+> **Same conventions as §0–9:**
+> - Frame-chain rule for multi-shot cinematics
+> - 16:9 / 24fps / no music / ambient room tone + VFX SFX + Dialog
+> - NB2 START/END frame + Veo motion + VFX + Dialog blocks per shot
+> - Every asset cites its CDN target path.
+
+### 10.1 Character turnaround sheets (audit/15 Cos1) — 50 stills
+
+> 25 NPC characters × {front turnaround, full turnaround} = 50 NB2 stills.
+> No motion. Path root: `art/characters/<id>/<turnaround_kind>.avif`.
+> Aspect: 2752×1536 (matches existing Elara + Human turnarounds at
+> `apps/client/public/characters/elara/full_turnaround.avif`).
+>
+> The cosplay reference site (audit/15 Cluster E) consumes these directly.
+> Producer can ship the manifest scaffolding before all 50 land — the JSON
+> entry exists with a TODO marker; rendered assets fill in over time.
+
+#### 10.1.1 Roster (production order — most-load-bearing first)
+
+| # | Character ID | Display Name | Notes |
+|---|---|---|---|
+| 1 | `agent_zero` | Agent Zero | Conexus operative; orange faction-color `#ff6600`; haunted/defiant/spectral expression set; asymmetric hood drape (right offset). |
+| 2 | `the_antiquarian` | The Antiquarian | Lore Keeper; green faction-color `#00e676`; thinned mustache for phoneme clarity; ancient/playful/sorrowful/revelatory expressions. |
+| 3 | `iron_lion` | Iron Lion | Insurgency veteran; rust-red beard mass; military bearing; battle-scarred. Per `characterSprites.ts:267`. |
+| 4 | `kael_recruiter` | Kael (Recruiter form) | Pre-Source insurgency identity; warm tones; signature earring. |
+| 5 | `the_source` | The Source / Kael (post) | Red-rimmed iris (substrate corruption); empty/grieving/prophetic/viral states. Color `#ff1744`. |
+| 6 | `shadow_tongue` | Shadow Tongue | Hierarchy-adapted anomaly; near-black skin; violet slit-pupil eyes; corporate-adapted clothing; subtle face-drift across viseme cells. Color `#6366f1`. |
+| 7 | `the_meme` | The Meme | Silver-haired older executive; mechanical hands at the desk; silver-and-pink palette. Color `#ec4899`. |
+| 8 | `architect` | The Architect | Authority faction lead; void-black + Authority-red `#c11414`; recursive geometry overtones. |
+| 9 | `collector` | The Collector | Silver-mask, brass-trim collector aesthetic. |
+| 10 | `degen` | The Degen | Casino entity; chaotic silver-with-gold; entropic glyph-jewelry. |
+| 11 | `eidola` | Eidola | Spectral/Dreamer-adjacent; iris-cyan `#7df3ff`. |
+| 12 | `engineer` | The Engineer | Insurgency artificer; cold steel `#2c3540` + hot orange accent. Engineer arc is plot-load-bearing through Acts 4–6. |
+| 13 | `enigma` | The Enigma | Silver-haired narrator type; Album-1 song subject. |
+| 14 | `eyes` | The Eyes | Insurgency intel; covered face; dark-academia palette. |
+| 15 | `gamemaster` | The Game Master | Meta-arc figure; per Blood Weave `BLOOD_WEAVE_REVEAL_POOL` thresholds 9 + 12 + 15 + 20 + 25 + 40. |
+| 16 | `matrikala` | Matrikala | Ne-Yon-adjacent; resurrectionist motif. |
+| 17 | `necromancer` | The Necromancer | Obsidian + bone-white; Hierarchy aesthetic. |
+| 18 | `nilmorg` | Nilmorg | Insurgency / shadow operative. |
+| 19 | `programmer` | The Programmer | Pre-Antiquarian identity; Album-5 (West by God) song subject; lab-coat + spectacles. |
+| 20 | `seer` | The Seer | Prophecy authority; iris-cyan + amber; sealed-letter motif. |
+| 21 | `warlord` | The Warlord | Lockout-boss; rust-red beard; armored bearing. |
+| 22 | `watcher` | The Watcher | Panopticon witness; Authority faction; surveillance-aesthetic. |
+| 23 | `conexus_authority` | Conexus Authority | Faction figurehead; collective rather than individual. |
+| 24 | `the_human` | The Human (full reveal) | The 5th HUMAN_REVEAL_STAGES progression terminus; canonical face only at trust 50+. (Front + full turnaround for the FULL stage; signal-static / ghost / fragment / convergence already exist as expression-grid stills.) |
+| 25 | `elara_alt` | Elara — alt-loadout | Already has `front_turnaround.avif` + `full_turnaround.avif` for the canonical hologram form. This entry adds a SECOND turnaround pair for her Act-5+ "panoptic-conduct" alt loadout (different cloak, secondary palette, audited record-keeper aesthetic). |
+
+#### 10.1.2 NB2 prompt template per turnaround
+
+> Two stills per character: **front turnaround** and **full turnaround**.
+> Both are NB2-only (no motion). Both share the lighting + palette anchors
+> from §1. The difference: front turnaround is bust-up to mid-thigh; full
+> turnaround is full-figure with all costume details visible. **Aspect
+> 16:9 at 2752×1536** (ratio 1.79:1, matching the existing inventory).
+
+**Front turnaround prompt template:**
+
+```
+Cinematic character turnaround sheet, four 90-degree views (front,
+3/4-left, profile-left, 3/4-right) arranged left-to-right on a
+charcoal seamless backdrop. Character: <Display Name>, <one-paragraph
+silhouette + costume + signature-detail description from §2 below>.
+Painterly digital illustration. Single dominant key from frame-left,
+soft volumetric haze gradient across three depth planes, rim light
+only on hero silhouette. Hot accent: <faction color hex>. No text,
+no UI chrome, no logos, no readable signage. Aspect 16:9, 2752×1536.
+```
+
+**Full turnaround prompt template:**
+
+```
+Cinematic full-figure character turnaround sheet, four 90-degree views
+(front, 3/4-left, profile-left, 3/4-right) of <Display Name>, full
+height including footwear and weapon-primary slot, on a charcoal
+seamless backdrop. <One-paragraph silhouette + costume + signature
+detail>. Show fabric fall, cloak/cape geometry, asymmetric props,
+back-armor configuration. Painterly digital illustration. Single
+dominant key from frame-left, three-plane depth haze, hero rim light.
+Hot accent: <faction color hex>. No text, no UI chrome. Aspect 16:9,
+2752×1536.
+```
+
+Per-character canonical descriptions for the prompt's `<silhouette + costume + signature-detail>` slot are pulled from `apps/client/src/game/characterSprites.ts:165–369` (mouth-box calibration comments document the asymmetric details), `apps/client/src/game/npcPortraits.ts:13–124` (faction colors + expression hints), and `apps/shared/suitArtPrompts.ts:148–156` (faction palettes). When these source comments conflict, characterSprites.ts wins (it's the most recently calibrated).
+
+#### 10.1.3 Asset paths
+
+```
+art/characters/<id>/front_turnaround.avif     ← 2752×1536
+art/characters/<id>/full_turnaround.avif      ← 2752×1536
+```
+
+Add corresponding entries to `apps/client/public/characters/_inventory.json` under the existing per-character object.
+
+#### 10.1.4 Reveal-stage exception (the_human)
+
+The Human's progression is ALREADY documented as 5 reveal stages
+(`apps/client/src/game/npcPortraits.ts:126–187`). For audit/16 Cos1
+purposes:
+- The 5 stage stills already exist (signal-static, ghost, fragment, convergence, full).
+- ADD: `front_turnaround.avif` + `full_turnaround.avif` for the FULL reveal stage only. Players never see these turnarounds before trust ≥ 50.
+- Cosplayers can plan against the full reveal — the early stages are visual-effect overlays, not separate costume builds (per audit/15 Cos7).
+
+### 10.2 Wheel-followup reaction cinematics (audit/15 C1) — 18 stills + 6 cinematics
+
+> Per the Cinematic Director audit, wheel_followup variants currently
+> render only as cyan text. They deserve 2.5-second portrait cinematics
+> showing the listening NPC absorbing the player's choice. Three Acts
+> have wheel_followup variants today: Act 3 (transparent / pragmatic /
+> full_secret), Act 4 (broken / fragile / strained / reconciled), Act 6
+> (the seven confession-close stances — covered separately in §10.4).
+>
+> §10.2 covers Acts 3 + 4. 6 cinematics × ~2.5 s each.
+> Path root: `videos/cinematics/wheel_followup/`. Static keyframes at
+> `art/cinematics/wheel_followup/kf_<slug>.webp`.
+
+#### 10.2.1 Act 3 wheel_followup × 3 reactions
+
+Each cinematic shows **Elara's** bust over the Bridge cyan-hologram glow,
+holding neutral composure for 1.2 s, then a 1.3 s expression shift.
+Audio: silence (let the player's selected text echo). No music.
+
+**Cinematic 1 — `wheel_act3_transparent.mp4` (2.5 s)**
+- **Variant gate:** `wheel_followup_act3_transparent` (`act3_path_transparent_chosen`)
+- **NB2 START frame (= keyframe):** Elara front-bust, neutral expression (`elara/expressions/neutral.avif`), centered, against subtly-parallax-drifting Bridge background, cyan hologram glow at 60% saturation.
+- **NB2 END frame:** Same composition; expression shifted to `elara/expressions/emotional1.avif` (relief flickers across her face, mouth half-parts as if to speak then doesn't); cyan glow brightens to 75%; subtle catch-light in eyes.
+- **Veo motion (2.5 s):** *camera locked. Subtle parallax drift on Bridge background (right-to-left, 4 px). Elara's expression crossfades neutral→emotional1 over frames 30–60 (1.25 s in). Cyan glow lifts in sync.*
+- **VFX:** `vfx_substrate_pulse` (0.3 alpha); cyan hologram scanline at 0.2 opacity.
+- **Dialog:** *(none — wheel_followup variant text renders as overlay)*
+- **Music:** NONE.
+
+**Cinematic 2 — `wheel_act3_pragmatic.mp4` (2.5 s)**
+- **Variant gate:** `wheel_followup_act3_pragmatic` (`act3_path_pragmatic_chosen`) — needs new variant entry; per audit/15 only transparent + full_secret have entries today
+- **NB2 START frame:** Elara neutral; Bridge bg.
+- **NB2 END frame:** Elara `emotional2` (sober understanding; balanced); cyan glow at 65%.
+- **Veo motion (2.5 s):** *camera locked. Same parallax. Crossfade neutral→emotional2 over frames 30–60.*
+- **VFX:** `vfx_substrate_pulse` (0.3); scanline 0.2.
+- **Dialog:** *(none)*
+- **Music:** NONE.
+
+**Cinematic 3 — `wheel_act3_full_secret.mp4` (2.5 s)**
+- **Variant gate:** `wheel_followup_act3_full_secret` (`act3_path_full_secret_chosen`)
+- **NB2 START frame:** Elara neutral; Bridge bg.
+- **NB2 END frame:** Elara `emotional1` reframed darker — eyes harden, mouth flat, jaw tightens; cyan glow DESATURATES to ~40% (forbearance reading); subtle blue undertone shift on shadow side.
+- **Veo motion (2.5 s):** *camera locked. Parallax. Expression hardening over frames 30–60. Cyan saturation drops over frames 45–60 in sync with the jaw-set.*
+- **VFX:** `vfx_substrate_pulse` (0.2 alpha — quieter); scanline narrows at end.
+- **Dialog:** *(none)*
+- **Music:** NONE.
+
+#### 10.2.2 Act 4 wheel_followup × 3 reactions
+
+Same template, **The Human's** bust over the Cabin warm-amber glow.
+Substrate corruption fades or hardens with the choice.
+
+**Cinematic 4 — `wheel_act4_broken_trust.mp4` (2.5 s)**
+- **Variant gate:** `act4_broken_trust`
+- **NB2 START frame:** The Human bust at HUMAN_REVEAL_STAGE 3 (signal-fragment); Cabin warm-amber bg with red flicker.
+- **NB2 END frame:** Substrate-corruption HARDENS — fragmentation increases by 30%; expression `the-human-vulnerable_f1bqhc.jpg` overlaid at 60%, signal degrades visibly.
+- **Veo motion (2.5 s):** *camera locked. Substrate filaments grow over frames 30–75. Glitch micro-shimmer increases in last 0.5s.*
+- **VFX:** `vfx_substrate_corruption` (1.0); red-flicker bed (0.3); glitch-overlay (0.4).
+- **Dialog:** *(none)*
+- **Music:** NONE.
+
+**Cinematic 5 — `wheel_act4_fragile_trust.mp4` (2.5 s)**
+- **Variant gate:** `act4_fragile_trust`
+- **NB2 START frame:** The Human bust at HUMAN_REVEAL_STAGE 3.
+- **NB2 END frame:** Slight corruption RELIEF — signal stabilizes by 10%; expression neutral.
+- **Veo motion (2.5 s):** *camera locked. Substrate filaments stabilize, slight clarification over frames 45–60.*
+- **VFX:** `vfx_substrate_corruption` (0.7).
+- **Dialog:** *(none)*
+- **Music:** NONE.
+
+**Cinematic 6 — `wheel_act4_reconciled.mp4` (2.5 s)**
+- **Variant gate:** `act4_reconciled`
+- **NB2 START frame:** The Human bust at HUMAN_REVEAL_STAGE 3.
+- **NB2 END frame:** SIGNAL ADVANCES one stage to HUMAN_REVEAL_STAGE 4 (signal-convergence). Expression `the-human-amused_mnco27.jpg` at 60%; subtle smile read.
+- **Veo motion (2.5 s):** *camera locked. Substrate filaments resolve — frames 30–60 cross-fade stage 3 → stage 4 image with ~0.5s overlap.*
+- **VFX:** `vfx_substrate_pulse` (0.5) replacing corruption; warm amber glow lifts.
+- **Dialog:** *(none)*
+- **Music:** NONE.
+
+#### 10.2.3 Variant-resolver wiring (downstream consumer)
+
+Each cinematic's slug becomes the value for a new optional
+`portraitCinematicId` field on `MoralityTrustActVariant` (audit/15
+Cluster D, lands in PR 4). The NarrativeEngine wheel-followup render
+block (`apps/client/src/components/NarrativeEngine.tsx:119–137`) calls
+`playSlideshow(portraitCinematicId)` after the choice is locked,
+before the next dialog phase.
+
+### 10.3 Human reveal transition cinematics (audit/15 C2) — 12 cinematic frames
+
+> 4 stage transitions for The Human (cold → neutral → warm → confidant →
+> full-revealed). Each is 3 s with Ken Burns motion on the existing
+> HUMAN_REVEAL_STAGES Cloudinary stills. Path root:
+> `videos/cinematics/human_reveal/`. Static keyframes at
+> `art/cinematics/human_reveal/kf_<slug>.webp`.
+
+#### 10.3.1 Stage 1 — Static → Ghost (`human_reveal_to_ghost.mp4`, 3 s)
+
+Trust threshold 10 (cold → neutral lower bound). Triggered the moment
+trust crosses 10.
+
+- **NB2 START frame:** Existing `signal-static` reveal asset (pure noise field, ~80% opacity).
+- **NB2 END frame:** Existing `signal-ghost` reveal asset (silhouette emerging from noise; ~40% noise overlay).
+- **Veo motion (3 s):** *frames 0–24: hold start. Frames 24–60: slow Ken Burns zoom-in (2.5%) on start frame, opacity fade-out 90% → 0%. Frames 30–72: opacity fade-in 0% → 100% on end frame, paired Ken Burns 1.5% on end. Final 12 frames: hold end.*
+- **VFX:** `vfx_substrate_pulse` (0.4 — rising); subtle low-frequency hum bed.
+- **Dialog:** *(none)*
+- **Music:** NONE — sub-bass bed only (rises in pitch through transition).
+- **SlideshowPlayerRoot bookend text:** "SIGNAL RESOLVING" at start; "SIGNAL LOCKED" at end.
+
+#### 10.3.2 Stage 2 — Ghost → Fragment (`human_reveal_to_fragment.mp4`, 3 s)
+
+Trust threshold 20.
+
+- **NB2 START frame:** `signal-ghost`.
+- **NB2 END frame:** `signal-fragment` (partial face, scanline corruption at 50%).
+- **Veo motion (3 s):** Same Ken Burns crossfade pattern.
+- **VFX:** `vfx_substrate_pulse` (0.6); scanline corruption stabilizes during crossfade.
+- **Dialog:** *(none)*
+- **Music:** NONE — sub-bass bed (one semitone higher than 10.3.1).
+- **Bookend:** "SIGNAL RESOLVING" / "FRAGMENT LOCKED."
+
+#### 10.3.3 Stage 3 — Fragment → Convergence (`human_reveal_to_convergence.mp4`, 3 s)
+
+Trust threshold 40.
+
+- **NB2 START frame:** `signal-fragment`.
+- **NB2 END frame:** `signal-convergence` (~80% face visible, scanline corruption at 20%).
+- **Veo motion (3 s):** Ken Burns crossfade.
+- **VFX:** `vfx_substrate_pulse` (0.8); corruption fades through transition.
+- **Dialog:** *(none)*
+- **Music:** NONE — sub-bass bed (third semitone up).
+- **Bookend:** "SIGNAL RESOLVING" / "CONVERGENCE LOCKED."
+
+#### 10.3.4 Stage 4 — Convergence → Full reveal (`human_reveal_to_full.mp4`, 3 s)
+
+Trust threshold 50. **Most cinematically significant** — first time the
+player sees the canonical face. Director should privilege this shot.
+
+- **NB2 START frame:** `signal-convergence`.
+- **NB2 END frame:** Full-reveal portrait (the Human's canonical face — see audit/15 Cos1 entry #24 for the turnaround that grounds this still). Warm amber glow at 75%; substrate filaments minimal (~5% opacity only at frame edges).
+- **Veo motion (3 s):** *Ken Burns crossfade BUT with a 1-frame held white flash at frame 36 (mid-transition) — like a camera shutter or signal-lock confirmation. Audio sting (`vfx_dreamer_substrate` (1.0)) lands on the white frame.*
+- **VFX:** `vfx_substrate_pulse` (1.0); white-flash transition; warm-amber bloom in last 12 frames.
+- **Dialog:** *(none — held silence)*
+- **Music:** NONE — sub-bass bed resolves to a clean low tone (perfect-fifth from the Stage 1 starting note).
+- **Bookend:** "SIGNAL RESOLVING" / "I AM HERE."
+
+#### 10.3.5 Variant gating (Cluster D consumer)
+
+Each transition optionally fires a variant-gated VARIANT of the
+cinematic if `useVariant("human_reveal_transition", "human_reveal_stage_${currentStage}", input)` resolves. Examples:
+
+- Machine-aligned player crossing trust 10: `human_reveal_to_ghost_machine.mp4` — same composition, cool-blue tint replacing warm-amber.
+- High-trust Elara confidante crossing trust 50: `human_reveal_to_full_elara_confidante.mp4` — warm amber stays + Elara's cyan filaments lace into the frame edges (the two narrators are merging acoustically at this moment per the Witnessing doctrine).
+
+Producer can ship the base 4 cinematics first, then variant flavors as
+follow-up commissions.
+
+### 10.4 Act 6 confession-close stance cinematics (audit/15 C4) — 14 cinematics
+
+> 7 confession stances × 2 confessing characters (Elara when Detective
+> in the Wall is the confessor; The Human when Woman She Was is the
+> confessor) = 14 cinematics. Each 2.8 s. Path root:
+> `videos/cinematics/act6_confession/`. Static keyframes at
+> `art/cinematics/act6_confession/kf_<slug>.webp`.
+
+#### 10.4.1 The 7 stances (audit/15 source)
+
+Per `apps/client/src/pages/Act6CardLadderPage.tsx:64–110`:
+
+| Stance flag | Stance label | Tone read | NPC reaction expression |
+|---|---|---|---|
+| `act6_confession_close_empathy` | "Sit with them in it." | Soft — held silence, witnessing | Elara: `emotional2` (vulnerable softening); Human: `emotional1` (relief overlaid on dread) |
+| `act6_confession_close_challenge` | "Answer the confession with a harder one." | Sharp — meeting truth with truth | Elara: `emotional1` (concern + steel); Human: `emotional2` (vulnerability surfaces) |
+| `act6_confession_close_refusal` | "Refuse the absolution." | Steel — boundary held | Elara: `neutral` darkening (jaw set); Human: `neutral` (signal stabilizes; closed) |
+| `act6_confession_close_reluctant_ally` | "Stand with them — for now." | Pragmatic warmth | Elara: `speaking` (chin lifts; small nod); Human: `emotional1` (cautious hope) |
+| `act6_confession_close_partial` | "Accept some, reject some." | Surgical — boundary-with-care | Elara: `neutral` (calm focus); Human: `emotional2` (mixed read) |
+| `act6_confession_close_oracle_sense` | "Close your eyes and listen beneath the words." | Receptive — substrate read | Elara: `emotional2` half-lidded; Human: `emotional1` exposed (substrate read sees beneath them) |
+| `act6_confession_close_practical` | "Take the ledger out. Balance what was said." | Mercantile — debt named | Elara: `neutral` (weights an invisible scale); Human: `neutral` (relief at the room being lighter) |
+
+#### 10.4.2 Cinematic prompt template
+
+Each cinematic is **2.8 s of NPC reaction**. The player's selected
+stance text echoes silently (no VO). The cinematic locks the emotional
+read of the confession-close moment.
+
+**NB2 START frame template:**
+```
+Close bust of <NPC> in <Cabin / Bridge / Archives — wherever the
+confession is happening>. Expression: NEUTRAL. Soft natural lighting,
+muted background (out-of-focus environment 30% saturation). Hot accent:
+<faction color>.
+```
+
+**NB2 END frame template:**
+```
+Same composition. Expression shifted to <stance-tone expression per
+table above>. Background unchanged. Subtle catch-light in eye matching
+emotional read.
+```
+
+**Veo motion (2.8 s):**
+```
+Camera locked. Frames 0–30 hold neutral. Frames 30–60 expression
+crossfade to stance-tone expression. Frames 60–67 hold final.
+Background remains static (out-of-focus). NO music. NO VO.
+```
+
+#### 10.4.3 The 14 cinematic IDs
+
+```
+act6_confession_elara_empathy.mp4
+act6_confession_elara_challenge.mp4
+act6_confession_elara_refusal.mp4
+act6_confession_elara_reluctant_ally.mp4
+act6_confession_elara_partial.mp4
+act6_confession_elara_oracle_sense.mp4
+act6_confession_elara_practical.mp4
+act6_confession_human_empathy.mp4
+act6_confession_human_challenge.mp4
+act6_confession_human_refusal.mp4
+act6_confession_human_reluctant_ally.mp4
+act6_confession_human_partial.mp4
+act6_confession_human_oracle_sense.mp4
+act6_confession_human_practical.mp4
+```
+
+Engineering wires this into `Act6CardLadderPage.tsx:100` after stance
+selection, before flag-set, via a new function
+`playConfessionStanceCinematic(stance, speakingCharacter, state)`. The
+function resolves cinematic id from the stance flag + character id; the
+variant resolver can override per morality/trust state via Cluster D.
+
+### 10.5 Chapter-card telegraphs (audit/15 Strm6) — 28 stills
+
+> Longplay-editor-friendly chapter banners that auto-play 2.5s before
+> a major cinematic. Per audit/15 Strm6: act + chapter title + faction
+> mood color. NB2 only (no motion). Path root:
+> `art/cinematics/chapter_cards/<slug>.webp`. Aspect 16:9 at 1920×1080.
+>
+> Approximately 28 chapter banners per the act-progression spec
+> (`docs/production/ACT1_NARRATIVE_STRUCTURE.md` informs the count).
+
+#### 10.5.1 Per-chapter banner template
+
+```
+Cinematic full-frame chapter card. Black field. Centered text in
+serif typography: "ACT <N>" smaller above; "<CHAPTER TITLE>" larger
+below. Above the title: a single thematic icon in <faction-color hex>
+(stylized symbol matching the chapter's tonal register — surveillance
+eye for Authority, broken chain for Insurgency, eclipse for Dreamer,
+etc.). Below the title: a thin underline rule in <faction-color> at
+30% opacity. Far edges: subtle vignette to true black. Painterly
+digital illustration. NO photographic elements. NO logos. Aspect
+16:9, 1920×1080.
+```
+
+#### 10.5.2 Chapter banner roster (informal — final set authored against ACT1_NARRATIVE_STRUCTURE.md)
+
+| Slug | Act | Chapter title | Mood | Color anchor |
+|---|---|---|---|---|
+| `chapter_act1_awakening` | 1 | The Awakening | Cold dread | `#22d3ee` (cyan) |
+| `chapter_act1_first_light` | 1 | First Light | Cautious hope | `#ff6b1a` (insurgency orange) |
+| `chapter_act1_finale_alignment` | 1 | The Cycle's First Cut | Volatile | `#ff2bd6` (Nexon magenta) |
+| `chapter_act2_silence_of_two_witnesses` | 2 | Silence of Two Witnesses | Reverent | `#7df3ff` (iris-cyan) |
+| `chapter_act2_oracle_deflection` | 2 | The Oracle's Refusal | Sharp | `#a02d2d` (woven) |
+| `chapter_act3_disclosure` | 3 | What Elara Knew | Charged | `#22d3ee` |
+| `chapter_act3_path_dividend` | 3 | The Cost of Telling / The Cost of Not Telling | Shifting | varies (variant) |
+| `chapter_act4_consumed_witness` | 4 | Kael Consumed | Substrate-horror | `#ff1744` (Source red) |
+| `chapter_act4_broken_trust` | 4 | The Bridge Goes Quiet | Cold | desaturated `#22d3ee` |
+| `chapter_act4_reconciled` | 4 | We Speak Again | Warm | `#ff6b1a` |
+| `chapter_act5_recruitment` | 5 | Five Sectors | Multi-faction | three accents (rare exception to one-color rule) |
+| `chapter_act6_confession` | 6 | The Detective in the Wall / The Woman She Was | Sober | warm amber `#b88c3a` |
+| `chapter_act6_remembrance` | 6 | The Memorial Corridor | Grieving | desaturated all |
+| `chapter_act7_silence_in_heaven` | 7 | The Seventh Seal | Apocalyptic | pure white on black, no faction-color |
+| `chapter_act7_humanity_chosen` | 7 | We Choose to Stay | Quiet — humanity terminus | warm amber resolving |
+| `chapter_act7_pattern_chosen` | 7 | We Choose the Pattern | Cold — machine terminus | clean cyan resolving |
+| `chapter_authority_trial` | (5.8) | The Authority Trial | Procedural-dread | `#c11414` (Authority red) |
+| `chapter_memorial_corridor` | (any) | Remembrance | Grieving | warm amber `#b88c3a` |
+| `chapter_casino_jackpot` | (any) | The Pot Tips | Manic | `#ec4899` (Meme pink) |
+| `chapter_card_battle_climax` | (any) | Final Turn | Adrenal | per-faction mood (variant) |
+| `chapter_dream_vision` | (any) | The Vision | Ethereal | `#7df3ff` |
+
+(Producer expands to full 28 set against ACT1_NARRATIVE_STRUCTURE +
+ALL_ACTS_ROADMAP per real chapter cadence.)
+
+#### 10.5.3 Engineering wiring (downstream)
+
+`SongCinematicVideo` (`apps/client/src/components/SongCinematicVideo.tsx:14–31`)
+gains `chapterTitle?: string` + `chapterId?: string`. When supplied,
+renders the chapter card for 2.5s before the video fades in. Slug
+`chapter_<chapterId>` resolves to the stored asset.
+
+### 10.6 Room state visual overlays (audit/15 ER2) — 7 environmental transformations
+
+> Each overlay is an NB2 still (no motion) layered as a CSS overlay over
+> the existing room background art. The base room art doesn't change;
+> the overlay activates when the relevant narrative flag fires. Path
+> root: `art/rooms/overlays/<room>_<state>.webp`. Aspect matches base
+> room (varies; ~1920×1080 for parallax-room renders).
+
+#### 10.6.1 The 7 overlays (per `apps/shared/adventureFeatures.ts:181–193`)
+
+**1. `medical_bay_quarantine.webp` — Medical Bay quarantine lighting**
+- **Trigger flag:** `medbay_quarantine_activated`
+- **NB2 prompt:** Red emergency-grade lighting wash across Medical Bay walls. Pulsing red overlay (50% opacity at center, fading to 20% at edges). Caution-stripe diagonal bars on door-frames. NO change to ceiling/floor/equipment shapes — this is a LIGHTING overlay only. Painterly digital illustration. Aspect-match Medical Bay base. Hot accent: `#c11414` (Authority red).
+- **CSS overlay class:** `data-room-state="quarantine"` triggers `mix-blend-mode: multiply` with 60% opacity.
+
+**2. `archives_text_rewriting.webp` — Archives text rewriting in real-time**
+- **Trigger flag:** `shadow_tongue_evidence`
+- **NB2 prompt:** Archives data-bank screens visibly rewriting in the unreadable hue (a violet color the player perceives as a band of "wrongness" rather than text — `#6366f1` shifted toward `#9d6efb`). Text fragments visible at ~70% opacity, fluid (not letters; pseudo-glyphs). Background Archives shelves UNCHANGED — only the screen-overlay shifts.
+- **CSS overlay class:** `data-room-state="rewriting"` activates a CSS-keyframe shimmer animation on the screen-overlay div.
+
+**3. `bridge_bloodstain.webp` — Bridge subtle bloodstain appears**
+- **Trigger flag:** `bridge_kael_evidence_logged`
+- **NB2 prompt:** A faint reddish-brown stain on the Bridge floor near the Conspiracy Board, ~30 cm diameter. Stain has been cleaned but not perfectly — slight discoloration only visible from certain angles (here, the player's POV). Surrounding floor unchanged. Painterly digital illustration; very subtle, easy to miss. Hot accent: `#5b1a1a` (oxblood).
+- **CSS overlay class:** `data-room-state="evidence-logged"` activates the stain at 70% opacity.
+
+**4. `obs_deck_terminus_signal.webp` — Observation Deck Terminus signal visible**
+- **Trigger flag:** `terminus_singer_found`
+- **NB2 prompt:** Through the Observation Deck viewport, a single faint pinpoint of light (one star, fractionally brighter than the surrounding starfield) at frame center-right. Subtle pulsing ring of cyan haze around the light at 15% opacity. NO change to the Observation Deck interior. Aspect matches Observation Deck base. Hot accent: `#7df3ff` (iris-cyan).
+- **CSS overlay class:** `data-room-state="terminus-active"` shows the star + halo via SVG overlay.
+
+**5. `engineering_resonance.webp` — Engineering racks humming visibly**
+- **Trigger flag:** `terminus_step_2`
+- **NB2 prompt:** Engineering equipment racks emit faint cyan-amber glow lines along the metal seams. Subtle vibration suggested by heat-shimmer haze around the racks at 20% opacity. Walls and floor unchanged. Painterly digital illustration. Hot accent: `#22d3ee`/`#ff6b1a` blend (faction-cross moment).
+- **CSS overlay class:** `data-room-state="resonance"` triggers a CSS heat-shimmer keyframe.
+
+**6. `medbay_safe_unlocked.webp` — Medical Bay emergency safe biometric scanner unlocks**
+- **Trigger flag:** `vox_step_3`
+- **NB2 prompt:** Close-up element of the emergency safe's biometric scanner glowing green (success state) instead of red (locked state). The rest of the safe and surrounding Medical Bay unchanged. Hot accent: `#00e676` (Antiquarian green).
+- **CSS overlay class:** `data-room-state="safe-unlocked"` activates the green-glow div over the scanner zone.
+
+**7. `bridge_violet_thread.webp` — Bridge Conspiracy Board violet-thread reveals**
+- **Trigger flag:** `elara_on_the_board`
+- **NB2 prompt:** The Conspiracy Board's three red threads UNCHANGED. A FOURTH thread, violet (`#9d6efb`), running from the central blank pin to a small ELARA-SYS tag at the upper-right corner of the board. Thread visible only under indirect lighting (subtle UV-glow read). Painterly digital. Hot accent: violet.
+- **CSS overlay class:** `data-room-state="elara-on-board"` reveals the violet-thread SVG layer.
+
+#### 10.6.2 Engineering wiring (downstream)
+
+Per `audit/15 ER2`: create `apps/client/src/game/roomVisualState.ts` exporting `applyRoomStateOverlay(roomId, flags): RoomVisualState`. `ParallaxRoom` (in `ArkExplorerPage.tsx:73`) calls it and conditionally mounts the overlay div above the base background. Each overlay's `data-room-state` attribute drives its CSS animation/blend-mode.
+
+### 10.7 Blood Weave portrait progression (audit/15 Cos5b new visual canon) — 5 bands × 8 crew = 40 stills
+
+> Per the new `BLOOD_WEAVE_BAND_VISUALS` canon shipped in this PR
+> (`apps/shared/bloodWeave.ts`), each crew member's portrait progresses
+> through 5 visual states as Blood Weave alignment climbs. Path root:
+> `art/characters/<id>/blood_weave/<band>.avif`. Aspect 16:9 at 1024×576.
+
+#### 10.7.1 The 5 bands (matching BLOOD_WEAVE_BAND_VISUALS)
+
+| Band | Hex | Glow | Thread description |
+|---|---|---|---|
+| `dormant` | `#1a1a1a` | none | No visible thread; baseline portrait. |
+| `braiding` | `#8b3a3a` | subtle | Hairline-thin red filament along jaw or shoulder, visible only in shadow. |
+| `woven` | `#a02d2d` | moderate | Discernible pattern: Hellbox sigil-trace at chest level, thin red embroidery on collar/cuff. |
+| `bound` | `#c12121` | pronounced | Pattern unmistakable: red thread temple-to-wrist, pulsing with heartbeat. Eyes carry a red rim at the lower lid. |
+| `claimed` | `#ff1a1a` | luminous | Saturated red glow envelopes figure. Eyes fully red. Thread is structural, not cosmetic. Game-Master meta-arc fires. |
+
+#### 10.7.2 Crew roster needing portraits
+
+Per the unified-roster system (PR #509 + PR #513), Blood Weave portraits
+need 5-band progressions for the 8 named crew at minimum:
+
+1. Iron Lion
+2. Kael (Recruiter form — pre-Source)
+3. The Engineer
+4. The Eyes
+5. Agent Zero
+6. Jericho Jones (insurgency veteran)
+7. Matrikala (Ne-Yon-adjacent)
+8. The Programmer (pre-Antiquarian)
+
+Total: **5 bands × 8 crew = 40 NB2 stills**.
+
+#### 10.7.3 NB2 prompt template
+
+```
+Cinematic crew-member portrait at Blood Weave band <BAND_NAME>.
+Character: <Display Name>, <silhouette + costume description>.
+Apply <thread description> from §10.7.1. Hot accent: <band color
+hex>. Glow intensity: <none/subtle/moderate/pronounced/luminous>.
+Painterly digital illustration; visible brushwork at 1:1, clean
+read at thumbnail. Single dominant key from frame-left, three-plane
+depth haze. Aspect 16:9, 1024×576. NO text, NO UI chrome.
+```
+
+The `dormant` band is the existing base portrait — no new render
+needed; just symlink or alias the existing
+`apps/client/public/characters/<id>/idle.avif`.
+
+#### 10.7.4 Engineering wiring (downstream)
+
+A new helper `getBloodWeaveBandPortrait(crewId, alignmentValue)` in
+`apps/shared/bloodWeave.ts` resolves the band via `bandFor(alignment)`
+and returns the portrait URL. The Resurrection Panel's Stage-3 tab
+(`apps/client/src/components/HellboxRestorationPanel.tsx`) and the
+Memorial Corridor (`apps/client/src/pages/MemorialCorridorPage.tsx`)
+both render the appropriate band's portrait based on each crew member's
+current alignment.
+
+### 10.8 manuscriptVault background art (audit/15 Co1) — 1 still + 3 hotspot insets
+
+> The Archives data-banks mise-en-abyme expansion (Conspiracy persona's
+> top finding) needs a new room: a small "manuscript vault" surface
+> reachable only after the player logs both `clue-archives-novel-overwrite`
+> AND a cross-room corroborating clue. Path root:
+> `art/rooms/manuscript_vault/`.
+
+#### 10.8.1 Background art (`bg.avif`)
+
+- **Aspect:** 1920×1080.
+- **NB2 prompt:** Cinematic interior of a small archival vault. Floor-to-ceiling shelves of bound manuscripts in dark leather and brass clasps. Narrow walking aisle (camera POV from aisle-end). Single dominant brass-warm key light from the far end of the aisle, soft volumetric haze across three depth planes. Manuscript spines: most are blank or illegible; one in the foreground (closest shelf, mid-height) has a visible title in the unreadable hue (`#9d6efb`). Painterly digital illustration. Subtle eldritch geometry in the shelf joinery (rings within rings). NO modern logos, NO readable signage, NO UI chrome. Hot accent: brass `#b88c3a`.
+
+#### 10.8.2 Hotspot insets (3 close-ups)
+
+**1. `hotspot_overwrite_manuscript.avif` — The overwrite manuscript**
+- Close-up of an open book on a stand. Left page: original Antiquarian-era ledger entries in faded sepia ink. Right page: same entries in the unreadable hue, rewritten over the originals. Player can SEE the difference; the violet text doesn't read as language but as a band of wrongness across the page. Painterly close-up. Hot accent: `#9d6efb` violet on the right page.
+
+**2. `hotspot_editor_signature.avif` — The Editor's signature card**
+- A small archival card pinned beside the manuscript stand. Carries a single hand-drawn glyph in the unreadable hue, surrounded by a halo of similar glyphs in faded older ink (the Editor's signature evolving across 14,000 edits). Painterly close-up.
+
+**3. `hotspot_corroboration_thread.avif` — Cross-room thread connection**
+- A thin red string nailed to the wall above the manuscript stand, running upward and out of frame (toward the Bridge — implied geographic continuity with the Conspiracy Board's violet thread). The string visibly tied to a small knot at the manuscript's binding, suggesting THIS is the source of the Bridge's Elara-thread evidence. Painterly close-up.
+
+#### 10.8.3 Engineering wiring (downstream)
+
+Per audit/15 Co1: create `apps/shared/roomMysteries/manuscriptVault.ts` as a new room mystery module. The room registers in `apps/shared/roomMysteries/index.ts:67–102` only when the player has logged both `clue-archives-novel-overwrite` (Archives) AND a corroborating clue from Bridge or Cryo Bay (TBD which clue ID). 3 hotspots map to the 3 inset assets above. Lands in PR 8 (Conspiracy/Lore).
+
+### 10.9 Asset summary + production order
+
+| Section | Asset count | Aspect | Effort |
+|---|---|---|---|
+| 10.1 Character turnarounds | 50 stills | 2752×1536 | XL — most-load-bearing first; producer ships incrementally |
+| 10.2 Wheel-followup cinematics | 6 cinematics × 2.5s | 16:9 4K | M |
+| 10.3 Human reveal transitions | 4 cinematics × 3s | 16:9 4K | M |
+| 10.4 Act 6 confession-close | 14 cinematics × 2.8s | 16:9 4K | L |
+| 10.5 Chapter-card telegraphs | 28 stills | 1920×1080 | M (informally; can ship in waves) |
+| 10.6 Room state overlays | 7 stills | varies | M |
+| 10.7 Blood Weave progressions | 40 stills | 1024×576 | L |
+| 10.8 Manuscript vault | 4 stills | varies | S |
+| **Total** | **~150 production assets** | | |
+
+#### 10.9.1 Recommended production order
+
+The following ordering minimizes engineering blocking — early waves
+unblock the most downstream PRs in the audit/16 sprint:
+
+1. **§10.6 Room state overlays** (7 stills) — unblocks PR 7 (Escape Room sequencing, ER2).
+2. **§10.4 Confession-close cinematics × 4** (start with empathy + refusal × Elara + Human; defer the other 5 stances to a later wave) — unblocks PR 9 partial (C4).
+3. **§10.5 Chapter-card telegraphs × 5** (start with the most-load-bearing acts: act1_awakening, act3_path_dividend, act4_consumed_witness, act6_remembrance, act7_silence_in_heaven) — unblocks PR 5 (Streamer, Strm6).
+4. **§10.2 Wheel-followup × 6** — unblocks PR 9 (C1).
+5. **§10.3 Human reveal transitions × 4** — unblocks PR 9 (C2).
+6. **§10.8 Manuscript vault × 4** — unblocks PR 8 (Co1).
+7. **§10.1 Character turnarounds × first 10** (production order: agent_zero, antiquarian, iron_lion, kael_recruiter, the_source, shadow_tongue, the_meme, architect, the_human full, elara_alt) — unblocks PR 14 (Cluster E character canon site MVP).
+8. **§10.7 Blood Weave progressions** (start with iron_lion + kael_recruiter, defer the other 6 crew) — unblocks PR 3 (Cosplay metadata can land with Cos5b colors only; portraits ship as available).
+9. **§10.1 remaining 40 turnarounds + §10.7 remaining 30 portraits + §10.4 remaining 10 confession cinematics** — long-tail backfill across 4–8 weeks.
+
+#### 10.9.2 Engineering placeholder strategy
+
+For every asset that hasn't been rendered yet, engineering ships:
+- A manifest entry with the canonical CDN path
+- A `placeholder: true` marker in the corresponding metadata JSON
+- A graceful-degradation render (existing portrait at lower opacity for missing turnarounds; bypass the cinematic mount and surface text-only for missing wheel-followups; CSS-only overlay for missing room-state stills)
+
+This means engineering PRs (PR 2–14) are NOT blocked on art delivery —
+they ship the wiring + placeholders, and the asset replacement is a
+silent CDN drop later.
 
 ---
 

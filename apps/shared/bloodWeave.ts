@@ -132,6 +132,54 @@ export function bandFor(alignment: number): BloodWeaveBand {
   return "claimed";
 }
 
+/** audit/16 — visual canon per band. Used by Stage-3 tab colouring,
+ *  Loredex graph node tinting, and the cosplay reference site
+ *  (`docs/audits/2026-05-08-multi-perspective/06_cosplayer.md` Cos5).
+ *  Each band escalates colour saturation + glow intensity to match
+ *  the narrative escalation. */
+export interface BloodWeaveBandVisual {
+  band: BloodWeaveBand;
+  /** Hex colour of the dominant red-thread aesthetic. */
+  colorHex: string;
+  /** "none" | "subtle" | "moderate" | "pronounced" | "luminous" */
+  glowIntensity: "none" | "subtle" | "moderate" | "pronounced" | "luminous";
+  /** Describes how the cosmetic / portrait reads at this band. */
+  threadDescription: string;
+}
+
+export const BLOOD_WEAVE_BAND_VISUALS: Readonly<Record<BloodWeaveBand, BloodWeaveBandVisual>> = {
+  dormant: {
+    band: "dormant",
+    colorHex: "#1a1a1a",
+    glowIntensity: "none",
+    threadDescription: "No visible thread. The pattern is asleep.",
+  },
+  braiding: {
+    band: "braiding",
+    colorHex: "#8b3a3a",
+    glowIntensity: "subtle",
+    threadDescription: "Faint red tracery visible only in shadow light. The crew member's portrait gains a hairline-thin red filament along the jaw or shoulder.",
+  },
+  woven: {
+    band: "woven",
+    colorHex: "#a02d2d",
+    glowIntensity: "moderate",
+    threadDescription: "Threads now form a discernible pattern across the figure — a Hellbox sigil-trace at chest level, a thin red embroidery on collar / cuff. Visible in normal light.",
+  },
+  bound: {
+    band: "bound",
+    colorHex: "#c12121",
+    glowIntensity: "pronounced",
+    threadDescription: "The pattern is unmistakable. Red thread runs from temple to wrist, pulsing faintly with the crew's heartbeat. Eyes carry a red rim at the lower lid.",
+  },
+  claimed: {
+    band: "claimed",
+    colorHex: "#ff1a1a",
+    glowIntensity: "luminous",
+    threadDescription: "Saturated red glow envelops the figure. Eyes are fully red. The thread no longer cosmetic — it is structural. The Game-Master meta-arc fires.",
+  },
+};
+
 /** Narrative flag fired on band crossing — the meta-arc system polls
  *  these to advance the Hierarchy / Game-Master arc. */
 export function bandToFlag(band: BloodWeaveBand): string {
