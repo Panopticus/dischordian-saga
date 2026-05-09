@@ -124,6 +124,7 @@ import { prestigeRouter } from "./routers/prestige";
 import { graduateLegionRouter } from "./routers/graduateLegion";
 import { outbreakRouter } from "./routers/outbreak";
 import { communityCodexRouter } from "./routers/communityCodex";
+import { communityInvestigationRouter } from "./routers/communityInvestigation";
 import { performanceRouter } from "./routers/performance";
 import { deadMansCircuitRouter } from "./routers/deadMansCircuit";
 import { livingUniverseRouter } from "./routers/livingUniverse";
@@ -298,6 +299,7 @@ export const appRouter = router({
   graduateLegion: graduateLegionRouter,
   outbreak: outbreakRouter,
   communityCodex: communityCodexRouter,
+  communityInvestigation: communityInvestigationRouter,
   performance: performanceRouter,
   deadMansCircuit: deadMansCircuitRouter,
   livingUniverse: livingUniverseRouter,
