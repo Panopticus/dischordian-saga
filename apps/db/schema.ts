@@ -5600,6 +5600,58 @@ export const npcPublicFlags = mysqlTable("npc_public_flags", {
 }));
 export type NpcPublicFlagRow = typeof npcPublicFlags.$inferSelect;
 
+/**
+ * Per-NPC episodic memory (NPC depth #6).
+ *
+ * Each row records one memorable thing an NPC has noticed about the
+ * player, keyed by an event-key from apps/shared/npcs/memoryEvents.ts.
+ * Memories are *episodic* — distinct from npc_public_flags (which are
+ * binary, sticky, and globally readable). A memory carries:
+ *
+ *   - eventKey: the typed event-key (e.g. "convoy_spared",
+ *     "loredex_citation", "casino_hot_streak") declared in the
+ *     memory-event registry.
+ *   - polarity: -1, 0, +1 — derived by the writer service from the
+ *     event payload, used by the selector's synthetic-flag projection
+ *     to pick the right pre-voiced variant line.
+ *   - payload: free-form JSON for the writer to attach context (which
+ *     specific convoy was spared, which Loredex entry was cited, etc.)
+ *     so future variant lines can reference specifics.
+ *
+ * Memories are written by the rippleEngine + npcMemoryService when a
+ * recorded event happens. The selector reads them via
+ * synthesizeMemoryFlags() in apps/shared/npcs/memoryEvents.ts and
+ * matches them against per-line `unlockFlags`.
+ *
+ * Optional expiresAt supports "fresh memory" semantics — a memory
+ * past its expiry is treated as forgotten. Default-null memories
+ * persist for the lifetime of the save.
+ */
+export const npcMemory = mysqlTable("npc_memory", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  /** NpcKey from apps/shared/npcs/types.ts. */
+  npcKey: varchar("npcKey", { length: 64 }).notNull(),
+  /** Event-key from apps/shared/npcs/memoryEvents.ts MEMORY_EVENT_REGISTRY. */
+  eventKey: varchar("eventKey", { length: 96 }).notNull(),
+  /** Polarity: -1 = disapproved, 0 = noticed, +1 = approved. */
+  polarity: int("polarity").notNull().default(0),
+  /** Optional JSON payload (specifics the variant line may interpolate). */
+  payload: json("payload").$type<Record<string, unknown>>(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  /** Null = persistent. Set for fading-memory semantics. */
+  expiresAt: timestamp("expiresAt"),
+}, (table) => ({
+  userIdIdx: index("idx_npc_memory_user_id").on(table.userId),
+  userNpcEventIdx: index("idx_npc_memory_user_npc_event").on(
+    table.userId,
+    table.npcKey,
+    table.eventKey,
+  ),
+}));
+export type NpcMemoryRow = typeof npcMemory.$inferSelect;
+export type InsertNpcMemory = typeof npcMemory.$inferInsert;
+
 /* ═══════════════════════════════════════════════════════
    TRADE EMPIRE PHASE 2 — Brokers + multi-stage Contracts
    See apps/shared/tradeEmpire/{brokers,contracts,
