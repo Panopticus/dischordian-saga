@@ -660,12 +660,36 @@ export const tradeEmpireRouter = router({
         durationMs,
         reward: (activeRow.reward ?? {}) as MissionState["reward"],
       };
+      // §8.10 Frontier Rotation: missions completed in an active
+      // frontier sector earn a +50% reward modifier. §8.9 Edicts:
+      // active edicts may stack a credit-bonus on top.
+      let rewardModifier = 1.0;
+      try {
+        const { isFrontierSector, FRONTIER_REWARD_MULTIPLIER } = await import(
+          "../services/frontierRotationService"
+        );
+        if (isFrontierSector(mission.sectorId)) {
+          rewardModifier *= FRONTIER_REWARD_MULTIPLIER;
+        }
+        const { applyEdictModifier } = await import(
+          "../services/edictsService"
+        );
+        rewardModifier = await applyEdictModifier(rewardModifier, ctx.user.id);
+      } catch (modErr) {
+        console.warn("[TradeEmpire] reward modifier failed", modErr);
+      }
       const r = mission.reward;
+      // Apply the modifier to dream/influence rewards (post-clamp on
+      // both fields so the modifier never makes a negative reward).
+      const baseDream = r.dream && r.dream > 0 ? r.dream : 0;
+      const baseInfluence = r.influence && r.influence > 0 ? r.influence : 0;
+      const modifiedDream = Math.round(baseDream * rewardModifier);
+      const modifiedInfluence = Math.round(baseInfluence * rewardModifier);
 
       // 1) Move active → completed log; bump aggregates.
       await deleteActiveMission(db, ctx.user.id, mission.id);
-      const dreamEarned = r.dream && r.dream > 0 ? r.dream : 0;
-      const influenceEarned = r.influence && r.influence > 0 ? r.influence : 0;
+      const dreamEarned = modifiedDream;
+      const influenceEarned = modifiedInfluence;
       const { totalMissionsCompleted } = await recordCompletion(
         db,
         ctx.user.id,
@@ -1469,6 +1493,33 @@ export const tradeEmpireRouter = router({
         "vex_solene",
         "wraith_calder",
       ];
+      // §8.1 Narrative Sectors: if this sector has story ownership,
+      // post a public-knowledge event tagged with the narrative
+      // flag. Dialog nodes gate on the flag downstream; the
+      // post is also surfaced in the gossip layer (§8.6).
+      try {
+        const { storyOwnership } = await import("@shared/tradeEmpire/narrativeSectors");
+        const story = storyOwnership(input.sectorId);
+        if (story) {
+          const { postPublicKnowledge } = await import("../services/publicKnowledgeService");
+          const { seasonClockService } = await import("../services/seasonClockService");
+          await postPublicKnowledge({
+            userId: ctx.user.id,
+            eventKind: "anomaly_discovered",
+            subjectHouseKey: null,
+            summary: story.loreContext,
+            payload: {
+              sectorId: story.sectorId,
+              ownerNpcKey: story.ownerNpcKey,
+              flagKey: story.flagKey,
+              dialogNodeKey: story.dialogNodeKey,
+            },
+            seasonNumber: seasonClockService.getState().seasonNumber,
+          });
+        }
+      } catch (storyErr) {
+        console.warn("[TradeEmpire] narrative sector flag failed", storyErr);
+      }
       const npcGreetings: Array<{
         npcKey: NpcKey;
         lineId: string;

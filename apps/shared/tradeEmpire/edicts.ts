@@ -101,6 +101,98 @@ export const EDICT_REGISTRY: Readonly<Record<string, EdictDef>> = {
     ],
     bonus: { kind: "defense_wave_intensity_mult", mult: 0.7 },
   },
+  "edict.severance_alignment": {
+    edictKey: "edict.severance_alignment",
+    name: "Severance Alignment",
+    loreContext:
+      "Sign with Severance Division for a season. Acquisitions reads the alignment as preference; the player's missions through Severance lanes lock in clean.",
+    costDeltas: [
+      { houseKey: "hierarchy_acquisitions", delta: -12 },
+    ],
+    bonus: { kind: "mission_credit_bonus_pct", pct: 18 },
+  },
+  "edict.acquisitions_proxy": {
+    edictKey: "edict.acquisitions_proxy",
+    name: "Acquisitions Proxy",
+    loreContext:
+      "Lend the player's seal to an Acquisitions takeover. The blood-weave ledger thickens favourably; Severance files the alignment under leverage.",
+    costDeltas: [
+      { houseKey: "hierarchy_severance", delta: -10 },
+      { houseKey: "thaloria_council", delta: -8 },
+    ],
+    bonus: { kind: "mission_influence_bonus", amount: 18 },
+  },
+  "edict.shelfmate_priority": {
+    edictKey: "edict.shelfmate_priority",
+    name: "Shelf-mate Priority",
+    loreContext:
+      "Direct provenance traffic through the Antiquarian Shelf-mates first. Daniel Cross writes a margin note. The Casino Floor's spread closes wider, in protest.",
+    costDeltas: [
+      { houseKey: "antiquarian_casino", delta: -12 },
+    ],
+    bonus: { kind: "demand_probability_reduction_pct", targetHouse: "antiquarian_shelfmates", pct: 60 },
+  },
+  "edict.freeport_charter": {
+    edictKey: "edict.freeport_charter",
+    name: "Free Ports Charter",
+    loreContext:
+      "Adopt the Coalition's barter charter for a season. Authority's Ledger refuses to honour your contracts in their core sectors; the Free Ports honour them everywhere.",
+    costDeltas: [
+      { houseKey: "nb_authoritys_ledger", delta: -10 },
+    ],
+    bonus: { kind: "mission_credit_bonus_pct", pct: 12 },
+  },
+  "edict.silent_year": {
+    edictKey: "edict.silent_year",
+    name: "Silent Year",
+    loreContext:
+      "Match the Wraith Hierophant's silence for a full season. The Council does not announce; the recovery ledger thickens. Authority interprets the silence as compliance.",
+    costDeltas: [
+      { houseKey: "hierarchy_syndicate_of_death", delta: -12 },
+    ],
+    bonus: { kind: "demand_probability_reduction_pct", targetHouse: "thaloria_council", pct: 75 },
+  },
+  "edict.archivist_audit": {
+    edictKey: "edict.archivist_audit",
+    name: "Archivist Audit",
+    loreContext:
+      "Commission the Cross-References Desk for a season-long audit. Provenance trails clean up; the Casino's spreads narrow. Disenchant value drops slightly.",
+    costDeltas: [
+      { houseKey: "antiquarian_casino", delta: -8 },
+    ],
+    bonus: { kind: "disenchant_dream_mult", mult: 0.85 },
+  },
+  "edict.frontier_conscription": {
+    edictKey: "edict.frontier_conscription",
+    name: "Frontier Conscription",
+    loreContext:
+      "Declare the frontier sectors a conscription zone. Mission rewards in those sectors balloon; Civic Engineers and Free Ports both refuse to acknowledge the order.",
+    costDeltas: [
+      { houseKey: "nb_civic_engineers", delta: -10 },
+      { houseKey: "ind_freeports", delta: -10 },
+    ],
+    bonus: { kind: "mission_credit_bonus_pct", pct: 30 },
+  },
+  "edict.sovereigns_quietude": {
+    edictKey: "edict.sovereigns_quietude",
+    name: "Sovereign's Quietude",
+    loreContext:
+      "Negotiate a ceasefire of pretence with the Thought Virus's Sovereign's Circle. Most missions are safer; some Authority-aligned brokers refuse you entirely.",
+    costDeltas: [
+      { houseKey: "nb_authoritys_ledger", delta: -15 },
+    ],
+    bonus: { kind: "defense_wave_intensity_mult", mult: 0.55 },
+  },
+  "edict.architects_petition": {
+    edictKey: "edict.architects_petition",
+    name: "Architect's Petition",
+    loreContext:
+      "Petition the Architect's Court for a season of substrate cooperation. The lattice grants minor uplifts. The Substrate Rebels and the Human will not forget.",
+    costDeltas: [
+      { houseKey: "ae_substrate_rebels", delta: -15 },
+    ],
+    bonus: { kind: "mission_influence_bonus", amount: 30 },
+  },
 };
 
 export type EdictKey = keyof typeof EDICT_REGISTRY;

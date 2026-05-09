@@ -106,7 +106,9 @@ export function computeSeasonAdvance(
     let tickNumber = cur.tickNumber;
     let lastTickAt: number | null = cur.lastTickAt;
 
-    // Entering prologue: next season begins.
+    // Entering prologue: next season begins. Frontier rotation
+    // (§8.10) is dispatched from runSeasonTick once the transition
+    // list is built, since it requires async helpers.
     if (incoming === "prologue") {
       newSeasonNumber = cur.seasonNumber + 1;
       declaration = selectDeclarationForSeason(newSeasonNumber);
@@ -167,6 +169,19 @@ export async function runSeasonTick(now: number = Date.now()): Promise<SeasonTic
     await seasonClockService.setState(next);
   }
 
+  // §8.10 Frontier Rotation — fire on the interregnum→prologue
+  // boundary. Convergence Climax open phase freezes rotation.
+  if (transitions.some(t => t.enteredPhase === "prologue")) {
+    try {
+      const { rotateFrontier } = await import("./frontierRotationService");
+      const { getConvergenceClimaxState } = await import("./convergenceClimaxService");
+      const climax = await getConvergenceClimaxState();
+      rotateFrontier(next.seasonNumber, climax?.phase === "open");
+    } catch (err) {
+      logger.warn("[seasonTick] frontier rotate failed:", err);
+    }
+  }
+
   // Side-effects: declarations + active-user agenda ticks.
   for (const t of transitions) {
     if (t.declaration) {
@@ -201,6 +216,15 @@ export async function runSeasonTick(now: number = Date.now()): Promise<SeasonTic
       } catch (err) {
         logger.error("[seasonTick] demand generation failed:", err);
       }
+    }
+    // §8.4 Living Sector Economies — once per agenda tick, simulate
+    // NPC factions trading without the player. Saturation moves
+    // whether or not anyone logs in.
+    try {
+      const { runNpcDriftTick } = await import("./npcEconomyDriftService");
+      await runNpcDriftTick();
+    } catch (err) {
+      logger.warn("[seasonTick] npc drift failed:", err);
     }
   }
 
