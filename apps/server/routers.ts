@@ -143,6 +143,7 @@ import { fnord23Router } from "./routers/fnord23";
 import { oracleDeckRouter } from "./routers/oracleDeck";
 import { imprintsRouter } from "./routers/imprints";
 import { factionsRouter } from "./routers/factions";
+import { shadowTongueRedactionsRouter } from "./routers/shadowTongueRedactions";
 import { celebrationRouter } from "./routers/celebration";
 import { crossGameThreadsRouter } from "./routers/crossGameThreads";
 import { arkThemesRouter } from "./routers/arkThemes";
@@ -314,6 +315,7 @@ export const appRouter = router({
   oracleDeck: oracleDeckRouter,
   imprints: imprintsRouter,
   factions: factionsRouter,
+  shadowTongueRedactions: shadowTongueRedactionsRouter,
   celebration: celebrationRouter,
   engagement: engagementRouter,
   dreamerVisions: dreamerVisionsRouter,

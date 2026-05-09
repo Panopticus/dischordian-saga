@@ -189,6 +189,25 @@ async function fireWorldStep(
     logger.warn("[agendaEngine] world step public knowledge failed:", err),
   );
 
+  // NPC depth #12 — surface this stage fire in the player's
+  // session-resume report. Failures are best-effort; the agenda
+  // tick must not block on tick-event persistence.
+  await import("./tickEventService").then(({ recordTickEvent }) =>
+    recordTickEvent({
+      userId,
+      payload: {
+        kind: "npc_agenda_stage_fired",
+        npcKey: agenda.npcKey,
+        agendaKey: agenda.agendaKey,
+        stageId: stage.stageId,
+        stageLabel: stage.label,
+      },
+      summary: stage.worldStepSummary,
+    }),
+  ).catch(err =>
+    logger.warn("[agendaEngine] tick event record failed:", err),
+  );
+
   const nextStatus = { ...fullStatus, [stage.stageId]: "world_fired" as const };
   await setStageStatus(
     rowId,
@@ -328,6 +347,23 @@ export async function counterAgendaStep(
     seasonNumber: seasonState.seasonNumber,
   }).catch(err =>
     logger.warn("[agendaEngine] counter public knowledge failed:", err),
+  );
+
+  // NPC depth #12 — countered counter shows up in the player's
+  // session-resume report.
+  await import("./tickEventService").then(({ recordTickEvent }) =>
+    recordTickEvent({
+      userId,
+      payload: {
+        kind: "npc_agenda_countered",
+        npcKey: agenda.npcKey,
+        agendaKey: agenda.agendaKey,
+        stageId: stage.stageId,
+        counterDescription: stage.counter.description,
+      },
+    }),
+  ).catch(err =>
+    logger.warn("[agendaEngine] counter tick event record failed:", err),
   );
 
   // Mark stage countered.

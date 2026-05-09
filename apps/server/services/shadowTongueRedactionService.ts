@@ -52,6 +52,7 @@ export async function fireRevealTrigger(
   const db = await getDb();
   if (!db) return;
   const triggerKey = encodeTriggerKey(trigger);
+  let isNewlyFired = false;
   try {
     await db.insert(shadowTongueRedactions).values({
       userId,
@@ -59,6 +60,7 @@ export async function fireRevealTrigger(
       triggerKey,
       redactionState: null,
     });
+    isNewlyFired = true;
   } catch (err) {
     // Unique violation = already fired = no-op.
     const msg = err instanceof Error ? err.message : String(err);
@@ -69,6 +71,22 @@ export async function fireRevealTrigger(
         err: msg,
       });
     }
+  }
+  // NPC depth #12 — tick-event surface for the player's session-
+  // resume report. Only records on first fire (idempotency keeps
+  // the resume report from over-counting reveals).
+  if (isNewlyFired) {
+    const { recordTickEvent } = await import("./tickEventService");
+    await recordTickEvent({
+      userId,
+      payload: {
+        kind: "shadow_tongue_redaction_revealed",
+        entryId,
+        revealedBy: trigger.kind,
+      },
+    }).catch(err =>
+      logger.warn("[ShadowTongueRedactions] reveal tick event failed", err),
+    );
   }
 }
 
