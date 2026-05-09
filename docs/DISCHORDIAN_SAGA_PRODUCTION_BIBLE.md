@@ -257,11 +257,35 @@ first.
 
 ### 4.5 Trade Empire + Faction War
 
-- Trade Empire — `apps/client/src/game/TradeEmpirePage.tsx` + tRPC `trade*`
-  routers
-- Faction War — `apps/client/src/data/factionWarData.ts`,
-  `factionWarEvents.ts`
-- Marketplace — `apps/client/src/pages/MarketplacePage.tsx`
+**Trade Empire** is one system experienced through three layers — Map (economy),
+Court (politics), and Convergence (climax pressure). The data spine is shared:
+both layers read the same `BROKER_REGISTRY`, write the same `tradeContracts`
+table, and reference the singleton `convergenceClimaxState`. They live behind
+two routers because they capture orthogonal concerns, not because they're
+separate features.
+
+- **Map layer** (economic) — `apps/client/src/game/TradeEmpirePage.tsx`,
+  router `apps/server/routers/tradeEmpire.ts`. 26 sectors, mission dispatch,
+  Oracle futures (24h cycle), spy covers, route milestones (5/10/25/50),
+  contract effect interpreter (10 effect kinds), per-sector reputation with
+  control-level rollover.
+- **Court layer** (political) — `apps/client/src/pages/TradeCourtPage.tsx`,
+  router `apps/server/routers/tradeCourt.ts`. 24 sub-houses across 9
+  factions, 7 seasonal declarations, agenda engine (NPC plans that advance
+  whether you engage), demand pay/refuse/forge tribute, public-knowledge
+  feed. Driven by the season tick (`apps/server/services/seasonTickService.ts`,
+  5-min interval, 4-phase clock).
+- **Convergence layer** (climax) — `apps/server/services/convergenceClimaxService.ts`,
+  schema-first via `convergenceClimaxState`, `tradeRouteSaturation`,
+  `tradeResearchRaces`. Doom clock + saturation HUD client UI is the next
+  Phase D.5 deliverable.
+- **Cross-feed wiring** — mission completion bumps dominant sub-house rep
+  with active-declaration amplification; tribute payment lifts the demanding
+  house's anchor-sector reputation; uncountered agenda steps push the
+  Convergence doom clock. Pinned by source-scan tests in
+  `apps/server/tradeEmpireCrossFeed.test.ts`.
+- **Faction War** — `apps/client/src/data/factionWarData.ts`, `factionWarEvents.ts`.
+- **Marketplace** — `apps/client/src/pages/MarketplacePage.tsx`.
 
 ### 4.6 Holiday + event system
 

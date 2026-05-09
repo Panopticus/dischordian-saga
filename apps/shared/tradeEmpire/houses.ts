@@ -446,6 +446,33 @@ export function isKnownSubHouseKey(key: string): key is SubHouseKey {
 }
 
 /**
+ * Sub-houses whose `primarySectorId` matches the given sector. Multiple
+ * houses may share a sector (e.g. trade_nexus is shared between
+ * Authority's Ledger and Civic Engineers); the cross-feed wiring picks
+ * the first as the dominant face for rep deltas. Returns [] for sectors
+ * outside the political map (most pure-economic sectors).
+ */
+export function subHousesForSector(
+  sectorId: string,
+): ReadonlyArray<SubHouseDef> {
+  return Object.values(SUB_HOUSE_REGISTRY).filter(
+    h => h.primarySectorId === sectorId,
+  );
+}
+
+/**
+ * Pick the dominant sub-house for cross-feed rep deltas from a sector.
+ * Convention: first registered house with `primarySectorId === sectorId`.
+ * Returns null if the sector has no registered political face.
+ */
+export function dominantSubHouseForSector(
+  sectorId: string,
+): SubHouseDef | null {
+  const candidates = subHousesForSector(sectorId);
+  return candidates[0] ?? null;
+}
+
+/**
  * Compute rep deltas for a primary action against one sub-house.
  * Returns a map from SubHouseKey → delta. The primary house gets the
  * full +primaryDelta; its rival gets -(primaryDelta * rivalryIntensity).
