@@ -12,12 +12,12 @@
     "wraith_calder": "Vogq3iKs5PJ3cL39gFhW",
     "the_oracle": "mpeeKhhSuOwXIwvKclcn",
     "the_seer": "BTfBVfMM9XgZG8GG1bJn",
-    "drael_mon": "TODO_DRAEL_MON"
+    "drael_mon": "ts3xd1UbeTpZBMUn3Rjv"
   },
   "casting_status": {
-    "cast_and_pinned": ["locke", "nilmorg", "the_antiquarian", "the_degen", "elara", "human", "wraith_calder", "the_oracle", "the_seer"],
-    "uncast_todo": ["drael_mon"],
-    "notes": "Only drael_mon remains uncast (2 lines across climax_resolution_scenes). Casting brief embedded under casting_briefs.drael_mon below. All 5 broker packs (locke / nilmorg / the_antiquarian / the_degen / wraith_calder) are now recordable end-to-end."
+    "cast_and_pinned": ["locke", "nilmorg", "the_antiquarian", "the_degen", "elara", "human", "wraith_calder", "the_oracle", "the_seer", "drael_mon"],
+    "uncast_todo": [],
+    "notes": "All 10 speakers cast. All 233 lines are immediately recordable. Casting brief for drael_mon retained under casting_briefs.drael_mon as a director's reference for the recording session."
   },
   "casting_briefs": {
     "drael_mon": {

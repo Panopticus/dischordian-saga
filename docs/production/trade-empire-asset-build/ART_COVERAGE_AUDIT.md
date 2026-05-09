@@ -84,7 +84,7 @@ Per companion (3+): fleet silhouette + 1 cinematic moment of taking command. Tot
 
 `apps/shared/tradeEmpireVoLinePacks.json` ships a `speaker_voice_ids` registry that resolves each line to its ElevenLabs voice ID at sync time. State as of this commit:
 
-**Cast and pinned (9 speakers — 231 of 233 lines immediately recordable):**
+**Cast and pinned (10 of 10 speakers — all 233 lines immediately recordable):**
 
 | Speaker | Voice ID | Source |
 |---|---|---|
@@ -97,22 +97,19 @@ Per companion (3+): fleet silhouette + 1 cinematic moment of taking command. Tot
 | `wraith_calder` | `Vogq3iKs5PJ3cL39gFhW` | producer-supplied |
 | `the_oracle` | `mpeeKhhSuOwXIwvKclcn` | producer-supplied |
 | `the_seer` | `BTfBVfMM9XgZG8GG1bJn` | producer-supplied |
+| `drael_mon` | `ts3xd1UbeTpZBMUn3Rjv` | producer-supplied |
 
-**Uncast — TODO placeholders (1 speaker):**
+**Uncast — TODO placeholders:** none.
 
-| Speaker | Placeholder | Blocks |
-|---|---|---|
-| `drael_mon` | `TODO_DRAEL_MON` | 2 lines across climax_resolution_scenes (climax.trade_sector + climax.negotiate_armistice) |
+The casting brief for `drael_mon` is retained at `apps/shared/tradeEmpireVoLinePacks.json#casting_briefs.drael_mon` as a director's reference for the recording session.
 
-A casting brief for `drael_mon` is embedded inline at `apps/shared/tradeEmpireVoLinePacks.json#casting_briefs.drael_mon` for the casting call.
+**Line totals** (all authored, all tied to a speaker, all recordable):
 
-**Line totals** (all authored, all tied to a speaker):
-
-- Brokers: 5 packs × ~30 lines = 145 lines (all 5 packs end-to-end recordable)
+- Brokers: 5 packs × ~30 lines = 145 lines
 - Sub-house demands: 22 sub-houses × 3 = 66 lines
 - Declaration heralds: 7 lines
 - Climax resolution scenes: 18 lines (3 scenes × 6 NPCs avg)
-- **Total: 233 lines**, of which **231 are immediately recordable** (9 cast speakers) and **2 block on casting** (Drael'Mon climax lines).
+- **Total: 233 lines, all 233 immediately recordable.** No `--skip-todo` needed at sync time.
 
 ## Summary
 
