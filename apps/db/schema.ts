@@ -4632,8 +4632,17 @@ export const casinoState = mysqlTable("casino_state", {
   sessionLosses: int("sessionLosses").notNull().default(0),
   /** VIP tier 0-5 */
   vipLevel: int("vipLevel").notNull().default(0),
-  /** Daily free plays remaining */
+  /** Daily free plays remaining (legacy single-counter; preserved for
+   *  backwards-compat — the new per-game rotation lives in
+   *  `freeSpinsByGame` below). */
   freeSpinsLeft: int("freeSpinsLeft").notNull().default(3),
+  /** Per-game free-spin allotment for today (audit/16 PR 3 —
+   *  rotating-spins engagement loop). Resets at UTC midnight to the
+   *  day's grant: weekdays grant 1 spin to a single rotating game
+   *  (slots / pazaak / dice / roulette / high_low); weekends grant 1
+   *  spin to two games. JSON-shape `{ [gameId]: count }`. Empty/null
+   *  is the "no free spins remaining" state. */
+  freeSpinsByGame: json("freeSpinsByGame").$type<Record<string, number>>().default({}),
   /** Progressive jackpot pool contribution */
   jackpotContribution: int("jackpotContribution").notNull().default(0),
   /** Unscratched scratch cards in inventory */

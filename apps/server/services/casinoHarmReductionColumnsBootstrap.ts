@@ -19,6 +19,11 @@ const STATEMENTS: { name: string; sql: string }[] = [
     name: "casino_state.dailyVoidCasesOpened",
     sql: "ALTER TABLE `casino_state` ADD COLUMN `dailyVoidCasesOpened` INT NOT NULL DEFAULT 0",
   },
+  {
+    // audit/16 PR 3 — rotating free-spins engagement column.
+    name: "casino_state.freeSpinsByGame",
+    sql: "ALTER TABLE `casino_state` ADD COLUMN `freeSpinsByGame` JSON",
+  },
 ];
 
 let bootstrapPromise: Promise<void> | null = null;

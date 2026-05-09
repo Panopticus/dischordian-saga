@@ -11,6 +11,7 @@ import {
   evaluatePokerHand,
   rollCraps, spinWheel, vipLevelFor, vipWinBonus, validateBet,
   MAX_DAILY_WAGER, MAX_DAILY_NET_LOSS, MAX_DAILY_VOID_CASES, GAME_LIMITS, isFreeToPlayGame,
+  ROTATING_FREE_SPIN_GAMES, dayOfYearFromUtcDate, freeSpinsForToday,
   splitJackpotPool, JACKPOT_SEED_FRACTION, JACKPOT_MIN_SEED,
   rewardsForAchievement, getCasinoCosmetic,
   CASINO_ACHIEVEMENT_REWARDS, CASINO_COSMETIC_CATALOG,
@@ -639,3 +640,69 @@ describe("isFreeToPlayGame", () => {
     expect(isFreeToPlayGame("")).toBe(false);
   });
 });
+
+
+/* ─── audit/16 PR 3 — rotating free-spins ─── */
+
+describe("dayOfYearFromUtcDate", () => {
+  it("returns 0 for January 1", () => {
+    expect(dayOfYearFromUtcDate("2026-01-01")).toBe(0);
+  });
+  it("returns 31 for February 1 (after 31 January days)", () => {
+    expect(dayOfYearFromUtcDate("2026-02-01")).toBe(31);
+  });
+  it("handles leap years (2024-02-29 → day 59)", () => {
+    expect(dayOfYearFromUtcDate("2024-02-29")).toBe(59);
+    expect(dayOfYearFromUtcDate("2024-03-01")).toBe(60);
+  });
+  it("non-leap-year Feb 29 is invalid; March 1 is day 59", () => {
+    expect(dayOfYearFromUtcDate("2026-03-01")).toBe(59);
+  });
+});
+
+describe("freeSpinsForToday — rotating engagement loop", () => {
+  it("grants exactly one game on weekdays", () => {
+    // 2026-05-04 is a Monday (UTC dow=1).
+    const grant = freeSpinsForToday("2026-05-04");
+    const total = Object.values(grant).reduce((s, n) => s + n, 0);
+    expect(total).toBe(1);
+  });
+
+  it("grants two games on weekends (Saturday)", () => {
+    // 2026-05-09 is a Saturday (UTC dow=6).
+    const grant = freeSpinsForToday("2026-05-09");
+    const total = Object.values(grant).reduce((s, n) => s + n, 0);
+    expect(total).toBe(2);
+  });
+
+  it("grants two games on weekends (Sunday)", () => {
+    // 2026-05-10 is a Sunday (UTC dow=0).
+    const grant = freeSpinsForToday("2026-05-10");
+    const total = Object.values(grant).reduce((s, n) => s + n, 0);
+    expect(total).toBe(2);
+  });
+
+  it("rotates through all 5 games over 5 consecutive weekdays", () => {
+    // Jan 5-9 2026 are Mon-Fri.
+    const seen = new Set<string>();
+    for (let day = 5; day <= 9; day++) {
+      const date = `2026-01-0${day}`;
+      const grant = freeSpinsForToday(date);
+      for (const [game, count] of Object.entries(grant)) {
+        if (count > 0) seen.add(game);
+      }
+    }
+    expect(seen.size).toBe(5);
+    for (const g of ROTATING_FREE_SPIN_GAMES) {
+      expect(seen.has(g)).toBe(true);
+    }
+  });
+
+  it("only grants spins to ROTATING_FREE_SPIN_GAMES (never to social games)", () => {
+    const grant = freeSpinsForToday("2026-05-04");
+    for (const game of Object.keys(grant)) {
+      expect(ROTATING_FREE_SPIN_GAMES).toContain(game);
+    }
+  });
+});
+

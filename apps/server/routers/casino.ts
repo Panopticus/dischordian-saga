@@ -38,7 +38,7 @@ import {
   playCardBattlersGauntlet, playFactionWarBet, playVoidBingo, playVoidCase,
   scoreMahjongRun,
   validateBet, vipLevelFor, vipWinBonus, MAX_DAILY_WAGER, MAX_DAILY_NET_LOSS,
-  MAX_DAILY_VOID_CASES, isFreeToPlayGame,
+  MAX_DAILY_VOID_CASES, isFreeToPlayGame, freeSpinsForToday,
   ROULETTE_FACTIONS, GAME_LIMITS, splitJackpotPool, rewardsForAchievement,
   getCasinoCosmetic,
   type RouletteFaction,
@@ -305,6 +305,10 @@ async function ensureCasinoState(db: DbLike, userId: number) {
     // Reset daily counters on date roll
     const today = todayString();
     if (existing.dailyCounterDate !== today) {
+      // audit/16 PR 3 — rotating free-spins. Pre-compute today's
+      // grant so the per-game record refreshes on the same UTC
+      // boundary as the rest of the daily counters.
+      const todayFreeSpins = freeSpinsForToday(today);
       await db
         .update(casinoState)
         .set({
@@ -315,6 +319,7 @@ async function ensureCasinoState(db: DbLike, userId: number) {
           dailyVoidCasesOpened: 0,
           dailyCounterDate: today,
           freeSpinsLeft: 3,
+          freeSpinsByGame: todayFreeSpins,
         })
         .where(eq(casinoState.userId, userId));
       return {
@@ -324,14 +329,19 @@ async function ensureCasinoState(db: DbLike, userId: number) {
         dailyVoidCasesOpened: 0,
         dailyCounterDate: today,
         freeSpinsLeft: 3,
+        freeSpinsByGame: todayFreeSpins,
       };
     }
     return existing;
   }
+  const today = todayString();
   await db.insert(casinoState).values({
     userId,
     totalWagered: 0,
-    dailyCounterDate: todayString(),
+    dailyCounterDate: today,
+    // audit/16 PR 3 — seed today's rotating free-spin grant so the
+    // brand-new player also gets variety from day one.
+    freeSpinsByGame: freeSpinsForToday(today),
   });
   const [fresh] = await db.select().from(casinoState).where(eq(casinoState.userId, userId)).limit(1);
   return fresh!;
@@ -371,8 +381,12 @@ async function executeGame(
     const state = await ensureCasinoState(tx, userId);
     const balance = await ensureDreamBalance(tx, userId);
 
-    // Enforce daily wager cap (free-to-play games bypass)
-    if (bet > 0 && state.dailyWagered + bet > MAX_DAILY_WAGER) {
+    // Enforce daily wager cap (free-to-play games bypass).
+    // Free-spin consumption (audit/16 PR 3) also bypasses — no Dream
+    // is at risk, so it shouldn't count against the wager cap.
+    const _willConsumeFreeSpin =
+      bet > 0 && (((state.freeSpinsByGame ?? {}) as Record<string, number>)[game] ?? 0) > 0;
+    if (bet > 0 && !_willConsumeFreeSpin && state.dailyWagered + bet > MAX_DAILY_WAGER) {
       throw new Error(`Daily wager cap reached (${MAX_DAILY_WAGER} Dream/day)`);
     }
     // audit/16 GA4 — enforce daily net-loss cap. If the player has
@@ -394,7 +408,14 @@ async function executeGame(
       throw err;
     }
 
-    if (bet > 0 && !opts.skipBetDeduction) {
+    // audit/16 PR 3 — rotating free-spins consumption. If the player
+    // has a free spin allotted to today's eligible game, burn it
+    // instead of deducting Dream from their balance. The bet still
+    // flows through to runGame() so payouts compute normally; only
+    // the balance debit is skipped.
+    const freeSpinsByGame = (state.freeSpinsByGame ?? {}) as Record<string, number>;
+    const freeSpinAvailable = bet > 0 && (freeSpinsByGame[game] ?? 0) > 0;
+    if (bet > 0 && !opts.skipBetDeduction && !freeSpinAvailable) {
       if (balance.dreamTokens < bet) throw new Error("Insufficient Dream tokens");
       await tx
         .update(dreamBalance)
@@ -460,9 +481,20 @@ async function executeGame(
     // audit/16 GA4 — track net loss for the daily loss cap. Free-to-play
     // games never feed this counter; winning hands subtract from it
     // (clamped at 0) so the counter reflects current pain rather than
-    // gross volume.
-    const netLossDelta = isFreeToPlayGame(game) ? 0 : bet - finalPayout;
+    // gross volume. Free-spin consumption also bypasses the loss
+    // counter — the player didn't risk Dream, so they can't lose it.
+    const netLossDelta = isFreeToPlayGame(game) || freeSpinAvailable
+      ? 0
+      : bet - finalPayout;
     const newDailyLost = Math.max(0, state.dailyLost + netLossDelta);
+    // audit/16 PR 3 — decrement consumed free spin in the per-game
+    // record. Empty {} stored when zero-balance to keep the JSON tidy.
+    const nextFreeSpinsByGame: Record<string, number> = { ...freeSpinsByGame };
+    if (freeSpinAvailable) {
+      const remaining = (nextFreeSpinsByGame[game] ?? 0) - 1;
+      if (remaining > 0) nextFreeSpinsByGame[game] = remaining;
+      else delete nextFreeSpinsByGame[game];
+    }
     const updates = {
       totalWagered: newTotalWagered,
       totalWon: state.totalWon + finalPayout,
@@ -473,8 +505,11 @@ async function executeGame(
       degenFavor: Math.min(100, state.degenFavor + favorGain),
       totalBetsPlaced: state.totalBetsPlaced + 1,
       vipLevel: vipLevelFor(newTotalWagered),
-      dailyWagered: state.dailyWagered + bet,
+      // Free-spin consumption skips the wager-cap accumulator too —
+      // the bet wasn't actually placed against the player's balance.
+      dailyWagered: state.dailyWagered + (freeSpinAvailable ? 0 : bet),
       dailyLost: newDailyLost,
+      freeSpinsByGame: nextFreeSpinsByGame,
       gamesPlayed: gamesPlayedNext,
       gamesWon: gamesWonNext,
       consecutiveFactionWins: newConsecutiveFactionWins,

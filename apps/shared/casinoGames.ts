@@ -787,6 +787,73 @@ export const MAX_DAILY_NET_LOSS = 1000;
  *  ensureCasinoState's daily-counter reset. */
 export const MAX_DAILY_VOID_CASES = 5;
 
+/* ─── Rotating free-spins (audit/16 PR 3 engagement loop) ─── */
+
+/** Five eligible games for the daily rotation. Slots is the most
+ *  commonly-played casino game (highest volume, lowest stakes), and
+ *  the rotation drives diversity into the rest. Order is meaningful
+ *  — the daily index is `dayOfYear % 5`, so sequential days walk
+ *  through the list deterministically. */
+export const ROTATING_FREE_SPIN_GAMES = [
+  "void_slots",
+  "pazaak_21",
+  "entropy_dice",
+  "quantum_roulette",
+  "high_low",
+] as const;
+export type RotatingFreeSpinGame = (typeof ROTATING_FREE_SPIN_GAMES)[number];
+
+/** Convert a YYYY-MM-DD UTC string to its day-of-year integer (0-365).
+ *  Pure helper, no Date timezone dependence beyond the input. */
+export function dayOfYearFromUtcDate(yyyymmdd: string): number {
+  const [yStr, mStr, dStr] = yyyymmdd.split("-");
+  const year = parseInt(yStr ?? "0", 10);
+  const month = parseInt(mStr ?? "0", 10);
+  const day = parseInt(dStr ?? "0", 10);
+  // Days-per-month with leap-year handling.
+  const isLeap = (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+  const dpm = [31, isLeap ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+  let total = 0;
+  for (let m = 1; m < month; m++) total += dpm[m - 1] ?? 0;
+  total += day - 1;
+  return total;
+}
+
+/** Compute today's free-spin grant given a UTC YYYY-MM-DD string.
+ *  Weekdays grant 1 spin to a single rotating game; weekends (Sat
+ *  + Sun) grant 1 spin to TWO games (today's + tomorrow's slot in
+ *  the rotation) — the audit asked for a "thicker weekend" so the
+ *  variety surfaces over a typical 2-day play window.
+ *
+ *  Pure helper; UI + server both call this so the client can render
+ *  the FREE-SPIN badge without an extra round-trip. */
+export function freeSpinsForToday(yyyymmdd: string): Record<RotatingFreeSpinGame, number> {
+  const result: Record<RotatingFreeSpinGame, number> = {
+    void_slots: 0,
+    pazaak_21: 0,
+    entropy_dice: 0,
+    quantum_roulette: 0,
+    high_low: 0,
+  };
+  const doy = dayOfYearFromUtcDate(yyyymmdd);
+  const len = ROTATING_FREE_SPIN_GAMES.length;
+  const today = ROTATING_FREE_SPIN_GAMES[doy % len];
+  if (today) result[today] = 1;
+  // Detect weekend via Date.getUTCDay; valid YYYY-MM-DD parses cleanly.
+  const dow = new Date(`${yyyymmdd}T00:00:00Z`).getUTCDay();
+  const isWeekend = dow === 0 || dow === 6;
+  if (isWeekend) {
+    const second = ROTATING_FREE_SPIN_GAMES[(doy + 1) % len];
+    if (second && second !== today) result[second] = 1;
+    else if (second === today) {
+      // edge — shouldn't happen with len=5 but defensive: bump to next.
+      const fallback = ROTATING_FREE_SPIN_GAMES[(doy + 2) % len];
+      if (fallback) result[fallback] = 1;
+    }
+  }
+  return result;
+}
+
 export interface BetLimits {
   min: number;
   max: number;
