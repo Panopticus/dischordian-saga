@@ -52,6 +52,7 @@ import { checkNpcDialogueCoverage } from "./checks/npcDialogueCoverage";
 import { checkMissionFactoryConsumerCoverage } from "./checks/missionFactoryConsumerCoverage";
 import { checkLoredexMemberCarryWired } from "./checks/loredexMemberCarryWired";
 import { checkPersonalQuestSubtaskAuthoring } from "./checks/personalQuestSubtaskAuthoring";
+import { checkNpcBanterCommentCoverage } from "./checks/npcBanterCommentCoverage";
 
 export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
   // ─── Card engine ──────────────────────────────────────────
@@ -417,8 +418,16 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     id: "personal_quest.subtask_authoring",
     name: "Personal-quest sub-task authoring",
     description:
-      "Every (NPC | apprentice) × stage in the personal-quest chains declares ≥3 sub-tasks. Tier-2 NPCs and apprentices have 3 stages; tier-3 NPCs have a single cosmic encounter. Lands at RATCHET — apprentice subtasks land in a follow-up authoring pass.",
+      "Every (NPC | apprentice) × stage in the personal-quest chains declares ≥3 sub-tasks. Tier-2 NPCs and apprentices have 3 stages; tier-3 NPCs have a single cosmic encounter. Hard parity once apprentice authoring lands; ratcheted during rollout.",
     check: () => checkPersonalQuestSubtaskAuthoring(),
+    ratchet: { target: 0 },
+  },
+  {
+    id: "npc.banter_comment_coverage",
+    name: "NPC banter + reactive-comment coverage",
+    description:
+      "Every NamedNpcKey has ≥3 reactive comments in NPC_REACTIVE_COMMENTS and ≥3 banter pairs in NPC_BANTER_PAIRS. Hard parity at landing; ratcheted to prevent authoring regressions.",
+    check: () => checkNpcBanterCommentCoverage(),
     ratchet: { target: 0 },
   },
 ];

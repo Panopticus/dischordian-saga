@@ -303,6 +303,36 @@ function buildMissionTags(ctx: MissionFactoryContext): string[] {
   return out;
 }
 
+/** Public helper — consumers that author CrewMissionTemplate entries
+ *  by hand can call this to attach the standard tag set without
+ *  going through the full generateMission() pipeline. Used by the
+ *  static template lists (crewMissions.ts CREW_MISSION_TEMPLATES,
+ *  tradeMissions, etc.) so personal-quest sub-tasks
+ *  (`mission_tag_complete`) work uniformly across procedural and
+ *  hand-authored missions.
+ *
+ *  factionKey is required (sub-tasks gate on it); the rest are
+ *  inferred from the template's existing fields.
+ */
+export function tagsForTemplate(args: {
+  factionKey: string;
+  difficulty: MissionDifficultyBand;
+  archetypeAffinity?: string;
+  npcAffinity?: string;
+  bloodlineKey?: string;
+}): string[] {
+  return buildMissionTags({
+    id: "_tagsOnly",
+    source: "story",
+    seed: 0,
+    factionKey: args.factionKey,
+    difficulty: args.difficulty,
+    archetypeAffinity: args.archetypeAffinity,
+    npcAffinity: args.npcAffinity,
+    bloodlineKey: args.bloodlineKey,
+  });
+}
+
 /** Build a deterministic id for a generated mission. */
 export function missionFactoryId(
   source: MissionSource,

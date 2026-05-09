@@ -35,6 +35,7 @@ import {
 } from "../services/apprenticePersonalQuestService";
 import { APPRENTICE_IDENTITIES } from "../../shared/apprenticeIdentity";
 import type { ApprenticeArchetype } from "../../shared/apprentices";
+import { evaluateAllSubtasks } from "../services/apprenticeQuestSubtaskService";
 
 const ARCHETYPE_KEYS = Object.keys(APPRENTICE_IDENTITIES) as ApprenticeArchetype[];
 
@@ -62,7 +63,9 @@ function unwrapMember(state: Awaited<ReturnType<typeof loadCrewState>>, memberKe
 }
 
 export const apprenticePersonalQuestsRouter = router({
-  /** Read the player's progress + the authored stage copy. */
+  /** Read the player's progress + the authored stage copy. Returns
+   *  per-stage sub-task completion state so the panel can render
+   *  the per-stage checklist. */
   getStatus: protectedProcedure
     .input(z.object({ memberKey: z.string().min(1).max(64) }))
     .query(async ({ ctx, input }) => {
@@ -70,6 +73,17 @@ export const apprenticePersonalQuestsRouter = router({
       const { member, archetype } = unwrapMember(state, input.memberKey);
       const progress = await getQuestProgress(ctx.user.id, input.memberKey);
       const identity = APPRENTICE_IDENTITIES[archetype];
+      // Evaluate subtask completion for each stage. The panel needs
+      // all three stages so it can render the checklist for the
+      // current stage and a faded preview for upcoming stages.
+      const subStage1 = identity.personalQuest.stage1.subtasks ?? [];
+      const subStage2 = identity.personalQuest.stage2.subtasks ?? [];
+      const subStage3 = identity.personalQuest.stage3.subtasks ?? [];
+      const [s1, s2, s3] = await Promise.all([
+        evaluateAllSubtasks(ctx.user.id, member.id, subStage1),
+        evaluateAllSubtasks(ctx.user.id, member.id, subStage2),
+        evaluateAllSubtasks(ctx.user.id, member.id, subStage3),
+      ]);
       return {
         memberKey: member.id,
         archetype,
@@ -77,6 +91,11 @@ export const apprenticePersonalQuestsRouter = router({
         progress,
         chain: identity.personalQuest,
         gates: STAGE_BOND_GATE,
+        subtasks: {
+          stage1: { refs: subStage1, completed: s1.completed, allComplete: s1.allComplete },
+          stage2: { refs: subStage2, completed: s2.completed, allComplete: s2.allComplete },
+          stage3: { refs: subStage3, completed: s3.completed, allComplete: s3.allComplete },
+        },
       };
     }),
 
@@ -96,7 +115,8 @@ export const apprenticePersonalQuestsRouter = router({
       return { ok: true, progress };
     }),
 
-  /** Advance 1 → 2 or 2 → 3. */
+  /** Advance 1 → 2 or 2 → 3. Bond gate AND all sub-tasks of the
+   *  current stage must be complete. */
   advance: protectedProcedure
     .input(
       z.object({
@@ -106,7 +126,7 @@ export const apprenticePersonalQuestsRouter = router({
     )
     .mutation(async ({ ctx, input }) => {
       const state = await loadCrewState(ctx.user.id);
-      const { member } = unwrapMember(state, input.memberKey);
+      const { member, archetype } = unwrapMember(state, input.memberKey);
       const requiredBond =
         input.fromStage === 1
           ? STAGE_BOND_GATE.advance_to_2
@@ -115,6 +135,21 @@ export const apprenticePersonalQuestsRouter = router({
         throw new TRPCError({
           code: "PRECONDITION_FAILED",
           message: `Bond ${member.loyalty} < ${requiredBond}. The next stage needs deeper trust.`,
+        });
+      }
+      // Sub-task gate — every sub-task of the *current* stage must be
+      // complete before the player can advance past it.
+      const identity = APPRENTICE_IDENTITIES[archetype];
+      const stageKey = input.fromStage === 1 ? "stage1" : "stage2";
+      const subs = identity.personalQuest[stageKey].subtasks ?? [];
+      const evalRes = await evaluateAllSubtasks(ctx.user.id, member.id, subs);
+      if (!evalRes.allComplete) {
+        const firstIncomplete = subs[evalRes.completed.findIndex((c) => !c)];
+        throw new TRPCError({
+          code: "PRECONDITION_FAILED",
+          message: firstIncomplete
+            ? `Sub-task not yet complete: ${firstIncomplete.label}`
+            : `Stage ${input.fromStage} sub-tasks are not yet complete.`,
         });
       }
       const progress = await advanceStage(ctx.user.id, member.id, input.fromStage);

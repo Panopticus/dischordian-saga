@@ -361,6 +361,27 @@ export function tickMissions(state: CrewState, now: number): CrewState {
       });
     }
 
+    // Mission-completion log entries (one per assigned member). Drained
+    // by the server router into crew_mission_completion_log so
+    // apprenticeQuestSubtaskService.validateMissionTagComplete can
+    // confirm `mission_tag_complete` sub-tasks. Casualties get a
+    // "failure" outcome regardless of mission success; survivors and
+    // injured share the mission's overall success/failure outcome.
+    if (mission.tags && mission.tags.length > 0) {
+      const overall = resolved.resolution?.success ? "success" : "failure";
+      for (const memberId of mission.assignedCrewIds) {
+        const wasCasualty = resolved.resolution?.casualties.includes(memberId);
+        newSideEffects.push({
+          kind: "mission_completion",
+          memberKey: memberId,
+          missionId: mission.id,
+          tags: [...mission.tags],
+          outcome: wasCasualty ? "failure" : (overall as "success" | "failure"),
+          completedAtMs: now,
+        });
+      }
+    }
+
     const survivorIds =
       resolved.resolution?.survived ??
       updatedMembers

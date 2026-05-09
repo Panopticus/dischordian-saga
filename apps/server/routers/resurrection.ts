@@ -202,6 +202,31 @@ export const resurrectionRouter = router({
         if (await ensureObituary(eff.deceasedMemberKey, undefined, eff.diedAtMs)) {
           drained++;
         }
+      } else if (eff.kind === "mission_completion") {
+        // Persist a mission completion log entry so
+        // apprenticeQuestSubtaskService can validate mission_tag_complete
+        // sub-tasks against this row. Idempotent on
+        // (userId, memberKey, missionId).
+        try {
+          const db = await import("../db").then((m) => m.getDb());
+          if (db) {
+            const { crewMissionCompletionLog } = await import("../../db/schema");
+            const { sql } = await import("drizzle-orm");
+            await db
+              .insert(crewMissionCompletionLog)
+              .values({
+                userId: ctx.user.id,
+                memberKey: eff.memberKey,
+                missionId: eff.missionId,
+                tags: eff.tags,
+                outcome: eff.outcome,
+              })
+              .onDuplicateKeyUpdate({ set: { completedAt: sql`CURRENT_TIMESTAMP` } });
+            drained++;
+          }
+        } catch {
+          // Logging is best-effort.
+        }
       } else if (eff.kind === "carry_memorial_sweep") {
         // Stamp memorialAtCycle on every unread loredex carry row for
         // the dead member. The entries become memorial-only — readable
@@ -285,7 +310,8 @@ export const resurrectionRouter = router({
         eff.kind !== "open_resurrection_quest" &&
         eff.kind !== "apprentice_obituary" &&
         eff.kind !== "mourning_sweep" &&
-        eff.kind !== "carry_memorial_sweep",
+        eff.kind !== "carry_memorial_sweep" &&
+        eff.kind !== "mission_completion",
     );
     await saveCrewState(ctx.user.id, {
       ...state,

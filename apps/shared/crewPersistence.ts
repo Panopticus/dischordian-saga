@@ -272,6 +272,11 @@ export interface CrewMissionState {
   failureReward?: CrewMissionReward;
   cost?: CrewMissionCost;
   status: CrewMissionStatus;
+  /** Procedural tag set inherited from the source template. Mirrored
+   *  here so the casualty branch in crewTick can write
+   *  crew_mission_completion_log rows with the right tags without
+   *  re-resolving the template. */
+  tags?: string[];
   resolution?: {
     resolvedAt: number;
     success: boolean;
@@ -412,6 +417,18 @@ export type PendingCrewSideEffect =
       deceasedMemberKey: string;
       deathCycle: number;
       diedAtMs: number;
+    }
+  | {
+      /** One per (memberKey, missionId, outcome) on mission resolution.
+       *  Drained by the server router by inserting a row into
+       *  crew_mission_completion_log so apprenticeQuestSubtaskService
+       *  can validate `mission_tag_complete` sub-tasks. */
+      kind: "mission_completion";
+      memberKey: string;
+      missionId: string;
+      tags: string[];
+      outcome: "success" | "partial" | "failure";
+      completedAtMs: number;
     };
 
 /** Ambient ghost-effect entry written when a crew member dies. */
