@@ -132,7 +132,8 @@ SUB_HOUSE_DESIGN_BRIEFS = {
         ),
         "sample_text": (
             "Zero Doctrine requests. The Engineer does not, in this case, sign "
-            "the request; the doctrine signs."
+            "the request; the doctrine signs. Centralised, surgical, "
+            "doctrinaire — bring it without commentary, without decoration."
         ),
     },
     "insurgency_old_network": {
@@ -144,7 +145,8 @@ SUB_HOUSE_DESIGN_BRIEFS = {
         ),
         "sample_text": (
             "The Old Network requests. We predate the Engineer; the request "
-            "predates him too. Bring it."
+            "predates him too. Bring it. Sleeper-cell tradition holds that the "
+            "request is also a test — pass it, and we'll let you know."
         ),
     },
     "ae_architects_court": {
@@ -168,8 +170,9 @@ SUB_HOUSE_DESIGN_BRIEFS = {
             "negotiating."
         ),
         "sample_text": (
-            "Sovereign's Circle asks. The viral aristocracy negotiates; we are, "
-            "today, negotiating with you."
+            "Sovereign's Circle asks. The viral aristocracy negotiates; we "
+            "are, today, negotiating with you. Kael's inner circle requests "
+            "an instrument; the Sovereign appreciates instruments precisely."
         ),
     },
     "ind_freeports": {
@@ -180,8 +183,9 @@ SUB_HOUSE_DESIGN_BRIEFS = {
             "Trustworthy without sounding earnest."
         ),
         "sample_text": (
-            "Free Ports Coalition asks at standard barter rates. We do not hide "
-            "clauses; the asking is the clause."
+            "Free Ports Coalition asks at standard barter rates. We do not "
+            "hide clauses; the asking is the clause. The Coalition's response "
+            "is equivalent value at the next port — we honour our currency."
         ),
     },
     "ind_unaligned": {
@@ -304,6 +308,16 @@ def cmd_preview(args):
 
     for speaker, brief in work.items():
         print(f"[{speaker}] generating 3 previews...")
+        # Preflight: ElevenLabs Voice Design requires 20-1000 char description
+        # and 100-1000 char text. Surface clear errors before the API call.
+        desc_len = len(brief["voice_description"])
+        text_len = len(brief["sample_text"])
+        if desc_len < 20 or desc_len > 1000:
+            print(f"  SKIP: voice_description is {desc_len} chars (must be 20-1000)", file=sys.stderr)
+            continue
+        if text_len < 100 or text_len > 1000:
+            print(f"  SKIP: sample_text is {text_len} chars (must be 100-1000)", file=sys.stderr)
+            continue
         try:
             previews = design_previews(
                 speaker, brief["voice_description"], brief["sample_text"]
