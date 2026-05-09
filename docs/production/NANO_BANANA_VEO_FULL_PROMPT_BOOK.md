@@ -2627,6 +2627,101 @@ guild-room renders**.
 
 ---
 
+## 14. Trade Empire sectors × prosperity states
+
+### 14.0 Render contract
+
+- **Format**: WEBP, sRGB, 1920×1080. House style §1.1, palette anchors §1.2.
+- **Asset prefix**: `art/sectors/<sector_id>/<prosperity_state>.webp`. The "default" 1920×1080 render is the **lit** state.
+- **Cross-reference**: the named-sector base palettes are already authored in `apps/shared/tradeEmpireArtPrompts.ts` (the SECTOR_PAINTING export). Carry those palettes verbatim into the prosperity-state variants. Do NOT re-paint the named sectors from scratch.
+- **NPC density**: workers / merchants / soldiers vary by prosperity. Render at the densities below as small silhouettes — runtime sprite-overlays NOT used for sectors.
+
+### 14.1 Universal prosperity-state matrix
+
+The same 5 prosperity states apply to **every** sector. Each state shifts
+lighting, decay, density, and faction-presence consistently across sector
+types.
+
+> **`lit` — community prosperous**
+> - Lighting: bright, key-light at golden-hour angle from camera-left.
+> - Worker / merchant density: visibly active, ~30–40 silhouettes appropriate to sector.
+> - Construction: scaffolding visible at one sector landmark (always-improving).
+> - Energy output: high — visible holographic meter on the central infrastructure.
+> - Faction presence: player-aligned banners or none.
+> **`dimming` — decline visible**
+> - Lighting: amber-shifted, sun lower, harsher shadows.
+> - Worker density: ~10–15 silhouettes, sporadic.
+> - Construction: scaffolding abandoned, materials in stacks.
+> - Energy: flickers — meter bouncing around half-strength.
+> - Faction presence: contested — render small clusters of unidentified armed figures at 2–3 perimeter points.
+> **`dark` — AI Empire control**
+> - Lighting: red emergency-strip dominant, key-light killed; everything backlit by red security floods.
+> - Worker density: ~5 silhouettes, bowed posture, oppression implied.
+> - Construction: nothing — only enforcement gantries; barbed-wire equivalents.
+> - Energy: forced-high (wired into Empire's grid) — meter pinned, but the sector itself has no warm-light internally.
+> - Faction presence: AI Empire enforcers visible at every entrance / chokepoint (~6 silhouettes total). The Architect's seal / Authority sigil prominently displayed.
+> **`consumed` — Thought Virus**
+> - Lighting: sickly purple corruption tint over everything; void-static at the screen edges.
+> - Worker density: ~3 silhouettes, glitched/infected (render with subtle visual-distortion artifacts at their outlines).
+> - Construction: decaying — sector landmarks crumbling; void-space bleeding through cracks in walls / hull / sky.
+> - Energy: erratic — meter in chaos / NaN-glyph display.
+> - Faction presence: none recognizable; the corruption itself is the controlling presence.
+> **`reclaimed` — player victory**
+> - Lighting: returns to lit-like brightness but with subtle cyan-cream undertone (Bridge of Kael shield color).
+> - Worker density: ~30 silhouettes, restored, posture upright.
+> - Construction: rebuilding — scaffolding new, materials fresh, banners-of-hope.
+> - Energy: high — meter glowing cyan-cream.
+> - Faction presence: player-faction banners + a single cyan-cream Bridge-of-Kael memorial-statue at the central plaza.
+
+### 14.2 Sector-type catalog
+
+Each base sector type carries its own focal element + worker density logic. Compose the universal-state matrix per sector type.
+
+#### `space_port`
+> **Focal**: docking bays with cargo loaders. Merchant vessels moored at quays. Trading-post buildings in mid-distance. Asset: `art/sectors/space_port/<state>.webp`.
+
+#### `mining_colony`
+> **Focal**: excavation equipment + ore-storage silos. Worker settlements at sector edge. Mineral-deposit holograms floating above the dig-site. Asset: `art/sectors/mining_colony/<state>.webp`.
+
+#### `research_station`
+> **Focal**: laboratory domes (transparent-glass at lit, opaque at dark). Data-transmission arrays at perimeter. Scientific equipment fields. Asset: `art/sectors/research_station/<state>.webp`.
+
+#### `agricultural_world`
+> **Focal**: crop fields (or hydroponic gardens if space-based). Silos. Harvest machinery. Settler communities at field-edges. Asset: `art/sectors/agricultural_world/<state>.webp`.
+
+#### `manufacturing_hub`
+> **Focal**: industrial factories with assembly lines visible. Robotic-worker clusters. Product-storage warehouses. Smoke-stacks (output color shifts with prosperity — clean cyan when lit, choking gray when dark). Asset: `art/sectors/manufacturing_hub/<state>.webp`.
+
+#### `trade_nexus`
+> **Focal**: central marketplace. Holographic price-boards. Merchant convoys arriving / departing at perimeter. Asset: `art/sectors/trade_nexus/<state>.webp`.
+
+### 14.3 Named sector palettes (carried from `tradeEmpireArtPrompts.ts`)
+
+Each named sector below = one base sector-type rendered in **all 5 prosperity states**. Carry the palette anchors verbatim.
+
+| Sector id | Base type | Palette | Lit-state special note |
+|---|---|---|---|
+| `sector_trade_nexus` | trade_nexus | Authority red, brass, deep city-blue | Hub-of-hubs; render slightly larger central marketplace than other trade_nexus instances |
+| `sector_new_babylon_core` | trade_nexus | Deep indigo, Authority red, window-gold | Capital prominence; render Authority sigil prominently |
+| `sector_new_babylon_lower_tiers` | manufacturing_hub | Soot-black, rust, neon-cyan puddle-reflection | Underclass register; rain-soaked surfaces |
+| `sector_empire_frontier` | space_port | Bone-white, red-black trim, cold grey sky | Edge-of-empire; sparse infrastructure |
+| `sector_forge_worlds` | manufacturing_hub | Forge-orange, char-black, one thin cold cyan orbital ring | Volcanic-industry; lava channels visible |
+| `sector_thaloria_outskirts` | agricultural_world | Pearl-cream, deep-slate, amber morning-light | Faith-based; prayer-glyphs at field edges |
+| `sector_mechronis_periphery` | research_station | Indigo, brass, matte black industrial | Academy-adjacent; lecture-platform terraces |
+| `sector_ne_yon_periphery` | space_port | Royal purple, void-black, blood-orange | Void-leakage at perimeter; the Casino is implied at far horizon |
+| `sector_kael_pocket` | mining_colony | Ember-orange, charcoal, blood-red | Insurgency-lineage; banners of Iron-Lion's army at workers' camps |
+| `sector_terminus_edge` | space_port | Void-black, royal purple, blood-orange interior-rift glow | Closest to a void-rift; permanent corruption at perimeter |
+
+That's **10 named sectors × 5 prosperity states = 50 sector renders**.
+
+> **Render + upload §14**:
+> ```bash
+> pnpm tsx apps/scripts/upload-public-to-s3.ts --prefix art/sectors/
+> ```
+> **Wire**: extend `apps/shared/tradeEmpireArtPrompts.ts`'s SECTOR_PAINTING export with `<state>` keyed entries. Live-Light-Dark meter selects the matching state at runtime in `apps/client/src/game/TradeEmpirePage.tsx`.
+
+---
+
 ## End of prompt book
 
 For anything not covered here — Prelude beat audio re-uploads, FNORD-23
