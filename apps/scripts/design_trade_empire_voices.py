@@ -393,7 +393,17 @@ def cmd_save(args):
     print()
 
     saved = {}
+    skipped_already_cast = []
     for speaker, n in picks.items():
+        # Idempotency: skip if speaker already has a real voice ID. The
+        # caller can override with --force, but the default protects
+        # against accidentally creating duplicate voices in the library.
+        existing = voice_ids.get(speaker, "")
+        if existing and not existing.startswith("TODO") and not args.force:
+            print(f"  {speaker:35s} already cast as {existing} (use --force to overwrite)")
+            skipped_already_cast.append(speaker)
+            continue
+
         if speaker not in index:
             print(f"  WARN: {speaker} not in preview index; run preview first")
             continue
@@ -416,6 +426,10 @@ def cmd_save(args):
             print(f"  FAIL {speaker}: {e}", file=sys.stderr)
 
     if not saved:
+        if skipped_already_cast:
+            print(f"\nNothing saved — all {len(skipped_already_cast)} picks already cast.", file=sys.stderr)
+            print("Use --force to overwrite existing voice IDs.", file=sys.stderr)
+            sys.exit(0)
         print("\nNo voices saved.", file=sys.stderr)
         sys.exit(1)
 
@@ -463,9 +477,11 @@ def main():
     p_prev.set_defaults(func=cmd_preview)
 
     p_save = sub.add_parser("save", help="save chosen previews permanently to your voice library")
-    p_save.add_argument("--pick", nargs="+", metavar="SPEAKER=N",
-                        required=True,
-                        help="for each speaker, which preview index to save (1, 2, or 3)")
+    p_save.add_argument("--pick", metavar="SPEAKER=N",
+                        action="append", required=True,
+                        help="speaker=N; repeat once per speaker (e.g. --pick A=1 --pick B=2)")
+    p_save.add_argument("--force", action="store_true",
+                        help="re-save even if speaker_voice_ids already has a real (non-TODO) ID")
     p_save.set_defaults(func=cmd_save)
 
     p_list = sub.add_parser("list", help="list speakers in the design-brief registry")
