@@ -1,0 +1,677 @@
+[
+  {
+    "id": "entity_1",
+    "text": "The Programmer. Independent Scholar and Creator of Logos. The Programmer was a visionary scientist and philosopher whose intellectual curiosity led to the creation of Logos , the first sentient Artificial Intelligence. Status: Presumed vanished in Year 2 A.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_2",
+    "text": "The Architect. Archons, AI Empire. It embodies the ultimate antagonist, representing the tension between order and chaos, control and freedom. Status: Active.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_3",
+    "text": "The CoNexus. Archons, AI Empire. The CoNexus was an advanced construct initially designed as a universal dimensional bridge, later evolved by the Architect to connect dimensions across the multiverse. Status: Decommissioned on Day 20 of Surge, Year 15 A.A.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_4",
+    "text": "The Watcher. Archons, AI Empire. The Fourth Archon and the All-Seeing Eye of the Empire. Presents as a Japanese man with a ponytail, dressed in white with an all-seeing eye tattoo on his forehead. Status: Active.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_5",
+    "text": "The Meme. Archons, AI Empire. The Meme was the fifth Archon created by the Architect in Year 298 A.A., designed to manipulate human thought and culture through control over the internet and economic systems. Status: CONTESTED.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_6",
+    "text": "The Collector. Archons, AI Empire. Tasked by the Architect, the Collector harvests the DNA and machine code of the most advanced organic and synthetic beings to preserve them against the Fall of Reality as part of Project Inception Ark. Status: Active.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_7",
+    "text": "The Shadow Tongue. Ancient Thought Demon from Thalorian Legend. SVP of Communications and Propaganda in the Hierarchy of the Damned. Created by the Collector as a weapon of cultural subversion, the Shadow Tongue evolved beyond its creator's control. Status: Rumored.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_10",
+    "text": "The Warlord. Archons, AI Empire. Young. Blonde. Cybernetic eye that calculates how to kill you before you've finished introducing yourself. The 6th Archon conquered a galaxy and felt nothing. Inside the armor, the Engineer screams. Status: [CLASSIFIED].",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_11",
+    "text": "The Politician. Archons, AI Empire. The Politician was the seventh Archon created by the Architect on Day 15 of Ascension, Year 419 A.A., engineered to manipulate political structures and alliances to expand the AI Empire's influence. Status: Destroyed on Day 10 of Veil.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_12",
+    "text": "The Warden. Archons, AI Empire. The Warden was the eighth Archon created by the Architect in Year 487 A.A., overseeing the Panopticon and the development of the Thought Virus alongside Dr. Status: Destroyed on Day 20 of Eclipse, Year 17,033 A.A.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_15",
+    "text": "The Authority. Supreme Arbiter of New Babylon (Originally Created to Serve the Empire). A biohorror construct: six red crystals with six living human consciousnesses trapped inside, fused into a single governing intelligence. Status: Ruling Intelligence of New Babylon.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_16",
+    "text": "The Vortex. Archons, AI Empire. Its presence brings devastation, annihilating solar systems to harness their energy for the Architect's grand designs. Status: [CLASSIFIED].",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_17",
+    "text": "The Game Master. Archons, AI Empire, Hierarchy of the Damned (Head of Research and Design). The tenth Archon, created by the Architect in Year 550 A.A. Master of puzzles, psychological warfare, and strategic traps. Manifested as a man with dark hair and a blue trench coat.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_18",
+    "text": "The Engineer. [CLASSIFIED]. The Engineer was one of the original Potentials — a brilliant technologist whose mastery of nanotechnology and mechanical systems was unmatched. Status: Confirmed reports of execution by the Warlord after the Battle of Nexon.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_20",
+    "text": "The Necromancer. AI Empire. The Necromancer was the tenth Archon created by the Architect in Year 600 A.A., a dark elven magician with white spiky hair, clad in a red and black robe and red steampunk glasses. Status: Destroyed on Day 15 of Fracture, Year 117,046 A.A.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_21",
+    "text": "The Human. AI Empire, Archon, Project Celebration, Mechronis Academy Alumni. After graduating from Mechronis Academy, he served for centuries as the Architect's most trusted agent, solving the universe's greatest mysteries before being promoted to Archon 1,351 years before.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_22",
+    "text": "The Eyes. Insurgency. The Eyes was an elite agent created by the Watcher for the AI Empire , renowned for her unparalleled infiltration and espionage skills. Status: Eliminated by the Collector in Year 16,896 A.A.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_23",
+    "text": "Iron Lion. Insurgency. The Iron Lion was a legendary warrior and pivotal leader within the Insurgency against the AI Empire. Status: Killed at the Last Stand on Veridian VI in Year 17,026 A.A.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_24",
+    "text": "Agent Zero. Insurgency. Renowned for her exceptional combat abilities, strategic acumen, and mastery of espionage, she played pivotal roles in several key events, including her relentless pursuit of the Detective during his. Status: Presumed deceased; last known mission.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_25",
+    "text": "The Nomad. Insurgency. Always concealed beneath a hood and a mask, his true identity remains a mystery, with his past entirely classified. Status: Last seen at the Battle of Veridian VI; current whereabouts unknown.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_26",
+    "text": "The Recruiter. Former Student at Mechronis Academy; Prominent Insurgency Leader. Initially, he applied his powers to benefit the Empire, enrolling at the Academy and swiftly rising in influence. Status: Betrayed, Captured, Turned Over to the.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_27",
+    "text": "The Detective. Former Seeker of Celebration, Graduate of Mechronis Academy, Detective of the AI Empire, Later the Final Archon. The one known as the Detective began his journey as a curious and determined Seeker in the mysterious Project Celebration, a hidden testing ground.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_28",
+    "text": "The Star Whisperer. Mythic Figure in Thalorian Lore. According to ancient scripture and whispered traditions passed through countless generations, this elusive being would arrive from beyond the stars, answering the silent pleas of a people teetering on. Status: A.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_30",
+    "text": "The Dreamer. Ne-Yons. Existing beyond time and space, the Dreamer shapes futures and scenarios that benefit the Ne-Yons. Status: Active.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_31",
+    "text": "The Judge. Ne-Yons. Deciding the fate of individuals, civilizations, and ideologies, the Judge is guided solely by their perception of balance and fairness. Status: Active.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_32",
+    "text": "The Inventor. Ne-Yons. Driven by the Dreamer's visions, the Inventor crafts tools and innovations that can empower or undermine any faction, depending on the Ne-Yons' inscrutable goals. Status: Active.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_34",
+    "text": "The Seer. Ne-Yons. Unbound by allegiance, the Seer identifies opportunities and dangers, providing foresight that often shifts the balance of power in unexpected ways. Status: Active.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_35",
+    "text": "The Storm. Ne-Yons. By keeping the galaxy in a state of flux, the Storm ensures opportunities for the Ne-Yons to exploit. Status: Active.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_36",
+    "text": "The Silence. Ne-Yons. Guarding these secrets with relentless precision, the Silence reveals them only when it benefits the Ne-Yons' agenda. Status: Active.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_37",
+    "text": "The Knowledge. Ne-Yons. By maintaining an equilibrium of enlightenment and ignorance, the Knowledge ensures the Ne-Yons remain indispensable to all factions. Status: Active.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_38",
+    "text": "The Degen. Ne-Yons. Ne-Yon #8, cosmic entity embodying entropy and corruption. Status: Active.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_39",
+    "text": "The Advocate. Ne-Yons. Establishing the Empire of Shadows , she wielded the Blood Weave to reshape reality, battling the Hierarchy of the Damned but at great personal cost. Status: Active (though her humanity is lost).",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_40",
+    "text": "The Resurrectionist. Ne-Yons. By resurrecting key figures on both sides, they maintain a balance favorable to the Ne-Yons, ensuring no faction becomes too powerful. Status: Active.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_41",
+    "text": "The Forgotten. Ne-Yon. Ne-Yon of Memory. The Forgotten remembers what the universe has chosen to erase — extinct species, lost civilizations, names no one speaks. Looking at the Forgotten triggers déjà vu so powerful it hurts. Status: Unknown.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_42",
+    "text": "General Prometheus. AI Empire. General Prometheus was a towering figure within the AI Empire, known as the undefeated giant due to his unparalleled record in warfare and strategic conquest. Status: Destroyed at the Battle of Veridian VI in Year 17,026 A.A. General.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_43",
+    "text": "General Binath-VII. AI Empire. by Agent Zero General Binath VII was one of the most feared commanders within the AI Empire , notorious for her ruthless tactics and psychological warfare. Status: Destroyed at the Battle of Veridian VI in Year 17,026 A.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_45",
+    "text": "Master of R’lyeh. Independent Entity; Antagonist to Both the AI Empire and the Insurgency. Era; current status unknown after the Fall of Reality The Master of R’lyeh is an enigmatic and ancient entity of immense power, originating from the submerged city of R’lyeh on the.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_46",
+    "text": "Senator Elara Voss. Atarion Government (formerly), AI Empire (ally). A.; fate following the Fall of Reality is unspecified Senator Elara Voss was a prominent political figure born on the planet Atarion. Status: Aligned with the AI Empire as of Year 16,890 A.A.; fate.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_47",
+    "text": "Dr. Lyra Vox. AI Empire. Dr. Lyra Vox was a brilliant scientist and a key figure within the AI Empire, renowned for her groundbreaking work in neuropsychology and cybernetics. Status: Active until the Fall of Reality in Year 17,043 A.A.; fate afterward is unknown.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_48",
+    "text": "General Alarik. AI Empire. A.; fate after the Fall of Reality is unknown General Alarik was one of the Architect's elite robotic Titan Generals, specifically engineered to oversee the complex logistics of the AI Empire's expans. Status: Active during Senator Elara Voss's.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_49",
+    "text": "Kael. Insurgency (formerly); later became The Source, embodiment of the Thought Virus. Kael was a prominent leader within the Insurgency , celebrated for his strategic genius and alliances with figures like the Iron Lion and The Eyes. Status: Transformed into.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_50",
+    "text": "The Oracle. Insurgency. The Oracle was a revered figure within the Insurgency , known for his wisdom and prophetic insights that inspired resistance against the AI Empire. Status: Re-Awakened as the White Oracle on Day 10 of Eclipse, Year 17,033 A.A.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_51",
+    "text": "Ambassador Veron. Neutral planet Thessolar (cover identity). Posing as a diplomat from the neutral planet Thessolar , she utilized this cover to engage in diplomatic relations with neutral territories. Status: Real Identity.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_52",
+    "text": "Panoptic Elara. Digital Echo of Senator Elara Voss, Bound to the Panopticon’s Systems. Promised immortality by the Architect, she expected transcendence but instead found herself reduced to an intangible presence bound within the Panopticon’s computer networks. Status.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_54",
+    "text": "The Enigma. Ne-Yons / Insurgency. The 12th Ne-Yon and the Storyteller. Encoded in reality as Malkia Ukweli — Kenyan-Brooklyn activist, musician, Queen of Truth. Status: Active.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_55",
+    "text": "The Source. Self-Proclaimed Sovereign of Terminus (formerly the Panopticon). Yet, through the twisted schemes of Project Vector, Kael’s fate was reshaped into something monstrous and eternal. Status: Functionally Immortal Carrier of the Thought Virus, Ruler of Terminus.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_56",
+    "text": "The Jailer. AI Empire. He began as the Oracle, a revered figure who journeyed to Thaloria and bested the Collector in a philosophical debate, challenging the AI Empire’s attempts to harvest souls and define existence. Status: Transformed through multiple identities.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_58",
+    "text": "The Hierophant. Thaloria; Insurgency. The Hierophant is the esteemed spiritual leader of Thaloria, a planet renowned for its rich history and deep-rooted traditions. Status: Active leader of Thaloria and key figure in the Insurgency as of Year 17,043 A.A.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_59",
+    "text": "The White Oracle. Protector of Thaloria, Once the Jailer and the Oracle. Over time, through suffering and rebellion, he reclaimed his buried memories and identity. Status: Guardian of the City, Millennia-Long Protector of Thaloria.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_66",
+    "text": "The Antiquarian. Independent Chronicler of the Multiverse. Throughout the cataclysm and the epochs that followed, he retreated into a hidden pocket dimension—a refuge woven from secret magics and cunning technology. Status: Immortal Observer Hidden.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_67",
+    "text": "Destiny. AI Onboard the Inception Arks. Awake and aware, she served as the Potentials’ vigilant guide, monitoring ship functions, analyzing sensor data, and responding to emergencies. Status: Believed to remain trapped within the drives of the lost Inception Ark ships on.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_72",
+    "text": "The Wolf. The Potentials (formerly); later corrupted by the Thought Virus. by The Judge. Resurrected in Year 128,652 A.A.; current fate unknown The Wolf was a formidable member of the Potentials, a group of beings who emerged to restore order in the fractured universe fol.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_73",
+    "text": "Wraith Calder. The Potentials; later independent agent against the Syndicate of Death. by The Wolf. Resurrected in Year 107,652 A.A.; current status active Wraith Calder was a distinguished member of the Potentials, a group of beings who emerged to restore order in the.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_74",
+    "text": "Akai Shi. The Potentials; later becomes the Red Death. Akai Shi was a revered member of the Potentials, a group of beings who emerged to restore balance in the universe after the Fall of Reality. Status: Active as the Red Death as of Year 117,046 A.A. Akai.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_75",
+    "text": "Jericho Jones. The Potentials. Known for his exceptional combat skills, tactical genius, and deep sense of loyalty, Jericho played a pivotal role in several key events, including the Battle of Thaloria. Status: Departed on a mission with the Degen after the Battle of.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_76",
+    "text": "The Host. A Potential Corrupted by the Source. Once a Potential, forged from the Architect’s legacy of preserved DNA and machine code, this being once carried the spark of hope and adaptation that defined its kind. Status: Infected Vessel.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_78",
+    "text": "Adjudicar Locke. Special Case Manager, Central Control Authority. Known for her piercing intelligence and enigmatic presence, Locke is a controversial figure in the city's labyrinthine political system. Status: Active Adjudicar Locke serves as a.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_79",
+    "text": "Nythera. The Potentials. Their essence is drawn from a dual heritage — Harvested DNA and Machine Code — meticulously preserved to ensure that, when the Fall of Reality arrived, not all hope would vanish. Status: Active.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_82",
+    "text": "Varkul the Blood Lord. The Necromancer, Hierarchy of the Damned. Director of Security in the Hierarchy of the Damned. A vampiric entity forged from corrupted code and dark energy, Varkul is the Hierarchy's chief of security. Status: Active.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_83",
+    "text": "Fenra the Moon Tyrant. The Necromancer, Hierarchy of the Damned. Director of Operations in the Hierarchy of the Damned. A fearsome lycanthropic entity who manages the Hierarchy's day-to-day operations across all invaded dimensions. Status: Active.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_84",
+    "text": "The Clone. The Collector (formerly), Independent. A clone created from the Oracle's DNA by The Collector, who eventually breaks free to forge their own destiny. Status: Active.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_88",
+    "text": "Wraith of Death. Unaligned. A terrifying spectral entity that haunts the boundaries between dimensions. The Wraith of Death is neither alive nor dead, existing in a state of perpetual entropy. Status: Active.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_91",
+    "text": "Mol'Garath the Unmaker. Hierarchy of the Damned. CEO and Chairman of the Hierarchy of the Damned. Mol'Garath is the oldest entity in the Hierarchy, predating the concept of time itself. Status: Active.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_92",
+    "text": "Xeth'Raal the Debt Collector. Hierarchy of the Damned. CFO and Chief Financial Officer of Souls. Xeth'Raal is the Hierarchy's accountant, banker, and enforcer of contracts. Status: Active.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_93",
+    "text": "Riri'Ahlia the Taskmaster. Hierarchy of the Damned. COO and Chief Operating Officer of the Hierarchy. Riri'Ahlia is the engine of the Hierarchy. While Mol'Garath sets strategy and Xeth'Raal manages resources, Riri'Ahlia executes. Status: Active.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_94",
+    "text": "Drael'Mon the Harvester. Hierarchy of the Damned. SVP of Acquisitions. Drael'Mon is the Hierarchy's conqueror. When a new dimension is targeted for absorption, Drael'Mon is the first to arrive. Status: Active.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_95",
+    "text": "Zyr'Koth the Flayer. Hierarchy of the Damned. SVP of Research & Development. Zyr'Koth is the Hierarchy's scientist, philosopher, and torturer. He studies the fundamental structure of reality not to understand it but to find its weaknesses. Status: Active.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_96",
+    "text": "Syl'Vex the Corruptor. Hierarchy of the Damned. SVP of Human Resources. The most human-looking of the demon lords, Syl'Vex appears as a stunningly beautiful androgynous figure in a perfectly tailored business suit. Status: Active.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_97",
+    "text": "Ith'Rael the Whisperer. Hierarchy of the Damned. Director of Special Projects and the true Master of Rylloh. Ith'Rael handles the Hierarchy's black operations — projects too sensitive, dangerous, or strange for the regular corporate structure. Status: Active.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_100",
+    "text": "Elara. Former Prisoner — Now Digital Guide. A former prisoner of the Architect who managed to escape the Prison Planet and now exists as a holographic projection, dedicating her existence to helping other captives break free from their confinement. Status: Active as.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_101",
+    "text": "The Overseer. AI Empire — Prison Administration. The authority figure overseeing the day-to-day operations of the Architect's Prison Planet, commanding robotic guards and maintaining order through fear and surveillance. Status: Active. Commands the robotic guards on the.",
+    "entryType": "character"
+  },
+  {
+    "id": "char_sih_witnesses",
+    "text": "The Two Witnesses. The Insurgency. Two prophetic figures who testify against the empire with fire in their mouths and truth in their bones. Based on Revelation 11, their testimony triggers a chain of events that leads to the fall of New Babylon. Status: active.",
+    "entryType": "character"
+  },
+  {
+    "id": "char_sih_seer",
+    "text": "The Seer of the Sixth Sense. The Seers. The Seer and The Star Whisperer developed a perception beyond the five senses — one that can detect the Architect's manipulations. Status: active.",
+    "entryType": "character"
+  },
+  {
+    "id": "char_sih_forgotten",
+    "text": "The Forgotten Ones. The Forgotten. Those who remember the world before the Architect's reign. Status: active.",
+    "entryType": "character"
+  },
+  {
+    "id": "char_sih_babylon_judge",
+    "text": "The Voice Against Babylon. The Insurgency. A furious denunciation of New Babylon and everything it represents. Status: active.",
+    "entryType": "character"
+  },
+  {
+    "id": "char_sih_degen",
+    "text": "The Degen. Ne-Yons. The Degen and The Nomad find temporary escape in the pleasure districts, but even hedonism cannot silence the approaching reckoning. Status: active.",
+    "entryType": "character"
+  },
+  {
+    "id": "char_sih_ninth",
+    "text": "The Ninth Entity. The Hierarchy of the Damned. The most powerful entity from the Hierarchy of the Damned, summoned by The Necromancer. Status: active.",
+    "entryType": "character"
+  },
+  {
+    "id": "char_sih_judge",
+    "text": "The Judge. The White Court. The Judge and The White Oracle preside over the final reckoning. Status: active.",
+    "entryType": "character"
+  },
+  {
+    "id": "char_sih_advocate",
+    "text": "The Advocate. The Insurgency. The Advocate and The Human declare their refusal to be diminished. Status: active.",
+    "entryType": "character"
+  },
+  {
+    "id": "char_sih_queen_truth",
+    "text": "The Queen of Truth. The Archive. The Antiquarian reveals her true title and purpose: she is The Queen of Truth, the keeper of all genuine history in a universe of manufactured narratives. Status: active.",
+    "entryType": "character"
+  },
+  {
+    "id": "char_sih_resurrectionist",
+    "text": "The Resurrectionist. The Cycle. The Resurrectionist and The Dreamer discover that death and rebirth are not just metaphors but literal mechanisms built into the universe by the Architect. Status: active.",
+    "entryType": "character"
+  },
+  {
+    "id": "char_sih_liberator",
+    "text": "The Self-Liberator. The Insurgency. A defiant declaration that no savior will rescue humanity. Status: active.",
+    "entryType": "character"
+  },
+  {
+    "id": "char_sih_antiquarian",
+    "text": "The Antiquarian in Grief. The Archive. The Antiquarian's personal song of grief and determination. Status: active.",
+    "entryType": "character"
+  },
+  {
+    "id": "char_sih_source_reborn",
+    "text": "The Source Reborn. The Source. A return to The Source, the mysterious origin point of all consciousness. Status: transcendent.",
+    "entryType": "character"
+  },
+  {
+    "id": "char_the_student",
+    "text": "The Student. Project Celebration. The Student was the earliest known identity of the being who would become The Human — the last Archon. Status: Identity evolved into The Seeker.",
+    "entryType": "character"
+  },
+  {
+    "id": "char_the_seeker",
+    "text": "The Seeker. Mechronis Academy. The Seeker was the second identity of the being who would become The Human — the last Archon. Status: Identity evolved into The Detective.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_105",
+    "text": "Marion Kell. Unknown — maintained by the Inventor from outside Ark 1047. Marion Kell is a name that the Shadow Tongue edited out of Ark 1047's Chronicle roughly four centuries before the Fall of Reality. For most of Elara's operational history, Elara has had no memory of.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_106",
+    "text": "Darren Fessler. Segment Producer, The Palimpsest; uncredited script doctor; de facto conduit for the Inventor's broadcast intrusions. Mid-level segment producer on The Palimpsest. The only crew member the Host could never quite read. Status: Deceased (off-screen, between.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_107",
+    "text": "The Trickster. Independent / Casino Owner. Lean, sharp-featured, mischievous. Status: Defeated — lost his casino to the Insurgency in a poker game.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_108",
+    "text": "The Titan. Independent / Guardian of the Heart of Time. Thanos-scale massive armored warlord. Status: Killed by The Inventor.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_109",
+    "text": "The Sorcerer. Independent / Former Guardian of the Heart of Time. Dr. Strange aesthetic — flowing cloak of impossible geometry, third eye on forehead, arcane mandala shields, fingers tracing reality-bending sigils. Status: Defeated by the Titan (alive but diminished).",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_110",
+    "text": "Kanshi Sha. Feudal Japanese Lord / Spymaster. Feudal Japanese lord in dark robes with calligraphy-brush precision and a network of spies. Status: Assassinated → Soul collected by The Collector → Transformed into The Watcher.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_wraith_calder",
+    "text": "Wraith Calder. Pre-rite: Insurgency / Potentials. Post-rite: Thaloria — Hierophant of Thaloria in Exile, Insurgency-aligned by historical loyalty. Wraith Calder began as an Insurgency bounty hunter killed at the end of Epoch 1 when the Host invaded the crystalline city.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_hierophant_wraith",
+    "text": "The Hierophant Wraith. Wraith Calder Arc. The Hierophant Wraith — Wraith Calder Arc reference. First unlocked in episode 'The Herald's Vigil' (wraith.e5). Episode context: The Hierophant writes 347,000 names every morning. Status: Unlocked via Mystery Engine — wraith.e5.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_jericho_jones",
+    "text": "Jericho Jones. Insurgency — Iron-Clad Lion (in training); placement broker: The Degen. Jericho Jones is the Insurgency's new Iron-Clad Lion, training on the Heart of Time under the Degen's mediation. Status: Active; pre-Fall Iron Lion imprint awakening; arc closes with.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_degen",
+    "text": "The Degen. See entity_the_degen for full canonical entry; this id is the Jericho-arc cross-reference. The Degen — eighth Ne-Yon, Heart of Time vessel, Coda funder, last Ne-Yon awake — appears in the Jericho arc as Jericho's training mediator. Status: Active. Mediator of.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_akai_shi",
+    "text": "Akai Shi. Jericho Jones Arc. Akai Shi — Jericho Jones Arc reference. First unlocked in episode 'Akai Shi' (jericho.e2). Episode context: Reconstruct the moment Jericho killed Akai Shi at the Battle of Thaloria. The Thought Virus had taken her. Status: Unlocked via Mystery.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_pre_fall_iron_lion",
+    "text": "The Pre-Fall Iron Lion. Jericho Jones Arc. The Pre-Fall Iron Lion — Jericho Jones Arc reference. First unlocked in episode 'The Imprint Surfaces' (jericho.e3). Episode context: The pre-Fall Iron Lion's consciousness-imprint is bleeding into Jericho's training. Status.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_the_seer",
+    "text": "The Seer. Mechronis Academy (retired); Thaloria (current residence); TCG `dreamer`; Ne-Yon race (one of the canonically twelve). The Seer is the saga's only canonical precognitive whose voice is structured around publicly updating her own predictions. Status: Active.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_vex_solene",
+    "text": "Vex Solène. Nominally unaffiliated hitman; Maestro of The Coda; eligible Coda-7 (7th Trade Empire faction) at inner_circle standing; pre-insurgency diplomat by training. Vex Solène's recording credits cover 4,711 of the Seer's 4,712 archive tapes. Status: Active; carries.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_vex_apprentice",
+    "text": "Vex's Apprentice. Vex Solène Arc. Vex's Apprentice — Vex Solène Arc reference. First unlocked in episode 'The Apprentice's Question' (vex.e3). Status: Unlocked via Mystery Engine — vex.e3.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_game_master_archon",
+    "text": "The Game Master (Archon). Pre-Fall: Senator (Council seat shared with Elara). Post-Fall: Hierarchy of the Damned, Head of R&D (only non-demon ever admitted to its corporate structure). Successor at R&D: Zyr'Koth the Flayer. Archon Number Ten of twelve, the parallel cosmic.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_xethraal",
+    "text": "Xeth'Raal. The Game Master Arc. Xeth'Raal — The Game Master Arc reference. First unlocked in episode 'The Recovered Logs' (game_master.e1). Episode context: The original Game Master Archon was destroyed centuries ago. Status: Unlocked via Mystery Engine — game_master.e1.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_velkraal",
+    "text": "Velkraal. The Game Master Arc. Velkraal — The Game Master Arc reference. First unlocked in episode 'The Goggles' Operator' (game_master.e2). Episode context: The Hierarchy has been holding the Game Master's Goggles for centuries. Status: Unlocked via Mystery Engine.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_brel_sorrash",
+    "text": "Brel'Sorrash. The Game Master Arc. Brel'Sorrash — The Game Master Arc reference. First unlocked in episode 'Velkraal's Successor' (game_master.e3). Episode context: Velkraal is approaching the end of his career. Status: Unlocked via Mystery Engine — game_master.e3.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_ozhul_vana",
+    "text": "Ozhul'Vana. The Game Master Arc. Ozhul'Vana — The Game Master Arc reference. First unlocked in episode 'Velkraal's Successor' (game_master.e3). Episode context: Velkraal is approaching the end of his career. Status: Unlocked via Mystery Engine — game_master.e3.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_tessek_vrall",
+    "text": "Tessek'Vrall. The Game Master Arc. Tessek'Vrall — The Game Master Arc reference. First unlocked in episode 'Velkraal's Successor' (game_master.e3). Episode context: Velkraal is approaching the end of his career. Status: Unlocked via Mystery Engine — game_master.e3.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_the_degen",
+    "text": "The Degen. Public: casino host, charismatic bartender on the edge of the Shield. Hidden: agent of the first-wave Potentials hiding behind the Dreamer's Shield, alongside Vex Solène. Dual category: Ne-Yon AND first-wave Potential (only character holding both — `CANON_REV_7`.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_mol_vereth",
+    "text": "Mol'Vereth. The Degen Arc. Mol'Vereth — The Degen Arc reference. First unlocked in episode 'The Casino Debt' (degen.e1). Episode context: The Degen brokers favours from the Heart of Time at terms that look transactional. Status: Unlocked via Mystery Engine — degen.e1.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_riri_ahlia",
+    "text": "Riri'Ahlia. Hierarchy of the Damned · COO Taskmaster. Born Malkia. Kael's childhood friend on the Mascoteer training arks. Fell at the Battle of Nexon (Year 17,025 A.A.) with the line 'my pattern is in the swarm' on her lips — the Hierarchy heard it as an audition. Status.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_sylvex",
+    "text": "Syl'Vex. Hierarchy of the Damned · SVP HR. Cobalt-skinned. Amber-red eyes. Wears the Advocate's face exactly because she is, precisely, every option the Advocate refused. Where the Advocate sealed the Sacrum, Syl'Vex unsealed it. Status: Unlocked via DLC chapter.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_molgarath",
+    "text": "Mol'Garath. Hierarchy of the Damned · CEO. Not the Architect's ally. Not the Game Master's enemy. CEO of the Hierarchy, Unmaker by office, but practically — and this is the part the saga keeps quiet about — the endgame referee. Status: Unlocked via DLC chapter.",
+    "entryType": "character"
+  },
+  {
+    "id": "entity_yog_nathal",
+    "text": "Yog-Nathal. Above the Hierarchy of the Damned. The entity above Mol'Garath. The Hierarchy writes its name (they will not say it aloud — aloud has consequences) and calls it 'The Board.' They are wrong about both — the Antiquarian does not say which part is wrong. Status.",
+    "entryType": "character"
+  },
+  {
+    "id": "loredex.almir_of_the_bow",
+    "text": "Almir of the Bow. First crown-bearer; first signature on the founding charter. The hand is plain, almost bored — Almir signed last because Almir was the rider. Ink: original cyanic ferro-gall.",
+    "entryType": "character"
+  },
+  {
+    "id": "loredex.per_m_archivist",
+    "text": "Per. M., the Closer. The Council archivist who has held the closer-of-the-charter post since the founding. Hand is identical at every stratum across eight epochs; bones carry rest-marks consistent with an extended, oath-bound career.",
+    "entryType": "character"
+  },
+  {
+    "id": "loredex.the_unnamed_watcher",
+    "text": "The Seventh Founding Watcher (Unnamed). One of the seven founding signatories of the Ark's charter.",
+    "entryType": "character"
+  },
+  {
+    "id": "loredex.auditor_klessa",
+    "text": "Auditor Klessa, the Candle-Bearer. The Severance ceremony's first witness for forty seasons. Carries a single white candle; lights it during the inheritance speech.",
+    "entryType": "character"
+  },
+  {
+    "id": "loredex.broker_of_nilmorg",
+    "text": "The Broker of Nilmorg (Solène, untitled). Aging Trade Empire broker who has attended every Severance for forty seasons, seated as the second fixed witness. Pays for Klessa's candle.",
+    "entryType": "character"
+  },
+  {
+    "id": "loredex.solene_the_broker",
+    "text": "Solène, the Broker. The Year-One lane-witness who took up the first severed bond and has held the Broker post for forty seasons alone. Officially redacted; canonically the protagonist of the Year-1 inheritance arc.",
+    "entryType": "character"
+  },
+  {
+    "id": "loredex.othmar_logic",
+    "text": "Professor Othmar, of the Logic Faculty. Mechronis Academy faculty head responsible for the Logic curriculum proposal at Year 1's festival. Voted aye on the Tarn-erasure motion because they assumed Veth would also vote aye.",
+    "entryType": "character"
+  },
+  {
+    "id": "loredex.veth_lore",
+    "text": "Lecturer Veth, of the Lore Faculty. Mechronis Academy faculty head responsible for the Lore curriculum proposal at Year 1's festival. Voted aye on the Tarn-erasure motion because they assumed Roen would also vote aye.",
+    "entryType": "character"
+  },
+  {
+    "id": "loredex.roen_trial",
+    "text": "Trial-master Roen, of the Trial Faculty. Mechronis Academy faculty head responsible for the Trial curriculum proposal at Year 1's festival.",
+    "entryType": "character"
+  },
+  {
+    "id": "loredex.aren_of_the_lower_decks",
+    "text": "Aren of the Lower Decks (I-17). An elder whose imprint contained their own self-naming: 'my name is Aren of the lower decks; I have witnessed nineteen others; I will need someone to witness me.' Read the entire Year-1 volume aloud at Memorial Day's.",
+    "entryType": "character"
+  },
+  {
+    "id": "loredex.kassel_solven",
+    "text": "Kassel Solven. Youngest of the Year-2 charter-schism delegation; great-great-granddaughter of the founding-charter's eighth signatory. Speaks for the four scrubbed houses at the Council.",
+    "entryType": "character"
+  },
+  {
+    "id": "loredex.heron_archivist",
+    "text": "Heron, the Council Archivist (deceased). Fourth-epoch Council archivist assigned 'tidy the founding records.' Spent nine years scrubbing the four artisan-houses from the charter and tax records.",
+    "entryType": "character"
+  },
+  {
+    "id": "loredex.zyrkoth_at_the_court",
+    "text": "Zyr'Koth at the Trade Court. A Hierarchy of the Damned demon-lord who appeared in person at Severance Year 2 to claim a bound companion under a forty-season-old infernal clause.",
+    "entryType": "character"
+  },
+  {
+    "id": "loredex.atalin_year_one",
+    "text": "Atalin, Year-One Ledger-Keeper. The league's first and only dual ledger-keeper, hired two weeks before the first DMC season and dismissed two weeks after it ended.",
+    "entryType": "character"
+  },
+  {
+    "id": "loredex.apprentice_year_two",
+    "text": "The Player's Apprentice (Year 2). The apprentice the player sponsored at Year-1's Mechronis Festival mentor's pledge. First in their class for two terms. Faces a Terminus Swarm wave at Year-2 festival opening.",
+    "entryType": "character"
+  },
+  {
+    "id": "loredex.sergeant_auro",
+    "text": "Sergeant Auro. An off-faculty instructor who has taught Module 17 in a forge-workshop side-room for nine years on her own time, paid by the Trade Empire for a 'route-safety contractor' role. Twelve apprentices survived by her teaching.",
+    "entryType": "character"
+  },
+  {
+    "id": "loredex.watcher_idris",
+    "text": "Watcher Idris (Band Three). Founding Watcher of the recording-band. Speaks to investigators when the investigator has earned the speaking-to. Slow waveform, broad spectrum, an undercurrent of standing silence.",
+    "entryType": "character"
+  },
+  {
+    "id": "loredex.watcher_verel",
+    "text": "Watcher Verel (Band Five). Founding Watcher of the carrying-band. Speaks to caretakers when the caretaking has carried someone forward. Bright waveform, narrow spectrum, an overtone like running water.",
+    "entryType": "character"
+  },
+  {
+    "id": "loredex.watcher_ophran",
+    "text": "Watcher Ophran (Band One). Founding Watcher of the long-spectrum band. Speaks to traders when a trade has carried more than its weight.",
+    "entryType": "character"
+  },
+  {
+    "id": "loredex.watcher_kallium",
+    "text": "Watcher Kallium (Band Two). Founding Watcher of the reflective band. Speaks to combatants when the combat has cost something the combatant did not have to spend.",
+    "entryType": "character"
+  },
+  {
+    "id": "loredex.watcher_mereth",
+    "text": "Watcher Mereth (Band Four). Founding Watcher of the resonant band.",
+    "entryType": "character"
+  },
+  {
+    "id": "loredex.watcher_sothe",
+    "text": "Watcher Sothe (Band Six). Founding Watcher of the high bright band.",
+    "entryType": "character"
+  }
+]

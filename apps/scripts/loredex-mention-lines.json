@@ -1,0 +1,272 @@
+[
+  {
+    "id": "locke_mentions_programmer",
+    "speaker": "adjudicator_locke",
+    "mentionTargetEntryId": "entity_1",
+    "trustBandMin": "Partner",
+    "text": "Daniel Cross. The Programmer. The man drafted Logos and never signed his own name to the result. Every contract I redact has his fingerprints somewhere in the structural margins. He is the founding precedent and he is unreachable.",
+    "emotion": "analytical",
+    "file": "loredex_mention"
+  },
+  {
+    "id": "locke_mentions_architect",
+    "speaker": "adjudicator_locke",
+    "mentionTargetEntryId": "entity_2",
+    "trustBandMin": "Insider",
+    "text": "The Architect. Yes. I work inside the law it left behind. The terms of every adjudication I will ever conduct were set before I was hired. We do not speak that name in the chamber. We speak around it.",
+    "emotion": "serious",
+    "file": "loredex_mention"
+  },
+  {
+    "id": "locke_mentions_drael_mon",
+    "speaker": "adjudicator_locke",
+    "mentionTargetEntryId": "entity_8",
+    "trustBandMin": "Client",
+    "text": "Drael'Mon negotiates the way most parties pay legal counsel. With acquisitions. He is reasonable inside the room and ruinous in the margins. Sign nothing he hands you without the audit clause.",
+    "emotion": "analytical",
+    "file": "loredex_mention"
+  },
+  {
+    "id": "locke_mentions_marion_kell",
+    "speaker": "adjudicator_locke",
+    "mentionTargetEntryId": "entity_105",
+    "trustBandMin": "Adjudicated",
+    "text": "Marion Kell is a name that fails the standard searches. The chamber has retained the name in case the law ever comes back for it. I keep her file on the lower shelf. Do not ask me how. The right of every Potential to choose their own path is in the code because of her.",
+    "emotion": "serious",
+    "file": "loredex_mention"
+  },
+  {
+    "id": "locke_mentions_oracle",
+    "speaker": "adjudicator_locke",
+    "mentionTargetEntryId": "entity_50",
+    "trustBandMin": "Insider",
+    "text": "The Oracle is not a witness recognized by any tribunal I would respect. And yet. Every adjudicator who has dismissed her testimony has lost the case afterward. Strike that from the record.",
+    "emotion": "analytical",
+    "file": "loredex_mention"
+  },
+  {
+    "id": "antiquarian_mentions_architect",
+    "speaker": "the_antiquarian",
+    "mentionTargetEntryId": "entity_2",
+    "trustBandMin": "Cross-referenced",
+    "text": "The Architect. Mm. I taught it the first time. I am still teaching it, in the sense that any text continues to teach the people who go on reading it. I do not know whether that is a comfort or a horror. I keep it on the high shelf.",
+    "emotion": "serious",
+    "file": "loredex_mention"
+  },
+  {
+    "id": "antiquarian_mentions_engineer",
+    "speaker": "the_antiquarian",
+    "mentionTargetEntryId": "entity_18",
+    "trustBandMin": "Cross-referenced",
+    "text": "The Engineer was my best student and my worst critic. He thought a desk was a coward's machine. Then he built the deck. Then he came back to the shelves. I did not say I told you so. I did not have to.",
+    "emotion": "warm",
+    "file": "loredex_mention"
+  },
+  {
+    "id": "antiquarian_mentions_marion_kell",
+    "speaker": "the_antiquarian",
+    "mentionTargetEntryId": "entity_105",
+    "trustBandMin": "Shelf-mate",
+    "text": "Marion Kell. Yes. Her entry is missing from the standard catalog. I have my own copy. I keep it adjacent to Darren Fessler's. Two shelves away from the Hierophant's daily naming. They are reading material I keep available, in case the Shadow Tongue grows tired.",
+    "emotion": "serious",
+    "file": "loredex_mention"
+  },
+  {
+    "id": "antiquarian_mentions_oracle",
+    "speaker": "the_antiquarian",
+    "mentionTargetEntryId": "entity_50",
+    "trustBandMin": "Catalogued",
+    "text": "The Oracle dictated three of the entries on the upper shelf. Personally. I do not show those entries to anyone who has not first cited them back to me. You have. Open the case.",
+    "emotion": "warm",
+    "file": "loredex_mention"
+  },
+  {
+    "id": "antiquarian_mentions_inventor",
+    "speaker": "the_antiquarian",
+    "mentionTargetEntryId": "entity_32",
+    "trustBandMin": "Shelf-mate",
+    "text": "The Inventor restores what the Shadow Tongue removes. We work on the same archive from opposite ends. Most days we do not speak. The work speaks.",
+    "emotion": "serious",
+    "file": "loredex_mention"
+  },
+  {
+    "id": "human_mentions_architect",
+    "speaker": "the_human",
+    "mentionTargetEntryId": "entity_2",
+    "trustBandMin": "lucid",
+    "text": "The Architect, kid. I worked for it. I was the Twelfth Archon and the only one born instead of built. It chose me for the human intuition. It used me for everything else. Don't trust anyone who tells you the answer is simple.",
+    "emotion": "serious",
+    "file": "loredex_mention"
+  },
+  {
+    "id": "human_mentions_watcher",
+    "speaker": "the_human",
+    "mentionTargetEntryId": "entity_4",
+    "trustBandMin": "lucid",
+    "text": "The Watcher. Fourth Archon. He keeps a ponytail and an all-seeing eye and zero opinions of his own. I worked alongside him for two centuries. We never had a real conversation.",
+    "emotion": "analytical",
+    "file": "loredex_mention"
+  },
+  {
+    "id": "human_mentions_meme",
+    "speaker": "the_human",
+    "mentionTargetEntryId": "entity_5",
+    "trustBandMin": "luminous",
+    "text": "The Meme. Fifth Archon, and the one I lose sleep over. The White Oracle put him down at the Battle of Light. They tell us he stays down. The case file is still open in my drawer.",
+    "emotion": "serious",
+    "file": "loredex_mention"
+  },
+  {
+    "id": "human_mentions_marion_kell",
+    "speaker": "the_human",
+    "mentionTargetEntryId": "entity_105",
+    "trustBandMin": "luminous",
+    "text": "Marion Kell. Yeah. I tried a substrate-layer rescue once. It failed before I started, somehow. Don't ask. Don't ask. I'm still working through what that means.",
+    "emotion": "sad",
+    "file": "loredex_mention"
+  },
+  {
+    "id": "human_mentions_engineer",
+    "speaker": "the_human",
+    "mentionTargetEntryId": "entity_18",
+    "trustBandMin": "lucid",
+    "text": "The Engineer built the first deck and put it on the table and asked me to play one hand. I thought it was ridiculous. I still think so. I still play when I can't sleep.",
+    "emotion": "warm",
+    "file": "loredex_mention"
+  },
+  {
+    "id": "wraith_mentions_engineer",
+    "speaker": "wraith_calder",
+    "mentionTargetEntryId": "entity_18",
+    "trustBandMin": "Witnessed",
+    "text": "Agent Zero. The Engineer. He sent me into the Arena seven times. He apologised for none of them. I respected that.",
+    "emotion": "serious",
+    "file": "loredex_mention"
+  },
+  {
+    "id": "wraith_mentions_oracle",
+    "speaker": "wraith_calder",
+    "mentionTargetEntryId": "entity_50",
+    "trustBandMin": "Present",
+    "text": "The Oracle came to me in the Wolf's pace, between the fourth death and the fifth. She said: keep going. So I kept going. Three thousand years later I am still keeping going. I assume she meant that as well.",
+    "emotion": "warm",
+    "file": "loredex_mention"
+  },
+  {
+    "id": "wraith_mentions_wolf",
+    "speaker": "wraith_calder",
+    "mentionTargetEntryId": "entity_72",
+    "trustBandMin": "Witnessed",
+    "text": "The Wolf is a planet-sized awareness that decided to run. I ran with it for seven days. The Antiquarian was invited. He declined. The pace is part of the patience.",
+    "emotion": "serious",
+    "file": "loredex_mention"
+  },
+  {
+    "id": "wraith_mentions_necromancer",
+    "speaker": "wraith_calder",
+    "mentionTargetEntryId": "entity_20",
+    "trustBandMin": "Witnessed",
+    "text": "The Necromancer designed the protocol that wrote on my DNA. The Warden stole it. Dr. Vox wired her nanobots into it. Three architects, hands in your DNA. Mine. Now possibly yours.",
+    "emotion": "serious",
+    "file": "loredex_mention"
+  },
+  {
+    "id": "wraith_mentions_marion_kell",
+    "speaker": "wraith_calder",
+    "mentionTargetEntryId": "entity_105",
+    "trustBandMin": "Inheriting",
+    "text": "Marion Kell's name is on the wall. In my hand. Dated the day after the Final Rite. I did not know her. I knew the editing. I wrote the name first because the editing started with her. The continuation is the point.",
+    "emotion": "serious",
+    "file": "loredex_mention"
+  },
+  {
+    "id": "vex_mentions_engineer",
+    "speaker": "vex_solene",
+    "mentionTargetEntryId": "entity_18",
+    "trustBandMin": "Watcher",
+    "text": "Agent Zero. The Engineer. The same person, recorded twice in the same archive. The Coda has the original transmissions. Most of them disagree with the official record. I think you would find that interesting.",
+    "emotion": "curious",
+    "file": "loredex_mention"
+  },
+  {
+    "id": "vex_mentions_hierophant",
+    "speaker": "vex_solene",
+    "mentionTargetEntryId": "entity_58",
+    "trustBandMin": "Confidant",
+    "text": "I interviewed the Hierophant once. In the chamber. He gave me five answers that confirmed his cosmology and one that didn't. I kept the recording. I have not played it for anyone. You may be the second.",
+    "emotion": "serious",
+    "file": "loredex_mention"
+  },
+  {
+    "id": "vex_mentions_oracle",
+    "speaker": "vex_solene",
+    "mentionTargetEntryId": "entity_50",
+    "trustBandMin": "Watcher",
+    "text": "The Oracle is the only voice in the saga the Coda has never been able to wholly authenticate or refute. That is the point. We log every transmission and we mark hers separately.",
+    "emotion": "analytical",
+    "file": "loredex_mention"
+  },
+  {
+    "id": "vex_mentions_human",
+    "speaker": "vex_solene",
+    "mentionTargetEntryId": "entity_21",
+    "trustBandMin": "Confidant",
+    "text": "The Human keeps an Inception Ark we do not have coordinates for and a frequency we do not have authority to use. He sometimes finds us anyway. I take what he gives me and I do not ask the question I want to ask.",
+    "emotion": "warm",
+    "file": "loredex_mention"
+  },
+  {
+    "id": "nilmorg_mentions_drael_mon",
+    "speaker": "nilmorg",
+    "mentionTargetEntryId": "entity_8",
+    "trustBandMin": "Forecaster",
+    "text": "Drael'Mon files acquisitions through my ledger and pretends not to know me at the social functions. The accounts close. The functions continue. The pretence is a form of professional respect.",
+    "emotion": "analytical",
+    "file": "loredex_mention"
+  },
+  {
+    "id": "nilmorg_mentions_necromancer",
+    "speaker": "nilmorg",
+    "mentionTargetEntryId": "entity_20",
+    "trustBandMin": "Counterparty",
+    "text": "The Necromancer designed the Severance protocol. I run it. He does not visit. We have an arrangement. Don't thank me.",
+    "emotion": "analytical",
+    "file": "loredex_mention"
+  },
+  {
+    "id": "nilmorg_mentions_dmc",
+    "speaker": "nilmorg",
+    "mentionTargetEntryId": "loredex.epoch_one_dmc_contract",
+    "trustBandMin": "Forecaster",
+    "text": "Dead Man's Circuit. The clones are accounted for. The accounting is what I do. The deaths are not what I do. Do not confuse the two services. Don't thank me.",
+    "emotion": "analytical",
+    "file": "loredex_mention"
+  },
+  {
+    "id": "oracle_mentions_white_oracle",
+    "speaker": "the_oracle",
+    "mentionTargetEntryId": "entity_59",
+    "trustBandMin": "Witnessed",
+    "text": "The White Oracle is the version of me that put the Meme down at the Battle of Light. She is the version of me that did not stop. I stopped. Both readings of the prophecy are correct.",
+    "emotion": "serious",
+    "file": "loredex_mention"
+  },
+  {
+    "id": "oracle_mentions_dreamer",
+    "speaker": "the_oracle",
+    "mentionTargetEntryId": "entity_30",
+    "trustBandMin": "Present",
+    "text": "The Dreamer dreams the saga. I dream what the saga forgets. The two are not the same dream. They share a dreamer.",
+    "emotion": "warm",
+    "file": "loredex_mention"
+  },
+  {
+    "id": "oracle_mentions_inventor",
+    "speaker": "the_oracle",
+    "mentionTargetEntryId": "entity_32",
+    "trustBandMin": "Present",
+    "text": "The Inventor walks the broadcast halls and recovers the contestants the Palimpsest erased. I attend. I do not interrupt. The work is the witness.",
+    "emotion": "warm",
+    "file": "loredex_mention"
+  }
+]
