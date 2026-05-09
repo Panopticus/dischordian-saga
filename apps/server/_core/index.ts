@@ -691,6 +691,16 @@ async function startServer() {
       console.error("[ChatReportsBootstrap] failed:", e),
     );
 
+    // community_discovery_events table — audit/16 PR 35 (AR7).
+    // New table; no drizzle migration yet, so bootstrap until the
+    // next journal reconciliation. Without it, the
+    // communityInvestigation router 500s on first
+    // recordDiscovery call.
+    const { bootstrapCommunityDiscoveryEventsTable } = await import("../services/communityInvestigationBootstrap");
+    bootstrapCommunityDiscoveryEventsTable().catch(e =>
+      console.error("[CommunityInvestigationBootstrap] failed:", e),
+    );
+
     // purchase_grants ledger — atomic-fulfilment idempotency guard.
     // Without it, the unique-key check that prevents duplicate
     // webhook fulfilment falls back to per-row 404s and the user

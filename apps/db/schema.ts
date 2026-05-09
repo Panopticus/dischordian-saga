@@ -8103,3 +8103,52 @@ export const userTomeEndorsements = mysqlTable("user_tome_endorsements", {
   uniqUserTome: uniqueIndex("uniq_user_tome_endorsement").on(table.tomeId, table.userId),
 }));
 export type UserTomeEndorsementRow = typeof userTomeEndorsements.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   COMMUNITY DISCOVERY EVENTS — audit/16 PR 35 (AR7).
+
+   Per-discovery rows the cross-player aggregator
+   (`buildCommunitySnapshot` in
+   apps/shared/communityInvestigation.ts) folds into the
+   global tally.
+
+   Privacy invariants enforced server-side:
+     - `optIn` is durable per-row. The aggregator filters
+       it out of the cross-player snapshot. The player's
+       PRIVATE progress UI can still surface their own
+       counted-but-not-contributed rows.
+     - The unique index on (userId, kind, targetId) prevents
+       a single player from over-counting; the aggregator's
+       per-(kind, targetId) dedupe handles cross-player
+       collapse.
+     - The cross-player snapshot returns aggregate counts
+       only; per-target / per-player attributions never
+       leave the server.
+
+   Migration journal is drifted, so the actual table is
+   ensured by `bootstrapCommunityDiscoveryEventsTable()`
+   on cold-boot (CREATE TABLE IF NOT EXISTS); see the bridge
+   IIFE in apps/server/_core/index.ts.
+   ═══════════════════════════════════════════════════════ */
+export const communityDiscoveryEvents = mysqlTable("community_discovery_events", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  kind: mysqlEnum("kind", [
+    "clue_collected",
+    "mystery_solved",
+    "puzzle_solved",
+    "manuscript_entry_unlocked",
+    "unreachable_registered",
+  ]).notNull(),
+  targetId: varchar("targetId", { length: 128 }).notNull(),
+  optIn: boolean("optIn").notNull().default(false),
+  seasonKey: varchar("seasonKey", { length: 32 }),
+  occurredAt: timestamp("occurredAt").defaultNow().notNull(),
+}, (table) => ({
+  uniqUserKindTarget: uniqueIndex("uniq_cde_user_kind_target").on(table.userId, table.kind, table.targetId),
+  idxKind: index("idx_cde_kind").on(table.kind),
+  idxSeason: index("idx_cde_season").on(table.seasonKey),
+  idxUser: index("idx_cde_user").on(table.userId),
+}));
+export type CommunityDiscoveryEventRow = typeof communityDiscoveryEvents.$inferSelect;
+export type InsertCommunityDiscoveryEvent = typeof communityDiscoveryEvents.$inferInsert;
