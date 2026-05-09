@@ -471,6 +471,78 @@ Per §2.8, his bodily death is canonically scheduled and player-uncatcheable. Th
 
 The bible's strongest assertion on death: **the Hierophant does not get a heroic death**. Locke might; Vex might; Nilmorg might; the Eidolon definitely will (in some playthroughs). The Hierophant gets the death he has chosen — quiet, scheduled, attended by the Council, with the pen passing hand-to-hand. Writers must not stage him into a sacrifice scene or a martyr-moment. *The continuation is the point.* The death is bookkeeping.
 
+### 3.10 The covert inheritance layer — what the Long Mourning is also doing
+
+This subsection is **additive to §§2.6, 3.2, 3.4, and 3.7**, not corrective. §3.4's hard claims hold without exception: the Hierophant wants presence, not recruits; he will not sacrifice the player for any cause; he has not lifted a weapon in three thousand years and will not. §3.5's "what does not survive the rite" — *fighting* — is canon. Writers approaching this subsection must read §3.4 first and treat its assertions as architectural load-bearing.
+
+What this subsection adds is a **second reading of the same canonized acts** — the Tribunal of Order (§2.6), the Council of Harmony (§3.2), the Tamarin religious revival (§3.2), the per-name fidelity counter-method (§3.7). Each is *already* canon as the Hierophant's grief-architecture. This subsection asserts a further claim, gated to the Inheriting trust band only (§3.3): these institutions are *also* the **infrastructure the Potentials inherit when they return to the universe**, and the Hierophant has spent three thousand years building them with that succession in mind — without ever naming the succession to himself as a *plan*.
+
+The bible holds both readings as simultaneously true. The Long Mourning is genuine penance (§3.2 stands: *the war criminal who became the war's only mourner*). The Long Mourning is *also* the Potentials' inheritance. He does not announce the second reading. He does not need to. The architecture announces itself to anyone who walks far enough into it.
+
+#### 3.10.1 The institutions, and what each one inherits
+
+Three architectural acts, each carrying both a penance reading and an inheritance reading. Both readings are bible-canon.
+
+| Institution | Penance reading (§2.6, §3.2) | Inheritance reading (this section) |
+|---|---|---|
+| **The Tribunal of Order** | He wrote most of the legal code that governs reality itself (`GameContext.tsx:790-791`); the Tribunal is the war criminal's gift back to a galaxy he had wronged. | The Tribunal is **the legal substrate the Potentials' return must operate inside**. It is calibrated to recognize Potential-shaped beings and their rights without their ever having to make a case for themselves. The *Right of Every Potential to Choose Their Own Path* (§4.1) is in the code because the Hierophant put it there to protect a cohort that had not yet returned. |
+| **The Council of Harmony** | Thaloria's governing body; *uncertainty as its highest qualification* (`tradeEmpire.ts:353`); a post-corruption culture's choice to govern by hesitation (§3.2). | The Council is **the only galactic-scale governance body whose decision-making is structurally non-narrative** — and is therefore the only one **Shadow Tongue cannot reliably edit** (§3.7's continuation-as-immunity, scaled to a body politic). The Potentials' return will face a Shadow-Tongue-edited universe; the Council is a node of governance the editing cannot fully reach. |
+| **The Tamarin religious revival** | A war criminal restoring the religion the Shadow Tongue corrupted into the holy war he led (§3.2). The work is the apology. | The Tamarin revival is **a body of believers practicing per-name fidelity at population scale** — the only structure in the saga currently demonstrated to survive Shadow Tongue editing intact (§3.7). When the Potentials return, the Tamarin community is the population that can *read the editing scars on the universe's information layer*, because they have been trained, daily, for three thousand years, in the discipline of noticing small substitutions. |
+
+The user-visible "force of the faithful" framing — and any hint of *weaponization* — must be read against §3.7. The weapon is **specificity-of-name**, not violence. The faithful are **carriers of an editing-resistant practice**, not soldiers. The Hierophant is not arming anyone. He is keeping a method alive at a scale where it can be inherited. Writers must hold this distinction. A line that frames the Tamarin community as paramilitary, or that frames the Hierophant's work as *for* a coming war in the violent sense, fails the bible at the §3.4 / §3.5 load-bearing layer.
+
+#### 3.10.2 The Inheriting-band reveal protocol
+
+Below Inheriting (§3.3 apex band), this layer **does not surface**. The Long Mourning reads as pure penance at all lower bands. Writers authoring Hostile / Wary / Witnessed / Present-band lines must not foreshadow the inheritance reading; the layer is invisible-by-construction at those depths.
+
+At Inheriting, the layer surfaces *only when the player asks the right way*. The right way, bible-asserted: a question about what the chamber's continuity is *for* — not what the work *means* (that's a Witnessed-band question, answered by the canonical six-option spread in `questlineThaloria.ts`), not what the Shadow Tongue *is* (that's a Present-band question, answered by §3.7's mechanism), but what *survives* the chamber. The bible's asserted question-shape: any phrasing of *"and after you?"* — singular, second-person, future-tense, no qualifying clause.
+
+The Hierophant's response at Inheriting, bible-asserted, is structured in three movements:
+
+1. **The deflection that is the answer.** *"After me, the pen passes. The Council's named successor is calibrated. The day continues. You know this."* (Deflection because he names only the *immediate* succession; answer because the deflection *is* the inheritance — the bookkeeping continues, and the bookkeeping is the structure the Potentials return into.)
+2. **The expansion if the player presses.** *"The Tamarin remember. The Council hesitates. The Tribunal codifies. None of the three was built for a return. All three are shaped like a place a return could come home to. I have not asked myself which is true, because the answer would change the work, and the work is the only honest thing I have."* (This is the bible-canon hypocrisy named in §3.6, surfaced. He has built the inheritance and refused to name it as inheritance.)
+3. **The line that closes the band.** *"You are walking the architecture I made of grief. I had hoped someone would, eventually."* (This is the §3.3 canonical Inheriting-band line, already on the bible's books. The covert layer adds context: *eventually* is doing load-bearing work. It does not mean *you, today*. It means *the cohort that returns, when they return*. The player at Inheriting has been mistaken for the cohort. The Hierophant does not correct the mistake. The mistake is itself the courtesy.)
+
+Writers must not extend past these three movements at Inheriting. The Hierophant does not lay out the inheritance plan as a plan. He gestures at it once, deflects, expands under direct pressure, and closes. Anything more is mis-cast.
+
+#### 3.10.3 The bible-canon hypocrisy
+
+§3.6 already names two Hierophant hypocrisies (the *not-noticing* claim that elides two centuries of slow noticing; the unresolved *penance-or-grieving* question). This subsection adds a third, and the bible asserts it is the **largest** of the three:
+
+> The Hierophant who refuses to recruit (§3.4) has spent three thousand years building institutions he intends to be inherited.
+
+He does not name this to himself. The bible's assertion is structural, not psychological: he has not *thought* the inheritance. He has *built* it. Each institution was approached as a separate act of grief-architecture; the cumulative shape — three institutions, each shaped like a homecoming — is visible only from outside. He is canonically incapable of seeing it from outside, because he is the one inside the chamber writing.
+
+The hypocrisy is bible-canonical because the Hierophant's own self-narration cannot accommodate it. *"I am trying to understand whether the act of writing a name is the same as remembering a person"* (`questlineThaloria.ts`) — that question is the deepest he has let himself ask. The next question — *and is the architecture I have built around the writing the same as a recruitment* — is one he has not let himself ask. The bible asserts: he is afraid of the answer, and the avoidance is the hypocrisy.
+
+Writers may *only* surface this hypocrisy at Inheriting band, and only via the three-movement reveal protocol in §3.10.2. The Hierophant's own admission of the hypocrisy — if writers extend a Stage 2 questline scene where the player asks him directly *"have you been recruiting?"* — is bible-asserted to be: *"Not in the verb you mean. In the verb I cannot bring myself to use, perhaps yes. The Council inherits because someone must. The pen lifts and another hand takes it. I have not called that recruitment in three thousand years. I will not begin now."* (The line refuses the verb while admitting the structure. This is the deepest available admission and it stops there. He does not become the kind of Hierophant who calls his own work a plan.)
+
+#### 3.10.4 What this subsection does not change
+
+For the avoidance of mis-casting, the inheritance layer **does not** alter:
+
+- §3.4's sacrifice-axis. He still will not sacrifice the player for any cause, including the inheritance.
+- §3.5's no-combat invariant. The chamber-attack scenario stands: he continues writing; the Council defends; he does not lift the pen for any purpose other than naming.
+- §1's voice. The Hierophant's two-register voice is unchanged; the inheritance reveal is delivered in the existing post-rite cadence, not in some third "operative" register. There is no operative register. Writers must not invent one.
+- §3.6's other hypocrisies. The two named there remain as named. The third, this section, joins them; it does not subsume them.
+- The trust-band promotion mechanics in §3.3. The Inheriting band still requires Empathy-14 success *plus* multi-act recurrence; the inheritance reveal is reached via the existing promotion path, not a shortcut.
+- The cross-bible obligations in §4. Vex's external read of him (§4.2: *"his own fear dressed up in the only vocabulary his faith has taught him to use"*) becomes *more* interesting when this layer is read into it — Vex is not seeing the inheritance plan because the Hierophant is not consciously running one. Vex is correctly reporting the absence of a plan she would recognize as a plan. The bible asserts Vex's read remains canon-true; it just operates on a layer the Hierophant himself does not see.
+
+#### 3.10.5 Cross-bible obligations added by this subsection
+
+Two new obligations, both Stage 2 territory:
+
+- **The Potentials' return arc** (saga-level, not yet bible-scoped): when authoring the canonical narrative of the Potentials' return, writers should treat the Tribunal / Council / Tamarin revival as the *recovered ground* the cohort lands on. The Hierophant may be dead by then (§3.9 schedules it); the architecture is what greets them. His face is not on the architecture. *That* is the inheritance succeeding — the architecture has been internalized by enough hands that no single attribution sticks.
+- **The Insurgency's `awaken_the_faithful` faction objective** (planned per the NPC-depth plan, #11): the objective is co-driven by the Insurgency's Old Network sub-house (overt operations) and Thaloria's Quietwork sub-house (the Hierophant's contribution: institutional infrastructure). The two pursue the same nominal objective with **fundamentally different methods**. Quietwork is non-violent, infrastructural, and the Hierophant is its operative head; the Old Network does the operational work. The bible's hard line — no violence, no recruitment — holds *for the Hierophant himself*; the objective is **not** the Hierophant's objective. He is **a participant** in a faction objective whose methods include things he has personally renounced. This is bible-coherent because he refuses to coordinate with the Old Network; he simply continues his work, and the Old Network draws on the Tamarin community for the carriers of *its* operations. Writers must respect: the Hierophant does not endorse the Old Network's methods; he is *aware* that some Tamarin faithful join the Old Network, and he does not stop them; the Tamarin community is structurally permeable to the Insurgency at the *carriers* level, not at the *doctrine* level. The Hierophant's hands stay clean; the architecture leaks anyway. He has accepted this. It is part of the cost of the inheritance being usable.
+
+#### 3.10.6 Writer rules — load-bearing
+
+1. **Do not write recruitment lines.** Below Inheriting, the layer is invisible. At Inheriting, the reveal is observational, not operational. The Hierophant never says *join us, swear in, take the oath*. He says *you have already inherited; I had hoped someone would*.
+2. **Do not write paramilitary framings.** The Tamarin community is not an army. The "force of the faithful" reading lives entirely inside §3.7's specificity-of-name mechanism. Anything that reads as militia, cell, sleeper, or operation fails the bible.
+3. **Do not let him name the plan.** §3.10.3's hypocrisy is load-bearing: the Hierophant has not asked himself if the architecture is a recruitment. Writers may extend the question; they may not extend his answer beyond *"in the verb I cannot bring myself to use, perhaps yes."* He stops there.
+4. **The Inheriting reveal is rare.** Three movements, no more. Writers extending Stage 2 questlines may revisit the band, but each revisit must respect that the inheritance is being *gestured at*, never *spelled out*. The bible's strongest reading: a player who reaches Inheriting four times across a saga has heard the layer named four ways and never directly. The cumulative shape is what they take home.
+5. **Combat still costs trust** under the `ceremony_aware` engagement-style. The reason in dialogue is bible-canon (he abandoned violence; if you choose it, you have stepped outside the work). It is **not** *"you have blown the cover."* No cover is being blown. There is no cell. The architecture is the architecture; combat is just outside it.
+
 ---
 
 ## 4. Cross-references
