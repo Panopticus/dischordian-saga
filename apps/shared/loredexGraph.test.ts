@@ -154,3 +154,90 @@ describe("focusNeighbourhood — graph computation", () => {
     );
   });
 });
+
+/* ─── audit/16 PR 5 (Co4) — discoveryGate edge filtering ─── */
+
+describe("focusNeighbourhood — discoveryGate (Co4)", () => {
+  const GATED_RELATIONSHIPS: LoredexGraphRelationship[] = [
+    // Always-visible edge — no gate.
+    { source: "entity_1", target: "entity_2", relationship_type: "connected_to" },
+    // Hidden behind a flag.
+    {
+      source: "entity_1",
+      target: "entity_3",
+      relationship_type: "featured_in_song",
+      discoveryGate: "act_3_complete",
+    },
+    // Hidden behind a different flag.
+    {
+      source: "entity_4",
+      target: "entity_1",
+      relationship_type: "founded_by",
+      discoveryGate: "found_letter_in_archives",
+    },
+  ];
+
+  it("hides edges with discoveryGate when the flag is unset", () => {
+    const view = focusNeighbourhood(
+      "entity_1",
+      ENTRIES,
+      GATED_RELATIONSHIPS,
+      new Set(),
+      new Set(), // no flags discovered
+    );
+    expect(view!.edges.length).toBe(1);
+    expect(view!.edges[0]?.relationship_type).toBe("connected_to");
+    // entity_3 + entity_4 should NOT appear as neighbours.
+    const ids = view!.neighbours.map((n) => n.id);
+    expect(ids).not.toContain("entity_3");
+    expect(ids).not.toContain("entity_4");
+  });
+
+  it("reveals one gated edge when its flag is set", () => {
+    const view = focusNeighbourhood(
+      "entity_1",
+      ENTRIES,
+      GATED_RELATIONSHIPS,
+      new Set(),
+      new Set(["act_3_complete"]),
+    );
+    expect(view!.edges.length).toBe(2);
+    const ids = view!.neighbours.map((n) => n.id);
+    expect(ids).toContain("entity_2");
+    expect(ids).toContain("entity_3");
+    expect(ids).not.toContain("entity_4");
+  });
+
+  it("reveals all gated edges when all flags are set", () => {
+    const view = focusNeighbourhood(
+      "entity_1",
+      ENTRIES,
+      GATED_RELATIONSHIPS,
+      new Set(),
+      new Set(["act_3_complete", "found_letter_in_archives"]),
+    );
+    expect(view!.edges.length).toBe(3);
+  });
+
+  it("treats omitted discoveredFlags arg as no-flags-set (back-compat)", () => {
+    // Existing callers that pass only 4 args see gated edges hidden,
+    // which is the safe default — gates are opt-in for authors.
+    const view = focusNeighbourhood(
+      "entity_1",
+      ENTRIES,
+      GATED_RELATIONSHIPS,
+      new Set(),
+    );
+    expect(view!.edges.length).toBe(1);
+  });
+
+  it("ungated edges still appear regardless of flags", () => {
+    const ungated: LoredexGraphRelationship[] = [
+      { source: "entity_1", target: "entity_2", relationship_type: "connected_to" },
+    ];
+    const a = focusNeighbourhood("entity_1", ENTRIES, ungated, new Set(), new Set());
+    const b = focusNeighbourhood("entity_1", ENTRIES, ungated, new Set(), new Set(["any_flag"]));
+    expect(a!.edges.length).toBe(1);
+    expect(b!.edges.length).toBe(1);
+  });
+});

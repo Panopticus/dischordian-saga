@@ -43,6 +43,21 @@ export interface Puzzle {
   reward: string;               // What solving unlocks
   dreamReward: number;
   loreConnection: string;       // How it ties to the Dischordian Saga
+  /**
+   * audit/16 PR 5 (Cluster Co8 — Conspiracy persona).
+   *
+   * Optional list of puzzle ids that must be solved before this one
+   * is meaningfully approachable. Distinct from `requiredClues`
+   * (which are evidence-pickup gates inside this puzzle): a
+   * prerequisite chain models "you can't reason about the Bridge
+   * Power Relay until you've solved the Crystal Decryption", even
+   * if all the clues for the Bridge are technically pickupable.
+   *
+   * Rendered as the "INVESTIGATION DIAGRAM" view — a directed graph
+   * that surfaces dependency relationships players currently have
+   * to infer from list ordering.
+   */
+  prerequisiteChains?: readonly string[];
 }
 
 /* ─── CLUE DATABASE ─── */

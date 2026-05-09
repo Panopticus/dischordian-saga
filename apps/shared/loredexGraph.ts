@@ -39,6 +39,22 @@ export interface LoredexGraphRelationship {
   readonly source: string;
   readonly target: string;
   readonly relationship_type: string;
+  /**
+   * audit/16 PR 5 (Cluster Co4 — Conspiracy persona).
+   *
+   * Optional discovery gate. When set, this edge is hidden from
+   * `focusNeighbourhood()` until the named flag is true on the
+   * player's discovered-flags set. The audit'd intent: graph nodes
+   * already fog when undiscovered, but their relationship edges
+   * appear instantly — a player can deduce "X is connected to Y"
+   * without ever finding the connecting evidence.
+   *
+   * Authors leave this undefined for the default "always-visible
+   * once both endpoints are discovered" behaviour. Populate with
+   * a narrative-flag id (e.g. "act_3_complete", "found_letter_in_archives")
+   * to gate the edge behind a specific discovery beat.
+   */
+  readonly discoveryGate?: string;
 }
 
 export interface LoredexGraphNode {
@@ -123,6 +139,14 @@ export function focusNeighbourhood(
   entries: readonly LoredexGraphEntry[],
   relationships: readonly LoredexGraphRelationship[],
   discoveredIds: ReadonlySet<string>,
+  /**
+   * audit/16 PR 5 (Co4) — narrative flags the player has crossed.
+   * Used to evaluate `LoredexGraphRelationship.discoveryGate`.
+   * Optional for back-compat: callers that don't pass this default
+   * to "no flags set", which means edges with discoveryGate are
+   * hidden until the caller wires up flag plumbing.
+   */
+  discoveredFlags: ReadonlySet<string> = new Set(),
 ): LoredexGraphView | null {
   const focusEntry = entries.find((e) => e.id === focusId);
   if (!focusEntry) return null;
@@ -138,6 +162,13 @@ export function focusNeighbourhood(
     const sourceId = resolveRefToId(rel.source, entries, byName);
     const targetId = resolveRefToId(rel.target, entries, byName);
     if (!sourceId || !targetId) continue;
+    // audit/16 PR 5 (Co4) — gate edges behind their discoveryGate flag
+    // when set. Edge is suppressed entirely (not just hidden) so
+    // neighbour ids derived from this relationship don't leak into
+    // the visible neighbourhood.
+    if (rel.discoveryGate && !discoveredFlags.has(rel.discoveryGate)) {
+      continue;
+    }
     if (sourceId === focusId && targetId !== focusId) {
       neighbourIds.add(targetId);
       edges.push({
