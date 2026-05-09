@@ -23,6 +23,14 @@
 7. [Guild signature cutscenes — 12 professors × {light, dark}](#7-guild-signature-cutscenes)
 8. [Dreamer-vision VFX flashes — 3](#8-dreamer-vision-vfx-flashes)
 9. [Card-game UI SFX — 10 stings](#9-card-game-ui-sfx)
+10. [Fighter game — sprites, stages, HUD, VFX](#10-fighter-game--sprites-stages-hud-vfx)
+11. [Fighter game — SFX, voice barks, music](#11-fighter-game--sfx-voice-barks-music)
+12. [Ark + Mechronis rooms × states](#12-ark--mechronis-rooms--states)
+13. [Guild common rooms + casino + game-mode environments](#13-guild-common-rooms--casino--game-mode-environments)
+14. [Trade Empire sectors × prosperity states](#14-trade-empire-sectors--prosperity-states)
+15. [Soul Stones / Castle of Death summoning + sig VFX + card-combat VFX + room ambients + UI/transition SFX](#15-summoning--sig-vfx--card-combat-vfx--ambients--sfx)
+16. [Mini-DLC mystery arcs + Daniel Cross epigraphs + Acts 2-7 climax + Expansion Bible gameplay loops + Witnessing VFX](#16-mini-dlc--epigraphs--acts-2-7--expansion-bible-loops--witnessing-vfx)
+17. [Living Character Sheet — base bodies + "Energy chooses a form" awakening](#17-living-character-sheet)
 
 ---
 
@@ -1898,6 +1906,414 @@ shot with frame-chained handoff. ~50 s total.
 >
 > Wire each to the card-game UI in `apps/client/src/game/duelyst/sfx.ts`
 > by adding the slug to `CARD_GAME_UI_SFX` map (create if missing).
+
+---
+
+## 10. Fighter game — sprites, stages, HUD, VFX
+
+### 10.0 Render contract for the fighter game
+
+- **Sprite sheets**: per-fighter, per-pose. Format **PNG with alpha**, 8 frames per row, 1 row per pose. Frame size **256×256**; sheet size therefore **2048×256**. Source render in **Nano Banana 2** at 4× (1024×1024 per frame), then downsample. Style anchor: §1.1, but with a slightly **higher contrast** (the fighter game reads at smaller scale than story stills) and a hard rim-light on the leading edge of the action.
+- **Stage backgrounds**: 3 parallax layers per stage. Format **JPG sRGB** for FG/MG/BG (no alpha), **WebM with alpha** for the animated ambient layer. Resolution **1920×1080** per static layer; ambient layer **24fps, 6s seamless loop, ≤4MB**. House style: §1.1 + §1.2.
+- **HUD assets**: PNG with alpha, 2× resolution for retina. Style anchor: brass-and-cyan from §1.2, no neon overpower (HUD must not compete with action).
+- **VFX**: WebM with alpha, 24fps, 0.3–1.0s, frame-budget ≤24 frames each. Composited over the action via additive blend.
+- **Asset prefix**: `art/fight/sprites/<fighter_id>/<pose>.png`, `art/fight/stages/<stage_id>/<layer>.{jpg,webm}`, `art/fight/hud/<element>.png`, `art/fight/vfx/<effect>.webm`, all uploadable via `pnpm assets:upload`.
+- **Voice direction (per fighter)**: §11 carries the bark catalog. Sprite renders DO NOT bake mouth-shapes — the fighter game uses synthesized lip-flap, not phoneme-keyed mouths.
+
+### 10.1 Per-fighter sprite-sheet pack
+
+Each fighter gets one consolidated authoring pass. **All 20 pose sheets per
+fighter** carry the same canon (cite §2 hero canon by id), the same palette,
+the same lighting register. The differences across pose sheets are:
+**silhouette**, **frame-count**, **start/end frame anatomy**.
+
+The 20 pose sheets per fighter:
+
+| # | Pose ID | Frames | Start frame | End frame | Notes |
+|---|---|---:|---|---|---|
+| 1 | `idle` | 6 | settled stance | settled stance + small breath rise | seamless loop |
+| 2 | `walk_forward` | 8 | left foot leading | right foot leading | seamless cycle |
+| 3 | `walk_back` | 8 | right foot leading | left foot leading | seamless cycle |
+| 4 | `run_forward` | 8 | full stride extension | full stride extension (mirror) | seamless cycle |
+| 5 | `jump` | 6 | crouched windup | apex peak / descent rotation / land squash | one-shot |
+| 6 | `attack_light_punch` | 5 | guard | full extension | quick recovery |
+| 7 | `attack_medium_punch` | 7 | wind-up rotation | full extension + rotation | longer recovery |
+| 8 | `attack_heavy_punch` | 9 | deep wind-up | full uppercut extension | heavy recovery |
+| 9 | `attack_light_kick` | 5 | guard | front-leg extension | quick recovery |
+| 10 | `attack_medium_kick` | 7 | hip rotation | roundhouse extension | longer recovery |
+| 11 | `attack_heavy_kick` | 10 | deep crouch | sweep arc + knockdown follow-through | recovery |
+| 12 | `special_1` | 12 | charge stance | release pose + held "after" pose | character-unique |
+| 13 | `special_2` | 12 | alt charge | alt release + after-pose | character-unique |
+| 14 | `super_move` | 16 | full-body invocation | climactic strike + screen-flash trigger frame | fires VFX `vfx_super_screenflash` |
+| 15 | `hit_high` | 4 | guard | full head-back recoil | hitstun |
+| 16 | `hit_mid` | 4 | guard | mid-torso fold | hitstun |
+| 17 | `hit_low` | 4 | guard | knee-buckle | hitstun |
+| 18 | `knockdown` | 10 | airborne | ground bounce + still + rise | combines fall+rise |
+| 19 | `block_active` | 3 | guard | guard + shimmer flash | held while button down |
+| 20 | `victory` | 8 | end-of-fight stillness | full victory pose with character signature | one-shot |
+| 21 | `taunt` | 6 | provoke wind-up | arms-out mockery | one-shot |
+| 22 | `crouch` | 2 | standing | crouched | toggle |
+
+(That's 22, not 20 — `block_active` and `crouch` were added as required for
+combat readability.)
+
+The per-fighter authoring template below is filled per each of the 22 fighters.
+
+#### Authoring template — `<fighter_id>` sprite-sheet pack
+
+> **Fighter**: `<fighter_id>` (Loredex `<entity_id>`, see §2.<x>).
+> **Canon visual** (carry into every sheet): `<one-line silhouette + signature attribute, e.g., "Architect: tall, geometric red-glow figure, asymmetric pauldron, void-black bodysuit, fractal-line interior glow, Hierarchy red #ff1744 inner light, no exposed face">`.
+> **Palette**: `<2-3 colors from §1.2, e.g., "Hierarchy red, void black, brass edge">`.
+> **Backlight**: hard rim from upper-right at 75°, brass edge color.
+> **Render style**: §1.1 painterly digital with visible brush at 1:1, clean read at 256-px thumbnail. No on-image text.
+> **Sheet manifest** (render all 22 sheets to `art/fight/sprites/<fighter_id>/`):
+> - `idle.png` — 6 frames, seamless. Start/end frame: settled fighting stance, weight on back foot, leading hand at chin-height. Breathing oscillation 1px on the chest.
+> - `walk_forward.png` — 8 frames, seamless cycle. Use real-walk weight transfer; don't bob the head more than 4px.
+> - `walk_back.png` — 8 frames, mirror of forward but with shoulders 5° more squared (defensive read).
+> - `run_forward.png` — 8 frames, full stride. Trailing arm tucked. Hair/cape drift trails behind by 30px on extension frames.
+> - `jump.png` — 6 frames. Frame 1 deep crouch. Frame 3 apex. Frame 6 land squash with anticipated dust kick (just the silhouette — actual dust VFX is layered separately).
+> - `attack_light_punch.png` — 5 frames. Frame 1 guard. Frame 2 windup. Frame 3 strike (active). Frame 4 retract. Frame 5 guard. Lead hand only.
+> - `attack_medium_punch.png` — 7 frames. Add hip-rotation windup + recovery beat.
+> - `attack_heavy_punch.png` — 9 frames. Uppercut: deep crouch windup, full body uncoils to upward strike, recovery beat, return to guard.
+> - `attack_light_kick.png` — 5 frames. Front-leg snap kick.
+> - `attack_medium_kick.png` — 7 frames. Roundhouse with full hip rotation.
+> - `attack_heavy_kick.png` — 10 frames. Sweep — deep crouch, leg arc, knockdown follow-through (off-foot can be airborne briefly).
+> - `special_1.png` — 12 frames. <fighter-specific charge + release; e.g., for Architect: gathering-of-fractal-lines into the offhand, then a fan-shaped projectile release pose held for 4 frames>.
+> - `special_2.png` — 12 frames. <fighter-specific alternative; e.g., for Architect: a defensive lattice manifesting around the body — a mid-air block-counter>.
+> - `super_move.png` — 16 frames. <fighter-signature climactic; e.g., for Architect: GENESIS PROTOCOL — body splits into 4 fractal-mirrors, all four strike simultaneously, screen-flash trigger frame is frame 14>.
+> - `hit_high.png` — 4 frames. Head snaps back, body follows.
+> - `hit_mid.png` — 4 frames. Body folds inward at mid-torso, hands drop.
+> - `hit_low.png` — 4 frames. Knee buckles inward.
+> - `knockdown.png` — 10 frames. Airborne tumble (3) → ground impact (2 — one bounce frame) → grounded still (2) → rise to knee (2) → rise to stand (1).
+> - `block_active.png` — 3 frames. Guard with arms crossed-X high, frame 2 shimmer flash, frame 3 return to guard. Hold by repeating frame 1 if button held.
+> - `victory.png` — 8 frames. End-of-fight stillness → full <fighter-signature> pose. Hold frame 8 for 0.5s before idle resumes.
+> - `taunt.png` — 6 frames. Provoke wind-up → arms-out mockery → return.
+> - `crouch.png` — 2 frames. Standing → crouched. Toggle.
+>
+> **Veo 3.1 motion test** (optional QA): render the `idle.png` 6-frame loop as a 1s WebM at 256×256, alpha; verify the seamless-loop join at frame 6 → frame 1 has zero visible jump.
+
+The 22 pose sheets are rendered for each of the **21 canonical fighters**:
+
+| Fighter id | Loredex | Signature super-move authoring note |
+|---|---|---|
+| `architect` | entity_2 | GENESIS PROTOCOL — body fractures into 4 fractal-mirrors, all strike at once. Hard red flash trigger frame 14. |
+| `collector` | entity_6 | DNA HARVEST — bony tendrils erupt from beneath the cape, drag opponent in, freeze-frame on a ribbon-helix forming over the head. |
+| `enigma_malkia` | entity_54 | CYAN TESSELLATION CASCADE — body lattice ripples outward in concentric squares, each tile that touches opponent applies frostbite. Trigger frame 12. |
+| `warlord` | entity_10 | NANOBOT SWARM — body dissolves into orange-glowing motes, reassembles behind opponent for back-strike. Trigger frame 13. |
+| `necromancer` | entity_20 | RAISE DEAD — three ghostly silhouettes erupt from the floor, each delivers one strike in sequence. Trigger frame 14 on the third strike. |
+| `meme` | entity_5 | IDENTITY THEFT — body morphs through 4 species silhouettes (DeMagi, Quarchon, Neyon, Human) striking once each, ends in the opponent's silhouette. Trigger frame 15. |
+| `shadow_tongue` | entity_7 | EDIT THE TIMELINE — cone of indigo glyph-text washes the screen, opponent's last 2 hits "un-happen" (gameplay: heal opponent's last 2 lost health bars then remove them). Trigger frame 13. |
+| `watcher` | entity_4 | PANOPTICON LOCK — single eye descends from above, beam of cyan light pins opponent in place for 4 frames. Trigger frame 11. |
+| `oracle` | entity_51 | (not implemented as fighter — Oracle is referenced but does not enter the playable roster; render `idle` only as a placeholder for future-content slot.) |
+| `human` | entity_1 | TWO VOICES ONE FIST — character splits into rose+cyan halves, both strike same point. Trigger frame 13. |
+| `agent_zero` | entity_12 | YELLOW COAT INFILTRATION — character vanishes, reappears behind opponent, six rapid taps + a final knockdown sweep. Trigger frame 15. |
+| `akai_shi` | entity_88 | NINE TAILS — feline afterimages strike from nine angles. Trigger frame 14 on the ninth. |
+| `programmer` | entity_3 | DANIEL CROSS PATCH — character types in midair, code-glyph projectile explodes on opponent, opponent stuns for 2s. Trigger frame 13. |
+| `iron_lion` | entity_42 | ARMY OF ONE — Insurgency banner unfurls behind, 4 silhouetted soldiers join for a synchronized rifle-volley pose, then a single spear-thrust from Iron Lion himself. Trigger frame 15. |
+| `source_kael` | entity_49 | TERMINUS BLOOM — character flares into chaos-corruption form (purple + black), 12-frame all-screen lattice expands, opponent caught at the center. Trigger frame 12. |
+| `game_master` | entity_14 | GAME OVER — chess-piece silhouettes (king, queen, rook, knight, bishop, pawn) cycle through 6 strikes; final pose is checkmate-king salute. Trigger frame 14 on the king strike. |
+| `authority` | entity_13 | SUPREME VERDICT — robe billows out, scales-of-justice manifest above the head, descend to crush opponent. Trigger frame 13. |
+| `jailer` | entity_48 | CONTAINMENT FIELD — chains erupt from the four corners of the screen, lock onto opponent, character delivers a ceremonial single strike. Trigger frame 14. |
+| `host` | entity_89 | HOST'S EMBRACE — body splits like an opening flower, opponent pulled in, character closes over them. Trigger frame 13. |
+| `engineer` | entity_17 | LAST WORDS — character invokes the song bar, on-screen waveform pulses, single delayed-impact strike that lands 8 frames after the visual cue. Trigger frame 16 (last). |
+| `the_eyes` | entity_24 | SWARM SIGHT — 12 cyan eye-projectiles fan out, converge on opponent. Trigger frame 14. |
+
+### 10.2 Stage parallax + ambient
+
+Each stage gets 4 layers: `bg.jpg`, `mg.jpg`, `fg.jpg` (each 1920×1080, sRGB,
+80 quality), and `ambient.webm` (1920×1080, alpha, 24fps, 6s seamless loop,
+H.264 alpha or VP9 alpha, ≤4MB).
+
+#### Stage authoring template — `<stage_id>`
+
+> **bg.jpg** — `<deepest layer; very out of focus, 8-stop bokeh; no actor-relevant detail>`. Render in Nano Banana 2 at 1920×1080. House style §1.1. Palette §1.2 anchor: `<colors>`. Lighting register: `<key from §1.3>`.
+> **mg.jpg** — `<middle layer; moderately blurred (3-stop), recognizable but non-distracting>`.
+> **fg.jpg** — `<closest non-actor layer; sharp, but composition pulled to the screen edges so center stage is unobstructed>`.
+> **ambient.webm** — `<animated element drifting across the screen; smoke / sparks / dust / water / etc. Alpha. Seamless 6s loop. No hard edges that would draw the eye away from action.>`.
+
+#### Per-stage prompts (8 standard + 3 PvP + 4 boss = 15 stages)
+
+##### `stage_new_babylon`
+> bg: deep-violet citystate skyline at dusk, hundreds of red Authority lanterns at every level, central pyramidal courthouse tower silhouetted against a blood-orange sun, smog haze. mg: marble plaza floor with red-and-gold mosaic Authority sigil baked in (large enough to read at full-screen, faded by foot-wear at center). fg: two ceremonial red banners flanking the screen edges, brass tassels, slight wind-sway baked-in (still). ambient: gold leaf falling diagonally screen-right to screen-left, soft, ~30 leaves visible in any frame. Palette: Authority crimson #ff1744, brass #d4a574, void black.
+
+##### `stage_panopticon`
+> bg: vertical surveillance-tower interior; concentric ring-walkways recede upward into shadow; tiny silhouettes of guards on every ring (the bg implies thousands of watchers without rendering them). mg: stone-and-glass cell-block-style backdrop; reinforced windows, faint cyan camera-LED pips visible (60% off, 40% on, randomized). fg: dark stone arch frame to left and right, dust caught in down-shafts of light. ambient: a single cyan surveillance-orb drifts across the screen at ankle height, slow, scans the action with a sweeping rectangular beam (the beam is **part of the ambient layer**, not gameplay). Palette: Watcher amber #fbbf24, charcoal, cyan camera-LED.
+
+##### `stage_thaloria`
+> bg: Thalorian valley at dawn, low-fog blanket the floor, a single distant silver tree (2m tall on screen, twisted, leafless). mg: terraced stone steps, weathered, with prayer-glyph carvings (carvings illegible by design — not text, just glyph patterns). fg: low foreground stones, a single broken wheel-shaped prayer-disc lying flat. ambient: drifting white feathers, slow descent, ~12 feathers visible. Palette: pearl-cream, deep-slate blue, amber morning-light.
+
+##### `stage_terminus`
+> bg: void-rift tear cracking the sky, deep purple → black gradient inside the rift, exterior is a chaos-storm of black sand. mg: a fractured monument, a single seven-pointed star carved into the broken stone, pulsing softly. fg: the floor itself is broken in tile-fragments hovering at ankle level (the floor is gone — the fighters fight on a grid of suspended slabs). ambient: void-particles (small black motes) drift upward, the opposite of dust falling. Palette: void black, royal purple, blood orange interior-rift glow.
+
+##### `stage_mechronis`
+> bg: massive vertical industrial pistons reciprocating slowly behind a glass observation wall (the pistons render as a parallax-loop in the JPG — the WebM ambient adds the real motion). mg: lecture-platform riser steps, brass-bound, indigo running-light strips along edges. fg: a heavy lectern at left edge, bronze book-rest, dim internal light. ambient: piston-strokes (the actual motion — vertical pump arms behind the glass wall — animate at 2.4 strokes per 6s loop, always returning to start). Palette: indigo, brass, matte black industrial.
+
+##### `stage_crucible`
+> bg: open-air arena rim; lava lake below; the rim is a scarred black-stone amphitheater, partial silhouettes of crowd-shadow figures in the distant tiers. mg: cracked obsidian arena floor, lava-glow seams. fg: a brazier on either screen-edge, shoulder-height, full active fire. ambient: ember spray rising from the lava cracks beneath the arena floor, slow. Palette: scorched black, lava-orange, blood-red.
+
+##### `stage_blood_weave`
+> bg: organic chamber, walls are intertwined sinew-and-bone columns, faint red pulse from within them (heartbeat-like, slow). mg: a low altar at center-back, draped in crimson cloth, single iron knife. fg: hanging meat-hooks at left and right, red fabric streamers. ambient: drifting blood-mist, near-black with red highlights, ankle-height. Palette: crimson, bone-cream, pitch black.
+
+##### `stage_shadow_sanctum`
+> bg: floating purple-arcane runes forming a dome, runes rotate very slowly (the slow rotation is in the ambient layer), a single moon-disc behind the dome. mg: stone altar of dark obsidian, geometric carving. fg: two stone sentinel statues, faceless, flanking screen edges. ambient: 8 floating runes drift in concentric counter-rotating rings around the central altar; the rings cross the action zone but at z-back (behind the fighters). Palette: deep purple, indigo, soft cyan accent.
+
+##### `stage_ranked_table` (PvP)
+> bg: tournament chamber with 12 large screens mounted in a hemispherical arc, each screen showing a faction sigil. mg: polished marble floor with brass tournament-roster inlay. fg: two ranked-judge thrones at left/right edges, empty. ambient: a slow-rotating brass tournament cup hovers at upper-screen-center (not in the action zone), faint sparkle. Palette: brass, marble white, royal blue accent.
+
+##### `stage_tournament_hall` (PvP)
+> bg: vast banquet-style hall with banners hanging from the rafters (12 Archon Guild sigils alternating). mg: a balcony-edge stage with stairs descending to fighter-floor. fg: two heralds' standards at left/right edges, embroidered with gold. ambient: confetti drifts from above, gold and white, slow. Palette: gold, royal red, ivory.
+
+##### `stage_draft_chamber` (PvP)
+> bg: glass-roofed strategy room, deep night sky above, constellation-map of factions pulsing softly (each constellation is a player's deck-roster represented as star-points; design-only suggestion, not gameplay). mg: a long planning table with floating holographic deck-pieces. fg: two strategist-chairs flanking. ambient: 6 floating cards drift in a shallow horizontal arc near the top of the screen, slow tumble. Palette: midnight blue, electric cyan, brass.
+
+##### `stage_watcher_panopticon` (boss)
+> bg: an enormous third-eye iris dominates the back wall, the iris contracting and dilating slowly. mg: hovering surveillance-feed monitors (12 visible) showing partial scenes from across the game's other rooms — render the monitors at low contrast so the scenes feel surveilled. fg: the camera-eye scaffold at left/right edges — two robotic arms with cameras pointed at the fighters. ambient: the central iris contracts/dilates over the 6s loop, in sync. Palette: charcoal, cyan camera-glow, amber alert-glow.
+
+##### `stage_architect_throne` (boss)
+> bg: massive vertical fractal-lattice arch dominating the back; the arch is the Architect's signature lattice rendered architectural-scale; the arch glows from within. mg: a throne of red-and-black ascending steps, throne itself empty (the Architect IS on stage as the boss fighter — the throne being empty matters). fg: two fractal-spire columns flanking. ambient: code-cascade drifts down the back arch, like a slow-falling Matrix-style cascade but in fractal-glyph rather than letters. Palette: red lattice glow, void black, fractal cyan accent.
+
+##### `stage_necromancer_castle` (boss)
+> bg: gothic vaulted hall with seven blood-crystal pedestals arranged in a heptagon at the back; the central summoning circle is dormant in this stage variant. mg: a long stone aisle with two rows of empty wooden pews; each pew has a single skull on it (skulls don't move). fg: a single hanging green-foxfire chandelier at upper-screen-center (lit). ambient: green foxfire wisps rise from the floor in slow vertical drifts. Palette: bone-cream, blood-red crystal, foxfire green.
+
+##### `stage_terminus_core` (boss)
+> bg: deep-rift interior — the camera is INSIDE a void-tear; perspective shifts visibly across the loop (this means render the bg as a still that suggests motion, and let the ambient WebM carry the actual perspective shift). mg: floating slabs of corrupted city-stone, all at slight angles. fg: a single corrupted seven-pointed-star monument breaking through the floor at left, half-buried. ambient: across the 6s loop the camera FOV shifts 8° (toward the action and back), making the fighters appear to be stalked by the rift itself. Palette: violet, royal purple, void-black, blood-orange seam.
+
+### 10.3 HUD assets
+
+> **`art/fight/hud/health_bar_p1.png`** — 600×40 px. Brass frame, deep-red interior fill region, divider tick-marks every 50 HP. Empty state: deep grey interior; full state: bright red. Subtle inner shadow. Two-layer authoring: `health_bar_p1_frame.png` + `health_bar_p1_fill.png` (so engine can clip the fill).
+> **`art/fight/hud/health_bar_p2.png`** — same as p1 but mirrored, framed in cobalt-blue.
+> **`art/fight/hud/super_meter.png`** — 240×24 px, gold-frame, internal three-segment marks (Lv1/2/3). Three segment-states authored: empty, partial (3 variants), full-glowing.
+> **`art/fight/hud/portrait_frame_p1.png`** — 160×160 px brass-bordered frame, alpha-cut ring inside for a circle-cropped fighter portrait. Slight inner glow corresponding to player faction.
+> **`art/fight/hud/portrait_frame_p2.png`** — mirrored, cobalt-bordered.
+> **`art/fight/hud/round_card_round_1.png`** — 1200×400 px, full-bleed banner: ornate red-on-black scroll with "ROUND 1" in cinematic display text (this is the **only** HUD asset that allows on-image text). Plays once at round start.
+> **`art/fight/hud/round_card_round_2.png`** — same, "ROUND 2".
+> **`art/fight/hud/round_card_final.png`** — same composition, "FINAL ROUND" in larger weight, gold underline.
+> **`art/fight/hud/timer_clock.png`** — 96×96 px, brass clock-face, 12-position tick layout. Engine handles needle rotation in code.
+> **`art/fight/hud/combo_pop_<tier>.png`** — 4 tiers (`bronze`, `silver`, `gold`, `platinum`). 200×80 px each. Brass-and-color floating numerals with a dynamic-glow rim. Engine substitutes the numeral.
+> **`art/fight/hud/victory_banner.png`** — 1920×400 px full-width banner: "VICTORY" in cinematic display text, brass-and-gold, with a soft particle aura. Plays after match.
+> **`art/fight/hud/flawless_victory_banner.png`** — same composition, "FLAWLESS VICTORY" with deep-red underline + flame-aura accent.
+> **`art/fight/hud/perfect_banner.png`** — same composition, "PERFECT" at largest weight, white outer glow.
+> **`art/fight/hud/ko_splash.png`** — 1920×1080 full-screen overlay: huge "K.O." text bottom-center, semi-transparent black tint top, screen-edge cracks emanating from the center (visual broken-glass effect). One-shot play on KO.
+
+### 10.4 Combat VFX
+
+All VFX render as **WebM with alpha**, 24fps, 256×256 unless noted. Style: §1.5
+animation vocabulary; lifespans short (the eye should never linger).
+
+> **`art/fight/vfx/hit_spark_light.webm`** — 5 frames, 0.21s. Radial 6-ray burst, white core, brass spokes. 256×256.
+> **`art/fight/vfx/hit_spark_medium.webm`** — 7 frames, 0.29s. 12-ray burst, white core, gold spokes, faint orange falloff.
+> **`art/fight/vfx/hit_spark_heavy.webm`** — 10 frames, 0.42s. Full sunburst, white-hot core, red-orange falloff, two satellite mini-bursts.
+> **`art/fight/vfx/block_shimmer.webm`** — 4 frames, 0.17s. Cyan hex-grid lattice flashes once over the blocker silhouette, then fades.
+> **`art/fight/vfx/super_screenflash.webm`** — 1920×1080, 6 frames, 0.25s. Full-screen white flash → fighter-faction-color tint → fade. **Tinted-color is per-fighter** — render 21 variants, one per fighter, named `super_screenflash_<fighter_id>.webm`.
+> **`art/fight/vfx/freeze_frame_outline.webm`** — 4 frames, 0.17s. White outline traces fighter silhouette (outline only, not the body), holds 2 frames, fades.
+> **`art/fight/vfx/knockdown_dirt.webm`** — 8 frames, 0.33s. Brown dust burst at ankle level, expanding outward then settling. 384×128 (wider than tall).
+> **`art/fight/vfx/projectile_trail_<faction>.webm`** — 8 frames, looping 0.33s. Trail of energy in faction color (6 variants: hierarchy-red, insurgency-orange, authority-crimson, dreamer-cyan, mechronis-indigo, terminus-violet).
+> **`art/fight/vfx/victory_afterimage.webm`** — 12 frames, 0.5s. Trailing translucent clone of the fighter steps backward then dissolves. Renders **per-fighter** — 21 variants. Use the `victory.png` sprite as the source frame.
+> **`art/fight/vfx/ko_blackout.webm`** — 1920×1080, 12 frames, 0.5s. Iris-close vignette to black from the screen edges, then a single white flash, then black hold. One-shot.
+> **`art/fight/vfx/character_glow_super_ready.webm`** — looping 12 frames, 0.5s. Outer glow halo rotates around fighter-silhouette. Plays whenever the super meter caps. **Per-fighter color** — 21 variants.
+
+> **Render + upload**:
+> ```bash
+> pnpm tsx apps/scripts/upload-public-to-s3.ts --prefix art/fight/
+> ```
+> **Wire**:
+> - Sprite sheets register in `apps/client/src/game/fight/spriteRegistry.ts` (create if missing).
+> - HUD elements register in `apps/client/src/game/fight/hud/hudRegistry.ts`.
+> - VFX register in `apps/client/src/game/fight/vfx/vfxRegistry.ts`.
+> - Stage layers register in `apps/client/src/game/fight/stages/stageRegistry.ts`.
+
+---
+
+## 11. Fighter game — SFX, voice barks, music
+
+### 11.0 Render contract for fighter audio
+
+- **All combat SFX**: 48kHz 16-bit stereo, OGG Vorbis q=6 (or MP3 192kbps if engine prefers), normalized to -14 LUFS, peak ≤ -1.5 dBTP. Render in **Suno 5.1** + **iZotope** chain (RX 11 De-Click + Insight 2 metering); export trimmed to ±5ms of useful onset.
+- **All voice barks**: ElevenLabs Studio Project, per-fighter voice profile (see §11.2 voice-profile catalog), -14 LUFS, peak ≤ -1.5 dBTP, 48kHz. Each bark is its own asset; no concatenation.
+- **All music tracks**: Suno 5.1, 48kHz stereo, MP3 256kbps (engine streams). Loop-points pre-baked at the top-of-file via Studio One's "loop tail" technique (last 8s overlap with first 8s, crossfade, render).
+- **Asset prefix**: `audio/fight/sfx/<slug>.ogg`, `audio/fight/voice/<fighter_id>/<bark_id>.ogg`, `audio/fight/music/<slug>.mp3`, `audio/fight/ambient/<stage_id>.ogg`.
+
+### 11.1 Combat SFX (32 universal + 21 per-fighter super-move + 21 per-fighter taunt-clack)
+
+Universal stings:
+
+> **`audio/fight/sfx/punch_light_whoosh.ogg`** (0.18s) — Suno: "single sharp air-cut whoosh, thin, 80–120ms decay, no body, no impact, just the cut".
+> **`audio/fight/sfx/punch_light_hit.ogg`** (0.16s) — Suno: "flesh-on-flesh quick slap with a small wood-knock undertone, no reverb, brief".
+> **`audio/fight/sfx/punch_medium_whoosh.ogg`** (0.22s) — Suno: "fuller air-cut, broader frequency, 200ms decay".
+> **`audio/fight/sfx/punch_medium_hit.ogg`** (0.22s) — Suno: "meatier impact, body-hit thump under the slap, brief room-tail (40ms)".
+> **`audio/fight/sfx/punch_heavy_whoosh.ogg`** (0.30s) — Suno: "deep arcing whoosh, 300ms decay, slight low-end rumble".
+> **`audio/fight/sfx/punch_heavy_hit.ogg`** (0.32s) — Suno: "heavy thud + bone-crack accent + 80ms reverb tail, weighty".
+> **`audio/fight/sfx/kick_light_whoosh.ogg`** (0.20s) — Suno: "short fabric-air cut, 150ms decay".
+> **`audio/fight/sfx/kick_light_hit.ogg`** (0.18s) — Suno: "leather-on-flesh slap, mid-frequency".
+> **`audio/fight/sfx/kick_medium_whoosh.ogg`** (0.26s) — Suno: "fabric-sweep through air, 250ms decay".
+> **`audio/fight/sfx/kick_medium_hit.ogg`** (0.26s) — Suno: "boot-on-body, lower-frequency thump".
+> **`audio/fight/sfx/kick_heavy_whoosh.ogg`** (0.36s) — Suno: "long arcing kick-whoosh, body-momentum, 350ms decay, low-end".
+> **`audio/fight/sfx/kick_heavy_hit.ogg`** (0.40s) — Suno: "heavy boot-impact + crack + room-tail (100ms), weighty".
+> **`audio/fight/sfx/sweep_kick_hit.ogg`** (0.45s) — Suno: "low-sweep ground-impact + tumbling-body element, 100ms tail".
+> **`audio/fight/sfx/jump_landing.ogg`** (0.30s) — Suno: "boot-on-floor double-tap (heel-toe), no reverb".
+> **`audio/fight/sfx/block_metallic.ogg`** (0.20s) — Suno: "single sharp metal-on-metal clang with a small bell-tail, 200ms".
+> **`audio/fight/sfx/parry_chime.ogg`** (0.30s) — Suno: "single high glass-bell ping, 250ms decay, distinct from block".
+> **`audio/fight/sfx/knockdown_thud.ogg`** (0.50s) — Suno: "body-on-floor heavy thud + slight room-tail (150ms)".
+> **`audio/fight/sfx/ko_impact.ogg`** (0.80s) — Suno: "huge sub-bass hit + cracked-glass shatter accent + long reverb (600ms)".
+> **`audio/fight/sfx/round_start_bell.ogg`** (1.20s) — Suno: "single boxing-bell ding with a 1s decay, brass tone".
+> **`audio/fight/sfx/round_end_bell.ogg`** (1.50s) — Suno: "double boxing-bell ding with a 1.2s decay".
+> **`audio/fight/sfx/match_start_announce.ogg`** (1.20s) — ElevenLabs: voice — male announcer baritone, line: "FIGHT!", short, with stadium reverb (180ms tail).
+> **`audio/fight/sfx/finish_him.ogg`** (1.40s) — ElevenLabs: same announcer, line: "FINISH HIM.", calm-grave delivery (not shouted), with stadium reverb.
+> **`audio/fight/sfx/finish_her.ogg`** (1.40s) — ElevenLabs: same announcer, line: "FINISH HER.", same delivery.
+> **`audio/fight/sfx/finish_them.ogg`** (1.40s) — ElevenLabs: same announcer, line: "FINISH THEM.", same delivery.
+> **`audio/fight/sfx/victory_sting.ogg`** (2.50s) — Suno: "brass-fanfare 5-note ascending sting, full orchestra, ending on a held high-F, 500ms tail".
+> **`audio/fight/sfx/defeat_sting.ogg`** (2.20s) — Suno: "low brass three-note descending sting, mournful but proud".
+> **`audio/fight/sfx/perfect_sting.ogg`** (3.00s) — Suno: "ascending fanfare overtopped with a soprano choir-stab on the final chord".
+> **`audio/fight/sfx/menu_select.ogg`** (0.10s) — Suno: "tight tech-blip, 80ms".
+> **`audio/fight/sfx/menu_back.ogg`** (0.12s) — Suno: "reverse blip, 100ms".
+> **`audio/fight/sfx/menu_confirm.ogg`** (0.20s) — Suno: "double-tap confirmation, brass tone".
+> **`audio/fight/sfx/character_select_lock.ogg`** (0.50s) — Suno: "metal-clamp lock-down sound + small bell".
+> **`audio/fight/sfx/super_meter_full.ogg`** (1.20s) — Suno: "ascending glittering-bell flourish ending on a sustained tone".
+
+Per-fighter super-move SFX (21 variants). Authoring template:
+
+> **`audio/fight/sfx/super_<fighter_id>.ogg`** (1.5–2.5s) — Suno: `<fighter-flavor>`, capture the silhouette of the super animation in audio (every fighter's super has 4 distinct sonic moments: invoke, charge, release, impact). Examples:
+> - `super_architect.ogg`: invoke = sub-bass swell, charge = fractal-glass-tinkle layered with rising whine, release = single hard fractal-shatter, impact = orchestral hit + tape stop.
+> - `super_collector.ogg`: invoke = whispered crowd-mumble, charge = rising bone-helix click, release = wet dragging + helix lock-click, impact = crystal-cage close.
+> - `super_enigma_malkia.ogg`: invoke = ascending cyan choir, charge = crystalline ringing, release = ice-pane shatter, impact = held-tone for 0.4s.
+> - `super_warlord.ogg`: invoke = mechanical clicking, charge = swarm-buzz crescendo, release = ringed metal-impact, impact = deep boom.
+> - `super_necromancer.ogg`: invoke = single bass-organ note, charge = three rising ghost-wails, release = three sequential wet-thuds (one per ghost), impact = crypt-door slam.
+> - `super_meme.ogg`: invoke = morphing voice-pitch slide, charge = 4 stacked vocal-stab samples, release = each species' weapon-strike audio chained, impact = laugh-cut.
+> - `super_shadow_tongue.ogg`: invoke = retrograde-tape rewinding, charge = whispered-text wash, release = single backward-impact, impact = ringing silence (3s).
+> - `super_watcher.ogg`: invoke = single eye-iris-shutter click, charge = high-whine surveillance-beam, release = single laser-snap, impact = electronic confirmation tone.
+> - `super_human.ogg`: invoke = duet-of-two-voices breathing, charge = stacking harmonic, release = single dual-channel hit (rose channel + cyan channel), impact = held duet-chord.
+> - `super_agent_zero.ogg`: invoke = silent (0.8s of room-tone — by design), charge = footsteps fading, release = six rapid-fire close-microphone shots, impact = single body-fall.
+> - `super_akai_shi.ogg`: invoke = nine bell-pings ascending, charge = wind through bamboo, release = nine quick blade-cuts, impact = single sustained held-note.
+> - `super_programmer.ogg`: invoke = mechanical-keyboard typing, charge = code-compile beep, release = single explosion + glass-shatter, impact = error-tone.
+> - `super_iron_lion.ogg`: invoke = banner-unfurl flap, charge = four synchronized rifle-bolt-pulls, release = single rifle-volley, impact = spear-thrust + roar.
+> - `super_source_kael.ogg`: invoke = chaos-storm swell, charge = rising distortion, release = lattice-ring expansion (sub-bass), impact = sustained reverse-reverb tail.
+> - `super_game_master.ogg`: invoke = chess-clock click, charge = 6 piece-moves on board (clack-clack), release = single king-piece slam, impact = "checkmate" whispered + sting.
+> - `super_authority.ogg`: invoke = robe-fabric whirl, charge = scales-of-justice clank-rising, release = stone-crush thud, impact = gavel-strike.
+> - `super_jailer.ogg`: invoke = chain-rattle from four directions, charge = chains-tightening, release = ceremonial single-strike, impact = lock-snap.
+> - `super_host.ogg`: invoke = wet floral-bloom unfurling, charge = soft suction-pull, release = closing-flower sound, impact = muffled-from-inside thud.
+> - `super_engineer.ogg`: invoke = waveform-bar rising hum, charge = "Last Words" musical-bar fragment (4 piano notes), release = held silence (8 frames), impact = single resonant-bell tone.
+> - `super_the_eyes.ogg`: invoke = 12 simultaneous iris-clicks, charge = swarm-whine, release = 12 staggered laser-snaps, impact = unified confirmation tone.
+
+Per-fighter taunt-clack SFX (the audio-only "clack" that plays under the
+visual `taunt.png` sprite, distinct from the voice-bark `taunt_*` lines in
+§11.2):
+
+> **`audio/fight/sfx/taunt_clack_<fighter_id>.ogg`** (0.4–0.7s) — A short non-verbal sonic signature that registers AS THAT FIGHTER's audio fingerprint. Examples: Architect = single fractal-glass tap; Necromancer = bone-rattle; Iron Lion = banner-flap + spear-butt floor-thump; Game Master = chess-piece-on-board clack. Render 21 variants.
+
+### 11.2 Per-fighter voice barks (catalog)
+
+Each fighter gets **a voice profile** (ElevenLabs Studio) and a **bark
+catalog** rendered against that profile. The catalog is identical per fighter
+in slot-structure; the lines and delivery vary.
+
+The 22-slot bark catalog per fighter:
+
+| Slot | When | Line direction | Notes |
+|---|---|---|---|
+| `intro_1` | round 1 start | confident statement of self | 1.5s |
+| `intro_2` | round 1 start (alt) | confident statement of self | 1.5s |
+| `taunt_1` | manual taunt button | mockery, character-flavored | 1.0s |
+| `taunt_2` | manual taunt button (alt) | mockery, alt | 1.0s |
+| `taunt_3` | manual taunt button (alt) | mockery, alt | 1.0s |
+| `hit_grunt_light` | take light hit | brief vocal grunt | 0.4s |
+| `hit_grunt_medium` | take medium hit | mid-volume grunt | 0.5s |
+| `hit_grunt_heavy` | take heavy hit | loud strained grunt | 0.7s |
+| `attack_yell_light` | throw light attack | brief exhale | 0.3s |
+| `attack_yell_medium` | throw medium attack | mid-exhale | 0.4s |
+| `attack_yell_heavy` | throw heavy attack | full exhale + word | 0.6s |
+| `special_yell_1` | throw special_1 | single character-word callout | 0.8s |
+| `special_yell_2` | throw special_2 | single character-word callout (alt) | 0.8s |
+| `super_invoke` | super start | full ritualized invocation phrase | 1.5–2.5s |
+| `super_release` | super hit-frame | single climactic word | 0.6s |
+| `block_grunt` | block held under pressure | strain-grunt | 0.5s |
+| `parry_quip` | successful parry | brief one-line quip | 1.0s |
+| `knockdown_grunt` | knocked down | strained "ah" / wordless | 0.5s |
+| `victory_line_1` | win | post-fight statement | 2.0s |
+| `victory_line_2` | win (alt) | post-fight statement | 2.0s |
+| `defeat_line` | lose | post-fight statement | 2.0s |
+| `mid_round_breath` | between rounds | wordless breath/regroup | 1.0s |
+
+That's **22 barks × 21 fighters = 462 voice-bark renders**, all batched in
+one ElevenLabs Studio Project per fighter. Voice profiles are catalogued in
+the table below; line scripts ship as a CSV (`apps/scripts/fight-voice-barks.csv`,
+to be authored alongside this prompt book).
+
+#### Fighter voice profile catalog
+
+> **`architect`** — Cold synthetic baritone, 0% breath, vocoder ring (8% wet), perfectly clean reverb (250ms hall, 12% wet), zero pitch jitter. Reference timbre: HAL 9000 baritone. ElevenLabs: "fight_architect_v1".
+> **`collector`** — Whispered patrician baritone, hyper-articulate, slight vinyl-crackle (0.6%), low room-tone bed (-32dB). Reference: a quieter Christopher Lee. ElevenLabs: "fight_collector_v1".
+> **`enigma_malkia`** — Cyan, crystalline female alto, light glass-shimmer-style chorus (12% wet), held-tone reverb (1.4s tail at -22dB). Reference: a half-whispered Tilda Swinton. ElevenLabs: "fight_enigma_v1".
+> **`warlord`** — Gravel mid-baritone, mechanical-distortion underlayer (subtle, 4% drive), bullhorn-style EQ (notched 200Hz), zero reverb (combat-radio register). Reference: Idris Elba in "command" register. ElevenLabs: "fight_warlord_v1".
+> **`necromancer`** — Sardonic baritone, theatrical cadence, ghost-double-tracking at -8dB (every line has a half-second-delayed ghost-line of itself), faint cathedral reverb (700ms tail, 18% wet). Reference: Jeremy Irons "Scar" register. ElevenLabs: "fight_necromancer_v1".
+> **`meme`** — Morphing voice — every line records 4 takes with different vocal characters (DeMagi-warrior baritone, Quarchon-vocoder, Neyon-flange, Human-natural) and the engine cross-fades through them. ElevenLabs: 4 profiles, "fight_meme_demagi_v1" / "fight_meme_quarchon_v1" / "fight_meme_neyon_v1" / "fight_meme_human_v1".
+> **`shadow_tongue`** — Reverse-reverb pre-tail (the reverb plays BEFORE the voice, by 200ms — feels wrong but reads as Shadow Tongue's identity), male tenor neutral. Reference: Cillian Murphy whispering. ElevenLabs: "fight_shadow_tongue_v1".
+> **`watcher`** — Modulated synthetic, slight robotic step-quantization on consonants, surveillance-camera-radio EQ (high-pass at 500Hz). Reference: a less-emotional GLaDOS. ElevenLabs: "fight_watcher_v1".
+> **`oracle`** — (placeholder; not implemented as fighter — record a single `intro_1` line for the future-content slot).
+> **`human`** — Natural rose-cyan duet — every line records as a true duet of two voices (one rose-warm female, one cyan-cool female), close-miked, in unison. The two voices diverge by 50¢ on emotional words. ElevenLabs: "fight_human_rose_v1" + "fight_human_cyan_v1", combined in mix.
+> **`agent_zero`** — Whispered female alto, hyper-controlled breath (3% wet breath layer), no reverb (close-mic register), occasional 60Hz mains-hum (4% — operator-radio coloration). ElevenLabs: "fight_agent_zero_v1".
+> **`akai_shi`** — Light feline alto, slight fricative emphasis on S/SH consonants, soft delay (180ms feedback, 10% wet) so every line whispers itself once. ElevenLabs: "fight_akai_shi_v1".
+> **`programmer`** — Daniel Cross — natural mid-baritone, normal Earth-American register, slight terminal-keyboard background bed (-36dB). ElevenLabs: "fight_programmer_v1".
+> **`iron_lion`** — Powerful chest-resonant baritone, leonine roar accent on heavy lines, brass-bullhorn EQ, parade-ground reverb (1.2s tail, 22% wet on roar lines, 0% on speech). ElevenLabs: "fight_iron_lion_v1".
+> **`source_kael`** — Layered male baritone — three takes pitched at 0¢, +700¢, -700¢ stacked at -2dB each (the chord-of-self), heavy distortion (16% drive), void-reverb tail (3.5s, 28% wet). ElevenLabs: "fight_source_kael_v1" + post-process pitch stack.
+> **`game_master`** — Genteel mid-tenor with theatrical cadence, no reverb (parlor-register), occasional mechanical chess-clock-tick at -36dB under speech. ElevenLabs: "fight_game_master_v1".
+> **`authority`** — Stentorian formal-court baritone, chamber reverb (1.8s tail, 26% wet), zero contractions, hyper-articulate. ElevenLabs: "fight_authority_v1".
+> **`jailer`** — Cold monotone tenor, chain-jangle background (-28dB) under speech, dungeon-reverb (2.4s tail, 32% wet). ElevenLabs: "fight_jailer_v1".
+> **`host`** — Choir-stacked alto + tenor + bass takes (3 simultaneous voices, in unison, panned hard L/C/R), consonants synchronized within 5ms. Reference: Gregorian-chant register applied to combat barks. ElevenLabs: "fight_host_choir_v1".
+> **`engineer`** — Two profiles — "engineer_normal" (warm baritone) and "the_prince" (same speaker pitched +200¢, with a cathedral-tail, 1.8s, 20% wet). Engineer barks default to "the_prince" register; `defeat_line` only is "engineer_normal". ElevenLabs: 2 profiles.
+> **`the_eyes`** — Whispered child-like soprano, 12 voices stacked (one per Eye), each panned to a different stereo position around the listener (use 12-channel ambisonic if available, else stereo with stochastic L/R distribution). ElevenLabs: "fight_eyes_swarm_v1" rendered 12× and mixed.
+
+### 11.3 Stage ambient music + universal fight music
+
+Per-stage music (15 stages):
+
+> **`audio/fight/music/<stage_id>.mp3`** (2:30 loop, 256kbps stereo) — Suno 5.1: `<style + tempo + 4-bar core motif>`. Pre-baked 8s overlap loop-tail.
+> - `new_babylon.mp3`: imperial-orchestra brass + Authority-choir, 88 BPM, A-minor, motif = 4-note descending fanfare.
+> - `panopticon.mp3`: cold synth-pad + stochastic camera-clicks bed, 64 BPM, ambient (no clear key).
+> - `thaloria.mp3`: monastic-choir + lonely cello, 52 BPM, D-minor, motif = single rising 5-note prayer figure.
+> - `terminus.mp3`: distorted industrial bass + glitched-string drones, 120 BPM, dropped-D-tuning chaos, motif = 7-beat irregular pattern.
+> - `mechronis.mp3`: industrial percussion + dark organ + brass, 96 BPM, B-minor, motif = mechanical rotation pattern.
+> - `crucible.mp3`: war-drum percussion + brass swells, 132 BPM, E-minor, motif = battle-march call-and-response.
+> - `blood_weave.mp3`: ritualistic drone + bone-flute, 60 BPM, F-sharp-minor, motif = single sustained tone with whispered overlay.
+> - `shadow_sanctum.mp3`: arcane synth-pads + glass-bell percussion, 72 BPM, A-flat-minor, motif = 8-note rune-circle progression.
+> - `ranked_table.mp3`: orchestral drama + electronic accent, 100 BPM, C-major, motif = rising-tournament fanfare.
+> - `tournament_hall.mp3`: brass-celebration + processional drums, 120 BPM, D-major, motif = victory-march.
+> - `draft_chamber.mp3`: contemplative piano + electronic strings, 80 BPM, E-minor, motif = thoughtful 4-bar phrase.
+> - `watcher_panopticon.mp3` (boss): tension-building orchestra + relentless camera-click rhythm, 100 BPM, F-minor, motif = surveillance-stalking pattern.
+> - `architect_throne.mp3` (boss): grand-imperial orchestra + fractal-electronic accents, 88 BPM, B-flat-minor, motif = architectural-scale 12-note theme.
+> - `necromancer_castle.mp3` (boss): pipe-organ + ghostly choir + bone-percussion, 64 BPM, D-minor, motif = funeral-march variation.
+> - `terminus_core.mp3` (boss): broken-orchestra + chaos-distortion + screams-of-the-corrupted (low-mix), 120 BPM, dropped-D, motif = collapsing-into-chaos progression.
+
+Universal fight music (4 missing tracks):
+
+> **`audio/fight/music/character_select.mp3`** (1:30 loop) — Suno: "energetic orchestral + electronic hybrid, 110 BPM, A-major, brass fanfare motif, 4-bar phrases, designed to loop at the character-select screen".
+> **`audio/fight/music/training.mp3`** (3:00 loop) — Suno: "ambient meditative piano + light synth-pad, 60 BPM, C-major, designed to be present-not-distracting for repetitive practice".
+> **`audio/fight/music/victory_screen.mp3`** (45s loop) — Suno: "triumphant brass-and-strings fanfare, 100 BPM, G-major, 4-bar repeating victory phrase".
+> **`audio/fight/music/defeat_screen.mp3`** (45s loop) — Suno: "mournful-but-defiant low-strings + lonely horn, 70 BPM, F-minor, 4-bar reflective phrase".
+
+Stage ambient loops (15 stages, room-tone beds that play UNDER the music):
+
+> **`audio/fight/ambient/<stage_id>.ogg`** (15s seamless loop, mono) — Suno: `<atmospheric room-tone, no melody, no rhythm, just place>`.
+> - `new_babylon`: distant city-crowd hush + stone-courtyard reverb + imperial-banner flap.
+> - `panopticon`: ventilation hum + occasional camera-servo clicks + distant footsteps.
+> - `thaloria`: high-altitude wind + faint-monastery-choir-drone.
+> - `terminus`: void-rift-static + low-frequency dimensional-instability hum.
+> - `mechronis`: industrial-piston-rhythm + steam-vent hiss.
+> - `crucible`: lava-bubbling + crowd-roar-faint + brazier-crackle.
+> - `blood_weave`: heart-beat-from-walls + dripping + ritualistic-low-chant.
+> - `shadow_sanctum`: low-arcane-drone + whispered-runes-faint.
+> - `ranked_table`: tournament-hall murmur + brass-tea-cup clinks (close-mic).
+> - `tournament_hall`: cheering-crowd hush + banner-flap + occasional cheer.
+> - `draft_chamber`: contemplative-quiet + holographic-card-drift.
+> - `watcher_panopticon`: surveillance-iris-pulse + alarm-tone-faint.
+> - `architect_throne`: fractal-cascade-hum + lattice-electrical.
+> - `necromancer_castle`: foxfire-hiss + crypt-drip + distant-organ.
+> - `terminus_core`: chaos-storm + corrupted-voice-fragments-faint.
+
+> **Render + upload**:
+> ```bash
+> pnpm tsx apps/scripts/upload-public-to-s3.ts --prefix audio/fight/
+> ```
+> **Wire**: register slugs in `apps/client/src/game/fight/audio/audioRegistry.ts`.
 
 ---
 
