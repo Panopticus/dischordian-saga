@@ -39,6 +39,24 @@ export type TrustBand = "cold" | "neutral" | "warm" | "confidant";
 /** Which narrative act (0-7) the variant targets. `"any"` = act-agnostic. */
 export type ActGate = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | "any";
 
+/**
+ * audit/16 PR 4 (Cluster D) — variant time-window. Real-world dates
+ * (ISO 8601) bounding when this variant is eligible. Used by the ARG
+ * surface for calendar-tied content drops; the resolver compares the
+ * current `now` against this window during gate evaluation.
+ *
+ * Either bound is optional: `{ startsAt }` = "active from this date
+ * forward"; `{ endsAt }` = "active until this date"; both = exact
+ * window. Strings are parsed via Date.parse — keep them ISO 8601 so
+ * they're timezone-explicit.
+ */
+export interface VariantTimeWindow {
+  /** ISO 8601 start (inclusive). Variant is eligible at-or-after. */
+  startsAt?: string;
+  /** ISO 8601 end (exclusive). Variant is eligible strictly before. */
+  endsAt?: string;
+}
+
 export interface MoralityTrustActVariant {
   /** Globally unique id. Pattern: "{surface}_{descriptor}". */
   id: string;
@@ -64,6 +82,40 @@ export interface MoralityTrustActVariant {
    * for this variant to resolve; omitted means unrestricted.
    */
   requiredFlags?: readonly string[];
+  /**
+   * audit/16 PR 4 (Cluster D — finding C1).
+   *
+   * Optional cinematic id to crossfade an `AnimatedPortrait` to when
+   * this variant resolves. Consumers (NarrativeEngine, ClueJournal,
+   * WheelFollowup) read this and dispatch the appropriate visual
+   * transition; null/undefined means "render text only".
+   *
+   * Resolution does NOT require this field be populated; it's purely
+   * an additive payload for downstream consumers. The id space is
+   * shared with `apps/shared/cinematicRegistry.ts` once that lands.
+   */
+  portraitCinematicId?: string;
+  /**
+   * audit/16 PR 4 (Cluster D — finding AR6).
+   *
+   * Optional calendar window. When set, the resolver only returns
+   * this variant if the current `input.now` falls inside the window
+   * (or `now` is omitted, meaning "ignore time-windowing"). Lets ARG
+   * authors gate variants to specific real-world dates without
+   * shipping a side-channel scheduler.
+   */
+  timeWindow?: VariantTimeWindow;
+  /**
+   * audit/16 PR 4 (Cluster D — finding Co3).
+   *
+   * Optional list of clue ids this variant relates to. The clue
+   * journal's "HOW YOU READ THIS THEN/NOW" panel reads these to
+   * cross-link historical journal entries with current ones; the
+   * field is also exposed to the variant resolver so future
+   * specificity scoring can reward variants that contextualise
+   * known clues.
+   */
+  relatedClues?: readonly string[];
 }
 
 export interface VariantResolutionInput {
@@ -71,6 +123,13 @@ export interface VariantResolutionInput {
   narrativeAct: number;
   trustByCompanion: Readonly<Record<string, number>>;
   flags: ReadonlySet<string>;
+  /**
+   * audit/16 PR 4 — current time used to evaluate `timeWindow` gates.
+   * Optional; when omitted, time-windowed variants are treated as
+   * always-eligible (so callers that don't care about ARG time-gating
+   * never have to think about it). Production callers pass `new Date()`.
+   */
+  now?: Date;
 }
 
 /** Derive morality band from the raw score. */
@@ -91,7 +150,13 @@ export function bandForTrust(trust: number): TrustBand {
 /**
  * Specificity score — higher wins when multiple variants match.
  * Scoring rewards specificity: bound morality + bound trust + exact act +
- * required flags each count.
+ * required flags + (audit/16 PR 4) time-window + related-clue refs each count.
+ *
+ * The new fields are weighted modestly so they sort _below_ the existing
+ * morality/trust/act/flag axes when authors use them as flavour
+ * (portrait + clue-link), but a populated time-window still beats an
+ * unbounded variant in a tie — the audit'd intent is "ARG drops should
+ * win against the same-priority always-on default during their window".
  */
 function specificityScore(v: MoralityTrustActVariant): number {
   let s = 0;
@@ -99,7 +164,33 @@ function specificityScore(v: MoralityTrustActVariant): number {
   if (v.trust !== "any") s += 3;
   if (v.act !== "any") s += 2;
   if (v.requiredFlags && v.requiredFlags.length) s += v.requiredFlags.length;
+  if (v.timeWindow && (v.timeWindow.startsAt || v.timeWindow.endsAt)) s += 2;
+  if (v.relatedClues && v.relatedClues.length) s += 1;
   return s;
+}
+
+/** Pure helper exported for tests — returns true iff `now` falls inside
+ *  the variant's time window (inclusive start, exclusive end). When
+ *  `now` is undefined, time-windowed variants pass; when the window
+ *  itself is undefined or both bounds are unset, the variant always
+ *  passes. */
+export function isWithinTimeWindow(
+  window: VariantTimeWindow | undefined,
+  now: Date | undefined,
+): boolean {
+  if (!window) return true;
+  if (!window.startsAt && !window.endsAt) return true;
+  if (!now) return true;
+  const t = now.getTime();
+  if (window.startsAt) {
+    const start = Date.parse(window.startsAt);
+    if (Number.isFinite(start) && t < start) return false;
+  }
+  if (window.endsAt) {
+    const end = Date.parse(window.endsAt);
+    if (Number.isFinite(end) && t >= end) return false;
+  }
+  return true;
 }
 
 /** Returns true iff every gate on `v` matches the input state. */
@@ -119,6 +210,9 @@ function gatesMatch(
   if (v.requiredFlags) {
     for (const f of v.requiredFlags) if (!input.flags.has(f)) return false;
   }
+  // audit/16 PR 4 — calendar window gate. Variants without a window
+  // always pass; variants with a window only pass if `now` falls inside.
+  if (!isWithinTimeWindow(v.timeWindow, input.now)) return false;
   return true;
 }
 

@@ -5,9 +5,9 @@
 `VARIANT_REGISTRY` array; the resolver applies a deterministic best-match
 priority so writers never reason about precedence.
 
-## The four gates
+## The five gates
 
-Every variant declares up to four gates. The resolver checks each; the entry
+Every variant declares up to five gates. The resolver checks each; the entry
 with the most specific passing gates wins.
 
 | Gate | Values | Notes |
@@ -16,6 +16,19 @@ with the most specific passing gates wins.
 | `trust` | `cold` / `neutral` / `warm` / `confidant` / `any` | Derived from companion trust via `bandForTrust` (≥ 80 = confidant, ≥ 50 = warm, ≥ 25 = neutral, else cold). Requires `trustCompanionId`. |
 | `act` | `0`–`7` or `"any"` | Matches `state.narrativeAct` exactly. |
 | `requiredFlags` | `string[]` or omitted | All flags must be true on `state.narrativeFlags`. |
+| `timeWindow` | `{ startsAt?, endsAt? }` or omitted | (audit/16 PR 4) ISO 8601 calendar window. Variant only resolves if `now` falls inside. Skip the field for always-on content. |
+
+## Additive payload fields (audit/16 PR 4)
+
+Beyond the gates, three optional fields ride along with a resolved variant
+without affecting eligibility — consumers read them when present and ignore
+them otherwise:
+
+| Field | Type | Consumer | Purpose |
+|---|---|---|---|
+| `portraitCinematicId` | `string?` | `NarrativeEngine`, `WheelFollowup` | When this variant resolves, crossfade an `AnimatedPortrait` to the named cinematic. Pure flavour — doesn't gate the line. |
+| `timeWindow` | `{ startsAt?, endsAt? }?` | `resolveVariant` | Calendar window for ARG drops. Bound either or both. ISO 8601 strings. |
+| `relatedClues` | `readonly string[]?` | `ClueJournal` | Cross-link this variant to historical clues. Populates the "HOW YOU READ THIS THEN/NOW" panel. |
 
 ## Shape of an entry
 
@@ -62,6 +75,10 @@ const input: VariantResolutionInput = {
       .filter(([, v]) => v)
       .map(([k]) => k),
   ),
+  // audit/16 PR 4 — pass `now` so calendar-windowed variants gate
+  // correctly. Omit for back-compat in callers that don't ship
+  // ARG content.
+  now: new Date(),
 };
 
 const variant = resolveVariant(
