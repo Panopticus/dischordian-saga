@@ -58,6 +58,7 @@ import DiscoveryUnlockOverlay from "./components/DiscoveryUnlockOverlay";
 import DiscoveryVideoOverlay from "./components/DiscoveryVideoOverlay";
 import DiscoveryNotification from "./components/DiscoveryNotification";
 import QuestTracker from "./components/QuestTracker";
+import { RunTrackerOverlayMount } from "./components/RunTrackerOverlay";
 import QuestRewardSystem from "./components/QuestRewardSystem";
 import ElaraDialog from "./components/ElaraDialog";
 import CharacterWidget from "./components/CharacterWidget";
@@ -805,6 +806,11 @@ function GameGate() {
       <DiscoveryNotification />
       <QuestTracker />
       <QuestRewardSystem />
+      {/* audit/16 PR 23 (Strm3) — Streamer run-tracker overlay.
+          Mounts only when the streamer setting is enabled; reads
+          act / decisions / morality / elapsed time from useGame
+          and is draggable + position-persisted. */}
+      <RunTrackerOverlayMount />
       <CoNexusMediaPlayer />
       <AchievementToast />
       <LegendaryAchievementModal />
