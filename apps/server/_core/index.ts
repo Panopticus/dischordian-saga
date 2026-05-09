@@ -756,6 +756,16 @@ async function startServer() {
       console.error("[ShadowTongueRedactionsBootstrap] failed:", e),
     );
 
+    // tick_events table (NPC depth #12 — "what happened while you
+    // were away" log). See apps/shared/universe/tickEvents.ts for
+    // the typed event payloads.
+    const { bootstrapTickEventsTable } = await import(
+      "../services/tickEventsBootstrap"
+    );
+    bootstrapTickEventsTable().catch((e) =>
+      console.error("[TickEventsBootstrap] failed:", e),
+    );
+
     // Ensure citizen_characters.foundation exists. Migration 0054 is
     // orphaned from _journal.json; without this column every SELECT
     // against citizen_characters fails ("Unknown column 'foundation'")

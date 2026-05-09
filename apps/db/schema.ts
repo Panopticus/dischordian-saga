@@ -5708,6 +5708,53 @@ export const shadowTongueRedactions = mysqlTable("shadow_tongue_redactions", {
 export type ShadowTongueRedactionRow = typeof shadowTongueRedactions.$inferSelect;
 export type InsertShadowTongueRedaction = typeof shadowTongueRedactions.$inferInsert;
 
+/**
+ * Per-player tick-event log (NPC depth #12 — "what happened while
+ * you were away"). The shipping seasonTickService already advances
+ * the world clock and per-user agendas. This table captures the
+ * player-relevant fragments of that activity so they can be
+ * surfaced as a session-resume summary report.
+ *
+ * Each row records one notable in-fiction event: a faction objective
+ * advanced, an NPC agenda stage fired, a Shadow Tongue power tick,
+ * an Architect/Dreamer plot-beat fired, etc. The kind discriminator
+ * matches TickEventKind in apps/shared/universe/tickEvents.ts.
+ *
+ * Acknowledgement: rows have an `acknowledgedAt` column (nullable).
+ * The session-resume report reads every unacknowledged row, then
+ * batch-acknowledges them. Old acknowledged rows are kept for
+ * analytics; a cron can prune past N days.
+ */
+export const tickEvents = mysqlTable("tick_events", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  /** Discriminator. See TickEventKind in shared/universe/tickEvents.ts. */
+  kind: varchar("kind", { length: 64 }).notNull(),
+  /**
+   * Headline summary the report renders by default. May be voiced
+   * via the `voId` field; renderers fall back to text if voId is null.
+   */
+  summary: varchar("summary", { length: 512 }).notNull(),
+  /**
+   * Optional VO id from a per-character or universe-narrator manifest.
+   * If set, the resume-report client plays this audio while showing
+   * the summary text.
+   */
+  voId: varchar("voId", { length: 96 }),
+  /** Free-form payload (faction id, npc key, stage id, etc). */
+  payload: json("payload").$type<Record<string, unknown>>(),
+  occurredAt: timestamp("occurredAt").defaultNow().notNull(),
+  acknowledgedAt: timestamp("acknowledgedAt"),
+}, (table) => ({
+  userIdIdx: index("idx_tick_events_user_id").on(table.userId),
+  userUnackIdx: index("idx_tick_events_user_unack").on(
+    table.userId,
+    table.acknowledgedAt,
+  ),
+}));
+export type TickEventRow = typeof tickEvents.$inferSelect;
+export type InsertTickEvent = typeof tickEvents.$inferInsert;
+
 /* ═══════════════════════════════════════════════════════
    TRADE EMPIRE PHASE 2 — Brokers + multi-stage Contracts
    See apps/shared/tradeEmpire/{brokers,contracts,
