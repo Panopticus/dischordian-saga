@@ -22,6 +22,7 @@
    ═══════════════════════════════════════════════════════ */
 
 import type { ApprenticeArchetype } from "./apprentices";
+import type { PersonalQuestSubtaskRef } from "./personalQuestSubtasks";
 
 export interface ApprenticeIdentity {
   archetype: ApprenticeArchetype;
@@ -33,14 +34,17 @@ export interface ApprenticeIdentity {
   wants: string[];
   /** What this archetype actively avoids — surfaces as tension scenes. */
   avoids: string[];
-  /** Personal quest chain (3 stages). Stage 3 is the breaking-point choice. */
+  /** Personal quest chain (3 stages). Stage 3 is the breaking-point choice.
+   *  Each stage has 3 sub-tasks gating advance; bond AND all sub-tasks
+   *  complete to move on. Validators live in apprenticeQuestSubtaskService. */
   personalQuest: {
     chainTitle: string;
-    stage1: { title: string; description: string };
-    stage2: { title: string; description: string };
+    stage1: { title: string; description: string; subtasks?: PersonalQuestSubtaskRef[] };
+    stage2: { title: string; description: string; subtasks?: PersonalQuestSubtaskRef[] };
     stage3: {
       title: string;
       description: string;
+      subtasks?: PersonalQuestSubtaskRef[];
       /** The two choices at the breaking point. The first deepens; the
        *  second triggers apprenticeBetrayal. */
       deepenChoice: { label: string; consequence: string };
@@ -594,6 +598,23 @@ export const APPRENTICE_IDENTITIES: Record<ApprenticeArchetype, ApprenticeIdenti
     breakingPointLine: "I am the one who came back. Tell me I'm allowed to stay.",
   },
 };
+
+/* ─── Sub-task merge — read APPRENTICE_SUBTASKS and attach the 3
+ *  sub-tasks per stage to the corresponding personalQuest stage.
+ *  Lives at module load so identity readers see the merged shape
+ *  without per-callsite plumbing. ─── */
+import { APPRENTICE_SUBTASKS } from "./apprenticeSubtasks";
+{
+  const archetypes = Object.keys(APPRENTICE_IDENTITIES) as ApprenticeArchetype[];
+  for (const arch of archetypes) {
+    const subs = APPRENTICE_SUBTASKS[arch];
+    if (!subs) continue;
+    const pq = APPRENTICE_IDENTITIES[arch].personalQuest;
+    pq.stage1.subtasks = subs.stage1;
+    pq.stage2.subtasks = subs.stage2;
+    pq.stage3.subtasks = subs.stage3;
+  }
+}
 
 /** Lookup helper. */
 export function getApprenticeIdentity(archetype: ApprenticeArchetype): ApprenticeIdentity {

@@ -1,0 +1,321 @@
+[
+  {
+    "id": "engineer_zero_signature",
+    "character": "npc_engineer_zero",
+    "text": "The instrument is honest. The witness is honest. If the instrument is honest and the witness is honest, the result is the result. We do not negotiate with the result.",
+    "bucket": "signature",
+    "file": "shared/npcIdentity.ts"
+  },
+  {
+    "id": "engineer_zero_dlg_past_opener_0",
+    "character": "npc_engineer_zero",
+    "text": "First witness was the brace-jig at Mechronis. I was twelve. The Architect did not speak. He watched. He marked.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "engineer_zero_dlg_past_opener_1",
+    "character": "npc_engineer_zero",
+    "text": "I have, since then, watched. I have, since then, marked. The instrument is the only thing I improved.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "engineer_zero_dlg_past_ez_past_warm_reply_0",
+    "character": "npc_engineer_zero",
+    "text": "No. The mark was the speech. He left the workshop. I followed at twelve. I did not at thirteen; the instrument did not require it.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "engineer_zero_dlg_past_ez_past_probe_reply_0",
+    "character": "npc_engineer_zero",
+    "text": "A mark is a witness signature without the signature. He does not write his name. The mark is a small impressed dot in the corner of a calibration log. It is, in archival terms, the smallest possible witness.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "engineer_zero_dlg_past_ez_past_probe_ez_past_probe_a_reply_0",
+    "character": "npc_engineer_zero",
+    "text": "Yes. Three. The first I keep at the workshop. The second is in the Refuge with Cross. The third I gave to a calibration apprentice who has not noticed it; that one is the kindest of the three.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "engineer_zero_dlg_past_ez_past_probe_ez_past_probe_b_reply_0",
+    "character": "npc_engineer_zero",
+    "text": "The mark does not fade. The pigment is single-source. The Architect did not design the instrument to forget.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "engineer_zero_dlg_past_ez_past_cold_reply_0",
+    "character": "npc_engineer_zero",
+    "text": "I understood that being watched was not the same as being judged. The distinction is the foundation of my discipline.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "engineer_zero_dlg_calling_opener_0",
+    "character": "npc_engineer_zero",
+    "text": "The instrument is honest. The witness is honest. If both are honest, the result is the result.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "engineer_zero_dlg_calling_opener_1",
+    "character": "npc_engineer_zero",
+    "text": "Most arguments I have lost have been with people who wanted to negotiate with the result.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "engineer_zero_dlg_calling_ez_call_warm_reply_0",
+    "character": "npc_engineer_zero",
+    "text": "A pigment. A jig. A morning. The cost is small. The discipline is the morning.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "engineer_zero_dlg_calling_ez_call_probe_reply_0",
+    "character": "npc_engineer_zero",
+    "text": "Improvisation is a form of dishonesty I have, on three occasions, used. Each time the result was correct. Each time the witness was diminished. I am suspicious of my own three.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "engineer_zero_dlg_calling_ez_call_probe_ez_call_probe_a_reply_0",
+    "character": "npc_engineer_zero",
+    "text": "Forty cycles ago. A field repair. The result held. The crew did not die. The witness was, by the rules I keep, absent. I am still uneasy.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "engineer_zero_dlg_calling_ez_call_probe_ez_call_probe_b_reply_0",
+    "character": "npc_engineer_zero",
+    "text": "Probably. I will record it. The recording is, in a small way, the substitute witness. Substitutes are not the same; substitutes are honest about being substitutes.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "engineer_zero_dlg_calling_ez_call_cold_reply_0",
+    "character": "npc_engineer_zero",
+    "text": "Bookkeeping is the discipline that prevents larger arguments. I prefer bookkeeping to those arguments.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "engineer_zero_dlg_mortality_opener_0",
+    "character": "npc_engineer_zero",
+    "text": "The brace-jig at Mechronis still works. It will work after I do not.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "engineer_zero_dlg_mortality_opener_1",
+    "character": "npc_engineer_zero",
+    "text": "I have not improved it in twenty cycles. I have improved my use of it. There is a distinction.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "engineer_zero_dlg_mortality_ez_mort_warm_reply_0",
+    "character": "npc_engineer_zero",
+    "text": "It calibrates me. Satisfaction is a measurement I do not own; calibration I do.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "engineer_zero_dlg_mortality_ez_mort_probe_reply_0",
+    "character": "npc_engineer_zero",
+    "text": "Then they will calibrate from scratch. The ledger is a kindness, not a requirement. Kindness is what I leave when I am not the witness.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "engineer_zero_dlg_mortality_ez_mort_probe_ez_mort_probe_a_reply_0",
+    "character": "npc_engineer_zero",
+    "text": "At the next watch. The ledger is in the third drawer of the workshop. The pigment is the same lineage as the mark.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "engineer_zero_dlg_mortality_ez_mort_probe_ez_mort_probe_b_reply_0",
+    "character": "npc_engineer_zero",
+    "text": "I have written several last entries. Each was wrong. The next will be the next; I will not declare it the last.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "engineer_zero_dlg_mortality_ez_mort_cold_reply_0",
+    "character": "npc_engineer_zero",
+    "text": "Tools outlive uses. The brace-jig has outlived three uses. The Architect counted them; I counted them after him.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "engineer_zero_dlg_us_opener_0",
+    "character": "npc_engineer_zero",
+    "text": "I have a stamp. The Architect did not authorise it; the Architect is not here.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "engineer_zero_dlg_us_opener_1",
+    "character": "npc_engineer_zero",
+    "text": "If you would like to mark a calibration in his absence, I will permit it. Once. Tonight.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "engineer_zero_dlg_us_ez_us_warm_reply_0",
+    "character": "npc_engineer_zero",
+    "text": "Accepted. The stamp is in the second drawer. The pigment is single-source. The mark is yours; the witness is, for tonight, you.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "engineer_zero_dlg_us_ez_us_probe_reply_0",
+    "character": "npc_engineer_zero",
+    "text": "He will. Eventually. I have prepared the calibration log to receive his counter-mark. If it never comes, the log is still complete.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "engineer_zero_dlg_us_ez_us_probe_ez_us_probe_a_reply_0",
+    "character": "npc_engineer_zero",
+    "text": "Then I will calibrate again, with him present, and he will mark over yours. The work survives the dispute. Marks are not arguments.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "engineer_zero_dlg_us_ez_us_probe_ez_us_probe_b_reply_0",
+    "character": "npc_engineer_zero",
+    "text": "You are not replacing. You are standing in. The stamp is shaped like a small dot, like his. The shape is the discipline; the discipline is older than either of us.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "engineer_zero_dlg_us_ez_us_cold_reply_0",
+    "character": "npc_engineer_zero",
+    "text": "Honest. The stamp returns to the drawer. The drawer locks. The discipline holds either way.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "engineer_zero_comment_ez_iron_lion",
+    "character": "npc_engineer_zero",
+    "text": "The Iron Lion's calibration shifted. The brace-jig at Mechronis registered the change. I marked the page. The Architect did not witness; you did.",
+    "bucket": "comment",
+    "trigger": "iron_lion_card_earned",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "engineer_zero_comment_ez_first_costly",
+    "character": "npc_engineer_zero",
+    "text": "The instrument is honest. The witness is honest. The result is the result. I will not negotiate with your choice; I will calibrate against it.",
+    "bucket": "comment",
+    "trigger": "first_costly_morality_choice",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "engineer_zero_comment_ez_loredex_first",
+    "character": "npc_engineer_zero",
+    "text": "A new reading has been logged. The pigment is single-source. The mark, if it is to be made, is yours.",
+    "bucket": "comment",
+    "trigger": "loredex_entry_discovered",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "engineer_zero_banter_bnt_ez_artisan_jig_line0",
+    "character": "npc_engineer_zero",
+    "text": "Artisan. Your latest tool is uncalibrated by 0.3 percent.",
+    "bucket": "banter",
+    "trigger": "apprentice_dialogue_played",
+    "partner": "artisan",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "engineer_zero_banter_bnt_ez_arch_mark_line0",
+    "character": "npc_engineer_zero",
+    "text": "Architect. The brace-jig held through three readings.",
+    "bucket": "banter",
+    "trigger": "act_2_complete",
+    "partner": "the_architect",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "engineer_zero_banter_bnt_ez_locke_ledger_line0",
+    "character": "npc_engineer_zero",
+    "text": "Locke. Your ledger drifted in the first quarter.",
+    "bucket": "banter",
+    "trigger": "trade_contract_completed",
+    "partner": "locke",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "engineer_zero_banter_bnt_arc_ez_mark_line1",
+    "character": "npc_engineer_zero",
+    "text": "It has. I did not log your mark.",
+    "bucket": "banter",
+    "trigger": "iron_lion_card_earned",
+    "partner": "the_architect",
+    "file": "shared/npcCompanionExtensions.ts"
+  }
+]

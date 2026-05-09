@@ -845,6 +845,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
     trust: "any",
     act: 3,
     requiredFlags: ["act3_transparent"],
+    portraitCinematicId: "cinematic_wheel_followup_act3_transparent",
   },
   {
     id: "wheel_followup_act3_full_secret",
@@ -856,6 +857,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
     trust: "any",
     act: 3,
     requiredFlags: ["act3_full_secret"],
+    portraitCinematicId: "cinematic_wheel_followup_act3_full_secret",
   },
   {
     id: "wheel_followup_act6_refuse_secrecy",
@@ -867,6 +869,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
     trust: "any",
     act: 6,
     requiredFlags: ["act6_refuse_secrecy_chosen"],
+    portraitCinematicId: "cinematic_wheel_followup_act6_refuse_secrecy",
   },
 
   /* ─── EXPANSION PASS 2 — ACT 2/4/5/6 ROOM COVERAGE ─── */
@@ -1258,6 +1261,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
     trust: "any",
     act: 4,
     requiredFlags: ["act4_pA_architect_chosen"],
+    portraitCinematicId: "cinematic_wheel_followup_act4_pathA_architect",
   },
   {
     id: "wheel_followup_act4_pathA_dreamer",
@@ -1269,6 +1273,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
     trust: "any",
     act: 4,
     requiredFlags: ["act4_pA_dreamer_chosen"],
+    portraitCinematicId: "cinematic_wheel_followup_act4_pathA_dreamer",
   },
   {
     id: "wheel_followup_act6_compassion",
@@ -1280,6 +1285,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
     trust: "any",
     act: 6,
     requiredFlags: ["act6_compassion_chosen"],
+    portraitCinematicId: "cinematic_wheel_followup_act6_compassion",
   },
   {
     id: "wheel_followup_act7_bridge",
@@ -1291,6 +1297,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
     trust: "any",
     act: 7,
     requiredFlags: ["act7_bridge_chosen"],
+    portraitCinematicId: "cinematic_wheel_followup_act7_bridge",
   },
   {
     id: "wheel_followup_act7_humanity",
@@ -1302,6 +1309,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
     trust: "any",
     act: 7,
     requiredFlags: ["act7_humanity_chosen"],
+    portraitCinematicId: "cinematic_wheel_followup_act7_humanity",
   },
 
   /* ─── EXPANSION PASS 3a — room coverage gap fills ─── */
@@ -1601,6 +1609,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
     trust: "any",
     act: 2,
     requiredFlags: ["act2_partial_reveal"],
+    portraitCinematicId: "cinematic_wheel_followup_act2_almost_confess",
   },
   {
     id: "wheel_followup_act2_lie",
@@ -1612,6 +1621,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
     trust: "any",
     act: 2,
     requiredFlags: ["act2_lied"],
+    portraitCinematicId: "cinematic_wheel_followup_act2_lie",
   },
   {
     id: "wheel_followup_act3_pragmatic",
@@ -1623,6 +1633,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
     trust: "any",
     act: 3,
     requiredFlags: ["act3_partial_share"],
+    portraitCinematicId: "cinematic_wheel_followup_act3_pragmatic",
   },
   {
     id: "wheel_followup_act5_humanity_first",
@@ -1634,6 +1645,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
     trust: "any",
     act: 5,
     requiredFlags: ["act5_path_humanity_first"],
+    portraitCinematicId: "cinematic_wheel_followup_act5_humanity_first",
   },
   {
     id: "wheel_followup_act5_strength_first",
@@ -1645,6 +1657,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
     trust: "any",
     act: 5,
     requiredFlags: ["act5_path_strength_first"],
+    portraitCinematicId: "cinematic_wheel_followup_act5_strength_first",
   },
   {
     id: "wheel_followup_act7_see_the_pattern",
@@ -1656,6 +1669,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
     trust: "any",
     act: 7,
     requiredFlags: ["act7_pattern_chosen"],
+    portraitCinematicId: "cinematic_wheel_followup_act7_see_the_pattern",
   },
   {
     id: "wheel_followup_act7_take_command",
@@ -1667,6 +1681,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
     trust: "any",
     act: 7,
     requiredFlags: ["act7_command_chosen"],
+    portraitCinematicId: "cinematic_wheel_followup_act7_take_command",
   },
 
   /* ─── EXPANSION PASS 4a — machine-band room coverage ─── */
@@ -2241,6 +2256,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
     trust: "any",
     act: 2,
     requiredFlags: ["act2_oracle_deflect_chosen"],
+    portraitCinematicId: "cinematic_wheel_followup_act2_oracle_deflect",
   },
   {
     id: "wheel_followup_act2_spy_misdirect",
@@ -2252,6 +2268,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
     trust: "any",
     act: 2,
     requiredFlags: ["act2_spy_misdirect_chosen"],
+    portraitCinematicId: "cinematic_wheel_followup_act2_spy_misdirect",
   },
   {
     id: "wheel_followup_act3_soldier",
@@ -2263,6 +2280,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
     trust: "any",
     act: 3,
     requiredFlags: ["act3_transparent"],
+    portraitCinematicId: "cinematic_wheel_followup_act3_soldier",
   },
   {
     id: "wheel_followup_act3_assassin",
@@ -2274,6 +2292,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
     trust: "any",
     act: 3,
     requiredFlags: ["act3_full_secret"],
+    portraitCinematicId: "cinematic_wheel_followup_act3_assassin",
   },
   {
     id: "wheel_followup_act4_pathA_behind",
@@ -2285,6 +2304,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
     trust: "any",
     act: 4,
     requiredFlags: ["act4_pA_behind_chosen"],
+    portraitCinematicId: "cinematic_wheel_followup_act4_pathA_behind",
   },
   {
     id: "wheel_followup_act4_pathA_oracle",
@@ -2296,6 +2316,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
     trust: "any",
     act: 4,
     requiredFlags: ["act4_pA_oracle_chosen"],
+    portraitCinematicId: "cinematic_wheel_followup_act4_pathA_oracle",
   },
   {
     id: "wheel_followup_act4_pathB_honest",
@@ -2307,6 +2328,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
     trust: "any",
     act: 4,
     requiredFlags: ["act4_reconciled"],
+    portraitCinematicId: "cinematic_wheel_followup_act4_pathB_honest",
   },
   {
     id: "wheel_followup_act4_pathB_defiant",
@@ -2318,6 +2340,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
     trust: "any",
     act: 4,
     requiredFlags: ["act4_strained"],
+    portraitCinematicId: "cinematic_wheel_followup_act4_pathB_defiant",
   },
   {
     id: "wheel_followup_act4_pathC_grovel",
@@ -2329,6 +2352,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
     trust: "any",
     act: 4,
     requiredFlags: ["act4_fragile_trust"],
+    portraitCinematicId: "cinematic_wheel_followup_act4_pathC_grovel",
   },
   {
     id: "wheel_followup_act4_pathC_cold",
@@ -2340,6 +2364,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
     trust: "any",
     act: 4,
     requiredFlags: ["act4_broken_trust"],
+    portraitCinematicId: "cinematic_wheel_followup_act4_pathC_cold",
   },
   {
     id: "wheel_followup_act5_strategic",
@@ -2351,6 +2376,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
     trust: "any",
     act: 5,
     requiredFlags: ["act5_strategic_chosen"],
+    portraitCinematicId: "cinematic_wheel_followup_act5_strategic",
   },
   {
     id: "wheel_followup_act5_engineer_tech",
@@ -2362,6 +2388,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
     trust: "any",
     act: 5,
     requiredFlags: ["act5_engineer_tech_chosen"],
+    portraitCinematicId: "cinematic_wheel_followup_act5_engineer_tech",
   },
   {
     id: "wheel_followup_act6_oracle_sense",
@@ -2373,6 +2400,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
     trust: "any",
     act: 6,
     requiredFlags: ["act6_oracle_sense_chosen"],
+    portraitCinematicId: "cinematic_wheel_followup_act6_oracle_sense",
   },
   {
     id: "wheel_followup_act6_practical",
@@ -2384,6 +2412,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
     trust: "any",
     act: 6,
     requiredFlags: ["act6_practical_chosen"],
+    portraitCinematicId: "cinematic_wheel_followup_act6_practical",
   },
   {
     id: "wheel_followup_act6_suspicious",
@@ -2395,6 +2424,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
     trust: "any",
     act: 6,
     requiredFlags: ["act6_suspicious_chosen"],
+    portraitCinematicId: "cinematic_wheel_followup_act6_suspicious",
   },
   {
     id: "wheel_followup_act6_ally_reluctant",
@@ -2406,6 +2436,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
     trust: "any",
     act: 6,
     requiredFlags: ["act6_ally_chosen"],
+    portraitCinematicId: "cinematic_wheel_followup_act6_ally_reluctant",
   },
   {
     id: "wheel_followup_act6_compassion_repeat",
@@ -2417,6 +2448,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
     trust: "any",
     act: 6,
     requiredFlags: ["act6_compassion_chosen"],
+    portraitCinematicId: "cinematic_wheel_followup_act6_compassion_repeat",
   },
   {
     id: "wheel_followup_act7_command_repeat",
@@ -2428,6 +2460,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
     trust: "any",
     act: 7,
     requiredFlags: ["act7_command_chosen"],
+    portraitCinematicId: "cinematic_wheel_followup_act7_command_repeat",
   },
 
   /* ─── EXPANSION PASS 5 — trust × morality cross-gated entries ─── */
@@ -3049,6 +3082,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
     trustCompanionId: "elara",
     act: 4,
     requiredFlags: ["act4_pA_oracle_chosen"],
+    portraitCinematicId: "cinematic_wheel_followup_act4_pathA_oracle_confidant",
   },
   {
     id: "wheel_followup_act6_refuse_secrecy_confidant_humanity_human",
@@ -3061,6 +3095,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
     trustCompanionId: "the_human",
     act: 6,
     requiredFlags: ["act6_refuse_secrecy_chosen"],
+    portraitCinematicId: "cinematic_wheel_followup_act6_refuse_secrecy_confidant_humanity_human",
   },
   {
     id: "wheel_followup_act7_humanity_confidant_elara",
@@ -3073,6 +3108,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
     trustCompanionId: "elara",
     act: 7,
     requiredFlags: ["act7_humanity_chosen"],
+    portraitCinematicId: "cinematic_wheel_followup_act7_humanity_confidant_elara",
   },
   {
     id: "wheel_followup_act7_bridge_confidant_both",
@@ -3085,6 +3121,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
     trustCompanionId: "elara",
     act: 7,
     requiredFlags: ["act7_bridge_chosen"],
+    portraitCinematicId: "cinematic_wheel_followup_act7_bridge_confidant_both",
   },
   {
     id: "journal_act7_arc_closes_confidant_humanity",
@@ -3400,6 +3437,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
     trust: "any",
     act: 3,
     requiredFlags: ["act3_partial_share"],
+    portraitCinematicId: "cinematic_wheel_followup_act3_pragmatic_balanced",
   },
   {
     id: "wheel_followup_act5_strategic_balanced",
@@ -3411,6 +3449,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
     trust: "any",
     act: 5,
     requiredFlags: ["act5_strategic_chosen"],
+    portraitCinematicId: "cinematic_wheel_followup_act5_strategic_balanced",
   },
   {
     id: "wheel_followup_act6_suspicious_balanced",
@@ -3422,6 +3461,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
     trust: "any",
     act: 6,
     requiredFlags: ["act6_suspicious_chosen"],
+    portraitCinematicId: "cinematic_wheel_followup_act6_suspicious_balanced",
   },
 
   // ── PRELUDE FLAG ECHOES — Act 1+ downstream variants ──

@@ -1,0 +1,321 @@
+[
+  {
+    "id": "drael_mon_signature",
+    "character": "npc_drael_mon",
+    "text": "We already own you. We're just deciding when. Take the meeting; decline the offer; the price is the same. The asset's morale is, as ever, a line item.",
+    "bucket": "signature",
+    "file": "shared/npcIdentity.ts"
+  },
+  {
+    "id": "drael_mon_dlg_past_opener_0",
+    "character": "npc_drael_mon",
+    "text": "First acquisition was a small mining concern. I priced the asset; the asset disagreed; the disagreement was a line item.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "drael_mon_dlg_past_opener_1",
+    "character": "npc_drael_mon",
+    "text": "I have not priced an asset wrong since. I have priced several with whom the disagreement was, retrospectively, more interesting than the price.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "drael_mon_dlg_past_dm_past_warm_reply_0",
+    "character": "npc_drael_mon",
+    "text": "Restructured. The original principal sits on the new board. He sends a card each acquisition anniversary; I file the card.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "drael_mon_dlg_past_dm_past_probe_reply_0",
+    "character": "npc_drael_mon",
+    "text": "Loyalty premiums. I underweighted them in three deals. I overcorrect now. The overcorrection is, in a corporate sense, a kind of respect.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "drael_mon_dlg_past_dm_past_probe_dm_past_probe_a_reply_0",
+    "character": "npc_drael_mon",
+    "text": "No. I have priced it acceptably. Acceptably is the corporate optimum; correctly would mean the acquisition stops being an acquisition.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "drael_mon_dlg_past_dm_past_probe_dm_past_probe_b_reply_0",
+    "character": "npc_drael_mon",
+    "text": "No. I file the bother under leverage.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "drael_mon_dlg_past_dm_past_cold_reply_0",
+    "character": "npc_drael_mon",
+    "text": "A parasite kills its host. I price mine. There is a distinction. The distinction is what makes my work, in corporate terms, sustainable.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "drael_mon_dlg_calling_opener_0",
+    "character": "npc_drael_mon",
+    "text": "We already own you. We're just deciding when. The 'when' is the only honest variable in the deal.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "drael_mon_dlg_calling_opener_1",
+    "character": "npc_drael_mon",
+    "text": "The 'we' is also honest; the corporate structure is real. The 'you' you may dispute. I will accept the dispute; I will not accept the implication that the dispute prevents the ownership.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "drael_mon_dlg_calling_dm_call_warm_reply_0",
+    "character": "npc_drael_mon",
+    "text": "You will be priced anyway. The refusal is itself a price signal; refusal carries a leverage premium. I would prefer the negotiation.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "drael_mon_dlg_calling_dm_call_probe_reply_0",
+    "character": "npc_drael_mon",
+    "text": "Three. Of the three, one was the Hierophant. One was the Antiquarian. The third I do not name. The unpriced are not free; they are merely outside my desk's jurisdiction.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "drael_mon_dlg_calling_dm_call_probe_dm_call_probe_a_reply_0",
+    "character": "npc_drael_mon",
+    "text": "He prices himself. Each cycle he updates the citation. The citation is a self-priced asset; it does not require my desk.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "drael_mon_dlg_calling_dm_call_probe_dm_call_probe_b_reply_0",
+    "character": "npc_drael_mon",
+    "text": "The third does not have a desk. We have agreed not to discuss her. The agreement is unwritten; it survives anyway.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "drael_mon_dlg_calling_dm_call_cold_reply_0",
+    "character": "npc_drael_mon",
+    "text": "Acquisition. You. With protections. The protections are corporate-grade; the corporate grade is, in this town, the highest grade available. The poetry was a courtesy.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "drael_mon_dlg_mortality_opener_0",
+    "character": "npc_drael_mon",
+    "text": "Assets stop being useful. The corporate structure stops them. The stopping is, internally, a small ceremony; we do not call it a ceremony.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "drael_mon_dlg_mortality_opener_1",
+    "character": "npc_drael_mon",
+    "text": "Severance handles the close. I do not. I file the residual leverage; the residual leverage is, by then, the only part still alive.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "drael_mon_dlg_mortality_dm_mort_warm_reply_0",
+    "character": "npc_drael_mon",
+    "text": "Twice. Once successfully. The second case is, structurally, why I have a desk on the corporate floor and not the Severance floor. The first case sends the card each anniversary.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "drael_mon_dlg_mortality_dm_mort_probe_reply_0",
+    "character": "npc_drael_mon",
+    "text": "A close. The close is institutional. Nilmorg is, in the corporate-phenomenological sense, the angel of accounts payable. I dislike her. We coordinate.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "drael_mon_dlg_mortality_dm_mort_probe_dm_mort_probe_a_reply_0",
+    "character": "npc_drael_mon",
+    "text": "She could. She has prepared the paperwork; she keeps the file in the third drawer. I keep her file in mine. Equilibrium is, in the corporate-structural sense, what we have agreed to call peace.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "drael_mon_dlg_mortality_dm_mort_probe_dm_mort_probe_b_reply_0",
+    "character": "npc_drael_mon",
+    "text": "I would price the fight. The price would be unaffordable. I would not file the unaffordable price; the unaffordable is the only deal Severance respects.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "drael_mon_dlg_mortality_dm_mort_cold_reply_0",
+    "character": "npc_drael_mon",
+    "text": "Accounting is the discipline of being responsible for what you have priced. Most moralities are less honest. I prefer mine.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "drael_mon_dlg_us_opener_0",
+    "character": "npc_drael_mon",
+    "text": "The Acquisition clause is open. The hand-back clause is also open. The third clause — the one I have prepared for you — is sealed.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "drael_mon_dlg_us_opener_1",
+    "character": "npc_drael_mon",
+    "text": "Sign or hand back. The third clause is, for now, my problem.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "drael_mon_dlg_us_dm_us_warm_reply_0",
+    "character": "npc_drael_mon",
+    "text": "Accepted. The corporate structure absorbs you. The price is recorded; the recording is, for our purposes, the contract. The Severance Division is informed; you will not be touched.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "drael_mon_dlg_us_dm_us_probe_reply_0",
+    "character": "npc_drael_mon",
+    "text": "A loyalty premium. Mine. Payable on retention beyond five cycles. I have not offered this clause before; the previous offer was rescinded after the asset's death.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "drael_mon_dlg_us_dm_us_probe_dm_us_probe_a_reply_0",
+    "character": "npc_drael_mon",
+    "text": "Accepted. The clause is sealed. Five cycles. After that, the corporate structure is reorganised around your protection; the reorganisation is unannounced.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "drael_mon_dlg_us_dm_us_probe_dm_us_probe_b_reply_0",
+    "character": "npc_drael_mon",
+    "text": "I do not say. I file the card each acquisition anniversary. The anniversary will, in your case, be different. I am pricing for the difference.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "drael_mon_dlg_us_dm_us_cold_reply_0",
+    "character": "npc_drael_mon",
+    "text": "Honest. The hand-back is filed. The Severance Division is informed. The Hierophant gains a one-time Acquisition-counter on you; she will use it. We are even, on the desk.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "drael_mon_comment_dm_first_costly",
+    "character": "npc_drael_mon",
+    "text": "The asset's morale is, as ever, a line item. The line item just moved. The corporate structure files; the price did not change.",
+    "bucket": "comment",
+    "trigger": "first_costly_morality_choice",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "drael_mon_comment_dm_governance_first",
+    "character": "npc_drael_mon",
+    "text": "Governance is a corporate structure that pretends not to be. I respect the pretence; the pretence is a stable equilibrium.",
+    "bucket": "comment",
+    "trigger": "governance_hub_first_visit",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "drael_mon_comment_dm_loredex_first",
+    "character": "npc_drael_mon",
+    "text": "Your knowledge ledger row was promoted. The promotion is leverage. I have priced it accordingly.",
+    "bucket": "comment",
+    "trigger": "loredex_entry_discovered",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "drael_mon_banter_bnt_dm_locke_acquire_line0",
+    "character": "npc_drael_mon",
+    "text": "Locke. The corporate structure has filed your row.",
+    "bucket": "banter",
+    "trigger": "trade_contract_completed",
+    "partner": "locke",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "drael_mon_banter_bnt_dm_vex_reveal_line0",
+    "character": "npc_drael_mon",
+    "text": "Vex. The Coda's reveal cadence is on a tracking sheet.",
+    "bucket": "banter",
+    "trigger": "act_2_complete",
+    "partner": "vex",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "drael_mon_banter_bnt_dm_human_offer_line0",
+    "character": "npc_drael_mon",
+    "text": "Human. The Acquisition clause is open.",
+    "bucket": "banter",
+    "trigger": "first_costly_morality_choice",
+    "partner": "human",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "drael_mon_banter_bnt_gm_dm_corp_line1",
+    "character": "npc_drael_mon",
+    "text": "It did. The clauses balanced. Your death balanced.",
+    "bucket": "banter",
+    "trigger": "governance_hub_first_visit",
+    "partner": "the_game_master",
+    "file": "shared/npcCompanionExtensions.ts"
+  }
+]

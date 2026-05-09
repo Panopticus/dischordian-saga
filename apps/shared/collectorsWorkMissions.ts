@@ -21,6 +21,11 @@ import {
   CRYSTAL_YIELD_PER_CYCLE,
   type BloodClassification,
 } from "./bloodClassification";
+// Collector's Work missions are their own type but share the
+// procedural-tag taxonomy so personal-quest sub-tasks can gate on
+// bloodline-tagged collector-work completions the same way they gate
+// on tagged crew missions. tagsForTemplate is the canonical surface.
+import { tagsForTemplate } from "./proceduralMissionFactory";
 
 /** Difficulty tier of a Collector's Work mission. The tier
  *  scales mission text intensity + the crystal-yield bonus
@@ -102,6 +107,30 @@ export function totalCrystalYieldForMission(
   mission: CollectorsWorkMission,
 ): number {
   return CRYSTAL_YIELD_PER_CYCLE[mission.classification] + mission.bonusCrystalYield;
+}
+
+/** Surface a Collector's Work mission's procedural tags. Used by
+ *  personal-quest sub-tasks (`mission_tag_complete`) to gate on
+ *  bloodline-tagged collector-work completions. */
+export function tagsForCollectorsWorkMission(
+  mission: CollectorsWorkMission,
+): string[] {
+  // Map the tier to a difficulty band the procedural taxonomy
+  // recognises. apex/rare → suicidal/dangerous; trivial/modest → routine.
+  const difficulty =
+    mission.tier === "apex" ? "suicidal"
+    : mission.tier === "rare" ? "dangerous"
+    : mission.tier === "patient" ? "challenging"
+    : "routine";
+  return [
+    ...tagsForTemplate({
+      factionKey: "collector",
+      difficulty,
+      bloodlineKey: mission.classification.toLowerCase(),
+    }),
+    `bloodline_class:${mission.classification.toLowerCase()}`,
+    `generation:${mission.atGeneration}`,
+  ];
 }
 
 /** Generate a mission for a (classification, generation) pair.

@@ -36,6 +36,7 @@ import {
 } from "@shared/riddleCommentary";
 import { getRegisteredUnreachables } from "@shared/accessibleUnreachables";
 import { getActivePuzzleChains } from "@/game/adventureFeatures";
+import { InvestigationYarnDiagram } from "@/components/InvestigationYarnDiagram";
 
 type TabId = "open_threads" | "manuscript_vault" | "reconstruction";
 
@@ -134,7 +135,10 @@ export default function InvestigationBoardPage() {
 
         {/* Tab content */}
         {activeTab === "open_threads" && (
-          <OpenThreadsTab narrativeFlags={state.narrativeFlags ?? {}} />
+          <OpenThreadsTab
+            narrativeFlags={state.narrativeFlags ?? {}}
+            collectedClues={collectedClueIds}
+          />
         )}
         {activeTab === "manuscript_vault" && (
           <ManuscriptVaultTab
@@ -164,13 +168,27 @@ export default function InvestigationBoardPage() {
 
 function OpenThreadsTab({
   narrativeFlags,
+  collectedClues,
 }: {
   narrativeFlags: Record<string, boolean>;
+  collectedClues: ReadonlySet<string>;
 }) {
   const active = useMemo(
     () => getActivePuzzleChains(narrativeFlags),
     [narrativeFlags],
   );
+
+  // Derive a coarse "solved" set from the existing chain
+  // completion flags. Each PuzzleChainStep has a
+  // completionFlag; if a chain's LAST step's flag is set,
+  // the chain is considered solved.
+  const solvedChainIds = useMemo(() => {
+    const out = new Set<string>();
+    for (const { chain, currentStep } of active) {
+      if (currentStep >= chain.steps.length) out.add(chain.id);
+    }
+    return out;
+  }, [active]);
 
   if (active.length === 0) {
     return (
@@ -185,7 +203,17 @@ function OpenThreadsTab({
   }
 
   return (
-    <div className="space-y-3" data-testid="open-threads-list">
+    <div className="space-y-4">
+      {/* audit/16 PR 26 (Cluster A polish) — force-directed yarn
+          diagram. The audit'd "single biggest player-experience
+          win" visual: clues + puzzles connected by red string.
+          Pure SVG; force-layout from apps/shared/forceLayout.ts. */}
+      <InvestigationYarnDiagram
+        narrativeFlags={narrativeFlags}
+        collectedClues={collectedClues}
+        solvedPuzzles={solvedChainIds}
+      />
+      <div className="space-y-3" data-testid="open-threads-list">
       {active.map(({ chain, currentStep }) => {
         const totalSteps = chain.steps.length;
         const progress = (currentStep / totalSteps) * 100;
@@ -233,6 +261,7 @@ function OpenThreadsTab({
           </div>
         );
       })}
+      </div>
     </div>
   );
 }

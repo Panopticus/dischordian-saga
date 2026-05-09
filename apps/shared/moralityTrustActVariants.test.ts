@@ -474,3 +474,22 @@ describe("moralityTrustActVariants", () => {
     });
   });
 });
+
+/* ─── audit/16 PR 22 (cinematic schema batch) ─── */
+
+describe("HumanRevealStage trustThresholdCinematic (audit/16 PR 22 C2)", () => {
+  it("every reveal stage has a trustThresholdCinematic populated", async () => {
+    const mod = await import("@/game/npcPortraits");
+    const stages = mod.HUMAN_REVEAL_STAGES;
+    for (const stage of stages) {
+      expect(stage.trustThresholdCinematic, `${stage.id} missing cinematic`).toBeTruthy();
+    }
+  });
+
+  it("cinematic ids follow the convention cinematic_human_reveal_<stage-id>", async () => {
+    const mod = await import("@/game/npcPortraits");
+    for (const stage of mod.HUMAN_REVEAL_STAGES) {
+      expect(stage.trustThresholdCinematic).toBe(`cinematic_human_reveal_${stage.id}`);
+    }
+  });
+});

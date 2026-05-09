@@ -324,6 +324,16 @@ export function tickMissions(state: CrewState, now: number): CrewState {
             diedAtMs: now,
           });
         }
+
+        // Memorial sweep: any loredex entries this member discovered
+        // but did not finish reading become memorial-only when they die.
+        // Drained by the server router via crewLoredexCarryService.markMemorialOnDeath.
+        newSideEffects.push({
+          kind: "carry_memorial_sweep",
+          deceasedMemberKey: m.id,
+          deathCycle: m.age,
+          diedAtMs: now,
+        });
         continue;
       }
       if (resolved.resolution?.injured.includes(m.id)) {
@@ -349,6 +359,27 @@ export function tickMissions(state: CrewState, now: number): CrewState {
         loyalty: Math.min(100, m.loyalty + (resolved.resolution?.success ? 6 : 2)),
         missionHistory: [...m.missionHistory, mission.id],
       });
+    }
+
+    // Mission-completion log entries (one per assigned member). Drained
+    // by the server router into crew_mission_completion_log so
+    // apprenticeQuestSubtaskService.validateMissionTagComplete can
+    // confirm `mission_tag_complete` sub-tasks. Casualties get a
+    // "failure" outcome regardless of mission success; survivors and
+    // injured share the mission's overall success/failure outcome.
+    if (mission.tags && mission.tags.length > 0) {
+      const overall = resolved.resolution?.success ? "success" : "failure";
+      for (const memberId of mission.assignedCrewIds) {
+        const wasCasualty = resolved.resolution?.casualties.includes(memberId);
+        newSideEffects.push({
+          kind: "mission_completion",
+          memberKey: memberId,
+          missionId: mission.id,
+          tags: [...mission.tags],
+          outcome: wasCasualty ? "failure" : (overall as "success" | "failure"),
+          completedAtMs: now,
+        });
+      }
     }
 
     const survivorIds =

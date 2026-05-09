@@ -8,6 +8,7 @@ import {
 
 import { assetUrl } from "@/lib/assetUrl";
 import { LockedCardBadge } from "@/components/LockedCardBadge";
+import { KeywordTooltip } from "@/components/KeywordTooltip";
 import type { CardUnlockCondition } from "@shared/tcg-core/types/Card";
 interface CardData {
   id?: number;
@@ -390,9 +391,17 @@ export default function GameCard({
             {card.keywords && card.keywords.length > 0 && (
               <div className="flex gap-0.5 ml-auto">
                 {card.keywords.slice(0, 3).map((kw) => (
-                  <span key={kw} className="text-[8px]" title={kw}>
-                    {KEYWORD_ICONS[kw] || "✦"}
-                  </span>
+                  // audit/16 PR 21 (TCG3) — keyword interaction tooltip.
+                  // On hover, surfaces the rule + any live cross-keyword
+                  // interactions on this card.
+                  <KeywordTooltip key={kw} keyword={kw} cardKeywords={card.keywords ?? []}>
+                    <span
+                      className="text-[8px] cursor-help"
+                      data-testid={`keyword-chip-${kw}`}
+                    >
+                      {KEYWORD_ICONS[kw] || "✦"}
+                    </span>
+                  </KeywordTooltip>
                 ))}
               </div>
             )}

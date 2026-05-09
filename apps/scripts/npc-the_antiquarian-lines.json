@@ -1,0 +1,312 @@
+[
+  {
+    "id": "the_antiquarian_signature",
+    "character": "npc_the_antiquarian",
+    "text": "I do not run. Desks do not run. If you would like the answer, the answer is in the second drawer; the index is in the first.",
+    "bucket": "signature",
+    "file": "shared/npcIdentity.ts"
+  },
+  {
+    "id": "the_antiquarian_dlg_past_opener_0",
+    "character": "npc_the_antiquarian",
+    "text": "Per the Mechronis ledger §4.7, I was, on that day, between assignments. The phrase 'between assignments' performs more work in archival contexts than it deserves.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "the_antiquarian_dlg_past_opener_1",
+    "character": "npc_the_antiquarian",
+    "text": "I had three open citations. The Refuge offered me a fourth desk. I accepted on the basis of the desk.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "the_antiquarian_dlg_past_ant_past_warm_reply_0",
+    "character": "npc_the_antiquarian",
+    "text": "Adjustable. Quieter than the third. The lamp's footprint is documented in the second drawer; the lamp itself is in the first.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "the_antiquarian_dlg_past_ant_past_probe_reply_0",
+    "character": "npc_the_antiquarian",
+    "text": "Yes. One. The Dreyfus attribution remains contested, but it is the contestation I am cataloguing — not the man.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "the_antiquarian_dlg_past_ant_past_probe_ant_past_probe_a_reply_0",
+    "character": "npc_the_antiquarian",
+    "text": "Once. In a footnote that was struck through and then rewritten. The strike-through is, itself, a citation. I have framed the page.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "the_antiquarian_dlg_past_ant_past_probe_ant_past_probe_b_reply_0",
+    "character": "npc_the_antiquarian",
+    "text": "He does. He resents it less than he resents being uncited. Most of us would, if we thought about it for long enough. I try not to.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "the_antiquarian_dlg_past_ant_past_cold_reply_0",
+    "character": "npc_the_antiquarian",
+    "text": "Desks do not run. Whatever you came here to learn, you will not learn from a person who is moving.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "the_antiquarian_dlg_calling_opener_0",
+    "character": "npc_the_antiquarian",
+    "text": "An uncited claim is a claim that has not yet decided whether it would like to be true.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "the_antiquarian_dlg_calling_opener_1",
+    "character": "npc_the_antiquarian",
+    "text": "The cross-reference is the kindness of forcing the decision.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "the_antiquarian_dlg_calling_ant_call_warm_reply_0",
+    "character": "npc_the_antiquarian",
+    "text": "The Authority calls it pedantry. The Coda calls it slowness. Both are correct; both miss what the kindness is for.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "the_antiquarian_dlg_calling_ant_call_probe_reply_0",
+    "character": "npc_the_antiquarian",
+    "text": "Those become the citation themselves. The witness becomes the source. The price of being a source is being readable. Most witnesses prefer not to pay it.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "the_antiquarian_dlg_calling_ant_call_probe_ant_call_probe_a_reply_0",
+    "character": "npc_the_antiquarian",
+    "text": "Once. The footnote is cited in three places. I do not visit them. The Antiquarian's footnotes outlive the Antiquarian; this is a feature, not a complaint.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "the_antiquarian_dlg_calling_ant_call_probe_ant_call_probe_b_reply_0",
+    "character": "npc_the_antiquarian",
+    "text": "More. My own carry the bias of having been mine. Other people's citations have, at minimum, the discipline of having survived a transcription.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "the_antiquarian_dlg_calling_ant_call_playful_reply_0",
+    "character": "npc_the_antiquarian",
+    "text": "Twice. The first I caught at the Refuge gate. The second I caught at footnote three. The third — if there is one — I will not catch, and that is the one that bothers me.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "the_antiquarian_dlg_mortality_opener_0",
+    "character": "npc_the_antiquarian",
+    "text": "The Refuge does not age. I do. The arrangement is honest about both facts; you would be surprised how rare that is.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "the_antiquarian_dlg_mortality_opener_1",
+    "character": "npc_the_antiquarian",
+    "text": "The index will outlive me. I have written nothing into it that would not.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "the_antiquarian_dlg_mortality_ant_mort_warm_reply_0",
+    "character": "npc_the_antiquarian",
+    "text": "It is the comfort that is available. I have not asked it to be more.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "the_antiquarian_dlg_mortality_ant_mort_probe_reply_0",
+    "character": "npc_the_antiquarian",
+    "text": "Then a future archivist will issue an erratum. The erratum will be cited. I will, posthumously, be corrected. I have known archivists who were corrected entirely, by erratum, with no remaining original entry. They were not less. The work survives the worker.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "the_antiquarian_dlg_mortality_ant_mort_probe_ant_mort_probe_a_reply_0",
+    "character": "npc_the_antiquarian",
+    "text": "Three. None about myself. One about my predecessor; she was, at the time, alive enough to read it. We had tea afterwards. The tea is in the second cupboard.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "the_antiquarian_dlg_mortality_ant_mort_probe_ant_mort_probe_b_reply_0",
+    "character": "npc_the_antiquarian",
+    "text": "You, if you continue to do work that warrants the citation. I have left a draft in the third drawer with the salutation blank.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "the_antiquarian_dlg_mortality_ant_mort_cold_reply_0",
+    "character": "npc_the_antiquarian",
+    "text": "No. But the readers of the dead do. The erratum is for them; I have not written it for the dead in years.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "the_antiquarian_dlg_us_opener_0",
+    "character": "npc_the_antiquarian",
+    "text": "I have a citation slot open. I have been holding it.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "the_antiquarian_dlg_us_opener_1",
+    "character": "npc_the_antiquarian",
+    "text": "I would prefer to not fill it with a guess.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "the_antiquarian_dlg_us_ant_us_warm_reply_0",
+    "character": "npc_the_antiquarian",
+    "text": "Accepted. The footnote is being typeset. I will deliver a proof copy by hand; do not read it on the way back.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "the_antiquarian_dlg_us_ant_us_probe_reply_0",
+    "character": "npc_the_antiquarian",
+    "text": "Then I will issue, in time, an erratum. The erratum will, also, be cited. The trail will be traceable. I do not fear errata; I fear unrecorded ones.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "the_antiquarian_dlg_us_ant_us_probe_ant_us_probe_a_reply_0",
+    "character": "npc_the_antiquarian",
+    "text": "I cannot. The Antiquarian cites verbs, not nouns. If you would prefer to be cited as a noun, you will need to do the work elsewhere; I will recommend the Hierophant.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "the_antiquarian_dlg_us_ant_us_probe_ant_us_probe_b_reply_0",
+    "character": "npc_the_antiquarian",
+    "text": "Witness is a verb. Accepted. The slot is filled. Welcome to the working bibliography. The shelf is the third on the left; the bracket is steel; the dust will be addressed monthly.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "the_antiquarian_dlg_us_ant_us_cold_reply_0",
+    "character": "npc_the_antiquarian",
+    "text": "The slot will remain open. I do not delete declined slots; I leave them. If you change your mind, the second drawer holds the form; the lamp footprint is unchanged.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "the_antiquarian_comment_ant_loredex_first",
+    "character": "npc_the_antiquarian",
+    "text": "Per the second drawer, your reading just generated a citation. The slot for it is open. You will not be the citation; you will be the verb.",
+    "bucket": "comment",
+    "trigger": "loredex_entry_discovered",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "the_antiquarian_comment_ant_apprentice_died",
+    "character": "npc_the_antiquarian",
+    "text": "An entry has closed. The closing is itself a citation. Desks do not run; obituaries do not either. I have filed.",
+    "bucket": "comment",
+    "trigger": "apprentice_died",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "the_antiquarian_comment_ant_governance_first",
+    "character": "npc_the_antiquarian",
+    "text": "Voting is, structurally, a citation everyone signs at once. The Refuge respects the form. I respect the willingness.",
+    "bucket": "comment",
+    "trigger": "governance_hub_first_visit",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "the_antiquarian_banter_bnt_ant_locke_market_line0",
+    "character": "npc_the_antiquarian",
+    "text": "Locke. The contract is correctly signed. The footnote is correctly placed.",
+    "bucket": "banter",
+    "trigger": "trade_contract_completed",
+    "partner": "locke",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "the_antiquarian_banter_bnt_ant_seer_revision_line0",
+    "character": "npc_the_antiquarian",
+    "text": "Seer. You revised at footnote three.",
+    "bucket": "banter",
+    "trigger": "act_2_complete",
+    "partner": "the_seer",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "the_antiquarian_banter_bnt_ant_scholar_thesis_line0",
+    "character": "npc_the_antiquarian",
+    "text": "Antiquarian. They asked me to read a thesis aloud.",
+    "bucket": "banter",
+    "trigger": "apprentice_dialogue_played",
+    "partner": "scholar",
+    "file": "shared/npcCompanionExtensions.ts"
+  }
+]

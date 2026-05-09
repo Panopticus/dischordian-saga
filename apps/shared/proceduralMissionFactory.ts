@@ -243,6 +243,11 @@ export function generateMission(
     ...(ctx.loredexEntryId ? { loreFragmentId: ctx.loredexEntryId } : {}),
   };
 
+  // Procedural tag set — used by personal-quest sub-tasks
+  // (`mission_tag_complete`) to validate completion. Always emit
+  // faction + theme + era + danger so the validator has every axis.
+  const tags = buildMissionTags(ctx);
+
   return {
     id: ctx.id,
     name: flavor.name,
@@ -256,7 +261,76 @@ export function generateMission(
     baseSuccessChance: band.baseSuccessChance,
     reward,
     failureReward: band.failureReward,
+    tags,
   };
+}
+
+/** Theme inferred from the faction + difficulty pair. Stable mapping
+ *  used by sub-task validators that want a thematic, non-faction gate
+ *  (e.g. "complete a calibration-themed mission"). */
+function inferTheme(factionKey: string, difficulty: MissionDifficultyBand): string {
+  // Faction-specific overrides come first.
+  if (factionKey === "thaloria_in_exile") return "ceremony";
+  if (factionKey === "coda") return "performance";
+  if (factionKey === "syndicate_of_death") return "infiltration";
+  if (factionKey === "insurgency") return "cadre";
+  // Generic by difficulty.
+  if (difficulty === "routine") return "calibration";
+  if (difficulty === "challenging") return "negotiation";
+  if (difficulty === "dangerous") return "extraction";
+  return "glory";
+}
+
+/** Era inferred from the faction. Stable mapping for era-themed
+ *  sub-tasks (e.g. "complete a pre-Fall era mission"). */
+function inferEra(factionKey: string): string {
+  if (factionKey === "thaloria_in_exile" || factionKey === "insurgency") return "pre_fall";
+  if (factionKey === "coda") return "post_reveal";
+  if (factionKey === "syndicate_of_death") return "post_fall";
+  return "current_cycle";
+}
+
+function buildMissionTags(ctx: MissionFactoryContext): string[] {
+  const out: string[] = [
+    `faction:${ctx.factionKey}`,
+    `theme:${inferTheme(ctx.factionKey, ctx.difficulty)}`,
+    `era:${inferEra(ctx.factionKey)}`,
+    `danger:${ctx.difficulty}`,
+  ];
+  if (ctx.archetypeAffinity) out.push(`archetype:${ctx.archetypeAffinity}`);
+  if (ctx.npcAffinity) out.push(`npc:${ctx.npcAffinity}`);
+  if (ctx.bloodlineKey) out.push(`bloodline:${ctx.bloodlineKey}`);
+  return out;
+}
+
+/** Public helper — consumers that author CrewMissionTemplate entries
+ *  by hand can call this to attach the standard tag set without
+ *  going through the full generateMission() pipeline. Used by the
+ *  static template lists (crewMissions.ts CREW_MISSION_TEMPLATES,
+ *  tradeMissions, etc.) so personal-quest sub-tasks
+ *  (`mission_tag_complete`) work uniformly across procedural and
+ *  hand-authored missions.
+ *
+ *  factionKey is required (sub-tasks gate on it); the rest are
+ *  inferred from the template's existing fields.
+ */
+export function tagsForTemplate(args: {
+  factionKey: string;
+  difficulty: MissionDifficultyBand;
+  archetypeAffinity?: string;
+  npcAffinity?: string;
+  bloodlineKey?: string;
+}): string[] {
+  return buildMissionTags({
+    id: "_tagsOnly",
+    source: "story",
+    seed: 0,
+    factionKey: args.factionKey,
+    difficulty: args.difficulty,
+    archetypeAffinity: args.archetypeAffinity,
+    npcAffinity: args.npcAffinity,
+    bloodlineKey: args.bloodlineKey,
+  });
 }
 
 /** Build a deterministic id for a generated mission. */

@@ -1,0 +1,330 @@
+[
+  {
+    "id": "the_degen_signature",
+    "character": "npc_the_degen",
+    "text": "Do you know what it's like to be the last one? I run a casino so I'm never alone. Pathetic for a god. Honest for a bartender.",
+    "bucket": "signature",
+    "file": "shared/npcIdentity.ts"
+  },
+  {
+    "id": "the_degen_dlg_past_opener_0",
+    "character": "npc_the_degen",
+    "text": "Before the casino? Kid, before the casino I was the eighth of twelve and we were all awake. The other eleven are gone. I run a bar so I never have to walk home alone.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "the_degen_dlg_past_opener_1",
+    "character": "npc_the_degen",
+    "text": "The bartender thing was a costume. The costume fit. I kept it.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "the_degen_dlg_past_deg_past_warm_reply_0",
+    "character": "npc_the_degen",
+    "text": "The third. She laughed harder than I do. She lost a bet to the universe; the bet was about how long she could stay awake. She lost cleanly. I have not made her bet since.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "the_degen_dlg_past_deg_past_probe_reply_0",
+    "character": "npc_the_degen",
+    "text": "Casinos are honest. Everyone who walks in expects to lose. Pretty much the only place in this universe where the contract is on the door.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "the_degen_dlg_past_deg_past_probe_deg_past_probe_a_reply_0",
+    "character": "npc_the_degen",
+    "text": "Time. Loneliness. Once in a while a chip the house will not redeem; that one I keep. The chips I keep are the only relationships I'm allowed to call relationships.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "the_degen_dlg_past_deg_past_probe_deg_past_probe_b_reply_0",
+    "character": "npc_the_degen",
+    "text": "The house is me. Cheating myself would be the only honest cheat. I have done it a few times. The bar is mostly the documentation of those cheats.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "the_degen_dlg_past_deg_past_cold_reply_0",
+    "character": "npc_the_degen",
+    "text": "Sure thing. Drink's still on the house. The act doesn't get less expensive when you walk out unimpressed.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "the_degen_dlg_calling_opener_0",
+    "character": "npc_the_degen",
+    "text": "I keep the bar open because closing it would mean admitting I'm alone in here. The lights stay on; the door stays propped; the kettle is on for the next regular.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "the_degen_dlg_calling_opener_1",
+    "character": "npc_the_degen",
+    "text": "Pathetic for a god. Honest for a bartender. I'll take honest.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "the_degen_dlg_calling_deg_call_warm_reply_0",
+    "character": "npc_the_degen",
+    "text": "Pulled. House special. On the house. The first one always is; the second one I price; the third one I refuse if your eyes look the way the third sister's did at the end.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "the_degen_dlg_calling_deg_call_probe_reply_0",
+    "character": "npc_the_degen",
+    "text": "Your name. Your story. One honest loss you'll tell me without dressing it up. That's it. The chips and the drinks are decoration.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "the_degen_dlg_calling_deg_call_probe_deg_call_probe_a_reply_0",
+    "character": "npc_the_degen",
+    "text": "Filed. Behind the bar. With the chips I never redeem. Welcome in, kid; you're not a punter anymore.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "the_degen_dlg_calling_deg_call_probe_deg_call_probe_b_reply_0",
+    "character": "npc_the_degen",
+    "text": "You will. They come with the territory. I'll be here. Pour's still good.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "the_degen_dlg_calling_deg_call_cold_reply_0",
+    "character": "npc_the_degen",
+    "text": "Drop the act, the lights go off. You ever try to be honest in the dark? It's harder than it looks. I'll keep the lights on for both of us.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "the_degen_dlg_mortality_opener_0",
+    "character": "npc_the_degen",
+    "text": "Eleven stools. They're not empty because nobody's there. They're empty because the eleven who used to sit on them aren't.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "the_degen_dlg_mortality_opener_1",
+    "character": "npc_the_degen",
+    "text": "Some nights I wipe them down. Wax. Single-source — Necromancer's. We trade.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "the_degen_dlg_mortality_deg_mort_warm_reply_0",
+    "character": "npc_the_degen",
+    "text": "Not with the original eleven. Maybe with eleven new. Maybe with eleven different things. The stools don't care; the stools just need a butt. The barstool is the simplest piece of furniture in this universe; it has the simplest expectation.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "the_degen_dlg_mortality_deg_mort_probe_reply_0",
+    "character": "npc_the_degen",
+    "text": "The lights go out. The chips disperse. The wax goes to the Necromancer. The whisky goes wherever it pleases. The Heart of Time docks elsewhere; she's a free ship; she has a manifest of her own.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "the_degen_dlg_mortality_deg_mort_probe_deg_mort_probe_a_reply_0",
+    "character": "npc_the_degen",
+    "text": "Already have one. Look in your pocket. I slipped it in three drinks ago. It's marked with the third sister's mark; I don't make those for everyone.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "the_degen_dlg_mortality_deg_mort_probe_deg_mort_probe_b_reply_0",
+    "character": "npc_the_degen",
+    "text": "Many times. None of them stuck. Probably the last one stuck and I haven't noticed yet. You'll know before I do.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "the_degen_dlg_mortality_deg_mort_cold_reply_0",
+    "character": "npc_the_degen",
+    "text": "Pathetic for a god. Honest for a bartender. I told you that one already; pour's still good though.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "the_degen_dlg_us_opener_0",
+    "character": "npc_the_degen",
+    "text": "One hour. No bets. No chips. No tab. Just sit.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "the_degen_dlg_us_opener_1",
+    "character": "npc_the_degen",
+    "text": "I haven't asked anyone this since the third sister. She said yes. Then she lost the bet. Don't make her mistake.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "the_degen_dlg_us_deg_us_warm_reply_0",
+    "character": "npc_the_degen",
+    "text": "Pulled water. No charge. Talk if you want; don't if you don't. I'll be here either way.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "the_degen_dlg_us_deg_us_probe_reply_0",
+    "character": "npc_the_degen",
+    "text": "Company. The unphraseable kind. The kind where neither of us is performing for the room. I haven't had it in a long time. I won't ask twice.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "the_degen_dlg_us_deg_us_probe_deg_us_probe_a_reply_0",
+    "character": "npc_the_degen",
+    "text": "Good kid. Glass is yours. Mine is mine. The wax is on the third stool; we're not lighting it tonight.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "the_degen_dlg_us_deg_us_probe_deg_us_probe_b_reply_0",
+    "character": "npc_the_degen",
+    "text": "Tell me about the fourth person you forgave. I want to know how it sounded when you got there.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "the_degen_dlg_us_deg_us_cold_reply_0",
+    "character": "npc_the_degen",
+    "text": "Got it. Door's open. Tab's clean. Don't lose the chip; the chip will find you regardless.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "the_degen_comment_deg_first_costly",
+    "character": "npc_the_degen",
+    "text": "Honest loss, kid. The chip in your pocket just got marked. Don't lose it. The chip will find you regardless.",
+    "bucket": "comment",
+    "trigger": "first_costly_morality_choice",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "the_degen_comment_deg_apprentice_died",
+    "character": "npc_the_degen",
+    "text": "Pour's still good. The third stool is theirs tonight. The wax is the Necromancer's; we trade. Sit if you need to.",
+    "bucket": "comment",
+    "trigger": "apprentice_died",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "the_degen_comment_deg_governance_first",
+    "character": "npc_the_degen",
+    "text": "Voting? Pretty much the only place outside the bar where the contract's on the door. Pour's on the house if you cast one tonight.",
+    "bucket": "comment",
+    "trigger": "governance_hub_first_visit",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "the_degen_banter_bnt_see_degen_pour_line1",
+    "character": "npc_the_degen",
+    "text": "I have. The waiting is fair. The pour is also fair. Both can be true.",
+    "bucket": "banter",
+    "trigger": "act_2_complete",
+    "partner": "the_seer",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "the_degen_banter_bnt_deg_locke_pour_line0",
+    "character": "npc_the_degen",
+    "text": "Locke. Pour's on me. Margins like that, I can afford to be generous.",
+    "bucket": "banter",
+    "trigger": "trade_contract_completed",
+    "partner": "locke",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "the_degen_banter_bnt_deg_jester_chip_line0",
+    "character": "npc_the_degen",
+    "text": "Jester. The chip you palmed off the bar — keep it.",
+    "bucket": "banter",
+    "trigger": "apprentice_dialogue_played",
+    "partner": "jester",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "the_degen_banter_bnt_deg_rsr_ledger_line0",
+    "character": "npc_the_degen",
+    "text": "Resurrectionist. The third stool tonight is theirs.",
+    "bucket": "banter",
+    "trigger": "apprentice_died",
+    "partner": "the_resurrectionist",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "the_degen_banter_bnt_rsr_deg_bar_line1",
+    "character": "npc_the_degen",
+    "text": "Always is. Pour?",
+    "bucket": "banter",
+    "trigger": "track_37_completes",
+    "partner": "the_resurrectionist",
+    "file": "shared/npcCompanionExtensions.ts"
+  }
+]

@@ -40,8 +40,34 @@ import {
   type TradeMissionAgencyId,
   type TradeMissionReward,
 } from "@shared/tradeMissionCatalog";
+// Trade missions don't share CrewMissionTemplate, but they DO want the
+// same tag taxonomy so personal-quest sub-tasks can gate on
+// agency-tagged trade-mission completions the same way they gate on
+// tagged crew missions. tagsForTemplate is the canonical surface.
+import { tagsForTemplate } from "@shared/proceduralMissionFactory";
 
 const TARGET_OPEN_MISSION_POOL = 5;
+
+/** Map a trade-mission agency to a faction tag for the procedural
+ *  tag taxonomy. */
+function factionForAgency(agency?: TradeMissionAgencyId): string {
+  switch (agency) {
+    case "vex_solene":
+    case "coda_central": return "coda";
+    case "engineer_zero": return "architect";
+    default: return "neutral";
+  }
+}
+
+/** Surface a trade mission's procedural tags. */
+export function tagsForTradeMission(def: TradeMissionDefinition): string[] {
+  const factionKey = factionForAgency(def.agencyId);
+  const difficulty =
+    def.tier === 3 ? "dangerous"
+    : def.tier === 2 ? "challenging"
+    : "routine";
+  return tagsForTemplate({ factionKey, difficulty });
+}
 
 function dbUnavailable(): never {
   throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database unavailable" });

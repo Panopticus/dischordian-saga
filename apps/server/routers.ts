@@ -36,6 +36,8 @@ import { tier5PvpRouter } from "./routers/tier5Pvp";
 import { apprenticeTrialRouter } from "./routers/apprenticeTrial";
 import { apprenticePersonalQuestsRouter } from "./routers/apprenticePersonalQuests";
 import { apprenticeDialoguesRouter } from "./routers/apprenticeDialogues";
+import { npcDialoguesRouter } from "./routers/npcDialogues";
+import { loredexCarryRouter } from "./routers/loredexCarry";
 import { pvpModerationRouter } from "./routers/pvpModeration";
 import { pvpTelemetryRouter } from "./routers/pvpTelemetry";
 import { partyRouter } from "./routers/party";
@@ -120,6 +122,7 @@ import { prestigeRouter } from "./routers/prestige";
 import { graduateLegionRouter } from "./routers/graduateLegion";
 import { outbreakRouter } from "./routers/outbreak";
 import { communityCodexRouter } from "./routers/communityCodex";
+import { communityInvestigationRouter } from "./routers/communityInvestigation";
 import { performanceRouter } from "./routers/performance";
 import { deadMansCircuitRouter } from "./routers/deadMansCircuit";
 import { livingUniverseRouter } from "./routers/livingUniverse";
@@ -207,6 +210,8 @@ export const appRouter = router({
   apprenticeTrial: apprenticeTrialRouter,
   apprenticePersonalQuests: apprenticePersonalQuestsRouter,
   apprenticeDialogues: apprenticeDialoguesRouter,
+  npcDialogues: npcDialoguesRouter,
+  loredexCarry: loredexCarryRouter,
   pvpModeration: pvpModerationRouter,
   pvpTelemetry: pvpTelemetryRouter,
   party: partyRouter,
@@ -292,6 +297,7 @@ export const appRouter = router({
   graduateLegion: graduateLegionRouter,
   outbreak: outbreakRouter,
   communityCodex: communityCodexRouter,
+  communityInvestigation: communityInvestigationRouter,
   performance: performanceRouter,
   deadMansCircuit: deadMansCircuitRouter,
   livingUniverse: livingUniverseRouter,

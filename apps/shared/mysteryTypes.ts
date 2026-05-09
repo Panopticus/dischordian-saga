@@ -246,6 +246,158 @@ export interface MysteryDefinition {
   /** Available lenses for this arc. The base narration is
    *  authored on the episode; lens overlays apply on top. */
   lenses: ReadonlyArray<LensDefinition>;
+  /**
+   * audit/16 PR 27 (finding AR3 — ARG persona).
+   *
+   * Optional list of player-state gates that influence which
+   * narrative branches resolve when this mystery closes.
+   *
+   * Pre-audit, mysteries compiled at boot from
+   * mysteryRegistryBootstrap.ts and never regenerated. So if
+   * the player made a major narrative choice mid-saga
+   * (joining a faction, killing a key NPC, crossing a major
+   * morality threshold), no mystery branches reacted. The
+   * audit'd intent: a major story beat AFTER mystery boot
+   * should change which closure scene resolves on close —
+   * without invalidating clues the player has already
+   * discovered.
+   *
+   * The resolver (chooseMysteryClosureBranch) walks these
+   * gates against the current player state at close-time
+   * and picks the first matching branch. Discovered evidence
+   * is preserved per the snapshot-on-close invariant; only
+   * UNDISCOVERED branches can be re-routed.
+   */
+  playerInfluenceGates?: ReadonlyArray<MysteryInfluenceGate>;
+}
+
+/* ─── audit/16 PR 27 (AR3) — runtime regeneration ─── */
+
+/** A single influence gate. Each gate names a player-state
+ *  predicate + the branch id that resolves when it passes.
+ *  Order matters — the resolver walks the list and returns
+ *  the first matching gate's branchId. */
+export interface MysteryInfluenceGate {
+  /** Stable id for the gate (logs / tests). */
+  id: string;
+  /** What player state to check. */
+  condition: MysteryInfluenceCondition;
+  /** Branch id to resolve when this condition passes. The
+   *  branch must exist in the mystery's authored episodes. */
+  branchId: string;
+  /** Human-readable rationale, surfaced in admin tooling.
+   *  Not shown to the player. */
+  rationale?: string;
+}
+
+/** Discriminated union of conditions a gate can check. */
+export type MysteryInfluenceCondition =
+  | {
+      kind: "narrative_flag";
+      flag: string;
+      /** When set, the flag must equal this value. Default true. */
+      expected?: boolean;
+    }
+  | {
+      kind: "morality";
+      /** Player's morality score must satisfy the comparison. */
+      operator: ">=" | "<=" | "==";
+      threshold: number;
+    }
+  | {
+      kind: "trust";
+      companionId: string;
+      operator: ">=" | "<=" | "==";
+      threshold: number;
+    }
+  | {
+      kind: "act_at_least";
+      /** Player must be in or past this narrative act. */
+      act: number;
+    }
+  | {
+      kind: "all_of";
+      /** Composite — all child conditions must pass. */
+      conditions: ReadonlyArray<MysteryInfluenceCondition>;
+    };
+
+/** Player-state input to the resolver. */
+export interface MysteryInfluenceState {
+  narrativeFlags: ReadonlySet<string>;
+  /** Current morality score (-100..100 canonical axis). */
+  moralityScore: number;
+  /** Current trust per companion id. Missing companion = 0. */
+  trustByCompanion: Readonly<Record<string, number>>;
+  /** Current narrative act (0..7). */
+  narrativeAct: number;
+}
+
+/** Pure helper — true iff a condition matches the state. */
+export function evaluateMysteryCondition(
+  condition: MysteryInfluenceCondition,
+  state: MysteryInfluenceState,
+): boolean {
+  switch (condition.kind) {
+    case "narrative_flag": {
+      const expected = condition.expected ?? true;
+      return state.narrativeFlags.has(condition.flag) === expected;
+    }
+    case "morality":
+      return compareNumeric(state.moralityScore, condition.operator, condition.threshold);
+    case "trust": {
+      const t = state.trustByCompanion[condition.companionId] ?? 0;
+      return compareNumeric(t, condition.operator, condition.threshold);
+    }
+    case "act_at_least":
+      return state.narrativeAct >= condition.act;
+    case "all_of":
+      return condition.conditions.every((c) => evaluateMysteryCondition(c, state));
+  }
+}
+
+function compareNumeric(value: number, op: ">=" | "<=" | "==", threshold: number): boolean {
+  switch (op) {
+    case ">=": return value >= threshold;
+    case "<=": return value <= threshold;
+    case "==": return value === threshold;
+  }
+}
+
+/** Resolver — picks the closure branch for a mystery given
+ *  the player's current state. Returns null when no gate
+ *  matches (caller falls back to the mystery's authored
+ *  default closure branch). */
+export function chooseMysteryClosureBranch(
+  mystery: Pick<MysteryDefinition, "playerInfluenceGates">,
+  state: MysteryInfluenceState,
+): { gateId: string; branchId: string } | null {
+  const gates = mystery.playerInfluenceGates;
+  if (!gates || gates.length === 0) return null;
+  for (const gate of gates) {
+    if (evaluateMysteryCondition(gate.condition, state)) {
+      return { gateId: gate.id, branchId: gate.branchId };
+    }
+  }
+  return null;
+}
+
+/** Snapshot-on-close invariant — discovered evidence stays
+ *  discovered even if the closure branch re-routes. The
+ *  resolver returns the branch to play; the runtime caller
+ *  is expected to merge the player's already-discovered
+ *  evidence list into the resolved branch's surface, never
+ *  to overwrite it. This helper provides the merge.
+ *
+ *  Pure (no I/O); the caller pulls discoveredEvidenceIds
+ *  from PlayerEvidenceRecord and the new-branch's
+ *  evidenceIds list, and gets the union back. */
+export function mergeDiscoveredEvidence(
+  alreadyDiscovered: ReadonlyArray<string>,
+  newBranchEvidenceIds: ReadonlyArray<string>,
+): ReadonlyArray<string> {
+  const set = new Set<string>(alreadyDiscovered);
+  for (const id of newBranchEvidenceIds) set.add(id);
+  return Array.from(set);
 }
 
 /* ─── RUNTIME-SIDE TYPES ─── */
