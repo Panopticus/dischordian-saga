@@ -746,6 +746,16 @@ async function startServer() {
       console.error("[NpcMemoryBootstrap] failed:", e),
     );
 
+    // shadow_tongue_redactions table (NPC depth #13). Per-player
+    // Loredex redaction state. See apps/shared/universe/shadowTongue.ts
+    // for the redaction policy module.
+    const { bootstrapShadowTongueRedactionsTable } = await import(
+      "../services/shadowTongueRedactionsBootstrap"
+    );
+    bootstrapShadowTongueRedactionsTable().catch((e) =>
+      console.error("[ShadowTongueRedactionsBootstrap] failed:", e),
+    );
+
     // Ensure citizen_characters.foundation exists. Migration 0054 is
     // orphaned from _journal.json; without this column every SELECT
     // against citizen_characters fails ("Unknown column 'foundation'")

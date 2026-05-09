@@ -5652,6 +5652,62 @@ export const npcMemory = mysqlTable("npc_memory", {
 export type NpcMemoryRow = typeof npcMemory.$inferSelect;
 export type InsertNpcMemory = typeof npcMemory.$inferInsert;
 
+/**
+ * Per-player Shadow Tongue redaction state (NPC depth #13).
+ *
+ * Tracks (player, entry) pairs where the Shadow Tongue has either
+ * suppressed information or had its suppression broken. Distinct from
+ * the singleton `shadow_tongue_state` (community-wide power level +
+ * room/artifact edits) — this table is per-player Loredex redaction.
+ *
+ * Two row kinds:
+ *   - state rows  (triggerKey IS NULL) — declare the player's current
+ *     redaction state for a Loredex entry (visible/redacted/partial/
+ *     contradictory). Computed lazily by computeRedactionState() and
+ *     persisted opportunistically.
+ *   - trigger rows (triggerKey IS NOT NULL) — record that a reveal
+ *     trigger fired for the player. The encoded key matches the
+ *     output of encodeTriggerKey() in apps/shared/universe/shadowTongue.ts.
+ *
+ * The compound (userId, entryId, triggerKey) uniqueness keeps trigger
+ * rows idempotent and allows multiple state rows to coexist with
+ * trigger rows for the same entry — the service reads triggers first,
+ * then short-circuits the computation if any apply.
+ */
+export const shadowTongueRedactions = mysqlTable("shadow_tongue_redactions", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  /** Loredex entryId from apps/client/src/data/loredex-data.json. */
+  entryId: varchar("entryId", { length: 96 }).notNull(),
+  /**
+   * Encoded trigger key (encodeTriggerKey output) when this row
+   * records a fired reveal trigger; NULL when this row records
+   * computed redaction state.
+   */
+  triggerKey: varchar("triggerKey", { length: 128 }),
+  /**
+   * Resolved redaction state (visible/redacted/partial/contradictory).
+   * Only meaningful when triggerKey IS NULL; otherwise NULL.
+   */
+  redactionState: varchar("redactionState", { length: 32 }),
+  /** Last computed-or-fired-at. */
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  userIdIdx: index("idx_shadow_tongue_redactions_user_id").on(table.userId),
+  userEntryIdx: index("idx_shadow_tongue_redactions_user_entry").on(
+    table.userId,
+    table.entryId,
+  ),
+  // (userId, entryId, triggerKey) uniqueness — triggerKey may be NULL
+  // for state rows, distinct null treatment is MySQL-default.
+  userEntryTriggerUniq: uniqueIndex(
+    "uniq_shadow_tongue_redactions_user_entry_trigger",
+  ).on(table.userId, table.entryId, table.triggerKey),
+}));
+export type ShadowTongueRedactionRow = typeof shadowTongueRedactions.$inferSelect;
+export type InsertShadowTongueRedaction = typeof shadowTongueRedactions.$inferInsert;
+
 /* ═══════════════════════════════════════════════════════
    TRADE EMPIRE PHASE 2 — Brokers + multi-stage Contracts
    See apps/shared/tradeEmpire/{brokers,contracts,
