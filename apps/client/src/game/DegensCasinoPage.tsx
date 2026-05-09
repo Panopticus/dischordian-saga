@@ -30,11 +30,11 @@ const CASINO_FLOOR_BG = CASINO_ENVIRONMENTS.mainFloor;
 const CASINO_PARALLAX_COLOR = "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775681916/Vast_open_casino_202604081640_drbpia.jpg";
 const CASINO_PARALLAX_DEPTH = "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775681913/Vast_open_casino_202604081640_disparity_quhlae.png";
 
-/** Compact banner showing the live progressive jackpot pool. Auto-refreshes
- *  every 10s so spinning players see the pool climb in real time. */
+/** Compact banner showing the live progressive jackpot pool. Refreshes
+ *  every 60s — passive display, not a FOMO ticker (audit/16 GA6). */
 function JackpotPoolBanner() {
   const poolQuery = trpc.casino.getJackpotPool.useQuery(undefined, {
-    refetchInterval: 10_000,
+    refetchInterval: 60_000,
     retry: false,
   });
   const balance = poolQuery.data?.balance ?? 0;
@@ -47,15 +47,10 @@ function JackpotPoolBanner() {
             Progressive Jackpot
           </span>
         </div>
-        <motion.span
-          key={balance}
-          initial={{ scale: 0.9 }}
-          animate={{ scale: 1 }}
-          className="font-mono text-sm void-text-accent font-bold"
-        >
+        <span className="font-mono text-sm void-text-accent font-bold">
           {balance.toLocaleString()}
           <span className="void-text-accent text-[10px] ml-1">DREAM</span>
-        </motion.span>
+        </span>
       </div>
     </div>
   );
