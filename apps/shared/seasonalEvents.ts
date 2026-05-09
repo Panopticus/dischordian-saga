@@ -48,6 +48,25 @@ export interface SeasonalEventDef {
   element?: string;
   /** Morality path */
   moralityPath?: "machine" | "humanity";
+  /**
+   * audit/16 PR 7 (finding AR5 — ARG persona).
+   *
+   * Real-world anniversary date the event anchors to. When set,
+   * the event's start (and the durationDays window) is derived
+   * from this anchor each calendar year — so a "Fall of Reality"
+   * marker on May 8 always lights up on May 8, regardless of the
+   * server's current uptime.
+   *
+   * `month` is 1..12 (Jan = 1). `day` is 1..31. Year is implicit:
+   * the current calendar year if anchor hasn't passed, otherwise
+   * the next one.
+   *
+   * Pre-audit, the only window-control was `durationDays` from
+   * an arbitrary admin-triggered start, which severs the cultural
+   * resonance the audit'd intent: "the Fall isn't an arbitrary 14
+   * days; it's an anniversary of a specific moment."
+   */
+  anniversaryDate?: { month: number; day: number };
 }
 
 export interface EventMilestone {
@@ -261,6 +280,12 @@ export const SEASONAL_EVENTS: SeasonalEventDef[] = [
     bonusClass: "oracle",
     element: "void",
     moralityPath: "humanity",
+    // audit/16 PR 7 (AR5) \u2014 anchor to May 8 (the canonical Fall
+    // date in the Dischordian Saga production bible). Pre-audit
+    // this event was duration-gated only \u2014 admins could light it
+    // up any week, severing the cultural resonance the date is
+    // supposed to carry.
+    anniversaryDate: { month: 5, day: 8 },
     globalObjective: {
       description: "Recover 2,000,000 Reality Shards before the echoes fade forever",
       targetAmount: 2_000_000,

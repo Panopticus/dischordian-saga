@@ -64,7 +64,22 @@ export interface MoralityTrustActVariant {
    * Which surface this line renders on. Writers use this to group
    * related entries. Consumers filter by surface first, then by gates.
    */
-  surface: "room" | "transmission" | "npc_line" | "journal" | "wheel_followup";
+  surface:
+    | "room"
+    | "transmission"
+    | "npc_line"
+    | "journal"
+    | "wheel_followup"
+    /**
+     * audit/16 PR 7 (finding C5 — Cinematic persona).
+     * Slideshow VO override surface. SlideshowPlayerRoot
+     * consults the variant resolver for cinematic id → VO
+     * sequence; absent a matching variant, callers fall back
+     * to the hardcoded line pair. Lets writers ship morality-
+     * gated parenthetical alternates without touching player
+     * code paths.
+     */
+    | "slideshow_vo_override";
   /** Optional surface-specific target id (room id, transmission id, etc.). */
   targetId?: string;
   /** The authored line. Multi-paragraph allowed; UI decides whether to truncate. */
@@ -116,6 +131,34 @@ export interface MoralityTrustActVariant {
    * known clues.
    */
   relatedClues?: readonly string[];
+  /**
+   * audit/16 PR 7 (Cluster — finding C3, Cinematic persona).
+   *
+   * Optional NPC portrait anchor for transmission overlays.
+   * `SlideshowPlayerRoot` reads these to render a small bust
+   * portrait in the corner of a transmission, so the variant
+   * text doesn't float disembodied. The id is matched against
+   * `apps/shared/npcPortraits.ts`; expression is one of the
+   * named expressions on that NPC's `expressions` map.
+   *
+   * Both fields are independently optional — set just
+   * `portraitNpcId` for the default expression, or pair them
+   * to pin a specific reaction.
+   */
+  portraitNpcId?: string;
+  /** See `portraitNpcId`. Named expression key on the NPC's
+   *  expressions map (e.g. "neutral", "stern", "amused"). */
+  portraitExpression?: string;
+  /**
+   * audit/16 PR 7 (finding C5 — Cinematic persona).
+   *
+   * Ordered VO line ids to play when this variant resolves.
+   * Consumers (SlideshowPlayerRoot for the slideshow_vo_override
+   * surface) pass these to a `useActVO()` / per-character
+   * `speak()` queue. Empty / undefined = no override; caller
+   * falls back to its hardcoded baseline.
+   */
+  voLineIds?: readonly string[];
 }
 
 export interface VariantResolutionInput {
@@ -145,6 +188,32 @@ export function bandForTrust(trust: number): TrustBand {
   if (trust >= 50) return "warm";
   if (trust >= 25) return "neutral";
   return "cold";
+}
+
+/**
+ * audit/16 PR 7 (finding C9 — Cinematic persona).
+ *
+ * Derive The Human's transmission-corruption level (0..100) from
+ * the player's current trust score. Higher trust = clearer signal
+ * = lower corruption. Pure helper so consumers (TransmissionDisplay,
+ * cinematic preview tools, replay viewers) all agree on the
+ * mapping.
+ *
+ * Mapping rationale: at confidant (80+), corruption drops to 10
+ * — readable but still othered. At cold (<25), corruption sits at
+ * 60 — borderline-illegible, the way a stranger broadcasting from
+ * dream-static actually reads. The cold/neutral/warm/confidant
+ * stops mirror the trust bands so the player can feel the
+ * relationship pivot in the text itself.
+ */
+export function humanCorruptionForTrust(trust: number): number {
+  const band = bandForTrust(trust);
+  switch (band) {
+    case "confidant": return 10;
+    case "warm":      return 25;
+    case "neutral":   return 40;
+    case "cold":      return 60;
+  }
 }
 
 /**

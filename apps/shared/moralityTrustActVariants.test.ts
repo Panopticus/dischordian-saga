@@ -3,6 +3,7 @@ import {
   VARIANT_REGISTRY,
   bandForMorality,
   bandForTrust,
+  humanCorruptionForTrust,
   isWithinTimeWindow,
   resolveVariant,
   type MoralityTrustActVariant,
@@ -366,6 +367,110 @@ describe("moralityTrustActVariants", () => {
         now: new Date("2026-05-09T12:00:00Z"),
       });
       expect(resolved?.id).toBe("tied_with_window");
+    });
+  });
+
+  /* ─── audit/16 PR 7 — Cinematic small batch ─── */
+
+  describe("humanCorruptionForTrust (C9)", () => {
+    it("monotonically decreases as trust rises", () => {
+      const cold = humanCorruptionForTrust(10);
+      const neutral = humanCorruptionForTrust(30);
+      const warm = humanCorruptionForTrust(60);
+      const confidant = humanCorruptionForTrust(85);
+      expect(cold).toBeGreaterThan(neutral);
+      expect(neutral).toBeGreaterThan(warm);
+      expect(warm).toBeGreaterThan(confidant);
+    });
+    it("returns canonical band values", () => {
+      expect(humanCorruptionForTrust(0)).toBe(60);
+      expect(humanCorruptionForTrust(24)).toBe(60);
+      expect(humanCorruptionForTrust(25)).toBe(40);
+      expect(humanCorruptionForTrust(50)).toBe(25);
+      expect(humanCorruptionForTrust(80)).toBe(10);
+      expect(humanCorruptionForTrust(100)).toBe(10);
+    });
+    it("matches bandForTrust thresholds at boundaries", () => {
+      // Sanity — corruption thresholds align with trust band thresholds.
+      expect(bandForTrust(25)).toBe("neutral");
+      expect(humanCorruptionForTrust(25)).toBe(40);
+      expect(bandForTrust(50)).toBe("warm");
+      expect(humanCorruptionForTrust(50)).toBe(25);
+    });
+  });
+
+  describe("voLineIds + slideshow_vo_override surface (C5)", () => {
+    it("variant with voLineIds resolves on the new surface", () => {
+      const registry: MoralityTrustActVariant[] = [
+        {
+          id: "test_silence_machine",
+          surface: "slideshow_vo_override",
+          targetId: "silence-of-two-witnesses",
+          text: "(machine variant — cold-bird parenthetical)",
+          morality: "machine",
+          trust: "any",
+          act: 2,
+          voLineIds: ["silence-elara-machine", "silence-human-machine"],
+        },
+      ];
+      const resolved = resolveVariant(
+        registry,
+        "slideshow_vo_override",
+        "silence-of-two-witnesses",
+        {
+          moralityScore: -40,
+          narrativeAct: 2,
+          trustByCompanion: {},
+          flags: new Set(),
+        },
+      );
+      expect(resolved?.voLineIds).toEqual([
+        "silence-elara-machine",
+        "silence-human-machine",
+      ]);
+    });
+
+    it("returns null when no variant matches (caller falls back to baseline)", () => {
+      const resolved = resolveVariant(
+        VARIANT_REGISTRY,
+        "slideshow_vo_override",
+        "silence-of-two-witnesses",
+        {
+          moralityScore: 0,
+          narrativeAct: 2,
+          trustByCompanion: {},
+          flags: new Set(),
+        },
+      );
+      // No production seed exists yet; caller's hardcoded
+      // ["silence-elara", "silence-human"] fallback path runs.
+      expect(resolved).toBeNull();
+    });
+  });
+
+  describe("portraitNpcId / portraitExpression (C3)", () => {
+    it("survives resolution as additive payload", () => {
+      const registry: MoralityTrustActVariant[] = [
+        {
+          id: "test_with_portrait",
+          surface: "transmission",
+          targetId: "test_target",
+          text: "transmission with portrait anchor",
+          morality: "any",
+          trust: "any",
+          act: "any",
+          portraitNpcId: "elara",
+          portraitExpression: "stern",
+        },
+      ];
+      const resolved = resolveVariant(registry, "transmission", "test_target", {
+        moralityScore: 0,
+        narrativeAct: 1,
+        trustByCompanion: {},
+        flags: new Set(),
+      });
+      expect(resolved?.portraitNpcId).toBe("elara");
+      expect(resolved?.portraitExpression).toBe("stern");
     });
   });
 });
