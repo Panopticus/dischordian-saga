@@ -75,6 +75,178 @@ export function tryCombineItems(itemA: string, itemB: string): InventoryCombinat
   ) || null;
 }
 
+/* ═══ 1.5. MULTI-STEP INVENTORY CHAINS (audit/16 PR 19 — ER3) ═══
+
+   Pre-audit, INVENTORY_COMBINATIONS were 1-to-1: A + B = C, end of
+   thread. The audit'd reference is Monkey Island depth — chains
+   like "monkey + grog → drunk monkey → distract guard → take key
+   from belt." This module is the substrate for those chains.
+
+   Each InventoryChain declares an ordered list of steps. Every
+   step takes the previous step's `result` (or one of the chain's
+   declared starter items) plus an additional `with` item, and
+   produces a new intermediate. Designers author the canonical
+   solution path; players discover it through experimentation.
+
+   The Terminus chain ships seeded as the canonical 5-step proof.
+   Authors extend the registry as new room mysteries land.
+*/
+
+export interface InventoryChainStep {
+  /** Stable id; pattern: "step_{chain}_{n}". */
+  id: string;
+  /** Previous-step result OR a declared starter item id from
+   *  the chain's `starters`. */
+  takes: string;
+  /** Additional item combined in. */
+  with: string;
+  /** New intermediate this step produces. The final step's
+   *  result is the chain's payoff item. */
+  result: string;
+  /** Player-facing label rendered when the step succeeds. */
+  resultName: string;
+  /** Elara's contextual reaction on this step. Each step gets
+   *  its own — the audit'd "narratively rich" requirement. */
+  elaraComment: string;
+}
+
+export interface InventoryChain {
+  /** Stable id; pattern: "chain_{descriptor}". */
+  id: string;
+  /** Player-facing chain title — surfaces in the
+   *  Investigation Board's open-threads list. */
+  name: string;
+  /** Chain description / prompt. */
+  description: string;
+  /** Items the chain starts from (any of these can begin
+   *  the chain). */
+  starters: readonly string[];
+  /** Ordered solution path. */
+  steps: readonly InventoryChainStep[];
+}
+
+/** Canonical Terminus chain — the audit'd reference 5-step
+ *  proof. Mirrors the Monkey Island depth-pattern: an item
+ *  can't be used directly; you have to transform it through
+ *  a chain of steps before it does what you need. */
+export const INVENTORY_CHAINS: readonly InventoryChain[] = [
+  {
+    id: "chain_terminus_signal",
+    name: "Reach the Terminus drone",
+    description:
+      "A Terminus drone wandered into the casino during the Swarm Wars, but the Source recalled it before contact could resolve. The recall left a residual carrier-tone in the ship's antenna array. Reaching what's left of that drone requires patching together the signal across five rooms.",
+    starters: ["broken_terminus_relay"],
+    steps: [
+      {
+        id: "step_terminus_1",
+        takes: "broken_terminus_relay",
+        with: "energy_shard",
+        result: "primed_terminus_relay",
+        resultName: "Primed Terminus Relay",
+        elaraComment:
+          "The relay won't transmit on its own — the carrier requires an energy shard's resonance to lock the wave. Slot it in. The relay hums.",
+      },
+      {
+        id: "step_terminus_2",
+        takes: "primed_terminus_relay",
+        with: "antenna_fragment",
+        result: "patched_terminus_array",
+        resultName: "Patched Terminus Array",
+        elaraComment:
+          "An antenna fragment from the comms relay grafts onto the primed relay. The carrier-tone amplifies. We're almost in range of where the drone went.",
+      },
+      {
+        id: "step_terminus_3",
+        takes: "patched_terminus_array",
+        with: "amplifier_circuit",
+        result: "boosted_terminus_array",
+        resultName: "Boosted Terminus Array",
+        elaraComment:
+          "The amplifier circuit was scavenged from the cipher den's terminal stack. With it, the patched array pushes signal across the Ark's hull. We can hear something on the other end now.",
+      },
+      {
+        id: "step_terminus_4",
+        takes: "boosted_terminus_array",
+        with: "decoder_ring",
+        result: "tuned_terminus_array",
+        resultName: "Tuned Terminus Array",
+        elaraComment:
+          "The decoder ring isn't for breaking the signal — it's for tuning it. The drone's recall code is encrypted in a Source dialect; the ring filters out the rest. The voice is clear.",
+      },
+      {
+        id: "step_terminus_5",
+        takes: "tuned_terminus_array",
+        with: "void_crystal",
+        result: "active_terminus_link",
+        resultName: "Active Terminus Link",
+        elaraComment:
+          "A void crystal completes the loop. The recall is reversible. The drone — what's left of it — answers. It says one word, and the word is your name.",
+      },
+    ],
+  },
+];
+
+/* ─── Pure helpers ──────────────────────────────────────── */
+
+export interface ChainProgress {
+  chain: InventoryChain;
+  /** Index of the step currently solvable given the player's
+   *  inventory. -1 when no step is solvable from current items. */
+  nextStepIndex: number;
+  /** Steps already completed (their `result` items are in inventory). */
+  completedStepCount: number;
+}
+
+/** Given a chain and the player's current inventory, return
+ *  the next solvable step + how many earlier steps are done.
+ *  Used by Investigation Board / inventory UIs to surface
+ *  "you can do X next" hints. */
+export function getChainProgress(
+  chain: InventoryChain,
+  inventory: ReadonlySet<string>,
+): ChainProgress {
+  // Walk the chain. A step is "completed" if its result is in
+  // inventory. The next solvable step is the first incomplete
+  // step whose `takes` (either a starter or a previous result)
+  // and `with` are both in inventory.
+  let completedStepCount = 0;
+  let nextStepIndex = -1;
+  for (let i = 0; i < chain.steps.length; i++) {
+    const step = chain.steps[i]!;
+    if (inventory.has(step.result)) {
+      completedStepCount = i + 1;
+      continue;
+    }
+    // First incomplete step. Is it solvable now?
+    if (inventory.has(step.takes) && inventory.has(step.with)) {
+      nextStepIndex = i;
+    }
+    break;
+  }
+  return { chain, nextStepIndex, completedStepCount };
+}
+
+/** Try to advance a chain by one step using the named items.
+ *  Returns the matched step + chain when the items match an
+ *  authored step in any chain in the registry. Returns null
+ *  on no-match (caller falls back to the existing 1-to-1
+ *  combination registry). */
+export function tryAdvanceChain(
+  itemA: string,
+  itemB: string,
+  registry: readonly InventoryChain[] = INVENTORY_CHAINS,
+): { chain: InventoryChain; step: InventoryChainStep } | null {
+  for (const chain of registry) {
+    for (const step of chain.steps) {
+      const matches =
+        (step.takes === itemA && step.with === itemB) ||
+        (step.takes === itemB && step.with === itemA);
+      if (matches) return { chain, step };
+    }
+  }
+  return null;
+}
+
 /* ═══ 2. MULTI-ACTION HOTSPOTS ═══ */
 
 export type HotspotAction = "look" | "examine" | "interact" | "use_item";
