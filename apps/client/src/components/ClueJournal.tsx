@@ -31,6 +31,20 @@ export interface Clue {
   puzzleId?: string;            // Which puzzle it helps solve
   prerequisite?: string;        // Item/flag needed to find this clue
   dreamReward: number;          // Dream tokens earned on discovery
+  /**
+   * audit/16 PR 8 (finding ER6 — Escape Room persona).
+   *
+   * Cross-room clue dependencies. Each entry encodes a clue from
+   * another room that must be collected before this one becomes
+   * available. Distinct from `prerequisite` (single item/flag in
+   * the same room): this models the Monkey-Island-depth "you
+   * can't pick up the wrench in the Cargo Bay until you've found
+   * the inventory manifest in the Captain's Quarters" pattern.
+   *
+   * AND-logic: every dependency must be satisfied. Author OR-logic
+   * by leaving the easier path un-dependencied.
+   */
+  dependsOnClues?: readonly { clueId: string; otherRoomId: string }[];
 }
 
 export interface Puzzle {

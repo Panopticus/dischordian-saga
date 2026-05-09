@@ -33,6 +33,81 @@ export interface Puzzle {
   relayPattern?: boolean[];
   // Keycard-specific
   requiredItem?: string;
+  /**
+   * audit/16 PR 8 (finding ER1 — Escape Room persona).
+   *
+   * Sequencing-lock prerequisites. When set, this puzzle is
+   * "locked" until every entry's gate is satisfied — it remains
+   * approachable in the room UI but the solve mutation refuses
+   * to evaluate input until the prereqs clear. Distinct from the
+   * `requiredItem` keycard gate (a single inventory check); a
+   * prerequisite chain models cross-room narrative ordering
+   * ("you can't crack the Bridge auth handshake until you've
+   * scanned the data-slate at Med Bay").
+   */
+  prerequisites?: readonly PuzzlePrerequisite[];
+}
+
+/**
+ * audit/16 PR 8 (ER1) — A single sequencing dependency on a puzzle.
+ * Each entry encodes ONE thing the player must have done before
+ * the puzzle becomes solvable. Multiple prerequisites all must
+ * pass (AND-logic) — author OR-logic by leaving the simpler path
+ * un-prerequisited.
+ */
+export type PuzzlePrerequisite =
+  | {
+      /** Another puzzle (anywhere in the registry) must be solved. */
+      kind: "puzzle_solved";
+      puzzleId: string;
+    }
+  | {
+      /** A specific clue must have been collected. */
+      kind: "clue_collected";
+      clueId: string;
+    }
+  | {
+      /** A narrative flag must be set on the player's state. Lets
+       *  authors gate puzzles behind major story beats without
+       *  needing a synthetic intermediate puzzle. */
+      kind: "narrative_flag";
+      flag: string;
+    };
+
+/**
+ * audit/16 PR 8 (ER1) — Per-puzzle unlock state computed against
+ * the player's current solve / inventory / flag state. UI consumers
+ * read `unlocked` to gray-out the puzzle controls; the `missing`
+ * array is for the "what's blocking this?" tooltip surface.
+ */
+export interface PuzzleUnlockState {
+  unlocked: boolean;
+  /** Empty when unlocked; otherwise a list of unmet prerequisites. */
+  missing: readonly PuzzlePrerequisite[];
+}
+
+export function getPuzzleUnlockState(
+  puzzle: Puzzle,
+  state: {
+    solvedPuzzles: ReadonlySet<string>;
+    collectedClues: ReadonlySet<string>;
+    narrativeFlags: ReadonlySet<string>;
+  },
+): PuzzleUnlockState {
+  if (!puzzle.prerequisites || puzzle.prerequisites.length === 0) {
+    return { unlocked: true, missing: [] };
+  }
+  const missing: PuzzlePrerequisite[] = [];
+  for (const pre of puzzle.prerequisites) {
+    if (pre.kind === "puzzle_solved" && !state.solvedPuzzles.has(pre.puzzleId)) {
+      missing.push(pre);
+    } else if (pre.kind === "clue_collected" && !state.collectedClues.has(pre.clueId)) {
+      missing.push(pre);
+    } else if (pre.kind === "narrative_flag" && !state.narrativeFlags.has(pre.flag)) {
+      missing.push(pre);
+    }
+  }
+  return { unlocked: missing.length === 0, missing };
 }
 
 /* ─── PUZZLE DEFINITIONS ─── */
@@ -608,11 +683,22 @@ function KeycardPuzzle({ puzzle, hasItem, onSolve }: { puzzle: Puzzle; hasItem: 
 export default function PuzzleModal({
   roomId,
   itemsCollected,
+  solvedPuzzles,
+  collectedClues,
+  narrativeFlags,
   onSolve,
   onClose,
 }: {
   roomId: string;
   itemsCollected: string[];
+  /**
+   * audit/16 PR 8 (ER1) — sequencing prerequisite state. Optional
+   * for back-compat; callers that don't pass these see the legacy
+   * "all puzzles always solvable" behaviour.
+   */
+  solvedPuzzles?: ReadonlySet<string>;
+  collectedClues?: ReadonlySet<string>;
+  narrativeFlags?: ReadonlySet<string>;
   onSolve: (roomId: string) => void;
   onClose: () => void;
 }) {
@@ -621,7 +707,19 @@ export default function PuzzleModal({
 
   if (!puzzle) return null;
 
+  // audit/16 PR 8 (ER1) — sequencing-lock check. If any prerequisite
+  // is unmet, the per-type checkAnswer paths still fire (so the
+  // player sees their input was valid) but the parent won't dispatch
+  // the solve mutation. The "missing" list drives the gating
+  // tooltip on the modal so players know what to do next.
+  const unlockState = getPuzzleUnlockState(puzzle, {
+    solvedPuzzles: solvedPuzzles ?? new Set(),
+    collectedClues: collectedClues ?? new Set(),
+    narrativeFlags: narrativeFlags ?? new Set(),
+  });
+
   const handleSolve = () => {
+    if (!unlockState.unlocked) return;
     setSolved(true);
     setTimeout(() => onSolve(roomId), 1500);
   };
