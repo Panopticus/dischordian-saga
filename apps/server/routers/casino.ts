@@ -44,6 +44,12 @@ import {
   getCasinoCosmetic,
   type RouletteFaction,
 } from "../../shared/casinoGames";
+import {
+  PAZAAK_TOURNAMENT_ENTRY_FEE,
+  PAZAAK_TOURNAMENT_FIRST_PRIZE,
+  PAZAAK_TOURNAMENT_SECOND_PRIZE,
+  runPazaakTournament,
+} from "../../shared/casinoPazaakTournament";
 
 type PlayableGame =
   | "void_slots" | "entropy_dice" | "nebula_poker" | "quantum_roulette"
@@ -848,6 +854,103 @@ export const casinoRouter = router({
       return executeGame(db, ctx.user.id, "pazaak_21", input.bet, (rng) =>
         playPazaak21(input.bet, input.stand, rng),
       );
+    }),
+
+  /** audit/16 PR 3 — Pazaak Tournament status. Returns the
+   *  player's daily entry state + last bracket result if any. */
+  getPazaakTournamentStatus: protectedProcedure
+    .use(checkFeatureFlag("casino"))
+    .query(async ({ ctx }) => {
+      const db = await getDb();
+      if (!db) {
+        return {
+          enteredToday: false,
+          lastResult: null,
+          entryFee: PAZAAK_TOURNAMENT_ENTRY_FEE,
+          firstPrize: PAZAAK_TOURNAMENT_FIRST_PRIZE,
+          secondPrize: PAZAAK_TOURNAMENT_SECOND_PRIZE,
+        };
+      }
+      const state = await ensureCasinoState(db, ctx.user.id);
+      const today = todayString();
+      return {
+        enteredToday: state.lastPazaakTournamentDate === today,
+        lastResult: state.lastPazaakTournamentResult ?? null,
+        lastDate: state.lastPazaakTournamentDate ?? null,
+        entryFee: PAZAAK_TOURNAMENT_ENTRY_FEE,
+        firstPrize: PAZAAK_TOURNAMENT_FIRST_PRIZE,
+        secondPrize: PAZAAK_TOURNAMENT_SECOND_PRIZE,
+      };
+    }),
+
+  /** audit/16 PR 3 — Enter the Pazaak Tournament. One entry per
+   *  UTC day; deducts the entry fee, runs the deterministic
+   *  bracket, deposits prize, persists result. Returns the
+   *  full bracket payload so the UI can render the cinematic. */
+  enterPazaakTournament: protectedProcedure
+    .use(checkFeatureFlag("casino"))
+    .use(globalCasinoSessionLimit)
+    .input(z.object({ stand: z.number().min(10).max(21) }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) throw new Error("DB unavailable");
+      return db.transaction(async (tx) => {
+        const state = await ensureCasinoState(tx, ctx.user.id);
+        const today = todayString();
+        if (state.lastPazaakTournamentDate === today) {
+          throw new Error("Already entered today's Pazaak tournament — resets at UTC midnight");
+        }
+        const balance = await ensureDreamBalance(tx, ctx.user.id);
+        if (balance.dreamTokens < PAZAAK_TOURNAMENT_ENTRY_FEE) {
+          throw new Error(`Insufficient Dream — entry costs ${PAZAAK_TOURNAMENT_ENTRY_FEE}D`);
+        }
+        // Deduct entry fee.
+        await tx
+          .update(dreamBalance)
+          .set({ dreamTokens: sql`${dreamBalance.dreamTokens} - ${PAZAAK_TOURNAMENT_ENTRY_FEE}` })
+          .where(eq(dreamBalance.userId, ctx.user.id));
+        // Run the deterministic bracket. Seed combines today's
+        // date + the user id so each player sees a personalised
+        // (but auditable) bracket; same player on the same day
+        // would re-roll the same bracket if they could re-enter.
+        const seed = `pazaak-tourn:${today}:${ctx.user.id}`;
+        const result = runPazaakTournament(
+          ctx.user.name ?? `Player#${ctx.user.id}`,
+          input.stand,
+          seed,
+        );
+        // Pay out prize (if any).
+        if (result.prize > 0) {
+          await tx
+            .update(dreamBalance)
+            .set({
+              dreamTokens: sql`${dreamBalance.dreamTokens} + ${result.prize}`,
+              totalDreamEarned: sql`${dreamBalance.totalDreamEarned} + ${result.prize}`,
+            })
+            .where(eq(dreamBalance.userId, ctx.user.id));
+        }
+        // Persist daily-entry gate + bracket cache.
+        await tx
+          .update(casinoState)
+          .set({
+            lastPazaakTournamentDate: today,
+            lastPazaakTournamentResult: result as unknown as Record<string, unknown>,
+          })
+          .where(eq(casinoState.userId, ctx.user.id));
+        // Log a casinoResults entry for the bracket — game type
+        // "pazaak_tournament" so leaderboard queries can filter.
+        await tx.insert(casinoResults).values({
+          userId: ctx.user.id,
+          game: "pazaak_tournament",
+          bet: PAZAAK_TOURNAMENT_ENTRY_FEE,
+          won: result.playerPlace === 1,
+          payout: result.prize,
+          jackpot: false,
+          detail: result as unknown as Record<string, unknown>,
+          seed,
+        });
+        return result;
+      });
     }),
 
   /** High/Low — sequence of higher/lower guesses. */

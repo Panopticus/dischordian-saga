@@ -4680,6 +4680,15 @@ export const casinoState = mysqlTable("casino_state", {
   dailyVoidCasesOpened: int("dailyVoidCasesOpened").notNull().default(0),
   /** YYYY-MM-DD string used to reset daily counters */
   dailyCounterDate: varchar("dailyCounterDate", { length: 10 }),
+  /** audit/16 PR 3 — Pazaak tournament daily-entry gate. Stores
+   *  the YYYY-MM-DD of the player's last tournament entry; an
+   *  entry is rejected if this matches today's UTC date. Resets
+   *  organically when the player enters on a new day. */
+  lastPazaakTournamentDate: varchar("lastPazaakTournamentDate", { length: 10 }),
+  /** Last tournament's full bracket result, JSON-encoded — lets
+   *  the player re-view today's bracket from the UI without
+   *  another DB query. Cleared on entry. */
+  lastPazaakTournamentResult: json("lastPazaakTournamentResult").$type<Record<string, unknown>>(),
   /** Unlocked cosmetic/title rewards from casino achievements — the
    *  parser at `casino.ts#rewardsFromUnlockString` turns a human
    *  readable `unlockReward` into normalized ids that land here. */
