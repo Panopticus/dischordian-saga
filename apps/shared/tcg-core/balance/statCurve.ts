@@ -69,3 +69,76 @@ export function getToleranceForCost(cost: number): number {
   const point = STAT_CURVE.find(p => p.cost === cost);
   return point?.tolerance ?? 0.15;
 }
+
+/* ─── audit/16 PR 14 (finding TCG5 — TCG persona) ───────
+   Stat-efficiency ratio. Ratio of a card's actual stat
+   total to the curve's expected stat total at that cost.
+   1.0 = on-curve; >1.0 = above-curve (over-statted);
+   <1.0 = below-curve (under-statted, ability-driven).
+
+   The audit'd intent is: tolerance windows are blunt
+   (in-window or out-of-window). The efficiency RATIO
+   exposes the gradient — a card at 0.85 isn't just
+   "below curve," it's "85% of the curve's stat budget,"
+   which lets deckbuilders rank ability-driven cards
+   against raw-stat cards numerically.
+   ───────────────────────────────────────────────────── */
+
+export interface StatEfficiencyResult {
+  cost: number;
+  totalStats: number;
+  expectedStats: number;
+  /** Ratio of totalStats to expectedStats. 1.0 = on-curve. */
+  ratio: number;
+  /** Bucket: above (≥ 1+tolerance), within (in tolerance
+   *  window), below (≤ 1-tolerance). Coarse grouping for
+   *  UI surfaces that don't want to render the raw ratio. */
+  bucket: "above" | "within" | "below";
+  /** Short rendered label for tooltips, e.g. "120% of curve". */
+  label: string;
+}
+
+export function getStatEfficiency(
+  cost: number,
+  totalStats: number,
+  keywordCount: number,
+): StatEfficiencyResult {
+  const expected = getExpectedStats(cost, keywordCount);
+  // Defensive against pathological zero-expected (cost 0
+  // sometimes maps there; clamp to avoid Infinity ratios).
+  const safeExpected = expected > 0 ? expected : 1;
+  const ratio = totalStats / safeExpected;
+  const tolerance = getToleranceForCost(cost);
+  const bucket: "above" | "within" | "below" =
+    ratio >= 1 + tolerance ? "above"
+    : ratio <= 1 - tolerance ? "below"
+    : "within";
+  const pct = Math.round(ratio * 100);
+  return {
+    cost,
+    totalStats,
+    expectedStats: expected,
+    ratio,
+    bucket,
+    label: `${pct}% of curve`,
+  };
+}
+
+/**
+ * audit/16 PR 14 (finding TCG1 — TCG persona).
+ *
+ * Average keyword count across a deck list. Pure helper;
+ * the deckbuilder UI renders this alongside the existing
+ * cost / faction breakdowns so players can see the keyword
+ * density of their deck at a glance. Pre-audit there was
+ * no surface for "is my deck keyword-heavy?" — players had
+ * to scroll the full card list to count.
+ */
+export function avgKeywords(deck: ReadonlyArray<{ keywords?: readonly unknown[] }>): number {
+  if (deck.length === 0) return 0;
+  let total = 0;
+  for (const card of deck) {
+    total += card.keywords?.length ?? 0;
+  }
+  return total / deck.length;
+}
