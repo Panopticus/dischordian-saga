@@ -8,6 +8,8 @@
 // See apps/shared/npcs/bibles/ for canonical voice direction per character.
 // See apps/shared/npcs/bibles/_writers_guide.md for the structural-innovation map.
 
+import type { FactionId as FactionStandingId } from "../factions";
+
 // --- Identity ---------------------------------------------------------------
 
 /**
@@ -260,6 +262,31 @@ export interface NpcProfile {
 
   /** Canonical signature monologue line ID (for first-meet flavor). */
   signatureMonologueLineId?: string;
+
+  /**
+   * Per-NPC factional loyalty weights against the 5-faction standing
+   * registry (apps/shared/factions.ts). Each weight in [-1, +1].
+   *
+   * Used by computeEffectiveTrust() (apps/shared/npcs/registry.ts) to
+   * modulate how fast a given NPC warms up to the player based on the
+   * player's standing with the faction the NPC is loyal to. The
+   * formula multiplies standing × weight × a global scaling constant
+   * and adds the result to baseTrust.
+   *
+   * Concrete examples:
+   *   - Locke: { new_babylon: +0.9 } — warms up fast for new_babylon
+   *     champions, slowly for new_babylon enemies.
+   *   - Wraith Calder / The Hierophant: { insurgency: +0.9 } — covert
+   *     per the bible §3.10 covert-inheritance layer; the modifier
+   *     applies regardless of trust band, but the in-character
+   *     explanation only surfaces at the Inheriting band.
+   *   - Drael'Mon: { hierarchy: +0.8 } — overt loyalty.
+   *
+   * Omit for NPCs with no factional alignment (Elara, Eidolon, Game
+   * Master, Meme, Degen). Multi-faction NPCs may declare more than one
+   * weight; the contributions sum.
+   */
+  factionLoyalty?: Partial<Record<FactionStandingId, number>>;
 
   /** Free-form metadata; bible-asserted fields (e.g., agenda, title). */
   metadata?: Readonly<Record<string, string>>;
