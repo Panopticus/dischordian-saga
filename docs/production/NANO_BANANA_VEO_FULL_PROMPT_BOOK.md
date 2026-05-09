@@ -2502,6 +2502,131 @@ Stage ambient loops (15 stages, room-tone beds that play UNDER the music):
 
 ---
 
+## 13. Guild common rooms + casino + game-mode environments
+
+### 13.1 Guild common rooms × 5 universal states
+
+Each of the 12 Archon Guilds has a common-room with a distinctive palette,
+key-prop set, and mood register. Render each guild-room in **5 universal
+states** (60 stills total).
+
+#### 13.1.0 Universal state matrix (applied to every guild)
+
+> **State `daily_idle`** — Scattered guild-member touchpoints (chairs pushed-out, mugs on tables, datapads open at low-angle); no NPCs in the still. Lighting at the guild's "neutral" register. Ambient suggestion: hum, low conversation, no event. Asset: `art/rooms/guild_<guild_id>/daily_idle.webp`.
+> **State `assembly_meeting`** — Furniture realigned for formal gathering: seating in concentric rings or rows facing the guild's central focal element. Lighting concentrated at center. Empty floor (NPCs runtime). Asset: `art/rooms/guild_<guild_id>/assembly.webp`.
+> **State `victory_celebration`** — Guild colors brightened. Decorations appear (sigil-banners, holo-confetti, congratulatory floating-trophies near central focus). Lighting warmer. Decoration asset: `art/rooms/guild_<guild_id>/victory.webp`.
+> **State `defeat_mourning`** — Decorations removed or dimmed. Lighting cooler / lower. Drapery in the guild's mourning-color (per the table below) replaces banners. Single empty central seat for the lost member. Asset: `art/rooms/guild_<guild_id>/mourning.webp`.
+> **State `broadcast_moment`** — Room oriented toward the central screen / focal element. All seating faces the focus. Faint silhouette suggestion of attentive members (NPCs runtime). Lighting dimmed except for the focal element which is fully active. Asset: `art/rooms/guild_<guild_id>/broadcast.webp`.
+
+#### 13.1.1 Per-guild canon (12 rooms)
+
+| Guild | Visual register | Palette anchors | Central focal element | Wall + floor signature props | Mourning color |
+|---|---|---|---|---|---|
+| `conexus` | Vast amphitheater with concentric tiered seating; cyan light-webs flowing between member-node markers along walls. | Cyan #22d3ee, brass, ivory | Central holographic display showing the guild's connected-network status | Light-web network visualization across walls; member-status boards above each tier | Pearl-cream |
+| `watcher` | Surveillance-control room aesthetic. Multiple wall screens show angles of shared spaces. | Watcher amber #fbbf24, charcoal, cyan camera-glow | Wall of 16 monitor screens | High-backed observer chairs facing wall; data-scrolls listing observed events at each chair | Charcoal-black |
+| `collector` | Museum-library hybrid. Hushed reverence. Curated exhibition. | Brass, deep mahogany, ivory | Central glass display case (rotating featured-artifact pedestal) | Glass-fronted shelving lined with relic cases; reading nooks at perimeter; cataloging terminals at side wall | Ivory |
+| `vortex` | Impossible-geometry room. Translucent walls suggest other spaces beyond. Corners don't quite meet. | Royal purple, void-black, silver | Floating central portal-disc (always partially open) | Disorienting wall-angles; portal-door silhouettes at multiple positions; floor with shifting tile-patterns | Silver |
+| `meme` | Broadcast studio merged with social space. High-energy. Aesthetic-forward. | Magenta #e040fb, electric cyan, gold | Central broadcast-display showing live trending content (abstract motion bars + signal-graphs) | Recording rigs at perimeter; aesthetic-transformation booths; large social-media-style interface overlays at walls | Black-and-white |
+| `warlord` | Military barracks + war-room. Tactical maps cover walls. | Insurgency orange, tactical black, brass | Central briefing table with 3D holographic battlefield (current campaign) | Wall-mounted weapons racks; status boards listing field deployments; communication terminals at side; one wall-mounted lion-banner | Iron-grey |
+| `politician` | Parliamentary chamber. Tiered debate seating. Procedural. | Royal blue, gold, deep cream | Central debate podium under chandelier | Tiered seating in horseshoe; voting-bell (ceiling-mounted); record-ledger walls; gavel-podium at front | Slate-grey |
+| `warden` | Containment facility aesthetic applied to social. Cells with transparent barriers in circle. Central control booth elevated. | Steel-grey, amber alert, ivory | Elevated central control booth | Transparent-barrier cell rings; key-ring trophy displays on walls; access-control panels; cell-status indicators at every cell | Ash-white |
+| `game_master` | Casino-parlor. Multiple game-tables. Trophy-piece displays. | Deep green felt, gold, mahogany | Central game-master's table (always set with cards + dice + chess pieces) | Multiple gaming tables at perimeter; trophy-piece displays on walls (each piece a moment-of-play); holographic scoreboards | Deep mahogany |
+| `necromancer` | Botanical-magical garden + medical lab. Specimen displays. Ritual altars. | Bone-cream, foxfire-green, blood-red | Central ritual altar with specimen-jar centerpiece | Specimen cases lining one wall; cultivation vats opposite; ritual altars at corners; carefully tended gardens at perimeter (foxfire-glow plants) | Black with red trim |
+| `engineer` | Functional workshop repurposed. Workbenches. Tool racks. | Brass, charcoal, warm-amber | Central collaborative workbench (always with an in-progress device on it) | Multiple workbenches at perimeter (each with different specialization); tool racks above; materials-storage at side wall; completed-project display shelf along one wall | Brass-tarnish |
+| `human` | Scholar's library + interrogation chamber. Floor-to-ceiling books. Single central desk under spotlight. | Rose-warm + cyan-cool overlay, mahogany, ivory | Central research desk under single overhead beam (The Human's chair, only seat with armrests, faces the door) | Floor-to-ceiling bookshelves on all walls; solitary reading nooks at corners; writing-implements on desk; research journals stacked | Slate-purple |
+
+> **Per-guild authoring template** (apply to each of the 12 with the row above):
+> > **Canon visual** (carry into every state): `<row visual-register>`. Palette: `<row palette>`. Focal element: `<row focal>`. Wall+floor props: `<row wall+floor>`. House style §1.1, lighting register §1.3 → `<map register to mood: amphitheater = stage-spot, surveillance = camera-amber, museum = gallery-spot, etc.>`. No on-image text.
+> > Render the 5 universal states above for each `<guild_id>`.
+
+#### 13.1.2 Holiday + faction-war overlays
+
+> **Christmas-in-July overlay** — A swap-in tinsel-and-lights variant for **6 guilds** (conexus, meme, game_master, necromancer, engineer, human — the guilds whose registers tolerate festivity). Add wreath-circlets at the focal element; tinsel along seating edges; one floating holo-snowflake at upper-screen-center. Asset: `art/rooms/guild_<guild_id>/christmas_in_july.webp`.
+> **Faction-war active overlay** — A swap-in for **all 12 guilds**: a holographic war-status banner appears above the focal element showing the guild's current campaign-stake. Asset: `art/rooms/guild_<guild_id>/faction_war_active.webp`.
+
+That's **60 universal-state stills + 6 christmas + 12 faction-war = 78
+guild-room renders**.
+
+### 13.2 Casino rooms × 3 states
+
+#### `casino_main_floor`
+
+> **Default canon (per CASINO_EXPANSION_ART_BIBLE.md §CF-001)**: Obsidian-black glass gaming tables in organic clusters (each lit by a hovering amber light-source). Slot machines along walls (soft golden glow + holographic spinning symbols). Void-energy particle motes (golden fireflies in zero-gravity aesthetic). Probability-distortion shimmer around high-stakes tables. Bar at far wall (backlit bottles in luminescent impossible colors). Progressive jackpot display wall-mounted (enormous holographic number). The Degen's personal table center-stage (obsidian + gold inlay, private force-field bubble). Massive curved viewport showing Ne-Yon space (swirling probability clouds in purple + gold).
+> **State `quiet`** — 4–5 tables active out of 20. The Degen's table active (single drink resting). Bar dim. Particle motes few. Lighting subdued. Asset: `art/rooms/casino_main_floor/quiet.webp`.
+> **State `high_stakes_event`** — All tables active. The Degen's table with multiple drinks + chips + a single dramatic-lit chair across from him. Bar fully active. Particle motes abundant. Probability shimmer intense at high-stakes tables. Music-tempo energy implied (no rendered music — just the visual energy). Asset: `art/rooms/casino_main_floor/high_stakes.webp`.
+> **State `post_major_loss`** — Tables half-empty. Drinks abandoned. The Degen's table glowing brighter (predatory). Bar dimmer. Lighting tense. Particle motes drift in slow-motion. Asset: `art/rooms/casino_main_floor/post_loss.webp`.
+
+#### `casino_vip_lounge`
+
+> **Default canon (§CF-005)**: 3 private gaming tables in semi-transparent amber force-field bubbles. The Degen's personal table central (obsidian + gold inlay). Dark leather seating (appears to breathe). Trophy case wall-mounted (artifacts: senator's sigil, Warlord general's insignia, Archon's crystallized wager — each illuminated by a golden spotlight + plaque). Living void wall (dark matter undulating, occasional translucent windows show frozen-battle / senate-chamber / singing-children-in-darkness). Bar stocked with bottled starlight. Compressed-entropy ceiling (dark mirror reflecting probability-of-winning, not literal mirror images). Golden veins in floor.
+> **State `inaccessible_pre_vip4`** — Viewed from outside (camera looking in through glass). Lounge dimly lit (off-hours). Trophy case glints in distant spotlights. The Degen's table empty. Asset: `art/rooms/casino_vip_lounge/locked.webp`.
+> **State `accessible_vip4_active`** — Camera inside lounge. All 3 private tables active (force-field bubbles full). The Degen at his personal table dealing. Trophy case fully lit. Living void wall undulating, one translucent window-of-other-space visible. Compressed-entropy ceiling reflecting subtle probability-shapes. Asset: `art/rooms/casino_vip_lounge/active.webp`.
+> **State `final_ante_endgame`** — Only The Degen's central table active. Other tables retracted into floor. Lounge claustrophobic and intimate. Void-walls undulating intensely (multiple windows-of-future-states visible — render them as faint translucent overlays at corners of the back wall). Asset: `art/rooms/casino_vip_lounge/final_ante.webp`.
+
+#### `casino_void_bingo_hall`
+
+> **Default canon (§CF-007)**: Circular communal tables (6-player capacity each, 8 visible). The Degen's podium raised stage at front. Holographic lottery sphere on stage (orbs inscribed with lore-event names spinning inside). 2 large side-display screens flanking podium (animated lore-vignette playback). Complimentary anti-gravity drink-trays floating between tables. Decorative banners hanging from void-ceiling (past Bingo champions' names). Warm amber lighting (softer than rest of casino).
+> **State `active_session`** — Tables full of players (NPCs runtime; render the bingo-grid holos floating above each table at moments-mid-call — render specific event-glyphs on each grid). The Degen at podium gesturing. Lottery sphere mid-spin. Side displays mid-vignette. Drink-trays moving. Asset: `art/rooms/casino_void_bingo_hall/active.webp`.
+> **State `between_sessions`** — Tables empty. Stage lights off. Lottery sphere dormant. Side displays off. Drink-trays parked at the bar. Lighting dim, eerie-after-hours feel. Asset: `art/rooms/casino_void_bingo_hall/between.webp`.
+> **State `championship_finale`** — One central table only (others retracted). Stage lights brightest. Lottery sphere paused on a single glowing winning-orb. Side displays both showing the winning event-vignette. Asset: `art/rooms/casino_void_bingo_hall/championship.webp`.
+
+#### `casino_dream_roulette_chamber`
+
+> **Default canon (§CF-008)**: 6 high-backed dark thrones in a perfect circle. Central void-charge device (revolver-cylinder merged with void-energy reactor; 6 visible chambers, one glowing unstable magenta). Trapdoor outlines beneath each throne (purely decorative). Holographic pot display ceiling-center (showing accumulated ante). Dark-mirror walls reflecting infinitely (kaleidoscope effect). Harsh downward spotlight per throne. Coldest room in casino.
+> **State `pre_game_empty`** — Chamber empty. Device dormant (no chamber glowing). Spots off. Pot display dark. Asset: `art/rooms/casino_dream_roulette/pre_game.webp`.
+> **State `active_player_turn`** — Device rotating slowly (mid-rotation captured). One chamber glowing unstable magenta. Spots active per throne (6 spots harsh on each). Pot display showing accumulated value (abstract numerals — not legible English). The Degen visible at raised observation booth (silhouette only, watching). Asset: `art/rooms/casino_dream_roulette/active_turn.webp`.
+> **State `aftermath_survivor`** — One throne occupied (camera centered on the survivor's chair, occupant runtime). Other 5 thrones empty + slightly disturbed. Trapdoor outlines now lit faintly red (one or more triggered). Device dormant. Asset: `art/rooms/casino_dream_roulette/aftermath.webp`.
+
+#### `casino_christmas_in_july_floor`
+
+> **Default canon**: Casino main-floor with full Christmas-in-July overlay. Holiday-banners draped over slot machines. Wreath-trim on tables. Tinsel along bar. A holographic snow-flurry drifting through the room (set apart from gameplay particles). Holiday-music implied (in-room speakers visible).
+> **State `default_active`** — 8–10 tables active. Holiday décor rich. Bar busy. Asset: `art/rooms/casino_christmas_in_july/active.webp`.
+> **State `gift_drop_event`** — Holographic Christmas-tree at center spinning slowly, dispensing prize-glyphs to tables. Crowd-density implied higher than baseline. Asset: `art/rooms/casino_christmas_in_july/gift_drop.webp`.
+
+### 13.3 Game-mode environments (non-fight, non-casino)
+
+#### `collectors_arena`
+
+> **Default canon**: Central duel circle (marked floor, dark composite with amber light-strips). Opposite player platform (raised, spotlight-illuminated). DNA-harvesting field generators at perimeter (6, amber when active). Tournament bracket display wall-mounted (holographic, shows elimination progress as glyph-icons not text). Crowd stands implied (shadowed, beyond the spotlight ring). Genetic archive display at side wall (showing harvested DNA tier-trophies: bronze, silver, gold, platinum).
+> **State `standard`** — Spots from above (warm-white). DNA-fields active. Bracket display populated mid-tournament. Genetic archive lit. Asset: `art/rooms/collectors_arena/standard.webp`.
+> **State `engineer_battle_act1_indigo`** — Same composition, lighting tinted indigo (Mechronis echo). Bracket display showing Engineer's bracket-position highlighted. Asset: `art/rooms/collectors_arena/engineer_indigo.webp`.
+> **State `kael_revenge_act3_red_corruption`** — Lighting flickers red (corrupted state). DNA-fields render with a sickly green-red gradient (corruption bleeds in). Bracket display glitches partially. Asset: `art/rooms/collectors_arena/kael_corruption.webp`.
+> **State `degen_act4_5_void_bleeding`** — Spots dim. Void-space visible beyond the perimeter (the arena-walls fade into Ne-Yon space). Probability shimmer at the perimeter of the duel circle. Asset: `art/rooms/collectors_arena/degen_void_bleeding.webp`.
+
+#### `dead_mans_circuit_track`
+
+> **Default canon**: Multi-lap neon-lit racing track under dark sky. Holographic lane markers in player-faction colors. Crowd-shadows at track edges (blurred). Other racer karts as competitive AI silhouettes. Spectator stands, holographic lap-counter and position-display HUD (UI overlay; not in still).
+> **State `standard_race_active`** — Track fully lit. Lane markers in default cyan. Other racer-karts visible at varied positions on track. Spectator stands implied. Hazards at expected positions (oil spills, debris). Asset: `art/rooms/dmc_track/standard.webp`.
+> **State `memory_race_act4_5_identity_chain`** — Track flickers between past and future states (overlay distortion: faint transparent past-track superimposed at slight offset). Competitor-models occasionally swap silhouettes (render multiple ghosted-silhouettes at one position to suggest the identity-flicker). Profoundly disorienting. Asset: `art/rooms/dmc_track/memory_race.webp`.
+
+#### `tower_defense_arena`
+
+> **Default canon**: Sigil-grid floor (player tower-placement zones marked as glowing tiles). Wave-spawn portal at far end (large stone arch with dormant portal-shimmer). Defense-tower placement zones (raised platforms at various positions). Wave-counter display wall-mounted. Resources-meter at side.
+> **State `pre_wave`** — Portal dormant. Tile-grid lit cyan-cool. Tower zones empty (or with a few placed towers — render 2–3 towers placed by way of suggesting active gameplay). Asset: `art/rooms/tower_defense_arena/pre_wave.webp`.
+> **State `wave_active`** — Portal flaring (mid-spawn). Towers visible (4–6 placed). Some wave enemies visible mid-screen (silhouettes; runtime sprites for live enemies). Resources-meter mid-spend. Asset: `art/rooms/tower_defense_arena/wave_active.webp`.
+> **State `wave_complete_victory`** — Portal extinguished. Towers visible. Confetti-glyph-rain falling (cyan + brass). Resources-meter overflowing-glow. Asset: `art/rooms/tower_defense_arena/wave_complete.webp`.
+
+#### `vortex_incursion_chamber`
+
+> **Default canon**: Spherical chamber with void-rift suspended center. Concentric ring-platforms around the rift (player approaches inward through them). Rift-stabilizer pillars at cardinal positions (4 visible). Status-displays at perimeter showing rift-stability (abstract gauges). Lighting cool-violet (deep void-color baseline).
+> **State `pre_incursion`** — Rift contained, stable. Stabilizer pillars steady amber-glow. Status-displays balanced. Asset: `art/rooms/vortex_incursion_chamber/pre.webp`.
+> **State `incursion_active`** — Rift expanded, unstable (lattice cracks visible at the rift surface). Stabilizer pillars flickering. Status-displays alarmed (red across most gauges). Lighting strobes violet-red. Asset: `art/rooms/vortex_incursion_chamber/active.webp`.
+> **State `incursion_sealed`** — Rift collapsed to a single point. Stabilizer pillars returned to amber. Status-displays balanced. Subtle scarring visible on the floor (rift left a permanent ring-imprint). Asset: `art/rooms/vortex_incursion_chamber/sealed.webp`.
+
+#### `witnessing_hub_bridge_console`
+
+> **Default canon (§5 endgame)**: Bridge-console expanded for endgame. Galaxy-map dominant on wall. Real-time faction-war visualization. Choice-archive interface side-wall. Light/Dark meter prominently overhead. Slideshow-playback station stage-right. Community-statistics display at side.
+> **State `endgame_active_warm`** — Galaxy-map showing humanity-dominated state (warm gold pinpoints heavy). Light meter heavy-toward-light. Lighting warm. Asset: `art/rooms/witnessing_hub_bridge/endgame_warm.webp`.
+> **State `endgame_active_cold`** — Galaxy-map showing machine-dominated (cold violet pinpoints heavy). Light meter heavy-toward-dark. Lighting cool-violet. Asset: `art/rooms/witnessing_hub_bridge/endgame_cold.webp`.
+> **State `reclamation_loop_silence_path`** — All lights at quarter-strength. Galaxy-map showing reclaimed-but-silenced state (no faction colors, just neutral cream). Slideshow-playback station has a single Lyra Vox audio-waveform displayed. Asset: `art/rooms/witnessing_hub_bridge/silence_path.webp`.
+
+> **Render + upload §13 in one batch**:
+> ```bash
+> pnpm tsx apps/scripts/upload-public-to-s3.ts --prefix art/rooms/
+> ```
+
+---
+
 ## End of prompt book
 
 For anything not covered here — Prelude beat audio re-uploads, FNORD-23
