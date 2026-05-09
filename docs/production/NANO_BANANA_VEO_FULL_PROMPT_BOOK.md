@@ -2317,6 +2317,191 @@ Stage ambient loops (15 stages, room-tone beds that play UNDER the music):
 
 ---
 
+## 12. Ark + Mechronis rooms × states
+
+### 12.0 Render contract for room stills
+
+- **Format**: WEBP, sRGB, **1920×1080** (16:9, the standard story-mode aspect). House style anchor: §1.1 + §1.2.
+- **Asset prefix**: `art/rooms/<room_id>/<state_id>.webp`. The `state_id` defaults to `default` for single-state rooms.
+- **Lighting register canon**: each room carries its register from §1.3 + the Living Ark filter system (`warm_elara`, `noir_human`, `yin_yang_flicker`, `silence_ambient`). Render the **default** state in `warm_elara` neutral; ship per-filter overlays as code (recolor LUTs in `apps/client/src/lib/livingArkFilter.ts`), not as separate stills — except where a state literally changes the geometry of the room (e.g. `engineering:beat_c_active` vs `engineering:act2_crafting_open`).
+- **NPC presence**: NPCs are NEVER baked into room stills. NPCs render as overlay sprites/portraits at runtime. The room is the set; the cast performs on top.
+- **In-world props**: every prop the design canon names in this room must be visible at the resolution it will read at on-screen. If a chart, a notebook, a diagram, a scroll, a medical readout is named in canon, **render it visibly at the wall position the canon implies**. Do not abstract.
+- **Composition rule**: leave a clean center-stage column for character placement (in-game UI may overlay portraits/dialog). For LCS-background-eligible rooms (every Ark + Mechronis + Celebration + Guild + Casino + game-mode room is LCS-eligible), also render a **portrait variant** at 1024×2048 with character-zone composition per §17.B.
+
+### 12.1 Ark interior rooms
+
+#### `cryo_bay`
+
+> **Default canon (state baseline)**: 12 cryo-pods in two rows of 6. Brass-and-bone railing worn smooth from millennia. Frost-glass canopies with six-point crystal formations. Cyan #22d3ee canopy-glow IFF vital-monitor holos. Charcoal composite walls with horizontal seams every 1.5m. Volumetric cryogas at ankle height. Emergency floor strips breath-pulse sub-1Hz. One holographic recording rig (dormant, plays Engineer's first log on trigger). Hierarchy of the Damned ritual marking carved between two pods on the back wall (Beat A discovery — must be visible at full-screen res, faint but present).
+> **State `pre_awakening`** — All 12 pods sealed, occupant-shadow visible inside each canopy. Overhead lights off. Only emergency floor strips and pod-canopy cyan illumination active. Dust suspended in the cyan light shafts (slow-motion read). No cryogas pooling (canopies sealed). Compose deep, the back wall fading into shadow. Asset: `art/rooms/cryo_bay/pre_awakening.webp`.
+> **State `beat_a_post_awakening`** — Player's pod (front-row, third-from-left) hatch raised 40°. Cryogas pooling at floor and drifting outward from the open canopy. Eleven other pods still sealed and glowing. Frost retreat visible on the open pod canopy (fractal-ice line withdrawing toward edges). Asset: `art/rooms/cryo_bay/beat_a_post_awakening.webp`.
+> **State `act1_post_virus_cleared`** — Living Ark state: warm overhead lights have come up partially (bridge restoration cascading back to here). Frost-scar glitch overlay visible at the pod-canopy seams (Shadow Tongue's Beat A reveal lingers — render as a faint scanline-warp across the back wall, very subtle). Two pods now visibly empty (player's + Patch's), canopies retracted. Asset: `art/rooms/cryo_bay/act1_post_virus.webp`.
+> **State `kael_pod_discovered`** — Camera-angle variant: tighter on Pod 7 (center-back row). Claw marks score the pod's interior glass (visible from outside as inverted scratches). EMP scorch on the lock mechanism, blackened edge. The pod is empty. Asset: `art/rooms/cryo_bay/kael_pod_discovered.webp`.
+
+#### `corridor`
+
+> **Default canon**: 15m corridor, slowly arcing right. Charcoal composite walls with horizontal seams every 1.5m. Brass-and-bone handrail worn bare to substrate. Two parallel emergency floor strips (one per wall, ankle-height). Three small auxiliary fixtures on right wall (handrail emergency lights). Cable conduits along upper-left and lower-right joins. Dust motes drifting through cyan light.
+> **State `beat_a5_breath_beat`** — Cryogas residue trail at floor (faint white drift, ankle-height, trailing back toward cryo_bay). Both emergency strips pulse at sub-1Hz; capture the strip nearer the camera at peak brightness with a hot edge bleed. Asset: `art/rooms/corridor/beat_a5_breath.webp`.
+> **State `beat_b_post_iris`** — End of corridor arc shows engineering bay door iris fully retracted, green standby pip glowing. Door mechanism still warm (subtle thermal-bloom around iris ring). Asset: `art/rooms/corridor/beat_b_iris_open.webp`.
+> **State `act1_post_virus_cleared`** — Quarantine-door markers gone. Lights come up to normal (still cool, but readable). Becomes a transit space; render with very slight focal-blur on the back arc (suggesting the corridor extends further than before). Asset: `art/rooms/corridor/act1_post_virus.webp`.
+
+#### `engineering`
+
+> **Default canon**: Engineer's workbench (3m × 2m brass-obsidian) center-back. Tool racks above (loops, calipers, micro-welders, empty data-slate rows). Holographic recording rig wall-mounted above bench. Brass-and-bone deck box (hardcover-book size, latched) sitting center-bench. 6 incubator pods in 240° semicircle facing the bench (1.2m spacing, hip-high cylinders, brass-obsidian glass, dataplate at base of each).
+> **State `beat_c_choice_active`** — All 6 incubator pods dormant, dark. Brass deck box latched-closed center-bench. Foxfire-green #00e676 standby indicator at bench knee-height. Light register: workbench warm-amber spotlight from above; rest of room cool-cyan emergency. Composition: deck box visually centered, pods radiating outward. Asset: `art/rooms/engineering/beat_c_choice.webp`.
+> **State `act1_post_virus_workbench_used`** — Living Ark state: workbench shows micro-vibration wear marks, oil residue on tool rack, deck-box latch visibly handled. Engineer-bench warmth amplified — additional warm pool of light at the work-edge of the bench. Asset: `art/rooms/engineering/act1_workbench_used.webp`.
+> **State `act2_crafting_open`** — Incubators running with faint hum (canopies internally lit cyan). Workbench hologram empty (UI overlays at runtime). Tool racks active (one tool slot empty — current job in progress). Asset: `art/rooms/engineering/act2_crafting_open.webp`.
+> **State `engineer_scorched_array_revealed`** — One floor-panel removed near the back-left, exposing a scorched neural-array fragment (per EXPANSION_BIBLE.md §1.2). Burn-shadow halos out from the exposed substrate. Asset: `art/rooms/engineering/scorched_array.webp`.
+
+#### `medical_bay`
+
+> **Default canon**: Power converter panel back wall (3 sub-puzzle zones: coolant loop, signal bypass, power routing — render each as visible labeled sub-grids at panel-readable res). Patch's cryo pod back-right (slightly damaged, low-power indicator). Automated cloning pod center-stage (large glass-fronted chamber, dark when off). Transfer array wall-left (ambient stasis field, amber standby). Vital-monitor holos at the cloning pod and Patch's pod (variable per state). Wall-mounted medicine cabinet (sealed, holds Vox's Research Journal hidden behind it). Wall-mounted neural-rig with dangling sensor arrays.
+> **State `beat_b_power_out`** — Converter panel dark, blown indicator on signal-bypass sub-zone (red flash). Patch's pod faint cyan heartbeat-glow only. Vital-monitor holos flickering Shadow Tongue text on life-support codes (the text **rewrites itself** in-frame — render as a still where the text is half-rewritten, characters mid-morph). Cloning pod unlit. Render: the room reads as "broken." Asset: `art/rooms/medical_bay/beat_b_power_out.webp`.
+> **State `beat_b_post_outbreak_quarantine`** — Walls show "rearranging" virus-glitch (subtle geometric distortion on wall panels, like the virus is rewriting the room). Quarantine door visible at the side (sliding door with red-cross flash). Med-pod faint pulse. Neural-rig ambient amber glow. Asset: `art/rooms/medical_bay/beat_b_quarantine.webp`.
+> **State `act1_post_virus_journal_discoverable`** — Power restored; vital-monitors stable; cloning pod lit-but-empty. Medicine cabinet door slightly ajar (player has discovered Vox's Research Journal — render the journal partially-visible inside the cabinet, leather-bound, hand-written page open). Lighting filter shifts toward Human's affinity (slightly cooler cyan with violet undertones). Asset: `art/rooms/medical_bay/act1_journal_discoverable.webp`.
+
+#### `mess_hall`
+
+> **Default canon**: Long composite dining tables (visible food-stains and 17k-year patina). Food dispensers wall-back (dark, non-functional). Personal-effects lockers wall-mounted (brass-bound, some with crew-name plates). Prince's notebook holographic rig wall-right. Ambient archive mood implied (warm amber, candlelit, distinct from cold-cyan elsewhere — but dormant by default).
+> **State `beat_e_archive_active`** — Archive wall hologram active: sepia-toned flashback frame visible (film-damage overlay, diploma-bloom in the frame). Prince's notebook holo open on the table next to the rig. Room lighting fully shifted to warm amber (candle-lit aesthetic, almost shrine-like). One or two locker doors slightly open showing personal items (a folded uniform, a small pendant). Asset: `art/rooms/mess_hall/beat_e_archive_active.webp`.
+> **State `beat_h_little_one_home`** — Domestic warmth: pet supplies visible at far table corner (small dish, soft-fabric blanket, makeshift crib if pet/egg survived). One locker bears a child's drawing taped to it (Little One's). Lighting still warm but more "lived-in" than archive. Asset: `art/rooms/mess_hall/beat_h_little_one_home.webp`.
+> **State `act2_npc_hangout`** — Three navigator-slot touchpoints rendered as in-room objects per `livingArkTouchpoints.ts` (the table corner where Elara recently sat — chair pushed out, mug still warm; the locker Human keeps tools in — slightly open; the food dispenser Little One reprogrammed — small foxfire-green LED on it). NPCs are NOT in the still; their recent-presence is. Asset: `art/rooms/mess_hall/act2_npc_hangout.webp`.
+
+#### `cargo_bay`
+
+> **Default canon**: Trade-mission board (holographic, foxfire-green when active) center-back. Cargo lockers wall-mounted with transparent sections showing abstract trade-goods (don't detail individual items; lockers should read as inventory-suggestion). Dust shaft volumetric light-beam through ceiling access. Mission ticker display on the side wall.
+> **State `beat_d_first_mission_board`** — Mission board glowing for first time. Locke's curated 3-mission list visible as floating holo-cards at board (each card shows a faction icon and a destination glyph; text is illegible by composition design). Dust shaft very prominent (the room is "showing itself" to the player for the first time). Asset: `art/rooms/cargo_bay/beat_d_first_board.webp`.
+> **State `act1_post_virus_biohazard_revealed`** — A specific cargo crate (back-left, 4th from corner) is highlighted with a Sealed Crate warning glyph (Hierarchy biohazard sigil). Render the glyph at readable size. The crate itself is matte black, banded in red. The mission board still active. Asset: `art/rooms/cargo_bay/biohazard_revealed.webp`.
+> **State `act2_trade_empire_active`** — Logistics manifests scattered on tables (small data-slates, illegible by composition). Cargo lockers more visibly stocked (shapes inside have more contrast). Mission board shows 5–6 active missions. Asset: `art/rooms/cargo_bay/act2_trade_active.webp`.
+
+#### `briefing_room`
+
+> **Default canon**: Wall-mounted lockbox (brass-bound, biometric-lock scanner with amber LED). Briefing table center (worn brass-composite, tactical map etched into surface — render the map as a faint acid-etch, recognizable as a stellar-region but readable as "tactical" not as specific stars). Dark formal seating around the table (one chair more worn than others — Kael's). Walls lined with obsolete tactical displays (dark holo-panels, long inactive). Stark, formal military aesthetic.
+> **State `beat_f_memo_reveal`** — Lockbox bio-recognition scanner glowing amber-active. Data-slate holo rising from lockbox displaying Kael's Contingency Memo (the holo shows tactical diagrams + readable-as-text-but-actually-glyph content; do not render legible English in the still). Faint warm edge light catches the lockbox rim. Asset: `art/rooms/briefing_room/beat_f_memo.webp`.
+> **State `beat_f5_breath_beat`** — Lockbox closed. The memo holo gone. Camera composition: Kael's empty chair at frame-center, rim-hot-edge light catching the wear-marks on the seat. The room has the silence of a sermon. Asset: `art/rooms/briefing_room/beat_f5_breath.webp`.
+> **State `act2_war_room_active`** — Tactical displays come back online (8 wall-displays lit, each showing a faction-territory map at a quadrant of New Babylon, Thaloria, Mechronis, etc.). Asset: `art/rooms/briefing_room/act2_war_room.webp`.
+
+#### `observation_deck`
+
+> **Default canon**: Curved viewport (cleanest glass on the Ark, minimal dust, 17k-year micro-abrasion visible at glancing angles). Comfort seating worn-but-intact, arranged to face viewport. Manual polarization wheel brass-fitting wall-side, faintly glowing indicator. Starfield visible beyond.
+> **State `act1_galaxy_lit`** — Sector map lit via galaxy-color-state code: render with the lit-state baseline (warm gold pinpoints across the void). Slight warm dust-drift INSIDE the room (ambient air motion catches in the viewport's reflected light). Asset: `art/rooms/observation_deck/galaxy_lit.webp`.
+> **State `act3_galaxy_consumed`** — Galaxy view shows wide swaths of consumed (sickly purple corruption rendered as smear-stains across what was star territory). Comfort seating slightly dustier (player visits less often when the galaxy looks like this). Polarization wheel half-engaged (player has tried to dim it). Asset: `art/rooms/observation_deck/galaxy_consumed.webp`.
+> **State `act5_galaxy_reclaimed`** — Galaxy view shows reclaimed regions (cyan + cream layered glow, layered Bridge of Kael shield-edge visible far beyond as a faint blue-white horizon line). Lighting fully restored. Asset: `art/rooms/observation_deck/galaxy_reclaimed.webp`.
+
+#### `bridge`
+
+> **Default canon**: Witnessing Hub hemispherical hologram-chamber center-stage (cyan scanline architecture, slow rotation). Galaxy map large holographic display front-of-room (dominant focus). Communication array wall-mounted, cyan status indicators. Pilot's chair brass-fitted, facing map, worn leather. Command terminals around the periphery (default dark). Primary light fixtures default cool-cyan.
+> **State `pre_beat_i_offline`** — Bridge dark, locked-out. Witnessing Hub dormant (no scanlines). Galaxy map blank. Doors at corridor end visible as locked (red status). Asset: `art/rooms/bridge/pre_beat_i_offline.webp`.
+> **State `beat_i_witnessing_hub_activation`** — Primary lights restoring in cascade (capture mid-restore: front three fixtures fully on, back three half-warmed-up). Witnessing Hub hemisphere blooming with cyan scanlines. Warm dust drift visible for first time. Galaxy map populating with sector-color overlay. Asset: `art/rooms/bridge/beat_i_witnessing_activation.webp`.
+> **State `act2_home_base_warm_elara`** — Bridge fully lit. Galaxy map active with current faction-war zones. Community-vote tally bar visible above the map (translucent UI hints; abstract, not detailed). Living Ark filter `warm_elara` baked into the still (slight golden tint to the cyan light). Asset: `art/rooms/bridge/act2_home_base.webp`.
+> **State `act3_galaxy_in_crisis`** — Galaxy map shows escalating Dark sectors. Some command terminals lit emergency-amber (warning panels). Witnessing Hub hemisphere has a slight glitchy flicker (the corruption is reaching here). Asset: `art/rooms/bridge/act3_in_crisis.webp`.
+> **State `act5_reclamation_loop_endgame`** — Bridge composition expanded — Galaxy map dominates more wall-space, choice-archive holo-catalog visible at side wall, Light/Dark meter prominent overhead, slideshow-playback station stage-right. Asset: `art/rooms/bridge/act5_endgame.webp`.
+
+#### `archives`
+
+> **Default canon**: Central holographic pedestal (brass-and-obsidian, projection surface). Memory crystals floating around the pedestal pulsing amber. Log-projection rig wall-mounted (similar architecture to engineering/mess-hall rigs, capable of 8m+ continuous video playback). Wall-mounted document racks (showing past researcher notes, all displaying subtle scanline glitch). Permanent ambient archive mood: warm gold underscore from memory crystals, contrast to cold-cyan elsewhere.
+> **State `beat_j_potential_origin_log5`** — Holographic Log 5 (full Engineer recording) actively projecting from pedestal. Last Words slideshow visible mid-Ken-Burns frame (one of 12 sepia frames captured). Memory-crystal pulse strong. Enigma hand-on-rim hologram visible (translucent silhouette, hand resting on pedestal rim, ethereal). Peripheral warm halo. Asset: `art/rooms/archives/beat_j_log5.webp`.
+> **State `beat_j_choice_pillar_emerged`** — Choice pillar has emerged from the floor near the pedestal. Pillar visibly splits Light/Dark (left half cyan-cream, right half violet-static). The four button-glyphs (Forgive Both / Forgive Elara / Forgive Human / Forgive Neither) visible at pillar mid-height — render as glyphs not as text. Asset: `art/rooms/archives/beat_j_choice_pillar.webp`.
+> **State `post_choice_forgive_both`** — Warm golden halo permanent. Memory-crystals pulse in synchrony. Document-rack scanline glitch reduced to almost zero. Asset: `art/rooms/archives/post_forgive_both.webp`.
+> **State `post_choice_forgive_elara`** — Cyan scanline-softening pervades the room. Document racks gain a faint cyan halo at top-edge. Memory crystals pulse asymmetrically. Asset: `art/rooms/archives/post_forgive_elara.webp`.
+> **State `post_choice_forgive_human`** — Subtle violet static overlay everywhere. Document racks gain a faint violet halo at bottom-edge. Memory-crystal pulse muted. Asset: `art/rooms/archives/post_forgive_human.webp`.
+> **State `post_choice_forgive_neither`** — Silence-ambient filter. Lyra Vox substrate-voice presence implied via a faint static-ghost silhouette near the pedestal (like a person isn't quite there but you can almost see them). Document racks lit in stark white-on-black, scanlines extra-sharp. Asset: `art/rooms/archives/post_forgive_neither.webp`.
+
+#### `comms_array`
+
+> **Default canon**: NPC Inbox holographic envelope-system center. Signal-intake panel wall-mounted (live signal-bars indicator). Transmission array ceiling-mounted (multiple antenna-like probes, faint hum). Message counter glyph display.
+> **State `beat_h_first_message`** — Inbox envelope unfolding mid-animation (capture the unfold mid-action — paper-edge in motion). Signal-intake panel glowing amber-active. Envelope edge-sentence bloom visible (text appearing character-by-character — render at the moment 8 characters are visible, the rest faded). Amber counter glyph showing "1 NEW" (as a glyph, not as English text). Asset: `art/rooms/comms_array/beat_h_first_msg.webp`.
+> **State `beat_h5_memo_drift`** — One memo paper drifting in the room's air (visual silence). Inbox dormant. Signal-intake panel signal-bars at half-strength (signal weakening). Asset: `art/rooms/comms_array/beat_h5_memo_drift.webp`.
+> **State `act3_yellow_coats_contact`** — Inbox active with Vex Solène / Agent Zero first-contact message: the envelope is yellow-edged (Yellow Coats sigil). Signal-intake at full-strength. Multiple incoming-signal indicators on transmission array. Asset: `art/rooms/comms_array/act3_yellow_coats.webp`.
+
+#### `player_cabin`
+
+> **Default canon (sparse)**: Cryo-recovery cot/bunk dark composite. Wall-mounted personal trophy shelf (initially empty). Companion-quarters alcove (initially empty). Wall-space for faction banners / companion art (initially empty). Pet incubator corner (initially empty if pet system not yet active).
+> **State `pre_human_arrival`** — Sparse, monastic. Bunk made. Trophy shelf empty. No companion items. Lighting cool-warm-neutral. Asset: `art/rooms/player_cabin/pre_human.webp`.
+> **State `beat_f_human_moves_in`** — Companion-quarters alcove has The Human's ambient presence: a stack of leather-bound books on a side-table; an open data-slate face-down; a folded jacket on a chair. The Human is NOT in the still; their things are. Asset: `art/rooms/player_cabin/human_moved_in.webp`.
+> **State `act2_collected_lore_visible`** — Trophy shelf has 6–8 floating-holo lore cards. A faction banner hangs on one wall (player-choice — render the variant for the highest-bond faction at the time of authoring; ship Insurgency-orange as the default; alt variants in code). Asset: `art/rooms/player_cabin/act2_lore_visible.webp`.
+> **State `act5_endgame_full`** — Pet dynasty portraits grow on wall (5–6 pet-portraits, simple painted style). Little One's drawings taped between portraits (crayon-style child-art). Trophy shelf full. Companion items more numerous. Lighting warm-personalized. Asset: `art/rooms/player_cabin/act5_endgame_full.webp`.
+
+#### `pet_garden`
+
+> **Default canon**: 6–8 incubator pods (smaller than engineering's, creature-scale). Wall-space for ancestor pet portraits. Feeding/care stations. Genesis-pod (primary, slightly larger than the others). Growing-wall (area for Little One's art).
+> **State `pre_pet_system`** — Empty garden, dark incubators, minimal decoration. Asset: `art/rooms/pet_garden/pre_pet.webp`.
+> **State `beat_e_first_egg`** — Genesis-pod active with cyan glow (egg inside, suggested by canopy contour). One incubator has soft warm light (preparation). Wall-space empty. Asset: `art/rooms/pet_garden/beat_e_first_egg.webp`.
+> **State `act1_pet_kept_alive`** — Garden thrives. 4–5 incubators active. Genesis-pod retired (closed but warm). Wall has 2–3 simple pet portraits. Little One's first drawing visible. Asset: `art/rooms/pet_garden/pet_kept.webp`.
+> **State `act1_pet_sacrificed`** — Genesis-pod scarred (burn marks, black residue baked into the canopy). Other incubators dark. Wall-space empty (Little One has taken her drawings down). Lighting cooler, mournful. Asset: `art/rooms/pet_garden/pet_sacrificed.webp`.
+> **State `act3_pet_dynasty_thriving`** — 8 incubators all active. Wall fills with portraits + Little One's drawings (8–10 small artworks, child-art). Garden has plant-life now (mushroom-style growth, foxfire green tint). Asset: `art/rooms/pet_garden/act3_dynasty.webp`.
+
+### 12.2 Mechronis Academy rooms
+
+#### `mechronis_grand_hall`
+
+> **Default canon**: Tiered stone-and-metal seating. Central lectern brass, worn from centuries. Holographic Mechronis academy insignia rotating slowly above lectern (indigo light). Reinforced windows showing mechanical gears + molten-metal rivers beyond. Dark polished stone floor, inlaid indigo light-strips. Worn central aisle from millennia of student passage. Industrial hum implied.
+> **State `act1_flashback_active_lecture`** — Lectern active, lit warm-indigo. Tiered seating shows abstract student-shadow shapes (NPCs at runtime — render the seating empty in the still). Industrial gears beyond windows in mid-motion. Asset: `art/rooms/mechronis_grand_hall/act1_active_lecture.webp`.
+> **State `act2_dream_archive`** — Lectern dormant. Hall reads museum-like (a velvet rope across the central aisle, suggesting "do not approach"). Insignia rotation slowed to half-speed. Lighting cooler. Asset: `art/rooms/mechronis_grand_hall/act2_archive.webp`.
+> **State `act5_graduation_memory`** — Empty podium where Iron Lion should have stood (a single beam of light from above marks the empty spot). Distance figure of the Engineer visible at far back (rendered as silhouette only — runtime overlay not needed; the silhouette is part of the still by design). Asset: `art/rooms/mechronis_grand_hall/act5_graduation_memory.webp`.
+
+#### `mechronis_classroom`
+
+> **Default canon**: 12 student desks in a circle around central holographic display. Personal data terminals (one per desk, dark/inert). Specimen containment units (one per desk, empty but ominous). Central holographic display showing changing lesson content. Professor's desk at front (the only fixed object). Walls visibly shifting (subtle warp effect on wall-panels — render as a slight not-quite-perpendicular distortion). Red-inked grading tablet on Professor's desk.
+> **State `act1_flashback_lesson`** — Central holo active, showing a lesson-content frame (specific lesson: render an anatomical-diagram-style holo of "soul anatomy" — the lesson the Engineer most-remembers). Professor's desk lit warm-amber. Walls' shifting-distortion subtle. Asset: `art/rooms/mechronis_classroom/act1_lesson.webp`.
+> **State `act4_memory_corruption_intrusion`** — Walls shifting more violently (the distortion now visible as fault-line cracks across wall-panels). Central holo flickering between educational-content and Shadow-Tongue corrupted-glyph content. Specimen units lit red (alarm). Red-inked grading tablet visibly bleeding ink (literal, in-frame). Asset: `art/rooms/mechronis_classroom/act4_corruption.webp`.
+> **State `act5_classroom_empty_memory`** — Desks empty. Central holo blank. Professor's desk dust-covered. Walls fully still (the distortion has ended; the room has accepted being a memory). Asset: `art/rooms/mechronis_classroom/act5_empty.webp`.
+
+#### `mechronis_graduation_platform`
+
+> **Default canon**: Raised industrial platform brass-and-steel. 12 marked spots for graduating students (one obviously empty — Iron Lion's, lit by overhead spot). Holographic Architect's seal floating above ceremony space (indigo + gold). Planetary shields visible as faint hexagonal grid in sky. Backdrop: massive mechanical gears turning slowly in far distance, molten-metal rivers flowing below platform. Smoke stacks and energy conduits.
+> **State `act2_flashback_ceremony_in_progress`** — 11 abstract graduating-student silhouettes at attention (render as silhouettes only; runtime sprites overlay if needed). Iron Lion's empty spot front-and-center, lit by overhead beam. Architect's seal active. Mood: solemn formal. Asset: `art/rooms/mechronis_graduation_platform/act2_ceremony.webp`.
+> **State `act5_post_ceremony_reflection`** — Platform empty. Architect's seal dormant. Wind across the platform implied (subtle dust movement on stone). Engineer's silhouette at platform-edge looking away (toward Iron Lion's implied direction). Asset: `art/rooms/mechronis_graduation_platform/act5_reflection.webp`.
+
+### 12.3 Celebration Campus rooms
+
+#### `celebration_grand_orientation`
+
+> **Default canon**: Auditorium with tiered seating (capacity ~120, but render abstract). Governance Hub holo-display front (large hemispherical, similar to Bridge's Witnessing Hub but at smaller scale and indigo-lit, not cyan). Cool indigo institutional lighting. Subtle implied surveillance: small camera-orbs at ceiling corners (Mechronis influence — render as 4 visible orb fixtures).
+> **State `beat_c5_orientation`** — Governance Hub active with holographic-introduction content (abstract House-sigil rotation). Auditorium empty (NPCs runtime). Asset: `art/rooms/celebration_grand_orientation/beat_c5.webp`.
+
+#### `celebration_house_common_room`
+
+> **Default canon**: Communal warm tables. Lounges. Notice boards (handwritten-style notes pinned, illegible by design — texture, not text). House-sigil banner on back wall. Warm fireplace-substitute glow at one corner (light source, no actual fire — use foxfire-green or warm-amber depending on house affiliation).
+> **State `default_warm`** — House-Insignia banner reads as **player-house-affiliation**: ship 6 banner variants (one per Mechronis house — Resonance, Umbra, Ironflight, plus 3 expansion houses). Common rooms render same composition with banner-swap as the runtime overlay. Asset: `art/rooms/celebration_house_common/default_warm.webp` (with banner-overlay layer at `art/rooms/celebration_house_common/banner_<house>.png`).
+
+#### `celebration_chess_classroom`
+
+> **Default canon**: Giant playable chessboard (visible at frame-center). 32 chess pieces in starting position (rendered as 3D models, glowing bases). Strategic holo-display wall-mounted (move-suggestions area). Player + opponent chair flanking board. Zephyr-9 hologram emergence-rig wall-mounted (dormant by default).
+> **State `beat_d_tutorial_zephyr_active`** — Zephyr-9 hologram present (cyan scanline form, clean professional silhouette). Holo-display showing piece-movement rules. Pieces in starting position. Asset: `art/rooms/celebration_chess_classroom/beat_d_tutorial.webp`.
+> **State `act1_standard_play`** — Zephyr-9 dormant. Pieces mid-game (capture a representative position — center-board contested, pawns advanced asymmetrically). Holo-display showing position-analysis abstract (heat-map style). Asset: `art/rooms/celebration_chess_classroom/act1_standard.webp`.
+> **State `act3_mastery_register`** — Position complex (high-level mid-game). Holo-display shows probability-heat-maps + opening-diagram overlays + Mechronis-style strategic notation. Pieces have very subtle gold-leaf rim-light (mastery achieved). Asset: `art/rooms/celebration_chess_classroom/act3_mastery.webp`.
+
+#### `celebration_laboratory`
+
+> **Default canon**: Crafting stations (alchemical aesthetic). Ingredient storage shelving (jars + flasks + crystal-canisters at varied translucencies). Central work-table. Holographic recipe-display wall-mounted.
+> **State `default`** — Active workspace, one in-progress experiment center-table (a brass alembic with pale-violet liquid bubbling slowly). Asset: `art/rooms/celebration_laboratory/default.webp`.
+
+#### `celebration_training_grounds`
+
+> **Default canon**: Practice dummies (3 visible, sculpted humanoid wooden-mannequin style). Holo-enemy emitters at perimeter (4 small floor-disc fixtures, each capable of projecting a ghosted holographic combatant). Padded sparring floor with sigil-circle inlay.
+> **State `default_dormant`** — Dummies still. Emitters dark. Asset: `art/rooms/celebration_training_grounds/dormant.webp`.
+> **State `act1_active_simulation`** — One dummy mid-strike (slight motion-blur captured in still). Two holo-enemies projected (cyan, translucent, mid-attack pose). Sigil-circle pulsing. Asset: `art/rooms/celebration_training_grounds/active_sim.webp`.
+
+#### `celebration_library`
+
+> **Default canon**: Floor-to-ceiling shelves. Reading tables. Knowledge-scroll holos floating at table-top (small, illegible-by-design). Warm reading-lamp at each table.
+> **State `default`** — Active study room. Several scrolls open. One central holo-orb glowing softly with a "today's lesson" content. Asset: `art/rooms/celebration_library/default.webp`.
+
+#### `celebration_tribunal_chamber`
+
+> **Default canon**: Judge's podium back-center (raised). Defendant + accuser positions facing podium. Voting hologram floating above podium (12-bar abstract vote-display, no values). Cool austere lighting.
+> **State `default`** — Empty chamber. Voting hologram dormant. Asset: `art/rooms/celebration_tribunal_chamber/default.webp`.
+> **State `apprentice_aftermath`** — Empty accuser chair. Solemn mood (lighting cooler, dimmer). Voting hologram still dormant. A single white flower on the defendant podium. Asset: `art/rooms/celebration_tribunal_chamber/apprentice_aftermath.webp`.
+
+> **Render + upload §12 in one batch**:
+> ```bash
+> pnpm tsx apps/scripts/upload-public-to-s3.ts --prefix art/rooms/
+> ```
+> **Wire**: register slugs in `apps/client/src/lib/roomMediaPrompts.ts` (existing) — extend the registry's `<room_id>` keys to include the `<state_id>` suffix variants. Living Ark filter overlays remain code-side in `apps/client/src/lib/livingArkFilter.ts`.
+
+---
+
 ## End of prompt book
 
 For anything not covered here — Prelude beat audio re-uploads, FNORD-23
