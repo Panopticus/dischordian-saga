@@ -2947,6 +2947,281 @@ Add the following render-and-wire procedures:
 
 ---
 
+## 16. Mini-DLC + epigraphs + Acts 2-7 + Expansion Bible loops + Witnessing VFX
+
+### 16.0 Render contract
+
+- Mini-DLC + Acts 2-7 + Expansion Bible cinematics: Veo 3.1, 1920×1080, 24fps, H.264, **no music — VFX + dialog only** (per the user's continuity rule from §3.0). Frame-chained: end frame of shot N = start frame of shot N+1.
+- Daniel Cross epigraph cinematics: composite Nano Banana 2 still (8s held, Ken-Burns crawl) + 4-frame Veo 3.1 motion flash (1s, 24fps, looping for the SealEpigraphCinematic modal). Format: still WEBP 1920×1080, motion WebM alpha 1920×1080.
+- Witnessing VFX: 1920×1080 WebM alpha, 24fps, looping or one-shot per item.
+- Expansion Bible gameplay-loop cinematics: 6–10s each (snappier than story-mode cinematics), 1920×1080, 24fps, H.264.
+
+### 16.1 Mini-DLC mystery-arc cinematics
+
+8 chapters × 5 episodes. Per chapter, author a 5-shot frame-chained
+opening-cinematic; per-episode in-game beats use existing room art (§12).
+
+#### `dlc_y1q1_first_charter` — "The First Charter"
+> **Year 1 Q1**. Stake: the player's first faction-charter signing (Insurgency vs. Authority decision). 5 shots, 60s total, frame-chained.
+> **Shot 1 (12s)** — Wide on a cargo-bay table where the charter scroll waits, foxfire-green lit. Charter unrolls slowly, runes glow. Camera pushes in to a tight on the signature line. End frame: blank line. Dialog: Locke v.o. opens with the Insurgency pitch.
+> **Shot 2 (12s)** — Match-cut to a parallel scene: New Babylon Authority court, the same charter held by a polished aide. The aide reads a single line (the line is the same as Locke's last line, cadence-matched). End frame: aide's hand offering pen.
+> **Shot 3 (12s)** — Player POV (camera = player's hands), holding the pen above the line. Time slows. Faint cyan tessellation around the pen tip (Elara presence). End frame: pen tip touching paper.
+> **Shot 4 (12s)** — Match-cut to a montage: 3 environments react to the unsigned-decision — a Thalorian terrace pulls breath, a Mechronis classroom bell tolls, a Casino chip falls in slow-motion. End frame: chip mid-air.
+> **Shot 5 (12s)** — Return to player POV. Choice happens off-screen (the player makes the actual choice in gameplay). The cinematic ends on the unsigned line, awaiting input. End frame: blank line, pen poised.
+> Asset: `videos/dlc/y1q1_first_charter/shot_<n>.mp4`. VO csv: `apps/scripts/dlc-y1q1-vo.csv`.
+
+#### `dlc_y1q2_pale_inheritance` — "The Pale Inheritance"
+> **Year 1 Q2**. Stake: a deceased Mechronis professor's research has been stolen; player chooses recovery vs. let-it-burn.
+> **Shot 1 (10s)** — Tight on a single ancient data-slate, dust-covered. Hand brushes dust away. End frame: half-revealed indigo glyph.
+> **Shot 2 (12s)** — Pull back: a small Mechronis archive room, dim. The data-slate's owner is implied as recently deceased (an empty chair, faint coffee-cup, half-eaten meal still warm). End frame: empty chair lit by single overhead beam.
+> **Shot 3 (12s)** — Match-cut: the same data-slate now in a Yellow-Coats interrogation room (Vex Solène's faction). The slate is mid-extraction (cables jacked in). End frame: slate's glyph fully exposed.
+> **Shot 4 (12s)** — Player's hand reaches for the slate from off-screen. Decision: recover (rescue cinematic) or let-burn (slate ignites). End frame: hand inches from slate.
+> **Shot 5 (10s)** — Time stops. Camera circles slowly to player's face (silhouette only). End frame: player's eyes mid-decision. Dialog: Antiquarian v.o. closing line.
+> Asset: `videos/dlc/y1q2_pale_inheritance/shot_<n>.mp4`.
+
+#### `dlc_y1q3_curriculum_crisis` — "The Curriculum Crisis"
+> **Year 1 Q3**. Stake: a Mechronis house's curriculum is about to be rewritten by Shadow Tongue.
+> **Shot 1 (10s)** — Mechronis classroom (§12.2 mechronis_classroom canon). Wall-text actively rewriting itself in slow-mo. End frame: half-rewritten lesson.
+> **Shot 2 (12s)** — Pull back to a wider classroom view; 12 desks empty; a single book on one desk (the desk we've seen before — the Engineer's seat). End frame: book's page corner curling on its own.
+> **Shot 3 (12s)** — Shadow-Tongue presence implied — a faint indigo wraith-smear at the back of the room. The Engineer (§2 hero canon, Prince register) speaks one line. End frame: wraith-smear closer.
+> **Shot 4 (12s)** — Engineer reaches for the book, intervenes. Wraith-smear retreats. Ink begins flowing IN reverse on the wall (un-corruption). End frame: 80% restored wall.
+> **Shot 5 (10s)** — Player POV: a curriculum-restoration UI prompt appears (the cinematic ends on input-pending). End frame: blank UI, awaiting decision.
+> Asset: `videos/dlc/y1q3_curriculum_crisis/shot_<n>.mp4`.
+
+#### `dlc_y1q4_witness_plaza` — "The Witness Plaza"
+> **Year 1 Q4**. Stake: Witnessing Hub records the player's first community-public testimony.
+> **Shot 1 (12s)** — Witnessing Hub (§12.1 bridge canon, beat_i state) at maximum activation. Player approaches the Hub. End frame: player's hand on the Hub's perimeter.
+> **Shot 2 (12s)** — Hub responds — cyan tessellation expands outward to encompass the Bridge. Galaxy-map dims; the Hub becomes the room's only light source. End frame: Hub fully bloomed.
+> **Shot 3 (14s)** — Player begins testimony (off-screen voice; Player VO is recorded by the player's mic in-engine — render the visual without lip-sync). Hub responds with cyan tessellation rippling in-time with player's words. End frame: Hub mid-tessellation pattern.
+> **Shot 4 (12s)** — Match-cut to the entire community: a galactic-scale visual — every player who's testified is a cyan pinpoint on the galaxy-map. The current testimony adds a new pinpoint. End frame: new pinpoint joining the constellation.
+> **Shot 5 (10s)** — Return to Bridge. Hub settles. Player steps back. Lyra Vox v.o. closing line ("witness recorded"). End frame: Hub at neutral baseline, room warmer than before.
+> Asset: `videos/dlc/y1q4_witness_plaza/shot_<n>.mp4`.
+
+#### `dlc_y2q1_charter_schism` — "The Charter Schism"
+> **Year 2 Q1**. Stake: the original Charter (Y1Q1) is being challenged; faction-war breaks out.
+> **Shot 1 (10s)** — Close on Y1Q1's signed charter, now in a glass case. Glass case crack appears, propagates. End frame: full crack.
+> **Shot 2 (12s)** — Match-cut: faction-banner hanging from a guild-room ceiling — banner rips down the center on its own. End frame: torn banner half-fallen.
+> **Shot 3 (12s)** — Wider: 12 guild common-rooms (§13.1) all simultaneously losing their charter-related decoration (sigils flicker out, banners fall). Shot is a fast-cut montage (6 rooms in 2 seconds each). End frame: all 12 guild-room focal-elements dark.
+> **Shot 4 (14s)** — Bridge (§12.1 bridge canon). Galaxy-map shows immediate territorial-flux. Faction colors fragmenting at sector boundaries. Communications array alarms (visual, not aural). End frame: galaxy-map at peak fragmentation.
+> **Shot 5 (12s)** — Player at Bridge, choice-prompt for which side to back appears. Cinematic ends input-pending. End frame: prompt visible, player POV.
+> Asset: `videos/dlc/y2q1_charter_schism/shot_<n>.mp4`.
+
+#### `dlc_y2q2_hierarchy_audit` — "The Hierarchy Audit"
+> **Year 2 Q2**. Stake: Hierarchy of the Damned has audited the player's choices; consequences propagate.
+> **Shot 1 (12s)** — Castle of Death summoning chamber (§15.1 chamber_dormant). One blood-crystal pedestal lights with the player's sigil (a glyph specific to player choices). End frame: glyph at peak.
+> **Shot 2 (12s)** — All 7 pedestals light in sequence (clockwise). Each pedestal-light corresponds to one of the player's recent significant choices (rendered as glyph-icons floating above each pedestal). End frame: all 7 lit, glyphs hovering.
+> **Shot 3 (14s)** — The chamber's central circle ignites. A new demon shape begins to manifest — but **the demon's silhouette is the player's own** (this is the audit's punch — Hierarchy summons the player's own shadow). End frame: silhouette half-formed.
+> **Shot 4 (12s)** — Player-shadow turns to face camera. Eyes open (color matches player's faction-affinity). The player-shadow speaks a single line in player's own voice (off-screen recorded; cinematic-engine pulls from player's logged dialog choices). End frame: player-shadow facing forward.
+> **Shot 5 (10s)** — Player-shadow walks toward camera, dissolves into player's POV. The audit has integrated. End frame: clean POV looking at empty chamber. Antiquarian v.o. closing line.
+> Asset: `videos/dlc/y2q2_hierarchy_audit/shot_<n>.mp4`.
+
+#### `dlc_y2q3_apprentices_stand` — "The Apprentice's Stand"
+> **Year 2 Q3**. Stake: a player-recruited apprentice (Mechronis or Insurgency depending on path) makes a stand against an old rival.
+> **Shot 1 (10s)** — Tight on the apprentice's eye (cyan or orange depending on path). End frame: blinking determination.
+> **Shot 2 (12s)** — Pull to medium: apprentice in fighting-stance in a recognizable game-mode arena (the player chose which arena via earlier gameplay). Opponent silhouette across the arena. End frame: apprentice mid-bow before fight.
+> **Shot 3 (14s)** — Combat exchange — apprentice takes 3 hits, gets up, returns 3. Camera tight on each strike. End frame: apprentice center-frame, opponent off-balance.
+> **Shot 4 (12s)** — Final exchange. Apprentice lands the finishing blow (a frame-chain to the existing Fight super-move VFX from §10.4 — `super_screenflash_<fighter_id>.webm` plays here). End frame: opponent down.
+> **Shot 5 (12s)** — Apprentice helps opponent up (wins by mercy, not by destruction — this is the path-positive ending). Lighting warms. End frame: both upright, apprentice's hand on opponent's shoulder.
+> Asset: `videos/dlc/y2q3_apprentices_stand/shot_<n>.mp4`.
+
+#### `dlc_y2q4_watchers_speak` — "The Watchers Speak"
+> **Year 2 Q4**. Stake: the Watchers break their millennia-long silence to address the player directly.
+> **Shot 1 (12s)** — Panopticon center frame. The huge iris on the back wall (per §10.2 stage_panopticon canon) fully open and looking down. Player center-stage. End frame: iris lit fully.
+> **Shot 2 (14s)** — Iris speaks (visualization: the iris-pupil ripples in time with the words). Watcher voice (modulated, surveillance-radio EQ — §11 fight_watcher_v1 register). Words form on the floor in front of the player as glyph-text. End frame: glyph-text fully written.
+> **Shot 3 (14s)** — Player reads. As they read, the glyph-text rises off the floor and reorganizes into a single sentence at eye-level (the player's eye-level — the camera is player POV). End frame: sentence at eye-level, glowing.
+> **Shot 4 (12s)** — Player has a choice: accept (glyph-text dissolves into player's outline, becoming part of them) or reject (glyph-text shatters, falls). The cinematic captures the moment-just-before; choice resolves in gameplay. End frame: glyph-text trembling at peak.
+> **Shot 5 (8s)** — Match-cut to an outside-the-Panopticon view: the surveillance-tower is **dim** (the Watchers, having spoken, are quieter now). The galaxy-map at the bottom of frame shows one Watcher-territory shifting color (a small change with large implications). End frame: galaxy-map at neutral baseline, slight Watcher-color tint reduced.
+> Asset: `videos/dlc/y2q4_watchers_speak/shot_<n>.mp4`.
+
+#### `dlc_advocate_01_sacrum_echo` — "The Sacrum Echo"
+> **Standalone advocate-class arc**. Stake: the player encounters an echo of a previous Advocate (a player-class) within the Sacrum of Severed Silk.
+> **Shot 1 (12s)** — Sacrum interior (cite the rooms-survey canon for sacrum-of-severed-silk if rendered, else describe: dark stone vaulted chamber, central altar of folded silk). End frame: altar lit by single overhead beam.
+> **Shot 2 (14s)** — A figure rises from the silk: previous-Advocate echo. Same outline as player's body but rendered translucent + cyan (a witnessed memory). End frame: echo standing at altar.
+> **Shot 3 (14s)** — Echo speaks (their voice is the player's voice, played back from a previous session — engine pulls from player's logged dialog audio). End frame: echo arms-raised mid-line.
+> **Shot 4 (12s)** — Player walks toward echo. Echo dissolves into player as they meet. Player gains the echo's last-knowledge (gameplay reward overlay). End frame: player center-stage, echo dissolved into them.
+> **Shot 5 (8s)** — Sacrum returns to dormant. Single piece of silk on the altar shifts (suggesting another echo waits). End frame: altar at baseline.
+> Asset: `videos/dlc/advocate_01_sacrum_echo/shot_<n>.mp4`.
+
+### 16.2 Daniel Cross epigraph cinematics
+
+Per the 7 SEAL_EPIGRAPHS in `apps/shared/sevenSealsEpigraphs.ts`. Each
+seal gets a still + motion flash. The still is held under the epigraph
+text (8s); the motion flash plays on the player's first-time activation
+of the seal.
+
+#### Authoring template (apply per seal 1-7)
+
+> **`art/epigraphs/seal_<n>_still.webp`** (1920×1080, WEBP) — Composite: <single visual metaphor for the seal — see per-seal entries below>. House style §1.1, palette anchored to the seal's color (red, white, black, pale, green, golden, white-of-witnessing in canonical Revelation order). No on-image text.
+> **`videos/epigraphs/seal_<n>_flash.webm`** (1s, 1920×1080, alpha) — 24-frame Veo 3.1 motion flash. Plays at the modal's open. Subtle motion (the still comes to life for 1 second then settles back into still-mode). End frame = start frame of the still.
+
+#### Per-seal still + motion direction
+
+> **Seal 1 — "The first crown that does not fit"** (red rider, conquest)
+> Still: A crown of pale-rose hammered metal hovering above a single throne in the upper bands of the Ark; throne is empty; the bands themselves stretch into the void. Crown is too large for the throne.
+> Flash: Crown descends 30px and pauses; doesn't quite reach throne; the throne dimples slightly under the pressure of the un-touching crown.
+
+> **Seal 2 — "Peace was the first thing the second rider asked for"** (red rider, war)
+> Still: Trade Empire bridges arching across deep void-space; bridges are mid-collapse — one bridge already broken (rubble suspended), one bridging just barely, one fully intact but with a fissure forming. Sectors below the bridges are either lit or dark in a clear pattern of recent loss.
+> Flash: The fissure on the third bridge widens 6px; rubble from the first bridge drifts slowly; the second bridge's lit-side flickers once.
+
+> **Seal 3 — "Famine asked for nothing and was given everything"** (black rider, scarcity)
+> Still: A single granary in a Thalorian-style agricultural sector; the granary doors stand open; inside, ration-tokens spill outward in slow-motion. The sector outside the granary is twilight-dim. A single distant figure stands silhouetted (any species, faction-neutral).
+> Flash: Ration-tokens fall 20px further; the silhouetted figure does not move.
+
+> **Seal 4 — "The pale rider rode without face"** (pale rider, death)
+> Still: A pale-grey horse-shape (large, equine but rendered in voidblack-static texture from §1.5 vfx vocabulary) standing alone on the surface of an anonymous corrupted sector. No rider is visible (the seat is empty). The horse's eyes are perfect-cyan (the only warm color in the frame).
+> Flash: The horse's tail swishes once (3-frame motion); the eye-cyan pulses brighter, dims; sector ground beneath develops 3 new void-fissures.
+
+> **Seal 5 — "Under the altar, the witnesses waited"** (white robes, martyrs)
+> Still: Witnessing Hub interior with the Hub's hemisphere replaced by a lattice of white robes hanging in air; below the lattice, an altar of pale stone. Robes are translucent — through them, you can see the Bridge of Kael shield-edge in the deep distance.
+> Flash: The white robes ripple gently as if breathed-on; one robe drifts down 10px and resettles; the shield-edge brightens minutely.
+
+> **Seal 6 — "The sky rolled back like a scroll"** (great earthquake, signs)
+> Still: Galaxy-map view from the Observation Deck. The map's far-right is mid-rolling — galaxy is curling like parchment. Sectors at the rolling edge are dimming as the parchment-curl reaches them. Star-pinpoints are still visible inside the curl, just compressed.
+> Flash: The roll progresses 80px to the left over the 1s; one sector's pinpoints are visibly compressed during the roll.
+
+> **Seal 7 — "Silence in heaven for half an hour"** (the silence)
+> Still: Bridge of Kael (the named landmark, post-credits) — a long arched bridge of white-cream stone over a void of perfect-cyan. No figures on the bridge. Sky above is uniformly off-white. The composition has a held-breath quality.
+> Flash: One floor-plate on the bridge ripples once (4-frame motion of a tiny seismic ripple), then perfect stillness for the remainder of the 1s. **No sound** — the silence is part of the cinematic spec; do not overlay any motion-SFX.
+
+### 16.3 Acts 2-7 climax cinematics (29)
+
+Cite `docs/production/acts-2-7-aaa-final/remaining_work.md` for canonical
+shot-list. Author per-cinematic at 8–14s each, frame-chained where part
+of a sequence.
+
+#### Act 4 cinematics (9)
+
+> **`videos/acts/act4/kael_extraction_shot_1.mp4`** (12s) — Player POV approaching Kael's containment chamber. Bridge of Kael shield visible at far end of corridor. End frame: chamber door.
+> **`videos/acts/act4/kael_extraction_shot_2.mp4`** (12s) — Inside chamber. Kael in containment. Player approaches. Shield-edge cyan light reflects off Kael's restraints. End frame: Kael looks up.
+> **`videos/acts/act4/kael_extraction_shot_3.mp4`** (14s) — Restraints retract. Kael steps free. The chamber's containment-field collapses. End frame: Kael standing free, player and Kael side-by-side.
+> **`videos/acts/act4/kael_extraction_shot_4.mp4`** (12s) — Player + Kael leave the chamber together. Behind them, the chamber's shield-edge fades. End frame: corridor empty, chamber dark.
+> **`videos/acts/act4/human_path_a.mp4`** (10s) — The Human reveals one of two true-form variants (rose-warm). Player witnesses without intervening. End frame: Human's true-form held.
+> **`videos/acts/act4/human_path_b.mp4`** (10s) — The Human's other true-form (cyan-cool). Same composition as above. End frame: Human's other true-form held.
+> **`videos/acts/act4/memorial_corridor_keymoment.mp4`** (14s) — Long corridor walked end-to-end. Walls show portraits of every named ally lost across player's saga. Camera ends on player's reflection in the final portrait-glass. End frame: player's own face reflected back.
+> **`videos/acts/act4/opener.mp4`** (10s) — Act 4 title-card composition: player on the Bridge looking out at a galaxy mid-fragmentation. End frame: galaxy at peak fragmentation.
+> **`videos/acts/act4_5/casino_opener.mp4`** (10s) — Casino main-floor (§13.2 high_stakes). The Degen turns to face camera. End frame: Degen mid-smile.
+> **`videos/acts/act4_5/racetrack_opener.mp4`** (10s) — DMC track (§13.3 standard). 8 karts in starting line; one is the player's. End frame: starting-line lights at amber.
+
+#### Act 5 cinematics (6)
+
+> **`videos/acts/act5/ration_map_opener.mp4`** (12s) — Galaxy-map closes in on a single famine-stricken sector (§14 sector_*_dimming). End frame: sector's ration-meter at red.
+> **`videos/acts/act5/sector_awakening.mp4`** (14s) — A consumed sector (sickly purple) recovers — corruption recedes from one quadrant outward. Workers return to camp-sites. End frame: sector at reclaimed state.
+> **`videos/acts/act5/iron_lion_death_broadcast.mp4`** (12s) — Iron Lion final transmission. Camera close on his face (full hero canon §2). He delivers his last orders. End frame: Iron Lion lowering eyes. Iron Lion VO: §11 fight_iron_lion_v1.
+> **`videos/acts/act5/engineer_final_recording.mp4`** (14s) — Engineering bay (§12.1) rendered in the_prince register. Engineer at workbench delivers his last log entry to the holographic recording rig. End frame: rig dimming after recording closes.
+> **`videos/acts/act5/galaxy_reclaimed_milestone.mp4`** (10s) — Observation Deck (§12.1) at reclaimed-galaxy state. Cyan-cream pinpoints across the galaxy at full strength. End frame: shield-edge horizon visible.
+> **`videos/acts/act5/three_chairs_opener.mp4`** (12s) — Bridge: three chairs arranged facing each other (Player, Elara, Human). Camera circles around once. End frame: all three chairs occupied (silhouettes only).
+
+#### Act 6 cinematics (4)
+
+> **`videos/acts/act6/elara_confession.mp4`** (14s) — Player-cabin (§12.1 act5_endgame_full). Elara hologram center-stage, delivering her confession. Cyan tessellation around her at the emotional peaks. End frame: Elara's hologram dissolving as her confession ends.
+> **`videos/acts/act6/human_confession.mp4`** (14s) — Same room. The Human (now physical, not hologram) delivers his confession. Rose+cyan duet implied — voice splits between two registers (§11 fight_human_*). End frame: Human seated quietly.
+> **`videos/acts/act6/watcher_reveal.mp4`** (14s) — Watcher's Panopticon (§10.2). The eye-iris-on-back-wall opens for the first time and looks down at the player. End frame: iris fully open, player center-stage.
+> **`videos/acts/act6/three_chairs_payoff.mp4`** (12s) — Three chairs (the same as act5 opener) — but now one chair is empty. The Player + Elara + Human have made one of three sacrifices. End frame: empty chair, the other two looking at it.
+
+#### Act 7 cinematics (7)
+
+> **`videos/acts/act7/army_composite_reveal.mp4`** (14s) — Composite shot of every faction's army marching toward camera, from infinity-distance to mid-shot. End frame: lead figure of each army visible (5 lead figures).
+> **`videos/acts/act7/war_diagram.mp4`** (12s) — Bridge galaxy-map at maximum complexity — every faction territory at the brink. Player's hand reaches in. End frame: hand at map.
+> **`videos/acts/act7/voices_align_keymoment.mp4`** (14s) — Witnessing Hub (§12.1 bridge act5 register) full bloom. All player-recorded testimonies (across the entire saga) align in cyan tessellation across the Hub's hemisphere. End frame: Hub at full alignment.
+> **`videos/acts/act7/stance_humanity.mp4`** (10s) — Player chooses Humanity stance. Player's body suffuses with rose-warm light. End frame: player center-stage rose-lit.
+> **`videos/acts/act7/stance_pattern.mp4`** (10s) — Pattern stance. Cyan tessellation. End frame: cyan-lit.
+> **`videos/acts/act7/stance_bridge.mp4`** (10s) — Bridge stance. Both rose + cyan, harmonized. End frame: dual-lit.
+> **`videos/acts/act7/stance_command.mp4`** (10s) — Command stance. Authority-crimson + brass. End frame: crimson-brass-lit.
+
+### 16.4 Expansion Bible gameplay-loop cinematics (40)
+
+Per `docs/design/EXPANSION_BIBLE.md` gameplay-system catalog. 6–10s each, snappier than story-mode.
+
+#### Ark Exploration (10)
+
+> **`videos/expansion/ark/awakening.mp4`** (8s) — Player awakens in cryo (re-uses §12.1 cryo_bay beat_a state); compressed for replay.
+> **`videos/expansion/ark/first_whisper.mp4`** (6s) — Corridor (§12.1) — first whispered Elara line, player listens.
+> **`videos/expansion/ark/doctors_ghost.mp4`** (8s) — Medical bay (§12.1 quarantine state) — ghost-presence of the deceased doctor flickers.
+> **`videos/expansion/ark/ships_true_name.mp4`** (8s) — Bridge (§12.1) — galaxy-map reveals the Ark's true name in the central display.
+> **`videos/expansion/ark/two_voices.mp4`** (8s) — Player-cabin — Elara + Human voices first speak together.
+> **`videos/expansion/ark/breaking_point_path_a.mp4`** (10s) — Beat E archive — choice path A (preserve memory).
+> **`videos/expansion/ark/breaking_point_path_b.mp4`** (10s) — Same composition — path B (release memory).
+> **`videos/expansion/ark/breaking_point_path_c.mp4`** (10s) — Same — path C (rewrite memory). Shadow Tongue VFX overlay (§15.2).
+> **`videos/expansion/ark/synthesis.mp4`** (10s) — Witnessing Hub — Elara and Human voices merge into a single new voice (Lyra Vox emergent).
+> **`videos/expansion/ark/army_assembly.mp4`** (10s) — Bridge — galaxy-map reveals every recruited NPC as a banner-glyph. Banners aggregate.
+
+#### Card Battle (4)
+
+> **`videos/expansion/cards/cades_activation.mp4`** (6s) — Card-summoning effect for CADES units (orange Insurgency-glow, §15.3 card_summon_insurgency).
+> **`videos/expansion/cards/kael_boss_echo.mp4`** (8s) — Kael's silhouette appears mid-board as a boss-echo presence; cards on board flicker with red lattice (§15.2 authority_red_lattice).
+> **`videos/expansion/cards/card_summon_signature.mp4`** (6s) — Universal cinematic for any signature-tier summon (re-used across factions, color-shifted).
+> **`videos/expansion/cards/victory_defeat.mp4`** (8s) — Outcome-state cinematic; warm gold (victory) or cool violet (defeat) lighting; no specific environment.
+
+#### Trade Empire (4)
+
+> **`videos/expansion/trade/market_opens.mp4`** (8s) — Trade Empire sector (§14 sector_trade_nexus lit) — market wakes; merchants arrive.
+> **`videos/expansion/trade/vox_corridor_discovery.mp4`** (10s) — Sector → Vox Corridor reveal: a hidden trade-route lights up on the galaxy-map.
+> **`videos/expansion/trade/trade_deal.mp4`** (8s) — Two merchants shake hands across a cargo-pallet.
+> **`videos/expansion/trade/economic_victory.mp4`** (10s) — Galaxy-map shows player's faction-territory at maximum prosperity (all sectors lit/reclaimed).
+
+#### Fight Arena (4)
+
+> **`videos/expansion/fight/arena_entry.mp4`** (6s) — Fighter walks onto stage (re-uses §10.2 stage canon for chosen stage).
+> **`videos/expansion/fight/kael_infected.mp4`** (8s) — Kael in stage_terminus_core, partially infected; the stage shifts color around him.
+> **`videos/expansion/fight/finishing_move.mp4`** (8s) — Universal finisher cinematic; re-uses §10.4 super_screenflash + freeze_frame_outline.
+> **`videos/expansion/fight/champion_crowned.mp4`** (10s) — Tournament hall (§10.2 stage_tournament_hall) at full celebration; champion lit center-stage.
+
+#### Boss Encounters (3)
+
+> **`videos/expansion/boss/warlords_shadow.mp4`** (8s) — Warlord boss-echo manifests on a stage (§10.2 stage_crucible).
+> **`videos/expansion/boss/phase_transition.mp4`** (8s) — Universal phase-shift cinematic: boss flares, lighting shifts to alarm-red, stage-elements rearrange.
+> **`videos/expansion/boss/boss_defeat.mp4`** (10s) — Universal boss-defeat: boss kneels, dissolution begins, player stands triumphant.
+
+#### Faction War (4)
+
+> **`videos/expansion/faction/war_declaration.mp4`** (10s) — Bridge — galaxy-map fragments along faction lines; war-banner appears at the top of frame.
+> **`videos/expansion/faction/vox_revelation.mp4`** (10s) — Vox character (player faction-allied) reveals trade-network identity; map updates with newly-trusted lanes.
+> **`videos/expansion/faction/sector_liberation.mp4`** (10s) — A consumed sector (§14) returns to reclaimed state in slow-mo.
+> **`videos/expansion/faction/victory.mp4`** (10s) — All-factions-aligned outcome: galaxy-map at unified player-faction color.
+
+#### Loyalty Missions — Elara (3)
+
+> **`videos/expansion/loyalty/elara_arc1.mp4`** (10s) — Elara hologram in player-cabin reveals a personal memory (Beat E callback rendered in Elara's perspective).
+> **`videos/expansion/loyalty/elara_arc2.mp4`** (10s) — Elara confronts her own corrupted-shadow at the Bridge.
+> **`videos/expansion/loyalty/elara_arc3.mp4`** (12s) — Elara accepts integration: cyan tessellation expands across the Bridge to the entire ship.
+
+#### Loyalty Missions — Human (3)
+
+> **`videos/expansion/loyalty/human_arc1.mp4`** (10s) — Human reveals his early-life memory (sepia archive register, §12.1 mess_hall beat_e callback).
+> **`videos/expansion/loyalty/human_arc2.mp4`** (10s) — Human confronts the duality of his nature; rose+cyan split visualizes.
+> **`videos/expansion/loyalty/human_arc3.mp4`** (12s) — Human accepts his role as the Bridge of Kael's witness.
+
+#### Quest Chains (4)
+
+> **`videos/expansion/quest/ships_true_name.mp4`** (8s) — Galaxy-map zooms to reveal the Ark's hidden lineage.
+> **`videos/expansion/quest/army_recruitment.mp4`** (10s) — Recruitment montage: 6 fast-cuts of player-character meeting NPCs.
+> **`videos/expansion/quest/endgame_rally.mp4`** (10s) — Bridge — every recruited NPC appears as a banner-icon at the player's side.
+> **`videos/expansion/quest/closing_transmission.mp4`** (10s) — Player at Witnessing Hub records the final saga-closing testimony.
+
+### 16.5 Witnessing / narrative VFX (8)
+
+> **`art/vfx/narrator_elara_manifest.webm`** (1.5s, 1920×1080, alpha) — Cyan tessellation materializes from screen-edge inward; text-area appears as a translucent panel.
+> **`art/vfx/narrator_human_manifest.webm`** (1.5s) — Rose-warm crimson iris pulse expands; text-area appears.
+> **`art/vfx/narrator_split_yin_yang.webm`** (2s) — Screen splits down the middle; left half cyan-cool, right half rose-warm. Both narrators present simultaneously.
+> **`art/vfx/narrator_silence_lyra.webm`** (1.5s) — A faint static-ghost outline appears in screen-center; no color, just suggestion.
+> **`art/vfx/living_ark_pulse_light.webm`** (1s, looping) — Single radial pulse from the Ark-center outward; cyan-cream.
+> **`art/vfx/living_ark_pulse_dark.webm`** (1s, looping) — Same shape, violet-cool.
+> **`art/vfx/living_ark_pulse_purity.webm`** (1s, looping) — Same shape, golden-bright.
+> **`art/vfx/loredex_entry_reveal.webm`** (1.5s) — Card-flip animation; golden glow at flip-peak; settles on revealed lore-card.
+
+> **Render + upload §16**:
+> ```bash
+> pnpm tsx apps/scripts/upload-public-to-s3.ts --prefix videos/dlc/
+> pnpm tsx apps/scripts/upload-public-to-s3.ts --prefix videos/acts/
+> pnpm tsx apps/scripts/upload-public-to-s3.ts --prefix videos/epigraphs/
+> pnpm tsx apps/scripts/upload-public-to-s3.ts --prefix videos/expansion/
+> pnpm tsx apps/scripts/upload-public-to-s3.ts --prefix art/epigraphs/
+> pnpm tsx apps/scripts/upload-public-to-s3.ts --prefix art/vfx/
+> ```
+
+---
+
 ## End of prompt book
 
 For anything not covered here — Prelude beat audio re-uploads, FNORD-23
