@@ -18,6 +18,11 @@ export const HELLBOX_DISCOVERED_FLAG = "hellbox_discovered";
 /** Set when the compelled-transport cinematic (Beat C) plays through. */
 export const HELLBOX_FIRST_TOUCH_FLAG = "hellbox_first_touch_complete";
 
+/** Set the first time the player enters Mechronis M1, after the Mechronis
+ *  Academy opening cinematic plays. Mirrors the `casino_first_visit`
+ *  pattern (DegensCasinoPage); the flag does not unset on replay. */
+export const MECHRONIS_FIRST_VISIT_FLAG = "mechronis_first_visit_complete";
+
 /**
  * Compose the per-episode completion flag for a Matrix-of-Dreams Level.
  * Flag value: true once the player finishes every scene in the episode at

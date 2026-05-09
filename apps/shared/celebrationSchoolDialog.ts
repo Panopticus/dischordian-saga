@@ -65,6 +65,65 @@ const C1_SCENE_1_OPENING: DialogScene = {
   ],
 };
 
+/* The musical-arrival beat: Bernardo's "Who's there?" from scene 1 is
+ * answered not by Malkia coming up the steps, but by the player
+ * flickering into existence on the rampart — the matrix-of-dreams
+ * arrival the Welcome to Celebration cinematic just delivered. He
+ * notices first; he's the first face in the chamber. */
+const C1_SCENE_1B_ARRIVAL: DialogScene = {
+  id: "celebration_c1_scene_1b_arrival",
+  label: "C1 · Scene 1b — Arrival on the Rampart",
+  kind: "cinematic",
+  cues: [
+    {
+      speaker: "narrator",
+      mood: "reflective",
+      text:
+        "Three steps from where Bernardo is standing, the air bends the way " +
+        "warm air bends over a candle. A shape resolves out of nothing — a " +
+        "person, breathing, planted on the stones as if they have always been " +
+        "there and the rampart has only just remembered them.",
+    },
+    {
+      speaker: "bernardo",
+      mood: "broken",
+      text: "You — you came in sideways. Through the air. People don't —",
+      internal: "The watch-captain never said anything about this in drill.",
+    },
+    {
+      speaker: "bernardo",
+      mood: "guarded",
+      text: "Are you hurt? Can you speak? Stay where you are. Stay — please.",
+    },
+    {
+      speaker: "narrator",
+      mood: "reflective",
+      text:
+        "He takes one step closer. Then a second. He stops at the third. The " +
+        "watch-captain says three steps is close enough to see if a thing " +
+        "means harm. He decides this thing does not.",
+    },
+    {
+      speaker: "bernardo",
+      mood: "warm",
+      text:
+        "The Dreamer brought you, didn't she. My grandmother said this " +
+        "happens. I never — I thought she meant stories.",
+      internal: "She told me the dream-walkers come on cold nights. I always assumed she was kidding about the walking.",
+    },
+    {
+      speaker: "bernardo",
+      mood: "warm",
+      text:
+        "Welcome to Celebration. I'm Bernardo. The bell that rang a moment " +
+        "ago was Lauds. You're early for everything that matters and late " +
+        "for nothing yet. Stay near me. There is a thing on this rampart " +
+        "tonight that I do not understand, and I would rather not understand " +
+        "it alone.",
+    },
+  ],
+};
+
 const C1_SCENE_2_MALKIA_ARRIVES: DialogScene = {
   id: "celebration_c1_scene_2_malkia_arrives",
   label: "C1 · Scene 2 — Lady Malkia Arrives",
@@ -548,6 +607,7 @@ const C12_SCENE_2_THE_LINE_LANDS: DialogScene = {
 
 export const CELEBRATION_SCHOOL_SCENES: readonly DialogScene[] = Object.freeze([
   C1_SCENE_1_OPENING,
+  C1_SCENE_1B_ARRIVAL,
   C1_SCENE_2_MALKIA_ARRIVES,
   C1_SCENE_3_GHOST_APPEARS,
   C1_SCENE_4_AFTERMATH,
@@ -564,6 +624,7 @@ export const CELEBRATION_SCHOOL_SCENES: readonly DialogScene[] = Object.freeze([
 export const CELEBRATION_EPISODE_SCENE_MAP: Readonly<Record<string, readonly string[]>> = Object.freeze({
   celebration_c1_the_watch: [
     "celebration_c1_scene_1_opening",
+    "celebration_c1_scene_1b_arrival",
     "celebration_c1_scene_2_malkia_arrives",
     "celebration_c1_scene_3_ghost_appears",
     "celebration_c1_scene_4_aftermath",

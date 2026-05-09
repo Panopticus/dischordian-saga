@@ -34,10 +34,15 @@ export const MECHRONIS_ACADEMY_EPISODES: readonly MatrixLevelDefinition[] = [
     pov: "kanevas_classroom",
     visualMode: "hogwarts_class",
     rounds: ["class_lesson", "ritual", "mystery_reveal"],
-    prereqEpisodes: [],
+    /* Path canon: Mechronis is "the Architect's institutional response
+     * to losing the first Celebration." The player must have walked the
+     * warm school's first chamber before the cold school registers them
+     * as a deviation worth drilling. C1 is the door into the Matrix; M1
+     * is the door into the Architect's classroom. */
+    prereqEpisodes: ["celebration_c1_the_watch"],
     replayable: true,
     authorNotes:
-      "Hidden agenda surfaces in Round 3: students are being conditioned to hear the Architect's story-engine as their own inner voice (per mechronisProfessors.ts). Kanevas is what a teacher-shaped CoNexus looks like. The lesson is card combat under a compliance rubric — every card must be played in unison or the cohort restarts.",
+      "Hidden agenda surfaces in Round 3: students are being conditioned to hear the Architect's story-engine as their own inner voice (per mechronisProfessors.ts). Kanevas is what a teacher-shaped CoNexus looks like. The lesson is card combat under a compliance rubric — every card must be played in unison or the cohort restarts. M1 also gates the first-visit Mechronis cinematic (apps/client/public/videos/openings/mechronis/) — the cohort scene opens with Kanevas registering the player as an off-axis arrival.",
   },
   {
     id: "mechronis_m2_applied_surveillance",

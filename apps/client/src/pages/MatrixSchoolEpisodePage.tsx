@@ -34,9 +34,27 @@ import {
   MECHRONIS_EPISODE_SCENE_MAP,
 } from "@shared/mechronisAcademyDialog";
 import type { DialogScene, DialogCue } from "@shared/tcg-core/story/dialogBank";
-import { episodeCompletionFlag, hamletClueFlag } from "@shared/matrixSaveFlags";
+import {
+  episodeCompletionFlag,
+  hamletClueFlag,
+  MECHRONIS_FIRST_VISIT_FLAG,
+} from "@shared/matrixSaveFlags";
 import { cueAudioUrl } from "@shared/episodeVoLookup";
 import { useGame } from "@/contexts/GameContext";
+import OpeningCinematicVideo from "@/components/OpeningCinematicVideo";
+import { assetUrl } from "@/lib/assetUrl";
+
+/** Per-episode first-visit cinematic. Mounts before the dialog runs
+ *  the first time the player enters the episode; `MECHRONIS_FIRST_VISIT_FLAG`
+ *  (the mirror of `casino_first_visit`) gates replay. New entries land
+ *  here when an episode wants its own AAA opening cinematic. Asset paths
+ *  resolve through `assetUrl()` so they hit the CDN in production. */
+const FIRST_VISIT_VIDEO_BY_EPISODE: Readonly<Record<string, { videoUrl: string; flag: string }>> = {
+  mechronis_m1_choric_compliance: {
+    videoUrl: assetUrl("videos/openings/mechronis/shot1.mp4"),
+    flag: MECHRONIS_FIRST_VISIT_FLAG,
+  },
+};
 
 /* ─── Helpers ─── */
 
@@ -107,8 +125,18 @@ function loadScenesForEpisode(episodeId: string): readonly DialogScene[] {
 export default function MatrixSchoolEpisodePage() {
   const [, params] = useRoute<{ episodeId: string }>("/matrix/:episodeId");
   const [, setLocation] = useLocation();
-  const { setNarrativeFlag } = useGame();
+  const { state: gameState, setNarrativeFlag } = useGame();
   const episodeId = params?.episodeId ?? "";
+
+  /* First-visit cinematic: AAA opening videos play before the episode
+   * dialog runs, the first time only. The flag is set on video end so
+   * a hard reload during the video does not skip it. */
+  const firstVisitConfig = FIRST_VISIT_VIDEO_BY_EPISODE[episodeId];
+  const firstVisitFlagSeen = firstVisitConfig
+    ? Boolean((gameState.narrativeFlags ?? {})[firstVisitConfig.flag])
+    : true;
+  const [firstVisitVideoComplete, setFirstVisitVideoComplete] = useState(false);
+  const showFirstVisitVideo = Boolean(firstVisitConfig) && !firstVisitFlagSeen && !firstVisitVideoComplete;
 
   const level: MatrixLevelDefinition | undefined = useMemo(
     () => getLevelById(episodeId),
@@ -196,6 +224,18 @@ export default function MatrixSchoolEpisodePage() {
 
   if (scenes.length === 0) {
     return <UnscriptedEpisode level={level} />;
+  }
+
+  if (showFirstVisitVideo && firstVisitConfig) {
+    return (
+      <OpeningCinematicVideo
+        videoUrl={firstVisitConfig.videoUrl}
+        onEnd={() => {
+          setNarrativeFlag(firstVisitConfig.flag, true);
+          setFirstVisitVideoComplete(true);
+        }}
+      />
+    );
   }
 
   const scene = scenes[sceneIndex];
