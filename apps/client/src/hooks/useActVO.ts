@@ -19,6 +19,7 @@
    ═══════════════════════════════════════════════════════ */
 import { useCallback, useEffect, useRef, useState } from "react";
 import { assetUrl } from "@/lib/assetUrl";
+import { getVoVolume } from "@/lib/streamerSettings";
 
 export type ActVoKey = "2" | "3" | "4" | "4_5" | "5" | "6" | "7";
 
@@ -108,7 +109,7 @@ export function useActVO(act: ActVoKey) {
       const url = resolveUrl(raw);
       const audio = new Audio(url);
       audioRef.current = audio;
-      audio.volume = 0.85;
+      audio.volume = 0.85 * getVoVolume();
       audio.onplay = () => setSpeaking(true);
       audio.onended = () => {
         setSpeaking(false);

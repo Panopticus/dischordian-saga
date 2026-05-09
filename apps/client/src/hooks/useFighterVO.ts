@@ -21,6 +21,7 @@
    fighters never re-fetches the same JSON.
    ═══════════════════════════════════════════════════════ */
 import { useRef, useState, useCallback, useEffect } from "react";
+import { getVoVolume } from "@/lib/streamerSettings";
 import {
   getVoRegistration,
   pickRandomLineByCategory,
@@ -118,7 +119,7 @@ export function useFighterVO(fighterId: string): UseFighterVOResult {
 
       const audio = new Audio(url);
       audioRef.current = audio;
-      audio.volume = 0.8;
+      audio.volume = 0.8 * getVoVolume();
 
       audio.onplay = () => setSpeaking(true);
       audio.onended = () => {

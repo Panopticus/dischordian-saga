@@ -1,6 +1,7 @@
 /* useMemeVO — Plays The Meme's voice lines from S3 manifest */
 import { useRef, useState, useCallback, useEffect } from "react";
 import { claimActiveVo, releaseActiveVo } from "@/lib/voSpeakingState";
+import { getVoVolume } from "@/lib/streamerSettings";
 
 let manifest: Record<string, string> | null = null;
 let loaded = false;
@@ -28,7 +29,7 @@ export function useMemeVO() {
     queueRef.current = [];
     const audio = new Audio(manifest[lineId]);
     audioRef.current = audio;
-    audio.volume = 0.85;
+    audio.volume = 0.85 * getVoVolume();
     const myStop = () => { audio.pause(); };
     claimActiveVo(myStop);
     audio.onplay = () => setSpeaking(true);

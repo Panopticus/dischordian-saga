@@ -14,6 +14,7 @@
      speak("feature_unlock_companion_selection");
    ═══════════════════════════════════════════════════════ */
 import { useRef, useState, useCallback, useEffect } from "react";
+import { getVoVolume } from "@/lib/streamerSettings";
 import {
   claimActiveVo,
   releaseActiveVo,
@@ -78,7 +79,7 @@ export function useElaraVO() {
     const a = new Audio();
     a.crossOrigin = "anonymous";
     a.src = manifest[lineId];
-    a.volume = 0.8;
+    a.volume = 0.8 * getVoVolume();
     setAudio(a);
 
     // Each play() owns exactly one published-start / published-end pair so
