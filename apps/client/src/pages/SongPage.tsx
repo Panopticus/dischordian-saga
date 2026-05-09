@@ -6,7 +6,6 @@ import { motion } from "framer-motion";
 import {
   ArrowLeft, Music, Play, ExternalLink, Users, Clock, Disc3, ChevronRight
 } from "lucide-react";
-import LyricsViewer from "@/components/LyricsViewer";
 import { CorruptibleBio } from "@/components/CorruptibleBio";
 import { usePageMeta } from "@/hooks/usePageMeta";
 
@@ -225,14 +224,6 @@ export default function SongPage() {
             </p>
           </motion.section>
         )}
-
-        {/* ═══ LYRICS & LORE ANNOTATIONS ═══ */}
-        <LyricsViewer
-          songName={entry.name}
-          albumName={entry.album}
-          artistName={entry.artist || "Malkia Ukweli & the Panopticon"}
-          charactersFeature={entry.characters_featured}
-        />
 
         {/* ═══ FEATURED CHARACTERS ═══ */}
         {characters.length > 0 && (

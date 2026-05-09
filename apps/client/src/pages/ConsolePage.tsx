@@ -14,10 +14,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Tv, Play, SkipBack, SkipForward, Maximize2, Minimize2,
   Map, Users, MapPin, Swords, Music, Clock, Search, Terminal,
-  Gamepad2, Trophy, Star, Shield, ChevronRight, ChevronLeft,
-  Disc3, Eye, Zap, Skull, BookOpen, Settings, Palette,
-  Lock, Unlock, X, ExternalLink, BarChart3, Newspaper,
-  Crosshair, Sparkles, Volume2, VolumeX, ChevronDown
+  Gamepad2, Trophy, Star, ChevronRight, ChevronLeft,
+  Disc3, Zap, BookOpen, Settings, Palette,
+  Lock, Unlock, X, ExternalLink, BarChart3,
+  Crosshair, Volume2, VolumeX, ChevronDown
 } from "lucide-react";
 
 /* ─── TYPES ─── */
@@ -31,7 +31,7 @@ interface MediaItem {
   album?: string;
 }
 
-type ConsolePanel = "media" | "timeline" | "lore" | "combat" | "trophies" | "themes" | "doom";
+type ConsolePanel = "media" | "timeline" | "lore" | "combat" | "trophies" | "themes";
 
 /* ─── ALBUM DATA ─── */
 const ALBUM_ORDER = [
@@ -179,7 +179,6 @@ export default function ConsolePage() {
     { id: "timeline", label: "TIMELINE", icon: Clock, color: "#a855f7" },
     { id: "trophies", label: "TROPHIES", icon: Trophy, color: "#eab308" },
     { id: "themes", label: "ARK THEMES", icon: Palette, color: "var(--energy-success)" },
-    { id: "doom", label: "DOOM SCROLL", icon: Newspaper, color: "#f97316" },
   ];
 
   /* ═══ RENDER ═══ */
@@ -764,7 +763,6 @@ export default function ConsolePage() {
                 </motion.div>
               )}
 
-              {activePanel === "doom" && <DoomScrollPanel theme={theme} />}
             </AnimatePresence>
           </div>
 
@@ -905,223 +903,3 @@ export default function ConsolePage() {
   );
 }
 
-/* ═══════════════════════════════════════════════════════
-   DOOM SCROLL PANEL — LLM-powered apocalyptic news feed
-   ═══════════════════════════════════════════════════════ */
-const SEVERITY_COLORS = ["var(--energy-success)", "#eab308", "#f97316", "var(--energy-error)", "#dc2626"];
-const CATEGORY_ICONS: Record<string, typeof Skull> = {
-  ai_advance: Zap,
-  surveillance: Eye,
-  revelation: BookOpen,
-  collapse: Skull,
-  resistance: Shield,
-};
-const CATEGORY_COLORS: Record<string, string> = {
-  ai_advance: "#06b6d4",
-  surveillance: "#f97316",
-  revelation: "#a855f7",
-  collapse: "var(--energy-error)",
-  resistance: "var(--energy-success)",
-};
-const CATEGORY_LABELS: Record<string, string> = {
-  ai_advance: "AI ADVANCEMENT",
-  surveillance: "SURVEILLANCE STATE",
-  revelation: "BOOK OF REVELATIONS",
-  collapse: "SOCIETAL COLLAPSE",
-  resistance: "RESISTANCE MOVEMENT",
-};
-
-function DoomScrollPanel({ theme }: { theme: any }) {
-  const { data: stories, isLoading, error } = trpc.doomScroll.getStories.useQuery({ count: 12 });
-  const refreshMutation = trpc.doomScroll.refresh.useMutation();
-  const utils = trpc.useUtils();
-  const [expandedId, setExpandedId] = useState<string | null>(null);
-  const [filter, setFilter] = useState<string>("all");
-
-  const filteredStories = useMemo(() => {
-    if (!stories) return [];
-    if (filter === "all") return stories;
-    return stories.filter((s: any) => s.category === filter);
-  }, [stories, filter]);
-
-  const handleRefresh = async () => {
-    await refreshMutation.mutateAsync({ count: 12 });
-    utils.doomScroll.getStories.invalidate();
-  };
-
-  return (
-    <motion.div
-      key="doom"
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -10 }}
-    >
-      {/* Header */}
-      <div className="flex items-center justify-between mb-3">
-        <div className="flex items-center gap-2">
-          <Newspaper size={16} className="void-text-premium" />
-          <h3 className="font-display text-xs font-bold tracking-wider void-text-premium">DOOM SCROLL</h3>
-          <span className="font-mono text-[8px]" style={{ color: "color-mix(in oklch, var(--text-primary) 40%, transparent)" }}>CONFIRMING THE END TIMES</span>
-        </div>
-        <button
-          onClick={handleRefresh}
-          disabled={refreshMutation.isPending}
-          className="flex items-center gap-1.5 px-3 py-1 rounded font-mono text-[9px] transition-all hover:scale-105 disabled:opacity-50"
-          style={{ background: "#f9731620", color: "#f97316", border: "1px solid #f9731630" }}
-        >
-          {refreshMutation.isPending ? (
-            <><Sparkles size={10} className="animate-spin" /> GENERATING...</>
-          ) : (
-            <><Sparkles size={10} /> REFRESH FEED</>
-          )}
-        </button>
-      </div>
-
-      {/* Category filters */}
-      <div className="flex flex-wrap gap-1.5 mb-4">
-        <button
-          onClick={() => setFilter("all")}
-          className="px-2 py-1 rounded font-mono text-[9px] transition-all"
-          style={{
-            background: filter === "all" ? "#f9731620" : theme.panel,
-            color: filter === "all" ? "#f97316" : theme.text + "60",
-            border: `1px solid ${filter === "all" ? "#f9731640" : "transparent"}`,
-          }}
-        >
-          ALL
-        </button>
-        {Object.entries(CATEGORY_LABELS).map(([key, label]) => {
-          const color = CATEGORY_COLORS[key];
-          return (
-            <button
-              key={key}
-              onClick={() => setFilter(key)}
-              className="px-2 py-1 rounded font-mono text-[9px] transition-all"
-              style={{
-                background: filter === key ? color + "20" : theme.panel,
-                color: filter === key ? color : theme.text + "60",
-                border: `1px solid ${filter === key ? color + "40" : "transparent"}`,
-              }}
-            >
-              {label}
-            </button>
-          );
-        })}
-      </div>
-
-      {/* Loading state */}
-      {isLoading && (
-        <div className="space-y-3">
-          {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="rounded-lg p-4 animate-pulse" style={{ background: theme.panel }}>
-              <div className="h-3 rounded w-3/4 mb-2" style={{ background: theme.secondary }} />
-              <div className="h-2 rounded w-full mb-1" style={{ background: theme.secondary }} />
-              <div className="h-2 rounded w-2/3" style={{ background: theme.secondary }} />
-            </div>
-          ))}
-        </div>
-      )}
-
-      {/* Error state */}
-      {error && (
-        <div className="rounded-lg p-4 text-center" style={{ background: theme.panel, border: "1px solid var(--energy-error)30" }}>
-          <Skull size={24} className="mx-auto mb-2 void-text-error" />
-          <p className="font-mono text-[10px] void-text-error">TRANSMISSION INTERRUPTED</p>
-          <p className="font-mono text-[9px] mt-1" style={{ color: "color-mix(in oklch, var(--text-primary) 50%, transparent)" }}>Failed to receive doom feed. Try refreshing.</p>
-        </div>
-      )}
-
-      {/* Stories */}
-      {!isLoading && !error && (
-        <div className="space-y-2">
-          {filteredStories.map((story: any, idx: number) => {
-            const CatIcon = CATEGORY_ICONS[story.category] || Newspaper;
-            const catColor = CATEGORY_COLORS[story.category] || "#f97316";
-            const sevColor = SEVERITY_COLORS[Math.min(story.severity - 1, 4)];
-            const expanded = expandedId === story.id;
-
-            return (
-              <motion.div
-                key={story.id}
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: idx * 0.05 }}
-                onClick={() => setExpandedId(expanded ? null : story.id)}
-                className="rounded-lg p-3 cursor-pointer transition-all hover:scale-[1.01]"
-                style={{
-                  background: expanded ? catColor + "10" : theme.panel,
-                  border: `1px solid ${expanded ? catColor + "30" : theme.primary + "10"}`,
-                }}
-              >
-                {/* Top row: severity + category + source */}
-                <div className="flex items-center gap-2 mb-1.5">
-                  {/* Severity dots */}
-                  <div className="flex gap-0.5">
-                    {Array.from({ length: 5 }).map((_, i) => (
-                      <div
-                        key={i}
-                        className="w-1.5 h-1.5 rounded-full"
-                        style={{ background: i < story.severity ? sevColor : theme.secondary }}
-                      />
-                    ))}
-                  </div>
-                  <CatIcon size={10} style={{ color: catColor }} />
-                  <span className="font-mono text-[8px] tracking-wider" style={{ color: catColor }}>
-                    {CATEGORY_LABELS[story.category] || story.category.toUpperCase()}
-                  </span>
-                  <span className="font-mono text-[8px] ml-auto" style={{ color: "color-mix(in oklch, var(--text-primary) 35%, transparent)" }}>{story.source}</span>
-                </div>
-
-                {/* Headline */}
-                <h4 className="font-display text-xs font-bold leading-tight mb-1" style={{ color: expanded ? catColor : "#ffffff", textShadow: expanded ? `0 0 10px ${catColor}60` : "0 0 8px color-mix(in oklch, var(--text-primary) 15%, transparent)" }}>
-                  {story.headline}
-                </h4>
-
-                {/* Summary (always visible) */}
-                <p className="font-mono text-[10px] leading-relaxed" style={{ color: "color-mix(in oklch, var(--text-primary) 75%, transparent)" }}>
-                  {story.summary}
-                </p>
-
-                {/* Expanded: Saga connection */}
-                <AnimatePresence>
-                  {expanded && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      className="overflow-hidden"
-                    >
-                      <div className="mt-2 pt-2" style={{ borderTop: `1px dashed ${catColor}30` }}>
-                        <div className="flex items-center gap-1.5 mb-1">
-                          <Crosshair size={9} style={{ color: theme.primary }} />
-                          <span className="font-mono text-[8px] tracking-wider" style={{ color: theme.primary }}>SAGA CONNECTION</span>
-                        </div>
-                        <p className="font-mono text-[10px] leading-relaxed" style={{ color: theme.primary + "cc" }}>
-                          {story.sagaConnection}
-                        </p>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-
-                {/* Timestamp */}
-                <p className="font-mono text-[8px] mt-1.5" style={{ color: "color-mix(in oklch, var(--text-primary) 30%, transparent)" }}>
-                  {new Date(story.timestamp).toLocaleString()}
-                </p>
-              </motion.div>
-            );
-          })}
-        </div>
-      )}
-
-      {/* Auto-refresh timer */}
-      {!isLoading && stories && stories.length > 0 && (
-        <div className="mt-4 pt-3 text-center" style={{ borderTop: `1px solid ${theme.primary}10` }}>
-          <p className="font-mono text-[8px]" style={{ color: "color-mix(in oklch, var(--text-primary) 30%, transparent)" }}>
-            Feed auto-refreshes every 5 minutes. Click REFRESH FEED for new transmissions.
-          </p>
-        </div>
-      )}
-    </motion.div>
-  );
-}

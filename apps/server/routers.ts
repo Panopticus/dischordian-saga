@@ -2,7 +2,6 @@ import { COOKIE_NAME } from "@shared/const";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
-import { generateDoomStories, refreshDoomStories } from "./doomScroll";
 import { z } from "zod";
 import { getDb } from "./db";
 import { userAchievements, userProgress } from "../db/schema";
@@ -18,7 +17,6 @@ import { memoryEnergyRouter } from "./routers/memoryEnergy";
 import { storeRouter } from "./routers/store";
 import { iapReceiptRouter } from "./routers/iapReceipt";
 import { elaraRouter } from "./routers/elara";
-import { lyricsRouter } from "./routers/lyrics";
 import { gameStateRouter } from "./routers/gameState";
 import { diplomacyRouter } from "./routers/diplomacy";
 import { loyaltyMissionRouter } from "./routers/loyaltyMission";
@@ -189,7 +187,6 @@ export const appRouter = router({
   store: storeRouter,
   iapReceipt: iapReceiptRouter,
   elara: elaraRouter,
-  lyrics: lyricsRouter,
   gameState: gameStateRouter,
   diplomacy: diplomacyRouter,
   loyaltyMission: loyaltyMissionRouter,
@@ -341,22 +338,6 @@ export const appRouter = router({
         success: true,
       } as const;
     }),
-  }),
-
-  // Doom Scroll news feed
-  doomScroll: router({
-    getStories: publicProcedure
-      .input(z.object({ count: z.number().min(1).max(30).optional() }).optional())
-      .query(async ({ input }) => {
-        const count = input?.count ?? 12;
-        return generateDoomStories(count);
-      }),
-    refresh: publicProcedure
-      .input(z.object({ count: z.number().min(1).max(30).optional() }).optional())
-      .mutation(async ({ input }) => {
-        const count = input?.count ?? 12;
-        return refreshDoomStories(count);
-      }),
   }),
 
   // Gamification - save/load progress
