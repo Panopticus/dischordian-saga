@@ -9,6 +9,7 @@
    real-time lip sync via wawa-lipsync.
    ═══════════════════════════════════════════════════════ */
 import { useRef, useState, useCallback, useEffect } from "react";
+import { getVoVolume } from "@/lib/streamerSettings";
 import {
   claimActiveVo,
   releaseActiveVo,
@@ -100,7 +101,7 @@ export function useNpcVO(key: string, loader: ManifestLoader): NpcVoApi {
     const a = new Audio();
     a.crossOrigin = "anonymous";
     a.src = url;
-    a.volume = 0.8;
+    a.volume = 0.8 * getVoVolume();
     setAudio(a);
 
     // Balance the global VO-ducking refcount across this play() — see

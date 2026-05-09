@@ -28,6 +28,22 @@ export interface SongCinematicVideoProps {
    * component just calls `onEnd`.
    */
   onVideoError?: () => void;
+  /**
+   * audit/16 PR 6 (Strm6) — chapter telegraph for streamers.
+   *
+   * Optional cinematic-chapter title rendered as a small badge in
+   * the corner so spectators (and post-stream VOD viewers) can
+   * orient themselves: "Act 3 · Chapter II — The Crystal Decryption".
+   * Pre-roll card uses `title` (the song name); this is a
+   * persistent secondary label that stays visible during playback.
+   */
+  chapterTitle?: string;
+  /**
+   * Optional stable id for the chapter — used by VOD-export
+   * tooling (Strm7, queued separately) to write chapter markers
+   * into the MP4 metadata. Ignored if `chapterTitle` is unset.
+   */
+  chapterId?: string;
 }
 
 const TITLE_HOLD_MS = 1200;
@@ -39,6 +55,8 @@ export default function SongCinematicVideo({
   dismissible = true,
   onEnd,
   onVideoError,
+  chapterTitle,
+  chapterId,
 }: SongCinematicVideoProps) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -106,6 +124,20 @@ export default function SongCinematicVideo({
         <div className="absolute top-4 right-4 z-10">
           <span className="font-mono text-[10px] text-white/30 uppercase tracking-wider">
             tap to skip
+          </span>
+        </div>
+      )}
+
+      {/* audit/16 PR 6 (Strm6) — chapter telegraph card. Persistent
+          corner badge so spectators can orient mid-playback. */}
+      {chapterTitle && (
+        <div
+          className="absolute top-4 left-4 z-10 pointer-events-none"
+          data-testid="cinematic-chapter-badge"
+          data-chapter-id={chapterId}
+        >
+          <span className="font-mono text-[10px] text-white/40 uppercase tracking-[0.25em] bg-black/40 backdrop-blur-sm px-2 py-1 rounded-sm border border-white/10">
+            {chapterTitle}
           </span>
         </div>
       )}

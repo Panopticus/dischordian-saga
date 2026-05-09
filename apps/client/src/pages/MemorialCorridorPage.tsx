@@ -24,6 +24,7 @@ import { motion } from "framer-motion";
 import { Link } from "wouter";
 import { useGame } from "@/contexts/GameContext";
 import { MobileNarratorSlot } from "@/components/MobileNarratorSlot";
+import { useNarrativeAnimSpeed } from "@/hooks/useStreamerSettings";
 
 interface MemorialEntry {
   id: string;
@@ -89,6 +90,11 @@ export default function MemorialCorridorPage() {
   const humanBond = state.humanTrustLevel ?? 0;
   const maxBond = Math.max(elaraBond, humanBond);
   const unlocked = maxBond >= TRUST_GATE;
+  // audit/16 PR 6 (Strm4) — streamer-configurable narrative pacing.
+  // Divides the framer-motion durations + delays so 2.0× makes
+  // animations twice as fast (better for short-form video) and 0.5×
+  // makes them half-speed (better for VO conflict avoidance).
+  const animSpeed = useNarrativeAnimSpeed().value;
 
   const memorials = readMemorials(state);
   const [remembered, setRemembered] = useState<ReadonlySet<string>>(new Set());
@@ -138,7 +144,7 @@ export default function MemorialCorridorPage() {
         <motion.header
           initial={{ opacity: 0, y: -4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.5 / animSpeed }}
           className="mb-12"
         >
           <p className="font-mono text-[10px] uppercase tracking-[0.3em] void-text-muted">
@@ -161,7 +167,7 @@ export default function MemorialCorridorPage() {
                 key={entry.id}
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.12, duration: 0.5 }}
+                transition={{ delay: (i * 0.12) / animSpeed, duration: 0.5 / animSpeed }}
                 className="border-l void-border pl-5"
                 data-remembered={isRemembered ? "true" : "false"}
                 data-testid={`memorial-${entry.id}`}
