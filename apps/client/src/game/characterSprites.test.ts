@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   CHARACTER_SPRITES,
   getCharacterSprite,
+  getMouthCalibration,
 } from "./characterSprites";
 
 describe("characterSprites registry", () => {
@@ -57,6 +58,54 @@ describe("characterSprites registry", () => {
       if (sprite.viseme) {
         expect(sprite.viseme.url).toMatch(/^https:\/\/dgrsart\.s3\..*\/cdn\/client-public\/characters\//);
       }
+    }
+  });
+});
+
+describe("getMouthCalibration (audit/16 PR 13 Cos3)", () => {
+  it("returns null for unknown NPCs", () => {
+    expect(getMouthCalibration("not_a_real_npc")).toBeNull();
+  });
+
+  it("returns a populated record for every registered sprite", () => {
+    for (const id of Object.keys(CHARACTER_SPRITES)) {
+      const calibration = getMouthCalibration(id);
+      expect(calibration, `${id} returned null`).not.toBeNull();
+      expect(calibration!.npcId).toBe(id);
+    }
+  });
+
+  it("populates visemeSheet when a viseme is wired", () => {
+    const elara = getMouthCalibration("elara");
+    expect(elara?.visemeSheet?.cols).toBeGreaterThan(0);
+    expect(elara?.visemeSheet?.rows).toBeGreaterThan(0);
+    expect(typeof elara?.visemeSheet?.url).toBe("string");
+  });
+
+  it("populates mouthBox when visemeOverlay is true", () => {
+    for (const id of Object.keys(CHARACTER_SPRITES)) {
+      const calibration = getMouthCalibration(id)!;
+      if (calibration.visemeOverlay) {
+        expect(calibration.mouthBox, `${id} overlay w/o mouthBox`).not.toBeNull();
+        expect(calibration.mouthBox!.x).toBeGreaterThanOrEqual(0);
+        expect(calibration.mouthBox!.x).toBeLessThanOrEqual(1);
+      }
+    }
+  });
+
+  it("normalizes hyphenated / cased ids (matches getCharacterSprite)", () => {
+    const a = getMouthCalibration("the_human");
+    const b = getMouthCalibration("The Human");
+    const c = getMouthCalibration("the-human");
+    expect(a?.npcId).toBe(b?.npcId);
+    expect(b?.npcId).toBe(c?.npcId);
+  });
+
+  it("hasHyperViseme reflects sprite.visemeHyper presence", () => {
+    for (const id of Object.keys(CHARACTER_SPRITES)) {
+      const sprite = CHARACTER_SPRITES[id];
+      const calibration = getMouthCalibration(id)!;
+      expect(calibration.hasHyperViseme).toBe(Boolean(sprite!.visemeHyper));
     }
   });
 });

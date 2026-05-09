@@ -144,6 +144,18 @@ export interface HumanRevealStage {
   maxTrust: number;
   imageUrl: string;
   description: string;
+  /**
+   * audit/16 PR 13 (finding Cos7 — Cosplay persona).
+   *
+   * Cosplay-specific guidance for reproducing this reveal
+   * stage. The signal-static / signal-ghost progression is
+   * one of the most-cosplayed visual sequences in the saga
+   * but pre-audit had no production guidance — cosplayers
+   * had to reverse-engineer the mask/static effect from the
+   * shipping image. This field documents the spine each
+   * cosplayer should target at this stage.
+   */
+  cosplayGuidance?: string;
 }
 
 export const HUMAN_REVEAL_STAGES: HumanRevealStage[] = [
@@ -153,6 +165,8 @@ export const HUMAN_REVEAL_STAGES: HumanRevealStage[] = [
     minTrust: 0, maxTrust: 9,
     imageUrl: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775534568/signal-static_rgwpso.jpg",
     description: "Pure interference. A corrupted signal with no discernible form.",
+    cosplayGuidance:
+      "Full-face static-noise mask. Cosplayers achieve this with a translucent veil printed with broadcast-noise grain + a back-light from a phone screen. The effect should fully obscure facial features — at this stage, the character HAS no face.",
   },
   {
     id: "signal-ghost",
@@ -160,6 +174,8 @@ export const HUMAN_REVEAL_STAGES: HumanRevealStage[] = [
     minTrust: 10, maxTrust: 19,
     imageUrl: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775534569/signal-ghost_m8sg2m.jpg",
     description: "A silhouette bleeds through the static. Something is there.",
+    cosplayGuidance:
+      "Silhouette emerging through static. A two-layer mask — silhouette underneath, static-noise gauze on top, just sheer enough that the head shape is readable but no individual feature resolves. The viewer should feel the presence of a face without being able to name a single feature.",
   },
   {
     id: "signal-fragment",
@@ -167,6 +183,8 @@ export const HUMAN_REVEAL_STAGES: HumanRevealStage[] = [
     minTrust: 20, maxTrust: 39,
     imageUrl: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775534570/signal-fragment_k0qk9m.jpg",
     description: "Features emerging through heavy scanlines. A face, almost.",
+    cosplayGuidance:
+      "Heavy scanline overlay on resolved face. The face is now visible — use the same makeup as full-reveal The Human — but covered with a horizontal-scanline mesh (printed silk works; black string mesh works). The eyes should still be lost in the red wash, so amber/red contact lenses + lower-lid red wash.",
   },
   {
     id: "signal-convergence",
@@ -174,6 +192,8 @@ export const HUMAN_REVEAL_STAGES: HumanRevealStage[] = [
     minTrust: 40, maxTrust: 49,
     imageUrl: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775534568/signal-convergence_zvkve1.jpg",
     description: "Nearly resolved. Eyes still lost in the red wash. Who is this?",
+    cosplayGuidance:
+      "Almost-fully-resolved face with persistent eye obscurement. Drop the scanline mesh; keep the red wash on the eyes. The cosplay reads as a complete-but-uncanny face — the viewer wants to ask 'who is this?' and the answer is deliberately withheld until the trust ≥ 50 full reveal.",
   },
 ];
 

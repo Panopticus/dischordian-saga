@@ -375,3 +375,69 @@ export function getCharacterSprite(npcId: string): CharacterSprite | null {
   const key = npcId.toLowerCase().replace(/[- ]/g, "_");
   return CHARACTER_SPRITES[key] ?? null;
 }
+
+/* ─── audit/16 PR 13 (Cos3 — Cosplay persona) ───────────
+   Mouth-calibration JSON export. The viseme + mouthBox
+   composition logic lives buried in this module's
+   inline comments. Cosplayers who want to reproduce the
+   speaking-head effect (and the audit'd `?debug-mouthbox=1`
+   debug flag) need a portable JSON description per NPC.
+
+   getMouthCalibration(npcId) returns the public-safe shape
+   of that data — viseme cell layout + mouthBox position +
+   the wawa viseme map. Consumers (the public-facing
+   /characters/<id>/mouth-calibration.json route, queued
+   for the M-stage UI PR) serialize this directly.
+   ──────────────────────────────────────────────────────── */
+
+export interface MouthCalibrationExport {
+  npcId: string;
+  /** Whether this NPC has a mouth-only viseme sheet that
+   *  composites on top of the bust (the modern overlay
+   *  pattern) vs. a full-face viseme grid (legacy). */
+  visemeOverlay: boolean;
+  /** Mouth-box position as fractions of the bust's
+   *  width/height. Required when visemeOverlay is true;
+   *  null otherwise. */
+  mouthBox: MouthBox | null;
+  /** Cell layout of the viseme sheet — null when no
+   *  viseme sheet is wired for this NPC. cols × rows is
+   *  the row-major grid; consumers compute per-cell size
+   *  from the sheet image's natural dimensions. */
+  visemeSheet: {
+    url: string;
+    cols: number;
+    rows: number;
+    frames: number | null;
+  } | null;
+  /** Wawa-viseme → cell-index map. */
+  visemeMap: Readonly<VisemeMap> | null;
+  /** True when this NPC has a hyperviseme sheet for the
+   *  per-line revelatory beats (Shadow Tongue's open-vowel
+   *  jaw, etc.) — cosplayers can ignore when reproducing
+   *  the standard lip-sync. */
+  hasHyperViseme: boolean;
+}
+
+export function getMouthCalibration(
+  npcId: string,
+): MouthCalibrationExport | null {
+  const sprite = getCharacterSprite(npcId);
+  if (!sprite) return null;
+  const sheet = sprite.viseme;
+  return {
+    npcId: sprite.id,
+    visemeOverlay: Boolean(sprite.visemeOverlay),
+    mouthBox: sprite.mouthBox ?? null,
+    visemeSheet: sheet
+      ? {
+          url: sheet.url,
+          cols: sheet.cols,
+          rows: sheet.rows,
+          frames: sheet.frames ?? null,
+        }
+      : null,
+    visemeMap: sheet?.map ?? null,
+    hasHyperViseme: Boolean(sprite.visemeHyper),
+  };
+}

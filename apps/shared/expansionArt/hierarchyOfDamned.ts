@@ -29,6 +29,25 @@ export interface HierarchyOfDamnedArtEntry {
   rarity: HierarchyOfDamnedRarity;
   /** Path relative to apps/client/public, suitable for assetUrl(). */
   relPath: string;
+  /**
+   * audit/16 PR 13 (finding Cos6 — Cosplay persona).
+   *
+   * Optional taxonomy field for the wearable-suit cosplay
+   * crosswalk. The S2 expansion's character cards depict
+   * NPCs in faction-specific corporate attire; this field
+   * names the suit silhouette so cosplayers can find the
+   * matching set in apps/shared/suitArtPrompts.ts via
+   * `relatedSuitSetId`.
+   *
+   * Most cards leave this undefined (the card is a portrait,
+   * not a suit reference). Authors set this on cards that
+   * a cosplayer would build a costume from.
+   */
+  cardType?: "character" | "spell" | "structure" | "item";
+  /** Suit-set id that matches the card's depicted attire.
+   *  Cross-references apps/shared/suitArtPrompts.ts (the
+   *  cosplay-prompt registry). null when not applicable. */
+  relatedSuitSetId?: string;
 }
 
 const PRODUCER_TO_RARITY: Record<string, HierarchyOfDamnedRarity> = {
