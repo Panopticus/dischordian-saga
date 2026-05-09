@@ -36,7 +36,8 @@ import {
   playPazaak21, playHighLow, playScratchCard, playLiarsDice, playDreamRoulette,
   playCardBattlersGauntlet, playFactionWarBet, playVoidBingo, playVoidCase,
   scoreMahjongRun,
-  validateBet, vipLevelFor, vipWinBonus, MAX_DAILY_WAGER,
+  validateBet, vipLevelFor, vipWinBonus, MAX_DAILY_WAGER, MAX_DAILY_NET_LOSS,
+  MAX_DAILY_VOID_CASES, isFreeToPlayGame,
   ROULETTE_FACTIONS, GAME_LIMITS, splitJackpotPool, rewardsForAchievement,
   getCasinoCosmetic,
   type RouletteFaction,
@@ -265,6 +266,27 @@ async function computeFactionWarOdds(db: DbLike): Promise<Record<string, number>
   };
 }
 
+/**
+ * audit/16 GA11 — global session-level rate limiter for the casino.
+ *
+ * Per-procedure limits (e.g. playVoidSlots: 30/min) cap any single
+ * game's throughput, but a determined user could still sustain
+ * 30 * 14_games = 420 actions/min by interleaving across all
+ * casino procedures. The harm-reduction audit calls for a
+ * cross-game cap.
+ *
+ * This middleware uses the same windowMs/max tuple across every
+ * play* procedure, so all of them share the same per-user bucket
+ * (the bucket key includes windowMs+max — see procedureRateLimit
+ * for details). 60 actions/minute cross-game is well above
+ * normal play (~20 actions/min sustained even on slot spam) and
+ * cuts off the bot/macro abuse path cleanly.
+ */
+const globalCasinoSessionLimit = procedureRateLimit({
+  windowMs: 60_000,
+  max: 60,
+});
+
 /** Convert the Date → YYYY-MM-DD so we can reset daily counters. */
 function todayString(): string {
   const d = new Date();
@@ -284,9 +306,24 @@ async function ensureCasinoState(db: DbLike, userId: number) {
     if (existing.dailyCounterDate !== today) {
       await db
         .update(casinoState)
-        .set({ dailyWagered: 0, dailyCounterDate: today, freeSpinsLeft: 3 })
+        .set({
+          dailyWagered: 0,
+          // audit/16 GA4 + GA2 — reset harm-reduction daily counters
+          // alongside the existing wager + free-spins reset.
+          dailyLost: 0,
+          dailyVoidCasesOpened: 0,
+          dailyCounterDate: today,
+          freeSpinsLeft: 3,
+        })
         .where(eq(casinoState.userId, userId));
-      return { ...existing, dailyWagered: 0, dailyCounterDate: today, freeSpinsLeft: 3 };
+      return {
+        ...existing,
+        dailyWagered: 0,
+        dailyLost: 0,
+        dailyVoidCasesOpened: 0,
+        dailyCounterDate: today,
+        freeSpinsLeft: 3,
+      };
     }
     return existing;
   }
@@ -336,6 +373,24 @@ async function executeGame(
     // Enforce daily wager cap (free-to-play games bypass)
     if (bet > 0 && state.dailyWagered + bet > MAX_DAILY_WAGER) {
       throw new Error(`Daily wager cap reached (${MAX_DAILY_WAGER} Dream/day)`);
+    }
+    // audit/16 GA4 — enforce daily net-loss cap. If the player has
+    // already lost MAX_DAILY_NET_LOSS Dream today across all paid
+    // games, block any further paid play until UTC midnight. The cap
+    // is on NET losses (cumulative bet - winnings), so winning hands
+    // erode the counter back down. Free-to-play games bypass.
+    if (
+      bet > 0 &&
+      !isFreeToPlayGame(game) &&
+      state.dailyLost >= MAX_DAILY_NET_LOSS
+    ) {
+      const err = new Error(
+        `Daily loss limit reached (${MAX_DAILY_NET_LOSS} Dream/day net). The casino is closed for you until UTC midnight. Free-to-play games still work.`,
+      );
+      // Tag with a code so client UI can surface the harm-reduction
+      // barrier modal cleanly instead of a raw toast.
+      (err as Error & { code?: string }).code = "CASINO_DAILY_LOSS_CAP";
+      throw err;
     }
 
     if (bet > 0 && !opts.skipBetDeduction) {
@@ -401,6 +456,12 @@ async function executeGame(
       : previousTales;
 
     const newTotalWagered = state.totalWagered + bet;
+    // audit/16 GA4 — track net loss for the daily loss cap. Free-to-play
+    // games never feed this counter; winning hands subtract from it
+    // (clamped at 0) so the counter reflects current pain rather than
+    // gross volume.
+    const netLossDelta = isFreeToPlayGame(game) ? 0 : bet - finalPayout;
+    const newDailyLost = Math.max(0, state.dailyLost + netLossDelta);
     const updates = {
       totalWagered: newTotalWagered,
       totalWon: state.totalWon + finalPayout,
@@ -412,6 +473,7 @@ async function executeGame(
       totalBetsPlaced: state.totalBetsPlaced + 1,
       vipLevel: vipLevelFor(newTotalWagered),
       dailyWagered: state.dailyWagered + bet,
+      dailyLost: newDailyLost,
       gamesPlayed: gamesPlayedNext,
       gamesWon: gamesWonNext,
       consecutiveFactionWins: newConsecutiveFactionWins,
@@ -633,6 +695,7 @@ export const casinoRouter = router({
   /** Void Slots — 3 reels, bet multiplied by match tier. */
   playVoidSlots: protectedProcedure
     .use(checkFeatureFlag("casino"))
+    .use(globalCasinoSessionLimit)
     .use(procedureRateLimit({ windowMs: 60_000, max: 30 }))
     .input(z.object({ bet: z.number().min(1).max(1000) }))
     .mutation(async ({ ctx, input }) => {
@@ -644,6 +707,7 @@ export const casinoRouter = router({
   /** Entropy Dice — 2d6 over/under/exact. */
   playEntropyDice: protectedProcedure
     .use(checkFeatureFlag("casino"))
+    .use(globalCasinoSessionLimit)
     .input(z.object({
       bet: z.number().min(1).max(1000),
       prediction: z.enum(["over", "under", "exact"]),
@@ -659,6 +723,7 @@ export const casinoRouter = router({
   /** Nebula Poker — 5-card draw against the Degen. Accepts indices to discard. */
   playNebulaPoker: protectedProcedure
     .use(checkFeatureFlag("casino"))
+    .use(globalCasinoSessionLimit)
     .input(z.object({
       bet: z.number().min(1).max(1000),
       discard: z.array(z.number().min(0).max(4)).max(3),
@@ -674,6 +739,7 @@ export const casinoRouter = router({
   /** Quantum Roulette — bet on one or more factions. */
   playQuantumRoulette: protectedProcedure
     .use(checkFeatureFlag("casino"))
+    .use(globalCasinoSessionLimit)
     .use(procedureRateLimit({ windowMs: 60_000, max: 30 }))
     .input(z.object({
       bet: z.number().min(1).max(1000),
@@ -691,6 +757,7 @@ export const casinoRouter = router({
   /** Pazaak 21 — draws until player stands at `stand` value. */
   playPazaak21: protectedProcedure
     .use(checkFeatureFlag("casino"))
+    .use(globalCasinoSessionLimit)
     .input(z.object({ bet: z.number().min(1).max(1000), stand: z.number().min(10).max(21) }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
@@ -703,6 +770,7 @@ export const casinoRouter = router({
   /** High/Low — sequence of higher/lower guesses. */
   playHighLow: protectedProcedure
     .use(checkFeatureFlag("casino"))
+    .use(globalCasinoSessionLimit)
     .input(z.object({
       bet: z.number().min(1).max(1000),
       guesses: z.array(z.enum(["high", "low"])).min(1).max(10),
@@ -718,6 +786,7 @@ export const casinoRouter = router({
   /** Scratch Cards — fixed 10 Dream cost. */
   playScratchCard: protectedProcedure
     .use(checkFeatureFlag("casino"))
+    .use(globalCasinoSessionLimit)
     .mutation(async ({ ctx }) => {
       const db = await getDb();
       if (!db) throw new Error("DB unavailable");
@@ -727,6 +796,7 @@ export const casinoRouter = router({
   /** Void Blackjack Tournament — bracket of pazaak21 hands. */
   playVoidBlackjackTournament: protectedProcedure
     .use(checkFeatureFlag("casino"))
+    .use(globalCasinoSessionLimit)
     .input(z.object({ bet: z.number().min(50).max(500), stand: z.number().min(10).max(21).default(17) }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
@@ -750,6 +820,7 @@ export const casinoRouter = router({
   /** Liar's Dice — single round vs NPC. */
   playLiarsDice: protectedProcedure
     .use(checkFeatureFlag("casino"))
+    .use(globalCasinoSessionLimit)
     .input(z.object({ bet: z.number().min(20).max(200), call: z.enum(["trust", "liar"]) }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
@@ -773,6 +844,7 @@ export const casinoRouter = router({
    *  current war state; the client only picks which market to bet on. */
   playFactionWarBet: protectedProcedure
     .use(checkFeatureFlag("casino"))
+    .use(globalCasinoSessionLimit)
     .use(procedureRateLimit({ windowMs: 60_000, max: 30 }))
     .input(z.object({
       bet: z.number().min(10).max(1000),
@@ -794,6 +866,7 @@ export const casinoRouter = router({
   /** Dream Roulette — 6 rounds survival. */
   playDreamRoulette: protectedProcedure
     .use(checkFeatureFlag("casino"))
+    .use(globalCasinoSessionLimit)
     .input(z.object({ bet: z.number().min(25).max(300) }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
@@ -806,6 +879,7 @@ export const casinoRouter = router({
   /** Card Battler's Gauntlet — best-of-3 coin flips. */
   playCardBattlersGauntlet: protectedProcedure
     .use(checkFeatureFlag("casino"))
+    .use(globalCasinoSessionLimit)
     .input(z.object({ bet: z.number().min(30).max(250) }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
@@ -818,15 +892,18 @@ export const casinoRouter = router({
   /** Void Bingo — free session. */
   playVoidBingo: protectedProcedure
     .use(checkFeatureFlag("casino"))
+    .use(globalCasinoSessionLimit)
     .mutation(async ({ ctx }) => {
       const db = await getDb();
       if (!db) throw new Error("DB unavailable");
       return executeGame(db, ctx.user.id, "void_bingo", 0, (rng) => playVoidBingo(rng));
     }),
 
-  /** Void Cases — purchase a case, respect pity timer. */
+  /** Void Cases — purchase a case, respect pity timer.
+   *  audit/16 GA2 — capped at MAX_DAILY_VOID_CASES per UTC day. */
   playVoidCase: protectedProcedure
     .use(checkFeatureFlag("casino"))
+    .use(globalCasinoSessionLimit)
     .input(z.object({ bet: z.number().min(50).max(500) }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
@@ -835,6 +912,16 @@ export const casinoRouter = router({
       // actual increment happens inside the transaction via afterHook.
       const state = await ensureCasinoState(db, ctx.user.id);
       const pity = state.casesSinceRarePlus;
+      // audit/16 GA2 — daily Void Cases cap. ensureCasinoState() already
+      // resets dailyVoidCasesOpened on UTC date roll; just enforce the
+      // ceiling here. Surfaces via the same harm-reduction barrier modal
+      // as the loss cap (CASINO_DAILY_LOSS_CAP path matches "Daily ...
+      // limit reached" message-prefix pattern in main.tsx).
+      if (state.dailyVoidCasesOpened >= MAX_DAILY_VOID_CASES) {
+        throw new Error(
+          `Daily Void Cases limit reached (${MAX_DAILY_VOID_CASES}/day). Resets at UTC midnight.`,
+        );
+      }
       return executeGame(
         db,
         ctx.user.id,
@@ -851,7 +938,10 @@ export const casinoRouter = router({
               detail.tier === "mythic";
             await tx
               .update(casinoState)
-              .set({ casesSinceRarePlus: rarePlus ? 0 : pity + 1 })
+              .set({
+                casesSinceRarePlus: rarePlus ? 0 : pity + 1,
+                dailyVoidCasesOpened: state.dailyVoidCasesOpened + 1,
+              })
               .where(eq(casinoState.userId, ctx.user.id));
           },
         },

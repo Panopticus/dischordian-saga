@@ -120,6 +120,23 @@ queryClient.getMutationCache().subscribe(event => {
     redirectToLoginIfUnauthorized(error);
     console.error("[API Mutation Error]", error);
     const info = humanizeTRPCError(error);
+    // audit/16 GA4 + GA2 — casino harm-reduction barrier. Detect the
+    // dedicated error messages from executeGame() / playVoidCase() and
+    // dispatch a CustomEvent so CasinoBarrierModal can render the
+    // harm-reduction explanation. Match by message-prefix because the
+    // server attaches a `code` on the Error but it doesn't survive the
+    // tRPC superjson serialization in all paths.
+    if (
+      info.path?.startsWith("casino.play") &&
+      (/Daily loss limit reached/i.test(info.message) ||
+        /Daily Void Cases limit reached/i.test(info.message))
+    ) {
+      window.dispatchEvent(
+        new CustomEvent("casino-barrier", { detail: { message: info.message } }),
+      );
+      // Skip the noisy default toast — barrier modal handles the surface.
+      return;
+    }
     if (shouldSurfaceMutationError(info.code)) {
       reportError(info.message, {
         description: info.description,

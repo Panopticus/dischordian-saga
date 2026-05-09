@@ -772,6 +772,21 @@ export function getCasinoCosmetic(id: string): CosmeticMeta | undefined {
 
 export const MAX_DAILY_WAGER = 5000;
 
+/** audit/16 GA4 — daily net-loss cap. Sum of `(bet - winnings)` across
+ *  all paid games in the UTC day; resets when dailyCounterDate rolls.
+ *  Free-to-play games (Void Bingo, Dischordian Mahjong — limits 0/0
+ *  below) bypass the cap. NCPG harm-reduction frameworks treat loss
+ *  caps as the single most effective tool against problem-gambling
+ *  bender behaviour. */
+export const MAX_DAILY_NET_LOSS = 1000;
+
+/** audit/16 GA2 — Void Cases per-day cap. The audit recommended
+ *  reducing the 20% house edge OR limiting volume; the volume cap
+ *  preserves the math (so existing odds disclosure stays accurate)
+ *  while gating the bender path. Resets at UTC midnight via
+ *  ensureCasinoState's daily-counter reset. */
+export const MAX_DAILY_VOID_CASES = 5;
+
 export interface BetLimits {
   min: number;
   max: number;
@@ -794,6 +809,15 @@ export const GAME_LIMITS: Record<string, BetLimits> = {
   void_cases:                { min: 50, max: 500 },
   dischordian_mahjong:       { min: 0,  max: 0   },
 };
+
+/** True iff the game has zero bet range — i.e. it's a free-to-play
+ *  social game (Void Bingo, Dischordian Mahjong) that does NOT count
+ *  toward the daily wager / loss caps (audit/16 GA4 + GA2). */
+export function isFreeToPlayGame(game: string): boolean {
+  const limits = GAME_LIMITS[game];
+  if (!limits) return false;
+  return limits.min === 0 && limits.max === 0;
+}
 
 export function validateBet(game: string, bet: number): { ok: true } | { ok: false; reason: string } {
   const limits = GAME_LIMITS[game];

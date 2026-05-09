@@ -141,7 +141,7 @@ export default function CasinoLeaderboardPage() {
   const leaderboardQuery = trpc.casino.jackpotLeaderboard.useQuery({ limit: 25 });
   const achievementBoardQuery = trpc.casino.achievementLeaderboard.useQuery({ limit: 10 });
   const firstClaimsQuery = trpc.casino.achievementFirstClaims.useQuery();
-  const poolQuery = trpc.casino.getJackpotPool.useQuery(undefined, { refetchInterval: 10_000 });
+  const poolQuery = trpc.casino.getJackpotPool.useQuery(undefined, { refetchInterval: 60_000 });
   const stateQuery = trpc.casino.getState.useQuery(undefined, { retry: false });
   const claimMut = trpc.casino.claimJackpot.useMutation({
     onSuccess: () => poolQuery.refetch(),
@@ -187,15 +187,10 @@ export default function CasinoLeaderboardPage() {
           <p className="font-mono text-xs void-text-accent uppercase tracking-widest mb-2">
             Progressive Jackpot Pool
           </p>
-          <motion.p
-            className="font-display text-5xl font-bold void-text-accent"
-            key={poolQuery.data?.balance}
-            initial={{ scale: 0.9 }}
-            animate={{ scale: 1 }}
-          >
+          <p className="font-display text-5xl font-bold void-text-accent">
             {(poolQuery.data?.balance ?? 0).toLocaleString()}
             <span className="text-2xl void-text-accent ml-2">DREAM</span>
-          </motion.p>
+          </p>
           {poolQuery.data?.lastWinnerId && (
             <p className="text-xs void-text-accent font-mono mt-2">
               Last paid out {poolQuery.data.lastWinAt ? new Date(poolQuery.data.lastWinAt).toLocaleDateString() : "—"}

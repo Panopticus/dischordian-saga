@@ -4662,6 +4662,13 @@ export const casinoState = mysqlTable("casino_state", {
   casesSinceRarePlus: int("casesSinceRarePlus").notNull().default(0),
   /** Daily wager accumulator (enforces MAX_DAILY_WAGER) */
   dailyWagered: int("dailyWagered").notNull().default(0),
+  /** Daily net-loss accumulator (enforces MAX_DAILY_NET_LOSS — audit/16
+   *  GA4 harm-reduction). bet - winnings summed across all paid games
+   *  in the UTC day; resets when dailyCounterDate rolls over. */
+  dailyLost: int("dailyLost").notNull().default(0),
+  /** Daily Void Cases opened (enforces 5/day limit — audit/16 GA2
+   *  harm-reduction). */
+  dailyVoidCasesOpened: int("dailyVoidCasesOpened").notNull().default(0),
   /** YYYY-MM-DD string used to reset daily counters */
   dailyCounterDate: varchar("dailyCounterDate", { length: 10 }),
   /** Unlocked cosmetic/title rewards from casino achievements — the

@@ -10,7 +10,7 @@ import {
   playFactionWarBet, playVoidBingo, playVoidCase,
   evaluatePokerHand,
   rollCraps, spinWheel, vipLevelFor, vipWinBonus, validateBet,
-  MAX_DAILY_WAGER, GAME_LIMITS,
+  MAX_DAILY_WAGER, MAX_DAILY_NET_LOSS, MAX_DAILY_VOID_CASES, GAME_LIMITS, isFreeToPlayGame,
   splitJackpotPool, JACKPOT_SEED_FRACTION, JACKPOT_MIN_SEED,
   rewardsForAchievement, getCasinoCosmetic,
   CASINO_ACHIEVEMENT_REWARDS, CASINO_COSMETIC_CATALOG,
@@ -589,5 +589,53 @@ describe("splitJackpotPool", () => {
     expect(payout).toBe(0);
     expect(retained).toBeGreaterThanOrEqual(JACKPOT_MIN_SEED - 1);
     expect(retained).toBeLessThanOrEqual(JACKPOT_MIN_SEED);
+  });
+});
+
+/* ─── audit/16 GA4 + GA2 — harm-reduction constants ─── */
+
+describe("MAX_DAILY_NET_LOSS (audit/16 GA4)", () => {
+  it("is set to 1000 Dream/day", () => {
+    expect(MAX_DAILY_NET_LOSS).toBe(1000);
+  });
+
+  it("is strictly less than MAX_DAILY_WAGER", () => {
+    // Loss cap should be tighter than wager cap; otherwise wager cap
+    // dominates and the loss cap never fires.
+    expect(MAX_DAILY_NET_LOSS).toBeLessThan(MAX_DAILY_WAGER);
+  });
+});
+
+describe("MAX_DAILY_VOID_CASES (audit/16 GA2)", () => {
+  it("is set to 5 cases/day", () => {
+    expect(MAX_DAILY_VOID_CASES).toBe(5);
+  });
+
+  it("preserves the documented Void Cases bet range", () => {
+    // GA2 chose volume cap over edge reduction so the published
+    // bet range stays accurate. Sanity-check that the bet range
+    // hasn't been silently widened.
+    expect(GAME_LIMITS.void_cases.min).toBe(50);
+    expect(GAME_LIMITS.void_cases.max).toBe(500);
+  });
+});
+
+describe("isFreeToPlayGame", () => {
+  it("returns true for void_bingo + dischordian_mahjong", () => {
+    expect(isFreeToPlayGame("void_bingo")).toBe(true);
+    expect(isFreeToPlayGame("dischordian_mahjong")).toBe(true);
+  });
+
+  it("returns false for paid games", () => {
+    expect(isFreeToPlayGame("void_slots")).toBe(false);
+    expect(isFreeToPlayGame("entropy_dice")).toBe(false);
+    expect(isFreeToPlayGame("nebula_poker")).toBe(false);
+    expect(isFreeToPlayGame("void_cases")).toBe(false);
+    expect(isFreeToPlayGame("faction_war_betting")).toBe(false);
+  });
+
+  it("returns false for unknown games (defensive default)", () => {
+    expect(isFreeToPlayGame("not_a_real_game")).toBe(false);
+    expect(isFreeToPlayGame("")).toBe(false);
   });
 });

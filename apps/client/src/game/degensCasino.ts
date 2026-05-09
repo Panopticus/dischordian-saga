@@ -381,7 +381,11 @@ export const CASINO_ACHIEVEMENTS: CasinoAchievementDef[] = [
   { id: "all_in", name: "All In", description: "Bet the maximum on any single game", threshold: 1, tier: "silver" },
   { id: "house_loses", name: "The House Loses", description: "Accumulate 10,000 Dream lifetime winnings", threshold: 10000, tier: "platinum" },
   { id: "degens_chosen", name: "The Degen's Chosen", description: "Win 10 games in a row", threshold: 10, tier: "legendary", unlockReward: "Golden Chip cosmetic + 'The Degen's Chosen' title" },
-  { id: "breaking_even", name: "Breaking Even", description: "Reach exactly 0 net profit/loss across 1,000 casino bets", threshold: 1000, tier: "legendary", hidden: true, unlockReward: "'The Equilibrium' title" },
+  // audit/16 GA10 — renamed from "Breaking Even" (and tightened
+  // copy) so the achievement stops reading as a chase-your-losses
+  // prompt. The id stays `breaking_even` for backwards-compat with
+  // already-earned rewards.
+  { id: "breaking_even", name: "Equilibrium Touched", description: "End at exactly 0 net across 1,000 casino bets — the chair the Degen keeps empty.", threshold: 1000, tier: "legendary", hidden: true, unlockReward: "'The Equilibrium' title" },
   { id: "liars_champion", name: "Liar's Champion", description: "Win 10 games of Liar's Dice", threshold: 10, tier: "gold" },
   { id: "tournament_winner", name: "Tournament Champion", description: "Win a Void Blackjack Tournament", threshold: 1, tier: "platinum" },
   { id: "bingo_caller", name: "Bingo!", description: "Win a Void Bingo session", threshold: 1, tier: "silver" },
