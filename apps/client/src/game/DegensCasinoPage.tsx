@@ -25,6 +25,11 @@ import { CasinoGamePanel, type CasinoGameResultPayload } from "./CasinoGamePanel
 import { CasinoBarrierModal } from "./CasinoBarrierModal";
 import { SessionInterruptModal } from "./SessionInterruptModal";
 import { useSessionTimer } from "@/hooks/useSessionTimer";
+import {
+  DegensFavorDisclosure,
+  DegensFavorHelpButton,
+  useDegenFavorDisclosure,
+} from "./DegensFavorDisclosure";
 import { HolidayDialogTicker } from "@/components/HolidayDialogTicker";
 import { trpc } from "@/lib/trpc";
 import { useGame } from "@/contexts/GameContext";
@@ -108,6 +113,11 @@ export default function DegensCasinoPage() {
   // at 2h (gated on ≥500D wagered today) / 4h / 6h. The
   // SessionInterruptModal listens and renders.
   useSessionTimer(casinoState.totalWagered);
+
+  // audit/16 GA8 — Degen's Favor transparency disclosure. Auto-
+  // opens once per device on first casino visit; help-icon button
+  // re-surfaces it on demand.
+  const favorDisclosure = useDegenFavorDisclosure();
 
   // Auto-dismiss loading screen after image loads + brief cinematic pause
   useEffect(() => {
@@ -267,6 +277,14 @@ export default function DegensCasinoPage() {
           and renders the take-a-break modal at 2h/4h/6h. */}
       <SessionInterruptModal />
 
+      {/* audit/16 GA8 — Degen's Favor transparency disclosure. Auto-
+          opens on first visit; on-demand via help-icon button beside
+          the favor display below. */}
+      <DegensFavorDisclosure
+        isOpen={favorDisclosure.isOpen}
+        onClose={favorDisclosure.close}
+      />
+
       {/* Casino Floor — environment background per area */}
       <div className="absolute inset-0 z-0 transition-opacity duration-700">
         <img
@@ -330,9 +348,10 @@ export default function DegensCasinoPage() {
             </span>
           )}
           {casinoState.degenFavor > 0 && (
-            <span className="void-text-accent">
-              Degen's Favor: {casinoState.degenFavor}/100
+            <span className="void-text-accent inline-flex items-center">
+              Degen&apos;s Favor: {casinoState.degenFavor}/100
               {favorMilestone && ` — ${favorMilestone.name}`}
+              <DegensFavorHelpButton onOpen={favorDisclosure.open} />
             </span>
           )}
         </div>
