@@ -96,13 +96,14 @@ export const resurrectionRouter = router({
     let obituaries = [...(state.obituaries ?? [])];
     const existingObituaryIds = new Set(obituaries.map((o) => o.id));
 
+    const carrySvc = await import("../services/crewLoredexCarryService");
     /** Helper — compose & dedupe an obituary for a given member. */
-    const ensureObituary = (
+    const ensureObituary = async (
       memberKey: string,
       missionName: string | undefined,
       now: number,
       resurrectionQuestId?: string,
-    ): boolean => {
+    ): Promise<boolean> => {
       const id = `obituary.${memberKey}`;
       if (existingObituaryIds.has(id)) return false;
       const member =
@@ -113,6 +114,18 @@ export const resurrectionRouter = router({
         .filter((m) => m.id !== memberKey)
         .map((m) => m.id)
         .slice(0, 8);
+      // Real per-member loredex carry count — replaces the old
+      // personalQuestStage proxy. Counted before the carry rows are
+      // memorialised so we capture the unread-at-death count.
+      let carriedUnreadCount = 0;
+      try {
+        carriedUnreadCount = await carrySvc.getCarriedUnreadCount(
+          ctx.user.id,
+          memberKey,
+        );
+      } catch {
+        // Carry tracking is best-effort; missing data → 0.
+      }
       try {
         const entry = composeObituary({
           member,
@@ -120,6 +133,7 @@ export const resurrectionRouter = router({
           missionName,
           resurrectionQuestId,
           now,
+          carriedUnreadCount,
         });
         obituaries = [...obituaries, entry];
         existingObituaryIds.add(id);
@@ -175,7 +189,7 @@ export const resurrectionRouter = router({
             q.killedMemberKey === eff.killedMemberKey,
         );
         if (
-          ensureObituary(
+          await ensureObituary(
             eff.killedMemberKey,
             undefined,
             eff.diedAtMs,
@@ -185,13 +199,28 @@ export const resurrectionRouter = router({
           drained++;
         }
       } else if (eff.kind === "apprentice_obituary") {
-        if (ensureObituary(eff.deceasedMemberKey, undefined, eff.diedAtMs)) {
+        if (await ensureObituary(eff.deceasedMemberKey, undefined, eff.diedAtMs)) {
           drained++;
+        }
+      } else if (eff.kind === "carry_memorial_sweep") {
+        // Stamp memorialAtCycle on every unread loredex carry row for
+        // the dead member. The entries become memorial-only — readable
+        // from the Memorial Wall but gated out of the main loredex.
+        try {
+          await carrySvc.markMemorialOnDeath(
+            ctx.user.id,
+            eff.deceasedMemberKey,
+            eff.deathCycle,
+          );
+          drained++;
+        } catch (err) {
+          // Don't block the drain on a memorial-sweep failure.
+          // The unread rows stay un-memorialised; another tick can retry.
         }
       } else if (eff.kind === "mourning_sweep") {
         // Compose the deceased's obituary too — recruited NPCs without an
         // open_resurrection_quest still leave an entry behind.
-        ensureObituary(eff.deceasedMemberKey, undefined, eff.diedAtMs);
+        await ensureObituary(eff.deceasedMemberKey, undefined, eff.diedAtMs);
         // Build mourning remarks. Speakers come from two pools:
         //   1. Other recruited NPCs alive on the roster.
         //   2. Canonical NPCs the lore implies (elara, the_human, etc.) —
@@ -255,7 +284,8 @@ export const resurrectionRouter = router({
         eff.kind !== "npc_world_death" &&
         eff.kind !== "open_resurrection_quest" &&
         eff.kind !== "apprentice_obituary" &&
-        eff.kind !== "mourning_sweep",
+        eff.kind !== "mourning_sweep" &&
+        eff.kind !== "carry_memorial_sweep",
     );
     await saveCrewState(ctx.user.id, {
       ...state,

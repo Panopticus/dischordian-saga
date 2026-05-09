@@ -56,6 +56,10 @@ export interface LoredexObituaryEntry {
   /** Set by the server when the entry's subject is permanently lost
    *  (cycle_complete) — true permadeath, no path to return. */
   cycleComplete?: boolean;
+  /** Number of unread loredex entries the deceased was carrying when
+   *  they died. Surfaced as memorial-only entries on the Memorial Wall.
+   *  Populated by the carry-memorial-sweep drain handler. */
+  carriedUnreadCount?: number;
 }
 
 /** Compose an obituary entry from a fallen crew member. The deathRecord
@@ -67,8 +71,12 @@ export function composeObituary(args: {
   missionName?: string;
   resurrectionQuestId?: string;
   now: number;
+  /** Real count of loredex entries the member discovered but never
+   *  read. Populated by the server from crewLoredexCarryService.
+   *  When > 0, the obituary surfaces "took N unread entries with them." */
+  carriedUnreadCount?: number;
 }): LoredexObituaryEntry {
-  const { member, squadMemberKeys, missionName, resurrectionQuestId, now } =
+  const { member, squadMemberKeys, missionName, resurrectionQuestId, now, carriedUnreadCount } =
     args;
   const dr = member.deathRecord;
   if (!dr) {
@@ -101,6 +109,9 @@ export function composeObituary(args: {
     personalQuestStage: dr.personalQuestStage,
     resurrectionQuestId,
     createdAt: now,
+    ...(carriedUnreadCount && carriedUnreadCount > 0
+      ? { carriedUnreadCount }
+      : {}),
   };
 }
 

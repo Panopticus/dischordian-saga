@@ -156,6 +156,77 @@ CREATE TABLE IF NOT EXISTS \`apprentice_dialogue_progress\` (
 )
 `;
 
+const CREW_MEMBER_LOREDEX_CARRY_SQL = `
+CREATE TABLE IF NOT EXISTS \`crew_member_loredex_carry\` (
+  \`id\` INT AUTO_INCREMENT NOT NULL,
+  \`userId\` INT NOT NULL,
+  \`memberKey\` VARCHAR(64) NOT NULL,
+  \`loredexEntryId\` VARCHAR(96) NOT NULL,
+  \`discoveredAtCycle\` INT NOT NULL,
+  \`read\` TINYINT NOT NULL DEFAULT 0,
+  \`memorialAtCycle\` INT NULL,
+  \`createdAt\` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  \`updatedAt\` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  CONSTRAINT \`crew_member_loredex_carry_id\` PRIMARY KEY(\`id\`),
+  CONSTRAINT \`uq_cmlc_user_member_entry\` UNIQUE(\`userId\`, \`memberKey\`, \`loredexEntryId\`),
+  CONSTRAINT \`cmlc_userId_users_id_fk\`
+    FOREIGN KEY (\`userId\`) REFERENCES \`users\`(\`id\`) ON DELETE CASCADE,
+  INDEX \`idx_cmlc_user_member\` (\`userId\`, \`memberKey\`),
+  INDEX \`idx_cmlc_entry\` (\`loredexEntryId\`),
+  INDEX \`idx_cmlc_memorial\` (\`memorialAtCycle\`)
+)
+`;
+
+const NPC_PERSONAL_QUEST_PROGRESS_SQL = `
+CREATE TABLE IF NOT EXISTS \`npc_personal_quest_progress\` (
+  \`id\` INT AUTO_INCREMENT NOT NULL,
+  \`userId\` INT NOT NULL,
+  \`npcKey\` VARCHAR(32) NOT NULL,
+  \`tier\` VARCHAR(4) NOT NULL,
+  \`stage\` INT NOT NULL DEFAULT 0,
+  \`resolution\` VARCHAR(16) NULL,
+  \`stageStartedAt\` JSON NOT NULL,
+  \`flags\` JSON NOT NULL,
+  \`updatedAt\` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  CONSTRAINT \`npc_personal_quest_progress_id\` PRIMARY KEY(\`id\`),
+  CONSTRAINT \`uq_npq_user_npc\` UNIQUE(\`userId\`, \`npcKey\`),
+  CONSTRAINT \`npq_userId_users_id_fk\`
+    FOREIGN KEY (\`userId\`) REFERENCES \`users\`(\`id\`) ON DELETE CASCADE,
+  INDEX \`idx_npq_user\` (\`userId\`)
+)
+`;
+
+const CREW_MISSION_COMPLETION_LOG_SQL = `
+CREATE TABLE IF NOT EXISTS \`crew_mission_completion_log\` (
+  \`id\` INT AUTO_INCREMENT NOT NULL,
+  \`userId\` INT NOT NULL,
+  \`memberKey\` VARCHAR(64) NOT NULL,
+  \`missionId\` VARCHAR(96) NOT NULL,
+  \`tags\` JSON NOT NULL,
+  \`outcome\` VARCHAR(16) NOT NULL,
+  \`completedAt\` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT \`crew_mission_completion_log_id\` PRIMARY KEY(\`id\`),
+  CONSTRAINT \`cmcl_userId_users_id_fk\`
+    FOREIGN KEY (\`userId\`) REFERENCES \`users\`(\`id\`) ON DELETE CASCADE,
+  INDEX \`idx_cmcl_user_member\` (\`userId\`, \`memberKey\`),
+  INDEX \`idx_cmcl_user\` (\`userId\`)
+)
+`;
+
+const COMMONS_SCENES_WITNESSED_SQL = `
+CREATE TABLE IF NOT EXISTS \`commons_scenes_witnessed\` (
+  \`id\` INT AUTO_INCREMENT NOT NULL,
+  \`userId\` INT NOT NULL,
+  \`sceneId\` VARCHAR(96) NOT NULL,
+  \`witnessedAt\` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT \`commons_scenes_witnessed_id\` PRIMARY KEY(\`id\`),
+  CONSTRAINT \`uq_csw_user_scene\` UNIQUE(\`userId\`, \`sceneId\`),
+  CONSTRAINT \`csw_userId_users_id_fk\`
+    FOREIGN KEY (\`userId\`) REFERENCES \`users\`(\`id\`) ON DELETE CASCADE,
+  INDEX \`idx_csw_user\` (\`userId\`)
+)
+`;
+
 export async function bootstrapUnifiedRosterTables(): Promise<void> {
   const db = await getDb();
   if (!db) {
@@ -191,6 +262,10 @@ export async function bootstrapUnifiedRosterTables(): Promise<void> {
     await db.execute(sql.raw(APPRENTICE_ROMANCE_ARC_SQL));
     await db.execute(sql.raw(RECRUITMENT_QUEST_PROGRESS_SQL));
     await db.execute(sql.raw(APPRENTICE_DIALOGUE_PROGRESS_SQL));
+    await db.execute(sql.raw(CREW_MEMBER_LOREDEX_CARRY_SQL));
+    await db.execute(sql.raw(NPC_PERSONAL_QUEST_PROGRESS_SQL));
+    await db.execute(sql.raw(CREW_MISSION_COMPLETION_LOG_SQL));
+    await db.execute(sql.raw(COMMONS_SCENES_WITNESSED_SQL));
     logger.info("[unifiedRosterBootstrap] tables ensured");
   } catch (err) {
     logger.error(

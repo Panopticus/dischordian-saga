@@ -324,6 +324,16 @@ export function tickMissions(state: CrewState, now: number): CrewState {
             diedAtMs: now,
           });
         }
+
+        // Memorial sweep: any loredex entries this member discovered
+        // but did not finish reading become memorial-only when they die.
+        // Drained by the server router via crewLoredexCarryService.markMemorialOnDeath.
+        newSideEffects.push({
+          kind: "carry_memorial_sweep",
+          deceasedMemberKey: m.id,
+          deathCycle: m.age,
+          diedAtMs: now,
+        });
         continue;
       }
       if (resolved.resolution?.injured.includes(m.id)) {
