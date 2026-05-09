@@ -752,6 +752,17 @@ export default function ClueJournal({ onClose }: ClueJournalProps) {
               exit={{ opacity: 0, x: -20 }}
               className="p-4 space-y-3"
             >
+              {/* audit/16 PR 11 — link out to the Investigation Board
+                  for the full cross-room surface (manuscript vault,
+                  reconstruction tab). */}
+              <a
+                href="/loredex/investigation"
+                className="block rounded-md border void-border bg-black/30 hover:bg-amber-950/15 px-3 py-2 font-mono text-[10px] uppercase tracking-[0.18em] void-text-energy text-center transition-colors"
+                data-testid="cluejournal-investigation-board-link"
+              >
+                ↗ Open the full Investigation Board
+              </a>
+
               {/* Phase D — Active Investigations panel.
                   Reads getActivePuzzleChains(narrativeFlags) so chains
                   the player has finished disappear automatically; lists
