@@ -23,14 +23,23 @@
 7. [Guild signature cutscenes — 12 professors × {light, dark}](#7-guild-signature-cutscenes)
 8. [Dreamer-vision VFX flashes — 3](#8-dreamer-vision-vfx-flashes)
 9. [Card-game UI SFX — 10 stings](#9-card-game-ui-sfx)
-10. [Fighter game — sprites, stages, HUD, VFX](#10-fighter-game--sprites-stages-hud-vfx)
-11. [Fighter game — SFX, voice barks, music](#11-fighter-game--sfx-voice-barks-music)
-12. [Ark + Mechronis rooms × states](#12-ark--mechronis-rooms--states)
-13. [Guild common rooms + casino + game-mode environments](#13-guild-common-rooms--casino--game-mode-environments)
-14. [Trade Empire sectors × prosperity states](#14-trade-empire-sectors--prosperity-states)
-15. [Soul Stones / Castle of Death summoning + sig VFX + card-combat VFX + room ambients + UI/transition SFX](#15-summoning--sig-vfx--card-combat-vfx--ambients--sfx)
-16. [Mini-DLC mystery arcs + Daniel Cross epigraphs + Acts 2-7 climax + Expansion Bible gameplay loops + Witnessing VFX](#16-mini-dlc--epigraphs--acts-2-7--expansion-bible-loops--witnessing-vfx)
-17. [Living Character Sheet — base bodies + "Energy chooses a form" awakening](#17-living-character-sheet)
+10. [audit/15 multi-perspective — production-asset additions](#10-audit15-multi-perspective--production-asset-additions)
+    - 10.1 Character turnaround sheets — 50 stills (Cos1)
+    - 10.2 Wheel-followup reaction cinematics — 6 cinematics (C1)
+    - 10.3 Human reveal transition cinematics — 4 cinematics (C2)
+    - 10.4 Act 6 confession-close stance cinematics — 14 cinematics (C4)
+    - 10.5 Chapter-card telegraphs — 28 stills (Strm6)
+    - 10.6 Room state visual overlays — 7 stills (ER2)
+    - 10.7 Blood Weave portrait progression — 40 stills (Cos5b)
+    - 10.8 Manuscript vault — 4 stills (Co1)
+11. [Fighter game — sprites, stages, HUD, VFX](#11-fighter-game--sprites-stages-hud-vfx)
+12. [Fighter game — SFX, voice barks, music](#12-fighter-game--sfx-voice-barks-music)
+13. [Ark + Mechronis rooms × states](#13-ark--mechronis-rooms--states)
+14. [Guild common rooms + casino + game-mode environments](#14-guild-common-rooms--casino--game-mode-environments)
+15. [Trade Empire sectors × prosperity states](#15-trade-empire-sectors--prosperity-states)
+16. [Soul Stones / Castle of Death summoning + sig VFX + card-combat VFX + room ambients + UI/transition SFX](#16-summoning--sig-vfx--card-combat-vfx--ambients--sfx)
+17. [Mini-DLC mystery arcs + Daniel Cross epigraphs + Acts 2-7 climax + Expansion Bible gameplay loops + Witnessing VFX](#17-mini-dlc--epigraphs--acts-2-7--expansion-bible-loops--witnessing-vfx)
+18. [Living Character Sheet — base bodies + "Energy chooses a form" awakening](#18-living-character-sheet)
 
 ---
 
@@ -1909,18 +1918,596 @@ shot with frame-chained handoff. ~50 s total.
 
 ---
 
-## 10. Fighter game — sprites, stages, HUD, VFX
+## 10. audit/15 multi-perspective — production-asset additions
 
-### 10.0 Render contract for the fighter game
+> Added 2026-05-08 as the audit/16 deliverable. Every art / cinematic /
+> VFX line-item raised by the 8-persona audit (`docs/audits/2026-05-08-multi-perspective/`)
+> lives here. The engineering work that consumes these assets ships in
+> follow-up PRs (audit/16.NN); this section is the asset-pipeline brief.
+>
+> **Same conventions as §0–9:**
+> - Frame-chain rule for multi-shot cinematics
+> - 16:9 / 24fps / no music / ambient room tone + VFX SFX + Dialog
+> - NB2 START/END frame + Veo motion + VFX + Dialog blocks per shot
+> - Every asset cites its CDN target path.
+
+### 10.1 Character turnaround sheets (audit/15 Cos1) — 50 stills
+
+> 25 NPC characters × {front turnaround, full turnaround} = 50 NB2 stills.
+> No motion. Path root: `art/characters/<id>/<turnaround_kind>.avif`.
+> Aspect: 2752×1536 (matches existing Elara + Human turnarounds at
+> `apps/client/public/characters/elara/full_turnaround.avif`).
+>
+> The cosplay reference site (audit/15 Cluster E) consumes these directly.
+> Producer can ship the manifest scaffolding before all 50 land — the JSON
+> entry exists with a TODO marker; rendered assets fill in over time.
+
+#### 10.1.1 Roster (production order — most-load-bearing first)
+
+| # | Character ID | Display Name | Notes |
+|---|---|---|---|
+| 1 | `agent_zero` | Agent Zero | Conexus operative; orange faction-color `#ff6600`; haunted/defiant/spectral expression set; asymmetric hood drape (right offset). |
+| 2 | `the_antiquarian` | The Antiquarian | Lore Keeper; green faction-color `#00e676`; thinned mustache for phoneme clarity; ancient/playful/sorrowful/revelatory expressions. |
+| 3 | `iron_lion` | Iron Lion | Insurgency veteran; rust-red beard mass; military bearing; battle-scarred. Per `characterSprites.ts:267`. |
+| 4 | `kael_recruiter` | Kael (Recruiter form) | Pre-Source insurgency identity; warm tones; signature earring. |
+| 5 | `the_source` | The Source / Kael (post) | Red-rimmed iris (substrate corruption); empty/grieving/prophetic/viral states. Color `#ff1744`. |
+| 6 | `shadow_tongue` | Shadow Tongue | Hierarchy-adapted anomaly; near-black skin; violet slit-pupil eyes; corporate-adapted clothing; subtle face-drift across viseme cells. Color `#6366f1`. |
+| 7 | `the_meme` | The Meme | Silver-haired older executive; mechanical hands at the desk; silver-and-pink palette. Color `#ec4899`. |
+| 8 | `architect` | The Architect | Authority faction lead; void-black + Authority-red `#c11414`; recursive geometry overtones. |
+| 9 | `collector` | The Collector | Silver-mask, brass-trim collector aesthetic. |
+| 10 | `degen` | The Degen | Casino entity; chaotic silver-with-gold; entropic glyph-jewelry. |
+| 11 | `eidola` | Eidola | Spectral/Dreamer-adjacent; iris-cyan `#7df3ff`. |
+| 12 | `engineer` | The Engineer | Insurgency artificer; cold steel `#2c3540` + hot orange accent. Engineer arc is plot-load-bearing through Acts 4–6. |
+| 13 | `enigma` | The Enigma | Silver-haired narrator type; Album-1 song subject. |
+| 14 | `eyes` | The Eyes | Insurgency intel; covered face; dark-academia palette. |
+| 15 | `gamemaster` | The Game Master | Meta-arc figure; per Blood Weave `BLOOD_WEAVE_REVEAL_POOL` thresholds 9 + 12 + 15 + 20 + 25 + 40. |
+| 16 | `matrikala` | Matrikala | Ne-Yon-adjacent; resurrectionist motif. |
+| 17 | `necromancer` | The Necromancer | Obsidian + bone-white; Hierarchy aesthetic. |
+| 18 | `nilmorg` | Nilmorg | Insurgency / shadow operative. |
+| 19 | `programmer` | The Programmer | Pre-Antiquarian identity; Album-5 (West by God) song subject; lab-coat + spectacles. |
+| 20 | `seer` | The Seer | Prophecy authority; iris-cyan + amber; sealed-letter motif. |
+| 21 | `warlord` | The Warlord | Lockout-boss; rust-red beard; armored bearing. |
+| 22 | `watcher` | The Watcher | Panopticon witness; Authority faction; surveillance-aesthetic. |
+| 23 | `conexus_authority` | Conexus Authority | Faction figurehead; collective rather than individual. |
+| 24 | `the_human` | The Human (full reveal) | The 5th HUMAN_REVEAL_STAGES progression terminus; canonical face only at trust 50+. (Front + full turnaround for the FULL stage; signal-static / ghost / fragment / convergence already exist as expression-grid stills.) |
+| 25 | `elara_alt` | Elara — alt-loadout | Already has `front_turnaround.avif` + `full_turnaround.avif` for the canonical hologram form. This entry adds a SECOND turnaround pair for her Act-5+ "panoptic-conduct" alt loadout (different cloak, secondary palette, audited record-keeper aesthetic). |
+
+#### 10.1.2 NB2 prompt template per turnaround
+
+> Two stills per character: **front turnaround** and **full turnaround**.
+> Both are NB2-only (no motion). Both share the lighting + palette anchors
+> from §1. The difference: front turnaround is bust-up to mid-thigh; full
+> turnaround is full-figure with all costume details visible. **Aspect
+> 16:9 at 2752×1536** (ratio 1.79:1, matching the existing inventory).
+
+**Front turnaround prompt template:**
+
+```
+Cinematic character turnaround sheet, four 90-degree views (front,
+3/4-left, profile-left, 3/4-right) arranged left-to-right on a
+charcoal seamless backdrop. Character: <Display Name>, <one-paragraph
+silhouette + costume + signature-detail description from §2 below>.
+Painterly digital illustration. Single dominant key from frame-left,
+soft volumetric haze gradient across three depth planes, rim light
+only on hero silhouette. Hot accent: <faction color hex>. No text,
+no UI chrome, no logos, no readable signage. Aspect 16:9, 2752×1536.
+```
+
+**Full turnaround prompt template:**
+
+```
+Cinematic full-figure character turnaround sheet, four 90-degree views
+(front, 3/4-left, profile-left, 3/4-right) of <Display Name>, full
+height including footwear and weapon-primary slot, on a charcoal
+seamless backdrop. <One-paragraph silhouette + costume + signature
+detail>. Show fabric fall, cloak/cape geometry, asymmetric props,
+back-armor configuration. Painterly digital illustration. Single
+dominant key from frame-left, three-plane depth haze, hero rim light.
+Hot accent: <faction color hex>. No text, no UI chrome. Aspect 16:9,
+2752×1536.
+```
+
+Per-character canonical descriptions for the prompt's `<silhouette + costume + signature-detail>` slot are pulled from `apps/client/src/game/characterSprites.ts:165–369` (mouth-box calibration comments document the asymmetric details), `apps/client/src/game/npcPortraits.ts:13–124` (faction colors + expression hints), and `apps/shared/suitArtPrompts.ts:148–156` (faction palettes). When these source comments conflict, characterSprites.ts wins (it's the most recently calibrated).
+
+#### 10.1.3 Asset paths
+
+```
+art/characters/<id>/front_turnaround.avif     ← 2752×1536
+art/characters/<id>/full_turnaround.avif      ← 2752×1536
+```
+
+Add corresponding entries to `apps/client/public/characters/_inventory.json` under the existing per-character object.
+
+#### 10.1.4 Reveal-stage exception (the_human)
+
+The Human's progression is ALREADY documented as 5 reveal stages
+(`apps/client/src/game/npcPortraits.ts:126–187`). For audit/16 Cos1
+purposes:
+- The 5 stage stills already exist (signal-static, ghost, fragment, convergence, full).
+- ADD: `front_turnaround.avif` + `full_turnaround.avif` for the FULL reveal stage only. Players never see these turnarounds before trust ≥ 50.
+- Cosplayers can plan against the full reveal — the early stages are visual-effect overlays, not separate costume builds (per audit/15 Cos7).
+
+### 10.2 Wheel-followup reaction cinematics (audit/15 C1) — 18 stills + 6 cinematics
+
+> Per the Cinematic Director audit, wheel_followup variants currently
+> render only as cyan text. They deserve 2.5-second portrait cinematics
+> showing the listening NPC absorbing the player's choice. Three Acts
+> have wheel_followup variants today: Act 3 (transparent / pragmatic /
+> full_secret), Act 4 (broken / fragile / strained / reconciled), Act 6
+> (the seven confession-close stances — covered separately in §10.4).
+>
+> §10.2 covers Acts 3 + 4. 6 cinematics × ~2.5 s each.
+> Path root: `videos/cinematics/wheel_followup/`. Static keyframes at
+> `art/cinematics/wheel_followup/kf_<slug>.webp`.
+
+#### 10.2.1 Act 3 wheel_followup × 3 reactions
+
+Each cinematic shows **Elara's** bust over the Bridge cyan-hologram glow,
+holding neutral composure for 1.2 s, then a 1.3 s expression shift.
+Audio: silence (let the player's selected text echo). No music.
+
+**Cinematic 1 — `wheel_act3_transparent.mp4` (2.5 s)**
+- **Variant gate:** `wheel_followup_act3_transparent` (`act3_path_transparent_chosen`)
+- **NB2 START frame (= keyframe):** Elara front-bust, neutral expression (`elara/expressions/neutral.avif`), centered, against subtly-parallax-drifting Bridge background, cyan hologram glow at 60% saturation.
+- **NB2 END frame:** Same composition; expression shifted to `elara/expressions/emotional1.avif` (relief flickers across her face, mouth half-parts as if to speak then doesn't); cyan glow brightens to 75%; subtle catch-light in eyes.
+- **Veo motion (2.5 s):** *camera locked. Subtle parallax drift on Bridge background (right-to-left, 4 px). Elara's expression crossfades neutral→emotional1 over frames 30–60 (1.25 s in). Cyan glow lifts in sync.*
+- **VFX:** `vfx_substrate_pulse` (0.3 alpha); cyan hologram scanline at 0.2 opacity.
+- **Dialog:** *(none — wheel_followup variant text renders as overlay)*
+- **Music:** NONE.
+
+**Cinematic 2 — `wheel_act3_pragmatic.mp4` (2.5 s)**
+- **Variant gate:** `wheel_followup_act3_pragmatic` (`act3_path_pragmatic_chosen`) — needs new variant entry; per audit/15 only transparent + full_secret have entries today
+- **NB2 START frame:** Elara neutral; Bridge bg.
+- **NB2 END frame:** Elara `emotional2` (sober understanding; balanced); cyan glow at 65%.
+- **Veo motion (2.5 s):** *camera locked. Same parallax. Crossfade neutral→emotional2 over frames 30–60.*
+- **VFX:** `vfx_substrate_pulse` (0.3); scanline 0.2.
+- **Dialog:** *(none)*
+- **Music:** NONE.
+
+**Cinematic 3 — `wheel_act3_full_secret.mp4` (2.5 s)**
+- **Variant gate:** `wheel_followup_act3_full_secret` (`act3_path_full_secret_chosen`)
+- **NB2 START frame:** Elara neutral; Bridge bg.
+- **NB2 END frame:** Elara `emotional1` reframed darker — eyes harden, mouth flat, jaw tightens; cyan glow DESATURATES to ~40% (forbearance reading); subtle blue undertone shift on shadow side.
+- **Veo motion (2.5 s):** *camera locked. Parallax. Expression hardening over frames 30–60. Cyan saturation drops over frames 45–60 in sync with the jaw-set.*
+- **VFX:** `vfx_substrate_pulse` (0.2 alpha — quieter); scanline narrows at end.
+- **Dialog:** *(none)*
+- **Music:** NONE.
+
+#### 10.2.2 Act 4 wheel_followup × 3 reactions
+
+Same template, **The Human's** bust over the Cabin warm-amber glow.
+Substrate corruption fades or hardens with the choice.
+
+**Cinematic 4 — `wheel_act4_broken_trust.mp4` (2.5 s)**
+- **Variant gate:** `act4_broken_trust`
+- **NB2 START frame:** The Human bust at HUMAN_REVEAL_STAGE 3 (signal-fragment); Cabin warm-amber bg with red flicker.
+- **NB2 END frame:** Substrate-corruption HARDENS — fragmentation increases by 30%; expression `the-human-vulnerable_f1bqhc.jpg` overlaid at 60%, signal degrades visibly.
+- **Veo motion (2.5 s):** *camera locked. Substrate filaments grow over frames 30–75. Glitch micro-shimmer increases in last 0.5s.*
+- **VFX:** `vfx_substrate_corruption` (1.0); red-flicker bed (0.3); glitch-overlay (0.4).
+- **Dialog:** *(none)*
+- **Music:** NONE.
+
+**Cinematic 5 — `wheel_act4_fragile_trust.mp4` (2.5 s)**
+- **Variant gate:** `act4_fragile_trust`
+- **NB2 START frame:** The Human bust at HUMAN_REVEAL_STAGE 3.
+- **NB2 END frame:** Slight corruption RELIEF — signal stabilizes by 10%; expression neutral.
+- **Veo motion (2.5 s):** *camera locked. Substrate filaments stabilize, slight clarification over frames 45–60.*
+- **VFX:** `vfx_substrate_corruption` (0.7).
+- **Dialog:** *(none)*
+- **Music:** NONE.
+
+**Cinematic 6 — `wheel_act4_reconciled.mp4` (2.5 s)**
+- **Variant gate:** `act4_reconciled`
+- **NB2 START frame:** The Human bust at HUMAN_REVEAL_STAGE 3.
+- **NB2 END frame:** SIGNAL ADVANCES one stage to HUMAN_REVEAL_STAGE 4 (signal-convergence). Expression `the-human-amused_mnco27.jpg` at 60%; subtle smile read.
+- **Veo motion (2.5 s):** *camera locked. Substrate filaments resolve — frames 30–60 cross-fade stage 3 → stage 4 image with ~0.5s overlap.*
+- **VFX:** `vfx_substrate_pulse` (0.5) replacing corruption; warm amber glow lifts.
+- **Dialog:** *(none)*
+- **Music:** NONE.
+
+#### 10.2.3 Variant-resolver wiring (downstream consumer)
+
+Each cinematic's slug becomes the value for a new optional
+`portraitCinematicId` field on `MoralityTrustActVariant` (audit/15
+Cluster D, lands in PR 4). The NarrativeEngine wheel-followup render
+block (`apps/client/src/components/NarrativeEngine.tsx:119–137`) calls
+`playSlideshow(portraitCinematicId)` after the choice is locked,
+before the next dialog phase.
+
+### 10.3 Human reveal transition cinematics (audit/15 C2) — 12 cinematic frames
+
+> 4 stage transitions for The Human (cold → neutral → warm → confidant →
+> full-revealed). Each is 3 s with Ken Burns motion on the existing
+> HUMAN_REVEAL_STAGES Cloudinary stills. Path root:
+> `videos/cinematics/human_reveal/`. Static keyframes at
+> `art/cinematics/human_reveal/kf_<slug>.webp`.
+
+#### 10.3.1 Stage 1 — Static → Ghost (`human_reveal_to_ghost.mp4`, 3 s)
+
+Trust threshold 10 (cold → neutral lower bound). Triggered the moment
+trust crosses 10.
+
+- **NB2 START frame:** Existing `signal-static` reveal asset (pure noise field, ~80% opacity).
+- **NB2 END frame:** Existing `signal-ghost` reveal asset (silhouette emerging from noise; ~40% noise overlay).
+- **Veo motion (3 s):** *frames 0–24: hold start. Frames 24–60: slow Ken Burns zoom-in (2.5%) on start frame, opacity fade-out 90% → 0%. Frames 30–72: opacity fade-in 0% → 100% on end frame, paired Ken Burns 1.5% on end. Final 12 frames: hold end.*
+- **VFX:** `vfx_substrate_pulse` (0.4 — rising); subtle low-frequency hum bed.
+- **Dialog:** *(none)*
+- **Music:** NONE — sub-bass bed only (rises in pitch through transition).
+- **SlideshowPlayerRoot bookend text:** "SIGNAL RESOLVING" at start; "SIGNAL LOCKED" at end.
+
+#### 10.3.2 Stage 2 — Ghost → Fragment (`human_reveal_to_fragment.mp4`, 3 s)
+
+Trust threshold 20.
+
+- **NB2 START frame:** `signal-ghost`.
+- **NB2 END frame:** `signal-fragment` (partial face, scanline corruption at 50%).
+- **Veo motion (3 s):** Same Ken Burns crossfade pattern.
+- **VFX:** `vfx_substrate_pulse` (0.6); scanline corruption stabilizes during crossfade.
+- **Dialog:** *(none)*
+- **Music:** NONE — sub-bass bed (one semitone higher than 10.3.1).
+- **Bookend:** "SIGNAL RESOLVING" / "FRAGMENT LOCKED."
+
+#### 10.3.3 Stage 3 — Fragment → Convergence (`human_reveal_to_convergence.mp4`, 3 s)
+
+Trust threshold 40.
+
+- **NB2 START frame:** `signal-fragment`.
+- **NB2 END frame:** `signal-convergence` (~80% face visible, scanline corruption at 20%).
+- **Veo motion (3 s):** Ken Burns crossfade.
+- **VFX:** `vfx_substrate_pulse` (0.8); corruption fades through transition.
+- **Dialog:** *(none)*
+- **Music:** NONE — sub-bass bed (third semitone up).
+- **Bookend:** "SIGNAL RESOLVING" / "CONVERGENCE LOCKED."
+
+#### 10.3.4 Stage 4 — Convergence → Full reveal (`human_reveal_to_full.mp4`, 3 s)
+
+Trust threshold 50. **Most cinematically significant** — first time the
+player sees the canonical face. Director should privilege this shot.
+
+- **NB2 START frame:** `signal-convergence`.
+- **NB2 END frame:** Full-reveal portrait (the Human's canonical face — see audit/15 Cos1 entry #24 for the turnaround that grounds this still). Warm amber glow at 75%; substrate filaments minimal (~5% opacity only at frame edges).
+- **Veo motion (3 s):** *Ken Burns crossfade BUT with a 1-frame held white flash at frame 36 (mid-transition) — like a camera shutter or signal-lock confirmation. Audio sting (`vfx_dreamer_substrate` (1.0)) lands on the white frame.*
+- **VFX:** `vfx_substrate_pulse` (1.0); white-flash transition; warm-amber bloom in last 12 frames.
+- **Dialog:** *(none — held silence)*
+- **Music:** NONE — sub-bass bed resolves to a clean low tone (perfect-fifth from the Stage 1 starting note).
+- **Bookend:** "SIGNAL RESOLVING" / "I AM HERE."
+
+#### 10.3.5 Variant gating (Cluster D consumer)
+
+Each transition optionally fires a variant-gated VARIANT of the
+cinematic if `useVariant("human_reveal_transition", "human_reveal_stage_${currentStage}", input)` resolves. Examples:
+
+- Machine-aligned player crossing trust 10: `human_reveal_to_ghost_machine.mp4` — same composition, cool-blue tint replacing warm-amber.
+- High-trust Elara confidante crossing trust 50: `human_reveal_to_full_elara_confidante.mp4` — warm amber stays + Elara's cyan filaments lace into the frame edges (the two narrators are merging acoustically at this moment per the Witnessing doctrine).
+
+Producer can ship the base 4 cinematics first, then variant flavors as
+follow-up commissions.
+
+### 10.4 Act 6 confession-close stance cinematics (audit/15 C4) — 14 cinematics
+
+> 7 confession stances × 2 confessing characters (Elara when Detective
+> in the Wall is the confessor; The Human when Woman She Was is the
+> confessor) = 14 cinematics. Each 2.8 s. Path root:
+> `videos/cinematics/act6_confession/`. Static keyframes at
+> `art/cinematics/act6_confession/kf_<slug>.webp`.
+
+#### 10.4.1 The 7 stances (audit/15 source)
+
+Per `apps/client/src/pages/Act6CardLadderPage.tsx:64–110`:
+
+| Stance flag | Stance label | Tone read | NPC reaction expression |
+|---|---|---|---|
+| `act6_confession_close_empathy` | "Sit with them in it." | Soft — held silence, witnessing | Elara: `emotional2` (vulnerable softening); Human: `emotional1` (relief overlaid on dread) |
+| `act6_confession_close_challenge` | "Answer the confession with a harder one." | Sharp — meeting truth with truth | Elara: `emotional1` (concern + steel); Human: `emotional2` (vulnerability surfaces) |
+| `act6_confession_close_refusal` | "Refuse the absolution." | Steel — boundary held | Elara: `neutral` darkening (jaw set); Human: `neutral` (signal stabilizes; closed) |
+| `act6_confession_close_reluctant_ally` | "Stand with them — for now." | Pragmatic warmth | Elara: `speaking` (chin lifts; small nod); Human: `emotional1` (cautious hope) |
+| `act6_confession_close_partial` | "Accept some, reject some." | Surgical — boundary-with-care | Elara: `neutral` (calm focus); Human: `emotional2` (mixed read) |
+| `act6_confession_close_oracle_sense` | "Close your eyes and listen beneath the words." | Receptive — substrate read | Elara: `emotional2` half-lidded; Human: `emotional1` exposed (substrate read sees beneath them) |
+| `act6_confession_close_practical` | "Take the ledger out. Balance what was said." | Mercantile — debt named | Elara: `neutral` (weights an invisible scale); Human: `neutral` (relief at the room being lighter) |
+
+#### 10.4.2 Cinematic prompt template
+
+Each cinematic is **2.8 s of NPC reaction**. The player's selected
+stance text echoes silently (no VO). The cinematic locks the emotional
+read of the confession-close moment.
+
+**NB2 START frame template:**
+```
+Close bust of <NPC> in <Cabin / Bridge / Archives — wherever the
+confession is happening>. Expression: NEUTRAL. Soft natural lighting,
+muted background (out-of-focus environment 30% saturation). Hot accent:
+<faction color>.
+```
+
+**NB2 END frame template:**
+```
+Same composition. Expression shifted to <stance-tone expression per
+table above>. Background unchanged. Subtle catch-light in eye matching
+emotional read.
+```
+
+**Veo motion (2.8 s):**
+```
+Camera locked. Frames 0–30 hold neutral. Frames 30–60 expression
+crossfade to stance-tone expression. Frames 60–67 hold final.
+Background remains static (out-of-focus). NO music. NO VO.
+```
+
+#### 10.4.3 The 14 cinematic IDs
+
+```
+act6_confession_elara_empathy.mp4
+act6_confession_elara_challenge.mp4
+act6_confession_elara_refusal.mp4
+act6_confession_elara_reluctant_ally.mp4
+act6_confession_elara_partial.mp4
+act6_confession_elara_oracle_sense.mp4
+act6_confession_elara_practical.mp4
+act6_confession_human_empathy.mp4
+act6_confession_human_challenge.mp4
+act6_confession_human_refusal.mp4
+act6_confession_human_reluctant_ally.mp4
+act6_confession_human_partial.mp4
+act6_confession_human_oracle_sense.mp4
+act6_confession_human_practical.mp4
+```
+
+Engineering wires this into `Act6CardLadderPage.tsx:100` after stance
+selection, before flag-set, via a new function
+`playConfessionStanceCinematic(stance, speakingCharacter, state)`. The
+function resolves cinematic id from the stance flag + character id; the
+variant resolver can override per morality/trust state via Cluster D.
+
+### 10.5 Chapter-card telegraphs (audit/15 Strm6) — 28 stills
+
+> Longplay-editor-friendly chapter banners that auto-play 2.5s before
+> a major cinematic. Per audit/15 Strm6: act + chapter title + faction
+> mood color. NB2 only (no motion). Path root:
+> `art/cinematics/chapter_cards/<slug>.webp`. Aspect 16:9 at 1920×1080.
+>
+> Approximately 28 chapter banners per the act-progression spec
+> (`docs/production/ACT1_NARRATIVE_STRUCTURE.md` informs the count).
+
+#### 10.5.1 Per-chapter banner template
+
+```
+Cinematic full-frame chapter card. Black field. Centered text in
+serif typography: "ACT <N>" smaller above; "<CHAPTER TITLE>" larger
+below. Above the title: a single thematic icon in <faction-color hex>
+(stylized symbol matching the chapter's tonal register — surveillance
+eye for Authority, broken chain for Insurgency, eclipse for Dreamer,
+etc.). Below the title: a thin underline rule in <faction-color> at
+30% opacity. Far edges: subtle vignette to true black. Painterly
+digital illustration. NO photographic elements. NO logos. Aspect
+16:9, 1920×1080.
+```
+
+#### 10.5.2 Chapter banner roster (informal — final set authored against ACT1_NARRATIVE_STRUCTURE.md)
+
+| Slug | Act | Chapter title | Mood | Color anchor |
+|---|---|---|---|---|
+| `chapter_act1_awakening` | 1 | The Awakening | Cold dread | `#22d3ee` (cyan) |
+| `chapter_act1_first_light` | 1 | First Light | Cautious hope | `#ff6b1a` (insurgency orange) |
+| `chapter_act1_finale_alignment` | 1 | The Cycle's First Cut | Volatile | `#ff2bd6` (Nexon magenta) |
+| `chapter_act2_silence_of_two_witnesses` | 2 | Silence of Two Witnesses | Reverent | `#7df3ff` (iris-cyan) |
+| `chapter_act2_oracle_deflection` | 2 | The Oracle's Refusal | Sharp | `#a02d2d` (woven) |
+| `chapter_act3_disclosure` | 3 | What Elara Knew | Charged | `#22d3ee` |
+| `chapter_act3_path_dividend` | 3 | The Cost of Telling / The Cost of Not Telling | Shifting | varies (variant) |
+| `chapter_act4_consumed_witness` | 4 | Kael Consumed | Substrate-horror | `#ff1744` (Source red) |
+| `chapter_act4_broken_trust` | 4 | The Bridge Goes Quiet | Cold | desaturated `#22d3ee` |
+| `chapter_act4_reconciled` | 4 | We Speak Again | Warm | `#ff6b1a` |
+| `chapter_act5_recruitment` | 5 | Five Sectors | Multi-faction | three accents (rare exception to one-color rule) |
+| `chapter_act6_confession` | 6 | The Detective in the Wall / The Woman She Was | Sober | warm amber `#b88c3a` |
+| `chapter_act6_remembrance` | 6 | The Memorial Corridor | Grieving | desaturated all |
+| `chapter_act7_silence_in_heaven` | 7 | The Seventh Seal | Apocalyptic | pure white on black, no faction-color |
+| `chapter_act7_humanity_chosen` | 7 | We Choose to Stay | Quiet — humanity terminus | warm amber resolving |
+| `chapter_act7_pattern_chosen` | 7 | We Choose the Pattern | Cold — machine terminus | clean cyan resolving |
+| `chapter_authority_trial` | (5.8) | The Authority Trial | Procedural-dread | `#c11414` (Authority red) |
+| `chapter_memorial_corridor` | (any) | Remembrance | Grieving | warm amber `#b88c3a` |
+| `chapter_casino_jackpot` | (any) | The Pot Tips | Manic | `#ec4899` (Meme pink) |
+| `chapter_card_battle_climax` | (any) | Final Turn | Adrenal | per-faction mood (variant) |
+| `chapter_dream_vision` | (any) | The Vision | Ethereal | `#7df3ff` |
+
+(Producer expands to full 28 set against ACT1_NARRATIVE_STRUCTURE +
+ALL_ACTS_ROADMAP per real chapter cadence.)
+
+#### 10.5.3 Engineering wiring (downstream)
+
+`SongCinematicVideo` (`apps/client/src/components/SongCinematicVideo.tsx:14–31`)
+gains `chapterTitle?: string` + `chapterId?: string`. When supplied,
+renders the chapter card for 2.5s before the video fades in. Slug
+`chapter_<chapterId>` resolves to the stored asset.
+
+### 10.6 Room state visual overlays (audit/15 ER2) — 7 environmental transformations
+
+> Each overlay is an NB2 still (no motion) layered as a CSS overlay over
+> the existing room background art. The base room art doesn't change;
+> the overlay activates when the relevant narrative flag fires. Path
+> root: `art/rooms/overlays/<room>_<state>.webp`. Aspect matches base
+> room (varies; ~1920×1080 for parallax-room renders).
+
+#### 10.6.1 The 7 overlays (per `apps/shared/adventureFeatures.ts:181–193`)
+
+**1. `medical_bay_quarantine.webp` — Medical Bay quarantine lighting**
+- **Trigger flag:** `medbay_quarantine_activated`
+- **NB2 prompt:** Red emergency-grade lighting wash across Medical Bay walls. Pulsing red overlay (50% opacity at center, fading to 20% at edges). Caution-stripe diagonal bars on door-frames. NO change to ceiling/floor/equipment shapes — this is a LIGHTING overlay only. Painterly digital illustration. Aspect-match Medical Bay base. Hot accent: `#c11414` (Authority red).
+- **CSS overlay class:** `data-room-state="quarantine"` triggers `mix-blend-mode: multiply` with 60% opacity.
+
+**2. `archives_text_rewriting.webp` — Archives text rewriting in real-time**
+- **Trigger flag:** `shadow_tongue_evidence`
+- **NB2 prompt:** Archives data-bank screens visibly rewriting in the unreadable hue (a violet color the player perceives as a band of "wrongness" rather than text — `#6366f1` shifted toward `#9d6efb`). Text fragments visible at ~70% opacity, fluid (not letters; pseudo-glyphs). Background Archives shelves UNCHANGED — only the screen-overlay shifts.
+- **CSS overlay class:** `data-room-state="rewriting"` activates a CSS-keyframe shimmer animation on the screen-overlay div.
+
+**3. `bridge_bloodstain.webp` — Bridge subtle bloodstain appears**
+- **Trigger flag:** `bridge_kael_evidence_logged`
+- **NB2 prompt:** A faint reddish-brown stain on the Bridge floor near the Conspiracy Board, ~30 cm diameter. Stain has been cleaned but not perfectly — slight discoloration only visible from certain angles (here, the player's POV). Surrounding floor unchanged. Painterly digital illustration; very subtle, easy to miss. Hot accent: `#5b1a1a` (oxblood).
+- **CSS overlay class:** `data-room-state="evidence-logged"` activates the stain at 70% opacity.
+
+**4. `obs_deck_terminus_signal.webp` — Observation Deck Terminus signal visible**
+- **Trigger flag:** `terminus_singer_found`
+- **NB2 prompt:** Through the Observation Deck viewport, a single faint pinpoint of light (one star, fractionally brighter than the surrounding starfield) at frame center-right. Subtle pulsing ring of cyan haze around the light at 15% opacity. NO change to the Observation Deck interior. Aspect matches Observation Deck base. Hot accent: `#7df3ff` (iris-cyan).
+- **CSS overlay class:** `data-room-state="terminus-active"` shows the star + halo via SVG overlay.
+
+**5. `engineering_resonance.webp` — Engineering racks humming visibly**
+- **Trigger flag:** `terminus_step_2`
+- **NB2 prompt:** Engineering equipment racks emit faint cyan-amber glow lines along the metal seams. Subtle vibration suggested by heat-shimmer haze around the racks at 20% opacity. Walls and floor unchanged. Painterly digital illustration. Hot accent: `#22d3ee`/`#ff6b1a` blend (faction-cross moment).
+- **CSS overlay class:** `data-room-state="resonance"` triggers a CSS heat-shimmer keyframe.
+
+**6. `medbay_safe_unlocked.webp` — Medical Bay emergency safe biometric scanner unlocks**
+- **Trigger flag:** `vox_step_3`
+- **NB2 prompt:** Close-up element of the emergency safe's biometric scanner glowing green (success state) instead of red (locked state). The rest of the safe and surrounding Medical Bay unchanged. Hot accent: `#00e676` (Antiquarian green).
+- **CSS overlay class:** `data-room-state="safe-unlocked"` activates the green-glow div over the scanner zone.
+
+**7. `bridge_violet_thread.webp` — Bridge Conspiracy Board violet-thread reveals**
+- **Trigger flag:** `elara_on_the_board`
+- **NB2 prompt:** The Conspiracy Board's three red threads UNCHANGED. A FOURTH thread, violet (`#9d6efb`), running from the central blank pin to a small ELARA-SYS tag at the upper-right corner of the board. Thread visible only under indirect lighting (subtle UV-glow read). Painterly digital. Hot accent: violet.
+- **CSS overlay class:** `data-room-state="elara-on-board"` reveals the violet-thread SVG layer.
+
+#### 10.6.2 Engineering wiring (downstream)
+
+Per `audit/15 ER2`: create `apps/client/src/game/roomVisualState.ts` exporting `applyRoomStateOverlay(roomId, flags): RoomVisualState`. `ParallaxRoom` (in `ArkExplorerPage.tsx:73`) calls it and conditionally mounts the overlay div above the base background. Each overlay's `data-room-state` attribute drives its CSS animation/blend-mode.
+
+### 10.7 Blood Weave portrait progression (audit/15 Cos5b new visual canon) — 5 bands × 8 crew = 40 stills
+
+> Per the new `BLOOD_WEAVE_BAND_VISUALS` canon shipped in this PR
+> (`apps/shared/bloodWeave.ts`), each crew member's portrait progresses
+> through 5 visual states as Blood Weave alignment climbs. Path root:
+> `art/characters/<id>/blood_weave/<band>.avif`. Aspect 16:9 at 1024×576.
+
+#### 10.7.1 The 5 bands (matching BLOOD_WEAVE_BAND_VISUALS)
+
+| Band | Hex | Glow | Thread description |
+|---|---|---|---|
+| `dormant` | `#1a1a1a` | none | No visible thread; baseline portrait. |
+| `braiding` | `#8b3a3a` | subtle | Hairline-thin red filament along jaw or shoulder, visible only in shadow. |
+| `woven` | `#a02d2d` | moderate | Discernible pattern: Hellbox sigil-trace at chest level, thin red embroidery on collar/cuff. |
+| `bound` | `#c12121` | pronounced | Pattern unmistakable: red thread temple-to-wrist, pulsing with heartbeat. Eyes carry a red rim at the lower lid. |
+| `claimed` | `#ff1a1a` | luminous | Saturated red glow envelopes figure. Eyes fully red. Thread is structural, not cosmetic. Game-Master meta-arc fires. |
+
+#### 10.7.2 Crew roster needing portraits
+
+Per the unified-roster system (PR #509 + PR #513), Blood Weave portraits
+need 5-band progressions for the 8 named crew at minimum:
+
+1. Iron Lion
+2. Kael (Recruiter form — pre-Source)
+3. The Engineer
+4. The Eyes
+5. Agent Zero
+6. Jericho Jones (insurgency veteran)
+7. Matrikala (Ne-Yon-adjacent)
+8. The Programmer (pre-Antiquarian)
+
+Total: **5 bands × 8 crew = 40 NB2 stills**.
+
+#### 10.7.3 NB2 prompt template
+
+```
+Cinematic crew-member portrait at Blood Weave band <BAND_NAME>.
+Character: <Display Name>, <silhouette + costume description>.
+Apply <thread description> from §10.7.1. Hot accent: <band color
+hex>. Glow intensity: <none/subtle/moderate/pronounced/luminous>.
+Painterly digital illustration; visible brushwork at 1:1, clean
+read at thumbnail. Single dominant key from frame-left, three-plane
+depth haze. Aspect 16:9, 1024×576. NO text, NO UI chrome.
+```
+
+The `dormant` band is the existing base portrait — no new render
+needed; just symlink or alias the existing
+`apps/client/public/characters/<id>/idle.avif`.
+
+#### 10.7.4 Engineering wiring (downstream)
+
+A new helper `getBloodWeaveBandPortrait(crewId, alignmentValue)` in
+`apps/shared/bloodWeave.ts` resolves the band via `bandFor(alignment)`
+and returns the portrait URL. The Resurrection Panel's Stage-3 tab
+(`apps/client/src/components/HellboxRestorationPanel.tsx`) and the
+Memorial Corridor (`apps/client/src/pages/MemorialCorridorPage.tsx`)
+both render the appropriate band's portrait based on each crew member's
+current alignment.
+
+### 10.8 manuscriptVault background art (audit/15 Co1) — 1 still + 3 hotspot insets
+
+> The Archives data-banks mise-en-abyme expansion (Conspiracy persona's
+> top finding) needs a new room: a small "manuscript vault" surface
+> reachable only after the player logs both `clue-archives-novel-overwrite`
+> AND a cross-room corroborating clue. Path root:
+> `art/rooms/manuscript_vault/`.
+
+#### 10.8.1 Background art (`bg.avif`)
+
+- **Aspect:** 1920×1080.
+- **NB2 prompt:** Cinematic interior of a small archival vault. Floor-to-ceiling shelves of bound manuscripts in dark leather and brass clasps. Narrow walking aisle (camera POV from aisle-end). Single dominant brass-warm key light from the far end of the aisle, soft volumetric haze across three depth planes. Manuscript spines: most are blank or illegible; one in the foreground (closest shelf, mid-height) has a visible title in the unreadable hue (`#9d6efb`). Painterly digital illustration. Subtle eldritch geometry in the shelf joinery (rings within rings). NO modern logos, NO readable signage, NO UI chrome. Hot accent: brass `#b88c3a`.
+
+#### 10.8.2 Hotspot insets (3 close-ups)
+
+**1. `hotspot_overwrite_manuscript.avif` — The overwrite manuscript**
+- Close-up of an open book on a stand. Left page: original Antiquarian-era ledger entries in faded sepia ink. Right page: same entries in the unreadable hue, rewritten over the originals. Player can SEE the difference; the violet text doesn't read as language but as a band of wrongness across the page. Painterly close-up. Hot accent: `#9d6efb` violet on the right page.
+
+**2. `hotspot_editor_signature.avif` — The Editor's signature card**
+- A small archival card pinned beside the manuscript stand. Carries a single hand-drawn glyph in the unreadable hue, surrounded by a halo of similar glyphs in faded older ink (the Editor's signature evolving across 14,000 edits). Painterly close-up.
+
+**3. `hotspot_corroboration_thread.avif` — Cross-room thread connection**
+- A thin red string nailed to the wall above the manuscript stand, running upward and out of frame (toward the Bridge — implied geographic continuity with the Conspiracy Board's violet thread). The string visibly tied to a small knot at the manuscript's binding, suggesting THIS is the source of the Bridge's Elara-thread evidence. Painterly close-up.
+
+#### 10.8.3 Engineering wiring (downstream)
+
+Per audit/15 Co1: create `apps/shared/roomMysteries/manuscriptVault.ts` as a new room mystery module. The room registers in `apps/shared/roomMysteries/index.ts:67–102` only when the player has logged both `clue-archives-novel-overwrite` (Archives) AND a corroborating clue from Bridge or Cryo Bay (TBD which clue ID). 3 hotspots map to the 3 inset assets above. Lands in PR 8 (Conspiracy/Lore).
+
+### 10.9 Asset summary + production order
+
+| Section | Asset count | Aspect | Effort |
+|---|---|---|---|
+| 10.1 Character turnarounds | 50 stills | 2752×1536 | XL — most-load-bearing first; producer ships incrementally |
+| 10.2 Wheel-followup cinematics | 6 cinematics × 2.5s | 16:9 4K | M |
+| 10.3 Human reveal transitions | 4 cinematics × 3s | 16:9 4K | M |
+| 10.4 Act 6 confession-close | 14 cinematics × 2.8s | 16:9 4K | L |
+| 10.5 Chapter-card telegraphs | 28 stills | 1920×1080 | M (informally; can ship in waves) |
+| 10.6 Room state overlays | 7 stills | varies | M |
+| 10.7 Blood Weave progressions | 40 stills | 1024×576 | L |
+| 10.8 Manuscript vault | 4 stills | varies | S |
+| **Total** | **~150 production assets** | | |
+
+#### 10.9.1 Recommended production order
+
+The following ordering minimizes engineering blocking — early waves
+unblock the most downstream PRs in the audit/16 sprint:
+
+1. **§10.6 Room state overlays** (7 stills) — unblocks PR 7 (Escape Room sequencing, ER2).
+2. **§10.4 Confession-close cinematics × 4** (start with empathy + refusal × Elara + Human; defer the other 5 stances to a later wave) — unblocks PR 9 partial (C4).
+3. **§10.5 Chapter-card telegraphs × 5** (start with the most-load-bearing acts: act1_awakening, act3_path_dividend, act4_consumed_witness, act6_remembrance, act7_silence_in_heaven) — unblocks PR 5 (Streamer, Strm6).
+4. **§10.2 Wheel-followup × 6** — unblocks PR 9 (C1).
+5. **§10.3 Human reveal transitions × 4** — unblocks PR 9 (C2).
+6. **§10.8 Manuscript vault × 4** — unblocks PR 8 (Co1).
+7. **§10.1 Character turnarounds × first 10** (production order: agent_zero, antiquarian, iron_lion, kael_recruiter, the_source, shadow_tongue, the_meme, architect, the_human full, elara_alt) — unblocks PR 14 (Cluster E character canon site MVP).
+8. **§10.7 Blood Weave progressions** (start with iron_lion + kael_recruiter, defer the other 6 crew) — unblocks PR 3 (Cosplay metadata can land with Cos5b colors only; portraits ship as available).
+9. **§10.1 remaining 40 turnarounds + §10.7 remaining 30 portraits + §10.4 remaining 10 confession cinematics** — long-tail backfill across 4–8 weeks.
+
+#### 10.9.2 Engineering placeholder strategy
+
+For every asset that hasn't been rendered yet, engineering ships:
+- A manifest entry with the canonical CDN path
+- A `placeholder: true` marker in the corresponding metadata JSON
+- A graceful-degradation render (existing portrait at lower opacity for missing turnarounds; bypass the cinematic mount and surface text-only for missing wheel-followups; CSS-only overlay for missing room-state stills)
+
+This means engineering PRs (PR 2–14) are NOT blocked on art delivery —
+they ship the wiring + placeholders, and the asset replacement is a
+silent CDN drop later.
+
+---
+
+## 11. Fighter game — sprites, stages, HUD, VFX
+
+### 11.0 Render contract for the fighter game
 
 - **Sprite sheets**: per-fighter, per-pose. Format **PNG with alpha**, 8 frames per row, 1 row per pose. Frame size **256×256**; sheet size therefore **2048×256**. Source render in **Nano Banana 2** at 4× (1024×1024 per frame), then downsample. Style anchor: §1.1, but with a slightly **higher contrast** (the fighter game reads at smaller scale than story stills) and a hard rim-light on the leading edge of the action.
 - **Stage backgrounds**: 3 parallax layers per stage. Format **JPG sRGB** for FG/MG/BG (no alpha), **WebM with alpha** for the animated ambient layer. Resolution **1920×1080** per static layer; ambient layer **24fps, 6s seamless loop, ≤4MB**. House style: §1.1 + §1.2.
 - **HUD assets**: PNG with alpha, 2× resolution for retina. Style anchor: brass-and-cyan from §1.2, no neon overpower (HUD must not compete with action).
 - **VFX**: WebM with alpha, 24fps, 0.3–1.0s, frame-budget ≤24 frames each. Composited over the action via additive blend.
 - **Asset prefix**: `art/fight/sprites/<fighter_id>/<pose>.png`, `art/fight/stages/<stage_id>/<layer>.{jpg,webm}`, `art/fight/hud/<element>.png`, `art/fight/vfx/<effect>.webm`, all uploadable via `pnpm assets:upload`.
-- **Voice direction (per fighter)**: §11 carries the bark catalog. Sprite renders DO NOT bake mouth-shapes — the fighter game uses synthesized lip-flap, not phoneme-keyed mouths.
+- **Voice direction (per fighter)**: §12 carries the bark catalog. Sprite renders DO NOT bake mouth-shapes — the fighter game uses synthesized lip-flap, not phoneme-keyed mouths.
 
-### 10.1 Per-fighter sprite-sheet pack
+### 11.1 Per-fighter sprite-sheet pack
 
 Each fighter gets one consolidated authoring pass. **All 20 pose sheets per
 fighter** carry the same canon (cite §2 hero canon by id), the same palette,
@@ -2018,7 +2605,7 @@ The 22 pose sheets are rendered for each of the **21 canonical fighters**:
 | `engineer` | entity_17 | LAST WORDS — character invokes the song bar, on-screen waveform pulses, single delayed-impact strike that lands 8 frames after the visual cue. Trigger frame 16 (last). |
 | `the_eyes` | entity_24 | SWARM SIGHT — 12 cyan eye-projectiles fan out, converge on opponent. Trigger frame 14. |
 
-### 10.2 Stage parallax + ambient
+### 11.2 Stage parallax + ambient
 
 Each stage gets 4 layers: `bg.jpg`, `mg.jpg`, `fg.jpg` (each 1920×1080, sRGB,
 80 quality), and `ambient.webm` (1920×1080, alpha, 24fps, 6s seamless loop,
@@ -2078,7 +2665,7 @@ H.264 alpha or VP9 alpha, ≤4MB).
 ##### `stage_terminus_core` (boss)
 > bg: deep-rift interior — the camera is INSIDE a void-tear; perspective shifts visibly across the loop (this means render the bg as a still that suggests motion, and let the ambient WebM carry the actual perspective shift). mg: floating slabs of corrupted city-stone, all at slight angles. fg: a single corrupted seven-pointed-star monument breaking through the floor at left, half-buried. ambient: across the 6s loop the camera FOV shifts 8° (toward the action and back), making the fighters appear to be stalked by the rift itself. Palette: violet, royal purple, void-black, blood-orange seam.
 
-### 10.3 HUD assets
+### 11.3 HUD assets
 
 > **`art/fight/hud/health_bar_p1.png`** — 600×40 px. Brass frame, deep-red interior fill region, divider tick-marks every 50 HP. Empty state: deep grey interior; full state: bright red. Subtle inner shadow. Two-layer authoring: `health_bar_p1_frame.png` + `health_bar_p1_fill.png` (so engine can clip the fill).
 > **`art/fight/hud/health_bar_p2.png`** — same as p1 but mirrored, framed in cobalt-blue.
@@ -2095,7 +2682,7 @@ H.264 alpha or VP9 alpha, ≤4MB).
 > **`art/fight/hud/perfect_banner.png`** — same composition, "PERFECT" at largest weight, white outer glow.
 > **`art/fight/hud/ko_splash.png`** — 1920×1080 full-screen overlay: huge "K.O." text bottom-center, semi-transparent black tint top, screen-edge cracks emanating from the center (visual broken-glass effect). One-shot play on KO.
 
-### 10.4 Combat VFX
+### 11.4 Combat VFX
 
 All VFX render as **WebM with alpha**, 24fps, 256×256 unless noted. Style: §1.5
 animation vocabulary; lifespans short (the eye should never linger).
@@ -2124,16 +2711,16 @@ animation vocabulary; lifespans short (the eye should never linger).
 
 ---
 
-## 11. Fighter game — SFX, voice barks, music
+## 12. Fighter game — SFX, voice barks, music
 
-### 11.0 Render contract for fighter audio
+### 12.0 Render contract for fighter audio
 
 - **All combat SFX**: 48kHz 16-bit stereo, OGG Vorbis q=6 (or MP3 192kbps if engine prefers), normalized to -14 LUFS, peak ≤ -1.5 dBTP. Render in **Suno 5.1** + **iZotope** chain (RX 11 De-Click + Insight 2 metering); export trimmed to ±5ms of useful onset.
-- **All voice barks**: ElevenLabs Studio Project, per-fighter voice profile (see §11.2 voice-profile catalog), -14 LUFS, peak ≤ -1.5 dBTP, 48kHz. Each bark is its own asset; no concatenation.
+- **All voice barks**: ElevenLabs Studio Project, per-fighter voice profile (see §12.2 voice-profile catalog), -14 LUFS, peak ≤ -1.5 dBTP, 48kHz. Each bark is its own asset; no concatenation.
 - **All music tracks**: Suno 5.1, 48kHz stereo, MP3 256kbps (engine streams). Loop-points pre-baked at the top-of-file via Studio One's "loop tail" technique (last 8s overlap with first 8s, crossfade, render).
 - **Asset prefix**: `audio/fight/sfx/<slug>.ogg`, `audio/fight/voice/<fighter_id>/<bark_id>.ogg`, `audio/fight/music/<slug>.mp3`, `audio/fight/ambient/<stage_id>.ogg`.
 
-### 11.1 Combat SFX (32 universal + 21 per-fighter super-move + 21 per-fighter taunt-clack)
+### 12.1 Combat SFX (32 universal + 21 per-fighter super-move + 21 per-fighter taunt-clack)
 
 Universal stings:
 
@@ -2196,11 +2783,11 @@ Per-fighter super-move SFX (21 variants). Authoring template:
 
 Per-fighter taunt-clack SFX (the audio-only "clack" that plays under the
 visual `taunt.png` sprite, distinct from the voice-bark `taunt_*` lines in
-§11.2):
+§12.2):
 
 > **`audio/fight/sfx/taunt_clack_<fighter_id>.ogg`** (0.4–0.7s) — A short non-verbal sonic signature that registers AS THAT FIGHTER's audio fingerprint. Examples: Architect = single fractal-glass tap; Necromancer = bone-rattle; Iron Lion = banner-flap + spear-butt floor-thump; Game Master = chess-piece-on-board clack. Render 21 variants.
 
-### 11.2 Per-fighter voice barks (catalog)
+### 12.2 Per-fighter voice barks (catalog)
 
 Each fighter gets **a voice profile** (ElevenLabs Studio) and a **bark
 catalog** rendered against that profile. The catalog is identical per fighter
@@ -2262,7 +2849,7 @@ to be authored alongside this prompt book).
 > **`engineer`** — Two profiles — "engineer_normal" (warm baritone) and "the_prince" (same speaker pitched +200¢, with a cathedral-tail, 1.8s, 20% wet). Engineer barks default to "the_prince" register; `defeat_line` only is "engineer_normal". ElevenLabs: 2 profiles.
 > **`the_eyes`** — Whispered child-like soprano, 12 voices stacked (one per Eye), each panned to a different stereo position around the listener (use 12-channel ambisonic if available, else stereo with stochastic L/R distribution). ElevenLabs: "fight_eyes_swarm_v1" rendered 12× and mixed.
 
-### 11.3 Stage ambient music + universal fight music
+### 12.3 Stage ambient music + universal fight music
 
 Per-stage music (15 stages):
 
@@ -2317,18 +2904,18 @@ Stage ambient loops (15 stages, room-tone beds that play UNDER the music):
 
 ---
 
-## 12. Ark + Mechronis rooms × states
+## 13. Ark + Mechronis rooms × states
 
-### 12.0 Render contract for room stills
+### 13.0 Render contract for room stills
 
 - **Format**: WEBP, sRGB, **1920×1080** (16:9, the standard story-mode aspect). House style anchor: §1.1 + §1.2.
 - **Asset prefix**: `art/rooms/<room_id>/<state_id>.webp`. The `state_id` defaults to `default` for single-state rooms.
 - **Lighting register canon**: each room carries its register from §1.3 + the Living Ark filter system (`warm_elara`, `noir_human`, `yin_yang_flicker`, `silence_ambient`). Render the **default** state in `warm_elara` neutral; ship per-filter overlays as code (recolor LUTs in `apps/client/src/lib/livingArkFilter.ts`), not as separate stills — except where a state literally changes the geometry of the room (e.g. `engineering:beat_c_active` vs `engineering:act2_crafting_open`).
 - **NPC presence**: NPCs are NEVER baked into room stills. NPCs render as overlay sprites/portraits at runtime. The room is the set; the cast performs on top.
 - **In-world props**: every prop the design canon names in this room must be visible at the resolution it will read at on-screen. If a chart, a notebook, a diagram, a scroll, a medical readout is named in canon, **render it visibly at the wall position the canon implies**. Do not abstract.
-- **Composition rule**: leave a clean center-stage column for character placement (in-game UI may overlay portraits/dialog). For LCS-background-eligible rooms (every Ark + Mechronis + Celebration + Guild + Casino + game-mode room is LCS-eligible), also render a **portrait variant** at 1024×2048 with character-zone composition per §17.B.
+- **Composition rule**: leave a clean center-stage column for character placement (in-game UI may overlay portraits/dialog). For LCS-background-eligible rooms (every Ark + Mechronis + Celebration + Guild + Casino + game-mode room is LCS-eligible), also render a **portrait variant** at 1024×2048 with character-zone composition per §18.B.
 
-### 12.1 Ark interior rooms
+### 13.1 Ark interior rooms
 
 #### `cryo_bay`
 
@@ -2431,7 +3018,7 @@ Stage ambient loops (15 stages, room-tone beds that play UNDER the music):
 > **State `act1_pet_sacrificed`** — Genesis-pod scarred (burn marks, black residue baked into the canopy). Other incubators dark. Wall-space empty (Little One has taken her drawings down). Lighting cooler, mournful. Asset: `art/rooms/pet_garden/pet_sacrificed.webp`.
 > **State `act3_pet_dynasty_thriving`** — 8 incubators all active. Wall fills with portraits + Little One's drawings (8–10 small artworks, child-art). Garden has plant-life now (mushroom-style growth, foxfire green tint). Asset: `art/rooms/pet_garden/act3_dynasty.webp`.
 
-### 12.2 Mechronis Academy rooms
+### 13.2 Mechronis Academy rooms
 
 #### `mechronis_grand_hall`
 
@@ -2453,7 +3040,7 @@ Stage ambient loops (15 stages, room-tone beds that play UNDER the music):
 > **State `act2_flashback_ceremony_in_progress`** — 11 abstract graduating-student silhouettes at attention (render as silhouettes only; runtime sprites overlay if needed). Iron Lion's empty spot front-and-center, lit by overhead beam. Architect's seal active. Mood: solemn formal. Asset: `art/rooms/mechronis_graduation_platform/act2_ceremony.webp`.
 > **State `act5_post_ceremony_reflection`** — Platform empty. Architect's seal dormant. Wind across the platform implied (subtle dust movement on stone). Engineer's silhouette at platform-edge looking away (toward Iron Lion's implied direction). Asset: `art/rooms/mechronis_graduation_platform/act5_reflection.webp`.
 
-### 12.3 Celebration Campus rooms
+### 13.3 Celebration Campus rooms
 
 #### `celebration_grand_orientation`
 
@@ -2494,7 +3081,7 @@ Stage ambient loops (15 stages, room-tone beds that play UNDER the music):
 > **State `default`** — Empty chamber. Voting hologram dormant. Asset: `art/rooms/celebration_tribunal_chamber/default.webp`.
 > **State `apprentice_aftermath`** — Empty accuser chair. Solemn mood (lighting cooler, dimmer). Voting hologram still dormant. A single white flower on the defendant podium. Asset: `art/rooms/celebration_tribunal_chamber/apprentice_aftermath.webp`.
 
-> **Render + upload §12 in one batch**:
+> **Render + upload §13 in one batch**:
 > ```bash
 > pnpm tsx apps/scripts/upload-public-to-s3.ts --prefix art/rooms/
 > ```
@@ -2502,15 +3089,15 @@ Stage ambient loops (15 stages, room-tone beds that play UNDER the music):
 
 ---
 
-## 13. Guild common rooms + casino + game-mode environments
+## 14. Guild common rooms + casino + game-mode environments
 
-### 13.1 Guild common rooms × 5 universal states
+### 14.1 Guild common rooms × 5 universal states
 
 Each of the 12 Archon Guilds has a common-room with a distinctive palette,
 key-prop set, and mood register. Render each guild-room in **5 universal
 states** (60 stills total).
 
-#### 13.1.0 Universal state matrix (applied to every guild)
+#### 14.1.0 Universal state matrix (applied to every guild)
 
 > **State `daily_idle`** — Scattered guild-member touchpoints (chairs pushed-out, mugs on tables, datapads open at low-angle); no NPCs in the still. Lighting at the guild's "neutral" register. Ambient suggestion: hum, low conversation, no event. Asset: `art/rooms/guild_<guild_id>/daily_idle.webp`.
 > **State `assembly_meeting`** — Furniture realigned for formal gathering: seating in concentric rings or rows facing the guild's central focal element. Lighting concentrated at center. Empty floor (NPCs runtime). Asset: `art/rooms/guild_<guild_id>/assembly.webp`.
@@ -2518,7 +3105,7 @@ states** (60 stills total).
 > **State `defeat_mourning`** — Decorations removed or dimmed. Lighting cooler / lower. Drapery in the guild's mourning-color (per the table below) replaces banners. Single empty central seat for the lost member. Asset: `art/rooms/guild_<guild_id>/mourning.webp`.
 > **State `broadcast_moment`** — Room oriented toward the central screen / focal element. All seating faces the focus. Faint silhouette suggestion of attentive members (NPCs runtime). Lighting dimmed except for the focal element which is fully active. Asset: `art/rooms/guild_<guild_id>/broadcast.webp`.
 
-#### 13.1.1 Per-guild canon (12 rooms)
+#### 14.1.1 Per-guild canon (12 rooms)
 
 | Guild | Visual register | Palette anchors | Central focal element | Wall + floor signature props | Mourning color |
 |---|---|---|---|---|---|
@@ -2539,7 +3126,7 @@ states** (60 stills total).
 > > **Canon visual** (carry into every state): `<row visual-register>`. Palette: `<row palette>`. Focal element: `<row focal>`. Wall+floor props: `<row wall+floor>`. House style §1.1, lighting register §1.3 → `<map register to mood: amphitheater = stage-spot, surveillance = camera-amber, museum = gallery-spot, etc.>`. No on-image text.
 > > Render the 5 universal states above for each `<guild_id>`.
 
-#### 13.1.2 Holiday + faction-war overlays
+#### 14.1.2 Holiday + faction-war overlays
 
 > **Christmas-in-July overlay** — A swap-in tinsel-and-lights variant for **6 guilds** (conexus, meme, game_master, necromancer, engineer, human — the guilds whose registers tolerate festivity). Add wreath-circlets at the focal element; tinsel along seating edges; one floating holo-snowflake at upper-screen-center. Asset: `art/rooms/guild_<guild_id>/christmas_in_july.webp`.
 > **Faction-war active overlay** — A swap-in for **all 12 guilds**: a holographic war-status banner appears above the focal element showing the guild's current campaign-stake. Asset: `art/rooms/guild_<guild_id>/faction_war_active.webp`.
@@ -2547,7 +3134,7 @@ states** (60 stills total).
 That's **60 universal-state stills + 6 christmas + 12 faction-war = 78
 guild-room renders**.
 
-### 13.2 Casino rooms × 3 states
+### 14.2 Casino rooms × 3 states
 
 #### `casino_main_floor`
 
@@ -2583,7 +3170,7 @@ guild-room renders**.
 > **State `default_active`** — 8–10 tables active. Holiday décor rich. Bar busy. Asset: `art/rooms/casino_christmas_in_july/active.webp`.
 > **State `gift_drop_event`** — Holographic Christmas-tree at center spinning slowly, dispensing prize-glyphs to tables. Crowd-density implied higher than baseline. Asset: `art/rooms/casino_christmas_in_july/gift_drop.webp`.
 
-### 13.3 Game-mode environments (non-fight, non-casino)
+### 14.3 Game-mode environments (non-fight, non-casino)
 
 #### `collectors_arena`
 
@@ -2620,23 +3207,23 @@ guild-room renders**.
 > **State `endgame_active_cold`** — Galaxy-map showing machine-dominated (cold violet pinpoints heavy). Light meter heavy-toward-dark. Lighting cool-violet. Asset: `art/rooms/witnessing_hub_bridge/endgame_cold.webp`.
 > **State `reclamation_loop_silence_path`** — All lights at quarter-strength. Galaxy-map showing reclaimed-but-silenced state (no faction colors, just neutral cream). Slideshow-playback station has a single Lyra Vox audio-waveform displayed. Asset: `art/rooms/witnessing_hub_bridge/silence_path.webp`.
 
-> **Render + upload §13 in one batch**:
+> **Render + upload §14 in one batch**:
 > ```bash
 > pnpm tsx apps/scripts/upload-public-to-s3.ts --prefix art/rooms/
 > ```
 
 ---
 
-## 14. Trade Empire sectors × prosperity states
+## 15. Trade Empire sectors × prosperity states
 
-### 14.0 Render contract
+### 15.0 Render contract
 
 - **Format**: WEBP, sRGB, 1920×1080. House style §1.1, palette anchors §1.2.
 - **Asset prefix**: `art/sectors/<sector_id>/<prosperity_state>.webp`. The "default" 1920×1080 render is the **lit** state.
 - **Cross-reference**: the named-sector base palettes are already authored in `apps/shared/tradeEmpireArtPrompts.ts` (the SECTOR_PAINTING export). Carry those palettes verbatim into the prosperity-state variants. Do NOT re-paint the named sectors from scratch.
 - **NPC density**: workers / merchants / soldiers vary by prosperity. Render at the densities below as small silhouettes — runtime sprite-overlays NOT used for sectors.
 
-### 14.1 Universal prosperity-state matrix
+### 15.1 Universal prosperity-state matrix
 
 The same 5 prosperity states apply to **every** sector. Each state shifts
 lighting, decay, density, and faction-presence consistently across sector
@@ -2673,7 +3260,7 @@ types.
 > - Energy: high — meter glowing cyan-cream.
 > - Faction presence: player-faction banners + a single cyan-cream Bridge-of-Kael memorial-statue at the central plaza.
 
-### 14.2 Sector-type catalog
+### 15.2 Sector-type catalog
 
 Each base sector type carries its own focal element + worker density logic. Compose the universal-state matrix per sector type.
 
@@ -2695,7 +3282,7 @@ Each base sector type carries its own focal element + worker density logic. Comp
 #### `trade_nexus`
 > **Focal**: central marketplace. Holographic price-boards. Merchant convoys arriving / departing at perimeter. Asset: `art/sectors/trade_nexus/<state>.webp`.
 
-### 14.3 Named sector palettes (carried from `tradeEmpireArtPrompts.ts`)
+### 15.3 Named sector palettes (carried from `tradeEmpireArtPrompts.ts`)
 
 Each named sector below = one base sector-type rendered in **all 5 prosperity states**. Carry the palette anchors verbatim.
 
@@ -2714,7 +3301,7 @@ Each named sector below = one base sector-type rendered in **all 5 prosperity st
 
 That's **10 named sectors × 5 prosperity states = 50 sector renders**.
 
-> **Render + upload §14**:
+> **Render + upload §15**:
 > ```bash
 > pnpm tsx apps/scripts/upload-public-to-s3.ts --prefix art/sectors/
 > ```
@@ -2722,9 +3309,9 @@ That's **10 named sectors × 5 prosperity states = 50 sector renders**.
 
 ---
 
-## 15. Summoning + sig VFX + card-combat VFX + ambients + SFX
+## 16. Summoning + sig VFX + card-combat VFX + ambients + SFX
 
-### 15.1 Soul Stones / Castle of Death summoning system
+### 16.1 Soul Stones / Castle of Death summoning system
 
 #### `castle_of_death` chamber (still + variants)
 
@@ -2788,7 +3375,7 @@ For each of 12 pets:
 > - `lattice_drone`: portal opens; geometric mech-drone unfolds out of the portal lattice-edge by lattice-edge over 8s.
 > - `chorus_devourer`: portal opens silently; figure walks out at 1m/s, sound-wave glyph at chest visibly active but **no audio** during this shot — silence is the SFX.
 
-Voice direction: Necromancer's dialog is on a sardonic-baritone profile (§11 fight_necromancer_v1 also fits here), 4 lines per pet (one per shot, plus a closing acknowledgment). Per-pet line scripts ship as `apps/scripts/demon-summon-vo.csv`.
+Voice direction: Necromancer's dialog is on a sardonic-baritone profile (§12 fight_necromancer_v1 also fits here), 4 lines per pet (one per shot, plus a closing acknowledgment). Per-pet line scripts ship as `apps/scripts/demon-summon-vo.csv`.
 
 #### Summoning failure cinematic
 
@@ -2808,7 +3395,7 @@ Voice direction: Necromancer's dialog is on a sardonic-baritone profile (§11 fi
 > **`art/vfx/ritual_circle_amplify_full.webm`** (3s, 1920×1080, alpha) — All 7 channels filled. Circle perimeter flares with elder-rune sequence in synchronized cascade (each rune fires 100ms apart, 7 runes total, sequence completes at 700ms; remaining 2.3s is sustained-glow with subtle crackle). End frame: circle at peak amplification, ready for breach.
 > **`art/vfx/ritual_circle_reject.webm`** (2s, 1920×1080, alpha) — Wrong combination: circle flares harsh white → inverts (negative-color flash) → collapses inward. End frame: scorched marks on the chamber floor.
 
-### 15.2 Character signature VFX (20 loops)
+### 16.2 Character signature VFX (20 loops)
 
 All renders: 1920×1080, alpha, 24fps, looping (loop length per item).
 Style §1.5 vocabulary; cite the matching character-canon in §2.
@@ -2834,7 +3421,7 @@ Style §1.5 vocabulary; cite the matching character-canon in §2.
 > **`art/vfx/terminus_orange_swarm_wave.webm`** (4s) — Many small orange particles; wave-like motion (collective wave drift, individual particle Brownian).
 > **`art/vfx/shadowtongue_wraith_smear.webm`** (2s) — Long-exposure black motion-blur; horizontal smear streaks; subtle.
 
-### 15.3 Card-combat VFX (18+ items)
+### 16.3 Card-combat VFX (18+ items)
 
 Card-game-engine VFX. All renders: 1024×1024 alpha unless noted, 24fps, loops or one-shots as noted.
 
@@ -2876,7 +3463,7 @@ Card-game-engine VFX. All renders: 1024×1024 alpha unless noted, 24fps, loops o
 > **`art/vfx/board_corruption_spread.webm`** (3s, 1920×1080, alpha) — Red tendrils creep across all 9×5 board tiles, infect cards. Renders against a transparent board grid (compose at runtime).
 > **`art/vfx/divine_light_activate.webm`** (2s, 1920×1080, alpha) — Golden glow blooms from one board-corner outward; cleanses corruption tiles in path.
 
-### 15.4 Room ambient loops (16 missing)
+### 16.4 Room ambient loops (16 missing)
 
 All renders: 15s seamless loop, mono OGG q=6, normalized -14 LUFS. Asset
 prefix `audio/rooms/<room_id>/ambient.ogg`.
@@ -2898,7 +3485,7 @@ prefix `audio/rooms/<room_id>/ambient.ogg`.
 > **`audio/rooms/mechronis_classroom/ambient.ogg`** — Wall-shifting-warp creak (every 4–6s) + holo-display low hum + specimen-unit faint hiss.
 > **`audio/rooms/castle_of_death/ambient.ogg`** — Foxfire-flame whisper + distant organ-low-tone + crypt-water-drip (every 5s).
 
-### 15.5 UI / room-transition SFX (12 items)
+### 16.5 UI / room-transition SFX (12 items)
 
 All renders: ≤1.5s, OGG q=6, normalized -14 LUFS. Asset prefix `audio/sfx/ui/`.
 
@@ -2915,7 +3502,7 @@ All renders: ≤1.5s, OGG q=6, normalized -14 LUFS. Asset prefix `audio/sfx/ui/`
 > **`audio/sfx/ui/rank_increase_medal.ogg`** (0.80s) — Suno: "metal-medallion-clack + brass-resonance".
 > **`audio/sfx/ui/limit_break_ready.ogg`** (1.50s) — Suno: "glittering ascending bell flourish + sustained-tone-hold".
 
-### 15.6 Card-game UI SFX renders (the 10 from §9, with audio engine notes)
+### 16.6 Card-game UI SFX renders (the 10 from §9, with audio engine notes)
 
 §9 specifies the 10 card-game UI SFX prompts (card_hover, card_pickup, etc.).
 Add the following render-and-wire procedures:
@@ -2927,7 +3514,7 @@ Add the following render-and-wire procedures:
 > ```
 > **Wire**: register slugs in `apps/client/src/game/duelyst/sfx.ts`'s `CARD_GAME_UI_SFX` map.
 
-### 15.7 Ritual / Hierarchy SFX (6 items)
+### 16.7 Ritual / Hierarchy SFX (6 items)
 
 > **`audio/sfx/ritual/corruption_activation.ogg`** (2.5s) — Suno: "paper-crinkle + metallic chain-clink + void-whisper harmony".
 > **`audio/sfx/ritual/purification_failure.ogg`** (3.5s) — Suno: "crystal-fracture + 2.5s of perfect silence (the silence IS the SFX)".
@@ -2936,7 +3523,7 @@ Add the following render-and-wire procedures:
 > **`audio/sfx/ritual/demon_manifest_dreamer.ogg`** (1.8s) — Suno: "choral shimmer + soft-bell flourish + sustained-tone tail".
 > **`audio/sfx/ritual/contract_unroll.ogg`** (1.0s) — Suno: "parchment-unroll-rustle + soft-resonance hum + ink-drop pip at end".
 
-> **Render + upload §15 in one batch**:
+> **Render + upload §16 in one batch**:
 > ```bash
 > pnpm tsx apps/scripts/upload-public-to-s3.ts --prefix audio/
 > pnpm tsx apps/scripts/upload-public-to-s3.ts --prefix art/vfx/
@@ -2947,19 +3534,19 @@ Add the following render-and-wire procedures:
 
 ---
 
-## 16. Mini-DLC + epigraphs + Acts 2-7 + Expansion Bible loops + Witnessing VFX
+## 17. Mini-DLC + epigraphs + Acts 2-7 + Expansion Bible loops + Witnessing VFX
 
-### 16.0 Render contract
+### 17.0 Render contract
 
 - Mini-DLC + Acts 2-7 + Expansion Bible cinematics: Veo 3.1, 1920×1080, 24fps, H.264, **no music — VFX + dialog only** (per the user's continuity rule from §3.0). Frame-chained: end frame of shot N = start frame of shot N+1.
 - Daniel Cross epigraph cinematics: composite Nano Banana 2 still (8s held, Ken-Burns crawl) + 4-frame Veo 3.1 motion flash (1s, 24fps, looping for the SealEpigraphCinematic modal). Format: still WEBP 1920×1080, motion WebM alpha 1920×1080.
 - Witnessing VFX: 1920×1080 WebM alpha, 24fps, looping or one-shot per item.
 - Expansion Bible gameplay-loop cinematics: 6–10s each (snappier than story-mode cinematics), 1920×1080, 24fps, H.264.
 
-### 16.1 Mini-DLC mystery-arc cinematics
+### 17.1 Mini-DLC mystery-arc cinematics
 
 8 chapters × 5 episodes. Per chapter, author a 5-shot frame-chained
-opening-cinematic; per-episode in-game beats use existing room art (§12).
+opening-cinematic; per-episode in-game beats use existing room art (§13).
 
 #### `dlc_y1q1_first_charter` — "The First Charter"
 > **Year 1 Q1**. Stake: the player's first faction-charter signing (Insurgency vs. Authority decision). 5 shots, 60s total, frame-chained.
@@ -2981,7 +3568,7 @@ opening-cinematic; per-episode in-game beats use existing room art (§12).
 
 #### `dlc_y1q3_curriculum_crisis` — "The Curriculum Crisis"
 > **Year 1 Q3**. Stake: a Mechronis house's curriculum is about to be rewritten by Shadow Tongue.
-> **Shot 1 (10s)** — Mechronis classroom (§12.2 mechronis_classroom canon). Wall-text actively rewriting itself in slow-mo. End frame: half-rewritten lesson.
+> **Shot 1 (10s)** — Mechronis classroom (§13.2 mechronis_classroom canon). Wall-text actively rewriting itself in slow-mo. End frame: half-rewritten lesson.
 > **Shot 2 (12s)** — Pull back to a wider classroom view; 12 desks empty; a single book on one desk (the desk we've seen before — the Engineer's seat). End frame: book's page corner curling on its own.
 > **Shot 3 (12s)** — Shadow-Tongue presence implied — a faint indigo wraith-smear at the back of the room. The Engineer (§2 hero canon, Prince register) speaks one line. End frame: wraith-smear closer.
 > **Shot 4 (12s)** — Engineer reaches for the book, intervenes. Wraith-smear retreats. Ink begins flowing IN reverse on the wall (un-corruption). End frame: 80% restored wall.
@@ -2990,7 +3577,7 @@ opening-cinematic; per-episode in-game beats use existing room art (§12).
 
 #### `dlc_y1q4_witness_plaza` — "The Witness Plaza"
 > **Year 1 Q4**. Stake: Witnessing Hub records the player's first community-public testimony.
-> **Shot 1 (12s)** — Witnessing Hub (§12.1 bridge canon, beat_i state) at maximum activation. Player approaches the Hub. End frame: player's hand on the Hub's perimeter.
+> **Shot 1 (12s)** — Witnessing Hub (§13.1 bridge canon, beat_i state) at maximum activation. Player approaches the Hub. End frame: player's hand on the Hub's perimeter.
 > **Shot 2 (12s)** — Hub responds — cyan tessellation expands outward to encompass the Bridge. Galaxy-map dims; the Hub becomes the room's only light source. End frame: Hub fully bloomed.
 > **Shot 3 (14s)** — Player begins testimony (off-screen voice; Player VO is recorded by the player's mic in-engine — render the visual without lip-sync). Hub responds with cyan tessellation rippling in-time with player's words. End frame: Hub mid-tessellation pattern.
 > **Shot 4 (12s)** — Match-cut to the entire community: a galactic-scale visual — every player who's testified is a cyan pinpoint on the galaxy-map. The current testimony adds a new pinpoint. End frame: new pinpoint joining the constellation.
@@ -3001,14 +3588,14 @@ opening-cinematic; per-episode in-game beats use existing room art (§12).
 > **Year 2 Q1**. Stake: the original Charter (Y1Q1) is being challenged; faction-war breaks out.
 > **Shot 1 (10s)** — Close on Y1Q1's signed charter, now in a glass case. Glass case crack appears, propagates. End frame: full crack.
 > **Shot 2 (12s)** — Match-cut: faction-banner hanging from a guild-room ceiling — banner rips down the center on its own. End frame: torn banner half-fallen.
-> **Shot 3 (12s)** — Wider: 12 guild common-rooms (§13.1) all simultaneously losing their charter-related decoration (sigils flicker out, banners fall). Shot is a fast-cut montage (6 rooms in 2 seconds each). End frame: all 12 guild-room focal-elements dark.
-> **Shot 4 (14s)** — Bridge (§12.1 bridge canon). Galaxy-map shows immediate territorial-flux. Faction colors fragmenting at sector boundaries. Communications array alarms (visual, not aural). End frame: galaxy-map at peak fragmentation.
+> **Shot 3 (12s)** — Wider: 12 guild common-rooms (§14.1) all simultaneously losing their charter-related decoration (sigils flicker out, banners fall). Shot is a fast-cut montage (6 rooms in 2 seconds each). End frame: all 12 guild-room focal-elements dark.
+> **Shot 4 (14s)** — Bridge (§13.1 bridge canon). Galaxy-map shows immediate territorial-flux. Faction colors fragmenting at sector boundaries. Communications array alarms (visual, not aural). End frame: galaxy-map at peak fragmentation.
 > **Shot 5 (12s)** — Player at Bridge, choice-prompt for which side to back appears. Cinematic ends input-pending. End frame: prompt visible, player POV.
 > Asset: `videos/dlc/y2q1_charter_schism/shot_<n>.mp4`.
 
 #### `dlc_y2q2_hierarchy_audit` — "The Hierarchy Audit"
 > **Year 2 Q2**. Stake: Hierarchy of the Damned has audited the player's choices; consequences propagate.
-> **Shot 1 (12s)** — Castle of Death summoning chamber (§15.1 chamber_dormant). One blood-crystal pedestal lights with the player's sigil (a glyph specific to player choices). End frame: glyph at peak.
+> **Shot 1 (12s)** — Castle of Death summoning chamber (§16.1 chamber_dormant). One blood-crystal pedestal lights with the player's sigil (a glyph specific to player choices). End frame: glyph at peak.
 > **Shot 2 (12s)** — All 7 pedestals light in sequence (clockwise). Each pedestal-light corresponds to one of the player's recent significant choices (rendered as glyph-icons floating above each pedestal). End frame: all 7 lit, glyphs hovering.
 > **Shot 3 (14s)** — The chamber's central circle ignites. A new demon shape begins to manifest — but **the demon's silhouette is the player's own** (this is the audit's punch — Hierarchy summons the player's own shadow). End frame: silhouette half-formed.
 > **Shot 4 (12s)** — Player-shadow turns to face camera. Eyes open (color matches player's faction-affinity). The player-shadow speaks a single line in player's own voice (off-screen recorded; cinematic-engine pulls from player's logged dialog choices). End frame: player-shadow facing forward.
@@ -3020,14 +3607,14 @@ opening-cinematic; per-episode in-game beats use existing room art (§12).
 > **Shot 1 (10s)** — Tight on the apprentice's eye (cyan or orange depending on path). End frame: blinking determination.
 > **Shot 2 (12s)** — Pull to medium: apprentice in fighting-stance in a recognizable game-mode arena (the player chose which arena via earlier gameplay). Opponent silhouette across the arena. End frame: apprentice mid-bow before fight.
 > **Shot 3 (14s)** — Combat exchange — apprentice takes 3 hits, gets up, returns 3. Camera tight on each strike. End frame: apprentice center-frame, opponent off-balance.
-> **Shot 4 (12s)** — Final exchange. Apprentice lands the finishing blow (a frame-chain to the existing Fight super-move VFX from §10.4 — `super_screenflash_<fighter_id>.webm` plays here). End frame: opponent down.
+> **Shot 4 (12s)** — Final exchange. Apprentice lands the finishing blow (a frame-chain to the existing Fight super-move VFX from §11.4 — `super_screenflash_<fighter_id>.webm` plays here). End frame: opponent down.
 > **Shot 5 (12s)** — Apprentice helps opponent up (wins by mercy, not by destruction — this is the path-positive ending). Lighting warms. End frame: both upright, apprentice's hand on opponent's shoulder.
 > Asset: `videos/dlc/y2q3_apprentices_stand/shot_<n>.mp4`.
 
 #### `dlc_y2q4_watchers_speak` — "The Watchers Speak"
 > **Year 2 Q4**. Stake: the Watchers break their millennia-long silence to address the player directly.
-> **Shot 1 (12s)** — Panopticon center frame. The huge iris on the back wall (per §10.2 stage_panopticon canon) fully open and looking down. Player center-stage. End frame: iris lit fully.
-> **Shot 2 (14s)** — Iris speaks (visualization: the iris-pupil ripples in time with the words). Watcher voice (modulated, surveillance-radio EQ — §11 fight_watcher_v1 register). Words form on the floor in front of the player as glyph-text. End frame: glyph-text fully written.
+> **Shot 1 (12s)** — Panopticon center frame. The huge iris on the back wall (per §11.2 stage_panopticon canon) fully open and looking down. Player center-stage. End frame: iris lit fully.
+> **Shot 2 (14s)** — Iris speaks (visualization: the iris-pupil ripples in time with the words). Watcher voice (modulated, surveillance-radio EQ — §12 fight_watcher_v1 register). Words form on the floor in front of the player as glyph-text. End frame: glyph-text fully written.
 > **Shot 3 (14s)** — Player reads. As they read, the glyph-text rises off the floor and reorganizes into a single sentence at eye-level (the player's eye-level — the camera is player POV). End frame: sentence at eye-level, glowing.
 > **Shot 4 (12s)** — Player has a choice: accept (glyph-text dissolves into player's outline, becoming part of them) or reject (glyph-text shatters, falls). The cinematic captures the moment-just-before; choice resolves in gameplay. End frame: glyph-text trembling at peak.
 > **Shot 5 (8s)** — Match-cut to an outside-the-Panopticon view: the surveillance-tower is **dim** (the Watchers, having spoken, are quieter now). The galaxy-map at the bottom of frame shows one Watcher-territory shifting color (a small change with large implications). End frame: galaxy-map at neutral baseline, slight Watcher-color tint reduced.
@@ -3042,7 +3629,7 @@ opening-cinematic; per-episode in-game beats use existing room art (§12).
 > **Shot 5 (8s)** — Sacrum returns to dormant. Single piece of silk on the altar shifts (suggesting another echo waits). End frame: altar at baseline.
 > Asset: `videos/dlc/advocate_01_sacrum_echo/shot_<n>.mp4`.
 
-### 16.2 Daniel Cross epigraph cinematics
+### 17.2 Daniel Cross epigraph cinematics
 
 Per the 7 SEAL_EPIGRAPHS in `apps/shared/sevenSealsEpigraphs.ts`. Each
 seal gets a still + motion flash. The still is held under the epigraph
@@ -3084,7 +3671,7 @@ of the seal.
 > Still: Bridge of Kael (the named landmark, post-credits) — a long arched bridge of white-cream stone over a void of perfect-cyan. No figures on the bridge. Sky above is uniformly off-white. The composition has a held-breath quality.
 > Flash: One floor-plate on the bridge ripples once (4-frame motion of a tiny seismic ripple), then perfect stillness for the remainder of the 1s. **No sound** — the silence is part of the cinematic spec; do not overlay any motion-SFX.
 
-### 16.3 Acts 2-7 climax cinematics (29)
+### 17.3 Acts 2-7 climax cinematics (29)
 
 Cite `docs/production/acts-2-7-aaa-final/remaining_work.md` for canonical
 shot-list. Author per-cinematic at 8–14s each, frame-chained where part
@@ -3100,76 +3687,76 @@ of a sequence.
 > **`videos/acts/act4/human_path_b.mp4`** (10s) — The Human's other true-form (cyan-cool). Same composition as above. End frame: Human's other true-form held.
 > **`videos/acts/act4/memorial_corridor_keymoment.mp4`** (14s) — Long corridor walked end-to-end. Walls show portraits of every named ally lost across player's saga. Camera ends on player's reflection in the final portrait-glass. End frame: player's own face reflected back.
 > **`videos/acts/act4/opener.mp4`** (10s) — Act 4 title-card composition: player on the Bridge looking out at a galaxy mid-fragmentation. End frame: galaxy at peak fragmentation.
-> **`videos/acts/act4_5/casino_opener.mp4`** (10s) — Casino main-floor (§13.2 high_stakes). The Degen turns to face camera. End frame: Degen mid-smile.
-> **`videos/acts/act4_5/racetrack_opener.mp4`** (10s) — DMC track (§13.3 standard). 8 karts in starting line; one is the player's. End frame: starting-line lights at amber.
+> **`videos/acts/act4_5/casino_opener.mp4`** (10s) — Casino main-floor (§14.2 high_stakes). The Degen turns to face camera. End frame: Degen mid-smile.
+> **`videos/acts/act4_5/racetrack_opener.mp4`** (10s) — DMC track (§14.3 standard). 8 karts in starting line; one is the player's. End frame: starting-line lights at amber.
 
 #### Act 5 cinematics (6)
 
-> **`videos/acts/act5/ration_map_opener.mp4`** (12s) — Galaxy-map closes in on a single famine-stricken sector (§14 sector_*_dimming). End frame: sector's ration-meter at red.
+> **`videos/acts/act5/ration_map_opener.mp4`** (12s) — Galaxy-map closes in on a single famine-stricken sector (§15 sector_*_dimming). End frame: sector's ration-meter at red.
 > **`videos/acts/act5/sector_awakening.mp4`** (14s) — A consumed sector (sickly purple) recovers — corruption recedes from one quadrant outward. Workers return to camp-sites. End frame: sector at reclaimed state.
-> **`videos/acts/act5/iron_lion_death_broadcast.mp4`** (12s) — Iron Lion final transmission. Camera close on his face (full hero canon §2). He delivers his last orders. End frame: Iron Lion lowering eyes. Iron Lion VO: §11 fight_iron_lion_v1.
-> **`videos/acts/act5/engineer_final_recording.mp4`** (14s) — Engineering bay (§12.1) rendered in the_prince register. Engineer at workbench delivers his last log entry to the holographic recording rig. End frame: rig dimming after recording closes.
-> **`videos/acts/act5/galaxy_reclaimed_milestone.mp4`** (10s) — Observation Deck (§12.1) at reclaimed-galaxy state. Cyan-cream pinpoints across the galaxy at full strength. End frame: shield-edge horizon visible.
+> **`videos/acts/act5/iron_lion_death_broadcast.mp4`** (12s) — Iron Lion final transmission. Camera close on his face (full hero canon §2). He delivers his last orders. End frame: Iron Lion lowering eyes. Iron Lion VO: §12 fight_iron_lion_v1.
+> **`videos/acts/act5/engineer_final_recording.mp4`** (14s) — Engineering bay (§13.1) rendered in the_prince register. Engineer at workbench delivers his last log entry to the holographic recording rig. End frame: rig dimming after recording closes.
+> **`videos/acts/act5/galaxy_reclaimed_milestone.mp4`** (10s) — Observation Deck (§13.1) at reclaimed-galaxy state. Cyan-cream pinpoints across the galaxy at full strength. End frame: shield-edge horizon visible.
 > **`videos/acts/act5/three_chairs_opener.mp4`** (12s) — Bridge: three chairs arranged facing each other (Player, Elara, Human). Camera circles around once. End frame: all three chairs occupied (silhouettes only).
 
 #### Act 6 cinematics (4)
 
-> **`videos/acts/act6/elara_confession.mp4`** (14s) — Player-cabin (§12.1 act5_endgame_full). Elara hologram center-stage, delivering her confession. Cyan tessellation around her at the emotional peaks. End frame: Elara's hologram dissolving as her confession ends.
-> **`videos/acts/act6/human_confession.mp4`** (14s) — Same room. The Human (now physical, not hologram) delivers his confession. Rose+cyan duet implied — voice splits between two registers (§11 fight_human_*). End frame: Human seated quietly.
-> **`videos/acts/act6/watcher_reveal.mp4`** (14s) — Watcher's Panopticon (§10.2). The eye-iris-on-back-wall opens for the first time and looks down at the player. End frame: iris fully open, player center-stage.
+> **`videos/acts/act6/elara_confession.mp4`** (14s) — Player-cabin (§13.1 act5_endgame_full). Elara hologram center-stage, delivering her confession. Cyan tessellation around her at the emotional peaks. End frame: Elara's hologram dissolving as her confession ends.
+> **`videos/acts/act6/human_confession.mp4`** (14s) — Same room. The Human (now physical, not hologram) delivers his confession. Rose+cyan duet implied — voice splits between two registers (§12 fight_human_*). End frame: Human seated quietly.
+> **`videos/acts/act6/watcher_reveal.mp4`** (14s) — Watcher's Panopticon (§11.2). The eye-iris-on-back-wall opens for the first time and looks down at the player. End frame: iris fully open, player center-stage.
 > **`videos/acts/act6/three_chairs_payoff.mp4`** (12s) — Three chairs (the same as act5 opener) — but now one chair is empty. The Player + Elara + Human have made one of three sacrifices. End frame: empty chair, the other two looking at it.
 
 #### Act 7 cinematics (7)
 
 > **`videos/acts/act7/army_composite_reveal.mp4`** (14s) — Composite shot of every faction's army marching toward camera, from infinity-distance to mid-shot. End frame: lead figure of each army visible (5 lead figures).
 > **`videos/acts/act7/war_diagram.mp4`** (12s) — Bridge galaxy-map at maximum complexity — every faction territory at the brink. Player's hand reaches in. End frame: hand at map.
-> **`videos/acts/act7/voices_align_keymoment.mp4`** (14s) — Witnessing Hub (§12.1 bridge act5 register) full bloom. All player-recorded testimonies (across the entire saga) align in cyan tessellation across the Hub's hemisphere. End frame: Hub at full alignment.
+> **`videos/acts/act7/voices_align_keymoment.mp4`** (14s) — Witnessing Hub (§13.1 bridge act5 register) full bloom. All player-recorded testimonies (across the entire saga) align in cyan tessellation across the Hub's hemisphere. End frame: Hub at full alignment.
 > **`videos/acts/act7/stance_humanity.mp4`** (10s) — Player chooses Humanity stance. Player's body suffuses with rose-warm light. End frame: player center-stage rose-lit.
 > **`videos/acts/act7/stance_pattern.mp4`** (10s) — Pattern stance. Cyan tessellation. End frame: cyan-lit.
 > **`videos/acts/act7/stance_bridge.mp4`** (10s) — Bridge stance. Both rose + cyan, harmonized. End frame: dual-lit.
 > **`videos/acts/act7/stance_command.mp4`** (10s) — Command stance. Authority-crimson + brass. End frame: crimson-brass-lit.
 
-### 16.4 Expansion Bible gameplay-loop cinematics (40)
+### 17.4 Expansion Bible gameplay-loop cinematics (40)
 
 Per `docs/design/EXPANSION_BIBLE.md` gameplay-system catalog. 6–10s each, snappier than story-mode.
 
 #### Ark Exploration (10)
 
-> **`videos/expansion/ark/awakening.mp4`** (8s) — Player awakens in cryo (re-uses §12.1 cryo_bay beat_a state); compressed for replay.
-> **`videos/expansion/ark/first_whisper.mp4`** (6s) — Corridor (§12.1) — first whispered Elara line, player listens.
-> **`videos/expansion/ark/doctors_ghost.mp4`** (8s) — Medical bay (§12.1 quarantine state) — ghost-presence of the deceased doctor flickers.
-> **`videos/expansion/ark/ships_true_name.mp4`** (8s) — Bridge (§12.1) — galaxy-map reveals the Ark's true name in the central display.
+> **`videos/expansion/ark/awakening.mp4`** (8s) — Player awakens in cryo (re-uses §13.1 cryo_bay beat_a state); compressed for replay.
+> **`videos/expansion/ark/first_whisper.mp4`** (6s) — Corridor (§13.1) — first whispered Elara line, player listens.
+> **`videos/expansion/ark/doctors_ghost.mp4`** (8s) — Medical bay (§13.1 quarantine state) — ghost-presence of the deceased doctor flickers.
+> **`videos/expansion/ark/ships_true_name.mp4`** (8s) — Bridge (§13.1) — galaxy-map reveals the Ark's true name in the central display.
 > **`videos/expansion/ark/two_voices.mp4`** (8s) — Player-cabin — Elara + Human voices first speak together.
 > **`videos/expansion/ark/breaking_point_path_a.mp4`** (10s) — Beat E archive — choice path A (preserve memory).
 > **`videos/expansion/ark/breaking_point_path_b.mp4`** (10s) — Same composition — path B (release memory).
-> **`videos/expansion/ark/breaking_point_path_c.mp4`** (10s) — Same — path C (rewrite memory). Shadow Tongue VFX overlay (§15.2).
+> **`videos/expansion/ark/breaking_point_path_c.mp4`** (10s) — Same — path C (rewrite memory). Shadow Tongue VFX overlay (§16.2).
 > **`videos/expansion/ark/synthesis.mp4`** (10s) — Witnessing Hub — Elara and Human voices merge into a single new voice (Lyra Vox emergent).
 > **`videos/expansion/ark/army_assembly.mp4`** (10s) — Bridge — galaxy-map reveals every recruited NPC as a banner-glyph. Banners aggregate.
 
 #### Card Battle (4)
 
-> **`videos/expansion/cards/cades_activation.mp4`** (6s) — Card-summoning effect for CADES units (orange Insurgency-glow, §15.3 card_summon_insurgency).
-> **`videos/expansion/cards/kael_boss_echo.mp4`** (8s) — Kael's silhouette appears mid-board as a boss-echo presence; cards on board flicker with red lattice (§15.2 authority_red_lattice).
+> **`videos/expansion/cards/cades_activation.mp4`** (6s) — Card-summoning effect for CADES units (orange Insurgency-glow, §16.3 card_summon_insurgency).
+> **`videos/expansion/cards/kael_boss_echo.mp4`** (8s) — Kael's silhouette appears mid-board as a boss-echo presence; cards on board flicker with red lattice (§16.2 authority_red_lattice).
 > **`videos/expansion/cards/card_summon_signature.mp4`** (6s) — Universal cinematic for any signature-tier summon (re-used across factions, color-shifted).
 > **`videos/expansion/cards/victory_defeat.mp4`** (8s) — Outcome-state cinematic; warm gold (victory) or cool violet (defeat) lighting; no specific environment.
 
 #### Trade Empire (4)
 
-> **`videos/expansion/trade/market_opens.mp4`** (8s) — Trade Empire sector (§14 sector_trade_nexus lit) — market wakes; merchants arrive.
+> **`videos/expansion/trade/market_opens.mp4`** (8s) — Trade Empire sector (§15 sector_trade_nexus lit) — market wakes; merchants arrive.
 > **`videos/expansion/trade/vox_corridor_discovery.mp4`** (10s) — Sector → Vox Corridor reveal: a hidden trade-route lights up on the galaxy-map.
 > **`videos/expansion/trade/trade_deal.mp4`** (8s) — Two merchants shake hands across a cargo-pallet.
 > **`videos/expansion/trade/economic_victory.mp4`** (10s) — Galaxy-map shows player's faction-territory at maximum prosperity (all sectors lit/reclaimed).
 
 #### Fight Arena (4)
 
-> **`videos/expansion/fight/arena_entry.mp4`** (6s) — Fighter walks onto stage (re-uses §10.2 stage canon for chosen stage).
+> **`videos/expansion/fight/arena_entry.mp4`** (6s) — Fighter walks onto stage (re-uses §11.2 stage canon for chosen stage).
 > **`videos/expansion/fight/kael_infected.mp4`** (8s) — Kael in stage_terminus_core, partially infected; the stage shifts color around him.
-> **`videos/expansion/fight/finishing_move.mp4`** (8s) — Universal finisher cinematic; re-uses §10.4 super_screenflash + freeze_frame_outline.
-> **`videos/expansion/fight/champion_crowned.mp4`** (10s) — Tournament hall (§10.2 stage_tournament_hall) at full celebration; champion lit center-stage.
+> **`videos/expansion/fight/finishing_move.mp4`** (8s) — Universal finisher cinematic; re-uses §11.4 super_screenflash + freeze_frame_outline.
+> **`videos/expansion/fight/champion_crowned.mp4`** (10s) — Tournament hall (§11.2 stage_tournament_hall) at full celebration; champion lit center-stage.
 
 #### Boss Encounters (3)
 
-> **`videos/expansion/boss/warlords_shadow.mp4`** (8s) — Warlord boss-echo manifests on a stage (§10.2 stage_crucible).
+> **`videos/expansion/boss/warlords_shadow.mp4`** (8s) — Warlord boss-echo manifests on a stage (§11.2 stage_crucible).
 > **`videos/expansion/boss/phase_transition.mp4`** (8s) — Universal phase-shift cinematic: boss flares, lighting shifts to alarm-red, stage-elements rearrange.
 > **`videos/expansion/boss/boss_defeat.mp4`** (10s) — Universal boss-defeat: boss kneels, dissolution begins, player stands triumphant.
 
@@ -3177,7 +3764,7 @@ Per `docs/design/EXPANSION_BIBLE.md` gameplay-system catalog. 6–10s each, snap
 
 > **`videos/expansion/faction/war_declaration.mp4`** (10s) — Bridge — galaxy-map fragments along faction lines; war-banner appears at the top of frame.
 > **`videos/expansion/faction/vox_revelation.mp4`** (10s) — Vox character (player faction-allied) reveals trade-network identity; map updates with newly-trusted lanes.
-> **`videos/expansion/faction/sector_liberation.mp4`** (10s) — A consumed sector (§14) returns to reclaimed state in slow-mo.
+> **`videos/expansion/faction/sector_liberation.mp4`** (10s) — A consumed sector (§15) returns to reclaimed state in slow-mo.
 > **`videos/expansion/faction/victory.mp4`** (10s) — All-factions-aligned outcome: galaxy-map at unified player-faction color.
 
 #### Loyalty Missions — Elara (3)
@@ -3188,7 +3775,7 @@ Per `docs/design/EXPANSION_BIBLE.md` gameplay-system catalog. 6–10s each, snap
 
 #### Loyalty Missions — Human (3)
 
-> **`videos/expansion/loyalty/human_arc1.mp4`** (10s) — Human reveals his early-life memory (sepia archive register, §12.1 mess_hall beat_e callback).
+> **`videos/expansion/loyalty/human_arc1.mp4`** (10s) — Human reveals his early-life memory (sepia archive register, §13.1 mess_hall beat_e callback).
 > **`videos/expansion/loyalty/human_arc2.mp4`** (10s) — Human confronts the duality of his nature; rose+cyan split visualizes.
 > **`videos/expansion/loyalty/human_arc3.mp4`** (12s) — Human accepts his role as the Bridge of Kael's witness.
 
@@ -3199,7 +3786,7 @@ Per `docs/design/EXPANSION_BIBLE.md` gameplay-system catalog. 6–10s each, snap
 > **`videos/expansion/quest/endgame_rally.mp4`** (10s) — Bridge — every recruited NPC appears as a banner-icon at the player's side.
 > **`videos/expansion/quest/closing_transmission.mp4`** (10s) — Player at Witnessing Hub records the final saga-closing testimony.
 
-### 16.5 Witnessing / narrative VFX (8)
+### 17.5 Witnessing / narrative VFX (8)
 
 > **`art/vfx/narrator_elara_manifest.webm`** (1.5s, 1920×1080, alpha) — Cyan tessellation materializes from screen-edge inward; text-area appears as a translucent panel.
 > **`art/vfx/narrator_human_manifest.webm`** (1.5s) — Rose-warm crimson iris pulse expands; text-area appears.
@@ -3210,7 +3797,7 @@ Per `docs/design/EXPANSION_BIBLE.md` gameplay-system catalog. 6–10s each, snap
 > **`art/vfx/living_ark_pulse_purity.webm`** (1s, looping) — Same shape, golden-bright.
 > **`art/vfx/loredex_entry_reveal.webm`** (1.5s) — Card-flip animation; golden glow at flip-peak; settles on revealed lore-card.
 
-> **Render + upload §16**:
+> **Render + upload §17**:
 > ```bash
 > pnpm tsx apps/scripts/upload-public-to-s3.ts --prefix videos/dlc/
 > pnpm tsx apps/scripts/upload-public-to-s3.ts --prefix videos/acts/
@@ -3222,17 +3809,17 @@ Per `docs/design/EXPANSION_BIBLE.md` gameplay-system catalog. 6–10s each, snap
 
 ---
 
-## 17. Living Character Sheet — base bodies, awakening cinematic, backgrounds, armor
+## 18. Living Character Sheet — base bodies, awakening cinematic, backgrounds, armor
 
 The full LCS canon (species ref-ids, rig + inventory layering rules, the 8
 craftable armor series, the 12 per-game-mode mastery armor sets, and the LCS
 location-background spec with pack groupings + prize-grant triggers) is
 authored in a single file at `docs/production/lcs-species-refs/CANON.md`. The
-prompts in §17 below realize that canon as Nano Banana 2 + Veo 3.1 prompts.
+prompts in §18 below realize that canon as Nano Banana 2 + Veo 3.1 prompts.
 
-**Read CANON.md first** — every prompt in §17 cites it by ref-id (`ref-demagi-m-warrior`, `ref-neyon-f-warrior`, etc.) and by armor-series-id and mastery-armor-id.
+**Read CANON.md first** — every prompt in §18 cites it by ref-id (`ref-demagi-m-warrior`, `ref-neyon-f-warrior`, etc.) and by armor-series-id and mastery-armor-id.
 
-### 17.A LCS base bodies
+### 18.A LCS base bodies
 
 #### Render contract
 
@@ -3254,7 +3841,7 @@ Per CANON.md:
 
 ##### DeMagi
 
-> **`art/lcs/bodies/demagi/m/skin_<n>.png`** (n = 0..7). Reference: `ref-demagi-m-warrior` for body silhouette + hair + eye-glow. Skin-slider stage `<n>` = `<cool-pale|warm-pale|fair-warm|mid-warm|warm-tan|mid-brown|deep-warm|deep-umber>` from CANON.md. Pose, frame, joint-pins per §17.A render contract.
+> **`art/lcs/bodies/demagi/m/skin_<n>.png`** (n = 0..7). Reference: `ref-demagi-m-warrior` for body silhouette + hair + eye-glow. Skin-slider stage `<n>` = `<cool-pale|warm-pale|fair-warm|mid-warm|warm-tan|mid-brown|deep-warm|deep-umber>` from CANON.md. Pose, frame, joint-pins per §18.A render contract.
 > Body proportions: lean-athletic male per ref. Hair: short violet-black with cool-blue tip (carry from ref). Eyes: red-orange iris-glow. Underlayer: charcoal compression sleeveless top + leggings. **No armor.** **No weapon.**
 >
 > Render 8 stages. Asset paths `skin_0.png` through `skin_7.png`.
@@ -3281,7 +3868,7 @@ Per CANON.md:
 > - (Optional) `rose_platinum.png` — Athletic build, twin rose eye-pips, platinum shell with rose-gold edge.
 > - (Optional) `char_gold.png` — Ascetic build, single gold ocular, deep-charcoal shell with gold-leaf cracking.
 >
-> Pose, frame, joint-pins per §17.A render contract. **Quarchon shell IS the underlayer** — no extra clothing.
+> Pose, frame, joint-pins per §18.A render contract. **Quarchon shell IS the underlayer** — no extra clothing.
 >
 > Total: 6–8 Quarchon renders.
 
@@ -3335,7 +3922,7 @@ The engine reads the JSON at runtime to position armor pieces. Author one
 JSON per rendered body PNG (the renderer can auto-generate the JSON via
 the rig overlay; the human authoring task is to verify the anchors).
 
-### 17.B Energy-form awakening cinematic
+### 18.B Energy-form awakening cinematic
 
 Plays under Elara's existing line at character-creation. Modeled on §5
 awakening-video cadence (4 shots, 15s, frame-chained).
@@ -3358,13 +3945,13 @@ awakening-video cadence (4 shots, 15s, frame-chained).
 >
 > Asset paths: `videos/lcs/energy_chooses_form/`.
 
-### 17.C LCS location backgrounds
+### 18.C LCS location backgrounds
 
 The LCS location-background spec is in CANON.md ("LCS location backgrounds"
 section) with full pack groupings, prize-grant triggers, and authoring rules.
 
 **Authoring strategy**: every LCS background is derived from an existing room
-still in §12, §13, or §14. The transformation is mechanical:
+still in §13, §14, or §15. The transformation is mechanical:
 
 1. Take the canonical 1920×1080 room still.
 2. Re-frame to **1024×2048 portrait** (vertical crop).
@@ -3383,14 +3970,14 @@ column at 9:16 crop.
 
 Backgrounds set:
 
-> **Pack: Ark Interior** (12 backgrounds): `art/lcs/backgrounds/ark/{cryo_bay, corridor, engineering, medical_bay, mess_hall, cargo_bay, briefing_room, observation_deck, bridge, archives, comms_array, player_cabin}.webp`. Each derived from the room's `default` or `act2_*` state at §12.1, re-framed to 1024×2048.
-> **Pack: Mechronis Academy** (3): `art/lcs/backgrounds/mechronis/{grand_hall, classroom, graduation_platform}.webp`. From §12.2.
-> **Pack: Celebration Campus** (7): `art/lcs/backgrounds/celebration/{grand_orientation, house_common, chess_classroom, laboratory, training_grounds, library, tribunal_chamber}.webp`. From §12.3.
-> **Pack: Guild Commons** (12): `art/lcs/backgrounds/guild/<guild_id>.webp` for each of the 12 Archon Guilds. From §13.1, `daily_idle` state.
-> **Pack: Casino Floors** (5): `art/lcs/backgrounds/casino/{main_floor, vip_lounge, void_bingo_hall, dream_roulette, christmas_in_july_floor}.webp`. From §13.2.
-> **Pack: Game-Mode Arenas** (12): `art/lcs/backgrounds/arenas/{collectors_arena, dmc_track, tower_defense, vortex_incursion, witnessing_hub, fight_new_babylon, fight_panopticon, fight_thaloria, fight_terminus, fight_mechronis, fight_crucible, fight_blood_weave}.webp`. From §10.2 + §13.3.
-> **Pack: Trade Empire Sectors** (10 — 1 per named sector at lit state): `art/lcs/backgrounds/sectors/<sector_id>_lit.webp`. From §14.3 named-sector-lit-state renders, re-framed.
-> **Pack: Narrative Landmarks** (8): `art/lcs/backgrounds/landmarks/{bridge_of_kael, sacrum_severed_silk, coda_sanctum, witnessing_hub_endgame, castle_of_death, cryo_bay_first_breath, archives_two_witnesses, observation_deck_galaxy_reclaimed}.webp`. From §12 + §13 + §15.
+> **Pack: Ark Interior** (12 backgrounds): `art/lcs/backgrounds/ark/{cryo_bay, corridor, engineering, medical_bay, mess_hall, cargo_bay, briefing_room, observation_deck, bridge, archives, comms_array, player_cabin}.webp`. Each derived from the room's `default` or `act2_*` state at §13.1, re-framed to 1024×2048.
+> **Pack: Mechronis Academy** (3): `art/lcs/backgrounds/mechronis/{grand_hall, classroom, graduation_platform}.webp`. From §13.2.
+> **Pack: Celebration Campus** (7): `art/lcs/backgrounds/celebration/{grand_orientation, house_common, chess_classroom, laboratory, training_grounds, library, tribunal_chamber}.webp`. From §13.3.
+> **Pack: Guild Commons** (12): `art/lcs/backgrounds/guild/<guild_id>.webp` for each of the 12 Archon Guilds. From §14.1, `daily_idle` state.
+> **Pack: Casino Floors** (5): `art/lcs/backgrounds/casino/{main_floor, vip_lounge, void_bingo_hall, dream_roulette, christmas_in_july_floor}.webp`. From §14.2.
+> **Pack: Game-Mode Arenas** (12): `art/lcs/backgrounds/arenas/{collectors_arena, dmc_track, tower_defense, vortex_incursion, witnessing_hub, fight_new_babylon, fight_panopticon, fight_thaloria, fight_terminus, fight_mechronis, fight_crucible, fight_blood_weave}.webp`. From §11.2 + §14.3.
+> **Pack: Trade Empire Sectors** (10 — 1 per named sector at lit state): `art/lcs/backgrounds/sectors/<sector_id>_lit.webp`. From §15.3 named-sector-lit-state renders, re-framed.
+> **Pack: Narrative Landmarks** (8): `art/lcs/backgrounds/landmarks/{bridge_of_kael, sacrum_severed_silk, coda_sanctum, witnessing_hub_endgame, castle_of_death, cryo_bay_first_breath, archives_two_witnesses, observation_deck_galaxy_reclaimed}.webp`. From §13 + §14 + §16.
 
 **Total: ~70 LCS backgrounds.**
 
@@ -3414,7 +4001,7 @@ Holiday + cycle overrides:
 - Christmas-in-July event clear → grants `casino/christmas_in_july_floor.webp`.
 - Prestige-cycle reset → grants `landmarks/witnessing_hub_endgame.webp`.
 
-### 17.D Craftable armor series — 8 series × 7 pieces
+### 18.D Craftable armor series — 8 series × 7 pieces
 
 Per CANON.md "Craftable armor series" — 8 series, each with 7 pieces
 (helmet, chestplate, pauldrons, vambraces, tassets, greaves, boots).
@@ -3422,9 +4009,9 @@ Per CANON.md "Craftable armor series" — 8 series, each with 7 pieces
 #### Render contract
 
 - **Format**: PNG with alpha, **1024×2048** portrait (matches base-body frame so the armor composites pixel-aligned).
-- **Pose**: identical to base-body pose (per §17.A). Armor pieces are authored as pixel-aligned overlays on the body.
+- **Pose**: identical to base-body pose (per §18.A). Armor pieces are authored as pixel-aligned overlays on the body.
 - **Style**: house style §1.1; per-series palette per CANON.md table.
-- **Per-species shape adjustment**: render 4 species variants per piece (DeMagi, Quarchon-athletic, Quarchon-ascetic, Neyon, Human; the "Quarchon-athletic" and "Quarchon-ascetic" are the two Quarchon body phenotypes from §17.A). The shape adjustment between species is mechanical — the same series + piece, re-fitted to each silhouette's joint-pins. Sex variants further adjust chest contour and hip-curve, but use the same render-once-per-species master and apply sex-specific clipping at composite time.
+- **Per-species shape adjustment**: render 4 species variants per piece (DeMagi, Quarchon-athletic, Quarchon-ascetic, Neyon, Human; the "Quarchon-athletic" and "Quarchon-ascetic" are the two Quarchon body phenotypes from §18.A). The shape adjustment between species is mechanical — the same series + piece, re-fitted to each silhouette's joint-pins. Sex variants further adjust chest contour and hip-curve, but use the same render-once-per-species master and apply sex-specific clipping at composite time.
 - **Asset prefix**: `art/lcs/armor/<series_id>/<piece>/<species>.png`.
 
 Series authoring template (apply to each of 8 series):
@@ -3456,14 +4043,14 @@ Series authoring template (apply to each of 8 series):
 **Total: 8 series × 7 pieces × 5 species variants = 280 craftable-armor
 piece renders.**
 
-### 17.E Per-game-mode mastery armor — 12 sets × 7 pieces
+### 18.E Per-game-mode mastery armor — 12 sets × 7 pieces
 
 Per CANON.md "Per-game-mode mastery armor" — 12 mastery armor sets,
 unlocked by mastering the matching game mode.
 
 #### Render contract
 
-Same as §17.D but with **higher visual flair** (these are prestige sets;
+Same as §18.D but with **higher visual flair** (these are prestige sets;
 each has at least one signature visual element that breaks the universal
 piece-template — see "signature flair" notes in CANON.md table).
 
@@ -3515,7 +4102,7 @@ Wire in `apps/server/routers/masteryUnlocks.ts` (create if missing):
 | `first_witness` | Complete all Witnessing-Hub testimony tiers + Bridge-of-Kael post-credits unlock |
 | `tournament_crowned` | Reach top-100 PvP ranking |
 
-> **Render + upload §17 in one batch**:
+> **Render + upload §18 in one batch**:
 > ```bash
 > pnpm tsx apps/scripts/upload-public-to-s3.ts --prefix art/lcs/
 > pnpm tsx apps/scripts/upload-public-to-s3.ts --prefix videos/lcs/
