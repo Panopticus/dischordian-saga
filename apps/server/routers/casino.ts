@@ -25,7 +25,7 @@ import {
   casinoState, casinoResults, casinoJackpotPool, dreamBalance, userAchievements,
   warTerritories, warSeasons, notifications, users, adminAuditLog,
 } from "../../db/schema";
-import { eq, and, sql, desc } from "drizzle-orm";
+import { eq, and, sql, desc, gte, lt } from "drizzle-orm";
 
 /** Broad db-ish handle — accepts either the top-level DrizzleDb or a
  *  transaction handle from `db.transaction(async tx => ...)`. Drizzle
@@ -40,6 +40,7 @@ import {
   scoreMahjongRun,
   validateBet, vipLevelFor, vipWinBonus, MAX_DAILY_WAGER, MAX_DAILY_NET_LOSS,
   MAX_DAILY_VOID_CASES, isFreeToPlayGame, freeSpinsForToday,
+  casinoSeasonKey, casinoSeasonWindow,
   ROULETTE_FACTIONS, GAME_LIMITS, splitJackpotPool, rewardsForAchievement,
   getCasinoCosmetic,
   type RouletteFaction,
@@ -1259,16 +1260,76 @@ export const casinoRouter = router({
   /** Public leaderboard of biggest jackpots. */
   jackpotLeaderboard: publicProcedure
     .use(checkFeatureFlag("casino"))
-    .input(z.object({ limit: z.number().min(1).max(50).default(10) }).optional())
+    .input(z.object({
+      limit: z.number().min(1).max(50).default(10),
+      // audit/16 PR 3 — optional season filter. Defaults to the
+      // current quarter; pass an explicit "Sn-YYYY" key to query
+      // archived seasons. Pass "all" to disable filtering.
+      season: z.string().optional(),
+    }).optional())
     .query(async ({ input }) => {
       const db = await getDb();
       if (!db) return [];
+      const limit = input?.limit ?? 10;
+      const seasonArg = input?.season ?? casinoSeasonKey();
+      // Build the season window unless caller asked for all-time.
+      const conds = [eq(casinoResults.jackpot, true)];
+      if (seasonArg !== "all") {
+        const { start, end } = casinoSeasonWindow(seasonArg);
+        conds.push(
+          gte(casinoResults.playedAt, start),
+          lt(casinoResults.playedAt, end),
+        );
+      }
       return db
         .select()
         .from(casinoResults)
-        .where(eq(casinoResults.jackpot, true))
+        .where(and(...conds))
         .orderBy(desc(casinoResults.payout))
-        .limit(input?.limit ?? 10);
+        .limit(limit);
+    }),
+
+  /** audit/16 PR 3 — Pazaak Tournament season leaderboard.
+   *  Counts tournament wins per player within the current
+   *  (or specified) season. */
+  pazaakTournamentLeaderboard: publicProcedure
+    .use(checkFeatureFlag("casino"))
+    .input(z.object({
+      limit: z.number().min(1).max(50).default(10),
+      season: z.string().optional(),
+    }).optional())
+    .query(async ({ input }) => {
+      const db = await getDb();
+      if (!db) return [];
+      const limit = input?.limit ?? 10;
+      const seasonArg = input?.season ?? casinoSeasonKey();
+      const conds = [
+        eq(casinoResults.game, "pazaak_tournament"),
+        eq(casinoResults.won, true),
+      ];
+      if (seasonArg !== "all") {
+        const { start, end } = casinoSeasonWindow(seasonArg);
+        conds.push(
+          gte(casinoResults.playedAt, start),
+          lt(casinoResults.playedAt, end),
+        );
+      }
+      const rows = await db
+        .select({
+          userId: casinoResults.userId,
+          wins: sql<number>`COUNT(*)`,
+          totalPrize: sql<number>`SUM(${casinoResults.payout})`,
+        })
+        .from(casinoResults)
+        .where(and(...conds))
+        .groupBy(casinoResults.userId)
+        .orderBy(desc(sql`COUNT(*)`))
+        .limit(limit);
+      return rows.map((r) => ({
+        userId: r.userId,
+        wins: Number(r.wins ?? 0),
+        totalPrize: Number(r.totalPrize ?? 0),
+      }));
     }),
 
   /** Leaderboard of players by total casino achievements unlocked.

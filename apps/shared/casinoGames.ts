@@ -787,6 +787,37 @@ export const MAX_DAILY_NET_LOSS = 1000;
  *  ensureCasinoState's daily-counter reset. */
 export const MAX_DAILY_VOID_CASES = 5;
 
+/* ─── Casino seasons (audit/16 PR 3 engagement loop) ─── */
+
+/** A casino "season" is a quarterly window. The audit's
+ *  leaderboard-seasons brief asked for a participation ladder
+ *  that resets — keeps the chase fresh, avoids unrecoverable
+ *  long-tail leaderboards. Quarters give 4 seasons/year, which
+ *  matches typical battle-pass cadence elsewhere in the repo.
+ *
+ *  Format: "S{N}-{YYYY}" — S1 = Q1 (Jan-Mar), S2 = Q2 (Apr-Jun),
+ *  etc. Pure helper; takes any Date and returns the season key
+ *  for the UTC-quarter that Date falls into. */
+export function casinoSeasonKey(d: Date = new Date()): string {
+  const month = d.getUTCMonth(); // 0-11
+  const quarter = Math.floor(month / 3) + 1; // 1-4
+  return `S${quarter}-${d.getUTCFullYear()}`;
+}
+
+/** Compute season-window bounds (inclusive start, exclusive end)
+ *  in UTC for the named season. Used by leaderboard queries to
+ *  filter casinoResults.playedAt by season window. */
+export function casinoSeasonWindow(seasonKey: string): { start: Date; end: Date } {
+  const m = /^S([1-4])-(\d{4})$/.exec(seasonKey);
+  if (!m) throw new Error(`Invalid season key: ${seasonKey}`);
+  const quarter = parseInt(m[1] ?? "0", 10);
+  const year = parseInt(m[2] ?? "0", 10);
+  const startMonth = (quarter - 1) * 3;
+  const start = new Date(Date.UTC(year, startMonth, 1, 0, 0, 0, 0));
+  const end = new Date(Date.UTC(year, startMonth + 3, 1, 0, 0, 0, 0));
+  return { start, end };
+}
+
 /* ─── Rotating free-spins (audit/16 PR 3 engagement loop) ─── */
 
 /** Five eligible games for the daily rotation. Slots is the most

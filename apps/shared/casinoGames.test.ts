@@ -12,6 +12,7 @@ import {
   rollCraps, spinWheel, vipLevelFor, vipWinBonus, validateBet,
   MAX_DAILY_WAGER, MAX_DAILY_NET_LOSS, MAX_DAILY_VOID_CASES, GAME_LIMITS, isFreeToPlayGame,
   ROTATING_FREE_SPIN_GAMES, dayOfYearFromUtcDate, freeSpinsForToday,
+  casinoSeasonKey, casinoSeasonWindow,
   splitJackpotPool, JACKPOT_SEED_FRACTION, JACKPOT_MIN_SEED,
   rewardsForAchievement, getCasinoCosmetic,
   CASINO_ACHIEVEMENT_REWARDS, CASINO_COSMETIC_CATALOG,
@@ -706,3 +707,36 @@ describe("freeSpinsForToday — rotating engagement loop", () => {
   });
 });
 
+
+describe("casinoSeasonKey + casinoSeasonWindow (audit/16 PR 3)", () => {
+  it("Q1 dates → S1-YYYY", () => {
+    expect(casinoSeasonKey(new Date("2026-01-15T12:00:00Z"))).toBe("S1-2026");
+    expect(casinoSeasonKey(new Date("2026-03-31T23:59:59Z"))).toBe("S1-2026");
+  });
+  it("Q2 dates → S2-YYYY", () => {
+    expect(casinoSeasonKey(new Date("2026-04-01T00:00:00Z"))).toBe("S2-2026");
+    expect(casinoSeasonKey(new Date("2026-06-30T12:00:00Z"))).toBe("S2-2026");
+  });
+  it("Q3 dates → S3-YYYY", () => {
+    expect(casinoSeasonKey(new Date("2026-07-15T12:00:00Z"))).toBe("S3-2026");
+  });
+  it("Q4 dates → S4-YYYY", () => {
+    expect(casinoSeasonKey(new Date("2026-12-31T23:59:59Z"))).toBe("S4-2026");
+  });
+
+  it("casinoSeasonWindow returns correct quarter bounds", () => {
+    const w = casinoSeasonWindow("S1-2026");
+    expect(w.start.toISOString()).toBe("2026-01-01T00:00:00.000Z");
+    expect(w.end.toISOString()).toBe("2026-04-01T00:00:00.000Z");
+  });
+  it("casinoSeasonWindow handles year boundary (S4 ends at next Jan 1)", () => {
+    const w = casinoSeasonWindow("S4-2026");
+    expect(w.start.toISOString()).toBe("2026-10-01T00:00:00.000Z");
+    expect(w.end.toISOString()).toBe("2027-01-01T00:00:00.000Z");
+  });
+  it("casinoSeasonWindow rejects invalid keys", () => {
+    expect(() => casinoSeasonWindow("nope")).toThrow();
+    expect(() => casinoSeasonWindow("S5-2026")).toThrow();
+    expect(() => casinoSeasonWindow("S1")).toThrow();
+  });
+});
