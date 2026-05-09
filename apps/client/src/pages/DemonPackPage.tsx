@@ -2,11 +2,11 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
 import { getGoogleLoginUrl } from "@/const";
 import { Link } from "wouter";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Skull, Flame, Crown, ChevronLeft, Gem, Loader2,
-  Sparkles, Package, Eye, Zap, Shield, Star
+  Sparkles, Package, Eye, Zap, Shield, Star, ShieldAlert,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import GameCard from "@/components/GameCard";
@@ -69,12 +69,32 @@ const RARITY_GLOW: Record<string, string> = {
 
 const RARITY_ORDER = ["common", "uncommon", "rare", "epic", "legendary", "mythic", "neyon"];
 
+/** audit/16 GA12 — spend-warning threshold. If a player's pack
+ *  opens in the last 5 minutes already total >= this, the next
+ *  open is gated behind a confirmation modal. NCPG / GameSense
+ *  research treats 5-minute spend windows as the canonical
+ *  "compulsion check" interval — long enough to outlast a single
+ *  hand of impulse, short enough to catch a binge. */
+const PACK_SPEND_WARNING_THRESHOLD = 500;
+const PACK_SPEND_WINDOW_MS = 5 * 60 * 1000;
+
 export default function DemonPackPage() {
   const { isAuthenticated } = useAuth();
   const [selectedPack, setSelectedPack] = useState<"standard" | "premium" | "infernal" | null>(null);
   const [revealedCards, setRevealedCards] = useState<any[]>([]);
   const [revealPhase, setRevealPhase] = useState<"idle" | "opening" | "revealing" | "done">("idle");
   const [currentRevealIdx, setCurrentRevealIdx] = useState(0);
+
+  // audit/16 GA12 — pack-opening spend warning. Track {ts, cost}
+  // for opens in the last 5 minutes; if the next open would push
+  // the rolling total over the warning threshold, surface a
+  // confirmation modal before the open mutation fires.
+  const recentPackSpend = useRef<{ ts: number; cost: number }[]>([]);
+  const [pendingSpendWarning, setPendingSpendWarning] = useState<{
+    packType: "standard" | "premium" | "infernal";
+    rollingTotal: number;
+    cost: number;
+  } | null>(null);
 
   const balance = trpc.store.myDreamBalance.useQuery(undefined, { enabled: isAuthenticated });
   const stats = trpc.cardGame.demonCollectionStats.useQuery(undefined, { enabled: isAuthenticated });
@@ -105,20 +125,44 @@ export default function DemonPackPage() {
     },
   });
 
+  /** Internal — runs the actual open mutation + records spend. */
+  const beginOpenPack = useCallback((packType: "standard" | "premium" | "infernal") => {
+    setSelectedPack(packType);
+    setRevealPhase("opening");
+    setRevealedCards([]);
+    setCurrentRevealIdx(0);
+    const cost = PACK_TYPES.find((p) => p.id === packType)?.cost ?? 0;
+    recentPackSpend.current.push({ ts: Date.now(), cost });
+    // Dramatic delay before opening
+    setTimeout(() => {
+      openPack.mutate({ packType });
+    }, 1200);
+  }, [openPack]);
+
+  /** Public — gated by auth + audit/16 GA12 spend warning. */
   const handleOpenPack = useCallback((packType: "standard" | "premium" | "infernal") => {
     if (!isAuthenticated) {
       window.location.href = getGoogleLoginUrl();
       return;
     }
-    setSelectedPack(packType);
-    setRevealPhase("opening");
-    setRevealedCards([]);
-    setCurrentRevealIdx(0);
-    // Dramatic delay before opening
-    setTimeout(() => {
-      openPack.mutate({ packType });
-    }, 1200);
-  }, [isAuthenticated, openPack]);
+    // GA12 spend window — sum opens in the last 5 minutes.
+    const cutoff = Date.now() - PACK_SPEND_WINDOW_MS;
+    recentPackSpend.current = recentPackSpend.current.filter((e) => e.ts >= cutoff);
+    const rollingTotal = recentPackSpend.current.reduce((s, e) => s + e.cost, 0);
+    const cost = PACK_TYPES.find((p) => p.id === packType)?.cost ?? 0;
+    if (rollingTotal + cost >= PACK_SPEND_WARNING_THRESHOLD) {
+      setPendingSpendWarning({ packType, rollingTotal, cost });
+      return;
+    }
+    beginOpenPack(packType);
+  }, [isAuthenticated, beginOpenPack]);
+
+  const confirmSpendWarning = useCallback(() => {
+    if (!pendingSpendWarning) return;
+    const pack = pendingSpendWarning.packType;
+    setPendingSpendWarning(null);
+    beginOpenPack(pack);
+  }, [pendingSpendWarning, beginOpenPack]);
 
   const handleReset = () => {
     setRevealPhase("idle");
@@ -131,6 +175,63 @@ export default function DemonPackPage() {
 
   return (
     <div className="animate-fade-in">
+      {/* audit/16 GA12 — pack-opening spend warning. Surfaces a
+          confirm modal once the rolling 5-minute pack spend would
+          cross 500 Dream. Cancel = back to the page; confirm = open. */}
+      <AnimatePresence>
+        {pendingSpendWarning && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[200] flex items-center justify-center bg-black/70 backdrop-blur-sm"
+            data-testid="pack-spend-warning"
+          >
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              className="max-w-md w-[92%] mx-4 rounded-xl border void-border bg-gradient-to-b from-amber-950/40 to-black/85 p-6 shadow-2xl"
+            >
+              <div className="flex items-center gap-2 mb-3">
+                <ShieldAlert size={20} className="void-text-accent" />
+                <h2 className="font-display text-base tracking-widest void-text-accent uppercase">
+                  Spend Check
+                </h2>
+              </div>
+              <p className="font-mono text-sm text-foreground/90 leading-relaxed mb-2">
+                You&apos;ve spent{" "}
+                <span className="font-bold void-text-accent">
+                  {pendingSpendWarning.rollingTotal}
+                </span>{" "}
+                Dream on packs in the last 5 minutes. This open is{" "}
+                <span className="font-bold void-text-accent">
+                  +{pendingSpendWarning.cost}
+                </span>{" "}
+                more.
+              </p>
+              <p className="font-mono text-xs text-foreground/70 leading-relaxed mb-5">
+                Pack RNG doesn&apos;t hot-streak. Each open is independent. Open this one anyway?
+              </p>
+              <div className="flex justify-end gap-2">
+                <button
+                  onClick={() => setPendingSpendWarning(null)}
+                  className="px-4 py-2 rounded-md border void-border text-sm font-mono uppercase tracking-wider hover:bg-amber-950/20 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={confirmSpendWarning}
+                  className="px-4 py-2 rounded-md border void-border void-text-accent hover:bg-amber-950/30 transition-colors text-sm font-mono uppercase tracking-wider"
+                >
+                  Open Anyway
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Header */}
       <div className="px-4 sm:px-6 pt-6 pb-4">
         <Link href="/games" className="inline-flex items-center gap-1.5 font-mono text-xs text-muted-foreground hover:text-primary transition-colors mb-4">
