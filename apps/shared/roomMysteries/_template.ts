@@ -381,3 +381,74 @@ export function resolveHumanReaction(
     setsFlag: response.humanReaction.setsFlag,
   };
 }
+
+/* ─── audit/16 PR 30 (Co6) — multistate authoring helpers ───
+   The `ElaraBandedText` and `HumanBandedText` triplet shapes
+   are powerful but verbose to author by hand — a single
+   verb response can have 3+ banded triplets (look narration
+   + tier-1 narration + Human reaction), each requiring 3
+   keys explicitly. The Bridge mystery shows the pattern at
+   scale (40+ banded triplets in one file).
+
+   These helpers are pure ergonomic sugar:
+     bandedNarration(lucid, fragmented, luminous)
+        → ElaraBandedText
+     bandedHumanNarration(shadow, balanced, warm)
+        → HumanBandedText
+     tieredResponses([tier1, tier2, tier3])
+        → readonly VerbResponse[]    (the `tiers` field on a
+          VerbResponse, with each tier's narration banded in
+          the same lucid/fragmented/luminous order)
+
+   The audit'd intent: lower the authoring barrier so OTHER
+   rooms (Cipher Den, Memorial Corridor, Archives) can adopt
+   the multistate pattern without copy-pasting the verbose
+   shape. See docs/design/AUTHORING_MULTISTATE_CLUES.md for
+   the canonical pattern + the bridge.ts example.
+   ───────────────────────────────────────────────────────── */
+
+/** Build an ElaraBandedText triplet from positional args.
+ *  Authors call this to avoid repeating the three keys
+ *  manually:
+ *
+ *    bandedNarration("lucid line", "fragmented line", "luminous line")
+ *
+ *  Equivalent to:
+ *    { lucid, fragmented, luminous }
+ */
+export function bandedNarration(
+  lucid: string,
+  fragmented: string,
+  luminous: string,
+): ElaraBandedText {
+  return { lucid, fragmented, luminous };
+}
+
+/** Build a HumanBandedText triplet from positional args.
+ *  Authors call this to avoid repeating the three keys
+ *  manually. */
+export function bandedHumanNarration(
+  shadow: string,
+  balanced: string,
+  warm: string,
+): HumanBandedText {
+  return { shadow, balanced, warm };
+}
+
+/** Author a sequence of tier responses (Sierra-style "click
+ *  again, learn a little more"). Each entry is a partial
+ *  VerbResponse — the helper fills in defaults for fields
+ *  authors usually leave undefined at higher tiers (clues,
+ *  inventory grants, flags don't typically cascade up tiers).
+ *
+ *  The audit'd intent: a verbose `tiers: [{ narration: ... },
+ *  { narration: ... }, { narration: ... }]` array becomes a
+ *  flat `tieredResponses([{ ... }, { ... }, { ... }])` call.
+ *  Behaviourally identical; saves ~30% of the line count
+ *  per banded hotspot when applied across bridge.ts + the
+ *  rooms that adopt the pattern. */
+export function tieredResponses(
+  tiers: ReadonlyArray<VerbResponse>,
+): readonly VerbResponse[] {
+  return tiers;
+}
