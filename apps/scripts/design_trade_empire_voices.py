@@ -225,10 +225,14 @@ def _post(path: str, payload: dict, timeout: int = 120) -> dict:
 
 
 def design_previews(speaker_key: str, description: str, sample_text: str):
-    """Call /v1/voices/design to generate 3 candidate voices.
+    """Call /v1/text-to-voice/create-previews to generate candidate voices.
 
     Returns the parsed previews list:
-      [{ "audio_base_64": str, "generated_voice_id": str }, ...]
+      [{ "audio_base_64": str, "generated_voice_id": str, ... }, ...]
+
+    The endpoint is the current ElevenLabs Voice Design path (post-2024
+    reorganisation; the older /v1/voices/design and /v1/voice-generation/
+    generate-voice paths return 405 / 404).
     """
     payload = {
         "voice_description": description,
@@ -236,13 +240,15 @@ def design_previews(speaker_key: str, description: str, sample_text: str):
         "auto_generate_text": False,
         "loudness": 0.5,
         "guidance_scale": 5,
+        "model_id": "eleven_multilingual_ttv_v2",
     }
-    data = _post("/voices/design", payload, timeout=180)
+    data = _post("/text-to-voice/create-previews", payload, timeout=180)
     return data.get("previews", [])
 
 
 def save_preview_as_voice(name: str, description: str, generated_voice_id: str) -> str:
-    """Persist a previewed voice into the user's voice library.
+    """Persist a previewed voice into the user's voice library via the
+    current /v1/text-to-voice/create-voice-from-preview endpoint.
 
     Returns the permanent voice_id.
     """
@@ -252,10 +258,10 @@ def save_preview_as_voice(name: str, description: str, generated_voice_id: str) 
         "generated_voice_id": generated_voice_id,
         "labels": {"project": "trade_empire"},
     }
-    data = _post("/voices/add", payload, timeout=60)
+    data = _post("/text-to-voice/create-voice-from-preview", payload, timeout=60)
     voice_id = data.get("voice_id")
     if not voice_id:
-        raise RuntimeError(f"create-voice returned no voice_id: {data}")
+        raise RuntimeError(f"create-voice-from-preview returned no voice_id: {data}")
     return voice_id
 
 
@@ -311,10 +317,11 @@ def cmd_preview(args):
 
         index[speaker] = []
         for i, p in enumerate(previews, start=1):
-            audio_b64 = p.get("audio_base_64", "")
+            # API has used both audio_base_64 and audio_base64 over time.
+            audio_b64 = p.get("audio_base_64") or p.get("audio_base64") or ""
             gvid = p.get("generated_voice_id", "")
             if not audio_b64 or not gvid:
-                print(f"  preview {i} missing fields; skipping")
+                print(f"  preview {i} missing fields (got keys: {list(p.keys())}); skipping")
                 continue
             mp3_path = os.path.join(PREVIEW_DIR, f"{speaker}_{i}.mp3")
             with open(mp3_path, "wb") as fh:
