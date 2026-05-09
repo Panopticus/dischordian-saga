@@ -22,6 +22,7 @@ import {
 } from "@/lib/casinoAssets";
 import { useDegenVO } from "@/hooks/useDegenVO";
 import { CasinoGamePanel, type CasinoGameResultPayload } from "./CasinoGamePanels";
+import { CasinoBarrierModal } from "./CasinoBarrierModal";
 import { HolidayDialogTicker } from "@/components/HolidayDialogTicker";
 import { trpc } from "@/lib/trpc";
 import { useGame } from "@/contexts/GameContext";
@@ -248,6 +249,11 @@ export default function DegensCasinoPage() {
 
   return (
     <div className="min-h-screen bg-black relative overflow-hidden">
+      {/* audit/16 GA4 + GA2 — harm-reduction barrier modal listens
+          for "casino-barrier" CustomEvents dispatched from the global
+          tRPC mutation-cache subscriber when daily caps are hit. */}
+      <CasinoBarrierModal />
+
       {/* Casino Floor — environment background per area */}
       <div className="absolute inset-0 z-0 transition-opacity duration-700">
         <img

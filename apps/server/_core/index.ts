@@ -745,6 +745,19 @@ async function startServer() {
       console.error("[CitizenSchemaBootstrap] failed:", e),
     );
 
+    // audit/16 GA4 + GA2 — casino harm-reduction columns
+    // (dailyLost, dailyVoidCasesOpened) on casino_state. The schema
+    // declares them ahead of any journaled migration; production
+    // tables built before audit/16 are missing them and the daily-
+    // reset path fails with "Unknown column" on the next casino
+    // visit.
+    const { bootstrapCasinoHarmReductionColumns } = await import(
+      "../services/casinoHarmReductionColumnsBootstrap"
+    );
+    bootstrapCasinoHarmReductionColumns().catch((e) =>
+      console.error("[CasinoHarmReductionColumnsBootstrap] failed:", e),
+    );
+
     // Ensure processed_webhook_events exists. Migration 0055 is
     // orphaned from _journal.json; without this table the Stripe
     // webhook handler's event-level idempotency check fails open

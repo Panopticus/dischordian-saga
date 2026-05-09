@@ -36,7 +36,7 @@ import {
   playPazaak21, playHighLow, playScratchCard, playLiarsDice, playDreamRoulette,
   playCardBattlersGauntlet, playFactionWarBet, playVoidBingo, playVoidCase,
   scoreMahjongRun,
-  validateBet, vipLevelFor, vipWinBonus, MAX_DAILY_WAGER,
+  validateBet, vipLevelFor, vipWinBonus, MAX_DAILY_WAGER, MAX_DAILY_NET_LOSS, isFreeToPlayGame,
   ROULETTE_FACTIONS, GAME_LIMITS, splitJackpotPool, rewardsForAchievement,
   getCasinoCosmetic,
   type RouletteFaction,
@@ -284,9 +284,24 @@ async function ensureCasinoState(db: DbLike, userId: number) {
     if (existing.dailyCounterDate !== today) {
       await db
         .update(casinoState)
-        .set({ dailyWagered: 0, dailyCounterDate: today, freeSpinsLeft: 3 })
+        .set({
+          dailyWagered: 0,
+          // audit/16 GA4 + GA2 — reset harm-reduction daily counters
+          // alongside the existing wager + free-spins reset.
+          dailyLost: 0,
+          dailyVoidCasesOpened: 0,
+          dailyCounterDate: today,
+          freeSpinsLeft: 3,
+        })
         .where(eq(casinoState.userId, userId));
-      return { ...existing, dailyWagered: 0, dailyCounterDate: today, freeSpinsLeft: 3 };
+      return {
+        ...existing,
+        dailyWagered: 0,
+        dailyLost: 0,
+        dailyVoidCasesOpened: 0,
+        dailyCounterDate: today,
+        freeSpinsLeft: 3,
+      };
     }
     return existing;
   }
@@ -336,6 +351,24 @@ async function executeGame(
     // Enforce daily wager cap (free-to-play games bypass)
     if (bet > 0 && state.dailyWagered + bet > MAX_DAILY_WAGER) {
       throw new Error(`Daily wager cap reached (${MAX_DAILY_WAGER} Dream/day)`);
+    }
+    // audit/16 GA4 — enforce daily net-loss cap. If the player has
+    // already lost MAX_DAILY_NET_LOSS Dream today across all paid
+    // games, block any further paid play until UTC midnight. The cap
+    // is on NET losses (cumulative bet - winnings), so winning hands
+    // erode the counter back down. Free-to-play games bypass.
+    if (
+      bet > 0 &&
+      !isFreeToPlayGame(game) &&
+      state.dailyLost >= MAX_DAILY_NET_LOSS
+    ) {
+      const err = new Error(
+        `Daily loss limit reached (${MAX_DAILY_NET_LOSS} Dream/day net). The casino is closed for you until UTC midnight. Free-to-play games still work.`,
+      );
+      // Tag with a code so client UI can surface the harm-reduction
+      // barrier modal cleanly instead of a raw toast.
+      (err as Error & { code?: string }).code = "CASINO_DAILY_LOSS_CAP";
+      throw err;
     }
 
     if (bet > 0 && !opts.skipBetDeduction) {
@@ -401,6 +434,12 @@ async function executeGame(
       : previousTales;
 
     const newTotalWagered = state.totalWagered + bet;
+    // audit/16 GA4 — track net loss for the daily loss cap. Free-to-play
+    // games never feed this counter; winning hands subtract from it
+    // (clamped at 0) so the counter reflects current pain rather than
+    // gross volume.
+    const netLossDelta = isFreeToPlayGame(game) ? 0 : bet - finalPayout;
+    const newDailyLost = Math.max(0, state.dailyLost + netLossDelta);
     const updates = {
       totalWagered: newTotalWagered,
       totalWon: state.totalWon + finalPayout,
@@ -412,6 +451,7 @@ async function executeGame(
       totalBetsPlaced: state.totalBetsPlaced + 1,
       vipLevel: vipLevelFor(newTotalWagered),
       dailyWagered: state.dailyWagered + bet,
+      dailyLost: newDailyLost,
       gamesPlayed: gamesPlayedNext,
       gamesWon: gamesWonNext,
       consecutiveFactionWins: newConsecutiveFactionWins,
