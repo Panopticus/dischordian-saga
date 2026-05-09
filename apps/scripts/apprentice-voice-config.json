@@ -1,0 +1,63 @@
+{
+  "_comment": "ElevenLabs voice IDs for the 12 apprentice archetypes × 2 genders (24 voices). Voice direction sourced from apps/shared/apprentices.ts. Consumed by apps/scripts/generate_apprentice_vo.py.",
+  "zealot": {
+    "female": "n7HG8UDLfSQiaVofv2U7",
+    "male": "FXBXSivN5dZPw07XsO17",
+    "direction": "Fervent, rising cadence. Quotes scripture they wrote. Breathless with purpose."
+  },
+  "ghost": {
+    "female": "5h1zEU9BtNv7ULblG5d5",
+    "male": "VHcmyPq978eI2HDbYrN2",
+    "direction": "Quiet, spare words. Never fills silence. Speaks more in glances than sentences."
+  },
+  "scholar": {
+    "female": "OxO0YlIfndGq04NU8W8Z",
+    "male": "gbZb8tR0qcJCwZs0ucpk",
+    "direction": "Precise, academic, cites sources. Cannot resist correcting errors even at bad times."
+  },
+  "revenant": {
+    "female": "nNhqN5ffZExg1ZxAyBzn",
+    "male": "XumMLB8cjaNYPhdBoTTL",
+    "direction": "Slow, measured, slightly echoing. Speaks as if from elsewhere. Long pauses."
+  },
+  "artisan": {
+    "female": "xcaGXUiuDthc4Ct1ierk",
+    "male": "j0BH5nbZqg2yMqlOj0Yy",
+    "direction": "Unhurried, technical, small satisfactions in descriptions. Hums while working."
+  },
+  "oracle": {
+    "female": "8n6ojRHYPcegteWiN7vL",
+    "male": "kHJZXYhnPDBuGNNtyaqC",
+    "direction": "Distracted, half-elsewhere. Switches topic mid-sentence. Finishes others' thoughts wrongly."
+  },
+  "wanderer": {
+    "female": "SZE7kLr0elYLWlKkfpmW",
+    "male": "KZIgaMgM6cETHXbkJJ96",
+    "direction": "Easy, drifty, quick to change subject. Stories from ten places, all interrupted."
+  },
+  "martyr": {
+    "female": "bmemLtm5Q1Q2NyCgZTHh",
+    "male": "vFVmFkT4waUKWbDqPeec",
+    "direction": "Gentle, reassuring. Minimizes their own pain. Apologizes for inconveniencing you."
+  },
+  "heretic": {
+    "female": "gzbkOWL1CcQf8QMWedf6",
+    "male": "jg760ye7BuN40jqa3vt8",
+    "direction": "Sharp, rhetorical, uses silence as weapon. Does not laugh at authority's jokes."
+  },
+  "jester": {
+    "female": "md03QNdrD3dsATM3P8cv",
+    "male": "uG6mRLiyfs3EcbzfGLPW",
+    "direction": "Quick, bright, punchlines. Drops into gravitas without warning, then masks it."
+  },
+  "sentinel": {
+    "female": "HWGPOyrwIzlpSmBi0COP",
+    "male": "K41xXfuEqvhZvJcidOk2",
+    "direction": "Clipped, professional, operator-cadence. Brief acknowledgments, long watches."
+  },
+  "prodigal": {
+    "female": "3AueIPflpGWFVHLmeELs",
+    "male": "slWPGCoUrCP7iQnED7FU",
+    "direction": "Rough edges, half-apologetic. Avoids eye contact on old topics. Direct on new ones."
+  }
+}

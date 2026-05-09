@@ -233,6 +233,61 @@ function listCsvIds(globPath) {
   });
 }
 
+// Apprentice surface — 24 voices (12 archetypes × 2 genders) read from
+// apps/scripts/apprentice-<archetype>-<gender>-lines.json and write to
+// apps/shared/apprentice<Archetype><Gender>VoManifest.json. Aggregate
+// into a single audit row that sums all 24 voice slots.
+{
+  const ARCHS = [
+    "zealot", "ghost", "scholar", "revenant", "artisan", "oracle",
+    "wanderer", "martyr", "heretic", "jester", "sentinel", "prodigal",
+  ];
+  const GENS = ["female", "male"];
+  for (const a of ARCHS) {
+    for (const g of GENS) {
+      const ids = loadLineIds(`apprentice-${a}-${g}-lines.json`) ?? [];
+      const cap = (s) => s[0].toUpperCase() + s.slice(1);
+      const manifestName = `apprentice${cap(a)}${cap(g)}`;
+      surfaces.push({
+        surface: `apprentice-${a}-${g}`,
+        source: `apprentice-${a}-${g}-lines.json`,
+        generator: `pnpm vo:apprentice -- --archetype ${a} --gender ${g}`,
+        idempotent: true,
+        expected: new Set(ids),
+        actual: new Set(loadManifest(manifestName)),
+        manifest: manifestName,
+      });
+    }
+  }
+}
+
+// First-meet surface — 8 NPC first-meeting dialog trees, lines emitted
+// by _generate-npc-first-meet-lines.mjs. Each NPC merges into its
+// existing per-character manifest where one ships (locke / degen /
+// gamemaster / meme / seer) or a new manifest for new NPCs (oracle /
+// vexSolene / wraithCalder).
+for (const [linesFile, manifestName, npcLabel] of [
+  ["adjudicator-locke-first-meet-lines.json", "locke",         "first-meet (locke)"],
+  ["degen-first-meet-lines.json",              "degen",         "first-meet (degen)"],
+  ["game-master-first-meet-lines.json",        "gamemaster",    "first-meet (game-master)"],
+  ["meme-first-meet-lines.json",               "meme",          "first-meet (meme)"],
+  ["oracle-first-meet-lines.json",             "oracle",        "first-meet (oracle)"],
+  ["seer-first-meet-lines.json",               "seer",          "first-meet (seer)"],
+  ["vex-solene-first-meet-lines.json",         "vexSolene",     "first-meet (vex-solene)"],
+  ["wraith-calder-first-meet-lines.json",      "wraithCalder",  "first-meet (wraith-calder)"],
+]) {
+  const ids = loadLineIds(linesFile) ?? [];
+  surfaces.push({
+    surface: npcLabel,
+    source: linesFile,
+    generator: "pnpm vo:first-meet",
+    idempotent: true,
+    expected: new Set(ids),
+    actual: new Set(loadManifest(manifestName)),
+    manifest: manifestName,
+  });
+}
+
 // Prelude + Act 1 lines fold into per-speaker manifests (elara/human/
 // antiquarian/prince). Cross-resolve here so the audit doesn't
 // false-positive an EMPTY surface when those manifests already cover them.

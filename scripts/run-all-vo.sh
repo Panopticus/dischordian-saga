@@ -177,6 +177,21 @@ run_stage "Stage 13f / vo:guild-cutscenes" pnpm vo:guild-cutscenes
 # this stage the taunts silently fall back to text-only.
 run_stage "Stage 13g / vo:act1-taunts"     pnpm vo:act1-taunts
 
+# vo:first-meet: 54 lines across 8 NPC first-meeting dialog trees
+# (adjudicator-locke, degen, game-master, meme, oracle, seer,
+# vex-solene, wraith-calder). Lines emitted by
+# _generate-npc-first-meet-lines.mjs. Each NPC merges into its
+# existing per-character manifest where one ships, otherwise lands
+# in a new <npc>VoManifest.json under apps/shared/.
+run_stage "Stage 13h / vo:first-meet"      pnpm vo:first-meet
+
+# vo:apprentice: 1,978 lines across 24 voice slots (12 archetypes ×
+# 2 genders). Voice direction sourced from apps/shared/apprentices.ts;
+# voice ids in apprentice-voice-config.json. Writes one manifest per
+# (archetype, gender) at apps/shared/apprentice<Archetype><Gender>VoManifest.json.
+# This is the largest single stage of the orchestrator by line count.
+run_stage "Stage 13i / vo:apprentice"      pnpm vo:apprentice
+
 # ── Stage 5: Per-character Python generators ──────────
 if [ $SKIP_PYTHON -eq 0 ]; then
   for char in elara human agent_zero antiquarian cades degen locke \
