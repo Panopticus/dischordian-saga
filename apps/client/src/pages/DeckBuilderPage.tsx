@@ -4,6 +4,7 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { getGoogleLoginUrl } from "@/const";
 import { Link } from "wouter";
 import GameCard from "@/components/GameCard";
+import { DeckTuningSidebar, type DeckTuningEntry } from "@/components/DeckTuningSidebar";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Plus, Save, Trash2, ChevronLeft, ChevronRight, Search,
@@ -173,6 +174,30 @@ export default function DeckBuilderPage() {
     }
 
     return { totalCards, totalPower, totalCost, avgPower: totalCards > 0 ? (totalPower / totalCards).toFixed(1) : "0", avgCost: totalCards > 0 ? (totalCost / totalCards).toFixed(1) : "0", typeCounts, rarityCounts };
+  }, [deckCards, cardMap]);
+
+  // audit/16 PR 18 (Cluster F) — adapt deckCards into the
+  // DeckTuningEntry shape the sidebar consumes. Re-derive every
+  // render only when deckCards or cardMap change.
+  const deckTuningEntries = useMemo<DeckTuningEntry[]>(() => {
+    const out: DeckTuningEntry[] = [];
+    for (const dc of deckCards) {
+      const card = cardMap.get(dc.cardId);
+      if (!card) continue;
+      out.push({
+        card: {
+          cardId: dc.cardId,
+          cost: card.cost ?? null,
+          power: card.power ?? null,
+          toughness: (card as { toughness?: number | null }).toughness ?? null,
+          cardType: card.cardType ?? null,
+          keywords: (card as { keywords?: readonly string[] }).keywords ?? [],
+          balanceException: (card as { balanceException?: { reason: string; reviewer: string } | null }).balanceException ?? null,
+        },
+        quantity: dc.quantity,
+      });
+    }
+    return out;
   }, [deckCards, cardMap]);
 
   // Available cards for the collection panel (filtered)
@@ -774,6 +799,12 @@ export default function DeckBuilderPage() {
                     })}
                   </div>
                 )}
+
+                {/* audit/16 PR 18 (Cluster F) — deck tuning sidebar:
+                    mana-curve heatmap + skew warnings + avg keywords +
+                    off-curve count. Only renders when there are unit
+                    cards in the deck (empty-state otherwise). */}
+                <DeckTuningSidebar deck={deckTuningEntries} className="mt-3" />
               </div>
 
               {/* Deck card list */}
