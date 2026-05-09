@@ -1,10 +1,28 @@
 {
-  "$comment": "Trade Empire VO line packs — content-complete authoring for the merge. Production pipeline syncs this into ElevenLabs / studio recording via apps/scripts/sync-te-vo-lines.ts. Speaker IDs match TradeEmpireSpeaker in apps/shared/tradeEmpireVoLines.ts.",
+  "$comment": "Trade Empire VO line packs — content-complete authoring for the merge. Production pipeline syncs this into ElevenLabs / studio recording via apps/scripts/sync-te-vo-lines.ts. Speaker keys match SPEAKER_SETTINGS in apps/scripts/generate-act-vo.ts. Voice IDs are resolved per-speaker via the speaker_voice_ids map below; the existing pipeline understands TODO_<SPEAKER> placeholders and skips them at generation when --skip-todo is set (see generate-act-vo.ts:385,424). Wraith Calder, the Oracle, the Seer, and Drael'Mon are uncast — placeholders ship now so the wiring lands; cast and replace before recording the climax/herald passes.",
   "version": 1,
+  "speaker_voice_ids": {
+    "$comment": "Resolved at sync time. Cast voices are pinned to the same IDs already used in apps/scripts/generate_*_vo.py and apps/scripts/act{2..7}-vo-lines.json so the Trade Empire pack records as the same character every other line in the saga uses.",
+    "locke": "8XiBWqS5ffaH5naIFHPI",
+    "nilmorg": "7fKASPr2SR0NYifziNgu",
+    "the_antiquarian": "yAKlvHIsuj4SvnKQ6Mk4",
+    "the_degen": "r6VqF23i4qBEORazjelf",
+    "elara": "xMyNDrPFEtQN8iZtT7l2",
+    "human": "oGbGJdgofRR8z0MxwI8L",
+    "wraith_calder": "TODO_WRAITH_CALDER",
+    "the_oracle": "TODO_ORACLE",
+    "the_seer": "TODO_SEER",
+    "drael_mon": "TODO_DRAEL_MON"
+  },
+  "casting_status": {
+    "cast_and_pinned": ["locke", "nilmorg", "the_antiquarian", "the_degen", "elara", "human"],
+    "uncast_todo": ["wraith_calder", "the_oracle", "the_seer", "drael_mon"],
+    "notes": "wraith_calder is the largest gap — the broker_thaloria_quietwork pack (29 lines) blocks on this casting. The other 3 (the_oracle, the_seer, drael_mon) appear only in climax_resolution_scenes (1-2 lines each), so the broker packs and per-sub-house demand lines and declaration heralds can begin recording immediately for the 6 cast voices."
+  },
   "brokers": {
     "$comment": "Broker voice packs — each broker gets ~6 lines per engagement style + ~3 transactional confirmations + 1 refusal. 30 lines each, 5 brokers = ~150 lines (Antiquarian and Thaloria each have a primary NPC).",
     "broker_locke": {
-      "speaker": "adjudicator_locke",
+      "speaker": "locke",
       "engagement_style": "fine_print",
       "casting_brief": "Adjudicator Locke speaks like a contract is closing. Mid-tempo, no warmth, but never raised; the volume comes from the precision. He does not editorialize on the contracts he writes; he simply files them. Reference: the way a notary reads a will out loud — gravity without performance. ~45 male, neutral mid-Atlantic, 2700K warm-key delivery on official lines, dry-flat on fine-print clauses.",
       "lines": {
@@ -299,7 +317,7 @@
       "line": "The Hierarchy declares the Thalorian revival heretical. The Syndicate of Death issues a season-long writ. Files travel by morning."
     },
     "decl.authority.trench_offbooks": {
-      "speaker": "adjudicator_locke",
+      "speaker": "locke",
       "line": "The Authority's Ledger declares the Trench off-books for the season. Severance and Acquisitions are, today, mutually inconvenient. The Authority files no preference."
     },
     "decl.antiquarian.citation_reconstruction": {
@@ -315,36 +333,36 @@
       "line": "The Council declares a silent year. The recovery ledger continues; the announcements stop. The candles remain lit."
     },
     "decl.engineers.civic_emergency": {
-      "speaker": "the_human",
+      "speaker": "human",
       "line": "Civic Engineers declare emergency. Lifts before paperwork; people before signatures. The Authority is invited to disagree in writing."
     },
     "decl.freeports.barter_season": {
-      "speaker": "the_human",
+      "speaker": "human",
       "line": "Free Ports Coalition declares barter season. The Coalition refuses credit. Every transaction must canonically clear in goods. The cash-rich find themselves illiquid."
     }
   },
   "climax_resolution_scenes": {
     "$comment": "3 canonical climax resolutions × per-NPC reaction lines. These already ship inline in convergenceClimax.ts; this section duplicates them in audio-routing form for the studio pipeline. Total: 15-20 lines per resolution × 3 = ~50 lines.",
     "climax.trade_sector": [
-      { "speaker": "adjudicator_locke", "line": "The settlement is filed. The settlement is fair. The settlement is the cost of fairness." },
-      { "speaker": "the_human", "line": "We just ate a sector to keep the lights on. The lights are on. I'm not celebrating." },
+      { "speaker": "locke", "line": "The settlement is filed. The settlement is fair. The settlement is the cost of fairness." },
+      { "speaker": "human", "line": "We just ate a sector to keep the lights on. The lights are on. I'm not celebrating." },
       { "speaker": "wraith_calder", "line": "The candle is lit. The recovery ledger thickens. We will say the names when the wax has cooled." },
       { "speaker": "drael_mon", "line": "Authority traded paper for paper. The blood-weave does not file losses." },
       { "speaker": "the_antiquarian", "line": "A sector traded. The shelves will catalog the loss. The catalog will be precise; precision is the only consolation we offer." },
       { "speaker": "elara", "line": "The old Senate would have called this prudence. The Senate is not here to call this anything." }
     ],
     "climax.withdraw_fleet": [
-      { "speaker": "adjudicator_locke", "line": "The withdrawal is a contract. We are the only signatory. The Hierophant is, technically, the consideration." },
+      { "speaker": "locke", "line": "The withdrawal is a contract. We are the only signatory. The Hierophant is, technically, the consideration." },
       { "speaker": "wraith_calder", "line": "We did not advance. We held. The names are written. The ledger is heavier and the ledger is, as always, ours." },
-      { "speaker": "the_human", "line": "We left people. We left whole sectors of people. I'm going to remember this and so are they." },
+      { "speaker": "human", "line": "We left people. We left whole sectors of people. I'm going to remember this and so are they." },
       { "speaker": "the_oracle", "line": "The probability fork shifted. The home thread thickened; the frontier thread frayed to a stub. I have nothing useful to say about it." },
       { "speaker": "elara", "line": "The Senate would have called this prudence. The Senate is not here to call this anything." },
       { "speaker": "nilmorg", "line": "Authority traded paper for paper. The blood-weave does not file losses. We do." }
     ],
     "climax.negotiate_armistice": [
-      { "speaker": "adjudicator_locke", "line": "The armistice is irregular. The bond is sufficient. The Authority files no objection because the Authority is, in this instance, not the only party that matters." },
+      { "speaker": "locke", "line": "The armistice is irregular. The bond is sufficient. The Authority files no objection because the Authority is, in this instance, not the only party that matters." },
       { "speaker": "wraith_calder", "line": "The recovery ledger holds the truce as a single line. It is the longest line we have written. The candle for it will burn for the season." },
-      { "speaker": "the_human", "line": "You went alone. We told you not to. We were right that you shouldn't have. We were wrong about why." },
+      { "speaker": "human", "line": "You went alone. We told you not to. We were right that you shouldn't have. We were wrong about why." },
       { "speaker": "elara", "line": "The old Senate would have arranged this with a hundred clerks and twelve wars. You arranged it with one chamber and your own name. I am — I am not certain how I feel about that." },
       { "speaker": "the_seer", "line": "I did not see the armistice. I did not need to. The Sixth Sense reads forks; this was a knot." },
       { "speaker": "drael_mon", "line": "Files the player as 'irregular bond holder'. Acquisitions does not respect the bond. Acquisitions notes the bond." }
