@@ -8,6 +8,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Lock, Key, Brain, Terminal, AlertTriangle, CheckCircle, XCircle, RotateCcw } from "lucide-react";
 import { useGame } from "@/contexts/GameContext";
 import { enqueue as enqueueCompanionLine } from "@/companion/companionScheduler";
+import {
+  evaluatePuzzleAnswer,
+  type PuzzleSeasonalSolve,
+  type PuzzleAnswerContext,
+} from "@shared/puzzleAnswerCheck";
 
 /* ─── PUZZLE TYPES ─── */
 export type PuzzleType = "riddle" | "keycard" | "sequence" | "cipher" | "power_relay";
@@ -46,6 +51,22 @@ export interface Puzzle {
    * scanned the data-slate at Med Bay").
    */
   prerequisites?: readonly PuzzlePrerequisite[];
+  /**
+   * audit/16 PR 34 (finding AR8 — ARG persona).
+   *
+   * Optional seasonal-solve declaration. When set, the
+   * answer-check routes through `evaluatePuzzleAnswer` →
+   * `isAcceptableSolution` so the canonical answer rotates
+   * per (puzzle, player, season) — the audit's
+   * "community-wiki publishes the answer once and
+   * replayability collapses" fix. Default mode is "lenient"
+   * (any pool entry passes); authors opt into "strict" once
+   * a season's seed has matured.
+   *
+   * Unset → legacy `acceptableAnswers` / `answer` /
+   * `cipherAnswer` path is preserved (back-compat).
+   */
+  seasonalSolve?: PuzzleSeasonalSolve;
 }
 
 /**
@@ -203,16 +224,22 @@ export const ROOM_PUZZLES: Record<string, Puzzle> = {
 
 /* ─── PUZZLE SOLVER COMPONENTS ─── */
 
-function RiddlePuzzle({ puzzle, onSolve }: { puzzle: Puzzle; onSolve: () => void }) {
+function RiddlePuzzle({
+  puzzle,
+  onSolve,
+  answerContext,
+}: {
+  puzzle: Puzzle;
+  onSolve: () => void;
+  answerContext?: PuzzleAnswerContext;
+}) {
   const [answer, setAnswer] = useState("");
   const [attempts, setAttempts] = useState(0);
   const [result, setResult] = useState<"correct" | "wrong" | null>(null);
   const [showHint, setShowHint] = useState(false);
 
   const checkAnswer = useCallback(() => {
-    const normalized = answer.trim().toLowerCase();
-    const acceptable = puzzle.acceptableAnswers || [puzzle.answer || ""];
-    if (acceptable.some(a => normalized.includes(a.toLowerCase()))) {
+    if (evaluatePuzzleAnswer(answer, puzzle, answerContext)) {
       setResult("correct");
       setTimeout(onSolve, 1200);
     } else {
@@ -220,7 +247,7 @@ function RiddlePuzzle({ puzzle, onSolve }: { puzzle: Puzzle; onSolve: () => void
       setAttempts(a => a + 1);
       setTimeout(() => setResult(null), 1500);
     }
-  }, [answer, puzzle, onSolve]);
+  }, [answer, puzzle, answerContext, onSolve]);
 
   return (
     <div className="space-y-4">
@@ -406,15 +433,22 @@ function SequencePuzzle({ puzzle, onSolve }: { puzzle: Puzzle; onSolve: () => vo
   );
 }
 
-function CipherPuzzle({ puzzle, onSolve }: { puzzle: Puzzle; onSolve: () => void }) {
+function CipherPuzzle({
+  puzzle,
+  onSolve,
+  answerContext,
+}: {
+  puzzle: Puzzle;
+  onSolve: () => void;
+  answerContext?: PuzzleAnswerContext;
+}) {
   const [answer, setAnswer] = useState("");
   const [result, setResult] = useState<"correct" | "wrong" | null>(null);
   const [showHint, setShowHint] = useState(false);
   const [attempts, setAttempts] = useState(0);
 
   const checkAnswer = useCallback(() => {
-    const normalized = answer.trim().toLowerCase();
-    if (normalized === (puzzle.cipherAnswer || "").toLowerCase()) {
+    if (evaluatePuzzleAnswer(answer, puzzle, answerContext)) {
       setResult("correct");
       setTimeout(onSolve, 1200);
     } else {
@@ -422,7 +456,7 @@ function CipherPuzzle({ puzzle, onSolve }: { puzzle: Puzzle; onSolve: () => void
       setAttempts(a => a + 1);
       setTimeout(() => setResult(null), 1500);
     }
-  }, [answer, puzzle, onSolve]);
+  }, [answer, puzzle, answerContext, onSolve]);
 
   return (
     <div className="space-y-4">
@@ -686,6 +720,7 @@ export default function PuzzleModal({
   solvedPuzzles,
   collectedClues,
   narrativeFlags,
+  answerContext,
   onSolve,
   onClose,
 }: {
@@ -699,6 +734,14 @@ export default function PuzzleModal({
   solvedPuzzles?: ReadonlySet<string>;
   collectedClues?: ReadonlySet<string>;
   narrativeFlags?: ReadonlySet<string>;
+  /**
+   * audit/16 PR 34 (AR8) — player + season identifiers used to
+   * seed the seasonal canonical answer. Optional: when omitted,
+   * puzzles with `seasonalSolve` declared fall back to the
+   * legacy `acceptableAnswers` path. Callers in the per-room
+   * page wire it through from the auth user + season constant.
+   */
+  answerContext?: PuzzleAnswerContext;
   onSolve: (roomId: string) => void;
   onClose: () => void;
 }) {
@@ -781,9 +824,9 @@ export default function PuzzleModal({
             </motion.div>
           ) : (
             <>
-              {puzzle.type === "riddle" && <RiddlePuzzle puzzle={puzzle} onSolve={handleSolve} />}
+              {puzzle.type === "riddle" && <RiddlePuzzle puzzle={puzzle} onSolve={handleSolve} answerContext={answerContext} />}
               {puzzle.type === "sequence" && <SequencePuzzle puzzle={puzzle} onSolve={handleSolve} />}
-              {puzzle.type === "cipher" && <CipherPuzzle puzzle={puzzle} onSolve={handleSolve} />}
+              {puzzle.type === "cipher" && <CipherPuzzle puzzle={puzzle} onSolve={handleSolve} answerContext={answerContext} />}
               {puzzle.type === "power_relay" && <PowerRelayPuzzle puzzle={puzzle} onSolve={handleSolve} />}
               {puzzle.type === "keycard" && <KeycardPuzzle puzzle={puzzle} hasItem={hasRequiredItem} onSolve={handleSolve} />}
             </>
