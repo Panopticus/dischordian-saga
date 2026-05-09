@@ -5,8 +5,9 @@
 import { useState, useMemo, useEffect } from "react";
 import { useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Skull, Trophy } from "lucide-react";
+import { X, Skull, Trophy, Info } from "lucide-react";
 import ParallaxDepthBackground from "@/components/ParallaxDepthBackground";
+import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 import {
   CASINO_GAMES, getVIPLevel, getDegenQuote,
   DEFAULT_CASINO_STATE, type CasinoState, type CasinoGame,
@@ -46,6 +47,20 @@ function JackpotPoolBanner() {
           <span className="font-display text-[11px] tracking-widest void-text-accent uppercase">
             Progressive Jackpot
           </span>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button
+                type="button"
+                aria-label="How the jackpot pool works"
+                className="void-text-muted hover:void-text-accent transition-colors"
+              >
+                <Info size={12} />
+              </button>
+            </TooltipTrigger>
+            <TooltipContent side="bottom" className="max-w-xs text-left">
+              2% of every bet feeds this pool. Pool grows until claimed; 20% retained as seed after each jackpot.
+            </TooltipContent>
+          </Tooltip>
         </div>
         <span className="font-mono text-sm void-text-accent font-bold">
           {balance.toLocaleString()}
