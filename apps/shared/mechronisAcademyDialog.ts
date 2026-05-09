@@ -33,6 +33,96 @@ import {
    System taught: Card combat, COMPLIANCE variant.
    ═══════════════════════════════════════════════════════ */
 
+/* The cold counterpart to Bernardo's "you came in sideways." On first
+ * entry to M1, the Mechronis opening cinematic delivers the cohort
+ * arrival; this scene is what the cohort hall HEARS as the player
+ * materializes mid-recitation. Kanevas notices not with wonder but
+ * with a stylus — three deliberate notations on his slate before he
+ * looks up. The chant resumes from the top; the player's name is
+ * conjugated into it. The musical rhyme with C1's arrival_greeting:
+ * same staging shape, opposite temperature.
+ *
+ * Voice discipline (per dialog tests): Kanevas never says "we"; he
+ * says "the cohort." */
+const M1_SCENE_0_ARRIVAL: DialogScene = {
+  id: "mechronis_m1_scene_0_arrival",
+  label: "M1 · Scene 0 — Arrival in the Cohort",
+  kind: "cinematic",
+  cues: [
+    {
+      speaker: "narrator",
+      mood: "reflective",
+      text:
+        "The recitation is in progress when the air bends. Twenty-nine voices, " +
+        "one chant, one metronome — and a gap, like a tooth. Into the gap a " +
+        "person resolves: standing in the second row, breathing, planted on " +
+        "the cold tile as if the lecture hall has only just remembered them. " +
+        "The chant continues for a half-beat. Then it does not.",
+    },
+    {
+      speaker: "headmaster_kanevas",
+      mood: "guarded",
+      text: "Cohort. Hold position. Eyes on the lectern.",
+    },
+    {
+      speaker: "narrator",
+      mood: "reflective",
+      text:
+        "He does not look at the player. He looks at the slate on the lectern, " +
+        "which is already updating. He marks it with the stylus. Click. Click. " +
+        "Click. Three deliberate notations.",
+    },
+    {
+      speaker: "headmaster_kanevas",
+      mood: "guarded",
+      text:
+        "Subject manifested off-axis. Cycle 7. Third such arrival this cycle. " +
+        "Form 9-C, line 4: witness present at point of arrival? Negative — the " +
+        "cohort hall is sealed. Disposition: drill the variable into compliance " +
+        "before dismissal.",
+    },
+    {
+      speaker: "headmaster_kanevas",
+      mood: "guarded",
+      text: "State your designation.",
+      internal: "He will write it down wrong on purpose. The Cohort Manual calls this calibration of the instrument; the instrument is the student.",
+    },
+    {
+      speaker: "narrator",
+      mood: "reflective",
+      text:
+        "Whatever the player offers, Kanevas writes a different answer on the " +
+        "slate. He does not correct it. He never corrects it. He looks up only " +
+        "now — pale eyes, no malice, no warmth.",
+    },
+    {
+      speaker: "headmaster_kanevas",
+      mood: "guarded",
+      text:
+        "Recorded. The new arrival will find that this hall runs on three " +
+        "principles. Unison. Surveillance. Restart. Arriving broke the first. " +
+        "The cohort will practice the third together. The second is always " +
+        "already in progress.",
+    },
+    {
+      speaker: "headmaster_kanevas",
+      mood: "guarded",
+      text: "From the top, cohort. Welcome the cohort's new variable. Recite.",
+    },
+    {
+      speaker: "narrator",
+      mood: "reflective",
+      text:
+        "The chant resumes from the first line of the text. Thirty voices, this " +
+        "time, conjugated to include the player's designation as a verb. The " +
+        "cohort does not pause. The metronome does not pause. The Dreamer, " +
+        "underneath, does not pause either — half-frequency, lullaby-shaped, " +
+        "audible only to the new arrival. Two rhythms. From here on, the " +
+        "lesson is which one the player listens to.",
+    },
+  ],
+};
+
 const M1_SCENE_1_THE_LECTERN: DialogScene = {
   id: "mechronis_m1_scene_1_the_lectern",
   label: "M1 · Scene 1 — The Lectern",
@@ -174,6 +264,7 @@ const M1_SCENE_3_HIDDEN_AGENDA: DialogScene = {
    ═══════════════════════════════════════════════════════ */
 
 export const MECHRONIS_ACADEMY_SCENES: readonly DialogScene[] = Object.freeze([
+  M1_SCENE_0_ARRIVAL,
   M1_SCENE_1_THE_LECTERN,
   M1_SCENE_2_THE_DRILL,
   M1_SCENE_3_HIDDEN_AGENDA,
@@ -182,6 +273,7 @@ export const MECHRONIS_ACADEMY_SCENES: readonly DialogScene[] = Object.freeze([
 
 export const MECHRONIS_EPISODE_SCENE_MAP: Readonly<Record<string, readonly string[]>> = Object.freeze({
   mechronis_m1_choric_compliance: [
+    "mechronis_m1_scene_0_arrival",
     "mechronis_m1_scene_1_the_lectern",
     "mechronis_m1_scene_2_the_drill",
     "mechronis_m1_scene_3_hidden_agenda",

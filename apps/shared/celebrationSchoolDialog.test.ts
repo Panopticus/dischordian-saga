@@ -61,6 +61,7 @@ describe("celebrationSchoolDialog — vertical slices C1, C9, C12", () => {
     const c1Scenes = getScenesForEpisode("celebration_c1_the_watch");
     expect(c1Scenes.map((s) => s.id)).toEqual([
       "celebration_c1_scene_1_opening",
+      "celebration_c1_scene_1b_arrival",
       "celebration_c1_scene_2_malkia_arrives",
       "celebration_c1_scene_3_ghost_appears",
       "celebration_c1_scene_4_aftermath",

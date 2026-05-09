@@ -36,6 +36,17 @@ import {
   HELLBOX_DISCOVERED_FLAG,
   HELLBOX_FIRST_TOUCH_FLAG,
 } from "@shared/matrixSaveFlags";
+import OpeningCinematicVideo from "@/components/OpeningCinematicVideo";
+import { assetUrl } from "@/lib/assetUrl";
+
+/** CDN URL of the Welcome to Celebration cinematic. The prose cinematic
+ *  hands off to this video, which delivers the rampart arrival visually
+ *  before C1's dialogue runs. Uploaded from
+ *  apps/client/public/videos/openings/welcome-to-celebration/ via
+ *  `pnpm assets:upload`. */
+const WELCOME_TO_CELEBRATION_VIDEO_URL = assetUrl(
+  "videos/openings/welcome-to-celebration/shot1.mp4",
+);
 
 /* ─── Component ─── */
 
@@ -46,6 +57,10 @@ export default function HellboxPortalPage() {
 
   const hellboxDiscovered = Boolean(flags[HELLBOX_DISCOVERED_FLAG]);
   const firstTouchComplete = Boolean(flags[HELLBOX_FIRST_TOUCH_FLAG]);
+
+  /** Two-stage first-touch handoff: the prose cinematic ends, then the
+   *  Welcome to Celebration video plays before we route to C1. */
+  const [welcomeVideoPlaying, setWelcomeVideoPlaying] = useState(false);
 
   const completedIds = useMemo<ReadonlySet<string>>(() => {
     const set = new Set<string>();
@@ -105,9 +120,20 @@ export default function HellboxPortalPage() {
 
         {model.state === "locked" && <LockedState />}
 
-        {model.state === "first_touch" && (
+        {model.state === "first_touch" && !welcomeVideoPlaying && (
           <FirstTouchCinematic
             onComplete={() => {
+              // Hand off to the Welcome to Celebration cinematic before
+              // routing — the video delivers the rampart arrival visually.
+              setWelcomeVideoPlaying(true);
+            }}
+          />
+        )}
+
+        {welcomeVideoPlaying && (
+          <OpeningCinematicVideo
+            videoUrl={WELCOME_TO_CELEBRATION_VIDEO_URL}
+            onEnd={() => {
               setNarrativeFlag(HELLBOX_FIRST_TOUCH_FLAG, true);
               // Per canon: first touch lands the player in C1 automatically.
               setLocation("/matrix/celebration_c1_the_watch");

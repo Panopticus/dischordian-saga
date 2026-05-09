@@ -49,6 +49,7 @@ describe("mechronisAcademyDialog — vertical slice M1", () => {
   it("getMechronisScenesForEpisode returns scenes in mapped order", () => {
     const m1Scenes = getMechronisScenesForEpisode("mechronis_m1_choric_compliance");
     expect(m1Scenes.map((s) => s.id)).toEqual([
+      "mechronis_m1_scene_0_arrival",
       "mechronis_m1_scene_1_the_lectern",
       "mechronis_m1_scene_2_the_drill",
       "mechronis_m1_scene_3_hidden_agenda",

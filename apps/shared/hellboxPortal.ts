@@ -138,11 +138,8 @@ export const HELLBOX_FIRST_TOUCH: HellboxCompelledTransport = {
       mood: "reflective",
       text:
         "The medbay folds, the way a chapter folds when you turn the page. " +
-        "The player wakes — if 'wakes' is the right word — on the rampart " +
-        "of Celebration Castle, in a body that is not theirs, three steps " +
-        "from a young guardsman named Bernardo, on the night the Ghost King " +
-        "first walks. The first Episode is now playing. The player did not " +
-        "choose this one. After it, they will get to choose.",
+        "The chamber the user is most willing to enter is opening now. " +
+        "Welcome to Celebration.",
     },
   ],
 };
