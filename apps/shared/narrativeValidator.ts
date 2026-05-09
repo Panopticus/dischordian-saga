@@ -439,6 +439,15 @@ export function validateTransmissionUnlocks(): ValidationIssue[] {
         }
         break;
 
+      // audit/16 PR 10 (AR4) — scheduled_broadcast carries an
+      // ISO 8601 airsAt; validate it parses.
+      case "scheduled_broadcast":
+        if (!trigger.airsAt || !Number.isFinite(Date.parse(trigger.airsAt))) {
+          issues.push(issue("critical", "transmission_unlock",
+            `Has invalid scheduled_broadcast airsAt: ${trigger.airsAt}`, loc));
+        }
+        break;
+
       default: {
         const _exhaustive: never = trigger;
         issues.push(issue("critical", "transmission_unlock",
