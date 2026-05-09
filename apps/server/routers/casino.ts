@@ -19,6 +19,7 @@ import { getDb, type DrizzleDb } from "../db";
 import { logger } from "../logger";
 import { grantCardReward } from "../services/cardRewardService";
 import { applyCasinoQuestProgress } from "../services/casinoQuestProgressService";
+import { writeNarrativeFlag } from "../services/narrativeFlagService";
 import { checkFeatureFlag } from "../middleware/featureFlag";
 import {
   casinoState, casinoResults, casinoJackpotPool, dreamBalance, userAchievements,
@@ -450,6 +451,13 @@ async function executeGame(
     if (result.won) favorGain += 1;
     if (result.jackpot) favorGain += 5;
     if (bet >= 100) favorGain += 1;
+    // audit/16 PR 3 — Degen's Favor milestone narrative flags. Compute
+    // the post-update value here so the threshold-cross detection
+    // below has both `state.degenFavor` (pre) and `newFavor` (post)
+    // available; the flag fires only when the threshold is crossed
+    // for the first time. Registered in narrativeFlagRegistry under
+    // owner: "casino", category: "companion".
+    const newFavor = Math.min(100, state.degenFavor + favorGain);
     const gamesPlayedNext: Record<string, number> = {
       ...(state.gamesPlayed ?? {}),
       [game]: ((state.gamesPlayed ?? {})[game] ?? 0) + 1,
@@ -502,7 +510,7 @@ async function executeGame(
       sessionLosses: !result.won ? state.sessionLosses + 1 : state.sessionLosses,
       currentStreak: newStreak,
       bestStreak,
-      degenFavor: Math.min(100, state.degenFavor + favorGain),
+      degenFavor: newFavor,
       totalBetsPlaced: state.totalBetsPlaced + 1,
       vipLevel: vipLevelFor(newTotalWagered),
       // Free-spin consumption skips the wager-cap accumulator too —
@@ -541,6 +549,31 @@ async function executeGame(
       detail: result.detail,
       seed,
     });
+
+    // audit/16 PR 3 — Degen's Favor milestone narrative flags.
+    // Fires once-per-threshold when the player's Favor score first
+    // crosses 25 / 50 / 75 / 100. Idempotent on the unique
+    // (userId, flag) index in npc_public_flags so re-firing on
+    // subsequent crossings is a safe no-op.
+    const FAVOR_FLAG_THRESHOLDS: Array<[number, string]> = [
+      [25, "casino_degen_favor_25"],
+      [50, "casino_degen_favor_50"],
+      [75, "casino_degen_favor_75"],
+      [100, "casino_degen_favor_100"],
+    ];
+    for (const [threshold, flag] of FAVOR_FLAG_THRESHOLDS) {
+      if (state.degenFavor < threshold && newFavor >= threshold) {
+        try {
+          await writeNarrativeFlag(userId, flag, "casino");
+        } catch (e) {
+          logger.warn("[Casino] favor-milestone flag write failed", {
+            userId,
+            flag,
+            error: e instanceof Error ? e.message : String(e),
+          });
+        }
+      }
+    }
 
     // audit/16 PR 3 — engagement-loop quest progression. Best-effort
     // (logs + swallows on failure); never blocks the casino play.
