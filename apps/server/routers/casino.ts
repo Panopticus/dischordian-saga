@@ -36,7 +36,8 @@ import {
   playPazaak21, playHighLow, playScratchCard, playLiarsDice, playDreamRoulette,
   playCardBattlersGauntlet, playFactionWarBet, playVoidBingo, playVoidCase,
   scoreMahjongRun,
-  validateBet, vipLevelFor, vipWinBonus, MAX_DAILY_WAGER, MAX_DAILY_NET_LOSS, isFreeToPlayGame,
+  validateBet, vipLevelFor, vipWinBonus, MAX_DAILY_WAGER, MAX_DAILY_NET_LOSS,
+  MAX_DAILY_VOID_CASES, isFreeToPlayGame,
   ROULETTE_FACTIONS, GAME_LIMITS, splitJackpotPool, rewardsForAchievement,
   getCasinoCosmetic,
   type RouletteFaction,
@@ -898,7 +899,8 @@ export const casinoRouter = router({
       return executeGame(db, ctx.user.id, "void_bingo", 0, (rng) => playVoidBingo(rng));
     }),
 
-  /** Void Cases — purchase a case, respect pity timer. */
+  /** Void Cases — purchase a case, respect pity timer.
+   *  audit/16 GA2 — capped at MAX_DAILY_VOID_CASES per UTC day. */
   playVoidCase: protectedProcedure
     .use(checkFeatureFlag("casino"))
     .use(globalCasinoSessionLimit)
@@ -910,6 +912,16 @@ export const casinoRouter = router({
       // actual increment happens inside the transaction via afterHook.
       const state = await ensureCasinoState(db, ctx.user.id);
       const pity = state.casesSinceRarePlus;
+      // audit/16 GA2 — daily Void Cases cap. ensureCasinoState() already
+      // resets dailyVoidCasesOpened on UTC date roll; just enforce the
+      // ceiling here. Surfaces via the same harm-reduction barrier modal
+      // as the loss cap (CASINO_DAILY_LOSS_CAP path matches "Daily ...
+      // limit reached" message-prefix pattern in main.tsx).
+      if (state.dailyVoidCasesOpened >= MAX_DAILY_VOID_CASES) {
+        throw new Error(
+          `Daily Void Cases limit reached (${MAX_DAILY_VOID_CASES}/day). Resets at UTC midnight.`,
+        );
+      }
       return executeGame(
         db,
         ctx.user.id,
@@ -926,7 +938,10 @@ export const casinoRouter = router({
               detail.tier === "mythic";
             await tx
               .update(casinoState)
-              .set({ casesSinceRarePlus: rarePlus ? 0 : pity + 1 })
+              .set({
+                casesSinceRarePlus: rarePlus ? 0 : pity + 1,
+                dailyVoidCasesOpened: state.dailyVoidCasesOpened + 1,
+              })
               .where(eq(casinoState.userId, ctx.user.id));
           },
         },

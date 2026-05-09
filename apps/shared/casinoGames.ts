@@ -780,6 +780,13 @@ export const MAX_DAILY_WAGER = 5000;
  *  bender behaviour. */
 export const MAX_DAILY_NET_LOSS = 1000;
 
+/** audit/16 GA2 — Void Cases per-day cap. The audit recommended
+ *  reducing the 20% house edge OR limiting volume; the volume cap
+ *  preserves the math (so existing odds disclosure stays accurate)
+ *  while gating the bender path. Resets at UTC midnight via
+ *  ensureCasinoState's daily-counter reset. */
+export const MAX_DAILY_VOID_CASES = 5;
+
 export interface BetLimits {
   min: number;
   max: number;

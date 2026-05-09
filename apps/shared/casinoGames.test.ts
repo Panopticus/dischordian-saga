@@ -10,7 +10,7 @@ import {
   playFactionWarBet, playVoidBingo, playVoidCase,
   evaluatePokerHand,
   rollCraps, spinWheel, vipLevelFor, vipWinBonus, validateBet,
-  MAX_DAILY_WAGER, MAX_DAILY_NET_LOSS, GAME_LIMITS, isFreeToPlayGame,
+  MAX_DAILY_WAGER, MAX_DAILY_NET_LOSS, MAX_DAILY_VOID_CASES, GAME_LIMITS, isFreeToPlayGame,
   splitJackpotPool, JACKPOT_SEED_FRACTION, JACKPOT_MIN_SEED,
   rewardsForAchievement, getCasinoCosmetic,
   CASINO_ACHIEVEMENT_REWARDS, CASINO_COSMETIC_CATALOG,
@@ -603,6 +603,20 @@ describe("MAX_DAILY_NET_LOSS (audit/16 GA4)", () => {
     // Loss cap should be tighter than wager cap; otherwise wager cap
     // dominates and the loss cap never fires.
     expect(MAX_DAILY_NET_LOSS).toBeLessThan(MAX_DAILY_WAGER);
+  });
+});
+
+describe("MAX_DAILY_VOID_CASES (audit/16 GA2)", () => {
+  it("is set to 5 cases/day", () => {
+    expect(MAX_DAILY_VOID_CASES).toBe(5);
+  });
+
+  it("preserves the documented Void Cases bet range", () => {
+    // GA2 chose volume cap over edge reduction so the published
+    // bet range stays accurate. Sanity-check that the bet range
+    // hasn't been silently widened.
+    expect(GAME_LIMITS.void_cases.min).toBe(50);
+    expect(GAME_LIMITS.void_cases.max).toBe(500);
   });
 });
 

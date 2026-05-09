@@ -646,17 +646,30 @@ export function VoidBingoPanel({ onResult }: { onResult?: CasinoGameResultCallba
 export function VoidCasesPanel({ onResult }: { onResult?: CasinoGameResultCallback }) {
   const [bet, setBet] = useState(100);
   const mut = trpc.casino.playVoidCase.useMutation();
+  // audit/16 GA2 — show "X/5 cases left today" gating display.
+  const stateQuery = trpc.casino.getState.useQuery(undefined, { retry: false });
+  const opened = stateQuery.data?.dailyVoidCasesOpened ?? 0;
+  const remaining = Math.max(0, 5 - opened);
+  const dailyExhausted = remaining === 0;
   return (
     <div className="text-center">
-      <h2 className="font-display text-xl void-text-accent mb-4">VOID CASES</h2>
-      <p className="font-mono text-[10px] text-white/40 mb-4">Pity timer at 20 cases. Published drop rates.</p>
+      <h2 className="font-display text-xl void-text-accent mb-2">VOID CASES</h2>
+      <p className="font-mono text-[10px] text-white/40 mb-1">Pity timer at 20 cases. Published drop rates.</p>
+      <p className="font-mono text-[10px] void-text-accent mb-4" data-testid="void-cases-daily-counter">
+        {dailyExhausted
+          ? "Daily limit reached — resets at UTC midnight"
+          : `${remaining}/5 cases left today`}
+      </p>
       <BetSelector bet={bet} setBet={setBet} min={50} max={500} />
       <button
-        onClick={() => mut.mutate({ bet }, { onSuccess: (data) => onResult?.({ achievementsUnlocked: data?.achievementsUnlocked, rewardsUnlocked: data?.rewardsUnlocked }) })}
-        disabled={mut.isPending}
+        onClick={() => mut.mutate({ bet }, { onSuccess: (data) => {
+          onResult?.({ achievementsUnlocked: data?.achievementsUnlocked, rewardsUnlocked: data?.rewardsUnlocked });
+          stateQuery.refetch();
+        } })}
+        disabled={mut.isPending || dailyExhausted}
         className="px-6 py-2 rounded-lg void-bg-sunk border void-border void-text-accent font-mono text-sm void-bg-sunk disabled:opacity-50"
       >
-        {mut.isPending ? "Cracking..." : `OPEN CASE ${bet}D`}
+        {mut.isPending ? "Cracking..." : dailyExhausted ? "TRY TOMORROW" : `OPEN CASE ${bet}D`}
       </button>
       {mut.data?.result && (
         <p className="mt-3 font-mono text-sm uppercase font-display tracking-widest void-text-accent">
