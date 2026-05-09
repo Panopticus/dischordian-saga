@@ -56,6 +56,38 @@ export interface GuildCutsceneDef {
    *  (chorus | eyes | archive | between | influencers | yellowcoats |
    *  congress | locks | greygamers | living | forge | architects_study). */
   archonId?: string;
+  /**
+   * audit/16 PR 22 (finding C7 — Cinematic persona).
+   *
+   * Optional narrative-state gates. Pre-audit, the 59 guild
+   * cutscenes had ZERO narrative gating — they fired whenever
+   * the guild's mechanical condition hit, regardless of act,
+   * morality, trust, or story flag. The audit'd intent: a
+   * cutscene that fires before the act-gate that motivates it
+   * is a spoiler; a cutscene that fires after the player has
+   * abandoned that storyline is dissonance.
+   *
+   * All four fields are optional; an absent field means
+   * "ungated on this axis." A cutscene with no gates fires on
+   * mechanical condition alone (the legacy behaviour). The
+   * gate-evaluation runtime (queued; not in this PR) checks
+   * each populated gate against game state at fire-time and
+   * suppresses the cutscene when any gate fails.
+   *
+   * Fields mirror the variant-resolver's gates from PR #524 so
+   * authors who already understand `MoralityTrustActVariant`
+   * can populate cutscene gates with the same vocabulary.
+   */
+  morality?: "machine" | "balanced" | "humanity" | "any";
+  /** Trust band gate. Requires `trustCompanionId` when set. */
+  trust?: "cold" | "neutral" | "warm" | "confidant" | "any";
+  /** Companion id for the trust gate. */
+  trustCompanionId?: string;
+  /** Act gate. */
+  act?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | "any";
+  /** Required narrative flags — ALL must be true for the
+   *  cutscene to be eligible. */
+  requiredFlags?: readonly string[];
 }
 
 /* ─── F.4 signature ability casting table ─── */

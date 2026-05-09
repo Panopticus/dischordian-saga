@@ -68,6 +68,25 @@ export interface CharacterSprite {
    *  and this field is present, the runtime draws from `visemeHyper`
    *  instead of `viseme`. Must match `viseme`'s cell layout and map. */
   visemeHyper?: SpriteSheet & { map: VisemeMap };
+  /**
+   * audit/16 PR 22 (finding C8 — Cinematic persona, future-proofing).
+   *
+   * Morality-state viseme overrides. The Human's mouth shapes
+   * shouldn't read identically on the Machine route vs the
+   * Humanity route — the lore implies the Machine route bleeds
+   * the static-shimmer into the lip-sync, while the Humanity
+   * route drops it. Pre-audit there was no schema for this
+   * morality-conditioned swap.
+   *
+   * Both fields are optional. The runtime (queued; the audit
+   * called this future-proofing — no shipping consumer yet)
+   * picks the matching sheet when the player's morality is in
+   * the named band; falls back to the default `viseme` sheet
+   * when neither is set or morality is balanced. Authors set
+   * one or both as the per-character morality routes ship.
+   */
+  visemeMachine?: SpriteSheet & { map: VisemeMap };
+  visemeHumanity?: SpriteSheet & { map: VisemeMap };
   /** If true, the viseme sheet is a mouth-only close-up and should be
    *  composited on top of `bust` at `mouthBox`, instead of replacing the
    *  bust entirely. When false/undefined, the viseme sheet is treated as
