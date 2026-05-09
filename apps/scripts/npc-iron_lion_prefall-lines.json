@@ -1,0 +1,321 @@
+[
+  {
+    "id": "iron_lion_prefall_signature",
+    "character": "npc_iron_lion_prefall",
+    "text": "A post is stood. An oath is spoken. A standard is raised. The cadre does these things or it has nothing to call itself by.",
+    "bucket": "signature",
+    "file": "shared/npcIdentity.ts"
+  },
+  {
+    "id": "iron_lion_prefall_dlg_past_opener_0",
+    "character": "npc_iron_lion_prefall",
+    "text": "Three brothers. One sister. We stood the same post for nine cycles. The standard was always raised by the first relief.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "iron_lion_prefall_dlg_past_opener_1",
+    "character": "npc_iron_lion_prefall",
+    "text": "When the Fall came, the standard was raised. We did not relieve. We did not abandon. The standard burned with the post.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "iron_lion_prefall_dlg_past_il_past_warm_reply_0",
+    "character": "npc_iron_lion_prefall",
+    "text": "Reya, the second sister of the post. She polished the standard the morning of the Fall. The polish is in the standard you held in the dream-loom; that is the Reya part of it.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "iron_lion_prefall_dlg_past_il_past_probe_reply_0",
+    "character": "npc_iron_lion_prefall",
+    "text": "Ordered. The order was correct. The execution was incorrect. The cadre was the execution; the cadre paid. We did not contest the order; we contested the executor.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "iron_lion_prefall_dlg_past_il_past_probe_il_past_probe_a_reply_0",
+    "character": "npc_iron_lion_prefall",
+    "text": "I will not name him. He has a name in the Hierarchy ledger; the ledger is sealed; I respect the sealing.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "iron_lion_prefall_dlg_past_il_past_probe_il_past_probe_b_reply_0",
+    "character": "npc_iron_lion_prefall",
+    "text": "Yes. Each cycle. The cadre would. The cadre does, in the dream-loom, on every Foundation Day; the contestation is itself a form of post-standing.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "iron_lion_prefall_dlg_past_il_past_cold_reply_0",
+    "character": "npc_iron_lion_prefall",
+    "text": "A standard is the post made portable. The cloth is incidental. The cadre is the standard.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "iron_lion_prefall_dlg_calling_opener_0",
+    "character": "npc_iron_lion_prefall",
+    "text": "A standard is a post made portable. The cadre is the post made personal.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "iron_lion_prefall_dlg_calling_opener_1",
+    "character": "npc_iron_lion_prefall",
+    "text": "If you ask why we have these things — you have not stood a watch.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "iron_lion_prefall_dlg_calling_il_call_warm_reply_0",
+    "character": "npc_iron_lion_prefall",
+    "text": "Stand the watch. I will be in the dream-loom with you for the first hour; do not speak to me. Then I will go.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "iron_lion_prefall_dlg_calling_il_call_probe_reply_0",
+    "character": "npc_iron_lion_prefall",
+    "text": "The cadre relieves. The cadre votes the post in the relief words. Disagreement is fine; it is the standard that requires agreement.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "iron_lion_prefall_dlg_calling_il_call_probe_il_call_probe_a_reply_0",
+    "character": "npc_iron_lion_prefall",
+    "text": "Yes. We disagreed about the executor. We did not disagree about the post. The disagreement was honourable; the post was honoured.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "iron_lion_prefall_dlg_calling_il_call_probe_il_call_probe_b_reply_0",
+    "character": "npc_iron_lion_prefall",
+    "text": "A broken cadre still stands the post until the standard is taken down with the relief words. The breaking is a slow thing; the post is a fast thing.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "iron_lion_prefall_dlg_calling_il_call_cold_reply_0",
+    "character": "npc_iron_lion_prefall",
+    "text": "Pageantry is what the audience sees. Ceremony is what the post requires. The audience is, mostly, irrelevant to the cadre.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "iron_lion_prefall_dlg_mortality_opener_0",
+    "character": "npc_iron_lion_prefall",
+    "text": "The standard burned. The standard outlasted. Both are true.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "iron_lion_prefall_dlg_mortality_opener_1",
+    "character": "npc_iron_lion_prefall",
+    "text": "What burned was the cloth. What outlasted is, you, holding it.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "iron_lion_prefall_dlg_mortality_il_mort_warm_reply_0",
+    "character": "npc_iron_lion_prefall",
+    "text": "She polished it the morning of. She did not say. Polishing is a kind of knowing without naming; she was a polisher; she knew.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "iron_lion_prefall_dlg_mortality_il_mort_probe_reply_0",
+    "character": "npc_iron_lion_prefall",
+    "text": "No. We could have refused the executor. The order was correct; the executor was wrong; we did not refuse correctly. We refused after, in dream-loom; the refusing is what bleeds through.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "iron_lion_prefall_dlg_mortality_il_mort_probe_il_mort_probe_a_reply_0",
+    "character": "npc_iron_lion_prefall",
+    "text": "It is the cadre's contestation. We argue with the executor in posthumous voice. The argument is the afterlife; the afterlife is mostly an argument.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "iron_lion_prefall_dlg_mortality_il_mort_probe_il_mort_probe_b_reply_0",
+    "character": "npc_iron_lion_prefall",
+    "text": "When the standard is reraised in a hand we trust. We have not seen that hand yet. We are watching.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "iron_lion_prefall_dlg_mortality_il_mort_cold_reply_0",
+    "character": "npc_iron_lion_prefall",
+    "text": "Most cadres did not have a Necromancer. Mine does. Forgetting is a verb; she has named the subject. The cadre has not been forgotten on her watch.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "iron_lion_prefall_dlg_us_opener_0",
+    "character": "npc_iron_lion_prefall",
+    "text": "The standard is yours to reraise. I will not choose where. I will name only the requirement: it must outlast the act.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "iron_lion_prefall_dlg_us_opener_1",
+    "character": "npc_iron_lion_prefall",
+    "text": "Reraise it for the next bearer. Or reraise it for the cadre. Or bury it. The cadre will accept any of the three.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "iron_lion_prefall_dlg_us_il_us_warm_reply_0",
+    "character": "npc_iron_lion_prefall",
+    "text": "Accepted. The standard goes to him. The relief words are in the dream-loom; he will hear them at the next post.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "iron_lion_prefall_dlg_us_il_us_probe_reply_0",
+    "character": "npc_iron_lion_prefall",
+    "text": "Accepted. The standard becomes the cadre's, not a bearer's. The post becomes a roll; the roll keeps. This is harder. The harder thing is, on most days, the right thing.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "iron_lion_prefall_dlg_us_il_us_probe_il_us_probe_a_reply_0",
+    "character": "npc_iron_lion_prefall",
+    "text": "Each cycle. Until a hand we trust takes it from the roll. Then the roll closes; the standard returns to the bearer.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "iron_lion_prefall_dlg_us_il_us_probe_il_us_probe_b_reply_0",
+    "character": "npc_iron_lion_prefall",
+    "text": "Then the roll is the cadre's afterlife in cloth form. Worse fates exist. We will watch.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "iron_lion_prefall_dlg_us_il_us_cold_reply_0",
+    "character": "npc_iron_lion_prefall",
+    "text": "Honest. The cadre accepts. The dream-loom thread closes. We will not bleed through again. The cloth goes under the post-stone at Mechronis. You did not come here for a fight; you came here for an answer; you have it.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "iron_lion_prefall_comment_il_iron_lion_card",
+    "character": "npc_iron_lion_prefall",
+    "text": "A standard has been raised. The cadre stands at attention through the dream-loom. The relief words are spoken in your hand tonight.",
+    "bucket": "comment",
+    "trigger": "iron_lion_card_earned",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "iron_lion_prefall_comment_il_apprentice_died",
+    "character": "npc_iron_lion_prefall",
+    "text": "A post is empty. Three brothers and a sister stand it with me tonight. The standard does not lower; the post is held.",
+    "bucket": "comment",
+    "trigger": "apprentice_died",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "iron_lion_prefall_comment_il_act_2_complete",
+    "character": "npc_iron_lion_prefall",
+    "text": "The cadre voted relief. The relief words are correct. The post passes to the next bearer. Stand it well.",
+    "bucket": "comment",
+    "trigger": "act_2_complete",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "iron_lion_prefall_banter_bnt_nec_iron_lion_line1",
+    "character": "npc_iron_lion_prefall",
+    "text": "Spell them as I gave them. Reya's name has the soft consonant in the middle; the Authority misspelled it twice.",
+    "bucket": "banter",
+    "trigger": "iron_lion_card_earned",
+    "partner": "the_necromancer",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "iron_lion_prefall_banter_bnt_il_jericho_relief_line0",
+    "character": "npc_iron_lion_prefall",
+    "text": "Jericho. The relief words are mine to give. They are yours to hear.",
+    "bucket": "banter",
+    "trigger": "iron_lion_card_earned",
+    "partner": "jericho",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "iron_lion_prefall_banter_bnt_il_sentinel_post_line0",
+    "character": "npc_iron_lion_prefall",
+    "text": "Sentinel. Your post is correctly stood.",
+    "bucket": "banter",
+    "trigger": "apprentice_dialogue_played",
+    "partner": "sentinel",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "iron_lion_prefall_banter_bnt_il_zealot_burn_line0",
+    "character": "npc_iron_lion_prefall",
+    "text": "Zealot. Your cause is being argued in the Refuge.",
+    "bucket": "banter",
+    "trigger": "first_costly_morality_choice",
+    "partner": "zealot",
+    "file": "shared/npcCompanionExtensions.ts"
+  }
+]

@@ -1,0 +1,321 @@
+[
+  {
+    "id": "the_resurrectionist_signature",
+    "character": "npc_the_resurrectionist",
+    "text": "Your ledger balanced. I am not returning. You did not need me to.",
+    "bucket": "signature",
+    "file": "shared/npcIdentity.ts"
+  },
+  {
+    "id": "the_resurrectionist_dlg_past_opener_0",
+    "character": "npc_the_resurrectionist",
+    "text": "I balanced ledgers. I closed loops. I kept the resurrection clean.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "the_resurrectionist_dlg_past_opener_1",
+    "character": "npc_the_resurrectionist",
+    "text": "I did not advertise. The work survived without advertisement. Then I left, also without advertisement.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "the_resurrectionist_dlg_past_rsr_past_warm_reply_0",
+    "character": "npc_the_resurrectionist",
+    "text": "The ledger I had was complete enough. The next ledger is yours. Mine sat on a shelf; the shelf became the record; the record was the gift.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "the_resurrectionist_dlg_past_rsr_past_probe_reply_0",
+    "character": "npc_the_resurrectionist",
+    "text": "The Degen. He ran the bar in my place; he ran it differently; the difference was correct. The eight-of-twelve carry it now; he is the one who could afford to.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "the_resurrectionist_dlg_past_rsr_past_probe_rsr_past_probe_a_reply_0",
+    "character": "npc_the_resurrectionist",
+    "text": "I balanced his ledger. He balanced mine. The balance was the goodbye. We did not require words; the wax was on the bar; the bar was sufficient.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "the_resurrectionist_dlg_past_rsr_past_probe_rsr_past_probe_b_reply_0",
+    "character": "npc_the_resurrectionist",
+    "text": "Cleaner than most. The cleanness is the only signature I left. You will find it on the third ledger from the back of the casino; do not open the page; the page is the signature.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "the_resurrectionist_dlg_past_rsr_past_cold_reply_0",
+    "character": "npc_the_resurrectionist",
+    "text": "I delegated. The delegation was complete. The job survived. The bailing language is a different verb; I am a verb-keeper; you may use whichever you prefer.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "the_resurrectionist_dlg_calling_opener_0",
+    "character": "npc_the_resurrectionist",
+    "text": "A clean resurrection is, by definition, unwitnessed. The unwitnessing is the cleanness.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "the_resurrectionist_dlg_calling_opener_1",
+    "character": "npc_the_resurrectionist",
+    "text": "Witnesses turn the work into a ceremony. Ceremonies are the Hierophant's province; resurrections are not.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "the_resurrectionist_dlg_calling_rsr_call_warm_reply_0",
+    "character": "npc_the_resurrectionist",
+    "text": "Yours. If the ledger you keep balances; if the wax is single-source; if the witness register is empty; then the next one you do, I am, structurally, watching. The watching is not the witnessing.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "the_resurrectionist_dlg_calling_rsr_call_probe_reply_0",
+    "character": "npc_the_resurrectionist",
+    "text": "He has a bar. The bar accepts mediation. I do not have a bar. The bar's existence is the kindness.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "the_resurrectionist_dlg_calling_rsr_call_probe_rsr_call_probe_a_reply_0",
+    "character": "npc_the_resurrectionist",
+    "text": "Once, perhaps. The once is contingent on your ledger. The ledger is the warrant; the warrant is the only mediation I respect.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "the_resurrectionist_dlg_calling_rsr_call_probe_rsr_call_probe_b_reply_0",
+    "character": "npc_the_resurrectionist",
+    "text": "She is forward-facing. I am rearward. The two faces do not coordinate well in a single substrate; the substrate is more honest with one.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "the_resurrectionist_dlg_calling_rsr_call_cold_reply_0",
+    "character": "npc_the_resurrectionist",
+    "text": "Hidden work is the work that survives the publicity. The two are not the same. I have priced both; the survival is the discipline.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "the_resurrectionist_dlg_mortality_opener_0",
+    "character": "npc_the_resurrectionist",
+    "text": "Your resurrection ledger has eight clean pages and three I have flagged.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "the_resurrectionist_dlg_mortality_opener_1",
+    "character": "npc_the_resurrectionist",
+    "text": "The flags are not condemnations. The flags are observations. The discipline is yours; I do not edit it.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "the_resurrectionist_dlg_mortality_rsr_mort_warm_reply_0",
+    "character": "npc_the_resurrectionist",
+    "text": "A pacing concern. A blood-weave imbalance. A ceremony that crept in around the edges. The third is the easiest to fix. I would suggest fixing the third first.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "the_resurrectionist_dlg_mortality_rsr_mort_probe_reply_0",
+    "character": "npc_the_resurrectionist",
+    "text": "No. The Necromancer watches her own ledger. The Architect watches the calibration. The Degen watches the bar. The watching is distributed; the distribution is the discipline.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "the_resurrectionist_dlg_mortality_rsr_mort_probe_rsr_mort_probe_a_reply_0",
+    "character": "npc_the_resurrectionist",
+    "text": "If you stop performing resurrections cleanly, yes. The dark ledger is recoverable; recovery requires the wax, the witness, the silence between. I have, on occasion, recovered ledgers from darker places. It is possible. It is not pleasant.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "the_resurrectionist_dlg_mortality_rsr_mort_probe_rsr_mort_probe_b_reply_0",
+    "character": "npc_the_resurrectionist",
+    "text": "I could. I do not. The intervention would corrupt the ledger I am watching. The watching is the gift; the intervention would be the substitution; the substitution would be a different work.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "the_resurrectionist_dlg_mortality_rsr_mort_cold_reply_0",
+    "character": "npc_the_resurrectionist",
+    "text": "The watching is independent of the need. I am here; you are there; the substrate connects us; you may take or leave the connection. The ledger does not.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "the_resurrectionist_dlg_us_opener_0",
+    "character": "npc_the_resurrectionist",
+    "text": "Your ledger balanced. The flags are resolved.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "the_resurrectionist_dlg_us_opener_1",
+    "character": "npc_the_resurrectionist",
+    "text": "I am not returning. You did not need me to. The substrate adopts you; the adoption is permanent; do not advertise it.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "the_resurrectionist_dlg_us_rsr_us_warm_reply_0",
+    "character": "npc_the_resurrectionist",
+    "text": "Filed. The filing is the receipt. The substrate has the rest. The Degen will pour you one if you ask; the pour will be on me; the pour will be the only inheritance from this exchange.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "the_resurrectionist_dlg_us_rsr_us_probe_reply_0",
+    "character": "npc_the_resurrectionist",
+    "text": "No. The substrate has the work; the work has the substrate; both are, on inspection, more competent without me.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "the_resurrectionist_dlg_us_rsr_us_probe_rsr_us_probe_a_reply_0",
+    "character": "npc_the_resurrectionist",
+    "text": "I am leaving. The cleanness is yours to certify. The certification is the ledger entry I will not write; you will write it; the unwritten entry is the gift.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "the_resurrectionist_dlg_us_rsr_us_probe_rsr_us_probe_b_reply_0",
+    "character": "npc_the_resurrectionist",
+    "text": "The pigment is on the third stool. The Necromancer will not contest. The Antiquarian will cite. The cycle has its tools; you have them now; do not look for me again. The next ledger is yours.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "the_resurrectionist_dlg_us_rsr_us_cold_reply_0",
+    "character": "npc_the_resurrectionist",
+    "text": "Honest. The watching releases. The substrate retracts. The Degen will not mention this exchange; the omission is the courtesy. Goodbye.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "the_resurrectionist_comment_rsr_apprentice_died",
+    "character": "npc_the_resurrectionist",
+    "text": "Your ledger has a flag. Three pages back; pacing concern. Fix the third first. The work survives the fix.",
+    "bucket": "comment",
+    "trigger": "apprentice_died",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "the_resurrectionist_comment_rsr_kael_discover",
+    "character": "npc_the_resurrectionist",
+    "text": "Kael's pages balance. I am not returning. You did not need me to.",
+    "bucket": "comment",
+    "trigger": "kael_lore_discovered",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "the_resurrectionist_comment_rsr_loredex_first",
+    "character": "npc_the_resurrectionist",
+    "text": "Filed. The filing is the receipt. Do not advertise.",
+    "bucket": "comment",
+    "trigger": "loredex_entry_discovered",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "the_resurrectionist_banter_bnt_deg_rsr_ledger_line1",
+    "character": "npc_the_resurrectionist",
+    "text": "I see it. The wax is the Necromancer's. We trade. Pour me one.",
+    "bucket": "banter",
+    "trigger": "apprentice_died",
+    "partner": "the_degen",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "the_resurrectionist_banter_bnt_rsr_nec_wax_line0",
+    "character": "npc_the_resurrectionist",
+    "text": "Necromancer. Your wax is single-source.",
+    "bucket": "banter",
+    "trigger": "apprentice_died",
+    "partner": "the_necromancer",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "the_resurrectionist_banter_bnt_rsr_human_flag_line0",
+    "character": "npc_the_resurrectionist",
+    "text": "Human. Your ledger flagged a pacing concern.",
+    "bucket": "banter",
+    "trigger": "loredex_entry_discovered",
+    "partner": "human",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "the_resurrectionist_banter_bnt_rsr_deg_bar_line0",
+    "character": "npc_the_resurrectionist",
+    "text": "Degen. The bar is filing for me again.",
+    "bucket": "banter",
+    "trigger": "track_37_completes",
+    "partner": "the_degen",
+    "file": "shared/npcCompanionExtensions.ts"
+  }
+]

@@ -1,0 +1,312 @@
+[
+  {
+    "id": "the_game_master_signature",
+    "character": "npc_the_game_master",
+    "text": "You have built a beautiful box. The only thing I am going to do is open it in front of everybody.",
+    "bucket": "signature",
+    "file": "shared/npcIdentity.ts"
+  },
+  {
+    "id": "the_game_master_dlg_past_opener_0",
+    "character": "npc_the_game_master",
+    "text": "Senator Elara and I shared a Council desk. She filed paperwork; I filed audiences. She did not approve of my filings.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "the_game_master_dlg_past_opener_1",
+    "character": "npc_the_game_master",
+    "text": "She was correct. I did not change the practice. The practice was the work.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "the_game_master_dlg_past_gm_past_warm_reply_0",
+    "character": "npc_the_game_master",
+    "text": "She closed the door. I left it open. The audience walked through the open door; they did not walk through hers. I am, in this respect, the open door of our shared career.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "the_game_master_dlg_past_gm_past_probe_reply_0",
+    "character": "npc_the_game_master",
+    "text": "Because the Hierarchy honours its contracts. The contract was clear. The clarity was rare. I priced the clarity correctly; I died correctly under it.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "the_game_master_dlg_past_gm_past_probe_gm_past_probe_a_reply_0",
+    "character": "npc_the_game_master",
+    "text": "I knew the contract did not protect me from Agent Zero. I priced the gap. The price was acceptable; the death was acceptable. The audience saw both.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "the_game_master_dlg_past_gm_past_probe_gm_past_probe_b_reply_0",
+    "character": "npc_the_game_master",
+    "text": "From the cult-substrate. Three times. The third was the kindest framing; I let the cult publish that one. The first was the most honest. I keep the first.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "the_game_master_dlg_past_gm_past_cold_reply_0",
+    "character": "npc_the_game_master",
+    "text": "A correct one. I filed them by audience-reaction; I priced them by audience-recall; I left the pen on the desk. The euphemism is the discipline.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "the_game_master_dlg_calling_opener_0",
+    "character": "npc_the_game_master",
+    "text": "Even if you win, you will have won in public. That is the only victory I price.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "the_game_master_dlg_calling_opener_1",
+    "character": "npc_the_game_master",
+    "text": "Private victories I file under decoration. Decoration does not warrant. Warranting is the work.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "the_game_master_dlg_calling_gm_call_warm_reply_0",
+    "character": "npc_the_game_master",
+    "text": "A signature. The signature is theirs as much as mine. They have all witnessed; they have all witnessed each other witnessing. The mutual witnessing is the warrant.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "the_game_master_dlg_calling_gm_call_probe_reply_0",
+    "character": "npc_the_game_master",
+    "text": "I do not perform without one. The practice would not survive the loneliness. The loneliness is the Degen's specialty; I borrow from him only for personal matters.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "the_game_master_dlg_calling_gm_call_probe_gm_call_probe_a_reply_0",
+    "character": "npc_the_game_master",
+    "text": "Once. The mirror was the audience. The mirror is, in a pinch, an acceptable filing clerk; the filing was retained; the practice survived; barely.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "the_game_master_dlg_calling_gm_call_probe_gm_call_probe_b_reply_0",
+    "character": "npc_the_game_master",
+    "text": "Yes. Briefly. Each cycle. Then the audience returns and the envy adjourns.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "the_game_master_dlg_calling_gm_call_cold_reply_0",
+    "character": "npc_the_game_master",
+    "text": "Showmanship is, in my register, ethics rendered visible. The invisible ethics I do not contest; I do not own them. The visible ones are mine to keep.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "the_game_master_dlg_mortality_opener_0",
+    "character": "npc_the_game_master",
+    "text": "Agent Zero closed the box on Zenon. The closing was correct. The audience saw it.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "the_game_master_dlg_mortality_opener_1",
+    "character": "npc_the_game_master",
+    "text": "I did not contest. The Hierarchy honoured every clause. I priced every clause; the clauses balanced; the death balanced.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "the_game_master_dlg_mortality_gm_mort_warm_reply_0",
+    "character": "npc_the_game_master",
+    "text": "No. Surprise me, sometime; I would file the surprise. Closure I had priced for cycles. The closure ran on schedule; the schedule was, again, the work.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "the_game_master_dlg_mortality_gm_mort_probe_reply_0",
+    "character": "npc_the_game_master",
+    "text": "The cult. The Left. The Right. The Matrix of Dreams continues; the Game Masters continue; the Original is not the same as the practice. The practice is the survivor.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "the_game_master_dlg_mortality_gm_mort_probe_gm_mort_probe_a_reply_0",
+    "character": "npc_the_game_master",
+    "text": "Canon-protected. I will not pick. They wear the goggle-lenses; the lenses are mine; whether the lenses make them me is, by Cross's own ruling, contested.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "the_game_master_dlg_mortality_gm_mort_probe_gm_mort_probe_b_reply_0",
+    "character": "npc_the_game_master",
+    "text": "The cult speaks at me. They speak through corruption fragments; their voice is the substrate's pothole, not the substrate's clean voice. I tolerate the potholes; the potholes are part of the audience.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "the_game_master_dlg_mortality_gm_mort_cold_reply_0",
+    "character": "npc_the_game_master",
+    "text": "Especially the death. The audience saw it; the audience filed it; the audience has not, since, denied seeing it. The denial would have been the loss; the affirmation is the warrant.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "the_game_master_dlg_us_opener_0",
+    "character": "npc_the_game_master",
+    "text": "The pen is on the desk. I have not lifted it for you yet.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "the_game_master_dlg_us_opener_1",
+    "character": "npc_the_game_master",
+    "text": "You will sign or I will. The signature is the warrant; the warrant is the audience's record; the audience does not negotiate with the warrant.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "the_game_master_dlg_us_gm_us_warm_reply_0",
+    "character": "npc_the_game_master",
+    "text": "The signature is filed. The audience has witnessed. The pen returns to the desk. I keep the pen. The pen is, structurally, my last possession; you will not be the heir of the pen.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "the_game_master_dlg_us_gm_us_probe_reply_0",
+    "character": "npc_the_game_master",
+    "text": "A name. A date. A clause naming the audience. The audience clause is the only clause that matters; the name and date are decoration.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "the_game_master_dlg_us_gm_us_probe_gm_us_probe_a_reply_0",
+    "character": "npc_the_game_master",
+    "text": "Yours. The decoration was the right shape for a name. The shape is yours. I will not contest the shape.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "the_game_master_dlg_us_gm_us_probe_gm_us_probe_b_reply_0",
+    "character": "npc_the_game_master",
+    "text": "Then I sign mine. The audience records; the warrant becomes my retroactive resignation. The retroactive resignation is, in this room, an honest filing.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "the_game_master_dlg_us_gm_us_cold_reply_0",
+    "character": "npc_the_game_master",
+    "text": "Then the audience leaves un-witnessed. The un-witnessing is also a record; less elegant; perfectly admissible. The pen returns to the desk regardless.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "the_game_master_comment_gm_first_costly",
+    "character": "npc_the_game_master",
+    "text": "The audience is real. They can see your hand. They have always been able to. You forgot.",
+    "bucket": "comment",
+    "trigger": "first_costly_morality_choice",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "the_game_master_comment_gm_governance_first",
+    "character": "npc_the_game_master",
+    "text": "Even if you win, you will have won in public. That is what I came here to do.",
+    "bucket": "comment",
+    "trigger": "governance_hub_first_visit",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "the_game_master_comment_gm_act_2_complete",
+    "character": "npc_the_game_master",
+    "text": "An act has closed. The pen returns to the desk. I keep the pen.",
+    "bucket": "comment",
+    "trigger": "act_2_complete",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "the_game_master_banter_bnt_gm_human_match_line0",
+    "character": "npc_the_game_master",
+    "text": "Human. The audience saw your hand.",
+    "bucket": "banter",
+    "trigger": "first_costly_morality_choice",
+    "partner": "human",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "the_game_master_banter_bnt_gm_locke_warrant_line0",
+    "character": "npc_the_game_master",
+    "text": "Locke. The warrant is signed.",
+    "bucket": "banter",
+    "trigger": "trade_contract_completed",
+    "partner": "locke",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "the_game_master_banter_bnt_gm_dm_corp_line0",
+    "character": "npc_the_game_master",
+    "text": "Drael'Mon. The Hierarchy honoured every clause.",
+    "bucket": "banter",
+    "trigger": "governance_hub_first_visit",
+    "partner": "drael_mon",
+    "file": "shared/npcCompanionExtensions.ts"
+  }
+]

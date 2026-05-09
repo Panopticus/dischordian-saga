@@ -1,0 +1,321 @@
+[
+  {
+    "id": "the_necromancer_signature",
+    "character": "npc_the_necromancer",
+    "text": "Forgetting is a verb that takes a subject. Tell me whose verb you are tonight, and I will tell you whose name you stop.",
+    "bucket": "signature",
+    "file": "shared/npcIdentity.ts"
+  },
+  {
+    "id": "the_necromancer_dlg_past_opener_0",
+    "character": "npc_the_necromancer",
+    "text": "Before the cycle made a verb of me, I had a name. I have not said it aloud since the second daily-names ceremony.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "the_necromancer_dlg_past_opener_1",
+    "character": "npc_the_necromancer",
+    "text": "Saying my own name would interrupt the work. I keep the verb pure.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "the_necromancer_dlg_past_nec_past_warm_reply_0",
+    "character": "npc_the_necromancer",
+    "text": "At my last ceremony. By tradition. By insistence. By the wax.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "the_necromancer_dlg_past_nec_past_probe_reply_0",
+    "character": "npc_the_necromancer",
+    "text": "A woman who did not finish her own roll. Her last three names she gave to me on a torn page. I sing them on the cycles she would have sung them; she gets the credit, not the verb.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "the_necromancer_dlg_past_nec_past_probe_nec_past_probe_a_reply_0",
+    "character": "npc_the_necromancer",
+    "text": "Mid-name. The last syllable was the wax going out. I lit a new candle from hers; the new wax is the same lineage. Wax is a cheap inheritance.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "the_necromancer_dlg_past_nec_past_probe_nec_past_probe_b_reply_0",
+    "character": "npc_the_necromancer",
+    "text": "Three cycles after she stopped. The roll is at the back of the chamber; her name is on it, between the eighth and ninth entries. I sing it on her cycle.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "the_necromancer_dlg_past_nec_past_cold_reply_0",
+    "character": "npc_the_necromancer",
+    "text": "Because forgetting has a subject. If my name were the subject, my work would forget me first. I have decided whose verb I am.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "the_necromancer_dlg_calling_opener_0",
+    "character": "npc_the_necromancer",
+    "text": "Forgetting is a verb. It always takes a subject. Some nights the subject is the Authority. Some nights it is the cycle itself.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "the_necromancer_dlg_calling_opener_1",
+    "character": "npc_the_necromancer",
+    "text": "I do not fight forgetting. I name the subject of the verb. The naming is the fight.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "the_necromancer_dlg_calling_nec_call_warm_reply_0",
+    "character": "npc_the_necromancer",
+    "text": "A redaction the Hierarchy ran on three names from the second-cycle archive. I have the original spellings. The candle is lit; I am waiting on the witness.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "the_necromancer_dlg_calling_nec_call_probe_reply_0",
+    "character": "npc_the_necromancer",
+    "text": "Yes. The cycle forgets the names that hurt it. The forgetting is not malicious; it is structural. I am the structure that disagrees.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "the_necromancer_dlg_calling_nec_call_probe_nec_call_probe_a_reply_0",
+    "character": "npc_the_necromancer",
+    "text": "Each cycle. I lose three or four. I do not name the ones I lost; the naming would be a second forgetting in disguise. The wax is for the kept ones.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "the_necromancer_dlg_calling_nec_call_probe_nec_call_probe_b_reply_0",
+    "character": "npc_the_necromancer",
+    "text": "I sing it shorter. I add no syllables. The pain is part of the spelling; I do not edit it out.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "the_necromancer_dlg_calling_nec_call_cold_reply_0",
+    "character": "npc_the_necromancer",
+    "text": "Move on. I do not. The cycle moves on without me; my work is the disagreement with the moving.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "the_necromancer_dlg_mortality_opener_0",
+    "character": "npc_the_necromancer",
+    "text": "When the voice goes, the wax stays. When the wax goes, the page stays. When the page goes, the next ceremony is the page.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "the_necromancer_dlg_mortality_opener_1",
+    "character": "npc_the_necromancer",
+    "text": "The chain has never ended. I do not intend to be the link that breaks it.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "the_necromancer_dlg_mortality_nec_mort_warm_reply_0",
+    "character": "npc_the_necromancer",
+    "text": "Whoever stands the watch with me long enough to learn the wax. I am not picky. I am demanding.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "the_necromancer_dlg_mortality_nec_mort_probe_reply_0",
+    "character": "npc_the_necromancer",
+    "text": "I fear being misspelled. The two are not the same. Being forgotten ends a name. Being misspelled corrupts a lineage; the corruption is harder to repair than the absence.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "the_necromancer_dlg_mortality_nec_mort_probe_nec_mort_probe_a_reply_0",
+    "character": "npc_the_necromancer",
+    "text": "Twice. The first I caught. The second is in a Hierarchy ledger I cannot access. I am working on it.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "the_necromancer_dlg_mortality_nec_mort_probe_nec_mort_probe_b_reply_0",
+    "character": "npc_the_necromancer",
+    "text": "Yes. Bring the original spelling. Bring the witness who heard it said. Bring the wax. We will not ask for permission.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "the_necromancer_dlg_mortality_nec_mort_cold_reply_0",
+    "character": "npc_the_necromancer",
+    "text": "The two are siblings. One sings, one shelves. Both refuse to forget.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "the_necromancer_dlg_us_opener_0",
+    "character": "npc_the_necromancer",
+    "text": "The candle is yours tonight. The wax is the same lineage. Three names; in order; with the silence between.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "the_necromancer_dlg_us_opener_1",
+    "character": "npc_the_necromancer",
+    "text": "I am not testing you. I am tired. The work is the work.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "the_necromancer_dlg_us_nec_us_warm_reply_0",
+    "character": "npc_the_necromancer",
+    "text": "Then we begin. Light is the third drawer. The names are on the table. The silence is between two and three; do not rush it.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "the_necromancer_dlg_us_nec_us_probe_reply_0",
+    "character": "npc_the_necromancer",
+    "text": "Then we issue an erratum at the next ceremony. The erratum is itself a name; it is named after the original misspelling. The chain absorbs the error.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "the_necromancer_dlg_us_nec_us_probe_nec_us_probe_a_reply_0",
+    "character": "npc_the_necromancer",
+    "text": "The page is in front of you. Read each syllable to me before you carry it. We rehearse. The work survives rehearsal.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "the_necromancer_dlg_us_nec_us_probe_nec_us_probe_b_reply_0",
+    "character": "npc_the_necromancer",
+    "text": "Yes. Once. With the same wax. The lineage adopts you for one cycle. Do not return tomorrow expecting the second.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "the_necromancer_dlg_us_nec_us_cold_reply_0",
+    "character": "npc_the_necromancer",
+    "text": "Honest. I'll say them tonight. The candle returns to me. Come back when you would rather speak than know.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "the_necromancer_comment_nec_apprentice_died",
+    "character": "npc_the_necromancer",
+    "text": "Their name. Spelled correctly. Three syllables in the cycle's tongue. I have lit the wax. The cycle remembers; tonight it does not forget.",
+    "bucket": "comment",
+    "trigger": "apprentice_died",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "the_necromancer_comment_nec_track37",
+    "character": "npc_the_necromancer",
+    "text": "Track 37 is a list of names. The composer did not know it was a list. I knew. I sang along.",
+    "bucket": "comment",
+    "trigger": "track_37_completes",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "the_necromancer_comment_nec_kael_discover",
+    "character": "npc_the_necromancer",
+    "text": "Kael's name was not on my roll. It is now. I will keep him on the cycle's voice for as long as the wax holds.",
+    "bucket": "comment",
+    "trigger": "kael_lore_discovered",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "the_necromancer_banter_bnt_nec_iron_lion_line0",
+    "character": "npc_the_necromancer",
+    "text": "Iron Lion. Three brothers. One sister. The roll is updated.",
+    "bucket": "banter",
+    "trigger": "iron_lion_card_earned",
+    "partner": "iron_lion_prefall",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "the_necromancer_banter_bnt_nec_revenant_wax_line0",
+    "character": "npc_the_necromancer",
+    "text": "Revenant. The wax is from her cycle.",
+    "bucket": "banter",
+    "trigger": "apprentice_died",
+    "partner": "revenant",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "the_necromancer_banter_bnt_nec_jericho_oath_line0",
+    "character": "npc_the_necromancer",
+    "text": "Jericho. The cadre's roll is yours to extend.",
+    "bucket": "banter",
+    "trigger": "iron_lion_card_earned",
+    "partner": "jericho",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "the_necromancer_banter_bnt_rsr_nec_wax_line1",
+    "character": "npc_the_necromancer",
+    "text": "It is. Yours is the same lineage.",
+    "bucket": "banter",
+    "trigger": "apprentice_died",
+    "partner": "the_resurrectionist",
+    "file": "shared/npcCompanionExtensions.ts"
+  }
+]
