@@ -150,6 +150,7 @@ const DreamerDossierPage = lazy(() => import("./pages/DreamerDossierPage"));
 const LoredexGraphPage = lazy(() => import("./pages/LoredexGraphPage"));
 const LoredexClusterView = lazy(() => import("./pages/LoredexClusterView"));
 const InvestigationBoardPage = lazy(() => import("./pages/InvestigationBoardPage"));
+const CharacterCanonPage = lazy(() => import("./pages/CharacterCanonPage"));
 const Act2InterludePage = lazy(() => import("./pages/Act2InterludePage"));
 const Act2OpeningPage = lazy(() => import("./pages/Act2OpeningPage"));
 const EngineersBenchPage = lazy(() => import("./pages/EngineersBenchPage"));
@@ -412,6 +413,7 @@ function Router() {
         <Route path="/loredex/graph" component={LoredexGraphPage} />
         <Route path="/loredex/clusters" component={LoredexClusterView} />
         <Route path="/loredex/investigation" component={InvestigationBoardPage} />
+        <Route path="/characters/canon" component={CharacterCanonPage} />
         <Route path="/act2-interlude" component={Act2InterludePage} />
         <Route path="/act2-opening" component={Act2OpeningPage} />
         <Route path="/engineers-bench" component={EngineersBenchPage} />
