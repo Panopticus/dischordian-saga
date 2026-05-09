@@ -23,6 +23,8 @@ import {
 import { useDegenVO } from "@/hooks/useDegenVO";
 import { CasinoGamePanel, type CasinoGameResultPayload } from "./CasinoGamePanels";
 import { CasinoBarrierModal } from "./CasinoBarrierModal";
+import { SessionInterruptModal } from "./SessionInterruptModal";
+import { useSessionTimer } from "@/hooks/useSessionTimer";
 import { HolidayDialogTicker } from "@/components/HolidayDialogTicker";
 import { trpc } from "@/lib/trpc";
 import { useGame } from "@/contexts/GameContext";
@@ -100,6 +102,12 @@ export default function DegensCasinoPage() {
       gamesPlayed: (srv.gamesPlayed ?? {}) as Partial<Record<CasinoGame, number>>,
     };
   }, [stateQuery.data]);
+
+  // audit/16 GA5 — session-length harm reduction. Hook ticks once
+  // per minute; dispatches "casino-session-interrupt" CustomEvent
+  // at 2h (gated on ≥500D wagered today) / 4h / 6h. The
+  // SessionInterruptModal listens and renders.
+  useSessionTimer(casinoState.totalWagered);
 
   // Auto-dismiss loading screen after image loads + brief cinematic pause
   useEffect(() => {
@@ -253,6 +261,11 @@ export default function DegensCasinoPage() {
           for "casino-barrier" CustomEvents dispatched from the global
           tRPC mutation-cache subscriber when daily caps are hit. */}
       <CasinoBarrierModal />
+
+      {/* audit/16 GA5 — session-length break prompt. Listens for
+          "casino-session-interrupt" CustomEvents from useSessionTimer
+          and renders the take-a-break modal at 2h/4h/6h. */}
+      <SessionInterruptModal />
 
       {/* Casino Floor — environment background per area */}
       <div className="absolute inset-0 z-0 transition-opacity duration-700">
