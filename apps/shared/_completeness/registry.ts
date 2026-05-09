@@ -47,6 +47,7 @@ import { checkYearlyEventRuntime } from "./checks/yearlyEventRuntime";
 import { checkSevenSealRuntime } from "./checks/sevenSealRuntime";
 import { checkMiniDlcFiveSystemCoverage } from "./checks/miniDlcFiveSystemCoverage";
 import { checkSevenSealEpigraphCoverage } from "./checks/sevenSealEpigraphCoverage";
+import { checkWheelFollowupCinematicCoverage } from "./checks/wheelFollowupCinematicCoverage";
 
 export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
   // ─── Card engine ──────────────────────────────────────────
@@ -373,5 +374,17 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "Every seal in apps/shared/sevenSeals.ts must have an authored epigraph in apps/shared/sevenSealsEpigraphs.ts (openingLine ≤ 80 chars, body 200–600 chars, attribution + citation non-empty). Hard parity — missing epigraphs degrade the SealEpigraphCinematic to the fall-summary fallback.",
     check: () => checkSevenSealEpigraphCoverage(),
+  },
+  {
+    // audit/16 PR 4 (Cluster D — finding C1).
+    // RATCHETed; PR 9 (cinematic consumers) drives the gap toward 0.
+    // Initial state: 40 declared / 0 implemented; the schema lands
+    // here, the per-variant cinematic IDs land in PR 9.
+    id: "narrative.wheel_followup_cinematic_coverage",
+    name: "wheel_followup portraitCinematicId coverage",
+    description:
+      "Every variant with `surface: \"wheel_followup\"` in moralityTrustActVariants.ts should set `portraitCinematicId` so the wheel followup crossfades an AnimatedPortrait. PR 4 (Cluster D) lands the schema; PR 9 (cinematic consumers) backfills the per-variant cinematic IDs.",
+    check: () => checkWheelFollowupCinematicCoverage(),
+    ratchet: { target: 0 },
   },
 ];
