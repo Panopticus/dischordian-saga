@@ -3222,6 +3222,313 @@ Per `docs/design/EXPANSION_BIBLE.md` gameplay-system catalog. 6–10s each, snap
 
 ---
 
+## 17. Living Character Sheet — base bodies, awakening cinematic, backgrounds, armor
+
+The full LCS canon (species ref-ids, rig + inventory layering rules, the 8
+craftable armor series, the 12 per-game-mode mastery armor sets, and the LCS
+location-background spec with pack groupings + prize-grant triggers) is
+authored in a single file at `docs/production/lcs-species-refs/CANON.md`. The
+prompts in §17 below realize that canon as Nano Banana 2 + Veo 3.1 prompts.
+
+**Read CANON.md first** — every prompt in §17 cites it by ref-id (`ref-demagi-m-warrior`, `ref-neyon-f-warrior`, etc.) and by armor-series-id and mastery-armor-id.
+
+### 17.A LCS base bodies
+
+#### Render contract
+
+- **Format**: PNG with alpha, **1024×2048** portrait.
+- **Pose**: per CANON.md "LCS rig + inventory layering rules" — relaxed three-quarter standing, 5° camera offset, arms at 15° abduction, palms inward, weight even, **no weapon**, **no armor**, **no clothing** (use the species' standard underlayer).
+- **Background**: pure transparent.
+- **Joint pins clean**: crown, both shoulder caps, sternum, both wrists, hips L+R, both knees, both ankles — un-occluded.
+- **Style**: house style §1.1, render at high subject-detail since this is the canvas everything else layers onto.
+- **Asset prefix**: `art/lcs/bodies/<species>/<sex>/<variant>.png`.
+
+#### Skin / lineage / morph slider variants
+
+Per CANON.md:
+- **DeMagi + Human** get an **8-stage continuous skin slider** (cool-pale → warm-tan → mid-brown → deep-umber, with an 8-stop monotonic curve). Render the 8 endpoints; the engine interpolates between adjacent stages at runtime via a baked color-LUT in `apps/client/src/lib/skinSlider.ts`.
+- **Neyon** gets an **8-stage lineage-color slider** (Iron-Lion orange, Architect cyan, Watcher amber, Necromancer green, Authority crimson, Engineer brass, Source violet, Witnessing white — see CANON.md table).
+- **Quarchon** gets a **6–8 stage shell-and-build morph slider** (pearl+violet, gold+noir, obsidian+cyan, bone+crimson, jade+copper, storm+silver, optional rose+platinum, optional char+gold — see CANON.md table). Quarchon has **no separate sex** — the morph is the variant axis.
+
+#### Per-species per-sex authoring
+
+##### DeMagi
+
+> **`art/lcs/bodies/demagi/m/skin_<n>.png`** (n = 0..7). Reference: `ref-demagi-m-warrior` for body silhouette + hair + eye-glow. Skin-slider stage `<n>` = `<cool-pale|warm-pale|fair-warm|mid-warm|warm-tan|mid-brown|deep-warm|deep-umber>` from CANON.md. Pose, frame, joint-pins per §17.A render contract.
+> Body proportions: lean-athletic male per ref. Hair: short violet-black with cool-blue tip (carry from ref). Eyes: red-orange iris-glow. Underlayer: charcoal compression sleeveless top + leggings. **No armor.** **No weapon.**
+>
+> Render 8 stages. Asset paths `skin_0.png` through `skin_7.png`.
+>
+> **`art/lcs/bodies/demagi/f/skin_<n>.png`** (n = 0..7). Reference: `ref-demagi-f` (derived; no canon image — use ref-demagi-m-warrior body silhouette logic but with female proportions per CANON.md "Sex/morph silhouette guarantee"). Hair: long flowing, violet-black with cool-blue tip (warrior discipline). Eyes: red-orange iris-glow. Underlayer: charcoal compression top + leggings. Body proportions: athletic-female, defined-but-modest hip-to-waist curve, B-cup-max chest contour for armor fit.
+>
+> Render 8 stages.
+>
+> **`art/lcs/bodies/demagi/nb/skin_<n>.png`** (n = 0..7). Reference: `ref-demagi-nb`. Body: lean-androgynous, 1:1 shoulder/hip ratio, even chest. Hair: shoulder-length asymmetric (one side shaved), violet-black + blue tip. Eyes: red-orange iris-glow. Underlayer: charcoal compression top + leggings.
+>
+> Render 8 stages.
+
+> **DeMagi-Sage variant override**: For all 3 sexes above, also render a **sage variant** (silver-white hair, amber iris-glow, brass-trimmed underlayer). Reference: `ref-demagi-m-sage`. Asset suffix: `_sage.png` per stage (e.g., `art/lcs/bodies/demagi/m/skin_3_sage.png`). Total: 8 stages × 3 sexes × 2 disciplines = 48 DeMagi renders.
+
+##### Quarchon
+
+> **`art/lcs/bodies/quarchon/<morph>.png`** — 6 mandatory + 2 optional morphs:
+> - `pearl_violet.png` — Reference: `ref-quarchon-morph-pearl-violet`. Athletic build, asymmetric green ocular, pearl shell + violet trim.
+> - `gold_noir.png` — Reference: `ref-quarchon-morph-gold-noir`. Ascetic build, single warm-amber ocular, gold-bronze shell + indigo silk drape.
+> - `obsidian_cyan.png` — Athletic build, twin cyan eye-strip, glossy black shell with cyan vent-glow at joints.
+> - `bone_crimson.png` — Ascetic build, single deep-red ocular, weathered cream shell with arterial-crimson sigil-channels.
+> - `jade_copper.png` — Athletic build, asymmetric copper ocular + faint jade ocular, jade shell with copper rivet-trim.
+> - `storm_silver.png` — Ascetic build, single white-blue ocular, smoke-grey shell with silver-cyan lightning-trace etching.
+> - (Optional) `rose_platinum.png` — Athletic build, twin rose eye-pips, platinum shell with rose-gold edge.
+> - (Optional) `char_gold.png` — Ascetic build, single gold ocular, deep-charcoal shell with gold-leaf cracking.
+>
+> Pose, frame, joint-pins per §17.A render contract. **Quarchon shell IS the underlayer** — no extra clothing.
+>
+> Total: 6–8 Quarchon renders.
+
+##### Neyon
+
+> **`art/lcs/bodies/neyon/<sex>/lineage_<color>.png`** — 3 sexes × 8 lineage colors = 24 renders.
+> - `<sex>` ∈ {m, f, nb}, with body silhouette per CANON.md: m = wider shoulders, narrower hip; f = curved hip-to-waist with B-cup-max chest contour; nb = 1:1 shoulder/hip.
+> - `<color>` ∈ {orange, cyan, amber, green, crimson, brass, violet, white} per CANON.md lineage slider.
+> - Reference: `ref-neyon-f-warrior` for shell architecture; carry the orange-trace circuitry, glossy obsidian-black plate, segmented chest/abdomen/hips/thighs/calves, V-bracket visor — keep the architecture, **swap the trace color** to match `<color>`.
+> - **Shell IS the underlayer** — no extra clothing.
+
+##### Human
+
+> **`art/lcs/bodies/human/<sex>/skin_<n>.png`** — 3 sexes × 8 skin stages = 24 renders.
+> - Reference: existing pre-Awakening crewmember archetype from Prelude beat A art.
+> - Body proportions per the "Sex/morph silhouette guarantee" rule.
+> - Hair: render the 8 stages with neutral mid-length hair, dark-brown by default; players get hair-color customization separately at character creation (additional ~12 hair colors render in `art/lcs/bodies/human/<sex>/hair_<color>.png` as additive overlays — author the slug-set: `dark_brown`, `black`, `auburn`, `chestnut`, `light_brown`, `blonde`, `platinum`, `white`, `red`, `silver`, `pastel_pink`, `cyan_dye`).
+> - Underlayer: charcoal compression top + leggings.
+
+#### Sprite-overlay layering metadata
+
+Each base-body PNG ships alongside a sidecar JSON at
+`art/lcs/bodies/<species>/<sex>/<variant>.json` describing the joint-pin
+pixel coordinates so the inventory engine knows where helmets / pauldrons
+/ etc. anchor:
+
+```json
+{
+  "anchors": {
+    "crown": [512, 80],
+    "shoulder_left": [340, 280],
+    "shoulder_right": [684, 280],
+    "sternum": [512, 480],
+    "wrist_left": [220, 920],
+    "wrist_right": [804, 920],
+    "hip_left": [400, 1020],
+    "hip_right": [624, 1020],
+    "knee_left": [430, 1380],
+    "knee_right": [594, 1380],
+    "ankle_left": [440, 1820],
+    "ankle_right": [584, 1820]
+  },
+  "frame": [1024, 2048],
+  "species": "demagi",
+  "sex": "m",
+  "variant": "skin_3"
+}
+```
+
+The engine reads the JSON at runtime to position armor pieces. Author one
+JSON per rendered body PNG (the renderer can auto-generate the JSON via
+the rig overlay; the human authoring task is to verify the anchors).
+
+### 17.B Energy-form awakening cinematic
+
+Plays under Elara's existing line at character-creation. Modeled on §5
+awakening-video cadence (4 shots, 15s, frame-chained).
+
+> **Shot 1 — `videos/lcs/energy_chooses_form/shot_1_drift.mp4`** (4s) — Pure black void. Slow drift of formless cyan light-motes (each mote ~3px), hundreds visible. Camera pushes in toward the densest mote-cluster. End frame: cluster at frame-center, the densest motes beginning to coalesce. Veo 3.1 motion: slow-camera dolly-in (300mm focal), no rotation. **No music, no SFX** — pure breath-held silence; Elara's existing line rides over the visual.
+>
+> **Shot 2 — `videos/lcs/energy_chooses_form/shot_2_silhouette_overlap.mp4`** (4s) — START FRAME = Shot 1 end. The cluster blooms outward, becoming **all four species silhouettes ghost-overlapping at the same center-point** (DeMagi outline + Quarchon outline + Neyon outline + Human outline — all four superimposed translucent). Camera holds. End frame: 4-silhouette overlap held mid-bloom.
+>
+> **Shot 3 — `videos/lcs/energy_chooses_form/shot_3_solidify.mp4`** (4s) — START FRAME = Shot 2 end. Player's choice resolves: 3 of the 4 silhouettes fade; 1 solidifies. Color-flush moves through the chosen silhouette from feet to head (cyan → species-specific color). End frame: chosen species silhouette holds, 95% solid, eyes still un-lit.
+>
+> **Shot 4 — per-species variant — `videos/lcs/energy_chooses_form/shot_4_<species>.mp4`** (3s each). START FRAME = Shot 3 end (matched per species). Eyes / ocular open in species canon:
+> - `shot_4_demagi.mp4`: red-orange iris-glow ignites (warrior) or amber iris-glow (sage); 4-frame ignition; held.
+> - `shot_4_quarchon.mp4`: ocular-pip lights (asymmetric for athletic, central for ascetic); 6-frame iris-cascade.
+> - `shot_4_neyon.mp4`: V-bracket visor lights with chosen lineage color; 4-frame brighten + sustain.
+> - `shot_4_human.mp4`: human eyes open naturally (no glow); 6-frame slow blink to alertness.
+>
+> Author 4 species variants for Shot 4 (only); Shots 1–3 are universal across all species choices.
+>
+> Voice direction: Elara delivers **one line** across the cinematic: "Energy takes many forms. Choose yours." — line lands at Shot 2's silhouette-overlap moment. Voice profile: existing Elara VO manifest (`elaraVoManifest.json`). No additional VO needed.
+>
+> Asset paths: `videos/lcs/energy_chooses_form/`.
+
+### 17.C LCS location backgrounds
+
+The LCS location-background spec is in CANON.md ("LCS location backgrounds"
+section) with full pack groupings, prize-grant triggers, and authoring rules.
+
+**Authoring strategy**: every LCS background is derived from an existing room
+still in §12, §13, or §14. The transformation is mechanical:
+
+1. Take the canonical 1920×1080 room still.
+2. Re-frame to **1024×2048 portrait** (vertical crop).
+3. Compose the room around a **600×1400 character-zone column starting 200px
+   from top, centered horizontally**. Anything in this zone is fair game to
+   be occluded by the rendered character. The composition's eye-leading
+   should pull toward the centerline-bottom (so character appears to stand
+   in the room's spotlight).
+4. Apply a baked **1.2× DOF blur** to back-of-room elements so the character
+   composites cleanly in front.
+
+Re-render is sometimes needed when the original 16:9 composition can't be
+cropped to 9:16 without losing important props. Author flag: re-render any
+background where canonical key-prop falls outside the centered 600px-wide
+column at 9:16 crop.
+
+Backgrounds set:
+
+> **Pack: Ark Interior** (12 backgrounds): `art/lcs/backgrounds/ark/{cryo_bay, corridor, engineering, medical_bay, mess_hall, cargo_bay, briefing_room, observation_deck, bridge, archives, comms_array, player_cabin}.webp`. Each derived from the room's `default` or `act2_*` state at §12.1, re-framed to 1024×2048.
+> **Pack: Mechronis Academy** (3): `art/lcs/backgrounds/mechronis/{grand_hall, classroom, graduation_platform}.webp`. From §12.2.
+> **Pack: Celebration Campus** (7): `art/lcs/backgrounds/celebration/{grand_orientation, house_common, chess_classroom, laboratory, training_grounds, library, tribunal_chamber}.webp`. From §12.3.
+> **Pack: Guild Commons** (12): `art/lcs/backgrounds/guild/<guild_id>.webp` for each of the 12 Archon Guilds. From §13.1, `daily_idle` state.
+> **Pack: Casino Floors** (5): `art/lcs/backgrounds/casino/{main_floor, vip_lounge, void_bingo_hall, dream_roulette, christmas_in_july_floor}.webp`. From §13.2.
+> **Pack: Game-Mode Arenas** (12): `art/lcs/backgrounds/arenas/{collectors_arena, dmc_track, tower_defense, vortex_incursion, witnessing_hub, fight_new_babylon, fight_panopticon, fight_thaloria, fight_terminus, fight_mechronis, fight_crucible, fight_blood_weave}.webp`. From §10.2 + §13.3.
+> **Pack: Trade Empire Sectors** (10 — 1 per named sector at lit state): `art/lcs/backgrounds/sectors/<sector_id>_lit.webp`. From §14.3 named-sector-lit-state renders, re-framed.
+> **Pack: Narrative Landmarks** (8): `art/lcs/backgrounds/landmarks/{bridge_of_kael, sacrum_severed_silk, coda_sanctum, witnessing_hub_endgame, castle_of_death, cryo_bay_first_breath, archives_two_witnesses, observation_deck_galaxy_reclaimed}.webp`. From §12 + §13 + §15.
+
+**Total: ~70 LCS backgrounds.**
+
+#### Pack-grant trigger registry
+
+Wire the pack-grant triggers in `apps/server/routers/cosmeticUnlocks.ts`
+(create if missing) keyed to:
+
+| Pack | Trigger |
+|---|---|
+| Ark Interior | Complete Beat I (Bridge activation) — first-time unlock; subsequent rooms unlock as player visits them |
+| Mechronis Academy | Master Card-Game mode (any tier) |
+| Celebration Campus | Survive a Celebration Trial (any house) |
+| Guild Commons | Faction-war milestone — 1 background granted per win against that faction |
+| Casino Floors | Master casino mode (per-table thresholds) |
+| Game-Mode Arenas | 1 arena background per game-mode mastery (e.g., Card-Game Mastery → fight_new_babylon as the player's "champion arena", Fight Mastery → next-fight-stage, Chess Mastery → mechronis_classroom, etc.) |
+| Trade Empire Sectors | Reach trade-rep threshold per sector |
+| Narrative Landmarks | Loredex completion thresholds (25%, 50%, 75%, 100%) — 2 landmarks per threshold |
+
+Holiday + cycle overrides:
+- Christmas-in-July event clear → grants `casino/christmas_in_july_floor.webp`.
+- Prestige-cycle reset → grants `landmarks/witnessing_hub_endgame.webp`.
+
+### 17.D Craftable armor series — 8 series × 7 pieces
+
+Per CANON.md "Craftable armor series" — 8 series, each with 7 pieces
+(helmet, chestplate, pauldrons, vambraces, tassets, greaves, boots).
+
+#### Render contract
+
+- **Format**: PNG with alpha, **1024×2048** portrait (matches base-body frame so the armor composites pixel-aligned).
+- **Pose**: identical to base-body pose (per §17.A). Armor pieces are authored as pixel-aligned overlays on the body.
+- **Style**: house style §1.1; per-series palette per CANON.md table.
+- **Per-species shape adjustment**: render 4 species variants per piece (DeMagi, Quarchon-athletic, Quarchon-ascetic, Neyon, Human; the "Quarchon-athletic" and "Quarchon-ascetic" are the two Quarchon body phenotypes from §17.A). The shape adjustment between species is mechanical — the same series + piece, re-fitted to each silhouette's joint-pins. Sex variants further adjust chest contour and hip-curve, but use the same render-once-per-species master and apply sex-specific clipping at composite time.
+- **Asset prefix**: `art/lcs/armor/<series_id>/<piece>/<species>.png`.
+
+Series authoring template (apply to each of 8 series):
+
+> **Series `<series_id>` — "<Display Name>"** per CANON.md row.
+> Palette: `<from CANON.md>`.
+> Per-piece authoring:
+> - **`art/lcs/armor/<series_id>/helmet/<species>.png`** — Helmet for the species silhouette. Render 4 variants (demagi / quarchon_athletic / quarchon_ascetic / neyon / human). Each helmet pixel-anchors to the body's `crown` joint-pin.
+> - **`art/lcs/armor/<series_id>/chestplate/<species>.png`** — Pixel-anchors to `sternum`. Renders sex variants where chest-contour matters (m / f / nb crops; one master per species, sex variant via in-engine masking layer).
+> - **`art/lcs/armor/<series_id>/pauldrons/<species>.png`** — Anchors to `shoulder_left` + `shoulder_right` (rendered as two pieces, mirrored).
+> - **`art/lcs/armor/<series_id>/vambraces/<species>.png`** — Anchors to `wrist_left` + `wrist_right`.
+> - **`art/lcs/armor/<series_id>/tassets/<species>.png`** — Anchors to `hip_left` + `hip_right`.
+> - **`art/lcs/armor/<series_id>/greaves/<species>.png`** — Anchors to `knee_left` + `knee_right`.
+> - **`art/lcs/armor/<series_id>/boots/<species>.png`** — Anchors to `ankle_left` + `ankle_right`.
+>
+> Per-series visual notes from CANON.md:
+
+| Series | Notes |
+|---|---|
+| `salvaged_plate` | Rusted-grey + brass. Visible weld-marks, missing rivets, asymmetric scuffs. Entry tier — should look "good but improvised". |
+| `mechronis_adept` | Indigo + bronze. Academy livery — clean lines, ceremonial precision. Subtle indigo light-strip along the chestplate. |
+| `insurgency_field` | Tactical-black + orange. Iron-Lion lineage — orange chevron-glow on insurgency_field/chestplate matching the Neyon-orange canon. |
+| `authority_ceremonial` | Crimson + gold. New Babylon court — heavy ornamentation, sigil-medallion at chest, gold scrollwork at every plate edge. |
+| `castle_of_death_carapace` | Obsidian + foxfire-green. Necromancer guild — visible bone-styling, foxfire-glow at the joint-vents. |
+| `watcher_sentinel` | Charcoal + amber. Panopticon enforcer — single eye-pip motif on the helmet visor, amber circuit-tracery. |
+| `coda_operative` | Gunmetal + violet. Vex Solène's faction — minimal silhouette, void-edge runes on the pauldrons. |
+| `reclamation_vestments` | Ivory + cyan. Post-Bridge of Kael endgame, ceremonial — soft cyan light-strips, subtle cream rim. The only craftable set with no helmet (forehead-circlet only, exposing the player's face). |
+
+**Total: 8 series × 7 pieces × 5 species variants = 280 craftable-armor
+piece renders.**
+
+### 17.E Per-game-mode mastery armor — 12 sets × 7 pieces
+
+Per CANON.md "Per-game-mode mastery armor" — 12 mastery armor sets,
+unlocked by mastering the matching game mode.
+
+#### Render contract
+
+Same as §17.D but with **higher visual flair** (these are prestige sets;
+each has at least one signature visual element that breaks the universal
+piece-template — see "signature flair" notes in CANON.md table).
+
+> **Asset prefix**: `art/lcs/mastery_armor/<mastery_id>/<piece>/<species>.png`.
+
+Mastery-armor authoring (apply per CANON.md row):
+
+> **Mastery `<mastery_id>` — "<Display Name>"**.
+> Palette + signature flair: `<from CANON.md>`.
+> Pieces: helmet / chestplate / pauldrons / vambraces / tassets / greaves / boots.
+> Species variants: 5 (demagi, quarchon_athletic, quarchon_ascetic, neyon, human).
+
+Per-set visual flair beyond the standard armor logic:
+
+| Mastery set | Flair |
+|---|---|
+| `dischordia_champion` | Floating tarot-card halo above crown (helmet); cardstock-textured plate; suit-symbols (faction-reinterpretations) etched at pauldrons. |
+| `crucible_forged` | Half-mask exposing right eye (helmet); cracked-lava core glow at chest; raptor-claw articulation on vambraces. |
+| `zephyr9_initiate` | Brass king-crown helmet; literal 8×8 chess-grid pattern flowing across chest; queen's-collar on pauldrons; bishop's-stole hanging from one shoulder. |
+| `vox_magnate` | Circlet (no full helm); sigil-coin chain across chest (each link a sector seal); brushed-platinum + indigo silk. |
+| `house_always_folds` | Low-brim formal hat with glowing card-suit at band (helmet); midnight-blue lacquer chestplate; white evening-glove gauntlets. |
+| `tinsel_tyrant` | Wreath-circlet helmet; candy-cane-striped pauldrons (red-white spiral); sleigh-bell wrist accents that chime audibly when player moves. |
+| `throttlebound` | Full racing visor with HUD-glyph etching; checkered-flag pauldron inlay (asymmetric); exhaust-pipe tassets with subtle heat-shimmer. |
+| `riftwalker` | Ovoid helmet with no eye-slit (vision through whole shell); void-black plate that visibly distorts air around wearer (faint warp-haze baked into still); single starlight-pip at chest. |
+| `wallstanding` | Battlement-crown helmet; slab-brick plate (looks like masonry wrapped in steel banding); shoulder-mounted miniature trebuchet decorations. |
+| `antiquarians_apprentice` | High-collared cowl with single brass monocle (no helmet); brown-leather scholar-coat over brass-buckled chest harness; bandolier of empty-but-glowing data-slates across chest. |
+| `first_witness` | No face-helm — forehead-circlet with single cyan eye-pip; pure-white silk under thin brass mesh; layered cyan light-wings arcing from back of shoulders; **no greaves** (player barefoot — reverence-coded). |
+| `tournament_crowned` | Laurel-wreath helmet circlet; obsidian plate with tournament-banner cape; **etched roster of every defeated player** procedurally rendered on the asymmetric pauldron at runtime. The ONLY mastery set with rendered text by design — the per-piece authoring delivers a blank-roster-pauldron and the engine overlays text. |
+
+**Total: 12 sets × 7 pieces × 5 species variants = 420 mastery-armor
+piece renders.**
+
+#### Mastery unlock triggers
+
+Wire in `apps/server/routers/masteryUnlocks.ts` (create if missing):
+
+| Mastery | Trigger |
+|---|---|
+| `dischordia_champion` | Win 50 ranked card games + reach Master tier in any faction |
+| `crucible_forged` | Win 50 fighter matches + complete all 17 chapter-fight-intros |
+| `zephyr9_initiate` | Reach chess depth ≥ 5 + complete all Zephyr-9 tutorials |
+| `vox_magnate` | Reach max trade-rep in 5 sectors + complete the Vox Corridor questline |
+| `house_always_folds` | Win 100 casino sessions across all sub-rooms |
+| `tinsel_tyrant` | Complete the Christmas-in-July event clear with all sub-objectives |
+| `throttlebound` | Win 30 DMC races + complete the identity-chain Act 4.5 path |
+| `riftwalker` | Survive 10 vortex incursions on highest difficulty |
+| `wallstanding` | Survive 20 tower-defense waves on highest difficulty |
+| `antiquarians_apprentice` | 100% Loredex completion |
+| `first_witness` | Complete all Witnessing-Hub testimony tiers + Bridge-of-Kael post-credits unlock |
+| `tournament_crowned` | Reach top-100 PvP ranking |
+
+> **Render + upload §17 in one batch**:
+> ```bash
+> pnpm tsx apps/scripts/upload-public-to-s3.ts --prefix art/lcs/
+> pnpm tsx apps/scripts/upload-public-to-s3.ts --prefix videos/lcs/
+> ```
+> **Wire**:
+> - Bodies + JSON sidecars → `apps/client/src/lib/lcsBodies.ts` (registry).
+> - Energy-form cinematic → register at `apps/client/src/pages/CharacterCreationPage.tsx` to play under Elara's existing line.
+> - Backgrounds → `apps/server/routers/cosmeticUnlocks.ts` pack-grant registry.
+> - Craftable armor → `apps/shared/lcs/craftableArmorSeries.ts` (create) with the series + piece + species variant slugs.
+> - Mastery armor → `apps/shared/lcs/masteryArmor.ts` (create) with the mastery-id + trigger map and per-piece slugs.
+
+---
+
 ## End of prompt book
 
 For anything not covered here — Prelude beat audio re-uploads, FNORD-23
