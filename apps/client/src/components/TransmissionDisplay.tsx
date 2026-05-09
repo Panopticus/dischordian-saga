@@ -20,6 +20,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Radio, Skull, Terminal, Volume2, VolumeX } from "lucide-react";
 import { getCharacterSprite } from "@/game/characterSprites";
 import { SpriteCharacter } from "./SpriteCharacter";
+import { humanCorruptionForTrust } from "@shared/moralityTrustActVariants";
 
 /* ─── TYPES ─── */
 export type TransmissionSpeaker = "elara" | "human" | "system" | "kael";
@@ -53,6 +54,14 @@ export interface TransmissionDisplayProps {
   currentIndex?: number;
   /** External control: advance callback */
   onAdvance?: (nextIndex: number) => void;
+  /**
+   * audit/16 PR 7 (finding C9). The player's current trust with
+   * The Human. When provided AND the message has no explicit
+   * `corruptionLevel`, the corruption renders proportional to
+   * trust band via `humanCorruptionForTrust()`. When omitted,
+   * legacy behaviour (40 fallback) preserved.
+   */
+  humanTrust?: number;
 }
 
 /* ─── SPEAKER CONFIG ─── */
@@ -159,6 +168,7 @@ function TransmissionMessage({
   compact,
   onComplete,
   onSkip,
+  humanTrust,
 }: {
   message: TransmissionMessage;
   isActive: boolean;
@@ -166,6 +176,7 @@ function TransmissionMessage({
   compact: boolean;
   onComplete: () => void;
   onSkip: () => void;
+  humanTrust?: number;
 }) {
   const config = SPEAKER_CONFIG[message.speaker];
   const [displayedLength, setDisplayedLength] = useState(0);
@@ -179,7 +190,13 @@ function TransmissionMessage({
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const speed = message.typingSpeed ?? config.defaultSpeed;
   const isHuman = message.speaker === "human";
-  const corruption = isHuman ? (message.corruptionLevel ?? 40) : 0;
+  // audit/16 PR 7 (C9) — corruption resolves from human trust band
+  // when no explicit override is set. Hierarchy: explicit
+  // message.corruptionLevel > derived from humanTrust > legacy 40.
+  const corruption = isHuman
+    ? (message.corruptionLevel
+        ?? (humanTrust != null ? humanCorruptionForTrust(humanTrust) : 40))
+    : 0;
   const humanSprite = useMemo(() => (isHuman ? getCharacterSprite("the_human") : null), [isHuman]);
 
   // Clean text (without ~~markers~~) for length calculation
@@ -390,6 +407,7 @@ export default function TransmissionDisplay({
   showHeaders = true,
   compact = false,
   allowSkip = true,
+  humanTrust,
 }: TransmissionDisplayProps) {
   const [currentIdx, setCurrentIdx] = useState(0);
   const [completedMessages, setCompletedMessages] = useState<Set<number>>(new Set());
@@ -453,6 +471,7 @@ export default function TransmissionDisplay({
             compact={compact}
             onComplete={() => handleMessageComplete(idx)}
             onSkip={() => handleSkip(idx)}
+            humanTrust={humanTrust}
           />
         ))}
       </AnimatePresence>

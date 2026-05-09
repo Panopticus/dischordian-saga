@@ -1,6 +1,7 @@
 /* useNecromancerVO — Plays Necromancer's voice lines */
 import { useRef, useState, useCallback, useEffect } from "react";
 import { claimActiveVo, releaseActiveVo } from "@/lib/voSpeakingState";
+import { getVoVolume } from "@/lib/streamerSettings";
 let manifest: Record<string, string> | null = null;
 let loaded = false;
 async function loadManifest() {
@@ -17,7 +18,7 @@ export function useNecromancerVO() {
     if (!manifest || !manifest[lineId]) return;
     queueRef.current = [];
     const audio = new Audio(manifest[lineId]);
-    audioRef.current = audio; audio.volume = 0.8;
+    audioRef.current = audio; audio.volume = 0.8 * getVoVolume();
     const myStop = () => { audio.pause(); };
     claimActiveVo(myStop);
     audio.onplay = () => setSpeaking(true);

@@ -3,7 +3,10 @@ import {
   VARIANT_REGISTRY,
   bandForMorality,
   bandForTrust,
+  humanCorruptionForTrust,
+  isWithinTimeWindow,
   resolveVariant,
+  type MoralityTrustActVariant,
 } from "./moralityTrustActVariants";
 
 describe("moralityTrustActVariants", () => {
@@ -174,5 +177,300 @@ describe("moralityTrustActVariants", () => {
       }
       expect(v.text.trim().length, `${v.id} empty text`).toBeGreaterThan(0);
     }
+  });
+
+  /* ─── audit/16 PR 4 (Cluster D) — variant resolver extensions ─── */
+
+  describe("isWithinTimeWindow", () => {
+    const t = new Date("2026-05-09T12:00:00Z");
+
+    it("passes when window is undefined", () => {
+      expect(isWithinTimeWindow(undefined, t)).toBe(true);
+    });
+
+    it("passes when both bounds are unset", () => {
+      expect(isWithinTimeWindow({}, t)).toBe(true);
+    });
+
+    it("passes when `now` is undefined (caller doesn't care about windowing)", () => {
+      expect(isWithinTimeWindow({ startsAt: "2026-05-01T00:00:00Z", endsAt: "2026-05-31T00:00:00Z" }, undefined)).toBe(true);
+    });
+
+    it("respects startsAt (inclusive)", () => {
+      const window = { startsAt: "2026-05-09T12:00:00Z" };
+      expect(isWithinTimeWindow(window, new Date("2026-05-09T11:59:59Z"))).toBe(false);
+      expect(isWithinTimeWindow(window, new Date("2026-05-09T12:00:00Z"))).toBe(true);
+      expect(isWithinTimeWindow(window, new Date("2026-05-09T12:00:01Z"))).toBe(true);
+    });
+
+    it("respects endsAt (exclusive)", () => {
+      const window = { endsAt: "2026-05-09T12:00:00Z" };
+      expect(isWithinTimeWindow(window, new Date("2026-05-09T11:59:59Z"))).toBe(true);
+      expect(isWithinTimeWindow(window, new Date("2026-05-09T12:00:00Z"))).toBe(false);
+      expect(isWithinTimeWindow(window, new Date("2026-05-09T12:00:01Z"))).toBe(false);
+    });
+
+    it("respects both bounds", () => {
+      const window = { startsAt: "2026-05-01T00:00:00Z", endsAt: "2026-05-31T00:00:00Z" };
+      expect(isWithinTimeWindow(window, new Date("2026-04-30T23:59:59Z"))).toBe(false);
+      expect(isWithinTimeWindow(window, new Date("2026-05-15T12:00:00Z"))).toBe(true);
+      expect(isWithinTimeWindow(window, new Date("2026-05-31T00:00:00Z"))).toBe(false);
+    });
+
+    it("ignores unparseable bounds (defensive — invalid ISO falls through)", () => {
+      // If a bad ISO string slips into a registry, we don't want to
+      // reject every variant — we want to log loudly elsewhere and
+      // keep the variant eligible. The helper treats NaN as "no bound".
+      expect(isWithinTimeWindow({ startsAt: "not-a-date" }, t)).toBe(true);
+      expect(isWithinTimeWindow({ endsAt: "still-not-a-date" }, t)).toBe(true);
+    });
+  });
+
+  describe("resolveVariant — timeWindow gating", () => {
+    const baseRegistry: MoralityTrustActVariant[] = [
+      {
+        id: "test_default",
+        surface: "room",
+        targetId: "test_room",
+        text: "default line",
+        morality: "any",
+        trust: "any",
+        act: "any",
+      },
+      {
+        id: "test_arg_drop",
+        surface: "room",
+        targetId: "test_room",
+        text: "calendar drop line",
+        morality: "any",
+        trust: "any",
+        act: "any",
+        timeWindow: {
+          startsAt: "2026-05-09T00:00:00Z",
+          endsAt: "2026-05-10T00:00:00Z",
+        },
+      },
+    ];
+
+    it("ARG drop wins over default during its window", () => {
+      const resolved = resolveVariant(baseRegistry, "room", "test_room", {
+        moralityScore: 0,
+        narrativeAct: 1,
+        trustByCompanion: {},
+        flags: new Set(),
+        now: new Date("2026-05-09T12:00:00Z"),
+      });
+      expect(resolved?.id).toBe("test_arg_drop");
+    });
+
+    it("falls back to default when outside the window", () => {
+      const resolved = resolveVariant(baseRegistry, "room", "test_room", {
+        moralityScore: 0,
+        narrativeAct: 1,
+        trustByCompanion: {},
+        flags: new Set(),
+        now: new Date("2026-06-01T12:00:00Z"),
+      });
+      expect(resolved?.id).toBe("test_default");
+    });
+
+    it("ARG drop is eligible when caller omits `now` (back-compat)", () => {
+      // Existing callers don't pass `now`; we must not silently
+      // disable their variants. Since both default + arg_drop match
+      // when `now` is omitted, the higher-specificity arg_drop wins.
+      const resolved = resolveVariant(baseRegistry, "room", "test_room", {
+        moralityScore: 0,
+        narrativeAct: 1,
+        trustByCompanion: {},
+        flags: new Set(),
+      });
+      expect(resolved?.id).toBe("test_arg_drop");
+    });
+  });
+
+  describe("portraitCinematicId + relatedClues — additive payloads", () => {
+    it("variants resolve normally when portraitCinematicId is set", () => {
+      const registry: MoralityTrustActVariant[] = [
+        {
+          id: "test_with_cinematic",
+          surface: "wheel_followup",
+          targetId: "wheel_x",
+          text: "line with cinematic",
+          morality: "any",
+          trust: "any",
+          act: "any",
+          portraitCinematicId: "cinematic_wheel_x_reaction",
+        },
+      ];
+      const resolved = resolveVariant(registry, "wheel_followup", "wheel_x", {
+        moralityScore: 0,
+        narrativeAct: 1,
+        trustByCompanion: {},
+        flags: new Set(),
+      });
+      expect(resolved?.portraitCinematicId).toBe("cinematic_wheel_x_reaction");
+    });
+
+    it("variants resolve normally when relatedClues is set", () => {
+      const registry: MoralityTrustActVariant[] = [
+        {
+          id: "test_with_clues",
+          surface: "journal",
+          targetId: "clue_y",
+          text: "line with clues",
+          morality: "any",
+          trust: "any",
+          act: "any",
+          relatedClues: ["clue_a", "clue_b"],
+        },
+      ];
+      const resolved = resolveVariant(registry, "journal", "clue_y", {
+        moralityScore: 0,
+        narrativeAct: 1,
+        trustByCompanion: {},
+        flags: new Set(),
+      });
+      expect(resolved?.relatedClues).toEqual(["clue_a", "clue_b"]);
+    });
+  });
+
+  describe("specificity scoring — Cluster D fields", () => {
+    it("a time-windowed variant outscores an unbounded one with same gates", () => {
+      // Direct exercise of the resolver's tie-break behaviour: when
+      // morality/trust/act are identical, the time-windowed one wins.
+      const registry: MoralityTrustActVariant[] = [
+        {
+          id: "tied_default",
+          surface: "room",
+          targetId: "tied",
+          text: "default",
+          morality: "any",
+          trust: "any",
+          act: "any",
+        },
+        {
+          id: "tied_with_window",
+          surface: "room",
+          targetId: "tied",
+          text: "with window",
+          morality: "any",
+          trust: "any",
+          act: "any",
+          timeWindow: { startsAt: "2026-01-01T00:00:00Z" },
+        },
+      ];
+      const resolved = resolveVariant(registry, "room", "tied", {
+        moralityScore: 0,
+        narrativeAct: 1,
+        trustByCompanion: {},
+        flags: new Set(),
+        now: new Date("2026-05-09T12:00:00Z"),
+      });
+      expect(resolved?.id).toBe("tied_with_window");
+    });
+  });
+
+  /* ─── audit/16 PR 7 — Cinematic small batch ─── */
+
+  describe("humanCorruptionForTrust (C9)", () => {
+    it("monotonically decreases as trust rises", () => {
+      const cold = humanCorruptionForTrust(10);
+      const neutral = humanCorruptionForTrust(30);
+      const warm = humanCorruptionForTrust(60);
+      const confidant = humanCorruptionForTrust(85);
+      expect(cold).toBeGreaterThan(neutral);
+      expect(neutral).toBeGreaterThan(warm);
+      expect(warm).toBeGreaterThan(confidant);
+    });
+    it("returns canonical band values", () => {
+      expect(humanCorruptionForTrust(0)).toBe(60);
+      expect(humanCorruptionForTrust(24)).toBe(60);
+      expect(humanCorruptionForTrust(25)).toBe(40);
+      expect(humanCorruptionForTrust(50)).toBe(25);
+      expect(humanCorruptionForTrust(80)).toBe(10);
+      expect(humanCorruptionForTrust(100)).toBe(10);
+    });
+    it("matches bandForTrust thresholds at boundaries", () => {
+      // Sanity — corruption thresholds align with trust band thresholds.
+      expect(bandForTrust(25)).toBe("neutral");
+      expect(humanCorruptionForTrust(25)).toBe(40);
+      expect(bandForTrust(50)).toBe("warm");
+      expect(humanCorruptionForTrust(50)).toBe(25);
+    });
+  });
+
+  describe("voLineIds + slideshow_vo_override surface (C5)", () => {
+    it("variant with voLineIds resolves on the new surface", () => {
+      const registry: MoralityTrustActVariant[] = [
+        {
+          id: "test_silence_machine",
+          surface: "slideshow_vo_override",
+          targetId: "silence-of-two-witnesses",
+          text: "(machine variant — cold-bird parenthetical)",
+          morality: "machine",
+          trust: "any",
+          act: 2,
+          voLineIds: ["silence-elara-machine", "silence-human-machine"],
+        },
+      ];
+      const resolved = resolveVariant(
+        registry,
+        "slideshow_vo_override",
+        "silence-of-two-witnesses",
+        {
+          moralityScore: -40,
+          narrativeAct: 2,
+          trustByCompanion: {},
+          flags: new Set(),
+        },
+      );
+      expect(resolved?.voLineIds).toEqual([
+        "silence-elara-machine",
+        "silence-human-machine",
+      ]);
+    });
+
+    it("returns null when no variant matches (caller falls back to baseline)", () => {
+      const resolved = resolveVariant(
+        VARIANT_REGISTRY,
+        "slideshow_vo_override",
+        "silence-of-two-witnesses",
+        {
+          moralityScore: 0,
+          narrativeAct: 2,
+          trustByCompanion: {},
+          flags: new Set(),
+        },
+      );
+      // No production seed exists yet; caller's hardcoded
+      // ["silence-elara", "silence-human"] fallback path runs.
+      expect(resolved).toBeNull();
+    });
+  });
+
+  describe("portraitNpcId / portraitExpression (C3)", () => {
+    it("survives resolution as additive payload", () => {
+      const registry: MoralityTrustActVariant[] = [
+        {
+          id: "test_with_portrait",
+          surface: "transmission",
+          targetId: "test_target",
+          text: "transmission with portrait anchor",
+          morality: "any",
+          trust: "any",
+          act: "any",
+          portraitNpcId: "elara",
+          portraitExpression: "stern",
+        },
+      ];
+      const resolved = resolveVariant(registry, "transmission", "test_target", {
+        moralityScore: 0,
+        narrativeAct: 1,
+        trustByCompanion: {},
+        flags: new Set(),
+      });
+      expect(resolved?.portraitNpcId).toBe("elara");
+      expect(resolved?.portraitExpression).toBe("stern");
+    });
   });
 });

@@ -5,8 +5,9 @@
 import { useState, useMemo, useEffect } from "react";
 import { useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Skull, Trophy } from "lucide-react";
+import { X, Skull, Trophy, Info } from "lucide-react";
 import ParallaxDepthBackground from "@/components/ParallaxDepthBackground";
+import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 import {
   CASINO_GAMES, getVIPLevel, getDegenQuote,
   DEFAULT_CASINO_STATE, type CasinoState, type CasinoGame,
@@ -21,6 +22,14 @@ import {
 } from "@/lib/casinoAssets";
 import { useDegenVO } from "@/hooks/useDegenVO";
 import { CasinoGamePanel, type CasinoGameResultPayload } from "./CasinoGamePanels";
+import { CasinoBarrierModal } from "./CasinoBarrierModal";
+import { SessionInterruptModal } from "./SessionInterruptModal";
+import { useSessionTimer } from "@/hooks/useSessionTimer";
+import {
+  DegensFavorDisclosure,
+  DegensFavorHelpButton,
+  useDegenFavorDisclosure,
+} from "./DegensFavorDisclosure";
 import { HolidayDialogTicker } from "@/components/HolidayDialogTicker";
 import { trpc } from "@/lib/trpc";
 import { useGame } from "@/contexts/GameContext";
@@ -30,11 +39,11 @@ const CASINO_FLOOR_BG = CASINO_ENVIRONMENTS.mainFloor;
 const CASINO_PARALLAX_COLOR = "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775681916/Vast_open_casino_202604081640_drbpia.jpg";
 const CASINO_PARALLAX_DEPTH = "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775681913/Vast_open_casino_202604081640_disparity_quhlae.png";
 
-/** Compact banner showing the live progressive jackpot pool. Auto-refreshes
- *  every 10s so spinning players see the pool climb in real time. */
+/** Compact banner showing the live progressive jackpot pool. Refreshes
+ *  every 60s — passive display, not a FOMO ticker (audit/16 GA6). */
 function JackpotPoolBanner() {
   const poolQuery = trpc.casino.getJackpotPool.useQuery(undefined, {
-    refetchInterval: 10_000,
+    refetchInterval: 60_000,
     retry: false,
   });
   const balance = poolQuery.data?.balance ?? 0;
@@ -46,16 +55,25 @@ function JackpotPoolBanner() {
           <span className="font-display text-[11px] tracking-widest void-text-accent uppercase">
             Progressive Jackpot
           </span>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button
+                type="button"
+                aria-label="How the jackpot pool works"
+                className="void-text-muted hover:void-text-accent transition-colors"
+              >
+                <Info size={12} />
+              </button>
+            </TooltipTrigger>
+            <TooltipContent side="bottom" className="max-w-xs text-left">
+              2% of every bet feeds this pool. Pool grows until claimed; 20% retained as seed after each jackpot.
+            </TooltipContent>
+          </Tooltip>
         </div>
-        <motion.span
-          key={balance}
-          initial={{ scale: 0.9 }}
-          animate={{ scale: 1 }}
-          className="font-mono text-sm void-text-accent font-bold"
-        >
+        <span className="font-mono text-sm void-text-accent font-bold">
           {balance.toLocaleString()}
           <span className="void-text-accent text-[10px] ml-1">DREAM</span>
-        </motion.span>
+        </span>
       </div>
     </div>
   );
@@ -89,6 +107,17 @@ export default function DegensCasinoPage() {
       gamesPlayed: (srv.gamesPlayed ?? {}) as Partial<Record<CasinoGame, number>>,
     };
   }, [stateQuery.data]);
+
+  // audit/16 GA5 — session-length harm reduction. Hook ticks once
+  // per minute; dispatches "casino-session-interrupt" CustomEvent
+  // at 2h (gated on ≥500D wagered today) / 4h / 6h. The
+  // SessionInterruptModal listens and renders.
+  useSessionTimer(casinoState.totalWagered);
+
+  // audit/16 GA8 — Degen's Favor transparency disclosure. Auto-
+  // opens once per device on first casino visit; help-icon button
+  // re-surfaces it on demand.
+  const favorDisclosure = useDegenFavorDisclosure();
 
   // Auto-dismiss loading screen after image loads + brief cinematic pause
   useEffect(() => {
@@ -238,6 +267,24 @@ export default function DegensCasinoPage() {
 
   return (
     <div className="min-h-screen bg-black relative overflow-hidden">
+      {/* audit/16 GA4 + GA2 — harm-reduction barrier modal listens
+          for "casino-barrier" CustomEvents dispatched from the global
+          tRPC mutation-cache subscriber when daily caps are hit. */}
+      <CasinoBarrierModal />
+
+      {/* audit/16 GA5 — session-length break prompt. Listens for
+          "casino-session-interrupt" CustomEvents from useSessionTimer
+          and renders the take-a-break modal at 2h/4h/6h. */}
+      <SessionInterruptModal />
+
+      {/* audit/16 GA8 — Degen's Favor transparency disclosure. Auto-
+          opens on first visit; on-demand via help-icon button beside
+          the favor display below. */}
+      <DegensFavorDisclosure
+        isOpen={favorDisclosure.isOpen}
+        onClose={favorDisclosure.close}
+      />
+
       {/* Casino Floor — environment background per area */}
       <div className="absolute inset-0 z-0 transition-opacity duration-700">
         <img
@@ -301,9 +348,10 @@ export default function DegensCasinoPage() {
             </span>
           )}
           {casinoState.degenFavor > 0 && (
-            <span className="void-text-accent">
-              Degen's Favor: {casinoState.degenFavor}/100
+            <span className="void-text-accent inline-flex items-center">
+              Degen&apos;s Favor: {casinoState.degenFavor}/100
               {favorMilestone && ` — ${favorMilestone.name}`}
+              <DegensFavorHelpButton onOpen={favorDisclosure.open} />
             </span>
           )}
         </div>

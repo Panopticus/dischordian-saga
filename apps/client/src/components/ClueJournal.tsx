@@ -31,6 +31,20 @@ export interface Clue {
   puzzleId?: string;            // Which puzzle it helps solve
   prerequisite?: string;        // Item/flag needed to find this clue
   dreamReward: number;          // Dream tokens earned on discovery
+  /**
+   * audit/16 PR 8 (finding ER6 — Escape Room persona).
+   *
+   * Cross-room clue dependencies. Each entry encodes a clue from
+   * another room that must be collected before this one becomes
+   * available. Distinct from `prerequisite` (single item/flag in
+   * the same room): this models the Monkey-Island-depth "you
+   * can't pick up the wrench in the Cargo Bay until you've found
+   * the inventory manifest in the Captain's Quarters" pattern.
+   *
+   * AND-logic: every dependency must be satisfied. Author OR-logic
+   * by leaving the easier path un-dependencied.
+   */
+  dependsOnClues?: readonly { clueId: string; otherRoomId: string }[];
 }
 
 export interface Puzzle {
@@ -43,6 +57,21 @@ export interface Puzzle {
   reward: string;               // What solving unlocks
   dreamReward: number;
   loreConnection: string;       // How it ties to the Dischordian Saga
+  /**
+   * audit/16 PR 5 (Cluster Co8 — Conspiracy persona).
+   *
+   * Optional list of puzzle ids that must be solved before this one
+   * is meaningfully approachable. Distinct from `requiredClues`
+   * (which are evidence-pickup gates inside this puzzle): a
+   * prerequisite chain models "you can't reason about the Bridge
+   * Power Relay until you've solved the Crystal Decryption", even
+   * if all the clues for the Bridge are technically pickupable.
+   *
+   * Rendered as the "INVESTIGATION DIAGRAM" view — a directed graph
+   * that surfaces dependency relationships players currently have
+   * to infer from list ordering.
+   */
+  prerequisiteChains?: readonly string[];
 }
 
 /* ─── CLUE DATABASE ─── */
@@ -723,6 +752,17 @@ export default function ClueJournal({ onClose }: ClueJournalProps) {
               exit={{ opacity: 0, x: -20 }}
               className="p-4 space-y-3"
             >
+              {/* audit/16 PR 11 — link out to the Investigation Board
+                  for the full cross-room surface (manuscript vault,
+                  reconstruction tab). */}
+              <a
+                href="/loredex/investigation"
+                className="block rounded-md border void-border bg-black/30 hover:bg-amber-950/15 px-3 py-2 font-mono text-[10px] uppercase tracking-[0.18em] void-text-energy text-center transition-colors"
+                data-testid="cluejournal-investigation-board-link"
+              >
+                ↗ Open the full Investigation Board
+              </a>
+
               {/* Phase D — Active Investigations panel.
                   Reads getActivePuzzleChains(narrativeFlags) so chains
                   the player has finished disappear automatically; lists

@@ -121,6 +121,20 @@ export const NARRATIVE_FLAG_REGISTRY: ReadonlyArray<NarrativeFlagEntry> = [
   { flag: "mech_colony_commerce_tutor_seen", category: "system_unlock", owner: "mech_colony_commerce", notes: "Colony commerce tutor card dismissed; founding lanes now eligible at the hangar." },
   { flag: "mech_demon_pacts_intro_seen", category: "system_unlock", owner: "mech_demon_pacts", notes: "Game Master Recording #1 (Advocate / Blood Weave) has been discovered in the Matrix-of-Dreams." },
   { flag: "mech_demon_pacts_tutor_seen", category: "system_unlock", owner: "mech_demon_pacts", notes: "Demon pacts tutor card dismissed; pact ledger surface unlocked." },
+
+  /* ─── audit/16 PR 3 — casino-floor narrative bridge ───
+     These flags fire from the casino quest-progression service when
+     a meaningful casino milestone lands. Variant resolver
+     (audit/10 wiring) picks them up automatically; companion
+     dialogue + Degen NPC line variants gate against them. */
+  { flag: "casino_first_jackpot_witnessed", category: "companion", owner: "casino", notes: "Player has witnessed (or hit) a progressive jackpot for the first time. Unlocks a Degen reaction line." },
+  { flag: "casino_streak_5_hit",            category: "companion", owner: "casino", notes: "Player has hit a 5-win casino streak. Degen acknowledges; companions tease." },
+  { flag: "casino_centurion",               category: "companion", owner: "casino", notes: "Player won 100 casino games this season. Unlocks the seasonal title + dedicated Degen ask-topic." },
+  { flag: "casino_tale_collector",          category: "companion", owner: "casino", notes: "Player collected 10 Tales of the Tables this season. The Degen tells one story unprompted." },
+  { flag: "casino_degen_favor_25",          category: "companion", owner: "casino", notes: "Degen's Favor crossed 25 — the Degen smiles for the first time." },
+  { flag: "casino_degen_favor_50",          category: "companion", owner: "casino", notes: "Degen's Favor crossed 50 — the Degen tells a story between hands." },
+  { flag: "casino_degen_favor_75",          category: "companion", owner: "casino", notes: "Degen's Favor crossed 75 — the Degen sits down at your table uninvited." },
+  { flag: "casino_degen_favor_100",         category: "companion", owner: "casino", notes: "Degen's Favor maxed (Equilibrium Touched). The chair at the corner table is yours." },
 ];
 
 /* ─── Helpers ─── */

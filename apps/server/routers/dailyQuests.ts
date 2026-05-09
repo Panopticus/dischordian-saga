@@ -57,6 +57,19 @@ const DAILY_TEMPLATES: QuestTemplate[] = [
   { id: "d_chess_win", title: "Grandmaster's Gambit", description: "Win a chess match", questType: "fight", target: 1, rewardDream: 5, rewardXp: 60, rewardCredits: 0 },
   { id: "d_hack_success", title: "System Infiltrator", description: "Successfully hack a system", questType: "explore", target: 1, rewardDream: 4, rewardXp: 50, rewardCredits: 0 },
   { id: "d_decrypt_signal", title: "Signal Analyst", description: "Decrypt a captured signal", questType: "explore", target: 1, rewardDream: 4, rewardXp: 50, rewardCredits: 0 },
+
+  // audit/16 PR 3 — casino-floor dailies. questType is "social" so
+  // the DB enum doesn't have to change; the quest IDs are uniquely
+  // prefixed (d_casino_*) and routed via casinoQuestProgressService.
+  // Engagement-loop sibling of the harm-reduction work shipped in
+  // PR 2 (#521); rewards are intentionally modest — playing IS the
+  // payoff; the Dream is just enough to feel earned.
+  { id: "d_casino_play_5",     title: "Take a Seat",   description: "Play 5 hands at any casino game",   questType: "social", target: 5, rewardDream: 8,  rewardXp: 60, rewardCredits: 0 },
+  { id: "d_casino_win_3",      title: "Lucky Touch",   description: "Win 3 casino games today",          questType: "social", target: 3, rewardDream: 12, rewardXp: 80, rewardCredits: 0 },
+  { id: "d_casino_pazaak_win", title: "Pazaak Adept",  description: "Win a hand of Pazaak",              questType: "social", target: 1, rewardDream: 5,  rewardXp: 50, rewardCredits: 0 },
+  { id: "d_casino_streak_3",   title: "Hot Streak",    description: "Hit a 3-win casino streak",         questType: "social", target: 1, rewardDream: 10, rewardXp: 70, rewardCredits: 0 },
+  { id: "d_casino_high_bet",   title: "Tablestakes",   description: "Place 5 casino bets of ≥100 Dream", questType: "social", target: 5, rewardDream: 10, rewardXp: 60, rewardCredits: 0 },
+  { id: "d_casino_jackpot",    title: "Long Shot",     description: "Witness a progressive jackpot",     questType: "social", target: 1, rewardDream: 25, rewardXp: 200, rewardCredits: 0 },
 ];
 
 const WEEKLY_TEMPLATES: QuestTemplate[] = [
@@ -70,6 +83,12 @@ const WEEKLY_TEMPLATES: QuestTemplate[] = [
   { id: "w_marketplace_5", title: "Market Mogul", description: "Complete 5 marketplace transactions", questType: "trade", target: 5, rewardDream: 20, rewardXp: 250, rewardCredits: 3000, bonusReward: "Market Fee Discount" },
   { id: "w_pvp_5", title: "PvP Gladiator", description: "Win 5 PvP matches", questType: "fight", target: 5, rewardDream: 40, rewardXp: 450, rewardCredits: 0, bonusReward: "PvP Title Token" },
   { id: "w_complete_dailies", title: "Dedicated Operative", description: "Complete all daily quests 5 days", questType: "explore", target: 5, rewardDream: 40, rewardXp: 500, rewardCredits: 0, bonusReward: "Loyalty Badge" },
+
+  // audit/16 PR 3 — casino weeklies. Three-quest pool drawn into the
+  // 5-quest weekly hand alongside the existing 10 weeklies.
+  { id: "w_casino_50_plays",   title: "Regular at the Tables", description: "Play 50 casino hands this week",      questType: "social", target: 50, rewardDream: 40, rewardXp: 400, rewardCredits: 0 },
+  { id: "w_casino_pazaak_5",   title: "Pazaak Specialist",     description: "Win 5 hands of Pazaak this week",     questType: "social", target: 5,  rewardDream: 30, rewardXp: 350, rewardCredits: 0 },
+  { id: "w_casino_streak_5",   title: "On Fire",               description: "Hit a 5-win casino streak this week", questType: "social", target: 1,  rewardDream: 50, rewardXp: 500, rewardCredits: 0, bonusReward: "Casino Cosmetic Token" },
 ];
 
 const EPOCH_TEMPLATES: QuestTemplate[] = [
@@ -83,6 +102,10 @@ const EPOCH_TEMPLATES: QuestTemplate[] = [
   { id: "e_pvp_champion", title: "Epoch Champion", description: "Reach top 10 in PvP rankings", questType: "fight", target: 1, rewardDream: 300, rewardXp: 5000, rewardCredits: 0, bonusReward: "Champion Title + Animated Frame" },
   { id: "e_complete_weeklies", title: "Iron Will", description: "Complete all weekly quests 4 times", questType: "explore", target: 4, rewardDream: 200, rewardXp: 3000, rewardCredits: 10000, bonusReward: "Season Badge" },
   { id: "e_guild_glory", title: "Syndicate Legend", description: "Contribute 10,000 XP to your Syndicate", questType: "social", target: 10000, rewardDream: 150, rewardXp: 2500, rewardCredits: 0, bonusReward: "Syndicate Banner Upgrade" },
+
+  // audit/16 PR 3 — casino epoch (season) quests.
+  { id: "e_casino_centurion",     title: "Centurion of the Tables", description: "Win 100 casino games this season",        questType: "social", target: 100, rewardDream: 200, rewardXp: 3000, rewardCredits: 0, bonusReward: "Seasonal Casino Title" },
+  { id: "e_casino_tale_collector", title: "Bibliographer of Bets",  description: "Collect 10 Tales of the Tables this season", questType: "social", target: 10,  rewardDream: 150, rewardXp: 2500, rewardCredits: 0, bonusReward: "Loredex: Casino Codex" },
 ];
 
 /** Map a quest's questType to a faction key for tag emission. */

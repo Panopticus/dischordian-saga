@@ -25,6 +25,10 @@ import {
 import { getDynamicLionFrames } from "@shared/memorableMoments";
 import { useGame } from "@/contexts/GameContext";
 import { useActVO } from "@/hooks/useActVO";
+import {
+  VARIANT_REGISTRY,
+  resolveVariant,
+} from "@shared/moralityTrustActVariants";
 import { useVariant } from "@/hooks/useVariant";
 import { discoverLoredexEntries } from "@/lib/discoverLoredex";
 
@@ -57,11 +61,38 @@ export function SlideshowPlayerRoot() {
     if (active.def.id !== "silence-of-two-witnesses") return;
     if (silenceVoFiredRef.current) return;
     silenceVoFiredRef.current = true;
-    // Fire Elara's parenthetical first; the hook queues Human's right
-    // behind it so the two ride on the cinematic in order.
-    act2Vo.speak("silence-elara");
-    act2Vo.speak("silence-human");
-  }, [active, act2Vo]);
+    // audit/16 PR 7 (C5) — consult variant resolver for a
+    // morality-gated VO override before firing the hardcoded
+    // pair. Authors can ship a `surface: "slideshow_vo_override",
+    // targetId: "silence-of-two-witnesses"` variant carrying
+    // alternate `voLineIds`; the resolver picks the most
+    // specific match for current morality/trust/act/flags.
+    const trustByCompanion = {
+      elara: gameState.elaraTrustLevel ?? 0,
+      the_human: gameState.humanTrustLevel ?? 0,
+    };
+    const flags = new Set(
+      Object.entries(gameState.narrativeFlags ?? {})
+        .filter(([, v]) => v)
+        .map(([k]) => k),
+    );
+    const variant = resolveVariant(
+      VARIANT_REGISTRY,
+      "slideshow_vo_override",
+      "silence-of-two-witnesses",
+      {
+        moralityScore: gameState.moralityScore ?? 0,
+        narrativeAct: gameState.narrativeAct ?? 0,
+        trustByCompanion,
+        flags,
+        now: new Date(),
+      },
+    );
+    const lineIds = variant?.voLineIds && variant.voLineIds.length > 0
+      ? variant.voLineIds
+      : ["silence-elara", "silence-human"];
+    for (const id of lineIds) act2Vo.speak(id);
+  }, [active, act2Vo, gameState]);
 
   // Appendix A.1 — once the player flips
   // matrix_is_slideshow_substrate, every slideshow becomes a

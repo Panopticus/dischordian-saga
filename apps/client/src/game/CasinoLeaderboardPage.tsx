@@ -6,6 +6,7 @@ import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { ChevronLeft, Trophy, Skull, Crown, Circle, Layers, Sparkles, BookOpen, Ghost } from "lucide-react";
 import { trpc } from "@/lib/trpc";
+import { casinoSeasonKey } from "@shared/casinoGames";
 import { toast } from "sonner";
 
 /** Slot → icon mapping for the cosmetic inventory panel. */
@@ -141,7 +142,10 @@ export default function CasinoLeaderboardPage() {
   const leaderboardQuery = trpc.casino.jackpotLeaderboard.useQuery({ limit: 25 });
   const achievementBoardQuery = trpc.casino.achievementLeaderboard.useQuery({ limit: 10 });
   const firstClaimsQuery = trpc.casino.achievementFirstClaims.useQuery();
-  const poolQuery = trpc.casino.getJackpotPool.useQuery(undefined, { refetchInterval: 10_000 });
+  // audit/16 PR 3 — Pazaak tournament season leaderboard (current season).
+  const tournamentBoardQuery = trpc.casino.pazaakTournamentLeaderboard.useQuery({ limit: 10 });
+  const currentSeason = casinoSeasonKey();
+  const poolQuery = trpc.casino.getJackpotPool.useQuery(undefined, { refetchInterval: 60_000 });
   const stateQuery = trpc.casino.getState.useQuery(undefined, { retry: false });
   const claimMut = trpc.casino.claimJackpot.useMutation({
     onSuccess: () => poolQuery.refetch(),
@@ -187,15 +191,10 @@ export default function CasinoLeaderboardPage() {
           <p className="font-mono text-xs void-text-accent uppercase tracking-widest mb-2">
             Progressive Jackpot Pool
           </p>
-          <motion.p
-            className="font-display text-5xl font-bold void-text-accent"
-            key={poolQuery.data?.balance}
-            initial={{ scale: 0.9 }}
-            animate={{ scale: 1 }}
-          >
+          <p className="font-display text-5xl font-bold void-text-accent">
             {(poolQuery.data?.balance ?? 0).toLocaleString()}
             <span className="text-2xl void-text-accent ml-2">DREAM</span>
-          </motion.p>
+          </p>
           {poolQuery.data?.lastWinnerId && (
             <p className="text-xs void-text-accent font-mono mt-2">
               Last paid out {poolQuery.data.lastWinAt ? new Date(poolQuery.data.lastWinAt).toLocaleDateString() : "—"}
@@ -322,10 +321,52 @@ export default function CasinoLeaderboardPage() {
           )}
         </div>
 
+        {/* audit/16 PR 3 — Pazaak Tournament season leaderboard */}
+        <div className="mb-8">
+          <h2 className="font-display text-lg void-text-accent mb-3 flex items-center gap-2">
+            <Trophy className="w-5 h-5 void-text-accent" />
+            Pazaak Tournament — {currentSeason}
+            <Link href="/casino/tournament" className="ml-auto font-mono text-[10px] void-text-muted hover:void-text-accent">
+              Enter today's bracket →
+            </Link>
+          </h2>
+          {tournamentBoardQuery.isLoading && (
+            <p className="font-mono text-sm text-white/40">Tallying brackets...</p>
+          )}
+          {tournamentBoardQuery.data && tournamentBoardQuery.data.length === 0 && (
+            <div className="void-bg-canvas border void-border rounded-xl p-6 text-center">
+              <p className="font-mono text-xs text-white/40">No tournament wins this season yet. Be first.</p>
+            </div>
+          )}
+          {tournamentBoardQuery.data && tournamentBoardQuery.data.length > 0 && (
+            <div className="rounded-xl border void-border void-bg-canvas overflow-hidden" data-testid="pazaak-tournament-leaderboard">
+              {tournamentBoardQuery.data.map((row, i) => (
+                <div
+                  key={row.userId}
+                  className={`flex items-center justify-between px-4 py-3 ${
+                    i % 2 === 0 ? "void-bg-canvas" : "bg-black/30"
+                  } ${i === 0 ? "void-text-accent" : "text-foreground/80"}`}
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="font-mono text-xs text-white/40 w-6">#{i + 1}</span>
+                    <span className="font-mono text-sm">Player {row.userId}</span>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <span className="font-mono text-xs text-white/60">
+                      {row.wins} {row.wins === 1 ? "win" : "wins"}
+                    </span>
+                    <span className="font-mono text-sm void-text-accent">{row.totalPrize}D</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
         {/* Top jackpots */}
         <h2 className="font-display text-lg void-text-accent mb-3 flex items-center gap-2">
           <Trophy className="w-5 h-5 void-text-accent" />
-          Biggest Jackpots
+          Biggest Jackpots — {currentSeason}
         </h2>
         {leaderboardQuery.isLoading && (
           <p className="font-mono text-sm text-white/40">Loading the hall of chaos...</p>

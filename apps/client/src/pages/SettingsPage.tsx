@@ -10,6 +10,11 @@ import { useState, useCallback, useEffect, useRef } from "react";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useGamification } from "@/contexts/GamificationContext";
 import { useSound } from "@/contexts/SoundContext";
+import {
+  useVoVolume,
+  useBlurPauseMenu,
+  useNarrativeAnimSpeed,
+} from "@/hooks/useStreamerSettings";
 import { useGame } from "@/contexts/GameContext";
 import { useSyncStatusStore, selectStatus, selectLastSyncedAt } from "@/stores/syncStatusStore";
 import { useAuth } from "@/_core/hooks/useAuth";
@@ -285,6 +290,10 @@ export default function SettingsPage() {
   const gam = useGamification();
   const gamSetTheme = gam.setTheme;
   const { muted, setMuted, volume, setVolume } = useSound();
+  // audit/16 PR 6 — streamer-friendly affordances.
+  const { value: voVolume, set: setVoVolume } = useVoVolume();
+  const { value: blurPauseMenu, set: setBlurPauseMenu } = useBlurPauseMenu();
+  const { value: animSpeed, set: setAnimSpeed } = useNarrativeAnimSpeed();
   const { state: gameState, resetGame, forceSave } = useGame();
   // Task 3.1 — sync status is now in its own Zustand store so this page
   // is the only thing that re-renders when it changes. Selector-level
@@ -373,7 +382,13 @@ export default function SettingsPage() {
   const lockedThemes = ARK_THEMES.filter(t => gam.level < t.unlockLevel);
 
   return (
-    <div className="px-4 sm:px-6 py-6 max-w-3xl mx-auto animate-fade-in">
+    <div
+      className={`px-4 sm:px-6 py-6 max-w-3xl mx-auto animate-fade-in${
+        blurPauseMenu ? " streamer-blur-sensitive" : ""
+      }`}
+      data-testid="settings-page"
+      data-blur-active={blurPauseMenu ? "true" : "false"}
+    >
       {/* Header */}
       <div className="flex items-center gap-3 mb-6">
         <div className="w-10 h-10 rounded-lg flex items-center justify-center"
@@ -551,6 +566,17 @@ export default function SettingsPage() {
             disabled={muted}
           />
 
+          {/* audit/16 PR 6 (Strm1) — VO volume, separate from
+              SFX so streamers can duck the in-game voice under
+              their commentary mic. */}
+          <VolumeSlider
+            label="VO VOLUME"
+            icon={Volume2}
+            value={voVolume}
+            onChange={setVoVolume}
+            disabled={muted}
+          />
+
           <Toggle
             label="Ambient Sounds"
             description="Ship hum, cryo hiss, electrical crackle, void wind"
@@ -558,6 +584,44 @@ export default function SettingsPage() {
             onChange={(v) => updateSetting("ambientEnabled", v)}
             icon={Sparkles}
           />
+        </SettingsSection>
+
+        {/* ═══ STREAMER (audit/16 PR 6) ═══ */}
+        <SettingsSection title="Streamer" icon={Volume2} anchor="settings-streamer">
+          {/* Strm2 — pause-menu blur for IRL share */}
+          <Toggle
+            label="Blur Pause Menu"
+            description="Apply a privacy blur to the Settings page when streaming. Helpful for hiding email / display name when sharing your screen."
+            enabled={blurPauseMenu}
+            onChange={setBlurPauseMenu}
+            icon={Sparkles}
+          />
+
+          {/* Strm4 — narrative anim speed */}
+          <div className="space-y-1.5 py-3">
+            <div className="flex items-center gap-2 mb-1.5">
+              <Volume2 size={12} className="text-muted-foreground/45 shrink-0" />
+              <span className="font-mono text-[10px] tracking-[0.18em] text-muted-foreground/70 uppercase">
+                Narrative Animation Speed
+              </span>
+              <span className="font-mono text-[10px] text-muted-foreground/50 ml-auto">
+                {animSpeed.toFixed(1)}×
+              </span>
+            </div>
+            <input
+              type="range"
+              min={0.5}
+              max={2.0}
+              step={0.1}
+              value={animSpeed}
+              onChange={(e) => setAnimSpeed(parseFloat(e.target.value))}
+              className="w-full"
+              data-testid="settings-narrative-anim-speed"
+            />
+            <p className="font-mono text-[10px] text-muted-foreground/50">
+              Multiplier on memorial / cinematic timings. 0.5× = half-speed (good for VO clarity), 2.0× = double (good for short-form clips).
+            </p>
+          </div>
         </SettingsSection>
 
         {/* ═══ ACCESSIBILITY ═══ */}

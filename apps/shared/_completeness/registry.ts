@@ -53,6 +53,7 @@ import { checkMissionFactoryConsumerCoverage } from "./checks/missionFactoryCons
 import { checkLoredexMemberCarryWired } from "./checks/loredexMemberCarryWired";
 import { checkPersonalQuestSubtaskAuthoring } from "./checks/personalQuestSubtaskAuthoring";
 import { checkNpcBanterCommentCoverage } from "./checks/npcBanterCommentCoverage";
+import { checkWheelFollowupCinematicCoverage } from "./checks/wheelFollowupCinematicCoverage";
 
 export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
   // ─── Card engine ──────────────────────────────────────────
@@ -428,6 +429,18 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "Every NamedNpcKey has ≥3 reactive comments in NPC_REACTIVE_COMMENTS and ≥3 banter pairs in NPC_BANTER_PAIRS. Hard parity at landing; ratcheted to prevent authoring regressions.",
     check: () => checkNpcBanterCommentCoverage(),
+    ratchet: { target: 0 },
+  },
+  {
+    // audit/16 PR 4 (Cluster D — finding C1).
+    // RATCHETed; PR 9 (cinematic consumers) drives the gap toward 0.
+    // Initial state: 40 declared / 0 implemented; the schema lands
+    // here, the per-variant cinematic IDs land in PR 9.
+    id: "narrative.wheel_followup_cinematic_coverage",
+    name: "wheel_followup portraitCinematicId coverage",
+    description:
+      "Every variant with `surface: \"wheel_followup\"` in moralityTrustActVariants.ts should set `portraitCinematicId` so the wheel followup crossfades an AnimatedPortrait. PR 4 (Cluster D) lands the schema; PR 9 (cinematic consumers) backfills the per-variant cinematic IDs.",
+    check: () => checkWheelFollowupCinematicCoverage(),
     ratchet: { target: 0 },
   },
 ];

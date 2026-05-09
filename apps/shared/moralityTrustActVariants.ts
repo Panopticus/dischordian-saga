@@ -39,6 +39,24 @@ export type TrustBand = "cold" | "neutral" | "warm" | "confidant";
 /** Which narrative act (0-7) the variant targets. `"any"` = act-agnostic. */
 export type ActGate = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | "any";
 
+/**
+ * audit/16 PR 4 (Cluster D) — variant time-window. Real-world dates
+ * (ISO 8601) bounding when this variant is eligible. Used by the ARG
+ * surface for calendar-tied content drops; the resolver compares the
+ * current `now` against this window during gate evaluation.
+ *
+ * Either bound is optional: `{ startsAt }` = "active from this date
+ * forward"; `{ endsAt }` = "active until this date"; both = exact
+ * window. Strings are parsed via Date.parse — keep them ISO 8601 so
+ * they're timezone-explicit.
+ */
+export interface VariantTimeWindow {
+  /** ISO 8601 start (inclusive). Variant is eligible at-or-after. */
+  startsAt?: string;
+  /** ISO 8601 end (exclusive). Variant is eligible strictly before. */
+  endsAt?: string;
+}
+
 export interface MoralityTrustActVariant {
   /** Globally unique id. Pattern: "{surface}_{descriptor}". */
   id: string;
@@ -46,7 +64,22 @@ export interface MoralityTrustActVariant {
    * Which surface this line renders on. Writers use this to group
    * related entries. Consumers filter by surface first, then by gates.
    */
-  surface: "room" | "transmission" | "npc_line" | "journal" | "wheel_followup";
+  surface:
+    | "room"
+    | "transmission"
+    | "npc_line"
+    | "journal"
+    | "wheel_followup"
+    /**
+     * audit/16 PR 7 (finding C5 — Cinematic persona).
+     * Slideshow VO override surface. SlideshowPlayerRoot
+     * consults the variant resolver for cinematic id → VO
+     * sequence; absent a matching variant, callers fall back
+     * to the hardcoded line pair. Lets writers ship morality-
+     * gated parenthetical alternates without touching player
+     * code paths.
+     */
+    | "slideshow_vo_override";
   /** Optional surface-specific target id (room id, transmission id, etc.). */
   targetId?: string;
   /** The authored line. Multi-paragraph allowed; UI decides whether to truncate. */
@@ -64,6 +97,68 @@ export interface MoralityTrustActVariant {
    * for this variant to resolve; omitted means unrestricted.
    */
   requiredFlags?: readonly string[];
+  /**
+   * audit/16 PR 4 (Cluster D — finding C1).
+   *
+   * Optional cinematic id to crossfade an `AnimatedPortrait` to when
+   * this variant resolves. Consumers (NarrativeEngine, ClueJournal,
+   * WheelFollowup) read this and dispatch the appropriate visual
+   * transition; null/undefined means "render text only".
+   *
+   * Resolution does NOT require this field be populated; it's purely
+   * an additive payload for downstream consumers. The id space is
+   * shared with `apps/shared/cinematicRegistry.ts` once that lands.
+   */
+  portraitCinematicId?: string;
+  /**
+   * audit/16 PR 4 (Cluster D — finding AR6).
+   *
+   * Optional calendar window. When set, the resolver only returns
+   * this variant if the current `input.now` falls inside the window
+   * (or `now` is omitted, meaning "ignore time-windowing"). Lets ARG
+   * authors gate variants to specific real-world dates without
+   * shipping a side-channel scheduler.
+   */
+  timeWindow?: VariantTimeWindow;
+  /**
+   * audit/16 PR 4 (Cluster D — finding Co3).
+   *
+   * Optional list of clue ids this variant relates to. The clue
+   * journal's "HOW YOU READ THIS THEN/NOW" panel reads these to
+   * cross-link historical journal entries with current ones; the
+   * field is also exposed to the variant resolver so future
+   * specificity scoring can reward variants that contextualise
+   * known clues.
+   */
+  relatedClues?: readonly string[];
+  /**
+   * audit/16 PR 7 (Cluster — finding C3, Cinematic persona).
+   *
+   * Optional NPC portrait anchor for transmission overlays.
+   * `SlideshowPlayerRoot` reads these to render a small bust
+   * portrait in the corner of a transmission, so the variant
+   * text doesn't float disembodied. The id is matched against
+   * `apps/shared/npcPortraits.ts`; expression is one of the
+   * named expressions on that NPC's `expressions` map.
+   *
+   * Both fields are independently optional — set just
+   * `portraitNpcId` for the default expression, or pair them
+   * to pin a specific reaction.
+   */
+  portraitNpcId?: string;
+  /** See `portraitNpcId`. Named expression key on the NPC's
+   *  expressions map (e.g. "neutral", "stern", "amused"). */
+  portraitExpression?: string;
+  /**
+   * audit/16 PR 7 (finding C5 — Cinematic persona).
+   *
+   * Ordered VO line ids to play when this variant resolves.
+   * Consumers (SlideshowPlayerRoot for the slideshow_vo_override
+   * surface) pass these to a `useActVO()` / per-character
+   * `speak()` queue. Empty / undefined = no override; caller
+   * falls back to its hardcoded baseline.
+   */
+  voLineIds?: readonly string[];
 }
 
 export interface VariantResolutionInput {
@@ -71,6 +166,13 @@ export interface VariantResolutionInput {
   narrativeAct: number;
   trustByCompanion: Readonly<Record<string, number>>;
   flags: ReadonlySet<string>;
+  /**
+   * audit/16 PR 4 — current time used to evaluate `timeWindow` gates.
+   * Optional; when omitted, time-windowed variants are treated as
+   * always-eligible (so callers that don't care about ARG time-gating
+   * never have to think about it). Production callers pass `new Date()`.
+   */
+  now?: Date;
 }
 
 /** Derive morality band from the raw score. */
@@ -89,9 +191,41 @@ export function bandForTrust(trust: number): TrustBand {
 }
 
 /**
+ * audit/16 PR 7 (finding C9 — Cinematic persona).
+ *
+ * Derive The Human's transmission-corruption level (0..100) from
+ * the player's current trust score. Higher trust = clearer signal
+ * = lower corruption. Pure helper so consumers (TransmissionDisplay,
+ * cinematic preview tools, replay viewers) all agree on the
+ * mapping.
+ *
+ * Mapping rationale: at confidant (80+), corruption drops to 10
+ * — readable but still othered. At cold (<25), corruption sits at
+ * 60 — borderline-illegible, the way a stranger broadcasting from
+ * dream-static actually reads. The cold/neutral/warm/confidant
+ * stops mirror the trust bands so the player can feel the
+ * relationship pivot in the text itself.
+ */
+export function humanCorruptionForTrust(trust: number): number {
+  const band = bandForTrust(trust);
+  switch (band) {
+    case "confidant": return 10;
+    case "warm":      return 25;
+    case "neutral":   return 40;
+    case "cold":      return 60;
+  }
+}
+
+/**
  * Specificity score — higher wins when multiple variants match.
  * Scoring rewards specificity: bound morality + bound trust + exact act +
- * required flags each count.
+ * required flags + (audit/16 PR 4) time-window + related-clue refs each count.
+ *
+ * The new fields are weighted modestly so they sort _below_ the existing
+ * morality/trust/act/flag axes when authors use them as flavour
+ * (portrait + clue-link), but a populated time-window still beats an
+ * unbounded variant in a tie — the audit'd intent is "ARG drops should
+ * win against the same-priority always-on default during their window".
  */
 function specificityScore(v: MoralityTrustActVariant): number {
   let s = 0;
@@ -99,7 +233,33 @@ function specificityScore(v: MoralityTrustActVariant): number {
   if (v.trust !== "any") s += 3;
   if (v.act !== "any") s += 2;
   if (v.requiredFlags && v.requiredFlags.length) s += v.requiredFlags.length;
+  if (v.timeWindow && (v.timeWindow.startsAt || v.timeWindow.endsAt)) s += 2;
+  if (v.relatedClues && v.relatedClues.length) s += 1;
   return s;
+}
+
+/** Pure helper exported for tests — returns true iff `now` falls inside
+ *  the variant's time window (inclusive start, exclusive end). When
+ *  `now` is undefined, time-windowed variants pass; when the window
+ *  itself is undefined or both bounds are unset, the variant always
+ *  passes. */
+export function isWithinTimeWindow(
+  window: VariantTimeWindow | undefined,
+  now: Date | undefined,
+): boolean {
+  if (!window) return true;
+  if (!window.startsAt && !window.endsAt) return true;
+  if (!now) return true;
+  const t = now.getTime();
+  if (window.startsAt) {
+    const start = Date.parse(window.startsAt);
+    if (Number.isFinite(start) && t < start) return false;
+  }
+  if (window.endsAt) {
+    const end = Date.parse(window.endsAt);
+    if (Number.isFinite(end) && t >= end) return false;
+  }
+  return true;
 }
 
 /** Returns true iff every gate on `v` matches the input state. */
@@ -119,6 +279,9 @@ function gatesMatch(
   if (v.requiredFlags) {
     for (const f of v.requiredFlags) if (!input.flags.has(f)) return false;
   }
+  // audit/16 PR 4 — calendar window gate. Variants without a window
+  // always pass; variants with a window only pass if `now` falls inside.
+  if (!isWithinTimeWindow(v.timeWindow, input.now)) return false;
   return true;
 }
 

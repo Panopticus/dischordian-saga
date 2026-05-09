@@ -60,12 +60,20 @@ describe("matrixOfDreamsLevels", () => {
     const availableIds = available.map((l) => l.id);
     // C1 has no prereqs and starts the Celebration thread
     expect(availableIds).toContain("celebration_c1_the_watch");
-    // M1, M2, M3 have no prereqs at Mechronis
-    expect(availableIds).toContain("mechronis_m1_choric_compliance");
+    // M2 and M3 have no prereqs at Mechronis. M1 is gated behind C1
+    // (path canon: the warm school's first chamber must be walked
+    // before the cold school registers the player as deviation).
+    expect(availableIds).not.toContain("mechronis_m1_choric_compliance");
     expect(availableIds).toContain("mechronis_m2_applied_surveillance");
     expect(availableIds).toContain("mechronis_m3_the_trade_exercise");
     // C9 must NOT be available without prereqs
     expect(availableIds).not.toContain("celebration_c9_the_match");
+  });
+
+  it("M1 unlocks once C1 has been walked (Celebration → Mechronis path canon)", () => {
+    const justC1 = new Set(["celebration_c1_the_watch"]);
+    const availableIds = getAvailableLevels(justC1).map((l) => l.id);
+    expect(availableIds).toContain("mechronis_m1_choric_compliance");
   });
 
   it("getAvailableLevels gates dependent episodes correctly", () => {

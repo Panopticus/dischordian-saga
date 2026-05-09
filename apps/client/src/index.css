@@ -2445,3 +2445,22 @@ html.colorblind-tritanopia [data-atmosphere] {
 * {
   -webkit-tap-highlight-color: transparent;
 }
+
+/* ─── audit/16 PR 6 (Strm2) — streamer privacy blur ───
+   Applied via the `streamer-blur-sensitive` class on the
+   SettingsPage container when the user toggles "Blur Pause Menu"
+   in Settings. Email, display name, and other doxxable strings
+   become unreadable for stream/share capture without disabling
+   the page itself. */
+.streamer-blur-sensitive [data-blur-target="email"],
+.streamer-blur-sensitive [data-blur-target="username"],
+.streamer-blur-sensitive [data-blur-target="profile"] {
+  filter: blur(6px);
+  transition: filter 0.2s ease-in-out;
+  user-select: none;
+}
+.streamer-blur-sensitive [data-blur-target="email"]:hover,
+.streamer-blur-sensitive [data-blur-target="username"]:hover,
+.streamer-blur-sensitive [data-blur-target="profile"]:hover {
+  filter: blur(0);
+}

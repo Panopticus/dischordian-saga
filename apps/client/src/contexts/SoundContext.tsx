@@ -7,6 +7,7 @@
    - Global volume/mute control
    ═══════════════════════════════════════════════════════ */
 import { createContext, useContext, useCallback, useEffect, useRef, useState, type ReactNode } from "react";
+import { isSfxMuted } from "@/lib/streamerSettings";
 // PR-4 — TCG SoundManager is a singleton; SoundContext owns the
 // volume/mute source-of-truth and mirrors into this instance so
 // the card-battle cues honor the Settings page controls.
@@ -1097,6 +1098,11 @@ export function SoundProvider({ children }: { children: ReactNode }) {
   }, [getEngine]);
 
   const playSFX = useCallback((type: SFXType) => {
+    // audit/16 PR 6 (Strm8) — per-type SFX mute. Streamers can
+    // suppress noisy event cues (achievement chimes, jackpot
+    // stings) without nuking all audio. Filter at the API
+    // boundary so callers don't have to know about it.
+    if (isSfxMuted(type)) return;
     getEngine().playSFX(type);
   }, [getEngine]);
 

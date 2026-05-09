@@ -147,6 +147,8 @@ const CrossGameThreadsPage = lazy(() => import("./pages/CrossGameThreadsPage"));
 const DreamerFragmentsPage = lazy(() => import("./pages/DreamerFragmentsPage"));
 const DreamerDossierPage = lazy(() => import("./pages/DreamerDossierPage"));
 const LoredexGraphPage = lazy(() => import("./pages/LoredexGraphPage"));
+const LoredexClusterView = lazy(() => import("./pages/LoredexClusterView"));
+const InvestigationBoardPage = lazy(() => import("./pages/InvestigationBoardPage"));
 const Act2InterludePage = lazy(() => import("./pages/Act2InterludePage"));
 const Act2OpeningPage = lazy(() => import("./pages/Act2OpeningPage"));
 const EngineersBenchPage = lazy(() => import("./pages/EngineersBenchPage"));
@@ -286,6 +288,7 @@ const GamemastersArenaPage = lazy(() => import("./game/GamemastersArenaPage"));
 const PalimpsestEpisodesPage = lazy(() => import("./game/PalimpsestEpisodesPage"));
 const DegensCasinoPage = lazy(() => import("./game/DegensCasinoPage"));
 const CasinoLeaderboardPage = lazy(() => import("./game/CasinoLeaderboardPage"));
+const CasinoPazaakTournamentPage = lazy(() => import("./game/CasinoPazaakTournamentPage"));
 const SignalDecryptionPage = lazy(() => import("./game/SignalDecryptionPage"));
 const StarChartPage = lazy(() => import("./game/StarChartPage"));
 const HackingPuzzlePage = lazy(() => import("./game/HackingPuzzlePage"));
@@ -406,6 +409,8 @@ function Router() {
             hit the 404 shell. */}
         <Route path="/loredex" component={LoredexGraphPage} />
         <Route path="/loredex/graph" component={LoredexGraphPage} />
+        <Route path="/loredex/clusters" component={LoredexClusterView} />
+        <Route path="/loredex/investigation" component={InvestigationBoardPage} />
         <Route path="/act2-interlude" component={Act2InterludePage} />
         <Route path="/act2-opening" component={Act2OpeningPage} />
         <Route path="/engineers-bench" component={EngineersBenchPage} />
@@ -516,6 +521,7 @@ function Router() {
         <Route path="/palimpsest">{() => <GameRoute component={PalimpsestEpisodesPage} />}</Route>
         <Route path="/casino">{() => <GameRoute component={DegensCasinoPage} />}</Route>
         <Route path="/casino/leaderboard">{() => <GameRoute component={CasinoLeaderboardPage} />}</Route>
+        <Route path="/casino/tournament">{() => <GameRoute component={CasinoPazaakTournamentPage} />}</Route>
         <Route path="/circuit">{() => <GameRoute component={DeadMansCircuitPage} />}</Route>
         <Route path="/cades-fps">{() => <GameRoute component={CADESFPSPage} />}</Route>
         <Route path="/signal-decryption">{() => <GameRoute component={SignalDecryptionPage} />}</Route>

@@ -84,6 +84,29 @@ function ResultBanner({ result }: { result: { won: boolean; payout: number; jack
   );
 }
 
+/** audit/16 PR 3 — rotating free-spins badge. Small hook + display:
+ *  reads casino state, surfaces "FREE SPIN AVAILABLE" tag on the
+ *  panels for today's rotating game(s). The next bet on that game
+ *  consumes the spin (no Dream deducted) — handled server-side in
+ *  executeGame. */
+function useFreeSpinForGame(gameId: string): number {
+  const stateQuery = trpc.casino.getState.useQuery(undefined, { retry: false });
+  const map = (stateQuery.data?.freeSpinsByGame ?? {}) as Record<string, number>;
+  return map[gameId] ?? 0;
+}
+
+function FreeSpinBadge({ count }: { count: number }) {
+  if (count <= 0) return null;
+  return (
+    <p
+      className="font-mono text-[10px] void-text-accent uppercase tracking-widest mb-2"
+      data-testid="casino-free-spin-badge"
+    >
+      ★ {count} FREE SPIN{count > 1 ? "S" : ""} AVAILABLE
+    </p>
+  );
+}
+
 /** Bet selector used by every money game. */
 function BetSelector({
   bet, setBet, min, max,
@@ -119,6 +142,7 @@ export function VoidSlotsPanel({
   const reels = (mut.data?.result.detail as { reels?: string[] } | undefined)?.reels;
   const feltCls = tableFeltClass(equipped);
   const chipCls = chipClass(equipped);
+  const freeSpins = useFreeSpinForGame("void_slots");
   return (
     <div className={`text-center rounded-xl p-4 transition-shadow ${feltCls}`}>
       <h2 className="font-display text-xl void-text-accent mb-2">VOID SLOTS</h2>
@@ -148,6 +172,7 @@ export function VoidSlotsPanel({
           })}
         </div>
       )}
+      <FreeSpinBadge count={freeSpins} />
       <BetSelector bet={bet} setBet={setBet} min={5} max={100} />
       <button
         onClick={() => mut.mutate({ bet }, { onSuccess: (data) => onResult?.({ achievementsUnlocked: data?.achievementsUnlocked, rewardsUnlocked: data?.rewardsUnlocked }) })}
@@ -171,6 +196,7 @@ export function EntropyDicePanel({
   const mut = trpc.casino.playEntropyDice.useMutation();
   const detail = mut.data?.result.detail as { die1?: number; die2?: number; total?: number } | undefined;
   const feltCls = tableFeltClass(equipped);
+  const freeSpins = useFreeSpinForGame("entropy_dice");
   return (
     <div className={`text-center rounded-xl p-4 transition-shadow ${feltCls}`}>
       <h2 className="font-display text-xl void-text-accent mb-4">ENTROPY DICE</h2>
@@ -197,6 +223,7 @@ export function EntropyDicePanel({
       {detail?.total !== undefined && (
         <p className="font-mono text-lg text-white/60 mb-4">Total: {detail.total}</p>
       )}
+      <FreeSpinBadge count={freeSpins} />
       <BetSelector bet={bet} setBet={setBet} min={10} max={200} />
       <p className="font-mono text-[10px] text-white/20 mb-3 mt-2">Predict the roll:</p>
       <div className="flex justify-center gap-3">
@@ -306,6 +333,7 @@ export function QuantumRoulettePanel({ onResult }: { onResult?: CasinoGameResult
   const [bet, setBet] = useState(25);
   const [selected, setSelected] = useState<typeof FACTIONS[number][]>([]);
   const mut = trpc.casino.playQuantumRoulette.useMutation();
+  const freeSpins = useFreeSpinForGame("quantum_roulette");
 
   const play = () => {
     if (selected.length === 0) return;
@@ -339,6 +367,7 @@ export function QuantumRoulettePanel({ onResult }: { onResult?: CasinoGameResult
           );
         })}
       </div>
+      <FreeSpinBadge count={freeSpins} />
       <BetSelector bet={bet} setBet={setBet} min={10} max={300} />
       <button
         onClick={play}
@@ -363,6 +392,7 @@ export function Pazaak21Panel({ onResult }: { onResult?: CasinoGameResultCallbac
   const [bet, setBet] = useState(25);
   const [stand, setStand] = useState(18);
   const mut = trpc.casino.playPazaak21.useMutation();
+  const freeSpins = useFreeSpinForGame("pazaak_21");
 
   return (
     <div className="text-center">
@@ -373,6 +403,7 @@ export function Pazaak21Panel({ onResult }: { onResult?: CasinoGameResultCallbac
         onChange={e => setStand(Number(e.target.value))}
         className="w-48 mb-4"
       />
+      <FreeSpinBadge count={freeSpins} />
       <BetSelector bet={bet} setBet={setBet} min={15} max={250} />
       <button
         onClick={() => mut.mutate({ bet, stand }, { onSuccess: (data) => onResult?.({ achievementsUnlocked: data?.achievementsUnlocked, rewardsUnlocked: data?.rewardsUnlocked }) })}
@@ -398,6 +429,7 @@ export function HighLowPanel({ onResult }: { onResult?: CasinoGameResultCallback
   const [bet, setBet] = useState(10);
   const [chainLength, setChainLength] = useState(3);
   const mut = trpc.casino.playHighLow.useMutation();
+  const freeSpins = useFreeSpinForGame("high_low");
 
   const play = (guess: "high" | "low") => {
     const guesses = Array.from({ length: chainLength }, () => guess);
@@ -413,6 +445,7 @@ export function HighLowPanel({ onResult }: { onResult?: CasinoGameResultCallback
         onChange={e => setChainLength(Number(e.target.value))}
         className="w-48 mb-4"
       />
+      <FreeSpinBadge count={freeSpins} />
       <BetSelector bet={bet} setBet={setBet} min={5} max={50} />
       <div className="flex gap-3 justify-center">
         <button onClick={() => play("high")} disabled={mut.isPending}
@@ -646,17 +679,30 @@ export function VoidBingoPanel({ onResult }: { onResult?: CasinoGameResultCallba
 export function VoidCasesPanel({ onResult }: { onResult?: CasinoGameResultCallback }) {
   const [bet, setBet] = useState(100);
   const mut = trpc.casino.playVoidCase.useMutation();
+  // audit/16 GA2 — show "X/5 cases left today" gating display.
+  const stateQuery = trpc.casino.getState.useQuery(undefined, { retry: false });
+  const opened = stateQuery.data?.dailyVoidCasesOpened ?? 0;
+  const remaining = Math.max(0, 5 - opened);
+  const dailyExhausted = remaining === 0;
   return (
     <div className="text-center">
-      <h2 className="font-display text-xl void-text-accent mb-4">VOID CASES</h2>
-      <p className="font-mono text-[10px] text-white/40 mb-4">Pity timer at 20 cases. Published drop rates.</p>
+      <h2 className="font-display text-xl void-text-accent mb-2">VOID CASES</h2>
+      <p className="font-mono text-[10px] text-white/40 mb-1">Pity timer at 20 cases. Published drop rates.</p>
+      <p className="font-mono text-[10px] void-text-accent mb-4" data-testid="void-cases-daily-counter">
+        {dailyExhausted
+          ? "Daily limit reached — resets at UTC midnight"
+          : `${remaining}/5 cases left today`}
+      </p>
       <BetSelector bet={bet} setBet={setBet} min={50} max={500} />
       <button
-        onClick={() => mut.mutate({ bet }, { onSuccess: (data) => onResult?.({ achievementsUnlocked: data?.achievementsUnlocked, rewardsUnlocked: data?.rewardsUnlocked }) })}
-        disabled={mut.isPending}
+        onClick={() => mut.mutate({ bet }, { onSuccess: (data) => {
+          onResult?.({ achievementsUnlocked: data?.achievementsUnlocked, rewardsUnlocked: data?.rewardsUnlocked });
+          stateQuery.refetch();
+        } })}
+        disabled={mut.isPending || dailyExhausted}
         className="px-6 py-2 rounded-lg void-bg-sunk border void-border void-text-accent font-mono text-sm void-bg-sunk disabled:opacity-50"
       >
-        {mut.isPending ? "Cracking..." : `OPEN CASE ${bet}D`}
+        {mut.isPending ? "Cracking..." : dailyExhausted ? "TRY TOMORROW" : `OPEN CASE ${bet}D`}
       </button>
       {mut.data?.result && (
         <p className="mt-3 font-mono text-sm uppercase font-display tracking-widest void-text-accent">
