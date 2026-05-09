@@ -286,6 +286,7 @@ const GamemastersArenaPage = lazy(() => import("./game/GamemastersArenaPage"));
 const PalimpsestEpisodesPage = lazy(() => import("./game/PalimpsestEpisodesPage"));
 const DegensCasinoPage = lazy(() => import("./game/DegensCasinoPage"));
 const CasinoLeaderboardPage = lazy(() => import("./game/CasinoLeaderboardPage"));
+const CasinoPazaakTournamentPage = lazy(() => import("./game/CasinoPazaakTournamentPage"));
 const SignalDecryptionPage = lazy(() => import("./game/SignalDecryptionPage"));
 const StarChartPage = lazy(() => import("./game/StarChartPage"));
 const HackingPuzzlePage = lazy(() => import("./game/HackingPuzzlePage"));
@@ -516,6 +517,7 @@ function Router() {
         <Route path="/palimpsest">{() => <GameRoute component={PalimpsestEpisodesPage} />}</Route>
         <Route path="/casino">{() => <GameRoute component={DegensCasinoPage} />}</Route>
         <Route path="/casino/leaderboard">{() => <GameRoute component={CasinoLeaderboardPage} />}</Route>
+        <Route path="/casino/tournament">{() => <GameRoute component={CasinoPazaakTournamentPage} />}</Route>
         <Route path="/circuit">{() => <GameRoute component={DeadMansCircuitPage} />}</Route>
         <Route path="/cades-fps">{() => <GameRoute component={CADESFPSPage} />}</Route>
         <Route path="/signal-decryption">{() => <GameRoute component={SignalDecryptionPage} />}</Route>

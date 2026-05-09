@@ -18,12 +18,14 @@ import { procedureRateLimit } from "../_core/procedureRateLimit";
 import { getDb, type DrizzleDb } from "../db";
 import { logger } from "../logger";
 import { grantCardReward } from "../services/cardRewardService";
+import { applyCasinoQuestProgress } from "../services/casinoQuestProgressService";
+import { writeNarrativeFlag } from "../services/narrativeFlagService";
 import { checkFeatureFlag } from "../middleware/featureFlag";
 import {
   casinoState, casinoResults, casinoJackpotPool, dreamBalance, userAchievements,
   warTerritories, warSeasons, notifications, users, adminAuditLog,
 } from "../../db/schema";
-import { eq, and, sql, desc } from "drizzle-orm";
+import { eq, and, sql, desc, gte, lt } from "drizzle-orm";
 
 /** Broad db-ish handle — accepts either the top-level DrizzleDb or a
  *  transaction handle from `db.transaction(async tx => ...)`. Drizzle
@@ -37,11 +39,18 @@ import {
   playCardBattlersGauntlet, playFactionWarBet, playVoidBingo, playVoidCase,
   scoreMahjongRun,
   validateBet, vipLevelFor, vipWinBonus, MAX_DAILY_WAGER, MAX_DAILY_NET_LOSS,
-  MAX_DAILY_VOID_CASES, isFreeToPlayGame,
+  MAX_DAILY_VOID_CASES, isFreeToPlayGame, freeSpinsForToday,
+  casinoSeasonKey, casinoSeasonWindow,
   ROULETTE_FACTIONS, GAME_LIMITS, splitJackpotPool, rewardsForAchievement,
   getCasinoCosmetic,
   type RouletteFaction,
 } from "../../shared/casinoGames";
+import {
+  PAZAAK_TOURNAMENT_ENTRY_FEE,
+  PAZAAK_TOURNAMENT_FIRST_PRIZE,
+  PAZAAK_TOURNAMENT_SECOND_PRIZE,
+  runPazaakTournament,
+} from "../../shared/casinoPazaakTournament";
 
 type PlayableGame =
   | "void_slots" | "entropy_dice" | "nebula_poker" | "quantum_roulette"
@@ -304,6 +313,10 @@ async function ensureCasinoState(db: DbLike, userId: number) {
     // Reset daily counters on date roll
     const today = todayString();
     if (existing.dailyCounterDate !== today) {
+      // audit/16 PR 3 — rotating free-spins. Pre-compute today's
+      // grant so the per-game record refreshes on the same UTC
+      // boundary as the rest of the daily counters.
+      const todayFreeSpins = freeSpinsForToday(today);
       await db
         .update(casinoState)
         .set({
@@ -314,6 +327,7 @@ async function ensureCasinoState(db: DbLike, userId: number) {
           dailyVoidCasesOpened: 0,
           dailyCounterDate: today,
           freeSpinsLeft: 3,
+          freeSpinsByGame: todayFreeSpins,
         })
         .where(eq(casinoState.userId, userId));
       return {
@@ -323,14 +337,19 @@ async function ensureCasinoState(db: DbLike, userId: number) {
         dailyVoidCasesOpened: 0,
         dailyCounterDate: today,
         freeSpinsLeft: 3,
+        freeSpinsByGame: todayFreeSpins,
       };
     }
     return existing;
   }
+  const today = todayString();
   await db.insert(casinoState).values({
     userId,
     totalWagered: 0,
-    dailyCounterDate: todayString(),
+    dailyCounterDate: today,
+    // audit/16 PR 3 — seed today's rotating free-spin grant so the
+    // brand-new player also gets variety from day one.
+    freeSpinsByGame: freeSpinsForToday(today),
   });
   const [fresh] = await db.select().from(casinoState).where(eq(casinoState.userId, userId)).limit(1);
   return fresh!;
@@ -370,8 +389,12 @@ async function executeGame(
     const state = await ensureCasinoState(tx, userId);
     const balance = await ensureDreamBalance(tx, userId);
 
-    // Enforce daily wager cap (free-to-play games bypass)
-    if (bet > 0 && state.dailyWagered + bet > MAX_DAILY_WAGER) {
+    // Enforce daily wager cap (free-to-play games bypass).
+    // Free-spin consumption (audit/16 PR 3) also bypasses — no Dream
+    // is at risk, so it shouldn't count against the wager cap.
+    const _willConsumeFreeSpin =
+      bet > 0 && (((state.freeSpinsByGame ?? {}) as Record<string, number>)[game] ?? 0) > 0;
+    if (bet > 0 && !_willConsumeFreeSpin && state.dailyWagered + bet > MAX_DAILY_WAGER) {
       throw new Error(`Daily wager cap reached (${MAX_DAILY_WAGER} Dream/day)`);
     }
     // audit/16 GA4 — enforce daily net-loss cap. If the player has
@@ -393,7 +416,14 @@ async function executeGame(
       throw err;
     }
 
-    if (bet > 0 && !opts.skipBetDeduction) {
+    // audit/16 PR 3 — rotating free-spins consumption. If the player
+    // has a free spin allotted to today's eligible game, burn it
+    // instead of deducting Dream from their balance. The bet still
+    // flows through to runGame() so payouts compute normally; only
+    // the balance debit is skipped.
+    const freeSpinsByGame = (state.freeSpinsByGame ?? {}) as Record<string, number>;
+    const freeSpinAvailable = bet > 0 && (freeSpinsByGame[game] ?? 0) > 0;
+    if (bet > 0 && !opts.skipBetDeduction && !freeSpinAvailable) {
       if (balance.dreamTokens < bet) throw new Error("Insufficient Dream tokens");
       await tx
         .update(dreamBalance)
@@ -428,6 +458,13 @@ async function executeGame(
     if (result.won) favorGain += 1;
     if (result.jackpot) favorGain += 5;
     if (bet >= 100) favorGain += 1;
+    // audit/16 PR 3 — Degen's Favor milestone narrative flags. Compute
+    // the post-update value here so the threshold-cross detection
+    // below has both `state.degenFavor` (pre) and `newFavor` (post)
+    // available; the flag fires only when the threshold is crossed
+    // for the first time. Registered in narrativeFlagRegistry under
+    // owner: "casino", category: "companion".
+    const newFavor = Math.min(100, state.degenFavor + favorGain);
     const gamesPlayedNext: Record<string, number> = {
       ...(state.gamesPlayed ?? {}),
       [game]: ((state.gamesPlayed ?? {})[game] ?? 0) + 1,
@@ -459,9 +496,20 @@ async function executeGame(
     // audit/16 GA4 — track net loss for the daily loss cap. Free-to-play
     // games never feed this counter; winning hands subtract from it
     // (clamped at 0) so the counter reflects current pain rather than
-    // gross volume.
-    const netLossDelta = isFreeToPlayGame(game) ? 0 : bet - finalPayout;
+    // gross volume. Free-spin consumption also bypasses the loss
+    // counter — the player didn't risk Dream, so they can't lose it.
+    const netLossDelta = isFreeToPlayGame(game) || freeSpinAvailable
+      ? 0
+      : bet - finalPayout;
     const newDailyLost = Math.max(0, state.dailyLost + netLossDelta);
+    // audit/16 PR 3 — decrement consumed free spin in the per-game
+    // record. Empty {} stored when zero-balance to keep the JSON tidy.
+    const nextFreeSpinsByGame: Record<string, number> = { ...freeSpinsByGame };
+    if (freeSpinAvailable) {
+      const remaining = (nextFreeSpinsByGame[game] ?? 0) - 1;
+      if (remaining > 0) nextFreeSpinsByGame[game] = remaining;
+      else delete nextFreeSpinsByGame[game];
+    }
     const updates = {
       totalWagered: newTotalWagered,
       totalWon: state.totalWon + finalPayout,
@@ -469,11 +517,14 @@ async function executeGame(
       sessionLosses: !result.won ? state.sessionLosses + 1 : state.sessionLosses,
       currentStreak: newStreak,
       bestStreak,
-      degenFavor: Math.min(100, state.degenFavor + favorGain),
+      degenFavor: newFavor,
       totalBetsPlaced: state.totalBetsPlaced + 1,
       vipLevel: vipLevelFor(newTotalWagered),
-      dailyWagered: state.dailyWagered + bet,
+      // Free-spin consumption skips the wager-cap accumulator too —
+      // the bet wasn't actually placed against the player's balance.
+      dailyWagered: state.dailyWagered + (freeSpinAvailable ? 0 : bet),
       dailyLost: newDailyLost,
+      freeSpinsByGame: nextFreeSpinsByGame,
       gamesPlayed: gamesPlayedNext,
       gamesWon: gamesWonNext,
       consecutiveFactionWins: newConsecutiveFactionWins,
@@ -504,6 +555,45 @@ async function executeGame(
       jackpot: result.jackpot,
       detail: result.detail,
       seed,
+    });
+
+    // audit/16 PR 3 — Degen's Favor milestone narrative flags.
+    // Fires once-per-threshold when the player's Favor score first
+    // crosses 25 / 50 / 75 / 100. Idempotent on the unique
+    // (userId, flag) index in npc_public_flags so re-firing on
+    // subsequent crossings is a safe no-op.
+    const FAVOR_FLAG_THRESHOLDS: Array<[number, string]> = [
+      [25, "casino_degen_favor_25"],
+      [50, "casino_degen_favor_50"],
+      [75, "casino_degen_favor_75"],
+      [100, "casino_degen_favor_100"],
+    ];
+    for (const [threshold, flag] of FAVOR_FLAG_THRESHOLDS) {
+      if (state.degenFavor < threshold && newFavor >= threshold) {
+        try {
+          await writeNarrativeFlag(userId, flag, "casino");
+        } catch (e) {
+          logger.warn("[Casino] favor-milestone flag write failed", {
+            userId,
+            flag,
+            error: e instanceof Error ? e.message : String(e),
+          });
+        }
+      }
+    }
+
+    // audit/16 PR 3 — engagement-loop quest progression. Best-effort
+    // (logs + swallows on failure); never blocks the casino play.
+    // Tales-collected snapshot is read off the post-update state
+    // so e_casino_tale_collector picks up the rolled-tale this turn.
+    await applyCasinoQuestProgress(tx, userId, {
+      game,
+      bet,
+      won: result.won,
+      jackpot: result.jackpot,
+      prevStreak: state.currentStreak,
+      newStreak,
+      talesCollectedSeason: collectedTalesNext.length,
     });
 
     // ─── Achievement evaluation ───
@@ -765,6 +855,103 @@ export const casinoRouter = router({
       return executeGame(db, ctx.user.id, "pazaak_21", input.bet, (rng) =>
         playPazaak21(input.bet, input.stand, rng),
       );
+    }),
+
+  /** audit/16 PR 3 — Pazaak Tournament status. Returns the
+   *  player's daily entry state + last bracket result if any. */
+  getPazaakTournamentStatus: protectedProcedure
+    .use(checkFeatureFlag("casino"))
+    .query(async ({ ctx }) => {
+      const db = await getDb();
+      if (!db) {
+        return {
+          enteredToday: false,
+          lastResult: null,
+          entryFee: PAZAAK_TOURNAMENT_ENTRY_FEE,
+          firstPrize: PAZAAK_TOURNAMENT_FIRST_PRIZE,
+          secondPrize: PAZAAK_TOURNAMENT_SECOND_PRIZE,
+        };
+      }
+      const state = await ensureCasinoState(db, ctx.user.id);
+      const today = todayString();
+      return {
+        enteredToday: state.lastPazaakTournamentDate === today,
+        lastResult: state.lastPazaakTournamentResult ?? null,
+        lastDate: state.lastPazaakTournamentDate ?? null,
+        entryFee: PAZAAK_TOURNAMENT_ENTRY_FEE,
+        firstPrize: PAZAAK_TOURNAMENT_FIRST_PRIZE,
+        secondPrize: PAZAAK_TOURNAMENT_SECOND_PRIZE,
+      };
+    }),
+
+  /** audit/16 PR 3 — Enter the Pazaak Tournament. One entry per
+   *  UTC day; deducts the entry fee, runs the deterministic
+   *  bracket, deposits prize, persists result. Returns the
+   *  full bracket payload so the UI can render the cinematic. */
+  enterPazaakTournament: protectedProcedure
+    .use(checkFeatureFlag("casino"))
+    .use(globalCasinoSessionLimit)
+    .input(z.object({ stand: z.number().min(10).max(21) }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) throw new Error("DB unavailable");
+      return db.transaction(async (tx) => {
+        const state = await ensureCasinoState(tx, ctx.user.id);
+        const today = todayString();
+        if (state.lastPazaakTournamentDate === today) {
+          throw new Error("Already entered today's Pazaak tournament — resets at UTC midnight");
+        }
+        const balance = await ensureDreamBalance(tx, ctx.user.id);
+        if (balance.dreamTokens < PAZAAK_TOURNAMENT_ENTRY_FEE) {
+          throw new Error(`Insufficient Dream — entry costs ${PAZAAK_TOURNAMENT_ENTRY_FEE}D`);
+        }
+        // Deduct entry fee.
+        await tx
+          .update(dreamBalance)
+          .set({ dreamTokens: sql`${dreamBalance.dreamTokens} - ${PAZAAK_TOURNAMENT_ENTRY_FEE}` })
+          .where(eq(dreamBalance.userId, ctx.user.id));
+        // Run the deterministic bracket. Seed combines today's
+        // date + the user id so each player sees a personalised
+        // (but auditable) bracket; same player on the same day
+        // would re-roll the same bracket if they could re-enter.
+        const seed = `pazaak-tourn:${today}:${ctx.user.id}`;
+        const result = runPazaakTournament(
+          ctx.user.name ?? `Player#${ctx.user.id}`,
+          input.stand,
+          seed,
+        );
+        // Pay out prize (if any).
+        if (result.prize > 0) {
+          await tx
+            .update(dreamBalance)
+            .set({
+              dreamTokens: sql`${dreamBalance.dreamTokens} + ${result.prize}`,
+              totalDreamEarned: sql`${dreamBalance.totalDreamEarned} + ${result.prize}`,
+            })
+            .where(eq(dreamBalance.userId, ctx.user.id));
+        }
+        // Persist daily-entry gate + bracket cache.
+        await tx
+          .update(casinoState)
+          .set({
+            lastPazaakTournamentDate: today,
+            lastPazaakTournamentResult: result as unknown as Record<string, unknown>,
+          })
+          .where(eq(casinoState.userId, ctx.user.id));
+        // Log a casinoResults entry for the bracket — game type
+        // "pazaak_tournament" so leaderboard queries can filter.
+        await tx.insert(casinoResults).values({
+          userId: ctx.user.id,
+          game: "pazaak_tournament",
+          bet: PAZAAK_TOURNAMENT_ENTRY_FEE,
+          won: result.playerPlace === 1,
+          payout: result.prize,
+          jackpot: false,
+          detail: result as unknown as Record<string, unknown>,
+          seed,
+        });
+        return result;
+      });
     }),
 
   /** High/Low — sequence of higher/lower guesses. */
@@ -1073,16 +1260,76 @@ export const casinoRouter = router({
   /** Public leaderboard of biggest jackpots. */
   jackpotLeaderboard: publicProcedure
     .use(checkFeatureFlag("casino"))
-    .input(z.object({ limit: z.number().min(1).max(50).default(10) }).optional())
+    .input(z.object({
+      limit: z.number().min(1).max(50).default(10),
+      // audit/16 PR 3 — optional season filter. Defaults to the
+      // current quarter; pass an explicit "Sn-YYYY" key to query
+      // archived seasons. Pass "all" to disable filtering.
+      season: z.string().optional(),
+    }).optional())
     .query(async ({ input }) => {
       const db = await getDb();
       if (!db) return [];
+      const limit = input?.limit ?? 10;
+      const seasonArg = input?.season ?? casinoSeasonKey();
+      // Build the season window unless caller asked for all-time.
+      const conds = [eq(casinoResults.jackpot, true)];
+      if (seasonArg !== "all") {
+        const { start, end } = casinoSeasonWindow(seasonArg);
+        conds.push(
+          gte(casinoResults.playedAt, start),
+          lt(casinoResults.playedAt, end),
+        );
+      }
       return db
         .select()
         .from(casinoResults)
-        .where(eq(casinoResults.jackpot, true))
+        .where(and(...conds))
         .orderBy(desc(casinoResults.payout))
-        .limit(input?.limit ?? 10);
+        .limit(limit);
+    }),
+
+  /** audit/16 PR 3 — Pazaak Tournament season leaderboard.
+   *  Counts tournament wins per player within the current
+   *  (or specified) season. */
+  pazaakTournamentLeaderboard: publicProcedure
+    .use(checkFeatureFlag("casino"))
+    .input(z.object({
+      limit: z.number().min(1).max(50).default(10),
+      season: z.string().optional(),
+    }).optional())
+    .query(async ({ input }) => {
+      const db = await getDb();
+      if (!db) return [];
+      const limit = input?.limit ?? 10;
+      const seasonArg = input?.season ?? casinoSeasonKey();
+      const conds = [
+        eq(casinoResults.game, "pazaak_tournament"),
+        eq(casinoResults.won, true),
+      ];
+      if (seasonArg !== "all") {
+        const { start, end } = casinoSeasonWindow(seasonArg);
+        conds.push(
+          gte(casinoResults.playedAt, start),
+          lt(casinoResults.playedAt, end),
+        );
+      }
+      const rows = await db
+        .select({
+          userId: casinoResults.userId,
+          wins: sql<number>`COUNT(*)`,
+          totalPrize: sql<number>`SUM(${casinoResults.payout})`,
+        })
+        .from(casinoResults)
+        .where(and(...conds))
+        .groupBy(casinoResults.userId)
+        .orderBy(desc(sql`COUNT(*)`))
+        .limit(limit);
+      return rows.map((r) => ({
+        userId: r.userId,
+        wins: Number(r.wins ?? 0),
+        totalPrize: Number(r.totalPrize ?? 0),
+      }));
     }),
 
   /** Leaderboard of players by total casino achievements unlocked.
