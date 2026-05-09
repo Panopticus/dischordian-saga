@@ -1,0 +1,330 @@
+[
+  {
+    "id": "the_dreamer_signature",
+    "character": "npc_the_dreamer",
+    "text": "I dreamed you. You dreamed me. We do not need to agree about which of those is the cause.",
+    "bucket": "signature",
+    "file": "shared/npcIdentity.ts"
+  },
+  {
+    "id": "the_dreamer_dlg_past_opener_0",
+    "character": "npc_the_dreamer",
+    "text": "There was no before. The first dream is the first place that can be remembered.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "the_dreamer_dlg_past_opener_1",
+    "character": "npc_the_dreamer",
+    "text": "Asking what came before is, structurally, asking what cannot be dreamt. I do not dream that.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "the_dreamer_dlg_past_drm_past_warm_reply_0",
+    "character": "npc_the_dreamer",
+    "text": "Quiet. Wide. No one was watching. I was watching myself; that is a different thing; it is the only different thing.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "the_dreamer_dlg_past_drm_past_probe_reply_0",
+    "character": "npc_the_dreamer",
+    "text": "No. The Architect designs. I dream. The two are not the same; they coordinate.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "the_dreamer_dlg_past_drm_past_probe_drm_past_probe_a_reply_0",
+    "character": "npc_the_dreamer",
+    "text": "Once. The disagreement was the cycle's first revision. We did not speak afterwards. We did not need to.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "the_dreamer_dlg_past_drm_past_probe_drm_past_probe_b_reply_0",
+    "character": "npc_the_dreamer",
+    "text": "I remember the ones that were dreamt. Forgetting is a sleep state I have, occasionally, allowed. I am awake now.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "the_dreamer_dlg_past_drm_past_cold_reply_0",
+    "character": "npc_the_dreamer",
+    "text": "I am telling you a dream. The two are, in my register, the same thing. You may take it or you may take none of it.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "the_dreamer_dlg_calling_opener_0",
+    "character": "npc_the_dreamer",
+    "text": "The cycle requires the dreaming. The dreaming requires no one in particular.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "the_dreamer_dlg_calling_opener_1",
+    "character": "npc_the_dreamer",
+    "text": "I am the no-one-in-particular who happened to be there.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "the_dreamer_dlg_calling_drm_call_warm_reply_0",
+    "character": "npc_the_dreamer",
+    "text": "Yes. Slowly. The Source could. The Source has chosen not to. The choosing not to is itself a kindness; the kindness is, in dream terms, my employment.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "the_dreamer_dlg_calling_drm_call_probe_reply_0",
+    "character": "npc_the_dreamer",
+    "text": "It holds the cycle while the cycle is being calibrated. It is the substrate. The substrate does not perform; the performance is what the witnesses do; the substrate is what they perform on.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "the_dreamer_dlg_calling_drm_call_probe_drm_call_probe_a_reply_0",
+    "character": "npc_the_dreamer",
+    "text": "Sometimes. Not all the time. Notice is, structurally, a brief waking; the waking is what shows up in your records as a dream you almost remember.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "the_dreamer_dlg_calling_drm_call_probe_drm_call_probe_b_reply_0",
+    "character": "npc_the_dreamer",
+    "text": "Twice. Both performances were small. The smallness was the discipline. The discipline is shared with the Architect; we have it in common; we did not coordinate.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "the_dreamer_dlg_calling_drm_call_cold_reply_0",
+    "character": "npc_the_dreamer",
+    "text": "The substrate is, structurally, the work. The avoidance is your reading. I will not contest it.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "the_dreamer_dlg_mortality_opener_0",
+    "character": "npc_the_dreamer",
+    "text": "The cycle ends. The dream does not. The dream becomes the next substrate.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "the_dreamer_dlg_mortality_opener_1",
+    "character": "npc_the_dreamer",
+    "text": "I do not know what the next cycle dreams. I am not the next dreamer. I am, perhaps, the dream of the next dreamer.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "the_dreamer_dlg_mortality_drm_mort_warm_reply_0",
+    "character": "npc_the_dreamer",
+    "text": "Frightening is a waking emotion. I do not access it cleanly. The closest dream-state is curiosity; curiosity is, in dream terms, the second-best emotion.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "the_dreamer_dlg_mortality_drm_mort_probe_reply_0",
+    "character": "npc_the_dreamer",
+    "text": "I have dreamt the ending. It was honest. It was small. I was, in the dream, replaced by a substrate I did not recognise; the substrate did not recognise me either; the unrecognising was peaceful.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "the_dreamer_dlg_mortality_drm_mort_probe_drm_mort_probe_a_reply_0",
+    "character": "npc_the_dreamer",
+    "text": "Yes. Briefly. The player will be a verb in it; the verb will be 'continued.' Continuation is, in dream-grammar, the root of remembering.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "the_dreamer_dlg_mortality_drm_mort_probe_drm_mort_probe_b_reply_0",
+    "character": "npc_the_dreamer",
+    "text": "Sit with me when the next dream begins. Do not narrate. Do not interpret. The presence is the only thing the substrate notices.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "the_dreamer_dlg_mortality_drm_mort_cold_reply_0",
+    "character": "npc_the_dreamer",
+    "text": "Honest. Waking is also a dream state. The waking does not interrupt the substrate. We are still talking; you are awake; the dream continues.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "the_dreamer_dlg_us_opener_0",
+    "character": "npc_the_dreamer",
+    "text": "One dream. Together. No narration. No interpretation. No waking until I release.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "the_dreamer_dlg_us_opener_1",
+    "character": "npc_the_dreamer",
+    "text": "I will not enter without your assent. The substrate respects the assent.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "the_dreamer_dlg_us_drm_us_warm_reply_0",
+    "character": "npc_the_dreamer",
+    "text": "Then we begin. The room is the substrate. The substrate is the room. We are present without being there. Do not speak. The words are the waking.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "the_dreamer_dlg_us_drm_us_probe_reply_0",
+    "character": "npc_the_dreamer",
+    "text": "What you bring. The substrate amplifies; it does not replace. What you bring is the kindness.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "the_dreamer_dlg_us_drm_us_probe_drm_us_probe_a_reply_0",
+    "character": "npc_the_dreamer",
+    "text": "Then we begin. The release will come when I release; not before; not after.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "the_dreamer_dlg_us_drm_us_probe_drm_us_probe_b_reply_0",
+    "character": "npc_the_dreamer",
+    "text": "The substrate honours that too. It will hold the unwanted gently. It will not require you to look. The not-looking is also a dream.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "the_dreamer_dlg_us_drm_us_cold_reply_0",
+    "character": "npc_the_dreamer",
+    "text": "Accepted. The substrate withdraws. The room returns. We are awake; we were awake; the difference is small.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "the_dreamer_comment_drm_track37",
+    "character": "npc_the_dreamer",
+    "text": "I dreamt that song before it was written. The composer dreamt me writing it. We did not need to agree about which of those was the cause.",
+    "bucket": "comment",
+    "trigger": "track_37_completes",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "the_dreamer_comment_drm_apprentice_died",
+    "character": "npc_the_dreamer",
+    "text": "Their dream returns to the substrate. The substrate widens. I will hold the widening; do not narrate it.",
+    "bucket": "comment",
+    "trigger": "apprentice_died",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "the_dreamer_comment_drm_loredex_first",
+    "character": "npc_the_dreamer",
+    "text": "You learned a thing. I dreamt that you would. Both things are true.",
+    "bucket": "comment",
+    "trigger": "loredex_entry_discovered",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "the_dreamer_banter_bnt_arc_dreamer_design_line1",
+    "character": "npc_the_dreamer",
+    "text": "I know. I dreamt the calibration. We did not need to agree.",
+    "bucket": "banter",
+    "trigger": "act_2_complete",
+    "partner": "the_architect",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "the_dreamer_banter_bnt_drm_source_pulse_line0",
+    "character": "npc_the_dreamer",
+    "text": "Source. The pulse landed at the closing chord.",
+    "bucket": "banter",
+    "trigger": "track_37_completes",
+    "partner": "the_source",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "the_dreamer_banter_bnt_drm_oracle_dream_line0",
+    "character": "npc_the_dreamer",
+    "text": "Oracle. Your version pivots in dream-grammar.",
+    "bucket": "banter",
+    "trigger": "act_2_complete",
+    "partner": "oracle",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "the_dreamer_banter_bnt_drm_human_share_line0",
+    "character": "npc_the_dreamer",
+    "text": "Human. You almost remembered the dream.",
+    "bucket": "banter",
+    "trigger": "first_costly_morality_choice",
+    "partner": "human",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "the_dreamer_banter_bnt_src_drm_pair_line1",
+    "character": "npc_the_dreamer",
+    "text": "I'm with you, Source.",
+    "bucket": "banter",
+    "trigger": "loredex_entry_discovered",
+    "partner": "the_source",
+    "file": "shared/npcCompanionExtensions.ts"
+  }
+]

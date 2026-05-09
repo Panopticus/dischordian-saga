@@ -1204,6 +1204,53 @@ export const NPC_DIALOGUES: Record<NamedNpcKey, NpcArchetypeDialogues> = {
   the_resurrectionist: RESURRECTIONIST_DIALOGUES,
 };
 
+/** Walk a topic and emit every NPC line (opener + reply lines from every
+ *  choice and follow-up). The VO build script consumes this to merge
+ *  branching-dialog lines into the per-NPC manifest. Mirrors
+ *  apprenticeDialogues.topicLines so the two generators are uniform. */
+export interface NpcTopicLine {
+  npcKey: NamedNpcKey;
+  topicId: string;
+  topicKind: NpcDialogueTopicKind;
+  /** Path through the tree, for stable VO ids. */
+  path: string;
+  text: string;
+}
+
+export function npcTopicLines(topic: NpcDialogueTopic): NpcTopicLine[] {
+  const out: NpcTopicLine[] = [];
+  topic.opener.forEach((line, i) => {
+    out.push({
+      npcKey: topic.npcKey,
+      topicId: topic.id,
+      topicKind: topic.kind,
+      path: `opener_${i}`,
+      text: line,
+    });
+  });
+  const walk = (
+    choices: readonly NpcDialogueChoice[],
+    parentPath: string,
+  ): void => {
+    for (const choice of choices) {
+      choice.npcReply.forEach((line, i) => {
+        out.push({
+          npcKey: topic.npcKey,
+          topicId: topic.id,
+          topicKind: topic.kind,
+          path: `${parentPath}${choice.id}_reply_${i}`,
+          text: line,
+        });
+      });
+      if (choice.followups && choice.followups.length > 0) {
+        walk(choice.followups, `${parentPath}${choice.id}_`);
+      }
+    }
+  };
+  walk(topic.choices, "");
+  return out;
+}
+
 /** Coverage check — every NPC has all four topics, each with at least
  *  3 entry choices, ≥1 follow-up branch, and a non-empty opener. */
 export function npcDialogueCoverage(): {

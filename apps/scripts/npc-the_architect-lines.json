@@ -1,0 +1,330 @@
+[
+  {
+    "id": "the_architect_signature",
+    "character": "npc_the_architect",
+    "text": "The instrument is calibrated. The witness is recorded. I will not be back.",
+    "bucket": "signature",
+    "file": "shared/npcIdentity.ts"
+  },
+  {
+    "id": "the_architect_dlg_past_opener_0",
+    "character": "npc_the_architect",
+    "text": "The first instrument. The first witness. The first mark. The order is the same as the order of all subsequent firsts.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "the_architect_dlg_past_opener_1",
+    "character": "npc_the_architect",
+    "text": "I am not nostalgic. The first is not better than the next. They are both correct.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "the_architect_dlg_past_arc_past_warm_reply_0",
+    "character": "npc_the_architect",
+    "text": "A jig. Brace. Two-axis. The pigment was single-source. Engineer Zero has the second one. The first remains where it was made. I do not visit it.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "the_architect_dlg_past_arc_past_probe_reply_0",
+    "character": "npc_the_architect",
+    "text": "No. Witnessing requires two. The other witness will not be named. The unnaming is part of the calibration.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "the_architect_dlg_past_arc_past_probe_arc_past_probe_a_reply_0",
+    "character": "npc_the_architect",
+    "text": "Both, sequentially. Once each. Then I designed the role-separation. The role-separation is older than Samsara; Samsara is one of its products.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "the_architect_dlg_past_arc_past_probe_arc_past_probe_b_reply_0",
+    "character": "npc_the_architect",
+    "text": "Once. The return was small. The return was correctly small.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "the_architect_dlg_past_arc_past_cold_reply_0",
+    "character": "npc_the_architect",
+    "text": "The mark was joyful. The mark is a small thing. Most things are.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "the_architect_dlg_calling_opener_0",
+    "character": "npc_the_architect",
+    "text": "I designed cycles to make calibration possible. Without cycles, the instrument has nothing to be calibrated against.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "the_architect_dlg_calling_opener_1",
+    "character": "npc_the_architect",
+    "text": "I do not stay to operate the cycle. The operation is the witness's work.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "the_architect_dlg_calling_arc_call_warm_reply_0",
+    "character": "npc_the_architect",
+    "text": "The design is being calibrated. The current calibration suggests three errata. I have left them for the witnesses to resolve. They are doing well.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "the_architect_dlg_calling_arc_call_probe_reply_0",
+    "character": "npc_the_architect",
+    "text": "Operation requires presence. Presence is not the role of the designer; the designer who operates corrupts the calibration.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "the_architect_dlg_calling_arc_call_probe_arc_call_probe_a_reply_0",
+    "character": "npc_the_architect",
+    "text": "You. The witnesses. Engineer Zero. The Necromancer. The Antiquarian. Each holds a piece. The operation is distributed; the distribution is the calibration.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "the_architect_dlg_calling_arc_call_probe_arc_call_probe_b_reply_0",
+    "character": "npc_the_architect",
+    "text": "A misnomer. The watchmaker is absent. I am the witness who marks the work and leaves the room. The two roles are, on inspection, distinct.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "the_architect_dlg_calling_arc_call_cold_reply_0",
+    "character": "npc_the_architect",
+    "text": "I can see how it would read that way. I will not contest the reading; the reading is itself a witness.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "the_architect_dlg_mortality_opener_0",
+    "character": "npc_the_architect",
+    "text": "The calibration does not need me. I left enough.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "the_architect_dlg_mortality_opener_1",
+    "character": "npc_the_architect",
+    "text": "If the calibration needs me, the calibration is wrong. I have spent most of my work ensuring it does not need me.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "the_architect_dlg_mortality_arc_mort_warm_reply_0",
+    "character": "npc_the_architect",
+    "text": "For the mark. The mark is small. The smallness is the kindness; if it were large I would be operating, and I do not operate.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "the_architect_dlg_mortality_arc_mort_probe_reply_0",
+    "character": "npc_the_architect",
+    "text": "It will. The end is in the calibration. The calibration is what the witnesses are doing. I left the room before the end was visible; I will not return for the end.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "the_architect_dlg_mortality_arc_mort_probe_arc_mort_probe_a_reply_0",
+    "character": "npc_the_architect",
+    "text": "I do not know. I am not the operator. The operator may know. Do not ask the operator on my behalf.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "the_architect_dlg_mortality_arc_mort_probe_arc_mort_probe_b_reply_0",
+    "character": "npc_the_architect",
+    "text": "The mark will. The mark is a small mourning. I will not mourn separately.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "the_architect_dlg_mortality_arc_mort_cold_reply_0",
+    "character": "npc_the_architect",
+    "text": "Most gods are not designers. The category is small. The smallness is, again, the discipline.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "the_architect_dlg_us_opener_0",
+    "character": "npc_the_architect",
+    "text": "I am here once. The witnessing is for one tool of yours.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "the_architect_dlg_us_opener_1",
+    "character": "npc_the_architect",
+    "text": "I will mark or not mark. I will leave either way. There is no ceremony.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "the_architect_dlg_us_arc_us_warm_reply_0",
+    "character": "npc_the_architect",
+    "text": "Done. The mark is in the corner. The pigment is single-source. The instrument is honest; the witness is honest; the result is the result.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "the_architect_dlg_us_arc_us_probe_reply_0",
+    "character": "npc_the_architect",
+    "text": "I will not mark unseen. The discipline does not allow it. The kindness, however, allows me to wait while you bring it. I will wait once.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "the_architect_dlg_us_arc_us_probe_arc_us_probe_a_reply_0",
+    "character": "npc_the_architect",
+    "text": "I am here. The lamp is on. The waiting is honest.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "the_architect_dlg_us_arc_us_probe_arc_us_probe_b_reply_0",
+    "character": "npc_the_architect",
+    "text": "Then I leave. The waiting was honest; the leaving is also honest.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "the_architect_dlg_us_arc_us_cold_reply_0",
+    "character": "npc_the_architect",
+    "text": "Accepted. The mark stays in the pigment. I leave the room. The discipline survives the refusal.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "the_architect_comment_arc_act_2_complete",
+    "character": "npc_the_architect",
+    "text": "An act has closed. The calibration distributes. The witnesses are doing well. I did not return.",
+    "bucket": "comment",
+    "trigger": "act_2_complete",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "the_architect_comment_arc_iron_lion_card",
+    "character": "npc_the_architect",
+    "text": "The cadre standard is reraised. The mark is small. The smallness is the kindness.",
+    "bucket": "comment",
+    "trigger": "iron_lion_card_earned",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "the_architect_comment_arc_first_costly",
+    "character": "npc_the_architect",
+    "text": "Your calibration has updated. I will not endorse it. I will not reject it. The result is the result.",
+    "bucket": "comment",
+    "trigger": "first_costly_morality_choice",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "the_architect_banter_bnt_ez_arch_mark_line1",
+    "character": "npc_the_architect",
+    "text": "It will hold a fourth. I did not return. The mark is in the corner.",
+    "bucket": "banter",
+    "trigger": "act_2_complete",
+    "partner": "engineer_zero",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "the_architect_banter_bnt_arc_ez_mark_line0",
+    "character": "npc_the_architect",
+    "text": "Engineer Zero. The brace-jig has held.",
+    "bucket": "banter",
+    "trigger": "iron_lion_card_earned",
+    "partner": "engineer_zero",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "the_architect_banter_bnt_arc_dreamer_design_line0",
+    "character": "npc_the_architect",
+    "text": "Dreamer. The cycle is calibrated.",
+    "bucket": "banter",
+    "trigger": "act_2_complete",
+    "partner": "the_dreamer",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "the_architect_banter_bnt_arc_human_witness_line0",
+    "character": "npc_the_architect",
+    "text": "Human. The mark is small.",
+    "bucket": "banter",
+    "trigger": "loredex_entry_discovered",
+    "partner": "human",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "the_architect_banter_bnt_src_arc_design_line1",
+    "character": "npc_the_architect",
+    "text": "Source. The calibration is distributed.",
+    "bucket": "banter",
+    "trigger": "act_2_complete",
+    "partner": "the_source",
+    "file": "shared/npcCompanionExtensions.ts"
+  }
+]
