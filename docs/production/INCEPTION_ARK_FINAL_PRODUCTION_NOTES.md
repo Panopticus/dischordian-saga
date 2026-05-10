@@ -651,6 +651,545 @@ The four sub-agents read but did not modify anything.
 
 ---
 
-*End of working notes. Resume the production document at
+*End of original working notes. Resume the production document at
 `INCEPTION_ARK_FINAL_PRODUCTION.md` §2 once the Trade Empire is
 through Phase 4.*
+
+---
+
+# Phase 1.5 — Comprehensive scope-expansion findings
+
+The user expanded the production doc scope twice. Five Explore
+agents returned exhaustive inventories; this section captures
+their findings as the working source for downstream chapter
+authoring. Sections §9–§13 below are structured digests; full
+agent transcripts live at the task output paths recorded in
+session metadata.
+
+---
+
+## 9. TV Infection / Demon Summoning / CADES (Phase-1 Agent A)
+
+### 9.1 Thought Virus Infection
+
+**Runtime:** Per-room load 0–100 with 5 stages (clean / exposed
+/ spreading / corrupted / quarantined). `contaminatedRooms[]`
+array on InfectionState; adjacency-graph propagation on 6h
+ticks. 5 named TV residue inventory items act as collectible
+proof of contamination.
+
+**Cure paths (5):** Resonance purge, faction quarantine
+declaration, demon-pact buy-out, Antiquarian uncorruption ritual,
+Engineer reactor flush.
+
+**Visual register per stage:**
+- **Clean** — no marker.
+- **Exposed** — wisps of voidblack at vents and seams; one
+  surface shows a slow black mycelium thread (≤6 cm).
+- **Spreading** — black mycelium creeps from corners across one
+  wall ≤30%; surface texture buckles slightly; air shimmers
+  cold-violet.
+- **Corrupted** — walls breathe (subtle peristalsis); surfaces
+  buckle; pooling voidblack at floor junctions; ambient palette
+  shifts cold; biohazard-amber edge tape begins to appear at
+  doorways.
+- **Quarantined** — biohazard-yellow band fully sealing room
+  perimeter; sealed-tape Xs across exits; ambient red wash;
+  ventilation grates plugged with mycelium plugs.
+
+### 9.2 Demon Summoning / Soul Stones / Blood Weave
+
+**Hellboxes** are diegetic portals into "parts of the Matrix of
+the Dreams." Three are documented: Med Bay (Hellbox 1), Hierarchy
+Throne → Castle of Death (Hellbox 2 — new), Celebration School
+→ Artist Prince Conspiracy Board (Hellbox 3 — new). Each has a
+discovery scene + room-state appearance + opening cutscene.
+
+**Soul Stones** carry tri-state: Violet (neutral/held), Red
+(corrupted, fed to Hierarchy), Gold (purified, offered to
+Dreamer). Drop rates: Arena +1 violet; Terminus 1/5 waves; Story
+2/chapter; Secrets 1/secret (gold pre-purified); NPC trust 20s
+1 violet; Betrayals 1 red. Weekly cap 15 from combat sources;
+narrative sources uncapped.
+
+**Demon-pet alignment bands × archetypes:** 5 bands × 3
+archetypes = 15 cosmetic threads on demon-crew sprites. 10
+demon companions designed; 6 divine companions; ascended /
+spectral terminal stages on `eidolonBonds` table.
+
+**Diegetic homes (locked):**
+- Med Bay Resonance Chamber → soul-stone purification pedestal
+  beside the helix.
+- Castle of Death (Hellbox 2 pocket) → corruption summoning
+  circle.
+- Personal Quarters → favourites shelf for held stones.
+
+### 9.3 CADES
+
+**State machine:** locked → unlocked → m1_in_progress →
+m1_complete → ... → m7_complete → bridge_of_kael_post_credit.
+Async PvP via `cadesPvpMatches` table (matchId, player1Id,
+player2Id, scenarioSeed, scenarioMode = `last_stand`,
+player1Score, player2Score, winnerId, status, startedAt,
+endedAt).
+
+**Source files:** `apps/shared/actsFourFiveShells.ts:152-228`
+defines CADES_FPS_MISSIONS (7 missions).
+`apps/shared/suitAdapters/fps.ts` handles Godot postMessage
+serialization. `apps/server/routers/cadesIce.ts` mints TURN
+credentials for WebRTC.
+
+**Diegetic surface:** Bridge of Kael is canonical finale (post-
+M7 ambient state change: captain's chair empty and warm, Agent
+Zero's station vacant cleaned, Dischordia card on her console
+showing Engineer's silhouette, Elara's portrait flickers, Human
+silent). Missing: CADES violet-helmet chair console (Med Bay
+restricted section), Mission Briefing pod, Async PvP Lobby /
+spectator station, Post-Credit Shrine.
+
+**Helmet reflection content:** Per-mission, the violet helmet
+captures one image-fragment of the mission's emotional climax.
+Seven fragments visible on the helmet's interior surface after
+M7. None visible pre-M1.
+
+---
+
+## 10. Achievement / Trophy Taxonomy (Phase-1 Agent B)
+
+### 10.1 Existing trophy themes (6 — `apps/shared/trophyDisplays.ts`)
+
+Heroic, Stoic, Lyric, Ancient, Surreal, Crystalline. Each is a
+visual treatment for the trophy itself (silhouette, material,
+plinth, light source). In the new spec, these become a
+room-skin axis on Trophy Room visual-mood overlay rather than
+six pedestal themes.
+
+### 10.2 Counts
+
+- **Imprint Gallery:** 90 character-imprint frames (one per
+  shipped imprint; reserves slots for future).
+- **Essence Ledger:** 150+ Loredex essence entries; visible as
+  bound codex on a reading lectern; player favourites drive
+  which page is open.
+- **Boss Cosmetics Rack:** N mannequins (boss-mastery cosmetic
+  loadouts), scales with boss roster.
+- **Achievement Badges Rack:** modular tier banding (bronze /
+  silver / gold / platinum / diamond); accommodates current
+  ~50 achievements with reserved slots for seasonal additions.
+- **Title Wall:** engraved title plates as scrolling frieze.
+- **Prestige Tier:** top dais, prestige-class items.
+- **Legacy Tier:** boss-kill mounts and hero artefacts.
+
+### 10.3 Trophy Room scaling spec
+
+Multi-zone replacing the 10-pedestal model: Title Wall +
+Prestige Tier + Legacy Tier + Achievement Badges Rack + Imprint
+Gallery (90 frames) + Essence Ledger (150+) + Boss Cosmetics
+Rack. Six trophy themes layer as visual-mood axis (e.g., room-
+skin = Heroic makes plinths bronze; Surreal makes them
+iridescent).
+
+---
+
+## 11. Story Item Registry source data (Phase-1 Agent C)
+
+**~260 enumerated items**, **~30–40 with no diegetic home.**
+
+### 11.1 Categories and counts
+
+| category | shipped | source |
+|---|---|---|
+| Pet species | 20–30 (8 main: Flicker Imp, Spore Fungus, Void Crawler, Data Serpent, Gilt Beetle, Holo Fox, Temporal Kitten, Glyph Moth) × 4 rarity | `petSpeciesTraits.ts` |
+| Earned loadout items | 25 (5 classes × 3 species) | `earnedLoadouts.ts` |
+| CoNexus tomes | 7 shipped (Garden Under Sand, Ledger for the Unborn, Breath We Did Not Take, Calculus of the Long Table, Secondary Engineer, What Kael Kept, Room with the Open Window) | `coNexusTomes.ts` |
+| Soul stones | 3 colors × N held | `transmissions.ts` + `SOUL_STONES_SYSTEM.md` |
+| Story artefacts | 10 (burnt seer's card, torn ID tag, data-slate fragment, silver locket, unlabeled vial, DNA receipt plate, Iron Lion oath token, captain's master key, Akai Shi mercy token + soul-stone tri-state) | `cryoBayMystery.ts`, `memorableMoments.ts` |
+| Personal Quarters décor | 120+ across 12 categories × 6 zones | `personalQuarters.ts` |
+| Cosmetics | 25 (3 tiers) | `cosmeticCatalog.ts` |
+| Guild Hall décor | 30+ across 12 rooms × 5 tiers | `guildHall.ts` |
+| Transmissions | 11+ Epoch 1 episodes | `transmissions.ts` |
+| Faction standings | 5 factions × 5 bands | `factions.ts` |
+
+### 11.2 Items with NO current diegetic home (~30–40)
+
+**HIGH PRIORITY (narrative impact):**
+1. Demon & Divine Companion manifestations (10 demon, 6 divine)
+2. Soul Stone Purification Chamber pedestal (Med Bay)
+3. Castle of Death summoning circle
+4. Bloodline Plinth (Pet Garden — crew lineage)
+5. Pet Evolution Chambers
+
+**MEDIUM PRIORITY (flavor / immersion):**
+6. DNA Receipt Plates
+7. Captain's Quarters Legacy Wall (10 plates)
+8. Hierophant's marginalia stack (Antiquarian Library)
+9. Coda's purpose shelf (Antiquarian Library)
+10. Velkraal's correspondence folio (Antiquarian Library)
+11. Pazaak deck & cards
+12. Memorial Plaza fallen-crew plaques
+13. Iron Lion service tokens
+
+**LOWER PRIORITY (systems):**
+14. Crafting Schema display
+15. Broadcast Cylinders (transmission media)
+16. Faction standing badges (championed/enemied physical)
+17. Casino event tokens (Christmas in July)
+
+### 11.3 Cryo Bay artefacts (5/5 placed)
+
+Torn ID tag, data-slate fragment, silver locket, unlabeled
+vial, frosted-glass cord — all on hotspots in §2.1.
+
+---
+
+## 12. Mystery Atlas + Event-State Matrix + Subsystem Deep-Dive (Phase-1.5 Agents A/B/C)
+
+### 12.1 Mystery Atlas — 6 NPC arcs × 5 episodes = 30 episodes
+
+| arc | core mystery | rooms | episodes |
+|---|---|---|---|
+| Wraith Calder | Crystalline-City fall + Hierophant resurrection | Comms Array, Antiquarian, Cipher Den, Oracle Sanctum, Engineering Core, Station Dock | E1: Bounty file + Witness journal; E2: Substrate-N residue + cargo manifest; E3: Hierophant ceremony; E4: Continuous witnessing; E5: Prophet's true identity |
+| Jericho Jones | Iron Lion + Akai Shi killing + Thaloria | Antiquarian (card catalog), Med Bay (bio-bed), Engineering | E1: Callsign history; E2: Battle of Thaloria; E3: Pre-Fall Lionism + grip anomaly footage; E4: Legacy/succession; E5: Contract inheritance |
+| The Seer | DO-NOT-PLAY tape + VAR-1109A/B prophecy pair | Antiquarian (locked vault, marginalia stack), Engineering (reactor) | E1: DO-NOT-PLAY band + sealed letter; E2: Hierophant marginalia; E3: DEC-7710 catalog card; E4: Acoustic signature (reactor hum = recording drift = Vex's fingerprint); E5: Canon Register paradox |
+| Vex Solène | 40-year career + apprentice handover + calibration session | Engineering (reactor, schematic-pad, blueprints, egg-eng-formula), Captain's Quarters (vex-workshop-diary), Antiquarian (insurgency-witness-roster) | E1: Equipment signature; E2: Workshop letter; E3: Apprentice draft letter; E4: Tool migration map + handover documentation; E5: Scheduled calibration session (06:00 tomorrow) |
+| The Degen | Coda trusteeship + Mol'Vereth audit | Engineering (schematic-pad, blueprints), Antiquarian (codas-purpose-shelf), Captain's Quarters (degens-corner) | E1: Brokerage line #4711; E2: Quarterly routing pattern; E3: Coda Purpose Brief; E4: Treasurer's emergency note; E5: Letter to the saga + empty chair at Ne-Yon |
+| Game Master | Velkraal succession + Brel pre-read protocol | Antiquarian (velkraals-correspondence-folio), Engineering | E1–E2: Succession letter; E3: Practice edit-drafts; E4: Draft closing-edit + Brel's pre-read initials; E5: Final session protocol |
+
+**Coverage gaps:** Acts 1–2 conspiracy boards missing (Acts 3–7
+have `secret_act_N_revealed` flags). Arc-episode VO assets
+unproduced. CADES helmet narrative surface absent.
+
+### 12.2 Cryo Bay 7-hotspot tier-tree
+
+Pod Zero (4 tiers); Cracked Panel (3 tiers); Medical Chart (2
+tiers); Personal Effect (silver locket); Data-Slate (hidden);
+Frosted Glass (ID tag); Combine (torn-id + data-slate → victim
+ID + Med Bay unlock).
+
+### 12.3 Engineering 7 combine rules
+
+1. Decoder + Key → Master Decoder
+2. Schematic-Rubbing + Corrupted-Fragment → Restored Schematic
+3. Drained-Cell + Energy-Shard → Charged-Cell
+4. Basic-Medkit + Neural-Stim → Enhanced-Medkit
+5. Antenna + Amplifier → Signal-Booster
+6. Virus-Sample + Antibody → Viral-Antidote
+7. Antiquarian-Shard + Void-Crystal → Temporal-Lens
+
+### 12.4 Artist Prince Conspiracy Board
+
+LucasArts-style: 8 clue cards + 5 board connections + 1
+Mol'Garath-final connection. Located in Celebration School,
+accessed via Hellbox 3.
+
+Clues: Ghost on ramparts; Uncle blocks messenger; Banner
+glitches; Ghost names Warlord; Warlord reveals himself; Patron
+is Architect proxy; First Celebration destroyed; Prince is
+Engineer.
+
+Connections: Ghost→Ghost-speaks; Uncle-blocks→Warlord-revealed;
+Banner→Warlord; First-destroyed→Prince-is-Engineer;
+Patron→First-destroyed.
+
+### 12.5 Bloodline Witness Reports (Lyra Vox, 5 milestones)
+
+1. Dynasty Reached (Gen 3) — gestation-speed bonus 300 bp
+2. High-Fitness Birth (≥80 fitness) — mutation-favor 300 bp
+3. Founder Passed — integrity-floor 600 bp
+4. Drift Exceeded (≥60) — integrity-floor 800 bp
+5. Centenary (10 generations) — all bonuses 500 + 400 + 200 bp
+
+Authored in `lyraVoxBloodlineWitness.ts`; UI surface not
+implemented.
+
+### 12.6 LOREDEX
+
+86 character entries (entity_1–entity_101). Notable: entity_1
+The Programmer; entity_2 The Architect; entity_3 CoNexus;
+entity_7 Shadow Tongue; entity_47 Dr. Lyra Vox; entity_73 Wraith
+Calder; entity_75 Jericho Jones; entity_91 Mol'Garath.
+
+### 12.7 Event-State Matrix — 22+ systems
+
+**Shipped (14):** Seasonal Events, Faction Standing, Act
+Progression, Governance Hub Votes (40+ × 6 consequence types),
+Epoch Witness, PvP/Leaderboards, Live Events / Architect
+Console, Battle Pass, Mission Outcomes, Shadow Tongue Mysteries
+(34 modules), Prestige Cycles, Community Investigation,
+Notification Producers (44/58), Mobile Narrator.
+
+**Partial (5):** Yearly Events / Anniversary, Trade Empire
+Mission Loop, Global Light/Dark Alignment Meter, Notification
+Producers (14 missing), Mobile Narrator Adoption.
+
+**Scaffolded (3):** Soul Stones System, Pet Breeding (full
+multi-generational), Living Character Sheet.
+
+(Borderlines: Shadow Tongue Multi-Stage Art Tiers — partial; 5
+Named Cutscene Components — scaffolded.)
+
+**Top-10 "world-feels-alive" hooks (ranked):** Global Alignment
+Meter; Trade Empire Mission Loop; Prestige Cycle visual variants
+per room; Battle Pass theme per-room overlay; Investigation tier
+art variants; Faction-driven NPC presence + room livery;
+Seasonal cosmetic overlays; Governance vote consequence visible
+immediately; Companion trust cosmetics in rooms; Vortex
+proximity sector-state rendering.
+
+### 12.8 Subsystem Deep-Dive — state machines
+
+#### Cloning / Resurrection
+States: idle → open_resurrection_quest → completed_path_a →
+path_a_resolved (+ implicit path_b). Per-NPC `cloneDegradation`
+(1 = echo-cost, 2 = true permadeath). Source:
+`apps/server/routers/resurrection.ts`,
+`apps/shared/resurrectionProtocols.ts`,
+`npcWorldDeathState.ts`. Diegetic gaps: Cryo Console with pod
+states + degradation meter, Resurrection Protocol Interface,
+Echo Cost (samsara echo glow).
+
+#### Pet Breeding (MVP)
+States: queued → incubating → ready → claimed/cancelled. Source:
+`apps/server/routers/petBreeding.ts`, DB
+`petBreedingPairs:7387`. 7 elements (air/earth/fire/water/time/
+space/probability) × 4 rarity tiers (common 0–40, uncommon
+40–65, rare 65–90, epic 90+). Diegetic gaps: Incubation Chambers
+(queued/incubating/ready pod-color states); Genealogy Tree;
+Specimen Hatchery rarity-aura variants.
+
+#### Pet Garden / Pet Arena
+Lifecycle: egg → hatched → growth → evolution_ready → evolved →
+battle_ready → injured → retired/deceased. 7 species × 4–7
+evolution stages × 5 bond tiers × 3 activity states = ~1,000+
+visual combinations. Diegetic gaps: Sanctuary, Medical Annex,
+Arena Viewing Gallery, Breeding Wing, Retirement Shrine.
+
+#### CADES (FPS, 7 missions + post-credit)
+Source: `apps/shared/actsFourFiveShells.ts:152-228`,
+`apps/shared/suitAdapters/fps.ts`,
+`apps/server/routers/cadesIce.ts`. Async PvP via
+`cadesPvpMatches`. Diegetic gaps: CADES Console with mission
+progress + Iron Lion helmet hologram; Mission Briefing pod;
+Async PvP Lobby; Post-Credit Shrine.
+
+#### Tower Defense
+Source: `apps/server/routers/towerDefense.ts` + `apps/shared/
+towerDefense.ts`. DB: `towerPlacements`, `raidLogs`,
+`raidTrophies`, `dailyStreaks`, `defenseWaves`, `tdLiveSieges`.
+20+ tower types (laser_turret, missile_launcher, barrier_wall,
+healing_pylon, artillery_cannon, tesla_coil, oracle_spire,
+shadow_trap …). 16 leagues (bronze_1 → legend). **Zero Ark
+surface today.** Diegetic gaps: Defense Command Center; Trophy
+Armory; Tower Assembly Bay.
+
+#### Chess
+Source: `apps/server/routers/chess.ts`, `chessClimb.ts`,
+`chessPuzzle.ts`, `chessSideGate.ts`. DB: `chessGames`,
+`chessRankings`, `chessTournaments`, `chessPuzzleProgress`,
+`chessTutorialProgress`. 9+ character play-styles (Architect
++200 ELO bonus, Enigma +100, Oracle, Collector, Warlord …).
+365 daily puzzles. **Zero Ark surface today.** Diegetic gaps:
+Chess Hall, Grand Master's Sanctum, Puzzle Study Chamber, Casino
+Gaming Floor.
+
+#### Trade Empire (light touch — owned by parallel agent)
+Source: `apps/server/routers/tradeEmpire.ts`. DB: 6 normalized
+tables. Diegetic gaps: Trade Command Center / Merchant's Hall,
+Cover Identity Board, Cargo Manifest, Broker's Office.
+
+#### Governance Hub Votes
+States: open → in_progress → closed → outcome_announced →
+consequence_applied. 4 annual headlines + monthly/seasonal +
+365 daily resource votes. 6 consequence types: `set_flag`,
+`energy_delta`, `tome_entry`, `world_modifier`, `unlock`,
+`faction_delta`. Diegetic gaps: Governance Chamber / Council
+Conclave; Daily Resource Allocation Board (24h countdown);
+Faction Succession Monument; Oracle's Sanctum.
+
+#### Epoch Witness
+States: locked → unlocked → cast → tallied → consequence_applied.
+5 epochs (Privacy, Prophecy, Insurgency, Revelation, Fall of
+Reality). 7 archetype gates (WATCHER/INVENTOR/ADVOCATE/SEER/
+PROGRAMMER/POLITICIAN/WITNESS). Cumulative `shadowTonguePower`
+0–100 + `grandEditActive`. **Zero Ark surface today.** Diegetic
+gaps: Epoch Witness Conclave; Shadow Tongue Uncorruption Bench
+/ Cipher-Den; Nexus Point Sanctum; Community Prophecy Wall.
+
+#### Soul Stones / Eidolon Bond (bonus 10th subsystem)
+Eidolon stages: fragment → companion → ascended → spectral.
+Router: `soulStonesRouter`. DB: `eidolonBonds`. Diegetic gap:
+Eidolon Sanctum / Bond Chamber. (Soul Stones purification/
+corruption economy itself remains scaffolded.)
+
+---
+
+## 13. HUD/UX/UI Inventory + Expansion Hooks + Storyteller Slots (Phase-1.5 Agents D/E)
+
+### 13.1 HUD/UX/UI inventory
+
+**60+ surfaces across 12 categories.** Aggregate: Void-Energy
+adoption ~45%; framer-motion coverage ~50%; audio coverage
+~15%; accessibility readiness ~25%; mobile haptic unification
+0%.
+
+#### Components missing entirely (11)
+
+Friends List, Chat, Party Invite, PvP Matchmaking Lobby, Replay
+Scrubber, Loadout Switcher, Unified Resource Counter, Unified
+Loredex Viewer, Unified Transmission Video Player, Live-Event
+GM Overlay, Audio-Cue Deaf-Mode visual indicators.
+
+#### Top-15 AAA-polish opportunities
+
+1. Morality Meter tier-up celebration
+2. Hand Fan card juice + audio
+3. Match Summary win/loss fanfare
+4. Loading / Route Transition contextual messaging + parallax
+5. Combat Board audio design pass
+6. Toast / Notification design + audio per type
+7. Achievement Unlock toast confetti + category color + sound
+8. Dialogue Box speaker audio stinger + portrait entrance
+9. Resource Counter unified design system
+10. Health / Shield smooth animation + damage-number scale
+11. Replay Scrubber component (build new)
+12. Chess Clock tension audio
+13. Ark Map room-icon animations + entry parallax
+14. Choice Menu consequence preview + branch color coding
+15. Loading flourish + completion chime
+
+#### Surface category file pointers
+
+A. Persistent Chrome — `AppShell.tsx`, `MoralityMeter.tsx`,
+`NotificationBell.tsx` + sonner, `LoadingStates.tsx`,
+`PageLoader.tsx`, `RoomTransition.tsx`,
+`ReconnectingOverlay.tsx`, `AchievementUnlockToast.tsx`,
+`VoiceWhisper.tsx`, `VoCaption.tsx`.
+B. Player Identity — `AnimatedPortrait.tsx`,
+`PaperDollRenderer.tsx`, `SpriteCharacter.tsx`, `Progress.tsx`,
+`CharacterAuraOverlay.tsx`, `ShaderOverlay.tsx`.
+C. Combat / Card-Duel — `DuelystGameUI.tsx` (2043 lines),
+`BoardRenderer.tsx`, `MatchSummary.tsx`, `DeckBuilder.tsx`,
+`PackOpening.tsx`, `WarlordCountdownIndicator.tsx`.
+D. Narrative — `CinematicDialogOverlay.tsx`,
+`ElaraDialogBox.tsx`, `ChoicePanel.tsx`,
+`Act1ClosingChoicePanel.tsx`, `TransmissionDisplay.tsx`,
+`CoNexusMediaPlayer.tsx`, `AwakeningJournalEntry.tsx`,
+`CodexPage.tsx`, `ClueJournal.tsx`, `LoreJournalPage.tsx`,
+`OpeningCinematic.tsx`.
+E. Navigation / Room — `ShipSchematicMap.tsx`,
+`ArkFastTravelModal.tsx`, `ArkOrientation.tsx`,
+`ArrivalCinematicRenderer.tsx`, `PointAndClickScene.tsx`,
+`CADESClueBoard.tsx`, `CADESFeed.tsx`, `QuestTracker.tsx`,
+`PetQuestTracker.tsx`.
+F. Inventory / Collection — `CardBrowserPage.tsx`,
+`CardGalleryPage.tsx`, `CollectionView.tsx`,
+`CosmeticShopPage.tsx`, `StorePage.tsx`, `PetRoster.tsx`,
+`PetGardenPage.tsx`, `SoulStonesPanel.tsx`, `TrophyRoom.tsx`.
+G. Multiplayer / Social — `GuildPage.tsx`,
+`CrewRosterView.tsx`, `FactionWarEventBanner.tsx`,
+`SeasonalEventsPage.tsx`, `LeaderboardPage.tsx`,
+`FightLeaderboardPage.tsx`, `SpectatorPage.tsx`.
+H. Meta / Admin — `SettingsPage.tsx`,
+`SettingsSearchModal.tsx`, `ArchitectConsolePage.tsx`,
+`ArchitectDossierPage.tsx`, `BattlePassPage.tsx`,
+`GovernanceHubPage.tsx`, `a11y.tsx`.
+I. Mini-Games — `ChessBoard.tsx`, `ChessPieces.tsx`,
+`ChessSessionBanner.tsx`, `ChessPostGameReview.tsx`,
+`LockeConfidentialLedgerPanel.tsx`.
+J. Mobile-Specific — `GestureTutorial.tsx`.
+K. Audio — (no dedicated player UI today).
+L. Accessibility — `a11y.tsx` (`ScreenReaderOnly` utility).
+
+### 13.2 Expansion Hooks (15 systems)
+
+1. Card system — `unlockCondition` discriminated union
+   (`act_completion`/`secret`/`battle_pass`/`founding_author`/
+   `authors_edition`); Acts 5–7 reserved.
+2. Expansion-art manifests — `apps/shared/expansionArt/` +
+   `assetUrl()` resolver.
+3. Room-tier progression — `apps/shared/roomTier.ts` (4 rooms
+   tiered today; 23 default to tier 0).
+4. Room-mystery scaffolding —
+   `apps/shared/roomMysteries/_template.ts`.
+5. Transmission/broadcast extensibility — `transmissions.ts`
+   trigger schema + `broadcastLibrary.ts` 30 voice interrupts.
+6. NPC dialogue trees — 7 canonical NPCs with trust gates
+   (0/20/40/60/80/100+).
+7. Companion arc / romance ladder — `romanceLadders.ts` 5-stage
+   gates.
+8. Loredex bidirectional discovery —
+   `apps/client/src/data/loredex-data.json` (113 character +
+   109 concept) + `loredexGraph.ts`.
+9. Apprentice / crew tick — `crewTick.ts` 1d IRL = 1mo in-game.
+10. Battle pass tier system — `battlePassConfig.ts`.
+11. Reserved card IDs — `reservedCards.ts`.
+12. Narrative-flag registry — `GameContext.narrativeFlags`
+    (`<roomId>_<event>` convention).
+13. Chat / VO interrupt registry — `broadcastLibrary.ts` pure
+    data.
+14. Prestige cycle / seasonal drops — `prestige.ts` +
+    `dischordiaCycle.ts`.
+15. Pet evolution stages — 3-stage card variants
+    (`s1_pack_pet_<species>_<stage>`).
+
+### 13.3 Storyteller Slots (8 categories — no-code authoring)
+
+1. Transmission scripts (JSON: title, intro/outro, synopsis,
+   `relatedLoredexEntries`)
+2. Loredex marginalia / annotations (JSON; Shadow Tongue
+   indigo overlay)
+3. Room-inscription / plaque text (hotspot JSON: name,
+   description, elaraDialog)
+4. NPC dialogue trees (JSON; trust-gated scenes)
+5. Transmission ↔ Loredex unlocks (`relatedLoredexEntries`)
+6. Clue Journal entries (room mystery JSON)
+7. Loading-screen tips / quotes / epigraphs (no central system
+   yet; designed)
+8. Achievement flavor text (JSON definitions)
+
+### 13.4 Per-room narrative-seed catalogue (highlights)
+
+Agent E authored 2–4 narrative hooks + 1–2 expansion-reserved
+zones + 1 living-world detail per room across 33 rooms. Selected
+seeds (full set to be reproduced verbatim into the production
+doc's §11 Living-World Slow-Tick Catalogue):
+
+- **Cryo Bay**: Silent Archives chronometer cycling timestamps;
+  Last Message scratched behind sealed pod ("don't go to the
+  Bridge"); Void Echo particles in Pod Zero fluid; reserved Bay
+  7 draped in canvas. Living-world: 24h defrost cycle; every
+  7th day, one pod stutters.
+- **Medical Bay**: Vox Neural Bridge journal expansion across
+  tiers; Cure Notes for Patient X; Healer's Final Log; Unlabeled
+  Vial growing colder/darker monthly. Living-world: bio-bed
+  vital-signs cycle showing flatlines from old patients every
+  4th cycle.
+- **Bridge**: Ghost Commander's Shift Log; Consensus Breaking
+  Point (Conspiracy Board flickers 43↔44 connections); War
+  Table Phantom Move (1 move per IRL day); Navigation to Nowhere
+  ("Sanctuary" vector). Living-world: new Conspiracy Board
+  connection every 72h.
+- **Engineering**: Incomplete Engine Schematic (final 8%
+  deleted); Counting Tally on wall (Human's day-count
+  incrementing daily); Engineer's Tool Set with one tool
+  missing; substrate-integrity heartbeat alert. Living-world:
+  10-min crafting sound-loop (whirr/ping/hiss).
+- **Comms Array**: Queue of Lost Signals (centuries-spanning);
+  Frequency Wall (52.7 MHz pure sine = Human's substrate);
+  Interrupted Conversation; Silence Beacon (24h pulse).
+  Living-world: hourly ambient chatter; every 7h one phrase
+  clear.
+- **Captain's Quarters**: Ghost Commander's reassignment log;
+  master-key reveal flow; 10-plate Legacy Wall slot system.
+- **Trophy Room**: Ghost Trophy (achievement = unknown);
+  Unreachable Trophy (Act 4 prestige); Fallen Heroes Wall;
+  Inscription Challenge (player's legacy plaque).
+
+(Full per-room seed catalogue continues in Agent E's report;
+reproduce into §11 when authoring that chapter.)
+
+---
+
+*End of Phase 1.5 working notes. The production document
+chapters §3 onward distill from these notes; do not duplicate
+prose between this file and the published doc.*
