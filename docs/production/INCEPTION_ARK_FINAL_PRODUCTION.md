@@ -8146,3 +8146,258 @@ Room-skin axis (6 themes) reads from
 
 ---
 
+## 5. Mystery Atlas
+
+The 6 canonical NPC mystery arcs × 5 episodes each = 30
+episodes drive the densest narrative content in the
+production doc. Each arc's clues are distributed across
+3–5 rooms with multi-tier hotspot escalation. This chapter
+catalogues per-arc, per-episode the hotspot location +
+runtime flag + prompt fragment, plus the standalone Cryo
+Bay 7-hotspot tier-tree, the Engineering 7 combine-rule
+workbench, the Artist Prince Conspiracy Board, and
+Bloodline Witness Reports. Distilled from NOTES §12.1
+through §12.6.
+
+### 5.1 The 6 NPC mystery arcs (30 episodes)
+
+Each arc resolves a single character thesis. Episodes are
+unlockable in sequence (E1 must be solved before E2
+becomes hotspot-available). The final episode (E5) for
+each arc is gate-restricted by trust-`<NPC>` ≥ 80 plus
+ShadowTongue-power ≥ 60 (so high-power state reveals the
+arc's full canon). Per-arc, per-episode references the
+clue's manifest room + hotspot verb + prompt fragment.
+
+#### 5.1.1 Wraith Calder arc — Crystalline-City fall + Hierophant resurrection
+
+| ep | clue | room + hotspot | runtime flag | prompt fragment |
+|---|---|---|---|---|
+| E1 | Bounty file | Comms Array — broadcast cylinder | `wraith_arc_e1_bounty_collected` | *the bounty file's redacted layer is visible only when the broadcast screen pulses blue* |
+| E1 | Witness journal (Antiquarian ep1-15) | Antiquarian Library — long-reading-table | `wraith_arc_e1_journal_read` | *a single bound brass volume open to the chronicle's middle pages, pages weighted with brass scribe-stones* |
+| E2 | Substrate-N residue | Engineering Core — central forge plinth | `wraith_arc_e2_residue_analysed` | *a small brass-rimmed sample dish on the forge plinth holds a single drop of black-shifting residue* |
+| E2 | Antiquarian marginalia | Antiquarian Library — Hierophant marginalia stack | `wraith_arc_e2_marginalia_read` | *the marginalia stack's topmost annotation is in fresh indigo ink, dated three days ago* |
+| E2 | New Babylon customs manifest #4471 | Antiquarian Library — locked vault | `wraith_arc_e2_manifest_recovered` | *a single folded folio lies in the vault's brass tray, sealed with a New Babylon customs stamp in cracked wax* |
+| E3 | Hierophant ceremony | Hierarchy Throne Sanctum — throne (sit) | `wraith_arc_e3_ceremony_witnessed` | *one of the seven ouroboros alcoves is dim — the alcove that should hold the Hierophant's sigil is empty* |
+| E3 | Resurrection protocols | Antiquarian Library — locked vault | `wraith_arc_e3_protocols_recovered` | *a thin brass-bound sheaf in the vault's rear, three pages of script in a hand that is not the Antiquarian's* |
+| E4 | Continuous witnessing | Cipher Den — uncorruption bench | `wraith_arc_e4_witnessing_traced` | *the bench's rear parchment shows the same indigo stamp as the Antiquarian's marginalia, dated centuries earlier* |
+| E5 | Prophet's true identity | Antiquarian Library — Antiquarian's bust (use, gift violet stone, trust=100) | `wraith_arc_e5_prophet_revealed` | *the bust's brass eyes catch the candle-light at a different angle, revealing a scratch beneath one orbit* |
+
+#### 5.1.2 Jericho Jones arc — Iron Lion + Akai Shi killing + Thaloria
+
+| ep | clue | room + hotspot | runtime flag | prompt fragment |
+|---|---|---|---|---|
+| E1 | Callsign history card | Antiquarian Library — card catalog | `jericho_arc_e1_callsign_traced` | *a single card in the catalog drawer carries the Iron Lion sigil over a four-name lineage chain* |
+| E1 | Iron Lion imprint protocol | Engineering Bay — instruction manual page 1 | `jericho_arc_e1_imprint_read` | *the manual's first page bears Lyra Vox's hand-pencilled note: "Step 1: Don't let it get stolen"* |
+| E2 | Battle of Thaloria archon log | Antiquarian Library — card catalog (use) | `jericho_arc_e2_thaloria_read` | *a thicker brass-bound dossier card, the lower edge faintly marked by Antiquarian's index finger* |
+| E2 | Akai Shi mercy token | Armory — low shelf | `akai_shi_mercy_recalled` | *a small obsidian-and-brass token rests on the low shelf, faintly warm to the touch — Akai Shi's last gift* |
+| E3 | Pre-Fall Lionism code | Engineering Bay — instruction manual (use, tier 3) | `jericho_arc_e3_lionism_read` | *the manual's middle pages reveal pre-Fall handwriting in the same alloy-brass ink as the modern annotations* |
+| E3 | Grip anomaly footage | Medical Bay — bio-bed (autoplay tier 2) | `jericho_arc_e3_grip_witnessed` | *the bio-bed's display loops a 2-s clip of an involuntary imprint-protocol grip-switch on a hand we cannot see* |
+| E4 | Iron Lion oath token | Armory — rack centre, post-`jericho_oath_taken` | `iron_lion_oath_taken` | *a brass token forged in the shape of a lion's open mouth, sat in the rack's centre slot under glass* |
+| E4 | Legacy / succession ledger | Antiquarian Library — Antiquarian's bust (talk, tier 2) | `jericho_arc_e4_legacy_read` | *the bust manifests one journal entry on the chronicle's open page; the entry's signature is Jericho's* |
+| E5 | Contract inheritance scroll | Antiquarian Library — locked vault, post-trust-100 | `jericho_arc_e5_inheritance_revealed` | *a sealed scroll in the vault's lowest drawer, the seal still warm — broken only just now by the Antiquarian himself* |
+
+#### 5.1.3 The Seer arc — DO-NOT-PLAY tape + VAR-1109A/B prophecy pair
+
+| ep | clue | room + hotspot | runtime flag | prompt fragment |
+|---|---|---|---|---|
+| E1 | DO-NOT-PLAY band tape | Antiquarian Library — locked vault | `seer_arc_e1_band_observed` | *a single black-banded reel in the vault's brass cradle; the band is older than the tape itself, replaced by every reader* |
+| E1 | Seer's sealed letter to Vex | Antiquarian Library — locked vault | `seer_arc_e1_letter_recovered` | *an unopened envelope addressed in Vex Solène's handwriting — to herself* |
+| E2 | Hierophant marginalia VAR-1109A/B | Antiquarian Library — Hierophant marginalia stack | `seer_arc_e2_prophecy_pair_read` | *two adjacent annotations form a load-bearing pair, the lines of one citing the other in brass ink* |
+| E3 | DEC-7710 catalog card | Antiquarian Library — card catalog | `seer_arc_e3_session_traced` | *a single card with a pre-printed date 70+ years ago and a Seer-pencil notation: "last consultation"* |
+| E3 | Wraith's pre-rite journal flag | Antiquarian Library — Antiquarian's bust (look, tier 1) | `seer_arc_e3_pre_rite_read` | *the bust's plinth carries a small brass plaque: "Pre-rite witness, Wraith Calder, dated for [DEC-7710]"* |
+| E4 | Acoustic signature on reactor | Engineering Bay — reactor-core | `seer_arc_e4_acoustic_traced` | *the reactor's standing-pulse hum carries a faint sub-harmonic that matches the recordings' carrier-wave drift* |
+| E4 | Equipment signature fingerprint | Engineering Bay — reactor-core (talk, tier 2) | `seer_arc_e4_equipment_traced` | *the engineer's calibration plate bears Vex Solène's micro-stamp — every reactor-tuning across 40 years* |
+| E5 | Canon Register paradox | Antiquarian Library — Antiquarian's chronicle | `seer_arc_e5_paradox_resolved` | *a single page in the chronicle is two pages — one written, one blank — placed in superposition by intent* |
+| E5 | Seer's letter to Vex (delivered) | Antiquarian Library — long-reading-table | `seer_arc_e5_letter_delivered` | *the previously-sealed letter sits open on the reading table, the seal broken only now* |
+
+#### 5.1.4 Vex Solène arc — 40-year career + apprentice handover + calibration session
+
+| ep | clue | room + hotspot | runtime flag | prompt fragment |
+|---|---|---|---|---|
+| E1 | Equipment signature on reactor | Engineering Bay — reactor-core | `vex_arc_e1_signature_traced` | *the reactor's standing pulse carries Vex Solène's calibration micro-stamp visible only at trust ≥40* |
+| E2 | Workshop-letter (undelivered) | Engineering Bay — reactor-core (use) | `vex_arc_e2_workshop_letter_read` | *a brass-bound letter rolled into the reactor's coolant-line, never sent — addressed "to the workshop"* |
+| E2 | Insurgency-witness-roster (40 years) | Antiquarian Library — long-reading-table | `vex_arc_e2_witness_counted` | *a brass-cased ledger holds 19 names across 40 years of insurgency-witness invitations* |
+| E3 | Apprentice's unsent letter | Engineering Bay — egg-eng-formula | `vex_arc_e3_apprentice_letter_read` | *behind the formula etching, a folded paper draft — the apprentice has waited two years for permission to send* |
+| E3 | Ψ-null formula (door to nowhere) | Engineering Bay — egg-eng-formula | `vex_arc_e3_formula_decoded` | *a Ψ-null formula etched into the reactor housing in a hand that is half Vex's and half a stranger's* |
+| E4 | Tool migration map | Engineering Bay — instruction manual appendix | `vex_arc_e4_migration_traced` | *a hand-drawn 6-month tool-migration map, every transfer dated, every transfer signed by both Vex and the apprentice* |
+| E4 | Workshop diary (40 years) | Captain's Quarters — vex-workshop-diary | `vex_arc_e4_diary_read` | *a brass-bound diary on Lyra Vox's shelf, opened to today's entry — the apprentice's name is in the margin* |
+| E5 | Scheduled session card | Engineering Bay — schematic-pad | `vex_arc_e5_session_scheduled` | *a brass card on the schematic pad announces a calibration session at 06:00 tomorrow, both signatures present* |
+| E5 | Original rig decommissioned | Engineering Bay — instruction manual (use, tier 3) | `vex_arc_e5_rig_decommissioned` | *the manual's last page bears a single line: "Original rig decommissioned. Successor approved. With witness."* |
+
+#### 5.1.5 The Degen arc — Coda trusteeship + Mol'Vereth audit
+
+| ep | clue | room + hotspot | runtime flag | prompt fragment |
+|---|---|---|---|---|
+| E1 | Brokerage line #4711 | Engineering Bay — schematic-pad (look) | `degen_arc_e1_brokerage_traced` | *the schematic pad's centre carries one over-bright line in warm-gold (line #4711) — the Degen's first record* |
+| E1 | Mol'Vereth's visiting card | Engineering Bay — schematic-pad binding | `degen_arc_e1_card_recovered` | *pressed into the schematic-pad's binding, a small brass calling card — Mol'Vereth's seal* |
+| E2 | Quarterly routing pattern | Engineering Bay — blueprints (use) | `degen_arc_e2_pattern_traced` | *a foolscap scribble behind the unsigned blueprint, sketching a quarterly routing rhythm — by Hierarchy convention, discoverable on purpose* |
+| E2 | Degen's Battle of Thaloria witness page | Antiquarian Library — long-reading-table | `degen_arc_e2_thaloria_witnessed` | *a witness page among the chronicle's middle pages: the Degen's testimony at Thaloria* |
+| E3 | Coda Purpose Brief (6 pages) | Antiquarian Library — Coda's purpose shelf | `degen_arc_e3_brief_read` | *a six-page brass-bound brief on the rear-left bookcase: "four tests for trustee replacement"* |
+| E3 | Audit-scope letter | Antiquarian Library — Coda's purpose shelf | `degen_arc_e3_scope_read` | *a single-page letter folded into the Brief, sealed only by procedural intent — testing failure-modes, not outcomes* |
+| E4 | Treasurer's emergency note | Antiquarian Library — Coda's purpose shelf (use) | `degen_arc_e4_warning_read` | *a 3-day-prior warning, courtesy unusual under bylaws — slipped between Brief pages* |
+| E4 | Audit-prep rehearsal note | Captain's Quarters — Degen's Corner | `degen_arc_e4_rehearsal_observed` | *a 3-column note on the Captain's small desk: brokerage-side / trustee-side / Coda-side* |
+| E5 | Letter to the saga (sealed) | Antiquarian Library — Coda's purpose shelf (talk) | `degen_arc_e5_letter_sealed` | *a small sealed letter under the Brief — addressed to "whoever is left at the table when the audit closes"* |
+| E5 | Empty chair at Ne-Yon | Captain's Quarters — Degen's Corner (use) | `degen_arc_e5_chair_empty` | *the Captain's small dining-station shows one chair pulled out and unfilled — reserved for the audit's outcome* |
+
+#### 5.1.6 Game Master arc — Velkraal succession + Brel pre-read protocol
+
+| ep | clue | room + hotspot | runtime flag | prompt fragment |
+|---|---|---|---|---|
+| E2 | Velkraal's posthumous letter | Antiquarian Library — Velkraal's correspondence folio | `gm_arc_e2_letter_read` | *a single brass-bound letter at the folio's top — names Brel'Sorrash as successor, requests quiet ratification* |
+| E3 | Brel's practice edit-drafts | Engineering Bay — blueprints (talk) | `gm_arc_e3_drafts_observed` | *a stack of practice drafts behind the blueprint rack — every draft signed "read it, do not edit it"* |
+| E4 | Velkraal's hand-written closing-edit | Antiquarian Library — Velkraal's correspondence folio (use) | `gm_arc_e4_closing_read` | *the folio's last page carries a single-line postscript: "read it, do not edit it" — the protocol-shift in writing* |
+| E4 | Brel's pre-read initials | Antiquarian Library — Velkraal's correspondence folio (talk) | `gm_arc_e4_initials_observed` | *the closing-edit's margin shows Brel's pre-read initials — the protocol installed before the final session* |
+| E5 | Final session protocol document | Engineering Bay — schematic-pad (talk) | `gm_arc_e5_protocol_observed` | *the schematic pad's brass tray holds a single new document — Brel's first observation under the new protocol* |
+
+### 5.2 Cryo Bay 7-hotspot tier-tree
+
+Per NOTES §12.2. Cryo Bay's investigation is the densest
+single-room mystery in the doc. Each hotspot has multi-
+tier escalation; later tiers gate later flags.
+
+| hotspot | tiers | flags by tier |
+|---|---|---|
+| **Pod Zero (dead pod)** | 4 (pod-breathing → Shadow Tongue named → detective confirms → Hitchhiker beat) | tier 1: `pod_0_breathing`; tier 2: `shadow_tongue_named`; tier 3: detective confirms; tier 4: Elara notices stalling |
+| **Cracked Panel** | 3 (practiced cut → tape unwatchable → Editor-resistant) | tier 1: cut practiced; tier 2: surveillance unwatchable; tier 3: editor-resistant |
+| **Medical Chart** | 2 (redacted → Ψ-watermark identifies Lyra Vox) | tier 1: chart redacted; tier 2: `vox_named_in_cryo` |
+| **Personal Effect (silver locket)** | 1 | `locket_opened` (body text scratched deliberately) |
+| **Data-Slate (under pod)** | 1 | `cryo_data_slate_collected` |
+| **Frosted Glass cord** | 1 | `cryo_torn_id_collected` (ID tag deliberately stolen) |
+| **Combine: torn-id + data-slate** | 1 (terminal) | `cryo_mystery_victim_identified` AND Med Bay bulkhead unlock |
+
+### 5.3 Engineering 7 combine-rule workbench
+
+Per NOTES §12.3. Each combine recipe surfaces at the
+Engineering crafting bench. See §3.5.6 for the full
+ingredient → output → pickup-room table. The 7 outputs each
+hold a runtime flag (`engineering_<output>_built`).
+
+### 5.4 Artist Prince Conspiracy Board (LucasArts-style)
+
+Per NOTES §12.4. Located in Celebration School, accessed
+via Hellbox 3 (per §3.12.3). The board is a dedicated
+LucasArts-style 8-clue + 5-connection layout with one
+final Mol'Garath connection that fires the Act-6 trap.
+
+#### 5.4.1 The 8 clue cards
+
+| # | clue | acquisition condition |
+|---|---|---|
+| 1 | **Ghost on ramparts** | Bernardo + Malkia witness scene |
+| 2 | **Uncle blocks messenger** | tampering with Lady Malkia |
+| 3 | **Banner glitches** | propaganda layer visible (Shadow Tongue evidence) |
+| 4 | **Ghost names Warlord** | direct testimony from departed |
+| 5 | **Warlord reveals himself** | nanobot swarm visible (confession of authorship) |
+| 6 | **Patron is Architect proxy** | cross-school seam (Mechronis → Celebration) |
+| 7 | **First Celebration destroyed** | reconstruction is second; Mascoteers preserved |
+| 8 | **Prince is Engineer** | two boys at 13 fixing clock; same words in Engineer Recording 3 |
+
+#### 5.4.2 The 5 board connections (string-pinning)
+
+| connection | links | meaning |
+|---|---|---|
+| Ghost ↔ Ghost-speaks | 1 → 4 | both sightings are the same ghost |
+| Uncle-blocks ↔ Warlord-revealed | 2 → 5 | same actor |
+| Banner ↔ Warlord | 3 → 5 | propaganda layer is Warlord's medium |
+| First-destroyed ↔ Prince-is-Engineer | 7 → 8 | Engineer survived, grew up, built the bench |
+| Patron ↔ First-destroyed | 6 → 7 | Architect watched first Celebration die |
+
+#### 5.4.3 Mol'Garath's final connection (Act 6 trap)
+
+A 6th connection is gated by audience-with-Mol'Garath
+unlock. When all 8 clues + 5 connections are pinned, the
+audience is offered. The 6th connection fires
+`mol_garath_audience_completed` and triggers the Act-6
+trap cinematic.
+
+#### 5.4.4 Board completion math
+
+50% clues (4/8) + 50% connections (3/5) → audience
+unlocks. Below threshold, Mol'Garath silhouette is
+visible at the easel base but does not engage; above
+threshold, the silhouette steps forward.
+
+### 5.5 Bloodline Witness Reports (Lyra Vox, 5 milestones)
+
+Per §3.5.13. Detailed in NOTES §12.5. Each milestone
+fires a Lyra Vox VO line at the Bloodline Plinth (Pet
+Garden centre, per §3.10.4) and writes a witness-report
+plate into the Plinth's lower brass drawer (filed reports
+visible as folded brass plates).
+
+### 5.6 LOREDEX entry catalogue (86 character entries)
+
+Per NOTES §12.6. Source:
+`apps/client/src/data/loredex-data.json`. 86 character
+entries indexed `entity_1` through `entity_101`.
+Notable narratively-load-bearing entries:
+
+| entity_id | canonical name | act first introduced | manifest |
+|---|---|---|---|
+| 1 | The Programmer | Prelude | Loredex + transmission credits |
+| 2 | The Architect | Act 2 | Loredex (gated) |
+| 3 | CoNexus | Act 1 | Loredex (always available) |
+| 4 | The Watcher | Act 3 | Loredex (gated) |
+| 7 | Shadow Tongue | Act 2 | Loredex (gated by power level) |
+| 47 | Dr. Lyra Vox | Prelude / Act 1 | Loredex + Bloodline Plinth + Mess Hall silhouette |
+| 73 | Wraith Calder | Act 1 | Loredex + Wraith arc |
+| 75 | Jericho Jones | Act 2 | Loredex + Jericho arc + Iron Lion oath |
+| 91 | Mol'Garath | Act 3 | Loredex (gated) + Hellbox 3 trap |
+
+The remaining 77 character entries plus 109 concept
+entries are catalogued in the source JSON; the production
+doc references them by entity_id for cross-reference.
+
+### 5.7 Mystery Engine infrastructure (no current art)
+
+Per NOTES §12.1 closing. Items where lore design exists
+but per-room visualisation does not yet:
+
+- **Acts 1–2 Conspiracy Boards** — framework exists; Acts
+  3–7 ship with `secret_act_<N>_revealed` flags but Acts
+  1–2 are dark
+- **Arc-episode VO assets** — all clues / deductions /
+  choices are authored; voice manifest keys exist; VO
+  audio not produced
+- **CADES helmet narrative surface** — image-fragments
+  spec'd in §3.5.14 / §2.47 but per-mission dialogue
+  lines are storyteller-author surface, unbuilt
+- **Class-sanctum mysteries** — minimal (mostly cosmetic
+  flags); spec'd inline per §2.17–§2.21
+
+These are tracked in §3.5.17 (no-diegetic-home gap
+registry).
+
+### 5.8 Vote-spawned mysteries (1-episode interludes)
+
+Per NOTES §12.1 final block. When a community-vote loses,
+the losing option's "what if" thread surfaces as a
+1-episode interlude. Template `TEMPLATE_VOTE_RESOLUTION_
+SHORT`:
+
+- 1 episode, 2 clues, 1 deduction, 2 choices
+- Locations: Antiquarian Library (tally record) + Comms
+  Array (path taken)
+- Choices: Accept outcome (compliant weight) vs Contest
+  closing (skeptical weight)
+- Loredex unlock: `event_vote_<voteId>_closed`
+
+### 5.9 Mystery Atlas runtime contract
+
+Mystery state lives in `narrativeFlags` (per-arc, per-
+episode flag tuples) plus `mysteryService.ts` for arc
+progression. Per-room mystery modules in
+`apps/shared/roomMysteries/<roomId>.ts`. Combine rules in
+each room module's `combines` array. The Conspiracy Board
+state lives on `playerMysteryChoices` (per-board pinned-
+clues, pinned-connections, audience-unlocked).
+
+LOREDEX entries surface bidirectionally: solving an arc
+clue unlocks the related entity_id; reading an entity's
+Loredex entry surfaces the related arc clue's room
+hotspot.
+
+---
+
+
