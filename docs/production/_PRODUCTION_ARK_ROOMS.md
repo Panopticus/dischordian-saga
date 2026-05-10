@@ -13567,19 +13567,310 @@ streaming: preload quarchon_approach corridor; on_calibration_active: preload ca
 
 ---
 
-## A.26 Synthesis Chamber (D10 — Neyon alignment) — SCAFFOLDED
+## A.26 Synthesis Chamber (Neyon alignment) — FULL
+
+**Status: FULL spec.** Cross-ref `INCEPTION_ARK_FINAL_PRODUCTION.md`
+§2.26 (art-state prompts).
+
+### A.26.1 Header
 
 ```
 space_id:        ark.synthesis_chamber
-space_name:      Synthesis Chamber
-space_type:      ark_room
-act_introduced:  Act 6
-lore_anchor:     loredex.faction.neyon + arc.synthesis_progression
-aesthetic_tier:  architect_geometric  (clean-synthesis aesthetic)
-dimensions:      10.00 m × 12.00 m × 4.50 m
+space_name:      Synthesis Chamber (D10 Neyon alignment)
+space_type:      ark_room  (Neyon sub-sanctum; D10-deck)
+act_introduced:  Act 6 (Neyon-aligned only)
+lore_anchor:     loredex.faction.neyon + arc.synthesis_progression + arc.act_6_first_synthesis
+aesthetic_tier:  architect_geometric  (clean-synthesis; the most sterile precision-clinical space on the Ark)
 ```
 
-(Full spec deferred.)
+### A.26.2 Geometry
+
+```
+dimensions:           10.00 m × 12.00 m × 4.50 m
+origin_point:         centre of floor at south entrance threshold
+coordinate_axes:      +x = right, +y = forward (north), +z = up
+floor_plan_geometry:  rectangular  (with central synthesis-bench + perimeter component-storage cabinets)
+volumetric_anomalies: none in baseline; subtle reality-knit visible above bench during active syntheses (pre-synthesis components visibly merge into post-synthesis result)
+```
+
+The Synthesis Chamber is rectangular, sterile, precise — the
+Neyon faction's craft-laboratory where elements are SYNTHESISED
+into compounds (chemical, narrative, spiritual). Central
+synthesis-bench dominates floor. Perimeter walls hold component-
+storage cabinets (4 east + 4 west). North wall houses the
+"Synthesis Index" — a continuously-updating display of all
+recipes the faction has discovered. Ceiling has direct overhead
+lighting + 4 corner exhaust fans (precision atmospheric control).
+
+Floor area: 120 m².
+
+### A.26.3 Floor
+
+```
+material_primary:     polished white-tinted glazed ceramic; 0.50 × 0.50 m tiles; 2 mm gap; mirror-finish; intentionally easy-to-clean (laboratory-grade)
+material_secondary:   bronze inlay outlining synthesis-bench zone (2.40 × 1.60 m); brass perimeter trim (laboratory-aesthetic)
+pattern:              precise grid + central bench-zone marker
+wear_state:           pristine; slight wear at bench-approach
+embedded_features:
+  - id: ark.synthesis_chamber.floor.charge_point.bench
+    position: (0.00, 6.00, 0.00)
+    dimensions: 0.40 × 0.40 × 0.05
+    function: synthesis-bench power
+  - id: ark.synthesis_chamber.floor.cabinet_anchor.<wall>.<n>  (8 anchors; 4 per wall)
+    position: per cabinet base
+    dimensions: 0.20 × 0.20 × 0.05 each
+    function: cabinet electronics
+  - id: ark.synthesis_chamber.floor.exhaust_drain.<corner>  (4 drains)
+    position: per corner
+    dimensions: 0.30 × 0.30 × 0.10 each
+    function: synthesis-residue drainage
+acoustic_property:    hard_reflective (ceramic + bronze); RT60 = 0.35s (intentionally clean for instrumentation clarity)
+```
+
+### A.26.4 Walls
+
+#### Wall: South (entrance)
+
+```
+wall_id:              south
+material_primary:     painted clean-white panelled steel with subtle gold-leaf detailing; reinforced
+material_secondary:   bronze dado at z = 1.10 m
+panelisation:         standard
+colour_value:         --token-color-ark-synthesis-chamber-wall-south  (clean white + gold accent + cyan pin-stripe at z = 2.00 m)
+embedded_displays:
+  - id: ark.synthesis_chamber.south.display.recipe_index
+    position: (-2.50, 0.20, 1.80)
+    dimensions: 1.20 × 0.80 × 0.05
+    content: live synthesis-recipe index (player's known recipes)
+  - id: ark.synthesis_chamber.south.display.batch_log
+    position: (2.50, 0.20, 1.80)
+    dimensions: 1.20 × 0.80 × 0.05
+    content: completed-synthesis batch log
+embedded_doors:
+  - door_id: ark.synthesis_chamber.south.door.main
+    position: (0.00, 0.00, 0.00)
+    dimensions: 1.40 × 2.40 × 0.10
+    door_class: pressure_seal  (laboratory-grade; biometric)
+    connecting_space_id: ark.corridor.neyon_approach
+    unlock_condition: Act 6+ Neyon-aligned
+decorative_features:
+  - id: ark.synthesis_chamber.south.plaque.principle
+    position: (0.00, 0.20, 3.20)
+    dimensions: 0.80 × 0.30 × 0.02
+    material: cast bronze with engraved text + gilt accent
+    narrative_role: reads "WHAT IS COMBINED, BECOMES"
+```
+
+#### Wall: East (4 component cabinets)
+
+```
+wall_id:              east
+material_primary:     painted clean-white steel panel
+material_secondary:   bronze dado; brushed-titanium cabinet frames recessed
+panelisation:         4-cabinet vertical stack
+colour_value:         --token-color-ark-synthesis-chamber-wall-east
+embedded_displays:    none
+embedded_doors:        none
+decorative_features:
+  - id: ark.synthesis_chamber.east.cabinet.<category>  (4 cabinets at y = 2.0, 4.5, 7.0, 9.5)
+    position: along east wall
+    dimensions: 0.40 × 1.80 × 2.40 each
+    material: brushed-titanium with biometric lock + transparent display front
+    narrative_role: per-category component storage (elements / catalysts / vessels / fluids)
+```
+
+#### Wall: North (Synthesis Index — symbolic apex)
+
+```
+wall_id:              north
+material_primary:     painted clean-white panelled steel
+material_secondary:   bronze frame around full-wall display
+panelisation:         single integrated display
+colour_value:         --token-color-ark-synthesis-chamber-wall-north
+embedded_displays:
+  - id: ark.synthesis_chamber.north.display.synthesis_index
+    position: (0.00, 11.95, 2.20)
+    dimensions: 4.00 × 2.40 × 0.05
+    content: THE Synthesis Index; continuously-updating registry of all recipes Neyon faction has discovered
+embedded_doors:        none
+decorative_features:
+  - id: ark.synthesis_chamber.north.relief.first_synthesis
+    position: (0.00, 11.85, 4.00)
+    dimensions: 1.20 × 0.40 × 0.10
+    material: cast bronze with deep relief
+    narrative_role: depicts the canonical first synthesis ritual
+```
+
+#### Wall: West (4 component cabinets; mirror of east)
+
+```
+wall_id:              west
+material_primary:     same as east
+material_secondary:   bronze dado
+panelisation:         4-cabinet vertical stack mirror
+colour_value:         --token-color-ark-synthesis-chamber-wall-west
+embedded_displays:    none
+embedded_doors:        none
+decorative_features:
+  - id: ark.synthesis_chamber.west.cabinet.<category>  (4 cabinets mirror; categories: residues / specimens / archives / tools)
+    position: mirror of east
+    dimensions: 0.40 × 1.80 × 2.40 each
+    material: brushed-titanium + transparent display front
+    narrative_role: secondary storage
+```
+
+### A.26.5 Ceiling
+
+```
+height_above_floor:     4.50 m baseline; central drop coffer at 3.80 m above synthesis-bench
+material:               painted clean-white panel + bronze conduit detail; central coffer is translucent backlit
+lighting_integrated:    high-precision overhead grid 1.20 × 1.20; central coffer is task-light over bench; 4 corner exhaust-fan emitters
+atmospheric_features:   subtle synthesis-shimmer above bench during active syntheses
+acoustic_treatment:     baffled (instrumentation clarity)
+```
+
+### A.26.6 Lighting
+
+```
+ambient_baseline:     5500 K (cool-clinical); 320 lux at floor (high precision); CRI 95
+direct_fixtures:
+  - id: ark.synthesis_chamber.light.bench_pendant
+    position: (0.00, 6.00, 3.80)
+    beam_angle: 60° downward
+    colour: --token-color-ark-synthesis-chamber-pendant  (cool white)
+    intensity: 5000 lumens
+    function: principal task at bench
+  - id: ark.synthesis_chamber.light.recessed_grid
+    position: distributed; 1.20 × 1.20 grid
+    beam_angle: 60° each
+    colour: 5500 K cool
+    intensity: 1500 lumens each
+    function: ambient task
+  - id: ark.synthesis_chamber.light.cabinet_strip.east, .west
+    position: above each cabinet column at z = 3.20
+    beam_angle: 90° downward
+    colour: 5500 K
+    intensity: 600 lumens per metre
+    function: cabinet definition
+  - id: ark.synthesis_chamber.light.synthesis_index_uplight
+    position: along base of north display at z = 0.05
+    beam_angle: 30° upward
+    colour: --token-color-ark-synthesis-chamber-uplight  (cool with cyan accent)
+    intensity: 1000 lumens per metre
+    function: dramatic backlighting for index
+practical_sources:
+  - id: ark.synthesis_chamber.bench_glow
+    position: (0.00, 6.00, 0.95)
+    intensity: 200 lumens (when synthesis active)
+    flicker_pattern: matches synthesis rhythm
+  - id: ark.synthesis_chamber.cabinet_indicator_light.<wall>.<n>  (8 small lights; one per cabinet)
+    position: per cabinet
+    intensity: 30 lumens each (varies — green stable; amber active; red paradox)
+    flicker_pattern: stable
+time_of_day_variation:
+  acts_6_to_7: stable cool baseline; in late-act7, if many syntheses completed, all cabinets glow brighter
+dynamic_response:
+  - on_player_at_bench: bench pendant + glow intensify
+  - on_synthesis_active: bench glow + relevant cabinet indicators flash
+  - on_synthesis_complete: brief cyan flash at bench + index updates with new recipe
+```
+
+### A.26.7 Atmosphere
+
+```
+air_temperature:    18°C (cool — laboratory)
+humidity:           30% RH (very low; precision); smells of antiseptic + ozone (instrumentation) + faint chemical-residue
+particulate:
+  - dust: very low (laboratory)
+  - synthesis_motes: low during syntheses (cosmetic; cool-cyan particles)
+volumetric_fog:     absent in baseline; subtle haze at upper volume during stress states (paradox)
+wind_drift:         strong toward exhaust corners; 0.30 m/s convection (precision atmospheric control)
+smell_canon:        antiseptic + ozone + chemical; voice-line: "smells like beginnings"
+```
+
+### A.26.8 Sound
+
+```
+ambient_bed:           file: synthesis_chamber_ambient_bed_v1.ogg (loop); -34 dB; faint instrument-hum, cooling-fan drone, occasional cabinet-buzz
+point_sources:
+  - sound.bench_hum: at bench; -36 dB; continuous
+  - sound.cabinet_buzz.<wall>.<n>: per cabinet; -42 dB; continuous
+  - sound.exhaust_fan.<corner>: per corner; HVAC drone; -38 dB; continuous
+  - sound.synthesis_completion_chime: state-conditional; -28 dB at success; -22 dB at failure (different tone)
+reverb_zone:           IR-impulse: synthesis_chamber_v1.wav; wet-mix 14% (clean precision)
+music_eligibility:     cutscene only (Neyon-arc synthesis cutscenes; deferred catalogue)
+voice_line_eligibility:
+  - speaker: the_neyon_master (named NPC; rare presence Acts 6+): line set §2.26.2
+  - speaker: synthesis_completion_voice: institutional voice ("synthesis complete" / "synthesis failed")
+```
+
+### A.26.9 Object inventory (compact catalogue)
+
+Synthesis Chamber has 26 inventory objects.
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.synthesis_chamber.synthesis_bench` | interactive | (0.00, 6.00, 0.00) | 2.40×1.20×0.95 | THE central synthesis bench |
+| `ark.synthesis_chamber.synthesis_bench.holographic_overlay` | fx_emitter | above bench | 2.40×1.20 | holographic synthesis-progress |
+| `ark.synthesis_chamber.bench_chair.east, .west` (2) | furniture | flanking bench | 0.80×0.80×1.20 each | seating for synthesis preparation |
+| `ark.synthesis_chamber.east.cabinet.<category>` (4) | container | east wall | 0.40×1.80×2.40 each | per-category components (elements/catalysts/vessels/fluids) |
+| `ark.synthesis_chamber.west.cabinet.<category>` (4) | container | west wall | mirror | secondary storage (residues/specimens/archives/tools) |
+| `ark.synthesis_chamber.neyon_master_anchor` | npc_anchor | (0.00, 8.00, 0.00) | 0.8×0.8×1.8 | Neyon Master NPC |
+| `ark.synthesis_chamber.neyon_lectern` | container | (-2.00, 8.00, 0.00) | 0.40×0.30×1.20 | bronze lectern; recipe-tome |
+| `ark.synthesis_chamber.precision_scales` | decoration | on bench | 0.30×0.20×0.30 | bronze precision balance scales |
+| `ark.synthesis_chamber.fume_hood.east_corner` | interactive | (4.50, 1.50, 0.00) | 0.80×0.40×2.40 | fume hood (precision ventilation; rare-synthesis use) |
+| `ark.synthesis_chamber.exhaust_fan.<corner>` (4) | fx_emitter | corners | 0.40×0.40×0.20 each | precision exhaust fans |
+| `ark.synthesis_chamber.south.intercom` | console | (-1.50, 0.20, 1.50) | 0.20×0.10×0.30 | comms |
+| `ark.synthesis_chamber.fire_extinguisher.south` | interactive | (1.50, 0.20, 1.20) | 0.20×0.20×0.50 | safety |
+| `ark.synthesis_chamber.first_aid.kit` | container | (-2.50, 0.20, 1.50) | 0.40×0.10×0.30 | medical |
+| `ark.synthesis_chamber.south.plaque.principle` | decoration | (0.00, 0.20, 3.20) | 0.80×0.30×0.02 | "WHAT IS COMBINED, BECOMES" |
+| `ark.synthesis_chamber.north.relief.first_synthesis` | decoration | (0.00, 11.85, 4.00) | 1.20×0.40×0.10 | first-synthesis relief |
+| `ark.synthesis_chamber.compass_inlay` | decoration | (0.00, 6.00, 0.005) | 0.80×0.80×0.005 | floor inlay under bench |
+
+Total: 26 inventory objects.
+
+### A.26.10-17 Compact
+
+```
+camera_spawn_points:
+  cs_amb_synthesis_chamber (Cat B): POV at threshold; slow approach to synthesis bench; head pans across cabinets; 14s
+  cs_first_synthesis (Act 6 one-shot Neyon-aligned): hand at bench; components arranged; synthesis activates with cyan flash; 18s
+
+doorways: south.door.main → ark.corridor.neyon_approach; pressure_seal; Act 6+ Neyon-aligned
+
+adjacency: direct ark.corridor.neyon_approach (south); one_hop ark.archives, ark.cipher_den (Neyon-research kinship)
+
+gameplay_hooks:
+  - operateBench: trpc.synthesis_chamber.bench.operate
+  - openComponentCabinet: trpc.synthesis_chamber.cabinet.open (per-cabinet)
+  - readNeyonLectern: trpc.synthesis_chamber.lectern.read
+  - operateFumeHood: trpc.synthesis_chamber.fume_hood.operate
+
+story_tie:
+  primary_arcs:
+    - act_6_first_synthesis
+    - synthesis_progression (continuous Acts 6-7)
+    - neyon_master_arc
+    - act_7_final_synthesis (state-branched ending — depends on rare-recipe completion)
+  per_act:
+    acts_0_5: locked
+    act_6: opens; first synthesis; basic recipes
+    act_7: state-branched: master-synthesist ending vs. abandoned-bench ending
+  npc_roster: the_neyon_master; the_player; synthesis_completion_voice (institutional ambient)
+  readables: principle plaque; first-synthesis relief; recipe-tome; synthesis index
+  master_of_rlyeh_question: n/a
+
+special_fx:
+  particle_systems: synthesis_motes; cabinet_glow_per_state; paradox_motes (rare)
+  volumetric: bench_holographic_overlay; cabinet_glow_per_cabinet
+  procedural_animations: bench_holo_cycle; synthesis_index_continuous_update; cabinet_indicator_pulse
+  reactive: bench_glow_on_proximity; synthesis_completion_flash; index_update_one_shot
+
+avatar_parametricity: standard
+audio_occlusion: xenomorph-sensitive: instrument-hum more pronounced
+performance: polygon_budget 200,000 / texture_budget 120 MB / light_count 14
+streaming: preload neyon_approach corridor
+```
 
 ---
 
