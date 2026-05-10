@@ -37,6 +37,8 @@ import { useLocation } from "wouter";
 import { useGame } from "@/contexts/GameContext";
 import { ALL_CHAPTER_ENCOUNTERS } from "@shared/tcg-core/story/chapters";
 import type { StoryEncounter } from "@shared/tcg-core/story/encounter";
+import { resolveChapterIntroForChapter } from "@shared/storyEncounterChapterIntros";
+import { chapterIntroTriggerFlag } from "@/components/cutscenes/ChapterIntroRouter";
 import type { Faction } from "@/game/duelyst/types";
 import DuelystGameUI from "@/game/duelyst/DuelystGameUI";
 import { loadStoryProgress, saveStoryProgress } from "@/game/storyMode";
@@ -65,7 +67,7 @@ function groupChapters(all: readonly StoryEncounter[]): ChapterGroup[] {
 }
 
 export default function StoryModePage() {
-  const { state } = useGame();
+  const { state, setNarrativeFlag } = useGame();
   const [, navigate] = useLocation();
   const [selectedEncounter, setSelectedEncounter] = useState<StoryEncounter | null>(null);
   const [completedIds, setCompletedIds] = useState<string[]>([]);
@@ -89,9 +91,22 @@ export default function StoryModePage() {
 
   const groups = useMemo(() => groupChapters(ALL_CHAPTER_ENCOUNTERS), []);
 
-  const handlePick = useCallback((enc: StoryEncounter) => {
-    setSelectedEncounter(enc);
-  }, []);
+  const handlePick = useCallback(
+    (enc: StoryEncounter) => {
+      setSelectedEncounter(enc);
+      // Bible §3 (NANO_BANANA_VEO_FULL_PROMPT_BOOK.md) — saga
+      // chapter intros 5-21. Fire the producer-delivered intro
+      // for this chapter if the engine chapterId has a confirmed
+      // mapping. Unmapped chapters silently skip — ChapterIntroRouter
+      // additionally idempotents on the seen flag, so re-picking
+      // a chapter the player already saw won't replay the intro.
+      const intro = resolveChapterIntroForChapter(enc.chapterId);
+      if (intro) {
+        setNarrativeFlag(chapterIntroTriggerFlag(intro.id), true);
+      }
+    },
+    [setNarrativeFlag],
+  );
 
   const handleMatchEnd = useCallback(
     (winner: "player" | "opponent") => {
