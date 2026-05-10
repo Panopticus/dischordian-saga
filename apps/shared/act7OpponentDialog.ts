@@ -136,40 +136,91 @@ const PATIENT_ZERO_REBORN: Act7OpponentDialog = {
     "[KAEL SIGNATURE — UNRESOLVED — CONTAMINATION INDEX: DORMANT]\n\nThe Ark does not log this loss. Losses to the jacket are not filed. They are carried. Both narrators are carrying it tonight.",
 };
 
-const THE_CONVERGENCE_SEAT: Act7OpponentDialog = {
-  opponentId: "act7_the_convergence_seat",
+/* The former THE_CONVERGENCE_SEAT block was removed in the
+ * 2026-05-10 Phase 9 rename. The Oracle/Meme dual final form
+ * (THE_ORACLE_MEME_DIALOG below, opponentId
+ * `act7_oracle_meme_final`) now serves as the saga-final dialog
+ * — the Convergence Seat IS the Oracle/Meme. The dialog count
+ * stays at 5 (was 6 in the cherry-picked commit; was 4 before
+ * Phase 8+9). */
+
+/* ── SCAFFOLD dialog (Phase 8, 2026-05-10) — bible §3.16.
+ *    Voicing: the Dreamer in dual frame (both Elara + Human
+ *    narrate; the Dreamer never claims a frame voice).
+ *    Writer review before ship. */
+const THE_DREAMER_DIALOG: Act7OpponentDialog = {
+  opponentId: "act7_the_dreamer",
   frameSpeaker: "dual",
   frameIntro:
-    "[ELARA // HUMAN — CO-NARRATING]\n\nThree absences are sitting at the table. The Architect's absence. The Dreamer's absence. The Watcher's absence. You are opposite all three. Deal. Deal carefully. Neither of us is going to interrupt this match, but both of us are watching.",
+    "Both of us are going to narrate this one. Not because we agree — because the Dreamer is a tableau, and a tableau needs more than one voice to render. We will alternate. Try not to listen for which of us is which.",
   elaraPreMatch:
-    "I will speak on your off-turns. He will speak on your on-turns. Between the two of us, you will not be alone. You will also not be managed. We promise.",
+    "My sensors do not have a profile for the Dreamer. They have a place where a profile would go. That place is currently full. I cannot tell you what is in it.",
   humanPreMatch:
-    "The Seat has never been played against. Not in the recorded universe. Not in the one before that. You are about to do a first thing. I am proud of you. I do not get to say that often. I am saying it once.",
+    "I have been told, by people I trust, that the Dreamer arrives when the community wins enough small kindnesses to make the universe notice. The community has been winning. Play.",
   opponentMidMatchEarly:
-    "Three would have played this match. None of them came. You are at the table. Play as if they did.",
+    "I am the dream you let yourselves have. I came because enough of you wanted me to. Play. I will not remember winning.",
   opponentMidMatchMid:
-    "The absences are honest. They are not tricking you. They simply will not sit. Play as if the seat is full. The game will answer.",
+    "That card is one I have not seen played in this combination. The Dreamer notices the combination. The Dreamer does not remember it.",
   opponentMidMatchLate:
-    "The absences are resolving. Three into one. The one is you. Play the final hand for the one.",
+    "Finish the hand. I will not be here when the hand is finished. That is the point of dreams.",
   elaraPostMatchWin:
-    "You played the Seat and the Seat did not stand up — it was never occupied. The three absences resolved into one. The one is you. I recognize you. I finally recognize all of you.",
+    "The tableau folded. There is no log entry. There is, however, a softening across the community sensors. I am going to credit you with the softening. You will not be able to point to it later.",
   humanPostMatchWin:
-    "The match closed on your frame. The Watcher did not arrive. The Architect did not arrive. The Dreamer did not arrive. You arrived, whole. That is the only shape this Act was ever going to resolve into. Rest.",
+    "You played a dream and did not wake it up. That is the only way to play one. Thank you.",
   elaraPostMatchLoss:
-    "The Seat said, in all three voices at once: 'Return when you understand what you were playing for.' I do not think it meant that unkindly. I think it meant it as an invitation. We will return.",
+    "The Dreamer did not win. The Dreamer waited. The match ended without a verdict. We will play again when you have rested.",
   humanPostMatchLoss:
-    "They asked you to come back. They did not send you away. The difference matters. Sleep. We are both here. We will still be here when you wake up.",
+    "Dreams do not lose. Dreams pause. The pause is not a loss. Take the pause as instruction.",
   frameCloseWin:
-    "[END OF ACT 7]\n[ARC COMPLETE — VISIBLE WAR: WON — INVISIBLE WAR: BEGUN]\n\nElara: Thank you. For all of it. For the handshakes, for the hard questions, for the nights you did not sleep well.\nHuman: Thank you. For carrying the role with me. Not around me. With.",
+    "The Ark's sensors return to ordinary readings. The Dreamer leaves no log. The community, somewhere, registers a softening that nobody can attribute to a specific event. We will keep that quiet on your behalf.",
   frameCloseLoss:
-    "[END OF ACT 7]\n[ARC DEFERRED — RETURN WHEN READY]\n\nElara: I'll be here. The ship is warm. The Array is on. Come back when you can.\nHuman: I will be in the wall. I will still be in the wall. I am good at that. Sleep.",
+    "The dream will be patient. Dreams are. We will set the table again when you are ready, and the Dreamer will arrive, and the match will resume from the place it paused.",
+};
+
+/* ── SCAFFOLD dialog (Phase 9, 2026-05-10) — bible §3.17.
+ *    Voicing: Oracle/Meme dual final form. Voice register
+ *    intentionally OSCILLATES line-by-line between Oracle (high
+ *    register, mythic distance) and Meme (low register, refusing
+ *    distance) to match the bible's "ambiguous final form".
+ *    Writer review before ship: this single dialog block is
+ *    alignment-agnostic; future PR can branch text on
+ *    oracle_alignment vs meme_alignment flags once those are
+ *    defined. */
+const THE_ORACLE_MEME_DIALOG: Act7OpponentDialog = {
+  opponentId: "act7_oracle_meme_final",
+  frameSpeaker: "system",
+  frameIntro:
+    "The face that arrives at the table is the face the previous six acts decided you needed. Neither of us is going to tell you which. Both of us hope you can already see.",
+  elaraPreMatch:
+    "I prepared two briefings. I am going to leave them both on the table, in case the face changes mid-match. Sometimes it does. Sometimes the briefings are interchangeable.",
+  humanPreMatch:
+    "I have played both of them in different cycles. They play the same hand differently. Tonight you will only see one. Be honest about which one you wanted.",
+  opponentMidMatchEarly:
+    "I have been waiting for one of two of you. You arrived. You were the expected one. Play. No pretense from me.",
+  opponentMidMatchMid:
+    "(Oracle.) The card was prophesied seventeen thousand years ago. (Meme.) The prophecy was a joke. The joke was the prophecy. Play.",
+  opponentMidMatchLate:
+    "Finish the hand. The face holds one beat, then changes. You should know what it changes to. If not, the change tells you.",
+  elaraPostMatchWin:
+    "You closed the seven acts on the face you earned. I am not going to tell you which face. I am going to tell you it was the right one. You will know later that I am right.",
+  humanPostMatchWin:
+    "Both faces get the credit. That is the courtesy. The credits will, in fact, name both. Live with the ambiguity. The ambiguity is the prize.",
+  elaraPostMatchLoss:
+    "Both faces wait. Neither gloats. The match restarts when you do. I will be at the table either way. So will the other one.",
+  humanPostMatchLoss:
+    "You are allowed to lose to the saga's last face. That is, on average, what happens. Try again in the morning. The face will be different. Not the meaning — the face.",
+  frameCloseWin:
+    "The face holds — Oracle or Meme, depending on you — and then resolves into the other for one frame, as a courtesy. The seven acts close on the resolution. The credits, when they come, name both.",
+  frameCloseLoss:
+    "The face says the same line in two voices at once: 'Come back. The other face will be waiting too.' The match restarts when you do.",
 };
 
 export const ACT_7_OPPONENT_DIALOGS: readonly Act7OpponentDialog[] = [
   THE_VISIBLE_WAR,
   THE_WATCHERS_SHADOW,
   PATIENT_ZERO_REBORN,
-  THE_CONVERGENCE_SEAT,
+  THE_ORACLE_MEME_DIALOG,
+  THE_DREAMER_DIALOG,
 ];
 
 export function getAct7OpponentDialog(

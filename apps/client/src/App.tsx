@@ -82,6 +82,7 @@ import ElaraDialog from "./components/ElaraDialog";
 import CharacterWidget from "./components/CharacterWidget";
 import { CutsceneRouter } from "./components/cutscenes/CutsceneRouter";
 import { ChapterIntroRouter } from "./components/cutscenes/ChapterIntroRouter";
+import { BonusChapterIntroRouter } from "./components/cutscenes/BonusChapterIntroRouter";
 import { ConfessionCloseRouter } from "./components/cutscenes/ConfessionCloseRouter";
 import { WheelReactionRouter } from "./components/cutscenes/WheelReactionRouter";
 import { EventRevealRouter } from "./components/cutscenes/EventRevealRouter";
@@ -863,6 +864,7 @@ function GameGate() {
       <CharacterWidget />
       <CutsceneRouter />
       <ChapterIntroRouter />
+      <BonusChapterIntroRouter />
       <ConfessionCloseRouter />
       <WheelReactionRouter />
       <EventRevealRouter />

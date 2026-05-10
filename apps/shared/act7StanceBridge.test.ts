@@ -45,8 +45,9 @@ describe("Act 7 ladder — final-stance picker bridge", () => {
     expect(pageSrc).toContain("act7_stance_chosen");
   });
 
-  it("transitions to the stance view after the Convergence Seat win", () => {
-    expect(pageSrc).toMatch(/act7_the_convergence_seat/);
+  it("transitions to the stance view after the saga-final win", () => {
+    // Phase-9 rename: act7_the_convergence_seat → act7_oracle_meme_final.
+    expect(pageSrc).toMatch(/act7_oracle_meme_final/);
     expect(pageSrc).toMatch(/setView\("stance"\)/);
   });
 

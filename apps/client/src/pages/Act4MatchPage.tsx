@@ -50,6 +50,8 @@ import {
 import { fireCrossGameBeat } from "@/lib/crossGameBeats";
 import { fireCompanionComment } from "@/lib/companionCommentQueue";
 import { act4DialogPathToOutcome } from "@shared/wheelReactionCutscenes";
+import { resolveChapterIntroForOpponent } from "@shared/storyEncounterChapterIntros";
+import { chapterIntroTriggerFlag } from "@/components/cutscenes/ChapterIntroRouter";
 import LivingBackground from "@/components/LivingBackground";
 
 import { assetUrl } from "@/lib/assetUrl";
@@ -307,7 +309,26 @@ export default function Act4MatchPage() {
                 </button>
                 <button
                   type="button"
-                  onClick={() => setView("battle")}
+                  onClick={() => {
+                    // Bible §3.13 — fire ch17_elara_glitched
+                    // intro on Path C (act4_the_betrayal). The
+                    // resolver returns null for the other Act 4
+                    // paths so they skip silently. ChapterIntroRouter
+                    // (mounted at App root) plays the video, then
+                    // the player lands on the battle view.
+                    if (currentOpponent) {
+                      const intro = resolveChapterIntroForOpponent(
+                        currentOpponent.id,
+                      );
+                      if (intro) {
+                        setNarrativeFlag(
+                          chapterIntroTriggerFlag(intro.id),
+                          true,
+                        );
+                      }
+                    }
+                    setView("battle");
+                  }}
                   className="flex items-center gap-2 rounded border border-cyan-500/60 bg-cyan-950/40 px-4 py-2 font-mono text-[10px] uppercase tracking-wider text-cyan-100 hover:bg-cyan-900/60"
                 >
                   <Play size={12} />

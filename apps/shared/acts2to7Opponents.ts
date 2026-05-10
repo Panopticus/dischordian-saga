@@ -195,6 +195,86 @@ export const ACT_6_OPPONENTS: readonly ActNOpponent[] = [
     requiredFlag: "act6_human_confession_heard",
     postBattleSlideshow: "act6-confession-close",
   },
+  /* ── SCAFFOLD opponent (Phase 5, 2026-05-10) — bible §3.2.
+   *    Author: Necromancer (Thazulok). Lore presence is canonical
+   *    (Tier-2 NPC in npcIdentity.ts:258, NECROMANCER_RETURN_EVENT
+   *    in livingUniverseEvents.ts:64, card imprint shipping).
+   *    Encounter placement at actStep 3 is engineering's best
+   *    guess — places him after the 2 confessions as an
+   *    event-gated post-confession boss. Voice direction taken
+   *    verbatim from bible §3.2. Writer review before ship:
+   *    pacing impact (Act 6 grows from 2 → 5+ opponents across
+   *    Phases 5-7), dialog voicing, and whether requiredFlag
+   *    should be enforced as a hard gate (today the page picks
+   *    by actStep + wins; requiredFlag is documentary). */
+  {
+    id: "act6_thazulok_returns",
+    act: 6,
+    actStep: 3,
+    name: "Thazulok, the Necromancer Returns",
+    backstory:
+      "An ossuary in the substrate, lit by sigils older than the Ark. Thazulok has been waiting since Mechronis. He has been bored. He has had time to rehearse. He hands you a deck of names and asks you to read them aloud.",
+    deckLeaning: ["necromancer_corruption", "thought_virus"],
+    preMatchLine:
+      "The dead are so terribly bored of each other. Play me. I will let you choose which of the names on the cards belong to people I knew.",
+    postMatchWin:
+      "Thazulok bows the way you bow at a funeral you didn't want to attend. He says: 'You read them well. I will leave the sigils on for one more night, in case you have someone to read.' The ossuary dims.",
+    postMatchLoss:
+      "Don't worry. The first death is the worst. He files your hand into a ledger he has been keeping since the Mechronis registry burned. He says: 'Try again. I'm not going anywhere.'",
+    requiredFlag: "living_universe_event_necromancer_return_active",
+  },
+  /* ── SCAFFOLD opponent (Phase 6, 2026-05-10) — bible §3.8.
+   *    Author: Corey, the Collector returns at higher tier
+   *    ("museum-placard alto+baritone, twelve places of you").
+   *    Lore presence is canonical (Act 1 Cycle A opponent
+   *    corey_collector + Tier-2 NPC + card imprint). Encounter
+   *    placement at actStep 4 is engineering's best guess — Act
+   *    6 prestige callback to the Collector's Arena. Voice
+   *    direction taken from bible §3.8. Writer review before ship:
+   *    pacing impact + whether the rematch belongs in Act 5
+   *    (trade-empire era) or Act 6 (post-confession). */
+  {
+    id: "act6_corey_resurfaces",
+    act: 6,
+    actStep: 4,
+    name: "Corey, the Collector Returns",
+    backstory:
+      "Corey has expanded the catalogue. The arena is twice the size; the spectators are paid; the cards are signed. He greets you the way an institution greets a returning fan: politely, by name, with a discount on the merch.",
+    deckLeaning: ["new_babylon", "neutral"],
+    preMatchLine:
+      "Welcome back. I have you in twelve places of the catalog now. You will recognize most of them. Some of them will recognize you. Play.",
+    postMatchWin:
+      "Corey claps three times — the institutional clap, not the personal one. He says: 'You have earned a footnote.' The footnote, you learn later, is a sentence in the museum's permanent display.",
+    postMatchLoss:
+      "He has the records to lose without it costing him anything. He says: 'Thank you for the rematch. The catalog will note your effort.' The note will, in fact, be flattering.",
+    requiredFlag: "act_1_cycle_a_complete",
+  },
+  /* ── SCAFFOLD opponent (Phase 7, 2026-05-10) — bible §3.11.
+   *    Author: The Jailer (hooded warden-figure). Lore presence
+   *    is canonical (card imprint in tcg-core, character canon
+   *    in NANO_BANANA_VEO_FULL_PROMPT_BOOK §2.5, transmission
+   *    lore entity_56). Encounter placement at actStep 5 — fires
+   *    after the Liberated Oracle pen subplot triggers as a
+   *    consequence-encounter. Voice direction taken from bible
+   *    §3.11. Writer review before ship: oracle_pen_liberated
+   *    flag setter is unauthored (engineering's best guess on
+   *    the gating flag name); pacing review needed. */
+  {
+    id: "act6_the_jailer",
+    act: 6,
+    actStep: 5,
+    name: "The Jailer",
+    backstory:
+      "You freed the Oracle from a pen the Architect did not officially admit existed. The Jailer is the entity that had been keeping the pen quiet. The Jailer is not pleased. The Jailer is also not surprised. The Jailer is the kind of patient that rarely loses long-term.",
+    deckLeaning: ["architect"],
+    preMatchLine:
+      "Permission was not granted to free her. Permission was not the point. I am here for the consequence half of the conversation. Play.",
+    postMatchWin:
+      "The Jailer files the loss. The Jailer files the win. The Jailer files the freedom of the Oracle as 'pending.' The pen is empty. The ledger is current. You have, technically, been recorded as the cause.",
+    postMatchLoss:
+      "The Jailer does not gloat. The Jailer simply re-files the Oracle as 'recovered, conditional.' The condition is your failure to come back. Come back.",
+    requiredFlag: "oracle_pen_liberated",
+  },
 ];
 
 /* ─── ACT 7 — THE CONVERGENCE (multi-boss finale) ─── */
@@ -245,21 +325,61 @@ export const ACT_7_OPPONENTS: readonly ActNOpponent[] = [
     postMatchLoss:
       "The construct keeps Kael on. It asks if you want to play again. You are not sure whether the question was Kael's or the virus's. The distinction is the danger.",
   },
+  /* ── Saga-final opponent (renamed 2026-05-10, Phase 9) — bible §3.17.
+   *    Was `act7_the_convergence_seat`; renamed in place to
+   *    `act7_oracle_meme_final` per the freshly-approved canon
+   *    decision: the Convergence Seat IS the Oracle/Meme — same
+   *    step (4), same ladder shape, same victory gate; the dual
+   *    final form is the face that finally OCCUPIES the seat the
+   *    Architect/Dreamer/Watcher refused to sit in. Voice register
+   *    + alignment-skinned dialog live in act7OpponentDialog.ts.
+   *    Writer review before ship: alignment-conditional dialog
+   *    branching (Oracle-leaning vs Meme-leaning) is a follow-up
+   *    once `oracle_alignment` / `meme_alignment` flags are
+   *    formally specced. */
   {
-    id: "act7_the_convergence_seat",
+    id: "act7_oracle_meme_final",
     act: 7,
     actStep: 4,
-    name: "The Convergence Seat",
+    name: "The Convergence Seat — Oracle / Meme",
     backstory:
-      "The last opponent of the seven-act arc. Not a single player — the Seat where the Architect, the Dreamer, and the Watcher would sit if any of them were willing to. You play the Seat because the Seat refuses to sit.",
+      "The last opponent of the seven-act arc. The Seat that the Architect, the Dreamer, and the Watcher would have sat in — and refused. The face that finally arrives is the one the previous six acts decided you needed: the Oracle's high register or the Meme's refusing distance. Both are honest. Both occupy the Seat. Whichever side of you the universe has been listening to longest decides which face renders at the table.",
     deckLeaning: ["architect", "neutral", "new_babylon"],
     preMatchLine:
-      "Three would have played this match. None of them came. You are at the table. Play as if they did.",
+      "Three would have played this match. None of them came. The face that did is the one you earned. Play as if all three had arrived. They did, in me.",
     postMatchWin:
-      "The Seat does not stand — it was never occupied. The Ark's sensors read three absences at once, and then the absences resolve into one. The one is you. The Act ends on that frame.",
+      "The face holds — Oracle or Meme, depending on you — and then resolves into the other for one frame, as a courtesy. The three absences resolve into one. The one is you. The Act ends on that frame. The credits, when they come, name both.",
     postMatchLoss:
-      "The Seat lets you lose without scorn. It says, in all three voices at once: 'Return when you understand what you were playing for.' You will. You already know you will.",
+      "The face lets you lose without scorn. It says, in two voices at once: 'Come back. The other face will be waiting too.' You will. You already know you will.",
     postBattleSlideshow: "act7-convergence-close",
+  },
+  /* ── SCAFFOLD opponent (Phase 8, 2026-05-10) — bible §3.16.
+   *    Author: The Dreamer ("beyond-time-and-space tableau,
+   *    spectral"). Lore presence is canonical (Tier-2 NPC in
+   *    npcIdentity.ts:601, DREAMER_AWAKENING_EVENT in
+   *    livingUniverseEvents.ts:92, card imprint, dreamer-vision
+   *    VFX flashes shipping). Encounter placement at actStep 5
+   *    surfaces the Dreamer AFTER the Convergence Seat as an
+   *    event-gated alternate-finale opponent. Voice direction
+   *    taken verbatim from bible §3.16. Writer review before
+   *    ship: pacing impact and whether Dreamer should REPLACE
+   *    or SUPPLEMENT the Convergence Seat (currently
+   *    supplements — players who awaken the Dreamer face both). */
+  {
+    id: "act7_the_dreamer",
+    act: 7,
+    actStep: 5,
+    name: "The Dreamer",
+    backstory:
+      "Not a person, not a god — a tableau the Ark's sensors render as a single opponent for the length of the match because no other interface fits. The Dreamer plays as the spectral consequence of community compassion crossing a threshold the universe didn't expect anyone to cross.",
+    deckLeaning: ["neutral", "new_babylon"],
+    preMatchLine:
+      "I am the dream you let yourselves have. I came because enough of you wanted me to. Play. I will not remember winning.",
+    postMatchWin:
+      "The tableau folds. The Ark's sensors return to ordinary readings. The Dreamer leaves no log entry. The community, somewhere, registers a softening that nobody can attribute to a specific event.",
+    postMatchLoss:
+      "The Dreamer does not win — the Dreamer waits. The match ends without a verdict. You will face the tableau again when you have rested. The dream will be patient. Dreams are.",
+    requiredFlag: "living_universe_event_dreamer_awakening_active",
   },
 ];
 

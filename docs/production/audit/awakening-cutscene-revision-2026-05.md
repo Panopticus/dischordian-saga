@@ -1,5 +1,34 @@
 # Awakening Cutscene Revision — 2026-05 Producer Drop
 
+**Status:** RESOLVED 2026-05-10 — chosen ordering applied to
+`apps/shared/cutsceneRegistry.ts` cutscene_awakening entry as
+`shotFilenames`. Design doc `docs/design/ANIMATED_CUTSCENES.md`
+§Cutscene 1: Awakening rewritten to match.
+
+**Chosen ordering** (lore-confirmed; identity → mission →
+aftermath):
+
+```ts
+shotFilenames: [
+  "first_clone_born.mp4",  // shot 1 — Vox nanobot consciousness transfer
+  "the_mandate.mp4",        // shot 2 — Ark Council mandate handed to player
+  "93847_sunrises.mp4",    // shot 3 — Elara's 256-year solitude reveal
+],
+```
+
+Citations: `docs/built/LORE_BIBLE.md` carries the verbatim
+"I've watched 93,847 sunrises from this viewport" line.
+`NARRATIVE_ARCHITECTURE.md` documents the Vox neural-nanobot
+identity chain (Senator Elara Voss → Panoptic Elara → cloned
+on Ark 1047). The producer's revised content is canonically
+coherent; ordering was decided by emotional-narrative
+chronology (identity → context → cost) rather than calendar
+order.
+
+---
+
+## Original audit (preserved for reference)
+
 **Status:** OPEN — needs producer/writer ordering decision before
 the producer-delivered MP4s play in-game.
 
