@@ -2824,3 +2824,778 @@ the centre pulpit and back. End frame: canonical baseline.
 
 ---
 
+## 3. Unbuilt-system production specs
+
+The Phase-1.5 audit (see NOTES §12.7) flagged 5 partial and 3
+scaffolded systems plus the 5 named cutscenes. This chapter
+specifies the **art-direction and diegetic surfaces** for each
+so renders are ready when the runtime catches up. Where a
+runtime contract is needed, it is named (schema column,
+trigger, expected payload). No code is written here.
+
+§3.5 is reserved for the **Story Item Registry** (authored from
+NOTES §11). All other §3.x sections are authored below.
+
+---
+
+### 3.1 Cinematic cutscenes (5 named)
+
+`docs/design/ANIMATED_CUTSCENES.md` names five cutscenes that
+are not yet implemented as components. The five are authored
+below using the **start/end frame stitch technique**: each shot
+has a deterministic `start frame` and `end frame`; the **end
+frame of shot N is the start frame of shot N+1**, so a Veo-3.1
+or equivalent motion-interp pass can fill the in-between
+without seams.
+
+**Universal direction.**
+- **No music.** Music ruins SFX-driven tension and leaves no
+  room for the player's own emotional cadence.
+- **At most one short VO sentence per cutscene** — placement is
+  named per scene. Often zero.
+- **SFX-driven.** Diegetic sounds only (mechanical, organic,
+  environmental). No swells, no synth pads, no foley exaggera-
+  tion. Less is more.
+- **Aspect:** 16:9 master; safe-area for 4:3 mobile crop.
+- **Master Style Lock applies** (§1.1): same hull palette,
+  same lens treatment, same negative-prompt discipline as the
+  rooms the cutscene takes place in.
+- **Frame-stitch contract.** Each shot's end frame is described
+  in enough specificity that the next shot's start frame is the
+  identical composition. Camera moves between shots are
+  generated as in-betweens by the motion-interp pass; the doc
+  describes the two endpoints, not the interpolation.
+
+#### 3.1.1 Cutscene — `cs_awakening`
+
+**Trigger:** First boot of new save / Prelude beat A.
+**Length:** ~45 s. **Shots:** 6. **VO:** 1 line (Elara, end of
+shot 6). **SFX track:** glass-crack hairline → pod release hiss
+→ footfall on metal grate (single step) → distant deck hum
+holding the room.
+
+| # | start frame | end frame | duration | note |
+|---|---|---|---|---|
+| 1 | Frost-occluded interior of cryo pod; vague human silhouette behind glass; cold-blue ambient. | Same composition; one hairline fracture appears at the upper-left edge of the glass plate. | 7 s | Hold-then-crack. SFX: single glass-crack tick. |
+| 2 | (same as shot-1 end) Hairline fracture at upper-left of pod glass. | Wide pull from outside the pod: full Cryo Bay row visible; player's pod centre-frame, lit faintly; Pod Zero in mid-ground, cold-dark. | 8 s | Camera dolly out + half-rotate. SFX: pod release hiss begins. |
+| 3 | (same as shot-2 end) Wide of Cryo Bay row, player's pod lit, Pod Zero dark. | Close on a single hand pressing the inside of the pod glass; fingerpads white where pressure flattens. | 6 s | Push-in. SFX: hiss continues, faint creak. |
+| 4 | (same as shot-3 end) Hand on glass from inside. | Same hand outside the pod, fingertips emerging into the bay's drifting cryo haze. | 7 s | Pod door breaking seal; door is implied off-frame. SFX: latch release, exhale of cryo gas. |
+| 5 | (same as shot-4 end) Hand emerging into haze. | Figure standing in Cryo Bay, back to camera, head turned three-quarters toward Pod Zero. | 8 s | Reveal of player silhouette. SFX: single footfall on grate, then silence. |
+| 6 | (same as shot-5 end) Figure looking at Pod Zero. | Pod Zero dominates the frame; dark, silent; player's silhouette small in the lower-left corner. | 9 s | Slow push toward Pod Zero. **VO (Elara, soft):** "You're the only one who woke." |
+
+#### 3.1.2 Cutscene — `cs_first_human_contact`
+
+**Trigger:** First time player examines the Comms Array's
+flickering blue panel after the Frequency Wall hotspot is
+discovered (`comms_frequency_52_7_observed`).
+**Length:** ~30 s. **Shots:** 4. **VO:** 1 line (the Human, mid
+shot 3). **SFX track:** static crackle → single carrier-wave
+tone (52.7 MHz pure sine, ~A2) → breath held → tone drops out.
+
+| # | start frame | end frame | duration | note |
+|---|---|---|---|---|
+| 1 | Comms Array wide; consoles dead, monitors black; one wall panel showing dim blue idle glow. | Same composition; the dim panel flickers once, brighter — held a beat. | 7 s | SFX: low static. |
+| 2 | (= end shot-1) Wall panel flickering brighter. | Spectrogram on the panel; all bands are noise except one — 52.7 MHz showing as a perfect unmodulated sine wave, no information, pure carrier. | 8 s | Push to panel. SFX: static fades, single tone enters. |
+| 3 | (= end shot-2) Pure sine on panel. | Tight on player's face, three-quarter profile, eyes wide, listening. | 8 s | Cut from panel to face. **VO (Human, soft, single sentence, mid-shot):** "I am here." |
+| 4 | (= end shot-3) Player's face listening. | Reverse over player's shoulder: empty Comms Array behind them, nobody there; the panel still glowing blue. | 7 s | The reverse confirms isolation. SFX: tone holds, then drops out into silence on cut. |
+
+#### 3.1.3 Cutscene — `cs_elara_memory_recovery`
+
+**Trigger:** Elara reaches trust ≥80 AND
+`bridge_war_table_online` AND
+`captains_quarters_master_key_used`.
+**Length:** ~40 s. **Shots:** 5. **VO:** 1 line (Elara, end of
+shot 5). **SFX track:** hologram warble (subtle) → ambient lab
+hum (younger memory) → hologram warble re-enters → single
+metallic drop (like a tear striking a brass plate) → silence.
+
+| # | start frame | end frame | duration | note |
+|---|---|---|---|---|
+| 1 | Bridge mid-frame: Elara's holographic portrait stable, three-quarter view, present-day. | Same portrait; volumetric edges glitch into pixel fragments at her temple and shoulder. | 7 s | SFX: warble. |
+| 2 | (= end shot-1) Pixel fragments around Elara's portrait. | Fragments resolve into a younger Elara — same face, no scarring, soft expression — smiling at someone offscreen left. | 8 s | The portrait becomes a memory, not a render. |
+| 3 | (= end shot-2) Younger Elara smiling offscreen-left. | Pull back to reveal pre-launch laboratory environment: clean white surfaces, equipment, daylight from offscreen window — still smiling at offscreen-left. | 9 s | Memory-space established. SFX: lab hum enters under warble. |
+| 4 | (= end shot-3) Pre-launch lab around younger Elara. | Lab dissolves to neutral white; current-day Elara (scarred, present, holographic again) stands in centre-frame, on the Bridge. | 8 s | Memory closes. SFX: warble re-enters, lab hum drops out. |
+| 5 | (= end shot-4) Present-day Elara on Bridge. | Close on her hand resting on the captain's chair, palm flat — recognition without flourish. | 8 s | **VO (Elara, quiet):** "I remember now." End on the metallic-drop SFX. |
+
+#### 3.1.4 Cutscene — `cs_breaking_point`
+
+**Trigger:** Reactor capacity drops below 35% AND ShadowTongue
+power crosses 60. Played once per save; flagged
+`cs_breaking_point_seen`.
+**Length:** ~35 s. **Shots:** 4. **VO:** none.
+**SFX track:** reactor groan (deep) → alarm pulse (red, slow
+2 Hz) → metal shudder → single piece falling, distant clatter
+→ single high glass tone (the new connection appearing on the
+Conspiracy Board).
+
+| # | start frame | end frame | duration | note |
+|---|---|---|---|---|
+| 1 | Engineering reactor wide, stable, capacity readout green. | Same wide; readout drops to "34%" in red; alarm light pulses red on the upper-left rail. | 8 s | SFX: groan deepens, alarm pulse begins. |
+| 2 | (= end shot-1) Reactor stable but alarm pulsing. | Cut to Bridge ceiling: a structural piece (a single deck-frame brace) falls from the upper rail, mid-air, arrested in frame. | 8 s | SFX: shudder, then clatter starts. |
+| 3 | (= end shot-2) Bridge frame piece falling, mid-air. | Cut to Bridge Conspiracy Board: central Architect node flickers, re-renders with **44 connection lines** instead of 43; the new line glows the brightest. | 9 s | SFX: high glass tone enters as the new line resolves. |
+| 4 | (= end shot-3) Conspiracy Board with 44 connections. | ShadowTongue indigo wash overlays the entire Conspiracy Board; the 44th line is visible only as a deeper indigo crease. | 10 s | SFX: high tone holds, then dies. |
+
+#### 3.1.5 Cutscene — `cs_thought_virus_manifests`
+
+**Trigger:** First room's `infection-level` crosses from `clean`
+to `exposed`. Plays in that room. Flagged
+`cs_tv_manifests_seen`.
+**Length:** ~30 s. **Shots:** 4. **VO:** 1 line (Elara, end of
+shot 4). **SFX track:** organic squelch (single, wet) →
+breath-rhythm pulse (slow, low, room-scale) → tape-stretch
+click → sealing-bolt thunk.
+
+| # | start frame | end frame | duration | note |
+|---|---|---|---|---|
+| 1 | Clean room corner, neutral palette, vent grate at floor seam. | Same composition; a single black mycelium tendril (~6 cm) emerges from the vent grate. | 7 s | SFX: organic squelch on tendril emerge. |
+| 2 | (= end shot-1) Single tendril at vent. | Same view; tendril multiplies into a fan of threads across one wall ≤30%; subtle wall peristalsis (the wall "breathes" once, slow). | 8 s | SFX: breath-rhythm pulse begins. |
+| 3 | (= end shot-2) Threads on wall, room breathing. | Same room sealed: biohazard-amber tape across the doorway in two Xs; viewed through the door's slit-window from outside. | 7 s | SFX: tape-stretch click on each X. |
+| 4 | (= end shot-3) Slit-window view of sealed room. | Pull back from the door: player figure standing in the corridor outside the quarantined room, small, looking. | 8 s | SFX: sealing-bolt thunk. **VO (Elara, soft):** "It found us." |
+
+#### 3.1.6 Cutscene runtime contract
+
+When implemented, each cutscene is a discriminated `CutsceneId`
+under `apps/shared/cutscenes/` consumed by the existing
+`CutsceneOverlay.tsx` (which currently only renders generic
+content from `CompanionHubPage`). Trigger conditions:
+
+| cutsceneId | trigger flag (write) | gate |
+|---|---|---|
+| `cs_awakening` | `cs_awakening_seen` | first boot of save |
+| `cs_first_human_contact` | `cs_first_human_contact_seen` | `comms_frequency_52_7_observed` set |
+| `cs_elara_memory_recovery` | `cs_elara_memory_recovery_seen` | trust(elara) ≥ 80 + `bridge_war_table_online` + `captains_quarters_master_key_used` |
+| `cs_breaking_point` | `cs_breaking_point_seen` | reactor < 35% AND ShadowTongue power ≥ 60 |
+| `cs_thought_virus_manifests` | `cs_tv_manifests_seen` | first room infection transition `clean → exposed` |
+
+Each cutscene also writes a corresponding `loredex_unlock` for
+the entity it implies (e.g., `cs_thought_virus_manifests` →
+`entity_thought_virus`).
+
+---
+
+### 3.2 Yearly Events / Anniversary Cycles — diegetic surface
+
+**What's missing (runtime):** global `worldEvents` table for
+cross-player tracking; IRL-year-tick broadcaster that activates
+the 12-event year-one calendar
+(`docs/design/YEAR_ONE_EVENTS_CALENDAR_V2.md`); per-room
+prestige-cycle visual variant.
+
+**What this section locks (art):** how the diegetic surface
+should look so the moment the broadcaster fires, the visuals
+already exist. Three surfaces: a **Year Ring**, a
+**Prestige-Cycle Trim**, an **Anniversary Plaque rack**.
+
+#### 3.2.1 Year Ring — Bridge ceiling installation
+
+**Diegetic location:** Bridge (§2.3), suspended from the
+ceiling above the captain's chair, visible from any standing
+position.
+
+**Object:** a brass-and-glass ring 2.4 m diameter, 12 segments
+(one per year-one calendar event), each segment showing a
+tiny diorama relief (e.g., Architect's Awakening = a folded
+hand cradling a pinpoint of light; First Light = a sunrise on
+brass plate; Cyber-Solstice = a dark cube with one lit corner).
+
+**Layout sentence (verbatim):**
+*A 2.4-metre brass-and-glass ring suspends from the Bridge
+ceiling forward of the captain's chair, divided into twelve
+relief segments around its circumference; one segment is lit
+from within with cool-amber light, the other eleven are dim;
+the lit segment's relief catches the ceiling-floods so its
+diorama reads in three-quarter relief.*
+
+**State Layer deltas:**
+- `STATE — yearly active <eventId>:` *segment for `<eventId>`
+  is internally lit cool-amber; one frame above it is etched
+  with the event's calendar date.*
+- `STATE — yearly idle:` *no segment is lit; ring is brass-
+  silhouette only, lit only by ambient ceiling-floods.*
+- `STATE — anniversary:` *all twelve segments are lit
+  simultaneously, brighter; ring rotates one full turn over
+  the 24-hour anniversary window (ambient slow rotation).*
+
+**Hotspot:** examine the ring → reveals the year-event roster
+in a brass-engraved hover-tooltip; player can read about
+upcoming events. No interaction with the segments themselves.
+
+**Runtime contract (when wired):** `worldEvents` table with
+columns `(eventId, kind: "year_one_calendar" | "anniversary",
+startedAt, endsAt, payload)`. Server tick at IRL midnight UTC
+checks calendar dates and writes one row when an event begins,
+updates `endsAt` when it closes. Client subscribes via tRPC
+`worldEvents.getActive`. Bridge ring component reads the
+returned event and switches the lit segment.
+
+#### 3.2.2 Prestige-Cycle Trim — per-room rim accent
+
+**Diegetic surface:** Every interior room gains a thin (≤2 cm)
+recessed trim line at floor-and-ceiling junctions. Trim colour
+is per-player and reflects prestige cycle:
+
+| prestige cycle | trim colour | material reading |
+|---|---|---|
+| 0 | none — recess unfilled | bare alloy |
+| 1 | gold | thin brass inlay, polished |
+| 2 | platinum | brushed white-grey alloy |
+| 3 | diamond | colourless reflective edge with rainbow refraction in highlights |
+| 4+ | obsidian-prism | matte black with one moving point of refracted light along its length |
+
+**Layout sentence fragment (universal across rooms):**
+*The floor-and-ceiling junction trim catches a thin
+[gold/platinum/diamond/obsidian-prism] line that follows the
+room perimeter at hand height for the floor and shoulder
+height for the ceiling; the trim's reflectance is the only
+indicator of the player's prestige state.*
+
+**State Layer deltas:** see table above; one delta per cycle.
+
+**Runtime contract:** read `prestigeProgress.prestigeLevel` for
+the current player; pass to the room renderer as a CSS
+custom-property `--prestige-trim`. No new schema needed; the
+table exists.
+
+#### 3.2.3 Anniversary Plaque rack — Memorial Corridor
+
+**Diegetic location:** Memorial Corridor (§2.27), a brass rack
+mounted to the corridor's port wall.
+
+**Object:** 12 anniversary plaques (one per game-year completed
+since launch), each engraved with the year number and a
+single-line community-vote inscription chosen at year-tick.
+
+**Layout sentence:**
+*A vertical brass rack ~2 m tall holds twelve numbered
+anniversary plaques, oldest at top; each plaque carries a
+single etched line of text below its year-number; unfilled
+plaques are blank brass blanks awaiting their year.*
+
+**State Layer deltas:**
+- `STATE — anniversary count <N>:` *N plaques are filled (with
+  inscriptions); 12-N plaques remain blank brass.*
+- `STATE — anniversary active:` *the most-recent plaque is lit
+  from a small overhead lamp; lamp is dim on every other day.*
+
+**Hotspot:** read each plaque → reveals the year's
+inscription + community vote outcome that year.
+
+**Runtime contract:** `worldEvents.getAnniversaryHistory()`
+returns ordered list of `{year, inscription, voteOutcome}`.
+Inscription is generated at year-tick from the year's most-
+recent governance-vote outcome (`generateAnniversaryInscription
+(voteOutcome)`).
+
+---
+
+### 3.3 Trade Empire mission-loop — diegetic surfaces (art only)
+
+The Trade Empire mission loop is **runtime-owned by the parallel
+TE agent**. This section locks only the **diegetic art
+surfaces** that will need to exist when their runtime ships, so
+the art is plug-and-play. Four surfaces: **Trade Command
+Center**, **Cover Identity Board**, **Cargo Manifest Console**,
+**Broker's Office**. Each is a canonical pocket of the Trade
+Hub (§2.31).
+
+#### 3.3.1 Trade Command Center
+
+**Layout sentence:**
+*A circular sector-map projection table dominates the centre
+of the Trade Command Center; six broker-portrait stations ring
+the table at navigator-shoulder height; an overhead reputation
+ticker scrolls per-sector standings as a continuous brass-on-
+black ribbon; mission queue tablets stand to the right of the
+table at console height.*
+
+**Hotspots:**
+- Sector-map table → reveals active sectors with control state
+  (5 tiers: locked / first_arrival / explored / contested /
+  controlled).
+- Mission queue tablets (3–5) → display active missions with
+  progress bars.
+- Reputation ribbon → continuous scroll of per-sector standings.
+
+**State Layer deltas:**
+- `STATE — sector control <sectorId> <tier>:` *the named sector
+  on the map glows in the tier's signature colour (locked =
+  cold-grey, first_arrival = pale-cyan, explored = warm-amber,
+  contested = red-pulse, controlled = steady-gold).*
+- `STATE — mission active <missionId>:` *one queue tablet
+  shows the named mission with a progress bar partially
+  filled.*
+- `STATE — reputation delta <sectorId> <delta>:` *the ribbon
+  highlights the affected sector's row in green (+) or red (−)
+  for one full ticker pass.*
+
+#### 3.3.2 Cover Identity Board
+
+**Layout sentence:**
+*A wall-mounted board ~2 m wide displays up to three active
+cover identities as portrait cards; each card carries a name,
+faction sigil, and an expiration timer in a small brass dial;
+expired covers are crossed out with a single red diagonal slash;
+slots without active covers are blank.*
+
+**State Layer deltas:**
+- `STATE — cover active <coverId>:` *the named portrait is
+  visible with its dial counting down.*
+- `STATE — cover exposed <coverId>:` *the named portrait is
+  crossed with a red slash; its name is over-stamped
+  "BLOWN".*
+- `STATE — cover slot empty:` *blank brass plate.*
+
+#### 3.3.3 Cargo Manifest Console
+
+**Layout sentence:**
+*A standing console ~1.4 m tall presents a paginated cargo
+manifest as etched brass plates that flip to next page on
+tap; each plate lists 5 line-items (name / quantity / origin
+sector / age / market-volatility); the console's right edge
+shows a vertical bar of available storage capacity.*
+
+**State Layer deltas:**
+- `STATE — cargo capacity <pct>:` *the right-edge bar fills
+  to <pct>%; over 90% the bar pulses amber.*
+- `STATE — cargo volatile:` *one or more plates show a
+  red-edge highlight on volatile items.*
+
+#### 3.3.4 Broker's Office
+
+**Layout sentence:**
+*A small private office partition off the Trade Command Center
+contains a single broker-NPC at a desk, a relationship-tier
+plaque on the wall (5 tiers), and a contracts folio open on
+the desk; two empty chairs sit before the desk for player
+seating.*
+
+**State Layer deltas:**
+- `STATE — broker tier <tier>:` *the wall plaque shows the
+  named tier; tier 1 is plain wood, tier 5 is engraved brass.*
+- `STATE — contract pending:` *the folio is open to a contract
+  page with a quill in the margin.*
+
+**Runtime contract (deferred to TE agent):** these surfaces
+will read the existing 6 trade tables (`tradeActiveMissions`,
+`tradeCompletedMissions`, `tradeSectorReputation`,
+`tradeActiveCovers`, `tradeClassSectorUnlocks`,
+`tradeEmpireUserAggregates`) once the missing router procedures
+land.
+
+---
+
+### 3.4 Global Light/Dark Alignment Meter
+
+**What's missing (runtime):** `globalAlignment` schema table;
+aggregate-writer function (cron, e.g., 1/hour, summing
+`characterSheets.lightDarkAlignment` across all players); tRPC
+`alignment.getGlobal()` reader; client meter component.
+
+**What this section locks (art):** the meter as **two visible
+HUD surfaces** AND **per-room ambient-lighting drift**.
+
+#### 3.4.1 HUD surface — Bridge Galaxy Meter
+
+A persistent HUD chip on the Bridge (§2.3) above the captain's
+chair. Reads "GALAXY: <NN>% LIGHT" and displays as a horizontal
+gauge from cool-violet (0%) through neutral white (50%) to
+warm-gold (100%).
+
+**Layout sentence (HUD):**
+*A 16-cm horizontal gauge floats above the captain's chair as
+a holo-brass panel; the gauge fills from left (cool-violet) to
+right (warm-gold); the current galaxy alignment is shown as a
+needle on the gauge with the percentage in small brass numerals
+beside it.*
+
+**State Layer deltas (5 brackets):**
+- `STATE — galaxy long-night (≤20%):` *gauge needle far left,
+  cool-violet wash; small caption "the long night holds".*
+- `STATE — galaxy dimming (21–45%):` *gauge needle left of
+  centre, palette shifts cooler.*
+- `STATE — galaxy balanced (46–55%):` *gauge needle centred,
+  neutral white.*
+- `STATE — galaxy warming (56–80%):` *gauge needle right of
+  centre, palette shifts warmer.*
+- `STATE — galaxy dawn (≥81%):` *gauge needle far right,
+  warm-gold wash; small caption "the dawn approaches".*
+
+#### 3.4.2 Per-room ambient drift
+
+Every room's ambient-light temperature shifts ±300K based on
+galaxy alignment. The shift is a single multiplier on the
+room's base palette (does NOT change geometry, materials, or
+hotspots — just light temperature). The drift is the **visible
+proof** that votes shape the world.
+
+**Layout sentence fragment (universal):**
+*The room's ambient lighting carries the galaxy temperature
+overlay: cooler by 300K when the galaxy is in long-night,
+warmer by 300K when the galaxy is in dawn; mid-states
+interpolate linearly.*
+
+**Runtime contract:** `alignment.getGlobal()` returns
+`{percentLight: number}`. Renderer reads this and applies a
+single CSS custom-property `--galaxy-temperature-k` to the
+room shell (default 5500 K; long-night 5200 K; dawn 5800 K).
+
+---
+
+### 3.5 [Reserved — Story Item Registry]
+
+See plan; will be authored from NOTES §11.
+
+---
+
+### 3.6 Notification surfaces — 14 missing producer types
+
+**What's missing (runtime):** 14 of 58 notification types
+declared in `apps/db/schema.ts:1777` have no producer. These
+types must each gain a producer that writes a notification to
+the player's inbox.
+
+**What this section locks (art):** the **Notification Bell** +
+**toast surface** must visually distinguish each type so when
+the producer fires, the toast already has its identity. Per-
+type design specifies icon glyph, accent colour, audio cue,
+and inbox grouping.
+
+| notification type | icon glyph | accent colour | audio cue | inbox group |
+|---|---|---|---|---|
+| `pvp_challenge` | crossed swords | crimson | dual short blade-clang | duels |
+| `epoch_quest` | epoch sigil (ouroboros) | indigo | low gong | epoch |
+| `syndicate_quest` | syndicate trident | dark-amber | three short clicks | syndicate |
+| `battle_pass_reward` | tier ribbon | gold | short fanfare (1 s) | progression |
+| `boss_mastery` | crowned skull | platinum | high tone hold | mastery |
+| `governance_vote_open` | folded ballot | royal-blue | bell-ping | governance |
+| `governance_vote_closed` | sealed ballot | royal-blue | bell-ping (lower pitch) | governance |
+| `epoch_witness_unlocked` | nexus-point glyph | violet-prism | shimmer | epoch |
+| `community_milestone` | linked-hands sigil | warm-rose | community chime | community |
+| `tournament_bracket_open` | bracket diagram | tournament-gold | trumpet 1 s | tournament |
+| `tournament_round_close` | trophy silhouette | tournament-gold | trumpet 0.5 s | tournament |
+| `daily_streak_milestone` | flame | streak-orange | flint-spark click | progression |
+| `npc_trust_milestone` | linked-portraits | trust-warm-amber | gentle two-note rise | relationships |
+| `seasonal_drop_available` | wrapped parcel | seasonal-theme | ribbon-untie | seasonal |
+
+**Toast layout sentence:**
+*A 32-cm wide toast slides in from the right edge with the
+type's glyph at the leading edge in the type's accent colour;
+the toast body is a single brass-on-black line of caption text;
+the trailing edge shows a small "open" chevron; the toast
+auto-dismisses after 6 s unless hovered.*
+
+**Inbox group layout:** Notifications group by `inbox group` in
+the bell-popover. Groups collapse if they have more than 3
+unread items; the group header shows the count.
+
+**Runtime contract:** producer for each type must call
+`notifications.emit({type, payload, recipientUserId})`. Client
+reads via tRPC `notifications.getInbox()`.
+
+---
+
+### 3.7 Mobile Narrator surfaces (5 missing pages)
+
+`MobileNarratorSlot.tsx` exists (303 lines); only
+`ArkExplorerPage.tsx` imports it. The slot must adopt to five
+more pages — these all inherit the same component but render
+distinct in-page positioning. Per-page positioning + companion-
+appropriateness is locked here.
+
+| page | slot position | default companion | contextual VO triggers |
+|---|---|---|---|
+| `CompanionHubPage` | bottom-third, centred, fades at scroll | the companion currently viewed | bond-tier change; ask-topic exhausted |
+| `AwakeningPage` | full-width, top, persistent | Elara | first wake (`cs_awakening` precedes); first hand on console |
+| `MemorialCorridorPage` | bottom-third, left, dim | Elara | each fallen-crew plaque first read |
+| `PetGardenPage` | bottom-right corner, small | Elara | first pet hatch; bond-milestone reached; pet death |
+| `CharacterCreationPage` | left rail, persistent | The Human (substrate signal) | each archetype hover; final commit |
+
+**Layout sentence (universal slot):**
+*The MobileNarratorSlot is a 280px-wide rectangle with the
+companion portrait at left (60px tall) and a single line of
+typewriter caption at right; the slot fades in over 600ms,
+holds for the duration of the line, and fades out over 300ms;
+two slots never overlap — newer line replaces older with a
+short crossfade.*
+
+**Runtime contract:** Each page imports `MobileNarratorSlot`
+and passes the per-trigger payload (`companionId, lineId`).
+Trigger detection is per-page — the page knows when its
+narratable beats fire and calls `slot.show({companionId,
+lineId})`.
+
+---
+
+### 3.8 Shadow Tongue Multi-Stage Art Tiers — 24 rooms × 4 states
+
+Today only Cryo Bay and Medical Bay have 4-state tier art
+(`apps/shared/roomStateArtPrompts.ts`). 24 other rooms have
+mystery flags but no art swap. This section locks the **4
+tiers** and the **per-tier visual register** so each of the 24
+rooms can be rendered in all four.
+
+#### Universal 4-tier visual register
+
+| tier | name | universal register |
+|---|---|---|
+| 0 | initial | room as authored in §2; no investigation marks |
+| 1 | investigating | one yellow-tape "X" on each examined hotspot; subtle dust-disturbance around hotspots; one out-of-place item visible |
+| 2 | partial-resolved | hotspot tapes turn cyan; an evidence cart appears at the room edge; an Investigator NPC silhouette is faintly visible (off-frame, implied) |
+| 3 | case-closed | tapes are removed; evidence cart is gone; the room is "tidied"; one new memorial / closure object sits where the case-defining hotspot was (a brass plate, a cover sheet, a closed folder) |
+
+**Per-room tier-3 closure object** must be specified per room
+(authored in each room's §2.x.5 State Layer block when the
+room is back-filled with the 13-row grid per the master plan).
+
+The 24 rooms requiring tier art (excluding Cryo Bay + Med Bay
+which already have it):
+
+Bridge, Archives, Comms Array, Observation Deck, Engineering
+Bay, Forge Workshop, Armory, Cargo Hold, Captain's Quarters,
+Trophy Room, Antiquarian's Library, Guild Sanctum, Social Hub,
+Station Dock, Engineering Core, Oracle Sanctum, Shadow Vault,
+War Room, Cipher Den, Hierarchy Throne Sanctum, Chaos Forge,
+Elemental Nexus, Quantum Lab, Synthesis Chamber.
+
+**Runtime contract:** `roomStateArtPrompts.ts` extends from 2
+rooms to 26; each entry specifies the four tier prompt
+fragments. The renderer (`apps/client/src/game/roomStateAssets.ts`)
+already reads from this map — no code change needed.
+
+---
+
+### 3.9 Soul Stones — purification / corruption economy
+
+**What's missing (runtime):** zero DB tables, zero router, zero
+card operation. Pure design doc
+(`docs/design/SOUL_STONES_SYSTEM.md`). The `eidolonBonds` table
++ `soulStonesRouter` ship Eidolon-bond progression but **not**
+the tri-state stone economy.
+
+**What this section locks (art):** the **Resonance Pedestal**
+(Med Bay), the **Corruption Circle** (Castle of Death), and the
+**Favourites Shelf** (Personal Quarters).
+
+#### 3.9.1 Resonance Pedestal — Med Bay Resonance Chamber
+
+**Diegetic location:** Med Bay (§2.2), placed beside the helix
+station inside the Resonance Chamber sub-room.
+
+**Layout sentence:**
+*A short white-marble pedestal ~80 cm tall stands in the
+Resonance Chamber's pool of Dreamer-light; its top surface is
+a shallow bowl that holds one to seven soul stones at a time;
+violet stones glow neutrally, gold stones glow with active
+warm light from within, red stones are absent here (cannot be
+purified).*
+
+**State Layer deltas:**
+- `STATE — pedestal empty:` *bowl is dry, white-marble.*
+- `STATE — pedestal violet count <N>:` *N violet stones in
+  bowl, glowing neutral.*
+- `STATE — pedestal gold count <N>:` *N gold stones in bowl,
+  glowing warm; the bowl's marble glows from below.*
+- `STATE — pedestal purifying:` *one stone in transit between
+  violet and gold — visible mid-process as a stone with
+  half-violet/half-gold internal glow; held for 24 IRL hours.*
+
+**Hotspot:** inspect → reveals stone counts and purification
+progress. Place violet stone → starts a 24-hour purification
+timer. Take gold stone → adds to inventory.
+
+#### 3.9.2 Corruption Circle — Castle of Death (Hellbox 2 pocket)
+
+**Diegetic location:** Castle of Death pocket, reached via
+Hellbox 2 in Hierarchy Throne Sanctum (§2.22).
+
+**Layout sentence:**
+*A summoning circle inscribed in red ochre and obsidian-flake
+fills the Castle's central floor; the circle has seven nodes
+around its perimeter and one central altar; red stones placed
+on the nodes glow internally; gold stones cannot be placed
+here (cannot be corrupted); the central altar accepts violet
+stones and converts them to red.*
+
+**State Layer deltas:**
+- `STATE — circle empty:` *circle is etched but no stones
+  placed.*
+- `STATE — circle red count <N>:` *N nodes hold red stones,
+  glowing.*
+- `STATE — circle corrupting:` *one violet stone on the
+  central altar mid-conversion — visible as half-violet/half-
+  red internal glow.*
+- `STATE — circle complete:` *all 7 nodes hold red stones;
+  central altar holds the bound demon-pet's brass token;
+  Hellbox 2 returns the player to Hierarchy Throne with the
+  demon-pet now in inventory.*
+
+#### 3.9.3 Favourites Shelf — Personal Quarters
+
+**Diegetic location:** Personal Quarters favourites shelf
+(existing décor slot).
+
+**Layout sentence:**
+*A 60-cm shelf at standing height holds up to seven soul stones
+in arranged display; each stone sits in a recessed brass
+fitting; violet stones are arranged left, gold centre, red
+right; empty fittings are visible as brass impressions in the
+shelf.*
+
+**State Layer deltas:** one per stone-position-and-colour combo
+(7 positions × 3 colours + empty = 22 states; renderer
+permutes from a single shelf prompt by reading the player's
+held-stones array).
+
+**Runtime contract:** `soulStones` table needed: `(userId,
+stoneId, colour: 'violet'|'red'|'gold', acquiredAt,
+purifyingFromMs?, corruptingFromMs?)`. tRPC
+`soulStones.getInventory()` returns the array. Server tick
+checks active purify/corrupt timers and flips colour at expiry.
+The three diegetic surfaces all read from this table.
+
+---
+
+### 3.10 Pet / Specimen Breeding — multi-generational diegetic surface
+
+**What's missing (runtime):** the MVP queue ships
+(`petBreedingPairs:7387` table + `petBreeding.ts` router); the
+**multi-generational lineage** + **evolution chambers** per the
+design doc are not wired.
+
+**What this section locks (art):** **Breeding Wing**, **Genealogy
+Tree**, **Evolution Chambers (3)**, **Bloodline Plinth**. All
+located in Pet Garden (§2.28).
+
+#### 3.10.1 Breeding Wing
+
+**Layout sentence:**
+*A wing of Pet Garden shaped as a long greenhouse alcove holds
+six brass-and-glass incubation pods in two rows of three; each
+pod is a half-metre transparent dome with a pet egg or hatchling
+inside; pod bases are inset into the floor; pod-status is shown
+by base-glow colour.*
+
+**State Layer deltas (per pod):**
+- `STATE — pod queued:` *pod is empty, dome dim, base cool-
+  blue.*
+- `STATE — pod incubating:` *pod holds an egg, dome warm-
+  amber, base pulsing.*
+- `STATE — pod ready:` *pod holds a hatchling, dome gold,
+  base radiant.*
+- `STATE — pod claimed:` *pod is empty, base dim again.*
+
+**Hotspot:** examine pod → shows the breeding pair, expected
+offspring traits, and timer.
+
+#### 3.10.2 Genealogy Tree
+
+**Layout sentence:**
+*A vertical brass tree mounted on the Breeding Wing's back
+wall; nodes are circular brass plates engraved with each pet's
+glyph; lines connect parent-pairs to offspring; the player's
+founder pets sit at the trunk, generations branch upward.*
+
+**State Layer deltas:**
+- `STATE — generations <N>:` *the tree shows N levels of
+  generation; lower generations are dimmer brass, recent
+  generations brighter.*
+- `STATE — bloodline witness <milestoneId>:` *the milestone-
+  triggering offspring's plate is rimmed with cool-violet (Lyra
+  Vox's witness mark — see NOTES §12.5).*
+
+#### 3.10.3 Evolution Chambers (3 — egg → growth → evolved)
+
+**Layout sentence:**
+*Three brass-and-glass chambers stand in a row at the Pet
+Garden's far end, each ~1.4 m tall; chamber 1 is shaped for an
+egg, chamber 2 for a juvenile, chamber 3 for an evolution
+ritual; each chamber base has a touch-glyph that initiates its
+phase.*
+
+**State Layer deltas:** per chamber: `idle / occupied /
+processing / complete` (4 each, 12 total).
+
+#### 3.10.4 Bloodline Plinth
+
+**Diegetic location:** Pet Garden centre.
+
+**Layout sentence:**
+*A waist-high obsidian plinth at the Pet Garden's centre bears
+a polished brass plate engraved with the player's most-recent
+Bloodline Witness Report from Lyra Vox; the plate is etched
+fresh on each milestone (5 milestones per save, see NOTES
+§12.5); previous reports are filed in the plinth's brass
+drawer below.*
+
+**State Layer deltas:**
+- `STATE — plinth milestone <milestoneId>:` *plate engraves
+  the named milestone's text.*
+- `STATE — plinth filed count <N>:` *the drawer shows N filed
+  reports as visible folded brass plates.*
+
+**Runtime contract:** existing `petBreedingPairs` table extends
+with `parentageGenealogy` JSON column for the tree;
+`bloodlineWitnessReports` table needs a writer (the
+`lyraVoxBloodlineWitness.ts` module is reference data only).
+
+---
+
+### 3.11 Living Character Sheet
+
+**What's missing (runtime):** zero runtime references. Pure art
+brief (`docs/production/LIVING_CHARACTER_SHEET_ART_BRIEF.md`).
+
+**What this section locks (art):** the **Personal Quarters
+Living Mirror** and the **Character Sheet HUD** as the two
+diegetic surfaces that render the player character with all
+equipped cosmetics, equipment, and morality state in real-time.
+
+#### 3.11.1 Living Mirror — Personal Quarters
+
+**Layout sentence:**
+*A standing full-length mirror ~2 m tall in the Personal
+Quarters main room; the reflection renders the player's
+character as a Three.js paper-doll with all currently-equipped
+cosmetic layers (aura, voice-pack chip on collar, music-pack
+note on shoulder, title plate on belt, equipped weapons in
+holster); the mirror's frame is brass with a slight ambient
+glow that reflects morality alignment (cool-violet for machine,
+warm-gold for human).*
+
+**State Layer deltas:**
+- `STATE — alignment machine:` *frame glow cool-violet; one
+  fragment of the reflection is mechanical (e.g., a single
+  servo joint visible at the wrist).*
+- `STATE — alignment balanced:` *frame glow neutral white.*
+- `STATE — alignment human:` *frame glow warm-gold; reflection
+  is fully organic.*
+- `STATE — equipping:` *one cosmetic layer is mid-fade — the
+  new layer is at 50% opacity overlapping the old.*
+
+#### 3.11.2 Character Sheet HUD
+
+A persistent character sheet page accessible from any room.
+Same paper-doll renderer as the Living Mirror; rotates 360°
+on player drag; cosmetics can be equipped/unequipped from this
+view and the change reflects in the mirror in real-time.
+
+**Layout sentence:**
+*A character sheet page renders the same paper-doll as the
+Personal Quarters mirror in a 16:9 viewport at left;
+right-rail tabs show equipment / cosmetics / loadouts / soul
+stones; equip-actions trigger a 600ms fade between the old and
+new cosmetic layer.*
+
+**Runtime contract:** existing `PaperDollRenderer.tsx` extends
+to read all equipped layers in real-time (today it reads only
+on mount). Add a subscription to
+`equippedCosmetics.subscribe()` so changes propagate without a
+page refresh.
+
+---
+
+*End of §3. §3.5 (Story Item Registry) authored separately
+from NOTES §11.*
+
+---
+
