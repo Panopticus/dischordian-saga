@@ -3925,9 +3925,2623 @@ the centre pulpit and back. End frame: canonical baseline.
 
 ---
 
+### 2.17 Engineering Core (D8 hidden — soldier sanctum)
+
+- **id:** `engineering-core` / internal `engineering_core`
+- **Deck:** 8 (hidden)
+- **Adjacency:** Engineering Bay (rear-elevator descent)
+- **Gating:** soldier-class only AND `act_3_complete`
+- **Status:** new (no canon today — this entry is the canon)
+
+**Layout sentence:**
+*A reactor-adjacent hexagonal chamber three decks below
+Engineering Bay; matte-grey alloy walls panelled with brass
+service-plates; a central ferrokinetic forge plinth dominates
+the floor at waist height; six secondary stations ring the
+plinth — each station is keyed to a soldier-class signature
+weapon; the chamber's overhead is an iron-and-steam circulation
+ring that hisses at irregular intervals; emergency rim-lights
+trace the floor and ceiling junctions in muted-amber.*
+
+**Hotspots:** ferrokinetic forge plinth (centre — central craft
+surface); soldier-class ledger (left wall); six weapon-station
+plates (per signature weapon); reactor-vibration dial (rear);
+soldier-creed plaque (above forge).
+
+**NPCs:** none resident; Wraith Calder voice may surface at
+trust ≥80 (Iron Lion arc cross-reference).
+
+#### 2.17.1 Back-fill grid (axes 9–17 + storyteller hooks + HUD overlap)
+
+1. **TV infection:** clean = none; exposed = wisps from
+   reactor-vibration dial seam, mycelium thread on plinth
+   underside; spreading = mycelium fans across station plates;
+   corrupted = voidblack pooling at plinth foot, indigo wash
+   on ledger; quarantined = sealed-X tape across the forge.
+2. **Demon-summoning surface:** —
+3. **CADES:** —
+4. **Story items (§3.5):** soldier-class weapon signatures
+   forged at the plinth; Iron Lion oath token may be
+   re-consecrated here on `jericho_trust_max`.
+5. **Mystery-arc bindings:** Jericho Jones E2 (Battle of
+   Thaloria training records on soldier-class ledger);
+   Wraith Calder E1 (Iron Lion callsign history surfaced via
+   plinth interaction).
+6. **Investigation tier:** four canonical tiers — closure
+   object = a single restored soldier-creed plaque in brass.
+7. **Governance modifier reactions:** `combat_damage_buff` →
+   plinth surface gains an extra orange-amber pulse;
+   `quarantine_protocol_active` → plinth dimmed.
+8. **Epoch / ShadowTongue:** ShadowTongue power ≥40 → ledger
+   carries indigo marginalia; on `grandEditActive`, soldier-
+   creed plaque is overstamped with an unknown sigil.
+9. **Cycle-phase lighting:** dawn 5800K warm-amber on plinth;
+   long-night 5200K cool-violet on iron-and-steam ring.
+10. **Faction livery:** Iron Lions allied = Iron Lion banner
+    over the plinth; Hierarchy-allied = Hierarchy ouroboros
+    on plinth base.
+11. **Tournament window:** finals = champion-tier soldier
+    silhouette displayed on the central plinth.
+12. **Storyteller hooks:** the Lost Sixth Station (sealed,
+    one of six is permanently closed — what was the 6th
+    soldier signature?); Lyra Vox's Calibration Record (on
+    plinth base, etched microscopically); Reactor Pulse
+    Counter (incrementing day-count from before launch).
+    Expansion-reserved zone: Sealed Inner Forge (behind the
+    rear elevator). Living-world: every IRL hour, the iron-
+    and-steam circulation ring releases a single brass-steam
+    puff.
+13. **HUD overlap:** §9 unified Loadout Switcher (soldier-
+    class loadout surfaces here); `PaperDollRenderer.tsx`
+    (paper-doll mid-craft visible during forge interaction).
+
+#### 2.17.2 Discovery cutscene + HUD anchor
+
+`engineering_core_first_descent` (~10 s): Engineering Bay
+rear-elevator activates for the first time; player descends
+through three decks; emergency rim-lights ignite in sequence;
+plinth ignites with a brass-orange pulse on arrival. HUD
+anchor: signature-weapon launcher fires on plinth touch.
+
+---
+
+### 2.18 Oracle Sanctum (D8 — oracle scrying pool)
+
+- **id:** `oracle-sanctum` / internal `oracle_sanctum`
+- **Deck:** 8
+- **Adjacency:** Antiquarian's Library (rear-pocket portal)
+- **Gating:** oracle-class only AND `loredex_50_unlocked`
+- **Status:** new
+
+**Layout sentence:**
+*A circular meditation chamber 9 m across, lit only by a
+central scrying pool of still violet water set into the floor;
+twelve standing-stones ring the pool, each carved with a
+prophecy sigil and weathered to a different degree; the
+chamber's domed ceiling is open to a starfield that doesn't
+match the Ark's exterior coordinates; cool-violet ambient with
+warm-gold rim-light from a single brazier at the chamber's
+edge.*
+
+**Hotspots:** scrying pool (central); twelve prophecy stones;
+brazier; vision lectern (left wall); offering bowl beside pool.
+
+**NPCs:** none resident; the Seer's posthumous voice may
+surface here at oracle-trust ≥60.
+
+#### 2.18.1 Back-fill grid
+
+1. **TV infection:** clean = none; exposed = wisps from
+   brazier, mycelium thread on pool rim; spreading = mycelium
+   on stone bases; corrupted = voidblack overlay on pool's
+   surface, water turns murky; quarantined = sealed-X across
+   pool.
+2. **Demon-summoning surface:** —
+3. **CADES:** —
+4. **Story items (§3.5):** Seer's DO-NOT-PLAY band
+   may be brought here for ritual; offering bowl accepts
+   violet soul stones (alternate purification path).
+5. **Mystery-arc bindings:** the Seer arc E1, E2, E5 (DO-
+   NOT-PLAY band; VAR-1109A/B prophecy pair carved on stones
+   #7 and #8; Canon Paradox surfaces in the pool's
+   reflection at trust-100).
+6. **Investigation tier:** four canonical tiers — closure
+   object = a single bronze plate set into the pool's rim
+   etched with the player's chosen prophecy.
+7. **Governance modifier reactions:** `oracle_blessing
+   _active` → pool surface ripples once per minute; vote-
+   open shows §3.6 folded-ballot glyph reflected on pool.
+8. **Epoch / ShadowTongue:** ShadowTongue power affects pool
+   inversely (paradoxically clearer with higher power); on
+   `grandEditActive`, all stone sigils are legible plain-
+   text for one visit.
+9. **Cycle-phase lighting:** dawn 5800K warm-amber on
+   brazier; long-night 5200K cool-violet on pool surface.
+10. **Faction livery:** Antiquarian-allied = a small bound
+    chronicle on the lectern; Hierarchy-allied = a sealed
+    Hierarchy seal on the brazier.
+11. **Tournament window:** —
+12. **Storyteller hooks:** the Twelve Prophecy Stones (each
+    carries a different prophecy; one is blank — reserved
+    for the player's own); Pool of Reflection (player's
+    reflection appears slightly delayed — see §3.1.3 Elara
+    memory recovery cross-reference); Brazier Smoke Signs
+    (smoke patterns shift hourly forming readable glyphs at
+    trust ≥80). Expansion-reserved zone: the 13th Stone
+    (sealed alcove behind the lectern). Living-world: every
+    IRL hour the brazier flame changes colour briefly.
+13. **HUD overlap:** §3.4.1 Galaxy Meter cross-reference
+    (pool reflects the meter's current state); `Mobile
+    NarratorSlot.tsx` (the Seer's voice surfaces);
+    `MoralityMeter.tsx` (offering a stone may trigger
+    morality shift).
+
+#### 2.18.2 Discovery cutscene + HUD anchor
+
+`oracle_first_scrying` (~10 s): pool ignites violet on first
+approach; twelve stones briefly illuminate in sequence; brazier
+flares once; player's reflection appears delayed by 1 s. HUD
+anchor: prophecy-stone selection drives §9 Loredex Viewer
+filter.
+
+---
+
+### 2.19 Shadow Vault (D8 — assassin sanctum)
+
+- **id:** `shadow-vault` / internal `shadow_vault`
+- **Deck:** 8 (hidden)
+- **Adjacency:** Cipher Den (right-bulkhead concealed door)
+- **Gating:** assassin-class only AND `kael_lore_discovered`
+- **Status:** extends existing `roomMediaPrompts.ts` shadow
+  vault entry
+
+**Layout sentence:**
+*A black-stone vault 6 m square with no visible doorway from
+inside; obsidian-flake walls absorb light; a single low altar
+of polished black marble sits at the chamber's centre, holding
+a slender black blade laid across two pegs; six small alcoves
+around the perimeter each hold a single named token (one per
+known assassination); the floor is dust over basalt; a single
+cold-cyan pinpoint above the altar provides the only light.*
+
+**Hotspots:** central altar with assassin's blade; six tribute
+alcoves; floor-dust footprint chart (rear); offering peg
+(left).
+
+**NPCs:** none — the Vault is lonely.
+
+#### 2.19.1 Back-fill grid
+
+1. **TV infection:** clean = none; exposed = mycelium from
+   altar base seam; spreading = mycelium on alcove floors;
+   corrupted = voidblack on blade itself; quarantined = full
+   seal.
+2. **Demon-summoning surface:** —
+3. **CADES:** —
+4. **Story items (§3.5):** assassin's blade (altar); 6
+   tribute tokens (one per known assassination — Akai Shi
+   token is one of these).
+5. **Mystery-arc bindings:** Jericho Jones E1 (Akai Shi
+   tribute token); the Seer arc E1 (sealed letter delivered
+   to altar at trust-100).
+6. **Investigation tier:** four canonical tiers — closure
+   object = the assassin's blade replaced by a brass plate
+   etched with the player's chosen restraint vow.
+7. **Governance modifier reactions:** `quarantine_protocol
+   _active` → blade dimmed.
+8. **Epoch / ShadowTongue:** ShadowTongue power ≥40 → one
+   tribute token's name is overstamped indigo (the
+   assassination is "edited" out); on `grandEditActive`,
+   the altar shows seven alcoves instead of six.
+9. **Cycle-phase lighting:** dawn 5800K warm-amber edge;
+   long-night 5200K cool-violet — but pinpoint above altar
+   is always cold-cyan regardless.
+10. **Faction livery:** Insurgency-allied = small caltrop-
+    stamp on altar; otherwise faction-neutral.
+11. **Tournament window:** —
+12. **Storyteller hooks:** Footprint Chart (dust pattern
+    shows footprints from previous visitors — only the
+    player's footprints appear today); Empty Alcove (one
+    tribute alcove is bare, reserved for a future named
+    assassination); Blade History (engravings on blade
+    handle name the previous bearers — the chain ends with
+    Lyra Vox). Expansion-reserved zone: the 7th Alcove
+    (concealed behind the altar). Living-world: every IRL
+    week the dust pattern subtly redistributes.
+13. **HUD overlap:** §9 unified Loadout Switcher (assassin
+    loadout); `MoralityMeter.tsx` (tier-up if blade is
+    laid down rather than taken).
+
+#### 2.19.2 Discovery cutscene + HUD anchor
+
+`shadow_vault_first_entry` (~8 s): wall-panel in Cipher Den
+opens silently; player descends; pinpoint over altar ignites;
+blade's edge catches one frame of light. HUD anchor: assassin-
+class signature attack launcher fires on blade-touch.
+
+---
+
+### 2.20 War Room (D8 — strategist sanctum, faction-standing display)
+
+- **id:** `war-room` / internal `war_room`
+- **Deck:** 8
+- **Adjacency:** Bridge (right-rear lift), Armory (left
+  doorway)
+- **Gating:** any tactics ≥3 OR `bridge_war_table_online`
+- **Status:** new (the Bridge War Table is a smaller
+  preview surface; this is the dedicated room)
+
+**Layout sentence:**
+*A long oval war-table 4 m × 2 m dominates a hexagonal chamber
+on Deck 8; the table's surface is a holographic galaxy-map
+that updates in real-time with faction control colours; five
+faction standing pylons rise from the table's perimeter — one
+per faction, each pylon a brass column with a banner draped to
+a height proportional to the player's standing band; six chairs
+are pulled around the table at unequal positions reflecting
+which factions are present in the current scenario; the rear
+wall holds a tactical-history scroll-wall of past campaigns.*
+
+**Hotspots:** war-table holo-map (centre); 5 faction standing
+pylons; tactical-history scroll-wall (rear); 6 chairs (each is
+a faction-rep slot); diplomatic-folio rack (left).
+
+**NPCs:** faction-rep silhouettes appear seated based on
+current diplomatic state.
+
+#### 2.20.1 Back-fill grid
+
+1. **TV infection:** clean = none; exposed = wisps from war-
+   table seams; spreading = mycelium on pylons; corrupted =
+   voidblack on chairs; quarantined = sealed-X across war-
+   table.
+2. **Demon-summoning surface:** —
+3. **CADES:** —
+4. **Story items (§3.5):** 5 faction standing badges (top
+   of each pylon); 6 diplomatic folios (rack, one per
+   active treaty); tactical-history chronicle (scroll-wall).
+5. **Mystery-arc bindings:** Wraith Calder E5 (Prophet
+   identity surfaces in tactical-history scroll-wall at
+   trust-100).
+6. **Investigation tier:** four canonical tiers — closure
+   object = a single restored galaxy-map under glass with
+   the player's chosen end-game faction allegiance lit.
+7. **Governance modifier reactions:** `faction_succession_
+   announced` → affected pylon banner re-furls in animation;
+   `world_modifier` overlays show on the table edge.
+8. **Epoch / ShadowTongue:** ShadowTongue power ≥40 → tact-
+   history scroll shows indigo overstrikes; on `grandEdit
+   Active`, the war-table holo flickers 6 factions instead
+   of 5 momentarily.
+9. **Cycle-phase lighting:** dawn 5800K on table; long-
+   night 5200K on chairs.
+10. **Faction livery:** **always load-bearing** — every
+    pylon's banner reflects the player's standing per
+    faction; champion-tier pylons gilt-edged.
+11. **Tournament window:** finals = champion-tier table
+    overlay shows current bracket leader.
+12. **Storyteller hooks:** the Empty Chair (one chair is
+    always pulled out but never seated — reserved for
+    "the unspoken party"); Faction Pulse (each pylon
+    glows one beat per faction-action somewhere in the
+    galaxy — slow ambient); Tactical Chess Move (the war-
+    table's central hex shifts one piece per IRL day,
+    matching Bridge phantom move). Expansion-reserved
+    zone: the 6th Faction Pylon (currently unraised,
+    awaiting a future faction's emergence). Living-world:
+    every IRL hour, one pylon's banner subtly re-furls
+    matching the most-recent faction-standing change.
+13. **HUD overlap:** §9 unified Resource Counter (faction
+    standing surfaces here); §3.6 Faction Succession
+    notification anchor; `LeaderboardPage.tsx` (faction-war
+    leaderboard); `CinematicDialogOverlay.tsx` (diplomatic
+    scenes).
+
+#### 2.20.2 Discovery cutscene + HUD anchor
+
+`war_room_first_council` (~12 s): Bridge lift opens; player
+enters; war-table ignites with current faction-control map; 5
+pylons rise from table edge; faction silhouettes seat
+themselves in unequal positions. HUD anchor: faction-standing
+launcher fires from pylon-touch.
+
+---
+
+### 2.21 Cipher Den (D8 — spy sanctum + Shadow Tongue Uncorruption Bench)
+
+- **id:** `cipher-den` / internal `cipher_den`
+- **Deck:** 8
+- **Adjacency:** Comms Array (left-wall concealed door),
+  Shadow Vault (right-bulkhead concealed door)
+- **Gating:** spy-class OR `loredex_uncorruption_unlocked`
+- **Status:** new (also hosts the Shadow Tongue Uncorruption
+  Bench from §3.10.5 / NOTES §12.8 — Epoch Witness)
+
+**Layout sentence:**
+*A low-ceilinged signal-decryption chamber lit only by green
+spectrogram displays mounted on three of four walls; a
+horseshoe-shaped decryption desk wraps around the room's
+centre; behind the desk, a single backlit bench — the **Shadow
+Tongue Uncorruption Bench** — holds a series of corrupted
+loredex entries laid out as parchment sheets, each with an
+indigo stamp visible across its text; spy-cover identity
+plates hang from the rear wall.*
+
+**Hotspots:** horseshoe decryption desk (centre); 3 wall-
+mounted spectrogram displays; Shadow Tongue Uncorruption
+Bench (rear); spy-cover identity plates (rear wall, 3 active
+slots); decryption stamp-wheel (right).
+
+**NPCs:** Adjudicator Locke (signal-only, surfaces on
+`shadow_tongue_uncorruption_attempted`).
+
+#### 2.21.1 Back-fill grid
+
+1. **TV infection:** clean = none; exposed = wisps from
+   spectrogram displays, mycelium on bench; spreading =
+   mycelium on identity plates; corrupted = voidblack on
+   bench parchments; quarantined = sealed-X across bench.
+2. **Demon-summoning surface:** —
+3. **CADES:** —
+4. **Story items (§3.5):** corrupted loredex entries on
+   bench (active edits surfaceable here); 3 active spy-
+   cover identities (per Trade Empire diegetic surface
+   §3.3.2); decryption stamp-wheel (player tool).
+5. **Mystery-arc bindings:** Wraith Calder E1, E2 (bounty
+   file decryption, Substrate-N residue analysis); the
+   Seer arc E1, E3 (DO-NOT-PLAY tape spectrogram analysis;
+   DEC-7710 catalog card decryption).
+6. **Investigation tier:** four canonical tiers — closure
+   object = a single brass plate set into the bench etched
+   with "Last Edit Cleared, [date]".
+7. **Governance modifier reactions:** `shadow_tongue_
+   uncorruption_active` → bench glows warm-amber; vote-open
+   shows §3.6 ballot glyph on a spectrogram display.
+8. **Epoch / ShadowTongue:** **PRIMARY DIEGETIC SURFACE FOR
+   SHADOW TONGUE.** ShadowTongue power displayed on the
+   centre-rear wall as a vertical bar 0–100; active edits
+   on bench display the indigo stamp; clearing an edit
+   plays a 3 s "uncorruption" animation (stamp fades, text
+   resolves to plain). On `grandEditActive`, the entire
+   bench's contents are overstamped and the bench glows
+   indigo.
+9. **Cycle-phase lighting:** dawn 5800K on desk; long-night
+   5200K on bench.
+10. **Faction livery:** Insurgency-allied = caltrop-stamp on
+    desk; Hierarchy-allied = sealed Hierarchy seal on bench;
+    Antiquarian-allied = small bound chronicle on bench.
+11. **Tournament window:** —
+12. **Storyteller hooks:** Identity Plate History (each
+    plate carries the lineage of its cover identity);
+    Spectrogram Constellation (the 3 wall displays
+    occasionally align to form a recognisable star pattern
+    — clue to the Frequency Wall §2.5); Cipher Wheel
+    Origin (engravings on stamp-wheel name its previous
+    bearers, ending with Lyra Vox). Expansion-reserved
+    zone: the 4th Wall (currently dark — reserved for a
+    future spectrogram display). Living-world: every IRL
+    hour, one spectrogram display flickers through 3 random
+    spectra before settling.
+13. **HUD overlap:** §9 unified Loredex Viewer (corruption-
+    aware variant displayed on bench); §3.3.2 Cover
+    Identity Board cross-reference; `MobileNarratorSlot.
+    tsx` (Locke voice surfaces).
+
+#### 2.21.2 Discovery cutscene + HUD anchor
+
+`cipher_den_first_uncorruption` (~10 s): wall-panel in Comms
+Array slides aside silently; player descends; spectrogram
+displays ignite green; bench parchments unroll showing the
+first corrupted loredex entry. HUD anchor: Shadow Tongue
+Uncorruption launcher fires on bench-stamp.
+
+---
+
+### 2.22 Hierarchy Throne Sanctum (D9 — Hellbox 2 → Castle of Death)
+
+- **id:** `hierarchy-throne` / internal `hierarchy_throne`
+- **Deck:** 9 (Hierarchy alignment)
+- **Adjacency:** Chaos Forge (left-wall arch, D9 sister-room)
+- **Gating:** `faction:championed:hierarchy` AND ≥1 violet
+  soul stone
+- **Status:** new — **hosts Hellbox 2 → Castle of Death** per
+  §3.12.2
+
+**Layout sentence:**
+*A black-marble throne room with a single chair carved from
+fused obsidian and brass at the chamber's far end on a
+three-step dais; the chair's left armrest gives way to reveal
+a recess containing the Hellbox 2 obsidian-flake ring (~2 m
+diameter, etched into the floor at the throne's foot); ring
+centre shows a violet event horizon at half-opacity when latent;
+the chamber's walls are pierced by 7 brass alcoves each
+holding a Hierarchy ouroboros sigil at different scales;
+ambient lighting cool-violet with one warm-amber rim from a
+single brazier behind the throne.*
+
+**Hotspots:** the throne (sit hotspot); the obsidian-flake
+ring (Hellbox 2 launcher per §3.12.2); 7 ouroboros alcoves;
+brazier behind throne; left-armrest recess (master-key slot).
+
+**NPCs:** Hierarchy Archon silhouette appears seated on throne
+when player approaches at trust-Hierarchy max.
+
+#### 2.22.1 Back-fill grid
+
+1. **TV infection:** clean = none; exposed = wisps from ring
+   etching, mycelium on dais step; spreading = mycelium on
+   ouroboros alcoves; corrupted = voidblack on throne; quar-
+   antined = sealed-X across ring.
+2. **Demon-summoning surface:** **PRIMARY** — Hellbox 2
+   obsidian-flake ring (per §3.12.2). Three states: latent
+   / manifest / active. Active = Castle of Death pocket
+   accessible.
+3. **CADES:** —
+4. **Story items (§3.5):** Hellbox 2 ring; 7 ouroboros sigils
+   (one per Hierarchy bond tier); brazier (offering bowl
+   accepts violet soul stones); Hierarchy Archon ledger
+   (under throne).
+5. **Mystery-arc bindings:** Wraith Calder E3 (Hierophant
+   ceremony — surfaced when sitting on throne at trust-100);
+   no other arc surfaces directly here.
+6. **Investigation tier:** four canonical tiers — closure
+   object = a single brass plate set into the throne's
+   headrest etched with the player's chosen Hierarchy
+   covenant.
+7. **Governance modifier reactions:** `hierarchy_blessing_
+   active` → all 7 ouroboros sigils gilt-edged; vote-open
+   shows §3.6 ballot glyph on throne backrest.
+8. **Epoch / ShadowTongue:** ShadowTongue power ≥40 → ring
+   etching shows indigo over-marks; on `grandEditActive`,
+   throne is overstamped with a sigil that is NOT the
+   ouroboros (a clue: which Archon currently rules).
+9. **Cycle-phase lighting:** dawn 5800K on brazier; long-
+   night 5200K cool-violet on throne (the throne stays cold
+   regardless of cycle).
+10. **Faction livery:** **always load-bearing** — Hierarchy-
+    championed = full 7 ouroboros lit gold; Hierarchy-
+    enemied = throne overturned (sealed-X tape and the room
+    is functionally inaccessible).
+11. **Tournament window:** —
+12. **Storyteller hooks:** the Empty Throne (the chair is
+    always empty regardless of NPC silhouette — symbolic);
+    7 Ouroboros Tiers (each represents a Hierarchy bond
+    tier; collecting all 7 unlocks a unique cosmetic);
+    Hellbox 2 Latency (latent state shows the ring's etch
+    glowing faintly even untouched — a slow living pulse).
+    Expansion-reserved zone: the Anti-Throne (sealed
+    chamber behind the brazier — for the player who chooses
+    to renounce the Hierarchy). Living-world: every IRL
+    hour, one of the 7 ouroboros alcoves pulses brighter
+    momentarily.
+13. **HUD overlap:** §3.9 Soul Stones inventory surfaces
+    on ring approach; §3.12.2 Hellbox cutscene
+    `cs_hellbox_2_open` plays here; §9 unified Resource
+    Counter (Hierarchy faction standing); `MoralityMeter
+    .tsx` (sitting on throne triggers tier evaluation).
+
+#### 2.22.2 Discovery cutscene + HUD anchor
+
+See §3.12.2 — discovery scene + `cs_hellbox_2_open` cutscene
+covered in Hellbox Atlas.
+
+---
+
+### 2.23 Chaos Forge (D9 — Hierarchy alignment)
+
+- **id:** `chaos-forge` / internal `chaos_forge`
+- **Deck:** 9 (Hierarchy alignment)
+- **Adjacency:** Hierarchy Throne Sanctum (right-wall arch,
+  sister-room)
+- **Gating:** `faction:championed:hierarchy` OR `faction:
+  allied:hierarchy`
+- **Status:** new
+
+**Layout sentence:**
+*A wide forge chamber with three open-flame pits arranged in
+a triangle; each pit burns a different colour (left amber-
+gold, right cold-cyan, rear blood-red); a central anvil of
+black iron sits at the triangle's centroid; tools hang from
+the ceiling on chains rather than racks; the chamber's air
+is hazed with brass-steam; soul stones accepted at the rear
+red pit corrupt in real-time; soul stones at the cyan pit
+do not corrupt or purify (held in stasis).*
+
+**Hotspots:** 3 flame pits (amber / cyan / red); central
+anvil; ceiling tool-chains; offering shelf (left wall, before
+each pit); Mol'Garath audience-key slot (right wall).
+
+**NPCs:** Mol'Garath silhouette may appear at the rear red
+pit on `hierarchy_acquisitions_max`.
+
+#### 2.23.1 Back-fill grid
+
+1. **TV infection:** clean = none; exposed = wisps from
+   flame pits' chimneys, mycelium on anvil base; spreading
+   = mycelium on tool-chains; corrupted = voidblack on
+   anvil; quarantined = sealed-X across central anvil.
+2. **Demon-summoning surface:** secondary — the rear red
+   pit corrupts violet soul stones to red (alternate path
+   to the Castle-of-Death summoning circle in §3.9.2).
+3. **CADES:** —
+4. **Story items (§3.5):** 3 flame-pit forging variants
+   (per pit colour); soul stone corruption residue (red
+   pit byproduct); Mol'Garath audience key (drops on
+   `mol_garath_audience_unlocked`).
+5. **Mystery-arc bindings:** Wraith Calder E2 (Substrate-N
+   residue can be identified at the cyan pit's stasis flame).
+6. **Investigation tier:** four canonical tiers — closure
+   object = a single black-iron plate set into the central
+   anvil etched with the player's chosen Hierarchy
+   forging-covenant.
+7. **Governance modifier reactions:** `crafting_speed_boost`
+   → all three pits burn brighter; `hierarchy_blessing_active`
+   → red pit gains a stable steady flame.
+8. **Epoch / ShadowTongue:** ShadowTongue power ≥40 → tools
+   on chains carry indigo etch-marks; on `grandEditActive`,
+   the cyan pit flickers to indigo (revealing a hidden 4th
+   pit option).
+9. **Cycle-phase lighting:** dawn 5800K (already warm-amber
+   matched); long-night 5200K cool-violet on cyan pit.
+10. **Faction livery:** Hierarchy-championed = all three pits
+    lit; Hierarchy-allied = only amber + cyan; Hierarchy-
+    enemied = pits cold and dust-covered.
+11. **Tournament window:** —
+12. **Storyteller hooks:** the 4th Pit (visible only on
+    `grandEditActive` — a hidden indigo flame — implication
+    Shadow Tongue runs a fourth alchemy here); Mol'Garath
+    Audience Key (drops once; opens a vision-only
+    encounter); Tool Chain Cycle (one tool per IRL hour
+    descends from the ceiling, used itself, then ascends —
+    no visible hand). Expansion-reserved zone: Sealed
+    Bellows (rear-left wall — air supply for the 4th pit).
+    Living-world: every IRL hour, the air shimmer pattern
+    above the pits shifts.
+13. **HUD overlap:** §3.9 Soul Stones inventory (red pit
+    corruption interaction); §9 unified Resource Counter
+    (crafting materials); `PaperDollRenderer.tsx` (player
+    paper-doll mid-craft visible).
+
+#### 2.23.2 Discovery cutscene + HUD anchor
+
+`chaos_forge_first_pit` (~10 s): three pits ignite in
+sequence (amber → cyan → red); brass-steam haze rises;
+anvil glows from underneath. HUD anchor: corruption launcher
+fires from red pit interaction.
+
+---
+
+### 2.24 Elemental Nexus (D10 — Demagi alignment)
+
+- **id:** `elemental-nexus` / internal `elemental_nexus`
+- **Deck:** 10 (Demagi alignment)
+- **Adjacency:** Quantum Lab + Synthesis Chamber (D10 sister-
+  rooms via central rotunda)
+- **Gating:** Demagi species OR `species_attunement_demagi
+  _completed`
+- **Status:** new
+
+**Layout sentence:**
+*A circular chamber 12 m across with eight standing pillars
+at compass positions, each pillar associated with one of the
+8 elements (fire / water / earth / air / time / space /
+probability / void); each pillar holds a small elemental
+manifestation suspended at chest height; the chamber's floor
+is inlaid with a sigil-circle that connects all 8 pillars
+via brass channels; ambient lighting cycles through the 8
+elements over a 24-hour cycle, one element dominant at any
+given hour.*
+
+**Hotspots:** 8 elemental pillars; central sigil-circle;
+attunement bowl (centre — drops on `demagi_attunement_unlocked`);
+elemental ledger (left wall, records player's attunement
+history).
+
+**NPCs:** none resident; species-aligned voice surfaces.
+
+#### 2.24.1 Back-fill grid
+
+1. **TV infection:** clean = none; exposed = wisps from
+   pillar bases; spreading = mycelium on sigil-circle;
+   corrupted = void-pillar's manifestation grows; quaran-
+   tined = sealed-X across sigil-circle.
+2. **Demon-summoning surface:** —
+3. **CADES:** —
+4. **Story items (§3.5):** 8 elemental tokens (one per
+   pillar, collected via attunement); attunement ledger
+   (left wall).
+5. **Mystery-arc bindings:** none specific.
+6. **Investigation tier:** four canonical tiers — closure
+   object = a single brass plate at sigil-circle centre
+   etched with the player's chosen primary element.
+7. **Governance modifier reactions:** `species_blessing_
+   active (demagi)` → all 8 pillars lit simultaneously;
+   `season_phase_shift` → seasonal element pulses for 24h.
+8. **Epoch / ShadowTongue:** ShadowTongue power ≥40 → void
+   pillar's manifestation grows; on `grandEditActive`, a
+   hidden 9th pillar appears momentarily.
+9. **Cycle-phase lighting:** elemental cycle is
+   independent of cycle-phase (8-hour element rotation
+   takes precedence); cycle-phase only modulates rim-
+   lights.
+10. **Faction livery:** —
+11. **Tournament window:** —
+12. **Storyteller hooks:** the Hidden 9th Element (visible
+    only on `grandEditActive` — implication: the 9th
+    element is named in the Antiquarian's chronicle as the
+    Programmer's invention); Pillar Pulse Sync (each
+    pillar's manifestation pulses to a different rhythm,
+    syncing only at midnight UTC); Attunement Echo (every
+    attunement event echoes faintly through the chamber
+    for 24h after). Expansion-reserved zone: the 9th
+    Pillar foundation (a recess in the floor between
+    pillars 8 and 1). Living-world: every hour, the
+    dominant element shifts and the chamber's ambient
+    palette changes accordingly.
+13. **HUD overlap:** `MoralityMeter.tsx` (attunement
+    affects alignment); §9 unified Resource Counter
+    (elemental attunement points).
+
+#### 2.24.2 Discovery cutscene + HUD anchor
+
+`elemental_nexus_first_attunement` (~10 s): 8 pillars
+ignite in sequence; sigil-circle illuminates from centre
+outward; player's first chosen element pulses brighter.
+HUD anchor: attunement launcher fires from pillar-touch.
+
+---
+
+### 2.25 Quantum Lab / Probability Chamber (D10 — Quarchon alignment)
+
+- **id:** `quantum-lab` / internal `quantum_lab`
+- **Deck:** 10 (Quarchon alignment)
+- **Adjacency:** Elemental Nexus (rotunda)
+- **Gating:** Quarchon species OR `species_attunement_quarchon
+  _completed`
+- **Status:** new
+
+**Layout sentence:**
+*A long laboratory 8 m × 5 m lined with quantum-state
+displays showing branching probability trees; a central
+superposition chamber holds a single probabilistic object
+(visible as a flickering silhouette switching between two
+states); the chamber's air carries faint visible probability
+clouds (light scatter resembling fog but with discrete
+patterns); a probability-collapse lever at the chamber's foot
+locks the displayed state; the rear wall holds a record of
+every collapse the player has made.*
+
+**Hotspots:** central superposition chamber; probability-
+collapse lever; quantum-state displays (3 wall-mounted);
+collapse-record wall; observer's chair (right wall).
+
+**NPCs:** none resident; the Programmer's voice may surface.
+
+#### 2.25.1 Back-fill grid
+
+1. **TV infection:** clean = none; exposed = wisps from
+   chamber seal; spreading = mycelium on lever; corrupted
+   = probability cloud turns voidblack; quarantined =
+   sealed-X across chamber.
+2. **Demon-summoning surface:** —
+3. **CADES:** —
+4. **Story items (§3.5):** probability collapse records
+   (rear wall, accumulating); the superposition chamber
+   itself (unique single-state object).
+5. **Mystery-arc bindings:** none specific.
+6. **Investigation tier:** four canonical tiers — closure
+   object = a single brass plate set beside the lever
+   etched with the player's chosen "final collapse" choice.
+7. **Governance modifier reactions:** `quantum_state_
+   stabilized` → probability cloud thins; `community_
+   milestone` → one extra branch appears on quantum-state
+   displays.
+8. **Epoch / ShadowTongue:** ShadowTongue power ≥40 → quantum
+   displays show indigo overstamps on collapsed states; on
+   `grandEditActive`, the superposition chamber's flicker
+   slows — implying the Tongue can pin states.
+9. **Cycle-phase lighting:** dawn 5800K rim; long-night
+   5200K cool-violet on cloud.
+10. **Faction livery:** —
+11. **Tournament window:** —
+12. **Storyteller hooks:** Branching Observation (the
+    quantum-state displays show a decision tree of all
+    possible futures — all eventually converge to the same
+    place; implication = fate is predetermined); the
+    Architect's Observation (text in collapse-record wall
+    reads "the Architect is observing and manipulating
+    probabilities"); Schrödinger Anomaly (the superposition
+    chamber occasionally shows BOTH states at once — a
+    flicker glitch). Expansion-reserved zone: a Sealed
+    Observation Booth (above the lab, locked — for "the
+    other observer"). Living-world: every IRL hour, one
+    branch on the displays gets pruned; new branches
+    appear daily.
+13. **HUD overlap:** `MoralityMeter.tsx` (collapse-lever
+    pulls trigger morality choices); §9 unified Resource
+    Counter (quantum tokens).
+
+#### 2.25.2 Discovery cutscene + HUD anchor
+
+`quantum_lab_first_collapse` (~10 s): chamber ignites with
+flickering silhouette; probability cloud forms; player
+approaches lever for first time. HUD anchor: collapse
+launcher fires on lever-pull.
+
+---
+
+### 2.26 Synthesis Chamber (D10 — Neyon alignment)
+
+- **id:** `synthesis-chamber` / internal `synthesis_chamber`
+- **Deck:** 10 (Neyon alignment)
+- **Adjacency:** Elemental Nexus + Quantum Lab (rotunda)
+- **Gating:** Neyon species OR `species_attunement_neyon
+  _completed`
+- **Status:** new
+
+**Layout sentence:**
+*A circular chamber dominated by a central synthesis vat
+(2 m diameter, holding a swirling chrome liquid); 4 input
+chutes feed the vat from compass positions, each chute
+bearing a different material (organic / synthetic / energy /
+information); a synthesis altar stands behind the vat with
+6 control runes; the chamber's walls show holographic recipes
+of all known hybrid syntheses; ambient chrome reflections
+make every surface gleam.*
+
+**Hotspots:** central synthesis vat; 4 input chutes; synthesis
+altar with 6 control runes; recipe walls (holographic);
+output cradle (vat-side, accepts synthesised hybrids).
+
+**NPCs:** none resident; Neyon-attuned voice surfaces.
+
+#### 2.26.1 Back-fill grid
+
+1. **TV infection:** clean = none; exposed = wisps from
+   chute joints; spreading = mycelium on altar; corrupted =
+   chrome liquid turns voidblack; quarantined = sealed-X
+   across vat.
+2. **Demon-summoning surface:** —
+3. **CADES:** —
+4. **Story items (§3.5):** synthesised hybrid cards (output
+   cradle); 4 input materials (chutes, accepts player
+   inventory); failed synthesis residue (vat lining).
+5. **Mystery-arc bindings:** none specific.
+6. **Investigation tier:** four canonical tiers — closure
+   object = a single chrome plate set into the altar
+   etched with the player's chosen synthesis archetype.
+7. **Governance modifier reactions:** `synthesis_yield_
+   buff` → vat liquid shimmers gold; `quarantine_protocol_
+   active` → vat sealed.
+8. **Epoch / ShadowTongue:** ShadowTongue power ≥40 →
+   recipe walls' holograms show indigo overstrike; on
+   `grandEditActive`, the vat synthesises a single unknown
+   "indigo hybrid" overnight.
+9. **Cycle-phase lighting:** dawn 5800K on chrome; long-
+   night 5200K cool-violet on vat liquid.
+10. **Faction livery:** —
+11. **Tournament window:** —
+12. **Storyteller hooks:** the Failed Synthesis Wall (one
+    wall holds plaques for every failed synthesis — ghosts
+    of failed cards); the Hidden Recipe (one recipe slot
+    on the wall is permanently blank — implication: the
+    "true" synthesis is unknowable); Chrome Reflection
+    Anomaly (the player's reflection in the vat surface
+    occasionally shows a different person). Expansion-
+    reserved zone: a Sealed Output Cradle (alternate
+    output, locked, for legendary syntheses). Living-world:
+    every IRL hour, the chrome liquid swirl pattern shifts.
+13. **HUD overlap:** `PackOpening.tsx` (synthesis ceremony
+    plays on hybrid output); §9 unified Resource Counter
+    (synthesis materials); §9 Card Collection (synthesised
+    hybrids surface in collection on output).
+
+#### 2.26.2 Discovery cutscene + HUD anchor
+
+`synthesis_first_hybrid` (~10 s): 4 chutes ignite in sequence;
+vat liquid swirls gold; first hybrid emerges from output
+cradle. HUD anchor: synthesis launcher fires from altar-rune.
+
+---
+
+### 2.27 Memorial Corridor / Plaza (pocket — fallen-crew plaques)
+
+- **id:** `memorial-corridor` / internal `memorial_corridor`
+- **Deck:** pocket (rear of Crew Quarters)
+- **Adjacency:** Crew Quarters (one-way egress; return via
+  Bridge lift)
+- **Gating:** any crew death recorded
+- **Status:** new
+
+**Layout sentence:**
+*A long narrow corridor ~25 m × 3 m with a vaulted ceiling;
+left wall holds a brass rack of fallen-crew plaques (one per
+deceased crew member, accumulating over save); right wall is
+a continuous frieze of etched names from previous Inception
+Arks (centuries-old, untouchable, somber); centre floor is
+inlaid with a procession-stone path; far end opens into the
+Memorial Plaza proper — a small circular plaza with a single
+brass bowl that holds a continuous low flame.*
+
+**Hotspots:** brass plaque rack (left, accumulates); name-
+frieze (right, immutable); central procession path; Plaza
+brass bowl + flame; Anniversary Plaque rack (per §3.2.3,
+mounted at corridor entry).
+
+**NPCs:** crew silhouettes may walk the corridor at certain
+death-anniversaries; Elara may surface here on first crew-
+death event.
+
+#### 2.27.1 Back-fill grid
+
+1. **TV infection:** clean = none; exposed = wisps from
+   plaque-rack underside; spreading = mycelium on procession
+   path; corrupted = voidblack on Plaza bowl rim, flame
+   colour shifts; quarantined = sealed-X across plaza.
+2. **Demon-summoning surface:** —
+3. **CADES:** —
+4. **Story items (§3.5):** N fallen-crew plaques (per
+   `crewMembers.deathRecord`); 12 Anniversary Plaques (per
+   §3.2.3); the Plaza brass bowl (continuous flame); the
+   immutable name-frieze on right wall.
+5. **Mystery-arc bindings:** Wraith Calder cross-reference
+   (the right-wall frieze names every Inception Ark crew
+   from previous epochs); Jericho Jones E5 (Akai Shi mercy
+   token can be placed on a plaque here as final tribute).
+6. **Investigation tier:** four canonical tiers — closure
+   object = a single bound brass codex on the Plaza bowl
+   rim titled "The Living Witnesses, [date]".
+7. **Governance modifier reactions:** `community_milestone_
+   broadcast` → flame steps brighter for 1h.
+8. **Epoch / ShadowTongue:** ShadowTongue power ≥40 → some
+   right-wall frieze names show indigo overstrikes (their
+   memory is being edited); on `grandEditActive`, the Plaza
+   flame turns indigo for one visit.
+9. **Cycle-phase lighting:** dawn 5800K warm-amber on
+   plaza; long-night 5200K cool-violet on plaque-rack.
+10. **Faction livery:** champion-tier faction's heraldry
+    appears subtly engraved on plaza bowl rim.
+11. **Tournament window:** —
+12. **Storyteller hooks:** the Living Witnesses (the player
+    is implicitly named in the Plaza chronicle — they are
+    the witness for everyone who died); Plaque Inscription
+    Slot (player can choose epitaph for each crew death);
+    Procession Path Pulse (every IRL day at the player's
+    "evening" the path's brass inlays pulse warm-amber once).
+    Expansion-reserved zones: Crypt Below (sealed trapdoor
+    in plaza centre — for "the unspeakable losses"); the
+    Right Wall continuation (frieze extends underground,
+    locked). Living-world: every IRL day, one plaque on the
+    rack acquires a small dust-shadow if not visited; visited
+    plaques stay polished.
+13. **HUD overlap:** §3.2.3 Anniversary Plaque rack lives
+    here; `MobileNarratorSlot.tsx` (Elara surfaces on first-
+    crew-death event); §3.5 Story Item Registry (plaques
+    cross-referenced).
+
+#### 2.27.2 Discovery cutscene + HUD anchor
+
+`memorial_first_visit` (~12 s): corridor lights ignite in
+sequence as player walks; first plaque slides into rack with
+a brass click; Plaza flame steps from a low burn to its full
+height. HUD anchor: epitaph-edit launcher fires from plaque
+interaction.
+
+---
+
+### 2.28 Pet Garden (pocket — breeding/dynasty room)
+
+- **id:** `pet-garden` / internal `pet_garden`
+- **Deck:** pocket (rear of Hydroponics)
+- **Adjacency:** Hydroponics (rear bulkhead), Pet Arena
+  (right doorway), Pet Medical Annex (left doorway)
+- **Gating:** any pet adopted
+- **Status:** new — full breeding/dynasty surface per §3.10
+
+**Layout sentence:**
+*A high-ceilinged greenhouse 12 m × 8 m with sun-skylight
+above; the room is divided into 4 zones: a central feeding-
+play area with low brass railings, a Breeding Wing along the
+left wall (6 incubation pods per §3.10.1), a Genealogy Tree
+mounted on the back wall (per §3.10.2), and 3 Evolution
+Chambers in the right alcove (per §3.10.3); the Bloodline
+Plinth (per §3.10.4) sits at the centre of the play area on
+an obsidian dais; ambient palette is warm-amber daylight with
+green plant-leaf accents.*
+
+**Hotspots:** 6 incubation pods (per §3.10.1); Genealogy Tree
+(rear wall); 3 Evolution Chambers (right alcove); Bloodline
+Plinth (centre); feeding-trough (front-centre); play-area
+(centre); skylight (overhead, accepts gold soul stones for
+pet blessing).
+
+**NPCs:** none resident; Lyra Vox's posthumous voice surfaces
+on Bloodline Witness Report milestones (per NOTES §12.5).
+
+#### 2.28.1 Back-fill grid
+
+1. **TV infection:** clean = none; exposed = wisps from pod
+   bases; spreading = mycelium on Genealogy Tree; corrupted
+   = voidblack on play-area, plants wither; quarantined =
+   sealed-X across pet entry.
+2. **Demon-summoning surface:** —
+3. **CADES:** —
+4. **Story items (§3.5):** all pets currently in roster
+   (visible at appropriate zone — feeding/play if active,
+   incubation pod if breeding); Genealogy plates (one per
+   bred pet); 5 Bloodline Witness Reports (Bloodline
+   Plinth, accumulating).
+5. **Mystery-arc bindings:** none specific; Lyra Vox cross-
+   reference at Bloodline Plinth (she narrates each
+   milestone).
+6. **Investigation tier:** four canonical tiers — closure
+   object = a single bound brass codex on the Bloodline
+   Plinth titled "The Living Genealogy, [date]".
+7. **Governance modifier reactions:** `pet_breeding_speed_
+   buff` → all pods' bases pulse faster; `seasonal_pet_drop`
+   → one extra incubation pod is highlighted with a
+   seasonal accent.
+8. **Epoch / ShadowTongue:** ShadowTongue power ≥40 → one
+   Genealogy Tree plate's pet-glyph is overstamped indigo;
+   on `grandEditActive`, the Bloodline Plinth shows a
+   "missing" generation in indigo silhouette.
+9. **Cycle-phase lighting:** dawn 5800K warm-amber from
+   skylight; long-night 5200K cool-violet (skylight dims).
+10. **Faction livery:** —
+11. **Tournament window:** Pet Arena tournament finals shows
+    a banner above the Pet Garden's right doorway.
+12. **Storyteller hooks:** the Original Pair (one pod is
+    sealed with Lyra Vox's wax — contains the founder pets
+    of the player's dynasty); the Hidden Mutation (every
+    100th breed has a chance for a unique mutation visible
+    only on the Genealogy Tree as a different brass alloy);
+    Skylight Star-Pet Blessing (placing a gold soul stone
+    on the skylight grants one random pet a permanent boon
+    — animation: stone falls into the skylight, pet glows).
+    Expansion-reserved zone: Sealed Aviary (rear corner —
+    for flying pet species not yet implemented). Living-
+    world: every IRL hour, pets in the play-area shuffle
+    positions; sleeping pets occasionally twitch.
+13. **HUD overlap:** §9 Pet Roster surfaces here in
+    diegetic form; `MobileNarratorSlot.tsx` (Lyra Vox
+    surfaces on Bloodline milestones); §3.10 Pet Breeding
+    section.
+
+#### 2.28.2 Discovery cutscene + HUD anchor
+
+`pet_garden_first_entry` (~10 s): Hydroponics rear bulkhead
+opens; warm sunlight fills room; first pet (player's chosen
+starter) walks to the centre; Bloodline Plinth ignites with
+the founder etching. HUD anchor: pet-management launcher
+fires from feeding-trough touch.
+
+---
+
+### 2.29 Pet Arena + Spectator Gallery (pocket)
+
+- **id:** `pet-arena` / internal `pet_arena`
+- **Deck:** pocket (right of Pet Garden)
+- **Adjacency:** Pet Garden (left doorway)
+- **Gating:** any pet at evolution stage 2+
+- **Status:** new
+
+**Layout sentence:**
+*A circular arena 10 m diameter with sand-and-stone floor at
+ground level, surrounded by 3 tiers of brass-rail spectator
+seating (~30 seats); a central elevated dais holds a
+match-scheduling pillar; the arena's ceiling is open to a
+faux-skylight that simulates day/night cycles independent of
+the rest of the Ark; a Retirement Shrine alcove sits at the
+arena's rear (per §3.10 — small obsidian plinth with brass
+plates for retired/deceased pets).*
+
+**Hotspots:** central match-scheduling pillar; arena floor
+(viewing only); 3 tiers spectator seating; Retirement Shrine
+(rear alcove); replay viewing console (left wall).
+
+**NPCs:** spectator silhouettes appear during active matches.
+
+#### 2.29.1 Back-fill grid
+
+1. **TV infection:** clean = none; exposed = wisps from
+   spectator-seat bases; spreading = mycelium on arena
+   floor; corrupted = voidblack pooling at floor centre;
+   quarantined = sealed-X across arena.
+2. **Demon-summoning surface:** —
+3. **CADES:** —
+4. **Story items (§3.5):** Retirement Shrine plates (one per
+   retired/deceased pet); arena trophy-case (left wall, per-
+   tournament wins).
+5. **Mystery-arc bindings:** none specific.
+6. **Investigation tier:** four canonical tiers — closure
+   object = a single brass plate set into the dais etched
+   with the player's chosen "First Champion" pet name.
+7. **Governance modifier reactions:** `pet_arena_purse_buff`
+   → match-scheduling pillar shows gold-pulse accent;
+   `tournament_window_finals` → spectator seats fill with
+   silhouettes for the duration.
+8. **Epoch / ShadowTongue:** ShadowTongue power ≥40 → one
+   Retirement Shrine plate is overstamped indigo (a pet
+   "edited" out of memory); on `grandEditActive`, the arena
+   floor shows an indigo silhouette of a pet not in roster.
+9. **Cycle-phase lighting:** faux-skylight cycle independent;
+   cycle-phase only modulates spectator-seat rim-lights.
+10. **Faction livery:** champion-tier faction's heraldry
+    appears on dais during finals.
+11. **Tournament window:** **always load-bearing** — finals
+    fills spectator seats; champion-anointed = gilded dais.
+12. **Storyteller hooks:** the Empty Front Row (3 seats at
+    the arena's centre-front are always reserved — for
+    "the original Trainers"); Faux-Skylight Anomaly (the
+    skylight occasionally shows a sky from a different
+    world — clue to dimensional bleeding); Retirement
+    Plates Engraving (each plate is engraved with the pet's
+    final fight stats and cause-of-retirement). Expansion-
+    reserved zone: VIP Box (above the dais — for
+    legendary-tier players). Living-world: every IRL day at
+    "noon" the faux-skylight cycles a full day in 60
+    seconds.
+13. **HUD overlap:** `LeaderboardPage.tsx` (pet-arena
+    leaderboard); §9 unified Replay Scrubber diegetic
+    anchor (Pet Arena replay console — currently the
+    Replay Scrubber is MISSING per §3); `Spectator
+    Page.tsx` surfaces here.
+
+#### 2.29.2 Discovery cutscene + HUD anchor
+
+`pet_arena_first_match` (~12 s): arena floor ignites; faux-
+skylight matches IRL time-of-day; player's pet walks to
+arena centre; first opponent silhouette enters from rear.
+HUD anchor: match launcher fires from scheduling pillar.
+
+---
+
+### 2.30 Pet Medical Annex (pocket)
+
+- **id:** `pet-medical-annex` / internal `pet_medical_annex`
+- **Deck:** pocket (left of Pet Garden)
+- **Adjacency:** Pet Garden (right doorway), Medical Bay
+  (rear-corridor link)
+- **Gating:** any pet injured
+- **Status:** new
+
+**Layout sentence:**
+*A small annex 5 m × 4 m with 4 transparent recovery tanks
+arranged in a row; each tank holds an injured pet suspended
+in healing fluid; a single attendant brass-armoured gurney
+stands ready at the room's centre; the rear wall holds a
+veterinary-instrument rack; cool-cyan ambient light from
+overhead medical fixtures.*
+
+**Hotspots:** 4 recovery tanks; central gurney; veterinary
+instrument rack (rear); pet-vital monitor (left wall, shows
+recovery times).
+
+**NPCs:** none resident; Vex Solène's posthumous voice
+surfaces on first pet-recovery event (medical engineering
+cross-reference).
+
+#### 2.30.1 Back-fill grid
+
+1. **TV infection:** clean = none; exposed = wisps from tank
+   coolant lines; spreading = mycelium on gurney; corrupted
+   = healing fluid turns voidblack; quarantined = sealed-X.
+2. **Demon-summoning surface:** —
+3. **CADES:** —
+4. **Story items (§3.5):** injured pet rosters in tanks;
+   instruments (rear); pet-vital readouts.
+5. **Mystery-arc bindings:** Vex Solène (cross-reference —
+   Vex's medical engineering shows in the tank design).
+6. **Investigation tier:** four canonical tiers — closure
+   object = a single brass plate set into the gurney
+   etched with "Last Recovery, [date], [pet name]".
+7. **Governance modifier reactions:** `pet_recovery_speed_
+   buff` → tank coolant lines glow gold.
+8. **Epoch / ShadowTongue:** ShadowTongue power ≥40 → vital
+   monitor shows indigo overstamps on patient names; on
+   `grandEditActive`, one tank shows an indigo silhouette
+   (a pet "edited" mid-recovery).
+9. **Cycle-phase lighting:** dawn 5800K warm-amber edge;
+   long-night 5200K cool-violet on tank glass.
+10. **Faction livery:** —
+11. **Tournament window:** —
+12. **Storyteller hooks:** the 5th Tank (sealed in the rear
+    wall — for "the pet that cannot be healed"); Vex's
+    Engineering Signature (etched microscopically into each
+    tank's brass plate); Recovery Time Display Anomaly (one
+    tank's display occasionally shows a recovery time of
+    "∞" before correcting). Expansion-reserved zone: Sealed
+    Necropsy Lab (behind the rear wall, locked). Living-
+    world: every IRL hour, the tanks' coolant lines pulse
+    once.
+13. **HUD overlap:** §9 Pet Roster (injured-pet section
+    surfaces here); `MobileNarratorSlot.tsx` (Vex voice on
+    first recovery).
+
+#### 2.30.2 Discovery cutscene + HUD anchor
+
+`pet_medical_first_recovery` (~8 s): tank coolant lines
+ignite cyan; gurney brass-armour locks into place; first
+injured pet appears in tank-1. HUD anchor: pet-recovery
+launcher fires from gurney touch.
+
+---
+
+### 2.31 Trade Hub (stub — parallel-agent placeholder)
+
+- **id:** `trade-hub` / internal `trade_hub`
+- **Deck:** ?  (deck assignment pending TE agent)
+- **Adjacency:** Station Dock (canonical entry)
+- **Gating:** TE agent owned
+- **Status:** **stub** — full Trade Hub authoring deferred to
+  parallel TE agent; this entry locks the interface boundary
+  + diegetic surfaces (per §3.3) so the room is hookable when
+  TE agent ships their work
+
+**Layout sentence:**
+*Reserved for parallel-agent authoring. The Trade Hub's
+diegetic surfaces are pre-spec'd in §3.3 (Trade Command Center,
+Cover Identity Board, Cargo Manifest Console, Broker's Office).
+The Hub itself is the **container** for these surfaces; the
+container's Layout Sentence is reserved for the TE agent's
+choice of focal centre (likely the central Trade Command
+Center per §3.3.1).*
+
+**Hotspots:** see §3.3 — 4 surfaces enumerated.
+
+**NPCs:** Adjudicator Locke (resident at trade-court desk);
+Coda admin (cross-references Station Dock §2.16).
+
+#### 2.31.1 Back-fill grid (stub)
+
+1. **TV infection (axis 9):** see §3.3 — diegetic surfaces
+   inherit per-room infection brackets; full per-bracket
+   spec deferred.
+2. **Demon-summoning:** —
+3. **CADES:** —
+4. **Story items (§3.5):** Trade Hub manifests, broker
+   contracts, cover identities — see §3.3.
+5. **Mystery-arc bindings:** Wraith Calder E2 (cargo
+   manifest cross-reference); Degen E1 (Mol'Vereth's
+   visiting card surfaces in Broker's Office).
+6. **Investigation tier (axis 15):** four canonical tiers —
+   spec deferred.
+7. **Governance modifier reactions:** `trade_discount_10`
+   modifier renders across all 4 §3.3 surfaces.
+8. **Epoch / ShadowTongue:** ShadowTongue power affects the
+   Trade Hub's manifests (see §3.3.3 Cargo Manifest
+   Console — indigo overstrike at ≥40).
+9. **Cycle-phase lighting:** standard ±300K drift per §3.4.
+10. **Faction livery:** **always load-bearing** —
+    cross-references Station Dock §2.16 4-faction banner
+    display; Trade Hub additionally shows broker faction
+    affiliations on each broker's portrait.
+11. **Tournament window:** —
+12. **Storyteller hooks:** deferred to TE agent; suggest
+    reserving "the Empty Broker Desk" for a future broker
+    NPC and "the Sealed Vault" for endgame trade contents.
+13. **HUD overlap:** §3.3 surfaces (4); `LockeConfidential
+    LedgerPanel.tsx` (Locke's diegetic surface here).
+
+#### 2.31.2 Discovery cutscene + HUD anchor
+
+Discovery cutscene deferred to TE agent. HUD anchor: Trade
+Empire launcher fires from Trade Command Center centre table.
+
+---
+
+### 2.32 Trade Command Center / Broker's Office (sub-room of Trade Hub)
+
+- **id:** `trade-command-center` / internal
+  `trade_command_center`
+- **Deck:** sub-room of Trade Hub
+- **Adjacency:** Trade Hub (canonical entry)
+- **Gating:** TE agent owned
+- **Status:** **stub** — diegetic art surfaces fully spec'd
+  in §3.3.1–§3.3.4
+
+**Layout sentence:** see §3.3.1 (Trade Command Center) —
+verbatim apply.
+
+**Hotspots:** see §3.3.1, §3.3.2, §3.3.3, §3.3.4.
+
+**NPCs:** Locke (Broker's Office); 6 broker silhouettes at
+Trade Command Center stations.
+
+#### 2.32.1 Back-fill grid
+
+Inherits from §2.31 Trade Hub. The 4 §3.3 surfaces (Trade
+Command Center, Cover Identity Board, Cargo Manifest
+Console, Broker's Office) are the per-zone specifications;
+this room is the container.
+
+#### 2.32.2 Discovery cutscene + HUD anchor
+
+See §2.31. Per-surface launchers fire from each §3.3
+surface's identified hotspot (sector-map table, cover
+portraits, cargo plates, broker desk).
+
+---
+
+### 2.33 Defense Command Center (TD — tactical grid)
+
+- **id:** `defense-command-center` / internal
+  `defense_command_center`
+- **Deck:** 4 (operations spine)
+- **Adjacency:** War Room (right-rear lift), Tower Assembly
+  Bay (left doorway)
+- **Gating:** any tower placed on any base
+- **Status:** new — primary diegetic surface for Tower Defense
+  (per NOTES §12.8 — TD has 0 Ark surface today)
+
+**Layout sentence:**
+*A circular operations chamber 9 m diameter dominated by a
+holo-tactical grid table at its centre showing the player's
+active station/world bases as miniaturised 3D maps; tower
+silhouettes are visible at placement positions on each map;
+3 wall-mounted raid-alert panels ring the chamber (one per
+active raid window); a wave-progress live ticker scrolls
+across the rear wall; a replay gallery shelf on the left
+holds brass-cased recordings of past raids (one per raid).*
+
+**Hotspots:** central holo-tactical table; 3 raid-alert
+panels; wave-progress ticker (rear); replay gallery shelf
+(left); daily-streak indicator (right wall).
+
+**NPCs:** none resident; tactical voice surfaces during
+active raid.
+
+#### 2.33.1 Back-fill grid
+
+1. **TV infection:** clean = none; exposed = wisps from
+   table seams; spreading = mycelium on alert panels;
+   corrupted = tactical grid flickers voidblack; quarantined
+   = sealed-X across table.
+2. **Demon-summoning surface:** —
+3. **CADES:** —
+4. **Story items (§3.5):** raid replay cylinders (left
+   shelf, accumulating); daily-streak count plate (right
+   wall, current streak engraved).
+5. **Mystery-arc bindings:** none specific.
+6. **Investigation tier:** four canonical tiers — closure
+   object = a single brass plate set into the table edge
+   etched with the player's longest-defended siege.
+7. **Governance modifier reactions:** `defense_priority_
+   buff` → tactical table grid pulses gold; `quarantine_
+   protocol_active` → table sealed.
+8. **Epoch / ShadowTongue:** ShadowTongue power ≥40 → one
+   raid-alert panel shows indigo overstamp on attacker
+   identity (the attacker is "edited"); on `grandEditActive`,
+   the wave-progress ticker shows indigo phantom-waves.
+9. **Cycle-phase lighting:** dawn 5800K warm-amber on
+   table; long-night 5200K cool-violet on alert panels.
+10. **Faction livery:** —
+11. **Tournament window:** **load-bearing** — finals shows
+    bracket overlay on tactical table.
+12. **Storyteller hooks:** the Empty Replay Slot (every 16th
+    slot is reserved blank — implication: a raid that
+    happened but was edited from history); Tactical Table
+    Anomaly (occasionally shows a base the player doesn't
+    own — clue to a future expansion); Daily-Streak
+    Engraving (the count plate engraves itself silently
+    every 24h, even with no observer). Expansion-reserved
+    zone: VIP Gallery (above the operations chamber, locked
+    — for tournament spectators). Living-world: every IRL
+    hour, the tactical table cycles through all owned bases
+    in slow rotation.
+13. **HUD overlap:** §9 unified Replay Scrubber diegetic
+    anchor (currently MISSING per §3); `LeaderboardPage.
+    tsx` (TD leaderboard); §9 Resource Counter (raid
+    trophies).
+
+#### 2.33.2 Discovery cutscene + HUD anchor
+
+`defense_first_command` (~10 s): tactical table ignites with
+player's first base map; 3 alert panels light in sequence;
+wave-progress ticker scrolls "READY". HUD anchor: tower-
+placement launcher fires from table-touch.
+
+---
+
+### 2.34 Trophy Armory (TD — league-scaled trophy display)
+
+- **id:** `trophy-armory` / internal `trophy_armory`
+- **Deck:** 4 (operations spine, sub-room of Defense
+  Command Center)
+- **Adjacency:** Defense Command Center (left doorway)
+- **Gating:** any TD trophy earned
+- **Status:** new
+
+**Layout sentence:**
+*A long display gallery 12 m × 4 m with 16 trophy-tier
+displays mounted along the right wall (one per league —
+bronze_1 through legend); each tier display is a brass-
+framed alcove holding the player's earned trophy at that
+tier (silhouette if not yet earned); the left wall holds
+3 large mounted trophy displays for major TD achievements;
+the rear wall holds the all-time TD leaderboard plaque.*
+
+**Hotspots:** 16 league-tier alcoves; 3 major-achievement
+displays (left); leaderboard plaque (rear); current-tier
+indicator (centre, glowing in player's current league
+colour).
+
+**NPCs:** none resident.
+
+#### 2.34.1 Back-fill grid
+
+1. **TV infection:** clean = none; exposed = wisps from
+   alcove seams; spreading = mycelium on trophy bases;
+   corrupted = voidblack on plaque; quarantined = sealed-X.
+2. **Demon-summoning surface:** —
+3. **CADES:** —
+4. **Story items (§3.5):** 16 league-tier trophies (one per
+   league); 3 major TD achievement trophies; leaderboard
+   plaque entries.
+5. **Mystery-arc bindings:** none specific.
+6. **Investigation tier:** four canonical tiers — closure
+   object = a single legend-tier trophy at the gallery's
+   far end (one-of-one; only displayed at league = legend).
+7. **Governance modifier reactions:** `pvp_season_active`
+   → all visible trophies gain a season-themed accent.
+8. **Epoch / ShadowTongue:** ShadowTongue power ≥40 → one
+   leaderboard plaque entry is overstamped indigo; on
+   `grandEditActive`, the all-time leaderboard shows a
+   17th tier above legend (indigo phantom).
+9. **Cycle-phase lighting:** dawn 5800K on legend tier;
+   long-night 5200K cool-violet on bronze tier.
+10. **Faction livery:** —
+11. **Tournament window:** **load-bearing** — finals lights
+    the player's current-tier indicator brighter; champion-
+    anointed lights all 16 tiers simultaneously.
+12. **Storyteller hooks:** the 17th Tier (visible only on
+    `grandEditActive` — implication: a hidden TD tier
+    above legend exists in some saved-game seeds); Tier
+    Plaque Engravings (each plaque carries the date player
+    first achieved that tier); Phantom Trophy (one alcove
+    sometimes shows a trophy the player hasn't earned —
+    glitch or prophecy?). Expansion-reserved zone: the
+    Founder's Trophy (sealed display at gallery entrance —
+    for the player who founded the TD meta). Living-world:
+    every IRL hour, the player's current-tier indicator
+    pulses once.
+13. **HUD overlap:** `LeaderboardPage.tsx`; `FightLeader
+    boardPage.tsx`; §9 unified Trophy Gallery cross-
+    reference.
+
+#### 2.34.2 Discovery cutscene + HUD anchor
+
+`trophy_armory_first_tier` (~8 s): player's first earned
+tier alcove ignites; tier indicator at gallery centre
+illuminates in tier colour; leaderboard plaque adds player
+name with brass-engrave animation. HUD anchor: tier-
+detail launcher fires from alcove touch.
+
+---
+
+### 2.35 Tower Assembly Bay (TD — tower-craft progression)
+
+- **id:** `tower-assembly-bay` / internal `tower_assembly_bay`
+- **Deck:** 4 (operations spine, sub-room of Defense
+  Command Center)
+- **Adjacency:** Defense Command Center (right doorway)
+- **Gating:** any tower at upgrade level 2+
+- **Status:** new
+
+**Layout sentence:**
+*A workshop 10 m × 6 m organised into 5 craft zones (one per
+tower category — laser/missile/barrier/healing/artillery);
+each zone has a brass-frame work-rig holding a tower in
+progress at its current upgrade level (1–10 visual tiers);
+5 ceiling-mounted assembly arms hover above the rigs;
+class-locked zones (engineer, oracle, spy variants) are
+identifiable by their unique brass-stamps; ambient palette
+warm-amber industrial.*
+
+**Hotspots:** 5 craft zones; 5 work-rigs (one per zone);
+class-locked zone access (engineer/oracle/spy zones gated);
+upgrade-progress wall (rear, shows level 1→10 tiers per
+tower type).
+
+**NPCs:** none resident.
+
+#### 2.35.1 Back-fill grid
+
+1. **TV infection:** clean = none; exposed = wisps from
+   work-rig joints; spreading = mycelium on assembly arms;
+   corrupted = voidblack on towers in progress; quarantined
+   = sealed-X across bay.
+2. **Demon-summoning surface:** —
+3. **CADES:** —
+4. **Story items (§3.5):** 20+ tower-type variants (per
+   NOTES §12.8 — laser_turret, missile_launcher,
+   barrier_wall, healing_pylon, artillery_cannon, tesla_coil,
+   oracle_spire, shadow_trap, etc.); per-tower upgrade
+   progression visible.
+5. **Mystery-arc bindings:** none specific.
+6. **Investigation tier:** four canonical tiers — closure
+   object = a single brass plate set into the rear wall
+   etched with the player's chosen "signature defence."
+7. **Governance modifier reactions:** `crafting_speed_buff`
+   → all 5 work-rigs glow gold; `quarantine_protocol
+   _active` → bay sealed.
+8. **Epoch / ShadowTongue:** ShadowTongue power ≥40 → one
+   tower in progress shows indigo overstamp; on
+   `grandEditActive`, a hidden 6th craft zone appears
+   (the Architect's tower).
+9. **Cycle-phase lighting:** dawn 5800K warm-amber; long-
+   night 5200K cool-violet on work-rig.
+10. **Faction livery:** champion-tier faction's heraldry
+    on rear-wall progression display.
+11. **Tournament window:** —
+12. **Storyteller hooks:** the 6th Craft Zone (visible only
+    on `grandEditActive` — implication: an Architect-class
+    tower exists outside known TD meta); Lyra Vox's Spec
+    Plates (etched into each work-rig — Lyra designed the
+    original tower system); Assembly Arm Cycle (one arm
+    activates every IRL hour, performing a brief solo
+    assembly even with no player tower in progress).
+    Expansion-reserved zone: the Sealed Tower (rear corner,
+    canvas-draped — for legendary tower variants).
+    Living-world: every IRL hour, one work-rig advances
+    its visible build state slightly.
+13. **HUD overlap:** §9 Resource Counter (tower materials);
+    `PaperDollRenderer.tsx` (player paper-doll mid-assembly
+    visible).
+
+#### 2.35.2 Discovery cutscene + HUD anchor
+
+`tower_assembly_first_upgrade` (~8 s): 5 work-rigs ignite
+in sequence; assembly arms hover above the player's first
+tower type; first upgrade animation plays. HUD anchor:
+tower-upgrade launcher fires from work-rig touch.
+
+---
+
+### 2.36 Chess Hall (chess multiplayer + tournaments)
+
+- **id:** `chess-hall` / internal `chess_hall`
+- **Deck:** 5 (recreational spine)
+- **Adjacency:** Social Hub (right-corridor link), Grand
+  Master's Sanctum (rear arch, gated), Puzzle Study Chamber
+  (left doorway)
+- **Gating:** any chess game played
+- **Status:** new — primary diegetic surface for Chess
+  (per NOTES §12.8 — Chess has 0 Ark surface today)
+
+**Layout sentence:**
+*A grand hall 14 m × 10 m with 6 active tournament boards
+mounted on brass plinths arranged in two rows of three; each
+board displays a current match in 3D-rendered miniature with
+piece movement live; 9 character-style backdrop alcoves ring
+the hall (one per chess play-style — Architect/Enigma/Oracle/
+Collector/Warlord/etc.); each backdrop holds a portrait of
+the play-style's NPC and an ELO-bonus plaque; ambient palette
+warm-amber wood with brass-rail accents.*
+
+**Hotspots:** 6 tournament boards; 9 character-style
+backdrops; current-match scrubber (centre rear); historical
+games archive shelf (left wall); chess-clock display (front).
+
+**NPCs:** silhouettes appear at active boards during matches.
+
+#### 2.36.1 Back-fill grid
+
+1. **TV infection:** clean = none; exposed = wisps from
+   board plinth bases; spreading = mycelium on backdrop
+   frames; corrupted = voidblack on board piece silhouettes;
+   quarantined = sealed-X across hall.
+2. **Demon-summoning surface:** —
+3. **CADES:** —
+4. **Story items (§3.5):** 6 active tournament boards;
+   9 character-style portraits (one per play-style);
+   historical games archive (left shelf, accumulating).
+5. **Mystery-arc bindings:** none specific (chess is meta-
+   progression).
+6. **Investigation tier:** four canonical tiers — closure
+   object = a single brass plate set into the centre rear
+   etched with the player's most-played opening name.
+7. **Governance modifier reactions:** `chess_tournament_
+   active` → all 6 boards glow gold; `community_milestone`
+   → an extra tournament board appears for 24h.
+8. **Epoch / ShadowTongue:** ShadowTongue power ≥40 → one
+   character-style portrait is overstamped indigo (the
+   play-style is "edited" out); on `grandEditActive`, a
+   10th character-style backdrop appears (the Antiquarian's
+   forbidden style).
+9. **Cycle-phase lighting:** dawn 5800K warm-amber on
+   boards; long-night 5200K cool-violet on backdrops.
+10. **Faction livery:** champion-tier faction's heraldry on
+    centre rear.
+11. **Tournament window:** **always load-bearing** —
+    finals lights all 6 boards simultaneously; champion-
+    anointed lights the centre rear plaque.
+12. **Storyteller hooks:** the 10th Character Style
+    (visible only on `grandEditActive` — the Antiquarian's
+    forbidden play-style); Phantom Match (one tournament
+    board occasionally shows a match with no players
+    listed — implication: ghost players); Chess Clock
+    Drift (the front clock occasionally drifts ahead by 1 s,
+    then catches up — clue to a deeper time mechanic).
+    Expansion-reserved zone: the Founder's Board (rear-
+    centre, canvas-draped — for the original chess
+    pioneer). Living-world: every IRL hour, one
+    tournament board cycles to a new active match.
+13. **HUD overlap:** `ChessBoard.tsx` + related (full chess
+    UI surfaces here); `LeaderboardPage.tsx` (chess
+    rankings); §3.6 Tournament notification anchor.
+
+#### 2.36.2 Discovery cutscene + HUD anchor
+
+`chess_hall_first_match` (~10 s): 6 tournament boards
+ignite in sequence; 9 character backdrops illuminate; first
+board shows the player's match. HUD anchor: chess-match
+launcher fires from board touch.
+
+---
+
+### 2.37 Grand Master's Sanctum (top-10 ladder)
+
+- **id:** `grand-master-sanctum` / internal
+  `grand_master_sanctum`
+- **Deck:** 5 (recreational spine, sub-room of Chess Hall)
+- **Adjacency:** Chess Hall (rear arch)
+- **Gating:** chess ELO ≥ top-10 server-wide
+- **Status:** new
+
+**Layout sentence:**
+*A small private chamber 6 m × 6 m with a single ornate
+chess board at its centre on a marble pedestal; 10 brass
+plaques mounted around the chamber walls (one per top-10
+ladder position) carry engraved player names; the ceiling is
+domed with an oculus showing the night sky from the player's
+home server-region; ambient lighting warm-amber from a single
+overhead fixture.*
+
+**Hotspots:** central chess board (challenge launcher); 10
+plaques (one per ladder position); ceiling oculus
+(decorative); challenge-history shelf (rear).
+
+**NPCs:** none resident.
+
+#### 2.37.1 Back-fill grid
+
+1. **TV infection:** clean = none; exposed = wisps from
+   pedestal base; spreading = mycelium on plaques;
+   corrupted = voidblack on board pieces; quarantined =
+   sealed-X across pedestal.
+2. **Demon-summoning surface:** —
+3. **CADES:** —
+4. **Story items (§3.5):** 10 ladder plaques; central
+   chess board (one-of-a-kind); challenge history.
+5. **Mystery-arc bindings:** none.
+6. **Investigation tier:** four canonical tiers — closure
+   object = the player's name engraved on plaque #1
+   (only displayed at ladder = #1).
+7. **Governance modifier reactions:** `pvp_season_active`
+   → all 10 plaques glow gold.
+8. **Epoch / ShadowTongue:** ShadowTongue power ≥40 → one
+   plaque's name is overstamped indigo; on `grandEdit
+   Active`, an 11th plaque appears (the Architect's name).
+9. **Cycle-phase lighting:** dawn 5800K on board; long-
+   night 5200K on plaques.
+10. **Faction livery:** —
+11. **Tournament window:** **always load-bearing** —
+    finals lights all 10 plaques simultaneously.
+12. **Storyteller hooks:** the 11th Plaque (visible only on
+    `grandEditActive` — the Architect ranks #11);
+    Oculus Star Pattern (the night sky shows the player's
+    home server-region — implication: chess ladders are
+    region-locked); Engraving Wear (lower-ranked plaques
+    are slightly more weathered — older players?). Expansion-
+    reserved zone: the Throne (a single chair behind the
+    pedestal, currently empty — for the eternal champion).
+    Living-world: every IRL hour, the central board cycles
+    through one famous historical match (visual only).
+13. **HUD overlap:** `LeaderboardPage.tsx`; `ChessBoard.tsx`
+    challenge launcher.
+
+#### 2.37.2 Discovery cutscene + HUD anchor
+
+`grand_master_first_entry` (~10 s): rear arch opens silently
+on first top-10 ladder achievement; 10 plaques ignite in
+sequence; central board's pieces arrange themselves to
+"opening position." HUD anchor: champion-challenge
+launcher fires from board touch.
+
+---
+
+### 2.38 Puzzle Study Chamber (daily puzzle)
+
+- **id:** `puzzle-study-chamber` / internal
+  `puzzle_study_chamber`
+- **Deck:** 5 (recreational spine, sub-room of Chess Hall)
+- **Adjacency:** Chess Hall (left doorway)
+- **Gating:** any chess game played
+- **Status:** new
+
+**Layout sentence:**
+*A meditative study room 5 m × 5 m with a single low chess
+board on a brass-rimmed table at the room's centre; the
+board displays the day's puzzle in static composition; 7
+brass tutorial-gate plaques mounted on the walls (per chess
+tutorial gates 0–6 from NOTES §12.8); a daily puzzle archive
+shelf holds 365 brass-cased puzzle records; ambient cool-
+amber light with one warm-gold spot on the central board.*
+
+**Hotspots:** central puzzle board; 7 tutorial-gate plaques;
+puzzle archive shelf (365 records); puzzle-solved indicator
+(rear wall).
+
+**NPCs:** none resident.
+
+#### 2.38.1 Back-fill grid
+
+1. **TV infection:** clean = none; exposed = wisps from
+   table base; spreading = mycelium on plaques; corrupted
+   = voidblack on puzzle pieces; quarantined = sealed-X
+   across board.
+2. **Demon-summoning surface:** —
+3. **CADES:** —
+4. **Story items (§3.5):** central puzzle board (rotates
+   daily); 7 tutorial-gate plaques; 365 archive records.
+5. **Mystery-arc bindings:** none.
+6. **Investigation tier:** four canonical tiers — closure
+   object = a single brass plate set into the table edge
+   etched with "First Solved on [date]".
+7. **Governance modifier reactions:** `daily_streak_milestone`
+   → puzzle-solved indicator pulses gold for 24h.
+8. **Epoch / ShadowTongue:** ShadowTongue power ≥40 → one
+   archive record shows indigo overstamp on solution; on
+   `grandEditActive`, the central puzzle board shifts to a
+   variant solution overnight.
+9. **Cycle-phase lighting:** dawn 5800K on board; long-
+   night 5200K on plaques.
+10. **Faction livery:** —
+11. **Tournament window:** —
+12. **Storyteller hooks:** the Phantom Move (the central
+    board occasionally shows a piece in mid-motion — a
+    move from yesterday's puzzle still in transit); the
+    Unsolvable Puzzle (one archive record per year is
+    marked "no recorded solution"); Tutorial Gate
+    Progression (each plaque carries the date the player
+    cleared that gate). Expansion-reserved zone: the
+    Master's Puzzle (sealed plinth at the rear — daily-
+    grandmaster puzzle, locked until tutorial gate 6
+    cleared). Living-world: every IRL day at midnight UTC,
+    the central board's pieces rearrange to the new daily
+    puzzle (visible if the player is present at the moment).
+13. **HUD overlap:** `ChessBoard.tsx` puzzle mode;
+    `chessPuzzle.ts` integration.
+
+#### 2.38.2 Discovery cutscene + HUD anchor
+
+`puzzle_study_first_solve` (~8 s): central board pieces
+animate the player's first solution; puzzle-solved
+indicator illuminates; tutorial-gate-0 plaque ignites if
+not yet cleared. HUD anchor: puzzle launcher fires from
+board touch.
+
+---
+
+### 2.39 Casino Gaming Floor (chess-in-July event)
+
+- **id:** `casino-floor` / internal `casino_floor`
+- **Deck:** 5 (recreational spine)
+- **Adjacency:** Chess Hall (front-archway, event-gated),
+  Social Hub (rear corridor)
+- **Gating:** `event_christmas_in_july_active`
+- **Status:** new — event-only diegetic surface
+
+**Layout sentence:**
+*A wide casino floor 18 m × 12 m with rotating themed décor
+per active seasonal event; 8 game tables arranged in a 2×4
+grid (chess wagers, dice, card games, etc.); a central
+stage with a live broadcast screen showing tournament
+brackets; a betting-counter along the right wall with brass
+chits stacked in receiving slots; a leaderboard wall along
+the left holds tournament standings; ambient palette warm-
+gold with neon accents per seasonal theme.*
+
+**Hotspots:** 8 game tables (one per game type); central
+stage with broadcast screen; betting counter; leaderboard
+wall (left); event-token exchange kiosk (rear).
+
+**NPCs:** dealer silhouettes at active tables;
+casino-host NPC at central stage (event-gated).
+
+#### 2.39.1 Back-fill grid
+
+1. **TV infection:** clean = none; exposed = wisps from
+   table felts; spreading = mycelium on chits; corrupted
+   = voidblack on broadcast screen; quarantined = sealed-X
+   across casino entrance (event auto-cancels).
+2. **Demon-summoning surface:** —
+3. **CADES:** —
+4. **Story items (§3.5):** brass chits (event currency);
+   8 game-table outcomes; tournament leaderboard entries.
+5. **Mystery-arc bindings:** none specific (event-only).
+6. **Investigation tier:** four canonical tiers — closure
+   object = a single brass plate set into the central stage
+   etched with the player's biggest event-tournament win.
+7. **Governance modifier reactions:** `event_chess_in_july
+   _active` → ALL surfaces lit (room only exists/visible
+   during this window); `tournament_window_finals` → central
+   stage lights all 8 tables.
+8. **Epoch / ShadowTongue:** ShadowTongue power ≥40 → one
+   broadcast screen entry shows indigo overstamp; on
+   `grandEditActive`, a 9th game table appears (the
+   Architect's wager).
+9. **Cycle-phase lighting:** ignored — casino has its own
+   neon palette overriding cycle drift.
+10. **Faction livery:** champion-tier faction's heraldry
+    on the central stage.
+11. **Tournament window:** **always load-bearing** —
+    finals lights all 8 tables; champion-anointed = central
+    stage gilt-edged.
+12. **Storyteller hooks:** the Empty Wager (one game table
+    is reserved for a "house wager" with stakes that change
+    every day); Casino Host Dialogue Tree (NPC's lines
+    rotate hourly with rumour content); Bracket Anomaly
+    (the leaderboard occasionally shows a player who hasn't
+    entered — implication: phantom contestants).
+    Expansion-reserved zones: the High Stakes Room (sealed
+    door at rear, requires legendary-tier achievement); the
+    Founder's Booth (above the central stage, locked). The
+    Casino Floor itself is a seasonal event surface and
+    only exists during Christmas-in-July windows.
+    Living-world: when active, every IRL hour the
+    leaderboard adds 1–3 new entries.
+13. **HUD overlap:** §9 unified Resource Counter (event
+    tokens); `ChessBoard.tsx` (chess wagers integrate);
+    `LeaderboardPage.tsx` (tournament leaderboard).
+
+#### 2.39.2 Discovery cutscene + HUD anchor
+
+`casino_first_open` (~10 s): event activates;
+casino-floor doors swing open; 8 tables ignite; central
+stage broadcast screen plays event opening fanfare (as
+SFX-only per §3.1 universal direction). HUD anchor:
+event-token launcher fires from exchange kiosk touch.
+
+---
+
+### 2.40 Governance Chamber / Council Conclave
+
+- **id:** `governance-chamber` / internal `governance_chamber`
+- **Deck:** 6 (civic spine)
+- **Adjacency:** Bridge (lift descent), Daily Resource
+  Allocation Board (left doorway), Faction Succession
+  Monument (right doorway)
+- **Gating:** `narrative_flag_governance_unlocked` (typically
+  Act 2+)
+- **Status:** new — primary diegetic surface for Governance
+  (per NOTES §12.8 — Governance has 0 dedicated Ark surface)
+
+**Layout sentence:**
+*A large semicircular chamber 12 m radius with a domed
+ceiling; a brass-projection floor displays the active vote's
+question and options as scrolling text that wraps the
+chamber perimeter at eye-level; the centre of the floor is
+a sigil-circle containing a 3D holographic representation of
+the live vote tally; a raised lectern at the chamber's straight-
+edge holds the Antiquarian's chronicle (open to the current
+vote's narrative context); a monument wall along the curved
+edge etches every past vote's outcome (accumulating over the
+save's lifetime); ambient palette neutral-white with warm-
+amber accents.*
+
+**Hotspots:** central tally sigil-circle; perimeter
+scrolling-text band (active vote question/options); rear
+lectern with Antiquarian chronicle; monument wall (left
+curve, past vote outcomes); player vote-cast pillar (right
+of lectern).
+
+**NPCs:** Antiquarian silhouette at the lectern (always
+visible during open vote); Adjudicator Locke at trade-related
+votes.
+
+#### 2.40.1 Back-fill grid
+
+1. **TV infection:** clean = none; exposed = wisps from
+   sigil-circle edges; spreading = mycelium on lectern;
+   corrupted = scrolling text turns voidblack; quarantined
+   = sealed-X across chamber.
+2. **Demon-summoning surface:** —
+3. **CADES:** —
+4. **Story items (§3.5):** Antiquarian chronicle (lectern,
+   accumulating); monument wall plates (1 per past vote);
+   vote-cast pillar (player tool).
+5. **Mystery-arc bindings:** the Degen E2, E3, E4, E5 (the
+   audit-related votes surface here — Coda Purpose Brief,
+   audit-prep note, letter to the saga); Game Master E2, E4
+   (Velkraal's correspondence folio votes surface here).
+6. **Investigation tier:** four canonical tiers — closure
+   object = a single bound brass codex on the lectern
+   titled "The Chronicle of Witness, [date]".
+7. **Governance modifier reactions:** **always load-bearing**
+   — chamber's primary purpose is governance; every vote
+   open/closed/outcome shows in real-time.
+8. **Epoch / ShadowTongue:** ShadowTongue power ≥40 → one
+   monument plate is overstamped indigo (a vote outcome
+   "edited"); on `grandEditActive`, the central tally
+   sigil-circle shows alternate outcomes flickering
+   simultaneously.
+9. **Cycle-phase lighting:** dawn 5800K warm-amber on
+   sigil-circle; long-night 5200K cool-violet on monument
+   wall.
+10. **Faction livery:** champion-tier faction's heraldry
+    on the lectern; 5-faction banners flank the chamber
+    entrance.
+11. **Tournament window:** —
+12. **Storyteller hooks:** the Empty Plate (one slot on the
+    monument wall is always blank — reserved for "the vote
+    that should never have happened"); Antiquarian's
+    Personal Note (lectern's lower drawer holds the
+    Antiquarian's marginalia on each vote — readable at
+    trust ≥80); Vote Pillar Echo (player's voice when
+    casting a vote echoes faintly through the chamber for
+    24h after). Expansion-reserved zone: the High Court
+    (sealed door behind the lectern — for the
+    Adjudicator's tribunal, post-Act-5). Living-world:
+    every IRL hour, the perimeter scrolling text cycles
+    once around the chamber.
+13. **HUD overlap:** `GovernanceHubPage.tsx` (full
+    governance UI surfaces here); §3.6 Governance
+    notification anchor; `MobileNarratorSlot.tsx`
+    (Antiquarian voice surfaces).
+
+#### 2.40.2 Discovery cutscene + HUD anchor
+
+`governance_first_vote` (~12 s): Bridge lift descends;
+chamber's sigil-circle ignites with first vote tally;
+perimeter text scrolls into view; Antiquarian appears at
+lectern. HUD anchor: vote-cast launcher fires from pillar
+touch.
+
+---
+
+### 2.41 Daily Resource Allocation Board
+
+- **id:** `daily-resource-board` / internal
+  `daily_resource_board`
+- **Deck:** 6 (civic spine, sub-room of Governance Chamber)
+- **Adjacency:** Governance Chamber (left doorway)
+- **Gating:** governance unlocked
+- **Status:** new — daily-vote diegetic surface (per NOTES
+  §12.8)
+
+**Layout sentence:**
+*A small chamber 5 m × 4 m with a wall-spanning brass display
+showing the day's resource-allocation question (e.g.,
+"Shields vs Scanners") and two large vote options as etched
+brass plates at eye-level; a 24h countdown brass dial above
+the question shows time remaining; a real-time vote
+distribution bar (50/50 default) fills the lower portion of
+the display; floor inlay shows two paths (one to each option)
+where players walk to cast.*
+
+**Hotspots:** wall display (question + 2 options); 24h
+countdown dial; vote distribution bar; 2 floor-path vote
+endpoints.
+
+**NPCs:** none resident; ambient crew silhouettes vote.
+
+#### 2.41.1 Back-fill grid
+
+1. **TV infection:** clean = none; exposed = wisps from
+   display seams; spreading = mycelium on countdown dial;
+   corrupted = display flickers voidblack; quarantined =
+   sealed-X across both vote paths.
+2. **Demon-summoning surface:** —
+3. **CADES:** —
+4. **Story items (§3.5):** daily-vote outcomes (visible on
+   day's display); player's vote history (small plaque,
+   right wall, accumulating).
+5. **Mystery-arc bindings:** none specific.
+6. **Investigation tier:** four canonical tiers — closure
+   object = a single brass plate set into the wall
+   etched with the player's longest daily-vote streak.
+7. **Governance modifier reactions:** **always load-bearing**.
+8. **Epoch / ShadowTongue:** ShadowTongue power ≥40 → one
+   vote option's text is overstamped indigo; on
+   `grandEditActive`, a third unmarked option appears.
+9. **Cycle-phase lighting:** dawn 5800K on display; long-
+   night 5200K on countdown dial.
+10. **Faction livery:** —
+11. **Tournament window:** —
+12. **Storyteller hooks:** the Hidden Third Option
+    (visible only on `grandEditActive` — implication:
+    Shadow Tongue can introduce unsanctioned alternatives);
+    Vote Distribution Anomaly (the bar occasionally shows a
+    distribution that doesn't match the actual votes —
+    glitch or manipulation?); Floor Path Wear (the more-
+    voted path is slightly more worn over time). Expansion-
+    reserved zone: the Sealed Vote (rear of the chamber —
+    for "the daily vote that has no answer"). Living-world:
+    every IRL hour, the vote distribution updates visibly;
+    at IRL midnight UTC, the question rotates to the new
+    day's resource pair (visible if player is present).
+13. **HUD overlap:** `GovernanceHubPage.tsx` (daily vote
+    quick-cast); §3.6 Governance daily-vote notification.
+
+#### 2.41.2 Discovery cutscene + HUD anchor
+
+`daily_resource_first_cast` (~6 s): wall display ignites
+with first day's question; countdown dial begins ticking;
+floor paths illuminate. HUD anchor: vote-cast launcher
+fires from floor-path endpoints.
+
+---
+
+### 2.42 Faction Succession Monument
+
+- **id:** `faction-succession-monument` / internal
+  `faction_succession_monument`
+- **Deck:** 6 (civic spine, sub-room of Governance Chamber)
+- **Adjacency:** Governance Chamber (right doorway)
+- **Gating:** governance unlocked
+- **Status:** new — annual-vote diegetic surface
+
+**Layout sentence:**
+*A small monument chamber 6 m × 5 m with 5 faction-leader
+heraldry pylons (one per faction) arranged in a fan; each
+pylon's banner shows the current year's faction-leader sigil
+or "PENDING" if mid-vote; a central monument plinth holds an
+etched chronicle of every past faction succession; ambient
+palette cool-amber with each pylon's accent matching its
+faction colour (Insurgency amber, New Babylon cerulean,
+Hierarchy red, Architect Remnants grey, Dreamers Children
+violet).*
+
+**Hotspots:** 5 faction-leader pylons; central monument
+plinth (chronicle); succession-history scroll (rear wall).
+
+**NPCs:** ambient faction-rep silhouettes appear during
+active vote.
+
+#### 2.42.1 Back-fill grid
+
+1. **TV infection:** clean = none; exposed = wisps from
+   pylon bases; spreading = mycelium on plinth; corrupted
+   = voidblack on banners; quarantined = sealed-X.
+2. **Demon-summoning surface:** —
+3. **CADES:** —
+4. **Story items (§3.5):** 5 faction-leader heraldry banners
+   (current year); monument plinth chronicle (accumulating);
+   succession-history scroll.
+5. **Mystery-arc bindings:** Wraith Calder cross-reference
+   (Hierophant ceremony succession may surface here at
+   trust-100).
+6. **Investigation tier:** four canonical tiers — closure
+   object = a single brass plate at the chamber centre
+   etched with the player's chosen faction's current leader.
+7. **Governance modifier reactions:** **always load-bearing**
+   — annual succession votes resolve here.
+8. **Epoch / ShadowTongue:** ShadowTongue power ≥40 → one
+   faction's leader sigil is overstamped indigo (the
+   succession is "edited"); on `grandEditActive`, a 6th
+   faction pylon appears momentarily.
+9. **Cycle-phase lighting:** dawn 5800K on pylons; long-
+   night 5200K on plinth.
+10. **Faction livery:** **always load-bearing** — every
+    faction's banner reflects its succession state.
+11. **Tournament window:** —
+12. **Storyteller hooks:** the 6th Faction Pylon (visible
+    only on `grandEditActive` — clue to a future faction
+    emergence); Succession Chronicle Engravings (each entry
+    carries a year and a single-line summary of the
+    ascendant leader's first action); Pending State Glow
+    (during active succession vote, the affected pylon's
+    banner glows brighter). Expansion-reserved zone: the
+    Anti-Throne (sealed alcove behind the central plinth —
+    for "the faction that refuses succession"). Living-
+    world: every IRL hour, one of the 5 pylons subtly
+    re-furls its banner matching the most-recent
+    faction-standing change.
+13. **HUD overlap:** §9 Resource Counter (faction
+    standing); `GovernanceHubPage.tsx` (annual vote UI);
+    §3.6 Faction Succession notification anchor.
+
+#### 2.42.2 Discovery cutscene + HUD anchor
+
+`faction_succession_first_view` (~10 s): 5 pylons ignite in
+sequence (in faction-rotation order); central plinth's
+chronicle illuminates with current year's entry. HUD anchor:
+annual-vote launcher fires from pylon touch.
+
+---
+
+### 2.43 Oracle's Sanctum (Annual — annual oracle-question vote)
+
+- **id:** `oracle-annual-sanctum` / internal
+  `oracle_annual_sanctum`
+- **Deck:** 6 (civic spine)
+- **Adjacency:** Oracle Sanctum §2.18 (rear-pocket portal,
+  one-time annual transition)
+- **Gating:** `event_annual_oracle_question_active`
+- **Status:** new — annual-event diegetic surface, exists
+  only during the annual oracle-question vote window
+
+**Layout sentence:**
+*An ethereal chamber 8 m diameter with no visible walls —
+the perimeter is mist; a single floating oracle-stone hovers
+at chamber centre at chest height, etched with the year's
+oracle question in living script; 4 voting petals float at
+compass positions, one per option; the floor is unmarked
+black void with a faint star-pattern; ambient palette cool-
+violet with one warm-gold pinpoint at the oracle-stone.*
+
+**Hotspots:** central oracle-stone (question display); 4
+floating voting petals (one per option); the void floor
+(decorative, accepts gold soul stones for Dreamer
+offering).
+
+**NPCs:** the Seer's posthumous voice surfaces here during
+the annual window (if Seer arc completed).
+
+#### 2.43.1 Back-fill grid
+
+1. **TV infection:** clean = none; exposed = wisps from
+   void-floor; spreading = mycelium on petals; corrupted =
+   oracle-stone turns voidblack; quarantined = sealed-X
+   across chamber (room collapses).
+2. **Demon-summoning surface:** —
+3. **CADES:** —
+4. **Story items (§3.5):** oracle-stone (annual question);
+   4 voting petals; gold soul stones (offering).
+5. **Mystery-arc bindings:** the Seer arc (cross-reference
+   — annual question is curated by Seer's posthumous archive).
+6. **Investigation tier:** four canonical tiers — closure
+   object = a single bronze plate hovering above the void
+   etched with the player's chosen annual answer.
+7. **Governance modifier reactions:** **always load-bearing**
+   — annual oracle-question vote resolves here.
+8. **Epoch / ShadowTongue:** ShadowTongue power ≥40 → one
+   voting petal's text is overstamped indigo (the option is
+   "edited"); on `grandEditActive`, a 5th petal appears
+   (the unsanctioned oracle answer).
+9. **Cycle-phase lighting:** standard ±300K drift, but the
+   warm-gold pinpoint on oracle-stone is constant.
+10. **Faction livery:** —
+11. **Tournament window:** —
+12. **Storyteller hooks:** the 5th Petal (visible only on
+    `grandEditActive`); Star-Pattern Floor (the void floor's
+    star pattern matches the constellation of the player's
+    chosen affinity); Question Echo (the year's question
+    can be heard whispered by the Seer's voice if player
+    stands still for 30 s). Expansion-reserved zone: the
+    Sealed Question (rear of chamber, behind oracle-stone
+    — the unanswered prophecy). Living-world: when active,
+    the oracle-stone's living script shifts subtly every
+    hour as new translations of the question reveal.
+13. **HUD overlap:** `GovernanceHubPage.tsx` (annual oracle-
+    question UI); §3.6 Governance notification.
+
+#### 2.43.2 Discovery cutscene + HUD anchor
+
+`oracle_annual_first_open` (~12 s): pocket portal opens from
+Oracle Sanctum §2.18 (one-time annual transition); player
+descends; oracle-stone illuminates with year's question; 4
+voting petals materialise in compass positions. HUD anchor:
+oracle-vote launcher fires from petal touch.
+
+---
+
+### 2.44 Epoch Witness Conclave / Archive
+
+- **id:** `epoch-witness-conclave` / internal
+  `epoch_witness_conclave`
+- **Deck:** 7 (epoch spine)
+- **Adjacency:** Antiquarian's Library (rear pocket portal),
+  Nexus Point Sanctum (left doorway), Prophecy Wall (right
+  doorway)
+- **Gating:** `narrative_flag_epoch_witness_unlocked` (typ. Act 3+)
+- **Status:** new — primary diegetic surface for Epoch
+  Witness (per NOTES §12.8 — 0 Ark surface today)
+
+**Layout sentence:**
+*A long archive chamber 16 m × 6 m with a 5-epoch timeline
+embedded in the floor as a brass inlay (Privacy → Prophecy →
+Insurgency → Revelation → Fall of Reality); the active epoch
+glows brighter than the others; a vertical ShadowTongue power
+meter (0–100) is mounted on the rear wall as an indigo-glass
+column that fills with indigo liquid as power rises; 7
+archetype-gate plaques line the left wall (one per WATCHER /
+INVENTOR / ADVOCATE / SEER / PROGRAMMER / POLITICIAN / WITNESS
+gate); the player's voting history is etched into the right
+wall as a chronicle of choices.*
+
+**Hotspots:** 5-epoch timeline floor inlay; ShadowTongue power
+meter (rear wall); 7 archetype-gate plaques (left wall); voting
+history chronicle (right wall); vote-cast pulpit (centre).
+
+**NPCs:** Antiquarian silhouette may surface at the chronicle
+side; the Watcher entity may surface at the rear (`grandEdit
+Active` only).
+
+#### 2.44.1 Back-fill grid
+
+1. **TV infection:** clean = none; exposed = wisps from
+   timeline edges; spreading = mycelium on archetype plaques;
+   corrupted = ShadowTongue meter overflows; quarantined =
+   sealed-X across timeline.
+2. **Demon-summoning surface:** —
+3. **CADES:** —
+4. **Story items (§3.5):** 5-epoch timeline; ShadowTongue
+   meter; 7 archetype gates; voting history chronicle (one
+   entry per past epoch vote).
+5. **Mystery-arc bindings:** the Seer arc (cross-reference —
+   Seer's prophecies are chronicled here); Wraith Calder
+   E5 (Prophet identity surfaces in the chronicle at trust-
+   100).
+6. **Investigation tier:** four canonical tiers — closure
+   object = a single bound brass codex on the chronicle
+   wall titled "The Witness's Final Edit, [date]".
+7. **Governance modifier reactions:** **always load-bearing**
+   — epoch votes resolve here.
+8. **Epoch / ShadowTongue:** **PRIMARY DIEGETIC SURFACE FOR
+   EPOCH WITNESS.** ShadowTongue meter is the chamber's
+   centrepiece; rises and falls with global power. On
+   `grandEditActive`, the entire chamber is overstamped
+   indigo and the Watcher silhouette is visible at the rear.
+9. **Cycle-phase lighting:** dawn 5800K warm-amber on
+   timeline; long-night 5200K cool-violet on meter.
+10. **Faction livery:** champion-tier faction's heraldry
+    on chronicle.
+11. **Tournament window:** —
+12. **Storyteller hooks:** the 6th Epoch (visible only on
+    `grandEditActive` — the unnamed epoch beyond Fall of
+    Reality); Archetype Gate Activation (each plaque carries
+    the date the player first met that gate's requirement);
+    ShadowTongue Power Pulse (the meter fluctuates ±2 over
+    24h cycles independent of vote cadence — implication:
+    the Tongue has a circadian rhythm). Expansion-reserved
+    zone: the Sealed Epoch (rear-corner alcove — for the
+    epoch the player has not yet witnessed). Living-world:
+    every IRL hour, the active-epoch glyph on the timeline
+    pulses brighter once.
+13. **HUD overlap:** `GovernanceHubPage.tsx` (epoch vote UI);
+    §3.6 Epoch notification anchor; `MobileNarratorSlot.
+    tsx` (Antiquarian voice).
+
+#### 2.44.2 Discovery cutscene + HUD anchor
+
+`epoch_witness_first_entry` (~12 s): Antiquarian's Library
+rear-portal opens; player descends; 5-epoch timeline ignites
+in sequence; ShadowTongue meter shows current power; 7
+archetype plaques light if requirements met. HUD anchor:
+epoch-vote launcher fires from central pulpit.
+
+---
+
+### 2.45 Nexus Point Sanctum
+
+- **id:** `nexus-point-sanctum` / internal
+  `nexus_point_sanctum`
+- **Deck:** 7 (epoch spine, sub-room of Epoch Witness Conclave)
+- **Adjacency:** Epoch Witness Conclave (left doorway)
+- **Gating:** any epoch active
+- **Status:** new — epoch-locus aesthetic surface
+
+**Layout sentence:**
+*An ethereal chamber 7 m diameter with the per-epoch
+aesthetic transformation — the chamber's walls, floor, and
+ceiling are made of the active epoch's signature material
+(Privacy = pre-Fall pearl-marble; Prophecy = scribed obsidian;
+Insurgency = scarred bronze; Revelation = clear quartz; Fall
+of Reality = void-touched basalt); a single nexus-point
+sigil hovers at chamber centre as a holographic 3D glyph;
+ambient palette per active epoch (cool-violet for late
+epochs, warm-amber for early).*
+
+**Hotspots:** central nexus-point sigil; chamber walls (per-
+epoch material); epoch-transition trigger plinth (rear,
+fires `cs_epoch_close` cutscenes when an epoch closer vote
+resolves).
+
+**NPCs:** none resident.
+
+#### 2.45.1 Back-fill grid
+
+1. **TV infection:** clean = none; exposed = wisps from
+   sigil; spreading = mycelium on walls; corrupted = sigil
+   turns voidblack; quarantined = sealed-X.
+2. **Demon-summoning surface:** —
+3. **CADES:** —
+4. **Story items (§3.5):** central nexus-point sigil
+   (unique per-epoch); per-epoch material aesthetic.
+5. **Mystery-arc bindings:** none specific.
+6. **Investigation tier:** four canonical tiers — closure
+   object = a single brass plate set into the floor at
+   chamber centre etched with the player's chosen final
+   epoch.
+7. **Governance modifier reactions:** epoch closer-vote
+   trigger fires `cs_epoch_close` cutscene from the rear
+   plinth (single 8-s cutscene, SFX-only per §3.1
+   universal direction).
+8. **Epoch / ShadowTongue:** **PRIMARY EPOCH AESTHETIC
+   SURFACE.** Material transition between epochs is the
+   chamber's purpose. On `grandEditActive`, the chamber's
+   material flickers between current epoch and an unknown
+   6th aesthetic.
+9. **Cycle-phase lighting:** standard ±300K but per-epoch
+   palette overrides.
+10. **Faction livery:** —
+11. **Tournament window:** —
+12. **Storyteller hooks:** the 6th Material (visible only
+    on `grandEditActive` — the unknown post-Fall aesthetic);
+    Epoch-Transition Echo (when an epoch closes, the
+    chamber's previous material remains as a faint ghost-
+    image for 24h after); Sigil Slow-Spin (the central
+    sigil rotates 1° per IRL hour, completing one rotation
+    per 360h ≈ 15d). Expansion-reserved zone: the Anti-
+    Sigil (sealed glyph behind the rear plinth — for "the
+    nexus that should never have been"). Living-world: the
+    chamber's ambient material slowly weathers over the
+    course of an epoch; weathering resets at epoch close.
+13. **HUD overlap:** `GovernanceHubPage.tsx` (epoch close
+    cutscene); §3.6 Epoch notification.
+
+#### 2.45.2 Discovery cutscene + HUD anchor
+
+`nexus_first_visit` (~10 s): Epoch Witness Conclave
+left-doorway opens; chamber materialises with current
+epoch's aesthetic; central sigil hovers into place. HUD
+anchor: epoch-close cutscene launcher fires from rear
+plinth on closer-vote resolution.
+
+---
+
+### 2.46 Prophecy Wall
+
+- **id:** `prophecy-wall` / internal `prophecy_wall`
+- **Deck:** 7 (epoch spine, sub-room of Epoch Witness Conclave)
+- **Adjacency:** Epoch Witness Conclave (right doorway)
+- **Gating:** any epoch vote completed
+- **Status:** new — Antiquarian inscription surface
+
+**Layout sentence:**
+*A long inscription chamber 14 m × 4 m with a single
+continuous wall (left side) etched with the Antiquarian's
+inscriptions for every past epoch vote; inscriptions are in
+brass-on-obsidian, accumulating in chronological order from
+left to right; the right wall is a mirror — same width,
+reflective brass — showing the inscriptions in reverse, but
+each reflection carries one extra word that's not on the
+inscription itself (an Antiquarian-marginalia easter egg);
+the chamber's far end has a small reading bench with a
+single brass quill.*
+
+**Hotspots:** continuous inscription wall (left); reflective
+brass wall (right); reading bench with quill (far end);
+fresh-inscription block (left wall, near entrance — appears
+when a new vote outcome is freshly inscribed).
+
+**NPCs:** Antiquarian silhouette appears at the bench
+during active vote-outcome inscription.
+
+#### 2.46.1 Back-fill grid
+
+1. **TV infection:** clean = none; exposed = wisps from
+   bench; spreading = mycelium on inscription wall;
+   corrupted = mirror reflections turn voidblack;
+   quarantined = sealed-X across both walls.
+2. **Demon-summoning surface:** —
+3. **CADES:** —
+4. **Story items (§3.5):** inscription wall (1 per past
+   vote); mirror-marginalia (Antiquarian extras); reading
+   bench quill (player tool — can read aloud).
+5. **Mystery-arc bindings:** none specific.
+6. **Investigation tier:** four canonical tiers — closure
+   object = a single brass plate set into the bench etched
+   with the player's most-quoted Antiquarian line.
+7. **Governance modifier reactions:** new vote outcome →
+   fresh-inscription block animates etching for 6 s on
+   first entry.
+8. **Epoch / ShadowTongue:** ShadowTongue power ≥40 → one
+   inscription is overstamped indigo (the Antiquarian's
+   line is "edited"); on `grandEditActive`, the mirror
+   shows inscriptions in plain text instead of mirror-
+   reflected (revelation moment).
+9. **Cycle-phase lighting:** dawn 5800K warm-amber on
+   inscription wall; long-night 5200K cool-violet on
+   mirror.
+10. **Faction livery:** —
+11. **Tournament window:** —
+12. **Storyteller hooks:** the Mirror Marginalia (every
+    reflection carries one extra word — implication: the
+    Antiquarian writes a hidden second draft); the Quill
+    Drift (the brass quill on the bench is occasionally
+    in a slightly different position than where the player
+    last left it); the First Inscription (the leftmost
+    entry on the wall is dated centuries before the
+    player woke). Expansion-reserved zone: the Future
+    Wall (the entire right wall beyond the mirror is
+    blank — reserved for inscriptions yet to come).
+    Living-world: every IRL hour, the brass quill on the
+    bench shifts position by ~1 cm (no visible hand).
+13. **HUD overlap:** `MobileNarratorSlot.tsx` (Antiquarian
+    voice surfaces); §9 Loredex Viewer (cross-reference to
+    inscription content).
+
+#### 2.46.2 Discovery cutscene + HUD anchor
+
+`prophecy_first_inscription` (~10 s): Conclave right-doorway
+opens; left wall ignites with all past inscriptions in
+sequence (left-to-right); mirror brightens to show
+reflections. HUD anchor: read-aloud launcher fires from
+quill touch.
+
+---
+
+### 2.47 CADES Console / Mission Briefing Pod (Med Bay annex)
+
+- **id:** `cades-console` / internal `cades_console`
+- **Deck:** 1 (Med Bay annex; sub-room of §2.2 Medical Bay)
+- **Adjacency:** Medical Bay restricted section (single doorway)
+- **Gating:** `cades_unlocked` AND `medbay_restricted_section_unlocked`
+- **Status:** new — CADES diegetic surface (per NOTES §9.3
+  + §3.1.4 cutscene reference)
+
+**Layout sentence:**
+*A small clinical pod 4 m × 4 m with a violet-helmet console
+chair at its centre (per §3.9.1 Resonance Pedestal cross-
+reference); 7 mission-progress plaques mounted on the rear
+wall (one per CADES mission M1–M7), each plaque carries the
+mission's image-fragment from the helmet's interior surface;
+an Iron Lion helmet hologram hovers above the chair when not
+in use; an async PvP lobby panel on the left wall shows
+opponent-match queue; ambient palette cool-violet with the
+helmet hologram as the only warm-amber light source.*
+
+**Hotspots:** violet-helmet console chair (mission launcher);
+7 mission-progress plaques (rear wall); Iron Lion helmet
+hologram (ceiling); async PvP lobby panel (left wall);
+post-credit shrine alcove (right wall, post-M7 only).
+
+**NPCs:** Iron Lion silhouette in hologram form (always
+visible above chair pre-M7); Agent Zero silhouette appears
+in the post-credit shrine alcove post-M7.
+
+#### 2.47.1 Back-fill grid
+
+1. **TV infection:** clean = none; exposed = wisps from
+   chair seams; spreading = mycelium on plaques; corrupted
+   = helmet hologram flickers voidblack; quarantined =
+   sealed-X across chair.
+2. **Demon-summoning surface:** —
+3. **CADES presence:** **PRIMARY DIEGETIC SURFACE.** All 7
+   missions launch from the chair; helmet captures one
+   image-fragment per mission (visible on the corresponding
+   rear-wall plaque after completion).
+4. **Story items (§3.5):** violet helmet (chair-mounted);
+   7 image-fragment plaques; Iron Lion helmet hologram;
+   Dischordia card (post-M7 — appears on the post-credit
+   shrine).
+5. **Mystery-arc bindings:** Jericho Jones cross-reference
+   (Iron Lion helmet hologram); the Seer arc cross-
+   reference (helmet captures may carry Seer prophecy
+   echoes at trust-100).
+6. **Investigation tier:** four canonical tiers — closure
+   object = the post-credit shrine itself, with Dischordia
+   card and Engineer's silhouette (post-M7).
+7. **Governance modifier reactions:** `cades_priority_buff`
+   → all 7 plaques glow gold; `quarantine_protocol_active`
+   → chair sealed.
+8. **Epoch / ShadowTongue:** ShadowTongue power ≥40 → one
+   captured image-fragment is overstamped indigo (the
+   mission outcome is "edited"); on `grandEditActive`, an
+   8th plaque appears (the unsanctioned mission).
+9. **Cycle-phase lighting:** standard ±300K but the
+   helmet hologram is constant.
+10. **Faction livery:** Iron Lions allied = the helmet
+    hologram is gilt-edged; Hierarchy-allied = a small
+    Hierarchy seal on the chair base.
+11. **Tournament window:** —
+12. **Storyteller hooks:** the 8th Mission (visible only on
+    `grandEditActive` — implication: a CADES mission was
+    erased from history); Helmet Hologram Dialogue (the
+    Iron Lion silhouette occasionally mouths words during
+    pre-mission idle — readable on close inspection at
+    trust-Jericho-≥80); Post-Credit Engineer Silhouette
+    (post-M7, the silhouette has a single posture detail
+    that changes per IRL day — narrative writers can
+    expand). Expansion-reserved zone: the Sealed M0
+    Mission (a tiny plaque to the left of the M1 plaque,
+    canvas-draped — for "the mission before the missions").
+    Living-world: every IRL hour, the helmet hologram
+    rotates 30° clockwise.
+13. **HUD overlap:** §9 unified Replay Scrubber diegetic
+    anchor (CADES mission replays); `LeaderboardPage.tsx`
+    (CADES async PvP); §3.1.4 cutscene `cs_breaking_point`
+    references this room.
+
+#### 2.47.2 Discovery cutscene + HUD anchor
+
+`cades_first_chair` (~12 s): restricted-section door
+opens; chair ignites with violet helmet visible; Iron Lion
+helmet hologram materialises above; 7 plaques light dimly
+(all unfilled). HUD anchor: mission-launch fires from
+chair-helmet touch.
+
+---
+
+### 2.48 Eidolon Sanctum / Bond Chamber (Soul Stones home)
+
+- **id:** `eidolon-sanctum` / internal `eidolon_sanctum`
+- **Deck:** pocket (rear of Pet Garden)
+- **Adjacency:** Pet Garden (rear-corridor link)
+- **Gating:** any Eidolon bonded
+- **Status:** new — Eidolon Bond diegetic surface (per NOTES
+  §12.8 — `soulStonesRouter` exists, no Ark surface)
+
+**Layout sentence:**
+*A small private sanctum 6 m × 5 m with a single bond-altar
+at its centre; the altar holds the player's bonded Eidolon
+visible as a translucent companion silhouette (rendering
+their current stage — fragment, companion, ascended, or
+spectral); 4 stage-progression alcoves around the altar
+(one per stage) display the Eidolon's appearance at each
+stage; bond-XP indicator above the altar shows current
+progress; ambient palette cool-amber with one warm-gold spot
+on the altar.*
+
+**Hotspots:** central bond-altar; 4 stage-progression
+alcoves; bond-XP indicator (overhead); Eidolon-feed bowl
+(left, accepts soul stones for bond growth).
+
+**NPCs:** the bonded Eidolon itself (silhouette at altar).
+
+#### 2.48.1 Back-fill grid
+
+1. **TV infection:** clean = none; exposed = wisps from
+   altar base; spreading = mycelium on alcoves; corrupted
+   = Eidolon silhouette turns voidblack; quarantined =
+   sealed-X.
+2. **Demon-summoning surface:** Eidolon Bond ≠ demon
+   summoning (Eidolons are bonded companions, not summoned
+   demons). Soul stones may be offered here (alternate to
+   the Resonance Pedestal §3.9.1 / Corruption Circle
+   §3.9.2) — Eidolon-offering DOES NOT purify or corrupt,
+   instead grows bond-XP.
+3. **CADES:** —
+4. **Story items (§3.5):** bonded Eidolon (silhouette);
+   4 stage-progression renderings; soul stones (offerings);
+   bond-XP indicator.
+5. **Mystery-arc bindings:** none specific (Eidolons are
+   meta-progression).
+6. **Investigation tier:** four canonical tiers — closure
+   object = a single brass plate set into the altar
+   etched with the Eidolon's chosen name + stage.
+7. **Governance modifier reactions:** `eidolon_bond_speed_
+   buff` → bond-XP indicator pulses faster; `quarantine_
+   protocol_active` → altar sealed.
+8. **Epoch / ShadowTongue:** ShadowTongue power ≥40 → one
+   stage-progression alcove is overstamped indigo (the
+   stage is "edited" out of memory); on `grandEditActive`,
+   a 5th alcove appears (the unknown post-spectral stage).
+9. **Cycle-phase lighting:** dawn 5800K on altar; long-
+   night 5200K cool-violet on alcoves.
+10. **Faction livery:** —
+11. **Tournament window:** —
+12. **Storyteller hooks:** the 5th Stage (visible only on
+    `grandEditActive` — what comes after spectral?); the
+    Empty Alcove (one alcove is reserved blank for "the
+    Eidolon that refuses to bond"); Bond-Altar Pulse (the
+    altar pulses warm-gold once per IRL day at the
+    Eidolon's "true name day"). Expansion-reserved zone:
+    the Multi-Eidolon Sanctum (sealed door behind the
+    altar — for the player who bonds multiple Eidolons).
+    Living-world: every IRL hour, the bonded Eidolon's
+    silhouette shifts slightly (subtle posture changes).
+13. **HUD overlap:** `SoulStonesPanel.tsx` (Eidolon-bond
+    inventory); §3.9 Soul Stones cross-reference.
+
+#### 2.48.2 Discovery cutscene + HUD anchor
+
+`eidolon_first_bond` (~10 s): Pet Garden rear-corridor
+opens; chamber materialises; central altar ignites with
+Eidolon silhouette; 4 stage-progression alcoves light in
+sequence. HUD anchor: bond launcher fires from altar-touch.
+
+---
+
+### 2.49 Prelude rooms (Corridor / Galley / Briefing Room / Mess Hall)
+
+- **id:** `prelude-corridor` / `prelude-galley` /
+  `prelude-briefing` / `prelude-mess`
+- **Deck:** prelude (existing only during pre-launch
+  Awakening sequence)
+- **Adjacency:** linear sequence — Corridor → Galley →
+  Briefing Room → Mess Hall → terminal at Cryo Bay (Act 0)
+- **Gating:** prelude flow (cleared on `awakening_complete`)
+- **Status:** new — these rooms only exist in the prelude
+  flow before the player awakens; once cleared, they are
+  inaccessible (re-visitable only in flashback/replay)
+
+**Layout sentence (universal):**
+*Four short rooms in linear sequence, each 4 m × 4 m,
+representing pre-launch crew memory snapshots; each carries
+ONE focal object indicating its purpose (Corridor =
+embarkation manifest poster; Galley = a single set table
+for the inaugural meal; Briefing Room = a slide projector
+mid-presentation; Mess Hall = an active conversation
+captured in mid-gesture among crew silhouettes); ambient
+palette warm-amber daylight (pre-launch), grading cooler
+each room as the player progresses (foreshadowing the cold
+of cryo).*
+
+**Hotspots (per room):**
+- Corridor: embarkation manifest (lists all crew, including
+  the player's chosen character as one of N) + Anniversary
+  Plaque rack early-state (pristine, all 12 plaques blank)
+- Galley: inaugural meal set-table (8 chairs, 8 settings,
+  one chair pulled out — the player's)
+- Briefing Room: slide projector (cycles 5 mission-brief
+  slides on entry — narrative beats)
+- Mess Hall: 4 crew silhouettes mid-gesture (Lyra Vox,
+  Captain, Engineer, Antiquarian — the player has just
+  joined)
+
+**NPCs:** crew silhouettes in Briefing Room + Mess Hall
+(Lyra Vox visible in Mess Hall as the most-detailed silhouette).
+
+#### 2.49.1 Back-fill grid (prelude rooms — minimal axis applicability)
+
+1. **TV infection:** N/A — pre-launch, before contamination.
+2. **Demon-summoning surface:** N/A.
+3. **CADES:** N/A.
+4. **Story items (§3.5):** embarkation manifest (Corridor);
+   inaugural meal table (Galley); 5 briefing slides
+   (Briefing Room); 4 crew silhouettes (Mess Hall —
+   includes the canonical pre-cryo Lyra Vox).
+5. **Mystery-arc bindings:** all 6 NPC arcs cross-reference
+   pre-launch (the silhouettes in Mess Hall are the future
+   NPCs — Vex Solène, the Engineer, the Antiquarian, Lyra
+   Vox; clue: their poses foreshadow their later arcs).
+6. **Investigation tier:** N/A — prelude is pre-investigation.
+7. **Governance modifier reactions:** N/A.
+8. **Epoch / ShadowTongue:** N/A — pre-Tongue.
+9. **Cycle-phase lighting:** dawn warm-amber, grading cooler
+   each subsequent room (Corridor warmest, Mess Hall
+   coolest).
+10. **Faction livery:** N/A — pre-faction.
+11. **Tournament window:** N/A.
+12. **Storyteller hooks:** the Manifest Names (every name on
+    the Corridor manifest is a future loredex entry — clue
+    to which crew survive cryo and which don't); the
+    Player's Chair (Galley's pulled-out chair — no other
+    chair is pulled; implication: the player's awareness
+    began here); the 5 Briefing Slides (each is a single-
+    line mission brief — narrative writers can expand any
+    of the 5); the Mid-Gesture Conversation (Mess Hall's
+    crew silhouettes are frozen mid-conversation; reading
+    their lip-shapes at trust-Antiquarian-100 reveals what
+    they were saying). Expansion-reserved zone: the Sealed
+    5th Room (canvas-draped, behind Mess Hall — "the room
+    the player was not allowed in"). Living-world: prelude
+    is fixed; no slow ticks (the past doesn't change).
+13. **HUD overlap:** `OpeningCinematic.tsx` (prelude is the
+    boot sequence's diegetic surface); `MobileNarratorSlot
+    .tsx` (Elara doesn't surface here — she awakens in
+    Cryo Bay; the player is alone with the silhouettes).
+
+#### 2.49.2 Discovery cutscene + HUD anchor
+
+`prelude_first_walk` (~30 s — the entire prelude is the
+discovery cutscene; SFX-only per §3.1 universal direction):
+4 rooms walk through in sequence; manifest reads;
+inaugural meal frozen; briefing slides cycle; mess hall
+silhouettes mid-gesture; door at far end of Mess Hall opens
+into Cryo Bay; player enters their pod. HUD anchor: prelude
+exits to Cryo Bay (§2.1) with no further launchers.
+
+---
+
 ## 3. Unbuilt-system production specs
 
-The Phase-1.5 audit (see NOTES §12.7) flagged 5 partial and 3
+The Phase-1.5 audit (NOTES §12.7) flagged 5 partial and 3
 scaffolded systems plus the 5 named cutscenes. This chapter
 specifies the **art-direction and diegetic surfaces** for each
 so renders are ready when the runtime catches up. Where a
