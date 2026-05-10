@@ -1030,9 +1030,11 @@ Library's pocket-dimension entrance often pass through here first.
 
 ---
 
-## A.5 Comms Array — CORE
+## A.5 Comms Array — FULL
 
-**Status: CORE.** Full architect spec deferred to Phase B-2.
+**Status: FULL spec.** Cross-ref: `INCEPTION_ARK_FINAL_PRODUCTION.md`
+§2.5 (art-state prompts) and §3.12.16 future Hellbox candidate
+(Programmer's Sanctum — deferred to expansion).
 
 ### A.5.1 Header
 
@@ -1041,45 +1043,574 @@ space_id:        ark.comms_array
 space_name:      Comms Array
 space_type:      ark_room
 act_introduced:  Act 2
-lore_anchor:     loredex.character.the_human + loredex.character.locke + arc.act_2_first_human_contact
-aesthetic_tier:  solar_punk_cathedral
+lore_anchor:     loredex.character.the_human + loredex.character.locke + arc.act_2_first_human_contact + arc.signal_52_7
+aesthetic_tier:  solar_punk_cathedral  (with broadcast-station accents; high-vault aesthetic resembling a radio observatory)
 ```
 
-### A.5.2 Geometry summary
+### A.5.2 Geometry
 
 ```
 dimensions:           10.00 m × 14.00 m × 5.50 m
-floor_plan_geometry:  rectangular  (long-rectangle; primary entrance on long wall)
+origin_point:         centre of floor at south entrance threshold (entrance south wall; +y toward north frequency wall)
+coordinate_axes:      +x = right, +y = forward (north), +z = up
+floor_plan_geometry:  rectangular  (long-rectangle; entrance on south short wall)
+volumetric_anomalies: none in baseline; subtle EM-aurora effect in upper volume during 52.7 MHz transmission events
 ```
 
-The Comms Array is taller than most rooms — it's a vertical-volume
-space dominated by a frequency-wall on the north end (12.00 m wide,
-4.50 m tall display) showing all ambient frequencies. The 52.7 MHz
-indicator is the load-bearing detail (Act 2 first contact happens
-here).
+The Comms Array is a vertical-volume room (5.50 m height vs. typical 4.50 m) to support the frequency wall's full visibility. Operator station ring at room centre; frequency wall dominates the north end. Floor area: 140 m².
 
-### A.5.3 Story-tie
+### A.5.3 Floor
 
-The 52.7 MHz frequency is the player's first sustained contact with
-the Human. Everything in this room is staged to draw the player's
-attention to that frequency. The frequency wall is the room's
-centerpiece. (Future Hellbox candidate HB-Programmer's-Sanctum
-deferred but lives here philosophically.)
+```
+material_primary:     polished steel deck plate with cool-blue tint enamel coating; 1.20 m × 1.20 m tiles; 4 mm gap; etched grid-pattern reads as "signal field"
+material_secondary:   bronze inlay ringing central operator station (4 m circular ring); brass perimeter trim
+pattern:              grid + concentric rings around central operator station (radar-like)
+wear_state:           pristine in early acts; slight wear-trail Act 2+ from entrance to operator station and to archive terminal
+embedded_features:
+  - id: ark.comms_array.floor.charge_point.operator
+    position: (0.00, 8.50, 0.00)  # under operator chair
+    dimensions: 0.30 × 0.30 × 0.05
+    function: operator-chair power coupling
+  - id: ark.comms_array.floor.charge_point.console
+    position: (0.00, 7.00, 0.00)
+    dimensions: 0.30 × 0.30 × 0.05
+    function: console electronics
+  - id: ark.comms_array.floor.signal_amplifier_grate
+    position: (0.00, 13.00, 0.00)  # in front of frequency wall
+    dimensions: 4.00 × 0.40 × 0.10
+    function: amplifier cooling grate
+acoustic_property:    hard_reflective with damping panels at upper volumes; RT60 = 0.55s
+```
 
-### A.5.4 Key objects (compact)
+### A.5.4 Walls
+
+#### Wall: South (entrance)
+
+```
+wall_id:              south
+material_primary:     painted aluminium honeycomb panel with cool-blue tint; 0.80 × 1.60 m panels; vertical joints, 6 mm reveal
+material_secondary:   brass dado at z = 1.10 m
+panelisation:         standard
+colour_value:         --token-color-ark-comms-array-wall-south  (deep navy with cyan pin-stripe at z = 2.00 m)
+embedded_displays:
+  - id: ark.comms_array.south.display.transmission_log
+    position: (-3.00, 0.20, 1.80)
+    dimensions: 1.20 × 0.80 × 0.05
+    content: log of recent transmissions
+  - id: ark.comms_array.south.display.signal_strength_graph
+    position: (3.00, 0.20, 1.80)
+    dimensions: 1.20 × 0.80 × 0.05
+    content: signal-strength graph across all monitored frequencies
+embedded_doors:
+  - door_id: ark.comms_array.south.door.main
+    position: (0.00, 0.00, 0.00)
+    dimensions: 1.40 × 2.40 × 0.10
+    door_class: pressure_seal  (RF-isolation seal)
+    connecting_space_id: ark.corridor.comms_approach
+decorative_features:
+  - id: ark.comms_array.south.plaque.creed
+    position: (0.00, 0.20, 3.20)
+    dimensions: 1.00 × 0.40 × 0.02
+    material: brass with engraved text
+    narrative_role: reads "TO LISTEN IS THE FIRST DUTY"
+  - id: ark.comms_array.south.warning_sign.rf_shielding
+    position: (4.00, 0.20, 3.50)
+    dimensions: 0.40 × 0.30 × 0.01
+    material: yellow-and-black painted steel
+    narrative_role: RF shielding warning
+```
+
+#### Wall: East
+
+```
+wall_id:              east
+material_primary:     painted aluminium with cool-blue tint
+material_secondary:   brass dado
+panelisation:         standard
+colour_value:         --token-color-ark-comms-array-wall-east
+embedded_displays:
+  - id: ark.comms_array.east.display.signal_visualiser
+    position: (4.95, 7.00, 1.50)
+    dimensions: 1.20 × 1.20 × 0.05
+    content: oscilloscope-style live waveforms
+  - id: ark.comms_array.east.display.bandwidth_allocator
+    position: (4.95, 11.00, 1.50)
+    dimensions: 0.80 × 0.60 × 0.05
+    content: bandwidth allocation per channel
+embedded_doors:        none
+decorative_features:
+  - id: ark.comms_array.east.broadcasting_booth_window
+    position: (4.95, 4.00, 1.80)
+    dimensions: 0.60 × 1.20 × 0.05
+    material: composite plexiglas with RF-shielded glass + brass surround
+    narrative_role: window into a small broadcasting booth (sub-space; treated as cosmetic in this spec)
+```
+
+#### Wall: North (the Frequency Wall)
+
+```
+wall_id:              north_frequency
+material_primary:     panel of reinforced display screens (modular); 12.00 × 4.50 m display surface from z = 0.50 to 5.00; gentle convex curve (radius 12 m)
+material_secondary:   brass viewport surround with structural ribbing every 0.60 m
+panelisation:         single-piece display
+colour_value:         --token-color-ark-comms-array-frequency-wall  (deep cosmic navy with cyan accents)
+embedded_displays:
+  - id: ark.comms_array.north.frequency_wall_main
+    position: (0.00, 13.95, 2.50)
+    dimensions: 12.00 × 4.50 × 0.10
+    content: THE frequency wall — full radio-spectrum visualisation; 52.7 MHz indicator central
+  - id: ark.comms_array.north.frequency_indicator.52_7
+    position: (0.00, 13.95, 2.80)  # within frequency wall
+    dimensions: 0.40 × 0.40 highlight
+    content: THE INDICATOR — pulses with the Human's signal; opens Act 2 first contact
+embedded_doors:        none
+decorative_features:
+  - id: ark.comms_array.north.relief.communication_emblem
+    position: (0.00, 13.95, 5.30)
+    dimensions: 0.80 × 0.60 × 0.04
+    material: bronze relief — stylised "ear" sigil
+    narrative_role: comms-array emblem
+```
+
+#### Wall: West
+
+Mirror of east.
+
+```
+wall_id:              west
+material_primary:     same as east
+material_secondary:   brass dado
+panelisation:         standard
+colour_value:         --token-color-ark-comms-array-wall-west
+embedded_displays:
+  - id: ark.comms_array.west.console.archive_terminal
+    position: (-4.50, 7.00, 1.50)
+    dimensions: 1.20 × 0.80 × 0.05
+    content: archive of historical signal records
+  - id: ark.comms_array.west.display.tutorial_guides
+    position: (-4.95, 11.00, 1.50)
+    dimensions: 0.80 × 0.60 × 0.05
+    content: operator's-guide content
+embedded_doors:        none
+decorative_features:
+  - id: ark.comms_array.west.observation_window
+    position: (-4.95, 4.00, 1.80)
+    dimensions: 0.60 × 1.20 × 0.05
+    material: composite plexiglas + brass surround
+    narrative_role: window into corridor approach
+```
+
+### A.5.5 Ceiling
+
+```
+height_above_floor:     5.50 m baseline; small skylight (1.50 × 1.50 m) at z = 6.00 above operator station
+material:               painted aluminium honeycomb with damping; central skylight opening; suspended antenna-truss structure visible
+lighting_integrated:    recessed cool-blue strip-lights at perimeter (z = 5.30); central skylight (cosmic light onto operator)
+atmospheric_features:   subtle EM-aurora effect in upper volume during 52.7 MHz transmissions
+acoustic_treatment:     baffled (reduces echoes for voice transmission clarity)
+```
+
+### A.5.6 Lighting
+
+```
+ambient_baseline:     5500 K (cool; technical-clinical); 240 lux at floor level; CRI 90
+direct_fixtures:
+  - id: ark.comms_array.light.skylight_central
+    position: (0.00, 8.50, 6.00)
+    beam_angle: 60° downward
+    colour: --token-color-ark-comms-array-skylight  (cool starlight)
+    intensity: 3000 lumens (variable based on cosmic state)
+    function: principal accent
+  - id: ark.comms_array.light.recessed_strip_perimeter
+    position: along all 4 walls at z = 5.30
+    beam_angle: 180° wash
+    colour: --token-color-ark-comms-array-strip  (cool blue-white)
+    intensity: 1000 lumens per metre
+    function: ambient task lighting
+  - id: ark.comms_array.light.frequency_wall_glow
+    position: (0.00, 13.95, 2.50)
+    beam_angle: 180° wash inward
+    colour: variable (matches content)
+    intensity: variable (1500-6000 lumens; pulses with signal activity)
+    function: ambient + signal-presence
+  - id: ark.comms_array.light.operator_station_glow
+    position: (0.00, 8.50, 1.10)
+    beam_angle: 60° downward
+    colour: 4500 K
+    intensity: 2000 lumens
+    function: focused operator task light
+practical_sources:
+  - console.primary.glow: at (0.00, 7.00, 0.95); 100 lumens; data-flow flicker
+  - console.archive_terminal.glow: at (-4.50, 7.00, 0.95); 80 lumens; stable
+  - frequency_indicator.52_7.glow: at (0.00, 13.95, 2.80); 200 lumens; heartbeat-paced (period 1.2s; matches the Human's breathing)
+time_of_day_variation:
+  acts_0_2: ambient at 240 lux; frequency wall mostly empty; 52.7 MHz quiet
+  act_2: 52.7 MHz becomes active; signal-strength pulses
+  acts_3_to_7: signal richer; in late Act 7, if Human is "lost", signal goes silent and 52.7 MHz dims to silver
+dynamic_response:
+  - on_player_at_operator_station: operator_station_glow intensifies 30%
+  - on_52_7_transmission: frequency_wall_glow pulses + skylight intensifies + EM-aurora visible at upper volume
+  - on_signal_lost: dimming + cool-tone shift
+```
+
+### A.5.7 Atmosphere
+
+```
+air_temperature:    20°C (cool-comfortable; rises slightly during sustained operations)
+humidity:           38% RH; smells of ozone (RF radiation) + warm electronics + faint coffee (operators)
+particulate:
+  - dust: low; warm-greyish; slow random
+  - ozone_haze: very low; pale-cyan; rises continuously
+volumetric_fog:     absent in baseline; subtle EM-aurora at upper volume (0.05 g/m³, cyan)
+wind_drift:         very faint; 0.04 m/s; HVAC south-to-north
+smell_canon:        ozone + warm electronics + coffee; voice-line: "smells like the air carries voices"
+```
+
+### A.5.8 Sound
+
+```
+ambient_bed:           file: comms_array_ambient_bed_v1.ogg (loop); -32 dB; faint EM-whine, comms-static rolling-shift, occasional voice-fragments from passing transmissions, distant hum from antenna-truss
+point_sources:
+  - sound.frequency_wall_static: at (0.00, 13.95, 2.50); shifting comms-static bed; -34 dB; continuous
+  - sound.52_7_signal_pulse: at (0.00, 13.95, 2.80); single repeating signal at 52.7 MHz (sounds almost like breathing); -36 dB; period 1.2s; continuous (Act 2+)
+  - sound.consoles_buzz: distributed; console buzz + tick; -38 dB; continuous
+  - sound.distant_voices_whisper: dynamic; faint voice-fragments; -44 dB; random period 30-60s
+  - sound.skylight_cosmic_resonance: at (0.00, 8.50, 6.00); deep-space resonance; -42 dB; continuous
+reverb_zone:           IR-impulse: comms_array_v1.wav; wet-mix 16% (technical-clean)
+music_eligibility:     cutscene only (Category B cs_amb_comms_array)
+voice_line_eligibility:
+  - speaker: the_human (signal): trigger 52.7 MHz events; line set §2.5.2
+  - speaker: locke (comms-feed): state-conditional; line set §2.5.2 + §2.3.2
+```
+
+### A.5.9 Object inventory
+
+Comms Array has 36 inventory objects.
+
+#### A.5.9.1 The Frequency Wall (north)
+
+```
+object_id:           ark.comms_array.frequency_wall_main
+object_class:        display
+position:            (0.00, 13.95, 2.50)
+dimensions:          12.00 × 4.50 × 0.10
+rotation:            180°
+material_primary:    composite display panel with holographic overlay
+material_secondary:  brass surround with structural ribbing
+colour_value:        --token-color-ark-comms-array-frequency-wall
+interaction:         interactable
+  - operate: deep frequency-spectrum analysis UI
+  - inspect_indicator: select 52.7 MHz indicator for detailed signal inspection
+narrative_role:      THE wall; primary visual element; 52.7 MHz indicator is the load-bearing detail
+lore_anchor:         loredex.character.the_human + arc.signal_52_7
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.comms.frequency_wall.operate
+wear_state:          pristine
+physical_constraints: collides
+```
+
+#### A.5.9.2 The 52.7 MHz Indicator
+
+```
+object_id:           ark.comms_array.frequency_indicator.52_7
+object_class:        display
+position:            (0.00, 13.95, 2.80)
+dimensions:          0.40 × 0.40 × 0.005  (highlight zone within frequency wall)
+rotation:            180°
+material_primary:    backlit panel with high-precision pulse animation
+colour_value:        --token-color-ark-comms-array-52-7  (cyan-bright with white core)
+interaction:         interactable
+  - inspect: 52.7 MHz signal-detail UI; live waveform; recorded transmission playback
+  - tune: tuning-precision UI (Act 2 first contact gameplay)
+narrative_role:      THE INDICATOR; LITERALLY where Act 2 first contact happens
+lore_anchor:         loredex.character.the_human + arc.act_2_first_human_contact
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.comms.signal_52_7.inspect + .tune
+wear_state:          slight wear at most-touched zones (Act 5+)
+physical_constraints: non-collide (recessed)
+```
+
+#### A.5.9.3 The Primary Comms Console
+
+```
+object_id:           ark.comms_array.console.primary
+object_class:        console
+position:            (0.00, 7.00, 0.00)
+dimensions:          2.40 × 1.20 × 1.10
+rotation:            0°
+material_primary:    brushed steel + matte-black control surface
+material_secondary:  brass bezel with cool-blue + cyan LED accents
+colour_value:        --token-color-ark-comms-array-console-primary
+interaction:         interactable
+  - operate: comms UI (transmit / receive / scan)
+  - inspect: lore-note about comms-array history
+narrative_role:      primary console; first contact happens here
+lore_anchor:         loredex.character.the_human + arc.act_2_first_human_contact
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.comms.console_primary.operate
+wear_state:          pristine in early acts; "broadcast" button wears by Act 4
+physical_constraints: collides
+```
+
+#### A.5.9.4 Operator's Chair
+
+```
+object_id:           ark.comms_array.operator_chair
+object_class:        furniture  (also npc_anchor)
+position:            (0.00, 8.50, 0.00)
+dimensions:          0.80 × 0.80 × 1.40
+rotation:            180°
+material_primary:    matte-black leather; titanium frame
+material_secondary:  brass armrests
+colour_value:        --token-color-ark-comms-array-chair
+interaction:         interactable - sit
+narrative_role:      operator seat; Locke occasionally sits here when he physically visits (rare)
+lore_anchor:         loredex.character.locke + arc.comms_operator_lineage
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.comms.operator_chair.sit
+wear_state:          slight wear
+physical_constraints: collides; sittable
+```
+
+#### A.5.9.5 Archive Terminal
+
+```
+object_id:           ark.comms_array.console.archive_terminal
+object_class:        console
+position:            (-4.50, 7.00, 0.00)
+dimensions:          1.20 × 0.80 × 1.10
+rotation:            90°
+material_primary:    brushed steel + matte-black
+material_secondary:  brass bezel
+colour_value:        --token-color-ark-comms-array-archive-terminal
+interaction:         interactable
+  - operate: archive UI; browse/replay all recorded transmissions
+  - inspect: lore-note
+narrative_role:      historical comms record; gameplay-key for clue-replay
+lore_anchor:         loredex.system.comms_archive
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.comms.archive.openTerminal
+wear_state:          slight wear
+physical_constraints: collides
+```
+
+#### A.5.9.6 Signal Visualiser (east wall)
+
+Specced in walls section. Inventoried for completeness.
+
+#### A.5.9.7-12 Six Broadcasting Chairs (3 east + 3 west)
+
+```
+object_id:           ark.comms_array.broadcasting_chair.<position>  (6 chairs)
+positions:           [
+  (3.00, 4.00, 0.00), (3.00, 7.00, 0.00), (3.00, 10.00, 0.00),    # east 1-3
+  (-3.00, 4.00, 0.00), (-3.00, 7.00, 0.00), (-3.00, 10.00, 0.00), # west 1-3
+]
+dimensions (each):   0.80 × 0.80 × 1.20
+material_primary:    matte-black leather; titanium frame
+material_secondary:  none
+colour_value:        --token-color-ark-comms-array-chair-secondary
+interaction:         interactable - sit
+narrative_role:      observer / second-operator seating; multi-person comms sessions
+art_status:          producer_handoff
+wear_state:          slight wear
+physical_constraints: collides; sittable
+```
+
+#### A.5.9.13-16 Operator Workspace Items
 
 | object_id | class | position | dim | role |
 |---|---|---|---|---|
-| `ark.comms_array.frequency_wall` | display | (0.00, 13.50, 2.50) | 12.00 × 4.50 × 0.10 | full frequency display |
-| `ark.comms_array.frequency.52_7` | display | within frequency wall at (0.00, 13.50, 2.80) | 0.40 × 0.40 highlight | THE indicator |
-| `ark.comms_array.console.primary` | console | (0.00, 7.00, 0.00) | 2.40 × 1.20 × 1.10 | primary comms control |
-| `ark.comms_array.operator_chair` | furniture | (0.00, 8.50, 0.00) | 0.80 × 0.80 × 1.40 | operator seat |
-| `ark.comms_array.signal_visualiser` | display | (4.00, 7.00, 1.50) | 1.20 × 1.20 × 0.05 | signal-pattern display |
-| `ark.comms_array.archive_terminal` | console | (-4.00, 7.00, 0.00) | 1.20 × 0.80 × 1.10 | comms archive lookup |
-| `ark.comms_array.broadcasting_chair.east.1-3` | furniture | east wall | 0.80 × 0.80 × 1.20 each | observer seating |
-| `ark.comms_array.broadcasting_chair.west.1-3` | furniture | west wall | mirror | observer seating |
+| `ark.comms_array.operator.headset_rest` | interactive | (0.50, 7.00, 1.10) on console | 0.20 × 0.10 × 0.10 | comms headset (gameplay-key for hidden-frequency listen) |
+| `ark.comms_array.operator.notebook` | container | (-0.50, 7.00, 1.10) | 0.30 × 0.20 × 0.04 | running notebook; multi-screen lore-readable; gameplay-key Act 5+ |
+| `ark.comms_array.operator.coffee_mug` | decoration | (0.80, 7.00, 1.10) | 0.10 × 0.10 × 0.12 | coffee residue — operator was just here |
+| `ark.comms_array.operator.pen_holder` | decoration | (-0.80, 7.00, 1.10) | 0.10 × 0.10 × 0.20 | bronze pen-holder with 3 pens |
 
-(Full spec deferred.)
+#### A.5.9.17-22 Decorative + Functional
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.comms_array.south.intercom` | console | (-2.00, 0.20, 1.50) | 0.20 × 0.10 × 0.30 | comms relay |
+| `ark.comms_array.fire_extinguisher.south` | interactive | (2.00, 0.20, 1.20) | 0.20 × 0.20 × 0.50 | safety |
+| `ark.comms_array.first_aid.kit` | container | (-2.50, 0.20, 1.50) | 0.40 × 0.10 × 0.30 | medical |
+| `ark.comms_array.east.broadcasting_booth_window` (rolled into walls) | decoration | (4.95, 4.00, 1.80) | 0.60 × 1.20 × 0.05 | window |
+| `ark.comms_array.west.observation_window` (rolled into walls) | decoration | (-4.95, 4.00, 1.80) | mirror | window |
+| `ark.comms_array.north.relief.communication_emblem` (rolled into walls) | decoration | (0.00, 13.95, 5.30) | 0.80 × 0.60 × 0.04 | sigil |
+
+#### A.5.9.23-30 Floor + Ceiling FX
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.comms_array.skylight_central` | fx_emitter | (0.00, 8.50, 6.00) | 1.50 × 1.50 × 0.10 | central skylight |
+| `ark.comms_array.signal_amplifier_grate` (rolled into floor) | decoration | (0.00, 13.00, 0.00) | 4.00 × 0.40 × 0.10 | grate |
+| `ark.comms_array.antenna_truss` | decoration | (0.00, 8.50, 5.50) | 4.00 × 0.40 × 0.50 | suspended antenna structure |
+| `ark.comms_array.cable_management_overhead` | decoration | distributed at z = 5.20 | 0.30 × 14.00 × 0.10 | cable conduit |
+| `ark.comms_array.em_aurora_emitter` | fx_emitter | (0.00, 8.50, 5.20) | n/a (volumetric) | EM-aurora during 52.7 MHz events |
+| `ark.comms_array.broadcast_lockout_indicator` | decoration | (0.50, 0.20, 1.50) on south wall | 0.20 × 0.10 × 0.10 | red light during broadcast |
+| `ark.comms_array.transmission_record_drawer` | container | (-4.50, 8.20, 0.85) under archive terminal | 0.80 × 0.40 × 0.30 | physical drawer with backups |
+| `ark.comms_array.spare_headset_drawer` | container | (4.50, 8.20, 0.85) | 0.40 × 0.30 × 0.20 | spare headsets |
+
+#### A.5.9.31-36 Closing Items (rolled into walls or lighting)
+
+| object_id | class | role |
+|---|---|---|
+| `ark.comms_array.dedication_plaque` (rolled walls) | decoration | "TO LISTEN IS THE FIRST DUTY" |
+| `ark.comms_array.south.warning_sign.rf_shielding` (rolled walls) | decoration | RF warning |
+| `ark.comms_array.console_primary.glow` (rolled lighting) | fx_emitter | console glow |
+| `ark.comms_array.console_archive.glow` (rolled lighting) | fx_emitter | archive glow |
+| `ark.comms_array.frequency_indicator_52_7.glow` (rolled lighting) | fx_emitter | THE indicator glow |
+| `ark.comms_array.skylight_cosmic_resonance_emitter` (rolled sound) | fx_emitter | cosmic-resonance SFX source |
+
+Total: 36 inventory objects.
+
+### A.5.10 Camera-spawn-points
+
+```
+cutscene_id:         cs_amb_comms_array  (Category B; per §3.1.B.3)
+camera_position:     (0.00, 0.50, eye_level)
+camera_facing:       (0°, 5°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         very slow approach to 52.7 MHz indicator; head locks on as player approaches; lasts 22s
+
+cutscene_id:         cs_first_human_contact  (existing shipped cutscene; FPV audit pending — see §3.1.0.9)
+camera_position:     (0.00, 8.00, eye_level)
+camera_facing:       (0°, -10°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         seated; slight head-shake at first contact; eyes drift up to 52.7 MHz indicator
+notes_for_audit:     Refactor to first-person POV from operator's chair; looking at console then drifting up to 52.7 MHz indicator on frequency wall.
+
+cutscene_id:         cs_signal_first_pulse  (Act 2 transmission unlock)
+camera_position:     (0.00, 10.00, eye_level)
+camera_facing:       (0°, 0°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         locked on 52.7 MHz indicator as it pulses; lasts ~10s
+```
+
+### A.5.11 Doorways
+
+```
+door_id:            ark.comms_array.south.door.main
+connecting_space_id: ark.corridor.comms_approach
+door_position:      (0.00, 0.00, 0.00)
+door_dimensions:    1.40 × 2.40 × 0.10
+door_class:         pressure_seal  (RF-isolation)
+unlock_condition:   Act 1+
+transit_animation:  airlock-cycle (3s); RF-shielding equilibrium
+audio_signature:    pressure-equalisation hiss + magnetic-clack + faint EM-static-quiet
+```
+
+### A.5.12 Adjacency map
+
+```
+direct_adjacencies:
+  - ark.corridor.comms_approach (south door)
+one_hop_adjacencies:
+  - ark.bridge (via comms approach + Deck-1 main; Bridge has comms-relay)
+  - ark.observation_deck (one hop; Eidolon hears signals here too)
+state_shared_with:
+  - ark.bridge (comms feed; Locke's voice originates here)
+```
+
+### A.5.13 Gameplay hooks
+
+```
+hooks:
+  - operatePrimaryConsole: trpc.comms.console_primary.operate
+  - inspect52_7: trpc.comms.signal_52_7.inspect
+  - tune52_7: trpc.comms.signal_52_7.tune (Act 2 conditional + headset; one-shot triggers cs_first_human_contact)
+  - openArchiveTerminal: trpc.comms.archive.openTerminal
+  - equipHeadset: trpc.comms.headset.equip
+  - readNotebook: trpc.comms.notebook.read
+  - takeOperatorChair: trpc.comms.operator_chair.sit
+  - broadcast: trpc.comms.broadcast
+```
+
+### A.5.14 Story-tie
+
+```
+primary_arcs:
+  - arc.act_2_first_human_contact
+  - arc.signal_52_7 (continuous; the Human's signal cadence is the room's heartbeat)
+  - arc.comms_operator_notes (Act 5+ gameplay-key)
+  - §3.12.16 future Hellbox candidate (Programmer's Sanctum; deferred)
+per_act_evolution:
+  acts_0_1: room locked
+  act_2: player gains access; first 52.7 MHz tune triggers cs_first_human_contact; signal becomes continuous heartbeat
+  act_3: more frequencies activate; archive browseable; Locke's comms-feed established here
+  act_4: operator's notebook becomes gameplay-key
+  act_5: signal pattern shifts; EM-aurora more frequent
+  act_6: 52.7 MHz transmission events scripted to specific narrative beats
+  act_7: state-branched: signal active (Human survived; wall lit) vs. silent (Human lost; wall dim)
+npc_roster:
+  - the_human: signal-only via 52.7 MHz
+  - locke: signal-only typically; rare physical visits
+  - the_player: visitor / operator
+readables:
+  - dedication plaque (south)
+  - operator's notebook (multi-screen)
+  - archive terminal (transmission archive)
+  - signal-pattern visualiser readouts
+  - tutorial guide displays
+master_of_rlyeh_question: n/a
+```
+
+### A.5.15 Special-FX
+
+```
+particle_systems:
+  - dust (low; RF-shielded environment)
+  - ozone_haze (very low; rises continuously)
+  - em_aurora (state-conditional; cyan shimmer at upper volume during 52.7 MHz events)
+  - dust_motes (visible in skylight beam)
+volumetric_effects:
+  - frequency_wall_glow (variable; matches content)
+  - skylight_volumetric_beam (cool starlight cone from skylight to operator station)
+  - em_aurora_envelope (state-conditional)
+procedural_animations:
+  - frequency_bars_animate (continuous radar-style sweep)
+  - 52_7_indicator_pulse (continuous; period 1.2s; matches Human's heartbeat)
+  - skylight_cosmic_drift (subtle starfield motion)
+  - antenna_truss_subtle_sway (cosmetic)
+  - operator_chair_swivel_on_proximity
+reactive_systems:
+  - 52_7_indicator_intensify_on_listen (with headset + within 2 m of frequency wall)
+  - em_aurora_on_transmission
+  - operator_glow_on_seated
+  - archive_terminal_glow_on_proximity
+  - first_contact_one_shot (Act 2)
+```
+
+### A.5.16 Avatar-parametricity
+
+```
+camera_height_variation:
+  small_xenomorph (0.85m eye): camera height 0.85m; frequency wall feels enormous; 52.7 MHz indicator at face-level
+  short_humanoid (1.40m eye): standard
+  average_humanoid (1.70m eye): standard
+  tall_humanoid (2.05m eye): frequency wall at chest-level
+  tall_xenomorph (2.70m eye): antenna truss collides at head
+reachability:
+  small_xenomorph: cannot reach upper frequency-wall zones; relay-inspect; alternate "lift" mechanism
+  others: all-reachable
+audio_occlusion_variation:
+  xenomorph_sensitive_hearing: voice fragments more pronounced; comms-static richer
+  synthetic_voice_avatar: signal patterns have a different "feel" (synthetic resonance match)
+```
+
+### A.5.17 Performance
+
+```
+polygon_budget:      240,000 polygons
+texture_budget:      140 MB total (frequency wall is shader-heavy)
+light_count_limit:   16 simultaneous dynamic lights
+lod_plan:
+  - hero_distance: 0-10m, full detail
+  - mid_distance: 10-20m, mid detail (frequency bars simplified)
+  - low_distance: 20m+, low detail
+streaming_behaviour:
+  - preload: ark.corridor.comms_approach (south)
+  - on_player_at_frequency_wall + Act 2+: preload signal-recordings cache for archive playback
+```
 
 ---
 
@@ -2989,41 +3520,682 @@ records; per §2.12 + §4.2 (cross-ref).
 
 ---
 
-## A.13 Antiquarian's Library — CORE
+## A.13 Antiquarian's Library — FULL
+
+**Status: FULL spec.** Cross-ref: `INCEPTION_ARK_FINAL_PRODUCTION.md`
+§2.13 (art-state prompts) and §11.3.1 cross-centuries chess game.
+
+### A.13.1 Header
 
 ```
 space_id:        ark.antiquarian_library
 space_name:      Antiquarian's Library (Pocket Dimension)
-space_type:      destination_zone  (technically a pocket-dimension; accessed from Archives §A.4 via a hidden passage)
+space_type:      destination_zone  (pocket-dimension; accessed from Archives §A.4 via a hidden archway)
 act_introduced:  Act 3
-lore_anchor:     loredex.character.the_antiquarian + loredex.faction.architect_remnants + arc.lore_recovery
+lore_anchor:     loredex.character.the_antiquarian + loredex.faction.architect_remnants + arc.lore_recovery + §11.3.1 cross-centuries chess
 aesthetic_tier:  dreamers_oneiric  (impossibly tall library; non-Euclidean architecture)
 ```
 
-The Library is a pocket-dimension; volumetric anomaly: the room
-is far larger inside than outside (entry portal is a small archway
-in Archives, but interior is ~2000 m² over multiple levels).
+### A.13.2 Geometry
 
 ```
-dimensions:           28.00 m × 28.00 m × 24.00 m  (with multiple gallery levels)
-floor_plan_geometry:  non_euclidean  (impossible geometry — recursive at the upper galleries)
-volumetric_anomalies: bigger-on-inside ratio 4× external footprint; recursive upper galleries (galleries 5+ loop back to gallery 3)
+dimensions:           28.00 m × 28.00 m × 24.00 m  (bounding box; perceptual; physical entry portal is 1.40 × 2.40 m archway in Archives §A.4)
+origin_point:         centre of floor at the entry archway threshold (south-centre)
+coordinate_axes:      +x = right, +y = forward (north into the library), +z = up
+floor_plan_geometry:  non_euclidean  (impossible geometry; bigger-on-inside ratio 4× external footprint; multiple gallery levels with recursive looping at upper galleries)
+volumetric_anomalies:
+  - bigger_on_inside ratio: 4× external footprint
+  - recursive upper galleries: galleries 5+ loop back to gallery 3 (player ascending past gallery 4 ends up in gallery 3 again — the library has no defined "top")
+  - light geometry impossible: skylights show impossible-physics sunlight (a light shaft enters a gallery from above when there is no gallery above it)
+  - book-stack escapement: books on highest shelves occasionally fall UPWARD through the ceiling (purely cosmetic; bookshelves at apparent z=24 m feed into bookshelves at apparent z=2 m)
 ```
 
-Antiquarian sits at a central reading table; books re-arrange
-themselves slowly; light shafts from impossibly-high windows;
-dust motes everywhere. THIS is the home of the Antiquarian
-character.
+The Library is the most architecturally ambiguous space in the
+game. Its coordinates are best described as PERCEPTUAL — a player
+walking forward 10 m may emerge 30 m further along than expected
+in some directions, or only 5 m further in others. The Antiquarian
+sits at a central reading table on the ground floor; player can
+ascend to galleries 1, 2, 3, 4 via spiral staircase, but galleries
+5+ reset to gallery 3 (creating an infinite-recursion loop).
 
-Key objects (cross-ref §11.3.1 living-world chess game):
-- `ark.antiquarian_library.central_reading_table`
-- `ark.antiquarian_library.antiquarian_chair` — Antiquarian's NPC anchor
-- `ark.antiquarian_library.chess_table` — the centuries-long Antiquarian-vs-Programmer game (HB9 cosmology cross-ref)
-- `ark.antiquarian_library.bookshelf.gallery_1.<n>` through `gallery_5.<n>`
-- `ark.antiquarian_library.spiral_staircase` — spiral staircase to upper galleries
-- `ark.antiquarian_library.skylight` — impossibly-high skylight (light source)
+Floor area (perceptual): ~2000 m² across all galleries.
+Floor area (ground floor only): 784 m² (28 × 28 m).
 
-(Full spec deferred.)
+### A.13.3 Floor
+
+```
+material_primary:     dark walnut hardwood plank in a herringbone pattern; 0.20 m × 1.20 m planks; running diagonal at 45° from south wall
+material_secondary:   bronze inlay outlining the central reading-table area (4 × 4 m square inlay band); brass walkway-strip from entry to chess-table to spiral-stair base
+pattern:              herringbone with bronze accents around focal areas
+wear_state:           pristine in pristine state but well-used; pacing-trails to Antiquarian's chair, chess-table, spiral-stair base
+embedded_features:
+  - id: ark.antiquarian_library.floor.charge_point.reading_table
+    position: (0.00, 12.00, 0.00)  # under reading table
+    dimensions: 0.40 × 0.40 × 0.05
+    function: reading-table lamp + lectern power
+  - id: ark.antiquarian_library.floor.charge_point.chess_table
+    position: (-6.00, 14.00, 0.00)  # under chess table (west of reading area)
+    dimensions: 0.40 × 0.40 × 0.05
+    function: chess-clock electronics
+  - id: ark.antiquarian_library.floor.spiral_stair_base
+    position: (10.00, 14.00, 0.00)  # east of reading area
+    dimensions: 1.80 × 1.80 × 0.05
+    function: spiral-stair base + ascent-trigger hook
+acoustic_property:    soft_absorbent (lots of paper); RT60 = 0.50s (intimate despite scale)
+```
+
+### A.13.4 Walls
+
+The Antiquarian's Library has 4 walls forming a square perimeter,
+but each wall is essentially A FLOOR-TO-CEILING BOOKSHELF (no
+"flat" wall surface). The walls are continuous bookshelves rising
+to z = 24.00 m.
+
+#### Wall: South (entrance, with archway)
+
+```
+wall_id:              south_bookshelf
+material_primary:     dark walnut shelving from z = 0.00 to z = 24.00, divided into "gallery levels" (4.80 m tall each, so 5 visible levels — galleries 1-5; gallery 5 is recursive, looping back to 3)
+material_secondary:   bronze shelf-supports; bronze rail along each gallery walkway
+panelisation:         continuous shelving except for entry archway recess at (0, 0, 0) ground level
+colour_value:         --token-color-ark-antiquarian-library-bookshelf  (dark walnut + phosphorescent text-glow from books)
+embedded_displays:    none (the books ARE the content)
+embedded_doors:
+  - door_id: ark.antiquarian_library.south.archway.entry
+    position: (0.00, 0.00, 0.00)
+    dimensions: 1.40 × 2.40 × 0.10
+    door_class: portal  (non-Euclidean teleport; the archway is the only physical exit — leads back to Archives §A.4)
+    connecting_space_id: ark.archives
+decorative_features:
+  - id: ark.antiquarian_library.south.gallery_railings.<n>  (4 visible gallery railings at z = 4.80, 9.60, 14.40, 19.20)
+    position: along south wall at each gallery
+    dimensions: 28.00 × 0.10 × 1.05 each (long railing; bronze)
+    material: bronze with brass capping
+    narrative_role: gives galleries their architectural definition; player can lean against to look down
+  - id: ark.antiquarian_library.south.entry_archway_relief
+    position: (0.00, 0.20, 3.20)  # above archway
+    dimensions: 1.40 × 0.60 × 0.10
+    material: cast bronze with engraved text + carved laurel
+    narrative_role: reads "WHAT IS LOST IS FOUND HERE" — the library's primary maxim
+```
+
+#### Walls: East, North, West (continuous bookshelves; near-identical structure)
+
+```
+wall_id:              east_bookshelf, north_bookshelf, west_bookshelf
+material_primary:     same as south
+material_secondary:   bronze shelf-supports + gallery railings
+panelisation:         continuous bookshelves with periodic decorative friezes
+colour_value:         --token-color-ark-antiquarian-library-bookshelf
+embedded_displays:    none
+embedded_doors:        none (all walls are bookshelves; no other exits)
+decorative_features:
+  - id: ark.antiquarian_library.<wall>.gallery_railings.<n>  (continuing around perimeter)
+  - id: ark.antiquarian_library.east.painted_inscription_zone
+    position: (13.95, 14.00, 8.00)  # mid-wall on east, gallery 2 level
+    dimensions: 4.00 × 1.20 × 0.05
+    material: cast bronze with high-relief carved text
+    narrative_role: depicts "the first lost book" (a canonical mythological event); inspect-readable lore
+  - id: ark.antiquarian_library.north.relief.first_chess_match
+    position: (0.00, 27.95, 8.00)  # mid-wall on north
+    dimensions: 4.00 × 2.40 × 0.10
+    material: cast bronze with carved figures of two robed scholars at a chess board
+    narrative_role: depicts the FIRST move of the cross-centuries chess game (cf §11.3.1); gameplay-relevant lore
+  - id: ark.antiquarian_library.west.painted_inscription_zone
+    position: (0.05, 14.00, 8.00)
+    dimensions: 4.00 × 1.20 × 0.05
+    material: cast bronze with high-relief carved text
+    narrative_role: depicts "the last unwritten book" — the future-counterpart of east's first-lost-book
+```
+
+### A.13.5 Ceiling
+
+```
+height_above_floor:     24.00 m visible (perceptual); recursive above 19.20 m (galleries 5+ loop back)
+material:               wooden coffered ceiling at z = 24.00; alternating skylights (4 large skylights at corners + 1 central) and book-mosaic panels
+lighting_integrated:    skylights are the principal light source (impossible-physics sunlight); recessed accent strip-lights at each gallery walkway ceiling; central pendant chandelier above reading table (only at ground floor); occasional book-page-glow visible from adjacent galleries (lighting from books themselves)
+atmospheric_features:   visible dust-motes in skylight beams; occasional book-particles (small motes from old paper) drifting in light shafts; subtle volumetric haze at upper galleries
+acoustic_treatment:     coffered + paper-absorbent
+```
+
+### A.13.6 Lighting
+
+```
+ambient_baseline:     3500 K (warm-neutral; museum-library); 200 lux at floor level; CRI 96 (very high — preserves book-page legibility)
+direct_fixtures:
+  - id: ark.antiquarian_library.light.skylight_central
+    position: (0.00, 14.00, 24.00)  # central in apparent ceiling
+    beam_angle: 60° downward
+    colour: --token-color-ark-antiquarian-library-skylight  (warm sunlight equivalent; varies through the day in canon)
+    intensity: 8000 lumens
+    function: principal task lighting at ground floor reading table
+  - id: ark.antiquarian_library.light.skylight_corner.<n>  (4 corner skylights)
+    position: (-12.00, 26.00, 24.00), (12.00, 26.00, 24.00), (-12.00, 2.00, 24.00), (12.00, 2.00, 24.00)
+    beam_angle: 45° downward
+    colour: same as central
+    intensity: 4000 lumens each
+    function: corner-illumination; creates dramatic light-and-shadow zones
+  - id: ark.antiquarian_library.light.gallery_strip.<n>  (4 visible gallery strips)
+    position: along each gallery walkway ceiling at z = 4.50, 9.30, 14.10, 18.90
+    beam_angle: 180° wash
+    colour: --token-color-ark-antiquarian-library-gallery-strip  (warm amber-white)
+    intensity: 800 lumens per metre (long strip; 28 × 4 walls = 448 m of strip total per gallery)
+    function: gallery walkway illumination
+  - id: ark.antiquarian_library.light.central_chandelier
+    position: (0.00, 14.00, 4.50)  # above reading table
+    beam_angle: 360° (radial)
+    colour: --token-color-ark-antiquarian-library-chandelier  (warm amber)
+    intensity: 5000 lumens
+    function: ground-floor focal lighting
+  - id: ark.antiquarian_library.light.reading_table_lamp
+    position: (0.00, 12.00, 0.85)  # on reading table
+    beam_angle: 60° downward
+    colour: 2400 K very warm
+    intensity: 1500 lumens
+    function: focused reading task light
+practical_sources:
+  - id: ark.antiquarian_library.book_page_glow.<varied>
+    position: distributed throughout shelves (Acts 5+; some books have inherent phosphorescent ink)
+    intensity: 30 lumens per glowing book (~12 books glow; positions varied)
+    flicker_pattern: stable
+  - id: ark.antiquarian_library.candle_array.antiquarian_chair
+    position: (0.00, 16.00, 0.85)  # on Antiquarian's reading table
+    intensity: 80 lumens
+    flicker_pattern: organic flicker
+time_of_day_variation:
+  acts_3_to_7: lighting stable; in Act 7, if Antiquarian is "absent" (canonical end-state), skylights dim and a permanent twilight fills the library
+dynamic_response:
+  - on_player_at_reading_table: chandelier intensifies 10%; reading_table_lamp activates
+  - on_player_at_chess_table: localised candle-array on chess-table activates (state-axis)
+  - on_player_ascend_stair: gallery strip-lights ahead intensify 20%
+  - on_player_at_recursive_gallery_5_loop: visual-distortion shimmer (player feels the loop)
+```
+
+### A.13.7 Atmosphere
+
+```
+air_temperature:    19°C (cool — preservation of paper); slightly warmer near skylights
+humidity:           42% RH (book-friendly); smells of old paper + leather binding + walnut + faint tea (Antiquarian's habit)
+particulate:
+  - type: dust_motes
+    density: medium (visible in skylight beams; magical quality — they almost shimmer)
+    colour: warm-white
+    drift_direction: slow downward in light shafts; random in shadow zones
+  - type: book_page_motes
+    density: low
+    colour: very pale beige
+    drift_direction: rises (cosmetic; suggests "knowledge ascending")
+  - type: candle_smoke (Antiquarian's chair area)
+    density: very low
+    colour: very pale grey
+    drift_direction: upward
+volumetric_fog:     subtle haze in upper galleries (gallery 4+); 0.05 g/m³, warm-amber
+wind_drift:         very faint; 0.01 m/s; subtle convection toward skylights
+smell_canon:        old paper + leather + walnut + faint tea; voice-line: "smells like the long memory of the world"
+```
+
+### A.13.8 Sound
+
+```
+ambient_bed:           file: antiquarian_library_ambient_bed_v1.ogg (loop); -36 dB; very faint distant page-rustle (continuous), book-creak (random), faint footsteps somewhere in upper galleries (player can never find their source — Easter egg)
+point_sources:
+  - id: ark.antiquarian_library.sound.book_settling.<various>
+    position: distributed across shelves
+    sound: occasional book-creak (random; -38 dB)
+    occlusion_behaviour: standard
+    trigger: random (period 60-120s)
+  - id: ark.antiquarian_library.sound.page_rustle
+    position: dynamic (random shelf at random time)
+    sound: faint page-turn (random; -36 dB)
+    occlusion_behaviour: standard
+    trigger: random (period 30-90s)
+  - id: ark.antiquarian_library.sound.distant_footsteps
+    position: dynamic (varies between visits)
+    sound: faint footsteps (very subtle; -42 dB; can never be located)
+    occlusion_behaviour: with random pseudo-source
+    trigger: random + long-period (period 120-240s)
+  - id: ark.antiquarian_library.sound.antiquarian_breath
+    position: (0.00, 16.00, 1.40)  # Antiquarian's chair
+    sound: very faint slow breath (-44 dB)
+    occlusion_behaviour: omnidirectional with subtle directional bias
+    trigger: state-conditional (Antiquarian present)
+  - id: ark.antiquarian_library.sound.chess_piece_settle
+    position: (-6.00, 14.00, 0.85)  # chess table
+    sound: occasional chess-piece-on-board (very rare; -34 dB)
+    occlusion_behaviour: standard
+    trigger: state-conditional (chess game progressing — state shared with §A.36 + §A.11)
+  - id: ark.antiquarian_library.sound.upper_gallery_loop_shimmer
+    position: at galleries 4-5 boundary
+    sound: very subtle shimmer SFX when player crosses recursive boundary
+    occlusion_behaviour: localised
+    trigger: state-conditional (player ascending past gallery 4)
+reverb_zone:           IR-impulse: antiquarian_library_v1.wav; wet-mix 24% (paper-absorbed reverb; intimate despite scale)
+music_eligibility:     cutscene only (Category B cs_amb_antiquarian_library)
+voice_line_eligibility:
+  - speaker: the_antiquarian
+    trigger: presence (Acts 3+)
+    line_set: see §2.13.2 (Antiquarian presence-line set; full canonical voice direction in §2.4.2 of INCEPTION doc)
+```
+
+### A.13.9 Object inventory
+
+Antiquarian's Library has 64 inventory objects. Many are bookshelves
+(treated as multi-volume containers) — actual book counts in the
+hundreds, but inventoried as their parent shelves.
+
+#### A.13.9.1 The Central Reading Table
+
+```
+object_id:           ark.antiquarian_library.central_reading_table
+object_class:        furniture
+position:            (0.00, 14.00, 0.00)  # ground floor centre
+dimensions:          2.40 × 1.20 × 0.85
+rotation:            0°
+material_primary:    polished walnut with a deep-leather inset top (charcoal); brass rim
+material_secondary:  brass corner-caps with engraved laurel motifs
+colour_value:        --token-color-ark-antiquarian-library-reading-table
+interaction:         interactable
+  - operate: opens reading-table UI (player can lay out books and inspect simultaneously)
+  - inspect: lore-note about the table's history
+narrative_role:      THE focal table; where the Antiquarian works; player can sit here when Antiquarian is absent
+lore_anchor:         loredex.character.the_antiquarian
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.antiquarian_library.reading_table.operate
+wear_state:          worn at the leather inset (Antiquarian's preferred zone visible)
+physical_constraints: collides
+```
+
+#### A.13.9.2 The Antiquarian's Chair
+
+```
+object_id:           ark.antiquarian_library.antiquarian_chair
+object_class:        furniture  (also npc_anchor)
+position:            (0.00, 16.00, 0.00)  # north of reading table
+dimensions:          0.90 × 0.90 × 1.50
+rotation:            180°  (faces south, toward reading table)
+material_primary:    walnut frame with charcoal velvet upholstery; oversized armrests (the Antiquarian is large)
+material_secondary:  brass detail-work; bronze nameplate "THE ANTIQUARIAN" (slightly worn)
+colour_value:        --token-color-ark-antiquarian-library-antiquarian-chair
+interaction:         interactable - sit (when Antiquarian is absent)
+narrative_role:      THE Antiquarian's chair; permanent physical anchor; Antiquarian almost always present here
+lore_anchor:         loredex.character.the_antiquarian
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.antiquarian_library.chair.sit
+wear_state:          worn at right armrest (Antiquarian is right-handed); cushion permanently indented
+physical_constraints: collides; sittable
+```
+
+#### A.13.9.3 The Chess Table (cross-room state)
+
+```
+object_id:           ark.antiquarian_library.chess_table
+object_class:        interactive  (state shared with §A.11 Captain's Quarters coffee-table chess + §A.36 Chess Hall central board)
+position:            (-6.00, 14.00, 0.00)  # west of reading area
+dimensions:          0.80 × 0.80 × 0.85
+rotation:            0°
+material_primary:    polished walnut with inlaid chess-board top
+material_secondary:  brass corner-caps; bronze chess-clock fitted at side
+colour_value:        --token-color-ark-antiquarian-library-chess-table
+interaction:         interactable
+  - examine: shows current state of cross-centuries chess game (cf §11.3.1)
+  - move_piece (Antiquarian's turn): Antiquarian considers + moves
+  - inspect: lore-note about the centuries-long match
+narrative_role:      ANOTHER VIEW of the cross-centuries game; same game state as captain's coffee-table + chess hall central board (synchronised across rooms); shows the Antiquarian's working analysis position
+lore_anchor:         §11.3.1 + §3.12.11 (HB9 Eternal Match)
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.chess.antiquarian_library.examine + .move
+wear_state:          worn at most-played pieces; centuries of patina
+physical_constraints: collides
+```
+
+#### A.13.9.4 The Spiral Staircase (east of reading area)
+
+```
+object_id:           ark.antiquarian_library.spiral_staircase
+object_class:        furniture  (functional traversal element)
+position:            (10.00, 14.00, 0.00)  # base
+dimensions:          1.80 × 1.80 × 24.00 (footprint × visible height; recursive above z = 19.20)
+rotation:            0°
+material_primary:    cast-bronze tread plates with brass railings; helix path
+material_secondary:  brass nosing on each step; brass handrail
+colour_value:        --token-color-ark-antiquarian-library-stair
+interaction:         interactable
+  - climb: player ascends to higher galleries; gallery 5 recursively loops back to gallery 3
+narrative_role:      THE traversal element; emphasises the library's verticality; the recursive gallery 5 is a deliberate disorienting moment
+lore_anchor:         loredex.aesthetic.dreamers_oneiric
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.antiquarian_library.stair.ascend / .descend
+wear_state:          worn at most-used steps (ground floor and gallery 1 transitions)
+physical_constraints: collides; player can climb
+```
+
+#### A.13.9.5-12 The Eight Gallery-1 Bookshelves
+
+Gallery 1 (z = 0 to 4.80) wraps the room with bookshelves.
+Counted as 8 bookshelves around the perimeter (2 per wall).
+
+```
+object_id:           ark.antiquarian_library.bookshelf.gallery_1.<position>  (8 shelves; 2 per wall)
+object_class:        container
+positions:           distributed along all 4 walls at gallery 1 level
+dimensions (each):   variable (~3.50 × 0.40 × 4.20)
+rotation:            varies (faces inward toward room centre)
+material_primary:    dark walnut with inlaid bronze name-plates (one per shelf-bay)
+material_secondary:  bronze shelf-supports
+colour_value:        --token-color-ark-antiquarian-library-bookshelf
+interaction:         interactable
+  - inspect_book: each book is a multi-screen lore-readable; ~50-100 books per shelf
+narrative_role:      gallery 1 is "Common Knowledge" — accessible histories, philosophies, public records
+lore_anchor:         loredex.system.lore_recovery + sub-categories per shelf
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.antiquarian_library.bookshelf.inspect_book
+wear_state:          slight wear at most-handled book-edges
+physical_constraints: collides
+```
+
+#### A.13.9.13-20 Gallery-2 Bookshelves (8; "Hidden Knowledge")
+
+Same template, gallery 2 level (z = 4.80 to 9.60). Books are
+LESS accessible — gameplay-conditional (some require the cipher
+key from §A.21).
+
+#### A.13.9.21-28 Gallery-3 Bookshelves (8; "Forbidden Knowledge")
+
+Gallery 3 level. Books are HIGHLY restricted — locked behind
+gameplay puzzles + cross-room cipher-key requirements.
+
+#### A.13.9.29-36 Gallery-4 Bookshelves (8; "Lost Knowledge")
+
+Gallery 4 level. Books that the Antiquarian himself has not yet
+read; some books shift content between visits.
+
+#### A.13.9.37-44 Gallery-5+ Recursive Bookshelves (apparent shelves; recursive loop)
+
+When the player ascends past gallery 4, they enter "gallery 5"
+which is actually gallery 3 again (rendered with subtle visual
+distortion to signal the loop). Total shelves rendered for the
+loop are 8.
+
+**Inventoried as a recursive gallery-stub** (not separate shelves;
+the same shelves as gallery 3 with rendering offset).
+
+Continuing inventory:
+
+#### A.13.9.45 The Antiquarian's Personal Locker
+
+```
+object_id:           ark.antiquarian_library.antiquarian_locker
+object_class:        container
+position:            (-2.00, 16.50, 0.00)  # west of Antiquarian's chair
+dimensions:          0.80 × 0.40 × 1.80
+rotation:            180°
+material_primary:    dark walnut with bronze handle
+material_secondary:  bronze nameplate engraved with abstract sigil
+colour_value:        --token-color-ark-antiquarian-library-locker
+interaction:         interactable
+  - open: contains Antiquarian's personal effects (a journal — the gameplay-key journal in Act 6; a portrait of his wife (deceased); a brass coin; an unfinished letter)
+  - inspect (closed): lore-note
+narrative_role:      personal effects of the Antiquarian; humanises him; gameplay-key Act 6
+lore_anchor:         loredex.character.the_antiquarian + arc.act_6_antiquarian_personal_arc
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.antiquarian_library.locker.open
+wear_state:          worn at handle; cherished
+physical_constraints: collides
+```
+
+#### A.13.9.46 The Antiquarian's Tea Service (on reading table)
+
+```
+object_id:           ark.antiquarian_library.tea_service
+object_class:        decoration
+position:            (0.30, 14.50, 0.85)  # on reading table corner
+dimensions:          0.30 × 0.30 × 0.20
+rotation:            0°
+material_primary:    cast porcelain (ceremonial pattern) + brass tray
+material_secondary:  brass teaspoon
+colour_value:        --token-color-ark-antiquarian-library-tea-service
+interaction:         inspectable
+  - inspect: lore-note about Antiquarian's tea preferences (small but humanising detail)
+narrative_role:      humanises Antiquarian; tea is canonically his anchor habit
+lore_anchor:         loredex.character.the_antiquarian
+art_status:          producer_handoff
+gameplay_hook_id:    none
+wear_state:          slight wear at most-touched cup edges
+physical_constraints: collides
+```
+
+#### A.13.9.47-50 Reading Chairs (4 visitor chairs around reading table)
+
+```
+object_id:           ark.antiquarian_library.visitor_chair.<position>  (4 chairs around reading table)
+object_class:        furniture
+positions:           [
+  (-1.50, 12.50, 0.00),  # west
+  (1.50, 12.50, 0.00),   # east
+  (-1.50, 15.50, 0.00),  # NW
+  (1.50, 15.50, 0.00),   # NE
+]
+dimensions (each):   0.80 × 0.80 × 1.20
+rotation:            varies (faces reading table)
+material_primary:    walnut frame with charcoal-leather seat
+material_secondary:  brass tacks
+colour_value:        --token-color-ark-antiquarian-library-visitor-chair
+interaction:         interactable - sit
+narrative_role:      visitor seating; player joins Antiquarian at the reading table
+lore_anchor:         arc.lore_recovery
+art_status:          producer_handoff
+gameplay_hook_id:    none
+wear_state:          slight wear
+physical_constraints: collides; sittable
+```
+
+#### A.13.9.51-54 The Four Painted Inscription Zones (one per wall)
+
+Counted in walls section (see §A.13.4). Each is inspectable.
+
+#### A.13.9.55-58 Gallery Railings (4 visible rings; one per gallery 1-4)
+
+Counted in walls section (decorative_features).
+
+#### A.13.9.59-62 Atmospheric Decorative Items
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.antiquarian_library.globe.celestial` | decoration | (1.50, 11.50, 0.00) on reading-table-adjacent stand | 0.40 × 0.40 × 1.20 | ornate brass celestial globe (canonical pre-Ark artifact) |
+| `ark.antiquarian_library.globe.terrestrial` | decoration | (-1.50, 11.50, 0.00) | mirror | terrestrial globe |
+| `ark.antiquarian_library.bust.first_antiquarian` | decoration | (-2.50, 11.00, 0.00) on plinth | 0.40 × 0.40 × 1.20 (plinth) + 0.40 × 0.40 × 0.50 (bust) | bust of "the first Antiquarian" |
+| `ark.antiquarian_library.bust.first_programmer` | decoration | (2.50, 11.00, 0.00) on plinth | mirror | bust of "the first Programmer" (deliberate paired symmetry — the Antiquarian and Programmer have always been twins) |
+
+#### A.13.9.63-64 Closing Decorative Items
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.antiquarian_library.entry_archway_relief` (rolled into walls) | decoration | (0.00, 0.20, 3.20) | 1.40 × 0.60 × 0.10 | "WHAT IS LOST IS FOUND HERE" |
+| `ark.antiquarian_library.distant_footsteps_emitter` | fx_emitter | dynamic | n/a | unlocateable distant-footsteps SFX source |
+
+Total: 64 inventory objects.
+
+### A.13.10 Camera-spawn-points (FPV cutscenes)
+
+```
+cutscene_id:         cs_amb_antiquarian_library  (Category B)
+camera_position:     (0.00, 0.50, eye_level)  # at archway
+camera_facing:       (0°, 15°, 0°)  # looking up at vaulted ceiling
+avatar_height_anchor: eye_level
+head_motion:         very slow pan upward from doorway; books on upper shelves visibly re-arrange themselves; lasts 22s
+
+cutscene_id:         cs_lore_antiquarian_chair_first_meet  (one-shot Act 3)
+camera_position:     (0.00, 12.00, eye_level)  # at reading table, opposite Antiquarian
+camera_facing:       (0°, 0°, 0°)  # facing Antiquarian
+avatar_height_anchor: eye_level
+head_motion:         seated; Antiquarian looks up from book; first eye-contact moment
+
+cutscene_id:         cs_lore_antiquarian_locker_open  (Act 6 gameplay-key)
+camera_position:     (-1.50, 16.00, eye_level)  # at locker
+camera_facing:       (-90°, -10°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         hand-rig opens locker; reveals personal effects; Antiquarian's gentle voice in distance
+```
+
+### A.13.11 Doorways
+
+```
+door_id:            ark.antiquarian_library.south.archway.entry
+connecting_space_id: ark.archives  (Archives §A.4)
+door_position:      (0.00, 0.00, 0.00)
+door_dimensions:    1.40 × 2.40 × 0.10
+door_class:         portal  (non-Euclidean teleporter; the archway is the only physical exit; entering traverses the bigger-on-inside pocket)
+unlock_condition:   Act 3+ (player must first discover the hidden archway in Archives)
+transit_animation:  fade with subtle warp (1.5s); player feels the geometric shift
+audio_signature:    page-rustle + faint chime + walnut creak
+```
+
+### A.13.12 Adjacency map
+
+```
+direct_adjacencies:
+  - ark.archives (south archway; only physical adjacency)
+one_hop_adjacencies:
+  - none direct (the Library is a pocket dimension; no other portal entries)
+state_shared_with (cross-room state coordination):
+  - ark.captain_quarters (chess game state shared)
+  - ark.chess_hall (chess game state shared; HB9 cosmology)
+```
+
+### A.13.13 Gameplay hooks
+
+```
+hooks:
+  - hook_id:         antiquarian_library.operateReadingTable
+    trigger:         player.operate on central_reading_table
+    procedure:       trpc.antiquarian_library.reading_table.operate
+    success_state:   reading_table_active = true
+  - hook_id:         antiquarian_library.openLocker
+    trigger:         player.open on antiquarian_locker
+    procedure:       trpc.antiquarian_library.locker.open
+    success_state:   antiquarian_locker_opened = true (one-shot triggers cutscene)
+  - hook_id:         antiquarian_library.examineChessTable
+    trigger:         player.examine on chess_table
+    procedure:       trpc.chess.antiquarian_library.examine
+    success_state:   chess_state_viewed = true
+  - hook_id:         antiquarian_library.makeAntiquarianMove (player-as-antiquarian, rare)
+    trigger:         (state-conditional) player.move on chess_table when Antiquarian is absent and player is Antiquarian-aligned
+    procedure:       trpc.chess.antiquarian_library.move
+    success_state:   move_made_as_antiquarian = true (rare lore-flag)
+  - hook_id:         antiquarian_library.inspectShelfBook
+    trigger:         player.inspect on bookshelf book
+    procedure:       trpc.antiquarian_library.bookshelf.inspect_book
+    success_state:   book_read = true (per-book; ~hundreds across all galleries)
+  - hook_id:         antiquarian_library.ascendStair
+    trigger:         player.climb on spiral_staircase
+    procedure:       trpc.antiquarian_library.stair.ascend
+    success_state:   gallery_<n>_visited = true (per-gallery)
+  - hook_id:         antiquarian_library.recursiveGalleryLoop
+    trigger:         player.ascend past gallery 4
+    procedure:       trpc.antiquarian_library.recursion.loop
+    success_state:   recursion_experienced = true (lore-flag; gives player the disorienting moment)
+  - hook_id:         antiquarian_library.inspectGlobe
+    trigger:         player.inspect on celestial_globe or terrestrial_globe
+    procedure:       trpc.antiquarian_library.globe.inspect
+    success_state:   globe_read = true (per-globe)
+  - hook_id:         antiquarian_library.readPaintedInscription
+    trigger:         player.inspect on painted_inscription_zone
+    procedure:       trpc.antiquarian_library.inscription.read
+    success_state:   inscription_read = true (per-inscription)
+```
+
+### A.13.14 Story-tie
+
+```
+primary_arcs:
+  - arc.lore_recovery
+  - §11.3.1 cross-centuries chess game (ground-state recorder)
+  - arc.act_3_first_antiquarian_meeting
+  - arc.act_6_antiquarian_personal_arc (locker)
+  - arc.cipher_key_quest (one of 4 keys hidden in gallery 3 books — cf §A.21)
+per_act_evolution:
+  acts_0_2: room locked; player has no awareness of pocket dimension
+  act_3: player discovers hidden archway in Archives §A.4; first meeting with Antiquarian (Category A cutscene); galleries 1-2 accessible
+  act_4: gallery 3 accessible (with cipher unlock from §A.21); chess-table state visible
+  act_5: gallery 4 accessible; some books shift content between visits (Editor's hand cross-ref)
+  act_6: locker unlockable (with key gathered earlier); reveals Antiquarian's personal arc
+  act_7: state-branched: if Antiquarian becomes "absent" (Acts 7 canonical end-state), library dims, books fall silent, recursion loop becomes more pronounced
+npc_roster:
+  - the_antiquarian: primary occupant; presence Acts 3+
+  - the_player: visitor / scholar
+  - the_distant_footsteps_emitter: presence-only (mysterious; never identified)
+  - chess pieces (state shared with §A.11 + §A.36)
+readables:
+  - entry archway relief
+  - 4 painted inscription zones (one per wall; canonical mythological events)
+  - apsidal relief on north (first chess match)
+  - hundreds of books across galleries 1-4 (varied lore-readables)
+  - Antiquarian's locker contents (Act 6 reveal)
+  - 2 globes (celestial + terrestrial)
+  - 2 busts (first Antiquarian + first Programmer)
+master_of_rlyeh_question: n/a (Library is not a Hellbox host; but it shares cosmology with HB9 Eternal Match)
+```
+
+### A.13.15 Special-FX
+
+```
+particle_systems:
+  - dust_motes (medium; visible in skylight beams; magical-quality shimmer)
+  - book_page_motes (low; rises through galleries)
+  - candle_smoke (Antiquarian's tea-table)
+  - recursion_distortion_particles (only visible at gallery 4-5 boundary; subtle warp shimmer)
+volumetric_effects:
+  - skylight_volumetric_beams (5 beams; dramatic light shafts through galleries)
+  - upper_gallery_haze (subtle volumetric fog at galleries 4+)
+  - non_euclidean_book_drift (books on highest shelves occasionally fall UPWARD through ceiling — cosmetic; tied to recursion)
+procedural_animations:
+  - books_subtle_re_arrange (Acts 3+; books on upper shelves slowly re-arrange themselves; very gradual; barely perceptible)
+  - dust_motes_slow_drift (continuous)
+  - antiquarian_breath_subtle_chest (when present)
+  - candle_flicker (Antiquarian's tea-table; organic)
+  - chess_pieces_settle (rare; very subtle when Antiquarian "considers")
+  - distant_footsteps_random (rare; pseudo-random source)
+  - bust_subtle_eye_track (Acts 6+; busts subtly track player movement; uncanny)
+reactive_systems:
+  - reading_table_lamp_on_player_proximity
+  - antiquarian_chair_warmth_on_proximity (chair velvet ripples slightly)
+  - chess_table_glow_on_examine
+  - locker_glow_on_proximity (Acts 6+; faint outline glow as player approaches)
+  - recursive_gallery_distortion_on_ascent (when player ascends past gallery 4)
+```
+
+### A.13.16 Avatar-parametricity
+
+```
+camera_height_variation:
+  small_xenomorph (0.85m eye): camera height 0.85m; reading table feels at chest-level; alternate stand-on-step animation; gallery railings tower overhead
+  short_humanoid (1.40m eye): standard
+  average_humanoid (1.70m eye): standard
+  tall_humanoid (2.05m eye): chandelier feels closer; reading-table feels small
+  tall_xenomorph (2.70m eye): chandelier collides at head; alternate "kneel-at-table" mode; spiral-stair railings at hip-level
+reachability:
+  small_xenomorph: cannot reach top shelves at any gallery; alternate ladder provided at each gallery's bookshelf base
+  small_xenomorph: cannot reach apsidal relief inspect-zone; relay-inspect from below
+  others: all-reachable (with stair access)
+audio_occlusion_variation:
+  xenomorph_sensitive_hearing: distant-footsteps audible from any gallery; book-creak more pronounced
+  synthetic_voice_avatar: Antiquarian's presence has slightly different "feel" (synthetic ear interprets the warm-velvet acoustics differently)
+```
+
+### A.13.17 Performance
+
+```
+polygon_budget:      450,000 polygons (massive perceptual scale + rich decoration; LOD critical)
+texture_budget:      280 MB total (book covers are unique; many decorative carvings)
+light_count_limit:   24 simultaneous dynamic lights
+lod_plan:
+  - hero_distance: 0-12m, full detail (immediate gallery)
+  - mid_distance: 12-30m, mid detail (book covers as billboards; gallery details simplified)
+  - low_distance: 30m+, low detail (mostly billboarded; recursion loop simplified to texture warp)
+streaming_behaviour:
+  - preload: ark.archives (south; entry portal)
+  - on_player_at_reading_table: continuous-load chess game state from §A.11 + §A.36
+```
 
 ---
 
