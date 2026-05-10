@@ -3792,3 +3792,612 @@ performance:
   lod_plan: hero 0-12m full; mid 12-25m simplified; long 25m+ celestial-vault as skybox
   streaming: preload ark.chess_hall; on_player_move: persist + sync state across §A.13/§A.36 chess tables
 ```
+
+---
+
+## H.10 The Hall of Collected Souls (HB10 — Collectors Arena gateway)
+
+**Status: FULL spec.** Cross-ref `INCEPTION_ARK_FINAL_PRODUCTION.md`
+§3.12.12.
+
+### H.10.1 Header
+
+```
+space_id:        hellbox.hall_of_collected_souls
+space_name:      The Hall of Collected Souls
+space_type:      hellbox_interior  (Matrix-of-Dreams; gallery-mausoleum hybrid)
+act_introduced:  Act 3
+host_room:       ark.collectors_arena (central plinth gateway)
+lore_anchor:     loredex.system.hall_of_collected_souls + arc.act_3_first_collected_souls + loredex.character.master_of_rlyeh
+aesthetic_tier:  dreamers_oneiric + gallery-mausoleum overlay  (curated dimension where every collected item appears as sentient figure)
+```
+
+### H.10.2 Geometry
+
+```
+dimensions:           48.00 m diameter × 14.00 m  (perceptual; circular footprint; bigger-on-inside ratio 25× external Collectors Arena)
+origin_point:         centre of central plinth (where the player materialises)
+coordinate_axes:      +x = right, +y = forward (north), +z = up
+floor_plan_geometry:  circular  (24.00 m radius; 12 alcove-segments at 30° intervals; one per collectible-category)
+volumetric_anomalies:
+  - bigger_on_inside ratio: 25× external Collectors Arena (largest perceptual ratio of any Hellbox)
+  - perpetual_curated_lighting: gallery-museum atmosphere; dim + golden + reverent
+  - figures_animate_subtly: every collectible-figure subtly breathes/shifts; the room is "alive" with the collected
+  - release_animation_one_shot: when player releases a figure, motes drift toward Hellbox centre + dissolve
+```
+
+The Hall of Collected Souls is the gallery-mausoleum where every
+collectible the player has acquired appears as a sentient
+figure. Pets as ghosts. Cards as silhouetted contestants. Trade
+goods as servants. Soul stones as souls in jars. Songs as
+visible musical-score figures. Memories as fading photographs.
+Scars as carved wounds on display. Debts as bronze-chain figures.
+Promises as tied-knot figures. Trophies as posed effigies. Tools
+as standing implements. Vows as silent figures.
+
+The player walks among them. Some greet; some ignore; some
+accuse. The gameplay mechanic is RELEASE-OR-KEEP: release a
+figure (lose item permanently; gain lore-flag) or keep (no
+change). The choice itself is the gameplay.
+
+Floor area (perceptual): ~1,810 m².
+
+### H.10.3 Floor
+
+```
+material_primary:     polished obsidian-black marble in radial-wedge tiles emanating from central plinth (12 wedges; one per collectible-category)
+material_secondary:   gold inlay forming a 12-pointed star centred on plinth; brass perimeter trim along curved wall
+pattern:              radial wedges + 12-pointed star inlay
+wear_state:           pristine (cosmologically maintained); slight wear at most-walked alcove approach (varies per player's strongest collection-categories)
+embedded_features:
+  - id: hellbox.hall_of_collected_souls.floor.charge_point.player_arrival_plinth
+    position: (0.00, 0.00, 0.00)  # at central plinth
+    dimensions: 1.40 dia × 0.005
+    function: arrival-anchor + return-transit invocation
+  - id: hellbox.hall_of_collected_souls.floor.alcove_anchor.<category>  (12 anchors at 30° intervals; radius 18.00 m)
+    position: per alcove
+    dimensions: 0.40 × 0.40 × 0.05 each
+    function: alcove resonance + figure-display
+acoustic_property:    hard_reflective (marble) with whisper-gallery from circular geometry; RT60 = 0.85s
+```
+
+### H.10.4 Walls
+
+```
+wall_id:              perimeter_curved (continuous curved wall divided into 12 alcove-segments at 30° intervals)
+material_primary:     polished obsidian-black marble cladding curving with the room
+material_secondary:   gold-leaf rim around each alcove; bronze pilasters between alcoves
+panelisation:         12 alcoves + 12 pilasters
+colour_value:         --token-color-hellbox-hall-of-collected-souls-walls  (deep obsidian-black with gold accents)
+embedded_displays:
+  - id: hellbox.hall_of_collected_souls.south.display.collection_total
+    position: (0.00, -23.95, 1.80)  # at south, near entrance
+    dimensions: 0.80 × 0.60 × 0.05
+    content: live total-collected count + release-vs-keep ratio
+embedded_doors:
+  - door_id: hellbox.hall_of_collected_souls.return_transit_anchor
+    position: (0.00, 0.00, 0.005)
+    dimensions: n/a (cosmological)
+    door_class: portal
+    connecting_space_id: ark.collectors_arena
+decorative_features:
+  - id: hellbox.hall_of_collected_souls.alcove.<category>  (12 alcoves: cards / pets / trade goods / soul stones / songs / memories / scars / debts / promises / trophies / tools / vows)
+    position: per perimeter at 30° intervals; radius 18.00 m
+    dimensions: 4.00 wide × 1.20 deep × 6.00 tall each
+    material: marble backplane + gold-leaf rim + per-category figure displays
+    narrative_role: each alcove holds the player's accumulated items in that category; figures stand in attendance
+  - id: hellbox.hall_of_collected_souls.south.plaque.principle
+    position: (0.00, -23.95, 3.20)
+    dimensions: 0.80 × 0.30 × 0.02
+    material: cast bronze with gilt text
+    narrative_role: reads "WHAT YOU KEEP, KEEPS YOU"
+```
+
+### H.10.5-8 Compact (full FULL fidelity)
+
+```
+ceiling: 14.00 m baseline; central oculus rises to 16.50 m above plinth; mirror-finish dome at apex
+lighting:
+  ambient_baseline: 2200 K (very warm; gallery-museum); 80 lux at floor (intentionally dim — reverent); CRI 95
+  oculus_central: warm gold + cyan accents; 5000 lumens; pulses with figure-animation rhythm
+  alcove_strip.<category>×12: per alcove ceiling; warm amber per category (subtle hue variation per category)
+  plinth_glow: variable; intensifies when figure on plinth; 800 lumens
+  practical_sources: figure_subtle_glow.<each>×many (per-figure backlight; reveals when player approaches)
+atmosphere: 18°C cool / 36% RH (dry; preservation-grade) / smells of cold-stone + bronze + faint pine-resin (canonical scent of "what is kept")
+sound:
+  ambient_bed: -38 dB very quiet; faint distant chime (period 60s; reverent), occasional whisper from figures, subtle marble-resonance from circular geometry
+  point_sources: distant_chime; figure_subtle_voice.<each>×many (cyclic; rare per-figure utterances); plinth_resonance
+  reverb_zone: hall_of_collected_souls_v1.wav wet 30% (whisper-gallery)
+  music_eligibility: cutscene only
+  voice_line_eligibility: figures (per-figure unique lines; cyclic); the_master_of_rlyeh (state-conditional during answer moments); the_curator (presence-only; cosmologically alive but never visible)
+```
+
+### H.10.9 Object inventory (compact catalogue; 36 inventory objects + dynamic figure-population)
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `hellbox.hall_of_collected_souls.player_arrival_plinth` | interactive+fx_emitter | (0.00, 0.00, 0.005) | 1.40 dia × 0.005 | gold-leaf 12-pointed star plinth; arrival + return-transit |
+| `hellbox.hall_of_collected_souls.central_plinth_pedestal` | interactive | (0.00, 0.00, 0.40) | 1.20 dia × 1.10 | bronze pedestal at plinth (where most-neglected item appears in source-room) |
+| `hellbox.hall_of_collected_souls.alcove.<category>` (12) | container | per perimeter at 30° | 4.00×1.20×6.00 each | per-category alcoves (cards/pets/trade-goods/soul-stones/songs/memories/scars/debts/promises/trophies/tools/vows) |
+| `hellbox.hall_of_collected_souls.figure.<dynamic>` (varies; populated by player's collection) | npc_anchor+decoration | distributed in alcoves | 0.80×0.80×1.80 each | sentient figures of every collected item; cumulative |
+| `hellbox.hall_of_collected_souls.observation_bench.<n>` (3) | furniture | radial; inner ring at radius 8.00 m | 1.40×0.40×0.45 each | curved benches |
+| `hellbox.hall_of_collected_souls.curator_lectern` | container | (-3.00, 4.00, 0.00) | 0.40×0.30×1.20 | bronze lectern; curator's tome (multi-screen lore about collection-canon) |
+| `hellbox.hall_of_collected_souls.south.display.collection_total` | display | (0.00, -23.95, 1.80) | 0.80×0.60×0.05 | live counts |
+| `hellbox.hall_of_collected_souls.master_of_rlyeh_altar` | interactive | (0.00, 4.00, 0.00) | 1.20×0.80×1.10 | Master of R'lyeh anchor near plinth |
+| `hellbox.hall_of_collected_souls.return_transit_indicator_glow` | fx_emitter | at plinth | 0.40 dia | warm gold |
+| `hellbox.hall_of_collected_souls.south.plaque.principle` | decoration | (0.00, -23.95, 3.20) | 0.80×0.30×0.02 | "WHAT YOU KEEP, KEEPS YOU" |
+| `hellbox.hall_of_collected_souls.compass_inlay_central` | decoration | already specced |  |  |
+
+Total: 36 base inventory objects + dynamic figure-population (varies per player; could be hundreds).
+
+### H.10.10-17 Compact
+
+```
+camera_spawn_points:
+  cs_hellbox_10_arrival (Act 3 first-time + every visit): POV at plinth; gallery materialises around player; head pans across alcoves; 18s
+  cs_master_of_rlyeh_question: at altar near plinth; "What is the price of keeping?"; radial menu
+  cs_first_release (one-shot when player first releases a figure): POV at chosen figure; figure dissolves to motes; motes drift to plinth
+  cs_hellbox_10_close: figures fade; gallery resolves; ~5s ceremonial fade
+
+doorways: return_transit_anchor → ark.collectors_arena (host)
+
+adjacency: direct ark.collectors_arena; one_hop hellbox.master_hellbox (HB5)
+state_shared: ark.collectors_arena (HB10 faction-pull); player's collection inventory (cumulative; figures populate dynamically)
+
+gameplay_hooks:
+  - hb10.return_transit
+  - hb10.invoke_master_of_rlyeh (altar; one-shot per visit)
+  - hb10.commit_faction_answer
+  - hb10.release_figure (per-figure; permanent loss + lore-flag gain)
+  - hb10.keep_figure (no-op; default)
+  - hb10.greet_figure (per-figure dialogue)
+  - hb10.read_curator_tome
+  - hb10.inspect_alcove (per-category; multi-screen lore)
+
+story_tie:
+  primary_arcs: act_3_first_collected_souls; cumulative_collection (continuous); release_or_keep_canon (state-branched per release/keep ratio)
+  per_act:
+    acts_0_2: locked
+    act_3: first invocation; first figures populated
+    acts_4_7: more figures as player collects more; cumulative release/keep choices shape Act 7 ending
+  npc_roster: ~hundreds of figures (dynamic); the_curator (presence-only); the_master_of_rlyeh (answer moments)
+  readables: principle plaque; curator's tome; 12 alcove inscriptions; per-figure inspect-lore (varies per item)
+  master_of_rlyeh_question: "What is the price of keeping?"
+  faction_answers: per §3.12.12 (Dreamers Children strongest pull)
+
+special_fx: figure_subtle_breath; release_motes_one_shot; oculus_pulse_with_figure_animation; figure_voice_visualisation
+volumetric: oculus_glow; plinth_radiance; alcove_warmth_per_category; release_motes_dissolve
+procedural: figure_idle_loops_per_figure (each cyclic; subtle); oculus_subtle_pulse; alcove_subtle_breath
+reactive: figure_acknowledge_on_proximity; alcove_glow_intensify_on_approach; release_one_shot_per_figure; curator_subtle_response_at_lectern
+
+avatar_parametricity: small_xenomorph: alternate stand-in-alcove for taller figures; others all-reachable
+audio_occlusion: xenomorph: figure-voices more pronounced; chime-resonance richer
+
+performance:
+  polygon_budget: 760,000 (large circular gallery; dynamic figure population — LOD critical)
+  texture_budget: 440 MB (per-figure unique textures dynamic)
+  light_count_limit: 28
+  lod_plan: hero 0-15m full; mid 15-30m simplified figures as billboards; long 30m+ alcove-silhouettes only
+  streaming: preload ark.collectors_arena; on_alcove_approach: load that category's figures fully; on_release: trigger one-shot dissolve animation
+```
+
+---
+
+## H.11 The Hive (HB11 — Defense Command Center gateway)
+
+**Status: FULL spec.** Cross-ref `INCEPTION_ARK_FINAL_PRODUCTION.md`
+§3.12.13.
+
+### H.11.1 Header
+
+```
+space_id:        hellbox.the_hive
+space_name:      The Hive (Terminus Swarm origin)
+space_type:      hellbox_interior  (Matrix-of-Dreams; bio-organic chamber)
+act_introduced:  Act 4
+host_room:       ark.defense_command_center (threat-display gateway)
+lore_anchor:     loredex.system.the_hive + loredex.character.terminus_swarm + arc.act_4_first_hive_visit + loredex.character.master_of_rlyeh
+aesthetic_tier:  terminus_organic  (vast organic chamber; black-iron walls coated with bio-luminescent webbing)
+```
+
+### H.11.2 Geometry
+
+```
+dimensions:           60.00 m × 60.00 m × 24.00 m  (perceptual; bigger-on-inside ratio 18× external Defense Command Center; vast cathedral-cavern-like)
+origin_point:         centre of central chamber (where player materialises after webbing-tunnel transit)
+coordinate_axes:      +x = right, +y = forward (deeper into Hive), +z = up
+floor_plan_geometry:  organic_amorphous  (cathedral-cavern shape; not strictly geometric; living-organism interior)
+volumetric_anomalies:
+  - bigger_on_inside ratio: 18× external Defense Command Center
+  - bio_luminescent_webbing: continuous bio-luminescent webbing covers all surfaces; pulses as if the Hive is breathing
+  - hive_consciousness_present: the Hive's collective consciousness is PRESENT (felt; never seen as a single entity)
+  - failed_clones_visible: ~50 visible failed-clone bodies (canonical: previous players who "came before"; the player IS the latest of these clones)
+  - chamber_pulses_with_breath: walls + floor + ceiling subtly expand/contract with hive-breath rhythm (period 8s)
+```
+
+The Hive is the Terminus Swarm's origin. Vast organic chamber.
+Black-iron substrate coated with bio-luminescent webbing
+(continuous; pulses with hive-breath). The Hive's collective
+consciousness is PRESENT — felt but never seen as a single
+entity. ~50 failed clones visible (these ARE the prior players;
+the canonical Terminus Swarm is composed of the failed clones
+that came before — the player is the latest in this lineage).
+
+The player can attempt to negotiate with the Hive (rare gameplay)
+or simply observe (common). Each visit reveals more about what
+the Terminus Swarm is — the Hive remembers them. The Hive
+remembers the player too — the player is just another iteration.
+
+Floor area (perceptual): ~3,600 m² (massive cathedral-cavern).
+
+### H.11.3 Floor
+
+```
+material_primary:     organic black-iron + bio-luminescent webbing (the Hive's "skin"); slick + slightly warm; pulses subtly with hive-breath
+material_secondary:   gold-amber bio-luminescent fungal patches at random positions; brass-stained webbing-strands
+pattern:              organic; no tile pattern; webbing-flow follows natural cavern-form
+wear_state:           cosmologically maintained; never worn (the Hive is ALIVE)
+embedded_features:
+  - id: hellbox.the_hive.floor.charge_point.player_arrival_centre
+    position: (0.00, 0.00, 0.00)
+    dimensions: 0.80 dia × 0.005
+    function: arrival-anchor + return-transit invocation
+  - id: hellbox.the_hive.floor.failed_clone_anchor.<n>  (~50 anchors)
+    position: distributed across floor + walls + ceiling (failed clones cling to all surfaces; cosmologically positioned)
+    dimensions: 0.40 × 0.40 × 0.05 each
+    function: failed-clone NPC anchor positions
+  - id: hellbox.the_hive.floor.altar_anchor.master_of_rlyeh
+    position: (0.00, 12.00, 0.00)  # north of arrival
+    dimensions: 0.60 × 0.40 × 0.05
+    function: Master of R'lyeh anchor (only place in Hive where his voice clearly emerges)
+acoustic_property:    soft_absorbent (organic webbing) with deep bio-rumble bass; RT60 = 0.95s (long; cathedral-cavern with organic damping)
+```
+
+### H.11.4 Walls
+
+```
+wall_id:              perimeter_organic (continuous organic walls; no traditional "walls" — cavern formation)
+material_primary:     organic black-iron substrate coated with bio-luminescent webbing
+material_secondary:   gold-amber fungal patches; brass-stained webbing-strands; chitinous-bronze ribs
+panelisation:         organic; no tile panels
+colour_value:         --token-color-hellbox-the-hive-walls  (deep black-iron + bio-luminescent green-cyan + gold-amber + chitinous-bronze)
+embedded_displays:    none (the webbing IS the display)
+embedded_doors:
+  - door_id: hellbox.the_hive.return_transit_anchor
+    position: (0.00, 0.00, 0.005)
+    dimensions: n/a (cosmological)
+    door_class: portal
+    connecting_space_id: ark.defense_command_center
+decorative_features:
+  - id: hellbox.the_hive.wall.relief_pattern.swarm_canon
+    position: distributed; visible as bio-luminescent calligraphy on webbing
+    dimensions: continuous
+    material: living calligraphy (cosmologically alive)
+    narrative_role: Hive-canon writ in bio-luminescent webbing; tells the canonical Terminus Swarm origin story
+  - id: hellbox.the_hive.failed_clone_chamber.<cluster>  (~10 clusters; each holds 5 failed clones)
+    position: distributed
+    dimensions: varied; chambers ~6×6×6 each
+    material: organic; clones partially absorbed into webbing
+    narrative_role: failed-clone clusters; player can recognise some (canonical earlier-deaths)
+  - id: hellbox.the_hive.south.plaque.absent
+    position: (0.00, -28.00, 3.20)
+    dimensions: n/a
+    material: n/a (the Hive has no plaques; the room itself is the canon)
+    narrative_role: notable-absence — every other Hellbox has a creed plaque; the Hive has none (cosmological detail)
+```
+
+### H.11.5-8 Compact (full FULL fidelity)
+
+```
+ceiling: 24.00 m baseline at chamber centre; vaulted upward via webbing-cathedral form to z = 32+ at apex; ceiling is continuous webbing
+lighting:
+  ambient_baseline: 1800 K extremely warm + bio-luminescent green-cyan accents; 60 lux (deeply dim — gravity); CRI 80
+  bio_luminescent_webbing_glow: continuous distributed lighting throughout (the webbing IS the light source); variable intensity
+  central_chamber_focal_glow: at arrival centre; 1500 lumens warm-amber
+  altar_glow_master_of_rlyeh: at altar; 800 lumens
+  practical_sources: failed_clone_subtle_breath_glow×~50 (each clone has subtle bio-luminescent breath); fungal_patch_glow×many
+atmosphere: 24°C warm-organic / 80% RH (very humid; bio-environmental) / smells of organic-decay + ozone + chitinous-bronze + bio-luminescent fungal-moisture + faint blood
+sound:
+  ambient_bed: -22 dB; deep continuous Hive-rumble (period 8s; matches breathing); webbing-pulse audible; bio-luminescent fungal-burble; failed-clone subtle breaths in chorus; rare hive-vocalisation (collective whisper)
+  point_sources: hive_breath_continuous; failed_clone_breath.<n>×50 (sub-audible chorus); fungal_burble_distributed; webbing_pulse; hive_collective_whisper (rare; proto-language; chitinous-rasp tone)
+  reverb_zone: the_hive_v1.wav wet 28% (deep organic; bio-cathedral)
+  music_eligibility: cutscene only
+  voice_line_eligibility: the_hive_collective (rare; speaks in proto-language whispers from all sides simultaneously); the_master_of_rlyeh (state-conditional answer moments); failed_clone_voices (very rare; one of them might whisper your previous name)
+```
+
+### H.11.9 Object inventory (compact catalogue; 28 inventory objects + ~50 failed-clone anchors)
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `hellbox.the_hive.player_arrival_centre` | fx_emitter+gameplay-anchor | (0.00, 0.00, 0.005) | 0.80 dia × 0.005 | arrival point in Hive's centre |
+| `hellbox.the_hive.bio_luminescent_webbing` (continuous) | fx_emitter | distributed across all surfaces | continuous | Hive's "skin" — primary lighting + atmosphere |
+| `hellbox.the_hive.failed_clone_anchor.<n>` (~50) | npc_anchor | distributed (floor + walls + ceiling) | 0.40×0.40×0.05 each | failed-clone presence anchors (cosmologically: prior players who "came before") |
+| `hellbox.the_hive.master_of_rlyeh_altar` | interactive | (0.00, 12.00, 0.00) | 1.40×0.80×1.10 | Master of R'lyeh anchor — only clear-voice point in Hive |
+| `hellbox.the_hive.failed_clone_chamber.<cluster>` (~10 clusters of 5 each) | container+decoration | distributed | varied | failed-clone clusters embedded in webbing |
+| `hellbox.the_hive.fungal_patch.<n>` (~30) | decoration+fx_emitter | scattered on walls + floor | 0.40×0.40×0.30 each | bio-luminescent fungal patches |
+| `hellbox.the_hive.swarm_canon_calligraphy` (continuous) | decoration | distributed on webbing | continuous | Hive-canon written in bio-luminescent calligraphy; lore-readable |
+| `hellbox.the_hive.observation_chamber.<n>` (3) | container | radial; deeper in cavern | 6×6×6 each | quiet sub-chambers where player can sit + observe |
+| `hellbox.the_hive.return_transit_indicator_glow` | fx_emitter | at arrival centre | 0.40 dia | warm bio-amber |
+| `hellbox.the_hive.hive_collective_whisper_emitter` (distributed) | fx_emitter | omnidirectional | n/a | Hive-collective whisper SFX from all sides |
+| `hellbox.the_hive.master_of_rlyeh_voice_emitter` | fx_emitter | at altar | n/a | "Is one mind worth more than many?" |
+
+Total: 28 inventory objects + ~50 failed-clone anchors.
+
+### H.11.10-17 Compact
+
+```
+camera_spawn_points:
+  cs_hellbox_11_arrival (Act 4 first-time + every visit): POV at centre; webbing-tunnel transit dissipates around player; head pans to take in vast cathedral-cavern; 18s
+  cs_first_failed_clone_recognition (state-conditional; one-shot per recognition): POV at a failed-clone cluster; player recognises a prior canonical death; emotional moment
+  cs_master_of_rlyeh_question: at altar; "Is one mind worth more than many?"; radial menu
+  cs_hive_collective_whisper (rare; per-visit chance): Hive whispers to player; reveals fragment of Hive-canon
+  cs_negotiation_attempt (rare; gameplay-conditional): POV at altar; player attempts negotiation with Hive; outcome varies
+  cs_hellbox_11_close: POV at centre; webbing recedes; tunnel collapses; ~5s ceremonial fade
+
+doorways: return_transit_anchor → ark.defense_command_center
+
+adjacency: direct ark.defense_command_center; one_hop hellbox.master_hellbox (HB5)
+state_shared: ark.defense_command_center (HB11 faction-pull); cumulative-failed-clones (every prior canonical-death adds a failed clone)
+
+gameplay_hooks:
+  - hb11.return_transit
+  - hb11.invoke_master_of_rlyeh (altar; one-shot per visit)
+  - hb11.commit_faction_answer
+  - hb11.observe_failed_clones (passive; cumulative recognition)
+  - hb11.read_swarm_canon_calligraphy (multi-screen lore via sustained inspection)
+  - hb11.attempt_negotiation (rare; gameplay-conditional Acts 6+; outcomes affect Terminus Swarm canon-state)
+  - hb11.sit_in_observation_chamber (gameplay-passive; emotionally heavy)
+
+story_tie:
+  primary_arcs:
+    - act_4_first_hive_visit
+    - cumulative_failed_clone_recognition
+    - hive_canon_revelation (multi-visit; player learns Hive-truth across visits)
+    - act_7_negotiated_peace_or_continued_war (state-branched: Hive-aligned vs. Hive-opposed)
+  per_act:
+    acts_0_3: locked
+    act_4: first invocation; first failed-clone recognition; Master of R'lyeh first asked
+    act_5: more failed-clones as more deaths occur; deeper Hive-canon revealed
+    act_6: rare negotiation attempts possible
+    act_7: state-branched: Hive-allied ending vs. Hive-defied ending
+  npc_roster: the_hive_collective (presence-only; never visible-clear); ~50 failed clones (cumulative); the_master_of_rlyeh (state-conditional answer moments); failed_clone_voices (very rare individual whispers)
+  readables:
+    - swarm_canon_calligraphy (continuous; varies per visit)
+    - failed-clone clusters (per-cluster recognition lore)
+    - Hive collective whispers (rare cyclic)
+  master_of_rlyeh_question: "Is one mind worth more than many?"
+  faction_answers: per §3.12.13 (New Babylon strongest pull)
+
+special_fx: hive_breath_subtle_pulse_continuous; webbing_pulse_continuous; failed_clone_subtle_breaths_chorus; fungal_burble; hive_whisper_surround; chitinous_bronze_glints
+volumetric: bio_luminescent_webbing_glow_continuous; altar_glow_radiance; failed_clone_subtle_glow×50
+procedural: hive_breath_animation_continuous (period 8s subtle expansion-contraction of all surfaces); failed_clone_idle_breaths; webbing-calligraphy-subtle-shift; fungal_pulse
+reactive: hive_pulse_intensify_on_player_proximity_to_centre; webbing_acknowledge_on_player_pass; failed_clone_subtle_movement_on_proximity; hive_whisper_one_shot_random; negotiation_outcome_one_shot
+
+avatar_parametricity: small_xenomorph: comfortable scale (Hive accommodates all sizes — cosmologically); xenomorph players particularly resonant with Hive-aesthetic
+audio_occlusion: xenomorph: hive-rumble + whispers overwhelming; chitinous-bronze glints particularly perceptible; synthetic_voice_avatar: hive-collective hostile/curious
+
+performance:
+  polygon_budget: 1,100,000 (vast organic chamber + ~50 failed clones + continuous webbing + bio-luminescent shaders)
+  texture_budget: 640 MB (organic + bio-luminescent + 50 failed-clone unique)
+  light_count_limit: 32 (continuous distributed lighting + altar + practicals)
+  lod_plan: hero 0-20m full; mid 20-50m simplified clones + webbing; long 50m+ webbing-only
+  streaming: preload ark.defense_command_center; on_failed_clone_recognition: load that clone's lore
+```
+
+---
+
+## H.12 The Dischordian Arena (HB12 — Game Hall gateway)
+
+**Status: FULL spec.** Cross-ref `INCEPTION_ARK_FINAL_PRODUCTION.md`
+§3.12.14.
+
+### H.12.1 Header
+
+```
+space_id:        hellbox.dischordian_arena
+space_name:      The Dischordian Arena
+space_type:      hellbox_interior  (Matrix-of-Dreams; meta-arena where every card-deck the player has ever played becomes a sentient opponent)
+act_introduced:  Act 2
+host_room:       ark.game_hall (central Dischordia card-duel board gateway)
+lore_anchor:     loredex.system.dischordian_arena + arc.act_2_first_dischordian_arena + loredex.character.master_of_rlyeh
+aesthetic_tier:  matrix_dream + meta-arena overlay  (vast tournament arena where the player faces every previous deck-build personified)
+```
+
+### H.12.2 Geometry
+
+```
+dimensions:           42.00 m × 42.00 m × 14.00 m  (perceptual; bigger-on-inside ratio 9× external Game Hall)
+origin_point:         centre of arena (where player materialises at duel-board)
+coordinate_axes:      +x = right, +y = forward (north), +z = up
+floor_plan_geometry:  rectangular  (vast tournament arena; central duel-board + concentric rings of phantom-deck opponents at increasing distances)
+volumetric_anomalies:
+  - bigger_on_inside ratio: 9× external Game Hall
+  - phantom_deck_visualisation: each previous deck-build the player has used appears as a SHADOW-OPPONENT at a board around the perimeter; cosmologically the player is playing AGAINST every prior deck simultaneously
+  - cards_look_at_camera: cards in the central duel occasionally look directly at the player (uncanny)
+  - cumulative_strategy_archive: walls hold all the strategies the player has ever used (visible as mid-air banners)
+```
+
+The Dischordian Arena is a meta-arena where every card the player
+has ever played appears as a sentient opponent. The player must
+duel against themselves — every previous deck-build is a new
+shadow-opponent. The cards know the player's strategies because
+they ARE the player's strategies. Defeating each previous-self
+unlocks a new variant.
+
+Floor area (perceptual): ~1,764 m².
+
+### H.12.3 Floor
+
+```
+material_primary:     polished black-and-crimson marble in chevron pattern (matches Hierarchy throne but with crimson instead of white — performance-space signal); 0.60 × 0.60 m tiles
+material_secondary:   gold inlay outlining central duel-board dais (3.20 × 3.20 m raised at z = 0.40); brass perimeter trim
+pattern:              chevron + central dais + concentric ring demarcations for shadow-opponent positions
+wear_state:           pristine but well-played; central dais worn from prior contests
+embedded_features:
+  - id: hellbox.dischordian_arena.floor.charge_point.player_arrival_dais
+    position: (0.00, 0.00, 0.40)  # at central dais
+    dimensions: 1.00×1.00×0.005
+    function: arrival-anchor + return-transit invocation
+  - id: hellbox.dischordian_arena.floor.shadow_opponent_anchor.<n>  (~30 anchors at concentric rings)
+    position: distributed at concentric rings around dais
+    dimensions: 0.30×0.30×0.05 each
+    function: shadow-opponent positions (one per previous deck-build the player has used)
+acoustic_property:    hard_reflective (marble); RT60 = 0.85s (theatrical with arena resonance)
+```
+
+### H.12.4 Walls
+
+```
+wall_id:              perimeter (4 walls of vast arena)
+material_primary:     polished black-marble cladding with gold-leaf chevron + tournament-banner-rod recesses; theatrical-arena aesthetic
+material_secondary:   crimson velvet drapery between banner rods; bronze trim
+panelisation:         standard
+colour_value:         --token-color-hellbox-dischordian-arena-walls  (deep charcoal-black + crimson + gold + bronze — performance-arena palette)
+embedded_displays:
+  - id: hellbox.dischordian_arena.south.scoreboard
+    position: (0.00, -20.95, 6.00)
+    dimensions: 6.00 × 2.40 × 0.10
+    content: live tournament-state board showing player's current opponent + prior deck history
+embedded_doors:
+  - door_id: hellbox.dischordian_arena.return_transit_anchor
+    position: (0.00, 0.00, 0.005)
+    dimensions: n/a (cosmological)
+    door_class: portal
+    connecting_space_id: ark.game_hall
+decorative_features:
+  - id: hellbox.dischordian_arena.south.plaque.creed
+    position: (0.00, -20.95, 3.20)
+    dimensions: 1.00 × 0.40 × 0.02
+    material: cast bronze with deep-etched text + gilt
+    narrative_role: reads "PLAY YOURSELF / PLAY AGAINST YOURSELF"
+  - id: hellbox.dischordian_arena.strategy_archive_banners  (~30 banners hanging from ceiling rigging at z = 12)
+    position: distributed throughout arena
+    dimensions: 0.10 × 1.20 × 3.00 each
+    material: deep crimson velvet with gold-thread embroidery (each banner depicts one of the player's prior strategies)
+    narrative_role: visible from arena floor; cumulative strategy archive
+```
+
+### H.12.5-8 Compact (full FULL fidelity)
+
+```
+ceiling: 14.00 m baseline; central oculus rises to 16.00 m; theatrical rigging + ~30 banners
+lighting:
+  ambient_baseline: 2400 K very warm theatrical; 200 lux (deeply dim — meta-arena gravity); CRI 92
+  central_oculus_glow: at (0.00, 0.00, 16.00); warm gold-crimson; 6000 lumens; pulses with duel-rhythm
+  shadow_opponent_glows.<n>×~30: per shadow-opponent position; subtle silver-edged (each shadow is a ghost-self)
+  banner_uplights×~30: per banner; warm gold; 200 lumens each
+  practical_sources: card-face glow per active card; chip-stack subtle glints
+atmosphere: 21°C cool-theatrical / 42% RH / smells of polished-marble + bronze + cards' resin + faint perfume + warm walnut
+sound:
+  ambient_bed: -28 dB; faint distant tournament-applause-residue, occasional card-flip-echo, deck-shuffle-distant, theatrical orchestral-pad
+  point_sources: card_flip_per_play; deck_shuffle_subtle; phantom_audience_residue; shadow_opponent_voice.<n> ("I know you" — one of player's previous deck-builds speaking back); orchestral pad ambient; cosmic_resonance from oculus
+  reverb_zone: dischordian_arena_v1.wav wet 28% (theatrical-arena)
+  music_eligibility: ambient music ALLOWED — orchestral-pad at -32 dB; intensifies during meta-duels
+  voice_line_eligibility: shadow_opponents (~30 unique voices; each speaks the player's own VO synthesised back; per §3.1.0.5 voice-synthesis); the_master_of_rlyeh (state-conditional answer moments)
+```
+
+### H.12.9 Object inventory (compact catalogue; 52 inventory objects + dynamic shadow-opponent population)
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `hellbox.dischordian_arena.player_arrival_dais` | interactive+gameplay-anchor | (0.00, 0.00, 0.40) | 3.20×3.20×0.40 | central raised dais; arrival + duel-board point |
+| `hellbox.dischordian_arena.duel_board_central` | interactive | (0.00, 0.00, 0.65) on dais | 1.20×1.20×0.05 | central duel-board (matches §A.51 Game Hall central board state) |
+| `hellbox.dischordian_arena.player_chair_central` | furniture | (0.00, -1.50, 0.40) | 0.80×0.80×1.20 | player's seat at south of dais |
+| `hellbox.dischordian_arena.shadow_opponent_anchor.<n>` (~30) | npc_anchor+decoration | concentric rings around dais; positions vary | 0.80×0.80×1.80 each | shadow-opponents (one per previous deck-build); each has its own duel-board nearby |
+| `hellbox.dischordian_arena.shadow_opponent_duel_board.<n>` (~30) | interactive | per shadow-opponent | 0.80×0.80×0.05 each | per-shadow duel-board |
+| `hellbox.dischordian_arena.south.scoreboard` | display | (0.00, -20.95, 6.00) | 6.00×2.40×0.10 | live tournament state |
+| `hellbox.dischordian_arena.strategy_archive_banner.<n>` (~30) | decoration | hanging at z=12; distributed | 0.10×1.20×3.00 each | per-strategy banners |
+| `hellbox.dischordian_arena.master_of_rlyeh_altar` | interactive | (0.00, 4.00, 0.00) | 1.20×0.80×1.10 | Master of R'lyeh anchor at north of dais |
+| `hellbox.dischordian_arena.observation_bench.<n>` (4) | furniture | radial; outer | 1.40×0.40×0.45 each | meditation benches |
+| `hellbox.dischordian_arena.return_transit_indicator_glow` | fx_emitter | at dais centre | 0.40 dia | warm gold |
+| `hellbox.dischordian_arena.south.plaque.creed` | decoration | (0.00, -20.95, 3.20) | 1.00×0.40×0.02 | "PLAY YOURSELF / PLAY AGAINST YOURSELF" |
+| `hellbox.dischordian_arena.compass_inlay_central` | decoration | already specced |  |  |
+| `hellbox.dischordian_arena.master_of_rlyeh_voice_emitter` | fx_emitter | at altar | n/a | "Does the game play you, or do you play the game?" |
+| `hellbox.dischordian_arena.shadow_voice_emitter.<n>` (~30) | fx_emitter | per shadow-opponent | n/a | each speaks player's prior deck-build's voice synthesised back |
+
+Total: 52 base inventory objects + ~30 dynamic shadow-opponents.
+
+### H.12.10-17 Compact
+
+```
+camera_spawn_points:
+  cs_hellbox_12_arrival (Act 2 first-time + every visit): POV at central dais; arena materialises around player; head pans across shadow-opponent rings; 18s
+  cs_first_self_duel (Act 2 first-time): POV at central duel-board; first shadow-opponent (player's first canonical deck-build) materialises across; "I know you" line plays
+  cs_master_of_rlyeh_question: at altar; "Does the game play you, or do you play the game?"; radial menu
+  cs_shadow_opponent_defeat (one-shot per defeat): defeated shadow-opponent dissolves; new variant unlocks
+  cs_hellbox_12_close: cards fade; arena collapses; ~5s ceremonial fade
+
+doorways: return_transit_anchor → ark.game_hall (host)
+
+adjacency: direct ark.game_hall; one_hop hellbox.master_hellbox (HB5)
+state_shared: ark.game_hall (HB12 faction-pull); player's deck-build history (cumulative; each adds a shadow-opponent); cumulative_meta_duels (player's cumulative defeats of previous-selves)
+
+gameplay_hooks:
+  - hb12.return_transit
+  - hb12.invoke_master_of_rlyeh (altar; one-shot per visit)
+  - hb12.commit_faction_answer
+  - hb12.engage_shadow_opponent (per shadow; gameplay-active)
+  - hb12.defeat_shadow_opponent (one-shot per shadow; unlocks new variant)
+  - hb12.read_strategy_archive_banner (per-banner)
+
+story_tie:
+  primary_arcs:
+    - act_2_first_dischordian_arena
+    - cumulative_meta_duels
+    - act_7_self_overcome (state-branched: defeated all previous-selves vs. avoided meta-duels)
+  per_act:
+    acts_0_1: locked
+    act_2: first invocation; first shadow-opponent + first meta-duel
+    acts_3_7: cumulative shadow-opponents grow with each new deck-build; player's defeats unlock variants
+  npc_roster: ~30 shadow-opponents (each speaks player's own VO synthesised back); the_master_of_rlyeh (answer moments)
+  readables: creed plaque (south); ~30 strategy archive banners; shadow-opponent inscriptions (per-shadow)
+  master_of_rlyeh_question: "Does the game play you, or do you play the game?"
+  faction_answers: per §3.12.14 (Insurgency strongest pull)
+
+special_fx: cards_subtle_face_glow_continuous; shadow_opponent_silver_edge_glow; banner_subtle_ripple; orchestral_visualisation; card_flip_motes
+volumetric: oculus_glow; shadow_opponent_glow_envelopes; banner_uplight_envelopes; arena_focal_envelope
+procedural: orchestral_pad_continuous; cards_breathe (very subtle); shadow_opponents_idle_animations (each stares at player); banner_subtle_ripple
+reactive: shadow_opponent_acknowledge_on_player_proximity_to_their_board; oculus_intensify_on_active_duel; card_face_reveal_on_play (one frame card looks directly at camera — uncanny)
+
+avatar_parametricity: small_xenomorph alternate stand-on-step at duel-board; others all-reachable
+audio_occlusion: xenomorph: shadow-opponent voices (player's own synthesised back) deeply uncanny; orchestral pad pronounced
+
+performance:
+  polygon_budget: 880,000 (large arena + ~30 shadow-opponents + ~30 banners + dynamic deck-cards)
+  texture_budget: 480 MB (per-shadow-opponent unique + cards unique + theatrical materials)
+  light_count_limit: 28
+  lod_plan: hero 0-15m full; mid 15-30m simplified shadow-opponents as billboards; long 30m+ banners only
+  streaming: preload ark.game_hall; on_shadow_opponent_engage: load that opponent's full deck-build state; on_defeat: trigger dissolve animation + variant-unlock
+```
+
+---
+
+## Document status (Phase C complete)
+
+**FULL spec authored** (all 17 layers): All 12 active Hellbox
+interior destinations.
+
+| Hellbox | Host Room | Master of R'lyeh Question | Strongest Pull |
+|---|---|---|---|
+| H.1 Celebration School | Med Bay | "When the body fails, does the self?" | Dreamers Children |
+| H.2 Castle of Death | Hierarchy Throne | "Is mercy a debt, or a gift?" | Hierarchy |
+| H.3 Quiz Show Palimpsest | Bridge | "Does a child's first death haunt the world that buried them?" | Insurgency |
+| H.4 Mechronis Academy | Engineering Bay | "Is the worker the work, or the work's prisoner?" | Architect Remnants |
+| H.5 Universal Selector | Personal Quarters | NONE (navigation-only) | n/a |
+| H.6 Dead Man's Circuit | Memorial Corridor | "If you knew the race was already lost, would you still run?" | Hierarchy |
+| H.7 Degenerate's Casino | Captain's Quarters Degen's Corner | "What is owed to a debt that was never agreed to?" | New Babylon |
+| H.8 Editor's Workshop | Cipher Den | "Is what was written, or what was edited, the truth?" | Architect Remnants |
+| H.9 Eternal Match | Chess Hall | "Whose move is the final one?" | Architect Remnants |
+| H.10 Hall of Collected Souls | Collectors Arena | "What is the price of keeping?" | Dreamers Children |
+| H.11 The Hive | Defense Command Center | "Is one mind worth more than many?" | New Babylon |
+| H.12 Dischordian Arena | Game Hall | "Does the game play you, or do you play the game?" | Insurgency |
+
+**Total: 12 Hellbox interiors specced at full FULL.**
+
+Future Phase D-F (deferred to follow-up branches):
+- Phase D: 7 vehicle interiors (`_PRODUCTION_VEHICLES.md`)
+- Phase E: ~60 destination zones (`_PRODUCTION_DESTINATIONS.md`)
+- Phase F: ~165 cutscenes shot-by-shot + NPC homes + audit
+  (`_PRODUCTION_CROSS_CUT.md`)
+
+---
