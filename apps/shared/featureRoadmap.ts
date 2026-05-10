@@ -18,8 +18,21 @@ export interface FeatureUnlock {
   description: string;
   /** When this feature becomes available */
   trigger: UnlockTrigger;
-  /** What Elara says when it unlocks */
+  /** Spoken text shown / voiced when the feature unlocks. Plain prose
+   *  only — no embedded `Speaker: "..."` wrapper, no asterisk stage
+   *  directions. Speaker attribution lives in `speaker`. */
   unlockMessage: string;
+  /** Who delivers `unlockMessage`. Drives both the dialog UI's speaker
+   *  chip and which character generator picks up the line for VO. When
+   *  omitted, the line is voiced by Elara (the default narrator). */
+  speaker?:
+    | "elara"
+    | "the_human"
+    | "adjudicator_locke"
+    | "the_antiquarian"
+    | "the_resurrectionist"
+    | "agent_zero"
+    | "companion";
   /** Category for grouping */
   category: "core" | "combat" | "social" | "economic" | "lore" | "endgame";
   /** Estimated play time to reach this unlock */
@@ -50,7 +63,7 @@ export const FEATURE_ROADMAP: FeatureUnlock[] = [
     unlockMessage: "The cloning pods responded to your DNA. Choose your companion." },
   { featureId: "crew_cloning", name: "Crew Cloning System", description: "Clone crew from the Collector's genetic archive. Build bloodlines.",
     trigger: { type: "narrative_flag", flag: "crew_system_unlocked" } as UnlockTrigger, category: "core", estimatedTime: "20 min",
-    unlockMessage: "Elara: 'The Resurrection Protocols are online. The incubators are ready. It's time to build a crew, Captain.'" },
+    unlockMessage: "The Resurrection Protocols are online. The incubators are ready. It's time to build a crew, Captain." },
   { featureId: "crew_activity_feed", name: "Crew Activity Feed", description: "Ambient ticker showing crew life aboard the Ark",
     trigger: { type: "narrative_flag", flag: "first_crew_member_born" } as UnlockTrigger, category: "core", estimatedTime: "25 min",
     unlockMessage: "The Ark is no longer silent. Your crew is alive — and the ship knows it." },
@@ -58,91 +71,100 @@ export const FEATURE_ROADMAP: FeatureUnlock[] = [
   // ═══ HOUR 1-2: First explorable systems ═══
   { featureId: "medical_bay_games", name: "Combat Simulator", description: "Fight game unlocks in Medical Bay",
     trigger: { type: "room_discovered", roomId: "medical_bay" } as UnlockTrigger, category: "combat", estimatedTime: "30 min",
-    unlockMessage: "Elara: 'The Medical Bay has combat diagnostic systems. Would you like to spar with a simulation?'" },
+    unlockMessage: "The Medical Bay has combat diagnostic systems. Would you like to spar with a simulation?" },
   { featureId: "loredex", name: "Loredex Database", description: "Search lore entries and history",
     trigger: { type: "room_discovered", roomId: "archives" } as UnlockTrigger, category: "lore", estimatedTime: "45 min",
-    unlockMessage: "Elara: 'The Archives database is extensive. Ask me if you find something confusing.'" },
+    unlockMessage: "The Archives database is extensive. Ask me if you find something confusing." },
 
   // ═══ HOUR 2-4: Intermediate systems ═══
   { featureId: "chess", name: "The Architect's Gambit", description: "Strategic chess on the Bridge",
     trigger: { type: "room_discovered", roomId: "bridge" } as UnlockTrigger, category: "combat", estimatedTime: "1 hour",
-    unlockMessage: "Elara: 'The Architect himself designed a chess variant. It's... educational.'" },
+    unlockMessage: "The Architect himself designed a chess variant. It's... educational." },
   { featureId: "dischordia", name: "Dischordia (Card Battles)", description: "Faction card warfare",
     trigger: { type: "room_discovered", roomId: "archives" } as UnlockTrigger, category: "combat", estimatedTime: "1 hour",
-    unlockMessage: "Elara: 'The Antiquarian has prepared something called Dischordia. Living history, he calls it.'" },
+    unlockMessage: "The Antiquarian has prepared something called Dischordia. Living history, he calls it." },
   { featureId: "quests", name: "Daily Quests", description: "Daily/weekly objectives",
     trigger: { type: "room_discovered", roomId: "bridge" } as UnlockTrigger, category: "core", estimatedTime: "1 hour",
-    unlockMessage: "Elara: 'The Bridge generates operational priorities daily. I'll track them for you.'" },
+    unlockMessage: "The Bridge generates operational priorities daily. I'll track them for you." },
   { featureId: "guild_system", name: "Syndicates", description: "Join or create a guild",
     trigger: { type: "room_discovered", roomId: "bridge" } as UnlockTrigger, category: "social", estimatedTime: "1 hour",
-    unlockMessage: "Elara: 'Other Potentials are surviving on other Arks. You can form Syndicates with them.'" },
+    unlockMessage: "Other Potentials are surviving on other Arks. You can form Syndicates with them." },
 
   // ═══ HOUR 2-4: Crew Development ═══
   { featureId: "crew_roles", name: "Crew Role Assignment", description: "Assign crew to ship roles for passive bonuses",
     trigger: { type: "narrative_flag", flag: "first_crew_member_born" } as UnlockTrigger, category: "core", estimatedTime: "1.5 hours",
-    unlockMessage: "Elara: 'Your crew needs assignments. Each role strengthens the ship — and every empty seat is a vulnerability.'" },
+    unlockMessage: "Your crew needs assignments. Each role strengthens the ship — and every empty seat is a vulnerability." },
   { featureId: "crew_breeding", name: "Bloodline Continuation", description: "Breed crew members to create next-generation offspring with inherited traits",
     trigger: { type: "narrative_flag", flag: "crew_generation_2" } as UnlockTrigger, category: "core", estimatedTime: "3 hours",
-    unlockMessage: "The Resurrectionist: 'Your crew has reached maturity. The bloodlines can continue. Children inherit their parents' strengths — and weaknesses.'" },
+    unlockMessage: "Your crew has reached maturity. The bloodlines can continue. Children inherit their parents' strengths — and weaknesses.",
+    speaker: "the_resurrectionist" },
   { featureId: "crew_missions", name: "Crew Mission Dispatch", description: "Send crew on Trade Empire missions. They may not come back.",
     trigger: { type: "room_discovered", roomId: "trade_hub" } as UnlockTrigger, category: "economic", estimatedTime: "4 hours",
-    unlockMessage: "Elara: 'The Trade Empire needs boots on the ground. Your crew can staff these missions. But Captain... missions have consequences.'" },
+    unlockMessage: "The Trade Empire needs boots on the ground. Your crew can staff these missions. But Captain... missions have consequences." },
 
   // ═══ HOUR 4-8: Deeper systems ═══
   { featureId: "crafting", name: "Research Lab", description: "Craft items and cards",
     trigger: { type: "room_discovered", roomId: "engineering" } as UnlockTrigger, category: "economic", estimatedTime: "2 hours",
-    unlockMessage: "Elara: 'Engineering has fabrication systems. What you can imagine, you can build.'" },
+    unlockMessage: "Engineering has fabrication systems. What you can imagine, you can build." },
   { featureId: "conexus_portal", name: "Antiquarian's Library", description: "Interactive story games",
     trigger: { type: "room_discovered", roomId: "comms_array" } as UnlockTrigger, category: "lore", estimatedTime: "2 hours",
-    unlockMessage: "Elara: 'The Comms Array is receiving strange transmissions. The Antiquarian calls them \"tomes.\" I don't know what that means yet.'" },
+    unlockMessage: "The Comms Array is receiving strange transmissions. The Antiquarian calls them \"tomes.\" I don't know what that means yet." },
   { featureId: "observation_deck_music", name: "Music Library", description: "Saga soundtrack + transmissions",
     trigger: { type: "room_discovered", roomId: "observation_deck" } as UnlockTrigger, category: "lore", estimatedTime: "2 hours",
-    unlockMessage: "Elara: 'The Observation Deck receives music. Not songs exactly. Scripture.'" },
+    unlockMessage: "The Observation Deck receives music. Not songs exactly. Scripture." },
 
   // ═══ HOUR 8-15: Specialized systems ═══
   { featureId: "trade_empire", name: "Trade Empire", description: "Galactic commerce",
     trigger: { type: "room_discovered", roomId: "trade_hub" } as UnlockTrigger, category: "economic", estimatedTime: "4 hours",
-    unlockMessage: "Elara: 'Adjudicator Locke is... insistent. She wants to show you the Trade Hub. I'd be cautious.'" },
+    unlockMessage: "Adjudicator Locke is... insistent. She wants to show you the Trade Hub. I'd be cautious." },
   { featureId: "casino", name: "The Degen's Casino", description: "Gambling in Ne-Yon space",
     trigger: { type: "trust_reached", npcId: "adjudicator_locke", min: 30 } as UnlockTrigger, category: "economic", estimatedTime: "5 hours",
-    unlockMessage: "Locke: 'I've made arrangements. Ne-Yon space is closed to outsiders — except for The Degen's Casino. The host is... unusual. His eyes are older than they should be. She can get you in. For a finder's fee.'" },
+    unlockMessage: "I've made arrangements. Ne-Yon space is closed to outsiders — except for The Degen's Casino. The host is... unusual. His eyes are older than they should be. She can get you in. For a finder's fee.",
+    speaker: "adjudicator_locke" },
   { featureId: "dead_mans_circuit", name: "Dead Man's Circuit", description: "Seasonal kart racing in The Trench",
     trigger: { type: "narrative_flag", flag: "casino_first_visit" } as UnlockTrigger, category: "combat", estimatedTime: "15 hours",
-    unlockMessage: "Locke: 'There's something else on the lower decks. The Hierarchy runs races. Real races. With real consequences. Nilmorg's operation. Don't say I didn't warn you.'" },
+    unlockMessage: "There's something else on the lower decks. The Hierarchy runs races. Real races. With real consequences. Nilmorg's operation. Don't say I didn't warn you.",
+    speaker: "adjudicator_locke" },
   { featureId: "terminus_swarm", name: "Terminus Swarm", description: "Tower defense combat",
     trigger: { type: "room_discovered", roomId: "armory" } as UnlockTrigger, category: "combat", estimatedTime: "5 hours",
-    unlockMessage: "Agent Zero: '*static* The Armory's defense grid is operational. Someone should stress-test it. Someone like you.'" },
+    unlockMessage: "The Armory's defense grid is operational. Someone should stress-test it. Someone like you.",
+    speaker: "agent_zero" },
 
   // ═══ HOUR 15-25: Advanced systems ═══
   { featureId: "gamemasters_arena", name: "The Gamemaster's Arena", description: "Deadly lore quiz show",
     trigger: { type: "trust_reached", npcId: "the_antiquarian", min: 40 } as UnlockTrigger, category: "lore", estimatedTime: "10 hours",
-    unlockMessage: "The Antiquarian: 'The Game Master left his world running. A clone hosts the show. You should see it. Bring a disposable clone body.'" },
+    unlockMessage: "The Game Master left his world running. A clone hosts the show. You should see it. Bring a disposable clone body.",
+    speaker: "the_antiquarian" },
   { featureId: "voltari_project", name: "Voltari Translation Project", description: "Community-decode alien language",
     trigger: { type: "quests_completed", count: 20 } as UnlockTrigger, category: "lore", estimatedTime: "15 hours",
-    unlockMessage: "Elara: 'Deep scan detected something impossible. A purple planet. A 2-million-year-old signal. It's language. It's been waiting for us.'" },
+    unlockMessage: "Deep scan detected something impossible. A purple planet. A 2-million-year-old signal. It's language. It's been waiting for us." },
   { featureId: "pet_battles", name: "Pet Battles (Spectator)", description: "Watch your companions fight",
     trigger: { type: "narrative_flag", flag: "specimen_evolution_stage_2" } as UnlockTrigger, category: "combat", estimatedTime: "15 hours",
-    unlockMessage: "Your companion: '*thinks hard* I want to fight for you. Not against you. FOR you. Take me to the Arena.'" },
+    unlockMessage: "I want to fight for you. Not against you. FOR you. Take me to the Arena.",
+    speaker: "companion" },
   { featureId: "alliance_war", name: "Alliance Wars", description: "Guild vs guild hex-grid battles",
     trigger: { type: "level_reached", level: 15 } as UnlockTrigger, category: "social", estimatedTime: "20 hours",
-    unlockMessage: "Elara: 'Other Syndicates are challenging yours. Formal war declared. I've opened the tactical hex map.'" },
+    unlockMessage: "Other Syndicates are challenging yours. Formal war declared. I've opened the tactical hex map." },
   { featureId: "incursions", name: "Co-op Incursions", description: "Team dungeon crawling",
     trigger: { type: "level_reached", level: 12 } as UnlockTrigger, category: "combat", estimatedTime: "15 hours",
-    unlockMessage: "The Human: 'I've been scanning for anomalies. There are pocket dimensions forming near the Ark. Dangerous. Bring a friend.'" },
+    unlockMessage: "I've been scanning for anomalies. There are pocket dimensions forming near the Ark. Dangerous. Bring a friend.",
+    speaker: "the_human" },
 
   // ═══ HOUR 25+: Endgame systems ═══
   { featureId: "prestige", name: "Prestige System", description: "Reset for permanent multipliers",
     trigger: { type: "level_reached", level: 25 } as UnlockTrigger, category: "endgame", estimatedTime: "25 hours",
-    unlockMessage: "The Antiquarian: 'You've reached the cycle's end. But you can choose to begin again — stronger, faster, remembering.'" },
+    unlockMessage: "You've reached the cycle's end. But you can choose to begin again — stronger, faster, remembering.",
+    speaker: "the_antiquarian" },
   { featureId: "bounties", name: "Bounty Board", description: "Witcher-style investigation contracts",
     trigger: { type: "trust_reached", npcId: "adjudicator_locke", min: 50 } as UnlockTrigger, category: "social", estimatedTime: "10 hours",
-    unlockMessage: "Locke: 'I've been sitting on contracts. You've earned the right to see them. Some pay well. Some... pay differently.'" },
+    unlockMessage: "I've been sitting on contracts. You've earned the right to see them. Some pay well. Some... pay differently.",
+    speaker: "adjudicator_locke" },
   { featureId: "bestiary", name: "Bestiary", description: "Discovered enemy codex",
     trigger: { type: "narrative_flag", flag: "first_fight_won" } as UnlockTrigger, category: "lore", estimatedTime: "2 hours",
-    unlockMessage: "Elara: 'I've compiled a file on every enemy you've defeated. Patterns emerge. Weaknesses. Lore.'" },
+    unlockMessage: "I've compiled a file on every enemy you've defeated. Patterns emerge. Weaknesses. Lore." },
   { featureId: "necromancer_return", name: "The Necromancer Returns", description: "Server-wide resurrection event",
     trigger: { type: "narrative_flag", flag: "necromancer_manifested" } as UnlockTrigger, category: "endgame", estimatedTime: "50+ hours",
-    unlockMessage: "Elara: '*static* Something is WRONG. The energy signatures... *the transmission cuts out* He's HERE. The 11th Archon has returned. All Arks, report.'" },
+    unlockMessage: "Something is wrong. The energy signatures — He's here. The 11th Archon has returned. All Arks, report." },
 ];
 
 /* ─── CHECK IF FEATURE UNLOCKED ─── */

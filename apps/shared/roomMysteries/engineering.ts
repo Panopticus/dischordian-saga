@@ -214,7 +214,7 @@ export const ENGINEERING_MYSTERY: RoomMysteryModule<EngineeringHotspotId, Engine
       },
       talk: {
         narration:
-          "Elara: \"The core hums in B-flat. It always has. Every engineer who worked here learned to detect the bleed by listening for the half-tone drift. Today's hum is one-eighth flat of nominal — closer than the readout suggests, slower than the panel says. The core is steadier than its instruments. Address it; it knows you are here. — There is also a small acoustic signature in the reactor's standing pulse that does not belong to the core itself: a drift pattern matching, on direct comparison, the drift of every Variant Recording the Seer ever made. Whoever engineered the reactor's standing pulse is the same engineer who engineered the recordings. Vex Solène, on every front, on every project, leaving the same fingerprint.\"",
+          "The core hums in B-flat. It always has. Every engineer who worked here learned to detect the bleed by listening for the half-tone drift. Today's hum is one-eighth flat of nominal — closer than the readout suggests, slower than the panel says. The core is steadier than its instruments. Address it; it knows you are here. — There is also a small acoustic signature in the reactor's standing pulse that does not belong to the core itself: a drift pattern matching, on direct comparison, the drift of every Variant Recording the Seer ever made. Whoever engineered the reactor's standing pulse is the same engineer who engineered the recordings. Vex Solène, on every front, on every project, leaving the same fingerprint.",
         voId: "elara.engineering.reactor-core.talk",
         // Seer arc binding — the acoustic signature drift in the
         // reactor's hum is the cross-medium fingerprint that
@@ -276,7 +276,7 @@ export const ENGINEERING_MYSTERY: RoomMysteryModule<EngineeringHotspotId, Engine
       },
       talk: {
         narration:
-          "Elara: \"The unsigned one is the one we should be worried about. Whoever finished it didn't want their name on it. That is rarely a generous instinct. — A side-shelf below the schematics holds Brel'Sorrash's practice edit-drafts. Brel is the junior auditor on Velkraal's Goggles-section shortlist. She has been practising — quietly, without official sanction — by writing edits she does not commit. The drafts are read-don't-edit, every one of them. She is rehearsing the protocol she intends to install when she takes over.\"",
+          "The unsigned one is the one we should be worried about. Whoever finished it didn't want their name on it. That is rarely a generous instinct. — A side-shelf below the schematics holds Brel'Sorrash's practice edit-drafts. Brel is the junior auditor on Velkraal's Goggles-section shortlist. She has been practising — quietly, without official sanction — by writing edits she does not commit. The drafts are read-don't-edit, every one of them. She is rehearsing the protocol she intends to install when she takes over.",
         voId: "elara.engineering.blueprints.talk",
         // Game Master arc — Brel's practice edit drafts, read-don't-
         // edit. game_master.e3.brels_existing_edit_drafts.
@@ -393,7 +393,7 @@ export const ENGINEERING_MYSTERY: RoomMysteryModule<EngineeringHotspotId, Engine
       },
       talk: {
         narration:
-          "Elara: \"Address the bench and you address every job that was ever started here and finished elsewhere. The bench was Lyra's, but the bench has had dozens of users. The fusion socket waits for two cards. The components wait for a welder. The bench is, in its quiet way, asking whether we are the engineer or the visitor. Either is allowed. — Pinned to the bench's tool-rest is Brel'Sorrash's observation protocol — the procedure she will use during Velkraal's final session. The protocol is exhaustive: when to look, when to speak, when to inscribe a witness signature, when to file a marginal note. The protocol's cover note: 'I will be the witness who reads the Goggles with him on the day he stops reading them. I will not edit. I will record. The Goggles will continue.'\"",
+          "Address the bench and you address every job that was ever started here and finished elsewhere. The bench was Lyra's, but the bench has had dozens of users. The fusion socket waits for two cards. The components wait for a welder. The bench is, in its quiet way, asking whether we are the engineer or the visitor. Either is allowed. — Pinned to the bench's tool-rest is Brel'Sorrash's observation protocol — the procedure she will use during Velkraal's final session. The protocol is exhaustive: when to look, when to speak, when to inscribe a witness signature, when to file a marginal note. The protocol's cover note: 'I will be the witness who reads the Goggles with him on the day he stops reading them. I will not edit. I will record. The Goggles will continue.'",
         voId: "elara.engineering.crafting-bench.talk",
         // Game Master arc — Brel's observation protocol for Velkraal's
         // final session. game_master.e4.brel_observation_protocol.
@@ -454,7 +454,7 @@ export const ENGINEERING_MYSTERY: RoomMysteryModule<EngineeringHotspotId, Engine
       },
       talk: {
         narration:
-          "Elara: \"You can address the formula but it doesn't address back. Math, in our universe, is the one language nothing edits. The Ψ-null term will read the same, in any era, in any hand. That is, in this case's economy, the closest thing we have to a sealed-cabinet original. The reactor housing is the cabinet's glass.\"",
+          "You can address the formula but it doesn't address back. Math, in our universe, is the one language nothing edits. The Ψ-null term will read the same, in any era, in any hand. That is, in this case's economy, the closest thing we have to a sealed-cabinet original. The reactor housing is the cabinet's glass.",
         voId: "elara.engineering.egg-eng-formula.talk",
       },
     },
