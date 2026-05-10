@@ -49,6 +49,15 @@ function LivingUniverseSyncWatcher() {
   useLivingUniverseSync();
   return null;
 }
+
+/** Side-effect-only watcher — fires the
+ *  cutscene_first_human_contact_triggered flag when the player's
+ *  human trust crosses 10 or they first visit the Bridge. The base
+ *  cutscene was declared but never fired in code; this closes that gap. */
+function FirstHumanContactTriggerWatcher() {
+  useFirstHumanContactTrigger();
+  return null;
+}
 import CompanionHost from "./companion/CompanionHost";
 import { WatcherHost } from "./companion/WatcherHost";
 import { setContext as setCompanionContext } from "./companion/companionScheduler";
@@ -67,6 +76,7 @@ import { ChapterIntroRouter } from "./components/cutscenes/ChapterIntroRouter";
 import { ConfessionCloseRouter } from "./components/cutscenes/ConfessionCloseRouter";
 import { WheelReactionRouter } from "./components/cutscenes/WheelReactionRouter";
 import { EventRevealRouter } from "./components/cutscenes/EventRevealRouter";
+import { useFirstHumanContactTrigger } from "./hooks/useFirstHumanContactTrigger";
 import { DailyRewardPopup } from "./components/DailyRewards";
 import RadioMode from "./components/RadioMode";
 import EasterEggs from "./components/EasterEggs";
@@ -831,6 +841,7 @@ function GameGate() {
       <RecruitAlignmentBadge />
       <HellboxDiscoveryWatcher />
       <LivingUniverseSyncWatcher />
+      <FirstHumanContactTriggerWatcher />
       {sortingTrigger.shouldTrigger && sortingTrigger.skillId && (
         <SortingCeremony skillId={sortingTrigger.skillId} onComplete={handleSortingComplete} />
       )}
