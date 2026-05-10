@@ -99,9 +99,35 @@ Quarantine spread). The per-room §2 entries declare which axes are
 | 6 | **Morality / dominance** | `vortex_endgame_*`, dischordia cycle energy | light / balanced / dark | rim-light shift, accent palette substitution (warm-gold ↔ phosphor-lavender ↔ Authority-red) |
 | 7 | **System unlock** | mech-tutor flags, prestige cycle, battle-pass tier | 13+ mech tutors, ∞ prestige | a launcher panel becomes visible, tooled-bench gains tools, terminal gains tabs |
 | 8 | **Lore discovery** | Loredex entries, transmission watches, room-mystery clues | per-entry | environmental tells (etched sigil, pinned letter, photograph), no UI |
+| 9 | **Thought Virus infection** | `contaminatedRooms[]` adjacency-graph propagation | 5 stages per-room (clean / exposed / spreading / corrupted / quarantined) | voidblack at vents → mycelium creep → walls breathe → biohazard tape → sealed-X (see §9 NOTES) |
+| 10 | **Governance modifier** | `worldModifiers` table + `npc_public_flags` | 4 brackets globally (none / single-modifier / stacked-modifiers / quorum-failure) | UI-edge particles (gold for buff, indigo for debuff), NPC dialog-flag readouts |
+| 11 | **Epoch witness** | `epochWitnessService` global state | 5 epochs (privacy / prophecy / insurgency / revelation / fall) + ShadowTongue power 0–100 + `grandEditActive` | indigo marginalia overlay on text surfaces; epoch-sigil glyphs on archive walls |
+| 12 | **Cycle phase** | `dischordiaCycle` light/dark balance | 3 phases globally (dawn / dimming / long-night) | ambient light temperature ±300K (see §3.4); accent palette drift |
+| 13 | **Battle-pass theme** | `battlePassSeasons` + theme cosmetic bundle | one per active 60d season (shadow-convergence, chrono-harvest, etc.) | per-season particle layer + accent overlay (≤5% of frame) |
+| 14 | **Tournament window** | `circuitPvpMatches` + `fightLeaderboard` | 4 windows globally (off-season / qualifier / finals / champion-anointed) | bracket panels, champion-NPC presence in tournament rooms |
+| 15 | **Investigation tier (4-state art)** | per-room mystery flags | 4 tiers per room (initial / investigating / partial-resolved / case-closed) | yellow tape → cyan tape + exhibit cart → tape removed + closure object (see §3.8) |
+| 16 | **Prestige cycle** | `prestigeProgress` | per-player (cycle 0/1/2/3+) | per-room rim trim line: gold/platinum/diamond/obsidian-prism (see §3.2.2) |
+| 17 | **Arc episode** | `playerMysteryChoices` + arc-episode flags | per-NPC, per-room (episodes 1–5 of 6 arcs) | clue-binding marks on hotspots (see §5 Mystery Atlas — to be authored) |
 
-A ninth **real-world seasonal** overlay (§10) sits on top of all of
-these and is wallpaper-thin: a cosmetic delta of ≤5% of the frame.
+(Axes 9–17 added in scope-expansion. Axis 2 *Investigation tier*
+remains as the canonical per-room investigation gradient; axis 15
+specifically tracks the **4-state art tier** for the 24 rooms still
+needing tier prompts per §3.8.)
+
+A real-world seasonal overlay (§10 — IRL-season) sits on top of all
+of these and is wallpaper-thin: a cosmetic delta of ≤5% of the
+frame.
+
+**Axis priority resolver** (when multiple axes change between
+adjacent renders, only one State Layer delta is rendered per
+recreation — this is the order):
+
+```
+act > investigation > arc-episode > infection > governance >
+epoch > faction > battle-pass-theme > season > cycle-phase >
+tournament > prestige-cycle > trust > morality > unlock >
+discovery > IRL-season
+```
 
 ### 0.3 The five layer architecture
 
@@ -3591,6 +3617,140 @@ to read all equipped layers in real-time (today it reads only
 on mount). Add a subscription to
 `equippedCosmetics.subscribe()` so changes propagate without a
 page refresh.
+
+---
+
+### 3.12 Hellbox Atlas
+
+**Cosmology lock.** Hellboxes are diegetic portals into "parts
+of the Matrix of the Dreams." They are *not* doors, *not*
+elevators, *not* teleporters in the hard-tech sense — they are
+**named breaches** between the Ark's physical interior and a
+specific named pocket in the dream-substrate. Each Hellbox has
+exactly three required artefacts in the production doc: a
+**discovery scene**, a **room-state appearance**, and an
+**opening cutscene**. Three Hellboxes are documented today.
+Future Hellboxes (1–N) follow the same three-artefact
+contract.
+
+#### 3.12.1 Hellbox 1 — Medical Bay → (Hellbox launcher modal)
+
+**Status:** existing in §2.2 Medical Bay; documented inline.
+This entry hardens the spec to match Hellboxes 2 and 3.
+
+**Discovery scene:** the player examines the Med Bay's
+restricted-section panel for the first time after
+`medbay_device_awakened`. The panel slides aside; behind it,
+the original Hellbox surface (per §2.2) is revealed.
+
+**Room-state appearance:** the Hellbox surface is a 1.6 m
+violet mirror set into the bay wall, framed with brass; when
+inactive, it reflects the bay; when active, it shows the
+Matrix-pocket destination at half-opacity.
+
+**Opening cutscene:** `cs_hellbox_1_open` (~6 s). Player
+approaches; mirror's brass frame flares once; the violet
+surface ripples once, then resolves to a rendered "view-into"
+of the Matrix-pocket; the player walks through. End frame:
+the player on the other side, looking back at the now-still
+mirror.
+
+#### 3.12.2 Hellbox 2 — Hierarchy Throne Sanctum → Castle of Death
+
+**Status:** unbuilt; spec'd here. Located in §2.22 (to be
+authored).
+
+**Discovery scene:** plays once when player enters Hierarchy
+Throne Sanctum after `faction:championed:hierarchy` AND
+holds ≥1 violet soul stone. The throne's left armrest gives
+way to reveal a recess; from the recess, a second Hellbox
+surface manifests in the floor at the foot of the throne — a
+ring of black obsidian flake, ~2 m diameter, with a violet
+event horizon at its centre.
+
+**Room-state appearance:**
+- `STATE — hellbox_2 latent:` *the throne's left armrest is
+  intact; floor at the throne's foot is unmarked.*
+- `STATE — hellbox_2 manifest:` *armrest gives way; obsidian-
+  flake ring is etched into the floor; centre of the ring
+  shows a violet event horizon at half-opacity.*
+- `STATE — hellbox_2 active:` *event horizon at full opacity;
+  the Matrix-pocket "view-into" of Castle of Death visible
+  through the ring.*
+
+**Opening cutscene:** `cs_hellbox_2_open` (~10 s). Player kneels
+at the throne's foot, places a violet soul stone on the
+obsidian ring; the ring's centre opens; the player descends
+through the event horizon. End frame: the player standing in
+Castle of Death's central chamber, the obsidian ring visible
+above them as a ceiling oculus. Per universal cutscene
+direction (§3.1): no music, ≤1 short VO sentence (none here),
+SFX-driven (obsidian-grind, single ring-flare tone, footstep
+on basalt).
+
+**Return path:** the obsidian-ring oculus above the player in
+the Castle of Death pocket is a re-entry hotspot; examining
+it returns the player to the Hierarchy Throne Sanctum
+(reverse cutscene `cs_hellbox_2_close`, ~5 s).
+
+#### 3.12.3 Hellbox 3 — Celebration School → Artist Prince Conspiracy Board
+
+**Status:** unbuilt; spec'd here. The pocket destination is
+the Celebration School's conspiracy-board chamber, where the
+8-clue + 5-connection LucasArts-style board is staged (see
+NOTES §12.4 Mystery Atlas).
+
+**Discovery scene:** plays once when the player completes the
+Bridge Conspiracy Board's first connection AND has read at
+least one Antiquarian-Library lore-tome. The Bridge's tactical
+display flickers; on its surface, a small chalk-mark appears
+in the centre — a child's drawing of a school courtyard. The
+chalk mark is a hotspot. Examining it for the third time
+opens Hellbox 3 in front of the player on the Bridge floor.
+
+**Room-state appearance (Bridge):**
+- `STATE — hellbox_3 chalk-mark:` *the tactical display
+  carries a small chalk-mark of a school courtyard at its
+  centre; otherwise the Bridge is canonical.*
+- `STATE — hellbox_3 manifest:` *a chalk-mark on the Bridge
+  floor at the player's feet, ~1 m diameter, drawn in white
+  and gold; it shimmers faintly.*
+- `STATE — hellbox_3 active:` *the chalk-mark's centre opens
+  to a rendered "view-into" of a sunlit school courtyard;
+  the chalk lines around the opening shimmer brighter.*
+
+**Opening cutscene:** `cs_hellbox_3_open` (~12 s). The player
+steps into the chalk circle; the Bridge fades to white; the
+player is in a daylit Celebration School courtyard, the
+conspiracy board on a brass easel ahead of them. End frame:
+the conspiracy board mid-frame, 8 clue cards arrayed but only
+the first card lit. SFX: chalk-on-slate, distant child's
+laugh (single, brief, cut short), playground swing creak,
+single bird call.
+
+**Return path:** examining the easel's underside reveals a
+small brass rotary; turning it returns the player to the
+Bridge with the chalk-mark dimmed (reverse cutscene
+`cs_hellbox_3_close`, ~6 s).
+
+#### 3.12.4 Future Hellboxes — naming + contract
+
+When new Hellboxes are added (post-launch expansions, new
+factions, new dream-pockets), each one MUST gain:
+
+1. A canonical numbered name (`Hellbox <N>`) and a Matrix-pocket
+   destination name.
+2. A discovery scene with explicit unlock conditions.
+3. A room-state appearance with the **three-state pattern**:
+   latent / manifest / active.
+4. An opening cutscene `cs_hellbox_<N>_open` and a closing
+   cutscene `cs_hellbox_<N>_close`, both following §3.1
+   universal direction.
+5. An entry in this Atlas (§3.12.4+).
+
+Hellbox count is enforced as part of the verification grep
+(see plan): doc must reference exactly the Hellboxes
+documented in this Atlas and no orphans.
 
 ---
 
