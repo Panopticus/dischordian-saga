@@ -4741,23 +4741,580 @@ streaming_behaviour:
 
 ---
 
-## A.10 Cargo Hold — SCAFFOLDED
+## A.10 Cargo Hold — FULL
+
+**Status: FULL spec.** Cross-ref: `INCEPTION_ARK_FINAL_PRODUCTION.md`
+§2.10 (art-state prompts).
+
+### A.10.1 Header
 
 ```
 space_id:        ark.cargo_hold
 space_name:      Cargo Hold
 space_type:      ark_room
 act_introduced:  Act 2
-lore_anchor:     loredex.system.cargo + arc.trade_economy
-aesthetic_tier:  solar_punk_cathedral  (warehouse-industrial)
-dimensions:      24.00 m × 16.00 m × 8.00 m  (vast)
-floor_plan_geometry: rectangular  (with crane gantry overhead)
+lore_anchor:     loredex.system.cargo + arc.trade_economy + arc.act_2_first_cargo_inventory
+aesthetic_tier:  solar_punk_cathedral  (warehouse-industrial; the Ark's largest interior)
 ```
 
-Vast warehouse; cargo crates; crane gantry; freight-elevator to
-Trade Hub. Per §2.10.
+### A.10.2 Geometry
 
-(Full spec deferred.)
+```
+dimensions:           24.00 m × 16.00 m × 8.00 m
+origin_point:         centre of floor at south entrance threshold
+coordinate_axes:      +x = right, +y = forward, +z = up
+floor_plan_geometry:  rectangular  (with overhead crane gantry running east-west at z = 7.00)
+volumetric_anomalies: none
+```
+
+The Cargo Hold is the Ark's largest single interior. Vast warehouse
+with crates, freight equipment, and a crane gantry overhead.
+Freight elevator at the north end leads to the Trade Hub.
+Players visit here for trade-economy interactions and for
+cross-room transit (Forge Workshop's exhaust hatch, etc.).
+
+Floor area: 384 m².
+
+### A.10.3 Floor
+
+```
+material_primary:     industrial steel deck plate (heavy-duty load-bearing); 1.50 m × 1.50 m panels; 6 mm gap; reinforced anti-skid texture for cargo handling
+material_secondary:   bronze trim along forklift-paths (grid pattern indicating safe routes); brass perimeter trim
+pattern:              load-bearing grid + bronze forklift-route inlay (3 main routes: south-to-elevator, east-to-forge-exhaust, west-to-trade-hub-corridor)
+wear_state:           well-used; oil-stains around freight zones; tire-tread marks along forklift routes; in late-act, scorch-marks if cargo has been damaged
+embedded_features:
+  - id: ark.cargo_hold.floor.charge_point.crane
+    position: (0.00, 8.00, 0.00)  # under crane gantry centre
+    dimensions: 0.40 × 0.40 × 0.05
+    function: crane gantry power
+  - id: ark.cargo_hold.floor.charge_point.elevator
+    position: (0.00, 15.00, 0.00)  # north freight elevator
+    dimensions: 2.00 × 2.00 × 0.10
+    function: elevator base
+  - id: ark.cargo_hold.floor.drain.south
+    position: (0.00, 1.00, 0.00)
+    dimensions: 0.40 × 0.40 × 0.10
+    function: cargo-fluid drainage
+  - id: ark.cargo_hold.floor.drain.north
+    position: (0.00, 15.00, 0.00)
+    dimensions: 0.40 × 0.40 × 0.10
+    function: drainage at elevator
+  - id: ark.cargo_hold.floor.crate_anchor.<grid>  (24 crate-anchor grid points)
+    position: distributed in 4×6 grid (every 4 m × 4 m)
+    dimensions: 0.30 × 0.30 × 0.05 each
+    function: secured cargo anchor points
+acoustic_property:    hard_reflective with industrial echo; RT60 = 0.85s (long; warehouse character)
+```
+
+### A.10.4 Walls
+
+#### Wall: South (entrance)
+
+```
+wall_id:              south
+material_primary:     painted steel panel with industrial reinforcement; gunmetal-grey
+material_secondary:   bronze dado at z = 1.20 m
+panelisation:         standard
+colour_value:         --token-color-ark-cargo-hold-wall-south  (gunmetal-grey + amber-warning pin-stripe at z = 2.00 m)
+embedded_displays:
+  - id: ark.cargo_hold.south.display.cargo_manifest
+    position: (-4.00, 0.20, 1.80)
+    dimensions: 1.40 × 0.80 × 0.05
+    content: live cargo inventory
+  - id: ark.cargo_hold.south.display.shipping_log
+    position: (4.00, 0.20, 1.80)
+    dimensions: 1.40 × 0.80 × 0.05
+    content: incoming/outgoing shipping log
+embedded_doors:
+  - door_id: ark.cargo_hold.south.door.main
+    position: (0.00, 0.00, 0.00)
+    dimensions: 2.00 × 3.00 × 0.10  (wider — cargo door)
+    door_class: slide
+    connecting_space_id: ark.corridor.cargo_approach
+decorative_features:
+  - id: ark.cargo_hold.south.plaque.mission
+    position: (0.00, 0.20, 3.20)
+    dimensions: 1.20 × 0.40 × 0.02
+    material: cast bronze
+    narrative_role: reads "WHAT WE CARRY, WE BECOME"
+  - id: ark.cargo_hold.south.warning_sign.heavy_load
+    position: (5.00, 0.20, 3.50)
+    dimensions: 0.40 × 0.30 × 0.01
+    material: yellow-and-black painted steel
+    narrative_role: heavy-load warning
+```
+
+#### Wall: East (with forge-exhaust hatch + workshop access)
+
+```
+wall_id:              east
+material_primary:     painted steel; reinforced
+material_secondary:   bronze dado
+panelisation:         standard
+colour_value:         --token-color-ark-cargo-hold-wall-east
+embedded_displays:    none
+embedded_doors:
+  - door_id: ark.cargo_hold.east.hatch.forge_exhaust
+    position: (7.95, 4.00, 0.40)  # low hatch from forge
+    dimensions: 0.80 × 1.40 × 0.10
+    door_class: slide
+    connecting_space_id: ark.forge_workshop  (Forge's north exhaust)
+    unlock_condition: Act 3+
+  - door_id: ark.cargo_hold.east.door.maintenance
+    position: (7.95, 12.00, 0.00)
+    dimensions: 1.40 × 2.40 × 0.10
+    door_class: slide
+    connecting_space_id: ark.corridor.cargo_maintenance  (deferred)
+    unlock_condition: late-act
+decorative_features:
+  - id: ark.cargo_hold.east.warning_sign.machinery
+    position: (7.95, 8.00, 4.50)
+    dimensions: 0.40 × 0.30 × 0.01
+    material: yellow-and-black painted steel
+    narrative_role: machinery-active warning
+```
+
+#### Wall: North (with freight elevator)
+
+```
+wall_id:              north
+material_primary:     painted steel; reinforced
+material_secondary:   bronze dado
+panelisation:         standard
+colour_value:         --token-color-ark-cargo-hold-wall-north
+embedded_displays:
+  - id: ark.cargo_hold.north.display.elevator_status
+    position: (0.00, 15.95, 1.80)
+    dimensions: 1.20 × 0.80 × 0.05
+    content: elevator position + payload + arrival ETA
+embedded_doors:
+  - door_id: ark.cargo_hold.north.elevator.freight
+    position: (0.00, 15.50, 0.00)
+    dimensions: 2.40 × 3.40 × 0.10
+    door_class: slide  (large freight elevator door)
+    connecting_space_id: ark.trade_hub
+    unlock_condition: Act 2+
+decorative_features:
+  - id: ark.cargo_hold.north.elevator_frame
+    position: (0.00, 15.95, 0.00)
+    dimensions: 3.00 × 0.10 × 4.50  (frame around elevator)
+    material: cast iron + brass trim
+    narrative_role: structural + aesthetic frame
+```
+
+#### Wall: West (with trade-hub corridor access)
+
+```
+wall_id:              west
+material_primary:     same as east
+material_secondary:   bronze dado
+panelisation:         standard
+colour_value:         --token-color-ark-cargo-hold-wall-west
+embedded_displays:    none
+embedded_doors:
+  - door_id: ark.cargo_hold.west.door.trade_corridor
+    position: (-7.95, 8.00, 0.00)  # mid-wall
+    dimensions: 1.60 × 2.40 × 0.10
+    door_class: slide
+    connecting_space_id: ark.corridor.trade_long_route  (alternate route to Trade Hub)
+    unlock_condition: Act 2+
+decorative_features:
+  - id: ark.cargo_hold.west.warning_sign.crane
+    position: (-7.95, 8.00, 4.50)
+    dimensions: 0.40 × 0.30 × 0.01
+    material: yellow-and-black painted steel
+    narrative_role: overhead-crane warning
+```
+
+### A.10.5 Ceiling
+
+```
+height_above_floor:     8.00 m baseline; crane gantry track at z = 7.00 (visible structural element)
+material:               exposed steel framework with industrial conduits + crane rails
+lighting_integrated:    suspended high-bay fixtures at z = 7.50 on 3.00 × 3.00 grid (excluding crane-rail zones)
+atmospheric_features:   visible dust drift in light shafts; occasional cargo-particles from transferred goods
+acoustic_treatment:     mostly bare-steel (industrial; intentional reverb)
+```
+
+### A.10.6 Lighting
+
+```
+ambient_baseline:     4500 K (cool-neutral; warehouse); 200 lux at floor level; CRI 85
+direct_fixtures:
+  - id: ark.cargo_hold.light.high_bay_array
+    position: distributed at z = 7.50 on 3.00 × 3.00 grid
+    beam_angle: 90°
+    colour: --token-color-ark-cargo-hold-high-bay  (cool industrial)
+    intensity: 6000 lumens each
+    function: ambient lighting (warehouse scale demands strong fixtures)
+  - id: ark.cargo_hold.light.crane_gantry_strip
+    position: along crane gantry track at z = 7.00
+    beam_angle: 60° downward
+    colour: --token-color-ark-cargo-hold-crane-strip  (cool tactical)
+    intensity: 800 lumens per metre
+    function: gantry definition + safety
+  - id: ark.cargo_hold.light.elevator_warning_strobe
+    position: (0.00, 15.50, 4.00)  # at elevator
+    beam_angle: 360°
+    colour: amber
+    intensity: 500 lumens (during elevator motion)
+    flicker_pattern: cyclic-strobe
+practical_sources:
+  - id: ark.cargo_hold.crate_indicator_light.<grid>
+    position: at each crate-anchor with secured cargo
+    intensity: 30 lumens (varies by crate-status)
+    flicker_pattern: stable
+time_of_day_variation:
+  acts_2_to_7: stable; in alert states, all warning strobes activate
+dynamic_response:
+  - on_elevator_motion: elevator_warning_strobe activates
+  - on_crane_motion: localised gantry lights pulse
+  - on_player_at_specific_crate: indicator_light brightens
+```
+
+### A.10.7 Atmosphere
+
+```
+air_temperature:    18°C (cool — warehouse standard)
+humidity:           45% RH; smells of cardboard + grease + steel + mild ozone (electronic shipping)
+particulate:
+  - dust: medium (warehouse accumulation)
+  - cargo_particles: low (cosmetic; suggests "things being moved")
+volumetric_fog:     absent in baseline; mild haze at upper volume during heavy-cargo days
+wind_drift:         strong; 0.30 m/s; HVAC-driven from south to north toward elevator
+smell_canon:        cardboard + grease + steel; voice-line: "smells like waiting"
+```
+
+### A.10.8 Sound
+
+```
+ambient_bed:           file: cargo_hold_ambient_bed_v1.ogg (loop); -28 dB; deep HVAC drone, distant cargo-hum, occasional creak from settling cargo, faint elevator-cycle in distance
+point_sources:
+  - sound.crane_gantry_idle: at gantry; servo-quiet hum; -38 dB; continuous
+  - sound.elevator_motion: at elevator; mechanical engagement; -22 dB during motion
+  - sound.crate_settling: distributed; occasional creak; random; -36 dB
+  - sound.distant_voices: dynamic; faint workers' voices; -42 dB; random period 60-120s (suggests off-screen workforce)
+reverb_zone:           IR-impulse: cargo_hold_v1.wav; wet-mix 32% (long industrial)
+music_eligibility:     cutscene only (Category B cs_amb_cargo_hold; deferred catalogue)
+voice_line_eligibility:
+  - speaker: cargo_handler: rare named NPC; line set §2.10.2
+  - speaker: distant_workers_chatter: ambient atmosphere only
+```
+
+### A.10.9 Object inventory
+
+Cargo Hold has 38 inventory objects.
+
+#### A.10.9.1 The Crane Gantry (overhead)
+
+```
+object_id:           ark.cargo_hold.crane_gantry
+object_class:        interactive
+position:            (0.00, 8.00, 7.00)  # spans east-west at z = 7.00
+dimensions:          16.00 × 0.40 × 0.40 (rail length × width × height; runs full east-west)
+rotation:            0°
+material_primary:    cast steel rail with travelling crane unit (positioned at variable x)
+material_secondary:  bronze status indicators
+colour_value:        --token-color-ark-cargo-hold-crane
+interaction:         interactable (via floor control)
+  - operate (via crane control panel): player can move cargo with crane (gameplay-key for trade missions)
+  - inspect: lore-note about crane mechanics
+narrative_role:      central cargo-moving infrastructure; gameplay-active during trade events
+lore_anchor:         loredex.system.cargo_handling
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.cargo_hold.crane.operate
+wear_state:          slight wear at most-traversed rail zones
+physical_constraints: non-collide (player can pass under)
+```
+
+#### A.10.9.2 The Crane Control Panel
+
+```
+object_id:           ark.cargo_hold.crane_control_panel
+object_class:        console
+position:            (0.00, 8.00, 0.00)  # central, ground floor
+dimensions:          1.40 × 0.80 × 1.10
+rotation:            0°
+material_primary:    brushed steel + matte-black with bronze accents
+material_secondary:  brass status-LED bezel
+colour_value:        --token-color-ark-cargo-hold-crane-control
+interaction:         interactable
+  - operate: opens crane-control UI; player drives crane and lifts/drops cargo
+  - inspect: lore-note
+narrative_role:      crane operator station
+lore_anchor:         loredex.system.cargo_handling
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.cargo_hold.crane_control.operate
+wear_state:          worn at most-pressed buttons
+physical_constraints: collides
+```
+
+#### A.10.9.3 The Freight Elevator (north)
+
+```
+object_id:           ark.cargo_hold.elevator.freight
+object_class:        interactive  (also door-class)
+position:            (0.00, 15.50, 0.00)
+dimensions:          2.40 × 2.40 × 4.50  (large freight elevator car)
+rotation:            0°
+material_primary:    reinforced steel cage with bronze trim
+material_secondary:  bronze nameplate "TRADE HUB ↑"
+colour_value:        --token-color-ark-cargo-hold-elevator
+interaction:         interactable
+  - operate: calls/dispatches elevator (ascends to Trade Hub or descends to here)
+  - traverse: player + cargo travels to Trade Hub
+narrative_role:      vertical transit to Trade Hub; gameplay-key cargo route
+lore_anchor:         loredex.system.cargo_handling
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.cargo_hold.elevator.operate
+wear_state:          slight wear at door tracks
+physical_constraints: collides; player can enter
+```
+
+#### A.10.9.4-27 Twenty-Four Crate Anchor Positions (4×6 grid)
+
+```
+object_id:           ark.cargo_hold.crate.<grid_position>  (24 anchors; not always occupied)
+object_class:        container
+positions:           4×6 grid distributed across floor (every 4 m × 4 m starting from (-6, 4, 0))
+dimensions (each occupied): 1.20 × 1.20 × 0.80 (standard cargo crate; some are stacked 2-high to z = 1.60)
+rotation:            varies
+material_primary:    reinforced cardboard (cosmetic) or wood-and-metal (heavy crates)
+material_secondary:  bronze nameplate per crate (manifest item)
+colour_value:        --token-color-ark-cargo-hold-crate  (varied: brown cardboard, dark wood, grey metal)
+interaction:         interactable (when player has lift permission)
+  - inspect: read crate manifest
+  - lift (with crane): move crate to another position
+narrative_role:      living trade economy; crate inventory varies by player's trade activity
+lore_anchor:         loredex.system.cargo_inventory
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.cargo_hold.crate.inspect + .lift
+wear_state:          varies
+physical_constraints: collides; can be lifted/moved via crane
+```
+
+#### A.10.9.28 Cargo Handler's Anchor (NPC anchor)
+
+```
+object_id:           ark.cargo_hold.cargo_handler_anchor
+object_class:        npc_anchor
+position:            (-2.00, 5.00, 0.00)
+dimensions:          0.80 × 0.80 × 1.80 (anchor)
+rotation:            varies
+material_primary:    n/a
+material_secondary:  n/a
+colour_value:        n/a
+interaction:         n/a (NPC presence)
+narrative_role:      Cargo Handler anchors here when present (rare; trade events)
+lore_anchor:         loredex.character.cargo_handler
+art_status:          producer_handoff
+gameplay_hook_id:    none
+wear_state:          n/a
+physical_constraints: n/a
+```
+
+#### A.10.9.29-32 Workspace + Tool Items
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.cargo_hold.manifest_terminal` | console | (-2.00, 4.00, 0.00) | 1.40 × 0.80 × 1.10 | inventory management terminal |
+| `ark.cargo_hold.workbench.south` | furniture | (3.50, 4.00, 0.00) | 1.40 × 0.60 × 0.85 | inspection workbench |
+| `ark.cargo_hold.forklift.east_zone` | decoration | (5.00, 5.00, 0.00) | 1.20 × 1.80 × 1.50 | parked forklift (cosmetic) |
+| `ark.cargo_hold.tool_cabinet` | container | (-5.00, 4.50, 0.00) | 0.60 × 0.40 × 1.80 | cargo-tools cabinet |
+
+#### A.10.9.33-38 Atmospheric + Decorative + Closing
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.cargo_hold.south.intercom` | console | (-2.50, 0.20, 1.50) | 0.20 × 0.10 × 0.30 | comms relay |
+| `ark.cargo_hold.fire_extinguisher.south` | interactive | (2.50, 0.20, 1.20) | 0.20 × 0.20 × 0.50 | safety |
+| `ark.cargo_hold.fire_extinguisher.north` | interactive | (-3.00, 15.50, 1.20) | mirror | safety |
+| `ark.cargo_hold.first_aid.kit` | container | (-3.50, 0.20, 1.50) | 0.40 × 0.10 × 0.30 | medical |
+| `ark.cargo_hold.cargo_hooks_overhead` | decoration | distributed at z = 7.00 along crane | 0.10 × 16.00 × 0.30 | hooks for hanging cargo |
+| `ark.cargo_hold.distant_workers_emitter` | fx_emitter | dynamic | n/a | distant-voices SFX source |
+
+Total: 38 inventory objects.
+
+### A.10.10 Camera-spawn-points (FPV cutscenes)
+
+```
+cutscene_id:         cs_amb_cargo_hold  (Category B Myst-ambient; per §3.1.B.3)
+camera_position:     (0.00, 0.50, eye_level)
+camera_facing:       (0°, 5°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         slow walk-pan around the lamp; shadow-crate-stack visible against the lamp; lasts 22s
+
+cutscene_id:         cs_first_cargo_inventory  (Act 2)
+camera_position:     (-2.00, 4.50, eye_level)  # at manifest terminal
+camera_facing:       (0°, 0°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         hand-rig at terminal; manifests scroll past
+```
+
+### A.10.11 Doorways
+
+```
+door_id:            ark.cargo_hold.south.door.main
+connecting_space_id: ark.corridor.cargo_approach
+door_position:      (0.00, 0.00, 0.00)
+door_dimensions:    2.00 × 3.00 × 0.10
+door_class:         slide
+unlock_condition:   Act 2+
+transit_animation:  fade
+audio_signature:    pneumatic-hiss + servo-whir (cargo door)
+
+door_id:            ark.cargo_hold.east.hatch.forge_exhaust
+connecting_space_id: ark.forge_workshop
+door_position:      (7.95, 4.00, 0.40)
+door_dimensions:    0.80 × 1.40 × 0.10
+door_class:         slide
+unlock_condition:   Act 3+
+transit_animation:  fade
+audio_signature:    pneumatic-hiss
+
+door_id:            ark.cargo_hold.north.elevator.freight
+connecting_space_id: ark.trade_hub
+door_position:      (0.00, 15.50, 0.00)
+door_dimensions:    2.40 × 3.40 × 0.10
+door_class:         slide  (elevator)
+unlock_condition:   Act 2+
+transit_animation:  elevator-cycle (4s ascent)
+audio_signature:    elevator-mechanical engagement + bell-toll on arrival
+
+door_id:            ark.cargo_hold.west.door.trade_corridor
+connecting_space_id: ark.corridor.trade_long_route
+door_position:      (-7.95, 8.00, 0.00)
+door_dimensions:    1.60 × 2.40 × 0.10
+door_class:         slide
+unlock_condition:   Act 2+
+transit_animation:  fade
+audio_signature:    pneumatic-hiss
+```
+
+### A.10.12 Adjacency map
+
+```
+direct_adjacencies:
+  - ark.corridor.cargo_approach (south)
+  - ark.forge_workshop (east hatch; Act 3+)
+  - ark.trade_hub (north elevator; Act 2+)
+  - ark.corridor.trade_long_route (west door; Act 2+)
+one_hop_adjacencies:
+  - ark.engineering_bay (via cargo approach + Engineering corridor)
+  - ark.armory (via Engineering Bay)
+```
+
+### A.10.13 Gameplay hooks
+
+```
+hooks:
+  - hook_id:         cargo_hold.operateCrane
+    trigger:         player.operate on crane_control_panel
+    procedure:       trpc.cargo_hold.crane.operate
+    success_state:   crane_active = true
+  - hook_id:         cargo_hold.operateElevator
+    trigger:         player.operate on elevator.freight
+    procedure:       trpc.cargo_hold.elevator.operate
+    success_state:   elevator_active = true
+  - hook_id:         cargo_hold.inspectCrate
+    trigger:         player.inspect on crate.<grid>
+    procedure:       trpc.cargo_hold.crate.inspect
+    success_state:   crate_manifest_read = true
+  - hook_id:         cargo_hold.liftCrate
+    trigger:         player.lift on crate.<grid> with crane active
+    procedure:       trpc.cargo_hold.crate.lift
+    success_state:   crate_lifted = true
+  - hook_id:         cargo_hold.operateManifestTerminal
+    trigger:         player.operate on manifest_terminal
+    procedure:       trpc.cargo_hold.manifest.operate
+    success_state:   manifest_active = true
+  - hook_id:         cargo_hold.openToolCabinet
+    trigger:         player.open on tool_cabinet
+    procedure:       trpc.cargo_hold.tool_cabinet.open
+    success_state:   tool_cabinet_open = true
+```
+
+### A.10.14 Story-tie
+
+```
+primary_arcs:
+  - arc.act_2_first_cargo_inventory
+  - arc.trade_economy (continuous)
+  - arc.cargo_handling_progression
+per_act_evolution:
+  acts_0_1: room locked
+  act_2: opens; player can inspect manifest, operate elevator
+  act_3: more crates appear (player's trade activity affects inventory); forge-exhaust hatch unlocks
+  act_4: trade events drive crate dynamics (incoming/outgoing shipments)
+  act_5: cargo handler appears occasionally; deeper trade dialogues
+  act_6: rare cargo arrives (legendary items)
+  act_7: state-branched: rich-trader ending (warehouse full + organised) vs. spartan ending (mostly empty)
+npc_roster:
+  - the_cargo_handler: named NPC; rare presence
+  - the_player: visitor / trader
+  - distant_workers: ambient atmosphere only
+readables:
+  - mission plaque (south)
+  - crate manifests (per-crate; varied)
+  - shipping log display (south)
+  - elevator status display (north)
+master_of_rlyeh_question: n/a
+```
+
+### A.10.15 Special-FX
+
+```
+particle_systems:
+  - dust (medium; warehouse accumulation)
+  - cargo_particles (low; cosmetic during transfers)
+  - elevator_steam (subtle during elevator motion)
+volumetric_effects:
+  - high_bay_volumetric_beams (visible in dust)
+  - elevator_motion_volumetric (during travel)
+procedural_animations:
+  - crane_idle_sway (subtle; gantry has slight motion)
+  - elevator_indicator_pulse
+  - crate_subtle_settle
+  - distant_workers_visualisation (very rare; cosmetic; figures move past distant doorway)
+reactive_systems:
+  - crane_glow_on_proximity_to_control
+  - elevator_glow_on_call
+  - crate_indicator_light_on_player_proximity
+  - alert_strobes_on_alert_state
+```
+
+### A.10.16 Avatar-parametricity
+
+```
+camera_height_variation:
+  small_xenomorph (0.85m eye): 0.85m; ceilings feel impossibly tall; alternate "lift platform" for crane control
+  short_humanoid (1.40m eye): standard
+  average_humanoid (1.70m eye): standard
+  tall_humanoid (2.05m eye): comfortable scale
+  tall_xenomorph (2.70m eye): comfortable scale (warehouse accommodates)
+reachability:
+  small_xenomorph: cannot reach crate manifests on top-stacked crates without crane assistance
+  others: all-reachable
+audio_occlusion_variation:
+  xenomorph_sensitive_hearing: distant-voices more pronounced; warehouse echo richer
+  synthetic_voice_avatar: elevator mechanical-engagement perceived differently
+```
+
+### A.10.17 Performance
+
+```
+polygon_budget:      400,000 polygons (large room; many crates; LOD critical)
+texture_budget:      200 MB total (varied crate textures + crane shaders)
+light_count_limit:   20 simultaneous dynamic lights
+lod_plan:
+  - hero_distance: 0-12m, full detail
+  - mid_distance: 12-30m, mid detail (crates simplified)
+  - low_distance: 30m+, low detail
+streaming_behaviour:
+  - preload: ark.corridor.cargo_approach (south)
+  - on_elevator_call: preload ark.trade_hub
+  - on_player_at_east_hatch + Act 3+: preload ark.forge_workshop
+```
 
 ---
 
@@ -8766,21 +9323,538 @@ dimensions:      8.00 m × 10.00 m × 4.00 m
 
 ---
 
-## A.31 Trade Hub — SCAFFOLDED
+## A.31 Trade Hub — FULL
+
+**Status: FULL spec.** Cross-ref: `INCEPTION_ARK_FINAL_PRODUCTION.md`
+§2.31 (art-state prompts) and §A.32 Trade Command Center
+(adjacent broker's office sub-room).
+
+### A.31.1 Header
 
 ```
 space_id:        ark.trade_hub
 space_name:      Trade Hub
 space_type:      ark_room
 act_introduced:  Act 2
-lore_anchor:     loredex.system.trade + arc.trade_empire
-aesthetic_tier:  solar_punk_cathedral  (mercantile-ornate accents)
-dimensions:      18.00 m × 18.00 m × 6.00 m
-floor_plan_geometry: hexagonal
+lore_anchor:     loredex.system.trade + arc.trade_empire + arc.act_2_first_trade_session
+aesthetic_tier:  solar_punk_cathedral  (with mercantile-ornate accents — the most aesthetically rich Ark room outside the cathedral spaces)
 ```
 
-The Trade Hub is the gameplay-launcher for Trade Empire. (Full
-spec deferred; see also `INCEPTION_ARK_FINAL_PRODUCTION.md` §2.31.)
+### A.31.2 Geometry
+
+```
+dimensions:           18.00 m × 18.00 m × 6.00 m  (bounding box; hexagonal footprint inscribed)
+origin_point:         centre of floor (room is hexagonal; origin at geometric centre)
+coordinate_axes:      +x = right, +y = forward (north), +z = up
+floor_plan_geometry:  hexagonal  (regular hexagon; 9.00 m apothem; primary entrance at south face)
+volumetric_anomalies: none in baseline
+```
+
+The Trade Hub is hexagonal — six trade-stations occupy the six
+corners (one per faction trade route + galactic markets). The
+central area is a galactic-trade holo-table where players see
+all trade routes in 3D. Freight elevator from Cargo Hold opens
+on the south face.
+
+Floor area: ~234 m².
+
+### A.31.3 Floor
+
+```
+material_primary:     polished marble in alternating gold and obsidian-black tile pattern; 0.60 m × 0.60 m tiles in radial-from-centre pattern
+material_secondary:   bronze inlay forming a 6-pointed star centred on holo-table; gold-leaf accents in the 6 trade-station zones
+pattern:              radial 6-arm star (one arm per trade station) + central hexagonal hub
+wear_state:           pristine; slight wear-trail to most-used trade stations (varies by player's trade activity)
+embedded_features:
+  - id: ark.trade_hub.floor.charge_point.holo_table
+    position: (0.00, 0.00, 0.00)  # at room centre
+    dimensions: 0.40 × 0.40 × 0.05
+    function: holo-table power
+  - id: ark.trade_hub.floor.trade_station_anchor.<n>  (6 anchors at the 6 hexagonal corners)
+    position: at each station base (radius 7.50 m from centre)
+    dimensions: 0.60 × 0.60 × 0.05 each
+    function: trade-station electronics
+  - id: ark.trade_hub.floor.elevator_threshold
+    position: (0.00, -7.50, 0.00)  # at south face entry
+    dimensions: 2.40 × 0.20 × 0.10
+    function: freight elevator threshold marker
+acoustic_property:    hard_reflective (marble); RT60 = 0.65s (rich; supports market-bustle atmosphere)
+```
+
+### A.31.4 Walls
+
+The Trade Hub has 6 walls forming a regular hexagon. Each wall
+is a "trade-quadrant" and carries either a trade-station booth
+or a structural connector.
+
+#### Wall: South (entrance + freight elevator)
+
+```
+wall_id:              south
+material_primary:     polished marble cladding with carved trade-relief details (figures of merchants from various cultures); elevator door at centre
+material_secondary:   gold dado at z = 1.20 m
+panelisation:         single curved face (hexagonal corner)
+colour_value:         --token-color-ark-trade-hub-wall-south  (warm cream marble + gold accents)
+embedded_displays:
+  - id: ark.trade_hub.south.display.market_status
+    position: (-3.00, -7.95, 1.80)
+    dimensions: 1.20 × 0.80 × 0.05
+    content: live galactic market overview
+  - id: ark.trade_hub.south.display.player_trade_history
+    position: (3.00, -7.95, 1.80)
+    dimensions: 1.20 × 0.80 × 0.05
+    content: player's trade history + reputation per faction
+embedded_doors:
+  - door_id: ark.trade_hub.south.elevator.freight
+    position: (0.00, -7.95, 0.00)
+    dimensions: 2.40 × 3.00 × 0.10  (large freight elevator door from Cargo Hold)
+    door_class: slide  (elevator)
+    connecting_space_id: ark.cargo_hold
+    unlock_condition: Act 2+
+  - door_id: ark.trade_hub.south.door.broker
+    position: (-5.00, -7.95, 0.00)  # west of elevator
+    dimensions: 1.40 × 2.40 × 0.10
+    door_class: slide
+    connecting_space_id: ark.trade_command_center  (sub-room A.32)
+    unlock_condition: Act 2+
+decorative_features:
+  - id: ark.trade_hub.south.plaque.principle
+    position: (0.00, -7.95, 3.20)
+    dimensions: 1.20 × 0.40 × 0.02
+    material: cast bronze with gilt text
+    narrative_role: reads "FAIR TRADE BUILDS WORLDS"
+```
+
+#### Walls: SE, NE, N, NW, SW (the 5 trade-station walls)
+
+Each wall has a similar structure — gold-and-marble alcove with
+trade-station booth.
+
+```
+wall_id:              southeast, northeast, north, northwest, southwest  (5 walls)
+material_primary:     polished marble with gold-leaf trade-route motifs in low relief
+material_secondary:   gold dado
+panelisation:         hexagonal-corner curved faces
+colour_value:         --token-color-ark-trade-hub-wall  (warm cream + gold)
+embedded_displays:
+  - id: ark.trade_hub.<wall>.display.route_status  (5 displays; one per non-south wall)
+    position: at each trade-station booth
+    dimensions: 0.80 × 0.60 × 0.05
+    content: trade-route specific status
+embedded_doors:        none (only the south face has doors)
+decorative_features:
+  - id: ark.trade_hub.<wall>.trade_station_alcove  (5 alcoves; specced in inventory)
+    position: per wall corner
+    dimensions: 2.40 × 1.20 × 4.00 each
+    material: marble with gold trim
+    narrative_role: hosts a trade-station booth (one per faction trade route)
+```
+
+(Five trade routes per Phase 1.5 catalog: Galactic Markets,
+Architect Remnants Routes, New Babylon Routes, Hierarchy Routes,
+Insurgency Routes. Sixth quadrant — south — is the entry.)
+
+### A.31.5 Ceiling
+
+```
+height_above_floor:     6.00 m baseline; central hexagonal dome rises to 7.50 m above holo-table
+material:               polished marble cladding with gold-leaf coffer pattern radiating from central dome; 6 dome-spokes align with trade-station alcoves
+lighting_integrated:    central oculus dome (warm golden emitter); recessed strip-lights in each dome-spoke; trade-station booth ceilings have task-lighting
+atmospheric_features:   subtle dust-motes in oculus light shaft (reinforces "cathedral of commerce" feel)
+acoustic_treatment:     coffered + dome-resonant (supports market-bustle warm acoustic)
+```
+
+### A.31.6 Lighting
+
+```
+ambient_baseline:     3000 K (warm; mercantile-rich); 220 lux at floor level; CRI 95
+direct_fixtures:
+  - id: ark.trade_hub.light.oculus_dome
+    position: (0.00, 0.00, 7.50)
+    beam_angle: 60° downward (illuminates holo-table)
+    colour: --token-color-ark-trade-hub-oculus  (warm gold-amber)
+    intensity: 7000 lumens
+    function: principal task lighting at holo-table
+  - id: ark.trade_hub.light.dome_spoke_strip.<n>  (6 spokes)
+    position: along dome spokes from oculus to walls
+    beam_angle: 90° downward
+    colour: --token-color-ark-trade-hub-dome-spoke  (warm amber)
+    intensity: 1200 lumens per metre
+    function: defines hexagonal symmetry; visually directs eye toward trade stations
+  - id: ark.trade_hub.light.trade_station_task.<n>  (5 task lights; one per trade station)
+    position: above each station booth at z = 4.00
+    beam_angle: 60° downward
+    colour: 2700 K very warm
+    intensity: 2500 lumens each
+    function: trade-station task lighting (warm; encourages "deal-making" atmosphere)
+practical_sources:
+  - id: ark.trade_hub.holo_table_glow
+    position: (0.00, 0.00, 1.10)  # holo-table top
+    intensity: 600 lumens (variable; matches table content)
+    flicker_pattern: stable
+  - id: ark.trade_hub.trade_station_indicator.<n>  (5 indicators)
+    position: per station
+    intensity: 80 lumens (stable; varies by route activity)
+    flicker_pattern: stable
+time_of_day_variation:
+  acts_2_to_7: stable; in late-act7, if player is well-traded, trade-station task lights warm + bright; if neglectful, they dim
+dynamic_response:
+  - on_player_at_holo_table: oculus_dome intensifies 20%
+  - on_trade_completion: nearby station task light brightens briefly
+  - on_market_event: oculus_dome pulses
+```
+
+### A.31.7 Atmosphere
+
+```
+air_temperature:    22°C (warm-comfortable; encourages dwelling)
+humidity:           45% RH; smells of leather (trade goods) + spices (galactic markets) + faint coffee + warm marble
+particulate:
+  - dust_motes: low (visible in oculus light)
+  - market_particles: very low (cosmetic; suggests goods being moved)
+volumetric_fog:     absent in baseline
+wind_drift:         minimal; 0.04 m/s; subtle inward-spiral toward holo-table
+smell_canon:        leather + spices + coffee + warm marble; voice-line: "smells like the world's commerce"
+```
+
+### A.31.8 Sound
+
+```
+ambient_bed:           file: trade_hub_ambient_bed_v1.ogg (loop); -32 dB; subtle market-bustle (faint distant chatter; merchants' voices), occasional bell-toll (transaction completion), faint coin-clatter
+point_sources:
+  - sound.bell_toll_transaction: dynamic; subtle bell on each completed trade; -34 dB
+  - sound.holo_table_hum: at holo-table; -38 dB; continuous
+  - sound.distant_merchant_voices: dynamic; -42 dB; ambient cyclic
+  - sound.coin_clatter: random; -36 dB; period 60-120s
+reverb_zone:           IR-impulse: trade_hub_v1.wav; wet-mix 26%
+music_eligibility:     cutscene only (Category B cs_amb_trade_hub + Category C cs_disc_trade_empire + cs_load_trade_empire)
+voice_line_eligibility:
+  - speaker: trade_clerks (5 per trade route; named NPCs): trigger presence; line set §2.31.2
+  - speaker: trade_hub_announcer: ambient voice for transaction completions
+```
+
+### A.31.9 Object inventory
+
+Trade Hub has 42 inventory objects.
+
+#### A.31.9.1 The Galactic Trade Holo-Table (centre)
+
+```
+object_id:           ark.trade_hub.holo_table.galactic
+object_class:        display
+position:            (0.00, 0.00, 0.00)
+dimensions:          3.00 × 3.00 × 1.05  (hexagonal footprint with circular projection above)
+rotation:            0°
+material_primary:    brushed-titanium frame with gold inlay; matte-black holographic projection surface
+material_secondary:  gold edge-trim with 6-route status indicators at corners
+colour_value:        --token-color-ark-trade-hub-holo-table  (titanium-black with gold; hologram is variable cosmic-blue)
+interaction:         interactable
+  - operate: spawns 3D galactic trade-route map (interactive); player can plan trades + see prices
+  - inspect: lore-note about trade-table system
+narrative_role:      THE primary Trade Empire gameplay-launcher; player initiates all trade missions here
+lore_anchor:         loredex.system.trade + arc.trade_empire
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.trade.holo_table.operate
+wear_state:          slight wear at most-touched corners
+physical_constraints: collides; player can lean
+```
+
+#### A.31.9.2-6 Five Trade-Station Booths (one per non-south wall)
+
+```
+object_id:           ark.trade_hub.trade_station.<route>  (5 stations)
+object_class:        interactive  (also npc_anchor — clerk anchors here)
+positions:           per A.31.4 walls (5 stations at hexagonal corners SE, NE, N, NW, SW)
+dimensions (each):   2.40 × 1.20 × 1.10  (booth counter)
+rotation:            varies (faces room centre)
+material_primary:    polished walnut counter with marble inset; brass trim
+material_secondary:  bronze nameplate per route ("Galactic Markets", "Architect Remnants", "New Babylon", "Hierarchy", "Insurgency")
+colour_value:        --token-color-ark-trade-hub-station
+interaction:         interactable
+  - operate: opens trade-route specific UI (player engages with that faction's trade)
+  - inspect: lore-note about that route's trade philosophy
+narrative_role:      per-route trade transactions; clerks (NPCs) staff each station
+lore_anchor:         per-faction trade
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.trade.station.operate
+wear_state:          worn at most-used stations (varies)
+physical_constraints: collides
+```
+
+#### A.31.9.7-11 Five Trade-Clerk Anchors (NPC anchors; one per station)
+
+```
+object_id:           ark.trade_hub.trade_clerk_anchor.<route>  (5 anchors)
+object_class:        npc_anchor
+positions:           behind each station (interior side)
+dimensions (each):   0.80 × 0.80 × 1.80 (anchor)
+rotation:            varies (faces customer-side)
+material_primary:    n/a
+material_secondary:  n/a
+colour_value:        n/a
+interaction:         n/a (NPC presence; clerks are part of dialogue)
+narrative_role:      clerks staff each station; player negotiates here
+lore_anchor:         per-clerk lore
+art_status:          producer_handoff
+gameplay_hook_id:    none
+wear_state:          n/a
+physical_constraints: n/a
+```
+
+#### A.31.9.12-21 Customer Seats (10 stools at trade stations; 2 per station)
+
+```
+object_id:           ark.trade_hub.trade_stool.<route>.<side>  (10 stools)
+object_class:        furniture
+positions:           2 per trade station, in front of counter
+dimensions (each):   0.40 × 0.40 × 0.85  (bar-stool height; faces counter)
+rotation:            varies
+material_primary:    polished walnut with charcoal-leather seat
+material_secondary:  brass footrest
+colour_value:        --token-color-ark-trade-hub-stool
+interaction:         interactable - sit
+narrative_role:      where the player sits to negotiate
+lore_anchor:         arc.trade_empire
+art_status:          producer_handoff
+gameplay_hook_id:    none (positional; opens trade UI when interacting with station while seated)
+wear_state:          slight wear
+physical_constraints: collides; sittable
+```
+
+#### A.31.9.22-26 Five Decorative Trade-Goods Display Cabinets
+
+```
+object_id:           ark.trade_hub.goods_display.<route>  (5 displays; one beside each trade station)
+object_class:        decoration
+positions:           at each trade station booth
+dimensions (each):   0.80 × 0.60 × 1.80
+rotation:            varies
+material_primary:    walnut with glass front + gold trim
+material_secondary:  per-route theming (galactic = star-charts; architect = blueprints; new babylon = ledgers; hierarchy = ritual artifacts; insurgency = encrypted devices)
+colour_value:        --token-color-ark-trade-hub-goods-display
+interaction:         inspectable
+  - inspect: opens display UI (showcases route's specialty goods)
+narrative_role:      visual route-flavoring; each display tells the route's character
+lore_anchor:         per-route
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.trade.goods_display.inspect
+wear_state:          slight wear at glass front
+physical_constraints: collides
+```
+
+#### A.31.9.27-32 Six Decorative Lighting Stands
+
+```
+object_id:           ark.trade_hub.lighting_stand.<n>  (6 stands; one at each hexagonal corner near walls)
+object_class:        decoration  (also fx_emitter — soft glow)
+positions:           at hexagonal corners between trade stations
+dimensions (each):   0.30 × 0.30 × 1.40
+rotation:            varies
+material_primary:    cast bronze with gilt detail
+material_secondary:  warm-amber light-globe at top
+colour_value:        --token-color-ark-trade-hub-lighting-stand
+interaction:         inert
+narrative_role:      reinforces hexagonal geometry; warm ambient
+lore_anchor:         loredex.aesthetic.solar_punk_cathedral
+art_status:          producer_handoff
+gameplay_hook_id:    none
+wear_state:          slight patina
+physical_constraints: collides
+```
+
+#### A.31.9.33-37 Closing Items
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.trade_hub.south.intercom` | console | (-2.00, -7.95, 1.50) on south wall | 0.20 × 0.10 × 0.30 | comms relay |
+| `ark.trade_hub.fire_extinguisher.south` | interactive | (2.00, -7.95, 1.20) | 0.20 × 0.20 × 0.50 | safety |
+| `ark.trade_hub.first_aid.kit` | container | (-3.50, -7.95, 1.50) | 0.40 × 0.10 × 0.30 | medical |
+| `ark.trade_hub.compass_inlay` | decoration | (0.00, 0.00, 0.005) | 1.40 × 1.40 × 0.005 | floor inlay (compass-rose under holo-table) |
+| `ark.trade_hub.market_bell` | interactive | (0.00, 7.50, 1.20) on north wall | 0.30 × 0.30 × 0.40 | bronze bell (rung at major trade events) |
+
+#### A.31.9.38-42 Atmospheric Closing
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.trade_hub.merchant_bench.east_arc` | furniture | (4.00, 4.00, 0.00) | 1.40 × 0.40 × 0.45 | spectator bench (curved to follow hex) |
+| `ark.trade_hub.merchant_bench.west_arc` | furniture | (-4.00, 4.00, 0.00) | mirror | bench |
+| `ark.trade_hub.market_table.south` | furniture | (0.00, -4.00, 0.00) | 1.20 × 0.80 × 0.85 | small table for casual deal-making |
+| `ark.trade_hub.market_chair.south.east, .west` | furniture | flanking south table | 0.80 × 0.80 × 1.20 each | seating |
+| `ark.trade_hub.distant_merchant_voices_emitter` | fx_emitter | dynamic | n/a | ambient market chatter source |
+
+Total: 42 inventory objects.
+
+### A.31.10 Camera-spawn-points (FPV cutscenes)
+
+```
+cutscene_id:         cs_amb_trade_hub  (Category B; deferred)
+camera_position:     (0.00, -7.50, eye_level)
+camera_facing:       (0°, 5°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         slow walk-pan into hexagonal hub; head turns to scan trade stations; lasts 22s
+
+cutscene_id:         cs_disc_trade_empire  (Category C discovery)
+camera_position:     (0.00, -2.00, eye_level)  # at holo-table approach
+camera_facing:       (0°, -10°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         hands enter frame at holo-table; star-map zooms through trade routes; bell-toll chord; lasts 22s
+
+cutscene_id:         cs_load_trade_empire  (Category C loading)
+camera_position:     (0.00, 0.00, eye_level)  # at holo-table
+camera_facing:       (0°, -25°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         star-map zooms; trade-route selection; lasts 8s
+```
+
+### A.31.11 Doorways
+
+```
+door_id:            ark.trade_hub.south.elevator.freight
+connecting_space_id: ark.cargo_hold
+door_position:      (0.00, -7.95, 0.00)
+door_dimensions:    2.40 × 3.00 × 0.10
+door_class:         slide  (elevator)
+unlock_condition:   Act 2+
+transit_animation:  elevator-cycle (4s descent)
+audio_signature:    elevator-mechanical engagement + bell-toll on arrival
+
+door_id:            ark.trade_hub.south.door.broker
+connecting_space_id: ark.trade_command_center
+door_position:      (-5.00, -7.95, 0.00)
+door_dimensions:    1.40 × 2.40 × 0.10
+door_class:         slide
+unlock_condition:   Act 2+
+transit_animation:  fade
+audio_signature:    pneumatic-hiss
+```
+
+### A.31.12 Adjacency map
+
+```
+direct_adjacencies:
+  - ark.cargo_hold (south freight elevator)
+  - ark.trade_command_center (south door; broker's office sub-room)
+one_hop_adjacencies:
+  - ark.engineering_bay (via cargo + Engineering corridor)
+  - ark.armory (via Engineering Bay)
+state_shared_with:
+  - ark.cargo_hold (cargo inventory cross-references trade activity)
+  - ark.trade_command_center (deeper broker tools)
+```
+
+### A.31.13 Gameplay hooks
+
+```
+hooks:
+  - hook_id:         trade_hub.operateHoloTable
+    trigger:         player.operate on holo_table.galactic
+    procedure:       trpc.trade.holo_table.operate
+    success_state:   trade_view_active = true
+  - hook_id:         trade_hub.startTradeMission
+    trigger:         player.operate on holo_table + select_route
+    procedure:       trpc.trade.startMission
+    success_state:   trade_mission_started = true
+  - hook_id:         trade_hub.engageStation
+    trigger:         player.operate on trade_station.<route>
+    procedure:       trpc.trade.station.operate
+    success_state:   station_active = true (per-route)
+  - hook_id:         trade_hub.inspectGoodsDisplay
+    trigger:         player.inspect on goods_display.<route>
+    procedure:       trpc.trade.goods_display.inspect
+    success_state:   goods_inspected = true
+  - hook_id:         trade_hub.takeStool
+    trigger:         player.sit on trade_stool.<route>.<side>
+    procedure:       trpc.trade.stool.sit
+    success_state:   stool_active = true (positional; opens trade UI when paired with station)
+  - hook_id:         trade_hub.ringMarketBell
+    trigger:         (state-conditional) player.interact on market_bell after major trade
+    procedure:       trpc.trade.market_bell.ring
+    success_state:   bell_rung = true (lore-flag; ambient SFX cascade)
+```
+
+### A.31.14 Story-tie
+
+```
+primary_arcs:
+  - arc.act_2_first_trade_session
+  - arc.trade_empire (continuous; central to Acts 3-7)
+  - arc.faction_trade_relationships (per-route reputation tracks)
+  - arc.galactic_market_dynamics
+per_act_evolution:
+  acts_0_1: room locked
+  act_2: opens; player can engage all 5 trade routes; first trades shape faction reputations
+  act_3: more goods unlock; clerks become familiar with player
+  act_4: market events drive route dynamics (some routes prosper; others decline based on player choices + canon events)
+  act_5: deeper broker negotiations available (cross-ref §A.32 Trade Command Center)
+  act_6: galactic-market crisis events; player can intervene
+  act_7: state-branched: trade-titan ending (well-traded across all 5; warehouse full) vs. minimal-trader ending
+npc_roster:
+  - the_trade_clerks: 5 named NPCs (one per route); rotating shift
+  - the_galactic_broker: rare appearance for high-stakes deals
+  - the_player: visitor / trader
+  - distant_merchants: ambient atmosphere only
+readables:
+  - principle plaque (south)
+  - market status display (south)
+  - player trade history display (south)
+  - 5 route-status displays (per-station)
+  - 5 goods display cabinets (per-route lore)
+master_of_rlyeh_question: n/a
+```
+
+### A.31.15 Special-FX
+
+```
+particle_systems:
+  - dust_motes (low; visible in oculus light)
+  - market_particles (very low; cosmetic — coins glinting, papers fluttering)
+volumetric_effects:
+  - oculus_volumetric_beam (golden cone above holo-table)
+  - dome_spoke_glow_envelope (subtle volumetric glow defining hex symmetry)
+procedural_animations:
+  - holo_table_galactic_drift (continuous; slow rotation of star-map)
+  - trade_station_indicator_pulse (per-station; varies by route activity)
+  - distant_merchants_visualisation (rare; figures cross at distant doorway)
+  - market_bell_subtle_resonance (very subtle vibration; cosmetic)
+reactive_systems:
+  - holo_table_glow_on_proximity
+  - station_task_light_intensify_on_engagement
+  - bell_resonance_on_trade_completion (one-shot per major deal)
+  - dome_oculus_pulse_on_market_event
+```
+
+### A.31.16 Avatar-parametricity
+
+```
+camera_height_variation:
+  small_xenomorph (0.85m eye): 0.85m; trade-station counters at chest-level; alternate stand-on-stool
+  short_humanoid (1.40m eye): standard
+  average_humanoid (1.70m eye): standard
+  tall_humanoid (2.05m eye): comfortable; counters at hip
+  tall_xenomorph (2.70m eye): counters too low; alternate kneel-at-counter for negotiations
+reachability:
+  small_xenomorph: cannot reach top of goods-display cabinets; relay-inspect from below
+  others: all-reachable
+audio_occlusion_variation:
+  xenomorph_sensitive_hearing: market-bustle more pronounced; bell-toll richer
+  synthetic_voice_avatar: clerks' voices have subtle resonance bias (synthetic interprets warm-velvet acoustics differently)
+```
+
+### A.31.17 Performance
+
+```
+polygon_budget:      330,000 polygons (rich decoration; many trade stations + display cabinets)
+texture_budget:      190 MB total
+light_count_limit:   20 simultaneous dynamic lights
+lod_plan:
+  - hero_distance: 0-12m, full detail
+  - mid_distance: 12-25m, mid detail (decoration simplified)
+  - low_distance: 25m+, low detail
+streaming_behaviour:
+  - preload: ark.cargo_hold (south elevator)
+  - preload: ark.trade_command_center (south door)
+  - on_holo_table_active: preload destination.galactic_trade_routes (current route only)
+```
 
 ---
 
@@ -11859,29 +12933,33 @@ streaming_behaviour:
 - A.5 Comms Array
 - A.6 Observation Deck
 - A.7 Engineering Bay (HB4 host)
+- A.8 Forge Workshop
+- A.9 Armory
+- A.10 Cargo Hold
 - A.11 Captain's Quarters (HB7 host)
 - A.13 Antiquarian's Library
 - A.21 Cipher Den (HB8 host)
 - A.22 Hierarchy Throne (HB2 host)
 - A.27 Memorial Corridor (HB6 host)
+- A.31 Trade Hub
 - A.33 Defense Command Center (HB11 host)
 - A.36 Chess Hall (HB9 host)
 - A.50 Collectors Arena (HB10 host; NEW v5)
 - A.51 Game Hall (HB12 host; NEW v5)
 
-**Total FULL: 16 rooms** (all 11 active Hellbox-host rooms +
+**Total FULL: 20 rooms** — all 11 active Hellbox-host rooms +
 Cryo Bay + Bridge + Antiquarian Library + Comms Array +
-Observation Deck + Archives — covers every narrative-load-bearing
-room in the Ark).
+Observation Deck + Archives + Forge Workshop + Armory + Cargo
+Hold + Trade Hub. Covers every narrative-load-bearing room AND
+all major gameplay-launchers.
 
-**CORE spec authored**: none remaining (all Wave 3 promotions
-landed)
+**CORE spec authored**: none remaining
 
-**SCAFFOLDED**: all remaining (A.8, A.9, A.10, A.12, A.14-A.20,
-A.23-A.26, A.28-A.32, A.34, A.35, A.37-A.49 — 33 rooms)
+**SCAFFOLDED**: all remaining (A.12, A.14-A.20, A.23-A.26,
+A.28-A.30, A.32, A.34, A.35, A.37-A.49 — 29 rooms)
 
-Phase B-2 future (Wave 4+): convert remaining SCAFFOLDED rooms
-to at least CORE; subsequent waves to FULL. Estimated 30,000-50,000
-additional lines across follow-up commits to Phase B-3 / Phase B-4.
+Phase B-3 future (Wave 5+): convert remaining SCAFFOLDED rooms
+to at least CORE; subsequent waves to FULL. Estimated 25,000-40,000
+additional lines across follow-up commits.
 
 ---
