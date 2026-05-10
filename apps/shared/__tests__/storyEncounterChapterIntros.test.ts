@@ -1,12 +1,27 @@
 import { describe, expect, it } from "vitest";
 import { ALL_CHAPTER_ENCOUNTERS } from "@shared/tcg-core/story/chapters";
 import { ACT_1_OPPONENTS } from "@shared/act1Opponents";
+import {
+  ACT_3_OPPONENTS,
+  ACT_4_OPPONENTS,
+  ACT_6_OPPONENTS,
+  ACT_7_OPPONENTS,
+} from "@shared/acts2to7Opponents";
 import { CHAPTER_INTROS } from "@shared/chapterIntroCutscenes";
 import {
   STORY_CHAPTER_INTRO_MAPPINGS,
   resolveChapterIntroForChapter,
   resolveChapterIntroForOpponent,
+  resolveChapterIntroForOpponentPrestigeRematch,
 } from "@shared/storyEncounterChapterIntros";
+
+const ALL_ENGINE_OPPONENT_IDS: ReadonlySet<string> = new Set([
+  ...ACT_1_OPPONENTS.map((o) => o.id),
+  ...ACT_3_OPPONENTS.map((o) => o.id),
+  ...ACT_4_OPPONENTS.map((o) => o.id),
+  ...ACT_6_OPPONENTS.map((o) => o.id),
+  ...ACT_7_OPPONENTS.map((o) => o.id),
+]);
 
 describe("storyEncounterChapterIntros — bible-confirmed mappings", () => {
   it("every mapped chapterId exists in the engine's StoryEncounter list", () => {
@@ -23,14 +38,26 @@ describe("storyEncounterChapterIntros — bible-confirmed mappings", () => {
     }
   });
 
-  it("every mapped opponentId exists in the engine's Act1Opponents list", () => {
-    const engineOpponentIds = new Set(ACT_1_OPPONENTS.map((o) => o.id));
+  it("every mapped opponentId exists in the engine's Acts 1-7 opponent lists", () => {
     for (const opponentId of Object.keys(
       STORY_CHAPTER_INTRO_MAPPINGS.byOpponentId,
     )) {
       expect(
-        engineOpponentIds.has(opponentId),
-        `mapped opponentId ${opponentId} not found in ACT_1_OPPONENTS`,
+        ALL_ENGINE_OPPONENT_IDS.has(opponentId),
+        `mapped opponentId ${opponentId} not found in any Act opponent list`,
+      ).toBe(true);
+    }
+  });
+
+  it("every prestige-rematch mapped opponentId exists in the engine's Act 1 opponents", () => {
+    // Prestige rematches only fire on Act 1 cycle re-engagement.
+    const act1Ids = new Set(ACT_1_OPPONENTS.map((o) => o.id));
+    for (const opponentId of Object.keys(
+      STORY_CHAPTER_INTRO_MAPPINGS.byOpponentIdPrestigeRematch,
+    )) {
+      expect(
+        act1Ids.has(opponentId),
+        `prestige-rematch opponentId ${opponentId} not in ACT_1_OPPONENTS`,
       ).toBe(true);
     }
   });
@@ -40,6 +67,7 @@ describe("storyEncounterChapterIntros — bible-confirmed mappings", () => {
     const allMapped = [
       ...Object.values(STORY_CHAPTER_INTRO_MAPPINGS.byChapterId),
       ...Object.values(STORY_CHAPTER_INTRO_MAPPINGS.byOpponentId),
+      ...Object.values(STORY_CHAPTER_INTRO_MAPPINGS.byOpponentIdPrestigeRematch),
     ];
     for (const introId of allMapped) {
       expect(
@@ -65,6 +93,23 @@ describe("storyEncounterChapterIntros — bible-confirmed mappings", () => {
     }
   });
 
+  it("resolveChapterIntroForOpponentPrestigeRematch round-trips every mapped opponentId", () => {
+    for (const [opponentId, introId] of Object.entries(
+      STORY_CHAPTER_INTRO_MAPPINGS.byOpponentIdPrestigeRematch,
+    )) {
+      expect(
+        resolveChapterIntroForOpponentPrestigeRematch(opponentId)?.id,
+      ).toBe(introId);
+    }
+  });
+
+  it("prestige-rematch resolver returns null for an opponent without a rematch intro", () => {
+    // young_kael (Cycle B) has a regular intro but no rematch intro
+    // shipped in the producer drop.
+    expect(resolveChapterIntroForOpponentPrestigeRematch("young_kael")).toBeNull();
+    expect(resolveChapterIntroForOpponentPrestigeRematch("nonsense")).toBeNull();
+  });
+
   it("unknown ids resolve to null (no wrong-content fire)", () => {
     expect(resolveChapterIntroForChapter("ch1")).toBeNull();
     expect(resolveChapterIntroForChapter("ch_authority_trial")).toBeNull();
@@ -73,12 +118,17 @@ describe("storyEncounterChapterIntros — bible-confirmed mappings", () => {
     expect(resolveChapterIntroForOpponent("nonsense")).toBeNull();
   });
 
-  it("ships exactly 4 chapterId mappings + 5 opponentId mappings (the 9 confident ones)", () => {
+  it("ships 4 chapterId + 7 opponentId + 1 prestige-rematch mappings (post-canon-gap-resolution)", () => {
+    // PR #565 shipped 4+5; this PR's Phase 3 added Elara-glitched +
+    // Source/Patient-Zero (opponentId) and Iron Lion (rematch).
     expect(
       Object.keys(STORY_CHAPTER_INTRO_MAPPINGS.byChapterId),
     ).toHaveLength(4);
     expect(
       Object.keys(STORY_CHAPTER_INTRO_MAPPINGS.byOpponentId),
-    ).toHaveLength(5);
+    ).toHaveLength(7);
+    expect(
+      Object.keys(STORY_CHAPTER_INTRO_MAPPINGS.byOpponentIdPrestigeRematch),
+    ).toHaveLength(1);
   });
 });

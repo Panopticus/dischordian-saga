@@ -34,6 +34,8 @@ import {
   type Act7OpponentDialog,
 } from "@shared/act7OpponentDialog";
 import { getTauntHooksForOpponent } from "@shared/actOpponentTaunts";
+import { resolveChapterIntroForOpponent } from "@shared/storyEncounterChapterIntros";
+import { chapterIntroTriggerFlag } from "@/components/cutscenes/ChapterIntroRouter";
 import { useAct7LadderStore } from "@/stores/act7CardLadderStore";
 import { useGame } from "@/contexts/GameContext";
 import DuelystGameUI from "@/game/duelyst/DuelystGameUI";
@@ -150,6 +152,14 @@ export default function Act7CardLadderPage() {
     if (currentOpponent.id === "act7_the_visible_war") {
       setNarrativeFlag("act7_army_assembled", true);
       fireCompanionComment("act7_army_assembled");
+    }
+    // Bible §3.10 — fire ch14_source intro on Patient Zero engage
+    // (Source = Kael's eternal-corrupted form, mapped to the
+    // existing Patient Zero opponent per the canon-gap audit).
+    // Other Act 7 opponents skip silently (resolver returns null).
+    const intro = resolveChapterIntroForOpponent(currentOpponent.id);
+    if (intro) {
+      setNarrativeFlag(chapterIntroTriggerFlag(intro.id), true);
     }
     setView("battle");
   }, [currentOpponent, setNarrativeFlag]);
