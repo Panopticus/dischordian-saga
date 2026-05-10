@@ -34,6 +34,15 @@ describe("humanRevealVariants — parity", () => {
   });
 
   it("deriveHumanRevealBranch follows precedence: convergence > elara > human > refused", () => {
+    // Canonical convergence flag (set by useLivingUniverseSync when
+    // the convergence_threshold event activates).
+    expect(
+      deriveHumanRevealBranch({
+        living_universe_event_convergence_threshold_active: true,
+        breaking_point_chose_elara: true,
+      }),
+    ).toBe("convergence");
+    // Legacy alias still honored.
     expect(
       deriveHumanRevealBranch({
         convergence_threshold_reached: true,

@@ -67,13 +67,24 @@ export function resolveHumanRevealVariant(
 /** Compute the branch from canonical narrative flags. The order
  *  here is precedence — the first matching flag wins. Returns
  *  null if none of the gating flags are set (caller should
- *  fall back to the base first-contact cutscene). */
+ *  fall back to the base first-contact cutscene).
+ *
+ *  Convergence is gated on the canonical
+ *  `living_universe_event_convergence_threshold_active` flag set
+ *  by `useLivingUniverseSync` (mirrors the convergence_threshold
+ *  EmergentEvent in livingUniverseEvents.ts) — no separate alias
+ *  flag is maintained, keeping the keyspace small. We also
+ *  accept the legacy `convergence_threshold_reached` alias so
+ *  hand-set debug flags continue to work. */
 export function deriveHumanRevealBranch(
   flags: Readonly<Record<string, boolean | undefined>>,
 ): HumanRevealBranch | null {
-  // Convergence wins if both faction sides reached convergence
-  // (mirrors the convergence_threshold event in livingUniverseEvents).
-  if (flags.convergence_threshold_reached) return "convergence";
+  if (
+    flags.living_universe_event_convergence_threshold_active ||
+    flags.convergence_threshold_reached
+  ) {
+    return "convergence";
+  }
   if (flags.breaking_point_chose_elara) return "fragment";
   if (flags.breaking_point_chose_human) return "full";
   if (flags.breaking_point_refused) return "ghost";
