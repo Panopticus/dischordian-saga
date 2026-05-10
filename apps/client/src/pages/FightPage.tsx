@@ -1,6 +1,8 @@
 import { useGameAreaBGM } from "@/contexts/GameAudioContext";
 import { LoreOverlay } from "@/components/LoreOverlay";
 import NarrativeTrigger from "@/components/NarrativeTrigger";
+import { FactionBackdrop } from "@/components/FactionBackdrop";
+import { arenaFaction } from "@shared/arenaFactionMapping";
 /* ═══════════════════════════════════════════════════════
    THE COLLECTOR'S ARENA — Main Fight Page
    Rebranded with lore opening, story mode, character
@@ -864,6 +866,11 @@ export default function FightPage() {
     const isFirstLine = storyDialogueIndex === 0 && storyDialogueType === "pre";
     const isVictoryMoment = storyDialogueType === "post-win" && storyDialogueIndex === dialogues.length - 1;
     const opponent = ALL_FIGHTERS.find(f => f.id === currentStoryChapter.opponentId);
+    // May 2026 archive — faction backplate behind every boss-encounter
+    // intro, picked from the chapter's arena via the arena→faction
+    // mapping. Stronger opacity on boss chapters so the faction
+    // identity reads cleanly through the cinematic glow.
+    const encounterFaction = arenaFaction(currentStoryChapter.arenaId);
 
     // Scene-specific background based on pre-scene effect
     const sceneBackgrounds: Record<string, string> = {
@@ -891,6 +898,15 @@ export default function FightPage() {
         }}
         onClick={advanceStoryDialogue}
       >
+        {/* Faction backplate — matches the chapter's arena. Brighter
+            on boss chapters so the faction signature lands hard. */}
+        {encounterFaction ? (
+          <FactionBackdrop
+            faction={encounterFaction}
+            opacity={isBossChapter ? 0.28 : 0.12}
+          />
+        ) : null}
+
         {/* Scene effect: ambient glow for ALL chapters */}
         {storyDialogueType === "pre" && (
           <motion.div
@@ -1333,6 +1349,7 @@ export default function FightPage() {
           <div className="grid grid-cols-4 gap-3 w-full mb-8">
             {ARENAS.map((a, i) => {
               const isSelected = selectedArena.id === a.id;
+              const faction = arenaFaction(a.id);
               return (
                 <motion.button
                   key={a.id}
@@ -1349,6 +1366,16 @@ export default function FightPage() {
                     aspectRatio: "16/10",
                   }}
                 >
+                  {/* May 2026 archive — faction backplate behind the
+                      arena image. Brightens on selection so the
+                      faction-aligned chrome reads more strongly when
+                      the player has picked that arena. */}
+                  {faction ? (
+                    <FactionBackdrop
+                      faction={faction}
+                      opacity={isSelected ? 0.35 : 0.18}
+                    />
+                  ) : null}
                   {/* Arena image */}
                   {a.backgroundImage ? (
                     <img
