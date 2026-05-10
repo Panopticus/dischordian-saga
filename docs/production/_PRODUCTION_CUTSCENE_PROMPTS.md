@@ -3057,3 +3057,1037 @@ Outstanding TBDs (resolved in §G.F audit):
 - Matrix Schools per-episode set-piece zones (`§E.x via HB1` /
   `§E.x via HB12`) need explicit §E reference in destinations
   doc — currently rolled into Hellbox-destination spec.
+
+---
+
+## §G.12 RETRO — narrative cutscene NB2 + Veo prompts (68)
+
+Retroactively adds NB2 still + Veo 3.1 video prompts to the
+narrative cutscenes already specced in `_PRODUCTION_CROSS_CUT.md`.
+The §3.1 spine (camera_spawn, head_motion, sfx_track, vo_line,
+trigger, recurrence) is **unchanged** and lives in CROSS_CUT.md;
+the blocks below are additive.
+
+Every retro block uses §G.0 framework (canonical FPV trait-lock,
+canonical negative-prompt, model spec) and references its
+CROSS_CUT.md line by xref.
+
+### §G.12.A Shipped narrative cutscenes (5)
+
+#### `cs_awakening`
+- xref: _PRODUCTION_CROSS_CUT.md §F.1.A.1 L68
+
+```yaml
+nb2_start:
+  reference_images:
+    - cdn/client-public/art/refs/cryo_bay_pod_zero.png
+  prompt: |
+    SUBJECT: the inside of cryo-pod zero, viewed from the
+      reclined occupant's eye-line; frosted-glass canopy 0.4 m
+      above the eyes, faint amber pod-warning-LED pulsing in
+      the upper-right corner of the canopy frame; cryo-fog
+      obscuring the lower 30% of view; crystalline frost-pattern
+      etched on the glass.
+    COMPOSITION: extreme close-up, FPV from inside the pod;
+      reclined avatar eye-bone (parametric small/medium/tall);
+      35mm; deep DOF on canopy with frost; pod-rim faintly
+      visible at frame edges in shadow.
+    LIGHTING/CAMERA: 4800K cold-stark canopy backlight + 6500K
+      faint blue rim from emergency-LED grid above pod array;
+      single amber 1800K pulse-LED upper-right; volumetric cryo-
+      fog z+0–0.4 m; Kodak Vision3 500T pushed +1; cold-stark
+      Cryo Bay palette `#1f3a4d / #d6e1ea / #ffd166`.
+    STYLE: claustrophobic awakening still; frost-detail near-
+      microscopic; institutional medical aesthetic; chilled
+      emergency atmosphere.
+    CONSTRAINTS: <NB2_CONSTRAINTS_BASE>; <FPV_LOCK_PHRASE_NB2>;
+      reclined avatar eye-line (small 1.20 m → eye at z+0 inside
+      pod; medium 1.65 m → eye at z+0; tall 1.95 m → eye at z+0);
+      no third-person of player visible.
+    Output 4K, 21:9.
+
+nb2_end:
+  prompt: |
+    SUBJECT: the cryo-bay ceiling visible above; pod-edge in
+      lower frame at chest-level; first-person upright posture;
+      cryo-fog still venting from below pod-rim; ceiling-fan
+      hum-grid, single amber pulse-LED still visible at the
+      pod's edge.
+    COMPOSITION: medium-wide upright FPV; 35mm; eye-level
+      +1.65 m (parametric); deep DOF with ceiling-grid in focus.
+    LIGHTING/CAMERA: 5400K Cryo Bay overhead grid; 6500K rim
+      from emergency-LEDs; cryo-fog z+0–1.2 m drift.
+    STYLE: emergence still; cold-stark institutional.
+    CONSTRAINTS: <standard>; FPV trait-lock.
+    Output 4K, 21:9.
+
+veo:
+  first_frame: cdn/client-public/cutscenes/cs_awakening/start.png
+  last_frame: cdn/client-public/cutscenes/cs_awakening/end.png
+  reference_images:
+    - cdn/client-public/art/refs/cryo_bay_pod_zero.png
+  prompt: |
+    CINEMATOGRAPHY: extreme close-up FPV inside pod, slow
+      forward dolly +0.6 m over 12 s as canopy fractures and
+      glass falls away, 35mm, FPV trait-lock; only player's
+      hands enter from below at 6 s.
+    SUBJECT: the cryo-pod canopy from inside, frost-etched
+      glass, amber pulse-LED.
+    ACTION: 0–4 s locked frosted-glass POV; 4.5 s pod-glass
+      cracks; 6 s player's hands enter frame from below pushing
+      glass; 8 s slow dolly forward as glass falls away; 10 s
+      head-tilt up to ceiling; 12 s eyes adjust to light, lands
+      on last_frame.
+    CONTEXT: Cryo Bay, pod zero, mid-Act-0 awakening.
+    STYLE & AMBIANCE: cold-stark institutional; Kodak Vision3
+      500T pushed +1.
+    AUDIO:
+      Dialogue: none.
+      SFX: pod-vital-monitor beep 00:00; glass-fracture crack
+        00:04.5; glass-shatter 00:06; cryo-fog-vent hiss 00:08;
+        ceiling-fan hum begins 00:10.
+      Ambient noise: Cryo Bay sub-bass; emergency-LED ballast hum.
+      Score: none.
+    [00:00–00:04] frosted-glass POV holds, vital-monitor beeps.
+    [00:04–00:08] glass cracks, hands push, dolly forward.
+    [00:08–00:12] head tilts up, ceiling resolves, lands on
+      last_frame.
+  duration_seconds: 12   # stitched 8+4
+  notes: "12s stitched as 8s clip_a (0–8) + 4s clip_b (8–12)
+    with last_frame_a == first_frame_b at the 8-second mark."
+
+pipeline:
+  nb2_seed: 153001; veo_seed: 253001; vo_manifest_ref: null;
+  cdn_target: cdn/client-public/cutscenes/cs_awakening/
+```
+
+#### `cs_first_human_contact`
+- xref: _PRODUCTION_CROSS_CUT.md §F.1.A.1 L80
+
+```yaml
+nb2_start.subject: "the Comms Array frequency-wall in §A.5; 12-row
+  vertical bank of frequency-indicator strips, dim-amber back-
+  lighting; the 52.7 MHz row is dim-pulsing; the rest are static
+  cold-blue; cabinet brass face-plates show scuffs; one chair
+  visible at frame-right (player's station)."
+nb2_end.subject: "the 52.7 MHz indicator-strip is at full
+  brightness; the player's gloved hand reaches toward the wall in
+  lower-frame, fingertip 0.05 m from the indicator; cabinet has
+  warmed to amber overall."
+veo.action: "0–3 s frequency-wall in low light; 3 s carrier-wave
+  fade-in; 5 s indicator pulses brighter; 7 s carrier sharpens;
+  8 s indicator at full brightness, hand reaching."
+veo.audio.dialogue: "Substrate-Human voice says, \"I am here.\""
+veo.audio.sfx: "comms-static low 00:00; carrier-wave fade-in 00:03;
+  human-voice fragment 00:05; carrier sharpens 00:07."
+veo.audio.ambient: "Comms Array ventilation; ballast-hum low."
+pipeline:
+  nb2_seed: 153002; veo_seed: 253002;
+  vo_manifest_ref: apps/shared/substrateHumanVoManifest.json#L<TBD>;
+  cdn_target: cdn/client-public/cutscenes/cs_first_human_contact/
+```
+
+#### `cs_elaras_memory_recovery`
+- xref: §F.1.A.1 L92
+
+```yaml
+nb2_start.subject: "the Med Bay autoclave shelf in §A.2; player's
+  gloved hands hold a memory-shard (4 cm hexagonal crystal) at
+  chest-height; shard emits faint warm light revealing a
+  fragment of Elara's silhouette inside the crystal."
+nb2_end.subject: "Elara's full hologram has materialised 0.4 m to
+  the player's left, faint and translucent; she is in mid-breath;
+  the shard in player's palm is now dim and cooling."
+veo.action: "0 s shard-hum begins; 3 s shard warm-pulse; 7 s
+  memory-recall chord, examining hand tilt; 9 s hologram-
+  materialise warble; 11 s Elara's first half-breath."
+veo.audio.dialogue: "Elara says, \"Wait. I remember.\""
+veo.audio.sfx: "shard-hum 00:00; shard-warm-pulse 00:03; memory-
+  recall chord 00:07; hologram-warble 00:09; half-breath 00:11."
+veo.audio.ambient: "Med Bay clinical-cold; autoclave thermal tick."
+pipeline:
+  nb2_seed: 153003; veo_seed: 253003;
+  vo_manifest_ref: apps/shared/elaraVoManifest.json#L<TBD>;
+  cdn_target: cdn/client-public/cutscenes/cs_elaras_memory_recovery/
+  notes: "11s clip — runs as full 8s + 3s stitched short.";
+```
+
+#### `cs_breaking_point`
+- xref: §F.1.A.1 L104
+
+```yaml
+nb2_start.subject: "the reactor observation railing in §A.4
+  Engineering Bay; reactor core pulsing in regular sub-bass rhythm
+  visible through observation glass at frame-centre; conspiracy-
+  board barely visible upper-left periphery showing 43↔44 flicker."
+nb2_end.subject: "reactor warning-LED panel red and solid;
+  conspiracy-board flickering harder; player's gloved hands grip
+  the railing in lower frame, knuckles visible and pale."
+veo.action: "0–4 s forward dolly +1.20 m, reactor in regular
+  rhythm; 4–6 s freeze, sub-bass goes off-rhythm; 7 s sharp pan-
+  left 30° to conspiracy-board; 10 s back to centre, warning-LED
+  click-on; 11 s tilt-up to LED panel; 12 s reactor-strain groan."
+veo.audio.dialogue: "none."
+veo.audio.sfx: "reactor-hum 00:00; sub-bass off-rhythm 00:04;
+  conspiracy-board flicker electric crack 00:07; warning-LED click-
+  on 00:09; reactor-strain groan 00:10; player-heartbeat surge 00:11."
+veo.audio.ambient: "Engineering reactor low-frequency bed."
+pipeline:
+  nb2_seed: 153004; veo_seed: 253004; vo_manifest_ref: null;
+  cdn_target: cdn/client-public/cutscenes/cs_breaking_point/
+  notes: "12s stitched 8+4."
+```
+
+#### `cs_thought_virus_manifests`
+- xref: §F.1.A.1 L116
+
+```yaml
+nb2_start.subject: "first contaminated room entered from §A.4
+  Engineering Bay; sterile clean-room composition; clean walls,
+  fluorescent grid above; no contamination yet visible; player
+  has just stepped through doorway."
+nb2_end.subject: "the same room — but walls now show subtle TV-
+  corruption flicker-glitch overlay; air contains visible spore-
+  mote drift z+0–2 m; sterile-clean has decayed."
+veo.action: "0–3 s clean-room composition; 4 s head-tilt +5° as
+  visual distortion enters peripheral; 7 s involuntary head-shake;
+  9 s thousand-yard stare composition, walls now contaminated; 10 s
+  low whisper subliminal."
+veo.audio.dialogue: "none (the TV does not speak — for now)."
+veo.audio.sfx: "clean-room ambient 00:00; ear-ring high-frequency
+  tone 00:04; reality-glitch warp 00:07; breathing-quickens 00:09;
+  low whisper subliminal 00:10."
+veo.audio.ambient: "Engineering ventilation transitioning to
+  contaminated bed at 00:07."
+pipeline:
+  nb2_seed: 153005; veo_seed: 253005; vo_manifest_ref: null;
+  cdn_target: cdn/client-public/cutscenes/cs_thought_virus_manifests/
+```
+
+### §G.12.B Hellbox transit cutscenes (33+)
+
+Master trait-lock for all Hellboxes: void-black with sigil
+illumination; 1800K candlelight equivalents on transit-glyphs;
+Sirius-blue volumetrics; ARRI Alexa look; palette
+`#080612 / #ffd166 / #5fa8ff`.
+
+Each Hellbox shows the surface-room first (origin Ark room),
+the transit interior (sigil-flagged ring descent z+0 to z+12 m),
+then the destination zone arrival.
+
+#### `cs_hellbox_1_open` (Med Bay → Celebration School)
+
+```yaml
+nb2_start.subject: "Med Bay HB1 surface (per §A.2 spec); plinth
+  at room-centre with welcome-statue; player's gloved hands in
+  lower frame lifting the welcome-statue from its plinth; medical-
+  cross sigil visible on plinth's brass face."
+nb2_end.subject: "Celebration School courtyard cobblestones
+  underfoot; ceiling-oculus brass-ring visible above; child-NPCs
+  visible at far edge of courtyard in golden-hour light."
+veo.action: "0–3 s player lifts welcome-statue (HB1 surface);
+  3–8 s descent into ring (sigil-chime cascade, transit-video);
+  8–10 s arrival in Celebration courtyard."
+veo.audio.dialogue: "Master of R'lyeh says, \"When the body fails,
+  does the self?\""
+veo.audio.sfx: "plinth-stone-grind 00:00; sigil-chime first 00:03;
+  sigil-chime middle 00:05; pressure-release hiss 00:07; arrival-
+  thunk 00:08."
+veo.audio.ambient: "transit Sirius-blue resonance; HB1 medical-
+  cross-helix sigil hum."
+pipeline:
+  nb2_seed: 153101; veo_seed: 253101;
+  vo_manifest_ref: apps/shared/masterOfRlyehVoManifest.json#L<TBD>;
+  cdn_target: cdn/client-public/cutscenes/cs_hellbox_1_open/
+  notes: "10s clip — single 8s + 2s stitched short."
+```
+
+#### `cs_hellbox_1_close` (Celebration School → Med Bay)
+
+```yaml
+notes: "reverse of HB1_open; player at Celebration courtyard
+  oculus, statue replaced; ascent through transit ring; arrival
+  at Med Bay HB1 plinth. Same audio palette in reverse order;
+  Master of R'lyeh VO inverts: 'And does the self return?'"
+pipeline:
+  nb2_seed: 153102; veo_seed: 253102;
+  vo_manifest_ref: apps/shared/masterOfRlyehVoManifest.json#L<TBD>;
+  cdn_target: cdn/client-public/cutscenes/cs_hellbox_1_close/
+```
+
+#### `cs_hellbox_1_universal_selector_unlock` (Act 7+ HB1 selector mode)
+
+```yaml
+notes: "Act 7+ unlock — HB1's plinth has been augmented with a
+  brass star-map dial; the welcome-statue has grown a 12-pointed
+  star indicator. Player's gloved hand rotates the dial, the 12
+  destination indicators light in sequence. VO: Master of R'lyeh:
+  'Choose any.'"
+pipeline:
+  nb2_seed: 153103; veo_seed: 253103;
+  vo_manifest_ref: apps/shared/masterOfRlyehVoManifest.json#L<TBD>;
+  cdn_target: cdn/client-public/cutscenes/cs_hellbox_1_universal_selector_unlock/
+```
+
+#### `cs_hellbox_2_open` (Hierarchy Throne → Castle of Death)
+
+```yaml
+notes: "HB2 surface is in the Hierarchy Throne hub; sigil is gold-
+  blood-channel inlay. Descent shows hierarchy-ritual sigils
+  (eight-pointed sacrificial star). Arrival at Castle of Death
+  Grand Hall threshold (matches §G.4.1 nb2_start)."
+veo.audio.dialogue: "Master of R'lyeh says, \"Do you know what is
+  asked?\""
+pipeline:
+  nb2_seed: 153104; veo_seed: 253104;
+  vo_manifest_ref: apps/shared/masterOfRlyehVoManifest.json#L<TBD>;
+  cdn_target: cdn/client-public/cutscenes/cs_hellbox_2_open/
+```
+
+#### `cs_hellbox_2_close` / `cs_hellbox_2_first_offering`
+
+```yaml
+notes: "close: reverse of HB2_open; first_offering: HB2 surface
+  shows the player presenting an offering on the Hierarchy
+  Throne plinth before transit; hierarchy-attendant NPC bows once."
+veo.audio.dialogue (close): "Master of R'lyeh: \"You return marked.\""
+veo.audio.dialogue (first_offering): "Hierarchy attendant: \"Place it.\""
+pipeline:
+  cs_hellbox_2_close: { nb2_seed: 153105, veo_seed: 253105,
+    cdn_target: cdn/client-public/cutscenes/cs_hellbox_2_close/ }
+  cs_hellbox_2_first_offering: { nb2_seed: 153106, veo_seed: 253106,
+    cdn_target: cdn/client-public/cutscenes/cs_hellbox_2_first_offering/ }
+```
+
+#### `cs_hellbox_3_open` (Bridge → Quiz Show Palimpsest)
+
+```yaml
+notes: "HB3 surface is on the Bridge tactical-display chalk-
+  surface; tactical-chalk sigils light TV-broadcast-test-pattern
+  glyphs. Descent through TV-static transit. Arrival at Quiz Show
+  studio main-stage threshold."
+veo.audio.dialogue: "Master of R'lyeh: \"Care to play?\""
+pipeline:
+  nb2_seed: 153107; veo_seed: 253107;
+  vo_manifest_ref: apps/shared/masterOfRlyehVoManifest.json#L<TBD>;
+  cdn_target: cdn/client-public/cutscenes/cs_hellbox_3_open/
+```
+
+#### `cs_hellbox_3_close`, `cs_quiz_round_close_1..5`, `cs_velkraal_brel_succession`
+
+```yaml
+cs_hellbox_3_close:
+  notes: "reverse of HB3_open."
+  pipeline:
+    nb2_seed: 153108; veo_seed: 253108;
+    cdn_target: cdn/client-public/cutscenes/cs_hellbox_3_close/
+
+cs_quiz_round_close_1:
+  notes: "Q1 close — Velkraal hosts; bg-cyc full-saturation; Velkraal's
+    smile is intact. Diegetic 'ROUND 2: DECEIT' (15 chars)."
+  veo.audio.dialogue: "Velkraal: \"Round two: deceit.\""
+  pipeline:
+    nb2_seed: 153109; veo_seed: 253109;
+    vo_manifest_ref: apps/shared/velkraalVoManifest.json#L<TBD>;
+    cdn_target: cdn/client-public/cutscenes/cs_quiz_round_close_1/
+
+cs_quiz_round_close_2:
+  notes: "Q2 close — Velkraal's tone darkens slightly. 'ROUND 3:
+    DAMAGE' (14 chars)."
+  veo.audio.dialogue: "Velkraal: \"Round three: damage.\""
+  pipeline:
+    nb2_seed: 153110; veo_seed: 253110;
+    cdn_target: cdn/client-public/cutscenes/cs_quiz_round_close_2/
+
+cs_quiz_round_close_3:
+  notes: "Q3 close — 'ROUND 4: DEFEAT' (14 chars). Crowd-applause
+    fades 2 dB."
+  veo.audio.dialogue: "Velkraal: \"Round four: defeat.\""
+  pipeline:
+    nb2_seed: 153111; veo_seed: 253111;
+    cdn_target: cdn/client-public/cutscenes/cs_quiz_round_close_3/
+
+cs_quiz_round_close_4:
+  notes: "Q4 close — 'ROUND 5: DARK' (12 chars). Studio-light dim
+    by 4%."
+  veo.audio.dialogue: "Velkraal: \"Round five: dark.\""
+  pipeline:
+    nb2_seed: 153112; veo_seed: 253112;
+    cdn_target: cdn/client-public/cutscenes/cs_quiz_round_close_4/
+
+cs_quiz_round_close_5:
+  notes: "Q5 close — 'ROUND 6: DOOM' (12 chars). Velkraal's mic
+    crackles. Final round before succession."
+  veo.audio.dialogue: "Velkraal: \"Round six: doom.\""
+  pipeline:
+    nb2_seed: 153113; veo_seed: 253113;
+    cdn_target: cdn/client-public/cutscenes/cs_quiz_round_close_5/
+
+cs_velkraal_brel_succession:
+  notes: "between Q5 and Q6 — Velkraal's silhouette dissolves to
+    static mid-podium; Brel walks on from stage-right wearing the
+    same suit. The category-card has updated mid-air. Audio:
+    crowd-gasp 00:03; static-burst 00:04; Brel-footstep cadence
+    00:05–00:07; mic-handover-tap 00:08."
+  veo.audio.dialogue: "Brel says, \"Welcome back.\""
+  pipeline:
+    nb2_seed: 153114; veo_seed: 253114;
+    vo_manifest_ref: apps/shared/brelVoManifest.json#L<TBD>;
+    cdn_target: cdn/client-public/cutscenes/cs_velkraal_brel_succession/
+    notes: "12s stitched."
+```
+
+#### `cs_hellbox_4_open` / `_close` / `_first_class` (Engineering Bay → Mechronis Academy)
+
+```yaml
+cs_hellbox_4_open:
+  notes: "HB4 surface in Engineering Bay; sigil is mechanical-gear-
+    inlay. Descent through gear-rotation transit. Arrival at
+    Mechronis main hallway."
+  veo.audio.dialogue: "Master of R'lyeh: \"Build, then.\""
+  pipeline:
+    nb2_seed: 153115; veo_seed: 253115;
+    cdn_target: cdn/client-public/cutscenes/cs_hellbox_4_open/
+
+cs_hellbox_4_close:
+  notes: "reverse."
+  pipeline:
+    nb2_seed: 153116; veo_seed: 253116;
+    cdn_target: cdn/client-public/cutscenes/cs_hellbox_4_close/
+
+cs_hellbox_4_first_class:
+  notes: "Mechronis M1 first-arrival inside the academy hallway;
+    hallway lined with surveillance-cameras tracking player; one
+    door 6 m ahead opens; cohort-NPCs visible inside in formation.
+    Audio: camera-servo whirr cascade; cohort-recite low chord."
+  veo.audio.dialogue: "Sergeant: \"Cohort, in.\""
+  pipeline:
+    nb2_seed: 153117; veo_seed: 253117;
+    vo_manifest_ref: apps/shared/mechronisSergeantVoManifest.json#L<TBD>;
+    cdn_target: cdn/client-public/cutscenes/cs_hellbox_4_first_class/
+```
+
+#### `cs_hellbox_5_open` / `_select_destination` (Personal Quarters → Universal Selector)
+
+```yaml
+cs_hellbox_5_open:
+  notes: "HB5 surface in Personal Quarters; sigil is personal-
+    keepsake-circle. Descent through keepsake-vignette transit.
+    Arrival at Universal Selector room (12-pointed star-dial)."
+  veo.audio.dialogue: "Master of R'lyeh: \"Where now?\""
+  pipeline:
+    nb2_seed: 153118; veo_seed: 253118;
+    cdn_target: cdn/client-public/cutscenes/cs_hellbox_5_open/
+
+cs_hellbox_5_select_destination:
+  notes: "player's gloved hand rotates the 12-point dial; one
+    indicator at a time lights as hand passes; player commits at
+    one. Audio: dial-rotation soft-click cascade; commit-chime."
+  veo.audio.dialogue: "none (Selector is silent)."
+  pipeline:
+    nb2_seed: 153119; veo_seed: 253119;
+    cdn_target: cdn/client-public/cutscenes/cs_hellbox_5_select_destination/
+```
+
+#### `cs_hellbox_6_open` / `_close` (Memorial Corridor → Dead Man's Circuit)
+
+```yaml
+cs_hellbox_6_open:
+  notes: "HB6 surface in Memorial Corridor; sigil is checkered-
+    racing-flag-inlay. Descent through engine-roar transit.
+    Arrival at Dead Man's Circuit pit-lane in twilight."
+  veo.audio.dialogue: "Master of R'lyeh: \"Drive, do not look.\""
+  pipeline:
+    nb2_seed: 153120; veo_seed: 253120;
+    cdn_target: cdn/client-public/cutscenes/cs_hellbox_6_open/
+
+cs_hellbox_6_close:
+  notes: "reverse."
+  pipeline:
+    nb2_seed: 153121; veo_seed: 253121;
+    cdn_target: cdn/client-public/cutscenes/cs_hellbox_6_close/
+```
+
+#### `cs_hellbox_7_open` / `_close` (Captain's Quarters → Degenerate's Casino)
+
+```yaml
+cs_hellbox_7_open:
+  notes: "HB7 surface in Captain's Quarters Degen Corner; sigil is
+    casino-chip-spiral. Descent through chip-cascade transit.
+    Arrival at HB7 Casino floor entrance."
+  veo.audio.dialogue: "Master of R'lyeh: \"Bet small. Lose anyway.\""
+  pipeline:
+    nb2_seed: 153122; veo_seed: 253122;
+    cdn_target: cdn/client-public/cutscenes/cs_hellbox_7_open/
+
+cs_hellbox_7_close:
+  notes: "reverse."
+  pipeline:
+    nb2_seed: 153123; veo_seed: 253123;
+    cdn_target: cdn/client-public/cutscenes/cs_hellbox_7_close/
+```
+
+#### `cs_hellbox_8_open` / `_edit` / `_close` (Cipher Den → Editor's Workshop)
+
+```yaml
+cs_hellbox_8_open:
+  notes: "HB8 surface in Cipher Den; sigil is letterpress-block-
+    grid. Descent through paper-flap transit. Arrival at Editor's
+    Workshop, ink-stained desks."
+  veo.audio.dialogue: "Master of R'lyeh: \"Re-write what was written.\""
+  pipeline:
+    nb2_seed: 153124; veo_seed: 253124;
+    cdn_target: cdn/client-public/cutscenes/cs_hellbox_8_open/
+
+cs_hellbox_8_edit:
+  notes: "player's gloved hands hold a draft-page; ink-pen lifts
+    of its own accord and edits the page. Audio: pen-scratch on
+    paper 00:03–00:07."
+  pipeline:
+    nb2_seed: 153125; veo_seed: 253125;
+    cdn_target: cdn/client-public/cutscenes/cs_hellbox_8_edit/
+
+cs_hellbox_8_close:
+  notes: "reverse."
+  pipeline:
+    nb2_seed: 153126; veo_seed: 253126;
+    cdn_target: cdn/client-public/cutscenes/cs_hellbox_8_close/
+```
+
+#### `cs_hellbox_9_open` / `_move` / `_close` (Chess Hall → Eternal Match)
+
+```yaml
+cs_hellbox_9_open:
+  notes: "HB9 surface in Chess Hall; sigil is 8x8 board pattern.
+    Descent through chess-piece-rain transit. Arrival at Eternal
+    Match chamber, single board floating in void."
+  veo.audio.dialogue: "Master of R'lyeh: \"The board waits.\""
+  pipeline:
+    nb2_seed: 153127; veo_seed: 253127;
+    cdn_target: cdn/client-public/cutscenes/cs_hellbox_9_open/
+
+cs_hellbox_9_move:
+  notes: "player's gloved hand makes a single move on the floating
+    board; piece slides with subtle reverberation."
+  pipeline:
+    nb2_seed: 153128; veo_seed: 253128;
+    cdn_target: cdn/client-public/cutscenes/cs_hellbox_9_move/
+
+cs_hellbox_9_close:
+  notes: "reverse of HB9_open."
+  pipeline:
+    nb2_seed: 153129; veo_seed: 253129;
+    cdn_target: cdn/client-public/cutscenes/cs_hellbox_9_close/
+```
+
+#### `cs_hellbox_10_open` / `_release` / `_close` (Collectors Arena → Hall of Collected Souls)
+
+```yaml
+cs_hellbox_10_open:
+  notes: "HB10 surface in Collectors Arena; sigil is jar-and-tag
+    inlay. Descent through specimen-jar transit. Arrival at Hall
+    of Collected Souls, infinite shelving of glass jars each
+    holding a still-image fragment."
+  veo.audio.dialogue: "Master of R'lyeh: \"Each jar is someone.\""
+  pipeline:
+    nb2_seed: 153130; veo_seed: 253130;
+    cdn_target: cdn/client-public/cutscenes/cs_hellbox_10_open/
+
+cs_hellbox_10_release:
+  notes: "player selects one jar; opens lid; the contained
+    fragment-image dissipates as a wisp."
+  pipeline:
+    nb2_seed: 153131; veo_seed: 253131;
+    cdn_target: cdn/client-public/cutscenes/cs_hellbox_10_release/
+
+cs_hellbox_10_close:
+  notes: "reverse."
+  pipeline:
+    nb2_seed: 153132; veo_seed: 253132;
+    cdn_target: cdn/client-public/cutscenes/cs_hellbox_10_close/
+```
+
+#### `cs_hellbox_11_open` / `_negotiate` / `_close` (Defense Command → The Hive)
+
+```yaml
+cs_hellbox_11_open:
+  notes: "HB11 surface in Defense Command; sigil is hexagonal-
+    swarm-pattern. Descent through wing-buzz transit. Arrival at
+    The Hive, vast hexagonal-cell chamber."
+  veo.audio.dialogue: "Master of R'lyeh: \"Hold a parley.\""
+  pipeline:
+    nb2_seed: 153133; veo_seed: 253133;
+    cdn_target: cdn/client-public/cutscenes/cs_hellbox_11_open/
+
+cs_hellbox_11_negotiate:
+  notes: "player faces a Hive-Queen NPC across a chamber-centre
+    altar; queen's mandibles flex once."
+  veo.audio.dialogue: "Hive-Queen: \"What do you offer?\""
+  pipeline:
+    nb2_seed: 153134; veo_seed: 253134;
+    vo_manifest_ref: apps/shared/hiveQueenVoManifest.json#L<TBD>;
+    cdn_target: cdn/client-public/cutscenes/cs_hellbox_11_negotiate/
+
+cs_hellbox_11_close:
+  notes: "reverse."
+  pipeline:
+    nb2_seed: 153135; veo_seed: 253135;
+    cdn_target: cdn/client-public/cutscenes/cs_hellbox_11_close/
+```
+
+#### `cs_hellbox_12_open` / `_self_duel` / `_close` (Game Hall → Dischordian Arena)
+
+```yaml
+cs_hellbox_12_open:
+  notes: "HB12 surface in Game Hall; sigil is mirror-and-card.
+    Descent through reflection-cascade transit. Arrival at
+    Dischordian Arena, mirror-perfect duel-stage."
+  veo.audio.dialogue: "Master of R'lyeh: \"Duel yourself.\""
+  pipeline:
+    nb2_seed: 153136; veo_seed: 253136;
+    cdn_target: cdn/client-public/cutscenes/cs_hellbox_12_open/
+
+cs_hellbox_12_self_duel:
+  notes: "the duel-stage opponent is the player's own mirror-image
+    in identical wardrobe; opponent makes the same motions
+    delayed by 0.4 s."
+  veo.audio.dialogue: "Mirror-self says, \"You first.\""
+  pipeline:
+    nb2_seed: 153137; veo_seed: 253137; vo_manifest_ref: null;
+    cdn_target: cdn/client-public/cutscenes/cs_hellbox_12_self_duel/
+    notes: "FPV-mirror constraint relaxed for this cutscene only —
+      the opponent IS the player; the negative_prompt is rewritten:
+      'no third-person view of the player except as the across-table
+      duel opponent.' Mirror-self's face is blurred or stylised so
+      the player's face never resolves explicitly."
+
+cs_hellbox_12_close:
+  notes: "reverse."
+  pipeline:
+    nb2_seed: 153138; veo_seed: 253138;
+    cdn_target: cdn/client-public/cutscenes/cs_hellbox_12_close/
+```
+
+### §G.12.C Galaxy Map / Trade Empire heroes (10)
+
+```yaml
+cs_galaxy_first_open:
+  xref: §F.1.A.3 L472
+  notes: "first time Galaxy Map opens — wide hyperspace-key
+    composition; brass map-unfurl; 38 sectors light in faction
+    colours one at a time; trade-route lines pulse once. 10s
+    stitched."
+  veo.audio.dialogue: "Trade-clerk: \"Map online.\""
+  pipeline:
+    nb2_seed: 154001; veo_seed: 254001;
+    cdn_target: cdn/client-public/cutscenes/cs_galaxy_first_open/
+
+cs_doom_clock_visible:
+  xref: §F.1.A.3 L482
+  notes: "Doom Clock first becomes visible on Galaxy Map; 12-hour
+    clock-face superimposed at galactic-centre; clock-hand begins
+    to tick. Audio: clock-tick at 1 Hz; low chord; player-breath."
+  veo.audio.dialogue: "none."
+  pipeline:
+    nb2_seed: 154002; veo_seed: 254002;
+    cdn_target: cdn/client-public/cutscenes/cs_doom_clock_visible/
+
+cs_first_arrival_free_ports:
+  xref: §F.1.A.3 L492
+  notes: "Free Ports — already shipped art (`§E.1.1` ref). Compose
+    arrival from existing reference; player's shuttle docks at
+    the central market-station Tier 4."
+  veo.audio.dialogue: "Trade-clerk: \"Free Ports. Welcome.\""
+  pipeline:
+    nb2_seed: 154003; veo_seed: 254003;
+    cdn_target: cdn/client-public/cutscenes/cs_first_arrival_free_ports/
+
+cs_first_arrival_terminus_core:
+  xref: §F.1.A.3 L497
+  notes: "Terminus Core — the dense innermost zone; player's
+    instruments fail visibly as approach completes. Trait-lock
+    with §G.5.15 Terminus Approach palette (`#0a0612 / #ff2a8a /
+    #5fa8ff`)."
+  veo.audio.dialogue: "Pilot: \"Terminus. Hold.\""
+  pipeline:
+    nb2_seed: 154004; veo_seed: 254004;
+    cdn_target: cdn/client-public/cutscenes/cs_first_arrival_terminus_core/
+
+cs_first_arrival_hell_gate:
+  xref: §F.1.A.3 L501
+  notes: "Hell Gate — a wormhole anomaly framed by a ruined
+    archway-station; volumetric red-violet light spills from
+    the gate. Audio: wormhole low chord, structural creak."
+  veo.audio.dialogue: "Pilot: \"Hell Gate cleared.\""
+  pipeline:
+    nb2_seed: 154005; veo_seed: 254005;
+    cdn_target: cdn/client-public/cutscenes/cs_first_arrival_hell_gate/
+
+cs_first_arrival_dreamer_barrier:
+  xref: §F.1.A.3 L505
+  notes: "Dreamer Barrier — a translucent membrane spanning a
+    sector boundary; pale-blue dreamers-aesthetic crystals visible
+    on the barrier's surface."
+  veo.audio.dialogue: "Pilot: \"Barrier intact.\""
+  pipeline:
+    nb2_seed: 154006; veo_seed: 254006;
+    cdn_target: cdn/client-public/cutscenes/cs_first_arrival_dreamer_barrier/
+
+cs_first_arrival_panopticon:
+  xref: §F.1.A.3 L525
+  notes: "Panopticon Ruins — a pre-Empire surveillance-station,
+    now a half-broken ring with thousands of derelict observation-
+    posts visible on its inner surface. 12s stitched."
+  veo.audio.dialogue: "Pilot: \"Panopticon. Eyes off, even now.\""
+  pipeline:
+    nb2_seed: 154007; veo_seed: 254007;
+    cdn_target: cdn/client-public/cutscenes/cs_first_arrival_panopticon/
+
+cs_first_arrival_frontier_worlds:
+  xref: §F.1.A.3 L529
+  notes: "Frontier Worlds — a 6-planet system at the Empire's
+    edge; player's shuttle approaches the largest. Trait-lock
+    with §G.5.4 Empire Frontier palette."
+  veo.audio.dialogue: "Outpost-foreman: \"Worlds Six.\""
+  pipeline:
+    nb2_seed: 154008; veo_seed: 254008;
+    cdn_target: cdn/client-public/cutscenes/cs_first_arrival_frontier_worlds/
+
+cs_first_arrival_generic_<sectorType>:
+  xref: §F.1.A.3 L533
+  notes: "8 type-templates (stardock / station / port / planet /
+    nebula / asteroid / hazard / wormhole). Each template gets a
+    palette-anchored 6s arrival cut at the type's representative
+    composition. Pipeline seeds: 154009..154016. CDN target per-
+    template: cdn/client-public/cutscenes/cs_first_arrival_generic_<type>/."
+
+cs_planet_state_flip_<state>:
+  xref: §F.1.A.3 L539
+  notes: "5 templates (faction-flip / embargo / festival / plague /
+    anomaly). Each gets a 6s state-visualisation cut at the
+    state's representative composition (banner-shift / red-X /
+    festival-banner / plague-quarantine / anomaly-rift). Pipeline
+    seeds: 154017..154021."
+```
+
+### §G.12.D Brokers (3)
+
+```yaml
+cs_broker_first_meet_degenerate:
+  xref: §F.1.A.4 L547
+  notes: "first meet with the Degenerate broker in HB7 Casino back-
+    booth; broker's face partially obscured by a cocktail-glass
+    in foreground. Audio: ice-cube tap on glass 00:04."
+  veo.audio.dialogue: "Degenerate: \"You bring action?\""
+  pipeline:
+    nb2_seed: 155001; veo_seed: 255001;
+    vo_manifest_ref: apps/shared/degenerateBrokerVoManifest.json#L<TBD>;
+    cdn_target: cdn/client-public/cutscenes/cs_broker_first_meet_degenerate/
+
+cs_broker_first_meet_sentinel:
+  xref: §F.1.A.4 L551
+  notes: "first meet with the Sentinel broker on a sentinel-tower
+    observation deck; broker in greatcoat with brass scope at
+    chest. Audio: scope-mechanism click 00:04; wind-rush at altitude."
+  veo.audio.dialogue: "Sentinel: \"State your need.\""
+  pipeline:
+    nb2_seed: 155002; veo_seed: 255002;
+    vo_manifest_ref: apps/shared/sentinelBrokerVoManifest.json#L<TBD>;
+    cdn_target: cdn/client-public/cutscenes/cs_broker_first_meet_sentinel/
+
+cs_broker_first_meet_third:
+  xref: §F.1.A.4 L555
+  notes: "TBD broker — placeholder. Composition resolves at lore-
+    delivery time."
+  pipeline:
+    nb2_seed: 155003; veo_seed: 255003; vo_manifest_ref: null;
+    cdn_target: cdn/client-public/cutscenes/cs_broker_first_meet_third/
+```
+
+### §G.12.E Alliance War (8)
+
+Trait-lock: hex-grid table, 4500K command-room lighting, Vision3
+250D, palette `#1a3550 / #c8a05a / #ff5a1a`. War-Room SFX:
+gavel-tap, hex-piece-place, intel-buzzer.
+
+```yaml
+cs_war_declared:
+  xref: §F.1.A.5 L559
+  notes: "War Room hex-grid table at moment of war-declaration;
+    central gavel strikes once; 19 hex-pieces all flip to faction
+    colour. Audio: gavel-strike 00:03; hex-piece flip cascade
+    00:04–00:07."
+  veo.audio.dialogue: "War-Marshal: \"War. Now.\""
+  pipeline:
+    nb2_seed: 156001; veo_seed: 256001;
+    vo_manifest_ref: apps/shared/warMarshalVoManifest.json#L<TBD>;
+    cdn_target: cdn/client-public/cutscenes/cs_war_declared/
+
+cs_placement_phase_open:
+  xref: §F.1.A.5 L569
+  notes: "placement phase — player's gloved hand hovers over hex-
+    grid; first piece placed; each placement chimes."
+  veo.audio.dialogue: "War-Marshal: \"Place yours.\""
+  pipeline:
+    nb2_seed: 156002; veo_seed: 256002;
+    cdn_target: cdn/client-public/cutscenes/cs_placement_phase_open/
+
+cs_attack_phase_open:
+  xref: §F.1.A.5 L574
+  notes: "attack phase — first attack-arrow drawn between two
+    hexes; arrow lights crimson."
+  veo.audio.dialogue: "War-Marshal: \"Engage.\""
+  pipeline:
+    nb2_seed: 156003; veo_seed: 256003;
+    cdn_target: cdn/client-public/cutscenes/cs_attack_phase_open/
+
+cs_battle_resolved:
+  xref: §F.1.A.5 L579
+  notes: "outcome resolution — hex flips to victor's colour; brass
+    counter ticks. Two end-frame variants (player victory /
+    defeat) per outcome."
+  veo.audio.dialogue: "War-Marshal: \"Hex resolved.\""
+  pipeline:
+    nb2_seed: 156004; veo_seed: 256004;
+    cdn_target: cdn/client-public/cutscenes/cs_battle_resolved/
+
+cs_raid_incoming:
+  xref: §F.1.A.5 L586
+  notes: "raid-incoming alert in War Room; klaxon-LED panel red;
+    hex showing raid-source pulses. Audio: klaxon-tone 00:03;
+    hex-pulse low chord."
+  veo.audio.dialogue: "War-Marshal: \"Raid inbound.\""
+  pipeline:
+    nb2_seed: 156005; veo_seed: 256005;
+    cdn_target: cdn/client-public/cutscenes/cs_raid_incoming/
+
+cs_wave_final:
+  xref: §F.1.A.5 L594
+  notes: "final wave indicator on War Room display; countdown
+    timer on display reaches single-digits."
+  veo.audio.dialogue: "War-Marshal: \"Final wave.\""
+  pipeline:
+    nb2_seed: 156006; veo_seed: 256006;
+    cdn_target: cdn/client-public/cutscenes/cs_wave_final/
+
+cs_base_held:
+  xref: §F.1.A.5 L602
+  notes: "base-held outcome; hex-grid display shows player's hexes
+    intact, opponent's flickering out."
+  veo.audio.dialogue: "War-Marshal: \"Held.\""
+  pipeline:
+    nb2_seed: 156007; veo_seed: 256007;
+    cdn_target: cdn/client-public/cutscenes/cs_base_held/
+
+cs_base_fallen:
+  xref: §F.1.A.5 L608
+  notes: "base-fallen outcome; player's hex flickers out; opponent
+    hex solid."
+  veo.audio.dialogue: "War-Marshal: \"Lost.\""
+  pipeline:
+    nb2_seed: 156008; veo_seed: 256008;
+    cdn_target: cdn/client-public/cutscenes/cs_base_fallen/
+```
+
+### §G.12.F CADES missions (7)
+
+```yaml
+cs_cades_m1_open:
+  xref: §F.1.A.7 L676 (m1)
+  notes: "M1 Scout's Gambit — player at recon pod, scope view of
+    enemy base; binoculars in foreground. Audio: scope-zoom 00:04."
+  veo.audio.dialogue: "CADES-Commander: \"Scout in.\""
+  pipeline:
+    nb2_seed: 157001; veo_seed: 257001;
+    vo_manifest_ref: apps/shared/cadesCommanderVoManifest.json#L<TBD>;
+    cdn_target: cdn/client-public/cutscenes/cs_cades_m1_open/
+
+cs_cades_m2_open:
+  notes: "M2 Digital Onslaught — server-room corridor; corrupted
+    drone-formations. Audio: digital-static crackle."
+  pipeline:
+    nb2_seed: 157002; veo_seed: 257002;
+    cdn_target: cdn/client-public/cutscenes/cs_cades_m2_open/
+
+cs_cades_m3_open:
+  notes: "M3 Last Stand on Veridian VI — battlefield with friendly
+    forces dug in; smoke and broken vehicles. Audio: distant
+    artillery; comms-chatter."
+  pipeline:
+    nb2_seed: 157003; veo_seed: 257003;
+    cdn_target: cdn/client-public/cutscenes/cs_cades_m3_open/
+
+cs_cades_m4_open:
+  notes: "M4 (TBC name) — placeholder, Insurgency operation."
+  pipeline:
+    nb2_seed: 157004; veo_seed: 257004;
+    cdn_target: cdn/client-public/cutscenes/cs_cades_m4_open/
+
+cs_cades_m5_open:
+  notes: "M5 (TBC) — placeholder."
+  pipeline:
+    nb2_seed: 157005; veo_seed: 257005;
+    cdn_target: cdn/client-public/cutscenes/cs_cades_m5_open/
+
+cs_cades_m6_open:
+  notes: "M6 (TBC) — placeholder."
+  pipeline:
+    nb2_seed: 157006; veo_seed: 257006;
+    cdn_target: cdn/client-public/cutscenes/cs_cades_m6_open/
+
+cs_cades_m7_open:
+  notes: "M7 (TBC) — placeholder."
+  pipeline:
+    nb2_seed: 157007; veo_seed: 257007;
+    cdn_target: cdn/client-public/cutscenes/cs_cades_m7_open/
+```
+
+### §G.12.G Boss arena 5 retro upgrades
+
+```yaml
+cs_boss_first_warlord_zero:
+  xref: §F.1.A.7 L667
+  notes: "Warlord Zero — armoured warlord on a wreckage-throne
+    on a battlefield-station; wears a faceplate with a single
+    crack. Palette `#3a3540 / #c8a05a / #ff5a1a`."
+  veo.audio.dialogue: "Warlord Zero: \"You came.\""
+  pipeline:
+    nb2_seed: 158001; veo_seed: 258001;
+    vo_manifest_ref: apps/shared/warlordZeroVoManifest.json#L<TBD>;
+    cdn_target: cdn/client-public/cutscenes/cs_boss_first_warlord_zero/
+
+cs_boss_first_game_master:
+  xref: §F.1.A.7 L667
+  notes: "Game Master at Bridge holographic-systems console; trait-
+    lock with §G.2.1 Tier 0 chess seat description. Palette
+    chess-hall."
+  veo.audio.dialogue: "Game Master: \"Welcome to my game.\""
+  pipeline:
+    nb2_seed: 158002; veo_seed: 258002;
+    vo_manifest_ref: apps/shared/gameMasterVoManifest.json#L<TBD>;
+    cdn_target: cdn/client-public/cutscenes/cs_boss_first_game_master/
+
+cs_boss_first_watcher:
+  xref: §F.1.A.7 L667
+  notes: "The Watcher in Med Bay monitoring-systems room; many
+    monitor-screens behind, all showing the player's POV from
+    other moments. Palette med-bay clinical-cold + corruption-
+    pink rim."
+  veo.audio.dialogue: "The Watcher: \"I have watched you.\""
+  pipeline:
+    nb2_seed: 158003; veo_seed: 258003;
+    vo_manifest_ref: apps/shared/theWatcherVoManifest.json#L<TBD>;
+    cdn_target: cdn/client-public/cutscenes/cs_boss_first_watcher/
+
+cs_boss_first_panopticon_sentinel:
+  xref: §F.1.A.7 L667
+  notes: "Panopticon Sentinel on the Panopticon Ruins observation
+    ring; thousand observation-posts behind, half-functional.
+    Palette Panopticon ruins. Trait-lock with §G.12.C arrival."
+  veo.audio.dialogue: "Sentinel: \"I see all that remains.\""
+  pipeline:
+    nb2_seed: 158004; veo_seed: 258004;
+    vo_manifest_ref: apps/shared/panopticonSentinelVoManifest.json#L<TBD>;
+    cdn_target: cdn/client-public/cutscenes/cs_boss_first_panopticon_sentinel/
+
+cs_boss_first_chrono_wyrm:
+  xref: §F.1.A.7 L667
+  notes: "Chrono Wyrm in a chrono-anomaly chamber; serpentine
+    creature occupying multiple time-frames simultaneously.
+    Palette `#5fa8ff / #ff2a8a / #c8a05a`."
+  veo.audio.dialogue: "Chrono Wyrm: \"Already eaten you.\""
+  pipeline:
+    nb2_seed: 158005; veo_seed: 258005;
+    vo_manifest_ref: apps/shared/chronoWyrmVoManifest.json#L<TBD>;
+    cdn_target: cdn/client-public/cutscenes/cs_boss_first_chrono_wyrm/
+
+cs_boss_first_encounter_generic:
+  xref: §F.1.A.7 L672
+  notes: "template for remaining bosses; palette-swap per actual
+    boss."
+  pipeline:
+    nb2_seed: 158006; veo_seed: 258006;
+    cdn_target: cdn/client-public/cutscenes/cs_boss_first_encounter_generic/
+```
+
+### §G.12.H Matrix discovery (4)
+
+```yaml
+cs_matrix_first_portal:
+  xref: §F.1.A.8 L688
+  notes: "first time the matrix-portal opens — bridge-room
+    holographic node lights with twin-school glyphs (Celebration
+    + Mechronis); player's gloved hand reaches toward the node.
+    Audio: portal-warble 00:04; twin-glyph chime 00:06."
+  veo.audio.dialogue: "Master of R'lyeh: \"Two schools, both yours.\""
+  pipeline:
+    nb2_seed: 159001; veo_seed: 259001;
+    cdn_target: cdn/client-public/cutscenes/cs_matrix_first_portal/
+
+cs_celebration_first_arrival:
+  xref: §F.1.A.8 L693
+  notes: "first arrival at Celebration School courtyard; trait-
+    lock with §G.11 Celebration palette."
+  pipeline:
+    nb2_seed: 159002; veo_seed: 259002;
+    cdn_target: cdn/client-public/cutscenes/cs_celebration_first_arrival/
+
+cs_mechronis_first_arrival:
+  xref: §F.1.A.8 L699
+  notes: "first arrival at Mechronis main hallway; trait-lock with
+    §G.11 Mechronis palette."
+  pipeline:
+    nb2_seed: 159003; veo_seed: 259003;
+    cdn_target: cdn/client-public/cutscenes/cs_mechronis_first_arrival/
+
+cs_matrix_episode_complete:
+  xref: §F.1.A.8 L705
+  notes: "any episode completion — episode-banner scrolls down,
+    XP-counter ticks up. Audio: episode-completion chord; xp-tick
+    cascade."
+  pipeline:
+    nb2_seed: 159004; veo_seed: 259004;
+    cdn_target: cdn/client-public/cutscenes/cs_matrix_episode_complete/
+
+cs_territory_shift:
+  xref: §F.1.A.8 L711
+  notes: "Galaxy Map sector flip during play — sector colour
+    transitions. Trait-lock with §G.12.E `cs_battle_resolved`
+    hex-flip aesthetic."
+  pipeline:
+    nb2_seed: 159005; veo_seed: 259005;
+    cdn_target: cdn/client-public/cutscenes/cs_territory_shift/
+```
+
+---
+
+## §G.D audit (will be re-checked at §G.F)
+
+Cuts retroactively upgraded in this sub-phase: **68**
+- §G.12.A shipped narrative: 5
+- §G.12.B Hellbox transit (HB1–HB12 + Quiz Q1–Q5 + succession): 34
+- §G.12.C Galaxy/Trade hero: 10 (8 explicit + 8 generic-template +
+  5 state-flip; only 10 hero arrivals counted toward unique IDs;
+  generic templates aggregate)
+- §G.12.D Brokers: 3
+- §G.12.E Alliance War: 8
+- §G.12.F CADES: 7
+- §G.12.G Boss retro: 5 + 1 generic template
+- §G.12.H Matrix discovery: 5
+
+Cumulative coverage after G.A + G.B + G.C + G.D: **218 cutscenes**
+(150 new + 68 retro upgrades).
+
+Outstanding TBDs (resolved in §G.F audit):
+- VO manifest line numbers for: Master of R'lyeh, Velkraal, Brel,
+  Substrate-Human, Elara, Mechronis Sergeant, Hive-Queen,
+  Degenerate broker, Sentinel broker, War-Marshal, CADES Commander,
+  Warlord Zero, Watcher, Panopticon Sentinel, Chrono Wyrm.
+- CADES M4–M7 names need cross-cut sign-off from `actsFourFiveShells.ts`
+  source-of-truth; placeholder names in §G.12.F.
+- Quiz round-close categories (Q2–Q6) cross-checked against
+  `_PRODUCTION_DESTINATIONS.md` §E.5 — the canonical category
+  string list lives there; align if drifted.
+- HB12 self-duel FPV-mirror constraint exception is documented
+  in-line; production-side QA must verify generated frames don't
+  reveal the player's face during that one cutscene.
