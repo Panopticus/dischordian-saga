@@ -26,6 +26,7 @@ import { getProfessorByArchon } from "@shared/mechronisProfessors";
 import { ResponsiveImage } from "@/components/ResponsiveImage";
 
 import { assetUrl } from "@/lib/assetUrl";
+import { CommonsScenesPanel } from "@/components/commons/CommonsScenesPanel";
 /* ─── AMBIENT PARTICLES CANVAS ─── */
 function AmbientParticles({ color, count = 30 }: { color: string; count?: number }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -414,6 +415,18 @@ export default function GuildCommonRoomPage() {
             )}
           </motion.div>
         )}
+
+        {/* Cohort vignettes — bar / long_table / alcove sub-zones.
+            Sources from commonsScenePool.ts; surfaces three eligible
+            scenes for the current cohort + recruits. */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15 }}
+          className="mt-4"
+        >
+          <CommonsScenesPanel />
+        </motion.div>
 
         {/* Notable students */}
         {guild.notableStudents.length > 0 && (

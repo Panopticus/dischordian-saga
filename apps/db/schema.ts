@@ -8307,3 +8307,159 @@ export const communityDiscoveryEvents = mysqlTable("community_discovery_events",
 }));
 export type CommunityDiscoveryEventRow = typeof communityDiscoveryEvents.$inferSelect;
 export type InsertCommunityDiscoveryEvent = typeof communityDiscoveryEvents.$inferInsert;
+
+/* ═══════════════════════════════════════════════════════
+   APPRENTICE PEDAGOGY LIFT — six new tables backing the
+   doctrine / audit / forge / memory / cohort / mission
+   system shipped in apps/shared/apprentice*.ts.
+
+   Migration journal is drifted (per CLAUDE.md), so all six
+   tables are bootstrapped at server cold-boot via
+   apps/server/services/apprenticePedagogyBootstrap.ts.
+   ═══════════════════════════════════════════════════════ */
+
+/** One row per (user × apprentice) — the doctrine the player picked
+ *  at recruitment. Immutable after first write (the doctrine binds
+ *  the apprentice's curriculum). */
+export const apprenticeDoctrineSelections = mysqlTable("apprentice_doctrine_selections", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  apprenticeId: varchar("apprenticeId", { length: 64 }).notNull(),
+  doctrineId: varchar("doctrineId", { length: 32 }).notNull(),
+  /** Mentor signature professor at time of pick. */
+  mentorProfessorId: varchar("mentorProfessorId", { length: 32 }),
+  /** Mechronis House at time of pick. */
+  mechronisHouseId: varchar("mechronisHouseId", { length: 32 }),
+  /** Hidden architectInfluence at time of pick. */
+  initialArchitectInfluence: int("initialArchitectInfluence").notNull().default(0),
+  pickedAt: timestamp("pickedAt").defaultNow().notNull(),
+}, (table) => ({
+  uqUserApprentice: uniqueIndex("uq_apprentice_doctrine_user_apprentice").on(table.userId, table.apprenticeId),
+  idxUser: index("idx_apprentice_doctrine_user").on(table.userId),
+}));
+export type ApprenticeDoctrineSelectionRow = typeof apprenticeDoctrineSelections.$inferSelect;
+
+/** One row per (user × apprentice × auditDay). Records the audit
+ *  outcome. Bond/corruption/architectInfluence deltas already applied
+ *  to the trial state at write time. */
+export const apprenticeMechronisAuditLog = mysqlTable("apprentice_mechronis_audit_log", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  apprenticeId: varchar("apprenticeId", { length: 64 }).notNull(),
+  /** 7 | 14 | 21. */
+  auditDay: int("auditDay").notNull(),
+  classification: varchar("classification", { length: 16 }).notNull(),
+  publicTranscript: text("publicTranscript").notNull(),
+  privateTranscript: text("privateTranscript").notNull(),
+  bondDelta: int("bondDelta").notNull().default(0),
+  corruptionDelta: int("corruptionDelta").notNull().default(0),
+  architectInfluenceDelta: int("architectInfluenceDelta").notNull().default(0),
+  inheritedLineFired: tinyint("inheritedLineFired").notNull().default(0),
+  ranAt: timestamp("ranAt").defaultNow().notNull(),
+}, (table) => ({
+  uqUserApprenticeDay: uniqueIndex("uq_apprentice_audit_user_apprentice_day").on(table.userId, table.apprenticeId, table.auditDay),
+  idxUser: index("idx_apprentice_audit_user").on(table.userId),
+}));
+export type ApprenticeMechronisAuditLogRow = typeof apprenticeMechronisAuditLog.$inferSelect;
+
+/** One row per minted signature card — the Day-28 forge output.
+ *  Stored per-user (the card is unique to the player + apprentice). */
+export const apprenticeSignatureCards = mysqlTable("apprentice_signature_cards", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  apprenticeId: varchar("apprenticeId", { length: 64 }).notNull(),
+  /** sigcard_<apprenticeId> — stable for replay-pin. */
+  cardId: varchar("cardId", { length: 96 }).notNull(),
+  doctrineId: varchar("doctrineId", { length: 32 }).notNull(),
+  pickedSlotId: varchar("pickedSlotId", { length: 64 }).notNull(),
+  /** Bond/corruption/influence at the moment of forging. */
+  bondAtForge: int("bondAtForge").notNull(),
+  corruptionAtForge: int("corruptionAtForge").notNull(),
+  architectInfluenceAtForge: int("architectInfluenceAtForge").notNull(),
+  /** True when influence ≥ 60 — the card carries the architect echo. */
+  architectCoopted: tinyint("architectCoopted").notNull().default(0),
+  /** Full serialized CardDefinition payload for the registry. */
+  cardPayload: json("cardPayload").$type<unknown>().notNull(),
+  forgedAt: timestamp("forgedAt").defaultNow().notNull(),
+}, (table) => ({
+  uqUserApprentice: uniqueIndex("uq_signature_card_user_apprentice").on(table.userId, table.apprenticeId),
+  uqUserCardId: uniqueIndex("uq_signature_card_user_cardid").on(table.userId, table.cardId),
+  idxUser: index("idx_signature_card_user").on(table.userId),
+}));
+export type ApprenticeSignatureCardRow = typeof apprenticeSignatureCards.$inferSelect;
+
+/** One row per (user × fallen apprentice). Memory Cards are immutable
+ *  once minted; consumption flips consumedAt + consumedByApprenticeId. */
+export const apprenticeMemoryCards = mysqlTable("apprentice_memory_cards", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  /** memcard_<deceasedApprenticeId>. */
+  memoryCardId: varchar("memoryCardId", { length: 96 }).notNull(),
+  deceasedApprenticeId: varchar("deceasedApprenticeId", { length: 64 }).notNull(),
+  deceasedName: varchar("deceasedName", { length: 96 }).notNull(),
+  archetype: varchar("archetype", { length: 32 }).notNull(),
+  doctrineId: varchar("doctrineId", { length: 32 }),
+  finalBond: int("finalBond").notNull(),
+  finalCorruption: int("finalCorruption").notNull(),
+  daysSurvived: int("daysSurvived").notNull(),
+  cause: varchar("cause", { length: 256 }).notNull(),
+  finalArchitectInfluence: int("finalArchitectInfluence").notNull().default(0),
+  consumedAt: timestamp("consumedAt"),
+  consumedByApprenticeId: varchar("consumedByApprenticeId", { length: 64 }),
+  mintedAt: timestamp("mintedAt").defaultNow().notNull(),
+}, (table) => ({
+  uqUserCardId: uniqueIndex("uq_memory_card_user_cardid").on(table.userId, table.memoryCardId),
+  idxUser: index("idx_memory_card_user").on(table.userId),
+  idxConsumed: index("idx_memory_card_consumed").on(table.consumedByApprenticeId),
+}));
+export type ApprenticeMemoryCardRow = typeof apprenticeMemoryCards.$inferSelect;
+
+/** One row per user — the live cohort state (active + 2 training).
+ *  Slots are nullable; recruitment + promotion + vacate update them. */
+export const apprenticeCohortSlots = mysqlTable("apprentice_cohort_slots", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().unique().references(() => users.id, { onDelete: "cascade" }),
+  /** Active companion slot — apprentice id or null. */
+  activeApprenticeId: varchar("activeApprenticeId", { length: 64 }),
+  activeDoctrineId: varchar("activeDoctrineId", { length: 32 }),
+  activeFilledAt: timestamp("activeFilledAt"),
+  trainingAApprenticeId: varchar("trainingAApprenticeId", { length: 64 }),
+  trainingADoctrineId: varchar("trainingADoctrineId", { length: 32 }),
+  trainingAFilledAt: timestamp("trainingAFilledAt"),
+  trainingBApprenticeId: varchar("trainingBApprenticeId", { length: 64 }),
+  trainingBDoctrineId: varchar("trainingBDoctrineId", { length: 32 }),
+  trainingBFilledAt: timestamp("trainingBFilledAt"),
+  totalRecruited: int("totalRecruited").notNull().default(0),
+  totalGraduated: int("totalGraduated").notNull().default(0),
+  totalFallen: int("totalFallen").notNull().default(0),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  idxUser: index("idx_cohort_slots_user").on(table.userId),
+}));
+export type ApprenticeCohortSlotsRow = typeof apprenticeCohortSlots.$inferSelect;
+
+/** One row per active mission instance — graduate-legion micro-arcs.
+ *  Mission lifecycle: briefed → crisis_pending → resolved. */
+export const apprenticeMissionInstances = mysqlTable("apprentice_mission_instances", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  apprenticeId: varchar("apprenticeId", { length: 64 }).notNull(),
+  missionTypeId: varchar("missionTypeId", { length: 64 }).notNull(),
+  role: varchar("role", { length: 32 }).notNull(),
+  /** "briefed" | "crisis_pending" | "resolved". */
+  stage: varchar("stage", { length: 16 }).notNull().default("briefed"),
+  /** Player's choice id at the crisis beat. Null until resolved. */
+  resolvedChoiceId: varchar("resolvedChoiceId", { length: 64 }),
+  /** Bond/corruption/influence deltas already applied (idempotency guard). */
+  bondDelta: int("bondDelta").notNull().default(0),
+  corruptionDelta: int("corruptionDelta").notNull().default(0),
+  architectInfluenceDelta: int("architectInfluenceDelta").notNull().default(0),
+  rewardMultiplierApplied: int("rewardMultiplierApplied").notNull().default(100), // ×100 to stay int
+  briefedAt: timestamp("briefedAt").defaultNow().notNull(),
+  resolvedAt: timestamp("resolvedAt"),
+}, (table) => ({
+  idxUser: index("idx_mission_instances_user").on(table.userId),
+  idxStage: index("idx_mission_instances_user_stage").on(table.userId, table.stage),
+  idxApprentice: index("idx_mission_instances_apprentice").on(table.apprenticeId),
+}));
+export type ApprenticeMissionInstanceRow = typeof apprenticeMissionInstances.$inferSelect;

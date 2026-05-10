@@ -1,0 +1,162 @@
+[
+  {
+    "id": "doctrine_cold_hand_after_loss_neutral",
+    "character": "apprentice_neutral",
+    "text": "What I lost will not be returned. What I keep was already locked. I keep the lock.",
+    "emotion": "grieving",
+    "bucket": "doctrine_cold_hand",
+    "file": "shared/apprenticeDoctrines.ts"
+  },
+  {
+    "id": "doctrine_cold_hand_at_graduation_neutral",
+    "character": "apprentice_neutral",
+    "text": "I graduate into the closing. I am the door's last word.",
+    "emotion": "settled",
+    "bucket": "doctrine_cold_hand",
+    "file": "shared/apprenticeDoctrines.ts"
+  },
+  {
+    "id": "doctrine_cold_hand_before_combat_neutral",
+    "character": "apprentice_neutral",
+    "text": "I am not here to win. I am here to close. Closing is winning.",
+    "emotion": "steeled",
+    "bucket": "doctrine_cold_hand",
+    "file": "shared/apprenticeDoctrines.ts"
+  },
+  {
+    "id": "doctrine_cold_hand_morning_neutral",
+    "character": "apprentice_neutral",
+    "text": "The hand does not warm. The hand does not warn. The hand turns the key.",
+    "emotion": "ritual",
+    "bucket": "doctrine_cold_hand",
+    "file": "shared/apprenticeDoctrines.ts"
+  },
+  {
+    "id": "doctrine_compliant_mouth_at_graduation_neutral",
+    "character": "apprentice_neutral",
+    "text": "I graduate into the chorus. I graduate as the chorus. There is no me to graduate.",
+    "emotion": "settled",
+    "bucket": "doctrine_compliant_mouth",
+    "file": "shared/apprenticeDoctrines.ts"
+  },
+  {
+    "id": "doctrine_compliant_mouth_before_audit_neutral",
+    "character": "apprentice_neutral",
+    "text": "Ask. I will answer in the register. There is no register beneath the register.",
+    "emotion": "guarded",
+    "bucket": "doctrine_compliant_mouth",
+    "file": "shared/apprenticeDoctrines.ts"
+  },
+  {
+    "id": "doctrine_compliant_mouth_before_combat_neutral",
+    "character": "apprentice_neutral",
+    "text": "I am not the blade. I am the breath that names the blade. The Architect hears the name.",
+    "emotion": "steeled",
+    "bucket": "doctrine_compliant_mouth",
+    "file": "shared/apprenticeDoctrines.ts"
+  },
+  {
+    "id": "doctrine_compliant_mouth_morning_neutral",
+    "character": "apprentice_neutral",
+    "text": "I speak the lesson. The lesson speaks me. The mouth is the Mechronis's.",
+    "emotion": "ritual",
+    "bucket": "doctrine_compliant_mouth",
+    "file": "shared/apprenticeDoctrines.ts"
+  },
+  {
+    "id": "doctrine_forked_path_after_loss_neutral",
+    "character": "apprentice_neutral",
+    "text": "The path closed. The hinge remained. The hinge is the lesson.",
+    "emotion": "grieving",
+    "bucket": "doctrine_forked_path",
+    "file": "shared/apprenticeDoctrines.ts"
+  },
+  {
+    "id": "doctrine_forked_path_at_graduation_neutral",
+    "character": "apprentice_neutral",
+    "text": "I graduate into the choosing. The choice is mine. The cost is mine.",
+    "emotion": "settled",
+    "bucket": "doctrine_forked_path",
+    "file": "shared/apprenticeDoctrines.ts"
+  },
+  {
+    "id": "doctrine_forked_path_before_combat_neutral",
+    "character": "apprentice_neutral",
+    "text": "I will not strike first. I will not strike second. I will strike when the strike has only one shape.",
+    "emotion": "steeled",
+    "bucket": "doctrine_forked_path",
+    "file": "shared/apprenticeDoctrines.ts"
+  },
+  {
+    "id": "doctrine_forked_path_morning_neutral",
+    "character": "apprentice_neutral",
+    "text": "Today there are two roads. I will walk both before I choose. Choosing closes one.",
+    "emotion": "ritual",
+    "bucket": "doctrine_forked_path",
+    "file": "shared/apprenticeDoctrines.ts"
+  },
+  {
+    "id": "doctrine_heretical_quiet_after_loss_neutral",
+    "character": "apprentice_neutral",
+    "text": "I lost the loss out loud. The loss kept itself elsewhere. Elsewhere is where I keep what I lost.",
+    "emotion": "grieving",
+    "bucket": "doctrine_heretical_quiet",
+    "file": "shared/apprenticeDoctrines.ts"
+  },
+  {
+    "id": "doctrine_heretical_quiet_at_graduation_neutral",
+    "character": "apprentice_neutral",
+    "text": "I graduate from a school I did not attend. The diploma is the silence. The silence is mine.",
+    "emotion": "settled",
+    "bucket": "doctrine_heretical_quiet",
+    "file": "shared/apprenticeDoctrines.ts"
+  },
+  {
+    "id": "doctrine_heretical_quiet_before_audit_neutral",
+    "character": "apprentice_neutral",
+    "text": "I will answer the question. I will not answer the question's question. There is a third question. I am that question.",
+    "emotion": "guarded",
+    "bucket": "doctrine_heretical_quiet",
+    "file": "shared/apprenticeDoctrines.ts"
+  },
+  {
+    "id": "doctrine_heretical_quiet_morning_neutral",
+    "character": "apprentice_neutral",
+    "text": "I have a sentence today. I will not say it. The sentence keeps.",
+    "emotion": "ritual",
+    "bucket": "doctrine_heretical_quiet",
+    "file": "shared/apprenticeDoctrines.ts"
+  },
+  {
+    "id": "doctrine_human_remainder_after_loss_neutral",
+    "character": "apprentice_neutral",
+    "text": "I am sorry. I am sorry. I am sorry. The Mechronis cannot index this sentence.",
+    "emotion": "grieving",
+    "bucket": "doctrine_human_remainder",
+    "file": "shared/apprenticeDoctrines.ts"
+  },
+  {
+    "id": "doctrine_human_remainder_at_graduation_neutral",
+    "character": "apprentice_neutral",
+    "text": "I graduate as a person. The diploma is your name on a list of mine.",
+    "emotion": "settled",
+    "bucket": "doctrine_human_remainder",
+    "file": "shared/apprenticeDoctrines.ts"
+  },
+  {
+    "id": "doctrine_human_remainder_before_combat_neutral",
+    "character": "apprentice_neutral",
+    "text": "I do not want to fight. I will fight. Wanting and doing are not the same lesson.",
+    "emotion": "steeled",
+    "bucket": "doctrine_human_remainder",
+    "file": "shared/apprenticeDoctrines.ts"
+  },
+  {
+    "id": "doctrine_human_remainder_morning_neutral",
+    "character": "apprentice_neutral",
+    "text": "Good morning. I slept badly. I missed someone. The Architect does not have words for this row.",
+    "emotion": "ritual",
+    "bucket": "doctrine_human_remainder",
+    "file": "shared/apprenticeDoctrines.ts"
+  }
+]

@@ -35,7 +35,8 @@ export type CompanionRoomId =
   | "recipe-archive"
   | "chess-table"
   | "war-room"
-  | "cryo-bay";
+  | "cryo-bay"
+  | "bunk-room";
 
 export type CompanionRosterId =
   | "elara"
@@ -43,10 +44,13 @@ export type CompanionRosterId =
   | "the_antiquarian"
   | "adjudicator_locke"
   | "vex_solene"
+  | "wraith_calder"
   | "jericho_jones"
+  | "akai_shi"
   | "agent_zero"
   | "shadow_tongue"
-  | "the_source";
+  | "the_source"
+  | "apprentice_active";
 
 export interface CompanionRoomEntry {
   companionId: CompanionRosterId;
@@ -102,6 +106,43 @@ export const COMPANION_ROOM_REGISTRY: ReadonlyArray<CompanionRoomEntry> = [
     roomId: "engineering",
     presenceLine: "Agent Zero is patching a console nobody asked her to touch.",
     visibleFromFlag: "act_3_starting",
+  },
+  /* ── Bunk-room residences (Berth System).
+        Sub-zone of the Crew Deck Barracks. Every recruit has a
+        working post AND a bunk; the bunk-room corridor is where
+        you visit them off-shift. The bunk-room registry entries
+        co-exist with each recruit's primary post above; the
+        getCompanionRoom helper returns the first match (= the
+        primary post), while listCompanionsInRoom('bunk-room', ...)
+        returns these. ── */
+  {
+    companionId: "apprentice_active",
+    roomId: "bunk-room",
+    presenceLine: "Your apprentice's bunk. The door is always slightly open.",
+  },
+  {
+    companionId: "vex_solene",
+    roomId: "bunk-room",
+    presenceLine: "Vex's bunk. A guitar leans against the wall locker, half-tuned.",
+    visibleFromFlag: "vex_solene_recruited",
+  },
+  {
+    companionId: "wraith_calder",
+    roomId: "bunk-room",
+    presenceLine: "Wraith Calder's bunk. A song is half-rewritten on the desk.",
+    visibleFromFlag: "wraith_calder_recruited",
+  },
+  {
+    companionId: "jericho_jones",
+    roomId: "bunk-room",
+    presenceLine: "Jericho's bunk. The sidearm is on the table, oiled and disassembled.",
+    visibleFromFlag: "jericho_jones_recruited",
+  },
+  {
+    companionId: "akai_shi",
+    roomId: "bunk-room",
+    presenceLine: "Akai Shi's bunk. A meditation cushion sits beside the bed.",
+    visibleFromFlag: "akai_shi_recruited",
   },
 ];
 

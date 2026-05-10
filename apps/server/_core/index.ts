@@ -723,6 +723,18 @@ async function startServer() {
       console.error("[DreamerAwarenessBootstrap] failed:", e),
     );
 
+    // Apprentice pedagogy lift — six new tables backing
+    // doctrine selections, Mechronis audits, signature card
+    // forge, Memory Cards, cohort slots, and mission
+    // instances. New tables; bootstrap until the next journal
+    // reconciliation.
+    const { bootstrapApprenticePedagogyTables } = await import(
+      "../services/apprenticePedagogyBootstrap"
+    );
+    bootstrapApprenticePedagogyTables().catch((e) =>
+      console.error("[ApprenticePedagogyBootstrap] failed:", e),
+    );
+
     // Unified Roster — crew_members column extensions + 5 new tables
     // for Resurrection Protocols, Hellbox restoration, apprentice gift
     // log + romance arc + personal-quest progress, and NPC world-death
