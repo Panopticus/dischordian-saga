@@ -1,0 +1,80 @@
+[
+  {
+    "id": "nilmorg.first_meeting.root",
+    "text": "The bones are fresh, the clones are twitching, and the track is HUNGRY. Welcome to the DMC Trench. State your business or get out of the lane.",
+    "context": "first_meeting.nilmorg-first-contact",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/nilmorg/first_meeting.ts",
+    "meta": {
+      "npcKey": "nilmorg",
+      "treeId": "nilmorg-first-contact",
+      "nodeId": "root",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "nilmorg.first_meeting.hype_broadcast",
+    "text": "A contender. The lanes are hot, the splice is set, the prize is BLEEDING. Sign the canonical-paperwork at the booth. We start in five.",
+    "context": "first_meeting.nilmorg-first-contact",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/nilmorg/first_meeting.ts",
+    "meta": {
+      "npcKey": "nilmorg",
+      "treeId": "nilmorg-first-contact",
+      "nodeId": "hype_branch",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "nilmorg.first_meeting.one_on_one",
+    "text": "Watch first. Sensible. I am working tonight, so don't make me work harder. The booth has a viewing balcony — go up there, learn the lanes, come back when you can name two splice variants.",
+    "context": "first_meeting.nilmorg-first-contact",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/nilmorg/first_meeting.ts",
+    "meta": {
+      "npcKey": "nilmorg",
+      "treeId": "nilmorg-first-contact",
+      "nodeId": "one_on_one_branch",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "nilmorg.first_meeting.lore_ceremony",
+    "text": "Severance is the ritual. I won't explain the mechanism — that's mine to keep. What you see is the receiving end: the prize, the ceremony, the canonical-aftermath. The mechanism stays canonical-private. Race or watch. Both teach.",
+    "context": "first_meeting.nilmorg-first-contact",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/nilmorg/first_meeting.ts",
+    "meta": {
+      "npcKey": "nilmorg",
+      "treeId": "nilmorg-first-contact",
+      "nodeId": "lore_branch",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "nilmorg.first_meeting.refusal_of_thanks",
+    "text": "Don't thank me. The thanks distorts the broadcast and I have a season to run. The lane is open. Step into it or step out of it. The canonical-gratitude is canonical-yours to keep.",
+    "context": "first_meeting.nilmorg-first-contact",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/nilmorg/first_meeting.ts",
+    "meta": {
+      "npcKey": "nilmorg",
+      "treeId": "nilmorg-first-contact",
+      "nodeId": "refusal_branch",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "nilmorg.first_meeting.terminal",
+    "text": "Booth's that way. Paperwork's that way. Lane's that way. Three doors. Pick one.",
+    "context": "first_meeting.nilmorg-first-contact",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/nilmorg/first_meeting.ts",
+    "meta": {
+      "npcKey": "nilmorg",
+      "treeId": "nilmorg-first-contact",
+      "nodeId": "terminal",
+      "requiresRevealStage": null
+    }
+  }
+]

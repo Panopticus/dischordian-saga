@@ -62,6 +62,13 @@ NPCS = {
         "lines_file": "meme-first-meet-lines.json",
         "direction": "Sardonic, fourth-wall-aware, late-night-host cadence.",
     },
+    "nilmorg": {
+        "voice_id": "7fKASPr2SR0NYifziNgu",
+        "s3_prefix": "Nilmorg Voices/first_meeting",
+        "manifest": "nilmorgVoManifest.json",
+        "lines_file": "nilmorg-first-meet-lines.json",
+        "direction": "DMC Trench commentator — broadcast register flips to one-on-one mid-line.",
+    },
     "oracle": {
         "voice_id": "mpeeKhhSuOwXIwvKclcn",
         "s3_prefix": "Oracle Voices/first_meeting",

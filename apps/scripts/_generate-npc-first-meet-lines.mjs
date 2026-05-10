@@ -17,10 +17,14 @@
  * is edited. Idempotent — diffable.
  *
  * Skipped NPCs (intentional):
- *   - nilmorg: already has 197 entries in nilmorg-lines.json
  *   - dmc_clone_companion: non-verbal per Phase 6e.1c canon (no
  *     voLineId fields on any node)
  *   - your_eidolon: non-verbal per Phase 6e.1c canon
+ *
+ * Note: nilmorg used to be on the skip list ("already has 197 entries
+ * in nilmorg-lines.json"), but the 6 nilmorg.first_meeting.* voLineIds
+ * referenced by the dialog tree are NOT in nilmorg-lines.json — they
+ * needed their own transcript file. Re-included.
  */
 import { writeFileSync, mkdirSync } from "fs";
 import { fileURLToPath } from "url";
@@ -32,7 +36,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const SKIP_NPC_KEYS = new Set([
-  "nilmorg",
   "dmc_clone_companion",
   "your_eidolon",
 ]);

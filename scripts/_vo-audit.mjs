@@ -271,6 +271,7 @@ for (const [linesFile, manifestName, npcLabel] of [
   ["degen-first-meet-lines.json",              "degen",         "first-meet (degen)"],
   ["game-master-first-meet-lines.json",        "gamemaster",    "first-meet (game-master)"],
   ["meme-first-meet-lines.json",               "meme",          "first-meet (meme)"],
+  ["nilmorg-first-meet-lines.json",            "nilmorg",       "first-meet (nilmorg)"],
   ["oracle-first-meet-lines.json",             "oracle",        "first-meet (oracle)"],
   ["seer-first-meet-lines.json",               "seer",          "first-meet (seer)"],
   ["vex-solene-first-meet-lines.json",         "vexSolene",     "first-meet (vex-solene)"],
