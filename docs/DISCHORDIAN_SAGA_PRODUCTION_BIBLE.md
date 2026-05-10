@@ -301,6 +301,30 @@ separate features.
 - tRPC routers — `apps/server/routers/*` (52 routers)
 - Auth — `apps/client/src/_core/hooks/useAuth.ts` + server `_core/`
 
+### 4.8 Producer-drop art archive (May 2026)
+
+Single source of truth for every binary in the "AAA Final Art
+Archive 5.10.26" producer drop (819 files: 35 fight stages /
+sprites / HUD / VFX bundles, 14 soul-stone + card-game VFX,
+49 character-sheet pieces, 27 cinematics, 33 trade-empire
+icons, 30 audio cues). Every URL flows through `assetUrl()`
+so the production CDN serves the binaries.
+
+| System | Entry | Notes |
+|---|---|---|
+| Typed manifest barrel | `apps/shared/aaaArtArchive/index.ts` | 9 per-category files + `allArchiveUrls()` aggregate |
+| Coverage parity test | `apps/shared/aaaArtArchive/aaaArtArchive.test.ts` | Pins on-disk ↔ manifest equality; fails if a producer drops or adds a file without updating the typed registry |
+| Reusable faction backplate | `apps/client/src/components/FactionBackdrop.tsx` | One-prop component rendering any of the 7 producer-drop faction plates |
+| Climax cinematic player | `apps/client/src/components/ClimaxCinematic.tsx` | Modal player for the 3 climax MP4s + 5 stills + `ExpansionLoopAmbient` helper for the 3 idle plates |
+| Arena → faction map | `apps/shared/arenaFactionMapping.ts` | 15 arenas → 7 narrative factions, parity-tested |
+| Act → faction map | `apps/shared/actFactionMapping.ts` | 7 acts → 7 factions per bible §3.3, parity-tested |
+| Character-sheet taxonomy bridge | `apps/shared/characterSheetMapping.ts` | Option-B species/class/faction reconciliation (codebase enums ↔ producer icon set), see §8.7.1 |
+
+Wired into 18 shipping surfaces. The full list of (asset
+family → surface) pairs lives in `docs/production/AAA_ARCHIVE_5_10_26_WIRING.md`
+(when present). Cross-reference: §6.1 below for the producer
+pipeline; §8.8 for the rolling per-commit log.
+
 ---
 
 ## 5. Design system — Void Energy
@@ -383,6 +407,19 @@ separate; sprint history + workflow detail).
   plus the `NANO_BANANA_*.md` files at `docs/` root for allegiance, class,
   element/dimension/race, NPC imprints (1/2/3), and Oracle deck.
 - **Consistency gate** (quality checklist): `docs/production/CONSISTENCY_GATE.md`.
+- **Live producer-drop manifest**: `apps/shared/aaaArtArchive/` — typed
+  registry for the May 2026 "AAA Final 5.10.26" drop (819 binaries
+  across fighter sprites / stages / HUD / VFX / card-game VFX /
+  soul stones / character sheets / cinematics / trade-empire icons /
+  fight audio). Every URL flows through `assetUrl()`; the parity test
+  in `aaaArtArchive.test.ts` fails if the producer adds or removes a
+  file without updating the registry. See §4.8 for the entry-point
+  table and §8.7.1 for the species/class taxonomy reconciliation.
+- **CDN upload script**: `apps/scripts/upload-public-to-s3.ts`
+  (`pnpm assets:upload[:dry]`). Idempotent ETag compare; walks
+  `apps/client/public/{art,audio,videos,music,games,vo,characters,
+  vfx-atlases}` and PUTs to `s3://dgrsart/cdn/client-public/` with
+  `Cache-Control: public, max-age=31536000, immutable` + SSE-AES256.
 
 **Targets:** Nano Banana 2 at 1920×1080. Deep-space-black `#010020` base
 with cyan `#22d3ee` accent. Volumetric fog at ankle height. Film grain.
@@ -630,22 +667,87 @@ folding the 6 into the existing 3 (loses producer intent). Tracked as:
 
 ### 8.8 Recently shipped (24h log — for context)
 
-- ✅ AAA Final Art Archive (5.10.26) — 819 binaries staged under
-  `apps/client/public/{art,audio}` and exposed through the typed
-  manifest at `apps/shared/aaaArtArchive/`. Coverage parity test
-  (`aaaArtArchive.test.ts`) pins on-disk ↔ manifest equality.
-  Wires:
-  - `ArenaData.parallax` (bg/mg/fg) + `ArenaData.musicUrl` populated
-    automatically for every gameData arena that ships an archive
-    stage; FightEngine2D extended with a midground/foreground render
-    pass.
-  - FightArena2D plays per-stage music on a dedicated `<audio>`
-    element when present (no GameAudioContext displacement).
-  - Card-game VFX, soul-stone faction art, witnessing VFX,
-    character-sheet chrome, trade-empire iconography, fight HUD/VFX,
-    25-fighter sprite atlases, climax videos/stills, epigraphs, and
-    expansion loops surfaced via typed helpers (`fightSpriteUrl`,
-    `cardSfxUrl`, `witnessingVfxUrl`, `tradeEmpireBuildingUrls`, …).
+- ✅ **PR #591 — AAA Final Art Archive (5.10.26) full integration**
+  (squash-merged as `88942ad`). Single landing for 7 staged commits
+  on `claude/download-art-archive-XjoiJ`:
+
+  **Manifests + plumbing (4 typed modules, 28 invariant tests):**
+  - `apps/shared/aaaArtArchive/` — 9 typed manifest files
+    (`fightSprites`, `fightStages`, `fightHud`, `fightVfx`,
+    `cardGameVfx`, `characterSheets`, `cinematicsArchive`,
+    `tradeEmpireArt`, `fightAudio`) + `index.ts` barrel + parity
+    test. 819 on-disk ↔ manifest URLs pinned.
+  - `apps/shared/characterSheetMapping.ts` — Option-B taxonomy
+    bridge (codebase species/class enums ↔ producer icon set).
+    See §8.7.1.
+  - `apps/shared/arenaFactionMapping.ts` — 15 arenas → 7
+    factions, parity-tested. Covers all 7 producer faction
+    plates from the arena surface.
+  - `apps/shared/actFactionMapping.ts` — 7 acts → 7 factions
+    per §3.3, parity-tested.
+
+  **Reusable components:**
+  - `apps/client/src/components/FactionBackdrop.tsx` — one-prop
+    component for any of the 7 producer faction plates.
+  - `apps/client/src/components/ClimaxCinematic.tsx` — modal
+    player for the 3 climax MP4s + 5 stills + `ExpansionLoopAmbient`
+    helper for the 3 idle plates.
+
+  **Engine extensions:**
+  - `FightEngine2D` — `loadParallaxLayers()` + midground/foreground
+    render passes with depth-correct parallax factors;
+    `loadSpriteDirect()` bypasses the white-background sprite-proxy
+    for archive PNGs.
+  - `DischordiaSoundManager` — archive MP3 layer with 3-deep
+    HTMLAudioElement pool per `SoundType`. SoundType union grows
+    `mulligan/shuffle/hover/pickup/cancel`.
+  - `ArenaData` — optional `parallax: {bg, mg, fg}` + `musicUrl`
+    auto-populated for every arena with a matching archive asset.
+
+  **18 wired surfaces:**
+  - TitlePage (expansion-loop ambient backdrop)
+  - FightPage arena selector + boss-encounter intros
+    (per-arena/chapter faction plates)
+  - FightArena2D (round cards, KO splash, victory/flawless banner,
+    super screenflash, KO blackout, combo pops bronze→platinum,
+    hit sparks light/medium/heavy, parallax stages, per-stage music)
+  - FightEngine2D sprite loader (25 atlases × 21 poses + Locke
+    crouch_attack)
+  - DuelystGameUI (7 card-game VFX overlays — summon burst,
+    legendary reveal, buff glow, debuff curse, destroy shatter,
+    void drain, draw glow)
+  - SoundManager (6 card SFX MP3s + mulligan + shuffle)
+  - SoulStonesPanel (7-faction art band)
+  - TradeEmpirePage + TradeEmpireExpansionPanels (currency icons,
+    dashboard backdrop, market-tier icons, cargo-ship icons,
+    guild-hall icon, 7-good GOODS IN TRANSIT band)
+  - Act1CycleCAuthorityWitnessing (Authority VFX plate + optional
+    `factionVfx` prop for downstream act finales)
+  - SealEpigraphCinematic (5 act epigraph plates: Acts 1/2/3/4/7)
+  - LivingCharacterSheet (gold/silver portrait frame + species +
+    class icons + faction backplate)
+  - FactionWarPage (authority + insurgency backplates per
+    allegiance option)
+  - Act2InterludePage / Act3CardLadderPage / Act4MatchPage /
+    Act5InterludePage / Act6CardLadderPage / Act7CardLadderPage
+    (per-act faction backplate at 10% opacity)
+  - WitnessingHubPage (per-act faction backplate on every
+    Act 1-6 entry card)
+
+  **Cumulative coverage:** every producer-drop faction plate (7)
+  is reachable through ≥3 shipping surfaces. Every fighter sprite
+  atlas (25 × 21 poses) loads through the engine. Every act 1-7
+  has a visible faction signature on its primary play surface AND
+  its Witnessing Hub entry card.
+
+  **Out of scope (tracked as deferred):**
+  - `card_combo_chain` VFX — engine doesn't emit cross-card combo
+    events; manifest URL exposed for downstream consumers.
+  - Remaining fight HUD chrome (health bars, super meter, timer,
+    portrait frames) — canvas-overlap regression risk.
+  - Attribute axis reconciliation (3-axis → 6-axis) — narrative
+    call needed; see §8.7.1 deferred entry.
+
   Upload: existing `pnpm assets:upload` script picks up the new tree
   unchanged.
 - ✅ PR #91 — Void Energy organic-migration transition (hook + skill +
