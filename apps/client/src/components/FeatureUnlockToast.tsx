@@ -19,6 +19,16 @@ import LottiePlayer from "@/components/LottiePlayer";
 
 const STORAGE_KEY = "feature_unlocks_seen";
 
+const SPEAKER_LABEL: Record<NonNullable<FeatureUnlock["speaker"]>, string> = {
+  elara: "Elara",
+  the_human: "The Human",
+  adjudicator_locke: "Locke",
+  the_antiquarian: "The Antiquarian",
+  the_resurrectionist: "The Resurrectionist",
+  agent_zero: "Agent Zero",
+  companion: "Your companion",
+};
+
 export default function FeatureUnlockToast() {
   const { state } = useGame();
   const { speak } = useElaraVO();
@@ -129,6 +139,11 @@ export default function FeatureUnlockToast() {
               className="font-mono text-[10px] text-white/80 italic leading-relaxed border-l-2 pl-2"
               style={{ borderColor: category.color }}
             >
+              {current.speaker && current.speaker !== "elara" && (
+                <span className="not-italic font-bold mr-1" style={{ color: category.color }}>
+                  {SPEAKER_LABEL[current.speaker]}:
+                </span>
+              )}
               {current.unlockMessage}
             </p>
           </div>

@@ -8148,13 +8148,6 @@
     "file": "shared/featureRoadmap.ts"
   },
   {
-    "id": "feature_crew_breeding",
-    "text": "Your crew has reached maturity. The bloodlines can continue. Children inherit their parents' strengths — and weaknesses.",
-    "context": "feature_unlock",
-    "emotion": "warm",
-    "file": "shared/featureRoadmap.ts"
-  },
-  {
     "id": "feature_crew_missions",
     "text": "The Trade Empire needs boots on the ground. Your crew can staff these missions. But Captain... missions have consequences.",
     "context": "feature_unlock",
@@ -8190,34 +8183,6 @@
     "file": "shared/featureRoadmap.ts"
   },
   {
-    "id": "feature_casino",
-    "text": "I've made arrangements. Ne-Yon space is closed to outsiders — except for The Degen's Casino. The host is... unusual. His eyes are older than they should be. She can get you in. For a finder's fee.",
-    "context": "feature_unlock",
-    "emotion": "warm",
-    "file": "shared/featureRoadmap.ts"
-  },
-  {
-    "id": "feature_dead_mans_circuit",
-    "text": "There's something else on the lower decks. The Hierarchy runs races. Real races. With real consequences. Nilmorg's operation. Don't say I didn't warn you.",
-    "context": "feature_unlock",
-    "emotion": "warm",
-    "file": "shared/featureRoadmap.ts"
-  },
-  {
-    "id": "feature_terminus_swarm",
-    "text": "The Armory's defense grid is operational. Someone should stress-test it. Someone like you.",
-    "context": "feature_unlock",
-    "emotion": "warm",
-    "file": "shared/featureRoadmap.ts"
-  },
-  {
-    "id": "feature_gamemasters_arena",
-    "text": "The Game Master left his world running. A clone hosts the show. You should see it. Bring a disposable clone body.",
-    "context": "feature_unlock",
-    "emotion": "warm",
-    "file": "shared/featureRoadmap.ts"
-  },
-  {
     "id": "feature_voltari_project",
     "text": "Deep scan detected something impossible. A purple planet. A 2-million-year-old signal. It's language. It's been waiting for us.",
     "context": "feature_unlock",
@@ -8225,36 +8190,8 @@
     "file": "shared/featureRoadmap.ts"
   },
   {
-    "id": "feature_pet_battles",
-    "text": "I want to fight for you. Not against you. FOR you. Take me to the Arena.",
-    "context": "feature_unlock",
-    "emotion": "warm",
-    "file": "shared/featureRoadmap.ts"
-  },
-  {
     "id": "feature_alliance_war",
     "text": "Other Syndicates are challenging yours. Formal war declared. I've opened the tactical hex map.",
-    "context": "feature_unlock",
-    "emotion": "warm",
-    "file": "shared/featureRoadmap.ts"
-  },
-  {
-    "id": "feature_incursions",
-    "text": "I've been scanning for anomalies. There are pocket dimensions forming near the Ark. Dangerous. Bring a friend.",
-    "context": "feature_unlock",
-    "emotion": "warm",
-    "file": "shared/featureRoadmap.ts"
-  },
-  {
-    "id": "feature_prestige",
-    "text": "You've reached the cycle's end. But you can choose to begin again — stronger, faster, remembering.",
-    "context": "feature_unlock",
-    "emotion": "warm",
-    "file": "shared/featureRoadmap.ts"
-  },
-  {
-    "id": "feature_bounties",
-    "text": "I've been sitting on contracts. You've earned the right to see them. Some pay well. Some... pay differently.",
     "context": "feature_unlock",
     "emotion": "warm",
     "file": "shared/featureRoadmap.ts"
@@ -8268,7 +8205,7 @@
   },
   {
     "id": "feature_necromancer_return",
-    "text": "Something is WRONG. The energy signatures... He's HERE. The 11th Archon has returned. All Arks, report.",
+    "text": "Something is wrong. The energy signatures — He's here. The 11th Archon has returned. All Arks, report.",
     "context": "feature_unlock",
     "emotion": "warm",
     "file": "shared/featureRoadmap.ts"

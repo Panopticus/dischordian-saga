@@ -244,8 +244,13 @@ for (const [roomId, set] of Object.entries(NARRATOR_DIALOG)) {
 }
 
 /* ─── 6. Feature unlock roadmap ─── */
+/* Only Elara-narrated unlocks land in elara-lines.json. Entries with
+   a non-Elara `speaker` (Locke, Agent Zero, Antiquarian, etc.) belong
+   in their own character generators. */
 
 for (const f of FEATURE_ROADMAP) {
+  const speaker = f.speaker ?? "elara";
+  if (speaker !== "elara") continue;
   emit({
     id: `feature_${f.featureId}`,
     text: f.unlockMessage,
