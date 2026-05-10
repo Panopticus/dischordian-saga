@@ -36,7 +36,10 @@ import {
   X,
 } from "lucide-react";
 import { ACT_1_OPPONENTS, type Act1Opponent } from "@shared/act1Opponents";
-import { resolveChapterIntroForOpponent } from "@shared/storyEncounterChapterIntros";
+import {
+  resolveChapterIntroForOpponent,
+  resolveChapterIntroForOpponentPrestigeRematch,
+} from "@shared/storyEncounterChapterIntros";
 import { chapterIntroTriggerFlag } from "@/components/cutscenes/ChapterIntroRouter";
 import { getAct1OpponentDialog } from "@shared/act1OpponentDialog";
 import { renderActDialog } from "@shared/actDialogRender";
@@ -112,7 +115,7 @@ function resolveOpponentFaction(opponent: Act1Opponent): Faction {
 export default function Act1CardLadderPage() {
   const { wins, losses, defeatedOpponents, recordWin, recordLoss } =
     useAct1LadderStore();
-  const { setNarrativeFlag } = useGame();
+  const { setNarrativeFlag, state: gameState } = useGame();
 
   const [view, setView] = useState<LadderView>("ladder");
   const [playerFaction, setPlayerFaction] = useState<Faction | null>(null);
@@ -190,12 +193,25 @@ export default function Act1CardLadderPage() {
     // delivered intro for this opponent if confirmed-mapped.
     // Unmapped opponents silently skip; the router idempotents on
     // the seen flag so re-engaging the same opponent won't replay.
-    const intro = resolveChapterIntroForOpponent(currentOpponent.id);
+    //
+    // Prestige rematch first: when re-engaging an Act 1 opponent
+    // in a prestige cycle (prestigeLevel >= 1), the producer
+    // ships rematch-flavored intros (e.g. ch16_ironlion_rematch).
+    // The rematch resolver returns null for opponents without one,
+    // and the seen flag on the rematch intro short-circuits replay
+    // across cycles.
+    const prestigeLevel = gameState.prestigeLevel ?? 0;
+    const rematchIntro =
+      prestigeLevel >= 1
+        ? resolveChapterIntroForOpponentPrestigeRematch(currentOpponent.id)
+        : null;
+    const intro =
+      rematchIntro ?? resolveChapterIntroForOpponent(currentOpponent.id);
     if (intro) {
       setNarrativeFlag(chapterIntroTriggerFlag(intro.id), true);
     }
     setView("battle");
-  }, [playerFaction, currentOpponent, setNarrativeFlag]);
+  }, [playerFaction, currentOpponent, gameState.prestigeLevel, setNarrativeFlag]);
 
   const handleGameEnd = useCallback(
     (winner: "player" | "opponent") => {
