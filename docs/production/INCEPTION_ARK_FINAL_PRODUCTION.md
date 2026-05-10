@@ -11613,12 +11613,30 @@ them to any unlocked Hellbox for revisits).
 Hellboxes that may be authored in future expansions but are
 NOT in scope for v5:
 
-- **HB13 candidate — Programmer's Sanctum** (Comms Array). Was
+- **HB13 candidate — The Superhero Snowglobe World** (Antiquarian's
+  Library). Authored 2026-05-10 per Dreamer directive. Anchor
+  object exists in baseline canon: a hand-blown glass snowglobe
+  with cast-bronze base sits on a small bronze pedestal between
+  the first-Antiquarian + first-Programmer busts in the Antiquarian's
+  Library (cf `_PRODUCTION_ARK_ROOMS.md` §A.13.9.62a). The contained
+  world is alive — a vibrant city with cape-wearing figures flying
+  between skyscrapers, fighting cosmic threats; lightning crackles
+  when shaken. In baseline, the snowglobe is interactive (inspect +
+  shake; subtle pulse + brief lightning + distant heroic-orchestra
+  music as teaser). In future DLC, the snowglobe expands into a
+  Matrix-of-Dreams Hellbox where the player enters the contained
+  superhero world as a participant (player-choice: hero / civilian /
+  villain / power-broker). The world inside has its own internal
+  physics (enhanced gravity, energy projection, flight) and its own
+  factions. Working title: "The Vitruvian Tower" or similar.
+  Master of R'lyeh question (working draft, subject to DLC author
+  confirmation): *"Is power a duty, or a temptation?"*
+- **HB14 candidate — Programmer's Sanctum** (Comms Array). Was
   considered, deferred. Could unlock in DLC.
-- **HB14 candidate — Pet Spirit Realm** (Pet Garden). Was
+- **HB15 candidate — Pet Spirit Realm** (Pet Garden). Was
   subsumed into HB10 Hall of Collected Souls in v5; could be
   separated in DLC if the design evolves.
-- **HB15 candidate — Trade Sovereign's Throne** (Trade Hub).
+- **HB16 candidate — Trade Sovereign's Throne** (Trade Hub).
   New idea: Trade Hub unlocks a Hellbox where the player is
   shown the cumulative effects of every trade decision. Could
   fit as an Act 6-7 unlock in expansion.

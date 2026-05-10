@@ -7006,6 +7006,56 @@ Counted in walls section (decorative_features).
 | `ark.antiquarian_library.bust.first_antiquarian` | decoration | (-2.50, 11.00, 0.00) on plinth | 0.40 × 0.40 × 1.20 (plinth) + 0.40 × 0.40 × 0.50 (bust) | bust of "the first Antiquarian" |
 | `ark.antiquarian_library.bust.first_programmer` | decoration | (2.50, 11.00, 0.00) on plinth | mirror | bust of "the first Programmer" (deliberate paired symmetry — the Antiquarian and Programmer have always been twins) |
 
+#### A.13.9.62a — The Superhero Snowglobe (NEW future-DLC Hellbox candidate)
+
+```
+object_id:           ark.antiquarian_library.snowglobe.superhero_world
+object_class:        interactive  (future Hellbox-class fx_emitter; gateway-pending)
+position:            (0.00, 11.00, 0.00)  # on a small bronze pedestal between the two busts, centred on the reading-table back-line
+dimensions:          0.30 dia × 0.40 height (snowglobe + brass base; pedestal beneath)
+rotation:            0°
+material_primary:    hand-blown glass dome with internal contained miniature world; cast-bronze base with engraved sigils (heroic motifs)
+material_secondary:  bronze pedestal at z = 0.00 to 0.85 (0.40 × 0.40 × 0.85); the snowglobe sits at z = 0.85 to 1.25
+colour_value:        --token-color-ark-antiquarian-library-snowglobe  (transparent dome with rich-saturated interior — primary colours visible through glass; bronze base + pedestal accent)
+interaction:         interactable
+  - inspect: opens lore-readable about the snowglobe's contained world (a vibrant city with figures in capes flying between skyscrapers, fighting cosmic threats; lightning crackles when shaken)
+  - shake: subtle interactive — snow + lightning visible inside; faint distant heroic-orchestra music briefly audible
+  - HB13_invoke (FUTURE DLC ONLY): when activated (gameplay conditions TBD in DLC), the snowglobe expands into a Matrix-of-Dreams Hellbox — player enters the contained superhero world
+narrative_role:      DUAL FUNCTION — operationally a decorative artifact in baseline canon; cosmologically a FUTURE-DLC Hellbox gateway. Canonically: the Antiquarian collected it from a forgotten dimensional fold; the world inside is alive but contained. It pulses faintly at night (subtle cosmetic glow). Future DLC will make it a fully-functional Hellbox where the player enters as a hero/civilian/villain (player-choice) in the world inside.
+lore_anchor:         loredex.system.future_dlc_hellboxes + loredex.character.the_antiquarian + arc.future_dlc_superhero_world (deferred)
+art_status:          producer_handoff  (concept-only for baseline; full art-spec for DLC deferred)
+gameplay_hook_id:    trpc.antiquarian_library.snowglobe.inspect + .shake (baseline) + trpc.hellbox.hb13.openGate (FUTURE DLC; not active in base game)
+wear_state:          slight wear at base (Antiquarian shakes it occasionally — heard in his living-world routine §11.3.X cross-ref); the bronze base is polished from handling
+physical_constraints: collides; cannot be taken; cannot be moved; pedestal is anchored
+DLC notes:
+  - For future DLC integration, the snowglobe will be the gateway anchor for HB13 — "The Vitruvian Tower" or similar (working title) — where player enters a vibrant superhero metropolis as a participant. The world inside has its own internal physics (enhanced gravity, energy projection, flight) and its own factions (Heroes / Villains / Civilians / Power Brokers).
+  - The Master of R'lyeh moral question for HB13 is reserved: "Is power a duty, or a temptation?" (working draft; subject to DLC author confirmation).
+  - When DLC ships, this object's interaction will expand from "inspect/shake" to full HB13_invoke transit per §3.12 cosmology pattern.
+  - Physical realisation pre-DLC: the snowglobe pulses faintly (cosmetic — see ark.antiquarian_library.snowglobe.subtle_pulse_emitter below) and shaking shows brief inner-world lightning + distant music as a teaser.
+```
+
+#### A.13.9.62b — Snowglobe Subtle-Pulse Emitter (cosmetic; DLC tease)
+
+```
+object_id:           ark.antiquarian_library.snowglobe.subtle_pulse_emitter
+object_class:        fx_emitter
+position:            (0.00, 11.00, 1.05)  # at snowglobe centre
+dimensions:          0.20 dia (volumetric)
+rotation:            0°
+material_primary:    n/a (volumetric source)
+material_secondary:  n/a
+colour_value:        --token-color-ark-antiquarian-library-snowglobe-pulse  (variable; primary-colour shifts; visible only at close range in low-light states)
+interaction:         inert (cosmetic)
+narrative_role:      teaser; subtle pulse signals "this is more than a decoration"; lightning-flash visible inside on rare random events (period 60-180s)
+lore_anchor:         arc.future_dlc_superhero_world (teaser)
+art_status:          producer_handoff
+gameplay_hook_id:    none
+wear_state:          n/a
+physical_constraints: non-collide
+```
+
+(NOTE: total inventory object count for §A.13 increases from 64 to 66 with these two additions. Future-DLC integration will shift A.13.9.62a's class from "interactive" (with limited baseline interaction) to "interactive + Hellbox-anchor" (full HB13 invocation). Documented in INCEPTION_ARK_FINAL_PRODUCTION.md §3.12.16 future-Hellbox-candidate registry as HB13.)
+
 #### A.13.9.63-64 Closing Decorative Items
 
 | object_id | class | position | dim | role |
