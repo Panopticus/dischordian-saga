@@ -2911,7 +2911,7 @@ rear staging). End frame: canonical Cargo Hold baseline.
 | Personal log terminal (desk) | use | foreground | Lore Journal; Conspiracy Boards; Hamlet board |
 | Companion gathering hub (centre, low table) | use | foreground | Companion Hub launcher |
 | Morality mirror display (rear wall) | look | foreground | Morality Census; Witnessing Hub mirror |
-| Legacy wall (left wall, ten brass photo plates) | look | midground | Memorial Plaza launcher |
+| Legacy wall (left wall, ten brass photo plates) | look | midground | Memorial Plaza launcher; per-plate slot enumeration in §2.11.8 |
 | Personal décor (multiple) | examine | midground | Personal Quarters customization |
 | Favorites shelf (right wall) | examine | midground | Favorites launcher |
 | Rest recovery alcove (rear-left, hammock-bed) | use | midground | Status recovery |
@@ -3108,6 +3108,46 @@ frame: act-tier-1 canonical baseline.
     cinematic on master-key first use); §3.6 Governance
     notification anchor; `CinematicDialogOverlay.tsx`
     (Forgiveness scene + Act1 closing).
+
+#### 2.11.8 Legacy Wall — 10 brass plate slot enumeration
+
+The Legacy Wall is mounted on the Captain's Quarters left
+wall in two rows of five plates (top row = early-act
+choices, bottom row = late-act choices). Each plate is
+~25 cm × 30 cm brass on a black-marble back, etched with
+the plate's title and a small relief image of the moment
+captured. Plates are filled in order; unfilled plates are
+visible as polished brass blanks. The Wall is a diegetic
+record of the player's most defining choices — author
+content drives the etching, but the slot system is fixed.
+
+| # | row | slot title | trigger condition | etched image (relief) |
+|---|---|---|---|---|
+| 1 | top-1 | **First Wake** | `awakening_complete` | Pod Zero with the player's silhouette emerging |
+| 2 | top-2 | **First Mercy** | `cryo_mystery_victim_identified` AND player chose to record victim's name in chronicle | A locket open on a brass surface |
+| 3 | top-3 | **First Bond** | trust(any companion) ≥ 40 first-time | Two hands meeting at low table |
+| 4 | top-4 | **First Faction** | first faction championed (`faction:championed:<id>`) | The chosen faction's sigil over a banner |
+| 5 | top-5 | **Act 1 Closing Choice** | `act_1_complete` AND player's chosen branch flag | A doorway with two paths visible (light/dark per branch) |
+| 6 | bot-1 | **Act 3 Path Choice** | `act3_path_light` OR `act3_path_dark` | A scrying pool's surface (warm-amber for light, cool-violet for dark) |
+| 7 | bot-2 | **First Resurrection** | first `crewMember.productionPath = "resurrected"` | A pod's interior with a single returned silhouette |
+| 8 | bot-3 | **Soul Stone Path** | first violet → gold OR first violet → red conversion | A stone in mid-conversion (half-violet/half-gold OR half-violet/half-red) |
+| 9 | bot-4 | **Hellbox Threshold** | first time entering any Hellbox-2-or-3 destination | The Hellbox event horizon at full opacity |
+| 10 | bot-5 | **Act 7 Epilogue Slate** | `act_7_complete` AND chosen epilogue index | A single brass plate with the epilogue index etched (engraving sealed by Lyra Vox's wax stamp) |
+
+**Slot fill behaviour:** when a trigger condition first
+fires, the corresponding plate's relief image is engraved
+in real-time over a 4-s animation (faint chisel SFX, no
+music — per §3.1 universal direction). The plate then
+holds its etched state permanently. **Plate 10 is the
+final closure object for the Captain's Quarters
+investigation tier (axis 15 case-closed) — see §2.11.7
+row 6.**
+
+**Plate runtime contract:** each slot maps to a single
+narrative-flag tuple. The renderer reads
+`narrativeFlags[<flag>]` and conditionally draws the
+etched relief or the brass blank. No new schema needed;
+flags exist today.
 
 ---
 
@@ -7445,6 +7485,184 @@ documented in this Atlas and no orphans.
 
 *End of §3. §3.5 (Story Item Registry) authored separately
 from NOTES §11.*
+
+---
+
+## 4. Cross-room scaling specs
+
+Scaling specs that span multiple rooms or that drive the
+visual model of a room whose canonical size has been
+upgraded since shipping. The Trophy Room (§2.12) currently
+ships as a 10-pedestal preview; §4.2 below replaces that
+model with a multi-zone room that scales to 300+ items
+without losing the recreation contract.
+
+### 4.2 Trophy Room Scaling Spec
+
+Replaces the legacy 10-pedestal Trophy Room model (§2.12.4
+Layout Sentence) with a **7-zone multi-room layout** that
+scales to all currently-shipped achievement, imprint,
+essence, and cosmetic counts (~300 items) plus reserved
+slots for ongoing seasonal additions. Six existing trophy
+themes (`apps/shared/trophyDisplays.ts` — Heroic, Stoic,
+Lyric, Ancient, Surreal, Crystalline) become a **room-skin
+axis** on the visual-mood overlay rather than six pedestal
+themes.
+
+#### 4.2.1 Floor plan (7 zones)
+
+A roughly oval room ~24 m × 14 m, divided into 7 named
+zones arranged as a procession from entry (Title Wall) to
+focal (Inscription Challenge plaque). Each zone has a fixed
+position relative to room centre so the recreation contract
+holds — zones do not move, only their contents change.
+
+| zone | position | length | purpose |
+|---|---|---|---|
+| **Title Wall** | entry-arc, left wall | 8 m | scrolling frieze of every earned title |
+| **Prestige Tier** | top dais, centre | 4 m radius | prestige-class items + prestige-cycle trim signature (per §3.2.2) |
+| **Legacy Tier** | mid-room, right alcove | 5 m × 3 m | boss-kill mounts + hero artefacts |
+| **Achievement Badges Rack** | mid-room, left alcove | 5 m × 3 m | modular tier banding (bronze/silver/gold/platinum/diamond) for ~50+ achievements |
+| **Imprint Gallery** | back wall, full width | 12 m × 2 m | 90 character-imprint frames (one per shipped imprint; reserves slots for future) |
+| **Essence Ledger** | reading lectern, right of Imprint Gallery | 2 m × 1 m | bound brass codex of 150+ Loredex essence entries; player-favourite drives open page |
+| **Boss Cosmetics Rack** | rear-far alcove, behind Imprint Gallery | 4 m × 3 m | mannequins displaying boss-mastery cosmetic loadouts (scales with boss roster) |
+
+The room's procession path (procession-stones inlaid in the
+floor) connects: entry → Title Wall (left) → Prestige Tier
+(centre dais) → Legacy Tier (right alcove) → Achievement
+Badges Rack (left alcove) → Imprint Gallery (back wall) →
+Essence Ledger (right of gallery) → Boss Cosmetics Rack
+(rear-far) → return arc to entry.
+
+#### 4.2.2 Layout sentence (verbatim, replaces §2.12.4)
+
+*An oval ~24 m × 14 m hall with vaulted ceiling; entry
+arch opens onto a procession-stone path that connects 7
+named zones in a clockwise procession; the Title Wall
+spans the entry-arc left wall as a scrolling brass frieze
+of engraved titles; a 4 m circular dais holds the
+Prestige Tier at the room's centre; the Legacy Tier
+occupies the right mid-alcove with boss-kill mounts and
+hero artefacts; the Achievement Badges Rack mirrors it on
+the left mid-alcove with bronze/silver/gold/platinum/
+diamond tier banding; the back wall is the Imprint
+Gallery — 12 m of brass-framed character-imprint frames;
+a single brass-rimmed reading lectern holds the Essence
+Ledger codex to its right; the rear-far alcove holds the
+Boss Cosmetics Rack mannequin bay; ambient palette per
+the active room-skin theme (Heroic / Stoic / Lyric /
+Ancient / Surreal / Crystalline — see §4.2.4).*
+
+#### 4.2.3 Per-zone scaling rules
+
+Each zone's content count scales independently. The
+recreation contract requires that adding new items WITHIN
+a zone does not change zone composition (only the items
+themselves change), and that adding new items NEVER
+changes zone position. Per-zone capacity model:
+
+| zone | shipped count | capacity | overflow behaviour |
+|---|---|---|---|
+| Title Wall | ~30 titles | 100 | scroll-frieze becomes 2-row scroll above 100 |
+| Prestige Tier | up to 5 prestige items | 5 | hard cap; new prestige items REPLACE oldest |
+| Legacy Tier | per-boss mount + 1 artefact | unbounded | wall extends upward; hero artefacts on shelves |
+| Achievement Badges Rack | ~50 achievements | 200 (40 per tier × 5 tiers) | overflow shows as small stacked badges in tier bin |
+| Imprint Gallery | 90 frames | 90 (fixed) | hard cap; canon imprint count |
+| Essence Ledger | 150+ essences | 500 (codex page count) | unbounded; player favourites drive visible page |
+| Boss Cosmetics Rack | per-boss × tier-bonus | unbounded | mannequin row extends rearward |
+
+#### 4.2.4 Room-skin axis (6 themes)
+
+Six existing trophy themes (`apps/shared/trophyDisplays.ts`)
+become a visual-mood axis. The player selects one theme as
+their Trophy Room skin via a settings toggle (anchored to
+`PaperDollRenderer.tsx` cosmetic equip surface in §3.11.2).
+Per theme:
+
+| theme | plinth material | ambient palette | accent | mood |
+|---|---|---|---|---|
+| **Heroic** | bronze | warm-amber | brass-rim | triumphal, classical |
+| **Stoic** | grey marble | neutral white | iron-rim | restrained, formal |
+| **Lyric** | rose-marble | rose-gold | brass-rim | poetic, elegiac |
+| **Ancient** | weathered limestone | dust-amber | iron-rim | archaeological, ruin |
+| **Surreal** | iridescent obsidian | shifting violet | indigo-rim | dream-state, uncanny |
+| **Crystalline** | crystal-quartz | cool-cyan | silver-rim | austere, transcendent |
+
+**State Layer delta (axis 6 visual-mood overlay):**
+`STATE — trophy-skin <theme>:` *plinth material, ambient
+palette, and accent shift to the named theme; all 7 zones
+inherit the skin uniformly.*
+
+#### 4.2.5 Per-zone State Layer deltas
+
+In addition to the room-skin axis, each zone responds
+individually to its content state:
+
+- `STATE — title-wall earned <N>:` *N title plates engraved;
+  100-N plates as polished brass blanks.*
+- `STATE — prestige-tier cycle <N>:` *N prestige items on
+  dais; dais trim matches §3.2.2 prestige-cycle colour
+  (gold/platinum/diamond/obsidian-prism).*
+- `STATE — legacy-tier mounted <N>:` *N boss-kill mounts +
+  hero artefacts; oldest at top, newest at floor level.*
+- `STATE — achievement-badge tier <T> count <N>:` *T = tier
+  band (1=bronze, 5=diamond); N = badge count in that bin;
+  tier banding visible regardless of fill.*
+- `STATE — imprint-gallery filled <N>:` *N imprint frames
+  carry portraits; 90-N frames are brass blanks with
+  silhouette etchings.*
+- `STATE — essence-ledger page <P>:` *codex open to page P
+  (player's favourite or most-recent essence).*
+- `STATE — boss-cosmetics-rack mannequins <N>:` *N
+  mannequins display equipped loadouts; mannequins extend
+  rearward into the alcove as N grows.*
+
+#### 4.2.6 Hotspots
+
+| Hotspot | Verb | Layer | Drives |
+|---|---|---|---|
+| Title Wall scrolling frieze | look | foreground | Title selector launcher |
+| Prestige Tier dais | look, walk-onto | foreground | Prestige class display |
+| Legacy Tier wall | look, examine each | midground | Boss-mastery launcher |
+| Achievement Badges Rack | look, examine bin | midground | Achievement Gallery launcher |
+| Imprint Gallery frames | look, examine each | foreground | Imprint detail launcher |
+| Essence Ledger codex | use, turn-page | foreground | Loredex Viewer launcher (§9 unified) |
+| Boss Cosmetics Rack mannequins | look, equip-from | midground | Cosmetic equip launcher |
+| **Inscription Challenge plaque** (centre dais, behind Prestige Tier) | look, etch | foreground | Endgame closure object — etches player's chosen end-game alignment phrase |
+
+#### 4.2.7 Discovery cutscene + HUD anchor
+
+`trophy_first_zone_lit` (~12 s, replaces existing
+`trophy_first_pedestal_lit`): on first entry post-multi-
+zone-upgrade, the procession path ignites in clockwise
+sequence; each zone briefly illuminates as the path
+crosses it; final illumination on the Inscription
+Challenge plaque (centre dais). HUD anchor: per-zone
+launcher fires from each zone's primary hotspot (see
+§4.2.6).
+
+#### 4.2.8 Runtime contract
+
+The 7 zones map to existing data registries:
+- Title Wall → `playerTitles` (existing)
+- Prestige Tier → `prestigeProgress` + `prestigeRewards`
+- Legacy Tier → `bossMastery` (existing)
+- Achievement Badges Rack → `loreAchievements` +
+  `achievementCatalog` (existing)
+- Imprint Gallery → `imprintsRoster` (90 imprints per
+  Phase-1.5 audit)
+- Essence Ledger → `loredexEssences` (150+ entries)
+- Boss Cosmetics Rack → `bossMasteryCosmetics` (per-boss
+  loadout)
+
+The renderer reads from each registry independently; no
+new schema needed beyond what each registry already exposes.
+Room-skin axis (6 themes) reads from
+`trophyDisplays.activeTheme` user setting.
+
+---
+
+*End of §4. §4.1 reserved for future cross-room specs.*
 
 ---
 
