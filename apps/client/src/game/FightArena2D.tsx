@@ -169,6 +169,22 @@ function FightArena2D({
   /** Screen-space VFX flash from the May 2026 archive (super_screenflash
    *  on a level-3 super, ko_blackout on match end). Fades over ~600ms. */
   const [vfxFlash, setVfxFlash] = useState<"super_screenflash" | "ko_blackout" | null>(null);
+  /** Combo pop tier — bronze (3-5) → silver (6-8) → gold (9-11) →
+   *  platinum (12+). Set on every onCombo callback; cleared after
+   *  ~700ms so the next pop can fire fresh. Includes a key so React
+   *  re-mounts the motion.img and replays the bump animation. */
+  const [comboPop, setComboPop] = useState<
+    | { tier: "bronze" | "silver" | "gold" | "platinum"; key: number }
+    | null
+  >(null);
+  const comboPopKeyRef = useRef(0);
+  /** Brief DOM overlay for a hit-spark PNG. Triggered on heavy / launcher
+   *  hits dealt by the player; faded over ~250ms. */
+  const [hitSpark, setHitSpark] = useState<
+    | { intensity: "light" | "medium" | "heavy"; key: number }
+    | null
+  >(null);
+  const hitSparkKeyRef = useRef(0);
 
   // Suppress BGM when fight starts, restore when leaving
   const bgm = useSagaThemeBGM();
@@ -233,6 +249,20 @@ function FightArena2D({
         else if (type === "heavy" || type === "launcher") hapticHeavyHit();
         else hapticMediumHit();
 
+        // May 2026 archive hit-spark overlay. Blocked / parried hits
+        // don't spark — the player needs distinct visual feedback for
+        // a successful defense. The intensity ladder mirrors the
+        // engine's hit_type taxonomy.
+        if (type !== "blocked" && type !== "parried") {
+          const intensity: "light" | "medium" | "heavy" =
+            type === "heavy" || type === "launcher" ? "heavy"
+            : type === "light" ? "light"
+            : "medium";
+          hitSparkKeyRef.current += 1;
+          setHitSpark({ intensity, key: hitSparkKeyRef.current });
+          window.setTimeout(() => setHitSpark(null), 260);
+        }
+
         // useHaptics pattern-based feedback (augments existing haptics)
         if (type === "heavy" || type === "launcher") {
           hapticTrigger("heavyHit");
@@ -272,6 +302,18 @@ function FightArena2D({
     onCombo: (_player, count, _damage) => {
       // Combat juice: combo flash feedback based on combo count
       comboFlash(count);
+      // May 2026 archive — combo pop banner. Tier ladders to the
+      // four canonical tiers; <3 hits is below the pop threshold.
+      if (count >= 3) {
+        const tier: "bronze" | "silver" | "gold" | "platinum" =
+          count >= 12 ? "platinum"
+          : count >= 9 ? "gold"
+          : count >= 6 ? "silver"
+          : "bronze";
+        comboPopKeyRef.current += 1;
+        setComboPop({ tier, key: comboPopKeyRef.current });
+        window.setTimeout(() => setComboPop(null), 700);
+      }
     },
     onFinishHim: () => {
       // Narrative: finishing blow moment
@@ -577,6 +619,56 @@ function FightArena2D({
             animate={{ opacity: vfxFlash === "ko_blackout" ? 0.85 : 0.75 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.18 }}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Hit-spark overlay — brief PNG flash at the canvas center on
+          successful hits. Light/medium/heavy intensities map to the
+          three hit_spark_* assets. */}
+      <AnimatePresence>
+        {hitSpark && (
+          <motion.img
+            key={`spark-${hitSpark.key}`}
+            src={fightVfxUrl(`hit_spark_${hitSpark.intensity}` as
+              "hit_spark_light" | "hit_spark_medium" | "hit_spark_heavy")}
+            alt=""
+            aria-hidden="true"
+            className="absolute left-1/2 top-1/2 z-20 pointer-events-none"
+            style={{
+              width: hitSpark.intensity === "heavy" ? 320 : hitSpark.intensity === "medium" ? 220 : 160,
+              transform: "translate(-50%, -50%)",
+              mixBlendMode: "screen",
+            }}
+            initial={{ opacity: 0, scale: 0.6 }}
+            animate={{ opacity: 1, scale: 1.05 }}
+            exit={{ opacity: 0, scale: 1.2 }}
+            transition={{ duration: 0.16 }}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Combo pop banner — bronze/silver/gold/platinum tiered overlay
+          on the player's combo count. Sits above the hit-spark layer
+          so a long combo's pop reads clearly. */}
+      <AnimatePresence>
+        {comboPop && (
+          <motion.img
+            key={`combo-${comboPop.key}`}
+            src={fightHudUrl(`combo_pop_${comboPop.tier}` as
+              "combo_pop_bronze" | "combo_pop_silver" | "combo_pop_gold" | "combo_pop_platinum")}
+            alt={`${comboPop.tier} combo`}
+            className="absolute z-25 pointer-events-none"
+            style={{
+              right: "8%",
+              top: "30%",
+              width: "22%",
+              maxWidth: 320,
+            }}
+            initial={{ opacity: 0, x: 40, scale: 0.9 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            exit={{ opacity: 0, scale: 1.1 }}
+            transition={{ duration: 0.18, ease: "easeOut" }}
           />
         )}
       </AnimatePresence>

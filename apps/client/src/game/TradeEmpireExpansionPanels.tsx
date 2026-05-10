@@ -65,6 +65,12 @@ import {
 } from "./tradeEmpireExpansion";
 import { GALACTIC_FACTIONS, type GalacticFactionId, type EmpireState } from "./tradeEmpire";
 import { tradeEmpireArtUrl } from "./tradeEmpireArtAssets";
+import {
+  tradeEmpireBuildingUrls,
+  tradeEmpireGoodsUrls,
+  tradeEmpireShipUrls,
+  TRADE_EMPIRE_GOODS_IDS,
+} from "@shared/aaaArtArchive";
 import { useActVO } from "../hooks/useActVO";
 import { TE_VO } from "../../../shared/tradeEmpireVoLines";
 
@@ -475,6 +481,14 @@ export function CivilizationPanel({
       {/* Civic Policies */}
       <div>
         <div className="flex items-center gap-2 mb-2">
+          {/* May 2026 archive guild_hall icon — the civic-policies
+              chrome. Visual anchor for the section header. */}
+          <img
+            src={tradeEmpireBuildingUrls("guild_hall").final}
+            alt=""
+            aria-hidden="true"
+            className="w-5 h-5 object-contain"
+          />
           <Scale size={12} className="void-text-accent" />
           <p className="font-mono text-[10px] text-white/50 tracking-wider">
             CIVIC POLICIES
@@ -656,6 +670,16 @@ export function MarketPanel({
       {/* Market banner */}
       <div className="p-3 rounded-xl bg-white/[0.02] border border-white/10">
         <div className="flex items-center gap-2 mb-1">
+          {/* May 2026 archive market tier icon — tier scales with the
+              bank ratio (better ratio == higher-tier marketplace). */}
+          <img
+            src={tradeEmpireBuildingUrls(
+              hasMonopoly ? "market_tier3" : hasTradePort ? "market_tier2" : "market_tier1",
+            ).final}
+            alt=""
+            aria-hidden="true"
+            className="w-5 h-5 object-contain"
+          />
           <Coins size={12} className="void-text-accent" />
           <p className="font-mono text-[10px] tracking-wider void-text-accent">
             BANK MARKET — RATIO {ratio}:1
@@ -742,6 +766,20 @@ export function MarketPanel({
       {/* Pirate raider panel */}
       <div className="p-3 rounded-xl bg-white/[0.02] border border-white/10">
         <div className="flex items-center gap-2 mb-2">
+          {/* May 2026 archive cargo-ship icon — tier scales with the
+              pirate's total stolen (bigger ship == bigger target). */}
+          <img
+            src={tradeEmpireShipUrls(
+              expansion.pirate.totalStolen > 500
+                ? "cargo_ship_large"
+                : expansion.pirate.totalStolen > 100
+                ? "cargo_ship_medium"
+                : "cargo_ship_small",
+            ).final}
+            alt=""
+            aria-hidden="true"
+            className="w-5 h-5 object-contain"
+          />
           <ShieldAlert size={12} className="void-text-error" />
           <p className="font-mono text-[10px] void-text-error tracking-wider">
             PIRATE RAIDER
@@ -787,6 +825,29 @@ export function MarketPanel({
         <p className="font-mono text-[8px] text-white/25 mt-1">
           Lifetime stolen: {expansion.pirate.totalStolen} credits
         </p>
+      </div>
+
+      {/* May 2026 archive — goods inventory band. Decorative-only;
+          gives the player a feel for the diversity of commodities
+          moving through the market each cycle. Seven canonical goods
+          (arcane ink, brass, lumber, silk, soul essence, spice, void
+          crystal) rendered as a horizontal strip. */}
+      <div className="p-3 rounded-xl bg-white/[0.02] border border-white/10">
+        <p className="font-mono text-[10px] text-white/30 tracking-wider mb-2">
+          GOODS IN TRANSIT
+        </p>
+        <div className="grid grid-cols-7 gap-1.5">
+          {TRADE_EMPIRE_GOODS_IDS.map((g) => (
+            <img
+              key={g}
+              src={tradeEmpireGoodsUrls(g).final}
+              alt={g.replace(/^goods_/, "").replace(/_/g, " ")}
+              title={g.replace(/^goods_/, "").replace(/_/g, " ")}
+              loading="lazy"
+              className="w-full aspect-square object-contain opacity-80 hover:opacity-100 transition-opacity"
+            />
+          ))}
+        </div>
       </div>
 
       {/* Trade history */}
