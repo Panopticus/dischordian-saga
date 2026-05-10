@@ -9659,6 +9659,395 @@ work lands AAA-ready.
 
 ---
 
+## 11. Living-World Slow-Tick Catalogue
+
+Per-room ambient routines that tick on slow IRL cadences
+(1/h, 1/d, 1/w, 1/m). These are the small visible
+behaviours that make the Ark feel inhabited even when
+the player isn't doing anything. Every §2.x room
+contributes ≥1 routine. Designers can add new ticks as
+data without code changes (the runtime is a single
+scheduler reading a `livingWorldRoutines` config).
+
+### 11.1 Cadence buckets
+
+| cadence | examples |
+|---|---|
+| **1/h (hourly)** | ambient chatter rotations, particle emitters, NPC silhouettes shuffling, slow art animations |
+| **1/d (daily)** | new chess move, new conspiracy connection, new chalkboard entry, day-count tally increment |
+| **1/w (weekly)** | new marginalia annotation, dust-pattern redistribution, archive shelf rotation |
+| **1/m (monthly)** | unlabeled vial colour shift, weapon-rack rotation, prophecy slow rotation |
+
+### 11.2 Per-room routines (compact catalogue)
+
+Cross-references each room's §2.x.7/§2.x.8 storyteller-
+hooks row 12. Per-room canonical routine listed below;
+many rooms have multiple — see room §2.x for the full
+list.
+
+| § | room | cadence | routine |
+|---|---|---|---|
+| 2.1 | Cryo Bay | 1/d | cryo unit cycles 30-s defrost; every 7th day one pod stutters |
+| 2.2 | Medical Bay | 1/min (within 1/h cycle) | bio-bed vital signs cycle; every 4th cycle, old patient flatline flashes |
+| 2.3 | Bridge | 1/72h | new connection line on Conspiracy Board |
+| 2.4 | Archives | 1/w | the Antiquarian visibly works; Codex visibly expands with new entries |
+| 2.5 | Comms Array | 1/h | soft radio chatter; every 7h one phrase clear |
+| 2.6 | Observation Deck | 1/m | starfield shifts subtly; constellations rotate, planets appear/disappear |
+| 2.7 | Engineering Bay | 1/10min | crafting sound-loop (whirr/ping/hiss); pitch shifts on `bridge_systems_restored` |
+| 2.8 | Forge Workshop | 1/w | one bay-leaf appears in kiln ash bed |
+| 2.9 | Armory | 1/w | brief "maintenance" animation (lights flicker, tools move) |
+| 2.10 | Cargo Hold | 1/12h | crate visual layout shifts ~6 cm (gravity drift) |
+| 2.11 | Captain's Quarters | 1/d | alcove hammock unmade if used previous session, made if not |
+| 2.12 | Trophy Room | 1/m | each visited achievement plaque slowly glows brighter (logarithmic) |
+| 2.13 | Antiquarian Library | 1/w | Antiquarian invites player to sit and read at high trust |
+| 2.14 | Guild Sanctum | 1/h | member roster updates; online glow warm, offline dim brass |
+| 2.15 | Social Hub | 1/d (effective 6h cycle) | crew members in lounge change; befriended crew appear more |
+| 2.16 | Station Dock | 1/d (with 1/w event) | shuttle-bay door cycle plays; every 7d shuttle silhouette visible |
+| 2.17 | Engineering Core | 1/h | iron-and-steam circulation ring releases brass-steam puff |
+| 2.18 | Oracle Sanctum | 1/h | brazier flame changes colour briefly |
+| 2.19 | Shadow Vault | 1/w | dust pattern subtly redistributes |
+| 2.20 | War Room | 1/h | one pylon's banner re-furls matching most-recent faction-standing change |
+| 2.21 | Cipher Den | 1/h | one spectrogram display flickers through 3 random spectra before settling |
+| 2.22 | Hierarchy Throne | 1/h | one of 7 ouroboros alcoves pulses brighter momentarily |
+| 2.23 | Chaos Forge | 1/h | air shimmer above the pits shifts pattern |
+| 2.24 | Elemental Nexus | 1/h (8-elem cycle) | dominant element shifts; ambient palette changes |
+| 2.25 | Quantum Lab | 1/h | one branch on probability displays gets pruned; new branches daily |
+| 2.26 | Synthesis Chamber | 1/h | chrome liquid swirl pattern shifts |
+| 2.27 | Memorial Corridor | 1/d | one plaque acquires dust-shadow if not visited; visited stay polished |
+| 2.28 | Pet Garden | 1/h | pets in play-area shuffle positions; sleeping pets twitch |
+| 2.29 | Pet Arena | 1/d (60-s sim) | faux-skylight cycles a full day in 60 s |
+| 2.30 | Pet Medical Annex | 1/h | tank coolant lines pulse once |
+| 2.31 | Trade Hub | 1/h | (deferred to TE agent) |
+| 2.32 | Trade Command Center | 1/h | (per §3.3 + TE agent) |
+| 2.33 | Defense Command Center | 1/h | tactical table cycles through owned bases in slow rotation |
+| 2.34 | Trophy Armory | 1/h | player's current-tier indicator pulses once |
+| 2.35 | Tower Assembly Bay | 1/h | one work-rig advances visible build state slightly |
+| 2.36 | Chess Hall | 1/h | one tournament board cycles to a new active match |
+| 2.37 | Grand Master's Sanctum | 1/h | central board cycles through one famous historical match (visual only) |
+| 2.38 | Puzzle Study Chamber | 1/d (midnight UTC) | central board pieces rearrange to new daily puzzle |
+| 2.39 | Casino Gaming Floor | 1/h (event-only) | leaderboard adds 1–3 new entries (during event window) |
+| 2.40 | Governance Chamber | 1/h | perimeter scrolling text cycles once around chamber |
+| 2.41 | Daily Resource Allocation Board | 1/h (with 1/d rotation at midnight UTC) | vote distribution updates; question rotates at IRL midnight UTC |
+| 2.42 | Faction Succession Monument | 1/h | one of 5 pylons subtly re-furls banner |
+| 2.43 | Oracle's Sanctum (Annual) | 1/h (event-only) | oracle-stone living script shifts subtly |
+| 2.44 | Epoch Witness Conclave | 1/h | active-epoch glyph on timeline pulses brighter once |
+| 2.45 | Nexus Point Sanctum | 1/h (with epoch decay) | chamber's ambient material slowly weathers; resets at epoch close |
+| 2.46 | Prophecy Wall | 1/h | brass quill on bench shifts position by ~1 cm (no visible hand) |
+| 2.47 | CADES Console | 1/h | helmet hologram rotates 30° clockwise |
+| 2.48 | Eidolon Sanctum | 1/h | bonded Eidolon's silhouette shifts slightly (subtle posture changes) |
+| 2.49 | Prelude rooms | none | prelude is fixed; the past doesn't change |
+
+### 11.3 Cross-room living-world arcs
+
+Some routines span multiple rooms — they tell a single
+story across the Ark.
+
+#### 11.3.1 The Cross-Centuries Chess Game
+
+- **Living-world arc:** the Antiquarian and the Programmer
+  play a single chess game across centuries via the Ark's
+  internal logs. Move advances 1/day at IRL midnight UTC.
+- **Manifest rooms:**
+  - **Bridge §2.3** — War Map's hidden chess overlay
+    advances
+  - **Social Hub §2.15** — physical chess set on low table
+    advances
+  - **Antiquarian Library §2.13** — chronicle records the
+    move
+- **Storyteller slot:** every move opens a slot for an
+  Antiquarian-margin annotation (per §8.2.2) commenting
+  on the move. Authors can add commentary indefinitely.
+
+#### 11.3.2 The Human's Day-Count
+
+- **Living-world arc:** the Engineering wall counting-tally
+  is the Human's substrate-prison day count. Increments
+  daily.
+- **Manifest rooms:**
+  - **Engineering §2.7** — wall tally increments
+  - **Comms Array §2.5** — silence beacon pulses (24h
+    distress)
+  - **Bridge §2.3** — substrate-integrity heartbeat alert
+    (non-critical, repeating)
+- **Storyteller slot:** every 1000 days, the wall-tally
+  acquires a small additional symbol etched beside the
+  count — author-provided per milestone.
+
+#### 11.3.3 The Antiquarian's Working Routine
+
+- **Living-world arc:** the Antiquarian moves between
+  rooms, working visibly.
+- **Manifest rooms:**
+  - **Archives §2.4** — annotates entries
+  - **Antiquarian Library §2.13** — reads, writes
+    chronicle, invites player at high trust
+  - **Memorial Corridor §2.27** — etches new plaques on
+    crew death
+  - **Prophecy Wall §2.46** — etches inscriptions on vote
+    outcomes
+
+#### 11.3.4 The Mole'Garath Chess Pieces
+
+- **Living-world arc:** Mol'Garath's silhouette appears in
+  multiple rooms, never speaking, observing.
+- **Manifest rooms (visibility-conditional):**
+  - **Hierarchy Throne §2.22** — at Hierarchy-acquisitions max
+  - **Chaos Forge §2.23** — at the rear red pit
+  - **Celebration School (via Hellbox 3 §3.12.3)** — at the
+    conspiracy-board easel base
+- **Trigger:** sustained Hierarchy-allied or audience-
+  unlocked state
+
+### 11.4 Storyteller-author workflow
+
+To add a new living-world routine:
+1. Identify cadence bucket (1/h, 1/d, 1/w, 1/m).
+2. Author JSON entry conforming to slot schema (room id,
+   cadence, art delta description, hotspot interaction
+   if any).
+3. The single living-world scheduler reads the registry
+   and fires deltas at the named cadence.
+
+### 11.5 Living-World runtime contract
+
+The full registry lives in
+`apps/shared/livingWorldRoutines.ts` (proposed). Every
+routine has a renderer hook that fires at its cadence.
+Per-routine state lives in `livingWorldState.<routineId>`
+on the user's save.
+
+---
+
+## 12. Expansion Hook Registry
+
+Distillation of NOTES §13.2. **15 expansion-hook systems**
+— technical seams in the codebase where future content
+plugs in without re-engineering. Each entry below names
+the source file, the recipe to add new content, and the
+visible diegetic slot the room reserves for it.
+
+### 12.1 Card system unlock conditions
+
+- **Source:** `apps/shared/tcg-core/cards/cardVisibility.ts` +
+  `apps/shared/tcg-core/cards/index.ts`
+- **Hook:** discriminated `unlockCondition` union — kinds
+  include `act_completion`, `secret`, `battle_pass`,
+  `founding_author`, `authors_edition`. Acts 5–7 reserve
+  `act_completion: { act: 5 | 6 | 7 }` slots without
+  shipping content.
+- **Recipe (one line per card):** add card definition file
+  → add unlock condition → import + spread into
+  `ALL_CARD_DEFINITIONS`. Test coverage exists
+  (`expansionUnlockService.test.ts` verifies act 1–5 gates).
+- **Diegetic slot:** Deck Builder displays lock icons for
+  locked cards with "Unlock in Act X" labels. Future
+  content auto-surfaces.
+
+### 12.2 Expansion art manifest registry
+
+- **Source:** `apps/shared/expansionArt/index.ts` + per-
+  module manifests (`hierarchyOfDamned`,
+  `dischordiaBaseSet`, `cinematicsManifest`,
+  `album1Slideshows`)
+- **Hook:** module re-export pattern. New artwork →
+  manifest entry → cards reference via `assetUrl()`.
+- **Recipe:** producer uploads to `dgrsart` S3 → mirror
+  layout to `apps/client/public/{art,audio,videos,music,
+  games}` → manifest entries track keys → parity check
+  via `pnpm assets:upload:dry` + `pnpm tsx
+  scripts/_check-art-coverage.mjs` (currently HEAD-
+  verifies 928 keys).
+- **Diegetic slot:** none required (asset-pipeline only).
+
+### 12.3 Room-tier progression
+
+- **Source:** `apps/shared/roomTier.ts` + `roomMediaPrompts.ts`
+- **Hook:** Tiered state progression (0 = Dormant → 3 =
+  Restored). 4 rooms declare full progression today
+  (Cryo Bay, Med Bay, Bridge, Engineering); 23 default to
+  tier 0.
+- **Recipe:** add room entry to `ROOM_TIER_THRESHOLDS`
+  with `tier1`, `tier2`, `tier3` flag names → art variants
+  render per tier.
+- **Diegetic slot:** every room transforms visually as
+  player progresses (sparse → active → restored).
+
+### 12.4 Room-mystery module scaffolding
+
+- **Source:** `apps/shared/roomMysteries/_template.ts`,
+  `apps/client/src/game/roomStateAssets.ts` (registry
+  binding)
+- **Hook:** per-room hotspot registry. 9 universal +
+  6 species-exclusive rooms shipped today.
+- **Recipe:** author hotspot JSON in
+  `roomMysteries/<roomId>.ts` → register in
+  `ROOM_MYSTERY_REGISTRY`.
+- **Diegetic slot:** every room shows interactive
+  hotspots (items, NPCs, terminals, examine points).
+  Future hotspots add mystery clues, investigations,
+  emotional beats without engine changes.
+
+### 12.5 Transmission / broadcast extensibility
+
+- **Source:** `apps/shared/transmissions.ts` +
+  `broadcastLibrary.ts`
+- **Hook:** episode-based content with trigger gates.
+  20+ Late Night with the Meme episodes in
+  `EPOCH_1_TRANSMISSIONS`. 30 voice interrupts
+  (Programmer, Antiquarian, Enigma).
+- **Recipe (transmission):** add Transmission JSON to
+  `EPOCH_1_TRANSMISSIONS` with title, intro/outro,
+  synopsis, trigger condition, related Loredex entries,
+  videoUrl.
+- **Recipe (interrupt):** add `BroadcastInterruption`
+  JSON with trigger (track_X_playing, album_completed,
+  random) + voice line + lore reveal.
+- **Diegetic slot:** Comms Array §2.5 broadcast cylinders;
+  Rec Room media pop-up; Loredex bidirectional unlocks.
+
+### 12.6 NPC dialogue trees
+
+- **Source:** `apps/shared/factionNPCs.ts` + per-NPC
+  dialogue files (e.g., `roomDialogs.ts`)
+- **Hook:** trust-gated dialogue with callback flags. 7
+  canonical NPCs (Elara, Human, Agent Zero signal,
+  Adjudicator Locke, The Source, The Antiquarian,
+  Zyr'Koth). Trust 0/20/40/60/80/100+ tiers.
+- **Recipe:** define NPC entry in `factionNPCs.ts` →
+  author dialogue scenes per trust gate → callbacks
+  unlock Loredex entries and follow-up scenes.
+- **Diegetic slot:** every NPC encounter; mobile narrator
+  slot per §3.7.
+
+### 12.7 Companion arc / romance ladder
+
+- **Source:** `apps/shared/romanceLadders.ts`,
+  `romanceLadders.test.ts` (parity gate)
+- **Hook:** 5-stage ladder per companion at trust
+  20/40/60/80/100. Stage gates can require flags (e.g.,
+  Vex stage 3 requires `engineer_zero_hint`).
+- **Recipe:** define ladder + 5 scene definitions →
+  flag dependencies optional.
+- **Diegetic slot:** Companion Relationships UI (HUD
+  surface) + Personal Quarters companion-specific
+  effects (per §8.3 + §3.5).
+
+### 12.8 Loredex entry expansion (bidirectional discovery)
+
+- **Source:** `apps/client/src/data/loredex-data.json`
+  (113 character + 109 concept entries),
+  `apps/shared/loredexGraph.ts` (graph + parity check),
+  `transmissionLoredexUnlocks.ts`
+- **Hook:** entity graph with conditional relationships.
+  Hidden entries gate by discoveries.
+- **Recipe:** add Loredex entry JSON → define
+  relationships → link via `relatedLoredexEntries`.
+- **Diegetic slot:** Antiquarian Library §2.13 + Archives
+  §2.4 (unified Loredex Viewer per §9.4).
+
+### 12.9 Apprentice / crew tick
+
+- **Source:** `apps/shared/crewTick.ts` +
+  `loredexObituary.ts`
+- **Hook:** crew event scheduler. 1 day IRL = 1 month
+  in-game. Events: apprentice quests, graduations, deaths,
+  obituary generation.
+- **Recipe:** add new crew event type → archetype-specific
+  outcomes → set trigger chance.
+- **Diegetic slot:** Memorial Corridor §2.27 (fallen
+  crew); Mess Hall §2.15 memorial wall; Trophy Room §2.12
+  Fallen Heroes Wall.
+
+### 12.10 Battle pass & seasonal tier system
+
+- **Source:** `apps/shared/battlePassConfig.ts` +
+  `prestige.ts`
+- **Hook:** tier-gated card unlocks + seasonal rotation.
+  50 tiers × 60d seasons.
+- **Recipe:** add new season → define tier structure
+  (50/100) → author seasonal cards with `unlockCondition:
+  battle_pass` gates.
+- **Diegetic slot:** Battle Pass tracker HUD; per-room
+  particle layer per active season (≤5% frame).
+
+### 12.11 Reserved card IDs
+
+- **Source:** `apps/shared/tcg-core/cards/reservedCards.ts`
+- **Hook:** `reserved: true` flag — card filtered from
+  pack-opening / deck-builder / reward surfaces until
+  unlock fires. `burnt_card_placeholder` is the canonical
+  pattern.
+- **Recipe:** define card with `reserved: true` → set
+  unlock condition → when condition fires, card becomes
+  visible.
+- **Diegetic slot:** the silhouette of an unrevealed
+  card on shelves (Library, Cargo Hold, Antiquarian
+  Library, etc.).
+
+### 12.12 Narrative-flag registry
+
+- **Source:** `apps/client/src/contexts/GameContext.tsx`
+  (`narrativeFlags` state field)
+- **Hook:** flat key-value flag map. Names follow
+  convention `<roomId>_<event>` or `<system>_<state>`.
+- **Recipe:** define flag name → set flag in mystery
+  module or quest completion → read flag in dialogue
+  conditionals, unlock gates, tier thresholds.
+- **Diegetic slot:** invisible to player but drives all
+  progression. Future content discovers flags by
+  reading the convention.
+
+### 12.13 Voice-interrupt registry
+
+- **Source:** `apps/shared/broadcastLibrary.ts`
+  (30 shipped interrupts)
+- **Hook:** trigger-based voice lines with Loredex
+  unlocks. Pure data — JSON-only authoring.
+- **Recipe:** add `BroadcastInterruption` JSON with
+  trigger condition + voice line + lore reveal.
+- **Diegetic slot:** ambient narrator layer; surfaces in
+  Comms Array §2.5 and Rec Room.
+
+### 12.14 Prestige cycle / seasonal card drops
+
+- **Source:** `apps/shared/prestige.ts` +
+  `dischordiaCycle.ts`
+- **Hook:** season-based performance measurement →
+  retroactive card delivery via `unlockCondition:
+  battle_pass`.
+- **Recipe:** new season starts → measure prestige
+  metrics → deliver seasonal cards on metric thresholds.
+- **Diegetic slot:** Trophy Room Prestige Tier (§4.2);
+  per-room prestige-cycle trim (§3.2.2).
+
+### 12.15 Pet evolution stages
+
+- **Source:** `apps/shared/petBreeding.ts` +
+  `apps/shared/tcg-core/cards/definitions/architect/
+  s1_pack_pet_*.ts`
+- **Hook:** multi-stage evolution with visual asset
+  variants. Pet card IDs:
+  `s1_pack_pet_<species>_<stage>` (stages 1, 2, 3+).
+- **Recipe:** define new pet → 3 evolution stages →
+  link to breeding outcome trees.
+- **Diegetic slot:** Pet Garden §2.28 evolution chambers;
+  Genealogy Tree (§3.10.2).
+
+### 12.16 Expansion-Hook runtime contract
+
+All 15 hooks have shipped runtime infrastructure (per
+the source files named in §12.1–§12.15). New content
+authoring is JSON-only for most hooks; some require
+TypeScript card-definition or NPC-definition files but
+inherit from existing patterns.
+
+The doc's recreation contract (§1.7) is preserved
+through expansion: adding new content NEVER changes
+existing renders, only the new content surfaces.
+
+---
+
+
 
 
 
