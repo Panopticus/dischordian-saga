@@ -10779,19 +10779,465 @@ streaming_behaviour:
 
 ---
 
-## A.32 Trade Command Center / Broker's Office — SCAFFOLDED
+## A.32 Trade Command Center / Broker's Office — FULL
+
+**Status: FULL spec.** Cross-ref: `INCEPTION_ARK_FINAL_PRODUCTION.md`
+§2.32 (art-state prompts); sub-room of Trade Hub §A.31.
+
+### A.32.1 Header
 
 ```
 space_id:        ark.trade_command_center
 space_name:      Trade Command Center / Broker's Office
-space_type:      ark_room  (sub-room of Trade Hub)
+space_type:      ark_room  (sub-room of Trade Hub; deeper-than-counter trade negotiations)
 act_introduced:  Act 2
-lore_anchor:     loredex.system.trade + arc.broker_arc
-aesthetic_tier:  solar_punk_cathedral  (executive accents)
-dimensions:      9.00 m × 11.00 m × 4.50 m
+lore_anchor:     loredex.system.trade + arc.broker_arc + arc.act_2_first_broker_meeting
+aesthetic_tier:  solar_punk_cathedral  (executive accents — wood-and-leather formal)
 ```
 
-(Full spec deferred.)
+### A.32.2 Geometry
+
+```
+dimensions:           9.00 m × 11.00 m × 4.50 m
+origin_point:         centre of floor at south entrance (door from Trade Hub)
+coordinate_axes:      +x = right, +y = forward (north), +z = up
+floor_plan_geometry:  rectangular  (with broker's desk at north end + private vault recess)
+volumetric_anomalies: none
+```
+
+The Trade Command Center is the broker's private office; smaller
+than the public Trade Hub, more formal, more intimate. Broker's
+desk dominates the north end. Two visitor chairs face desk.
+Side cabinets along east and west walls hold sealed contracts +
+trade agreements. A small private vault recesses into the north
+wall (deeper trades require vault access).
+
+Floor area: 99 m².
+
+### A.32.3 Floor
+
+```
+material_primary:     polished walnut hardwood plank in herringbone; 0.20 × 1.20 m planks at 45° from south wall
+material_secondary:   wool rug (forest-green with gold border) covering desk-area (3.00 × 4.00 m); brass walkway-strip from entrance
+pattern:              herringbone with rug accent
+wear_state:           pristine in early acts; slight wear-trail to desk
+embedded_features:
+  - id: ark.trade_command_center.floor.charge_point.broker_desk
+    position: (0.00, 8.00, 0.00)  # under broker's desk
+    dimensions: 0.40 × 0.40 × 0.05
+    function: desk + lamp power
+  - id: ark.trade_command_center.floor.heating_grate
+    position: (0.00, 1.50, 0.00)
+    dimensions: 0.40 × 0.40 × 0.05
+    function: under-floor heating
+acoustic_property:    soft_absorbent (rug + upholstery + drapery); RT60 = 0.35s (intentionally dampened — confidentiality)
+```
+
+### A.32.4 Walls
+
+#### Wall: South (entrance from Trade Hub)
+
+```
+wall_id:              south
+material_primary:     painted plaster with walnut wainscoting (z = 0.00 to 1.20); cream plaster above
+material_secondary:   walnut chair-rail at z = 1.20; crown-molding at z = 4.30
+panelisation:         standard
+colour_value:         --token-color-ark-trade-command-center-wall-south  (warm cream + walnut)
+embedded_displays:
+  - id: ark.trade_command_center.south.display.contract_status
+    position: (-2.50, 0.20, 1.80)
+    dimensions: 0.80 × 0.60 × 0.05
+    content: live contract status; player's active deals
+embedded_doors:
+  - door_id: ark.trade_command_center.south.door.main
+    position: (0.00, 0.00, 0.00)
+    dimensions: 1.40 × 2.40 × 0.10
+    door_class: slide  (warm walnut frame; brass handle)
+    connecting_space_id: ark.trade_hub
+decorative_features:
+  - id: ark.trade_command_center.south.plaque.discretion
+    position: (0.00, 0.20, 3.20)
+    dimensions: 0.80 × 0.30 × 0.02
+    material: brass with engraved text
+    narrative_role: reads "DISCRETION IS THE FIRST CURRENCY"
+```
+
+#### Wall: East (contract cabinets)
+
+```
+wall_id:              east
+material_primary:     painted plaster with walnut wainscoting
+material_secondary:   walnut chair-rail
+panelisation:         standard
+colour_value:         --token-color-ark-trade-command-center-wall-east
+embedded_displays:    none
+embedded_doors:        none
+decorative_features:
+  - id: ark.trade_command_center.east.cabinet.contracts
+    position: (4.45, 5.50, 0.00)
+    dimensions: 0.40 × 4.00 × 2.40
+    material: walnut cabinet with brass handles + glass display panels
+    narrative_role: sealed contracts archive; gameplay-key for replay/lookup
+  - id: ark.trade_command_center.east.painting.first_broker
+    position: (4.45, 9.50, 1.80)
+    dimensions: 0.60 × 0.80 × 0.04
+    material: oil portrait of first Ark broker
+    narrative_role: lineage acknowledgment
+```
+
+#### Wall: North (broker's desk + vault)
+
+```
+wall_id:              north
+material_primary:     painted plaster with full-height walnut paneling (executive aesthetic; no plaster above wainscoting on this wall)
+material_secondary:   crown-molding at z = 4.30
+panelisation:         3 panels: west panel (decorative), centre panel (vault recess), east panel (decorative)
+colour_value:         --token-color-ark-trade-command-center-wall-north
+embedded_displays:
+  - id: ark.trade_command_center.north.display.market_overview
+    position: (-2.00, 10.95, 2.00)
+    dimensions: 1.20 × 0.80 × 0.05
+    content: galactic market overview (executive view)
+embedded_doors:
+  - door_id: ark.trade_command_center.north.vault_door
+    position: (0.00, 10.95, 0.00)
+    dimensions: 1.20 × 2.40 × 0.20  (deep vault door)
+    door_class: pressure_seal  (vault-class; biometric authentication)
+    connecting_space_id: ark.trade_command_center.private_vault  (sub-space; deferred from FULL spec; treat as inaccessible alcove)
+    unlock_condition: Act 4+ (broker grants access for high-stakes trades)
+decorative_features:
+  - id: ark.trade_command_center.north.decorative_panel.east_west
+    position: flanking vault door
+    dimensions: 1.50 × 0.10 × 4.20 each
+    material: walnut with carved trade-route motifs
+    narrative_role: executive aesthetic
+  - id: ark.trade_command_center.north.relief.scales_of_trade
+    position: (0.00, 10.95, 3.50)  # above vault
+    dimensions: 1.40 × 0.40 × 0.10
+    material: cast bronze
+    narrative_role: scales-of-balance relief; reads "WEIGHT TRUE / WEIGHT FAIR"
+```
+
+#### Wall: West (mirror cabinets)
+
+```
+wall_id:              west
+material_primary:     same as east
+material_secondary:   walnut chair-rail
+panelisation:         standard
+colour_value:         --token-color-ark-trade-command-center-wall-west
+embedded_displays:    none
+embedded_doors:        none
+decorative_features:
+  - id: ark.trade_command_center.west.cabinet.records (mirror of east)
+    position: (-4.45, 5.50, 0.00)
+    dimensions: 0.40 × 4.00 × 2.40
+    material: walnut + brass + glass
+    narrative_role: trade records archive (companion to east contracts)
+  - id: ark.trade_command_center.west.painting.last_broker
+    position: (-4.45, 9.50, 1.80)
+    dimensions: 0.60 × 0.80 × 0.04
+    material: oil portrait — uncanny: depicts a broker who has not yet served (future-broker; portrait shifts subtly Acts 5+)
+    narrative_role: uncanny lineage; complements east first-broker portrait
+```
+
+### A.32.5 Ceiling
+
+```
+height_above_floor:     4.50 m baseline; central coffered area above desk
+material:               painted plaster with walnut crown-molding + coffered detailing (3 × 3 grid of square coffers)
+lighting_integrated:    central pendant chandelier; recessed strip-lights in coffers; cabinet task-lights
+atmospheric_features:   minimal — executive office discretion
+acoustic_treatment:     coffered + upholstery
+```
+
+### A.32.6 Lighting
+
+```
+ambient_baseline:     2700 K (very warm; executive); 180 lux at floor (intentionally dim — confidential atmosphere); CRI 95
+direct_fixtures:
+  - id: ark.trade_command_center.light.central_chandelier
+    position: (0.00, 5.50, 4.30)
+    beam_angle: 360° (radial)
+    colour: --token-color-ark-trade-command-center-chandelier  (warm amber with crystal scatter)
+    intensity: 4000 lumens
+    function: principal lighting
+  - id: ark.trade_command_center.light.broker_desk_lamp
+    position: (0.00, 8.00, 0.95)  # on desk
+    beam_angle: 60° downward
+    colour: 2400 K very warm
+    intensity: 1500 lumens
+    function: focused desk task light
+  - id: ark.trade_command_center.light.cabinet_strip.east, .west
+    position: above each cabinet at z = 2.50
+    beam_angle: 90° downward
+    colour: 2700 K warm
+    intensity: 600 lumens per metre
+    function: cabinet accent
+practical_sources:
+  - id: ark.trade_command_center.fireplace_glow (cosmetic — small fireplace at south-west)
+    position: (-3.50, 1.50, 0.40)
+    intensity: 400 lumens (when lit; conditional)
+    flicker_pattern: organic
+time_of_day_variation:
+  acts_2_to_7: stable warm baseline; in Act 7 broker may be permanently absent (room cold)
+dynamic_response:
+  - on_player_at_desk: desk_lamp activates
+  - on_high_stakes_trade: chandelier brightens 20%
+  - on_vault_open: vault_glow emerges (Act 4+ only)
+```
+
+### A.32.7 Atmosphere
+
+```
+air_temperature:    21°C (warm, comfortable)
+humidity:           42% RH; smells of walnut + leather (chair upholstery) + faint cigar (canonical broker habit) + paper (contracts)
+particulate:
+  - dust: very low (well-maintained executive)
+  - cigar_smoke: very low (when broker present + smoking; cosmetic)
+volumetric_fog:     absent
+wind_drift:         minimal; 0.02 m/s
+smell_canon:        walnut + leather + cigar + paper; voice-line: "smells like quiet money"
+```
+
+### A.32.8 Sound
+
+```
+ambient_bed:           file: trade_command_ambient_bed_v1.ogg (loop); -38 dB; very quiet; faint mantle clock tick, very faint ambient bustle from Trade Hub through south door
+point_sources:
+  - sound.mantle_clock_tick: at desk; period 1s; -34 dB; continuous
+  - sound.cabinet_subtle_creak: random; -38 dB; period 60-120s
+  - sound.distant_market_bustle: at south door; -42 dB; ambient cyclic
+reverb_zone:           IR-impulse: trade_command_v1.wav; wet-mix 14% (intimate, confidential)
+music_eligibility:     cutscene only (deferred)
+voice_line_eligibility:
+  - speaker: the_galactic_broker: presence (Acts 2+; primary occupant); line set §2.32.2
+  - speaker: rare visiting NPCs: scripted events
+```
+
+### A.32.9 Object inventory
+
+Trade Command Center has 32 inventory objects.
+
+#### A.32.9.1 The Broker's Desk
+
+```
+object_id:           ark.trade_command_center.broker_desk
+object_class:        furniture
+position:            (0.00, 8.00, 0.00)
+dimensions:          2.00 × 1.00 × 0.85
+rotation:            0°
+material_primary:    polished walnut with deep-green leather inset top; brass rim
+material_secondary:  brass corner-caps with engraved laurel; brass drawer handles
+colour_value:        --token-color-ark-trade-command-center-desk
+interaction:         interactable
+  - operate: opens broker-deal UI (high-stakes negotiations; rare items; faction pacts)
+  - inspect: lore-note about desk
+narrative_role:      THE broker's negotiation surface; player engages here for deals beyond Trade Hub counters
+lore_anchor:         loredex.character.galactic_broker + arc.broker_arc
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.trade_command.broker_desk.operate
+wear_state:          worn at leather inset
+physical_constraints: collides
+```
+
+#### A.32.9.2 Broker's Chair
+
+```
+object_id:           ark.trade_command_center.broker_chair
+object_class:        furniture  (also npc_anchor)
+position:            (0.00, 9.00, 0.00)  # behind desk
+dimensions:          0.90 × 0.90 × 1.50
+rotation:            180°  (faces south, toward visitor chairs)
+material_primary:    walnut frame with deep-green velvet upholstery
+material_secondary:  brass armrests with engraving
+colour_value:        --token-color-ark-trade-command-center-broker-chair
+interaction:         interactable - sit (when broker absent)
+narrative_role:      broker's chair; player can rarely sit
+lore_anchor:         loredex.character.galactic_broker
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.trade_command.broker_chair.sit
+wear_state:          worn at right armrest (broker is right-handed)
+physical_constraints: collides; sittable
+```
+
+#### A.32.9.3-4 Two Visitor Chairs (facing desk)
+
+```
+object_id:           ark.trade_command_center.visitor_chair.east, .west
+object_class:        furniture
+positions:           (1.00, 6.50, 0.00), (-1.00, 6.50, 0.00)
+dimensions (each):   0.80 × 0.80 × 1.20
+rotation (each):     varies (faces desk)
+material_primary:    walnut frame with deep-green leather seat
+material_secondary:  brass tacks
+colour_value:        --token-color-ark-trade-command-center-visitor-chair
+interaction:         interactable - sit
+narrative_role:      where visitors negotiate
+lore_anchor:         arc.broker_arc
+art_status:          producer_handoff
+gameplay_hook_id:    none (positional; opens UI when paired with broker present)
+wear_state:          slight wear
+physical_constraints: collides; sittable
+```
+
+#### A.32.9.5 Mantle Clock (on broker's desk)
+
+```
+object_id:           ark.trade_command_center.broker_desk.mantle_clock
+object_class:        decoration
+position:            (-0.80, 8.00, 0.85)
+dimensions:          0.30 × 0.20 × 0.40
+rotation:            0°
+material_primary:    polished brass case with mahogany inlay
+material_secondary:  porcelain face
+colour_value:        --token-color-ark-trade-command-center-clock
+interaction:         inspectable
+narrative_role:      ticking adds room-rhythm; matches Captain's Quarters mantle clock
+lore_anchor:         loredex.aesthetic.solar_punk_cathedral
+art_status:          producer_handoff
+gameplay_hook_id:    none
+wear_state:          slight patina
+physical_constraints: collides
+```
+
+#### A.32.9.6 Broker's Personal Locker
+
+```
+object_id:           ark.trade_command_center.broker_locker
+object_class:        container
+position:            (-3.00, 10.50, 0.00)  # NW corner
+dimensions:          0.50 × 0.40 × 1.80
+rotation:            180°
+material_primary:    polished walnut + brass handle
+material_secondary:  brass nameplate
+colour_value:        --token-color-ark-trade-command-center-locker
+interaction:         interactable
+  - open: contains broker's personal effects (cigar humidor, journal — gameplay-key; portraits)
+narrative_role:      humanises broker
+lore_anchor:         loredex.character.galactic_broker + arc.broker_personal_arc
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.trade_command.broker_locker.open
+wear_state:          slight wear
+physical_constraints: collides
+```
+
+#### A.32.9.7-12 Six Cabinet Slots (east + west; 3 each)
+
+```
+object_id:           ark.trade_command_center.east.cabinet.contracts.<slot>  (3 slots) and .west.cabinet.records.<slot>  (3 slots)
+object_class:        container
+positions:           per cabinet positions
+dimensions (each):   0.40 × 1.30 × 2.40
+rotation:            varies (faces room)
+material_primary:    walnut + brass handles + glass display panels
+material_secondary:  bronze nameplate per slot
+colour_value:        --token-color-ark-trade-command-center-cabinet
+interaction:         interactable
+  - open: contains sealed contracts / trade records; player can review
+  - inspect: lore-note
+narrative_role:      records of past deals; gameplay-key for high-stakes lookups
+lore_anchor:         loredex.system.trade_records
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.trade_command.cabinet.open
+wear_state:          slight wear
+physical_constraints: collides
+```
+
+#### A.32.9.13 Vault Door (north central)
+
+Specced in walls. Inventoried for completeness (door_class: pressure_seal; Act 4+).
+
+#### A.32.9.14-16 Decorative + Atmosphere
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.trade_command_center.fireplace.sw` | interactive | (-3.50, 1.50, 0.00) | 1.20 × 0.40 × 1.20 | small wood-fired fireplace |
+| `ark.trade_command_center.fireplace.mantle` | decoration | (-3.50, 1.50, 1.30) | 1.40 × 0.30 × 0.10 | stone mantle |
+| `ark.trade_command_center.fireplace.mantle.cigar_box` | container | on mantle | 0.20 × 0.10 × 0.10 | broker's cigar box |
+
+#### A.32.9.17-22 Six Reading-Light + Decorative Pieces
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.trade_command_center.broker_desk.lamp` | fx_emitter | (1.00, 8.00, 0.85) | 0.20 × 0.20 × 0.50 | cast-bronze + green-glass desk lamp |
+| `ark.trade_command_center.broker_desk.contract_pile` | decoration | on desk | 0.30 × 0.20 × 0.05 | active contracts |
+| `ark.trade_command_center.broker_desk.fountain_pen_set` | decoration | on desk | 0.10 × 0.05 × 0.04 | bronze pen set |
+| `ark.trade_command_center.broker_desk.inkwell` | decoration | on desk | 0.10 × 0.10 × 0.08 | bronze inkwell |
+| `ark.trade_command_center.broker_desk.framed_photo` | decoration | on desk | 0.10 × 0.15 × 0.04 | broker's family photo |
+| `ark.trade_command_center.broker_desk.scales_decorative` | decoration | on desk | 0.20 × 0.15 × 0.30 | small bronze scales-of-trade decoration |
+
+#### A.32.9.23-26 Carpet + Floor + Accents
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.trade_command_center.lounge_rug` | decoration | (0.00, 5.50, 0.005) | 3.00 × 4.00 × 0.005 | central rug |
+| `ark.trade_command_center.coat_stand` | decoration | (3.50, 1.50, 0.00) | 0.30 × 0.30 × 1.80 | coat stand |
+| `ark.trade_command_center.umbrella_stand` | decoration | (-3.50, 0.50, 0.00) | 0.20 × 0.20 × 0.80 | bronze umbrella stand |
+| `ark.trade_command_center.framed_photos.north` | decoration | (0.00, 10.95, 1.80) flanking vault | 0.30 × 0.40 × 0.04 each (2) | crew family photos |
+
+#### A.32.9.27-32 Closing Items
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.trade_command_center.south.intercom` | console | (-1.50, 0.20, 1.50) | 0.20 × 0.10 × 0.30 | comms relay |
+| `ark.trade_command_center.fire_extinguisher.south` | interactive | (1.50, 0.20, 1.20) | 0.20 × 0.20 × 0.50 | safety |
+| `ark.trade_command_center.first_aid.kit` | container | (-2.50, 0.20, 1.50) | 0.40 × 0.10 × 0.30 | medical |
+| `ark.trade_command_center.private_drinks_cabinet` | container | (3.50, 9.00, 0.00) | 0.50 × 0.40 × 1.40 | broker's private liquor cabinet |
+| `ark.trade_command_center.scales_of_trade_relief` (rolled walls) | decoration | (0.00, 10.95, 3.50) | 1.40 × 0.40 × 0.10 | scales relief above vault |
+| `ark.trade_command_center.compass_inlay` | decoration | (0.00, 5.50, 0.005) | 0.80 × 0.80 × 0.005 | small floor compass under chandelier |
+
+Total: 32 inventory objects.
+
+### A.32.10-17 Camera-spawn-points / Doorways / Adjacency / Hooks / Story / FX / Parametricity / Performance (compact)
+
+```
+camera_spawn_points:
+  cs_amb_trade_command (Cat B): POV at threshold; slow approach to desk; lasts 18s
+  cs_first_broker_meeting (Act 2): seated at visitor chair; broker enters from elsewhere
+
+doorways:
+  south.door.main: connects to ark.trade_hub; slide; Act 2+
+  north.vault_door: connects to ark.trade_command_center.private_vault (deferred); pressure_seal; Act 4+
+
+adjacency:
+  direct: ark.trade_hub (south)
+  one_hop: ark.cargo_hold (via Trade Hub elevator)
+
+gameplay_hooks:
+  - operateBrokerDesk: trpc.trade_command.broker_desk.operate
+  - openCabinet: trpc.trade_command.cabinet.open
+  - openBrokerLocker: trpc.trade_command.broker_locker.open
+  - unlockVault: trpc.trade_command.vault.unlock (Act 4+ conditional)
+  - takeCigar: trpc.trade_command.cigar_box.take (gameplay-conditional)
+  - sitBrokerChair: trpc.trade_command.broker_chair.sit (when broker absent)
+
+story_tie:
+  primary_arcs: act_2_first_broker_meeting; broker_arc; act_4_vault_unlock
+  per_act:
+    act_2: opens; first broker negotiation
+    act_4: vault unlocks for high-stakes trades
+    act_5: deeper broker dialogues; locker reveals lore
+    act_7: state-branched (broker present + lit; or absent + cold)
+  npc_roster: the_galactic_broker (primary); the_player; rare visitors
+  readables: discretion plaque; first-broker portrait; last-broker portrait (uncanny shift); contracts cabinet; broker journal (locker)
+  master_of_rlyeh_question: n/a
+
+special_fx:
+  particle_systems: dust (very low); cigar_smoke (low when broker smoking)
+  volumetric: chandelier_crystal_scatter; fireplace_glow; vault_glow_on_open
+  procedural_animations: clock_tick (hands move); chandelier_subtle_sway; cigar_smoke_drift
+  reactive: desk_lamp_on_proximity; cabinet_glow_on_inspection; vault_unlock_one_shot
+
+avatar_parametricity:
+  small_xenomorph: alternate stand-on-step at desk; cabinet upper slots via ladder
+  others: all-reachable
+  audio_occlusion: xenomorph: clock-tick more pronounced
+
+performance:
+  polygon_budget: 220,000 / texture_budget: 130 MB / light_count_limit: 12
+  streaming_behaviour: preload ark.trade_hub (south); on_vault_open + Act 4+: preload private_vault sub-space
+```
 
 ---
 
@@ -12475,19 +12921,480 @@ floor_plan_geometry: rectangular  (long-narrow; the wall IS the room)
 
 ---
 
-## A.47 CADES Console / Mission Briefing Pod (Med Bay annex) — SCAFFOLDED
+## A.47 CADES Console / Mission Briefing Pod (Med Bay annex) — FULL
+
+**Status: FULL spec.** Cross-ref: `INCEPTION_ARK_FINAL_PRODUCTION.md`
+§2.47 (art-state prompts); annex of Med Bay §A.2 (accessible
+through Med Bay's CADES Console alcove on west wall).
+
+### A.47.1 Header
 
 ```
 space_id:        ark.cades_console_pod
 space_name:      CADES Console / Mission Briefing Pod
-space_type:      ark_room  (annex of Med Bay)
+space_type:      ark_room  (annex sub-room of Med Bay)
 act_introduced:  Act 2
-lore_anchor:     loredex.system.cades + arc.cades_missions
-aesthetic_tier:  solar_punk_cathedral  (military-clinical hybrid)
-dimensions:      6.00 m × 8.00 m × 4.00 m
+lore_anchor:     loredex.system.cades + arc.cades_missions + arc.act_2_first_cades_briefing
+aesthetic_tier:  solar_punk_cathedral  (military-clinical hybrid; small but consequential)
 ```
 
-(Full spec deferred. Cross-ref `INCEPTION_ARK_FINAL_PRODUCTION.md` §2.47.)
+### A.47.2 Geometry
+
+```
+dimensions:           6.00 m × 8.00 m × 4.00 m
+origin_point:         centre of floor at south entrance (door from Med Bay)
+coordinate_axes:      +x = right, +y = forward (north), +z = up
+floor_plan_geometry:  rectangular  (compact pod-style; intentional intimacy for briefings)
+volumetric_anomalies: none
+```
+
+The CADES Pod is a small, focused room — designed for one to
+three people to plan a CADES (Coordinated Atmospheric Defense
+& Engagement Squad) mission. Briefing table dominates the centre.
+Mission archive cabinets along east wall. Pre-mission preparation
+locker at north end. Holographic mission overlay rises from
+briefing table when active.
+
+Floor area: 48 m².
+
+### A.47.3 Floor
+
+```
+material_primary:     industrial steel deck plate with anti-static coating; 1.00 × 1.00 m tiles; 4 mm gap
+material_secondary:   bronze inlay outlining briefing-table zone (3 × 3 m square inlay); brass perimeter trim
+pattern:              tactical grid + central briefing-zone marker
+wear_state:           pristine in early acts; slight wear-trail to briefing table + locker
+embedded_features:
+  - id: ark.cades_console_pod.floor.charge_point.briefing_table
+    position: (0.00, 4.00, 0.00)
+    dimensions: 0.40 × 0.40 × 0.05
+    function: briefing-table holographic projection power
+  - id: ark.cades_console_pod.floor.charge_point.prep_locker
+    position: (0.00, 7.50, 0.00)
+    dimensions: 0.30 × 0.30 × 0.05
+    function: locker electronics
+acoustic_property:    hard_reflective with damping (intentional clean acoustic for briefing clarity); RT60 = 0.30s
+```
+
+### A.47.4 Walls
+
+#### Wall: South (entrance from Med Bay)
+
+```
+wall_id:              south
+material_primary:     painted steel panel; matte gunmetal; reinforced
+material_secondary:   bronze dado at z = 1.10 m
+panelisation:         standard
+colour_value:         --token-color-ark-cades-pod-wall-south  (gunmetal-grey + tactical-amber stripe)
+embedded_displays:
+  - id: ark.cades_console_pod.south.display.mission_status
+    position: (-1.50, 0.20, 1.80)
+    dimensions: 0.80 × 0.60 × 0.05
+    content: current mission status / next briefing
+  - id: ark.cades_console_pod.south.display.squad_roster
+    position: (1.50, 0.20, 1.80)
+    dimensions: 0.80 × 0.60 × 0.05
+    content: CADES squad members + readiness
+embedded_doors:
+  - door_id: ark.cades_console_pod.south.door.main
+    position: (0.00, 0.00, 0.00)
+    dimensions: 1.20 × 2.40 × 0.10
+    door_class: pressure_seal  (security; brief-room confidentiality)
+    connecting_space_id: ark.med_bay  (via Med Bay west wall CADES Console alcove)
+decorative_features:
+  - id: ark.cades_console_pod.south.plaque.creed
+    position: (0.00, 0.20, 3.20)
+    dimensions: 0.80 × 0.30 × 0.02
+    material: cast bronze
+    narrative_role: reads "RETURN. ALWAYS RETURN."
+```
+
+#### Wall: East (mission archive cabinets)
+
+```
+wall_id:              east
+material_primary:     painted steel panel; reinforced
+material_secondary:   bronze dado
+panelisation:         standard
+colour_value:         --token-color-ark-cades-pod-wall-east
+embedded_displays:    none
+embedded_doors:        none
+decorative_features:
+  - id: ark.cades_console_pod.east.archive_cabinet.<n>  (3 cabinets stacked vertically)
+    position: (2.95, 4.00, 0.00)
+    dimensions: 0.40 × 3.00 × 1.00 each (3 stacked = 3.00 m tall)
+    material: reinforced steel cabinet with bronze handle + bronze nameplate
+    narrative_role: archived mission records (each cabinet covers a different mission category)
+  - id: ark.cades_console_pod.east.relief.fallen_squads
+    position: (2.95, 4.00, 3.20)
+    dimensions: 0.80 × 0.60 × 0.10
+    material: cast bronze
+    narrative_role: relief depicting CADES squads who did not return
+```
+
+#### Wall: North (preparation locker)
+
+```
+wall_id:              north
+material_primary:     painted steel panel; reinforced
+material_secondary:   bronze dado
+panelisation:         standard
+colour_value:         --token-color-ark-cades-pod-wall-north
+embedded_displays:
+  - id: ark.cades_console_pod.north.display.tactical_overview
+    position: (0.00, 7.95, 1.50)
+    dimensions: 1.20 × 0.80 × 0.05
+    content: tactical overview of current mission (when active); maps + threats
+embedded_doors:        none
+decorative_features:
+  - id: ark.cades_console_pod.north.prep_locker
+    position: (0.00, 7.95, 0.00)
+    dimensions: 1.40 × 0.40 × 2.40
+    material: reinforced steel locker with biometric + bronze nameplate
+    narrative_role: pre-mission preparation locker; player equips final-loadout items here
+```
+
+#### Wall: West (memorial wall)
+
+```
+wall_id:              west
+material_primary:     painted steel; gunmetal
+material_secondary:   bronze dado
+panelisation:         standard
+colour_value:         --token-color-ark-cades-pod-wall-west
+embedded_displays:    none
+embedded_doors:        none
+decorative_features:
+  - id: ark.cades_console_pod.west.memorial_wall
+    position: (-2.95, 4.00, 1.50)
+    dimensions: 0.10 × 5.00 × 2.20
+    material: bronze panels with engraved names of fallen CADES squad members
+    narrative_role: continuously-updating memorial; new names added when squadmates die in player's missions
+```
+
+### A.47.5 Ceiling
+
+```
+height_above_floor:     4.00 m baseline; central drop coffer at 3.50 m above briefing table
+material:               painted steel + tactical conduit (visible)
+lighting_integrated:    central pendant over briefing table; recessed fixtures around perimeter; cabinet task-lights
+atmospheric_features:   minimal — utilitarian
+acoustic_treatment:     baffled (intentional clean acoustic for voice clarity)
+```
+
+### A.47.6 Lighting
+
+```
+ambient_baseline:     5500 K (cool; tactical-clinical); 280 lux at floor level; CRI 92
+direct_fixtures:
+  - id: ark.cades_console_pod.light.briefing_table_pendant
+    position: (0.00, 4.00, 3.50)
+    beam_angle: 60° downward
+    colour: --token-color-ark-cades-pod-pendant  (cool tactical white with amber-edge)
+    intensity: 5000 lumens
+    function: principal briefing-table illumination
+  - id: ark.cades_console_pod.light.recessed_perimeter
+    position: along all 4 walls at z = 3.80
+    beam_angle: 180° wash
+    colour: --token-color-ark-cades-pod-recessed  (cool white)
+    intensity: 800 lumens per metre
+    function: ambient task lighting
+  - id: ark.cades_console_pod.light.cabinet_strip.east
+    position: above east cabinets at z = 3.20
+    beam_angle: 90° downward
+    colour: cool 5500 K
+    intensity: 600 lumens per metre
+    function: cabinet definition
+  - id: ark.cades_console_pod.light.locker_strip.north
+    position: above north locker at z = 2.80
+    beam_angle: 90° downward
+    colour: cool 5500 K
+    intensity: 400 lumens per metre
+    function: locker accent
+practical_sources:
+  - id: ark.cades_console_pod.briefing_table_holo_glow
+    position: (0.00, 4.00, 1.10)  # at briefing table top
+    intensity: 600 lumens (when active; variable hologram colour)
+    flicker_pattern: matches mission overlay
+  - id: ark.cades_console_pod.memorial_wall_uplight
+    position: along memorial wall base at z = 0.05
+    intensity: 200 lumens (very subtle; reverent)
+    flicker_pattern: stable
+time_of_day_variation:
+  acts_2_to_7: stable; in alert states (cross-ref Defense Command), red strobe activates
+dynamic_response:
+  - on_briefing_active: pendant + holo overlay intensify
+  - on_squad_death: memorial wall briefly intensifies (one-shot)
+  - on_alert: red strobe activates
+```
+
+### A.47.7 Atmosphere
+
+```
+air_temperature:    19°C (cool, focused)
+humidity:           38% RH; smells of steel + gun oil + faint coffee
+particulate:
+  - dust: very low
+  - cordite_residue: very low (cosmetic; suggests recent CADES use)
+volumetric_fog:     absent
+wind_drift:         minimal; 0.04 m/s
+smell_canon:        steel + gun oil + coffee; voice-line: "smells like preparation and consequence"
+```
+
+### A.47.8 Sound
+
+```
+ambient_bed:           file: cades_console_pod_ambient_bed_v1.ogg (loop); -36 dB; very quiet; faint cooling-fan, distant Med Bay ambient through south door
+point_sources:
+  - sound.briefing_holo_hum: at table; -38 dB; continuous when active
+  - sound.cabinet_buzz: at archive cabinets; -42 dB; continuous
+  - sound.locker_biometric_buzz: at prep locker; -42 dB; continuous
+  - sound.distant_med_bay: at south door; very faint Med Bay ambient bleed; -44 dB
+  - sound.fallen_squads_resonance: at memorial wall; very faint reverent resonance; -44 dB; continuous
+  - sound.alarm_klaxon: off baseline; -22 dB during alert
+reverb_zone:           IR-impulse: cades_pod_v1.wav; wet-mix 12% (clean tactical)
+music_eligibility:     cutscene only (Category C cs_disc_cades + cs_load_cades)
+voice_line_eligibility:
+  - speaker: the_captain (briefing voice; recorded): trigger active mission briefing
+  - speaker: cades_squadmates (per mission): scripted
+  - speaker: defense_command_relay: alert-state announcements
+```
+
+### A.47.9 Object inventory
+
+CADES Pod has 24 inventory objects.
+
+#### A.47.9.1 The Briefing Table
+
+```
+object_id:           ark.cades_console_pod.briefing_table
+object_class:        display
+position:            (0.00, 4.00, 0.00)
+dimensions:          1.80 × 1.20 × 1.00
+rotation:            0°
+material_primary:    brushed-titanium frame with matte-black holographic projection top
+material_secondary:  bronze edge-trim with status LEDs
+colour_value:        --token-color-ark-cades-pod-briefing-table
+interaction:         interactable
+  - operate: opens CADES mission briefing UI; spawns 3D mission overlay above table
+  - inspect: lore-note about CADES briefing system
+narrative_role:      THE central briefing surface; primary CADES gameplay-launcher (paired with Armory loadout)
+lore_anchor:         loredex.system.cades + arc.cades_missions
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.cades.briefing_table.operate
+wear_state:          slight wear at edges
+physical_constraints: collides
+```
+
+#### A.47.9.2-3 Two Briefing Chairs (flanking table)
+
+```
+object_id:           ark.cades_console_pod.briefing_chair.east, .west
+object_class:        furniture
+positions:           (1.20, 4.00, 0.00), (-1.20, 4.00, 0.00)
+dimensions (each):   0.80 × 0.80 × 1.20
+rotation (each):     faces table
+material_primary:    matte-black leather; titanium frame
+material_secondary:  brass armrests
+colour_value:        --token-color-ark-cades-pod-chair
+interaction:         interactable - sit
+narrative_role:      briefing seating (player + squad-leader briefer)
+art_status:          producer_handoff
+gameplay_hook_id:    none
+wear_state:          slight wear
+physical_constraints: collides; sittable
+```
+
+#### A.47.9.4 The Pre-Mission Preparation Locker
+
+```
+object_id:           ark.cades_console_pod.prep_locker
+object_class:        container
+position:            (0.00, 7.95, 0.00)
+dimensions:          1.40 × 0.40 × 2.40
+rotation:            180°
+material_primary:    reinforced steel with biometric lock
+material_secondary:  bronze nameplate per slot (squadmate names)
+colour_value:        --token-color-ark-cades-pod-prep-locker
+interaction:         interactable
+  - open: contains pre-mission essentials (medkits, comms gear, armor accessories)
+  - inspect: lore-note about CADES pre-mission protocols
+narrative_role:      final-loadout preparation; gameplay-key
+lore_anchor:         loredex.system.cades_loadout
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.cades.prep_locker.open
+wear_state:          slight wear at handle
+physical_constraints: collides
+```
+
+#### A.47.9.5-7 Three East Archive Cabinets (stacked)
+
+```
+object_id:           ark.cades_console_pod.east.archive_cabinet.<n>  (3 cabinets stacked: bottom = active missions, middle = completed missions, top = lost-squad records)
+positions:           (2.95, 4.00, 0.00), (2.95, 4.00, 1.00), (2.95, 4.00, 2.00)
+dimensions (each):   0.40 × 3.00 × 1.00
+rotation:            270°  (parallel to east wall)
+material_primary:    reinforced steel cabinet with bronze handle
+material_secondary:  bronze nameplate per cabinet
+colour_value:        --token-color-ark-cades-pod-archive-cabinet
+interaction:         interactable
+  - open: contains mission records / equipment manifests / lost-squad memorabilia
+  - inspect: lore-note
+narrative_role:      mission archive; gameplay-key for replay/review/lost-squad lore
+lore_anchor:         loredex.system.cades_archive
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.cades.archive_cabinet.open
+wear_state:          slight wear at handles (top cabinet most-used)
+physical_constraints: collides
+```
+
+#### A.47.9.8 The Memorial Wall (west)
+
+Specced in walls A.47.4. Inventoried for completeness:
+
+```
+object_id:           ark.cades_console_pod.west.memorial_wall
+object_class:        decoration  (also fx_emitter — uplight)
+position:            (-2.95, 4.00, 1.50)
+dimensions:          0.10 × 5.00 × 2.20
+rotation:            90°
+material_primary:    bronze panels with engraved fallen-squad names
+material_secondary:  bronze foundation strip with continuous uplight
+colour_value:        --token-color-ark-cades-pod-memorial
+interaction:         inspectable
+  - inspect: opens memorial-wall UI (player can read each fallen squadmate's record)
+narrative_role:      continuously-updated memorial; reverent space; emotional anchor
+lore_anchor:         loredex.system.cades_fallen + arc.player_squadmate_relationships
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.cades.memorial_wall.read
+wear_state:          slight patina on most-touched names
+physical_constraints: non-collide (wall surface)
+```
+
+#### A.47.9.9-11 Captain's Briefing Anchor (NPC anchor) + 2 Squadmate Anchors
+
+```
+object_id:           ark.cades_console_pod.captain_anchor
+object_class:        npc_anchor
+position:            (0.00, 5.00, 0.00)  # at briefing table north side
+dimensions:          0.80 × 0.80 × 1.80 (anchor)
+rotation:            varies
+material_primary:    n/a
+material_secondary:  n/a
+colour_value:        n/a
+interaction:         n/a
+narrative_role:      Captain (or briefing officer) anchors here when present (Acts 2+; varies by mission)
+lore_anchor:         loredex.character.captain
+art_status:          producer_handoff
+gameplay_hook_id:    none
+wear_state:          n/a
+physical_constraints: n/a
+
+object_id:           ark.cades_console_pod.squadmate_anchor.east, .west  (2 anchors)
+object_class:        npc_anchor
+positions:           (1.50, 5.50, 0.00), (-1.50, 5.50, 0.00)
+dimensions (each):   0.80 × 0.80 × 1.80 (anchor)
+rotation:            varies
+material_primary:    n/a
+material_secondary:  n/a
+colour_value:        n/a
+interaction:         n/a
+narrative_role:      CADES squadmates anchor here during pre-mission briefings
+lore_anchor:         loredex.system.cades_squad
+art_status:          producer_handoff
+gameplay_hook_id:    none
+wear_state:          n/a
+physical_constraints: n/a
+```
+
+#### A.47.9.12-15 Standing Equipment + Decorative
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.cades_console_pod.ammo_dispenser` | container | (1.00, 7.50, 0.00) | 0.40 × 0.30 × 1.40 | last-minute ammo restock |
+| `ark.cades_console_pod.medkit_dispenser` | container | (-1.00, 7.50, 0.00) | 0.40 × 0.30 × 1.40 | last-minute medkit restock |
+| `ark.cades_console_pod.tactical_overview_terminal` | console | (-1.50, 7.50, 0.00) | 0.60 × 0.40 × 1.10 | secondary tactical terminal |
+| `ark.cades_console_pod.coffee_pot` | decoration | (1.50, 7.50, 0.85) | 0.20 × 0.20 × 0.30 | "always brewing" coffee pot |
+
+#### A.47.9.16-20 Briefing Items + Atmosphere
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.cades_console_pod.briefing_table.holo_emitter` | fx_emitter | within table | n/a | holographic projection |
+| `ark.cades_console_pod.briefing_table.notes_pad` | decoration | on table | 0.20 × 0.30 × 0.04 | briefing notes |
+| `ark.cades_console_pod.briefing_table.tactical_pieces` | decoration | on table | varied | small tactical figurines |
+| `ark.cades_console_pod.captain_lectern` | container | (0.00, 5.50, 0.00) | 0.40 × 0.40 × 1.20 | Captain's lectern (when briefing) |
+| `ark.cades_console_pod.briefing_screen.overhead` | display | (0.00, 4.00, 3.00) | 1.40 × 1.00 × 0.05 | overhead briefing screen |
+
+#### A.47.9.21-24 Closing Items
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.cades_console_pod.south.intercom` | console | (-1.00, 0.20, 1.50) | 0.20 × 0.10 × 0.30 | comms relay |
+| `ark.cades_console_pod.fire_extinguisher.south` | interactive | (1.00, 0.20, 1.20) | 0.20 × 0.20 × 0.50 | safety |
+| `ark.cades_console_pod.first_aid.kit.south` | container | (-2.00, 0.20, 1.50) | 0.40 × 0.10 × 0.30 | medical |
+| `ark.cades_console_pod.alert_strobe` | fx_emitter | (0.00, 7.95, 3.50) | 0.20 × 0.20 × 0.20 | alert strobe (off baseline) |
+
+Total: 24 inventory objects.
+
+### A.47.10-17 Camera-spawn-points / Doorways / Adjacency / Hooks / Story / FX / Parametricity / Performance (compact)
+
+```
+camera_spawn_points:
+  cs_amb_cades_pod (Cat B): POV at threshold; slow approach to briefing table; 14s
+  cs_disc_cades (Cat C): seated; helmet POV; HUD calibrating; comms-static; 22s (per §3.1.C.3 catalogue — Captain narrates)
+  cs_load_cades (Cat C): close-up on helmet placing on player's head; loading bar in HUD; 8s
+  cs_first_cades_briefing (Act 2): seated at briefing table; Captain enters; first mission outline
+
+doorways:
+  south.door.main: connects to ark.med_bay; pressure_seal; Act 2+
+
+adjacency:
+  direct: ark.med_bay (south)
+  one_hop: ark.armory (via Med Bay corridor + Engineering Bay); ark.defense_command (long route)
+
+gameplay_hooks:
+  - operateBriefingTable: trpc.cades.briefing_table.operate
+  - openPrepLocker: trpc.cades.prep_locker.open
+  - openArchiveCabinet: trpc.cades.archive_cabinet.open
+  - readMemorialWall: trpc.cades.memorial_wall.read
+  - takeAmmo: trpc.cades.ammo_dispenser.take
+  - takeMedkit: trpc.cades.medkit_dispenser.take
+  - operateTacticalTerminal: trpc.cades.tactical_terminal.operate
+  - sitBriefingChair: trpc.cades.briefing_chair.sit
+
+story_tie:
+  primary_arcs:
+    - act_2_first_cades_briefing
+    - cades_missions (continuous Acts 2-7)
+    - cades_squadmate_relationships
+    - act_5_cades_revelations (lost-squad lore unlocks)
+  per_act:
+    acts_0_1: locked
+    act_2: opens; first briefing
+    act_3: more missions; squad expands
+    act_4: alert states begin
+    act_5: deep cades lore; lost-squad memorial expands
+    act_7: state-branched: well-led ending vs. tragic ending
+  npc_roster: the_captain (briefing); cades_squadmates (varies); the_player
+  readables: creed plaque; fallen-squads relief; memorial wall; mission archives; briefing notes
+  master_of_rlyeh_question: n/a
+
+special_fx:
+  particle_systems: dust (very low); cordite_residue (very low)
+  volumetric: briefing_table_holo_overlay (3D mission map)
+  procedural_animations: holo_overlay_cycle; memorial_uplight_breath
+  reactive: pendant_intensify_on_briefing; memorial_intensify_on_squad_death; alert_strobe_on_alert
+
+avatar_parametricity:
+  small_xenomorph: alternate stand-on-step at briefing table
+  others: all-reachable
+  audio_occlusion: xenomorph: clean tactical acoustic richer
+
+performance:
+  polygon_budget: 180,000 / texture_budget: 100 MB / light_count_limit: 12
+  streaming_behaviour: preload ark.med_bay (south); on_briefing_active: preload current mission map
+```
 
 ---
 
@@ -13859,28 +14766,28 @@ streaming_behaviour:
 - A.10 Cargo Hold
 - A.11 Captain's Quarters (HB7 host)
 - A.13 Antiquarian's Library
+- A.15 Social Hub / Mess Hall
 - A.21 Cipher Den (HB8 host)
 - A.22 Hierarchy Throne (HB2 host)
 - A.27 Memorial Corridor (HB6 host)
+- A.28 Pet Garden
 - A.31 Trade Hub
+- A.32 Trade Command Center / Broker's Office
 - A.33 Defense Command Center (HB11 host)
 - A.36 Chess Hall (HB9 host)
+- A.47 CADES Console / Mission Briefing Pod
 - A.50 Collectors Arena (HB10 host; NEW v5)
 - A.51 Game Hall (HB12 host; NEW v5)
 
-**Total FULL: 20 rooms** — all 11 active Hellbox-host rooms +
-Cryo Bay + Bridge + Antiquarian Library + Comms Array +
-Observation Deck + Archives + Forge Workshop + Armory + Cargo
-Hold + Trade Hub. Covers every narrative-load-bearing room AND
-all major gameplay-launchers.
+**Total FULL: 24 rooms** — covers every Hellbox-host room, every
+narrative-load-bearing room, every major gameplay-launcher, and
+the most-visited community + system-launcher rooms.
 
-**CORE spec authored**: none remaining
+**SCAFFOLDED**: all remaining (A.12, A.14, A.16-A.20, A.23-A.26,
+A.29-A.30, A.34, A.35, A.37-A.46, A.48-A.49 — 25 rooms)
 
-**SCAFFOLDED**: all remaining (A.12, A.14-A.20, A.23-A.26,
-A.28-A.30, A.32, A.34, A.35, A.37-A.49 — 29 rooms)
-
-Phase B-3 future (Wave 5+): convert remaining SCAFFOLDED rooms
-to at least CORE; subsequent waves to FULL. Estimated 25,000-40,000
-additional lines across follow-up commits.
+Phase B-3 future (Wave 6+): convert remaining SCAFFOLDED rooms
+(faction sanctums, Pet Arena/Annex, late-act ceremonial rooms,
+prelude rooms) to FULL. Estimated 25,000-35,000 additional lines.
 
 ---
