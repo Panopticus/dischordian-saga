@@ -8647,3 +8647,1099 @@ The runtime is unchanged across this entire rollout. `pnpm check`
 End of `_PRODUCTION_APPRENTICE_COMMONS.md` final rollout (PR #580
 expansion + canon characters + variant faces + remaining art /
 UI / VFX / SFX / music / overlays / alumni).
+
+---
+
+## §AC.22 Game Master Act-7 meta-arc cinematic
+
+This section authors the **Game Master Act-7 meta-arc cinematic** —
+the climactic cutscene that fires when the player crosses
+**blood-weave alignment 40+** (the "claimed" band) per
+`apps/shared/bloodWeave.ts` threshold table. It was reserved as
+Outstanding TBD [E] in §AC.21.2 / referenced as the
+end_shatter variant of `cs_blood_weave_loredex_revealed_n=12`
+in §AC.2.5 / and as the Act-5 photograph-reveal narrative-tie
+in §AC.21.2 [F] (Wraith Calder's scratched-out photograph =
+Game Master in younger form).
+
+This is a **NEW cinematic category**: **Cat D — meta-arc**
+(distinct from Cat A / B / C from §3.1). Cat D specifications:
+
+```
+length:              4 minutes total = 30 × 8s clips stitched
+duration_seconds:    240 (longer than any prior cutscene)
+veo_stitch_pattern:  29 frame-stitches; first/last frames chained;
+                     consistent reference_images across all 30 clips
+music_eligibility:   theme-defining (full orchestral score allowed;
+                     Cat D is the ONLY category with composer-led
+                     score)
+fpv_strict:          relaxed for the Game Master reveal beat (a
+                     mirror cut shows the player's own face from
+                     across the chessboard — the only canonical
+                     player-face reveal in the entire game)
+trigger:              `bloodWeave.alignment >= 40` AND player has
+                      crossed loredex thresholds 1–11 in order
+recurrence:           once per save-game; the cinematic plays once
+                      and locks runtime branch state
+```
+
+### §AC.22.1 NEW host_space — A.73 The Tier-Infinity Chess Hall
+
+A pocket-dimension Chess Hall accessible only via the Blood
+Weave Atrium's central braiding-pillar at alignment 40+. The
+Atrium's pillar serves as the threshold; crossing into Tier-
+Infinity is one-way until the cinematic resolves.
+
+#### Header
+
+```
+space_id:        ark.tier_infinity_chess_hall
+space_name:      The Tier-Infinity Chess Hall
+space_type:      pocket_dimension (sub-Ark; non-Euclidean)
+act_introduced:  Act 7 (cinematic-only; not free-roam)
+lore_anchor:     loredex.system.game_master_metaarc + arc.alignment_claimed +
+                 arc.act_7_metaarc_unlock
+aesthetic_tier:  steampunk_cyberpunk_occult_metaarc  (APPRENTICE_AESTHETIC
+                 + Tier-3 Labyrinth Wager violet-rim overlay + non-
+                 Euclidean geometry distortion)
+```
+
+#### Geometry — non-Euclidean
+
+```
+dimensions:           apparent 24m × 24m × 16m chamber, but the
+                      geometry is non-Euclidean — walls recede at
+                      shallow angles, ceiling rises non-linearly,
+                      floor pattern repeats infinitely toward the
+                      horizon
+origin_point:         centre of floor at the 12-board chessboard array
+floor_plan_geometry:  square apparent footprint with infinite-recursion
+                      perspective; 12 chessboards arrayed in a 3×4 grid
+                      at the centre
+volumetric_anomalies: gravity-axis tilts 8° at z+0–8m (player feels
+                      slightly off-balance throughout); below z+0 the
+                      floor pattern continues visually but is a
+                      projection (false-floor); above z+12m the
+                      ceiling vanishes into deep-violet anomaly mist
+```
+
+#### Floor / walls / ceiling / lighting (compact)
+
+```
+floor:    polished black-marble + gold-blood-channel concentric inlay
+          + 12-board chessboard array at centre (3×4 grid; each board
+          is the canonical Hierarchy's-Table brass-rim with serpentine
+          glyphs from §AC.4 / §G.2.5; one board per past cohort + one
+          unfilled for the player)
+walls:    stone-and-brass with cyber-cyan fiber-optic conduits running
+          from floor to vanishing point at the horizon; 12 perimeter
+          brass plates etched with the 12 Game Masters from prior
+          cycles (each plate carries a name + cycle-id + alignment-
+          signature); one plate is unfilled (reserved for the current
+          player IF they accept the meta-arc)
+ceiling:  vaults to z+12m apparent, then opens into deep-violet anomaly
+          mist; 12 hanging-chain candle-clusters descending z+10–4m
+          (one above each chessboard); apex sigil etched in brass
+          spans the entire visible ceiling (the Hierarchy claim-mark)
+key:      1800K candle (12 cluster-lights); 6500K cyber-cyan rim from
+          fiber-optic conduits at the horizon-vanishing-point;
+          12000K occult-violet at apex sigil; deep-violet ambient
+          from the ceiling-mist
+ambient:  20 lux ground (intentionally dim; ceremonial); brightness
+          per-beat parametric per cinematic act-structure
+```
+
+#### Atmosphere + sound
+
+```
+temperature: 12°C (cold; non-Euclidean spaces have ambient cold)
+humidity:    20% (very dry — the chess pieces never warp)
+smell:       cold-stone + parchment-cream + machine-oil + faint ozone
+             from the fiber-optic horizon
+sound:       8.4 s reverb (cathedral-grade plus pocket-dimension
+             extension — the longest reverb in the game); chant-loop
+             bed -24 dB; sub-bass 4 Hz drone (pocket-dimension
+             gravitational signature); chess-piece tap echoes audibly
+             across the entire chamber
+```
+
+#### Objects (cinematic-only inventory)
+
+```
+- 1 central 12-board chessboard array (3×4 grid; each board is brass-
+  rim mahogany with serpentine glyphs):
+    Boards 1-11: each carries a partial chess game in progress (the
+                 prior 11 cycle-Game-Masters' games; pieces parametric
+                 to that cycle's outcome)
+    Board 12:    fully arranged opening position; the player's board
+- 1 Game Master figure seated at board 12, north side (FACELESS until
+  the reveal beat — wears the Tier-3 hooded variant of the canonical
+  Game Master figure)
+- 1 Mol'Garath silhouette at the audience-head (z+8m raised dais; only
+  the eyes glow dim violet; never speaks until beat 5)
+- 12 hooded demon-bishops at perimeter (3 m radius rings; one per
+  chessboard; each watches their assigned board)
+- 1 mentor's chair at south of board 12 (player-position; mahogany-and-
+  brass; cog-arm-rest)
+- 12 brass-bound clipboards (each at a perimeter post; carries the
+  cycle-Game-Master's name + alignment-signature + final-game-state)
+- 1 mirror-mask in a brass case at frame-right of board 12 (the Game
+  Master's mask; closed throughout cinematic; opens at the choice
+  beat)
+- 1 shattered loredex alcove visible high in the back wall (the
+  origin-portal from the Blood Weave Atrium pillar — visible as
+  a violet cracked sigil; closed but still glowing)
+```
+
+#### Camera spawns (one per cinematic beat)
+
+```
+- cs_act7_metaarc_b1_atrium_dissolves       (beat 1; 8s)
+- cs_act7_metaarc_b2_chesshall_reforms      (beat 2; 8s)
+- cs_act7_metaarc_b3_twelve_boards_reveal   (beat 3; 8s)
+- cs_act7_metaarc_b4_game_master_face       (beat 4; 12s stitched 8+4)
+- cs_act7_metaarc_b5_molgarath_speaks       (beat 5; 8s)
+- cs_act7_metaarc_b6_wraith_appears         (beat 6; 12s stitched 8+4)
+- cs_act7_metaarc_b7_the_choice             (beat 7; 16s stitched 8+8)
+- cs_act7_metaarc_b8a_choice_take_his_place (beat 8a outcome; 8s)
+- cs_act7_metaarc_b8b_choice_refuse         (beat 8b outcome; 8s)
+- cs_act7_metaarc_b8c_choice_negotiate      (beat 8c outcome; 12s stitched)
+```
+
+Total cinematic length per branch:
+- Take his place branch: 88 s
+- Refuse branch: 88 s
+- Negotiate branch: 92 s
+
+Plus pre-branch beats 1–7: 72 s. **Total cinematic ~160-164 s
+per playthrough** (not the full 240 s the 30-clip estimate
+suggested — the meta-arc compresses; final length is closer to
+3 minutes than 4 minutes).
+
+#### Doorways
+
+```
+- north (origin):  shattered loredex alcove (one-way from Atrium pillar)
+- exit:            no canonical doorway — player exits via the choice
+                   beat outcome:
+  branch_take_place: player teleports back to Tier 0 Chess Hall as the
+                     new Game Master (NPC role-shift)
+  branch_refuse:     player teleports back to Apprentice Hall with
+                     alignment reset to 30 (loses 10 alignment;
+                     "unclaimed" branch)
+  branch_negotiate:  player teleports back to Apprentice Hall with
+                     alignment locked at 40 indefinitely; access to
+                     a hidden Tier-4 chess match against Mol'Garath
+                     (out-of-scope cinematic; Act-7+ DLC reservation)
+```
+
+#### Story-tie
+
+When `bloodWeave.alignment >= 40` AND player crosses the
+12 loredex thresholds (1, 2, 3, 5, 7, 9, 12, 15, 20, 25, 30,
+40), the runtime fires the cinematic. The cinematic plays
+once per save-game; outcome locks runtime state. The
+Game Master's true face is revealed at beat 4 — and is the
+player's own face from the canonical master_face render
+(per §AC.11.16 master-face anchor; the cinematic uses the
+player's own canonical face composited at runtime).
+
+#### FX + performance
+
+```
+FX:           candle-flicker (12 clusters); fiber-optic horizon-
+              vanishing-point shimmer; non-Euclidean geometry warp
+              shader (subtle perspective distortion); sub-bass 4 Hz
+              gravitational pulse (visible as floor-pattern
+              breathing); apex sigil pulse (intensifies during
+              choice beat); pillar-shatter origin alcove cracked-
+              sigil cyber-cyan glow; mirror-mask hinge animation
+performance:  3.6M tris (12 chessboards × 32 pieces each = 384
+              chess pieces alone); 720 MB; 36 lights; non-Euclidean
+              shader budget +20% over canonical Ark room
+```
+
+#### 13-state axis grid (Act-7 meta-arc room)
+
+| axis | state-list |
+|---|---|
+| 1 architect | non-Euclidean (gravity tilts 8°; horizon vanishing-point) |
+| 2 floor/walls/ceiling/lights | fixed; per-beat-modulated brightness |
+| 3 atmosphere + sound + smell | fixed (cold + dry + parchment) |
+| 4 objects + cameras + doors + story-tie + FX + perf | fixed |
+| 5 connection rules | one-way from Blood Weave Atrium pillar; exits via choice outcome to one of three destinations |
+| 6 economic surface | active (cinematic-only — no idle / contested states) |
+| 7 governance modifier reactions | `metaarc_pending` → cinematic begins; `metaarc_complete_<branch>` → outcome-routing fires |
+| 8 tournament / event window | qualifier (player approaching alignment 40) / **finals (cinematic playing — only state visible to runtime)** / champion (player chose "take his place" — locked-in) / contested (player chose "negotiate" — Tier-4 path opens) |
+| 9 TV-infection | clean / corrupted (mirror-mask shows player's face inverted with corruption-pink rim — "if you take his place, you become this") / quarantined (yellow-X across all 12 brass plates if player chose "refuse" — meta-arc sealed for this save) |
+| 10 epoch / shadowtongue | grand-edit (canonical for this room; the entire cinematic IS a grand-edit moment) |
+| 11 cycle-phase / time-of-day | pocket-dimension; no cycle-phase modulation; lighting locked to ceremonial dim |
+| 12 faction livery | hierarchy CANONICAL (this is the Hierarchy's claim-room); the brass plates' faction-livery lights show the prior 11 Game Masters' factions (mostly hierarchy, some panopticon, one collectors) |
+| 13 storyteller hooks + HUD overlap | mystery-arc bindings: this room IS the storyteller-hook for the entire game; HUD overlap is forbidden during the cinematic (full-screen takeover); the 12 brass-bound clipboards are readable AFTER the cinematic ends if player chose "take his place" branch (player becomes the 12th Game Master and inherits the role's documentation) |
+
+### §AC.22.2 Cinematic beat-cutscenes (10 cuts; full NB2 + Veo prompts)
+
+#### §AC.22.2.1 Beat 1 — `cs_act7_metaarc_b1_atrium_dissolves`
+
+```yaml
+host_space: §AC.1.8 Blood Weave Atrium → §AC.22.1 Tier-Infinity threshold
+xref: cinematic beat 1; Cat D meta-arc
+
+nb2_start:
+  model: gemini-3-pro-image-preview
+  aspect_ratio: "21:9"
+  resolution: "4K"
+  reference_images:
+    - cdn/client-public/art/refs/blood_weave_atrium_master_still.png
+    - cdn/client-public/art/portraits/_masters/<player_master_face>.png
+  prompt: |
+    SUBJECT: the Blood Weave Atrium central braiding-pillar at the
+      moment of alignment 40+ resolution; the rope-state has
+      finished braiding all 5 strands; the pillar's glass column
+      is entirely cyan-cyan-violet luminous; the 12th loredex
+      alcove at perimeter is mid-shatter (glass-fragment cascade
+      visible); the alignment-pulpit south shows "ALIGNMENT 40 /
+      CLAIMED" in 23-char illuminated cipher-script; player's
+      gloved hands at the alignment-pulpit edge; mid-frame the
+      Atrium's geometry begins to dissolve at the edges (subtle
+      pixelation effect resolving into deep-violet anomaly).
+    COMPOSITION: medium-wide FPV at the alignment-pulpit, eye-level
+      +1.65m, 35mm; deep DOF; pillar at frame-centre filling
+      vertical; alcove-shatter at frame-right.
+    LIGHTING/CAMERA: 1800K candle key + 6500K cyber-cyan rim from
+      fiber-optic; 12000K occult-violet practical; deep-violet
+      anomaly-light bleeding in from frame edges (corrupting the
+      canonical Atrium palette); ARRI Alexa anamorphic; Kodak
+      Vision3 500T pushed +2.
+    STYLE: APPRENTICE_AESTHETIC + meta-arc violet-rim overlay; the
+      moment of dissolution is shown as the canonical Atrium
+      losing definition at the edges while the centre remains
+      coherent.
+    CONSTRAINTS: NB2_CONSTRAINTS_BASE; first-person POV from the
+      player's eyes; only the player's gloved hands visible at
+      pulpit-rim; no third-person body of the player; no mirrors
+      or reflections of the player; consistent eye-height per
+      host_space (medium 1.65m).
+    Output 4K, 21:9.
+
+nb2_end:
+  model: gemini-3-pro-image-preview
+  aspect_ratio: "21:9"
+  resolution: "4K"
+  reference_images:
+    - cdn/client-public/art/refs/blood_weave_atrium_master_still.png
+  prompt: |
+    SUBJECT: the same Atrium frame, but the dissolution has reached
+      75% of the canvas; the pillar at centre is fully luminous;
+      the Atrium walls are gone, replaced by a gradient of deep-
+      violet anomaly mist; the alcove-shatter has fully cascaded;
+      the alignment-pulpit remains visible but the south-wall it
+      sat against is gone; player's gloved hands at the pulpit
+      edge are about to lose their contact with the pulpit
+      surface.
+    [CONSTRAINTS as nb2_start]
+    Output 4K, 21:9.
+
+veo:
+  model: veo-3.1-generate-001
+  duration_seconds: 8
+  aspect_ratio: "16:9"
+  resolution: "1080p"
+  first_frame: cdn/client-public/cutscenes/cs_act7_metaarc_b1_atrium_dissolves/start.png
+  last_frame: cdn/client-public/cutscenes/cs_act7_metaarc_b1_atrium_dissolves/end.png
+  negative_prompt: "third-person view; character's full body visible;
+    mouth out of sync; motion smear; extra fingers; mirror or
+    reflection of the player; on-screen text other than diegetic
+    signage already present in the location; modern logos; watermark"
+  prompt: |
+    CINEMATOGRAPHY: medium-wide FPV, slow forward dolly +0.4m over
+      8s, 35mm, FPV trait-lock (player's gloved hands at pulpit-
+      rim throughout).
+    SUBJECT: the Blood Weave Atrium central braiding-pillar at
+      the alignment 40 transition moment; rope-state finishing
+      braiding; alcove shattering at frame-right.
+    ACTION: 0–3s pillar fully ignites cyan-violet; 3–5s 12th
+      loredex alcove shatters cyber-cyan glass-fragments cascade;
+      5–8s Atrium walls dissolve at edges into deep-violet mist;
+      lands on last_frame.
+    CONTEXT: Blood Weave Atrium centre (§AC.1.8); the alignment
+      transition moment.
+    STYLE & AMBIANCE: APPRENTICE_AESTHETIC + meta-arc violet-rim;
+      Kodak Vision3 500T pushed +2; deep-violet anomaly-light
+      bleed at frame edges.
+    AUDIO:
+      Dialogue: none.
+      SFX: pillar-resonance crescendo 00:00–00:08; alcove-glass-
+        shatter cascade 00:03–00:05; Atrium-wall dissolution
+        whisper 00:05–00:08.
+      Ambient noise: cathedral reverb 5.2s; sub-bass 16Hz pulse;
+        chant-loop -28dB rising to -18dB.
+      Score: meta-arc theme begins — single sustained string-
+        chord, full orchestra holds in silent reserve; the chord
+        rises across the 8s in volume but not in pitch.
+    [00:00–00:03] pillar ignites + rope finishes braiding.
+    [00:03–00:05] alcove shatters + glass-cascade.
+    [00:05–00:08] dissolution begins; lands on last_frame.
+
+pipeline:
+  nb2_seed: 197001
+  veo_seed: 297001
+  vo_manifest_ref: null
+  cdn_target: cdn/client-public/cutscenes/cs_act7_metaarc_b1_atrium_dissolves/
+```
+
+#### §AC.22.2.2 Beat 2 — `cs_act7_metaarc_b2_chesshall_reforms`
+
+```yaml
+host_space: §AC.22.1 Tier-Infinity Chess Hall (entry threshold)
+
+nb2_start.subject: |
+  the player's POV at the threshold of an unfamiliar dim chamber;
+  ahead, the geometry is reforming — an apparent corridor of
+  black-marble + gold-blood-channel inlay extends into a vanishing-
+  point at deep distance; cyber-cyan fiber-optic conduits run
+  along the floor and ceiling toward the vanishing point; the
+  player's gloved hands are at chest-height, palms-down (as if
+  the player just stepped through a threshold); the deep-violet
+  anomaly mist is dissipating behind.
+
+nb2_end.subject: |
+  the same corridor, now fully resolved; the vanishing-point at
+  deep distance shows the first hint of the 12-board chessboard
+  array (one apex candle-cluster visible above the array); the
+  cyber-cyan fiber-optic conduits brighten as the player advances;
+  the Hierarchy claim-mark apex sigil is barely visible at the
+  ceiling above the array.
+
+veo.action: |
+  0–3s threshold-emergence; 3–5s corridor resolves around the
+  player; 5–8s player begins forward dolly; lands on last_frame
+  (corridor fully visible to the chessboard array).
+
+veo.audio.dialogue: "Master of R'lyeh: \"You crossed.\""
+veo.audio.sfx: "footstep echoes 00:03 / 00:04 / 00:06; corridor-
+  reverb tail 8.4s; sub-bass 4Hz pulse 00:00–00:08."
+veo.audio.ambient: "Tier-Infinity ambient bed; chant-loop -24dB."
+veo.audio.score: "meta-arc theme — second chord enters in low
+  brass + harp; full orchestra still in reserve; tension build."
+
+pipeline:
+  nb2_seed: 197002
+  veo_seed: 297002
+  vo_manifest_ref: apps/shared/masterOfRlyehVoManifest.json#L<TBD>
+  cdn_target: cdn/client-public/cutscenes/cs_act7_metaarc_b2_chesshall_reforms/
+```
+
+#### §AC.22.2.3 Beat 3 — `cs_act7_metaarc_b3_twelve_boards_reveal`
+
+```yaml
+host_space: §AC.22.1 Tier-Infinity Chess Hall (12-board array)
+
+nb2_start.subject: |
+  the player's POV approaching the 12-board chessboard array; 12
+  boards arranged in a 3×4 grid at the centre of the chamber; each
+  board is brass-rim mahogany with serpentine glyphs (canonical
+  Hierarchy's-Table style); 11 boards show partial chess games in
+  progress (mid-game positions); the 12th board (lower-right of
+  the grid) shows a fully-arranged opening position with no moves
+  played; behind each board, a hooded demon-bishop watches; at the
+  audience-head (raised dais z+8m), Mol'Garath sits in deep shadow
+  with only violet eye-glow visible; a faceless hooded figure is
+  seated north of the 12th board (the Game Master, mask-closed).
+
+nb2_end.subject: |
+  the player has reached the south side of the 12th board (mentor's
+  chair); the 11 prior boards visibly resolve their final game-
+  states (each shows a checkmate or stalemate position); the
+  faceless Game Master across the 12th board has not moved; the
+  cyan-cyan-violet candle-cluster above the 12th board has lit;
+  Mol'Garath has not moved; player's gloved hands are at the
+  mentor's chair-back.
+
+veo.action: |
+  0–4s player approach reveals the 12-board scope (camera rotates
+  slightly to show full grid); 4–6s the 11 prior boards resolve to
+  final positions; 6–8s player reaches mentor's-chair south of
+  12th board; lands on last_frame.
+
+veo.audio.dialogue: "Game Master (still faceless, voice modulated):
+  \"Welcome to the table.\""
+veo.audio.sfx: "candle-cluster ignite chord 00:06; chess-piece
+  echoes from the 11 boards 00:04 / 00:04.5 / 00:05 (final-move
+  ticks); demon-bishop hood-rustle 00:05.5."
+veo.audio.ambient: "Tier-Infinity bed continues; chant-loop -22dB."
+veo.audio.score: "meta-arc theme — third chord; strings join at
+  low intensity; orchestral build remains in reserve; the
+  unmistakable Game Master leitmotif (5-note descending) plays
+  in the harp at 00:06."
+
+pipeline:
+  nb2_seed: 197003
+  veo_seed: 297003
+  vo_manifest_ref: apps/shared/gameMasterVoManifest.json#L<TBD>
+  cdn_target: cdn/client-public/cutscenes/cs_act7_metaarc_b3_twelve_boards_reveal/
+```
+
+#### §AC.22.2.4 Beat 4 — `cs_act7_metaarc_b4_game_master_face` (12 s stitched)
+
+The reveal beat. The Game Master's mirror-mask opens. **The face
+revealed is the player's own canonical face** (composed at runtime
+from the player's master_face render per §AC.11.16). This is the
+ONLY canonical player-face reveal in the entire game.
+
+```yaml
+host_space: §AC.22.1 Tier-Infinity Chess Hall (12th board)
+notes: "12s stitched 8+4 per Veo First-and-Last-Frame contract."
+
+veo (clip_a — 0:00-0:08):
+  prompt: |
+    CINEMATOGRAPHY: medium close-up FPV across the 12th board, 50mm,
+      eye-level +1.65m, FPV trait-lock; player's gloved hands rest
+      on the mentor's-chair-back, then move forward to the chair
+      seat at 00:04.
+    SUBJECT: the faceless hooded Game Master across the 12th board;
+      the brass mirror-mask in its case at frame-right of the board;
+      the case begins to open at 00:03.
+    ACTION: 0–3s Game Master holds posture; 3–5s mirror-mask case
+      opens with cog-mechanism rotation; 5–8s the Game Master
+      raises both gloved hands to remove the mask; lands on
+      last_frame (mask in hands, face still partially obscured by
+      the cog-mechanism armature shadow).
+    CONTEXT: 12th-board confrontation; Mol'Garath silent at audience-
+      head; 12 demon-bishops watching.
+    STYLE & AMBIANCE: APPRENTICE_AESTHETIC + meta-arc violet-rim;
+      ARRI Alexa anamorphic; Kodak Vision3 500T pushed +2;
+      anamorphic flare on the candle-cluster apex.
+    AUDIO:
+      Dialogue: Game Master: "You earned this view." (lip-sync to
+        dialogue; modulated voice still).
+      SFX: cog-mechanism mask-case rotation 00:03–00:05; mask-
+        lifting brass-rim slide 00:06; Mol'Garath's eye-violet
+        intensifies (no sound — visible-only signal).
+      Ambient noise: continued bed.
+      Score: meta-arc theme — orchestral strings join the harp;
+        the 5-note Game Master leitmotif plays in counterpoint
+        with the meta-arc theme.
+    [00:00–00:03] Game Master holds; mirror-mask case dim.
+    [00:03–00:05] case opens via cog-mechanism.
+    [00:05–00:08] Game Master raises mask; lands on last_frame.
+  pipeline:
+    nb2_seed: 197004 (clip_a)
+    veo_seed: 297004 (clip_a)
+    cdn_target: cdn/client-public/cutscenes/cs_act7_metaarc_b4_game_master_face/clip_a.mp4
+
+veo (clip_b — 0:08-0:12):
+  reference_images:
+    - cdn/client-public/art/portraits/_masters/<player_master_face_runtime_composited>.png
+  prompt: |
+    CINEMATOGRAPHY: continuation; medium close-up FPV; the Game
+      Master fully removes the mirror-mask at 00:09; the mask is
+      lowered to the chess-table at 00:10.5; the camera holds on
+      the revealed face from 00:10–00:12.
+    SUBJECT: the Game Master's true face — IDENTICAL to the
+      player's canonical master_face (per §AC.11.16; runtime
+      composites the player's own face into this clip); the hood
+      remains drawn so only the face is fully visible; the eyes
+      meet the player's gloved-hand POV directly; the mouth is
+      mid-line (the dialogue line straddles clips a/b).
+    ACTION: 0–1s mask comes off; 1–3s face revealed in full;
+      3–4s eye-contact held; the line "I was you" lands at
+      00:10.
+    CONTEXT: continuation of beat 4.
+    STYLE & AMBIANCE: APPRENTICE_AESTHETIC + meta-arc violet-rim;
+      anamorphic; the score swells.
+    AUDIO:
+      Dialogue: Game Master (now in unmodulated voice — IDENTICAL
+        to the player's canonical voice if the player has voice
+        defined): "I was you. Once."
+      SFX: mirror-mask placed on chess-table click 00:10.5; Mol'
+        Garath's chair-shift creak 00:11; demon-bishop perimeter
+        gasp (collective inhale) 00:11.5.
+      Ambient noise: continued; chant-loop intensifies to -16dB.
+      Score: meta-arc theme orchestral peak — full orchestra
+        joins; brass + strings + horn + harp counterpoint; the
+        leitmotif resolves to a sustained chord at 00:12.
+    [00:08–00:09] mask comes off completely.
+    [00:09–00:10] face revealed; "I was you. Once." line.
+    [00:10–00:12] eye-contact held; orchestral peak; lands on
+      last_frame.
+  pipeline:
+    nb2_seed: 197005 (clip_b)
+    veo_seed: 297005 (clip_b)
+    cdn_target: cdn/client-public/cutscenes/cs_act7_metaarc_b4_game_master_face/clip_b.mp4
+
+notes: |
+  Runtime composition: at the moment Veo generates clip_b, the
+  reference_image must include the PLAYER'S own master_face
+  (the canonical apprentice/player rendered face per §AC.11.16).
+  This is the only beat in the entire game where the player's
+  face is canonically rendered as a third-person figure. The
+  runtime compositing approach: pass the player's chosen
+  master_face from save-game state as the reference image at
+  generation time. If the player chose a custom apprentice
+  appearance during character creation, that appearance is the
+  Game Master's face here. This is canonical: the rope of the
+  Hierarchy's claim is the player's own future-self.
+
+vo_manifest_ref: |
+  Special handling: this is the player's voice, not Game
+  Master's. If the player's character has a defined voice
+  manifest (apps/shared/playerVoManifests/<voice_id>.json),
+  audio post overlays the player's voice. If no voice is
+  defined, Veo's native dialogue is canonical (with the line
+  "I was you. Once." rendered in a default voice). Production
+  side: 12 default voices ship in `apps/shared/playerVoManifests/`
+  for cohort fallback.
+```
+
+#### §AC.22.2.5 Beat 5 — `cs_act7_metaarc_b5_molgarath_speaks`
+
+```yaml
+host_space: §AC.22.1 (audience-head; Mol'Garath silhouette)
+xref: cinematic beat 5; 8s
+
+nb2_start.subject: |
+  the audience-head dais z+8m raised; Mol'Garath in deep shadow,
+  only violet eye-glow visible; behind Mol'Garath, the apex sigil
+  fills the upper canvas (Hierarchy claim-mark, brass-etched);
+  the 12 demon-bishops at perimeter have all turned 5° toward the
+  dais; the camera is at Mol'Garath's eye-level (z+8m) — a single
+  cinematic break from FPV trait-lock for this beat (since
+  Mol'Garath is canonically not the player; the camera is
+  authoring's-side, not player-POV).
+
+nb2_end.subject: |
+  Mol'Garath has shifted +0.2m forward on the throne; the violet-
+  rim has intensified by 25%; the apex sigil now visibly pulses
+  with sub-bass 4Hz; one of Mol'Garath's gloved hands rests on
+  the dais-rim, brass-bound rings visible.
+
+veo.cinematography: medium-wide; static lockoff at the dais level;
+  35mm; the camera does NOT move (this is the only stationary
+  beat in the cinematic). FPV is BROKEN for this beat — clearly
+  documented per §AC.22.0 fpv_strict relaxation.
+
+veo.action: |
+  0–3s Mol'Garath holds posture; 3–6s line is delivered (subtitled
+  in cipher-script); 6–8s rings tap the dais-rim once; eye-violet
+  intensifies; lands on last_frame.
+
+veo.audio.dialogue: "Mol'Garath: \"The rope is a contract.\""
+veo.audio.sfx: "ring-tap brass-on-stone 00:07; sub-bass 4Hz pulse
+  amplifies 00:00–00:08; demon-bishop perimeter rustle 00:06."
+veo.audio.score: "meta-arc theme drops to single sustained low-
+  brass + harp; the orchestra recedes; tension reset for the
+  contract revelation."
+
+pipeline:
+  nb2_seed: 197006
+  veo_seed: 297006
+  vo_manifest_ref: apps/shared/molgarathVoManifest.json#L<TBD>
+  cdn_target: cdn/client-public/cutscenes/cs_act7_metaarc_b5_molgarath_speaks/
+```
+
+#### §AC.22.2.6 Beat 6 — `cs_act7_metaarc_b6_wraith_appears` (12 s stitched)
+
+This beat reveals **Wraith Calder's scratched-out photograph** —
+the photograph contents are the Game Master's younger form
+(per §AC.21.2 [F] Act-5 reveal). At Act-7 the photograph
+appears in the player's POV: held by the Game Master.
+
+```yaml
+host_space: §AC.22.1 (12th board)
+notes: "12s stitched 8+4. Resolves the Act-5 photograph reveal hook.
+        Wraith Calder canonically appears here as a vision /
+        memory — he was the Game Master's escape route and was
+        refused. His hut/hideout is at §F.2.1 Wraith Calder's
+        Hideout in _PRODUCTION_CROSS_CUT.md."
+
+veo (clip_a):
+  reference_images:
+    - cdn/client-public/art/refs/wraith_calder_canonical_portrait.png
+    - cdn/client-public/art/portraits/_masters/<player_master_face>.png
+  prompt: |
+    CINEMATOGRAPHY: continuation FPV at the mentor's chair south
+      of the 12th board; the Game Master (player's-face revealed)
+      reaches into his cassock pocket and removes a small
+      photograph; the photograph is held face-down at 00:02; turned
+      face-up at 00:04; held out to the player's POV.
+    SUBJECT: the photograph — the canonical Wraith Calder scratched-
+      out photograph from §F.2.1; the scratching has been recently
+      removed (the Game Master holds it pre-scratch) — the
+      photograph shows Wraith Calder + the Game Master's younger
+      form (the player's face but younger, ~16-17yo) standing in
+      front of the Wraith Calder Hideout cargo-stack; both figures
+      smiling; both wearing Free Ports broker outfits.
+    ACTION: 0–3s photograph emerges from pocket; 3–6s held out to
+      player's POV (full visibility of the photograph); 6–8s at
+      00:07 a third figure materialises mid-frame above the photo
+      — Wraith Calder himself, transparent vision-form (Cat D
+      cinematic allows this).
+    CONTEXT: the contract revelation continues.
+    STYLE & AMBIANCE: meta-arc violet-rim + photograph in warm-
+      sepia palette (the past); Vision3 500T pushed +2.
+    AUDIO:
+      Dialogue: Game Master: "He offered me a way out." (00:04;
+        the line concludes during clip_a)
+      SFX: photograph paper-rustle 00:02; photo-turn-over 00:04;
+        vision-form Wraith manifestation chord 00:07.
+      Ambient noise: chant-loop -16dB.
+      Score: meta-arc theme — minor-key shift; the photograph's
+        memory-bed (a piano-and-strings cue) plays.
+    [00:00–00:03] photograph emerges.
+    [00:03–00:06] held face-up to player POV.
+    [00:06–00:08] Wraith vision-form materialises.
+
+veo (clip_b — 0:08-0:12):
+  prompt: |
+    CINEMATOGRAPHY: same; the Wraith vision continues; at 00:10
+      the Wraith vision speaks his canonical line; at 00:11 the
+      vision dissolves; the photograph remains in the Game
+      Master's hand.
+    SUBJECT: Wraith Calder's vision-form fully resolved at 00:08;
+      he is in his canonical visual identity (per §AC.10.7);
+      his eye-line is the player's POV; he speaks directly.
+    ACTION: 0–1s vision fully resolves; 1–3s Wraith speaks; 3–4s
+      Wraith dissolves; lands on last_frame (photograph in Game
+      Master's hand; the vision gone; the Game Master's face
+      slightly older-feeling).
+    CONTEXT: vision-resolution.
+    STYLE & AMBIANCE: meta-arc violet-rim; Wraith's dissolution
+      uses cyber-cyan glass-fragment cascade VFX.
+    AUDIO:
+      Dialogue: Wraith Calder: "I tried." (00:10; lip-sync;
+        Wraith's canonical voice from §AC.10.7).
+      SFX: vision-dissolution glass-fragment cascade 00:11–00:12;
+        photograph-grip tighten 00:11.5.
+      Ambient noise: chant-loop drops to -22dB.
+      Score: photograph-bed continues; meta-arc theme returns at
+        clip end.
+    [00:08–00:10] vision resolves.
+    [00:10–00:11] Wraith's line.
+    [00:11–00:12] dissolution; lands on last_frame.
+
+pipeline:
+  nb2_seed: 197007 (clip_a) / 197008 (clip_b)
+  veo_seed: 297007 / 297008
+  vo_manifest_ref: apps/shared/wraithCalderVoManifest.json#L<TBD>
+  cdn_target: cdn/client-public/cutscenes/cs_act7_metaarc_b6_wraith_appears/
+```
+
+#### §AC.22.2.7 Beat 7 — `cs_act7_metaarc_b7_the_choice` (16 s stitched 8+8)
+
+The choice point. The player is offered three branches.
+
+```yaml
+host_space: §AC.22.1 (12th board)
+notes: "16s stitched 8+8. Choice presentation + interactive resolution.
+        Diegetic choice-wheel UI surfaces at 00:08 (per §AC.12.1
+        BioWare dialog UI; this is its sole Cat D usage)."
+
+veo (clip_a — 0:00-0:08):
+  prompt: |
+    CINEMATOGRAPHY: medium close-up FPV at the 12th board; the
+      Game Master (player-face revealed) places the photograph
+      face-down on the chess-table at 00:01; he places his
+      gloved hand on the brass king-piece at his side of the
+      board at 00:03; he meets the player's POV at 00:05; the
+      camera holds; the 12 demon-bishops have all turned to face
+      the player; Mol'Garath is silent at audience-head.
+    SUBJECT: the choice presentation; the Game Master's posture
+      shifts from instructor to invitor; his eyes (the player's
+      eyes) are level and questioning.
+    ACTION: 0–3s photo placed + king-piece hand-on; 3–5s eye-
+      contact held; 5–8s the question is delivered and lands.
+    CONTEXT: meta-arc choice point.
+    STYLE & AMBIANCE: meta-arc violet-rim; orchestra builds.
+    AUDIO:
+      Dialogue: Game Master: "Sit. Take my place. Or refuse it.
+        Or barter for something else."
+      SFX: photo-place 00:01; king-piece hand-on 00:03; eye-
+        contact silence 00:05.
+      Ambient noise: chant-loop returns to -16dB.
+      Score: meta-arc theme — full orchestral peak rebuilds; the
+        leitmotif plays in resolution-form.
+
+veo (clip_b — 0:08-0:16):
+  prompt: |
+    CINEMATOGRAPHY: continuation; at 00:08 the diegetic choice-
+      wheel UI surfaces from below the 12th board (a brass-bound
+      wheel rises from the chalk-circle inlay around the board);
+      the wheel has 3 spokes (take_his_place / refuse / negotiate);
+      cyber-cyan fiber-optic trim ignites; the player's gloved
+      hand approaches the wheel.
+    SUBJECT: the choice-wheel surfacing; the Game Master watches;
+      Mol'Garath's eye-glow intensifies on the player's choice
+      hover.
+    ACTION: 0–3s wheel surfaces; 3–8s player's hand hovers (the
+      cinematic pauses for input here at 00:13 IF runtime
+      allows; otherwise the hand picks the canonical choice
+      based on cohort state); the chosen spoke ignites at clip
+      end; lands on last_frame (choice-locked; specific spoke
+      lit).
+    CONTEXT: meta-arc choice interaction.
+    AUDIO:
+      Dialogue: none in clip_b (silence is the interactive
+        moment).
+      SFX: wheel-rise from chalk-circle 00:08; fiber-optic
+        ignite 00:09; choice-spoke select chord 00:13;
+        cinematic-lock chord 00:16.
+      Ambient noise: chant-loop -14dB peak.
+      Score: meta-arc theme holds at peak; resolution-form
+        leitmotif sustains.
+
+pipeline:
+  nb2_seed: 197009 (clip_a) / 197010 (clip_b)
+  veo_seed: 297009 / 297010
+  vo_manifest_ref: apps/shared/gameMasterVoManifest.json#L<TBD>
+  cdn_target: cdn/client-public/cutscenes/cs_act7_metaarc_b7_the_choice/
+notes: |
+  Runtime branch: the player's choice is captured at 00:13 (mid-
+  clip_b). The cinematic continues into one of three outcome
+  beats (8a / 8b / 8c) per the chosen branch.
+```
+
+#### §AC.22.2.8 Beat 8a — `cs_act7_metaarc_b8a_choice_take_his_place` (8 s)
+
+```yaml
+host_space: §AC.22.1
+xref: outcome branch — player chose "take his place"
+
+veo.action: |
+  0–3s the Game Master rises from the 12th-board chair and steps
+  back; 3–5s he gestures to the chair (offer); 5–8s the player's
+  POV moves forward and the player takes the chair (the camera
+  shifts to the seated POV at 00:08); the Game Master walks past
+  the camera and exits frame-left; lands on last_frame (player
+  is now the Game Master, seated; Mol'Garath nods once).
+
+veo.audio.dialogue: "Game Master: \"Be welcome.\""
+veo.audio.sfx: "chair-shift creak 00:03 / 00:05; footsteps walking
+  out 00:05–00:07; Mol'Garath nod (visible-only)."
+veo.audio.score: "meta-arc theme — final resolution chord;
+  orchestra fades to single sustained string-note; chant-loop
+  rises to -10dB (the Hierarchy claim has resolved)."
+
+post_outcome: |
+  - bloodWeave.alignment LOCKED at 50 (claimed-permanent)
+  - player avatar replaced with the canonical Game Master visual
+    (player's face stays; cassock + scripture-medallion + chair-
+    of-office added)
+  - Tier 0 Chess Hall now displays the player's own image as the
+    Game Master to subsequent visitors / cohorts
+  - apprentice cohort permanently disbanded (the player no longer
+    runs cohorts; instead, NEW players in subsequent save-cycles
+    will face the player's face as their Game Master)
+
+pipeline:
+  nb2_seed: 197011
+  veo_seed: 297011
+  cdn_target: cdn/client-public/cutscenes/cs_act7_metaarc_b8a_choice_take_his_place/
+```
+
+#### §AC.22.2.9 Beat 8b — `cs_act7_metaarc_b8b_choice_refuse` (8 s)
+
+```yaml
+host_space: §AC.22.1
+xref: outcome branch — player chose "refuse"
+
+veo.action: |
+  0–3s the Game Master nods once (acceptance); 3–5s he places his
+  own gloved hand back on the king-piece and sets it on its
+  side (a forfeit gesture); 5–8s the chamber's geometry begins
+  to dissolve again (return-portal); the deep-violet anomaly
+  mist returns; lands on last_frame (player is back at Blood
+  Weave Atrium with alignment 30; the 12th alcove is sealed
+  with yellow-X quarantine).
+
+veo.audio.dialogue: "Game Master: \"Then we are not the same.\""
+veo.audio.sfx: "king-piece tip-over 00:04; chamber-dissolution
+  whisper 00:05–00:08."
+veo.audio.score: "meta-arc theme — minor-key resolution; the
+  leitmotif is incomplete; chant-loop drops sharply at 00:08
+  to -42dB."
+
+post_outcome: |
+  - bloodWeave.alignment RESET to 30 (Hierarchy claim retracted)
+  - player loses 10 alignment + the 12th loredex entry is sealed
+    in their save (un-readable)
+  - cinematic SEALED for this save (cannot be replayed)
+  - the Game Master continues to be a separate NPC; the player
+    is unchanged
+  - Pell Caedrune wrongful-execution cohort-thread (per Sentinel
+    canon) reopens — the refused alignment makes the player a
+    re-eligible witness for that thread
+  - 12th brass plate at the perimeter remains UNFILLED
+
+pipeline:
+  nb2_seed: 197012
+  veo_seed: 297012
+  cdn_target: cdn/client-public/cutscenes/cs_act7_metaarc_b8b_choice_refuse/
+```
+
+#### §AC.22.2.10 Beat 8c — `cs_act7_metaarc_b8c_choice_negotiate` (12 s stitched 8+4)
+
+The negotiation branch — opens the hidden Tier-4 chess-match
+against Mol'Garath. This is the "secret third option" branch
+and reserves an Act-7+ DLC cinematic.
+
+```yaml
+host_space: §AC.22.1
+xref: outcome branch — player chose "negotiate"
+notes: "12s stitched 8+4. Reserves the Tier-4 Mol'Garath match
+        cinematic for Act-7+ DLC (out of scope for this rollout)."
+
+veo (clip_a):
+  prompt: |
+    CINEMATOGRAPHY: medium close-up FPV at the 12th board; the
+      Game Master tilts his head (acknowledgement); at 00:03 he
+      places his own gloved hand on the photograph (face-up);
+      at 00:05 he turns to look at Mol'Garath at the audience-
+      head; at 00:07 Mol'Garath rises from the throne for the
+      first time.
+    SUBJECT: the negotiation acknowledgement; Mol'Garath rising.
+    ACTION: 0–3s Game Master tilts head; 3–5s photograph examined;
+      5–8s Game Master turns to Mol'Garath; Mol'Garath rises;
+      lands on last_frame (Mol'Garath standing on dais, full
+      figure visible for the first time).
+    AUDIO:
+      Dialogue: Game Master: "He hears you."
+      SFX: photograph-flip 00:03; Mol'Garath chair-rise creak 00:07.
+      Score: meta-arc theme — orchestra shifts to a new key; the
+        Mol'Garath leitmotif (a sub-bass 4Hz pulse with low-brass)
+        joins for the first time in the cinematic.
+
+veo (clip_b — 0:08-0:12):
+  prompt: |
+    CINEMATOGRAPHY: continuation; the camera shifts to a wide
+      angle revealing Mol'Garath's full standing figure (8m tall;
+      brass-and-violet armoured demon-form; the 12th board is
+      far in the foreground); at 00:10 Mol'Garath gestures to a
+      brass-bound chess-board that descends from the apex sigil
+      (a 13th board, hidden until this moment); at 00:12 the 13th
+      board lands on the floor between the player and Mol'Garath;
+      lands on last_frame.
+    SUBJECT: Mol'Garath full reveal + 13th-board descent.
+    ACTION: 0–2s Mol'Garath fully visible; 2–4s 13th-board
+      descends; 4s lands; cinematic ends here.
+    AUDIO:
+      Dialogue: Mol'Garath: "Sit then."
+      SFX: 13th-board descent chain-rattle 00:10; board-floor-
+        impact 00:12; chant-loop -18dB.
+      Score: Mol'Garath leitmotif sustains; the meta-arc theme
+        ends on an unresolved cadence (this is the cliffhanger
+        — the Tier-4 match is not played here).
+
+post_outcome: |
+  - bloodWeave.alignment LOCKED at 40 indefinitely
+  - the 12th brass plate at perimeter remains UNFILLED but
+    pulses cyber-cyan (reserved for the Tier-4 match outcome)
+  - Tier-4 Mol'Garath chess-match unlocks at A.36 Chess Hall
+    (per `apps/shared/chessClimbTiers.ts` — extends the existing
+    4-tier ladder to 5 tiers; new Tier 4 spec out-of-scope here)
+  - cinematic SEALED for this save (Tier-4 match is the next
+    chess-arc beat; not playable in current rollout)
+  - the Game Master remains a separate NPC; the player retains
+    apprentice-cohort access
+
+pipeline:
+  nb2_seed: 197013 (clip_a) / 197014 (clip_b)
+  veo_seed: 297013 / 297014
+  vo_manifest_ref: apps/shared/molgarathVoManifest.json#L<TBD> +
+                   gameMasterVoManifest.json#L<TBD>
+  cdn_target: cdn/client-public/cutscenes/cs_act7_metaarc_b8c_choice_negotiate/
+```
+
+### §AC.22.3 Score spec — meta-arc theme
+
+Cat D meta-arc cinematic is the **first cinematic in the entire
+production with full theme-defining orchestral score**. Score
+specifications:
+
+```yaml
+score_id:    music_act7_metaarc_theme.wav
+duration:    160-164s (matches cinematic length per branch)
+composition: |
+  - Opening (Beat 1): single sustained string-chord; orchestra
+    in silent reserve; brightness rises across 8s
+  - Build (Beats 2-3): low brass + harp join; 5-note Game Master
+    leitmotif emerges in harp at Beat 3 / 00:06
+  - Reveal (Beat 4): full orchestra at peak; leitmotif counterpoint
+    with theme; orchestral peak at clip_b 00:12 ("I was you. Once.")
+  - Recede (Beat 5): orchestra drops to single sustained low-
+    brass + harp; tension reset
+  - Memory (Beat 6): minor-key shift; piano-and-strings memory-
+    bed for the photograph
+  - Choice (Beat 7): orchestra rebuilds to peak; resolution-
+    form leitmotif sustains
+  - Outcome (Beat 8a/b/c): per-branch resolution:
+      8a take-his-place: final resolution chord; orchestra fades
+                         to single sustained string-note
+      8b refuse:         minor-key resolution; leitmotif incomplete
+      8c negotiate:      Mol'Garath leitmotif joins (sub-bass 4Hz
+                         + low-brass); unresolved cadence
+                         (cliffhanger)
+
+leitmotifs:
+  game_master_leitmotif:  "5-note descending phrase in harp;
+                           introduced Beat 3; reprised throughout"
+  metaarc_theme:          "8-bar string-and-brass theme; develops
+                           across cinematic; resolves at outcome"
+  molgarath_leitmotif:    "sub-bass 4Hz pulse + low-brass; joins
+                           only in Beat 8c negotiate branch"
+  photograph_memory_bed:  "piano-and-strings cue; Beat 6 only"
+  hierarchy_claim_chord:  "sustained low-brass + chant-loop;
+                           Beat 8a outcome only"
+
+production:
+  composer:    full orchestral commission (out of scope for asset-
+               render; production-side audio team)
+  duration:    ~3 minutes of unique score material (with branches);
+               recorded at 96kHz 24-bit; mixed to -14 LUFS
+  asset_files:
+    music_act7_metaarc_theme.wav        (full theme-bed)
+    music_act7_game_master_leitmotif.wav (5-note phrase)
+    music_act7_metaarc_outcome_8a.wav   (take-his-place outcome)
+    music_act7_metaarc_outcome_8b.wav   (refuse outcome)
+    music_act7_metaarc_outcome_8c.wav   (negotiate outcome)
+    music_act7_photograph_memory.wav    (Beat 6 piano-and-strings)
+```
+
+### §AC.22.4 Choice branches — runtime contract
+
+Per the choice resolution at Beat 7, the runtime branches:
+
+```yaml
+choice_take_his_place:
+  alignment_post:        50 (claimed-permanent)
+  cinematic_outcome:     8a (8s, music_act7_metaarc_outcome_8a.wav)
+  player_avatar_change:  YES — player face stays; cassock +
+                         scripture-medallion + Game Master chair-
+                         of-office overlay added
+  apprentice_cohort:     PERMANENTLY DISBANDED (player no longer
+                         runs cohorts; future-save-cycle players
+                         will face the player's face as Game Master)
+  brass_plate_12:        FILLED (player's name etched at the 12th
+                         perimeter brass plate of A.22.1)
+  game_world_ripple:     subsequent player save-cycles see the
+                         player's face as Game Master (canonical
+                         meta-arc continuation; the rope continues)
+
+choice_refuse:
+  alignment_post:        30 (claim-retracted)
+  cinematic_outcome:     8b (8s, music_act7_metaarc_outcome_8b.wav)
+  player_avatar_change:  none
+  apprentice_cohort:     unchanged
+  brass_plate_12:        UNFILLED (the alcove is yellow-X quarantined)
+  pell_caedrune_thread:  REOPENS (Sentinel canon: the wrongful-
+                         execution witness thread becomes
+                         re-eligible)
+  game_world_ripple:     player retains apprentice cohort access;
+                         the Game Master continues as separate NPC
+
+choice_negotiate:
+  alignment_post:        40 (locked indefinitely)
+  cinematic_outcome:     8c (12s stitched, music_act7_metaarc_outcome_8c.wav)
+  player_avatar_change:  none
+  apprentice_cohort:     unchanged
+  brass_plate_12:        UNFILLED but pulses cyber-cyan (reserved
+                         for Tier-4 match outcome)
+  tier4_chess_match:     UNLOCKS at A.36 Chess Hall (extends
+                         existing 4-tier chess ladder to 5 tiers;
+                         out of scope for this rollout — Act-7+
+                         DLC reservation)
+  game_world_ripple:     player retains apprentice cohort access;
+                         the Game Master remains as NPC; Mol'Garath
+                         becomes accessible at the new Tier-4
+                         board
+```
+
+### §AC.22.5 Cross-references resolved
+
+PR resolves Outstanding TBDs:
+
+- **§AC.21.2 [E]**: Game Master meta-arc cinematic — RESOLVED in
+  this section (§AC.22.1 + §AC.22.2.1–§AC.22.2.10).
+- **§AC.21.2 [F]**: Wraith Calder's scratched photograph Act-5
+  reveal — RESOLVED at Beat 6; the photograph contents are the
+  Game Master's younger form (the player's face but ~16-17yo)
+  + Wraith Calder; the scratched-out version visible at §F.2.1
+  Wraith Calder's Hideout in Act 5 is the post-loss scratched
+  state, with the Act-7 cinematic showing the pre-scratch state.
+- **§AC.2.5 alignment-40 end_shatter variant**: the
+  `cs_blood_weave_loredex_revealed_n=12` end_shatter variant
+  feeds DIRECTLY into Beat 1 of this cinematic. The end_shatter
+  is the cinematic's Beat 1 first_frame.
+
+The cinematic also touches:
+- §AC.4.2 Audit Chamber Day-21 Warden variant (Inspector Veil-7's
+  Day-21 dialog references "the Game Master" obliquely; if cohort
+  has reached this cinematic, Veil-7's dialog re-resolves with
+  per-branch awareness)
+- §AC.6 House of Ledger guild common room (Caedex Vorr's
+  expulsion question — "who wrote it first" — is canonically
+  answered by this cinematic: the rope was written first; the
+  Hierarchy didn't author the contract, the Hierarchy IS the
+  contract)
+- §AC.10.13 master-face anchor batch (the player's master_face
+  is the runtime composition reference for Beat 4; production-
+  side, ensure player's master_face render is canonical-locked
+  per §AC.11.16 before this cinematic ships)
+- §AC.12.1 BioWare dialog UI choice-wheel (the wheel surfacing
+  at Beat 7 is the canonical instance of the dialog UI in Cat D
+  cinematic; the wheel here uses the §AC.12.1 chrome verbatim)
+
+### §AC.22.6 Production deliverables (this cinematic)
+
+| asset | count | notes |
+|---|---|---|
+| §AC.22.1 Tier-Infinity Chess Hall master still | 1 | full §4 + 13-axis grid; `gemini-3-pro-image-preview` 21:9 4K |
+| beat NB2 stills | 14 | 10 cuts × ~1.4 stills each (some 12s stitched cuts have 3+ stills) |
+| beat Veo clips | 14 | 10 cuts (8 single + 2 stitched 12s + 1 stitched 16s) |
+| audio_post tracks | 10 | per cut |
+| meta.json | 10 | per cut |
+| cinematic master soundtrack | 6 score files | meta-arc theme + leitmotifs + 3 outcome variants + photograph memory bed |
+| 12 prior-Game-Master brass plates | 12 | parametric; etched at runtime per save-game state |
+| Tier-Infinity room textures + models | ~25 | non-Euclidean shader budget +20% |
+| **TOTAL** | ~78 production assets | |
+
+CDN target: `cdn/client-public/cutscenes/cs_act7_metaarc_b<n>_<id>/`
++ `cdn/client-public/art/refs/tier_infinity_chess_hall_master_still.png`
++ `cdn/client-public/audio/score/music_act7_metaarc_*.wav`.
+
+Storage estimate: ~600 MB (cinematic-heavy due to longer Veo
+clips and 6 score-file audio assets).
+
+NB2 generation cost: ~$1.50 (small batch, mostly stills).
+Veo generation cost: ~$60 (10 cuts at 8-12s, full theme-music
+audio, peak production fidelity).
+
+### §AC.22.7 Outstanding TBDs (this cinematic)
+
+- Mol'Garath full visual identity — Beat 8c clip_b reveals
+  Mol'Garath as 8m tall brass-and-violet armoured demon-form;
+  no canonical visual reference exists yet; production needs to
+  author Mol'Garath's master visual identity (parallel to §AC.10.7
+  recruit identities) before Beat 5 + 8c can render
+- Player's voice manifest — Beat 4 clip_b uses the player's voice
+  for "I was you. Once."; if no player voice manifest exists,
+  Veo native dialogue is canonical with 12 default voice pool;
+  production-side: ship 12 default voices in `apps/shared/playerVoManifests/`
+- Game Master master visual identity in younger form — the Beat 6
+  photograph shows the Game Master at age ~16-17; production
+  needs a "Game Master younger" master_face render that matches
+  the player's chosen master_face at adolescent age (runtime
+  composition: pass player's master_face + age-regression
+  parameter to NB2 reference bundle)
+- Tier-4 chess match (negotiate branch) — out of scope; reserved
+  for Act-7+ DLC cinematic
+- 12 prior-Game-Master brass plate names + cycle-IDs — parametric
+  at runtime per save-game state; production-side, the runtime
+  generates these names from existing apprentice canonical-name
+  pool (per §AC.11) + cycle-ID
+- Score commission — full orchestral score for ~3 minutes of
+  unique material with branches; production audio team timeline
+  is separate from this doc
+
+End of `_PRODUCTION_APPRENTICE_COMMONS.md` Game Master Act-7
+meta-arc cinematic addition.
