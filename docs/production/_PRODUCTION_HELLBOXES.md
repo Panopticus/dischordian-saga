@@ -3094,3 +3094,238 @@ performance:
   lod_plan: hero 0-25m full; mid 25-100m simplified; long 100m+ (most of track) low (essential prop + skybox)
   streaming: preload ark.memorial_corridor; on_lap_completion: stream next sector ahead; on_cathedral_cliff_approach: load reliefs + cathedral-choir audio
 ```
+
+---
+
+## H.7 Degenerate's Casino (HB7 — Captain's Quarters Degen's Corner gateway)
+
+**Status: FULL spec.** Cross-ref `INCEPTION_ARK_FINAL_PRODUCTION.md`
+§3.12.9.
+
+### H.7.1 Header
+
+```
+space_id:        hellbox.degenerate_casino
+space_name:      Degenerate's Casino
+space_type:      hellbox_interior  (Matrix-of-Dreams; 1930s film-noir-baroque casino)
+act_introduced:  Act 5
+host_room:       ark.captain_quarters (Degen's Corner empty chair + brass coin gateway)
+lore_anchor:     loredex.system.degenerate_casino + loredex.character.the_degen + arc.act_5_first_casino_visit + loredex.character.master_of_rlyeh
+aesthetic_tier:  matrix_dream + film-noir-baroque overlay  (1930s American casino crossed with Wagnerian baroque excess)
+```
+
+### H.7.2 Geometry
+
+```
+dimensions:           54.00 m × 42.00 m × 16.00 m  (perceptual; bigger-on-inside ratio 11× external Captain's Quarters)
+origin_point:         centre of central gaming floor (where the player materialises after coin-flip transit)
+coordinate_axes:      +x = right, +y = forward (north — toward main bar + stage), +z = up
+floor_plan_geometry:  rectangular  (central gaming floor + bar at north + 4 themed gaming alcoves on perimeter — high-stakes / poker / roulette / craps + back-rooms)
+volumetric_anomalies:
+  - bigger_on_inside ratio: 11× external Captain's Quarters
+  - perpetual_evening: continuous 11pm-feel; smoky neon + jazz; no day/night
+  - cigar_smoke_pools: smoke perpetually thickens at upper volume; pools at z = 12+
+  - house_always_wins: gameplay-mechanically the house wins eventually; the question is what the player wagers along the way
+  - patron_phantoms: ~120 phantom patrons across gaming floor + bar + alcoves
+```
+
+The Degenerate's Casino is the Matrix-of-Dreams' film-noir-baroque
+casino. 1930s American casino aesthetic crossed with Wagnerian
+baroque excess. Smoky + warm + gilded + uncanny. The Degen
+presides from his elevated bar-stool at the central bar; he has
+seen every player who has ever entered. Every game is a moral
+test framed as a wager. Wins compound; losses compound faster.
+The house always wins eventually.
+
+Floor area (perceptual): central gaming floor ~840 m²; bar zone
+~280 m²; 4 themed alcoves ~120 m² each; total ~1,600 m².
+
+### H.7.3 Floor
+
+```
+material_primary:     rich-burgundy plush wool carpet across gaming floor (with subtle gold-thread baroque pattern); polished walnut hardwood at bar zone
+material_secondary:   gold-leaf inlay forming a 4-of-a-kind card-suit pattern at central gaming floor centre (where player materialises); brass perimeter trim; brass walkway-strip from south entrance to bar
+pattern:              burgundy carpet + gold-thread baroque + central card-suit star + brass demarcations
+wear_state:           well-used; carpet has decades of foot-traffic + wear-trails to bar + most-popular tables; brass is centuries-polished
+embedded_features:
+  - id: hellbox.degenerate_casino.floor.charge_point.player_arrival_card_star
+    position: (0.00, 0.00, 0.00)  # at central gaming floor; player materialises here
+    dimensions: 1.40 dia × 0.005
+    function: arrival-anchor + return-transit invocation
+  - id: hellbox.degenerate_casino.floor.charge_point.degen_bar
+    position: (0.00, 16.00, 0.00)  # at central bar
+    dimensions: 0.40 × 0.40 × 0.05
+    function: bar-electronics power
+  - id: hellbox.degenerate_casino.floor.charge_point.alcove_anchor.<themed_alcove>  (4 anchors)
+    position: distributed at 4 themed alcoves
+    dimensions: 0.30 × 0.30 × 0.05 each
+    function: alcove-game electronics
+acoustic_property:    soft_absorbent (carpet + upholstery); RT60 = 0.45s (intentionally warm-intimate; supports jazz + chatter mix)
+```
+
+### H.7.4 Walls
+
+```
+wall_id:              perimeter (4 walls + 4 alcove-recesses + bar-zone)
+material_primary:     deep-walnut paneling with gold-leaf trim; baroque flourishes carved in relief; mirrored-bronze accents (the only intentional mirrors in the Hellbox suite, used for casino-aesthetic but per §3.1.0.10 no reflection-of-player visible — mirrors show only smoke + casino interior)
+material_secondary:   crimson-velvet drapery framing alcoves; gold-thread cord-and-tassel curtains
+panelisation:         baroque panels alternating with alcove-recesses
+colour_value:         --token-color-hellbox-degenerate-casino-walls  (deep walnut + crimson-velvet + gold + mirrored-bronze)
+embedded_displays:
+  - id: hellbox.degenerate_casino.bar_north.scoreboard
+    position: (0.00, 17.00, 4.00)  # high above bar
+    dimensions: 4.00 × 1.60 × 0.10
+    content: live house-state board (player's running balance vs. house; always trends toward house-wins)
+embedded_doors:
+  - door_id: hellbox.degenerate_casino.south.return_threshold
+    position: (0.00, 0.00, 0.005)  # at arrival
+    dimensions: n/a (cosmological)
+    door_class: portal
+    connecting_space_id: ark.captain_quarters
+  - door_id: hellbox.degenerate_casino.alcove.<themed>.archway  (4 archways; one per themed alcove)
+    position: distributed at perimeter
+    dimensions: 1.60 × 2.40 × 0.20 each
+    door_class: arch (curtained; crimson-velvet drape)
+    connecting_space_id: hellbox.degenerate_casino.alcove.<themed>  (continuous spaces)
+  - door_id: hellbox.degenerate_casino.bar.back_room_door.east, .west  (2 back-room doors flanking bar)
+    position: behind bar at east + west ends
+    dimensions: 0.80 × 2.20 × 0.10 each
+    door_class: slide
+    connecting_space_id: hellbox.degenerate_casino.back_room.<id>  (deferred sub-spaces; high-stakes private)
+decorative_features:
+  - id: hellbox.degenerate_casino.south.plaque.principle
+    position: (0.00, -19.00, 3.20)
+    dimensions: 1.00 × 0.40 × 0.02
+    material: cast bronze with deep-etched text
+    narrative_role: reads "PLAY YOUR HAND / THE HOUSE PLAYS YOU"
+  - id: hellbox.degenerate_casino.bar.north_relief
+    position: (0.00, 17.00, 7.00)  # high above bar
+    dimensions: 4.00 × 1.20 × 0.20
+    material: cast bronze with gilt + ornate baroque carving
+    narrative_role: depicts the canonical first wager — a robed figure flipping a coin
+```
+
+### H.7.5-8 Compact (full FULL fidelity)
+
+```
+ceiling: 16.00 m baseline; central drop-coffer at 12.00 m above gaming floor (gives intimacy); bar-zone ceiling at 14.00 m; alcove ceilings at 8.00 m
+lighting:
+  ambient_baseline: 2400 K very warm; 100 lux at gaming floor (intentionally dim — casino aesthetic); CRI 88
+  central_chandelier: at (0.00, 0.00, 11.00); warm-amber crystal scatter; 8000 lumens
+  bar_pendants.<n>×6: above bar at z = 4.00; warm 2700 K; 2000 lumens each
+  alcove_pendants.<themed>×4: per alcove; warm amber; 3500 lumens each
+  table_lamps_per_gaming_table×~30: warm 2400 K; 800 lumens each
+  practical_sources: cigar_burn_glow×many; chip-stack subtle bronze glint; coin_spin_glow (state-conditional)
+  atmospheric_neon_sign_glow.<n>×6: warm-orange + cyan neon signs ("HOUSE", "PLAY", "STAKES", etc.) at z = 12 around perimeter
+atmosphere: 24°C warm + smoky / 55% RH (humid) / smells of cigar-smoke + perfume + whiskey + leather + chip-bronze + warm walnut + perfume
+sound:
+  ambient_bed: -22 dB; jazz-piano (warm 1930s style; continuous), chatter, chip-clatter, occasional bell-toll on win, slot-machine beeps (faint; from alcoves), distant laughter
+  point_sources: jazz_piano_continuous; chip_clatter_distributed; coin_spin_subtle; degen_voice (when present); slot_alcove_distant_beeps; bell_toll_on_win; cigar_smoke_inhale_subtle
+  reverb_zone: degenerate_casino_v1.wav wet 18% (warm-intimate)
+  music_eligibility: ambient music ALLOWED — 1930s jazz piano at -28 dB throughout; intensifies during dramatic moments
+  voice_line_eligibility: the_degen (named NPC; primary occupant; bar-anchor); ~120 phantom patrons (cyclic chatter); the_master_of_rlyeh (state-conditional); the_house_voice (institutional cosmic-ambient — rarely speaks but present)
+```
+
+### H.7.9 Object inventory (compact catalogue; 72 inventory objects)
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `hellbox.degenerate_casino.player_arrival_card_star` | fx_emitter+gameplay-anchor | (0.00, 0.00, 0.005) | 1.40 dia × 0.005 | gold-leaf 4-of-a-kind card-suit pattern; arrival + return-transit |
+| `hellbox.degenerate_casino.degen_bar` | interactive | (0.00, 16.00, 0.00) | 8.00 × 1.20 × 1.10 | central elevated bar with brass foot-rail |
+| `hellbox.degenerate_casino.degen_anchor` | npc_anchor | (0.00, 17.00, 0.00) | 0.8×0.8×1.8 | THE Degen — bar tender + ringmaster |
+| `hellbox.degenerate_casino.bar_stool.<n>` (12) | furniture | along bar front | 0.40×0.40×0.85 each | bar stools |
+| `hellbox.degenerate_casino.bar.scoreboard` | display | (0.00, 17.00, 4.00) | 4.00×1.60×0.10 | live house-state board |
+| `hellbox.degenerate_casino.bar.bottle_shelf` | container | behind bar at z=2.00 to 4.00 | 0.40×6.00×2.00 | bronze + glass shelves with bottles |
+| `hellbox.degenerate_casino.gaming_table.<type>.<n>` (~24 tables across floor + alcoves) | interactive | distributed | 1.20×1.20×0.85 each | poker / roulette / craps / blackjack tables |
+| `hellbox.degenerate_casino.alcove.<themed>` (4) | container | per perimeter alcove | 8.00×6.00 each | high-stakes / poker / roulette / craps themed alcoves |
+| `hellbox.degenerate_casino.alcove.<themed>.altar.master_of_rlyeh` | interactive | within high-stakes alcove | 1.20×0.80×1.10 | Master of R'lyeh anchor (within the high-stakes alcove specifically) |
+| `hellbox.degenerate_casino.themed_alcove_table.<n>` (~16 across alcoves) | interactive | per alcove | 1.20×1.20×0.85 each | per-alcove themed tables |
+| `hellbox.degenerate_casino.patron_anchor.<n>` (~120) | npc_anchor | distributed | 0.8×0.8×1.8 each | phantom patrons; canonical past-degenerates |
+| `hellbox.degenerate_casino.brass_coin_canonical` | decoration | on bar centre | 0.04 × 0.04 × 0.005 | THE canonical brass coin (matches Captain's Locker + Degen's Corner coin); cosmologically connected |
+| `hellbox.degenerate_casino.central_chandelier` | fx_emitter | (0.00, 0.00, 11.00) | 1.40 dia × 0.80 | warm-amber crystal scatter |
+| `hellbox.degenerate_casino.bar_pendants.<n>` (6) | fx_emitter | above bar at z=4 | 0.40 dia each | warm pendants |
+| `hellbox.degenerate_casino.atmospheric_neon_sign.<n>` (6) | decoration+fx_emitter | at perimeter z=12 | 1.20×0.40×0.20 each | "HOUSE", "PLAY", "STAKES", "FORTUNE", "FATE", "DEBT" |
+| `hellbox.degenerate_casino.cigar_smoke_emitter.<n>` (~10) | fx_emitter | distributed | n/a | cigar-smoke source |
+| `hellbox.degenerate_casino.gambling_chips_pile.<n>` (~30) | decoration | scattered on tables | varied | bronze chip stacks |
+| `hellbox.degenerate_casino.coin_spin_emitter` | fx_emitter | dynamic | n/a | coin-spin SFX + visual (Degen's signature gesture) |
+| `hellbox.degenerate_casino.viewing_seat.bar.<n>` (8) | furniture | south of bar | 0.80×0.80×1.20 each | tall bar-side seating |
+| `hellbox.degenerate_casino.south.return_transit_indicator_glow` | fx_emitter | at arrival | 0.40 dia | warm gold |
+| `hellbox.degenerate_casino.south.plaque.principle` | decoration | (0.00, -19.00, 3.20) | 1.00×0.40×0.02 | "PLAY YOUR HAND / THE HOUSE PLAYS YOU" |
+| `hellbox.degenerate_casino.bar.north_relief` | decoration | (0.00, 17.00, 7.00) | 4.00×1.20×0.20 | first-wager relief |
+| `hellbox.degenerate_casino.compass_inlay_central` | decoration | already specced |  |  |
+| `hellbox.degenerate_casino.master_of_rlyeh_voice_emitter` | fx_emitter | at high-stakes alcove altar | n/a | Master of R'lyeh voice |
+| `hellbox.degenerate_casino.the_house_voice_emitter` | fx_emitter | distributed | n/a | institutional house-voice (rare ambient) |
+| `hellbox.degenerate_casino.bell_toll_on_win_emitter` | fx_emitter | at scoreboard | n/a | win-bell SFX |
+
+Total: 72 inventory objects.
+
+### H.7.10-17 Compact
+
+```
+camera_spawn_points:
+  cs_hellbox_7_arrival (Act 5 first-time + every visit): POV at card-star; smoky corridor dissipates around player; head pans across gaming floor; bar visible north; ~12s
+  cs_first_degen_meeting (Act 5 first-time): POV approaches bar; Degen leans on counter, lights cigar, regards player with mock-paternal-disappointment + welcoming
+  cs_master_of_rlyeh_question: POV at high-stakes alcove altar; "What is owed to a debt that was never agreed to?"; radial menu
+  cs_first_wager (gameplay-active): POV at chosen gaming table; first wager + outcome
+  cs_house_wins_eventually (state-conditional): POV at bar; house-state board flashes "HOUSE WINS"; Degen tips hat
+  cs_hellbox_7_close: POV at card-star; coin spins; chip-stacks dissolve; chair re-materialises in Degen's Corner with brass coin sitting on seat (per §3.12.9 cs_hellbox_7_close)
+
+doorways: return_transit_anchor → ark.captain_quarters (host)
+
+adjacency:
+  direct: ark.captain_quarters (return-transit); 4 themed alcoves (continuous); 2 back-room doors (deferred sub-spaces)
+  one_hop: hellbox.master_hellbox (HB5)
+  state_shared: ark.captain_quarters (HB7 faction-pull); player's running gambling-balance (cumulative across visits); the_brass_coin_lineage (cosmologically tracked across Captain's Locker + Degen's Corner + here)
+
+gameplay_hooks:
+  - hb7.return_transit
+  - hb7.invoke_master_of_rlyeh (high-stakes alcove altar; one-shot per visit)
+  - hb7.commit_faction_answer
+  - hb7.converse_degen
+  - hb7.start_wager (per-table per-game-type)
+  - hb7.complete_wager (outcome roll; cumulative balance updated)
+  - hb7.take_brass_coin (rare lore-flag — Degen offers; player chooses accept-or-decline)
+  - hb7.read_north_relief
+  - hb7.observe_phantom_patron (per-patron; ~120 unique lore-readables)
+
+story_tie:
+  primary_arcs:
+    - act_5_first_casino_visit
+    - degenerate_casino_canon
+    - cumulative_gambling_balance (continuous; trends toward house-wins)
+    - the_brass_coin_lineage (cosmologically connected; Captain's Locker → Degen's Corner → here)
+    - act_7_house_balance (state-branched: even-balance vs. catastrophic-debt)
+  per_act:
+    acts_0_4: locked
+    act_5: first visit; first wager; Master of R'lyeh first asked
+    act_6: deeper games unlocked; back-rooms accessible (deferred)
+    act_7: state-branched: balanced ending (player has been fortune-favoured + walked away with grace) vs. ruin ending (deeply in debt to the house)
+  npc_roster:
+    - the_degen (primary; bar-anchor; ringmaster)
+    - ~120 phantom patrons
+    - the_master_of_rlyeh (high-stakes alcove only)
+    - the_house_voice (rare institutional ambient)
+  readables:
+    - principle plaque (south)
+    - first-wager relief (north)
+    - 6 atmospheric neon signs
+    - canonical-patrons archive (per-patron lore via inspection)
+    - house-state board (live cumulative balance)
+  master_of_rlyeh_question: "What is owed to a debt that was never agreed to?"
+  faction_answers: per §3.12.9 (New Babylon strongest pull)
+
+special_fx: cigar_smoke; coin_spin_motes; chip_clatter_visualisation; jazz_visualisation; phantom_patron_subtle_silhouettes; house_state_pulse
+volumetric: chandelier_crystal_scatter; bar_pendant_glows; cigar_smoke_pools; alcove_warmth_envelopes; coin_spin_volumetric_sparkles
+procedural: jazz_piano_continuous; phantom_patrons_idle_loops; cigar_smoke_rise; chip_clatter_random; coin_spin_per_event; chandelier_subtle_sway
+reactive: degen_acknowledge_on_player_proximity_to_bar; gaming_table_ambient_intensify_on_use; phantom_acknowledgement_on_proximity; house_state_update_continuous; brass_coin_glow_on_inspect
+
+avatar_parametricity: small_xenomorph alternate bar-stool boost; chess-piece-style avatars get specialised wagering interfaces; others all-reachable
+audio_occlusion: xenomorph: jazz overwhelming; chip-clatter pronounced; cigar-smoke perceived as warmth
+
+performance:
+  polygon_budget: 880,000 (large multi-zone casino with many props + ~120 phantoms)
+  texture_budget: 520 MB (rich materials + phantom unique textures + alcove themes)
+  light_count_limit: 36
+  lod_plan: hero 0-15m full; mid 15-30m simplified phantoms; long 30m+ skybox
+  streaming: preload ark.captain_quarters; on_alcove_approach: load that alcove's themed games + phantoms; on_back_room_approach: stream deferred sub-space
+```
