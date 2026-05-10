@@ -12826,20 +12826,372 @@ streaming_behaviour:
 
 ---
 
-## A.24 Elemental Nexus (D10 — Demagi alignment) — SCAFFOLDED
+## A.24 Elemental Nexus (Demagi alignment) — FULL
+
+**Status: FULL spec.** Cross-ref `INCEPTION_ARK_FINAL_PRODUCTION.md`
+§2.24 (art-state prompts).
+
+### A.24.1 Header
 
 ```
 space_id:        ark.elemental_nexus
-space_name:      Elemental Nexus
-space_type:      ark_room
-act_introduced:  Act 6
-lore_anchor:     loredex.faction.demagi + arc.elemental_attunement
-aesthetic_tier:  dreamers_oneiric  (elemental-weave aesthetic)
-dimensions:      12.00 m × 12.00 m × 6.00 m
-floor_plan_geometry: hexagonal
+space_name:      Elemental Nexus (D10 Demagi alignment)
+space_type:      ark_room  (Demagi sub-sanctum; D10-deck)
+act_introduced:  Act 6 (Demagi-aligned only)
+lore_anchor:     loredex.faction.demagi + arc.elemental_attunement + arc.act_6_first_attunement
+aesthetic_tier:  dreamers_oneiric  (elemental-weave aesthetic; the four classical elements expressed as architectural alcoves)
 ```
 
-(Full spec deferred.)
+### A.24.2 Geometry
+
+```
+dimensions:           12.00 m × 12.00 m × 6.00 m  (bounding box; hexagonal footprint inscribed)
+origin_point:         centre of floor (room is hexagonal; origin at geometric centre)
+coordinate_axes:      +x = right, +y = forward (north), +z = up
+floor_plan_geometry:  hexagonal  (6.00 m apothem; primary entrance at south face)
+volumetric_anomalies: subtle elemental-weave distortion at central plinth (1.20× perceptual; the four elements appear to "bleed into" each other)
+```
+
+The Elemental Nexus is hexagonal — six walls, four of which house
+elemental alcoves (north = water, east = fire, south-east = earth,
+south-west = air; the entrance face at south + the south-southwest
+face are non-elemental). Central plinth holds the elemental-weave
+focus (a stylised glass orb suspending all four elements in
+contained chaos). Demagi-aligned players come here to attune to
+specific elements — gameplay-key for late-act Demagi spells.
+
+Floor area: ~187 m².
+
+### A.24.3 Floor
+
+```
+material_primary:     polished obsidian-black marble in radial wedge tiles emanating from central plinth; 6 wedges (one per hexagonal face); each wedge tinted with elemental colour (water = pale-cyan, fire = warm-amber, earth = deep-emerald, air = pale-silver, neutral = dark-grey)
+material_secondary:   gold inlay forming an elemental-circle around plinth (4 m diameter); brass perimeter trim along curved hex wall
+pattern:              radial wedges + elemental-circle inlay; subtle four-element symbology visible in floor markings
+wear_state:           pristine (sacred); slight wear at most-used elemental-alcove approach (varies per player attunement)
+embedded_features:
+  - id: ark.elemental_nexus.floor.charge_point.plinth
+    position: (0.00, 0.00, 0.00)  # at room centre
+    dimensions: 0.40 × 0.40 × 0.05
+    function: plinth power + elemental-weave projection
+  - id: ark.elemental_nexus.floor.elemental_anchor.<element>  (4 anchors at hex corners aligned with elemental alcoves)
+    position: per element (north, east, SE, SW)
+    dimensions: 0.30 × 0.30 × 0.05 each
+    function: alcove resonance
+  - id: ark.elemental_nexus.floor.purification_drain
+    position: (0.00, -5.20, 0.00)  # at south entrance
+    dimensions: 0.20 × 0.20 × 0.10
+    function: ritual purification drain (used during attunement-cleansing)
+acoustic_property:    hard_reflective with elemental-resonance overlay; RT60 = 0.55s with chaos-resonance cross-talk between elemental zones
+```
+
+### A.24.4 Walls
+
+The Elemental Nexus has 6 walls (hexagonal). Four house elemental
+alcoves; one is the entrance; one is the entrance-adjacent
+non-elemental face. Each wall specced separately.
+
+#### Wall: South (entrance — non-elemental)
+
+```
+wall_id:              south
+material_primary:     polished obsidian-black marble cladding with gold-leaf trim; the only non-elemental wall (besides SSW)
+material_secondary:   gold dado at z = 1.20 m
+panelisation:         single curved hexagonal face
+colour_value:         --token-color-ark-elemental-nexus-wall-south  (deep obsidian + gold)
+embedded_displays:
+  - id: ark.elemental_nexus.south.display.attunement_status
+    position: (0.00, -5.95, 1.80)
+    dimensions: 1.00 × 0.80 × 0.05
+    content: live player-attunement status (4 elements + master-balance)
+embedded_doors:
+  - door_id: ark.elemental_nexus.south.door.main
+    position: (0.00, -6.00, 0.00)
+    dimensions: 1.40 × 2.40 × 0.10
+    door_class: arch  (gold-inlaid bronze; opens with hush of elemental-shimmer)
+    connecting_space_id: ark.corridor.demagi_approach
+    unlock_condition: Act 6+ Demagi-aligned
+decorative_features:
+  - id: ark.elemental_nexus.south.plaque.principle
+    position: (0.00, -5.95, 3.20)
+    dimensions: 0.80 × 0.30 × 0.02
+    material: cast bronze with gilt text
+    narrative_role: reads "ATTUNE OR BE ATTUNED"
+```
+
+#### Wall: North (water alcove)
+
+```
+wall_id:              north_water
+material_primary:     polished marble with deep alcove for water-elemental focus; alcove backplane is mirror-finish (suggests water-surface)
+material_secondary:   gold-leaf rim around alcove; bronze trim
+panelisation:         hexagonal face with central alcove recess
+colour_value:         --token-color-ark-elemental-nexus-water  (pale cyan with silver accents)
+embedded_displays:    none (alcove is content)
+embedded_doors:        none
+decorative_features:
+  - id: ark.elemental_nexus.north.alcove.water
+    position: (0.00, 5.95, 0.00)
+    dimensions: 1.40 × 0.80 × 4.20 (deep alcove)
+    material: mirror-finish marble + water-feature within (small contained pool)
+    narrative_role: water-attunement zone; player can dip hand for water-element bond
+  - id: ark.elemental_nexus.north.alcove.water.scrying_pool
+    position: (0.00, 5.95, 0.40)
+    dimensions: 0.60 × 0.40 × 0.40 (small contained pool)
+    material: bronze basin + clear water with cyan luminescence
+    narrative_role: water-element focal point
+```
+
+#### Wall: East (fire alcove)
+
+```
+wall_id:              east_fire
+material_primary:     polished marble with deep alcove for fire-elemental focus; alcove backplane is heat-resistant cast iron
+material_secondary:   gold-leaf rim; bronze trim with fire-resistant coating
+panelisation:         hexagonal face
+colour_value:         --token-color-ark-elemental-nexus-fire  (warm amber with deep-orange accents)
+embedded_displays:    none
+embedded_doors:        none
+decorative_features:
+  - id: ark.elemental_nexus.east.alcove.fire
+    position: (5.20, 2.95, 0.00)
+    dimensions: 1.40 × 0.80 × 4.20
+    material: cast-iron backplane + bronze brazier with eternal flame
+    narrative_role: fire-attunement zone; player can pass hand near flame for fire-element bond
+  - id: ark.elemental_nexus.east.alcove.fire.brazier
+    position: (5.20, 2.95, 0.85)
+    dimensions: 0.40 × 0.40 × 0.50
+    material: cast bronze brazier with continuous flame
+    narrative_role: fire-element focal point
+```
+
+#### Wall: South-East (earth alcove)
+
+```
+wall_id:              southeast_earth
+material_primary:     polished marble with deep alcove for earth-elemental focus
+material_secondary:   gold-leaf rim; bronze trim with earthy-patina
+panelisation:         hexagonal face
+colour_value:         --token-color-ark-elemental-nexus-earth  (deep emerald + bronze)
+embedded_displays:    none
+embedded_doors:        none
+decorative_features:
+  - id: ark.elemental_nexus.southeast.alcove.earth
+    position: (5.20, -2.95, 0.00)
+    dimensions: 1.40 × 0.80 × 4.20
+    material: marble backplane + earth-element altar
+    narrative_role: earth-attunement zone
+  - id: ark.elemental_nexus.southeast.alcove.earth.altar
+    position: (5.20, -2.95, 0.85)
+    dimensions: 0.40 × 0.40 × 0.50
+    material: cast bronze altar with bowl of soil + crystal-cluster + small green fern
+    narrative_role: earth-element focal point
+```
+
+#### Wall: South-West (air alcove)
+
+```
+wall_id:              southwest_air
+material_primary:     polished marble with deep alcove for air-elemental focus; alcove backplane has subtle wind-aperture
+material_secondary:   gold-leaf rim; bronze trim
+panelisation:         hexagonal face
+colour_value:         --token-color-ark-elemental-nexus-air  (pale silver + sky-blue accents)
+embedded_displays:    none
+embedded_doors:        none
+decorative_features:
+  - id: ark.elemental_nexus.southwest.alcove.air
+    position: (-5.20, -2.95, 0.00)
+    dimensions: 1.40 × 0.80 × 4.20
+    material: marble backplane with subtle wind-aperture (continuous gentle breeze)
+    narrative_role: air-attunement zone
+  - id: ark.elemental_nexus.southwest.alcove.air.bell_chime
+    position: (-5.20, -2.95, 1.80)
+    dimensions: 0.30 × 0.30 × 0.40
+    material: bronze chime cluster (5 small bells suspended in vertical arrangement)
+    narrative_role: air-element focal point; rings when wind passes (continuous subtle music)
+```
+
+#### Wall: West-Northwest (south-southwest non-elemental)
+
+```
+wall_id:              ssw  (south-southwest; non-elemental balance face)
+material_primary:     polished obsidian-black marble (matches south)
+material_secondary:   gold dado
+panelisation:         single curved hexagonal face
+colour_value:         --token-color-ark-elemental-nexus-wall-ssw  (deep obsidian + gold)
+embedded_displays:    none
+embedded_doors:        none
+decorative_features:
+  - id: ark.elemental_nexus.ssw.relief.balance
+    position: (-3.00, -5.20, 2.40)
+    dimensions: 0.80 × 0.60 × 0.10
+    material: cast bronze with deep relief (depicts a figure balancing all four elements simultaneously)
+    narrative_role: master-balance ideal; visible from plinth perspective
+```
+
+### A.24.5 Ceiling
+
+```
+height_above_floor:     6.00 m baseline; central oculus rises to 7.50 m above plinth
+material:               polished obsidian-black marble with gold-leaf coffer pattern radiating from oculus; central dome is partially transparent (lets cosmic-glow through)
+lighting_integrated:    central oculus emits balanced four-elemental-glow; 4 alcove ceiling-strips define elemental zones; subtle gold-edge lighting along all 6 hex pilaster tops
+atmospheric_features:   visible elemental-motes drift continuously (cosmetic; each elemental-mote tinted to its alcove)
+acoustic_treatment:     domed apsidal (slight whisper-gallery from hexagonal geometry); supports elemental-resonance harmonic
+```
+
+### A.24.6 Lighting
+
+```
+ambient_baseline:     3000 K (warm-elemental; balanced); 140 lux at floor (intentionally dim — gravity); CRI 90
+direct_fixtures:
+  - id: ark.elemental_nexus.light.oculus_central
+    position: (0.00, 0.00, 7.50)
+    beam_angle: 60° downward
+    colour: --token-color-ark-elemental-nexus-oculus  (variable; matches player's strongest attunement; balanced cyan-amber-emerald-silver baseline)
+    intensity: 4000 lumens (pulses at deep cosmic rhythm)
+    function: principal — illuminates plinth
+  - id: ark.elemental_nexus.light.alcove_water_strip
+    position: at top of north alcove at z = 4.00
+    beam_angle: 180° wash
+    colour: --token-color-ark-elemental-nexus-water  (pale cyan)
+    intensity: 800 lumens
+    function: water-zone definition
+  - id: ark.elemental_nexus.light.alcove_fire_glow
+    position: at fire brazier
+    beam_angle: 360°
+    colour: warm amber-orange
+    intensity: 1200 lumens (continuous flame)
+    function: fire-zone illumination
+  - id: ark.elemental_nexus.light.alcove_earth_strip
+    position: at top of SE alcove
+    beam_angle: 180° wash
+    colour: deep emerald
+    intensity: 800 lumens
+    function: earth-zone definition
+  - id: ark.elemental_nexus.light.alcove_air_strip
+    position: at top of SW alcove
+    beam_angle: 180° wash
+    colour: pale silver
+    intensity: 800 lumens
+    function: air-zone definition
+practical_sources:
+  - id: ark.elemental_nexus.plinth_glow
+    position: (0.00, 0.00, 1.10)  # at plinth orb
+    intensity: 600 lumens (variable; matches elemental balance)
+    flicker_pattern: pulses with cosmic rhythm
+  - id: ark.elemental_nexus.candle_array.<element>  (4 small candle clusters; one per alcove base)
+    position: per alcove
+    intensity: 50 lumens each
+    flicker_pattern: organic per element
+time_of_day_variation:
+  acts_6_to_7: stable; in late-act7, oculus colour reflects player's dominant attunement
+dynamic_response:
+  - on_player_at_alcove: that-element's strip + practicals intensify 30%
+  - on_attunement_initiated: oculus pulses with that element; plinth orb shifts colour
+  - on_master_balance: all four alcoves activate simultaneously; oculus shows perfect-balance prism
+```
+
+### A.24.7 Atmosphere
+
+```
+air_temperature:    21°C (warm-balanced; slight variation per zone — water cooler, fire warmer)
+humidity:           50% RH; smells of mineral water (water alcove) + wood-smoke (fire alcove) + damp earth (earth alcove) + ozone (air alcove)
+particulate:
+  - water_motes: low (cosmetic; cyan motes drift from water alcove)
+  - fire_motes: low (cosmetic; ember-orange motes from fire alcove)
+  - earth_motes: low (cosmetic; deep-emerald motes from earth alcove)
+  - air_motes: low (cosmetic; pale-silver motes from air alcove)
+volumetric_fog:     subtle haze at upper volume (0.05 g/m³, balanced-warm); intensifies during attunements
+wind_drift:         minimal at room centre; faint elemental-specific drifts at each alcove
+smell_canon:        mineral water + wood-smoke + damp earth + ozone; voice-line: "smells like the world's elements remembered"
+```
+
+### A.24.8 Sound
+
+```
+ambient_bed:           file: elemental_nexus_ambient_bed_v1.ogg (loop); -34 dB; faint elemental harmonics (4-element chord), water-trickle from north, gentle flame-crackle from east, distant earth-resonance from SE, subtle wind-bell-chimes from SW
+point_sources:
+  - sound.water_trickle: at water alcove; -32 dB; continuous
+  - sound.flame_crackle: at fire alcove; -30 dB; continuous
+  - sound.earth_resonance: at earth alcove; -34 dB; continuous (deep low harmonic)
+  - sound.air_bell_chime: at air alcove; -32 dB; cyclic (period 5-15s; bells ring as wind passes)
+  - sound.plinth_orb_subtle_hum: at plinth; -36 dB; continuous
+  - sound.elemental_balance_chord: distributed (when balanced); -38 dB
+reverb_zone:           IR-impulse: elemental_nexus_v1.wav; wet-mix 28% (long; with elemental cross-talk)
+music_eligibility:     cutscene only (Demagi-arc attunement cutscenes; deferred catalogue)
+voice_line_eligibility:
+  - speaker: the_demagi_master (named NPC; rare presence Acts 6+): line set §2.24.2
+  - speaker: elemental_voices: rare whispers (one per element)
+```
+
+### A.24.9 Object inventory (compact catalogue)
+
+Elemental Nexus has 28 inventory objects.
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.elemental_nexus.central_plinth` | interactive | (0.00, 0.00, 0.00) | 1.20 dia × 1.10 | central plinth holding elemental-weave orb |
+| `ark.elemental_nexus.elemental_orb` | interactive | on plinth | 0.40 dia | glass orb suspending all 4 elements; HB-like attunement gateway |
+| `ark.elemental_nexus.alcove.water` | container | (0.00, 5.95, 0.00) | 1.40×0.80×4.20 | water alcove |
+| `ark.elemental_nexus.alcove.water.scrying_pool` | interactive | (0.00, 5.95, 0.40) | 0.60×0.40×0.40 | water-element pool |
+| `ark.elemental_nexus.alcove.fire` | container | (5.20, 2.95, 0.00) | 1.40×0.80×4.20 | fire alcove |
+| `ark.elemental_nexus.alcove.fire.brazier` | interactive | (5.20, 2.95, 0.85) | 0.40×0.40×0.50 | eternal flame brazier |
+| `ark.elemental_nexus.alcove.earth` | container | (5.20, -2.95, 0.00) | 1.40×0.80×4.20 | earth alcove |
+| `ark.elemental_nexus.alcove.earth.altar` | interactive | (5.20, -2.95, 0.85) | 0.40×0.40×0.50 | earth-element altar (soil + crystal + fern) |
+| `ark.elemental_nexus.alcove.air` | container | (-5.20, -2.95, 0.00) | 1.40×0.80×4.20 | air alcove |
+| `ark.elemental_nexus.alcove.air.bell_chime` | interactive | (-5.20, -2.95, 1.80) | 0.30×0.30×0.40 | air-element bell-chime cluster |
+| `ark.elemental_nexus.candle_array.<element>` (4) | interactive | per alcove base | 0.20×0.30×0.30 each | per-element candle clusters |
+| `ark.elemental_nexus.demagi_master_anchor` | npc_anchor | (0.00, 2.50, 0.00) | 0.8×0.8×1.8 | Demagi Master NPC anchor |
+| `ark.elemental_nexus.observation_bench.<n>` (3) | furniture | between alcoves; radius 4.00 m | 1.00×0.40×0.45 each | curved hex benches |
+| `ark.elemental_nexus.demagi_lectern` | container | (-3.00, -3.00, 0.00) | 0.40×0.30×1.20 | Demagi attunement-tome |
+| `ark.elemental_nexus.south.intercom` | console | (-1.00, -5.95, 1.50) | 0.20×0.10×0.30 | comms |
+| `ark.elemental_nexus.fire_extinguisher.south` | interactive | (1.00, -5.95, 1.20) | 0.20×0.20×0.50 | safety |
+| `ark.elemental_nexus.first_aid.kit.south` | container | (-2.00, -5.95, 1.50) | 0.40×0.10×0.30 | medical |
+| `ark.elemental_nexus.south.plaque.principle` | decoration | (0.00, -5.95, 3.20) | 0.80×0.30×0.02 | "ATTUNE OR BE ATTUNED" |
+| `ark.elemental_nexus.ssw.relief.balance` | decoration | (-3.00, -5.20, 2.40) | 0.80×0.60×0.10 | master-balance relief |
+| `ark.elemental_nexus.compass_inlay` | decoration | (0.00, 0.00, 0.005) | 1.40×1.40×0.005 | floor elemental-circle inlay |
+| `ark.elemental_nexus.elemental_motes_emitter` | fx_emitter | distributed | n/a | per-element mote source |
+
+Total: 28 inventory objects.
+
+### A.24.10-17 Compact
+
+```
+camera_spawn_points:
+  cs_amb_elemental_nexus (Cat B): POV at threshold; slow walk to plinth; head pans across 4 elemental alcoves; 22s
+  cs_first_attunement (Act 6 one-shot): POV at chosen alcove; hand enters frame to touch element; bond ritual
+
+doorways: south.door.main → ark.corridor.demagi_approach; arch; Act 6+ Demagi-aligned
+
+adjacency: direct ark.corridor.demagi_approach (south); one_hop ark.observation_deck (cosmic kinship)
+
+gameplay_hooks:
+  - attune_to_element: trpc.elemental_nexus.alcove.attune (per-element)
+  - inspect_orb: trpc.elemental_nexus.orb.inspect
+  - readDemagiLectern: trpc.elemental_nexus.lectern.read
+  - lightCandle: trpc.elemental_nexus.candle.light (per-element)
+
+story_tie:
+  primary_arcs: act_6_first_attunement; elemental_attunement; demagi_master_arc; act_7_master_balance
+  per_act:
+    acts_0_5: locked
+    act_6: opens for Demagi-aligned; first attunement to one element
+    act_7: state-branched: master-balance ending (all 4 attuned) vs. dominant-element ending (one attuned strongly) vs. unattuned ending (room cold)
+  npc_roster: the_demagi_master (rare presence); the_player; elemental_voices (rare whispers)
+  readables: principle plaque; balance relief; demagi lectern (multi-screen); 4 alcove inscriptions
+  master_of_rlyeh_question: n/a
+
+special_fx:
+  particle_systems: 4 elemental_motes (water/fire/earth/air); plinth_orb_motes; balance_motes (when 4-balanced)
+  volumetric: oculus_volumetric_glow (variable colour); 4 alcove_glow_per_element; plinth_radiance
+  procedural_animations: orb_continuous_rotation (slow); flame_dance (fire); water_ripple (water); fern_subtle_sway (earth); bell_chime_breeze (air); elemental_motes_drift_per_alcove
+  reactive_systems: alcove_intensify_on_proximity; orb_colour_shift_on_attunement; oculus_balance_visualisation (4-balance state); master_balance_one_shot (Act 7 unlock)
+
+avatar_parametricity: small_xenomorph: alternate kneel-at-alcove for low elements; others all-reachable
+audio_occlusion: xenomorph: elemental harmonic chord more pronounced
+performance: polygon_budget 250,000 / texture_budget 150 MB / light_count 16
+streaming: preload demagi_approach corridor; on_master_balance: unlock late-Demagi sub-content
+```
 
 ---
 
