@@ -984,9 +984,12 @@ See `INCEPTION_ARK_FINAL_PRODUCTION.md` §4.18 for full §4 spec.
 
 ---
 
-## A.4 Archives — CORE
+## A.4 Archives — FULL
 
-**Status: CORE.** Full architect spec deferred to Phase B-2.
+**Status: FULL spec.** Cross-ref: `INCEPTION_ARK_FINAL_PRODUCTION.md`
+§2.4 (art-state prompts) and §A.13 Antiquarian's Library (the
+Archives is the precursor; the hidden archway in the Archives
+opens the pocket-dimension Library).
 
 ### A.4.1 Header
 
@@ -995,38 +998,597 @@ space_id:        ark.archives
 space_name:      Archives
 space_type:      ark_room
 act_introduced:  Act 2
-lore_anchor:     loredex.system.archives + arc.lore_recovery
-aesthetic_tier:  solar_punk_cathedral
+lore_anchor:     loredex.system.archives + arc.lore_recovery + arc.act_3_library_discovery
+aesthetic_tier:  solar_punk_cathedral  (with reading-room-museum accents — quiet, scholarly)
 ```
 
-### A.4.2 Geometry summary
+### A.4.2 Geometry
 
 ```
 dimensions:           12.00 m × 10.00 m × 4.20 m
-floor_plan_geometry:  rectangular
+origin_point:         centre of floor at south entrance threshold
+coordinate_axes:      +x = right, +y = forward (north), +z = up
+floor_plan_geometry:  rectangular  (with hidden archway in north wall — discovered Act 3 — leading to ark.antiquarian_library pocket-dimension)
+volumetric_anomalies: none in baseline; hidden archway behind a decorative bookcase becomes visible / accessible Act 3+
 ```
 
-### A.4.3 Story-tie summary
+The Archives is the public-facing companion to the Antiquarian's
+Library. Quiet, scholarly atmosphere. Central reading table is
+the focal point. East and west walls are full-height bookshelves
+(galleries with 6 bays each). The hidden archway is concealed
+behind the central north bookshelf bay; it doesn't appear until
+the player has gathered specific lore (Act 3 cipher-key from
+elsewhere in the Ark).
 
-The Archives is a low-key reference room — players come here to
-research lore, look up entities, and consult the Antiquarian's
-records (separate from the Antiquarian's Library §2.13). Quiet
-acoustic; bookshelf walls; central reading table. The Archives
-serves as a precursor to the Library; players who find the
-Library's pocket-dimension entrance often pass through here first.
+Floor area: 120 m².
 
-### A.4.4 Key objects (compact)
+### A.4.3 Floor
+
+```
+material_primary:     polished walnut hardwood plank in herringbone; 0.20 m × 1.20 m planks running diagonal at 45° from south wall
+material_secondary:   bronze inlay outlining the central reading-table area (3 × 4 m); brass perimeter trim
+pattern:              herringbone with bronze accents around focal area
+wear_state:           pristine in early acts; slight wear-trail Act 2+ from entrance to reading table to archive terminal
+embedded_features:
+  - id: ark.archives.floor.charge_point.reading_table
+    position: (0.00, 5.00, 0.00)
+    dimensions: 0.30 × 0.30 × 0.05
+    function: reading-table lamp + reading-tools power
+  - id: ark.archives.floor.charge_point.archive_terminal
+    position: (0.00, 9.50, 0.00)
+    dimensions: 0.30 × 0.30 × 0.05
+    function: archive terminal electronics
+acoustic_property:    soft_absorbent (paper-rich); RT60 = 0.45s (intimate)
+```
+
+### A.4.4 Walls
+
+#### Wall: South (entrance)
+
+```
+wall_id:              south
+material_primary:     painted plaster with classic-textured wood paneling at z = 0.00 to z = 1.20 (wainscoting); plaster from z = 1.20 to ceiling
+material_secondary:   walnut chair-rail at z = 1.20; walnut crown-molding at z = 4.00
+panelisation:         standard
+colour_value:         --token-color-ark-archives-wall-south  (warm cream upper plaster + dark walnut wainscoting)
+embedded_displays:
+  - id: ark.archives.south.display.archive_index
+    position: (-3.00, 0.20, 1.80)
+    dimensions: 0.80 × 0.60 × 0.05
+    content: index of archive contents (categories + entry counts)
+  - id: ark.archives.south.display.recent_lookups
+    position: (3.00, 0.20, 1.80)
+    dimensions: 0.80 × 0.60 × 0.05
+    content: log of recent player lookups (own history)
+embedded_doors:
+  - door_id: ark.archives.south.door.main
+    position: (0.00, 0.00, 0.00)
+    dimensions: 1.20 × 2.40 × 0.10
+    door_class: arch  (walnut-framed glass-pane door; classical-museum aesthetic)
+    connecting_space_id: ark.corridor.archives_approach
+decorative_features:
+  - id: ark.archives.south.plaque.creed
+    position: (0.00, 0.20, 3.20)
+    dimensions: 0.80 × 0.30 × 0.02
+    material: brass with engraved text
+    narrative_role: reads "WHAT IS WRITTEN, IS REMEMBERED" — archives creed
+```
+
+#### Wall: East (bookshelf wall)
+
+```
+wall_id:              east
+material_primary:     dark walnut shelving full-height (z = 0.00 to z = 4.20); 6 bays separated by walnut pilasters
+material_secondary:   bronze shelf-supports; bronze name-plates per bay
+panelisation:         6 bays × ~1.95 m wide × 0.40 m deep × 4.20 m tall each
+colour_value:         --token-color-ark-archives-bookshelf  (dark walnut)
+embedded_displays:    none (the books ARE the content)
+embedded_doors:        none
+decorative_features:
+  - id: ark.archives.east.shelf_bay.<n>  (6 bays at y = 1.0, 2.5, 4.0, 5.5, 7.0, 8.5)
+    position: along east wall
+    dimensions: 1.95 × 0.40 × 4.20 each
+    material: walnut + bronze
+    narrative_role: each bay holds books on a different category (sciences, languages, exploration, philosophy, military, civic record); bays' contents are gameplay-relevant
+```
+
+#### Wall: North (with hidden archway behind central bay)
+
+```
+wall_id:              north
+material_primary:     dark walnut shelving (matches east + west); 5 visible bays + 1 hidden (the central bay conceals the archway)
+material_secondary:   bronze shelf-supports
+panelisation:         5 visible bays + concealed archway
+colour_value:         --token-color-ark-archives-bookshelf
+embedded_displays:
+  - id: ark.archives.north.archive_terminal
+    position: (0.00, 9.95, 1.50)  # at central bay; the terminal IS the unlock-mechanism for the archway
+    dimensions: 1.40 × 0.80 × 0.05
+    content: archive terminal — search interface for LOREDEX; in Act 3+, has a hidden subroutine that reveals the archway when correct lore-keys are entered
+embedded_doors:
+  - door_id: ark.archives.north.archway.hidden
+    position: (0.00, 9.95, 0.00)  # behind central bay
+    dimensions: 1.40 × 2.40 × 0.10
+    door_class: portal  (non-Euclidean teleporter to ark.antiquarian_library)
+    unlock_condition: Act 3+ + has gathered lore-keys (multi-step quest)
+    connecting_space_id: ark.antiquarian_library
+decorative_features:
+  - id: ark.archives.north.shelf_bay.<n>  (5 visible bays at x = -4.0, -2.0, 0.0 (central, hides archway), 2.0, 4.0)
+    position: along north wall
+    dimensions: 1.95 × 0.40 × 4.20 each
+    material: walnut + bronze
+    narrative_role: each bay holds rare-references (mythological, prophetic, occult, lost-language, restricted-historical)
+  - id: ark.archives.north.relief.scholar_motto
+    position: (0.00, 9.85, 4.50)  # high above central bay
+    dimensions: 1.20 × 0.40 × 0.10
+    material: cast bronze
+    narrative_role: reads "TO READ IS TO ENTER" — uncanny foreshadowing (the player WILL physically enter the Library through this wall in Act 3)
+```
+
+#### Wall: West (bookshelf wall; mirror of east)
+
+```
+wall_id:              west
+material_primary:     same as east
+material_secondary:   bronze shelf-supports
+panelisation:         6 bays × ~1.95 m wide × 0.40 m deep × 4.20 m tall (mirror)
+colour_value:         --token-color-ark-archives-bookshelf
+embedded_displays:    none
+embedded_doors:        none
+decorative_features:
+  - id: ark.archives.west.shelf_bay.<n>  (6 bays mirror)
+    position: mirror of east
+    dimensions: 1.95 × 0.40 × 4.20 each
+    material: walnut + bronze
+    narrative_role: each bay holds books on a different category (geography, biology, mathematics, music, theatre, recreation)
+```
+
+### A.4.5 Ceiling
+
+```
+height_above_floor:     4.20 m baseline; central skylight (1.20 × 2.00 m) above reading table at z = 4.50 (lets natural light onto reading surface)
+material:               painted plaster with walnut crown-molding and coffered detailing; central skylight is translucent panel
+lighting_integrated:    central skylight (warm-white emitter); recessed strip-lights at perimeter; pendant lamp above reading table
+atmospheric_features:   visible dust-motes in skylight beam (especially during ambient cutscenes)
+acoustic_treatment:     coffered + paper-absorbent
+```
+
+### A.4.6 Lighting
+
+```
+ambient_baseline:     3500 K (warm-neutral; museum-library); 220 lux at floor level; CRI 95
+direct_fixtures:
+  - id: ark.archives.light.skylight_central
+    position: (0.00, 5.00, 4.50)
+    beam_angle: 60° downward
+    colour: --token-color-ark-archives-skylight  (warm sunlight equivalent)
+    intensity: 4000 lumens
+    function: principal task lighting at reading table
+  - id: ark.archives.light.pendant_reading
+    position: (0.00, 5.00, 3.80)  # above reading table, below skylight
+    beam_angle: 90° downward
+    colour: --token-color-ark-archives-pendant  (warm amber)
+    intensity: 2500 lumens
+    function: secondary task lighting
+  - id: ark.archives.light.shelf_strip.<wall>  (continuous strips along east, west, north walls at z = 4.00)
+    beam_angle: 180° wash inward + downward into shelves
+    colour: --token-color-ark-archives-shelf-strip  (warm amber-white)
+    intensity: 600 lumens per metre
+    function: bookshelf-defining accent
+practical_sources:
+  - id: ark.archives.reading_table.lamp
+    position: (0.00, 5.00, 0.85)  # on reading table
+    intensity: 800 lumens (when in use)
+    flicker_pattern: stable
+  - id: ark.archives.archive_terminal.glow
+    position: (0.00, 9.50, 0.95)
+    intensity: 80 lumens
+    flicker_pattern: stable
+time_of_day_variation:
+  acts_2_to_7: stable lighting; in late-act7, if hidden archway is open, north central bay glows softly (visible from anywhere)
+dynamic_response:
+  - on_player_at_reading_table: pendant_reading and table-lamp activate
+  - on_archway_unlocked: central north bay glows (one-shot)
+  - on_archway_traversal: central glow intensifies briefly
+```
+
+### A.4.7 Atmosphere
+
+```
+air_temperature:    19°C (cool — paper preservation)
+humidity:           42% RH; smells of old paper + walnut + leather (book bindings) + faint tea (lingering scholar presence)
+particulate:
+  - dust_motes: medium (visible in skylight beam; magical-quality shimmer)
+  - book_page_motes: low (rises slightly; cosmetic)
+volumetric_fog:     absent in baseline; subtle haze near central north bay during archway-active states
+wind_drift:         minimal; 0.02 m/s
+smell_canon:        old paper + walnut + leather + faint tea; voice-line: "smells like patient hours"
+```
+
+### A.4.8 Sound
+
+```
+ambient_bed:           file: archives_ambient_bed_v1.ogg (loop); -38 dB; very quiet; faint distant page-rustle (continuous), occasional book-creak (random), faint clock-tick from reading-table mantle clock
+point_sources:
+  - sound.book_settling: distributed across shelves; occasional book-creak; -38 dB; random period 60-120s
+  - sound.page_rustle: dynamic; faint page-turn; -36 dB; random period 30-90s
+  - sound.reading_table_clock: at reading table; tick-tock period 1s; -32 dB; continuous
+  - sound.archive_terminal_buzz: at terminal; very faint electronic buzz; -42 dB; continuous
+  - sound.archway_resonance (Act 3+): at hidden archway; very subtle dimensional resonance; -42 dB; continuous when archway is unlocked
+reverb_zone:           IR-impulse: archives_v1.wav; wet-mix 14% (quiet, paper-absorbed)
+music_eligibility:     cutscene only (Category B cs_amb_archives — deferred catalogue)
+voice_line_eligibility:
+  - speaker: archives_assistant (silent NPC; rarely present)
+    trigger: rare scripted events
+    line_set: see §2.4.2
+```
+
+### A.4.9 Object inventory
+
+Archives has 36 inventory objects.
+
+#### A.4.9.1 The Central Reading Table
+
+```
+object_id:           ark.archives.reading_table
+object_class:        furniture
+position:            (0.00, 5.00, 0.00)
+dimensions:          2.40 × 1.20 × 0.85
+rotation:            0°
+material_primary:    polished walnut with deep-leather inset top (charcoal); brass rim
+material_secondary:  brass corner-caps with engraved laurel
+colour_value:        --token-color-ark-archives-reading-table
+interaction:         interactable
+  - operate: opens reading-table UI (player can lay out reference books simultaneously)
+  - inspect: lore-note about the table's history
+narrative_role:      THE focal table; where players sit to research; mantle clock + lamp on top; can lay out books from any shelf
+lore_anchor:         loredex.system.archives + arc.lore_recovery
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.archives.reading_table.operate
+wear_state:          worn at the leather inset (centre-most position; most-handled)
+physical_constraints: collides
+```
+
+#### A.4.9.2-5 Reading Chairs (4)
+
+```
+object_id:           ark.archives.reading_chair.<position>  (4 chairs around table)
+positions:           [
+  (-1.50, 4.00, 0.00),  # west
+  (1.50, 4.00, 0.00),   # east
+  (-1.50, 6.00, 0.00),  # NW
+  (1.50, 6.00, 0.00),   # NE
+]
+dimensions (each):   0.80 × 0.80 × 1.20
+rotation (each):     varies (faces table)
+material_primary:    walnut frame with charcoal-leather seat
+material_secondary:  brass tacks
+colour_value:        --token-color-ark-archives-reading-chair
+interaction:         interactable - sit
+narrative_role:      research seating; player can sit for extended reading
+art_status:          producer_handoff
+wear_state:          slight wear at most-occupied seats
+physical_constraints: collides; sittable
+```
+
+#### A.4.9.6 The Reading Table Lamp
+
+```
+object_id:           ark.archives.reading_table.lamp
+object_class:        fx_emitter
+position:            (0.00, 5.00, 0.85)
+dimensions:          0.20 × 0.20 × 0.50
+rotation:            0°
+material_primary:    cast bronze base + green-shaded glass (classic library aesthetic)
+material_secondary:  brass pull-chain
+colour_value:        --token-color-ark-archives-lamp
+interaction:         interactable
+  - toggle: lamp on/off
+  - inspect: lore-note about lamp
+narrative_role:      classical library lamp; warm focused light at reading position
+lore_anchor:         loredex.aesthetic.solar_punk_cathedral
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.archives.lamp.toggle
+wear_state:          slight wear at pull-chain
+physical_constraints: collides
+```
+
+#### A.4.9.7 The Reading Table Mantle Clock
+
+```
+object_id:           ark.archives.reading_table.mantle_clock
+object_class:        decoration  (also fx_emitter — ticking SFX)
+position:            (-0.80, 5.00, 0.85)
+dimensions:          0.30 × 0.20 × 0.40
+rotation:            0°
+material_primary:    polished brass case with mahogany inlay
+material_secondary:  white porcelain face with Roman numerals
+colour_value:        --token-color-ark-archives-clock
+interaction:         inspectable (read inscription)
+narrative_role:      ticking adds room-rhythm; canonically Kael Voss's predecessor's clock (lore connection)
+lore_anchor:         arc.captain_lineage
+art_status:          producer_handoff
+gameplay_hook_id:    none
+wear_state:          slight patina
+physical_constraints: collides; non-movable
+```
+
+#### A.4.9.8 The Archive Terminal (north central; gateway to Library)
+
+```
+object_id:           ark.archives.archive_terminal
+object_class:        console
+position:            (0.00, 9.50, 0.00)
+dimensions:          1.40 × 0.80 × 1.10
+rotation:            180°
+material_primary:    brushed brass + matte-black control surface with green-tinted display
+material_secondary:  walnut bezel; bronze status-light at top
+colour_value:        --token-color-ark-archives-terminal
+interaction:         interactable
+  - operate: opens LOREDEX search interface (multi-screen UI; player searches all known entities + recent player updates)
+  - hidden_subroutine (Act 3+): when player enters specific cipher-keys gathered from across Ark, the central north bay slides aside and the archway is revealed
+narrative_role:      DUAL FUNCTION — operationally the LOREDEX search interface; cosmologically the unlock-key for the hidden archway to Antiquarian's Library
+lore_anchor:         loredex.system.archives + arc.act_3_library_discovery
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.archives.terminal.operate + trpc.archives.terminal.unlock_archway (state-conditional)
+wear_state:          slight wear at most-pressed search keys
+physical_constraints: collides
+```
+
+#### A.4.9.9-20 Twelve East-West Shelf Bays (6 east + 6 west)
+
+```
+object_id:           ark.archives.shelf_bay.east.<category>  (6 bays) and .west.<category>  (6 bays)
+positions:           per A.4.4 walls section (12 bays total)
+dimensions (each):   1.95 × 0.40 × 4.20
+material_primary:    dark walnut + bronze
+colour_value:        --token-color-ark-archives-bookshelf
+interaction:         interactable
+  - inspect_book: each book is a multi-screen lore-readable; ~30-60 books per bay
+narrative_role:      categorised reference materials; covers all 12 knowledge domains
+lore_anchor:         per-category
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.archives.shelf_bay.inspect_book
+wear_state:          slight wear at most-handled books
+physical_constraints: collides
+```
+
+(12 bays × ~40 books each = ~480 multi-screen lore-readables in
+total across the Archives.)
+
+#### A.4.9.21-25 Five North Shelf Bays (visible)
+
+```
+object_id:           ark.archives.shelf_bay.north.<category>  (5 visible bays)
+positions:           (-4.0, 9.85, 0.00), (-2.0, 9.85, 0.00), (0.00, 9.85, 0.00) [hides archway], (2.0, 9.85, 0.00), (4.0, 9.85, 0.00)
+dimensions (each):   1.95 × 0.40 × 4.20
+material_primary:    dark walnut + bronze
+colour_value:        --token-color-ark-archives-bookshelf
+interaction:         interactable - inspect_book
+narrative_role:      restricted-references (mythological, prophetic, occult, lost-language, restricted-historical)
+lore_anchor:         loredex.system.restricted_archives
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.archives.shelf_bay_north.inspect_book
+wear_state:          pristine (rarely accessed)
+physical_constraints: collides
+```
+
+#### A.4.9.26 The Hidden Archway (concealed behind north central bay)
+
+Specced in walls A.4.4. Inventoried for completeness:
+
+```
+object_id:           ark.archives.north.archway.hidden
+object_class:        door  (portal-class)
+position:            (0.00, 9.95, 0.00)  # behind north central bay
+dimensions:          1.40 × 2.40 × 0.10
+rotation:            180°
+material_primary:    cast bronze frame with non-Euclidean teleport seal
+material_secondary:  gold-inlaid threshold
+colour_value:        --token-color-ark-archives-archway-bronze
+interaction:         interactable
+  - traverse: opens transit to ark.antiquarian_library (one-shot fade animation)
+  - inspect (locked): "the archway is sealed"
+  - inspect (unlocked): "the archway resonates with deeper depth"
+narrative_role:      THE secret entry; only visible Act 3+ after lore-keys gathered + terminal-unlock subroutine triggered
+lore_anchor:         arc.act_3_library_discovery + loredex.character.the_antiquarian
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.archives.archway.traverse
+wear_state:          pristine
+physical_constraints: collides; portal traversal
+```
+
+#### A.4.9.27-30 Decorative + Reference Tools
 
 | object_id | class | position | dim | role |
 |---|---|---|---|---|
-| `ark.archives.reading_table` | furniture | (0.00, 5.00, 0.00) | 2.40 × 1.20 × 0.85 | central reading surface |
-| `ark.archives.reading_chair.1-4` | furniture | around table | 0.80 × 0.80 × 1.20 each | seating |
-| `ark.archives.bookshelf.east.1-6` | container | east wall | 1.60 × 0.40 × 4.20 each | stacked tomes; specific entries readable |
-| `ark.archives.bookshelf.west.1-6` | container | west wall | mirror | as east |
-| `ark.archives.archive_terminal` | console | (0.00, 9.50, 0.00) | 1.40 × 0.80 × 1.10 | search interface for LOREDEX |
-| `ark.archives.lore_plaque.<n>` | decoration | various | varied | discoverable lore-readables |
+| `ark.archives.east.painting.scholarship` | decoration | (5.95, 5.00, 2.40) on east wall | 0.80 × 1.00 × 0.04 | painting depicting "the great scholar's vigil" |
+| `ark.archives.west.painting.discovery` | decoration | (0.05, 5.00, 2.40) on west wall | mirror | painting depicting a moment of discovery |
+| `ark.archives.south.relief.creed` (rolled walls) | decoration | (0.00, 0.20, 4.50) | 4.00 × 1.20 × 0.10 | low-relief frieze of scholarly figures |
+| `ark.archives.north.relief.scholar_motto` (rolled walls) | decoration | (0.00, 9.85, 4.50) | 1.20 × 0.40 × 0.10 | "TO READ IS TO ENTER" |
 
-(Full §4 spec deferred — Phase B-2.)
+#### A.4.9.31-36 Closing Items
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.archives.south.intercom` | console | (-1.50, 0.20, 1.50) | 0.20 × 0.10 × 0.30 | comms relay |
+| `ark.archives.fire_extinguisher.south` | interactive | (1.50, 0.20, 1.20) | 0.20 × 0.20 × 0.50 | safety |
+| `ark.archives.first_aid.kit` | container | (-2.50, 0.20, 1.50) | 0.40 × 0.10 × 0.30 | medical |
+| `ark.archives.tea_cart` | container | (4.50, 1.50, 0.00) | 0.50 × 0.40 × 0.85 | tea service cart (cosmetic) |
+| `ark.archives.coat_stand.east` | decoration | (5.50, 1.50, 0.00) | 0.30 × 0.30 × 1.80 | coat stand |
+| `ark.archives.compass_inlay` | decoration | (0.00, 5.00, 0.005) | 1.20 × 1.20 × 0.005 | floor compass-rose under reading table |
+
+Total: 36 inventory objects.
+
+### A.4.10 Camera-spawn-points (FPV cutscenes)
+
+```
+cutscene_id:         cs_amb_archives  (Category B; deferred catalogue)
+camera_position:     (0.00, 0.50, eye_level)
+camera_facing:       (0°, 0°, 0°)  # facing reading table
+avatar_height_anchor: eye_level
+head_motion:         slow approach to reading table; head pans up to skylight; lasts 18s
+
+cutscene_id:         cs_archives_archway_revealed  (Act 3 one-shot)
+camera_position:     (0.00, 8.50, eye_level)  # at archive terminal
+camera_facing:       (0°, 0°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         hand-rig enters frame at terminal; cipher-keys entered; central north bay slides aside; archway revealed; transit fade
+```
+
+### A.4.11 Doorways
+
+```
+door_id:            ark.archives.south.door.main
+connecting_space_id: ark.corridor.archives_approach
+door_position:      (0.00, 0.00, 0.00)
+door_dimensions:    1.20 × 2.40 × 0.10
+door_class:         arch  (walnut-framed glass-pane)
+unlock_condition:   Act 2+
+transit_animation:  fade
+audio_signature:    walnut-creak + soft bell-chime
+
+door_id:            ark.archives.north.archway.hidden
+connecting_space_id: ark.antiquarian_library
+door_position:      (0.00, 9.95, 0.00)
+door_dimensions:    1.40 × 2.40 × 0.10
+door_class:         portal  (non-Euclidean teleporter)
+unlock_condition:   Act 3+ + lore-keys gathered
+transit_animation:  fade with subtle warp (1.5s)
+audio_signature:    page-rustle + faint chime + walnut creak
+```
+
+### A.4.12 Adjacency map
+
+```
+direct_adjacencies:
+  - ark.corridor.archives_approach (south door)
+  - ark.antiquarian_library (north hidden archway, Act 3+ conditional)
+one_hop_adjacencies:
+  - ark.cipher_den (via approach corridor; thematic kinship — Cipher Den's editor works on Archive entries)
+  - ark.bridge (via long-route corridor)
+state_shared_with:
+  - ark.cipher_den (player's edited LOREDEX entries propagate here)
+  - ark.antiquarian_library (deeper lore subset visible only there)
+```
+
+### A.4.13 Gameplay hooks
+
+```
+hooks:
+  - hook_id:         archives.operateReadingTable
+    trigger:         player.operate on reading_table
+    procedure:       trpc.archives.reading_table.operate
+    success_state:   reading_table_active = true
+  - hook_id:         archives.operateTerminal
+    trigger:         player.operate on archive_terminal
+    procedure:       trpc.archives.terminal.operate
+    success_state:   terminal_active = true
+  - hook_id:         archives.unlockArchway
+    trigger:         (state-conditional) player has cipher-keys + operates terminal subroutine
+    procedure:       trpc.archives.terminal.unlock_archway
+    success_state:   archway_revealed = true (one-shot triggers cs_archives_archway_revealed)
+  - hook_id:         archives.traverseArchway
+    trigger:         player.interact on archway (when revealed)
+    procedure:       trpc.archives.archway.traverse
+    success_state:   library_entered = true
+  - hook_id:         archives.inspectShelfBook
+    trigger:         player.inspect on shelf_bay book
+    procedure:       trpc.archives.shelf_bay.inspect_book
+    success_state:   book_read = true (per-book; ~480 total readables)
+  - hook_id:         archives.toggleLamp
+    trigger:         player.interact on reading_table.lamp
+    procedure:       trpc.archives.lamp.toggle
+    success_state:   lamp_state = on | off
+  - hook_id:         archives.takeReadingChair
+    trigger:         player.sit on reading_chair.<position>
+    procedure:       trpc.archives.reading_chair.sit
+    success_state:   reading_chair_active = true
+```
+
+### A.4.14 Story-tie
+
+```
+primary_arcs:
+  - arc.lore_recovery (continuous)
+  - arc.act_3_library_discovery (the hidden archway reveal)
+  - arc.cipher_key_quest (one of 4 keys in the Archives)
+  - arc.player_canon (cross-ref with §A.21 Cipher Den)
+per_act_evolution:
+  acts_0_1: room locked; player has no awareness
+  act_2: player gains access; LOREDEX search available; bookshelves browsable; tea-cart present
+  act_3: hidden archway revealed (after cipher-key quest); player can enter Antiquarian's Library
+  act_4: more advanced search functions available; cross-references unlock
+  act_5: player's edits from Cipher Den propagate to Archives terminal
+  act_6: restricted-archives north bays fully unlocked
+  act_7: state-branched: scholarly ending (player has read deeply, archway is well-traveled) vs. neglectful ending (most books unread, archway dim)
+npc_roster:
+  - the_archives_assistant: silent NPC; rare scripted appearance
+  - the_player: visitor / scholar
+  - the_antiquarian: not present here (he is in his Library); but his presence is felt in archive entries
+readables:
+  - dedication plaque (south)
+  - 12 east+west shelf-bay book sets (~480 multi-screen readables)
+  - 5 north shelf-bay book sets (restricted; gameplay-key)
+  - 2 wall paintings (scholarship + discovery)
+  - "TO READ IS TO ENTER" relief above central bay (Acts 0-2 cryptic; Act 3+ revelatory)
+  - tea-cart contents (cosmetic with optional lore)
+master_of_rlyeh_question: n/a (Archives is not a Hellbox host; it is the gateway to Antiquarian's Library which is itself a destination)
+```
+
+### A.4.15 Special-FX
+
+```
+particle_systems:
+  - dust_motes (medium; visible in skylight beam; magical-quality shimmer)
+  - book_page_motes (low; rises through volume)
+  - archway_resonance_particles (Act 3+; subtle warp shimmer at central north bay)
+volumetric_effects:
+  - skylight_volumetric_beam (warm sunlight cone above reading table)
+  - archway_glow_envelope (Act 3+; subtle volumetric glow at hidden archway)
+procedural_animations:
+  - mantle_clock_tick (continuous; tick-tock period 1s; hands DO move)
+  - book_subtle_settle (occasional; cosmetic)
+  - skylight_dust_drift (continuous slow downward drift)
+  - archway_subtle_pulse (Act 3+; central north bay glows with breath rhythm)
+reactive_systems:
+  - reading_table_lamp_on_player_proximity (within 1.5 m, lamp warms)
+  - terminal_glow_on_proximity
+  - archway_glow_intensify_on_archway_proximity (Act 3+)
+  - archway_unlock_one_shot (Act 3 cipher-key event)
+```
+
+### A.4.16 Avatar-parametricity
+
+```
+camera_height_variation:
+  small_xenomorph (0.85m eye): camera height 0.85m; reading table at chest-level; alternate stand-on-step animation
+  short_humanoid (1.40m eye): standard
+  average_humanoid (1.70m eye): standard
+  tall_humanoid (2.05m eye): pendant-lamp at near-head level
+  tall_xenomorph (2.70m eye): alternate kneel-at-table mode
+reachability:
+  small_xenomorph: cannot reach top shelf-bay rows; alternate ladder provided at each shelf
+  others: all-reachable
+audio_occlusion_variation:
+  xenomorph_sensitive_hearing: clock-tick more pronounced; book-creaks more frequent perceived
+  synthetic_voice_avatar: terminal interface has subtle resonance bias
+```
+
+### A.4.17 Performance
+
+```
+polygon_budget:      280,000 polygons (rich shelving; many decorative items)
+texture_budget:      170 MB total (many unique book covers + decorative friezes)
+light_count_limit:   16 simultaneous dynamic lights
+lod_plan:
+  - hero_distance: 0-10m, full detail
+  - mid_distance: 10-22m, mid detail (book covers as billboards)
+  - low_distance: 22m+, low detail
+streaming_behaviour:
+  - preload: ark.corridor.archives_approach (south)
+  - on_archway_revealed (Act 3+): preload ark.antiquarian_library
+```
 
 ---
 
@@ -1614,36 +2176,601 @@ streaming_behaviour:
 
 ---
 
-## A.6 Observation Deck — CORE
+## A.6 Observation Deck — FULL
+
+**Status: FULL spec.** Cross-ref: `INCEPTION_ARK_FINAL_PRODUCTION.md`
+§2.6 (art-state prompts).
+
+### A.6.1 Header
 
 ```
 space_id:        ark.observation_deck
 space_name:      Observation Deck
 space_type:      ark_room
 act_introduced:  Act 1
-lore_anchor:     loredex.character.eidolon + arc.eidolon_arc
-aesthetic_tier:  solar_punk_cathedral
+lore_anchor:     loredex.character.eidolon + arc.eidolon_arc + arc.cosmic_witness + arc.bond_chamber_resonance
+aesthetic_tier:  solar_punk_cathedral  (with cathedral-of-the-cosmos accents — the Ark's most contemplative space)
 ```
 
-A vast viewing-deck on the upper Ark; full-bay viewport (16m × 6m);
-benches along the inner wall; reflective floor that doubles the
-star-field. The Observation Deck is where the player's Eidolon
-manifests; Eidolon presence-line set per §2.6.2 of INCEPTION doc.
+### A.6.2 Geometry
 
 ```
 dimensions:           16.00 m × 8.00 m × 6.00 m
-floor_plan_geometry:  rectangular
+origin_point:         centre of floor at south entrance threshold (entrance south wall; +y axis points north toward viewport)
+coordinate_axes:      +x = right, +y = forward (north — directly toward viewport), +z = up
+floor_plan_geometry:  rectangular  (long-rectangle aligned east-west; viewport on long north wall)
+volumetric_anomalies: none in baseline; subtle cosmic-resonance shimmer at upper volume during Eidolon manifestations
 ```
 
-Key objects:
-- `ark.observation_deck.viewport` — viewport on the long north wall
-- `ark.observation_deck.bench.1-4` — observation benches
-- `ark.observation_deck.eidolon_anchor` — designated NPC anchor where
-  Eidolon manifests (cosmic-presence)
-- `ark.observation_deck.telescope` — interactive astronomical telescope
-- `ark.observation_deck.star_table` — interactive star-chart table
+The Observation Deck is the Ark's largest contemplation space.
+The 16m-wide × 6m-tall viewport on the north wall dominates the
+room — it spans nearly the entire long wall. The reflective floor
+doubles the star-field below the player's feet, creating the
+illusion of standing IN space. Inner-wall benches face the
+viewport. The Eidolon manifests at a designated anchor near the
+viewport centre.
 
-(Full spec deferred to Phase B-2.)
+Floor area: 128 m².
+
+### A.6.3 Floor
+
+```
+material_primary:     mirror-polished obsidian-black marble; 1.20 m × 1.20 m tiles; 2 mm gap (very tight; emphasises mirror); high-precision flatness for true reflection
+material_secondary:   bronze inlay forming a 7-pointed star centred 4 m from the viewport; the star's points align with constellations visible in the viewport
+pattern:              mirror-polish with 7-pointed star inlay at viewing-station centre
+wear_state:           pristine (sacred space; meticulously maintained); slight wear at viewport approach
+embedded_features:
+  - id: ark.observation_deck.floor.charge_point.eidolon_anchor
+    position: (0.00, 5.00, 0.00)  # at Eidolon anchor near viewport
+    dimensions: 0.40 × 0.40 × 0.05
+    function: Eidolon-manifestation power coupling (provides energy when Eidolon is present)
+  - id: ark.observation_deck.floor.charge_point.telescope_mount
+    position: (-5.00, 5.00, 0.00)
+    dimensions: 0.40 × 0.40 × 0.05
+    function: telescope mount power
+  - id: ark.observation_deck.floor.charge_point.star_table
+    position: (5.00, 5.00, 0.00)
+    dimensions: 0.40 × 0.40 × 0.05
+    function: star-table electronics
+acoustic_property:    hard_reflective (marble); RT60 = 0.65s (long; supports cosmic atmospheric resonance)
+```
+
+### A.6.4 Walls
+
+#### Wall: South (entrance)
+
+```
+wall_id:              south
+material_primary:     polished obsidian-black marble cladding with carved cosmological motifs at z = 0.40 to 1.20 (constellations + nebulae in low relief)
+material_secondary:   gold dado at z = 1.20 m
+panelisation:         standard
+colour_value:         --token-color-ark-observation-deck-wall-south  (deep cosmic-black with gold pin-stripe)
+embedded_displays:
+  - id: ark.observation_deck.south.display.celestial_almanac
+    position: (-3.00, 0.20, 1.80)
+    dimensions: 1.00 × 0.80 × 0.05
+    content: live celestial almanac (current visible constellations + planetary positions)
+  - id: ark.observation_deck.south.display.eidolon_log
+    position: (3.00, 0.20, 1.80)
+    dimensions: 1.00 × 0.80 × 0.05
+    content: log of Eidolon manifestations (date + duration + resonance reading)
+embedded_doors:
+  - door_id: ark.observation_deck.south.door.main
+    position: (0.00, 0.00, 0.00)
+    dimensions: 1.40 × 2.40 × 0.10
+    door_class: arch  (gold-inlaid bronze; opens with hush)
+    connecting_space_id: ark.corridor.observation_approach
+decorative_features:
+  - id: ark.observation_deck.south.plaque.creed
+    position: (0.00, 0.20, 3.20)
+    dimensions: 1.00 × 0.40 × 0.02
+    material: cast bronze with gilt text
+    narrative_role: reads "TO WITNESS IS TO BE WITNESSED" — observation-deck creed
+  - id: ark.observation_deck.south.relief.cosmic_witness
+    position: (0.00, 0.20, 4.50)
+    dimensions: 4.00 × 1.20 × 0.10
+    material: cast bronze with carved figures of an observer + observed (mirror-cosmic motif)
+    narrative_role: depicts "the witness and the witnessed are one" canon
+```
+
+#### Wall: East
+
+```
+wall_id:              east
+material_primary:     polished obsidian-black marble (matches south)
+material_secondary:   gold dado
+panelisation:         standard
+colour_value:         --token-color-ark-observation-deck-wall-east
+embedded_displays:    none (intentional; the only display in this room is THE viewport)
+embedded_doors:        none
+decorative_features:
+  - id: ark.observation_deck.east.painting.first_witness
+    position: (7.95, 5.00, 2.40)
+    dimensions: 0.80 × 1.00 × 0.04
+    material: oil on canvas (depicts the first Eidolon manifestation; canonical pre-game event)
+    narrative_role: lore-readable; players who inspect learn Eidolon canon
+```
+
+#### Wall: North (THE VIEWPORT WALL)
+
+```
+wall_id:              north_viewport
+material_primary:     reinforced transparent aluminium oxynitride (transparent armor); 16.00 m wide × 6.00 m tall (from z = 0.00 to z = 6.00); slightly bowed outward (radius of curvature 32 m, gives a subtle 0.40 m bow at centre)
+material_secondary:   bronze viewport surround; 100 mm wide; structural ribbing every 0.80 m
+panelisation:         single-piece transparent armor (with structural ribbing)
+colour_value:         (transparent — content is the cosmos beyond)
+embedded_displays:
+  - id: ark.observation_deck.north.hud_overlay
+    position: (0.00, 7.95, 3.00)
+    dimensions: 16.00 × 6.00 (overlay only; transparent)
+    content: optional HUD overlay — constellation labels, planetary positions, distance markers (player can toggle on/off)
+embedded_doors:        none
+decorative_features:
+  - id: ark.observation_deck.north.relief.observers_motto
+    position: (0.00, 7.95, 6.50)  # high above viewport
+    dimensions: 1.20 × 0.40 × 0.10
+    material: cast bronze relief
+    narrative_role: visible from anywhere in room; reads "WE LOOK / AND THE LOOK LOOKS BACK"
+```
+
+#### Wall: West
+
+Mirror of east.
+
+```
+wall_id:              west
+material_primary:     same as east
+material_secondary:   gold dado
+panelisation:         standard
+colour_value:         --token-color-ark-observation-deck-wall-west
+embedded_displays:    none
+embedded_doors:        none
+decorative_features:
+  - id: ark.observation_deck.west.painting.last_witness
+    position: (0.05, 5.00, 2.40)
+    dimensions: 0.80 × 1.00 × 0.04
+    material: oil on canvas (depicts a future Eidolon manifestation that hasn't happened yet — like Game Hall west painting, content subtly shifts)
+    narrative_role: uncanny lore-readable; content evolves with player's Eidolon-arc progress
+```
+
+### A.6.5 Ceiling
+
+```
+height_above_floor:     6.00 m baseline; central dome rises to 7.20 m above the Eidolon anchor (gives Eidolon its "dome of cosmos" feel); perimeter drop to 5.50 m within 1.50 m of walls
+material:               polished obsidian-black marble cladding with gold-leaf coffer detailing radiating from central dome; central dome is itself a transparent panel (extends viewport feel upward)
+lighting_integrated:    minimal — the room is intentionally lit primarily by the viewport's cosmos; recessed strip-lights at perimeter (very dim; warm-amber); central dome is partially transparent
+atmospheric_features:   subtle dust-motes visible in any star-light beam through viewport (intensifies during Eidolon manifestations)
+acoustic_treatment:     coffered + dome-resonant (slight harmonic effect from central dome curvature)
+```
+
+### A.6.6 Lighting
+
+```
+ambient_baseline:     2700 K (very warm; emergency-only baseline); 60 lux at floor level (DELIBERATELY VERY DIM — the viewport IS the room's primary light source); CRI 90
+direct_fixtures:
+  - id: ark.observation_deck.light.viewport_glow
+    position: (0.00, 7.95, 3.00)  # at viewport
+    beam_angle: 180° wash inward
+    colour: variable (matches starfield content; deep cosmic-blue with white starlight points)
+    intensity: variable (varies with cosmic state; 800-3000 lumens average)
+    function: PRINCIPAL light source; the cosmos illuminates the room
+  - id: ark.observation_deck.light.dome_starfield
+    position: (0.00, 5.00, 7.20)  # central dome
+    beam_angle: 90° downward
+    colour: variable (matches starfield content)
+    intensity: variable (similar to viewport)
+    function: secondary cosmic light; gives ceiling its "extension of viewport" feel
+  - id: ark.observation_deck.light.recessed_strip_perimeter
+    position: along all 4 walls at z = 5.50
+    beam_angle: 180° wash
+    colour: --token-color-ark-observation-deck-strip  (very warm amber)
+    intensity: 200 lumens per metre (dim — preserves cosmic atmosphere)
+    function: ambient minimal task lighting (so player can navigate without losing cosmic feel)
+  - id: ark.observation_deck.light.eidolon_anchor_resonance
+    position: (0.00, 5.00, 1.80)  # at Eidolon anchor
+    beam_angle: 360° (radial)
+    colour: --token-color-ark-observation-deck-eidolon-glow  (variable; depends on player-Eidolon bond state)
+    intensity: 500 lumens (when Eidolon manifesting; off when absent)
+    function: Eidolon-presence indicator; pulses with Eidolon's resonance
+practical_sources:
+  - id: ark.observation_deck.telescope_eyepiece_glow
+    position: (-5.00, 5.00, 1.50)
+    intensity: 30 lumens (when in use; suggests "the lens is alive")
+    flicker_pattern: stable
+  - id: ark.observation_deck.star_table_glow
+    position: (5.00, 5.00, 0.95)
+    intensity: 100 lumens (always on; soft amber)
+    flicker_pattern: stable
+time_of_day_variation:
+  acts_1_to_3: viewport is calm cosmos; Eidolon resonance very faint
+  act_3+: Eidolon resonance active; Eidolon manifests during scripted events
+  acts_5_to_7: viewport content reflects ship-state (e.g., if ship is damaged, distant nebulae have warning hue)
+dynamic_response:
+  - on_eidolon_manifestation: eidolon_anchor_resonance activates; cosmic light shifts subtly toward Eidolon's faction-tone
+  - on_player_at_telescope: telescope_eyepiece_glow activates
+  - on_player_at_star_table: star_table_glow intensifies 20%
+  - on_cosmic_event (e.g., supernova, planetfall): viewport intensifies; ambient warms 1000K
+```
+
+### A.6.7 Atmosphere
+
+```
+air_temperature:    18°C (cool — cosmic; intentionally below typical Ark baseline)
+humidity:           36% RH (low — cosmic preservation atmosphere); smells of cold-stone + bronze + faint ozone (from cosmic radiation shielding)
+particulate:
+  - dust_motes: low (visible in viewport-light beams; magical-quality shimmer)
+  - cosmic_dust: very low (cosmetic; suggests "the cosmos enters")
+volumetric_fog:     absent in baseline; subtle haze at upper dome during Eidolon manifestations (0.05 g/m³)
+wind_drift:         minimal; 0.01 m/s; very subtle inward-toward-viewport convection
+smell_canon:        cold-stone + bronze + ozone; voice-line: "smells like deep space leaking in"
+```
+
+### A.6.8 Sound
+
+```
+ambient_bed:           file: observation_deck_ambient_bed_v1.ogg (loop); -38 dB; very quiet; very faint deep-space resonance, occasional cosmic-shimmer (random)
+point_sources:
+  - id: ark.observation_deck.sound.deep_space_resonance
+    position: (0.00, 7.95, 3.00)  # from viewport
+    sound: continuous deep low rumble (-38 dB; suggests cosmic vastness)
+    occlusion_behaviour: omnidirectional
+    trigger: continuous
+  - id: ark.observation_deck.sound.eidolon_breath
+    position: (0.00, 5.00, 1.80)  # Eidolon anchor
+    sound: very faint slow breath / cosmic whisper (only when Eidolon present; -42 dB)
+    occlusion_behaviour: omnidirectional
+    trigger: state-conditional
+  - id: ark.observation_deck.sound.telescope_subtle_servo
+    position: (-5.00, 5.00, 1.50)
+    sound: telescope drive servos when in use (-36 dB)
+    occlusion_behaviour: standard
+    trigger: state-conditional
+  - id: ark.observation_deck.sound.star_table_low_hum
+    position: (5.00, 5.00, 0.95)
+    sound: star-table electronics hum (-40 dB)
+    occlusion_behaviour: standard
+    trigger: continuous
+  - id: ark.observation_deck.sound.cosmic_shimmer_random
+    position: dynamic (random)
+    sound: subtle cosmic-chime (random; -42 dB; period 60-180s)
+    occlusion_behaviour: omnidirectional
+    trigger: random
+reverb_zone:           IR-impulse: observation_deck_v1.wav; wet-mix 32% (long, dome-resonant)
+music_eligibility:     cutscene only (cs_amb_observation_deck Category B + Eidolon-arc cutscenes)
+voice_line_eligibility:
+  - speaker: your_eidolon
+    trigger: presence (Acts 3+)
+    line_set: see §2.6.2 Eidolon presence-line set
+```
+
+### A.6.9 Object inventory
+
+Observation Deck has 28 inventory objects.
+
+#### A.6.9.1 The Viewport (north wall)
+
+Specced in walls A.6.4. Inventoried for completeness:
+
+```
+object_id:           ark.observation_deck.viewport
+object_class:        display
+position:            (0.00, 7.95, 3.00)
+dimensions:          16.00 × 6.00 × 0.10
+rotation:            180°
+material_primary:    reinforced transparent aluminium oxynitride
+material_secondary:  bronze surround with structural ribbing
+colour_value:        (transparent)
+interaction:         inert (looking only); player can lean on
+narrative_role:      THE viewport; the room's primary visual; cosmos source
+lore_anchor:         loredex.system.observation_viewport
+art_status:          producer_handoff
+gameplay_hook_id:    none (visual only)
+wear_state:          pristine
+physical_constraints: collides
+```
+
+#### A.6.9.2 The Eidolon Anchor (NPC manifestation point)
+
+```
+object_id:           ark.observation_deck.eidolon_anchor
+object_class:        npc_anchor
+position:            (0.00, 5.00, 0.00)
+dimensions:          1.20 dia × 0.05 height (subtle bronze inlay marking the anchor on floor)
+rotation:            0°
+material_primary:    bronze inlay with engraved seven-point star
+material_secondary:  gold-leaf accents
+colour_value:        --token-color-ark-observation-deck-eidolon-anchor
+interaction:         interactable (when Eidolon present)
+  - resonate: opens Eidolon-bond UI; player can deepen bond, accept guidance, etc.
+narrative_role:      THE manifestation point; Eidolon appears here when conditions are met (player's emotional state, cosmic alignment, time-of-day)
+lore_anchor:         loredex.character.eidolon
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.eidolon.resonate
+wear_state:          pristine
+physical_constraints: non-collide (low-profile; player can stand on it)
+```
+
+#### A.6.9.3 The Telescope (west of Eidolon anchor)
+
+```
+object_id:           ark.observation_deck.telescope
+object_class:        interactive
+position:            (-5.00, 5.00, 0.00)
+dimensions:          0.50 × 0.50 × 1.80  (mounted on tripod)
+rotation:            0°  (initially facing north toward viewport; player can pan)
+material_primary:    cast bronze tube with brass detailing; reinforced glass lens at viewing end
+material_secondary:  walnut grip; brass focusing ring
+colour_value:        --token-color-ark-observation-deck-telescope-bronze
+interaction:         interactable
+  - operate: player looks through eyepiece; opens telescopic-zoom UI; can identify constellations + distant celestial objects
+  - inspect: lore-note about the telescope (canonical artifact; brought aboard at commission)
+narrative_role:      gameplay-active astronomical observation; player can identify cosmic objects + earn lore-flags
+lore_anchor:         loredex.system.observation_telescope + arc.cosmic_witness
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.observation.telescope.operate
+wear_state:          worn at most-handled focusing-ring + grip
+physical_constraints: collides; player can mount eye to eyepiece (interaction)
+```
+
+#### A.6.9.4 The Star-Chart Table (east of Eidolon anchor)
+
+```
+object_id:           ark.observation_deck.star_table
+object_class:        display
+position:            (5.00, 5.00, 0.00)
+dimensions:          1.40 × 1.40 × 0.95
+rotation:            0°
+material_primary:    polished walnut frame with backlit glass top showing live star-chart
+material_secondary:  brass corner caps; gold-inlay constellation lines
+colour_value:        --token-color-ark-observation-deck-star-table  (warm walnut + cool starlight)
+interaction:         interactable
+  - operate: opens interactive star-chart UI; player can rotate, zoom, identify, and bookmark constellations
+  - inspect: lore-note about the star-chart system
+narrative_role:      gameplay-active navigation tool; player can identify visible cosmic landmarks; gameplay-key in Acts 5+ for navigation choices
+lore_anchor:         loredex.system.observation_navigation
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.observation.star_table.operate
+wear_state:          slight wear at corner caps (most-handled)
+physical_constraints: collides; player can lean
+```
+
+#### A.6.9.5-12 Eight Observation Benches (4 along south wall + 2 along east + 2 along west)
+
+```
+object_id:           ark.observation_deck.bench.<position>  (8 benches; positioned to face viewport)
+object_class:        furniture
+positions:           [
+  (-6.00, 1.00, 0.00),  # south, position 1 (far west of door)
+  (-2.00, 1.00, 0.00),  # south, position 2 (west of door)
+  (2.00, 1.00, 0.00),   # south, position 3 (east of door)
+  (6.00, 1.00, 0.00),   # south, position 4 (far east of door)
+  (7.50, 3.00, 0.00),   # east-SE
+  (7.50, 6.50, 0.00),   # east-NE
+  (-7.50, 3.00, 0.00),  # west-SW
+  (-7.50, 6.50, 0.00),  # west-NW
+]
+dimensions (each):   1.40 × 0.40 × 0.45
+rotation (each):     varies (faces toward viewport)
+material_primary:    polished obsidian-black marble seat with bronze-leg supports
+material_secondary:  none (deliberately minimal — bench not the focus; viewport is)
+colour_value:        --token-color-ark-observation-deck-bench  (dark stone)
+interaction:         interactable - sit
+narrative_role:      contemplation seating; player can sit and watch cosmos for extended periods (gameplay-passive but emotionally meaningful)
+lore_anchor:         arc.cosmic_witness
+art_status:          producer_handoff
+gameplay_hook_id:    none (positional; sitting may trigger Eidolon manifestation if other conditions met)
+wear_state:          slight wear at most-occupied seats (positions 1, 2, 3 have most accumulated player-presence)
+physical_constraints: collides; sittable
+```
+
+#### A.6.9.13 The Curator's Plinth (lectern; east of door)
+
+```
+object_id:           ark.observation_deck.curator_plinth
+object_class:        container
+position:            (3.00, 1.50, 0.00)
+dimensions:          0.40 × 0.40 × 1.10
+rotation:            45°
+material_primary:    cast bronze stand with inclined display-plate
+material_secondary:  open lore-readable book (canonical "field-guide to the cosmos")
+colour_value:        --token-color-ark-observation-deck-plinth-bronze
+interaction:         interactable
+  - inspect: opens cosmic field-guide UI (multi-screen lore-readable about visible celestial objects)
+narrative_role:      provides lore-grounding for what the player sees through telescope/star-table
+lore_anchor:         loredex.system.cosmic_canon + arc.cosmic_witness
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.observation.curator_plinth.read
+wear_state:          slight wear
+physical_constraints: collides
+```
+
+#### A.6.9.14-20 Decorative + Lighting Stands
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.observation_deck.candle_stand.east_alcove` | decoration | (7.50, 5.00, 0.00) | 0.20 × 0.20 × 1.20 | bronze candle stand with eternal flame |
+| `ark.observation_deck.candle_stand.west_alcove` | decoration | (-7.50, 5.00, 0.00) | mirror | bronze candle stand |
+| `ark.observation_deck.compass_inlay` | decoration | (0.00, 5.00, 0.005) | 1.20 × 1.20 × 0.005 | floor compass-rose at Eidolon anchor (subtle gold inlay) |
+| `ark.observation_deck.dust_motes_emitter` | fx_emitter | distributed throughout volume | n/a | dust-motes particle source |
+| `ark.observation_deck.eidolon_resonance_emitter` | fx_emitter | (0.00, 5.00, 1.80) | n/a | volumetric Eidolon-presence shimmer |
+| `ark.observation_deck.cosmic_dust_emitter` | fx_emitter | upper volume distributed | n/a | cosmic-dust particle source |
+| `ark.observation_deck.dome_starfield_emitter` | fx_emitter | (0.00, 5.00, 7.20) | 4.00 dia | central dome starfield |
+
+#### A.6.9.21-28 Closing Items
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.observation_deck.south.intercom` | console | (-2.00, 0.20, 1.50) | 0.20 × 0.10 × 0.30 | comms relay (silent in baseline) |
+| `ark.observation_deck.fire_extinguisher.south` | interactive | (2.00, 0.20, 1.20) | 0.20 × 0.20 × 0.50 | safety |
+| `ark.observation_deck.first_aid.kit` | container | (-2.50, 0.20, 1.50) | 0.40 × 0.10 × 0.30 | medical |
+| `ark.observation_deck.south.plaque.creed` (rolled walls) | decoration | (0.00, 0.20, 3.20) | 1.00 × 0.40 × 0.02 | "TO WITNESS IS TO BE WITNESSED" |
+| `ark.observation_deck.east.painting.first_witness` (rolled walls) | decoration | (7.95, 5.00, 2.40) | 0.80 × 1.00 × 0.04 | first-witness painting |
+| `ark.observation_deck.west.painting.last_witness` (rolled walls) | decoration | (0.05, 5.00, 2.40) | mirror | last-witness painting (uncanny shifting) |
+| `ark.observation_deck.south.relief.cosmic_witness` (rolled walls) | decoration | (0.00, 0.20, 4.50) | 4.00 × 1.20 × 0.10 | cosmic-witness relief |
+| `ark.observation_deck.north.relief.observers_motto` (rolled walls) | decoration | (0.00, 7.95, 6.50) | 1.20 × 0.40 × 0.10 | "WE LOOK / AND THE LOOK LOOKS BACK" |
+
+Total: 28 inventory objects.
+
+### A.6.10 Camera-spawn-points (FPV cutscenes)
+
+```
+cutscene_id:         cs_amb_observation_deck  (Category B Myst-ambient; deferred catalogue)
+camera_position:     (0.00, 0.50, eye_level)
+camera_facing:       (0°, 5°, 0°)  # looking forward and slightly up at viewport
+avatar_height_anchor: eye_level
+head_motion:         very slow walk-forward toward viewport; head tilts up to take in cosmos; lasts 24s
+
+cutscene_id:         cs_eidolon_first_manifestation  (Act 3 first-time event)
+camera_position:     (0.00, 4.00, eye_level)  # near Eidolon anchor, facing it
+camera_facing:       (0°, 0°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         standing; cosmic shimmer materialises at anchor; Eidolon's resonance fills the room
+```
+
+### A.6.11 Doorways
+
+```
+door_id:            ark.observation_deck.south.door.main
+connecting_space_id: ark.corridor.observation_approach
+door_position:      (0.00, 0.00, 0.00)
+door_dimensions:    1.40 × 2.40 × 0.10
+door_class:         arch  (gold-inlaid bronze)
+unlock_condition:   Act 1+
+transit_animation:  hush-open (3s); door slides slowly with reverence
+audio_signature:    bronze handle + soft slide + cosmic-shimmer SFX on full open
+```
+
+### A.6.12 Adjacency map
+
+```
+direct_adjacencies:
+  - ark.corridor.observation_approach (south door)
+one_hop_adjacencies:
+  - ark.bridge (via observation approach corridor; thematic kinship — both are cosmic surfaces)
+  - ark.eidolon_sanctum (via long-route corridor; sub-room dedicated to Eidolon-bonding)
+  - ark.comms_array (one-hop; signals + cosmic both arrive here)
+```
+
+### A.6.13 Gameplay hooks
+
+```
+hooks:
+  - hook_id:         observation_deck.operateViewport
+    trigger:         player.inspect on viewport
+    procedure:       trpc.observation.viewport.inspect
+    success_state:   viewport_inspected = true
+  - hook_id:         observation_deck.operateTelescope
+    trigger:         player.operate on telescope
+    procedure:       trpc.observation.telescope.operate
+    success_state:   telescope_active = true
+  - hook_id:         observation_deck.operateStarTable
+    trigger:         player.operate on star_table
+    procedure:       trpc.observation.star_table.operate
+    success_state:   star_table_active = true
+  - hook_id:         observation_deck.eidolonResonate
+    trigger:         (state-conditional) player.interact on eidolon_anchor when Eidolon present
+    procedure:       trpc.eidolon.resonate
+    success_state:   eidolon_bond_deepened = true (per-event)
+  - hook_id:         observation_deck.readCuratorPlinth
+    trigger:         player.inspect on curator_plinth
+    procedure:       trpc.observation.curator_plinth.read
+    success_state:   curator_plinth_read = true
+  - hook_id:         observation_deck.takeBenchSeat
+    trigger:         player.sit on bench.<position>
+    procedure:       trpc.observation.bench.sit
+    success_state:   bench_seat_active = true (gameplay-passive; may trigger Eidolon)
+```
+
+### A.6.14 Story-tie
+
+```
+primary_arcs:
+  - arc.eidolon_arc (continuous; central to the room)
+  - arc.cosmic_witness
+  - arc.bond_chamber_resonance (cross-ref §A.48 Eidolon Sanctum)
+  - arc.act_3_first_eidolon_manifestation (one-shot Act 3)
+per_act_evolution:
+  acts_0_1: room locked (player's bond not yet established)
+  act_1: player gains access; viewport calm; Eidolon dormant
+  act_2: telescope and star-table active; player learns cosmic landmarks
+  act_3: first Eidolon manifestation (Category A cutscene); bond mechanic unlocks
+  act_4: deeper Eidolon dialogues; bond ladder progression
+  act_5: cosmic events (supernovae, planetfall) become visible; viewport content reflects ship-state
+  act_6: rare Eidolon-witness moments (silent communion)
+  act_7: state-branched: Eidolon-bonded ending (cosmic resonance pervades) vs. Eidolon-distant ending (room cold + silent)
+npc_roster:
+  - your_eidolon: primary NPC (cosmic presence; manifests at anchor)
+  - the_player: visitor / observer
+  - cosmic_phantoms: rare presence (acts 5+; visible silhouettes against viewport — never identified)
+readables:
+  - dedication plaque (south)
+  - first-witness painting (east)
+  - last-witness painting (west; uncanny shifting)
+  - cosmic-witness relief (south)
+  - observer's-motto relief (north)
+  - curator's plinth field-guide
+  - celestial almanac display (south)
+  - eidolon log display (south)
+master_of_rlyeh_question: n/a (Observation Deck is not a Hellbox host; but it shares cosmic-presence with HB cosmology)
+```
+
+### A.6.15 Special-FX
+
+```
+particle_systems:
+  - dust_motes (low; visible in viewport-light beams)
+  - cosmic_dust (very low; cosmetic; suggests "cosmos enters")
+  - eidolon_shimmer (state-conditional; cyan-gold particles around Eidolon anchor when Eidolon present)
+  - candle_smoke (2 candle stands; very subtle)
+volumetric_effects:
+  - viewport_volumetric_glow (cosmic light bleeding into room)
+  - dome_starfield_volumetric (extends viewport feel into ceiling)
+  - eidolon_resonance_envelope (state-conditional volumetric glow)
+procedural_animations:
+  - viewport_starfield_drift (continuous; very slow; matches actual cosmic motion)
+  - telescope_subtle_drift (when in use; slight automatic tracking of celestial object)
+  - star_table_glow_breath (slow breathing pulse)
+  - eidolon_anchor_gentle_pulse (state-conditional; matches Eidolon's breathing)
+  - last_witness_painting_uncanny_shift (Acts 5+; content evolves with player's Eidolon-arc)
+reactive_systems:
+  - viewport_glow_intensifies_on_player_approach (within 3 m, viewport content brightens 10%)
+  - eidolon_anchor_warmth_on_proximity (within 2 m, anchor inlay glows softly)
+  - telescope_eyepiece_glow_on_player_eye (when player looks through; eyepiece warms)
+  - star_table_glow_on_proximity
+  - eidolon_manifestation_one_shot (Act 3; subsequent are state-conditional)
+```
+
+### A.6.16 Avatar-parametricity
+
+```
+camera_height_variation:
+  small_xenomorph (0.85m eye): camera height 0.85m; viewport feels enormous; bench seats are at chest-level — alternate climb-onto-bench animation
+  short_humanoid (1.40m eye): standard short scale
+  average_humanoid (1.70m eye): standard
+  tall_humanoid (2.05m eye): viewport feels closer; player can see more of viewport at standing
+  tall_xenomorph (2.70m eye): central dome at head-level; alternate route through room centre
+reachability:
+  small_xenomorph: cannot reach upper viewport zones; relay-inspect from below; alternate "lift" mechanism near telescope
+  others: all-reachable
+audio_occlusion_variation:
+  xenomorph_sensitive_hearing: deep-space resonance more pronounced; cosmic shimmer more frequent
+  synthetic_voice_avatar: Eidolon's resonance has a distinct "feel" (synthetic ear interprets cosmic frequencies differently)
+```
+
+### A.6.17 Performance
+
+```
+polygon_budget:      260,000 polygons (large rectangular space; viewport is shader-heavy)
+texture_budget:      180 MB total (cosmic skybox shader + reflective floor are expensive)
+light_count_limit:   12 simultaneous dynamic lights (viewport + dome are hero; everything else minimal)
+lod_plan:
+  - hero_distance: 0-12m, full detail
+  - mid_distance: 12-25m, mid detail (bench detail simplified)
+  - low_distance: 25m+, low detail
+streaming_behaviour:
+  - preload: ark.corridor.observation_approach (south)
+  - on_eidolon_manifestation: preload destination.eidolon_sanctum (sub-room available for deep-bond cutscenes)
+```
 
 ---
 
@@ -9625,14 +10752,18 @@ streaming_behaviour:
 
 ---
 
-## Document status (Phase B-2 — through Wave 2 commit)
+## Document status (Phase B-2 — through Wave 3 commit)
 
 **FULL spec authored** (all 17 layers):
 - A.1 Cryo Bay
 - A.2 Med Bay
 - A.3 Bridge (cross-ref §4.18 in main doc)
+- A.4 Archives
+- A.5 Comms Array
+- A.6 Observation Deck
 - A.7 Engineering Bay (HB4 host)
 - A.11 Captain's Quarters (HB7 host)
+- A.13 Antiquarian's Library
 - A.21 Cipher Den (HB8 host)
 - A.22 Hierarchy Throne (HB2 host)
 - A.27 Memorial Corridor (HB6 host)
@@ -9641,22 +10772,19 @@ streaming_behaviour:
 - A.50 Collectors Arena (HB10 host; NEW v5)
 - A.51 Game Hall (HB12 host; NEW v5)
 
-**Total FULL: 12 rooms** (covering all 11 active Hellbox-host
-rooms — HB1 through HB12 — plus Cryo Bay and Bridge as the
-primary narrative-load-bearing non-Hellbox rooms).
+**Total FULL: 16 rooms** (all 11 active Hellbox-host rooms +
+Cryo Bay + Bridge + Antiquarian Library + Comms Array +
+Observation Deck + Archives — covers every narrative-load-bearing
+room in the Ark).
 
-**CORE spec authored**: A.4 Archives, A.5 Comms Array, A.6
-Observation Deck, A.13 Antiquarian Library
+**CORE spec authored**: none remaining (all Wave 3 promotions
+landed)
 
 **SCAFFOLDED**: all remaining (A.8, A.9, A.10, A.12, A.14-A.20,
-A.23-A.26, A.28-A.32, A.34, A.35, A.37-A.49)
-
-Phase B-2 follow-up (Wave 3): convert 4 priority CORE rooms to
-FULL (A.4 Archives, A.5 Comms Array, A.6 Observation Deck, A.13
-Antiquarian Library). Estimated ~6,000-8,000 additional lines.
+A.23-A.26, A.28-A.32, A.34, A.35, A.37-A.49 — 33 rooms)
 
 Phase B-2 future (Wave 4+): convert remaining SCAFFOLDED rooms
-to at least CORE. Estimated 25,000-35,000 additional lines across
-follow-up commits.
+to at least CORE; subsequent waves to FULL. Estimated 30,000-50,000
+additional lines across follow-up commits to Phase B-3 / Phase B-4.
 
 ---
