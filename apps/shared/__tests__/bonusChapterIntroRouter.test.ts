@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   BONUS_CHAPTER_INTRO_GATES,
+  DEFERRED_BONUS_INTRO_IDS,
   bonusChapterIntroSeenFlag,
   pickBonusChapterIntroToFire,
 } from "@shared/bonusChapterIntroTriggers";
@@ -12,20 +13,12 @@ describe("pickBonusChapterIntroToFire", () => {
     ).toBeNull();
   });
 
-  it("ch19_nilmorg_BONUS fires when prestige_corporate_tier set + act >= 5", () => {
+  it("ch19_nilmorg_BONUS fires when trade_empire_arc_completed set + act >= 5", () => {
     const r = pickBonusChapterIntroToFire({
       narrativeAct: 5,
-      flags: { prestige_corporate_tier: true },
+      flags: { trade_empire_arc_completed: true },
     });
     expect(r?.def.id).toBe("ch19_nilmorg_BONUS");
-  });
-
-  it("ch20_conexus_BONUS fires when authority_alignment_chosen + act >= 7", () => {
-    const r = pickBonusChapterIntroToFire({
-      narrativeAct: 7,
-      flags: { authority_alignment_chosen: true },
-    });
-    expect(r?.def.id).toBe("ch20_conexus_BONUS");
   });
 
   it("ch21_shadow_tongue_BONUS fires on the canonical event-active flag + act >= 7", () => {
@@ -42,20 +35,22 @@ describe("pickBonusChapterIntroToFire", () => {
     expect(
       pickBonusChapterIntroToFire({
         narrativeAct: 4, // nilmorg minAct is 5
-        flags: { prestige_corporate_tier: true },
+        flags: { trade_empire_arc_completed: true },
       }),
     ).toBeNull();
     expect(
       pickBonusChapterIntroToFire({
-        narrativeAct: 6, // conexus + shadow_tongue minAct is 7
-        flags: { authority_alignment_chosen: true },
+        narrativeAct: 6, // shadow_tongue minAct is 7
+        flags: {
+          living_universe_event_shadow_tongue_edit_active: true,
+        },
       }),
     ).toBeNull();
   });
 
   it("does not refire after the seen flag is set", () => {
     const flags = {
-      prestige_corporate_tier: true,
+      trade_empire_arc_completed: true,
       [bonusChapterIntroSeenFlag("ch19_nilmorg_BONUS")]: true,
     };
     expect(
@@ -65,8 +60,7 @@ describe("pickBonusChapterIntroToFire", () => {
 
   it("when multiple gates fire, returns the first in registry order", () => {
     const flags = {
-      prestige_corporate_tier: true,
-      authority_alignment_chosen: true,
+      trade_empire_arc_completed: true,
       living_universe_event_shadow_tongue_edit_active: true,
     };
     const r = pickBonusChapterIntroToFire({ narrativeAct: 7, flags });
@@ -77,14 +71,14 @@ describe("pickBonusChapterIntroToFire", () => {
     expect(
       pickBonusChapterIntroToFire({
         narrativeAct: 7,
-        flags: { prestige_corporate_tier: false },
+        flags: { trade_empire_arc_completed: false },
       }),
     ).toBeNull();
     expect(
       pickBonusChapterIntroToFire({
         narrativeAct: 7,
         flags: {
-          prestige_corporate_tier: 1 as unknown as boolean,
+          trade_empire_arc_completed: 1 as unknown as boolean,
         },
       }),
     ).toBeNull();
@@ -96,13 +90,32 @@ describe("pickBonusChapterIntroToFire", () => {
     );
   });
 
-  it("ships exactly 3 BONUS gates (matches producer drop)", () => {
-    expect(BONUS_CHAPTER_INTRO_GATES).toHaveLength(3);
+  it("ships exactly 2 active BONUS gates (Nilmorg + Shadow-Tongue)", () => {
+    expect(BONUS_CHAPTER_INTRO_GATES).toHaveLength(2);
     const ids = BONUS_CHAPTER_INTRO_GATES.map((g) => g.introId).sort();
-    expect(ids).toEqual([
-      "ch19_nilmorg_BONUS",
-      "ch20_conexus_BONUS",
-      "ch21_shadow_tongue_BONUS",
-    ]);
+    expect(ids).toEqual(["ch19_nilmorg_BONUS", "ch21_shadow_tongue_BONUS"]);
+  });
+
+  it("ch20_conexus_BONUS is deferred — never fires regardless of flags", () => {
+    expect(DEFERRED_BONUS_INTRO_IDS).toContain("ch20_conexus_BONUS");
+    // Even with every plausible Authority-alignment flag set, the
+    // deferred BONUS must NOT be picked.
+    const flags = {
+      authority_alignment_chosen: true,
+      hierarchy_dlc_arc_completed: true,
+      light_dark_alignment: "light",
+      act7_visible_war_won: true,
+    } as Record<string, unknown>;
+    const r = pickBonusChapterIntroToFire({ narrativeAct: 7, flags });
+    expect(r?.def.id).not.toBe("ch20_conexus_BONUS");
+  });
+
+  it("registry contains no deferred intro ids", () => {
+    const registered = new Set(
+      BONUS_CHAPTER_INTRO_GATES.map((g) => g.introId),
+    );
+    for (const deferredId of DEFERRED_BONUS_INTRO_IDS) {
+      expect(registered.has(deferredId)).toBe(false);
+    }
   });
 });

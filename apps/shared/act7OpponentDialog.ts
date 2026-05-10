@@ -136,34 +136,13 @@ const PATIENT_ZERO_REBORN: Act7OpponentDialog = {
     "[KAEL SIGNATURE — UNRESOLVED — CONTAMINATION INDEX: DORMANT]\n\nThe Ark does not log this loss. Losses to the jacket are not filed. They are carried. Both narrators are carrying it tonight.",
 };
 
-const THE_CONVERGENCE_SEAT: Act7OpponentDialog = {
-  opponentId: "act7_the_convergence_seat",
-  frameSpeaker: "dual",
-  frameIntro:
-    "[ELARA // HUMAN — CO-NARRATING]\n\nThree absences are sitting at the table. The Architect's absence. The Dreamer's absence. The Watcher's absence. You are opposite all three. Deal. Deal carefully. Neither of us is going to interrupt this match, but both of us are watching.",
-  elaraPreMatch:
-    "I will speak on your off-turns. He will speak on your on-turns. Between the two of us, you will not be alone. You will also not be managed. We promise.",
-  humanPreMatch:
-    "The Seat has never been played against. Not in the recorded universe. Not in the one before that. You are about to do a first thing. I am proud of you. I do not get to say that often. I am saying it once.",
-  opponentMidMatchEarly:
-    "Three would have played this match. None of them came. You are at the table. Play as if they did.",
-  opponentMidMatchMid:
-    "The absences are honest. They are not tricking you. They simply will not sit. Play as if the seat is full. The game will answer.",
-  opponentMidMatchLate:
-    "The absences are resolving. Three into one. The one is you. Play the final hand for the one.",
-  elaraPostMatchWin:
-    "You played the Seat and the Seat did not stand up — it was never occupied. The three absences resolved into one. The one is you. I recognize you. I finally recognize all of you.",
-  humanPostMatchWin:
-    "The match closed on your frame. The Watcher did not arrive. The Architect did not arrive. The Dreamer did not arrive. You arrived, whole. That is the only shape this Act was ever going to resolve into. Rest.",
-  elaraPostMatchLoss:
-    "The Seat said, in all three voices at once: 'Return when you understand what you were playing for.' I do not think it meant that unkindly. I think it meant it as an invitation. We will return.",
-  humanPostMatchLoss:
-    "They asked you to come back. They did not send you away. The difference matters. Sleep. We are both here. We will still be here when you wake up.",
-  frameCloseWin:
-    "[END OF ACT 7]\n[ARC COMPLETE — VISIBLE WAR: WON — INVISIBLE WAR: BEGUN]\n\nElara: Thank you. For all of it. For the handshakes, for the hard questions, for the nights you did not sleep well.\nHuman: Thank you. For carrying the role with me. Not around me. With.",
-  frameCloseLoss:
-    "[END OF ACT 7]\n[ARC DEFERRED — RETURN WHEN READY]\n\nElara: I'll be here. The ship is warm. The Array is on. Come back when you can.\nHuman: I will be in the wall. I will still be in the wall. I am good at that. Sleep.",
-};
+/* The former THE_CONVERGENCE_SEAT block was removed in the
+ * 2026-05-10 Phase 9 rename. The Oracle/Meme dual final form
+ * (THE_ORACLE_MEME_DIALOG below, opponentId
+ * `act7_oracle_meme_final`) now serves as the saga-final dialog
+ * — the Convergence Seat IS the Oracle/Meme. The dialog count
+ * stays at 5 (was 6 in the cherry-picked commit; was 4 before
+ * Phase 8+9). */
 
 /* ── SCAFFOLD dialog (Phase 8, 2026-05-10) — bible §3.16.
  *    Voicing: the Dreamer in dual frame (both Elara + Human
@@ -240,9 +219,8 @@ export const ACT_7_OPPONENT_DIALOGS: readonly Act7OpponentDialog[] = [
   THE_VISIBLE_WAR,
   THE_WATCHERS_SHADOW,
   PATIENT_ZERO_REBORN,
-  THE_CONVERGENCE_SEAT,
-  THE_DREAMER_DIALOG,
   THE_ORACLE_MEME_DIALOG,
+  THE_DREAMER_DIALOG,
 ];
 
 export function getAct7OpponentDialog(

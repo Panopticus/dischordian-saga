@@ -325,20 +325,32 @@ export const ACT_7_OPPONENTS: readonly ActNOpponent[] = [
     postMatchLoss:
       "The construct keeps Kael on. It asks if you want to play again. You are not sure whether the question was Kael's or the virus's. The distinction is the danger.",
   },
+  /* ── Saga-final opponent (renamed 2026-05-10, Phase 9) — bible §3.17.
+   *    Was `act7_the_convergence_seat`; renamed in place to
+   *    `act7_oracle_meme_final` per the freshly-approved canon
+   *    decision: the Convergence Seat IS the Oracle/Meme — same
+   *    step (4), same ladder shape, same victory gate; the dual
+   *    final form is the face that finally OCCUPIES the seat the
+   *    Architect/Dreamer/Watcher refused to sit in. Voice register
+   *    + alignment-skinned dialog live in act7OpponentDialog.ts.
+   *    Writer review before ship: alignment-conditional dialog
+   *    branching (Oracle-leaning vs Meme-leaning) is a follow-up
+   *    once `oracle_alignment` / `meme_alignment` flags are
+   *    formally specced. */
   {
-    id: "act7_the_convergence_seat",
+    id: "act7_oracle_meme_final",
     act: 7,
     actStep: 4,
-    name: "The Convergence Seat",
+    name: "The Convergence Seat — Oracle / Meme",
     backstory:
-      "The last opponent of the seven-act arc. Not a single player — the Seat where the Architect, the Dreamer, and the Watcher would sit if any of them were willing to. You play the Seat because the Seat refuses to sit.",
+      "The last opponent of the seven-act arc. The Seat that the Architect, the Dreamer, and the Watcher would have sat in — and refused. The face that finally arrives is the one the previous six acts decided you needed: the Oracle's high register or the Meme's refusing distance. Both are honest. Both occupy the Seat. Whichever side of you the universe has been listening to longest decides which face renders at the table.",
     deckLeaning: ["architect", "neutral", "new_babylon"],
     preMatchLine:
-      "Three would have played this match. None of them came. You are at the table. Play as if they did.",
+      "Three would have played this match. None of them came. The face that did is the one you earned. Play as if all three had arrived. They did, in me.",
     postMatchWin:
-      "The Seat does not stand — it was never occupied. The Ark's sensors read three absences at once, and then the absences resolve into one. The one is you. The Act ends on that frame.",
+      "The face holds — Oracle or Meme, depending on you — and then resolves into the other for one frame, as a courtesy. The three absences resolve into one. The one is you. The Act ends on that frame. The credits, when they come, name both.",
     postMatchLoss:
-      "The Seat lets you lose without scorn. It says, in all three voices at once: 'Return when you understand what you were playing for.' You will. You already know you will.",
+      "The face lets you lose without scorn. It says, in two voices at once: 'Come back. The other face will be waiting too.' You will. You already know you will.",
     postBattleSlideshow: "act7-convergence-close",
   },
   /* ── SCAFFOLD opponent (Phase 8, 2026-05-10) — bible §3.16.
@@ -368,37 +380,6 @@ export const ACT_7_OPPONENTS: readonly ActNOpponent[] = [
     postMatchLoss:
       "The Dreamer does not win — the Dreamer waits. The match ends without a verdict. You will face the tableau again when you have rested. The dream will be patient. Dreams are.",
     requiredFlag: "living_universe_event_dreamer_awakening_active",
-  },
-  /* ── SCAFFOLD opponent (Phase 9, 2026-05-10) — bible §3.17.
-   *    Author: Oracle / Meme ("ambiguous final form"). Lore
-   *    presence: dual canon (Meme in Act 1 Cycle A as
-   *    minnie_meme; Oracle in §2.5 as Star-Whisperer / prophecy
-   *    keeper). The producer drop ships ONE MP4 (`ch21_oracle_meme`)
-   *    to play regardless of alignment; this opponent renders the
-   *    SAGA-FINAL face. Encounter placement at actStep 6 — the
-   *    last scripted match of the seven-act arc, after the
-   *    Convergence Seat + Dreamer (when the latter is event-gated
-   *    in). Voice direction taken from bible §3.17. Writer review
-   *    before ship: alignment-conditional dialog branching is
-   *    NOT yet authored (one dialog block, alignment-flag-aware
-   *    text would be a follow-up); whether this opponent should
-   *    REPLACE the Convergence Seat as the finale is a writer
-   *    call — for now it sits after as a saga-final coda. */
-  {
-    id: "act7_oracle_meme_final",
-    act: 7,
-    actStep: 6,
-    name: "The Oracle / The Meme",
-    backstory:
-      "Two faces, one final match. Whichever side of you the universe has been listening to longest decides which face arrives. The Oracle wears prophecy; the Meme wears the joke prophecy hides inside. Both are honest. The choice was already made by the way you played the previous six acts.",
-    deckLeaning: ["new_babylon", "neutral"],
-    preMatchLine:
-      "I have been waiting for one of two of you. The one who arrived is the one I expected. Play. I will not pretend to be surprised.",
-    postMatchWin:
-      "The face holds for one beat — Oracle or Meme, depending on you — and then resolves into the other for one frame, as a courtesy. The seven acts close on the resolution. The credits, when they come, name both.",
-    postMatchLoss:
-      "The face does not gloat; it does not even shift. It says the same line in two voices at once: 'Come back. The other face will be waiting too.' The match restarts when you do.",
-    postBattleSlideshow: "act7-saga-final-close",
   },
 ];
 

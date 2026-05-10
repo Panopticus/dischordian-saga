@@ -3,17 +3,12 @@
 
    The 2026-05-10 producer drop ships 3 BONUS chapter intros that
    don't correspond to scripted opponents in the Acts 2-7 spine.
-   They fire as alternate-timeline / world-state-conditional
-   variants when:
+   Two of them fire as alternate-timeline / world-state-conditional
+   variants:
 
-     ch19_nilmorg_BONUS — player has reached the corporate
-       prestige tier (Act 5 trade-empire path settled).
-       WRITER-REVIEW: gating flag `prestige_corporate_tier` is
-       engineering's best guess; writer ratification needed.
-
-     ch20_conexus_BONUS — player has chosen Authority alignment
-       (CoNexus is the Authority's cosmic peer).
-       WRITER-REVIEW: gating flag `authority_alignment_chosen`
+     ch19_nilmorg_BONUS — player has completed the Trade Empire
+       arc (Act 5 trade-empire path settled).
+       WRITER-REVIEW: gating flag `trade_empire_arc_completed`
        is engineering's best guess; writer ratification needed.
 
      ch21_shadow_tongue_BONUS — Shadow Tongue emergent event has
@@ -21,8 +16,17 @@
        (`useLivingUniverseSync.ts` mirrors the active set into
        `living_universe_event_<id>_active` flags).
 
-   Each fires once per save; the BonusChapterIntroRouter
-   idempotents on the standard `chapter_intro_<id>_seen` flag.
+   The third producer file — ch20_conexus_BONUS — is intentionally
+   NOT registered. Authority-alignment is unspecified in saga
+   canon today; engineering's three candidate gates (Hierarchy
+   DLC completion / Architect-leaning Act 6 close / Visible War
+   cover held) all need writer ratification before a setter is
+   wired. The producer MP4 sits inert on CDN and revisits when
+   the alignment is formally specced.
+
+   Each registered variant fires once per save; the
+   BonusChapterIntroRouter idempotents on the standard
+   `chapter_intro_<id>_seen` flag.
 
    Pure resolver pattern mirrors `pickHumanRevealBranchToFire`
    (apps/client/src/hooks/useHumanRevealTrigger.ts).
@@ -48,14 +52,8 @@ export interface BonusChapterIntroGate {
 export const BONUS_CHAPTER_INTRO_GATES: readonly BonusChapterIntroGate[] = [
   {
     introId: "ch19_nilmorg_BONUS",
-    triggerFlag: "prestige_corporate_tier",
+    triggerFlag: "trade_empire_arc_completed",
     minAct: 5,
-    writerReview: true,
-  },
-  {
-    introId: "ch20_conexus_BONUS",
-    triggerFlag: "authority_alignment_chosen",
-    minAct: 7,
     writerReview: true,
   },
   {
@@ -66,6 +64,14 @@ export const BONUS_CHAPTER_INTRO_GATES: readonly BonusChapterIntroGate[] = [
     minAct: 7,
     writerReview: false,
   },
+];
+
+/** ch20_conexus_BONUS is deliberately NOT in the gate registry.
+ *  Authority-alignment is unspecified in saga canon today; revisit
+ *  when the alignment is formally specced. The producer MP4 ships
+ *  to CDN but never plays. */
+export const DEFERRED_BONUS_INTRO_IDS: readonly string[] = [
+  "ch20_conexus_BONUS",
 ];
 
 const INTRO_BY_ID = new Map<string, ChapterIntroDef>(

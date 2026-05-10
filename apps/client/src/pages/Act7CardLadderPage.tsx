@@ -197,7 +197,7 @@ export default function Act7CardLadderPage() {
           vo.speak("watcher-shadow-resolve");
         } else if (currentOpponent.id === "act7_the_patient_zero_reborn") {
           vo.speak("patient-zero-close");
-        } else if (currentOpponent.id === "act7_the_convergence_seat") {
+        } else if (currentOpponent.id === "act7_oracle_meme_final") {
           setNarrativeFlag("act7_convergence_landing", true);
           setNarrativeFlag("act7_arc_closes", true);
           setNarrativeFlag("act_7_complete", true);
@@ -279,7 +279,7 @@ export default function Act7CardLadderPage() {
 
   const handlePostMatchContinue = useCallback(() => {
     const wasConvergenceWin =
-      postMatchResult?.opponent.id === "act7_the_convergence_seat" &&
+      postMatchResult?.opponent.id === "act7_oracle_meme_final" &&
       postMatchResult.outcome === "win";
     setPostMatchResult(null);
     setTauntPhase(null);

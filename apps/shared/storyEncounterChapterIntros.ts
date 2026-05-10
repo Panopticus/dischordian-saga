@@ -17,20 +17,20 @@
    mapping is a one-line append; the parity test ensures every
    mapped key resolves to a real ChapterIntroDef.
 
-   IMPORTANT — what's deliberately UNMAPPED:
-   - Saga chapters 6 (Necromancer), 12 (Collector rematch),
-     14 (Source), 15 (Jailer), 16 (Iron Lion rematch),
-     17 (Elara glitched), 20 (Dreamer), 21 (Oracle/Meme)
-     have no engine-side equivalent today (Acts 2-7 chapter
-     pages haven't shipped, or the bible character predates
-     the canonical opponent record). Their MP4s sit on CDN
-     and the registry knows them; only the consumer-site
-     bridge is missing. Add a row below the moment the
-     consumer page lands.
-   - The 3 BONUS variants (nilmorg, conexus, shadow_tongue)
-     are alternate-timeline branches the bible doesn't cover
-     in §3; producer/writer needs to pick the gating flag
-     before they can be wired.
+   IMPORTANT — canon-gap status (2026-05-10):
+   - All 12 originally-unmapped chapter intros from the canon-gap
+     audit are now resolved. 4 wired via existing opponents
+     (ch14_source → Patient Zero, ch16_ironlion_rematch → prestige,
+     ch17_elara_glitched → Path-C betrayal, ch21_oracle_meme →
+     renamed Convergence Seat); 5 wired via SCAFFOLD opponents
+     pending writer review (Phases 5-9: Necromancer, Collector
+     rematch, Jailer, Dreamer; the saga-final Oracle/Meme is the
+     5th but slots into the existing seat rather than a new step).
+   - BONUS variants: nilmorg + shadow_tongue are flag-gated in
+     `bonusChapterIntroTriggers.ts`. CoNexus is intentionally
+     deferred (Authority alignment unspecified in saga canon
+     today; producer MP4 sits inert on CDN — see
+     DEFERRED_BONUS_INTRO_IDS).
    ═══════════════════════════════════════════════════════ */
 
 import {
@@ -147,21 +147,23 @@ function lookupIntro(introId: string | undefined): ChapterIntroDef | null {
  *  variants of Chapter 11; the engine picks based on the
  *  `gameMasterForm` narrative flag).
  *
- *  WRITER-REVIEW: where does `gameMasterForm` get SET? Engineering
- *  has wired the resolver but left the flag setter unauthored —
- *  the human variant remains the default until a writer decides
- *  the trigger (likely act6_path_full_secret_chosen → robot, but
- *  unconfirmed). Setting `gameMasterForm: "robot"` anywhere in
- *  state will activate the robot intro. */
+ *  Game Master form-variant derivation (Phase 2, decision locked
+ *  2026-05-10): Path C players — those who chose
+ *  `act3_path_full_secret_chosen` — see the robot variant. The
+ *  reveal IS the mask slipping for the player who saw behind
+ *  the curtain. Other paths see the human variant by default.
+ *  An explicit `gameMasterForm: "robot"` flag still wins (used
+ *  by tests / dev console / future writer-driven overrides). */
 export function resolveChapterIntroForChapter(
   chapterId: string,
   flags?: Readonly<Record<string, unknown>>,
 ): ChapterIntroDef | null {
-  if (
-    chapterId === "ch_game_master" &&
-    flags?.gameMasterForm === "robot"
-  ) {
-    return lookupIntro("ch11_gamemaster_robot");
+  if (chapterId === "ch_game_master") {
+    const explicitRobot = flags?.gameMasterForm === "robot";
+    const pathCDerivedRobot = flags?.act3_path_full_secret_chosen === true;
+    if (explicitRobot || pathCDerivedRobot) {
+      return lookupIntro("ch11_gamemaster_robot");
+    }
   }
   return lookupIntro(CHAPTER_ID_TO_INTRO_ID[chapterId]);
 }

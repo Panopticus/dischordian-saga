@@ -100,9 +100,12 @@ describe("act7OpponentDialog", () => {
     }
   });
 
-  it("routes the convergence finale through the dual-narration frame", () => {
-    const seat = getAct7OpponentDialog("act7_the_convergence_seat")!;
-    expect(seat.frameSpeaker).toBe("dual");
+  it("routes the saga-final Oracle/Meme through the system frame", () => {
+    const seat = getAct7OpponentDialog("act7_oracle_meme_final")!;
+    // Phase-9 rename: the convergence seat IS the Oracle/Meme dual
+    // final form. Frame voice is "system" (both faces speak in the
+    // same line) per bible §3.17.
+    expect(seat.frameSpeaker).toBe("system");
   });
 
   it("pairs opponent shell with dialog via getAct7OpponentWithDialog", () => {
@@ -114,10 +117,10 @@ describe("act7OpponentDialog", () => {
   });
 
   it("builds NarrativeHook-shaped taunt triggers from a dialog table", () => {
-    const dialog = getAct7OpponentDialog("act7_the_convergence_seat");
+    const dialog = getAct7OpponentDialog("act7_oracle_meme_final");
     expect(dialog).toBeDefined();
     const hooks = buildAct7OpponentTauntHooks(dialog!);
-    expect(hooks.early.id).toBe("act7_the_convergence_seat_taunt_early");
+    expect(hooks.early.id).toBe("act7_oracle_meme_final_taunt_early");
     expect(hooks.early.turn).toBe(2);
     expect(hooks.mid.hpBelowPercent).toBe(50);
     expect(hooks.late.hpBelowPercent).toBe(25);

@@ -115,6 +115,25 @@ describe("storyEncounterChapterIntros — bible-confirmed mappings", () => {
     ).toBe("ch19_antiquarian");
   });
 
+  it("Path C derives the gamemaster_robot variant automatically", () => {
+    // Phase 2 setter (locked 2026-05-10): Path C players (those who
+    // chose `act3_path_full_secret_chosen`) see the robot variant
+    // without needing an explicit gameMasterForm flag.
+    expect(
+      resolveChapterIntroForChapter("ch_game_master", {
+        act3_path_full_secret_chosen: true,
+      })?.id,
+    ).toBe("ch11_gamemaster_robot");
+    // Path C + explicit human form: the explicit override is only
+    // checked for "robot"; non-Path-C without explicit flag falls
+    // back to human.
+    expect(
+      resolveChapterIntroForChapter("ch_game_master", {
+        act3_path_full_secret_chosen: false,
+      })?.id,
+    ).toBe("ch11_gamemaster_human");
+  });
+
   it("resolveChapterIntroForOpponent round-trips every mapped opponentId", () => {
     for (const [opponentId, introId] of Object.entries(
       STORY_CHAPTER_INTRO_MAPPINGS.byOpponentId,

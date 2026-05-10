@@ -35,7 +35,7 @@ describe("actOpponentTaunts — getTauntHooksForOpponent", () => {
   });
 
   it("resolves an Act 7 finale opponent and tags sourceAct=7", () => {
-    const hooks = getTauntHooksForOpponent("act7_the_convergence_seat");
+    const hooks = getTauntHooksForOpponent("act7_oracle_meme_final");
     expect(hooks?.sourceAct).toBe(7);
   });
 

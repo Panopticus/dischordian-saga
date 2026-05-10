@@ -31,7 +31,7 @@ describe("act7CardLadderStore", () => {
 
   it("does not advance on out-of-order wins", () => {
     const seat = ACT_7_OPPONENTS.find(
-      (o) => o.id === "act7_the_convergence_seat",
+      (o) => o.id === "act7_oracle_meme_final",
     )!;
     useAct7LadderStore.getState().recordWin(seat.id);
     expect(getAct7LadderSnapshot().wins).toBe(0);
