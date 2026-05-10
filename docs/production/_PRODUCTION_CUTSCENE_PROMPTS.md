@@ -2617,3 +2617,443 @@ Outstanding TBDs (resolved in §G.F audit):
   designer.
 - §G.8.16 placeholder may collapse to 15 if `ROOM_POOL` stays
   static.
+
+---
+
+## §G.9 Casino — game-table opens + big-win/loss (6)
+
+Source: `apps/shared/casinoGames.ts:59–100`. HB7 Degenerate's Casino
+already has open/close cuts in `_PRODUCTION_CROSS_CUT.md`. Three
+game-tables get a per-table open + a per-table outcome
+(big-win / catastrophic-loss).
+
+Host_space: HB7 Degenerate's Casino floor (§3.12 HB7 destination).
+
+Trait-lock: 2200K neon over crimson velvet; cocktail-haze
+volumetrics z+0.6–2.0 m; Kodak Vision3 500T; palette
+`#3a0d10 / #ffb84a / #5fa8ff`; ambient slot-jingle bed -32 dB,
+distant chip-clatter, smoky bar conversation.
+
+### §G.9.1 `cs_casino_void_slots_first_pull` (Void Slots open)
+
+```yaml
+host_space: HB7 Casino floor (Void Slots wing)
+nb2_start.subject: "a single Void Slots machine — brass-and-glass
+  cabinet 1.6 m tall, three reel-windows showing the SLOT_REEL
+  glyphs (degen / void_crystal / dream / skull / star / void)
+  in faceted glass; the machine's pull-lever is brass with a
+  worn handle; player's gloved hand rests on the lever in
+  foreground."
+nb2_end.subject: "the lever has been pulled to its bottom
+  position; reel-windows are spinning in motion-blur; the
+  machine's jackpot-LED panel above pulses in anticipation."
+veo.action: "0–3 s machine in foreground, lever ready; 3–5 s
+  player's hand pulls lever; 5–8 s reels spin, jackpot-LED
+  pulses."
+veo.audio.dialogue: "Pit-boss says, \"Last call. In.\""
+veo.audio.sfx: "lever-pull mechanical thunk 00:04; reel-spin
+  whir 00:04–00:08; jackpot-LED tone-up 00:06."
+veo.audio.ambient: "casino floor crowd-murmur, slot-jingle bed,
+  cocktail-glass clinks."
+pipeline:
+  nb2_seed: 150001; veo_seed: 250001; vo_manifest_ref: null;
+  cdn_target: cdn/client-public/cutscenes/cs_casino_void_slots_first_pull/
+```
+
+### §G.9.2 `cs_casino_void_slots_outcome` (jackpot / wipeout — both variants)
+
+```yaml
+host_space: HB7 Casino floor (Void Slots wing)
+nb2_start.subject (jackpot): "reels have settled on three 'degen'
+  glyphs; jackpot-LED panel solid-on; gold-coin shower mid-cascade
+  from the machine's payout chute."
+nb2_start.subject (wipeout): "reels have settled on three 'void'
+  glyphs (the wipeout state); jackpot-LED panel dark; the
+  machine's payout-chute is closed and a credit-stripped
+  receipt has just printed."
+nb2_end.subject (jackpot): "coin-shower has piled at the
+  player's feet; pit-boss approaches with celebratory bottle."
+nb2_end.subject (wipeout): "the credit-stripped receipt floats
+  to the floor; player's gloved hand is open-palm down on the
+  machine's edge."
+veo.action (jackpot): "0–3 s reels stop on triple-degen; 3–5 s
+  jackpot fanfare cascades; 5–8 s coin-shower piles."
+veo.action (wipeout): "0–3 s reels stop on triple-void; 3–5 s
+  silence; 5–8 s receipt prints, drops to floor."
+veo.audio.dialogue (jackpot): "Pit-boss says, \"Triple-degen.
+  Bottle's on me.\""
+veo.audio.dialogue (wipeout): "Pit-boss says, \"Wiped. Sorry, friend.\""
+veo.audio.sfx (jackpot): "jackpot-fanfare 00:03; coin-shower 00:05–00:08."
+veo.audio.sfx (wipeout): "wipeout-tone 00:03; receipt-print 00:05;
+  receipt-fall whisper 00:07."
+veo.audio.ambient (both): "casino floor; ambient un-changed."
+pipeline:
+  nb2_seed: 150002; veo_seed: 250002; vo_manifest_ref: null;
+  cdn_target: cdn/client-public/cutscenes/cs_casino_void_slots_outcome/
+  notes: "two end-frame variants — `end_jackpot.png` and
+    `end_wipeout.png` selected at runtime by outcome."
+```
+
+### §G.9.3 `cs_casino_entropy_dice_first_throw` (Entropy Dice open)
+
+```yaml
+host_space: HB7 Casino floor (Entropy Dice pit)
+nb2_start.subject: "a felt-topped dice pit — 2 m diameter, brass-
+  rim, two ivory dice in player's foreground gloved hand;
+  croupier opposite holds the betting board with three predict-
+  options (over / under / exact)."
+nb2_end.subject: "dice are mid-throw, both still in air at z+0.6 m;
+  croupier's hand on the betting board is settled on the
+  player's chosen prediction marker."
+veo.action: "0–3 s pit settles; 3–5 s player's hand winds back;
+  5–8 s dice released in slow-arc, mid-air freeze on last_frame."
+veo.audio.dialogue: "Croupier says, \"Throw it.\""
+veo.audio.sfx: "dice-cup rattle 00:03; release-toss whoosh 00:05;
+  dice-tumble in air 00:06–00:08."
+veo.audio.ambient: "pit murmur, cocktail-glass clinks."
+pipeline:
+  nb2_seed: 150003; veo_seed: 250003; vo_manifest_ref: null;
+  cdn_target: cdn/client-public/cutscenes/cs_casino_entropy_dice_first_throw/
+```
+
+### §G.9.4 `cs_casino_entropy_dice_outcome` (win / loss)
+
+```yaml
+notes: "two end-frame variants. Win: dice settled showing
+  matching prediction, croupier sliding chip-stack toward
+  player. Loss: dice settled showing wrong prediction, croupier
+  raking chips away. Audio: dice-settle clack 00:03; chip-slide
+  rasp 00:06."
+veo.audio.dialogue (win): "Croupier says, \"Yours.\""
+veo.audio.dialogue (loss): "Croupier says, \"House.\""
+pipeline:
+  nb2_seed: 150004; veo_seed: 250004; vo_manifest_ref: null;
+  cdn_target: cdn/client-public/cutscenes/cs_casino_entropy_dice_outcome/
+```
+
+### §G.9.5 `cs_casino_pazaak_tournament_first_seat` (Pazaak open)
+
+```yaml
+host_space: HB7 Casino (Pazaak Tournament chamber)
+nb2_start.subject: "a tournament-grade Pazaak table — felt-green
+  with brass card-channels; opponent across the table is a
+  named-NPC card-mechanic in dealer's vest with jeweled cufflinks;
+  player's gloved hands rest at table edge; tournament-bracket
+  display visible upper-frame as a brass plaque."
+nb2_end.subject: "the dealer has dealt the opening side-deck
+  cards face-up; player's hand is reaching for the cut-card."
+veo.action: "0–3 s table settles; 3–5 s dealer deals opening;
+  5–8 s player reaches for cut-card."
+veo.audio.dialogue: "Dealer says, \"Tournament Pazaak. Cut.\""
+veo.audio.sfx: "card-deal x 4 from 00:03 to 00:05; cut-card-tap 00:07."
+veo.audio.ambient: "tournament-chamber hush, faint orchestra
+  warm-up far upstage at -42 dB."
+pipeline:
+  nb2_seed: 150005; veo_seed: 250005;
+  vo_manifest_ref: apps/shared/pazaakDealerVoManifest.json#L<TBD>;
+  cdn_target: cdn/client-public/cutscenes/cs_casino_pazaak_tournament_first_seat/
+```
+
+### §G.9.6 `cs_casino_pazaak_tournament_outcome` (championship / elimination)
+
+```yaml
+notes: "two end-frame variants. Championship: tournament-bracket
+  resolved with player's name at apex; dealer offering brass
+  trophy. Elimination: bracket showing player's name with red
+  X; dealer collecting cards. Audio: trophy-rim chime 00:07
+  (championship) OR card-collect rasp 00:05 (elimination)."
+veo.audio.dialogue (championship): "Dealer says, \"Champion.
+  Earned.\""
+veo.audio.dialogue (elimination): "Dealer says, \"Out. Drink?\""
+pipeline:
+  nb2_seed: 150006; veo_seed: 250006; vo_manifest_ref: null;
+  cdn_target: cdn/client-public/cutscenes/cs_casino_pazaak_tournament_outcome/
+```
+
+---
+
+## §G.10 Quiz Show Palimpsest — Q7–Q12 round closes (6)
+
+Source: `_PRODUCTION_DESTINATIONS.md` §E.5 + `_PRODUCTION_CROSS_CUT.md`
+§F.1.A.2 (Q1–Q5 covered; Velkraal→Brel host succession at Q6
+covered). Q7–Q12 round closes still needed.
+
+Host_space: HB3 Quiz Show Studio (§E.5). Brel hosts Q6–Q12 (post-
+succession).
+
+Trait-lock: TV-studio key-grid 5600K + saturation-pushed bg-cyc;
+16:9 broadcast safe; Kodak Vision3 250D; palette
+`#ff2a8a / #5fa8ff / #ffd166`. SFX: studio-applause loop
+-26 dB, broadcast-clock tick at 1 Hz, contestant-buzzer.
+
+Each round-close lands on Brel announcing the next round's
+category, contestant podium-light state-shift, and a single-
+sentence VO from Brel.
+
+### §G.10.1 `cs_quiz_q7_close` (Round 7 → Round 8 transition)
+
+```yaml
+host_space: HB3 Quiz Show studio main stage
+nb2_start.subject: "the Quiz Show stage at end-of-Q7; Brel (TV-
+  show host, late-Velkraal-replacement, slick-suit and
+  microphone) stands at the centre podium, holding the next-
+  category card up for the crowd; the contestant podiums to
+  Brel's left have one survivor lit, three eliminated (red
+  buzzer-LED off)."
+nb2_end.subject: "Brel's category-card has flipped to face the
+  camera, revealing the Q8 category title in 21-character
+  diegetic text on broadcast-safe red banner."
+veo.action: "0–3 s Brel reveals card to crowd; 3–5 s slow swivel
+  to camera; 5–8 s card flips to camera-facing reveal."
+veo.audio.dialogue: "Brel says, \"Round eight: dread.\""
+veo.audio.sfx: "applause-burst 00:03; card-flip 00:06; broadcast-
+  clock tick at 1 Hz throughout."
+veo.audio.ambient: "studio-light hum 5600K ballast; crowd-applause
+  -26 dB bed."
+pipeline:
+  nb2_seed: 151001; veo_seed: 251001;
+  vo_manifest_ref: apps/shared/brelVoManifest.json#L<TBD>;
+  cdn_target: cdn/client-public/cutscenes/cs_quiz_q7_close/
+  notes: "diegetic Q8 category text 'ROUND 8: DREAD' is 14
+    chars, NB2 text-rendering-safe."
+```
+
+### §G.10.2 `cs_quiz_q8_close` (Round 8 → Round 9)
+
+```yaml
+notes: "Q9 category 'ROUND 9: DEBT' (12 chars). Brel's tone has
+  begun to slip — there is one frame at 00:05 where his smile
+  is wrong. Audio: faint static-burst 00:05 timed with the
+  smile-glitch."
+veo.audio.dialogue: "Brel says, \"Round nine: debt.\""
+pipeline:
+  nb2_seed: 151002; veo_seed: 251002;
+  vo_manifest_ref: apps/shared/brelVoManifest.json#L<TBD>;
+  cdn_target: cdn/client-public/cutscenes/cs_quiz_q8_close/
+```
+
+### §G.10.3 `cs_quiz_q9_close` (Round 9 → Round 10)
+
+```yaml
+notes: "Q10 category 'ROUND 10: DOUBT' (14 chars). Two of the
+  three eliminated podiums have started to dim further; one
+  contestant-silhouette is now barely visible. Audio: contestant-
+  podium dim-down hum 00:06."
+veo.audio.dialogue: "Brel says, \"Round ten: doubt.\""
+pipeline:
+  nb2_seed: 151003; veo_seed: 251003;
+  vo_manifest_ref: apps/shared/brelVoManifest.json#L<TBD>;
+  cdn_target: cdn/client-public/cutscenes/cs_quiz_q9_close/
+```
+
+### §G.10.4 `cs_quiz_q10_close` (Round 10 → Round 11)
+
+```yaml
+notes: "Q11 category 'ROUND 11: DUST' (13 chars). Brel begins to
+  fragment — his outline has a 0.06 s ghost-frame offset; bg-cyc
+  saturation pushes harder. Audio: crowd-applause-bed inverts
+  briefly to a low chord at 00:07."
+veo.audio.dialogue: "Brel says, \"Round eleven: dust.\""
+pipeline:
+  nb2_seed: 151004; veo_seed: 251004;
+  vo_manifest_ref: apps/shared/brelVoManifest.json#L<TBD>;
+  cdn_target: cdn/client-public/cutscenes/cs_quiz_q10_close/
+```
+
+### §G.10.5 `cs_quiz_q11_close` (Round 11 → Round 12 — final round)
+
+```yaml
+notes: "Q12 category 'ROUND 12: DEAD' (13 chars). Brel's ghost-
+  frame offset widens to 0.2 s; the studio-light grid above
+  begins to flicker; broadcast-clock now ticks faster (1.4 Hz).
+  Audio: light-grid flicker 00:04; ghost-frame echo 00:07."
+veo.audio.dialogue: "Brel says, \"Final round: dead.\""
+pipeline:
+  nb2_seed: 151005; veo_seed: 251005;
+  vo_manifest_ref: apps/shared/brelVoManifest.json#L<TBD>;
+  cdn_target: cdn/client-public/cutscenes/cs_quiz_q11_close/
+```
+
+### §G.10.6 `cs_quiz_q12_close` (final close — TV signs off)
+
+```yaml
+host_space: HB3 Quiz Show studio main stage
+nb2_start.subject: "the studio at end-of-Q12; Brel stands alone
+  on the centre podium; all three contestant podiums are dim;
+  the crowd-stalls are empty; bg-cyc saturation has dropped to
+  near-monochrome; the broadcast-clock has stopped at 00:00:00."
+nb2_end.subject: "Brel raises a hand to the camera; his ghost-
+  frames have separated into 5 layered offsets; the studio-
+  lights above all dim simultaneously; broadcast-clock
+  vanishes."
+veo.action: "0–3 s Brel alone on stage; 3–5 s ghost-frames
+  separate; 5–8 s lights dim, hand raised, broadcast-clock
+  vanishes."
+veo.audio.dialogue: "Brel says, \"Goodnight. Until.\""
+veo.audio.sfx: "studio-light dim cascade 00:06; broadcast-clock
+  silence 00:07; sign-off carrier-tone 00:08."
+veo.audio.ambient: "crowd-applause-bed has gone silent; only
+  studio-light ballast hum remains, then dies at 00:07."
+pipeline:
+  nb2_seed: 151006; veo_seed: 251006;
+  vo_manifest_ref: apps/shared/brelVoManifest.json#L<TBD>;
+  cdn_target: cdn/client-public/cutscenes/cs_quiz_q12_close/
+  notes: "this is the canonical final-round sign-off; HB3
+    transit-close cutscene picks up from the carrier-tone."
+```
+
+---
+
+## §G.11 Matrix Schools — per-episode opens (24)
+
+Source: `apps/shared/celebrationSchoolEpisodes.ts:23–223` and
+`apps/shared/mechronisAcademyEpisodes.ts:26–213`. Each school has
+12 episodes; one **episode-open** Cat-A cutscene per episode (6 s
+each, since the episode itself opens with a longer
+`MatrixSchoolEpisodePage` in-engine intro — these cuts are
+punctuation-only).
+
+Host_space: §E.x via HB1 (Celebration School courtyard) for
+celebration episodes; §E.x via HB12 (Mechronis Academy main
+hallway) for mechronis episodes.
+
+Trait-lock — Celebration School: golden-hour soft 4500K; primary-
+colour signage; Vision3 250D; palette `#f4d35e / #6cc24a / #5fa8ff`.
+SFX: schoolyard murmur, distant bell.
+
+Trait-lock — Mechronis Academy: blue-cold 6500K fluoro; surveillance-
+grey walls; Vision3 250D underexposed -0.5; palette
+`#3a4a5a / #c4d4e4 / #ff4a4a`. SFX: ventilation hum, surveillance-
+camera servo whirr.
+
+### §G.11.1 — §G.11.12 Celebration School per-episode opens (12)
+
+| § | cs_id | episode | beat (one-line) | VO | sfx hook |
+|---|---|---|---|---|---|
+| §G.11.1 | `cs_celebration_c1_the_watch_open` | C1 The Watch | Bernardo and Lady Malkia see the King's ghost on the Castle ramparts | Bernardo: "Did you see it?" | rampart-wind 00:03; ghost-shimmer chord 00:05 |
+| §G.11.2 | `cs_celebration_c2_first_day_open` | C2 First Day | Artist Prince enrolls; Vernon mocks at the gates | Artist Prince: "I am here." | school-bell 00:04; gate-creak 00:05 |
+| §G.11.3 | `cs_celebration_c3_chess_class_open` | C3 Chess Class | Game Master teaches first chess class | Game Master: "Pawn first." | chalk-tap 00:03; chess-piece-place 00:05 |
+| §G.11.4 | `cs_celebration_c4_under_floor_open` | C4 Under the Floor | Conspiracy clue under floorboards | Bernardo: "Look down." | floor-creak 00:03; clue-glint 00:05 |
+| §G.11.5 | `cs_celebration_c5_banner_glitches_open` | C5 Banner Glitches | Castle banner flickers between two states | Lady Malkia: "It glitched." | banner-cloth-shift 00:04; glitch-crackle 00:06 |
+| §G.11.6 | `cs_celebration_c6_dueling_court_open` | C6 Dueling Court | First card duel at the dueling court | Artist Prince: "Stakes are real." | duel-bell 00:03; card-shuffle 00:05 |
+| §G.11.7 | `cs_celebration_c7_patrons_summons_open` | C7 Patron's Summons | The Patron summons the Prince | The Patron: "Come up." | summons-chime 00:03; chamber-door-open 00:05 |
+| §G.11.8 | `cs_celebration_c8_ghost_in_hall_open` | C8 Ghost in the Hall | The Ghost speaks, mid-corridor | The Ghost: "My crown." | hall-echo step 00:03; ghost-whisper 00:05 |
+| §G.11.9 | `cs_celebration_c9_match_open` | C9 The Match | Tournament card-match begins | Game Master: "Final hand." | tournament-bell 00:03; crowd-hush 00:05 |
+| §G.11.10 | `cs_celebration_c10_arks_rise_open` | C10 The Arks Rise | The Arks launch; school watches sky | Lady Malkia: "They go up." | engine-rumble 00:03; sky-roar 00:06 |
+| §G.11.11 | `cs_celebration_c11_uncles_verdict_open` | C11 Uncle's Verdict | The Uncle pronounces verdict on Prince | The Uncle: "You will return." | gavel-strike 00:03; verdict-echo 00:05 |
+| §G.11.12 | `cs_celebration_c12_last_good_day_open` | C12 The Last Good Day | The day before the burning | Artist Prince: "Sun. One more." | warm-bell 00:03; child-laughter -38 dB 00:00–00:06 |
+
+Each block (compact form):
+
+```yaml
+host_space: §E.x Celebration School (per-episode set-piece zone)
+nb2_start.subject: <episode beat one-line> with the named POV
+  character at frame-centre, golden-hour 4500K key, schoolyard
+  primary-colours visible behind, Celebration School trait-lock.
+nb2_end.subject: <episode beat resolved>; player's gloved hand at
+  frame edge.
+veo.cinematography: medium close-up, slow push-in 0.3 m, 50mm,
+  FPV trait-lock.
+veo.action: 0–3 s scene establishes; 3–5 s POV character
+  delivers VO; 5–6 s sfx hook lands.
+veo.audio.dialogue: <table column>
+veo.audio.sfx: <table column>
+veo.audio.ambient: schoolyard murmur, distant bell.
+pipeline:
+  nb2_seed: 152001..152012; veo_seed: 252001..252012;
+  vo_manifest_ref: apps/shared/<characterVoManifest.json>#L<TBD>;
+  cdn_target: cdn/client-public/cutscenes/<cs_id>/
+```
+
+Per-episode VO manifests:
+- C1 — `apps/shared/bernardoVoManifest.json`
+- C2, C6, C12 — `apps/shared/artistPrinceVoManifest.json`
+- C3, C9 — `apps/shared/gameMasterVoManifest.json`
+- C4 — `apps/shared/bernardoVoManifest.json`
+- C5, C10 — `apps/shared/ladyMalkiaVoManifest.json`
+- C7 — `apps/shared/thePatronVoManifest.json`
+- C8 — `apps/shared/theGhostVoManifest.json`
+- C11 — `apps/shared/theUncleVoManifest.json`
+
+### §G.11.13 — §G.11.24 Mechronis Academy per-episode opens (12)
+
+| § | cs_id | episode | beat (one-line) | VO | sfx hook |
+|---|---|---|---|---|---|
+| §G.11.13 | `cs_mechronis_m1_choric_drill_open` | M1 Choric Compliance Drill | Drill-sergeant calls roll; cohort recites in unison | Sergeant: "Begin compliance." | drill-whistle 00:03; chorus-recite 00:05 |
+| §G.11.14 | `cs_mechronis_m2_applied_surveillance_open` | M2 Applied Surveillance | Class taught how to watch a mark | Instructor: "Track it." | camera-servo whirr 00:03; mark-acquired chime 00:05 |
+| §G.11.15 | `cs_mechronis_m3_trade_exercise_open` | M3 Trade Exercise | Student-table mock-trade negotiation | Trader-instructor: "Negotiate hard." | abacus-bead-snap 00:03; gavel-tap 00:05 |
+| §G.11.16 | `cs_mechronis_m4_patrons_game_open` | M4 Patron's Game | Patron arrives unannounced | The Patron: "Surprise lesson." | corridor-step echo 00:03; door-thud 00:05 |
+| §G.11.17 | `cs_mechronis_m5_necromancers_lecture_open` | M5 Necromancer's Lecture | Necromancer teaches death-coding | The Necromancer: "Dying is data." | bone-tap on lectern 00:03; chalk-skritch 00:05 |
+| §G.11.18 | `cs_mechronis_m6_antiquarian_visits_open` | M6 Antiquarian Visits | The Antiquarian inspects the cohort | Antiquarian: "Show me yours." | leather-glove flex 00:03; ledger-page 00:05 |
+| §G.11.19 | `cs_mechronis_m7_trade_practicum_open` | M7 Trade Practicum | Field exercise on a mock-station | Trader-instructor: "On the floor." | comm-buzz 00:03; floor-bell 00:05 |
+| §G.11.20 | `cs_mechronis_m8_apprentice_trial_open` | M8 Apprentice Trial | Student is tested individually | Examiner: "Defend the answer." | exam-bell 00:03; clock-tick 1 Hz 00:00–00:06 |
+| §G.11.21 | `cs_mechronis_m9_oracle_counterclaim_open` | M9 Oracle's Counterclaim | The Oracle disputes a doctrine | The Oracle: "Wrong, again." | oracle-chime 00:03; doctrine-paper-tear 00:05 |
+| §G.11.22 | `cs_mechronis_m10_final_exam_open` | M10 Final Exam | The cohort sits final exam | Examiner: "Begin." | exam-paper-handout 00:03; pen-on-paper 00:05 |
+| §G.11.23 | `cs_mechronis_m11_patrons_true_face_open` | M11 Patron's True Face | Patron's mask drops mid-lecture | The Patron: "This is me." | mask-clatter on floor 00:04; gasp-cohort 00:05 |
+| §G.11.24 | `cs_mechronis_m12_diploma_that_isnt_open` | M12 Diploma That Isn't | Graduation ceremony reveals the diploma is blank | Examiner: "Sign it. Anyway." | ceremony-fanfare 00:03; quill-on-blank-paper 00:05 |
+
+Each block (compact form):
+
+```yaml
+host_space: §E.x Mechronis Academy (per-episode set-piece zone)
+nb2_start.subject: <episode beat one-line> with the named POV
+  character at frame-centre, blue-cold 6500K fluoro key,
+  surveillance-grey walls behind, Mechronis trait-lock.
+nb2_end.subject: <episode beat resolved>; player's gloved hand at
+  frame edge.
+veo.cinematography: medium close-up, slow push-in 0.3 m, 50mm,
+  FPV trait-lock.
+veo.action: 0–3 s scene establishes; 3–5 s POV character
+  delivers VO; 5–6 s sfx hook lands.
+veo.audio.dialogue: <table column>
+veo.audio.sfx: <table column>
+veo.audio.ambient: ventilation hum 60 Hz; surveillance-camera
+  servo whirr.
+pipeline:
+  nb2_seed: 152013..152024; veo_seed: 252013..252024;
+  vo_manifest_ref: apps/shared/<characterVoManifest.json>#L<TBD>;
+  cdn_target: cdn/client-public/cutscenes/<cs_id>/
+```
+
+Per-episode VO manifests:
+- M1, M3, M5, M6, M7, M8, M9, M10 — per character listed in
+  table column (Sergeant, Trader-instructor, The Necromancer,
+  Antiquarian, Trader-instructor, Examiner, The Oracle, Examiner).
+- M2 — `apps/shared/mechronisInstructorVoManifest.json`
+- M4, M11 — `apps/shared/thePatronVoManifest.json`
+- M12 — `apps/shared/mechronisExaminerVoManifest.json`
+
+### §G.11 audit notes
+
+- Where a character appears in multiple episodes (Patron in C7
+  + M4 + M11; Game Master in C3 + C9; Necromancer in M5 +
+  boss-arena §G.3.3; Architect in §G.3.5 + §G.8.15; Antiquarian
+  in M6 + lore tie-ins), the same VO manifest is referenced.
+  Audio post selects the correct take per cutscene context using
+  the manifest's `lineId` field (manifest schema unchanged from
+  Phase D).
+- All 24 episode opens are 6 s per §3.1 punctuation-cutscene
+  guidance for non-narrative-load-bearing transitions; longer
+  episode in-engine intros are out of scope here.
+
+---
+
+## §G.C audit (will be re-checked at §G.F)
+
+Cutscenes added in this sub-phase: **36**
+- §G.9 Casino: 6
+- §G.10 Quiz Show Q7–Q12: 6
+- §G.11 Matrix Schools: 24
+
+Cumulative coverage after G.A + G.B + G.C: **150 cutscenes**.
+
+Outstanding TBDs (resolved in §G.F audit):
+- VO manifest line numbers for: Brel, Pazaak Dealer, Pit-boss,
+  Croupier, Sergeant, Trader-instructor, Examiner, Oracle,
+  Mechronis-instructor, Mechronis-Examiner.
+- Quiz Show category-text rendering: each diegetic 12–14 char
+  string is NB2 text-rendering-safe; verify rendering quality on
+  first generation pass.
+- Matrix Schools per-episode set-piece zones (`§E.x via HB1` /
+  `§E.x via HB12`) need explicit §E reference in destinations
+  doc — currently rolled into Hellbox-destination spec.
