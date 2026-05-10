@@ -54,7 +54,42 @@ import { useActVO } from "@/hooks/useActVO";
 import LivingBackground from "@/components/LivingBackground";
 
 import { assetUrl } from "@/lib/assetUrl";
-type LadderView = "ladder" | "matchup" | "battle" | "postmatch";
+type LadderView = "ladder" | "matchup" | "battle" | "postmatch" | "pathlock";
+
+interface PathLockChoice {
+  id: "insurgency" | "empire" | "hierarchy";
+  label: string;
+  cover: string;
+  endingFlag: string;
+  rationale: string;
+}
+
+const PATH_LOCK_CHOICES: ReadonlyArray<PathLockChoice> = [
+  {
+    id: "insurgency",
+    label: "Wear the Insurgent's name.",
+    cover: "Cover identity: Insurgency cell-runner.",
+    endingFlag: "act3_insurgency_ending",
+    rationale:
+      "The lanes are watched, but the Insurgents' channels are watched LESS. You will move slower. You will move further. Kael's old cohort still recognises the handshake.",
+  },
+  {
+    id: "empire",
+    label: "Wear the Empire's seal.",
+    cover: "Cover identity: New Babylon Empire courier.",
+    endingFlag: "act3_empire_ending",
+    rationale:
+      "The Empire's papers open every door. The papers are mine to forge. The cost is that I will hold the bond, not you, and the bond pays in trades I will choose.",
+  },
+  {
+    id: "hierarchy",
+    label: "Wear the Hierarchy's mark.",
+    cover: "Cover identity: Hierarchy mid-tier negotiator.",
+    endingFlag: "act3_hierarchy_ending",
+    rationale:
+      "Inside the Hierarchy you will not be hunted. You will be administered. The administration is harder than the hunt. Most people pick this and regret it. Some do not.",
+  },
+];
 
 function resolveOpponentFaction(o: ActNOpponent): string {
   return o.deckLeaning[0] ?? "neutral";
@@ -166,8 +201,33 @@ export default function Act3CardLadderPage() {
   const handlePostMatchContinue = useCallback(() => {
     setPostMatchResult(null);
     setTauntPhase(null);
-    setView("ladder");
-  }, []);
+    // After the third gate win, the substrate ladder is cleared.
+    // Locke's path-lock offer fires once unless the player has already
+    // committed to a path on a prior pass (read directly from flags so
+    // we don't re-show after picking).
+    const flags = gameState.narrativeFlags ?? {};
+    const alreadyPicked =
+      flags.act3_insurgency_ending ||
+      flags.act3_empire_ending ||
+      flags.act3_hierarchy_ending;
+    if (
+      flags.act3_kael_logs_unlocked &&
+      !alreadyPicked
+    ) {
+      setView("pathlock");
+    } else {
+      setView("ladder");
+    }
+  }, [gameState.narrativeFlags]);
+
+  const handlePathLockChoice = useCallback(
+    (choice: PathLockChoice) => {
+      setNarrativeFlag(choice.endingFlag, true);
+      setNarrativeFlag(`act3_path_${choice.id}_chosen`, true);
+      setView("ladder");
+    },
+    [setNarrativeFlag],
+  );
 
   const accent = "void-border-system void-text-system";
   const subAccent = "void-text-system";
@@ -275,6 +335,17 @@ export default function Act3CardLadderPage() {
                     Return to the bridge. The War Room will light up
                     with every coordinate he ever visited.
                   </p>
+                  {!gameState.narrativeFlags?.act3_insurgency_ending &&
+                    !gameState.narrativeFlags?.act3_empire_ending &&
+                    !gameState.narrativeFlags?.act3_hierarchy_ending && (
+                      <button
+                        type="button"
+                        onClick={() => setView("pathlock")}
+                        className="mt-3 rounded-md border border-amber-500/60 bg-amber-900/40 px-3 py-1.5 font-mono text-[10px] uppercase tracking-wider text-amber-100 hover:bg-amber-800/60"
+                      >
+                        Open Locke's offer →
+                      </button>
+                    )}
                 </div>
               )}
             </motion.div>
@@ -402,6 +473,60 @@ export default function Act3CardLadderPage() {
                   Continue
                 </button>
               </div>
+            </motion.div>
+          )}
+
+          {view === "pathlock" && (
+            <motion.div
+              key="pathlock"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.4 }}
+              className="space-y-4"
+            >
+              <div className="rounded-md border border-amber-500/60 bg-amber-950/30 p-5">
+                <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-amber-300/80">
+                  Inbox · Adjudicator Locke
+                </p>
+                <p className="mt-1 font-display text-xl text-amber-100">
+                  The Offer (final form)
+                </p>
+                <p className="mt-3 font-serif italic text-[13px] leading-relaxed text-amber-50">
+                  You have walked the substrate ladder. Three gates,
+                  three echoes of Kael, three confirmations that you
+                  can move down there without being eaten.
+                </p>
+                <p className="mt-3 font-serif italic text-[13px] leading-relaxed text-amber-50">
+                  The Trade Empire's real lanes are still patrolled.
+                  Real runs need cover. I am offering you three. Pick
+                  one. The other two will close behind you.
+                </p>
+              </div>
+              <div className="grid gap-3 md:grid-cols-3">
+                {PATH_LOCK_CHOICES.map((choice) => (
+                  <button
+                    key={choice.id}
+                    type="button"
+                    onClick={() => handlePathLockChoice(choice)}
+                    className="text-left rounded-md border border-amber-500/40 bg-slate-950/60 p-4 hover:border-amber-400/80 hover:bg-amber-950/30 transition-colors"
+                    data-testid={`act3-pathlock-${choice.id}`}
+                  >
+                    <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-amber-300/80">
+                      {choice.cover}
+                    </p>
+                    <p className="mt-2 font-display text-base text-amber-100">
+                      {choice.label}
+                    </p>
+                    <p className="mt-2 font-serif italic text-[12px] leading-relaxed text-amber-50/80">
+                      {choice.rationale}
+                    </p>
+                  </button>
+                ))}
+              </div>
+              <p className="text-center font-mono text-[10px] uppercase tracking-[0.25em] text-amber-300/60">
+                — L.
+              </p>
             </motion.div>
           )}
         </AnimatePresence>

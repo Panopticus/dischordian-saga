@@ -69,9 +69,11 @@ export const ARMY_UNIT_TYPES: ReadonlyArray<ArmyUnitType> = [
 
 /* ─── MILESTONES ─── */
 
-/** Canonical milestone counts. The 5/15 numbers shadow
- *  RECRUITMENT_THRESHOLDS so a structural rename surfaces here. */
-export const COMMISSION_MILESTONES = [1, 5, 10, 15, 20] as const;
+/** Canonical milestone counts. The 5/8 numbers shadow
+ *  RECRUITMENT_THRESHOLDS so a structural rename surfaces here.
+ *  Act 7 threshold tightened from 15 → 8 in the BioWare-grade
+ *  pacing pass; the 8-mission commission slots in where 15 was. */
+export const COMMISSION_MILESTONES = [1, 5, 8, 10, 20] as const;
 export type CommissionMilestone = (typeof COMMISSION_MILESTONES)[number];
 
 /** Defensive cross-check: Act 6 / Act 7 thresholds must each be a
@@ -152,8 +154,8 @@ const DIRECTIVES: ReadonlyArray<OperationalDirective> = [
 const DIRECTIVE_BY_MILESTONE: Record<CommissionMilestone, OperationalDirective> = {
   1:  DIRECTIVES[0],
   5:  DIRECTIVES[1],
+  8:  DIRECTIVES[3],
   10: DIRECTIVES[2],
-  15: DIRECTIVES[3],
   20: DIRECTIVES[4],
 };
 
@@ -199,12 +201,13 @@ const COMMISSION_LINES: Record<CommissionMilestone, { line: string; callbackLine
       "Ten. You have a column. The Architect's clerks have a number for you. The number is mine " +
       "before it is yours; I will not say which they reach. Make peace with the count.",
   },
-  15: {
+  8: {
     line:
-      "Fifteen. The contract is a force now. You will feed it, mislead it, and lose some of it on " +
-      "purpose. I am not going to soften the math. Neither are you, after this.",
+      "Eight. The contract has weight now. You can feel it when you walk. You will feed it, " +
+      "mislead it, and lose some of it on purpose. I am not going to soften the math. Neither are " +
+      "you, after this.",
     callbackLine:
-      "The version of you who signed at one would not recognise the version signing at fifteen. " +
+      "The version of you who signed at one would not recognise the version signing at eight. " +
       "That is correct. The work is the difference.",
   },
   20: {
