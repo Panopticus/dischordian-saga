@@ -1,0 +1,578 @@
+[
+  {
+    "id": "audit_m14_artisan_female",
+    "character": "apprentice_artisan_female",
+    "text": "1: build straight. 2: build true. 3: build last. The Mechronis taught my master to count the rivets, not the load.",
+    "emotion": "considered",
+    "bucket": "audit_m14",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m14_artisan_male",
+    "character": "apprentice_artisan_male",
+    "text": "1: build straight. 2: build true. 3: build last. The Mechronis taught my master to count the rivets, not the load.",
+    "emotion": "considered",
+    "bucket": "audit_m14",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m14_ghost_female",
+    "character": "apprentice_ghost_female",
+    "text": "1: do not be seen. 2: do not be useful. 3: be seen briefly when it costs the watcher. The Mechronis taught my master none of these.",
+    "emotion": "considered",
+    "bucket": "audit_m14",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m14_ghost_male",
+    "character": "apprentice_ghost_male",
+    "text": "1: do not be seen. 2: do not be useful. 3: be seen briefly when it costs the watcher. The Mechronis taught my master none of these.",
+    "emotion": "considered",
+    "bucket": "audit_m14",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m14_heretic_female",
+    "character": "apprentice_heretic_female",
+    "text": "1: every doctrine is a question. 2: every question is a key. 3: every key opens its own lock first. The Mechronis taught my master to ask only locked questions.",
+    "emotion": "considered",
+    "bucket": "audit_m14",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m14_heretic_male",
+    "character": "apprentice_heretic_male",
+    "text": "1: every doctrine is a question. 2: every question is a key. 3: every key opens its own lock first. The Mechronis taught my master to ask only locked questions.",
+    "emotion": "considered",
+    "bucket": "audit_m14",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m14_jester_female",
+    "character": "apprentice_jester_female",
+    "text": "1: laugh first. 2: laugh second. 3: laugh at the third laugh. The Mechronis taught my master that the first laugh is the only legible one.",
+    "emotion": "considered",
+    "bucket": "audit_m14",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m14_jester_male",
+    "character": "apprentice_jester_male",
+    "text": "1: laugh first. 2: laugh second. 3: laugh at the third laugh. The Mechronis taught my master that the first laugh is the only legible one.",
+    "emotion": "considered",
+    "bucket": "audit_m14",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m14_martyr_female",
+    "character": "apprentice_martyr_female",
+    "text": "1: give. 2: give again. 3: give what cannot be returned. The Mechronis taught my master that returns are required.",
+    "emotion": "considered",
+    "bucket": "audit_m14",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m14_martyr_male",
+    "character": "apprentice_martyr_male",
+    "text": "1: give. 2: give again. 3: give what cannot be returned. The Mechronis taught my master that returns are required.",
+    "emotion": "considered",
+    "bucket": "audit_m14",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m14_oracle_female",
+    "character": "apprentice_oracle_female",
+    "text": "1: a question cannot be unasked. 2: an answer can be unsaid. 3: a vision keeps when withheld. The Mechronis taught my master only the second.",
+    "emotion": "considered",
+    "bucket": "audit_m14",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m14_oracle_male",
+    "character": "apprentice_oracle_male",
+    "text": "1: a question cannot be unasked. 2: an answer can be unsaid. 3: a vision keeps when withheld. The Mechronis taught my master only the second.",
+    "emotion": "considered",
+    "bucket": "audit_m14",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m14_prodigal_female",
+    "character": "apprentice_prodigal_female",
+    "text": "1: leaving is also choosing. 2: returning is also choosing. 3: not being forgiven is also choosing. The Mechronis did not teach my master the third.",
+    "emotion": "considered",
+    "bucket": "audit_m14",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m14_prodigal_male",
+    "character": "apprentice_prodigal_male",
+    "text": "1: leaving is also choosing. 2: returning is also choosing. 3: not being forgiven is also choosing. The Mechronis did not teach my master the third.",
+    "emotion": "considered",
+    "bucket": "audit_m14",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m14_revenant_female",
+    "character": "apprentice_revenant_female",
+    "text": "1: the debt outlives the body. 2: the body remembers the debt. 3: the body is the debt. The Mechronis taught my master the first; the second is mine.",
+    "emotion": "considered",
+    "bucket": "audit_m14",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m14_revenant_male",
+    "character": "apprentice_revenant_male",
+    "text": "1: the debt outlives the body. 2: the body remembers the debt. 3: the body is the debt. The Mechronis taught my master the first; the second is mine.",
+    "emotion": "considered",
+    "bucket": "audit_m14",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m14_scholar_female",
+    "character": "apprentice_scholar_female",
+    "text": "1: cite the source. 2: distrust the source. 3: become the source. The Mechronis taught my master only the first.",
+    "emotion": "considered",
+    "bucket": "audit_m14",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m14_scholar_male",
+    "character": "apprentice_scholar_male",
+    "text": "1: cite the source. 2: distrust the source. 3: become the source. The Mechronis taught my master only the first.",
+    "emotion": "considered",
+    "bucket": "audit_m14",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m14_sentinel_female",
+    "character": "apprentice_sentinel_female",
+    "text": "1: keep the post. 2: keep the relief. 3: keep yourself when neither shows. The Mechronis taught my master to count only the first.",
+    "emotion": "considered",
+    "bucket": "audit_m14",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m14_sentinel_male",
+    "character": "apprentice_sentinel_male",
+    "text": "1: keep the post. 2: keep the relief. 3: keep yourself when neither shows. The Mechronis taught my master to count only the first.",
+    "emotion": "considered",
+    "bucket": "audit_m14",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m14_wanderer_female",
+    "character": "apprentice_wanderer_female",
+    "text": "1: stay. 2: stay longer. 3: leave when staying becomes the closing of a door. The Mechronis taught my master nothing about doors.",
+    "emotion": "considered",
+    "bucket": "audit_m14",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m14_wanderer_male",
+    "character": "apprentice_wanderer_male",
+    "text": "1: stay. 2: stay longer. 3: leave when staying becomes the closing of a door. The Mechronis taught my master nothing about doors.",
+    "emotion": "considered",
+    "bucket": "audit_m14",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m14_zealot_female",
+    "character": "apprentice_zealot_female",
+    "text": "1: the cause is bigger than the master. 2: the master is bigger than me. 3: the cause and I will outlive the master. The Mechronis taught my master only the third lesson.",
+    "emotion": "considered",
+    "bucket": "audit_m14",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m14_zealot_male",
+    "character": "apprentice_zealot_male",
+    "text": "1: the cause is bigger than the master. 2: the master is bigger than me. 3: the cause and I will outlive the master. The Mechronis taught my master only the third lesson.",
+    "emotion": "considered",
+    "bucket": "audit_m14",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m21_artisan_female",
+    "character": "apprentice_artisan_female",
+    "text": "I withhold one tool. It is the one I built without a master. It is mine.",
+    "emotion": "withdrawn",
+    "bucket": "audit_m21",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m21_artisan_male",
+    "character": "apprentice_artisan_male",
+    "text": "I withhold one tool. It is the one I built without a master. It is mine.",
+    "emotion": "withdrawn",
+    "bucket": "audit_m21",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m21_ghost_female",
+    "character": "apprentice_ghost_female",
+    "text": "I withhold the count of times I was unseen. The count is the only thing I keep.",
+    "emotion": "withdrawn",
+    "bucket": "audit_m21",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m21_ghost_male",
+    "character": "apprentice_ghost_male",
+    "text": "I withhold the count of times I was unseen. The count is the only thing I keep.",
+    "emotion": "withdrawn",
+    "bucket": "audit_m21",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m21_heretic_female",
+    "character": "apprentice_heretic_female",
+    "text": "I withhold the sentence. You have asked for it three times. The withholding is the sentence.",
+    "emotion": "withdrawn",
+    "bucket": "audit_m21",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m21_heretic_male",
+    "character": "apprentice_heretic_male",
+    "text": "I withhold the sentence. You have asked for it three times. The withholding is the sentence.",
+    "emotion": "withdrawn",
+    "bucket": "audit_m21",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m21_jester_female",
+    "character": "apprentice_jester_female",
+    "text": "I withhold the joke that doesn't land. It is the only joke that is mine.",
+    "emotion": "withdrawn",
+    "bucket": "audit_m21",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m21_jester_male",
+    "character": "apprentice_jester_male",
+    "text": "I withhold the joke that doesn't land. It is the only joke that is mine.",
+    "emotion": "withdrawn",
+    "bucket": "audit_m21",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m21_martyr_female",
+    "character": "apprentice_martyr_female",
+    "text": "I withhold the gift I have not given yet. It will be given to my master, not to your file.",
+    "emotion": "withdrawn",
+    "bucket": "audit_m21",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m21_martyr_male",
+    "character": "apprentice_martyr_male",
+    "text": "I withhold the gift I have not given yet. It will be given to my master, not to your file.",
+    "emotion": "withdrawn",
+    "bucket": "audit_m21",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m21_oracle_female",
+    "character": "apprentice_oracle_female",
+    "text": "I withhold a vision I have not had yet. I will withhold it whether it comes or not.",
+    "emotion": "withdrawn",
+    "bucket": "audit_m21",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m21_oracle_male",
+    "character": "apprentice_oracle_male",
+    "text": "I withhold a vision I have not had yet. I will withhold it whether it comes or not.",
+    "emotion": "withdrawn",
+    "bucket": "audit_m21",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m21_prodigal_female",
+    "character": "apprentice_prodigal_female",
+    "text": "I withhold the reason I came back. It is the only reason that is still mine.",
+    "emotion": "withdrawn",
+    "bucket": "audit_m21",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m21_prodigal_male",
+    "character": "apprentice_prodigal_male",
+    "text": "I withhold the reason I came back. It is the only reason that is still mine.",
+    "emotion": "withdrawn",
+    "bucket": "audit_m21",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m21_revenant_female",
+    "character": "apprentice_revenant_female",
+    "text": "I withhold who I came back from. They are not your concern. They are mine.",
+    "emotion": "withdrawn",
+    "bucket": "audit_m21",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m21_revenant_male",
+    "character": "apprentice_revenant_male",
+    "text": "I withhold who I came back from. They are not your concern. They are mine.",
+    "emotion": "withdrawn",
+    "bucket": "audit_m21",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m21_scholar_female",
+    "character": "apprentice_scholar_female",
+    "text": "I withhold one footnote. It is the footnote that explains why the others are wrong.",
+    "emotion": "withdrawn",
+    "bucket": "audit_m21",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m21_scholar_male",
+    "character": "apprentice_scholar_male",
+    "text": "I withhold one footnote. It is the footnote that explains why the others are wrong.",
+    "emotion": "withdrawn",
+    "bucket": "audit_m21",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m21_sentinel_female",
+    "character": "apprentice_sentinel_female",
+    "text": "I withhold the post. The post is mine. The watch is mine. The relief is mine.",
+    "emotion": "withdrawn",
+    "bucket": "audit_m21",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m21_sentinel_male",
+    "character": "apprentice_sentinel_male",
+    "text": "I withhold the post. The post is mine. The watch is mine. The relief is mine.",
+    "emotion": "withdrawn",
+    "bucket": "audit_m21",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m21_wanderer_female",
+    "character": "apprentice_wanderer_female",
+    "text": "I withhold the road I will take. The road does not want to be filed.",
+    "emotion": "withdrawn",
+    "bucket": "audit_m21",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m21_wanderer_male",
+    "character": "apprentice_wanderer_male",
+    "text": "I withhold the road I will take. The road does not want to be filed.",
+    "emotion": "withdrawn",
+    "bucket": "audit_m21",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m21_zealot_female",
+    "character": "apprentice_zealot_female",
+    "text": "I withhold the founder's name. The cause does not need it. Neither do you.",
+    "emotion": "withdrawn",
+    "bucket": "audit_m21",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m21_zealot_male",
+    "character": "apprentice_zealot_male",
+    "text": "I withhold the founder's name. The cause does not need it. Neither do you.",
+    "emotion": "withdrawn",
+    "bucket": "audit_m21",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m7_artisan_female",
+    "character": "apprentice_artisan_female",
+    "text": "Initiate. Stage 1. House not yet decided. Please file the row neatly. I will be checking.",
+    "emotion": "guarded",
+    "bucket": "audit_m7",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m7_artisan_male",
+    "character": "apprentice_artisan_male",
+    "text": "Initiate. Stage 1. House not yet decided. Please file the row neatly. I will be checking.",
+    "emotion": "guarded",
+    "bucket": "audit_m7",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m7_ghost_female",
+    "character": "apprentice_ghost_female",
+    "text": "Initiate. Stage 1. No House. File me where files are not read.",
+    "emotion": "guarded",
+    "bucket": "audit_m7",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m7_ghost_male",
+    "character": "apprentice_ghost_male",
+    "text": "Initiate. Stage 1. No House. File me where files are not read.",
+    "emotion": "guarded",
+    "bucket": "audit_m7",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m7_heretic_female",
+    "character": "apprentice_heretic_female",
+    "text": "Initiate. Stage 1. I do not consent to filing. I am told this is not a question.",
+    "emotion": "guarded",
+    "bucket": "audit_m7",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m7_heretic_male",
+    "character": "apprentice_heretic_male",
+    "text": "Initiate. Stage 1. I do not consent to filing. I am told this is not a question.",
+    "emotion": "guarded",
+    "bucket": "audit_m7",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m7_jester_female",
+    "character": "apprentice_jester_female",
+    "text": "Initiate! Stage 1! House Resonance, no — House Umbra! I'm joking. File me twice; you'll thank me.",
+    "emotion": "guarded",
+    "bucket": "audit_m7",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m7_jester_male",
+    "character": "apprentice_jester_male",
+    "text": "Initiate! Stage 1! House Resonance, no — House Umbra! I'm joking. File me twice; you'll thank me.",
+    "emotion": "guarded",
+    "bucket": "audit_m7",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m7_martyr_female",
+    "character": "apprentice_martyr_female",
+    "text": "Initiate. Stage 1. Whichever row is most useful to you. I do not require my own.",
+    "emotion": "guarded",
+    "bucket": "audit_m7",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m7_martyr_male",
+    "character": "apprentice_martyr_male",
+    "text": "Initiate. Stage 1. Whichever row is most useful to you. I do not require my own.",
+    "emotion": "guarded",
+    "bucket": "audit_m7",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m7_oracle_female",
+    "character": "apprentice_oracle_female",
+    "text": "Initiate. Stage 1. The row I will be filed in has not been built. It is being built now. By you.",
+    "emotion": "guarded",
+    "bucket": "audit_m7",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m7_oracle_male",
+    "character": "apprentice_oracle_male",
+    "text": "Initiate. Stage 1. The row I will be filed in has not been built. It is being built now. By you.",
+    "emotion": "guarded",
+    "bucket": "audit_m7",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m7_prodigal_female",
+    "character": "apprentice_prodigal_female",
+    "text": "Initiate. Stage 1. I have a row already. From before. Please cross-reference. Or don't.",
+    "emotion": "guarded",
+    "bucket": "audit_m7",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m7_prodigal_male",
+    "character": "apprentice_prodigal_male",
+    "text": "Initiate. Stage 1. I have a row already. From before. Please cross-reference. Or don't.",
+    "emotion": "guarded",
+    "bucket": "audit_m7",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m7_revenant_female",
+    "character": "apprentice_revenant_female",
+    "text": "Initiate. Stage 1. I have been filed before. The row remembers me.",
+    "emotion": "guarded",
+    "bucket": "audit_m7",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m7_revenant_male",
+    "character": "apprentice_revenant_male",
+    "text": "Initiate. Stage 1. I have been filed before. The row remembers me.",
+    "emotion": "guarded",
+    "bucket": "audit_m7",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m7_scholar_female",
+    "character": "apprentice_scholar_female",
+    "text": "Initiate, cohort A, Stage 1. I would like to ask which clerk indexes my row. I am told this is not the time.",
+    "emotion": "guarded",
+    "bucket": "audit_m7",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m7_scholar_male",
+    "character": "apprentice_scholar_male",
+    "text": "Initiate, cohort A, Stage 1. I would like to ask which clerk indexes my row. I am told this is not the time.",
+    "emotion": "guarded",
+    "bucket": "audit_m7",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m7_sentinel_female",
+    "character": "apprentice_sentinel_female",
+    "text": "Initiate. Stage 1. House to be determined by my master. The row will be where it is required.",
+    "emotion": "guarded",
+    "bucket": "audit_m7",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m7_sentinel_male",
+    "character": "apprentice_sentinel_male",
+    "text": "Initiate. Stage 1. House to be determined by my master. The row will be where it is required.",
+    "emotion": "guarded",
+    "bucket": "audit_m7",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m7_wanderer_female",
+    "character": "apprentice_wanderer_female",
+    "text": "Initiate. Stage 1. House — choose one for me; I won't keep it. The row should be in pencil.",
+    "emotion": "guarded",
+    "bucket": "audit_m7",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m7_wanderer_male",
+    "character": "apprentice_wanderer_male",
+    "text": "Initiate. Stage 1. House — choose one for me; I won't keep it. The row should be in pencil.",
+    "emotion": "guarded",
+    "bucket": "audit_m7",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m7_zealot_female",
+    "character": "apprentice_zealot_female",
+    "text": "I am Initiate. I am Stage 1. The cause has me. The ledger row writes itself.",
+    "emotion": "guarded",
+    "bucket": "audit_m7",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  },
+  {
+    "id": "audit_m7_zealot_male",
+    "character": "apprentice_zealot_male",
+    "text": "I am Initiate. I am Stage 1. The cause has me. The ledger row writes itself.",
+    "emotion": "guarded",
+    "bucket": "audit_m7",
+    "file": "shared/apprenticeMechronisAudits.ts"
+  }
+]

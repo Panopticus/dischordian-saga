@@ -1,0 +1,90 @@
+[
+  {
+    "id": "warden_audit_close_ambiguous",
+    "character": "the_warden",
+    "text": "\"Ambiguous. I will return.\"",
+    "emotion": "procedural",
+    "bucket": "warden_audit_close",
+    "file": "shared/apprenticeWarden.ts"
+  },
+  {
+    "id": "warden_audit_close_compliant",
+    "character": "the_warden",
+    "text": "\"Acceptable. We will speak again. Sooner than you think.\"",
+    "emotion": "procedural",
+    "bucket": "warden_audit_close",
+    "file": "shared/apprenticeWarden.ts"
+  },
+  {
+    "id": "warden_audit_close_noncompliant",
+    "character": "the_warden",
+    "text": "\"You disagreed. We have a form for that. I have brought four copies. Your master will sign one.\"",
+    "emotion": "procedural",
+    "bucket": "warden_audit_close",
+    "file": "shared/apprenticeWarden.ts"
+  },
+  {
+    "id": "warden_audit_close_withheld",
+    "character": "the_warden",
+    "text": "\"You did not answer. I have written this down. The note is short. The note will outlast you.\"",
+    "emotion": "procedural",
+    "bucket": "warden_audit_close",
+    "file": "shared/apprenticeWarden.ts"
+  },
+  {
+    "id": "warden_failure_line",
+    "character": "the_warden",
+    "text": "\"This is what we wrote down. Tell me what we wrote down.\"",
+    "emotion": "procedural",
+    "bucket": "warden_signature",
+    "file": "shared/apprenticeWarden.ts"
+  },
+  {
+    "id": "warden_pitch_warden_cand_aurelia_lock",
+    "character": "the_warden",
+    "text": "The Warden has a girl who knows every door. She wants to learn what locks the door from the inside. She came with a recommendation that does not survive being read aloud.",
+    "emotion": "quiet",
+    "bucket": "warden_pitch",
+    "file": "shared/apprenticeWarden.ts"
+  },
+  {
+    "id": "warden_pitch_warden_cand_castor_hush",
+    "character": "the_warden",
+    "text": "Castor was watching the dorm for me. He noticed three things you did not. I would like to lend him to you. I cannot lend you what he noticed.",
+    "emotion": "quiet",
+    "bucket": "warden_pitch",
+    "file": "shared/apprenticeWarden.ts"
+  },
+  {
+    "id": "warden_pitch_warden_cand_meridian_quiet",
+    "character": "the_warden",
+    "text": "Meridian taught me a sentence I have not yet been able to file. They are too talented to keep on my staff. They are too loud to stay long with you. I am offering you the middle of their life.",
+    "emotion": "quiet",
+    "bucket": "warden_pitch",
+    "file": "shared/apprenticeWarden.ts"
+  },
+  {
+    "id": "warden_pitch_warden_cand_pyx_seventh",
+    "character": "the_warden",
+    "text": "Pyx has read more of the curriculum than I have. They have begun annotating it. The annotations are correct. I cannot keep a student who corrects me. Perhaps you can.",
+    "emotion": "quiet",
+    "bucket": "warden_pitch",
+    "file": "shared/apprenticeWarden.ts"
+  },
+  {
+    "id": "warden_purge_offer",
+    "character": "the_warden",
+    "text": "\"You are reciting a doctrine I have signed warrants for. Your master is a footnote on those warrants. Take this slip — recite the Compliant Mouth at the next audit. Your file closes. Your master's file stays open, but quietly. This is the kindest version of this conversation.\"",
+    "emotion": "procedural",
+    "bucket": "warden_purge",
+    "file": "shared/apprenticeWarden.ts"
+  },
+  {
+    "id": "warden_purge_prompt",
+    "character": "the_warden",
+    "text": "The Warden meets Initiate at the dock at first light. Two coffee. One was already cold. The Warden does not drink either.",
+    "emotion": "quiet",
+    "bucket": "warden_purge",
+    "file": "shared/apprenticeWarden.ts"
+  }
+]

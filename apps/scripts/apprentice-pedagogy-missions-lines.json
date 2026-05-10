@@ -1,0 +1,1666 @@
+[
+  {
+    "id": "mission_army_holdfast_martyr_female_brief",
+    "character": "apprentice_martyr_female",
+    "text": "Orders are to hold the ridge until the second wave clears the valley. The first wave will arrive in eight hours. The second wave is not coming. — Apprentice",
+    "emotion": "wary",
+    "bucket": "mission_army_leader",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_army_holdfast_martyr_female_return",
+    "character": "apprentice_martyr_female",
+    "text": "Ridge action complete. Casualty list attached. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_army_leader_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_army_holdfast_martyr_male_brief",
+    "character": "apprentice_martyr_male",
+    "text": "Orders are to hold the ridge until the second wave clears the valley. The first wave will arrive in eight hours. The second wave is not coming. — Apprentice",
+    "emotion": "wary",
+    "bucket": "mission_army_leader",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_army_holdfast_martyr_male_return",
+    "character": "apprentice_martyr_male",
+    "text": "Ridge action complete. Casualty list attached. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_army_leader_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_army_holdfast_revenant_female_brief",
+    "character": "apprentice_revenant_female",
+    "text": "Orders are to hold the ridge until the second wave clears the valley. The first wave will arrive in eight hours. The second wave is not coming. — Apprentice",
+    "emotion": "wary",
+    "bucket": "mission_army_leader",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_army_holdfast_revenant_female_return",
+    "character": "apprentice_revenant_female",
+    "text": "Ridge action complete. Casualty list attached. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_army_leader_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_army_holdfast_revenant_male_brief",
+    "character": "apprentice_revenant_male",
+    "text": "Orders are to hold the ridge until the second wave clears the valley. The first wave will arrive in eight hours. The second wave is not coming. — Apprentice",
+    "emotion": "wary",
+    "bucket": "mission_army_leader",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_army_holdfast_revenant_male_return",
+    "character": "apprentice_revenant_male",
+    "text": "Ridge action complete. Casualty list attached. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_army_leader_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_army_holdfast_sentinel_female_brief",
+    "character": "apprentice_sentinel_female",
+    "text": "Orders are to hold the ridge until the second wave clears the valley. The first wave will arrive in eight hours. The second wave is not coming. — Apprentice",
+    "emotion": "wary",
+    "bucket": "mission_army_leader",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_army_holdfast_sentinel_female_return",
+    "character": "apprentice_sentinel_female",
+    "text": "Ridge action complete. Casualty list attached. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_army_leader_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_army_holdfast_sentinel_male_brief",
+    "character": "apprentice_sentinel_male",
+    "text": "Orders are to hold the ridge until the second wave clears the valley. The first wave will arrive in eight hours. The second wave is not coming. — Apprentice",
+    "emotion": "wary",
+    "bucket": "mission_army_leader",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_army_holdfast_sentinel_male_return",
+    "character": "apprentice_sentinel_male",
+    "text": "Ridge action complete. Casualty list attached. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_army_leader_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_army_letter_home_martyr_female_brief",
+    "character": "apprentice_martyr_female",
+    "text": "Marek died in the second wave. His mother is on Violetta. I have written four drafts. None of them are right. — Apprentice",
+    "emotion": "steady",
+    "bucket": "mission_army_leader",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_army_letter_home_martyr_female_return",
+    "character": "apprentice_martyr_female",
+    "text": "Letter sent. Reply attached, if any. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_army_leader_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_army_letter_home_martyr_male_brief",
+    "character": "apprentice_martyr_male",
+    "text": "Marek died in the second wave. His mother is on Violetta. I have written four drafts. None of them are right. — Apprentice",
+    "emotion": "steady",
+    "bucket": "mission_army_leader",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_army_letter_home_martyr_male_return",
+    "character": "apprentice_martyr_male",
+    "text": "Letter sent. Reply attached, if any. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_army_leader_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_army_letter_home_scholar_female_brief",
+    "character": "apprentice_scholar_female",
+    "text": "Marek died in the second wave. His mother is on Violetta. I have written four drafts. None of them are right. — Apprentice",
+    "emotion": "steady",
+    "bucket": "mission_army_leader",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_army_letter_home_scholar_female_return",
+    "character": "apprentice_scholar_female",
+    "text": "Letter sent. Reply attached, if any. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_army_leader_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_army_letter_home_scholar_male_brief",
+    "character": "apprentice_scholar_male",
+    "text": "Marek died in the second wave. His mother is on Violetta. I have written four drafts. None of them are right. — Apprentice",
+    "emotion": "steady",
+    "bucket": "mission_army_leader",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_army_letter_home_scholar_male_return",
+    "character": "apprentice_scholar_male",
+    "text": "Letter sent. Reply attached, if any. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_army_leader_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_army_recruit_dispute_martyr_female_brief",
+    "character": "apprentice_martyr_female",
+    "text": "Recruit Tess won't form up. She says her brother died under your last commander. I do not have a precedent for this. — Apprentice",
+    "emotion": "steady",
+    "bucket": "mission_army_leader",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_army_recruit_dispute_martyr_female_return",
+    "character": "apprentice_martyr_female",
+    "text": "Tess is [outcome]. Squad cohesion adjusted. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_army_leader_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_army_recruit_dispute_martyr_male_brief",
+    "character": "apprentice_martyr_male",
+    "text": "Recruit Tess won't form up. She says her brother died under your last commander. I do not have a precedent for this. — Apprentice",
+    "emotion": "steady",
+    "bucket": "mission_army_leader",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_army_recruit_dispute_martyr_male_return",
+    "character": "apprentice_martyr_male",
+    "text": "Tess is [outcome]. Squad cohesion adjusted. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_army_leader_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_army_recruit_dispute_sentinel_female_brief",
+    "character": "apprentice_sentinel_female",
+    "text": "Recruit Tess won't form up. She says her brother died under your last commander. I do not have a precedent for this. — Apprentice",
+    "emotion": "steady",
+    "bucket": "mission_army_leader",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_army_recruit_dispute_sentinel_female_return",
+    "character": "apprentice_sentinel_female",
+    "text": "Tess is [outcome]. Squad cohesion adjusted. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_army_leader_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_army_recruit_dispute_sentinel_male_brief",
+    "character": "apprentice_sentinel_male",
+    "text": "Recruit Tess won't form up. She says her brother died under your last commander. I do not have a precedent for this. — Apprentice",
+    "emotion": "steady",
+    "bucket": "mission_army_leader",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_army_recruit_dispute_sentinel_male_return",
+    "character": "apprentice_sentinel_male",
+    "text": "Tess is [outcome]. Squad cohesion adjusted. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_army_leader_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_army_terminus_skirmish_ghost_female_brief",
+    "character": "apprentice_ghost_female",
+    "text": "Terminus signature on the ridge. Same patrol pattern as the Year-2 Festival incident. We are out of position. — Apprentice",
+    "emotion": "wary",
+    "bucket": "mission_army_leader",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_army_terminus_skirmish_ghost_female_return",
+    "character": "apprentice_ghost_female",
+    "text": "Engagement [outcome]. Officer's name attached for your file. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_army_leader_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_army_terminus_skirmish_ghost_male_brief",
+    "character": "apprentice_ghost_male",
+    "text": "Terminus signature on the ridge. Same patrol pattern as the Year-2 Festival incident. We are out of position. — Apprentice",
+    "emotion": "wary",
+    "bucket": "mission_army_leader",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_army_terminus_skirmish_ghost_male_return",
+    "character": "apprentice_ghost_male",
+    "text": "Engagement [outcome]. Officer's name attached for your file. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_army_leader_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_army_terminus_skirmish_heretic_female_brief",
+    "character": "apprentice_heretic_female",
+    "text": "Terminus signature on the ridge. Same patrol pattern as the Year-2 Festival incident. We are out of position. — Apprentice",
+    "emotion": "wary",
+    "bucket": "mission_army_leader",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_army_terminus_skirmish_heretic_female_return",
+    "character": "apprentice_heretic_female",
+    "text": "Engagement [outcome]. Officer's name attached for your file. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_army_leader_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_army_terminus_skirmish_heretic_male_brief",
+    "character": "apprentice_heretic_male",
+    "text": "Terminus signature on the ridge. Same patrol pattern as the Year-2 Festival incident. We are out of position. — Apprentice",
+    "emotion": "wary",
+    "bucket": "mission_army_leader",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_army_terminus_skirmish_heretic_male_return",
+    "character": "apprentice_heretic_male",
+    "text": "Engagement [outcome]. Officer's name attached for your file. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_army_leader_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_army_terminus_skirmish_revenant_female_brief",
+    "character": "apprentice_revenant_female",
+    "text": "Terminus signature on the ridge. Same patrol pattern as the Year-2 Festival incident. We are out of position. — Apprentice",
+    "emotion": "wary",
+    "bucket": "mission_army_leader",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_army_terminus_skirmish_revenant_female_return",
+    "character": "apprentice_revenant_female",
+    "text": "Engagement [outcome]. Officer's name attached for your file. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_army_leader_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_army_terminus_skirmish_revenant_male_brief",
+    "character": "apprentice_revenant_male",
+    "text": "Terminus signature on the ridge. Same patrol pattern as the Year-2 Festival incident. We are out of position. — Apprentice",
+    "emotion": "wary",
+    "bucket": "mission_army_leader",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_army_terminus_skirmish_revenant_male_return",
+    "character": "apprentice_revenant_male",
+    "text": "Engagement [outcome]. Officer's name attached for your file. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_army_leader_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_companion_archive_dig_ghost_female_brief",
+    "character": "apprentice_ghost_female",
+    "text": "I went looking for the bay-2 manifest. I found a manifest from before you came aboard. There is a name on it. — Apprentice",
+    "emotion": "steady",
+    "bucket": "mission_companion",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_companion_archive_dig_ghost_female_return",
+    "character": "apprentice_ghost_female",
+    "text": "It's in your inbox. I'll be in the galley. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_companion_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_companion_archive_dig_ghost_male_brief",
+    "character": "apprentice_ghost_male",
+    "text": "I went looking for the bay-2 manifest. I found a manifest from before you came aboard. There is a name on it. — Apprentice",
+    "emotion": "steady",
+    "bucket": "mission_companion",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_companion_archive_dig_ghost_male_return",
+    "character": "apprentice_ghost_male",
+    "text": "It's in your inbox. I'll be in the galley. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_companion_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_companion_archive_dig_oracle_female_brief",
+    "character": "apprentice_oracle_female",
+    "text": "I went looking for the bay-2 manifest. I found a manifest from before you came aboard. There is a name on it. — Apprentice",
+    "emotion": "steady",
+    "bucket": "mission_companion",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_companion_archive_dig_oracle_female_return",
+    "character": "apprentice_oracle_female",
+    "text": "It's in your inbox. I'll be in the galley. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_companion_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_companion_archive_dig_oracle_male_brief",
+    "character": "apprentice_oracle_male",
+    "text": "I went looking for the bay-2 manifest. I found a manifest from before you came aboard. There is a name on it. — Apprentice",
+    "emotion": "steady",
+    "bucket": "mission_companion",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_companion_archive_dig_oracle_male_return",
+    "character": "apprentice_oracle_male",
+    "text": "It's in your inbox. I'll be in the galley. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_companion_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_companion_archive_dig_scholar_female_brief",
+    "character": "apprentice_scholar_female",
+    "text": "I went looking for the bay-2 manifest. I found a manifest from before you came aboard. There is a name on it. — Apprentice",
+    "emotion": "steady",
+    "bucket": "mission_companion",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_companion_archive_dig_scholar_female_return",
+    "character": "apprentice_scholar_female",
+    "text": "It's in your inbox. I'll be in the galley. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_companion_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_companion_archive_dig_scholar_male_brief",
+    "character": "apprentice_scholar_male",
+    "text": "I went looking for the bay-2 manifest. I found a manifest from before you came aboard. There is a name on it. — Apprentice",
+    "emotion": "steady",
+    "bucket": "mission_companion",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_companion_archive_dig_scholar_male_return",
+    "character": "apprentice_scholar_male",
+    "text": "It's in your inbox. I'll be in the galley. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_companion_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_companion_dock_walk_scholar_female_brief",
+    "character": "apprentice_scholar_female",
+    "text": "Before alarm. Walk with me to the bay-3 ladder. I will not speak. You do not need to either. — Apprentice",
+    "emotion": "steady",
+    "bucket": "mission_companion",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_companion_dock_walk_scholar_female_return",
+    "character": "apprentice_scholar_female",
+    "text": "Walked. Talked. Slept badly. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_companion_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_companion_dock_walk_scholar_male_brief",
+    "character": "apprentice_scholar_male",
+    "text": "Before alarm. Walk with me to the bay-3 ladder. I will not speak. You do not need to either. — Apprentice",
+    "emotion": "steady",
+    "bucket": "mission_companion",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_companion_dock_walk_scholar_male_return",
+    "character": "apprentice_scholar_male",
+    "text": "Walked. Talked. Slept badly. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_companion_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_companion_dock_walk_wanderer_female_brief",
+    "character": "apprentice_wanderer_female",
+    "text": "Before alarm. Walk with me to the bay-3 ladder. I will not speak. You do not need to either. — Apprentice",
+    "emotion": "steady",
+    "bucket": "mission_companion",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_companion_dock_walk_wanderer_female_return",
+    "character": "apprentice_wanderer_female",
+    "text": "Walked. Talked. Slept badly. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_companion_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_companion_dock_walk_wanderer_male_brief",
+    "character": "apprentice_wanderer_male",
+    "text": "Before alarm. Walk with me to the bay-3 ladder. I will not speak. You do not need to either. — Apprentice",
+    "emotion": "steady",
+    "bucket": "mission_companion",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_companion_dock_walk_wanderer_male_return",
+    "character": "apprentice_wanderer_male",
+    "text": "Walked. Talked. Slept badly. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_companion_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_companion_first_kindness_ghost_female_brief",
+    "character": "apprentice_ghost_female",
+    "text": "A stranger gave me a coat in the market. I do not know what to do with the coat. — Apprentice",
+    "emotion": "steady",
+    "bucket": "mission_companion",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_companion_first_kindness_ghost_female_return",
+    "character": "apprentice_ghost_female",
+    "text": "Coat is in storage / on me. (Circle one.) — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_companion_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_companion_first_kindness_ghost_male_brief",
+    "character": "apprentice_ghost_male",
+    "text": "A stranger gave me a coat in the market. I do not know what to do with the coat. — Apprentice",
+    "emotion": "steady",
+    "bucket": "mission_companion",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_companion_first_kindness_ghost_male_return",
+    "character": "apprentice_ghost_male",
+    "text": "Coat is in storage / on me. (Circle one.) — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_companion_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_companion_first_kindness_martyr_female_brief",
+    "character": "apprentice_martyr_female",
+    "text": "A stranger gave me a coat in the market. I do not know what to do with the coat. — Apprentice",
+    "emotion": "steady",
+    "bucket": "mission_companion",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_companion_first_kindness_martyr_female_return",
+    "character": "apprentice_martyr_female",
+    "text": "Coat is in storage / on me. (Circle one.) — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_companion_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_companion_first_kindness_martyr_male_brief",
+    "character": "apprentice_martyr_male",
+    "text": "A stranger gave me a coat in the market. I do not know what to do with the coat. — Apprentice",
+    "emotion": "steady",
+    "bucket": "mission_companion",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_companion_first_kindness_martyr_male_return",
+    "character": "apprentice_martyr_male",
+    "text": "Coat is in storage / on me. (Circle one.) — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_companion_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_companion_first_kindness_prodigal_female_brief",
+    "character": "apprentice_prodigal_female",
+    "text": "A stranger gave me a coat in the market. I do not know what to do with the coat. — Apprentice",
+    "emotion": "steady",
+    "bucket": "mission_companion",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_companion_first_kindness_prodigal_female_return",
+    "character": "apprentice_prodigal_female",
+    "text": "Coat is in storage / on me. (Circle one.) — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_companion_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_companion_first_kindness_prodigal_male_brief",
+    "character": "apprentice_prodigal_male",
+    "text": "A stranger gave me a coat in the market. I do not know what to do with the coat. — Apprentice",
+    "emotion": "steady",
+    "bucket": "mission_companion",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_companion_first_kindness_prodigal_male_return",
+    "character": "apprentice_prodigal_male",
+    "text": "Coat is in storage / on me. (Circle one.) — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_companion_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_cryo_dream_leak_ghost_female_brief",
+    "character": "apprentice_ghost_female",
+    "text": "(audio fragment, pre-dawn) — Apprentice's voice, frozen: 'I am awake. I am also asleep. The Architect is asking me a question I am not awake to answer.'",
+    "emotion": "steady",
+    "bucket": "mission_cryo_vault",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_cryo_dream_leak_ghost_female_return",
+    "character": "apprentice_ghost_female",
+    "text": "(thaw protocol log) — Subject Apprentice reports unusual dream content; full review pending.",
+    "emotion": "tired",
+    "bucket": "mission_cryo_vault_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_cryo_dream_leak_ghost_male_brief",
+    "character": "apprentice_ghost_male",
+    "text": "(audio fragment, pre-dawn) — Apprentice's voice, frozen: 'I am awake. I am also asleep. The Architect is asking me a question I am not awake to answer.'",
+    "emotion": "steady",
+    "bucket": "mission_cryo_vault",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_cryo_dream_leak_ghost_male_return",
+    "character": "apprentice_ghost_male",
+    "text": "(thaw protocol log) — Subject Apprentice reports unusual dream content; full review pending.",
+    "emotion": "tired",
+    "bucket": "mission_cryo_vault_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_cryo_dream_leak_oracle_female_brief",
+    "character": "apprentice_oracle_female",
+    "text": "(audio fragment, pre-dawn) — Apprentice's voice, frozen: 'I am awake. I am also asleep. The Architect is asking me a question I am not awake to answer.'",
+    "emotion": "steady",
+    "bucket": "mission_cryo_vault",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_cryo_dream_leak_oracle_female_return",
+    "character": "apprentice_oracle_female",
+    "text": "(thaw protocol log) — Subject Apprentice reports unusual dream content; full review pending.",
+    "emotion": "tired",
+    "bucket": "mission_cryo_vault_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_cryo_dream_leak_oracle_male_brief",
+    "character": "apprentice_oracle_male",
+    "text": "(audio fragment, pre-dawn) — Apprentice's voice, frozen: 'I am awake. I am also asleep. The Architect is asking me a question I am not awake to answer.'",
+    "emotion": "steady",
+    "bucket": "mission_cryo_vault",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_cryo_dream_leak_oracle_male_return",
+    "character": "apprentice_oracle_male",
+    "text": "(thaw protocol log) — Subject Apprentice reports unusual dream content; full review pending.",
+    "emotion": "tired",
+    "bucket": "mission_cryo_vault_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_cryo_dream_leak_revenant_female_brief",
+    "character": "apprentice_revenant_female",
+    "text": "(audio fragment, pre-dawn) — Apprentice's voice, frozen: 'I am awake. I am also asleep. The Architect is asking me a question I am not awake to answer.'",
+    "emotion": "steady",
+    "bucket": "mission_cryo_vault",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_cryo_dream_leak_revenant_female_return",
+    "character": "apprentice_revenant_female",
+    "text": "(thaw protocol log) — Subject Apprentice reports unusual dream content; full review pending.",
+    "emotion": "tired",
+    "bucket": "mission_cryo_vault_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_cryo_dream_leak_revenant_male_brief",
+    "character": "apprentice_revenant_male",
+    "text": "(audio fragment, pre-dawn) — Apprentice's voice, frozen: 'I am awake. I am also asleep. The Architect is asking me a question I am not awake to answer.'",
+    "emotion": "steady",
+    "bucket": "mission_cryo_vault",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_cryo_dream_leak_revenant_male_return",
+    "character": "apprentice_revenant_male",
+    "text": "(thaw protocol log) — Subject Apprentice reports unusual dream content; full review pending.",
+    "emotion": "tired",
+    "bucket": "mission_cryo_vault_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_cryo_warming_rehearsal_scholar_female_brief",
+    "character": "apprentice_scholar_female",
+    "text": "(rehearsal log) — 'Apprentice, ship year [unknown]. Reporting for duty.' (line spoken 47 times across the cycle.)",
+    "emotion": "steady",
+    "bucket": "mission_cryo_vault",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_cryo_warming_rehearsal_scholar_female_return",
+    "character": "apprentice_scholar_female",
+    "text": "(thaw protocol log) — Apprentice wakes coherent. First line spoken: above.",
+    "emotion": "tired",
+    "bucket": "mission_cryo_vault_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_cryo_warming_rehearsal_scholar_male_brief",
+    "character": "apprentice_scholar_male",
+    "text": "(rehearsal log) — 'Apprentice, ship year [unknown]. Reporting for duty.' (line spoken 47 times across the cycle.)",
+    "emotion": "steady",
+    "bucket": "mission_cryo_vault",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_cryo_warming_rehearsal_scholar_male_return",
+    "character": "apprentice_scholar_male",
+    "text": "(thaw protocol log) — Apprentice wakes coherent. First line spoken: above.",
+    "emotion": "tired",
+    "bucket": "mission_cryo_vault_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_cryo_warming_rehearsal_sentinel_female_brief",
+    "character": "apprentice_sentinel_female",
+    "text": "(rehearsal log) — 'Apprentice, ship year [unknown]. Reporting for duty.' (line spoken 47 times across the cycle.)",
+    "emotion": "steady",
+    "bucket": "mission_cryo_vault",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_cryo_warming_rehearsal_sentinel_female_return",
+    "character": "apprentice_sentinel_female",
+    "text": "(thaw protocol log) — Apprentice wakes coherent. First line spoken: above.",
+    "emotion": "tired",
+    "bucket": "mission_cryo_vault_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_cryo_warming_rehearsal_sentinel_male_brief",
+    "character": "apprentice_sentinel_male",
+    "text": "(rehearsal log) — 'Apprentice, ship year [unknown]. Reporting for duty.' (line spoken 47 times across the cycle.)",
+    "emotion": "steady",
+    "bucket": "mission_cryo_vault",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_cryo_warming_rehearsal_sentinel_male_return",
+    "character": "apprentice_sentinel_male",
+    "text": "(thaw protocol log) — Apprentice wakes coherent. First line spoken: above.",
+    "emotion": "tired",
+    "bucket": "mission_cryo_vault_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_cryo_warming_rehearsal_zealot_female_brief",
+    "character": "apprentice_zealot_female",
+    "text": "(rehearsal log) — 'Apprentice, ship year [unknown]. Reporting for duty.' (line spoken 47 times across the cycle.)",
+    "emotion": "steady",
+    "bucket": "mission_cryo_vault",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_cryo_warming_rehearsal_zealot_female_return",
+    "character": "apprentice_zealot_female",
+    "text": "(thaw protocol log) — Apprentice wakes coherent. First line spoken: above.",
+    "emotion": "tired",
+    "bucket": "mission_cryo_vault_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_cryo_warming_rehearsal_zealot_male_brief",
+    "character": "apprentice_zealot_male",
+    "text": "(rehearsal log) — 'Apprentice, ship year [unknown]. Reporting for duty.' (line spoken 47 times across the cycle.)",
+    "emotion": "steady",
+    "bucket": "mission_cryo_vault",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_cryo_warming_rehearsal_zealot_male_return",
+    "character": "apprentice_zealot_male",
+    "text": "(thaw protocol log) — Apprentice wakes coherent. First line spoken: above.",
+    "emotion": "tired",
+    "bucket": "mission_cryo_vault_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_gift_introduction_letter_jester_female_brief",
+    "character": "apprentice_jester_female",
+    "text": "Drafting the letter. The receiving party is [npc]. They will read this before they meet me. — Apprentice",
+    "emotion": "steady",
+    "bucket": "mission_relationship_gift",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_gift_introduction_letter_jester_female_return",
+    "character": "apprentice_jester_female",
+    "text": "Letter sent. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_relationship_gift_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_gift_introduction_letter_jester_male_brief",
+    "character": "apprentice_jester_male",
+    "text": "Drafting the letter. The receiving party is [npc]. They will read this before they meet me. — Apprentice",
+    "emotion": "steady",
+    "bucket": "mission_relationship_gift",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_gift_introduction_letter_jester_male_return",
+    "character": "apprentice_jester_male",
+    "text": "Letter sent. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_relationship_gift_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_gift_introduction_letter_martyr_female_brief",
+    "character": "apprentice_martyr_female",
+    "text": "Drafting the letter. The receiving party is [npc]. They will read this before they meet me. — Apprentice",
+    "emotion": "steady",
+    "bucket": "mission_relationship_gift",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_gift_introduction_letter_martyr_female_return",
+    "character": "apprentice_martyr_female",
+    "text": "Letter sent. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_relationship_gift_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_gift_introduction_letter_martyr_male_brief",
+    "character": "apprentice_martyr_male",
+    "text": "Drafting the letter. The receiving party is [npc]. They will read this before they meet me. — Apprentice",
+    "emotion": "steady",
+    "bucket": "mission_relationship_gift",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_gift_introduction_letter_martyr_male_return",
+    "character": "apprentice_martyr_male",
+    "text": "Letter sent. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_relationship_gift_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_gift_introduction_letter_scholar_female_brief",
+    "character": "apprentice_scholar_female",
+    "text": "Drafting the letter. The receiving party is [npc]. They will read this before they meet me. — Apprentice",
+    "emotion": "steady",
+    "bucket": "mission_relationship_gift",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_gift_introduction_letter_scholar_female_return",
+    "character": "apprentice_scholar_female",
+    "text": "Letter sent. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_relationship_gift_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_gift_introduction_letter_scholar_male_brief",
+    "character": "apprentice_scholar_male",
+    "text": "Drafting the letter. The receiving party is [npc]. They will read this before they meet me. — Apprentice",
+    "emotion": "steady",
+    "bucket": "mission_relationship_gift",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_gift_introduction_letter_scholar_male_return",
+    "character": "apprentice_scholar_male",
+    "text": "Letter sent. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_relationship_gift_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_gift_rapport_session_jester_female_brief",
+    "character": "apprentice_jester_female",
+    "text": "Meeting [npc] at the bay-2 commissary. I do not know what they want from me. — Apprentice",
+    "emotion": "steady",
+    "bucket": "mission_relationship_gift",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_gift_rapport_session_jester_female_return",
+    "character": "apprentice_jester_female",
+    "text": "Session complete. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_relationship_gift_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_gift_rapport_session_jester_male_brief",
+    "character": "apprentice_jester_male",
+    "text": "Meeting [npc] at the bay-2 commissary. I do not know what they want from me. — Apprentice",
+    "emotion": "steady",
+    "bucket": "mission_relationship_gift",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_gift_rapport_session_jester_male_return",
+    "character": "apprentice_jester_male",
+    "text": "Session complete. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_relationship_gift_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_gift_rapport_session_martyr_female_brief",
+    "character": "apprentice_martyr_female",
+    "text": "Meeting [npc] at the bay-2 commissary. I do not know what they want from me. — Apprentice",
+    "emotion": "steady",
+    "bucket": "mission_relationship_gift",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_gift_rapport_session_martyr_female_return",
+    "character": "apprentice_martyr_female",
+    "text": "Session complete. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_relationship_gift_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_gift_rapport_session_martyr_male_brief",
+    "character": "apprentice_martyr_male",
+    "text": "Meeting [npc] at the bay-2 commissary. I do not know what they want from me. — Apprentice",
+    "emotion": "steady",
+    "bucket": "mission_relationship_gift",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_gift_rapport_session_martyr_male_return",
+    "character": "apprentice_martyr_male",
+    "text": "Session complete. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_relationship_gift_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_gift_rapport_session_prodigal_female_brief",
+    "character": "apprentice_prodigal_female",
+    "text": "Meeting [npc] at the bay-2 commissary. I do not know what they want from me. — Apprentice",
+    "emotion": "steady",
+    "bucket": "mission_relationship_gift",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_gift_rapport_session_prodigal_female_return",
+    "character": "apprentice_prodigal_female",
+    "text": "Session complete. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_relationship_gift_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_gift_rapport_session_prodigal_male_brief",
+    "character": "apprentice_prodigal_male",
+    "text": "Meeting [npc] at the bay-2 commissary. I do not know what they want from me. — Apprentice",
+    "emotion": "steady",
+    "bucket": "mission_relationship_gift",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_gift_rapport_session_prodigal_male_return",
+    "character": "apprentice_prodigal_male",
+    "text": "Session complete. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_relationship_gift_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_gift_rapport_session_wanderer_female_brief",
+    "character": "apprentice_wanderer_female",
+    "text": "Meeting [npc] at the bay-2 commissary. I do not know what they want from me. — Apprentice",
+    "emotion": "steady",
+    "bucket": "mission_relationship_gift",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_gift_rapport_session_wanderer_female_return",
+    "character": "apprentice_wanderer_female",
+    "text": "Session complete. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_relationship_gift_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_gift_rapport_session_wanderer_male_brief",
+    "character": "apprentice_wanderer_male",
+    "text": "Meeting [npc] at the bay-2 commissary. I do not know what they want from me. — Apprentice",
+    "emotion": "steady",
+    "bucket": "mission_relationship_gift",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_gift_rapport_session_wanderer_male_return",
+    "character": "apprentice_wanderer_male",
+    "text": "Session complete. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_relationship_gift_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_sacrifice_ritual_martyr_female_brief",
+    "character": "apprentice_martyr_female",
+    "text": "Apprentice has agreed. Or has been told. Or has been told they have agreed. Choose the rite. — Ship's chaplain",
+    "emotion": "resolved",
+    "bucket": "mission_sacrificed",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_sacrifice_ritual_martyr_female_return",
+    "character": "apprentice_martyr_female",
+    "text": "Rite complete. — Chaplain.",
+    "emotion": "tired",
+    "bucket": "mission_sacrificed_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_sacrifice_ritual_martyr_male_brief",
+    "character": "apprentice_martyr_male",
+    "text": "Apprentice has agreed. Or has been told. Or has been told they have agreed. Choose the rite. — Ship's chaplain",
+    "emotion": "resolved",
+    "bucket": "mission_sacrificed",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_sacrifice_ritual_martyr_male_return",
+    "character": "apprentice_martyr_male",
+    "text": "Rite complete. — Chaplain.",
+    "emotion": "tired",
+    "bucket": "mission_sacrificed_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_sacrifice_ritual_revenant_female_brief",
+    "character": "apprentice_revenant_female",
+    "text": "Apprentice has agreed. Or has been told. Or has been told they have agreed. Choose the rite. — Ship's chaplain",
+    "emotion": "resolved",
+    "bucket": "mission_sacrificed",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_sacrifice_ritual_revenant_female_return",
+    "character": "apprentice_revenant_female",
+    "text": "Rite complete. — Chaplain.",
+    "emotion": "tired",
+    "bucket": "mission_sacrificed_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_sacrifice_ritual_revenant_male_brief",
+    "character": "apprentice_revenant_male",
+    "text": "Apprentice has agreed. Or has been told. Or has been told they have agreed. Choose the rite. — Ship's chaplain",
+    "emotion": "resolved",
+    "bucket": "mission_sacrificed",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_sacrifice_ritual_revenant_male_return",
+    "character": "apprentice_revenant_male",
+    "text": "Rite complete. — Chaplain.",
+    "emotion": "tired",
+    "bucket": "mission_sacrificed_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_sacrifice_ritual_zealot_female_brief",
+    "character": "apprentice_zealot_female",
+    "text": "Apprentice has agreed. Or has been told. Or has been told they have agreed. Choose the rite. — Ship's chaplain",
+    "emotion": "resolved",
+    "bucket": "mission_sacrificed",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_sacrifice_ritual_zealot_female_return",
+    "character": "apprentice_zealot_female",
+    "text": "Rite complete. — Chaplain.",
+    "emotion": "tired",
+    "bucket": "mission_sacrificed_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_sacrifice_ritual_zealot_male_brief",
+    "character": "apprentice_zealot_male",
+    "text": "Apprentice has agreed. Or has been told. Or has been told they have agreed. Choose the rite. — Ship's chaplain",
+    "emotion": "resolved",
+    "bucket": "mission_sacrificed",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_sacrifice_ritual_zealot_male_return",
+    "character": "apprentice_zealot_male",
+    "text": "Rite complete. — Chaplain.",
+    "emotion": "tired",
+    "bucket": "mission_sacrificed_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_tower_breach_drill_jester_female_brief",
+    "character": "apprentice_jester_female",
+    "text": "Drill at 0300. Standard breach scenario. Sub-bay 7 reported to be staged. — Apprentice",
+    "emotion": "wary",
+    "bucket": "mission_tower_captain",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_tower_breach_drill_jester_female_return",
+    "character": "apprentice_jester_female",
+    "text": "Tower secure. Debrief attached. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_tower_captain_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_tower_breach_drill_jester_male_brief",
+    "character": "apprentice_jester_male",
+    "text": "Drill at 0300. Standard breach scenario. Sub-bay 7 reported to be staged. — Apprentice",
+    "emotion": "wary",
+    "bucket": "mission_tower_captain",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_tower_breach_drill_jester_male_return",
+    "character": "apprentice_jester_male",
+    "text": "Tower secure. Debrief attached. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_tower_captain_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_tower_breach_drill_revenant_female_brief",
+    "character": "apprentice_revenant_female",
+    "text": "Drill at 0300. Standard breach scenario. Sub-bay 7 reported to be staged. — Apprentice",
+    "emotion": "wary",
+    "bucket": "mission_tower_captain",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_tower_breach_drill_revenant_female_return",
+    "character": "apprentice_revenant_female",
+    "text": "Tower secure. Debrief attached. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_tower_captain_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_tower_breach_drill_revenant_male_brief",
+    "character": "apprentice_revenant_male",
+    "text": "Drill at 0300. Standard breach scenario. Sub-bay 7 reported to be staged. — Apprentice",
+    "emotion": "wary",
+    "bucket": "mission_tower_captain",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_tower_breach_drill_revenant_male_return",
+    "character": "apprentice_revenant_male",
+    "text": "Tower secure. Debrief attached. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_tower_captain_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_tower_breach_drill_sentinel_female_brief",
+    "character": "apprentice_sentinel_female",
+    "text": "Drill at 0300. Standard breach scenario. Sub-bay 7 reported to be staged. — Apprentice",
+    "emotion": "wary",
+    "bucket": "mission_tower_captain",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_tower_breach_drill_sentinel_female_return",
+    "character": "apprentice_sentinel_female",
+    "text": "Tower secure. Debrief attached. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_tower_captain_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_tower_breach_drill_sentinel_male_brief",
+    "character": "apprentice_sentinel_male",
+    "text": "Drill at 0300. Standard breach scenario. Sub-bay 7 reported to be staged. — Apprentice",
+    "emotion": "wary",
+    "bucket": "mission_tower_captain",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_tower_breach_drill_sentinel_male_return",
+    "character": "apprentice_sentinel_male",
+    "text": "Tower secure. Debrief attached. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_tower_captain_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_tower_civilian_choice_martyr_female_brief",
+    "character": "apprentice_martyr_female",
+    "text": "Hostile inbound, ETA ninety seconds. Crowd of 40 civilians on the plaza. Primary blast cone clears the inbound and the crowd. — Apprentice",
+    "emotion": "resolved",
+    "bucket": "mission_tower_captain",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_tower_civilian_choice_martyr_female_return",
+    "character": "apprentice_martyr_female",
+    "text": "Engagement complete. Casualty count attached. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_tower_captain_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_tower_civilian_choice_martyr_male_brief",
+    "character": "apprentice_martyr_male",
+    "text": "Hostile inbound, ETA ninety seconds. Crowd of 40 civilians on the plaza. Primary blast cone clears the inbound and the crowd. — Apprentice",
+    "emotion": "resolved",
+    "bucket": "mission_tower_captain",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_tower_civilian_choice_martyr_male_return",
+    "character": "apprentice_martyr_male",
+    "text": "Engagement complete. Casualty count attached. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_tower_captain_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_tower_civilian_choice_revenant_female_brief",
+    "character": "apprentice_revenant_female",
+    "text": "Hostile inbound, ETA ninety seconds. Crowd of 40 civilians on the plaza. Primary blast cone clears the inbound and the crowd. — Apprentice",
+    "emotion": "resolved",
+    "bucket": "mission_tower_captain",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_tower_civilian_choice_revenant_female_return",
+    "character": "apprentice_revenant_female",
+    "text": "Engagement complete. Casualty count attached. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_tower_captain_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_tower_civilian_choice_revenant_male_brief",
+    "character": "apprentice_revenant_male",
+    "text": "Hostile inbound, ETA ninety seconds. Crowd of 40 civilians on the plaza. Primary blast cone clears the inbound and the crowd. — Apprentice",
+    "emotion": "resolved",
+    "bucket": "mission_tower_captain",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_tower_civilian_choice_revenant_male_return",
+    "character": "apprentice_revenant_male",
+    "text": "Engagement complete. Casualty count attached. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_tower_captain_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_tower_civilian_choice_sentinel_female_brief",
+    "character": "apprentice_sentinel_female",
+    "text": "Hostile inbound, ETA ninety seconds. Crowd of 40 civilians on the plaza. Primary blast cone clears the inbound and the crowd. — Apprentice",
+    "emotion": "resolved",
+    "bucket": "mission_tower_captain",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_tower_civilian_choice_sentinel_female_return",
+    "character": "apprentice_sentinel_female",
+    "text": "Engagement complete. Casualty count attached. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_tower_captain_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_tower_civilian_choice_sentinel_male_brief",
+    "character": "apprentice_sentinel_male",
+    "text": "Hostile inbound, ETA ninety seconds. Crowd of 40 civilians on the plaza. Primary blast cone clears the inbound and the crowd. — Apprentice",
+    "emotion": "resolved",
+    "bucket": "mission_tower_captain",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_tower_civilian_choice_sentinel_male_return",
+    "character": "apprentice_sentinel_male",
+    "text": "Engagement complete. Casualty count attached. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_tower_captain_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_tower_warden_visit_heretic_female_brief",
+    "character": "apprentice_heretic_female",
+    "text": "Warden Veil-7 requested a tour at 1100. Reason cited: 'curriculum review for the Academy.' I have not heard of that curriculum review. — Apprentice",
+    "emotion": "steady",
+    "bucket": "mission_tower_captain",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_tower_warden_visit_heretic_female_return",
+    "character": "apprentice_heretic_female",
+    "text": "Tour complete. Warden's notes [redacted/attached]. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_tower_captain_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_tower_warden_visit_heretic_male_brief",
+    "character": "apprentice_heretic_male",
+    "text": "Warden Veil-7 requested a tour at 1100. Reason cited: 'curriculum review for the Academy.' I have not heard of that curriculum review. — Apprentice",
+    "emotion": "steady",
+    "bucket": "mission_tower_captain",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_tower_warden_visit_heretic_male_return",
+    "character": "apprentice_heretic_male",
+    "text": "Tour complete. Warden's notes [redacted/attached]. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_tower_captain_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_tower_warden_visit_scholar_female_brief",
+    "character": "apprentice_scholar_female",
+    "text": "Warden Veil-7 requested a tour at 1100. Reason cited: 'curriculum review for the Academy.' I have not heard of that curriculum review. — Apprentice",
+    "emotion": "steady",
+    "bucket": "mission_tower_captain",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_tower_warden_visit_scholar_female_return",
+    "character": "apprentice_scholar_female",
+    "text": "Tour complete. Warden's notes [redacted/attached]. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_tower_captain_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_tower_warden_visit_scholar_male_brief",
+    "character": "apprentice_scholar_male",
+    "text": "Warden Veil-7 requested a tour at 1100. Reason cited: 'curriculum review for the Academy.' I have not heard of that curriculum review. — Apprentice",
+    "emotion": "steady",
+    "bucket": "mission_tower_captain",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_tower_warden_visit_scholar_male_return",
+    "character": "apprentice_scholar_male",
+    "text": "Tour complete. Warden's notes [redacted/attached]. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_tower_captain_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_tower_warden_visit_sentinel_female_brief",
+    "character": "apprentice_sentinel_female",
+    "text": "Warden Veil-7 requested a tour at 1100. Reason cited: 'curriculum review for the Academy.' I have not heard of that curriculum review. — Apprentice",
+    "emotion": "steady",
+    "bucket": "mission_tower_captain",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_tower_warden_visit_sentinel_female_return",
+    "character": "apprentice_sentinel_female",
+    "text": "Tour complete. Warden's notes [redacted/attached]. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_tower_captain_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_tower_warden_visit_sentinel_male_brief",
+    "character": "apprentice_sentinel_male",
+    "text": "Warden Veil-7 requested a tour at 1100. Reason cited: 'curriculum review for the Academy.' I have not heard of that curriculum review. — Apprentice",
+    "emotion": "steady",
+    "bucket": "mission_tower_captain",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_tower_warden_visit_sentinel_male_return",
+    "character": "apprentice_sentinel_male",
+    "text": "Tour complete. Warden's notes [redacted/attached]. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_tower_captain_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_trade_compliance_audit_scholar_female_brief",
+    "character": "apprentice_scholar_female",
+    "text": "Auditor arrives at Bay 4 in two cycles. Books are clean. Three small inconsistencies on the manifest. — Apprentice",
+    "emotion": "steady",
+    "bucket": "mission_trade_envoy",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_trade_compliance_audit_scholar_female_return",
+    "character": "apprentice_scholar_female",
+    "text": "Audit closed. Certification attached. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_trade_envoy_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_trade_compliance_audit_scholar_male_brief",
+    "character": "apprentice_scholar_male",
+    "text": "Auditor arrives at Bay 4 in two cycles. Books are clean. Three small inconsistencies on the manifest. — Apprentice",
+    "emotion": "steady",
+    "bucket": "mission_trade_envoy",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_trade_compliance_audit_scholar_male_return",
+    "character": "apprentice_scholar_male",
+    "text": "Audit closed. Certification attached. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_trade_envoy_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_trade_compliance_audit_sentinel_female_brief",
+    "character": "apprentice_sentinel_female",
+    "text": "Auditor arrives at Bay 4 in two cycles. Books are clean. Three small inconsistencies on the manifest. — Apprentice",
+    "emotion": "steady",
+    "bucket": "mission_trade_envoy",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_trade_compliance_audit_sentinel_female_return",
+    "character": "apprentice_sentinel_female",
+    "text": "Audit closed. Certification attached. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_trade_envoy_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_trade_compliance_audit_sentinel_male_brief",
+    "character": "apprentice_sentinel_male",
+    "text": "Auditor arrives at Bay 4 in two cycles. Books are clean. Three small inconsistencies on the manifest. — Apprentice",
+    "emotion": "steady",
+    "bucket": "mission_trade_envoy",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_trade_compliance_audit_sentinel_male_return",
+    "character": "apprentice_sentinel_male",
+    "text": "Audit closed. Certification attached. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_trade_envoy_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_trade_compliance_audit_zealot_female_brief",
+    "character": "apprentice_zealot_female",
+    "text": "Auditor arrives at Bay 4 in two cycles. Books are clean. Three small inconsistencies on the manifest. — Apprentice",
+    "emotion": "steady",
+    "bucket": "mission_trade_envoy",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_trade_compliance_audit_zealot_female_return",
+    "character": "apprentice_zealot_female",
+    "text": "Audit closed. Certification attached. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_trade_envoy_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_trade_compliance_audit_zealot_male_brief",
+    "character": "apprentice_zealot_male",
+    "text": "Auditor arrives at Bay 4 in two cycles. Books are clean. Three small inconsistencies on the manifest. — Apprentice",
+    "emotion": "steady",
+    "bucket": "mission_trade_envoy",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_trade_compliance_audit_zealot_male_return",
+    "character": "apprentice_zealot_male",
+    "text": "Audit closed. Certification attached. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_trade_envoy_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_trade_route_diversion_prodigal_female_brief",
+    "character": "apprentice_prodigal_female",
+    "text": "Competitor (Coda Logistics) offered 12k credits for the route. They will run it differently. The colonies on the route will notice. — Apprentice",
+    "emotion": "steady",
+    "bucket": "mission_trade_envoy",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_trade_route_diversion_prodigal_female_return",
+    "character": "apprentice_prodigal_female",
+    "text": "Route status updated. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_trade_envoy_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_trade_route_diversion_prodigal_male_brief",
+    "character": "apprentice_prodigal_male",
+    "text": "Competitor (Coda Logistics) offered 12k credits for the route. They will run it differently. The colonies on the route will notice. — Apprentice",
+    "emotion": "steady",
+    "bucket": "mission_trade_envoy",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_trade_route_diversion_prodigal_male_return",
+    "character": "apprentice_prodigal_male",
+    "text": "Route status updated. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_trade_envoy_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_trade_route_diversion_scholar_female_brief",
+    "character": "apprentice_scholar_female",
+    "text": "Competitor (Coda Logistics) offered 12k credits for the route. They will run it differently. The colonies on the route will notice. — Apprentice",
+    "emotion": "steady",
+    "bucket": "mission_trade_envoy",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_trade_route_diversion_scholar_female_return",
+    "character": "apprentice_scholar_female",
+    "text": "Route status updated. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_trade_envoy_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_trade_route_diversion_scholar_male_brief",
+    "character": "apprentice_scholar_male",
+    "text": "Competitor (Coda Logistics) offered 12k credits for the route. They will run it differently. The colonies on the route will notice. — Apprentice",
+    "emotion": "steady",
+    "bucket": "mission_trade_envoy",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_trade_route_diversion_scholar_male_return",
+    "character": "apprentice_scholar_male",
+    "text": "Route status updated. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_trade_envoy_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_trade_route_diversion_wanderer_female_brief",
+    "character": "apprentice_wanderer_female",
+    "text": "Competitor (Coda Logistics) offered 12k credits for the route. They will run it differently. The colonies on the route will notice. — Apprentice",
+    "emotion": "steady",
+    "bucket": "mission_trade_envoy",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_trade_route_diversion_wanderer_female_return",
+    "character": "apprentice_wanderer_female",
+    "text": "Route status updated. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_trade_envoy_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_trade_route_diversion_wanderer_male_brief",
+    "character": "apprentice_wanderer_male",
+    "text": "Competitor (Coda Logistics) offered 12k credits for the route. They will run it differently. The colonies on the route will notice. — Apprentice",
+    "emotion": "steady",
+    "bucket": "mission_trade_envoy",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_trade_route_diversion_wanderer_male_return",
+    "character": "apprentice_wanderer_male",
+    "text": "Route status updated. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_trade_envoy_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_trade_smuggling_offer_ghost_female_brief",
+    "character": "apprentice_ghost_female",
+    "text": "The Voltari colony on Stop 3 asked for siphon-tabs. They are banned. Their child clinic needs them. The Wardens audit the route on Tuesday. — Apprentice",
+    "emotion": "wary",
+    "bucket": "mission_trade_envoy",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_trade_smuggling_offer_ghost_female_return",
+    "character": "apprentice_ghost_female",
+    "text": "Stop 3 cleared. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_trade_envoy_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_trade_smuggling_offer_ghost_male_brief",
+    "character": "apprentice_ghost_male",
+    "text": "The Voltari colony on Stop 3 asked for siphon-tabs. They are banned. Their child clinic needs them. The Wardens audit the route on Tuesday. — Apprentice",
+    "emotion": "wary",
+    "bucket": "mission_trade_envoy",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_trade_smuggling_offer_ghost_male_return",
+    "character": "apprentice_ghost_male",
+    "text": "Stop 3 cleared. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_trade_envoy_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_trade_smuggling_offer_heretic_female_brief",
+    "character": "apprentice_heretic_female",
+    "text": "The Voltari colony on Stop 3 asked for siphon-tabs. They are banned. Their child clinic needs them. The Wardens audit the route on Tuesday. — Apprentice",
+    "emotion": "wary",
+    "bucket": "mission_trade_envoy",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_trade_smuggling_offer_heretic_female_return",
+    "character": "apprentice_heretic_female",
+    "text": "Stop 3 cleared. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_trade_envoy_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_trade_smuggling_offer_heretic_male_brief",
+    "character": "apprentice_heretic_male",
+    "text": "The Voltari colony on Stop 3 asked for siphon-tabs. They are banned. Their child clinic needs them. The Wardens audit the route on Tuesday. — Apprentice",
+    "emotion": "wary",
+    "bucket": "mission_trade_envoy",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_trade_smuggling_offer_heretic_male_return",
+    "character": "apprentice_heretic_male",
+    "text": "Stop 3 cleared. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_trade_envoy_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_trade_smuggling_offer_wanderer_female_brief",
+    "character": "apprentice_wanderer_female",
+    "text": "The Voltari colony on Stop 3 asked for siphon-tabs. They are banned. Their child clinic needs them. The Wardens audit the route on Tuesday. — Apprentice",
+    "emotion": "wary",
+    "bucket": "mission_trade_envoy",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_trade_smuggling_offer_wanderer_female_return",
+    "character": "apprentice_wanderer_female",
+    "text": "Stop 3 cleared. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_trade_envoy_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_trade_smuggling_offer_wanderer_male_brief",
+    "character": "apprentice_wanderer_male",
+    "text": "The Voltari colony on Stop 3 asked for siphon-tabs. They are banned. Their child clinic needs them. The Wardens audit the route on Tuesday. — Apprentice",
+    "emotion": "wary",
+    "bucket": "mission_trade_envoy",
+    "file": "shared/apprenticeMissionTypes.ts"
+  },
+  {
+    "id": "mission_trade_smuggling_offer_wanderer_male_return",
+    "character": "apprentice_wanderer_male",
+    "text": "Stop 3 cleared. — Apprentice",
+    "emotion": "tired",
+    "bucket": "mission_trade_envoy_return",
+    "file": "shared/apprenticeMissionTypes.ts"
+  }
+]
