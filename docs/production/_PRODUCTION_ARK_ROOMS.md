@@ -18897,20 +18897,315 @@ dimensions:      16.00 m × 12.00 m × 5.00 m
 
 ---
 
-## A.40 Governance Chamber / Council Conclave — SCAFFOLDED
+## A.40 Governance Chamber / Council Conclave — FULL
+
+**Status: FULL spec.** Cross-ref `INCEPTION_ARK_FINAL_PRODUCTION.md`
+§2.40 (art-state prompts).
+
+### A.40.1 Header
 
 ```
 space_id:        ark.governance_chamber
 space_name:      Governance Chamber / Council Conclave
 space_type:      ark_room
 act_introduced:  Act 4
-lore_anchor:     loredex.system.governance + arc.alliance_governance
-aesthetic_tier:  solar_punk_cathedral  (council-formal accents)
-dimensions:      14.00 m × 16.00 m × 6.00 m
-floor_plan_geometry: hexagonal
+lore_anchor:     loredex.system.governance + arc.alliance_governance + arc.act_4_first_council_seat
+aesthetic_tier:  solar_punk_cathedral  (council-formal; the Ark's ceremonial-deliberation chamber)
 ```
 
-(Full spec deferred.)
+### A.40.2 Geometry
+
+```
+dimensions:           14.00 m × 16.00 m × 6.00 m  (bounding box; hexagonal footprint inscribed)
+origin_point:         centre of floor (room is hexagonal; origin at geometric centre)
+coordinate_axes:      +x = right, +y = forward (north), +z = up
+floor_plan_geometry:  hexagonal  (7.00 m apothem)
+volumetric_anomalies: subtle harmonic-resonance during votes (cosmetic; faction colours drift across central area)
+```
+
+The Governance Chamber is hexagonal — six walls, six council
+seats arranged radially around a central voting podium. North
+seat is the Speaker's; the other five are faction-aligned. The
+central podium displays current vote-state. Walls hold faction
+charters + treaty archives. Visitor gallery on the south face
+allows non-council members to observe.
+
+Floor area: ~187 m².
+
+### A.40.3-9 Compact (full FULL fidelity; ~32 inventory objects)
+
+```
+floor: polished marble (warm cream + bronze inlay forming hexagonal voting circle); 0.60×0.60 m tiles in radial pattern
+walls (6 hex faces):
+  south (entrance): cream marble + walnut wainscoting; south.door.main arch connects to ark.corridor.governance_approach (Act 4+); south.display.vote_status; visitor_gallery on south face (4 benches at perimeter); plaque "DELIBERATE WITH PURPOSE"
+  6 faction council-seat walls: each has council_seat (large velvet-upholstered throne; bronze nameplate) + faction-charter archive cabinet (small)
+  north_speaker: speaker's chair (slightly raised; gold-leaf throne); flanked by historic-decisions display
+  decorative: 6 banners hanging at each hex face (faction colours)
+ceiling: 6.00 m baseline; central oculus rises to 7.50 m above podium; coffered with hexagonal pattern
+lighting:
+  ambient_baseline: 3000 K warm formal; 240 lux; CRI 92
+  oculus_central: warm gold; 5000 lumens; pulses with vote-rhythm
+  council_seat_uplight.<n>×6: warm 2700 K; 800 lumens each
+  speaker_chair_pendant: at speaker; 2400 K; 3000 lumens
+  banner_uplight: per banner; 400 lumens
+  podium_glow: at central podium; 600 lumens (variable; matches vote-state)
+atmosphere: 21°C / 42% RH / smells of polished walnut + bronze + parchment + faint cigar (council members' habit)
+sound:
+  ambient_bed: -32 dB; faint distant chants, occasional bell-toll on votes, council-member chatter
+  point_sources: podium_resonance; speaker_subtle_breath; banner_subtle_ripple; bell_toll_per_vote
+  reverb_zone: governance_v1.wav wet 26%
+  music_eligibility: cutscene only (council ceremonies)
+  voice_line_eligibility: the_speaker (named NPC); 5 council members (rotating; faction-aligned); the_player (when seated as faction representative)
+
+object inventory (32):
+  - central_voting_podium (interactive; hexagonal; 0.60 dia × 1.10)
+  - speaker_chair (north; gold-leaf throne)
+  - council_seat.<faction>×5 (radial; faction-themed)
+  - faction_charter_archive_cabinet.<faction>×5 (per seat)
+  - banner.<faction>×6 (hexagonal hanging)
+  - visitor_gallery_bench.<n>×4 (south)
+  - speaker_anchor (npc_anchor; at speaker chair)
+  - council_member_anchor.<faction>×5
+  - vote_tally_display (north wall; large)
+  - historic_decisions_display (flanking speaker)
+  - south_intercom + fire_extinguisher + first_aid (3)
+  - south.plaque.creed
+  - compass_inlay
+```
+
+### A.40.10-17 Compact
+
+```
+camera_spawn_points:
+  cs_amb_governance_chamber (Cat B): POV at threshold; slow walk to centre; head pans across council seats; 22s
+  cs_first_council_seat (Act 4 first-time): POV taking faction seat; nameplate appears; first vote begins
+
+doorways: south.door.main → ark.corridor.governance_approach; arch; Act 4+
+adjacency: direct ark.corridor.governance_approach (south); one_hop ark.war_room (Act 4+)
+
+gameplay_hooks: takeCouncilSeat (per-faction); operatePodium; readCharter; castVote; addressCouncil
+
+story_tie:
+  primary_arcs: act_4_first_council_seat; alliance_governance; act_5_treaty_signing; act_7_grand_decree (state-branched)
+  per_act:
+    acts_0_3: locked
+    act_4: opens for faction-aligned players
+    acts_5_6: deeper governance arcs; treaties signed
+    act_7: state-branched: alliance-victory ending vs. fractured-collapse ending
+  npc_roster: the_speaker; 5 council members; the_player; visitor gallery NPCs
+  readables: creed plaque; 5 faction charters; vote tally; historic decisions; banner inscriptions
+  master_of_rlyeh_question: n/a
+
+special_fx: warm dust low; vote_resonance_motes; faction_colour_drift
+volumetric: oculus_glow (variable); council_uplight_envelope; banner_uplight
+procedural: oculus_pulse_with_vote; council_seat_subtle_glow; banner_ripple
+reactive: oculus_intensify_on_vote; council_seat_glow_on_take; podium_flash_on_decree
+
+avatar_parametricity: small_xenomorph: alternate stand-on-step at podium + ladder for tall banners
+audio_occlusion: xenomorph: chants overwhelming
+performance: polygon_budget 280,000 / texture_budget 160 MB / light_count 18
+streaming: preload governance_approach corridor; on_council_active: preload vote-data
+```
+
+---
+
+## A.41 Daily Resource Allocation Board — FULL
+
+**Status: FULL spec.** Cross-ref `INCEPTION_ARK_FINAL_PRODUCTION.md`
+§2.41 (art-state prompts).
+
+### A.41.1 Header
+
+```
+space_id:        ark.resource_allocation_board
+space_name:      Daily Resource Allocation Board
+space_type:      ark_room
+act_introduced:  Act 3
+lore_anchor:     loredex.system.resource_allocation + arc.daily_logistics
+aesthetic_tier:  solar_punk_cathedral  (institutional; the Ark's most utilitarian decision-space)
+```
+
+### A.41.2 Geometry
+
+```
+dimensions:           8.00 m × 10.00 m × 4.00 m
+origin_point:         centre of floor at south entrance
+floor_plan_geometry:  rectangular  (with central allocation table + perimeter resource displays)
+volumetric_anomalies: none
+```
+
+Compact institutional chamber where daily resources (food, fuel,
+labour, materials) are allocated across Ark systems. Central
+allocation table holds the daily ledger. East + west walls have
+resource-category cabinets. North wall holds the running balance
+sheet display + auditor's archive.
+
+Floor area: 80 m².
+
+### A.41.3-9 Compact (full FULL fidelity; ~22 inventory objects)
+
+```
+floor: polished cream-tinted enamel-coated steel; 1.00×1.00 m tiles; bronze inlay outlining table zone (3×2 m)
+walls:
+  south: cream painted aluminium + walnut wainscoting; south.display.daily_summary; south.door.main slide connects to ark.corridor.resource_approach (Act 3+); plaque "BALANCE DEMANDS ATTENTION"
+  east: 4 resource-category cabinets (food / fuel / materials / labour)
+  north: full-wall balance sheet + auditor's display; small relief above
+  west: 4 resource-category cabinets (mirror; storage / waste / surplus / debt)
+ceiling: 4.00 m baseline; recessed cool-tactical strip; central pendant over allocation table
+lighting:
+  ambient_baseline: 5000 K cool-clinical; 280 lux; CRI 92
+  central_pendant: at (0.00, 5.00, 3.50); cool white; 4000 lumens
+  cabinet_strip.east, .west: 600 lumens/m
+  balance_sheet_uplight.north: cool with green/red status accents; 800 lumens/m
+  practical_sources: cabinet_indicator_light×8 (per-resource state)
+atmosphere: 19°C / 38% RH / smells of paper + ink + faint coffee
+sound:
+  ambient_bed: -38 dB; quiet; faint paper-rustle, calculator-clack, occasional bell-toll on allocation
+  point_sources: pencil_subtle_scratch (when allocator present); cabinet_buzz; balance_sheet_subtle_update_chime
+  reverb_zone: resource_allocation_v1.wav wet 14% (clean institutional)
+  music_eligibility: cutscene only
+  voice_line_eligibility: the_resource_allocator (named NPC; rare presence Acts 3+)
+
+object inventory (22):
+  - allocation_table (interactive; 1.80×1.20×0.85)
+  - allocation_chair_resource_allocator (npc_anchor)
+  - visitor_chair.<n>×3 (around table)
+  - east_cabinet.<resource>×4 (food/fuel/materials/labour)
+  - west_cabinet.<resource>×4 (storage/waste/surplus/debt)
+  - balance_sheet_display.north (1.20×0.80×0.05; large institutional)
+  - auditor_archive_box.north (small; on shelf below display)
+  - mantle_clock (on table)
+  - calculator (on table; brass)
+  - pencil_jar (on table)
+  - ledger_book (on table; open ledger)
+  - south_intercom + fire_extinguisher + first_aid (3)
+  - south.plaque.creed
+  - north.relief.balance_eternal
+  - compass_inlay
+```
+
+### A.41.10-17 Compact
+
+```
+camera_spawn_points:
+  cs_amb_resource_allocation (Cat B): POV at threshold; slow walk to allocation table; 14s
+  cs_first_allocation (Act 3 one-shot): seated at table; first ledger entry made
+
+doorways: south.door.main → ark.corridor.resource_approach; slide; Act 3+
+adjacency: direct ark.corridor.resource_approach (south); one_hop ark.cargo_hold (resource-flow chain)
+
+gameplay_hooks: operateAllocationTable; openCabinet; inspectBalance; readLedger
+
+story_tie: act_3_first_allocation; daily_logistics (continuous); state-branched: well-allocated Ark vs. mismanagement
+npc_roster: the_resource_allocator; the_player
+readables: creed plaque; balance-eternal relief; 8 cabinet contents; ledger book
+master_of_rlyeh_question: n/a
+
+special_fx: dust very low; allocation_motes (subtle); auditor_subtle_chime
+procedural: pencil_subtle_motion; balance_sheet_continuous_update; clock_tick
+reactive: pendant_intensify_on_proximity; balance_sheet_flash_on_allocation; cabinet_glow_on_state_change
+
+avatar_parametricity: standard
+performance: polygon_budget 140,000 / texture_budget 80 MB / light_count 10
+streaming: preload resource_approach corridor
+```
+
+---
+
+## A.42 Faction Succession Monument — FULL
+
+**Status: FULL spec.** Cross-ref `INCEPTION_ARK_FINAL_PRODUCTION.md`
+§2.42 (art-state prompts).
+
+### A.42.1 Header
+
+```
+space_id:        ark.faction_succession_monument
+space_name:      Faction Succession Monument
+space_type:      ark_room
+act_introduced:  Act 6
+lore_anchor:     loredex.system.faction_succession + arc.faction_lineage
+aesthetic_tier:  hierarchy_ritual  (memorial-ceremonial; reverent late-act space)
+```
+
+### A.42.2 Geometry
+
+```
+dimensions:           10.00 m × 10.00 m × 8.00 m  (bounding box; hexagonal footprint; tall vertical-volume)
+origin_point:         centre of floor (hexagonal)
+coordinate_axes:      +x = right, +y = forward, +z = up
+floor_plan_geometry:  hexagonal  (5.00 m apothem)
+volumetric_anomalies: none in baseline; subtle harmonic-shift during succession ceremonies
+```
+
+The Faction Succession Monument is hexagonal, vertical, reverent.
+Six walls hold the lineage record of each major faction's
+succession (continuous historical record of all faction-leaders
+in order). Central plinth holds the current-leader emblem of
+each faction. Tall ceiling with memorial dome at z = 8.00.
+
+Floor area: ~65 m².
+
+### A.42.3-9 Compact (full FULL fidelity; ~22 inventory objects)
+
+```
+floor: polished black-and-grey marble in radial pattern (6 wedges; one per hex face); bronze inlay forming a 6-pointed star; brass perimeter trim
+walls (6 hex faces; each is faction-lineage):
+  south (entrance): polished marble + walnut wainscoting; south.door.main arch connects to ark.corridor.succession_approach (Act 6+); plaque "WHAT WAS, GUIDES WHAT IS"
+  5 faction-lineage walls: each holds a continuously-updating lineage display + flag/banner
+  north_apsidal: full-wall apsidal niche with current-leader emblems + apsidal "SUCCESSION ETERNAL" relief
+ceiling: 8.00 m baseline; central memorial dome rises to 9.20 m
+lighting:
+  ambient_baseline: 2400 K very warm reverent; 100 lux (intentionally dim); CRI 90
+  oculus_central: warm gold; 4000 lumens
+  faction_lineage_uplight.<n>×5: warm-amber per faction
+  current_emblem_glow.<n>×5: 80 lumens each (varies by leader status)
+atmosphere: 18°C cool reverent / 38% RH / smells of cold-stone + bronze + faint incense
+sound:
+  ambient_bed: -38 dB very quiet; faint distant chants, bell-toll period 60s (reverent)
+  point_sources: lineage_display_subtle_update_chime; emblem_subtle_resonance.<faction>×5; bell_toll
+  reverb_zone: succession_v1.wav wet 32%
+
+object inventory (22):
+  - central_plinth (current-leader emblems display)
+  - 5 faction-lineage display walls (one per faction)
+  - 5 faction current-leader emblems (cast bronze; on plinth)
+  - 5 faction banners (hanging from upper hex faces)
+  - 5 succession-tomes (per-faction archive; bronze lecterns)
+  - apsidal succession-eternal relief (north)
+  - meditation bench×3 (radial)
+  - candle array×6 (one per hex face base)
+  - south_intercom + fire_extinguisher + first_aid (3)
+  - south.plaque.creed
+  - compass_inlay
+```
+
+### A.42.10-17 Compact
+
+```
+camera_spawn_points:
+  cs_amb_faction_succession (Cat B): POV at threshold; slow walk to plinth; head pans across 5 lineage walls; 22s
+  cs_succession_event (state-conditional): when faction leader changes, ceremony plays here
+
+doorways: south.door.main → ark.corridor.succession_approach; arch; Act 6+
+adjacency: direct ark.corridor.succession_approach (south); one_hop ark.governance_chamber (related)
+
+gameplay_hooks: inspectFactionLineage (per-faction); placeOffering; readSuccessionTome
+
+story_tie: act_6_first_succession_event; faction_lineage (continuous); act_7_grand_succession (state-branched)
+npc_roster: rare_succession_witness; the_player
+readables: creed plaque; 5 faction lineage histories; succession-eternal relief; 5 succession-tomes
+master_of_rlyeh_question: n/a
+
+special_fx: dust low reverent; faction_colour_motes_per_lineage; bell_toll_visualisation
+volumetric: oculus_glow; faction_uplight_envelope_per_wall; emblem_glow_per_faction
+procedural: lineage_display_continuous_update; emblem_subtle_pulse; bell_toll
+reactive: emblem_glow_on_inspection; lineage_intensify_on_proximity; succession_event_one_shot
+
+avatar_parametricity: small_xenomorph: alternate ladder for high lineage walls
+performance: polygon_budget 200,000 / texture_budget 120 MB / light_count 14
+streaming: preload succession_approach corridor; on_succession_event: load ceremony assets
+```
 
 ---
 
