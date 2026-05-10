@@ -1,5 +1,64 @@
 # Chapter-Intro Canon Gap — 2026-05 Producer Drop
 
+**Status:** RESOLVED 2026-05-10 (PR #565 follow-up branch
+`claude/resolve-cutscene-canon-gaps`). All 12 originally-unmapped
+chapter intros + the gamemaster_robot variant + 3 BONUS variants
+are now wired. 5 of the 12 wiring decisions used SCAFFOLD opponents
+that need writer review before final ship; the rest are direct
+resolver additions or wire to existing opponents.
+
+## Per-row resolution table
+
+| Producer slug | Resolution | Phase | Writer review needed? |
+|---|---|---|---|
+| `ch06_necromancer` | NEW Act 6 step 3 opponent `act6_thazulok_returns` (event-gated) | 5 | YES — pacing + dialog voicing |
+| `ch12_collector_rematch` | NEW Act 6 step 4 opponent `act6_corey_resurfaces` | 6 | YES — Act placement + pacing |
+| `ch14_source` | EXISTING `act7_the_patient_zero_reborn` (writer call: punt visual canon) | 3 | OPEN — visual canon discrepancy ("construct" vs "Kael eternal-corrupted") |
+| `ch15_jailer` | NEW Act 6 step 5 opponent `act6_the_jailer` | 7 | YES — pacing + `oracle_pen_liberated` flag setter |
+| `ch16_ironlion_rematch` | NEW prestige-rematch resolver (opponent `young_iron_lion` at `prestigeLevel >= 1`) | 3 | NO — direct resolver, lore-aligned |
+| `ch17_elara_glitched` | EXISTING `act4_the_betrayal` (Path C exclusive) | 3 | NO — direct resolver, bible-aligned |
+| `ch20_dreamer` | NEW Act 7 step 5 opponent `act7_the_dreamer` (event-gated) | 8 | YES — pacing |
+| `ch21_oracle_meme` | NEW Act 7 step 6 opponent `act7_oracle_meme_final` (saga-final) | 9 | YES — pacing + alignment-conditional dialog branching |
+| `ch11_gamemaster_robot` | Existing `resolveChapterIntro(11, "gamemaster_robot")` exposed via `gameMasterForm` flag | 2 | OPEN — flag-setter site is unauthored (engineering's plausible default: `act6_path_full_secret_chosen` → robot) |
+| `ch19_nilmorg_BONUS` | New `BonusChapterIntroRouter` watches `prestige_corporate_tier` flag + act ≥ 5 | 4 | YES — gating flag name |
+| `ch20_conexus_BONUS` | New `BonusChapterIntroRouter` watches `authority_alignment_chosen` flag + act ≥ 7 | 4 | YES — gating flag name |
+| `ch21_shadow_tongue_BONUS` | New `BonusChapterIntroRouter` watches canonical `living_universe_event_shadow_tongue_edit_active` + act ≥ 7 | 4 | NO — canonical event flag |
+
+## What's verifiable
+
+- All 21 producer MP4s are live on CDN (verified during PR #565).
+- All 21 are wired to consumer surfaces.
+- `STORY_CHAPTER_INTRO_MAPPINGS` in
+  `apps/shared/storyEncounterChapterIntros.ts` now has 4
+  chapterId + 12 opponentId + 1 prestige-rematch entries.
+- `BONUS_CHAPTER_INTRO_GATES` in
+  `apps/shared/bonusChapterIntroTriggers.ts` has 3 gates.
+- 12+10 vitest assertions in
+  `apps/shared/__tests__/storyEncounterChapterIntros.test.ts` +
+  `apps/shared/__tests__/bonusChapterIntroRouter.test.ts`.
+
+## What's still pending writer review
+
+Five SCAFFOLD opponents (Phases 5, 6, 7, 8, 9) ship with the
+producer cinematics fully wired but their dialog + pacing +
+encounter placement need writer ratification before final ship.
+They are clearly marked `/* SCAFFOLD ... writer review */` in
+both `acts2to7Opponents.ts` and the per-act dialog files.
+
+Four flag-setter sites are unauthored (engineering's best-guess
+flag names are documented in code comments):
+- `gameMasterForm = "robot"` — never set (Phase 2)
+- `prestige_corporate_tier` — never set (Phase 4 / Nilmorg)
+- `authority_alignment_chosen` — never set (Phase 4 / CoNexus)
+- `oracle_pen_liberated` — never set (Phase 7 / Jailer)
+
+These 4 setter sites can be authored independently in any
+future PR; the chapter intros remain inert until they are.
+
+---
+
+## Original audit (preserved for reference)
+
 **Status:** OPEN — needs writer/producer canon decision before
 engineering can wire the remaining 12 intros.
 

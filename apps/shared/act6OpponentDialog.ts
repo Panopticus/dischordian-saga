@@ -179,7 +179,7 @@ const THE_JAILER_DIALOG: Act6OpponentDialog = {
   opponentMidMatchEarly:
     "Permission was not granted to free her. Permission was not the point. I am here for the consequence half. Play.",
   opponentMidMatchMid:
-    "Your card is filed under 'unauthorized kindness.' I have a column for that. The column has not been used in some time. It is being used today.",
+    "Your card is filed under 'unauthorized kindness.' I have a column for that. It has not been used in years. Today I use it.",
   opponentMidMatchLate:
     "The Oracle is not coming back. The pen is open. The ledger will note this, with footnotes. Decide whether the footnotes will note your win.",
   elaraPostMatchWin:
