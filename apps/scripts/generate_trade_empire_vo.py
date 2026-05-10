@@ -261,7 +261,7 @@ def generate_speech(text, speaker, voice_id):
         "stability": 0.55, "similarity_boost": 0.78, "style": 0.25, "prefix": "",
     })
     payload = {
-        "text": tuning["prefix"] + text,
+        "text": text,  # prefix dropped — ElevenLabs reads asterisk-bracketed prose literally; direction is in voice_settings
         "model_id": ELEVENLABS_MODEL,
         "voice_settings": {
             "stability": tuning["stability"],

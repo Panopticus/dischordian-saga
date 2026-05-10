@@ -115,7 +115,7 @@ def generate_speech(text, emotion, voice_id):
             "Accept": "audio/mpeg",
         },
         json={
-            "text": s["prefix"] + text,
+            "text": text,  # prefix dropped — ElevenLabs reads asterisk-bracketed prose literally; direction is in voice_settings
             "model_id": "eleven_multilingual_v2",
             "voice_settings": {
                 "stability": s["stability"],

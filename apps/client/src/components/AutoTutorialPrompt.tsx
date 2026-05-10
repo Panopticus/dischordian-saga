@@ -40,6 +40,19 @@ export default function AutoTutorialPrompt({
     };
   }, [showEngine]);
 
+  // While the slide-in toast is up, hide other Elara surfaces (the
+  // floating ElaraDialog button) so we don't stack two corner Elaras
+  // on top of each other. The full tutorial engine has its own
+  // dialog-state-change broadcast (above); this only covers the toast.
+  useEffect(() => {
+    const toastVisible = show && !showEngine;
+    if (!toastVisible) return;
+    window.dispatchEvent(new CustomEvent("elara-dialog", { detail: { active: true } }));
+    return () => {
+      window.dispatchEvent(new CustomEvent("elara-dialog", { detail: { active: false } }));
+    };
+  }, [show, showEngine]);
+
   const handleLaunch = () => {
     onLaunch();
     setShowEngine(true);

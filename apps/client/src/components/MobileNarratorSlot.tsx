@@ -64,6 +64,19 @@ export function MobileNarratorSlot({ roomId, flags, className }: MobileNarratorS
   const adjustElara = game.adjustElaraTrust;
   const adjustHuman = game.adjustHumanTrust;
 
+  // Hide the corner narrator card while another Elara/companion surface
+  // owns the screen (ElaraConversationPopup, AutoTutorialPrompt). Two
+  // Elara faces in the same view at once was the duplicate-portrait bug.
+  const [conversationActive, setConversationActive] = useState(false);
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const detail = (e as CustomEvent).detail;
+      setConversationActive(Boolean(detail?.active));
+    };
+    window.addEventListener("elara-dialog", handler);
+    return () => window.removeEventListener("elara-dialog", handler);
+  }, []);
+
   // §1.5 — derive the narrator dominance once per render from the
   // game's narrative flags. Passed through to the witnessing store
   // so the slot roll respects the player's Bond-80 Forgive choice.
@@ -158,6 +171,9 @@ export function MobileNarratorSlot({ roomId, flags, className }: MobileNarratorS
 
   // Don't render until we've actually seeded for this room.
   if (!slot || currentRoomId !== roomId) return null;
+
+  // Suppress while a foreground Elara surface owns the screen.
+  if (conversationActive) return null;
 
   // Silence mode — the slot is empty. Render a whisper-quiet state.
   if (slot.narratorId === null) {
