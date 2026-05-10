@@ -55,6 +55,14 @@ export interface SlideshowFrame {
   /** Where the portrait sits. Default behaviour without a side is
    *  not to render the portrait. */
   portraitSide?: "left" | "right" | "center";
+  /** Optional second narrator portrait — paired with `portraitSrc` for
+   *  joint-narration beats (Silence in Heaven `speaker: "both"`). */
+  secondaryPortraitSrc?: string;
+  secondaryPortraitSide?: "left" | "right" | "center";
+  /** Optional speaker id ("antiquarian" | "storyteller" | "both" | etc.).
+   *  Used as the React key for the dialog overlay so a speaker change
+   *  triggers a crossfade between portrait + line attributions. */
+  dialogSpeakerId?: string;
 }
 
 export interface SongSlideshowProps {
@@ -89,6 +97,23 @@ export interface SongSlideshowProps {
 
 const DEFAULT_DURATION = 5000;
 const FADE_MS = 800;
+
+/** Ken Burns pan/zoom presets — chosen by frame index so consecutive
+ *  frames pan in different directions and the slideshow doesn't feel
+ *  metronomic. Numbers are CSS transform end-state translate (%) and
+ *  scale; the start state is the identity. */
+const KEN_BURNS_PRESETS: ReadonlyArray<{
+  scale: number;
+  tx: number;
+  ty: number;
+}> = [
+  { scale: 1.08, tx: -2, ty: -1 },
+  { scale: 1.1, tx: 2, ty: -2 },
+  { scale: 1.07, tx: -1, ty: 2 },
+  { scale: 1.12, tx: 0, ty: -3 },
+  { scale: 1.09, tx: 2, ty: 2 },
+  { scale: 1.06, tx: -3, ty: 0 },
+];
 
 export default function SongSlideshow({
   frames,
@@ -295,7 +320,13 @@ export default function SongSlideshow({
         </button>
       )}
 
-      {/* Title card */}
+      {/* Title card — engraved Cinzel scripture plate, blood-amber
+          glow, slow reveal. Reads like the chapter heading of an
+          illuminated Revelation manuscript: small "the testimony of"
+          ornament line, then the title in heavy small-caps with a
+          faint tremor and an underline of beaten gold. The mood is
+          approaching-doom: dim center, dark vignetted edges, a single
+          held breath before the song begins. */}
       <AnimatePresence mode="wait">
         {currentIndex === -1 && title && (
           <motion.div
@@ -304,11 +335,45 @@ export default function SongSlideshow({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: FADE_MS / 1000 }}
-            className="text-center px-8"
+            className="text-center px-8 relative z-20"
           >
-            <h1 className="font-display text-3xl sm:text-5xl font-bold tracking-wider text-white/90">
+            <motion.p
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 0.65, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.9 }}
+              className="uppercase text-[10px] sm:text-xs tracking-[0.5em]"
+              style={{
+                fontFamily: "var(--font-scripture)",
+                color: "color-mix(in oklch, #d4af37 78%, #ffffff)" /* void-ignore */,
+                letterSpacing: "0.5em",
+              }}
+            >
+              · the testimony ·
+            </motion.p>
+            <motion.h1
+              initial={{ opacity: 0, letterSpacing: "0.5em" }}
+              animate={{ opacity: 1, letterSpacing: "0.2em" }}
+              transition={{ delay: 0.35, duration: 1.4, ease: "easeOut" }}
+              className="mt-3 text-4xl sm:text-6xl font-black uppercase"
+              style={{
+                fontFamily: "var(--font-scripture)",
+                color: "color-mix(in oklch, #f7e7c4 70%, #ffffff)" /* void-ignore */,
+                textShadow:
+                  "0 0 18px rgba(139, 0, 0, 0.55), 0 0 42px rgba(212, 175, 55, 0.18), 0 2px 0 rgba(0,0,0,0.6)" /* void-ignore */,
+              }}
+            >
               {title}
-            </h1>
+            </motion.h1>
+            <motion.div
+              initial={{ scaleX: 0, opacity: 0 }}
+              animate={{ scaleX: 1, opacity: 0.7 }}
+              transition={{ delay: 0.9, duration: 0.9, ease: "easeOut" }}
+              className="mx-auto mt-4 h-px w-40 origin-center"
+              style={{
+                background:
+                  "linear-gradient(90deg, transparent, color-mix(in oklch, #d4af37 70%, transparent), transparent)" /* void-ignore */,
+              }}
+            />
           </motion.div>
         )}
 
@@ -325,77 +390,242 @@ export default function SongSlideshow({
             {/* Background — <video> for Veo flash frames (D2 Vision
                 3 + 4), <img> otherwise or as a fallback when the
                 video errors. `playsInline` is required for iOS
-                Safari inline playback (see audit M-vision-mobile). */}
-            {isVideoFrame ? (
-              <video
-                src={frame.videoSrc}
-                autoPlay
-                playsInline
-                muted={false}
-                onEnded={advance}
-                onError={() =>
-                  setVideoFailedAtIndex((prev) => {
-                    const next = new Set(prev);
-                    next.add(currentIndex);
-                    return next;
-                  })
-                }
-                className="absolute inset-0 w-full h-full object-cover"
-                style={{ filter: "brightness(0.7) saturate(0.85)" }}
-              />
-            ) : (
-              <img
-                src={frame.imageSrc}
-                alt=""
-                className="absolute inset-0 w-full h-full object-cover"
-                style={{ filter: "brightness(0.6) saturate(0.85)" }}
-              />
-            )}
+                Safari inline playback (see audit M-vision-mobile).
+                Wrapped in a Ken Burns layer that scales/pans the
+                background over the frame duration so still frames
+                breathe. */}
+            {(() => {
+              const preset =
+                KEN_BURNS_PRESETS[currentIndex % KEN_BURNS_PRESETS.length];
+              const dur = isVideoFrame
+                ? null
+                : Math.max(
+                    2500,
+                    frame.durationMs ?? DEFAULT_DURATION,
+                  );
+              return (
+                <motion.div
+                  className="absolute inset-0"
+                  initial={{
+                    scale: 1,
+                    x: "0%",
+                    y: "0%",
+                  }}
+                  animate={
+                    dur
+                      ? {
+                          scale: preset.scale,
+                          x: `${preset.tx}%`,
+                          y: `${preset.ty}%`,
+                        }
+                      : undefined
+                  }
+                  transition={
+                    dur
+                      ? { duration: dur / 1000, ease: "linear" }
+                      : undefined
+                  }
+                  style={{ transformOrigin: "center" }}
+                >
+                  {isVideoFrame ? (
+                    <video
+                      src={frame.videoSrc}
+                      autoPlay
+                      playsInline
+                      muted={false}
+                      onEnded={advance}
+                      onError={() =>
+                        setVideoFailedAtIndex((prev) => {
+                          const next = new Set(prev);
+                          next.add(currentIndex);
+                          return next;
+                        })
+                      }
+                      className="absolute inset-0 w-full h-full object-cover"
+                      style={{ filter: "brightness(0.7) saturate(0.85)" }}
+                    />
+                  ) : (
+                    <img
+                      src={frame.imageSrc}
+                      alt=""
+                      className="absolute inset-0 w-full h-full object-cover"
+                      style={{ filter: "brightness(0.55) saturate(0.85) contrast(1.05)" }}
+                    />
+                  )}
+                </motion.div>
+              );
+            })()}
+
+            {/* Atmospheric overlays — vignette + grain + a thin
+                blood-amber wash that brightens slightly toward the end
+                of each frame. Together they give the slideshow an
+                approaching-doom mood without obscuring the art. The
+                vignette is a static radial mask; the wash + grain
+                animate subtly so the frame "breathes" with the music. */}
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 pointer-events-none z-[3]"
+              style={{
+                background:
+                  "radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.55) 78%, rgba(0,0,0,0.85) 100%)" /* void-ignore */,
+              }}
+            />
+            <motion.div
+              aria-hidden="true"
+              className="absolute inset-0 pointer-events-none z-[3] mix-blend-overlay"
+              initial={{ opacity: 0.18 }}
+              animate={{ opacity: 0.34 }}
+              transition={{
+                duration: (frame.durationMs ?? DEFAULT_DURATION) / 1000,
+                ease: "easeIn",
+              }}
+              style={{
+                background:
+                  "radial-gradient(circle at 50% 65%, color-mix(in oklch, #8b0000 30%, transparent) 0%, transparent 60%)" /* void-ignore */,
+              }}
+            />
+            {/* Grain — subtle film noise. SVG fractal noise as a
+                base64 background; opacity is intentionally low. */}
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 pointer-events-none z-[3] opacity-[0.07] mix-blend-overlay"
+              style={{
+                backgroundImage:
+                  "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.65'/></svg>\")",
+                backgroundSize: "220px 220px",
+              }}
+            />
 
             {/* Narrator portrait — when the frame declares a portraitSrc
                 (today: Silence in Heaven dialog interludes), composite
-                it over the background at the speaker's side. Skipped
-                entirely when portraitSide is not set. */}
-            {frame.portraitSrc && frame.portraitSide && (
-              <img
-                src={frame.portraitSrc}
-                alt=""
-                className={
-                  "absolute bottom-0 z-[5] h-[78%] max-h-[78%] w-auto object-contain object-bottom pointer-events-none " +
-                  (frame.portraitSide === "left"
-                    ? "left-0 sm:left-4"
-                    : frame.portraitSide === "right"
-                      ? "right-0 sm:right-4"
-                      : "left-1/2 -translate-x-1/2")
-                }
-                style={{ filter: "drop-shadow(0 8px 30px rgba(0,0,0,0.6))" /* void-ignore — pre-existing portrait drop shadow */ }}
-              />
-            )}
+                it over the background at the speaker's side. The
+                AnimatePresence keyed on dialogSpeakerId crossfades the
+                portrait when the speaker changes between beats. */}
+            <AnimatePresence mode="sync">
+              {frame.portraitSrc && frame.portraitSide && (
+                <motion.img
+                  key={`primary-${frame.dialogSpeakerId ?? frame.portraitSrc}`}
+                  src={frame.portraitSrc}
+                  alt=""
+                  initial={{ opacity: 0, x: frame.portraitSide === "left" ? -16 : 16 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.55, ease: "easeOut" }}
+                  className={
+                    "absolute bottom-0 z-[5] h-[78%] max-h-[78%] w-auto object-contain object-bottom pointer-events-none " +
+                    (frame.portraitSide === "left"
+                      ? "left-0 sm:left-4"
+                      : frame.portraitSide === "right"
+                        ? "right-0 sm:right-4"
+                        : "left-1/2 -translate-x-1/2")
+                  }
+                  style={{ filter: "drop-shadow(0 8px 30px rgba(0,0,0,0.6))" /* void-ignore — pre-existing portrait drop shadow */ }}
+                />
+              )}
+              {/* Secondary portrait — joint-narration beats
+                  (speaker: "both") share the stage with both
+                  narrators on. Stays smaller so the line stays
+                  readable between them. */}
+              {frame.secondaryPortraitSrc && frame.secondaryPortraitSide && (
+                <motion.img
+                  key={`secondary-${frame.dialogSpeakerId ?? frame.secondaryPortraitSrc}`}
+                  src={frame.secondaryPortraitSrc}
+                  alt=""
+                  initial={{ opacity: 0, x: frame.secondaryPortraitSide === "left" ? -16 : 16 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.55, ease: "easeOut", delay: 0.05 }}
+                  className={
+                    "absolute bottom-0 z-[5] h-[72%] max-h-[72%] w-auto object-contain object-bottom pointer-events-none " +
+                    (frame.secondaryPortraitSide === "left"
+                      ? "left-0 sm:left-4"
+                      : frame.secondaryPortraitSide === "right"
+                        ? "right-0 sm:right-4"
+                        : "left-1/2 -translate-x-1/2")
+                  }
+                  style={{ filter: "drop-shadow(0 8px 30px rgba(0,0,0,0.6))" /* void-ignore */ }}
+                />
+              )}
+            </AnimatePresence>
 
-            {/* Lyric overlay */}
-            {frame.lyric && (
-              <div className="relative z-10 text-center px-8 max-w-2xl">
-                <motion.p
+            {/* Lyric / dialog overlay — restyled to read like
+                illuminated scripture rather than a UI caption. When the
+                text is a dialog beat ("Speaker — line"), split it so
+                the attribution renders in Cinzel small-caps and the
+                line itself in Cormorant Garamond italic.
+                AnimatePresence keyed on the speaker so the line
+                crossfades when the camera switches between narrators. */}
+            <AnimatePresence mode="wait">
+              {frame.lyric && (
+                <motion.div
+                  key={`lyric-${currentIndex}-${frame.dialogSpeakerId ?? ""}`}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3, duration: 0.6 }}
-                  className="font-display text-xl sm:text-3xl font-bold text-white leading-relaxed"
-                  style={{ textShadow: "0 2px 20px color-mix(in oklch, var(--bg-void) 80%, transparent)" }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.55, delay: 0.18 }}
+                  className="relative z-10 text-center px-8 max-w-3xl"
                 >
-                  {frame.lyric}
-                </motion.p>
-                {frame.subtitle && (
-                  <motion.p
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.8, duration: 0.5 }}
-                    className="font-mono text-xs text-white/50 mt-3 italic"
-                  >
-                    {frame.subtitle}
-                  </motion.p>
-                )}
-              </div>
-            )}
+                  {(() => {
+                    // Dialog beats arrive as "Speaker Name — line".
+                    // Split on the em-dash so the attribution and the
+                    // line can be styled independently. Falls through
+                    // to a single-line render when there's no em-dash
+                    // (song lyrics, captions).
+                    const split = frame.lyric.split(" — ");
+                    if (split.length >= 2) {
+                      const speaker = split[0];
+                      const line = split.slice(1).join(" — ");
+                      return (
+                        <>
+                          <p
+                            className="uppercase text-[10px] sm:text-xs tracking-[0.45em]"
+                            style={{
+                              fontFamily: "var(--font-scripture)",
+                              color: "color-mix(in oklch, #d4af37 70%, #ffffff)" /* void-ignore */,
+                              opacity: 0.85,
+                              textShadow: "0 0 12px rgba(0,0,0,0.7)" /* void-ignore */,
+                            }}
+                          >
+                            {speaker}
+                          </p>
+                          <p
+                            className="mt-3 text-xl sm:text-3xl leading-relaxed italic"
+                            style={{
+                              fontFamily: "var(--font-scripture-body)",
+                              color: "color-mix(in oklch, #f7e7c4 85%, #ffffff)" /* void-ignore */,
+                              textShadow:
+                                "0 2px 22px rgba(0,0,0,0.85), 0 0 6px rgba(0,0,0,0.6)" /* void-ignore */,
+                            }}
+                          >
+                            {line}
+                          </p>
+                        </>
+                      );
+                    }
+                    return (
+                      <p
+                        className="text-xl sm:text-3xl leading-relaxed italic"
+                        style={{
+                          fontFamily: "var(--font-scripture-body)",
+                          color: "color-mix(in oklch, #f7e7c4 85%, #ffffff)" /* void-ignore */,
+                          textShadow:
+                            "0 2px 22px rgba(0,0,0,0.85), 0 0 6px rgba(0,0,0,0.6)" /* void-ignore */,
+                        }}
+                      >
+                        {frame.lyric}
+                      </p>
+                    );
+                  })()}
+                  {frame.subtitle && (
+                    <p
+                      className="font-mono text-xs text-white/50 mt-3 italic"
+                    >
+                      {frame.subtitle}
+                    </p>
+                  )}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </motion.div>
         )}
       </AnimatePresence>

@@ -173,15 +173,34 @@ function narratorLabel(speaker: SIHPrologueBeat["speaker"]): string {
 
 /** Where the speaker's portrait sits over the background. The Antiquarian
  *  always reads from the left (Chronicle on his lap); the Storyteller
- *  always commands the right (microphone stand). When both speak together
- *  ("New Babylon. Goddamn.") no single portrait is overlaid — the line
- *  reads as joint narration. */
+ *  always commands the right (microphone stand). For `speaker: "both"`
+ *  beats the renderer composites the two narrators together — primary
+ *  side is the Antiquarian (left); see jointPortraitsFor. */
 function portraitSideFor(
   speaker: SIHPrologueBeat["speaker"],
 ): "left" | "right" | undefined {
   if (speaker === "antiquarian") return "left";
   if (speaker === "storyteller") return "right";
-  return undefined;
+  // "both" — primary slot holds the Antiquarian; the Storyteller comes
+  // through the secondary portrait fields below.
+  return "left";
+}
+
+/** For `speaker: "both"` beats, return the pair of default narrator
+ *  portraits to composite on stage together. Falls back to undefined if
+ *  the manifest is missing either expression — the renderer then drops
+ *  back to the single-portrait path. */
+function jointPortraitsFor(speaker: SIHPrologueBeat["speaker"]): {
+  primaryUrl?: string;
+  secondaryUrl?: string;
+  secondarySide?: "left" | "right" | "center";
+} {
+  if (speaker !== "both") return {};
+  return {
+    primaryUrl: album5PortraitUrl("sih_antiq_neutral"),
+    secondaryUrl: album5PortraitUrl("sih_story_witness"),
+    secondarySide: "right",
+  };
 }
 
 function dialogStepToSlideshow(step: SIHDialogShowStep): SongSlideshowDef {
@@ -204,10 +223,12 @@ function dialogStepToSlideshow(step: SIHDialogShowStep): SongSlideshowDef {
           const end = i === beatCount - 1 ? step.durationMs : start + slotMs;
           const bgUrl =
             (b.bgId && album5BackgroundUrl(b.bgId)) || SIH_DIALOG_FALLBACK_BG;
-          const portraitUrl = b.expressionId
+          const singlePortraitUrl = b.expressionId
             ? album5PortraitUrl(b.expressionId)
             : undefined;
           const portraitSide = portraitSideFor(b.speaker);
+          const joint = jointPortraitsFor(b.speaker);
+          const primaryPortraitUrl = joint.primaryUrl ?? singlePortraitUrl;
           return {
             startMs: start,
             endMs: end,
@@ -215,8 +236,10 @@ function dialogStepToSlideshow(step: SIHDialogShowStep): SongSlideshowDef {
             transition: i === 0 ? "fade" : "dissolve",
             dialogOverlay: `${narratorLabel(b.speaker)} — ${b.line}`,
             dialogSpeakerId: b.speaker,
-            portraitUrl: portraitSide ? portraitUrl : undefined,
+            portraitUrl: portraitSide ? primaryPortraitUrl : undefined,
             portraitSide,
+            secondaryPortraitUrl: joint.secondaryUrl,
+            secondaryPortraitSide: joint.secondarySide,
           };
         });
   const id = `sih-dialog-${step.albumTrackNumber}`;
