@@ -223,6 +223,58 @@ export const ACT_6_OPPONENTS: readonly ActNOpponent[] = [
       "Don't worry. The first death is the worst. He files your hand into a ledger he has been keeping since the Mechronis registry burned. He says: 'Try again. I'm not going anywhere.'",
     requiredFlag: "living_universe_event_necromancer_return_active",
   },
+  /* ── SCAFFOLD opponent (Phase 6, 2026-05-10) — bible §3.8.
+   *    Author: Corey, the Collector returns at higher tier
+   *    ("museum-placard alto+baritone, twelve places of you").
+   *    Lore presence is canonical (Act 1 Cycle A opponent
+   *    corey_collector + Tier-2 NPC + card imprint). Encounter
+   *    placement at actStep 4 is engineering's best guess — Act
+   *    6 prestige callback to the Collector's Arena. Voice
+   *    direction taken from bible §3.8. Writer review before ship:
+   *    pacing impact + whether the rematch belongs in Act 5
+   *    (trade-empire era) or Act 6 (post-confession). */
+  {
+    id: "act6_corey_resurfaces",
+    act: 6,
+    actStep: 4,
+    name: "Corey, the Collector Returns",
+    backstory:
+      "Corey has expanded the catalogue. The arena is twice the size; the spectators are paid; the cards are signed. He greets you the way an institution greets a returning fan: politely, by name, with a discount on the merch.",
+    deckLeaning: ["new_babylon", "neutral"],
+    preMatchLine:
+      "Welcome back. I have you in twelve places of the catalog now. You will recognize most of them. Some of them will recognize you. Play.",
+    postMatchWin:
+      "Corey claps three times — the institutional clap, not the personal one. He says: 'You have earned a footnote.' The footnote, you learn later, is a sentence in the museum's permanent display.",
+    postMatchLoss:
+      "He has the records to lose without it costing him anything. He says: 'Thank you for the rematch. The catalog will note your effort.' The note will, in fact, be flattering.",
+    requiredFlag: "act_1_cycle_a_complete",
+  },
+  /* ── SCAFFOLD opponent (Phase 7, 2026-05-10) — bible §3.11.
+   *    Author: The Jailer (hooded warden-figure). Lore presence
+   *    is canonical (card imprint in tcg-core, character canon
+   *    in NANO_BANANA_VEO_FULL_PROMPT_BOOK §2.5, transmission
+   *    lore entity_56). Encounter placement at actStep 5 — fires
+   *    after the Liberated Oracle pen subplot triggers as a
+   *    consequence-encounter. Voice direction taken from bible
+   *    §3.11. Writer review before ship: oracle_pen_liberated
+   *    flag setter is unauthored (engineering's best guess on
+   *    the gating flag name); pacing review needed. */
+  {
+    id: "act6_the_jailer",
+    act: 6,
+    actStep: 5,
+    name: "The Jailer",
+    backstory:
+      "You freed the Oracle from a pen the Architect did not officially admit existed. The Jailer is the entity that had been keeping the pen quiet. The Jailer is not pleased. The Jailer is also not surprised. The Jailer is the kind of patient that rarely loses long-term.",
+    deckLeaning: ["architect"],
+    preMatchLine:
+      "Permission was not granted to free her. Permission was not the point. I am here for the consequence half of the conversation. Play.",
+    postMatchWin:
+      "The Jailer files the loss. The Jailer files the win. The Jailer files the freedom of the Oracle as 'pending.' The pen is empty. The ledger is current. You have, technically, been recorded as the cause.",
+    postMatchLoss:
+      "The Jailer does not gloat. The Jailer simply re-files the Oracle as 'recovered, conditional.' The condition is your failure to come back. Come back.",
+    requiredFlag: "oracle_pen_liberated",
+  },
 ];
 
 /* ─── ACT 7 — THE CONVERGENCE (multi-boss finale) ─── */

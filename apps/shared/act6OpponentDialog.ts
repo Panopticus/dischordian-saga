@@ -132,10 +132,76 @@ const THAZULOK_RETURNS: Act6OpponentDialog = {
     "He files your hand into a ledger he has been keeping since the Mechronis registry burned. He says: 'Try again. I'm not going anywhere.' He means the ossuary. He also means the substrate. He also means time.",
 };
 
+/* ── SCAFFOLD dialog (Phase 6, 2026-05-10) — bible §3.8.
+ *    Voicing: Corey's institutional alto+baritone (museum-placard
+ *    register, public-relations warmth with private knives).
+ *    Writer review before ship. */
+const COREY_RESURFACES: Act6OpponentDialog = {
+  opponentId: "act6_corey_resurfaces",
+  frameIntro:
+    "The arena is twice the size you remember. The chairs are fuller. There are signs in three languages. Corey is at the door, holding a tablet. You are on the tablet. You have been on the tablet for some time.",
+  elaraPreMatch:
+    "He has been collecting your highlight reel. I am not going to comment on the editing. The editing, on average, is generous.",
+  humanPreMatch:
+    "He runs an institution now. Institutions do not lose to walk-ins. Be ready for that. He will not be ready for you to be ready.",
+  opponentMidMatchEarly:
+    "Welcome back. I have you in twelve places of the catalog now. You will recognize most of them. Play.",
+  opponentMidMatchMid:
+    "That hand is a collector's edition of one of yours, from the first arena. I bought the rights. The rights were cheap. Forgive me.",
+  opponentMidMatchLate:
+    "The footnote is already written. The footnote will note effort. It will not, this time, note victory. You can still change the second clause.",
+  elaraPostMatchWin:
+    "You earned the footnote. The footnote is one sentence in a permanent display. I am going to read it aloud at home tonight, with feeling.",
+  humanPostMatchWin:
+    "An institution clapped for you. That is rarer than a person clapping. The institution will, for one quarter, refer to you in present tense.",
+  elaraPostMatchLoss:
+    "He took the rematch. The catalog will note the effort flatteringly. It is an honest catalog. The flattery is honest too.",
+  humanPostMatchLoss:
+    "Lost to the institution. Not the man. There is a difference, and the difference is yours to keep. Try again at off-hours. He plays a different hand at off-hours.",
+  frameCloseWin:
+    "Corey claps three times — the institutional clap, not the personal one. He says: 'You have earned a footnote.' The footnote, you learn later, is a sentence in the museum's permanent display.",
+  frameCloseLoss:
+    "He says: 'Thank you for the rematch. The catalog will note your effort.' The note will, in fact, be flattering. You will read it again later and feel less defeated than you should.",
+};
+
+/* ── SCAFFOLD dialog (Phase 7, 2026-05-10) — bible §3.11.
+ *    Voicing: the Jailer's procedural-warden register (Architect-
+ *    aligned, ledger-driven, patient on geological scales).
+ *    Writer review before ship. */
+const THE_JAILER_DIALOG: Act6OpponentDialog = {
+  opponentId: "act6_the_jailer",
+  frameIntro:
+    "The pen is empty. The pen has been empty since you opened it. The Jailer arrives with a clipboard, not a weapon. The clipboard is, in context, scarier.",
+  elaraPreMatch:
+    "He has been waiting for the consequence half of the conversation. The conversation is, technically, with you. I am attending.",
+  humanPreMatch:
+    "Architect-aligned, ledger-loyal. He will play the way an actuary plays. Do not let the math lull you. The math has been kept current for a long time.",
+  opponentMidMatchEarly:
+    "Permission was not granted to free her. Permission was not the point. I am here for the consequence half. Play.",
+  opponentMidMatchMid:
+    "Your card is filed under 'unauthorized kindness.' I have a column for that. The column has not been used in some time. It is being used today.",
+  opponentMidMatchLate:
+    "The Oracle is not coming back. The pen is open. The ledger will note this, with footnotes. Decide whether the footnotes will note your win.",
+  elaraPostMatchWin:
+    "The Jailer files the freedom of the Oracle as 'pending.' I do not know what condition closes 'pending.' I am going to find out, because he will tell me, eventually, in writing.",
+  humanPostMatchWin:
+    "He files the loss. He files it accurately. The accuracy is a small mercy, and he is a man who deals in small mercies. Hold on to that.",
+  elaraPostMatchLoss:
+    "He does not gloat. He simply re-files the Oracle as 'recovered, conditional.' The condition is your failure to come back. We are coming back.",
+  humanPostMatchLoss:
+    "He won and did not change his expression. That is the Jailer at his most honest. We will play him again. The ledger will be updated. The pen will stay empty.",
+  frameCloseWin:
+    "The pen is empty. The ledger is current. You have, technically, been recorded as the cause. The Jailer offers, formally, his condolences for your involvement.",
+  frameCloseLoss:
+    "The Oracle is recorded as 'recovered, conditional.' The condition is your failure to come back. Come back.",
+};
+
 export const ACT_6_OPPONENT_DIALOGS: readonly Act6OpponentDialog[] = [
   THE_WOMAN_SHE_WAS,
   THE_DETECTIVE_IN_THE_WALL,
   THAZULOK_RETURNS,
+  COREY_RESURFACES,
+  THE_JAILER_DIALOG,
 ];
 
 export function getAct6OpponentDialog(
