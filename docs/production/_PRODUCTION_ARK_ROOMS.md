@@ -9218,123 +9218,684 @@ streaming_behaviour:
 
 ## A.19 Shadow Vault (Assassin Sanctum) — FULL
 
-**Status: FULL spec (compact).** Cross-ref §2.19.
+**Status: FULL spec.** Cross-ref `INCEPTION_ARK_FINAL_PRODUCTION.md`
+§2.19 (art-state prompts).
 
 ### A.19.1 Header
 
 ```
 space_id:        ark.shadow_vault
 space_name:      Shadow Vault (Assassin Sanctum)
-space_type:      ark_room  (faction-locked; hidden)
+space_type:      ark_room  (faction-locked; hidden D8 sanctum)
 act_introduced:  Act 5 (Assassin-aligned only)
-lore_anchor:     loredex.faction.assassins + arc.shadow_arc + arc.act_5_first_contract
-aesthetic_tier:  solar_punk_cathedral  (shadow-tactical; deeply dim; the Ark's darkest room)
+lore_anchor:     loredex.faction.assassins + arc.shadow_arc + arc.act_5_first_contract + arc.act_6_shadow_token_quest
+aesthetic_tier:  solar_punk_cathedral  (shadow-tactical; deeply dim; the Ark's darkest room — intentionally light-suppressed)
 ```
 
 ### A.19.2 Geometry
 
 ```
 dimensions:           10.00 m × 12.00 m × 4.00 m
-origin_point:         centre of floor at south entrance
-coordinate_axes:      +x = right, +y = forward, +z = up
-floor_plan_geometry:  rectangular  (with 4 hidden alcoves at corners)
-volumetric_anomalies: dim-pocket effect — light dies faster than physics suggests (intentional aesthetic)
+origin_point:         centre of floor at south entrance threshold (entrance is the south wall)
+coordinate_axes:      +x = right, +y = forward (north), +z = up
+floor_plan_geometry:  rectangular  (with 4 hidden alcoves recessed at corners)
+volumetric_anomalies: dim-pocket effect — light decays faster than physics suggests (intentional aesthetic; ambient lighting falls off ~2× faster than expected); slight sound-suppression (RT60 = 0.18s — extremely dry)
 ```
 
-The Shadow Vault is intentionally dark. Central planning table.
-4 hidden alcoves at corners (concealed entrances; gameplay-active
-in Acts 6+). Weapons rack along east wall. Contract archive
-along west wall. North wall holds the assassins' principle: a
-single carved blade.
+The Shadow Vault is intentionally dark, intentionally quiet,
+intentionally still. Central planning table dominates the room.
+4 hidden alcoves at the corners are concealed behind sliding
+panels — only revealed when the player has gathered shadow-tokens
+(Act 6+ quest). East wall holds a 6-slot weapons rack of
+mag-locked tools (knives, bows, garrotes). West wall holds a
+4-cabinet sealed-contracts archive. North wall is sacred to the
+Assassin faction: a single ritual blade on a pedestal beneath
+the banner "WE ARE THE NIGHT BREATH."
 
 Floor area: 120 m².
 
-### A.19.3-8 Compact
+### A.19.3 Floor
 
 ```
-floor: matte-black slate; 0.60×0.60 m tiles; deliberately non-reflective; subtle anti-slip etch; bronze inlay outlines planning-table zone
-walls:
-  south: matte-charcoal panel; south.display.contract_status (-2.0,0.2,1.5); south.door.main slide connects to ark.corridor.shadow_approach (Act 5+ Assassin-aligned only); plaque "STRIKE BETWEEN HEARTBEATS"
-  east: matte-charcoal with 6 mag-locked weapon slots (knives, bows, garrotes); reinforced backing; bronze nameplates per slot
-  north: full-wall matte-black with central recess for THE BLADE (1 single carved-bronze ritual blade displayed at z=2.50, 0.4 dia stand); banner above "WE ARE THE NIGHT BREATH"
-  west: contract archive cabinets (4 cabinets stacked vertically; sealed with biometric); each holds active contracts
-  hidden_alcoves: 4 corner alcoves (concealed behind sliding panels; revealed only when player has gathered shadow-tokens; each contains specialised tools — poison kit, lockpick set, climb gear, escape rope)
-ceiling: 4.00 m baseline; intentional low-coffer at 3.40 m above central table; matte-black painted; minimal lighting fixtures
-lighting:
-  ambient_baseline: 1800 K extremely warm (candle-tone); 30 lux (DELIBERATELY VERY DIM); CRI 70
-  central_pendant: at (0.00, 6.00, 3.40); single warm bulb; 800 lumens (intentionally low)
-  weapon_rack_strip.east: above weapons; 200 lumens/m (silhouettes weapons in dim glow)
-  contract_archive_strip.west: above cabinets; 200 lumens/m
-  blade_uplight.north: at blade base; 400 lumens; warm bronze
-  practical_sources: hidden_alcove_glow.<n>×4 (revealed alcoves only); 30 lumens each
-atmosphere: 17°C cool / 38% RH dry / smells of bronze + leather + faint metallic-blood + cold-iron
-sound:
-  ambient_bed: -42 dB extremely quiet; faint distant heartbeat (someone else?), occasional knife-edge whisper
-  point_sources: blade_subtle_resonance; pendulum_clock_tick (single mantle clock); contract_seal_creak (random)
-  reverb_zone: shadow_vault_v1.wav wet 8% extremely dry (sound-suppressed)
-  music_eligibility: cutscene only
-  voice_line: the_shadow_master (named NPC; rare presence); contract_whispers (state-conditional)
+material_primary:     matte-black slate (deliberately non-reflective; absorbs light); 0.60 m × 0.60 m tiles; 4 mm gap; subtle anti-slip etch in radial pattern
+material_secondary:   bronze inlay outlining the planning-table zone (3.00 × 2.40 m); brass perimeter trim along walls (intentionally faint — barely visible in dim light)
+pattern:              radial etch + central planning-zone marker
+wear_state:           pristine in early acts; very subtle wear-trail to planning table; in late-act if many contracts completed, slight wear at weapons-rack approach
+embedded_features:
+  - id: ark.shadow_vault.floor.charge_point.planning_table
+    position: (0.00, 6.00, 0.00)  # under planning table
+    dimensions: 0.40 × 0.40 × 0.05
+    function: planning-table electronics + holographic projection power
+  - id: ark.shadow_vault.floor.hidden_alcove_threshold.<corner>  (4 thresholds; one per corner alcove)
+    position: per corner (NE, NW, SE, SW)
+    dimensions: 0.80 × 0.20 × 0.05 each
+    function: alcove-reveal trigger anchor (responds to shadow-tokens)
+  - id: ark.shadow_vault.floor.silent_drain.south
+    position: (0.00, 1.00, 0.00)
+    dimensions: 0.20 × 0.20 × 0.10
+    function: ritual blood-drain (rare gameplay; for ceremonial post-contract cleansing)
+acoustic_property:    soft_absorbent (extreme; sound-suppressed); RT60 = 0.18s (intentionally dry — every footstep, breath, blade-edge sounds isolated)
 ```
 
-### A.19.9 Object inventory (compact)
+### A.19.4 Walls
+
+#### Wall: South (entrance)
+
+```
+wall_id:              south
+material_primary:     matte-charcoal painted steel panel; reinforced; matte finish absorbs light
+material_secondary:   bronze dado at z = 1.10 m (heavily-patinated; nearly invisible in dim light)
+panelisation:         standard; 6 panels wide × 3 tall; matte finish ensures no reflection
+colour_value:         --token-color-ark-shadow-vault-wall-south  (matte charcoal; faint bronze accent at z = 2.00 m)
+embedded_displays:
+  - id: ark.shadow_vault.south.display.contract_status
+    position: (-2.00, 0.20, 1.50)
+    dimensions: 0.80 × 0.60 × 0.05
+    content: live contract status (active assassinations + targets); minimalist OLED display with red-amber accents only
+  - id: ark.shadow_vault.south.display.shadow_token_count
+    position: (2.00, 0.20, 1.50)
+    dimensions: 0.40 × 0.30 × 0.05
+    content: small display of player's collected shadow-tokens (rare; gameplay-key for alcove unlocks)
+embedded_doors:
+  - door_id: ark.shadow_vault.south.door.main
+    position: (0.00, 0.00, 0.00)
+    dimensions: 1.20 × 2.40 × 0.10
+    door_class: slide  (silent-glide; magnetic; opens with whisper of friction)
+    connecting_space_id: ark.corridor.shadow_approach
+    unlock_condition: Act 5+ (Assassin-aligned only); biometric + shadow-token authentication
+decorative_features:
+  - id: ark.shadow_vault.south.plaque.creed
+    position: (0.00, 0.20, 3.20)
+    dimensions: 0.80 × 0.30 × 0.02
+    material: cast bronze with deep-etched text + heavy patina (intentionally aged)
+    narrative_role: reads "STRIKE BETWEEN HEARTBEATS" — the Assassin-faction creed
+```
+
+#### Wall: East (weapons rack)
+
+```
+wall_id:              east
+material_primary:     matte-charcoal painted steel; reinforced; sound-absorbent backing panels
+material_secondary:   bronze dado (heavily-patinated); reinforced backplate behind weapons rack
+panelisation:         standard
+colour_value:         --token-color-ark-shadow-vault-wall-east  (matte charcoal)
+embedded_displays:    none
+embedded_doors:        none
+decorative_features:
+  - id: ark.shadow_vault.east.weapons_rack
+    position: (4.95, 6.00, 0.00)
+    dimensions: 0.40 × 4.00 × 2.40
+    material: matte-black reinforced steel rack with mag-locks; bronze trim (patinated); leather-bound grip-rests for each weapon
+    narrative_role: weapons display; 6 slots: throwing-knife, garrote, recurve-bow, bolt-pistol, ceremonial-blade, poison-vial
+  - id: ark.shadow_vault.east.warning_sign.weapon_zone
+    position: (4.95, 1.50, 2.40)
+    dimensions: 0.30 × 0.20 × 0.01
+    material: black-on-blood-red painted steel
+    narrative_role: cautionary; subtle reinforcement of the room's purpose
+```
+
+#### Wall: North (the Ritual Blade + banner)
+
+```
+wall_id:              north
+material_primary:     full-wall matte-black painted steel (the darkest wall in the room; absorbs almost all light)
+material_secondary:   bronze dado (extremely patinated); central recess for the ritual blade
+panelisation:         3 panels: west (decorative), centre (blade recess + banner above), east (decorative)
+colour_value:         --token-color-ark-shadow-vault-wall-north  (matte black with subtle bronze + crimson accents)
+embedded_displays:    none
+embedded_doors:        none
+decorative_features:
+  - id: ark.shadow_vault.north.ritual_blade_recess
+    position: (0.00, 11.95, 2.50)
+    dimensions: 0.40 dia × 0.10 (recessed niche)
+    material: matte-black with bronze rim; single carved-bronze ritual blade displayed inside
+    narrative_role: THE blade; the Assassin-faction's most sacred artifact; canonical first-blade carried into 9 historical contracts
+  - id: ark.shadow_vault.north.banner_above_blade
+    position: (0.00, 11.85, 3.50)
+    dimensions: 1.00 × 0.05 × 0.80
+    material: deep crimson velvet with silver-thread embroidery (silver, not gold — Assassin-faction signal)
+    narrative_role: reads "WE ARE THE NIGHT BREATH" — Assassin-faction motto
+  - id: ark.shadow_vault.north.relief.invisible
+    position: (0.00, 11.85, 4.00)
+    dimensions: 1.40 × 0.40 × 0.10
+    material: cast bronze; depicts a figure stepping into shadow (almost invisible; only revealed by careful inspection)
+    narrative_role: subtle reinforcement; player who inspects discovers Assassin-faction's deeper philosophy
+```
+
+#### Wall: West (contract archive cabinets)
+
+```
+wall_id:              west
+material_primary:     matte-charcoal painted steel; reinforced
+material_secondary:   bronze dado (patinated); biometric-lock plates per cabinet
+panelisation:         4-cabinet vertical stack
+colour_value:         --token-color-ark-shadow-vault-wall-west
+embedded_displays:    none
+embedded_doors:        none
+decorative_features:
+  - id: ark.shadow_vault.west.contract_archive_cabinet.<n>  (4 cabinets stacked vertically at z = 0, 1, 2, 3)
+    position: (-4.95, 6.00, varies)
+    dimensions: 0.40 × 3.00 × 1.00 each (4 stacked = 4.00 m tall)
+    material: matte-black reinforced steel with biometric-lock plate; each holds active sealed contracts
+    narrative_role: contract archive; gameplay-key for assassin missions; each cabinet covers a different contract category (active / completed / unfulfilled / blacklisted)
+  - id: ark.shadow_vault.west.painting.first_assassin
+    position: (-4.95, 1.50, 2.40)
+    dimensions: 0.40 × 0.50 × 0.04
+    material: oil portrait of the first canonical Assassin (silhouette only; face shadowed)
+    narrative_role: lineage acknowledgment
+```
+
+### A.19.5 Ceiling
+
+```
+height_above_floor:     4.00 m baseline; intentional low-coffer at 3.40 m above central planning table (gives intimacy + dramatic lighting falloff)
+material:               matte-black painted plaster with bronze rib detail (heavily patinated); central coffer is a dim translucent panel
+lighting_integrated:    minimal — single central pendant over planning table; weapon-rack strip-light along east; contract-archive strip-light along west; blade-uplight; intentionally NO general ambient lighting
+atmospheric_features:   subtle sub-perceptual shadow-motes drift (cosmetic; reinforces shadow-aesthetic)
+acoustic_treatment:     extreme baffling (acoustic dampening; the room is sound-suppressed)
+```
+
+### A.19.6 Lighting
+
+```
+ambient_baseline:     1800 K (extremely warm; candle-tone equivalent); 30 lux at floor level (DELIBERATELY VERY DIM — 1/10 of typical Ark room); CRI 70 (low; matches shadow-aesthetic)
+direct_fixtures:
+  - id: ark.shadow_vault.light.central_pendant
+    position: (0.00, 6.00, 3.40)
+    beam_angle: 90° downward (tight)
+    colour: --token-color-ark-shadow-vault-pendant  (warm amber-bronze; intentionally low temp)
+    intensity: 800 lumens (intentionally low — single isolated bulb)
+    function: principal task lighting at planning table; everything else falls into darkness
+  - id: ark.shadow_vault.light.weapon_rack_strip.east
+    position: along weapons rack at z = 2.50
+    beam_angle: 90° downward
+    colour: --token-color-ark-shadow-vault-weapon-strip  (warm amber)
+    intensity: 200 lumens per metre (silhouettes weapons in dim glow without revealing detail)
+    function: weapon-rack accent (deliberately dim)
+  - id: ark.shadow_vault.light.contract_archive_strip.west
+    position: along contract cabinets at z = 4.00
+    beam_angle: 90° downward
+    colour: 1800 K very warm
+    intensity: 200 lumens per metre
+    function: archive accent (matches weapon-rack dim level)
+  - id: ark.shadow_vault.light.blade_uplight.north
+    position: (0.00, 11.95, 0.05)
+    beam_angle: 30° upward
+    colour: --token-color-ark-shadow-vault-blade-uplight  (warm bronze; symbolic)
+    intensity: 400 lumens
+    function: dramatic blade illumination; the only "warm" point in the room
+practical_sources:
+  - id: ark.shadow_vault.hidden_alcove_glow.<corner>  (4 emitters; only active when alcoves revealed)
+    position: per revealed alcove
+    intensity: 30 lumens each (very subtle; only revealed alcoves emit)
+    flicker_pattern: stable
+  - id: ark.shadow_vault.pendulum_clock_glow
+    position: on planning table
+    intensity: 20 lumens (very subtle; clock face glows)
+    flicker_pattern: stable
+time_of_day_variation:
+  acts_5_to_7: stable extremely-dim baseline; in late-act7, if player has been a "shadow-master" (many contracts completed), pendant intensifies slightly; if light-aligned ending, room becomes even darker (eerie cold)
+dynamic_response:
+  - on_player_at_planning_table: pendant pulses subtly with player heartbeat (deeply intimate)
+  - on_alcove_reveal: that alcove's hidden_alcove_glow activates (one-shot)
+  - on_blade_inspection: blade_uplight intensifies briefly
+  - on_contract_completion: brief silver-mist drift from west cabinets toward planning table (cosmetic)
+```
+
+### A.19.7 Atmosphere
+
+```
+air_temperature:    17°C (cool — sound-suppressed; air feels "still")
+humidity:           38% RH (low; weapon-friendly); smells of bronze + leather (grip-rests + boot-tread) + faint metallic-blood (canonical post-contract residue) + cold-iron + old-paper (contracts)
+particulate:
+  - type: dust
+    density: very low (security maintenance; the Vault is meticulously clean)
+    colour: matte-grey
+    drift_direction: random; very slow
+  - type: shadow_motes
+    density: very low (sub-perceptual; cosmetic; suggests "presence in absence")
+    colour: faintly-darker-than-ambient
+    drift_direction: slow
+volumetric_fog:     absent in baseline; subtle silver-mist drift from west cabinets during contract events
+wind_drift:         minimal; 0.01 m/s (HVAC pattern is suppressed; air feels "stilled")
+smell_canon:        bronze + leather + blood + cold-iron + paper; voice-line: "smells like patience"
+```
+
+### A.19.8 Sound
+
+```
+ambient_bed:           file: shadow_vault_ambient_bed_v1.ogg (loop); -42 dB (extremely quiet; the room is sound-suppressed); faint distant heartbeat (NOT player's — someone ELSE'S; uncanny), occasional knife-edge whisper, very faint clock-tick
+point_sources:
+  - id: ark.shadow_vault.sound.distant_heartbeat
+    position: dynamic (random — often from corner alcoves)
+    sound: faint heartbeat; -44 dB; period 0.9-1.1s
+    occlusion_behaviour: omnidirectional; pseudo-random source
+    trigger: continuous (uncanny — never-located; hints at "presences")
+  - id: ark.shadow_vault.sound.blade_subtle_resonance
+    position: (0.00, 11.95, 2.50)
+    sound: faint metallic resonance from ritual blade (-42 dB; continuous; almost sub-perceptual)
+    occlusion_behaviour: omnidirectional
+    trigger: continuous
+  - id: ark.shadow_vault.sound.pendulum_clock_tick
+    position: on planning table
+    sound: pendulum tick (period 1s; -38 dB)
+    occlusion_behaviour: standard
+    trigger: continuous
+  - id: ark.shadow_vault.sound.contract_seal_creak
+    position: distributed at west cabinets
+    sound: occasional contract-seal creak (random; -40 dB)
+    occlusion_behaviour: standard
+    trigger: random (period 60-120s)
+  - id: ark.shadow_vault.sound.knife_edge_whisper
+    position: dynamic (random near weapons rack)
+    sound: faint blade-edge whisper (random; -42 dB)
+    occlusion_behaviour: standard
+    trigger: random (period 30-90s)
+  - id: ark.shadow_vault.sound.shadow_master_breath
+    position: (0.00, 7.50, 1.40)
+    sound: very faint slow breath (-44 dB; only when Shadow Master present)
+    occlusion_behaviour: omnidirectional with subtle directional bias
+    trigger: state-conditional
+reverb_zone:           IR-impulse: shadow_vault_v1.wav; wet-mix 8% (extremely dry; sound-suppressed)
+music_eligibility:     cutscene only (Assassin-arc cutscenes; deferred catalogue)
+voice_line_eligibility:
+  - speaker: the_shadow_master: presence (Acts 5+ Assassin-aligned); line set §2.19.2
+  - speaker: contract_whispers: state-conditional during planning (proto-language; subtitled)
+  - speaker: distant_heartbeat: ambient atmosphere only (no spoken voice)
+```
+
+### A.19.9 Object inventory
+
+Shadow Vault has 28 inventory objects.
+
+#### A.19.9.1 The Central Planning Table
+
+```
+object_id:           ark.shadow_vault.planning_table
+object_class:        interactive  (also display)
+position:            (0.00, 6.00, 0.00)
+dimensions:          1.80 × 1.20 × 0.85
+rotation:            0°
+material_primary:    matte-black reinforced steel top with leather-bound edges; sound-suppressed material
+material_secondary:  bronze corner caps with engraved Assassin sigils; pendant-light reflector panel (matte) above
+colour_value:        --token-color-ark-shadow-vault-planning-table
+interaction:         interactable
+  - operate: opens contract-planning UI; player plans assassinations + reviews targets
+  - inspect: lore-note about the table's history (canonical pre-Ark; carved from a single block of dark stone)
+narrative_role:      THE central planning surface; primary Assassin-faction gameplay-launcher
+lore_anchor:         loredex.faction.assassins + arc.shadow_arc
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.shadow_vault.planning_table.operate
+wear_state:          worn at most-touched corner (slightly bronze-toned wear);
+physical_constraints: collides; player can lean
+```
+
+#### A.19.9.2 The Shadow Master's Chair
+
+```
+object_id:           ark.shadow_vault.shadow_master_chair
+object_class:        furniture  (also npc_anchor)
+position:            (0.00, 7.50, 0.00)
+dimensions:          0.90 × 0.90 × 1.50
+rotation:            180°  (faces south; Shadow Master watches client + door)
+material_primary:    matte-black hardwood frame with deep-charcoal leather upholstery
+material_secondary:  bronze armrests (heavily patinated); bronze nameplate "THE SHADOW MASTER" (almost invisible in dim light)
+colour_value:        --token-color-ark-shadow-vault-shadow-master-chair
+interaction:         interactable - sit (when Shadow Master absent — extremely rare)
+narrative_role:      THE Shadow Master's chair; permanent physical anchor; he's almost always present
+lore_anchor:         loredex.character.the_shadow_master
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.shadow_vault.shadow_master_chair.sit
+wear_state:          worn at right armrest (Shadow Master is right-handed); cushion permanently indented
+physical_constraints: collides; sittable
+```
+
+#### A.19.9.3-4 Two Visitor Chairs (flanking planning table; client seats)
+
+```
+object_id:           ark.shadow_vault.visitor_chair.east, .west
+object_class:        furniture
+positions:           (1.20, 6.00, 0.00), (-1.20, 6.00, 0.00)
+dimensions (each):   0.80 × 0.80 × 1.20
+rotation (each):     varies (faces table)
+material_primary:    matte-black hardwood frame with charcoal leather seat
+material_secondary:  bronze tacks (almost invisible)
+colour_value:        --token-color-ark-shadow-vault-visitor-chair
+interaction:         interactable - sit
+narrative_role:      where clients sit; player negotiates contracts here
+lore_anchor:         arc.shadow_arc
+art_status:          producer_handoff
+gameplay_hook_id:    none (positional)
+wear_state:          slight wear
+physical_constraints: collides; sittable
+```
+
+#### A.19.9.5 The East Weapons Rack
+
+```
+object_id:           ark.shadow_vault.east.weapons_rack
+object_class:        container
+position:            (4.95, 6.00, 0.00)
+dimensions:          0.40 × 4.00 × 2.40
+rotation:            270°  (parallel to east wall)
+material_primary:    matte-black reinforced steel rack with mag-locks
+material_secondary:  bronze trim (patinated); leather-bound grip-rests per slot; bronze nameplates per slot
+colour_value:        --token-color-ark-shadow-vault-weapons-rack
+interaction:         interactable
+  - take_weapon: 6 weapon slots — throwing-knife, garrote, recurve-bow, bolt-pistol, ceremonial-blade, poison-vial
+  - inspect_weapon: per-weapon lore (each has named history)
+narrative_role:      Assassin-faction weapon arsenal; gameplay-key for contracts
+lore_anchor:         loredex.system.assassin_weapons + arc.shadow_arc
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.shadow_vault.weapons_rack.take + .inspect
+wear_state:          worn at most-used slots (varies per playstyle); ceremonial-blade slot slightly more polished
+physical_constraints: collides
+```
+
+#### A.19.9.6-9 Four Contract Archive Cabinets (west wall stacked)
+
+```
+object_id:           ark.shadow_vault.west.contract_archive_cabinet.<n>  (4 cabinets stacked vertically; categorised: active, completed, unfulfilled, blacklisted)
+positions:           [
+  (-4.95, 6.00, 0.00),  # bottom — active contracts
+  (-4.95, 6.00, 1.00),  # middle-low — completed
+  (-4.95, 6.00, 2.00),  # middle-high — unfulfilled
+  (-4.95, 6.00, 3.00),  # top — blacklisted (rare; sealed)
+]
+dimensions (each):   0.40 × 3.00 × 1.00
+rotation:            90°
+material_primary:    matte-black reinforced steel with biometric-lock plate
+material_secondary:  bronze handle (patinated); bronze nameplate per cabinet
+colour_value:        --token-color-ark-shadow-vault-archive-cabinet
+interaction:         interactable
+  - open: contains sealed contracts (per-cabinet category)
+  - inspect: lore-note per cabinet
+narrative_role:      contract archive; gameplay-key for mission lookup + lore
+lore_anchor:         loredex.system.assassin_contracts
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.shadow_vault.archive_cabinet.open
+wear_state:          slight wear at active cabinet handle (most-used); top blacklisted cabinet pristine (rarely opened)
+physical_constraints: collides
+```
+
+#### A.19.9.10 The Ritual Blade
+
+Specced in walls A.19.4. Inventoried for completeness.
+
+```
+object_id:           ark.shadow_vault.ritual_blade
+object_class:        decoration  (also fx_emitter — subtle resonance)
+position:            (0.00, 11.95, 2.55)  # within recess; 0.05 m forward of wall
+dimensions:          0.05 × 0.05 × 0.60 (blade)
+rotation:            0°  (vertical)
+material_primary:    carved bronze blade with subtle metallic engraving
+material_secondary:  bronze stand (0.40 dia × 0.10 height); base of recess
+colour_value:        --token-color-ark-shadow-vault-ritual-blade  (deep bronze with silver edge-glint)
+interaction:         inspectable
+  - inspect: opens multi-screen lore about the blade's 9 historical contracts
+narrative_role:      THE sacred artifact; cannot be taken; symbolic anchor of Assassin-faction
+lore_anchor:         loredex.faction.assassins + arc.shadow_origin_myth
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.shadow_vault.ritual_blade.inspect
+wear_state:          well-aged; centuries of handling visible at grip; edge still razor-sharp
+physical_constraints: non-collide (recessed; cannot interact except inspect)
+```
+
+#### A.19.9.11-14 Four Hidden Alcoves (concealed at corners)
+
+```
+object_id:           ark.shadow_vault.hidden_alcove.<corner>  (4 alcoves: NE, NW, SE, SW)
+object_class:        container
+positions:           [
+  (4.50, 11.50, 0.00),    # NE
+  (-4.50, 11.50, 0.00),   # NW
+  (4.50, 0.50, 0.00),     # SE
+  (-4.50, 0.50, 0.00),    # SW
+]
+dimensions (each):   0.80 × 0.80 × 2.40 (alcove recess)
+rotation:            varies (radial; faces inward toward planning table)
+material_primary:    matte-black sliding-panel (concealed in baseline); reveals matte-charcoal alcove with shadow-aesthetic specialised tools
+material_secondary:  bronze trim around revealed alcove edge
+colour_value:        --token-color-ark-shadow-vault-hidden-alcove
+interaction:         interactable (only when revealed by shadow-tokens)
+  - reveal: requires shadow-token (1 per alcove); slides panel aside; one-shot per alcove
+  - take_tool: each alcove holds specialised gear (NE = poison kit; NW = lockpick set; SE = climb gear; SW = escape rope)
+  - inspect: lore-note
+narrative_role:      hidden specialised-tools; gameplay-key for advanced contracts
+lore_anchor:         loredex.system.assassin_specialised_tools + arc.act_6_shadow_token_quest
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.shadow_vault.hidden_alcove.reveal + .take_tool
+wear_state:          pristine until revealed
+physical_constraints: collides only when revealed
+```
+
+#### A.19.9.15 The Pendulum Clock (on planning table)
+
+```
+object_id:           ark.shadow_vault.pendulum_clock
+object_class:        decoration  (also fx_emitter — clock-tick sound + subtle glow)
+position:            (-0.80, 6.00, 0.85)  # on planning table corner
+dimensions:          0.20 × 0.20 × 0.30
+rotation:            0°
+material_primary:    matte-black bronze case with polished pendulum
+material_secondary:  silver clock face (very subtle; almost invisible)
+colour_value:        --token-color-ark-shadow-vault-clock
+interaction:         inspectable
+narrative_role:      ticking adds room-rhythm; the clock is canonically frozen at midnight (00:00) but mysteriously ticks anyway (matches Captain's mantle clock at 03:47 — both are temporal anchors)
+lore_anchor:         loredex.aesthetic.temporal_anchors
+art_status:          producer_handoff
+gameplay_hook_id:    none
+wear_state:          well-aged; bronze patinated
+physical_constraints: collides
+```
+
+#### A.19.9.16-19 Atmospheric + Decorative Items
 
 | object_id | class | position | dim | role |
 |---|---|---|---|---|
-| `ark.shadow_vault.planning_table` | interactive | (0.00, 6.00, 0.00) | 1.80×1.20×0.85 | central contract-planning table |
-| `ark.shadow_vault.shadow_master_chair` | furniture+npc_anchor | (0.00, 7.50, 0.00) | 0.9×0.9×1.5 | Shadow Master's chair |
-| `ark.shadow_vault.visitor_chair.east, .west` (2) | furniture | flanking table | 0.8×0.8×1.2 each | client seats |
-| `ark.shadow_vault.weapons_rack.east` | container | (4.95, 6.00, 0.00) | 0.4×4.0×2.4 | mag-locked weapons (6 slots) |
-| `ark.shadow_vault.contract_archive_cabinet.<n>` (4) | container | west wall stacked | 0.4×3.0×1.0 each | sealed contracts |
-| `ark.shadow_vault.ritual_blade` | decoration | (0.00, 11.95, 2.50) | 0.4 dia × 0.10 stand + 0.05×0.05×0.6 blade | ritual carved-bronze blade |
-| `ark.shadow_vault.banner_above_blade` | decoration | (0.00, 11.85, 3.50) | 1.0×0.05×0.8 | "WE ARE THE NIGHT BREATH" |
-| `ark.shadow_vault.hidden_alcove.<corner>` (4) | container | corners | 0.8×0.8×2.4 each | hidden-tools alcoves |
-| `ark.shadow_vault.south.intercom` | console | (-1.5, 0.2, 1.5) | 0.2×0.1×0.3 | comms |
-| `ark.shadow_vault.fire_extinguisher` | interactive | (1.5, 0.2, 1.2) | 0.2×0.2×0.5 | safety |
-| `ark.shadow_vault.first_aid` | container | (-2.5, 0.2, 1.5) | 0.4×0.1×0.3 | medical |
-| `ark.shadow_vault.south.plaque.principle` | decoration | (0.00, 0.20, 3.20) | 0.8×0.3×0.02 | "STRIKE BETWEEN HEARTBEATS" |
-| `ark.shadow_vault.compass_inlay.dim` | decoration | (0.00, 6.00, 0.005) | 1.4×1.4×0.005 | nearly-invisible floor inlay |
-| `ark.shadow_vault.pendulum_clock` | decoration | on planning table | 0.20×0.20×0.30 | bronze pendulum clock |
+| `ark.shadow_vault.weapon_oil_kit` | decoration | (4.50, 4.00, 0.00) on small ledge | 0.30 × 0.20 × 0.10 | weapon-maintenance kit |
+| `ark.shadow_vault.contract_seal_box` | container | on planning table | 0.20 × 0.15 × 0.08 | bronze box with sealing wax + Assassin sigil press |
+| `ark.shadow_vault.tea_service_minimal` | decoration | (1.50, 7.50, 0.85) on table | 0.20 × 0.20 × 0.15 | minimal silver tea service (Shadow Master's quiet ritual) |
+| `ark.shadow_vault.silent_bell` | decoration | (-1.50, 7.50, 0.85) on table | 0.10 × 0.10 × 0.15 | silent bell (rung soundlessly to summon Shadow Master) |
 
-Total: 24 inventory objects.
+#### A.19.9.20-23 Closing Items + Atmosphere
 
-### A.19.10-17 Compact
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.shadow_vault.south.intercom` | console | (-1.50, 0.20, 1.50) | 0.20 × 0.10 × 0.30 | comms relay (silent in baseline) |
+| `ark.shadow_vault.fire_extinguisher.south` | interactive | (1.50, 0.20, 1.20) | 0.20 × 0.20 × 0.50 | safety (matte-black housing) |
+| `ark.shadow_vault.first_aid.kit.south` | container | (-2.50, 0.20, 1.50) | 0.40 × 0.10 × 0.30 | medical |
+| `ark.shadow_vault.silent_drain_grate` | decoration | (0.00, 1.00, 0.005) | 0.20 × 0.20 × 0.005 | bronze grate over silent drain |
+
+#### A.19.9.24-28 Dim-State Decorative
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.shadow_vault.south.plaque.creed` (rolled walls) | decoration | (0.00, 0.20, 3.20) | 0.80 × 0.30 × 0.02 | "STRIKE BETWEEN HEARTBEATS" |
+| `ark.shadow_vault.banner_above_blade` (rolled walls) | decoration | (0.00, 11.85, 3.50) | 1.00 × 0.05 × 0.80 | "WE ARE THE NIGHT BREATH" |
+| `ark.shadow_vault.compass_inlay.dim` | decoration | (0.00, 6.00, 0.005) | 1.40 × 1.40 × 0.005 | nearly-invisible floor compass-rose under planning table |
+| `ark.shadow_vault.shadow_motes_emitter` | fx_emitter | distributed | n/a | sub-perceptual shadow-motes source |
+| `ark.shadow_vault.distant_heartbeat_emitter` | fx_emitter | dynamic (random near corners) | n/a | uncanny distant-heartbeat source |
+
+Total: 28 inventory objects.
+
+### A.19.10 Camera-spawn-points (FPV cutscenes)
 
 ```
-camera_spawn_points:
-  cs_amb_shadow_vault (Cat B): POV at threshold; slow walk into dim; eyes adjust; head turns to blade; 18s
-  cs_first_contract (Act 5): POV at planning table; Shadow Master across from player; first contract briefing
+cutscene_id:         cs_amb_shadow_vault  (Category B; deferred catalogue)
+camera_position:     (0.00, 0.50, eye_level)  # at threshold
+camera_facing:       (0°, 0°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         very slow walk into dim; eyes adjust (vignette opens slowly); head turns to scan (left ⇒ right); pause; camera locks on ritual blade in apsidal recess; lasts 22s
 
-doorways: south.door.main → ark.corridor.shadow_approach; slide; Act 5+ Assassin-aligned
+cutscene_id:         cs_first_contract  (Act 5 one-shot Assassin-aligned)
+camera_position:     (0.00, 5.00, eye_level)  # at planning table, facing Shadow Master
+camera_facing:       (0°, -10°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         seated at visitor chair; Shadow Master across from player; first contract briefing
+notes:               Shadow Master's face is partially in shadow (cinematic); his hands gesture briefly before grasping table edge
 
-adjacency: direct ark.corridor.shadow_approach (south); one_hop ark.archives (via long corridor; rare assassin-research)
+cutscene_id:         cs_alcove_reveal  (Act 6 first-time per alcove)
+camera_position:     (varies; at revealed alcove)
+camera_facing:       (radial)
+avatar_height_anchor: eye_level
+head_motion:         hand-rig presents shadow-token; alcove panel slides aside silently; specialised gear revealed within
+```
 
-gameplay_hooks:
-  - planContract: trpc.shadow_vault.planning_table.operate
-  - takeWeapon: trpc.shadow_vault.weapons_rack.take
-  - openContractCabinet: trpc.shadow_vault.contract_cabinet.open (per-cabinet)
-  - revealHiddenAlcove: trpc.shadow_vault.hidden_alcove.reveal (with shadow-token)
-  - inspectRitualBlade: trpc.shadow_vault.ritual_blade.inspect
+### A.19.11 Doorways
 
-story_tie:
-  primary_arcs: act_5_first_contract; shadow_arc; assassin_faction_progression
-  per_act:
-    acts_0_4: locked
-    act_5: opens (Assassin-aligned); first contracts available
-    act_6: hidden alcoves revealable with shadow-tokens
-    act_7: state-branched: shadow-master ending vs. light-aligned ending (room remains dim/cold)
-  npc_roster: the_shadow_master (named NPC); rare contract-clients
-  readables: principle plaque; banner; ritual blade lore
-  master_of_rlyeh_question: n/a
+```
+door_id:            ark.shadow_vault.south.door.main
+connecting_space_id: ark.corridor.shadow_approach
+door_position:      (0.00, 0.00, 0.00)
+door_dimensions:    1.20 × 2.40 × 0.10
+door_class:         slide  (silent-glide; magnetic)
+unlock_condition:   Act 5+ (Assassin-aligned only); biometric + shadow-token authentication
+transit_animation:  silent-slide (1.5s; almost no audible cue)
+audio_signature:    near-silent magnetic-disengage + soft friction-whisper; absent of typical door sounds
+```
 
-special_fx:
-  particle_systems: dust (very low); shadow_motes (cosmetic; sub-perceptual)
-  volumetric: pendant_isolated_beam; weapon_silhouette_envelope; blade_glow
-  procedural_animations: pendulum_clock_tick (subtle); blade_subtle_resonance; pendant_drift
-  reactive: ambient_dim_on_entry (eyes adjust); weapon_glow_on_proximity; alcove_reveal_one_shot
+### A.19.12 Adjacency map
 
-avatar_parametricity: standard; xenomorph-sensitive: faint heartbeat audible (someone else's?)
-performance: polygon_budget 180,000 / texture_budget 100 MB / light_count 8 (intentionally low light count)
-streaming: preload shadow_approach corridor
+```
+direct_adjacencies:
+  - ark.corridor.shadow_approach (south door)
+one_hop_adjacencies:
+  - ark.archives (via long-route corridor; rare assassin-research)
+  - ark.shadow_vault.contract_dispatch (sub-space; deferred — where contracts are physically dispatched to operatives)
+state_shared_with:
+  - ark.archives (high-level historical contracts cross-reference)
+  - ark.bridge (rare contract-feedback to command, only for high-stakes targets)
+```
+
+### A.19.13 Gameplay hooks
+
+```
+hooks:
+  - hook_id:         shadow_vault.planContract
+    trigger:         player.operate on planning_table
+    procedure:       trpc.shadow_vault.planning_table.operate
+    success_state:   contract_planning_active = true
+  - hook_id:         shadow_vault.takeWeaponFromRack
+    trigger:         player.take on weapons_rack with selected weapon
+    procedure:       trpc.shadow_vault.weapons_rack.take
+    success_state:   weapon_equipped = true (per-weapon)
+  - hook_id:         shadow_vault.openContractCabinet
+    trigger:         player.open on contract_archive_cabinet.<n>
+    procedure:       trpc.shadow_vault.archive_cabinet.open
+    success_state:   archive_cabinet_open = true (per-cabinet)
+  - hook_id:         shadow_vault.revealHiddenAlcove
+    trigger:         (state-conditional) player.interact on hidden_alcove.<corner> with shadow_token
+    procedure:       trpc.shadow_vault.hidden_alcove.reveal
+    success_state:   alcove_revealed = true (per-alcove; one-shot)
+  - hook_id:         shadow_vault.takeToolFromAlcove
+    trigger:         player.take on hidden_alcove.<corner>.tool
+    procedure:       trpc.shadow_vault.hidden_alcove.take_tool
+    success_state:   tool_equipped = true
+  - hook_id:         shadow_vault.inspectRitualBlade
+    trigger:         player.inspect on ritual_blade
+    procedure:       trpc.shadow_vault.ritual_blade.inspect
+    success_state:   ritual_blade_read = true (multi-screen lore)
+  - hook_id:         shadow_vault.inspectFirstAssassin
+    trigger:         player.inspect on west.painting.first_assassin
+    procedure:       trpc.shadow_vault.first_assassin.read
+    success_state:   first_assassin_lore_read = true
+  - hook_id:         shadow_vault.takeShadowMasterChair
+    trigger:         player.sit on shadow_master_chair (rare; Shadow Master absent)
+    procedure:       trpc.shadow_vault.shadow_master_chair.sit
+    success_state:   sat_in_shadow_master_chair = true (rare lore-flag)
+```
+
+### A.19.14 Story-tie
+
+```
+primary_arcs:
+  - arc.act_5_first_contract
+  - arc.shadow_arc (continuous Acts 5-7)
+  - arc.assassin_faction_progression
+  - arc.act_6_shadow_token_quest (4 tokens scattered across Ark; required for hidden alcoves)
+  - arc.shadow_origin_myth (ritual blade lore)
+per_act_evolution:
+  acts_0_4: room locked + invisible (door is concealed; only Assassin-aligned players can find it)
+  act_5: room unlocks for Assassin-aligned players; first contract; Shadow Master first appears
+  act_6: hidden alcoves revealable with shadow-tokens (gathered through faction-quest)
+  act_7: state-branched: shadow-master ending (room is well-tended; subtle warmth) vs. light-aligned ending (room is even darker; Shadow Master absent)
+npc_roster:
+  - the_shadow_master: primary occupant; presence Acts 5+
+  - the_player: visitor / contract-taker
+  - rare_contract_clients: scripted events (high-stakes targets bring clients)
+  - the_distant_heartbeat: presence-only (uncanny; never identified)
+readables:
+  - creed plaque (south)
+  - "WE ARE THE NIGHT BREATH" banner (north)
+  - ritual blade lore (multi-screen; 9 historical contracts)
+  - 4 contract archive cabinets (per-category multi-readables)
+  - first-assassin painting (west)
+  - invisible-relief (north; subtle reinforcement of philosophy)
+master_of_rlyeh_question: n/a (Assassin-aligned cosmology; not Hellbox host)
+```
+
+### A.19.15 Special-FX
+
+```
+particle_systems:
+  - dust (very low; Vault is meticulously clean)
+  - shadow_motes (very low; sub-perceptual; cosmetic)
+  - contract_silver_mist (state-conditional; when contract event happens)
+  - alcove_reveal_dust (one-shot per alcove; brief dust-burst as panel slides)
+volumetric_effects:
+  - pendant_isolated_beam (single warm cone above planning table; sharp falloff)
+  - weapon_silhouette_envelope (along east rack; subtle dim glow)
+  - blade_uplight_envelope (warm bronze cone at north blade)
+  - contract_archive_strip_envelope (along west cabinets; subtle warm wash)
+procedural_animations:
+  - pendulum_clock_tick_subtle (subtle visual + audio)
+  - blade_subtle_resonance_visualisation (very faint vibration; cosmetic)
+  - banner_subtle_ripple (faint air-flow)
+  - shadow_motes_drift_continuous (sub-perceptual)
+  - distant_heartbeat_pulse (uncanny; pseudo-random source)
+reactive_systems:
+  - ambient_dim_on_entry (eyes adjust over 3s; vignette opens; reinforces "the room is dark")
+  - weapon_glow_on_proximity (within 1.0 m, weapon silhouette intensifies 30%)
+  - alcove_reveal_one_shot (shadow-token state-conditional)
+  - blade_intensify_on_inspection
+  - shadow_master_response_on_player_proximity (presence-conditional; subtle breath-amplification)
+  - contract_silver_mist_on_completion (cosmetic one-shot per major contract)
+```
+
+### A.19.16 Avatar-parametricity
+
+```
+camera_height_variation:
+  small_xenomorph (0.85m eye): camera height 0.85m; planning table at chest-level; alternate stand-on-step animation; ritual blade feels enormous overhead
+  short_humanoid (1.40m eye): standard short scale
+  average_humanoid (1.70m eye): standard
+  tall_humanoid (2.05m eye): pendant at near-head level; intentional physical compression matches mood
+  tall_xenomorph (2.70m eye): pendant collides; alternate route around table
+reachability:
+  small_xenomorph: cannot reach top weapons rack (top 2 slots — recurve-bow, ceremonial-blade); alternate stool provided in concealed alcove
+  small_xenomorph: cannot reach upper contract archive cabinets without ladder; alternate
+  small_xenomorph: cannot reach blade recess (2.55m); relay-inspect from below
+  others: all-reachable
+audio_occlusion_variation:
+  xenomorph_sensitive_hearing: distant heartbeat MORE pronounced (deeply uncanny); blade resonance audible from anywhere
+  synthetic_voice_avatar: Shadow Master's presence has different "feel" (his breath has organic warmth that feels alien)
+```
+
+### A.19.17 Performance
+
+```
+polygon_budget:      180,000 polygons (intentionally minimal — supports the dim aesthetic; many surfaces are matte-black absorbers)
+texture_budget:      100 MB total
+light_count_limit:   8 simultaneous dynamic lights (DELIBERATELY VERY LOW; every light is "considered")
+lod_plan:
+  - hero_distance: 0-6m, full detail (immediate planning table + nearby weapons)
+  - mid_distance: 6-12m, mid detail (cabinets simplified; alcoves reduced to billboards)
+  - low_distance: 12m+, low detail (most decorative items culled)
+streaming_behaviour:
+  - preload: ark.corridor.shadow_approach (south door)
+  - on_alcove_revealed: preload alcove-specific tool assets
+  - on_contract_planning: preload current contract assets (target dossier, location terrain)
 ```
 
 ---
