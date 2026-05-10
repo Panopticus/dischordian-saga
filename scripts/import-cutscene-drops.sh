@@ -61,13 +61,16 @@ unzip -o -q "$OTHER_ZIP"        -d "${STAGING}/other"
 # ── Tier A: WIRED (paths already match manifests; uploading these is the
 #            only step needed to bring them online) ──────────────────────
 
+# Portable no-clobber copy — `cp -n` exists on both BSD (macOS) and GNU.
+# Avoids GNU-only `--update=none` which BSD cp rejects.
+
 echo "==> [WIRED] Guild signatures (24 → guild-cutscenes/f4_abilities/)"
 # zip lays out per-professor folders: guild_signatures/<professor>_<variant>/cs_sig_N_<variant>.mp4
 find "${STAGING}/guild_signatures" -type f -name 'cs_sig_*.mp4' \
-  -exec cp --update=none {} "${PUB}/guild-cutscenes/f4_abilities/" \;
+  -exec cp -n {} "${PUB}/guild-cutscenes/f4_abilities/" \;
 
 echo "==> [WIRED] Dreamer VFX (3 → vfx/dreamer_visions/)"
-cp --update=none "${STAGING}/other/dreamer_vfx/"*.mp4 \
+cp -n "${STAGING}/other/dreamer_vfx/"*.mp4 \
   "${PUB}/vfx/dreamer_visions/"
 
 # ── Tier B: STAGED, NOT WIRED. Files land at the paths used elsewhere
@@ -80,7 +83,7 @@ echo "==> [STAGED-ONLY] Fight intros (21 → fight-intros/)"
 for d in "${STAGING}/fight_intros"/*/; do
   [[ "$(basename "$d")" == "fight_intros" ]] && continue
   for f in "$d"*.mp4; do
-    [[ -f "$f" ]] && cp --update=none "$f" "${PUB}/fight-intros/"
+    [[ -f "$f" ]] && cp -n "$f" "${PUB}/fight-intros/"
   done
 done
 
@@ -88,15 +91,15 @@ echo "==> [STAGED-ONLY] Awakening shots (3 → cutscenes/awakening/)"
 echo "    NOTE: producer-original filenames (93847_sunrises, first_clone_born,"
 echo "    the_mandate). Cutscene player expects shot1/shot2/shot3.mp4 — needs"
 echo "    a producer/writer call on shot ordering before renaming."
-cp --update=none "${STAGING}/other/awakening/"*.mp4 "${PUB}/cutscenes/awakening/"
+cp -n "${STAGING}/other/awakening/"*.mp4 "${PUB}/cutscenes/awakening/"
 
 echo "==> [STAGED-ONLY] Other categories (no playback wiring yet)"
-cp --update=none "${STAGING}/other/confession_close/"*.mp4 "${PUB}/confession_close/"
-cp --update=none -r "${STAGING}/other/dlc_mystery/"*       "${PUB}/dlc_mystery/"
-cp --update=none "${STAGING}/other/events/"*.mp4           "${PUB}/events/"
-cp --update=none "${STAGING}/other/human_reveal/"*.mp4     "${PUB}/human_reveal/"
-cp --update=none "${STAGING}/other/prestige/"*.mp4         "${PUB}/prestige/"
-cp --update=none "${STAGING}/other/wheel_reactions/"*.mp4  "${PUB}/wheel_reactions/"
+cp -n "${STAGING}/other/confession_close/"*.mp4 "${PUB}/confession_close/"
+cp -nR "${STAGING}/other/dlc_mystery/"*         "${PUB}/dlc_mystery/"
+cp -n "${STAGING}/other/events/"*.mp4           "${PUB}/events/"
+cp -n "${STAGING}/other/human_reveal/"*.mp4     "${PUB}/human_reveal/"
+cp -n "${STAGING}/other/prestige/"*.mp4         "${PUB}/prestige/"
+cp -n "${STAGING}/other/wheel_reactions/"*.mp4  "${PUB}/wheel_reactions/"
 
 echo
 echo "==> Staged file count:"
