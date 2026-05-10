@@ -661,6 +661,57 @@ the pod cycle completes. End frame is the canonical
   visited in the same session AND fallen-crew count > 0;
   otherwise the cradle stays cold-pulsed without prompting.
 
+#### 2.1.8 Back-fill grid (axes 9–17 + storyteller hooks + HUD overlap)
+
+1. **TV infection (axis 9, 5 brackets):** clean = no marker;
+   exposed = voidblack wisps at the far-wall floor-vent + one
+   mycelium thread along the pod-row underside seam; spreading
+   = mycelium fans across the cracked-panel frame, cold-violet
+   shimmer at Pod Zero glass; corrupted = voidblack pooling at
+   coolant-line junctions, Pod Zero interior haze turns black,
+   biohazard-amber tape on Med Bay bulkhead; quarantined =
+   yellow band sealing both bulkheads, sealed-X across entry,
+   red wash, vent-grates plugged with mycelium.
+2. **Demon-summoning:** —
+3. **CADES:** —
+4. **Story items (§3.5):** torn ID tag (foreground floor),
+   data-slate (pod base), silver locket (mid-pod), unlabeled
+   vial (rear shelf, post-Act 2), frosted-glass cord (Pod Zero
+   exterior). Bay 7 reserved canvas-drape.
+5. **Mystery-arc bindings:** Wraith Calder E1 (Pod Zero
+   `pod_0_breathing` tier); Jericho Jones E3 (bio-bed grip-
+   anomaly footage relayed from Med Bay).
+6. **Investigation tier (axis 15):** see §2.1.5 — the four
+   canonical states ARE the 4-tier register.
+7. **Governance modifier reactions (axis 10):**
+   `quarantine_protocol_active` → amber edge-glow on bulkhead
+   doors; `cryo_thaw_priority` → accelerated defrost cadence.
+8. **Epoch / ShadowTongue (axis 11):** medical chart's Ψ-
+   watermark intensifies as ShadowTongue power rises (≥40
+   plainly visible on first glance); on `grandEditActive`, all
+   charts show indigo overstrike.
+9. **Cycle-phase lighting (axis 12):** dawn 5800 K warm-amber
+   drift; balanced 5500 K canonical; dimming 5300 K; long-night
+   5200 K cool-violet on cryo glass.
+10. **Faction livery (axis 3):** none load-bearing — Cryo Bay
+    is pre-faction.
+11. **Tournament window (axis 14):** —
+12. **Storyteller hooks:** Silent Archives chronometer cycles
+    timestamps; Last Message scratched behind a sealed pod
+    ("don't go to the Bridge…"); Void Echo particles in Pod
+    Zero fluid trace contamination origin; Empty Armor Slot
+    (specialized cryo-suit hanging, never used, 1 of 5).
+    Expansion-reserved zone: Bay 7 canvas-draped pod (future
+    reveal). Living-world: every 24 IRL hours the cryo unit
+    cycles a 30-s defrost (frost melts then re-freezes); every
+    7th day, one pod stutters mid-cycle.
+13. **HUD overlap:** `MoralityMeter.tsx` (low-fi in-room
+    callout when examining Pod Zero late);
+    `CinematicDialogOverlay.tsx` (Elara first-wake dialogue);
+    `RoomTransition.tsx` (parallax entry — §3.4.1 galaxy-meter
+    overlay first wires here); `MobileNarratorSlot.tsx`
+    (Elara's first-wake narration).
+
 ---
 
 ### 2.2 Medical Bay
@@ -921,6 +972,76 @@ hung at the right doorway. Triggered first time
   `hierarchy_acquisitions` faction-rep is high enough — not
   earlier rooms.
 
+#### 2.2.8 Back-fill grid (axes 9–17 + storyteller hooks + HUD overlap)
+
+1. **TV infection (axis 9, 5 brackets):** clean = no marker;
+   exposed = wisps from the autoclave vent + thread along the
+   bio-bed's chassis seam; spreading = mycelium on the medicine
+   cabinet's underside, bowl-pulse cold-violet; corrupted =
+   coolant pooling in the helix's basin, voidblack streaks
+   along the resonance pedestal, biohazard-amber edge tape on
+   restricted-section door; quarantined = yellow band sealing
+   both bulkheads, sealed-X tape across helix entry, vent-
+   grates plugged.
+2. **Demon-summoning surface:** Hellbox 1 surface (existing,
+   §3.12.1) — 1.6 m violet mirror set into the bay wall, brass-
+   framed; Resonance Chamber pedestal beside the helix accepts
+   violet stones for purification (see §3.9.1).
+3. **CADES presence:** **violet-helmet chair console** in the
+   restricted-section sub-room (per §3.1 cutscene `cs_breaking
+   _point` post-trigger). 7-mission progression; helmet's
+   interior surface accumulates one image-fragment per mission
+   complete.
+4. **Story items (§3.5):** DNA neural-bridge receipt plate
+   (autoclave shelf, post-`medbay_device_awakened`); Dr. Lyra
+   Vox medical chart with Ψ-watermark (chart cabinet); soul-
+   stone purification pedestal accepts violet → gold; Hellbox 1
+   accepts pre-purified gold for Dreamer offering.
+5. **Mystery-arc bindings:** Jericho Jones E3 (bio-bed grip-
+   anomaly footage on the autoclave display); Wraith Calder E2
+   (Substrate-N residue on the helix base); the Seer arc
+   surfaces no clue here.
+6. **Investigation tier (axis 15):** see §2.2.5 — the four
+   canonical states (initial / device-awakened / donated /
+   refused) ARE the 4-tier register.
+7. **Governance modifier reactions:**
+   `quarantine_protocol_active` → restricted-section door is
+   sealed even to faction-cleared players; `dreamer_blessing
+   _active` → Resonance Chamber pedestal radiates one extra
+   tier of warm-gold light.
+8. **Epoch / ShadowTongue (axis 11):** Vex's chart Ψ-watermark
+   intensifies as ShadowTongue power rises (≥40 plainly
+   visible); on `grandEditActive`, the bio-bed's vital-sign
+   readout shows indigo overstrike that obscures patient name.
+9. **Cycle-phase lighting:** dawn 5800 K warm-amber on helix
+   pool; balanced 5500 K canonical; dimming 5300 K; long-night
+   5200 K cool-violet on autoclave glass.
+10. **Faction livery:** Hierarchy-allied = restricted-section
+    door bears the Hierarchy ouroboros sigil; Insurgency-allied
+    = the Hellbox mirror's brass frame is over-stamped with a
+    small insurgent caltrop in the lower-right corner;
+    Antiquarian-allied = a small bound codex sits on the helix
+    pedestal.
+11. **Tournament window:** —
+12. **Storyteller hooks:** Vox Neural Bridge journal expansion
+    across tiers (each tier reveals more of the bridge's
+    purpose); Cure Notes for Patient X (fragmentary lab notes
+    on resistance to TV); Healer's Final Log (segmented audio
+    in autoclave); Unlabeled Vial growing colder/darker each
+    month (slow-tick living-world). Expansion-reserved zone:
+    Sealed Medical Vault behind the bio-bed (reinforced door,
+    smooth wall texture today). Living-world: bio-bed vital-
+    signs cycle once per minute showing the player's stats;
+    every 4th cycle, old patient stats flash (heart rate 0,
+    flatline) before returning.
+13. **HUD overlap:** `MoralityMeter.tsx` (tier-up may trigger
+    here if soul-stone purification commits a Light delta);
+    `CinematicDialogOverlay.tsx` (Vox dialogue);
+    `SoulStonesPanel.tsx` (full inventory readable when
+    examining the Resonance pedestal); `PaperDollRenderer.tsx`
+    (Living Mirror equivalent — Med Bay's helix shows player's
+    paper-doll mid-purification — see §3.11.1).
+
 ---
 
 ### 2.3 Command Bridge
@@ -1168,6 +1289,80 @@ frame is the canonical T0 still from `roomTierArtPrompts.ts`.
 - `RememberThisToast` always fires from Elara's position; anchor
   the toast slightly above-right of (0.50, 0.30) at thumbnail.
 
+#### 2.3.8 Back-fill grid (axes 9–17 + storyteller hooks + HUD overlap)
+
+1. **TV infection (axis 9, 5 brackets):** clean = no marker;
+   exposed = wisps from the Bridge's overhead air-handler vents
+   + thread along the captain's chair pedestal seam; spreading
+   = mycelium fans across the conspiracy-board frame, cold-
+   violet shimmer on War Map's holo-edge; corrupted = voidblack
+   pooling at the chair's foot, Conspiracy Board's central
+   node bleeds black; quarantined = yellow band sealing the
+   forward viewport, sealed-X across the lift, red wash on
+   navigation console.
+2. **Demon-summoning surface:** —
+3. **CADES presence:** post-M7 only — Bridge of Kael ambient
+   state change. Captain's chair empty and warm; Agent Zero's
+   station vacant cleaned; **Dischordia card on her console**
+   showing Engineer's silhouette; Elara's portrait flickers;
+   Human silent (signal absent from Comms feed).
+4. **Story items (§3.5):** captain's master key (chair under-
+   armrest, post-`bridge_systems_restored`); Galaxy Meter
+   gauge (overhead, see §3.4.1); Year Ring (overhead, see
+   §3.2.1); Hellbox 3 chalk-mark on tactical display (post
+   first-connection-and-tome; see §3.12.3).
+5. **Mystery-arc bindings:** Wraith Calder E1 (Conspiracy
+   Board's bounty file as pinned card); the Seer arc surfaces
+   no clue here directly but the Conspiracy Board references
+   VAR-1109A/B in the marginalia drift.
+6. **Investigation tier (axis 15):** initial = canonical
+   Bridge; investigating = yellow tape on captain's chair, on
+   War Map, on conspiracy board; partial-resolved = cyan tape
+   + brass evidence-cart by the rear-aft lift; case-closed =
+   tape removed, **closure object = a single brass plate
+   etched with the player's act-7 chosen alignment, set into
+   the captain's chair's headrest**.
+7. **Governance modifier reactions:** any active vote shows
+   the **folded-ballot glyph** (§3.6 `governance_vote_open`)
+   in the upper-right of the conspiracy board; vote-closed
+   shows sealed-ballot glyph; world-modifier active glows the
+   board's edge in the modifier's accent colour.
+8. **Epoch / ShadowTongue (axis 11):** ShadowTongue power ≥40
+   → **Conspiracy Board flickers 43↔44 connections** (the
+   indigo 44th line is the SHadow Tongue's edit); on
+   `grandEditActive`, the entire board washes indigo and the
+   War Map's holo-edge bleeds indigo onto the deck.
+9. **Cycle-phase lighting:** dawn 5800 K warm-amber on Bridge
+   pedestal; balanced 5500 K canonical; dimming 5300 K; long-
+   night 5200 K cool-violet on viewport.
+10. **Faction livery:** champion-tier banner of the player's
+    most-allied faction unfurls on the Bridge's port wall;
+    second-tier alliances fly half-furled; enemied factions
+    are absent (their banner positions are empty hooks).
+11. **Tournament window:** champion-tier tournament banner
+    flies on Bridge's starboard wall during finals window;
+    `tournament_round_close` notification shown via §3.6
+    bracket-glyph.
+12. **Storyteller hooks:** Ghost Commander's Shift Log (final
+    entry blank reason — captain reassigned all crew to non-
+    command compartments before cryo); Consensus Breaking
+    Point (Conspiracy Board flickers 43↔44 connections daily);
+    War Table Phantom Move (1 chess move per IRL day on the
+    War Map's hidden chess overlay); Navigation to Nowhere
+    ("Sanctuary" warp vector with all-zero coordinates;
+    console locks if hovered). Expansion-reserved zones:
+    Captain's Private Ready Room (sealed door right of chair,
+    requires master key + trust-`elara`-≥80); War Room Sealed
+    Observation Deck (background balcony). Living-world: every
+    72 IRL hours a new connection line appears on the
+    Conspiracy Board.
+13. **HUD overlap:** Galaxy Meter gauge (§3.4.1) lives here as
+    persistent HUD chip; Year Ring (§3.2.1) ceiling
+    installation; `BridgeConsole.tsx` (the home-page surface);
+    `RecapOverlay`, `DailyRewardPopup`, `FeatureUnlockToast`
+    (anchor to Bridge); §3.6 Governance + Tournament
+    notifications anchor to Bridge.
+
 ---
 
 ### 2.4 Archives
@@ -1389,6 +1584,80 @@ baseline with the burnt card now on Antiquarian's elbow.
   The visual **does not need legible text** because the
   identifier text comes from the runtime tooltip, not the prompt.
 
+#### 2.4.8 Back-fill grid (axes 9–17 + storyteller hooks + HUD overlap)
+
+1. **TV infection (axis 9):** clean = no marker; exposed =
+   wisps from card-vault under-shelves, mycelium thread on the
+   long-reading-table seam; spreading = mycelium fans across
+   timeline-frame's brass border, cold-violet shimmer on locked
+   vault drawer; corrupted = voidblack pooling at vault-base
+   junctions, indigo wash on Hierophant marginalia stack;
+   quarantined = yellow band sealing both bulkheads, sealed-X
+   tape across the long-reading-table.
+2. **Demon-summoning surface:** —
+3. **CADES:** —
+4. **Story items (§3.5):** burnt seer's card (Antiquarian's
+   elbow, post-`burnt_card_recovered`); Hierophant's marginalia
+   stack (locked vault drawer, post-Wraith-arc-E2); Coda's
+   purpose shelf (rear-left bookcase, post-Degen-arc-E3);
+   Velkraal's correspondence folio (locked vault, post-Game-
+   Master-arc-E2); insurgency-witness-roster (long-reading-
+   table, post-Vex-arc-E2).
+5. **Mystery-arc bindings:** Wraith Calder E1, E2, E5
+   (bounty-file pinned at card-catalog; Substrate-N residue at
+   locked-vault); Jericho Jones E1 (callsign history card at
+   card-catalog); the Seer arc E2, E3, E4 (Hierophant
+   marginalia stack); Vex Solène E2, E3, E4 (insurgency-
+   witness-roster, calibration-tapes archive); the Degen arc
+   E3, E4, E5 (Coda Purpose Brief on shelf); Game Master arc
+   E2, E4 (Velkraal correspondence folio).
+6. **Investigation tier (axis 15):** initial = canonical
+   Archives; investigating = yellow tape on each examined
+   shelf-tome; partial-resolved = cyan tape + brass evidence
+   cart by the timeline-frame; case-closed = tape removed,
+   **closure object = a single bound brass codex on the
+   reading table titled "The Antiquarian's Final Witness"**.
+7. **Governance modifier reactions:** `tome_entry_inscribed`
+   modifier → an animated quill briefly writes a new line on
+   one of the timeline-frame's pages (single 4-s loop on
+   inscription); world-modifier `lore_unlock_active` → all
+   shelf-tomes' brass-edges glow warm-amber.
+8. **Epoch / ShadowTongue (axis 11):** ShadowTongue power ≥40
+   → **indigo marginalia overlay on every visible book spine**;
+   on `grandEditActive`, the Antiquarian's chronicle on the
+   long-reading-table is overstamped indigo and the central
+   passage is unreadable.
+9. **Cycle-phase lighting:** dawn 5800 K warm-amber on
+   reading-table; balanced 5500 K canonical; dimming 5300 K;
+   long-night 5200 K cool-violet on shelf glass.
+10. **Faction livery:** Antiquarian-allied (championed) = a
+    second silver candelabrum lit on the table; Insurgency-
+    allied = a small folded paper-bird on the Antiquarian's
+    elbow; Hierarchy-allied = a sealed Hierarchy folio on the
+    chronicle table; Hierarchy-enemied = the chronicle is
+    closed and pushed to the table's far edge.
+11. **Tournament window:** —
+12. **Storyteller hooks:** Forbidden Section sealed wing
+    behind frosted glass (decrypt access at trust-`antiquarian
+    `≥80); Margin Notes Evolution (Shadow Tongue annotations
+    multiply over weekly ticks, becoming more legible);
+    Blank Pages (Codex entry "The Warlord's Ascension"
+    redacted with black bars until trust-100); Librarian's
+    Personal Collection (small shelf, not in database; player
+    requires permission or theft to read). Expansion-reserved
+    zones: The Sealed Vault (biometric lock); The Lost Wing
+    (collapsed corridor, archaeology quest). Living-world: the
+    Antiquarian visibly works the room — moves between
+    shelves, annotates entries; over weeks the Codex
+    visibly expands with new entries.
+13. **HUD overlap:** §9 unified Loredex Viewer (currently
+    fragmented across `LoreGalleryPage.tsx`, `CodexPage.tsx`,
+    `LoreJournalPage.tsx`, `ClueJournal.tsx` — Archives is
+    the diegetic anchor for the missing unified component);
+    `CinematicDialogOverlay.tsx` (Antiquarian dialogue);
+    `MobileNarratorSlot.tsx` (Antiquarian voice surfaces here
+    from trust-40+).
+
 ---
 
 ### 2.5 Comms Array
@@ -1547,6 +1816,76 @@ canonical baseline with crimson iris bloom present.
   (`narrator_beat_2_signal`) anchors here. When forced, the
   witness glyph at (0.25, 0.50) doubles in opacity for the
   duration of the beat.
+
+#### 2.5.7 Back-fill grid (axes 9–17 + storyteller hooks + HUD overlap)
+
+1. **TV infection (axis 9):** clean = no marker; exposed =
+   wisps from antenna-relay grilles, mycelium thread on the
+   broadcast-screen frame; spreading = mycelium fans across
+   the frequency-wall display, cold-violet shimmer on relay
+   nodes; corrupted = voidblack pooling at the relay junction-
+   boxes, indigo wash on the queue-of-lost-signals display;
+   quarantined = yellow band sealing the rear hatch, sealed-X
+   tape across the antenna trunk-line.
+2. **Demon-summoning surface:** —
+3. **CADES:** —
+4. **Story items (§3.5):** transmission-broadcast cylinders
+   (rear shelf, post-`comms_first_episode_watched`); broken-
+   transmitter fragment (left console under-shelf); silence-
+   beacon module (small box on the central console, only
+   visible if `comms_silence_beacon_observed`).
+5. **Mystery-arc bindings:** Wraith Calder E1 (bounty file
+   transmitted from external sender — the sender's metadata
+   is inscribed on the broadcast cylinder); Wraith Calder E2
+   (Substrate-N residue cargo manifest received via comms);
+   no other arc surfaces direct clues here.
+6. **Investigation tier (axis 15):** initial = canonical
+   Comms; investigating = yellow tape on broadcast screen +
+   queue-of-lost-signals display; partial-resolved = cyan
+   tape + brass evidence cart at relay node; case-closed =
+   tape removed, **closure object = a small brass plate set
+   beneath the broadcast screen, etched with the player's
+   chosen single-broadcast-cycle archive name**.
+7. **Governance modifier reactions:** `comms_blackout_active`
+   modifier → all displays go monochrome amber, queue-of-lost
+   -signals shows "BLACKOUT" overlay; `community_milestone
+   _broadcast` → broadcast screen plays the milestone trailer
+   on a loop with §3.6 community chime audio cue.
+8. **Epoch / ShadowTongue:** ShadowTongue power ≥40 → lost-
+   signals queue gains 3 indigo-edged entries that overwrite
+   real signals; on `grandEditActive`, all transmissions
+   queue items are replaced with indigo-marginalia stubs.
+9. **Cycle-phase lighting:** dawn 5800 K warm-amber on
+   antenna-trunk; balanced 5500 K canonical; dimming 5300 K;
+   long-night 5200 K cool-violet on relay panels.
+10. **Faction livery:** Insurgency-allied = the comms-relay
+    has a small caltrop-stamp on its base; Hierarchy-allied
+    = the broadcast screen carries the ouroboros sigil in
+    its lower-right corner; faction-enemied broadcasts are
+    pre-empted with static.
+11. **Tournament window:** finals = bracket diagram appears
+    on the broadcast screen at top of every hour for 30 s.
+12. **Storyteller hooks:** Queue of Lost Signals (centuries-
+    spanning, partial unlock per signal); Frequency Wall
+    (52.7 MHz pure unmodulated sine = the Human's substrate
+    — see §3.1.2); Interrupted Conversation (half-recorded
+    voices arguing "the protocol… when to wake them" —
+    cuts mid-sentence); Silence Beacon (24h pulse, distress
+    signal from before wake — see "the old emergency distress
+    pulse" line). Expansion-reserved zones: Secure Vault Comm
+    Relay (behind reinforced glass); Deep-Signal Archive
+    (cartridge slot under main console). Living-world: every
+    hour, soft radio chatter plays in the background; every
+    7 hours, one phrase is clear ("This is [call sign]
+    reporting in. No word from base.") with rotating call
+    signs.
+13. **HUD overlap:** §9 unified Transmission Video Player
+    (currently fragmented across `TransmissionDisplay.tsx`,
+    `CoNexusMediaPlayer.tsx` — Comms Array is the diegetic
+    anchor for the missing unified component); `MoralityMeter
+    .tsx` (low-fi callout when first-Human-contact triggers);
+    §3.1.2 cutscene `cs_first_human_contact` plays in this
+    room.
 
 ---
 
@@ -1713,6 +2052,74 @@ End frame: canonical baseline with Eidolon at Tuning posture.
   viewport edge (1% frame) and should not compete with Elara's
   upper-centre cyan.
 
+#### 2.6.7 Back-fill grid (axes 9–17 + storyteller hooks + HUD overlap)
+
+1. **TV infection (axis 9):** clean = no marker; exposed =
+   wisps from telescope-yoke vents, mycelium thread on the
+   star-chart console seam; spreading = mycelium fans across
+   the prayer-wall etch-marks, cold-violet shimmer on the
+   dark-spot tracking display; corrupted = voidblack pooling
+   at the viewport seal, indigo wash on celestial-cycle
+   panels; quarantined = yellow band sealing the rear hatch,
+   sealed-X across the viewport.
+2. **Demon-summoning surface:** —
+3. **CADES:** —
+4. **Story items (§3.5):** astronomer's log (left console
+   under-shelf, post-`obs_first_dark_spot`); tracking report
+   (data pad on observation console); telescope-anomaly
+   recording chip (right console, shows cross-dimensional
+   bleeding when activated).
+5. **Mystery-arc bindings:** Wraith Calder E5 (Prophet's true
+   identity glimpse — the dark spot on the viewport is named
+   in the astronomer's log as "the Hierophant's seat"); the
+   Seer arc surfaces no clue here.
+6. **Investigation tier (axis 15):** initial = canonical
+   Observation Deck; investigating = yellow tape on telescope
+   yoke + dark-spot display; partial-resolved = cyan tape +
+   brass evidence cart at viewport; case-closed = tape
+   removed, **closure object = a small brass plate set into
+   the viewport's lower frame, etched with the player's
+   chosen end-game alignment phrase**.
+7. **Governance modifier reactions:** `dark_spot_classified`
+   modifier → the dark-spot display shows redacted black
+   bars over its data; `community_milestone` → telescope
+   yoke aligns toward the milestone's named celestial body
+   (1-time animation).
+8. **Epoch / ShadowTongue:** ShadowTongue power ≥40 → prayer-
+   wall scratches re-arrange themselves nightly into new
+   sentences (visible on revisit); on `grandEditActive`, the
+   astronomer's log is overstamped indigo, final entries
+   replaced with marginalia stubs.
+9. **Cycle-phase lighting:** dawn 5800 K warm-amber on
+   viewport rim; balanced 5500 K canonical; dimming 5300 K;
+   long-night 5200 K cool-violet on starfield reflection.
+10. **Faction livery:** Antiquarian-allied (championed) =
+    a small bound chronicle pinned to the prayer wall;
+    Hierarchy-allied = the dark-spot display carries the
+    ouroboros sigil; Insurgency-allied = the telescope yoke
+    has a small caltrop-stamp on its base.
+11. **Tournament window:** —
+12. **Storyteller hooks:** Tracking Report (dark spot moving
+    0.001%/day → collision in ~247 years — Act 6+ trajectory
+    questline); Astronomer's Log (escalating entries: "the
+    stars are wrong" → "[ENCRYPTED]" final); Telescope
+    Anomaly (occasional flicker shows a corridor, a face,
+    static — cross-dimensional bleed); Prayer Wall (scratches
+    forming "Please send help" / "I am afraid" repeated
+    dozens of times — previous-crew etchings). Expansion-
+    reserved zones: Sealed Observatory Chamber (above the
+    deck, locked); The Dark Spot Dock (theoretical docking
+    bay visible in distance). Living-world: starfield shifts
+    subtly over months — constellations rotate, planets
+    appear/disappear from view.
+13. **HUD overlap:** Eidolon Sanctum / Bond Chamber
+    counterpart (§3.9-adjacent — the Eidolon-bond progression
+    is visible here when player examines the viewport);
+    `MoralityMeter.tsx` (deep-stare at the dark spot can
+    trigger a tier-up cinematic fragment); §3.1.5 cutscene
+    `cs_thought_virus_manifests` may play here if Observation
+    Deck is the first room to cross `clean → exposed`.
+
 ---
 
 ### 2.7 Engineering Bay
@@ -1864,6 +2271,81 @@ T2 canonical engineering still.
   unlock** axis — every mech-tutor toast triggered here should
   anchor to the relevant tool/bench, not float in the corner.
 
+#### 2.7.7 Back-fill grid (axes 9–17 + storyteller hooks + HUD overlap)
+
+1. **TV infection (axis 9):** clean = no marker; exposed =
+   wisps from reactor-housing seams, mycelium thread on the
+   crafting-bench underside; spreading = mycelium fans across
+   the schematic-pad's brass border, cold-violet shimmer on
+   reactor coolant lines; corrupted = voidblack pooling at
+   reactor base (capacity readout drops fast — see §3.1.4),
+   indigo wash on instruction-manual page 47; quarantined =
+   yellow band sealing reactor-access corridor, sealed-X across
+   crafting bench.
+2. **Demon-summoning surface:** —
+3. **CADES:** —
+4. **Story items (§3.5):** all 7 combine items live here
+   (decoder + key, schematic-rubbing + corrupted-fragment,
+   drained-cell + energy-shard, basic-medkit + neural-stim,
+   antenna + amplifier, virus-sample + antibody, antiquarian-
+   shard + void-crystal); editor's substitution-weapon schema
+   (schema-rack); Mol'Vereth's visiting card (schematic-pad
+   binding, Degen-arc-E1).
+5. **Mystery-arc bindings:** Vex Solène E1, E2, E3, E4, E5
+   (reactor signature + workshop letter + apprentice letter +
+   tool migration + scheduled session); the Seer arc E4
+   (acoustic signature on reactor); Jericho Jones E1 (Iron
+   Lion imprint protocol on instruction manual page 1);
+   Degen E1, E2 (Mol'Vereth's card; quarterly routing on
+   blueprints); Game Master E3 (Brel's practice edit-drafts
+   in blueprints).
+6. **Investigation tier (axis 15):** initial = canonical
+   Engineering; investigating = yellow tape on each combine
+   slot; partial-resolved = cyan tape + brass evidence cart
+   beside reactor; case-closed = tape removed, **closure
+   object = a single restored schematic mounted under glass
+   on the bench (the indigo edit cleared)**.
+7. **Governance modifier reactions:**
+   `crafting_speed_boost` modifier → bench tools have a soft
+   warm-amber glow; `reactor_priority` → reactor's
+   stabiliser ring shows a steady gold pulse rather than
+   amber; `quarantine_protocol_active` → reactor-access
+   corridor sealed.
+8. **Epoch / ShadowTongue:** ShadowTongue power ≥40 → indigo
+   overlay on coolant schematic redirects 3 connection points
+   (the active edit); on `grandEditActive`, instruction-
+   manual page 47 (Lyra's dedication) is overstamped indigo
+   and the workshop diary is unreadable.
+9. **Cycle-phase lighting:** dawn 5800 K warm-amber on
+   reactor housing; balanced 5500 K canonical; dimming
+   5300 K; long-night 5200 K cool-violet on bench glass.
+10. **Faction livery:** Insurgency-allied = small caltrop-
+    stamp on the reactor's brass plate; Hierarchy-allied =
+    sealed Hierarchy seal on the crafting-bench; Antiquarian-
+    allied = a small bound codex on the bench corner;
+    Hierarchy-enemied = the reactor's stabiliser ring is
+    dimmed.
+11. **Tournament window:** —
+12. **Storyteller hooks:** Incomplete Engine Schematic (final
+    8% deleted by the Engineer to prevent Warlord upgrade);
+    Counting Tally on wall (Human's day-count incrementing
+    daily — see Comms Frequency Wall); Engineer's Tool Set
+    (one tool missing — locked in Captain's Quarters);
+    Recurring Substrate Integrity Alert (Human's heartbeat
+    proof). Expansion-reserved zones: Engineer's Private Lab
+    (sealed door behind workbench, requires master key);
+    Reactor Access Shaft (vertical shaft, too radioactive
+    today). Living-world: 10-min crafting sound-loop
+    (whirr/ping/hiss) cycling endlessly; on `bridge_systems
+    _restored` the loop's pitch shifts.
+13. **HUD overlap:** §9 unified Resource Counter (currently
+    fragmented — Engineering is the diegetic anchor for
+    crafting resources); `PaperDollRenderer.tsx` (forged
+    item visible on player paper-doll on equip);
+    `CinematicDialogOverlay.tsx` (Vex dialogue at apprentice
+    handover scenes); §3.1.4 cutscene `cs_breaking_point`
+    plays in this room.
+
 ---
 
 ### 2.8 Forge Workshop
@@ -1949,6 +2431,67 @@ companion residency.
 wisps; one specific brass tube rolls itself out of the schema
 rack (no visible hand) and unrolls flat on the bench. End frame:
 canonical Act-3 forge still.
+
+#### 2.8.6 Back-fill grid (axes 9–17 + storyteller hooks + HUD overlap)
+
+1. **TV infection (axis 9):** clean = no marker; exposed =
+   wisps from kiln vents, mycelium thread on anvil base seam;
+   spreading = mycelium fans across schema-rack, cold-violet
+   shimmer on kiln interior; corrupted = voidblack pooling
+   under anvil, kiln burns black instead of orange; quarantined
+   = yellow band sealing the corridor entry, sealed-X on bench.
+2. **Demon-summoning surface:** —
+3. **CADES:** —
+4. **Story items (§3.5):** editor's substitution-weapon
+   schema (rack, never-built; Lyra's daily refusal); bay-leaf
+   firing residue (kiln); Lyra's anvil signature (engraved
+   into anvil base, only readable post-`vex_workshop_diary
+   _read`).
+5. **Mystery-arc bindings:** Vex Solène cross-reference (the
+   anvil bears Lyra's engraved signature — Lyra's century-
+   long calibration); the Seer arc surfaces no clue here.
+6. **Investigation tier (axis 15):** initial = canonical
+   Forge; investigating = yellow tape on schema rack + kiln;
+   partial-resolved = cyan tape + brass evidence cart at
+   anvil; case-closed = tape removed, **closure object =
+   the editor's substitution-weapon schema rolled and
+   sealed with Lyra's wax stamp on the rack's top shelf
+   (still unbuilt, now formally archived)**.
+7. **Governance modifier reactions:**
+   `crafting_speed_boost` → kiln burns hotter (orange-white
+   instead of orange-amber); `quarantine_protocol_active` →
+   kiln cold, anvil dust-covered.
+8. **Epoch / ShadowTongue:** ShadowTongue power ≥40 → schema
+   rack's bound tubes carry indigo marginalia at their seals;
+   on `grandEditActive`, the editor's schema unrolls itself
+   on the bench overnight (visible on next entry).
+9. **Cycle-phase lighting:** dawn 5800 K warm-amber on kiln
+   exterior; balanced 5500 K canonical; dimming 5300 K;
+   long-night 5200 K cool-violet on anvil polish.
+10. **Faction livery:** Insurgency-allied = small caltrop-
+    stamp on the kiln; Hierarchy-allied = the anvil bears
+    a small Hierarchy ouroboros etched in its base;
+    Antiquarian-allied = the schema rack has a small bound
+    chronicle pinned to its top.
+11. **Tournament window:** —
+12. **Storyteller hooks:** Editor's Substitution-Weapon
+    Schema (Lyra refused to build it; kept visible as daily
+    refusal); Bay-leaf firing tradition (Lyra's ritual,
+    metallurgically nonsense but ritually significant); Last
+    Firing Interrupted (kiln ash undisturbed since Lyra's
+    death — visible only on close inspection). Expansion-
+    reserved zones: Apprentice's Workbench (currently empty,
+    awaiting Vex's apprentice arrival in Act 5+);
+    Restoration Niche (alcove in the back wall, draped in
+    canvas, future expansion). Living-world: kiln interior
+    shows a faint heat shimmer even when cold (residual
+    brass cooling); every 7 IRL days, one bay-leaf appears
+    in the kiln's ash bed (Lyra's ritual continuing).
+13. **HUD overlap:** `PackOpening.tsx` (forged-item ceremony
+    plays here on craft completion); §9 unified Resource
+    Counter (crafting materials); `CinematicDialogOverlay
+    .tsx` (Lyra's posthumous voice-line on first kiln
+    ignition).
 
 ---
 
@@ -2108,6 +2651,74 @@ Armory baseline with case static at 1%.
   slots, larger brass-rimmed slot frames, so each combat mode
   reads as a discrete object.
 
+#### 2.9.7 Back-fill grid (axes 9–17 + storyteller hooks + HUD overlap)
+
+1. **TV infection (axis 9):** clean = no marker; exposed =
+   wisps from weapon-rack underside, mycelium thread on the
+   restricted-vault frame; spreading = mycelium fans across
+   the trophy-stamp wall, cold-violet shimmer on combat-
+   simulator rig; corrupted = voidblack on weapon polish,
+   indigo wash on the locked weapon-blueprint cabinet;
+   quarantined = yellow band sealing the corridor, sealed-X
+   on rack.
+2. **Demon-summoning surface:** —
+3. **CADES:** — (CADES violet helmet is in Med Bay restricted
+   section, not here)
+4. **Story items (§3.5):** Iron Lion oath token (rack center,
+   post-`jericho_oath_taken`); 25 earned-loadout items (one
+   per class × species combo; rack rotation per equipped
+   loadout); Akai Shi mercy token (low shelf, post-Jericho-
+   arc-E2).
+5. **Mystery-arc bindings:** Jericho Jones E1, E2, E4, E5
+   (Iron Lion creed shelf; Akai Shi mercy token; Iron Lion
+   imprint protocol on weapon polish ritual; pre-Fall Lionism
+   code etched into rack base).
+6. **Investigation tier (axis 15):** initial = canonical
+   Armory; investigating = yellow tape on each weapon slot;
+   partial-resolved = cyan tape + brass evidence cart at
+   restricted vault; case-closed = tape removed, **closure
+   object = a single Iron Lion oath token mounted under
+   glass at the rack's centre, signed and sealed**.
+7. **Governance modifier reactions:** `weapon_drop_rate_up`
+   modifier → all weapon-rack slots glow gold-pulse;
+   `armory_restricted` → restricted vault shows red-edge
+   indicator.
+8. **Epoch / ShadowTongue:** ShadowTongue power ≥40 → Iron
+   Lion oath plaque on rack center carries indigo marginalia
+   (suppressed truth re: Akai Shi); on `grandEditActive`,
+   the locked weapon-blueprint cabinet shows indigo silhouettes
+   that overwrite the actual blueprints.
+9. **Cycle-phase lighting:** dawn 5800 K warm-amber on
+   weapon polish; balanced 5500 K canonical; dimming 5300 K;
+   long-night 5200 K cool-violet on rack steel.
+10. **Faction livery:** Iron Lions allied = Iron Lion banner
+    flies above the rack; Insurgency-allied = small caltrop-
+    stamp on rack base; Hierarchy-allied = sealed Hierarchy
+    seal on the restricted vault.
+11. **Tournament window:** finals = champion-tier weapon
+    silhouettes light up in the restricted vault for the
+    duration of the finals window.
+12. **Storyteller hooks:** Weapon Racks Rotate (visible
+    monthly — new weapons appear; tie to seasonal card
+    drops); Name Inscription (player can edit deck name on
+    plaque; some players name decks after fallen crew);
+    Locked Weapon Blueprints (5 silhouettes, one unlock per
+    season); Agent Zero's Signal Ghost (occasional
+    encrypted message on the comm console — Agent Zero's
+    final orders before death). Expansion-reserved zones:
+    Restricted Weapons Vault (10 silhouettes, all CLEARANCE
+    LV4+); Engineer's Workbench (side table with half-
+    assembled gear, currently non-interactive). Living-world:
+    every 7 IRL days, the visible weapons get a brief
+    "maintenance" animation (lights flicker, tools move).
+13. **HUD overlap:** §9 unified Loadout Switcher (currently
+    MISSING — Armory is the diegetic anchor for the missing
+    component); §9 unified Resource Counter (crafting
+    materials); `PaperDollRenderer.tsx` (player paper-doll
+    visible in armor-stand mirror beside the rack);
+    `MoralityMeter.tsx` (low-fi callout on Akai Shi mercy
+    token first examination).
+
 ---
 
 ### 2.10 Cargo Hold
@@ -2215,6 +2826,72 @@ unscrews; pressure equalisation hiss visible as warm-amber haze
 sweeping the floor; collection display cases ignite their
 warm-gold spots in sequence (left wall, then right wall, then
 rear staging). End frame: canonical Cargo Hold baseline.
+
+#### 2.10.6 Back-fill grid (axes 9–17 + storyteller hooks + HUD overlap)
+
+1. **TV infection (axis 9):** clean = no marker; exposed =
+   wisps from cargo-crate seams, mycelium thread on staging
+   pallet underside; spreading = mycelium fans across the
+   labeled-crate's brass plate, cold-violet shimmer on
+   pressurized container; corrupted = voidblack pooling at
+   crate base, the pressurized container trembles harder,
+   indigo wash on inventory manifest; quarantined = yellow
+   band sealing the bulkhead, sealed-X across pressurized
+   container.
+2. **Demon-summoning surface:** —
+3. **CADES:** —
+4. **Story items (§3.5):** the labeled crate ("PROPERTY OF
+   [ILLEGIBLE]"); the pressurized container ("VOLATILE — DO
+   NOT DISTURB" — TV culture sample); the lost manifest log
+   (data pad wedged behind a crate); the Engineer's cache
+   (sealed crate with Engineer's seal, requires three-part
+   key obtained Acts 1-3).
+5. **Mystery-arc bindings:** Wraith Calder E2 (Substrate-N
+   residue cargo manifest); the Seer arc surfaces no clue
+   here.
+6. **Investigation tier (axis 15):** initial = canonical
+   Cargo Hold; investigating = yellow tape on pressurized
+   container + labeled crate; partial-resolved = cyan tape +
+   brass evidence cart at cargo-bay center; case-closed =
+   tape removed, **closure object = a single brass plate set
+   into the bulkhead etched with the cargo manifest's
+   completed inventory count**.
+7. **Governance modifier reactions:** `trade_discount_10`
+   modifier → all visible crates show a small green tag;
+   `cargo_priority_logistics` → staging pallet has an
+   accelerated loading animation.
+8. **Epoch / ShadowTongue:** ShadowTongue power ≥40 →
+   inventory manifest data pad shows 3 indigo-marginalia
+   entries that overwrite real cargo records; on
+   `grandEditActive`, the labeled crate's "[ILLEGIBLE]"
+   becomes legible for one frame on close inspection (an
+   indigo overlay reveals "DR. LYRA VOX — PERSONAL").
+9. **Cycle-phase lighting:** dawn 5800 K warm-amber on crate
+   stack; balanced 5500 K canonical; dimming 5300 K; long-
+   night 5200 K cool-violet on bulkhead steel.
+10. **Faction livery:** Insurgency-allied = small caltrop-
+    stamp on Engineer's Cache crate; Hierarchy-allied =
+    sealed Hierarchy seal on the labeled crate; Antiquarian-
+    allied = a small bound chronicle on the central pallet.
+11. **Tournament window:** —
+12. **Storyteller hooks:** Labeled Crate ("[ILLEGIBLE]" →
+    eventually unlocks; contents = TV origin sample OR
+    Insurgency arms cache); Inventory Mismatch (manifest vs
+    actual count = clue to internal sabotage); Pressurized
+    Container (humming, "VOLATILE", contains TV culture);
+    Lost Manifest Log (cargo transfers from other Inception
+    Arks — names Ark 1001, Ark 500, Ark 9999, Ark 1047
+    receiving "[CORRUPTED]" from Panopticon Station).
+    Expansion-reserved zones: Sealed Cargo Lock (lowest
+    level, three-part key); the Engineer's Cache (sealed
+    crate). Living-world: every 12 IRL hours, the visual
+    layout of crates shifts slightly (gravity fluctuation);
+    crates move ~6 cm.
+13. **HUD overlap:** §9 unified Resource Counter (cargo
+    inventory readout); `MoralityMeter.tsx` (low-fi callout
+    if player opens the pressurized container —
+    morality-shift event); §3.5 Story Item Registry surfaces
+    here for cargo manifest cross-reference.
 
 ---
 
@@ -2363,6 +3040,75 @@ frame: act-tier-1 canonical baseline.
   vision-eligible nights — the alcove's hammock acquires a
   faint iris-cyan filament for the duration.
 
+#### 2.11.7 Back-fill grid (axes 9–17 + storyteller hooks + HUD overlap)
+
+1. **TV infection (axis 9):** clean = no marker; exposed =
+   wisps from cabin air-handler vents, mycelium thread on the
+   captain's-chair pedestal seam; spreading = mycelium fans
+   across the legacy-wall plates, cold-violet shimmer on the
+   private-log console; corrupted = voidblack pooling at the
+   alcove's foot, indigo wash on the master-key cradle;
+   quarantined = yellow band sealing the bulkhead, sealed-X
+   tape across the alcove.
+2. **Demon-summoning surface:** —
+3. **CADES:** —
+4. **Story items (§3.5):** captain's master key (under chair
+   armrest); 10 Legacy Wall plates (one per major narrative
+   choice; see §2.11 for slot system); Vex's workshop diary
+   (Lyra's shelf, post-Vex-arc-E3); Mr. Whiskers cat photo
+   (cat-photo hotspot, pre-existing); the Degen's Corner
+   audit-prep note (3-column).
+5. **Mystery-arc bindings:** Vex Solène E3, E4, E5 (workshop
+   diary, apprentice personal note, calibration session
+   confirmation); the Degen E2, E5 (audit-prep note in
+   Degen's Corner; empty chair at Ne-Yon visible from the
+   alcove window); Wraith Calder cross-reference (Mr.
+   Whiskers cat photo dating identifies a week before the
+   academy fall).
+6. **Investigation tier (axis 15):** initial = canonical
+   Captain's Quarters; investigating = yellow tape on each
+   examined Legacy Wall plate; partial-resolved = cyan tape +
+   brass evidence cart at chair pedestal; case-closed = tape
+   removed, **closure object = a single bound chronicle on
+   the desk titled "The Captain's Final Witness," Lyra's
+   handwriting**.
+7. **Governance modifier reactions:** `personal_log_priority`
+   modifier → private-log console glows warm-amber; vote-
+   open shows §3.6 folded-ballot glyph above the desk;
+   vote-closed shows sealed-ballot glyph.
+8. **Epoch / ShadowTongue:** ShadowTongue power ≥40 →
+   captain's private logs show indigo overstrike that
+   obscures specific captain decisions; on `grandEditActive`,
+   the master-key cradle is replaced with a small obsidian
+   ring (Lyra's name overstamped on the chair-back).
+9. **Cycle-phase lighting:** dawn 5800 K warm-amber on
+   alcove; balanced 5500 K canonical; dimming 5300 K; long-
+   night 5200 K cool-violet on chair leather.
+10. **Faction livery:** Antiquarian-allied = a small bound
+    chronicle on the desk; Insurgency-allied = a folded
+    paper-bird on the chair's headrest; Hierarchy-enemied =
+    one Legacy Wall plate is over-stamped "REJECTED".
+11. **Tournament window:** —
+12. **Storyteller hooks:** Ghost Commander's Reassignment Log
+    (the captain's last duty roster — reassigned ALL crew
+    away from command deck, reason blank); Master Key Reveal
+    Flow (3-tier: spotted → recovered → first use);
+    10-plate Legacy Wall slot system (per major narrative
+    choice). Expansion-reserved zones: Captain's Private
+    Ready Room (sealed door right of chair, requires master
+    key + trust-`elara`-≥80); Memorial Niche (small alcove
+    in the back wall, reserved for fallen-crew memorial in
+    Act 5+). Living-world: every IRL day at the player's
+    "morning" boot, the alcove hammock is unmade if it was
+    used the previous session, made if it wasn't —
+    persistent diegetic state.
+13. **HUD overlap:** §3.11 Living Mirror (Personal Quarters
+    counterpart — Captain's Quarters has its own paper-doll
+    mirror in the alcove); `MoralityMeter.tsx` (tier-up
+    cinematic on master-key first use); §3.6 Governance
+    notification anchor; `CinematicDialogOverlay.tsx`
+    (Forgiveness scene + Act1 closing).
+
 ---
 
 ### 2.12 Trophy Room
@@ -2445,6 +3191,74 @@ forward-right pedestal; the dome ignites with a warm-gold pulse;
 the eternal flame steps from a low burn to its full continuous
 height; the title-plaque frieze gains its first inscribed plate
 (no legible text). End frame: act-tier-2 canonical state.
+
+#### 2.12.6 Back-fill grid (axes 9–17 + storyteller hooks + HUD overlap)
+
+(Trophy Room is upgraded to a multi-zone room per §4.2 Trophy
+Room Scaling Spec — to be authored. The 13-row back-fill below
+applies to the multi-zone room model, not the legacy 10-pedestal
+model.)
+
+1. **TV infection (axis 9):** clean = no marker; exposed =
+   wisps from dome-vents, mycelium thread on Imprint-Gallery
+   frame; spreading = mycelium fans across the Title Wall
+   etchings, cold-violet shimmer on the Essence Ledger
+   lectern; corrupted = voidblack pooling at the Prestige-
+   Tier dais foot, indigo wash on the Boss Cosmetics rack;
+   quarantined = yellow band sealing the entry, sealed-X
+   across the eternal flame.
+2. **Demon-summoning surface:** —
+3. **CADES:** —
+4. **Story items (§3.5):** every cosmetic, title, achievement
+   badge, imprint frame (90), Loredex essence (150+), boss-
+   cosmetic loadout the player has earned. Per-zone
+   placement (Title Wall, Prestige Tier, Legacy Tier,
+   Achievement Badges Rack, Imprint Gallery, Essence Ledger,
+   Boss Cosmetics Rack — see §4.2).
+5. **Mystery-arc bindings:** the **Inscription Challenge**
+   blank plaque is the post-Act-7 reveal slot; reveals the
+   player's chosen alignment phrase; otherwise no per-arc
+   binding.
+6. **Investigation tier (axis 15):** initial = canonical
+   Trophy Room; investigating = yellow tape on each unfilled
+   pedestal; partial-resolved = cyan tape + brass evidence
+   cart; case-closed = tape removed, **closure object = the
+   Inscription Challenge plaque etched with player's
+   chosen end-game alignment phrase**.
+7. **Governance modifier reactions:** `prestige_unlock_active`
+   modifier → Prestige Tier dais ignites; `community_milestone`
+   → an additional plaque is etched on the Title Wall
+   honouring the milestone (one-time animation).
+8. **Epoch / ShadowTongue:** ShadowTongue power ≥40 → one
+   Imprint Gallery frame is overstamped indigo (the imprint
+   becomes unreadable for that visit); on `grandEditActive`,
+   the Essence Ledger's open page rewrites itself with
+   indigo marginalia.
+9. **Cycle-phase lighting:** dawn 5800 K warm-amber on dome;
+   balanced 5500 K canonical; dimming 5300 K; long-night
+   5200 K cool-violet on flame.
+10. **Faction livery:** any championed faction adds a faction
+    banner to the Legacy Tier; enemied factions remove the
+    relevant boss-mastery plaque (replace with empty hook).
+11. **Tournament window:** finals = champion-tier display
+    appears on the Boss Cosmetics Rack; champion-anointed
+    state lights all 7 zones simultaneously for 24h.
+12. **Storyteller hooks:** Ghost Trophy (achievement =
+    unknown — secret-ending unlock); Unreachable Trophy
+    (Act 4 prestige); Fallen Heroes Wall (player crew
+    obituaries); Inscription Challenge (player's legacy
+    plaque). Expansion-reserved zones: Prestige Pedestal
+    (canvas-draped, Act 3+ unlock); Founder's Vault (sealed,
+    pre-launch lore drop). Living-world: every visited
+    achievement's plaque slowly glows brighter over IRL
+    months (logarithmic from earn-date); old achievements
+    become radiant; new ones start dim.
+13. **HUD overlap:** §9 unified Trophy Gallery (currently
+    basic grid in `TrophyRoom.tsx` — needs 3D model display,
+    rarity visualization, sorting); §9 Achievement Gallery
+    diegetic anchor; `PaperDollRenderer.tsx` (player
+    paper-doll appears at room center on entry, wearing
+    every earned cosmetic).
 
 ---
 
@@ -2558,6 +3372,73 @@ first time and offers a single nod (no dialogue in the cutscene
 — dialog is gameplay-state). End frame: canonical Library
 baseline at trust=Catalogued.
 
+#### 2.13.6 Back-fill grid (axes 9–17 + storyteller hooks + HUD overlap)
+
+(The Antiquarian's Library is a **pocket dimension**, not a
+canonical Ark room — physics & propagation differ. TV cannot
+reach the pocket; mycelium does not propagate here. Cycle-phase
+lighting still applies via Antiquarian's candle.)
+
+1. **TV infection (axis 9):** N/A — pocket dimension immune
+   to TV propagation. The Library is a Refuge state for the
+   player when the rest of the Ark is contaminated.
+2. **Demon-summoning surface:** —
+3. **CADES:** —
+4. **Story items (§3.5):** 7 CoNexus tomes (shelves, post
+   per-tome unlock); Hierophant's marginalia stack (locked
+   vault drawer); Coda's purpose shelf (rear-left bookcase);
+   Velkraal's correspondence folio (locked vault); insurgency-
+   witness-roster (long-reading-table); the Antiquarian's
+   chronicle (long-reading-table center).
+5. **Mystery-arc bindings:** Wraith Calder E1 (catalog cards
+   at card-catalog); the Seer arc E1, E2, E3, E4, E5 (DO-
+   NOT-PLAY band in locked vault; Hierophant marginalia
+   stack); Vex Solène E2, E3, E4 (insurgency-witness-roster;
+   apprentice-training-files metadata); the Degen E3, E4,
+   E5 (Coda's purpose shelf); Game Master E2, E4 (Velkraal
+   folio); Jericho Jones E1, E3, E4, E5 (Antiquarian-bust
+   surfaces all 4 episodes when addressed).
+6. **Investigation tier (axis 15):** initial = canonical
+   Library; investigating = yellow tape on each examined
+   shelf-tome; partial-resolved = cyan tape + brass evidence
+   cart at the chronicle table; case-closed = tape removed,
+   **closure object = a single bound brass codex on the
+   reading table titled "The Antiquarian's Final Witness"**.
+7. **Governance modifier reactions:** `tome_entry_inscribed`
+   modifier → an animated quill briefly writes a new line on
+   the chronicle (single 4-s loop); `lore_unlock_active` →
+   all shelf-tomes' brass-edges glow warm-amber.
+8. **Epoch / ShadowTongue:** ShadowTongue power affects the
+   pocket inversely — higher power means MORE legible
+   marginalia (the Antiquarian preserves what the Tongue
+   tries to overwrite). On `grandEditActive`, all marginalia
+   resolves to plain text for one in-pocket visit
+   (revelation moment).
+9. **Cycle-phase lighting:** dawn 5800 K warm-amber on
+   reading table candle; balanced 5500 K canonical; dimming
+   5300 K; long-night 5200 K cool-violet on shelf glass.
+10. **Faction livery:** see §2.4 Archives — same livery
+    pattern (Antiquarian-allied, Insurgency-allied,
+    Hierarchy-allied/enemied).
+11. **Tournament window:** —
+12. **Storyteller hooks:** Forbidden Section sealed wing
+    (decrypt access at trust-`antiquarian`-≥80); Margin
+    Notes Evolution (annotations multiply over weekly ticks
+    — paradoxically clearer the more ShadowTongue power);
+    Blank Pages ("The Warlord's Ascension" redacted until
+    trust-100); Librarian's Personal Collection (small
+    shelf, not in database). Expansion-reserved zones: The
+    Sealed Vault (biometric lock); The Lost Wing (collapsed
+    corridor). Living-world: the Antiquarian visibly works
+    the room — moves between shelves, annotates entries,
+    updates the Codex. At high trust the Antiquarian
+    invites the player to sit and read together.
+13. **HUD overlap:** §9 unified Loredex Viewer (the Library
+    is the pocket-dimension diegetic anchor — Archives is
+    the Ark-side anchor); `CinematicDialogOverlay.tsx`
+    (Antiquarian dialogue); `MobileNarratorSlot.tsx`
+    (Antiquarian voice surfaces from trust-40+).
+
 ---
 
 ### 2.14 Guild Sanctum
@@ -2658,6 +3539,65 @@ sector marker. End frame: post-allegiance baseline.
 - `GuildCutscenePlayer.tsx` triggers from the rear arch portal —
   treat it as a separate room transition.
 
+#### 2.14.7 Back-fill grid (axes 9–17 + storyteller hooks + HUD overlap)
+
+1. **TV infection (axis 9):** clean = no marker; exposed =
+   wisps from rear-arch vents, mycelium thread on roster wall;
+   spreading = mycelium fans across the war-declaration map,
+   cold-violet shimmer on allegiance pad; corrupted =
+   voidblack pooling at allegiance pad foot, indigo wash on
+   guild banner; quarantined = yellow band sealing the rear
+   arch, sealed-X across the allegiance pad.
+2. **Demon-summoning surface:** —
+3. **CADES:** —
+4. **Story items (§3.5):** 30+ Guild Hall décor across 12
+   rooms × 5 tiers (banners, trophies, furniture, lighting,
+   tech, memorial, luxury — see NOTES §11.1); guild treasury
+   contents (vault, tier-3+); founder's plaque (memorial
+   wall, post-`guild_founded`).
+5. **Mystery-arc bindings:** none specific (Guild Sanctum is
+   meta-progression, not narrative-arc).
+6. **Investigation tier (axis 15):** initial = canonical
+   Guild Sanctum; investigating = yellow tape on roster
+   wall + war map; partial-resolved = cyan tape + brass
+   evidence cart; case-closed = tape removed, **closure
+   object = a single bound Guild War Chronicle on the
+   war-declaration map**.
+7. **Governance modifier reactions:** `guild_treasury_buff`
+   modifier → vault glows gold; `faction_succession_active`
+   → roster wall flips one name to a successor's silhouette
+   (one-time animation); `community_milestone` →
+   commemorative plaque appears on memorial wall.
+8. **Epoch / ShadowTongue:** ShadowTongue power ≥40 → guild
+   member roster shows 3 indigo-overstamp entries (members
+   "edited" out of history); on `grandEditActive`, the war-
+   declaration map's victory markers all show indigo "REDACTED".
+9. **Cycle-phase lighting:** dawn 5800 K warm-amber on
+   allegiance pad; balanced 5500 K canonical; dimming
+   5300 K; long-night 5200 K cool-violet on banner.
+10. **Faction livery:** **always load-bearing** — Guild
+    Sanctum's banner color matches the player's guild's
+    allied faction. Per faction: amber (Insurgency), cerulean
+    (New Babylon), red (Hierarchy), grey (Architect Remnants),
+    violet (Dreamers Children).
+11. **Tournament window:** finals = guild war bracket appears
+    on the war map; champion-anointed = guild banner gilded.
+12. **Storyteller hooks:** Founder's Plaque (player's name
+    etched on guild founding); War Memorial (fallen-guild-
+    member plaques accumulate over time); Allegiance Pad
+    History (visible record of every prior guild allegiance);
+    Diplomatic Archive (treaty folio in vault). Expansion-
+    reserved zones: Diplomatic Chamber (rear-arch portal,
+    Tier 4 unlock); Guild Vault upper level (sealed,
+    treasury overflow). Living-world: every IRL hour, the
+    member roster updates — online members glow warm,
+    offline members are dim brass.
+13. **HUD overlap:** §9 unified Friends List, Chat, Party
+    Invite (all currently MISSING — Guild Sanctum is the
+    diegetic anchor for these missing components);
+    `LeaderboardPage.tsx` (guild-war leaderboard surfaces
+    here); §3.6 Tournament notification anchor.
+
 ---
 
 ### 2.15 Social Hub
@@ -2745,6 +3685,71 @@ right).
 themselves; brass settings appear in sequence; the chandelier
 ignites; one crew silhouette enters from rear and takes a chair.
 End frame: canonical baseline with one crew at a chair.
+
+#### 2.15.6 Back-fill grid (axes 9–17 + storyteller hooks + HUD overlap)
+
+1. **TV infection (axis 9):** clean = no marker; exposed =
+   wisps from chandelier vents, mycelium thread on the long
+   mess-table seam; spreading = mycelium fans across the wall
+   chalkboard, cold-violet shimmer on the food dispenser;
+   corrupted = voidblack pooling at the chair feet, chandelier
+   dims to amber-only; quarantined = yellow band sealing the
+   entry, sealed-X across the table.
+2. **Demon-summoning surface:** —
+3. **CADES:** —
+4. **Story items (§3.5):** crew-mood chalkboard (rear wall;
+   per-day procedural entries); jukebox media library link
+   (Rec Room counterpart); fallen-crew memorial plaques
+   (left wall, accumulating over save).
+5. **Mystery-arc bindings:** Akai Shi mercy token reference
+   surfaces here on `jericho_mercy_recalled` (a single empty
+   chair at the table's far end is set with a brass plate
+   etched with Akai Shi's name).
+6. **Investigation tier (axis 15):** initial = canonical
+   Social Hub; investigating = yellow tape on chalkboard +
+   memorial wall; partial-resolved = cyan tape + brass
+   evidence cart at the table-head; case-closed = tape
+   removed, **closure object = a single brass plate set
+   into the table head etched with the player's
+   "First Meal Together" date**.
+7. **Governance modifier reactions:** `community_milestone`
+   → chalkboard's central entry shifts to the milestone
+   text for 24h; `crew_morale_buff` → chandelier glows
+   warm-amber, dispenser produces an extra serving.
+8. **Epoch / ShadowTongue:** ShadowTongue power ≥40 → chalk-
+   board entries shift to indigo handwriting; on
+   `grandEditActive`, the memorial wall's plaques all show
+   indigo overstamp ("FORGOTTEN" replaces names).
+9. **Cycle-phase lighting:** dawn 5800 K warm-amber on
+   chandelier; balanced 5500 K canonical; dimming 5300 K;
+   long-night 5200 K cool-violet on table polish.
+10. **Faction livery:** Insurgency-allied = small caltrop-
+    stamp on the table's far end; Hierarchy-allied =
+    sealed Hierarchy seal on the dispenser; Antiquarian-
+    allied = a small bound chronicle on the chair-arm at
+    the table's head.
+11. **Tournament window:** —
+12. **Storyteller hooks:** Memorial Wall (crew members leave
+    mementos for fallen comrades; player can add plaques
+    for dead apprentices); Unfinished Game (chess set
+    mid-game on a low table — neither player present —
+    advances 1 move per IRL day; the players are revealed
+    to be Antiquarian and Programmer playing across
+    centuries via the Ark's logs); Storytelling Chalkboard
+    (crew daily affirmations / jokes / cryptic warnings —
+    1 entry per day; one says "Don't trust the signal");
+    Rotating Crew Conversations (procedural per archetype).
+    Expansion-reserved zones: Crew Quarters Corridor (locked
+    door); Meditation Chamber (roped off alcove with
+    cushions). Living-world: crew members visible in the
+    lounge change every 6 IRL hours; if player befriends a
+    specific crew member, they appear more frequently.
+13. **HUD overlap:** §9 unified Chat (currently MISSING —
+    Social Hub is the diegetic anchor); §9 Party Invite
+    (currently MISSING — Mess table is the diegetic
+    surface); `MoralityMeter.tsx` (low-fi callout when
+    Akai Shi mercy token first surfaces here);
+    `MobileNarratorSlot.tsx` (companion ambient lines).
 
 ---
 
@@ -2847,6 +3852,76 @@ End frame: canonical baseline with one crew at a chair.
 banners unfurl in sequence (Authority → Insurgency → Antiquarian
 → Hierarchy); Coda admin steps from the trading-floor desk to
 the centre pulpit and back. End frame: canonical baseline.
+
+#### 2.16.6 Back-fill grid (axes 9–17 + storyteller hooks + HUD overlap)
+
+1. **TV infection (axis 9):** clean = no marker; exposed =
+   wisps from shuttle-bay door seams, mycelium thread on
+   trading-floor desk underside; spreading = mycelium fans
+   across the four-faction banner pylons, cold-violet shimmer
+   on commerce interface; corrupted = voidblack pooling at
+   centre pulpit base, indigo wash on succession glyph;
+   quarantined = yellow band sealing the shuttle-bay door,
+   sealed-X tape across the trading-floor desk.
+2. **Demon-summoning surface:** —
+3. **CADES:** —
+4. **Story items (§3.5):** Trade Empire diegetic surfaces
+   (per §3.3 — Trade Command Center, Cover Identity Board,
+   Cargo Manifest Console, Broker's Office surfaces all live
+   adjacent to or in this room); 4-faction banners
+   (Authority, Insurgency, Antiquarian, Hierarchy); shuttle-
+   bay schedule plaque (rear wall).
+5. **Mystery-arc bindings:** Wraith Calder E2 (cargo manifest
+   for Substrate-N residue); the Degen E1 (Mol'Vereth's
+   visiting card may surface in the Broker's Office adjacent
+   to here).
+6. **Investigation tier (axis 15):** initial = canonical
+   Station Dock; investigating = yellow tape on each banner
+   pylon + commerce interface; partial-resolved = cyan tape
+   + brass evidence cart at centre pulpit; case-closed =
+   tape removed, **closure object = a single brass plate
+   set into the centre pulpit etched with the player's
+   chosen post-faction-succession alignment**.
+7. **Governance modifier reactions:**
+   `event_faction_succession_announced` → affected banner
+   fully unfurled, others half-furled, commerce interface
+   flashes succession glyph (per §2.16.4); `trade_discount
+   _10` → all visible commerce interfaces show a green tag.
+8. **Epoch / ShadowTongue:** ShadowTongue power ≥40 → faction
+   succession glyph carries indigo overstamp; on
+   `grandEditActive`, the trading-floor desk's ledger entries
+   show indigo edits over recorded transactions.
+9. **Cycle-phase lighting:** dawn 5800 K warm-amber on
+   shuttle-bay door; balanced 5500 K canonical; dimming
+   5300 K; long-night 5200 K cool-violet on banner steel.
+10. **Faction livery:** **always load-bearing** — Station
+    Dock is the diegetic home of the 4-faction banner
+    display (Authority, Insurgency, Antiquarian, Hierarchy);
+    each banner's furl-state reflects the player's standing
+    band per faction.
+11. **Tournament window:** finals = champion-tier banner
+    flies at the centre pulpit; champion-anointed = full
+    4-banner gilded display.
+12. **Storyteller hooks:** Banner Furl Sequence (visible
+    record of every faction's standing transition); Coda
+    Admin Routine (admin walks pulpit ↔ desk on a 6h cycle);
+    Shuttle Schedule Plaque (lists ports of call — most are
+    blank, one shows "Sanctuary" with all-zero coordinates
+    matching Bridge Navigation to Nowhere); Trading Floor
+    Ledger (visible record of player's recent transactions).
+    Expansion-reserved zones: Trade Hub stub (parallel-
+    agent territory — see §3.3); Diplomatic Pavilion
+    (sealed door behind centre pulpit). Living-world: every
+    24 IRL hours one shuttle-bay door cycle plays (visible
+    docking + departure) — usually no shuttle visible, but
+    every 7 IRL days a shuttle silhouette is briefly
+    visible through the bay window.
+13. **HUD overlap:** §3.3 Trade Empire diegetic surfaces;
+    §3.6 Faction Succession notification anchor; §9
+    unified Resource Counter (faction standing); `Cinematic
+    DialogOverlay.tsx` (Coda admin dialogue);
+    `LeaderboardPage.tsx` (faction-war leaderboard
+    surfaces here).
 
 ---
 
