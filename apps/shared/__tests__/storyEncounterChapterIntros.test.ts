@@ -148,15 +148,19 @@ describe("storyEncounterChapterIntros — bible-confirmed mappings", () => {
     expect(resolveChapterIntroForOpponent("nonsense")).toBeNull();
   });
 
-  it("ships 4 chapterId + 7 opponentId + 1 prestige-rematch mappings (post-canon-gap-resolution)", () => {
-    // PR #565 shipped 4+5; this PR's Phase 3 added Elara-glitched +
-    // Source/Patient-Zero (opponentId) and Iron Lion (rematch).
+  it("ships 4 chapterId + 8 opponentId + 1 prestige-rematch mappings", () => {
+    // PR #565 shipped 4+5; this PR added in successive phases:
+    //  - Phase 3: Elara-glitched + Source/Patient-Zero + Iron Lion (rematch)
+    //  - Phase 5: Necromancer (act6_thazulok_returns)
+    // Phases 6-9 will add 4 more opponentId mappings (Collector
+    // rematch, Jailer, Dreamer, Oracle/Meme); update this count
+    // as those land.
     expect(
       Object.keys(STORY_CHAPTER_INTRO_MAPPINGS.byChapterId),
     ).toHaveLength(4);
     expect(
       Object.keys(STORY_CHAPTER_INTRO_MAPPINGS.byOpponentId),
-    ).toHaveLength(7);
+    ).toHaveLength(8);
     expect(
       Object.keys(STORY_CHAPTER_INTRO_MAPPINGS.byOpponentIdPrestigeRematch),
     ).toHaveLength(1);

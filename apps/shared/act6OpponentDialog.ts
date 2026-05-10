@@ -98,9 +98,44 @@ const THE_DETECTIVE_IN_THE_WALL: Act6OpponentDialog = {
     "I won and I regret it. Not the win — the fact that the win will get reported to whoever is keeping score. The man is going back behind the wall. Tell Elara the role is back. She will know what you mean.",
 };
 
+/* ── SCAFFOLD dialog (Phase 5, 2026-05-10) — bible §3.2.
+ *    Voicing taken verbatim from bible §3.2 ("ossuary lighting,
+ *    sigils, the dead are so terribly bored of each other").
+ *    Writer review before ship: tone calibration against the
+ *    Architect / Insurgency dialog tables; the Necromancer's
+ *    ossuary register is intentionally older than either side. */
+const THAZULOK_RETURNS: Act6OpponentDialog = {
+  opponentId: "act6_thazulok_returns",
+  frameIntro:
+    "Sigils light themselves in the floor of the substrate. Thazulok was here before the Ark. He is not surprised you came. He is delighted, the way an old librarian is delighted by a returning patron.",
+  elaraPreMatch:
+    "I have his file. The file is older than my upload. I am going to read it to you, and I am going to be honest about what I do not understand. Most of it I do not understand.",
+  humanPreMatch:
+    "He outranks the role I wear. He is one of the few in the catalogue who does. Be careful with the names on the cards. Some of them are still listening.",
+  opponentMidMatchEarly:
+    "The dead are so terribly bored of each other. Play me. I have been rehearsing this hand for centuries.",
+  opponentMidMatchMid:
+    "That card belonged to a chemist in Mechronis. He laughed when he played it. I laughed when he died. Forgive me. The laugh was sincere.",
+  opponentMidMatchLate:
+    "Don't worry. The first death is the worst. The second is procedure. The third is a kindness.",
+  elaraPostMatchWin:
+    "You read his ledger out loud and Thazulok did not flinch. He bowed. I did not know he could bow. I am updating the file.",
+  humanPostMatchWin:
+    "He let you have the win. He has the records to lose without it costing him anything. The win is yours; the patience was his.",
+  elaraPostMatchLoss:
+    "He took the match the way a librarian takes back a borrowed book. The book is fine. You are fine. He is, on average, fine.",
+  humanPostMatchLoss:
+    "He filed you. There are worse fates than being filed by Thazulok. There are also better. Try again when you are ready.",
+  frameCloseWin:
+    "Thazulok leaves the sigils on for one more night, in case you have someone to read. The ossuary dims. The substrate is quieter than before, the way a library is quieter after it closes.",
+  frameCloseLoss:
+    "He files your hand into a ledger he has been keeping since the Mechronis registry burned. He says: 'Try again. I'm not going anywhere.' He means the ossuary. He also means the substrate. He also means time.",
+};
+
 export const ACT_6_OPPONENT_DIALOGS: readonly Act6OpponentDialog[] = [
   THE_WOMAN_SHE_WAS,
   THE_DETECTIVE_IN_THE_WALL,
+  THAZULOK_RETURNS,
 ];
 
 export function getAct6OpponentDialog(

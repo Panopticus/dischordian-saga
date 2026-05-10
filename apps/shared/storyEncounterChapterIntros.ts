@@ -92,6 +92,9 @@ const OPPONENT_ID_TO_INTRO_ID: Readonly<Record<string, string>> = {
   // to the engine's "Thought Virus construct wearing Kael's face"
   // — visual canon discrepancy punted to a future writer PR.
   act7_the_patient_zero_reborn: "ch14_source",
+  // §3.2 Chapter 6 — The Necromancer (Thazulok). SCAFFOLD opponent
+  // authored 2026-05-10 (Phase 5); writer review before ship.
+  act6_thazulok_returns: "ch06_necromancer",
 };
 
 /** Engine Act 1 cycle opponentId → producer chapter-intro id, fired
