@@ -265,6 +265,104 @@ export const NPC_PORTRAITS: Record<string, NPCPortrait> = {
     },
 
   },
+
+  /* ─── Tier-2 RECRUITS — registry slots
+        for the Berth System.
+
+        These four recruits exist in dialogue + recruitment chains
+        but were never in the portrait registry. Slots use the dgrsart
+        S3 CDN convention (assetUrl-style); art lands as the producer
+        pipeline fills them. Renderer falls back to silhouette + name
+        plate when a path 404s, so the bunkroom door can render now
+        and refine later.
+
+        Expression palette matches the bond×corruption matrix the
+        Berth System uses across all party members:
+          neutral / warm / considered / wary / vulnerable. ── */
+  vex_solene: {
+    id: "vex_solene", name: "Vex Solene",
+    fullPortrait: "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/recruits/vex_solene_base.webp",
+    bustPortrait: "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/recruits/vex_solene_base.webp",
+    color: "#22c55e",
+    expressions: {
+      neutral: "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/recruits/vex_solene_neutral.webp",
+      emotional1: "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/recruits/vex_solene_warm.webp",
+      emotional2: "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/recruits/vex_solene_wary.webp",
+      speaking: "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/recruits/vex_solene_considered.webp",
+    },
+    factionColorHex: "#22c55e",
+    factionName: "Coda",
+    namedExpressions: {
+      neutral: "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/recruits/vex_solene_neutral.webp",
+      warm: "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/recruits/vex_solene_warm.webp",
+      wary: "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/recruits/vex_solene_wary.webp",
+      considered: "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/recruits/vex_solene_considered.webp",
+      vulnerable: "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/recruits/vex_solene_vulnerable.webp",
+    },
+  },
+  wraith_calder: {
+    id: "wraith_calder", name: "Wraith Calder",
+    fullPortrait: "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/recruits/wraith_calder_base.webp",
+    bustPortrait: "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/recruits/wraith_calder_base.webp",
+    color: "#a855f7",
+    expressions: {
+      neutral: "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/recruits/wraith_calder_neutral.webp",
+      emotional1: "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/recruits/wraith_calder_warm.webp",
+      emotional2: "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/recruits/wraith_calder_wary.webp",
+      speaking: "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/recruits/wraith_calder_considered.webp",
+    },
+    factionColorHex: "#a855f7",
+    factionName: "Insurgency",
+    namedExpressions: {
+      neutral: "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/recruits/wraith_calder_neutral.webp",
+      warm: "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/recruits/wraith_calder_warm.webp",
+      wary: "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/recruits/wraith_calder_wary.webp",
+      considered: "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/recruits/wraith_calder_considered.webp",
+      vulnerable: "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/recruits/wraith_calder_vulnerable.webp",
+    },
+  },
+  jericho_jones: {
+    id: "jericho_jones", name: "Jericho Jones",
+    fullPortrait: "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/recruits/jericho_jones_base.webp",
+    bustPortrait: "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/recruits/jericho_jones_base.webp",
+    color: "#f59e0b",
+    expressions: {
+      neutral: "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/recruits/jericho_jones_neutral.webp",
+      emotional1: "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/recruits/jericho_jones_warm.webp",
+      emotional2: "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/recruits/jericho_jones_wary.webp",
+      speaking: "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/recruits/jericho_jones_considered.webp",
+    },
+    factionColorHex: "#f59e0b",
+    factionName: "Frontier",
+    namedExpressions: {
+      neutral: "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/recruits/jericho_jones_neutral.webp",
+      warm: "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/recruits/jericho_jones_warm.webp",
+      wary: "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/recruits/jericho_jones_wary.webp",
+      considered: "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/recruits/jericho_jones_considered.webp",
+      vulnerable: "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/recruits/jericho_jones_vulnerable.webp",
+    },
+  },
+  akai_shi: {
+    id: "akai_shi", name: "Akai Shi",
+    fullPortrait: "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/recruits/akai_shi_base.webp",
+    bustPortrait: "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/recruits/akai_shi_base.webp",
+    color: "#dc2626",
+    expressions: {
+      neutral: "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/recruits/akai_shi_neutral.webp",
+      emotional1: "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/recruits/akai_shi_warm.webp",
+      emotional2: "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/recruits/akai_shi_wary.webp",
+      speaking: "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/recruits/akai_shi_considered.webp",
+    },
+    factionColorHex: "#dc2626",
+    factionName: "Demagi",
+    namedExpressions: {
+      neutral: "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/recruits/akai_shi_neutral.webp",
+      warm: "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/recruits/akai_shi_warm.webp",
+      wary: "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/recruits/akai_shi_wary.webp",
+      considered: "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/recruits/akai_shi_considered.webp",
+      vulnerable: "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/recruits/akai_shi_vulnerable.webp",
+    },
+  },
 };
 
 /* ─── THE HUMAN — PROGRESSIVE REVEAL STAGES ───

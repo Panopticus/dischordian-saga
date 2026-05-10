@@ -174,6 +174,8 @@ const IdeologyPage = lazy(() => import("./pages/IdeologyPage"));
 const PetBattlesPage = lazy(() => import("./pages/PetBattlesPage"));
 const ApprenticePage = lazy(() => import("./pages/ApprenticePage"));
 const ApprenticePedagogyPage = lazy(() => import("./pages/ApprenticePedagogyPage"));
+const BunkroomPage = lazy(() => import("./pages/BunkroomPage"));
+const BerthPage = lazy(() => import("./pages/BerthPage"));
 const GuildCommonRoomPage = lazy(() => import("./pages/GuildCommonRoomPage"));
 const MechronisAcademyPage = lazy(() => import("./pages/MechronisAcademyPage"));
 const HouseCupPage = lazy(() => import("./pages/HouseCupPage"));
@@ -439,6 +441,8 @@ function Router() {
         <Route path="/pet-battles">{() => <GameRoute component={PetBattlesPage} />}</Route>
         <Route path="/apprentice" component={ApprenticePage} />
         <Route path="/apprentice/pedagogy" component={ApprenticePedagogyPage} />
+        <Route path="/ship/bunkroom" component={BunkroomPage} />
+        <Route path="/berth/:memberId" component={BerthPage} />
         <Route path="/common-room" component={GuildCommonRoomPage} />
         <Route path="/academy" component={MechronisAcademyPage} />
         <Route path="/house-cup" component={HouseCupPage} />
