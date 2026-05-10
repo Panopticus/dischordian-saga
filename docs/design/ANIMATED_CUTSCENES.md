@@ -9,27 +9,45 @@ Five key story moments deserve animated cutscene sequences using **Three.js** (3
 ## Cutscene 1: Awakening
 
 **Trigger:** First login after character creation (Cryo Bay)
-**Duration:** 30–45 seconds
+**Duration:** ~45 seconds (3 shots, ~15s each)
 
-### Visual
-- Black screen. A hum builds. Frost crystals form on camera lens (PixiJS particle overlay).
-- Cryo pod hatch cracks open — mist spills out (volumetric fog via Three.js plane with animated opacity).
-- Slow zoom out revealing Pod Chamber 47 — rows of dark pods, only yours is lit.
-- Elara's voice fades in before her holographic avatar materializes (bloom shader + fade).
+> **Revised 2026-05-10** — producer drop replaced the original
+> mechanical pod-opening sequence with a thematic three-beat
+> cold-open: identity → mission → emotional consequence.
+> Lore-confirmed ordering anchors on `LORE_BIBLE.md`'s verbatim
+> "I've watched 93,847 sunrises" line and `NARRATIVE_ARCHITECTURE.md`'s
+> Vox neural-nanobot identity chain.
 
-### Camera
-- Starts inside pod (extreme close-up, shallow DOF blur).
-- Pulls back to medium shot as pod opens.
-- Settles on wide establishing shot of the cryo bay.
+### Shot 1 — `first_clone_born.mp4` (Origin)
+The Vox neural-nanobot consciousness transfer that birthed Elara
+as a clone of Senator Elara Voss. Establishes that she's a
+created consciousness, not a born one — the fundamental violation
+that defines her arc. Player meets her as a *made* thing before
+they know her name.
+
+### Shot 2 — `the_mandate.mp4` (Mission)
+A formal Ark officer hands the player a mandate document:
+*"By the Ark Council, you are recognised. Carry it."* Establishes
+the political/institutional context — the player is aboard
+Inception Ark 1047 with explicit mission authority.
+
+### Shot 3 — `93847_sunrises.mp4` (Aftermath)
+Elara whispers: *"That was sunrise ninety-three thousand, eight
+hundred and forty-seven."* Reveals her ~256-year solitude. The
+emotional payoff: after learning she's a clone and accepting the
+mandate, you hear what those choices cost her.
 
 ### Audio
-- Deep cryo hum → hiss of pressurization → Elara's theme (soft, tentative).
+- Each shot carries its own producer-mixed audio bed (no engine
+  hum overlay). Elara's theme enters during shot 3.
 
 ### Interactive
-- Player blinks to "open eyes" (tap/click triggers the pod opening — first input of the game).
+- Skip button (top-right) on each shot.
+- Reduced-motion fallback: poster + summary + "Continue" button.
 
 ### Flags Set
-- `cutscene_awakening_complete`, `first_login`
+- `cutscene_awakening_seen`, `prelude_beat_0_complete` (per
+  `apps/shared/cutsceneRegistry.ts`)
 
 ---
 

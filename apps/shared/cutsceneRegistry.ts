@@ -83,6 +83,19 @@ export const CUTSCENE_REGISTRY: Readonly<
     shotCount: 3,
     durationSec: 45,
     videoBasePath: "/videos/cutscenes/awakening/",
+    // Producer 2026-05-10 drop revised the awakening from the
+    // original pod-opening sequence (ANIMATED_CUTSCENES.md §1)
+    // to a thematic cold-open. Lore-confirmed ordering
+    // (NARRATIVE_ARCHITECTURE.md identity chain + LORE_BIBLE.md
+    // verbatim "I've watched 93,847 sunrises" line):
+    //   shot 1: origin (Vox neural-nanobot consciousness transfer)
+    //   shot 2: mission (Ark Council mandate handed to player)
+    //   shot 3: aftermath (Elara's 256-year solitude reveal)
+    shotFilenames: [
+      "first_clone_born.mp4",
+      "the_mandate.mp4",
+      "93847_sunrises.mp4",
+    ],
     componentName: "AwakeningCutscene",
     posterPath: "/videos/cutscenes/awakening/poster.webp",
   },
