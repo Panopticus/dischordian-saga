@@ -65,6 +65,7 @@ import CharacterWidget from "./components/CharacterWidget";
 import { CutsceneRouter } from "./components/cutscenes/CutsceneRouter";
 import { ChapterIntroRouter } from "./components/cutscenes/ChapterIntroRouter";
 import { ConfessionCloseRouter } from "./components/cutscenes/ConfessionCloseRouter";
+import { WheelReactionRouter } from "./components/cutscenes/WheelReactionRouter";
 import { DailyRewardPopup } from "./components/DailyRewards";
 import RadioMode from "./components/RadioMode";
 import EasterEggs from "./components/EasterEggs";
@@ -840,6 +841,7 @@ function GameGate() {
       <CutsceneRouter />
       <ChapterIntroRouter />
       <ConfessionCloseRouter />
+      <WheelReactionRouter />
       <DailyRewardPopup />
       <RadioMode />
       <EasterEggs />
