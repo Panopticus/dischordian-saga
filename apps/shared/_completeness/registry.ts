@@ -58,6 +58,7 @@ import { checkApprenticeDoctrineCoverage } from "./checks/apprenticeDoctrineCove
 import { checkApprenticeAuditCoverage } from "./checks/apprenticeAuditCoverage";
 import { checkApprenticeMissionCoverage } from "./checks/apprenticeMissionCoverage";
 import { checkApprenticeMechronisLinkCoverage } from "./checks/apprenticeMechronisLinkCoverage";
+import { checkApprenticeWardenCoverage } from "./checks/apprenticeWardenCoverage";
 
 export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
   // ─── Card engine ──────────────────────────────────────────
@@ -370,6 +371,13 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "12 mentor signatures (one per professor), 4 House archetype-weight tables (non-uniform), 4 narrative-cohort seed bands (in-range), and 12 archetype inheritance hooks (gift + line + breaking-point echo) — 32 declared cells, hard parity.",
     check: () => checkApprenticeMechronisLinkCoverage(),
+  },
+  {
+    id: "apprentice.warden_coverage",
+    name: "Apprentice Warden authoring",
+    description:
+      "Four sub-systems: WARDEN identity, ≥ 4 fully-authored rival recruits, audit cameo modifier across 4 classifications, and a Day-14 purge notice with all three options. Hard parity.",
+    check: () => checkApprenticeWardenCoverage(),
   },
   // ─── World — woven-systems integration (the Two-Ripple Rule) ──
   // Added 2026-05-08 alongside docs/design/INCOMPLETE_DESIGNS_AUDIT

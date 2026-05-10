@@ -46,6 +46,11 @@ import {
   type AuditDay,
 } from "../../shared/apprenticeMechronisAudits";
 import {
+  wardenAuditCameo,
+  buildPurgeNotice,
+  wardenOfferingsForCycle,
+} from "../../shared/apprenticeWarden";
+import {
   DOCTRINES,
   type DoctrineId,
 } from "../../shared/apprenticeDoctrines";
@@ -209,6 +214,34 @@ export const apprenticePedagogyRouter = router({
         return { outcome: existing, replayed: true };
       }
       const apprentice = snapshotToApprentice(input.apprentice);
+
+      // Day-21 cameo: the Warden attends. Compute the modifier in two
+      // steps — first resolve the audit without the cameo to learn the
+      // classification, then re-resolve with the cameo applied. Pure
+      // functions: no side effects between calls.
+      let wardenCameo: Parameters<typeof resolveAudit>[0]["wardenCameo"] = undefined;
+      if (input.auditDay === 21) {
+        const preview = resolveAudit({
+          day: 21,
+          apprentice,
+          doctrineId: input.doctrineId as DoctrineId,
+          bondAtAudit: input.apprentice.bond,
+          corruptionAtAudit: input.apprentice.corruption,
+          architectInfluenceAtAudit: input.architectInfluenceAtAudit,
+          fireInheritedLine: false,
+        });
+        const cameo = wardenAuditCameo({
+          classification: preview.classification,
+          doctrineId: input.doctrineId as DoctrineId,
+          cumulativeArchitectInfluence: input.architectInfluenceAtAudit,
+        });
+        wardenCameo = {
+          influenceDeltaMultiplier: cameo.influenceDeltaMultiplier,
+          bondDeltaMultiplier: cameo.bondDeltaMultiplier,
+          closingLine: cameo.closingLine,
+        };
+      }
+
       const outcome = resolveAudit({
         day: input.auditDay,
         apprentice,
@@ -218,6 +251,7 @@ export const apprenticePedagogyRouter = router({
         architectInfluenceAtAudit: input.architectInfluenceAtAudit,
         fireInheritedLine: input.fireInheritedLine ?? false,
         inheritedLineText: input.inheritedLineText,
+        wardenCameo,
       });
       await recordAuditOutcome({
         userId: ctx.user.id,
@@ -479,4 +513,17 @@ export const apprenticePedagogyRouter = router({
       baseArchitectInfluenceDelta: m.baseArchitectInfluenceDelta,
     }));
   }),
+
+  /* ── WARDEN ── */
+  wardenOfferings: protectedProcedure
+    .input(z.object({ cycle: z.number().int().min(1) }))
+    .query(({ input }) => {
+      return wardenOfferingsForCycle(input.cycle);
+    }),
+
+  wardenPurgeNotice: protectedProcedure
+    .input(z.object({ apprenticeName: z.string().min(1).max(96) }))
+    .query(({ input }) => {
+      return buildPurgeNotice(input.apprenticeName);
+    }),
 });

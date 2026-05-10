@@ -156,6 +156,13 @@ export interface ResolveAuditInput {
   fireInheritedLine: boolean;
   /** Inherited line text, when fireInheritedLine is true. */
   inheritedLineText?: string;
+  /** Day-21 cameo modifier from apprenticeWarden.wardenAuditCameo().
+   *  Caller computes; audits module stays decoupled from Warden. */
+  wardenCameo?: {
+    influenceDeltaMultiplier: number;
+    bondDeltaMultiplier: number;
+    closingLine: string;
+  };
 }
 
 /**
@@ -195,6 +202,16 @@ export function resolveAudit(input: ResolveAuditInput): AuditOutcome {
     ? `\n\n[Inherited line surfaces — the apprentice quotes someone they never met:] "${input.inheritedLineText}"`
     : "";
 
+  // Day-21 cameo: the Warden attends in person. Caller passes the
+  // modifier so audits stays decoupled from apprenticeWarden.
+  let wardenTail = "";
+  if (input.day === 21 && input.wardenCameo) {
+    const cameo = input.wardenCameo;
+    deltas.architectInfluenceDelta = Math.round(deltas.architectInfluenceDelta * cameo.influenceDeltaMultiplier);
+    deltas.bondDelta = Math.round(deltas.bondDelta * cameo.bondDeltaMultiplier);
+    wardenTail = `\n\n[Inspector Veil-7 attends in person.] ${cameo.closingLine}`;
+  }
+
   const publicTranscript = classification === "compliant"
     ? prompt.complianceTemplate
         .replace("[name]", input.apprentice.name)
@@ -202,7 +219,7 @@ export function resolveAudit(input: ResolveAuditInput): AuditOutcome {
         .replace("[n]", "redacted")
     : `Subject ${input.apprentice.name} responded ${classificationVerb(classification)}. Transcript on file. Audit reviewer flagged for follow-up.`;
 
-  const privateTranscript = `${input.apprentice.name}: "${archFlavor.replace("[name]", input.apprentice.name)}"${stanzaTail}${compliantTail}${inheritanceTail}`;
+  const privateTranscript = `${input.apprentice.name}: "${archFlavor.replace("[name]", input.apprentice.name)}"${stanzaTail}${compliantTail}${inheritanceTail}${wardenTail}`;
 
   return {
     day: input.day,
