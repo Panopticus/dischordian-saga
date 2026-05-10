@@ -25,6 +25,41 @@ import {
 import type { ArmyUnit, ArmyDeployment, ArmyUnitType, SectorControl } from "@/contexts/GameContext";
 import { useVexCommissions } from "@/hooks/useVexCommissions";
 import { VexCommissionModal } from "@/components/army/VexCommissionModal";
+import {
+  getMissionLieutenant,
+  type MissionLieutenant,
+} from "@shared/preludeCrewLieutenants";
+
+const LIEUTENANT_ACCENT_CLASSES: Record<MissionLieutenant["accent"], string> = {
+  rose: "border-rose-500/50 bg-rose-950/30 text-rose-100",
+  cyan: "border-cyan-500/50 bg-cyan-950/30 text-cyan-100",
+  violet: "border-violet-500/50 bg-violet-950/30 text-violet-100",
+  red: "border-red-700/60 bg-red-950/30 text-red-100",
+  amber: "border-amber-500/50 bg-amber-950/30 text-amber-100",
+};
+
+function LieutenantPatronCard({ lieutenant }: { lieutenant: MissionLieutenant }) {
+  const accent = LIEUTENANT_ACCENT_CLASSES[lieutenant.accent];
+  return (
+    <div
+      className={`mb-3 rounded-md border p-3 ${accent}`}
+      data-testid={`lieutenant-patron-${lieutenant.id}`}
+    >
+      <div className="flex items-center justify-between gap-2">
+        <p className="font-mono text-[9px] uppercase tracking-[0.25em] opacity-80">
+          Led by {lieutenant.displayName}
+        </p>
+        <p className="font-mono text-[9px] opacity-60">{lieutenant.firstMet}</p>
+      </div>
+      <p className="mt-2 font-serif text-[12px] italic leading-relaxed">
+        {lieutenant.patronBriefing}
+      </p>
+      <p className="mt-2 font-mono text-[10px] opacity-70">
+        {lieutenant.missionFraming}
+      </p>
+    </div>
+  );
+}
 
 /* ═══ CONSTANTS ═══ */
 const UNIT_TYPE_ICONS: Record<string, typeof Shield> = {
@@ -126,6 +161,7 @@ function MissionBriefing({
   const [showBriefing, setShowBriefing] = useState(false);
 
   const elaraText = mission.elaraAssessment.replace("{playerName}", playerName);
+  const lieutenant = getMissionLieutenant(mission.id);
 
   if (completed) {
     return (
@@ -144,6 +180,7 @@ function MissionBriefing({
   if (!showBriefing) {
     return (
       <div className="space-y-3">
+        {lieutenant && <LieutenantPatronCard lieutenant={lieutenant} />}
         <div className="p-4 void-surface">
           <h4 className="font-display text-sm font-bold tracking-wide mb-1">{mission.worldName}</h4>
           <p className="font-mono text-xs text-muted-foreground">{mission.worldDescription}</p>
