@@ -32,6 +32,9 @@ import AchievementUnlockToast from "./components/AchievementUnlockToast";
 import RememberThisToast from "./components/RememberThisToast";
 import FeatureUnlockToast from "./components/FeatureUnlockToast";
 import { SilentUnlockTutorCard } from "./components/SilentUnlockTutorCard";
+import { AntiquarianBridgeOverlay } from "./components/AntiquarianBridgeOverlay";
+import { LockeInboxBridgeOverlay } from "./components/LockeInboxBridgeOverlay";
+import { CampaignObjectiveTracker } from "./components/CampaignObjectiveTracker";
 import HellboxAffordanceToast from "./components/HellboxAffordanceToast";
 import MolGarathAudienceOfferToast from "./components/MolGarathAudienceOfferToast";
 import RecruitAlignmentBadge from "./components/RecruitAlignmentBadge";
@@ -850,6 +853,9 @@ function GameGate() {
       <RememberThisToast />
       <FeatureUnlockToast />
       <SilentUnlockTutorCard />
+      <AntiquarianBridgeOverlay />
+      <LockeInboxBridgeOverlay />
+      <CampaignObjectiveTracker />
       <HellboxAffordanceToast />
       <MolGarathAudienceOfferToast />
       <RecruitAlignmentBadge />
