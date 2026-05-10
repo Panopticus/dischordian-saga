@@ -516,53 +516,128 @@ export default function SongSlideshow({
                 (today: Silence in Heaven dialog interludes), composite
                 it over the background at the speaker's side. The
                 AnimatePresence keyed on dialogSpeakerId crossfades the
-                portrait when the speaker changes between beats. */}
-            <AnimatePresence mode="sync">
-              {frame.portraitSrc && frame.portraitSide && (
-                <motion.img
-                  key={`primary-${frame.dialogSpeakerId ?? frame.portraitSrc}`}
-                  src={frame.portraitSrc}
-                  alt=""
-                  initial={{ opacity: 0, x: frame.portraitSide === "left" ? -16 : 16 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.55, ease: "easeOut" }}
-                  className={
-                    "absolute bottom-0 z-[5] h-[78%] max-h-[78%] w-auto object-contain object-bottom pointer-events-none " +
-                    (frame.portraitSide === "left"
-                      ? "left-0 sm:left-4"
-                      : frame.portraitSide === "right"
-                        ? "right-0 sm:right-4"
-                        : "left-1/2 -translate-x-1/2")
-                  }
-                  style={{ filter: "drop-shadow(0 8px 30px rgba(0,0,0,0.6))" /* void-ignore — pre-existing portrait drop shadow */ }}
-                />
-              )}
-              {/* Secondary portrait — joint-narration beats
-                  (speaker: "both") share the stage with both
-                  narrators on. Stays smaller so the line stays
-                  readable between them. */}
-              {frame.secondaryPortraitSrc && frame.secondaryPortraitSide && (
-                <motion.img
-                  key={`secondary-${frame.dialogSpeakerId ?? frame.secondaryPortraitSrc}`}
-                  src={frame.secondaryPortraitSrc}
-                  alt=""
-                  initial={{ opacity: 0, x: frame.secondaryPortraitSide === "left" ? -16 : 16 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.55, ease: "easeOut", delay: 0.05 }}
-                  className={
-                    "absolute bottom-0 z-[5] h-[72%] max-h-[72%] w-auto object-contain object-bottom pointer-events-none " +
-                    (frame.secondaryPortraitSide === "left"
-                      ? "left-0 sm:left-4"
-                      : frame.secondaryPortraitSide === "right"
-                        ? "right-0 sm:right-4"
-                        : "left-1/2 -translate-x-1/2")
-                  }
-                  style={{ filter: "drop-shadow(0 8px 30px rgba(0,0,0,0.6))" /* void-ignore */ }}
-                />
-              )}
-            </AnimatePresence>
+                portrait when the speaker changes between beats.
+
+                Idle vs speaking: while the dialog text is visible
+                (lyric set + !lyricHidden) the narrator is "delivering"
+                — a slightly stronger breath + a soft head-bob run on
+                the scale + y axes. When the text is hidden the same
+                portrait stays in a quieter "listening" breath. Pure
+                GPU transforms — no per-asset animation needed. */}
+            {(() => {
+              const speaking = Boolean(frame.lyric && !lyricHidden);
+              // Keyframe arrays for the breathing loop. The deeper
+              // (speaking) version moves a little further on both
+              // axes; the listening version is barely-there.
+              const breath = speaking
+                ? { scale: [1, 1.018, 1, 1.014, 1], y: [0, -2, 0, -2.5, 0] }
+                : { scale: [1, 1.008, 1], y: [0, -0.5, 0] };
+              const breathDuration = speaking ? 4.5 : 6.5;
+              return (
+                <AnimatePresence mode="sync">
+                  {frame.portraitSrc && frame.portraitSide && (
+                    <motion.img
+                      key={`primary-${frame.dialogSpeakerId ?? frame.portraitSrc}`}
+                      src={frame.portraitSrc}
+                      alt=""
+                      initial={{
+                        opacity: 0,
+                        x: frame.portraitSide === "left" ? -16 : 16,
+                        scale: 1,
+                        y: 0,
+                      }}
+                      animate={{
+                        opacity: 1,
+                        x: 0,
+                        scale: breath.scale,
+                        y: breath.y,
+                      }}
+                      exit={{ opacity: 0 }}
+                      transition={{
+                        opacity: { duration: 0.55, ease: "easeOut" },
+                        x: { duration: 0.55, ease: "easeOut" },
+                        scale: {
+                          duration: breathDuration,
+                          repeat: Infinity,
+                          ease: "easeInOut",
+                          delay: 0.55,
+                        },
+                        y: {
+                          duration: breathDuration,
+                          repeat: Infinity,
+                          ease: "easeInOut",
+                          delay: 0.55,
+                        },
+                      }}
+                      className={
+                        "absolute bottom-0 z-[5] h-[78%] max-h-[78%] w-auto object-contain object-bottom pointer-events-none " +
+                        (frame.portraitSide === "left"
+                          ? "left-0 sm:left-4"
+                          : frame.portraitSide === "right"
+                            ? "right-0 sm:right-4"
+                            : "left-1/2 -translate-x-1/2")
+                      }
+                      style={{
+                        transformOrigin: "50% 100%" /* breathe from the feet so the head moves more than the base */,
+                        filter: "drop-shadow(0 8px 30px rgba(0,0,0,0.6))" /* void-ignore — pre-existing portrait drop shadow */,
+                      }}
+                    />
+                  )}
+                  {/* Secondary portrait — joint-narration beats
+                      (speaker: "both") share the stage with both
+                      narrators on. Same breathing pattern, slightly
+                      out-of-phase so the two don't pulse in lockstep. */}
+                  {frame.secondaryPortraitSrc && frame.secondaryPortraitSide && (
+                    <motion.img
+                      key={`secondary-${frame.dialogSpeakerId ?? frame.secondaryPortraitSrc}`}
+                      src={frame.secondaryPortraitSrc}
+                      alt=""
+                      initial={{
+                        opacity: 0,
+                        x: frame.secondaryPortraitSide === "left" ? -16 : 16,
+                        scale: 1,
+                        y: 0,
+                      }}
+                      animate={{
+                        opacity: 1,
+                        x: 0,
+                        scale: breath.scale,
+                        y: breath.y,
+                      }}
+                      exit={{ opacity: 0 }}
+                      transition={{
+                        opacity: { duration: 0.55, ease: "easeOut", delay: 0.05 },
+                        x: { duration: 0.55, ease: "easeOut", delay: 0.05 },
+                        scale: {
+                          duration: breathDuration + 0.6,
+                          repeat: Infinity,
+                          ease: "easeInOut",
+                          delay: 1.2,
+                        },
+                        y: {
+                          duration: breathDuration + 0.6,
+                          repeat: Infinity,
+                          ease: "easeInOut",
+                          delay: 1.2,
+                        },
+                      }}
+                      className={
+                        "absolute bottom-0 z-[5] h-[72%] max-h-[72%] w-auto object-contain object-bottom pointer-events-none " +
+                        (frame.secondaryPortraitSide === "left"
+                          ? "left-0 sm:left-4"
+                          : frame.secondaryPortraitSide === "right"
+                            ? "right-0 sm:right-4"
+                            : "left-1/2 -translate-x-1/2")
+                      }
+                      style={{
+                        transformOrigin: "50% 100%",
+                        filter: "drop-shadow(0 8px 30px rgba(0,0,0,0.6))" /* void-ignore */,
+                      }}
+                    />
+                  )}
+                </AnimatePresence>
+              );
+            })()}
 
             {/* Lyric / dialog overlay — restyled to read like
                 illuminated scripture rather than a UI caption. Words
