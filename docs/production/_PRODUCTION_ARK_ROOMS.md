@@ -12089,103 +12089,739 @@ streaming_behaviour:
 
 ## A.23 Chaos Forge (Hierarchy alignment) — FULL
 
-**Status: FULL spec (compact).** Cross-ref §2.23.
+**Status: FULL spec.** Cross-ref `INCEPTION_ARK_FINAL_PRODUCTION.md`
+§2.23 (art-state prompts).
 
 ### A.23.1 Header
 
 ```
 space_id:        ark.chaos_forge
 space_name:      Chaos Forge (D9 Hierarchy alignment)
-space_type:      ark_room
-act_introduced:  Act 5
-lore_anchor:     loredex.faction.hierarchy + arc.chaos_forge_rituals + arc.act_5_first_chaos_offering
-aesthetic_tier:  hierarchy_ritual  (Wagnerian baroque, with industrial fire accents)
+space_type:      ark_room  (Hierarchy sub-sanctum; D9-deck)
+act_introduced:  Act 5 (Hierarchy-aligned only)
+lore_anchor:     loredex.faction.hierarchy + arc.chaos_forge_rituals + arc.act_5_first_chaos_offering + arc.hierarchy_chaos_doctrine
+aesthetic_tier:  hierarchy_ritual  (Wagnerian baroque + industrial fire — the contradiction is intentional)
 ```
 
 ### A.23.2 Geometry
 
 ```
 dimensions:           11.00 m × 11.00 m × 7.00 m
-origin_point:         centre of floor at south entrance
-coordinate_axes:      +x = right, +y = forward, +z = up
-floor_plan_geometry:  rectangular  (with central chaos-forge fire on raised brass dais)
-volumetric_anomalies: heat-shimmer + ritual-energy distortion above forge during active rituals
+origin_point:         centre of floor at south entrance threshold
+coordinate_axes:      +x = right, +y = forward (north), +z = up
+floor_plan_geometry:  rectangular  (with central chaos-forge fire on raised brass dais; chimney rises through ceiling)
+volumetric_anomalies: heat-shimmer + ritual-energy distortion above forge during active rituals; subtle volumetric warping during chaos invocations
 ```
 
-The Chaos Forge is the Hierarchy faction's deeper ritual chamber.
-Combines Wagnerian-baroque cathedral atmosphere with industrial
-forge — the contradiction is the point. Central forge-fire on a
-0.40 m raised brass dais. Three offering altars at 120° intervals
-around forge. Three censers between offering altars.
+The Chaos Forge is the Hierarchy faction's deeper ritual chamber
+— accessible only to Hierarchy-aligned players from Act 5+. The
+room combines Wagnerian-baroque cathedral atmosphere with raw
+industrial forge: charcoal stone walls + cast-iron grating floor
++ central fire on a raised brass dais. The contradiction is the
+point — Hierarchy doctrine teaches that order emerges from chaos
+through ritual sacrifice. Three offering altars at 120° intervals
+around the central forge. Three censers between altars. Six
+chandeliers hang from the vaulted ceiling. The chimney pierces
+the ceiling at room centre, drawing forge-smoke upward.
 
 Floor area: 121 m².
 
-### A.23.3-8 Compact
+### A.23.3 Floor
 
 ```
-floor: cast-iron grating with anti-slag treatment + dark marble inlay around forge dais; bronze inlay forming triple-axis (3-arm star) for offering alignment
-walls:
-  south: charcoal stone-clad with carved Hierarchy reliefs; bronze dado; south.door.main pressure_seal connects to ark.hierarchy_throne (sub-chamber); plaque "FORGE THE OFFERING"
-  east: stone-clad with deep alcove for ritual robes (1 large alcove); bronze candle stand
-  north: apsidal stone-clad with central recess for THE CHAOS-EMBLEM (cast-bronze relief; 1.40×0.40×0.10); banner "CHAOS IS THE WAY"
-  west: stone-clad with deep alcove for ritual tools; bronze candle stand
-ceiling: 7.00 m baseline; central chimney rises through ceiling at z=7.00; 6 hanging chandeliers at z=5.50 (warm amber)
-lighting:
-  ambient_baseline: 2200 K very warm; 100 lux (intentionally dim — ritual); CRI 78
-  chaos_forge_glow: variable (orange-red baseline; intensifies to white-hot during rituals); 12000 lumens variable
-  6_chandeliers: 3000 lumens each warm amber pulse with chants
-  altar_glow.<n>×3: 1500 lumens each warm-amber per altar
-  censer_smoke_emitters.<n>×3: continuous incense; smoke rises through chimney
-atmosphere: 30°C very warm during active forge / 38% RH / smells of incense + hot iron + ozone + faint blood (ritual)
-sound:
-  ambient_bed: -28 dB; deep forge-roar continuous; chants distant; censer-burn crackles
-  point_sources: forge_roar; chimney_draft; chant_distant; bell_toll period 30s
-  reverb_zone: chaos_forge_v1.wav wet 32% (cathedral-industrial)
-  music_eligibility: cutscene only (Hierarchy-arc ritual cutscenes)
-  voice_line: hierarchy_priest_chaos (named NPC); chant_voices_distant (Acts 5+)
+material_primary:     cast-iron grating with anti-slag heat-resistant coating; 1.00 m × 1.00 m panels with 50 mm × 5 mm slot pattern; allows ember-drift management
+material_secondary:   dark marble inlay around forge dais (3.00 × 3.00 m square; deeper colour than gratings); bronze inlay forming a triple-axis (3-arm star) at 120° intervals from forge centre, aligning with the three offering altars
+pattern:              cast-iron grating + central marble dais + 3-arm star bronze inlay
+wear_state:           well-used; scorch-marks accumulate around forge; oil + slag stains visible; ember-burn marks at the 3 altar approach paths
+embedded_features:
+  - id: ark.chaos_forge.floor.charge_point.central_forge
+    position: (0.00, 5.50, 0.00)  # under forge centre
+    dimensions: 0.40 × 0.40 × 0.05
+    function: forge ignition + ritual-energy power
+  - id: ark.chaos_forge.floor.slag_drain.east, .west, .north  (3 drains)
+    position: (4.50, 5.50, 0.00), (-4.50, 5.50, 0.00), (0.00, 9.00, 0.00)
+    dimensions: 0.40 × 0.40 × 0.10 each
+    function: molten-slag drainage during forge active states
+  - id: ark.chaos_forge.floor.altar_anchor.<n>  (3 altar anchors at 120° intervals; radius 3.50 m from forge)
+    position: per altar (north, southeast, southwest)
+    dimensions: 0.30 × 0.30 × 0.05 each
+    function: altar electronics + offering-burn power
+  - id: ark.chaos_forge.floor.censer_anchor.<n>  (3 censer anchors at 60° intervals between altars)
+    position: per censer
+    dimensions: 0.20 × 0.20 × 0.05 each
+    function: censer-flame power
+acoustic_property:    hard_reflective with industrial echo + cathedral-resonance overlay; RT60 = 0.65s (long industrial-cathedral)
 ```
 
-### A.23.9 Object inventory (compact)
+### A.23.4 Walls
+
+#### Wall: South (entrance)
+
+```
+wall_id:              south
+material_primary:     charcoal stone-clad (matches Hierarchy Throne aesthetic) with carved Hierarchy-faction reliefs at z = 1.20 to 4.00 (figures + script)
+material_secondary:   bronze dado at z = 1.20 m, 80 mm tall, ornately cast
+panelisation:         standard with stone-relief integration
+colour_value:         --token-color-ark-chaos-forge-wall-south  (deep charcoal with bronze pin-stripe + heat-residue patina at z = 2.00 m)
+embedded_displays:
+  - id: ark.chaos_forge.south.display.ritual_status
+    position: (-2.50, 0.20, 1.80)
+    dimensions: 1.20 × 0.80 × 0.05
+    content: current ritual schedule + recent offerings log
+  - id: ark.chaos_forge.south.display.offering_register
+    position: (2.50, 0.20, 1.80)
+    dimensions: 1.20 × 0.80 × 0.05
+    content: registry of player's chaos-offerings made
+embedded_doors:
+  - door_id: ark.chaos_forge.south.door.main
+    position: (0.00, 0.00, 0.00)
+    dimensions: 1.40 × 2.40 × 0.10
+    door_class: pressure_seal  (heat-isolation + faction-token authentication)
+    connecting_space_id: ark.hierarchy_throne  (sub-chamber of Hierarchy Throne; accessed through the Throne's east aspect)
+    unlock_condition: Act 5+ Hierarchy-aligned
+decorative_features:
+  - id: ark.chaos_forge.south.plaque.creed
+    position: (0.00, 0.20, 3.20)
+    dimensions: 1.00 × 0.40 × 0.02
+    material: cast bronze with deep-etched text + heat-anodised colouring (the bronze has been forge-tempered)
+    narrative_role: reads "FORGE THE OFFERING / FORGE THE WORLD" — Chaos Forge creed
+  - id: ark.chaos_forge.south.relief.chaos_doctrine
+    position: (0.00, 0.20, 4.50)
+    dimensions: 4.00 × 0.40 × 0.10
+    material: cast bronze with high-relief carving
+    narrative_role: depicts the chaos-doctrine canon — figures emerging from flame
+  - id: ark.chaos_forge.south.warning_sign.high_heat
+    position: (4.50, 0.20, 3.50)
+    dimensions: 0.40 × 0.30 × 0.01
+    material: yellow-and-black painted steel
+    narrative_role: high-temperature warning
+```
+
+#### Wall: East (ritual robes alcove + censer)
+
+```
+wall_id:              east
+material_primary:     stone-clad with deep alcove (mirrored from west) for ritual robes
+material_secondary:   bronze dado; bronze altar-anchor for east censer
+panelisation:         alcove + standard wall
+colour_value:         --token-color-ark-chaos-forge-wall-east
+embedded_displays:    none
+embedded_doors:        none
+decorative_features:
+  - id: ark.chaos_forge.east.alcove.robes
+    position: (4.95, 5.50, 0.00)
+    dimensions: 1.20 × 0.80 × 3.50 (deep alcove)
+    material: charcoal stone backplane + bronze hanging-rods
+    narrative_role: holds 6 ritual robes (one per Hierarchy ritual category — confession, dedication, sacrifice, supplication, exaltation, lamentation); player can equip
+  - id: ark.chaos_forge.east.candle_stand.south_of_alcove
+    position: (4.95, 1.50, 0.00)
+    dimensions: 0.30 × 0.30 × 0.40
+    material: cast bronze with 3-candle holder
+    narrative_role: paired bronze candle stand for ritual-prep
+```
+
+#### Wall: North (apsidal — chaos emblem + banner)
+
+```
+wall_id:              north_apsidal
+material_primary:     stone-clad apse (curved); central recess holds THE CHAOS EMBLEM (cast-bronze relief; 1.40 × 0.40 × 0.10)
+material_secondary:   bronze dado around apse base; bronze rib detail above
+panelisation:         apsidal — single curved surface
+colour_value:         --token-color-ark-chaos-forge-wall-apse  (warmer charcoal; reflects forge-light)
+embedded_displays:    none (the emblem is the visual focus)
+embedded_doors:        none
+decorative_features:
+  - id: ark.chaos_forge.north.relief.chaos_emblem
+    position: (0.00, 10.95, 4.00)
+    dimensions: 1.40 × 0.40 × 0.10
+    material: cast bronze with heat-anodised gilt highlights
+    narrative_role: THE chaos emblem; depicts a stylised flame within a circle (chaos contained by ritual)
+  - id: ark.chaos_forge.north.banner
+    position: (0.00, 10.85, 6.00)
+    dimensions: 1.00 × 0.05 × 1.50
+    material: deep crimson velvet with gold-thread embroidery; bronze hanging-rod
+    narrative_role: reads "CHAOS IS THE WAY" — the room's primary motto
+  - id: ark.chaos_forge.north.altar.offering
+    position: (0.00, 9.00, 0.00)  # north altar (closest to apse)
+    dimensions: 0.80 × 0.80 × 0.95
+    material: polished black granite with inlaid gold cross + gold-leaf rim
+    narrative_role: north offering altar (largest of 3); ritual focal point for chaos-offerings
+```
+
+#### Wall: West (ritual tools alcove + censer)
+
+Mirror of east.
+
+```
+wall_id:              west
+material_primary:     same as east
+material_secondary:   bronze dado
+panelisation:         alcove + standard wall
+colour_value:         --token-color-ark-chaos-forge-wall-west
+embedded_displays:    none
+embedded_doors:        none
+decorative_features:
+  - id: ark.chaos_forge.west.alcove.tools
+    position: (-4.95, 5.50, 0.00)
+    dimensions: 1.20 × 0.80 × 3.50
+    material: charcoal stone backplane + bronze tool-mounts
+    narrative_role: holds 8 ritual tools (chains, brand, censer-tongs, sacred bell, ritual blade, libation cup, sealing wax, prayer beads); gameplay-key for advanced rituals
+  - id: ark.chaos_forge.west.candle_stand.south_of_alcove
+    position: (-4.95, 1.50, 0.00)
+    dimensions: 0.30 × 0.30 × 0.40
+    material: cast bronze with 3-candle holder
+    narrative_role: mirror of east candle stand
+```
+
+### A.23.5 Ceiling
+
+```
+height_above_floor:     7.00 m baseline; central chimney rises through ceiling at z = 7.00 (chimney visible up to z = 14.00 when looking up)
+material:               vaulted stone with bronze rib detailing; central chimney is cast-iron
+lighting_integrated:    6 hanging chandeliers at z = 5.50 in a hexagonal pattern around the chimney (warm amber); central chimney has internal heat-glow (visible from below)
+atmospheric_features:   visible heat-shimmer rising from forge through chimney; smoke-haze pools at vault apex during active rituals
+acoustic_treatment:     coffered + apsidal echo at rear; supports chant-voice resonance
+```
+
+### A.23.6 Lighting
+
+```
+ambient_baseline:     2200 K (very warm; firelight + candle-tone); 100 lux at floor (intentionally dim — ritual atmosphere); CRI 78 (low; supports warm ritual palette)
+direct_fixtures:
+  - id: ark.chaos_forge.light.chaos_forge_glow
+    position: (0.00, 5.50, 0.50)  # at forge centre
+    beam_angle: 360° (radial)
+    colour: --token-color-ark-chaos-forge-forge-glow  (orange-red baseline; intensifies to white-hot during active rituals)
+    intensity: 12000 lumens (variable; baseline 6000; ritual peak 16000)
+    function: principal — the forge IS the room's primary visual element
+  - id: ark.chaos_forge.light.chandelier.<n>  (6 hanging chandeliers in hexagonal arrangement around chimney)
+    position: hex pattern at z = 5.50; positions per 60° around (0.00, 5.50, 5.50)
+    beam_angle: 270° (downward + lateral)
+    colour: --token-color-ark-chaos-forge-chandelier  (warm amber)
+    intensity: 3000 lumens each (pulses with distant chants; period varies)
+    function: ambient + ritual atmosphere
+  - id: ark.chaos_forge.light.altar_glow.<n>  (3 altar uplights)
+    position: at base of each altar
+    beam_angle: 30° upward
+    colour: --token-color-ark-chaos-forge-altar-glow  (warm amber-gold)
+    intensity: 1500 lumens each
+    function: dramatic altar illumination
+  - id: ark.chaos_forge.light.chimney_internal_glow
+    position: (0.00, 5.50, 7.00)  # chimney interior
+    intensity: 2000 lumens (visible from below; varies with forge state)
+    flicker_pattern: matches forge rhythm
+practical_sources:
+  - id: ark.chaos_forge.censer_smoke_emitter.<n>  (3 censers; one per 60° between altars)
+    position: per censer
+    intensity: 100 lumens (when burning; warm amber)
+    flicker_pattern: organic flame + smoke emission
+  - id: ark.chaos_forge.candle_stand.<east|west>.flames
+    position: per candle in stand
+    intensity: 50 lumens each (3 candles per stand × 2 stands)
+    flicker_pattern: organic
+time_of_day_variation:
+  acts_5_to_7: stable warm baseline; in late-act7, if player has been deeply Hierarchy-aligned, all flames glow brighter + chandeliers pulse in deep harmonic; if not, only minimal forge-glow
+dynamic_response:
+  - on_player_at_forge: forge glow intensifies 30%; ambient warms to 2400 K; ritual-shimmer activates
+  - on_offering_placed: relevant altar glow flares + forge consumes offering with white-hot flash + brief volumetric energy distortion
+  - on_chaos_invocation: deep low rumble + forge rises to white-hot + chimney glow intensifies
+```
+
+### A.23.7 Atmosphere
+
+```
+air_temperature:    30°C very warm during active forge (rises to 38°C during major rituals); 24°C baseline
+humidity:           38% RH; smells of incense (frankincense + myrrh + something darker — ritual-specific) + hot iron + ozone + faint blood (canonical ritual residue) + warm bronze
+particulate:
+  - type: incense_smoke
+    density: high (continuous from 3 censers; visible plumes rising through chimney)
+    colour: pale grey-blue with amber underglow
+    drift_direction: rises rapidly through chimney
+  - type: forge_smoke
+    density: medium during active forge; low baseline
+    colour: dark grey
+    drift_direction: rises through chimney
+  - type: ember
+    density: low (cosmetic; sparks from forge during active states)
+    colour: bright orange (lifetime <0.5s)
+    drift_direction: random spray upward
+  - type: ritual_energy_motes
+    density: state-conditional (during chaos invocations)
+    colour: gold-amber with red flecks
+    drift_direction: spirals upward
+volumetric_fog:     present during rituals (0.20 g/m³, warm-amber); dissipates between rituals
+wind_drift:         strong upward draft toward chimney; 0.80 m/s convection
+smell_canon:        incense + hot iron + ozone + blood + bronze; voice-line: "smells like the world's beginning, again"
+```
+
+### A.23.8 Sound
+
+```
+ambient_bed:           file: chaos_forge_ambient_bed_v1.ogg (loop); -28 dB; deep forge-roar continuous, distant chants (faint), censer-burn crackles, occasional metallic creak from cooling pieces, bell-toll period 30s
+point_sources:
+  - id: ark.chaos_forge.sound.forge_roar
+    position: (0.00, 5.50, 0.50)
+    sound: deep fire-roar (continuous, -22 dB; rises during rituals)
+    occlusion_behaviour: omnidirectional
+    trigger: continuous (active state)
+  - id: ark.chaos_forge.sound.chimney_draft
+    position: (0.00, 5.50, 5.50)
+    sound: continuous draft-pull (-30 dB)
+    occlusion_behaviour: omnidirectional
+    trigger: continuous
+  - id: ark.chaos_forge.sound.distant_chants
+    position: (0.00, 10.95, 4.00)  # from beyond apse
+    sound: faint Hierarchy-faction chants (Latin proto-language; -34 dB)
+    occlusion_behaviour: omnidirectional with bias toward apse
+    trigger: continuous (cycles through ritual hours)
+  - id: ark.chaos_forge.sound.bell_toll
+    position: (0.00, 10.95, 6.50)
+    sound: deep bell-toll (period 30s; -32 dB per toll)
+    occlusion_behaviour: omnidirectional
+    trigger: cyclic
+  - id: ark.chaos_forge.sound.censer_burn.<n>  (3 censers)
+    position: per censer
+    sound: incense-burn crackle (continuous, -36 dB each)
+    occlusion_behaviour: standard
+    trigger: continuous (when burning)
+  - id: ark.chaos_forge.sound.altar_offering_consumption
+    position: per altar (state-conditional)
+    sound: brief intense flame-roar (during offering consumption; -18 dB)
+    occlusion_behaviour: standard
+    trigger: state-conditional (per offering)
+  - id: ark.chaos_forge.sound.priest_breath
+    position: (0.00, 8.00, 1.40)  # at priest anchor
+    sound: very faint slow breath (when priest present; -42 dB)
+    occlusion_behaviour: omnidirectional
+    trigger: state-conditional
+reverb_zone:           IR-impulse: chaos_forge_v1.wav; wet-mix 32% (cathedral-industrial)
+music_eligibility:     cutscene only (Hierarchy-arc ritual cutscenes; deferred catalogue)
+voice_line_eligibility:
+  - speaker: hierarchy_priest_chaos (named NPC; primary occupant Acts 5+): line set §2.23.2
+  - speaker: chant_voices_distant (continuous ambient): proto-Latin Hierarchy chants
+```
+
+### A.23.9 Object inventory
+
+Chaos Forge has 30 inventory objects.
+
+#### A.23.9.1 The Central Chaos-Forge Fire
+
+```
+object_id:           ark.chaos_forge.central_forge
+object_class:        interactive  (also fx_emitter — primary heat + light)
+position:            (0.00, 5.50, 0.40)  # on raised brass dais
+dimensions:          1.80 × 1.80 × 1.40 (forge body + dais; chimney rises above)
+rotation:            0°
+material_primary:    cast-iron forge body with brass dais (raised 0.40 m); firebrick interior; bronze regulating valves at sides
+material_secondary:  bronze sigil-engraved rim (Hierarchy chaos-doctrine glyphs); bronze chain (decorative; 4 chains hang from dais)
+colour_value:        --token-color-ark-chaos-forge-forge-iron
+interaction:         interactable
+  - operate: opens chaos-ritual UI (player initiates ritual; chooses category — confession / sacrifice / dedication / etc.)
+  - inspect: lore-note about forge's history (canonical pre-Ark sacred artifact; the same forge that hosted Hierarchy founding-rituals)
+narrative_role:      THE forge; central focal point; cosmologically the heart of the Hierarchy chaos-doctrine; player offerings consumed here
+lore_anchor:         loredex.faction.hierarchy + arc.chaos_forge_rituals
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.chaos_forge.forge.operate
+wear_state:          well-used; soot-blackened; brass valves polished from use; centuries of patina
+physical_constraints: collides; player can lean on dais (cosmetic)
+```
+
+#### A.23.9.2-4 Three Offering Altars (at 120° intervals around forge)
+
+```
+object_id:           ark.chaos_forge.altar.<n>  (3 altars: north, southeast, southwest)
+positions:           [
+  (0.00, 9.00, 0.00),                  # north altar (apse-aligned; largest)
+  (3.03, 4.00, 0.00),                  # SE altar
+  (-3.03, 4.00, 0.00),                 # SW altar
+]
+dimensions (each):   0.80 × 0.80 × 0.95
+rotation (each):     varies (faces forge centre)
+material_primary:    polished black granite with gold-leaf rim; gold-cross inlay top
+material_secondary:  cast-bronze altar-cloth holder; cast-bronze candle-stand at corners
+colour_value:        --token-color-ark-chaos-forge-altar-granite
+interaction:         interactable
+  - place_offering: player commits an offering (item from inventory); offering is consumed by forge with brief intense flame
+  - inspect: lore-note about altar (each is dedicated to a different aspect — sacrifice / mercy / authority)
+narrative_role:      ritual offering surfaces; player commits to Hierarchy chaos-doctrine here
+lore_anchor:         arc.chaos_forge_rituals + arc.act_5_first_chaos_offering
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.chaos_forge.altar.placeOffering
+wear_state:          worn at the centre of each altar-top; gold-cross slightly polished
+physical_constraints: collides
+```
+
+#### A.23.9.5-7 Three Censers (at 60° intervals between altars)
+
+```
+object_id:           ark.chaos_forge.censer.<n>  (3 censers)
+positions:           [
+  (1.75, 6.50, 0.00),                  # north-east censer
+  (-1.75, 6.50, 0.00),                 # north-west censer
+  (0.00, 3.00, 0.00),                  # south censer
+]
+dimensions (each):   0.40 × 0.40 × 1.40
+rotation:            0°
+material_primary:    cast bronze with hanging chains and decorative perforations; firebox interior
+material_secondary:  bronze base; brass burner-bowl
+colour_value:        --token-color-ark-chaos-forge-censer-bronze
+interaction:         interactable
+  - inspect: lore-note about each censer (carries different proto-Latin meditation)
+  - rekindle: if censer has gone out, player can rekindle (gameplay-active in late-act if reactor degradation has affected sacred space)
+narrative_role:      ritual incense; visually + olfactorily anchors the room's atmosphere; smoke rises through chimney
+lore_anchor:         loredex.aesthetic.hierarchy_ritual
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.chaos_forge.censer.rekindle
+wear_state:          slight wear; soot-patinated
+physical_constraints: collides
+```
+
+#### A.23.9.8 The Hierarchy Priest's Anchor (NPC anchor)
+
+```
+object_id:           ark.chaos_forge.priest_anchor
+object_class:        npc_anchor
+position:            (0.00, 8.00, 0.00)  # north of forge, between forge and north altar
+dimensions:          0.80 × 0.80 × 1.80 (anchor)
+rotation:            varies (NPC pose-driven)
+material_primary:    n/a
+material_secondary:  n/a
+colour_value:        n/a
+interaction:         n/a (NPC presence)
+narrative_role:      Hierarchy Priest of Chaos (named NPC; rare physical presence) anchors here during major rituals
+lore_anchor:         loredex.character.hierarchy_priest_chaos
+art_status:          producer_handoff
+gameplay_hook_id:    none (presence-driven)
+wear_state:          n/a
+physical_constraints: n/a (NPC overrides)
+```
+
+#### A.23.9.9 East Alcove — Ritual Robes Cabinet
+
+```
+object_id:           ark.chaos_forge.east.alcove.robes
+object_class:        container
+position:            (4.95, 5.50, 0.00)
+dimensions:          1.20 × 0.80 × 3.50 (deep alcove)
+rotation:            270°
+material_primary:    charcoal stone backplane + bronze hanging-rods + brass nameplate
+material_secondary:  6 ritual robes hanging (one per ritual category)
+colour_value:        --token-color-ark-chaos-forge-alcove
+interaction:         interactable
+  - take_robe: player can equip ritual robe (per-category)
+  - inspect: lore-note per robe
+narrative_role:      ritual attire; required for advanced rituals
+lore_anchor:         loredex.system.hierarchy_ritual_robes
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.chaos_forge.alcove.east.takeRobe
+wear_state:          slight wear at most-used robe positions
+physical_constraints: collides
+```
+
+#### A.23.9.10 West Alcove — Ritual Tools Cabinet
+
+```
+object_id:           ark.chaos_forge.west.alcove.tools
+object_class:        container
+position:            (-4.95, 5.50, 0.00)
+dimensions:          1.20 × 0.80 × 3.50
+rotation:            90°
+material_primary:    charcoal stone backplane + bronze tool-mounts
+material_secondary:  8 ritual tools (chains, brand, censer-tongs, sacred bell, ritual blade, libation cup, sealing wax, prayer beads); bronze nameplates per tool
+colour_value:        --token-color-ark-chaos-forge-alcove
+interaction:         interactable
+  - take_tool: player can equip ritual tool (gameplay-key for advanced rituals)
+  - inspect: lore-note per tool
+narrative_role:      ritual implements
+lore_anchor:         loredex.system.hierarchy_ritual_tools
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.chaos_forge.alcove.west.takeTool
+wear_state:          slight wear at most-used tools
+physical_constraints: collides
+```
+
+#### A.23.9.11-12 Two Bronze Candle Stands (east + west, south of alcoves)
+
+```
+object_id:           ark.chaos_forge.candle_stand.east, .west
+object_class:        decoration  (also fx_emitter — flames)
+positions:           (4.95, 1.50, 0.00), (-4.95, 1.50, 0.00)
+dimensions (each):   0.30 × 0.30 × 0.40 (stand) + flames above
+rotation:            varies
+material_primary:    cast bronze stand
+material_secondary:  3 ivory wax candles per stand
+colour_value:        --token-color-ark-chaos-forge-candle-stand
+interaction:         interactable
+  - light_candles: light all 3 candles (one-shot per stand)
+  - extinguish: extinguish
+  - inspect: lore-note
+narrative_role:      ritual candle-prep; symbolic of incoming ritual
+lore_anchor:         loredex.aesthetic.hierarchy_ritual
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.chaos_forge.candle_stand.toggle
+wear_state:          slight wear at base
+physical_constraints: collides
+```
+
+#### A.23.9.13 The Chaos Emblem Relief (north apse)
+
+Specced in walls A.23.4. Inventoried for completeness.
+
+```
+object_id:           ark.chaos_forge.north.relief.chaos_emblem
+object_class:        decoration
+position:            (0.00, 10.95, 4.00)
+dimensions:          1.40 × 0.40 × 0.10
+rotation:            180°
+material_primary:    cast bronze with heat-anodised gilt highlights
+material_secondary:  none
+colour_value:        --token-color-ark-chaos-forge-emblem-bronze
+interaction:         inspectable
+  - inspect: opens multi-screen lore about chaos-doctrine (3 screens)
+narrative_role:      THE chaos emblem; visible from forge; sub-cosmology anchor
+lore_anchor:         arc.hierarchy_chaos_doctrine
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.chaos_forge.emblem.read
+wear_state:          slight patina
+physical_constraints: non-collide (at height)
+```
+
+#### A.23.9.14 The North Banner
+
+```
+object_id:           ark.chaos_forge.north.banner
+object_class:        decoration
+position:            (0.00, 10.85, 6.00)
+dimensions:          1.00 × 0.05 × 1.50
+rotation:            180°
+material_primary:    deep crimson velvet with gold-thread embroidery
+material_secondary:  bronze hanging-rod
+colour_value:        --token-color-ark-chaos-forge-banner-crimson
+interaction:         inspectable
+  - inspect: reads embroidery — "CHAOS IS THE WAY"
+narrative_role:      faction motto; visible from anywhere
+lore_anchor:         loredex.faction.hierarchy
+art_status:          producer_handoff
+gameplay_hook_id:    none
+wear_state:          slight fading at edges
+physical_constraints: non-collide (suspended)
+```
+
+#### A.23.9.15-20 Six Hanging Chandeliers
+
+```
+object_id:           ark.chaos_forge.chandelier.<n>  (6 chandeliers in hexagonal arrangement around chimney)
+positions:           hex pattern at z = 5.50 around chimney centre at radius 2.20 m (per 60° interval)
+dimensions (each):   0.80 × 0.80 × 1.20 (cluster)
+rotation:            varies
+material_primary:    cast bronze with hanging-chain
+material_secondary:  amber-tinted glass shades; brass candle-cups (decorative; LED-simulated flames)
+colour_value:        --token-color-ark-chaos-forge-chandelier
+interaction:         inert
+narrative_role:      principal cathedral-style ambient lighting; pulses with distant chants
+lore_anchor:         loredex.aesthetic.hierarchy_ritual
+art_status:          producer_handoff
+gameplay_hook_id:    none
+wear_state:          slight patina
+physical_constraints: non-collide (suspended)
+```
+
+#### A.23.9.21-25 Chimney + Slag Drains + Atmosphere
 
 | object_id | class | position | dim | role |
 |---|---|---|---|---|
-| `ark.chaos_forge.central_forge` | interactive+fx_emitter | (0.00, 5.50, 0.40) on dais | 1.80×1.80×1.40 | THE chaos-forge fire |
-| `ark.chaos_forge.altar.<n>` (3) | interactive | 120° around forge; radius 3.5 m | 0.80×0.80×0.95 each | offering altars |
-| `ark.chaos_forge.censer.<n>` (3) | fx_emitter | between altars; 60° from each | 0.40×0.40×1.40 each | ritual incense |
-| `ark.chaos_forge.priest_anchor` | npc_anchor | (0.00, 8.00, 0.00) | 0.8×0.8×1.8 | ritual priest |
-| `ark.chaos_forge.east.alcove.robes` | container | (4.95, 5.50, 0.00) | 1.2×0.8×3.5 | ritual robes |
-| `ark.chaos_forge.west.alcove.tools` | container | (-4.95, 5.50, 0.00) | mirror | ritual tools |
-| `ark.chaos_forge.north.relief.chaos_emblem` | decoration | (0.00, 10.95, 4.00) | 1.4×0.4×0.10 | chaos-emblem relief |
-| `ark.chaos_forge.banner.north` | decoration | (0.00, 10.85, 6.50) | 1.0×0.05×1.5 | "CHAOS IS THE WAY" |
-| `ark.chaos_forge.south.intercom` | console | (-1.5, 0.2, 1.5) | 0.2×0.1×0.3 | comms |
-| `ark.chaos_forge.fire_extinguisher` | interactive | (1.5, 0.2, 1.2) | 0.2×0.2×0.5 | safety |
-| `ark.chaos_forge.first_aid` | container | (-2.5, 0.2, 1.5) | 0.4×0.1×0.3 | medical |
-| `ark.chaos_forge.south.plaque.creed` | decoration | (0.00, 0.20, 3.20) | 0.8×0.3×0.02 | "FORGE THE OFFERING" |
-| `ark.chaos_forge.compass_inlay` | decoration | (0.00, 5.50, 0.005) | 1.4×1.4×0.005 | triple-axis star |
+| `ark.chaos_forge.chimney_internal` | fx_emitter | (0.00, 5.50, 7.00) | 1.20 dia × 7.00 m height | chimney shaft (visible upward; internal heat-glow emitter) |
+| `ark.chaos_forge.slag_drain.east` (rolled floor) | decoration | (4.50, 5.50, 0.00) | 0.40 × 0.40 × 0.10 | bronze grate over slag drain |
+| `ark.chaos_forge.slag_drain.west` (rolled floor) | decoration | (-4.50, 5.50, 0.00) | mirror | bronze grate |
+| `ark.chaos_forge.slag_drain.north` (rolled floor) | decoration | (0.00, 9.00, 0.00) | 0.40 × 0.40 × 0.10 | bronze grate |
+| `ark.chaos_forge.ritual_energy_emitter` | fx_emitter | suspended at z = 6.00 above forge | n/a (volumetric) | ritual-energy distortion source during invocations |
 
-Total: 22 inventory objects.
+#### A.23.9.26-30 Closing Items + Decorative
 
-### A.23.10-17 Compact
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.chaos_forge.south.intercom` | console | (-1.50, 0.20, 1.50) | 0.20 × 0.10 × 0.30 | comms relay |
+| `ark.chaos_forge.fire_extinguisher.south` | interactive | (1.50, 0.20, 1.20) | 0.20 × 0.20 × 0.50 | safety |
+| `ark.chaos_forge.first_aid.kit.south` | container | (-2.50, 0.20, 1.50) | 0.40 × 0.10 × 0.30 | medical |
+| `ark.chaos_forge.south.plaque.creed` (rolled walls) | decoration | (0.00, 0.20, 3.20) | 1.00 × 0.40 × 0.02 | "FORGE THE OFFERING / FORGE THE WORLD" |
+| `ark.chaos_forge.compass_inlay.triple_axis` | decoration | (0.00, 5.50, 0.005) | 1.40 × 1.40 × 0.005 | floor 3-arm star inlay |
+
+Total: 30 inventory objects.
+
+### A.23.10 Camera-spawn-points (FPV cutscenes)
 
 ```
-camera_spawn_points:
-  cs_amb_chaos_forge (Cat B): POV at threshold; slow walk to forge; intense heat-shimmer; 18s
-  cs_first_chaos_offering (Act 5): hand at altar; offering placed; flame consumes; 14s
+cutscene_id:         cs_amb_chaos_forge  (Category B; deferred catalogue)
+camera_position:     (0.00, 0.50, eye_level)  # at threshold
+camera_facing:       (0°, 5°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         very slow walk into intense heat-shimmer; head turns to scan altars; pause; camera locks on chaos-emblem on north apse; lasts 22s
 
-doorways: south.door.main → ark.hierarchy_throne; pressure_seal; Act 5+ Hierarchy-aligned
+cutscene_id:         cs_first_chaos_offering  (Act 5 one-shot Hierarchy-aligned)
+camera_position:     (0.00, 8.00, eye_level)  # at north altar
+camera_facing:       (0°, -25°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         hand enters frame placing offering; flame from forge consumes offering with white-hot flash; camera shake; lasts 14s
 
-adjacency: direct ark.hierarchy_throne (sub-chamber)
-gameplay_hooks: invokeForge, placeOffering, lightCensers, equipRitualRobes
-story_tie: arc.chaos_forge_rituals; arc.act_5_first_chaos_offering; locked Acts 0-4; opens Act 5 Hierarchy-aligned; deepens through Act 7
-npc_roster: hierarchy_priest_chaos (named NPC); chant_voices_distant
-readables: creed plaque; chaos-emblem relief; banner
-master_of_rlyeh_question: n/a (sub-chamber of HB2 host; cosmology inherited)
-special_fx: smoke (medium); ember; ritual-energy distortion above forge; heat-shimmer
-procedural: forge_fire_dance; chandelier_pulse_with_chant; censer_smoke_rise
-reactive: forge_intensify_on_offering; altar_glow_on_proximity
-avatar_parametricity: standard; xenomorph: heat overwhelming
-performance: polygon_budget 240,000 / texture_budget 140 MB / light_count 16
-streaming: preload ark.hierarchy_throne (parent)
+cutscene_id:         cs_chaos_invocation  (state-conditional; major rituals)
+camera_position:     (0.00, 5.50, eye_level)  # at forge
+camera_facing:       (0°, 0°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         locked at forge; deep low rumble; forge rises to white-hot; chimney glow intensifies; ritual-energy distortion visible
+```
+
+### A.23.11 Doorways
+
+```
+door_id:            ark.chaos_forge.south.door.main
+connecting_space_id: ark.hierarchy_throne  (sub-chamber accessed through Throne's east aspect)
+door_position:      (0.00, 0.00, 0.00)
+door_dimensions:    1.40 × 2.40 × 0.10
+door_class:         pressure_seal  (heat-isolation + faction-token authentication)
+unlock_condition:   Act 5+ Hierarchy-aligned only
+transit_animation:  airlock-cycle (3s); brief heat-equalisation
+audio_signature:    pneumatic-hiss + magnetic-clack + heat-warmth-equalisation tone + faint chant-bleed
+```
+
+### A.23.12 Adjacency map
+
+```
+direct_adjacencies:
+  - ark.hierarchy_throne (south door; parent ritual chamber)
+one_hop_adjacencies:
+  - hellbox.castle_of_death (via Hierarchy Throne; HB2 cosmology inherited for Hierarchy-aligned)
+state_shared_with:
+  - ark.hierarchy_throne (faction-alignment state shared)
+  - hellbox.castle_of_death (chaos-offerings tracked across)
+```
+
+### A.23.13 Gameplay hooks
+
+```
+hooks:
+  - hook_id:         chaos_forge.invokeForge
+    trigger:         player.operate on central_forge
+    procedure:       trpc.chaos_forge.forge.operate
+    success_state:   chaos_ritual_active = true
+  - hook_id:         chaos_forge.placeOffering
+    trigger:         player.interact on altar.<n> with offering item
+    procedure:       trpc.chaos_forge.altar.placeOffering
+    success_state:   offering_consumed = true (per-altar; per-offering)
+  - hook_id:         chaos_forge.equipRitualRobe
+    trigger:         player.take on east.alcove.robes
+    procedure:       trpc.chaos_forge.alcove.east.takeRobe
+    success_state:   robe_equipped = true
+  - hook_id:         chaos_forge.equipRitualTool
+    trigger:         player.take on west.alcove.tools
+    procedure:       trpc.chaos_forge.alcove.west.takeTool
+    success_state:   tool_equipped = true
+  - hook_id:         chaos_forge.lightCandles
+    trigger:         player.interact on candle_stand.<wall>
+    procedure:       trpc.chaos_forge.candle_stand.toggle
+    success_state:   candle_state = lit | extinguished (per-stand)
+  - hook_id:         chaos_forge.rekindleCenser
+    trigger:         (state-conditional) player.interact on extinguished censer.<n>
+    procedure:       trpc.chaos_forge.censer.rekindle
+    success_state:   censer_relit = true
+  - hook_id:         chaos_forge.readEmblem
+    trigger:         player.inspect on north.relief.chaos_emblem
+    procedure:       trpc.chaos_forge.emblem.read
+    success_state:   emblem_read = true (lore-flag)
+```
+
+### A.23.14 Story-tie
+
+```
+primary_arcs:
+  - arc.act_5_first_chaos_offering
+  - arc.chaos_forge_rituals (continuous Acts 5-7)
+  - arc.hierarchy_chaos_doctrine
+  - arc.act_6_deep_chaos_invocation (advanced ritual unlock)
+per_act_evolution:
+  acts_0_4: room locked + invisible (sub-chamber of HB2 host; only Hierarchy-aligned players can find it)
+  act_5: room unlocks for Hierarchy-aligned players; first chaos-offering ritual; basic robes + tools accessible
+  act_6: deep-invocation rituals unlock (player can perform major chaos-rituals); chaos-emblem reveals deeper lore
+  act_7: state-branched: chaos-master ending (Hierarchy fully invoked; forge perpetually white-hot; player has performed major rituals) vs. faction-distant ending (forge cold; censers extinguished; sub-chamber barely-touched)
+npc_roster:
+  - the_hierarchy_priest_chaos: named NPC; primary occupant; rare physical presence Acts 5+
+  - the_player: ritual participant
+  - chant_voices_distant: ambient atmosphere only (proto-Latin)
+  - the_master_of_rlyeh: not present here; HB2 cosmology is parent
+readables:
+  - creed plaque (south)
+  - chaos-doctrine relief (south, multi-panel)
+  - chaos-emblem relief (north; deep lore; 3-screen multi-readable)
+  - banner ("CHAOS IS THE WAY")
+  - 6 robe descriptions (per-category)
+  - 8 tool descriptions (per-tool)
+  - 3 altar dedications (per-aspect)
+  - 3 censer meditations (proto-Latin)
+master_of_rlyeh_question: n/a (sub-chamber of HB2 host; cosmology inherited via Hierarchy-aligned player path; "Is mercy a debt, or a gift?")
+```
+
+### A.23.15 Special-FX
+
+```
+particle_systems:
+  - incense_smoke (high during ritual; rises through chimney)
+  - forge_smoke (medium during active forge)
+  - ember (low; sparks from forge during active states)
+  - ritual_energy_motes (state-conditional; gold-amber spirals during invocations)
+  - ash_drift (very low; cosmetic; suggests "sacred residue")
+volumetric_effects:
+  - forge_volumetric_glow (radial from forge fire)
+  - chimney_internal_volumetric_beam (vertical light shaft up through chimney)
+  - heat_shimmer_envelope (above forge; warps light slightly)
+  - ritual_energy_distortion (state-conditional; volumetric warp during invocations)
+  - chandelier_volumetric_aura (warm amber glow per chandelier)
+procedural_animations:
+  - forge_fire_dance (continuous; flame motion; varies with intensity)
+  - chandelier_pulse_with_chants (matches distant chant rhythm)
+  - censer_smoke_rise (continuous emission)
+  - chimney_smoke_ascent (smoke columns visibly rise)
+  - banner_subtle_ripple (faint air convection)
+  - bell_toll_visualisation (subtle pulse radiates from apse during toll)
+reactive_systems:
+  - forge_intensify_on_offering (one-shot per offering)
+  - altar_glow_on_proximity (within 1.5 m, altar gold-cross brightens 20%)
+  - chaos_invocation_one_shot (during major rituals)
+  - chimney_glow_pulse_with_forge (synchronised)
+  - state_branched_warmth_in_act_7 (full rituals = full warmth; neglect = cold)
+```
+
+### A.23.16 Avatar-parametricity
+
+```
+camera_height_variation:
+  small_xenomorph (0.85m eye): camera height 0.85m; forge feels enormous; alternate kneel-at-altar posture
+  short_humanoid (1.40m eye): standard short scale
+  average_humanoid (1.70m eye): standard
+  tall_humanoid (2.05m eye): comfortable; chandeliers at near-head level
+  tall_xenomorph (2.70m eye): chimney at head; alternate route around forge
+reachability:
+  small_xenomorph: cannot reach top of robes alcove; alternate ladder
+  small_xenomorph: cannot reach top of tools alcove; alternate
+  small_xenomorph: cannot reach chaos-emblem inspect-zone; relay-inspect from below
+  others: all-reachable
+audio_occlusion_variation:
+  xenomorph_sensitive_hearing: forge-roar overwhelming during rituals; chants more pronounced
+  synthetic_voice_avatar: heat-effects perceived differently; chant-resonance has different "feel"
+```
+
+### A.23.17 Performance
+
+```
+polygon_budget:      280,000 polygons (rich industrial-cathedral detail; forge fire shader is expensive)
+texture_budget:      170 MB total
+light_count_limit:   18 simultaneous dynamic lights (chandeliers + altar uplights + forge glow)
+lod_plan:
+  - hero_distance: 0-10m, full detail
+  - mid_distance: 10-22m, mid detail (chandeliers simplified to billboards; small decor culled)
+  - low_distance: 22m+, low detail
+streaming_behaviour:
+  - preload: ark.hierarchy_throne (south door; parent room)
+  - on_chaos_invocation: preload destination.castle_of_death (HB2 cross-ref via Hierarchy)
 ```
 
 ---
