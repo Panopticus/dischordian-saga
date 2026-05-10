@@ -165,11 +165,84 @@ const THE_CONVERGENCE_SEAT: Act7OpponentDialog = {
     "[END OF ACT 7]\n[ARC DEFERRED — RETURN WHEN READY]\n\nElara: I'll be here. The ship is warm. The Array is on. Come back when you can.\nHuman: I will be in the wall. I will still be in the wall. I am good at that. Sleep.",
 };
 
+/* ── SCAFFOLD dialog (Phase 8, 2026-05-10) — bible §3.16.
+ *    Voicing: the Dreamer in dual frame (both Elara + Human
+ *    narrate; the Dreamer never claims a frame voice).
+ *    Writer review before ship. */
+const THE_DREAMER_DIALOG: Act7OpponentDialog = {
+  opponentId: "act7_the_dreamer",
+  frameSpeaker: "dual",
+  frameIntro:
+    "Both of us are going to narrate this one. Not because we agree — because the Dreamer is a tableau, and a tableau needs more than one voice to render. We will alternate. Try not to listen for which of us is which.",
+  elaraPreMatch:
+    "My sensors do not have a profile for the Dreamer. They have a place where a profile would go. That place is currently full. I cannot tell you what is in it.",
+  humanPreMatch:
+    "I have been told, by people I trust, that the Dreamer arrives when the community wins enough small kindnesses to make the universe notice. The community has been winning. Play.",
+  opponentMidMatchEarly:
+    "I am the dream you let yourselves have. I came because enough of you wanted me to. Play. I will not remember winning.",
+  opponentMidMatchMid:
+    "That card is one I have not seen played in this combination. The Dreamer notices the combination. The Dreamer does not remember it.",
+  opponentMidMatchLate:
+    "Finish the hand. I will not be here when the hand is finished. That is the point of dreams.",
+  elaraPostMatchWin:
+    "The tableau folded. There is no log entry. There is, however, a softening across the community sensors. I am going to credit you with the softening. You will not be able to point to it later.",
+  humanPostMatchWin:
+    "You played a dream and did not wake it up. That is the only way to play one. Thank you.",
+  elaraPostMatchLoss:
+    "The Dreamer did not win. The Dreamer waited. The match ended without a verdict. We will play again when you have rested.",
+  humanPostMatchLoss:
+    "Dreams do not lose. Dreams pause. The pause is not a loss. Take the pause as instruction.",
+  frameCloseWin:
+    "The Ark's sensors return to ordinary readings. The Dreamer leaves no log. The community, somewhere, registers a softening that nobody can attribute to a specific event. We will keep that quiet on your behalf.",
+  frameCloseLoss:
+    "The dream will be patient. Dreams are. We will set the table again when you are ready, and the Dreamer will arrive, and the match will resume from the place it paused.",
+};
+
+/* ── SCAFFOLD dialog (Phase 9, 2026-05-10) — bible §3.17.
+ *    Voicing: Oracle/Meme dual final form. Voice register
+ *    intentionally OSCILLATES line-by-line between Oracle (high
+ *    register, mythic distance) and Meme (low register, refusing
+ *    distance) to match the bible's "ambiguous final form".
+ *    Writer review before ship: this single dialog block is
+ *    alignment-agnostic; future PR can branch text on
+ *    oracle_alignment vs meme_alignment flags once those are
+ *    defined. */
+const THE_ORACLE_MEME_DIALOG: Act7OpponentDialog = {
+  opponentId: "act7_oracle_meme_final",
+  frameSpeaker: "system",
+  frameIntro:
+    "The face that arrives at the table is the face the previous six acts decided you needed. Neither of us is going to tell you which. Both of us hope you can already see.",
+  elaraPreMatch:
+    "I prepared two briefings. I am going to leave them both on the table, in case the face changes mid-match. Sometimes it does. Sometimes the briefings are interchangeable.",
+  humanPreMatch:
+    "I have played both of them in different cycles. They play the same hand differently. Tonight you will only see one. Be honest about which one you wanted.",
+  opponentMidMatchEarly:
+    "I have been waiting for one of two of you. The one who arrived is the one I expected. Play. I will not pretend to be surprised.",
+  opponentMidMatchMid:
+    "(Oracle voice.) The card you just played was prophesied seventeen thousand years ago. (Meme voice.) The prophecy was a joke. The joke was the prophecy. Keep going.",
+  opponentMidMatchLate:
+    "Finish the hand. The face holds for one beat after, then changes. You should know what it changes to. If you don't, the change will tell you.",
+  elaraPostMatchWin:
+    "You closed the seven acts on the face you earned. I am not going to tell you which face. I am going to tell you it was the right one. You will know later that I am right.",
+  humanPostMatchWin:
+    "Both faces get the credit. That is the courtesy. The credits will, in fact, name both. Live with the ambiguity. The ambiguity is the prize.",
+  elaraPostMatchLoss:
+    "Both faces wait. Neither gloats. The match restarts when you do. I will be at the table either way. So will the other one.",
+  humanPostMatchLoss:
+    "You are allowed to lose to the saga's last face. That is, on average, what happens. Try again in the morning. The face will be different. Not the meaning — the face.",
+  frameCloseWin:
+    "The face holds — Oracle or Meme, depending on you — and then resolves into the other for one frame, as a courtesy. The seven acts close on the resolution. The credits, when they come, name both.",
+  frameCloseLoss:
+    "The face says the same line in two voices at once: 'Come back. The other face will be waiting too.' The match restarts when you do.",
+};
+
 export const ACT_7_OPPONENT_DIALOGS: readonly Act7OpponentDialog[] = [
   THE_VISIBLE_WAR,
   THE_WATCHERS_SHADOW,
   PATIENT_ZERO_REBORN,
   THE_CONVERGENCE_SEAT,
+  THE_DREAMER_DIALOG,
+  THE_ORACLE_MEME_DIALOG,
 ];
 
 export function getAct7OpponentDialog(
