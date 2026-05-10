@@ -6281,23 +6281,242 @@ streaming_behaviour:
 
 ---
 
-## A.12 Trophy Room — SCAFFOLDED
+## A.12 Trophy Room — FULL
+
+**Status: FULL spec.** Cross-ref: `INCEPTION_ARK_FINAL_PRODUCTION.md`
+§2.12 + §4.2 (art-state prompts).
+
+### A.12.1 Header
 
 ```
 space_id:        ark.trophy_room
 space_name:      Trophy Room
 space_type:      ark_room
 act_introduced:  Act 3
-lore_anchor:     loredex.system.trophies + arc.player_progression
-aesthetic_tier:  solar_punk_cathedral  (gallery accents)
-dimensions:      10.00 m × 12.00 m × 5.00 m
-floor_plan_geometry: rectangular
+lore_anchor:     loredex.system.trophies + arc.player_progression + arc.act_3_first_trophy
+aesthetic_tier:  solar_punk_cathedral  (gallery-display aesthetic; warm and proud)
 ```
 
-Trophy display gallery; trophies from various game modes; fight
-records; per §2.12 + §4.2 (cross-ref).
+### A.12.2 Geometry
 
-(Full spec deferred.)
+```
+dimensions:           10.00 m × 12.00 m × 5.00 m
+origin_point:         centre of floor at south entrance
+coordinate_axes:      +x = right, +y = forward (north), +z = up
+floor_plan_geometry:  rectangular  (with central display plinth + perimeter trophy cases)
+volumetric_anomalies: none
+```
+
+The Trophy Room is a gallery — display cases line all 4 walls;
+central display plinth holds the player's most recent / most
+significant trophy. Tiered display shelves rise on east + west
+walls. North wall is reserved for "Hall of Fame" — fight records
++ legendary achievements.
+
+Floor area: 120 m².
+
+### A.12.3 Floor
+
+```
+material_primary:     polished walnut hardwood plank in herringbone; 0.20 × 1.20 m planks at 45° from south
+material_secondary:   bronze inlay outlining central plinth zone (3 × 3 m square); brass perimeter trim
+pattern:              herringbone with bronze accents around plinth + walls
+wear_state:           pristine; slight wear-trail to plinth and most-frequented displays
+embedded_features:
+  - id: ark.trophy_room.floor.charge_point.central_plinth
+    position: (0.00, 6.00, 0.00)
+    dimensions: 0.40 × 0.40 × 0.05
+    function: plinth display electronics
+  - id: ark.trophy_room.floor.case_anchor.<n>  (16 case anchors along perimeter)
+    position: distributed along walls
+    dimensions: 0.20 × 0.20 × 0.05 each
+    function: display-case electronics
+acoustic_property:    soft_absorbent (rugs + soft-furniture); RT60 = 0.40s (intimate gallery)
+```
+
+### A.12.4 Walls
+
+#### Wall: South (entrance)
+
+```
+wall_id:              south
+material_primary:     painted plaster with walnut wainscoting (z = 0.00 to 1.20); cream plaster above
+material_secondary:   walnut chair-rail
+panelisation:         standard
+colour_value:         --token-color-ark-trophy-room-wall-south  (warm cream + walnut)
+embedded_displays:
+  - id: ark.trophy_room.south.display.recent_trophies
+    position: (-3.00, 0.20, 1.80)
+    dimensions: 0.80 × 0.60 × 0.05
+    content: log of most-recent trophies earned
+  - id: ark.trophy_room.south.display.player_achievements
+    position: (3.00, 0.20, 1.80)
+    dimensions: 0.80 × 0.60 × 0.05
+    content: player's overall achievement summary
+embedded_doors:
+  - door_id: ark.trophy_room.south.door.main
+    position: (0.00, 0.00, 0.00)
+    dimensions: 1.20 × 2.40 × 0.10
+    door_class: arch  (warm walnut; brass handle)
+    connecting_space_id: ark.corridor.trophy_approach
+decorative_features:
+  - id: ark.trophy_room.south.plaque.creed
+    position: (0.00, 0.20, 3.20)
+    dimensions: 0.80 × 0.30 × 0.02
+    material: brass
+    narrative_role: reads "WHAT IS WON, IS REMEMBERED"
+```
+
+#### Wall: East (trophy cases — 6-bay)
+
+```
+wall_id:              east
+material_primary:     painted plaster with built-in trophy-case backings + glass display panels (full-height; 4.20 m tall)
+material_secondary:   walnut framing + bronze tier-rails; gold-leaf nameplate on each case
+panelisation:         6 cases at y = 1.5, 3.5, 5.5, 7.5, 9.5, 11.5 (each 1.40 m wide × 0.40 m deep)
+colour_value:         --token-color-ark-trophy-room-wall-east
+embedded_displays:    none
+embedded_doors:        none
+decorative_features:
+  - id: ark.trophy_room.east.case.<n>  (6 cases; categorised: combat, trade, chess, pet-arena, exploration, social)
+    position: along east wall
+    dimensions: 1.40 × 0.40 × 4.20 each
+    material: walnut + glass + bronze
+    narrative_role: per-category trophy display
+```
+
+#### Wall: North (Hall of Fame)
+
+```
+wall_id:              north
+material_primary:     polished walnut paneling (full-height; no plaster); the most formal wall
+material_secondary:   crown-molding at z = 4.80; gold inlay forming "HALL OF FAME" heading
+panelisation:         3 panels: west (decorative), centre (Hall of Fame), east (decorative)
+colour_value:         --token-color-ark-trophy-room-wall-north
+embedded_displays:
+  - id: ark.trophy_room.north.display.hall_of_fame
+    position: (0.00, 11.95, 2.50)
+    dimensions: 2.40 × 1.60 × 0.05
+    content: prestige trophies + legendary achievement records
+embedded_doors:        none
+decorative_features:
+  - id: ark.trophy_room.north.relief.victory_eternal
+    position: (0.00, 11.85, 4.30)
+    dimensions: 2.00 × 0.60 × 0.10
+    material: cast bronze with gilt highlights
+    narrative_role: "VICTORY ETERNAL" relief
+```
+
+#### Wall: West (trophy cases — mirror of east)
+
+```
+wall_id:              west
+material_primary:     same as east
+material_secondary:   walnut framing
+panelisation:         6 cases mirror
+colour_value:         --token-color-ark-trophy-room-wall-west
+embedded_displays:    none
+embedded_doors:        none
+decorative_features:
+  - id: ark.trophy_room.west.case.<n>  (6 cases mirror; categories: pvp_tier5, tower_defense, alliance_war, dischordian_arena, hellbox_completion, faction_alignment)
+    position: mirror
+    dimensions: 1.40 × 0.40 × 4.20 each
+    material: walnut + glass + bronze
+    narrative_role: per-category display
+```
+
+### A.12.5-8 Ceiling / Lighting / Atmosphere / Sound (compact)
+
+```
+ceiling: 5.00 m baseline; central coffer at 4.50 m; painted plaster + walnut crown-molding; central pendant chandelier; recessed strip-lights along trophy cases; uplights on Hall of Fame
+lighting:
+  ambient_baseline: 3000 K warm; 220 lux; CRI 95
+  central_chandelier: at (0.00, 6.00, 4.50); warm amber crystal scatter; 5000 lumens
+  trophy_case_strip.east + .west: above each case at z=4.20; 600 lumens/m
+  hall_of_fame_uplights: along north wall base; warm gold; 1200 lumens/m
+  plinth_glow: at (0.00, 6.00, 1.10); 400 lumens when occupied
+  case_indicator_lights: per case; 30 lumens each; subtle
+atmosphere: 20°C / 42% RH / smells walnut+bronze+leather; dust_motes low
+sound:
+  ambient_bed: -38 dB very quiet; case-electronics buzz; occasional creak
+  point_sources: case_buzz; plinth_resonance (when occupied); distant_cheer_residue (rare; -44 dB; period 120-300s)
+  reverb_zone: trophy_room_v1.wav wet 14% intimate
+  music_eligibility: cutscene only (Cat A on new trophy)
+  voice_line: trophy_curator (silent presence)
+```
+
+### A.12.9 Object inventory (compact)
+
+Trophy Room has 32 inventory objects.
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.trophy_room.central_plinth` | interactive | (0.00, 6.00, 0.00) | 1.20 dia × 1.10 | central display plinth |
+| `ark.trophy_room.east.case.<n>` (6) | container | along east wall | 1.40 × 0.40 × 4.20 each | per-category cases |
+| `ark.trophy_room.west.case.<n>` (6) | container | along west wall | mirror | per-category cases |
+| `ark.trophy_room.north.hall_of_fame_display` | display | (0.00, 11.95, 2.50) | 2.40 × 1.60 × 0.05 | Hall of Fame |
+| `ark.trophy_room.observation_bench.south_arc` | furniture | (0.00, 4.00, 0.00) | 1.40 × 0.40 × 0.45 | bench facing plinth |
+| `ark.trophy_room.observation_bench.north_arc` | furniture | (0.00, 8.00, 0.00) | mirror | bench |
+| `ark.trophy_room.curator_lectern` | container | (-3.00, 1.50, 0.00) | 0.40 × 0.30 × 1.20 | bronze lectern with curator's tome |
+| `ark.trophy_room.south.intercom` | console | (-2.00, 0.20, 1.50) | 0.20 × 0.10 × 0.30 | comms relay |
+| `ark.trophy_room.fire_extinguisher.south` | interactive | (2.00, 0.20, 1.20) | 0.20 × 0.20 × 0.50 | safety |
+| `ark.trophy_room.first_aid.kit` | container | (-2.50, 0.20, 1.50) | 0.40 × 0.10 × 0.30 | medical |
+| `ark.trophy_room.south.plaque.creed` | decoration | (0.00, 0.20, 3.20) | 0.80 × 0.30 × 0.02 | "WHAT IS WON, IS REMEMBERED" |
+| `ark.trophy_room.north.relief.victory_eternal` | decoration | (0.00, 11.85, 4.30) | 2.00 × 0.60 × 0.10 | "VICTORY ETERNAL" |
+| `ark.trophy_room.compass_inlay` | decoration | (0.00, 6.00, 0.005) | 0.80 × 0.80 × 0.005 | floor compass |
+| `ark.trophy_room.dust_motes_emitter` | fx_emitter | distributed | n/a | dust source |
+
+Total: 32 inventory objects.
+
+### A.12.10-17 Compact
+
+```
+camera_spawn_points:
+  cs_amb_trophy_room (Cat B): POV at threshold; slow walk to plinth; head turns to scan cases; 18s
+  cs_first_trophy_added (Act 3, one-shot): POV at plinth; new trophy materialises; chandelier flares
+
+doorways:
+  south.door.main: connects to ark.corridor.trophy_approach; arch; Act 3+
+
+adjacency:
+  direct: ark.corridor.trophy_approach (south)
+  one_hop: ark.bridge, ark.captain_quarters (via approach corridor)
+
+gameplay_hooks:
+  - inspectPlinth: trpc.trophy_room.plinth.inspect
+  - inspectCase: trpc.trophy_room.case.inspect (per-case)
+  - readCuratorLectern: trpc.trophy_room.curator_lectern.read
+  - inspectHallOfFame: trpc.trophy_room.hall_of_fame.inspect
+
+story_tie:
+  primary_arcs:
+    - act_3_first_trophy
+    - player_progression (continuous; cumulative)
+    - hall_of_fame_inscription (legendary achievements)
+  per_act:
+    acts_0_2: locked
+    act_3: opens; first trophies displayed
+    acts_4_6: cases fill as player progresses
+    act_7: state-branched: well-trophied vs. minimal
+  npc_roster: trophy_curator (silent presence-only)
+  readables: creed plaque; victory-eternal relief; curator's tome; per-case nameplates
+  master_of_rlyeh_question: n/a
+
+special_fx:
+  particle_systems: dust_motes (low)
+  volumetric: chandelier_crystal_scatter; plinth_glow_envelope; hall_of_fame_uplight_envelope
+  procedural_animations: chandelier_subtle_sway; case_indicator_breath; trophy_subtle_glint
+  reactive: chandelier_intensify_on_proximity; case_pulse_on_new_trophy; plinth_flare_on_addition
+
+avatar_parametricity:
+  small_xenomorph: alternate ladder for top-shelf; relay-inspect for Hall of Fame
+  others: all-reachable
+  audio_occlusion: xenomorph: distant_cheer_residue more pronounced
+
+performance:
+  polygon_budget: 200,000 / texture_budget: 130 MB / light_count_limit: 14
+  streaming_behaviour: preload trophy_approach corridor
+```
 
 ---
 
@@ -10211,36 +10430,678 @@ streaming_behaviour: preload pet_approach corridor + (Act 3+) preload pet_arena 
 
 ---
 
-## A.29 Pet Arena + Spectator Gallery (Pocket) — SCAFFOLDED
+## A.29 Pet Arena + Spectator Gallery — FULL
+
+**Status: FULL spec.** Cross-ref: `INCEPTION_ARK_FINAL_PRODUCTION.md`
+§2.29 (art-state prompts); companion to Pet Garden §A.28.
+
+### A.29.1 Header
 
 ```
 space_id:        ark.pet_arena
 space_name:      Pet Arena + Spectator Gallery
-space_type:      ark_room  (pocket)
+space_type:      ark_room  (pocket dimension — colosseum aesthetic)
 act_introduced:  Act 3
-lore_anchor:     loredex.system.pet_arena + arc.pet_combat
-aesthetic_tier:  solar_punk_cathedral  (colosseum aesthetic)
-dimensions:      18.00 m × 14.00 m × 8.00 m
-floor_plan_geometry: circular  (arena floor) + surrounding tiered gallery
+lore_anchor:     loredex.system.pet_arena + arc.pet_combat + arc.act_3_first_pet_match
+aesthetic_tier:  solar_punk_cathedral  (colosseum aesthetic; tiered seating; central combat oval)
 ```
 
-(Full spec deferred.)
+### A.29.2 Geometry
+
+```
+dimensions:           18.00 m × 14.00 m × 8.00 m  (bounding box; central oval arena floor + tiered gallery)
+origin_point:         centre of arena floor
+coordinate_axes:      +x = right, +y = forward (north), +z = up
+floor_plan_geometry:  oval arena floor (12.00 × 8.00 m) surrounded by tiered spectator gallery (3 tiers rising); rectangular outer footprint
+volumetric_anomalies: none in baseline; combat-fx generate visible energy distortion at upper volume during matches
+```
+
+The Pet Arena is a colosseum — central oval combat floor with
+3-tier spectator gallery rising on east + west sides. Pet entry
+gates at south. Mascoteer's referee box at north. Match-board
+holographic display above central arena. Sand-and-organic-matter
+floor (resilient under combat).
+
+Floor area: ~252 m².
+
+### A.29.3 Floor
+
+```
+material_primary:     compacted organic-sand (combat oval; 12 × 8 m); resilient + absorbs blood; raked between matches
+material_secondary:   polished obsidian-black stone (gallery walkway); 0.60 × 0.60 m tiles
+pattern:              oval combat floor with raked-sand pattern; gallery tiles in radial pattern
+wear_state:           combat-worn at oval centre; pristine at gallery
+embedded_features:
+  - id: ark.pet_arena.floor.charge_point.match_board
+    position: (0.00, 0.00, 0.00)  # centre of oval
+    dimensions: 0.40 × 0.40 × 0.05
+    function: holographic match-board projection power
+  - id: ark.pet_arena.floor.drain.south
+    position: (0.00, -6.50, 0.00)
+    dimensions: 0.40 × 0.40 × 0.10
+    function: arena-floor drainage
+  - id: ark.pet_arena.floor.gate_threshold.south.east, .south.west  (2 entry gates)
+    position: (3.50, -6.50, 0.00), (-3.50, -6.50, 0.00)
+    dimensions: 1.40 × 0.20 × 0.10 each
+    function: pet-entry gate threshold
+acoustic_property:    mixed (sand absorbs; stone reflects); RT60 = 0.55s with strong crowd-resonance during matches
+```
+
+### A.29.4 Walls
+
+#### Wall: South (entrance + pet gates)
+
+```
+wall_id:              south
+material_primary:     polished obsidian-black stone cladding with reinforced gate frames
+material_secondary:   bronze dado at z = 1.20; bronze gate frames
+panelisation:         standard with 2 gate recesses (east and west of central player entrance)
+colour_value:         --token-color-ark-pet-arena-wall-south  (charcoal stone + bronze)
+embedded_displays:
+  - id: ark.pet_arena.south.display.match_schedule
+    position: (-2.50, -6.95, 1.80)
+    dimensions: 1.20 × 0.80 × 0.05
+    content: upcoming pet matches; tournament bracket
+  - id: ark.pet_arena.south.display.player_record
+    position: (2.50, -6.95, 1.80)
+    dimensions: 1.20 × 0.80 × 0.05
+    content: player's pet-combat record
+embedded_doors:
+  - door_id: ark.pet_arena.south.door.main
+    position: (0.00, -6.95, 0.00)
+    dimensions: 1.40 × 2.40 × 0.10
+    door_class: arch
+    connecting_space_id: ark.corridor.pet_approach
+  - door_id: ark.pet_arena.south.gate.east
+    position: (3.50, -6.95, 0.00)
+    dimensions: 1.40 × 2.40 × 0.10
+    door_class: slide  (heavy combat gate)
+    connecting_space_id: ark.pet_arena.staging.east  (sub-space; deferred)
+    unlock_condition: Act 3+
+  - door_id: ark.pet_arena.south.gate.west
+    position: (-3.50, -6.95, 0.00)
+    dimensions: 1.40 × 2.40 × 0.10
+    door_class: slide
+    connecting_space_id: ark.pet_arena.staging.west  (sub-space; deferred)
+    unlock_condition: Act 3+
+decorative_features:
+  - id: ark.pet_arena.south.plaque.creed
+    position: (0.00, -6.95, 3.20)
+    dimensions: 1.00 × 0.40 × 0.02
+    material: cast bronze
+    narrative_role: reads "BLOOD WITH HONOUR / VICTORY WITH MERCY"
+```
+
+#### Wall: East + West (tiered spectator gallery — both walls)
+
+```
+wall_id:              east, west
+material_primary:     polished obsidian-black stone with bronze tier-divider rails; 3 spectator tiers (z = 0.40, 1.60, 2.80; each 1.20 m higher than previous)
+material_secondary:   bronze tier-rails; warm-leather padded bench-tops on each tier
+panelisation:         tiered spectator zones
+colour_value:         --token-color-ark-pet-arena-wall-gallery
+embedded_displays:    none (gallery views the arena directly)
+embedded_doors:        none
+decorative_features:
+  - id: ark.pet_arena.<east|west>.tier_seating.<n>  (3 tiers each side; specced in inventory)
+  - id: ark.pet_arena.east.banner.victory
+    position: (8.95, 0.00, 7.50)  # high above tier 3
+    dimensions: 0.10 × 1.20 × 4.00
+    material: deep crimson velvet with gold "WINNER" embroidery
+    narrative_role: changes to victor's faction colours after major matches
+  - id: ark.pet_arena.west.banner.tribute
+    position: (-8.95, 0.00, 7.50)
+    dimensions: mirror
+    material: same as east; deep crimson with gold "TRIBUTE" embroidery
+    narrative_role: honours fallen pets
+```
+
+#### Wall: North (Mascoteer's referee box)
+
+```
+wall_id:              north
+material_primary:     polished obsidian-black stone with elevated referee box recess
+material_secondary:   bronze dado; brass railing on referee box
+panelisation:         standard with elevated central recess
+colour_value:         --token-color-ark-pet-arena-wall-north
+embedded_displays:
+  - id: ark.pet_arena.north.display.match_referee
+    position: (0.00, 13.95, 2.40)
+    dimensions: 1.20 × 0.80 × 0.05
+    content: live match-state from referee perspective
+embedded_doors:        none
+decorative_features:
+  - id: ark.pet_arena.north.referee_box
+    position: (0.00, 13.50, 2.00)  # elevated above floor
+    dimensions: 2.40 × 1.20 × 0.80 (raised platform with railing)
+    material: polished walnut + brass railing
+    narrative_role: where Mascoteer (or named referee NPC) judges matches
+  - id: ark.pet_arena.north.relief.eternal_combat
+    position: (0.00, 13.85, 6.00)
+    dimensions: 2.40 × 1.80 × 0.10
+    material: cast bronze
+    narrative_role: depicts the eternal pet-combat cycle (creatures of dreams + waking)
+```
+
+### A.29.5 Ceiling
+
+```
+height_above_floor:     8.00 m baseline; central oculus rises to 9.50 m above arena (skylight effect for combat-aerial visibility)
+material:               polished obsidian-black stone with bronze rib detail; central oculus is translucent panel emitting cosmic-tournament light
+lighting_integrated:    central oculus emits dramatic combat-light; 6 spotlight arrays around oculus aim at oval; 3-tier gallery ceiling-strips
+atmospheric_features:   visible energy-distortion above oval during active matches (combat FX); subtle smoke during high-stakes matches
+acoustic_treatment:     domed apsidal at oculus; supports crowd-roar amplification during matches
+```
+
+### A.29.6 Lighting
+
+```
+ambient_baseline:     3500 K (warm-tactical; gladiatorial); 200 lux at floor (dim baseline; intensifies during matches); CRI 90
+direct_fixtures:
+  - id: ark.pet_arena.light.oculus_central
+    position: (0.00, 0.00, 9.50)
+    beam_angle: 60° downward
+    colour: --token-color-ark-pet-arena-oculus  (warm gold-white)
+    intensity: 12000 lumens (during matches; 4000 baseline)
+    function: principal arena task lighting
+  - id: ark.pet_arena.light.spotlight_array.<n>  (6 spots around oculus)
+    position: surrounding oculus at 60° intervals at z = 9.20
+    beam_angle: 30° downward
+    colour: --token-color-ark-pet-arena-spotlight  (combat-warm white)
+    intensity: 6000 lumens each
+    function: theatrical spotlights
+  - id: ark.pet_arena.light.gallery_strip.east, .west, .tier_<n>  (6 strips total; one per tier per side)
+    position: along each gallery tier ceiling
+    beam_angle: 180° wash
+    colour: warm amber
+    intensity: 600 lumens per metre
+    function: spectator-area lighting
+practical_sources:
+  - id: ark.pet_arena.referee_box_glow
+    position: (0.00, 13.50, 2.80)
+    intensity: 800 lumens (spotlight-equivalent)
+    flicker_pattern: stable
+  - id: ark.pet_arena.gate_threshold_glow.east, .west
+    position: above each pet gate
+    intensity: 400 lumens (red — "gate active")
+    flicker_pattern: pulses during pet entry
+time_of_day_variation:
+  acts_3_to_7: dim baseline; matches activate full theatrical lighting
+dynamic_response:
+  - on_match_start: oculus + spotlights + strips all intensify dramatically
+  - on_pet_victory: victor's banner-colours intensify; oculus pulses
+  - on_pet_death: tribute banner brightens; tier strips dim respectfully
+```
+
+### A.29.7 Atmosphere
+
+```
+air_temperature:    23°C (warm; combat-anticipation)
+humidity:           45% RH; smells of organic-sand + leather (gallery upholstery) + faint ozone (combat FX)
+particulate:
+  - sand_drift: very low (cosmetic; raked between matches)
+  - blood_motes: very low (visible during combat; cosmetic)
+  - combat_energy_motes: low during matches (cosmetic FX)
+volumetric_fog:     subtle haze at upper volume during matches
+wind_drift:         minimal; 0.04 m/s; slight inward toward oval
+smell_canon:        organic-sand + leather + ozone; voice-line: "smells like stakes"
+```
+
+### A.29.8 Sound
+
+```
+ambient_bed:           file: pet_arena_ambient_bed_v1.ogg (loop); -32 dB (baseline empty); -18 dB (during matches); crowd-anticipation murmur, sand-rustle, distant pet-vocalisations from staging
+point_sources:
+  - sound.crowd_roar: dynamic; -16 dB during matches; ambient cyclic when populated
+  - sound.gate_engage: at pet gates; -22 dB at gate-open
+  - sound.referee_horn: at referee box; -14 dB at match-start
+  - sound.match_clock_tick: at match-board; -32 dB; period 1s
+  - sound.pet_vocalisations: dynamic per-pet; -20 dB
+reverb_zone:           IR-impulse: pet_arena_v1.wav; wet-mix 28% (colosseum)
+music_eligibility:     cutscene only (Category C cs_disc_pet_arena + cs_load_pet_arena per §3.1.C)
+voice_line_eligibility:
+  - speaker: the_mascoteer: presence (Acts 3+ during matches)
+    line set: see §2.29.2
+  - speaker: crowd_chants: ambient atmosphere only
+```
+
+### A.29.9 Object inventory
+
+Pet Arena has 38 inventory objects.
+
+#### A.29.9.1 The Match-Board (overhead holographic display)
+
+```
+object_id:           ark.pet_arena.match_board
+object_class:        display
+position:            (0.00, 0.00, 5.00)  # suspended above arena centre
+dimensions:          3.00 × 0.60 × 0.10  (transparent holographic display)
+rotation:            0°
+material_primary:    suspended bronze frame with holographic projection
+material_secondary:  none
+colour_value:        --token-color-ark-pet-arena-match-board  (transparent; content variable)
+interaction:         inert (display only)
+narrative_role:      central match-state display visible from all gallery seats
+lore_anchor:         loredex.system.pet_arena
+art_status:          producer_handoff
+gameplay_hook_id:    none (display-only)
+wear_state:          pristine
+physical_constraints: non-collide (suspended)
+```
+
+#### A.29.9.2 The Mascoteer's Referee Box
+
+```
+object_id:           ark.pet_arena.referee_box
+object_class:        furniture  (also npc_anchor)
+position:            (0.00, 13.50, 2.00)  # elevated platform
+dimensions:          2.40 × 1.20 × 0.80 (platform) + 1.00 × 0.80 × 1.10 (referee chair on platform)
+rotation:            180°  (faces south, toward arena)
+material_primary:    polished walnut platform + brass railing + matching walnut chair
+material_secondary:  brass nameplate "THE MASCOTEER"
+colour_value:        --token-color-ark-pet-arena-referee-box
+interaction:         interactable (when Mascoteer absent — rare)
+  - sit_in_referee_chair: rare lore-flag
+  - inspect: lore-note about Mascoteer position
+narrative_role:      Mascoteer's anchor; judges all matches
+lore_anchor:         loredex.character.mascoteer
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.pet_arena.referee_box.sit
+wear_state:          slight wear at chair
+physical_constraints: collides; sittable
+```
+
+#### A.29.9.3-8 Six Gallery Tier-Bench Sections (3 east + 3 west)
+
+```
+object_id:           ark.pet_arena.tier_bench.<east|west>.<tier_n>  (6 long curved benches)
+object_class:        furniture
+positions:           per gallery tiers along east + west walls
+dimensions (each):   18.00 × 0.50 × 0.40 (long curved spectator bench)
+rotation:            varies (faces arena oval)
+material_primary:    polished walnut bench-top with crimson-velvet padding
+material_secondary:  brass armrests at aisle ends
+colour_value:        --token-color-ark-pet-arena-tier-bench
+interaction:         interactable - sit (multi-seat capacity ~12 per bench)
+narrative_role:      spectator seating; player can watch matches; tier 3 (highest) is best-view
+lore_anchor:         arc.pet_combat
+art_status:          producer_handoff
+gameplay_hook_id:    none (positional)
+wear_state:          slight wear at most-frequented seats
+physical_constraints: collides; sittable
+```
+
+#### A.29.9.9-10 Two Pet Entry Gates (south)
+
+```
+object_id:           ark.pet_arena.gate.east, .west
+object_class:        door
+positions:           (3.50, -6.95, 0.00), (-3.50, -6.95, 0.00)
+dimensions (each):   1.40 × 2.40 × 0.10
+rotation:            180°
+material_primary:    reinforced steel gate with bronze trim + amber warning lights
+material_secondary:  bronze nameplate
+colour_value:        --token-color-ark-pet-arena-gate
+interaction:         interactable (during match prep)
+  - operate: dispatches pet from staging into arena (gameplay-key)
+  - inspect: lore-note about gate mechanics
+narrative_role:      pet-entry gates; gameplay-active during matches
+lore_anchor:         loredex.system.pet_arena
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.pet_arena.gate.dispatch
+wear_state:          slight wear
+physical_constraints: collides; opens to staging sub-space
+```
+
+#### A.29.9.11 The Player's Match-Coach Anchor (south central)
+
+```
+object_id:           ark.pet_arena.coach_anchor
+object_class:        npc_anchor  (player's pet-coach position during matches)
+position:            (0.00, -5.00, 0.00)  # at south edge of arena
+dimensions:          0.80 × 0.80 × 1.80 (anchor)
+rotation:            0°  (faces north, into arena)
+material_primary:    n/a
+material_secondary:  n/a
+colour_value:        n/a
+interaction:         interactable (during matches)
+  - command_pet: open coaching UI; player issues pet-commands during fight
+narrative_role:      where the player stands during their pet's match; coaches from sideline
+lore_anchor:         arc.pet_combat
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.pet_arena.coach.command
+wear_state:          slight wear
+physical_constraints: n/a
+```
+
+#### A.29.9.12 The Coach's Bench (south)
+
+```
+object_id:           ark.pet_arena.coach_bench
+object_class:        furniture
+position:            (0.00, -5.50, 0.00)
+dimensions:          1.20 × 0.40 × 0.45
+rotation:            0°  (faces north)
+material_primary:    polished walnut + crimson-velvet padding
+material_secondary:  brass armrests
+colour_value:        --token-color-ark-pet-arena-coach-bench
+interaction:         interactable - sit
+narrative_role:      coach seating during matches
+lore_anchor:         arc.pet_combat
+art_status:          producer_handoff
+gameplay_hook_id:    none
+wear_state:          slight wear
+physical_constraints: collides; sittable
+```
+
+#### A.29.9.13-14 Two Banner Tapestries (east + west)
+
+Specced in walls A.29.4. Inventoried for completeness.
+
+#### A.29.9.15 Apsidal Relief
+
+Specced in walls A.29.4 (north relief).
+
+#### A.29.9.16-23 Atmosphere + Decorative Items (8 items)
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.pet_arena.fanfare_horn.east` | fx_emitter | (8.95, 13.50, 6.00) | 0.40 × 0.40 × 0.40 | bronze fanfare horn for match-start |
+| `ark.pet_arena.fanfare_horn.west` | fx_emitter | mirror | mirror | fanfare horn |
+| `ark.pet_arena.victory_pedestal` | decoration | (0.00, 12.00, 0.00) | 0.80 × 0.80 × 1.00 | bronze pedestal for victor presentation |
+| `ark.pet_arena.tribute_pedestal` | decoration | (0.00, -3.50, 0.00) | 0.80 × 0.80 × 1.00 | bronze pedestal for tribute (fallen pets) |
+| `ark.pet_arena.water_basin.east` | decoration | (8.50, 0.00, 0.00) | 0.40 × 0.40 × 0.40 | water basin (for pet hydration between rounds) |
+| `ark.pet_arena.water_basin.west` | decoration | (-8.50, 0.00, 0.00) | mirror | water basin |
+| `ark.pet_arena.sand_rake.east` | decoration | (8.95, -3.00, 0.00) | 0.20 × 0.20 × 1.40 | bronze sand-rake for between-match grooming |
+| `ark.pet_arena.sand_rake.west` | decoration | (-8.95, -3.00, 0.00) | mirror | sand-rake |
+
+#### A.29.9.24-31 Eight Concession Items (gallery refreshments)
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.pet_arena.gallery.refreshment_cart.east` | container | (8.50, 6.50, 0.40) on tier 1 | 0.80 × 0.40 × 0.85 | concession cart |
+| `ark.pet_arena.gallery.refreshment_cart.west` | container | mirror | mirror | concession cart |
+| `ark.pet_arena.gallery.tip_jar.east` | decoration | on east cart | 0.10 × 0.10 × 0.20 | bronze tip jar |
+| `ark.pet_arena.gallery.tip_jar.west` | decoration | on west cart | mirror | tip jar |
+| `ark.pet_arena.gallery.flag_stand.east.tier_1, .tier_2, .tier_3` | decoration | per tier | 0.20 × 0.20 × 0.40 each | small fan-flag stands |
+| `ark.pet_arena.gallery.flag_stand.west.tier_1, .tier_2, .tier_3` (3) | decoration | mirror | mirror | flag stands |
+
+#### A.29.9.32-38 Closing Items
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.pet_arena.south.intercom` | console | (-2.00, -6.95, 1.50) | 0.20 × 0.10 × 0.30 | comms relay |
+| `ark.pet_arena.fire_extinguisher.south` | interactive | (2.00, -6.95, 1.20) | 0.20 × 0.20 × 0.50 | safety |
+| `ark.pet_arena.first_aid.kit.south` | container | (-2.50, -6.95, 1.50) | 0.40 × 0.10 × 0.30 | medical |
+| `ark.pet_arena.pet_first_aid.kit.coach_zone` | container | (1.00, -5.50, 0.00) | 0.40 × 0.20 × 0.40 | pet-medical kit (gameplay-active) |
+| `ark.pet_arena.combat_energy_emitter` | fx_emitter | suspended at z = 7.00 | n/a | energy distortion source above oval |
+| `ark.pet_arena.compass_inlay` | decoration | (0.00, 0.00, 0.005) | 1.40 × 1.40 × 0.005 | floor inlay at oval centre |
+| `ark.pet_arena.crowd_emitter` | fx_emitter | distributed in galleries | n/a | crowd-roar SFX source |
+
+Total: 38 inventory objects.
+
+### A.29.10-17 Camera-spawn-points / Doorways / Adjacency / Hooks / Story / FX / Parametricity / Performance (compact)
+
+```
+camera_spawn_points:
+  cs_amb_pet_arena (Cat B): POV at threshold; head turns to gallery + match-board; 18s
+  cs_disc_pet_arena (Cat C): POV at coach anchor; arena lights up; pet roar + crowd cheer; 22s
+  cs_load_pet_arena (Cat C): close-up at gate as it engages; 8s
+  cs_first_pet_match (Act 3): POV at coach bench; first match begins
+
+doorways:
+  south.door.main: connects to ark.corridor.pet_approach; arch; Act 3+
+  south.gate.east, .west: connect to staging sub-spaces (deferred); slide; Act 3+
+
+adjacency:
+  direct: ark.corridor.pet_approach (south); ark.pet_arena.staging.east + .west (south gates; deferred)
+  one_hop: ark.pet_garden, ark.pet_medical_annex (via approach corridor)
+
+gameplay_hooks:
+  - dispatchPet: trpc.pet_arena.gate.dispatch
+  - commandPet: trpc.pet_arena.coach.command (during match)
+  - takeGalleryBench: trpc.pet_arena.tier_bench.sit
+  - takeRefereeBox: trpc.pet_arena.referee_box.sit (rare; Mascoteer absent)
+  - usePetFirstAid: trpc.pet_arena.pet_first_aid.use (between rounds)
+  - inspectMatchBoard: trpc.pet_arena.match_board.inspect
+
+story_tie:
+  primary_arcs:
+    - act_3_first_pet_match
+    - pet_combat (continuous Acts 3-7)
+    - pet_combat_progression (player rating + tournament rank)
+    - mascoteer_arc (the Mascoteer's relationship with player evolves)
+  per_act:
+    acts_0_2: locked
+    act_3: opens; first match available
+    act_4: tournaments + faction-aligned matches
+    act_5: pet-deaths begin to weigh; tribute pedestal more populated
+    act_6: legendary matches (rare opponents)
+    act_7: state-branched: champion ending vs. neglectful ending
+  npc_roster: the_mascoteer (referee); pets (combatants); crowd_emitter (ambient)
+  readables: creed plaque; eternal-combat relief; match schedule + player record displays
+  master_of_rlyeh_question: n/a
+
+special_fx:
+  particle_systems: sand_drift; blood_motes; combat_energy_motes
+  volumetric: oculus_glow; spotlight_volumetric_beams; combat_energy_distortion (during matches)
+  procedural_animations: match_board_holo_cycle; banner_subtle_ripple; sand_subtle_settle; crowd_visualisation (cosmetic figures during matches)
+  reactive: oculus_intensify_on_match; spotlights_on_match; banner_colour_shift_on_victory; tribute_brighten_on_pet_death
+
+avatar_parametricity:
+  small_xenomorph: alternate "lift platform" at coach anchor
+  others: all-reachable (with tier-stair access)
+  audio_occlusion: xenomorph: crowd-roar overwhelming during matches
+
+performance:
+  polygon_budget: 350,000 / texture_budget: 200 MB / light_count_limit: 22
+  streaming_behaviour: preload pet_approach corridor; on_match_start: preload current pet-combat assets
+```
 
 ---
 
-## A.30 Pet Medical Annex (Pocket) — SCAFFOLDED
+## A.30 Pet Medical Annex — FULL
+
+**Status: FULL spec.** Cross-ref: `INCEPTION_ARK_FINAL_PRODUCTION.md`
+§2.30 (art-state prompts); companion to Pet Garden + Pet Arena.
+
+### A.30.1 Header
 
 ```
 space_id:        ark.pet_medical_annex
 space_name:      Pet Medical Annex
-space_type:      ark_room  (pocket)
+space_type:      ark_room  (pocket dimension; clinical-warm)
 act_introduced:  Act 3
-lore_anchor:     loredex.system.pet_medical
-aesthetic_tier:  solar_punk_cathedral  (clinical-warm)
-dimensions:      8.00 m × 10.00 m × 4.00 m
+lore_anchor:     loredex.system.pet_medical + arc.pet_health + arc.act_3_first_pet_treatment
+aesthetic_tier:  solar_punk_cathedral  (clinical-warm hybrid; companion to Med Bay aesthetic but warmer)
 ```
 
-(Full spec deferred.)
+### A.30.2 Geometry
+
+```
+dimensions:           8.00 m × 10.00 m × 4.00 m
+origin_point:         centre of floor at south entrance
+coordinate_axes:      +x = right, +y = forward, +z = up
+floor_plan_geometry:  rectangular  (with apsidal rear — north wall slightly curved)
+volumetric_anomalies: none in baseline
+```
+
+The Pet Medical Annex is small, focused, warm. Central
+examination table for pet diagnostics. East cabinets hold
+medicines + tools. West cabinets hold pet-records. North
+recovery bay (3 pet beds) for resting pets. Soft lighting +
+warm tones to calm pets.
+
+Floor area: 80 m².
+
+### A.30.3 Floor
+
+```
+material_primary:     polished cream-tinted enamel-coated steel deck plate (matches Med Bay aesthetic but warmer); 1.00 × 1.00 m tiles; 4 mm gap; anti-bacterial coating
+material_secondary:   bronze inlay outlining examination zone (3 × 3 m square); brass perimeter trim
+pattern:              clinical grid + central exam-zone marker
+wear_state:           pristine; slight wear at exam table approach
+embedded_features:
+  - id: ark.pet_medical_annex.floor.charge_point.exam_table
+    position: (0.00, 5.00, 0.00)
+    dimensions: 0.40 × 0.40 × 0.05
+    function: exam-table electronics + lighting power
+  - id: ark.pet_medical_annex.floor.drain.south
+    position: (0.00, 1.00, 0.00)
+    dimensions: 0.30 × 0.30 × 0.10
+    function: medical-fluid drain
+  - id: ark.pet_medical_annex.floor.recovery_bay_anchor.<n>  (3 anchors at north)
+    position: (-2.00, 9.00, 0.00), (0.00, 9.00, 0.00), (2.00, 9.00, 0.00)
+    dimensions: 0.30 × 0.30 × 0.05 each
+    function: pet-bed power
+acoustic_property:    soft_absorbent (acoustic dampening for calm pets); RT60 = 0.30s (intentionally muted)
+```
+
+### A.30.4 Walls (compact)
+
+- **South** (entrance): cream painted aluminium with walnut wainscoting; brass dado at z = 1.10 m; main door at (0.00, 0.00, 0.00) 1.20 × 2.40 pressure_seal door connecting to ark.corridor.pet_approach (Act 3+); plaque "EVERY LIFE COUNTS" at (0.00, 0.20, 3.20).
+- **East** (medicine cabinets): cream walls with built-in walnut cabinets (3 cabinets stacked vertically at (3.95, 5.00, 0.00); 0.40 × 3.00 × 1.00 each); cabinets hold meds, tools, surgical kits; bronze nameplates per cabinet.
+- **North** (apsidal rear; recovery bay): cream walls with 3 alcove-recesses for pet beds at z = 0.40; soft warm-amber backlight per alcove; relief above central alcove "REST WELL" in cast bronze.
+- **West** (records cabinets + window): cream walls with built-in walnut cabinets (3 cabinets stacked at (-3.95, 5.00, 0.00); same dim as east); cabinets hold pet-records; observation window at (-3.95, 1.50, 1.80) 0.60 × 1.20 looking out at corridor.
+
+### A.30.5 Ceiling
+
+```
+height_above_floor:     4.00 m baseline; central drop coffer at 3.50 m above exam table; apsidal vault at recovery bay rises to 4.50 m
+material:               painted cream plaster with walnut crown-molding + apsidal-vault detail; central coffer is translucent panel
+lighting_integrated:    central pendant over exam table; recessed warm-white grid; recovery-bay alcove ceilings have soft-warm glow
+atmospheric_features:   subtle warm haze in apsidal vault during recovery (cosmetic; suggests "healing aura")
+acoustic_treatment:     coffered + soft (intentional muted)
+```
+
+### A.30.6 Lighting
+
+```
+ambient_baseline:     3500 K (warm-clinical; calm); 200 lux at floor (intentionally soft); CRI 95
+direct_fixtures:
+  - id: ark.pet_medical_annex.light.exam_pendant
+    position: (0.00, 5.00, 3.50)
+    beam_angle: 60° downward
+    colour: --token-color-ark-pet-medical-pendant  (warm white)
+    intensity: 4500 lumens (precision required for diagnostics)
+    function: principal exam task lighting
+  - id: ark.pet_medical_annex.light.recovery_alcove_glow.<n>  (3 alcove backlights)
+    position: each alcove
+    beam_angle: 180° wash
+    colour: --token-color-ark-pet-medical-recovery  (very warm amber)
+    intensity: 600 lumens each
+    function: recovery-zone calm
+  - id: ark.pet_medical_annex.light.cabinet_strip.east, .west
+    position: above each cabinet column at z = 3.20
+    beam_angle: 90° downward
+    colour: warm 3000 K
+    intensity: 400 lumens per metre
+    function: cabinet accent
+practical_sources:
+  - id: ark.pet_medical_annex.exam_table_glow
+    position: (0.00, 5.00, 0.85)
+    intensity: 200 lumens (when active diagnostic)
+    flicker_pattern: stable
+time_of_day_variation:
+  acts_3_to_7: stable warm-calm; recovery alcoves dim further at "rest" hours
+dynamic_response:
+  - on_player_at_exam_table: exam_pendant + table_glow intensify
+  - on_pet_in_recovery: alcove_glow dims to lullaby-warmth
+```
+
+### A.30.7 Atmosphere
+
+```
+air_temperature:    23°C (warm; pet-comfort)
+humidity:           48% RH; smells of antiseptic + warm fur (when pets present) + soft hay + faint herbs
+particulate:
+  - dust: very low
+  - fur_motes: low (when pets present)
+volumetric_fog:     absent
+wind_drift:         minimal; 0.02 m/s
+smell_canon:        antiseptic + fur + hay + herbs; voice-line: "smells like care"
+```
+
+### A.30.8 Sound
+
+```
+ambient_bed:           file: pet_medical_ambient_bed_v1.ogg (loop); -38 dB; very quiet; faint pet-breath (when occupied), distant pet-vocalisation through walls, occasional medical-equipment beep
+point_sources:
+  - sound.exam_table_diagnostic_hum: at table; -38 dB; continuous
+  - sound.recovery_bay_pet_breath.<n>: per occupied alcove; very faint slow breath; -42 dB
+  - sound.cabinet_buzz: at cabinets; -42 dB; continuous
+  - sound.medical_equipment_chirp: random; -40 dB; period 60-180s
+reverb_zone:           IR-impulse: pet_medical_v1.wav; wet-mix 14% (intimate, calm)
+music_eligibility:     cutscene only (lullaby-style ambient during scripted moments)
+voice_line_eligibility:
+  - speaker: the_pet_medic (named NPC; rare presence): line set §2.30.2
+  - speaker: vex_solene: rare appearance for cross-species emergencies
+```
+
+### A.30.9 Object inventory (compact)
+
+Pet Medical Annex has 24 inventory objects.
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.pet_medical_annex.exam_table` | furniture | (0.00, 5.00, 0.00) | 1.80 × 0.80 × 0.85 | central exam table; cushioned + heated |
+| `ark.pet_medical_annex.exam_table.diagnostic_arm` | fx_emitter | suspended above table | 0.20 × 0.40 × 0.10 | diagnostic-overlay arm |
+| `ark.pet_medical_annex.exam_table.lamp` | fx_emitter | suspended above | 0.20 × 0.20 × 0.30 | task lamp |
+| `ark.pet_medical_annex.exam_chair_pet_owner` | furniture | (0.00, 3.50, 0.00) | 0.80 × 0.80 × 1.20 | owner's chair (player sits while pet examined) |
+| `ark.pet_medical_annex.east.cabinet.medicines.<n>` (3) | container | (3.95, 5.00, 0/1/2) | 0.40 × 3.00 × 1.00 each | medicines, tools, surgical |
+| `ark.pet_medical_annex.west.cabinet.records.<n>` (3) | container | (-3.95, 5.00, 0/1/2) | 0.40 × 3.00 × 1.00 each | pet records, history, breeding logs |
+| `ark.pet_medical_annex.recovery_bed.<n>` (3) | furniture | (-2.00/0.00/+2.00, 9.00, 0.40) | 1.20 × 0.80 × 0.40 each | cushioned pet beds in alcoves |
+| `ark.pet_medical_annex.recovery_water_bowl.<n>` (3) | decoration | per alcove | 0.20 × 0.20 × 0.10 each | water bowl |
+| `ark.pet_medical_annex.medic_anchor` | npc_anchor | (-1.50, 5.00, 0.00) | 0.80 × 0.80 × 1.80 | Pet Medic NPC anchor |
+| `ark.pet_medical_annex.south.intercom` | console | (-1.00, 0.20, 1.50) | 0.20 × 0.10 × 0.30 | comms relay |
+| `ark.pet_medical_annex.fire_extinguisher.south` | interactive | (1.00, 0.20, 1.20) | 0.20 × 0.20 × 0.50 | safety |
+| `ark.pet_medical_annex.first_aid.kit.south` | container | (-2.00, 0.20, 1.50) | 0.40 × 0.10 × 0.30 | medical (humanoid) |
+| `ark.pet_medical_annex.south.plaque.creed` | decoration | (0.00, 0.20, 3.20) | 1.00 × 0.40 × 0.02 | "EVERY LIFE COUNTS" |
+| `ark.pet_medical_annex.north.relief.rest_well` | decoration | (0.00, 9.85, 3.50) | 1.20 × 0.40 × 0.10 | "REST WELL" relief |
+| `ark.pet_medical_annex.west.observation_window` | decoration | (-3.95, 1.50, 1.80) | 0.60 × 1.20 × 0.05 | corridor view |
+| `ark.pet_medical_annex.recovery_alcove_glow_emitter.<n>` (3) | fx_emitter | per alcove ceiling | n/a | warm alcove glow |
+
+Total: 24 inventory objects.
+
+### A.30.10-17 Compact
+
+```
+camera_spawn_points:
+  cs_amb_pet_medical (Cat B): POV at threshold; head turns to recovery alcoves; 14s
+  cs_first_pet_treatment (Act 3): POV at exam table; pet placed by player; diagnostic begins
+
+doorways:
+  south.door.main: connects to ark.corridor.pet_approach; pressure_seal; Act 3+
+
+adjacency:
+  direct: ark.corridor.pet_approach (south)
+  one_hop: ark.pet_garden, ark.pet_arena (via approach)
+
+gameplay_hooks:
+  - operateExamTable: trpc.pet_medical.exam_table.operate
+  - openMedicineCabinet: trpc.pet_medical.cabinet.east.open
+  - openRecordsCabinet: trpc.pet_medical.cabinet.west.open
+  - placePetInRecovery: trpc.pet_medical.recovery_bed.place
+
+story_tie:
+  primary_arcs: act_3_first_pet_treatment; pet_health (continuous)
+  per_act: locked Acts 0-2; opens Act 3; deepens Acts 4-7
+  npc_roster: the_pet_medic; vex_solene (rare cross-species emergencies)
+  readables: creed plaque; "REST WELL" relief; pet-records cabinet contents
+  master_of_rlyeh_question: n/a
+
+special_fx:
+  particle_systems: dust (very low); fur_motes (when pets present); diagnostic_holo_motes (during exam)
+  procedural_animations: diagnostic_arm_subtle_motion; recovery_bed_pet_breath; alcove_glow_breath
+  reactive: exam_pendant_intensify_on_player_proximity; alcove_dim_when_pet_resting
+
+avatar_parametricity: standard (small/short/avg/tall scales)
+audio_occlusion: xenomorph-sensitive: pet-breath audible across room
+
+performance:
+  polygon_budget: 160,000 / texture_budget: 90 MB / light_count_limit: 10
+  streaming_behaviour: preload pet_approach corridor
+```
 
 ---
 
@@ -13398,20 +14259,247 @@ performance:
 
 ---
 
-## A.48 Eidolon Sanctum / Bond Chamber (Soul Stones home) — SCAFFOLDED
+## A.48 Eidolon Sanctum / Bond Chamber — FULL
+
+**Status: FULL spec.** Cross-ref: `INCEPTION_ARK_FINAL_PRODUCTION.md`
+§2.48 (art-state prompts); companion sanctum to Observation
+Deck §A.6 (Eidolon-anchor) and Soul Stones system.
+
+### A.48.1 Header
 
 ```
 space_id:        ark.eidolon_sanctum
 space_name:      Eidolon Sanctum / Bond Chamber
-space_type:      ark_room
+space_type:      ark_room  (sub-sanctum; Eidolon's deepest chamber)
 act_introduced:  Act 3
-lore_anchor:     loredex.system.soul_stones + loredex.character.eidolon
-aesthetic_tier:  dreamers_oneiric  (soul-bound aesthetic)
-dimensions:      9.00 m × 9.00 m × 5.50 m
-floor_plan_geometry: circular
+lore_anchor:     loredex.system.soul_stones + loredex.character.eidolon + arc.eidolon_arc + arc.bond_chamber_resonance + arc.act_3_first_bond_session
+aesthetic_tier:  dreamers_oneiric  (deeply mystic; soul-bound aesthetic)
 ```
 
-(Full spec deferred.)
+### A.48.2 Geometry
+
+```
+dimensions:           9.00 m diameter × 5.50 m  (circular footprint)
+origin_point:         centre of floor
+coordinate_axes:      +x = right, +y = forward (north), +z = up
+floor_plan_geometry:  circular  (4.50 m radius; perfect symmetry)
+volumetric_anomalies: subtle non-Euclidean depth at central plinth (1.10× perceptual; reinforces "soul-bound" feel)
+```
+
+The Eidolon Sanctum is small, circular, intentionally
+intimate. Central plinth holds the Soul Stones cradle. Walls
+have 7 alcoves at 51.4° intervals — one per faction-aligned
+soul-form. Domed ceiling with central oculus echoing
+Observation Deck's. Gravity slightly reduced (~0.92g) to
+reinforce "soul-realm" presence.
+
+Floor area: ~63.6 m².
+
+### A.48.3 Floor
+
+```
+material_primary:     polished obsidian-black marble in radial-wedge tiles (7 wedges; one per alcove); high-polish mirror finish
+material_secondary:   gold inlay forming a 7-pointed star centred on plinth; brass perimeter trim
+pattern:              7-wedge radial + 7-pointed star inlay
+wear_state:           pristine (sacred space)
+embedded_features:
+  - id: ark.eidolon_sanctum.floor.charge_point.plinth
+    position: (0.00, 0.00, 0.00)
+    dimensions: 0.40 × 0.40 × 0.05
+    function: plinth electronics + soul-stone resonance amplifier
+  - id: ark.eidolon_sanctum.floor.alcove_anchor.<n>  (7 anchors at 51.4° intervals; radius 3.50 m)
+    position: per alcove
+    dimensions: 0.30 × 0.30 × 0.05 each
+    function: alcove resonance + soul-form display
+acoustic_property:    hard_reflective (marble); RT60 = 0.60s with subtle cosmic-resonance overlay
+```
+
+### A.48.4 Walls
+
+```
+wall_id:              perimeter_curved (single continuous curved wall divided into 7 alcove-zones at 51.4° intervals)
+material_primary:     polished obsidian-black marble cladding curving with the room; alternating with deep alcove recesses (7 alcoves; each 1.20 m wide × 0.80 m deep × 4.20 m tall)
+material_secondary:   gold-leaf rim around each alcove; bronze pilasters between
+panelisation:         alcoves alternate with marble pilasters
+colour_value:         --token-color-ark-eidolon-sanctum-wall  (deep obsidian-black with gold accents)
+embedded_displays:
+  - id: ark.eidolon_sanctum.south.display.bond_status
+    position: (0.00, -4.45, 1.80)  # at south, near entrance
+    dimensions: 0.60 × 0.40 × 0.05
+    content: live Eidolon-bond strength + faction alignment
+embedded_doors:
+  - door_id: ark.eidolon_sanctum.south.door.main
+    position: (0.00, -4.50, 0.00)
+    dimensions: 1.20 × 2.40 × 0.10
+    door_class: arch  (gold-inlaid bronze; opens with hush)
+    connecting_space_id: ark.corridor.eidolon_approach
+decorative_features:
+  - id: ark.eidolon_sanctum.alcove.<faction>  (7 alcoves: architect_remnants, new_babylon, hierarchy, insurgency, dreamers_children, eidolon_unity, void)
+    position: per perimeter at 51.4° intervals
+    dimensions: 1.20 × 0.80 × 4.20 each
+    material: marble backplane + gold-leaf relief (faction sigil) + soul-stone display niche
+    narrative_role: each alcove represents one faction's soul-form; player's bond can deepen toward any of the 7
+  - id: ark.eidolon_sanctum.south.plaque.principle
+    position: (0.00, -4.45, 3.20)
+    dimensions: 0.80 × 0.30 × 0.02
+    material: cast bronze with gilt text
+    narrative_role: reads "BIND TO BE BOUND"
+```
+
+### A.48.5 Ceiling
+
+```
+height_above_floor:     5.50 m baseline; central oculus rises to 7.20 m (echoes Observation Deck's central oculus; both feel cosmically connected)
+material:               polished obsidian-black marble with gold-leaf coffer pattern radiating from oculus; central dome is partially transparent
+lighting_integrated:    central oculus emits soul-resonance light; 7 alcove ceiling-strips define faction zones
+atmospheric_features:   visible soul-motes drift continuously (cosmetic; matches Observation Deck Eidolon-presence)
+acoustic_treatment:     domed apsidal (slight whispering effect; supports cosmic resonance)
+```
+
+### A.48.6 Lighting
+
+```
+ambient_baseline:     2700 K (very warm; sacred); 100 lux at floor (intentionally dim — gravity); CRI 95
+direct_fixtures:
+  - id: ark.eidolon_sanctum.light.oculus_central
+    position: (0.00, 0.00, 7.20)
+    beam_angle: 60° downward
+    colour: --token-color-ark-eidolon-sanctum-oculus  (variable; depends on player's strongest faction-bond)
+    intensity: 4500 lumens (pulses with Eidolon's resonance; period 4.2s — matches reactor heartbeat)
+    function: principal — illuminates plinth
+  - id: ark.eidolon_sanctum.light.alcove_strip.<n>  (7 strips)
+    position: top of each alcove at z = 4.00
+    beam_angle: 180° wash inward-downward
+    colour: --token-color-ark-eidolon-sanctum-alcove  (varies per faction)
+    intensity: 600 lumens each
+    function: faction-zone illumination
+  - id: ark.eidolon_sanctum.light.plinth_resonance
+    position: (0.00, 0.00, 1.10)
+    beam_angle: 360°
+    colour: --token-color-ark-eidolon-sanctum-plinth  (variable based on bond state)
+    intensity: 800 lumens (pulses with resonance)
+    function: focal — soul-stone presence
+practical_sources:
+  - id: ark.eidolon_sanctum.candle_array.<n>  (7 small candle clusters, one per alcove base)
+    position: per alcove
+    intensity: 30 lumens each (subtle)
+    flicker_pattern: organic flicker
+time_of_day_variation:
+  acts_3_to_7: stable; in late-act7, oculus colour reflects player's final faction-alignment from Hellbox commitments
+dynamic_response:
+  - on_player_at_plinth: plinth_resonance intensifies; oculus pulse synchronises with player's heartbeat
+  - on_eidolon_summoned: all alcove strips intensify briefly
+  - on_faction_bond_deepened: that alcove's strip intensifies permanently 20%
+```
+
+### A.48.7 Atmosphere
+
+```
+air_temperature:    19°C (cool — sacred)
+humidity:           38% RH; smells of cold stone + gold-leaf metal + faint incense + ozone (cosmic radiation hint)
+particulate:
+  - soul_motes: medium (continuous; cosmetic suggesting "presence")
+  - dust: very low
+  - candle_smoke: very low (per candle)
+volumetric_fog:     subtle haze at upper volume (0.05 g/m³, warm-gold)
+wind_drift:         minimal; 0.01 m/s; subtle inward toward plinth
+smell_canon:        cold stone + gold + incense + ozone; voice-line: "smells like the soul"
+```
+
+### A.48.8 Sound
+
+```
+ambient_bed:           file: eidolon_sanctum_ambient_bed_v1.ogg (loop); -38 dB; very quiet; cosmic resonance bed; faint single chime (period 30s); player's heartbeat audible
+point_sources:
+  - sound.cosmic_resonance: at oculus; -38 dB; continuous
+  - sound.player_heartbeat_amplified: at plinth; subtle player-heartbeat amplification when standing on plinth; -34 dB
+  - sound.distant_chime: at oculus; period 30s; -38 dB
+  - sound.candle_flicker.<n>: 7 sources; -42 dB each
+  - sound.eidolon_breath_amplified: at plinth when Eidolon present; -36 dB
+reverb_zone:           IR-impulse: eidolon_sanctum_v1.wav; wet-mix 32% (long; cosmic)
+music_eligibility:     cutscene only (Category B cs_amb_eidolon_sanctum + Eidolon-arc cutscenes)
+voice_line_eligibility:
+  - speaker: your_eidolon: rare presence; cross-ref Observation Deck Eidolon
+  - speaker: faction_resonance_voices: 7 ambient whispers (one per faction); rare
+```
+
+### A.48.9 Object inventory (compact)
+
+Eidolon Sanctum has 22 inventory objects.
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.eidolon_sanctum.central_plinth` | interactive | (0.00, 0.00, 0.00) | 1.20 dia × 1.10 | THE plinth; soul-stone cradle; Eidolon-bond ritual point |
+| `ark.eidolon_sanctum.soul_stone_cradle` | interactive | on plinth | 0.40 × 0.40 × 0.20 | bronze cradle holding active soul stones |
+| `ark.eidolon_sanctum.alcove.<faction>` (7) | container | per alcove | 1.20 × 0.80 × 4.20 each | faction soul-form display |
+| `ark.eidolon_sanctum.candle_cluster.<alcove>` (7) | interactive | per alcove base | 0.20 × 0.30 × 0.30 each | bronze stand + 3 candles per cluster |
+| `ark.eidolon_sanctum.observation_bench.south_arc` | furniture | (0.00, -2.50, 0.00) | 1.40 × 0.40 × 0.45 | curved bench facing plinth |
+| `ark.eidolon_sanctum.curator_lectern` | container | (-1.50, -2.00, 0.00) | 0.40 × 0.30 × 1.20 | bronze lectern with bond-ritual guide |
+| `ark.eidolon_sanctum.south.intercom` | console | (-0.80, -4.45, 1.50) | 0.20 × 0.10 × 0.30 | comms relay |
+| `ark.eidolon_sanctum.first_aid.kit` | container | (0.80, -4.45, 1.50) | 0.40 × 0.10 × 0.30 | medical |
+| `ark.eidolon_sanctum.compass_inlay` | decoration | (0.00, 0.00, 0.005) | 1.40 × 1.40 × 0.005 | floor 7-pointed star |
+| `ark.eidolon_sanctum.dust_motes_emitter` | fx_emitter | distributed | n/a | soul-motes source |
+| `ark.eidolon_sanctum.eidolon_resonance_emitter` | fx_emitter | (0.00, 0.00, 1.80) | n/a | Eidolon-presence shimmer source |
+| `ark.eidolon_sanctum.south.plaque.principle` | decoration | (0.00, -4.45, 3.20) | 0.80 × 0.30 × 0.02 | "BIND TO BE BOUND" |
+
+Total: 22 inventory objects (note: 7 alcoves + 7 candle clusters
+counted as object class types; full per-alcove sub-inventory
+deferred to Phase E).
+
+### A.48.10-17 Compact
+
+```
+camera_spawn_points:
+  cs_amb_eidolon_sanctum (Cat B): POV at threshold; slow approach to plinth; head pans to scan alcoves; 22s
+  cs_first_bond_session (Act 3): POV at plinth; soul-stone placed; alcove resonates; 18s
+  cs_eidolon_summon (state-conditional): POV facing oculus; Eidolon manifests through plinth resonance
+
+doorways:
+  south.door.main: connects to ark.corridor.eidolon_approach; arch; Act 3+; ceremonial slow-open
+
+adjacency:
+  direct: ark.corridor.eidolon_approach (south)
+  one_hop: ark.observation_deck (via approach corridor; thematic kinship — both Eidolon spaces)
+
+gameplay_hooks:
+  - placeSoulStone: trpc.eidolon_sanctum.cradle.place
+  - performBondRitual: trpc.eidolon_sanctum.plinth.ritual
+  - inspectAlcove: trpc.eidolon_sanctum.alcove.inspect
+  - lightCandle: trpc.eidolon_sanctum.candle.light
+  - readCuratorLectern: trpc.eidolon_sanctum.curator_lectern.read
+
+story_tie:
+  primary_arcs:
+    - act_3_first_bond_session
+    - eidolon_arc (continuous; central)
+    - bond_chamber_resonance
+    - faction_alignment_via_soul_stones
+  per_act:
+    acts_0_2: locked
+    act_3: opens; first bond ritual; soul stones become collectable
+    act_4: alcove faction-bonds deepen via Hellbox commitments
+    act_5: rare soul-stones unlock (legendary alcove)
+    act_6: deep eidolon-fusion possible
+    act_7: state-branched: deep-bonded (oculus matches dominant faction colour) vs. sparse-bonded (oculus dim)
+  npc_roster: your_eidolon (rare presence); faction_resonance_voices (whispers); the_player
+  readables: principle plaque; curator's bond-ritual guide; alcove sigils (per-faction lore)
+  master_of_rlyeh_question: n/a (this is Eidolon's chamber; not Hellbox host)
+
+special_fx:
+  particle_systems: soul_motes (continuous); candle_smoke; dust (very low)
+  volumetric: oculus_volumetric_glow; alcove_glow_per_faction
+  procedural_animations: plinth_resonance_pulse (period 4.2s); soul_motes_drift; candle_flicker; alcove_subtle_glow_breath
+  reactive: oculus_colour_shift_on_faction_alignment; plinth_intensify_on_player_proximity; alcove_intensify_on_inspection
+
+avatar_parametricity:
+  small_xenomorph: 0.85m; plinth feels enormous; alternate kneel-at-plinth posture
+  others: all-reachable
+  audio_occlusion: xenomorph: cosmic resonance more pronounced
+
+performance:
+  polygon_budget: 180,000 / texture_budget: 110 MB / light_count_limit: 14
+  streaming_behaviour: preload eidolon_approach corridor
+```
 
 ---
 
@@ -14765,29 +15853,37 @@ streaming_behaviour:
 - A.9 Armory
 - A.10 Cargo Hold
 - A.11 Captain's Quarters (HB7 host)
+- A.12 Trophy Room
 - A.13 Antiquarian's Library
 - A.15 Social Hub / Mess Hall
 - A.21 Cipher Den (HB8 host)
 - A.22 Hierarchy Throne (HB2 host)
 - A.27 Memorial Corridor (HB6 host)
 - A.28 Pet Garden
+- A.29 Pet Arena + Spectator Gallery
+- A.30 Pet Medical Annex
 - A.31 Trade Hub
 - A.32 Trade Command Center / Broker's Office
 - A.33 Defense Command Center (HB11 host)
 - A.36 Chess Hall (HB9 host)
 - A.47 CADES Console / Mission Briefing Pod
+- A.48 Eidolon Sanctum / Bond Chamber
 - A.50 Collectors Arena (HB10 host; NEW v5)
 - A.51 Game Hall (HB12 host; NEW v5)
 
-**Total FULL: 24 rooms** — covers every Hellbox-host room, every
-narrative-load-bearing room, every major gameplay-launcher, and
-the most-visited community + system-launcher rooms.
+**Total FULL: 28 rooms** — covers every Hellbox-host room, every
+narrative-load-bearing room, all major gameplay-launchers, the
+complete pet system trio (Garden + Arena + Annex), the complete
+trade chain (Hub + Command Center + Cargo Hold), the complete
+CADES chain (Pod + Armory + Med Bay), Eidolon Sanctum, and
+Trophy Room.
 
-**SCAFFOLDED**: all remaining (A.12, A.14, A.16-A.20, A.23-A.26,
-A.29-A.30, A.34, A.35, A.37-A.46, A.48-A.49 — 25 rooms)
+**SCAFFOLDED**: all remaining (A.14, A.16-A.20, A.23-A.26,
+A.34, A.35, A.37-A.46, A.49 — 21 rooms)
 
-Phase B-3 future (Wave 6+): convert remaining SCAFFOLDED rooms
-(faction sanctums, Pet Arena/Annex, late-act ceremonial rooms,
-prelude rooms) to FULL. Estimated 25,000-35,000 additional lines.
+Phase B-3 future (Wave 7+): convert remaining SCAFFOLDED rooms
+(faction sanctums, late-act ceremonial rooms, prelude rooms,
+chess sub-rooms, TD companions) to FULL. Estimated 20,000-30,000
+additional lines.
 
 ---
