@@ -23,13 +23,25 @@ describe("DLC chapter registry — foundation invariants", () => {
   });
 
   it("getDlcChaptersForSection returns [] for sections with no chapters", () => {
-    // No DLC chapter is currently bound to the endgame surface.
-    expect(getDlcChaptersForSection({ kind: "endgame" })).toEqual([]);
     // SiH per-track surface — no DLC chapters bound to individual tracks
     // (the show wires through AlbumPage, not the DLC system).
     expect(
       getDlcChaptersForSection({ kind: "silence_in_heaven", trackNumber: 12 }),
     ).toEqual([]);
+  });
+
+  it("endgame surface holds the Y1Q–Y2Q1 quarterly mini-DLCs", () => {
+    // Producer 2026-05-10 drop landed 5 quarterly chapters under the
+    // shared endgame parentSection. They sort by their year×10+quarter
+    // sequence so chronological order is preserved.
+    const chapters = getDlcChaptersForSection({ kind: "endgame" });
+    expect(chapters.map((c) => c.id)).toEqual([
+      "dlc_y1q1_first_charter",
+      "dlc_y1q2_pale_inheritance",
+      "dlc_y1q3_curriculum_crisis",
+      "dlc_y1q4_witness_plaza",
+      "dlc_y2q1_charter_schism",
+    ]);
   });
 
   it("dlcChapterCompletionFlag derives the canonical flag name", () => {

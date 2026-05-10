@@ -36,7 +36,15 @@ export type CinematicId =
   | "06_act4_revelation"
   | "07_act5_map"
   | "08_act6_confession"
-  | "09_act7_convergence";
+  | "09_act7_convergence"
+  // Y1Q–Y2Q quarterly mini-DLC openers — producer drop 2026-05-10
+  // (OTHER_CUTSCENES.zip / dlc_mystery/). Each plays at the start
+  // of its DLC chapter via a cinematic_ref step.
+  | "y1q1_first_charter"
+  | "y1q2_pale_inheritance"
+  | "y1q3_curriculum_crisis"
+  | "y1q4_witness_plaza"
+  | "y2q1_charter_schism";
 
 export interface CinematicDef {
   id: CinematicId;
@@ -160,6 +168,39 @@ export const CINEMATICS: readonly CinematicDef[] = [
       "art/cinematics/09_act7_convergence/keyframes/beat3_final_witness.webp",
       "art/cinematics/09_act7_convergence/keyframes/beat5_memoir_to_card.webp",
     ],
+  },
+  // ─── Y1Q–Y2Q quarterly mini-DLC openers (producer 2026-05-10) ───
+  // Path layout matches what import-cutscene-drops.sh stages under
+  // apps/client/public/videos/dlc_mystery/ (CDN mirrors public/ 1:1).
+  {
+    id: "y1q1_first_charter",
+    name: "Year 1 Q1 — The First Charter",
+    videoRelPath: "videos/dlc_mystery/y1q1_first_charter/dlc_y1q1_first_charter.mp4",
+    keyframeRelPaths: [],
+  },
+  {
+    id: "y1q2_pale_inheritance",
+    name: "Year 1 Q2 — Pale Inheritance",
+    videoRelPath: "videos/dlc_mystery/y1q2_pale_inheritance/dlc_y1q2_pale_inheritance.mp4",
+    keyframeRelPaths: [],
+  },
+  {
+    id: "y1q3_curriculum_crisis",
+    name: "Year 1 Q3 — Curriculum Crisis",
+    videoRelPath: "videos/dlc_mystery/y1q3_curriculum_crisis/dlc_y1q3_curriculum_crisis.mp4",
+    keyframeRelPaths: [],
+  },
+  {
+    id: "y1q4_witness_plaza",
+    name: "Year 1 Q4 — Witness Plaza",
+    videoRelPath: "videos/dlc_mystery/y1q4_witness_plaza/dlc_y1q4_witness_plaza.mp4",
+    keyframeRelPaths: [],
+  },
+  {
+    id: "y2q1_charter_schism",
+    name: "Year 2 Q1 — The Charter Schism",
+    videoRelPath: "videos/dlc_mystery/y2q1_charter_schism/dlc_y2q1_charter_schism.mp4",
+    keyframeRelPaths: [],
   },
 ];
 

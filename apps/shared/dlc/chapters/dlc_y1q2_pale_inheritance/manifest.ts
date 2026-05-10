@@ -9,6 +9,11 @@ import type { MiniDlcManifest } from "../../miniDlcManifest";
 
 const STEPS: readonly DlcStep[] = [
   {
+    kind: "cinematic_ref",
+    id: "intro_cinematic",
+    cinematicId: "y1q2_pale_inheritance",
+  },
+  {
     kind: "narration",
     id: "open",
     speaker: "vex_maestro",
@@ -29,7 +34,7 @@ export const DLC_Y1Q2_PALE_INHERITANCE: DlcChapter = {
   synopsis:
     "Severance Year 1 — a fallen circuit champion's soul-bound companion becomes inheritable. The Council ratifies the protocol.",
   parentSection: { kind: "endgame" },
-  sequence: 1,
+  sequence: 12,
   prerequisites: [{ kind: "act_completion", act: 4 }],
   steps: STEPS,
   rewards: { xp: 80, soulBoundDream: 10, lightEnergyReward: 40 },
