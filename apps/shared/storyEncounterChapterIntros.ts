@@ -102,6 +102,14 @@ const OPPONENT_ID_TO_INTRO_ID: Readonly<Record<string, string>> = {
   // 2026-05-10 (Phase 7); writer review before ship + writer-review
   // on the oracle_pen_liberated flag setter.
   act6_the_jailer: "ch15_jailer",
+  // §3.16 Chapter 20 — The Dreamer. SCAFFOLD opponent authored
+  // 2026-05-10 (Phase 8); writer review before ship.
+  act7_the_dreamer: "ch20_dreamer",
+  // §3.17 Chapter 21 — Oracle / Meme (saga-final ambiguous form).
+  // SCAFFOLD opponent authored 2026-05-10 (Phase 9); writer review
+  // before ship + alignment-conditional dialog branching is a
+  // follow-up.
+  act7_oracle_meme_final: "ch21_oracle_meme",
 };
 
 /** Engine Act 1 cycle opponentId → producer chapter-intro id, fired

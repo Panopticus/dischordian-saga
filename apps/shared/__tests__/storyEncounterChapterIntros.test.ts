@@ -148,19 +148,23 @@ describe("storyEncounterChapterIntros — bible-confirmed mappings", () => {
     expect(resolveChapterIntroForOpponent("nonsense")).toBeNull();
   });
 
-  it("ships 4 chapterId + 10 opponentId + 1 prestige-rematch mappings", () => {
+  it("ships 4 chapterId + 12 opponentId + 1 prestige-rematch mappings (canon-gap fully resolved)", () => {
     // PR #565 shipped 4+5; this PR added in successive phases:
     //  - Phase 3: Elara-glitched + Source/Patient-Zero + Iron Lion (rematch)
     //  - Phase 5: Necromancer (act6_thazulok_returns)
     //  - Phase 6: Collector rematch (act6_corey_resurfaces)
     //  - Phase 7: Jailer (act6_the_jailer)
-    // Phases 8-9 will add 2 more (Dreamer, Oracle/Meme).
+    //  - Phase 8: Dreamer (act7_the_dreamer)
+    //  - Phase 9: Oracle/Meme (act7_oracle_meme_final)
+    // All 12 originally-unmapped chapter intros from
+    // chapter-intro-canon-gap-2026-05.md are now resolved
+    // (5 of them via SCAFFOLD opponents pending writer review).
     expect(
       Object.keys(STORY_CHAPTER_INTRO_MAPPINGS.byChapterId),
     ).toHaveLength(4);
     expect(
       Object.keys(STORY_CHAPTER_INTRO_MAPPINGS.byOpponentId),
-    ).toHaveLength(10);
+    ).toHaveLength(12);
     expect(
       Object.keys(STORY_CHAPTER_INTRO_MAPPINGS.byOpponentIdPrestigeRematch),
     ).toHaveLength(1);
