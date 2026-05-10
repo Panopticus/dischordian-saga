@@ -4238,3 +4238,573 @@ The runtime is unchanged; this is a production-doc deliverable
 only. `pnpm check` and `pnpm ship:check` remain N/A for the doc.
 
 End of `_PRODUCTION_APPRENTICE_COMMONS.md` with PR #580 expansion.
+
+---
+
+## §AC.10 Character art — apprentice + recruit + named-NPC profile + dialog portraits
+
+The §AC.4–§AC.9 expansion authored rooms, cutscenes, and
+diegetic-fixture art (workbenches, plaques, comm-screens,
+dossier-folios). It cited per-archetype portrait references
+(`apprentice_<archetype>_portrait.png`) but did not author the
+**character art set itself** at production-spec depth. The
+apprentice runtime (PRs #509, #513, #517) ships:
+
+- BioWare-style branching dialog UIs (need per-character dialog
+  headshots with expression states)
+- Roster + recruitment + mission-board UIs (need profile heroes
+  + dossier thumbnails)
+- Doctrine slip + signature card + memory card artifact UIs
+  (need character-faced artifacts)
+- Audit transcript readable in-world artifact (needs apprentice
+  bust + Auditor bust on transcript header)
+- Cohort-roster brass plaque wall in §AC.1.1 (needs etched
+  apprentice portrait per plaque)
+
+This section authors all of it. Every portrait inherits §AC.0.1
+APPRENTICE_AESTHETIC anchor; every prompt follows the
+`_PRODUCTION_CUTSCENE_PROMPTS.md` §G.0 Nano Banana 2 5-block
+schema. **Production-side, the character portrait set is the
+single largest art-asset bundle in this document.**
+
+### §AC.10.1 Roster overview — character-art subjects
+
+| group | count | sub-counts |
+|---|---|---|
+| 12 apprentice archetypes × 2 genders | 24 base characters | each with full set per §AC.10.3 |
+| 5 named recruits | 5 base characters | per-recruit identity locked (Vex Solène, Wraith Calder, Locke, Jericho Jones, Akai Shi) |
+| Inspector Veil-7 (the Warden) | 1 | named NPC |
+| 12 Archon Professors (one per guild) | 12 | named NPCs (simulacra) |
+| 4 Warden's candidate apprentices | 4 | parametric — picked from existing 24 archetype-gender pool, but with Warden-livery overlay |
+| Mechronis Auditor (faceless) | 1 | brass-mask only; non-portrait |
+| Quartermaster | 1 | named NPC |
+| Apprentice cohort group portrait | parametric | per cohort cycle; 12-portrait composite for roster wall |
+| **TOTAL named-character art subjects** | **44** | + 24 apprentice archetype-genders |
+
+### §AC.10.2 Trait-lock per archetype (visual identity description)
+
+Each apprentice archetype carries a **canonical visual identity**
+trait-locked across every portrait, expression, and overlay
+variant. The identity strings below are reused **verbatim**
+across all NB2 prompts featuring that archetype (per Nano Banana
+2 character-consistency research — `prompting.systems` guide:
+"reuse identical descriptive tokens verbatim across batches").
+
+| archetype | canonical visual identity (trait-lock; reuse verbatim) |
+|---|---|
+| **Zealot** | a true-believer figure in their late twenties; brass-bound cassock with cyber-cyan stitched scripture-cipher running down the seam; a single brass-bound scripture-medallion on a chain at chest; eyes lit from within with conviction; close-cropped hair (gender-variant); a thin scar across the right brow; gas-mantle aureole effect rim-lighting the head |
+| **Ghost** | a near-silent figure in charcoal-grey gambeson with brass clasps; a half-mask covering the lower face (brass with cyber-cyan inlay); only the eyes visible above the mask; high cheekbones; gloved hands always at rest at sides; a small audio-recorder pendant at the throat |
+| **Scholar** | a knowledge-hungry figure in a cipher-stained leather coat over a parchment-cream tunic; brass-rim reading-glasses pushed up on the brow; ink-stained fingertips; an open book held against the chest in left hand; a pen behind the right ear; eyes that seem to be reading even in conversation |
+| **Revenant** | a returned-from-death figure in iron-grey robe over leather; visible scarification in cipher-script along the inside of both forearms; one eye milky-white from past damage; the other eye lit cyber-cyan; a small bandage permanently wrapped around the left wrist; breath audible even in stillness |
+| **Artisan** | a quiet-handed maker in a leather apron with 24 brass tool-loops at the chest; cog-mechanism brass goggles pushed up on the forehead; ink and machine-oil staining the fingertips; a cog-mechanism wristwatch on the right wrist; eyes always slightly distant — looking at the project, not the viewer |
+| **Oracle** | a seer in a velvet hooded cloak with cyber-cyan threading through the seams; a single silver tarot-card visible in the right hand; one eye slightly larger than the other (parametric tell); a neural-jack port at the temple visible beneath the hood; eyes that seem to look just past the viewer's shoulder |
+| **Wanderer** | a restless figure in a dust-stained travelling cloak with a brass walking-stick at the side; sun-and-storm-weathered skin; one earring (small brass hoop); a small leather map-pouch at the hip; never quite still — even in a portrait, the cloak suggests the figure was about to step away |
+| **Martyr** | a self-giving figure in a pale gambeson with a bandage-roll across the chest like a sash; both palms permanently faintly raised (open posture); a small redirect-rune brass plate stitched over the heart; eyes wet with concern; a scar across one cheek |
+| **Heretic** | a question-everything figure in a black robe with cipher-script in chalk dust along the hem; one ear visible (cocked, listening); a brass debate-bell suppressed in the left hand (cloth muffler); chalk-dust on the fingertips; eyes amused, slightly sceptical |
+| **Jester** | a humour-as-armour figure in a motley cloak (asymmetric panels of brass / leather / parchment); a small brass skull-headed staff at the side; a half-smile that does not reach the eyes; bells on the cuffs (silenced — cloth-muffled); a single retort-card visible in the right hand |
+| **Sentinel** | a dutiful watcher in a brass-armoured tunic with cyber-cyan piping along the seams; a watch-cap with brass insignia; eyes scanning the horizon (slightly off-camera); a brass siren-key on a lanyard at the chest; one gloved hand resting on the hilt of a sheathed brass-bladed knife |
+| **Prodigal** | a returned-not-forgiven figure in a travel-worn formal cloak; a signet ring on the right hand (visibly removed and re-placed many times); one earring (small brass hoop, matching Wanderer — narrative bond); eyes downcast or slightly averted; a half-empty leather coin-purse at the belt |
+
+For each archetype, gender variants follow the gendered VO
+manifest split (`apprentice-<archetype>-<gender>-lines.json`):
+**female** and **male** primary genders, with parametric
+non-binary variants generated at runtime by mixing.
+
+### §AC.10.3 Per-archetype art set — what to render (per archetype × gender)
+
+For each of 24 archetype-gender combinations, the production-art
+deliverables are:
+
+| asset id | use | aspect | resolution | description |
+|---|---|---|---|---|
+| `apprentice_<archetype>_<gender>_profile_hero.png` | roster card / recruitment hero / mission-board dossier full image | 2:3 portrait | 4K | full-bust 70% canvas, cinematic dramatic lighting; archetype's signature object visible; APPRENTICE_AESTHETIC backdrop |
+| `apprentice_<archetype>_<gender>_dialog_headshot.png` | BioWare-style dialog UI (when speaking) | 1:1 square | 1080×1080 | head-and-shoulders, flat-lit dialog-friendly; eyes meeting camera; mouth at neutral; framed for left/right 3/4 turn |
+| `apprentice_<archetype>_<gender>_dialog_3qbody.png` | 3/4-body dialog framing (alternate) | 3:4 portrait | 1536×2048 | from mid-thigh up; archetype-signature gesture; APPRENTICE_AESTHETIC environment hinted in DOF bokeh |
+| `apprentice_<archetype>_<gender>_thumbnail.png` | roster grid, mission-board tile, comm-screen corner-overlay | 1:1 square | 256×256 | tight crop on face; recognizable at thumbnail scale |
+| `apprentice_<archetype>_<gender>_silhouette.png` | mourning-wall fallen state + locked-roster pre-recruitment + comm-screen narrative_silence overlay | 1:1 square | 1080×1080 | full silhouette in cyber-cyan only; no facial detail; archetype-signature object faintly visible in silhouette |
+| `apprentice_<archetype>_<gender>_expression_<state>.png` × 6 expressions | dialog UI expression-set; 6 states per archetype | 1:1 square | 1080×1080 | each state described in §AC.10.4 |
+
+Per archetype × gender = **11 distinct PNG renders** (5 base + 6 expressions).
+Total apprentice art: **24 × 11 = 264 renders**.
+
+### §AC.10.4 Expression states (6 per archetype × gender)
+
+Each archetype gets 6 expression-state portraits to feed the
+dialog UI:
+
+| state | trigger / use | facial direction |
+|---|---|---|
+| `neutral` | default dialog state; idle banter | neutral mouth, eyes meeting camera, archetype-signature posture |
+| `focused` | combat / mission / audit dialog | jaw set, eyes narrowed, slight forward lean |
+| `triumphant` | mission-success / signature-card-forged / graduation | small smile (closed-mouth), eyes lit, slight head-up |
+| `wounded` | combat-damage / personal-quest-failure / breaking-point | jaw tight, eyes downcast, scar / wound visible (per archetype tell — Revenant scar enhanced; Martyr bandage bloodied; Sentinel wrist-band torn) |
+| `corrupted` | high-corruption ratio (architect-coopted forge state); blood-weave alignment > 30 | one eye glowing corruption-pink; slight asymmetry; archetype-signature object visibly inverted (Zealot's scripture-cipher inverted; Oracle's tarot card upside-down; Heretic's chalkboard-script in mirror-hand) |
+| `doctrinal` | post-doctrine-binding state-shift; visible bound-doctrine cue | doctrine slip pinned at chest visible in frame; eyes carry the doctrine's specific gravitas (Compliant Mouth: serene / Forked Path: alert / Cold Hand: still / Heretical Quiet: silent / Human Remainder: present) |
+
+### §AC.10.5 NB2 master prompt — apprentice profile hero (per archetype × gender)
+
+```yaml
+# Generic template — instantiate 24× with archetype + gender variants
+nb2:
+  model: gemini-3-pro-image-preview
+  aspect_ratio: "2:3"
+  resolution: "4K"
+  reference_images:
+    - cdn/client-public/art/refs/apprentice_aesthetic_anchor.png
+  prompt: |
+    SUBJECT: <archetype canonical visual identity from §AC.10.2,
+      verbatim>; gender presentation: <female | male>; full bust
+      framing 70% canvas; cinematic dramatic three-quarter pose;
+      archetype's signature object visible per §AC.10.2 (Zealot
+      scripture-medallion / Ghost mask / Scholar open book /
+      Revenant scarification / Artisan tool-apron / Oracle
+      tarot-card / Wanderer walking-stick / Martyr bandage-roll /
+      Heretic muffled bell / Jester retort-card / Sentinel
+      siren-key / Prodigal signet-ring); APPRENTICE_AESTHETIC
+      backdrop (steampunk-cyberpunk-occult environment
+      hinted in soft bokeh — brass armatures, fiber-optic
+      conduits, sigil-etched plates, chalk-circle inlay
+      visible at frame edge).
+    COMPOSITION: 2:3 portrait, 50mm equivalent, three-quarter
+      turn, eyes meeting camera, shallow DOF on face and signature
+      object; backdrop in soft bokeh.
+    LIGHTING/CAMERA: 1800K candle / gas-mantle key from upper-
+      left at 45°; 5400K cold cyber-cyan rim from upper-right
+      framing the silhouette; 12000K occult-violet practical
+      visible in foreground bokeh from a sigil-etched brass
+      fixture; ARRI Alexa anamorphic; Kodak Vision3 500T
+      pushed +1; subtle anamorphic flare across the rim.
+    STYLE: APPRENTICE_AESTHETIC: steampunk-cyberpunk-occult; the
+      archetype is a real person captured in a real
+      apprentice-hall environment; palette `#c9a14a / #5fa8ff /
+      #0d0a08 / #ff2a8a / #5a1a1f / #dccfaa`; volumetric oil-
+      smoke + cyber-mist haze z+1.5–2.0m thinner than ceremonial
+      chambers (this is a portrait, not a wide ceremonial shot).
+    CONSTRAINTS: no extra fingers; no watermark; no on-screen UI;
+      no studio logo; no modern brand insignia; consistent facial
+      structure — character must read as the same person across
+      every portrait of this archetype × gender (see
+      `apprentice_<archetype>_<gender>_master_face.png` reference
+      bundle); text rendering only for diegetic signage already
+      specified in the prompt and never longer than 25 characters;
+      no third-person environmental framing of an unseen viewer
+      (this is a third-person OF the apprentice — the apprentice
+      is the subject; no FPV constraint applies).
+    Output 4K, 2:3 portrait.
+
+pipeline:
+  nb2_seed: 190001 + (archetype_index * 100) + gender_offset
+              # 12 archetypes × 2 genders × 11 asset-types
+              # = 264 unique seeds in the 190001..190264 range
+  cdn_target: cdn/client-public/art/portraits/apprentice_<archetype>_<gender>_<asset_id>.png
+  reference_image_bundle: |
+    Use the apprentice_<archetype>_<gender>_master_face.png as a
+    consistent-face anchor across all 11 asset types; the
+    master_face render is generated FIRST (single canonical face
+    pass), then the 5 base assets + 6 expressions reference back
+    to it. This is the standard Nano Banana 2 character-
+    consistency workflow per `prompting.systems` (≤5 distinct
+    characters per ref bundle; trait-locking by reusing identical
+    descriptive tokens verbatim across the batch).
+```
+
+### §AC.10.6 NB2 prompt — dialog headshot (per archetype × gender × expression)
+
+```yaml
+# Generic template — instantiate 24 archetypes × 6 expressions = 144 renders
+nb2:
+  model: gemini-3-pro-image-preview
+  aspect_ratio: "1:1"
+  resolution: "1080x1080"
+  reference_images:
+    - cdn/client-public/art/portraits/apprentice_<archetype>_<gender>_master_face.png
+    - cdn/client-public/art/portraits/apprentice_<archetype>_<gender>_profile_hero.png
+  prompt: |
+    SUBJECT: <archetype canonical visual identity from §AC.10.2,
+      verbatim>; gender presentation: <female | male>; head-and-
+      shoulders dialog headshot, eyes meeting camera, mouth at
+      neutral but expression at <state>; expression details per
+      §AC.10.4: <state-specific direction — e.g. "jaw tight, eyes
+      downcast, archetype-signature wound visible" for wounded>;
+      framed for the BioWare-style dialog UI which crops to
+      square at 1080x1080; the figure occupies 80% of canvas
+      vertical; backdrop is APPRENTICE_AESTHETIC environment
+      bokeh (NOT a clinical headshot — the room reads behind
+      the character at a soft DOF).
+    COMPOSITION: 1:1 square, 85mm equivalent (intimate dialog
+      lens), shallow DOF on face; head occupies upper 60% of
+      canvas; shoulders fill lower 40%; environment-bokeh at
+      40% saturation behind.
+    LIGHTING/CAMERA: 1800K candle key from upper-left 45°;
+      5400K diffuse fill; 6500K cyber-cyan rim from upper-right;
+      practical 12000K occult-violet in background bokeh; ARRI
+      Alexa anamorphic; Kodak Vision3 500T; flatter than the
+      profile-hero (this is a dialog frame — must read at any
+      moment in conversation without dramatic shadows occluding
+      eyes).
+    STYLE: APPRENTICE_AESTHETIC; head-and-shoulders dialog
+      portrait that holds character consistency across all 6
+      expression states for this archetype × gender.
+    CONSTRAINTS: same face structure as
+      `apprentice_<archetype>_<gender>_master_face.png` reference;
+      no extra fingers (hands not in frame for headshot); no
+      watermark; no on-screen UI; consistent eye-spacing,
+      jaw-line, hairline across the 6-expression batch;
+      expression-state tell per §AC.10.4 must be visible without
+      caricature.
+    Output 1080x1080, 1:1.
+
+pipeline:
+  nb2_seed: 190401 + (archetype_index * 12) + (gender * 6) + expression_index
+              # 12 archetypes × 2 genders × 6 expressions = 144 unique seeds
+              # in the 190401..190544 range
+  cdn_target: cdn/client-public/art/portraits/apprentice_<archetype>_<gender>_expression_<state>.png
+```
+
+### §AC.10.7 Recruit character art (5 named recruits)
+
+Each named recruit gets the same 11-asset set as an apprentice,
+**but** their visual identity is locked to their existing
+runtime portrait (per `apps/client/src/game/npcPortraits.ts`).
+The runtime ships base portrait registrations; this section
+authors the 11-asset production set per recruit using each
+recruit's locked visual identity:
+
+| recruit | locked visual identity (trait-lock; reuse verbatim) |
+|---|---|
+| **Vex Solène** | engineer in mid-thirties; close-cropped silver hair (early-greying); a workshop apron over a brass-bound utility shirt; oil-stained fingertips; cog-mechanism goggles permanently pushed up on the forehead; one earring (brass cog); a single tool-loop with a brass wrench at the right hip; eyes that read like she is solving the room's structural integrity |
+| **Wraith Calder** | a wraith in their late forties; long greying-brown hair tied back loose; deep-shadowed eyes; a leather long-coat in survival-grit aesthetic; a brass-bound pocket-watch (broken hands frozen) on a chain at the chest; one scar across the throat; a scratched-out photograph carried in the breast pocket |
+| **Locke** | an adjudicator in formal-grey middle-age; close-cropped brown hair; brass-rim spectacles; a high-collar grey cassock with brass-bound buttons; a brass-bound code-book in the right hand; eyes that have read the rules and are reading them again; a single brass key on a chain at the throat |
+| **Jericho Jones** | a trade-broker in the late thirties; weather-worn brown hair shoulder-length; a leather jacket over a tradesman's tunic; a brass-rim pocket-watch (working hands) on a chain; a half-empty whiskey-flask at the belt; a holstered pistol on the right hip (decorative — never drawn casually); a framed certificate (illicit broker license) implied behind |
+| **Akai Shi** | a necromancer in middle-age; long black hair partially braided with cyber-cyan thread; a black robe with brass-bound sleeves; visible scarification in cipher-script along the right cheek; one specimen-jar (small, glowing faintly) at the belt; an altar-bell (small brass) in the left hand; eyes that look at the dead before they look at the living |
+
+Each recruit gets the same 11-asset render set as an apprentice
+(profile hero + dialog headshot + 3qbody + thumbnail + silhouette
++ 6 expressions). No gender variants (these are named characters
+with locked identity).
+
+Total recruit art: **5 × 11 = 55 renders.**
+
+### §AC.10.8 Named-NPC character art
+
+#### Inspector Veil-7 (the Warden)
+
+Visual identity (trait-lock; reuse verbatim):
+> a procedural inspector in their fifties; close-cropped iron-
+> grey hair; a long grey-wool greatcoat over a high-collar
+> grey-and-brass uniform; a brass nameplate clip-on lapel
+> reading "VEIL-7" (8 chars, NB2 text-rendering-safe); eyes
+> that lip-read; mouth that records nothing; one gloved hand
+> always visible (never holding); a Mechronis-issue brass-rim
+> notebook closed at the hip; the greatcoat fabric subtly
+> draped — no creases, no wear; a faint amber service-medallion
+> at the lapel above the nameplate
+
+Asset set (full 11):
+- `warden_veil7_profile_hero.png` (2:3, 4K)
+- `warden_veil7_dialog_headshot.png` (1:1, 1080×1080)
+- `warden_veil7_dialog_3qbody.png` (3:4, 1536×2048)
+- `warden_veil7_thumbnail.png` (1:1, 256×256)
+- `warden_veil7_silhouette.png` (1:1, 1080×1080) — used for
+  comm-screen `warden_line_tap` overlay
+- `warden_veil7_expression_neutral.png`
+- `warden_veil7_expression_focused.png` — Day-21 audit lean-in
+- `warden_veil7_expression_triumphant.png` — recruitment success
+- `warden_veil7_expression_wounded.png` — never used in normal
+  play; reserved for Act-7
+- `warden_veil7_expression_corrupted.png` — Act-7 reveal state;
+  one eye Mechronis-violet
+- `warden_veil7_expression_doctrinal.png` — Compliant Mouth
+  recitation pose
+
+Pipeline: `nb2_seed: 190551..190561; cdn_target:
+cdn/client-public/art/portraits/warden_veil7_<asset>.png`.
+
+#### 12 Archon Professors (one per guild)
+
+Each Archon Professor's visual identity is locked to their guild
+aesthetic. Per-Archon trait-lock strings:
+
+| guild | Archon | visual identity (trait-lock) |
+|---|---|---|
+| Iron | Professor Steele | iron-grey scholar in late fifties; close-cropped silver hair; a brass-bound iron-grey academic robe; iron-and-brass spectacles; one iron-rim pendant; eyes that have judged a thousand essays |
+| Glass | Professor Lenz | crystal-pale scholar in late forties; long pale hair pulled back; a translucent crystal-rimmed academic robe with cyber-cyan threading; brass-rim spectacles with crystal-fragment lenses; eyes that read x-ray-clear |
+| Smoke | Professor Veil | shadowed scholar in late fifties; long grey hair loose; a smoke-grey academic robe with ember-orange piping; brass-rim spectacles tinted ember; one smoke-trail emerging from the left cuff (always); eyes that disappear in smoke |
+| Ledger | Professor Quill | parchment-cream scholar in their sixties; close-cropped white hair; a leather-and-brass academic robe; ink-stained fingertips; brass-rim spectacles permanently smudged; a quill behind each ear; eyes that have audited every alumnus |
+| Circuit | Professor Wirework | cyber-cyan scholar in their forties; short black hair with cyber-cyan thread woven; a brass-and-fiber-optic academic robe; circuit-board spectacles; one neural-jack port at the temple visible; eyes that flicker with fiber-optic pulse |
+| Thurible | Professor Smoke | occult-violet scholar in their fifties; long black hair partially braided; a black-and-brass academic robe with violet-trim; an incense-thurible always at the side; brass-rim spectacles tinted occult-violet; eyes that smell what others see |
+| Anvil | Professor Hammer | forge-orange scholar in their fifties; close-cropped grey-brown hair; a leather-and-brass forge-master's apron over an academic robe; brass-rim goggles pushed up; soot-stained hands; eyes lit by ember-glow |
+| Mirror | Professor Glass-Mask | reflective scholar in their forties; head fully concealed by a brass-bound mirror-mask (their reflection always shows the viewer); a silver-and-occult-violet academic robe; gloved hands; the mirror-mask faintly cracked across the right cheek; eyes never directly visible |
+| Garden | Professor Vine | green-and-brass scholar in their fifties; long brown hair with vine-and-cyber-cyan-thread woven; a green-and-brass academic robe with vine-overlay; brass-rim spectacles dusted with pollen; one small living sprout at the lapel; eyes warm with growth |
+| Chapel | Professor Bell | candle-amber scholar in their sixties; long silver hair loose; a candle-amber-and-brass academic robe with occult-violet trim; brass-bound book carried always; one candle stub in the right pocket; eyes that toll like a bell |
+| Tower | Professor Watch | command-cool scholar in their fifties; close-cropped black hair; a command-grey-and-brass academic uniform with cyber-cyan piping; a brass watch-cap; brass-rim spectacles; one surveillance-monitor pendant at the chest; eyes that scan |
+| Remnant | Professor Sigh | bone-white scholar in their sixties; long silver-white hair loose; a bone-and-blood-red-and-brass academic robe; one ash-mark visible on the cheek; gloved hands; brass-rim spectacles; eyes carrying every fallen alumnus |
+
+Each Archon gets the same 11-asset render set. Total Archon
+art: **12 × 11 = 132 renders.**
+
+Pipeline seeds: `190601..190732; cdn_target:
+cdn/client-public/art/portraits/archon_<house_id>_<asset>.png`.
+
+#### Mechronis Auditor (faceless)
+
+A faceless brass-mask figure used for Day-7 / Day-14 audits.
+Trait-lock:
+> a brass-masked Mechronis Auditor in a high-collar brass-and-
+> grey uniform; the brass mask covers the entire face (no eye-
+> holes — the face is a featureless brass plate with cipher-
+> script "MECHRONIS AUDITOR" lightly etched at chin level);
+> gloved hands clasped at the chest; a brass-bound interview-
+> ledger at the hip; the body language is procedural,
+> motionless
+
+Asset set (5 base only — no expression variants for a faceless
+character):
+- `mechronis_auditor_profile_hero.png`
+- `mechronis_auditor_dialog_headshot.png`
+- `mechronis_auditor_dialog_3qbody.png`
+- `mechronis_auditor_thumbnail.png`
+- `mechronis_auditor_silhouette.png`
+
+Pipeline: `nb2_seed: 190751..190755; cdn_target:
+cdn/client-public/art/portraits/mechronis_auditor_<asset>.png`.
+
+#### Quartermaster (mission briefing NPC)
+
+Trait-lock:
+> a quartermaster in their fifties; close-cropped iron-grey hair;
+> a leather-and-brass field-uniform with rank-pips at the collar;
+> a brass clipboard always in the left hand; a deployment-bell-
+> rope coiled around the right shoulder; one cog-mechanism
+> wristwatch on the left wrist; weather-worn face; eyes that
+> have signed every order
+
+Full 11-asset set. Pipeline: `nb2_seed: 190761..190771;
+cdn_target: cdn/client-public/art/portraits/quartermaster_<asset>.png`.
+
+#### Apprentice cohort group portrait (per cohort cycle)
+
+A 12-portrait composite for the §AC.1.1 cohort-roster brass
+plaque wall. Each cycle produces a single wide group-portrait
+of all 12 active apprentices in matching cohort-livery — used
+as the reference still that the 12 individual brass plaques are
+etched from.
+
+Trait-lock:
+> the 12 active apprentices arranged in 3-row × 4-column
+> formal cohort group portrait; each apprentice in their
+> doctrine-bound state per §AC.10.4 expression `doctrinal`;
+> backdrop is the Apprentice Hall (§AC.1.1) cohort-roster wall;
+> APPRENTICE_AESTHETIC; the composition reads as a Mechronis
+> Academy class photograph but the candidates are the
+> apprentices
+
+Single render per cycle. Pipeline: `nb2_seed: 190801 + cycle_id;
+cdn_target: cdn/client-public/art/portraits/cohort_group_<cycle_id>.png`.
+
+### §AC.10.9 Artifact-faced character art (per archetype)
+
+The diegetic in-world artifacts that bear apprentice character
+imagery:
+
+| artifact | per-archetype renders | use |
+|---|---|---|
+| **Doctrine slip** (5 doctrines, no archetype overlay) | 5 renders | south wall of §AC.4.1 mints; pinned to apprentice berth wall (§AC.5.1) |
+| **Audit transcript** brass-bound artifact | 12 archetypes × 3 days = 36 renders | header carries apprentice's profile_hero + Auditor's silhouette; cipher-script body fills the page |
+| **Mission dossier folio** | 17 missions × archetype-on-deployment = parametric | dossier cover carries apprentice's thumbnail + role-glyph; 17 mission-template covers + 12 archetype-overlay variants = 17 + 12 = 29 renders (composited at runtime) |
+| **Memory card** (mint state) | 12 archetypes × 1 = 12 renders | card-face carries apprentice's profile_hero in cipher-script frame; archetype-glyph in upper-right |
+| **Memory card** (post-consumption burn state) | 12 archetypes × 1 = 12 renders | same card with edge-burn animation frames; voice-over surface |
+| **Signature card** | 12 archetypes × 6 effect-slots × 3 corruption-bands = 216 renders | card-face carries archetype-glyph + effect-slot icon + corruption-band trim |
+| **Cohort-roster brass plaque** | 12 archetypes × 2 states (blank / etched) = 24 renders | wall-mount in §AC.1.1; etched with apprentice profile + name + dates |
+| **Mourning-wall brass plaque** | 12 archetypes × 2 states (blank / etched) = 24 renders | wall-mount in §AC.1.6; etched after permadeath |
+
+#### NB2 prompt — signature card (template; instantiate 216×)
+
+```yaml
+nb2:
+  model: gemini-3-pro-image-preview
+  aspect_ratio: "2:3"
+  resolution: "1024x1536"
+  reference_images:
+    - cdn/client-public/art/portraits/apprentice_<archetype>_<gender>_profile_hero.png
+    - cdn/client-public/art/refs/apprentice_signature_card_template.png
+  prompt: |
+    SUBJECT: a forged Signature Card belonging to the apprentice
+      <archetype canonical identity per §AC.10.2 verbatim>; the
+      card is brass-rim mahogany card-stock, 2.5 × 4 inches,
+      with cyber-cyan fiber-optic edge-trim per the corruption-
+      band: <pristine: brass + cyber-cyan / midstate: brass +
+      corruption-pink mottle / corrupted: corruption-pink with
+      eye visible inside the trim>; card face shows: top third
+      = archetype-glyph in cipher-script (one of: Z-cipher /
+      G-cipher / S-cipher / R-cipher / A-cipher / O-cipher /
+      W-cipher / M-cipher / H-cipher / J-cipher / Sn-cipher /
+      P-cipher); centre 50% = the apprentice's profile-hero
+      image rendered in brass-and-cyber-cyan halftone (NB2
+      cipher-engraving style); bottom third = effect-slot icon
+      + brass-rim cipher-text label per slot
+      (battle_cry_recitation / deathwatch_lament / rebirth_silence
+      / rally_chorus / drain_witness / stun_keyturn — all 25
+      chars max, NB2 text-rendering-safe); the card sits warm on
+      the brass-and-iron Forge anvil surface (per §AC.4.3) with
+      slight surface-warmth shimmer.
+    COMPOSITION: top-down 90° view of the card on anvil; 50mm;
+      soft DOF on card face; anvil surface in soft bokeh.
+    LIGHTING/CAMERA: 1800K candle key + 1800K forge-flue ember-
+      orange backlight; 6500K cyber-cyan rim from active effect-
+      slot pillar; 12000K occult-violet practical at sigil-circle
+      nodes (visible in soft bokeh); ARRI Alexa anamorphic;
+      Kodak Vision3 500T pushed +1.
+    STYLE: APPRENTICE_AESTHETIC; the card reads as forged-warm,
+      not printed; palette `#c9a14a / #5fa8ff / #0d0a08 /
+      #ff2a8a / #5a1a1f / #dccfaa` plus forge-orange `#ff5a1a`
+      backlight.
+    CONSTRAINTS: no extra fingers (no hands in frame); no
+      watermark; no studio logo; archetype-glyph cipher-script
+      ≤25 chars; effect-slot label ≤25 chars; corruption-band
+      visual cue must be visible without caricature; consistent
+      apprentice profile across all 18 cards bearing this
+      apprentice (3 corruption bands × 6 effect-slots = 18).
+    Output 1024x1536, 2:3.
+
+pipeline:
+  nb2_seed: 191001..191216    # 216 unique seeds
+  cdn_target: cdn/client-public/art/cards/signature_<archetype>_<effect_slot>_<corruption_band>.png
+```
+
+### §AC.10.10 Comm-screen portrait overlays (live in-game)
+
+The 9 comm-screen states (§AC.5.5) consume per-character
+portrait overlays at runtime. The portrait variants needed for
+this surface are:
+
+| comm-screen state | portrait variant used |
+|---|---|
+| `idle` | none (archetype-glyph only) |
+| `call_in` | Elara `expression_focused` thumbnail at corner |
+| `call_out` | The Human at current reveal stage (4 progressive thumbnails) |
+| `audit_in_progress` | Mechronis Auditor `silhouette` thumbnail |
+| `narrative_silence` | apprentice's `silhouette` thumbnail |
+| `warden_line_tap` | Warden Veil-7 `silhouette` thumbnail (cyber-cyan corruption-pink corner indicator) |
+| `mourning_call` | fallen apprentice's `expression_doctrinal` thumbnail (the doctrine they died bound to) |
+| `cohort_banter` | cohort-mate's `expression_neutral` thumbnail at corner |
+| `commons_phone_mode` | live-feed sub-zone (no character overlay; sub-zone backdrop only) |
+
+All thumbnails for these states are derived from the §AC.10.3–§AC.10.8
+existing render set; **no new portrait renders needed**, just
+runtime composition.
+
+### §AC.10.11 Cutscene-side portrait usage (cross-reference)
+
+Every cutscene in §AC.2 + §AC.7 consumes one or more portrait
+references for character consistency. Cross-reference:
+
+| cutscene group | portrait set consumed |
+|---|---|
+| §AC.2.1 archetype recruit (12) | profile_hero per archetype × gender; backdrop rendered fresh per cut |
+| §AC.2.2 archetype graduation (12) | profile_hero + expression_triumphant per archetype × gender |
+| §AC.2.3 archetype obituary (12) | silhouette + expression_doctrinal per archetype × gender |
+| §AC.7.1 doctrine binding (5+1) | expression_doctrinal per chosen-doctrine archetype |
+| §AC.7.2 audits (38) | profile_hero per archetype + Mechronis_auditor full set; Day-21 also Warden full set |
+| §AC.7.3 forge (14) | expression_focused per archetype + signature card render |
+| §AC.7.4 memory card (24) | expression_doctrinal per archetype + memory card mint/burn render |
+| §AC.7.5 cohort + park (10) | profile_hero per active + training_a + training_b (3 apprentices in frame) |
+| §AC.7.6 Warden's Dock (6) | Warden full set + apprentice expression_focused |
+| §AC.7.7 missions (51) | profile_hero per deployed apprentice + Quartermaster full set + role-zone backdrop |
+| §AC.7.8 berths (80) | profile_hero per archetype/recruit + per-phase activity sprite (separate atlas, §AC.5.1) |
+| §AC.7.9 comm-screen (9) | composition only (per §AC.10.10) |
+| §AC.7.10 guild common rooms (60) | Archon Professor full set per guild + parametric guild-member backgrounds |
+
+### §AC.10.12 Total character-art deliverables (cumulative)
+
+| group | renders |
+|---|---|
+| 12 archetypes × 2 genders × 11 assets | 264 |
+| 5 named recruits × 11 assets | 55 |
+| Inspector Veil-7 × 11 | 11 |
+| 12 Archon Professors × 11 | 132 |
+| Mechronis Auditor × 5 (no expressions) | 5 |
+| Quartermaster × 11 | 11 |
+| Cohort group portrait (per cycle, 1 per save) | parametric |
+| Doctrine slip × 5 | 5 |
+| Audit transcript × 36 | 36 |
+| Mission dossier folio × 29 | 29 |
+| Memory card × 24 (12 mint + 12 burn) | 24 |
+| Signature card × 216 (12 × 6 effect-slots × 3 corruption-bands) | 216 |
+| Cohort-roster + Mourning-wall brass plaques × 48 | 48 |
+| **TOTAL CHARACTER-FACED ART RENDERS** | **836** |
+
+### §AC.10.13 Reference-image bundle convention (NB2 best practice)
+
+Per Nano Banana 2 character-consistency research:
+- **Master face render first** per archetype × gender (24 master
+  faces) — these are the canonical face references that all
+  subsequent renders for that archetype × gender link back to.
+- **≤5 distinct characters per ref bundle** in any single NB2
+  call; for ensemble shots (cohort group portrait, Warden Dock
+  scene with 2 characters, etc.) this is the limit.
+- **Trait-lock** by reusing the §AC.10.2 / §AC.10.7 / §AC.10.8
+  visual-identity strings VERBATIM in every prompt — this is
+  what produces the "same person across every render" outcome.
+- **Reference-image bundle** for each downstream render: the
+  master face + 1 environment ref + (optional) 1 wardrobe ref;
+  3-image bundle is the canonical workflow.
+
+CDN convention for master-face references:
+
+```
+cdn/client-public/art/portraits/_masters/
+├── apprentice_zealot_female_master_face.png
+├── apprentice_zealot_male_master_face.png
+├── apprentice_ghost_female_master_face.png
+├── apprentice_ghost_male_master_face.png
+├── ...                                         (24 total apprentice masters)
+├── recruit_vex_solene_master_face.png
+├── recruit_wraith_calder_master_face.png
+├── recruit_locke_master_face.png
+├── recruit_jericho_jones_master_face.png
+├── recruit_akai_shi_master_face.png
+├── warden_veil7_master_face.png
+├── archon_<house_id>_master_face.png × 12
+├── mechronis_auditor_master_face.png   (the brass mask itself)
+└── quartermaster_master_face.png
+```
+
+Production-side, master faces are generated FIRST as a
+production-art batch before any other portrait or cutscene
+render is started. This is the gating step.
+
+### §AC.10.14 Storage + cost estimate (character art only)
+
+| metric | value |
+|---|---|
+| character renders | 836 |
+| avg render size | 6 MB (1080×1080 PNG) — 18 MB for 4K (2:3) and 3:4 — average 8 MB |
+| total raw storage | ~6.7 GB |
+| NB2 generation cost (est. $0.04/image) | ~$33 |
+| audio post for portraits | n/a (portraits are static) |
+
+### §AC.10.15 Outstanding TBDs (character art)
+
+- Per-archetype × per-gender naming-convention for non-binary
+  parametric variants — runtime mixes male+female master faces
+  at runtime; production-side does NOT need separate non-binary
+  master renders.
+- Audit-transcript per-archetype × per-day artifact (36 renders)
+  needs apprentice profile_hero + Auditor silhouette
+  composition lock — production-side workflow can composite at
+  paste-up (each transcript is profile_hero + cipher-script
+  body + Auditor signature in three layers).
+- Recruit's Wraith Calder's "scratched-out photograph" carried
+  in his breast pocket (per §AC.10.7 visual identity) is a
+  diegetic reveal at Act-5 (per `_PRODUCTION_CROSS_CUT.md`
+  cs_wraith_e2_betrayal_reveal narrative-tie); the photograph's
+  contents (Game Master's younger form) is a separate authoring
+  task — out of scope for this section.
+- 4 Warden's-candidate apprentices (per `apprenticeWarden.ts`)
+  inherit existing apprentice archetype × gender renders + a
+  Warden-livery overlay (greyscale wash + brass-coin lapel-pin)
+  — overlay is a runtime compositing task, not a separate
+  render batch.
+
+End of §AC.10.
