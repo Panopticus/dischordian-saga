@@ -192,6 +192,32 @@ run_stage "Stage 13h / vo:first-meet"      pnpm vo:first-meet
 # This is the largest single stage of the orchestrator by line count.
 run_stage "Stage 13i / vo:apprentice"      pnpm vo:apprentice
 
+# vo:banks: NPC long-form Q&A topic banks. ~675 lines across 12 voiced
+# banks (oracle, wraith_calder, locke, meme, vex_solene, seer,
+# game_master, degen, nilmorg, antiquarian, jericho_jones, drael_mon).
+# Each line lands in its NPC's per-character manifest. Skips
+# your_eidolon + dmc_clone_companion (non-verbal canon).
+run_stage "Stage 13j / vo:banks"           pnpm vo:banks
+
+# vo:romance: per-stage romance scene scripts (5 candidates, ~52 lines).
+# Same per-NPC manifest convention as banks. Skips dmc_companion until
+# the stage-resolver lands (verbal only from Stage 5+).
+run_stage "Stage 13k / vo:romance"         pnpm vo:romance
+
+# vo:encounters: multi-speaker scripted encounters. ~53 lines across
+# Master of R'lyeh / Pale Emissary / Reckoning Daughter / Source-Kael
+# / Malkia revolution. Each speaker writes to its own manifest
+# (existing for elara/human/antiquarian; new for Hierarchy lords).
+# act7EpilogueVoScripts.ts is excluded by default — its header marks
+# it producer-owned recording, not auto-pipeline. Pass --include-act7
+# to override.
+run_stage "Stage 13l / vo:encounters"      pnpm vo:encounters
+
+# vo:awakening-overlay: Architect (8 lines) + Dreamer (≤8 lines, hum
+# cues skipped) cryo-bus voices. Wired into RecruitStageVoiceOverlay
+# but currently unrecorded; this stage closes the audio gap.
+run_stage "Stage 13m / vo:awakening-overlay" pnpm vo:awakening-overlay
+
 # ── Stage 5: Per-character Python generators ──────────
 if [ $SKIP_PYTHON -eq 0 ]; then
   for char in elara human agent_zero antiquarian cades degen locke \

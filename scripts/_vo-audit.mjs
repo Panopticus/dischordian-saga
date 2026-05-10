@@ -289,6 +289,123 @@ for (const [linesFile, manifestName, npcLabel] of [
   });
 }
 
+// Banks surface — apps/shared/npcs/banks/<npc>.ts. Each bank's
+// lineIds land in the per-NPC manifest (oracle bank → oracleVoManifest,
+// etc.). Skips your_eidolon + dmc_clone_companion (non-verbal canon).
+function tsLineIdsFor(relPath, fieldName = "lineId") {
+  const file = join(ROOT, relPath);
+  if (!existsSync(file)) return [];
+  const txt = readFileSync(file, "utf8");
+  const ids = [];
+  const re = new RegExp(`${fieldName}:\\s*"([^"]+)"`, "g");
+  for (const m of txt.matchAll(re)) ids.push(m[1]);
+  return ids;
+}
+for (const [bankFile, manifestName, label] of [
+  ["apps/shared/npcs/banks/the_oracle.ts",       "oracle",        "bank (the_oracle)"],
+  ["apps/shared/npcs/banks/wraith_calder.ts",    "wraithCalder",  "bank (wraith_calder)"],
+  ["apps/shared/npcs/banks/adjudicator_locke.ts","locke",         "bank (adjudicator_locke)"],
+  ["apps/shared/npcs/banks/the_meme.ts",         "meme",          "bank (the_meme)"],
+  ["apps/shared/npcs/banks/vex_solene.ts",       "vexSolene",     "bank (vex_solene)"],
+  ["apps/shared/npcs/banks/the_seer.ts",         "seer",          "bank (the_seer)"],
+  ["apps/shared/npcs/banks/the_game_master.ts",  "gamemaster",    "bank (the_game_master)"],
+  ["apps/shared/npcs/banks/the_degen.ts",        "degen",         "bank (the_degen)"],
+  ["apps/shared/npcs/banks/nilmorg.ts",          "nilmorg",       "bank (nilmorg)"],
+  ["apps/shared/npcs/banks/the_antiquarian.ts",  "antiquarian",   "bank (the_antiquarian)"],
+  ["apps/shared/npcs/banks/jericho_jones.ts",    "jerichoJones",  "bank (jericho_jones)"],
+  ["apps/shared/npcs/banks/drael_mon.ts",        "draelMon",      "bank (drael_mon)"],
+]) {
+  const ids = tsLineIdsFor(bankFile);
+  surfaces.push({
+    surface: label,
+    source: bankFile,
+    generator: "pnpm vo:banks",
+    idempotent: true,
+    expected: new Set(ids),
+    actual: new Set(loadManifest(manifestName)),
+    manifest: manifestName,
+  });
+}
+
+// Romance surface — apps/shared/npcs/romanceScenes/<npc>.ts. Each
+// scene's lineIds land in the same per-NPC manifest as the bank.
+for (const [romanceFile, manifestName, label] of [
+  ["apps/shared/npcs/romanceScenes/locke.ts",         "locke",        "romance (locke)"],
+  ["apps/shared/npcs/romanceScenes/vex.ts",           "vexSolene",    "romance (vex)"],
+  ["apps/shared/npcs/romanceScenes/elara.ts",         "elara",        "romance (elara)"],
+  ["apps/shared/npcs/romanceScenes/jericho_jones.ts", "jerichoJones", "romance (jericho_jones)"],
+]) {
+  const ids = tsLineIdsFor(romanceFile);
+  surfaces.push({
+    surface: label,
+    source: romanceFile,
+    generator: "pnpm vo:romance",
+    idempotent: true,
+    expected: new Set(ids),
+    actual: new Set(loadManifest(manifestName)),
+    manifest: manifestName,
+  });
+}
+
+// Encounter surface — multi-speaker scripted encounters. Each speaker
+// lands in its own manifest; the audit checks the encounter file's
+// lineIds against the union of all speakers' manifests touched
+// (per-speaker membership-test isn't tractable here without parsing
+// `speaker:` fields, so we fold into the union of the per-encounter
+// + per-speaker manifests authored in extended-vo-config.json).
+for (const [encFile, manifestNames, label, generator] of [
+  ["apps/shared/encounters/masterOfRlyeh.ts",      ["masterOfRlyeh", "elara", "human", "antiquarian"],     "encounter (master_of_rlyeh)",    "pnpm vo:encounters"],
+  ["apps/shared/encounters/paleEmissary.ts",       ["paleEmissary",  "elara", "human", "antiquarian"],     "encounter (pale_emissary)",      "pnpm vo:encounters"],
+  ["apps/shared/encounters/reckoningDaughter.ts",  ["reckoningDaughter", "elara", "human", "antiquarian"], "encounter (reckoning_daughter)", "pnpm vo:encounters"],
+  ["apps/shared/encounters/sourceKaelDialogue.ts", ["source", "kael", "antiquarian"],                       "encounter (source_kael)",        "pnpm vo:encounters"],
+  ["apps/shared/encounters/malkiaRevolution.ts",   ["malkia", "elara", "antiquarian"],                      "encounter (malkia_revolution)",  "pnpm vo:encounters"],
+]) {
+  const ids = tsLineIdsFor(encFile);
+  const actualUnion = new Set();
+  for (const m of manifestNames) for (const id of loadManifest(m)) actualUnion.add(id);
+  surfaces.push({
+    surface: label,
+    source: encFile,
+    generator,
+    idempotent: true,
+    expected: new Set(ids),
+    actual: actualUnion,
+    manifest: manifestNames.join("+"),
+  });
+}
+
+// Awakening overlay surface — Architect + Dreamer cryo-bus voices.
+// Both files use `id:` (not `lineId:`); Dreamer cues with empty text
+// are intentional pure-hum cues that don't go through TTS.
+{
+  const archIds = tsLineIdsFor("apps/shared/architectAwakeningLines.ts", "id");
+  surfaces.push({
+    surface: "awakening-overlay (architect)",
+    source: "apps/shared/architectAwakeningLines.ts",
+    generator: "pnpm vo:awakening-overlay",
+    idempotent: true,
+    expected: new Set(archIds),
+    actual: new Set(loadManifest("architect")),
+    manifest: "architect",
+  });
+  // Dreamer: only count cues whose text is non-empty (hums are skipped).
+  const drFile = join(ROOT, "apps/shared/dreamerAwakeningLines.ts");
+  const drTxt = existsSync(drFile) ? readFileSync(drFile, "utf8") : "";
+  const drIds = [];
+  for (const m of drTxt.matchAll(/\{[\s\S]*?id:\s*"([^"]+)",[\s\S]*?text:\s*"([^"]*)"/g)) {
+    if (m[2].length > 0) drIds.push(m[1]);
+  }
+  surfaces.push({
+    surface: "awakening-overlay (dreamer)",
+    source: "apps/shared/dreamerAwakeningLines.ts",
+    generator: "pnpm vo:awakening-overlay",
+    idempotent: true,
+    expected: new Set(drIds),
+    actual: new Set(loadManifest("dreamer")),
+    manifest: "dreamer",
+  });
+}
+
 // Prelude + Act 1 lines fold into per-speaker manifests (elara/human/
 // antiquarian/prince). Cross-resolve here so the audit doesn't
 // false-positive an EMPTY surface when those manifests already cover them.

@@ -1,0 +1,35 @@
+{
+  "_comment": "Extended VO speaker → voice mapping. Consumed by the four extended-surface generators (banks / romance / encounters / awakening-overlay). New speakers added here are picked up automatically; existing per-character voice ids are duplicated from the python generators / first-meet config so a single source of truth covers the whole pipeline.",
+
+  "_per_npc_voices": {
+    "the_oracle":        { "voiceId": "mpeeKhhSuOwXIwvKclcn", "manifest": "oracleVoManifest.json",        "s3Prefix": "Oracle Voices/bank",       "direction": "Pre-rite Wraith → post-rite Hierophant; voice that has been heard underneath others'." },
+    "wraith_calder":     { "voiceId": "Vogq3iKs5PJ3cL39gFhW", "manifest": "wraithCalderVoManifest.json",  "s3Prefix": "WraithCalder Voices/bank", "direction": "The Hierophant; written, near-silent, weight in pauses." },
+    "adjudicator_locke": { "voiceId": "8XiBWqS5ffaH5naIFHPI", "manifest": "lockeVoManifest.json",          "s3Prefix": "Locke Voices/bank",        "direction": "Authority's auditor — clipped legal cadence, weighing every word." },
+    "the_meme":          { "voiceId": "VgFgBh5TnWeBhCBvCJ1E", "manifest": "memeVoManifest.json",           "s3Prefix": "Meme Voices/bank",         "direction": "Sardonic, fourth-wall-aware, late-night-host cadence." },
+    "vex_solene":        { "voiceId": "F1waTCPWl7KpShIScYQs", "manifest": "vexSoleneVoManifest.json",      "s3Prefix": "VexSolene Voices/bank",    "direction": "Maestro of Coda's commerce — market-as-music, conducting cadence." },
+    "the_seer":          { "voiceId": "BTfBVfMM9XgZG8GG1bJn", "manifest": "seerVoManifest.json",           "s3Prefix": "Seer Voices/bank",         "direction": "Distant, prophetic, transmission-from-elsewhere." },
+    "the_game_master":   { "voiceId": "BCJrrrZvds7k3qzM9nXU", "manifest": "gamemasterVoManifest.json",     "s3Prefix": "GameMaster Voices/bank",   "direction": "Theatrical, public-address gravitas; performing for the room." },
+    "the_degen":         { "voiceId": "r6VqF23i4qBEORazjelf", "manifest": "degenVoManifest.json",          "s3Prefix": "Degen Voices/bank",        "direction": "Casino-floor charm with a gambler's edge; nothing is ever serious." },
+    "nilmorg":           { "voiceId": "7fKASPr2SR0NYifziNgu", "manifest": "nilmorgVoManifest.json",        "s3Prefix": "Nilmorg Voices/bank",      "direction": "DMC Trench commentator — broadcast register flips to one-on-one mid-line." },
+    "the_antiquarian":   { "voiceId": "yAKlvHIsuj4SvnKQ6Mk4", "manifest": "antiquarianVoManifest.json",    "s3Prefix": "Antiquarian Voices/bank",  "direction": "Citation cadence — desks do not run; he speaks like a footnote." },
+    "jericho_jones":     { "voiceId": "7ZI6HM4mWEvt5pdSdHa7", "manifest": "jerichoJonesVoManifest.json",   "s3Prefix": "JerichoJones Voices/bank", "direction": "Laconic gunfighter with occasional theological surprises; long pauses, the line after the silence is the real one." },
+    "drael_mon":         { "voiceId": "ts3xd1UbeTpZBMUn3Rjv", "manifest": "draelMonVoManifest.json",       "s3Prefix": "DraelMon Voices/bank",     "direction": "We-already-own-you register — quiet certainty, never raises." },
+    "elara":             { "voiceId": "xMyNDrPFEtQN8iZtT7l2", "manifest": "elaraVoManifest.json",          "s3Prefix": "Elara Voices/extended",    "direction": "Warm, lucid, audible breath at line ends." },
+    "the_human":         { "voiceId": "oGbGJdgofRR8z0MxwI8L", "manifest": "humanVoManifest.json",          "s3Prefix": "Human Voices/extended",    "direction": "Balanced, never hurries; slight warmth." },
+    "antiquarian":       { "voiceId": "yAKlvHIsuj4SvnKQ6Mk4", "manifest": "antiquarianVoManifest.json",    "s3Prefix": "Antiquarian Voices/extended", "direction": "Citation cadence — desks do not run; he speaks like a footnote." }
+  },
+
+  "_encounter_speakers": {
+    "source":                       { "voiceId": "hfq5qawrYj4gqFsfoE28", "manifest": "sourceVoManifest.json",          "s3Prefix": "Source Voices/encounter",     "direction": "Theological present-tense; permeable phrases. 'You are' more than 'you will be'." },
+    "kael_trace":                   { "voiceId": "f9SBFgHBGc1YLoNYSzIC", "manifest": "kaelVoManifest.json",            "s3Prefix": "Kael Voices/encounter",       "direction": "Half a register lower than Source. Memory of being a person leaks through; rare and precious." },
+    "hierarchy:master_of_rlyeh":    { "voiceId": "llg3CImXRBGxF3IgJaMf", "manifest": "masterOfRlyehVoManifest.json",   "s3Prefix": "MasterOfRlyeh Voices/encounter", "direction": "Archival, wet, never raises. Inventories at four in the morning to a room that has not asked for the reading." },
+    "hierarchy:pale_emissary":      { "voiceId": "p6JdILM5gm18DgciUlnB", "manifest": "paleEmissaryVoManifest.json",    "s3Prefix": "PaleEmissary Voices/encounter", "direction": "Patient to the point of menace. Polite, unhurried; presents rather than asks." },
+    "hierarchy:reckoning_daughter": { "voiceId": "lf37HHVASBsFibhqVKBY", "manifest": "reckoningDaughterVoManifest.json", "s3Prefix": "ReckoningDaughter Voices/encounter", "direction": "Meticulous, warm — warmth of finding correctness comforting. Pauses before each numerical figure; the pause is the discipline." },
+    "malkia_ukweli":                { "voiceId": "VWuOaUviUqE4uwxXwQM2", "manifest": "malkiaVoManifest.json",          "s3Prefix": "Malkia Voices/encounter",     "direction": "Declarative, present-tense; never uses 'should' (replaces with 'will' or 'do')." }
+  },
+
+  "_awakening_speakers": {
+    "architect": { "voiceId": "PmtzUaeg5rMejCZzRqOZ", "manifest": "architectVoManifest.json", "s3Prefix": "Architect Voices/cryo", "direction": "Cold, technically beautiful, bureaucratic. Specs first, address never. Predestination cadence — speaks from after the outcome. 'Begin.' rather than 'Good luck.'" },
+    "dreamer":   { "voiceId": "vmBbkUZnePLkXbDidbQa", "manifest": "dreamerVoManifest.json",   "s3Prefix": "Dreamer Voices/cryo",   "direction": "Drowsy, kind, half-hummed. Brightens the instant she catches the player listening. Forbidden register: wise. Sometimes a phrase, sometimes a single word, sometimes a hum." }
+  }
+}
