@@ -17568,19 +17568,256 @@ streaming_behaviour:
 
 ---
 
-## A.34 Trophy Armory (TD) — SCAFFOLDED
+## A.34 Trophy Armory (TD) — FULL
+
+**Status: FULL spec.** Cross-ref `INCEPTION_ARK_FINAL_PRODUCTION.md`
+§2.34 (art-state prompts).
+
+### A.34.1 Header
 
 ```
 space_id:        ark.trophy_armory
-space_name:      Trophy Armory (TD)
+space_name:      Trophy Armory (Tower Defense)
 space_type:      ark_room  (sub-room of Defense Command Center)
 act_introduced:  Act 4
-lore_anchor:     loredex.system.tower_defense_trophies
-aesthetic_tier:  solar_punk_cathedral
-dimensions:      8.00 m × 10.00 m × 4.00 m
+lore_anchor:     loredex.system.tower_defense_trophies + arc.td_progression + arc.act_4_first_td_trophy
+aesthetic_tier:  solar_punk_cathedral  (military-tactical with display-gallery accents)
 ```
 
-(Full spec deferred.)
+### A.34.2 Geometry
+
+```
+dimensions:           8.00 m × 10.00 m × 4.00 m
+origin_point:         centre of floor at south entrance (door from Defense Command Center east side)
+coordinate_axes:      +x = right, +y = forward (north), +z = up
+floor_plan_geometry:  rectangular  (with central display plinth + perimeter trophy cases)
+volumetric_anomalies: none
+```
+
+The Trophy Armory is the TD-specific trophy gallery — accessed
+from Defense Command Center's east door. Compact rectangular
+display chamber. Central plinth holds the player's most-recent
+TD trophy. East + west walls hold league-scaled trophy cases
+(bronze / silver / gold / platinum / diamond / champion = 6
+tiers). North wall displays the Hall of Fallen Towers — towers
+that valiantly held but did not survive.
+
+Floor area: 80 m².
+
+### A.34.3-8 Compact (full FULL fidelity)
+
+```
+floor: industrial steel deck plate; 1.00×1.00 m tiles; bronze inlay outlining central plinth zone (2×2 m); brass perimeter trim; tactical-grid etch
+walls:
+  south: gunmetal panel + tactical-amber stripe; south.display.recent_trophies (-2.0,0.2,1.5; 0.8×0.6); south.display.tier_progress (2.0,0.2,1.5); south.door.main pressure_seal connects to ark.defense_command_center (east door); plaque "WHAT WE HELD, WE EARNED"
+  east: gunmetal with 6-tier trophy case (bronze→champion; one tier per 0.65 m vertical column at radius 0.40 m; full-height 4.00 m); bronze tier-rails + biometric trophy-display
+  north: gunmetal with full-wall Hall of Fallen Towers display (1.20×0.80; updates with every fallen tower in player's TD playthrough); apsidal "HONOURED FALLEN" relief above
+  west: mirror of east — second 6-tier trophy case (TD season-specific or seasonal-event trophies)
+ceiling: 4.00 m baseline; central drop coffer at 3.50 m above plinth; recessed warm-amber strip-lights along trophy cases; tactical-cool ambient grid
+lighting:
+  ambient_baseline: 4500 K cool-tactical with warm-display accents; 220 lux; CRI 92
+  central_plinth_pendant: at (0.00, 5.00, 3.50); warm amber + crystal scatter; 4000 lumens
+  trophy_case_strip.east, .west: above each case at z=3.40; warm 3000 K; 600 lumens/m
+  hall_of_fallen_uplight: along north wall base at z=0.05; warm gold; 1000 lumens/m (dramatic backlighting)
+  alert_strobes.<corner>×4: red-orange; off baseline
+  practical_sources: tier_indicator_glow.east.<n>×6 + .west.<n>×6 (per tier); 30 lumens each (varies — green earned; amber active; grey unearned)
+atmosphere: 19°C cool / 38% RH dry / smells of steel + bronze + faint cordite-residue (subtle hint at past battles)
+sound:
+  ambient_bed: -36 dB very quiet; faint case-electronics buzz, distant Defense Command Center bleed
+  point_sources: trophy_case_buzz.<n>; plinth_resonance (when occupied); fallen_tower_subtle_resonance (faint reverent hum at memorial)
+  reverb_zone: trophy_armory_v1.wav wet 14% (intimate gallery)
+  music_eligibility: cutscene only (Cat A on new TD trophy)
+  voice_line_eligibility: trophy_curator (silent presence); td_announcer (rare ambient on trophy events)
+```
+
+### A.34.9 Object inventory (compact)
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.trophy_armory.central_plinth` | interactive | (0.00, 5.00, 0.00) | 1.20 dia × 1.10 | plinth holding most-recent TD trophy |
+| `ark.trophy_armory.east.case.<tier>` (6) | container | east wall vertical column | 0.40×0.40×0.65 each | per-tier trophy display cases |
+| `ark.trophy_armory.west.case.<tier>` (6) | container | west wall vertical column | mirror | seasonal/event trophy cases |
+| `ark.trophy_armory.north.hall_of_fallen_display` | display | (0.00, 9.95, 2.00) | 1.20×0.80×0.05 | fallen towers memorial |
+| `ark.trophy_armory.observation_bench.south` | furniture | (0.00, 3.00, 0.00) | 1.40×0.40×0.45 | bench facing plinth |
+| `ark.trophy_armory.curator_lectern` | container | (-3.00, 1.50, 0.00) | 0.40×0.30×1.20 | bronze lectern with TD-history tome |
+| `ark.trophy_armory.south.intercom` | console | (-1.5, 0.2, 1.5) | 0.20×0.10×0.30 | comms |
+| `ark.trophy_armory.fire_extinguisher` | interactive | (1.5, 0.2, 1.2) | 0.20×0.20×0.50 | safety |
+| `ark.trophy_armory.first_aid` | container | (-2.5, 0.2, 1.5) | 0.40×0.10×0.30 | medical |
+| `ark.trophy_armory.south.plaque.creed` | decoration | (0.00, 0.20, 3.20) | 0.80×0.30×0.02 | "WHAT WE HELD, WE EARNED" |
+| `ark.trophy_armory.north.relief.honoured_fallen` | decoration | (0.00, 9.85, 3.40) | 1.20×0.40×0.10 | "HONOURED FALLEN" relief |
+| `ark.trophy_armory.alert_strobe.<corner>` (4) | fx_emitter | corners | 0.20×0.20×0.20 each | alert strobes |
+| `ark.trophy_armory.compass_inlay` | decoration | (0.00, 5.00, 0.005) | 0.80×0.80×0.005 | floor inlay under plinth |
+
+Total: 26 inventory objects.
+
+### A.34.10-17 Compact
+
+```
+camera_spawn_points:
+  cs_amb_trophy_armory (Cat B): POV at threshold; slow walk to plinth; head pans across tier cases; 14s
+  cs_first_td_trophy (Act 4 one-shot): POV at plinth; new trophy materialises; pendant flares
+  cs_tower_fell_memorial (state-conditional Acts 5+): POV at north wall; memorial updates with new fallen tower
+
+doorways: south.door.main → ark.defense_command_center (via DC east door); pressure_seal; Act 4+
+
+adjacency: direct ark.defense_command_center (south); one_hop ark.tower_assembly_bay, ark.armory (via DC)
+
+gameplay_hooks:
+  - inspectPlinth: trpc.trophy_armory.plinth.inspect
+  - inspectTierCase: trpc.trophy_armory.case.inspect (per-tier per-wall)
+  - inspectHallOfFallen: trpc.trophy_armory.hall.inspect
+  - readCuratorLectern: trpc.trophy_armory.lectern.read
+
+story_tie:
+  primary_arcs: act_4_first_td_trophy; td_progression; tower_lineage_lore
+  per_act:
+    acts_0_3: locked
+    act_4: opens; first TD trophy displayed; bronze tier earned
+    acts_5_7: progress through tiers; fallen-towers memorial accumulates; state-branched Act 7: champion-tier vs. minimal-engagement
+  npc_roster: trophy_curator (silent presence); td_announcer (ambient)
+  readables: creed plaque; honoured-fallen relief; curator's TD-history tome; per-tier nameplates; Hall of Fallen Towers (per-tower lore)
+  master_of_rlyeh_question: n/a
+
+special_fx: dust low; tier_glow_per_state; memorial_uplight_envelope
+volumetric: pendant_scatter; tier_indicator_glow; fallen_uplight
+procedural: tier_indicator_pulse; trophy_subtle_glint; memorial_subtle_pulse
+reactive: pendant_intensify_on_proximity; tier_pulse_on_new_trophy; memorial_flash_on_new_fallen
+
+avatar_parametricity: small_xenomorph: alternate ladder for top tiers; others all-reachable
+audio_occlusion: xenomorph: distant DC bleed more pronounced
+performance: polygon_budget 160,000 / texture_budget 90 MB / light_count 12
+streaming: preload ark.defense_command_center (parent room)
+```
+
+---
+
+## A.35 Tower Assembly Bay (TD) — FULL
+
+**Status: FULL spec.** Cross-ref `INCEPTION_ARK_FINAL_PRODUCTION.md`
+§2.35 (art-state prompts).
+
+### A.35.1 Header
+
+```
+space_id:        ark.tower_assembly_bay
+space_name:      Tower Assembly Bay (TD)
+space_type:      ark_room  (sub-room of Defense Command Center)
+act_introduced:  Act 4
+lore_anchor:     loredex.system.tower_crafting + arc.tower_progression + arc.act_4_first_tower_built
+aesthetic_tier:  solar_punk_cathedral  (industrial-craft accents; tower-building workshop)
+```
+
+### A.35.2 Geometry
+
+```
+dimensions:           11.00 m × 11.00 m × 5.00 m
+origin_point:         centre of floor at south entrance (door from Defense Command Center west side)
+coordinate_axes:      +x = right, +y = forward (north), +z = up
+floor_plan_geometry:  rectangular
+volumetric_anomalies: none
+```
+
+The Tower Assembly Bay is the TD-specific tower-crafting workshop
+— accessed from Defense Command Center's west door (mirror of
+Trophy Armory). Central assembly platform is a 2.40 × 2.40 m
+raised dais where towers are constructed. East wall holds
+component cabinets (8 cabinets — 1 per tower-type). West wall
+holds tool racks. North wall displays the Tower Schematic Index
++ recipes. Cargo gantry at z = 4.20 carries assembled towers
+out to the Defense Command Center for deployment.
+
+Floor area: 121 m².
+
+### A.35.3-8 Compact (full FULL fidelity)
+
+```
+floor: cast-iron grating (heat-resistant; tower-construction generates ember + slag); 1.20×1.20 m panels; bronze inlay outlining assembly platform (2.40×2.40 m); brass perimeter trim
+walls:
+  south: gunmetal panel; south.display.assembly_status (-2.5,0.2,1.8); south.display.recipe_index (2.5,0.2,1.8); south.door.main pressure_seal connects to ark.defense_command_center (west door); plaque "BUILD WHAT THE WORLD NEEDS"
+  east: 8-cabinet stack (one per tower-type — guard / sniper / artillery / shield / repair / rare / legendary / experimental); reinforced steel cabinets with biometric locks; bronze nameplates per cabinet
+  north: full-wall Tower Schematic Index display (4.0×2.4); flanked by tower-recipe relief; gantry-track exit point (north door not for player; tower transport only)
+  west: tool racks for tower-assembly tools (laser-cutter, riveter, calibrator, plasma-welder, finishing-set, charge-coupler, frame-aligner, tower-base-builder)
+ceiling: 5.00 m baseline; cargo gantry track at z=4.20; recessed warm-amber strip-lights along cabinets; high-bay industrial fixtures
+lighting:
+  ambient_baseline: 4500 K cool-industrial; 280 lux (precision crafting); CRI 92
+  assembly_platform_pendant: at (0.00, 5.50, 4.50); warm white precision; 6000 lumens
+  cabinet_strip.east: warm 3000 K; 600 lumens/m
+  tool_rack_strip.west: warm; 600 lumens/m
+  gantry_motion_strip: along gantry; 400 lumens/m
+  practical_sources: assembly_platform_glow (during construction; varies per tower-type colour); cabinet_indicator_lights.<n>×8
+atmosphere: 23°C warm during active assembly / 42% RH / smells of steel + ozone + warm-metal + faint plasma-residue
+sound:
+  ambient_bed: -30 dB; gantry servo-hum, distant cooling fans, occasional tool-clank
+  point_sources: assembly_platform_construction_sfx (state-conditional); gantry_servo_continuous; cabinet_buzz; tool_rack_subtle_clank
+  reverb_zone: tower_assembly_v1.wav wet 24% (industrial-warm)
+  music_eligibility: cutscene only (TD-arc construction cutscenes)
+  voice_line_eligibility: the_chief_engineer (named NPC; rare presence); assembly_announcer (institutional ambient)
+```
+
+### A.35.9 Object inventory (compact)
+
+Tower Assembly Bay has 30 inventory objects.
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.tower_assembly_bay.assembly_platform` | interactive | (0.00, 5.50, 0.20) | 2.40×2.40×0.20 (raised dais) | THE central tower-construction platform |
+| `ark.tower_assembly_bay.assembly_platform.holographic_overlay` | fx_emitter | above platform | 2.40×2.40 | tower-progress hologram |
+| `ark.tower_assembly_bay.east.cabinet.<tower_type>` (8) | container | east wall stack | 0.40×4.00×0.50 each | per-tower-type component cabinets |
+| `ark.tower_assembly_bay.west.tool_rack` | container | (-4.95, 5.50, 0.00) | 0.40×4.00×2.40 | 8-tool tower-assembly tools |
+| `ark.tower_assembly_bay.gantry_overhead` | interactive | along ceiling at z=4.20 | 11.0×0.40×0.20 | tower-transport gantry |
+| `ark.tower_assembly_bay.gantry_control` | console | (-3.00, 5.50, 0.00) | 0.80×0.40×1.10 | gantry operator station |
+| `ark.tower_assembly_bay.chief_engineer_anchor` | npc_anchor | (0.00, 8.00, 0.00) | 0.8×0.8×1.8 | Chief Engineer NPC |
+| `ark.tower_assembly_bay.work_chair.south_east, .south_west` (2) | furniture | flanking platform | 0.80×0.80×1.20 each | working seats |
+| `ark.tower_assembly_bay.south.intercom` | console | (-1.5, 0.2, 1.5) | 0.20×0.10×0.30 | comms |
+| `ark.tower_assembly_bay.fire_extinguisher.south, .east` (2) | interactive | south + east | 0.20×0.20×0.50 each | safety |
+| `ark.tower_assembly_bay.first_aid` | container | (-2.5, 0.2, 1.5) | 0.40×0.10×0.30 | medical |
+| `ark.tower_assembly_bay.south.plaque.creed` | decoration | (0.00, 0.20, 3.20) | 0.80×0.30×0.02 | "BUILD WHAT THE WORLD NEEDS" |
+| `ark.tower_assembly_bay.north.tower_schematic_index_display` | display | (0.00, 10.95, 2.00) | 4.00×2.40×0.05 | tower recipes + schematics |
+| `ark.tower_assembly_bay.north.relief.first_tower_built` | decoration | (0.00, 10.85, 4.20) | 1.20×0.40×0.10 | first-tower-built relief |
+| `ark.tower_assembly_bay.compass_inlay` | decoration | (0.00, 5.50, 0.005) | 1.40×1.40×0.005 | floor inlay under platform |
+| `ark.tower_assembly_bay.alert_strobe.<corner>` (4) | fx_emitter | corners | 0.20×0.20×0.20 each | alert strobes |
+| `ark.tower_assembly_bay.cabinet_indicator_light.east.<n>` (8) | fx_emitter | per cabinet | 0.10×0.10×0.10 | status lights |
+
+Total: 30 inventory objects.
+
+### A.35.10-17 Compact
+
+```
+camera_spawn_points:
+  cs_amb_tower_assembly_bay (Cat B): POV at threshold; slow walk to assembly platform; head pans east + west (cabinets + tools); 18s
+  cs_first_tower_built (Act 4 one-shot): POV at platform; tower assembled with sparks + components clicking together; 22s
+
+doorways: south.door.main → ark.defense_command_center (via DC west door); pressure_seal; Act 4+
+
+adjacency: direct ark.defense_command_center (south); one_hop ark.trophy_armory, ark.armory (via DC)
+
+gameplay_hooks:
+  - operateAssemblyPlatform: trpc.tower_assembly.platform.operate
+  - openComponentCabinet: trpc.tower_assembly.cabinet.open (per-cabinet)
+  - operateGantry: trpc.tower_assembly.gantry.operate
+  - takeToolFromRack: trpc.tower_assembly.tool_rack.take
+  - inspectSchematicIndex: trpc.tower_assembly.schematic_index.inspect
+
+story_tie:
+  primary_arcs: act_4_first_tower_built; tower_progression (continuous); tower_lineage_lore
+  per_act:
+    acts_0_3: locked
+    act_4: opens; first tower built; basic types
+    acts_5_7: rare + legendary towers unlock; experimental tower research
+  npc_roster: the_chief_engineer (named NPC); the_player; assembly_announcer (institutional ambient)
+  readables: creed plaque; first-tower-built relief; schematic-index (per-tower lore); 8 cabinet labels
+  master_of_rlyeh_question: n/a
+
+special_fx: dust low; ember (during construction); spark spray; plasma-shimmer at platform during high-tier builds
+volumetric: assembly_platform_holo; cabinet_glow_per_type; gantry_motion_envelope
+procedural: gantry_idle_sway; cabinet_indicator_pulse; assembly_platform_construction_animation
+reactive: platform_intensify_on_active; gantry_engagement_on_complete; cabinet_glow_on_open
+
+avatar_parametricity: standard
+audio_occlusion: xenomorph: gantry-servo more pronounced
+performance: polygon_budget 220,000 / texture_budget 130 MB / light_count 14
+streaming: preload ark.defense_command_center (parent); on_assembly_active: preload current tower-asset
+```
 
 ---
 
