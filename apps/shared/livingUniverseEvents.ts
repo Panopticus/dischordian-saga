@@ -39,6 +39,12 @@ export interface EmergentEvent {
   typicalCycleDays: number;
   /** Is it currently active? */
   narrative: EventNarrative;
+  /** Reveal cinematic that fires the FIRST time the event manifests
+   *  for the player, served from the CDN under
+   *  `videos/events/<event_id_short>.mp4`. Undefined for events
+   *  that don't have a producer-delivered reveal cutscene. Pass
+   *  through `assetUrl()` when consuming. */
+  cutsceneVideoRelPath?: string;
 }
 
 export interface EventNarrative {
@@ -78,6 +84,7 @@ export const NECROMANCER_RETURN_EVENT: EmergentEvent = {
     },
     resolution: "The community either banishes him through coordinated quests/raids, or lets him rule temporarily. Either way, he'll be back. The Protocols are eternal.",
   },
+  cutsceneVideoRelPath: "videos/events/necromancer_returns.mp4",
 };
 
 /* ═══ EVENT 2: THE DREAMER AWAKENS ═══ */
@@ -105,6 +112,7 @@ export const DREAMER_AWAKENING_EVENT: EmergentEvent = {
     },
     resolution: "The Dreamer either fully wakes (galaxy-wide buff to all positive interactions) or returns to sleep. Either way, she remembers who woke her.",
   },
+  cutsceneVideoRelPath: "videos/events/dreamer_awakens.mp4",
 };
 
 /* ═══ EVENT 3: THE SOURCE'S TERMINUS ADVANCE ═══ */
@@ -132,6 +140,7 @@ export const TERMINUS_ADVANCE_EVENT: EmergentEvent = {
     },
     resolution: "Community either pushes Terminus back (healing, compassion, refusing infection) or lets it arrive. If it arrives, major story consequences but also new raid content.",
   },
+  cutsceneVideoRelPath: "videos/events/terminus_advance.mp4",
 };
 
 /* ═══ EVENT 4: THE ANTIQUARIAN'S REVELATION ═══ */
@@ -159,6 +168,7 @@ export const ANTIQUARIAN_REVELATION_EVENT: EmergentEvent = {
     },
     resolution: "Players glimpse alternate timelines, unlock hidden lore entries, gain access to 'Temporal Echo' game mechanics. Ends when the Antiquarian closes the view.",
   },
+  cutsceneVideoRelPath: "videos/events/antiquarian_reveals.mp4",
 };
 
 /* ═══ EVENT 5: THE SHADOW TONGUE'S GRAND EDIT ═══ */
@@ -186,6 +196,7 @@ export const SHADOW_TONGUE_EDIT_EVENT: EmergentEvent = {
     },
     resolution: "Community must expose and 'uncorrupt' lore entries across the Archives. If enough corrupted entries remain, the Shadow Tongue creates permanent new canon. If community purifies enough, he's forced to retreat.",
   },
+  cutsceneVideoRelPath: "videos/events/shadow_tongue_edits.mp4",
 };
 
 /* ═══ EVENT 6: THE VOX REVELATION ═══ */

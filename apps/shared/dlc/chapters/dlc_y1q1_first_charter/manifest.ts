@@ -9,6 +9,11 @@ import type { MiniDlcManifest } from "../../miniDlcManifest";
 
 const STEPS: readonly DlcStep[] = [
   {
+    kind: "cinematic_ref",
+    id: "intro_cinematic",
+    cinematicId: "y1q1_first_charter",
+  },
+  {
     kind: "narration",
     id: "open",
     speaker: "antiquarian",
@@ -29,7 +34,11 @@ export const DLC_Y1Q1_FIRST_CHARTER: DlcChapter = {
   synopsis:
     "Foundation Day Year 1 — the Antiquarian recovers a damaged charter fragment with one signature redacted. The Council has 7 days to act.",
   parentSection: { kind: "endgame" },
-  sequence: 1,
+  // Sequence encodes year × 10 + quarter so the year-1/year-2
+  // chapters interleave correctly under the shared "endgame"
+  // parentSection. Distinct from DLC_ADVOCATE_01_SACRUM_ECHO's
+  // sequence: 1 (advocate-arc opener).
+  sequence: 11,
   prerequisites: [{ kind: "act_completion", act: 1 }],
   steps: STEPS,
   rewards: { xp: 60, soulBoundDream: 5, lightEnergyReward: 30 },

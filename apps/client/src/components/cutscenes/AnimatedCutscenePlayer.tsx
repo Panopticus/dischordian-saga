@@ -118,7 +118,13 @@ export function AnimatedCutscenePlayer({
     );
   }
 
-  const shotSrc = assetUrl(`${definition.videoBasePath}shot${shotIndex}.mp4`);
+  // Honour shotFilenames override when present (used by human-reveal
+  // variants and any future cutscene where producer filenames don't
+  // follow the shot1.mp4..shotN.mp4 convention). Falls back to the
+  // numbered convention so existing cutscenes are untouched.
+  const shotFile =
+    definition.shotFilenames?.[shotIndex - 1] ?? `shot${shotIndex}.mp4`;
+  const shotSrc = assetUrl(`${definition.videoBasePath}${shotFile}`);
   const posterSrc = assetUrl(definition.posterPath);
 
   return (

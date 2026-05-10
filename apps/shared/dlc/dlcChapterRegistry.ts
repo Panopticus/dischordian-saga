@@ -18,6 +18,15 @@ import { DLC_ADVOCATE_01_SACRUM_ECHO } from "./chapters/dlc_advocate_01_sacrum_e
 import { ALL_EPOCH_WITNESS_DLC_CHAPTERS } from "./chapters/epoch_witness";
 import { ALL_HIERARCHY_DLC_CHAPTERS } from "./chapters/hierarchy";
 import { ALL_BREEDING_DLC_CHAPTERS } from "./chapters/breeding";
+// Year-1 + early-Year-2 quarterly mini-DLCs. Each carries a
+// producer-delivered intro cinematic at step 0 (registered in
+// apps/shared/expansionArt/cinematicsManifest.ts under the
+// y1q*/y2q1 ids); subsequent steps are narration/choice content.
+import { DLC_Y1Q1_FIRST_CHARTER } from "./chapters/dlc_y1q1_first_charter";
+import { DLC_Y1Q2_PALE_INHERITANCE } from "./chapters/dlc_y1q2_pale_inheritance";
+import { DLC_Y1Q3_CURRICULUM_CRISIS } from "./chapters/dlc_y1q3_curriculum_crisis";
+import { DLC_Y1Q4_WITNESS_PLAZA } from "./chapters/dlc_y1q4_witness_plaza";
+import { DLC_Y2Q1_CHARTER_SCHISM } from "./chapters/dlc_y2q1_charter_schism";
 
 /** Single source of truth for every DLC chapter. Frozen so a
  *  caller can't accidentally mutate the registry.
@@ -43,6 +52,13 @@ export const ALL_DLC_CHAPTERS: readonly DlcChapter[] = Object.freeze([
   ...ALL_EPOCH_WITNESS_DLC_CHAPTERS,
   ...ALL_HIERARCHY_DLC_CHAPTERS,
   ...ALL_BREEDING_DLC_CHAPTERS,
+  // Y1Q–Y2Q1 (5 chapters; producer videos delivered + wired via
+  // cinematic_ref step at start of each chapter).
+  DLC_Y1Q1_FIRST_CHARTER,
+  DLC_Y1Q2_PALE_INHERITANCE,
+  DLC_Y1Q3_CURRICULUM_CRISIS,
+  DLC_Y1Q4_WITNESS_PLAZA,
+  DLC_Y2Q1_CHARTER_SCHISM,
 ] as DlcChapter[]);
 
 /* ─── Lookup helpers ─── */

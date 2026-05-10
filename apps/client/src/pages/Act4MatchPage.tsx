@@ -49,6 +49,7 @@ import {
 } from "@/components/act1/ActNOpponentTauntOverlay";
 import { fireCrossGameBeat } from "@/lib/crossGameBeats";
 import { fireCompanionComment } from "@/lib/companionCommentQueue";
+import { act4DialogPathToOutcome } from "@shared/wheelReactionCutscenes";
 import LivingBackground from "@/components/LivingBackground";
 
 import { assetUrl } from "@/lib/assetUrl";
@@ -145,6 +146,16 @@ export default function Act4MatchPage() {
           // DMC efficiency-honest reflection line lands. Safe to
           // fire for any Path C win — helper is idempotent.
           void fireCrossGameBeat("the_programmers_math_loredex_act4_line");
+        }
+        // Bible §10 wheel-followup — set the Act 4 outcome flag the
+        // WheelReactionRouter watches for. Maps the dialog path slug
+        // (e.g. "the_bridge") to outcome (e.g. "reconciled"), which
+        // sets `act4_outcome_<outcome>` for the producer-delivered
+        // wheel-reaction cutscene.
+        const dialogPath = currentOpponent.id.replace(/^act4_/, "");
+        const outcome = act4DialogPathToOutcome(dialogPath);
+        if (outcome) {
+          setNarrativeFlag(`act4_outcome_${outcome}`, true);
         }
       }
       setPostMatchResult({ opponent: currentOpponent, outcome: outcomeTag });

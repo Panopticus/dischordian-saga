@@ -10,6 +10,11 @@ import type { MiniDlcManifest } from "../../miniDlcManifest";
 
 const STEPS: readonly DlcStep[] = [
   {
+    kind: "cinematic_ref",
+    id: "intro_cinematic",
+    cinematicId: "y2q1_charter_schism",
+  },
+  {
     kind: "narration",
     id: "open",
     speaker: "antiquarian",
@@ -42,7 +47,7 @@ export const DLC_Y2Q1_CHARTER_SCHISM: DlcChapter = {
   synopsis:
     "Foundation Day Year 2 — the redacted signatory's descendants demand restoration. Each player picks a side; the winning side reshapes the charter for Year 3.",
   parentSection: { kind: "endgame" },
-  sequence: 2,
+  sequence: 21,
   prerequisites: [
     { kind: "dlc_chapter_completion", chapterId: "dlc_y1q1_first_charter" },
   ],

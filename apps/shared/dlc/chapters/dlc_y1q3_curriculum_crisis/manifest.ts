@@ -9,6 +9,11 @@ import type { MiniDlcManifest } from "../../miniDlcManifest";
 
 const STEPS: readonly DlcStep[] = [
   {
+    kind: "cinematic_ref",
+    id: "intro_cinematic",
+    cinematicId: "y1q3_curriculum_crisis",
+  },
+  {
     kind: "narration",
     id: "open",
     speaker: "mechronis_dean",
@@ -29,7 +34,7 @@ export const DLC_Y1Q3_CURRICULUM_CRISIS: DlcChapter = {
   synopsis:
     "Mechronis Festival Year 1 — a professor vanishes; the curriculum is contested; term cannot start until both questions are answered.",
   parentSection: { kind: "endgame" },
-  sequence: 1,
+  sequence: 13,
   prerequisites: [{ kind: "act_completion", act: 2 }],
   steps: STEPS,
   rewards: { xp: 70, soulBoundDream: 8, lightEnergyReward: 35 },
