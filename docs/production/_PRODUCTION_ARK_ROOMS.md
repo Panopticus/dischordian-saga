@@ -6997,20 +6997,636 @@ floor_plan_geometry: hexagonal
 
 ---
 
-## A.15 Social Hub (Mess Hall) — SCAFFOLDED
+## A.15 Social Hub (Mess Hall) — FULL
+
+**Status: FULL spec.** Cross-ref: `INCEPTION_ARK_FINAL_PRODUCTION.md`
+§2.15 (art-state prompts).
+
+### A.15.1 Header
 
 ```
 space_id:        ark.social_hub
 space_name:      Social Hub / Mess Hall
 space_type:      ark_room
 act_introduced:  Act 1
-lore_anchor:     loredex.system.crew_social + arc.crew_relationships
-aesthetic_tier:  solar_punk_cathedral  (warm-domestic)
-dimensions:      16.00 m × 12.00 m × 4.50 m
-floor_plan_geometry: rectangular
+lore_anchor:     loredex.system.crew_social + arc.crew_relationships + arc.act_1_first_mess_meal
+aesthetic_tier:  solar_punk_cathedral  (warm-domestic; the Ark's most lived-in room)
 ```
 
-(Full spec deferred.)
+### A.15.2 Geometry
+
+```
+dimensions:           16.00 m × 12.00 m × 4.50 m
+origin_point:         centre of floor at south entrance threshold
+coordinate_axes:      +x = right, +y = forward (north), +z = up
+floor_plan_geometry:  rectangular  (with alcove zones; bar zone at north-west, kitchen-pass at north-east, dining tables across central area, lounge zone at south-east)
+volumetric_anomalies: none
+```
+
+The Social Hub is the Ark's most domestic space. Multi-zone:
+8 dining tables in central area, bar at north-west corner,
+kitchen pass-through at north-east, lounge zone with sofas at
+south-east. The room is intentionally MULTI-FUNCTION — meals,
+casual dialogues, NPC bonding events, scheduled gatherings.
+
+Floor area: 192 m².
+
+### A.15.3 Floor
+
+```
+material_primary:     polished walnut hardwood plank in herringbone pattern; 0.20 m × 1.20 m planks running diagonal at 45° from south wall
+material_secondary:   wool rug (warm crimson with gold border) covering lounge zone (4.00 × 4.00 m at south-east corner); brass walkway-strip from entrance through to bar
+pattern:              herringbone with rug accent in lounge; subtle wear-trails to bar + kitchen pass
+wear_state:           well-used; pacing-trails to most-frequented tables; rug shows wear at sit-positions; subtle stains around bar
+embedded_features:
+  - id: ark.social_hub.floor.charge_point.bar
+    position: (-6.00, 9.00, 0.00)  # under bar
+    dimensions: 0.40 × 0.40 × 0.05
+    function: bar electronics
+  - id: ark.social_hub.floor.charge_point.kitchen_pass
+    position: (5.50, 10.50, 0.00)  # at kitchen pass
+    dimensions: 0.40 × 0.40 × 0.05
+    function: warmer + display lights
+  - id: ark.social_hub.floor.heating_grate.south
+    position: (0.00, 1.50, 0.00)
+    dimensions: 0.60 × 0.60 × 0.05
+    function: under-floor heating
+acoustic_property:    soft_absorbent (wool rug + warm wood); RT60 = 0.40s (warm and intimate)
+```
+
+### A.15.4 Walls
+
+#### Wall: South (entrance)
+
+```
+wall_id:              south
+material_primary:     painted plaster with walnut wainscoting (z = 0.00 to 1.20); warm cream plaster from z = 1.20 to ceiling
+material_secondary:   walnut chair-rail; walnut crown-molding at z = 4.30
+panelisation:         standard
+colour_value:         --token-color-ark-social-hub-wall-south  (warm cream + dark walnut wainscoting)
+embedded_displays:
+  - id: ark.social_hub.south.display.menu_board
+    position: (-3.00, 0.20, 1.80)
+    dimensions: 1.00 × 0.80 × 0.05
+    content: today's menu (chalk-style; rotates daily)
+  - id: ark.social_hub.south.display.event_board
+    position: (3.00, 0.20, 1.80)
+    dimensions: 1.00 × 0.80 × 0.05
+    content: scheduled gatherings, birthdays, ceremonies
+embedded_doors:
+  - door_id: ark.social_hub.south.door.main
+    position: (0.00, 0.00, 0.00)
+    dimensions: 1.40 × 2.40 × 0.10
+    door_class: arch  (warm walnut frame; opens with welcome chime)
+    connecting_space_id: ark.corridor.social_approach
+decorative_features:
+  - id: ark.social_hub.south.plaque.welcome
+    position: (0.00, 0.20, 3.20)
+    dimensions: 0.80 × 0.30 × 0.02
+    material: brass with engraved text
+    narrative_role: reads "ALL ARE FED HERE"
+  - id: ark.social_hub.south.coat_hooks
+    position: (-3.00, 0.20, 1.80) and (3.00, 0.20, 1.80) — banks of 4 hooks each
+    dimensions: 0.30 × 0.05 × 0.10 each set
+    material: brass
+    narrative_role: visitors hang coats; gives "homely" feel
+```
+
+#### Wall: East
+
+```
+wall_id:              east
+material_primary:     painted plaster with wainscoting
+material_secondary:   walnut chair-rail
+panelisation:         standard
+colour_value:         --token-color-ark-social-hub-wall-east
+embedded_displays:    none (intentional — domestic feel)
+embedded_doors:        none
+decorative_features:
+  - id: ark.social_hub.east.painting.crew_portraits
+    position: (7.95, 5.00, 1.80)
+    dimensions: 2.40 × 1.20 × 0.04
+    material: oil-on-canvas crew portrait collage (commissioned crew images; replaces with new crew over time)
+    narrative_role: the "family" wall; visual record of Ark's living crew
+  - id: ark.social_hub.east.bookshelf_recreational
+    position: (7.95, 9.50, 0.00)
+    dimensions: 0.40 × 1.50 × 2.00
+    material: walnut shelf with novels, magazines, board games
+    narrative_role: recreational reading; player can borrow items
+```
+
+#### Wall: North (bar + kitchen pass)
+
+```
+wall_id:              north
+material_primary:     painted plaster with reinforced backsplash at kitchen-pass zone (white-tile from z = 0.85 to 2.40 for 4 m wide section)
+material_secondary:   walnut chair-rail
+panelisation:         standard except kitchen-pass zone
+colour_value:         --token-color-ark-social-hub-wall-north  (warm cream + tile accent)
+embedded_displays:
+  - id: ark.social_hub.north.display.kitchen_status
+    position: (5.00, 11.95, 1.80)  # at kitchen pass
+    dimensions: 0.80 × 0.60 × 0.05
+    content: kitchen status (currently serving / breakfast / lunch / dinner / late-snack)
+embedded_doors:
+  - door_id: ark.social_hub.north.door.kitchen
+    position: (3.50, 11.95, 0.00)  # to kitchen sub-space (deferred)
+    dimensions: 1.20 × 2.40 × 0.10
+    door_class: slide
+    connecting_space_id: ark.kitchen  (sub-space; deferred from FULL spec)
+    unlock_condition: always (Act 1+)
+decorative_features:
+  - id: ark.social_hub.north.bar_zone
+    position: (-6.00, 11.95, 0.00)
+    dimensions: 4.00 × 0.05 × 4.00 (alcove zone)
+    material: walnut wall + brass shelving
+    narrative_role: bar zone — bottles + glasses on display
+  - id: ark.social_hub.north.kitchen_pass_window
+    position: (5.00, 11.95, 1.20)
+    dimensions: 2.40 × 0.10 × 1.50  (pass-through window from kitchen)
+    material: tile + bronze frame
+    narrative_role: meal-pickup window
+```
+
+#### Wall: West
+
+```
+wall_id:              west
+material_primary:     painted plaster with wainscoting
+material_secondary:   walnut chair-rail
+panelisation:         standard
+colour_value:         --token-color-ark-social-hub-wall-west
+embedded_displays:    none
+embedded_doors:        none
+decorative_features:
+  - id: ark.social_hub.west.fireplace
+    position: (-7.95, 6.00, 0.00)
+    dimensions: 1.80 × 0.40 × 1.80
+    material: brick + cast-iron fireplace
+    narrative_role: large stone fireplace — central west feature; players gather around for late-night dialogues
+  - id: ark.social_hub.west.fireplace_mantle
+    position: (-7.95, 6.00, 1.80)
+    dimensions: 2.20 × 0.30 × 0.10
+    material: stone mantle with bronze trim
+    narrative_role: holds framed photos, candleholders, small tokens
+```
+
+### A.15.5 Ceiling
+
+```
+height_above_floor:     4.50 m baseline; coffered ceiling pattern (1.50 × 1.50 m squares)
+material:               painted plaster with walnut crown-molding + coffered detailing
+lighting_integrated:    central pendant chandelier above main dining area; recessed grid in coffers; bar pendants; kitchen-pass task lighting
+atmospheric_features:   slight haze near bar (cosmetic; suggests beverage steam); occasional dust-motes in pendant beams
+acoustic_treatment:     coffered + soft (rug + upholstery)
+```
+
+### A.15.6 Lighting
+
+```
+ambient_baseline:     2700 K (very warm; domestic); 200 lux at floor level; CRI 95
+direct_fixtures:
+  - id: ark.social_hub.light.central_chandelier
+    position: (0.00, 6.00, 4.30)
+    beam_angle: 360° (radial)
+    colour: --token-color-ark-social-hub-chandelier  (warm amber)
+    intensity: 6000 lumens (with crystal scatter)
+    function: principal dining-area lighting
+  - id: ark.social_hub.light.bar_pendant.<n>  (3 pendants over bar)
+    position: (-7.00, 11.50, 3.80), (-6.00, 11.50, 3.80), (-5.00, 11.50, 3.80)
+    beam_angle: 90° downward
+    colour: 2400 K very warm
+    intensity: 1500 lumens each
+    function: bar task lighting
+  - id: ark.social_hub.light.kitchen_pass_task
+    position: (5.00, 11.50, 3.80)
+    beam_angle: 60° downward
+    colour: 4500 K bright
+    intensity: 3000 lumens
+    function: kitchen-pass food display
+  - id: ark.social_hub.light.fireplace_mantle_uplight
+    position: (-7.50, 6.00, 1.80)
+    beam_angle: 30° upward
+    colour: 2400 K very warm
+    intensity: 800 lumens
+    function: dramatic mantle accent
+  - id: ark.social_hub.light.recessed_coffer_grid
+    position: distributed in coffers
+    beam_angle: 60° each
+    colour: 3000 K
+    intensity: 1200 lumens each
+    function: ambient task
+practical_sources:
+  - id: ark.social_hub.fireplace_glow
+    position: (-7.50, 6.00, 0.50)
+    intensity: 800 lumens (when lit; usually lit Acts 4+)
+    flicker_pattern: organic flicker
+  - id: ark.social_hub.candle.dining.<n>  (3 small candles on dining tables; gameplay-conditional)
+    position: per candle
+    intensity: 30 lumens each
+    flicker_pattern: organic
+time_of_day_variation:
+  acts_1_to_7: stable warm baseline; in late-act7, depending on player's social engagement, fireplace may always be lit (warm) or always cold (sterile)
+dynamic_response:
+  - on_player_at_bar: bar pendants intensify 20%
+  - on_player_at_dining_table: nearest candles activate
+  - on_player_at_fireplace: localised warmth glow
+```
+
+### A.15.7 Atmosphere
+
+```
+air_temperature:    22°C (warm, cosy)
+humidity:           50% RH (welcoming); smells of bread + coffee + faint smoke (fireplace) + warm wood
+particulate:
+  - dust: very low (well-maintained)
+  - bar_steam: low (cocktail-steam from bar)
+  - kitchen_steam: medium (during meal service; from kitchen pass)
+  - fireplace_smoke: low (when lit; rises through chimney)
+volumetric_fog:     absent in baseline; subtle haze near bar + kitchen pass during peak meal-times
+wind_drift:         minimal; 0.02 m/s
+smell_canon:        bread + coffee + smoke + wood; voice-line: "smells like home"
+```
+
+### A.15.8 Sound
+
+```
+ambient_bed:           file: social_hub_ambient_bed_v1.ogg (loop); -28 dB; faint conversational hum, distant cookware-clatter from kitchen, occasional glass-clink, fireplace crackle
+point_sources:
+  - sound.fireplace_crackle: at fireplace; -28 dB; continuous when lit
+  - sound.kitchen_clatter_distant: at kitchen pass; -34 dB; continuous (varies by time)
+  - sound.bar_glassware: at bar; occasional glass-tink; -36 dB; random
+  - sound.dining_chatter: dynamic at populated tables; -32 dB; ambient cyclic
+  - sound.crew_laughter_random: dynamic; rare laugh-burst; -34 dB; random period 60-180s
+reverb_zone:           IR-impulse: social_hub_v1.wav; wet-mix 18% (intimate)
+music_eligibility:     ambient music allowed (warm jazz / soft instrumental during meals); cutscene-conditional during scripted events
+voice_line_eligibility:
+  - speaker: vex_solene, locke, elara: presence (any time off-duty)
+    line set: see §2.15.2 (Social Hub multi-NPC presence)
+  - speaker: cook (named NPC): rare
+    line set: §2.15.2
+```
+
+### A.15.9 Object inventory
+
+Social Hub has 56 inventory objects.
+
+#### A.15.9.1-8 The Eight Dining Tables
+
+```
+object_id:           ark.social_hub.dining_table.<n>  (8 tables; arranged in 2 rows of 4)
+object_class:        furniture
+positions:           [
+  (-4.50, 3.00, 0.00),  # SW row 1
+  (-1.50, 3.00, 0.00),
+  (1.50, 3.00, 0.00),
+  (4.50, 3.00, 0.00),   # SE row 1
+  (-4.50, 6.50, 0.00),  # SW row 2
+  (-1.50, 6.50, 0.00),
+  (1.50, 6.50, 0.00),
+  (4.50, 6.50, 0.00),   # SE row 2
+]
+dimensions (each):   1.40 × 0.80 × 0.85
+rotation:            0°
+material_primary:    polished walnut with brass corner caps
+material_secondary:  small bronze numbered plate (table 1-8)
+colour_value:        --token-color-ark-social-hub-dining-table
+interaction:         interactable
+  - sit_with_npc: if NPC seated, opens dialogue; otherwise positional
+  - inspect: lore-note about table (each has subtle NPC associations)
+narrative_role:      seating for crew meals + casual dialogues; NPCs tend to claim specific tables (Vex frequents table 3, Locke table 5, etc.)
+lore_anchor:         arc.crew_relationships
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.social_hub.dining_table.sit
+wear_state:          slight wear at most-frequented seats
+physical_constraints: collides
+```
+
+#### A.15.9.9-40 Thirty-Two Dining Chairs (4 per table × 8 tables)
+
+```
+object_id:           ark.social_hub.dining_chair.<table>.<position>  (32 chairs)
+object_class:        furniture
+positions:           4 per dining table; flanking sides
+dimensions (each):   0.80 × 0.80 × 1.20
+rotation (each):     varies (faces table)
+material_primary:    walnut frame with charcoal leather seat
+material_secondary:  brass tacks
+colour_value:        --token-color-ark-social-hub-dining-chair
+interaction:         interactable - sit
+narrative_role:      meal seating
+art_status:          producer_handoff
+gameplay_hook_id:    none (positional)
+wear_state:          slight wear at most-frequented seats
+physical_constraints: collides; sittable
+```
+
+#### A.15.9.41 The Bar
+
+```
+object_id:           ark.social_hub.bar
+object_class:        interactive
+position:            (-6.00, 11.00, 0.00)
+dimensions:          4.00 × 1.00 × 1.10
+rotation:            0°  (faces south, into the room)
+material_primary:    polished walnut bar-top with brass foot-rail; underbench cabinets
+material_secondary:  brass + glass shelves behind bar (with bottles + glasses display)
+colour_value:        --token-color-ark-social-hub-bar
+interaction:         interactable
+  - operate: opens bar UI (player can order beverages, talk to bartender NPC)
+  - inspect: lore-note about bar
+narrative_role:      central social-zone; players catch NPCs here for dialogues
+lore_anchor:         arc.crew_relationships
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.social_hub.bar.operate
+wear_state:          worn at bar-top (most touched)
+physical_constraints: collides
+```
+
+#### A.15.9.42-45 Four Bar Stools
+
+```
+object_id:           ark.social_hub.bar_stool.<n>  (4 stools at bar)
+object_class:        furniture
+positions:           (-7.20, 10.20, 0.00), (-6.40, 10.20, 0.00), (-5.60, 10.20, 0.00), (-4.80, 10.20, 0.00)
+dimensions (each):   0.40 × 0.40 × 0.85
+rotation:            0°  (faces bar)
+material_primary:    walnut + charcoal-leather seat
+material_secondary:  brass footrest
+colour_value:        --token-color-ark-social-hub-bar-stool
+interaction:         interactable - sit
+narrative_role:      bar seating; player can drink + talk
+lore_anchor:         arc.crew_relationships
+art_status:          producer_handoff
+gameplay_hook_id:    none
+wear_state:          slight wear
+physical_constraints: collides; sittable
+```
+
+#### A.15.9.46 Lounge Sofa (south-east corner)
+
+```
+object_id:           ark.social_hub.lounge_sofa
+object_class:        furniture
+position:            (5.00, 4.50, 0.00)
+dimensions:          2.40 × 0.90 × 0.80
+rotation:            225°  (faces SW into lounge zone)
+material_primary:    deep crimson velvet upholstery on walnut frame
+material_secondary:  brass tacks; brass armrest caps
+colour_value:        --token-color-ark-social-hub-lounge-sofa
+interaction:         interactable - sit (3-seat capacity)
+narrative_role:      casual lounge seating; comfortable for extended dialogues
+lore_anchor:         arc.crew_relationships
+art_status:          producer_handoff
+gameplay_hook_id:    none
+wear_state:          worn at sit-zones; cushions slightly indented
+physical_constraints: collides; sittable
+```
+
+#### A.15.9.47-48 Two Lounge Armchairs
+
+```
+object_id:           ark.social_hub.lounge_armchair.east, .west
+object_class:        furniture
+positions:           (6.50, 3.00, 0.00), (3.50, 3.00, 0.00)
+dimensions (each):   0.90 × 0.90 × 1.10
+rotation (each):     faces lounge centre
+material_primary:    crimson velvet on walnut frame
+material_secondary:  brass armrest caps
+colour_value:        --token-color-ark-social-hub-lounge-sofa
+interaction:         interactable - sit
+narrative_role:      paired armchairs face the sofa; intimate-conversation seating
+lore_anchor:         arc.crew_relationships
+art_status:          producer_handoff
+gameplay_hook_id:    none
+wear_state:          slight wear
+physical_constraints: collides; sittable
+```
+
+#### A.15.9.49 Lounge Coffee Table
+
+```
+object_id:           ark.social_hub.lounge_coffee_table
+object_class:        furniture
+position:            (5.00, 3.00, 0.00)
+dimensions:          1.20 × 0.60 × 0.45
+rotation:            0°
+material_primary:    walnut with brass corner caps
+material_secondary:  none
+colour_value:        --token-color-ark-social-hub-coffee-table
+interaction:         interactable
+  - inspect: shows current items (chess board mid-game; books; glasses)
+narrative_role:      shared surface; NPCs leave items here
+lore_anchor:         arc.crew_relationships
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.social_hub.coffee_table.inspect
+wear_state:          slight wear
+physical_constraints: collides
+```
+
+#### A.15.9.50 Fireplace (west wall)
+
+Specced in walls A.15.4. Inventoried for completeness:
+
+```
+object_id:           ark.social_hub.fireplace
+object_class:        interactive
+position:            (-7.50, 6.00, 0.00)
+dimensions:          1.80 × 0.40 × 1.80
+rotation:            90°
+material_primary:    brick + cast-iron
+material_secondary:  brass screen + tools
+colour_value:        --token-color-ark-social-hub-fireplace
+interaction:         interactable
+  - light: lights fire (ambient warmth + light; gameplay-flag for cosy state)
+  - extinguish: extinguishes
+  - inspect: lore-note
+narrative_role:      west-wall focal feature; gathering point for late-night dialogues
+lore_anchor:         arc.crew_relationships
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.social_hub.fireplace.toggle
+wear_state:          soot patina
+physical_constraints: collides
+```
+
+#### A.15.9.51-56 Decorative + Closing Items
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.social_hub.fireplace_mantle.framed_photos` | decoration | on mantle | 0.20 × 0.30 × 0.04 each (3 photos) | crew family photos |
+| `ark.social_hub.fireplace_mantle.candleholders` | decoration | on mantle | 0.10 × 0.10 × 0.30 each (2 sets) | bronze candleholders |
+| `ark.social_hub.south.intercom` | console | (-2.00, 0.20, 1.50) | 0.20 × 0.10 × 0.30 | comms relay |
+| `ark.social_hub.fire_extinguisher.south` | interactive | (2.00, 0.20, 1.20) | 0.20 × 0.20 × 0.50 | safety |
+| `ark.social_hub.first_aid.kit` | container | (-2.50, 0.20, 1.50) | 0.40 × 0.10 × 0.30 | medical |
+| `ark.social_hub.bookshelf_recreational` (rolled walls) | container | east wall | 0.40 × 1.50 × 2.00 | books / games |
+
+Total: 56 inventory objects.
+
+### A.15.10 Camera-spawn-points (FPV cutscenes)
+
+```
+cutscene_id:         cs_amb_social_hub  (Category B; deferred catalogue)
+camera_position:     (0.00, 0.50, eye_level)
+camera_facing:       (0°, 0°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         slow walk-pan; head turns to fireplace (lit), bar (active), kitchen pass; lasts 22s
+
+cutscene_id:         cs_first_mess_meal  (Act 1)
+camera_position:     (0.00, 4.50, eye_level)  # at central dining area
+camera_facing:       (0°, -10°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         seated at table; meal placed before player; first crew dialogue
+```
+
+### A.15.11 Doorways
+
+```
+door_id:            ark.social_hub.south.door.main
+connecting_space_id: ark.corridor.social_approach
+door_position:      (0.00, 0.00, 0.00)
+door_dimensions:    1.40 × 2.40 × 0.10
+door_class:         arch
+unlock_condition:   Act 1+
+transit_animation:  fade
+audio_signature:    walnut-creak + welcome chime
+
+door_id:            ark.social_hub.north.door.kitchen
+connecting_space_id: ark.kitchen  (sub-space; deferred)
+door_position:      (3.50, 11.95, 0.00)
+door_dimensions:    1.20 × 2.40 × 0.10
+door_class:         slide
+unlock_condition:   always
+transit_animation:  fade
+audio_signature:    soft slide
+```
+
+### A.15.12 Adjacency map
+
+```
+direct_adjacencies:
+  - ark.corridor.social_approach (south door)
+  - ark.kitchen (north kitchen door; sub-space)
+one_hop_adjacencies:
+  - many — Social Hub is a community crossroads adjacent to most decks
+```
+
+### A.15.13 Gameplay hooks
+
+```
+hooks:
+  - hook_id:         social_hub.sitAtDiningTable
+    trigger:         player.sit on dining_chair.<table>.<position>
+    procedure:       trpc.social_hub.dining_table.sit
+    success_state:   table_seat_active = true
+  - hook_id:         social_hub.operateBar
+    trigger:         player.operate on bar
+    procedure:       trpc.social_hub.bar.operate
+    success_state:   bar_active = true
+  - hook_id:         social_hub.toggleFireplace
+    trigger:         player.interact on fireplace
+    procedure:       trpc.social_hub.fireplace.toggle
+    success_state:   fireplace_state = lit | extinguished
+  - hook_id:         social_hub.inspectCoffeeTable
+    trigger:         player.inspect on lounge_coffee_table
+    procedure:       trpc.social_hub.coffee_table.inspect
+    success_state:   coffee_table_inspected = true
+  - hook_id:         social_hub.takeBookFromShelf
+    trigger:         player.inspect on bookshelf_recreational
+    procedure:       trpc.social_hub.bookshelf.take
+    success_state:   book_borrowed = true
+  - hook_id:         social_hub.takeBarStool
+    trigger:         player.sit on bar_stool.<n>
+    procedure:       trpc.social_hub.bar_stool.sit
+    success_state:   bar_stool_active = true
+```
+
+### A.15.14 Story-tie
+
+```
+primary_arcs:
+  - arc.crew_relationships (continuous; central to the room)
+  - arc.act_1_first_mess_meal
+  - arc.npc_bonding_events
+per_act_evolution:
+  acts_0: room locked
+  act_1: opens; first mess meal cutscene; basic dialogue available
+  acts_2_4: NPC bonding events (varied by player choices); fireplace gets used more often as crew "settles in"
+  act_5: deep crew dialogues; secrets revealed at fireside
+  act_6: rare crew gatherings (events affect ambient occupancy)
+  act_7: state-branched: well-bonded ending (room is alive, full of warmth) vs. distant ending (room is sterile, fireplace cold)
+npc_roster:
+  - vex_solene: frequent off-duty presence
+  - locke: occasional presence (when not on bridge)
+  - elara: occasional presence
+  - the_cook: rare presence
+  - other crew NPCs: rotating
+readables:
+  - welcome plaque (south)
+  - menu board (south)
+  - event board (south)
+  - fireplace mantle photos (lore-readable)
+  - bookshelf books (varied lore)
+  - crew portraits (east wall)
+master_of_rlyeh_question: n/a
+```
+
+### A.15.15 Special-FX
+
+```
+particle_systems:
+  - dust (very low)
+  - bar_steam (low; cocktail steam)
+  - kitchen_steam (medium; from pass during meal-times)
+  - fireplace_glow_particles (when lit)
+  - candle_smoke (per candle)
+volumetric_effects:
+  - chandelier_crystal_scatter (rainbow prisms on rug)
+  - fireplace_volumetric_glow (when lit)
+  - bar_pendant_volumetric_beams
+procedural_animations:
+  - chandelier_subtle_sway
+  - fireplace_flame_dance (when lit)
+  - candle_individual_flicker
+  - distant_kitchen_steam_rise
+  - dining_chair_subtle_settle
+reactive_systems:
+  - chandelier_intensify_during_meals (state-conditional)
+  - bar_pendant_warmth_on_bar_use
+  - kitchen_pass_brighten_during_service
+  - fireplace_warmth_pulse_on_lit_state
+```
+
+### A.15.16 Avatar-parametricity
+
+```
+camera_height_variation:
+  small_xenomorph (0.85m eye): 0.85m; tables at chest-level; alternate child-height seating
+  short_humanoid (1.40m eye): standard short scale
+  average_humanoid (1.70m eye): standard
+  tall_humanoid (2.05m eye): comfortable
+  tall_xenomorph (2.70m eye): chandelier collides; alternate route
+reachability:
+  small_xenomorph: cannot reach top bar shelves; bartender NPC handles requests
+  others: all-reachable
+audio_occlusion_variation:
+  xenomorph_sensitive_hearing: chatter and laughter more pronounced; intimate
+  synthetic_voice_avatar: subtle audio bias
+```
+
+### A.15.17 Performance
+
+```
+polygon_budget:      280,000 polygons (rich furniture density)
+texture_budget:      150 MB total
+light_count_limit:   18 simultaneous dynamic lights
+lod_plan:
+  - hero_distance: 0-10m, full detail
+  - mid_distance: 10-22m, mid detail (small decor simplified)
+  - low_distance: 22m+, low detail
+streaming_behaviour:
+  - preload: ark.corridor.social_approach (south)
+  - on_meal_time: preload kitchen sub-space content
+```
 
 ---
 
@@ -9273,20 +9889,325 @@ streaming_behaviour:
 
 ---
 
-## A.28 Pet Garden (Pocket — breeding/dynasty room) — SCAFFOLDED
+## A.28 Pet Garden (Pocket — breeding/dynasty room) — FULL
+
+**Status: FULL spec.** Cross-ref: `INCEPTION_ARK_FINAL_PRODUCTION.md`
+§2.28 (art-state prompts).
+
+### A.28.1 Header
 
 ```
 space_id:        ark.pet_garden
 space_name:      Pet Garden
-space_type:      ark_room  (pocket dimension)
+space_type:      ark_room  (pocket dimension; non-Euclidean botanical zone)
 act_introduced:  Act 3
-lore_anchor:     loredex.system.pets + arc.pet_breeding
-aesthetic_tier:  dreamers_oneiric  (botanical-organic aesthetic)
-dimensions:      14.00 m × 14.00 m × 6.00 m
-floor_plan_geometry: circular
+lore_anchor:     loredex.system.pets + arc.pet_breeding + arc.act_3_first_pet_acquisition
+aesthetic_tier:  dreamers_oneiric  (botanical-organic; the Ark's most living space)
 ```
 
-(Full spec deferred.)
+### A.28.2 Geometry
+
+```
+dimensions:           14.00 m diameter × 6.00 m  (circular footprint; bounding box 14×14×6)
+origin_point:         centre of floor (room is circular; origin at geometric centre)
+coordinate_axes:      +x = right, +y = forward (north), +z = up
+floor_plan_geometry:  circular  (7.00 m radius)
+volumetric_anomalies: subtle bigger-on-inside ratio 1.5× (botanical zones extend slightly beyond physical footprint); incubation pods exhibit minor temporal dilation (cosmetic)
+```
+
+The Pet Garden is a circular botanical chamber; central founder-
+pet incubation pods cluster in the centre; surrounding zones are
+themed botanical alcoves (one per pet-species type). Soft bio-
+luminescent walls; gravity slightly reduced (~0.95g) to simulate
+natural pet habitats.
+
+Floor area: ~154 m².
+
+### A.28.3 Floor
+
+```
+material_primary:     polished moss-green stone (treated for biological-fluid resistance); 0.60 m × 0.60 m hexagonal tiles
+material_secondary:   bronze inlay forming a 6-pointed mandala centred on incubation pods; bio-luminescent strips along walkways
+pattern:              hexagonal tiles + mandala inlay; 6 walkway-radii from centre to perimeter
+wear_state:           pristine; slight wear at incubation-pod approach
+embedded_features:
+  - id: ark.pet_garden.floor.charge_point.incubation_pods
+    position: (0.00, 0.00, 0.00)
+    dimensions: 0.40 × 0.40 × 0.05
+    function: incubation-pod power
+  - id: ark.pet_garden.floor.bio_lume_strip.<radii>  (6 radial strips)
+    position: 6 walkways from centre to perimeter at 60° intervals
+    dimensions: 0.10 × 6.50 × 0.005 each
+    function: bio-luminescent walkway lights
+acoustic_property:    soft_absorbent (organic surfaces); RT60 = 0.50s
+```
+
+### A.28.4 Walls
+
+```
+wall_id:              perimeter_curved (circular)
+material_primary:     bio-luminescent cast-coral panels (organic-grown over time); soft-pulse with pet-life rhythm
+material_secondary:   bronze structural ribs at 60° intervals
+panelisation:         continuous curved surface
+colour_value:         --token-color-ark-pet-garden-wall  (warm bio-luminescent green-gold)
+embedded_displays:
+  - id: ark.pet_garden.south.display.species_register
+    position: (0.00, -6.95, 1.80)
+    dimensions: 1.00 × 0.80 × 0.05
+    content: registry of all species + player's collection
+embedded_doors:
+  - door_id: ark.pet_garden.south.door.main
+    position: (0.00, -7.00, 0.00)
+    dimensions: 1.40 × 2.40 × 0.10
+    door_class: arch  (organic curved frame)
+    connecting_space_id: ark.corridor.pet_approach
+decorative_features:
+  - id: ark.pet_garden.alcove.<species_zone>  (6 botanical alcoves at 60° intervals)
+    position: distributed perimeter at radius 6.20 m
+    dimensions: 1.80 × 0.80 × 4.00 each
+    material: bio-luminescent backplane + species-themed planting
+    narrative_role: each alcove reflects a different pet-species' natural habitat
+  - id: ark.pet_garden.south.plaque.principle
+    position: (0.00, -6.95, 3.20)
+    dimensions: 0.80 × 0.30 × 0.02
+    material: cast bronze with engraved text
+    narrative_role: reads "ALL CREATURES KEEP THEIR OWN COUNSEL"
+```
+
+### A.28.5 Ceiling
+
+```
+height_above_floor:     6.00 m baseline; central oculus rises to 7.50 m above incubation pods (bio-luminescent dome)
+material:               bio-luminescent cast-coral with bronze structural ribs
+lighting_integrated:    central oculus emits warm bio-luminescent light; 6 alcove ceiling-strips define species zones
+atmospheric_features:   floating bio-luminescent motes drift naturally (cosmetic; suggests "spores of life")
+acoustic_treatment:     domed organic absorption
+```
+
+### A.28.6 Lighting
+
+```
+ambient_baseline:     3500 K (warm bio-luminescent); 180 lux at floor level; CRI 90
+direct_fixtures:
+  - id: ark.pet_garden.light.oculus_central
+    position: (0.00, 0.00, 7.50)
+    beam_angle: 60° downward
+    colour: --token-color-ark-pet-garden-oculus  (warm bio-luminescent gold-green)
+    intensity: 4000 lumens (pulses with pet-life rhythm)
+    function: principal incubation-pod illumination
+  - id: ark.pet_garden.light.alcove_strip.<n>  (6 alcove ceiling strips)
+    position: each alcove ceiling
+    beam_angle: 180° wash inward-downward
+    colour: --token-color-ark-pet-garden-alcove-strip  (varies per species — green for botanicals, blue for aquatics, gold for celestials, etc.)
+    intensity: 800 lumens each
+    function: species-zone identification
+practical_sources:
+  - id: ark.pet_garden.incubation_pod.<n>  (varies by population; up to 12 pods)
+    position: per-pod within central cluster
+    intensity: 100 lumens (when active; varies by occupant lifecycle)
+    flicker_pattern: matches gestation rhythm
+time_of_day_variation:
+  acts_3_to_7: stable; in late-act7, if many pets thriving, oculus pulses richly; if neglectful, dim
+dynamic_response:
+  - on_pet_birth: oculus pulses brightly; nearby alcove brightens
+  - on_pet_death: localised dimming
+```
+
+### A.28.7 Atmosphere
+
+```
+air_temperature:    24°C (warm; biological)
+humidity:           65% RH (high; supports botanical + organic life); smells of fresh foliage + earthy soil + faint pet-musk + mineral water
+particulate:
+  - bio_luminescent_motes: medium (cosmetic; "life floats")
+  - pollen_spores: very low (varies per alcove)
+  - water_vapor: low (from incubation pods)
+volumetric_fog:     subtle haze at upper volume (0.05 g/m³, warm-amber)
+wind_drift:         minimal; 0.02 m/s; subtle inward-spiral toward incubation pods
+smell_canon:        foliage + soil + pet-musk + mineral water; voice-line: "smells like a world being born"
+```
+
+### A.28.8 Sound
+
+```
+ambient_bed:           file: pet_garden_ambient_bed_v1.ogg (loop); -32 dB; soft chittering, occasional pet-vocalisation, water-trickle from alcoves, faint heartbeat-rhythm of incubation pods
+point_sources:
+  - sound.incubation_pod_hum.<n>: per active pod; -38 dB; continuous
+  - sound.pet_vocalisation.<species>: dynamic; per alcove; varies by species; -34 dB; cyclic
+  - sound.water_trickle.<alcove>: per alcove; -38 dB; continuous
+  - sound.pollen_spores_drift: omnidirectional; very faint; -44 dB; ambient
+reverb_zone:           IR-impulse: pet_garden_v1.wav; wet-mix 22%
+music_eligibility:     cutscene only (Category B cs_amb_pet_garden + Category C cs_disc_pet_arena loading from §A.29)
+voice_line_eligibility:
+  - speaker: the_mascoteer (named NPC; rare presence): line set §2.28.2
+```
+
+### A.28.9 Object inventory
+
+Pet Garden has 32 inventory objects.
+
+#### A.28.9.1 The Central Incubation Pod Cluster
+
+```
+object_id:           ark.pet_garden.incubation_pod_cluster
+object_class:        interactive
+position:            (0.00, 0.00, 0.00)
+dimensions:          2.40 dia × 1.50 height (cluster of 12 pods arranged in tight ring)
+rotation:            0°
+material_primary:    transparent organic-resin pods + brass cradles
+material_secondary:  bronze nameplates per pod (currently-incubating species)
+colour_value:        --token-color-ark-pet-garden-incubation-pod
+interaction:         interactable
+  - operate: opens incubation-management UI (player monitors gestation, intervenes if needed)
+  - inspect: lore-note about pet-genealogy mechanics
+narrative_role:      THE breeding heart; player manages founding-pet lineage here
+lore_anchor:         loredex.system.pets + arc.pet_breeding
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.pet_garden.incubation_cluster.operate
+wear_state:          slight wear at pod-glass touch zones
+physical_constraints: collides
+```
+
+#### A.28.9.2-7 Six Species Alcoves
+
+```
+object_id:           ark.pet_garden.alcove.<species_zone>  (6 alcoves: botanicals, aquatics, celestials, terrestrials, mystics, swarm)
+positions:           perimeter at 60° intervals (radius 6.20 m)
+dimensions (each):   1.80 × 0.80 × 4.00
+material_primary:    bio-luminescent backplane + species-themed planting / habitat (botanicals = ferns, aquatics = water-feature, celestials = star-field, etc.)
+material_secondary:  bronze name-plate per alcove
+colour_value:        --token-color-ark-pet-garden-alcove
+interaction:         interactable
+  - inspect: opens species-detail UI
+  - care: provides species-specific care actions
+narrative_role:      species-identity zones; pets visit/rest in their natural alcove
+lore_anchor:         per-species lore
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.pet_garden.alcove.inspect + .care
+wear_state:          varies per alcove based on player engagement
+physical_constraints: collides; player can step inside
+```
+
+#### A.28.9.8 Mascoteer's Anchor
+
+```
+object_id:           ark.pet_garden.mascoteer_anchor
+object_class:        npc_anchor
+position:            (-1.50, 2.00, 0.00)
+dimensions:          0.80 × 0.80 × 1.80 (anchor)
+rotation:            varies
+material_primary:    n/a
+material_secondary:  n/a
+colour_value:        n/a
+interaction:         n/a
+narrative_role:      Mascoteer NPC anchors here; rare physical visits Acts 4+
+lore_anchor:         loredex.character.mascoteer
+art_status:          producer_handoff
+gameplay_hook_id:    none
+wear_state:          n/a
+physical_constraints: n/a
+```
+
+#### A.28.9.9-14 Six Care Stations (one near each alcove)
+
+```
+object_id:           ark.pet_garden.care_station.<species_zone>
+object_class:        interactive
+positions:           between centre and each alcove (radius 4.00 m, at 60° intervals)
+dimensions (each):   0.80 × 0.40 × 1.10
+rotation (each):     faces alcove
+material_primary:    brass + glass with species-themed tools
+material_secondary:  none
+colour_value:        --token-color-ark-pet-garden-care-station
+interaction:         interactable
+  - operate: opens species-specific care UI (feeding, grooming, training)
+narrative_role:      hands-on pet care; gameplay-active
+lore_anchor:         loredex.system.pet_care
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.pet_garden.care_station.operate
+wear_state:          slight wear
+physical_constraints: collides
+```
+
+#### A.28.9.15-20 Six Bronze Pedestals (decorative; one per alcove)
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.pet_garden.pedestal.botanicals` | decoration | near botanicals alcove | 0.40 × 0.40 × 1.20 | bronze pedestal with species emblem |
+| (5 more, one per remaining species) | | | | |
+
+#### A.28.9.21-24 Atmospheric Items
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.pet_garden.water_feature.aquatics` | fx_emitter | within aquatics alcove | n/a | bubbling water feature |
+| `ark.pet_garden.starfield_emitter.celestials` | fx_emitter | within celestials alcove | n/a | localised starfield projection |
+| `ark.pet_garden.fern_cluster.botanicals` | decoration | within botanicals alcove | varied | dense fern planting |
+| `ark.pet_garden.crystal_cluster.mystics` | decoration | within mystics alcove | varied | luminescent crystal cluster |
+
+#### A.28.9.25-28 Bench + Observation Items
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.pet_garden.observation_bench.south_arc` | furniture | (0.00, -3.50, 0.00) | 1.40 × 0.40 × 0.45 | curved bench facing centre |
+| `ark.pet_garden.observation_bench.north_arc` | furniture | (0.00, 3.50, 0.00) | mirror | bench |
+| `ark.pet_garden.lectern.species_guide` | container | (-2.50, -3.00, 0.00) | 0.40 × 0.30 × 1.20 | bronze lectern with species field-guide |
+| `ark.pet_garden.species_guide_book` | container | on lectern | 0.30 × 0.20 × 0.05 | open lore-readable |
+
+#### A.28.9.29-32 Closing Items
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.pet_garden.south.intercom` | console | (-1.00, -6.95, 1.50) | 0.20 × 0.10 × 0.30 | comms relay |
+| `ark.pet_garden.fire_extinguisher.south` | interactive | (1.00, -6.95, 1.20) | 0.20 × 0.20 × 0.50 | safety |
+| `ark.pet_garden.first_aid.kit` | container | (-2.00, -6.95, 1.50) | 0.40 × 0.10 × 0.30 | medical |
+| `ark.pet_garden.compass_inlay` | decoration | (0.00, 0.00, 0.005) | 1.40 × 1.40 × 0.005 | floor mandala |
+
+Total: 32 inventory objects.
+
+### A.28.10-17 Camera-spawn-points / Doorways / Adjacency / Hooks / Story / FX / Parametricity / Performance (compact)
+
+```
+cs_amb_pet_garden:  POV at threshold; slow walk-pan inward; head turns to alcoves; pet stirs; lasts 22s
+cs_first_pet_acquisition (Act 3): hand at alcove; pet emerges; first bond
+
+door_id: ark.pet_garden.south.door.main → ark.corridor.pet_approach (Act 3+; arch; fade)
+
+direct_adjacencies: ark.corridor.pet_approach (south)
+one_hop: ark.pet_arena (via approach), ark.pet_medical_annex (via approach)
+
+hooks:
+  - operateIncubationCluster: trpc.pet_garden.incubation_cluster.operate
+  - inspectAlcove: trpc.pet_garden.alcove.inspect
+  - careAlcove: trpc.pet_garden.alcove.care
+  - operateCareStation: trpc.pet_garden.care_station.operate
+  - readSpeciesGuide: trpc.pet_garden.species_guide.read
+
+primary_arcs:
+  - arc.act_3_first_pet_acquisition
+  - arc.pet_breeding (continuous)
+  - arc.species_collection
+per_act:
+  acts_0_2: locked
+  act_3: opens; first pet acquisition
+  acts_4_6: deeper breeding; rare species
+  act_7: state-branched: thriving menagerie vs. minimal collection
+
+npc_roster: the_mascoteer; pets (hundreds)
+readables: principle plaque; species guide; alcove name-plates
+master_of_rlyeh_question: n/a
+
+particle_systems: bio_luminescent_motes; pollen_spores; water_vapor
+volumetric_effects: oculus_volumetric_glow; alcove_glow_per_zone
+procedural_animations: incubation_pod_pulse; pet_vocalisation_random; pollen_drift
+reactive_systems: oculus_pulse_on_birth; alcove_brighten_on_engagement
+
+camera_height_variation: small_xenomorph alternate ladder for upper alcove; others all-reachable
+audio_occlusion_variation: xenomorph-sensitive: pet vocalisations pronounced
+
+polygon_budget: 280,000 / texture_budget: 150 MB / light_count_limit: 16
+streaming_behaviour: preload pet_approach corridor + (Act 3+) preload pet_arena + pet_medical_annex
+```
 
 ---
 
