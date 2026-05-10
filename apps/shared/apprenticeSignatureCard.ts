@@ -173,7 +173,7 @@ export function forgeSignatureCard(input: ForgeInput): ForgeOutput {
     );
   }
   const doctrine = getDoctrine(doctrineId);
-  const id = `sigcard_${apprentice.id}` as CardDefinition["id"];
+  const id = signatureCardId(apprentice.id) as CardDefinition["id"];
   const cardName = `${apprentice.name}, ${apprenticeTitle(apprentice.archetype, doctrineId)}`;
 
   // Stat budget — base 2/2 unit + class/archetype + doctrine + slot.
@@ -348,7 +348,14 @@ function trialCategoriesFor(
  * The signature card's id pattern — used by the player-card registry
  * to look it up from the apprentice id, and by replay logs to pin the
  * card across runs.
+ *
+ * The apprentice id format (`apprentice-<ts>-<rand>`) contains dashes
+ * the card schema's snake_case regex rejects, so we normalize on
+ * construction. Dashes → underscores, anything else lossy is dropped.
+ * The result is stable: the same apprentice id always produces the
+ * same card id.
  */
 export function signatureCardId(apprenticeId: string): string {
-  return `sigcard_${apprenticeId}`;
+  const normalized = apprenticeId.replace(/-/g, "_").replace(/[^a-z0-9_]/gi, "").toLowerCase();
+  return `sigcard_${normalized}`;
 }

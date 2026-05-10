@@ -28,6 +28,7 @@ import {
   listAuditLog,
   persistForgedCard,
   listSignatureCards,
+  listSignaturePayloadsForRegistry,
   mintMemoryCard,
   listInheritableMemoryCards,
   getMemoryCard,
@@ -276,6 +277,15 @@ export const apprenticePedagogyRouter = router({
 
   forgeList: protectedProcedure.query(async ({ ctx }) => {
     return listSignatureCards({ userId: ctx.user.id });
+  }),
+
+  /**
+   * Used by the match-start composer to layer the player's signature
+   * cards on top of the global card registry. Returns the raw payloads
+   * with their rulesVersion for replay-pin discipline.
+   */
+  forgeSignaturePayloadsForRegistry: protectedProcedure.query(async ({ ctx }) => {
+    return listSignaturePayloadsForRegistry({ userId: ctx.user.id });
   }),
 
   forgeEligibleSlots: protectedProcedure

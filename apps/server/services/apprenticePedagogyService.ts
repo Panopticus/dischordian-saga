@@ -223,6 +223,31 @@ export async function persistForgedCard(args: {
   return { created: true, cardId };
 }
 
+/**
+ * Compose the player's signature card payloads in the shape the
+ * tcg-core playerCardRegistry expects (cardId + rulesVersion + raw
+ * payload). Used by the engine at match start to build a composite
+ * registry that includes the player's forged cards.
+ */
+export async function listSignaturePayloadsForRegistry(args: {
+  userId: number;
+}): Promise<Array<{ cardId: string; payload: unknown; rulesVersion: string }>> {
+  const db = await getDb();
+  if (!db) return [];
+  const rows = await db
+    .select()
+    .from(apprenticeSignatureCards)
+    .where(eq(apprenticeSignatureCards.userId, args.userId));
+  return rows.map(r => {
+    const payload = r.cardPayload as { rulesVersion?: string } | null;
+    return {
+      cardId: r.cardId,
+      payload: r.cardPayload,
+      rulesVersion: payload?.rulesVersion ?? "1.0.0",
+    };
+  });
+}
+
 export async function listSignatureCards(args: {
   userId: number;
 }): Promise<Array<{ cardId: string; payload: unknown; provenance: SignatureCardProvenance }>> {
