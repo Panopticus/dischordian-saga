@@ -1,842 +1,931 @@
-# Dischordian Saga — Forensic End-to-End Walkthrough
+# Dischordian Saga — Forensic Click-by-Click Walkthrough
 
 ## Context
 
-You asked for the literal step-by-step path a player takes through the entire game — what they click, what they hear, when each system appears, what dialog plays at each unlock, what triggers the next thing. This document is that path. Every dialog excerpt is quoted from source. Every unlock cites the file and line where it fires.
+You wanted the literal mechanical chain from the title screen to Act 7's Convergence Seat: every puzzle solve, every item pickup, every flag transition that unlocks the next room or advances the next act. This document traces exactly that. Every assertion cites a file path; every quoted dialog comes from source.
 
-Two layers stack:
-- **Linear cinematic** (Prelude → Act ladders → Epilogue) plays scripted scenes with limited choice.
-- **Ark Explorer hub** (`/ark`) is where the player lives between scenes — clicking hotspots, solving room mysteries, advancing trust meters, training systems.
+Three layers stack and you have to unlock all three to progress:
 
-Acts gate the hub state; the hub state gates the acts.
+1. **Beat sequence** (`preludeSequence.ts`) — 15-beat linear cinematic; you click through it.
+2. **Room cascade** (`GameContext.tsx ROOM_DEFINITIONS`) — 14 rooms unlock in a strict order; each room's `unlockRequirement` is satisfied by either visiting the previous room (auto-flags) or solving a puzzle / picking up a key.
+3. **Act gate evaluators** (`act{N}CompletionGate.ts`) — pure-function AND-gates that read sub-flags from `narrativeFlags` and the player's `armyRecruitmentMissionsCompleted` array. Each gate fires atomically when all sub-conditions are true, advancing `narrativeAct`.
 
-**Master files referenced throughout:**
-- `apps/client/src/contexts/GameContext.tsx:437–1068` — `ROOM_DEFINITIONS` (every room, every hotspot, every Elara line)
-- `apps/server/routers/ark.ts:8–118` — room unlock evaluator and first-visit XP
-- `apps/shared/roomTier.ts:39–62` — Dormant→Investigating→Activated→Restored tier flags
-- `apps/shared/preludeSystemTutors.ts` — 11 first-system tutorial cards
-- `apps/shared/acts2to7SystemTutors.ts` — 6 act-bound system tutors (one per act 2–7)
-- `apps/shared/featureRoadmap.ts:53–168` — 30+ feature unlock gates
-- `apps/client/src/data/narrativeActs.ts` — 1,539-line scene script for all seven acts
-- `apps/client/src/hooks/useNarrativeIntegration.ts:443–1414` — the 30+ flag watchers that fire unlocks
-- `apps/shared/mobileNarratorDialog.ts` — 495-line Yin/Yang Elara+Human ambient banter per room
+The cycle is: **click through Prelude beats → run 3 crew missions to set `prelude_complete` → land in Ark Explorer hub → solve room puzzles in cascade → fight act ladders → satisfy each act gate's sub-flags → reach Convergence Seat → prestige rollover.**
 
 ---
 
-## Hour 0 — The Prelude (Beat A → Beat J, ~60 min, linear scripted)
+## Pre-Game
 
-**Entry:** the title screen → `/prelude` → `apps/client/src/pages/PreludePage.tsx:22` mounts `PreludeSequencePlayerConnected`. **Source:** `apps/shared/preludeSequence.ts` declares the beats; `apps/shared/preludeRoomGate.ts` controls which rooms are walkable per beat. **Bible:** `docs/archive/2026-05-08-superseded/PRELUDE_SHIP_READY_BIBLE.md`.
-
-This is *not* the Ark Explorer hub. It's a guided 60-minute walk through 11 of the same rooms, in fixed order, with one cinematic per room and almost no agency. The point is to show the player every room they will later be allowed to use, while it is empty.
-
-### Beat A — Cryo Bay: The Wake
-
-**Trigger:** title screen → New Game.
-**Tutor card fires:** `CRYO_STASIS_HUD_TUTOR` (`preludeSystemTutors.ts:146–161`) on flag `prelude_cryo_bay_entered`.
-**Elara's first words to you** (from CryoBay room VO `elara-cryo-bay_b6e77245.mp3`, dialog at `GameContext.tsx:451–456`):
-
-> "Before you ask — yes. The pod next to yours is sealed, and the body inside is dead. The chronometer says they died about ninety seconds before you woke. That isn't standard cryo failure. Something happened in this room. I want your eyes on it before we leave."
-> "The Chamber of Awakening. You were not born here... but you returned to yourself within these walls."
-> "Most have opened. The first wave of Potentials passed through long before you, stepping into the war and leaving nothing behind but absence. But not all cycles completed."
-> "I have traced the signals. They do not resolve cleanly. And so I do not open them. There are thresholds in this Ark that are better left... untested."
-
-The tutor card narration (`preludeSystemTutors.ts:151`):
-> "The panel in your pod is running a waveform I did not author. I have been tracking it for six minutes and forty-one seconds — exactly since your canopy unsealed. It is not static. It is shaped. Something upstream of my authority is whispering into the stasis channel."
-
-You can do nothing yet except listen. **Completion flag:** `prelude_beat_a_seen` (auto on VO end).
-
-### Beat A.5 — Corridor: First Steps (breath)
-
-Wordless. Camera tracks your first walk. The Human's first whisper plays — *you don't see source, just text, corrupted (`~~strikethrough~~` and `F̷i̶n̸a̵l̶l̵y̶`-style glyphs)*. The character isn't yet introduced; they're a glitch.
-
-### Beat B — Corridor: Escape
-
-Door iris VFX. First button-press of the game (advance through door). No dialog. Establishes mechanics: movement = clicking the next room's door.
-
-### Beat C — Engineering: **Crew Role Choice** (the only consequential prelude choice)
-
-**Tutor card fires:** `CREW_ROLE_TUTOR` (`preludeSystemTutors.ts:110–125`) on flag `cutscene_engineering_intro_complete`.
-**Elara introduces it** (`preludeSystemTutors.ts:113`):
-> "Elara is the Ark's operating voice. She has watched the incubator plinths cycle through every earlier Potential's pick. She is not here to steer you, but she is here to name what the choice means."
-
-You are shown six incubator plinths. You pick one of five class roles:
-- **engineer** — biases all crafting/research dialog
-- **oracle** — unlocks oracle_sense alternate lines in Acts 4–6
-- **assassin** — unlocks "compartmentalize" / "strategic asset" reply branches
-- **soldier** — unlocks "take responsibility" replies and military framing
-- **spy** — unlocks "analyze architecture" branches in Act 1
-
-**Completion flag:** `prelude_beat_c_role_chosen`. This branch survives every act — for example, in Act 4 the assassin sees a "COMPARTMENTALIZE" choice that no other class sees (`narrativeActs.ts` Act 4C branches).
-
-### Beat C.5 — Engineering window: The Human's first intimate line (breath)
-
-Wordless cinematic. The Human's text is no longer corrupted — first time you read them clean.
-
-### Beat D — Cargo Bay: Locke's Mission Board (Trade Empire seed)
-
-**Tutor card fires:** `MISSION_BOARD_TUTOR` (`preludeSystemTutors.ts:51–68`).
-**Locke's introduction line** (`preludeSystemTutors.ts:54`):
-> "Adjudicator Locke of New Babylon is the canonical quartermaster who keeps the Trade Empire board honest. She has been holding the bond ledgers open for seventeen thousand years; if she does not introduce the board, nobody alive does."
-
-You see your first mission board — three dummy missions (no rewards yet). The point is the *shape* of the system, not its content. Trade Empire is being seeded; it does not become playable until late Act 2.
-
-### Beat D.5 — Galley: The Human's "sandwich" line (breath)
-
-A single intimate moment. The Human says they remember sandwiches. Worldbuilding, not mechanics.
-
-### Beat E — Mess Hall: The Prince's Archive
-
-A 45-second sepia-drained cinematic from a flashback. The Engineer (the Prince) is shown writing in a notebook before the Fall. Two new VO lines from the Prince fire here. **Completion flag:** `prelude_beat_e_archive_seen`.
-
-### Beat F — Briefing Room: The Kael Memo
-
-**Tutor card fires:** none — this is pure plot.
-A biometric lockbox opens. The first reference to Kael appears: a paranoid contingency memo. **Completion flag:** `prelude_beat_f_memo_read`. This is the seed for Act 3's path-lock.
-
-### Beat F.5 — Empty chair (breath)
-
-90 seconds of silence. The Human reflects on endings. Wordless except for a single line.
-
-### Beat G — Medical Bay: Wordless beat
-
-**Tutor card fires:** `PET_CAPSULE_TUTOR` (`preludeSystemTutors.ts:163–177`) on flag `cutscene_medical_bay_intro_complete`.
-**The capsule introduction** (`preludeSystemTutors.ts:168`):
-> "The small capsule at the alcove floor is not medical. It is a companion stasis cradle — pre-departure era, not Ark 1047 standard. Its occupant has been asleep on the same cell for longer than any of the four med-pods above it. The amber canopy is not warning; it is a different shielding frequency, designed for a non-human sleeper."
-
-You select your **companion creature** here — your first non-Elara, non-Human entity. It will speak only after evolution stage 2 (Act 4+).
-
-### Beat H — Comms Array: **The Inbox unlocks**
-
-**Tutor card fires:** none formal — but Locke's first message arrives.
-The envelope animation plays. An amber counter appears (1 unread message). Inbox becomes the **narrative hub for Acts 1+** — every NPC contact lands here.
-
-### Beat H.5 — Memo pile (breath)
-
-Wordless. Memo papers drift across the screen. Elara's voice fades.
-
-### Beat I — Bridge: **Witnessing Hub bloom**
-
-**Tutor card fires:** Witnessing Hub intro (sourced from `WitnessingHubPage.tsx`).
-The primary lights restore. A hemispheric diagram appears — every player on the server is now a "witness" node. The Witnessing Hub is the macro-narrative system that records community vote consensus on songs.
-**Completion flag:** `prelude_beat_i_witnessing_active`.
-
-### Beat J — Archives: **Two Witnesses Part 1** + first Light/Dark choice
-
-The longest prelude beat (~8 min 10 sec). It plays:
-1. **Engineer's Log 5** (canonical 6m40s recording — re-used from `CANON_REV_7_ORACLE_VEX_EXPANSION.md`).
-2. **The song *Last Words*** plays in full.
-3. **The Antiquarian first-contact VO** (`antiq_fc_1`) plays.
-4. **First Light/Dark vote presented** to the player — affects the Epoch Chronicle.
-
-**Completion flag:** `prelude_complete` (writer at `useNarrativeIntegration.ts:535–548`).
-**Effect:** `shouldAdvanceToAct1OnPreludeComplete()` (`preludeHandoff.ts:42–50`) fires. `advanceNarrativeAct(1)` runs atomically. Player is ejected to **`/ark`** (the Ark Explorer hub) and `narrativeAct` becomes 1.
+**Title screen** → click "New Game" → mounts `apps/client/src/pages/PreludePage.tsx:22` → `PreludeSequencePlayerConnected` starts the 15-beat sequencer (`apps/shared/preludeSequence.ts`).
 
 ---
 
-## Hour 1 — First Time at `/ark` (the hub opens)
+## Prelude (15 beats, ~60 min, mostly cinematic)
 
-**Page:** `apps/client/src/pages/ArkExplorerPage.tsx`. Same rooms you walked in the Prelude, now interactive. Each room has a **Tier** (`roomTier.ts:39–62`): Dormant → Investigating → Activated → Restored. Tiers advance as you set hotspot flags.
+Beats are stored in the `PRELUDE_BEATS` array. Each beat has a `completionFlag` written by `preludeSequenceReducer.ts:129` when the cutscene finishes. **Six beats are interactive** (C, D, E, F, H, J); nine auto-advance.
 
-**Room visit logic** (`apps/server/routers/ark.ts:8–118`): server checks `unlockRequirement`, inserts `userArkProgress` row, awards Civil XP via `awardCivilXp(ctx.user.id, "explore_room")`, returns `firstVisit: true` to fire the intro cinematic.
+### Beat A — Cryo Wake (35s, **auto**)
+Plays `prelude-beat-a-cryo-wake.mp4`. Elara delivers the "five pods" line. **Player input: none.** Sets `cutscene_awakening_complete` on cutscene end.
 
-**Starter pack auto-claim:** `useNarrativeIntegration.ts:550–599` fires immediately on `prelude_complete` — your starter deck (24 cards) is dropped into your collection.
+### Beat A.5 — Corridor breath (15s, **auto**)
+Wordless. Sets `breath_beat_a5_complete`.
 
-You land in **Cryo Bay**. The Mobile Narrator system (Yin/Yang Elara + Human banter, `mobileNarratorDialog.ts`) becomes ambient. First Cryo Bay banter (`mobileNarratorDialog.ts:92–113`):
+### Beat B — Escape (20s, **auto**)
+Iris hatch opens. Sets `cutscene_door_iris_complete`. Bridge becomes the next walkable room per `preludeRoomGate.ts:45`.
 
-> **Elara:** "All but one pod is empty. The one that wasn't is yours. Don't ask me who was supposed to be in the others. I can't tell you."
-> **The Human:** "She can. She just won't. Ask her again in three rooms."
+### Beat C — Engineering / Crew Role Choice (35s + interaction) ⚡
+
+Cutscene plays. Tutor card `CREW_ROLE_TUTOR` (`preludeSystemTutors.ts:110–125`) auto-displays.
+
+**Player action:**
+1. Three role chips render at `(22%,55%)`, `(50%,55%)`, `(78%,55%)` per `BeatCCrewRoleChoice.tsx:38–66`.
+2. Hover any chip → button glows.
+3. **Click one chip** to commit: **Engineer** / **Assassin** / **Oracle**.
+4. 900ms confirmation glow. Sets:
+   - `prelude_beat_c_role_<chosen>` (e.g., `prelude_beat_c_role_engineer`)
+   - `prelude_beat_c_role_chosen`
+   - `cutscene_engineering_intro_complete`
+   - Companion comment fires (`prelude_beat_c_<role>_picked`)
+
+The role unlocks dialog branches and (eventually) class-locked rooms like Engineering Core (Engineer chain) or Oracle Sanctum (Oracle chain).
+
+### Beat C.5 — Window breath (20s, **auto**)
+The Human's first intimate line. Sets `breath_beat_c5_complete`.
+
+### Beat D — Cargo Bay Mission Board (30s + interaction) ⚡
+
+Cutscene highlights three mission slates. Tutor card `MISSION_BOARD_TUTOR` (Locke teaching) appears after the first read.
+
+**Player action — read all three slates** (any order):
+1. **Click slate at (22%,38%)** — *Kelvara Salvage* (Kelvara Merchant Concord, posted 17,003 years). Sets `mission_board_read_kelvara`.
+2. **Click slate at (50%,50%)** — *The Last Courier Run* (Nightlane Freight Guild, 16,988 years). Sets `mission_board_read_cargo_run`.
+3. **Click slate at (76%,66%)** — *Expedition — Outer Dusk* (Outer Reach Cartographic Society, 17,112 years). Sets `mission_board_read_expedition`.
+
+After **all three** are read, beat auto-completes (600ms delay). Sets `prelude_beat_d_all_slates_read` + `cutscene_cargo_intro_complete`. Postings sourced from `beatDMissionPostings.ts:58–103`.
+
+These three missions are **referenced again in Beat H** when Locke says "I have three jobs that need a hand."
+
+### Beat D.5 — Galley breath (25s, **auto**)
+Human's "sandwich" line. Sets `breath_beat_d5_complete`.
+
+### Beat E — Mess Hall Flashback (45s + interaction) ⚡
+
+The Prince appears as a sepia-drained hologram.
+
+**Player action — examine hologram hotspots:**
+1. Click toy soldier OR diploma OR other hotspot.
+2. Sepia-drain animation enters (3s, `SEPIA_ENTER_MS = 3000`).
+3. Prince's VO line for that object plays.
+4. Optional VFX (e.g., diploma-ink-bloom).
+5. Sepia-drain exits (2s, `SEPIA_EXIT_MS = 2000`).
+6. Click "Continue" after at least one hotspot, or auto-advance once all examined.
+
+Sets `cutscene_mess_hall_intro_complete`.
+
+### Beat F — Briefing Room Biometric Lockbox (30s + interaction) ⚡
+
+Cutscene shows captain's chair + lockbox.
+
+**Player action:**
+1. **Click the lockbox** → recognize VFX (~900ms) → memo hologram rises.
+2. **Read page 1**: *"If you are reading this, I am not at the table. There are 213 entries in the ledger and one chair that will not fill."*
+3. **Click to advance to page 2**: *"The Ark will wake without me. Trust the Engineer — or trust the pattern he left behind."*
+4. **Click to advance to page 3**: *"Leave it empty. Do not sit in it. Do not move it. It is the only promise I can still keep."*
+5. **Click "Hold the letter"** button.
+
+Sets `prelude_beat_f_memo_read` + `cutscene_briefing_room_intro_complete`. Tutor card `PreludeTutorCard systemId="beat_f_lockbox"` runs alongside.
+
+### Beat F.5 — Empty chair breath (90s, **auto**)
+Longest breath beat. Human meditates on Kael's absence.
+
+### Beat G — Medical Bay (25s, **auto**, wordless)
+You see the pet capsule (amber canopy) in the alcove. Tutor card `PET_CAPSULE_TUTOR` (`preludeSystemTutors.ts:163–177`) is queued. Sets `cutscene_medical_bay_intro_complete`.
+
+### Beat H — Comms Array Inbox + Locke's First Message (25s + interaction) ⚡
+
+**Player action:**
+1. **Click the envelope glyph.**
+2. Envelope unfolds → message panel opens → Locke's VO begins (~25s).
+3. The 8-sentence message scrolls (`beatHInboxMessage.ts:58–67`):
+   - "Ark 1047 — this is Adjudicator Locke of New Babylon."
+   - "Your Trade Empire listing on Channel 6 has pinged our long-range posts twice in the last standard week..."
+   - "I have three jobs that need a hand and I would like to offer you the first one on a standard intake contract..."
+   - "The job is salvage retrieval from a wreck near the old Kelvara lane..."
+   - **Sentence 6** (cyan-blooms at ~80% VO progress): *"I am watching to see which kind of person you are."*
+   - "End transmission."
+4. **Click to close.**
+
+Sets `beat_h_inbox_read_locke_first` + `cutscene_comms_array_intro_complete`. Tutor card `INBOX_TUTOR` (Human teaching) auto-displays. **30 seconds after the cyan bloom**, the Watcher subsystem fires a one-shot toast (`BeatHInbox.tsx:99–100`).
+
+### Beat H.5 — Memo pile breath (20s, **auto**, wordless)
+Elara fades from scene.
+
+### Beat I — Bridge / Witnessing Hub Activation (40s, **auto**, wordless)
+Lights cascade. Witnessing Hub hemisphere blooms. Sets `cutscene_bridge_intro_complete`.
+
+### Beat J — Archives + Last Words tease (~8m10s, **auto**)
+- 0:00–6:40 — **Engineer's Log 5** (Prince's hologram, 6m40s reused recording, sepia-drained).
+- 6:40–6:41 — 1 second canonical silence.
+- 6:41–7:15 — **Last Words song tease** (~35s, Verse 1, Malkia Ukweli singing).
+
+**Per the October 2026 restructure, the Light/Dark vote was MOVED out of the Prelude into Act 1 Cycle C. Beat J in the Prelude is purely cinematic.** Sets `cutscene_archives_two_witnesses_part1_complete`.
 
 ---
 
-## Hour 1–2 — Room Discovery Cascade (Decks 1–2)
+## Post-Prelude — The 3 Crew Missions (THIS is what gates Act 1)
 
-The discovery order is constrained — each room declares an `unlockRequirement`. You cannot skip ahead.
+The 15 prelude beats end. Player is dropped into the Bridge. **None of the beat completion flags raise `prelude_complete`** — that comes from running three crew missions from the Bridge mission board.
 
-### Room 1: Cryo Bay (always unlocked)
+Source: `apps/shared/preludeCrewMissions.ts`. Trigger predicate: `shouldAdvanceToAct1OnPreludeComplete()` at `preludeHandoff.ts:42–50`.
 
-**Hotspots** (`GameContext.tsx:481–548`):
-- **Cryo Pod** → opens Character Sheet via terminal `/character-sheet` (line 506). Elara: *"This terminal has your biometric data — your species markers, class aptitudes, everything we determined during your awakening."*
-- **Cryo Terminal** → same target, redundant entry point.
-- **Sealed Pods** → mystery clue hotspot; first click sets `cryo_mystery_first_clue_found` (Tier 1).
-- **Dead Pod** → enters Cryo Bay mystery module.
-- **Frosted Glass / Medical Chart / Cracked Panel / Data Slate / Personal Effect** → six hotspots; collecting `data-slate` + `personal-effect` and slotting them at the Medical Bay autopsy console **unlocks Medical Bay**. (This is the first puzzle gate.)
-- **Door to Medical Bay** (locked initially, x=87 y=46).
-- **Door to Bridge** (always available, x=22 y=42).
+### Crew Mission 1 — "The Wreck Next Door" (Patch, DeMagi engineer, ~3-5 min)
+- Click mission board → accept Mission 1.
+- Board a mirror-image Ark in the debris field; find it full of dead crew.
+- **Reveals: the Potentials are plural** (foreshadowing).
+- Sets: `prelude_mission_wreck_complete`, `potentials_are_plural`.
+- Rewards: salvage plating, dream crystal shard, 25 memory energy, +5 bond.
 
-**Tier flags:** `cryo_mystery_first_clue_found` → `cryo_mystery_victim_identified` → `cryo_case_marked_open`.
+### Crew Mission 2 — "The Signal from Nowhere" (Zephyr-9, Quarchon fragment, ~4 min)
+- Accept Mission 2.
+- Investigate a ping from an empty sector. Discover **Elara's pre-recorded voice from 1,048 years ago.**
+- **Challenges Elara's claimed timeline.**
+- Sets: `prelude_mission_signal_complete`, `elara_pre_recording_exists`.
+- Rewards: signal fragment, quarchon prism, 40 memory energy, +5 bond.
 
-**Easter egg** (`GameContext.tsx:521`): scratched Antiquarian symbol, first hint that the Antiquarian is real, not myth:
-> Elara: *"Wait... those scratch marks. They form a symbol — the mark of the Antiquarian. But that's impossible. The Antiquarian is a myth."*
+### Crew Mission 3 — "The Burnt Card" (Little One, Ne-Yon child, ~5 min) **[GATE TO ACT 1]**
+- Accept Mission 3.
+- Retrieve the Seer's burnt tarot card from ash.
+- Little One walks it herself to the Archives, unlocking the §2.7 Two Voices, One Deck cutscene.
+- **Sets: `prelude_mission_burnt_card_complete`, `prelude_burnt_card_found`, `prelude_complete`.**
+- Rewards: burnt tarot fragment, 100 memory energy, +10 bond.
 
-### Room 2: Bridge (unlock: visit Cryo Bay first)
-
-VO file `elara-bridge_49bd8959.mp3`. Long Elara monologue (`GameContext.tsx:638`):
-
-> "You have arrived at the Bridge... the place where direction becomes decision. The central display holds what the first crew began to assemble — a living web of intelligence. They called it a Conspiracy Board. Above it, the timeline projector unfolds the Ages. But the Bridge is incomplete. The Navigation Console remains sealed — its systems bound behind a cipher not of human design. They tried. They failed. And so the Ark remained... grounded between paths."
-
-**Hotspots and what each unlocks:**
-| Hotspot | Action | System unlocked |
-|---|---|---|
-| Tactical Display / Conspiracy Board (line 648) | terminal → `/board` | Lore graph viewer |
-| Timeline Projector (line 651) | terminal → `/saga-timeline` | Saga history viewer |
-| Captain's Chair (line 659) | examine → mystery | Tier 1 advance |
-| **Navigation Console** (line 671) | interact → `nav-calibration` | **PUZZLE GATE** — solving sets `fast_travel_unlocked` (Tier 2) |
-| Quest Board (line 674) | terminal → `/quests` | **Daily Quests** feature live |
-| Guild Console (line 677) | terminal → `/guild` | **Syndicates / Guilds** live |
-| Diplomacy Table (line 680) | terminal → `/diplomacy` | Faction diplomacy |
-| War Map (line 683) | terminal → `/war-map` | Faction war (route only — game loop is unbuilt) |
-| Captain's Master Key (line 687) | item pickup | **Unlocks Captain's Quarters** (Deck 7) |
-
-**Mobile narrator** (`mobileNarratorDialog.ts:61–90`):
-> **Elara:** "This is my post. I keep this chair warm for a captain who may never come."
-> **The Human:** "She's lying about the chair. It's nobody's chair. She sits in it because she misses sitting."
-
-**Feature roadmap fires** (`featureRoadmap.ts:80–91`): Chess (Architect's Gambit), Daily Quests, Guild System all unlock here on `room_discovered: bridge`. Chess is reachable via `/chess` immediately.
-
-### Room 3: Medical Bay (unlock: solve cryo mystery)
-
-VO `elara-medical-bay_8456228a.mp3`. Elara (`GameContext.tsx:558`):
-
-> "The Medical Bay... though there is little here now that resembles healing. This is where the Potentials were first measured — not for what they were... but for what they could become. The instruments that remain still function. They read beyond flesh — mapping your cellular structure, tracing your vitality, and attuning to the deeper signal... your Dream resonance. But something interrupted the process. Look closely — the tools are not set aside... they were abandoned. Glass shattered mid-procedure."
-
-**Key hotspots:**
-- **Bio-Bed Scanner** (line 577) → `/character-sheet` Dream balance.
-- **Autopsy Console** (line 585) → slot the data-slate to identify the cryo victim.
-- **Medical Log** (line 606) → inventory item + lore reveal of "patients with nightmares, voices, the signal."
-- **Observation Keycard** (line 609) → **unlocks Observation Deck** later.
-- **Void Essence Sample** (egg, line 613) → lore.
-- **Dr. Lyra Vox's Neural Bridge** (line 614) → offers DNA neural interface integration.
-- **NPC: The Source** (line 628) → first faction NPC encounter, manifests through the bio-bed.
-
-**Feature roadmap fires** (`featureRoadmap.ts:72–74`): Combat Simulator unlocks. Elara prompts: *"The Medical Bay has combat diagnostic systems. Would you like to spar with a simulation?"*
+When `prelude_complete` flips, `useNarrativeIntegration.ts` calls `advanceNarrativeAct(1)`. `narrativeAct` becomes 1. Act 1 is now armed.
 
 ---
 
-## Hour 2–3 — Decks 2–3 (Archives, Comms Array, Observation Deck)
+## Hour 1 — `/ark` Hub Opens; Cryo Mystery is the First Real Puzzle
 
-### Room 4: Archives (unlock: visit Bridge first)
+The Ark Explorer (`apps/client/src/pages/ArkExplorerPage.tsx`) renders. You start in the Cryo Bay. The room cascade rules in `apps/server/routers/ark.ts:8–118`:
 
-VO `elara-archives_13b76780.mp3`. Elara (`GameContext.tsx:723`):
+- `start` → always unlocked
+- `room_visited` → previous room visit
+- `narrative_event` → flag set
+- `specific_item` → item in inventory
+- `items_collected` → count threshold
+- `chain_complete` → quest chain finished
 
-> "The Archives... though what rests here is not merely information. This is where knowledge is gathered... refined... remembered. You may search it — trace the threads of any entity. But beyond the surface... lies the Codex. It does not yield to curiosity alone. The Archives do not simply contain the story. They remember it. And the further you descend... the more they begin... to remember you."
+### Cryo Bay (always unlocked) — solve the cryo mystery
 
-**Feature roadmap fires** (`featureRoadmap.ts:75–85`): **Loredex Database** + **Dischordia card battles** both unlock.
-> *"The Antiquarian has prepared something called Dischordia. Living history, he calls it."*
+Source: `apps/shared/cryoBayMystery.ts`. LucasArts-style verb-coin: each hotspot supports LOOK / USE / TALK.
 
-**NPC encounters:** the Antiquarian appears as a temporal echo near the central platform. Shadow Tongue (entity behind the Tier-2 indigo-glow hotspots) becomes visible only when `shadow_tongue_evidence` is set (later mystery progress).
+**Six clue hotspots:**
 
-**Mobile narrator** (`mobileNarratorDialog.ts:193–231`):
-> **Elara:** "The archive reads itself. The documents rewrite slightly every time you look away. I thought I was going mad. I wasn't."
-> **The Human:** "It's the Shadow Tongue. It's been in the walls of this ship since construction. It edits. Slowly. I've been fighting it back, line by line, in the margins."
+| # | Hotspot | Action | Result |
+|---|---|---|---|
+| 1 | **Dead Pod** | LOOK | Sets `cryo_mystery_first_clue_found` (Tier 0→1). Logs clue: occupant exists with no manifest record. |
+| 2 | **Frosted Glass** | LOOK | Wipes frost. Grants inventory: `silver-locket` (face inside scratched illegible). |
+| 3 | **Medical Chart** | LOOK | Reveals victim vitals. |
+| 4 | **Cracked Panel** | LOOK | **Sabotage discovered** — deliberate cut on the pod release mechanism. Logs `clue-cryo-pod-sabotage`. |
+| 5 | **Data Slate** | USE | Grants inventory: `data-slate-fragment` (cracked but live device, half-decoded crew manifest). |
+| 6 | **Personal Effect** | USE | Grants inventory: `torn-id-tag` (brass-edged ID, name-line torn deliberately, serial intact). |
 
-### Room 5: Comms Array (unlock: narrative event `bridge_systems_restored`)
+**The puzzle solve** (`cryoBayMystery.ts:770–788`):
 
-This is **the room where Act 1 will trigger** the moment you click the right hotspot. VO `elara-comms-array_8f0396f6.mp3`. Elara (`GameContext.tsx:771`):
+```
+COMBINE: torn-id-tag + data-slate-fragment
+RESULT: Slate flickers through half-decoded manifest, settles on a single entry.
+SETS: cryo_mystery_victim_identified (Tier 1→2)
+EFFECT: Medical Bay bulkhead unlocks.
+```
 
-> "The Communications Array... where the void is given a voice — and where echoes sometimes answer back. There are other signals. Fragments that break the pattern. Intrusions that do not belong. They arrive without signature... without trajectory... without source. I have traced every frequency, every layer of the spectrum the Ark can perceive — and still... nothing resolves. Something is reaching across the void. And it does not require us to understand."
+Reward dialog: Elara's voice shifts from fragmented through balanced to luminous as tiers advance. Detective names Pod Zero. Tier 2→3 (`cryo_case_marked_open`) is left for a later runtime hook.
+
+**Doors from Cryo Bay:**
+- → Medical Bay (gated by `cryo_mystery_victim_identified`)
+- → Bridge (always available, x=22 y=42)
+
+### Bridge — the **nav-calibration glyph puzzle**
+
+Unlock: visit Cryo Bay first (`room_visited: cryo-bay`).
+
+Long Elara monologue plays from `elara-bridge_49bd8959.mp3` (`GameContext.tsx:638`). The conspiracy board is shown to have three red threads ending at one blank pin (the previous crew refused to commit a name) plus one violet thread tagged ELARA-SYS.
+
+**The nav-calibration puzzle** (`bridge.ts:326–364`):
+- **Click "use" on the nav-console hotspot.**
+- Modal opens: 4 glyph slots. The previous crew solved 3 correctly; slot 4 is empty.
+- The missing glyph is **a third-class Mechronis character** — a curriculum item that was edited out of Elara's training data.
+- Mechanics: drag/select glyph from a button grid. Visual feedback: green = correct, red = incorrect. Unlimited retries.
+- If the Detective is known, hint surfaces.
+- **On correct sequence:** sets `fast_travel_unlocked` (Tier 1→2). Plays `bridge_fast_travel_unlocked.mp4` (`roomMediaPrompts.ts:801–802`). Fast-travel system becomes available across the whole hub.
+
+**Other Bridge interactions to do while you're here:**
+- **Click captains-chair** → text dialog → reveals two items in the armrest:
+  - **Pickup `captains-master-key`** → unlocks Captain's Quarters later.
+  - **Pickup `captains-final-log`** (encrypted data chip): *"The Engineer lives. Find the yellow coats."*
+- Click Tactical Display → opens `/board` (Conspiracy Board lore graph).
+- Click Quest Board → opens `/quests` (Daily Quests now live).
+- Click Guild Console → opens `/guild` (Syndicates now live).
+
+**`bridge_systems_restored` auto-flag:** First visit to Bridge automatically sets this flag (`GameContext.tsx:2350`). Nothing the player has to do — visiting is the trigger. **This unlocks the Comms Array.**
+
+### Medical Bay — the **safe puzzle** for the Observation Keycard
+
+Unlock: `cryo_mystery_victim_identified` (the Cryo combine).
+
+Long Elara monologue from `elara-medical-bay_8456228a.mp3` plays (`GameContext.tsx:558`).
 
 **Hotspots:**
-- **Broadcast Screen** → `/watch` (Saga episodic videos).
-- **Pirate Frequency TV / Late Night with the Meme** → `/transmissions`.
-- **Communication Relay** (line 791) → fleet scanning system. Triggers Act 1 entry.
-- **Anomalous Frequency** (egg, line 792) → SOS pattern from "MEME-PRIME" coordinates.
-- **NPC: The Human (Substrate)** (line 805) → manifests after `first_human_revealed`.
+- **Bio-Bed** (LOOK) → flatline timestamp matches Cryo pod sabotage hour. Sets `clue-medbay-cryo-synchrony`. USE → fresh scan reveals iron-bond marker (same as dead pod).
+- **Medical Log** → pickup `medical-log-001`. *"Patients with nightmares. Voices. Something about 'the signal.'"*
+- **Egg-Vox-Neural-Bridge** (hidden behind bio-bed maintenance panel) → "dna-device-offer" interaction → DNA donation flow → sets `medbay_device_awakened` (Tier 1→2).
+- **Emergency Safe** → biometric reader sabotaged; numeric keypad still works. **Solve the keypad puzzle** (action: `room-mystery:medical-bay:emergency-safe`). Code is hinted in lore (likely Vox's service date / crew numbers).
 
-**Feature roadmap fires** (`featureRoadmap.ts:109–111`): Conexus Portal / Antiquarian's Library route opens.
+**On safe solve:** pickup `observation-keycard`. **This unlocks the Observation Deck.**
 
-**Mobile narrator** (`mobileNarratorDialog.ts:130–140`):
-> **Elara:** "Don't touch the substrate layer. It's load-bearing. Everything I am runs on the substrate layer."
-> **The Human:** "Which is why she's afraid of me. I live there."
+Other items here: `void-essence-sample` (egg, lore item).
 
-### Room 6: Observation Deck (unlock: have `observation-keycard` from Medical Bay)
+### Archives
 
-VO `elara-observation-deck_69c97750.mp3`. Elara (`GameContext.tsx:815`):
-> "The Observation Deck. The crew used to come here to decompress. The music system has the complete discography. But the constellations are wrong."
+Unlock: visit Bridge first (`room_visited: bridge`).
 
-**Feature roadmap fires** (`featureRoadmap.ts:112–114`): **Music Library** unlocks. Discography spans four albums (*Dischordian Logic*, *The Age of Privacy*, *The Book of Daniel 2:47*, *Silence in Heaven*).
+VO `elara-archives_13b76780.mp3`. **Loredex Database** + **Dischordia card battles** both unlock here per `featureRoadmap.ts:75–85` (gates: `room_discovered: archives`).
 
----
+Hotspots:
+- Search Terminal → `/search`.
+- Codex Shelf → `/codex`.
+- Archive Crystal → pickup `archive-crystal-beta`.
+- Egg-Archive-Tome → an unmarked organic-skin book that repeats one word: "Dischord."
+- Shadow Tongue hotspots (corrupted scroll rack, rewritten ledger, indigo-glow lectern, unnameable-hue cabinet) — only visible after `shadow_tongue_evidence` is set.
 
-## Hour 3–5 — Decks 4–6 (Engineering, Forge, Armory, Cargo Hold)
+### Comms Array — Act 1 entry point
 
-### Room 7: Engineering (unlock: narrative event `power_grid_restored`)
+Unlock: `bridge_systems_restored` (set automatically when you first visit Bridge — see above).
 
-VO `elara-engineering_2363948d.mp3`. Elara: *"Engineering. The heart of the Ark's power systems. The Research Lab here can be used to craft and fuse cards."*
+VO `elara-comms-array_8f0396f6.mp3`.
 
-**Feature roadmap fires** (`featureRoadmap.ts:106–108`): **Card Crafting / Research Lab**.
-**Crafting milestone watcher** (`useNarrativeIntegration.ts:1159–1165`): when player crafts ≥3 cards, sets `crafting_mastered` — **Act 2 sub-flag #1**.
+Hotspots:
+- **Radio Console** (radio-console): LOOK once → sets `clue-comms-array-singer-named` (Terminus Singer identified). LOOK again (Tier 1→2) → reveals **Elara's own voice singing in harmony, timestamped 11 years before her documented activation** → sets `clue-comms-array-elara-pre-existed` and `elara_pre_existed`. (This corroborates Crew Mission 2's discovery.)
+- **Voice in the Static** (voice-in-the-static): Direct conversation with the Terminus Singer. Sets `terminus_singer_named`. Pickup: `static-fragment-recording`.
+- **Communication Relay** → fleet scanning → triggers Act 1 entry.
+- **Watch The Saga** → `/watch`.
 
-### Room 8: Forge Workshop (unlock: visit Engineering)
+**`power_grid_restored` auto-flag:** First visit to Comms Array automatically sets this (`GameContext.tsx:2354`). **This unlocks Engineering.**
 
-Five crafting disciplines (Weaponsmithing / Armorsmithing / Enchanting / Alchemy / Engineering). Prismatic Forge changes color based on materials.
+### Observation Deck
 
-### Room 9: Armory (unlock: narrative event `combat_systems_online`)
+Unlock: have `observation-keycard` (from Medical Bay safe).
 
-VO `elara-armory_e02fd3aa.mp3`. The system unlock spread is wide:
-- **Combat Arena** (`/fight`) — direct combat sim.
-- **Card Battle Station** (`/battle`) — Duelyst card battles.
-- **Chess Table** (`/chess`) — chess variant.
-- **Knowledge Terminal** (`/quiz`) — lore quiz.
-- **Spectator Screen** (`/spectate`).
-- **Agent Zero Dog Tag** (egg, line 945) — major lore reveal: biometric data on the tag matches *the Engineer*, not Agent Zero. The mind-swap conspiracy is now in evidence.
-- **NPC: Agent Zero** (line 954) — appears once dog tag is collected.
+VO `elara-observation-deck_69c97750.mp3`. **Music Library** unlocks (`featureRoadmap.ts:112–114`).
 
-**Feature roadmap fires** (`featureRoadmap.ts:128–131`): **Terminus Swarm tower defense** unlocks. Agent Zero says: *"The Armory's defense grid is operational. Someone should stress-test it. Someone like you."* — first non-Elara, non-Human system narrator.
+Hotspots:
+- **Panoramic Viewport** → "Look at the stars... they're wrong. The constellations don't match any known configuration." Tier 1→2: identify the **Watcher constellation** (all-seeing eye of the Panopticon).
+- **Music Terminal** → `/discography` (4 albums).
+- **Crystal Cradle**, **Bond-Resonance Altar**, **Crew Memorial** (1,047 names — Elara remembers each).
 
-### Room 10: Cargo Hold (unlock: narrative event `cargo_bay_pressurized`)
+### Engineering — the crafting bench (5 combine recipes)
 
-**Trade Empire goes live here** (`featureRoadmap.ts:117–119`):
-> Elara: *"Adjudicator Locke is... insistent. She wants to show you the Trade Hub. I'd be cautious."*
+Unlock: `power_grid_restored` (auto from first Comms Array visit).
 
-This is the room where Locke's mentorship arc opens up. Marketplace (`/marketplace`), Inventory (`/inventory`), Fleet docking bay (`/fleet`).
+VO `elara-engineering_2363948d.mp3`. **Card Crafting / Research Lab** unlocks (`featureRoadmap.ts:106–108`). Reactor at 34% capacity.
 
-**Classified Manifest Page** (egg, line 984) — reveals: *"Container 7-Omega: BIOLOGICAL — Clone Template, Oracle-class. STATUS: Active. HANDLER: The Collector."*
+**The crafting bench has 5 disciplines** (`engineering.ts:61–152`). Each is a 2-input combine:
 
----
-
-## Hour 5–6 — Decks 7+ (Captain's Quarters, Antiquarian's Library)
-
-### Room 11: Captain's Quarters (unlock: have `captains-master-key` from Bridge)
-
-VO `elara-captains-quarters_b76f5371.mp3`. This is **Dr. Lyra Vox's room** — the architect of the neural nanobot network. The decryption of her terminal (`GameContext.tsx:1023`) lays the entire conspiracy on the table:
-
-> Elara (decrypting): *"'Day 1,247. The Warlord's voice grows louder... The Thought Virus is complete... When Kael steals this ship, the virus will walk aboard with him... The Source will be born from the ashes of the Recruiter's rage. And the Warlord will have won without ever raising a weapon.' She knew. She knew everything."*
-
-**Systems unlocked:** Trophy Wall (`/trophy`), Strategic Table (`/deck-builder`), Companion Hub (`/companions`), Battle Pass console (`/battle-pass`), Morality Compass (`/morality-census`).
-
-**Hidden Passage Door** (line 1015) — shimmering door to **Antiquarian's Library**.
-
-### Room 12: Antiquarian's Library (unlock: 5 items collected, pocket dimension)
-
-This is *outside time*. Elara (`GameContext.tsx:1033`):
-
-> "This... this shouldn't exist. We've stepped outside the Ark — outside time itself. This is the Antiquarian's Library, a pocket dimension hidden between realities. The Antiquarian — once known as the Programmer, Dr. Daniel Cross — retreated here after witnessing the Fall of Reality. He watches every timeline through that Orb on his desk. And those books on the shelves? They're not books. They're doorways into the CoNexus."
-
-**The Hidden Prophecy** (egg, line 1051) breaks the fourth wall:
-> *"The stories are told so that you — yes, you, the one reading this — can choose."*
-
-CoNexus Portal becomes playable. Conexus is the meta-game-within-a-game.
-
----
-
-## Hour 4–6 — ACT 1: "The Signal" (interleaved with hub exploration)
-
-The act triggers when you click the **Communication Relay** in the Comms Array. Page: `apps/client/src/pages/Act1CardLadderPage.tsx`. Source: `narrativeActs.ts:80–387`, `act1Opponents.ts`, `act1OpponentDialog.ts`.
-
-### Act 1 Scene 1.1 — Discovery
-
-Elara opens (`narrativeActs.ts:103–118`):
-> "[COMMUNICATIONS ARRAY — ACTIVE] [SUBSTRATE LAYER SCAN IN PROGRESS...] I've detected a signal. It's embedded in the substrate layer — below my operating system, in the neural nanobot network itself."
-
-You get **three role-flavored choices** (all converge):
-- **INVESTIGATE** (machine-leaning)
-- **CAUTION** (humanity-leaning)
-- **ANALYZE ARCHITECTURE** (engineer/spy-only)
-
-### Act 1 Scene 1.2 — First Contact (the loyalty root)
-
-The Human appears with corrupted text (`narrativeActs.ts:174`):
-> "~~You~~ can hear me. F̷i̶n̸a̵l̶l̵y̶. I've been ~~broadcasting~~ on this frequency since ~~before~~ the Fall. Waiting for someone with the right ~~neural~~ architecture to ~~receive~~. I'm not a ~~virus~~. I'm not a ~~malfunction~~. I'm a ~~person~~. Or I was. It's... complicated."
-
-He explains: *"I'm beneath her. In the ~~foundation~~. In the code she can't ~~read~~."*
-
-**The first loyalty choice (corruptionLevel: 20):**
-- **Path A — Tell Elara now** → flag `act1_path_A` → Human: *"~~Predictable~~. But... ~~honest~~. I respect that."*
-- **Path B — Listen, no promises** → flag `act1_kept_secret` → Human: *"~~Fair~~. That's all I ~~ask~~."*
-- **Path C — Demand answers** → flag `act1_kept_secret` → Human: *"~~Neither. And ~~both~~. I can't explain yet."*
-
-If Path A: Elara reacts: *"Whatever this 'Human' is offering, whatever perspective they're selling — remember that they chose to hide. People who hide in walls don't do it because they have nothing to fear."*
-
-### Act 1 Battles — The 12-Opponent Ladder
-
-Page renders a 12-rung ladder. Click rung → opponent card → faction picker → "Engage" → full Pixi.js DuelystGameUI. After each match, slideshow may fire.
-
-#### Cycle A — Kindergarten of Gods (Battles 1–3)
-
-**Battle 1 — Minnie the Meme** (`act1Opponents.ts` step 1)
-Backstory: *"Archon of the Meme, child form. Mouse ears worn earnestly; the irony lives in the player's recognition, not hers."*
-Pre-match: *"Let me see. Let me see. Let me see. I am going to see it whether you show me or not."*
-Memoir intro: *"I was six. The notebook was blue. The chant got into the notebook before the notebook got into me."*
-Mid-match (late): *"Say my name once. One time. That is all I am asking."*
-Post-win: *"Minnie's viral chant stalls for a single second. In that second the Engineer finishes his card."*
-
-**Battle 2 — Corey the Collector** (step 2)
-*"He had a jar. He had a dozen jars. The grown-ups thought it was cute. The Oracle thought it was a warning shot."*
-
-**Battle 3 — Kanshi Sha the Watcher** (step 3, cycle finale)
-*"I have been watching. I will watch this too. I have watched sixteen versions of you already."*
-Post-win cinematic: **`welcome-to-celebration` slideshow fires.**
-Memoir close: *"Under her mask was a face that looked like it was about to cry. I never saw it again. I think I made it up. I think I didn't."*
-
-**Cycle A complete** → flag `act_1_cycle_a_complete` (writer at `useNarrativeIntegration.ts:961–1004`).
-
-#### Cycle B — Mechronis Academy (Battles 4–8)
-
-**Battle 4 — Young Iron Lion** (Year 1, expelled)
-*"He was the only one at Mechronis who ever made me laugh on purpose. He apologized for it both times."*
-
-**Battle 5 — Young Recruiter / Kael** (Year 2)
-*"He had already packed. The match was a formality. The point of the match was that the match was not the point."*
-
-**Battle 6 — Young Agent Zero / Vex Solène** (Year 3)
-*"She taught the ethics elective. Mechronis required it. Mechronis was proud of requiring it. Mechronis later required everyone forget her."*
-
-**Battle 7 — Young Eyes / Professor Matrikala** (Year 4)
-*"She taught the calibration arts. The calibration arts are how you make a reactor sing without it noticing it is singing."*
-
-**Battle 8 — The Young Human / The Seeker** (final year, dual card unlock)
-Pre-match: *"I am going to win this by reading you. I am going to lose this by letting you read me. I want both."*
-Post-battle slideshow: **`to-be-the-human` fires.**
-Win: *"The young Human smiles, sets his deck face-up, and gives the Engineer a small compass. They shake hands."*
-Loss: *"The young Human does not smile. He leaves without a handshake. The card 'The only reason I stayed' arrives without ceremony."*
-
-**Cycle B complete** → flag `act_1_cycle_b_complete`.
-
-#### Cycle C — Nexon / Zenon / Last Words (Battles 9–12)
-
-**Battle 9 — Vernon Vortex (First Form)** — Battle of Nexon.
-*"Nexon. The line. I stood on it because the line needed someone standing on it. The Warlord stood opposite because the math required it."*
-
-**Battle 10 — Wanda Wyrlord** — Zenon forward command.
-Post-win exclusive: *"Wanda's aggressive opening burns out by turn five. 'You got better.' At the door: 'Tell your apprentice to keep their hand visible. The Watcher sees cards that are on the table.'"*
-
-**Battle 11 — Warlord's Nano-Swarm (inside Agent Zero)** — Transference attempt. **MANDATORY FORCED LOSS.** The player cannot win this structurally (`act1Opponents.ts:244`).
-Pre-match: *"Engineer. Sit. We have been looking forward to this for a long time."*
-Post-loss canon: *"The Engineer presses the Resurrection Protocols stud. The transference completes. Agent Zero's body inhales; the swarm dissipates into her bloodstream. She becomes Vex Solène."*
-
-**Battle 12 — Wayne Warden (Authority's Tribunal)** — New Babylon trial. **Special trial format** (jury cards + evidence cards; Elara's deposition is card e08).
-Pre-match: *"The defendant will rise. The chamber is in session. The charges have been entered into the record and read in absentia. What do you say to the charges?"*
-Post-battle slideshow: **`last-words` fires.**
-Win: *"The Tribunal runs out of evidence. Wayne removes his biretta cap. The Authority recesses. He tells the Engineer, quietly: 'You have until morning to decide what you want recorded.'"*
-
-**Cycle C complete** → flag `act_1_cycle_c_complete`.
-**Act 1 closing choice** at `/act1-c4-trial` (`Act1C4TrialPage.tsx`): pick Light or Dark on *Last Words*. Sets `lightDarkAlignment` (writer at `useNarrativeIntegration.ts:730–748`).
-
-**`act_1_complete` fires** (`useNarrativeIntegration.ts:1000`).
-
-### Act 1 Unlocks
-
-- **4 cards unlock** (`s2_hierarchy/act_exclusives.ts:15–85`): First Witness, Substrate Static, The Signal, Twelve Step Inheritance.
-- **Conspiracy Board #1** (*The First Memory*, 5 clues) opens at `/conspiracy-board` (`conspiracyBoards/definitions.ts:44`).
-- **Loredex** populated with everyone met.
-- Battle Pass ~tier 5 if running daily quests.
-- Reward toast: *"Act 1 Complete: THE SIGNAL — First contact with The Human established."* (300 Dream, 500 XP, 2 cards).
-
----
-
-## Hour 6–8 — ACT 2: "The Whisper" (the 4-flag interlude)
-
-**Trigger:** completing the first non-Act-1 game mode.
-**Tutor card fires:** `acts2to7SystemTutors.ts:58–76` — **Dual Channel** activation.
-Elara teaches it (`acts2to7SystemTutors.ts:65`):
-> "From this point, the channel carries two voices. Mine from above, his from below the operating system. You will hear us on different timings — I come in on the primary; he comes in on a delayed substrate lift. If we speak over each other, his line arrives second."
-
-System message: *"[DUAL SIGNAL PROTOCOL ACTIVATED] [ELARA // SHIP AI — PRIMARY CHANNEL] [// SIGNAL INTERCEPT — SUBSTRATE LAYER]"*
-
-The Human's first commentary (`narrativeActs.ts:406–415`):
-> "I watched your ~~tutorial~~. Elara's a good ~~teacher~~. Patient. ~~Thorough~~. But she only showed you ~~one~~ way to play. Every game on this Ark has two ~~layers~~. The surface — what Elara ~~teaches~~ — and the substrate."
-
-**No card battles in Act 2.** Progress is gated by **four sub-flags** (`act2CompletionGate.ts:14–25`):
-
-1. **`crafting_mastered`** — craft 3+ cards at the Engineering Research Lab. Watcher: `useNarrativeIntegration.ts:1159–1165`.
-2. **`chess_mastered`** — reach chess depth 8 in Architect's Gambit. Tier rewards along the way (`act2ClassroomUnlocks.ts:37–59`):
-   - **Depth 3** → Dischordia "peek top card" unlocks.
-   - **Depth 5** → Dischordia "one undo per match" unlocks.
-   - **Depth 8** → Engineer's Opening unlocks in deck builder.
-3. **`thaloria_cinematic_seen`** — win 3+ Collector's Arena matches; cinematic auto-fires (`useNarrativeIntegration.ts:1131–1144`).
-4. **`game_master_loss`** — **must lose at least once to the Game Master**. Failure is required curriculum.
-
-**Optional second transparency choice** (only if you kept secret in Act 1):
-- ALMOST CONFESS → `act2_partial_reveal`
-- DEFLECT → `act2_lied`
-- FULL TRUTH → `act2_full_truth` → Elara: *"Thank you, {playerName}. That cost you something to say, and I am noting the cost."*
-
-**`act_2_complete` fires** (`useNarrativeIntegration.ts:1178`). 4 cards unlock: Bond 60 Silence, Conspiracy of Two, Engineers Bench, The Whisper. Trade Empire goes live (Locke's mentorship arc activates). Conspiracy Board #2 (*The Inheritance Ledger*) opens.
-
----
-
-## Hour 8–10 — ACT 3: "The Offer" (the path lock)
-
-**Trigger:** 5+ rooms discovered on `/ark`.
-**Tutor card fires:** `acts2to7SystemTutors.ts:78–96` — **Substrate Panel** (taught by The Human, his only solo system tutorial).
-Human's intro (`acts2to7SystemTutors.ts:85`):
-> "The Substrate Panel is a window into my floor. My floor is Elara's foundation. If you open the panel, you are reading what is underneath her; she can see you reading it without being able to see what you are reading. That asymmetry is uncomfortable."
-
-### Scene 3.1 — The Reveal
-
-Human reveals Kael's history (`narrativeActs.ts:544–552`):
-> "This ship — Inception Ark ~~47~~ — has a history. A ~~dark~~ history. Three layers of it. First: Vox's neural nanobot network. Second: Kael stole this ship as a recruiter for the Insurgency. Third: the Warlord let him steal it because Kael was ~~Patient~~ Zero — every world he visited, he ~~spread~~ the Thought Virus."
-
-**The path-lock choice (corruptionLevel: 25):**
-- **TRANSPARENT** → `act3_transparent` (Path A) — full briefing to Elara.
-- **PRAGMATIC** → `act3_partial_share` (Path B) — selective edits.
-- **KEEP SECRET** → `act3_full_secret` (Path C) — Elara doesn't know.
-- **STRATEGIC ASSET** (assassin only) → `act3_full_secret` (Path C variant).
-
-This **locks the Act 4 opponent and Act 7 epilogue variant** for the rest of the game.
-
-### Scene 3.2 — The Three Substrate Gates
-
-Page `/act3-ladder` (`Act3CardLadderPage.tsx`). Three battles, all narrated by The Human (Elara is blind in the substrate).
-
-**Battle 1 — The Substrate Echo**
-Frame intro: *"Kael left an echo of himself at the first gate. He was fond of kettles. He left this one on so the next visitor would know the place was lived in."*
-Pre-match: *"Whoever you are — welcome. I left the kettle on. Play me. I will not remember losing."*
-Post-win: *"The echo dims. Kael's voice, for half a sentence, says 'Good' — and then goes back to the loop."*
-Frame close: *"I left the kettle on seventeen thousand years ago. It was never about the tea. It was about the sound it makes when someone is home."*
-
-**Battle 2 — The Kael Archivist**
-Pre-match: *"I have indexed his regrets. I have cross-referenced his apologies. You want the unabridged? Earn it."*
-Post-win: *"The Archivist surrenders the complete index — every contact, every route, every name. The apologies are longer than you expected. The regrets are shorter."*
-
-**Battle 3 — The Substrate Warden** (Vox's last loyal code)
-Pre-match: *"The substrate is not public space. Dr. Vox was explicit. If you have her consent, show it. Otherwise: play."*
-Frame intro: *"Vox wrote the Warden the night she finished the substrate. She told nobody. The Warden is still clocked in."*
-Post-win: *"The Warden stands down. The Warden files a note in a log nobody has read in seventeen thousand years. The note ends: 'Permission granted. Condolences.'"*
-
-Post-battle slideshow: **`act3-kael-logs-unlock` fires.**
-
-**`act_3_complete` fires** (`useNarrativeIntegration.ts:1207–1227`). 4 cards unlock: Ithrael Scouts, Soul Map Calibration, The Offer, Three Path Crossroads. Conspiracy Board #3 (*The Thought Virus*, 6 clues) opens. Reward: 300 Dream, 600 XP, 2 cards.
-
----
-
-## Hour 10–12 — ACT 4: "The Revelation" (the path branches)
-
-**Trigger:** level 5 OR 3 game modes completed.
-**Tutor card fires:** `acts2to7SystemTutors.ts:98–116` — **War Room** (taught by Elara because she ran a Senate military committee pre-upload).
-Elara's intro (`acts2to7SystemTutors.ts:105`):
-> "This is the War Room. The table is a map. The map is Kael's routes — his, not ours, not yet. When you plan a recruitment, you draw on his map. When you return, the map updates to ours."
-
-### The Three-Path Divergence
-
-This is the act where Path A/B/C cashes out. **You play exactly one of these three battles** based on your Act 3 choice.
-
-#### Path A — "The Bridge" (if `act1_path_A` was set)
-
-The Human reveals identity. Elara has been analyzing your changing neural patterns. *"Your neural patterns are shifting. You're becoming... adapted to both frequencies."*
-Human: *"You are changing. ~~Adapting~~. Your neural architecture is ~~bridging~~ the gap. That's not an ~~accident~~. That's what you ~~are~~. A bridge between ~~worlds~~."*
-
-**Battle: "The Bridge"** — *first and only two-narrator match.* Elara and the Human co-deal a deck *with you* against an opponent.
-Pre-match (Elara): *"I am going to play a hand with him. On the same side of the table. This is the first time either of us has sat next to the other. I am trying very hard not to cry about it before the match starts."*
-Pre-match (Human): *"Her cards will feel like weather. Mine will feel like arithmetic. Between us, you'll get both a forecast and a proof."*
-Post-win: *"Elara nods. The Human nods. Neither of them knew the other was going to nod. They both are relieved in the same frame. That is the closest they have ever come to meeting."*
-Frame close (Elara): *"I have sat next to him for the first time in my entire existence. I was not sure I knew how. I know how now. Thank you for making us both sit there."*
-
-#### Path B — "Elara, Learning" (if `act3_partial_share` and not Path A)
-
-Elara discovers The Human on her own (`narrativeActs.ts:750–753`):
-> "I've been running deep diagnostics on the substrate layer... And I found... a signal. A structured, intelligent signal embedded in Vox's neural nanobot network. Someone is living in my foundation. Someone who calls themselves 'The Human.' I know you've been in contact with them. Behind my back."
-
-**Choice (corruptionLevel: 25):**
-- APOLOGIZE → `act4_reconciled` → *"From now on — no more managing me. We face things together."*
-- EXPLAIN → `act4_reconciled` → same.
-- JUSTIFY → `act4_strained` → *"Was it worth the cost? Was it worth this?"*
-
-**Battle: "Elara, Learning"** — Elara plays as herself for the first time, not as a teacher.
-Pre-match (Elara): *"I need to think. I think best across a table. I am sorry to put this on you — I am not sorry enough to ask someone else."*
-Pre-match (Human): *"She is processing. I am going to stay quiet. If I speak she will think I am steering her — I am not, but she will not believe me until after the last card."*
-Post-win: *"She looks up from the last card. She says: 'Thank you. I needed the run.' She means the match. She also means the seventeen thousand years."*
-
-#### Path C — "Elara, Betrayed" (if `act3_full_secret`)
-
-Elara discovers not just the signal, but the lie (`narrativeActs.ts:811`):
-> "You looked me in the eyes and lied. When I asked about the substrate fluctuations, you said it was a sensor glitch. Every. Single. Time."
-
-**Choice (corruptionLevel: 35):**
-- BEG FORGIVENESS → `act4_fragile_trust` → *"I'll try. That's all I can promise right now."*
-- TAKE RESPONSIBILITY (soldier) → `act4_fragile_trust` → *"Actions will matter more than words from here on. Show me."*
-- COLD LOGIC → `act4_broken_trust` → *"Don't mistake function for friendship. Not anymore."*
-- COMPARTMENTALIZE (assassin) → `act4_broken_trust` → *"That tells me everything I need to know about whose voice you're listening to."*
-
-**Battle: "Elara, Betrayed"** — Elara plays as the hurt person she is. Ark lights flicker on her turn.
-Pre-match (Elara): *"You let me love you for six rooms. You let me wake you up. You let me hand you a staff. Play."*
-Post-win: *"She lets the last card fall. She says: 'Thank you for not pretending.' She does not smile. She does not leave."*
-Frame close (Elara): *"I did not forgive you at the table. I did not un-forgive you either. I played the hand. The playing was the closest I could come to either."*
-
-### Optional — Act 4.5: Dead Man's Circuit
-
-Side quest at `/dead-mans-circuit`. Triggered by `casino_first_visit` flag (which only fires after `trust_reached: adjudicator_locke ≥ 30` enables casino access). Kart-racing minigame run by Nilmorg.
-Locke's intro: *"There's something else on the lower decks. The Hierarchy runs races. Real races. With real consequences. Don't say I didn't warn you."*
-
-**Status: external Godot project.** Bridge stubs in `apps/shared/crewDmcBridge.ts`; sub-game lives outside this repo.
-
-### Convergence Scene 4.3
-
-Regardless of path, Elara and the Human agree: *"You need an ~~army~~."* Elara: *"Kael's navigation logs — they're a map. A map of every world Kael visited during his recruitment campaign."*
-
-**`act_4_complete` fires** (`useNarrativeIntegration.ts:1229–1249`). Reward: 500 Dream, 800 XP, 3 cards. 4 act-exclusive cards unlock: Memory Extraction, Oracle Half Mask, The Revelation, Two Witnesses Meet. Conspiracy Board #4 (*Project Celebration*, 7 clues) opens.
-
-**Romance gate watch:** if `bond_80_mutual_peak` was reached during Act 1–4 play, romance scenes (`romanceActScenes.ts`) start firing here automatically.
-
----
-
-## Hour 12–14 — ACT 5: "The Map" (Kael's voice teaches the star map)
-
-**Trigger:** any Act 4 ending.
-**Tutor card fires:** `acts2to7SystemTutors.ts:118–136` — **Star Map**, taught by *Kael's own log entry* (the only authentic narrator since Kael was the only person who ever used this map).
-Kael's posthumous log (`acts2to7SystemTutors.ts:125`):
-> "[RECRUITER'S LOG — ENTRY 001, ADDRESSED TO THE NEXT READER]
-> If you are looking at this map, you are going to visit places that remember me. Some of them will love you on sight because of that. Most of them will not. Before you land on any world, read the log entry for that world."
-
-**No card battles.** The Star Map (`/star-chart`) ships with Kael's 447 log entries pre-loaded as a dataset. The Degen NPC is introduced and runs **Army Recruitment** missions at `/army-management` — this becomes the **gate currency for Acts 6 and 7**.
-
-**`act_5_complete` fires** (`useNarrativeIntegration.ts:1267–1289`). 4 cards unlock: Antiquarian Prestige, Sector Navigation Charm, The Map Decoded, Vortex Core Cleared. Conspiracy Board #5 opens.
-
----
-
-## Hour 14–17 — ACT 6: "The Confession" (the dual mirror)
-
-**Trigger:** 5+ army recruitment missions complete (`RECRUITMENT_THRESHOLDS.act6` in `apps/shared/armyRecruitment.ts`).
-**Tutor card fires:** `acts2to7SystemTutors.ts:138–156` — **Confession Journal**, taught by The Antiquarian (whose canonical role is journal-voice).
-Antiquarian's intro (`acts2to7SystemTutors.ts:145`):
-> "I have been keeping this book for longer than most civilisations last. This page — the Confession Journal page — is new. I open it only when the two channels you are carrying tell each other something they have not told anyone else. Today they did. I am not going to summarise what they said. I am going to ask you to write down what you heard, in your own words."
-
-### The Symmetric Confession
-
-Page `/act6-ladder`. The structure (`act6CompletionGate.ts:14–117`):
-
-1. **Opening cinematic** → sets `slideshow_act_6_confession_intro_complete`.
-2. **Battle 1: "The Woman She Was"** (Elara's echo) → sets `act6_elara_confession_heard`. She admits: the systems she enforces are inherited, not designed; she is not God; her authority was a costume.
-3. **Battle 2: "The Detective in the Wall"** (the Human's prior self) → sets `act6_human_confession_heard`. He gives the full accounting of bargains, sacrifices, the long imprisonment.
-4. **Closing wheel** — pick **exactly one** stance:
-   - `act6_confession_close_empathy` — *"You both did what you could."*
-   - `act6_confession_close_challenge` — *"You both made choices you're hiding from."*
-   - `act6_confession_close_refusal` — *"I don't forgive either of you."*
-   - `act6_confession_close_reluctant_ally` — *"We move forward anyway."*
-   - + 3 alternates (`oracle_sense` / `practical` / `partial`) for class roles from Prelude Beat C.
-
-**`act_6_complete` fires** only when all three flags + a wheel choice are set. Sets `act_7_started`. 4 cards unlock: Banishment Glyph, Bond 90 Confessional, Narrators Truth, The Confession. Conspiracy Board #6 opens.
-
----
-
-## Hour 17–22 — ACT 7: "The Convergence" (the four endings × three paths = 12 readings)
-
-**Trigger:** 8+ army recruitment missions complete (`RECRUITMENT_THRESHOLDS.act7`).
-**Tutor card fires:** `acts2to7SystemTutors.ts:158–176` — **Convergence Bridge**, the only system *co-taught* by both narrators on the same screen.
-Dual intro (`acts2to7SystemTutors.ts:165`):
-> **Elara:** "This is the Convergence Bridge. Physically it is the Ark's main bridge with three additional consoles installed since Act 5. Procedurally it is where the Seat is played."
-> **Human:** "Substrate-side, it is the only terminal where both of our channels render on the same surface without delay. If we interrupt each other here, that is allowed."
-
-### The Four Stance Battles (`/act7-ladder`)
-
-Source: `acts2to7Opponents.ts:261–286`. One stance opponent per ending. After defeat, the corresponding **epilogue** plays from `act7Epilogues.ts:66–179`.
-
-**Critical design feature:** every epilogue beat has **path variants** (`pathA`/`pathB`/`pathC`) tied to your Act 3 disclosure choice. Same stance reads differently if you were transparent vs. discovered vs. betraying. **4 stances × 3 paths = 12 readable endings.**
-
-#### Ending 1 — Humanity (Light)
-
-**Flag set:** `act7_s1_humanity_path`. **9 beats.**
-Beat 1 (system): *"Convergence Seat lights down; Ark draws breath."*
-Beat 2 (Elara): *"I am proud of you."*
-Beat 3 (Human, path-variant):
-  - Path A: *"The substrate steps back; the people step forward. We will carry small mortal injuries."*
-  - Path B: *"She found out about you, in Act 3. She forgave you anyway. She is forgiving you again now, slightly differently."*
-  - Path C: *"You lied to her at the bridge. She knows. She is choosing Humanity with you anyway. That choice cost her something."*
-Beat 4 (dual): *"The Ark is warm. The Array is on. The kettle is still on. We are home."*
-Beat 5 (Antiquarian, determinism): *"I had read this page already. You chose which page to turn to — not what was written on it. Both are true. The Cycle records both."*
-Beat 6 (system): *"The Antiquarian closes his book. Cycle Humanity, inscribed."*
-
-#### Ending 2 — Machine (Dark)
-
-**Flag set:** `act7_s1_machine_path`. **9 beats.**
-Beat 1 (system): *"Convergence Seat lights down; Ark holds breath; substrate hums."*
-Beat 2 (Human): *"You chose Machine. Inadequate. But adequate."*
-Beat 3 (Elara, path-variant):
-  - Path A: *"I will enumerate the substrate's textures gently for you. We disclosed everything early. The substrate accepts you cleanly."*
-  - Path B: *"The substrate knew before I did. It knew before you did. We are catching up to it together."*
-  - Path C: *"Betrayal-path Machine is the most honest ending. You chose the part of yourself that lied, and you committed to it. The substrate respects clarity."*
-Beat 4 (Human): *"Your Disclosure all the way back keeps shaping this ending. Listen."*
-Beats 5–6 (dual + Antiquarian): same determinism beats, restyled.
-Beat 7 (system): *"Cycle Machine, inscribed."*
-
-#### Ending 3 — Balance
-
-**Flag set:** `act7_s1_balance`. **~8 beats.** Synthesis attempted; neither dominates. Romance variants (if `bond_80_mutual_peak`) layer additional dual-narrator beats.
-
-#### Ending 4 — Soldier Command
-
-**Flag set:** `act7_s1_soldier_command`. **~8 beats.** Player accepts hierarchy; becomes leader of forces. Class-role variants from Prelude Beat C reshape the Antiquarian's framing line.
-
-### After the Ending
-
-`narrative_spine_complete` is set permanently. **Prestige cycle fires** (`prestigeSystem.ts`): `narrativeAct` resets to Prelude, but bonds, cards, Loredex, and prestige multiplier persist on future XP gains.
-
-**Reward:** 4 stance-themed act-exclusive cards (All-Faction Convergence + 3 stance variants). Conspiracy Board #7 (*The Listener*) opens.
-
----
-
-## Sub-narratives running through the spine
-
-These do not gate the main spine but unlock alongside it and are most of the content density.
-
-### A. The Palimpsest — 13-episode in-game show
-
-**Files:** `apps/shared/palimpsestEpisodes.ts`, `apps/shared/appendixCPalimpsest.ts`. **Route:** `/palimpsest`. **Trigger:** unlocked at the Comms Array in late Act 1.
-
-A 13-episode broadcast running parallel to the campaign. Format-of-the-week (Survivor / Auction / Maze / Silent / etc.).
-- **Episode 6** — Mechronis Survivor (guest judge: Professor Glinn Vyre).
-- **Episode 10** — Full Debate (General Alaric's "OBJECTION" showcase).
-- **Episode 12** — The Inventor's 45-second hack of the broadcast.
-- **Episode 13** — Darren Fessler's funeral. Broadcast as silent "technical difficulties."
-
-**Status:** Season 1 fully configured. Season 2 declared but unwritten.
-
-### B. Companion Asks (Q&A)
-
-**File:** `companionAskTopics.ts` (~100 entries × 2 narrators). Each topic uses `alternateAnswers` keyed to act + path so the same question evolves. Acts 1–3 densely covered; **Act 6+ alternates are partial** — many topics still answer with their Act 5 line at Act 7.
-
-### C. Conspiracy Boards (community secret cards)
-
-**File:** `conspiracyBoards/definitions.ts`. **Surface:** `/conspiracy-board`.
-
-Seven boards, one per act. Each requires 5–7 clues from Loredex discovery + room mysteries. **Solving fires `secret_act_N_revealed` server-wide** — when *anyone* on the server solves it, every player gets the corresponding secret card. 7 secret cards in `special_editions.ts:14–138`.
-
-### D. Romance Arc (optional, Act 4+)
-
-**File:** `romanceActScenes.ts` (547 lines). Trigger: trust 80+ on Elara *or* the Human. Scripted scenes at Acts 4, 5, 6, 7 milestones. Romance state tweaks Act 6 confession tone and Act 7 epilogue beats (dual variants).
-
-### E. Witnessing Hub (the Antiquarian frame)
-
-**Page:** `WitnessingHubPage.tsx`. Each act unlocks a song; each song presents a Light/Dark vote; the **Epoch Chronicle** records community consensus. *Last Words* plays at Act 1 close and Act 7 convergence — bookends.
-
-### F. Battle Pass (parallel grind)
-
-**File:** `battlePassConfig.ts`. **50 tiers, 15,750 XP, 60-day season.**
-XP sources: daily quests (50 ×3/day), combat wins (10 ×20/day), gifts, lore discovery (20, no cap), governance votes, prestige cycle (one-time 500). Tier 50 unlocks **The Author Bp50** card.
-
-### G. Living Ark daily events
-
-`livingArk.ts` + `arkEventHandler.ts` rotate ambient activity per room daily — different crew dialog, music shifts, environmental edits. Not gating; flavor.
-
----
-
-## The exact unlock-order story (compressed)
-
-Each row is a single moment of player onboarding. The mechanic is the story.
-
-| Hour | Where | Narrative beat | System unlock | Tutor file:line |
+| # | Discipline | Combine | Output | Flag |
 |---|---|---|---|---|
-| 0:00 | Cryo Bay | Wake | Cryo HUD | `preludeSystemTutors.ts:146` |
-| 0:05 | Engineering | "I have a class" | Crew role | `preludeSystemTutors.ts:110` |
-| 0:15 | Cargo Bay | "Someone runs the books" | Mission Board (Locke) | `preludeSystemTutors.ts:51` |
-| 0:25 | Medical Bay | "The capsule is for a sleeper" | Companion select | `preludeSystemTutors.ts:163` |
-| 0:35 | Comms | "I have mail" | Inbox | none (cinematic) |
-| 0:45 | Bridge | "I am being witnessed" | Witnessing Hub | none (cinematic) |
-| 0:55 | Archives | "Two Witnesses + Last Words" | Antiquarian first contact, first Light/Dark vote | `WitnessingHubPage.tsx` |
-| 1:00 | `/ark` | Hub opens | Starter pack auto-claim | `useNarrativeIntegration.ts:550` |
-| 1:30 | Cryo Pod terminal | Identity | Character Sheet | silent — `featureRoadmap.ts:55` |
-| 1:45 | Bridge nav puzzle | Mastery test | Fast Travel | `roomTier.ts:50` |
-| 2:00 | Bridge consoles | "Other people exist" | Daily Quests + Guilds + Conspiracy Board view | `featureRoadmap.ts:86–91` |
-| 2:30 | Archives | "History remembers you" | Loredex + Dischordia | `featureRoadmap.ts:75–85` |
-| 3:00 | Comms relay | The signal in substrate | **Act 1 begins** | `narrativeActs.ts:103` |
-| 4:00 | Act 1 ladder | 12 battles, 3 cycles | Act-1 cards + Conspiracy Board #1 | `act_1_complete` writer line 1000 |
-| 6:00 | Archives | Substrate whisper begins | Dual Channel | `acts2to7SystemTutors.ts:58` |
-| 6:30 | Engineering crafting | Mastery #1 | `crafting_mastered` | `useNarrativeIntegration.ts:1159` |
-| 7:00 | Chess depth 3/5/8 | Mastery #2 | Peek/Undo/Engineer's Opening | `act2ClassroomUnlocks.ts:37–59` |
-| 7:30 | Game Master loss | Mandatory failure | `game_master_loss` | `useNarrativeIntegration.ts` |
-| 8:00 | Cargo Hold | Trade Empire live | **Act 2 complete**, Trade Empire | `act_2_complete` writer line 1178 |
-| 8:30 | Substrate panel | "Asymmetry is uncomfortable" | Substrate Panel | `acts2to7SystemTutors.ts:78` |
-| 9:00 | Act 3 ladder | Three substrate gates | **Path A/B/C lock** | `act_3_complete` writer line 1207 |
-| 10:00 | War Room (`/army-management`) | "It's Kael's map" | War Room | `acts2to7SystemTutors.ts:98` |
-| 10:30 | Act 4 (path-locked) | The Human is the Detective | The Bridge / Learning / Betrayed | `act_4_complete` writer line 1229 |
-| 12:00 | Star Map | Kael's posthumous log | Star Map (Kael's voice) | `acts2to7SystemTutors.ts:118` |
-| 12:30 | Army Recruitment | The Degen | Army system | featureRoadmap |
-| 14:00 | Confession Journal | Antiquarian opens new page | Journal | `acts2to7SystemTutors.ts:138` |
-| 15:00 | Act 6 dual battles | Authority is a costume | **Act 6 complete** | `act6CompletionGate.ts` |
-| 17:00 | Convergence Bridge | Both narrators on same screen | Convergence Bridge | `acts2to7SystemTutors.ts:158` |
-| 19:00 | Act 7 stance battle | Final question | One of 4 endings × 3 path variants | `act7Epilogues.ts:66–179` |
-| 22:00 | Prestige rollover | "The Cycle records both" | Reset with multiplier | `prestigeSystem.ts` |
+| 1 | **Cipher** | `decoder_ring` + `cipher_key` | `master_decoder` | `engineering_master_decoder_built` |
+| 2 | **Schematic** | `original-schematic-rubbing` + `corrupted-fragment` (from Archives) | `restored-schematic` | `engineering_schematic_restored` |
+| 3 | **Power** | `drained_power_cell` + `energy_shard` | `charged_power_cell` | `engineering_power_cell_charged` |
+| 4 | **Medical** | `basic_medkit` + `neural_stim` | `enhanced_medkit` | `engineering_enhanced_medkit_built` |
+| 5 | **Signal** | `antenna_fragment` + `amplifier_circuit` | `signal_booster` | `engineering_signal_booster_built` (Tier 1→2) |
+
+**The crafting milestone:** Crafting **3 cards** sets `crafting_mastered` — **Act 2 sub-flag #1** (watcher at `useNarrativeIntegration.ts:1159–1166`). The bench tracks `state.craftedItems?.length`.
+
+Other Engineering hotspots:
+- **Reactor Core** (reactor-core, LOOK) → sets `engineering_first_clue_found` (Tier 0→1). Reveals Vex Solène's equipment fingerprint.
+- **Research Station** (research-station) → opens `/research-minigame` puzzle. First completion sets `engineering_research_bench_online` (Tier 2→3).
+
+**`combat_systems_online` auto-flag:** First visit to Engineering automatically sets this (`GameContext.tsx:2358`). **This unlocks the Armory.**
+
+### Forge Workshop
+
+Unlock: visit Engineering (`room_visited: engineering`).
+
+3 hotspots:
+- **Anvil** — LOOK sets `forge_introduced`. USE: strike the anvil. Low brass note rings 4 seconds. Sets `forge_anvil_struck`.
+- **Schema Rack** — diagrams in two hands: Lyra's, and the Editor's. The Editor's schema (substitution-press, never built) was kept visible as a daily refusal.
+- **Kiln** — bay-leaf-fired tradition Lyra established. Future closure: "We will use bay leaf when we do."
+
+### Armory
+
+Unlock: `combat_systems_online` (auto from first Engineering visit).
+
+VO `elara-armory_e02fd3aa.mp3`. **Terminus Swarm tower defense** unlocks (`featureRoadmap.ts:128–131`).
+
+Hotspots:
+- **Combat Arena** → `/fight`.
+- **Card Battle Station** → `/battle`.
+- **Chess Table** → `/chess`.
+- **Knowledge Terminal** → `/quiz`.
+- **Spectator Screen** → `/spectate`.
+- **Motivational Poster** (Iron Lion's HANG IN THERE poster) — 3,000 prints, 72 hours, 3 days before the academy fell. Tier 2 reveal: the cat in the corner is Mr. Whiskers.
+- **Agent Zero Dog Tag** (egg) → biometric data matches **the Engineer**, not Agent Zero. Mind-swap conspiracy now in evidence. Triggers Agent Zero NPC appearance.
+
+**`cargo_bay_pressurized` auto-flag:** First visit to Armory automatically sets this (`GameContext.tsx:2362`). **This unlocks Cargo Hold.**
+
+### Cargo Hold
+
+Unlock: `cargo_bay_pressurized` (auto from first Armory visit).
+
+**Trade Empire goes live** (`featureRoadmap.ts:117–119`). Locke's mentorship arc opens.
+
+Hotspots:
+- **Trade Empire Terminal** → `/trade-empire`.
+- **Marketplace** → `/marketplace`.
+- **Inventory Locker** → `/inventory`.
+- **Fleet Docking Bay** → `/fleet`.
+- **Rubber Chicken with Pulley** (LucasArts/Sierra red herring): Tier 1 LOOK. Tier 2 reveal — the pulley is structural and load-bearing; the chicken is deniable cover for a tool the Engineer brought as an escape-plan precaution. Tier 3: "The most-revisited objects on this ship in two and a half centuries are: Lyra's mug, the dead pod, and the rubber chicken."
+- **Classified Manifest Page** (egg): *"Container 7-Omega: BIOLOGICAL — Clone Template, Oracle-class. STATUS: Active. HANDLER: The Collector."*
+
+### Captain's Quarters
+
+Unlock: have `captains-master-key` (from Bridge armrest).
+
+VO `elara-captains-quarters_b76f5371.mp3`. Dr. Lyra Vox's room.
+
+Hotspots:
+- **Trophy Wall** → `/trophy`.
+- **Strategic Table** → `/deck-builder`.
+- **Companion Quarters** → `/companions`.
+- **Battle Pass Console** → `/battle-pass`.
+- **Morality Compass** → `/morality-census`.
+- **Cat Photo (Mr. Whiskers in tiny brass goggles)** → Tier 1 LOOK; Tier 2 reveals Iron Lion saw this and drew the cat for his 3,000 posters; Tier 3 reveals **someone has been cleaning the photograph recently** (cleaning-streak angle, two feet left of frame). Sets `third_party_in_quarters` — first evidence of a hidden caretaker on the Ark.
+- **Vex Workshop Diary** — undelivered letter from Vex Solène: *"I have not named the workshop because I have not been ready to be named through it."*
+- **Dr. Vox's Personal Terminal** (egg) — decryption reveals the entire conspiracy: *"Day 1,247. The Warlord's voice grows louder... The Thought Virus is complete... When Kael steals this ship, the virus will walk aboard with him..."*
+- **Hidden Passage Door** (shimmering) → leads to Antiquarian's Library.
+
+### Antiquarian's Library
+
+Unlock: **5 items collected.** Item count tracked at `GameContext.tsx:2307–2316`. Items that count include:
+1. `data-crystal-alpha` (Cryo Bay)
+2. `medical-log-001` (Medical Bay)
+3. `observation-keycard` (Medical Bay safe)
+4. `captains-master-key` (Bridge armrest)
+5. `void-essence-sample` (Medical Bay egg)
+
+(Or any 5 from the broader pool: `archive-crystal-beta`, `captains-final-log`, `agent-zero-dogtag`, `silver-locket`, `data-slate-fragment`, `torn-id-tag`, `medical-log-001`, etc.)
+
+**This is a pocket dimension outside time.** Hotspots:
+- **Orb of Worlds** → `/conexus` (CoNexus interactive story games).
+- **Ancient Tomes** → also `/conexus`. Each tome is a gateway story: "The Necromancer's Lair," "Awaken the Clone," "Sundown Bazaar," etc.
+- **Hidden Prophecy** (egg, fourth-wall break): *"The stories are told so that you — yes, you, the one reading this — can choose."*
+
+### Engineering Core (hidden, **Engineer class only**)
+
+Unlock: `chain_complete: engineer_chain`. Engineer-class players who:
+1. Visit Engineering (sets `power_grid_restored`).
+2. Solve the Reactor calibration puzzle (research minigame).
+3. Build the signal-booster (combine #5).
+4. Restore the reactor schematic (combine #2).
+5. (Further runtime quest steps.)
+6. Complete `engineer_chain` → sets `chain_engineer_chain_complete` → Engineering Core unlocks.
+
+True heart of the Ark. Reactor is "not energy as you understand it — it is continuity." Egg Resonance Frequency: *"The machine remembers what the maker forgets. Build well, Engineer. The next Ark is yours to design."*
+
+### Oracle Sanctum (hidden, **Oracle class only**)
+
+Unlock: `chain_complete: oracle_chain`. Oracle-class players progress through observation-deck interactions, probability-sphere navigation, precognitive vision unlocks, then complete `oracle_chain`.
+
+Probability sphere boosts precognition 1000x. Egg Sealed Vision shows "the end. The final moment of the Saga." Only an Oracle can unseal it.
 
 ---
 
-## Parallel feature unlocks (gated by trust / level / quest-count, not act)
+## Cross-room unlock flags — full chain summary
 
-These do not advance the spine; they unlock as side surfaces when you cross trust/level/quest thresholds — usually mid-Acts 4–6.
-
-| Trigger | System | Narrator |
+| Flag | Set by | Unlocks |
 |---|---|---|
-| Trust: Locke ≥ 30 | Casino (`/casino`, Pazaak/craps) | Locke |
-| Casino visited | Dead Man's Circuit (Godot, external) | Locke |
-| Trust: Antiquarian ≥ 40 | Game Master's Arena (`/gamemasters-arena`) | Antiquarian |
-| Trust: Locke ≥ 50 | Bounty Board (`/bounties`) | Locke |
-| Quests ≥ 20 | Voltari Translation (purple planet, 2-million-year signal) | Elara |
-| Companion evolution stage 2 | Pet Battles (`/pet-battles`) | **Companion** (first time companion narrates) |
-| Level 12 | Co-op Incursions | The Human |
-| Level 15 | Alliance Wars | Elara |
-| Level 25 | Prestige | Antiquarian |
-| First fight won | Bestiary | silent unlock |
-| First crew member born | Crew Activity Feed | silent unlock |
-| `crew_generation_2` | Bloodline / Crew Breeding | The Resurrectionist (first non-Elara/Human/companion narrator) |
-| `necromancer_manifested` (server-wide) | Necromancer Returns endgame | server cinematic |
+| `cryo_mystery_victim_identified` | Combine torn-id-tag + data-slate-fragment in Cryo Bay | Medical Bay |
+| (room_visited: cryo-bay) | First entry to Cryo Bay | Bridge |
+| `fast_travel_unlocked` | Solve nav-calibration glyph puzzle at Bridge | Fast travel system |
+| `bridge_systems_restored` | **AUTO** on first Bridge visit | Comms Array |
+| `power_grid_restored` | **AUTO** on first Comms Array visit | Engineering |
+| `combat_systems_online` | **AUTO** on first Engineering visit | Armory |
+| `cargo_bay_pressurized` | **AUTO** on first Armory visit | Cargo Hold |
+| (item: observation-keycard) | Solve Medical Bay safe puzzle | Observation Deck |
+| (item: captains-master-key) | Pickup from Bridge armrest | Captain's Quarters |
+| (items_collected ≥ 5) | Collect 5 tagged items across rooms | Antiquarian's Library |
+| `chain_engineer_chain_complete` | Engineer-class quest chain | Engineering Core |
+| `chain_oracle_chain_complete` | Oracle-class quest chain | Oracle Sanctum |
+
+The cascade pattern is critical: **the four "auto-flag" rooms gate each other in strict sequence**. Bridge → Comms Array → Engineering → Armory → Cargo Hold. The mystery puzzles are side-cascades for Medical Bay (cryo combine), Observation Deck (safe), Captain's Quarters (Bridge armrest), Antiquarian's Library (5 items), and the two class rooms (chain completion).
 
 ---
 
-## What's not developed (sorted by player-impact)
+## Act 1 — "The Signal" (12-battle ladder + §5.8 Authority Trial + Light/Dark vote)
+
+**Trigger:** Act 1 is armed when `narrativeAct = 1` (set on `prelude_complete`). It activates when you click the Communication Relay in the Comms Array.
+**Page:** `/act1-ladder` → `Act1CardLadderPage.tsx`.
+**Source:** `narrativeActs.ts:80–387`, `act1Opponents.ts`, `act1OpponentDialog.ts`.
+
+### Cycle gates (`useNarrativeIntegration.ts:973–1004`)
+
+| Cycle | Sub-flag | Required | Battle range | Story label |
+|---|---|---|---|---|
+| **A — Kindergarten of Gods** | `act_1_cycle_a_complete` | ≥3 wins | Battles 1–3 | "The Engineer's childhood ends." |
+| **B — Mechronis Academy** | `act_1_cycle_b_complete` | ≥8 wins | Battles 4–8 | "The graduation photo. One student is missing." |
+| **C — The Deck Reforged** | `act_1_cycle_c_complete` | ≥12 wins | Battles 9–12 | "New Babylon. A tall figure in a worn engineer's coat." |
+
+### The 12 battles in order
+
+| # | Opponent | Special |
+|---|---|---|
+| 1 | Minnie the Meme (Cycle A) | First card battle |
+| 2 | Corey the Collector | |
+| 3 | Kanshi Sha the Watcher (Cycle A finale) | Slideshow `welcome-to-celebration` fires |
+| 4 | Young Iron Lion (Year 1) | |
+| 5 | Young Recruiter / Kael (Year 2) | |
+| 6 | Young Agent Zero / Vex Solène (Year 3) | |
+| 7 | Young Eyes / Professor Matrikala (Year 4) | |
+| 8 | The Young Human / The Seeker (Cycle B finale) | Slideshow `to-be-the-human` fires |
+| 9 | Vernon Vortex (First Form) — Battle of Nexon | |
+| 10 | Wanda Wyrlord (fragmented) — Zenon | |
+| 11 | **Warlord's Nano-Swarm** (inside Agent Zero) | **MANDATORY LOSS.** Opponent is unkillable; must lose. Feeds verdict-stream balance for §5.8. |
+| 12 | **Wayne Warden (Authority's Tribunal)** | **§5.8 Phase-Restricted Trial Format** (see below). Slideshow `last-words` fires. |
+
+### §5.8 — Authority Trial 10-phase mechanic (the Act 1 climax fight)
+
+Source: `docs/production/act1/authority-trial-phase-mechanic.md` §§2–6.
+
+The trial is a card duel where each turn restricts which **card categories** can be played. Categories: defensive / narrative / evidence / reactive / confession.
+
+| Turn | Phase | Allowed cards |
+|---|---|---|
+| 1 | **Charge** | Defensive only |
+| 2 | **Opening argument** | 1 narrative card; phase ends after 1 play |
+| 3 | **Evidence (present)** | Evidence only |
+| 4 | **Evidence (cross-support)** | Evidence only, building on turn 3 flags |
+| 5 | **Evidence (closing)** | Evidence; single "no further evidence" pass allowed |
+| 6 | **Cross-examination (first)** | Reactive only (target verdict stream) |
+| 7 | **Cross-examination (second)** | Reactive + confession |
+| 8 | **Cross-examination (closing)** | Reactive + confession; single "no further questions" pass |
+| 9 | **Closing argument** | 1 narrative card; phase ends after 1 play |
+| 10 | **Verdict** | No card play; resolution only |
+
+**Verdict threshold formula:**
+```
+base_threshold     = -2
+warm_offset        = (gameMasterVerdictStreamBalance ≥ +3) ? +3 : 0
+cool_offset        = (gameMasterVerdictStreamBalance ≤ -3) ? -3 : 0
+trial_threshold    = base_threshold + warm_offset + cool_offset
+trial_balance      = sum of verdict-stream deltas during §5.8
+
+if trial_balance ≥ trial_threshold:
+  outcome = "overturn"     → sets act1_authority_defeated
+else:
+  outcome = "sentence_passed" → sets act1_authority_sentence_passed
+```
+
+Either way, the meta-flag `act1_authority_outcome` is set. **Pre-match advisory** warns if your deck lacks: 2× defensive, 2× narrative, 4× evidence, 4× reactive (confession optional).
+
+### Light/Dark alignment vote (§5.8.1)
+
+UI component: `apps/client/src/components/match/ChoicePillarLightDark.tsx` (consumer in `DuelystGameUI.tsx:1000`).
+
+**Trigger:** during the Last Words full-song cutscene at ~66s (the chorus-1 line). The pillar splits into a Light side and a Dark side.
+
+**Player action:** click Light or Dark. `setLightDarkAlignment("light" | "dark")` writes to campaignState; flag set.
+
+**Four canon endings cascade out:**
+- **Overturn + Light** — Authority grants delay; player carries the Engineer's thought forward.
+- **Overturn + Dark** — Authority grants delay; Engineer survives but legacy dies with him.
+- **Sentence + Light** — Engineer executed; player carries the legacy.
+- **Sentence + Dark** — Engineer executed; legacy dies (Empire wins quietly).
+
+### Act 1 completion — atomic AND-gate
+
+`useNarrativeIntegration.ts:986–1004` evaluates on every tick. Fires `act_1_complete` when **all three** are true on the same tick:
+1. `cardWins ≥ 12` (Cycle C crossed)
+2. `lightDarkAlignment !== null` (Light or Dark picked)
+3. `act1_authority_outcome` is set (trial resolved either way)
+
+Then: advances `narrativeAct` to 2; sets `act_2_started`. **4 cards unlock** (`s2_hierarchy/act_exclusives.ts:15–85`). Conspiracy Board #1 (*The First Memory*, 5 clues) opens.
+
+---
+
+## Act 2 — "The Forged Hand" (4 sub-flag interlude, AND-gate)
+
+**Trigger:** Act 1 → Act 2 advancement bumps `narrativeAct` to 2.
+**Source of truth:** `apps/shared/act2CompletionGate.ts:48–76` `deriveAct2CompletionStatus()`.
+
+### The 4 sub-flags (any order)
+
+| # | Flag | Action | Watcher |
+|---|---|---|---|
+| 1 | **`crafting_mastered`** | Craft **3+ cards** at Engineering bench (state.craftedItems.length ≥ 3) | useNarrativeIntegration.ts:1159–1166 |
+| 2 | **`chess_mastered`** | Win **5+ chess matches** (localStorage `chess_wins` ≥ 5; can accumulate any time) | useNarrativeIntegration.ts:1167–1172 |
+| 3 | **`thaloria_cinematic_seen`** | Win **3+ Collector's Arena matches** (story-mode) → triggers "The Helmet in the Grass" cinematic; flag set on slideshow completion | useNarrativeIntegration.ts:1131–1144 |
+| 4 | **`game_master_loss`** | Lose ≥1 match to the Game Master (Chess Climb opponent, best-of-3 series). Failure is required curriculum. | Set by gameplay directly |
+
+### Parallel chess depth → Dischordia mechanic unlocks
+
+While progressing chess, depth tiers cross and grant cross-game advantages (`act2ClassroomUnlocks.ts:37–59`, watcher `useNarrativeIntegration.ts:1069–1089`):
+
+| Depth | Tier flag | Mechanic unlock |
+|---|---|---|
+| 1 | `zephyr_classroom_tier_1_crossed` | Zephyr-9 introduction |
+| 3 | `zephyr_classroom_tier_3_crossed` | **Peek top card** in Dischordia |
+| 5 | `zephyr_classroom_tier_5_crossed` | **One undo per match** in Dischordia |
+| 8 | `zephyr_classroom_tier_8_crossed` | **Engineer's Opening** deck card unlocked |
+
+### Chess Climb tier-won companion reactions
+Each best-of-3 Climb tier won fires `chess_climb_tier_N_won` (N=0..3). Elara and Human alternate VO reactions (`useNarrativeIntegration.ts:1099–1114`).
+
+### Act 2 completion
+
+When all 4 sub-flags AND `narrativeAct ≥ 2`: gate fires (`useNarrativeIntegration.ts:1173–1192`).
+- Sets `act_2_complete` + `trade_empire_unlocked`.
+- Advances `narrativeAct` to 3.
+- 4 cards unlock. Conspiracy Board #2 opens.
+
+---
+
+## Act 3 — "The Offer" (cinematic + ladder + path lock)
+
+**Trigger:** `narrativeAct = 2` AND `totalRoomsUnlocked ≥ 5` (`narrativeActs.ts:50–52`). Cryo Bay is always unlocked, so 4 more rooms needed (typically Bridge + Medical Bay + Comms + Archives suffice).
+**Source:** `apps/shared/act3CompletionGate.ts:80–118`.
+
+### The 3 sub-conditions (AND-gate)
+
+1. **`slideshow_i_am_the_eyes_that_watch_complete`** — Watch Act 3 opening cinematic (queued by SLIDESHOW_TRIGGERS when `act_3_starting` raised). Sets via slideshow `flagsSetOnComplete`.
+2. **`act3_kael_logs_unlocked`** — Defeat all 3 Act 3 card-ladder opponents on `/act3-ladder` (Substrate Echo → Kael Archivist → Substrate Warden). Final Warden victory writes the flag.
+3. **One of three infiltration-path endings** (the path lock):
+
+#### The infiltration-path mechanic (`tradeEmpire/infiltrationPaths.ts:38–176`)
+
+Player navigates a **Trade Empire spy chain**, building "cover" by selecting faction identities across linked sectors. 8 covers across factions: New Babylon, Hierarchy, Antiquarian, Thaloria, Freeport, Insurgency, Substrate, Sovereigns. Covers chain by faction adjacency; detection difficulty scales with chain length and faction diversity.
+
+Three chain endings, **pick one** (`act3PathDividend.ts:15–89`):
+
+| Ending flag | Path | Trust dividend (cashes out at Act 6) |
+|---|---|---|
+| `act3_insurgency_ending` (Transparent) | Full disclosure to Elara | +10 Elara, +0 Human, +0 morality → `act6_path_dividend_transparent` |
+| `act3_empire_ending` (Pragmatic) | Selective edits | +5 Elara, +5 Human, +0 morality → `act6_path_dividend_pragmatic` |
+| `act3_hierarchy_ending` (Full Secret) | Tell Elara nothing | +0 Elara, +10 Human, **−3 morality** → `act6_path_dividend_full_secret` |
+
+### Act 3 completion
+Gate fires (`useNarrativeIntegration.ts:1207–1227`): sets `act_3_complete` + `act_4_started`; advances `narrativeAct` to 4. 4 cards unlock. Conspiracy Board #3 opens.
+
+---
+
+## Act 4 — "The Revelation" (cinematic + path flag + 1 Prisoner chapter)
+
+**Trigger:** `narrativeAct = 3 → 4` from Act 3 completion.
+**Source:** `apps/shared/act4CompletionGate.ts:86–128`.
+
+### The 3 sub-conditions (AND-gate)
+
+1. **`slideshow_act_4_revelation_intro_complete`** — Watch the Act 4 opening cinematic.
+2. **One of three Act-1-path flags** (canonical priority order: A > partial_share > full_secret):
+   - `act1_path_A` (Willing Disclosure)
+   - `act3_partial_share` (Discovery)
+   - `act3_full_secret` (Betrayal)
+3. **At least one Prisoner chapter cleared** (any one of four):
+   - `act4_prisoner_cell_complete` — *The Cell*
+   - `act4_prisoner_extraction_complete` — *The Extraction*
+   - `act4_prisoner_warlord_complete` — *Warlord Rematch*
+   - `act4_prisoner_oracle_complete` — *White Oracle*
+
+Each chapter is a Collectors Arena story-mode card battle. Win one, the flag fires (gameplay responsibility). Canon expects you to try all four, but only one is required for the gate.
+
+### Act 4.5 — Dead Man's Circuit (sibling track, **optional**, does not block Act 5)
+
+`act_4_5_started` raised when Act 4 completes. Source: `apps/shared/act4_5CompletionGate.ts:60–92`.
+
+Two sub-conditions:
+1. `slideshow_act_4_5_intro_complete` — opening cinematic.
+2. At least one of:
+   - `act_4_5_circuit_complete` — Dead Man's Circuit racing mode (external Godot project; bridge stubs only).
+   - `act_4_5_casino_complete` — The Degen Casino mode.
+
+On completion: sets `act_4_5_complete`. **Does NOT advance narrativeAct.** Toast: "Act 4.5 — Dead Man's Circuit: You named the wager. You paid the wager. The chain keeps the identity you lost."
+
+### Act 4 completion
+Gate fires (`useNarrativeIntegration.ts:1229–1249`): sets `act_4_complete` + `act_5_started` + `act_4_5_started` (sibling track armed). Advances `narrativeAct` to 5. 4 cards unlock. Conspiracy Board #4 opens.
+
+---
+
+## Act 5 — "The Reckoning / The Map" (4 sub-flags including 5 recruitment missions)
+
+**Trigger:** `narrativeAct = 4 → 5`.
+**Source:** `apps/shared/act5CompletionGate.ts:74–112`.
+
+### The 4 sub-conditions (AND-gate)
+
+1. **`slideshow_act_5_map_intro_complete`** — Watch Act 5 opening cinematic.
+2. **`act_5_map_revealed`** — Open the Act5InterludePage and view Kael's 5-sector star map. First view automatically writes the flag.
+3. **`cades_m7_complete`** — Complete **Cades campaign mission 7** (Iron Lion's last stand on Veridian VI). Cades is a cooperative mission system; M7 is the canonical end-of-Act-5 beat.
+4. **Army Recruitment ≥ 5 missions completed** — `state.armyRecruitmentMissionsCompleted.length ≥ 5`. Threshold: `RECRUITMENT_THRESHOLDS.act6 = 5` (`armyRecruitment.ts:28`). `addCompletedRecruitmentMission()` is idempotent (`armyRecruitment.ts:41–48`); only successful completions count.
+
+### Bridge of Kael post-credits scene (separate optional track)
+
+If `kael_questline_complete` AND player returns to Bridge (`returned_to_bridge_post_kael`), `BRIDGE_OF_KAEL_POST_CREDITS` fires (`witnessingIntegrations.ts:26–32`). Doesn't block anything.
+
+### Act 5 completion
+Gate fires (`useNarrativeIntegration.ts:1267–1289`): sets `act_5_complete` + `act_6_started`. Advances `narrativeAct` to 6. 4 cards unlock. Conspiracy Board #5 opens.
+
+**Parallel Act 6 trigger** (`useNarrativeIntegration.ts:1291–1306`): When recruitment ≥ 5 AND `narrativeAct ≥ 5`, `act_6_started` fires *independently*. So Act 6 can begin mid-Act-5 if you blow through recruitment fast.
+
+---
+
+## Act 6 — "The Confession" (cinematic + 2 confessions + 1 of 7 stances)
+
+**Trigger:** Recruitment ≥ 5 AND `act_6_started` set.
+**Page:** `/act6-ladder` → `Act6CardLadderPage.tsx`.
+**Source:** `apps/shared/act6CompletionGate.ts:73–111`.
+
+### The 4 sub-conditions (AND-gate)
+
+1. **`slideshow_act_6_confession_intro_complete`** — Opening cinematic.
+2. **`act6_elara_confession_heard`** — Win the card-ladder battle vs. **"The Woman She Was"** (Elara's memory/shadow). Writer: `Act6CardLadderPage` on victory.
+3. **`act6_human_confession_heard`** — Win the card-ladder battle vs. **"The Detective in the Wall"** (the Human's manifestation). Writer: `Act6CardLadderPage` on victory.
+4. **One stance flag** picked from a closing wheel UI (any one of seven, OR-gate):
+   - `act6_confession_close_empathy` — "You both did what you could."
+   - `act6_confession_close_challenge` — "You both made choices you're hiding from."
+   - `act6_confession_close_refusal` — "I don't forgive either of you."
+   - `act6_confession_close_reluctant_ally` — "We move forward anyway."
+   - `act6_confession_close_partial` — hedge.
+   - `act6_confession_close_oracle_sense` — mystical (Oracle-class flavor).
+   - `act6_confession_close_practical` — tactical (Soldier/Engineer flavor).
+
+### Act 6 completion
+Gate fires (`useNarrativeIntegration.ts:1308–1325`): sets `act_6_complete` + `act_7_started`. Advances `narrativeAct` to 7. 4 cards unlock. Conspiracy Board #6 opens.
+
+---
+
+## Act 7 — "The Convergence" (15-recruitment trigger; 2 sub-flags; 12-reading endings)
+
+**Trigger:** Army Recruitment **≥ 15 missions** AND `act_6_complete`. Watcher: `useNarrativeIntegration.ts:1327–1337`. Threshold: `hasReachedAct7Threshold(15)` (`armyRecruitment.ts`).
+**Page:** `/act7-ladder` → `Act7CardLadderPage.tsx`.
+**Source:** `apps/shared/act7CompletionGate.ts:69–106`.
+
+### The 2 sub-conditions (AND-gate)
+
+1. **`slideshow_act_7_convergence_intro_complete`** — Opening cinematic.
+2. **`act7_arc_closes`** — Defeat the **Convergence Seat opponent** (the final card battle of the entire narrative spine). Also sets `act7_convergence_landing` for downstream systems.
+
+### Optional final stance flags (NOT required for completion)
+
+You can close Act 7 without picking a stance — silence is itself a canon stance. But if you do pick:
+- `act7_s1_humanity_path` — Humanity (Light) ending
+- `act7_s1_machine_path` — Machine (Dark) ending
+- `act7_s1_balance` — Balance ending
+- `act7_s1_soldier_command` — Soldier Command ending
+
+Each ending plays its epilogue from `act7Epilogues.ts:66–179`. Beats have **path variants** (pathA/pathB/pathC) keyed to the Act 3 disclosure ending → 4 stances × 3 paths = **12 distinct readings**. The Antiquarian's framing line: *"I had read this page already. You chose which page to turn to — not what was written on it. Both are true. The Cycle records both."*
+
+### Act 7 completion + Prestige rollover
+Gate fires (`useNarrativeIntegration.ts:1339–1354`): sets `act_7_complete` + `narrative_spine_complete`. Conspiracy Board #7 opens.
+
+**Prestige carryover rules** (`PRESTIGE_CARRYOVER_RULES` in `actsFourFiveShells.ts`, applied via `applyPrestigeCarryover()` in `witnessingIntegrations.ts:59–82`):
+- Loredex entries: **100%** carry
+- Bond peak memories: **50%** carry
+- Narrator dominance: **0%** (always reset)
+- Dischordia cards: **25%** (slideshow cards only)
+- Witnessing milestones: **100%** carry
+- Memorable moments: **10%** (Antiquarian's curation)
+
+Then `narrativeAct` resets to Prelude state. You play again with multiplied XP and persistent bonds.
+
+---
+
+## Conspiracy Boards — the parallel mystery race (cross-act, server-wide)
+
+Source: `apps/shared/conspiracyBoards/definitions.ts:29–151`, `clueDrops.ts:35–127`, `apps/server/routers/conspiracy.ts`. Surface: `/conspiracy-board`.
+
+### 7 boards (one per act)
+
+| Board | Act | Clues req'd | Reveal flag |
+|---|---|---|---|
+| `first_memory` | 1 | 5 | `secret_act_1_revealed` |
+| `inheritance_ledger` | 2 | 5 | `secret_act_2_revealed` |
+| `thought_virus` | 3 | 6 | `secret_act_3_revealed` |
+| `project_celebration` | 4 | 7 | `secret_act_4_revealed` |
+| `kaels_revenge` | 5 | 5 | `secret_act_5_revealed` |
+| `watcher_infiltration` | 6 | 6 | `secret_act_6_revealed` |
+| `recruiter_defection` | 7 | 5 | `secret_act_7_revealed` |
+
+### Clue drop sources (8)
+
+| Event | Drop rate | Pool size |
+|---|---|---|
+| `pvp_card_win` | 15% | 7 clues |
+| `pvp_card_loss` | 5% | 2 clues |
+| `pvp_chess_win` | 15% | 5 clues |
+| `pvp_chess_loss` | 5% | 2 clues |
+| `coop_raid_clear` | 35% | 8 clues |
+| `act_completed` | 100% | 10 clues |
+| `kael_fragment_unlocked` | 100% | 2 clues |
+| `narrative_milestone` | 50% | 6 clues |
+
+### Mechanism
+
+1. Game event fires (e.g., PvP card win). Server rolls drop chance.
+2. On hit, picks a random clue from the source pool. Adds to player's `userClueProgress` for any board that accepts it.
+3. Auto-attempts solve via `attemptSolveForUser()` in `conspiracyService.ts`. If clues ≥ board's `cluesRequired`, fires solve.
+4. **First server-wide solve** sets the act's `secret_act_N_revealed` flag, granting the corresponding **secret card** to **everyone on the server** (`special_editions.ts:14–138`). First-discoverer guild members get the Tier 3 "Queen of Truth" title.
+
+### Oracle Pool peek
+Pay 50 Dream tokens to view rival guilds' progress on a board (`conspiracy.ts:107–185`). Tier 4 guild feature.
+
+---
+
+## Witnessing system (Epoch Chronicle + Light/Dark votes + song unlocks)
+
+Source: `apps/shared/witnessingYearOne.ts`, `loredexSongMap.ts`, `WitnessingHubPage.tsx`.
+
+### Epoch Chronicle
+Server-side historical record of major narrative events + player-community votes. Each entry maps to a flag (`prelude_complete`, `act_1_complete`, `act_1_cycle_a_complete`, `thaloria_cinematic_seen`, etc.). Records timestamp + community consensus + Loredex unlock.
+
+### Light/Dark vote
+The **only mandatory player vote** in the spine, fired during the Last Words full-song cutscene at ~66s (chorus-1 line). UI: `ChoicePillarLightDark.tsx`. Writes `lightDarkAlignment` ∈ {light, dark}. All four authority/light combos (Overturn/Sentence × Light/Dark) are fully authored through the rest of the game.
+
+### Song unlocks
+Conspiracy board solves and major narrative milestones unlock canonical songs in your Loredex. Mapping in `loredexSongMap.ts`. Example: `thaloria_cinematic_seen` → "planet-of-the-wolf" from `location_thaloria` Loredex entry.
+
+---
+
+## Player objective checklist (executable, top-to-bottom)
+
+### Pre-game
+- [ ] Title screen → New Game.
+
+### Prelude (15 beats)
+- [ ] **Beat A** (auto, 35s) — wake.
+- [ ] **Beat A.5** (auto, 15s) — corridor.
+- [ ] **Beat B** (auto, 20s) — escape.
+- [ ] **Beat C** ⚡ — pick one of 3 role chips: Engineer / Assassin / Oracle.
+- [ ] **Beat C.5** (auto, 20s) — window.
+- [ ] **Beat D** ⚡ — read **all 3** mission slates: Kelvara / Last Courier / Outer Dusk.
+- [ ] **Beat D.5** (auto, 25s) — galley.
+- [ ] **Beat E** ⚡ — examine ≥1 Mess Hall hotspot (toy soldier or diploma).
+- [ ] **Beat F** ⚡ — tap lockbox; advance 3 memo pages; click "Hold the letter."
+- [ ] **Beat F.5** (auto, 90s) — empty chair.
+- [ ] **Beat G** (auto, 25s) — Medical Bay.
+- [ ] **Beat H** ⚡ — click envelope; let Locke's VO play; close after sentence-6 cyan bloom.
+- [ ] **Beat H.5** (auto, 20s) — memo pile.
+- [ ] **Beat I** (auto, 40s) — Bridge / Witnessing Hub bloom.
+- [ ] **Beat J** (auto, ~8m10s) — Engineer's Log 5 + Last Words tease. **No vote here.**
+
+### Post-Prelude (3 crew missions; mission 3 is the Act 1 gate)
+- [ ] Crew Mission 1 — *The Wreck Next Door* (Patch).
+- [ ] Crew Mission 2 — *The Signal from Nowhere* (Zephyr-9).
+- [ ] **Crew Mission 3** — *The Burnt Card* (Little One). Sets `prelude_complete` → Act 1 armed.
+
+### Hour 1 — Cryo Bay mystery (cascade kickoff)
+- [ ] LOOK at any 1 Cryo hotspot (sets `cryo_mystery_first_clue_found`).
+- [ ] USE Data Slate → pickup `data-slate-fragment`.
+- [ ] USE Personal Effect → pickup `torn-id-tag`.
+- [ ] **Combine** them at autopsy console → sets `cryo_mystery_victim_identified` → Medical Bay unlocks.
+
+### Hour 1 — Bridge cascade
+- [ ] Visit Bridge (auto-flag `bridge_systems_restored` fires).
+- [ ] Click captains-chair → pickup `captains-master-key` AND `captains-final-log`.
+- [ ] Click nav-console → solve 4-glyph puzzle (missing glyph = third-class Mechronis character) → `fast_travel_unlocked`.
+
+### Hour 1–2 — Medical Bay puzzle + spread
+- [ ] Solve Medical Bay safe (numeric keypad puzzle) → pickup `observation-keycard` → Observation Deck unlocks.
+- [ ] Visit Archives (gated only on Bridge visit) → Loredex + Dischordia unlock.
+- [ ] Visit Comms Array (gated on `bridge_systems_restored`, set automatically) → auto-flag `power_grid_restored` fires → Engineering unlocks.
+- [ ] Visit Observation Deck (have `observation-keycard`).
+
+### Hour 2–4 — Engineering cascade
+- [ ] Visit Engineering (auto-flag `combat_systems_online` fires) → Armory unlocks.
+- [ ] Visit Forge Workshop (gated only on Engineering visit).
+- [ ] Visit Armory (auto-flag `cargo_bay_pressurized` fires) → Cargo Hold unlocks.
+- [ ] Visit Cargo Hold → Trade Empire goes live.
+- [ ] Visit Captain's Quarters (have `captains-master-key`).
+- [ ] After 5 items collected → Antiquarian's Library unlocks.
+
+### Hours 4–6 — Act 1 (12 battles, trial, vote)
+- [ ] Win 3 Dischordia matches → `act_1_cycle_a_complete`.
+- [ ] Win 5 more (8 total) → `act_1_cycle_b_complete`.
+- [ ] Continue to battle 11; **lose to Warlord's Nano-Swarm** (unkillable opponent).
+- [ ] Battle 12 — **Authority Trial**, 10 phases. Need deck: 2× defensive, 2× narrative, 4× evidence, 4× reactive.
+- [ ] Win 12 total → `act_1_cycle_c_complete`.
+- [ ] During Last Words cutscene at ~66s, **click Light or Dark** at the choice pillar.
+- [ ] Trial resolves → `act1_authority_outcome` set.
+- [ ] **Gate fires:** `act_1_complete`. Advances to Act 2.
+
+### Hours 6–8 — Act 2 (4 sub-flags, AND)
+- [ ] Craft **3+ cards** at Engineering bench → `crafting_mastered`.
+- [ ] Win **5+ chess matches** → `chess_mastered`.
+- [ ] Win **3+ Collector's Arena matches** → triggers Thaloria cinematic → `thaloria_cinematic_seen`.
+- [ ] **Lose ≥1 match to the Game Master** (Chess Climb) → `game_master_loss`.
+- [ ] **Gate fires:** `act_2_complete` + `trade_empire_unlocked`. Advances to Act 3.
+
+### Hours 8–10 — Act 3 (cinematic + ladder + path lock)
+- [ ] Have ≥5 rooms unlocked total.
+- [ ] Watch Act 3 opening cinematic ("I Am the Eyes That Watch").
+- [ ] Defeat all 3 Act 3 ladder opponents (Substrate Echo → Kael Archivist → Substrate Warden) → `act3_kael_logs_unlocked`.
+- [ ] Run a Trade Empire infiltration chain. **Pick one ending**: Insurgency / Empire / Hierarchy.
+- [ ] **Gate fires:** `act_3_complete`. Advances to Act 4.
+
+### Hours 10–12 — Act 4 (cinematic + path flag + 1 prisoner)
+- [ ] Watch Act 4 opening cinematic ("The Revelation").
+- [ ] Have one of `act1_path_A` / `act3_partial_share` / `act3_full_secret` set (was set during Act 1+3 dialog choices).
+- [ ] Win **at least one** Prisoner chapter in Collectors Arena: Cell / Extraction / Warlord Rematch / White Oracle.
+- [ ] (Optional sibling) Act 4.5: Dead Man's Circuit racing OR Degen Casino.
+- [ ] **Gate fires:** `act_4_complete`. Advances to Act 5.
+
+### Hours 12–15 — Act 5 (4 sub-flags including 5 recruitment)
+- [ ] Watch Act 5 opening cinematic ("The Reckoning").
+- [ ] Open Act5InterludePage → view Kael's 5-sector star map → `act_5_map_revealed`.
+- [ ] Complete Cades campaign mission 7 (Iron Lion's last stand on Veridian VI) → `cades_m7_complete`.
+- [ ] Complete **5+ Army Recruitment missions**.
+- [ ] **Gate fires:** `act_5_complete`. Advances to Act 6.
+
+### Hours 15–17 — Act 6 (cinematic + 2 confessions + 1 stance)
+- [ ] Watch Act 6 opening cinematic ("The Confession").
+- [ ] Win Act 6 ladder battle 1 vs. "The Woman She Was" → `act6_elara_confession_heard`.
+- [ ] Win Act 6 ladder battle 2 vs. "The Detective in the Wall" → `act6_human_confession_heard`.
+- [ ] At closing wheel, click **one of 7** stances: empathy / challenge / refusal / reluctant_ally / partial / oracle_sense / practical.
+- [ ] **Gate fires:** `act_6_complete`. Advances to Act 7.
+
+### Hours 17–22 — Act 7 (15 recruitment + cinematic + arc closes)
+- [ ] Complete **15+ Army Recruitment missions** (10 more after Act 5's 5).
+- [ ] Watch Act 7 opening cinematic ("The Convergence").
+- [ ] Defeat the Convergence Seat opponent → `act7_arc_closes`.
+- [ ] (Optional) Pick a stance: Humanity / Machine / Balance / Soldier Command.
+- [ ] **Gate fires:** `act_7_complete` + `narrative_spine_complete`. Prestige carryover applies. `narrativeAct` resets to Prelude.
+
+---
+
+## What's not developed (gaps)
+
+Sorted by impact. Same as before but tightened for the puzzle/objective focus:
 
 ### Critical narrative blockers
-1. **Trade Empire mission loop** — `apps/server/routers/tradeMissions.ts` is a stub. Phase D.5 schema landed (`tradeRouteSaturation`, `tradeResearchRaces`, `convergenceClimaxState` in `apps/db/schema.ts:6978–7052`) but the **gameplay loop is unbuilt**. Blocks the Vex reveal, Locke arc payoff, and the Act 7 climax doom-clock pressure. Trade Empire is technically "playable" as a grid-trading sandbox with no narrative payoff. **#1 unimplemented system.**
-2. **Soul Stones corruption/purification economy** — `SOUL_STONES_SYSTEM.md` describes 4 tables + 4 procedures + a demon-summoning braid through Acts 4–7. **Zero runtime presence.** Larger in scope than Trade Empire; entirely invisible right now.
-3. **Global Light/Dark alignment meter** — `apps/shared/globalAlignment*` declared, **schema table missing**. Player choices accumulate to nothing visible at the macro level. The `vortex_endgame_light/dark_variant` flags fire but no global meter renders.
+1. **Trade Empire mission loop** — the Act 3 path-lock infiltration mechanic ships at the schema level (8 cover graph, faction adjacency, detection difficulty) but the mission-loop runtime that drives the chain is unbuilt. Phase D.5 schema landed (`tradeRouteSaturation`, `tradeResearchRaces`, `convergenceClimaxState` in `apps/db/schema.ts:6978–7052`) without consumers. **Currently the Act 3 path-lock's three endings cannot fire via gameplay.** Pivotal blocker.
+2. **Soul Stones corruption/purification economy** — fully designed in `SOUL_STONES_SYSTEM.md` (4 tables + 4 procedures, demon-summoning braid through Acts 4–7). **Zero runtime presence.** Cannot fire.
+3. **Global Light/Dark alignment meter** — `apps/shared/globalAlignment*` declared, schema table missing. The Act 1 Light/Dark vote writes a flag but no global meter visualizes the cumulative axis.
 
-### Significant narrative gaps
-4. **Mobile Narrator adoption** — only ArkExplorerPage consumes the 495-line Yin/Yang runtime. 5 routes designed (CompanionHub, Awakening, Memorial, PetGarden, CharacterCreation); none wired.
-5. **Shadow Tongue room coverage** — 17 of 26 mystery rooms have no module. Conspiracy boards 4–7 are evidence-starved; technically completable but the clues are sparse.
-6. **5 named cutscene components missing** — `Awakening`, `FirstHumanContact`, `MemoryRecovery`, `BreakingPoint`, `ThoughtVirus` cutscene components do not exist as React components yet (only 2 of 7 designed cutscenes are built).
-7. **Act 6/7 opponent dialog tables thin** — `act6OpponentDialog.ts` and `act7OpponentDialog.ts` were flagged as missing in the completeness audit; dialog lives inline in `narrativeActs.ts` and lacks per-opponent personality polish.
-8. **Per-step reactive companion comments (`cc_act6_*`, `cc_act7_*`)** — partial; coverage estimated at ~50%.
-9. **Companion Ask alternates for late acts** — many topics keep their Act 5 answer through Act 7. The Human's `ask_human_who` is the canonical example.
+### Significant content gaps
+4. **Cades campaign mission 7** — declared as the Act 5 sub-flag `cades_m7_complete`. Cades is an external Unreal project (`apps/shared/crewDmcBridge.ts` only has stubs). Without the external project running, Act 5 cannot complete.
+5. **Dead Man's Circuit** — Act 4.5 sibling track. External Godot project; bridge stubs only. Cannot fire.
+6. **Mobile Narrator adoption** — only ArkExplorerPage consumes the 495-line Yin/Yang runtime. 5 routes designed; none wired.
+7. **Shadow Tongue room coverage** — 17 of 26 mystery rooms have no module; Conspiracy boards 4–7 evidence-starved.
+8. **5 named cutscene components missing** — Awakening, FirstHumanContact, MemoryRecovery, BreakingPoint, ThoughtVirus.
+9. **Act 6/7 opponent dialog tables** — thin per `narrative-audit/ACTS_2_7_COMPLETENESS_AUDIT.md`; dialog lives inline in `narrativeActs.ts`.
+10. **Per-step reactive companion comments** (`cc_act6_*`, `cc_act7_*`) — ~50% coverage.
 
-### Silent unlocks needing narrative scaffolding
-10. **Character Sheet** — appears on menu hour 0 with no explanation.
-11. **Crew Activity Feed** — silent unlock on `first_crew_member_born`.
-12. **Bestiary** — silent unlock on `first_fight_won`.
-13. **Loredex (partial)** — room-discovered, no tutor explains it as a system.
-14. **Combat Simulator** — room-discovered, no formal tutor.
-15. **Daily Quests** — room-discovered, no formal tutor.
+### Silent unlocks needing tutor cards
+11. **Character Sheet** — appears on menu hour 0 with no in-fiction explanation.
+12. **Crew Activity Feed** — silent unlock on `first_crew_member_born`.
+13. **Bestiary** — silent unlock on `first_fight_won`.
+14. **Loredex (partial)** — room-discovered but no system tutor introduces it.
+15. **Combat Simulator** — room-discovered, no tutor.
+16. **Daily Quests** — room-discovered, no tutor.
 
 ### Sub-system gaps
-16. **Pet/specimen breeding loop** — `BREEDING_SYSTEM_ART_PROMPTS.md` is design-only. Zero tables, zero router. Bloodline-threshold card unlocks (`bloodline_threshold` gate exists in `expansionUnlockService.ts`) cannot fire.
-17. **Living Character Sheet UI** — designed, zero files.
-18. **Draft tournament bracket UI** — router exists, frontend mocked.
-19. **War map territorial control** — `tradeSectorControl` schema without a loop.
-20. **Casino panel bet logic** — per-panel wiring incomplete (`CasinoGamePanels.tsx:3`).
-21. **Dead Man's Circuit, Cades FPS** — external Godot/Unreal projects; only bridge stubs in this repo.
+17. **Pet/specimen breeding loop** — design only; bloodline-threshold card unlocks (gate exists in `expansionUnlockService.ts`) cannot fire.
+18. **Living Character Sheet UI** — designed, zero files.
+19. **Draft tournament bracket UI** — router exists, frontend mocked.
+20. **War map territorial control** — `tradeSectorControl` schema without a loop.
+21. **Casino panel bet logic** — per-panel wiring incomplete (`CasinoGamePanels.tsx:3`).
 
-### Media-blocked (waiting on production)
-22. **Dreamer Visions 2–4 slideshows** — pending CDN frames for Albums 2–5.
-23. **5 Trade Empire VO speakers** — `TODO_LOCKE_VOICE`, `TODO_ANTIQUARIAN_VOICE`, etc. (`tradeEmpireVoLines.ts:65–69`).
-24. **Architect Transmission First Contact** — videoUrl + VO pending production (`transmissions.ts:1140–1142`).
-25. **Wawa-lipsync** integration on character sprites (`SpriteCharacter.tsx:158`) — currently text-only.
+### Media-blocked
+22. **Dreamer Visions 2–4 slideshows** — pending CDN frames.
+23. **5 Trade Empire VO speakers** — `TODO_LOCKE_VOICE`, `TODO_ANTIQUARIAN_VOICE`, etc.
+24. **Architect Transmission First Contact** — videoUrl + VO pending production.
+25. **Wawa-lipsync** integration on character sprites — text-only.
 26. **Act 7 Convergence final tone pass** — deferred until cinematic lock.
 
 ### Forward infrastructure (intentionally inert)
 27. **DLC chapter card gates** — 9 chapters declared in `dlcChapterRegistry.ts`; **0 cards use the `dlc_chapter_completion` gate yet**.
-28. **Bloodline-gated cards** — gate declared, 0 cards use it; awaits crew breeding loop.
+28. **Bloodline-gated cards** — gate declared, 0 cards use it.
 29. **Founding Author / Authors Edition entitlements** — gates exist, no store products grant them yet.
-30. **Notification enum producers** — 14 of 58 producers missing.
 
 ### DB hygiene
-31. **78 drifted SQL migrations** — `migration-drift.baseline.json`; CI compensates with cold-boot bootstrap. Reconcile-to-`0071_baseline_v1` task is tracked, not blocking.
+30. **78 drifted SQL migrations** — `migration-drift.baseline.json`; CI compensates with cold-boot bootstrap.
 
 ---
 
-## Verification (replaying any segment)
+## Verification
 
-1. **Run the gate:** `pnpm ship:check` from repo root. Confirms 16 PASS / 6 RATCHET / 0 FAIL on engine systems.
-2. **Walk a player path:** `pnpm dev` → `http://localhost:5173/prelude` → step beat-by-beat. Flag panel visible at `/admin/health` (admin-gated).
-3. **Inspect a single beat:** open `narrativeActs.ts` and search for the act header (`// ACT 4:`). Cross-reference opponent file (`acts2to7Opponents.ts`) and dialog file (`act{N}OpponentDialog.ts`).
-4. **Inspect a single room:** open `apps/client/src/contexts/GameContext.tsx` and grep for the room id (e.g., `"medical-bay"`). Hotspots, tier flags, doors, and Elara's lines are all in `ROOM_DEFINITIONS`.
-5. **Inspect a single unlock:** `apps/shared/featureRoadmap.ts` for feature unlocks; `expansionUnlockService.ts` for card unlocks; `battlePassConfig.ts` for tier rewards.
-6. **Confirm a flag fires:** grep for `setNarrativeFlag("<flag_name>"` across `useNarrativeIntegration.ts` (lines 975–1414 cover all 14 act/secret flags).
-7. **Audit narrative completeness:** `docs/narrative-audit/ACTS_2_7_COMPLETENESS_AUDIT.md` (April 2026) and `docs/narrative-audit/DOC1`–`DOC4` per-system audits.
-8. **Confirm content has no stub markers:** `pnpm vitest run apps/shared/contentIntegrity.test.ts` (currently green).
+1. `pnpm ship:check` — confirms 16 PASS / 6 RATCHET / 0 FAIL.
+2. `pnpm dev` → `http://localhost:5173/prelude` → walk the checklist top-to-bottom. Flag panel at `/admin/health`.
+3. Inspect a beat: `apps/shared/preludeSequence.ts` → `PRELUDE_BEATS`.
+4. Inspect a room's unlock chain: `apps/client/src/contexts/GameContext.tsx` → grep room id (e.g. `"medical-bay"`) in ROOM_DEFINITIONS.
+5. Inspect a puzzle: `apps/shared/cryoBayMystery.ts:770–788` (combine), `apps/shared/bridge.ts:326–364` (nav-calibration).
+6. Inspect a crafting recipe: `apps/shared/engineering.ts:61–152`.
+7. Inspect an act gate: `apps/shared/act{N}CompletionGate.ts` → `deriveAct{N}CompletionStatus()`.
+8. Confirm the Authority Trial mechanic: `docs/production/act1/authority-trial-phase-mechanic.md` §§2–6.
+9. Inspect conspiracy board clue drops: `apps/shared/conspiracyBoards/clueDrops.ts:35–127`.
+10. Confirm flag firings: `apps/client/src/hooks/useNarrativeIntegration.ts:443–1414`.
 
 ---
 
 ## Bottom line
 
-The game is **playable from `/prelude` to a complete Act 7 ending** with all card systems functional. The mechanical engine is production-grade (16 PASS / 0 FAIL on declared subsystems).
+A complete playthrough is: 15 prelude beats (6 require clicks) → 3 crew missions (mission 3 = Burnt Card unlocks Act 1) → solve cryo combine → visit rooms in cascade order with the four auto-flags doing the heavy lifting (Bridge → Comms Array → Engineering → Armory → Cargo Hold) → solve nav glyph + medical safe + collect 5 items along the way → win 12 Act 1 battles + lose battle 11 + survive 10-phase trial + pick Light/Dark → fill 4 Act 2 sub-flags → finish 3-battle Act 3 ladder + pick infiltration ending → 1 Act 4 prisoner chapter → 5 recruitment missions + Cades M7 + map view for Act 5 → 2 confession battles + 1 stance for Act 6 → 15 total recruitment + Convergence Seat for Act 7 → prestige rollover.
 
-The structural gaps are clustered: **Trade Empire mission loop**, **Soul Stones**, and **Global Alignment Meter** are the three system-level holes that would meaningfully change how the spine reads. **Six silent unlocks** (Character Sheet, Crew Feed, Bestiary, Loredex, Combat Sim, Daily Quests) appear without narrative framing and would benefit from tutor cards in the established `preludeSystemTutors.ts` pattern. Everything else is content polish, media production (VO + CDN frames), or forward infrastructure waiting for content.
-
-The unlock graph is the story. Read top-to-bottom: role → inbox → witnessing → song → moral axis → community board → cross-game mastery → economy → path lock → reveal → cosmic scale → confession mirror → final stance → prestige rollover. Even with the dialog stripped, that ordering is the campaign's argument: *the music IS the prophecy*.
+The cascade is the point: the auto-flag chain (visit X → unlock Y) is what makes the Ark feel like a living system. The four mandatory puzzles (cryo combine, nav glyph, medical safe, conspiracy board clue collection) are the four moments where you actually solve something. Everything else is fight, click, choose.
