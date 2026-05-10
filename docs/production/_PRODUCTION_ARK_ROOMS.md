@@ -13245,20 +13245,325 @@ streaming: preload demagi_approach corridor; on_master_balance: unlock late-Dema
 
 ---
 
-## A.25 Quantum Lab / Probability Chamber (D10 — Quarchon alignment) — SCAFFOLDED
+## A.25 Quantum Lab / Probability Chamber (Quarchon alignment) — FULL
+
+**Status: FULL spec.** Cross-ref `INCEPTION_ARK_FINAL_PRODUCTION.md`
+§2.25 (art-state prompts).
+
+### A.25.1 Header
 
 ```
 space_id:        ark.quantum_lab
-space_name:      Quantum Lab / Probability Chamber
-space_type:      ark_room
-act_introduced:  Act 6
-lore_anchor:     loredex.faction.quarchon + arc.probability_manipulation
-aesthetic_tier:  architect_geometric  (precise-mathematical aesthetic)
-dimensions:      11.00 m × 11.00 m × 5.00 m
-floor_plan_geometry: rectangular
+space_name:      Quantum Lab / Probability Chamber (D10 Quarchon alignment)
+space_type:      ark_room  (Quarchon sub-sanctum; D10-deck)
+act_introduced:  Act 6 (Quarchon-aligned only)
+lore_anchor:     loredex.faction.quarchon + arc.probability_manipulation + arc.act_6_first_calibration
+aesthetic_tier:  architect_geometric  (precise-mathematical; the most cerebrally-rigorous space on the Ark)
 ```
 
-(Full spec deferred.)
+### A.25.2 Geometry
+
+```
+dimensions:           11.00 m × 11.00 m × 5.00 m
+origin_point:         centre of floor at south entrance threshold
+coordinate_axes:      +x = right, +y = forward (north), +z = up
+floor_plan_geometry:  rectangular  (with central cylindrical probability-engine; 4 probability-output stations at cardinals)
+volumetric_anomalies: subtle reality-flicker around probability-engine during active calibrations (1.05× perceptual; matter shimmers between alternate states)
+```
+
+The Quantum Lab is square, mathematical, intentionally cool. Central
+cylindrical probability-engine (1.20 m dia × 3.50 m tall) projects
+quantum-state holograms upward. Four probability-output stations
+arranged at cardinals (N, E, S, W) around the engine for player
+queries. Walls hold theorem displays + reference equations + the
+Quarchon's calibration-tools cabinet. North wall contains the
+"Equation of Equations" — a continuously-evolving formula that
+recalibrates with each Quarchon decision.
+
+Floor area: 121 m².
+
+### A.25.3 Floor
+
+```
+material_primary:     polished black-and-white marble in alternating tile pattern (precise grid; no chevron); 0.50 m × 0.50 m tiles laid as a perfect 22 × 22 chessboard
+material_secondary:   gold inlay forming a probability-curve (continuous bell-curve) running along the cardinal axes from engine; brass perimeter trim
+pattern:              chessboard grid + central engine-zone with probability-curves
+wear_state:           pristine (Quarchon meticulous); slight wear-trail to engine + each station; in late-act7, scuff-marks at most-used station (tracks player's probability-query patterns)
+embedded_features:
+  - id: ark.quantum_lab.floor.charge_point.engine
+    position: (0.00, 5.50, 0.00)  # under engine
+    dimensions: 0.40 × 0.40 × 0.05
+    function: probability-engine power
+  - id: ark.quantum_lab.floor.station_anchor.<cardinal>  (4 anchors at N/E/S/W)
+    position: per station; radius 3.00 m from engine
+    dimensions: 0.30 × 0.30 × 0.05 each
+    function: per-station electronics
+  - id: ark.quantum_lab.floor.calibration_grate.engine_base
+    position: (0.00, 5.50, 0.00) (concentric ring around engine base)
+    dimensions: 1.60 dia ring (0.20 m wide; 0.05 m height)
+    function: engine cooling + waste-probability dissipation
+acoustic_property:    hard_reflective (marble); RT60 = 0.45s (intentional; supports voice clarity for theorem recitation)
+```
+
+### A.25.4 Walls
+
+#### Wall: South (entrance)
+
+```
+wall_id:              south
+material_primary:     polished black marble cladding with engraved theorems at z = 1.20 to 4.00 (depicts Quarchon canonical probability theorems in proto-mathematical script)
+material_secondary:   gold dado at z = 1.20 m
+panelisation:         standard
+colour_value:         --token-color-ark-quantum-lab-wall-south  (deep black with gold + cyan accent)
+embedded_displays:
+  - id: ark.quantum_lab.south.display.calibration_status
+    position: (-3.00, 0.20, 1.80)
+    dimensions: 1.00 × 0.80 × 0.05
+    content: live engine calibration + last-query results
+  - id: ark.quantum_lab.south.display.theorem_index
+    position: (3.00, 0.20, 1.80)
+    dimensions: 1.00 × 0.80 × 0.05
+    content: index of canonical Quarchon theorems
+embedded_doors:
+  - door_id: ark.quantum_lab.south.door.main
+    position: (0.00, 0.00, 0.00)
+    dimensions: 1.40 × 2.40 × 0.10
+    door_class: pressure_seal  (precision-controlled atmosphere)
+    connecting_space_id: ark.corridor.quarchon_approach
+    unlock_condition: Act 6+ Quarchon-aligned
+decorative_features:
+  - id: ark.quantum_lab.south.plaque.principle
+    position: (0.00, 0.20, 3.20)
+    dimensions: 0.80 × 0.30 × 0.02
+    material: cast bronze with gilt text
+    narrative_role: reads "PROBABILITY IS THE KIND OF TRUTH"
+  - id: ark.quantum_lab.south.relief.theorems
+    position: (0.00, 0.20, 4.00)
+    dimensions: 4.00 × 0.40 × 0.10
+    material: cast bronze with proto-mathematical script (Quarchon theorems)
+    narrative_role: depicts the 7 canonical theorems; player can inspect each
+```
+
+#### Wall: East (probability-output station 1 + tools cabinet)
+
+```
+wall_id:              east
+material_primary:     polished black marble with gold-leaf detail; cabinet recessed at south end
+material_secondary:   gold dado
+panelisation:         alcove + standard wall
+colour_value:         --token-color-ark-quantum-lab-wall-east
+embedded_displays:
+  - id: ark.quantum_lab.east.display.theorem_active
+    position: (4.95, 5.50, 2.00)
+    dimensions: 1.20 × 0.80 × 0.05
+    content: currently-active theorem (varies by player calibration)
+embedded_doors:        none
+decorative_features:
+  - id: ark.quantum_lab.east.calibration_tools_cabinet
+    position: (4.95, 1.50, 0.00)
+    dimensions: 0.40 × 4.00 × 2.40
+    material: brushed-titanium cabinet with bronze handles + biometric lock
+    narrative_role: holds Quarchon calibration tools (8 instruments — phase-meter, probability-tongs, theorem-key, equation-press, calibration-stone, paradox-stabiliser, certainty-mirror, doubt-cube)
+```
+
+#### Wall: North (Equation of Equations — the room's symbolic apex)
+
+```
+wall_id:              north
+material_primary:     polished black marble with full-wall integrated display panel (z = 0.50 to 4.50); the Equation of Equations runs continuously across this surface
+material_secondary:   gold-leaf frame around display; bronze trim
+panelisation:         single integrated display
+colour_value:         --token-color-ark-quantum-lab-wall-north
+embedded_displays:
+  - id: ark.quantum_lab.north.display.equation_of_equations
+    position: (0.00, 10.95, 2.50)
+    dimensions: 6.00 × 4.00 × 0.05
+    content: THE Equation; continuously evolves as the canonical Quarchon master-equation; recalibrates with each Quarchon faction decision player makes
+embedded_doors:        none
+decorative_features:
+  - id: ark.quantum_lab.north.relief.first_calibration
+    position: (0.00, 10.85, 4.80)  # high above equation display
+    dimensions: 1.20 × 0.40 × 0.10
+    material: cast bronze with deep relief
+    narrative_role: depicts the canonical first calibration ritual; lore-readable
+```
+
+#### Wall: West (probability-output station 2 + reference cabinet; mirror of east)
+
+```
+wall_id:              west
+material_primary:     same as east
+material_secondary:   gold dado
+panelisation:         standard
+colour_value:         --token-color-ark-quantum-lab-wall-west
+embedded_displays:
+  - id: ark.quantum_lab.west.display.outcome_log
+    position: (0.05, 5.50, 2.00)
+    dimensions: 1.20 × 0.80 × 0.05
+    content: outcome log of all probability-queries player has run
+embedded_doors:        none
+decorative_features:
+  - id: ark.quantum_lab.west.reference_cabinet
+    position: (0.05, 1.50, 0.00)
+    dimensions: 0.40 × 4.00 × 2.40
+    material: brushed-titanium cabinet
+    narrative_role: holds reference materials (theorem proofs, alternate-state archives, paradox-resolution journals)
+```
+
+### A.25.5 Ceiling
+
+```
+height_above_floor:     5.00 m baseline; central oculus rises to 6.20 m above probability-engine
+material:               polished black marble with gold-leaf coffer pattern radiating from oculus; central dome partially transparent (lets quantum-shimmer through)
+lighting_integrated:    central oculus emits cool-cyan probability-light; 4 station accent strips define each cardinal; subtle gold-edge lighting along all edges
+atmospheric_features:   subtle quantum-shimmer at upper volume (cosmetic; suggests "uncertain matter"); intensifies during calibrations
+acoustic_treatment:     coffered + minimal whisper-gallery effect
+```
+
+### A.25.6 Lighting
+
+```
+ambient_baseline:     5500 K (cool-clinical; precision-mathematical); 280 lux at floor level (precision required); CRI 95
+direct_fixtures:
+  - id: ark.quantum_lab.light.oculus_central
+    position: (0.00, 5.50, 6.20)
+    beam_angle: 60° downward
+    colour: --token-color-ark-quantum-lab-oculus  (cool cyan; varies during calibrations)
+    intensity: 5000 lumens (pulses with engine rhythm)
+    function: principal illumination of probability-engine
+  - id: ark.quantum_lab.light.station_strip.<cardinal>  (4 strips; one per cardinal station)
+    position: above each station at z = 4.20
+    beam_angle: 90° downward
+    colour: --token-color-ark-quantum-lab-station-strip  (cool cyan-white)
+    intensity: 1000 lumens each
+    function: station-specific task lighting
+  - id: ark.quantum_lab.light.equation_uplight.north
+    position: along base of north wall display at z = 0.05
+    beam_angle: 30° upward
+    colour: --token-color-ark-quantum-lab-equation-uplight  (cool cyan with gold accents)
+    intensity: 1200 lumens per metre
+    function: dramatic backlighting for Equation of Equations
+practical_sources:
+  - id: ark.quantum_lab.engine_hologram_glow
+    position: (0.00, 5.50, 1.10 to 4.50)  # along engine height
+    intensity: 2000 lumens (variable; quantum-state hologram colours)
+    flicker_pattern: pulses with calibration rhythm
+  - id: ark.quantum_lab.station_indicator_light.<cardinal>  (4 emitters)
+    position: per station console
+    intensity: 60 lumens (varies — green for stable; amber for uncertain; red for paradox)
+    flicker_pattern: stable
+time_of_day_variation:
+  acts_6_to_7: stable cool baseline; in late-act7, oculus colour reflects state-branched ending (mastery vs. neglect)
+dynamic_response:
+  - on_player_at_station: that station strip + indicator intensifies
+  - on_calibration_active: oculus pulses faster + engine hologram blooms
+  - on_paradox_event: red strobe through whole room (rare; one-shot)
+```
+
+### A.25.7 Atmosphere
+
+```
+air_temperature:    18°C (cool — precision)
+humidity:           32% RH (low; instrument-friendly); smells of ozone (display electronics) + faint cold-iron (Quarchon tools) + old-paper (theorem references)
+particulate:
+  - dust: very low (precision-clean)
+  - quantum_shimmer_motes: low (cosmetic; cool-cyan motes drift around engine)
+volumetric_fog:     absent in baseline; subtle haze at upper volume during paradox events
+wind_drift:         minimal; 0.04 m/s; HVAC-precision
+smell_canon:        ozone + cold-iron + paper; voice-line: "smells like the world's hesitation"
+```
+
+### A.25.8 Sound
+
+```
+ambient_bed:           file: quantum_lab_ambient_bed_v1.ogg (loop); -36 dB; faint quantum-engine harmonic, distant cooling fans, occasional theorem-recitation murmur
+point_sources:
+  - sound.engine_harmonic: at engine; deep continuous harmonic; -32 dB
+  - sound.station_console_buzz.<cardinal>: per station; -42 dB; continuous
+  - sound.equation_recalibration_tone: at north wall display; subtle musical-tone when equation updates; -38 dB; cyclic
+  - sound.cooling_fan.<n>: ceiling distributed; HVAC drone; -38 dB; continuous
+  - sound.calibration_chime: state-conditional during calibrations; -28 dB
+reverb_zone:           IR-impulse: quantum_lab_v1.wav; wet-mix 16% (clean precision)
+music_eligibility:     cutscene only (Quarchon-arc calibration cutscenes; deferred catalogue)
+voice_line_eligibility:
+  - speaker: the_quarchon_master (named NPC; rare presence Acts 6+): line set §2.25.2
+  - speaker: theorem_recitation: ambient (cycles canonical theorems in proto-mathematical script)
+```
+
+### A.25.9 Object inventory (compact catalogue)
+
+Quantum Lab has 26 inventory objects.
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.quantum_lab.probability_engine` | interactive+display | (0.00, 5.50, 0.00) | 1.20 dia × 3.50 | THE central probability-engine cylinder |
+| `ark.quantum_lab.station.<cardinal>` (4) | console | at cardinals; radius 3.00 m | 1.00×0.60×1.10 each | per-cardinal probability-query stations |
+| `ark.quantum_lab.station_chair.<cardinal>` (4) | furniture | per station | 0.80×0.80×1.20 each | seats |
+| `ark.quantum_lab.east.calibration_tools_cabinet` | container | (4.95, 1.50, 0.00) | 0.40×4.0×2.4 | 8 calibration tools |
+| `ark.quantum_lab.west.reference_cabinet` | container | (0.05, 1.50, 0.00) | 0.40×4.0×2.4 | reference materials |
+| `ark.quantum_lab.quarchon_master_anchor` | npc_anchor | (0.00, 8.00, 0.00) | 0.8×0.8×1.8 | Quarchon Master NPC |
+| `ark.quantum_lab.quarchon_lectern` | container | (-2.00, 8.00, 0.00) | 0.40×0.30×1.20 | bronze lectern; theorem-tome |
+| `ark.quantum_lab.south.intercom` | console | (-1.50, 0.20, 1.50) | 0.20×0.10×0.30 | comms |
+| `ark.quantum_lab.fire_extinguisher.south` | interactive | (1.50, 0.20, 1.20) | 0.20×0.20×0.50 | safety |
+| `ark.quantum_lab.first_aid.kit` | container | (-2.50, 0.20, 1.50) | 0.40×0.10×0.30 | medical |
+| `ark.quantum_lab.south.plaque.principle` | decoration | (0.00, 0.20, 3.20) | 0.80×0.30×0.02 | "PROBABILITY IS THE KIND OF TRUTH" |
+| `ark.quantum_lab.south.relief.theorems` | decoration | (0.00, 0.20, 4.00) | 4.00×0.40×0.10 | 7 canonical theorems relief |
+| `ark.quantum_lab.north.relief.first_calibration` | decoration | (0.00, 10.85, 4.80) | 1.20×0.40×0.10 | first-calibration relief |
+| `ark.quantum_lab.compass_inlay` | decoration | (0.00, 5.50, 0.005) | 1.40×1.40×0.005 | floor probability-curve inlay |
+| `ark.quantum_lab.quantum_motes_emitter` | fx_emitter | distributed | n/a | quantum-shimmer mote source |
+| `ark.quantum_lab.calibration_grate.engine_base` | decoration | concentric ring around engine | 1.60 dia ring | bronze grate over cooling/dissipation |
+| `ark.quantum_lab.alert_strobe.<corner>` (4) | fx_emitter | corners at z = 4.20 | 0.20×0.20×0.20 each | paradox-event strobes (off baseline) |
+
+Total: 26 inventory objects.
+
+### A.25.10-17 Compact
+
+```
+camera_spawn_points:
+  cs_amb_quantum_lab (Cat B): POV at threshold; slow approach to probability-engine; 18s
+  cs_first_calibration (Act 6 one-shot Quarchon-aligned): hand at station; theorem displayed; engine hum rises; 14s
+
+doorways: south.door.main → ark.corridor.quarchon_approach; pressure_seal; Act 6+ Quarchon-aligned
+
+adjacency: direct ark.corridor.quarchon_approach (south); one_hop ark.archives (Quarchon-research kinship)
+
+gameplay_hooks:
+  - operateProbabilityEngine: trpc.quantum_lab.engine.operate
+  - querryStation: trpc.quantum_lab.station.query (per-cardinal)
+  - openCalibrationCabinet: trpc.quantum_lab.east.cabinet.open
+  - openReferenceCabinet: trpc.quantum_lab.west.cabinet.open
+  - readQuarchonLectern: trpc.quantum_lab.lectern.read
+
+story_tie:
+  primary_arcs:
+    - act_6_first_calibration
+    - probability_manipulation (continuous)
+    - quarchon_master_arc
+    - act_7_master_equation_solved (state-branched ending)
+  per_act:
+    acts_0_5: locked
+    act_6: opens; first calibration; basic theorems available
+    act_7: state-branched: master-equation-solved (Equation of Equations stable + glowing) vs. paradox-fallen (Equation chaotic + room cold)
+  npc_roster: the_quarchon_master (named NPC; rare presence); the_player; theorem_recitation_voices (ambient)
+  readables:
+    - principle plaque (south)
+    - 7 theorems relief (south; multi-screen)
+    - first-calibration relief (north)
+    - quarchon_lectern theorem-tome
+    - 4 station outcome logs
+  master_of_rlyeh_question: n/a (Quarchon-aligned cosmology)
+
+special_fx:
+  particle_systems: dust very low; quantum_shimmer_motes; equation_recalibration_motes; paradox_distortion_motes (rare)
+  volumetric: oculus_glow; engine_hologram_volumetric; equation_uplight_envelope; station_glow_per_cardinal
+  procedural_animations: engine_hologram_cycle; equation_recalibration_animation (continuous; subtle); station_indicator_pulses
+  reactive_systems: engine_intensify_on_calibration; oculus_cycle_on_paradox; alert_strobes_on_paradox_event
+
+avatar_parametricity: small_xenomorph alternate stand-on-step at engine; others all-reachable
+audio_occlusion: xenomorph-sensitive: engine harmonic + theorem recitation more pronounced
+performance: polygon_budget 220,000 / texture_budget 130 MB / light_count 16
+streaming: preload quarchon_approach corridor; on_calibration_active: preload calibration-data feeds
+```
 
 ---
 
