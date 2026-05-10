@@ -121,10 +121,30 @@ function lookupIntro(introId: string | undefined): ChapterIntroDef | null {
 /** Resolve the chapter intro to fire when a StoryEncounter is loaded.
  *  Returns null when the engine chapterId has no bible-confirmed
  *  intro mapping (so the caller skips silently — no wrong-content
- *  fires). */
+ *  fires).
+ *
+ *  Optional `flags` arg enables variant resolution for chapters
+ *  that ship multiple producer-delivered intros. Today only
+ *  ch_game_master uses this (bible §3.7 ships both human + robot
+ *  variants of Chapter 11; the engine picks based on the
+ *  `gameMasterForm` narrative flag).
+ *
+ *  WRITER-REVIEW: where does `gameMasterForm` get SET? Engineering
+ *  has wired the resolver but left the flag setter unauthored —
+ *  the human variant remains the default until a writer decides
+ *  the trigger (likely act6_path_full_secret_chosen → robot, but
+ *  unconfirmed). Setting `gameMasterForm: "robot"` anywhere in
+ *  state will activate the robot intro. */
 export function resolveChapterIntroForChapter(
   chapterId: string,
+  flags?: Readonly<Record<string, unknown>>,
 ): ChapterIntroDef | null {
+  if (
+    chapterId === "ch_game_master" &&
+    flags?.gameMasterForm === "robot"
+  ) {
+    return lookupIntro("ch11_gamemaster_robot");
+  }
   return lookupIntro(CHAPTER_ID_TO_INTRO_ID[chapterId]);
 }
 

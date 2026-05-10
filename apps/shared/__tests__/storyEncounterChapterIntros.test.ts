@@ -85,6 +85,36 @@ describe("storyEncounterChapterIntros — bible-confirmed mappings", () => {
     }
   });
 
+  it("resolveChapterIntroForChapter picks gamemaster variant by gameMasterForm flag", () => {
+    // Default (no flags) → human variant (the canonical static map).
+    expect(resolveChapterIntroForChapter("ch_game_master")?.id).toBe(
+      "ch11_gamemaster_human",
+    );
+    expect(
+      resolveChapterIntroForChapter("ch_game_master", {})?.id,
+    ).toBe("ch11_gamemaster_human");
+    // Explicit human form → human variant.
+    expect(
+      resolveChapterIntroForChapter("ch_game_master", {
+        gameMasterForm: "human",
+      })?.id,
+    ).toBe("ch11_gamemaster_human");
+    // Robot form → robot variant.
+    expect(
+      resolveChapterIntroForChapter("ch_game_master", {
+        gameMasterForm: "robot",
+      })?.id,
+    ).toBe("ch11_gamemaster_robot");
+  });
+
+  it("flags arg has no effect on non-gamemaster chapters", () => {
+    // Other chapters ignore flags entirely — only ch_game_master
+    // currently uses variant resolution.
+    expect(
+      resolveChapterIntroForChapter("ch4", { gameMasterForm: "robot" })?.id,
+    ).toBe("ch19_antiquarian");
+  });
+
   it("resolveChapterIntroForOpponent round-trips every mapped opponentId", () => {
     for (const [opponentId, introId] of Object.entries(
       STORY_CHAPTER_INTRO_MAPPINGS.byOpponentId,

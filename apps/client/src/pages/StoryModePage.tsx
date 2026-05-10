@@ -100,12 +100,19 @@ export default function StoryModePage() {
       // mapping. Unmapped chapters silently skip — ChapterIntroRouter
       // additionally idempotents on the seen flag, so re-picking
       // a chapter the player already saw won't replay the intro.
-      const intro = resolveChapterIntroForChapter(enc.chapterId);
+      //
+      // Pass narrativeFlags so the resolver can pick variant intros
+      // (today: ch_game_master reads gameMasterForm to dispatch
+      // between human + robot variants per bible §3.7).
+      const intro = resolveChapterIntroForChapter(
+        enc.chapterId,
+        state.narrativeFlags,
+      );
       if (intro) {
         setNarrativeFlag(chapterIntroTriggerFlag(intro.id), true);
       }
     },
-    [setNarrativeFlag],
+    [setNarrativeFlag, state.narrativeFlags],
   );
 
   const handleMatchEnd = useCallback(
