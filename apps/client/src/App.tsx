@@ -31,6 +31,7 @@ import { useMetaNarratorReplay } from "./hooks/useMetaNarratorReplay";
 import AchievementUnlockToast from "./components/AchievementUnlockToast";
 import RememberThisToast from "./components/RememberThisToast";
 import FeatureUnlockToast from "./components/FeatureUnlockToast";
+import { SilentUnlockTutorCard } from "./components/SilentUnlockTutorCard";
 import HellboxAffordanceToast from "./components/HellboxAffordanceToast";
 import MolGarathAudienceOfferToast from "./components/MolGarathAudienceOfferToast";
 import RecruitAlignmentBadge from "./components/RecruitAlignmentBadge";
@@ -81,6 +82,8 @@ import QuestRewardSystem from "./components/QuestRewardSystem";
 import ElaraDialog from "./components/ElaraDialog";
 import CharacterWidget from "./components/CharacterWidget";
 import { CutsceneRouter } from "./components/cutscenes/CutsceneRouter";
+import { HumanLifeVideoOverlay } from "./components/cutscenes/HumanLifeVideoOverlay";
+import { HumanLifeVideoTriggerWatcher } from "./hooks/useHumanLifeVideoTriggers";
 import { ChapterIntroRouter } from "./components/cutscenes/ChapterIntroRouter";
 import { ConfessionCloseRouter } from "./components/cutscenes/ConfessionCloseRouter";
 import { WheelReactionRouter } from "./components/cutscenes/WheelReactionRouter";
@@ -846,6 +849,7 @@ function GameGate() {
       <CompanionCommentToast />
       <RememberThisToast />
       <FeatureUnlockToast />
+      <SilentUnlockTutorCard />
       <HellboxAffordanceToast />
       <MolGarathAudienceOfferToast />
       <RecruitAlignmentBadge />
@@ -862,6 +866,8 @@ function GameGate() {
       <CompanionHost />
       <CharacterWidget />
       <CutsceneRouter />
+      <HumanLifeVideoTriggerWatcher />
+      <HumanLifeVideoOverlay />
       <ChapterIntroRouter />
       <ConfessionCloseRouter />
       <WheelReactionRouter />

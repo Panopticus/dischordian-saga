@@ -334,7 +334,7 @@ export const SLIDESHOW_TRIGGERS: ReadonlyArray<{
   },
   {
     // §13 — Act 7 opener. Trigger watcher raises act_7_started
-    // when recruitment >= 15 AND act_6_complete is true.
+    // when recruitment >= 8 AND act_6_complete is true.
     triggerFlag: "act_7_started",
     slideshowId: "act-7-convergence-intro",
     completionFlag: "slideshow_act_7_convergence_intro_complete",
@@ -1324,9 +1324,10 @@ export function useNarrativeIntegration() {
       });
     }
 
-    // Witnessing §13 — Act 7 trigger. Requires 15+ recruitment
-    // missions. Guarded on act_6_complete so the player has at
-    // least heard the confessions before the Convergence opens.
+    // Witnessing §13 — Act 7 trigger. Requires 8+ recruitment
+    // missions (tightened from 15 in the BioWare-pacing pass).
+    // Guarded on act_6_complete so the player has at least heard
+    // the confessions before the Convergence opens.
     if (
       hasReachedAct7Threshold(recruitCount) &&
       !state.narrativeFlags?.act_7_started &&

@@ -7,7 +7,7 @@
    until the army is built).
 
    Roadmap Implication §5: "Army recruitment needs its own
-   counter — gates Act 6 (5+) and Act 7 (15+)."
+   counter — gates Act 6 (5+) and Act 7 (8+)."
 
    Historically the GameState carried the array but no code
    path wrote to it, so Acts 6 and 7 were unreachable. This
@@ -26,8 +26,12 @@
 export const RECRUITMENT_THRESHOLDS = {
   /** Act 5 → Act 6 ("The Confession") requires 5 completed missions. */
   act6: 5,
-  /** Act 6 → Act 7 ("The Convergence") requires 15 completed missions. */
-  act7: 15,
+  /** Act 6 → Act 7 ("The Convergence") requires 8 completed missions.
+   *  Tightened from 15 to 8 so the Reckoning → Convergence pacing
+   *  lands inside a single play session instead of demanding a
+   *  recruitment grind that crowds out Acts 6 and 7's confession
+   *  and resolution beats. */
+  act7: 8,
 } as const;
 
 /**

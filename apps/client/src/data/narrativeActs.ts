@@ -1187,7 +1187,7 @@ const ACT_6_THE_CONFESSION: LoreTutorial = {
 
 /* ═══════════════════════════════════════════════════════════════════════════
    ACT 7: "THE CONVERGENCE"
-   Trigger: Player completes 15 army recruitment missions
+   Trigger: Player completes 8 army recruitment missions
    The final act. The army is assembled. The real war begins.
    ═══════════════════════════════════════════════════════════════════════════ */
 

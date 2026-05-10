@@ -12,8 +12,8 @@ describe("armyRecruitment — RECRUITMENT_THRESHOLDS", () => {
     expect(RECRUITMENT_THRESHOLDS.act6).toBe(5);
   });
 
-  it("Act 7 requires 15 completed missions", () => {
-    expect(RECRUITMENT_THRESHOLDS.act7).toBe(15);
+  it("Act 7 requires 8 completed missions", () => {
+    expect(RECRUITMENT_THRESHOLDS.act7).toBe(8);
   });
 
   it("thresholds are monotonically increasing (Act 6 before Act 7)", () => {
@@ -93,16 +93,16 @@ describe("armyRecruitment — threshold predicates", () => {
     expect(hasReachedAct6Threshold(20)).toBe(true);
   });
 
-  it("Act 7 threshold fires at 15", () => {
-    expect(hasReachedAct7Threshold(14)).toBe(false);
-    expect(hasReachedAct7Threshold(15)).toBe(true);
+  it("Act 7 threshold fires at 8", () => {
+    expect(hasReachedAct7Threshold(7)).toBe(false);
+    expect(hasReachedAct7Threshold(8)).toBe(true);
     expect(hasReachedAct7Threshold(100)).toBe(true);
   });
 
   it("Act 7 passing implies Act 6 passing", () => {
     // Structural guarantee — if the numbers are ever reordered
     // this catches the drift.
-    for (const n of [0, 5, 10, 15, 20]) {
+    for (const n of [0, 5, 8, 10, 15, 20]) {
       if (hasReachedAct7Threshold(n)) {
         expect(hasReachedAct6Threshold(n)).toBe(true);
       }

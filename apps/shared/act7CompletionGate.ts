@@ -18,7 +18,7 @@
    prestige cycle resets it back to the Prelude era at the next
    cycle's start.
 
-   Act 7's TRIGGER is army recruitment >= 15
+   Act 7's TRIGGER is army recruitment >= 8
    (RECRUITMENT_THRESHOLDS.act7), enforced in the hook's trigger
    watcher when `act_6_complete` is true AND the recruitment
    count is over the threshold. That's separate from this

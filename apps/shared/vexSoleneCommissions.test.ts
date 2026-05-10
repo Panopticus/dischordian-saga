@@ -12,7 +12,7 @@ import {
 } from "./vexSoleneCommissions";
 
 describe("vexSoleneCommissions — milestones", () => {
-  it("covers both Act 6 (5) and Act 7 (15) recruitment gates", () => {
+  it("covers both Act 6 (5) and Act 7 (8) recruitment gates", () => {
     expect(commissionMilestonesCoverActGates()).toBe(true);
   });
 
@@ -85,8 +85,8 @@ describe("vexSoleneCommissions — milestonesCrossed", () => {
 
   it("returns all milestones strictly between prev and next, inclusive of next", () => {
     expect(milestonesCrossed(0, 5)).toEqual([1, 5]);
-    expect(milestonesCrossed(5, 15)).toEqual([10, 15]);
-    expect(milestonesCrossed(15, 21)).toEqual([20]);
+    expect(milestonesCrossed(5, 15)).toEqual([8, 10]);
+    expect(milestonesCrossed(10, 21)).toEqual([20]);
   });
 
   it("does not refire a milestone the player has already crossed", () => {
@@ -103,7 +103,7 @@ describe("vexSoleneCommissions — commissionsForMissionCount", () => {
 
   it("returns multiple commissions when the player crosses several at once", () => {
     const cs = commissionsForMissionCount(0, 20);
-    expect(cs.map(c => c.milestone)).toEqual([1, 5, 10, 15, 20]);
+    expect(cs.map(c => c.milestone)).toEqual([1, 5, 8, 10, 20]);
   });
 });
 
