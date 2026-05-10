@@ -46,6 +46,7 @@ import argparse
 import base64
 import json
 import os
+import re
 import sys
 from typing import Optional
 
@@ -254,7 +255,11 @@ def save_preview_as_voice(name: str, description: str, generated_voice_id: str) 
     """Persist a previewed voice into the user's voice library via the
     current /v1/text-to-voice/create-voice-from-preview endpoint.
 
-    Returns the permanent voice_id.
+    Returns the permanent voice_id. If the voice has already been
+    saved on a prior run (HTTP 400 "Voice with id X has already been
+    created"), the existing id is recovered from the error message
+    and returned — the caller treats this as a successful save and
+    the JSON gets re-pinned without burning a fresh library slot.
     """
     payload = {
         "voice_name": name,
@@ -262,7 +267,18 @@ def save_preview_as_voice(name: str, description: str, generated_voice_id: str) 
         "generated_voice_id": generated_voice_id,
         "labels": {"project": "trade_empire"},
     }
-    data = _post("/text-to-voice/create-voice-from-preview", payload, timeout=60)
+    try:
+        data = _post("/text-to-voice/create-voice-from-preview", payload, timeout=60)
+    except RuntimeError as e:
+        # Re-pin path: ElevenLabs reports the existing id in the 400
+        # body when a voice with the supplied generated_voice_id has
+        # already been promoted. Parse it and return rather than fail.
+        match = re.search(
+            r"Voice with id ([A-Za-z0-9]+) has already been created", str(e)
+        )
+        if match:
+            return match.group(1)
+        raise
     voice_id = data.get("voice_id")
     if not voice_id:
         raise RuntimeError(f"create-voice-from-preview returned no voice_id: {data}")
