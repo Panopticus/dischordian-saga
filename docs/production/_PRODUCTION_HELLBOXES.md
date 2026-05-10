@@ -1900,3 +1900,555 @@ streaming_behaviour:
   - on_demon_summon_invocation: preload demon-manifestation assets
   - on_throne_dais_top_reached: preload Master of Mercy NPC silhouette + dialogue
 ```
+
+---
+
+## H.3 Quiz Show Palimpsest (HB3 — Bridge gateway)
+
+**Status: FULL spec.** Cross-ref `INCEPTION_ARK_FINAL_PRODUCTION.md`
+§3.12.5 for cosmology + transit + faction answers.
+
+### H.3.1 Header
+
+```
+space_id:        hellbox.quiz_show_palimpsest
+space_name:      Quiz Show Palimpsest
+space_type:      hellbox_interior  (Matrix-of-Dreams; theatrical-studio)
+act_introduced:  Act 6
+host_room:       ark.bridge (captain's chair + holo-table gateway)
+lore_anchor:     loredex.system.quiz_show_palimpsest + loredex.character.velkraal + loredex.character.brel + arc.gm_arc_payoff + loredex.character.master_of_rlyeh
+aesthetic_tier:  matrix_dream + theatrical-studio overlay  (1970s game-show set crossed with cosmic theatre)
+```
+
+### H.3.2 Geometry
+
+```
+dimensions:           42.00 m × 28.00 m × 14.00 m  (perceptual; bigger-on-inside ratio 5× external Bridge footprint)
+origin_point:         centre of contestant podium (where the player materialises after transit)
+coordinate_axes:      +x = right, +y = forward (north — toward host's-desk + back-wall), +z = up
+floor_plan_geometry:  rectangular  (theatrical proscenium-style stage; 3-tiered audience gallery on 3 sides)
+volumetric_anomalies:
+  - bigger_on_inside ratio: 5× external Bridge footprint
+  - perpetual_studio_lighting: theatrical lighting with no day/night; perpetual production-time
+  - audience_phantoms: ~500 audience-seat phantoms in gallery (silhouettes only; cheering + groaning audibly but never visibly clear)
+  - palimpsest_residue: faint earlier-show footage occasionally bleeds through walls (cosmetic; suggests "this set has been reused for centuries")
+```
+
+The Quiz Show Palimpsest is theatrical, garish, deeply uncanny.
+A 1970s American game-show set crossed with cosmic theatre.
+Velkraal + Brel — the GM-arc twin hosts — preside from their
+host's-desk at the north end. The player materialises at a
+contestant podium centre-stage. Audience gallery rises on east,
+south, and west sides (3-tiered; ~500 phantom seats; never fully
+visible). The studio is perpetually lit; no day/night cycle.
+The set itself bears traces of EVERY previous show it has hosted
+— faint footage occasionally bleeds through walls (palimpsest
+residue), suggesting cosmologically the set has been reused
+across centuries.
+
+Floor area (perceptual): stage + audience ~840 m².
+
+### H.3.3 Floor
+
+```
+material_primary:     polished black-and-white-checkerboard linoleum on stage zone (8.00 × 6.00 m central stage; 0.40 × 0.40 tiles); audience gallery has crimson-velvet carpeting in radial wedges
+material_secondary:   gold-leaf inlay forming a 5-pointed contestant-star at podium position (where player materialises); brass apron-edge of stage
+pattern:              checkerboard stage + radial crimson aisle in audience
+wear_state:           well-used; stage tiles show centuries of contestant-pacing; central podium-star slightly more polished
+embedded_features:
+  - id: hellbox.quiz_show_palimpsest.floor.charge_point.contestant_podium
+    position: (0.00, 0.00, 0.00)  # where player materialises; centre-stage
+    dimensions: 0.40 × 0.40 × 0.05
+    function: arrival-anchor + return-transit invocation
+  - id: hellbox.quiz_show_palimpsest.floor.charge_point.host_desk
+    position: (0.00, 12.00, 0.00)  # at host's desk, north end
+    dimensions: 0.60 × 0.40 × 0.05
+    function: host-desk holographic display power
+  - id: hellbox.quiz_show_palimpsest.floor.audience_threshold.east, .south, .west  (3 thresholds)
+    position: at edges of stage on 3 sides
+    dimensions: varied; demarcate stage from audience
+    function: stage/audience boundary; phantom audience cannot cross
+  - id: hellbox.quiz_show_palimpsest.floor.spotlight_anchors.<n>  (4 spotlight floor anchors)
+    position: 4 corners of stage
+    dimensions: 0.20 × 0.20 × 0.05 each
+    function: theatrical spotlight calibration
+acoustic_property:    mixed (linoleum stage hard-reflective; carpeted audience soft-absorbent); RT60 = 0.55s with applause-resonance during shows
+```
+
+### H.3.4 Walls
+
+#### Stage Walls (north wall + back-stage flanking)
+
+```
+wall_id:              stage_wall_north + flanking
+material_primary:     painted scenery-board with 1970s game-show graphics (warm orange + brown + gold geometric patterns); palimpsest-residue subtle (earlier shows bleed through)
+material_secondary:   bronze stage-apron trim; gold-leaf around marquee
+panelisation:         scenery-board panels
+colour_value:         --token-color-hellbox-quiz-show-stage-wall  (warm garish 1970s palette + faint cosmic-cyan undertone from palimpsest)
+embedded_displays:
+  - id: hellbox.quiz_show_palimpsest.north.marquee
+    position: (0.00, 14.00, 6.00)  # high above host's desk
+    dimensions: 6.00 × 1.20 × 0.10
+    content: live show-title display + scoreboard; pulses with applause
+  - id: hellbox.quiz_show_palimpsest.north.host_desk_screen
+    position: (0.00, 12.00, 1.50)  # at host's desk back-panel
+    dimensions: 4.00 × 1.50 × 0.05
+    content: question-of-the-moment + multiple-choice options + faction-answer radial during Master of R'lyeh moments
+embedded_doors:        none (no physical exits; only return-transit at podium)
+decorative_features:
+  - id: hellbox.quiz_show_palimpsest.north.host_desk
+    position: (0.00, 12.00, 0.00)
+    dimensions: 4.00 × 1.50 × 1.20  (oversized desk for 2 hosts)
+    material: polished walnut + glittery gold + 1970s wood-panel laminate
+    narrative_role: where Velkraal + Brel preside
+  - id: hellbox.quiz_show_palimpsest.north.applause_sign  (suspended above stage)
+    position: (0.00, 8.00, 9.00)
+    dimensions: 2.00 × 1.00 × 0.20 (illuminated sign)
+    material: cast bronze with neon-tube embedded letters
+    narrative_role: "APPLAUSE" sign that lights up when audience claps
+```
+
+#### Audience Gallery Walls (east, south, west; 3 sides)
+
+```
+wall_id:              gallery_east + .south + .west
+material_primary:     painted theatrical-studio walls in deep crimson + gold trim; backstage curtain texture suggested
+material_secondary:   bronze tiered gallery-railings; warm-amber footlights at each tier
+panelisation:         tiered seating zones
+colour_value:         --token-color-hellbox-quiz-show-gallery-wall  (deep crimson + gold + warm theatrical palette)
+embedded_displays:    none
+embedded_doors:        none
+decorative_features:
+  - id: hellbox.quiz_show_palimpsest.gallery.tier_seating.<side>.<n>  (3 tiers per side × 3 sides = 9 tier sections; each holds ~50-60 phantom seats)
+    position: tiered along east, south, west walls; each tier 1.20 m higher than previous
+    dimensions: 14.00 × 0.50 × 0.40 each tier
+    material: crimson-velvet padded benches; phantom audience occupy as silhouettes
+    narrative_role: phantom audience; ~500 total seats; canonically: every contestant who has ever appeared on this show is in the audience
+  - id: hellbox.quiz_show_palimpsest.gallery.spotlight_clusters.<n>  (8 theatrical spotlight clusters in ceiling)
+    position: distributed in ceiling rigging at z = 12.00
+    dimensions: 0.40 × 0.40 × 0.40 each
+    material: cast-aluminium with gel-filter
+    narrative_role: theatrical lighting on contestants
+```
+
+### H.3.5 Ceiling
+
+```
+height_above_floor:     14.00 m baseline; theatrical rigging + catwalks visible at z = 12.00; back-stage scrims
+material:               exposed black-painted theatrical rigging with cable management visible; catwalks for stage-hand silhouettes (cosmetic)
+lighting_integrated:    extensive theatrical lighting rig (20+ spotlight clusters); central ceiling has illuminated scoreboard panel
+atmospheric_features:   theatrical-haze emitters create dramatic light-shaft effect during show; subtle palimpsest-residue ghosts at upper volume
+acoustic_treatment:     mixed (damp panels above gallery; reflective above stage)
+```
+
+### H.3.6 Lighting
+
+```
+ambient_baseline:     3200 K (warm theatrical); 280 lux at floor level (production-bright); CRI 92
+direct_fixtures:
+  - id: hellbox.quiz_show_palimpsest.light.contestant_podium_spot
+    position: (0.00, 0.00, 12.00)  # spotlight on podium
+    beam_angle: 15° (tight)
+    colour: --token-color-hellbox-quiz-show-spot  (bright warm white)
+    intensity: 8000 lumens
+    function: hero-light on contestant
+  - id: hellbox.quiz_show_palimpsest.light.host_desk_pendant
+    position: (0.00, 12.00, 6.00)
+    beam_angle: 30° downward
+    colour: warm white
+    intensity: 5000 lumens
+    function: hosts illumination
+  - id: hellbox.quiz_show_palimpsest.light.stage_floods
+    position: 4 floor-flood lights at stage corners
+    beam_angle: 60° each
+    colour: 3200 K warm
+    intensity: 4000 lumens each
+    function: stage fill lighting
+  - id: hellbox.quiz_show_palimpsest.light.spotlight_cluster.<n>  (8 ceiling spots)
+    position: distributed in catwalk rigging at z = 12.00
+    beam_angle: 20° each
+    colour: variable per cluster (some white; some warm; some red for "wrong answer")
+    intensity: 4000 lumens each
+    function: theatrical drama
+  - id: hellbox.quiz_show_palimpsest.light.gallery_footlights
+    position: along edge of each tier
+    beam_angle: 90° upward (footlights)
+    colour: warm amber; 200 lumens per metre
+    function: audience definition
+practical_sources:
+  - id: hellbox.quiz_show_palimpsest.applause_sign_neon
+    position: (0.00, 8.00, 9.00)
+    intensity: 1500 lumens (when "applause" active)
+    flicker_pattern: pulse during applause; off otherwise
+  - id: hellbox.quiz_show_palimpsest.host_desk_screen_glow
+    position: at host desk
+    intensity: 800 lumens
+    flicker_pattern: matches displayed content
+  - id: hellbox.quiz_show_palimpsest.marquee_glow
+    position: at marquee
+    intensity: 1200 lumens (always on)
+    flicker_pattern: stable
+time_of_day_variation:
+  acts_6_to_7: stable theatrical baseline; intensifies during Master of R'lyeh moments + show climaxes
+dynamic_response:
+  - on_player_arrival: contestant_spot blooms; audience-cheer rises
+  - on_master_of_rlyeh_question: all spots focus on contestant; ambient drops 30%; host_desk_screen shows faction-radial menu
+  - on_correct_answer: applause_sign ignites; warm-white flood from above
+  - on_wrong_answer: red-spot from above; ambient warms uneasily
+```
+
+### H.3.7 Atmosphere
+
+```
+air_temperature:    22°C (warm theatrical); rises slightly during show climax
+humidity:           45% RH; smells of stage-oil + theatrical greasepaint + warm electronics + faint hairspray (1970s style) + popcorn (audience)
+particulate:
+  - dust_motes: medium (visible in spotlight beams; theatrical haze)
+  - theatrical_smoke: low (fog-machine baseline; medium during dramatic moments)
+  - palimpsest_residue_motes: very low (cosmetic; faint earlier-show ghosts)
+volumetric_fog:     subtle haze at upper volume (theatrical); intensifies during shows
+wind_drift:         minimal; 0.04 m/s; HVAC pattern; air-conditioning audible
+smell_canon:        stage-oil + greasepaint + warm electronics + hairspray + popcorn; voice-line: "smells like a thousand tapings"
+```
+
+### H.3.8 Sound
+
+```
+ambient_bed:           file: quiz_show_palimpsest_ambient_bed_v1.ogg (loop); -22 dB; phantom audience murmur, distant 1970s game-show theme music (faint), occasional cough/laugh, cooling fans, ticking clock
+point_sources:
+  - id: hellbox.quiz_show_palimpsest.audience_murmur
+    position: distributed (3-side gallery)
+    sound: continuous low-volume audience murmur (-32 dB)
+    occlusion_behaviour: omnidirectional with 3-side bias
+    trigger: continuous
+  - id: hellbox.quiz_show_palimpsest.applause_burst
+    position: distributed (gallery)
+    sound: sudden burst of phantom applause (-18 dB; state-conditional)
+    occlusion_behaviour: omnidirectional
+    trigger: state-conditional (during shows)
+  - id: hellbox.quiz_show_palimpsest.applause_sign_buzz
+    position: at sign
+    sound: neon-buzz (when active; -34 dB)
+    occlusion_behaviour: standard
+    trigger: state-conditional
+  - id: hellbox.quiz_show_palimpsest.host_desk_screen_subtle_hum
+    position: at host desk
+    sound: electronic hum (-38 dB; continuous)
+    occlusion_behaviour: standard
+    trigger: continuous
+  - id: hellbox.quiz_show_palimpsest.theme_music_distant
+    position: distributed
+    sound: faint 1970s game-show theme music loop (-34 dB; pseudo-detuned, slightly off-key — uncanny)
+    occlusion_behaviour: omnidirectional
+    trigger: continuous
+  - id: hellbox.quiz_show_palimpsest.master_of_rlyeh_voice
+    position: (0.00, 12.00, 1.50)  # at host desk during Master of R'lyeh moments (Velkraal + Brel become silent)
+    sound: Master of R'lyeh's voice per §3.12.2
+    occlusion_behaviour: omnidirectional
+    trigger: state-conditional
+  - id: hellbox.quiz_show_palimpsest.host_voices.velkraal + .brel
+    position: at host desk
+    sound: Velkraal's + Brel's quiz-show patter (theatrical-uncanny)
+    occlusion_behaviour: standard
+    trigger: continuous
+reverb_zone:           IR-impulse: quiz_show_studio_v1.wav; wet-mix 22% (theatrical with applause-resonance)
+music_eligibility:     ambient music ALLOWED — 1970s game-show theme loop at -28 dB (uncanny; slightly off-key); intensifies during dramatic moments
+voice_line_eligibility:
+  - speaker: velkraal: continuous (game-show host patter)
+  - speaker: brel: continuous (co-host)
+  - speaker: phantom_audience_voices: cyclic
+  - speaker: master_of_rlyeh: state-conditional during answer moments
+```
+
+### H.3.9 Object inventory
+
+Quiz Show Palimpsest has 56 inventory objects.
+
+#### H.3.9.1 The Player Arrival Star (centre-stage)
+
+```
+object_id:           hellbox.quiz_show_palimpsest.player_arrival_star
+object_class:        fx_emitter  (also gameplay-anchor)
+position:            (0.00, 0.00, 0.005)
+dimensions:          0.40 × 0.40 × 0.005
+material_primary:    gold-leaf inlay forming a 5-pointed contestant-star
+material_secondary:  bronze perimeter ring
+colour_value:        --token-color-hellbox-quiz-show-arrival-star
+interaction:         interactable
+  - return_to_bridge: invoke return-transit
+narrative_role:      THE arrival point; centre-stage; player materialises here
+lore_anchor:         arc.return_transit
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.hellbox.hb3.return_transit
+wear_state:          slightly more polished than surrounding tiles
+physical_constraints: non-collide
+```
+
+#### H.3.9.2 The Contestant Podium
+
+```
+object_id:           hellbox.quiz_show_palimpsest.contestant_podium
+object_class:        interactive
+position:            (0.00, 0.50, 0.00)
+dimensions:          0.80 × 0.60 × 1.20
+rotation:            0°  (faces north toward hosts)
+material_primary:    polished walnut + chrome trim + brass nameplate (player's name appears)
+material_secondary:  illuminated answer-buttons (4 buttons; one per multiple-choice answer)
+colour_value:        --token-color-hellbox-quiz-show-podium
+interaction:         interactable
+  - operate: activates contestant interface; player can ring-in + answer questions
+  - inspect: lore-note about podium (canonical pre-Ark; the same podium has hosted every contestant in canon history)
+narrative_role:      THE contestant station; gameplay-active during shows + Master of R'lyeh moments
+lore_anchor:         arc.act_6_HB3_invocation + loredex.character.master_of_rlyeh
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.hellbox.hb3.podium.operate
+wear_state:          worn at most-touched buttons
+physical_constraints: collides
+```
+
+#### H.3.9.3 The Host's Desk
+
+```
+object_id:           hellbox.quiz_show_palimpsest.host_desk
+object_class:        interactive  (also npc_anchor for both hosts)
+position:            (0.00, 12.00, 0.00)
+dimensions:          4.00 × 1.50 × 1.20
+rotation:            180°  (faces south toward contestant + audience)
+material_primary:    polished walnut + glittery gold + 1970s wood-panel laminate
+material_secondary:  back-panel display screen; bronze nameplates (Velkraal + Brel)
+colour_value:        --token-color-hellbox-quiz-show-host-desk
+interaction:         interactable
+  - approach_for_master_of_rlyeh: Velkraal + Brel gravely change tone; Master of R'lyeh asks: "Does a child's first death haunt the world that buried them?"
+  - inspect: lore-note about desk (centuries of palimpsest residue; the desk has been re-stained dozens of times)
+narrative_role:      THE hosts' station; primary cosmological anchor for HB3
+lore_anchor:         loredex.character.velkraal + loredex.character.brel + loredex.character.master_of_rlyeh
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.hellbox.hb3.host_desk.invoke_master_of_rlyeh
+wear_state:          deeply worn at hosts' positions; palimpsest-stained
+physical_constraints: collides
+```
+
+#### H.3.9.4-5 Velkraal + Brel Anchors (NPC anchors at host desk)
+
+```
+object_id:           hellbox.quiz_show_palimpsest.velkraal_anchor + .brel_anchor
+object_class:        npc_anchor
+positions:           (-1.00, 12.50, 0.00) Velkraal; (1.00, 12.50, 0.00) Brel  (behind desk; standing)
+dimensions (each):   0.80 × 0.80 × 1.80 (anchors only)
+rotation:            varies (NPC pose-driven)
+material_primary:    n/a
+material_secondary:  n/a
+colour_value:        n/a
+interaction:         interactable
+  - converse: dialogue with hosts; canonical GM-arc payoff happens here
+narrative_role:      THE twin GM-arc hosts; Velkraal asks twisted questions, Brel reveals what player has buried
+lore_anchor:         loredex.character.velkraal + loredex.character.brel + arc.gm_arc_payoff
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.hellbox.hb3.velkraal.converse + .brel.converse
+wear_state:          n/a
+physical_constraints: n/a
+```
+
+#### H.3.9.6-13 Eight Theatrical Spotlight Clusters
+
+```
+object_id:           hellbox.quiz_show_palimpsest.spotlight_cluster.<n>  (8 clusters)
+object_class:        fx_emitter
+positions:           distributed in ceiling rigging at z = 12.00
+dimensions (each):   0.40 × 0.40 × 0.40
+rotation:            varies (aimed at stage)
+material_primary:    cast aluminium with gel-filter mounts
+material_secondary:  bronze rigging brackets
+colour_value:        --token-color-hellbox-quiz-show-spotlight  (variable; warm white baseline; red for wrong; cyan for cosmic)
+interaction:         inert
+narrative_role:      theatrical drama; tracks contestant + responds to answers
+lore_anchor:         loredex.aesthetic.theatrical_studio
+art_status:          producer_handoff
+gameplay_hook_id:    none
+wear_state:          slight wear at most-used spots
+physical_constraints: non-collide (overhead)
+```
+
+#### H.3.9.14 The Marquee
+
+```
+object_id:           hellbox.quiz_show_palimpsest.north.marquee
+object_class:        display
+position:            (0.00, 14.00, 6.00)
+dimensions:          6.00 × 1.20 × 0.10
+rotation:            180°
+material_primary:    cast aluminium frame with neon-tube + LED panel
+material_secondary:  gold-leaf trim
+colour_value:        --token-color-hellbox-quiz-show-marquee
+interaction:         inspectable
+  - inspect: shows all canonical show-titles in palimpsest (centuries of titles overlaid)
+narrative_role:      visible from anywhere; cosmologically anchoring (the show has many names)
+lore_anchor:         arc.gm_arc_payoff
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.hellbox.hb3.marquee.inspect
+wear_state:          weathered (centuries of lighting)
+physical_constraints: non-collide
+```
+
+#### H.3.9.15 The Applause Sign
+
+```
+object_id:           hellbox.quiz_show_palimpsest.applause_sign
+object_class:        fx_emitter+display
+position:            (0.00, 8.00, 9.00)
+dimensions:          2.00 × 1.00 × 0.20
+rotation:            180°
+material_primary:    cast bronze with neon-tube embedded letters
+material_secondary:  none
+colour_value:        --token-color-hellbox-quiz-show-applause-sign  (warm amber when on; off otherwise)
+interaction:         inert
+narrative_role:      visual cue for audience-applause moments
+lore_anchor:         loredex.aesthetic.theatrical_studio
+art_status:          producer_handoff
+gameplay_hook_id:    none (state-driven)
+wear_state:          slight wear; bulb-flicker simulated
+physical_constraints: non-collide (suspended)
+```
+
+#### H.3.9.16-24 Nine Audience Tier Sections (3 tiers × 3 sides)
+
+```
+object_id:           hellbox.quiz_show_palimpsest.gallery.tier_seating.<side>.<tier_n>  (9 sections)
+object_class:        furniture  (with phantom audience anchors)
+positions:           distributed along east, south, west walls (3 tiers per side; 1.20 m rise per tier)
+dimensions (each):   14.00 × 0.50 × 0.40
+rotation:            varies (faces stage)
+material_primary:    crimson-velvet padded benches with bronze tier-rails
+material_secondary:  bronze armrests at aisle ends
+colour_value:        --token-color-hellbox-quiz-show-gallery-bench
+interaction:         interactable - sit (player can sit if they wish; rare)
+narrative_role:      ~500 phantom audience seats; player can occupy one to "watch" (rare gameplay)
+lore_anchor:         arc.gm_arc_payoff
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.hellbox.hb3.gallery.sit
+wear_state:          slight wear at most-occupied phantom positions
+physical_constraints: collides; sittable
+```
+
+#### H.3.9.25-32 Eight Floor Spotlight Anchors + Stage Apron
+
+```
+object_id:           hellbox.quiz_show_palimpsest.stage_apron_lights.<n>  (8 footlight emitters along stage edge)
+object_class:        fx_emitter
+positions:           distributed along stage front-edge at z = 0.05
+dimensions (each):   0.20 × 0.20 × 0.10
+rotation:            varies
+material_primary:    cast aluminium + warm-amber bulb
+material_secondary:  bronze trim
+colour_value:        --token-color-hellbox-quiz-show-footlight
+interaction:         inert
+narrative_role:      stage edge demarcation + theatrical atmosphere
+lore_anchor:         loredex.aesthetic.theatrical_studio
+art_status:          producer_handoff
+gameplay_hook_id:    none
+wear_state:          slight wear
+physical_constraints: non-collide (low-profile)
+```
+
+#### H.3.9.33-44 Twelve Costume + Set Decorations (1970s game-show details)
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `hellbox.quiz_show_palimpsest.host_desk.coffee_mug.velkraal` | decoration | on desk | 0.10×0.10×0.12 | Velkraal's coffee mug ("WORLD'S WORST HOST" engraved) |
+| `hellbox.quiz_show_palimpsest.host_desk.coffee_mug.brel` | decoration | on desk | 0.10×0.10×0.12 | Brel's coffee mug ("ASK ME ABOUT YOUR REGRETS") |
+| `hellbox.quiz_show_palimpsest.host_desk.cue_cards` | decoration | on desk | 0.30×0.20×0.04 | Hosts' cue cards |
+| `hellbox.quiz_show_palimpsest.host_desk.bell_buzzer` | interactive | on desk | 0.20×0.20×0.20 | bronze ring-bell buzzer |
+| `hellbox.quiz_show_palimpsest.host_desk.timer_clock` | decoration | on desk | 0.20×0.20×0.30 | bronze countdown-timer |
+| `hellbox.quiz_show_palimpsest.stage.confetti_cannon.east, .west` (2) | fx_emitter | at stage corners | 0.40×0.40×0.40 each | confetti cannons (cosmetic; fire on correct answers) |
+| `hellbox.quiz_show_palimpsest.contestant_chair_alt` | furniture | (-3.00, 0.50, 0.00) | 0.80×0.80×1.20 | spare contestant chair (mostly empty; suggests other contestants) |
+| `hellbox.quiz_show_palimpsest.set_dressing.geometric_panel.<n>` (4) | decoration | back-stage flanking | varied | 1970s geometric scenery panels |
+| `hellbox.quiz_show_palimpsest.cosmetic_makeup_table` | decoration | (8.00, 14.00, 0.00) backstage | 1.20×0.40×0.85 | cosmetic table with mirror (makeup stations; hint at canonical show-prep) |
+| `hellbox.quiz_show_palimpsest.cosmetic_mirror` | decoration | on makeup table | 0.60×0.05×0.80 | mirror (the only mirror in any Hellbox; per §3.1.0.10 must NOT show player reflection — shows only blurred ghost-of-prior-contestants) |
+| `hellbox.quiz_show_palimpsest.fog_machine.east, .west` (2) | fx_emitter | at stage corners | 0.40×0.40×0.40 each | theatrical haze emitters |
+
+#### H.3.9.45-50 Six Decorative + Atmospheric Items
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `hellbox.quiz_show_palimpsest.audience_murmur_emitter` | fx_emitter | distributed in gallery | n/a | continuous phantom audience murmur source |
+| `hellbox.quiz_show_palimpsest.theme_music_emitter` | fx_emitter | distributed | n/a | 1970s game-show theme loop |
+| `hellbox.quiz_show_palimpsest.palimpsest_residue_emitter` | fx_emitter | walls + upper volume | n/a | faint earlier-show footage bleeds through walls |
+| `hellbox.quiz_show_palimpsest.applause_burst_emitter` | fx_emitter | distributed | n/a | applause-burst SFX source |
+| `hellbox.quiz_show_palimpsest.master_of_rlyeh_voice_emitter` | fx_emitter | at host desk | n/a | Master of R'lyeh voice during answer moments |
+| `hellbox.quiz_show_palimpsest.compass_inlay_arrival_star` | decoration | (0.00, 0.00, 0.005) | 0.40 dia × 0.005 | already specced |
+
+#### H.3.9.51-56 Closing Items + Buried-Truth Display
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `hellbox.quiz_show_palimpsest.south.return_transit_indicator_glow` | fx_emitter | at podium | 0.40 dia × 0.05 | warm gold-glow |
+| `hellbox.quiz_show_palimpsest.south.intercom_silent` | console | (-2.00, 0.20, 1.50) | 0.20×0.10×0.30 | comms (cosmologically silent) |
+| `hellbox.quiz_show_palimpsest.south.fire_extinguisher_silent` | interactive | (2.00, 0.20, 1.20) | 0.20×0.20×0.50 | safety (cosmologically silent) |
+| `hellbox.quiz_show_palimpsest.south.first_aid_silent` | container | (-3.00, 0.20, 1.50) | 0.40×0.10×0.30 | medical (cosmologically silent) |
+| `hellbox.quiz_show_palimpsest.host_desk.buried_truth_display` | display | on desk | 0.40×0.30×0.05 | secondary display showing the player's buried truths (revealed during questions) |
+| `hellbox.quiz_show_palimpsest.host_desk.canonical_question_book` | container | on desk | 0.30×0.20×0.05 | canonical-pleading-question repository (lore-readable) |
+
+Total: 56 inventory objects.
+
+### H.3.10-17 Camera-spawn-points / Doorways / Adjacency / Hooks / Story / FX / Parametricity / Performance (compact full FULL fidelity)
+
+```
+camera_spawn_points:
+  cs_hellbox_3_arrival (Act 6 first-time + every visit): POV at podium with bridge-residue dissipating; head pans to take in studio; lasts 12s
+  cs_velkraal_brel_first_meet (Act 6 first-time): POV at podium; Velkraal + Brel from host desk; first uncomfortable greeting
+  cs_master_of_rlyeh_question: POV at podium; hosts go silent + cosmic; Master of R'lyeh asks "Does a child's first death haunt the world that buried them?"; radial menu
+  cs_buried_truth_revelation (state-conditional): POV at host desk; Brel reveals one of player's buried truths
+  cs_hellbox_3_close: POV at podium; theatrical-curtain falls; ~5s fade to ark.bridge
+
+doorways:
+  return_transit_anchor → ark.bridge (host room); cosmological portal at podium
+
+adjacency:
+  direct: ark.bridge (return-transit; via captain's chair + holo-table gateway)
+  one_hop: hellbox.master_hellbox (HB5; if Act 7 unlocked)
+  state_shared: ark.bridge (HB3 faction-pull); the player's buried-truths log (Brel's reveals affect player's narrative state)
+
+gameplay_hooks:
+  - hb3.return_transit
+  - hb3.invoke_master_of_rlyeh: trpc.hellbox.hb3.host_desk.invoke (one-shot per visit; faction-radial)
+  - hb3.commit_faction_answer
+  - hb3.converse_velkraal: per dialogue tree
+  - hb3.converse_brel: per dialogue tree (reveals buried truths)
+  - hb3.sit_audience: rare gameplay-passive
+  - hb3.ring_buzzer: gameplay-active during shows
+  - hb3.read_canonical_question_book
+
+story_tie:
+  primary_arcs:
+    - act_6_HB3_invocation
+    - gm_arc_payoff (Velkraal + Brel reveal centuries of GM-arc subtext)
+    - cumulative_buried_truth (player's secrets revealed by Brel; affects ending state)
+  per_act:
+    acts_0_5: locked
+    act_6: opens; first show; first buried-truth revelation
+    act_7: state-branched: full-confessed ending (player has heard most truths) vs. truth-resistant ending
+  npc_roster: velkraal + brel (twin hosts); ~500 phantom audience; the_master_of_rlyeh (voice during answer moments)
+  readables:
+    - canonical question book (multi-screen)
+    - palimpsest marquee (centuries of show-titles)
+    - host desk back-panel (live show state)
+    - cosmetic mirror (uncanny ghost-imagery)
+  master_of_rlyeh_question: "Does a child's first death haunt the world that buried them?"
+  faction_answers: per §3.12.5 (Architect Remnants / New Babylon / Hierarchy / Insurgency / Dreamers Children — Insurgency strongest pull)
+
+special_fx:
+  particle_systems: theatrical_haze; dust_motes_in_spots; palimpsest_residue_motes; confetti_burst (state-conditional); applause_visualisation
+  volumetric: spotlight_volumetric_beams; haze_envelope; marquee_glow; applause_sign_glow
+  procedural_animations: spotlight_track_contestant; phantom_audience_subtle_sway; velkraal_brel_idle_animations; theme_music_visualisation; palimpsest_subtle_bleed (earlier shows visible briefly)
+  reactive_systems: spot_focuses_on_contestant_on_proximity; confetti_on_correct_answer; red_spot_on_wrong; applause_intensify_on_correct; brel_buried_truth_reveal_one_shot
+
+avatar_parametricity: small_xenomorph alternate stage-apron-step; cosmetic_mirror shows blurred-ghost regardless of avatar (cosmologically; per §3.1.0.10 mirror exception); others all-reachable
+audio_occlusion: xenomorph: phantom audience murmur overwhelming; theme music slightly off-key uncanny
+
+performance:
+  polygon_budget: 480,000 (large theatrical set; many phantom anchors)
+  texture_budget: 280 MB (palimpsest residue + theatrical materials)
+  light_count_limit: 28 (extensive theatrical rigging)
+  lod_plan: hero 0-12m full; mid 12-25m simplified phantom audience as billboards; long 25m+ skybox
+  streaming: preload ark.bridge; on_master_of_rlyeh: preload faction-radial UI assets
+```
