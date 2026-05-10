@@ -217,11 +217,11 @@ const THE_ORACLE_MEME_DIALOG: Act7OpponentDialog = {
   humanPreMatch:
     "I have played both of them in different cycles. They play the same hand differently. Tonight you will only see one. Be honest about which one you wanted.",
   opponentMidMatchEarly:
-    "I have been waiting for one of two of you. The one who arrived is the one I expected. Play. I will not pretend to be surprised.",
+    "I have been waiting for one of two of you. You arrived. You were the expected one. Play. No pretense from me.",
   opponentMidMatchMid:
-    "(Oracle voice.) The card you just played was prophesied seventeen thousand years ago. (Meme voice.) The prophecy was a joke. The joke was the prophecy. Keep going.",
+    "(Oracle.) The card was prophesied seventeen thousand years ago. (Meme.) The prophecy was a joke. The joke was the prophecy. Play.",
   opponentMidMatchLate:
-    "Finish the hand. The face holds for one beat after, then changes. You should know what it changes to. If you don't, the change will tell you.",
+    "Finish the hand. The face holds one beat, then changes. You should know what it changes to. If not, the change tells you.",
   elaraPostMatchWin:
     "You closed the seven acts on the face you earned. I am not going to tell you which face. I am going to tell you it was the right one. You will know later that I am right.",
   humanPostMatchWin:
