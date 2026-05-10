@@ -7137,51 +7137,1354 @@ dimensions (each):
 
 ---
 
-## A.50 Collectors Arena — NEW (Hellbox-10 host) — CORE
+## A.50 Collectors Arena — NEW (Hellbox-10 host) — FULL
 
 **NEW SPACE** introduced in v5 of the Hellbox cosmology. Did not
 exist in the §2.x art-state catalogue prior to this branch. Added
 to the deck between Pet Garden (§A.28) and Cargo Hold (§A.10).
 
+**Status: FULL spec.** Cross-ref §3.12.12 HB10 Hall of Collected
+Souls gateway.
+
+### A.50.1 Header
+
 ```
 space_id:        ark.collectors_arena
 space_name:      Collectors Arena
-space_type:      ark_room  (Hellbox-10 host)
+space_type:      ark_room  (Hellbox-10 host; NEW v5 space)
 act_introduced:  Act 3
-lore_anchor:     loredex.system.collections + arc.collectors_arena_unlock
-aesthetic_tier:  dreamers_oneiric  (gallery-mausoleum hybrid)
+lore_anchor:     loredex.system.collections + arc.collectors_arena_unlock + arc.act_3_HB10_first_invocation
+aesthetic_tier:  dreamers_oneiric  (gallery-mausoleum hybrid; the room is between collection and elegy)
 master_of_rlyeh_question: "What is the price of keeping?" (per HB10)
 ```
 
-A circular room with a central plinth. Walls lined with 12 alcoves;
-each alcove holds a representative sample of one collectible-category
-(cards / pets / trade goods / soul stones / songs / memories / scars
-/ debts / promises / trophies / tools / vows). The plinth is reactive:
-when the player has 10+ collectibles, an object appears (the most-
-neglected item in the player's collection). Examining the plinth
-opens HB10.
+### A.50.2 Geometry
 
 ```
-dimensions:           10.00 m × 10.00 m × 4.50 m
-floor_plan_geometry:  circular
+dimensions:           10.00 m diameter × 4.50 m  (circular footprint; bounding box 10.00 × 10.00 × 4.50)
+origin_point:         centre of floor (room is circular; origin at geometric centre)
+coordinate_axes:      +x = right (east), +y = forward (north), +z = up
+floor_plan_geometry:  circular  (5.00 m radius)
+volumetric_anomalies: none in baseline; HB10 transit briefly extends the room non-Euclidean (~10s — alcoves recede impossibly into infinite-gallery dimension)
 ```
 
-Key objects:
-- `ark.collectors_arena.central_plinth` — HB10 gateway plinth (5.00, 5.00, 0.00); 1.20 dia × 1.10 tall
-- `ark.collectors_arena.alcove.<category>.1-12` — 12 alcoves around the perimeter, each themed
-- `ark.collectors_arena.observation_bench.1-3` — 3 benches for contemplation
-- `ark.collectors_arena.entrance_threshold` — main entrance (south wall of the circle)
+The Collectors Arena is the smallest of the Ark's Hellbox-host
+rooms by floor-area (~78.5 m²). The compactness is intentional —
+it concentrates the player's relationship with their collected
+items into a single confronting space. The central plinth is the
+room's heart; alcoves are arranged in a ring around the perimeter.
 
-(Full §4 spec deferred to Phase B-2.)
+Floor area: ~78.5 m².
+
+### A.50.3 Floor
+
+```
+material_primary:     polished obsidian-black marble in radial wedge tiles; 12 wedges (one per alcove); each wedge tapers from 0.30 m wide at centre to ~2.60 m wide at perimeter; 4 mm gap between wedges
+material_secondary:   gold inlay forming a 12-pointed star centred on plinth; the star's points align with the 12 alcoves
+pattern:              radial wedges + 12-pointed star inlay; subtle anti-slip etch radiating outward from plinth
+wear_state:           pristine in early acts; the 12 wedges show wear differentially based on which collectibles the player has prioritised (e.g., if player heavily plays cards, the "cards" wedge shows pacing-wear); a visual record of player priorities
+embedded_features:
+  - id: ark.collectors_arena.floor.charge_point.plinth
+    position: (0.00, 0.00, 0.00)  # at room centre
+    dimensions: 0.40 × 0.40 × 0.05
+    function: plinth power-coupling
+  - id: ark.collectors_arena.floor.alcove_anchor.<n>  (12 anchors)
+    position: at base of each alcove (radius 4.20 m from centre at 30° intervals)
+    dimensions: 0.30 × 0.30 × 0.05 each
+    function: alcove display electronics
+  - id: ark.collectors_arena.floor.entrance_threshold
+    position: (0.00, -5.00, 0.00)  # at south entrance (south of centre, at perimeter)
+    dimensions: 1.20 × 0.20 × 0.10
+    function: entrance threshold + gameplay-flag trigger
+acoustic_property:    hard_reflective (marble); RT60 = 0.60s (slight chamber-cathedral feel from circular geometry)
+```
+
+### A.50.4 Walls
+
+The Collectors Arena has ONE continuous curved wall (circular
+room). It is divided into 12 alcove-zones by structural pilasters
+between alcoves.
+
+```
+wall_id:              perimeter_curved (single continuous wall divided into 12 alcove-zones)
+material_primary:     polished obsidian-black marble cladding curving with the room; alternating with deep alcove recesses (12 alcoves, each 1.40 m wide at perimeter, 0.80 m deep)
+material_secondary:   gold inlay along the wall-floor join; brass pilasters (24 mm wide × 4.20 m tall) between alcoves
+panelisation:         each "panel" between pilasters is a marble alcove backplane
+colour_value:         --token-color-ark-collectors-arena-wall  (deep obsidian-black with gold pin-stripe at z = 2.20 m)
+embedded_displays:
+  - id: ark.collectors_arena.south.display.collection_count
+    position: (0.00, -4.95, 1.80)  # at south wall, near entrance
+    dimensions: 0.60 × 0.40 × 0.05
+    content: live-counter of player's total collectibles owned
+embedded_doors:
+  - door_id: ark.collectors_arena.south.door.main
+    position: (0.00, -5.00, 0.00)
+    dimensions: 1.40 × 2.40 × 0.10
+    door_class: arch  (gold-inlaid bronze double-door; opens slowly with reverent sound)
+    connecting_space_id: ark.corridor.collectors_approach
+decorative_features:
+  - id: ark.collectors_arena.alcove.<n>  (12 alcoves; specced in inventory)
+  - id: ark.collectors_arena.pilaster.<n>  (12 pilasters between alcoves; specced in inventory)
+  - id: ark.collectors_arena.south.plaque.principle
+    position: (0.00, -4.95, 3.20)  # above entrance door
+    dimensions: 0.80 × 0.30 × 0.02
+    material: cast bronze with gilt text
+    narrative_role: reads "WHAT IS KEPT, IS HELD" — the room's primary maxim
+```
+
+### A.50.5 Ceiling
+
+```
+height_above_floor:     4.50 m baseline; central oculus rises to 5.50 m (a domed translucent glass eye at the centre, directly above the plinth)
+material:               polished obsidian-black marble with gold-leaf coffer detailing radiating from the central oculus
+lighting_integrated:    central oculus emits soft warm-white light (acts as a "spotlight from above" on the plinth); 12 recessed accent lights at outer ring (one per alcove ceiling); subtle gold-edge lighting along all 12 pilaster tops
+atmospheric_features:   subtle dust-mote drift visible in the oculus light shaft (intensifies during HB10 transit)
+acoustic_treatment:     domed apsidal (slight whispering effect from curved geometry); coffered at perimeters
+```
+
+### A.50.6 Lighting
+
+```
+ambient_baseline:     2800 K (warm; gallery-museum); 140 lux at floor level (deliberately dim — gives gravity); CRI 95
+direct_fixtures:
+  - id: ark.collectors_arena.light.oculus_central
+    position: (0.00, 0.00, 5.50)
+    beam_angle: 60° downward
+    colour: --token-color-ark-collectors-arena-oculus  (warm amber-white; suggests distant sun)
+    intensity: 5000 lumens
+    function: principal — "spotlight from above" on plinth
+  - id: ark.collectors_arena.light.alcove_strip.<n>  (12 alcove ceiling strips)
+    position: at top of each alcove (z = 4.20)
+    beam_angle: 180° wash inward-downward
+    colour: --token-color-ark-collectors-arena-alcove-strip  (warm amber)
+    intensity: 800 lumens each
+    function: alcove-defining (each alcove is its own gallery)
+  - id: ark.collectors_arena.light.pilaster_uplight.<n>  (12 pilaster uplights at base)
+    position: at base of each pilaster (z = 0.05)
+    beam_angle: 30° upward
+    colour: --token-color-ark-collectors-arena-pilaster-uplight  (warm gold)
+    intensity: 200 lumens each
+    function: dramatic vertical uplighting; reinforces the gallery-cathedral aesthetic
+  - id: ark.collectors_arena.light.plinth_glow
+    position: (0.00, 0.00, 1.10)  # at plinth top
+    beam_angle: 360°
+    colour: --token-color-ark-collectors-arena-plinth-glow  (warm amber pulsing slowly)
+    intensity: 500 lumens (when plinth-object present); 0 when empty
+    function: focal — signals "an object awaits"
+practical_sources:
+  - none  (intentional; the room's lighting is curated, not lived-in)
+time_of_day_variation:
+  acts_3_to_7: stable lighting; in HB10-active state, oculus glow intensifies and turns slightly cyan-amber
+dynamic_response:
+  - on_plinth_object_appears: plinth_glow activates; oculus brightens 20%
+  - on_HB10_invoke: oculus pulses asymmetrically; pilasters dim; alcove strips flicker; transit begins (cf §3.12.12)
+```
+
+### A.50.7 Atmosphere
+
+```
+air_temperature:    19°C (cool — gallery)
+humidity:           36% RH (low — preservation atmosphere); smells of cold-stone + faint metallic-bronze + very faint pine-resin (canonical scent of "what is kept")
+particulate:
+  - type: dust_motes
+    density: low (visible in oculus light shaft)
+    colour: warm-greyish
+    drift_direction: slow downward
+volumetric_fog:     absent in baseline; subtle volumetric beam from oculus during HB10 transit
+wind_drift:         minimal; 0.02 m/s; slight inward-spiral toward plinth (subtle convection)
+smell_canon:        cold-stone + bronze + pine-resin; voice-line: "smells like a museum at night"
+```
+
+### A.50.8 Sound
+
+```
+ambient_bed:           file: collectors_arena_ambient_bed_v1.ogg (loop); -38 dB; very quiet; faint distant chime (period 60s), subtle marble-resonance from circular geometry
+point_sources:
+  - id: ark.collectors_arena.sound.distant_chime
+    position: (0.00, 0.00, 5.50)  # from oculus
+    sound: faint single chime (period 60s; -38 dB per chime)
+    occlusion_behaviour: omnidirectional
+    trigger: cyclic
+  - id: ark.collectors_arena.sound.plinth_object_resonance
+    position: (0.00, 0.00, 1.10)
+    sound: subtle metallic resonance (when object present; -36 dB)
+    occlusion_behaviour: standard
+    trigger: state-conditional (when plinth_object present)
+  - id: ark.collectors_arena.sound.alcove_subtle_hum.<n>  (12 sources)
+    position: per alcove
+    sound: very faint hum unique to each alcove's category (-44 dB each; e.g., cards alcove has card-shuffle, pets alcove has faint creature-breath)
+    occlusion_behaviour: standard
+    trigger: continuous
+  - id: ark.collectors_arena.sound.curtain_curtain  (HB10 transit)
+    position: dynamic
+    sound: spirit-form chime + vast space opening audibly (one-shot during HB10)
+    occlusion_behaviour: omnidirectional
+    trigger: state-conditional
+reverb_zone:           IR-impulse: collectors_arena_v1.wav; wet-mix 30% (slight whisper-gallery from circular)
+music_eligibility:     cutscene only (HB10 transit + Category B cs_amb_collectors_arena — deferred)
+voice_line_eligibility:
+  - speaker: the_master_of_rlyeh
+    trigger: HB10 transit only
+    line_set: HB10-specific
+  - speaker: the_collected_souls_whispers  (during HB10 active states; rare, brief)
+    trigger: state-conditional
+    line_set: HB10-specific (in destination)
+```
+
+### A.50.9 Object inventory
+
+Collectors Arena has 32 inventory objects.
+
+#### A.50.9.1 The Central Plinth (HB10 gateway)
+
+```
+object_id:           ark.collectors_arena.central_plinth
+object_class:        interactive  (also fx_emitter for HB10 transit)
+position:            (0.00, 0.00, 0.00)
+dimensions:          1.20 dia × 1.10 tall (cylindrical)
+rotation:            0°
+material_primary:    polished black granite cylinder with gold rim at top (40 mm gold band)
+material_secondary:  brass interior glow when active
+colour_value:        --token-color-ark-collectors-arena-plinth  (deep granite-black with gold accents)
+interaction:         interactable
+  - inspect (empty): "the plinth waits"
+  - examine (object present): inspect the most-neglected collectible the player owns
+  - lift_object: lifts the plinth-object — triggers HB10 transit cutscene (cf §3.12.12)
+narrative_role:      THE plinth; cosmologically the HB10 gateway. When the player has 10+ collectibles, the most-neglected item materialises here. Lifting it is the gateway invocation.
+lore_anchor:         loredex.system.collections + arc.act_3_HB10_first_invocation
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.collectors_arena.plinth.examine + trpc.hellbox.hb10.openGate (state-conditional)
+wear_state:          pristine but with subtle wear-rim where most-neglected items materialise (worn down by repeated invocations across timelines)
+physical_constraints: collides; player can lean
+```
+
+#### A.50.9.2-13 The Twelve Alcoves (12 collectible-category galleries)
+
+```
+object_id:           ark.collectors_arena.alcove.<category>  (12 alcoves)
+object_class:        container  (each alcove is a curated mini-gallery)
+positions:           around perimeter at radius 4.20 m from centre, at 30° intervals starting from north (12 o'clock):
+  - alcove.cards: at 0° (north)
+  - alcove.pets: at 30° (NNE)
+  - alcove.trade_goods: at 60° (ENE)
+  - alcove.soul_stones: at 90° (east)
+  - alcove.songs: at 120° (ESE)
+  - alcove.memories: at 150° (SSE)
+  - alcove.scars: at 180° (south of plinth, but near south door)
+  - alcove.debts: at 210° (SSW)
+  - alcove.promises: at 240° (WSW)
+  - alcove.trophies: at 270° (west)
+  - alcove.tools: at 300° (WNW)
+  - alcove.vows: at 330° (NNW)
+dimensions (each):   1.40 wide × 0.80 deep × 4.20 tall
+rotation (each):     faces inward toward plinth
+material_primary:    polished obsidian-black marble backplane + display-stand
+material_secondary:  gold-inlay frame around alcove; bronze nameplate
+colour_value:        --token-color-ark-collectors-arena-alcove-frame
+interaction:         interactable
+  - examine: opens alcove-detail UI; player sees a representative sample of their collection in this category + reflective lore-readable about the category
+  - inspect_item: each item shown is inspectable
+  - release_item (HB10 sub-mechanic): player can release a specific item from this alcove (loses item permanently; gains lore-flag)
+narrative_role:      gallery-mausoleum aesthetic; each alcove tells the story of what the player has collected in that category; the categorisation itself is the player's character arc
+lore_anchor:         per-category (12 sub-systems)
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.collectors_arena.alcove.examine + .release
+wear_state:          varies by player's engagement with each category (e.g., heavily-used alcoves show subtle wear at frame-edges)
+physical_constraints: collides; player can step inside
+```
+
+(All 12 alcoves follow the same template. The 12 categories
+align with the player's 12 axes of accumulation across the
+entire game; releasing items from an alcove is the principal
+HB10 mechanic per §3.12.12.)
+
+#### A.50.9.14-25 The Twelve Pilasters
+
+```
+object_id:           ark.collectors_arena.pilaster.<n>  (12 pilasters; n = 1..12)
+object_class:        decoration
+positions:           between alcoves at radius 4.95 m from centre, at 15° intervals offset from alcove positions (one pilaster between each pair of alcoves)
+dimensions (each):   0.24 × 0.24 × 4.20
+rotation:            radial (each faces inward)
+material_primary:    cast bronze with gilt detail
+material_secondary:  bronze cap top; bronze base
+colour_value:        --token-color-ark-collectors-arena-pilaster-bronze
+interaction:         inert
+narrative_role:      structural + aesthetic; reinforces the cathedral-gallery feel; each pilaster is identical (intentional uniformity — the variation is in the alcoves between)
+lore_anchor:         loredex.aesthetic.collectors_arena
+art_status:          producer_handoff
+gameplay_hook_id:    none
+wear_state:          slight patina at base; pristine elsewhere
+physical_constraints: collides
+```
+
+#### A.50.9.26-28 Three Observation Benches
+
+```
+object_id:           ark.collectors_arena.observation_bench.<n>  (n = 1..3; positioned at 0°, 120°, 240° on a smaller inner radius of 2.80 m)
+object_class:        furniture
+positions:           [
+  (0.00, 2.80, 0.00),                # bench 1 (south of plinth, faces north)
+  (-2.42, -1.40, 0.00),              # bench 2 (north-west, faces SE toward plinth)
+  (2.42, -1.40, 0.00),               # bench 3 (north-east, faces SW toward plinth)
+]
+dimensions (each):   1.40 × 0.40 × 0.45  (curved bench matching circular room)
+rotation:            varies (radial; faces plinth)
+material_primary:    polished obsidian-black marble seat with gold-leaf trim
+material_secondary:  bronze leg-supports
+colour_value:        --token-color-ark-collectors-arena-bench
+interaction:         interactable - sit (positions player to contemplate plinth + alcoves)
+narrative_role:      contemplation seating; player can sit in three triangulated positions and reflect on collection
+lore_anchor:         arc.player_reflection
+art_status:          producer_handoff
+gameplay_hook_id:    none (positional)
+wear_state:          slight wear at sit-zones
+physical_constraints: collides; sittable
+```
+
+#### A.50.9.29 The Curator's Lectern (south-east, near entrance)
+
+```
+object_id:           ark.collectors_arena.curator_lectern
+object_class:        container
+position:            (1.50, -3.50, 0.00)  # near south entrance, slightly east
+dimensions:          0.50 × 0.40 × 1.20
+rotation:            45°  (faces inward)
+material_primary:    cast bronze stand with inclined display-plate
+material_secondary:  open lore-readable tome on the inclined plate
+colour_value:        --token-color-ark-collectors-arena-lectern
+interaction:         interactable
+  - inspect: opens the curator's tome — multi-screen lore-readable about the room's purpose (canonical narrative of "what is kept")
+narrative_role:      sets the room's emotional register on entry; the curator is canonically an Editor-adjacent figure
+lore_anchor:         arc.collectors_arena_canon + cross-ref §A.21 Cipher Den
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.collectors_arena.curator_lectern.read
+wear_state:          slight wear at most-handled pages
+physical_constraints: collides
+```
+
+#### A.50.9.30 South Entrance Plaque (above door)
+
+```
+object_id:           ark.collectors_arena.south.plaque.principle
+object_class:        decoration
+position:            (0.00, -4.95, 3.20)
+dimensions:          0.80 × 0.30 × 0.02
+rotation:            180°
+material_primary:    cast bronze with gilt text
+material_secondary:  none
+colour_value:        --token-color-ark-collectors-arena-plaque-bronze
+interaction:         inspectable
+  - inspect: reads "WHAT IS KEPT, IS HELD"
+narrative_role:      sets the room's principle on entry
+lore_anchor:         arc.collectors_arena_canon
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.collectors_arena.plaque.read
+wear_state:          slight wear
+physical_constraints: non-collide
+```
+
+#### A.50.9.31-32 Closing Decorative Items
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.collectors_arena.south.intercom` | console | (-0.50, -4.95, 1.50) on south wall | 0.20 × 0.10 × 0.30 | comms relay (silent in baseline) |
+| `ark.collectors_arena.fire_extinguisher.south` | interactive | (0.50, -4.95, 1.20) on south wall | 0.20 × 0.20 × 0.50 | safety |
+
+Total: 32 inventory objects.
+
+### A.50.10 Camera-spawn-points (FPV cutscenes)
+
+```
+cutscene_id:         cs_amb_collectors_arena  (Category B Myst-ambient; deferred catalogue)
+camera_position:     (0.00, -4.50, eye_level)
+camera_facing:       (0°, 0°, 0°)  # facing plinth
+avatar_height_anchor: eye_level
+head_motion:         very slow forward dolly toward plinth, slight head-pan to scan alcoves; lasts 24s
+
+cutscene_id:         cs_hellbox_10_open  (HB10 Hall of Collected Souls gateway)
+camera_position:     (0.00, -1.00, eye_level)  # at plinth, hands lifted
+camera_facing:       (0°, -25°, 0°)  # looking down at plinth-object
+avatar_height_anchor: eye_level
+head_motion:         hand-rig enters frame; hand picks up plinth-object; object dissolves into spirit-form; Hall manifests around player
+
+cutscene_id:         cs_hellbox_10_transit  (HB10 transit)
+camera_position:     (0.00, -1.00, eye_level)
+camera_facing:       (0°, 0°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         POV travels through gallery of pedestals, each holding a spirit-form figure
+
+cutscene_id:         cs_hellbox_10_release  (per-release in destination; rare in source-room)
+camera_position:     (varies; at destination)
+camera_facing:       (0°, -10°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         hand enters frame touching figure; figure dissolves to motes
+
+cutscene_id:         cs_hellbox_10_close  (HB10 return)
+camera_position:     (0.00, -1.00, eye_level)
+camera_facing:       (0°, 0°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         figures fade; gallery resolves back to Collectors Arena
+```
+
+### A.50.11 Doorways
+
+```
+door_id:            ark.collectors_arena.south.door.main
+connecting_space_id: ark.corridor.collectors_approach
+door_position:      (0.00, -5.00, 0.00)
+door_dimensions:    1.40 × 2.40 × 0.10
+door_class:         arch
+unlock_condition:   Act 3+ (player must have acquired 3+ collectibles before entry)
+transit_animation:  ceremonial slow-open (3s) on first entry; instant on subsequent
+audio_signature:    bronze-on-stone resonance + chain-rattle + faint chime
+```
+
+### A.50.12 Adjacency map
+
+```
+direct_adjacencies:
+  - ark.corridor.collectors_approach (south door)
+  - hellbox.hall_of_collected_souls (HB10 portal via plinth, conditional on 10+ collectibles)
+one_hop_adjacencies:
+  - ark.pet_garden (via approach corridor; thematic kinship — Pet Garden's collected pets feed into HB10's pets alcove)
+  - ark.cargo_hold (via approach; trade-goods alcove sources)
+  - destination.hall_of_collected_souls (via HB10)
+```
+
+### A.50.13 Gameplay hooks
+
+```
+hooks:
+  - hook_id:         collectors_arena.examineAlcove
+    trigger:         player.examine on alcove.<category>
+    procedure:       trpc.collectors_arena.alcove.examine
+    success_state:   alcove_examined = true (per-alcove)
+  - hook_id:         collectors_arena.releaseAlcoveItem
+    trigger:         player.release on alcove.<category>.item
+    procedure:       trpc.collectors_arena.alcove.release
+    success_state:   item_released = true (per-item; permanent loss but lore-flag gain)
+  - hook_id:         collectors_arena.examinePlinth
+    trigger:         player.examine on central_plinth (with plinth_object present)
+    procedure:       trpc.collectors_arena.plinth.examine
+    success_state:   plinth_object_examined = true
+  - hook_id:         collectors_arena.invokeHB10
+    trigger:         player.lift on central_plinth (with plinth_object + 10+ collectibles)
+    procedure:       trpc.hellbox.hb10.openGate
+    success_state:   hellbox_10_transit_started = true
+  - hook_id:         collectors_arena.readCuratorTome
+    trigger:         player.inspect on curator_lectern
+    procedure:       trpc.collectors_arena.curator_lectern.read
+    success_state:   curator_tome_read = true
+  - hook_id:         collectors_arena.readPlaque
+    trigger:         player.inspect on south.plaque.principle
+    procedure:       trpc.collectors_arena.plaque.read
+    success_state:   plaque_read = true
+```
+
+### A.50.14 Story-tie
+
+```
+primary_arcs:
+  - arc.collectors_arena_unlock
+  - arc.act_3_HB10_first_invocation
+  - arc.collectors_arena_canon (the curator's tome)
+  - arc.player_collection_history (continuous; tracks across all 12 categories)
+per_act_evolution:
+  acts_0_2: room locked; player must accumulate 3+ collectibles to gain entry
+  act_3: room opens; player visits and explores 12 alcoves; HB10 first invocable when 10+ collectibles owned
+  act_4: more alcoves become "active" (their content expands as player accumulates); plinth-object refreshes between visits to most-neglected item
+  act_5: deep alcove inspections reveal hidden lore; cumulative releases tracked
+  act_6: cumulative release-vs-keep ratio begins affecting "collected souls" count (visible in HB10 destination)
+  act_7: state branched: hoarder ending (released few; kept many) vs. ascetic ending (released many; kept few); both have their own lore weight
+npc_roster:
+  - the_player: visitor; only NPC who interacts with this room
+  - the_curator: presence-only (felt as faint guidance in alcove inspections; never visible)
+  - the_master_of_rlyeh: HB10 transit voice only
+  - collected_souls_whispers: presence in HB10 destination only
+readables:
+  - principle plaque (south)
+  - curator's tome (multi-screen canonical narrative)
+  - 12 alcove lore-readables (one per category; expands with accumulation)
+  - cumulative collection-count display (south wall)
+master_of_rlyeh_question: "What is the price of keeping?"
+```
+
+### A.50.15 Special-FX
+
+```
+particle_systems:
+  - dust_motes (low; visible in oculus light shaft)
+  - alcove_subtle_glow_per_alcove (each alcove has its own particle signature based on its category; e.g., cards alcove has card-edge glints, pets alcove has spirit-wisps)
+  - HB10_spirit_form_dissolution (one-shot during HB10 transit; plinth-object dissolves into spirit motes)
+volumetric_effects:
+  - oculus_light_shaft (visible in lower-light states; cone from oculus to plinth)
+  - alcove_glow_per_alcove (subtle ambient glow per alcove)
+  - HB10_gallery_extension (one-shot; alcoves recede impossibly during transit)
+procedural_animations:
+  - plinth_object_subtle_rotation (when present; very slow; cosmetic)
+  - distant_chime_visualisation (very subtle pulse on each chime)
+  - alcove_content_re_arrange (Acts 4+; alcove content re-organises slowly between visits — Editor's hand)
+reactive_systems:
+  - plinth_glow_on_proximity (within 1.5 m, plinth glows softly)
+  - alcove_strip_intensify_on_proximity (when player enters alcove)
+  - oculus_brightness_on_plinth_object_appears (one-shot)
+  - HB10_transit_one_shot (when conditions met)
+  - alcove_lore_unlock_on_release (when player releases an item, that alcove's lore-readable expands)
+```
+
+### A.50.16 Avatar-parametricity
+
+```
+camera_height_variation:
+  small_xenomorph (0.85m eye): camera height 0.85m; plinth feels enormous; alcove items appear at face-level
+  short_humanoid (1.40m eye): standard
+  average_humanoid (1.70m eye): standard
+  tall_humanoid (2.05m eye): plinth feels smaller; oculus nearer head
+  tall_xenomorph (2.70m eye): pilasters appear short; player must duck slightly inside alcoves
+reachability:
+  small_xenomorph: cannot reach top alcove items; alternate inspect-from-below mode
+  small_xenomorph: cannot reach principle plaque (3.20 m); relay-inspect from below
+  others: all-reachable
+audio_occlusion_variation:
+  xenomorph_sensitive_hearing: distant chime audible from any alcove; alcove subtle hums each distinct
+  synthetic_voice_avatar: curator's presence has different "feel" (synthetic resonance bias)
+```
+
+### A.50.17 Performance
+
+```
+polygon_budget:      220,000 polygons (compact room; rich alcove decorative density)
+texture_budget:      130 MB total (12 alcove categories × unique textures)
+light_count_limit:   16 simultaneous dynamic lights
+lod_plan:
+  - hero_distance: 0-6m, full detail
+  - mid_distance: 6-12m, mid detail (small alcove items simplified)
+  - low_distance: 12m+, low detail (mostly billboarded)
+streaming_behaviour:
+  - preload: ark.corridor.collectors_approach (south)
+  - on_player_at_plinth + 10+_collectibles: preload destination.hall_of_collected_souls
+```
 
 ---
 
-## Document status (Phase B-1 — this commit)
+## A.51 Game Hall — NEW (Hellbox-12 host) — FULL
 
-- **FULL spec authored**: A.1 Cryo Bay, A.2 Med Bay, A.3 Bridge (cross-ref), A.50 Collectors Arena
-- **CORE spec authored**: A.4 Archives, A.5 Comms Array, A.6 Observation Deck, A.7 Engineering Bay, A.11 Captain's Quarters, A.13 Antiquarian Library, A.21 Cipher Den, A.22 Hierarchy Throne, A.27 Memorial Corridor, A.33 Defense Command Center, A.36 Chess Hall
-- **SCAFFOLDED**: all remaining (A.8, A.9, A.10, A.12, A.14-A.20, A.23-A.26, A.28-A.32, A.34, A.35, A.37-A.49)
+**NEW SPACE** introduced in v5 of the Hellbox cosmology. Did not
+exist in the §2.x art-state catalogue prior to this branch. Added
+to the deck in the entertainment / community zone (between Social
+Hub §A.15 and the Casino Gaming Floor §A.39).
 
-Phase B-2 follow-up: convert all CORE → FULL and all SCAFFOLDED → at least CORE. Estimated additional spec lines for full conversion: ~50,000-70,000 lines across follow-up branches.
+**Status: FULL spec.** Cross-ref §3.12.14 HB12 Dischordian Arena
+gateway.
+
+### A.51.1 Header
+
+```
+space_id:        ark.game_hall
+space_name:      Game Hall (Dischordia card duel hall)
+space_type:      ark_room  (Hellbox-12 host; NEW v5 space)
+act_introduced:  Act 2  (after first Dischordia card tutorial; HB12 unlocks Act 2 after first duel)
+lore_anchor:     loredex.system.dischordia_card_game + loredex.character.game_master + arc.act_2_first_card_duel + arc.act_2_HB12_first_invocation
+aesthetic_tier:  solar_punk_cathedral  (theatrical-arena aesthetic; with deeper shadows than other Ark rooms — meta-narrative gravity)
+master_of_rlyeh_question: "Does the game play you, or do you play the game?" (per HB12)
+```
+
+### A.51.2 Geometry
+
+```
+dimensions:           16.00 m × 14.00 m × 6.50 m
+origin_point:         centre of floor at the south entrance threshold
+coordinate_axes:      +x = right, +y = forward (north), +z = up
+floor_plan_geometry:  rectangular  (with a slight elevation change — tiered seating along east + west walls rises in 3 steps)
+volumetric_anomalies: none in baseline; HB12 transit briefly distorts the central duel-board (~10s — cards' illustrations look directly at the camera; corridor of cards extends impossibly north)
+```
+
+The Game Hall is theatrical: the central duel-board is on a
+raised dais (0.60 m above floor); tiered observer seating flanks
+east and west; a Game Master's elevated chair faces the duel-
+board from the north; smaller practice tables ring the perimeter.
+The room is taller than typical Ark rooms (6.50 m) to accommodate
+spectator galleries.
+
+Floor area: 224 m².
+
+### A.51.3 Floor
+
+```
+material_primary:     polished black-and-crimson marble in a chevron pattern (matching Hierarchy throne, but with crimson instead of white — signals "performance space"); 0.60 m × 0.60 m tiles
+material_secondary:   gold inlay outlining the central dais (3.20 × 3.20 m raised area); brass meditation-circle inlays at each corner of the room
+pattern:              chevron with focal radial pattern around central dais
+wear_state:           pristine; slight wear at central dais access points (south + east + west steps)
+embedded_features:
+  - id: ark.game_hall.floor.dais_steps  (3 steps up to central dais on south side)
+    position: (0.00, 4.00 to 4.40, 0.00)
+    dimensions: 4.40 × 0.20 × 0.20 each step (3 steps)
+    function: dais access (south side only — east + west are flanked by tiered seating)
+  - id: ark.game_hall.floor.charge_point.duel_board
+    position: (0.00, 7.00, 0.60)  # under central duel-board, on dais top
+    dimensions: 0.40 × 0.40 × 0.05
+    function: duel-board electronics + holographic projection power
+  - id: ark.game_hall.floor.practice_table_anchor.<n>  (4 practice tables; one per corner of room)
+    position: per corner
+    dimensions: 0.30 × 0.30 × 0.05 each
+    function: practice-table electronics
+acoustic_property:    hard_reflective (marble) with subtle damping from velvet curtains; RT60 = 0.65s
+```
+
+### A.51.4 Walls
+
+#### Wall: South (entrance)
+
+```
+wall_id:              south
+material_primary:     polished black-marble cladding with carved theatrical-mask reliefs at z = 1.20 to 2.40
+material_secondary:   gold dado at z = 1.20 m
+panelisation:         9 panels wide × 4 panels tall
+colour_value:         --token-color-ark-game-hall-wall-south  (black marble with gold pin-stripe; faint crimson-glow at z = 2.00 m during HB12-active states)
+embedded_displays:
+  - id: ark.game_hall.south.display.tournament_ladder
+    position: (-3.50, 0.20, 1.80)
+    dimensions: 1.20 × 0.80 × 0.05
+    content: tournament ladder + player rankings
+  - id: ark.game_hall.south.display.player_deck_stats
+    position: (3.50, 0.20, 1.80)
+    dimensions: 1.20 × 0.80 × 0.05
+    content: player's current deck statistics + match history
+embedded_doors:
+  - door_id: ark.game_hall.south.door.main
+    position: (0.00, 0.00, 0.00)
+    dimensions: 1.40 × 2.40 × 0.10
+    door_class: arch  (gold-inlaid bronze double-door with theatrical-mask motif)
+    connecting_space_id: ark.corridor.game_hall_approach
+decorative_features:
+  - id: ark.game_hall.south.plaque.principle
+    position: (0.00, 0.20, 3.20)
+    dimensions: 1.00 × 0.40 × 0.02
+    material: cast bronze with gilt text
+    narrative_role: reads "THE GAME PLAYS BACK" — the room's primary maxim
+  - id: ark.game_hall.south.theatrical_mask.left, .right
+    position: (-2.00, 0.20, 4.50), (2.00, 0.20, 4.50)
+    dimensions: 0.40 × 0.30 × 0.10 each
+    material: cast bronze (one comedy mask, one tragedy mask)
+    narrative_role: theatrical aesthetic; signals "this is performance space"
+```
+
+#### Wall: East (with tiered observer seating)
+
+```
+wall_id:              east
+material_primary:     polished black-marble cladding with deep theatrical-style velvet curtains at upper sections (z = 3.00 to 6.50)
+material_secondary:   gold dado; tiered seating built into wall (3 tiers rising west-to-east; each tier 0.40 m higher than previous; tier 1 at z = 0.40, tier 2 at z = 0.80, tier 3 at z = 1.20)
+panelisation:         walls + tiered seating zones
+colour_value:         --token-color-ark-game-hall-wall-east  (black marble with crimson velvet upper)
+embedded_displays:
+  - id: ark.game_hall.east.display.live_match_view
+    position: (7.95, 7.00, 4.50)  # high on east wall, central
+    dimensions: 1.80 × 1.20 × 0.05
+    content: live match view from spectator angle
+embedded_doors:        none
+decorative_features:
+  - id: ark.game_hall.east.tier_seating.tier_1, .tier_2, .tier_3
+    position: along east wall at varying heights
+    dimensions: 14.00 × 0.50 × 0.40 (each tier; long benches)
+    material: polished walnut with crimson-velvet padding
+    narrative_role: tiered observer seating; spectators watch matches
+  - id: ark.game_hall.east.curtain.upper
+    position: (7.95, 7.00, 4.50 to 6.50)
+    dimensions: 0.10 × 14.00 × 2.00
+    material: deep crimson velvet (theatrical drapery)
+    narrative_role: theatrical aesthetic + acoustic damping
+```
+
+#### Wall: North (Game Master's elevated chair zone)
+
+```
+wall_id:              north
+material_primary:     polished black-marble with deep apsidal niche at centre-north (where Game Master's elevated chair is anchored)
+material_secondary:   gold dado; gold-inlaid relief of "the eternal contest"
+panelisation:         apsidal central niche
+colour_value:         --token-color-ark-game-hall-wall-north  (black marble with prominent gold + crimson detailing)
+embedded_displays:
+  - id: ark.game_hall.north.display.match_judge_panel
+    position: (0.00, 13.95, 1.50)  # below Game Master's elevated chair
+    dimensions: 1.00 × 0.60 × 0.05
+    content: match-judge tools (referee panel; only Game Master uses)
+embedded_doors:        none
+decorative_features:
+  - id: ark.game_hall.north.alcove.game_master
+    position: (0.00, 13.95, 1.50)  # raised platform for Game Master
+    dimensions: 2.40 × 1.20 × 0.80 (alcove platform)
+    material: polished black marble + crimson velvet upholstery on platform
+    narrative_role: Game Master's elevated chair anchors here; he watches all duels from above
+  - id: ark.game_hall.north.relief.eternal_contest
+    position: (0.00, 13.85, 4.00)  # high above Game Master alcove
+    dimensions: 3.00 × 2.40 × 0.10
+    material: cast bronze with gilt highlights
+    narrative_role: depicts dueling figures across eternity; sub-narrative: "the game has always been"
+```
+
+#### Wall: West (mirror of east)
+
+```
+wall_id:              west
+material_primary:     same as east (with mirrored tiered seating + curtains)
+material_secondary:   gold dado
+panelisation:         mirror of east
+colour_value:         --token-color-ark-game-hall-wall-west
+embedded_displays:
+  - id: ark.game_hall.west.display.live_match_view
+    position: (0.05, 7.00, 4.50)  # mirror
+    dimensions: 1.80 × 1.20 × 0.05
+    content: live match view (mirror perspective)
+embedded_doors:        none
+decorative_features:
+  - id: ark.game_hall.west.tier_seating.tier_1, .tier_2, .tier_3
+    position: mirror
+    dimensions: 14.00 × 0.50 × 0.40 each
+    material: same as east
+    narrative_role: tiered observer seating (mirror)
+  - id: ark.game_hall.west.curtain.upper
+    position: (0.05, 7.00, 4.50 to 6.50)
+    dimensions: 0.10 × 14.00 × 2.00
+    material: deep crimson velvet
+    narrative_role: theatrical aesthetic + acoustic damping
+```
+
+### A.51.5 Ceiling
+
+```
+height_above_floor:     6.50 m baseline; central dome rises to 7.50 m above central dais (theatrical apex); perimeter drop to 5.50 m within 1.50 m of walls
+material:               polished black marble cladding with gold-leaf coffer detailing radiating from central dome
+lighting_integrated:    central pendant chandelier (7-tier crystal) above duel-board; recessed strip-lights at each tier-seating ceiling; spotlight clusters mounted on apsidal dome (theatrical lighting)
+atmospheric_features:   subtle dust-mote drift visible in central pendant light shaft (intensifies during HB12 transit + match-completion moments)
+acoustic_treatment:     coffered + apsidal dome echo; velvet curtains absorb mid-frequencies (intentional audio damping for clear voice-line delivery)
+```
+
+### A.51.6 Lighting
+
+```
+ambient_baseline:     2400 K (very warm; theatrical); 90 lux at floor level baseline (deliberately dim — gives drama); CRI 95
+direct_fixtures:
+  - id: ark.game_hall.light.central_pendant_chandelier
+    position: (0.00, 7.00, 7.30)  # above duel-board
+    beam_angle: 90° downward
+    colour: --token-color-ark-game-hall-pendant  (warm amber with crystal scatter to create rainbow prisms)
+    intensity: 8000 lumens (with prism dispersion)
+    function: principal task lighting on duel-board; highly visible focal point
+  - id: ark.game_hall.light.dais_perimeter
+    position: along edges of central dais at z = 0.60
+    beam_angle: 30° upward (uplight)
+    colour: --token-color-ark-game-hall-dais-uplight  (warm amber with crimson tint)
+    intensity: 800 lumens per metre (12.8 metres total perimeter)
+    function: dramatically separates central dais; reinforces theatrical staging
+  - id: ark.game_hall.light.tier_seating_strip.east, .west
+    position: along tier seating ceilings
+    beam_angle: 180° wash
+    colour: --token-color-ark-game-hall-tier-strip  (warm amber)
+    intensity: 600 lumens per metre
+    function: spectator-area lighting (slightly dimmer than central; observer atmosphere)
+  - id: ark.game_hall.light.game_master_alcove_glow
+    position: (0.00, 13.95, 4.00)  # above Game Master alcove
+    beam_angle: 60° downward
+    colour: --token-color-ark-game-hall-game-master-alcove  (warm gold)
+    intensity: 3500 lumens
+    function: dramatic apse-light onto Game Master's chair
+  - id: ark.game_hall.light.spot_array.dome  (4 theatrical spotlights from dome apex)
+    position: (varied; arranged around dome apex at z = 7.50; aimed at central dais)
+    beam_angle: 30° each
+    colour: --token-color-ark-game-hall-spotlight  (warm white; slightly variable per spot)
+    intensity: 4000 lumens each
+    function: theatrical spotlights — focus eye on duel-board action
+practical_sources:
+  - id: ark.game_hall.duel_board.cards_face_glow
+    position: (0.00, 7.00, 0.65)  # at duel-board top
+    intensity: 200 lumens (when match in progress; cards have subtle face-lighting for legibility)
+    flicker_pattern: stable
+  - id: ark.game_hall.duel_board.match_clock_glow
+    position: (0.00, 7.00 + 0.50, 0.65)  # match clock at edge of board
+    intensity: 80 lumens
+    flicker_pattern: ticks with clock
+time_of_day_variation:
+  acts_2_to_7: stable lighting; in HB12-active state, central pendant flickers; cards glow more strongly; theatrical spotlights pulse with match rhythm
+dynamic_response:
+  - on_match_start: theatrical_spots intensify; ambient dims 30%; tier-seating lights warm; pendant focuses tighter beam
+  - on_match_end: theatrical_spots ease; ambient returns; victory-flash on relevant tier-strip
+  - on_HB12_invoke: pendant flickers; cards' illustrations momentarily reveal player avatar (uncanny visual); transit begins
+```
+
+### A.51.7 Atmosphere
+
+```
+air_temperature:    21°C baseline (cool — performance-focused); rises slightly during sustained spectator presence
+humidity:           42% RH; smells of polished-wood + bronze + faint cologne (Game Master's preference) + cards' resin (the cards are coated)
+particulate:
+  - type: dust
+    density: low
+    colour: warm-greyish
+    drift_direction: random + slight downward in pendant light shaft
+volumetric_fog:     absent in baseline; subtle "spotlight beam" volumetric on dome spots during matches (theatrical haze)
+wind_drift:         minimal; 0.02 m/s; slight upward circulation toward dome apex
+smell_canon:        polished-wood + bronze + cards' resin + faint cologne; voice-line: "smells like the night before a tournament"
+```
+
+### A.51.8 Sound
+
+```
+ambient_bed:           file: game_hall_ambient_bed_v1.ogg (loop); -34 dB; very faint orchestral-tuning hum (the room "warms up"), distant card-shuffle sounds, occasional tier-seating creak
+point_sources:
+  - id: ark.game_hall.sound.central_chandelier_subtle_creak
+    position: (0.00, 7.00, 7.30)
+    sound: occasional crystal-tinkle (random; -40 dB)
+    occlusion_behaviour: omnidirectional
+    trigger: random (period 30-90s)
+  - id: ark.game_hall.sound.duel_board_cards_face
+    position: (0.00, 7.00, 0.65)
+    sound: faint card-resin hum (continuous, -42 dB)
+    occlusion_behaviour: standard
+    trigger: continuous (subtle)
+  - id: ark.game_hall.sound.tier_seating_creak.east, .west
+    position: distributed across tier seating
+    sound: occasional bench-creak (random; -38 dB)
+    occlusion_behaviour: standard
+    trigger: random
+  - id: ark.game_hall.sound.distant_phantom_applause
+    position: (0.00, 7.00, 6.00)  # phantom audience above
+    sound: faint applause echo (only during cs_amb_game_hall; very subtle in baseline; -40 dB)
+    occlusion_behaviour: omnidirectional
+    trigger: cyclic (rare; period 120s in baseline; common in cutscenes)
+  - id: ark.game_hall.sound.game_master_chuckle
+    position: (0.00, 13.95, 1.40)  # at Game Master alcove
+    sound: faint chuckle (only when GM present; -36 dB)
+    occlusion_behaviour: omnidirectional with bias toward alcove
+    trigger: state-conditional
+reverb_zone:           IR-impulse: game_hall_v1.wav; wet-mix 25% (theatrical reverb)
+music_eligibility:     cutscene only (HB12 transit + Category B cs_amb_game_hall + Category C cs_disc_card_duel + cs_load_card_duel)
+voice_line_eligibility:
+  - speaker: the_game_master
+    trigger: presence (Acts 2+)
+    line_set: see §2.34.2 (Game Hall NPC presence-line set; if not specced, see GM canonical voice direction)
+  - speaker: the_master_of_rlyeh
+    trigger: HB12 transit only
+    line_set: HB12-specific
+  - speaker: phantom_audience
+    trigger: cs_amb_game_hall + match-completion moments
+    line_set: applause / collective gasp patterns
+```
+
+### A.51.9 Object inventory
+
+Game Hall has 48 inventory objects.
+
+#### A.51.9.1 The Central Dischordia Duel Board (HB12 anchor)
+
+```
+object_id:           ark.game_hall.duel_board.central
+object_class:        interactive  (also fx_emitter for HB12 transit)
+position:            (0.00, 7.00, 0.60)  # on dais top at room centre
+dimensions:          1.20 × 1.20 × 0.10  (board) + cards above to z = 0.85
+rotation:            0°
+material_primary:    polished walnut with green-felt playing surface
+material_secondary:  bronze edge-trim; gold-inlay rank/file markings; reinforced display-glass beneath felt for holographic card-state visualisation
+colour_value:        --token-color-ark-game-hall-duel-board
+interaction:         interactable
+  - operate (player's turn): play card / pass turn / attack / use ability
+  - examine: shows current match state
+  - HB12_invoke: when conditions met (player has completed first card duel + interacts with central board), last-played card flickers + card's illustration looks at camera + transit begins (cf §3.12.14)
+narrative_role:      THE central duel-board; primary card-game gameplay surface; cosmologically the HB12 gateway. The card's "looking back" moment IS the meta-narrative reveal.
+lore_anchor:         loredex.system.dischordia_card_game + arc.act_2_HB12_first_invocation
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.dischordia.duel_board.operate + trpc.hellbox.hb12.openGate (state-conditional)
+wear_state:          slight wear at most-used card-zones; pristine elsewhere
+physical_constraints: collides; player can lean
+```
+
+#### A.51.9.2-3 Player + Opponent Anchor Positions
+
+```
+object_id:           ark.game_hall.player_anchor
+object_class:        npc_anchor  (player's seated position at south end of duel-board)
+position:            (0.00, 5.20, 0.60)
+dimensions:          0.80 × 0.80 × 1.40 (anchor only)
+rotation:            0°
+material_primary:    n/a (anchor; chair displays here in active matches)
+material_secondary:  n/a
+colour_value:        n/a
+interaction:         n/a (anchor; chair appears when player approaches)
+narrative_role:      where the player sits to play; faces north toward opponent
+lore_anchor:         arc.act_2_first_card_duel
+art_status:          producer_handoff
+gameplay_hook_id:    n/a
+wear_state:          n/a
+physical_constraints: n/a
+
+object_id:           ark.game_hall.opponent_anchor
+object_class:        npc_anchor  (opponent's seated position at north end of duel-board)
+position:            (0.00, 8.80, 0.60)
+dimensions:          0.80 × 0.80 × 1.40 (anchor only)
+rotation:            180°
+material_primary:    n/a
+material_secondary:  n/a
+colour_value:        n/a
+interaction:         n/a
+narrative_role:      where opponent sits; faces south toward player
+lore_anchor:         arc.opponent_relationships
+art_status:          producer_handoff
+gameplay_hook_id:    n/a
+wear_state:          n/a
+physical_constraints: n/a
+```
+
+#### A.51.9.4-5 Player + Opponent Chairs (deploys when match active)
+
+```
+object_id:           ark.game_hall.player_chair
+object_class:        furniture
+position:            (0.00, 5.20, 0.60)  # at player anchor
+dimensions:          0.80 × 0.80 × 1.40
+rotation:            0°
+material_primary:    polished walnut frame with charcoal velvet seat
+material_secondary:  bronze armrests with engraving
+colour_value:        --token-color-ark-game-hall-player-chair
+interaction:         interactable - sit
+narrative_role:      where the player sits during a match; chair has a slight ergonomic tilt toward duel-board
+lore_anchor:         arc.act_2_first_card_duel
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.dischordia.player_chair.sit
+wear_state:          slight wear at sit-zone
+physical_constraints: collides; sittable
+
+object_id:           ark.game_hall.opponent_chair
+object_class:        furniture
+position:            (0.00, 8.80, 0.60)
+dimensions:          0.80 × 0.80 × 1.40
+rotation:            180°
+material_primary:    same as player_chair (mirrored)
+material_secondary:  bronze armrests
+colour_value:        --token-color-ark-game-hall-opponent-chair
+interaction:         interactable - sit (rare; used when AI/NPC opponent is "physically present")
+narrative_role:      opponent's seat
+lore_anchor:         arc.opponent_relationships
+art_status:          producer_handoff
+gameplay_hook_id:    none (NPC-driven seating)
+wear_state:          slight wear
+physical_constraints: collides
+```
+
+#### A.51.9.6 Match Clock (on duel-board edge)
+
+```
+object_id:           ark.game_hall.duel_board.match_clock
+object_class:        console
+position:            (0.50, 7.00, 0.85)  # on side of duel-board
+dimensions:          0.20 × 0.10 × 0.30
+rotation:            0°
+material_primary:    polished walnut case with porcelain dual face
+material_secondary:  bronze knob and dial
+colour_value:        --token-color-ark-game-hall-clock
+interaction:         interactable
+  - press_player_side: ends turn; transfers clock to opponent
+  - inspect: lore-note about the match-clock (canonical pre-Ark artifact; mirrors the chess clock in §A.36)
+narrative_role:      tracks turn-time; in HB12-active state, clock briefly runs backward (uncanny meta-effect)
+lore_anchor:         loredex.system.dischordia_card_game
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.dischordia.match_clock.press
+wear_state:          worn at most-pressed buttons
+physical_constraints: collides
+```
+
+#### A.51.9.7 The Game Master's Elevated Chair (HB12 NPC anchor)
+
+```
+object_id:           ark.game_hall.game_master_chair
+object_class:        furniture  (also npc_anchor)
+position:            (0.00, 13.50, 1.50)  # on raised alcove platform at north
+dimensions:          1.00 × 1.00 × 1.80  (oversized — Game Master is theatrical)
+rotation:            180°  (faces south, toward duel-board)
+material_primary:    polished walnut frame with deep-crimson velvet upholstery; oversized armrests
+material_secondary:  gold detail-work; bronze finials at top corners; decorative theatrical-mask carving on backrest
+colour_value:        --token-color-ark-game-hall-game-master-chair
+interaction:         interactable - sit (only when Game Master absent; rare; counts as lore-flag)
+narrative_role:      THE Game Master's chair; he sits here to "judge" matches; permanent physical anchor; in Acts 2+, GM appears here
+lore_anchor:         loredex.character.game_master
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.game_hall.game_master_chair.sit
+wear_state:          worn at right armrest (GM's preferred posture)
+physical_constraints: collides; sittable
+```
+
+#### A.51.9.8-15 The Eight Tier-Seating Sections (4 east + 4 west)
+
+```
+object_id:           ark.game_hall.tier_seating.east.tier_<n>  (n = 1..3) and .west.tier_<n>  (n = 1..3)  + .east.tier_short and .west.tier_short
+object_class:        furniture
+positions:           tiered along east + west walls
+dimensions (each tier): 14.00 × 0.50 × 0.40 (long bench); short tiers at corners are 4.00 × 0.50 × 0.40
+rotation:            varies (faces inward toward duel-board)
+material_primary:    polished walnut bench-tops with crimson-velvet padding
+material_secondary:  brass armrest at aisle ends
+colour_value:        --token-color-ark-game-hall-tier-seating
+interaction:         interactable - sit (multi-seat; up to 8 spectators per tier section)
+narrative_role:      spectator seating; in lore, players' supporters watch matches here; in late-act tournaments, full attendance
+lore_anchor:         arc.community_spectatorship
+art_status:          producer_handoff
+gameplay_hook_id:    none (positional)
+wear_state:          slight wear at most-used positions
+physical_constraints: collides; sittable
+```
+
+#### A.51.9.16-19 Four Practice Tables (corner of room)
+
+```
+object_id:           ark.game_hall.practice_table.<corner>  (4 tables; one per corner)
+object_class:        interactive
+positions:           [
+  (-7.00, 1.50, 0.00),  # SW corner
+  (7.00, 1.50, 0.00),   # SE corner
+  (-7.00, 12.50, 0.00), # NW corner
+  (7.00, 12.50, 0.00),  # NE corner
+]
+dimensions (each):   1.20 × 1.20 × 0.85
+rotation:            varies
+material_primary:    polished walnut with green-felt top
+material_secondary:  bronze corner caps
+colour_value:        --token-color-ark-game-hall-practice-table
+interaction:         interactable
+  - play_practice: opens tutorial / practice card-duel UI
+  - inspect: lore-note about practice opportunities
+narrative_role:      practice tables for new players; player learns deck-building here in Act 2
+lore_anchor:         loredex.system.dischordia_practice
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.dischordia.practice_table.play
+wear_state:          slight wear at felt centre
+physical_constraints: collides
+```
+
+#### A.51.9.20-27 Eight Practice Chairs (2 per practice table)
+
+```
+object_id:           ark.game_hall.practice_chair.<corner>.<side>  (8 chairs)
+object_class:        furniture
+positions:           flanking each practice table
+dimensions (each):   0.80 × 0.80 × 1.20
+rotation:            faces practice table
+material_primary:    walnut with charcoal-leather seat
+material_secondary:  bronze tacks
+colour_value:        --token-color-ark-game-hall-practice-chair
+interaction:         interactable - sit
+narrative_role:      practice seating
+lore_anchor:         loredex.system.dischordia_practice
+art_status:          producer_handoff
+gameplay_hook_id:    none
+wear_state:          slight wear
+physical_constraints: collides; sittable
+```
+
+#### A.51.9.28-31 Card-Holder Stands (4 stands; one per practice table; for keeping decks during matches)
+
+```
+object_id:           ark.game_hall.card_holder_stand.<corner>  (4 stands)
+object_class:        decoration
+positions:           on each practice table; at table-edge
+dimensions (each):   0.30 × 0.10 × 0.20
+rotation:            faces table centre
+material_primary:    bronze with felt-lined slots
+material_secondary:  gold engraving
+colour_value:        --token-color-ark-game-hall-card-holder
+interaction:         inspectable (each is a beautifully crafted decoration; the slots hold the player's deck during matches)
+narrative_role:      tactile detail; supports practical gameplay
+lore_anchor:         loredex.system.dischordia_card_game
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.dischordia.card_holder.inspect
+wear_state:          slight wear at most-used slot positions
+physical_constraints: collides
+```
+
+#### A.51.9.32 Tournament Trophy Display (south-west corner)
+
+```
+object_id:           ark.game_hall.tournament_trophy_display
+object_class:        container
+position:            (-7.00, 0.50, 0.00)  # SW corner
+dimensions:          1.40 × 0.40 × 2.40
+rotation:            45°
+material_primary:    cherrywood case with glass front
+material_secondary:  gold-inlaid trim; brass nameplates
+colour_value:        --token-color-ark-game-hall-trophy-display
+interaction:         interactable
+  - inspect: opens trophy display UI (player can browse all earned trophies)
+  - inspect_individual_trophy: shows lore-note for each
+narrative_role:      visual record of player tournament victories; gameplay-active record-keeping
+lore_anchor:         loredex.system.tournament_records
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.game_hall.trophy_display.inspect
+wear_state:          slight wear at glass front (frequently inspected)
+physical_constraints: collides
+```
+
+#### A.51.9.33-36 Wall Paintings + Apsidal Relief
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.game_hall.east.painting.first_match` | decoration | (7.95, 7.00, 6.00) | 1.20 × 0.80 × 0.04 | painting of "the first card duel" |
+| `ark.game_hall.west.painting.last_match` | decoration | (0.05, 7.00, 6.00) | mirror | "the last card duel that hasn't happened yet" — uncanny |
+| `ark.game_hall.north.relief.eternal_contest` (rolled into wall north) | decoration | (0.00, 13.85, 4.00) | 3.00 × 2.40 × 0.10 | apsidal relief |
+| `ark.game_hall.south.theatrical_masks` (rolled into wall south) | decoration | (-2.00, 0.20, 4.50) and (2.00, 0.20, 4.50) | each 0.40 × 0.30 × 0.10 | comedy + tragedy masks |
+
+#### A.51.9.37-44 Decorative Lighting Stands + Spotlights
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.game_hall.spotlight.dome.<n>` | fx_emitter (4 spots) | distributed at z = 7.50 above central dais | 0.30 × 0.30 × 0.30 each | theatrical spotlights |
+| `ark.game_hall.dais_perimeter_uplight.<n>` | fx_emitter (continuous strip) | along central dais edge | 0.05 × 0.05 × 0.05 (per emitter; ~20 emitters total) | dais-perimeter uplighting |
+| `ark.game_hall.tier_seating_strip.east, .west` | fx_emitter | along tier seating ceilings | linear | spectator-area strips |
+| `ark.game_hall.game_master_alcove_glow_emitter` | fx_emitter | (0.00, 13.95, 4.00) | 0.40 × 0.40 × 0.10 | apsidal alcove glow |
+
+#### A.51.9.45-48 Closing Decorative + Functional
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.game_hall.south.intercom` | console | (-2.00, 0.20, 1.50) | 0.20 × 0.10 × 0.30 | comms relay |
+| `ark.game_hall.fire_extinguisher.south` | interactive | (2.00, 0.20, 1.20) | 0.20 × 0.20 × 0.50 | safety |
+| `ark.game_hall.first_aid.kit` | container | (-2.50, 0.20, 1.50) | 0.40 × 0.10 × 0.30 | medical |
+| `ark.game_hall.dais_step_uplight.<n>` | fx_emitter (3 emitters, one per step) | south side of dais | 0.10 × 4.40 × 0.005 each | step uplighting |
+
+Total: 48 inventory objects.
+
+### A.51.10 Camera-spawn-points (FPV cutscenes)
+
+```
+cutscene_id:         cs_amb_game_hall  (Category B Myst-ambient; per §3.1.B.3)
+camera_position:     (0.00, 0.50, eye_level)  # at threshold
+camera_facing:       (0°, 5°, 0°)  # looking forward and slightly up at duel-board
+avatar_height_anchor: eye_level
+head_motion:         slow approach to dais; head turns slightly to absorb tier-seating; pause; camera locks on duel-board as cards animate; lasts 22s
+
+cutscene_id:         cs_disc_card_duel  (Category C discovery; per §3.1.C)
+camera_position:     (0.00, 5.20, eye_level)  # at player anchor seated
+camera_facing:       (0°, -10°, 0°)  # facing duel-board
+avatar_height_anchor: eye_level
+head_motion:         seated; hand-rig enters frame setting up starting deck; GM appears across board; camera pulls back briefly to reveal scope; lasts 22s
+
+cutscene_id:         cs_load_card_duel  (Category C loading)
+camera_position:     (0.00, 5.20, eye_level)
+camera_facing:       (0°, -25°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         hands shuffle player's deck (close-up); cut to top-card reveal; lasts 7s
+
+cutscene_id:         cs_hellbox_12_open  (HB12 Dischordian Arena gateway)
+camera_position:     (0.00, 5.20, eye_level)
+camera_facing:       (0°, -10°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         locked on duel-board; last-played card flickers; for one frame, card's illustration looks DIRECTLY at the camera
+
+cutscene_id:         cs_hellbox_12_transit  (HB12 transit)
+camera_position:     (0.00, 5.20, eye_level)
+camera_facing:       (0°, 0°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         POV travels through corridor of cards (each previously-played card hangs as banner)
+
+cutscene_id:         cs_hellbox_12_self_duel  (rare, in destination — first time facing previous-self)
+camera_position:     (varies; at destination)
+camera_facing:       (0°, -10°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         shadow-opponent's hand draws first card; close-up reveals SHADOW figure mirroring player's exact pose
+
+cutscene_id:         cs_hellbox_12_close  (HB12 return)
+camera_position:     (0.00, 5.20, eye_level)
+camera_facing:       (0°, -10°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         cards fade from banner-corridor; arena collapses; Game Hall re-materialises
+```
+
+### A.51.11 Doorways
+
+```
+door_id:            ark.game_hall.south.door.main
+connecting_space_id: ark.corridor.game_hall_approach
+door_position:      (0.00, 0.00, 0.00)
+door_dimensions:    1.40 × 2.40 × 0.10
+door_class:         arch  (gold-inlaid bronze; theatrical)
+unlock_condition:   Act 2+ (after first Dischordia card tutorial)
+transit_animation:  ceremonial slow-open (3s) on first entry; instant on subsequent
+audio_signature:    bronze handle + soft gold-rim resonance
+```
+
+### A.51.12 Adjacency map
+
+```
+direct_adjacencies:
+  - ark.corridor.game_hall_approach (south door)
+  - hellbox.dischordian_arena (HB12 portal via central duel-board, conditional on first card duel)
+one_hop_adjacencies:
+  - ark.social_hub (via approach corridor; thematic kinship — community gaming)
+  - ark.casino_gaming_floor (via long-route; chess-in-July event)
+  - destination.dischordian_arena (via HB12)
+```
+
+### A.51.13 Gameplay hooks
+
+```
+hooks:
+  - hook_id:         game_hall.startCardDuel
+    trigger:         player.operate on duel_board.central
+    procedure:       trpc.dischordia.duel.start
+    success_state:   duel_started = true
+  - hook_id:         game_hall.playCard
+    trigger:         (state-conditional) player.operate during their turn
+    procedure:       trpc.dischordia.card.play
+    success_state:   card_played = true (per-card)
+  - hook_id:         game_hall.invokeHB12
+    trigger:         (state-conditional) player has completed first card duel + interacts with central board
+    procedure:       trpc.hellbox.hb12.openGate
+    success_state:   hellbox_12_transit_started = true
+  - hook_id:         game_hall.playPracticeMatch
+    trigger:         player.interact on practice_table.<corner>
+    procedure:       trpc.dischordia.practice_table.play
+    success_state:   practice_match_started = true
+  - hook_id:         game_hall.sitGameMasterChair
+    trigger:         player.sit on game_master_chair (when GM absent)
+    procedure:       trpc.game_hall.game_master_chair.sit
+    success_state:   sat_in_gm_chair = true (rare lore-flag)
+  - hook_id:         game_hall.inspectTrophyDisplay
+    trigger:         player.inspect on tournament_trophy_display
+    procedure:       trpc.game_hall.trophy_display.inspect
+    success_state:   trophy_display_examined = true
+  - hook_id:         game_hall.takeSpectatorSeat
+    trigger:         player.sit on tier_seating.<id>
+    procedure:       trpc.game_hall.spectator.sit
+    success_state:   spectator_seat_active = true
+```
+
+### A.51.14 Story-tie
+
+```
+primary_arcs:
+  - arc.act_2_first_card_duel
+  - arc.act_2_HB12_first_invocation
+  - arc.player_card_progression
+  - arc.community_spectatorship (continuous)
+  - §3.12.14 (HB12 destination canonical)
+per_act_evolution:
+  acts_0_1: room locked; player can see door but cannot enter
+  act_2: player gains access after first Dischordia card tutorial. First duel here; HB12 unlocks after first duel completed
+  act_3: tournament ladder visible; practice tables fully active; trophies begin accumulating
+  act_4: more spectators in tier-seating; Game Master more frequently present
+  act_5: GM's chair displays slight wear (he's been here often); apsidal painting "the last match that hasn't happened yet" begins to subtly shift (uncanny)
+  act_6: in HB12-active state, cards' illustrations occasionally look DIRECTLY at player as they pass duel-board (uncanny — meta-narrative escalation)
+  act_7: state-branched: tournament-champion ending (player has won most tournaments; trophy display full) vs. underdog ending (player has lost most; opposite display); in either case, HB12 destination's "shadow opponents" reflect player's actual played decks
+npc_roster:
+  - the_game_master: primary NPC; presence Acts 2+; sits at Game Master alcove
+  - the_player: visitor / duelist
+  - opponent_NPCs: varied (assigned by tournament system)
+  - phantom_audience: presence during ambient cutscenes
+  - the_master_of_rlyeh: HB12 transit voice only
+  - shadow_opponents: presence in HB12 destination only (player's previous decks)
+readables:
+  - principle plaque (south)
+  - "first match" painting (east)
+  - "last match that hasn't happened yet" painting (west; uncanny — content shifts)
+  - apsidal relief (north): "the eternal contest"
+  - GM's match-judge log (gameplay-readable)
+  - trophy display individual trophies (varied)
+  - ladder display historical entries
+master_of_rlyeh_question: "Does the game play you, or do you play the game?"
+```
+
+### A.51.15 Special-FX
+
+```
+particle_systems:
+  - dust_motes (low; visible in pendant light shaft)
+  - card_resin_glints (subtle sparkles on duel-board cards; cosmetic)
+  - HB12_card_illustration_eye_glint (one-shot during HB12 invocation; cards' eyes flicker)
+  - phantom_audience_silhouettes (very subtle; semi-transparent figures in tier-seating during ambient cutscenes; never present in baseline)
+volumetric_effects:
+  - pendant_light_shaft (visible in lower-light states)
+  - dome_spot_volumetric_beams (4 spots create theatrical haze beams during matches)
+  - dais_uplight_glow_envelope (defines central area)
+  - HB12_card_corridor_extension (one-shot; corridor of cards extends north during transit)
+procedural_animations:
+  - chandelier_subtle_sway (very slow; period 60s+)
+  - cards_subtle_face_glow (subtle; cards "breathe" during long pauses)
+  - tier_seating_phantom_settle (cosmetic; tier benches settle as if recently vacated; rare random)
+  - apsidal_painting_uncanny_shift (Acts 5+; "last match" painting subtly shifts between visits — Editor's hand again)
+  - GM_chair_warmth (the chair's velvet ripples slightly when GM is "about to appear")
+reactive_systems:
+  - dais_uplight_intensify_on_proximity (player approaches dais)
+  - theatrical_spots_intensify_on_match_start
+  - GM_chuckle_on_player_proximity (within 3.0 m of GM alcove, faint chuckle SFX even when GM not visible)
+  - HB12_card_eye_glint_one_shot (during HB12 invocation)
+  - shadow_opponent_in_baseline (Acts 6+; very rare cameo — a shadow figure stands at opponent_anchor for 2 seconds before fading; Easter egg)
+```
+
+### A.51.16 Avatar-parametricity
+
+```
+camera_height_variation:
+  small_xenomorph (0.85m eye): camera height 0.85m; duel-board feels enormous; pendant chandelier spans most of vision
+  short_humanoid (1.40m eye): standard
+  average_humanoid (1.70m eye): standard
+  tall_humanoid (2.05m eye): pendant feels closer; tier-seating slightly cramped
+  tall_xenomorph (2.70m eye): chandelier collides at head; alternate "kneel-at-board" animation for play
+reachability:
+  small_xenomorph: cannot reach top-tier seating without ladder; alternate ladder provided
+  small_xenomorph: cannot reach apsidal relief inspect-zone; relay-inspect from below
+  others: all-reachable
+audio_occlusion_variation:
+  xenomorph_sensitive_hearing: GM's chuckle audible from threshold; cards' resin hum more pronounced
+  synthetic_voice_avatar: phantom audience applause has different "feel" (synthetic-resonance bias)
+```
+
+### A.51.17 Performance
+
+```
+polygon_budget:      330,000 polygons (theatrical density; many decorative elements)
+texture_budget:      190 MB total (cards have unique textures; tier seating + curtains add complexity)
+light_count_limit:   24 simultaneous dynamic lights
+lod_plan:
+  - hero_distance: 0-10m, full detail
+  - mid_distance: 10-22m, mid detail (tier seating spectators simplified; small decorations billboarded)
+  - low_distance: 22m+, low detail
+streaming_behaviour:
+  - preload: ark.corridor.game_hall_approach (south)
+  - on_player_at_duel_board + HB12_unlocked: preload destination.dischordian_arena
+```
+
+---
+
+## Document status (Phase B-2 — through Wave 2 commit)
+
+**FULL spec authored** (all 17 layers):
+- A.1 Cryo Bay
+- A.2 Med Bay
+- A.3 Bridge (cross-ref §4.18 in main doc)
+- A.7 Engineering Bay (HB4 host)
+- A.11 Captain's Quarters (HB7 host)
+- A.21 Cipher Den (HB8 host)
+- A.22 Hierarchy Throne (HB2 host)
+- A.27 Memorial Corridor (HB6 host)
+- A.33 Defense Command Center (HB11 host)
+- A.36 Chess Hall (HB9 host)
+- A.50 Collectors Arena (HB10 host; NEW v5)
+- A.51 Game Hall (HB12 host; NEW v5)
+
+**Total FULL: 12 rooms** (covering all 11 active Hellbox-host
+rooms — HB1 through HB12 — plus Cryo Bay and Bridge as the
+primary narrative-load-bearing non-Hellbox rooms).
+
+**CORE spec authored**: A.4 Archives, A.5 Comms Array, A.6
+Observation Deck, A.13 Antiquarian Library
+
+**SCAFFOLDED**: all remaining (A.8, A.9, A.10, A.12, A.14-A.20,
+A.23-A.26, A.28-A.32, A.34, A.35, A.37-A.49)
+
+Phase B-2 follow-up (Wave 3): convert 4 priority CORE rooms to
+FULL (A.4 Archives, A.5 Comms Array, A.6 Observation Deck, A.13
+Antiquarian Library). Estimated ~6,000-8,000 additional lines.
+
+Phase B-2 future (Wave 4+): convert remaining SCAFFOLDED rooms
+to at least CORE. Estimated 25,000-35,000 additional lines across
+follow-up commits.
 
 ---
