@@ -30,6 +30,8 @@ import {
   ACT_6_OPPONENTS,
   type ActNOpponent,
 } from "@shared/acts2to7Opponents";
+import { resolveChapterIntroForOpponent } from "@shared/storyEncounterChapterIntros";
+import { chapterIntroTriggerFlag } from "@/components/cutscenes/ChapterIntroRouter";
 import {
   getAct6OpponentDialog,
   type Act6OpponentDialog,
@@ -482,7 +484,24 @@ export default function Act6CardLadderPage() {
                 </button>
                 <button
                   type="button"
-                  onClick={() => setView("battle")}
+                  onClick={() => {
+                    // Bible §3 — fire the producer-delivered chapter
+                    // intro for this opponent if mapped (e.g. Necromancer
+                    // → ch06_necromancer). Unmapped opponents skip
+                    // silently; the router idempotents on the seen flag.
+                    if (currentOpponent) {
+                      const intro = resolveChapterIntroForOpponent(
+                        currentOpponent.id,
+                      );
+                      if (intro) {
+                        setNarrativeFlag(
+                          chapterIntroTriggerFlag(intro.id),
+                          true,
+                        );
+                      }
+                    }
+                    setView("battle");
+                  }}
                   className="flex items-center gap-2 rounded border void-border void-bg-sunk px-4 py-2 font-mono text-[10px] uppercase tracking-wider void-text-accent void-bg-sunk"
                 >
                   <Play size={12} />

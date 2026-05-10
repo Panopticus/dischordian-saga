@@ -195,6 +195,34 @@ export const ACT_6_OPPONENTS: readonly ActNOpponent[] = [
     requiredFlag: "act6_human_confession_heard",
     postBattleSlideshow: "act6-confession-close",
   },
+  /* ── SCAFFOLD opponent (Phase 5, 2026-05-10) — bible §3.2.
+   *    Author: Necromancer (Thazulok). Lore presence is canonical
+   *    (Tier-2 NPC in npcIdentity.ts:258, NECROMANCER_RETURN_EVENT
+   *    in livingUniverseEvents.ts:64, card imprint shipping).
+   *    Encounter placement at actStep 3 is engineering's best
+   *    guess — places him after the 2 confessions as an
+   *    event-gated post-confession boss. Voice direction taken
+   *    verbatim from bible §3.2. Writer review before ship:
+   *    pacing impact (Act 6 grows from 2 → 5+ opponents across
+   *    Phases 5-7), dialog voicing, and whether requiredFlag
+   *    should be enforced as a hard gate (today the page picks
+   *    by actStep + wins; requiredFlag is documentary). */
+  {
+    id: "act6_thazulok_returns",
+    act: 6,
+    actStep: 3,
+    name: "Thazulok, the Necromancer Returns",
+    backstory:
+      "An ossuary in the substrate, lit by sigils older than the Ark. Thazulok has been waiting since Mechronis. He has been bored. He has had time to rehearse. He hands you a deck of names and asks you to read them aloud.",
+    deckLeaning: ["necromancer_corruption", "thought_virus"],
+    preMatchLine:
+      "The dead are so terribly bored of each other. Play me. I will let you choose which of the names on the cards belong to people I knew.",
+    postMatchWin:
+      "Thazulok bows the way you bow at a funeral you didn't want to attend. He says: 'You read them well. I will leave the sigils on for one more night, in case you have someone to read.' The ossuary dims.",
+    postMatchLoss:
+      "Don't worry. The first death is the worst. He files your hand into a ledger he has been keeping since the Mechronis registry burned. He says: 'Try again. I'm not going anywhere.'",
+    requiredFlag: "living_universe_event_necromancer_return_active",
+  },
 ];
 
 /* ─── ACT 7 — THE CONVERGENCE (multi-boss finale) ─── */
