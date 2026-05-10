@@ -1483,3 +1483,1137 @@ Outstanding TBDs (resolved in §G.F audit):
   `_PRODUCTION_CROSS_CUT.md` §F.1.A.4 (Pet Arena), §F.1.A.5
   (per-named-boss extension), §F.1.A.6 (Chess tier-promotion),
   §F.1.A.7 (Castle of Death chambers).
+
+---
+
+## §G.5 Trade Empire — per-sector first-arrival cutscenes (28)
+
+Source: `apps/shared/tradeEmpireArtPrompts.ts:636–1024`. Sectors
+already covered by `_PRODUCTION_CROSS_CUT.md` §F.1.A.3:
+`first_arrival_panopticon`, `first_arrival_frontier_worlds`, and
+the 8 `cs_first_arrival_generic_<sectorType>` type-templates plus
+`cs_planet_state_flip_<state>` (5 templates). The 28 cuts below
+fill the named-sector gap.
+
+Length 8 s each. Cat A. FPV from the player's bridge or shuttle-
+arrival overlook (per sector kind). SFX-driven, no music, ≤1
+short VO sentence (the trade-clerk announcer for trade-station
+sectors; faction-specific for ideological sectors; environmental
+silence for hazard sectors).
+
+Trait-lock per sector kind:
+- **Trade hub / market**: 6500K market floodlights, Vision3 250D,
+  palette `#c8a05a / #2a3540 / #5a1a6a`; SFX cargo-clamp clack +
+  market-bell.
+- **Civilization core**: 4500K civic key + 6500K rim, Vision3 250D,
+  palette `#dce5ec / #c8a05a / #1a3550`; SFX civic-bell + crowd
+  murmur.
+- **Frontier / industrial**: 5400K work-light overhead + 1800K
+  practical-glow, Vision3 500T pushed +1, palette
+  `#3a3025 / #c8a05a / #ff5a1a`; SFX hydraulic hiss + arc-weld.
+- **Hazard / forbidden**: 12000K low cold rim + 800K dim deep-amber
+  warning lights, Vision3 500T pushed +2, palette
+  `#0a0612 / #ff2a8a / #5fa8ff`; SFX wind-rush + low chord.
+- **Ritual / archive**: 1800K candle + 4500K archive grid, Vision3
+  500T, palette `#0d0a08 / #c9a14a / #5a1a1f`; SFX archive
+  ventilation + page-rustle.
+
+Each cutscene block uses a compact form referencing the canonical
+template (§G.0.3) — only per-sector deltas are listed.
+
+### §G.5.1 `cs_first_arrival_trade_nexus` (Trade Hub)
+
+- xref: NEW (§F.1.A.3 to be added)
+- host_space: Galaxy Map sector → §E.6.1 Trade Nexus shuttle-pad
+- sector_kind: trade_hub
+
+```yaml
+nb2_start.subject: "Trade Nexus, the Empire's central commercial
+  station — a 12-tier orbital ring 8 km diameter, hundreds of
+  cargo lighters in queue, a crystalline Convergence-pillar at
+  the ring's hub; viewed from the player's shuttle approach 2 km
+  out at +0.5° pitch."
+nb2_end.subject: "Trade Nexus shuttle has docked at Tier 4 trade-
+  pad; the pad floor under the player's feet, brass cargo-clamps
+  closing on the shuttle skids in foreground bokeh; the ring-
+  hub Convergence-pillar visible upper-frame."
+veo.action: "0–3 s shuttle approach, slow forward dolly; 3–5 s
+  ring-hub Convergence-pillar pulses once; 5–8 s shuttle docks,
+  brass cargo-clamps engage with chamfered click."
+veo.audio.dialogue: "Trade-clerk says, \"Trade Nexus. Welcome.\""
+veo.audio.sfx: "cargo-clamp clack 00:06; pillar-pulse low chord
+  00:04; market-bell 00:08."
+veo.audio.ambient: "thousand-shuttle ambient, ring-rotation
+  rumble 0.4 Hz."
+pipeline:
+  nb2_seed: 146001; veo_seed: 246001; vo_manifest_ref: null;
+  cdn_target: cdn/client-public/cutscenes/cs_first_arrival_trade_nexus/
+```
+
+### §G.5.2 `cs_first_arrival_new_babylon_core` (Civ Core)
+
+```yaml
+nb2_start.subject: "New Babylon Core — the Empire's seat-of-power
+  arcology, 24 km tall vertical city, ziggurat-tiered with hanging
+  gardens at every fifth level; viewed from approach 4 km out at
+  -2° pitch (looking up at the lower-tiers); civic-banner-flags
+  visible at every tier; a single Imperial Phoenix-banner at the
+  apex."
+nb2_end.subject: "New Babylon Core landing-platform at Tier 12;
+  player's gloved hand on platform-rail in foreground; ziggurat
+  rises into haze in mid-distance."
+veo.action: "0–3 s approach, ziggurat fills frame; 3–5 s
+  civic-banner unfurls one tier mid-frame; 5–8 s landing-platform
+  arrival, rail in foreground."
+veo.audio.dialogue: "Civic herald says, \"New Babylon. Tier Twelve.\""
+veo.audio.sfx: "banner-unfurl 00:04; landing-skid 00:06;
+  civic-bell 00:07."
+veo.audio.ambient: "civic-crowd murmur, distant Imperial
+  fanfare brass at -32 dB."
+pipeline:
+  nb2_seed: 146002; veo_seed: 246002; vo_manifest_ref: null;
+  cdn_target: cdn/client-public/cutscenes/cs_first_arrival_new_babylon_core/
+```
+
+### §G.5.3 `cs_first_arrival_new_babylon_lower_tiers` (Civ Core, lower)
+
+```yaml
+nb2_start.subject: "New Babylon Lower Tiers — Tier 1 through Tier 4
+  street-level, narrow alleys with vertical neon-vendor signage in
+  21 different scripts; cooking-fire smoke z+0–3 m; ramshackle
+  market stalls; the upper tiers loom 20 km overhead, mostly
+  obscured by smog; viewed at street-level, eye-line +1.65 m."
+nb2_end.subject: "the alley deepens; a single oil-lamp practical
+  upper-frame-right; player's gloved hand on alley wall."
+veo.action: "0–3 s alley settles into focus; 3–5 s a vendor's
+  lantern flickers; 5–8 s a wisp of cooking-fire smoke crosses
+  frame."
+veo.audio.dialogue: "Vendor says, \"Two coppers. Last hour.\""
+veo.audio.sfx: "vendor-lantern flicker 00:04; cooking-pot lid 00:06."
+veo.audio.ambient: "lower-tier crowd density, distant
+  high-tier banner-fanfare at -42 dB."
+pipeline:
+  nb2_seed: 146003; veo_seed: 246003; vo_manifest_ref: null;
+  cdn_target: cdn/client-public/cutscenes/cs_first_arrival_new_babylon_lower_tiers/
+```
+
+### §G.5.4 `cs_first_arrival_empire_frontier` (Frontier)
+
+```yaml
+nb2_start.subject: "Empire Frontier outpost — a 3-tier modular
+  shipyard on a sub-luminary moon, 6 cargo-rigs in dock, hull-
+  sparks visible at one repair-bay; the system's gas-giant fills
+  the upper third of the frame in salmon-pink and dust-grey;
+  viewed from shuttle approach 1.2 km."
+nb2_end.subject: "shuttle has docked at outpost Tier 1; the
+  hangar-door slides open, revealing the player's first view of
+  the gas-giant from inside; gloved hand on the hangar-door
+  edge."
+veo.action: "0–3 s approach, gas-giant rotates slowly; 3–5 s
+  hangar-door begins to slide open; 5–8 s gas-giant fills the
+  open hangar-doorway."
+veo.audio.dialogue: "Outpost-foreman says, \"Frontier hangar.
+  Hatch.\""
+veo.audio.sfx: "hangar-door hydraulic 00:04–00:06; arc-weld
+  flicker 00:06."
+veo.audio.ambient: "shipyard activity, hull-resonance
+  low rumble."
+pipeline:
+  nb2_seed: 146004; veo_seed: 246004; vo_manifest_ref: null;
+  cdn_target: cdn/client-public/cutscenes/cs_first_arrival_empire_frontier/
+```
+
+### §G.5.5 `cs_first_arrival_forge_worlds` (Frontier / industrial)
+
+```yaml
+nb2_start.subject: "Forge Worlds — a network of orbiting forge-
+  asteroids, each a 2 km hollowed-out rock with magma-channels
+  glowing in spiral patterns visible from space; the player's
+  shuttle approaches the largest, with two forge-vents flaring
+  white-hot."
+nb2_end.subject: "shuttle interior corridor, the forge-vent
+  glow visible through a porthole at frame-right; gloved hand
+  on porthole-rim."
+veo.action: "0–3 s shuttle approach; 3–5 s forge-vent flare-up
+  visible; 5–8 s player at porthole, vent-flare bathes the
+  corridor in amber."
+veo.audio.dialogue: "Forge-master says, \"Forge ready.\""
+veo.audio.sfx: "forge-vent roar 00:04; porthole-glass thermal
+  tick 00:07."
+veo.audio.ambient: "deep forge-rumble bed; metal-on-metal taps."
+pipeline:
+  nb2_seed: 146005; veo_seed: 246005; vo_manifest_ref: null;
+  cdn_target: cdn/client-public/cutscenes/cs_first_arrival_forge_worlds/
+```
+
+### §G.5.6 `cs_first_arrival_viral_wastes` (Hazard)
+
+```yaml
+nb2_start.subject: "Viral Wastes — a planetary biosphere overrun
+  with biomechanical viral-growth, kilometre-tall fungal-mycelium
+  spires bristling with TV-corruption glitch-textures; the sky
+  above is sickly cyan-pink; viewed from shuttle hover 200 m
+  above quarantine-line."
+nb2_end.subject: "shuttle window from inside, the wastes visible
+  through quarantine-glass; one viral-spore pings against the
+  glass."
+veo.action: "0–3 s shuttle hovers over quarantine-line; 3–5 s
+  one fungal-spire pulses with corruption-glitch; 5–8 s a single
+  viral-spore floats up and pings the quarantine-glass."
+veo.audio.dialogue: "Quarantine-AI says, \"Do not disembark.\""
+veo.audio.sfx: "spore-ping 00:07; corruption-glitch crackle 00:04."
+veo.audio.ambient: "quarantine-glass pressurised hum; faint
+  fungal-bloom whoosh."
+pipeline:
+  nb2_seed: 146006; veo_seed: 246006; vo_manifest_ref: null;
+  cdn_target: cdn/client-public/cutscenes/cs_first_arrival_viral_wastes/
+```
+
+### §G.5.7 `cs_first_arrival_insurgency_haven` (Frontier / hidden)
+
+```yaml
+nb2_start.subject: "Insurgency Haven — a hollowed-out asteroid
+  base, no markings, exterior camouflaged as ordinary rock;
+  approach is from a service-tunnel; interior is bare-rock walls
+  with strung incandescent work-lights at 3-metre intervals."
+nb2_end.subject: "the service-tunnel opens onto a 30 m diameter
+  central cavern; one Insurgency-officer waits at the cavern
+  centre, hand raised in the rebel salute."
+veo.action: "0–3 s tunnel-approach in low-light; 3–5 s tunnel
+  widens into cavern; 5–8 s officer raises rebel salute."
+veo.audio.dialogue: "Officer says, \"Rebel ground. Welcome.\""
+veo.audio.sfx: "boot-on-rock cadence 00:00–00:04; salute-fist-on-
+  chest thump 00:07."
+veo.audio.ambient: "cavern reverb 3.2 s; work-light ballast hum."
+pipeline:
+  nb2_seed: 146007; veo_seed: 246007; vo_manifest_ref: null;
+  cdn_target: cdn/client-public/cutscenes/cs_first_arrival_insurgency_haven/
+```
+
+### §G.5.8 `cs_first_arrival_abyssal_sectors` (Hazard / forbidden)
+
+```yaml
+nb2_start.subject: "Abyssal Sectors — interstellar void with
+  no stars, only the faint outline of a wreck-graveyard
+  silhouetted against deep-violet; the player's shuttle drifts
+  alone with engines silenced."
+nb2_end.subject: "one wreck-silhouette resolves into a half-
+  destroyed Imperial dreadnought, hull breached; shuttle
+  passes 600 m beneath."
+veo.action: "0–3 s drift in silence; 3–5 s wreck silhouette
+  resolves; 5–8 s shuttle passes beneath wreck."
+veo.audio.dialogue: "none."
+veo.audio.sfx: "shuttle hull-creak 00:05; deep-void low chord
+  00:06–00:08."
+veo.audio.ambient: "near-silence; faint cosmic-ray ping every 2 s."
+pipeline:
+  nb2_seed: 146008; veo_seed: 246008; vo_manifest_ref: null;
+  cdn_target: cdn/client-public/cutscenes/cs_first_arrival_abyssal_sectors/
+```
+
+### §G.5.9 `cs_first_arrival_black_hole_gate` (Hazard)
+
+```yaml
+nb2_start.subject: "Black Hole Gate — an event-horizon disc 4000 km
+  wide; accretion-disc rendered in spectrum-shifted reds and
+  violet-blues; the player's shuttle holds at safe distance
+  120,000 km out."
+nb2_end.subject: "the gate's relativistic-jet flares; shuttle's
+  porthole heat-tile flickers in response."
+veo.action: "0–3 s gate hangs in frame; 3–5 s accretion-disc
+  rotation visible; 5–8 s relativistic-jet flares."
+veo.audio.dialogue: "Pilot says, \"Holding station.\""
+veo.audio.sfx: "jet-flare low whoosh 00:06; heat-tile thermal
+  tick 00:07."
+veo.audio.ambient: "shuttle hull resonance, gravitational hum
+  sub-bass."
+pipeline:
+  nb2_seed: 146009; veo_seed: 246009; vo_manifest_ref: null;
+  cdn_target: cdn/client-public/cutscenes/cs_first_arrival_black_hole_gate/
+```
+
+### §G.5.10 `cs_first_arrival_violetta_approach_lane` (Trade lane)
+
+```yaml
+nb2_start.subject: "Violetta Approach Lane — a 200,000 km long
+  shipping corridor lined with violet-coloured navigation-buoys at
+  1 km intervals; the corridor curves toward a star-system entry
+  point."
+nb2_end.subject: "shuttle has reached the corridor's exit; the
+  destination system's primary star fills frame upper-right."
+veo.action: "0–3 s shuttle drifts down corridor, buoys flash-pass;
+  3–5 s corridor curves; 5–8 s system primary fills frame."
+veo.audio.dialogue: "Lane-controller says, \"Cleared, in trim.\""
+veo.audio.sfx: "buoy-strobe ping every 0.4 s; star-rise low chord
+  00:06."
+veo.audio.ambient: "shuttle thrust hum 80 Hz; lane-traffic faint."
+pipeline:
+  nb2_seed: 146010; veo_seed: 246010; vo_manifest_ref: null;
+  cdn_target: cdn/client-public/cutscenes/cs_first_arrival_violetta_approach_lane/
+```
+
+### §G.5.11 `cs_first_arrival_forward_bastion` (Frontier / military)
+
+```yaml
+nb2_start.subject: "Forward Bastion — a fortified Imperial outpost
+  on a tidally-locked moon's terminator line; surface is
+  half-shadow, half-blinding-white; the bastion is a cluster of 5
+  fortified bunkers connected by reinforced corridors."
+nb2_end.subject: "bastion airlock cycles open; harsh terminator
+  light backlights the interior."
+veo.action: "0–3 s shuttle low-altitude approach; 3–5 s bastion
+  resolves; 5–8 s airlock cycles open."
+veo.audio.dialogue: "Sergeant says, \"Bastion. Step in.\""
+veo.audio.sfx: "airlock-cycle hydraulics 00:05–00:08;
+  terminator-wind 00:00–00:08."
+veo.audio.ambient: "bastion comm-traffic chatter; wind-rush -36 dB."
+pipeline:
+  nb2_seed: 146011; veo_seed: 246011; vo_manifest_ref: null;
+  cdn_target: cdn/client-public/cutscenes/cs_first_arrival_forward_bastion/
+```
+
+### §G.5.12 `cs_first_arrival_remembrance_archive` (Ritual / archive)
+
+```yaml
+nb2_start.subject: "Remembrance Archive — a vast cathedral-station
+  of memorial-stones in zero-G arrayed in concentric rings around
+  a central chant-chamber; pale-blue mourning-light
+  illuminates each stone from below."
+nb2_end.subject: "shuttle docks at archive Tier 1; entry corridor
+  shows first row of memorial-stones at zero-G float."
+veo.action: "0–3 s station rotation; 3–5 s shuttle docks; 5–8 s
+  entry corridor reveals memorial-stones."
+veo.audio.dialogue: "Archivist says, \"Memorial. Quiet now.\""
+veo.audio.sfx: "stone-float subtle whoosh 00:06; archive-bell 00:08."
+veo.audio.ambient: "chant-loop -32 dB; archive ventilation."
+pipeline:
+  nb2_seed: 146012; veo_seed: 246012; vo_manifest_ref: null;
+  cdn_target: cdn/client-public/cutscenes/cs_first_arrival_remembrance_archive/
+```
+
+### §G.5.13 `cs_first_arrival_chronarchive_vault` (Ritual / archive)
+
+```yaml
+nb2_start.subject: "Chronarchive Vault — a sealed chrono-archive
+  on an asteroid; exterior is featureless, interior houses
+  millions of time-locked memory-shards in sealed glass canopic
+  jars on shelving that extends z+0–80 m vertical."
+nb2_end.subject: "vault-shelf elevator-pod descends past 4 levels
+  of canopic jars; one jar at row 3 glows briefly as player
+  passes."
+veo.action: "0–3 s vault-entry corridor; 3–5 s elevator-pod begins
+  descent; 5–8 s passing canopic-jar glow."
+veo.audio.dialogue: "Archivist says, \"Time-locked. Mind step.\""
+veo.audio.sfx: "elevator-pod hum 00:04; canopic-jar resonance 00:06."
+veo.audio.ambient: "vault stillness, sub-bass 16 Hz."
+pipeline:
+  nb2_seed: 146013; veo_seed: 246013; vo_manifest_ref: null;
+  cdn_target: cdn/client-public/cutscenes/cs_first_arrival_chronarchive_vault/
+```
+
+### §G.5.14 `cs_first_arrival_ark_debris_field` (Hazard)
+
+```yaml
+nb2_start.subject: "Ark Debris Field — a slow-tumbling debris cloud
+  20,000 km wide, fragments of an ancient Ark; visibility is
+  intermittent through dust-wash; the player's shuttle navigates
+  cautiously between debris-pieces."
+nb2_end.subject: "one debris-fragment 50 m off port-side resolves
+  as a still-recognisable Ark hull-piece with intact running-lights."
+veo.action: "0–3 s shuttle drifts through dust; 3–5 s a fragment
+  emerges; 5–8 s recognisable hull-piece, running-lights still on."
+veo.audio.dialogue: "Pilot says, \"That is — Ark plating.\""
+veo.audio.sfx: "debris-tap on hull 00:04; running-light chime 00:07."
+veo.audio.ambient: "shuttle thrust low hum; debris-bell at random."
+pipeline:
+  nb2_seed: 146014; veo_seed: 246014; vo_manifest_ref: null;
+  cdn_target: cdn/client-public/cutscenes/cs_first_arrival_ark_debris_field/
+```
+
+### §G.5.15 `cs_first_arrival_terminus_approach` (Hazard / endgame)
+
+```yaml
+nb2_start.subject: "Terminus Approach — final corridor toward the
+  Terminus, a destination so dense with cosmic phenomena that
+  ordinary physics begins to fray; the shuttle's instruments show
+  visible static; ahead, a violet-purple anomaly fills 60% of the
+  frame."
+nb2_end.subject: "the anomaly's outer edge resolves into recursive
+  fractal geometry; shuttle is now 800 m out."
+veo.action: "0–3 s shuttle on final approach, instruments
+  static-flickering; 3–5 s anomaly resolves; 5–8 s fractal
+  geometry visible."
+veo.audio.dialogue: "Pilot says, \"Approach. Terminus.\""
+veo.audio.sfx: "instrument-static crackle 00:00–00:08;
+  fractal-resolve chord 00:06."
+veo.audio.ambient: "shuttle hull groan; anomaly low chord 8 Hz."
+pipeline:
+  nb2_seed: 146015; veo_seed: 246015; vo_manifest_ref: null;
+  cdn_target: cdn/client-public/cutscenes/cs_first_arrival_terminus_approach/
+```
+
+### §G.5.16 `cs_first_arrival_research_corridor_alpha` (Research)
+
+```yaml
+nb2_start.subject: "Research Corridor Alpha — a sterile science-
+  station corridor; floor and ceiling lined with experiment-
+  capsules each containing a different specimen (alien flora,
+  geometric crystal, frozen organism); 20 capsules visible in
+  sequence."
+nb2_end.subject: "corridor end; a researcher in lab-coat looks up
+  from a holopad; one capsule's specimen has just begun to move."
+veo.action: "0–3 s corridor entry; 3–5 s capsules pass in mid-distance;
+  5–8 s researcher looks up, specimen movement glimpse."
+veo.audio.dialogue: "Researcher says, \"Welcome to Alpha.\""
+veo.audio.sfx: "capsule-glass thermal tick 00:04; holopad chime 00:06."
+veo.audio.ambient: "research-ventilation, faint specimen-life sounds."
+pipeline:
+  nb2_seed: 146016; veo_seed: 246016; vo_manifest_ref: null;
+  cdn_target: cdn/client-public/cutscenes/cs_first_arrival_research_corridor_alpha/
+```
+
+### §G.5.17 `cs_first_arrival_research_corridor_beta` (Research)
+
+```yaml
+notes: "identical staging to §G.5.16 but specimens are
+  archaeological/historical (skull-fragments, broken weapons,
+  scroll-cases); researcher in dustier lab-coat. Palette shifts
+  to dust-bone `#dccfaa / #2a2622 / #8a4a1a`. Audio: page-rustle
+  instead of capsule-glass tick."
+pipeline:
+  nb2_seed: 146017; veo_seed: 246017; vo_manifest_ref: null;
+  cdn_target: cdn/client-public/cutscenes/cs_first_arrival_research_corridor_beta/
+```
+
+### §G.5.18 `cs_first_arrival_research_corridor_gamma` (Research)
+
+```yaml
+notes: "identical staging; specimens are exotic-physics (a
+  contained singularity, a stable wormhole-pocket, a
+  zero-point-energy reactor); palette `#1a3550 / #5fa8ff / #ff2a8a`;
+  researcher's hair stands faintly on end from local field-effects.
+  Audio: gravitational-hum sub-bass + reactor-tick."
+pipeline:
+  nb2_seed: 146018; veo_seed: 246018; vo_manifest_ref: null;
+  cdn_target: cdn/client-public/cutscenes/cs_first_arrival_research_corridor_gamma/
+```
+
+### §G.5.19 `cs_first_arrival_probability_market_hub` (Trade hub)
+
+```yaml
+nb2_start.subject: "Probability Market Hub — an exchange where
+  futures themselves are commodities; trading-floor fills 200 m
+  diameter circular pit with traders shouting over a probability-
+  ticker that hangs at z+8 m showing live rates as cascading
+  glyphs."
+nb2_end.subject: "ticker resolves a major value-shift; one trader
+  in foreground rips up a contract."
+veo.action: "0–3 s trading floor in chaos; 3–5 s ticker shows
+  major shift; 5–8 s contract-tearing in foreground."
+veo.audio.dialogue: "Floor-clerk says, \"Market open.\""
+veo.audio.sfx: "ticker-glyph cascade 00:00–00:08; paper-tear 00:07."
+veo.audio.ambient: "trader shouting bed -28 dB."
+pipeline:
+  nb2_seed: 146019; veo_seed: 246019; vo_manifest_ref: null;
+  cdn_target: cdn/client-public/cutscenes/cs_first_arrival_probability_market_hub/
+```
+
+### §G.5.20 `cs_first_arrival_syndicate_route_prime` (Trade lane / Syndicate)
+
+```yaml
+nb2_start.subject: "Syndicate Route Prime — a lawless trade-lane
+  through unclaimed space; the lane is unmarked by official buoys
+  but each fork-point has a Syndicate sigil burned into a beacon-
+  asteroid; player's shuttle eases past one such sigil-beacon."
+nb2_end.subject: "the beacon's sigil flares once as shuttle passes;
+  beacon broadcasts an encrypted authentication ping."
+veo.action: "0–3 s sigil-beacon resolves; 3–5 s sigil flares;
+  5–8 s shuttle passes."
+veo.audio.dialogue: "Syndicate-comms says, \"Authenticated. Through.\""
+veo.audio.sfx: "sigil-flare crackle 00:05; comms-ping 00:07."
+veo.audio.ambient: "lawless quiet, faint static."
+pipeline:
+  nb2_seed: 146020; veo_seed: 246020; vo_manifest_ref: null;
+  cdn_target: cdn/client-public/cutscenes/cs_first_arrival_syndicate_route_prime/
+```
+
+### §G.5.21 `cs_first_arrival_command_post_iron` (Frontier / military)
+
+```yaml
+notes: "Forward command-post on a hostile world; design echoes
+  §G.5.11 Forward Bastion but harsher — driving rain, mud, low-
+  hanging cloud cover; sergeant lit by sodium-vapour 2200K
+  practical."
+veo.audio.dialogue: "Sergeant says, \"Iron post. In.\""
+pipeline:
+  nb2_seed: 146021; veo_seed: 246021; vo_manifest_ref: null;
+  cdn_target: cdn/client-public/cutscenes/cs_first_arrival_command_post_iron/
+```
+
+### §G.5.22 `cs_first_arrival_intelligence_exchange_nightline` (Hidden trade)
+
+```yaml
+nb2_start.subject: "Intelligence Exchange Nightline — a black-market
+  data-broker café in the lower tiers of an unnamed station;
+  flickering neon, smoke-haze, half-dozen brokers at scattered
+  tables; the player's contact sits at the back booth, face
+  obscured by a wide-brim hat."
+nb2_end.subject: "broker slides a data-shard across the booth;
+  shard glows faintly cyan."
+veo.action: "0–3 s café in haze; 3–5 s player approaches booth;
+  5–8 s shard slides across."
+veo.audio.dialogue: "Broker says, \"This for that.\""
+veo.audio.sfx: "shard-on-table tap 00:06; broker-lighter click
+  00:04."
+veo.audio.ambient: "low café murmur, vinyl-record crackle far
+  upstage."
+pipeline:
+  nb2_seed: 146022; veo_seed: 246022; vo_manifest_ref: null;
+  cdn_target: cdn/client-public/cutscenes/cs_first_arrival_intelligence_exchange_nightline/
+```
+
+### §G.5.23 `cs_first_arrival_atarion_ruins` (Hazard / archaeological)
+
+```yaml
+nb2_start.subject: "Atarion Ruins — surface excavation site of an
+  extinct civilization; partially excavated stone-monoliths jut
+  through dust; archaeological work-tents at the perimeter;
+  twilight."
+nb2_end.subject: "one monolith near the dig's centre suddenly
+  glyph-glows along its carved surface."
+veo.action: "0–3 s dig-site overview; 3–5 s player approaches
+  central monolith; 5–8 s monolith glyph-glows."
+veo.audio.dialogue: "Dig-foreman says, \"Atarion. Move careful.\""
+veo.audio.sfx: "dig-tarp wind-flap 00:00–00:08; glyph-glow chord 00:07."
+veo.audio.ambient: "twilight wind 4 m/s; distant generator hum."
+pipeline:
+  nb2_seed: 146023; veo_seed: 246023; vo_manifest_ref: null;
+  cdn_target: cdn/client-public/cutscenes/cs_first_arrival_atarion_ruins/
+```
+
+### §G.5.24 `cs_first_arrival_tidewater_archive` (Ritual / archive)
+
+```yaml
+nb2_start.subject: "Tidewater Archive — a flooded library on a
+  water-world, accessed by submersible; columns of salt-encrusted
+  bookshelves rise from the seabed at z+0–18 m; bioluminescent
+  fish trace text-paths through the water."
+nb2_end.subject: "submersible's light reveals one shelf with intact
+  scroll-cases at the player's window."
+veo.action: "0–3 s submersible descends; 3–5 s shelves resolve;
+  5–8 s scroll-cases visible."
+veo.audio.dialogue: "Archivist says, \"Tidewater. Hold breath.\""
+veo.audio.sfx: "submersible thruster 00:00–00:08; bio-fish chord 00:06."
+veo.audio.ambient: "submerged silence; pressure-creak occasional."
+pipeline:
+  nb2_seed: 146024; veo_seed: 246024; vo_manifest_ref: null;
+  cdn_target: cdn/client-public/cutscenes/cs_first_arrival_tidewater_archive/
+```
+
+### §G.5.25 `cs_first_arrival_skyforge_plateau` (Frontier / industrial)
+
+```yaml
+notes: "high-altitude forge platform on a stormy gas-giant moon;
+  6500K sky-scatter + 1800K forge-glow; massive sky-anvils pound
+  rhythmically. Audio: forge-anvil ring on every 4 s. Trait-lock
+  with §G.5.5 Forge Worlds palette."
+veo.audio.dialogue: "Forge-master says, \"Skyforge. Stand clear.\""
+pipeline:
+  nb2_seed: 146025; veo_seed: 246025; vo_manifest_ref: null;
+  cdn_target: cdn/client-public/cutscenes/cs_first_arrival_skyforge_plateau/
+```
+
+### §G.5.26 `cs_first_arrival_ember_memorial` (Ritual)
+
+```yaml
+notes: "memorial site on a lunar surface; black-glass slab 40 m
+  long inscribed with names of the war-fallen; one perpetual
+  ember-flame at slab's foot. Palette `#0a0908 / #ff5a1a / #c8a05a`.
+  Audio: ember-flame crackle, lunar-wind near-silent."
+veo.audio.dialogue: "Master of R'lyeh says, \"Names burn long.\""
+pipeline:
+  nb2_seed: 146026; veo_seed: 246026; vo_manifest_ref: null;
+  cdn_target: cdn/client-public/cutscenes/cs_first_arrival_ember_memorial/
+```
+
+### §G.5.27 `cs_first_arrival_hidden_pureflame_cell` (Hidden / faction)
+
+```yaml
+notes: "secret Pureflame cell hideout in an industrial sub-basement;
+  Pureflame-orange banner draped on back wall; six cell-members
+  in worn uniforms, faces partially shadowed; palette
+  `#3a2010 / #ff5a1a / #c8a05a`. Audio: low fire-bowl crackle,
+  whispered planning conversations."
+veo.audio.dialogue: "Cell-leader says, \"Hidden. Welcome.\""
+pipeline:
+  nb2_seed: 146027; veo_seed: 246027; vo_manifest_ref: null;
+  cdn_target: cdn/client-public/cutscenes/cs_first_arrival_hidden_pureflame_cell/
+```
+
+### §G.5.28 `cs_first_arrival_clone_collective` (Civilization / unique)
+
+```yaml
+nb2_start.subject: "Clone Collective — a station-state inhabited
+  entirely by a single clone-line repeated 80,000 times; the
+  arrival hall has a row of identical clone-greeters smiling in
+  unison; clinical white-and-mint palette."
+nb2_end.subject: "12 clones step forward in unison; their footstep
+  is one synchronised footfall."
+veo.action: "0–3 s arrival hall; 3–5 s clones acknowledge in unison;
+  5–8 s synchronised step-forward."
+veo.audio.dialogue: "Clone-greeter chorus says, \"Welcome.\""
+veo.audio.sfx: "synchronised footfall 00:07; chorus breath 00:00."
+veo.audio.ambient: "synchronised heartbeat 60 BPM at -38 dB."
+pipeline:
+  nb2_seed: 146028; veo_seed: 246028; vo_manifest_ref: null;
+  cdn_target: cdn/client-public/cutscenes/cs_first_arrival_clone_collective/
+  notes: "for chorus-line, Veo dialogue is informational; lip-sync
+    is impossible across 12 mouths. Audio post overlays a single
+    clone-VO take time-shifted across 12 mouths to fake unison."
+```
+
+---
+
+## §G.6 Tower Defense — per-map cutscenes (10 maps × 2)
+
+Source: `apps/shared/towerDefense.ts`. The map-set is data-driven
+but Production has assigned 10 named maps to ship: **Outer
+Perimeter, Cargo Decks, Core Annex, Reactor Approach, Bridge
+Hold, Defense Command Choke, Earth-Side Beachhead, Hierarchy
+Pilgrim Road, Insurgency Stronghold, Terminus Last Stand**. Per
+map: one **deployment** cut (8 s; player surveys lane configuration)
++ one **outcome** cut (8 s; clean-hold or breach). Total **20 cuts**.
+
+Host_space: §A.33 Defense Command (deployment views from threat-
+display) for deployment cuts; per-map hostspace for outcome cuts.
+
+Trait-lock per map (palette inherited from map's diegetic location):
+
+| map | palette | atmosphere |
+|---|---|---|
+| Outer Perimeter | `#3a3540 / #c8a05a / #5fa8ff` | exterior-vacuum |
+| Cargo Decks | `#3a3025 / #c8a05a / #ff5a1a` | warehouse |
+| Core Annex | `#1a2a40 / #c8a05a / #ff2a8a` | server-room |
+| Reactor Approach | `#3a1a10 / #ff5a1a / #c8a05a` | hot-dim |
+| Bridge Hold | `#1a2540 / #c8a05a / #5fa8ff` | command-cool |
+| Defense Command Choke | `#0d0a08 / #c8a05a / #ff5a1a` | bunker |
+| Earth-Side Beachhead | `#3a4a3a / #c8a05a / #5fa8ff` | grassland-overcast |
+| Hierarchy Pilgrim Road | `#0d0a08 / #c9a14a / #5a1a1f` | ritual-lit |
+| Insurgency Stronghold | `#1a3550 / #c8a05a / #ff5a1a` | rebel-amber |
+| Terminus Last Stand | `#0a0612 / #ff2a8a / #5fa8ff` | violet-anomaly |
+
+### §G.6.1 `cs_td_deploy_outer_perimeter` (deployment)
+
+```yaml
+host_space: §A.33 Defense Command (threat-display)
+nb2_start.subject: "the Defense Command threat-display showing
+  Outer Perimeter map — a 12-lane exterior approach with three
+  choke-rings at 2/4/6 km out; lane-icons populate as the
+  player's hand hovers over deployment-points; the room is dim,
+  display-glow blue washes the operator's table."
+nb2_end.subject: "deployment-points filled with player's tower
+  icons (yellow); a klaxon warning-LED begins to pulse upper-right
+  on the display; first wave-arrow visible at the +6 km ring."
+veo.action: "0–3 s display draws; 3–5 s player's gloved hand
+  places towers; 5–8 s wave-arrow appears, klaxon pulses."
+veo.audio.dialogue: "Institutional voice says, \"Wave inbound.\""
+veo.audio.sfx: "tower-place chime each 00:03 / 00:04 / 00:05;
+  klaxon-LED tone 00:07."
+veo.audio.ambient: "command-room ventilation, sub-bass alert tone."
+pipeline:
+  nb2_seed: 147001; veo_seed: 247001; vo_manifest_ref: null;
+  cdn_target: cdn/client-public/cutscenes/cs_td_deploy_outer_perimeter/
+```
+
+### §G.6.2 `cs_td_outcome_outer_perimeter`
+
+Two variants per map (clean / breach), select at runtime by outcome.
+
+```yaml
+host_space: §A.33 Defense Command (threat-display)
+nb2_start.subject (clean): "the threat-display shows the Outer
+  Perimeter cleared — all 12 lanes green, last enemy icon fading
+  at +2 km ring; victory chime visible as a green halo on the
+  display border."
+nb2_start.subject (breach): "the threat-display shows the Outer
+  Perimeter breached — three lanes red, enemy icon at +0 ring
+  (hub); klaxon LED solid red."
+nb2_end.subject (clean): "operator's hand reaches for the
+  display-confirm button; LED transitions green-solid."
+nb2_end.subject (breach): "operator's hand pulls back; one lane-
+  icon flickers and dies; reactor-warning panel begins flashing."
+veo.action (clean): "0–3 s display shows clean state; 3–5 s
+  green-halo cascades; 5–8 s confirm-press, victory chime."
+veo.action (breach): "0–3 s display shows breach state; 3–5 s
+  klaxon solidifies red; 5–8 s reactor-warning begins, hand
+  withdraws."
+veo.audio.dialogue (clean): "Institutional voice says, \"Hold
+  confirmed.\""
+veo.audio.dialogue (breach): "Institutional voice says, \"Hub
+  breach.\""
+veo.audio.sfx (clean): "confirm-chime 00:07; green-halo cascade 00:04."
+veo.audio.sfx (breach): "klaxon-solid tone 00:04;
+  reactor-warning klaxon 00:07."
+pipeline:
+  nb2_seed: 147002; veo_seed: 247002; vo_manifest_ref: null;
+  cdn_target: cdn/client-public/cutscenes/cs_td_outcome_outer_perimeter/
+  notes: "two end-frame variants — `end_clean.png` and
+    `end_breach.png` selected at runtime by outcome."
+```
+
+### §G.6.3–§G.6.20 (remaining 9 maps × 2 cuts)
+
+Each pair follows §G.6.1 / §G.6.2 schema with palette and
+narrative anchor swapped per the table above. Compact form:
+
+| § | cs_id | map | palette source | notable SFX/VO |
+|---|---|---|---|---|
+| §G.6.3 | `cs_td_deploy_cargo_decks` | Cargo Decks | warehouse | warehouse echo; "Deck wave inbound." |
+| §G.6.4 | `cs_td_outcome_cargo_decks` | Cargo Decks | warehouse | "Decks held / Decks lost." |
+| §G.6.5 | `cs_td_deploy_core_annex` | Core Annex | server-room | server-fan hum; "Core wave." |
+| §G.6.6 | `cs_td_outcome_core_annex` | Core Annex | server-room | "Annex hold / Core breach." |
+| §G.6.7 | `cs_td_deploy_reactor_approach` | Reactor | hot-dim | reactor-rhythm; "Reactor wave." |
+| §G.6.8 | `cs_td_outcome_reactor_approach` | Reactor | hot-dim | "Reactor stable / Critical." |
+| §G.6.9 | `cs_td_deploy_bridge_hold` | Bridge Hold | command-cool | bridge-comms; "Bridge wave." |
+| §G.6.10 | `cs_td_outcome_bridge_hold` | Bridge Hold | command-cool | "Bridge held / Boarded." |
+| §G.6.11 | `cs_td_deploy_defense_command_choke` | DCC | bunker | bunker-thunk; "Choke wave." |
+| §G.6.12 | `cs_td_outcome_defense_command_choke` | DCC | bunker | "Choke held / Compromised." |
+| §G.6.13 | `cs_td_deploy_earth_side_beachhead` | Earth | grassland | wind+grass; "Beach wave." |
+| §G.6.14 | `cs_td_outcome_earth_side_beachhead` | Earth | grassland | "Beachhead held / Overrun." |
+| §G.6.15 | `cs_td_deploy_hierarchy_pilgrim_road` | Pilgrim | ritual-lit | chant; "Pilgrim wave." |
+| §G.6.16 | `cs_td_outcome_hierarchy_pilgrim_road` | Pilgrim | ritual-lit | "Road held / Profaned." |
+| §G.6.17 | `cs_td_deploy_insurgency_stronghold` | Stronghold | rebel-amber | drum-roll; "Stronghold wave." |
+| §G.6.18 | `cs_td_outcome_insurgency_stronghold` | Stronghold | rebel-amber | "Stronghold held / Crushed." |
+| §G.6.19 | `cs_td_deploy_terminus_last_stand` | Terminus | violet-anomaly | anomaly chord; "Terminus wave." |
+| §G.6.20 | `cs_td_outcome_terminus_last_stand` | Terminus | violet-anomaly | "Stood / Fell." |
+
+Pipeline seeds: `nb2_seed: 147003..147020; veo_seed: 247003..247020`.
+All `cdn_target: cdn/client-public/cutscenes/<cs_id>/`. Notes for
+all outcome cuts: "two end-frame variants per outcome."
+
+---
+
+## §G.7 Vortex Incursion — 5 missing room cutscenes
+
+Source: `apps/shared/vortexIncursionTemplate.ts:31–301`. R0/R4/R5/R6/R9
+covered in `_PRODUCTION_CROSS_CUT.md` §F.1.A.7. R1/R2/R3/R7/R8 below.
+
+Trait-lock: vortex-violet with electric-magenta rim; 1800K candle
+equivalents; Kodak Vision3 500T pushed +2; palette
+`#1a0a2e / #ff2a8a / #5fa8ff`; cathedral reverb 5.2 s within rooms.
+
+### §G.7.1 `cs_vortex_r1_voices_used_to_be` (R1: Where the Voices Used To Be)
+
+```yaml
+host_space: Vortex Incursion R1
+nb2_start.subject: "a 30 m diameter chamber filled with floating
+  microphone-stands at zero-G, each stand connected by trailing
+  copper-wire; the wires hum faintly with traces of voice that
+  never resolve into words; pale-violet ambient illumination."
+nb2_end.subject: "one microphone-stand at the chamber centre rotates
+  to face the camera; its wire's voice-trace surges briefly into
+  almost-audible speech."
+veo.action: "0–3 s chamber establishes, mics drift; 3–5 s player
+  drifts toward centre; 5–8 s centre-mic faces camera, voice surges."
+veo.audio.dialogue: "Vortex-voice says, \"You — were here.\""
+veo.audio.sfx: "voice-trace surge 00:06; mic-stand drift hush
+  00:00–00:08."
+veo.audio.ambient: "vortex-violet hum 22 Hz; faint AM-radio
+  texture -36 dB."
+pipeline:
+  nb2_seed: 148001; veo_seed: 248001; vo_manifest_ref: null;
+  cdn_target: cdn/client-public/cutscenes/cs_vortex_r1_voices_used_to_be/
+```
+
+### §G.7.2 `cs_vortex_r2_chapel_lost_names` (R2: Chapel of Lost Names)
+
+```yaml
+host_space: Vortex Incursion R2
+nb2_start.subject: "a chapel-shaped chamber with 144 niches in the
+  walls, each niche holding a name-stone that has had its
+  inscription erased; faint candle-flames flicker inside each
+  niche; the altar at the chamber's far end holds a single
+  intact name-stone."
+nb2_end.subject: "the player approaches the intact altar-stone;
+  the inscription begins to resolve — but cuts to black before
+  any name is readable."
+veo.action: "0–3 s chamber settles; 3–5 s player drifts to altar;
+  5–8 s inscription begins to resolve, hard-cut to black at 8 s."
+veo.audio.dialogue: "Vortex-voice says, \"Whose name remains?\""
+veo.audio.sfx: "candle-flicker rolling bed; stone-resonance chord 00:06."
+veo.audio.ambient: "chapel reverb 5.2 s; vortex-violet hum 22 Hz."
+pipeline:
+  nb2_seed: 148002; veo_seed: 248002; vo_manifest_ref: null;
+  cdn_target: cdn/client-public/cutscenes/cs_vortex_r2_chapel_lost_names/
+```
+
+### §G.7.3 `cs_vortex_r3_first_thing_noticed` (R3: First Thing That Noticed You)
+
+```yaml
+host_space: Vortex Incursion R3
+nb2_start.subject: "an empty chamber, 20 m square, walls bare —
+  but the player has the unmistakable sensation of being watched;
+  the chamber's far wall has a single dark patch 0.6 m diameter
+  that is subtly *not* a shadow."
+nb2_end.subject: "the dark patch has shifted 1.2 m to the right
+  and grown to 0.8 m; nothing else has moved."
+veo.action: "0–3 s chamber holds; 3–5 s player notices the dark
+  patch; 5–8 s the patch shifts and grows."
+veo.audio.dialogue: "none."
+veo.audio.sfx: "patch-shift sub-audible chord 00:06; player-
+  breath quickening 00:05."
+veo.audio.ambient: "wrong-silence — a frequency that should
+  exist at -∞ dB but resolves at -52 dB; vortex-violet hum 22 Hz."
+pipeline:
+  nb2_seed: 148003; veo_seed: 248003; vo_manifest_ref: null;
+  cdn_target: cdn/client-public/cutscenes/cs_vortex_r3_first_thing_noticed/
+  notes: "Veo negative_prompt extended: 'no human or humanoid
+    figure visible inside or near the dark patch'."
+```
+
+### §G.7.4 `cs_vortex_r7_library_erased_books` (R7: Library of Erased Books)
+
+```yaml
+host_space: Vortex Incursion R7
+nb2_start.subject: "a 60×40 m library chamber; the shelves are
+  filled with books whose pages have been erased — every page
+  still flips when the chamber's faint draft hits them, but no
+  text remains; one book at the chamber's centre is open on a
+  reading-stand and shows pages that are slowly *re-writing*
+  themselves with new text in real-time."
+nb2_end.subject: "the re-writing book's current page settles on
+  three legible words: 'YOU WERE HERE'."
+veo.action: "0–3 s library establishes, pages flip-rustle; 3–5 s
+  player approaches reading-stand; 5–8 s book's text resolves to
+  'YOU WERE HERE'."
+veo.audio.dialogue: "Vortex-voice says, \"Re-writing now.\""
+veo.audio.sfx: "page-flip rolling bed 00:00–00:08; ink-resolve tick
+  00:07."
+veo.audio.ambient: "library reverb 5.2 s; vortex-hum 22 Hz."
+pipeline:
+  nb2_seed: 148004; veo_seed: 248004; vo_manifest_ref: null;
+  cdn_target: cdn/client-public/cutscenes/cs_vortex_r7_library_erased_books/
+  notes: "diegetic text 'YOU WERE HERE' is exactly 12 chars,
+    inside NB2's text-rendering safe-zone."
+```
+
+### §G.7.5 `cs_vortex_r8_last_stable_room` (R8: Last Stable Room)
+
+```yaml
+host_space: Vortex Incursion R8
+nb2_start.subject: "a 12×12 m chamber that is conspicuously
+  *normal* — wood-panelled walls, a domestic reading-chair, a
+  side-table with a teacup, a lamp at 2700K, a paperback open on
+  the chair's arm; the only Vortex-element is the chamber's
+  ceiling, which subtly ripples like water."
+nb2_end.subject: "the teacup steams gently; the paperback's page
+  has turned by itself; the ceiling ripple has intensified."
+veo.action: "0–3 s chamber holds, almost reassuringly; 3–5 s
+  paperback page turns; 5–8 s ceiling ripple intensifies, teacup
+  steams more visibly."
+veo.audio.dialogue: "Vortex-voice says, \"Don't sit down.\""
+veo.audio.sfx: "page-turn 00:05; teacup-rim resonance 00:06;
+  ceiling-ripple low chord 00:07."
+veo.audio.ambient: "domestic-warm white-noise; vortex-hum 22 Hz
+  faintly under."
+pipeline:
+  nb2_seed: 148005; veo_seed: 248005; vo_manifest_ref: null;
+  cdn_target: cdn/client-public/cutscenes/cs_vortex_r8_last_stable_room/
+```
+
+---
+
+## §G.8 Generic Incursion — per-room first-encounter cutscenes (16)
+
+Source: `apps/shared/incursions.ts:118–139`. Each `IncursionRoomDef`
+gets one first-encounter cut (the moment the room is initially
+revealed to the player). Length 6 s each (these are room-reveals,
+not full beats — shorter Cat A). Cat A. SFX-driven, no music, ≤1
+short VO.
+
+Host_space: generic incursion room (palette per room kind).
+
+Trait-lock per room kind:
+
+| kind | palette | atmosphere |
+|---|---|---|
+| combat | `#2a2622 / #c4452a / #5fa8ff` | tactical-cool |
+| card | `#1c1816 / #c8a05a / #6e2030` | duel-stage |
+| puzzle | `#1a3550 / #5fa8ff / #c8a05a` | cipher-cyan |
+| treasure | `#3a3025 / #c8a05a / #ff5a1a` | vault-warm |
+| boss | `#0d0a08 / #c8a05a / #ff2a8a` | confrontation-dim |
+
+### §G.8.1 `cs_incursion_drone_swarm_reveal` (combat)
+
+```yaml
+host_space: generic incursion combat-room
+nb2_start.subject: "an 18 m corridor, two banks of overhead
+  fluorescents flickering; at the far end, the silhouettes of a
+  dozen rogue drones hover in disciplined formation; one drone's
+  red eye-LED is the only definite light at the far end."
+nb2_end.subject: "the drone formation has broken; three drones
+  have peeled forward 4 m, eye-LEDs all now red-on; lead drone
+  trails an exhaust plume."
+veo.action: "0–3 s corridor settles; 3–5 s drone-formation breaks;
+  5–6 s lead drones close, eye-LEDs cascade red."
+veo.audio.dialogue: "none."
+veo.audio.sfx: "drone-formation shift 00:04; eye-LED click cascade 00:05."
+veo.audio.ambient: "fluorescent-buzz; corridor-resonance hum."
+pipeline:
+  nb2_seed: 149001; veo_seed: 249001; vo_manifest_ref: null;
+  cdn_target: cdn/client-public/cutscenes/cs_incursion_drone_swarm_reveal/
+```
+
+### §G.8.2 `cs_incursion_void_sentinels_reveal` (combat)
+
+```yaml
+host_space: generic incursion combat-room
+nb2_start.subject: "a cavernous chamber 30 m wide, walls phasing
+  with subtle reality-distortion; in three positions around the
+  player, void-sentinels phase in and out of visibility — one
+  fully visible, one half-resolved, one only an outline."
+nb2_end.subject: "all three sentinels now fully visible and at
+  their nearest position; weapons drawn; reality-distortion
+  intensified."
+veo.action: "0–3 s sentinels phase in pattern; 3–5 s sentinels
+  resolve; 5–6 s weapons draw."
+veo.audio.dialogue: "Sentinel says, \"Found.\""
+veo.audio.sfx: "phase-in chord 00:03 / 00:04; weapon-draw rasp 00:05."
+veo.audio.ambient: "reality-distortion sub-bass; vortex-violet hum."
+pipeline:
+  nb2_seed: 149002; veo_seed: 249002; vo_manifest_ref: null;
+  cdn_target: cdn/client-public/cutscenes/cs_incursion_void_sentinels_reveal/
+```
+
+### §G.8.3 `cs_incursion_chrono_raiders_reveal` (combat)
+
+```yaml
+notes: "time-displaced raiders from multiple eras (medieval, WWI,
+  cyberpunk, far-future); each at slight time-phase offset.
+  Palette tactical-cool. Audio: time-phase chimes 00:03; weapon
+  draw 00:05."
+veo.audio.dialogue: "Raider-leader says, \"Now is the time.\""
+pipeline:
+  nb2_seed: 149003; veo_seed: 249003; vo_manifest_ref: null;
+  cdn_target: cdn/client-public/cutscenes/cs_incursion_chrono_raiders_reveal/
+```
+
+### §G.8.4 `cs_incursion_flame_constructs_reveal` (combat)
+
+```yaml
+notes: "molten golems guarding an ancient forge; orange-rim
+  glow from forge in mid-distance. Palette `#3a1a10 / #ff5a1a /
+  #c8a05a`. Audio: forge-glow whoosh; golem-stone-step 00:04."
+veo.audio.dialogue: "Construct-prime says, \"Forge defends.\""
+pipeline:
+  nb2_seed: 149004; veo_seed: 249004; vo_manifest_ref: null;
+  cdn_target: cdn/client-public/cutscenes/cs_incursion_flame_constructs_reveal/
+```
+
+### §G.8.5 `cs_incursion_shadow_lurkers_reveal` (combat)
+
+```yaml
+notes: "enemies striking from darkness; the room is 90% dark,
+  one light-cone in centre; eyes-only visible at perimeter.
+  Audio: breath-hiss 00:03; eye-blink cascade 00:05."
+veo.audio.dialogue: "Lurker says, \"Don't look.\""
+pipeline:
+  nb2_seed: 149005; veo_seed: 249005; vo_manifest_ref: null;
+  cdn_target: cdn/client-public/cutscenes/cs_incursion_shadow_lurkers_reveal/
+```
+
+### §G.8.6 `cs_incursion_machine_cult_reveal` (combat)
+
+```yaml
+notes: "fanatical engineers; turret emplacements; 6 cultist-
+  silhouettes in oil-stained robes around 4 turret-banks. Audio:
+  turret-track whirr 00:04; cult-chant 00:00–00:06."
+veo.audio.dialogue: "Cultist says, \"Machinery wills.\""
+pipeline:
+  nb2_seed: 149006; veo_seed: 249006; vo_manifest_ref: null;
+  cdn_target: cdn/client-public/cutscenes/cs_incursion_machine_cult_reveal/
+```
+
+### §G.8.7 `cs_incursion_card_trial_reveal` (card)
+
+```yaml
+host_space: generic incursion card-room
+nb2_start.subject: "a duel-stage chamber with a single brass-inlaid
+  Dischordia card-table at centre; the AI challenger sits across
+  the table, robed and hooded; the table glows faintly amber.
+  Palette duel-stage."
+nb2_end.subject: "the AI deals first card face-up; the player's
+  gloved hand rests at the table edge."
+veo.action: "0–3 s chamber settles; 3–5 s AI gestures to deal;
+  5–6 s first card lands face-up."
+veo.audio.dialogue: "AI says, \"Trial. Sit.\""
+veo.audio.sfx: "card-shuffle 00:03; card-land tap 00:05."
+veo.audio.ambient: "duel-stage low resonance 4.0 s reverb."
+pipeline:
+  nb2_seed: 149007; veo_seed: 249007; vo_manifest_ref: null;
+  cdn_target: cdn/client-public/cutscenes/cs_incursion_card_trial_reveal/
+```
+
+### §G.8.8 `cs_incursion_card_gauntlet_reveal` (card)
+
+```yaml
+notes: "three AI challengers sit in succession around an extended
+  card-table; each holds an opening hand. Audio: triple-shuffle
+  cascade 00:03 / 00:04 / 00:05."
+veo.audio.dialogue: "Lead AI says, \"Three decks. Once.\""
+pipeline:
+  nb2_seed: 149008; veo_seed: 249008; vo_manifest_ref: null;
+  cdn_target: cdn/client-public/cutscenes/cs_incursion_card_gauntlet_reveal/
+```
+
+### §G.8.9 `cs_incursion_cipher_lock_reveal` (puzzle)
+
+```yaml
+host_space: generic incursion puzzle-room
+nb2_start.subject: "a 12×12 m chamber with a brass cipher-door at
+  far wall; the door's dial-array (16 concentric brass rings)
+  rotates slowly; cipher-cyan light from the door bathes the
+  chamber. Palette cipher-cyan."
+nb2_end.subject: "the player's gloved hand has touched the
+  outermost ring; one ring-position has clicked into place."
+veo.action: "0–3 s chamber settles; 3–5 s player approaches dial;
+  5–6 s first ring-click."
+veo.audio.dialogue: "Door-voice says, \"Decode.\""
+veo.audio.sfx: "ring-rotation low whirr 00:00–00:08; ring-click 00:05."
+veo.audio.ambient: "cipher-cyan resonance hum 22 Hz."
+pipeline:
+  nb2_seed: 149009; veo_seed: 249009; vo_manifest_ref: null;
+  cdn_target: cdn/client-public/cutscenes/cs_incursion_cipher_lock_reveal/
+```
+
+### §G.8.10 `cs_incursion_hacking_node_reveal` (puzzle)
+
+```yaml
+notes: "security-node terminal with cascading hex on screen;
+  player's hands enter holographic input-field. Audio:
+  keyboard-clatter 00:03–00:06; node-handshake chord 00:05."
+veo.audio.dialogue: "Node-voice says, \"Breach point.\""
+pipeline:
+  nb2_seed: 149010; veo_seed: 249010; vo_manifest_ref: null;
+  cdn_target: cdn/client-public/cutscenes/cs_incursion_hacking_node_reveal/
+```
+
+### §G.8.11 `cs_incursion_sequence_trap_reveal` (puzzle)
+
+```yaml
+notes: "tile-floor trap; 64 tiles in 8×8 grid, half lit and half
+  dark; first tile pulses to indicate sequence start. Audio: tile-
+  pulse 00:04; sequence-warning chord 00:05."
+veo.audio.dialogue: "Trap-voice says, \"In order.\""
+pipeline:
+  nb2_seed: 149011; veo_seed: 249011; vo_manifest_ref: null;
+  cdn_target: cdn/client-public/cutscenes/cs_incursion_sequence_trap_reveal/
+```
+
+### §G.8.12 `cs_incursion_hidden_cache_reveal` (treasure)
+
+```yaml
+host_space: generic incursion treasure-room
+nb2_start.subject: "a vault-warm chamber; three loot-pedestals at
+  centre, each glowing under spotlight (gold alloy, dream tokens,
+  a sealed ring-case); player approaches at low light to bright
+  centre."
+nb2_end.subject: "the three pedestals' lights have all
+  brightened; the player's hand hovers above the central
+  pedestal."
+veo.action: "0–3 s chamber settles, low-light entry; 3–5 s
+  pedestals brighten; 5–6 s hand hovers."
+veo.audio.dialogue: "none."
+veo.audio.sfx: "pedestal-light cascade 00:04; vault-resonance 00:05."
+veo.audio.ambient: "vault-warm hum, faint coin-clink rustle."
+pipeline:
+  nb2_seed: 149012; veo_seed: 249012; vo_manifest_ref: null;
+  cdn_target: cdn/client-public/cutscenes/cs_incursion_hidden_cache_reveal/
+```
+
+### §G.8.13 `cs_incursion_dreamers_vault_reveal` (treasure)
+
+```yaml
+notes: "vault filled with crystallized dreams; pale-blue glow,
+  Dreamers-aesthetic crystals on shelves; centre-display holds
+  a void-pendant. Audio: crystal-resonance chord 00:04."
+veo.audio.dialogue: "Vault-voice says, \"Dream-glass.\""
+pipeline:
+  nb2_seed: 149013; veo_seed: 249013; vo_manifest_ref: null;
+  cdn_target: cdn/client-public/cutscenes/cs_incursion_dreamers_vault_reveal/
+```
+
+### §G.8.14 `cs_incursion_warden_reveal` (boss — mid)
+
+```yaml
+host_space: generic incursion boss-room (mid)
+nb2_start.subject: "a 24 m diameter chamber; the Warden — a hooded
+  guardian-figure with a scarred shield-arm — stands at the far
+  end on a raised dais; warden-plate armour glints under
+  confrontation-dim lighting."
+nb2_end.subject: "Warden has stepped 0.4 m forward; shield-arm
+  raised."
+veo.action: "0–3 s Warden establishes; 3–5 s Warden meets
+  player's eye-line; 5–6 s shield-raise."
+veo.audio.dialogue: "Warden says, \"This is mine.\""
+veo.audio.sfx: "shield-raise rasp 00:05; dais-step thud 00:04."
+veo.audio.ambient: "boss-room reverb 4.6 s; sub-bass 12 Hz."
+pipeline:
+  nb2_seed: 149014; veo_seed: 249014; vo_manifest_ref: null;
+  cdn_target: cdn/client-public/cutscenes/cs_incursion_warden_reveal/
+```
+
+### §G.8.15 `cs_incursion_architect_reveal` (boss — final)
+
+```yaml
+host_space: generic incursion boss-room (final)
+nb2_start.subject: "a 30 m diameter chamber; the Architect (final
+  boss of the generic incursion variant) sits at a draftsman's
+  table at the chamber's far end; behind them a model-of-the-
+  Ark sits half-disassembled; chamber lit only by drafting-lamp
+  pool."
+nb2_end.subject: "Architect lifts head; their drafting-pencil pauses
+  mid-stroke; eye-line locks on player."
+veo.action: "0–3 s drafting-table close; 3–5 s player enters
+  Architect's pool of light; 5–6 s pencil pauses, eye-line lock."
+veo.audio.dialogue: "Architect says, \"Show me your blueprint.\""
+veo.audio.sfx: "pencil-pause tick 00:05; chair-creak 00:04."
+veo.audio.ambient: "drafting-lamp ballast hum; boss-room reverb."
+pipeline:
+  nb2_seed: 149015; veo_seed: 249015;
+  vo_manifest_ref: apps/shared/theArchitectVoManifest.json#L<TBD>;
+  cdn_target: cdn/client-public/cutscenes/cs_incursion_architect_reveal/
+  notes: "this final-boss Architect cut shares VO manifest with
+    boss-arena Architect (§G.3.5) — pipeline must select the
+    correct take per encounter context."
+```
+
+### §G.8.16 `cs_incursion_dischordia_trial_reveal` (additional card variant)
+
+(Reserved for future card-variant; placeholder to maintain count
+parity at 16 generic incursion rooms.)
+
+```yaml
+notes: "placeholder — final 16th room variant if `incursions.ts`
+  ROOM_POOL extends. If kept at current 15 rooms, drop §G.8.16
+  in audit."
+pipeline:
+  nb2_seed: 149016; veo_seed: 249016; vo_manifest_ref: null;
+  cdn_target: cdn/client-public/cutscenes/cs_incursion_dischordia_trial_reveal/
+```
+
+---
+
+## §G.B audit (will be re-checked at §G.F)
+
+Cutscenes added in this sub-phase: **69**
+- §G.5 Trade Empire: 28
+- §G.6 Tower Defense: 20
+- §G.7 Vortex Incursion: 5
+- §G.8 Generic Incursion: 16
+
+Outstanding TBDs (resolved in §G.F audit):
+- TD map names need cross-cut sign-off from Defense Command
+  designer.
+- §G.8.16 placeholder may collapse to 15 if `ROOM_POOL` stays
+  static.
