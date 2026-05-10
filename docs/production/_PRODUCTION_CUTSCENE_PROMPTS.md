@@ -4091,3 +4091,736 @@ Outstanding TBDs (resolved in §G.F audit):
 - HB12 self-duel FPV-mirror constraint exception is documented
   in-line; production-side QA must verify generated frames don't
   reveal the player's face during that one cutscene.
+
+---
+
+## §G.13 RETRO — misc cutscene NB2 + Veo prompts (67)
+
+Same retro-upgrade contract as §G.12: §3.1 spine unchanged, NB2 +
+Veo prompt blocks added.
+
+### §G.13.A Demon summoning (5)
+
+Trait-lock: 1800K candle + 12000K cold-magenta rim; chalk-circle
+glow; Vision3 500T pushed +2; palette `#0d0a08 / #ff2a8a / #c9a14a`;
+SFX: chalk-on-stone, sigil-resonance chord, brass-thurible chain.
+
+```yaml
+cs_demon_summon_prep:
+  xref: §F.1.A.9 L765
+  notes: "player draws chalk circle on stone floor; close-up FPV
+    of gloved hand and chalk; sigil emerges. Audio: chalk-scrape
+    00:03; sigil-completion chord 00:07."
+  veo.audio.dialogue: "Master of R'lyeh: \"Mark it true.\""
+  pipeline:
+    nb2_seed: 160001; veo_seed: 260001;
+    vo_manifest_ref: apps/shared/masterOfRlyehVoManifest.json#L<TBD>;
+    cdn_target: cdn/client-public/cutscenes/cs_demon_summon_prep/
+
+cs_demon_summon:
+  xref: §F.1.A.9 L775
+  notes: "circle activates; demon-silhouette materialises in
+    chalk-circle centre; cold-magenta rim. Audio: pressure-rumble
+    00:03; demon-form-lock chord 00:06."
+  veo.audio.dialogue: "Demon: \"Speak.\""
+  pipeline:
+    nb2_seed: 160002; veo_seed: 260002;
+    vo_manifest_ref: apps/shared/demonGenericVoManifest.json#L<TBD>;
+    cdn_target: cdn/client-public/cutscenes/cs_demon_summon/
+
+cs_demon_contract_bind:
+  xref: §F.1.A.9 L785
+  notes: "player's gloved hand presses thumbprint to a parchment;
+    parchment ignites at one corner without burning. Audio:
+    thumb-press 00:03; ignition-flare 00:05."
+  veo.audio.dialogue: "Demon: \"Bound.\""
+  pipeline:
+    nb2_seed: 160003; veo_seed: 260003;
+    cdn_target: cdn/client-public/cutscenes/cs_demon_contract_bind/
+
+cs_demon_summon_success:
+  xref: §F.1.A.9 L795
+  notes: "demon dissolves into a wisp absorbed into the player's
+    sigil-stamped glove; circle's chalk fades. Audio: dissolve-
+    whisper 00:04; absorption chord 00:06."
+  veo.audio.dialogue: "Demon: \"Yours.\""
+  pipeline:
+    nb2_seed: 160004; veo_seed: 260004;
+    cdn_target: cdn/client-public/cutscenes/cs_demon_summon_success/
+
+cs_demon_summon_dismiss:
+  xref: §F.1.A.9 L805
+  notes: "circle closes; magenta rim fades to cold black. Audio:
+    chalk-erase rasp 00:04; pressure-release hiss 00:06."
+  veo.audio.dialogue: "Master of R'lyeh: \"Gone, for now.\""
+  pipeline:
+    nb2_seed: 160005; veo_seed: 260005;
+    cdn_target: cdn/client-public/cutscenes/cs_demon_summon_dismiss/
+```
+
+### §G.13.B Cloning sequence (5)
+
+Trait-lock: clinical-cold + cryo-cyan; 5400K overhead grid +
+6500K rim; Vision3 250D; palette `#dcedea / #6b8e9f / #f0c14b`;
+SFX: cryo-pod-vent hiss, vital-monitor beep cadence, autoclave
+thermal tick.
+
+```yaml
+cs_cloning_first_reveal:
+  xref: §F.1.A.10 L817
+  notes: "Act 1 substrate-clone reveal — player FPV in cryo-bay;
+    a second pod adjacent to pod-zero contains an identical
+    silhouette. Audio: vital-monitor parallel-beep cadence."
+  veo.audio.dialogue: "Elara: \"That is — you.\""
+  pipeline:
+    nb2_seed: 161001; veo_seed: 261001;
+    vo_manifest_ref: apps/shared/elaraVoManifest.json#L<TBD>;
+    cdn_target: cdn/client-public/cutscenes/cs_cloning_first_reveal/
+
+cs_first_resurrection:
+  xref: §F.1.A.10 L827
+  notes: "first time the player resurrects from a clone-pod;
+    awakening composition mirrors §G.12.A cs_awakening but with
+    a slightly different pod number visible (pod-2 vs pod-zero).
+    Audio: identical to cs_awakening start, with pod-id chime
+    differing one tone."
+  veo.audio.dialogue: "none."
+  pipeline:
+    nb2_seed: 161002; veo_seed: 261002;
+    cdn_target: cdn/client-public/cutscenes/cs_first_resurrection/
+    notes: "12s stitched."
+
+cs_failed_clone:
+  xref: §F.1.A.10 L837
+  notes: "clone-pod resurrection fails — pod glass shatters but
+    interior is empty save for cryo-fog drift. Audio: glass-
+    shatter, then silence; vital-monitor flatline tone 00:06."
+  veo.audio.dialogue: "Elara: \"It didn't take.\""
+  pipeline:
+    nb2_seed: 161003; veo_seed: 261003;
+    cdn_target: cdn/client-public/cutscenes/cs_failed_clone/
+
+cs_pod_zero_anomaly_clone:
+  xref: §F.1.A.10 L847
+  notes: "pod-zero anomaly clone — the new emergent has subtle
+    differences from the original (one feature inverted, hair
+    differently parted) visible only on careful inspection.
+    Trait-lock with cs_awakening composition."
+  veo.audio.dialogue: "none (anomaly is silent until detected)."
+  pipeline:
+    nb2_seed: 161004; veo_seed: 261004;
+    cdn_target: cdn/client-public/cutscenes/cs_pod_zero_anomaly_clone/
+
+cs_clone_substrate_confirmation:
+  xref: §F.1.A.10 L857
+  notes: "Elara's hologram delivers the substrate-confirmation
+    diagnosis to the player; close-up FPV of Elara's face."
+  veo.audio.dialogue: "Elara: \"Substrate confirmed.\""
+  pipeline:
+    nb2_seed: 161005; veo_seed: 261005;
+    vo_manifest_ref: apps/shared/elaraVoManifest.json#L<TBD>;
+    cdn_target: cdn/client-public/cutscenes/cs_clone_substrate_confirmation/
+```
+
+### §G.13.C Terminus death endings (7)
+
+Trait-lock: pre-collapse ambient grading; Vision3 500T pushed +2;
+palette degrades from baseline to violet-pink as Terminus
+proximity increases; SFX: low chord at 8 Hz, surface-hum
+inversion, structural creak.
+
+```yaml
+cs_swarm_death_overrun:
+  xref: §F.1.A.11 L869
+  notes: "Ark interior overrun by Terminus swarm; spore-mote
+    drift thick z+0–3 m; player's gloved hand on a doorway-frame
+    that is itself dissolving into spore. 12s stitched."
+  veo.audio.dialogue: "(Player breath, no VO.)"
+  pipeline:
+    nb2_seed: 162001; veo_seed: 262001;
+    cdn_target: cdn/client-public/cutscenes/cs_swarm_death_overrun/
+
+cs_swarm_death_hive_extraction:
+  xref: §F.1.A.11 L879
+  notes: "Hive-Queen pulls the player physically toward Hive-
+    centre; FPV of corridor receding rapidly behind."
+  veo.audio.dialogue: "Hive-Queen: \"Become.\""
+  pipeline:
+    nb2_seed: 162002; veo_seed: 262002;
+    vo_manifest_ref: apps/shared/hiveQueenVoManifest.json#L<TBD>;
+    cdn_target: cdn/client-public/cutscenes/cs_swarm_death_hive_extraction/
+
+cs_swarm_death_mass_conversion:
+  xref: §F.1.A.11 L887
+  notes: "mass-conversion ending — distant view of Ark with
+    surface-skin transitioning to swarm-pattern; player POV
+    is the last unconverted survivor."
+  veo.audio.dialogue: "(silence; sub-bass only)"
+  pipeline:
+    nb2_seed: 162003; veo_seed: 262003;
+    cdn_target: cdn/client-public/cutscenes/cs_swarm_death_mass_conversion/
+
+cs_swarm_death_final_stand:
+  xref: §F.1.A.11 L897
+  notes: "player makes final stand at a corridor barricade;
+    last-bullet cycle visible; swarm advancing in background."
+  veo.audio.dialogue: "Crew-survivor: \"Hold here.\""
+  pipeline:
+    nb2_seed: 162004; veo_seed: 262004;
+    cdn_target: cdn/client-public/cutscenes/cs_swarm_death_final_stand/
+
+cs_swarm_death_breach_hold:
+  xref: §F.1.A.11 L906
+  notes: "breach-hold ending — door barely holding; player's
+    gloved hands brace door; spore-jets seeping through door-
+    seam."
+  veo.audio.dialogue: "(only player breath)"
+  pipeline:
+    nb2_seed: 162005; veo_seed: 262005;
+    cdn_target: cdn/client-public/cutscenes/cs_swarm_death_breach_hold/
+
+cs_swarm_death_collapse:
+  xref: §F.1.A.11 L914
+  notes: "Ark structural collapse; player FPV on a floor that is
+    visibly tilting; cryo-pod array sliding past."
+  veo.audio.dialogue: "(structural-creak only)"
+  pipeline:
+    nb2_seed: 162006; veo_seed: 262006;
+    cdn_target: cdn/client-public/cutscenes/cs_swarm_death_collapse/
+
+cs_swarm_death_silent_takeover:
+  xref: §F.1.A.11 L923
+  notes: "silent-takeover — player wakes in clone-pod, pod-bay
+    has been re-painted in swarm-pattern aesthetics overnight,
+    all crew-NPCs visible behind glass with subtle swarm-eye
+    glow."
+  veo.audio.dialogue: "Master of R'lyeh: \"Already won.\""
+  pipeline:
+    nb2_seed: 162007; veo_seed: 262007;
+    cdn_target: cdn/client-public/cutscenes/cs_swarm_death_silent_takeover/
+```
+
+### §G.13.D Tower Defense gameplay events (5 — retro upgrade of cs_td_*)
+
+```yaml
+cs_td_wave_start:
+  xref: §F.1.A.8 L935
+  notes: "wave-start — threat-display draws first wave-arrow at
+    +6 km ring; klaxon-LED begins to pulse. Trait-lock with §G.6
+    deployment cuts."
+  veo.audio.dialogue: "Institutional voice: \"Wave one.\""
+  pipeline:
+    nb2_seed: 163001; veo_seed: 263001;
+    cdn_target: cdn/client-public/cutscenes/cs_td_wave_start/
+
+cs_td_mid_wave_shift:
+  xref: §F.1.A.8 L943
+  notes: "mid-wave enemy-type shift — display shows new threat-
+    icon class; operator's hand adjusts a tower-config dial."
+  veo.audio.dialogue: "Institutional voice: \"Type shift.\""
+  pipeline:
+    nb2_seed: 163002; veo_seed: 263002;
+    cdn_target: cdn/client-public/cutscenes/cs_td_mid_wave_shift/
+
+cs_td_wave_end:
+  xref: §F.1.A.8 L949
+  notes: "wave-end — green-halo on display; tally-counter ticks.
+    Two end-frame variants (clean / cost). Audio: confirm-chime
+    OR loss-tone."
+  veo.audio.dialogue: "Institutional voice: \"Wave clear.\""
+  pipeline:
+    nb2_seed: 163003; veo_seed: 263003;
+    cdn_target: cdn/client-public/cutscenes/cs_td_wave_end/
+
+cs_td_boss_wave:
+  xref: §F.1.A.8 L955
+  notes: "boss-wave commencement — display shows boss-class
+    enemy icon at +6 km; LED panel solid amber; reactor-warning-
+    rumble."
+  veo.audio.dialogue: "Institutional voice: \"Boss wave.\""
+  pipeline:
+    nb2_seed: 163004; veo_seed: 263004;
+    cdn_target: cdn/client-public/cutscenes/cs_td_boss_wave/
+
+cs_td_total_loss:
+  xref: §F.1.A.8 L962
+  notes: "total-loss — display goes red across all lanes;
+    operator's hand pulls back from console; reactor-warning
+    panel solid red."
+  veo.audio.dialogue: "Institutional voice: \"Compromised.\""
+  pipeline:
+    nb2_seed: 163005; veo_seed: 263005;
+    cdn_target: cdn/client-public/cutscenes/cs_td_total_loss/
+```
+
+### §G.13.E Category B ambient cutscenes (15)
+
+Cat B per §3.1.B: SFX-only, no VO, low-atmospheric music allowed,
+8–15 s. Each anchors to a specific Ark room and is essentially
+**held composition + diegetic SFX bed** showing the room's
+default state. Same canonical NB2 + Veo template, but Veo Audio
+block carries music_eligibility = low-atmospheric (not none).
+
+Trait-lock per room palette inherited from §A.x.
+
+```yaml
+cs_ambient_cryo_bay_overhead:
+  xref: §F.1.B L973
+  notes: "Cryo Bay overhead view from upper catwalk; pod-array of
+    24 occupied cryo-pods visible below in cool-cyan rows;
+    overhead fluorescents flicker once at 00:06. Audio: pod-
+    array beep cadence (24 staggered); ventilation hum 60 Hz;
+    low-atmospheric pad at -42 dB."
+  pipeline:
+    nb2_seed: 164001; veo_seed: 264001; vo_manifest_ref: null;
+    cdn_target: cdn/client-public/cutscenes/cs_ambient_cryo_bay_overhead/
+
+cs_ambient_bridge_captains_chair:
+  xref: §F.1.B L984
+  notes: "Bridge captain's chair POV; tactical-display in
+    foreground; star-field through forward viewports;
+    holographic ship-readout sweeps once. Audio: tactical-display
+    sweep tone; star-field deep-space hum; pad."
+  pipeline:
+    nb2_seed: 164002; veo_seed: 264002;
+    cdn_target: cdn/client-public/cutscenes/cs_ambient_bridge_captains_chair/
+
+cs_ambient_med_bay_autoclave:
+  xref: §F.1.B L994
+  notes: "Med Bay autoclave shelf in §A.2; thermal-cycle in
+    progress; faint steam-vent visible. Audio: autoclave-thermal
+    tick at 1 Hz; steam-vent hiss 00:08; pad."
+  pipeline:
+    nb2_seed: 164003; veo_seed: 264003;
+    cdn_target: cdn/client-public/cutscenes/cs_ambient_med_bay_autoclave/
+
+cs_ambient_engineering_reactor:
+  xref: §F.1.B L1003
+  notes: "Engineering Bay reactor observation railing; reactor in
+    regular sub-bass rhythm; warning-LED panel green-solid
+    (baseline state). Audio: reactor-hum 00:00–00:15 (15 s
+    duration); panel-tick 1 Hz; pad."
+  pipeline:
+    nb2_seed: 164004; veo_seed: 264004;
+    cdn_target: cdn/client-public/cutscenes/cs_ambient_engineering_reactor/
+
+cs_ambient_comms_array_frequency_wall:
+  xref: §F.1.B L1013
+  notes: "Comms Array frequency-wall in baseline state; 12 rows
+    in cold-blue static; one row dim-pulses at 00:10. Audio:
+    static-bed -32 dB; ballast-hum; pad."
+  pipeline:
+    nb2_seed: 164005; veo_seed: 264005;
+    cdn_target: cdn/client-public/cutscenes/cs_ambient_comms_array_frequency_wall/
+
+cs_ambient_antiquarian_library:
+  xref: §F.1.B L1023
+  notes: "Antiquarian's library in baseline state; rows of
+    leather-bound volumes; one specific volume dim-glows at
+    00:08. Audio: library-stillness; clock-tick 1 Hz; pad."
+  pipeline:
+    nb2_seed: 164006; veo_seed: 264006;
+    cdn_target: cdn/client-public/cutscenes/cs_ambient_antiquarian_library/
+
+cs_ambient_personal_quarters:
+  xref: §F.1.B L1033
+  notes: "Personal Quarters baseline; bed made, keepsakes on
+    shelf, soft 2700K bedside lamp. Audio: distant ventilation;
+    bedside-lamp ballast hum; pad."
+  pipeline:
+    nb2_seed: 164007; veo_seed: 264007;
+    cdn_target: cdn/client-public/cutscenes/cs_ambient_personal_quarters/
+
+cs_ambient_captains_quarters_degens_corner:
+  xref: §F.1.B L1042
+  notes: "Captain's Quarters Degen Corner; whiskey-bottle and
+    chip-stack on side-table; dim 2200K practical. Audio: ice-
+    cube settle in glass at 00:06; pad."
+  pipeline:
+    nb2_seed: 164008; veo_seed: 264008;
+    cdn_target: cdn/client-public/cutscenes/cs_ambient_captains_quarters_degens_corner/
+
+cs_ambient_pet_garden:
+  xref: §F.1.B L1051
+  notes: "Pet Garden in baseline; 6 pet-NPCs at rest in various
+    enclosures; greenhouse 4500K key. Audio: pet-soft-snoring
+    cadence; greenhouse-fan hum; pad."
+  pipeline:
+    nb2_seed: 164009; veo_seed: 264009;
+    cdn_target: cdn/client-public/cutscenes/cs_ambient_pet_garden/
+
+cs_ambient_cargo_hold:
+  xref: §F.1.B L1061
+  notes: "Cargo Hold baseline; stacked containers; one container
+    creaks at 00:10. Audio: cargo-stack creak; ventilation; pad."
+  pipeline:
+    nb2_seed: 164010; veo_seed: 264010;
+    cdn_target: cdn/client-public/cutscenes/cs_ambient_cargo_hold/
+
+cs_ambient_memorial_corridor:
+  xref: §F.1.B L1071
+  notes: "Memorial Corridor baseline; flickering candle-array
+    on memorial wall; quiet stillness. Audio: candle-flicker
+    rolling; reverent silence pad -36 dB."
+  pipeline:
+    nb2_seed: 164011; veo_seed: 264011;
+    cdn_target: cdn/client-public/cutscenes/cs_ambient_memorial_corridor/
+
+cs_ambient_cipher_den:
+  xref: §F.1.B L1081
+  notes: "Cipher Den baseline; letterpress-block-grid wall;
+    one ink-pen lifts of its own accord at 00:09. Audio:
+    pen-on-paper scratch 00:09; ink-bottle settle 00:11; pad."
+  pipeline:
+    nb2_seed: 164012; veo_seed: 264012;
+    cdn_target: cdn/client-public/cutscenes/cs_ambient_cipher_den/
+
+cs_ambient_chess_hall:
+  xref: §F.1.B L1091
+  notes: "Chess Hall baseline; rows of empty boards; library-
+    lamp pools; one piece on a distant board moves of its own
+    accord at 00:11. Audio: board-piece tap 00:11; ballast-hum;
+    pad."
+  pipeline:
+    nb2_seed: 164013; veo_seed: 264013;
+    cdn_target: cdn/client-public/cutscenes/cs_ambient_chess_hall/
+
+cs_ambient_game_hall:
+  xref: §F.1.B L1101
+  notes: "Game Hall baseline; row of duel-stages, all empty;
+    far stage's lights dim-on at 00:10 of their own accord.
+    Audio: stage-light cascade 00:10; pad."
+  pipeline:
+    nb2_seed: 164014; veo_seed: 264014;
+    cdn_target: cdn/client-public/cutscenes/cs_ambient_game_hall/
+
+cs_ambient_defense_command_center:
+  xref: §F.1.B L1111
+  notes: "Defense Command threat-display baseline; all-clear
+    green; operator's empty chair. Audio: display-sweep tone;
+    operator-chair creak; pad."
+  pipeline:
+    nb2_seed: 164015; veo_seed: 264015;
+    cdn_target: cdn/client-public/cutscenes/cs_ambient_defense_command_center/
+```
+
+### §G.13.F Category C — Game-mode discovery + loading (30)
+
+Per §3.1.C: discovery 15–25 s with theme music + ≤2 VO; loading
+6–10 s with skip-after-2s + ambient music. **15 game modes × 2
+cuts = 30**.
+
+These are the longer-form discovery cinematics (Cat C diverges
+from §3.1 Cat A — full theme music allowed). Schema:
+
+- Discovery: NB2 stitched 4-frame storyboard (start / mid-1 /
+  mid-2 / end). Veo stitched as 3 × 8 s clips (24 s) with first/
+  last-frame chained.
+- Loading: NB2 single still + Veo single 8 s clip (skippable
+  after 2 s).
+
+Trait-lock per game mode inherited from its host_space.
+
+```yaml
+cs_gamemode_discovery_card_duel:
+  xref: §F.1.C L1124
+  notes: "22s; FPV at duel-board; Game Master narrates 2 lines:
+    'You sit. You play.' / 'You lose. You learn.' Theme: card-
+    duel fanfare. NB2: 4-frame storyboard (board appears /
+    cards shuffle / first card lands / GM smiles). Veo: 3×8s
+    stitched."
+  veo.audio.score: "card-duel fanfare with brass + harp; full
+    music allowed (Cat C music_eligibility = theme-defining)."
+  pipeline:
+    nb2_seed: 165001; veo_seed: 265001;
+    vo_manifest_ref: apps/shared/gameMasterVoManifest.json#L<TBD>;
+    cdn_target: cdn/client-public/cutscenes/cs_gamemode_discovery_card_duel/
+
+cs_gamemode_loading_card_duel:
+  xref: §F.1.C L1125
+  notes: "8s loading; FPV held on duel-board; card-shuffle SFX;
+    GM-chuckle at 00:04; ambient music."
+  veo.audio.score: "low ambient drone + harp pulse."
+  pipeline:
+    nb2_seed: 165002; veo_seed: 265002;
+    cdn_target: cdn/client-public/cutscenes/cs_gamemode_loading_card_duel/
+
+cs_gamemode_discovery_chess:
+  xref: §F.1.C L1129
+  notes: "20s; FPV at chessboard in §A.36; Antiquarian narrates;
+    theme: chess-clock + cathedral organ. NB2 4-frame: board
+    forms / pieces line up / clock starts / first move. Veo
+    3×8s."
+  veo.audio.dialogue: "Antiquarian: \"Eight by eight. Always.\""
+  pipeline:
+    nb2_seed: 165003; veo_seed: 265003;
+    vo_manifest_ref: apps/shared/antiquarianVoManifest.json#L<TBD>;
+    cdn_target: cdn/client-public/cutscenes/cs_gamemode_discovery_chess/
+
+cs_gamemode_loading_chess:
+  xref: §F.1.C L1130
+  notes: "8s; FPV held; clock-tick at 1 Hz; ambient organ pad."
+  pipeline:
+    nb2_seed: 165004; veo_seed: 265004;
+    cdn_target: cdn/client-public/cutscenes/cs_gamemode_loading_chess/
+
+cs_gamemode_discovery_pet_arena:
+  xref: §F.1.C L1133
+  notes: "22s; FPV in arena; Mascoteer narrates; theme: arena-
+    fanfare brass. NB2 4-frame: empty arena / lights up /
+    crowd appears / first pet enters. Veo 3×8s."
+  veo.audio.dialogue: "Mascoteer: \"Step in, step up.\""
+  pipeline:
+    nb2_seed: 165005; veo_seed: 265005;
+    vo_manifest_ref: apps/shared/mascoteerVoManifest.json#L<TBD>;
+    cdn_target: cdn/client-public/cutscenes/cs_gamemode_discovery_pet_arena/
+
+cs_gamemode_loading_pet_arena:
+  xref: §F.1.C L1134
+  notes: "8s; FPV held; pet-roar; crowd-cheer; ambient brass pad."
+  pipeline:
+    nb2_seed: 165006; veo_seed: 265006;
+    cdn_target: cdn/client-public/cutscenes/cs_gamemode_loading_pet_arena/
+
+cs_gamemode_discovery_tower_defense:
+  xref: §F.1.C L1138
+  notes: "22s; FPV at threat-display in §A.33; institutional
+    voice; theme: defensive-march percussive. NB2 4-frame:
+    display dark / display warms up / threat icon appears /
+    tower-icon placed. Veo 3×8s."
+  veo.audio.dialogue: "Institutional voice: \"Defend.\""
+  pipeline:
+    nb2_seed: 165007; veo_seed: 265007;
+    cdn_target: cdn/client-public/cutscenes/cs_gamemode_discovery_tower_defense/
+
+cs_gamemode_loading_tower_defense:
+  xref: §F.1.C L1139
+  notes: "8s; FPV; alarm-siren single tone; ambient drum-bed."
+  pipeline:
+    nb2_seed: 165008; veo_seed: 265008;
+    cdn_target: cdn/client-public/cutscenes/cs_gamemode_loading_tower_defense/
+
+cs_gamemode_discovery_trade_empire:
+  xref: §F.1.C L1142
+  notes: "22s; FPV at star-map in §A.31; clerk narrator; theme:
+    orchestral-trade strings. NB2 4-frame: star-map dark /
+    sectors light / routes pulse / one route highlights. Veo 3×8s."
+  veo.audio.dialogue: "Trade-clerk: \"The map is open.\""
+  pipeline:
+    nb2_seed: 165009; veo_seed: 265009;
+    cdn_target: cdn/client-public/cutscenes/cs_gamemode_discovery_trade_empire/
+
+cs_gamemode_loading_trade_empire:
+  xref: §F.1.C L1143
+  notes: "8s; FPV; bell-toll; ambient strings pad."
+  pipeline:
+    nb2_seed: 165010; veo_seed: 265010;
+    cdn_target: cdn/client-public/cutscenes/cs_gamemode_loading_trade_empire/
+
+cs_gamemode_discovery_pvp_tier5:
+  xref: §F.1.C L1146
+  notes: "22s; FPV in Crucible entry; Crucible-narrator unnamed;
+    theme: combat-percussion taiko. NB2 4-frame: entry dark /
+    arena lights up / opponent silhouette appears / weapons
+    drawn. Veo 3×8s."
+  veo.audio.dialogue: "Crucible-narrator: \"Step in. Earn it.\""
+  pipeline:
+    nb2_seed: 165011; veo_seed: 265011;
+    cdn_target: cdn/client-public/cutscenes/cs_gamemode_discovery_pvp_tier5/
+
+cs_gamemode_loading_pvp_tier5:
+  xref: §F.1.C L1147
+  notes: "8s; FPV; sword-clash single chord; ambient war-pad."
+  pipeline:
+    nb2_seed: 165012; veo_seed: 265012;
+    cdn_target: cdn/client-public/cutscenes/cs_gamemode_loading_pvp_tier5/
+
+cs_gamemode_discovery_cades:
+  xref: §F.1.C L1150
+  notes: "25s; FPV in CADES Console Pod helmet; Captain narrates;
+    theme: military-brass. NB2 4-frame: helmet HUD calibrating /
+    map appears / first mission marker / launch authorisation.
+    Veo 3×8s + 1 final 1s extension."
+  veo.audio.dialogue: "Captain: \"You have the console.\""
+  pipeline:
+    nb2_seed: 165013; veo_seed: 265013;
+    vo_manifest_ref: apps/shared/captainVoManifest.json#L<TBD>;
+    cdn_target: cdn/client-public/cutscenes/cs_gamemode_discovery_cades/
+
+cs_gamemode_loading_cades:
+  xref: §F.1.C L1151
+  notes: "10s; FPV held; comms-static; ambient military-pad."
+  pipeline:
+    nb2_seed: 165014; veo_seed: 265014;
+    cdn_target: cdn/client-public/cutscenes/cs_gamemode_loading_cades/
+
+cs_gamemode_discovery_vortex_incursion:
+  xref: §F.1.C L1154
+  notes: "22s; FPV at rift in Vortex Hub; Insurgency strategist
+    narrates; theme: warp-distortion synth. NB2 4-frame: hub
+    quiet / rift opens / first descent / Vortex Sentinel
+    silhouette. Veo 3×8s."
+  veo.audio.dialogue: "Strategist: \"It chose you.\""
+  pipeline:
+    nb2_seed: 165015; veo_seed: 265015;
+    cdn_target: cdn/client-public/cutscenes/cs_gamemode_discovery_vortex_incursion/
+
+cs_gamemode_loading_vortex_incursion:
+  xref: §F.1.C L1155
+  notes: "8s; FPV; warp-distortion ambient."
+  pipeline:
+    nb2_seed: 165016; veo_seed: 265016;
+    cdn_target: cdn/client-public/cutscenes/cs_gamemode_loading_vortex_incursion/
+
+cs_gamemode_discovery_celebration:
+  xref: §F.1.C L1158
+  notes: "20s; FPV at school gates; child's-voice narrates;
+    theme: school-bell + light melody. NB2 4-frame: gate /
+    bell rings / classroom door creaks / desk visible. Veo 3×8s."
+  veo.audio.dialogue: "Child: \"Welcome. Sit anywhere.\""
+  pipeline:
+    nb2_seed: 165017; veo_seed: 265017;
+    cdn_target: cdn/client-public/cutscenes/cs_gamemode_discovery_celebration/
+
+cs_gamemode_loading_celebration:
+  xref: §F.1.C L1159
+  notes: "8s; FPV; school-bell; ambient soft melody."
+  pipeline:
+    nb2_seed: 165018; veo_seed: 265018;
+    cdn_target: cdn/client-public/cutscenes/cs_gamemode_loading_celebration/
+
+cs_gamemode_discovery_mechronis:
+  xref: §F.1.C L1162
+  notes: "20s; FPV at workbench; engineer's-voice narrates;
+    theme: clockwork-mechanical. NB2 4-frame: workbench dark /
+    tools clink / first tool lifts / project resolves. Veo 3×8s."
+  veo.audio.dialogue: "Engineer: \"Tools, then truth.\""
+  pipeline:
+    nb2_seed: 165019; veo_seed: 265019;
+    cdn_target: cdn/client-public/cutscenes/cs_gamemode_discovery_mechronis/
+
+cs_gamemode_loading_mechronis:
+  xref: §F.1.C L1163
+  notes: "8s; FPV; reactor-hum; ambient clockwork-pad."
+  pipeline:
+    nb2_seed: 165020; veo_seed: 265020;
+    cdn_target: cdn/client-public/cutscenes/cs_gamemode_loading_mechronis/
+
+cs_gamemode_discovery_castle_death:
+  xref: §F.1.C L1166
+  notes: "25s; FPV at castle gate (§E.4.1); Hierarchy priest
+    narrates; theme: organ + bell-toll deep. NB2 4-frame: gate
+    closed / gate opens / hall reveals / throne seen. Veo 3×8s
+    + 1s extension."
+  veo.audio.dialogue: "Priest: \"Cross the threshold.\""
+  pipeline:
+    nb2_seed: 165021; veo_seed: 265021;
+    vo_manifest_ref: apps/shared/hierarchyPriestVoManifest.json#L<TBD>;
+    cdn_target: cdn/client-public/cutscenes/cs_gamemode_discovery_castle_death/
+
+cs_gamemode_loading_castle_death:
+  xref: §F.1.C L1167
+  notes: "10s; FPV; bell-toll deep; ambient organ pad."
+  pipeline:
+    nb2_seed: 165022; veo_seed: 265022;
+    cdn_target: cdn/client-public/cutscenes/cs_gamemode_loading_castle_death/
+
+cs_gamemode_discovery_quiz_show:
+  xref: §F.1.C L1170
+  notes: "22s; FPV at contestant podium (§E.5.1); Velkraal
+    narrates; theme: studio-fanfare. NB2 4-frame: podium dark /
+    spotlight strikes / Velkraal walks on / category card
+    flips. Veo 3×8s."
+  veo.audio.dialogue: "Velkraal: \"Tonight's contestant.\""
+  pipeline:
+    nb2_seed: 165023; veo_seed: 265023;
+    vo_manifest_ref: apps/shared/velkraalVoManifest.json#L<TBD>;
+    cdn_target: cdn/client-public/cutscenes/cs_gamemode_discovery_quiz_show/
+
+cs_gamemode_loading_quiz_show:
+  xref: §F.1.C L1171
+  notes: "8s; FPV; studio-applause-hush; ambient broadcast pad."
+  pipeline:
+    nb2_seed: 165024; veo_seed: 265024;
+    cdn_target: cdn/client-public/cutscenes/cs_gamemode_loading_quiz_show/
+
+cs_gamemode_discovery_dead_mans_circuit:
+  xref: §F.1.C L1174
+  notes: "22s; FPV at start-line; brass-bell narrator (no voice
+    — bell-tolls only); theme: race-engine + bells. NB2 4-frame:
+    start-line dark / lights cycle / engines fire / flag drops.
+    Veo 3×8s."
+  veo.audio.dialogue: "(only bell-tolls and engine-rev)"
+  pipeline:
+    nb2_seed: 165025; veo_seed: 265025;
+    cdn_target: cdn/client-public/cutscenes/cs_gamemode_discovery_dead_mans_circuit/
+
+cs_gamemode_loading_dead_mans_circuit:
+  xref: §F.1.C L1175
+  notes: "8s; FPV; engine-rev; ambient bell pad."
+  pipeline:
+    nb2_seed: 165026; veo_seed: 265026;
+    cdn_target: cdn/client-public/cutscenes/cs_gamemode_loading_dead_mans_circuit/
+
+cs_gamemode_discovery_casino:
+  xref: §F.1.C L1178
+  notes: "22s; FPV at table; Degen narrates; theme: jazz-undertone.
+    NB2 4-frame: floor empty / lights up / Degen at booth /
+    roulette-wheel spins. Veo 3×8s."
+  veo.audio.dialogue: "Degen: \"Place. Lose. Repeat.\""
+  pipeline:
+    nb2_seed: 165027; veo_seed: 265027;
+    vo_manifest_ref: apps/shared/degenerateBrokerVoManifest.json#L<TBD>;
+    cdn_target: cdn/client-public/cutscenes/cs_gamemode_discovery_casino/
+
+cs_gamemode_loading_casino:
+  xref: §F.1.C L1179
+  notes: "8s; FPV; chip-clatter; ambient jazz pad."
+  pipeline:
+    nb2_seed: 165028; veo_seed: 265028;
+    cdn_target: cdn/client-public/cutscenes/cs_gamemode_loading_casino/
+
+cs_gamemode_discovery_editors_workshop:
+  xref: §F.1.C L1182
+  notes: "25s; FPV at desk; Editor's PRESENCE (no voice — page-
+    flip + ink-drying SFX only); theme: parchment + quill ambient.
+    NB2 4-frame: desk dark / lamp on / page flips / quill
+    writes. Veo 3×8s + 1s."
+  veo.audio.dialogue: "(silence — Editor speaks only through SFX)"
+  pipeline:
+    nb2_seed: 165029; veo_seed: 265029;
+    cdn_target: cdn/client-public/cutscenes/cs_gamemode_discovery_editors_workshop/
+
+cs_gamemode_loading_editors_workshop:
+  xref: §F.1.C L1183
+  notes: "10s; FPV; ink drying; ambient parchment-rustle pad."
+  pipeline:
+    nb2_seed: 165030; veo_seed: 265030;
+    cdn_target: cdn/client-public/cutscenes/cs_gamemode_loading_editors_workshop/
+```
+
+---
+
+## §G.E audit (will be re-checked at §G.F)
+
+Cuts retroactively upgraded in this sub-phase: **67**
+- §G.13.A Demon: 5
+- §G.13.B Cloning: 5
+- §G.13.C Terminus death: 7
+- §G.13.D TD events: 5
+- §G.13.E Cat B ambient: 15
+- §G.13.F Cat C mode-discovery + loading: 30
+
+Cumulative coverage after G.A + G.B + G.C + G.D + G.E:
+**285 cutscenes** (150 new + 135 retro upgrades).
+
+Outstanding TBDs (resolved in §G.F audit):
+- VO manifest line numbers for: Mascoteer, Captain, Antiquarian,
+  Hierarchy Priest, Engineer-narrator, Crucible-narrator,
+  Insurgency strategist, Editor's PRESENCE.
+- Cat C discovery cuts are the only blocks in Phase G with
+  music_eligibility = theme-defining; they require a separate
+  music-cue manifest in audio post (out of scope here).
+- Cat B ambient cuts deliberately allow music_eligibility =
+  low-atmospheric — the score field in the Veo prompt should
+  read "low-atmospheric pad at -42 dB," NOT "none."
