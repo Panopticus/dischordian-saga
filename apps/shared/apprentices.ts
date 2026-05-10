@@ -28,6 +28,11 @@ export type ApprenticeArchetype =
   | "zealot" | "ghost" | "scholar" | "revenant" | "artisan" | "oracle"
   | "wanderer" | "martyr" | "heretic" | "jester" | "sentinel" | "prodigal";
 
+export const APPRENTICE_ARCHETYPES: readonly ApprenticeArchetype[] = [
+  "zealot", "ghost", "scholar", "revenant", "artisan", "oracle",
+  "wanderer", "martyr", "heretic", "jester", "sentinel", "prodigal",
+] as const;
+
 export type Rarity = "common" | "uncommon" | "rare" | "epic" | "mythic";
 export type Gender = "female" | "male" | "non-binary";
 export type Race = "human" | "demagi" | "quarchon" | "neyon" | "voltari" | "construct";
@@ -208,6 +213,32 @@ export interface Apprentice {
   evilFromStart: boolean;
   /** Hidden motive — only revealed if/when they betray */
   hiddenMotive?: string;
+  /** Hidden 0-100 stat — the share of the apprentice's inner voice
+   *  that is the Architect's narration. Player cannot see directly.
+   *  Inferred from dialogue tells. Seeded by Mechronis context, fed
+   *  by audits, doctrine, and bond protection. See
+   *  apprenticeMechronisLink.ts. Default: 0 (legacy apprentices). */
+  architectInfluence?: number;
+  /** Doctrine the player chose at recruitment. Default: undefined
+   *  (legacy apprentices recruited before doctrines existed). See
+   *  apprenticeDoctrines.ts. */
+  doctrineId?: string;
+  /** Mechronis House the player belonged to when this apprentice
+   *  was recruited. Captured at gen-time so House changes later
+   *  don't retroactively alter the apprentice's bowl context. */
+  mechronisHouseId?: string;
+  /** Mentor signature professor — the player's top-approval Mechronis
+   *  Academy professor at recruitment. Modifies bond/corruption math
+   *  via apprenticeMechronisLink.MENTOR_SIGNATURES. */
+  mentorProfessorId?: string;
+  /** Memory Card consumed at recruitment, if any. Marks this
+   *  apprentice as inheriting from a fallen one. */
+  inheritedFromMemoryCardId?: string;
+  /** Cohort slot — "active" | "training_a" | "training_b". Default
+   *  "active" for legacy apprentices. See apprenticeCohort.ts. */
+  cohortSlot?: "active" | "training_a" | "training_b";
+  /** Narrative cohort — pre/fall/post-fall/compliance-native. */
+  narrativeCohort?: "pre_fall" | "fall_year" | "post_fall" | "compliance_native";
 }
 
 /* ─── NAME POOLS (per race) ─── */
@@ -356,8 +387,9 @@ const EVIL_MOTIVES = [
   "Was a Mascoteer's favorite student. Cannot disobey their first teacher.",
 ];
 
-function rollEvil(): { isEvil: boolean; motive?: string } {
-  if (Math.random() >= EVIL_ROLL_CHANCE) return { isEvil: false };
+function rollEvil(multiplier: number = 1.0): { isEvil: boolean; motive?: string } {
+  const chance = Math.min(0.99, EVIL_ROLL_CHANCE * multiplier);
+  if (Math.random() >= chance) return { isEvil: false };
   return { isEvil: true, motive: EVIL_MOTIVES[Math.floor(Math.random() * EVIL_MOTIVES.length)] };
 }
 
@@ -370,6 +402,45 @@ export interface GenerateOptions {
   forceRarity?: Rarity;
   /** Player-chosen name override */
   name?: string;
+  /**
+   * Optional Mechronis context — if provided, biases the archetype
+   * roll by House/transcript and seeds Architect Influence. Legacy
+   * callers (no context) get the uniform roll the system shipped
+   * with; behavior is unchanged for them.
+   *
+   * Type kept as `unknown` here to avoid the apprentices module
+   * depending on apprenticeMechronisLink (which already imports
+   * ApprenticeArchetype from us — would create a cycle). The link
+   * module exposes typed helpers that produce the right shape.
+   */
+  mechronisContext?: {
+    transcript: {
+      houseId: string | null;
+      topProfessorId: string | null;
+      meanProfessorApproval: number;
+      complianceScore: number;
+      detentionCount: number;
+      narrativeCohort: "pre_fall" | "fall_year" | "post_fall" | "compliance_native";
+    };
+    playerMorality: number;
+    inheritedTraitId?: string;
+  };
+  /** Pre-computed weighted-archetype pick. Caller (or apprenticeMechronisLink)
+   *  computes this when forwarding mechronisContext; lets us avoid pulling
+   *  the link module into this file. */
+  weightedArchetype?: ApprenticeArchetype;
+  /** Doctrine selected at recruitment. */
+  doctrineId?: string;
+  /** Memory Card consumed at recruitment. */
+  inheritedFromMemoryCardId?: string;
+  /** Initial Architect Influence (from mentor signature + cohort + inheritance). */
+  initialArchitectInfluence?: number;
+  /** Initial bond floor (from inheritance). */
+  initialBond?: number;
+  /** Cohort slot to recruit into. Default "active". */
+  cohortSlot?: "active" | "training_a" | "training_b";
+  /** Doctrine evil-roll multiplier override (1.0 if doctrine doesn't apply). */
+  evilRollMultiplier?: number;
 }
 
 /**
@@ -377,7 +448,8 @@ export interface GenerateOptions {
  * happens during recruitment.
  */
 export function generateApprentice(opts: GenerateOptions = {}): Apprentice {
-  const archetype = opts.forceArchetype ?? pickRandom(ARCHETYPES).id;
+  const archetype =
+    opts.forceArchetype ?? opts.weightedArchetype ?? pickRandom(ARCHETYPES).id;
   const rarity = opts.forceRarity ?? rollRarity();
   const gender: Gender = pickRandom<Gender>(["female", "male", "non-binary"] as const);
   const race = pickRandom<Race>(["human", "demagi", "quarchon", "neyon", "voltari", "construct"] as const);
@@ -385,7 +457,8 @@ export function generateApprentice(opts: GenerateOptions = {}): Apprentice {
   const stats = generateStats(archetype, combatClass, rarity);
   const backstory = generateBackstory(archetype, race, combatClass, rarity);
   const name = opts.name ?? pickNameForApprentice(race, gender);
-  const evil = rollEvil();
+  const evilMult = opts.evilRollMultiplier ?? 1.0;
+  const evil = rollEvil(evilMult);
   return {
     id: `apprentice-${Date.now()}-${Math.floor(Math.random() * 100000)}`,
     name,
@@ -395,7 +468,7 @@ export function generateApprentice(opts: GenerateOptions = {}): Apprentice {
     combatClass,
     rarity,
     stats,
-    bond: 0,
+    bond: opts.initialBond ?? 0,
     // Evil apprentices start at 10-25 hidden corruption — visible in later inspection
     corruption: evil.isEvil ? 10 + Math.floor(Math.random() * 16) : 0,
     stage: "recruited",
@@ -406,6 +479,13 @@ export function generateApprentice(opts: GenerateOptions = {}): Apprentice {
     alive: true,
     evilFromStart: evil.isEvil,
     hiddenMotive: evil.motive,
+    architectInfluence: opts.initialArchitectInfluence,
+    doctrineId: opts.doctrineId,
+    mechronisHouseId: opts.mechronisContext?.transcript.houseId ?? undefined,
+    mentorProfessorId: opts.mechronisContext?.transcript.topProfessorId ?? undefined,
+    inheritedFromMemoryCardId: opts.inheritedFromMemoryCardId,
+    cohortSlot: opts.cohortSlot ?? "active",
+    narrativeCohort: opts.mechronisContext?.transcript.narrativeCohort,
   };
 }
 
@@ -414,8 +494,17 @@ export function generateApprentice(opts: GenerateOptions = {}): Apprentice {
 /**
  * Compute corruption gain per day based on player morality and archetype.
  * Called once per Celebration day to accumulate corruption.
+ *
+ * Optional `doctrineMultiplier` parameter folds in apprenticeDoctrines.ts's
+ * combinedCorruptionMultiplier(archetype, doctrineId). Caller computes the
+ * multiplier and passes it; apprentices.ts stays decoupled from doctrines.
+ * Default 1.0 preserves legacy behavior.
  */
-export function computeDailyCorruption(app: Apprentice, playerMorality: number): number {
+export function computeDailyCorruption(
+  app: Apprentice,
+  playerMorality: number,
+  doctrineMultiplier: number = 1.0,
+): number {
   const def = getArchetypeDef(app.archetype);
   // Morality distance drives base corruption
   const moralityPressure = Math.abs(playerMorality) / 100;
@@ -425,7 +514,7 @@ export function computeDailyCorruption(app: Apprentice, playerMorality: number):
   const normal = Math.max(0, base - bondProtection);
   // Evil apprentices accrue corruption regardless of player choices
   const evilBase = app.evilFromStart ? 1.5 + Math.random() * 1.0 : 0;
-  return normal + evilBase;
+  return (normal + evilBase) * doctrineMultiplier;
 }
 
 /** Is this apprentice ready to turn on the player? */

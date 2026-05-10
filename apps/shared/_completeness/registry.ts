@@ -54,6 +54,10 @@ import { checkLoredexMemberCarryWired } from "./checks/loredexMemberCarryWired";
 import { checkPersonalQuestSubtaskAuthoring } from "./checks/personalQuestSubtaskAuthoring";
 import { checkNpcBanterCommentCoverage } from "./checks/npcBanterCommentCoverage";
 import { checkWheelFollowupCinematicCoverage } from "./checks/wheelFollowupCinematicCoverage";
+import { checkApprenticeDoctrineCoverage } from "./checks/apprenticeDoctrineCoverage";
+import { checkApprenticeAuditCoverage } from "./checks/apprenticeAuditCoverage";
+import { checkApprenticeMissionCoverage } from "./checks/apprenticeMissionCoverage";
+import { checkApprenticeMechronisLinkCoverage } from "./checks/apprenticeMechronisLinkCoverage";
 
 export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
   // ─── Card engine ──────────────────────────────────────────
@@ -338,6 +342,34 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "Every ApprenticeArchetype has all four BioWare-style branching topics (past / calling / mortality / us) with non-empty openers, ≥ 3 entry choices per topic, and at least one choice that opens a follow-up node.",
     check: () => checkApprenticeDialogueCoverage(),
+  },
+  {
+    id: "apprentice.doctrine_coverage",
+    name: "Apprentice Doctrine creeds",
+    description:
+      "Every DoctrineId in apprenticeDoctrines.ts has ≥ 4 stanzas (incl. morning + at_graduation), a non-empty resonantArchetypes set, ≥ 1 permittedRole, and stanza lines ≥ 30 chars (no stubs). Hard parity — the doctrine-pick UI shows all five.",
+    check: () => checkApprenticeDoctrineCoverage(),
+  },
+  {
+    id: "apprentice.audit_coverage",
+    name: "Apprentice Mechronis audits",
+    description:
+      "Every (ApprenticeArchetype × audit day {7,14,21}) cell has authored archetypeFlavor (≥ 10 chars). All three AUDIT_PROMPTS have non-empty question + complianceTemplate. 36 declared cells.",
+    check: () => checkApprenticeAuditCoverage(),
+  },
+  {
+    id: "apprentice.mission_coverage",
+    name: "Graduate-Legion mission micro-arcs",
+    description:
+      "Every GraduateRole that participates in mission micro-arcs has ≥ MIN_MISSIONS_PER_ROLE entries; every mission has briefing + crisis + return + ≥ 2 choices + non-empty resonantArchetypes. Hard parity.",
+    check: () => checkApprenticeMissionCoverage(),
+  },
+  {
+    id: "apprentice.mechronis_link_coverage",
+    name: "Apprentice × Mechronis pedagogical link",
+    description:
+      "12 mentor signatures (one per professor), 4 House archetype-weight tables (non-uniform), 4 narrative-cohort seed bands (in-range), and 12 archetype inheritance hooks (gift + line + breaking-point echo) — 32 declared cells, hard parity.",
+    check: () => checkApprenticeMechronisLinkCoverage(),
   },
   // ─── World — woven-systems integration (the Two-Ripple Rule) ──
   // Added 2026-05-08 alongside docs/design/INCOMPLETE_DESIGNS_AUDIT
