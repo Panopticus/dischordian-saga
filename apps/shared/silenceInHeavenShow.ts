@@ -203,10 +203,74 @@ function jointPortraitsFor(speaker: SIHPrologueBeat["speaker"]): {
   };
 }
 
+/** Approximate spoken length of a line. Counts visible characters and
+ *  weights punctuation ('.' '!' '?' '—' ',') as extra time, because the
+ *  voice actor pauses there. This is the cheap proxy for real audio
+ *  alignment — close enough that a long Antiquarian paragraph no
+ *  longer shares the screen 50/50 with a six-word Storyteller jab. */
+function weightForLine(line: string): number {
+  const chars = line.trim().length;
+  const breathPauses =
+    (line.match(/[.!?—]/g)?.length ?? 0) * 6 +
+    (line.match(/,/g)?.length ?? 0) * 2;
+  return Math.max(8, chars + breathPauses);
+}
+
+/** Allocate a dialog interlude's duration across its beats by spoken
+ *  weight, with a 900ms minimum floor per beat so very short lines
+ *  ("Goddamn.") still get a readable hold. Returns absolute [start,
+ *  end] ms per beat — the last beat clamps to `step.durationMs` so we
+ *  never round past the audio. */
+function allocateBeatSlots(
+  beats: SIHPrologueBeat[],
+  totalMs: number,
+): { startMs: number; endMs: number }[] {
+  if (beats.length === 0) return [];
+  const MIN_BEAT_MS = 900;
+  const weights = beats.map((b) => weightForLine(b.line));
+  const totalWeight = weights.reduce((a, w) => a + w, 0);
+  // First pass: proportional allocation.
+  const raw = weights.map((w) =>
+    Math.max(MIN_BEAT_MS, Math.floor((w / totalWeight) * totalMs)),
+  );
+  // The min-floor + flooring can push total over the audio length.
+  // Trim from the longest beats first (proportionally) so any
+  // shortfall lands on the lines that have the most slack. Excess is
+  // tiny in practice — single-digit ms — but worth keeping the loop
+  // safe so the last beat doesn't end past the audio.
+  let drift = raw.reduce((a, x) => a + x, 0) - totalMs;
+  if (drift > 0) {
+    // Sort indices by raw size, descending; trim 1ms from each in
+    // round-robin until drift hits zero.
+    const order = raw
+      .map((v, i) => [v, i] as const)
+      .sort((a, b) => b[0] - a[0])
+      .map(([, i]) => i);
+    let cursor = 0;
+    while (drift > 0) {
+      const i = order[cursor % order.length];
+      if (raw[i] > MIN_BEAT_MS) {
+        raw[i]--;
+        drift--;
+      }
+      cursor++;
+      if (cursor > order.length * (totalMs + 1)) break; // pathological safety
+    }
+  }
+  // Walk into absolute [start, end] pairs.
+  const slots: { startMs: number; endMs: number }[] = [];
+  let t = 0;
+  for (let i = 0; i < beats.length; i++) {
+    const end = i === beats.length - 1 ? totalMs : t + raw[i];
+    slots.push({ startMs: t, endMs: end });
+    t = end;
+  }
+  return slots;
+}
+
 function dialogStepToSlideshow(step: SIHDialogShowStep): SongSlideshowDef {
   const beats = step.beats ?? [];
-  const beatCount = Math.max(beats.length, 1);
-  const slotMs = Math.max(1000, Math.floor(step.durationMs / beatCount));
+  const slots = allocateBeatSlots(beats, step.durationMs);
   const frames: SlideshowFrame[] =
     beats.length === 0
       ? [
@@ -219,8 +283,7 @@ function dialogStepToSlideshow(step: SIHDialogShowStep): SongSlideshowDef {
           },
         ]
       : beats.map((b, i) => {
-          const start = i * slotMs;
-          const end = i === beatCount - 1 ? step.durationMs : start + slotMs;
+          const { startMs, endMs } = slots[i];
           const bgUrl =
             (b.bgId && album5BackgroundUrl(b.bgId)) || SIH_DIALOG_FALLBACK_BG;
           const singlePortraitUrl = b.expressionId
@@ -230,8 +293,8 @@ function dialogStepToSlideshow(step: SIHDialogShowStep): SongSlideshowDef {
           const joint = jointPortraitsFor(b.speaker);
           const primaryPortraitUrl = joint.primaryUrl ?? singlePortraitUrl;
           return {
-            startMs: start,
-            endMs: end,
+            startMs,
+            endMs,
             imageUrl: bgUrl,
             transition: i === 0 ? "fade" : "dissolve",
             dialogOverlay: `${narratorLabel(b.speaker)} — ${b.line}`,
