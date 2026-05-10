@@ -37,6 +37,18 @@ describe("humanLifeVideoSequence", () => {
     }
   });
 
+  it("the Detective video opens with the canonical Authority lead-in line", () => {
+    // The Detective era's lead-in roots his pre-Wall job in a concrete
+    // employer (the Authority Tribunal — Vernon Vortex / Wanda Wyrlord
+    // / Wayne Warden in Act 1 Cycle C). Locking the exact phrasing
+    // here keeps Beat H's title card in sync with the supporting
+    // commentary lines elsewhere.
+    const detective = getHumanLifeVideo("human_life_detective");
+    expect(detective?.frameLine).toBe(
+      "It all started back when I used to solve problems for the Authority.",
+    );
+  });
+
   it("trigger and seen flags are unique across all four videos", () => {
     const triggers = HUMAN_LIFE_VIDEOS.map((v) => v.triggerFlag);
     const seens = HUMAN_LIFE_VIDEOS.map((v) => v.seenFlag);

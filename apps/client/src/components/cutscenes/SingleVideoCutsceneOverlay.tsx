@@ -27,6 +27,11 @@ export interface SingleVideoCutsceneOverlayProps {
   secondaryLabel: string;
   /** Optional badge appended to the labels (e.g. "· BONUS"). */
   badge?: string;
+  /** Optional in-voice lead-in line. Fades in shortly after the
+   *  video starts, holds, then fades out before first dialog so
+   *  it doesn't compete with the asset's narration. Surfaced at
+   *  the bottom of the frame and in the reduced-motion fallback. */
+  frameLine?: string;
   /** Called when the video ends OR the skip button is pressed OR
    *  the reduced-motion CONTINUE button is pressed OR the asset
    *  fires onerror and we've shown the fallback. */
@@ -44,6 +49,7 @@ export function SingleVideoCutsceneOverlay({
   primaryLabel,
   secondaryLabel,
   badge,
+  frameLine,
   onComplete,
   reduced,
   diagnosticDeliveryHint,
@@ -54,6 +60,24 @@ export function SingleVideoCutsceneOverlay({
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   const showReduced = reduced || osReduced || assetMissing;
+
+  // frameLine lifecycle: hidden → visible (fade in) → hidden (fade out)
+  // before first asset dialog. Held ~5s so the player can read it
+  // without it sitting on top of the narration.
+  const [frameLinePhase, setFrameLinePhase] = useState<
+    "hidden" | "visible" | "fading"
+  >("hidden");
+  useEffect(() => {
+    if (!frameLine || showReduced) return;
+    const inT = window.setTimeout(() => setFrameLinePhase("visible"), 800);
+    const outT = window.setTimeout(() => setFrameLinePhase("fading"), 5800);
+    const goneT = window.setTimeout(() => setFrameLinePhase("hidden"), 6400);
+    return () => {
+      window.clearTimeout(inT);
+      window.clearTimeout(outT);
+      window.clearTimeout(goneT);
+    };
+  }, [frameLine, showReduced]);
 
   const handleError = useCallback(() => {
     if (!warnedRef.current) {
@@ -99,6 +123,14 @@ export function SingleVideoCutsceneOverlay({
         <h2 className="font-display text-3xl void-text-accent tracking-wider text-center max-w-2xl">
           {secondaryLabel}
         </h2>
+        {frameLine ? (
+          <p
+            data-frame-line
+            className="mt-6 font-mono text-sm void-text-system tracking-wide text-center max-w-2xl italic opacity-80"
+          >
+            {frameLine}
+          </p>
+        ) : null}
         <button
           type="button"
           onClick={onComplete}
@@ -141,6 +173,17 @@ export function SingleVideoCutsceneOverlay({
           SKIP
         </button>
       </div>
+      {frameLine && frameLinePhase !== "hidden" ? (
+        <p
+          data-frame-line
+          aria-live="polite"
+          className={`absolute bottom-12 left-1/2 -translate-x-1/2 max-w-2xl px-6 text-center font-mono text-sm md:text-base void-text-accent tracking-wide italic transition-opacity duration-500 ${
+            frameLinePhase === "visible" ? "opacity-90" : "opacity-0"
+          }`}
+        >
+          {frameLine}
+        </p>
+      ) : null}
     </div>
   );
 }

@@ -310,3 +310,45 @@ export function getActiveOverlays(
   if (!def.overlays) return [];
   return def.overlays.filter((o) => timeMs >= o.startMs && timeMs < o.endMs);
 }
+
+/* ═══════════════════════════════════════════════════════
+   LOREDEX DISCOVERY — per-member carry wiring
+
+   When a slideshow finishes and `unlockLoredexEntry` is set,
+   the completion handler passes this payload to
+   `ripple.emit("loredex_entry_discovered", payload)`. The
+   ripple engine's loredex_entry_discovered handler routes the
+   event through `crewLoredexCarryService.recordDiscovery` so
+   that if a crew member dies before the player reads the entry,
+   the dead member stamps `memorialAtCycle` on the unread row.
+
+   Isomorphic — declared in shared so the parity check at
+   apps/shared/_completeness/checks/loredexMemberCarryWired.ts
+   sees the literal `"loredex_entry_discovered"` string in this
+   file. The payload shape mirrors `LoredexDiscoveryEvent` in
+   apps/server/services/rippleEngine.ts, but we don't import it
+   to keep this module server-free.
+   ═══════════════════════════════════════════════════════ */
+
+export interface SlideshowLoredexDiscoveryPayload {
+  /** Discriminator the ripple engine routes on. Always
+   *  "loredex_entry_discovered" — embedded in the type so the
+   *  parity grep finds it at static-analysis time. */
+  kind: "loredex_entry_discovered";
+  userId: number;
+  entryId: string;
+  entryType: "slideshow";
+}
+
+export function buildSlideshowLoredexDiscoveryEvent(
+  def: SongSlideshowDef,
+  userId: number,
+): SlideshowLoredexDiscoveryPayload | null {
+  if (!def.unlockLoredexEntry) return null;
+  return {
+    kind: "loredex_entry_discovered",
+    userId,
+    entryId: def.unlockLoredexEntry,
+    entryType: "slideshow",
+  };
+}

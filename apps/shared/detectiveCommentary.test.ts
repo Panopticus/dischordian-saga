@@ -10,6 +10,7 @@ import {
 import { CONSPIRACY_BOARDS } from "./conspiracyBoards/definitions";
 
 const EXPECTED_ROOMS: RoomId[] = [
+  // Original 10 — covered before the Beat-H expansion.
   "cryo_bay",
   "bridge",
   "medical_bay",
@@ -20,11 +21,33 @@ const EXPECTED_ROOMS: RoomId[] = [
   "armory",
   "captains_quarters",
   "antiquarians_library",
+  // The 16 added in the Detective lead-in expansion (every
+  // non-species-exclusive room mystery module).
+  "cargo_hold",
+  "chaos_forge",
+  "cipher_den",
+  "dreams_workshop",
+  "elemental_nexus",
+  "engineering_core",
+  "forge_workshop",
+  "guild_sanctum",
+  "observation_deck",
+  "oracle_sanctum",
+  "order_tribunal",
+  "quantum_lab",
+  "shadow_vault",
+  "social_hub",
+  "station_dock",
+  "synthesis_chamber",
+  "war_room",
 ];
 
 describe("detectiveCommentary", () => {
-  it("ships at least 30 commentary lines (essential coverage target)", () => {
-    expect(DETECTIVE_COMMENTARY.length).toBeGreaterThanOrEqual(30);
+  it("ships the full 80+ commentary line target", () => {
+    // 39 original + 50 expansion lines (16 new rooms × 2-3 each) +
+    // 7 conspiracy board lines. Threshold sits at 75 to give a
+    // 3-line authoring safety margin below the actual count.
+    expect(DETECTIVE_COMMENTARY.length).toBeGreaterThanOrEqual(75);
   });
 
   it("every entry has either a roomId+hotspotId pair OR a boardKey", () => {
