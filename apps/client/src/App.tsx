@@ -64,6 +64,7 @@ import ElaraDialog from "./components/ElaraDialog";
 import CharacterWidget from "./components/CharacterWidget";
 import { CutsceneRouter } from "./components/cutscenes/CutsceneRouter";
 import { ChapterIntroRouter } from "./components/cutscenes/ChapterIntroRouter";
+import { ConfessionCloseRouter } from "./components/cutscenes/ConfessionCloseRouter";
 import { DailyRewardPopup } from "./components/DailyRewards";
 import RadioMode from "./components/RadioMode";
 import EasterEggs from "./components/EasterEggs";
@@ -838,6 +839,7 @@ function GameGate() {
       <CharacterWidget />
       <CutsceneRouter />
       <ChapterIntroRouter />
+      <ConfessionCloseRouter />
       <DailyRewardPopup />
       <RadioMode />
       <EasterEggs />
