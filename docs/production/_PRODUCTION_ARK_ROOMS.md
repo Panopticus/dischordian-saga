@@ -5404,34 +5404,768 @@ dimensions:      9.00 m × 11.00 m × 4.50 m
 
 ---
 
-## A.33 Defense Command Center (TD — Hellbox 11 host) — CORE
+## A.33 Defense Command Center (TD — Hellbox 11 host) — FULL
+
+**Status: FULL spec.** Cross-ref: `INCEPTION_ARK_FINAL_PRODUCTION.md`
+§2.33 (art-state prompts) and §3.12.13 HB11 The Hive gateway.
+
+### A.33.1 Header
 
 ```
 space_id:        ark.defense_command_center
 space_name:      Defense Command Center
 space_type:      ark_room  (also Hellbox-11 host)
 act_introduced:  Act 4
-lore_anchor:     loredex.system.tower_defense + loredex.character.terminus_swarm + arc.act_4_terminus_swarm_first_contact
-aesthetic_tier:  solar_punk_cathedral  (military-tactical)
+lore_anchor:     loredex.system.tower_defense + loredex.character.terminus_swarm + arc.act_4_terminus_swarm_first_contact + arc.act_4_HB11_first_negotiation
+aesthetic_tier:  solar_punk_cathedral  (military-tactical accents; with bio-organic intrusion in late-act when HB11 active)
 master_of_rlyeh_question: "Is one mind worth more than many?" (per HB11)
 ```
 
-The Defense Command Center is the gameplay-launcher for Tower
-Defense. The threat-display dominates the rear wall. HB11 gateway
-is invoked when a swarm-cluster icon escapes the display.
+### A.33.2 Geometry
 
 ```
 dimensions:           14.00 m × 14.00 m × 5.50 m
-floor_plan_geometry:  rectangular
+origin_point:         centre of floor at the south entrance threshold
+coordinate_axes:      +x = right, +y = forward (north), +z = up
+floor_plan_geometry:  rectangular  (with 5 operator stations arranged in a semi-circle around central holo-table)
+volumetric_anomalies: none in baseline; HB11 transit briefly distorts the threat-display (~10s — swarm cluster expands beyond display boundary; webbing extrudes from north wall)
 ```
 
-Key objects:
-- `ark.defense_command_center.threat_display` — primary threat display (HB11 gateway)
-- `ark.defense_command_center.tactical_holo_table` — tactical holo-overlay
-- `ark.defense_command_center.station_consoles.<n>` — 4-6 operator stations
-- `ark.defense_command_center.alarm_panel` — alarm-trigger station
+The room is square-plan, with a central holo-table dominating
+the ground floor. The threat-display occupies the entire north
+wall (12 m × 4 m). Five operator stations form a semi-circle
+around the holo-table (positions 1-5; player typically at central
+position 3). Wall-mounted secondary displays line east + west
+walls.
 
-(Full spec deferred.)
+Floor area: 196 m².
+
+### A.33.3 Floor
+
+```
+material_primary:     industrial steel grating with anti-static coating; 1.20 m × 1.20 m panels with 50 mm × 5 mm slot pattern; allows cable management beneath
+material_secondary:   solid steel plate (not grated) at central holo-table zone (4.00 × 4.00 m); brass perimeter trim around operator stations
+pattern:              grating with cross-bracing every 0.30 m; central solid plate has alert-marking pattern (bullseye motif inlaid in brass)
+wear_state:           pristine in early acts; in Act 5+, scuff-marks accumulate at operator station areas; in Act 7, scorch-marks if Terminus Swarm has breached defenses
+embedded_features:
+  - id: ark.defense_command_center.floor.charge_point.holo_table
+    position: (0.00, 7.00, 0.00)  # under holo-table
+    dimensions: 0.40 × 0.40 × 0.05
+    function: holo-table power-coupling + heat-dissipation
+  - id: ark.defense_command_center.floor.station_anchor.<n>  (5 stations)
+    position: per station (semi-circle around holo-table)
+    dimensions: 0.30 × 0.30 × 0.05 each
+    function: station electronics power
+  - id: ark.defense_command_center.floor.emergency_lockdown_seal
+    position: (0.00, 0.50, 0.00)  # at south entrance
+    dimensions: 1.40 × 0.20 × 0.10
+    function: emergency-lockdown bulkhead deploys here in critical states
+acoustic_property:    hard_reflective (industrial); RT60 = 0.50s
+```
+
+### A.33.4 Walls
+
+#### Wall: South (entrance)
+
+```
+wall_id:              south
+material_primary:     painted steel panel with rivet-detail (matches Engineering aesthetic); 0.80 m × 1.60 m panels; exposed rivets every 0.40 m
+material_secondary:   bronze dado at z = 1.10 m
+panelisation:         standard
+colour_value:         --token-color-ark-defense-command-wall-south  (slate-grey with red pin-stripe at z = 2.00 m — combat-alert palette)
+embedded_displays:
+  - id: ark.defense_command_center.south.display.alert_status
+    position: (-3.00, 0.20, 1.80)
+    dimensions: 1.20 × 0.80 × 0.05
+    content: current alert level (green / amber / red); state-axis driven
+  - id: ark.defense_command_center.south.display.duty_roster
+    position: (3.00, 0.20, 1.80)
+    dimensions: 1.20 × 0.80 × 0.05
+    content: duty-roster of operator-NPC schedule
+embedded_doors:
+  - door_id: ark.defense_command_center.south.door.main
+    position: (0.00, 0.00, 0.00)
+    dimensions: 1.60 × 2.40 × 0.10
+    door_class: pressure_seal  (heavy; airtight; military-grade)
+    connecting_space_id: ark.corridor.defense_approach
+  - door_id: ark.defense_command_center.south.door.assembly_bay
+    position: (-5.50, 0.00, 0.00)  # west of main
+    dimensions: 1.40 × 2.40 × 0.10
+    door_class: slide
+    connecting_space_id: ark.tower_assembly_bay
+    unlock_condition: Act 4+
+  - door_id: ark.defense_command_center.south.door.trophy_armory
+    position: (5.50, 0.00, 0.00)  # east of main
+    dimensions: 1.40 × 2.40 × 0.10
+    door_class: slide
+    connecting_space_id: ark.trophy_armory
+    unlock_condition: Act 4+
+decorative_features:
+  - id: ark.defense_command_center.south.plaque.creed
+    position: (0.00, 0.20, 3.20)
+    dimensions: 1.00 × 0.40 × 0.02
+    material: bronze with engraved text (carved deep)
+    narrative_role: reads "WE STAND BETWEEN THE DARK AND THE LIGHT" — the defense-command creed
+  - id: ark.defense_command_center.south.warning_sign.combat_zone
+    position: (4.00, 0.20, 3.50)
+    dimensions: 0.40 × 0.30 × 0.01
+    material: yellow-and-red painted steel
+    narrative_role: combat-zone warning; reinforces gravity
+```
+
+#### Wall: East
+
+```
+wall_id:              east
+material_primary:     painted steel panel; reinforced (gunmetal grey); some rust patina at lower corners (lived-in feel)
+material_secondary:   bronze dado
+panelisation:         standard
+colour_value:         --token-color-ark-defense-command-wall-east
+embedded_displays:
+  - id: ark.defense_command_center.east.display.tactical_secondary
+    position: (6.95, 7.00, 2.50)
+    dimensions: 2.40 × 1.60 × 0.05
+    content: tactical secondary view (terrain map; enemy positions)
+  - id: ark.defense_command_center.east.display.tower_loadout
+    position: (6.95, 12.00, 2.50)
+    dimensions: 1.20 × 0.80 × 0.05
+    content: current tower loadout / available towers
+embedded_doors:        none
+decorative_features:
+  - id: ark.defense_command_center.east.weapons_locker
+    position: (6.95, 4.00, 0.00)
+    dimensions: 1.40 × 0.40 × 2.00
+    material: steel locker with reinforced doors
+    narrative_role: secure weapons storage (cross-ref armory adjacency)
+  - id: ark.defense_command_center.east.warning_strobe
+    position: (6.95, 12.00, 4.50)
+    dimensions: 0.30 × 0.30 × 0.30
+    material: red-orange housing with warning lens
+    narrative_role: combat-alert strobe (off in baseline; flashes during alert)
+```
+
+#### Wall: North (the threat-display wall — HB11 anchor surface)
+
+```
+wall_id:              north
+material_primary:     panel of reinforced display screens (modular); seamless 12.00 × 4.00 m display surface from z = 1.00 to z = 5.00; surrounding bezel is gunmetal steel with bronze trim
+material_secondary:   reinforced glass (transparent armor) overlay protecting display
+panelisation:         single-piece display
+colour_value:         --token-color-ark-defense-command-threat-display  (deep navy with green grid; threat icons in red/amber/cyan)
+embedded_displays:
+  - id: ark.defense_command_center.north.display.threat_master
+    position: (0.00, 13.95, 3.00)  # centred on north wall
+    dimensions: 12.00 × 4.00 × 0.10
+    content: THE master threat display (terrain + threats + projected paths); also the HB11 gateway surface
+embedded_doors:        none (no physical exit through north wall)
+decorative_features:
+  - id: ark.defense_command_center.north.relief.shield_emblem
+    position: (0.00, 13.95, 5.30)  # high above threat-display
+    dimensions: 1.00 × 0.80 × 0.05
+    material: cast bronze shield emblem
+    narrative_role: defense-command emblem
+```
+
+#### Wall: West
+
+Mirror of east.
+
+```
+wall_id:              west
+material_primary:     same as east
+material_secondary:   bronze dado
+panelisation:         standard
+colour_value:         --token-color-ark-defense-command-wall-west
+embedded_displays:
+  - id: ark.defense_command_center.west.display.alliance_war
+    position: (0.05, 7.00, 2.50)
+    dimensions: 2.40 × 1.60 × 0.05
+    content: alliance war status (multiplayer)
+  - id: ark.defense_command_center.west.display.guild_standings
+    position: (0.05, 12.00, 2.50)
+    dimensions: 1.20 × 0.80 × 0.05
+    content: guild rankings
+embedded_doors:        none
+decorative_features:
+  - id: ark.defense_command_center.west.warning_strobe
+    position: (0.05, 12.00, 4.50)
+    dimensions: 0.30 × 0.30 × 0.30
+    material: red-orange housing
+    narrative_role: combat-alert strobe (mirror of east)
+```
+
+### A.33.5 Ceiling
+
+```
+height_above_floor:     5.50 m baseline; central coffer over holo-table at 5.00 m (slightly lower; gives intimacy at central planning area); perimeter drop to 4.50 m within 1.50 m of walls
+material:               exposed structural framework with industrial conduits; central coffer is a backlit translucent panel (cool-blue tone — military-tactical)
+lighting_integrated:    suspended high-bay fixtures on 2.40 m × 2.40 m grid at z = 5.00; central coffer is a single emitter; perimeter strip-lighting at z = 4.50
+atmospheric_features:   subtle haze in baseline (industrial); intensifies during alert states (warning strobes activate)
+acoustic_treatment:     baffled (dampening panels at perimeters); central coffer is hard-reflective
+```
+
+### A.33.6 Lighting
+
+```
+ambient_baseline:     4500 K (cool-neutral; tactical); 280 lux at floor level; CRI 88
+direct_fixtures:
+  - id: ark.defense_command_center.light.coffer_central
+    position: (0.00, 7.00, 5.00)
+    beam_angle: 90° downward
+    colour: --token-color-ark-defense-command-coffer  (cool blue-white)
+    intensity: 8000 lumens
+    function: holo-table principal light
+  - id: ark.defense_command_center.light.high_bay_array
+    position: distributed at z = 5.00 on 2.40 × 2.40 grid (excluding coffer zone)
+    beam_angle: 90°
+    colour: --token-color-ark-defense-command-high-bay  (cool white)
+    intensity: 1800 lumens each
+    function: ambient task lighting
+  - id: ark.defense_command_center.light.threat_display_glow
+    position: (0.00, 13.95, 3.00)  # at threat-display
+    beam_angle: 180° wash inward
+    colour: variable (matches display content)
+    intensity: variable (5000-12000 lumens; pulses with display activity)
+    function: ambient + tactical-presence
+  - id: ark.defense_command_center.light.station_console_glow.<n>  (5 stations)
+    position: per station console
+    intensity: 200 lumens each
+    flicker_pattern: subtle data-flow indicator
+practical_sources:
+  - id: ark.defense_command_center.warning_strobe.east  (off in baseline)
+    position: (6.95, 12.00, 4.50)
+    intensity: 0 lumens (off); 5000 lumens at strobe-flash
+    flicker_pattern: cyclic-strobe (only in alert states)
+  - id: ark.defense_command_center.warning_strobe.west  (off in baseline; mirror)
+    position: (0.05, 12.00, 4.50)
+    intensity: 0 lumens (off); 5000 lumens at strobe-flash
+time_of_day_variation:
+  act_4: stable lighting; threat-display green
+  act_5: occasional amber alerts; strobes flash briefly during waves
+  act_6: more frequent alerts; in HB11-active state, threat-display glitches with bio-luminescent green-cyan tones
+  act_7: state-branched: defended (player held off Swarm) or breached (red lighting throughout, strobes constant)
+dynamic_response:
+  - on_alert_status_change: ambient warms to 5800 K alert-tone (amber alert) or 6500 K combat-tone (red alert)
+  - on_HB11_invoke: threat-display flickers; bio-organic webbing visible spreading from display; coffer pulses asymmetrically
+  - on_wave_start: strobes pulse + ambient drops 30% (tactical-darken)
+```
+
+### A.33.7 Atmosphere
+
+```
+air_temperature:    21°C baseline (cool-comfortable; rises to 26°C during sustained combat states)
+humidity:           38% RH; smells of ozone + steel + faint coffee (operator's beverages)
+particulate:
+  - type: dust
+    density: low
+    colour: greyish-iron
+    drift_direction: random + slight upward drift near hot-electronics
+  - type: smoke
+    density: zero in baseline; rises in alert states (system-stress) at corner emitters
+    colour: bluish-grey
+    drift_direction: upward
+  - type: bio_organic_threads (HB11-active only)
+    density: zero baseline; thin filaments visible during HB11 transit (pre-HB11)
+    colour: bio-luminescent green-cyan
+    drift_direction: lateral (extending from north wall)
+volumetric_fog:     absent in baseline; present during alert states (0.10 g/m³, cool-grey)
+wind_drift:         strong from south (entrance) toward operator stations; 0.30 m/s; ventilation pattern
+smell_canon:        ozone + steel + coffee (acts 4) + sulfur (acts 5+ stress states); voice-line: "smells like a war room"
+```
+
+### A.33.8 Sound
+
+```
+ambient_bed:           file: defense_command_ambient_bed_v1.ogg (loop); -30 dB; threat-display warm-up tones, cooling fans, distant comms-chatter, faint heartbeat-rhythm of system pulse
+point_sources:
+  - id: ark.defense_command_center.sound.threat_display_warmup
+    position: (0.00, 13.95, 3.00)
+    sound: deep electronic warmup (continuous, -32 dB)
+    occlusion_behaviour: standard
+    trigger: continuous
+  - id: ark.defense_command_center.sound.station_consoles_buzz
+    position: distributed (one per station)
+    sound: low electronic buzz (continuous, -38 dB each)
+    occlusion_behaviour: standard
+    trigger: continuous
+  - id: ark.defense_command_center.sound.alarm_klaxon  (warning system)
+    position: (0.00, 13.95, 5.00)
+    sound: low rumble warning tone (off in baseline; -22 dB during alert)
+    occlusion_behaviour: omnidirectional
+    trigger: state-conditional
+  - id: ark.defense_command_center.sound.cooling_fans
+    position: distributed in ceiling (8 fans)
+    sound: HVAC cooling drone (continuous, -40 dB)
+    occlusion_behaviour: omnidirectional
+    trigger: continuous
+  - id: ark.defense_command_center.sound.distant_comms_chatter
+    position: (0.00, 13.95, 2.00)
+    sound: muffled radio voices (cycles random clips; -42 dB)
+    occlusion_behaviour: standard
+    trigger: continuous
+  - id: ark.defense_command_center.sound.hb11_organic_pulse  (HB11-active only)
+    position: (0.00, 13.95, 3.00)
+    sound: deep organic-pulse drone (-28 dB; only during HB11 transit)
+    occlusion_behaviour: omnidirectional
+    trigger: state-conditional
+reverb_zone:           IR-impulse: defense_command_v1.wav; wet-mix 22% (industrial reverb)
+music_eligibility:     cutscene only (HB11 transit + Category C cs_disc_tower_defense + cs_load_tower_defense)
+voice_line_eligibility:
+  - speaker: defense_command_voice (institutional; non-named NPC)
+    trigger: ambient + alert
+    line_set: see §2.33.2
+  - speaker: locke (rare; comms-feed; never physical)
+    trigger: state-conditional
+    line_set: see §2.3.2 cross-ref
+  - speaker: the_hive_collective_whisper  (HB11 only)
+    trigger: HB11 transit + negotiation
+    line_set: HB11-specific
+  - speaker: the_master_of_rlyeh
+    trigger: HB11 transit only
+```
+
+### A.33.9 Object inventory
+
+Defense Command Center has 44 inventory objects.
+
+#### A.33.9.1 The Threat Master Display (HB11 anchor surface)
+
+```
+object_id:           ark.defense_command_center.north.display.threat_master
+object_class:        display
+position:            (0.00, 13.95, 3.00)
+dimensions:          12.00 × 4.00 × 0.10
+rotation:            180°
+material_primary:    composite display panel; modular OLED with holographic overlay capability
+material_secondary:  reinforced transparent armor protective layer
+colour_value:        --token-color-ark-defense-command-threat-display  (deep navy + green grid)
+interaction:         interactable
+  - operate: detailed threat-analysis UI
+  - inspect: lore-note about defensive systems
+  - HB11_invoke: when conditions met (player has survived first Terminus Swarm wave + interacts with display), threat-display flickers + swarm icon expands beyond boundary + transit begins (cf §3.12.13)
+narrative_role:      THE display; tactical brain of the room; HB11 gateway. Player's eye is drawn here from any operator station.
+lore_anchor:         loredex.system.tower_defense + loredex.character.terminus_swarm + arc.act_4_HB11_first_negotiation
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.defense.threat_display.operate + trpc.hellbox.hb11.openGate (state-conditional)
+wear_state:          slight wear at frequently-touched zones (tactical-update areas)
+physical_constraints: collides (transparent armor)
+```
+
+#### A.33.9.2 The Tactical Holo-Table
+
+```
+object_id:           ark.defense_command_center.tactical_holo_table
+object_class:        display
+position:            (0.00, 7.00, 0.00)
+dimensions:          3.00 × 2.40 × 1.05
+rotation:            0°
+material_primary:    brushed-titanium frame with matte-black holographic projection surface
+material_secondary:  bronze edge-trim with bronze status lights at corners
+colour_value:        --token-color-ark-defense-command-holo-table  (titanium-black with bronze accents; hologram is variable)
+interaction:         interactable
+  - operate: spawns 3D holographic display of Tower Defense battlefield; player can place towers, plan strategy
+  - inspect: lore-note about tactical-table system
+narrative_role:      planning surface; player builds Tower Defense strategies here; gameplay-launcher for Tower Defense
+lore_anchor:         loredex.system.tower_defense
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.defense.holo_table.openTacticalView + trpc.tower_defense.startMatch
+wear_state:          slight wear at tower-placement areas
+physical_constraints: collides; player can lean
+```
+
+#### A.33.9.3-7 The Five Operator Stations (semi-circle around holo-table)
+
+```
+object_id:           ark.defense_command_center.station.<n>  (n = 1..5; arranged semi-circle)
+object_class:        console
+positions:           [
+  (-5.00, 5.00, 0.00),   # station 1 (south-west)
+  (-3.00, 4.00, 0.00),   # station 2
+  (0.00, 3.50, 0.00),    # station 3 (player's primary; centred south of holo-table)
+  (3.00, 4.00, 0.00),    # station 4
+  (5.00, 5.00, 0.00),    # station 5 (south-east)
+]
+dimensions (each):   1.20 × 0.80 × 1.10
+rotation (each):     varies (faces holo-table)
+material_primary:    brushed steel + matte-black control surface
+material_secondary:  bronze bezel with cool-blue + amber LED accents
+colour_value:        --token-color-ark-defense-command-station
+interaction:         interactable
+  - operate: opens station-specific UI (station 3 is primary; others are operator-NPC stations)
+  - inspect: lore-note
+narrative_role:      operator workstations; in baseline, NPCs occupy stations 1, 2, 4, 5; station 3 is the player's. In alert states, NPCs become more animated; voice-lines fire.
+lore_anchor:         loredex.system.defense_command_operators
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.defense.station.operate
+wear_state:          slight wear at frequently-used buttons
+physical_constraints: collides
+```
+
+#### A.33.9.8-12 Five Operator Chairs (one per station)
+
+```
+object_id:           ark.defense_command_center.station.<n>.chair  (n = 1..5)
+object_class:        furniture
+positions:           one per station (offset 0.80 m forward of station)
+dimensions (each):   0.80 × 0.80 × 1.40
+rotation (each):     varies (faces station)
+material_primary:    matte-black leather; titanium frame with armrests
+material_secondary:  brass armrest caps; bronze trim
+colour_value:        --token-color-ark-defense-command-chair
+interaction:         interactable - sit
+narrative_role:      operator seating; player can sit at station 3 for their primary command position
+lore_anchor:         loredex.system.defense_command_operators
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.defense.station.takeOperatorSeat
+wear_state:          worn at most-occupied chairs
+physical_constraints: collides; sittable
+```
+
+#### A.33.9.13 Alarm Trigger Console
+
+```
+object_id:           ark.defense_command_center.alarm_panel
+object_class:        console
+position:            (0.00, 0.50, 1.20)  # at south wall, near entrance
+dimensions:          0.60 × 0.20 × 0.80
+rotation:            180°
+material_primary:    red-painted steel housing
+material_secondary:  bronze keyhole + bronze trigger-handle
+colour_value:        --token-color-ark-defense-command-alarm-panel  (red with bronze)
+interaction:         interactable
+  - trigger_alarm: deploys emergency lockdown (gameplay-active in critical states; multiplayer)
+  - inspect: lore-note about emergency procedures
+narrative_role:      emergency lockdown trigger; gameplay-active in stress states
+lore_anchor:         loredex.system.alert_status
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.defense.alarm_panel.trigger
+wear_state:          pristine (rare use)
+physical_constraints: collides
+```
+
+#### A.33.9.14 Weapons Locker (east wall)
+
+```
+object_id:           ark.defense_command_center.east.weapons_locker
+object_class:        container
+position:            (6.95, 4.00, 0.00)
+dimensions:          1.40 × 0.40 × 2.00
+rotation:            270°
+material_primary:    reinforced steel locker with bronze handle
+material_secondary:  bronze nameplate "DEFENSE COMMAND ARMORY"
+colour_value:        --token-color-ark-defense-command-weapons-locker
+interaction:         interactable
+  - open (key-required): player can equip CADES weapons in alert states
+  - inspect (closed): lore-note about armory
+narrative_role:      gameplay-active in alert states; player can equip weapons here
+lore_anchor:         loredex.system.cades + cross-ref §A.9 Armory + §A.47 CADES Console Pod
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.defense.weapons_locker.open
+wear_state:          slight wear at handle
+physical_constraints: collides
+```
+
+#### A.33.9.15-22 Eight Cooling Fans (ceiling-mounted)
+
+```
+object_id:           ark.defense_command_center.cooling_fan.<n>  (n = 1..8)
+object_class:        fx_emitter
+positions:           distributed across ceiling at z = 5.00
+dimensions (each):   0.40 × 0.40 × 0.10
+rotation:            0°
+material_primary:    industrial steel housing with rotating blades visible
+material_secondary:  bronze accent on outer ring
+colour_value:        --token-color-ark-defense-command-cooling-fan
+interaction:         inert
+narrative_role:      industrial detail; air movement; sound source for ambient bed
+lore_anchor:         loredex.system.defense_command_cooling
+art_status:          producer_handoff
+gameplay_hook_id:    none
+wear_state:          slight industrial patina
+physical_constraints: non-collide (overhead)
+```
+
+#### A.33.9.23-30 Eight Tower Display Models (decorative)
+
+```
+object_id:           ark.defense_command_center.tower_display_model.<n>  (n = 1..8; one per available tower type)
+object_class:        decoration
+positions:           on shelf above station consoles (between stations); positions varied
+dimensions (each):   0.20 × 0.20 × 0.40
+rotation:            0°
+material_primary:    miniature scale-model towers (each different design); brass + steel
+material_secondary:  bronze base plinth
+colour_value:        per-tower (varies)
+interaction:         inspectable (each model gives a tower-spec readout)
+narrative_role:      shows player available tower types; visual catalog
+lore_anchor:         loredex.system.tower_types
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.defense.tower_model.inspect
+wear_state:          pristine
+physical_constraints: collides
+```
+
+#### A.33.9.31-34 Strobe + Status Lights
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.defense_command_center.warning_strobe.east` | fx_emitter | (6.95, 12.00, 4.50) | 0.30 × 0.30 × 0.30 | combat-alert strobe |
+| `ark.defense_command_center.warning_strobe.west` | fx_emitter | (0.05, 12.00, 4.50) | mirror | strobe |
+| `ark.defense_command_center.alert_status.coffer_pulse_east` | fx_emitter | (6.00, 7.00, 5.00) | 0.10 × 0.10 × 0.10 | localised alert pulse |
+| `ark.defense_command_center.alert_status.coffer_pulse_west` | fx_emitter | (-6.00, 7.00, 5.00) | mirror | localised alert pulse |
+
+#### A.33.9.35-39 Furniture + Storage Fillers
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.defense_command_center.briefing_table` | furniture | (0.00, 11.00, 0.00) | 2.40 × 1.00 × 0.85 | briefing surface for tactical meetings |
+| `ark.defense_command_center.briefing_chair.<n>` (4) | furniture | around briefing table | 0.80 × 0.80 × 1.20 each | briefing seating |
+| `ark.defense_command_center.coat_rack` | decoration | (1.00, 1.50, 0.00) | 0.30 × 0.30 × 1.80 | coat-stand for operators |
+| `ark.defense_command_center.water_dispenser` | interactive | (-5.50, 12.00, 0.00) | 0.50 × 0.30 × 1.20 | water dispenser (cosmetic but interactable) |
+| `ark.defense_command_center.coffee_machine` | interactive | (5.50, 12.00, 0.00) | 0.50 × 0.40 × 0.80 | coffee machine (cosmetic; lore-relevant — operators always have a fresh pot) |
+
+#### A.33.9.40-44 Decorative Closing Items
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.defense_command_center.south.intercom` | console | (-1.50, 0.20, 1.50) | 0.20 × 0.10 × 0.30 | comms relay |
+| `ark.defense_command_center.fire_extinguisher.south` | interactive | (1.50, 0.20, 1.20) | 0.20 × 0.20 × 0.50 | safety |
+| `ark.defense_command_center.first_aid.kit` | container | (-2.50, 0.20, 1.50) | 0.40 × 0.10 × 0.30 | medical |
+| `ark.defense_command_center.brass_compass_inlay` | decoration | (0.00, 7.00, 0.005) | 1.40 × 1.40 × 0.005 | floor inlay below holo-table |
+| `ark.defense_command_center.fallen_tower_memento.shelf` | decoration | (0.05, 12.00, 1.50) on west wall | 0.40 × 0.20 × 0.10 | shelf displaying components from past failed defenses |
+
+Total: 44 inventory objects.
+
+### A.33.10 Camera-spawn-points (FPV cutscenes)
+
+```
+cutscene_id:         cs_amb_defense_command  (Category B Myst-ambient)
+camera_position:     (0.00, 0.50, eye_level)
+camera_facing:       (0°, 5°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         slow approach to threat-display, head-tilt up to study; lasts 22s
+
+cutscene_id:         cs_disc_tower_defense  (Category C discovery)
+camera_position:     (0.00, 4.50, eye_level)  # at station 3
+camera_facing:       (0°, 0°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         seated; threat-display warm-up; institutional voice narrates; lasts 18s
+
+cutscene_id:         cs_load_tower_defense  (Category C loading)
+camera_position:     (0.00, 4.50, eye_level)
+camera_facing:       (0°, 0°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         locked; threat-display warming up; alarm-siren single tone
+
+cutscene_id:         cs_td_wave_start  (per §3.1.A.7)
+camera_position:     (0.00, 4.50, eye_level)
+camera_facing:       (0°, 0°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         locked at threat-display; first wave-icon appears at edge of display
+
+cutscene_id:         cs_td_wave_end  (per §3.1.A.7)
+camera_position:     (0.00, 4.50, eye_level)
+camera_facing:       (0°, 0°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         hands enter frame at controls
+
+cutscene_id:         cs_hellbox_11_open  (HB11 The Hive gateway)
+camera_position:     (0.00, 11.00, eye_level)  # at briefing table closer to north
+camera_facing:       (0°, 0°, 0°)  # facing threat-display
+avatar_height_anchor: eye_level
+head_motion:         locked on display; swarm cluster icon expands; bio-organic webbing visible
+
+cutscene_id:         cs_hellbox_11_transit  (HB11 transit)
+camera_position:     (0.00, 11.00, eye_level)
+camera_facing:       (0°, 0°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         POV travels through tunnel of organic webbing
+
+cutscene_id:         cs_hellbox_11_negotiate  (rare, in-Hive)
+camera_position:     (within Hive; deferred per Phase E)
+camera_facing:       n/a
+avatar_height_anchor: eye_level
+head_motion:         hands enter frame in supplicant gesture; Hive's webbing pulses
+
+cutscene_id:         cs_hellbox_11_close  (HB11 return)
+camera_position:     (0.00, 11.00, eye_level)
+camera_facing:       (0°, 0°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         webbing recedes; tunnel collapses; Defense Command re-materialises
+```
+
+### A.33.11 Doorways
+
+```
+door_id:            ark.defense_command_center.south.door.main
+connecting_space_id: ark.corridor.defense_approach
+door_position:      (0.00, 0.00, 0.00)
+door_dimensions:    1.60 × 2.40 × 0.10
+door_class:         pressure_seal
+unlock_condition:   Act 4+
+transit_animation:  airlock-cycle (3s)
+audio_signature:    pneumatic-hiss + magnetic-clack
+
+door_id:            ark.defense_command_center.south.door.assembly_bay
+connecting_space_id: ark.tower_assembly_bay
+door_position:      (-5.50, 0.00, 0.00)
+door_dimensions:    1.40 × 2.40 × 0.10
+door_class:         slide
+unlock_condition:   Act 4+
+transit_animation:  fade
+audio_signature:    pneumatic-hiss + servo-whir
+
+door_id:            ark.defense_command_center.south.door.trophy_armory
+connecting_space_id: ark.trophy_armory
+door_position:      (5.50, 0.00, 0.00)
+door_dimensions:    1.40 × 2.40 × 0.10
+door_class:         slide
+unlock_condition:   Act 4+
+transit_animation:  fade
+audio_signature:    pneumatic-hiss + servo-whir
+```
+
+### A.33.12 Adjacency map
+
+```
+direct_adjacencies:
+  - ark.corridor.defense_approach (south main door)
+  - ark.tower_assembly_bay (south door)
+  - ark.trophy_armory (south door)
+  - hellbox.the_hive (HB11 portal via threat-display, conditional on first survived wave)
+one_hop_adjacencies:
+  - ark.armory (via approach corridor; tactical loadout)
+  - ark.bridge (via long-route; tactical command escalation)
+  - destination.the_hive (via HB11)
+  - destination.terminus_raid_maps (Tower Defense gameplay)
+```
+
+### A.33.13 Gameplay hooks
+
+```
+hooks:
+  - hook_id:         defense_command.openTacticalView
+    trigger:         player.operate on tactical_holo_table
+    procedure:       trpc.defense.holo_table.openTacticalView
+    success_state:   tactical_view_active = true
+  - hook_id:         defense_command.startTowerDefenseMatch
+    trigger:         player.operate on holo_table + select_match
+    procedure:       trpc.tower_defense.startMatch
+    success_state:   td_match_started = true
+  - hook_id:         defense_command.operateThreatDisplay
+    trigger:         player.operate on threat_master display
+    procedure:       trpc.defense.threat_display.operate
+    success_state:   threat_display_active = true
+  - hook_id:         defense_command.invokeHB11
+    trigger:         (state-conditional) player has survived first Terminus Swarm wave + interacts with threat display
+    procedure:       trpc.hellbox.hb11.openGate
+    success_state:   hellbox_11_transit_started = true
+  - hook_id:         defense_command.openWeaponsLocker
+    trigger:         (state-conditional) player.open on weapons_locker (alert state required)
+    procedure:       trpc.defense.weapons_locker.open
+    success_state:   weapons_locker_open = true
+  - hook_id:         defense_command.triggerAlarm
+    trigger:         player.interact on alarm_panel (with key)
+    procedure:       trpc.defense.alarm_panel.trigger
+    success_state:   alarm_active = true (deploys emergency lockdown)
+  - hook_id:         defense_command.takeOperatorSeat
+    trigger:         player.sit on station.<n>.chair
+    procedure:       trpc.defense.station.takeOperatorSeat
+    success_state:   operator_seat_active = true
+  - hook_id:         defense_command.inspectTowerModel
+    trigger:         player.inspect on tower_display_model.<n>
+    procedure:       trpc.defense.tower_model.inspect
+    success_state:   tower_model_read = true (per-model)
+```
+
+### A.33.14 Story-tie
+
+```
+primary_arcs:
+  - arc.act_4_terminus_swarm_first_contact
+  - arc.act_4_HB11_first_negotiation
+  - arc.player_defense_progression
+  - arc.defending_the_ark (continuous; ship-state)
+per_act_evolution:
+  acts_0_3: room locked
+  act_4: room opens; first Tower Defense match available; HB11 unlocks after first wave survived
+  act_5: more frequent waves; alert state escalates; first negotiation with the Hive (rare)
+  act_6: in HB11-active state, threat-display glitches with bio-luminescent green-cyan tones; Hive whispers occasionally audible
+  act_7: state-branched: defended ending (player held off Swarm) vs. breached ending (player did not — combat damage visible throughout room)
+npc_roster:
+  - defense_command_voice (institutional; non-named): primary VO presence
+  - 4 operator NPCs (positions 1, 2, 4, 5): occasional silent presence (rotating duty)
+  - the_player: operator at position 3
+  - the_master_of_rlyeh: HB11 transit voice only
+  - the_hive_collective: presence-only (felt during HB11 active states; never visible)
+readables:
+  - dedication plaque (south)
+  - 8 tower display model spec-readouts
+  - tactical holo-table strategy briefings (gameplay-driven)
+  - threat-display historical logs (gameplay)
+  - "fallen tower memento" shelf items (each is a multi-screen lore-readable about a past defense — the towers that did not hold)
+master_of_rlyeh_question: "Is one mind worth more than many?"
+```
+
+### A.33.15 Special-FX
+
+```
+particle_systems:
+  - dust (low industrial)
+  - smoke (alert-state corner emitters)
+  - bio_organic_threads (HB11-active only)
+  - coolant_drip (very rare; from cooling fans during sustained combat)
+volumetric_effects:
+  - threat_display_glow (variable; matches display content)
+  - holo_table_volumetric_overlay (3D battlefield projection above table)
+  - HB11_organic_webbing (one-shot during HB11 transit; webbing visibly extrudes from north wall)
+procedural_animations:
+  - cooling_fans_rotate (8 fans; subtle blade animation)
+  - coffee_machine_steam (occasional cosmetic)
+  - threat_display_radar_sweep (continuous radar-style sweep across display)
+  - station_console_glow_pulse (data-flow indicator on each station)
+reactive_systems:
+  - holo_table_glow_on_proximity (within 2.0 m, holo-table activates)
+  - warning_strobes_on_alert (state-conditional)
+  - threat_display_alert_visualisation (red overlay during combat)
+  - HB11_organic_webbing_one_shot (when HB11 invoked)
+```
+
+### A.33.16 Avatar-parametricity
+
+```
+camera_height_variation:
+  small_xenomorph (0.85m eye): camera height 0.85m; threat-display feels overwhelming; alternate stand-at-elevated-platform animation at station
+  short_humanoid (1.40m eye): standard
+  average_humanoid (1.70m eye): standard
+  tall_humanoid (2.05m eye): cooling fans at near-head-level (must duck slightly)
+  tall_xenomorph (2.70m eye): some fans collide; alternate route through room centre
+reachability:
+  small_xenomorph: cannot reach top of weapons locker; must use stool
+  small_xenomorph: cannot reach upper threat-display zones; relay-inspect
+  others: all-reachable
+audio_occlusion_variation:
+  xenomorph_sensitive_hearing: cooling fans louder; alert klaxon overwhelming
+  synthetic_voice_avatar: institutional voice has more affinity (synthetic resonance match)
+```
+
+### A.33.17 Performance
+
+```
+polygon_budget:      280,000 polygons (tactical density; many displays)
+texture_budget:      170 MB total (display content shaders are expensive)
+light_count_limit:   18 simultaneous dynamic lights
+lod_plan:
+  - hero_distance: 0-10m, full detail
+  - mid_distance: 10-20m, mid detail (cooling fans simplified; tower models simplified)
+  - low_distance: 20m+, low detail (mostly billboarded)
+streaming_behaviour:
+  - preload: ark.corridor.defense_approach (south)
+  - preload: ark.tower_assembly_bay (Act 4+)
+  - preload: ark.trophy_armory (Act 4+)
+  - on_player_at_threat_display + HB11_unlocked: preload destination.the_hive
+  - on_holo_table_active: preload destination.terminus_raid_maps (current TD level only)
+```
 
 ---
 
@@ -5467,37 +6201,721 @@ dimensions:      11.00 m × 11.00 m × 5.00 m
 
 ---
 
-## A.36 Chess Hall (Hellbox-9 host) — CORE
+## A.36 Chess Hall (Hellbox-9 host) — FULL
+
+**Status: FULL spec.** Cross-ref: `INCEPTION_ARK_FINAL_PRODUCTION.md`
+§2.36 (art-state prompts) and §3.12.11 HB9 Eternal Match gateway.
+
+### A.36.1 Header
 
 ```
 space_id:        ark.chess_hall
 space_name:      Chess Hall
 space_type:      ark_room  (also Hellbox-9 host)
-act_introduced:  Act 4
-lore_anchor:     loredex.system.chess + loredex.character.the_antiquarian + loredex.character.the_programmer + arc.act_4_eternal_match
-aesthetic_tier:  solar_punk_cathedral  (cerebral-academic)
+act_introduced:  Act 3 (chess multiplayer); Act 4 (HB9 unlocks after first chess match)
+lore_anchor:     loredex.system.chess + loredex.character.the_antiquarian + loredex.character.the_programmer + arc.act_4_eternal_match + §11.3.1 cross-centuries chess game
+aesthetic_tier:  solar_punk_cathedral  (cerebral-academic; with sub-tier of chamber-chapel for the central board)
 master_of_rlyeh_question: "Whose move is the final one?" (per HB9)
 ```
 
-The Chess Hall hosts chess multiplayer + tournaments. Its central
-chess-board is the HB9 gateway: after the player's first match,
-the king-piece flickers and moves on its own — opening transit.
-Cross-ref §11.3.1 (the centuries-long Antiquarian-vs-Programmer
-chess game).
+### A.36.2 Geometry
 
 ```
 dimensions:           14.00 m × 14.00 m × 5.50 m
-floor_plan_geometry:  rectangular
+origin_point:         centre of floor at the south entrance threshold
+coordinate_axes:      +x = right, +y = forward, +z = up
+floor_plan_geometry:  rectangular  (with the central area raised 0.20 m on a marble dais)
+volumetric_anomalies: none in baseline; HB9 transit briefly distorts the central chess-board (~10s — the king-piece moves to a square outside chess geometry)
 ```
 
-Key objects:
-- `ark.chess_hall.chess_board.central` — HB9 gateway board
-- `ark.chess_hall.chess_board.tournament.<n>` — tournament boards (4-8)
-- `ark.chess_hall.antiquarian_chair` — Antiquarian's NPC anchor
-- `ark.chess_hall.programmer_chair` — Programmer's NPC anchor
-- `ark.chess_hall.observation_seating` — for spectators
+The Chess Hall is square-plan, with the central chess-board on
+a 4 × 4 m raised marble dais. Tournament boards are arranged
+in a perimeter ring (4 boards along east + west walls). The
+Antiquarian's chair faces the central board from the north;
+the Programmer's chair faces from the south (across the central
+board). The player's anchor is at the EAST side of the central
+board (the third position).
 
-(Full spec deferred.)
+Floor area: 196 m².
+
+### A.36.3 Floor
+
+```
+material_primary:     polished marble in alternating black-and-white tile pattern; 0.50 m × 0.50 m tiles laid in a grand chessboard pattern across the entire room (8×8 super-pattern visible from above)
+material_secondary:   bronze inlay outlining the central dais (4×4 m raised area); brass meditation-circle inlays at each of the 8 wall-tournament-board positions
+pattern:              chessboard 0.50m grid; entire room reads as a giant chess-board
+wear_state:           pristine (sacred-game space); slight wear at central dais access points
+embedded_features:
+  - id: ark.chess_hall.floor.dais_step.south
+    position: (0.00, 7.00, 0.00)
+    dimensions: 4.00 × 0.20 × 0.20  (single step up to dais)
+    function: dais access (one step at south + east + west; north is closed by Antiquarian's chair area)
+  - id: ark.chess_hall.floor.dais_step.east
+    position: (9.00, 7.00, 0.00)
+    dimensions: 0.20 × 4.00 × 0.20
+    function: dais access east
+  - id: ark.chess_hall.floor.dais_step.west
+    position: (5.00, 7.00, 0.00)
+    dimensions: 0.20 × 4.00 × 0.20
+    function: dais access west
+  - id: ark.chess_hall.floor.charge_point.dais
+    position: (7.00, 7.00, 0.20)  # under central board, above dais top
+    dimensions: 0.30 × 0.30 × 0.05
+    function: chess-clock and board-electronics power
+acoustic_property:    hard_reflective with cathedral-like reverb; RT60 = 0.70s (long; supports the contemplative atmosphere)
+```
+
+### A.36.4 Walls
+
+#### Wall: South (entrance)
+
+```
+wall_id:              south
+material_primary:     polished marble cladding (matches floor in colour; black-veined-with-white panels) with carved chess-piece motifs in low relief at z = 0.40 to 1.20
+material_secondary:   bronze dado at z = 1.20 m
+panelisation:         9 panels wide × 4 panels tall
+colour_value:         --token-color-ark-chess-hall-wall  (black-and-white marble with bronze accents)
+embedded_displays:
+  - id: ark.chess_hall.south.display.tournament_bracket
+    position: (-3.00, 0.20, 1.80)
+    dimensions: 1.20 × 0.80 × 0.05
+    content: live tournament bracket; player rankings
+  - id: ark.chess_hall.south.display.player_rating
+    position: (3.00, 0.20, 1.80)
+    dimensions: 1.20 × 0.80 × 0.05
+    content: player's chess rating + match history
+embedded_doors:
+  - door_id: ark.chess_hall.south.door.main
+    position: (0.00, 0.00, 0.00)
+    dimensions: 1.40 × 2.40 × 0.10
+    door_class: arch  (bronze; with chess-piece motif inlaid)
+    connecting_space_id: ark.corridor.chess_approach
+  - door_id: ark.chess_hall.south.door.grand_master
+    position: (5.50, 0.00, 0.00)  # east of main door
+    dimensions: 1.20 × 2.40 × 0.10
+    door_class: slide
+    connecting_space_id: ark.grand_masters_sanctum
+    unlock_condition: top-10 ladder rank
+  - door_id: ark.chess_hall.south.door.puzzle_study
+    position: (-5.50, 0.00, 0.00)  # west of main door
+    dimensions: 1.20 × 2.40 × 0.10
+    door_class: slide
+    connecting_space_id: ark.puzzle_study_chamber
+    unlock_condition: Act 4+
+decorative_features:
+  - id: ark.chess_hall.south.plaque.chess_principle
+    position: (0.00, 0.20, 3.20)
+    dimensions: 1.00 × 0.40 × 0.02
+    material: bronze
+    narrative_role: reads "EVERY MOVE IS A QUESTION" — the room's primary maxim
+```
+
+#### Wall: East (with 4 tournament-board alcoves)
+
+```
+wall_id:              east
+material_primary:     polished marble with deep alcoves at tournament-board positions (4 alcoves at y = 2.5, 5.5, 8.5, 11.5)
+material_secondary:   bronze dado
+panelisation:         alcoves alternate with marble panels
+colour_value:         --token-color-ark-chess-hall-wall
+embedded_displays:    none  (tournament-board area is the content)
+embedded_doors:        none
+decorative_features:
+  - id: ark.chess_hall.east.alcove.<n>  (4 alcoves)
+    position: distributed along east wall
+    dimensions: 1.40 × 1.20 × 2.40 deep recessed
+    material: marble
+    narrative_role: each alcove houses a tournament chess-board + 2 chairs; observation cubicle
+```
+
+#### Wall: North (rear; Antiquarian's anchor)
+
+```
+wall_id:              north
+material_primary:     polished marble cladding; with deep apsidal niche at centre-north (where Antiquarian's chair is anchored)
+material_secondary:   bronze dado; bronze portrait frame
+panelisation:         apsidal central niche flanked by panel walls
+colour_value:         --token-color-ark-chess-hall-wall-apse
+embedded_displays:
+  - id: ark.chess_hall.north.display.eternal_match_state
+    position: (0.00, 13.95, 1.80)
+    dimensions: 1.20 × 0.80 × 0.05
+    content: read-only state of the cross-centuries chess game (cf §11.3.1); shows current position
+embedded_doors:        none
+decorative_features:
+  - id: ark.chess_hall.north.alcove.antiquarian
+    position: (0.00, 13.95, 0.00)
+    dimensions: 2.00 × 1.20 × 3.20 deep recessed
+    material: marble with painted scene of "the eternal game"
+    narrative_role: where the Antiquarian sits when present
+  - id: ark.chess_hall.north.painting.first_game
+    position: (0.00, 13.85, 4.00)  # above antiquarian alcove
+    dimensions: 2.40 × 1.80 × 0.05
+    material: oil on canvas (depicts the very first chess game played in the Ark — Antiquarian vs. Programmer's predecessor)
+    narrative_role: lore-readable; canonically painted by the Architect-faction
+```
+
+#### Wall: West (with 4 tournament-board alcoves; mirror of east)
+
+```
+wall_id:              west
+material_primary:     same as east
+material_secondary:   bronze dado
+panelisation:         mirror of east (4 alcoves)
+colour_value:         --token-color-ark-chess-hall-wall
+embedded_displays:    none
+embedded_doors:        none
+decorative_features:
+  - id: ark.chess_hall.west.alcove.<n>  (4 alcoves; mirror of east)
+```
+
+### A.36.5 Ceiling
+
+```
+height_above_floor:     5.50 m baseline; central coffered ceiling over chess-dais rises to 6.20 m (creates "chamber-chapel" feel for central game); apsidal vault at north dome rises to 6.50 m above Antiquarian's alcove
+material:               polished marble cladding with bronze rib detailing; central coffer is a backlit translucent panel
+lighting_integrated:    central pendant chandelier over central board; recessed strip-lights at each tournament alcove ceiling; cathedral-rays from apsidal dome
+atmospheric_features:   subtle dust-motes visible in central pendant light shaft (especially during ambient cutscenes)
+acoustic_treatment:     coffered + apsidal echo at north
+```
+
+### A.36.6 Lighting
+
+```
+ambient_baseline:     3500 K (warm-neutral; scholarly); 220 lux at floor level; CRI 92
+direct_fixtures:
+  - id: ark.chess_hall.light.central_chandelier
+    position: (7.00, 7.00, 6.00)  # above central chess-board on dais
+    beam_angle: 90° downward
+    colour: --token-color-ark-chess-hall-chandelier  (warm white with crystal scatter)
+    intensity: 6000 lumens (with prism dispersion)
+    function: principal task lighting on central board
+  - id: ark.chess_hall.light.alcove_strip.east.<n>  (4 strips, one per east alcove)
+    position: top of each east alcove at z = 2.40
+    beam_angle: 180° wash
+    colour: --token-color-ark-chess-hall-alcove-strip
+    intensity: 1200 lumens each
+    function: tournament-board task lighting
+  - id: ark.chess_hall.light.alcove_strip.west.<n>  (4 strips)
+    position: top of each west alcove at z = 2.40
+    beam_angle: 180° wash
+    colour: same as east
+    intensity: 1200 lumens each
+  - id: ark.chess_hall.light.apsidal_dome
+    position: (0.00, 13.95, 6.50)
+    beam_angle: 90° downward
+    colour: --token-color-ark-chess-hall-apsidal-dome  (warm gold)
+    intensity: 3000 lumens
+    function: dramatic apse-light onto Antiquarian's alcove
+  - id: ark.chess_hall.light.dais_perimeter
+    position: along edges of central marble dais at z = 0.20
+    beam_angle: 30° upward (uplight)
+    colour: --token-color-ark-chess-hall-dais-uplight  (warm white)
+    intensity: 600 lumens per metre (12 metres total perimeter)
+    function: dramatically separates central dais from surrounding floor
+practical_sources:
+  - id: ark.chess_hall.tournament_board.east.<n>.clock_glow  (4 emitters)
+    position: per tournament chess-clock
+    intensity: 80 lumens
+    flicker_pattern: ticks with clock
+  - id: ark.chess_hall.tournament_board.west.<n>.clock_glow  (4 emitters)
+    position: per tournament chess-clock
+    intensity: 80 lumens
+    flicker_pattern: ticks with clock
+  - id: ark.chess_hall.central_board.clock_glow
+    position: (7.00, 7.00, 0.95)  # on central board
+    intensity: 100 lumens
+    flicker_pattern: ticks with clock (deeper, slower than tournament clocks)
+time_of_day_variation:
+  acts_3_to_7: stable lighting; in HB9-active state, central pendant flickers in time with the king-piece's auto-move
+dynamic_response:
+  - on_player_at_central_board: dais-uplight intensifies 20%
+  - on_HB9_invoke: central pendant flickers; king-piece glows; chamber-walls visibly dissolve (one-shot)
+  - on_tournament_match_start: alcove strip intensifies for that alcove
+```
+
+### A.36.7 Atmosphere
+
+```
+air_temperature:    20°C (cool-comfortable; chess concentration)
+humidity:           42% RH; smells of polished-wood + book-paper (from observation chairs) + faint polish (chess pieces) + cold-marble
+particulate:
+  - type: dust
+    density: low (well-maintained)
+    colour: warm-grey
+    drift_direction: random + slight downward in central pendant light shaft
+volumetric_fog:     absent in baseline; very subtle volumetric beam from apsidal dome to Antiquarian's chair (only visible during ambient or HB9 cutscenes)
+wind_drift:         minimal; 0.02 m/s
+smell_canon:        polished-wood + book-paper + cold-marble + faint metallic-bronze; voice-line: "the air is still here; even thoughts hesitate"
+```
+
+### A.36.8 Sound
+
+```
+ambient_bed:           file: chess_hall_ambient_bed_v1.ogg (loop); -36 dB; very quiet; 8 chess-clocks ticking (out-of-phase, creating gentle polyrhythm), occasional piece-on-board, distant bell-toll (period 90s)
+point_sources:
+  - id: ark.chess_hall.sound.central_board_clock
+    position: (7.00, 7.00, 0.95)
+    sound: deep slow tock (period 1s; -28 dB)
+    occlusion_behaviour: standard
+    trigger: continuous (only active when match in progress)
+  - id: ark.chess_hall.sound.tournament_clock.east.<n>  (4 sources)
+    position: per east tournament alcove
+    sound: lighter tick (period 1s, slightly different rate per clock; -32 dB each)
+    occlusion_behaviour: standard
+    trigger: continuous when match active
+  - id: ark.chess_hall.sound.tournament_clock.west.<n>  (4 sources)
+    position: per west tournament alcove
+    sound: lighter tick (-32 dB each)
+    occlusion_behaviour: standard
+    trigger: continuous when match active
+  - id: ark.chess_hall.sound.distant_bell
+    position: (0.00, 13.95, 6.50)
+    sound: deep bell-toll (period 90s; -36 dB per toll)
+    occlusion_behaviour: omnidirectional with bias toward apse
+    trigger: cyclic
+  - id: ark.chess_hall.sound.piece_on_board
+    position: dynamic (per-board interaction)
+    sound: piece settling on marble (per-move; -28 dB)
+    occlusion_behaviour: standard
+    trigger: per-move
+  - id: ark.chess_hall.sound.antiquarian_breath
+    position: (0.00, 13.95, 1.40)
+    sound: very faint slow breath (-44 dB; only when Antiquarian present)
+    occlusion_behaviour: omnidirectional
+    trigger: state-conditional
+  - id: ark.chess_hall.sound.programmer_click
+    position: (7.00, 7.00 - 4.00, 1.40)  # at south of central dais
+    sound: very faint key-click (-44 dB; only when Programmer present)
+    occlusion_behaviour: standard
+    trigger: state-conditional
+reverb_zone:           IR-impulse: chess_hall_v1.wav; wet-mix 28% (cathedral-like)
+music_eligibility:     cutscene only (HB9 transit + Category B cs_amb_chess_hall + Category C cs_disc_chess + cs_load_chess)
+voice_line_eligibility:
+  - speaker: the_antiquarian
+    trigger: presence (Acts 3+)
+    line_set: see §2.36.2 (Chess Hall NPC presence-line set)
+  - speaker: the_programmer
+    trigger: state-conditional (rare physical presence; usually Comms Array or remote)
+    line_set: see §2.36.2
+  - speaker: the_master_of_rlyeh
+    trigger: HB9 transit only
+    line_set: HB9-specific
+```
+
+### A.36.9 Object inventory
+
+Chess Hall has 56 inventory objects.
+
+#### A.36.9.1 The Central Chess-Board (HB9 gateway)
+
+```
+object_id:           ark.chess_hall.chess_board.central
+object_class:        interactive  (also fx_emitter for HB9 transit)
+position:            (7.00, 7.00, 0.20)  # on central dais top
+dimensions:          0.80 × 0.80 × 0.05  (board) + pieces above to z = 0.40
+rotation:            0°
+material_primary:    polished walnut and ivory inlay (alternating squares)
+material_secondary:  bronze edge-trim with gold-engraved rank/file letters
+colour_value:        --token-color-ark-chess-hall-central-board
+interaction:         interactable
+  - examine: shows current state of cross-centuries chess game (cf §11.3.1); piece positions persistent across visits
+  - move_piece (player's turn only): player can make a move when their turn comes (game state cycle: Antiquarian → Programmer → Player; player's piece set is 3 pieces (king/knight/queen) per §3.12.11)
+  - HB9_invoke: when conditions met (player has played first chess match in tournament boards; first physical interaction with central board), king-piece flickers + moves on its own + transit begins (cf §3.12.11)
+narrative_role:      THE central board; cosmologically the HB9 gateway. The cross-centuries game persists across player lifetimes; player adds 3 pieces (king/knight/queen) per §3.12.11 three-player variant
+lore_anchor:         §11.3.1 cross-centuries chess game + arc.act_4_eternal_match
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.chess.central_board.examine + .move + trpc.hellbox.hb9.openGate (state-conditional)
+wear_state:          pristine but well-played (centuries old; rendered with patina)
+physical_constraints: collides; pieces interactable
+```
+
+#### A.36.9.2-33 The Central Board's 32 (or 35 — three-player variant) Pieces
+
+```
+object_id:           ark.chess_hall.chess_board.central.piece.<color_or_player>.<piece_type>.<n>
+object_class:        interactive
+position:            varies (per piece, on board)
+dimensions:          varied (king ~0.10 × 0.10 × 0.18; pawns ~0.06 × 0.06 × 0.10)
+rotation:            0°
+material_primary:    Antiquarian's set is brass-and-walnut; Programmer's set is matte-black-and-titanium; Player's set (3 pieces: king/knight/queen) is custom — colour varies by player faction-alignment
+material_secondary:  none
+colour_value:        per-set (3 token families)
+interaction:         interactable (only on player's turn for player pieces)
+  - move: player can move their piece (subject to rules)
+narrative_role:      individual pieces; each has its own canon (Antiquarian's white queen has a name etched on its base; Programmer's black knight is canonically a portrait of his predecessor)
+lore_anchor:         §11.3.1 chess pieces canon
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.chess.central_board.piece.move
+wear_state:          well-played; some pieces show more wear (most-played pieces)
+physical_constraints: collides
+
+(32-35 pieces inventoried as a single class; the inventory list
+expands per-piece in a sub-table that has been omitted here for
+brevity — full list belongs in the chess subsystem spec, not the
+spatial-architect spec.)
+```
+
+#### A.36.9.34 The Central Board's Chess-Clock
+
+```
+object_id:           ark.chess_hall.central_board.chess_clock
+object_class:        console
+position:            (7.50, 7.00, 0.30)  # to the side of central board
+dimensions:          0.20 × 0.10 × 0.30
+rotation:            0°
+material_primary:    polished walnut case with white-porcelain dual face
+material_secondary:  bronze knob and dial
+colour_value:        --token-color-ark-chess-hall-clock
+interaction:         interactable
+  - press_player_side: ends player's turn; transfers clock to next player
+  - inspect: lore-note about the clock (canonical pre-Ark artifact; tied to game's centuries-long history)
+narrative_role:      tracks time per move; the Programmer never lets his clock run down
+lore_anchor:         §11.3.1
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.chess.central_board.clock.press
+wear_state:          worn at most-pressed buttons
+physical_constraints: collides
+```
+
+#### A.36.9.35 The Antiquarian's Chair
+
+```
+object_id:           ark.chess_hall.antiquarian_chair
+object_class:        furniture  (also npc_anchor)
+position:            (7.00, 11.00, 0.00)  # at north end of central board area, in apsidal alcove
+dimensions:          0.90 × 0.90 × 1.50
+rotation:            180°  (faces south, toward central board)
+material_primary:    walnut frame with charcoal velvet upholstery; oversized armrests (the Antiquarian is a large character)
+material_secondary:  brass detail-work; bronze name-plate "THE ANTIQUARIAN"
+colour_value:        --token-color-ark-chess-hall-antiquarian-chair
+interaction:         interactable - sit (positioned for white-side play; player can sit when Antiquarian is absent)
+narrative_role:      THE Antiquarian's chair; permanent physical anchor; in Acts 3+, Antiquarian appears here
+lore_anchor:         loredex.character.the_antiquarian
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.chess.antiquarian_chair.sit
+wear_state:          worn at right armrest (Antiquarian is right-handed)
+physical_constraints: collides; sittable
+```
+
+#### A.36.9.36 The Programmer's Chair
+
+```
+object_id:           ark.chess_hall.programmer_chair
+object_class:        furniture  (also npc_anchor)
+position:            (7.00, 3.00, 0.00)  # at south end of central board area
+dimensions:          0.80 × 0.80 × 1.40
+rotation:            0°  (faces north, toward central board)
+material_primary:    minimalist matte-black titanium frame with thin black-leather seat (austere — the Programmer's aesthetic)
+material_secondary:  brass nameplate "THE PROGRAMMER" (slightly worn)
+colour_value:        --token-color-ark-chess-hall-programmer-chair
+interaction:         interactable - sit (positioned for black-side play; rarely sat in)
+narrative_role:      THE Programmer's chair; he rarely physically appears here (he plays remotely); but the chair is reserved for him
+lore_anchor:         loredex.character.the_programmer
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.chess.programmer_chair.sit
+wear_state:          slight wear; chair has been sat in less often
+physical_constraints: collides; sittable
+```
+
+#### A.36.9.37 The Player's Anchor (third position; east side of central board)
+
+```
+object_id:           ark.chess_hall.player_anchor
+object_class:        npc_anchor  (player's own anchor for the three-player variant)
+position:            (10.00, 7.00, 0.00)  # at east of central board area
+dimensions:          0.80 × 0.80 × 1.40
+rotation:            270°  (faces west, toward central board)
+material_primary:    n/a (anchor only; can be displayed as a third chair when player approaches)
+material_secondary:  n/a
+colour_value:        n/a
+interaction:         n/a (anchor for player presence in three-player variant)
+narrative_role:      the THIRD position in the eternal game; the player breaks the binary between Antiquarian and Programmer
+lore_anchor:         §11.3.1 + §3.12.11 three-player chess variant
+art_status:          producer_handoff
+gameplay_hook_id:    n/a
+wear_state:          n/a
+physical_constraints: n/a
+```
+
+#### A.36.9.38-45 The Eight Tournament Chess-Boards (4 east + 4 west alcoves)
+
+```
+object_id:           ark.chess_hall.tournament_board.east.<n>  (n=1..4)
+object_class:        interactive
+positions:           one per east alcove; centred within alcove (typical (5.50, 2.5, 0.85), (5.50, 5.5, 0.85), etc. on tabletop)
+dimensions (each):   0.50 × 0.50 × 0.05  (board) + pieces above
+rotation:            0°
+material_primary:    standard tournament-grade walnut + ivory inlay
+material_secondary:  bronze trim
+colour_value:        --token-color-ark-chess-hall-tournament-board
+interaction:         interactable
+  - play_match: opens chess multiplayer UI; player can challenge or be challenged
+  - examine: shows current state if mid-match
+narrative_role:      tournament boards; player learns chess here; first match here unlocks HB9 cosmology
+lore_anchor:         loredex.system.chess + arc.act_3_chess_intro
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.chess.tournament_board.play
+wear_state:          worn at frequently-used squares
+physical_constraints: collides; pieces interactable
+
+(Each tournament board has a chess-table beneath, 2 chairs flanking,
+and a chess-clock — sub-objects rolled into the board for inventory.
+West tournament boards mirror east; .west.1 through .west.4)
+```
+
+#### A.36.9.46-49 Tournament-Alcove Tables + Seating (rolled into above tournament boards)
+
+The 8 tournament boards each have:
+- Table (1.20 × 1.20 × 0.85)
+- 2 chairs (player + opponent)
+
+Counted as part of tournament-board class for inventory simplicity.
+
+#### A.36.9.50 The Antiquarian's Reading Nook (within his alcove)
+
+```
+object_id:           ark.chess_hall.antiquarian_alcove.book_table
+object_class:        container
+position:            (5.50, 12.50, 0.00)  # to the side of Antiquarian's chair
+dimensions:          0.80 × 0.40 × 0.85
+rotation:            180°
+material_primary:    walnut with leather inset
+material_secondary:  brass corner caps
+colour_value:        --token-color-ark-chess-hall-book-table
+interaction:         interactable
+  - inspect: shows the book the Antiquarian is currently reading (varies; gameplay-key in some Acts)
+narrative_role:      gives the Antiquarian his "scholar" feel; he's always reading something
+lore_anchor:         loredex.character.the_antiquarian
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.chess.antiquarian_book.inspect
+wear_state:          slight wear
+physical_constraints: collides
+```
+
+#### A.36.9.51-54 Decorative Closing Items
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.chess_hall.south.intercom` | console | (-2.00, 0.20, 1.50) | 0.20 × 0.10 × 0.30 | comms relay |
+| `ark.chess_hall.fire_extinguisher.south` | interactive | (2.00, 0.20, 1.20) | 0.20 × 0.20 × 0.50 | safety |
+| `ark.chess_hall.first_aid.kit` | container | (-3.00, 0.20, 1.50) | 0.40 × 0.10 × 0.30 | medical |
+| `ark.chess_hall.observation_bench.east` | furniture | (10.50, 9.00, 0.00) | 1.40 × 0.40 × 0.45 | observation seating (visitors watching central match) |
+
+#### A.36.9.55-56 Wall Paintings + Apsidal Painting
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.chess_hall.east.painting.studies` | decoration | (13.95, 7.00, 2.40) on east wall | 1.20 × 0.80 × 0.04 | abstract chess-study composition |
+| `ark.chess_hall.west.painting.studies` | decoration | (0.05, 7.00, 2.40) on west wall | mirror | mirror painting |
+
+(Plus the apsidal painting at A.36.4 north decorative_features.)
+
+Total: 56 inventory objects.
+
+### A.36.10 Camera-spawn-points (FPV cutscenes)
+
+```
+cutscene_id:         cs_amb_chess_hall  (Category B Myst-ambient)
+camera_position:     (0.00, 0.50, eye_level)
+camera_facing:       (0°, 0°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         locked, watching central pieces shift on their own; lasts 18s
+
+cutscene_id:         cs_disc_chess  (Category C discovery; per §3.1.C)
+camera_position:     (7.00, 5.50, eye_level)  # at central dais south edge
+camera_facing:       (0°, -15°, 0°)  # looking down at central board
+avatar_height_anchor: eye_level
+head_motion:         hand-rig enters frame; Antiquarian's hands enter from north; pieces position; clock ticking; lasts 22s
+
+cutscene_id:         cs_load_chess  (Category C loading)
+camera_position:     (7.00, 5.50, eye_level)
+camera_facing:       (0°, -25°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         hand pulls chess-piece from tournament tray; places it; loading bar ticks behind in soft-focus
+
+cutscene_id:         cs_hellbox_9_open  (HB9 Eternal Match gateway)
+camera_position:     (7.00, 5.50, eye_level)  # at central board
+camera_facing:       (0°, -15°, 0°)  # looking down at central board
+avatar_height_anchor: eye_level
+head_motion:         king-piece flickers; piece moves to "fourth" square; chamber re-materialises into Eternal Match arena
+
+cutscene_id:         cs_hellbox_9_move  (per-move during HB9 visits)
+camera_position:     (7.00, 5.50, eye_level)
+camera_facing:       (0°, -25°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         hand enters frame; moves one of player's three pieces; piece settles
+
+cutscene_id:         cs_hellbox_9_close  (HB9 return)
+camera_position:     (7.00, 5.50, eye_level)
+camera_facing:       (0°, 0°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         arena dissolves; Chess Hall re-materialises; chess-board now has one of player's pieces visible (memento)
+```
+
+### A.36.11 Doorways
+
+```
+door_id:            ark.chess_hall.south.door.main
+connecting_space_id: ark.corridor.chess_approach
+door_position:      (0.00, 0.00, 0.00)
+door_dimensions:    1.40 × 2.40 × 0.10
+door_class:         arch
+unlock_condition:   Act 3+
+transit_animation:  fade
+audio_signature:    bronze handle + soft slide
+
+door_id:            ark.chess_hall.south.door.grand_master
+connecting_space_id: ark.grand_masters_sanctum
+door_position:      (5.50, 0.00, 0.00)
+door_dimensions:    1.20 × 2.40 × 0.10
+door_class:         slide
+unlock_condition:   top-10 ladder rank
+transit_animation:  fade
+audio_signature:    pneumatic-hiss + servo-whir
+
+door_id:            ark.chess_hall.south.door.puzzle_study
+connecting_space_id: ark.puzzle_study_chamber
+door_position:      (-5.50, 0.00, 0.00)
+door_dimensions:    1.20 × 2.40 × 0.10
+door_class:         slide
+unlock_condition:   Act 4+
+transit_animation:  fade
+audio_signature:    pneumatic-hiss + servo-whir
+```
+
+### A.36.12 Adjacency map
+
+```
+direct_adjacencies:
+  - ark.corridor.chess_approach (south main door)
+  - ark.grand_masters_sanctum (south door; conditional)
+  - ark.puzzle_study_chamber (south door; conditional)
+  - hellbox.eternal_match (HB9 portal via central chess-board, conditional on first chess match)
+one_hop_adjacencies:
+  - ark.casino_gaming_floor (via approach corridor; chess-in-July event)
+  - destination.eternal_match (via HB9)
+  - ark.antiquarian_library (one-hop; thematic kinship — Antiquarian is the bridge)
+```
+
+### A.36.13 Gameplay hooks
+
+```
+hooks:
+  - hook_id:         chess_hall.playTournamentMatch
+    trigger:         player.interact on tournament_board.<id>
+    procedure:       trpc.chess.tournament_board.play
+    success_state:   tournament_match_started = true
+  - hook_id:         chess_hall.examineCentralBoard
+    trigger:         player.examine on chess_board.central
+    procedure:       trpc.chess.central_board.examine
+    success_state:   central_board_state_viewed = true
+  - hook_id:         chess_hall.makeCentralMove
+    trigger:         (state-conditional) player.move on chess_board.central piece + player's turn
+    procedure:       trpc.chess.central_board.move
+    success_state:   move_made = true (persists across visits)
+    fail_state:      not_player_turn
+  - hook_id:         chess_hall.invokeHB9
+    trigger:         (state-conditional) player has played first tournament match + interacts with central board
+    procedure:       trpc.hellbox.hb9.openGate
+    success_state:   hellbox_9_transit_started = true
+  - hook_id:         chess_hall.sitAntiquarianChair
+    trigger:         player.sit on antiquarian_chair (Antiquarian must be absent)
+    procedure:       trpc.chess.antiquarian_chair.sit
+    success_state:   sat_in_antiquarian_chair = true (rare lore-flag)
+  - hook_id:         chess_hall.sitProgrammerChair
+    trigger:         player.sit on programmer_chair
+    procedure:       trpc.chess.programmer_chair.sit
+    success_state:   sat_in_programmer_chair = true
+```
+
+### A.36.14 Story-tie
+
+```
+primary_arcs:
+  - arc.act_3_chess_intro
+  - arc.act_4_eternal_match
+  - §11.3.1 cross-centuries chess game (continuous)
+  - arc.player_chess_progression (player's tournament rating + ladder rank)
+per_act_evolution:
+  act_3: Chess Hall opens; player learns chess at tournament boards; Antiquarian appears occasionally at apsidal alcove
+  act_4: HB9 unlocks after first tournament match; player can enter Eternal Match; first move in three-player variant
+  act_5: Antiquarian present more often; deeper conversations available; central board state evolves
+  act_6: Programmer occasionally physically appears (rare); chess-clock rhythm disrupted
+  act_7: final state branched: Antiquarian and Programmer's game still ongoing OR concluded (depending on player's involvement); player either has many central-board moves or few
+npc_roster:
+  - the_antiquarian: primary NPC; presence Acts 3+
+  - the_programmer: rare physical presence Acts 6+
+  - the_player: visitor / third-party in three-player variant
+  - the_master_of_rlyeh: HB9 transit voice only
+  - other_chess_players: tournament opponents (varied)
+readables:
+  - chess principle plaque (south)
+  - apsidal painting (north): "the first game"
+  - east + west studies paintings
+  - Antiquarian's current book (gameplay-key in some Acts)
+  - tournament bracket display (live)
+  - eternal_match_state display (north; current state of cross-centuries game)
+master_of_rlyeh_question: "Whose move is the final one?"
+```
+
+### A.36.15 Special-FX
+
+```
+particle_systems:
+  - dust_motes (low; visible in central pendant light shaft)
+  - chess_clock_tick_visualiser (very subtle pulse on each tick; cosmetic)
+  - HB9_king_piece_flicker (one-shot; piece glows + briefly transparent before moving)
+volumetric_effects:
+  - apsidal_dome_light_shaft (visible in low-light states; from dome to Antiquarian's chair)
+  - central_pendant_light_shaft (visible in low-light)
+  - dais_perimeter_uplight_glow (defines central area)
+procedural_animations:
+  - chess_pieces_subtle_settle (very subtle position adjustments; cosmetic)
+  - clock_hands_animate (8 tournament clocks + 1 central clock)
+  - kings_breathe (very subtle scaling animation on kings; psychological — they "breathe")
+  - apsidal_painting_subtle_shift (the painted scene in the apse SUBTLY shifts between visits — Easter egg)
+reactive_systems:
+  - dais_uplight_intensify_on_proximity (player approaches central dais)
+  - tournament_alcove_strip_intensify (when player enters alcove)
+  - antiquarian_chair_glow (when Antiquarian is present, his alcove glows softly)
+  - HB9_king_piece_flicker_one_shot (when conditions met)
+```
+
+### A.36.16 Avatar-parametricity
+
+```
+camera_height_variation:
+  small_xenomorph (0.85m eye): camera height 0.85m; central chess-board feels enormous; pieces feel imposing
+  short_humanoid (1.40m eye): standard short scale
+  average_humanoid (1.70m eye): standard
+  tall_humanoid (2.05m eye): pieces look small; player must lean to see clearly
+  tall_xenomorph (2.70m eye): pieces too small; alternate "kneel-at-board" animation for play
+reachability:
+  small_xenomorph: cannot reach central board pieces from standing position; must use the dais step + approach
+  small_xenomorph: cannot reach upper paintings; relay-inspect from below
+  others: all-reachable
+audio_occlusion_variation:
+  xenomorph_sensitive_hearing: clock-ticks audibly polyrhythmic (creates hypnotic effect); piece-on-board louder
+  synthetic_voice_avatar: Programmer's click-presence has more affinity (synthetic-resonance match)
+```
+
+### A.36.17 Performance
+
+```
+polygon_budget:      350,000 polygons (high decorative density; many pieces; many tournament boards)
+texture_budget:      200 MB total (chess pieces are unique-per-set; many distinct materials)
+light_count_limit:   24 simultaneous dynamic lights
+lod_plan:
+  - hero_distance: 0-10m, full detail
+  - mid_distance: 10-20m, mid detail (chess pieces in distant tournament boards become billboarded)
+  - low_distance: 20m+, low detail (only central dais and Antiquarian alcove rendered in high detail)
+streaming_behaviour:
+  - preload: ark.corridor.chess_approach (south)
+  - preload: ark.grand_masters_sanctum (when player has top-50 rank)
+  - preload: ark.puzzle_study_chamber (Act 4+)
+  - on_player_at_central_board + HB9_unlocked: preload destination.eternal_match
+```
 
 ---
 
