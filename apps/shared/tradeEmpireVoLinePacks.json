@@ -12,12 +12,30 @@
     "wraith_calder": "Vogq3iKs5PJ3cL39gFhW",
     "the_oracle": "mpeeKhhSuOwXIwvKclcn",
     "the_seer": "BTfBVfMM9XgZG8GG1bJn",
-    "drael_mon": "ts3xd1UbeTpZBMUn3Rjv"
+    "drael_mon": "ts3xd1UbeTpZBMUn3Rjv",
+    "nb_civic_engineers": "4viNVeyxfARsa70QOpvQ",
+    "hierarchy_syndicate_of_death": "4AFaWnXGrJsDu6U1TYyS",
+    "hierarchy_research_and_development": "hSBt5eS9XjX2AzGeZwBH",
+    "thaloria_quietwork": "1v4pinXdBmXDNMhWCQKn",
+    "insurgency_zero_doctrine": "LEAVd9nXzdFE5JAU65iT",
+    "insurgency_old_network": "GRvrwec7ztD3Gtrm8807",
+    "ae_architects_court": "27eWilZbomLWZLKb8B5F",
+    "tv_sovereigns_circle": "KQYmieqa0hYrKAOErrCe",
+    "ind_freeports": "jZLSfqXYL9t2vzvN8cKE",
+    "ind_unaligned": "BIminVqugWv2o3l87h1q"
   },
   "casting_status": {
-    "cast_and_pinned": ["locke", "nilmorg", "the_antiquarian", "the_degen", "elara", "human", "wraith_calder", "the_oracle", "the_seer", "drael_mon"],
+    "cast_and_pinned": [
+      "locke", "nilmorg", "the_antiquarian", "the_degen", "elara", "human",
+      "wraith_calder", "the_oracle", "the_seer", "drael_mon",
+      "nb_civic_engineers", "hierarchy_syndicate_of_death",
+      "hierarchy_research_and_development", "thaloria_quietwork",
+      "insurgency_zero_doctrine", "insurgency_old_network",
+      "ae_architects_court", "tv_sovereigns_circle",
+      "ind_freeports", "ind_unaligned"
+    ],
     "uncast_todo": [],
-    "notes": "All 10 speakers cast. All 233 lines are immediately recordable. Casting brief for drael_mon retained under casting_briefs.drael_mon as a director's reference for the recording session."
+    "notes": "All 10 priority-roster speakers + 10 sub-house demand voices cast. The 10 sub-house voices were synthesised via design_trade_empire_voices.py and saved into the producer's ElevenLabs library; voice IDs above are the permanent library IDs. Run apps/scripts/wire_subhouse_voices.py to activate them in the audio generator."
   },
   "casting_briefs": {
     "drael_mon": {
