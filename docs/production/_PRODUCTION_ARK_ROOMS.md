@@ -1116,7 +1116,12 @@ Key objects:
 
 ---
 
-## A.7 Engineering Bay — CORE
+## A.7 Engineering Bay — FULL
+
+**Status: FULL spec.** Cross-ref: `INCEPTION_ARK_FINAL_PRODUCTION.md`
+§2.7 (art-state prompts) and §3.12.6 HB4 Mechronis Academy gateway.
+
+### A.7.1 Header
 
 ```
 space_id:        ark.engineering_bay
@@ -1128,25 +1133,814 @@ aesthetic_tier:  solar_punk_cathedral  (with industrial-grit accents)
 master_of_rlyeh_question: "Is the worker the work, or the work's prisoner?" (per HB4)
 ```
 
-The reactor is the centerpiece; vast vertical-shaft chamber visible
-through a reinforced viewport at the rear of the room. Workbench
-in the foreground (HB4 gateway: hands enter workbench → reveals
-Mechronis classroom).
+### A.7.2 Geometry
 
 ```
-dimensions:           14.00 m × 16.00 m × 12.00 m  (tall — reactor shaft)
-floor_plan_geometry:  rectangular  (with vertical shaft visible through rear)
+dimensions:           14.00 m × 16.00 m × 12.00 m
+origin_point:         centre of floor at the primary entrance threshold (entrance is the south wall)
+coordinate_axes:      +x = right, +y = forward, +z = up
+floor_plan_geometry:  rectangular  (with reactor-shaft viewport opening through the north wall)
+volumetric_anomalies: none in baseline; HB4 transit briefly turns workbench non-Euclidean (~10s)
 ```
 
-Key objects:
-- `ark.engineering_bay.workbench.primary` — HB4 gateway workbench
-- `ark.engineering_bay.reactor.viewport` — viewport into reactor shaft
-- `ark.engineering_bay.tool_rack.east.1-3` — tool racks
-- `ark.engineering_bay.crafting_station` — crafting interface
-- `ark.engineering_bay.engineer_chair` — Cogsworth/engineer's seat (NPC anchor)
-- `ark.engineering_bay.maintenance_panels.<n>` — multiple maintenance access panels
+The room is unusually tall (12.00 m) because the reactor's
+vertical shaft is visible through the rear viewport. Two mezzanine
+levels at z = 4.00 and z = 8.00 ring the room (accessed via spiral
+stairs at the southwest and southeast corners), giving an
+industrial three-tier feel.
 
-(Full spec deferred.)
+Floor area: 224 m² (ground level); plus mezzanine area at each tier.
+
+### A.7.3 Floor
+
+```
+material_primary:     industrial steel grating, 1.50 m × 1.50 m panels with 50 mm × 5 mm slot pattern; allows steam to vent from below; 6 mm gap between panels
+material_secondary:   solid steel plate at workbench zone (x: -2.0 to 2.0, y: 1.0 to 4.0); brass perimeter trim around the reactor-viewport zone
+pattern:              grating with cross-bracing every 0.30 m; solid plate is anti-slip etched
+wear_state:           pristine in early acts; in Act 5+, oil stains accumulate around workbench and tool-racks; in Act 7, scorch-marks if reactor has overheated
+embedded_features:
+  - id: ark.engineering_bay.floor.drain.south_central
+    position: (0.00, 1.50, 0.00)
+    dimensions: 0.40 × 0.40 × 0.10
+    function: coolant-fluid drain
+  - id: ark.engineering_bay.floor.charge_point.workbench
+    position: (0.00, 2.50, 0.00)
+    dimensions: 0.30 × 0.30 × 0.05
+    function: workbench tool-charge coupling
+  - id: ark.engineering_bay.floor.steam_vent.east
+    position: (5.50, 7.00, 0.00)
+    dimensions: 0.60 × 0.60 × 0.10
+    function: pressure-relief steam vent (active during reactor cycles)
+  - id: ark.engineering_bay.floor.steam_vent.west
+    position: (-5.50, 7.00, 0.00)
+    dimensions: 0.60 × 0.60 × 0.10
+    function: pressure-relief steam vent (mirror)
+acoustic_property:    hard_reflective + steam-attenuating; RT60 = 0.65s (long industrial reverb)
+```
+
+### A.7.4 Walls
+
+#### Wall: South (entrance)
+
+```
+wall_id:              south
+material_primary:     painted steel panel with rivet-detail (0.80 m × 1.60 m panels, vertical joints, exposed rivets at panel corners every 0.40 m)
+material_secondary:   brass dado rail at z = 1.10 m
+panelisation:         9 panels wide × 7 panels tall (wall is 12 m tall — 3 panels for ground level + 4 for mezzanines)
+colour_value:         --token-color-ark-engineering-bay-wall-south  (deep slate-grey with copper pin-stripe at z = 2.00 m)
+embedded_displays:
+  - id: ark.engineering_bay.south.display.reactor_status
+    position: (-3.50, 0.20, 1.80)
+    dimensions: 1.40 × 1.00 × 0.05
+    content: real-time reactor health metrics; state-axis driven
+  - id: ark.engineering_bay.south.display.craft_queue
+    position: (3.50, 0.20, 1.80)
+    dimensions: 1.40 × 1.00 × 0.05
+    content: active crafting queue (player-driven)
+embedded_doors:
+  - door_id: ark.engineering_bay.south.door.main
+    position: (0.00, 0.00, 0.00)
+    dimensions: 1.60 × 2.40 × 0.10
+    door_class: pressure_seal
+    connecting_space_id: ark.corridor.engineering_approach
+decorative_features:
+  - id: ark.engineering_bay.south.plaque.dedication
+    position: (0.00, 0.20, 3.20)
+    dimensions: 1.20 × 0.40 × 0.02
+    material: brass with engraved text
+    narrative_role: reads "ENGINEERING / The work, the worker, the world"; the Mechronis credo
+```
+
+#### Wall: East
+
+```
+wall_id:              east
+material_primary:     painted steel panel with rivet-detail; mid-wall is occupied by a vast tool-rack (specced in inventory)
+material_secondary:   brass dado rail
+panelisation:         standard
+colour_value:         --token-color-ark-engineering-bay-wall-east  (slate-grey, slightly warmer than south)
+embedded_displays:
+  - id: ark.engineering_bay.east.display.reactor_thermal
+    position: (6.95, 9.00, 2.50)
+    dimensions: 1.20 × 0.80 × 0.05
+    content: thermal map of reactor
+  - id: ark.engineering_bay.east.display.mezzanine_2
+    position: (6.95, 9.00, 6.00)  # mid-mezzanine
+    dimensions: 1.00 × 0.60 × 0.05
+    content: pressure / flow readouts
+embedded_doors:
+  - door_id: ark.engineering_bay.east.door.workshop
+    position: (6.95, 12.00, 0.00)
+    dimensions: 1.40 × 2.40 × 0.10
+    door_class: slide
+    connecting_space_id: ark.forge_workshop
+decorative_features:
+  - id: ark.engineering_bay.east.spiral_stair
+    position: (5.50, 0.50, 0.00)  # southwest base of stair
+    dimensions: 1.80 × 1.80 × 12.00 (footprint × height)
+    material: steel + brass railing
+    narrative_role: spiral staircase to mezzanines 1 and 2; dramatic vertical element
+  - id: ark.engineering_bay.east.warning_sign.high_voltage
+    position: (6.90, 5.00, 2.40)
+    dimensions: 0.40 × 0.30 × 0.01
+    material: yellow-and-black painted steel
+    narrative_role: classic high-voltage warning; reinforces the Mechronis aesthetic
+```
+
+#### Wall: North (reactor viewport)
+
+The northern wall is dominated by the reactor-shaft viewport.
+
+```
+wall_id:              north_reactor
+material_primary:     reinforced transparent aluminium oxynitride (transparent armor); 8.00 m wide; 10.00 m tall (from z = 1.00 to z = 11.00); flat (NOT bowed — reactor-internal pressure requires planar)
+material_secondary:   brass viewport surround; 100 mm wide; structural ribbing every 0.50 m
+panelisation:         single-piece transparent armor (with structural ribbing)
+colour_value:         (transparent — content is the reactor's vertical shaft beyond)
+embedded_displays:
+  - id: ark.engineering_bay.north.hud_overlay
+    position: (0.00, 16.00, 6.00)
+    dimensions: 8.00 × 10.00 (overlay only)
+    content: reactor-internal HUD — heat, flux, integrity, shutdown-status
+embedded_doors:        none (the reactor shaft is not entered from here)
+decorative_features:
+  - id: ark.engineering_bay.north.engineering_emblem
+    position: (0.00, 16.00, 11.50)
+    dimensions: 1.00 × 0.80 × 0.04
+    material: bronze relief — Mechronis "gear-and-anvil" emblem
+    narrative_role: visible from below; reminds player of the Mechronis legacy
+```
+
+#### Wall: West
+
+Mirror of east (same materials, mirrored displays + spiral stair).
+
+```
+wall_id:              west
+material_primary:     same as east
+material_secondary:   brass dado rail
+panelisation:         standard
+colour_value:         --token-color-ark-engineering-bay-wall-west  (mirror of east)
+embedded_displays:
+  - id: ark.engineering_bay.west.display.power_distribution
+    position: (-6.95, 9.00, 2.50)
+    dimensions: 1.20 × 0.80 × 0.05
+    content: power-distribution map
+  - id: ark.engineering_bay.west.display.mezzanine_1
+    position: (-6.95, 9.00, 6.00)
+    dimensions: 1.00 × 0.60 × 0.05
+    content: turbine / coolant readouts
+embedded_doors:
+  - door_id: ark.engineering_bay.west.door.armory
+    position: (-6.95, 12.00, 0.00)
+    dimensions: 1.40 × 2.40 × 0.10
+    door_class: slide
+    connecting_space_id: ark.armory
+decorative_features:
+  - id: ark.engineering_bay.west.spiral_stair
+    position: (-5.50, 0.50, 0.00)
+    dimensions: 1.80 × 1.80 × 12.00
+    material: steel + brass railing
+    narrative_role: mirror of east stair
+  - id: ark.engineering_bay.west.warning_sign.radiation
+    position: (-6.90, 5.00, 2.40)
+    dimensions: 0.40 × 0.30 × 0.01
+    material: yellow-and-black painted steel
+    narrative_role: radiation warning; reinforces aesthetic
+```
+
+### A.7.5 Ceiling
+
+```
+height_above_floor:     12.00 m  (very tall — three-tier mezzanines visible)
+material:               exposed structural framework with industrial conduits visible; central area is open to the reactor-shaft (transparent panel with safety mesh)
+lighting_integrated:    suspended-fixture grid (industrial pendants) at z = 11.00 m on a 2.40 m × 2.40 m pattern; central area uses bare-bulb-style high-bay lights
+atmospheric_features:   steam plumes from reactor-shaft (visible through the transparent ceiling section); occasional spark drift from upper mezzanine work-zones (cosmetic)
+acoustic_treatment:     baffled at perimeters (industrial dampening panels); central area is hard-reflective
+```
+
+### A.7.6 Lighting
+
+```
+ambient_baseline:     4200 K (warm-industrial); 280 lux at floor level; CRI 85 (lower than rest of Ark — industrial spec)
+direct_fixtures:
+  - id: ark.engineering_bay.light.high_bay_central_array
+    position: distributed across central ceiling at z = 11.00 m, on 2.40 × 2.40 grid (excluding shaft zone)
+    beam_angle: 90°
+    colour: --token-color-ark-engineering-bay-high-bay  (warm industrial white)
+    intensity: 18000 lumens each
+    function: task lighting (high-volume room needs strong lights)
+  - id: ark.engineering_bay.light.reactor_shaft_glow
+    position: (0.00, 14.00, 6.00)  # within reactor-shaft, visible through viewport
+    beam_angle: 360° wash
+    colour: --token-color-ark-engineering-bay-reactor-glow  (varies with reactor state — orange at baseline; red on alert; green on stable)
+    intensity: 25000 lumens (variable, pulses with reactor)
+    function: punctuation; the reactor IS the room's primary visual element
+  - id: ark.engineering_bay.light.workbench_task
+    position: (0.00, 2.50, 4.00)  # over workbench
+    beam_angle: 30°
+    colour: 5500 K bright
+    intensity: 8000 lumens
+    function: task lighting for crafting
+  - id: ark.engineering_bay.light.mezzanine_1_strip
+    position: along east + west mezzanine edges at z = 4.00
+    beam_angle: 180° wash
+    colour: --token-color-ark-engineering-bay-mezzanine
+    intensity: 1200 lumens per metre
+    function: accent + safety
+  - id: ark.engineering_bay.light.mezzanine_2_strip
+    position: along east + west mezzanine edges at z = 8.00
+    beam_angle: 180° wash
+    colour: --token-color-ark-engineering-bay-mezzanine
+    intensity: 1200 lumens per metre
+    function: accent + safety
+practical_sources:
+  - id: ark.engineering_bay.workbench.tool_rack.glow
+    position: workbench tool-rack
+    intensity: 60 lumens (per tool slot; ~12 slots illuminate)
+    flicker_pattern: stable
+  - id: ark.engineering_bay.steam_vent_glow.east
+    position: (5.50, 7.00, 0.05)
+    intensity: 200 lumens (orange; pulses during steam-cycles)
+    flicker_pattern: cyclic with reactor (period 8s)
+  - id: ark.engineering_bay.steam_vent_glow.west
+    position: (-5.50, 7.00, 0.05)
+    intensity: 200 lumens (mirror)
+    flicker_pattern: cyclic with reactor (period 8s, offset 4s from east)
+time_of_day_variation:
+  act_3: ambient at 280 lux; reactor glow steady orange; mezzanines well-lit
+  act_5: ambient drops to 220 lux; reactor glow flickers between orange and red; one high-bay fixture starts to fail and flickers
+  act_7: ambient at 160 lux baseline; reactor glow may be GREEN (player repaired) or RED-failing (player neglected); state-branched
+dynamic_response:
+  - on_reactor_critical: reactor_shaft_glow flashes red; emergency_strobe arrays activate; ambient warms to 6000 K alert tone
+  - on_HB4_transit: workbench dissolves in cinematic; high_bay lights dim; spotlight on workbench grows
+  - on_player_at_workbench: workbench_task light intensifies 30%
+```
+
+### A.7.7 Atmosphere
+
+```
+air_temperature:    24°C baseline (warm — heat-from-reactor; rises to 30°C in stress states)
+humidity:           variable (40-60% RH); higher near steam vents
+particulate:
+  - type: dust
+    density: low (industrial-grade air filtration; some accumulation visible on mezzanines)
+    colour: greyish-iron
+    drift_direction: random, with slight upward drift near reactor (heat convection)
+  - type: steam
+    density: high near vents during reactor cycles; absent in baseline between cycles
+    colour: white-translucent
+    drift_direction: from vents upward toward ceiling
+  - type: spark
+    density: very low (cosmetic only)
+    colour: orange-bright (lifetime <0.5s)
+    drift_direction: from upper mezzanine work-zones, falling
+volumetric_fog:     present during reactor stress (0.20 g/m³, warm-grey)
+wind_drift:         strong from south (entrance) toward north (reactor shaft) — convection effect; 0.50 m/s
+smell_canon:        ozone + warm-metal + faint coolant; in stress states, additional sulphur notes
+```
+
+### A.7.8 Sound
+
+```
+ambient_bed:           file: engineering_bay_ambient_bed_v1.ogg (loop); -28 dB; reactor-pulse breath rhythm at low frequency, distant turbine hum, steam-pipe gurgle
+point_sources:
+  - id: ark.engineering_bay.sound.reactor_pulse
+    position: (0.00, 14.00, 6.00)
+    sound: deep reactor breath (period 4.2s; -22 dB; this is the heartbeat of the Ark)
+    occlusion_behaviour: omnidirectional; fills the room
+    trigger: continuous (changes timbre with reactor state)
+  - id: ark.engineering_bay.sound.steam_vent.east
+    position: (5.50, 7.00, 0.00)
+    sound: steam-burst (cyclic, period 8s; -24 dB during burst; -∞ between)
+    occlusion_behaviour: standard
+    trigger: cyclic
+  - id: ark.engineering_bay.sound.steam_vent.west
+    position: (-5.50, 7.00, 0.00)
+    sound: steam-burst (mirror, period 8s offset 4s)
+    occlusion_behaviour: standard
+    trigger: cyclic
+  - id: ark.engineering_bay.sound.workbench_tools
+    position: (0.00, 2.50, 1.05)
+    sound: faint metal-clink + tool-rest (when player is near; -36 dB)
+    occlusion_behaviour: occluded by walls
+    trigger: continuous (low-volume)
+  - id: ark.engineering_bay.sound.high_bay_buzz
+    position: distributed (one per fixture)
+    sound: faint fluorescent-style buzz (-44 dB)
+    occlusion_behaviour: omnidirectional
+    trigger: continuous; in late acts, one fixture introduces a flicker-buzz pattern
+reverb_zone:           IR-impulse: engineering_industrial_v1.wav; wet-mix 28% (industrial reverb)
+music_eligibility:     cutscene only (HB4 transit + Category B ambient cs_amb_engineering)
+voice_line_eligibility:
+  - speaker: cogsworth (or named engineer NPC)
+    trigger: presence
+    line_set: see §2.7.2 (Engineering Bay NPC presence-line set)
+```
+
+### A.7.9 Object inventory
+
+Engineering Bay has 41 inventory objects.
+
+#### A.7.9.1 The Primary Workbench (HB4 gateway)
+
+```
+object_id:           ark.engineering_bay.workbench.primary
+object_class:        interactive  (also fx_emitter for HB4 transit)
+position:            (0.00, 2.50, 0.00)
+dimensions:          2.40 × 1.20 × 0.95
+rotation:            0°
+material_primary:    polished stainless steel top + brushed-titanium frame
+material_secondary:  brass tool-channel inlay (running along the long axis); brass corner-protectors
+colour_value:        --token-color-ark-engineering-bay-workbench
+interaction:         interactable
+  - operate: opens crafting UI (player can craft equipment)
+  - HB4_invoke: when conditions met (Act 3+, player has interacted N times), triggers HB4 transit cutscene
+  - inspect: lore-note about the workbench's history (Mechronis-faction artifact)
+narrative_role:      DUAL FUNCTION — operationally a crafting bench; cosmologically the HB4 gateway. Hands-on-the-bench triggers the dissolution into Mechronis classroom (cf §3.12.6)
+lore_anchor:         loredex.faction.mechronis + arc.act_3_first_HB4_invocation
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.engineering.workbench.openCraft + trpc.hellbox.hb4.openGate (state-conditional)
+wear_state:          worn — tool-marks on the steel top; brass channel polished from use
+physical_constraints: collides; player can lean on (cosmetic)
+```
+
+#### A.7.9.2 The East Tool Rack
+
+```
+object_id:           ark.engineering_bay.tool_rack.east
+object_class:        container
+position:            (5.50, 4.50, 0.00)
+dimensions:          0.40 × 4.00 × 3.20
+rotation:            270°  (parallel to east wall, doors face into room)
+material_primary:    brushed steel pegboard with magnetic tool-mounts
+material_secondary:  brass labelled tool-slots
+colour_value:        --token-color-ark-engineering-bay-tool-rack
+interaction:         interactable
+  - open_panel: each panel reveals tools (12 tool slots total; some empty in baseline, fill as player crafts)
+  - inspect_tool: each tool can be inspected for crafting context
+narrative_role:      crafting inventory; visually demonstrates the player's progression
+lore_anchor:         loredex.system.crafting
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.engineering.tool_rack.open
+wear_state:          slight wear at most-used tool slots
+physical_constraints: collides
+```
+
+#### A.7.9.3 The West Tool Rack
+
+Mirror of east. Same dimensions, position (-5.50, 4.50, 0.00),
+rotation 90°.
+
+#### A.7.9.4 The Crafting Console
+
+```
+object_id:           ark.engineering_bay.console.crafting
+object_class:        console
+position:            (0.00, 4.20, 0.00)  # behind the workbench
+dimensions:          1.60 × 0.60 × 1.10
+rotation:            180°  (faces -y, toward workbench)
+material_primary:    brushed steel + matte-black control surface
+material_secondary:  brass bezel with amber LED accents
+colour_value:        --token-color-ark-engineering-bay-console-crafting
+interaction:         interactable
+  - operate: opens deeper crafting UI (recipe browse, schematic upload)
+  - inspect: lore-note about Mechronis-faction crafting principles
+narrative_role:      crafting brain; player browses recipes here; HB4 unlocks new recipes after Mechronis Academy completion
+lore_anchor:         loredex.faction.mechronis + arc.crafting_progression
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.engineering.crafting.openConsole
+wear_state:          worn around recipe-browse buttons
+physical_constraints: collides
+```
+
+#### A.7.9.5-7 Engineer's Anchor + Chair + Personal Locker
+
+```
+object_id:           ark.engineering_bay.engineer_chair
+object_class:        furniture
+position:            (-2.00, 4.20, 0.00)  # to the west of crafting console
+dimensions:          0.80 × 0.80 × 1.30
+rotation:            180°  (faces console)
+material_primary:    matte-black leather; titanium frame
+material_secondary:  brass armrest
+colour_value:        --token-color-ark-engineering-bay-chair
+interaction:         interactable - sit
+narrative_role:      Cogsworth's working chair (or named engineer NPC); player can sit and feel "the engineer's seat"
+lore_anchor:         loredex.character.cogsworth
+art_status:          producer_handoff
+gameplay_hook_id:    none (positional)
+wear_state:          worn at seat (Cogsworth sits forward when concentrating)
+physical_constraints: collides; sittable
+
+object_id:           ark.engineering_bay.engineer.locker
+object_class:        container
+position:            (-3.50, 4.20, 0.00)  # west of chair
+dimensions:          0.50 × 0.40 × 1.80
+rotation:            180°
+material_primary:    brushed-titanium with brass handle
+material_secondary:  brass nameplate "C. COGSWORTH" or current engineer
+colour_value:        --token-color-ark-engineering-bay-locker
+interaction:         interactable - open
+narrative_role:      personal effects of the current engineer; gameplay-key journal in Act 5
+lore_anchor:         loredex.character.cogsworth + arc.act_5_engineering_revelations
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.engineering.engineer_locker.open
+wear_state:          worn
+physical_constraints: collides
+
+object_id:           ark.engineering_bay.engineer_anchor.npc
+object_class:        npc_anchor
+position:            (-2.00, 4.20, 0.00)  # same as chair (NPC sits)
+dimensions:          0.80 × 0.80 × 1.30
+rotation:            varies (NPC pose-driven)
+material_primary:    n/a (anchor only)
+material_secondary:  n/a
+colour_value:        n/a
+interaction:         n/a (NPC presence)
+narrative_role:      Cogsworth (or current engineer NPC) anchors here when present; Cogsworth's working pose
+lore_anchor:         loredex.character.cogsworth
+art_status:          producer_handoff
+gameplay_hook_id:    none
+wear_state:          n/a
+physical_constraints: n/a (NPC overrides)
+```
+
+#### A.7.9.8 The Reactor Viewport
+
+```
+object_id:           ark.engineering_bay.viewport.reactor
+object_class:        display  # treated as display because content is the reactor (state-driven)
+position:            (0.00, 16.00, 6.00)  # centred on north wall, mid-height
+dimensions:          8.00 × 10.00 × 0.10
+rotation:            180°
+material_primary:    reinforced transparent armor
+material_secondary:  brass surround with structural ribbing
+colour_value:        (transparent)
+interaction:         inert (looking only)
+narrative_role:      THE viewport into the reactor shaft; ALWAYS the focal point; the reactor's state IS the room's mood
+lore_anchor:         loredex.system.ark_reactor + arc.reactor_health
+art_status:          producer_handoff
+gameplay_hook_id:    none (visual only)
+wear_state:          pristine (transparent armor doesn't show wear easily)
+physical_constraints: collides (transparent armor)
+```
+
+#### A.7.9.9 Spiral Staircases (east + west)
+
+```
+object_id:           ark.engineering_bay.stair.spiral.east
+object_class:        furniture  (functional traversal element)
+position:            (5.50, 0.50, 0.00)  # base
+dimensions:          1.80 × 1.80 × 12.00 (footprint × height; 17 steps to mezzanine 1; 17 more to mezzanine 2)
+rotation:            0°  (centre of helical path is at this position)
+material_primary:    steel grating treads + brass nosing
+material_secondary:  brass railing on both sides (curving with the helix)
+colour_value:        --token-color-ark-engineering-bay-stair
+interaction:         interactable
+  - climb: player can ascend / descend
+narrative_role:      gives the room verticality; player visits mezzanines for access to reactor controls
+lore_anchor:         arc.engineering_three_tiers
+art_status:          producer_handoff
+gameplay_hook_id:    none (movement)
+wear_state:          worn at most-used steps (mezzanine 1 entry; mezzanine 2 less)
+physical_constraints: collides; player can climb
+
+object_id:           ark.engineering_bay.stair.spiral.west
+(MIRROR of east; position (-5.50, 0.50, 0.00); same specs)
+```
+
+#### A.7.9.10 Reactor Control Panel (mezzanine 1, east side)
+
+```
+object_id:           ark.engineering_bay.mezzanine_1.console.reactor
+object_class:        console
+position:            (4.50, 8.00, 4.00)  # mezzanine 1 floor level
+dimensions:          1.40 × 0.60 × 1.10
+rotation:            -90°  (faces inward, toward reactor)
+material_primary:    brushed steel + matte-black; reactor-control LED accents
+material_secondary:  brass bezel
+colour_value:        --token-color-ark-engineering-bay-console-reactor
+interaction:         interactable
+  - operate: opens reactor-control UI (rod insertion, coolant flow, shutdown sequence)
+  - inspect: lore-note about reactor management
+narrative_role:      direct reactor control; player can manually moderate the reactor; gameplay-active in Act 5+ when reactor is failing
+lore_anchor:         loredex.system.ark_reactor + arc.reactor_management
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.engineering.reactor.control
+wear_state:          pristine in early acts; wear accumulates as ship ages
+physical_constraints: collides
+```
+
+#### A.7.9.11 Reactor Diagnostic Terminal (mezzanine 2, east side)
+
+```
+object_id:           ark.engineering_bay.mezzanine_2.console.diagnostic
+object_class:        console
+position:            (4.50, 8.00, 8.00)  # mezzanine 2
+dimensions:          1.40 × 0.60 × 1.10
+rotation:            -90°
+material_primary:    brushed steel + matte-black; diagnostic-deep readouts
+material_secondary:  brass bezel
+colour_value:        --token-color-ark-engineering-bay-console-diagnostic
+interaction:         interactable
+  - operate: opens diagnostic-deep UI (anomaly scan, history, prognostication)
+  - inspect: lore-note
+narrative_role:      detects reactor anomalies; in Act 5, this terminal is where the player first sees the Pod-Zero anomaly's signature crossed with reactor flux (cross-disciplinary clue)
+lore_anchor:         loredex.system.ark_reactor + arc.act_5_pod_zero_anomaly
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.engineering.reactor.diagnostic
+wear_state:          pristine
+physical_constraints: collides
+```
+
+#### A.7.9.12-15 Maintenance Panels (4 panels around the room)
+
+```
+object_id:           ark.engineering_bay.maintenance_panel.north_east_low
+object_class:        hatch
+position:            (3.50, 15.95, 1.20)  # east of viewport, ground level
+dimensions:          0.80 × 0.05 × 1.20
+rotation:            180°
+material_primary:    riveted steel panel
+material_secondary:  brass latch
+colour_value:        --token-color-ark-engineering-bay-maintenance-panel
+interaction:         interactable
+  - open: reveals ducting + access conduit (gameplay-key — player must access conduits in Act 5+ to bypass reactor failure)
+  - inspect: lore-note
+narrative_role:      access to the inner machinery; gameplay-key for ship-repair quests
+lore_anchor:         loredex.system.ark_machinery
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.engineering.maintenance_panel.open
+wear_state:          slight wear at latch
+physical_constraints: collides
+
+(other 3 panels follow same template; positions:
+ - north_west_low: (-3.50, 15.95, 1.20)
+ - mezzanine_1_central: (0.00, 15.95, 5.00)
+ - mezzanine_2_central: (0.00, 15.95, 9.00))
+```
+
+#### A.7.9.16-22 Crating + Storage (7 crates positioned around)
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.engineering_bay.crate.materials.east.1` | container | (5.50, 12.00, 0.00) | 0.80 × 0.60 × 0.80 | scrap metal |
+| `ark.engineering_bay.crate.materials.east.2` | container | (5.50, 13.50, 0.00) | 0.80 × 0.60 × 0.80 | wiring + circuits |
+| `ark.engineering_bay.crate.materials.west.1` | container | (-5.50, 12.00, 0.00) | mirror | rare ores |
+| `ark.engineering_bay.crate.materials.west.2` | container | (-5.50, 13.50, 0.00) | mirror | components |
+| `ark.engineering_bay.crate.fuel.south_east` | container | (5.50, 1.50, 0.00) | 0.80 × 0.60 × 0.80 | reactor fuel cells |
+| `ark.engineering_bay.crate.fuel.south_west` | container | (-5.50, 1.50, 0.00) | mirror | reactor fuel cells |
+| `ark.engineering_bay.crate.spare_parts.central` | container | (0.00, 12.00, 0.00) | 1.20 × 0.80 × 0.80 | spare parts |
+
+#### A.7.9.23-25 Safety Equipment
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.engineering_bay.fire_extinguisher.south` | interactive | (-6.50, 0.20, 1.20) | 0.20 × 0.20 × 0.50 | fire safety |
+| `ark.engineering_bay.fire_extinguisher.east` | interactive | (6.95, 0.50, 1.20) | mirror | fire safety |
+| `ark.engineering_bay.first_aid.kit` | container | (-6.50, 1.00, 1.50) on south wall | 0.40 × 0.10 × 0.30 | medical |
+
+#### A.7.9.26-31 Ground-level Decorative Elements
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.engineering_bay.coolant_pipe.east_running` | decoration | along east wall at z = 9.00 | 0.30 dia × 16.00 m run | aesthetic + functional plumbing |
+| `ark.engineering_bay.coolant_pipe.west_running` | decoration | along west wall at z = 9.00 | mirror | aesthetic |
+| `ark.engineering_bay.cable_tray.ceiling_central` | decoration | suspended at z = 10.50, runs y = 1.0 to 15.0 | 0.40 × 0.10 × 14.00 | aesthetic + cable management |
+| `ark.engineering_bay.warning_strobe.south` | fx_emitter | (0.00, 0.20, 4.50) | 0.30 × 0.30 × 0.30 | reactor-alert strobe (off in baseline) |
+| `ark.engineering_bay.warning_strobe.east` | fx_emitter | (6.50, 8.00, 4.50) | mirror | reactor-alert strobe |
+| `ark.engineering_bay.warning_strobe.west` | fx_emitter | (-6.50, 8.00, 4.50) | mirror | reactor-alert strobe |
+
+#### A.7.9.32-35 Mezzanine Decorative + Functional
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.engineering_bay.mezzanine_1.bench.east` | furniture | (4.50, 12.00, 4.00) | 1.60 × 0.40 × 0.45 | mezzanine workbench |
+| `ark.engineering_bay.mezzanine_1.bench.west` | furniture | (-4.50, 12.00, 4.00) | mirror | mezzanine workbench |
+| `ark.engineering_bay.mezzanine_2.bench.east` | furniture | (4.50, 12.00, 8.00) | 1.60 × 0.40 × 0.45 | mezzanine workbench |
+| `ark.engineering_bay.mezzanine_2.bench.west` | furniture | (-4.50, 12.00, 8.00) | mirror | mezzanine workbench |
+
+#### A.7.9.36-41 Reactor Shaft Atmospheric Elements
+
+These are visible THROUGH the reactor viewport but logically belong
+to the engineering room.
+
+| object_id | class | position (relative to viewport centre) | dim | role |
+|---|---|---|---|---|
+| `ark.engineering_bay.reactor_shaft.core_pulse_emitter` | fx_emitter | (0.00, 0.00, 0.00) within shaft | 1.20 dia spherical | core pulse light |
+| `ark.engineering_bay.reactor_shaft.steam_plume.upper` | fx_emitter | (0.00, +3.00, +5.00) within shaft | n/a (volumetric) | rising steam plume |
+| `ark.engineering_bay.reactor_shaft.steam_plume.lower` | fx_emitter | (0.00, -3.00, -3.00) within shaft | n/a (volumetric) | descending steam plume |
+| `ark.engineering_bay.reactor_shaft.coolant_drip` | fx_emitter | (+1.5, 0.0, -2.0) within shaft | n/a (volumetric) | coolant drip cosmetic |
+| `ark.engineering_bay.reactor_shaft.spark_emitter.east` | fx_emitter | (+2.0, 0.0, +3.0) within shaft | n/a (volumetric) | sparks during stress states |
+| `ark.engineering_bay.reactor_shaft.spark_emitter.west` | fx_emitter | (-2.0, 0.0, +3.0) within shaft | mirror | sparks |
+
+Total: 41 inventory objects.
+
+### A.7.10 Camera-spawn-points (FPV cutscenes)
+
+```
+cutscene_id:         cs_amb_engineering  (Category B Myst-ambient)
+camera_position:     (0.00, 0.50, eye_level)  # at threshold of door
+camera_facing:       (0°, 5°, 0°)  # looking forward and slightly up at reactor
+avatar_height_anchor: eye_level
+head_motion:         slow forward dolly toward reactor viewport, slight upward head-tilt as player approaches; lasts 18s
+
+cutscene_id:         cs_hellbox_4_open  (HB4 Mechronis gateway)
+camera_position:     (0.00, 1.30, eye_level)  # at workbench
+camera_facing:       (0°, -25°, 0°)  # looking down at workbench surface
+avatar_height_anchor: eye_level
+head_motion:         hand-rig enters frame; tools rearrange themselves; workbench dissolves; transit begins
+
+cutscene_id:         cs_hellbox_4_transit  (HB4 transit)
+camera_position:     (0.00, 1.30, eye_level)
+camera_facing:       (0°, -25°, 0°) initially; rotates to (0°, 0°, 0°) by mid-transit
+avatar_height_anchor: eye_level
+head_motion:         POV descends into the workbench; classroom rises around player
+
+cutscene_id:         cs_hellbox_4_close  (HB4 return)
+camera_position:     (0.00, 1.30, eye_level)
+camera_facing:       (0°, -25°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         classroom dissolves; workbench re-materialises with new tools added (visual confirmation of Academy progress)
+```
+
+### A.7.11 Doorways
+
+```
+door_id:            ark.engineering_bay.south.door.main
+connecting_space_id: ark.corridor.engineering_approach
+door_position:      (0.00, 0.00, 0.00)
+door_dimensions:    1.60 × 2.40 × 0.10
+door_class:         pressure_seal
+unlock_condition:   always (Act 1+)
+transit_animation:  airlock-cycle (4s)
+audio_signature:    pressure-equalisation hiss + magnetic clack + servo-whir
+
+door_id:            ark.engineering_bay.east.door.workshop
+connecting_space_id: ark.forge_workshop
+door_position:      (6.95, 12.00, 0.00)
+door_dimensions:    1.40 × 2.40 × 0.10
+door_class:         slide
+unlock_condition:   Act 3+
+transit_animation:  fade
+audio_signature:    pneumatic-hiss + servo-whir
+
+door_id:            ark.engineering_bay.west.door.armory
+connecting_space_id: ark.armory
+door_position:      (-6.95, 12.00, 0.00)
+door_dimensions:    1.40 × 2.40 × 0.10
+door_class:         slide
+unlock_condition:   Act 2+
+transit_animation:  fade
+audio_signature:    pneumatic-hiss + servo-whir
+```
+
+### A.7.12 Adjacency map
+
+```
+direct_adjacencies:
+  - ark.corridor.engineering_approach (south door)
+  - ark.forge_workshop (east door)
+  - ark.armory (west door)
+  - hellbox.mechronis_academy (HB4 portal via workbench, conditional on Act 3+)
+one_hop_adjacencies:
+  - ark.bridge (via corridor + Deck-1 main)
+  - ark.med_bay (via corridor)
+  - ark.cargo_hold (via corridor)
+  - destination.mechronis_academy (via HB4)
+```
+
+### A.7.13 Gameplay hooks
+
+```
+hooks:
+  - hook_id:         engineering_bay.openCraftingUI
+    trigger:         player.operate on ark.engineering_bay.workbench.primary
+    procedure:       trpc.engineering.workbench.openCraft
+    success_state:   crafting_ui_open = true
+  - hook_id:         engineering_bay.invokeHB4
+    trigger:         (state-conditional) player.interact on workbench (Act 3+, after N crafting interactions)
+    procedure:       trpc.hellbox.hb4.openGate
+    success_state:   hellbox_4_transit_started = true
+    fail_state:      not_yet_unlocked
+  - hook_id:         engineering_bay.openToolRack
+    trigger:         player.open on ark.engineering_bay.tool_rack.east or .west
+    procedure:       trpc.engineering.tool_rack.open
+    success_state:   tool_rack_open = true
+  - hook_id:         engineering_bay.controlReactor
+    trigger:         player.operate on ark.engineering_bay.mezzanine_1.console.reactor
+    procedure:       trpc.engineering.reactor.control
+    success_state:   reactor_control_active = true
+  - hook_id:         engineering_bay.diagnoseReactor
+    trigger:         player.operate on ark.engineering_bay.mezzanine_2.console.diagnostic
+    procedure:       trpc.engineering.reactor.diagnostic
+    success_state:   reactor_diagnostic_active = true
+  - hook_id:         engineering_bay.openMaintenancePanel
+    trigger:         player.open on ark.engineering_bay.maintenance_panel.<id>
+    procedure:       trpc.engineering.maintenance_panel.open
+    success_state:   maintenance_panel_open = true (per-panel)
+  - hook_id:         engineering_bay.openEngineerLocker
+    trigger:         player.open on ark.engineering_bay.engineer.locker
+    procedure:       trpc.engineering.engineer_locker.open
+    success_state:   engineer_locker_opened = true
+```
+
+### A.7.14 Story-tie
+
+```
+primary_arcs:
+  - arc.act_3_engineering_revelations
+  - arc.act_3_first_HB4_invocation
+  - arc.act_5_pod_zero_anomaly  (engineering's diagnostic terminal first sees the cross-domain signature)
+  - arc.reactor_health  (continuous; ship-state)
+per_act_evolution:
+  act_3:
+    description: "Engineering Bay opens to player. Workbench available for first crafting. Cogsworth (or named engineer) first appears. HB4 unlocks first."
+    visible_changes: workbench_first_use, cogsworth_present
+  act_4:
+    description: "Reactor flux begins (related to Terminus Swarm proximity). Mezzanine 1 reactor console becomes gameplay-active."
+    visible_changes: reactor_flickers_first, reactor_console_alert
+  act_5:
+    description: "Reactor degradation visible. Pod-Zero anomaly cross-detected on diagnostic terminal. Engineer's locker reveals key journal entry."
+    visible_changes: reactor_glow_red_periodic, engineer_journal_active
+  act_6:
+    description: "Reactor either stabilising (player has been managing it) or critical (player has neglected). Maintenance panels gameplay-active."
+    visible_changes: state_branch_active
+  act_7:
+    description: "Final state. Reactor green (player saved ship) or in cascade-failure (player did not). Engineering bay reflects state."
+    visible_changes: state_branch_determined
+npc_roster:
+  - cogsworth (or current named engineer): primary occupant
+  - the_player: visitor for crafting and reactor management
+  - the_master_of_rlyeh: HB4 transit voice only
+readables:
+  - dedication plaque (south wall): "ENGINEERING / The work, the worker, the world"
+  - engineer's journal (locker): Cogsworth's notes; Act 5 gameplay-key
+  - high-voltage warning sign + radiation warning sign (atmosphere readables)
+  - reactor diagnostic logs (terminal output; player can scroll history)
+master_of_rlyeh_question: "Is the worker the work, or the work's prisoner?"  (per HB4)
+```
+
+### A.7.15 Special-FX
+
+```
+particle_systems:
+  - dust (low; mezzanine accumulation)
+  - steam_burst (cyclic from vents; high density during burst)
+  - sparks (cosmetic; from upper mezzanine work-zones)
+  - reactor_core_pulse_glow (volumetric; from reactor shaft)
+volumetric_effects:
+  - reactor_shaft_volumetric_glow (visible through viewport)
+  - steam_plume_columns (rising from vents; column from each)
+procedural_animations:
+  - reactor_pulse (continuous; matches Bridge coffer pulse — same heartbeat across ship)
+  - steam_vent_cycle (8s period; alternating east/west)
+  - high_bay_buzz (fluorescent-style; one fixture flickers in late acts)
+  - tool_rack_magnetic_settle (when player closes; magnetic snap-into-place)
+  - mezzanine_handrail_polish_motion (subtle reflective sheen as player walks)
+reactive_systems:
+  - workbench_glow_on_proximity (within 1.0 m, workbench surface glows softly)
+  - reactor_alert_strobes_on_critical (all 3 strobes flash red during reactor critical state)
+  - HB4_transit_workbench_dissolution (one-shot animation; tools rearrange before dissolution)
+  - mezzanine_lighting_ramp_on_proximity (mezzanine strip-lights brighten when player ascends)
+  - cogsworth_response (Cogsworth's NPC behaviour responds to player presence)
+```
+
+### A.7.16 Avatar-parametricity
+
+```
+camera_height_variation:
+  small_xenomorph (0.85m eye): camera height 0.85m; workbench surface is at chest level — special workbench-fold-out animation deploys for short avatars
+  short_humanoid (1.40m eye): camera height 1.40m; workbench is at hip level; comfortable
+  average_humanoid (1.70m eye): camera height 1.70m; workbench is at waist level; default
+  tall_humanoid (2.05m eye): camera height 2.05m; workbench is below waist; player must lean
+  tall_xenomorph (2.70m eye): camera height 2.70m; workbench is at thigh level; player must crouch — alternate crouch animation deploys
+reachability:
+  small_xenomorph: cannot reach mezzanine 1 console without elevator-stool; alternate console-relay accessible from ground floor
+  small_xenomorph: cannot reach upper tool-rack slots; only bottom-half slots
+  others: all-reachable via spiral stairs
+audio_occlusion_variation:
+  xenomorph_sensitive_hearing: reactor pulse +6 dB perceived; steam vents louder (uncomfortable for some)
+  synthetic_voice_avatar: ambient bed slightly altered (synthetic resonance)
+```
+
+### A.7.17 Performance
+
+```
+polygon_budget:      340,000 polygons (Engineering Bay is a feature-room with tall vertical volume)
+texture_budget:      200 MB total (reactor shaft shaders are expensive)
+light_count_limit:   20 simultaneous dynamic lights (ample for the room's complexity)
+lod_plan:
+  - hero_distance: 0-12m, full detail
+  - mid_distance: 12-30m, mid detail (reactor steam reduced; spark emitters simplified)
+  - low_distance: 30m+, low detail (spark emitters disabled; steam as billboards)
+streaming_behaviour:
+  - preload: ark.corridor.engineering_approach (south)
+  - preload: ark.forge_workshop (east; on Act 3+)
+  - preload: ark.armory (west; on Act 2+)
+  - on_player_at_workbench (Act 3+): preload destination.mechronis_academy
+```
 
 ---
 
@@ -1458,35 +2252,702 @@ Key objects:
 
 ---
 
-## A.22 Hierarchy Throne Sanctum (D9 — Hellbox 2 host) — CORE
+## A.22 Hierarchy Throne Sanctum (D9 — Hellbox 2 host) — FULL
+
+**Status: FULL spec.** Cross-ref: `INCEPTION_ARK_FINAL_PRODUCTION.md`
+§2.22 (art-state prompts) and §3.12.4 HB2 Castle of Death gateway.
+
+### A.22.1 Header
 
 ```
 space_id:        ark.hierarchy_throne
 space_name:      Hierarchy Throne Sanctum
 space_type:      ark_room  (also Hellbox-2 host; faction-locked)
-act_introduced:  faction-locked (Hierarchy alignment required; typically Act 5+)
-lore_anchor:     loredex.faction.hierarchy + arc.hierarchy_devotion
+act_introduced:  Act 5 (Hierarchy faction-aligned only; otherwise stays locked through Act 7)
+lore_anchor:     loredex.faction.hierarchy + arc.hierarchy_devotion + arc.act_5_hierarchy_alignment
 aesthetic_tier:  hierarchy_ritual  (Wagnerian baroque)
 master_of_rlyeh_question: "Is mercy a debt, or a gift?" (per HB2)
 ```
 
-The Hierarchy throne is the gateway to the Castle of Death (HB2).
-A vast Wagnerian-baroque chamber: tall vaulted ceiling, deep red
-banners, brass-and-bronze fixtures, central throne raised on three
-steps, censers burning incense.
+### A.22.2 Geometry
 
 ```
 dimensions:           12.00 m × 16.00 m × 9.00 m
-floor_plan_geometry:  rectangular  (with apsidal throne-rear)
+origin_point:         centre of floor at the primary entrance threshold (entrance is the south wall; throne is at the north end on a three-step dais)
+coordinate_axes:      +x = right, +y = forward, +z = up
+floor_plan_geometry:  rectangular with apsidal rear  (north wall is curved outward, radius 5.0 m, giving the throne its apse)
+volumetric_anomalies: none in baseline; HB2 transit briefly turns the apse non-Euclidean (~10s — corridor of bells extends impossibly into the throne wall)
 ```
 
-Key objects:
-- `ark.hierarchy_throne.throne` — central throne (HB2 gateway via offering)
-- `ark.hierarchy_throne.altar.offering` — offering altar
-- `ark.hierarchy_throne.censer.east.1-3, .west.1-3` — six burning censers
-- `ark.hierarchy_throne.banner.east, .west` — faction banners
+The room is cathedral-scale; the apsidal rear gives the throne
+a sacred geometry. Three steps lead up to the throne-platform
+(at z = 0.45). Six censers flank the apse symmetrically. Two
+banners hang from the high vault.
 
-(Full spec deferred to Phase B-2.)
+Floor area: ~192 m².
+
+### A.22.3 Floor
+
+```
+material_primary:     polished black-and-white marble in geometric tessellation; 0.60 m × 0.60 m tiles in a chevron pattern; 2 mm gap; high-polish finish (mirror-reflective at low angle)
+material_secondary:   gold inlay along the central walkway (south-to-throne); inlay reads "the lord giveth, the lord taketh" in proto-Latin script
+pattern:              chevron tessellation; gold central walkway 0.80 m wide running south-to-throne with engraved meditations every 1.50 m
+wear_state:           pristine (sacred space; meticulously maintained); slight wear at the central walkway from procession-pacing
+embedded_features:
+  - id: ark.hierarchy_throne.floor.drain.south
+    position: (0.00, 0.50, 0.00)
+    dimensions: 0.20 × 0.20 × 0.05  (small; concealed by ornamental brass grate)
+    function: ritual-water drain (used during cleansing rites)
+  - id: ark.hierarchy_throne.floor.censer_anchor.east_1 through .east_3, .west_1 through .west_3
+    position: 6 anchor points (3 along east of throne, 3 along west)
+    dimensions: 0.30 × 0.30 × 0.05 each
+    function: censer base anchors (bronze)
+  - id: ark.hierarchy_throne.floor.altar_anchor
+    position: (0.00, 13.00, 0.00)
+    dimensions: 0.80 × 0.80 × 0.10  (raised brass plinth)
+    function: offering altar base
+acoustic_property:    hard_reflective (marble); RT60 = 0.85s (long cathedral reverb; voices and bells hang in the air)
+```
+
+### A.22.4 Walls
+
+#### Wall: South (entrance)
+
+```
+wall_id:              south
+material_primary:     stone-clad (charcoal-grey marble veneer over structural steel); 0.80 m × 1.60 m panels; ornamental relief carving (figures + script) at z = 1.50 to 4.00
+material_secondary:   bronze dado at z = 1.20 m, 80 mm tall, ornately cast
+panelisation:         8 panels wide × 6 panels tall (with relief layer)
+colour_value:         --token-color-ark-hierarchy-throne-wall-south  (deep charcoal with bronze pin-stripe)
+embedded_displays:
+  - id: ark.hierarchy_throne.south.display.faction_standing
+    position: (-3.00, 0.20, 1.80)
+    dimensions: 1.20 × 0.80 × 0.05
+    content: player's Hierarchy faction-standing; ranks of devotion
+  - id: ark.hierarchy_throne.south.display.recent_supplications
+    position: (3.00, 0.20, 1.80)
+    dimensions: 1.20 × 0.80 × 0.05
+    content: log of recent ritual offerings + outcomes
+embedded_doors:
+  - door_id: ark.hierarchy_throne.south.door.main
+    position: (0.00, 0.00, 0.00)
+    dimensions: 1.80 × 3.20 × 0.15  (taller than typical — sacred-scale)
+    door_class: arch  (bronze double-doors with relief carving; ceremonially opens slowly)
+    connecting_space_id: ark.corridor.hierarchy_approach
+decorative_features:
+  - id: ark.hierarchy_throne.south.relief_carving.frieze
+    position: (0.00, 0.10, 4.50)  # high above the door
+    dimensions: 8.00 × 1.20 × 0.10  (deep relief)
+    material: cast bronze
+    narrative_role: depicts the Hierarchy's three-fold creed — sacrifice, mercy, ritual; player can inspect each panel for lore
+  - id: ark.hierarchy_throne.south.plaque.creed
+    position: (0.00, 0.20, 3.20)
+    dimensions: 1.00 × 0.40 × 0.02
+    material: cast bronze
+    narrative_role: reads "MERCY IS A SACRAMENT" in proto-Latin script + canonical translation
+```
+
+#### Wall: East
+
+```
+wall_id:              east
+material_primary:     stone-clad with three deep ALCOVES (each housing a saint-figure statue)
+material_secondary:   bronze dado
+panelisation:         alcoves at y = 4.5, 9.0, 13.5; each alcove 1.40 × 0.80 × 2.40 deep recessed
+colour_value:         --token-color-ark-hierarchy-throne-wall-east
+embedded_displays:    none
+embedded_doors:        none
+decorative_features:
+  - id: ark.hierarchy_throne.east.alcove.1.statue (south alcove)
+    position: (5.95, 4.50, 0.40)  # in alcove recess; floor offset
+    dimensions: 0.80 × 0.60 × 1.80  (statue + plinth)
+    material: white marble + bronze halo
+    narrative_role: Saint of the First Mercy (lore-figure; player can inspect)
+  - id: ark.hierarchy_throne.east.alcove.2.statue (mid alcove)
+    position: (5.95, 9.00, 0.40)
+    dimensions: 0.80 × 0.60 × 1.80
+    material: white marble + bronze halo
+    narrative_role: Saint of the Forgive
+  - id: ark.hierarchy_throne.east.alcove.3.statue (north alcove)
+    position: (5.95, 13.50, 0.40)
+    dimensions: 0.80 × 0.60 × 1.80
+    material: white marble + bronze halo
+    narrative_role: Saint of the Last Mercy
+  - id: ark.hierarchy_throne.east.candle_array.1, .2, .3 (one per alcove)
+    position: at base of each statue
+    dimensions: 0.20 × 0.20 × 0.30  (candle clusters; ~5 candles per array)
+    material: bronze stand + wax candles
+    narrative_role: lit by player offerings; tracks player's mercy-acts
+```
+
+#### Wall: North (apsidal — the throne wall)
+
+The northern wall is curved (apsidal) and houses the throne.
+
+```
+wall_id:              north_apsidal
+material_primary:     stone-clad apse (curved); ribbed vault meets the wall at z = 6.50; central panel carries a vast cast-bronze relief (the "Throne of Mercy" — figurative depiction)
+material_secondary:   bronze dado around apse base; bronze ribbing
+panelisation:         apsidal — single curved surface
+colour_value:         --token-color-ark-hierarchy-throne-wall-apse  (warmer charcoal; reflects throne-light)
+embedded_displays:    none (the throne is the focal point)
+embedded_doors:        none (HB2 portal is via the throne, not a physical door)
+decorative_features:
+  - id: ark.hierarchy_throne.apse.relief.throne_of_mercy
+    position: (0.00, 15.50, 5.00)
+    dimensions: 5.00 × 4.50 × 0.20 (deep relief)
+    material: cast bronze with gilt highlights
+    narrative_role: THE relief; depicts a robed figure offering mercy to a kneeling supplicant; player's eye is drawn here from the throne's POV (during HB2 transit)
+  - id: ark.hierarchy_throne.apse.dome_emitter
+    position: (0.00, 15.50, 8.50)
+    dimensions: 4.00 dia (circular emitter at apex of apse)
+    material: backlit translucent stained-glass (red/gold/black motif)
+    narrative_role: principal lighting of throne; makes the throne feel divinely lit
+```
+
+#### Wall: West
+
+Mirror of east (3 alcoves with saint-figures; mirror positions
+and statues, different saint-names — Saint of the First Forgiveness,
+Saint of the Last Forgiveness, Saint of the Eternal Forgiveness).
+
+```
+wall_id:              west
+material_primary:     same as east
+material_secondary:   bronze dado
+panelisation:         alcoves at y = 4.5, 9.0, 13.5 (mirror)
+colour_value:         --token-color-ark-hierarchy-throne-wall-west
+embedded_displays:    none
+embedded_doors:        none
+decorative_features:
+  - id: ark.hierarchy_throne.west.alcove.1.statue, .2.statue, .3.statue  (mirror of east)
+  - id: ark.hierarchy_throne.west.candle_array.1, .2, .3  (mirror of east)
+```
+
+### A.22.5 Ceiling
+
+```
+height_above_floor:     9.00 m baseline at perimeter; central nave coffer at 7.50 m; apsidal vault rises to 8.50 m; the "Throne of Mercy" relief on the apse spans up to 9.50 m height
+material:               stone-clad ribbed vault (cast-stone with bronze rib detailing); apex is the apsidal stained-glass emitter
+lighting_integrated:    8 cathedral-style suspended chandeliers (bronze + candles + LED simulation) in the central nave; apsidal stained-glass acts as the throne-light source; smaller wall-sconces along east and west walls (one per alcove + intervening positions)
+atmospheric_features:   incense smoke rising and pooling at vault apex (slow drift); occasional cathedral-rays of light from stained-glass (most visible during HB2 transit)
+acoustic_treatment:     coffered + apsidal echo at rear — gives the room a long sacred reverb
+```
+
+### A.22.6 Lighting
+
+```
+ambient_baseline:     2800 K (very warm; candle-and-bronze lighting); 120 lux at floor level (intentionally low — candle-lit feel); CRI 78 (lower than rest of Ark — supports the warm atmosphere)
+direct_fixtures:
+  - id: ark.hierarchy_throne.light.apsidal_stained_glass
+    position: (0.00, 15.50, 8.50)
+    beam_angle: 90° downward
+    colour: --token-color-ark-hierarchy-throne-apse  (warm red-gold; varies subtly across the day)
+    intensity: 6000 lumens
+    function: principal throne light; symbolic — "divine grace illuminates the throne"
+  - id: ark.hierarchy_throne.light.chandelier_central_array
+    position: 8 chandeliers distributed along central nave at z = 6.50; positions y = 2.0, 4.0, 6.0, 8.0, 10.0, 12.0 (roughly evenly spaced)
+    beam_angle: 270° (downward + lateral spread)
+    colour: --token-color-ark-hierarchy-throne-chandelier  (warm amber)
+    intensity: 3000 lumens each (pulses with candle-flicker)
+    function: ambient + ritual atmosphere
+  - id: ark.hierarchy_throne.light.wall_sconces
+    position: distributed along east and west walls between alcoves; ~12 sconces total
+    beam_angle: 180° wash
+    colour: --token-color-ark-hierarchy-throne-sconce  (warm bronze-amber)
+    intensity: 800 lumens each
+    function: accent + reinforces wall presence
+  - id: ark.hierarchy_throne.light.altar_glow
+    position: (0.00, 13.00, 1.20)  # over offering altar
+    beam_angle: 45°
+    colour: 2400 K very warm
+    intensity: 1500 lumens
+    function: ritual focal — directs eye to altar
+practical_sources:
+  - id: ark.hierarchy_throne.candle_array.<n>.flames  (6 candle arrays; ~30 flames total across walls)
+    position: per candle
+    intensity: 50 lumens each (flicker individually)
+    flicker_pattern: organic flicker (period 0.5-1.2s, random)
+  - id: ark.hierarchy_throne.censer.flame.<n>  (6 censers; one flame each)
+    position: per censer top
+    intensity: 80 lumens
+    flicker_pattern: low slow flicker (period 1.5s) + smoke emission
+  - id: ark.hierarchy_throne.altar.flame
+    position: (0.00, 13.00, 0.95)  # on altar top
+    intensity: 100 lumens (slightly larger flame)
+    flicker_pattern: stable
+time_of_day_variation:
+  acts_5_to_7: lighting stable; in late-act7, if player has aligned with Hierarchy, ALL candles light up dramatically; if NOT aligned, only the apsidal stained-glass remains active and the chandeliers go dark
+dynamic_response:
+  - on_player_offering: altar_glow intensifies briefly; nearby censers' smoke increases
+  - on_HB2_transit: apsidal stained_glass intensifies; chandeliers dim; candles all flicker simultaneously; bell-toll from somewhere distant
+  - on_NPC_priest_present: priest's local zone +20% intensity (subtle)
+```
+
+### A.22.7 Atmosphere
+
+```
+air_temperature:    22°C baseline (warm; bodies + candles)
+humidity:           42% RH; smells of incense (frankincense + myrrh) + beeswax + cold stone
+particulate:
+  - type: incense_smoke
+    density: high (continuous from 6 censers; visible plumes rising; pools at vault apex)
+    colour: pale grey-blue
+    drift_direction: slow upward (heat-convection); pools at z > 7.0
+  - type: candle_smoke
+    density: low (per-candle minor smoke contribution)
+    colour: very pale grey
+    drift_direction: upward
+  - type: dust
+    density: very low (sacred maintenance)
+    colour: greyish-white
+    drift_direction: random
+volumetric_fog:     present at apsidal vault (incense pool); 0.30 g/m³, warm-amber
+wind_drift:         very faint; 0.03 m/s; circulation toward apse (heat-rise from throne)
+smell_canon:        frankincense + myrrh + beeswax + cold-stone + faint metallic-bronze; voice-line cue: NPCs may say "the air here is heavy"
+```
+
+### A.22.8 Sound
+
+```
+ambient_bed:           file: hierarchy_throne_ambient_bed_v1.ogg (loop); -28 dB; choral hum (very faint, sub-perceptual; the room itself "sings"), distant bell-toll (faint, every 30s), wind-whistle through vault
+point_sources:
+  - id: ark.hierarchy_throne.sound.censer_burn.<n>  (6 sources)
+    position: per censer
+    sound: incense-burn crackle (continuous, -38 dB each)
+    occlusion_behaviour: standard
+    trigger: continuous
+  - id: ark.hierarchy_throne.sound.candle_flicker.<n>  (~30 sources)
+    position: per candle
+    sound: candle-flicker (very faint, -42 dB each)
+    occlusion_behaviour: omnidirectional
+    trigger: continuous
+  - id: ark.hierarchy_throne.sound.chandelier_gentle_creak
+    position: per chandelier (8 sources)
+    sound: occasional creak (random, -36 dB)
+    occlusion_behaviour: standard
+    trigger: random (period 30-90s)
+  - id: ark.hierarchy_throne.sound.distant_bell
+    position: (0.00, 16.00, 8.50)  # somewhere "beyond the apse"
+    sound: deep bell-toll (period 30s; -32 dB per toll)
+    occlusion_behaviour: omnidirectional with subtle directional bias (sounds "from the throne")
+    trigger: cyclic
+  - id: ark.hierarchy_throne.sound.altar_flame
+    position: (0.00, 13.00, 0.95)
+    sound: candle-flame (slightly louder than walls; -38 dB)
+    occlusion_behaviour: standard
+    trigger: continuous
+reverb_zone:           IR-impulse: hierarchy_cathedral_v1.wav; wet-mix 38% (very wet — sustains everything)
+music_eligibility:     cutscene only (HB2 transit + Category B cs_amb_hierarchy_throne — deferred to Phase F catalogue)
+voice_line_eligibility:
+  - speaker: hierarchy_priest (or named Hierarchy NPC; faction-assigned)
+    trigger: presence
+    line_set: see §2.22.2 (Hierarchy NPC presence-line set)
+  - speaker: the_master_of_rlyeh
+    trigger: HB2 transit only
+    line_set: HB2-specific
+```
+
+### A.22.9 Object inventory
+
+Hierarchy Throne has 38 inventory objects.
+
+#### A.22.9.1 The Throne (HB2 gateway)
+
+```
+object_id:           ark.hierarchy_throne.throne.central
+object_class:        furniture  (also fx_emitter for HB2 transit)
+position:            (0.00, 14.50, 0.45)  # north end, atop 3-step dais
+dimensions:          1.40 × 1.20 × 2.20  (oversized — sacred-scale)
+rotation:            180°  (faces -y, toward entrance)
+material_primary:    cast bronze with gilt detailing; black-velvet upholstery on seat and backrest
+material_secondary:  white marble armrests; bronze finials at top corners
+colour_value:        --token-color-ark-hierarchy-throne-bronze
+interaction:         interactable
+  - sit: triggers throne-presence cutscene (Hierarchy-aligned only); HUD shifts to ritual UI
+  - inspect: lore-note about the throne's origins (lineage of high-priests)
+  - HB2_kneel_offering: when conditions met (Hierarchy-aligned, Act 5+, brought offering), invokes HB2 transit (player kneels at throne base, offering enters frame, transit begins per §3.12.4)
+narrative_role:      THE throne; symbolically the Hierarchy's seat of authority; cosmologically the HB2 gateway. Player kneeling at throne base + presenting offering opens the corridor of bells (Castle of Death transit).
+lore_anchor:         loredex.faction.hierarchy + loredex.system.hierarchy_throne + arc.hierarchy_devotion
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.hierarchy.throne.sit + trpc.hellbox.hb2.openGate (state-conditional)
+wear_state:          slight wear at armrests (where supplicants have rested hands during ritual)
+physical_constraints: collides; player can sit (Hierarchy-aligned only)
+```
+
+#### A.22.9.2 The Throne Dais (3 steps)
+
+```
+object_id:           ark.hierarchy_throne.dais
+object_class:        furniture
+position:            (0.00, 14.00, 0.00)  # centred on throne; covers a 4.40 × 2.40 footprint
+dimensions:          4.40 × 2.40 × 0.45  (3 steps × 0.15 each)
+rotation:            0°
+material_primary:    polished white marble with gold inlay step-edges
+material_secondary:  bronze step-nosing
+colour_value:        --token-color-ark-hierarchy-throne-dais
+interaction:         inert (player can climb)
+narrative_role:      symbolic separation; ascending the dais is itself a ritual
+lore_anchor:         loredex.aesthetic.hierarchy_ritual
+art_status:          producer_handoff
+gameplay_hook_id:    none
+wear_state:          slight wear at central walkway up the steps
+physical_constraints: collides; player can climb
+```
+
+#### A.22.9.3 The Offering Altar
+
+```
+object_id:           ark.hierarchy_throne.altar.offering
+object_class:        interactive
+position:            (0.00, 13.00, 0.00)
+dimensions:          1.20 × 0.80 × 0.95
+rotation:            0°
+material_primary:    polished black granite with inlaid gold cross
+material_secondary:  bronze altar-cloth holder; cast-bronze candle-stand at corners
+colour_value:        --token-color-ark-hierarchy-throne-altar-granite
+interaction:         interactable
+  - place_offering: opens offering UI; player selects an item from inventory (a coin, a seed, a personal item, a Pet's spirit-stone, etc.); item is consumed
+  - inspect: lore-note about offering history
+narrative_role:      where the player commits to the Hierarchy; offerings are required to invoke HB2 (cf §3.12.4 cs_hellbox_2_open)
+lore_anchor:         loredex.system.offerings + arc.act_5_HB2_invocation
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.hierarchy.altar.placeOffering
+wear_state:          worn at the centre of the altar-top
+physical_constraints: collides
+```
+
+#### A.22.9.4-9 The Six Censers
+
+```
+object_id:           ark.hierarchy_throne.censer.east.1, .east.2, .east.3
+object_class:        fx_emitter  (also decoration)
+positions:           (4.00, 4.50, 0.00), (4.00, 9.00, 0.00), (4.00, 13.50, 0.00)
+dimensions:          0.40 × 0.40 × 1.40  (each)
+rotation:            0°
+material_primary:    cast bronze with hanging chains and decorative perforations
+material_secondary:  white marble base
+colour_value:        --token-color-ark-hierarchy-throne-censer-bronze
+interaction:         interactable
+  - inspect: lore-note about censer (each carries a different prayer-meditation in proto-Latin)
+  - rekindle: if censer has gone out, player can rekindle (gameplay-active in late-act if reactor degradation has affected sacred space)
+narrative_role:      ritual incense; the throne's atmosphere depends on these; visually they ARE the room's symbolism
+lore_anchor:         loredex.aesthetic.hierarchy_ritual
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.hierarchy.censer.rekindle
+wear_state:          slight wear; some patina
+physical_constraints: collides
+
+object_id:           ark.hierarchy_throne.censer.west.1, .west.2, .west.3
+(MIRROR of east; positions (-4.00, 4.50, 0.00), (-4.00, 9.00, 0.00), (-4.00, 13.50, 0.00))
+```
+
+#### A.22.9.10-15 Saint Statues + Candle Arrays
+
+Six saint-statues (3 per side) + 6 candle-arrays (one per statue);
+specced earlier in walls section. Repeated here for inventory completeness:
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.hierarchy_throne.east.alcove.1.statue` | decoration | (5.95, 4.50, 0.40) | 0.80 × 0.60 × 1.80 | Saint of First Mercy |
+| `ark.hierarchy_throne.east.alcove.2.statue` | decoration | (5.95, 9.00, 0.40) | 0.80 × 0.60 × 1.80 | Saint of Forgive |
+| `ark.hierarchy_throne.east.alcove.3.statue` | decoration | (5.95, 13.50, 0.40) | 0.80 × 0.60 × 1.80 | Saint of Last Mercy |
+| `ark.hierarchy_throne.west.alcove.1.statue` | decoration | (-5.95, 4.50, 0.40) | mirror | Saint of First Forgiveness |
+| `ark.hierarchy_throne.west.alcove.2.statue` | decoration | (-5.95, 9.00, 0.40) | mirror | Saint of Last Forgiveness |
+| `ark.hierarchy_throne.west.alcove.3.statue` | decoration | (-5.95, 13.50, 0.40) | mirror | Saint of Eternal Forgiveness |
+
+#### A.22.9.16-21 Six Candle Arrays
+
+```
+object_id:           ark.hierarchy_throne.candle_array.<position_id>  (6 arrays)
+object_class:        interactive  (also fx_emitter — flames are visible)
+positions:           one at base of each saint statue
+dimensions:          0.40 × 0.30 × 0.50 (cluster of ~5 candles per array)
+rotation:            varies
+material_primary:    cast bronze stand + wax candles
+material_secondary:  none
+colour_value:        --token-color-ark-hierarchy-throne-candle
+interaction:         interactable
+  - light_candle: player can light candles (one at a time; tracks "mercy-acts")
+  - extinguish_candle: player can extinguish candles (tracks "stern-acts")
+  - inspect: lore-note about the saint's meditation
+narrative_role:      tracks player's hierarchical alignment within the faction (mercy vs. severity sub-axis)
+lore_anchor:         arc.hierarchy_sub_alignment
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.hierarchy.candle.toggle
+wear_state:          slight wear at brass stand
+physical_constraints: collides
+```
+
+#### A.22.9.22 The Apsidal Relief — "Throne of Mercy"
+
+```
+object_id:           ark.hierarchy_throne.apse.relief.throne_of_mercy
+object_class:        decoration
+position:            (0.00, 15.50, 5.00)
+dimensions:          5.00 × 4.50 × 0.20 (deep relief)
+rotation:            180°  (faces -y, into room)
+material_primary:    cast bronze with gilt highlights
+material_secondary:  none
+colour_value:        --token-color-ark-hierarchy-throne-bronze + gilt
+interaction:         inspectable
+  - inspect: opens a multi-panel lore-readable about the Throne of Mercy myth (~4 lore screens)
+narrative_role:      THE focal relief; player's eye is drawn here from the throne's POV (especially during HB2 transit); the supplicant figure in the relief is canonically the player
+lore_anchor:         loredex.faction.hierarchy + arc.hierarchy_origin_myth
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.hierarchy.relief.read
+wear_state:          slight patina
+physical_constraints: non-collide (at height)
+```
+
+#### A.22.9.23-30 Pew Benches (visitor seating)
+
+Eight pew-benches arranged in two columns flanking the central
+walkway; 4 per side; positions y = 2.5, 5.5, 8.5, 11.5; x = -3.0
+and +3.0.
+
+```
+object_id:           ark.hierarchy_throne.pew.east.1, .east.2, .east.3, .east.4 + .west.1, .west.2, .west.3, .west.4
+object_class:        furniture
+positions:           per above (8 total)
+dimensions (each):   3.00 × 0.50 × 0.85
+rotation:            varies (faces inward toward central walkway)
+material_primary:    polished oak (real wood — rare in the Ark; flag for the Hierarchy's traditional aesthetic)
+material_secondary:  bronze armrests on aisle ends; bronze hymnal-holder
+colour_value:        --token-color-ark-hierarchy-throne-pew-oak
+interaction:         interactable - sit
+narrative_role:      visitor seating; in lore, observers attend rituals from these pews
+lore_anchor:         arc.hierarchy_observers
+art_status:          producer_handoff
+gameplay_hook_id:    none
+wear_state:          slight wear at sit-zones
+physical_constraints: collides; sittable
+```
+
+#### A.22.9.31-32 Banner Tapestries
+
+```
+object_id:           ark.hierarchy_throne.banner.east, .west
+object_class:        decoration
+positions:           (5.95, 7.00, 7.50), (-5.95, 7.00, 7.50)  # high on each side, hanging from vault
+dimensions:          0.05 × 1.20 × 4.00 (narrow tall banner)
+rotation:            varies
+material_primary:    deep crimson velvet with gold embroidery
+material_secondary:  bronze hanging-rod
+colour_value:        --token-color-ark-hierarchy-throne-banner-crimson
+interaction:         inspectable (read embroidery)
+narrative_role:      faction symbolism; reinforces Wagner-baroque atmosphere
+lore_anchor:         loredex.faction.hierarchy
+art_status:          producer_handoff
+gameplay_hook_id:    none
+wear_state:          slight fading at edges
+physical_constraints: non-collide (suspended)
+```
+
+#### A.22.9.33-36 Hymnal Stands + Hymnals
+
+```
+object_id:           ark.hierarchy_throne.hymnal_stand.east.1, .east.2 + .west.1, .west.2
+object_class:        container
+positions:           (3.50, 6.00, 0.00), (3.50, 10.00, 0.00), (-3.50, 6.00, 0.00), (-3.50, 10.00, 0.00)  # near pew aisle ends
+dimensions:          0.50 × 0.40 × 1.20
+rotation:            varies
+material_primary:    cast bronze stand with hymnal book on inclined plate
+material_secondary:  oak inlay
+colour_value:        --token-color-ark-hierarchy-throne-hymnal-stand
+interaction:         interactable
+  - inspect: opens hymnal (multi-page lore-readable; canonical hymns)
+narrative_role:      lore depth; readable hymns that hint at faction belief structure
+lore_anchor:         loredex.faction.hierarchy + arc.hierarchy_lore
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.hierarchy.hymnal.read
+wear_state:          slight wear at hymnal pages
+physical_constraints: collides
+```
+
+#### A.22.9.37-38 Decorative Closing Objects
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.hierarchy_throne.confessional_screen.east` | decoration | (5.95, 0.50, 0.00) on east near south wall | 1.40 × 0.20 × 2.40 | a confessional screen (mostly decorative; lore-flavour) |
+| `ark.hierarchy_throne.confessional_screen.west` | decoration | (-5.95, 0.50, 0.00) on west near south wall | mirror | confessional screen |
+
+Total: 38 inventory objects.
+
+### A.22.10 Camera-spawn-points (FPV cutscenes)
+
+```
+cutscene_id:         cs_amb_hierarchy_throne  (Category B, deferred catalogue)
+camera_position:     (0.00, 0.50, eye_level)  # at threshold
+camera_facing:       (0°, 8°, 0°)  # looking forward and up at apse
+avatar_height_anchor: eye_level
+head_motion:         very slow forward dolly along central walkway, head fixed on apse; lasts 22s
+
+cutscene_id:         cs_hellbox_2_open  (HB2 Castle of Death gateway)
+camera_position:     (0.00, 13.00, 0.50)  # at altar, standing
+camera_facing:       (0°, -25°, 0°)  # looking down at altar to place offering
+avatar_height_anchor: eye_level
+head_motion:         camera lowers (player kneels) to (0.00, 13.00, 0.0); knees-on-stone audio + offering-set audio; cuts to corridor-of-bells transit
+
+cutscene_id:         cs_hellbox_2_transit  (HB2 transit)
+camera_position:     (0.00, 13.00, 0.0)  # kneeling
+camera_facing:       (0°, 0°, 0°)
+avatar_height_anchor: kneeling
+head_motion:         POV travels through corridor of bells; each bell tolls; corridor opens into Castle of Death gate
+
+cutscene_id:         cs_hellbox_2_close  (HB2 return)
+camera_position:     (0.00, 13.00, 0.0)
+camera_facing:       (0°, 0°, 0°)
+avatar_height_anchor: kneeling
+head_motion:         corridor recedes; throne re-materialises; camera rises (player stands)
+```
+
+### A.22.11 Doorways
+
+```
+door_id:            ark.hierarchy_throne.south.door.main
+connecting_space_id: ark.corridor.hierarchy_approach
+door_position:      (0.00, 0.00, 0.00)
+door_dimensions:    1.80 × 3.20 × 0.15
+door_class:         arch  (bronze double-doors; ceremonial)
+unlock_condition:   Hierarchy faction-aligned (Act 5+)
+transit_animation:  ceremonial slow-open (8s) on first entry per session; instant on subsequent
+audio_signature:    bronze-on-stone resonance + chain-rattle + deep bell-toll on full open
+```
+
+### A.22.12 Adjacency map
+
+```
+direct_adjacencies:
+  - ark.corridor.hierarchy_approach (south door)
+  - hellbox.castle_of_death (HB2 portal via throne kneel + offering)
+one_hop_adjacencies:
+  - ark.chaos_forge (via hierarchy approach corridor)
+  - ark.bridge (via long-route corridors)
+  - destination.castle_of_death (via HB2)
+```
+
+### A.22.13 Gameplay hooks
+
+```
+hooks:
+  - hook_id:         hierarchy_throne.sitOnThrone
+    trigger:         player.sit on ark.hierarchy_throne.throne.central
+    procedure:       trpc.hierarchy.throne.sit
+    success_state:   throne_view_active = true (Hierarchy-aligned only)
+    fail_state:      faction_alignment_required
+  - hook_id:         hierarchy_throne.placeOffering
+    trigger:         player.interact on ark.hierarchy_throne.altar.offering
+    procedure:       trpc.hierarchy.altar.placeOffering
+    success_state:   offering_placed = true
+  - hook_id:         hierarchy_throne.invokeHB2
+    trigger:         (state-conditional) player.kneel at throne base + has placed offering at altar (Act 5+, Hierarchy-aligned)
+    procedure:       trpc.hellbox.hb2.openGate
+    success_state:   hellbox_2_transit_started = true
+    fail_state:      not_yet_unlocked / faction_alignment_required / no_offering
+  - hook_id:         hierarchy_throne.toggleCandle
+    trigger:         player.interact on ark.hierarchy_throne.candle_array.<id>
+    procedure:       trpc.hierarchy.candle.toggle
+    success_state:   candle_state = lit | extinguished (per-candle; affects sub-alignment)
+  - hook_id:         hierarchy_throne.rekindleCenser
+    trigger:         (state-conditional) player.interact on extinguished censer
+    procedure:       trpc.hierarchy.censer.rekindle
+    success_state:   censer_relit = true
+  - hook_id:         hierarchy_throne.readRelief
+    trigger:         player.inspect on ark.hierarchy_throne.apse.relief.throne_of_mercy
+    procedure:       trpc.hierarchy.relief.read
+    success_state:   relief_read = true (lore-flag)
+  - hook_id:         hierarchy_throne.readHymnal
+    trigger:         player.inspect on ark.hierarchy_throne.hymnal_stand.<id>
+    procedure:       trpc.hierarchy.hymnal.read
+    success_state:   hymnal_read = true (per-stand)
+```
+
+### A.22.14 Story-tie
+
+```
+primary_arcs:
+  - arc.hierarchy_devotion
+  - arc.act_5_hierarchy_alignment
+  - arc.hierarchy_origin_myth
+  - arc.act_5_HB2_invocation
+per_act_evolution:
+  acts_0_to_4: room exists but is LOCKED to player (faction-alignment required); player can see the door but cannot enter; lore plaques outside hint at what's within
+  act_5: player who has aligned with Hierarchy gains entry. First visit is overwhelming (the cathedral atmosphere is designed to humble). Rituals begin to be available.
+  act_6: player can invoke HB2; Castle of Death becomes accessible
+  act_7: room state-branched: if player has fully committed (mercy + offering ratio high), candles all light + incense pools dramatically; if player has been cold/severe, only minimal flames remain
+npc_roster:
+  - hierarchy_priest (named NPC TBD by canon — currently Lord Saius or similar): primary occupant
+  - the_player: visitor for ritual + HB2 invocation
+  - the_master_of_rlyeh: HB2 transit voice only
+  - hierarchy_observers: occasional NPC presence in pews (rare; lore-flavour)
+readables:
+  - creed plaque: "MERCY IS A SACRAMENT"
+  - relief panel: Throne of Mercy myth (4 lore-screens)
+  - 4 hymnals: ~4 hymns each = 16 lore-readables total
+  - saint statue plaques: 6 saint-meditations (one per statue)
+master_of_rlyeh_question: "Is mercy a debt, or a gift?"
+```
+
+### A.22.15 Special-FX
+
+```
+particle_systems:
+  - incense_smoke (continuous from 6 censers; rising and pooling at vault apex)
+  - candle_smoke (per-flame minor smoke; ~30 sources)
+  - dust_motes (minimal; slow downward drift in apsidal light shaft)
+  - apsidal_light_shaft_volumetric (visible beam from stained-glass to throne)
+volumetric_effects:
+  - incense_pool_at_vault (dense fog at z > 7.0; warm-amber)
+  - apsidal_light_shaft (volumetric beam from stained glass to throne; intensifies during HB2 transit)
+  - chandelier_candle_glow (volumetric flicker per chandelier)
+procedural_animations:
+  - chandelier_subtle_sway (8 chandeliers; slow random sway; period 30s+)
+  - censer_chain_swing (subtle swing of censer chains)
+  - candle_flame_individual_flicker (~30 flames; each independently animated)
+  - banner_subtle_ripple (banners ripple in faint air-flow)
+  - incense_smoke_rise (continuous emission)
+reactive_systems:
+  - throne_subtle_glow_on_proximity (within 3.0 m, throne backrest glows softly)
+  - altar_glow_on_offering (when player approaches altar with offering, altar-flame intensifies)
+  - HB2_transit_corridor_manifests (one-shot)
+  - candle_lit_on_player_inspect (per-candle one-shot)
+  - censer_relit_on_player_action (per-censer one-shot in late-act)
+  - state_branched_lighting_on_act_7 (full lighting if aligned; minimal if not)
+```
+
+### A.22.16 Avatar-parametricity
+
+```
+camera_height_variation:
+  small_xenomorph (0.85m eye): camera height 0.85m; saint statues feel impossibly tall; throne is monumentally large; alternate kneel-offering animation
+  short_humanoid (1.40m eye): standard humanoid scale
+  average_humanoid (1.70m eye): standard
+  tall_humanoid (2.05m eye): saint statues feel proportional; throne still dominates
+  tall_xenomorph (2.70m eye): saint statues feel small; throne still imposing (sacred-scale); hymnal stands too low — alternate read-down animation
+reachability:
+  small_xenomorph: cannot reach upper saint-statue plaques (statue base offset reachable; high relief readables not reachable; alternate console-relay)
+  small_xenomorph: cannot reach apsidal relief inspect-zone (alternate via altar terminal)
+  others: all-reachable
+audio_occlusion_variation:
+  xenomorph_sensitive_hearing: ambient choral hum is more pronounced; candles louder; slightly overwhelming on first entry
+  synthetic_voice_avatar: distant bell-toll altered in timbre (echo-pattern feels different); voice-line cue acknowledges
+```
+
+### A.22.17 Performance
+
+```
+polygon_budget:      300,000 polygons (cathedral-volume; many decorative elements)
+texture_budget:      180 MB total
+light_count_limit:   24 simultaneous dynamic lights (the room is light-intensive — chandeliers + sconces + candles)
+lod_plan:
+  - hero_distance: 0-10m, full detail
+  - mid_distance: 10-25m, mid detail (candle-flame simplified to billboards; smoke density reduced)
+  - low_distance: 25m+, low detail (sconce-glow as billboards; some statue detail simplified)
+streaming_behaviour:
+  - preload: ark.corridor.hierarchy_approach (south door)
+  - preload: destination.castle_of_death (only when HB2 unlocked + within 5.0 m of throne; conditional)
+```
 
 ---
 
@@ -1556,7 +3017,12 @@ dimensions:      10.00 m × 12.00 m × 4.50 m
 
 ---
 
-## A.27 Memorial Corridor / Plaza (Hellbox-6 host) — CORE
+## A.27 Memorial Corridor / Plaza (Hellbox-6 host) — FULL
+
+**Status: FULL spec.** Cross-ref: `INCEPTION_ARK_FINAL_PRODUCTION.md`
+§2.27 (art-state prompts) and §3.12.8 HB6 Dead Man's Circuit gateway.
+
+### A.27.1 Header
 
 ```
 space_id:        ark.memorial_corridor
@@ -1564,27 +3030,634 @@ space_name:      Memorial Corridor / Plaza
 space_type:      ark_room  (also Hellbox-6 host)
 act_introduced:  Act 4
 lore_anchor:     loredex.system.memorial + arc.fallen_crew + arc.act_4_dead_mans_circuit
-aesthetic_tier:  solar_punk_cathedral  (with mausoleum-grave accents)
+aesthetic_tier:  solar_punk_cathedral  (with mausoleum-mortuary accents)
 master_of_rlyeh_question: "If you knew the race was already lost, would you still run?" (per HB6)
 ```
 
-Long corridor lined with procession-stones (one per fallen crew
-member). Brass bowl with eternal flame at the rear. The corridor
-is a Hellbox-6 gateway: touching a procession-stone initiates the
-Dead Man's Circuit transit.
+### A.27.2 Geometry
 
 ```
-dimensions:           24.00 m × 6.00 m × 4.00 m  (long corridor; tall but narrow)
-floor_plan_geometry:  rectangular
+dimensions:           24.00 m × 6.00 m × 4.00 m
+origin_point:         centre of floor at the south entrance threshold (corridor extends north toward the brass-bowl flame at the apsidal rear)
+coordinate_axes:      +x = right, +y = forward (north), +z = up
+floor_plan_geometry:  rectangular  (with apsidal rear — north end is curved, radius 3.0 m)
+volumetric_anomalies: none in baseline; HB6 transit briefly extends the corridor non-Euclidean (~10s — race-line materialises infinitely forward)
 ```
 
-Key objects:
-- `ark.memorial_corridor.procession_stone.<n>` — 8-12 procession stones along walls
-- `ark.memorial_corridor.brass_bowl_flame` — at corridor's rear (HB6 anchor)
-- `ark.memorial_corridor.offering_basket` — offerings (coins, mementos) accumulate here
-- `ark.memorial_corridor.bench.east.1-3, .west.1-3` — meditation benches
+The corridor is intentionally long-and-narrow. Walking it is a
+ritual. Procession stones flank the walkway (4 per side).
+Meditation benches are recessed into wall alcoves between every
+two procession stones. The brass bowl with eternal flame anchors
+the apsidal rear.
 
-(Full spec deferred.)
+Floor area: 144 m² (rectangular portion) + ~14 m² (apsidal portion).
+
+### A.27.3 Floor
+
+```
+material_primary:     polished dark-grey granite slabs; 1.00 m × 1.00 m tiles; 4 mm gap; mirror-polish at the central walkway, matte at the perimeters
+material_secondary:   bronze inlay along the central walkway (south-to-flame); inlay reads names of the fallen in chronological order of their cryo-deaths
+pattern:              walkway 1.20 m wide centred on +y; engraved meditations every 2.00 m
+wear_state:           pristine; very slight wear at central walkway from procession-pacing
+embedded_features:
+  - id: ark.memorial_corridor.floor.drain.south
+    position: (0.00, 0.50, 0.00)
+    dimensions: 0.20 × 0.20 × 0.05  (concealed bronze grate)
+    function: ritual-water drain
+  - id: ark.memorial_corridor.floor.candle_anchor.<n>
+    position: 8 anchor points (one at base of each procession stone)
+    dimensions: 0.20 × 0.20 × 0.03 each
+    function: candle-stand bronze plinths
+acoustic_property:    hard_reflective with apsidal echo; RT60 = 0.75s (long; supports bell-resonance from HB6 transit)
+```
+
+### A.27.4 Walls
+
+#### Wall: South (entrance)
+
+```
+wall_id:              south
+material_primary:     polished dark-grey granite cladding (matches floor); 0.80 m × 1.60 m panels; minimal ornamentation
+material_secondary:   bronze dado at z = 1.20 m
+panelisation:         standard; 4 panels wide × 3 panels tall (since wall is only 6 m wide)
+colour_value:         --token-color-ark-memorial-corridor-wall  (deep granite-grey)
+embedded_displays:
+  - id: ark.memorial_corridor.south.display.eternal_flame_log
+    position: (-2.00, 0.20, 1.80)
+    dimensions: 0.80 × 0.60 × 0.05
+    content: live counter — "DAYS SINCE FALLEN: <n>" + cumulative offerings
+  - id: ark.memorial_corridor.south.display.ceremonial_calendar
+    position: (2.00, 0.20, 1.80)
+    dimensions: 0.80 × 0.60 × 0.05
+    content: upcoming memorial ceremonies
+embedded_doors:
+  - door_id: ark.memorial_corridor.south.door.main
+    position: (0.00, 0.00, 0.00)
+    dimensions: 1.40 × 2.40 × 0.10
+    door_class: arch  (bronze single-door; opens slowly with reverent ceremonial sound)
+    connecting_space_id: ark.corridor.deck_lower
+decorative_features:
+  - id: ark.memorial_corridor.south.plaque.dedication
+    position: (0.00, 0.20, 3.20)
+    dimensions: 1.00 × 0.40 × 0.02
+    material: bronze with engraved text
+    narrative_role: reads "WE REMEMBER / Every name. Every breath. Every loss." in canon language
+```
+
+#### Wall: East
+
+The east wall is structured as alternating PROCESSION-STONE
+NICHES and MEDITATION BENCH ALCOVES.
+
+```
+wall_id:              east
+material_primary:     dark-grey granite cladding with deep niches at procession-stone positions
+material_secondary:   bronze dado
+panelisation:         alternating niches at y = 5.0, 11.0, 17.0, 21.0 (procession stones) and bench alcoves at y = 8.0, 14.0, 19.0
+colour_value:         --token-color-ark-memorial-corridor-wall
+embedded_displays:    none
+embedded_doors:        none
+decorative_features:
+  - id: ark.memorial_corridor.east.procession_stone.1, .2, .3, .4
+    (specced in inventory below; 4 stones at y = 5.0, 11.0, 17.0, 21.0)
+  - id: ark.memorial_corridor.east.bench_alcove.1, .2, .3
+    (specced in inventory below; 3 alcoves at y = 8.0, 14.0, 19.0)
+```
+
+#### Wall: North (apsidal — flame wall)
+
+```
+wall_id:              north_apsidal
+material_primary:     dark-grey granite curving (apsidal); central niche houses the brass bowl
+material_secondary:   bronze trim around niche
+panelisation:         apsidal — curved single surface
+colour_value:         --token-color-ark-memorial-corridor-wall-apse  (slightly warmer; reflects flame)
+embedded_displays:
+  - id: ark.memorial_corridor.apse.display.fallen_count
+    position: (0.00, 24.00, 1.20)  # in apse, beneath flame
+    dimensions: 0.60 × 0.40 × 0.05
+    content: cumulative-fallen counter; reads as a memorial inscription
+embedded_doors:        none
+decorative_features:
+  - id: ark.memorial_corridor.apse.flame_niche
+    position: (0.00, 24.00, 1.50)  # the flame's housing
+    dimensions: 1.20 × 0.40 × 1.50  (recessed apsidal niche)
+    material: cast bronze niche frame around the brass-bowl flame
+    narrative_role: focal point of the corridor; the bowl rests within
+  - id: ark.memorial_corridor.apse.relief.fallen
+    position: (0.00, 24.00, 3.00)  # above flame
+    dimensions: 2.40 × 1.80 × 0.10  (deep relief)
+    material: cast bronze
+    narrative_role: depicts a procession of figures walking forward; symbolises the corridor's purpose
+```
+
+#### Wall: West
+
+Mirror of east (4 procession stones + 3 bench alcoves).
+
+```
+wall_id:              west
+material_primary:     same as east
+material_secondary:   bronze dado
+panelisation:         mirror of east (procession stones at y = 5.0, 11.0, 17.0, 21.0; bench alcoves at y = 8.0, 14.0, 19.0)
+colour_value:         --token-color-ark-memorial-corridor-wall
+embedded_displays:    none
+embedded_doors:        none
+decorative_features:
+  - id: ark.memorial_corridor.west.procession_stone.5, .6, .7, .8 (continuing numbering)
+  - id: ark.memorial_corridor.west.bench_alcove.4, .5, .6
+```
+
+### A.27.5 Ceiling
+
+```
+height_above_floor:     4.00 m baseline; apsidal vault at flame rises to 5.00 m; central nave drop coffer at 3.50 m (lower; gives the walkway a "tunnel-of-remembrance" feel)
+material:               dark-grey granite cladding with bronze rib detail at coffer edges
+lighting_integrated:    recessed strip-light along central coffer (2.00 m wide × 22.00 m long); low-profile; cool-amber tone; pulses with the flame rhythm
+atmospheric_features:   subtle volumetric beam from coffer to floor (visible in lower-light states; intensifies during HB6 transit)
+acoustic_treatment:     coffered + apsidal echo at apse
+```
+
+### A.27.6 Lighting
+
+```
+ambient_baseline:     2200 K (very warm; candle-and-flame); 80 lux at floor level (intentionally dim — solemn); CRI 75 (the warm-flame palette is intentional)
+direct_fixtures:
+  - id: ark.memorial_corridor.light.coffer_strip
+    position: (0.00, 12.00, 3.50)  # central, full corridor length
+    beam_angle: 90° downward
+    colour: --token-color-ark-memorial-corridor-coffer  (warm amber pulse-matched to flame)
+    intensity: 1500 lumens per metre; pulses gently with brass-bowl flame
+    function: principal task lighting; pulse synchronisation gives the corridor its breath
+  - id: ark.memorial_corridor.light.apse_glow
+    position: (0.00, 24.00, 4.50)
+    beam_angle: 90° downward
+    colour: --token-color-ark-memorial-corridor-apse-glow  (warm-flame-orange)
+    intensity: 4000 lumens
+    function: focal — illuminates the flame niche
+  - id: ark.memorial_corridor.light.bench_alcove_strip.<n>  (6 alcove strip-lights)
+    position: distributed (one per alcove)
+    beam_angle: 180° wash
+    colour: --token-color-ark-memorial-corridor-alcove
+    intensity: 600 lumens each
+    function: alcove-defining light
+practical_sources:
+  - id: ark.memorial_corridor.candle.<n>  (8 candles; one at base of each procession stone)
+    position: per stone base
+    intensity: 80 lumens each
+    flicker_pattern: organic (period 0.6-1.2s, random)
+  - id: ark.memorial_corridor.brass_bowl.flame
+    position: (0.00, 24.00, 1.80)  # within bowl
+    intensity: 800 lumens (much larger than candles; eternal flame)
+    flicker_pattern: stable but with gentle breath
+time_of_day_variation:
+  acts_4_to_7: lighting stable; in late-act7, if many candles are lit (player has remembered), the corridor glows warmly; if many are extinguished (player has been dismissive), the corridor feels cold and the strip-light dims
+dynamic_response:
+  - on_player_offering: brass_bowl flame brightens 30% briefly
+  - on_HB6_transit: coffer strip pulses faster matching engine-rev SFX; race-line manifests as a glowing vector along the floor
+  - on_candle_lit: nearby alcove strip brightens 10%; faint chime
+```
+
+### A.27.7 Atmosphere
+
+```
+air_temperature:    18°C baseline (cool — solemn; below typical Ark-room baseline)
+humidity:           38% RH; smells of incense + cold-stone + faint metallic-bronze + brass-polish
+particulate:
+  - type: candle_smoke
+    density: low (per-candle; ~8 sources)
+    colour: very pale grey
+    drift_direction: upward
+  - type: brass_bowl_smoke
+    density: low (continuous from eternal flame; thicker than candles)
+    colour: pale amber-grey
+    drift_direction: rises along apse, pools at vault apex
+  - type: dust
+    density: very low
+    colour: greyish-white
+    drift_direction: random
+volumetric_fog:     subtle pool at apsidal vault apex (incense/flame smoke combined); 0.15 g/m³
+wind_drift:         very faint; 0.04 m/s; toward apse (heat-rise from flame creates mild draw)
+smell_canon:        cold-stone + faint metallic-bronze + warm-bee-wax + flame-smoke; voice-line cue: NPCs may say "the air here remembers"
+```
+
+### A.27.8 Sound
+
+```
+ambient_bed:           file: memorial_corridor_ambient_bed_v1.ogg (loop); -32 dB; very faint distant bell-toll (period 60s), brass-bowl flame crackle, footstep echo (cold reverb)
+point_sources:
+  - id: ark.memorial_corridor.sound.flame_crackle
+    position: (0.00, 24.00, 1.80)
+    sound: brass-bowl flame crackle (continuous, -28 dB; clearly audible)
+    occlusion_behaviour: standard
+    trigger: continuous
+  - id: ark.memorial_corridor.sound.candle_flicker.<n>  (8 sources)
+    position: per candle
+    sound: candle-flame (very faint, -42 dB each)
+    occlusion_behaviour: omnidirectional
+    trigger: continuous
+  - id: ark.memorial_corridor.sound.distant_bell
+    position: (0.00, 24.00, 4.50)
+    sound: deep bell-toll (period 60s; -34 dB per toll)
+    occlusion_behaviour: omnidirectional with bias toward apse
+    trigger: cyclic
+  - id: ark.memorial_corridor.sound.footstep_echo
+    position: dynamic (player position)
+    sound: extra echo on footsteps (gives the corridor its "I am being heard" feel)
+    occlusion_behaviour: applies to player's footsteps only
+    trigger: per-step
+reverb_zone:           IR-impulse: memorial_corridor_v1.wav; wet-mix 32% (long corridor reverb)
+music_eligibility:     cutscene only (HB6 transit + Category B cs_amb_memorial_corridor)
+voice_line_eligibility:
+  - speaker: kael_voss_ghost  (rare cutscene-only)
+    trigger: late-act conditional
+    line_set: see §2.27.2
+  - speaker: the_master_of_rlyeh
+    trigger: HB6 transit only
+    line_set: HB6-specific
+```
+
+### A.27.9 Object inventory
+
+Memorial Corridor has 36 inventory objects.
+
+#### A.27.9.1 The Brass Bowl with Eternal Flame (HB6 anchor)
+
+```
+object_id:           ark.memorial_corridor.brass_bowl.flame
+object_class:        interactive  (also fx_emitter)
+position:            (0.00, 24.00, 1.50)  # within apsidal niche
+dimensions:          0.80 × 0.80 × 0.60 (bowl + flame above to z = 2.40)
+rotation:            0°
+material_primary:    cast bronze bowl with bas-relief detailing (figures of remembrance)
+material_secondary:  bronze stand; gold-leaf interior (reflects flame upward and outward)
+colour_value:        --token-color-ark-memorial-corridor-bowl-bronze
+interaction:         interactable
+  - place_offering: opens offering UI (player selects an item from inventory; offerings include coins, mementos, soul-stones, personal items)
+  - inspect: lore-note about the eternal flame (canonically lit at Ark commission; never extinguished)
+  - HB6_invoke: when conditions met (player has placed offerings + visited at least 3 procession stones), invokes HB6 transit (player's hand enters frame placing final offering; race-line materialises)
+narrative_role:      THE eternal flame; the corridor's heart; the HB6 gateway. Offerings accumulate inside the bowl visually (coins, dried flowers, etc.) — provides a visible record of the player's mourning
+lore_anchor:         loredex.system.eternal_flame + arc.fallen_crew
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.memorial.bowl.placeOffering + trpc.hellbox.hb6.openGate (state-conditional)
+wear_state:          slight patina at lip; bowl interior shows cumulative offerings
+physical_constraints: collides; player can lean on (cosmetic)
+```
+
+#### A.27.9.2-9 The Eight Procession Stones
+
+Each procession stone names a fallen crew member. The 8 names
+extend the cryo-bay sleeper context plus 2 additional Ark crew
+who died outside cryo (e.g. in mission).
+
+```
+object_id:           ark.memorial_corridor.procession_stone.<n>  (n = 1..8)
+object_class:        interactive  (also decoration)
+positions:           [
+  (3.00, 5.00, 0.00)   # east row, position 1 — Henrik Voss
+  (3.00, 11.00, 0.00)  # east row, position 2 — Mira Tanaka
+  (3.00, 17.00, 0.00)  # east row, position 3 — Yusuf Adler
+  (3.00, 21.00, 0.00)  # east row, position 4 — Renju Park
+  (-3.00, 5.00, 0.00)  # west row, position 5 — Greta Holm
+  (-3.00, 11.00, 0.00) # west row, position 6 — Kira Kovács
+  (-3.00, 17.00, 0.00) # west row, position 7 — Maximus Tarn (mission casualty)
+  (-3.00, 21.00, 0.00) # west row, position 8 — Sero Vall (mission casualty)
+]
+dimensions (each):   0.80 × 0.40 × 1.80  (stele-style)
+rotation (each):     varies (stones face inward toward central walkway)
+material_primary:    polished dark grey granite with gilt-engraved name + dates
+material_secondary:  bronze candle-plate at base; bronze plaque with epitaph
+colour_value:        --token-color-ark-memorial-corridor-stone-granite
+interaction:         interactable
+  - inspect: opens lore-readable about the deceased (their role, their story, their cause-of-death; expanded entries available as player progresses)
+  - touch: triggers HB6 sub-flag; touching all 3+ stones unlocks HB6 invocation at brass bowl
+  - offer: place a small offering at stone base (gameplay-active)
+narrative_role:      individual memorials; together they tell the loss-history of the Ark
+lore_anchor:         per-deceased (cross-ref §A.1 Cryo Bay sleepers + new mission casualties Maximus Tarn, Sero Vall)
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.memorial.procession_stone.touch + .inspect
+wear_state:          pristine (sacred; meticulously maintained); slight wear at touch-zones
+physical_constraints: collides
+```
+
+#### A.27.9.10-17 Eight Candles (one per procession stone)
+
+```
+object_id:           ark.memorial_corridor.candle.<n>  (n = 1..8)
+object_class:        interactive  (also fx_emitter)
+positions:           one at base of each procession stone (offset 0.20 m forward of stone)
+dimensions (each):   0.20 × 0.20 × 0.30  (single thick candle on bronze plinth)
+rotation:            0°
+material_primary:    bronze plinth + ivory wax candle
+material_secondary:  none
+colour_value:        --token-color-ark-memorial-corridor-candle
+interaction:         interactable
+  - light: lights an unlit candle (one-shot per candle)
+  - extinguish: extinguishes a lit candle
+  - inspect: lore-note about the candle's epitaph
+narrative_role:      tracks player's mourning ratio; individual remembrance acts
+lore_anchor:         per-deceased
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.memorial.candle.toggle
+wear_state:          varies
+physical_constraints: non-collide (low-profile)
+```
+
+#### A.27.9.18-23 Six Meditation Bench Alcoves
+
+```
+object_id:           ark.memorial_corridor.bench_alcove.<n>  (n = 1..6)
+object_class:        furniture
+positions:           [
+  (3.50, 8.00, 0.00),    # east, alcove 1 (recessed)
+  (3.50, 14.00, 0.00),   # east, alcove 2
+  (3.50, 19.00, 0.00),   # east, alcove 3
+  (-3.50, 8.00, 0.00),   # west, alcove 4
+  (-3.50, 14.00, 0.00),  # west, alcove 5
+  (-3.50, 19.00, 0.00),  # west, alcove 6
+]
+dimensions (each):   1.40 × 0.50 × 0.60  (bench + low backrest within recessed alcove)
+rotation (each):     270° or 90°  (faces inward toward walkway)
+material_primary:    polished dark granite bench-top; oak inlay backrest
+material_secondary:  bronze armrest cap
+colour_value:        --token-color-ark-memorial-corridor-bench
+interaction:         interactable - sit (sits in recessed alcove; gives meditation pose)
+narrative_role:      contemplation seating; player can sit and reflect; ambient cutscenes can trigger
+lore_anchor:         arc.player_grief
+art_status:          producer_handoff
+gameplay_hook_id:    none (positional only)
+wear_state:          slight wear at sit-zones
+physical_constraints: collides; sittable
+```
+
+#### A.27.9.24 Offering Basket (at base of brass bowl)
+
+```
+object_id:           ark.memorial_corridor.offering_basket
+object_class:        container
+position:            (0.00, 23.50, 0.00)  # base of bowl
+dimensions:          0.50 × 0.50 × 0.40
+rotation:            0°
+material_primary:    woven bronze wire (basketry)
+material_secondary:  none
+colour_value:        --token-color-ark-memorial-corridor-basket-bronze
+interaction:         interactable
+  - inspect: views accumulated offerings
+  - take: cannot take offerings (cosmetic; offerings stay)
+narrative_role:      visual record of cumulative offerings; reads as "the world remembers"
+lore_anchor:         arc.fallen_crew
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.memorial.basket.inspect
+wear_state:          slight wear at handles
+physical_constraints: collides
+```
+
+#### A.27.9.25-30 Decorative Lighting Stands
+
+Six bronze lighting stands flanking the brass bowl niche (3 per
+side at angled positions).
+
+```
+object_id:           ark.memorial_corridor.light_stand.east.1, .east.2, .east.3 + .west.1, .west.2, .west.3
+object_class:        decoration  (also fx_emitter — soft glow)
+positions:           varies; 3 per side at apsidal positions
+dimensions (each):   0.20 × 0.20 × 1.40  (tall thin stands)
+rotation:            varies
+material_primary:    cast bronze with engraved relief
+material_secondary:  none
+colour_value:        --token-color-ark-memorial-corridor-light-stand
+interaction:         inert (decorative + ambient lighting only)
+narrative_role:      architectural framing of the apse; reinforces sacred geometry
+lore_anchor:         loredex.aesthetic.solar_punk_cathedral
+art_status:          producer_handoff
+gameplay_hook_id:    none
+wear_state:          slight patina
+physical_constraints: collides
+```
+
+#### A.27.9.31 Reading Plaque (south wall, at entrance)
+
+```
+object_id:           ark.memorial_corridor.south.plaque.dedication
+object_class:        decoration
+position:            (0.00, 0.20, 3.20)
+dimensions:          1.00 × 0.40 × 0.02
+rotation:            180°
+material_primary:    cast bronze with engraved text
+material_secondary:  none
+colour_value:        --token-color-ark-memorial-corridor-bronze-plaque
+interaction:         inspectable
+  - inspect: reads "WE REMEMBER / Every name. Every breath. Every loss."
+narrative_role:      sets the corridor's emotional register on entry
+lore_anchor:         arc.fallen_crew
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.memorial.plaque.read
+wear_state:          slight wear
+physical_constraints: non-collide
+```
+
+#### A.27.9.32 Apsidal Relief (above flame)
+
+```
+object_id:           ark.memorial_corridor.apse.relief.fallen
+object_class:        decoration
+position:            (0.00, 24.00, 3.00)
+dimensions:          2.40 × 1.80 × 0.10
+rotation:            180°
+material_primary:    cast bronze with deep relief
+material_secondary:  none
+colour_value:        --token-color-ark-memorial-corridor-bronze-relief
+interaction:         inspectable
+  - inspect: opens multi-panel lore-readable about the corridor's purpose (canonical narrative of remembrance)
+narrative_role:      THE relief; visible from the entire corridor; symbolises the procession of the dead toward the eternal flame
+lore_anchor:         arc.memorial_canon
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.memorial.relief.read
+wear_state:          slight patina
+physical_constraints: non-collide
+```
+
+#### A.27.9.33-36 Closing Decorative Objects
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.memorial_corridor.south.intercom` | console | (-2.50, 0.20, 1.50) | 0.20 × 0.10 × 0.30 | comms relay (silent in baseline) |
+| `ark.memorial_corridor.south.fire_extinguisher` | interactive | (2.50, 0.20, 1.20) | 0.20 × 0.20 × 0.50 | safety |
+| `ark.memorial_corridor.flame_keeper_log` | container | (1.20, 23.50, 0.85) on small bronze podium | 0.30 × 0.20 × 0.05 | the flame-keeper's journal (lore-readable; in-character) |
+| `ark.memorial_corridor.bell_toll_emitter` | fx_emitter | (0.00, 24.00, 4.50) | n/a | source of distant bell-toll SFX |
+
+Total: 36 inventory objects.
+
+### A.27.10 Camera-spawn-points (FPV cutscenes)
+
+```
+cutscene_id:         cs_amb_memorial_corridor  (Category B Myst-ambient)
+camera_position:     (0.00, 0.50, eye_level)
+camera_facing:       (0°, -2°, 0°)  # looking forward and slightly down (reverent posture)
+avatar_height_anchor: eye_level
+head_motion:         slow walk-forward along central walkway, head turning slightly left and right to read each procession stone; lasts 28s; ends with hands entering frame to add an offering coin to the bowl
+
+cutscene_id:         cs_hellbox_6_open  (HB6 Dead Man's Circuit gateway)
+camera_position:     (0.00, 23.00, eye_level)  # in front of brass bowl
+camera_facing:       (0°, -10°, 0°)  # looking down at bowl
+avatar_height_anchor: eye_level
+head_motion:         hand-rig enters frame placing final offering; bowl flame brightens; race-line materialises across floor; transit begins
+
+cutscene_id:         cs_hellbox_6_transit  (HB6 transit)
+camera_position:     (0.00, 23.00, eye_level)
+camera_facing:       (0°, 0°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         POV travels along race-line; engines rumble louder; corridor extends impossibly forward
+
+cutscene_id:         cs_hellbox_6_close  (HB6 return)
+camera_position:     (0.00, 23.00, eye_level)
+camera_facing:       (0°, 0°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         race-line dissolves; corridor re-materialises; brass-bowl flame still flickers
+```
+
+### A.27.11 Doorways
+
+```
+door_id:            ark.memorial_corridor.south.door.main
+connecting_space_id: ark.corridor.deck_lower
+door_position:      (0.00, 0.00, 0.00)
+door_dimensions:    1.40 × 2.40 × 0.10
+door_class:         arch  (bronze single-door)
+unlock_condition:   Act 4+
+transit_animation:  ceremonial slow-open (4s); instant on subsequent visits
+audio_signature:    bronze-on-stone resonance + chain-rattle + faint distant bell-toll
+```
+
+### A.27.12 Adjacency map
+
+```
+direct_adjacencies:
+  - ark.corridor.deck_lower (south door)
+  - hellbox.dead_mans_circuit (HB6 portal via brass bowl, conditional)
+one_hop_adjacencies:
+  - ark.cryo_bay (via deck-lower corridor; thematically appropriate — the corridor is ADJACENT to where the dead sleep)
+  - destination.dead_mans_circuit (via HB6)
+```
+
+### A.27.13 Gameplay hooks
+
+```
+hooks:
+  - hook_id:         memorial_corridor.touchProcessionStone
+    trigger:         player.interact on ark.memorial_corridor.procession_stone.<n>
+    procedure:       trpc.memorial.procession_stone.touch
+    success_state:   stone_touched = true (per-stone)
+  - hook_id:         memorial_corridor.inspectStone
+    trigger:         player.inspect on procession_stone.<n>
+    procedure:       trpc.memorial.procession_stone.inspect
+    success_state:   stone_lore_read = true (per-stone)
+  - hook_id:         memorial_corridor.toggleCandle
+    trigger:         player.interact on ark.memorial_corridor.candle.<n>
+    procedure:       trpc.memorial.candle.toggle
+    success_state:   candle_state = lit | extinguished (per-candle)
+  - hook_id:         memorial_corridor.placeOffering
+    trigger:         player.interact on ark.memorial_corridor.brass_bowl.flame
+    procedure:       trpc.memorial.bowl.placeOffering
+    success_state:   offering_placed = true; bowl-content updated
+  - hook_id:         memorial_corridor.invokeHB6
+    trigger:         (state-conditional) Act 4+ + has touched 3+ stones + has placed offering
+    procedure:       trpc.hellbox.hb6.openGate
+    success_state:   hellbox_6_transit_started = true
+    fail_state:      not_yet_unlocked / insufficient_engagement
+  - hook_id:         memorial_corridor.readRelief
+    trigger:         player.inspect on apse.relief.fallen
+    procedure:       trpc.memorial.relief.read
+    success_state:   relief_read = true
+  - hook_id:         memorial_corridor.readFlameKeeperLog
+    trigger:         player.inspect on flame_keeper_log
+    procedure:       trpc.memorial.flame_keeper_log.read
+    success_state:   flame_keeper_log_read = true
+```
+
+### A.27.14 Story-tie
+
+```
+primary_arcs:
+  - arc.fallen_crew
+  - arc.act_4_dead_mans_circuit
+  - arc.player_grief
+  - arc.endings_remembrance_scale  (player's cumulative engagement here colours the endings)
+per_act_evolution:
+  acts_0_to_3: room is locked; players may glimpse the corridor through external transit but cannot enter
+  act_4: room opens; player invited to attend a memorial ceremony (one-time scripted event); thereafter free access. HB6 unlocks after 3+ stones touched + first offering
+  act_5: more procession stones become "active" (their lore expands as more deaths occur in player's playthrough — e.g., if a crew member dies in mission, a new stone appears)
+  act_6: corridor is well-trafficked; offerings accumulate visibly in basket
+  act_7: final state branched: full-mourning state (all candles lit + many offerings) gives "remembering ending"; cold state (few candles + few offerings) gives "forgetful ending"
+npc_roster:
+  - flame_keeper (silent NPC; named TBD): occasionally maintains the corridor; rare presence
+  - the_player: visitor for grief and HB6 invocation
+  - kael_voss_ghost: rare cutscene-only appearance in late acts
+  - the_master_of_rlyeh: HB6 transit voice only
+readables:
+  - dedication plaque (south)
+  - 8 procession stones (each is a multi-screen lore-readable; expands per-Act)
+  - apsidal relief (multi-screen lore)
+  - flame_keeper_log (canonical journal of corridor-tending duties; reveals lore about the flame's history)
+master_of_rlyeh_question: "If you knew the race was already lost, would you still run?"
+```
+
+### A.27.15 Special-FX
+
+```
+particle_systems:
+  - candle_smoke (8 sources)
+  - brass_bowl_flame (one source; large flame with smoke)
+  - dust_motes (very low; visible in coffer-strip light shaft)
+  - apsidal_smoke_pool (cumulative smoke at vault apex)
+volumetric_effects:
+  - coffer_strip_light_shaft (visible in lower-light states; emanates downward along central walkway)
+  - apsidal_flame_glow (radial volumetric glow from brass bowl)
+  - HB6_race_line_manifestation (one-shot animation; race-line glows along floor during transit)
+procedural_animations:
+  - flame_breath (brass bowl flame breathes; period 4s; slight intensity variation)
+  - candle_individual_flicker (8 sources; each independent)
+  - bell_toll_visualisation (during distant bell, a faint pulse travels through the corridor)
+  - offering_basket_accumulation (visible offerings increment over time)
+reactive_systems:
+  - candle_glow_on_proximity (within 1.0 m, candle glow brightens 15%)
+  - stone_glow_on_inspection (procession stone glows softly when player inspects)
+  - bowl_flame_brightness_on_offering (flame intensifies briefly on each offering)
+  - HB6_transit_one_shot (corridor extends; race-line manifests; engines rumble)
+  - state_branched_corridor_warmth (overall warmth varies with player's engagement ratio)
+```
+
+### A.27.16 Avatar-parametricity
+
+```
+camera_height_variation:
+  small_xenomorph (0.85m eye): camera height 0.85m; procession stones tower over player; candles at face-level — very intimate
+  short_humanoid (1.40m eye): standard short scale
+  average_humanoid (1.70m eye): standard
+  tall_humanoid (2.05m eye): procession stones feel proportional; can read top-of-stone easily
+  tall_xenomorph (2.70m eye): procession stones feel small; player must lean down to read; alternate read-down animation
+reachability:
+  small_xenomorph: cannot reach apsidal relief read-zone; alternate via flame-keeper log or stone-relay
+  others: all-reachable
+audio_occlusion_variation:
+  xenomorph_sensitive_hearing: bell-toll feels louder; flame-crackle more pronounced; corridor reverb more intense
+  synthetic_voice_avatar: ambient bed slightly altered; bell-toll has a distinct synthetic-resonance bias
+```
+
+### A.27.17 Performance
+
+```
+polygon_budget:      220,000 polygons (corridor; long but narrow)
+texture_budget:      120 MB total
+light_count_limit:   16 simultaneous dynamic lights
+lod_plan:
+  - hero_distance: 0-12m, full detail
+  - mid_distance: 12-25m, mid detail (candles simplified to billboards)
+  - low_distance: 25m+, low detail (candle-flames fully billboarded)
+streaming_behaviour:
+  - preload: ark.corridor.deck_lower
+  - on_player_within_5m_of_bowl + HB6_unlocked: preload destination.dead_mans_circuit
+```
 
 ---
 
