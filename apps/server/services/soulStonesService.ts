@@ -90,6 +90,55 @@ export async function awardCombatDropStone(
 }
 
 /**
+ * Narrative grant — bypasses the weekly soft-cap. Called from story
+ * surfaces (chapter completion, conspiracy board solve, trust
+ * milestones) where the design intent is "this moment manifests a
+ * stone in the player's hand," not "they ground out a combat drop."
+ *
+ * Stones granted here count toward `lifetimeCollected` (for prestige
+ * accounting) but NOT toward `weeklyCollected` (which would otherwise
+ * eat into the player's combat-drop budget for the week).
+ *
+ * Idempotent at the caller's discretion — the caller must gate on a
+ * transition (e.g., the user's `solvedAt` flipping from null → now)
+ * to avoid double-granting on repeated invocations.
+ */
+export async function grantSoulStones(
+  userId: number,
+  count: number,
+  reason: string,
+): Promise<{ granted: boolean }> {
+  if (count <= 0) return { granted: false };
+  try {
+    const db = await getDb();
+    if (!db) return { granted: false };
+    const row = await ensureSoulStonesRow(userId);
+    if (!row) return { granted: false };
+    await db
+      .update(soulStones)
+      .set({
+        violetCount: sql`${soulStones.violetCount} + ${count}`,
+        lifetimeCollected: sql`${soulStones.lifetimeCollected} + ${count}`,
+      })
+      .where(eq(soulStones.userId, userId));
+    logger.info("soul_stones_narrative_grant", "soulStonesService", {
+      userId,
+      count,
+      reason,
+    });
+    return { granted: true };
+  } catch (err) {
+    logger.warn("soul_stones_narrative_grant_failed", "soulStonesService", {
+      userId,
+      count,
+      reason,
+      err: String(err),
+    });
+    return { granted: false };
+  }
+}
+
+/**
  * Cron tick — reset `weeklyCollected` to zero on every row whose
  * `weekResetAt` is older than ONE_WEEK_MS. Bulk UPDATE; idempotent.
  * Fire-and-forget: errors are logged but never thrown so the cron
