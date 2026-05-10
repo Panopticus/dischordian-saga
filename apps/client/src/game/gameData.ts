@@ -1,5 +1,9 @@
 import { assetUrl } from "@/lib/assetUrl";
 import { ARENA_BACKGROUNDS } from "@/data/arenaAssets";
+import {
+  parallaxForArenaId,
+  stageMusicForArenaId,
+} from "@shared/aaaArtArchive";
 /* ═══════════════════════════════════════════════════════
    FALL OF REALITY — Fighting Game Data
    Character roster, stats, special abilities, arenas
@@ -74,6 +78,16 @@ export interface ArenaData {
   floorColor: string;
   ambientColor: string;
   backgroundImage?: string;
+  /** Three-plane parallax (background / midground / foreground) JPGs
+   *  shipped in the May 2026 producer drop. Optional because the legacy
+   *  CDN backdrops continue to satisfy `backgroundImage`; when present,
+   *  FightArena2D layers these on top for parallax depth. Resolved
+   *  lazily so the import graph stays narrow. */
+  parallax?: { bg: string; mg: string; fg: string };
+  /** Stage music stem URL (MP3). Optional for the same reason; arenas
+   *  without an archive entry fall back to the global GameAudioContext
+   *  area-BGM lookup. */
+  musicUrl?: string;
 }
 
 /* ─── STARTER ROSTER (Archons minus CoNexus & Vortex, plus Jailer & Host) ─── */
@@ -805,6 +819,17 @@ export const ARENAS: ArenaData[] = [
     backgroundImage: assetUrl("art/dmc/environments/dmc_env_the-trench_1920x1080.jpg"),
   },
 ];
+
+// Wire the May 2026 producer drop's parallax stages + stage music into
+// every ARENAS entry the archive ships an asset for. Arenas without a
+// matching stageId (e.g. "the-trench" from DMC) keep `parallax` and
+// `musicUrl` undefined and fall back to the legacy backdrop / area-BGM.
+for (const a of ARENAS) {
+  const p = parallaxForArenaId(a.id);
+  if (p) a.parallax = p;
+  const m = stageMusicForArenaId(a.id);
+  if (m) a.musicUrl = m;
+}
 
 /* ─── DIFFICULTY ─── */
 export interface DifficultyLevel {

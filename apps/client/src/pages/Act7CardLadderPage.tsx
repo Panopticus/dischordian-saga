@@ -47,6 +47,7 @@ import {
 import { fireCrossGameBeat } from "@/lib/crossGameBeats";
 import { fireCompanionComment } from "@/lib/companionCommentQueue";
 import LivingBackground from "@/components/LivingBackground";
+import { FactionBackdrop } from "@/components/FactionBackdrop";
 import { useActVO } from "@/hooks/useActVO";
 
 import { assetUrl } from "@/lib/assetUrl";
@@ -303,6 +304,9 @@ export default function Act7CardLadderPage() {
         particleCount={2}
         scanlines={false}
       />
+      {/* May 2026 archive — Act 7 faction backplate (mechronis /
+          the Architect returns to Mechronis Core). */}
+      <FactionBackdrop faction="mechronis" opacity={0.1} />
 
       <header className="relative z-10 flex items-center justify-between border-b void-border void-bg-canvas px-4 py-3 backdrop-blur">
         <Link

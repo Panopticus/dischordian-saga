@@ -24,6 +24,10 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useGame } from "@/contexts/GameContext";
 import { fireCrossGameBeat } from "@/lib/crossGameBeats";
 import {
+  witnessingVfxUrl,
+  type WitnessingVfxFaction,
+} from "@shared/aaaArtArchive";
+import {
   ALIGNMENT_CHOICES,
   FULL_WITNESSING_SLIDES,
   LAST_WORDS_FULL_DURATION_S,
@@ -51,12 +55,18 @@ export interface Act1CycleCAuthorityWitnessingProps {
   volume?: number;
   /** Auto-start playback on mount. Default true. */
   autoPlay?: boolean;
+  /** Faction VFX plate to layer above the slide cross-fade. Defaults
+   *  to "authority" (the canonical Act 1 Cycle C finale signature);
+   *  later acts pass their boss's faction (e.g. "mechronis" for the
+   *  Architect, "terminus" for the Source). */
+  factionVfx?: WitnessingVfxFaction;
 }
 
 export function Act1CycleCAuthorityWitnessing({
   onComplete,
   volume = 0.85,
   autoPlay = true,
+  factionVfx = "authority",
 }: Act1CycleCAuthorityWitnessingProps) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [currentTime, setCurrentTime] = useState(0);
@@ -139,6 +149,29 @@ export function Act1CycleCAuthorityWitnessing({
         overflow: "hidden",
       }}
     >
+      {/* May 2026 archive — Witnessing VFX plate. Static screen-blend
+          layer above the slide cross-fade. Provides the factional
+          signature wash (Authority gold/oxidation by default; per
+          downstream act overrides for the Architect / Source / etc.
+          finales). Decorative; ignored when reduced-motion preference
+          is set via the parent. */}
+      <img
+        src={witnessingVfxUrl(factionVfx)}
+        alt=""
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          inset: 0,
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          mixBlendMode: "screen",
+          opacity: 0.35,
+          pointerEvents: "none",
+          zIndex: 1,
+        }}
+      />
+
       {/* Slide cross-fade */}
       <AnimatePresence mode="sync">
         <motion.img

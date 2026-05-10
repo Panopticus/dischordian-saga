@@ -10,6 +10,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, Swords, Shield, Zap, ChevronUp, Hand, Timer } from "lucide-react";
 import { ScreenReaderOnly, LiveRegion } from "@/components/a11y";
 import type { FighterData, ArenaData, DifficultyLevel } from "./gameData";
+import { fightHudUrl, fightVfxUrl } from "@shared/aaaArtArchive";
 import { FightEngine2D, type FightCallbacks2D, type FightPhase2D, type TouchInput2D, type Difficulty2D, type TrainingData, type MoveListEntry } from "./FightEngine2D";
 import { hapticMediumHit, hapticHeavyHit, hapticBlock, hapticSP1, hapticSP2, hapticSP3 } from "./haptics";
 import { useHaptics } from "@/hooks/useHaptics";
@@ -152,6 +153,38 @@ function FightArena2D({
     return !localStorage.getItem(TUTORIAL_DONE_KEY);
   });
   const [announceMessage, setAnnounceMessage] = useState("");
+  /** May 2026 archive HUD chrome — what banner (if any) should be
+   *  overlayed right now. Set on round-end / match-end and cleared
+   *  after a timeout so the next one can fire. */
+  const [hudBanner, setHudBanner] = useState<
+    | "round_card_round_1"
+    | "round_card_round_2"
+    | "round_card_final"
+    | "ko_splash"
+    | "perfect_banner"
+    | "victory_banner"
+    | "flawless_victory_banner"
+    | null
+  >(null);
+  /** Screen-space VFX flash from the May 2026 archive (super_screenflash
+   *  on a level-3 super, ko_blackout on match end). Fades over ~600ms. */
+  const [vfxFlash, setVfxFlash] = useState<"super_screenflash" | "ko_blackout" | null>(null);
+  /** Combo pop tier — bronze (3-5) → silver (6-8) → gold (9-11) →
+   *  platinum (12+). Set on every onCombo callback; cleared after
+   *  ~700ms so the next pop can fire fresh. Includes a key so React
+   *  re-mounts the motion.img and replays the bump animation. */
+  const [comboPop, setComboPop] = useState<
+    | { tier: "bronze" | "silver" | "gold" | "platinum"; key: number }
+    | null
+  >(null);
+  const comboPopKeyRef = useRef(0);
+  /** Brief DOM overlay for a hit-spark PNG. Triggered on heavy / launcher
+   *  hits dealt by the player; faded over ~250ms. */
+  const [hitSpark, setHitSpark] = useState<
+    | { intensity: "light" | "medium" | "heavy"; key: number }
+    | null
+  >(null);
+  const hitSparkKeyRef = useRef(0);
 
   // Suppress BGM when fight starts, restore when leaving
   const bgm = useSagaThemeBGM();
@@ -188,6 +221,23 @@ function FightArena2D({
       if (p === "intro") {
         setShowIntroSplash(true);
       }
+      // Show "ROUND 1" card when fighting first begins; clear it
+      // after 900ms so the action isn't obscured. Subsequent rounds
+      // are driven by onRoundEnd below.
+      if (p === "fighting" && !hudBanner) {
+        setHudBanner("round_card_round_1");
+        window.setTimeout(() => setHudBanner(null), 900);
+      }
+    },
+    onRoundEnd: (_winner, p1Wins, p2Wins) => {
+      // Best-of-three semantics — match the engine's round counter.
+      const totalRounds = p1Wins + p2Wins;
+      if (totalRounds >= 2) {
+        setHudBanner("round_card_final");
+      } else {
+        setHudBanner("round_card_round_2");
+      }
+      window.setTimeout(() => setHudBanner(null), 900);
     },
     onHealthChange: (p1Hp, p1Max, _p2Hp, _p2Max) => {
       if (p1Hp < p1Max) setP1Perfect(false);
@@ -198,6 +248,20 @@ function FightArena2D({
         if (type === "blocked" || type === "parried") hapticBlock();
         else if (type === "heavy" || type === "launcher") hapticHeavyHit();
         else hapticMediumHit();
+
+        // May 2026 archive hit-spark overlay. Blocked / parried hits
+        // don't spark — the player needs distinct visual feedback for
+        // a successful defense. The intensity ladder mirrors the
+        // engine's hit_type taxonomy.
+        if (type !== "blocked" && type !== "parried") {
+          const intensity: "light" | "medium" | "heavy" =
+            type === "heavy" || type === "launcher" ? "heavy"
+            : type === "light" ? "light"
+            : "medium";
+          hitSparkKeyRef.current += 1;
+          setHitSpark({ intensity, key: hitSparkKeyRef.current });
+          window.setTimeout(() => setHitSpark(null), 260);
+        }
 
         // useHaptics pattern-based feedback (augments existing haptics)
         if (type === "heavy" || type === "launcher") {
@@ -224,6 +288,13 @@ function FightArena2D({
       else if (level === 2) hapticSP2();
       else hapticSP1();
 
+      // May 2026 archive — super screen-flash overlay on the level-3
+      // super. Faded out by the AnimatePresence below.
+      if (level === 3) {
+        setVfxFlash("super_screenflash");
+        window.setTimeout(() => setVfxFlash(null), 550);
+      }
+
       // Narrative: limit break / special activation
       if (level >= 2) dispatchLimitBreak();
       else dispatchNarrativeEffect("jolt");
@@ -231,6 +302,18 @@ function FightArena2D({
     onCombo: (_player, count, _damage) => {
       // Combat juice: combo flash feedback based on combo count
       comboFlash(count);
+      // May 2026 archive — combo pop banner. Tier ladders to the
+      // four canonical tiers; <3 hits is below the pop threshold.
+      if (count >= 3) {
+        const tier: "bronze" | "silver" | "gold" | "platinum" =
+          count >= 12 ? "platinum"
+          : count >= 9 ? "gold"
+          : count >= 6 ? "silver"
+          : "bronze";
+        comboPopKeyRef.current += 1;
+        setComboPop({ tier, key: comboPopKeyRef.current });
+        window.setTimeout(() => setComboPop(null), 700);
+      }
     },
     onFinishHim: () => {
       // Narrative: finishing blow moment
@@ -240,6 +323,23 @@ function FightArena2D({
       const w = winner === 1 ? "p1" : "p2";
       const perfect = winner === 1 ? p1PerfectRef.current : false;
       setAnnounceMessage(w === "p1" ? (perfect ? "You win! Perfect victory!" : "You win!") : "You lose!");
+
+      // May 2026 archive HUD chrome — KO splash, then victory/perfect/
+      // flawless banner depending on outcome. Sequenced so each banner
+      // gets ~700ms of screen time before the route transition fires.
+      // Also flash the KO blackout VFX behind the banner.
+      setVfxFlash("ko_blackout");
+      window.setTimeout(() => setVfxFlash(null), 800);
+      setHudBanner("ko_splash");
+      window.setTimeout(() => {
+        if (w !== "p1") {
+          setHudBanner(null);
+          return;
+        }
+        setHudBanner(
+          perfect ? "flawless_victory_banner" : "victory_banner",
+        );
+      }, 700);
 
       // Combat juice: KO slowmo + heavy screen shake
       hapticTrigger("ko");
@@ -277,8 +377,17 @@ function FightArena2D({
     engineRef.current = engine;
     engine.start();
 
-    // Load arena background image if available
-    if (arena.backgroundImage) {
+    // Load arena background image if available. When the May 2026
+    // producer-drop parallax triplet is present, push all three planes
+    // so FightEngine2D can render bg/mg/fg with depth-correct parallax;
+    // otherwise fall back to the legacy single-plate backdrop.
+    if (arena.parallax) {
+      engine.loadParallaxLayers(
+        arena.parallax.bg,
+        arena.parallax.mg,
+        arena.parallax.fg,
+      );
+    } else if (arena.backgroundImage) {
       engine.loadBackgroundImage(arena.backgroundImage);
     }
 
@@ -341,6 +450,26 @@ function FightArena2D({
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
   }, [onBack]);
+
+  // Stage music — when the arena ships a musicUrl from the May 2026
+  // producer drop, play it on a dedicated <audio> element (not routed
+  // through GameAudioContext so a transient fight doesn't displace the
+  // global area BGM). Cleans up on unmount or arena change.
+  useEffect(() => {
+    if (!arena.musicUrl) return;
+    const el = new Audio(arena.musicUrl);
+    el.loop = true;
+    el.volume = 0.45;
+    void el.play().catch(() => {
+      // autoplay blocked is expected before user gesture; the engine's
+      // input handler will retry on first input via the ResizeObserver
+      // re-render, so leave the element ready and silent.
+    });
+    return () => {
+      el.pause();
+      el.src = "";
+    };
+  }, [arena.musicUrl]);
 
   // Tutorial completion
   const completeTutorial = useCallback(() => {
@@ -474,6 +603,94 @@ function FightArena2D({
         height={720}
         className="image-rendering-pixelated"
       />
+
+      {/* Screen-space VFX flash — super_screenflash / ko_blackout from
+          the May 2026 archive. Drawn behind the HUD banner overlay so
+          the round card / KO splash reads on top. */}
+      <AnimatePresence>
+        {vfxFlash && (
+          <motion.img
+            key={vfxFlash}
+            src={fightVfxUrl(vfxFlash)}
+            alt=""
+            aria-hidden="true"
+            className="absolute inset-0 z-20 w-full h-full object-cover pointer-events-none"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: vfxFlash === "ko_blackout" ? 0.85 : 0.75 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.18 }}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Hit-spark overlay — brief PNG flash at the canvas center on
+          successful hits. Light/medium/heavy intensities map to the
+          three hit_spark_* assets. */}
+      <AnimatePresence>
+        {hitSpark && (
+          <motion.img
+            key={`spark-${hitSpark.key}`}
+            src={fightVfxUrl(`hit_spark_${hitSpark.intensity}` as
+              "hit_spark_light" | "hit_spark_medium" | "hit_spark_heavy")}
+            alt=""
+            aria-hidden="true"
+            className="absolute left-1/2 top-1/2 z-20 pointer-events-none"
+            style={{
+              width: hitSpark.intensity === "heavy" ? 320 : hitSpark.intensity === "medium" ? 220 : 160,
+              transform: "translate(-50%, -50%)",
+              mixBlendMode: "screen",
+            }}
+            initial={{ opacity: 0, scale: 0.6 }}
+            animate={{ opacity: 1, scale: 1.05 }}
+            exit={{ opacity: 0, scale: 1.2 }}
+            transition={{ duration: 0.16 }}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Combo pop banner — bronze/silver/gold/platinum tiered overlay
+          on the player's combo count. Sits above the hit-spark layer
+          so a long combo's pop reads clearly. */}
+      <AnimatePresence>
+        {comboPop && (
+          <motion.img
+            key={`combo-${comboPop.key}`}
+            src={fightHudUrl(`combo_pop_${comboPop.tier}` as
+              "combo_pop_bronze" | "combo_pop_silver" | "combo_pop_gold" | "combo_pop_platinum")}
+            alt={`${comboPop.tier} combo`}
+            className="absolute z-25 pointer-events-none"
+            style={{
+              right: "8%",
+              top: "30%",
+              width: "22%",
+              maxWidth: 320,
+            }}
+            initial={{ opacity: 0, x: 40, scale: 0.9 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            exit={{ opacity: 0, scale: 1.1 }}
+            transition={{ duration: 0.18, ease: "easeOut" }}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* HUD banner overlays — round cards, KO splash, victory banners.
+          May 2026 archive chrome. Rendered above the canvas, below the
+          gesture tutorial so the player can still see the cards. */}
+      <AnimatePresence>
+        {hudBanner && (
+          <motion.img
+            key={hudBanner}
+            src={fightHudUrl(hudBanner)}
+            alt={hudBanner.replace(/_/g, " ")}
+            className="absolute left-1/2 top-1/2 z-30 pointer-events-none"
+            style={{ width: "62%", maxWidth: 900, transform: "translate(-50%, -50%)" }}
+            initial={{ opacity: 0, scale: 1.3 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            transition={{ duration: 0.22, ease: "easeOut" }}
+          />
+        )}
+      </AnimatePresence>
 
       {/* Gesture Tutorial */}
       <AnimatePresence>

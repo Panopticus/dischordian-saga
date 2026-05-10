@@ -1,6 +1,7 @@
 import { useGame } from "@/contexts/GameContext";
 import { LoreOverlay } from "@/components/LoreOverlay";
 import NarrativeTrigger from "@/components/NarrativeTrigger";
+import { FactionBackdrop } from "@/components/FactionBackdrop";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Swords, Shield, Skull, ChevronRight, Trophy, Map,
@@ -249,33 +250,46 @@ export default function FactionWarPage() {
               <div className="grid grid-cols-2 gap-3 mb-4">
                 <button
                   onClick={() => setSelectedFaction("empire")}
-                  className={`rounded-lg border p-4 text-left transition-all ${
+                  className={`relative overflow-hidden rounded-lg border p-4 text-left transition-all ${
                     selectedFaction === "empire"
                       ? "void-border void-bg-sunk box-glow-cyan"
                       : "border-border/30 bg-card/20 void-border"
                   }`}
                 >
-                  <div className="flex items-center gap-2 mb-2">
+                  {/* May 2026 archive — Authority backplate behind the
+                      Empire option (Empire → bg_authority via the
+                      Option-B faction mapping). Brightens on selection. */}
+                  <FactionBackdrop
+                    faction="authority"
+                    opacity={selectedFaction === "empire" ? 0.3 : 0.14}
+                  />
+                  <div className="relative flex items-center gap-2 mb-2">
                     <Shield size={16} className="void-text-energy" />
                     <span className="font-display text-sm font-bold void-text-energy">THE EMPIRE</span>
                   </div>
-                  <p className="font-mono text-[10px] text-muted-foreground">Order through strength. Control through commerce. The Empire's vision of a unified galaxy under one banner.</p>
-                  <p className="font-mono text-[9px] void-text-energy mt-2">Current Rep: {state.factionReputation.empire || 0}</p>
+                  <p className="relative font-mono text-[10px] text-muted-foreground">Order through strength. Control through commerce. The Empire's vision of a unified galaxy under one banner.</p>
+                  <p className="relative font-mono text-[9px] void-text-energy mt-2">Current Rep: {state.factionReputation.empire || 0}</p>
                 </button>
                 <button
                   onClick={() => setSelectedFaction("insurgency")}
-                  className={`rounded-lg border p-4 text-left transition-all ${
+                  className={`relative overflow-hidden rounded-lg border p-4 text-left transition-all ${
                     selectedFaction === "insurgency"
                       ? "void-border-error void-bg-error"
                       : "border-border/30 bg-card/20 void-border-error"
                   }`}
                 >
-                  <div className="flex items-center gap-2 mb-2">
+                  {/* May 2026 archive — Insurgency backplate behind the
+                      Insurgency option. */}
+                  <FactionBackdrop
+                    faction="insurgency"
+                    opacity={selectedFaction === "insurgency" ? 0.3 : 0.14}
+                  />
+                  <div className="relative flex items-center gap-2 mb-2">
                     <Skull size={16} className="void-text-error" />
                     <span className="font-display text-sm font-bold void-text-error">THE INSURGENCY</span>
                   </div>
-                  <p className="font-mono text-[10px] text-muted-foreground">Freedom through resistance. Liberation through chaos. The Insurgency fights for a galaxy without masters.</p>
-                  <p className="font-mono text-[9px] void-text-error mt-2">Current Rep: {state.factionReputation.insurgency || 0}</p>
+                  <p className="relative font-mono text-[10px] text-muted-foreground">Freedom through resistance. Liberation through chaos. The Insurgency fights for a galaxy without masters.</p>
+                  <p className="relative font-mono text-[9px] void-text-error mt-2">Current Rep: {state.factionReputation.insurgency || 0}</p>
                 </button>
               </div>
 

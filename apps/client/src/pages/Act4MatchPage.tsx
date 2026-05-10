@@ -53,6 +53,7 @@ import { act4DialogPathToOutcome } from "@shared/wheelReactionCutscenes";
 import { resolveChapterIntroForOpponent } from "@shared/storyEncounterChapterIntros";
 import { chapterIntroTriggerFlag } from "@/components/cutscenes/ChapterIntroRouter";
 import LivingBackground from "@/components/LivingBackground";
+import { FactionBackdrop } from "@/components/FactionBackdrop";
 
 import { assetUrl } from "@/lib/assetUrl";
 type MatchView = "resolving" | "matchup" | "battle" | "postmatch";
@@ -184,6 +185,9 @@ export default function Act4MatchPage() {
         particleCount={3}
         scanlines={false}
       />
+      {/* May 2026 archive — Act 4 faction backplate (watcher / the
+          Revelation). */}
+      <FactionBackdrop faction="watcher" opacity={0.1} />
 
       <header className="relative z-10 flex items-center justify-between border-b border-cyan-500/30 bg-stone-950/80 px-4 py-3 backdrop-blur">
         <Link

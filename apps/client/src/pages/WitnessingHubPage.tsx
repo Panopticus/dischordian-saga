@@ -16,6 +16,8 @@ import { useMemo, useState } from "react";
 import { Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import MechanicTutorialOverlay from "@/components/MechanicTutorialOverlay";
+import { FactionBackdrop } from "@/components/FactionBackdrop";
+import { actFaction } from "@shared/actFactionMapping";
 import {
   ChevronLeft,
   ChevronRight,
@@ -209,12 +211,14 @@ function JourneyPanel({
       <PreludeTutorCard systemId="witnessing" />
 
       {/* Act 1 Ladder entry — always visible, highlighted when
-          the player is in Act 1 or has pending ladder progress. */}
+          the player is in Act 1 or has pending ladder progress.
+          May 2026 archive — faction backplate (act → authority). */}
       <Link
         href="/act1-ladder"
-        className="block rounded-md border void-border void-bg-sunk p-4 void-border void-bg-sunk transition-colors"
+        className="relative overflow-hidden block rounded-md border void-border void-bg-sunk p-4 void-border void-bg-sunk transition-colors"
       >
-        <div className="flex items-center justify-between gap-3">
+        <FactionBackdrop faction={actFaction(1) ?? "watcher"} opacity={0.12} />
+        <div className="relative flex items-center justify-between gap-3">
           <div>
             <p className="font-mono text-[10px] uppercase tracking-[0.25em] void-text-energy">
               PLAY · DISCHORDIA LADDER
@@ -236,9 +240,10 @@ function JourneyPanel({
       {gameState.narrativeAct >= 2 && (
         <Link
           href="/act2-interlude"
-          className="block rounded-md border border-indigo-500/40 bg-indigo-950/20 p-4 transition-colors hover:bg-indigo-950/30"
+          className="relative overflow-hidden block rounded-md border border-indigo-500/40 bg-indigo-950/20 p-4 transition-colors hover:bg-indigo-950/30"
         >
-          <div className="flex items-center justify-between gap-3">
+          <FactionBackdrop faction={actFaction(2) ?? "hierarchy"} opacity={0.12} />
+          <div className="relative flex items-center justify-between gap-3">
             <div>
               <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-indigo-300/80">
                 INTERLUDE · ACT 2 · THE WHISPER
@@ -261,9 +266,10 @@ function JourneyPanel({
       {gameState.narrativeAct >= 3 && (
         <Link
           href="/act3-ladder"
-          className="block rounded-md border border-purple-500/40 bg-purple-950/20 p-4 transition-colors hover:bg-purple-950/30"
+          className="relative overflow-hidden block rounded-md border border-purple-500/40 bg-purple-950/20 p-4 transition-colors hover:bg-purple-950/30"
         >
-          <div className="flex items-center justify-between gap-3">
+          <FactionBackdrop faction={actFaction(3) ?? "hierarchy"} opacity={0.12} />
+          <div className="relative flex items-center justify-between gap-3">
             <div>
               <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-purple-300/80">
                 PLAY · ACT 3 · SUBSTRATE GATES
@@ -285,9 +291,10 @@ function JourneyPanel({
       {gameState.narrativeAct >= 4 && (
         <Link
           href="/act4-match"
-          className="block rounded-md border border-cyan-500/40 bg-cyan-950/20 p-4 transition-colors hover:bg-cyan-950/30"
+          className="relative overflow-hidden block rounded-md border border-cyan-500/40 bg-cyan-950/20 p-4 transition-colors hover:bg-cyan-950/30"
         >
-          <div className="flex items-center justify-between gap-3">
+          <FactionBackdrop faction={actFaction(4) ?? "watcher"} opacity={0.12} />
+          <div className="relative flex items-center justify-between gap-3">
             <div>
               <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-cyan-300/80">
                 PLAY · ACT 4 · THE REVELATION
@@ -310,9 +317,10 @@ function JourneyPanel({
       {gameState.narrativeAct >= 5 && (
         <Link
           href="/act5-interlude"
-          className="block rounded-md border border-amber-500/40 bg-amber-950/15 p-4 transition-colors hover:bg-amber-950/25"
+          className="relative overflow-hidden block rounded-md border border-amber-500/40 bg-amber-950/15 p-4 transition-colors hover:bg-amber-950/25"
         >
-          <div className="flex items-center justify-between gap-3">
+          <FactionBackdrop faction={actFaction(5) ?? "dreamer"} opacity={0.12} />
+          <div className="relative flex items-center justify-between gap-3">
             <div>
               <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-amber-300/80">
                 INTERLUDE · ACT 5 · THE MAP
@@ -334,9 +342,10 @@ function JourneyPanel({
       {gameState.narrativeAct >= 6 && (
         <Link
           href="/act6-ladder"
-          className="block rounded-md border border-amber-500/40 bg-amber-950/20 p-4 transition-colors hover:bg-amber-950/30"
+          className="relative overflow-hidden block rounded-md border border-amber-500/40 bg-amber-950/20 p-4 transition-colors hover:bg-amber-950/30"
         >
-          <div className="flex items-center justify-between gap-3">
+          <FactionBackdrop faction={actFaction(6) ?? "insurgency"} opacity={0.12} />
+          <div className="relative flex items-center justify-between gap-3">
             <div>
               <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-amber-300/80">
                 PLAY · ACT 6 · CONFESSION MIRRORS

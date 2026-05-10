@@ -9,6 +9,7 @@ import { trpc } from "@/lib/trpc";
 import { Gem, Flame, Sparkles, Skull } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { SOUL_STONE_FACTIONS, soulStoneUrl } from "@shared/aaaArtArchive";
 
 export function SoulStonesPanel() {
   const { data, isLoading, refetch } = trpc.soulStones.getMine.useQuery();
@@ -129,6 +130,28 @@ export function SoulStonesPanel() {
           Weekly combat-cap reached. Resets in cron tick.
         </div>
       )}
+
+      {/* Faction signature band — May 2026 producer-drop soul-stone art,
+          one stone per combat faction. Decorative-only (the gameplay
+          counter above tracks tier, not faction); hover reveals the
+          faction name for accessibility. */}
+      <div className="border void-border rounded void-bg-sunk p-2">
+        <div className="font-mono text-[8px] uppercase tracking-[0.2em] void-text mb-2 text-center">
+          factional bindings
+        </div>
+        <div className="grid grid-cols-7 gap-1.5">
+          {SOUL_STONE_FACTIONS.map((f) => (
+            <img
+              key={f}
+              src={soulStoneUrl(f)}
+              alt={f}
+              title={f}
+              loading="lazy"
+              className="w-full aspect-square object-contain opacity-80 hover:opacity-100 transition-opacity"
+            />
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

@@ -32,6 +32,7 @@ import { achievementFanfare, koSlowmo, screenShake } from "@/lib/combatJuice";
 import { observe as observeWatcher } from "@/lib/watcher";
 import { summarizeTrial, trialToCombatBuff, type TrialHistoryEntry, type TrialCombatBuff } from "@shared/celebrationTrial";
 import { dischordiaSounds } from "./SoundManager";
+import { cardVfxUrl, type CardVfxId } from "@shared/aaaArtArchive";
 import {
   Swords, Heart, Zap, RotateCcw, SkipForward, Shield,
   Crosshair, Move, Sparkles, BookOpen, MessageCircle,
@@ -220,6 +221,17 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
   const [log, setLog] = useState<LogEntry[]>([]);
   const [hoveredCard, setHoveredCard] = useState<DuelystCard | null>(null);
   const [turnFlash, setTurnFlash] = useState<string | null>(null);
+  /** May 2026 archive — transient card-game VFX overlay. Set by the
+   *  engine event handlers below; cleared after ~700ms so the next
+   *  one can fire. The key bumps so React replays the entry
+   *  animation when the same VFX fires twice in a row. */
+  const [cardVfx, setCardVfx] = useState<{ id: CardVfxId; key: number } | null>(null);
+  const cardVfxKeyRef = useRef(0);
+  const triggerCardVfx = useCallback((id: CardVfxId, durationMs = 700) => {
+    cardVfxKeyRef.current += 1;
+    setCardVfx({ id, key: cardVfxKeyRef.current });
+    window.setTimeout(() => setCardVfx(null), durationMs);
+  }, []);
   // Guard so combat_low_hp dispatches once per HP-threshold-crossing,
   // not on every re-render while HP sits below the threshold.
   const lowHpDispatchedRef = useRef(false);
@@ -1103,6 +1115,7 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
       client.dispatch({ type: "mulligan", replaceIndices: playerIndices });
     }
     client.dispatch({ type: "finish_mulligan" });
+    dischordiaSounds.play("mulligan");
     // AI mulligan — use the projected view state for AI scoring
     const viewAfterPlayer = asGameState(client.getViewState());
     const aiIndices = getAIMulliganIndices(viewAfterPlayer.players[1].hand);
@@ -1158,6 +1171,7 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
           if (result.ok) cardsPlayedRef.current += 1;
           addLog(`Summoned ${card.name} at (${row}, ${col})`, "spell");
           dischordiaSounds.play("unit_summon");
+          triggerCardVfx(card.rarity === "legendary" ? "card_legendary_reveal" : "card_summon_burst");
           if (isTutorial) setLastActionType("play_card");
           clearSelection();
           rendererRef.current?.clearHighlights();
@@ -1187,6 +1201,14 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
         addLog(`${attacker?.card.name} attacks ${unit.card.name}!`, "attack");
         dischordiaSounds.play("attack_hit");
         if (attacker) rendererRef.current?.showDamageNumber(unit.row, unit.col, attacker.currentAttack);
+        // If the strike kills the defender, shatter overlay; otherwise
+        // void-drain (drain HP off the target) reads cleanly.
+        triggerCardVfx(
+          attacker && attacker.currentAttack >= unit.currentHealth
+            ? "card_destroy_shatter"
+            : "card_void_drain",
+          500,
+        );
         if (isTutorial) setLastActionType("attack");
         clearSelection();
         rendererRef.current?.clearHighlights();
@@ -1203,6 +1225,8 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
         processTrialDispatchResult(result);
         if (result.ok) cardsPlayedRef.current += 1;
         addLog(`Cast ${card.name} on ${unit.card.name}`, "spell");
+        // Targeted spell — buff if same-side, debuff/curse otherwise.
+        triggerCardVfx(unit.owner === 0 ? "card_buff_glow" : "card_debuff_curse", 600);
         dischordiaSounds.play("spell_cast");
         clearSelection();
         rendererRef.current?.clearHighlights();
@@ -1282,9 +1306,10 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
       if (result.ok) cardsPlayedRef.current += 1;
       addLog(`Equipped ${card.name}`, "spell");
       dischordiaSounds.play("card_play");
+      triggerCardVfx("card_buff_glow", 600);
       clearSelection();
     }
-  }, [gameState, phase, addLog, processTrialDispatchResult]);
+  }, [gameState, phase, addLog, processTrialDispatchResult, triggerCardVfx]);
 
   /* ─── ACTIONS ─── */
   const handleMoveMode = useCallback(() => {
@@ -1364,7 +1389,8 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
     setGameState(asGameState(result.viewState));
     addLog(`Replaced ${card?.name}`, "info");
     dischordiaSounds.play("card_draw");
-  }, [gameState, addLog]);
+    triggerCardVfx("card_draw_glow", 500);
+  }, [gameState, addLog, triggerCardVfx]);
 
   const handleBBS = useCallback(() => {
     if (!gameState || gameState.players[0].bloodbornUsed || gameState.players[0].mana < 1 || !tcgClientRef.current) return;
@@ -1372,7 +1398,8 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
     setGameState(asGameState(result.viewState));
     addLog(`Used Bloodborn Spell!`, "spell");
     dischordiaSounds.play("spell_cast");
-  }, [gameState, addLog]);
+    triggerCardVfx("card_void_drain", 600);
+  }, [gameState, addLog, triggerCardVfx]);
 
   const clearSelection = () => {
     setSelectedUnit(null);
@@ -1540,6 +1567,32 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
           mulligan, start-of-your-turn, and start-of-enemy-turn. Scales
           with --motion-intensity; reduce-motion collapses to a plain
           fade handled by AnimatePresence + the sweep's CSS rule. */}
+      {/* May 2026 archive card-game VFX overlay — single-PNG burst at
+          board center triggered by summon / spell / attack / draw
+          events. Drawn under the turn-flash banner so the banner
+          still reads on top during round transitions. */}
+      <AnimatePresence>
+        {cardVfx && (
+          <motion.img
+            key={`cardvfx-${cardVfx.key}`}
+            src={cardVfxUrl(cardVfx.id)}
+            alt=""
+            aria-hidden="true"
+            className="absolute left-1/2 top-1/2 z-40 pointer-events-none"
+            style={{
+              width: cardVfx.id === "card_legendary_reveal" ? "55%" : "38%",
+              maxWidth: cardVfx.id === "card_legendary_reveal" ? 720 : 520,
+              transform: "translate(-50%, -50%)",
+              mixBlendMode: "screen",
+            }}
+            initial={{ opacity: 0, scale: 0.7 }}
+            animate={{ opacity: 1, scale: 1.05 }}
+            exit={{ opacity: 0, scale: 1.15 }}
+            transition={{ duration: 0.22, ease: "easeOut" }}
+          />
+        )}
+      </AnimatePresence>
+
       <AnimatePresence>
         {turnFlash && (
           <motion.div

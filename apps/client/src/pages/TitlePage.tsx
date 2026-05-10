@@ -47,6 +47,7 @@ import { useTransmissionIntercept } from "./title/useTransmissionIntercept";
 import { observe as observeWatcher } from "@/lib/watcher";
 
 import { assetUrl } from "@/lib/assetUrl";
+import { ExpansionLoopAmbient } from "@/components/ClimaxCinematic";
 const THRESHOLD_MS = 1500;
 
 /**
@@ -571,6 +572,14 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
         <source src={assetUrl("videos/title/ark-drift-loop.webm")} type="video/webm" />
         <source src={assetUrl("videos/title/ark-drift-loop.mp4")} type="video/mp4" />
       </video>
+
+      {/* May 2026 archive — expansion ambient plate stacked above the
+          drift video at low opacity. Random per mount (skyline / valley
+          / void-drift), so the title screen breathes a different
+          subliminal each session. zIndex 0 keeps it below all chrome. */}
+      <div style={{ position: "absolute", inset: 0, zIndex: 0, pointerEvents: "none" }}>
+        <ExpansionLoopAmbient opacity={0.18} />
+      </div>
 
       {/* F12 parallax far nebula — slow horizontal drift via scanline RAF
           so we don't spawn a second tick loop. Amplitude clamped low

@@ -28,6 +28,8 @@ import { observe as observeWatcher } from "@/lib/watcher";
 import { useActVO } from "@/hooks/useActVO";
 import { getActsSystemTutor } from "@shared/acts2to7SystemTutors";
 import LivingBackground from "@/components/LivingBackground";
+import { FactionBackdrop } from "@/components/FactionBackdrop";
+import { actFaction } from "@shared/actFactionMapping";
 
 import { assetUrl } from "@/lib/assetUrl";
 type View = "intro" | "tutor" | "close";
@@ -112,6 +114,7 @@ export default function Act2InterludePage() {
   const accent = "border-indigo-500/40 text-indigo-200";
   const subAccent = "text-indigo-300/80";
 
+  const factionBg = actFaction(2);
   return (
     <div className="relative min-h-screen bg-stone-950 text-stone-100">
       <LivingBackground
@@ -121,6 +124,10 @@ export default function Act2InterludePage() {
         particleCount={3}
         scanlines={false}
       />
+      {/* May 2026 archive — Act 2 faction backplate (hierarchy /
+          Shadow Tongue propaganda). Low opacity so the comms-relay
+          living background still reads as the primary chrome. */}
+      {factionBg ? <FactionBackdrop faction={factionBg} opacity={0.1} /> : null}
 
       <header className="relative z-10 flex items-center justify-between border-b border-indigo-500/30 bg-stone-950/80 px-4 py-3 backdrop-blur">
         <Link
