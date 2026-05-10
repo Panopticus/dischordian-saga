@@ -87,6 +87,7 @@ import CharacterWidget from "./components/CharacterWidget";
 import { CutsceneRouter } from "./components/cutscenes/CutsceneRouter";
 import { HumanLifeVideoOverlay } from "./components/cutscenes/HumanLifeVideoOverlay";
 import { HumanLifeVideoTriggerWatcher } from "./hooks/useHumanLifeVideoTriggers";
+import { ActCompletionAutoRouteWatcher } from "./hooks/useActCompletionAutoRoute";
 import { ChapterIntroRouter } from "./components/cutscenes/ChapterIntroRouter";
 import { ConfessionCloseRouter } from "./components/cutscenes/ConfessionCloseRouter";
 import { WheelReactionRouter } from "./components/cutscenes/WheelReactionRouter";
@@ -874,6 +875,7 @@ function GameGate() {
       <CutsceneRouter />
       <HumanLifeVideoTriggerWatcher />
       <HumanLifeVideoOverlay />
+      <ActCompletionAutoRouteWatcher />
       <ChapterIntroRouter />
       <ConfessionCloseRouter />
       <WheelReactionRouter />
