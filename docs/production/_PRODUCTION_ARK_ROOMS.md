@@ -2006,36 +2006,966 @@ Trade Hub. Per §2.10.
 
 ---
 
-## A.11 Captain's Quarters (Degen's Corner) — CORE
+## A.11 Captain's Quarters (Degen's Corner) — FULL
+
+**Status: FULL spec.** Cross-ref: `INCEPTION_ARK_FINAL_PRODUCTION.md`
+§2.11 (art-state prompts) and §3.12.9 HB7 Degenerate's Casino gateway.
+
+### A.11.1 Header
 
 ```
 space_id:        ark.captain_quarters
 space_name:      Captain's Quarters (with Degen's Corner)
 space_type:      ark_room  (also Hellbox-7 host)
-act_introduced:  Act 0  (visible from start; Degen's Corner unlocks Act 4)
-lore_anchor:     loredex.character.kael_voss + loredex.character.degen + arc.act_5_degen_appears
+act_introduced:  Act 0  (visible from start; locked until Act 1; Degen's Corner unlocks Act 5)
+lore_anchor:     loredex.character.kael_voss + loredex.character.degen + arc.act_0_loss_of_command + arc.act_5_degen_appears
 aesthetic_tier:  solar_punk_cathedral  (with film-noir accents in Degen's Corner)
 master_of_rlyeh_question: "What is owed to a debt that was never agreed to?" (per HB7)
 ```
 
-Two-zone room: the formal Captain's Quarters (where Kael lived
-before he died) and Degen's Corner (a smaller alcove that becomes
-HB7's gateway in Act 5).
+### A.11.2 Geometry
 
 ```
-dimensions:           12.00 m × 14.00 m × 4.50 m
-floor_plan_geometry:  l_shape  (main quarters + Degen's Corner alcove)
+dimensions:           12.00 m × 14.00 m × 4.50 m  (overall bounding box)
+origin_point:         centre of floor at the primary entrance threshold (entrance is the south wall of the main quarters)
+coordinate_axes:      +x = right, +y = forward, +z = up
+floor_plan_geometry:  l_shape
+volumetric_anomalies: none in baseline; HB7 transit briefly turns Degen's Corner non-Euclidean (~10s — corridor of chip-stacks extends beyond the alcove)
 ```
 
-Key objects:
-- `ark.captain_quarters.bed` — Kael's bed (preserved)
-- `ark.captain_quarters.desk` — Kael's writing desk (gameplay-key items)
-- `ark.captain_quarters.bookshelf` — Kael's personal library
-- `ark.captain_quarters.degen_corner.chair` — the empty chair (HB7 anchor)
-- `ark.captain_quarters.degen_corner.brass_coin` — the coin on the seat (HB7 trigger)
-- `ark.captain_quarters.kael_portrait` — portrait above the desk (lore-discoverable)
+The room is an L-shape: the main quarters occupy a 12 × 10 m
+rectangle running the full width of the L; Degen's Corner is a
+4 × 4 m alcove protruding eastward at the rear (the "foot" of
+the L). The alcove is hidden behind a curtain in Acts 0-4; the
+curtain dissolves in Act 5 when the Degen first appears.
 
-(Full spec deferred.)
+Floor area: 120 m² (main quarters) + 16 m² (Degen's Corner) = 136 m²
+total.
+
+### A.11.3 Floor
+
+```
+material_primary:     polished walnut hardwood (real wood — like the Hierarchy pews; rare on the Ark; signals "the Captain's space is special"); 1.20 m × 0.20 m planks; running diagonal pattern at 30° from south wall
+material_secondary:   wool rug (charcoal-grey with faded crimson border) covering the central living-zone (4.00 × 5.00 m); brass walkway-strip from entrance to desk
+pattern:              walnut planking 30°-diagonal in main quarters; transition to maple parquet (slightly different colour) at Degen's Corner alcove threshold (subtle visual marker); rug pattern is geometric chevron
+wear_state:           pristine but well-used; wear-trails to bed, desk, and bookshelf; rug shows subtle indentation under chair-positions; in Acts 5+, additional wear at the Degen's Corner threshold (Degen has been pacing)
+embedded_features:
+  - id: ark.captain_quarters.floor.charge_point.desk
+    position: (-2.00, 5.50, 0.00)
+    dimensions: 0.20 × 0.20 × 0.05  (concealed under desk)
+    function: desk-lamp + console power
+  - id: ark.captain_quarters.floor.heating_grate.south
+    position: (0.00, 1.50, 0.00)
+    dimensions: 0.40 × 0.40 × 0.05
+    function: under-floor heating vent
+  - id: ark.captain_quarters.floor.degen_corner_threshold
+    position: (4.00, 9.00, 0.005)
+    dimensions: 0.20 × 4.00 × 0.005  (long thin brass strip)
+    function: visual + interaction threshold; in Acts 0-4, an invisible barrier is enforced here; in Act 5+, threshold dissolves
+acoustic_property:    soft_absorbent at central rug zone; hard_reflective at planking elsewhere; mixed RT60 = 0.40s (warmer than industrial spaces)
+```
+
+### A.11.4 Walls
+
+#### Wall: South (entrance)
+
+```
+wall_id:              south
+material_primary:     painted plaster with classic-textured wood paneling at z = 0.00 to z = 1.20 (wainscoting); plaster from z = 1.20 to ceiling
+material_secondary:   walnut chair-rail at z = 1.20; walnut crown-molding at z = 4.30
+panelisation:         8 panels wide × 1 wainscoting panel + plaster above
+colour_value:         --token-color-ark-captain-quarters-wall-south  (warm cream upper plaster + dark walnut wainscoting)
+embedded_displays:
+  - id: ark.captain_quarters.south.display.captain_log_terminal
+    position: (-3.00, 0.20, 1.50)
+    dimensions: 0.80 × 0.60 × 0.05  (small terminal)
+    content: captain's personal log access
+  - id: ark.captain_quarters.south.display.private_comms
+    position: (3.00, 0.20, 1.50)
+    dimensions: 0.80 × 0.60 × 0.05
+    content: private comms (encrypted; for captain's eyes only)
+embedded_doors:
+  - door_id: ark.captain_quarters.south.door.main
+    position: (0.00, 0.00, 0.00)
+    dimensions: 1.20 × 2.40 × 0.10
+    door_class: slide  (lateral; with classic frame and bronze handle reflecting captain-formality)
+    connecting_space_id: ark.corridor.captain_approach
+decorative_features:
+  - id: ark.captain_quarters.south.plaque.captain
+    position: (0.00, 0.20, 3.20)
+    dimensions: 0.60 × 0.20 × 0.02
+    material: polished brass with engraved text
+    narrative_role: reads "CAPTAIN'S QUARTERS / KAEL VOSS (commissioned)" — KAEL's name persists even in death; player can update with their own name as ending-state
+  - id: ark.captain_quarters.south.coat_hooks
+    position: (-2.00, 0.20, 1.80) and (2.00, 0.20, 1.80)
+    dimensions: 0.10 × 0.05 × 0.10 each (4 hooks total)
+    material: brass
+    narrative_role: where captain's coat hangs; player can place clothes here
+```
+
+#### Wall: East (main quarters)
+
+```
+wall_id:              east_main
+material_primary:     painted plaster with wainscoting (matches south)
+material_secondary:   walnut chair-rail and crown-molding
+panelisation:         standard
+colour_value:         --token-color-ark-captain-quarters-wall-east-main
+embedded_displays:    none (intentional; private quarters)
+embedded_doors:        none
+decorative_features:
+  - id: ark.captain_quarters.east_main.window.viewport
+    position: (5.95, 5.00, 1.80)
+    dimensions: 1.20 × 1.20 × 0.05
+    material: composite plexiglas + walnut frame
+    narrative_role: the captain's private viewport; star-field; in Acts 5+, occasional Hellbox transit silhouettes pass by (atmospheric tease)
+  - id: ark.captain_quarters.east_main.painting.lineage
+    position: (5.90, 8.00, 1.80)
+    dimensions: 0.80 × 1.00 × 0.04
+    material: oil on canvas (a portrait lineage of past captains)
+    narrative_role: shows 7 prior captains of the Ark; player learns Ark history
+```
+
+#### Wall: East (Degen's Corner alcove — north section)
+
+The east wall has a curtained alcove protruding eastward. Degen's
+Corner extends 4 m beyond the main wall.
+
+```
+wall_id:              east_alcove
+material_primary:     dark walnut paneling (no plaster); film-noir aesthetic
+material_secondary:   brass dado at z = 1.20
+panelisation:         3 panels covering the alcove walls
+colour_value:         --token-color-ark-captain-quarters-degen-corner  (dark walnut + smoke-stained ceiling)
+embedded_displays:
+  - id: ark.captain_quarters.degen_corner.display.house_odds
+    position: (8.95, 11.00, 1.80)  # within Degen's Corner east wall
+    dimensions: 0.60 × 0.40 × 0.05
+    content: live "house odds" display (always favors house); only active Act 5+
+embedded_doors:        none
+decorative_features:
+  - id: ark.captain_quarters.degen_corner.frosted_window
+    position: (8.95, 11.00, 1.30)
+    dimensions: 0.50 × 0.80 × 0.05
+    material: frosted glass with golden geometric etching
+    narrative_role: reinforces the speakeasy aesthetic
+  - id: ark.captain_quarters.degen_corner.curtain_threshold
+    position: (4.00, 9.00 to 13.00, 0.00 to 4.50)
+    dimensions: heavy velvet curtain spanning threshold (when present)
+    material: deep crimson velvet (in Acts 0-4 this is BARELY VISIBLE — appears as a dark suggestion); becomes physically rendered Act 5+
+    narrative_role: gates the alcove; dissolves on Degen's first appearance
+```
+
+#### Wall: North (rear of main quarters)
+
+```
+wall_id:              north
+material_primary:     painted plaster with wainscoting
+material_secondary:   walnut chair-rail and crown-molding
+panelisation:         standard
+colour_value:         --token-color-ark-captain-quarters-wall-north
+embedded_displays:    none
+embedded_doors:
+  - door_id: ark.captain_quarters.north.door.private_bath
+    position: (-3.00, 9.95, 0.00)
+    dimensions: 0.80 × 2.20 × 0.10
+    door_class: slide
+    connecting_space_id: ark.captain_quarters.private_bath  (sub-space; deferred from FULL spec; treat as inaccessible alcove)
+    unlock_condition: always (Act 1+)
+decorative_features:
+  - id: ark.captain_quarters.north.painting.kael_portrait
+    position: (0.00, 9.95, 2.40)  # above the desk position
+    dimensions: 1.20 × 1.50 × 0.05
+    material: oil on canvas (portrait of Captain Kael Voss)
+    narrative_role: PRIMARY portrait; player's eye is drawn here; lore-discoverable; in Acts 5+, the eyes seem to track player movement (subtle uncanny effect)
+  - id: ark.captain_quarters.north.bookshelf.kael
+    position: (3.00, 9.85, 0.00)
+    dimensions: 2.00 × 0.40 × 3.20
+    material: built-in walnut shelving
+    narrative_role: Kael's personal library; specced in inventory below
+```
+
+#### Wall: West
+
+```
+wall_id:              west
+material_primary:     painted plaster with wainscoting
+material_secondary:   walnut chair-rail and crown-molding
+panelisation:         standard
+colour_value:         --token-color-ark-captain-quarters-wall-west
+embedded_displays:    none
+embedded_doors:        none
+decorative_features:
+  - id: ark.captain_quarters.west.window.viewport
+    position: (-5.95, 5.00, 1.80)
+    dimensions: 1.20 × 1.20 × 0.05
+    material: mirror of east_main viewport
+    narrative_role: matches east window for symmetry
+  - id: ark.captain_quarters.west.painting.elara_drawing
+    position: (-5.90, 8.00, 1.80)
+    dimensions: 0.40 × 0.50 × 0.04
+    material: pencil drawing on paper (a child's portrait of "captain elara" — Elara as a child drew this for the previous captain; very personal artifact)
+    narrative_role: humanises Kael; player learns Elara's deep family connection to the Ark
+```
+
+### A.11.5 Ceiling
+
+```
+height_above_floor:     4.50 m baseline; main quarters has a coffered ceiling with crown-molded square coffers (1.50 × 1.50 m grid); Degen's Corner has a lower ceiling at 3.50 m with smoke-stained finish (creates intimacy + film-noir feel)
+material:               painted plaster with walnut crown-molding and coffered detailing in main quarters; dark-stained plaster with bronze trim in Degen's Corner
+lighting_integrated:    central pendant lamp in main quarters (chandelier-style with crystal); recessed Edison-bulb fixtures in Degen's Corner (low-warm); under-coffer accent strips
+atmospheric_features:   slight smoke-haze in Degen's Corner (when active); main quarters has occasional dust-motes in light beams from windows
+acoustic_treatment:     coffered + soft (rug); intimate acoustic
+```
+
+### A.11.6 Lighting
+
+```
+ambient_baseline:     3000 K (warm; private space); 200 lux at floor level; CRI 92
+direct_fixtures:
+  - id: ark.captain_quarters.light.central_chandelier
+    position: (0.00, 5.00, 4.30)  # centred over rug area in main quarters
+    beam_angle: 360° (radial)
+    colour: --token-color-ark-captain-quarters-chandelier  (warm white)
+    intensity: 5000 lumens (with crystal-prism scatter)
+    function: principal main-quarters lighting
+  - id: ark.captain_quarters.light.desk_lamp
+    position: (-2.00, 5.50, 0.95)  # on desk
+    beam_angle: 60° downward
+    colour: --token-color-ark-captain-quarters-desk-lamp  (very warm; 2400 K equivalent)
+    intensity: 1200 lumens
+    function: task lighting at desk
+  - id: ark.captain_quarters.light.bedside_lamp.east
+    position: (1.50, 7.50, 0.85)
+    beam_angle: 360°
+    colour: 2800 K
+    intensity: 800 lumens
+    function: bedside reading
+  - id: ark.captain_quarters.light.bedside_lamp.west
+    position: (-1.50, 7.50, 0.85)
+    beam_angle: 360°
+    colour: 2800 K
+    intensity: 800 lumens
+    function: bedside reading
+  - id: ark.captain_quarters.light.degen_corner_pendant
+    position: (6.00, 11.00, 3.30)  # Degen's Corner pendant
+    beam_angle: 90° downward
+    colour: 2400 K very warm
+    intensity: 2000 lumens (dim — speakeasy aesthetic)
+    function: principal Degen's Corner lighting
+  - id: ark.captain_quarters.light.window_glow.east
+    position: (5.95, 5.00, 1.80)  # at viewport
+    beam_angle: 180° wash inward
+    colour: variable (matches starfield content)
+    intensity: variable
+    function: ambient + cosmic-presence
+  - id: ark.captain_quarters.light.window_glow.west
+    position: (-5.95, 5.00, 1.80)
+    beam_angle: 180° wash inward
+    colour: variable
+    intensity: variable
+    function: ambient + cosmic-presence
+practical_sources:
+  - id: ark.captain_quarters.fireplace_glow  (if applicable; cross-ref §2.11 for fireplace presence)
+    position: (-3.50, 8.50, 0.30)  # west wall recess (small fireplace)
+    intensity: 600 lumens (orange flicker)
+    flicker_pattern: organic
+time_of_day_variation:
+  acts_0_3: warm baseline; Kael's portrait illuminated; Degen's Corner is darker than main (curtain absorbs light)
+  acts_5_7: Degen's Corner active — pendant ON; speakeasy atmosphere; main quarters slightly dimmer (Degen's smoke pulls light)
+dynamic_response:
+  - on_player_at_desk: desk_lamp activates (one-shot)
+  - on_HB7_invoke: Degen's Corner pendant flickers; chip-stacks materialise; chair-glow pulse
+  - on_kael_portrait_inspect: gentle highlight on portrait
+```
+
+### A.11.7 Atmosphere
+
+```
+air_temperature:    21°C (warm, comfortable)
+humidity:           45% RH; smells of walnut + book-paper + faint cologne (Kael's residual presence) + (in Acts 5+) tobacco-smoke from Degen's Corner
+particulate:
+  - type: dust
+    density: low (well-maintained but lived-in)
+    colour: warm-greyish
+    drift_direction: random with slight downward drift in window-light beams
+  - type: smoke
+    density: low (in Degen's Corner only; Acts 5+); zero in main quarters
+    colour: smoky-blue-grey
+    drift_direction: rises slowly from Degen's pendant; pools at low ceiling
+volumetric_fog:     absent in baseline; present in Degen's Corner at low density (0.05 g/m³)
+wind_drift:         very faint; 0.02 m/s; slight circulation toward private bath
+smell_canon:        walnut + paper + cologne (acts 0-4) + tobacco-smoke (acts 5+); voice-line: "smells like the captain still lives here"
+```
+
+### A.11.8 Sound
+
+```
+ambient_bed:           file: captain_quarters_ambient_bed_v1.ogg (loop); -38 dB; very quiet (private space); ticking clock at desk, faint heating-vent hum, occasional book-page-rustle (cosmetic)
+point_sources:
+  - id: ark.captain_quarters.sound.clock_tick
+    position: (-2.00, 5.50, 1.50)  # mantle-clock on desk
+    sound: tick-tock (period 1s; -32 dB)
+    occlusion_behaviour: standard
+    trigger: continuous
+  - id: ark.captain_quarters.sound.fireplace_crackle
+    position: (-3.50, 8.50, 0.30)
+    sound: fire-crackle (continuous, -30 dB; -∞ when fireplace not lit)
+    occlusion_behaviour: standard
+    trigger: continuous (in lit state)
+  - id: ark.captain_quarters.sound.degen_corner_jazz
+    position: (6.00, 11.00, 1.20)  # speakeasy radio
+    sound: noir-jazz piano (-32 dB; only Acts 5+)
+    occlusion_behaviour: standard; muffled by curtain in Acts 0-4
+    trigger: continuous (Acts 5+ only)
+  - id: ark.captain_quarters.sound.degen_corner_chip_clatter
+    position: (6.00, 11.00, 0.85)  # at table
+    sound: chip-clatter occasional (random; -34 dB; only when Degen present)
+    occlusion_behaviour: standard
+    trigger: random (Acts 5+; period 30-60s)
+reverb_zone:           IR-impulse: captain_quarters_v1.wav; wet-mix 12% (intimate, low-reverb)
+music_eligibility:     cutscene only (HB7 transit + cs_amb_degens_corner)
+voice_line_eligibility:
+  - speaker: kael_voss_residual  (rare; recorded log-only; Acts 0-4)
+    trigger: log-playback only
+    line_set: see §2.11.2
+  - speaker: the_degen
+    trigger: presence (Acts 5+)
+    line_set: see §2.11.2 Degen presence-line set
+  - speaker: the_master_of_rlyeh
+    trigger: HB7 transit only
+    line_set: HB7-specific
+```
+
+### A.11.9 Object inventory
+
+Captain's Quarters has 52 inventory objects.
+
+#### A.11.9.1 The Captain's Bed (Kael's bed)
+
+```
+object_id:           ark.captain_quarters.bed
+object_class:        furniture
+position:            (0.00, 7.50, 0.00)
+dimensions:          2.20 × 1.80 × 0.80  (queen-size; carved walnut frame)
+rotation:            0°
+material_primary:    walnut headboard with carved laurel motif; matte-cream sheets and a folded charcoal blanket at foot
+material_secondary:  brass corner-caps; brass handles on each post
+colour_value:        --token-color-ark-captain-quarters-bed
+interaction:         interactable
+  - sit / lay: sit on edge or lay (bed dispositions)
+  - inspect: lore-note about Kael's last night here
+narrative_role:      Kael's bed; preserved as he last left it; in Acts 5+, player can sleep here for a buff
+lore_anchor:         loredex.character.kael_voss + arc.act_0_loss_of_command
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.captain_quarters.bed.sit + .lay
+wear_state:          slight wear on Kael's preferred side (right, when entering bed)
+physical_constraints: collides; sittable + layable
+```
+
+#### A.11.9.2 Captain's Desk
+
+```
+object_id:           ark.captain_quarters.desk
+object_class:        furniture
+position:            (-2.00, 5.50, 0.00)
+dimensions:          1.80 × 0.90 × 0.80
+rotation:            0°
+material_primary:    polished walnut with leather inset top
+material_secondary:  brass edge-trim; brass drawer handles; brass desk-lamp anchor
+colour_value:        --token-color-ark-captain-quarters-desk
+interaction:         interactable
+  - operate: opens captain's desk UI (drawer access, log access, terminal)
+  - inspect: lore-note
+  - read_journal: opens Kael's journal (gameplay-key in Act 5)
+narrative_role:      Kael's writing desk; the desk's drawers contain the captain's most personal artifacts
+lore_anchor:         loredex.character.kael_voss + arc.captain_personal_arc
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.captain_quarters.desk.operate
+wear_state:          worn at the leather inset; pen-marks visible
+physical_constraints: collides
+```
+
+#### A.11.9.3 Desk Chair
+
+```
+object_id:           ark.captain_quarters.desk_chair
+object_class:        furniture
+position:            (-2.00, 4.50, 0.00)
+dimensions:          0.80 × 0.80 × 1.20
+rotation:            0°
+material_primary:    walnut frame with charcoal leather upholstery
+material_secondary:  brass armrests; brass casters
+colour_value:        --token-color-ark-captain-quarters-desk-chair
+interaction:         interactable - sit (positioned at desk)
+narrative_role:      Kael's working chair; player can sit and feel "the captain's seat"
+lore_anchor:         loredex.character.kael_voss
+art_status:          producer_handoff
+gameplay_hook_id:    none (positional)
+wear_state:          worn at seat (Kael's preferred position visible)
+physical_constraints: collides; sittable
+```
+
+#### A.11.9.4 Mantle Clock (on desk)
+
+```
+object_id:           ark.captain_quarters.desk.mantle_clock
+object_class:        decoration  (also fx_emitter — ticking sound + animated hands)
+position:            (-2.00, 5.50, 0.85)  # on desk top, centre-back
+dimensions:          0.30 × 0.20 × 0.40
+rotation:            0°
+material_primary:    polished brass case with mahogany wood inlay
+material_secondary:  white porcelain face with Roman numerals
+colour_value:        --token-color-ark-captain-quarters-clock
+interaction:         inspectable (read inscription on back)
+narrative_role:      ticking adds room-rhythm; the clock is canonically frozen at 03:47 (Kael's time of death) — but mysteriously ticks anyway
+lore_anchor:         loredex.character.kael_voss + arc.kael_death_mystery
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.captain_quarters.clock.inspect
+wear_state:          slight patina
+physical_constraints: collides; non-movable
+```
+
+#### A.11.9.5 Captain's Personal Locker
+
+```
+object_id:           ark.captain_quarters.captain_locker
+object_class:        container
+position:            (-3.50, 9.95, 0.00)  # north wall, west of desk
+dimensions:          0.60 × 0.40 × 1.80
+rotation:            180°
+material_primary:    polished walnut with brass handle
+material_secondary:  brass nameplate "K. VOSS"
+colour_value:        --token-color-ark-captain-quarters-locker
+interaction:         interactable
+  - open: contains personal effects (a brass coin, a small flag, a folded letter to Elara, a portrait of his late wife); first opening triggers cs_kael_locker_first_open (Category A cutscene)
+  - inspect (closed): lore-note
+narrative_role:      Kael's personal effects; the brass coin here is the SAME COIN canonically that ends up at Degen's Corner in Acts 5+ (lore continuity)
+lore_anchor:         loredex.character.kael_voss + arc.act_0_kael_legacy
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.captain_quarters.captain_locker.open
+wear_state:          worn at handle
+physical_constraints: collides
+```
+
+#### A.11.9.6 Captain's Bookshelf (north wall)
+
+```
+object_id:           ark.captain_quarters.bookshelf.kael
+object_class:        container
+position:            (3.00, 9.85, 0.00)
+dimensions:          2.00 × 0.40 × 3.20
+rotation:            180°
+material_primary:    built-in walnut shelving with adjustable shelves
+material_secondary:  brass shelf-supports
+colour_value:        --token-color-ark-captain-quarters-bookshelf
+interaction:         interactable
+  - inspect_book: each book is an inspectable lore-readable
+narrative_role:      Kael's personal library; shows his interests (philosophy, poetry, military history, gardening); humanises the dead captain
+lore_anchor:         loredex.character.kael_voss + arc.captain_personal_arc
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.captain_quarters.bookshelf.inspect_book
+wear_state:          slight wear at most-handled book-edges
+physical_constraints: collides
+```
+
+#### A.11.9.7-12 Six Notable Books on Bookshelf
+
+| object_id | class | position (within bookshelf) | role |
+|---|---|---|---|
+| `ark.captain_quarters.bookshelf.book.philosophy.1` | container | shelf 1, slot 1 | "On Sacrifice and Command" by an obscure Ark-philosopher |
+| `ark.captain_quarters.bookshelf.book.poetry` | container | shelf 1, slot 2 | a hand-bound book of Kael's own poems |
+| `ark.captain_quarters.bookshelf.book.military_history.1` | container | shelf 2, slot 1 | "Wars Without Names" |
+| `ark.captain_quarters.bookshelf.book.gardening` | container | shelf 2, slot 2 | "The Botanist's Lament" — annotated extensively by Kael |
+| `ark.captain_quarters.bookshelf.book.locked_journal` | container | shelf 3 (top, hidden) | locked journal — Act 5 gameplay-key |
+| `ark.captain_quarters.bookshelf.book.elara_letters` | container | shelf 3, slot 2 | bundle of letters to Elara (her father?) |
+
+#### A.11.9.13 Reading Chair (with ottoman)
+
+```
+object_id:           ark.captain_quarters.reading_chair
+object_class:        furniture
+position:            (3.50, 5.50, 0.00)
+dimensions:          0.90 × 0.90 × 1.10
+rotation:            225°  (faces toward bookshelf)
+material_primary:    charcoal leather with walnut frame
+material_secondary:  brass tacks along edges
+colour_value:        --token-color-ark-captain-quarters-reading-chair
+interaction:         interactable - sit (positions player to read books from bookshelf)
+narrative_role:      where Kael read; intimate space
+lore_anchor:         arc.captain_personal_arc
+art_status:          producer_handoff
+gameplay_hook_id:    none
+wear_state:          worn at seat and armrest-tops (Kael spent many hours here)
+physical_constraints: collides; sittable
+
+object_id:           ark.captain_quarters.reading_chair.ottoman
+object_class:        furniture
+position:            (3.50, 4.50, 0.00)  # in front of chair
+dimensions:          0.70 × 0.50 × 0.40
+rotation:            225°
+material_primary:    matching charcoal leather + walnut
+material_secondary:  brass tacks
+colour_value:        --token-color-ark-captain-quarters-reading-chair
+interaction:         interactable - rest_feet
+narrative_role:      complete reading nook
+lore_anchor:         arc.captain_personal_arc
+art_status:          producer_handoff
+gameplay_hook_id:    none
+wear_state:          slight wear
+physical_constraints: collides
+```
+
+#### A.11.9.14-15 Side Tables (flanking bed)
+
+```
+object_id:           ark.captain_quarters.bedside_table.east, .west
+object_class:        furniture
+positions:           (1.50, 7.50, 0.00), (-1.50, 7.50, 0.00)
+dimensions (each):   0.50 × 0.40 × 0.80
+rotation:            0°
+material_primary:    walnut with marble top
+material_secondary:  brass drawer handle
+colour_value:        --token-color-ark-captain-quarters-bedside-table
+interaction:         interactable
+  - open_drawer: contains misc personal items (medication, small flashlight, a photo)
+  - inspect: lore-note
+narrative_role:      domestic detail; reading lamps + bedside drawer-items live here
+lore_anchor:         arc.captain_personal_arc
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.captain_quarters.bedside_table.open
+wear_state:          slight wear
+physical_constraints: collides
+```
+
+#### A.11.9.16-19 Living-Zone Furniture (couch + coffee table + 2 occasional chairs)
+
+```
+object_id:           ark.captain_quarters.couch
+object_class:        furniture
+position:            (-2.00, 3.00, 0.00)
+dimensions:          2.40 × 0.80 × 0.80
+rotation:            0°
+material_primary:    charcoal leather with walnut legs
+material_secondary:  brass tacks
+colour_value:        --token-color-ark-captain-quarters-couch
+interaction:         interactable - sit (3-seat capacity)
+narrative_role:      where Kael entertained Locke, Elara, the human
+lore_anchor:         arc.captain_relationships
+art_status:          producer_handoff
+gameplay_hook_id:    none
+wear_state:          worn at sit-zones
+physical_constraints: collides; sittable
+
+object_id:           ark.captain_quarters.coffee_table
+object_class:        furniture
+position:            (0.00, 4.00, 0.00)
+dimensions:          1.20 × 0.60 × 0.45
+rotation:            0°
+material_primary:    walnut with marble top
+material_secondary:  brass corner caps
+colour_value:        --token-color-ark-captain-quarters-coffee-table
+interaction:         interactable
+  - inspect: shows current items on table (chess board mid-game; whiskey decanter and 2 glasses; book)
+narrative_role:      central shared surface; the chess board mid-game is the seed for HB9 Eternal Match (game state continues across visits)
+lore_anchor:         arc.captain_chess_legacy + cross-ref §11.3.1 (cross-centuries chess game)
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.captain_quarters.coffee_table.inspect
+wear_state:          slight wear on top
+physical_constraints: collides
+
+object_id:           ark.captain_quarters.occasional_chair.east, .west
+object_class:        furniture
+positions:           (1.50, 3.00, 0.00), (-1.50, 3.00, 0.00) -- wait, let me adjust to flank coffee table
+positions (corrected): (1.80, 4.00, 0.00), (-3.80, 4.00, 0.00)
+dimensions (each):   0.80 × 0.80 × 1.10
+rotation:            varies (faces coffee table)
+material_primary:    walnut frame with charcoal leather seat
+material_secondary:  brass tacks
+colour_value:        --token-color-ark-captain-quarters-occasional-chair
+interaction:         interactable - sit
+narrative_role:      conversation seating
+lore_anchor:         arc.captain_relationships
+art_status:          producer_handoff
+gameplay_hook_id:    none
+wear_state:          slight wear
+physical_constraints: collides; sittable
+```
+
+#### A.11.9.20-22 Coffee Table Items (chess + decanter + book)
+
+```
+object_id:           ark.captain_quarters.coffee_table.chess_board
+object_class:        interactive
+position:            (0.00, 4.00, 0.45)  # on coffee table top
+dimensions:          0.50 × 0.50 × 0.05
+rotation:            0°
+material_primary:    walnut and ivory chess board
+material_secondary:  pieces are brass and matte-black (Kael's set)
+colour_value:        --token-color-ark-captain-quarters-chess
+interaction:         interactable
+  - examine: shows current game state (mid-game; canonical setup tied to §11.3.1); reading the position is a lore moment
+  - move_piece: in late-act, player can make a move (this is the SAME chess game ongoing in Antiquarian Library + Chess Hall — cross-room continuity)
+narrative_role:      KEY artifact; the chess game ties multiple rooms together; HB9 cosmology cross-ref
+lore_anchor:         §11.3.1 cross-centuries chess game + arc.act_4_eternal_match
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.chess.captain_quarters.examine + .move
+wear_state:          slight wear on most-handled pieces
+physical_constraints: collides; pieces are interactable
+
+object_id:           ark.captain_quarters.coffee_table.decanter
+object_class:        decoration
+position:            (-0.40, 4.00, 0.45)
+dimensions:          0.20 × 0.20 × 0.30
+rotation:            0°
+material_primary:    cut-crystal
+material_secondary:  brass stopper
+colour_value:        --token-color-ark-captain-quarters-decanter (with amber liquid visible)
+interaction:         inspectable (reads "for guests")
+narrative_role:      whiskey decanter; symbolic of captain's hospitality
+lore_anchor:         arc.captain_relationships
+art_status:          producer_handoff
+gameplay_hook_id:    none
+wear_state:          slight fingerprints visible on glass
+physical_constraints: collides
+
+object_id:           ark.captain_quarters.coffee_table.book
+object_class:        container
+position:            (0.40, 4.00, 0.45)
+dimensions:          0.20 × 0.30 × 0.05
+rotation:            45°
+material_primary:    leather-bound (open)
+material_secondary:  ink-on-paper
+colour_value:        --token-color-ark-captain-quarters-book-leather
+interaction:         interactable
+  - inspect: opens lore-readable (a poem Kael was reading; left open at his death)
+narrative_role:      humanises Kael; "he never finished the poem"
+lore_anchor:         loredex.character.kael_voss
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.captain_quarters.book.inspect
+wear_state:          fresh / unfinished
+physical_constraints: collides
+```
+
+#### A.11.9.23-32 Degen's Corner — The HB7 Anchor Zone
+
+The Degen's Corner alcove is rendered with film-noir aesthetic
+(dark walnut + smoke + amber-lit pendant). Contains:
+
+```
+object_id:           ark.captain_quarters.degen_corner.card_table
+object_class:        furniture
+position:            (6.00, 11.00, 0.00)
+dimensions:          1.20 × 1.20 × 0.85
+rotation:            0°
+material_primary:    walnut with green-felt top
+material_secondary:  brass corner caps
+colour_value:        --token-color-ark-captain-quarters-degen-corner-table
+interaction:         interactable
+  - examine: shows a card-game in progress
+narrative_role:      Degen's gaming surface; HB7 trigger surface
+lore_anchor:         loredex.character.degen + arc.act_5_degen_appears
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.captain_quarters.degen_corner.card_table.examine
+wear_state:          worn at felt centre
+physical_constraints: collides
+
+object_id:           ark.captain_quarters.degen_corner.empty_chair
+object_class:        furniture  (the HB7 anchor)
+position:            (5.50, 11.50, 0.00)
+dimensions:          0.80 × 0.80 × 1.30
+rotation:            45°  (slightly angled, as if recently vacated)
+material_primary:    walnut frame with charcoal leather
+material_secondary:  brass tacks; brass armrests
+colour_value:        --token-color-ark-captain-quarters-degen-chair
+interaction:         interactable
+  - sit: triggers cs_amb_degens_corner (Category B ambient cutscene; player sits where Degen sits)
+  - inspect (Acts 0-4): "the chair seems waiting"
+  - inspect (Acts 5+): "the Degen has left a coin here"
+narrative_role:      THE empty chair; canonically Degen's chair; brass coin appears here in Acts 5+; lifting the coin invokes HB7
+lore_anchor:         loredex.character.degen + arc.act_5_HB7_invocation
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.captain_quarters.degen_corner.chair.sit + .inspect
+wear_state:          worn at seat (Degen's preferred posture visible); in Acts 5+, chair is slightly warm
+physical_constraints: collides; sittable
+
+object_id:           ark.captain_quarters.degen_corner.brass_coin
+object_class:        interactive  (HB7 gateway trigger)
+position:            (5.50, 11.50, 0.85)  # on the empty chair seat
+dimensions:          0.04 × 0.04 × 0.005
+rotation:            varies
+material_primary:    polished brass with engraved pattern (heads side reads "fortune"; tails side reads "fate")
+material_secondary:  none
+colour_value:        --token-color-ark-captain-quarters-degen-coin
+interaction:         interactable
+  - take: triggers cs_hellbox_7_open (HB7 transit cinematic; coin flips in air; casino materialises around the player — per §3.12.13)
+  - inspect: lore-note about the coin (canonically the SAME COIN as in Captain's Locker — the Degen took it after Kael's death)
+narrative_role:      THE HB7 trigger; only present in Acts 5+; lifting it invokes Casino transit
+lore_anchor:         loredex.character.degen + arc.act_5_HB7_invocation + arc.kael_legacy_continuity
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.hellbox.hb7.openGate
+wear_state:          slight wear at edges; mostly polished
+physical_constraints: collides (but very small; visible on chair)
+```
+
+#### A.11.9.26-32 Additional Degen's Corner Decorations
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.captain_quarters.degen_corner.poker_chips_stack` | decoration | on card table | 0.10 × 0.10 × 0.20 | chip-stacks |
+| `ark.captain_quarters.degen_corner.deck_of_cards` | decoration | on card table | 0.10 × 0.07 × 0.02 | playing cards (face-down) |
+| `ark.captain_quarters.degen_corner.smoking_pipe` | decoration | on card table | 0.20 × 0.05 × 0.05 | Degen's pipe (still warm in Acts 5+) |
+| `ark.captain_quarters.degen_corner.whiskey_glass` | decoration | on card table | 0.08 × 0.08 × 0.10 | half-empty glass |
+| `ark.captain_quarters.degen_corner.curtain.threshold` | decoration | (4.00, 9.00, 2.25) | 0.10 × 4.00 × 4.50 (when present) | velvet curtain (cutscene-driven Acts 0-4) |
+| `ark.captain_quarters.degen_corner.framed_photo.degen` | decoration | (8.95, 11.00, 2.40) | 0.30 × 0.40 × 0.04 | photo of Degen (rare; Acts 5+ only) |
+| `ark.captain_quarters.degen_corner.radio` | fx_emitter | (7.50, 11.00, 1.20) | 0.40 × 0.30 × 0.30 | source of noir-jazz ambient |
+
+#### A.11.9.33-42 Rug + Wall Decorations + Plants + Smaller Items
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.captain_quarters.living_room_rug` | decoration | (0.00, 4.00, 0.005) | 4.00 × 5.00 × 0.005 | central rug |
+| `ark.captain_quarters.bedside_lamp.east` | fx_emitter | (1.50, 7.50, 0.85) | 0.20 × 0.20 × 0.50 | east bedside lamp |
+| `ark.captain_quarters.bedside_lamp.west` | fx_emitter | (-1.50, 7.50, 0.85) | mirror | west bedside lamp |
+| `ark.captain_quarters.fireplace.west` | interactive | (-3.50, 8.50, 0.00) | 1.20 × 0.40 × 1.20 | wood-fired fireplace |
+| `ark.captain_quarters.fireplace.mantle` | decoration | (-3.50, 8.50, 1.30) | 1.40 × 0.30 × 0.10 | stone mantle |
+| `ark.captain_quarters.mantle.framed_photo` | decoration | (-3.50, 8.50, 1.50) | 0.20 × 0.30 × 0.04 | photo of Kael's late wife |
+| `ark.captain_quarters.mantle.silver_candleholder.1, .2` | decoration | flanking photo | 0.10 × 0.10 × 0.30 each | candleholders |
+| `ark.captain_quarters.potted_plant.east_window` | decoration | (5.50, 5.00, 0.85) | 0.40 × 0.40 × 0.60 | small potted plant |
+| `ark.captain_quarters.potted_plant.west_window` | decoration | (-5.50, 5.00, 0.85) | mirror | mirror plant |
+| `ark.captain_quarters.coat_stand.east` | decoration | (5.50, 1.50, 0.00) | 0.30 × 0.30 × 1.80 | coat stand (Kael's coat hangs here) |
+
+#### A.11.9.43-52 Additional Smaller Decorations
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.captain_quarters.kael_coat` | decoration | hanging from coat-stand | 0.50 × 0.10 × 0.80 | Kael's coat (preserved) |
+| `ark.captain_quarters.intercom.bedside` | console | (-1.50, 7.20, 0.85) | 0.20 × 0.10 × 0.20 | bedside intercom |
+| `ark.captain_quarters.intercom.south_wall` | console | (0.00, 0.20, 1.50) | 0.20 × 0.10 × 0.30 | comms relay |
+| `ark.captain_quarters.fire_extinguisher.west` | interactive | (-5.50, 0.20, 1.20) | 0.20 × 0.20 × 0.50 | safety |
+| `ark.captain_quarters.first_aid.bathroom_adjacent` | container | (-3.50, 9.85, 1.50) | 0.40 × 0.10 × 0.30 | medical |
+| `ark.captain_quarters.dresser` | container | (4.50, 7.50, 0.00) | 1.20 × 0.50 × 1.40 | clothing dresser |
+| `ark.captain_quarters.dresser.framed_drawing` | decoration | (4.50, 7.30, 1.50) on dresser | 0.20 × 0.30 × 0.04 | small framed drawing (Elara's child-drawing) |
+| `ark.captain_quarters.full_length_mirror` | decoration | (-5.50, 9.85, 0.00) | 0.60 × 0.10 × 1.80 | bedroom mirror — IMPORTANT: this mirror does NOT show player reflection (per FPV rule §3.1.0); it shows only the room behind |
+| `ark.captain_quarters.kael_signature_painting` | decoration | (-3.50, 8.50, 2.40) above mantle | 0.80 × 0.50 × 0.04 | abstract painting Kael chose |
+| `ark.captain_quarters.window_curtains.east` | decoration | (5.95, 5.00, 1.80) on east window | 0.10 × 1.40 × 1.80 | curtains |
+| `ark.captain_quarters.window_curtains.west` | decoration | (-5.95, 5.00, 1.80) on west window | mirror | curtains |
+
+Total: 52 inventory objects.
+
+### A.11.10 Camera-spawn-points (FPV cutscenes)
+
+```
+cutscene_id:         cs_amb_captain_quarters  (Category B; deferred catalogue)
+camera_position:     (0.00, 0.50, eye_level)  # at threshold
+camera_facing:       (0°, -3°, 0°)  # looking forward and slightly down (reverence for the dead)
+avatar_height_anchor: eye_level
+head_motion:         slow walk into room; head turns to viewport; pause; turns to portrait of Kael; lasts 22s
+
+cutscene_id:         cs_amb_degens_corner  (Category B Myst-ambient; per §3.1.B.3)
+camera_position:     (5.50, 10.50, eye_level)  # at Degen's Corner threshold
+camera_facing:       (0°, 0°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         slow approach to empty chair; pause; coin spinning on its own (cosmetic)
+
+cutscene_id:         cs_kael_locker_first_open  (Category A; one-shot)
+camera_position:     (-3.50, 9.50, eye_level)  # at locker
+camera_facing:       (-90°, -10°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         hand-rig opens locker; camera tilts to view contents; lasts ~10s
+
+cutscene_id:         cs_hellbox_7_open  (HB7 Casino gateway; per §3.12.13)
+camera_position:     (5.50, 11.50, eye_level)  # at empty chair, looking down at coin
+camera_facing:       (0°, -45°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         hand-rig enters frame picking up coin; coin flips; casino materialises around player
+
+cutscene_id:         cs_hellbox_7_transit  (HB7 transit)
+camera_position:     (5.50, 11.50, eye_level)
+camera_facing:       (0°, 0°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         walk through smoky corridor; neon flickers; chip-stacks rise
+
+cutscene_id:         cs_hellbox_7_close  (HB7 return)
+camera_position:     (5.50, 11.50, eye_level)
+camera_facing:       (0°, 0°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         casino exit; chip-stacks dissolve; chair re-materialises with brass coin sitting on the seat
+```
+
+### A.11.11 Doorways
+
+```
+door_id:            ark.captain_quarters.south.door.main
+connecting_space_id: ark.corridor.captain_approach
+door_position:      (0.00, 0.00, 0.00)
+door_dimensions:    1.20 × 2.40 × 0.10
+door_class:         slide (lateral; brass handle)
+unlock_condition:   Act 1+ (locked in Act 0; player gets access in Act 1 along with a key memory)
+transit_animation:  fade
+audio_signature:    brass-handle-twist + servo-slide
+
+door_id:            ark.captain_quarters.north.door.private_bath
+connecting_space_id: ark.captain_quarters.private_bath  (deferred sub-space; treat as inaccessible)
+door_position:      (-3.00, 9.95, 0.00)
+door_dimensions:    0.80 × 2.20 × 0.10
+door_class:         slide
+unlock_condition:   always
+transit_animation:  fade
+audio_signature:    soft-slide
+```
+
+### A.11.12 Adjacency map
+
+```
+direct_adjacencies:
+  - ark.corridor.captain_approach (south door)
+  - ark.captain_quarters.private_bath (north door; sub-space)
+  - hellbox.degenerate_casino (HB7 portal via Degen's Corner empty chair, conditional on Act 5+)
+one_hop_adjacencies:
+  - ark.bridge (via captain corridor + Deck-1 main)
+  - destination.degenerate_casino (via HB7)
+```
+
+### A.11.13 Gameplay hooks
+
+```
+hooks:
+  - hook_id:         captain_quarters.openCaptainLocker
+    trigger:         player.open on ark.captain_quarters.captain_locker
+    procedure:       trpc.captain_quarters.captain_locker.open
+    success_state:   captain_locker_opened = true (one-shot triggers cutscene)
+  - hook_id:         captain_quarters.readBookshelfBook
+    trigger:         player.inspect on bookshelf book
+    procedure:       trpc.captain_quarters.bookshelf.inspect_book
+    success_state:   book_read = true (per-book)
+  - hook_id:         captain_quarters.readKaelJournal
+    trigger:         (state-conditional) player.unlock locked_journal after specific Act 5 condition
+    procedure:       trpc.captain_quarters.journal.read
+    success_state:   kael_journal_read = true (gameplay-key)
+  - hook_id:         captain_quarters.makeChessMove
+    trigger:         player.interact on coffee_table chess board
+    procedure:       trpc.chess.captain_quarters.move
+    success_state:   move_made = true (one move per visit; persists)
+  - hook_id:         captain_quarters.sleepInBed
+    trigger:         player.lay on bed
+    procedure:       trpc.captain_quarters.bed.sleep
+    success_state:   sleep_buff = active (Acts 5+ feature)
+  - hook_id:         captain_quarters.takeDegenCoin
+    trigger:         player.take on degen_corner.brass_coin (only available Acts 5+)
+    procedure:       trpc.hellbox.hb7.openGate
+    success_state:   hellbox_7_transit_started = true
+    fail_state:      not_yet_unlocked (Acts 0-4)
+  - hook_id:         captain_quarters.sitDegenChair
+    trigger:         player.sit on degen_corner.empty_chair
+    procedure:       trpc.captain_quarters.degen_corner.chair.sit
+    success_state:   degen_chair_seated = true (counts toward HB7 readiness)
+```
+
+### A.11.14 Story-tie
+
+```
+primary_arcs:
+  - arc.act_0_loss_of_command
+  - arc.captain_personal_arc
+  - arc.act_5_degen_appears
+  - arc.act_5_HB7_invocation
+  - arc.kael_legacy_continuity (the brass coin connects rooms)
+  - §11.3.1 cross-centuries chess game (the chess board persists across rooms)
+per_act_evolution:
+  act_0:
+    description: "Room locked; player can see door but cannot enter. Plaque says 'Captain Kael Voss (commissioned)'."
+  act_1:
+    description: "Player gains access. Room is preserved exactly as Kael left it. Captain Locker triggers first-open cutscene. Bookshelf books readable. Bed available for sit."
+    visible_changes: room_unlocked, captain_locker_glowing, bookshelf_first_examined
+  act_3:
+    description: "Player has been here multiple times. Some books have been read. Chess game has visible progress. Living-zone shows player's residual presence."
+    visible_changes: chess_state_evolved, books_read_track
+  act_5:
+    description: "MAJOR — Degen's Corner curtain dissolves. Degen first appears. Brass coin appears on empty chair. HB7 invokable."
+    visible_changes: degen_corner_active, brass_coin_visible, jazz_music_audible
+  act_6:
+    description: "Locked journal becomes unlockable (player has gathered the keys). Reading it triggers cs_kael_journal_read (Category A)."
+    visible_changes: locked_journal_unlockable
+  act_7:
+    description: "Final state: player either takes Kael's mantle (sit captain's chair on Bridge cumulative, kept locker contents, made chess moves, etc.) → 'inheritance ending'; or rejected → 'forsaken ending'. State affects nameplate (player's name overwrites Kael's, or doesn't)."
+    visible_changes: state_branched_nameplate
+npc_roster:
+  - kael_voss_residual: log-playback only; never physically present (he is dead)
+  - the_degen: alcove presence Acts 5+; emerges from Degen's Corner
+  - the_player: visitor / occupant
+  - the_master_of_rlyeh: HB7 transit voice only
+readables:
+  - dedication plaque (south wall)
+  - 6 bookshelf books (multi-screen each)
+  - locked journal (Act 6 gameplay-key)
+  - bedside drawer-photos
+  - mantle photo (Kael's late wife)
+  - Elara's child-drawing (west wall)
+  - lineage portrait (east wall)
+  - Kael's framed signature painting (above mantle)
+  - degen_corner: deck of cards (each card readable as a tarot-style omen Acts 5+)
+master_of_rlyeh_question: "What is owed to a debt that was never agreed to?"
+```
+
+### A.11.15 Special-FX
+
+```
+particle_systems:
+  - dust_motes (low; visible in window-light beams)
+  - smoke (Degen's Corner Acts 5+; rises from pendant)
+  - fire_glow (fireplace if lit; flickering particles)
+  - candle_smoke (mantle candleholders if lit)
+volumetric_effects:
+  - viewport_glow (east + west; reflects starfield content)
+  - degen_corner_smoke_pool (low ceiling smoke pool Acts 5+)
+  - chandelier_crystal_scatter (crystal prisms scatter chandelier light into rainbow on rug)
+procedural_animations:
+  - clock_hands_animate (mantle clock; ticks but hands DO NOT move — frozen at 03:47)
+  - brass_coin_spin (degen_corner empty chair coin slowly spins on its own; Acts 5+; cosmetic)
+  - chess_piece_settle (pieces shift very slightly between visits)
+  - kael_portrait_eye_track (Acts 5+; subtle uncanny effect — eyes seem to follow player)
+  - bookshelf_re_organise (Acts 5+; books slowly re-arrange between visits — Editor-presence echo)
+reactive_systems:
+  - desk_lamp_on_proximity (within 1.5 m, lamp warms)
+  - fireplace_glow_on_inspect (player can light or extinguish)
+  - degen_corner_curtain_dissolution (one-shot Act 5)
+  - HB7_coin_spin_acceleration (when player approaches, coin spins faster)
+  - locked_journal_unlock_one_shot (Act 6)
+```
+
+### A.11.16 Avatar-parametricity
+
+```
+camera_height_variation:
+  small_xenomorph (0.85m eye): camera height 0.85m; furniture is oversized; bed feels enormous; alternate sit/lay animations
+  short_humanoid (1.40m eye): standard short scale
+  average_humanoid (1.70m eye): standard
+  tall_humanoid (2.05m eye): bed-sit feels low; chandelier is at head-level
+  tall_xenomorph (2.70m eye): chandelier collides at head — must duck (alternate animation); bed too small
+reachability:
+  small_xenomorph: cannot reach top bookshelf shelf without stool; alternate ladder is provided in Acts 5+
+  small_xenomorph: cannot reach above-mantle painting; relay-inspect from below
+  others: all-reachable
+audio_occlusion_variation:
+  xenomorph_sensitive_hearing: clock-tick is louder; bedside heartbeat (in sleep state) more pronounced
+  synthetic_voice_avatar: jazz music has slight synthetic-resonance bias
+```
+
+### A.11.17 Performance
+
+```
+polygon_budget:      300,000 polygons (52 objects; high decorative density)
+texture_budget:      180 MB total (many unique surface materials; wood + leather + brass diversity)
+light_count_limit:   18 simultaneous dynamic lights
+lod_plan:
+  - hero_distance: 0-8m, full detail
+  - mid_distance: 8-15m, mid detail (small decorations simplified)
+  - low_distance: 15m+, low detail (mostly billboarded; many small items culled)
+streaming_behaviour:
+  - preload: ark.corridor.captain_approach (south)
+  - on_player_within_2m_of_coin (Acts 5+) + HB7_unlocked: preload destination.degenerate_casino
+```
 
 ---
 
@@ -2221,34 +3151,763 @@ Faction-standing display; strategic holo-map; alliance-war command.
 
 ---
 
-## A.21 Cipher Den (D8 — Hellbox 8 host) — CORE
+## A.21 Cipher Den (D8 — Hellbox 8 host) — FULL
+
+**Status: FULL spec.** Cross-ref: `INCEPTION_ARK_FINAL_PRODUCTION.md`
+§2.21 (art-state prompts) and §3.12.10 HB8 Editor's Workshop gateway.
+
+### A.21.1 Header
 
 ```
 space_id:        ark.cipher_den
-space_name:      Cipher Den (with Uncorruption Bench)
+space_name:      Cipher Den (with Shadow Tongue Uncorruption Bench)
 space_type:      ark_room  (also Hellbox-8 host)
 act_introduced:  Act 5
 lore_anchor:     loredex.system.uncorruption_bench + loredex.character.editor + arc.act_5_meta_narrative
-aesthetic_tier:  solar_punk_cathedral  (scholarly-editorial accents)
+aesthetic_tier:  solar_punk_cathedral  (scholarly-editorial accents; with non-Euclidean library aesthetic mixed in)
 master_of_rlyeh_question: "Is what was written, or what was edited, the truth?" (per HB8)
 ```
 
-Houses the Shadow Tongue Uncorruption Bench (where forbidden
-texts are cleaned). The Bench is the HB8 gateway. Player can edit
-their own lore-narrative here (cross-ref Editor's Workshop
-destination spec, deferred to Phase E).
+### A.21.2 Geometry
 
 ```
 dimensions:           10.00 m × 10.00 m × 4.50 m
-floor_plan_geometry:  rectangular
+origin_point:         centre of floor at the primary entrance threshold (entrance is the south wall)
+coordinate_axes:      +x = right, +y = forward, +z = up
+floor_plan_geometry:  rectangular  (with subtle non-Euclidean folding at the north wall — books on north shelves continue past the wall plane into a mild "bigger-on-inside" effect)
+volumetric_anomalies: subtle bigger-on-inside ratio 1.2× at north shelves (visible only on close inspection); HB8 transit briefly extends Uncorruption Bench non-Euclidean (~10s)
 ```
 
-Key objects:
-- `ark.cipher_den.uncorruption_bench` — HB8 gateway
-- `ark.cipher_den.forbidden_text_archive` — sealed archive (player must unlock to access)
-- `ark.cipher_den.editor_anchor` — designated NPC anchor (Editor presence)
+The Cipher Den is a relatively small room compared to other
+sanctums, but its proportions feel larger because of the
+non-Euclidean folding at the north wall. The Uncorruption Bench
+dominates the centre. Reference shelves line the north wall;
+forbidden text vault occupies the rear (locked behind a heavy door).
 
-(Full spec deferred.)
+Floor area: 100 m².
+
+### A.21.3 Floor
+
+```
+material_primary:     polished obsidian-black slate; 0.80 m × 0.80 m tiles; 3 mm gap; very subtle anti-slip etch
+material_secondary:   gold inlay forming an eight-pointed compass-rose centred on Uncorruption Bench
+pattern:              compass-rose inlay (1.40 m diameter) at room centre; smaller inlay-marks at cardinal points around it
+wear_state:           pristine (Cipher Den is meticulously maintained); faint wear-trail from entrance to bench
+embedded_features:
+  - id: ark.cipher_den.floor.charge_point.bench
+    position: (0.00, 5.00, 0.00)  # under bench
+    dimensions: 0.30 × 0.30 × 0.05
+    function: bench power-coupling
+  - id: ark.cipher_den.floor.drain.south
+    position: (0.00, 0.50, 0.00)
+    dimensions: 0.20 × 0.20 × 0.05
+    function: ink-spill drain (rare)
+acoustic_property:    hard_reflective with very slight whisper-gallery effect from non-Euclidean fold; RT60 = 0.55s
+```
+
+### A.21.4 Walls
+
+#### Wall: South (entrance)
+
+```
+wall_id:              south
+material_primary:     dark walnut paneling with deep-relief carvings (ancient script motifs)
+material_secondary:   bronze dado at z = 1.10 m; bronze door-frame
+panelisation:         6 panels wide × 3 panels tall
+colour_value:         --token-color-ark-cipher-den-wall-south  (deep walnut with bronze pin-stripe; faint phosphorescent script visible in low light)
+embedded_displays:
+  - id: ark.cipher_den.south.display.cipher_index
+    position: (-2.00, 0.20, 1.50)
+    dimensions: 0.80 × 0.60 × 0.05
+    content: index of all texts the Editor has worked on
+  - id: ark.cipher_den.south.display.player_lore_summary
+    position: (2.00, 0.20, 1.50)
+    dimensions: 0.80 × 0.60 × 0.05
+    content: summary of the player's current LOREDEX entries (the player's own canonical record); state-axis driven
+embedded_doors:
+  - door_id: ark.cipher_den.south.door.main
+    position: (0.00, 0.00, 0.00)
+    dimensions: 1.20 × 2.40 × 0.10
+    door_class: arch (heavy bronze double-door with inscribed glyphs; opens with reverence)
+    connecting_space_id: ark.corridor.cipher_approach
+decorative_features:
+  - id: ark.cipher_den.south.plaque.editor
+    position: (0.00, 0.20, 3.20)
+    dimensions: 1.00 × 0.40 × 0.02
+    material: bronze with engraved text + acid-etched glyphs
+    narrative_role: reads "WHAT IS WRITTEN MAY BE EDITED" — the Editor's primary maxim
+```
+
+#### Wall: East
+
+```
+wall_id:              east
+material_primary:     dark walnut with deep-relief carvings
+material_secondary:   bronze dado
+panelisation:         standard
+colour_value:         --token-color-ark-cipher-den-wall-east
+embedded_displays:    none
+embedded_doors:        none
+decorative_features:
+  - id: ark.cipher_den.east.shelf.scribe_tools
+    position: (4.50, 5.00, 0.00)
+    dimensions: 0.40 × 4.00 × 3.20
+    material: built-in walnut shelving with felt-lined slots
+    narrative_role: holds pens, quills, brushes, inks, blotters, drying-papers; the Editor's tools
+  - id: ark.cipher_den.east.candle_array
+    position: (4.50, 1.50, 1.20)  # at south end of shelf
+    dimensions: 0.30 × 0.30 × 0.50
+    material: bronze with wax candles
+    narrative_role: ritual lighting for night-work
+```
+
+#### Wall: North (with non-Euclidean reference shelves)
+
+```
+wall_id:              north
+material_primary:     dark walnut shelving (full wall); shelves recede impossibly into the wall plane (non-Euclidean — the wall LOOKS deeper than the room geometry allows)
+material_secondary:   bronze shelf supports; bronze name-plates per shelf
+panelisation:         5 shelf bays (rather than wall panels); each bay 1.80 m wide × 4.20 m tall × varying depth
+colour_value:         --token-color-ark-cipher-den-wall-north  (deep walnut + phosphorescent ledger-glow from within shelves)
+embedded_displays:    none (shelves are content)
+embedded_doors:
+  - door_id: ark.cipher_den.north.door.forbidden_archive
+    position: (0.00, 9.95, 0.00)  # central bay; concealed by false bookend
+    dimensions: 1.20 × 2.40 × 0.10
+    door_class: pressure_seal (heavy; double-locked; opens with key gameplay-condition)
+    connecting_space_id: ark.cipher_den.forbidden_archive  (sub-space; treat as inaccessible until late-act)
+    unlock_condition: late-act (Act 6+; player must collect 4 cipher-keys from across the Ark)
+decorative_features:
+  - id: ark.cipher_den.north.shelf.bay.<n>  (5 bays)
+    position: distributed along north wall
+    dimensions: 1.80 × 1.00 × 4.20 each
+    material: walnut + bronze
+    narrative_role: each bay holds books on a different category (history, philosophy, occult, language, prophecy); bays' contents are gameplay-relevant
+```
+
+#### Wall: West
+
+Mirror of east (with similar shelving but for player's archives).
+
+```
+wall_id:              west
+material_primary:     dark walnut with deep-relief carvings
+material_secondary:   bronze dado
+panelisation:         standard
+colour_value:         --token-color-ark-cipher-den-wall-west
+embedded_displays:    none
+embedded_doors:        none
+decorative_features:
+  - id: ark.cipher_den.west.shelf.player_archives
+    position: (-4.50, 5.00, 0.00)
+    dimensions: 0.40 × 4.00 × 3.20
+    material: built-in walnut shelving
+    narrative_role: holds the player's accumulated narrative — the Editor's working files on the player's own canon
+  - id: ark.cipher_den.west.candle_array
+    position: (-4.50, 1.50, 1.20)
+    dimensions: 0.30 × 0.30 × 0.50
+    material: bronze with wax candles
+    narrative_role: ritual lighting; mirror of east
+```
+
+### A.21.5 Ceiling
+
+```
+height_above_floor:     4.50 m baseline; central coffer over Uncorruption Bench at 3.80 m (lower; gives intimacy); shelf bays' ceiling extends to 4.20 m within the non-Euclidean fold
+material:               dark-stained plaster with bronze rib detail; central coffer is a circular emitter (parchment-tone backlit panel)
+lighting_integrated:    central pendant (single brass pendant over bench); recessed strip-lights over wall shelves; warm amber tone throughout
+atmospheric_features:   subtle ink-mist drift in the central coffer's light shaft (very rare; only during active editing); occasional dust-motes
+acoustic_treatment:     coffered (heavy fabric absorption from books); dampened acoustic
+```
+
+### A.21.6 Lighting
+
+```
+ambient_baseline:     2400 K (very warm; candle-and-pendant lighting); 100 lux at floor (dim — scholarly atmosphere); CRI 90
+direct_fixtures:
+  - id: ark.cipher_den.light.central_pendant
+    position: (0.00, 5.00, 3.80)  # over bench
+    beam_angle: 90° downward
+    colour: --token-color-ark-cipher-den-pendant  (warm amber; halo of slightly darker outer ring)
+    intensity: 4500 lumens
+    function: principal task lighting at bench
+  - id: ark.cipher_den.light.shelf_strip.north
+    position: along north wall at z = 4.30
+    beam_angle: 180° wash downward + into shelves
+    colour: --token-color-ark-cipher-den-shelf-strip  (very warm; almost candle-tone)
+    intensity: 600 lumens per metre
+    function: accent + readability
+  - id: ark.cipher_den.light.shelf_strip.east
+    position: along east wall at z = 3.30 (above shelf)
+    beam_angle: 180° wash
+    colour: same as north strip
+    intensity: 400 lumens per metre
+    function: accent
+  - id: ark.cipher_den.light.shelf_strip.west
+    position: along west wall at z = 3.30
+    beam_angle: 180° wash
+    colour: same as north strip
+    intensity: 400 lumens per metre
+    function: accent
+  - id: ark.cipher_den.light.bench_inkwell_glow
+    position: (0.00, 5.00, 0.92)  # on bench; from open inkwell
+    beam_angle: 360°
+    colour: 1800 K (very warm)
+    intensity: 200 lumens (when lit; off when inkwell closed)
+    function: punctuation; signals "the work is happening"
+practical_sources:
+  - id: ark.cipher_den.candle.east.<n>  (6 candles total)
+    position: along east candle-array
+    intensity: 60 lumens each
+    flicker_pattern: organic (period 0.8s, random)
+  - id: ark.cipher_den.candle.west.<n>  (6 candles)
+    position: along west candle-array
+    intensity: 60 lumens each
+    flicker_pattern: organic
+  - id: ark.cipher_den.archive_glow
+    position: (0.00, 9.50, 1.50)  # along north shelf central bay
+    intensity: 50 lumens (very subtle phosphorescent glow from the archive door)
+    flicker_pattern: stable
+time_of_day_variation:
+  acts_5_to_7: stable; in late-act7, if Editor presence is strong (player has engaged with multiple lore-edits), pendant pulses with quill-rhythm
+dynamic_response:
+  - on_player_at_bench: bench_inkwell_glow activates if inkwell open; central pendant intensifies 20%
+  - on_HB8_invoke: pendant flickers; non-Euclidean shelves visibly extend; ink-mist intensifies
+  - on_archive_door_unlock: archive_glow brightens dramatically (one-shot)
+```
+
+### A.21.7 Atmosphere
+
+```
+air_temperature:    19°C (cool — preservation of paper)
+humidity:           38% RH (low — paper-friendly); smells of ink + parchment + walnut + faint candle-wax
+particulate:
+  - type: dust
+    density: low (well-maintained)
+    colour: warm-grey
+    drift_direction: random + slight downward in pendant light shaft
+  - type: ink_mist
+    density: very low (only when inkwell open or during HB8 transit)
+    colour: pale blue-black
+    drift_direction: rises slowly from bench
+  - type: candle_smoke
+    density: low (12 candles total)
+    colour: very pale grey
+    drift_direction: upward
+volumetric_fog:     absent in baseline; subtle ink-cloud at vault apex during active editing
+wind_drift:         minimal; 0.02 m/s; toward archive door (slight pressure differential)
+smell_canon:        ink + parchment + walnut + candle-wax + faint metallic-bronze; voice-line: "smells like centuries"
+```
+
+### A.21.8 Sound
+
+```
+ambient_bed:           file: cipher_den_ambient_bed_v1.ogg (loop); -38 dB; very quiet; faint candle-flicker, distant page-rustle, occasional creak from non-Euclidean shelves
+point_sources:
+  - id: ark.cipher_den.sound.candle_flicker.<n>  (12 candles)
+    position: per candle
+    sound: candle-flame (-42 dB each)
+    occlusion_behaviour: omnidirectional
+    trigger: continuous
+  - id: ark.cipher_den.sound.shelf_creak
+    position: north wall, distributed
+    sound: occasional book-creak (random; -38 dB)
+    occlusion_behaviour: standard
+    trigger: random (period 30-90s)
+  - id: ark.cipher_den.sound.bench_quill
+    position: (0.00, 5.00, 0.92)  # on bench
+    sound: quill-on-paper (during active editing; -32 dB)
+    occlusion_behaviour: standard
+    trigger: state-conditional (active during Editor work / HB8 transit)
+  - id: ark.cipher_den.sound.archive_hum
+    position: (0.00, 9.50, 1.50)  # archive door
+    sound: very faint hum (locked-archive seal); -44 dB
+    occlusion_behaviour: standard
+    trigger: continuous
+  - id: ark.cipher_den.sound.editor_breath
+    position: (-1.00, 4.50, 1.40)  # editor anchor (presence — never visible)
+    sound: very faint breath (only during Editor presence; -44 dB)
+    occlusion_behaviour: omnidirectional with subtle directional bias
+    trigger: state-conditional (Editor present)
+reverb_zone:           IR-impulse: cipher_den_v1.wav; wet-mix 18% (slight whisper-gallery from non-Euclidean fold)
+music_eligibility:     cutscene only (HB8 transit)
+voice_line_eligibility:
+  - speaker: the_editor_presence  (no spoken voice; only quill-on-paper SFX represents Editor "speech")
+    trigger: state-conditional
+    line_set: SFX-only; cf §3.1.C (Editor's Workshop loading)
+  - speaker: the_master_of_rlyeh
+    trigger: HB8 transit only
+    line_set: HB8-specific
+```
+
+### A.21.9 Object inventory
+
+Cipher Den has 39 inventory objects.
+
+#### A.21.9.1 The Shadow Tongue Uncorruption Bench (HB8 gateway)
+
+```
+object_id:           ark.cipher_den.uncorruption_bench
+object_class:        interactive  (also fx_emitter for HB8 transit; primary gameplay-active surface)
+position:            (0.00, 5.00, 0.00)
+dimensions:          1.80 × 1.20 × 0.92  (long bench-style table)
+rotation:            0°
+material_primary:    polished walnut top with carved edge-detail; brass corner-caps; gold-inlaid script around perimeter
+material_secondary:  hidden mechanisms beneath the surface (visible only during HB8 transit or active edit)
+colour_value:        --token-color-ark-cipher-den-bench-walnut
+interaction:         interactable
+  - operate: opens Uncorruption Bench UI (player can clean forbidden texts, edit own lore, propose canonical changes)
+  - inspect: lore-note about the Bench's history (canonical pre-Ark artifact)
+  - HB8_invoke: opening a forbidden text on the bench triggers HB8 transit (Editor's quill enters frame, transit begins per §3.12.10)
+narrative_role:      DUAL FUNCTION — operationally a text-uncorruption surface (gameplay-key for cleaning corrupt LOREDEX entries); cosmologically the HB8 gateway. Player's forbidden-text + bench operation triggers Editor's Workshop transit
+lore_anchor:         loredex.system.uncorruption_bench + arc.act_5_HB8_invocation
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.cipher.uncorruption_bench.operate + trpc.hellbox.hb8.openGate (state-conditional)
+wear_state:          worn at central work-area; gold script around perimeter is slightly more polished where most-touched
+physical_constraints: collides; player can lean
+```
+
+#### A.21.9.2 Bench Tools (rolled into bench but inventoried separately)
+
+```
+object_id:           ark.cipher_den.uncorruption_bench.inkwell
+object_class:        container
+position:            (-0.50, 5.00, 0.92)  # on bench top, left-front
+dimensions:          0.10 × 0.10 × 0.10
+rotation:            0°
+material_primary:    cast bronze with decorative engraving
+material_secondary:  glass-lined interior containing dark blue-black ink
+colour_value:        --token-color-ark-cipher-den-inkwell
+interaction:         interactable
+  - open: opens the inkwell (small one-shot animation; emits ink-mist + glow)
+  - close: closes (extinguishes glow)
+  - inspect: lore-note about ink-formula
+narrative_role:      THE inkwell; ink is canonically pre-Ark; opening it is a small ritual
+lore_anchor:         loredex.system.uncorruption_bench
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.cipher.inkwell.toggle
+wear_state:          slight patina at edges
+physical_constraints: collides
+
+object_id:           ark.cipher_den.uncorruption_bench.quill
+object_class:        decoration
+position:            (0.20, 5.00, 0.93)  # next to inkwell
+dimensions:          0.05 × 0.30 × 0.05
+rotation:            varies (rests on bench)
+material_primary:    raven-feather quill with bronze nib
+material_secondary:  none
+colour_value:        --token-color-ark-cipher-den-quill
+interaction:         inspectable
+narrative_role:      the Editor's quill; canonically the same quill that has edited every text in the canon; NEVER touched by player
+lore_anchor:         loredex.character.editor + arc.editor_canon
+art_status:          producer_handoff
+gameplay_hook_id:    none (player cannot pick up — quill is Editor's only)
+wear_state:          slight wear at nib (well-used)
+physical_constraints: non-collide (small)
+
+object_id:           ark.cipher_den.uncorruption_bench.blotter_set
+object_class:        decoration
+position:            (0.40, 5.00, 0.92)
+dimensions:          0.30 × 0.20 × 0.04
+rotation:            0°
+material_primary:    walnut tray with leather blotter
+material_secondary:  brass pen-rest
+colour_value:        --token-color-ark-cipher-den-blotter
+interaction:         inspectable
+narrative_role:      tools of the trade
+lore_anchor:         loredex.system.uncorruption_bench
+art_status:          producer_handoff
+gameplay_hook_id:    none
+wear_state:          worn at most-used corners
+physical_constraints: collides
+```
+
+#### A.21.9.5 The Editor's Anchor (NPC anchor)
+
+```
+object_id:           ark.cipher_den.editor_anchor
+object_class:        npc_anchor
+position:            (-1.00, 4.50, 0.00)  # behind the bench, slightly to player's left
+dimensions:          0.80 × 0.80 × 1.80 (anchor only)
+rotation:            varies (Editor pose-driven)
+material_primary:    n/a
+material_secondary:  n/a
+colour_value:        n/a
+interaction:         n/a (presence — Editor never visible)
+narrative_role:      THE Editor's anchor; he is PRESENT but never seen — his presence is felt as a cold spot, faint breath, quill-on-paper SFX
+lore_anchor:         loredex.character.editor
+art_status:          producer_handoff
+gameplay_hook_id:    none (presence-driven)
+wear_state:          n/a
+physical_constraints: n/a (NPC presence overrides; if player walks through anchor, gets a "cold spot" SFX)
+```
+
+#### A.21.9.6 The Forbidden Text Archive Door (north wall)
+
+```
+object_id:           ark.cipher_den.forbidden_archive_door
+object_class:        door
+position:            (0.00, 9.95, 0.00)  # central north shelf bay
+dimensions:          1.20 × 2.40 × 0.10
+rotation:            180°
+material_primary:    cast bronze double-door with deep-relief glyphs; concealed behind a false bookend (until unlocked)
+material_secondary:  white marble frame; gold inlay on the threshold
+colour_value:        --token-color-ark-cipher-den-archive-door  (deep bronze with gold-glyph relief)
+interaction:         interactable
+  - inspect (locked): "the door is sealed; 4 cipher-keys are needed"
+  - unlock: requires 4 cipher-keys (gathered from across the Ark)
+  - open (unlocked): one-shot animation + cs_archive_first_open cutscene
+narrative_role:      THE forbidden archive — contains pre-canon texts that the Editor has not yet edited; player can read forbidden truths
+lore_anchor:         loredex.system.forbidden_archive + arc.act_6_pre_canon_revelations
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.cipher.archive_door.unlock + .open
+wear_state:          pristine (rarely touched)
+physical_constraints: collides; opens to sub-space (deferred from spec)
+```
+
+#### A.21.9.7-11 The Five Reference Shelf Bays (north wall)
+
+```
+object_id:           ark.cipher_den.shelf_bay.history (bay 1)
+object_class:        container
+position:            (-3.60, 9.85, 0.00)
+dimensions:          1.80 × 1.00 × 4.20
+rotation:            180°
+material_primary:    walnut + bronze
+material_secondary:  individual bronze name-plates
+colour_value:        --token-color-ark-cipher-den-shelf-walnut
+interaction:         interactable
+  - inspect_book: each book is a multi-screen lore-readable; this bay holds historical texts
+narrative_role:      historical references; player learns Ark history
+lore_anchor:         loredex.system.history_archive
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.cipher.shelf.inspect (history)
+wear_state:          slight wear
+physical_constraints: collides
+
+(Other 4 bays follow same template; categories: philosophy, occult, language, prophecy. Positions:
+ - bay 2 philosophy at (-1.80, 9.85, 0.00)
+ - bay 3 occult at (0.00, 9.85, 0.00) — hides forbidden_archive_door behind false bookend
+ - bay 4 language at (1.80, 9.85, 0.00)
+ - bay 5 prophecy at (3.60, 9.85, 0.00))
+```
+
+#### A.21.9.12 East Shelf — Scribe Tools
+
+```
+object_id:           ark.cipher_den.east.shelf.scribe_tools
+object_class:        container
+position:            (4.50, 5.00, 0.00)
+dimensions:          0.40 × 4.00 × 3.20
+rotation:            270°  (parallel to east wall)
+material_primary:    walnut with felt-lined slots
+material_secondary:  bronze tool-clips and labels
+colour_value:        --token-color-ark-cipher-den-shelf-walnut
+interaction:         interactable
+  - select_tool: player can take a tool to the bench (gameplay-key for some tasks)
+  - inspect: lore-note about each tool
+narrative_role:      scribe's toolkit; some tools are gameplay-active (e.g., "the cipher-glass" reveals hidden text)
+lore_anchor:         loredex.system.uncorruption_bench
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.cipher.east.shelf.select_tool
+wear_state:          slight wear at most-used tool slots
+physical_constraints: collides
+```
+
+#### A.21.9.13 West Shelf — Player's Archive
+
+```
+object_id:           ark.cipher_den.west.shelf.player_archive
+object_class:        container
+position:            (-4.50, 5.00, 0.00)
+dimensions:          0.40 × 4.00 × 3.20
+rotation:            90°
+material_primary:    walnut with leather binding
+material_secondary:  bronze name-plates with PLAYER's name (engraved when Cipher Den is first entered)
+colour_value:        --token-color-ark-cipher-den-shelf-walnut
+interaction:         interactable
+  - inspect_volume: each volume is the player's lore-summary by Act (Act 1 volume, Act 2 volume, etc.)
+  - edit_with_bench: take a volume to bench for editing (gameplay-active in Act 5+)
+narrative_role:      THE player's accumulated narrative — every choice the player has made is bound here
+lore_anchor:         arc.player_canon
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.cipher.west.shelf.inspect_volume + .edit
+wear_state:          most recent volume shows wear
+physical_constraints: collides
+```
+
+#### A.21.9.14 Reading Chair (positioned to face bench)
+
+```
+object_id:           ark.cipher_den.reading_chair
+object_class:        furniture
+position:            (0.00, 5.00, 0.00) -- wait, that's on the bench. Let me adjust.
+position (corrected): (0.00, 3.50, 0.00)
+dimensions:          0.80 × 0.80 × 1.30
+rotation:            0°  (faces bench, north)
+material_primary:    walnut frame with charcoal leather seat
+material_secondary:  brass tacks; brass armrest caps
+colour_value:        --token-color-ark-cipher-den-reading-chair
+interaction:         interactable - sit (positions player at bench in working posture)
+narrative_role:      where the player sits to engage with the bench
+lore_anchor:         arc.act_5_HB8_invocation
+art_status:          producer_handoff
+gameplay_hook_id:    none (positional)
+wear_state:          slight wear at seat
+physical_constraints: collides; sittable
+```
+
+#### A.21.9.15-20 Six Candles (east + west arrays)
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.cipher_den.candle.east.1` | fx_emitter | (4.50, 1.50, 1.45) | 0.10 × 0.10 × 0.30 | east-1 candle |
+| `ark.cipher_den.candle.east.2` | fx_emitter | (4.50, 5.00, 1.45) | mirror y | east-2 candle |
+| `ark.cipher_den.candle.east.3` | fx_emitter | (4.50, 8.50, 1.45) | mirror y | east-3 candle |
+| `ark.cipher_den.candle.west.1` | fx_emitter | (-4.50, 1.50, 1.45) | 0.10 × 0.10 × 0.30 | west-1 candle |
+| `ark.cipher_den.candle.west.2` | fx_emitter | (-4.50, 5.00, 1.45) | mirror y | west-2 candle |
+| `ark.cipher_den.candle.west.3` | fx_emitter | (-4.50, 8.50, 1.45) | mirror y | west-3 candle |
+
+(Double-counted as part of candle_array decorative_features; counted
+once as inventory.)
+
+#### A.21.9.21-25 Five Cipher-Keys (gameplay-distributed; visible here as readable hints)
+
+```
+object_id:           ark.cipher_den.cipher_key_index.<n>  (n=1..5)
+object_class:        decoration  (ledgers showing where keys are hidden)
+positions:           on bench in a small leather folio
+dimensions:          0.20 × 0.15 × 0.02
+rotation:            0°
+material_primary:    leather-bound paper
+material_secondary:  cipher-text engravings
+colour_value:        --token-color-ark-cipher-den-key-folio
+interaction:         inspectable (reads cryptic clue about key location)
+narrative_role:      hints toward where each cipher-key is hidden (one in Antiquarian Library, one on Bridge, one in Med Bay, one in Engineering, one in Archives)
+lore_anchor:         arc.cipher_key_quest
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.cipher.key_folio.read
+wear_state:          slight wear
+physical_constraints: collides
+```
+
+#### A.21.9.26-30 Decorative Closing Items
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.cipher_den.south.intercom` | console | (-1.00, 0.20, 1.50) | 0.20 × 0.10 × 0.30 | comms relay |
+| `ark.cipher_den.fire_extinguisher.south` | interactive | (1.50, 0.20, 1.20) | 0.20 × 0.20 × 0.50 | safety |
+| `ark.cipher_den.first_aid.kit` | container | (-1.50, 0.20, 1.50) | 0.40 × 0.10 × 0.30 | medical |
+| `ark.cipher_den.brass_compass_inlay` | decoration | (0.00, 5.00, 0.005) | 1.40 × 1.40 × 0.005 | floor inlay (compass-rose) |
+| `ark.cipher_den.editor_quill_extra` | decoration | (0.30, 5.00, 0.93) on bench | 0.05 × 0.30 × 0.05 | spare quill (Editor's prerogative) |
+
+#### A.21.9.31-39 Specialty Tools + Atmosphere Items
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.cipher_den.cipher_glass` | interactive | east shelf, gameplay-take | 0.10 × 0.05 × 0.10 | reveals hidden text on inspection |
+| `ark.cipher_den.uncorruption_bench.parchment_stack` | container | on bench | 0.30 × 0.40 × 0.03 | blank parchment stack |
+| `ark.cipher_den.uncorruption_bench.magnifying_lens` | decoration | on bench | 0.10 × 0.10 × 0.05 | brass-rimmed magnifier |
+| `ark.cipher_den.uncorruption_bench.scribing_tools.assorted` | decoration | bench | varied | additional tools on bench |
+| `ark.cipher_den.editor_chair` | furniture | (-1.00, 4.50, 0.00) | 0.80 × 0.80 × 1.20 | the Editor's chair (rarely sat in by anyone but the Editor) |
+| `ark.cipher_den.editor_personal_locker` | container | (-4.95, 9.85, 0.00) | 0.40 × 0.30 × 1.50 | Editor's personal effects locker (locked) |
+| `ark.cipher_den.editor_personal_locker.bronze_key` | decoration | hidden in shelf_bay history | 0.04 × 0.02 × 0.005 | the key to Editor's locker (Act 7 reveal) |
+| `ark.cipher_den.dust_jar.east` | decoration | east shelf, top | 0.20 × 0.20 × 0.30 | jar of editor's dust (canonical artifact) |
+| `ark.cipher_den.dust_jar.west` | decoration | west shelf, top | 0.20 × 0.20 × 0.30 | jar of editor's dust (mirror) |
+
+Total: 39 inventory objects.
+
+### A.21.10 Camera-spawn-points (FPV cutscenes)
+
+```
+cutscene_id:         cs_amb_cipher_den  (Category B; per §3.1.B.3)
+camera_position:     (0.00, 0.50, eye_level)
+camera_facing:       (0°, 0°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         slow approach to bench; head-tilt down to watch text emerge
+
+cutscene_id:         cs_hellbox_8_open  (HB8 Editor's Workshop gateway)
+camera_position:     (0.00, 4.50, eye_level)  # at bench
+camera_facing:       (0°, -30°, 0°)  # looking down at forbidden text on bench
+avatar_height_anchor: eye_level
+head_motion:         hand-rig opens forbidden text; Editor's quill enters frame from above; quill begins editing; transit begins
+
+cutscene_id:         cs_hellbox_8_transit  (HB8 transit)
+camera_position:     (0.00, 4.50, eye_level)
+camera_facing:       (0°, 0°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         POV travels through corridor of pages
+
+cutscene_id:         cs_hellbox_8_close  (HB8 return)
+camera_position:     (0.00, 4.50, eye_level)
+camera_facing:       (0°, 0°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         pages re-bind; corridor fades; Cipher Den re-materialises with the forbidden text now edited
+
+cutscene_id:         cs_archive_first_open  (one-shot Act 6+)
+camera_position:     (0.00, 9.50, eye_level)  # at archive door
+camera_facing:       (0°, 0°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         archive_door opens; cold air rushes; revealed beyond is darkness
+```
+
+### A.21.11 Doorways
+
+```
+door_id:            ark.cipher_den.south.door.main
+connecting_space_id: ark.corridor.cipher_approach
+door_position:      (0.00, 0.00, 0.00)
+door_dimensions:    1.20 × 2.40 × 0.10
+door_class:         arch  (heavy bronze)
+unlock_condition:   Act 5+ (player gains access after specific Act 5 quest)
+transit_animation:  ceremonial slow-open (3s) on first entry; instant on subsequent
+audio_signature:    bronze-on-stone resonance + chain-rattle
+
+door_id:            ark.cipher_den.north.door.forbidden_archive
+connecting_space_id: ark.cipher_den.forbidden_archive  (deferred)
+door_position:      (0.00, 9.95, 0.00)
+door_dimensions:    1.20 × 2.40 × 0.10
+door_class:         pressure_seal
+unlock_condition:   Act 6+ + 4 cipher-keys collected
+transit_animation:  cs_archive_first_open cutscene
+audio_signature:    deep magnetic-clack + airlock-hiss
+```
+
+### A.21.12 Adjacency map
+
+```
+direct_adjacencies:
+  - ark.corridor.cipher_approach (south door)
+  - ark.cipher_den.forbidden_archive (north door; sub-space; locked through Act 6)
+  - hellbox.editors_workshop (HB8 portal via Uncorruption Bench, conditional on forbidden text)
+one_hop_adjacencies:
+  - ark.archives (via cipher approach; Cipher Den is the deeper companion to Archives)
+  - destination.editors_workshop (via HB8)
+```
+
+### A.21.13 Gameplay hooks
+
+```
+hooks:
+  - hook_id:         cipher_den.operateBench
+    trigger:         player.operate on ark.cipher_den.uncorruption_bench
+    procedure:       trpc.cipher.uncorruption_bench.operate
+    success_state:   bench_active = true; uncorruption UI open
+  - hook_id:         cipher_den.cleanForbiddenText
+    trigger:         (state-conditional) player has forbidden text + bench active
+    procedure:       trpc.cipher.bench.cleanText
+    success_state:   text_cleaned = true (per-text)
+  - hook_id:         cipher_den.invokeHB8
+    trigger:         (state-conditional) player opens forbidden text on bench (Act 5+, has at least one forbidden text)
+    procedure:       trpc.hellbox.hb8.openGate
+    success_state:   hellbox_8_transit_started = true
+  - hook_id:         cipher_den.inspectShelfBook
+    trigger:         player.inspect on shelf_bay book
+    procedure:       trpc.cipher.shelf.inspect
+    success_state:   book_read = true (per-book)
+  - hook_id:         cipher_den.editPlayerVolume
+    trigger:         player.interact on west.shelf.player_archive volume + take_to_bench
+    procedure:       trpc.cipher.player_volume.edit
+    success_state:   volume_edited = true (per-volume; affects player canonical record)
+  - hook_id:         cipher_den.toggleInkwell
+    trigger:         player.interact on inkwell
+    procedure:       trpc.cipher.inkwell.toggle
+    success_state:   inkwell_state = open | closed
+  - hook_id:         cipher_den.unlockArchiveDoor
+    trigger:         player.unlock on archive_door (with 4 cipher-keys)
+    procedure:       trpc.cipher.archive_door.unlock
+    success_state:   archive_door_open = true (one-shot)
+  - hook_id:         cipher_den.takeCipherGlass
+    trigger:         player.interact on cipher_glass
+    procedure:       trpc.cipher.east.shelf.select_tool (cipher_glass)
+    success_state:   cipher_glass_held = true (gameplay-key for hidden-text reveals across Ark)
+```
+
+### A.21.14 Story-tie
+
+```
+primary_arcs:
+  - arc.act_5_meta_narrative
+  - arc.act_5_HB8_invocation
+  - arc.cipher_key_quest (gather 4 keys across Ark)
+  - arc.act_6_pre_canon_revelations (open archive)
+  - arc.player_canon (player's accumulated narrative)
+per_act_evolution:
+  acts_0_4: room is locked; faint hum of forbidden archive sometimes heard from outside
+  act_5: room opens; first interaction with bench; HB8 first invocable; player's archive begins to fill
+  act_6: archive door unlockable (with 4 keys); pre-canon revelations accessible
+  act_7: Editor's locker unlockable (Act 7 reveal of editor's bronze key); player can read Editor's personal effects (final lore reveal)
+npc_roster:
+  - the_editor: presence-only (never visible); felt as cold spot, breath, quill SFX
+  - the_player: visitor for editing + archive access
+  - the_master_of_rlyeh: HB8 transit voice only
+readables:
+  - dedication plaque (south)
+  - 5 shelf-bay book sets (history, philosophy, occult, language, prophecy; ~3-5 books per bay = 15-25 readables)
+  - cipher-key folio (5 cryptic clues)
+  - player's archive volumes (one per Act played; cumulative)
+  - forbidden archive contents (Act 6+ unlock)
+  - Editor's personal effects (Act 7 unlock)
+master_of_rlyeh_question: "Is what was written, or what was edited, the truth?"
+```
+
+### A.21.15 Special-FX
+
+```
+particle_systems:
+  - dust_motes (low; visible in pendant light shaft)
+  - ink_mist (very low; from inkwell when open)
+  - candle_smoke (12 candles)
+  - editor_dust (rare; Acts 7 ending state; cold and still)
+volumetric_effects:
+  - pendant_light_shaft (visible in lower-light states)
+  - non_euclidean_shelf_depth (north wall shelves visually deeper than physical wall)
+  - archive_seal_glow (subtle phosphorescent rim around archive door)
+procedural_animations:
+  - candle_flicker (12 sources; each independent)
+  - quill_subtle_movement (quill rests but slightly tilts; cosmetic)
+  - shelf_book_rearrange (Acts 5+; books slowly re-shuffle between visits — Editor's hand)
+  - bench_inkwell_glow_pulse (when open)
+reactive_systems:
+  - bench_glow_on_proximity (within 1.5 m, bench surface glows softly)
+  - inkwell_open_on_player_interact
+  - editor_breath_on_player_proximity (within 2.0 m of editor_anchor, faint cold-spot SFX)
+  - archive_door_unlock_one_shot
+  - forbidden_text_glow (any forbidden text in player's inventory glows when within 3.0 m of bench)
+```
+
+### A.21.16 Avatar-parametricity
+
+```
+camera_height_variation:
+  small_xenomorph (0.85m eye): camera height 0.85m; bench feels too tall — alternate stand-on-step animation; shelves are at head-level
+  short_humanoid (1.40m eye): bench is at hip; standard
+  average_humanoid (1.70m eye): bench is at thigh; standard
+  tall_humanoid (2.05m eye): bench is below knee — must lean
+  tall_xenomorph (2.70m eye): bench far too low; alternate crouch-edit animation
+reachability:
+  small_xenomorph: cannot reach top shelf bays without ladder; alternate ladder provided
+  small_xenomorph: cannot reach forbidden archive door (relay unlock)
+  others: all-reachable
+audio_occlusion_variation:
+  xenomorph_sensitive_hearing: editor's breath more pronounced; quill-on-paper SFX clearly audible from all corners
+  synthetic_voice_avatar: Editor's presence has different "feel" — cold-spot lacks warm-blood association
+```
+
+### A.21.17 Performance
+
+```
+polygon_budget:      280,000 polygons (rich decorative density; non-Euclidean shelves are expensive)
+texture_budget:      150 MB total
+light_count_limit:   16 simultaneous dynamic lights
+lod_plan:
+  - hero_distance: 0-8m, full detail
+  - mid_distance: 8-15m, mid detail (small candles simplified)
+  - low_distance: 15m+, low detail
+streaming_behaviour:
+  - preload: ark.corridor.cipher_approach (south)
+  - on_player_within_2m_of_bench + has_forbidden_text: preload destination.editors_workshop
+```
 
 ---
 
