@@ -42,7 +42,9 @@ EMOTIONS = {
 def generate_speech(text, emotion):
     """Call ElevenLabs TTS API with emotion-tuned settings."""
     settings = EMOTIONS.get(emotion, EMOTIONS["warm"])
-    full_text = settings["prefix"] + text
+    # Direction is conveyed via voice_settings (stability/style/etc.) only.
+    # ElevenLabs Multilingual v2 does not interpret asterisk-bracketed prose as
+    # direction — it speaks it literally — so the prefix is intentionally unused.
 
     resp = requests.post(
         f"https://api.elevenlabs.io/v1/text-to-speech/{VOICE_ID}",
@@ -52,7 +54,7 @@ def generate_speech(text, emotion):
             "Accept": "audio/mpeg",
         },
         json={
-            "text": full_text,
+            "text": text,
             "model_id": "eleven_multilingual_v2",
             "voice_settings": {
                 "stability": settings["stability"],

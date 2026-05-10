@@ -1121,11 +1121,15 @@ export default function ArkExplorerPage() {
     return rooms;
   }, [dailyBrief]);
 
-  // Dispatch dialog-active events for QuestTracker auto-minimize
+  // Dispatch dialog-active events so other Elara surfaces (floating
+  // ElaraDialog button, QuestTracker) can step out of the way. Fires
+  // active:false when elaraText clears via any path, not only the
+  // explicit close button — otherwise auto-clearing the dialog leaves
+  // the floating Elara avatar hidden indefinitely (or, if the close
+  // event was missed, both avatars stack on screen).
   useEffect(() => {
-    if (elaraText) {
-      window.dispatchEvent(new CustomEvent("elara-dialog", { detail: { active: true } }));
-    }
+    const active = Boolean(elaraText);
+    window.dispatchEvent(new CustomEvent("elara-dialog", { detail: { active } }));
   }, [elaraText]);
 
 

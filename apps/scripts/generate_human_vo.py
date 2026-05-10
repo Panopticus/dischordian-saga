@@ -31,7 +31,7 @@ def generate_speech(text, emotion):
     s = EMOTIONS.get(emotion, EMOTIONS["mysterious"])
     resp = requests.post(f"https://api.elevenlabs.io/v1/text-to-speech/{VOICE_ID}",
         headers={"xi-api-key": ELEVENLABS_KEY, "Content-Type": "application/json", "Accept": "audio/mpeg"},
-        json={"text": s["prefix"] + text, "model_id": "eleven_multilingual_v2",
+        json={"text": text,  # prefix dropped — ElevenLabs reads asterisk-bracketed prose literally; direction is in voice_settings "model_id": "eleven_multilingual_v2",
               "voice_settings": {"stability": s["stability"], "similarity_boost": s["similarity_boost"],
                                  "style": s["style"], "use_speaker_boost": True}})
     resp.raise_for_status()

@@ -311,7 +311,9 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
 
         {/* F9 — brand reads "CoNEXUS OS" until loredex_unlocked flips.
             Pre-unlock the brand renders as an inert <div> so tab-clicking
-            the logo doesn't deep-link into the spoiler-heavy archive. */}
+            the logo doesn't deep-link into the spoiler-heavy archive.
+            Post-unlock the link routes to /ark — the Ark IS the game,
+            not the legacy BridgeConsole "intelligence feed" at /. */}
         {(() => {
           const loredexUnlocked = Boolean(gameState.narrativeFlags?.loredex_unlocked);
           const BrandInner = (
@@ -335,7 +337,7 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
             </>
           );
           return loredexUnlocked ? (
-            <Link href="/" className="flex items-center gap-2 group">{BrandInner}</Link>
+            <Link href="/ark" className="flex items-center gap-2 group">{BrandInner}</Link>
           ) : (
             <div className="flex items-center gap-2 group">{BrandInner}</div>
           );

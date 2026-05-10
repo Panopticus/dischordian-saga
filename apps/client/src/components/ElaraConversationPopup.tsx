@@ -380,31 +380,27 @@ export function ElaraConversationPopup({
     if (phase !== "awaitingPlayerChoice") return;
     choice.onPick?.();
     setPickedChoice(choice);
-    // Skip the "YOU" echo when the choice is a gesture (e.g. "Ask the
-    // Human.") rather than a spoken framing. Routes straight into the
-    // Detective if his line is authored, then falls through to the
-    // Elara/follow-up/close cascade.
-    if (choice.skipPlayerEcho) {
-      if (choice.detectiveFollowUpVoId || choice.detectiveFollowUpText) {
-        setFollowUpText(choice.detectiveFollowUpText ?? "");
-        setPhase("detectiveSpeaking");
-        return;
-      }
-      if (choice.elaraFollowUpVoId || choice.elaraFollowUpText) {
-        setFollowUpText(choice.elaraFollowUpText ?? "");
-        setPhase("elaraFollowUp");
-        return;
-      }
-      if (choice.followUpResponses && choice.followUpResponses.length > 0) {
-        setActiveResponses(choice.followUpResponses);
-        setPickedChoice(null);
-        // Stay in awaitingPlayerChoice — just swap the strip.
-        return;
-      }
-      setPhase("closed");
+    // The player has no voice. Picking a choice routes straight into the
+    // next companion phase — Detective if his line is authored, else
+    // Elara's follow-up, else recurse / close. (`skipPlayerEcho` is now
+    // implicit on every choice; the legacy "YOU" echo phase never fires.)
+    if (choice.detectiveFollowUpVoId || choice.detectiveFollowUpText) {
+      setFollowUpText(choice.detectiveFollowUpText ?? "");
+      setPhase("detectiveSpeaking");
       return;
     }
-    setPhase("humanSpeaking");
+    if (choice.elaraFollowUpVoId || choice.elaraFollowUpText) {
+      setFollowUpText(choice.elaraFollowUpText ?? "");
+      setPhase("elaraFollowUp");
+      return;
+    }
+    if (choice.followUpResponses && choice.followUpResponses.length > 0) {
+      setActiveResponses(choice.followUpResponses);
+      setPickedChoice(null);
+      // Stay in awaitingPlayerChoice — just swap the strip.
+      return;
+    }
+    setPhase("closed");
   };
 
   // Skip the leading Elara line if the player clicks the typewriter
