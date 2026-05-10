@@ -7249,20 +7249,186 @@ streaming_behaviour:
 
 ---
 
-## A.14 Guild Sanctum — SCAFFOLDED
+## A.14 Guild Sanctum — FULL
+
+**Status: FULL spec.** Cross-ref `INCEPTION_ARK_FINAL_PRODUCTION.md`
+§2.14 (art-state prompts).
+
+### A.14.1 Header
 
 ```
 space_id:        ark.guild_sanctum
 space_name:      Guild Sanctum
-space_type:      ark_room
+space_type:      ark_room  (faction-aligned but not deck-locked)
 act_introduced:  Act 4
-lore_anchor:     loredex.faction.guilds + arc.guild_progression
-aesthetic_tier:  solar_punk_cathedral  (faction-decorated)
-dimensions:      14.00 m × 14.00 m × 5.00 m
-floor_plan_geometry: hexagonal
+lore_anchor:     loredex.faction.guilds + arc.guild_progression + arc.act_4_first_guild_oath
+aesthetic_tier:  solar_punk_cathedral  (faction-decorated; warm + ceremonial; the Ark's most communal-formal space outside the Bridge)
 ```
 
-(Full spec deferred.)
+### A.14.2 Geometry
+
+```
+dimensions:           14.00 m × 14.00 m × 5.00 m  (bounding box; hexagonal footprint inscribed)
+origin_point:         centre of floor (room is hexagonal; origin at geometric centre)
+coordinate_axes:      +x = right, +y = forward (north), +z = up
+floor_plan_geometry:  hexagonal  (7.00 m apothem; primary entrance at south face)
+volumetric_anomalies: none in baseline; subtle resonance during multi-guild ceremonies (cosmetic; faction colours drift across central area)
+```
+
+The Guild Sanctum is hexagonal — six walls, each housing a guild
+banner alcove. Central altar holds the player's guild allegiance
+mark + cross-guild reputation tracker. North wall holds the Grand
+Guild Charter (continuously-updating registry). The room is
+intentionally communal — designed for multi-guild assemblies, not
+private rituals.
+
+Floor area: ~187 m².
+
+### A.14.3 Floor
+
+```
+material_primary:     polished hardwood plank in radial pattern (6 wedges; one per hexagonal face); each wedge tinted slightly different per guild colour
+material_secondary:   bronze inlay forming a 6-pointed star centred on altar; brass perimeter trim
+pattern:              radial wedges + 6-pointed star inlay
+wear_state:           pristine in early acts; in Act 5+, wear-trail to altar + most-used guild alcove
+embedded_features:
+  - id: ark.guild_sanctum.floor.charge_point.altar
+    position: (0.00, 0.00, 0.00)
+    dimensions: 0.40 × 0.40 × 0.05
+    function: altar electronics + reputation-tracker
+  - id: ark.guild_sanctum.floor.guild_alcove_anchor.<guild>  (6 anchors at 60° intervals; radius 5.50 m)
+    position: per guild alcove
+    dimensions: 0.30 × 0.30 × 0.05 each
+    function: alcove banner power
+acoustic_property:    soft_absorbent (hardwood + tapestry); RT60 = 0.45s (warm communal acoustic)
+```
+
+### A.14.4 Walls
+
+The Guild Sanctum has 6 walls. The south face is the entrance;
+the other 5 + south face all hold guild-banner alcoves (6 total
+guilds represented).
+
+```
+wall_id:              perimeter_hex (6 walls; each hexagonal face holds a guild banner alcove)
+material_primary:     polished walnut wainscoting (z = 0 to 1.20) + cream painted plaster above; warm domestic feel
+material_secondary:   walnut chair-rail at z = 1.20; brass dado above; gold-leaf trim around guild alcoves
+panelisation:         hexagonal corners + alcove recesses
+colour_value:         --token-color-ark-guild-sanctum-wall  (warm cream + walnut + gold)
+embedded_displays:
+  - id: ark.guild_sanctum.south.display.guild_charter
+    position: (0.00, -6.95, 1.80)  # near south entrance
+    dimensions: 1.20 × 0.80 × 0.05
+    content: live guild charter (player's allegiance + cross-guild reputation)
+embedded_doors:
+  - door_id: ark.guild_sanctum.south.door.main
+    position: (0.00, -7.00, 0.00)
+    dimensions: 1.40 × 2.40 × 0.10
+    door_class: arch  (warm walnut frame; ceremonial bronze handles)
+    connecting_space_id: ark.corridor.guild_approach
+    unlock_condition: Act 4+
+decorative_features:
+  - id: ark.guild_sanctum.alcove.<guild>  (6 alcoves at 60° intervals; each 1.40 × 0.80 × 4.20)
+    position: per hexagonal face
+    dimensions: 1.40 × 0.80 × 4.20 each
+    material: walnut backplane + gold-leaf rim + bronze guild-emblem display niche
+    narrative_role: each alcove holds a guild banner + guild-emblem; player's allegiance shows here
+  - id: ark.guild_sanctum.south.plaque.creed
+    position: (0.00, -6.95, 3.20)
+    dimensions: 1.00 × 0.40 × 0.02
+    material: cast bronze with engraved text
+    narrative_role: reads "ALONE WE ARE; TOGETHER WE BECOME"
+```
+
+### A.14.5 Ceiling
+
+```
+height_above_floor:     5.00 m baseline; central hexagonal dome rises to 6.20 m above altar
+material:               warm-painted hardwood with bronze rib detailing radiating from oculus
+lighting_integrated:    central oculus pendant; 6 alcove ceiling-strips define guild zones
+atmospheric_features:   subtle warm dust drift in oculus light shaft
+acoustic_treatment:     coffered + dome-resonant (warm)
+```
+
+### A.14.6-8 Lighting / Atmosphere / Sound (compact at full FULL fidelity)
+
+```
+lighting:
+  ambient_baseline: 3000 K warm; 200 lux; CRI 92
+  oculus_central: at (0.00, 0.00, 6.20); warm amber crystal scatter; 5000 lumens
+  guild_alcove_strip.<n>×6: per alcove ceiling; 800 lumens each; tinted per guild
+  altar_uplight: at (0.00, 0.00, 0.05); warm gold; 800 lumens
+  practical_sources: alcove_emblem_glow.<guild>×6 — 80 lumens each (varies by guild allegiance status)
+atmosphere: 22°C / 45% RH / smells of polished walnut + faint candle-wax + parchment
+sound:
+  ambient_bed: -34 dB; faint distant guild-chants, occasional bell, parchment rustle
+  point_sources: altar_subtle_resonance; alcove_emblem_humm.<n>×6 (faint per-guild tone); distant_chants_random
+  reverb_zone: guild_sanctum_v1.wav wet 24%
+  music_eligibility: cutscene only (Guild-arc cutscenes; ceremonial gatherings)
+  voice_line_eligibility: the_grand_master (rare named NPC); guild_voices_distant (ambient chants)
+```
+
+### A.14.9 Object inventory (compact)
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.guild_sanctum.central_altar` | interactive | (0.00, 0.00, 0.00) | 1.20 dia × 1.10 | altar with reputation-tracker |
+| `ark.guild_sanctum.alcove.<guild>` (6) | container | per 60° interval at radius 5.50 m | 1.40×0.80×4.20 each | guild banner alcoves |
+| `ark.guild_sanctum.guild_emblem.<guild>` (6) | decoration | per alcove niche at z=2.40 | 0.40×0.05×0.40 each | guild emblems (cast bronze) |
+| `ark.guild_sanctum.guild_banner.<guild>` (6) | decoration | per alcove at z=2.50 | 0.05×1.20×3.00 each | hanging guild banners |
+| `ark.guild_sanctum.observation_bench.<n>` (3) | furniture | between alcoves; radius 4.00 m | 1.40×0.40×0.45 each | curved hex benches |
+| `ark.guild_sanctum.grand_master_anchor` | npc_anchor | (0.00, 3.00, 0.00) | 0.8×0.8×1.8 | Grand Master NPC |
+| `ark.guild_sanctum.grand_master_lectern` | container | (-2.00, 3.00, 0.00) | 0.40×0.30×1.20 | bronze lectern; charter-tome |
+| `ark.guild_sanctum.charter_book` | container | on lectern | 0.30×0.20×0.05 | open ledger |
+| `ark.guild_sanctum.south.intercom` | console | (-1.00, -6.95, 1.50) | 0.20×0.10×0.30 | comms |
+| `ark.guild_sanctum.fire_extinguisher.south` | interactive | (1.00, -6.95, 1.20) | 0.20×0.20×0.50 | safety |
+| `ark.guild_sanctum.first_aid` | container | (-2.00, -6.95, 1.50) | 0.40×0.10×0.30 | medical |
+| `ark.guild_sanctum.south.plaque.creed` | decoration | (0.00, -6.95, 3.20) | 1.00×0.40×0.02 | "ALONE WE ARE; TOGETHER WE BECOME" |
+| `ark.guild_sanctum.compass_inlay` | decoration | (0.00, 0.00, 0.005) | 1.40×1.40×0.005 | 6-pointed star floor inlay |
+| `ark.guild_sanctum.candle_array.<n>` (6) | interactive | per alcove base | 0.20×0.30×0.30 each | per-guild candle clusters |
+
+Total: 30 inventory objects.
+
+### A.14.10-17 Compact
+
+```
+camera_spawn_points:
+  cs_amb_guild_sanctum (Cat B): POV at threshold; slow walk to altar; head pans across 6 guild banners; 18s
+  cs_first_guild_oath (Act 4): POV at altar; player's hand on emblem of chosen guild; oath ritual
+
+doorways: south.door.main → ark.corridor.guild_approach; arch; Act 4+
+
+adjacency: direct ark.corridor.guild_approach (south); one_hop most other Ark rooms (community crossroads)
+
+gameplay_hooks:
+  - swearGuildOath: trpc.guild_sanctum.altar.swear (per-guild)
+  - inspectGuildBanner: trpc.guild_sanctum.alcove.inspect (per-guild)
+  - readGrandMasterCharter: trpc.guild_sanctum.lectern.read
+  - lightCandle: trpc.guild_sanctum.candle.light
+
+story_tie:
+  primary_arcs:
+    - act_4_first_guild_oath
+    - guild_progression (continuous)
+    - cross_guild_reputation
+    - act_7_grand_alliance_ending (state-branched)
+  per_act:
+    acts_0_3: locked
+    act_4: opens; first guild oath
+    acts_5_6: cross-guild dynamics; reputation tracking
+    act_7: state-branched: grand-alliance ending (all guilds aligned) vs. fractured ending
+  npc_roster: the_grand_master (rare presence); the_player; guild_voices_distant (ambient)
+  readables: creed plaque; charter-tome; 6 guild emblems (per-faction lore)
+  master_of_rlyeh_question: n/a
+
+special_fx: warm_dust; alcove_glow_per_guild; altar_resonance
+procedural: oculus_subtle_pulse; banner_subtle_ripple; candle_flicker
+reactive: alcove_intensify_on_approach; altar_glow_on_emblem_touch; charter_update_on_oath
+
+avatar_parametricity: standard
+performance: polygon_budget 220,000 / texture_budget 130 MB / light_count 16
+streaming: preload guild_approach corridor
+```
 
 ---
 
@@ -7899,20 +8065,145 @@ streaming_behaviour:
 
 ---
 
-## A.16 Station Dock — SCAFFOLDED
+## A.16 Station Dock — FULL
+
+**Status: FULL spec.** Cross-ref `INCEPTION_ARK_FINAL_PRODUCTION.md`
+§2.16 (art-state prompts).
+
+### A.16.1 Header
 
 ```
 space_id:        ark.station_dock
 space_name:      Station Dock
 space_type:      ark_room
 act_introduced:  Act 2
-lore_anchor:     loredex.system.station_dock + arc.station_visits
-aesthetic_tier:  solar_punk_cathedral  (industrial-port accents)
-dimensions:      18.00 m × 12.00 m × 8.00 m
-floor_plan_geometry: rectangular
+lore_anchor:     loredex.system.station_dock + arc.station_visits + arc.act_2_first_dock
+aesthetic_tier:  solar_punk_cathedral  (industrial-port accents; the Ark's primary external-trade interface)
 ```
 
-(Full spec deferred.)
+### A.16.2 Geometry
+
+```
+dimensions:           18.00 m × 12.00 m × 8.00 m
+origin_point:         centre of floor at south entrance threshold (entrance is the south wall; +y axis points north toward the dock airlock)
+coordinate_axes:      +x = right, +y = forward (north), +z = up
+floor_plan_geometry:  rectangular  (with tall vertical volume; cargo gantry visible overhead at z = 6.00)
+volumetric_anomalies: none
+```
+
+The Station Dock is the Ark's primary external-trade interface
+where visiting NPCs board the ship from external space stations.
+North wall has a large airlock door (3.00 × 3.00 m). A central
+inspection counter sits at floor level. East wall houses customs
+displays + visitor manifest. West wall has a 3-bay cargo storage
+area. Cargo gantry visible overhead. The dock is busy (NPC
+traffic) Acts 2-7 and increasingly cosmopolitan as more factions
+visit.
+
+Floor area: 216 m².
+
+### A.16.3-8 Compact (full FULL fidelity)
+
+```
+floor: industrial steel deck plate (heavy load-bearing); 1.50×1.50 m tiles; bronze inlay outlining inspection-counter zone (3×3 m); brass walkway-strip from entrance to airlock
+walls:
+  south: gunmetal panel; south.display.dock_status (-2.5,0.2,1.8); south.display.visitor_log (2.5,0.2,1.8); south.door.main pressure_seal connects to ark.corridor.dock_approach (Act 2+); plaque "WELCOME / FAREWELL"
+  east: gunmetal with customs-station display (4.95, 6.00, 2.50; 1.20×0.80); visitor-manifest display (4.95, 9.00, 2.50; 0.80×0.60); east_door.customs_office connects to ark.dock.customs_office (sub-space; deferred); customs warning sign
+  north: airlock wall — dual-stage airlock door (3.00×3.00 pressure_seal; opens to ark.station.exterior — destination zone deferred); side panels with arrival-departure schedule + visitor-greeting display
+  west: gunmetal with 3 cargo storage alcoves (each 1.40×1.20×3.00); cargo crane gantry visible above; west_door.warehouse connects to ark.cargo_hold (Act 3+ alternate route)
+ceiling: 8.00 m baseline; cargo gantry track at z=6.00; high-bay industrial fixtures
+lighting:
+  ambient_baseline: 4500 K cool-industrial; 240 lux; CRI 88
+  high_bay_array: distributed at z=7.00; 6000 lumens each
+  airlock_warning_strobe: red-orange; activates during airlock cycles
+  cargo_gantry_strip: along gantry; 600 lumens/m
+  customs_station_pendant: focused over inspection counter; 4000 lumens
+  visitor_indicator_lights: per visitor station; varies by status
+atmosphere: 18°C / 42% RH / smells of steel + ozone (airlock cycles) + faint exhaust + diverse cargo (foreign goods)
+sound:
+  ambient_bed: -28 dB; HVAC drone, distant cargo-clank, occasional airlock-cycle, visitor-chatter ambient
+  point_sources: airlock_cycle_engagement; cargo_gantry_servo; customs_terminal_buzz; visitor_voice_chatter (pseudo-random; multiple languages)
+  reverb_zone: station_dock_v1.wav wet 28% (industrial)
+  music_eligibility: cutscene only
+  voice_line_eligibility: the_dockmaster (named NPC); customs_officer; visiting_npcs (rotating; multiple cultures)
+```
+
+### A.16.9 Object inventory (compact)
+
+Station Dock has 32 inventory objects.
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.station_dock.inspection_counter` | interactive | (0.00, 6.00, 0.00) | 3.00×0.80×1.10 | central inspection counter |
+| `ark.station_dock.customs_terminal` | console | (4.50, 6.00, 1.10) | 0.60×0.40×0.80 | east customs station |
+| `ark.station_dock.visitor_log_display` | display | (4.95, 9.00, 2.50) | 0.80×0.60×0.05 | live visitor manifest |
+| `ark.station_dock.cargo_alcove.<n>` (3) | container | west wall at y=2,6,10 | 1.40×1.20×3.00 each | cargo storage alcoves |
+| `ark.station_dock.cargo_gantry_overhead` | interactive | overhead at z=6.00 | 18.0×0.40×0.40 | cargo crane track |
+| `ark.station_dock.cargo_gantry_control` | console | (-3.00, 6.00, 0.00) | 0.80×0.40×1.10 | gantry operator station |
+| `ark.station_dock.airlock_door.north` | door | (0.00, 11.95, 0.00) | 3.00×3.00×0.20 | dual-stage pressure-seal airlock |
+| `ark.station_dock.airlock_warning_strobe` | fx_emitter | (0.00, 11.95, 4.50) | 0.40×0.40×0.40 | red-orange strobe |
+| `ark.station_dock.airlock_status_display` | display | (-2.0, 11.95, 1.80) | 0.80×0.60×0.05 | airlock cycle status |
+| `ark.station_dock.dockmaster_anchor` | npc_anchor | (0.00, 4.50, 0.00) | 0.8×0.8×1.8 | Dockmaster NPC |
+| `ark.station_dock.customs_officer_anchor` | npc_anchor | (4.50, 4.50, 0.00) | 0.8×0.8×1.8 | Customs Officer NPC |
+| `ark.station_dock.visitor_seating_bench.<n>` (4) | furniture | south wall benches | 2.00×0.40×0.45 each | visitor waiting seating |
+| `ark.station_dock.south.intercom` | console | (-2.0, 0.2, 1.5) | 0.20×0.10×0.30 | comms |
+| `ark.station_dock.fire_extinguisher.south` | interactive | (2.0, 0.2, 1.2) | 0.20×0.20×0.50 | safety |
+| `ark.station_dock.first_aid` | container | (-3.0, 0.2, 1.5) | 0.40×0.10×0.30 | medical |
+| `ark.station_dock.south.plaque.creed` | decoration | (0.00, 0.20, 3.20) | 1.00×0.40×0.02 | "WELCOME / FAREWELL" |
+| `ark.station_dock.east.warning_sign.customs` | decoration | (4.95, 0.20, 3.50) | 0.40×0.30×0.01 | customs warning |
+| `ark.station_dock.gantry_winch.<n>` (4) | decoration | along gantry | 0.30×0.30×0.20 each | cargo winches |
+| `ark.station_dock.cargo_indicator_light.<alcove>` (3) | fx_emitter | per alcove | 0.10×0.10×0.10 | status (full/empty/locked) |
+| `ark.station_dock.alert_strobe.<corner>` (4) | fx_emitter | corners at z=4.20 | 0.20×0.20×0.20 each | alert strobes |
+| `ark.station_dock.compass_inlay` | decoration | (0.00, 6.00, 0.005) | 1.40×1.40×0.005 | floor inlay under counter |
+| `ark.station_dock.diverse_cargo_pile.<n>` (varied) | decoration | scattered | varied | cosmetic foreign cargo containers |
+
+Total: 32 inventory objects.
+
+### A.16.10-17 Compact
+
+```
+camera_spawn_points:
+  cs_amb_station_dock (Cat B): POV at threshold; slow walk past inspection counter to airlock; cargo gantry visible above; 22s
+  cs_first_dock (Act 2): POV at inspection counter; first visiting NPC arrives; customs interaction begins
+
+doorways:
+  south.door.main → ark.corridor.dock_approach (Act 2+)
+  north.airlock_door → ark.station.exterior (destination zone; deferred)
+  east_door.customs_office → ark.dock.customs_office (sub-space; deferred)
+  west_door.warehouse → ark.cargo_hold (Act 3+ alternate route)
+
+adjacency:
+  direct: ark.corridor.dock_approach (south), ark.cargo_hold (west, Act 3+), customs office (east; deferred)
+  one_hop: ark.bridge (long-route), ark.trade_hub (via Cargo Hold)
+
+gameplay_hooks:
+  - operateInspectionCounter: trpc.station_dock.inspection.operate
+  - operateCargoGantry: trpc.station_dock.gantry.operate
+  - cycleAirlock: trpc.station_dock.airlock.cycle
+  - inspectVisitorLog: trpc.station_dock.visitor_log.inspect
+  - openCargoAlcove: trpc.station_dock.cargo_alcove.open
+
+story_tie:
+  primary_arcs: act_2_first_dock; station_visits (continuous); diplomatic_relations; act_5_first_alien_visitor
+  per_act:
+    acts_0_1: locked
+    act_2: opens; first visiting NPC; basic customs
+    acts_3_5: more diverse visitors; deeper diplomatic events
+    acts_6_7: state-branched: cosmopolitan-hub ending vs. xenophobic-cold ending
+  npc_roster: the_dockmaster; the_customs_officer; rotating visiting NPCs (multiple cultures + factions); the_player
+  readables: creed plaque; visitor log; arrival-departure schedule; customs warnings; gantry-operation manual
+  master_of_rlyeh_question: n/a
+
+special_fx: dust low; airlock_steam (during cycles); cargo_drift_motes; multicultural_chatter_visualisation
+volumetric: airlock_volumetric_steam; high_bay_volumetric_beams; gantry_motion_envelope
+procedural_animations: gantry_idle_sway; airlock_cycle_animation; visitor_arrival_random
+reactive: airlock_strobe_on_cycle; gantry_servo_on_use; dockmaster_response_on_arrival
+
+avatar_parametricity: standard; xenomorph: comfortable scale (warehouse-like)
+audio_occlusion: xenomorph: multicultural chatter more pronounced
+performance: polygon_budget 320,000 / texture_budget 180 MB / light_count 18
+streaming: preload dock_approach corridor + ark.cargo_hold (west door); on_visitor_arrival: preload visitor's faction-specific assets
+```
 
 ---
 
