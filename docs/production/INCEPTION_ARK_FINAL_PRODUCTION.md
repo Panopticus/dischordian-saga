@@ -8400,4 +8400,696 @@ hotspot.
 
 ---
 
+## 6. Event-State Matrix
+
+Distillation of NOTES §12.7. **22+ event systems** drive
+room state across the Ark. **14 fully shipped, 5 partial,
+3 scaffolded**. This chapter catalogues each event system
+with its current shipped/partial/scaffolded status,
+per-room reaction surface, and runtime data source. Where
+a system is partial or scaffolded, the diegetic art is
+spec'd in §3.
+
+### 6.1 Shipped event systems (14)
+
+| # | system | sources | brackets / outcomes | per-room reaction |
+|---|---|---|---|---|
+| 1 | **Seasonal Events** | `seasonalEvents.ts`, `seasonalReplay.ts`, `christmasInJuly` | 10+ × 14d windows + casino expansion + class mastery bonuses | every room: ±300K palette drift; Casino Floor §2.39 only during chess-in-July; Trade Hub §2.31 shop rotation |
+| 2 | **Faction Standing** | `factions.ts`, `factionStandingService.ts`, 6-consequence `voteConsequences.ts` | 5 factions × 5 bands + threshold flags + cross-opposition echo | banners furl per band (Bridge §2.3, Station Dock §2.16, Hierarchy Throne §2.22, War Room §2.20, Guild Sanctum §2.14, Faction Succession Monument §2.42) |
+| 3 | **Act Progression** | `act_N_complete` flags, `act*OpponentDialog.ts`, `act*PathDividend.ts` | 8 acts (Prelude + 1–7) | architectural tier upgrade (signage, lighting, hull plating); see §0.2 axis 1 |
+| 4 | **Governance Hub Votes** | `governance.ts`, `governanceConsequenceMap.ts`, `architectConsole.ts`, `voteConsequenceApplier.ts` | 40+ votes × 3–5 options × 6 consequence types (set_flag / energy_delta / tome_entry / world_modifier / unlock / faction_delta) | Governance Chamber §2.40 (active vote); Daily Resource Board §2.41 (24h); Faction Succession Monument §2.42 (annual); Oracle Sanctum Annual §2.43 |
+| 5 | **Epoch Witness** | `epochWitnessService.ts`, `epochWitnessVotes.ts`, `shadowTongueEdits.ts`, `shadowTongueDictionary.ts` | 5 epochs × 7 archetype gates × ShadowTongue power 0–100 + grandEditActive | Epoch Witness Conclave §2.44 (timeline + power meter); Nexus Point Sanctum §2.45 (per-epoch material); Prophecy Wall §2.46 (Antiquarian inscriptions); Cipher Den §2.21 (Uncorruption Bench) |
+| 6 | **PvP / Arena / Leaderboard** | `tier5Pvp.ts`, `circuitPvpMatches`, `fightLeaderboard`, `IncursionLeaderboardEntry` | tournament cycles + rivalries + incursion weekly | Tournament Arena (existing) + Bridge §2.3 chip + Pet Arena §2.29 + Trophy Armory §2.34 + Trophy Room §2.12 |
+| 7 | **Live Events / Architect Console** | `architectConsole.ts` (2244 lines) + `featureFlags` + `adminEvents` + `adminAuditLog` | admin-triggerable events; 46 feature unlocks | Bridge §2.3 banner + Governance Chamber §2.40 + War Room §2.20 |
+| 8 | **Battle Pass** | `battlePassConfig.ts`, `battlePass.ts` router | 50 tiers × 60d seasons + theme bundle | every room: per-season particle layer overlay (≤5% frame); Personal Quarters cosmetic visibility; Trophy Room §2.12 + §4.2 zones |
+| 9 | **Mission Outcomes** | `questline*.ts`, `personalQuestSubtasks.ts`, `collectorsWorkMissions.ts` | 30+ questlines × completion flags | NPC encounters across all rooms; quest log HUD; Mission Briefing pod §2.47 (CADES) |
+| 10 | **Shadow Tongue Mysteries** | `roomMysteries/<id>.ts` (34 modules: 26 universal + 6 species) | per-room hotspot click sequences + corruption % per room | every room with a mystery module; investigation-tier axis 15 |
+| 11 | **Prestige Cycles** | `prestige.ts`, `witnessingIntegrations.ts` carryover rules | per-player cycle 0/1/2/3+ | every room: rim trim per §3.2.2 (gold/platinum/diamond/obsidian-prism); Captain's Quarters Legacy Wall §2.11.8 |
+| 12 | **Community Investigation** | `communityInvestigation.ts`, `communityDiscoveryMilestones` | global progress meters + milestone unlocks | Bridge §2.3 progress bar; Antiquarian Library §2.13 (new entries on milestone); Memorial Corridor §2.27 (community plaques) |
+| 13 | **Notification Producers** (44/58 shipped) | `apps/db/schema.ts:1777` declared types; producers vary | 14 missing types (per §3.6) | Notification Bell + toast surface; per-room toast anchors |
+| 14 | **Mobile Narrator** (partial adoption) | `MobileNarratorSlot.tsx` (303 lines) | per-page slot — 1 page imports today | Ark Explorer (only); 5 missing pages per §3.7 |
+
+### 6.2 Partial event systems (5)
+
+Per NOTES §12.7. Diegetic surfaces are pre-spec'd in §3
+where applicable; runtime contract named per system.
+
+1. **Yearly Events / Anniversary Cycles** — design exists
+   for 12-event year-one calendar
+   (`docs/design/YEAR_ONE_EVENTS_CALENDAR_V2.md`); no global
+   `worldEvents` table or IRL-year-tick broadcaster.
+   Diegetic surface: §3.2 (Year Ring Bridge ceiling +
+   Prestige-Cycle Trim per-room + Anniversary Plaque rack
+   Memorial Corridor).
+2. **Trade Empire Mission Loop** — Phase D.5 schema landed
+   (`tradeCompletedMissions`, `tradeDemands`,
+   `tradeRouteSaturation`, `tradeResearchRaces`); no router
+   procedures, no tick loop, no outcome broadcaster.
+   **Largest design–runtime gap in the codebase.** Diegetic
+   surface: §3.3 (4 surfaces — Trade Command Center, Cover
+   Identity Board, Cargo Manifest Console, Broker's Office)
+   + Trade Hub §2.31 + sub-room §2.32. **Owned by parallel
+   TE agent.**
+3. **Global Light/Dark Alignment Meter** — per-player
+   alignment exists (`characterSheets.lightDarkAlignment`);
+   server-wide aggregate doesn't. Diegetic surface: §3.4
+   (Bridge Galaxy Meter HUD + per-room ±300K ambient
+   temperature drift).
+4. **Notification Producers (14 missing)** — declared in
+   `apps/db/schema.ts:1777`; types unemitted include
+   `pvp_challenge`, `epoch_quest`, `syndicate_quest`,
+   `battle_pass_reward`, `boss_mastery`, plus 9 more.
+   Diegetic surface: §3.6 (visual identity table + toast
+   layout + inbox group).
+5. **Mobile Narrator Adoption (5 pages)** — only
+   `ArkExplorerPage` imports the slot. Missing imports:
+   `CompanionHubPage`, `AwakeningPage`, `MemorialCorridorPage`,
+   `PetGardenPage`, `CharacterCreationPage`. Diegetic
+   surface: §3.7 (per-page positioning + companion + VO
+   triggers).
+
+(Borderline-partial: Shadow Tongue Multi-Stage Art Tiers —
+only Cryo Bay + Med Bay have 4-state tier art today; 24
+rooms have flags but no art swap. Diegetic surface: §3.8.)
+
+### 6.3 Scaffolded event systems (3)
+
+Per NOTES §12.7. Pure design; zero runtime; full diegetic
+spec ready for runtime catch-up.
+
+1. **Soul Stones System** — design in
+   `docs/design/SOUL_STONES_SYSTEM.md`. Zero DB tables,
+   zero router, zero card operation. Diegetic surface: §3.9
+   (Resonance Pedestal Med Bay + Corruption Circle Castle
+   of Death + Favourites Shelf Personal Quarters). Note:
+   `eidolonBonds` table + `soulStonesRouter` ship the
+   Eidolon-bond progression, NOT the tri-state stone economy.
+2. **Pet / Specimen Breeding (full system)** — design in
+   `BREEDING_SYSTEM_ART_PROMPTS.md` +
+   `ART_DEPARTMENT_PRODUCTION.md §2.16`. The MVP queue
+   ships (`petBreedingPairs:7387` + `petBreeding.ts`). The
+   multi-generational lineage + evolution chambers per the
+   design doc are not wired. Diegetic surface: §3.10
+   (Breeding Wing + Genealogy Tree + Evolution Chambers (3)
+   + Bloodline Plinth) + Pet Garden §2.28.
+3. **Living Character Sheet** — design in
+   `docs/production/LIVING_CHARACTER_SHEET_ART_BRIEF.md`.
+   Zero runtime references. Diegetic surface: §3.11 (Living
+   Mirror Personal Quarters + Character Sheet HUD).
+
+(Borderline-scaffolded: 5 Named Cutscene Components — generic
+`CutsceneOverlay.tsx` exists; the 5 named cutscenes
+(Awakening, First Human Contact, Elara's Memory Recovery,
+The Breaking Point, Thought Virus Manifests) are spec'd in
+§3.1 but not implemented as named components.)
+
+### 6.4 Top-10 "world-feels-alive" hooks (ranked)
+
+The top-leverage gaps for "every decision shapes the
+galaxy." Ranked by visibility × frequency × current-gap ×
+player-impact:
+
+1. **Global Light/Dark Alignment Meter** — Bridge HUD chip
+   + per-room ±300K ambient drift (§3.4)
+2. **Trade Empire Mission Loop** — 4 diegetic surfaces in
+   §3.3, awaiting parallel-agent runtime
+3. **Prestige Cycle visual variants per room** — rim trim
+   per §3.2.2, ready to render
+4. **Battle Pass theme per-room overlay** — particle layer
+   per active season, ready to render
+5. **Investigation tier art variants** — 24 rooms × 4
+   tiers per §3.8, ready to render
+6. **Faction-driven NPC presence + room livery** — per-
+   room banner furls, sigil overlays, courier presence
+7. **Seasonal cosmetic overlays on all rooms** — per-
+   season decoration packs, awaiting authoring
+8. **Governance vote consequence visible immediately** —
+   already wired but per-room visualisation can deepen
+9. **Companion trust cosmetics in rooms** — per-companion
+   personal-effect placement at trust thresholds
+10. **Vortex proximity sector-state rendering** — Cycle
+    Phase axis 12 long-night visualisation
+
+### 6.5 Per-room reaction matrix (axis × room cross-table)
+
+Rather than a 33-room × 17-axis matrix (= 561 cells), the
+production doc commits to the rule: **every room's §2.x.7/
+§2.x.8 13-row back-fill grid IS the per-room reaction
+matrix.** Each row in the back-fill is one axis; each
+room enumerates its visible response to that axis. The
+chapter §6.5 here is a navigation pointer — not a
+duplicate.
+
+For the canonical reaction per axis, find the relevant
+row in the relevant room's back-fill grid:
+
+| axis | grid row | rooms with load-bearing response |
+|---|---|---|
+| Axis 9 (TV infection) | row 1 | every Ark room (33+); Library §2.13 N/A (pocket immune) |
+| Axis 10 (Governance modifier) | row 7 | every room (modifier flags drive subtle accents) |
+| Axis 11 (Epoch / ShadowTongue) | row 8 | every room with text/inscriptions; Library §2.13 paradoxical-clearer |
+| Axis 12 (Cycle phase) | row 9 | every room (±300K drift) |
+| Axis 13 (Battle-pass theme) | (universal overlay) | every room (≤5% frame) |
+| Axis 14 (Tournament window) | row 11 | tournament rooms (Arena, Trophy Armory, Chess Hall, Casino, Bridge, Station Dock) |
+| Axis 15 (Investigation tier) | row 6 | every room with mystery module (34 modules) |
+| Axis 16 (Prestige cycle) | (universal trim) | every room (rim trim per §3.2.2) |
+| Axis 17 (Arc episode) | row 5 | rooms hosting arc clues (per §5.1) |
+
+### 6.6 Event-State Matrix runtime contract
+
+Most event systems already ship with database backing and
+router procedures. The 5 partial + 3 scaffolded systems
+have their runtime contracts named in §3.x.
+
+Cross-system event flow (canonical):
+1. Player action OR scheduled tick fires
+2. Server router writes to `npc_public_flags` and/or
+   relevant table
+3. Consequence applier (e.g.,
+   `voteConsequenceApplier.ts`) cascades to other systems
+4. Client subscribes; per-room renderer re-renders with
+   updated State Layer
+
+The recreation contract (§1.7) holds: a single State Layer
+delta per axis per render. When multiple axes change
+between frames, the priority resolver (§0.2) selects ONE
+axis to render visibly per render — others queue for
+subsequent renders.
+
+---
+
+## 7. Subsystem State-Machine Diegesis
+
+Distillation of NOTES §12.8. **9 user-named subsystems +
+Soul Stones / Eidolon Bond bonus** — full state machines
+mapped to diegetic art surfaces. Each subsystem's state
+machine maps to specific room hotspots and visual
+deltas. Where a subsystem has zero current Ark surface,
+the §3.x sub-section spec'd the surface and §2.x rooms
+landed it.
+
+### 7.1 Cloning / Resurrection
+
+State machine: `idle → open_resurrection_quest →
+completed_path_a → path_a_resolved` (+ implicit
+`path_b` for off-ship return). Per-NPC `cloneDegradation`
+(1 = echo-cost, 2 = true permadeath). Per-NPC death
+record + production-path on revive
+(`productionPath: "resurrected"`).
+
+| state | room manifest | art delta |
+|---|---|---|
+| idle | Cryo Bay normal | no extra marker |
+| open_resurrection_quest | Cryo Bay + Med Bay annex | the resurrectable NPC's pod glows pre-warm |
+| completed_path_a | Cryo Bay specific pod | pod prepares; pre-emergence haze |
+| path_a_resolved | NPC visible in roster | resurrected NPC carries `cloneDegradation` echo glow (samsara echo) — subtle violet rim-light visible only at trust ≥40 |
+| path_b (implicit) | external — off-ship | NPC absent; assumed lost |
+
+5 resurrectable NPCs × 5 pod states = 25 pod states + a
+shared room degradation ambient. Diegetic gaps remaining:
+Cryo Bay Console (full pod-states + clone-degradation
+meter); Resurrection Protocol Interface
+(Med Bay annex sub-room); Echo Cost (samsara glow
+on character sprites).
+
+### 7.2 Pet Breeding (MVP)
+
+State machine: `queued → incubating → ready → claimed`
+(or `cancelled`). 7 elements (air/earth/fire/water/time/
+space/probability) × 4 rarity tiers (common 0–40,
+uncommon 40–65, rare 65–90, epic 90+). Source:
+`apps/server/routers/petBreeding.ts` + `petBreeding.ts`,
+DB table `petBreedingPairs:7387`.
+
+Diegetic art at Pet Garden Breeding Wing (§3.10.1):
+6 incubation pods, status by base-glow colour
+(queued = cool-blue, incubating = warm-amber, ready =
+radiant-gold, claimed = dim).
+
+### 7.3 Pet Garden / Pet Arena
+
+Lifecycle: `egg → hatched → growth → evolution_ready →
+evolved → battle_ready → injured → retired/deceased`.
+7 species × 4–7 evolution stages × 5 bond tiers × 3
+activity states ≈ 1,000+ visual combinations. Source:
+`petBattles.ts`, `petArenaOpponents.ts`, `petSkillTrees.ts`,
+`petSpeciesTraits.ts`. DB: `playerPets`,
+`petBattleHistory`.
+
+Diegetic art at Pet Garden §2.28 (egg → growth zones),
+Pet Arena §2.29 (battle floor + spectator), Pet Medical
+Annex §2.30 (recovery tanks), Retirement Shrine
+(rear of Pet Arena §2.29).
+
+### 7.4 CADES (FPS, 7 missions + post-credit)
+
+State machine: `locked → unlocked → m1_in_progress →
+m1_complete → ... → m7_complete →
+bridge_of_kael_post_credit`. Async PvP via
+`cadesPvpMatches` (matchId, player1Id, player2Id,
+scenarioSeed, scenarioMode, scores, status).
+
+Diegetic art at CADES Console / Mission Briefing Pod §2.47
+(Med Bay annex). Helmet captures one image-fragment per
+mission completed; 7 fragments visible after M7 on the
+helmet's interior surface, also etched to the rear-wall
+plaques. Bridge §2.3 ambient state change post-M7.
+
+### 7.5 Tower Defense
+
+State machine: tower placement (`available → placed_lv1 →
+upgraded_lv2 … 10 → destroyed`); raids (`proposed →
+accepted → active → completed/abandoned`); daily streaks
+(reward tiers at 1/2/3/5/7/14/30 days); siege lifecycle
+(player initiates, waves spawn, towers placed, outcome
+awarded). Source: `towerDefense.ts` + router. DB:
+`towerPlacements`, `raidLogs`, `raidTrophies`,
+`dailyStreaks`, `defenseWaves`, `tdLiveSieges`.
+
+20+ tower types: laser_turret, missile_launcher,
+barrier_wall, healing_pylon, artillery_cannon,
+tesla_coil, oracle_spire, shadow_trap, etc. 16 leagues
+(bronze_1 → legend).
+
+Diegetic art at Defense Command Center §2.33 (tactical
+grid + raid alerts + wave ticker + replay gallery),
+Trophy Armory §2.34 (16 league tiers), Tower Assembly Bay
+§2.35 (5 craft zones).
+
+### 7.6 Chess
+
+State machine: `pending_start → in_progress →
+white_won/black_won/drawn/resigned`. 7 tutorial gates
+(0–6). ELO ranking + character-style bonus
+(Architect +200, Enigma +100, Oracle, Collector, Warlord
++ 5 more = 9+ play-styles). 365 daily puzzles.
+
+Source: `chess.ts`, `chessClimb.ts`, `chessPuzzle.ts`,
+`chessSideGate.ts`. DB: `chessGames`, `chessRankings`,
+`chessTournaments`, `chessTournamentParticipants`,
+`chessPuzzleProgress`, `chessTutorialProgress`.
+
+Diegetic art at Chess Hall §2.36 (6 tournament boards + 9
+character backdrops), Grand Master's Sanctum §2.37
+(top-10 ladder room), Puzzle Study Chamber §2.38 (365
+daily puzzles + 7 tutorial gates), Casino Gaming Floor
+§2.39 (chess-in-July event).
+
+### 7.7 Trade Empire (light-touch — owned by parallel agent)
+
+State machine: missions (`available → dispatched →
+in_progress → completed → claimed_reward`); sectors
+(`locked → first_arrival → explored → contested →
+controlled`); active covers (`active → exposed/expired`);
+contracts (`proposed → signed → active → fulfilled`).
+6 normalised tables: `tradeActiveMissions`,
+`tradeCompletedMissions`, `tradeSectorReputation`,
+`tradeActiveCovers`, `tradeClassSectorUnlocks`,
+`tradeEmpireUserAggregates`.
+
+Diegetic art at Trade Hub §2.31 + Trade Command Center
+§2.32 with 4 sub-surfaces per §3.3 (Command Center, Cover
+Identity Board, Cargo Manifest Console, Broker's Office).
+
+### 7.8 Governance Hub Votes
+
+State machine: `open → in_progress → closed →
+outcome_announced → consequence_applied`. Vote types: 4
+annual headlines (State of the Ark, Faction Succession,
+Apocalypse Protocol, Oracle's Question) + monthly/
+seasonal + 365 daily resource (binary A/B). 6 consequence
+types: `set_flag`, `energy_delta`, `tome_entry`,
+`world_modifier`, `unlock`, `faction_delta`.
+
+Source: `governance.ts`, `governanceConsequenceMap.ts`,
+`architectConsole.ts`, `voteConsequenceApplier.ts`. DB:
+`dailyGovernanceVotes`. AI simulated voters mirror real
+distribution.
+
+Diegetic art at Governance Chamber §2.40 (active vote
+projection + Antiquarian narrator + monument wall),
+Daily Resource Allocation Board §2.41, Faction Succession
+Monument §2.42, Oracle's Sanctum (Annual) §2.43.
+
+### 7.9 Epoch Witness
+
+State machine: `locked_behind_narrative_gate → unlocked →
+available → vote_cast → result_tallied →
+consequence_applied`. Shadow Tongue edits (active →
+cleared → removed). Cumulative `shadowTonguePower` (0–100)
++ `grandEditActive` global state. 5 epochs (Privacy,
+Prophecy, Insurgency, Revelation, Fall of Reality).
+7 archetype gates.
+
+Source: `epochWitness.ts` (router), `epochWitnessService.ts`
+(service), `epochWitnessVotes.ts`, `shadowTongueEdits.ts`,
+`shadowTongueDictionary.ts`,
+`apps/shared/dlc/chapters/epoch_witness/index.ts`.
+
+Diegetic art at Epoch Witness Conclave §2.44 (timeline +
+power meter + archetype gates + voting history), Nexus
+Point Sanctum §2.45 (per-epoch material aesthetic),
+Prophecy Wall §2.46 (Antiquarian inscriptions + mirror
+marginalia), Cipher Den §2.21 (Shadow Tongue Uncorruption
+Bench).
+
+### 7.10 Soul Stones / Eidolon Bond (10th subsystem — bonus)
+
+Eidolon stages: `fragment → companion → ascended →
+spectral`. Router: `soulStonesRouter`. DB: `eidolonBonds`
+(bond level, XP, stage, rarity).
+
+Note: this wires the **Eidolon-bond progression** —
+NOT the Soul Stones purification/corruption economy
+(§3.9). Two distinct systems: Eidolon-bond (shipped) and
+Soul Stones tri-state (scaffolded).
+
+Diegetic art at Eidolon Sanctum / Bond Chamber §2.48
+(central altar + 4 stage-progression alcoves + bond-XP
+indicator).
+
+### 7.11 Subsystem coverage matrix
+
+| subsystem | shipped runtime | shipped Ark surface | per-§2.x location |
+|---|---|---|---|
+| Cloning / Resurrection | yes | partial (Cryo + Med Bay annex) | §2.1 + §2.2 + §3.5.13 receipt plates |
+| Pet Breeding (MVP) | yes | yes | §2.28 + §3.10 |
+| Pet Garden / Pet Arena | yes | yes | §2.28, §2.29, §2.30 |
+| CADES | yes | new (§2.47) | §2.47 + §3.1.4 cutscene |
+| Tower Defense | yes | new (§2.33–§2.35) | §2.33, §2.34, §2.35 |
+| Chess | yes | new (§2.36–§2.39) | §2.36, §2.37, §2.38, §2.39 |
+| Trade Empire | partial | stub (§2.31, §2.32) | §2.31, §2.32 + §3.3 |
+| Governance Hub Votes | yes | new (§2.40–§2.43) | §2.40, §2.41, §2.42, §2.43 |
+| Epoch Witness | yes | new (§2.44–§2.46 + Cipher Den) | §2.44, §2.45, §2.46, §2.21 |
+| Soul Stones / Eidolon Bond | partial (Eidolon yes, stones no) | new (§2.48) | §2.48 + §3.9 |
+
+### 7.12 Subsystem runtime contract
+
+Each subsystem's data lives in its named tables (per
+§7.x.x). Subsystem state delta drives the per-room visual
+delta via the per-room renderer reading the subsystem
+state on render.
+
+The recreation contract (§1.7) holds for subsystem-driven
+rooms in the same way as for axis-driven rooms: a single
+State Layer delta per axis per render. Subsystem state
+maps to one or more axes (Cloning → axis 5 trust + axis 16
+prestige cycle for echo glow; Soul Stones → axis 11
+ShadowTongue + axis 6 morality alignment).
+
+---
+
+## 8. Storyteller Slot System
+
+Distillation of NOTES §13.3 + §13.4. The production doc
+commits to **8 storyteller-slot categories** — surfaces
+where narrative authors can plug in new content WITHOUT
+writing code. Plus a per-room narrative-seed catalogue
+where Claude has imagined concrete seeds for storytellers
+to expand or replace. This chapter documents the slot
+contract + per-room seeds.
+
+### 8.1 Storyteller-slot contract
+
+A storyteller-slot is a JSON-driven content surface that:
+
+- ships with a slot-shape contract (the schema for a new
+  entry)
+- accepts unlimited new entries via JSON file edit
+- requires zero code recompile to surface new content
+- exposes one or more diegetic surfaces for the new
+  content to render
+
+Each slot category below specifies (a) source file, (b)
+slot schema, (c) diegetic surfaces, (d) example.
+
+### 8.2 The 8 slot categories
+
+#### 8.2.1 Transmission scripts
+
+- **Source:** `apps/shared/transmissions.ts`
+- **Slot schema:** title, memeIntro, memeOutro, synopsis,
+  unlockTrigger (awakening_step/chapter_complete/level/
+  trust/flag/room_visited/scheduled_broadcast/always),
+  relatedLoredexEntries, videoUrl, category (music-video
+  or narrative).
+- **Surfaces:** Comms Array §2.5 broadcast cylinders,
+  Rec Room media player, Loredex bidirectional unlock
+- **Example:** the 11+ Epoch-1 episodes (Late Night with
+  the Meme + others).
+
+#### 8.2.2 Loredex marginalia / annotations
+
+- **Source:** `apps/shared/shadowTongueDictionary.ts` +
+  `loredexGraph.ts`
+- **Slot schema:** entity_id, annotation text, indigo-
+  marginalia visibility threshold (ShadowTongue power
+  ≥ N), marginalia author (Antiquarian / Shadow Tongue /
+  player).
+- **Surfaces:** Antiquarian Library §2.13 spine
+  annotations (rotation slot, ShadowTongue-driven);
+  Cipher Den §2.21 Uncorruption Bench parchments;
+  Loredex viewer.
+- **Example:** the Margin Notes Evolution rotation
+  (paradoxically clearer with higher power per §2.13).
+
+#### 8.2.3 Room-inscription / plaque text
+
+- **Source:** per-room mystery module
+  `apps/shared/roomMysteries/<roomId>.ts` (hotspot JSON)
+- **Slot schema:** hotspot id, name, description,
+  elaraDialog (first-look response), per-tier text
+  variants (1–4 tiers).
+- **Surfaces:** every hotspot's examine text; plaques on
+  walls (Memorial Corridor §2.27, Captain's Quarters
+  Legacy Wall §2.11.8, Trophy Room Title Wall §4.2,
+  Anniversary Plaques §3.2.3).
+- **Example:** Cryo Bay's "Dead Pod" 4-tier hotspot text.
+
+#### 8.2.4 NPC dialogue trees
+
+- **Source:** `apps/shared/factionNPCs.ts` + per-NPC
+  dialogue files
+- **Slot schema:** NPC id, trust threshold (0/20/40/60/80/
+  100+), dialogue scene id, scene text, per-archetype
+  variants, narrative-flag callbacks.
+- **Surfaces:** every NPC's appearance in any room;
+  dialogue overlay; mobile narrator slot.
+- **Example:** the 7 canonical NPCs (Elara, The Human,
+  Agent Zero signal, Adjudicator Locke, The Source, The
+  Antiquarian, Zyr'Koth) each with 5+ trust-gated
+  dialogue scenes.
+
+#### 8.2.5 Transmission ↔ Loredex unlocks
+
+- **Source:** `transmissions.ts:relatedLoredexEntries`
+- **Slot schema:** transmission id × array of entity_ids
+- **Surfaces:** Loredex bidirectional discovery (watching
+  transmission unlocks linked Loredex entries; reading a
+  Loredex entry surfaces the related transmission).
+- **Example:** an episode about the Engineer's last
+  mission tags `[Engineer, Iron Lion, The Programmer]`
+  — viewers auto-unlock those entries.
+
+#### 8.2.6 Clue Journal entries
+
+- **Source:** per-room mystery module's clues array
+- **Slot schema:** clue id, source room, trigger
+  (look/take/use/combine), text, optional Loredex unlock,
+  optional narrative-flag set.
+- **Surfaces:** Clue Journal HUD; in-room hotspot
+  examine text; Cryo Bay 7-hotspot tier-tree (§5.2).
+- **Example:** Cryo Bay's data-slate fragment +
+  Engineering's 7 combine recipes.
+
+#### 8.2.7 Loading-screen tips / quotes / epigraphs
+
+- **Source:** (no central registry today — designed)
+- **Slot schema (proposed):** tip id, theme tag (combat/
+  lore/humor/prophecy/act-N), text (1–3 sentences),
+  visibility condition (always / act ≥ N / faction-allied
+  ≥ N).
+- **Surfaces:** Loading overlay text + per-act epigraph
+  (§3.1.1 boot sequence + per-act splash).
+- **Example:** "The dawn approaches. The long night holds."
+  (act 7 epigraph — see §3.4.1 Galaxy Meter).
+
+#### 8.2.8 Achievement flavor text
+
+- **Source:** `apps/shared/loreAchievements.ts` +
+  `achievementCatalog.ts`
+- **Slot schema:** achievement id, name, flavor text,
+  unlock condition (flag tuple), reward (XP / cards /
+  title), category (combat / lore / exploration /
+  collection / titles).
+- **Surfaces:** Achievement Gallery (§9 unified Trophy
+  Gallery diegetic anchor), Achievement Unlock toast
+  (per §3.6 visual identity table).
+- **Example:** "Deciphered Ancient Prophecy — The past
+  whispers. You have learned to listen."
+
+### 8.3 Per-room narrative-seed catalogue
+
+For each of the 33+ Ark rooms, this catalogue surfaces
+2–4 narrative hooks + 1–2 expansion-reserved zones + 1
+living-world detail. **All seeds are storyteller-author
+surfaces** — narrative writers can expand, replace, or
+discard freely. Claude-imagined seeds are flagged ⓒ.
+
+The full catalogue lives in each room's §2.x.7/§2.x.8
+"Storyteller hooks" row (axis grid row 12 — see §2.x).
+Selected highlights from across the doc:
+
+#### 8.3.1 Cryo Bay (§2.1)
+
+- Silent Archives chronometer cycling timestamps ⓒ
+- Last Message scratched behind sealed pod ⓒ
+- Void Echo particles in Pod Zero fluid ⓒ
+- Empty Armor Slot (specialised cryo-suit, never used,
+  1 of 5) ⓒ
+- **Living-world:** every 24 IRL hours the cryo unit cycles
+  a 30-s defrost; every 7th day, one pod stutters
+
+#### 8.3.2 Medical Bay (§2.2)
+
+- Vox Neural Bridge journal expansion across tiers ⓒ
+- Cure Notes for Patient X ⓒ
+- Healer's Final Log (segmented audio in autoclave) ⓒ
+- Unlabeled Vial growing colder/darker each month ⓒ
+- **Living-world:** bio-bed vital-signs cycle once per
+  minute; every 4th cycle, old patient stats flash
+  (heart rate 0, flatline)
+
+#### 8.3.3 Bridge / Command (§2.3)
+
+- Ghost Commander's Shift Log (final entry blank reason)
+- Consensus Breaking Point (Conspiracy Board flickers
+  43↔44 connections daily)
+- War Table Phantom Move (1 chess move per IRL day)
+- Navigation to Nowhere ("Sanctuary" warp vector with
+  all-zero coordinates) ⓒ
+- **Living-world:** every 72 IRL hours a new connection
+  line appears on the Conspiracy Board
+
+#### 8.3.4 Antiquarian Library (§2.13)
+
+- Forbidden Section sealed wing (decrypt at trust ≥ 80)
+- Margin Notes Evolution (annotations multiply over
+  weekly ticks — paradoxically clearer at higher
+  ShadowTongue power)
+- Blank Pages ("The Warlord's Ascension" redacted until
+  trust = 100)
+- Librarian's Personal Collection (small shelf) ⓒ
+- **Living-world:** the Antiquarian visibly works the
+  room; over weeks the Codex visibly expands with new
+  entries
+
+#### 8.3.5 Engineering Bay (§2.7)
+
+- Incomplete Engine Schematic (final 8% deleted) ⓒ
+- Counting Tally on wall (Human's day-count
+  incrementing daily) ⓒ
+- Engineer's Tool Set (one tool missing, locked in
+  Captain's Quarters) ⓒ
+- Recurring substrate-integrity heartbeat alert ⓒ
+- **Living-world:** 10-min crafting sound-loop
+  (whirr/ping/hiss) cycling endlessly
+
+#### 8.3.6 Comms Array (§2.5)
+
+- Queue of Lost Signals (centuries-spanning, partial
+  unlock per signal) ⓒ
+- Frequency Wall (52.7 MHz pure unmodulated sine =
+  Human's substrate)
+- Interrupted Conversation (half-recorded "the protocol
+  … when to wake them") ⓒ
+- Silence Beacon (24h pulse, distress signal from
+  before wake) ⓒ
+- **Living-world:** every hour soft radio chatter; every
+  7 hours one phrase clear
+
+#### 8.3.7 Trophy Room (§2.12 / §4.2)
+
+- Ghost Trophy (achievement = unknown, secret-ending
+  unlock) ⓒ
+- Unreachable Trophy (Act 4 prestige) ⓒ
+- Fallen Heroes Wall (player crew obituaries) ⓒ
+- Inscription Challenge (player's legacy plaque) ⓒ
+- **Living-world:** every visited achievement's plaque
+  slowly glows brighter over IRL months (logarithmic)
+
+#### 8.3.8 Captain's Quarters (§2.11)
+
+- Ghost Commander's Reassignment Log (captain reassigned
+  ALL crew to non-command compartments before cryo) ⓒ
+- Master Key Reveal Flow (3-tier: spotted → recovered →
+  first use)
+- 10-plate Legacy Wall slot system (§2.11.8 enumeration)
+- **Living-world:** every IRL day at the player's
+  "morning" boot, the alcove hammock is unmade if used
+  the previous session, made if it wasn't
+
+#### 8.3.9 Mess Hall / Social Hub (§2.15)
+
+- Memorial Wall (crew members leave mementos for fallen
+  comrades) ⓒ
+- Unfinished Game (chess set mid-game on a low table —
+  advances 1 move per IRL day; players are the
+  Antiquarian and the Programmer playing across
+  centuries) ⓒ
+- Storytelling Chalkboard (1 entry per IRL day; one
+  reads "Don't trust the signal") ⓒ
+- Rotating Crew Conversations (procedural per archetype) ⓒ
+- **Living-world:** crew members visible in the lounge
+  change every 6 IRL hours; befriended crew appear more
+  frequently
+
+#### 8.3.10 (and so on)
+
+Remaining rooms — Observation Deck, Forge, Armory, Cargo
+Hold, Guild Sanctum, Station Dock, Engineering Core,
+Oracle Sanctum, Shadow Vault, War Room, Cipher Den,
+Hierarchy Throne, Chaos Forge, Elemental Nexus, Quantum
+Lab, Synthesis Chamber, Memorial Corridor, Pet Garden,
+Pet Arena, Pet Medical Annex, Trade Hub + Command Center,
+Defense Command Center, Trophy Armory, Tower Assembly Bay,
+Chess Hall, Grand Master's Sanctum, Puzzle Study Chamber,
+Casino Gaming Floor, Governance Chamber, Daily Resource
+Board, Faction Succession Monument, Oracle Annual,
+Epoch Witness Conclave, Nexus Point Sanctum, Prophecy
+Wall, CADES Console, Eidolon Sanctum, Prelude rooms —
+each carry their seed catalogue in the §2.x.7/§2.x.8
+back-fill grid row 12.
+
+### 8.4 Storyteller-author workflow
+
+To author new content for an existing slot:
+1. Identify the slot category (one of §8.2.1–§8.2.8).
+2. Open the source file (per-category, named in §8.2).
+3. Add a JSON entry conforming to the slot schema.
+4. Verify it surfaces in the diegetic location named in
+   §8.2 by running locally.
+5. Commit + ship.
+
+To author a new slot category (rare):
+1. Define the slot schema as a new TypeScript file.
+2. Add a renderer that surfaces the slot's entries in
+   one or more rooms.
+3. Document the new slot in §8.2.X (this chapter).
+4. Existing storyteller-slots remain unaffected.
+
+### 8.5 Storyteller-slot runtime contract
+
+All 8 slot categories already have shipped runtime
+infrastructure (per the source files named in §8.2). No
+new schema needed.
+
+Slot 8.2.7 (loading-screen tips/epigraphs) requires a new
+`tips` JSON file + a renderer in `LoadingStates.tsx` /
+`OpeningCinematic.tsx`. Spec'd here; runtime build
+deferred.
+
+---
+
+
 
