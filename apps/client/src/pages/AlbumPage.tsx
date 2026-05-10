@@ -1,6 +1,6 @@
 import { useLoredex } from "@/contexts/LoredexContext";
 import { usePlayer } from "@/contexts/PlayerContext";
-import { useRoute, Link } from "wouter";
+import { useRoute, useSearch, Link } from "wouter";
 import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, BookOpen, Clock, Disc3, Film, Music, Play } from "lucide-react";
@@ -94,7 +94,10 @@ export default function AlbumPage() {
    * the prophecy-gated "Watch as Film" path because the show is a
    * first-class album experience, not a Dreamer-Vision unlock. */
   const isSih = slug === "silence-in-heaven";
-  const [sihShowActive, setSihShowActive] = useState(false);
+  const searchString = useSearch();
+  const autoWatchShow =
+    isSih && new URLSearchParams(searchString).get("watch") === "show";
+  const [sihShowActive, setSihShowActive] = useState(autoWatchShow);
 
   usePageMeta({
     title: albumName || "Album",
