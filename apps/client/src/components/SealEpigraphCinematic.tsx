@@ -13,6 +13,18 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { SEVEN_SEALS, type SealNumber } from "@shared/sevenSeals";
 import { SEAL_EPIGRAPHS } from "@shared/sevenSealsEpigraphs";
+import { epigraphUrl, type EpigraphId } from "@shared/aaaArtArchive";
+
+/** Per-seal epigraph plate from the May 2026 producer drop. Acts 5
+ *  and 6 don't ship a matching plate — they fall back to the existing
+ *  textual cinematic without a backdrop. */
+const EPIGRAPH_PLATE_BY_SEAL: Partial<Record<SealNumber, EpigraphId>> = {
+  1: "epigraph_age_of_potentials",
+  2: "epigraph_age_of_privacy",
+  3: "epigraph_age_of_revelation",
+  4: "epigraph_fall_of_reality",
+  7: "epigraph_silence_in_heaven",
+};
 
 interface Props {
   /** Which act is starting. The component finds the matching seal. */
@@ -37,6 +49,7 @@ export default function SealEpigraphCinematic({ actStarting, onDismiss }: Props)
 
   const seal = SEVEN_SEALS.find((s) => s.num === actStarting) ?? null;
   const epigraph = seal ? SEAL_EPIGRAPHS[seal.num] : null;
+  const plate = seal ? EPIGRAPH_PLATE_BY_SEAL[seal.num] : null;
 
   return (
     <AnimatePresence>
@@ -52,6 +65,22 @@ export default function SealEpigraphCinematic({ actStarting, onDismiss }: Props)
           }}
           data-testid="seal-epigraph-cinematic"
         >
+          {/* May 2026 archive epigraph plate — full-bleed backdrop tied
+              to the active seal. Acts 5 + 6 ship without a matching
+              plate and render text-only against the dark scrim. */}
+          {plate ? (
+            <motion.img
+              key={plate}
+              src={epigraphUrl(plate)}
+              alt=""
+              aria-hidden="true"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.45 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1.2 }}
+              className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+            />
+          ) : null}
           <motion.div
             initial={{ y: 24, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}

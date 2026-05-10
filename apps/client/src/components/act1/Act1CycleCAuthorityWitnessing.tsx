@@ -23,6 +23,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useGame } from "@/contexts/GameContext";
 import { fireCrossGameBeat } from "@/lib/crossGameBeats";
+import { witnessingVfxUrl } from "@shared/aaaArtArchive";
 import {
   ALIGNMENT_CHOICES,
   FULL_WITNESSING_SLIDES,
@@ -139,6 +140,28 @@ export function Act1CycleCAuthorityWitnessing({
         overflow: "hidden",
       }}
     >
+      {/* May 2026 archive — Authority Witnessing VFX plate. Static
+          screen-blend layer above the slide cross-fade. Provides the
+          factional signature wash (Authority gold/oxidation) regardless
+          of which slide is currently faded in. Decorative; ignored
+          when reduced-motion preference is set via the parent. */}
+      <img
+        src={witnessingVfxUrl("authority")}
+        alt=""
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          inset: 0,
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          mixBlendMode: "screen",
+          opacity: 0.35,
+          pointerEvents: "none",
+          zIndex: 1,
+        }}
+      />
+
       {/* Slide cross-fade */}
       <AnimatePresence mode="sync">
         <motion.img

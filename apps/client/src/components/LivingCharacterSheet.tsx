@@ -15,6 +15,7 @@ import {
   buildLivingCharacterSheet,
   type LivingCharacterSheet as LivingSheet,
 } from "@shared/livingCharacterSheet";
+import { characterSheetFrameUrls } from "@shared/aaaArtArchive";
 import {
   AXIS_POLES,
   PROFILE_AXES,
@@ -176,8 +177,22 @@ export function LivingCharacterSheet({ profile }: LivingCharacterSheetProps = {}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
         {/* Left column — portrait + level + element */}
         <div className="flex flex-col items-center gap-3 sm:col-span-1">
-          <div className="w-24 h-24 rounded-xl void-bg-canvas border void-border flex items-center justify-center">
-            <Star size={32} className="void-text-dim" />
+          {/* May 2026 archive portrait frame — gold ring once the
+              player reaches prestige tier 1+; silver for everyone
+              earlier. The lucide Star is the temporary portrait
+              placeholder until per-character bust art lands. */}
+          <div className="relative w-24 h-24">
+            <img
+              src={
+                characterSheetFrameUrls(sheet.prestigeTier > 0 ? "gold" : "silver").final
+              }
+              alt=""
+              aria-hidden="true"
+              className="absolute inset-0 w-full h-full object-contain pointer-events-none"
+            />
+            <div className="absolute inset-[10%] rounded-xl void-bg-canvas flex items-center justify-center">
+              <Star size={32} className="void-text-dim" />
+            </div>
           </div>
           <div className="text-center">
             <p className="font-mono text-xs void-text-dim tracking-wider uppercase">Level</p>

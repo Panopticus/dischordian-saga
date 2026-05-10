@@ -45,6 +45,10 @@ import {
   type TechBranch, type TechTreeState, DEFAULT_TECH_STATE,
 } from "./techTree";
 import { FlaskConical, Coins, Handshake, Skull, Building2, FileSignature } from "lucide-react";
+import {
+  tradeEmpireUiCurrencyUrls,
+  tradeEmpireDashboardBgUrl,
+} from "@shared/aaaArtArchive";
 import { LockeConfidentialLedgerPanel } from "@/components/tradeEmpire/LockeConfidentialLedgerPanel";
 import ColonyCommercePanel from "@/components/tradeEmpire/ColonyCommercePanel";
 import { getDominantGuild } from "@/game/archonTrainingVoices";
@@ -781,6 +785,16 @@ export default function TradeEmpirePage() {
 
   return (
     <div className="min-h-screen bg-black p-4 relative overflow-hidden">
+      {/* May 2026 archive dashboard backdrop — full-bleed ambient plate
+          behind the entire dashboard. 12% opacity so it adds texture
+          without competing with the data-dense panels above it. */}
+      <img
+        src={tradeEmpireDashboardBgUrl()}
+        alt=""
+        aria-hidden="true"
+        loading="lazy"
+        className="absolute inset-0 w-full h-full object-cover pointer-events-none opacity-[0.12]"
+      />
       {/* Dynamic view background */}
       <LivingBackground
         key={activeBg.url}
@@ -812,9 +826,28 @@ export default function TradeEmpirePage() {
           </div>
         </div>
         <div className="flex items-center gap-3 font-mono text-[10px]">
-          <span className="void-text-accent">{empire.credits} <span className="text-white/20">CRD</span></span>
+          {/* May 2026 archive currency icons — gold for credits, void
+              marks for influence. Materials + intelligence stay text
+              -only because the archive doesn't ship icons for them. */}
+          <span className="void-text-accent flex items-center gap-1">
+            <img
+              src={tradeEmpireUiCurrencyUrls("currency_gold").final}
+              alt=""
+              aria-hidden="true"
+              className="w-3.5 h-3.5 object-contain"
+            />
+            {empire.credits} <span className="text-white/20">CRD</span>
+          </span>
           <span className="void-text-energy">{empire.materials} <span className="text-white/20">MAT</span></span>
-          <span className="void-text-system">{empire.influence} <span className="text-white/20">INF</span></span>
+          <span className="void-text-system flex items-center gap-1">
+            <img
+              src={tradeEmpireUiCurrencyUrls("currency_void_marks").final}
+              alt=""
+              aria-hidden="true"
+              className="w-3.5 h-3.5 object-contain"
+            />
+            {empire.influence} <span className="text-white/20">INF</span>
+          </span>
           <span className="void-text-energy">{empire.intelligence} <span className="text-white/20">INT</span></span>
           <span className="text-white/20">{empire.controlledSectors.length} sectors</span>
           <a

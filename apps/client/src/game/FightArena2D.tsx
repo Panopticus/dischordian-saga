@@ -10,6 +10,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, Swords, Shield, Zap, ChevronUp, Hand, Timer } from "lucide-react";
 import { ScreenReaderOnly, LiveRegion } from "@/components/a11y";
 import type { FighterData, ArenaData, DifficultyLevel } from "./gameData";
+import { fightHudUrl, fightVfxUrl } from "@shared/aaaArtArchive";
 import { FightEngine2D, type FightCallbacks2D, type FightPhase2D, type TouchInput2D, type Difficulty2D, type TrainingData, type MoveListEntry } from "./FightEngine2D";
 import { hapticMediumHit, hapticHeavyHit, hapticBlock, hapticSP1, hapticSP2, hapticSP3 } from "./haptics";
 import { useHaptics } from "@/hooks/useHaptics";
@@ -152,6 +153,22 @@ function FightArena2D({
     return !localStorage.getItem(TUTORIAL_DONE_KEY);
   });
   const [announceMessage, setAnnounceMessage] = useState("");
+  /** May 2026 archive HUD chrome — what banner (if any) should be
+   *  overlayed right now. Set on round-end / match-end and cleared
+   *  after a timeout so the next one can fire. */
+  const [hudBanner, setHudBanner] = useState<
+    | "round_card_round_1"
+    | "round_card_round_2"
+    | "round_card_final"
+    | "ko_splash"
+    | "perfect_banner"
+    | "victory_banner"
+    | "flawless_victory_banner"
+    | null
+  >(null);
+  /** Screen-space VFX flash from the May 2026 archive (super_screenflash
+   *  on a level-3 super, ko_blackout on match end). Fades over ~600ms. */
+  const [vfxFlash, setVfxFlash] = useState<"super_screenflash" | "ko_blackout" | null>(null);
 
   // Suppress BGM when fight starts, restore when leaving
   const bgm = useSagaThemeBGM();
@@ -188,6 +205,23 @@ function FightArena2D({
       if (p === "intro") {
         setShowIntroSplash(true);
       }
+      // Show "ROUND 1" card when fighting first begins; clear it
+      // after 900ms so the action isn't obscured. Subsequent rounds
+      // are driven by onRoundEnd below.
+      if (p === "fighting" && !hudBanner) {
+        setHudBanner("round_card_round_1");
+        window.setTimeout(() => setHudBanner(null), 900);
+      }
+    },
+    onRoundEnd: (_winner, p1Wins, p2Wins) => {
+      // Best-of-three semantics — match the engine's round counter.
+      const totalRounds = p1Wins + p2Wins;
+      if (totalRounds >= 2) {
+        setHudBanner("round_card_final");
+      } else {
+        setHudBanner("round_card_round_2");
+      }
+      window.setTimeout(() => setHudBanner(null), 900);
     },
     onHealthChange: (p1Hp, p1Max, _p2Hp, _p2Max) => {
       if (p1Hp < p1Max) setP1Perfect(false);
@@ -224,6 +258,13 @@ function FightArena2D({
       else if (level === 2) hapticSP2();
       else hapticSP1();
 
+      // May 2026 archive — super screen-flash overlay on the level-3
+      // super. Faded out by the AnimatePresence below.
+      if (level === 3) {
+        setVfxFlash("super_screenflash");
+        window.setTimeout(() => setVfxFlash(null), 550);
+      }
+
       // Narrative: limit break / special activation
       if (level >= 2) dispatchLimitBreak();
       else dispatchNarrativeEffect("jolt");
@@ -240,6 +281,23 @@ function FightArena2D({
       const w = winner === 1 ? "p1" : "p2";
       const perfect = winner === 1 ? p1PerfectRef.current : false;
       setAnnounceMessage(w === "p1" ? (perfect ? "You win! Perfect victory!" : "You win!") : "You lose!");
+
+      // May 2026 archive HUD chrome — KO splash, then victory/perfect/
+      // flawless banner depending on outcome. Sequenced so each banner
+      // gets ~700ms of screen time before the route transition fires.
+      // Also flash the KO blackout VFX behind the banner.
+      setVfxFlash("ko_blackout");
+      window.setTimeout(() => setVfxFlash(null), 800);
+      setHudBanner("ko_splash");
+      window.setTimeout(() => {
+        if (w !== "p1") {
+          setHudBanner(null);
+          return;
+        }
+        setHudBanner(
+          perfect ? "flawless_victory_banner" : "victory_banner",
+        );
+      }, 700);
 
       // Combat juice: KO slowmo + heavy screen shake
       hapticTrigger("ko");
@@ -503,6 +561,44 @@ function FightArena2D({
         height={720}
         className="image-rendering-pixelated"
       />
+
+      {/* Screen-space VFX flash — super_screenflash / ko_blackout from
+          the May 2026 archive. Drawn behind the HUD banner overlay so
+          the round card / KO splash reads on top. */}
+      <AnimatePresence>
+        {vfxFlash && (
+          <motion.img
+            key={vfxFlash}
+            src={fightVfxUrl(vfxFlash)}
+            alt=""
+            aria-hidden="true"
+            className="absolute inset-0 z-20 w-full h-full object-cover pointer-events-none"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: vfxFlash === "ko_blackout" ? 0.85 : 0.75 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.18 }}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* HUD banner overlays — round cards, KO splash, victory banners.
+          May 2026 archive chrome. Rendered above the canvas, below the
+          gesture tutorial so the player can still see the cards. */}
+      <AnimatePresence>
+        {hudBanner && (
+          <motion.img
+            key={hudBanner}
+            src={fightHudUrl(hudBanner)}
+            alt={hudBanner.replace(/_/g, " ")}
+            className="absolute left-1/2 top-1/2 z-30 pointer-events-none"
+            style={{ width: "62%", maxWidth: 900, transform: "translate(-50%, -50%)" }}
+            initial={{ opacity: 0, scale: 1.3 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            transition={{ duration: 0.22, ease: "easeOut" }}
+          />
+        )}
+      </AnimatePresence>
 
       {/* Gesture Tutorial */}
       <AnimatePresence>

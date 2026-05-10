@@ -1103,6 +1103,7 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
       client.dispatch({ type: "mulligan", replaceIndices: playerIndices });
     }
     client.dispatch({ type: "finish_mulligan" });
+    dischordiaSounds.play("mulligan");
     // AI mulligan — use the projected view state for AI scoring
     const viewAfterPlayer = asGameState(client.getViewState());
     const aiIndices = getAIMulliganIndices(viewAfterPlayer.players[1].hand);
