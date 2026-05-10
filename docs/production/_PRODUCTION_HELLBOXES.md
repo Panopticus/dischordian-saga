@@ -802,3 +802,1101 @@ streaming_behaviour:
   - on_classroom_door_approach: preload that classroom sub-space (gameplay-deferred)
   - on_cathedral_traverse: preload cathedral apse fully (already partially loaded as continuous space)
 ```
+
+---
+
+## H.2 Castle of Death (HB2 — Hierarchy Throne gateway)
+
+**Status: FULL spec.** Cross-ref `INCEPTION_ARK_FINAL_PRODUCTION.md`
+§3.12.4 for cosmology + transit + faction answers.
+
+### H.2.1 Header
+
+```
+space_id:        hellbox.castle_of_death
+space_name:      Castle of Death
+space_type:      hellbox_interior  (Matrix-of-Dreams destination; faction-locked Hierarchy)
+act_introduced:  Act 5  (faction-locked Hierarchy alignment)
+host_room:       ark.hierarchy_throne (offering kneel gateway)
+lore_anchor:     loredex.system.castle_of_death + arc.hierarchy_devotion + loredex.character.master_of_rlyeh + arc.demon_summoning
+aesthetic_tier:  wagner_baroque  (vast Wagnerian-baroque death-castle; the most monumental Hellbox interior)
+```
+
+### H.2.2 Geometry
+
+```
+dimensions:           96.00 m × 72.00 m × 36.00 m  (perceptual; bigger-on-inside ratio 9× external Hierarchy Throne footprint)
+origin_point:         centre of central Sanctum of the First Death (where the player materialises after transit)
+coordinate_axes:      +x = right, +y = forward (north — toward apsidal Throne of Mercy), +z = up
+floor_plan_geometry:  non_euclidean  (central Sanctum of the First Death + radiating wings: north apsidal Throne of Mercy + west Hall of Acknowledged Debts + east Chamber of the Forgotten + south Forgive-or-Damn Tribunal + outer ring of 15 minor chambers — most deferred)
+volumetric_anomalies:
+  - bigger_on_inside ratio: 9× external Hierarchy Throne footprint
+  - apsidal_extends_up: Throne of Mercy at north extends to z = 60+ perceptual; throne itself at z = 8.00 on raised dais
+  - perpetual_dusk: continuous twilight throughout (no day/night cycle); shadows are deep + long
+  - bells_audible_from_everywhere: deep bell-toll period 60s; audible from any chamber
+  - corridors_are_longer_than_they_should_be: walking from Sanctum to any wing-chamber takes ~2× perceived distance (intentional disorientation)
+```
+
+The Castle of Death is the Hierarchy faction's deepest cosmological
+expression — a vast Wagnerian-baroque death-castle where the
+ritualised sacrifice of mercy IS the architecture. Central
+Sanctum of the First Death is a hexagonal hall with a black-marble
+floor inscribed with the Hierarchy's full death-creed. North
+apsidal extends impossibly into the Throne of Mercy chamber. Four
+wing-chambers radiate from the Sanctum, each focused on a different
+aspect of mercy/death: Acknowledged Debts (west), the Forgotten
+(east), Forgive-or-Damn Tribunal (south), and Throne of Mercy
+(north — the apse). Demon-summoning mechanics happen at the
+central Sanctum altar.
+
+Floor area (perceptual): central Sanctum ~480 m²; 4 primary wings
+~280 m² each; total across primary spaces ~1,600 m² + 15 deferred
+minor chambers.
+
+### H.2.3 Floor
+
+```
+material_primary:     polished black-and-blood-red marble in inscribed pattern; 0.80 × 0.80 m tiles; the inscriptions form the full Hierarchy death-creed visible only when carefully read
+material_secondary:   gold-leaf inlay forming a 6-pointed mercy-mandala at the Sanctum centre (3.00 m diameter; player materialises here); brass perimeter trim along all walls
+pattern:              inscribed marble + central mercy-mandala + radial path inlays toward each wing-chamber (4 radial paths from Sanctum)
+wear_state:           pristine (sacred); slight wear at most-used radial paths; central mercy-mandala shows ritual-pattern of feet (player + others who have stood here through canonical history)
+embedded_features:
+  - id: hellbox.castle_of_death.floor.charge_point.player_arrival_mandala
+    position: (0.00, 0.00, 0.00)  # at Sanctum centre
+    dimensions: 0.40 × 0.40 × 0.05
+    function: arrival-anchor + return-transit invocation
+  - id: hellbox.castle_of_death.floor.altar_anchor.central_sanctum
+    position: (0.00, 8.00, 0.00)  # at Sanctum north end (between centre and apse)
+    dimensions: 0.60 × 0.60 × 0.10
+    function: central altar — Master of R'lyeh anchor + demon-summoning ritual point
+  - id: hellbox.castle_of_death.floor.wing_threshold.<wing>  (4 thresholds; one per wing-chamber)
+    position: north (0.00, 16.00), east (16.00, 0.00), south (0.00, -16.00), west (-16.00, 0.00) all z = 0.00
+    dimensions: 4.00 × 0.30 × 0.10 each
+    function: wing-chamber entry threshold
+  - id: hellbox.castle_of_death.floor.minor_chamber_threshold.<n>  (15 minor-chamber thresholds; deferred)
+    position: along outer-ring perimeter
+    dimensions: 1.40 × 0.20 × 0.10 each
+    function: minor-chamber entry threshold (deferred sub-spaces)
+acoustic_property:    hard_reflective (marble); RT60 = 1.20s (very long; cathedral-resonance + bell-decay; supports chant-voice)
+```
+
+### H.2.4 Walls
+
+The Castle of Death has a hexagonal central Sanctum + 4 primary
+wing-chambers + outer ring. Specced per zone.
+
+#### Central Sanctum of the First Death (hexagonal central hall)
+
+```
+wall_id:              sanctum_perimeter  (6 hexagonal faces; each leads to a wing-chamber or minor-chamber)
+material_primary:     polished black-marble cladding with deep-relief carved figures (Hierarchy death-canon scenes; figures of mercy-givers + mercy-receivers)
+material_secondary:   bronze dado at z = 1.20 m, ornately cast with serpent-and-mercy motif; brass cresting at z = 5.00 m
+panelisation:         hexagonal corners + wing-chamber archways
+colour_value:         --token-color-hellbox-castle-of-death-sanctum  (deep charcoal-black + blood-red marble + bronze + gold accents)
+embedded_displays:
+  - id: hellbox.castle_of_death.sanctum.south.display.death_register
+    position: (0.00, -8.00, 1.80)  # south side, near south wing entrance
+    dimensions: 1.20 × 0.80 × 0.05
+    content: continuously-updating registry of canonical deaths in player's playthrough; cross-ref with Med Bay HB1 child-NPC roster
+embedded_doors:
+  - door_id: hellbox.castle_of_death.sanctum.south.door.return_threshold
+    position: (0.00, 0.00, 0.005)  # at arrival mandala; cosmological return
+    dimensions: n/a (cosmological; not physical)
+    door_class: portal
+    connecting_space_id: ark.hierarchy_throne (host room)
+  - door_id: hellbox.castle_of_death.sanctum.north.archway.throne_of_mercy
+    position: (0.00, 16.00, 0.00)
+    dimensions: 6.00 × 12.00 × 0.30  (massive archway; cathedral begins beyond)
+    door_class: portal  (open passage with deep shadow + cold-air-bleed)
+    connecting_space_id: hellbox.castle_of_death.throne_of_mercy_apse
+  - door_id: hellbox.castle_of_death.sanctum.east.archway.chamber_of_forgotten
+    position: (16.00, 0.00, 0.00)
+    dimensions: 4.00 × 8.00 × 0.30
+    door_class: portal
+    connecting_space_id: hellbox.castle_of_death.chamber_of_the_forgotten
+  - door_id: hellbox.castle_of_death.sanctum.south.archway.tribunal
+    position: (0.00, -16.00, 0.00)
+    dimensions: 4.00 × 8.00 × 0.30
+    door_class: portal
+    connecting_space_id: hellbox.castle_of_death.forgive_or_damn_tribunal
+  - door_id: hellbox.castle_of_death.sanctum.west.archway.hall_of_debts
+    position: (-16.00, 0.00, 0.00)
+    dimensions: 4.00 × 8.00 × 0.30
+    door_class: portal
+    connecting_space_id: hellbox.castle_of_death.hall_of_acknowledged_debts
+  - door_id: hellbox.castle_of_death.sanctum.outer_ring.minor_chamber.<n>  (15 minor archways; deferred sub-spaces)
+    position: along hex outer-ring perimeter at varied angles
+    dimensions: 2.40 × 4.00 × 0.20 each
+    door_class: arch
+    connecting_space_id: hellbox.castle_of_death.minor_chamber.<id>  (15 sub-spaces; deferred from FULL spec — major chambers below cover canonical narrative)
+decorative_features:
+  - id: hellbox.castle_of_death.sanctum.south.plaque.creed
+    position: (0.00, -10.00, 4.50)  # high above south wall
+    dimensions: 4.00 × 1.20 × 0.20
+    material: cast bronze with deep-etched proto-Latin text + gold inlay
+    narrative_role: reads the full Hierarchy death-creed: "MERCY IS A SACRAMENT / DEBT IS A SACRAMENT / DEATH IS A SACRAMENT / WHAT WE HAVE IS WHAT WE HAVE GIVEN"
+  - id: hellbox.castle_of_death.sanctum.relief_pattern.death_canon  (6 reliefs around hex perimeter; one per wall)
+    position: per hex face at z = 6.00
+    dimensions: 6.00 × 2.40 × 0.30 each
+    material: cast bronze with deep relief; gilt highlights
+    narrative_role: 6 canonical death-scenes (the first death / the mercy-given death / the debt-paid death / the forgotten death / the forgiven death / the eternal death)
+```
+
+#### Throne of Mercy Apse (north wing — the apsidal hall)
+
+```
+wall_id:              throne_of_mercy_apse  (curved apsidal; impossibly tall)
+material_primary:     polished black-marble cladding (curved); ribbed bronze structural detail; impossibly tall (z = 60+ perceptual)
+material_secondary:   gold-leaf trim around ribs; deep crimson velvet drapery between ribs
+panelisation:         apsidal — single curved + ribbed surface
+colour_value:         --token-color-hellbox-castle-of-death-throne-apse  (deep charcoal + crimson velvet + gold + bronze)
+embedded_displays:    none (the relief + throne are the content)
+embedded_doors:        none (no exits from apse; only the south archway back to Sanctum)
+decorative_features:
+  - id: hellbox.castle_of_death.throne_of_mercy_apse.relief
+    position: (0.00, 32.00, 12.00)  # high north apse
+    dimensions: 8.00 × 6.00 × 0.30 (deep relief)
+    material: cast bronze with gilt + jewel inlays
+    narrative_role: depicts a robed figure (the Master of Mercy) offering mercy to a kneeling supplicant; the supplicant is canonically the player; the relief subtly shifts to reflect player's accumulated mercy-acts
+  - id: hellbox.castle_of_death.throne_of_mercy
+    position: (0.00, 32.00, 8.00)  # raised dais; 8.00 m above Sanctum floor
+    dimensions: 4.00 × 3.00 × 6.00 (throne + dais; oversized)
+    material: cast bronze with gilt detailing; black-velvet upholstery on seat + backrest; white-marble armrests
+    narrative_role: THE Throne of Mercy; symbolic; the Master of Mercy sits here (canonically; rarely visible — usually empty or shadowed); during faction-answer commitment moments, the throne becomes inhabited
+  - id: hellbox.castle_of_death.throne_of_mercy_apse.dais_steps  (12 steps from Sanctum floor to throne)
+    position: (0.00, 24.00 to 32.00, 0.00 to 8.00)
+    dimensions: ~12 steps; each 0.40 m run × 0.67 m rise
+    material: polished black marble with gold-inlay step nosing
+    narrative_role: the player must climb to reach the throne; the climb itself is symbolic
+```
+
+#### Hall of Acknowledged Debts (west wing)
+
+```
+wall_id:              hall_of_debts_perimeter  (rectangular wing; 16.00 × 12.00 m)
+material_primary:     polished black-marble + bronze ledger-shelving (full-height; covers all walls); each ledger-shelf holds bronze ledgers
+material_secondary:   bronze dado; brass ledger-spines visible
+panelisation:         continuous shelving except for archway entrance (east) + ritual altar (west wall)
+colour_value:         --token-color-hellbox-castle-of-death-hall-debts  (deep charcoal + bronze + faint gold-glint from ledgers)
+decorative_features:
+  - id: hellbox.castle_of_death.hall_of_debts.ledger_walls
+    position: distributed across all walls
+    dimensions: continuous shelving; ~1,000 ledgers visible; each ~0.40 × 0.05 × 0.30
+    material: cast bronze ledger-spines with gilt-engraved name + amount on each
+    narrative_role: registry of all acknowledged debts (canonical pre-Ark + Ark cumulative); player can pull a ledger to inspect
+  - id: hellbox.castle_of_death.hall_of_debts.altar_west
+    position: (-12.00, 0.00, 0.00)
+    dimensions: 1.20 × 0.80 × 1.10
+    material: polished black granite with gold-leaf rim; bronze ledger-stand on top
+    narrative_role: where the player can place a debt-acknowledgement; gameplay-active
+```
+
+#### Chamber of the Forgotten (east wing)
+
+```
+wall_id:              chamber_of_forgotten_perimeter  (rectangular wing; 16.00 × 12.00 m)
+material_primary:     polished black-marble + bronze portrait-frames (full-height; covers all walls); each frame holds a portrait — but the portraits are EMPTY (canonically: the names are lost; only the frames remain)
+material_secondary:   bronze dado; brass portrait-cord visible
+panelisation:         continuous portrait-frame walls except for archway entrance (west)
+colour_value:         --token-color-hellbox-castle-of-death-chamber-forgotten  (deep charcoal + bronze frames + dim cold-grey paintings)
+decorative_features:
+  - id: hellbox.castle_of_death.chamber_of_forgotten.empty_portraits
+    position: distributed across all walls
+    dimensions: ~200 empty portrait-frames; each ~0.60 × 0.05 × 0.80
+    material: cast bronze frames with empty canvases
+    narrative_role: every forgotten dead — names lost to time; player can "remember" by stating a name; doing so fills one portrait
+  - id: hellbox.castle_of_death.chamber_of_forgotten.altar_east
+    position: (16.00, 0.00, 0.00)  # east-most; altar of remembrance
+    dimensions: 1.20 × 0.80 × 1.10
+    material: polished black granite + bronze + small candle-flame
+    narrative_role: where the player names a forgotten one; gameplay-active
+```
+
+#### Forgive-or-Damn Tribunal (south wing)
+
+```
+wall_id:              tribunal_perimeter  (rectangular wing; 16.00 × 12.00 m)
+material_primary:     polished black-marble with judicial-formal architecture; central raised tribunal-platform with 7 jurist-seats
+material_secondary:   bronze dado; gold-leaf rim around tribunal; crimson velvet drapery framing the platform
+panelisation:         tribunal architecture
+colour_value:         --token-color-hellbox-castle-of-death-tribunal  (deep charcoal + bronze + crimson + gold)
+decorative_features:
+  - id: hellbox.castle_of_death.tribunal.platform
+    position: (0.00, -24.00, 0.40)  # raised 0.40 m above floor
+    dimensions: 8.00 × 6.00 × 0.40 (platform)
+    material: polished black marble + crimson velvet upholstery on jurist seats
+    narrative_role: where the 7 jurists sit; player addresses them when seeking forgiveness or damnation for canonical figures
+  - id: hellbox.castle_of_death.tribunal.jurist_chairs.<n>  (7 jurist chairs on platform)
+    position: distributed on platform
+    dimensions: 0.90 × 0.90 × 1.50 each
+    material: cast bronze frame + crimson velvet
+    narrative_role: 7 jurists; each is a faction-aligned NPC (one per major faction + 2 cosmic visitors)
+  - id: hellbox.castle_of_death.tribunal.player_lectern
+    position: (0.00, -16.00, 0.00)  # facing platform
+    dimensions: 0.40 × 0.30 × 1.20
+    material: cast bronze + walnut + leather inset
+    narrative_role: where the player stands to plead; gameplay-active during forgive-or-damn rituals
+```
+
+### H.2.5 Ceiling
+
+```
+height_above_floor:     central Sanctum: 24.00 m baseline + apsidal vault rises to 60+ perceptual (Throne of Mercy apse); wing-chambers: 12.00 m baseline + 16.00 m vaulted apex
+material:               polished black-marble cladding with bronze rib detailing radiating from oculus-positions; central Sanctum has hexagonal coffered ceiling
+lighting_integrated:    hexagonal central oculus over Sanctum (deep red + amber light); chandelier clusters in each wing; deep amber sconces along wing walls; throne-apse stained glass at impossibly-high windows
+atmospheric_features:   incense smoke pools at Sanctum vault apex (rises continuously from 6 censers); subtle frostbreath visible in cold zones; bell-toll visualisation pulses
+acoustic_treatment:     coffered + apsidal echo at Throne; wing-chambers have warmer reverb (less dampening)
+```
+
+### H.2.6 Lighting
+
+```
+ambient_baseline:     1800 K (extremely warm; candle-and-firelight; perpetual dusk); 60 lux at floor (very dim — gravity); CRI 75 (low; intentionally warm-bronze palette)
+direct_fixtures:
+  - id: hellbox.castle_of_death.sanctum.oculus_central
+    position: (0.00, 0.00, 24.00)
+    beam_angle: 60° downward
+    colour: --token-color-hellbox-castle-of-death-sanctum-oculus  (deep red-amber; pulses with bell-toll)
+    intensity: 6000 lumens
+    function: principal Sanctum illumination; pulses with bell-toll
+  - id: hellbox.castle_of_death.throne_of_mercy_apse.dome_emitter
+    position: (0.00, 32.00, 30.00)
+    beam_angle: 90° downward
+    colour: --token-color-hellbox-castle-of-death-throne-apse  (warm gold-red; intensifies during faction-answer moments)
+    intensity: 8000 lumens (variable)
+    function: throne-apse light; symbolic
+  - id: hellbox.castle_of_death.sanctum.chandelier.<n>  (6 hanging chandeliers in hexagonal pattern around oculus at z = 16.00)
+    position: distributed
+    beam_angle: 270°
+    colour: warm amber; 4000 lumens each
+    function: ambient ritual atmosphere
+  - id: hellbox.castle_of_death.wing_chandelier.<wing>  (4 wing chandelier-clusters; one central per wing-chamber)
+    position: per wing centre at z = 8.00
+    beam_angle: 270°
+    colour: warm amber per wing (slight variation per aspect)
+    intensity: 3500 lumens each
+    function: wing-chamber ambient
+practical_sources:
+  - id: hellbox.castle_of_death.sanctum.censer.<n>  (6 censers in hex pattern around Sanctum at radius 5.00 m)
+    position: per censer base at z = 0.00, top z = 1.40
+    intensity: 80 lumens each (warm candle-flame; smoke continuous)
+    flicker_pattern: organic
+  - id: hellbox.castle_of_death.sanctum.altar_glow
+    position: (0.00, 8.00, 1.10)  # central altar
+    intensity: 200 lumens (variable; pulses with R'lyeh resonance)
+    flicker_pattern: deeply slow pulse
+  - id: hellbox.castle_of_death.throne_of_mercy_glow
+    position: (0.00, 32.00, 9.00)  # throne seat backlight
+    intensity: 400 lumens (variable; intensifies during answer-moments)
+    flicker_pattern: stable with pulse on faction-answer
+time_of_day_variation:
+  acts_5_to_7: stable perpetual dusk; intensifies during ritual events; in late-act7, if player has fully Hierarchy-aligned, throne becomes visibly inhabited
+dynamic_response:
+  - on_player_arrival: oculus pulses dramatically; central altar illuminates
+  - on_master_of_rlyeh_question_invocation: throne-apse glow blooms; oculus pulse synchronises with player's heartbeat
+  - on_demon_summoning: forge-fire flares through Sanctum from a manifestation point; ambient intensifies briefly
+  - on_faction_answer_commit: relevant wing-chandelier intensifies + central altar flames briefly
+```
+
+### H.2.7 Atmosphere
+
+```
+air_temperature:    16°C (cold — death-cosmology); colder in Chamber of Forgotten (12°C) and warmer near Throne (18°C from braziers)
+humidity:           42% RH; smells of incense (frankincense + myrrh + something darker — death-incense) + cold-stone + faint blood + bronze + warm-wax
+particulate:
+  - incense_smoke: high (6 censers + 4 wing braziers); rises continuously through chimneys
+  - cold_breath_motes: very low (visible breath in cold zones)
+  - candle_smoke: medium
+  - dust: very low (sacred; meticulously maintained)
+  - ritual_residue_motes: state-conditional (during demon-summoning + answer-moments)
+volumetric_fog:     present at Sanctum vault apex (incense pool); 0.30 g/m³, warm-amber; intensifies during rituals
+wind_drift:         very faint; 0.04 m/s; cold convection toward sanctum centre
+smell_canon:        incense + cold-stone + bronze + blood + wax; voice-line: "smells like the world's first goodbye"
+```
+
+### H.2.8 Sound
+
+```
+ambient_bed:           file: castle_of_death_ambient_bed_v1.ogg (loop); -28 dB; deep continuous chant (Hierarchy-faction proto-Latin chants), distant bell-toll period 60s, censer-burn crackles, cold-wind whistle
+point_sources:
+  - id: hellbox.castle_of_death.sanctum.oculus_resonance
+    position: (0.00, 0.00, 24.00)
+    sound: deep cosmic harmonic resonance (continuous, -30 dB; pulses with bell-toll)
+    occlusion_behaviour: omnidirectional
+    trigger: continuous
+  - id: hellbox.castle_of_death.bell_toll
+    position: (0.00, 32.00, 50.00)  # impossibly above Throne apse
+    sound: deep bell-toll (period 60s; -22 dB per toll)
+    occlusion_behaviour: omnidirectional
+    trigger: cyclic
+  - id: hellbox.castle_of_death.distant_chants
+    position: distributed around Sanctum perimeter
+    sound: faint Hierarchy chants (Latin proto-language; -32 dB)
+    occlusion_behaviour: omnidirectional
+    trigger: continuous (cycles through ritual hours)
+  - id: hellbox.castle_of_death.censer_burn.<n>  (6 censers)
+    position: per censer
+    sound: incense-burn crackle (-36 dB each)
+    occlusion_behaviour: standard
+    trigger: continuous
+  - id: hellbox.castle_of_death.sanctum.altar_subtle_resonance
+    position: (0.00, 8.00, 0.00)
+    sound: subtle harmonic hum (continuous, -38 dB; intensifies during R'lyeh moments)
+    occlusion_behaviour: omnidirectional
+    trigger: continuous
+  - id: hellbox.castle_of_death.master_of_rlyeh_voice
+    position: (0.00, 8.00, 1.10)  # at central altar; secondary anchor at Throne
+    sound: Master of R'lyeh's voice per §3.12.2
+    occlusion_behaviour: omnidirectional
+    trigger: state-conditional
+  - id: hellbox.castle_of_death.demon_manifestation_resonance
+    position: (0.00, 8.00, 0.00)  # at altar during demon-summon
+    sound: low rumble + air-rush + demon vocalisation (per §3.1.A.4)
+    occlusion_behaviour: omnidirectional
+    trigger: state-conditional
+reverb_zone:           IR-impulse: castle_of_death_v1.wav; wet-mix 42% (very long; cathedral-monumental)
+music_eligibility:     ambient music ALLOWED — Hierarchy choral pad at -32 dB throughout; intensifies during ritual events
+voice_line_eligibility:
+  - speaker: hierarchy_priest_of_death (named NPC; primary occupant): line set §H.2-specific
+  - speaker: 7 tribunal jurists (rotating): line set §H.2-specific (one per faction + 2 cosmic visitors)
+  - speaker: chant_voices_distant: continuous proto-Latin chants
+  - speaker: master_of_rlyeh: state-conditional at altar + throne
+  - speaker: demon_voice (per summoning): state-conditional during demon-summoning
+```
+
+### H.2.9 Object inventory
+
+Castle of Death has 88 inventory objects (excluding 15 deferred
+minor-chamber sub-spaces).
+
+#### H.2.9.1 The Player Arrival Mandala (Sanctum centre)
+
+```
+object_id:           hellbox.castle_of_death.player_arrival_mandala
+object_class:        fx_emitter  (also gameplay-anchor)
+position:            (0.00, 0.00, 0.005)
+dimensions:          3.00 dia × 0.005
+rotation:            0°
+material_primary:    gold-leaf inlay forming a 6-pointed mercy-mandala
+material_secondary:  bronze perimeter ring with engraved death-creed
+colour_value:        --token-color-hellbox-castle-of-death-mandala  (deep gold + bronze)
+interaction:         interactable
+  - return_to_hierarchy_throne: invoke return-transit (~5s ceremonial fade back to ark.hierarchy_throne)
+  - inspect: reads the mandala's death-creed (multi-screen)
+narrative_role:      THE arrival point + return-transit invocation
+lore_anchor:         arc.return_transit + arc.hierarchy_devotion
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.hellbox.hb2.return_transit
+wear_state:          slight wear at most-walked positions (centuries of supplicants)
+physical_constraints: non-collide; player-step-on triggers warmth pulse
+```
+
+#### H.2.9.2 The Central Sanctum Altar (Master of R'lyeh + demon-summon anchor)
+
+```
+object_id:           hellbox.castle_of_death.sanctum_altar_central
+object_class:        interactive  (also fx_emitter; also npc_anchor — Master of R'lyeh voice)
+position:            (0.00, 8.00, 0.00)
+dimensions:          2.40 × 1.40 × 1.10
+rotation:            0°
+material_primary:    polished black granite with inlaid gold-cross + gold-leaf rim
+material_secondary:  cast-bronze altar-cloth holder; cast-bronze candle-stand at corners (4 black wax candles burning eternally); central recessed offering bowl
+colour_value:        --token-color-hellbox-castle-of-death-altar
+interaction:         interactable
+  - approach_for_master_of_rlyeh: triggers "Is mercy a debt, or a gift?" delivery (one-shot Act 5 first invocation; re-invocable per visit)
+  - place_offering: player commits an offering (item from inventory); offering consumed by altar with brief intense flame
+  - invoke_demon_summon: when conditions met (player has placed sufficient offerings + has demon-summon contract), triggers full demon-summoning sequence (per §3.1.A.4)
+  - inspect: lore-note about altar (canonical pre-Ark; received the first ritual-mercy)
+narrative_role:      THE central altar; faction-answer commitment + demon-summoning anchor; the room's cosmological heart
+lore_anchor:         arc.act_5_HB2_invocation + loredex.character.master_of_rlyeh + arc.demon_summoning
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.hellbox.hb2.altar.invoke_master_of_rlyeh + .place_offering + .invoke_demon_summon
+wear_state:          worn at centre of altar-top (centuries of palms)
+physical_constraints: collides; player can lean
+```
+
+#### H.2.9.3 The Throne of Mercy
+
+```
+object_id:           hellbox.castle_of_death.throne_of_mercy
+object_class:        furniture  (also npc_anchor — Master of Mercy NPC)
+position:            (0.00, 32.00, 8.00)  # raised dais
+dimensions:          4.00 × 3.00 × 6.00 (oversized)
+rotation:            180°  (faces south, toward Sanctum)
+material_primary:    cast bronze with gilt detailing
+material_secondary:  black-velvet upholstery on seat + backrest; white-marble armrests; gold cushion
+colour_value:        --token-color-hellbox-castle-of-death-throne  (bronze + gilt + black-velvet + white-marble)
+interaction:         interactable
+  - approach: cinematic moment; throne becomes visibly inhabited (Master of Mercy materialises silhouette-only); brief dialogue
+  - inspect: lore-note about throne (the canonical seat of mercy; centuries of mercy-givers)
+narrative_role:      THE throne; symbolic; Master of Mercy NPC anchor (rare visible)
+lore_anchor:         loredex.character.master_of_mercy + arc.hierarchy_devotion
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.hellbox.hb2.throne_of_mercy.approach
+wear_state:          slight wear at right armrest (Master is right-handed); cushion permanently indented
+physical_constraints: collides
+```
+
+#### H.2.9.4 The Throne of Mercy Apsidal Relief
+
+```
+object_id:           hellbox.castle_of_death.throne_apse.relief
+object_class:        decoration
+position:            (0.00, 32.00, 12.00)
+dimensions:          8.00 × 6.00 × 0.30
+rotation:            180°
+material_primary:    cast bronze with gilt + jewel inlays
+material_secondary:  none
+colour_value:        --token-color-hellbox-castle-of-death-throne-relief  (deep bronze + gilt highlights)
+interaction:         inspectable
+  - inspect: opens multi-screen lore (the Master of Mercy + a kneeling supplicant — the supplicant is canonically the player; the relief subtly evolves with player's mercy-acts)
+narrative_role:      THE relief; visible from Sanctum; cosmologically anchoring
+lore_anchor:         arc.hierarchy_devotion + arc.player_mercy_acts
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.hellbox.hb2.throne_relief.inspect
+wear_state:          slight patina; centre figures more polished (centuries of supplicants gazing upward)
+physical_constraints: non-collide (at height)
+```
+
+#### H.2.9.5-10 Six Sanctum Censers
+
+```
+object_id:           hellbox.castle_of_death.sanctum.censer.<n>  (6 censers in hex pattern around Sanctum at radius 5.00 m)
+positions:           [
+  (0.00, 5.00, 0.00),     # north
+  (4.33, 2.50, 0.00),     # NE
+  (4.33, -2.50, 0.00),    # SE
+  (0.00, -5.00, 0.00),    # south
+  (-4.33, -2.50, 0.00),   # SW
+  (-4.33, 2.50, 0.00),    # NW
+]
+dimensions (each):   0.40 × 0.40 × 1.40
+rotation:            0°
+material_primary:    cast bronze with chains + decorative perforations
+material_secondary:  white marble base; brass burner-bowl; gold-inlay rim
+colour_value:        --token-color-hellbox-castle-of-death-censer-bronze
+interaction:         interactable
+  - inspect: lore-note about each censer (carries different proto-Latin meditation)
+  - rekindle: gameplay-conditional rekindle if extinguished
+narrative_role:      ritual incense; visually + olfactorily anchors Sanctum atmosphere
+lore_anchor:         loredex.aesthetic.hierarchy_ritual
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.hellbox.hb2.censer.rekindle
+wear_state:          slight wear; centuries of patina
+physical_constraints: collides
+```
+
+#### H.2.9.11-16 Six Sanctum Hexagonal Reliefs (one per hex face)
+
+```
+object_id:           hellbox.castle_of_death.sanctum.relief.<aspect>  (6 reliefs; one per hex face)
+positions:           per hex face at z = 6.00
+dimensions (each):   6.00 × 2.40 × 0.30
+rotation:            varies (radial; faces inward)
+material_primary:    cast bronze with deep relief; gilt highlights
+material_secondary:  none
+colour_value:        --token-color-hellbox-castle-of-death-sanctum-relief
+interaction:         inspectable
+  - inspect: opens multi-screen lore (each is a canonical death-scene)
+narrative_role:      6 death-canon scenes (the first death / the mercy-given death / the debt-paid death / the forgotten death / the forgiven death / the eternal death)
+lore_anchor:         per-aspect canon
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.hellbox.hb2.sanctum_relief.inspect (per-aspect)
+wear_state:          slight patina
+physical_constraints: non-collide (at height)
+```
+
+#### H.2.9.17 The Hierarchy Priest of Death (NPC anchor)
+
+```
+object_id:           hellbox.castle_of_death.hierarchy_priest_anchor
+object_class:        npc_anchor
+position:            (0.00, 12.00, 0.00)  # near central altar; slightly south
+dimensions:          0.80 × 0.80 × 1.80 (anchor)
+rotation:            varies (NPC pose-driven)
+material_primary:    n/a
+material_secondary:  n/a
+colour_value:        n/a
+interaction:         interactable
+  - converse: dialogue with Hierarchy Priest; deep faction-lore reveals
+narrative_role:      Hierarchy Priest of Death; primary occupant of Castle; conducts canonical death-rituals
+lore_anchor:         loredex.character.hierarchy_priest_of_death + arc.hierarchy_devotion
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.hellbox.hb2.priest.converse
+wear_state:          n/a
+physical_constraints: n/a
+```
+
+#### H.2.9.18-25 Eight Throne-Apse Stained-Glass Windows
+
+```
+object_id:           hellbox.castle_of_death.throne_apse.stained_glass.<n>  (8 windows; impossibly tall)
+positions:           distributed in apse from z = 24 to z = 56
+dimensions (each):   2.00 × 4.00 × 0.05 each
+material_primary:    stained-glass depicting Hierarchy mercy-canon scenes (in dramatic baroque style)
+material_secondary:  bronze frames + lead came
+colour_value:        per-window (warm amber + crimson + gold + cyan)
+interaction:         inert (visible only from apse)
+narrative_role:      cathedral atmosphere; bleed dramatic light shafts onto throne
+lore_anchor:         loredex.aesthetic.wagner_baroque
+art_status:          producer_handoff
+gameplay_hook_id:    none
+wear_state:          weathered (intentional aesthetic)
+physical_constraints: non-collide (at height)
+```
+
+#### H.2.9.26-31 Throne Dais Steps (12 steps)
+
+```
+object_id:           hellbox.castle_of_death.throne_apse.dais_step.<n>  (12 steps)
+positions:           sequential at z = 0.00 to 8.00
+dimensions (each):   varied; 6.00 × 0.40 × 0.67 each
+rotation:            0°
+material_primary:    polished black marble with gold-inlay step nosing
+material_secondary:  none
+colour_value:        --token-color-hellbox-castle-of-death-dais
+interaction:         interactable (player can climb)
+narrative_role:      symbolic ascent; player must climb 12 steps to reach throne
+lore_anchor:         arc.hierarchy_devotion
+art_status:          producer_handoff
+gameplay_hook_id:    none (movement)
+wear_state:          worn at most-used positions
+physical_constraints: collides; climbable
+```
+
+#### H.2.9.32-35 Hall of Acknowledged Debts — 4 key elements
+
+```
+object_id:           hellbox.castle_of_death.hall_of_debts.altar_west
+object_class:        interactive
+position:            (-12.00, 0.00, 0.00)  # west wing, west wall
+dimensions:          1.20 × 0.80 × 1.10
+rotation:            90°
+material_primary:    polished black granite + gold-leaf rim
+material_secondary:  bronze ledger-stand on top
+colour_value:        --token-color-hellbox-castle-of-death-altar-west
+interaction:         interactable
+  - place_debt_acknowledgement: player names a debt (canonical or personal; gameplay-active)
+  - inspect: lore-note about altar
+narrative_role:      where player commits debt-acknowledgement; gameplay-active
+lore_anchor:         arc.hierarchy_devotion
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.hellbox.hb2.hall_debts.altar.acknowledge
+wear_state:          worn at altar-centre
+physical_constraints: collides
+
+object_id:           hellbox.castle_of_death.hall_of_debts.ledger_walls (representative)
+object_class:        container
+position:            distributed around all walls
+dimensions:          continuous; ~1,000 ledgers
+material_primary:    bronze ledger-spines with gilt-engraved name + amount
+material_secondary:  walnut shelving
+colour_value:        --token-color-hellbox-castle-of-death-ledger-walls
+interaction:         interactable
+  - take_ledger: player can pull a ledger to inspect (multi-screen lore; varies per-ledger; ~1,000 unique)
+narrative_role:      registry of all canonical pre-Ark + Ark debts; the room IS the registry
+lore_anchor:         arc.hierarchy_devotion + cumulative_debt_history
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.hellbox.hb2.hall_debts.ledger.take
+wear_state:          slight wear at most-pulled ledgers
+physical_constraints: collides (ledger-fronts)
+
+object_id:           hellbox.castle_of_death.hall_of_debts.scribe_anchor
+object_class:        npc_anchor
+position:            (-12.00, -2.00, 0.00)  # near west altar
+dimensions:          0.80 × 0.80 × 1.80
+rotation:            varies
+material_primary:    n/a
+material_secondary:  n/a
+colour_value:        n/a
+interaction:         interactable - converse
+narrative_role:      The Scribe of Debts; eternally writing in canonical ledgers; player can converse to learn names
+lore_anchor:         loredex.character.scribe_of_debts
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.hellbox.hb2.scribe.converse
+wear_state:          n/a
+physical_constraints: n/a
+
+object_id:           hellbox.castle_of_death.hall_of_debts.relief.eternal_ledger
+object_class:        decoration
+position:            (-14.00, 0.00, 6.00)  # high on west wall
+dimensions:          2.40 × 1.20 × 0.20
+rotation:            90°
+material_primary:    cast bronze
+material_secondary:  none
+colour_value:        --token-color-hellbox-castle-of-death-relief
+interaction:         inspectable
+narrative_role:      depicts a robed scribe writing in an infinite ledger; lore-readable
+lore_anchor:         arc.hierarchy_devotion
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.hellbox.hb2.hall_debts.relief.read
+wear_state:          slight patina
+physical_constraints: non-collide
+```
+
+#### H.2.9.36-39 Chamber of the Forgotten — 4 key elements
+
+```
+object_id:           hellbox.castle_of_death.chamber_of_forgotten.altar_east
+object_class:        interactive
+position:            (16.00, 0.00, 0.00)  # east wing, east wall
+dimensions:          1.20 × 0.80 × 1.10
+rotation:            270°
+material_primary:    polished black granite + bronze + small candle-flame
+material_secondary:  cast bronze name-plate
+colour_value:        --token-color-hellbox-castle-of-death-altar-east
+interaction:         interactable
+  - name_a_forgotten: player names a canonical-forgotten one (gameplay-active; fills a portrait)
+  - inspect: lore-note
+narrative_role:      where player remembers the forgotten; gameplay-active
+lore_anchor:         arc.hierarchy_devotion + arc.fallen_crew
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.hellbox.hb2.chamber_forgotten.altar.name
+wear_state:          slight wear at centre
+physical_constraints: collides
+
+object_id:           hellbox.castle_of_death.chamber_of_forgotten.empty_portraits (representative)
+object_class:        decoration  (also fx_emitter — fills as player names)
+position:            distributed across all walls
+dimensions:          ~200 frames; each 0.60 × 0.05 × 0.80
+material_primary:    cast bronze frames with empty canvases
+material_secondary:  none
+colour_value:        --token-color-hellbox-castle-of-death-empty-portraits
+interaction:         inspectable
+  - inspect: each frame; before naming, inspect shows "FORGOTTEN" + cold-grey canvas; after naming, frame holds a portrait
+narrative_role:      every forgotten dead; cumulative gameplay-driven content
+lore_anchor:         arc.fallen_crew
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.hellbox.hb2.chamber_forgotten.portrait.inspect
+wear_state:          n/a
+physical_constraints: non-collide
+
+object_id:           hellbox.castle_of_death.chamber_of_forgotten.candle_array  (continuous along east wall)
+object_class:        interactive  (also fx_emitter)
+position:            distributed along east wall at z = 0.50
+dimensions:          continuous strip; ~50 candles
+material_primary:    cast bronze stand + ivory wax candles
+material_secondary:  none
+colour_value:        --token-color-hellbox-castle-of-death-candle
+interaction:         interactable
+  - light_candle: light candle in honour of a forgotten one (gameplay-active; pairs with naming)
+narrative_role:      light + warmth for the forgotten
+lore_anchor:         arc.fallen_crew
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.hellbox.hb2.chamber_forgotten.candle.light
+wear_state:          varies per candle
+physical_constraints: collides
+
+object_id:           hellbox.castle_of_death.chamber_of_forgotten.relief.no_one_remembers
+object_class:        decoration
+position:            (16.00, 4.00, 6.00)  # high east wall north end
+dimensions:          2.40 × 1.20 × 0.20
+rotation:            270°
+material_primary:    cast bronze
+material_secondary:  none
+colour_value:        --token-color-hellbox-castle-of-death-relief
+interaction:         inspectable
+narrative_role:      reads "WE WHO HAVE NO NAME / REMEMBER US" — cosmologically anchoring
+lore_anchor:         arc.hierarchy_devotion + arc.fallen_crew
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.hellbox.hb2.chamber_forgotten.relief.read
+wear_state:          slight patina
+physical_constraints: non-collide
+```
+
+#### H.2.9.40-49 Forgive-or-Damn Tribunal — 10 key elements
+
+```
+object_id:           hellbox.castle_of_death.tribunal.platform
+object_class:        furniture
+position:            (0.00, -24.00, 0.40)
+dimensions:          8.00 × 6.00 × 0.40
+rotation:            0°
+material_primary:    polished black marble
+material_secondary:  crimson velvet drapery framing
+colour_value:        --token-color-hellbox-castle-of-death-tribunal-platform
+interaction:         inert (jurists' seating)
+narrative_role:      raised platform where 7 jurists sit
+lore_anchor:         arc.tribunal_canon
+art_status:          producer_handoff
+gameplay_hook_id:    none
+wear_state:          slight wear at jurist-positions
+physical_constraints: collides
+
+object_id:           hellbox.castle_of_death.tribunal.jurist_chair.<faction>  (7 chairs; 5 faction + 2 cosmic)
+object_class:        furniture  (also npc_anchor)
+positions:           distributed on platform
+dimensions (each):   0.90 × 0.90 × 1.50
+rotation:            varies (faces player lectern)
+material_primary:    cast bronze frame with crimson velvet upholstery + faction-themed accent
+material_secondary:  bronze nameplate per jurist
+colour_value:        per-faction (5 faction tokens + 2 cosmic tokens)
+interaction:         interactable - jurists converse during forgive-or-damn rituals
+narrative_role:      7 jurists; each is a faction-aligned NPC + 2 cosmic visitors
+lore_anchor:         per-faction
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.hellbox.hb2.tribunal.jurist.converse
+wear_state:          slight wear (varies by frequency of use per faction)
+physical_constraints: collides; sittable (NPCs)
+
+object_id:           hellbox.castle_of_death.tribunal.player_lectern
+object_class:        container  (also interactive — pleading station)
+position:            (0.00, -16.00, 0.00)
+dimensions:          0.40 × 0.30 × 1.20
+rotation:            0°  (faces platform)
+material_primary:    cast bronze + walnut + leather inset
+material_secondary:  open canonical-pleading book
+colour_value:        --token-color-hellbox-castle-of-death-player-lectern
+interaction:         interactable
+  - plead_for_forgiveness: player opens forgive-or-damn UI; selects canonical figure; pleads (gameplay-active)
+  - plead_for_damnation: opposite path; gameplay-active
+  - inspect: lore-note about lectern
+narrative_role:      player's pleading station; gameplay-active for forgive-or-damn rituals
+lore_anchor:         arc.forgive_or_damn_arc
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.hellbox.hb2.tribunal.lectern.plead
+wear_state:          worn at most-touched corner
+physical_constraints: collides
+
+object_id:           hellbox.castle_of_death.tribunal.banner.<n>  (4 banners hanging from upper tribunal walls)
+object_class:        decoration
+positions:           flanking platform; high on east + west tribunal walls
+dimensions (each):   1.00 × 0.05 × 3.00
+material_primary:    deep crimson velvet with gold-thread embroidery
+material_secondary:  bronze hanging-rod
+colour_value:        --token-color-hellbox-castle-of-death-tribunal-banner
+interaction:         inspectable
+narrative_role:      tribunal symbolism; "JUDGE WITH CARE"; "MERCY HAS A PRICE"
+lore_anchor:         arc.tribunal_canon
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.hellbox.hb2.tribunal.banner.read
+wear_state:          slight fading
+physical_constraints: non-collide (suspended)
+
+object_id:           hellbox.castle_of_death.tribunal.relief.justice_eternal
+object_class:        decoration
+position:            (0.00, -28.00, 6.00)  # high on south tribunal wall
+dimensions:          4.00 × 1.20 × 0.30
+rotation:            0°
+material_primary:    cast bronze with deep relief
+material_secondary:  gilt highlights
+colour_value:        --token-color-hellbox-castle-of-death-relief
+interaction:         inspectable
+narrative_role:      depicts the canonical first-tribunal; lore-readable
+lore_anchor:         arc.tribunal_canon
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.hellbox.hb2.tribunal.relief.read
+wear_state:          slight patina
+physical_constraints: non-collide
+```
+
+#### H.2.9.50-87 Decorative + Closing Items (38 items rolled into category)
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `hellbox.castle_of_death.sanctum.skylight_obscured` | decoration | impossibly above oculus | n/a | obscured night-sky view; cosmic stars visible only during certain rituals |
+| `hellbox.castle_of_death.wing_chandelier.<wing>` (4) | fx_emitter | per wing centre at z=8 | 1.20 dia × 0.80 each | wing-chamber chandeliers |
+| `hellbox.castle_of_death.wing_brazier.<wing>` (4) | fx_emitter | per wing centre at z=0 | 0.40 dia × 1.20 each | warm braziers in each wing |
+| `hellbox.castle_of_death.sanctum.relief_pattern.outer_ring` (15 thresholds) | decoration | along outer-ring perimeter at z=4.00 | 1.40 × 0.40 × 0.10 each | 15 minor-chamber threshold reliefs (per chamber lore tease) |
+| `hellbox.castle_of_death.sanctum.priest_chair_hierarchy` | furniture | (0.00, 4.00, 0.00) | 0.90 × 0.90 × 1.50 | priest's chair (Hierarchy priest sits here when not standing) |
+| `hellbox.castle_of_death.sanctum.benches.<n>` (8) | furniture | distributed at hex outer ring | 1.40 × 0.40 × 0.45 each | meditation benches |
+| `hellbox.castle_of_death.tribunal.observer_pew.<n>` (4) | furniture | south of tribunal platform | 1.40 × 0.40 × 0.45 each | observer pews |
+| `hellbox.castle_of_death.minor_chamber_marker.<n>` (15) | decoration | per outer-ring threshold | 0.40 × 0.40 × 0.05 each | minor-chamber name plaques |
+| `hellbox.castle_of_death.sanctum.intercom_silent` | console | south wall hidden | 0.20 × 0.10 × 0.30 | silent comms-relay (cosmologically inactive but present) |
+| `hellbox.castle_of_death.sanctum.fire_extinguisher_silent` | interactive | south wall | 0.20 × 0.20 × 0.50 | safety (cosmologically inactive) |
+| `hellbox.castle_of_death.sanctum.first_aid_silent` | container | south wall | 0.40 × 0.10 × 0.30 | medical (cosmologically inactive) |
+| `hellbox.castle_of_death.sanctum.compass_inlay_central_mandala` | decoration | (0.00, 0.00, 0.005) | 3.00 dia × 0.005 | mandala (already specced) |
+| `hellbox.castle_of_death.return_transit_indicator_glow` | fx_emitter | (0.00, 0.00, 1.50) | 0.40 dia | warm gold-glow |
+| `hellbox.castle_of_death.demon_summoning_circle_emitter` | fx_emitter | at central altar | n/a | demon-summon volumetric source |
+
+#### H.2.9.88 The Master of Mercy NPC Anchor (rare visible at Throne)
+
+```
+object_id:           hellbox.castle_of_death.master_of_mercy_anchor
+object_class:        npc_anchor
+position:            (0.00, 32.00, 8.50)  # at throne
+dimensions:          0.80 × 0.80 × 1.80
+rotation:            varies
+material_primary:    n/a
+material_secondary:  n/a
+colour_value:        n/a
+interaction:         n/a (NPC presence; rarely visible)
+narrative_role:      Master of Mercy; cosmologically alive at Throne; appears as silhouette during faction-answer commitment moments
+lore_anchor:         loredex.character.master_of_mercy
+art_status:          producer_handoff
+gameplay_hook_id:    none (presence-driven)
+wear_state:          n/a
+physical_constraints: n/a
+```
+
+Total: 88 inventory objects.
+
+### H.2.10 Camera-spawn-points (FPV cutscenes)
+
+```
+cutscene_id:         cs_hellbox_2_arrival  (Act 5 first-time + every subsequent visit)
+camera_position:     (0.00, 0.00, eye_level)  # at arrival mandala
+camera_facing:       (0°, 8°, 0°)  # facing forward; slight upward tilt to take in throne apse
+avatar_height_anchor: eye_level
+head_motion:         camera materialises with bell-toll resonance; slow head-pan to take in massive Sanctum scale; lasts 12s
+
+cutscene_id:         cs_hellbox_2_master_of_rlyeh_question
+camera_position:     (0.00, 8.00, eye_level)  # at central altar
+camera_facing:       (0°, 0°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         player approaches altar; oculus pulses; throne backlight blooms; Master of R'lyeh asks: "Is mercy a debt, or a gift?"; radial menu appears
+
+cutscene_id:         cs_hellbox_2_throne_approach  (rare; Acts 6+)
+camera_position:     (0.00, 32.00, eye_level)  # at throne dais top
+camera_facing:       (0°, 0°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         player has climbed dais; throne becomes inhabited; Master of Mercy silhouette materialises; brief silent acknowledgement
+
+cutscene_id:         cs_demon_summon_prep + cs_demon_summon + cs_demon_contract_bind + cs_demon_summon_success + cs_demon_summon_dismiss  (per §3.1.A.4; 5 cutscenes)
+camera_position:     (0.00, 8.00, eye_level)  # all 5 at central altar
+camera_facing:       varies per phase
+avatar_height_anchor: eye_level
+head_motion:         per §3.1.A.4 (full sequence specced in INCEPTION doc)
+
+cutscene_id:         cs_hellbox_2_close  (return-transit invocation)
+camera_position:     (0.00, 0.00, eye_level)  # at arrival mandala
+camera_facing:       (0°, 0°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         player kneels at mandala; bell-toll fades; throne re-materialises faintly in distance; ~5s ceremonial fade to ark.hierarchy_throne
+```
+
+### H.2.11 Doorways
+
+```
+door_id:            hellbox.castle_of_death.return_transit_anchor
+connecting_space_id: ark.hierarchy_throne (host room)
+door_position:      (0.00, 0.00, 0.005)  # at arrival mandala
+door_dimensions:    n/a (cosmological)
+door_class:         portal
+unlock_condition:   always available once player is in Hellbox
+transit_animation:  ~5s ceremonial fade (bell-toll fades; throne dims)
+audio_signature:    bell-toll dissipating; ozone clearing; Hierarchy Throne ambient bed fades in
+
+(Internal doorways within Hellbox interior — wing archways + minor-chamber thresholds — specced in walls.)
+```
+
+### H.2.12 Adjacency map
+
+```
+direct_adjacencies:
+  - ark.hierarchy_throne (return-transit; host room)
+  - hellbox.castle_of_death.throne_of_mercy_apse (continuous space; cathedral within Hellbox)
+  - hellbox.castle_of_death.hall_of_acknowledged_debts (west wing; continuous space)
+  - hellbox.castle_of_death.chamber_of_the_forgotten (east wing; continuous space)
+  - hellbox.castle_of_death.forgive_or_damn_tribunal (south wing; continuous space)
+  - hellbox.castle_of_death.minor_chamber.<n> (15 minor-chambers; deferred sub-spaces)
+one_hop_adjacencies:
+  - hellbox.master_hellbox (HB5 Universal Selector; if unlocked Act 7)
+  - hellbox.celebration_school (HB1; thematic kinship — both meditate on death)
+state_shared_with:
+  - ark.hierarchy_throne (HB2-faction-pull state)
+  - the player's running list of dead crew (cumulative; updates death-register + portrait-walls)
+  - the player's mercy-acts log (visible in throne-apse relief)
+  - the player's debt-acknowledgements (visible in hall-of-debts ledger walls)
+```
+
+### H.2.13 Gameplay hooks
+
+```
+hooks:
+  - hook_id:         hb2.return_transit
+    trigger:         player.interact on player_arrival_mandala
+    procedure:       trpc.hellbox.hb2.return_transit
+    success_state:   transit_started_to_hierarchy_throne
+  - hook_id:         hb2.invoke_master_of_rlyeh
+    trigger:         player.approach_for_master_of_rlyeh on sanctum_altar_central
+    procedure:       trpc.hellbox.hb2.altar.invoke_master_of_rlyeh
+    success_state:   master_of_rlyeh_question_active = true
+  - hook_id:         hb2.commit_faction_answer
+    trigger:         (state-conditional) player commits faction answer
+    procedure:       trpc.hellbox.hb2.faction_answer.commit
+    success_state:   faction_answer_committed = <faction>
+  - hook_id:         hb2.place_offering
+    trigger:         player.interact on sanctum_altar_central with offering
+    procedure:       trpc.hellbox.hb2.altar.place_offering
+    success_state:   offering_consumed = true
+  - hook_id:         hb2.invoke_demon_summon
+    trigger:         (state-conditional) player has placed sufficient offerings + has contract
+    procedure:       trpc.hellbox.hb2.altar.invoke_demon_summon
+    success_state:   demon_summoning_started = true (triggers 5-cutscene sequence per §3.1.A.4)
+  - hook_id:         hb2.dismiss_demon
+    trigger:         player.dismiss on summoned demon
+    procedure:       trpc.hellbox.hb2.demon.dismiss
+    success_state:   demon_dismissed
+  - hook_id:         hb2.approach_throne
+    trigger:         player.approach on throne_of_mercy (climbed dais)
+    procedure:       trpc.hellbox.hb2.throne.approach
+    success_state:   throne_approached = true (rare lore-flag; Master of Mercy materialises)
+  - hook_id:         hb2.read_throne_relief
+    trigger:         player.inspect on throne_apse.relief
+    procedure:       trpc.hellbox.hb2.throne_relief.inspect
+    success_state:   throne_relief_read = true
+  - hook_id:         hb2.read_sanctum_relief
+    trigger:         player.inspect on sanctum.relief.<aspect>
+    procedure:       trpc.hellbox.hb2.sanctum_relief.inspect (per-aspect)
+    success_state:   sanctum_relief_read = true (per-aspect; 6 total)
+  - hook_id:         hb2.acknowledge_debt
+    trigger:         player.interact on hall_of_debts.altar_west
+    procedure:       trpc.hellbox.hb2.hall_debts.altar.acknowledge
+    success_state:   debt_acknowledged = true (per-acknowledgement)
+  - hook_id:         hb2.take_ledger
+    trigger:         player.interact on hall_of_debts.ledger_walls
+    procedure:       trpc.hellbox.hb2.hall_debts.ledger.take
+    success_state:   ledger_read = true (per-ledger)
+  - hook_id:         hb2.converse_scribe
+    trigger:         player.converse on hall_of_debts.scribe_anchor
+    procedure:       trpc.hellbox.hb2.scribe.converse
+    success_state:   scribe_dialogue_unlocked
+  - hook_id:         hb2.name_a_forgotten
+    trigger:         player.interact on chamber_of_forgotten.altar_east
+    procedure:       trpc.hellbox.hb2.chamber_forgotten.altar.name
+    success_state:   forgotten_named = true (per-name; fills a portrait)
+  - hook_id:         hb2.light_forgotten_candle
+    trigger:         player.interact on chamber_of_forgotten.candle_array
+    procedure:       trpc.hellbox.hb2.chamber_forgotten.candle.light
+    success_state:   candle_lit = true (per-candle)
+  - hook_id:         hb2.tribunal_plead_forgiveness
+    trigger:         player.interact on tribunal.player_lectern (forgiveness path)
+    procedure:       trpc.hellbox.hb2.tribunal.lectern.plead (forgiveness)
+    success_state:   pleading_active = forgiveness
+  - hook_id:         hb2.tribunal_plead_damnation
+    trigger:         player.interact on tribunal.player_lectern (damnation path)
+    procedure:       trpc.hellbox.hb2.tribunal.lectern.plead (damnation)
+    success_state:   pleading_active = damnation
+  - hook_id:         hb2.converse_jurist
+    trigger:         player.converse on tribunal.jurist_chair.<faction>
+    procedure:       trpc.hellbox.hb2.tribunal.jurist.converse
+    success_state:   jurist_dialogue_unlocked = true (per-jurist; 7 total)
+  - hook_id:         hb2.converse_priest
+    trigger:         player.converse on hierarchy_priest_anchor
+    procedure:       trpc.hellbox.hb2.priest.converse
+    success_state:   priest_dialogue_unlocked = true
+```
+
+### H.2.14 Story-tie
+
+```
+primary_arcs:
+  - arc.act_5_HB2_invocation
+  - arc.act_5_master_of_rlyeh_second_question
+  - arc.hierarchy_devotion (continuous Acts 5-7)
+  - arc.demon_summoning (continuous after first contract; per §3.1.A.4)
+  - arc.forgive_or_damn_tribunal (continuous; player's accumulated mercy-acts shape outcomes)
+  - arc.fallen_crew (cross-ref; Chamber of Forgotten + portrait-walls)
+  - arc.cumulative_debt (Hall of Acknowledged Debts; ledger updates)
+per_act_evolution:
+  acts_0_4: room locked + invisible (Hierarchy faction-alignment required)
+  act_5: room first invocable (after Hierarchy alignment); first Master of R'lyeh question; first canonical death in Castle relief
+  act_6: deeper rituals available; demon-summoning unlocked (after first contract); jurists begin to converse meaningfully
+  act_7: state-branched: Hierarchy-master ending (player has been deeply Hierarchy-aligned; Master of Mercy appears at Throne) vs. Hierarchy-distant ending (cold + empty)
+npc_roster:
+  - the_hierarchy_priest_of_death: primary occupant; conducts rituals
+  - the_master_of_mercy: rare visible at Throne (Acts 6+ only when Hierarchy fully aligned)
+  - 7 tribunal jurists: 5 faction-aligned + 2 cosmic visitors
+  - the_scribe_of_debts: Hall of Acknowledged Debts NPC
+  - rare_minor_chamber_NPCs: deferred 15 sub-spaces have their own NPCs
+  - the_master_of_rlyeh: voice-only at altar + throne during faction-answer moments
+  - demons (per summoning): manifestations only during demon-summoning
+readables:
+  - sanctum south plaque (Hierarchy death-creed; 4-line proto-Latin canon)
+  - 6 sanctum hexagonal reliefs (per-aspect canonical death-scene)
+  - throne apse relief (Master of Mercy + supplicant)
+  - 8 throne-apse stained-glass windows (mercy-canon scenes)
+  - Hall of Debts ledger walls (~1,000 unique ledger entries)
+  - Hall of Debts eternal-ledger relief
+  - Chamber of Forgotten "no-one-remembers" relief
+  - Chamber of Forgotten ~200 empty portraits (each fills as player names)
+  - Tribunal banners (4 mottos)
+  - Tribunal "justice eternal" relief
+  - Jurist nameplates (7 jurists)
+  - Player lectern pleading-book (canonical pleadings template)
+master_of_rlyeh_question: "Is mercy a debt, or a gift?"
+faction_answers: per §3.12.4 (Architect Remnants / New Babylon / Hierarchy / Insurgency / Dreamers Children — Hierarchy strongest pull)
+```
+
+### H.2.15 Special-FX
+
+```
+particle_systems:
+  - incense_smoke (high; from 6 censers + 4 wing braziers; rises continuously)
+  - cold_breath_motes (very low; visible breath in cold zones — Sanctum + Chamber of Forgotten)
+  - candle_smoke (medium; 50 candles in Chamber of Forgotten + altar + censers)
+  - dust (very low; sacred maintenance)
+  - ritual_residue_motes (state-conditional during demon-summoning + answer-moments)
+  - portrait_filling_motes (state-conditional; when player names a forgotten one, motes flow into the empty frame)
+  - debt_ledger_glint (subtle; bronze-spine catches light)
+  - tribunal_judgement_motes (state-conditional during forgive-or-damn)
+  - return_transit_petals (one-shot)
+  - master_of_mercy_silhouette_emanation (rare; state-conditional; warm-gold motes flow from throne)
+volumetric_effects:
+  - sanctum_oculus_volumetric_glow (deep red-amber down through Sanctum)
+  - throne_apse_dome_volumetric_beam (warm gold-red cone above throne)
+  - apsidal_stained_glass_volumetric_beams (8 dramatic light shafts in Throne apse)
+  - bell_toll_visualisation (subtle pulse radiates from impossibly-above)
+  - censer_smoke_columns (6 vertical pillars rising)
+  - master_of_rlyeh_voice_radiance (state-conditional)
+  - demon_manifestation_volumetric (state-conditional; per §3.1.A.4)
+procedural_animations:
+  - oculus_pulse_with_bell (period 60s)
+  - chandelier_subtle_sway (very slow)
+  - censer_flame_organic (continuous)
+  - candle_flickers (continuous; 50+ sources)
+  - throne_subtle_warmth (when Master of Mercy present)
+  - apsidal_relief_subtle_animation (figure subtly shifts; uncanny)
+  - debt_ledger_subtle_glint
+  - portrait_subtle_age_shift (frames slowly accumulate patina)
+  - bell_toll_air_pulse_visualisation
+reactive_systems:
+  - sanctum_oculus_intensifies_on_player_at_altar
+  - chandelier_intensifies_on_player_at_wing_centre
+  - throne_glow_intensifies_on_dais_climb
+  - relief_animates_on_inspection
+  - censer_intensify_on_proximity (within 1.5 m)
+  - master_of_mercy_silhouette_appears_on_dais_top
+  - demon_summoning_one_shot_full_sequence
+  - portrait_fills_on_naming_one_shot
+```
+
+### H.2.16 Avatar-parametricity
+
+```
+camera_height_variation:
+  small_xenomorph (0.85m eye): camera height 0.85m; Sanctum scale feels overwhelming; Throne dais climb is harder (alternate slow-climb animation)
+  short_humanoid (1.40m eye): standard short scale
+  average_humanoid (1.70m eye): standard
+  tall_humanoid (2.05m eye): comfortable; sanctum oculus feels closer
+  tall_xenomorph (2.70m eye): some chandeliers at near-head-level; alternate route around centre
+reachability:
+  small_xenomorph: cannot reach throne (climb 12 steps with smaller-stride animation; takes ~8s instead of ~6s)
+  small_xenomorph: cannot reach upper sanctum reliefs at z = 6.00; relay-inspect from below with magnifier
+  small_xenomorph: cannot reach throne-apse relief at z = 12.00; relay-inspect
+  small_xenomorph: cannot reach upper hall-of-debts ledgers; alternate rolling ladder
+  small_xenomorph: cannot reach upper portrait-frames in Chamber of Forgotten; relay-inspect
+  others: all-reachable
+audio_occlusion_variation:
+  xenomorph_sensitive_hearing: bell-toll deeply pronounced; chants overwhelming during ritual hours
+  synthetic_voice_avatar: Master of R'lyeh voice has subtle synthetic-resonance bias; demon-voice too
+```
+
+### H.2.17 Performance
+
+```
+polygon_budget:      950,000 polygons (very large perceptual scale + complex architecture + many NPCs + cathedral apse + 4 wings + 15 minor-chamber threshold-stubs)
+texture_budget:      560 MB total (extensive bronze, marble, gold-leaf, stained-glass, velvet materials)
+light_count_limit:   36 simultaneous dynamic lights (oculus + 6 chandeliers + 4 wing chandeliers + 8 stained-glass + practical sources)
+lod_plan:
+  - hero_distance: 0-20m, full detail (immediate Sanctum)
+  - mid_distance: 20-50m, mid detail (wing-chambers as silhouettes; minor-chamber thresholds simplified)
+  - long_distance: 50m+, low detail (apsidal-vault distant detail; perceptual sky)
+streaming_behaviour:
+  - preload: ark.hierarchy_throne (host room)
+  - on_wing_threshold_approach: preload that wing-chamber fully (already partially loaded as continuous space)
+  - on_minor_chamber_threshold_approach: preload that minor-chamber sub-space (deferred from FULL spec; placeholder loading)
+  - on_demon_summon_invocation: preload demon-manifestation assets
+  - on_throne_dais_top_reached: preload Master of Mercy NPC silhouette + dialogue
+```
