@@ -18,9 +18,9 @@ import {
 const CDN_PREFIX = "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/";
 
 describe("Cinematics manifest", () => {
-  it("ships exactly 9 cinematics (per producer drop)", () => {
-    expect(CINEMATICS_TOTAL).toBe(9);
-    expect(CINEMATICS).toHaveLength(9);
+  it("ships 9 base cinematics + 5 Y1Q–Y2Q1 quarterly mini-DLC openers (per 2026-05-10 producer drop)", () => {
+    expect(CINEMATICS_TOTAL).toBe(14);
+    expect(CINEMATICS).toHaveLength(14);
   });
 
   it("has unique cinematic ids", () => {
@@ -35,17 +35,30 @@ describe("Cinematics manifest", () => {
     expect(acts).toEqual(new Set([1, 2, 3, 4, 5, 6, 7]));
   });
 
-  it("the two universal cinematics (pack opening, hierarchy reveal) carry no gateAct", () => {
+  it("the two universal base cinematics + 5 Y1Q–Y2Q1 openers carry no gateAct", () => {
     const universal = CINEMATICS.filter((c) => c.gateAct === undefined);
     expect(universal.map((c) => c.id).sort()).toEqual([
       "01_pack_opening",
       "02_hierarchy_reveal",
+      "y1q1_first_charter",
+      "y1q2_pale_inheritance",
+      "y1q3_curriculum_crisis",
+      "y1q4_witness_plaza",
+      "y2q1_charter_schism",
     ]);
   });
 
-  it("every cinematic has a videoRelPath under videos/cinematics/", () => {
+  it("every cinematic has a videoRelPath in a recognized directory", () => {
+    // The 9 base cinematics live under videos/cinematics/<id>/.
+    // The 5 Y1Q–Y2Q1 openers live under videos/dlc_mystery/<slug>/.
+    const baseRe = /^videos\/cinematics\/\d{2}_[a-z0-9_]+\/cinematic_\d{2}_[a-z0-9_]+\.mp4$/;
+    const dlcRe =
+      /^videos\/dlc_mystery\/y[12]q[1-4]_[a-z_]+\/dlc_y[12]q[1-4]_[a-z_]+\.mp4$/;
     for (const c of CINEMATICS) {
-      expect(c.videoRelPath).toMatch(/^videos\/cinematics\/\d{2}_[a-z0-9_]+\/cinematic_\d{2}_[a-z0-9_]+\.mp4$/);
+      expect(
+        baseRe.test(c.videoRelPath) || dlcRe.test(c.videoRelPath),
+        `unrecognized videoRelPath for ${c.id}: ${c.videoRelPath}`,
+      ).toBe(true);
     }
   });
 
