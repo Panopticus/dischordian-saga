@@ -35,6 +35,7 @@ import { SilentUnlockTutorCard } from "./components/SilentUnlockTutorCard";
 import { AntiquarianBridgeOverlay } from "./components/AntiquarianBridgeOverlay";
 import { LockeInboxBridgeOverlay } from "./components/LockeInboxBridgeOverlay";
 import { CampaignObjectiveTracker } from "./components/CampaignObjectiveTracker";
+import { QuietMomentOverlay } from "./components/QuietMomentOverlay";
 import HellboxAffordanceToast from "./components/HellboxAffordanceToast";
 import MolGarathAudienceOfferToast from "./components/MolGarathAudienceOfferToast";
 import RecruitAlignmentBadge from "./components/RecruitAlignmentBadge";
@@ -857,6 +858,7 @@ function GameGate() {
       <AntiquarianBridgeOverlay />
       <LockeInboxBridgeOverlay />
       <CampaignObjectiveTracker />
+      <QuietMomentOverlay />
       <HellboxAffordanceToast />
       <MolGarathAudienceOfferToast />
       <RecruitAlignmentBadge />
