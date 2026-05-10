@@ -9902,123 +9902,728 @@ streaming_behaviour:
 
 ## A.20 War Room (Strategist Sanctum) — FULL
 
-**Status: FULL spec (compact).** Cross-ref §2.20.
+**Status: FULL spec.** Cross-ref `INCEPTION_ARK_FINAL_PRODUCTION.md`
+§2.20 (art-state prompts).
 
 ### A.20.1 Header
 
 ```
 space_id:        ark.war_room
 space_name:      War Room (Strategist Sanctum)
-space_type:      ark_room
+space_type:      ark_room  (D8 sanctum)
 act_introduced:  Act 4
 lore_anchor:     loredex.system.alliance_war + loredex.faction.strategists + arc.faction_war + arc.act_4_first_strategy_session
-aesthetic_tier:  solar_punk_cathedral  (strategic-grit; tactical-formal)
+aesthetic_tier:  solar_punk_cathedral  (strategic-grit; tactical-formal; the most formal command space outside the Bridge)
 ```
 
 ### A.20.2 Geometry
 
 ```
 dimensions:           14.00 m × 14.00 m × 4.50 m
-origin_point:         centre of floor at south entrance
-coordinate_axes:      +x = right, +y = forward, +z = up
+origin_point:         centre of floor at south entrance threshold
+coordinate_axes:      +x = right, +y = forward (north), +z = up
 floor_plan_geometry:  rectangular
 volumetric_anomalies: none
 ```
 
 The War Room is square, formal, dominated by a vast central
-strategic holo-map (5 × 4 m) that displays the entire galactic
-alliance theatre. Wall-mounted faction-standing displays line all
-4 walls. Long briefing table on south side seats 8 strategists.
+strategic holo-map (5.00 × 4.00 m footprint) that displays the
+entire galactic alliance theatre as a 3D projection. Wall-mounted
+faction-standing displays line east and west walls (6 displays
+per side, one per major faction in each alliance). Long briefing
+table on south side seats 8 strategists; chief strategist's chair
+at the south end faces north toward the holo-map. North wall
+holds the grand alliance-war central display + historical war
+relief.
 
 Floor area: 196 m².
 
-### A.20.3-8 Compact
+### A.20.3 Floor
 
 ```
-floor: gunmetal-grey steel deck plate; bronze inlay outlining holo-map zone (5×4 m central); brass perimeter; tactical-grid etch
-walls:
-  south: gunmetal panel; south.door.main pressure_seal connects to ark.corridor.war_room_approach (Act 4+); 8-strategist briefing table at south end (4 m wide); plaque "WAR DEMANDS PATIENCE"
-  east: gunmetal with 6-faction standing displays (one per major faction; 1.0×0.6×0.05 each); alliance bracket display (1.4×0.8); tactical wall-display (2.4×1.6)
-  north: gunmetal with grand alliance-war central display (4.0×2.4); flanked by historical war-relief; "VICTORY THROUGH UNITY"
-  west: mirror of east; 6-faction standing displays for opposing alliance; tactical wall-display
-ceiling: 4.50 m baseline; suspended high-bay grid; reinforced framework; 4 alert-strobes at corners; minimal atmosphere
-lighting:
-  ambient_baseline: 5000 K cool-tactical; 280 lux; CRI 90
-  high_bay_array: 4 fixtures at z=4.20; 4500 lumens each; cool white
-  holo_map_glow: variable; matches map content; pulses with battle activity
-  briefing_table_pendant: at (0.00, 1.50, 4.00); cool white; 4000 lumens
-  faction_display_strip.east, .west: above each display column; 600 lumens/m
-  alert_strobes.<corner>×4: red-orange; off baseline; flash during alerts
-atmosphere: 19°C cool / 38% RH dry / smells of steel + ozone (display electronics) + faint coffee
-sound:
-  ambient_bed: -32 dB; cooling fans, distant alliance-comms-static, occasional alarm-chirp
-  point_sources: holo_map_hum; faction_display_buzz.<n>; cooling_fan.<n>×8
-  reverb_zone: war_room_v1.wav wet 22%
-  music_eligibility: cutscene only
-  voice_line: the_chief_strategist (named NPC); alliance_command_relay (institutional)
+material_primary:     industrial gunmetal-grey steel deck plate (heavy-duty); 1.20 m × 1.20 m tiles; 4 mm gap; reinforced anti-static coating
+material_secondary:   bronze inlay outlining the central holo-map zone (5.00 × 4.00 m); brass perimeter trim; brass walkway-strip from entrance through to holo-map
+pattern:              tactical-grid etch + central holo-map marker; subtle radial echo from entrance to holo-map suggesting "all paths lead to command"
+wear_state:           pristine in early acts; in late-act if multiple alliance-wars fought, slight wear-trail to holo-map approach + chief strategist chair; in Act 7 if alliance is in collapse, fluid-stains around briefing table
+embedded_features:
+  - id: ark.war_room.floor.charge_point.holo_map
+    position: (0.00, 7.00, 0.00)  # under holo-map centre
+    dimensions: 0.60 × 0.60 × 0.05
+    function: holo-map projection power + battle-data feeds
+  - id: ark.war_room.floor.charge_point.briefing_table
+    position: (0.00, 1.50, 0.00)
+    dimensions: 0.40 × 0.40 × 0.05
+    function: briefing-table electronics
+  - id: ark.war_room.floor.alert_anchor.<corner>  (4 corner anchors)
+    position: per corner of room
+    dimensions: 0.20 × 0.20 × 0.05 each
+    function: alert-strobe + alarm-system electronics
+  - id: ark.war_room.floor.emergency_lockdown_seal
+    position: (0.00, 0.50, 0.00)  # at south entrance
+    dimensions: 1.40 × 0.20 × 0.10
+    function: emergency-lockdown bulkhead deploys here in critical states
+acoustic_property:    hard_reflective (steel) with directional baffling toward holo-map; RT60 = 0.55s (intentional; supports tactical voice clarity at briefing)
 ```
 
-### A.20.9 Object inventory (compact)
+### A.20.4 Walls
+
+#### Wall: South (entrance + briefing zone)
+
+```
+wall_id:              south
+material_primary:     painted steel panel with rivet-detail; matte gunmetal-grey; reinforced
+material_secondary:   bronze dado at z = 1.10 m
+panelisation:         standard; 9 panels wide × 3 tall
+colour_value:         --token-color-ark-war-room-wall-south  (gunmetal-grey + tactical-amber pin-stripe at z = 2.00 m)
+embedded_displays:
+  - id: ark.war_room.south.display.alliance_status
+    position: (-3.00, 0.20, 1.80)
+    dimensions: 1.20 × 0.80 × 0.05
+    content: current alliance-war status (cross-ref ark.defense_command_center)
+  - id: ark.war_room.south.display.briefing_schedule
+    position: (3.00, 0.20, 1.80)
+    dimensions: 1.20 × 0.80 × 0.05
+    content: scheduled strategy sessions + attendees
+embedded_doors:
+  - door_id: ark.war_room.south.door.main
+    position: (0.00, 0.00, 0.00)
+    dimensions: 1.60 × 2.40 × 0.10
+    door_class: pressure_seal  (security; biometric authentication; war-room-grade)
+    connecting_space_id: ark.corridor.war_room_approach
+    unlock_condition: Act 4+
+decorative_features:
+  - id: ark.war_room.south.plaque.creed
+    position: (0.00, 0.20, 3.20)
+    dimensions: 1.20 × 0.40 × 0.02
+    material: cast bronze with deep-etched text + heavy patina
+    narrative_role: reads "WAR DEMANDS PATIENCE / PEACE DEMANDS WAR" — the Strategist-faction creed
+  - id: ark.war_room.south.warning_sign.classified
+    position: (5.00, 0.20, 3.50)
+    dimensions: 0.40 × 0.30 × 0.01
+    material: yellow-and-black painted steel
+    narrative_role: classified-room warning; reinforces formality
+```
+
+#### Wall: East (6 faction-standing displays + tactical wall-display)
+
+```
+wall_id:              east
+material_primary:     painted steel; reinforced; some rust patina at lower corners (lived-in feel)
+material_secondary:   bronze dado
+panelisation:         standard
+colour_value:         --token-color-ark-war-room-wall-east  (gunmetal with subtle alliance-amber pin-stripe)
+embedded_displays:
+  - id: ark.war_room.east.faction_standing.<n>  (6 displays at y = 2.0, 3.5, 5.0, 6.5, 8.0, 9.5)
+    position: along east wall
+    dimensions: 1.00 × 0.60 × 0.05 each
+    content: per-faction status (one per major faction in player's alliance)
+  - id: ark.war_room.east.alliance_bracket_display
+    position: (6.95, 11.50, 1.80)
+    dimensions: 1.40 × 0.80 × 0.05
+    content: alliance bracket showing current war structure
+  - id: ark.war_room.east.tactical_wall_display
+    position: (6.95, 7.00, 2.50)
+    dimensions: 2.40 × 1.60 × 0.05
+    content: deep-tactical analysis (terrain + threat-projections from holo-map)
+embedded_doors:        none
+decorative_features:
+  - id: ark.war_room.east.warning_strobe
+    position: (6.95, 12.00, 4.20)
+    dimensions: 0.30 × 0.30 × 0.30
+    material: red-orange housing with warning lens
+    narrative_role: combat-alert strobe (off in baseline; activates on declaration of war)
+```
+
+#### Wall: North (grand alliance-war display + historical war relief)
+
+```
+wall_id:              north
+material_primary:     painted steel; reinforced; full-height grand-display backing
+material_secondary:   bronze dado; bronze frame around grand display
+panelisation:         standard
+colour_value:         --token-color-ark-war-room-wall-north
+embedded_displays:
+  - id: ark.war_room.north.grand_war_display
+    position: (0.00, 13.95, 2.50)
+    dimensions: 4.00 × 2.40 × 0.10
+    content: THE central display; full grand-alliance war state (real-time + historical overlay)
+embedded_doors:        none
+decorative_features:
+  - id: ark.war_room.north.relief.victory_through_unity
+    position: (0.00, 13.85, 4.00)
+    dimensions: 2.40 × 0.60 × 0.10
+    material: cast bronze with deep relief
+    narrative_role: depicts allied figures clasping arms; reads "VICTORY THROUGH UNITY"
+  - id: ark.war_room.north.alliance_emblem
+    position: (0.00, 13.85, 5.00)
+    dimensions: 0.80 × 0.60 × 0.04
+    material: cast bronze with gilt highlights
+    narrative_role: alliance-faction emblem; player's alliance only
+```
+
+#### Wall: West (6 opposing faction displays — mirror of east)
+
+```
+wall_id:              west
+material_primary:     same as east
+material_secondary:   bronze dado
+panelisation:         standard
+colour_value:         --token-color-ark-war-room-wall-west
+embedded_displays:
+  - id: ark.war_room.west.opposing_faction_standing.<n>  (6 displays mirror of east)
+    position: along west wall
+    dimensions: 1.00 × 0.60 × 0.05 each
+    content: per-opposing-faction status (enemy alliance)
+  - id: ark.war_room.west.opposing_alliance_bracket
+    position: (0.05, 11.50, 1.80)
+    dimensions: 1.40 × 0.80 × 0.05
+    content: opposing alliance bracket
+  - id: ark.war_room.west.tactical_wall_display.opposing
+    position: (0.05, 7.00, 2.50)
+    dimensions: 2.40 × 1.60 × 0.05
+    content: opposing-side tactical analysis
+embedded_doors:        none
+decorative_features:
+  - id: ark.war_room.west.warning_strobe
+    position: (0.05, 12.00, 4.20)
+    dimensions: 0.30 × 0.30 × 0.30
+    material: red-orange housing
+    narrative_role: combat-alert strobe (mirror of east)
+```
+
+### A.20.5 Ceiling
+
+```
+height_above_floor:     4.50 m baseline; central drop coffer at 4.00 m above holo-map (gives the central command-area intimacy)
+material:               exposed structural steel framework with industrial conduits; central coffer is a dark backlit panel (cool-tactical tone)
+lighting_integrated:    suspended high-bay fixtures on 2.40 m × 2.40 m grid (excluding holo-map central zone); central coffer has direct holo-map illumination; perimeter strip-lighting at z = 4.20 wall-edge
+atmospheric_features:   subtle haze in central volume above holo-map (cosmetic; suggests "battle smoke"); intensifies during alert states (warning strobes activate)
+acoustic_treatment:     baffled (war-room-grade voice clarity)
+```
+
+### A.20.6 Lighting
+
+```
+ambient_baseline:     5000 K (cool-neutral; tactical-formal); 280 lux at floor level; CRI 90
+direct_fixtures:
+  - id: ark.war_room.light.high_bay_array
+    position: distributed at z = 4.20 on 2.40 × 2.40 grid (excluding holo-map zone)
+    beam_angle: 90°
+    colour: --token-color-ark-war-room-high-bay  (cool tactical white)
+    intensity: 4500 lumens each
+    function: ambient task lighting
+  - id: ark.war_room.light.holo_map_central_glow
+    position: (0.00, 7.00, 0.00)  # at holo-map centre
+    beam_angle: 360° upward + outward (radial)
+    colour: variable (matches holo-map content; deep navy with red/amber/cyan accents)
+    intensity: variable (3000-15000 lumens; pulses with battle activity)
+    function: principal — the holo-map IS the room's primary visual
+  - id: ark.war_room.light.briefing_table_pendant
+    position: (0.00, 1.50, 4.00)
+    beam_angle: 60° downward
+    colour: --token-color-ark-war-room-briefing-pendant  (cool white)
+    intensity: 4000 lumens
+    function: focused briefing-table illumination
+  - id: ark.war_room.light.faction_display_strip.east
+    position: along east wall above faction-standing displays at z = 3.40
+    beam_angle: 90° downward
+    colour: 4500 K cool
+    intensity: 600 lumens per metre
+    function: display-bezel accent
+  - id: ark.war_room.light.faction_display_strip.west
+    position: mirror of east
+    beam_angle: 90° downward
+    colour: 4500 K cool
+    intensity: 600 lumens per metre
+    function: display-bezel accent
+  - id: ark.war_room.light.grand_display_uplight
+    position: along base of north grand display at z = 1.20
+    beam_angle: 30° upward
+    colour: --token-color-ark-war-room-grand-uplight  (cool tactical with amber hints)
+    intensity: 1200 lumens per metre
+    function: dramatic backlighting for grand display
+practical_sources:
+  - id: ark.war_room.faction_display_glow.east.<n>, .west.<n>  (12 small glows; one per faction display)
+    position: per display
+    intensity: 80 lumens each (varies by faction-status — green for allied; amber for tense; red for hostile)
+    flicker_pattern: stable
+  - id: ark.war_room.alert_strobe_glow.<corner>  (4 emitters; off baseline)
+    position: per corner
+    intensity: 0 lumens (off); 5000 lumens at strobe-flash
+    flicker_pattern: cyclic-strobe (alert states only)
+time_of_day_variation:
+  acts_4_to_7: stable cool baseline; in late-act7, if alliance is winning, holo-map glows brighter + grand-uplight intensifies; if losing, dim + red-tinted
+dynamic_response:
+  - on_alliance_war_declaration: ambient warms to 5800 K alert-tone; alarm-strobes activate; holo-map intensifies
+  - on_briefing_active: briefing pendant intensifies + ambient dims slightly (tactical focus)
+  - on_holo_map_inspection: that-region of holo-map brightens 30%
+  - on_faction_status_change: relevant faction-display flashes briefly + glow colour shifts
+```
+
+### A.20.7 Atmosphere
+
+```
+air_temperature:    19°C (cool — tactical-formal)
+humidity:           38% RH (low; display-electronics-friendly); smells of steel + ozone (display electronics) + faint coffee (strategist's beverages) + warm leather (chair upholstery)
+particulate:
+  - type: dust
+    density: low (tactical-grade air filtration)
+    colour: greyish-iron
+    drift_direction: random
+  - type: ozone_haze
+    density: very low (continuous; from heavy display use)
+    colour: pale-cyan
+    drift_direction: rises
+  - type: combat_visualisation_motes
+    density: state-conditional (during active war; cosmetic motes drift across holo-map zone matching battle activity)
+    colour: red/amber/cyan per battle state
+    drift_direction: matches holo-map flow
+volumetric_fog:     absent in baseline; present during alert states (0.10 g/m³, cool-grey)
+wind_drift:         minimal; 0.04 m/s; HVAC pattern toward central holo-map (heat from electronics)
+smell_canon:        steel + ozone + coffee + leather; voice-line: "smells like the weight of decisions"
+```
+
+### A.20.8 Sound
+
+```
+ambient_bed:           file: war_room_ambient_bed_v1.ogg (loop); -32 dB; cooling fans, distant alliance-comms-static, occasional alarm-chirp, holo-map projection hum
+point_sources:
+  - id: ark.war_room.sound.holo_map_hum
+    position: (0.00, 7.00, 1.05)
+    sound: deep electronic hum (continuous, -28 dB; varies with battle activity)
+    occlusion_behaviour: omnidirectional
+    trigger: continuous
+  - id: ark.war_room.sound.faction_display_buzz.east.<n>, .west.<n>  (12 sources)
+    position: per display
+    sound: low electronic buzz (continuous, -42 dB each)
+    occlusion_behaviour: standard
+    trigger: continuous
+  - id: ark.war_room.sound.cooling_fan.<n>  (8 fans distributed in ceiling)
+    position: distributed
+    sound: HVAC cooling drone (continuous, -38 dB)
+    occlusion_behaviour: omnidirectional
+    trigger: continuous
+  - id: ark.war_room.sound.alarm_klaxon
+    position: (0.00, 13.95, 4.50)
+    sound: low rumble warning tone (off in baseline; -22 dB during alert)
+    occlusion_behaviour: omnidirectional
+    trigger: state-conditional
+  - id: ark.war_room.sound.distant_alliance_comms_static
+    position: (0.00, 13.95, 2.00)
+    sound: muffled radio voices from grand display (cycles random clips; -42 dB)
+    occlusion_behaviour: standard
+    trigger: continuous
+  - id: ark.war_room.sound.briefing_chair_subtle_creak
+    position: distributed at briefing table
+    sound: occasional leather-chair creak (-38 dB)
+    occlusion_behaviour: standard
+    trigger: random (period 60-90s; more frequent during briefings)
+reverb_zone:           IR-impulse: war_room_v1.wav; wet-mix 22% (intentional voice-clarity; tactical)
+music_eligibility:     cutscene only (alliance-war declaration / strategy-session cutscenes)
+voice_line_eligibility:
+  - speaker: the_chief_strategist (named NPC; primary occupant Acts 4+): line set §2.20.2
+  - speaker: alliance_command_relay (institutional voice; ambient announcements): line set §2.20.2
+  - speaker: visiting_alliance_leaders (rotating during briefings): scripted events
+```
+
+### A.20.9 Object inventory
+
+War Room has 36 inventory objects.
+
+#### A.20.9.1 The Central Strategic Holo-Map
+
+```
+object_id:           ark.war_room.holo_map.alliance
+object_class:        display
+position:            (0.00, 7.00, 0.00)
+dimensions:          5.00 × 4.00 × 1.05 (large rectangular footprint; holographic projection rises above)
+rotation:            0°
+material_primary:    brushed-titanium frame with matte-black holographic projection surface
+material_secondary:  bronze edge-trim with status LEDs at corners; brass control panels recessed at south + north sides
+colour_value:        --token-color-ark-war-room-holo-map  (titanium-black with bronze accents; hologram is variable)
+interaction:         interactable
+  - operate: spawns 3D holographic display of full alliance-war theatre; player can plan strategy + issue orders
+  - inspect: lore-note about strategic-table system
+  - inspect_region: zoom to specific battle-region
+narrative_role:      THE central command surface; primary alliance-war gameplay-launcher; strategists gather around for briefings
+lore_anchor:         loredex.system.alliance_war + arc.faction_war
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.war_room.holo_map.operate + .inspect_region
+wear_state:          slight wear at most-touched control panels
+physical_constraints: collides; player can lean
+```
+
+#### A.20.9.2 The Briefing Table (south)
+
+```
+object_id:           ark.war_room.briefing_table
+object_class:        furniture
+position:            (0.00, 1.50, 0.00)
+dimensions:          4.00 × 1.00 × 0.85
+rotation:            0°
+material_primary:    polished walnut top with leather inset; brass corner caps
+material_secondary:  bronze trim; bronze nameplates per seat (8 strategist names)
+colour_value:        --token-color-ark-war-room-briefing-table
+interaction:         interactable
+  - operate: opens briefing UI (player initiates strategy session with attending NPCs)
+  - inspect: lore-note about briefing protocols
+narrative_role:      where strategists meet; gameplay-active during alliance-war events
+lore_anchor:         loredex.system.alliance_war
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.war_room.briefing.start
+wear_state:          worn at the leather inset (centre of table); subtle ink-stains visible
+physical_constraints: collides
+```
+
+#### A.20.9.3-10 Eight Strategist Briefing Chairs
+
+```
+object_id:           ark.war_room.briefing_chair.<n>  (8 chairs at briefing table; 4 per side)
+object_class:        furniture
+positions:           [
+  (-1.50, 0.50, 0.00), (-0.50, 0.50, 0.00), (0.50, 0.50, 0.00), (1.50, 0.50, 0.00),    # south side (4)
+  (-1.50, 2.50, 0.00), (-0.50, 2.50, 0.00), (0.50, 2.50, 0.00), (1.50, 2.50, 0.00),    # north side (4)
+]
+dimensions (each):   0.80 × 0.80 × 1.20
+rotation (each):     varies (faces table)
+material_primary:    matte-black leather; titanium frame; ergonomic for long briefings
+material_secondary:  brass armrests with engraved alliance sigil
+colour_value:        --token-color-ark-war-room-briefing-chair
+interaction:         interactable - sit
+narrative_role:      strategist seating; player can attend briefings; chair 1 (chief's seat) has subtly different upholstery
+lore_anchor:         loredex.system.strategist_council
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.war_room.briefing_chair.sit
+wear_state:          slight wear at most-occupied seats (varies by attendance)
+physical_constraints: collides; sittable
+```
+
+#### A.20.9.11 The Chief Strategist's Chair
+
+```
+object_id:           ark.war_room.chief_strategist_chair
+object_class:        furniture  (also npc_anchor)
+position:            (0.00, -0.30, 0.00)  # at south end of briefing table; faces north
+dimensions:          0.90 × 0.90 × 1.50
+rotation:            0°  (faces north, into the room toward holo-map)
+material_primary:    matte-black leather with deeper-charcoal velvet upholstery; reinforced titanium frame
+material_secondary:  brass armrests with engraved chief-strategist sigil; bronze nameplate "THE CHIEF STRATEGIST"
+colour_value:        --token-color-ark-war-room-chief-chair
+interaction:         interactable - sit (when Chief Strategist absent)
+narrative_role:      THE chief's chair; permanent physical anchor; he's almost always present during briefings
+lore_anchor:         loredex.character.the_chief_strategist
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.war_room.chief_chair.sit
+wear_state:          worn at right armrest (Chief is right-handed); cushion permanently indented
+physical_constraints: collides; sittable
+```
+
+#### A.20.9.12-23 Twelve Faction-Standing Displays (6 east + 6 west)
+
+```
+object_id:           ark.war_room.east.faction_standing.<n>  (6 displays at east wall) and .west.opposing_faction_standing.<n>  (6 displays at west wall)
+object_class:        display
+positions:           per A.20.4 walls section (12 displays total)
+dimensions (each):   1.00 × 0.60 × 0.05
+rotation:            varies (270° east; 90° west)
+material_primary:    OLED display panel
+material_secondary:  brass surround with bronze nameplate per faction (12 distinct factions named)
+colour_value:        per-faction (12 token families; varies by status)
+interaction:         interactable
+  - inspect: deep faction-status detail (military strength, alliances, rivalries, recent actions)
+narrative_role:      per-faction status; visual-key for alliance management
+lore_anchor:         per-faction
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.war_room.faction_standing.inspect
+wear_state:          pristine
+physical_constraints: non-collide (recessed)
+```
+
+#### A.20.9.24-25 Two Alliance Bracket Displays (east + west)
+
+```
+object_id:           ark.war_room.east.alliance_bracket_display, .west.opposing_alliance_bracket
+object_class:        display
+positions:           (6.95, 11.50, 1.80), (0.05, 11.50, 1.80)
+dimensions (each):   1.40 × 0.80 × 0.05
+rotation:            varies
+material_primary:    OLED display
+material_secondary:  brass surround
+colour_value:        (variable + bezel token)
+interaction:         inspectable
+  - inspect: opens bracket-detail UI
+narrative_role:      visual organisation of alliance structure (player's side + enemy side)
+lore_anchor:         loredex.system.alliance_brackets
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.war_room.bracket.inspect
+wear_state:          pristine
+physical_constraints: non-collide
+```
+
+#### A.20.9.26-27 Two Tactical Wall-Displays (east + west; deep analysis)
+
+```
+object_id:           ark.war_room.east.tactical_wall_display, .west.tactical_wall_display.opposing
+object_class:        display
+positions:           (6.95, 7.00, 2.50), (0.05, 7.00, 2.50)
+dimensions (each):   2.40 × 1.60 × 0.05
+rotation:            varies
+material_primary:    OLED + holographic overlay capability
+material_secondary:  brass surround
+colour_value:        (variable)
+interaction:         inspectable
+  - inspect: deep tactical analysis (terrain + threat-projections)
+narrative_role:      large-scale tactical view; complements central holo-map
+lore_anchor:         loredex.system.tactical_analysis
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.war_room.tactical.inspect
+wear_state:          pristine
+physical_constraints: non-collide
+```
+
+#### A.20.9.28 The Grand Alliance-War Display (north)
+
+```
+object_id:           ark.war_room.north.grand_war_display
+object_class:        display
+position:            (0.00, 13.95, 2.50)
+dimensions:          4.00 × 2.40 × 0.10
+rotation:            180°
+material_primary:    composite OLED panel with full-spectrum colour + holographic overlay
+material_secondary:  bronze frame with gilt highlights
+colour_value:        --token-color-ark-war-room-grand-display  (variable; cosmic-amber to red-tinged based on war-state)
+interaction:         interactable
+  - operate: opens grand-strategy UI (highest-level commands)
+  - inspect: war-history archive
+narrative_role:      THE grand display; visible from anywhere in the room
+lore_anchor:         loredex.system.alliance_war
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.war_room.grand_display.operate
+wear_state:          pristine
+physical_constraints: collides
+```
+
+#### A.20.9.29 The Alarm Trigger Console
+
+```
+object_id:           ark.war_room.alarm_panel
+object_class:        console
+position:            (0.00, 0.50, 1.20)  # at south wall, near entrance
+dimensions:          0.60 × 0.20 × 0.80
+rotation:            180°
+material_primary:    red-painted steel housing
+material_secondary:  bronze keyhole + bronze trigger-handle
+colour_value:        --token-color-ark-war-room-alarm-panel  (red with bronze)
+interaction:         interactable
+  - trigger_alarm: deploys emergency alliance-wide alert
+  - inspect: lore-note about alert protocols
+narrative_role:      gameplay-active in critical states; multiplayer alliance-wide alert
+lore_anchor:         loredex.system.alliance_alerts
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.war_room.alarm_panel.trigger
+wear_state:          pristine (rare use)
+physical_constraints: collides
+```
+
+#### A.20.9.30-33 Four Corner Alert Strobes
 
 | object_id | class | position | dim | role |
 |---|---|---|---|---|
-| `ark.war_room.holo_map.alliance` | display | (0.00, 7.00, 0.00) | 5.0×4.0×1.05 | THE central strategic holo-map |
-| `ark.war_room.briefing_table.south` | furniture | (0.00, 1.50, 0.00) | 4.0×1.0×0.85 | 8-strategist briefing table |
-| `ark.war_room.briefing_chair.<n>` (8) | furniture | around briefing table | 0.8×0.8×1.2 each | strategist seats |
-| `ark.war_room.chief_strategist_chair` | furniture+npc_anchor | (0.00, 0.50, 0.00) | 0.9×0.9×1.5 | chief seat (south end) |
-| `ark.war_room.east.faction_standing.<n>` (6) | display | east wall | 1.0×0.6×0.05 each | 6 faction status displays |
-| `ark.war_room.west.faction_standing.<n>` (6) | display | west wall | mirror | 6 opposing faction displays |
-| `ark.war_room.east.tactical_wall_display` | display | (6.95, 7.00, 2.50) | 2.4×1.6×0.05 | east tactical |
-| `ark.war_room.west.tactical_wall_display` | display | (0.05, 7.00, 2.50) | mirror | west tactical |
-| `ark.war_room.north.grand_war_display` | display | (0.00, 13.95, 2.50) | 4.0×2.4×0.10 | central grand display |
-| `ark.war_room.alarm_panel` | console | (0.00, 0.50, 1.20) | 0.6×0.2×0.8 | alarm trigger |
-| `ark.war_room.alert_strobes.<corner>` (4) | fx_emitter | corners | 0.3×0.3×0.3 each | combat alerts |
-| `ark.war_room.south.intercom` | console | (-2.0, 0.2, 1.5) | 0.2×0.1×0.3 | comms |
-| `ark.war_room.fire_extinguisher.south` | interactive | (2.0, 0.2, 1.2) | 0.2×0.2×0.5 | safety |
-| `ark.war_room.first_aid` | container | (-3.0, 0.2, 1.5) | 0.4×0.1×0.3 | medical |
-| `ark.war_room.south.plaque.creed` | decoration | (0.00, 0.20, 3.20) | 1.0×0.4×0.02 | "WAR DEMANDS PATIENCE" |
-| `ark.war_room.north.relief.victory` | decoration | (0.00, 13.85, 4.00) | 2.4×0.6×0.10 | "VICTORY THROUGH UNITY" |
-| `ark.war_room.compass_inlay` | decoration | (0.00, 7.00, 0.005) | 1.4×1.4×0.005 | floor inlay under holo-map |
+| `ark.war_room.alert_strobe.<corner>` (4) | fx_emitter | corners at z = 4.20 | 0.30 × 0.30 × 0.30 each | combat-alert strobes (off baseline; activate during alert) |
 
-Total: 32 inventory objects.
+#### A.20.9.34-36 Closing Items
 
-### A.20.10-17 Compact
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.war_room.south.intercom` | console | (-2.00, 0.20, 1.50) | 0.20 × 0.10 × 0.30 | comms relay |
+| `ark.war_room.fire_extinguisher.south` | interactive | (2.00, 0.20, 1.20) | 0.20 × 0.20 × 0.50 | safety |
+| `ark.war_room.first_aid.kit.south` | container | (-3.00, 0.20, 1.50) | 0.40 × 0.10 × 0.30 | medical |
+
+Total: 36 inventory objects.
+
+### A.20.10 Camera-spawn-points (FPV cutscenes)
 
 ```
-camera_spawn_points:
-  cs_amb_war_room (Cat B): POV at threshold; slow approach to holo-map; head pans to faction displays; 18s
-  cs_first_strategy_session (Act 4): POV at chief strategist chair; first alliance briefing
+cutscene_id:         cs_amb_war_room  (Category B; deferred catalogue)
+camera_position:     (0.00, 0.50, eye_level)  # at threshold
+camera_facing:       (0°, 5°, 0°)  # looking forward and up at holo-map + grand display
+avatar_height_anchor: eye_level
+head_motion:         slow approach to holo-map; head pans east + west to scan faction displays; pause at holo-map; head looks up at grand display; lasts 22s
 
-doorways: south.door.main → ark.corridor.war_room_approach; pressure_seal; Act 4+
+cutscene_id:         cs_first_strategy_session  (Act 4 one-shot)
+camera_position:     (0.00, -0.30, eye_level)  # at chief strategist chair
+camera_facing:       (0°, 0°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         seated; chief strategist enters; first alliance briefing begins
 
-adjacency: direct corridor; one_hop ark.bridge (tactical command), ark.governance_chamber (Act 4+)
+cutscene_id:         cs_alliance_war_declaration  (state-conditional)
+camera_position:     (0.00, 7.00, eye_level)  # at holo-map
+camera_facing:       (0°, 0°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         locked at holo-map; battle-icons explode across map; ambient warms to alert-tone
 
-gameplay_hooks:
-  - operateHoloMap: trpc.war_room.holo_map.operate
-  - inspectFactionStanding: trpc.war_room.faction_standing.inspect (per-faction)
-  - briefAlliance: trpc.war_room.briefing.start
-  - triggerAlarm: trpc.war_room.alarm.trigger
-  - takeChiefSeat: trpc.war_room.chief_chair.sit
+cutscene_id:         cs_alliance_collapse  (Act 7+ state-conditional)
+camera_position:     (0.00, 7.00, eye_level)
+camera_facing:       (0°, 0°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         ambient dims; faction-displays flash red one by one; grand display cracks visually
+```
 
-story_tie:
-  primary_arcs: act_4_first_strategy_session; faction_war (continuous); alliance_progression
-  per_act:
-    acts_0_3: locked
-    act_4: opens; first alliance war briefing
-    acts_5_7: faction standings shift dramatically based on player choices; some alliances collapse
-  npc_roster: the_chief_strategist; alliance leaders (rotating); the_player
-  readables: creed plaque; victory relief; faction-standing displays; alliance bracket
-  master_of_rlyeh_question: n/a
+### A.20.11 Doorways
 
-special_fx:
-  particle_systems: dust low; combat_visualisation_motes (during active war)
-  volumetric: holo_map_volumetric_overlay; faction_display_glow
-  procedural_animations: holo_map_battle_animations; faction_status_pulses; alert_strobe_cycles
-  reactive: holo_map_intensify_on_proximity; faction_display_flash_on_status_change
+```
+door_id:            ark.war_room.south.door.main
+connecting_space_id: ark.corridor.war_room_approach
+door_position:      (0.00, 0.00, 0.00)
+door_dimensions:    1.60 × 2.40 × 0.10
+door_class:         pressure_seal  (biometric authentication)
+unlock_condition:   Act 4+
+transit_animation:  airlock-cycle (3s); slow ceremonial open on first entry per session
+audio_signature:    pneumatic-hiss + magnetic-clack + alliance-recognition tone
+```
 
-avatar_parametricity: standard
-performance: polygon_budget 280,000 / texture_budget 170 MB / light_count 18
-streaming: preload war_room_approach + (Act 4+) preload destination.alliance_war_maps
+### A.20.12 Adjacency map
+
+```
+direct_adjacencies:
+  - ark.corridor.war_room_approach (south door)
+one_hop_adjacencies:
+  - ark.bridge (via long corridor; tactical command escalation)
+  - ark.governance_chamber (Act 4+; alliance governance)
+  - ark.defense_command_center (long route; tactical execution)
+state_shared_with:
+  - ark.bridge (tactical-display data feeds here)
+  - ark.defense_command_center (threat-display data shared)
+  - ark.governance_chamber (alliance governance state)
+```
+
+### A.20.13 Gameplay hooks
+
+```
+hooks:
+  - hook_id:         war_room.operateHoloMap
+    trigger:         player.operate on holo_map
+    procedure:       trpc.war_room.holo_map.operate
+    success_state:   strategic_view_active = true
+  - hook_id:         war_room.briefAlliance
+    trigger:         player.operate on briefing_table
+    procedure:       trpc.war_room.briefing.start
+    success_state:   briefing_active = true
+  - hook_id:         war_room.inspectFactionStanding
+    trigger:         player.inspect on faction_standing.<wall>.<n>
+    procedure:       trpc.war_room.faction_standing.inspect
+    success_state:   faction_inspected = true (per-faction)
+  - hook_id:         war_room.inspectAllianceBracket
+    trigger:         player.inspect on alliance_bracket_display.<wall>
+    procedure:       trpc.war_room.bracket.inspect
+    success_state:   bracket_inspected = true
+  - hook_id:         war_room.operateGrandDisplay
+    trigger:         player.operate on grand_war_display
+    procedure:       trpc.war_room.grand_display.operate
+    success_state:   grand_display_active = true
+  - hook_id:         war_room.triggerAlarm
+    trigger:         player.interact on alarm_panel (with biometric)
+    procedure:       trpc.war_room.alarm_panel.trigger
+    success_state:   alliance_alert_active = true
+  - hook_id:         war_room.takeChiefSeat
+    trigger:         player.sit on chief_strategist_chair (when Chief absent)
+    procedure:       trpc.war_room.chief_chair.sit
+    success_state:   sat_in_chief_chair = true (rare lore-flag; player-as-chief moments)
+  - hook_id:         war_room.takeBriefingChair
+    trigger:         player.sit on briefing_chair.<n>
+    procedure:       trpc.war_room.briefing_chair.sit
+    success_state:   briefing_chair_active = true
+```
+
+### A.20.14 Story-tie
+
+```
+primary_arcs:
+  - arc.act_4_first_strategy_session
+  - arc.faction_war (continuous Acts 4-7)
+  - arc.alliance_progression
+  - arc.act_5_alliance_betrayal (state-conditional)
+  - arc.act_7_alliance_collapse_or_victory (state-branched)
+per_act_evolution:
+  acts_0_3: room locked
+  act_4: opens; first alliance war briefing; faction-standings established
+  act_5: alliance dynamics shift; betrayals possible; faction-displays flicker red as enemies declare
+  act_6: deep multi-front war; grand-display populated; many briefings
+  act_7: state-branched: alliance-victory ending (faction-displays all green; grand display triumphant) vs. alliance-collapse ending (faction-displays mostly red; grand display cracked; chief strategist absent)
+npc_roster:
+  - the_chief_strategist: primary occupant; presence Acts 4+
+  - alliance_leaders: rotating during briefings; up to 8 attendees per session
+  - the_player: visitor / strategist
+  - alliance_command_relay: ambient voice presence
+readables:
+  - creed plaque (south)
+  - victory-through-unity relief (north)
+  - alliance emblem (north)
+  - 12 faction-standing displays (per-faction lore)
+  - grand-display war-history archive
+  - briefing-table nameplates (8 named strategists)
+master_of_rlyeh_question: n/a
+```
+
+### A.20.15 Special-FX
+
+```
+particle_systems:
+  - dust (low; tactical-grade air filtration)
+  - ozone_haze (very low; cosmetic from heavy display use)
+  - combat_visualisation_motes (state-conditional; matches holo-map battle-flow)
+  - alert_smoke (cosmetic during stress states; rises from corner emitters)
+volumetric_effects:
+  - holo_map_volumetric_overlay (3D battle theatre projection above table)
+  - faction_display_glow_per_panel (subtle ambient per faction)
+  - grand_display_uplight_envelope (warm cool wash up north wall)
+  - alert_strobe_envelope (state-conditional)
+procedural_animations:
+  - holo_map_battle_animations (continuous; matches real-time war-state)
+  - faction_status_pulses (per-faction pulse rhythm matching their faction-status)
+  - alert_strobe_cycles (state-conditional)
+  - cooling_fans_rotate (8 fans; subtle blade animation)
+  - grand_display_war_history_scroll (cosmetic; subtle background animation)
+reactive_systems:
+  - holo_map_intensify_on_proximity (within 3 m, holo-map content brightens 20%)
+  - faction_display_flash_on_status_change (one-shot per change)
+  - briefing_pendant_intensify_on_briefing
+  - alert_strobes_on_alert_state
+  - grand_display_dramatic_zoom_on_alliance_event (cinematic moment when major event happens)
+```
+
+### A.20.16 Avatar-parametricity
+
+```
+camera_height_variation:
+  small_xenomorph (0.85m eye): camera height 0.85m; holo-map feels enormous; alternate "lift platform" at chief strategist chair
+  short_humanoid (1.40m eye): standard short scale
+  average_humanoid (1.70m eye): standard
+  tall_humanoid (2.05m eye): comfortable scale; pendant-light at near-head level
+  tall_xenomorph (2.70m eye): some high-bay fixtures collide; alternate route through room centre
+reachability:
+  small_xenomorph: cannot reach upper grand-display zones; relay-inspect from below; alternate elevator-stool at briefing table
+  small_xenomorph: cannot reach top faction-standings (north end of column); alternate ladder
+  others: all-reachable
+audio_occlusion_variation:
+  xenomorph_sensitive_hearing: cooling fans + comms-static more pronounced
+  synthetic_voice_avatar: alliance command relay has subtle resonance bias (synthetic affinity)
+```
+
+### A.20.17 Performance
+
+```
+polygon_budget:      300,000 polygons (display-heavy; many shaders; LOD critical)
+texture_budget:      200 MB total (12 faction-display content shaders + grand display + holo-map)
+light_count_limit:   20 simultaneous dynamic lights
+lod_plan:
+  - hero_distance: 0-12m, full detail
+  - mid_distance: 12-25m, mid detail (faction-displays simplified to icons; chairs simplified)
+  - low_distance: 25m+, low detail (mostly billboarded)
+streaming_behaviour:
+  - preload: ark.corridor.war_room_approach (south door)
+  - on_alliance_war_active: preload destination.alliance_war_maps (current battle theatre only)
+  - on_briefing_active: preload current alliance-data feeds
 ```
 
 ---
