@@ -6996,11 +6996,491 @@ room shell (default 5500 K; long-night 5200 K; dawn 5800 K).
 
 ---
 
-### 3.5 [Reserved — Story Item Registry]
+### 3.5 Story Item Registry
 
-See plan; will be authored from NOTES §11.
+The master cross-index of every story-impacting discoverable
+in the production document. ~260 enumerated items (per
+NOTES §11) catalogued under a single schema so every
+storyteller can find where any item lives, what flag it
+sets, what hotspot reveals it, and what prompt fragment
+places it diegetically.
+
+#### 3.5.1 Schema
+
+Every entry below carries:
+
+- **canonical name** — the in-fiction name
+- **runtime flag / state** — the narrative-flag tuple or
+  database state that gates visibility
+- **manifest room** — which §2.x room hosts the item
+- **hotspot verb set** — what the player does to interact
+- **prompt fragment** — the layout-sentence-ready phrase
+  that places the item in renders
+- **status** — `shipped` / `partial` / `unbuilt — design-only`
+
+Entries are grouped by category (§3.5.2 through §3.5.13).
+For ~260 items the full per-row table would be ~260 rows
+across multiple sub-tables; below, the most narratively
+load-bearing items are itemised in full, and bulk
+inventories (Personal Quarters décor 120+, Guild Hall décor
+30+, etc.) reference their authoring source files for the
+per-row data.
+
+#### 3.5.2 Antiquarian Tomes & Library Discoverables
+
+The Antiquarian's Library (§2.13 pocket dimension + §2.4
+Archives Ark-side anchor) is the densest discoverable
+surface in the doc. Tomes are the primary literature
+unlocks; marginalia stacks, folios, and chronicles are
+the per-NPC-arc lore-vehicles; the Forbidden Section is the
+gated reveal-tier. **All Library discoverables are
+**TV-immune** (per §2.13 row 1 — pocket dimension does not
+propagate Thought Virus).** ShadowTongue affects the pocket
+inversely: higher power → marginalia becomes MORE legible
+(the Antiquarian preserves what the Tongue tries to
+overwrite).
+
+##### 3.5.2.1 CoNexus Tomes (7 shipped, designed for ~48)
+
+Source: `apps/shared/coNexusTomes.ts`. Tomes are
+parallel-reality flash-fiction (200–400 words each) that
+unlock as the player advances. Each tome is visible on the
+Antiquarian Library shelves as a bound brass-on-leather
+volume. Locked tomes show as silhouettes; unlocked tomes
+catch overhead candle-light.
+
+| # | tome name | unlock condition | manifest hotspot | status |
+|---|---|---|---|---|
+| 1 | **The Garden Under Sand** | `loredex-tome-room` Act 4 (Programmer's cycle, mint cuttings) | shelf-tomes mid-row | shipped |
+| 2 | **A Ledger for the Unborn** | flag `locke_eye_history_disclosed` Act 5 (Locke's midwife cycle) | shelf-tomes far-row | shipped |
+| 3 | **The Breath We Did Not Take** | `loredex-tome-room` Act 5 (Elara as senator) | shelf-tomes mid-row | shipped |
+| 4 | **Calculus of the Long Table** | flag `engineer_zero_hint` Act 5 (Vex Solène without prince) | shelf-tomes near-row | shipped |
+| 5 | **The Secondary Engineer** | flag `iron_lion_card_earned` Act 4 (Selene the schoolteacher) | shelf-tomes near-row | shipped |
+| 6 | **What Kael Kept** | flag `kael_lore_discovered` Act 3 (Kael refuses the Source) | shelf-tomes near-row | shipped |
+| 7 | **The Room with the Open Window** | flag `act7_s1_balance` Act 7 (operative chooses Balance) | shelf-tomes far-row | shipped |
+| 8–48 | **41 designed tomes** | various — see `coNexusTomes.ts` design comments | shelves stay drape-locked until unlock fires | unbuilt — design-only (1–7 ship; 8–48 reserved as silhouettes) |
+
+**Storyteller slot:** authoring a new tome requires 200–400
+words of body text + an unlock condition. The renderer
+auto-surfaces unlocked tomes; the silhouette-of-an-unread-
+tome is a permanent expansion-reserved zone on the shelf.
+
+##### 3.5.2.2 Marginalia stacks, folios, and chronicles (per-NPC arc)
+
+| canonical name | room location | NPC arc anchor | unlock | hotspot verb | status |
+|---|---|---|---|---|---|
+| **Hierophant's marginalia stack** | locked vault drawer, Antiquarian Library | Wraith Calder E2 | `wraith_arc_e2_unlocked` | examine, read | shipped (text); unbuilt as visible art |
+| **Coda's purpose shelf** | rear-left bookcase, Antiquarian Library | The Degen E3 | `degen_arc_e3_unlocked` | examine, take-Brief | shipped (text); unbuilt as visible art |
+| **Velkraal's correspondence folio** | locked vault, Antiquarian Library | Game Master E2 | `gm_arc_e2_unlocked` | examine, read | shipped (text); unbuilt as visible art |
+| **Insurgency witness roster** | long-reading-table, Antiquarian Library | Vex Solène E2 | `vex_arc_e2_unlocked` | examine, count names | shipped (text); unbuilt as visible art |
+| **Antiquarian's chronicle** | long-reading-table centre, Antiquarian Library | always present | always | read, write-with-quill (post-permission) | shipped (the Antiquarian writes it in real time) |
+| **Antiquarian's bust** | rear plinth, Antiquarian Library | Jericho Jones E1, E3, E4, E5 (4-clue surface) | always | look, talk, use | shipped |
+| **Locked vault drawer** | upper-rear shelf, Antiquarian Library | Wraith E2, E5 + Seer E1 | memory-ritual unlock | use (recite from memory) | shipped (mechanism); per-arc contents partially shipped |
+| **Card catalog** | left wall, Antiquarian Library | Wraith E1 + Jericho E1 | always | look, talk, use | shipped |
+| **DO-NOT-PLAY band tape** | locked vault, Antiquarian Library | Seer E1 | `seer_arc_e1_unlocked` | examine (band only — never play) | shipped (text); unbuilt as visible art |
+| **Hierophant's scrubbed-names register** | locked vault counter-record | Wraith E2 | `wraith_arc_e2_unlocked` | talk-with-Antiquarian-bust | shipped (text); unbuilt as visible art |
+
+##### 3.5.2.3 Library structural discoverables
+
+| name | location | reveal condition | status |
+|---|---|---|---|
+| **Forbidden Section** sealed wing | rear right of Antiquarian Library | trust-`antiquarian` ≥ 80 | shipped (door); unbuilt as visible art |
+| **The Sealed Vault** biometric-locked | far rear of Antiquarian Library | endgame artefact | unbuilt — design-only |
+| **The Lost Wing** collapsed corridor | left rear of Antiquarian Library | archaeology/restoration quest | unbuilt — design-only |
+| **Librarian's Personal Collection** small shelf | beside Antiquarian's reading chair | trust-`antiquarian` ≥ 80 OR theft | unbuilt — design-only (text exists, art needed) |
+| **"The Warlord's Ascension"** redacted entry | shelf-tomes, redacted with black bars | trust-`antiquarian` = 100 | unbuilt — design-only (shipping with redaction; full text reserved) |
+| **Margin Notes Evolution** Shadow Tongue annotations | every visible book spine | ShadowTongue power ≥ 40 | shipped (mechanism); per-spine annotations partially shipped |
+
+##### 3.5.2.4 Antiquarian's bust dialogue surfaces
+
+The Antiquarian's bust at trust-100 surfaces 4 distinct
+clue-tiers, each cross-referenced to the Mystery Atlas
+(§5, to be authored). Surface-by-tier:
+
+- **Bust look (tier 1)** — surfaces depiction lore (transition
+  from listener to writer)
+- **Bust talk (tier 2)** — manifests one journal entry per
+  visit; cycles through Jericho-arc episodes
+- **Bust use (tier 3)** — surfaces Lionism canon (Akai Shi
+  aftermath, pre-Fall code, imprint protocol, pre-rite
+  contract)
+- **Bust gift (tier 4)** — placing a violet soul stone on the
+  bust's plinth at trust-100 reveals the Antiquarian's
+  marginalia in plain text for one visit (revelation moment)
+
+##### 3.5.2.5 Discoverable rotation slots (storyteller-author surface)
+
+The Antiquarian's Library's chief storyteller-slot is the
+**Rotating Margin Note** — a single book spine each week
+gains a new annotation. The annotation text is JSON-
+authored in `shadowTongueDictionary.ts`; new entries can
+be added without code changes. Storytellers can author
+unlimited new annotations as living-world content.
+
+#### 3.5.3 Cryo Bay & Med Bay & Engineering canonical artefacts
+
+| name | manifest room + hotspot | flag | status |
+|---|---|---|---|
+| **Torn ID tag** | Cryo Bay — frosted-glass cord pickup | `cryo_torn_id_collected` | shipped |
+| **Data-slate fragment** | Cryo Bay — pod base | `cryo_data_slate_collected` | shipped |
+| **Silver locket** | Cryo Bay — personal effect (mid-pod) | `locket_opened` | shipped |
+| **Unlabeled vial** | Cryo Bay → Med Bay rear shelf, post-Act-2 | `unlabeled_vial_recovered` | shipped |
+| **Frosted-glass cord** | Cryo Bay — Pod Zero exterior | `frosted_glass_observed` | shipped |
+| **Pod Zero** | Cryo Bay — central foreground | `pod_0_breathing` (4-tier) | shipped |
+| **Burnt seer's card** | Engineer hookpoint → Antiquarian elbow post-recovery | `burnt_card_recovered` | shipped |
+| **DNA neural-bridge receipt plate** | Med Bay autoclave shelf, post-`medbay_device_awakened` | `dna_receipt_plate_drawn` | shipped (plate); unbuilt as visible art |
+| **Iron Lion oath token** | Armory rack centre, post-`jericho_oath_taken` | `iron_lion_oath_taken` | shipped |
+| **Captain's master key** | Captain's Quarters chair under-armrest | `captains_master_key_obtained` | shipped |
+| **Akai Shi mercy token** | Armory low shelf, post-Jericho-arc-E2 | `akai_shi_mercy_recalled` | shipped |
+| **Engineering combine kit (7 recipes)** | Engineering crafting bench | per-recipe flag | shipped (see §3.5.6) |
+
+#### 3.5.4 Soul Stones tri-state inventory
+
+Soul stones (per §3.9 Soul Stones — purification/corruption
+economy) carry tri-state: Violet (neutral/held), Red
+(corrupted, fed to Hierarchy), Gold (purified, offered to
+Dreamer). Drop sources and weekly cap per NOTES §9.2.
+
+| state | source | manifest visible at | runtime flag | status |
+|---|---|---|---|---|
+| **Violet** | Arena +1, Terminus 1/5 waves, Story 2/chapter, NPC trust 20s, Personal Quarters favourites shelf | Personal Quarters favourites shelf, Med Bay pedestal pre-purify, Castle of Death altar pre-corrupt | `soulStones[i].colour = "violet"` | unbuilt — design-only |
+| **Red (corrupted)** | post-conversion at Castle of Death altar OR Chaos Forge red pit; Betrayals 1 red pre-corrupted | Castle of Death summoning circle nodes (§3.9.2); Personal Quarters favourites shelf right-position | `soulStones[i].colour = "red"` | unbuilt — design-only |
+| **Gold (purified)** | post-conversion at Med Bay Resonance pedestal (24h timer); Secrets 1/secret pre-purified | Med Bay Resonance pedestal bowl (§3.9.1); Personal Quarters favourites shelf centre-position | `soulStones[i].colour = "gold"` | unbuilt — design-only |
+| **Mid-purification** | Resonance pedestal during 24h timer | Med Bay Resonance pedestal — visible as half-violet/half-gold internal glow | `soulStones[i].purifyingFromMs` set | unbuilt — design-only |
+| **Mid-corruption** | Castle of Death altar during conversion | Castle of Death altar — visible as half-violet/half-red | `soulStones[i].corruptingFromMs` set | unbuilt — design-only |
+
+Weekly cap: 15 from combat sources (uncapped from
+narrative).
+
+#### 3.5.5 Earned loadout items (25)
+
+Source: `apps/shared/earnedLoadouts.ts`. 5 classes ×
+3 species = 15 base items × variants per acquired tier =
+25 distinct earned loadout items. Manifest at:
+
+- **Med Bay autoclave shelf** — one DNA receipt plate per
+  earned loadout
+- **Armory rack centre** — equipped-loadout silhouette
+  rotation per equipped-loadout change
+- **Personal Quarters armory zone** — equipped weapons in
+  rack and on display cases
+- **Forge Workshop bench** — work-in-progress on craft
+  events
+
+Per-item rows: see `earnedLoadouts.ts` (15-row table —
+each row carries class, species, item slot, item style,
+acquisition condition, prompt fragment).
+
+#### 3.5.6 Engineering combine items (7 recipes × ingredients)
+
+Per NOTES §12.3. Each combine recipe requires 2 ingredient
+items at the Engineering crafting bench.
+
+| # | output | ingredient A | ingredient B | room of ingredient pickup |
+|---|---|---|---|---|
+| 1 | Master Decoder | Decoder | Key | Cryo Bay (decoder), Captain's Quarters (key) |
+| 2 | Restored Schematic | Schematic-Rubbing | Corrupted-Fragment | Engineering schematic-pad, Archives |
+| 3 | Charged-Cell | Drained-Cell | Energy-Shard | Med Bay autoclave, Cargo Hold |
+| 4 | Enhanced-Medkit | Basic-Medkit | Neural-Stim | Med Bay (medkit), Engineering (stim) |
+| 5 | Signal-Booster | Antenna | Amplifier | Comms Array (antenna), Engineering (amplifier) |
+| 6 | Viral-Antidote | Virus-Sample | Antibody | Med Bay (sample), Med Bay (antibody) |
+| 7 | Temporal-Lens | Antiquarian-Shard | Void-Crystal | Antiquarian Library, Cargo Hold |
+
+Each output is a hotspot story-item with its own runtime
+flag (`engineering_<output>_built`).
+
+#### 3.5.7 Pet species and rarities (~30 species × 4 rarities)
+
+Source: `petSpeciesTraits.ts`. 8 main species + variants:
+Flicker Imp, Spore Fungus, Void Crawler, Data Serpent,
+Gilt Beetle, Holo Fox, Temporal Kitten, Glyph Moth — each
+has 3+ evolution stages × 4 rarity tiers (common 0–40,
+uncommon 40–65, rare 65–90, epic 90+). Manifest at:
+
+- **Pet Garden** — feeding/play area (active pets);
+  Breeding Wing pods (incubating); Genealogy Tree (lineage)
+- **Pet Arena** — arena floor (matches), spectator gallery
+  (audience), Retirement Shrine (deceased)
+- **Pet Medical Annex** — recovery tanks (injured)
+
+Per-pet runtime data: `playerPets` table (userId, petId,
+species, name, evolutionStage, bond, currentHp, etc.).
+
+Specific narratively-load-bearing pets:
+- **Founder pets** — sealed pod with Lyra Vox's wax in
+  Breeding Wing; revealed at trust-`antiquarian` ≥ 60
+- **The Hidden Mutation** — every 100th breed has a chance
+  for a unique mutation visible only on the Genealogy Tree
+  as a different brass alloy (storyteller hook)
+- **Bay 7 / Sealed Aviary** — reserved expansion zone for
+  flying pet species (per §2.28 storyteller hooks)
+
+#### 3.5.8 Personal Quarters décor (120+ items)
+
+Source: `apps/shared/personalQuarters.ts`. 120+ items
+across 12 categories × 6 zones. Per-item authoring lives
+in the source file. Manifest grid is the Personal Quarters
+6-zone layout (Main Hall, Private Quarters, Study, Armory,
+Zen Garden, Treasure Vault). High-impact items:
+
+- **War Table** (Armory zone, soldier-class gated)
+- **Forge Station** (Armory zone, engineer-class gated)
+- **Trophy Case** (Armory zone)
+- **Scrying Pool** (Zen Garden, oracle-class gated)
+- **Shadow Altar** (Treasure Vault, assassin-class gated)
+- **Boss Kill Trophies** (Armory zone — Sentinel head,
+  Wyrm fang chandelier, Void Leviathan eye, etc.)
+- **5 Mythic Items**: Panopticon's Eye, Infinity Mirror,
+  Void Portal, Dreamer's Chosen Throne, [reserved 5th]
+- **Living Mirror** (Main Hall — see §3.11.1)
+- **Soul Stones favourites shelf** (per §3.9.3)
+
+#### 3.5.9 Guild Hall décor (30+ items)
+
+Source: `apps/shared/guildHall.ts`. 30+ items × 12 guild
+rooms × 5 tiers. Manifest at Guild Sanctum (§2.14) and 11
+sub-rooms. Per-item authoring lives in the source file.
+High-impact items:
+
+- **4 Banners** (Standard, Empire, Insurgency, Victory)
+- **4 Trophies** (First War, Sentinel Prime, Chrono Wyrm,
+  Void Leviathan)
+- **5 Furniture** (Command Table, War Board, Guild Throne,
+  etc.)
+- **Founder's Plaque** (Memorial wall, post-`guild_founded`)
+- **Guild Vault display** (Tier 3+)
+
+#### 3.5.10 Cosmetics (25)
+
+Source: `apps/shared/cosmeticCatalog.ts`. 25 cosmetics
+across 3 tiers. Per-item authoring in source. Cross-
+references §3.11 Living Character Sheet for in-room
+rendering.
+
+| tier | items | manifest |
+|---|---|---|
+| **Tier 1 Earnable** (Dream-only) | Card Back: Cobalt/Crimson; Avatar: Dreamer; Avatar Frame: Iron; Profile Banner: Dischordia; Title: Apprentice; Emotes: Thumbs Up + Well Played | character sheet, Personal Quarters mirror |
+| **Tier 2 Hybrid** (Dream OR Void Crystals) | Card Border: Amber Pulse / Void Pulse; Board Theme: Obsidian / Nebula; Avatar Frame: Gold Filigree; Title: Archon's Apprentice | as above + visible in social hub on player |
+| **Tier 3 Premium** (Void Crystals only) | Aura: Void Signature / Archon Flame; Card Animation: Signature Pull; Voice Pack: Lyra Vox / Kael; Music Pack: Orchestral Combat; Title: Founder; Aura: Author's Edition S2 | as above + audio cosmetics surface in dialogue |
+
+#### 3.5.11 Transmission media (11+ Epoch 1 episodes)
+
+Source: `apps/shared/transmissions.ts` + `broadcastLibrary.ts`.
+
+- **11+ shipped Epoch-1 transmissions** (Late Night with
+  the Meme + others), each carrying:
+  - title, memeIntro / memeOutro VO, synopsis
+  - unlockTrigger (awakening_step / chapter_complete /
+    level / trust / flag / room_visited / scheduled_broadcast
+    / always)
+  - relatedLoredexEntries (bidirectional Loredex unlock)
+  - Cloudinary video URL (~3–4 min episodes)
+- **30 broadcast voice interrupts** (Programmer / Antiquarian
+  / Enigma) firing on song play, album completion, room
+  visit, etc. Pure data — storytellers add new interrupts
+  as JSON without code changes.
+
+Manifest at:
+- **Comms Array** (broadcast cylinders rear shelf,
+  post-`comms_first_episode_watched`)
+- **Rec Room / Media Hub** (pop-up auto-queue)
+- **Loredex linked entries** (bidirectional discovery)
+
+Storyteller slot: each transmission is a single JSON
+entry. New episodes plug into the registry without code
+recompile.
+
+#### 3.5.12 Mystery-arc clue items (30 episodes × clues)
+
+The 6 NPC mystery arcs × 5 episodes each surface specific
+clue items per episode. Cross-reference to §5 Mystery Atlas
+(to be authored). Per-arc, per-episode clue items are
+catalogued in NOTES §12.1 — not duplicated here. Each clue
+item has a runtime flag and a manifest hotspot.
+
+Highlights:
+- **Wraith Calder arc** — Bounty file (Comms Array),
+  Substrate-N residue (Engineering Core / Cargo manifest),
+  Hierophant ceremony (Antiquarian locked vault),
+  Continuous witnessing (Cipher Den), Prophet identity
+  (Antiquarian bust at trust-100)
+- **Jericho Jones arc** — Callsign history (card catalog),
+  Battle of Thaloria log (Antiquarian), Iron Lion imprint
+  protocol (instruction manual page 1, Engineering),
+  Grip-anomaly footage (Med Bay bio-bed), Akai Shi mercy
+  token (Armory)
+- **The Seer arc** — DO-NOT-PLAY band (locked vault),
+  Hierophant marginalia VAR-1109A/B (marginalia stack),
+  DEC-7710 catalog card (Antiquarian), Acoustic signature
+  (Engineering reactor), Canon Paradox (Antiquarian
+  chronicle)
+- **Vex Solène arc** — Equipment signature (reactor),
+  Workshop letter (Engineering), Apprentice draft letter
+  (egg-eng-formula), Tool migration map (instruction
+  manual appendix), Calibration session card (schematic-
+  pad)
+- **The Degen arc** — Brokerage line #4711 (schematic-pad),
+  Quarterly routing pattern (blueprints), Coda Purpose
+  Brief (Coda's purpose shelf), Treasurer's emergency note
+  (Coda's purpose shelf), Letter to the saga (Captain's
+  Quarters Degen's Corner)
+- **Game Master arc** — Velkraal succession letter
+  (correspondence folio), Practice edit-drafts
+  (blueprints), Draft closing-edit (folio), Final session
+  protocol (Engineering)
+
+#### 3.5.13 Bloodline Witness Reports (5 milestones)
+
+Source: `apps/shared/lyraVoxBloodlineWitness.ts`. Per Lyra
+Vox milestone. Manifest at Bloodline Plinth (§3.10.4 / Pet
+Garden centre).
+
+| # | milestone | bonus | unbuilt UI | status |
+|---|---|---|---|---|
+| 1 | Dynasty Reached (Gen 3) | gestation-speed +300 bp | Bloodline Plinth + Voice Line | shipped (data); unbuilt as visible art |
+| 2 | High-Fitness Birth (≥80) | mutation-favor +300 bp | as above | shipped (data); unbuilt UI |
+| 3 | Founder Passed | integrity-floor +600 bp | as above | shipped (data); unbuilt UI |
+| 4 | Drift Exceeded (≥60) | integrity-floor +800 bp | as above | shipped (data); unbuilt UI |
+| 5 | Centenary (10 generations) | all bonuses +500/+400/+200 bp | as above | shipped (data); unbuilt UI |
+
+Each milestone fires a Lyra Vox VO line at the Bloodline
+Plinth.
+
+#### 3.5.14 CADES helmet image-fragments (7)
+
+Per §2.47 + NOTES §9.3. Each CADES mission M1–M7 captures
+ONE image-fragment of the mission's emotional climax on
+the violet helmet's interior surface. Seven fragments
+visible after M7. Pre-M1, the helmet's interior is
+unmarked.
+
+Fragment subjects (storyteller-author per mission):
+- M1 fragment — first kill / first mercy moment
+- M2 fragment — first betrayal observed / committed
+- M3 fragment — Iron Lion creed validated
+- M4 fragment — Akai Shi recall
+- M5 fragment — Agent Zero reveal
+- M6 fragment — Warlord encounter
+- M7 fragment — final witness moment
+
+Each fragment has a runtime flag
+(`cades_helmet_fragment_<N>_captured`) and a brass plaque
+on the Med Bay annex rear wall (§2.47).
+
+#### 3.5.15 Faction tokens & badges
+
+Per NOTES §11. 5 factions × 5 standing bands = 25
+alignments + threshold flags
+(`faction:championed:<id>` / `faction:enemied:<id>`)
+persist in `npc_public_flags`.
+
+| token | manifest | trigger |
+|---|---|---|
+| **Champion-tier banner** | Bridge port wall + Station Dock + War Room pylon + Hierarchy Throne + Guild Sanctum | `faction:championed:<id>` |
+| **Enemy-tier overlay** | banner removed (empty hook) at Bridge / Station Dock / War Room | `faction:enemied:<id>` |
+| **Cross-opposition echo** | second-tier alliances fly half-furled | derived from championship |
+| **Iron Lion service token** | Armory rack centre, post-`jericho_oath_taken` | shipped |
+| **Insurgency caltrop-stamp** | small caltrop visible on rooms when Insurgency-allied | per-room render flag |
+| **Hierarchy ouroboros sigil** | small ouroboros visible on rooms when Hierarchy-allied | per-room render flag |
+
+#### 3.5.16 Storyteller-discoverable scatter (per-room small items)
+
+Small ambient discoverables that don't drive runtime flags
+but make the world feel inhabited. Each is authored in
+its room's §2.x.7/§2.x.8 Storyteller Hooks row. Master
+list of discoverable categories:
+
+- **Scratched messages** — etched on walls behind sealed
+  pods, on Observation Deck prayer wall, on Forge anvil,
+  on Engineering reactor casing. Storyteller-authored;
+  rotation slots admit unlimited new entries.
+- **Inscribed plaques** — Memorial Corridor plaques (one
+  per fallen crew); 10-plate Captain's Quarters Legacy Wall
+  (per §2.11.8); Anniversary Plaques (12, per §3.2.3);
+  Trophy Room Title Wall plates (100 capacity, per §4.2);
+  Inscription Challenge plaque (Trophy Room).
+- **Graffiti / tags** — Crew Quarters Corridor (rotating
+  per IRL season); War Room engraved fighter names;
+  Mess Hall storytelling chalkboard (1 entry per IRL day).
+- **Marginalia** — Antiquarian Library spine annotations
+  (rotation slot, ShadowTongue-driven); Coda's purpose
+  shelf annotations; Velkraal's correspondence folio
+  marginalia.
+- **Audio-only interrupts** — Comms Array hourly chatter
+  (1 phrase clear per 7h); Programmer / Antiquarian /
+  Enigma broadcast interrupts (30 shipped).
+- **Reserved canvas-drape zones** (per-room) — Bay 7 (Cryo
+  Bay), Sealed Vault (Med Bay, Antiquarian Library, etc.),
+  Sealed Inner Forge (Engineering Core), 7th Alcove
+  (Shadow Vault), 6th Faction Pylon (War Room), 8th
+  Mission plaque (CADES Console), 5th Stage alcove
+  (Eidolon Sanctum), 13th Stone (Oracle Sanctum), 9th
+  Pillar (Elemental Nexus), Hidden 4th Pit (Chaos Forge),
+  6th Material (Nexus Point Sanctum), 11th Plaque (Grand
+  Master's Sanctum), 17th TD Tier (Trophy Armory), 10th
+  Chess Style (Chess Hall), 6th Faction (Faction
+  Succession Monument), 5th Petal (Oracle Annual),
+  6th Epoch (Epoch Witness Conclave), VIP Box / Founder's
+  Trophy / Founder's Booth / Founder's Board (multiple).
+  Each visible-but-uninteractable until expansion content
+  lands.
+
+These scatter items do NOT have runtime flags. They are
+art-only diegetic content. New scatter items can be added
+in any §2.x room's storyteller-hooks row without affecting
+the recreation contract.
+
+#### 3.5.17 Items with no current diegetic home (gap registry)
+
+Per NOTES §11.2. Items with design but no shipped art.
+Status all `unbuilt — design-only`.
+
+**HIGH PRIORITY (narrative impact):**
+1. Demon companion manifestations (10 demon × room visibility)
+2. Divine companion manifestations (6 divine × room visibility)
+3. Soul Stone Purification Chamber pedestal (Med Bay) — spec'd in §3.9.1, not yet rendered
+4. Castle of Death summoning circle (Hellbox 2 pocket) — spec'd in §3.9.2
+5. Bloodline Plinth (Pet Garden) — spec'd in §3.10.4
+6. Pet Evolution Chambers (3) — spec'd in §3.10.3
+
+**MEDIUM PRIORITY (flavor / immersion):**
+7. DNA Receipt Plates (Med Bay shelf — table-row exists in §3.5.3 but not yet rendered)
+8. Captain's Quarters Legacy Wall 10 plates — spec'd in §2.11.8 but visible art unbuilt for plates 6–10
+9. Hierophant's marginalia stack visible art (text exists, art unbuilt — §3.5.2.2)
+10. Coda's purpose shelf visible art (text exists, art unbuilt)
+11. Velkraal's correspondence folio visible art
+12. Pazaak deck — referenced in lore, no diegetic home
+13. Memorial Plaza fallen-crew plaques — spec'd in §2.27 but the per-plaque art per crew is reserved
+14. Iron Lion service tokens — physical token art for non-oath-bearing tokens
+
+**LOWER PRIORITY (systems):**
+15. Crafting schema display (Forge schema-rack) — text per recipe exists, per-schema art reserved
+16. Broadcast cylinders (Comms Array) — physical media art for the 11 transmissions
+17. Faction standing badges (championed/enemied physical) — current visualisation is banner-only; small physical badges unbuilt
+18. Casino event tokens (Christmas in July) — event-only currency physical art reserved
+
+#### 3.5.18 Runtime contract
+
+Most story items read from the existing
+`narrativeFlags` map on `GameContext.tsx`. Soul Stones
+require a new `soulStones` table (per §3.9 contract).
+Antiquarian tomes already ship via `coNexusTomes.ts`. Pet
+species via `playerPets` and `petSpeciesTraits.ts`.
+Earned loadouts via `earnedLoadouts.ts`. Personal Quarters
+décor via `personalQuarters.ts`. Guild Hall via
+`guildHall.ts`. Cosmetics via `cosmeticCatalog.ts`.
+Transmission via `transmissions.ts` + `broadcastLibrary.ts`.
+Bloodline Witness via `lyraVoxBloodlineWitness.ts` (data
+exists; UI surface needed). CADES helmet fragments via
+`cadesHelmetAssignments.ts` (referenced in §2.47).
+
+For unbuilt items, the runtime contract defers to the
+named contract in their respective §3 sub-section (§3.9
+Soul Stones, §3.10 Pet Breeding, §3.11 Living Character
+Sheet, etc.).
 
 ---
+
 
 ### 3.6 Notification surfaces — 14 missing producer types
 
