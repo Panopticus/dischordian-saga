@@ -76,14 +76,41 @@ const TRUST_TIER_EMOTION: Record<string, string> = {
 const lines: LineEntry[] = [];
 const seen = new Set<string>();
 const dupes: string[] = [];
+const sanitized: { id: string; before: string; after: string }[] = [];
+
+/** Strip artefacts that would be voiced literally by ElevenLabs:
+ *
+ *  - leading `Speaker: "..."` / `Speaker: '...'` wrappers (the
+ *    canonical narration sometimes embeds the speaker label
+ *    inside the prose; the dialog UI already shows ELARA as a
+ *    chip, so the embedded label is also redundant for display).
+ *  - asterisk-bracketed stage directions like `*static*`,
+ *    `*thinks hard*`, `*the transmission cuts out*` — ElevenLabs
+ *    Multilingual v2 reads asterisk prose literally.
+ *
+ *  Returns the cleaned text. Empty string return means the entry
+ *  should be dropped. */
+function sanitize(text: string, id: string): string {
+  let out = text;
+  // Speaker label + quoted body. Matches "Elara:" / "Agent Zero:"
+  // / "Your companion:" / etc. followed by an opening quote.
+  const wrap = out.match(/^[A-Z][A-Za-z' ]+:\s*['"](.*)['"]\s*$/s);
+  if (wrap) out = wrap[1];
+  // Stage directions inside asterisks.
+  const stripped = out.replace(/\*[^*]+\*/g, "").replace(/\s{2,}/g, " ").trim();
+  if (stripped !== text) sanitized.push({ id, before: text, after: stripped });
+  return stripped;
+}
 
 function emit(entry: LineEntry) {
   if (seen.has(entry.id)) {
     dupes.push(entry.id);
     return;
   }
+  const cleaned = sanitize(entry.text, entry.id);
+  if (!cleaned) return;
   seen.add(entry.id);
-  lines.push(entry);
+  lines.push({ ...entry, text: cleaned });
 }
 
 /* ─── 1. CompanionLine canonical (elaraLines.ts) ─── */
@@ -289,4 +316,18 @@ if (dupes.length > 0) {
   // through multiple registry paths.
   for (const id of dupes.slice(0, 10)) console.log(`  - ${id}`);
   if (dupes.length > 10) console.log(`  … and ${dupes.length - 10} more`);
+}
+
+if (sanitized.length > 0) {
+  console.log(
+    `\nsanitized ${sanitized.length} line(s) — stripped speaker labels / stage directions:`,
+  );
+  for (const s of sanitized) {
+    console.log(`  - ${s.id}`);
+    console.log(`      before: ${s.before.slice(0, 100)}${s.before.length > 100 ? "…" : ""}`);
+    console.log(`      after:  ${s.after.slice(0, 100)}${s.after.length > 100 ? "…" : ""}`);
+  }
+  console.log(
+    "\nThese were sanitized in the JSON only — the canonical TS source still has the artefacts.",
+  );
 }

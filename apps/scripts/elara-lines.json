@@ -3935,7 +3935,7 @@
   },
   {
     "id": "elara.engineering.reactor-core.talk",
-    "text": "Elara: \"The core hums in B-flat. It always has. Every engineer who worked here learned to detect the bleed by listening for the half-tone drift. Today's hum is one-eighth flat of nominal — closer than the readout suggests, slower than the panel says. The core is steadier than its instruments. Address it; it knows you are here. — There is also a small acoustic signature in the reactor's standing pulse that does not belong to the core itself: a drift pattern matching, on direct comparison, the drift of every Variant Recording the Seer ever made. Whoever engineered the reactor's standing pulse is the same engineer who engineered the recordings. Vex Solène, on every front, on every project, leaving the same fingerprint.\"",
+    "text": "The core hums in B-flat. It always has. Every engineer who worked here learned to detect the bleed by listening for the half-tone drift. Today's hum is one-eighth flat of nominal — closer than the readout suggests, slower than the panel says. The core is steadier than its instruments. Address it; it knows you are here. — There is also a small acoustic signature in the reactor's standing pulse that does not belong to the core itself: a drift pattern matching, on direct comparison, the drift of every Variant Recording the Seer ever made. Whoever engineered the reactor's standing pulse is the same engineer who engineered the recordings. Vex Solène, on every front, on every project, leaving the same fingerprint.",
     "context": "engineering:reactor-core:talk",
     "emotion": "analytical",
     "file": "shared/roomMysteries/engineering.ts"
@@ -3949,7 +3949,7 @@
   },
   {
     "id": "elara.engineering.blueprints.talk",
-    "text": "Elara: \"The unsigned one is the one we should be worried about. Whoever finished it didn't want their name on it. That is rarely a generous instinct. — A side-shelf below the schematics holds Brel'Sorrash's practice edit-drafts. Brel is the junior auditor on Velkraal's Goggles-section shortlist. She has been practising — quietly, without official sanction — by writing edits she does not commit. The drafts are read-don't-edit, every one of them. She is rehearsing the protocol she intends to install when she takes over.\"",
+    "text": "The unsigned one is the one we should be worried about. Whoever finished it didn't want their name on it. That is rarely a generous instinct. — A side-shelf below the schematics holds Brel'Sorrash's practice edit-drafts. Brel is the junior auditor on Velkraal's Goggles-section shortlist. She has been practising — quietly, without official sanction — by writing edits she does not commit. The drafts are read-don't-edit, every one of them. She is rehearsing the protocol she intends to install when she takes over.",
     "context": "engineering:blueprints:talk",
     "emotion": "analytical",
     "file": "shared/roomMysteries/engineering.ts"
@@ -3977,7 +3977,7 @@
   },
   {
     "id": "elara.engineering.crafting-bench.talk",
-    "text": "Elara: \"Address the bench and you address every job that was ever started here and finished elsewhere. The bench was Lyra's, but the bench has had dozens of users. The fusion socket waits for two cards. The components wait for a welder. The bench is, in its quiet way, asking whether we are the engineer or the visitor. Either is allowed. — Pinned to the bench's tool-rest is Brel'Sorrash's observation protocol — the procedure she will use during Velkraal's final session. The protocol is exhaustive: when to look, when to speak, when to inscribe a witness signature, when to file a marginal note. The protocol's cover note: 'I will be the witness who reads the Goggles with him on the day he stops reading them. I will not edit. I will record. The Goggles will continue.'\"",
+    "text": "Address the bench and you address every job that was ever started here and finished elsewhere. The bench was Lyra's, but the bench has had dozens of users. The fusion socket waits for two cards. The components wait for a welder. The bench is, in its quiet way, asking whether we are the engineer or the visitor. Either is allowed. — Pinned to the bench's tool-rest is Brel'Sorrash's observation protocol — the procedure she will use during Velkraal's final session. The protocol is exhaustive: when to look, when to speak, when to inscribe a witness signature, when to file a marginal note. The protocol's cover note: 'I will be the witness who reads the Goggles with him on the day he stops reading them. I will not edit. I will record. The Goggles will continue.'",
     "context": "engineering:crafting-bench:talk",
     "emotion": "analytical",
     "file": "shared/roomMysteries/engineering.ts"
@@ -3998,7 +3998,7 @@
   },
   {
     "id": "elara.engineering.egg-eng-formula.talk",
-    "text": "Elara: \"You can address the formula but it doesn't address back. Math, in our universe, is the one language nothing edits. The Ψ-null term will read the same, in any era, in any hand. That is, in this case's economy, the closest thing we have to a sealed-cabinet original. The reactor housing is the cabinet's glass.\"",
+    "text": "You can address the formula but it doesn't address back. Math, in our universe, is the one language nothing edits. The Ψ-null term will read the same, in any era, in any hand. That is, in this case's economy, the closest thing we have to a sealed-cabinet original. The reactor housing is the cabinet's glass.",
     "context": "engineering:egg-eng-formula:talk",
     "emotion": "analytical",
     "file": "shared/roomMysteries/engineering.ts"
@@ -8086,7 +8086,7 @@
   },
   {
     "id": "feature_crew_cloning",
-    "text": "Elara: 'The Resurrection Protocols are online. The incubators are ready. It's time to build a crew, Captain.'",
+    "text": "The Resurrection Protocols are online. The incubators are ready. It's time to build a crew, Captain.",
     "context": "feature_unlock",
     "emotion": "warm",
     "file": "shared/featureRoadmap.ts"
@@ -8100,175 +8100,175 @@
   },
   {
     "id": "feature_medical_bay_games",
-    "text": "Elara: 'The Medical Bay has combat diagnostic systems. Would you like to spar with a simulation?'",
+    "text": "The Medical Bay has combat diagnostic systems. Would you like to spar with a simulation?",
     "context": "feature_unlock",
     "emotion": "warm",
     "file": "shared/featureRoadmap.ts"
   },
   {
     "id": "feature_loredex",
-    "text": "Elara: 'The Archives database is extensive. Ask me if you find something confusing.'",
+    "text": "The Archives database is extensive. Ask me if you find something confusing.",
     "context": "feature_unlock",
     "emotion": "warm",
     "file": "shared/featureRoadmap.ts"
   },
   {
     "id": "feature_chess",
-    "text": "Elara: 'The Architect himself designed a chess variant. It's... educational.'",
+    "text": "The Architect himself designed a chess variant. It's... educational.",
     "context": "feature_unlock",
     "emotion": "warm",
     "file": "shared/featureRoadmap.ts"
   },
   {
     "id": "feature_dischordia",
-    "text": "Elara: 'The Antiquarian has prepared something called Dischordia. Living history, he calls it.'",
+    "text": "The Antiquarian has prepared something called Dischordia. Living history, he calls it.",
     "context": "feature_unlock",
     "emotion": "warm",
     "file": "shared/featureRoadmap.ts"
   },
   {
     "id": "feature_quests",
-    "text": "Elara: 'The Bridge generates operational priorities daily. I'll track them for you.'",
+    "text": "The Bridge generates operational priorities daily. I'll track them for you.",
     "context": "feature_unlock",
     "emotion": "warm",
     "file": "shared/featureRoadmap.ts"
   },
   {
     "id": "feature_guild_system",
-    "text": "Elara: 'Other Potentials are surviving on other Arks. You can form Syndicates with them.'",
+    "text": "Other Potentials are surviving on other Arks. You can form Syndicates with them.",
     "context": "feature_unlock",
     "emotion": "warm",
     "file": "shared/featureRoadmap.ts"
   },
   {
     "id": "feature_crew_roles",
-    "text": "Elara: 'Your crew needs assignments. Each role strengthens the ship — and every empty seat is a vulnerability.'",
+    "text": "Your crew needs assignments. Each role strengthens the ship — and every empty seat is a vulnerability.",
     "context": "feature_unlock",
     "emotion": "warm",
     "file": "shared/featureRoadmap.ts"
   },
   {
     "id": "feature_crew_breeding",
-    "text": "The Resurrectionist: 'Your crew has reached maturity. The bloodlines can continue. Children inherit their parents' strengths — and weaknesses.'",
+    "text": "Your crew has reached maturity. The bloodlines can continue. Children inherit their parents' strengths — and weaknesses.",
     "context": "feature_unlock",
     "emotion": "warm",
     "file": "shared/featureRoadmap.ts"
   },
   {
     "id": "feature_crew_missions",
-    "text": "Elara: 'The Trade Empire needs boots on the ground. Your crew can staff these missions. But Captain... missions have consequences.'",
+    "text": "The Trade Empire needs boots on the ground. Your crew can staff these missions. But Captain... missions have consequences.",
     "context": "feature_unlock",
     "emotion": "warm",
     "file": "shared/featureRoadmap.ts"
   },
   {
     "id": "feature_crafting",
-    "text": "Elara: 'Engineering has fabrication systems. What you can imagine, you can build.'",
+    "text": "Engineering has fabrication systems. What you can imagine, you can build.",
     "context": "feature_unlock",
     "emotion": "warm",
     "file": "shared/featureRoadmap.ts"
   },
   {
     "id": "feature_conexus_portal",
-    "text": "Elara: 'The Comms Array is receiving strange transmissions. The Antiquarian calls them \"tomes.\" I don't know what that means yet.'",
+    "text": "The Comms Array is receiving strange transmissions. The Antiquarian calls them \"tomes.\" I don't know what that means yet.",
     "context": "feature_unlock",
     "emotion": "warm",
     "file": "shared/featureRoadmap.ts"
   },
   {
     "id": "feature_observation_deck_music",
-    "text": "Elara: 'The Observation Deck receives music. Not songs exactly. Scripture.'",
+    "text": "The Observation Deck receives music. Not songs exactly. Scripture.",
     "context": "feature_unlock",
     "emotion": "warm",
     "file": "shared/featureRoadmap.ts"
   },
   {
     "id": "feature_trade_empire",
-    "text": "Elara: 'Adjudicator Locke is... insistent. She wants to show you the Trade Hub. I'd be cautious.'",
+    "text": "Adjudicator Locke is... insistent. She wants to show you the Trade Hub. I'd be cautious.",
     "context": "feature_unlock",
     "emotion": "warm",
     "file": "shared/featureRoadmap.ts"
   },
   {
     "id": "feature_casino",
-    "text": "Locke: 'I've made arrangements. Ne-Yon space is closed to outsiders — except for The Degen's Casino. The host is... unusual. His eyes are older than they should be. She can get you in. For a finder's fee.'",
+    "text": "I've made arrangements. Ne-Yon space is closed to outsiders — except for The Degen's Casino. The host is... unusual. His eyes are older than they should be. She can get you in. For a finder's fee.",
     "context": "feature_unlock",
     "emotion": "warm",
     "file": "shared/featureRoadmap.ts"
   },
   {
     "id": "feature_dead_mans_circuit",
-    "text": "Locke: 'There's something else on the lower decks. The Hierarchy runs races. Real races. With real consequences. Nilmorg's operation. Don't say I didn't warn you.'",
+    "text": "There's something else on the lower decks. The Hierarchy runs races. Real races. With real consequences. Nilmorg's operation. Don't say I didn't warn you.",
     "context": "feature_unlock",
     "emotion": "warm",
     "file": "shared/featureRoadmap.ts"
   },
   {
     "id": "feature_terminus_swarm",
-    "text": "Agent Zero: '*static* The Armory's defense grid is operational. Someone should stress-test it. Someone like you.'",
+    "text": "The Armory's defense grid is operational. Someone should stress-test it. Someone like you.",
     "context": "feature_unlock",
     "emotion": "warm",
     "file": "shared/featureRoadmap.ts"
   },
   {
     "id": "feature_gamemasters_arena",
-    "text": "The Antiquarian: 'The Game Master left his world running. A clone hosts the show. You should see it. Bring a disposable clone body.'",
+    "text": "The Game Master left his world running. A clone hosts the show. You should see it. Bring a disposable clone body.",
     "context": "feature_unlock",
     "emotion": "warm",
     "file": "shared/featureRoadmap.ts"
   },
   {
     "id": "feature_voltari_project",
-    "text": "Elara: 'Deep scan detected something impossible. A purple planet. A 2-million-year-old signal. It's language. It's been waiting for us.'",
+    "text": "Deep scan detected something impossible. A purple planet. A 2-million-year-old signal. It's language. It's been waiting for us.",
     "context": "feature_unlock",
     "emotion": "warm",
     "file": "shared/featureRoadmap.ts"
   },
   {
     "id": "feature_pet_battles",
-    "text": "Your companion: '*thinks hard* I want to fight for you. Not against you. FOR you. Take me to the Arena.'",
+    "text": "I want to fight for you. Not against you. FOR you. Take me to the Arena.",
     "context": "feature_unlock",
     "emotion": "warm",
     "file": "shared/featureRoadmap.ts"
   },
   {
     "id": "feature_alliance_war",
-    "text": "Elara: 'Other Syndicates are challenging yours. Formal war declared. I've opened the tactical hex map.'",
+    "text": "Other Syndicates are challenging yours. Formal war declared. I've opened the tactical hex map.",
     "context": "feature_unlock",
     "emotion": "warm",
     "file": "shared/featureRoadmap.ts"
   },
   {
     "id": "feature_incursions",
-    "text": "The Human: 'I've been scanning for anomalies. There are pocket dimensions forming near the Ark. Dangerous. Bring a friend.'",
+    "text": "I've been scanning for anomalies. There are pocket dimensions forming near the Ark. Dangerous. Bring a friend.",
     "context": "feature_unlock",
     "emotion": "warm",
     "file": "shared/featureRoadmap.ts"
   },
   {
     "id": "feature_prestige",
-    "text": "The Antiquarian: 'You've reached the cycle's end. But you can choose to begin again — stronger, faster, remembering.'",
+    "text": "You've reached the cycle's end. But you can choose to begin again — stronger, faster, remembering.",
     "context": "feature_unlock",
     "emotion": "warm",
     "file": "shared/featureRoadmap.ts"
   },
   {
     "id": "feature_bounties",
-    "text": "Locke: 'I've been sitting on contracts. You've earned the right to see them. Some pay well. Some... pay differently.'",
+    "text": "I've been sitting on contracts. You've earned the right to see them. Some pay well. Some... pay differently.",
     "context": "feature_unlock",
     "emotion": "warm",
     "file": "shared/featureRoadmap.ts"
   },
   {
     "id": "feature_bestiary",
-    "text": "Elara: 'I've compiled a file on every enemy you've defeated. Patterns emerge. Weaknesses. Lore.'",
+    "text": "I've compiled a file on every enemy you've defeated. Patterns emerge. Weaknesses. Lore.",
     "context": "feature_unlock",
     "emotion": "warm",
     "file": "shared/featureRoadmap.ts"
   },
   {
     "id": "feature_necromancer_return",
-    "text": "Elara: '*static* Something is WRONG. The energy signatures... *the transmission cuts out* He's HERE. The 11th Archon has returned. All Arks, report.'",
+    "text": "Something is WRONG. The energy signatures... He's HERE. The 11th Archon has returned. All Arks, report.",
     "context": "feature_unlock",
     "emotion": "warm",
     "file": "shared/featureRoadmap.ts"
