@@ -18555,19 +18555,313 @@ streaming_behaviour:
 
 ---
 
-## A.37 Grand Master's Sanctum (top-10 ladder) — SCAFFOLDED
+## A.37 Grand Master's Sanctum (top-10 ladder) — FULL
+
+**Status: FULL spec.** Cross-ref `INCEPTION_ARK_FINAL_PRODUCTION.md`
+§2.37 (art-state prompts).
+
+### A.37.1 Header
 
 ```
 space_id:        ark.grand_masters_sanctum
-space_name:      Grand Master's Sanctum
+space_name:      Grand Master's Sanctum (top-10 ladder)
 space_type:      ark_room  (sub-room of Chess Hall)
-act_introduced:  Act 5
-lore_anchor:     loredex.system.chess_ladder
-aesthetic_tier:  solar_punk_cathedral  (austere-master accents)
-dimensions:      8.00 m × 8.00 m × 5.00 m
+act_introduced:  Act 5 (top-10 chess-ladder rank required)
+lore_anchor:     loredex.system.chess_ladder + loredex.character.the_grand_master + arc.act_5_grand_master_meeting
+aesthetic_tier:  solar_punk_cathedral  (austere-master; the Ark's most cerebral private chamber)
 ```
 
-(Full spec deferred.)
+### A.37.2 Geometry
+
+```
+dimensions:           8.00 m × 8.00 m × 5.00 m  (intentionally compact)
+origin_point:         centre of floor at south entrance
+coordinate_axes:      +x = right, +y = forward (north), +z = up
+floor_plan_geometry:  rectangular  (with central chess-board on raised marble dais)
+volumetric_anomalies: none
+```
+
+The Grand Master's Sanctum is intimate — only top-10-ranked
+chess players can enter. Central chess board on a 0.40 m raised
+marble dais. Two austere chairs flank the board. North wall
+holds the Grand Master's lifetime-record + the Lineage Wall
+(every Grand Master who has ever served). East + west walls hold
+study materials: opening-theory tomes, end-game studies, and the
+Grand Master's personal annotations.
+
+Floor area: 64 m².
+
+### A.37.3-8 Compact (full FULL fidelity)
+
+```
+floor: polished black-and-white marble in chess-pattern; 0.50 × 0.50 m tiles; mirror-finish; bronze inlay outlining central dais (2.40 × 2.40 m)
+walls:
+  south: charcoal stone-clad with gold-leaf accents; south.display.ladder_status (-1.5,0.2,1.8); south.door.main slide connects to ark.chess_hall (Act 5+ top-10 only); plaque "TIME REVEALS THE WINNER"
+  east: stone-clad with built-in walnut bookshelves (full-height; opening theory; ~80 books); brass nameplates per study category
+  north: full-wall walnut paneling with grand-master lineage display (3.0×2.0); flanked by historical busts (one per past grand master); apsidal "MASTER OF MASTERS" relief
+  west: stone-clad with built-in walnut bookshelves (mirror; end-game studies; ~80 books)
+ceiling: 5.00 m baseline; central drop coffer at 4.50 m; recessed amber strip-lights along bookshelves; subtle warm pendant over board
+lighting:
+  ambient_baseline: 2700 K very warm; 200 lux (intimate); CRI 95
+  central_pendant: at (0.00, 4.00, 4.50); warm amber crystal scatter; 4500 lumens
+  bookshelf_strip.east, .west: warm 3000 K; 600 lumens/m
+  lineage_uplight.north: along base; warm gold; 800 lumens/m
+  practical_sources: chess_clock_glow + bust_indicator_lights.<n>
+atmosphere: 19°C cool / 42% RH / smells of polished walnut + book-paper + warm leather + faint tea
+sound:
+  ambient_bed: -38 dB very quiet; faint chess-clock tick from board, occasional book-creak, distant Chess Hall bleed
+  point_sources: chess_board_clock_tick (continuous when match active); bookshelf_subtle_creak (random); grand_master_breath (when present); distant_chess_hall_bustle (very faint through south door)
+  reverb_zone: grand_master_v1.wav wet 14% (intimate)
+  music_eligibility: cutscene only (Chess-arc / lifetime-match cutscenes)
+  voice_line_eligibility: the_grand_master (named NPC; primary occupant Acts 5+); chess_clock_subtle_voice (institutional)
+```
+
+### A.37.9 Object inventory (compact)
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.grand_masters_sanctum.chess_board.central` | interactive | (0.00, 4.00, 0.40) on dais | 0.80×0.80×0.05 | THE central chess board |
+| `ark.grand_masters_sanctum.chess_clock.central` | console | (0.50, 4.00, 0.45) | 0.20×0.10×0.30 | dual-face chess clock |
+| `ark.grand_masters_sanctum.chess_pieces.<set>` (32+) | interactive | on board | varied | chess pieces (Grand Master's set) |
+| `ark.grand_masters_sanctum.player_chair` | furniture | (0.00, 2.50, 0.00) | 0.90×0.90×1.50 | player's chair |
+| `ark.grand_masters_sanctum.grand_master_chair` | furniture+npc_anchor | (0.00, 5.50, 0.00) | 0.90×0.90×1.50 | Grand Master's chair |
+| `ark.grand_masters_sanctum.east.bookshelf.opening_theory` | container | (3.95, 4.00, 0.00) | 0.40×6.00×3.40 | east bookshelf (~80 opening theory books) |
+| `ark.grand_masters_sanctum.west.bookshelf.endgame_studies` | container | (-3.95, 4.00, 0.00) | mirror | west bookshelf (~80 end-game studies) |
+| `ark.grand_masters_sanctum.north.lineage_display` | display | (0.00, 7.95, 2.00) | 3.0×2.0×0.05 | grand master lineage |
+| `ark.grand_masters_sanctum.bust.past_master.<n>` (4) | decoration | flanking lineage display; 2 east + 2 west | 0.40×0.40×0.50 each (on plinths) | past grand master busts |
+| `ark.grand_masters_sanctum.south.intercom` | console | (-1.0, 0.2, 1.5) | 0.20×0.10×0.30 | comms |
+| `ark.grand_masters_sanctum.fire_extinguisher` | interactive | (1.0, 0.2, 1.2) | 0.20×0.20×0.50 | safety |
+| `ark.grand_masters_sanctum.first_aid` | container | (-2.0, 0.2, 1.5) | 0.40×0.10×0.30 | medical |
+| `ark.grand_masters_sanctum.south.plaque.principle` | decoration | (0.00, 0.20, 3.20) | 0.80×0.30×0.02 | "TIME REVEALS THE WINNER" |
+| `ark.grand_masters_sanctum.north.relief.master_of_masters` | decoration | (0.00, 7.85, 4.20) | 1.20×0.40×0.10 | "MASTER OF MASTERS" |
+| `ark.grand_masters_sanctum.tea_service` | decoration | small side table | 0.30×0.30×0.20 | grand master's tea service (humanising) |
+| `ark.grand_masters_sanctum.compass_inlay` | decoration | (0.00, 4.00, 0.005) | 1.40×1.40×0.005 | floor inlay around chess dais |
+
+Total: 22 inventory objects.
+
+### A.37.10-17 Compact
+
+```
+camera_spawn_points:
+  cs_amb_grand_master_sanctum (Cat B): POV at threshold; slow approach to chess board; 14s
+  cs_first_grand_master_match (Act 5 top-10 unlock): POV at player chair; Grand Master across the board; first lifetime match begins
+
+doorways: south.door.main → ark.chess_hall; slide; Act 5+ top-10 ladder rank
+adjacency: direct ark.chess_hall (south); state-shared chess game with §A.13 antiquarian + §A.36 chess hall
+
+gameplay_hooks:
+  - playLifetimeMatch: trpc.grand_masters_sanctum.match.start (one-shot Act 5+; only when player rank >= top-10)
+  - readBookshelf: trpc.grand_masters_sanctum.bookshelf.read (per-side per-book)
+  - inspectLineage: trpc.grand_masters_sanctum.lineage.inspect
+
+story_tie:
+  primary_arcs: act_5_grand_master_meeting; chess_progression_top_10; act_7_lifetime_match (canonical match between player and Grand Master)
+  per_act:
+    acts_0_4: locked
+    act_5: opens for top-10 players; first lifetime match initiated
+    act_6: deeper studies; player's annotations contribute to bookshelves
+    act_7: state-branched: lifetime-master ending (Grand Master concedes; player's bust appears among lineage) vs. continued-pupil ending
+  npc_roster: the_grand_master (primary; physically present); the_player; rare past-grand-masters (cosmic-presence cameos)
+  readables: principle plaque; master-of-masters relief; lineage display; ~160 books (opening + endgame); past-master busts (per-bust lore)
+  master_of_rlyeh_question: n/a
+
+special_fx: dust low; chess_board_holo_overlay (subtle); lineage_glow
+volumetric: pendant_scatter; lineage_uplight_envelope
+procedural: chess_clock_tick; bookshelf_subtle_creak; pieces_settle_subtle
+reactive: pendant_intensify_on_player_at_chair; bookshelf_strip_warm_on_proximity; lineage_glow_on_inspect
+
+avatar_parametricity: small_xenomorph: alternate ladder for top bookshelf; others all-reachable
+audio_occlusion: xenomorph: chess-clock tick more pronounced
+performance: polygon_budget 180,000 / texture_budget 110 MB / light_count 12
+streaming: preload ark.chess_hall (parent)
+```
+
+---
+
+## A.38 Puzzle Study Chamber (daily puzzle) — FULL
+
+**Status: FULL spec.** Cross-ref `INCEPTION_ARK_FINAL_PRODUCTION.md`
+§2.38 (art-state prompts).
+
+### A.38.1 Header
+
+```
+space_id:        ark.puzzle_study_chamber
+space_name:      Puzzle Study Chamber (daily puzzle)
+space_type:      ark_room  (sub-room of Chess Hall)
+act_introduced:  Act 4
+lore_anchor:     loredex.system.daily_puzzle + arc.puzzle_progression
+aesthetic_tier:  solar_punk_cathedral  (study-academic; warm scholarly)
+```
+
+### A.38.2 Geometry
+
+```
+dimensions:           6.00 m × 8.00 m × 4.00 m  (small, focused study space)
+origin_point:         centre of floor at south entrance
+floor_plan_geometry:  rectangular
+volumetric_anomalies: none
+```
+
+The Puzzle Study Chamber is a small study where players solve the
+daily chess puzzle. Compact rectangular room. Central study desk
+holds the daily puzzle board. Bookshelves line east and west walls
+(puzzle archives). North wall displays the player's puzzle-solving
+streak + leaderboard.
+
+Floor area: 48 m².
+
+### A.38.3-9 Compact (full FULL fidelity — single block as the room is intentionally compact)
+
+```
+floor: polished walnut hardwood; 0.20×1.20 m planks; 45° from south; bronze inlay outlining puzzle desk zone
+walls:
+  south: cream plaster + walnut wainscoting; south.display.daily_puzzle_status (-1.0,0.2,1.5; 0.6×0.4); south.door.main slide connects to ark.chess_hall (Act 4+); plaque "EVERY DAY, A NEW PROBLEM"
+  east + west: full-height walnut bookshelves with ~50 puzzle archive volumes per side
+  north: full-wall display with player's puzzle streak + leaderboard; small relief above
+ceiling: 4.00 m baseline; central pendant; warm strip-lights along bookshelves
+lighting:
+  ambient_baseline: 3000 K warm; 280 lux (precision reading); CRI 95
+  central_pendant: at (0.00, 4.00, 3.80); warm amber; 3000 lumens
+  bookshelf_strip: 600 lumens/m; warm
+atmosphere: 21°C / 42% RH / smells of walnut + book-paper + faint tea
+sound: -36 dB; faint clock-tick, page-rustle, distant Chess Hall ambient
+
+object inventory (compact; 18 objects):
+  - puzzle_desk: (0.00, 4.00, 0.00) 1.20×0.80×0.85; central
+  - puzzle_chair: (0.00, 3.00, 0.00) 0.80×0.80×1.20
+  - east.bookshelf.puzzle_archive: (2.95, 4.00, 0.00) 0.40×6.00×3.40; ~50 volumes
+  - west.bookshelf.puzzle_archive: mirror
+  - north.display.streak_leaderboard: (0.00, 7.95, 2.00) 1.20×0.80×0.05
+  - mantle_clock: on desk; 0.20×0.20×0.30
+  - tea_set: on desk corner; 0.30×0.30×0.20
+  - reading_lamp_desk: on desk; 0.20×0.20×0.50
+  - small_observation_chair (alt position) (3 chairs at perimeter)
+  - south.intercom + fire_extinguisher + first_aid (3 items)
+  - south.plaque.creed: "EVERY DAY, A NEW PROBLEM"
+  - north.relief.daily_master: above display
+  - puzzle_pieces_box: small bronze box on desk
+  - score_chalkboard.<east|west>: small chalkboards on bookshelf flanks
+```
+
+### A.38.10-17 Compact
+
+```
+camera_spawn_points:
+  cs_amb_puzzle_study (Cat B): POV at threshold; slow walk to desk; 12s
+  cs_first_daily_puzzle_solved (Act 4 first-time): hand at desk; new puzzle materialises; clock starts
+
+doorways: south.door.main → ark.chess_hall; slide; Act 4+
+adjacency: direct ark.chess_hall (south)
+gameplay_hooks: solveDailyPuzzle; inspectArchive; readChalkboard; useDeskLamp
+story_tie: arc.daily_puzzle (continuous); locked Acts 0-3; opens Act 4
+npc_roster: the_player; rare lobby observer
+readables: creed plaque; daily-master relief; ~100 puzzle archive volumes; chalkboards
+master_of_rlyeh_question: n/a
+
+special_fx: dust very low; reading-lamp glow; chess-piece subtle glint
+procedural: clock_tick; bookshelf_creak; pendant_subtle_sway
+reactive: desk_lamp_on_proximity; chalkboard_update_on_solve; streak_display_animate
+
+avatar_parametricity: standard
+audio_occlusion: xenomorph: clock-tick + page-rustle pronounced
+performance: polygon_budget 120,000 / texture_budget 70 MB / light_count 8
+streaming: preload ark.chess_hall (parent)
+```
+
+---
+
+## A.39 Casino Gaming Floor (chess-in-July event) — FULL
+
+**Status: FULL spec.** Cross-ref `INCEPTION_ARK_FINAL_PRODUCTION.md`
+§2.39 (art-state prompts).
+
+### A.39.1 Header
+
+```
+space_id:        ark.casino_gaming_floor
+space_name:      Casino Gaming Floor (Chess-in-July seasonal event)
+space_type:      ark_room  (event-only; seasonal activation)
+act_introduced:  seasonal (Chess-in-July recurring event; first available Act 4+)
+lore_anchor:     loredex.event.chess_in_july + arc.seasonal_chess_carnival
+aesthetic_tier:  solar_punk_cathedral  (festive-casino accents — atypical for the Ark)
+```
+
+### A.39.2 Geometry
+
+```
+dimensions:           16.00 m × 12.00 m × 5.00 m
+origin_point:         centre of floor at south entrance
+coordinate_axes:      +x = right, +y = forward (north), +z = up
+floor_plan_geometry:  rectangular  (with central event-stage + perimeter chess tables)
+volumetric_anomalies: none in baseline; festive-confetti cascade during high-prize matches
+```
+
+The Casino Gaming Floor only activates during Chess-in-July
+seasonal events. Central event stage at room centre hosts
+high-stakes matches. Perimeter has 8 themed chess tables
+(each themed differently: classical, blitz, problem, lightning,
+tag-team, fischerrandom, etc.). North wall has a leaderboard +
+prize display. East has VIP booth; west has snack/coin vendor.
+
+Floor area: 192 m².
+
+### A.39.3-9 Compact (full FULL fidelity)
+
+```
+floor: polished walnut hardwood with rich-crimson wool rug zones at perimeter; bronze inlay outlining central stage zone (4×4 m); brass walkway-strip from entrance through to stage
+walls:
+  south: warm walnut + cream plaster; south.display.event_schedule (-3,0.2,1.8); south.display.player_winnings (3,0.2,1.8); south.door.main arch connects to ark.chess_hall (Acts 4+ during seasonal event); plaque "THE GAME IS THE PRIZE"
+  east: VIP booth alcove (large; 3.0×2.0 with private chess board + 2 luxury chairs); curtain demarcation; bronze nameplate "VIP TABLE"
+  north: walnut paneled wall + grand-leaderboard display (3.0×2.0); flanked by prize-display cabinets (silver/gold/platinum trophies); festive bunting at z=4.30
+  west: snack/coin vendor alcove with cash desk + bronze coin-stack display + "house chips" + 2 spectator stools
+ceiling: 5.00 m baseline; central event-stage rises with circular drop coffer at 4.30 m above stage; chandelier above central stage (theatrical); recessed strip-lights along walls; festive bunting
+lighting:
+  ambient_baseline: 3000 K warm festive; 220 lux; CRI 92
+  central_chandelier_stage: at (0.00, 6.00, 4.30); warm amber + crystal scatter; 8000 lumens (theatrical pulse)
+  bunting_uplight: along ceiling perimeter; warm crimson; 400 lumens/m
+  vip_booth_pendant.east: warm 2400 K; 2500 lumens; intimate
+  vendor_cash_desk_pendant.west: warm 2700 K; 2000 lumens
+  trophy_display_uplight: along base of north prize cabinets; warm gold; 1000 lumens/m
+  practical_sources: 8 chess_table_clock_glows; chip_glow_per_table
+atmosphere: 22°C festive-warm / 48% RH / smells of walnut + cigar (rare during VIP matches) + bronze coin + faint perfume + buttery snacks
+sound:
+  ambient_bed: -28 dB; festive-jazz-piano (cosmetic; only during events), excited chatter, chip-clatter, occasional bell-toll on win
+  point_sources: chess_clock_clicks_per_table; chip_clatter; vip_booth_intimate_chatter; vendor_cash_register; jazz_piano_subtle
+  reverb_zone: casino_gaming_v1.wav wet 22% (warm festive)
+  music_eligibility: ambient music ALLOWED (jazz piano during events); cutscene during prize wins
+  voice_line_eligibility: the_event_host (named NPC; rotating per event); rotating tournament players; the_vip_booth_attendant
+```
+
+### A.39.10-17 Compact
+
+```
+camera_spawn_points:
+  cs_amb_casino_gaming (Cat B): POV at threshold during event; head pans across festive crowd + central stage; 22s
+  cs_first_chess_in_july (seasonal first-time): POV at central stage; opening ceremony; trumpets + crowd cheer
+  cs_grand_prize_win (state-conditional): POV at central stage as prize is awarded; confetti cascade
+
+doorways: south.door.main → ark.chess_hall; arch; seasonal Act 4+ activation
+adjacency: direct ark.chess_hall (south)
+gameplay_hooks: enterTournament; placeBet; takeVIPBooth; useVendor; inspectLeaderboard; inspectPrize
+story_tie: arc.seasonal_chess_carnival; chess_progression_seasonal; locked outside seasonal window
+npc_roster: the_event_host; vip_booth_attendant; vendor; rotating tournament players + spectators
+readables: creed plaque; event schedule; player winnings; ~30 prize descriptions; leaderboard
+master_of_rlyeh_question: n/a
+
+special_fx: festive_dust; confetti_cascade (state-conditional); chip_glint_motes
+procedural: chandelier_pulse_with_jazz; chess_clock_clicks; chip_clatter_motion; jazz_piano_visualisation
+reactive: stage_intensify_during_match; vip_booth_glow_when_occupied; trophy_pulse_on_prize_award
+
+avatar_parametricity: standard
+audio_occlusion: xenomorph: jazz + chatter overwhelming; alternate quiet-zone setting
+performance: polygon_budget 320,000 / texture_budget 180 MB / light_count 22 (festive density)
+streaming: preload ark.chess_hall; on_event_active: load tournament-specific assets
+```
+
+8 chess tables: 8 inventory objects (each with chess_board + chess_clock + 2 chairs as sub-set; ~32 total sub-objects rolled).
+
+Total: ~40 inventory objects (multi-themed event-room).
 
 ---
 
