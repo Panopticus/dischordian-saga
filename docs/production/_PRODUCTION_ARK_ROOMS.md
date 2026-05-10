@@ -8587,15 +8587,16 @@ streaming_behaviour:
 
 ## A.18 Oracle Sanctum — FULL
 
-**Status: FULL spec (compact).** Cross-ref §2.18.
+**Status: FULL spec.** Cross-ref `INCEPTION_ARK_FINAL_PRODUCTION.md`
+§2.18 (art-state prompts).
 
 ### A.18.1 Header
 
 ```
 space_id:        ark.oracle_sanctum
 space_name:      Oracle Sanctum
-space_type:      ark_room
-act_introduced:  Act 5
+space_type:      ark_room  (D8 sanctum; faction-aligned)
+act_introduced:  Act 5 (Oracle-aligned only)
 lore_anchor:     loredex.faction.oracles + loredex.character.the_oracle + arc.oracle_arc + arc.act_5_first_scrying
 aesthetic_tier:  dreamers_oneiric  (mystic-water; the Ark's most fluid space)
 ```
@@ -8603,98 +8604,614 @@ aesthetic_tier:  dreamers_oneiric  (mystic-water; the Ark's most fluid space)
 ### A.18.2 Geometry
 
 ```
-dimensions:           9.00 m diameter × 5.00 m  (circular footprint)
-origin_point:         centre of floor (room is circular)
-coordinate_axes:      +x = right, +y = forward, +z = up
-floor_plan_geometry:  circular  (4.50 m radius)
-volumetric_anomalies: subtle perceptual depth at scrying pool (1.30× perceptual; reinforces oracular vision)
+dimensions:           9.00 m diameter × 5.00 m  (circular footprint; bounding box 9×9×5)
+origin_point:         centre of floor (room is circular; origin at geometric centre)
+coordinate_axes:      +x = right, +y = forward (north), +z = up
+floor_plan_geometry:  circular  (4.50 m radius; perfect symmetry)
+volumetric_anomalies: subtle perceptual depth at scrying pool (1.30× perceptual; pool reads as deeper than physics suggests; reinforces oracular vision); gravity slightly reduced (~0.94g) at room centre
 ```
 
 The Oracle Sanctum is a circular chamber dominated by a 4 m
 diameter scrying pool at room centre. Oracle's chair sits at the
-pool's north edge. Three observation alcoves at 120° intervals.
-Continuous water-sound soundscape; gravity slightly reduced (~0.94g).
+pool's north edge. Three observation alcoves at 120° intervals
+hold scrying-fluid jars and ritual artifacts. Continuous
+water-sound soundscape pervades the room. Hanging silver-mist
+drapery between alcoves at z = 2.00 to 4.00 m gives the room
+an ethereal threshold-of-vision quality.
 
-Floor area: ~64 m².
+Floor area: ~63.6 m².
 
-### A.18.3-8 Compact
+### A.18.3 Floor
 
 ```
-floor: polished obsidian-black slate radiating from pool; bronze inlay forming 3-pointed star at 120° intervals; brass perimeter trim
-walls:
-  perimeter (continuous curved): polished obsidian-black marble with deep alcove recesses (3 alcoves at 120° intervals; each 1.0×0.8×3.5); south.door.main arch connects to ark.corridor.oracle_approach (Act 5+); plaque "WHAT WILL BE, IS"
-  decorative: 3 alcoves with scrying-fluid jars; hanging silver-mist drapery (z=2-4 m); apsidal vault overhead
-ceiling: 5.00 m baseline; central oculus 6.20 m above scrying pool; mirror-finish panels reflecting pool's surface upward
-lighting:
-  ambient_baseline: 2400 K very warm + cyan accent; 80 lux (intentionally dim); CRI 90
-  oculus_central: variable colour (matches scrying state); 3000 lumens; pulses with pool ripples
-  alcove_strip.<n>×3: warm amber 600 lumens per alcove
-  pool_underwater_glow: at pool floor; cyan-amber; 1500 lumens; flickers organically
-  candle_arrays.<n>×3 (per alcove): 50 lumens each subtle
-atmosphere: 18°C cool / 55% RH humid (water source) / smells of warm-stone + mineral water + faint salt + ozone
-sound:
-  ambient_bed: -36 dB; continuous water-trickle from pool, faint bell-toll period 90s, distant Oracle's hum
-  point_sources: pool_lapping at edges; oracle_breath when present; cosmic_resonance overlay
-  reverb_zone: oracle_sanctum_v1.wav wet 32% (long; aquatic)
-  music_eligibility: cutscene only; ambient possible during scrying
-  voice_line: the_oracle (presence Acts 5+); cosmic_resonance_voices (rare whispers during scrying)
+material_primary:     polished obsidian-black slate in radial-wedge tiles emanating from pool; 3 wedges (one per alcove); each wedge tapers from 0.30 m wide at pool-edge to ~3.00 m wide at perimeter; 4 mm gap between wedges
+material_secondary:   bronze inlay forming a 3-pointed star centred on pool (5.00 m diameter inscribed); brass perimeter trim along curved wall base
+pattern:              radial wedges + 3-pointed star inlay; subtle anti-slip etch radiating outward from pool
+wear_state:           pristine in early acts; in Act 5+, slight wear-trail to pool edge from Oracle's chair; in Act 7, if many scryings performed, pool-edge tiles show repeated barefoot-prints
+embedded_features:
+  - id: ark.oracle_sanctum.floor.charge_point.scrying_pool
+    position: (0.00, 0.00, 0.00)  # pool centre
+    dimensions: 0.40 × 0.40 × 0.05
+    function: pool fluid-circulation + lighting power
+  - id: ark.oracle_sanctum.floor.charge_point.oracle_chair
+    position: (0.00, 2.50, 0.00)  # under Oracle's chair
+    dimensions: 0.30 × 0.30 × 0.05
+    function: chair electronics
+  - id: ark.oracle_sanctum.floor.alcove_anchor.<n>  (3 anchors at 120° intervals; radius 3.20 m)
+    position: per alcove base
+    dimensions: 0.30 × 0.30 × 0.05 each
+    function: alcove resonance + scrying-fluid jar power
+  - id: ark.oracle_sanctum.floor.water_drain.south
+    position: (0.00, -4.30, 0.00)  # at south, near entrance
+    dimensions: 0.20 × 0.20 × 0.10
+    function: pool overflow drain (during high-stress scryings)
+acoustic_property:    hard_reflective with subtle water-resonance overlay; RT60 = 0.65s (long; aquatic — supports Oracle's hum + ripple-cascade)
 ```
 
-### A.18.9 Object inventory (compact)
+### A.18.4 Walls
+
+The Oracle Sanctum has ONE continuous curved wall divided into
+3 alcove-zones by structural pilasters between alcoves.
+
+```
+wall_id:              perimeter_curved (single continuous wall divided into 3 alcove-zones at 120° intervals)
+material_primary:     polished obsidian-black marble cladding curving with the room; alternating with deep alcove recesses (3 alcoves; each 1.00 m wide × 0.80 m deep × 3.50 m tall)
+material_secondary:   gold-leaf rim around each alcove; bronze pilasters (24 mm wide × 4.20 m tall) between alcoves; hanging silver-mist drapery between pilasters (z = 2.00 to 4.00)
+panelisation:         3 alcoves + 3 pilasters + 3 drapery zones
+colour_value:         --token-color-ark-oracle-sanctum-wall  (deep obsidian-black with gold + faint cyan accents)
+embedded_displays:
+  - id: ark.oracle_sanctum.south.display.scrying_log
+    position: (0.00, -4.45, 1.80)  # at south, near entrance
+    dimensions: 0.60 × 0.40 × 0.05
+    content: log of recent scryings + their interpretations
+embedded_doors:
+  - door_id: ark.oracle_sanctum.south.door.main
+    position: (0.00, -4.50, 0.00)
+    dimensions: 1.20 × 2.40 × 0.10
+    door_class: arch  (gold-inlaid bronze; opens with hush of falling water)
+    connecting_space_id: ark.corridor.oracle_approach
+    unlock_condition: Act 5+ (Oracle-aligned)
+decorative_features:
+  - id: ark.oracle_sanctum.alcove.<n>  (3 alcoves at 120° intervals — north, southeast, southwest of pool)
+    position: per perimeter at radius 3.20 m
+    dimensions: 1.00 × 0.80 × 3.50 each
+    material: marble backplane + gold-leaf relief (Oracle sigil) + scrying-fluid jar display niche
+    narrative_role: each alcove holds a scrying-fluid jar of different aspect (past, present, future); activates in different states
+  - id: ark.oracle_sanctum.pilaster.<n>  (3 pilasters between alcoves)
+    position: per perimeter at intervals between alcoves
+    dimensions: 0.24 × 0.24 × 4.20 each
+    material: cast bronze with gilt detail; fluted shaft
+    narrative_role: structural; reinforces sacred geometry
+  - id: ark.oracle_sanctum.drapery.<n>  (3 silver-mist drapes between pilasters)
+    position: between pilasters at z = 2.00 to 4.00
+    dimensions: 0.05 × 2.40 × 2.00 each (hanging)
+    material: silver-mist gauze (semi-transparent; lightweight; flutters in convection)
+    narrative_role: ethereal accent; suggests "veil between waking and vision"
+  - id: ark.oracle_sanctum.south.plaque.principle
+    position: (0.00, -4.45, 3.20)
+    dimensions: 0.80 × 0.30 × 0.02
+    material: cast bronze with gilt text + faint patina
+    narrative_role: reads "WHAT WILL BE, IS" — Oracle's primary maxim
+  - id: ark.oracle_sanctum.south.relief.first_scrying
+    position: (0.00, -4.45, 4.00)
+    dimensions: 1.40 × 0.40 × 0.10
+    material: cast bronze with deep relief (Oracle figure leaning over pool)
+    narrative_role: depicts the canonical first scrying; lore-discoverable
+```
+
+### A.18.5 Ceiling
+
+```
+height_above_floor:     5.00 m baseline; central oculus rises to 6.20 m above scrying pool (mirror-finish panel inside oculus reflects pool's surface upward — creates "infinite well" illusion)
+material:               polished obsidian-black marble cladding with gold-leaf coffer pattern radiating from oculus; central dome is partially mirrored (reflects pool surface)
+lighting_integrated:    central oculus (variable colour; matches scrying state); 3 alcove ceiling-strips define faction-aspect zones; subtle gold-edge lighting along pilaster tops
+atmospheric_features:   visible mystic-motes drift continuously (cosmetic; suggests "presence of vision"); intensifies during active scryings
+acoustic_treatment:     domed apsidal (slight whispering effect from curved geometry); supports cosmic-resonance harmonic
+```
+
+### A.18.6 Lighting
+
+```
+ambient_baseline:     2400 K (very warm) with cyan accent; 80 lux at floor (intentionally dim — gravity); CRI 90
+direct_fixtures:
+  - id: ark.oracle_sanctum.light.oculus_central
+    position: (0.00, 0.00, 6.20)
+    beam_angle: 60° downward
+    colour: --token-color-ark-oracle-sanctum-oculus  (variable; matches current scrying state — neutral cyan baseline; warmer for past-aspect scryings; cooler for future-aspect)
+    intensity: 3000 lumens (pulses with pool ripples; period 4-8s organic)
+    function: principal — illuminates pool surface
+  - id: ark.oracle_sanctum.light.alcove_strip.<n>  (3 alcove ceiling strips)
+    position: at top of each alcove at z = 3.40
+    beam_angle: 180° wash inward-downward
+    colour: --token-color-ark-oracle-sanctum-alcove-strip  (warm amber per alcove; varies subtly per aspect)
+    intensity: 600 lumens each
+    function: alcove definition
+  - id: ark.oracle_sanctum.light.pool_underwater_glow
+    position: (0.00, 0.00, -0.20)  # below pool surface
+    beam_angle: 360° upward
+    colour: --token-color-ark-oracle-sanctum-pool-glow  (cyan-amber; flickers organically)
+    intensity: 1500 lumens (varies with pool state)
+    function: pool-surface illumination from beneath; reinforces "looking into" feel
+  - id: ark.oracle_sanctum.light.pilaster_uplight.<n>  (3 pilaster uplights at base)
+    position: at base of each pilaster (z = 0.05)
+    beam_angle: 30° upward
+    colour: --token-color-ark-oracle-sanctum-pilaster-uplight  (warm gold)
+    intensity: 200 lumens each
+    function: dramatic vertical uplighting
+practical_sources:
+  - id: ark.oracle_sanctum.candle_array.<alcove>  (3 candle clusters; one per alcove base)
+    position: per alcove
+    intensity: 50 lumens each (subtle; 3 candles per cluster)
+    flicker_pattern: organic
+  - id: ark.oracle_sanctum.scrying_fluid_jar_glow.<alcove>  (3 jars; one per alcove)
+    position: in each alcove niche at z = 1.50
+    intensity: 80 lumens each (active when that aspect is being scried)
+    flicker_pattern: stable when active; off when dormant
+time_of_day_variation:
+  acts_5_to_7: stable warm-cyan baseline; in late-act7, oculus colour reflects player's strongest faction-alignment (echoes Eidolon Sanctum oculus mechanic)
+dynamic_response:
+  - on_player_at_pool: pool_underwater_glow intensifies; oculus pulse synchronises with player's heartbeat
+  - on_scrying_initiated: mystic-motes intensify; alcove-strip of relevant aspect brightens; drapery flutters
+  - on_oracle_visitation: subtle harmonic chime + Oracle's silhouette suggested in pool (rare cutscene-only)
+```
+
+### A.18.7 Atmosphere
+
+```
+air_temperature:    18°C (cool — water-source convection); rises slightly during active scryings
+humidity:           55% RH (high; water source); smells of warm-stone + mineral water + faint salt + ozone (cosmic radiation hint)
+particulate:
+  - type: mystic_motes
+    density: medium (continuous; cosmetic suggesting "presence of vision")
+    colour: pale-cyan with gold flecks
+    drift_direction: slow upward toward oculus
+  - type: water_vapor
+    density: low (cosmetic; rises from pool surface)
+    colour: white-translucent
+    drift_direction: rises slowly
+  - type: candle_smoke
+    density: very low (3 small candle clusters)
+    colour: very pale grey
+    drift_direction: upward
+volumetric_fog:     subtle haze at upper volume (0.05 g/m³, warm-amber); intensifies during active scryings
+wind_drift:         very faint; 0.02 m/s; subtle inward-spiral toward pool (water-convection)
+smell_canon:        warm-stone + mineral water + salt + ozone; voice-line: "smells like the pool of seeing"
+```
+
+### A.18.8 Sound
+
+```
+ambient_bed:           file: oracle_sanctum_ambient_bed_v1.ogg (loop); -36 dB; continuous water-trickle from pool, faint distant bell-toll (period 90s), Oracle's hum (very faint, sub-perceptual when she's not present), mystic resonance overlay
+point_sources:
+  - id: ark.oracle_sanctum.sound.pool_lapping
+    position: (0.00, 0.00, 0.00)  # pool centre
+    sound: continuous water-lapping at edges (-30 dB)
+    occlusion_behaviour: omnidirectional
+    trigger: continuous
+  - id: ark.oracle_sanctum.sound.distant_bell
+    position: (0.00, 0.00, 6.20)  # from oculus
+    sound: deep bell-toll (period 90s; -36 dB per toll)
+    occlusion_behaviour: omnidirectional
+    trigger: cyclic
+  - id: ark.oracle_sanctum.sound.oracle_breath
+    position: (0.00, 2.50, 1.40)  # at Oracle's chair
+    sound: very faint slow breath (-44 dB; only when Oracle present)
+    occlusion_behaviour: omnidirectional
+    trigger: state-conditional
+  - id: ark.oracle_sanctum.sound.cosmic_resonance_overlay
+    position: (0.00, 0.00, 6.20)
+    sound: very faint deep cosmic harmonic (-42 dB; continuous)
+    occlusion_behaviour: omnidirectional
+    trigger: continuous
+  - id: ark.oracle_sanctum.sound.mystic_chime_random
+    position: dynamic
+    sound: subtle single-chime (random; -42 dB; period 60-180s; suggests "vision approaches")
+    occlusion_behaviour: omnidirectional
+    trigger: random
+  - id: ark.oracle_sanctum.sound.candle_flicker.<n>  (3 sources)
+    position: per candle cluster
+    sound: very faint candle-flame (-44 dB each)
+    occlusion_behaviour: standard
+    trigger: continuous
+reverb_zone:           IR-impulse: oracle_sanctum_v1.wav; wet-mix 32% (long; aquatic-cathedral)
+music_eligibility:     cutscene only (Category B cs_amb_oracle_sanctum + Oracle-arc scrying cutscenes); ambient possible during active scrying (low oceanic pad)
+voice_line_eligibility:
+  - speaker: the_oracle: presence (Acts 5+ Oracle-aligned); line set §2.18.2
+  - speaker: cosmic_resonance_voices: rare whispers during scryings (proto-language; subtitled per player choice)
+  - speaker: vision_echoes: gameplay-driven during scrying-results
+```
+
+### A.18.9 Object inventory
+
+Oracle Sanctum has 26 inventory objects.
+
+#### A.18.9.1 The Central Scrying Pool
+
+```
+object_id:           ark.oracle_sanctum.scrying_pool
+object_class:        interactive  (also fx_emitter — water + light source)
+position:            (0.00, 0.00, 0.00)  # at room centre
+dimensions:          4.00 dia × 0.40 deep (visible); 5.20 m perceptual depth (volumetric anomaly)
+rotation:            0°
+material_primary:    polished obsidian-black stone basin with bronze rim; clear water with faint cyan-amber luminescence
+material_secondary:  gold-inlay band around rim with engraved Oracle text (proto-language)
+colour_value:        --token-color-ark-oracle-sanctum-pool  (water clear with cyan-amber undertone)
+interaction:         interactable
+  - perform_scrying: opens scrying UI; player chooses aspect (past/present/future); pool reveals visions
+  - inspect: lore-note about pool's history (canonical pre-Ark artifact; the original well of all visions)
+  - touch_water: gameplay-active in some Acts; subtle sensation of "looking back"
+narrative_role:      THE central artifact; primary scrying surface; cosmologically the only access point to oracular visions
+lore_anchor:         loredex.system.scrying + arc.oracle_arc
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.oracle_sanctum.pool.scry + .inspect
+wear_state:          worn at rim where Oracle leans (north edge); pristine elsewhere
+physical_constraints: collides at rim; player can lean over (interaction)
+```
+
+#### A.18.9.2 The Oracle's Chair
+
+```
+object_id:           ark.oracle_sanctum.oracle_chair
+object_class:        furniture  (also npc_anchor)
+position:            (0.00, 2.50, 0.00)  # north of pool, facing pool
+dimensions:          0.90 × 0.90 × 1.50
+rotation:            180°  (faces south, toward pool)
+material_primary:    walnut frame with deep velvet-blue upholstery (cosmic-water aesthetic)
+material_secondary:  gold-leaf armrests; bronze base
+colour_value:        --token-color-ark-oracle-sanctum-oracle-chair  (velvet-blue with gold-leaf)
+interaction:         interactable - sit (when Oracle absent — rare)
+narrative_role:      THE Oracle's chair; her permanent physical anchor; she's almost always present here when player visits
+lore_anchor:         loredex.character.the_oracle
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.oracle_sanctum.oracle_chair.sit
+wear_state:          worn at right armrest (Oracle's preferred posture; she leans forward to scry)
+physical_constraints: collides; sittable
+```
+
+#### A.18.9.3 The Scrying Lectern
+
+```
+object_id:           ark.oracle_sanctum.scrying_lectern
+object_class:        container
+position:            (-1.50, 1.00, 0.00)
+dimensions:          0.40 × 0.30 × 1.20
+rotation:            45°  (faces Oracle's chair)
+material_primary:    cast bronze with inclined display-plate
+material_secondary:  open scrying-tome on the inclined plate
+colour_value:        --token-color-ark-oracle-sanctum-lectern
+interaction:         interactable
+  - inspect: opens scrying-tome (multi-screen lore-readable; Oracle's working notes; gameplay-key for advanced scryings)
+narrative_role:      Oracle's reference book; she consults during difficult scryings; player can read when Oracle absent
+lore_anchor:         loredex.character.the_oracle + arc.oracle_arc
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.oracle_sanctum.lectern.read
+wear_state:          well-used; pages dog-eared at most-consulted entries
+physical_constraints: collides
+```
+
+#### A.18.9.4-6 Three Alcoves (with scrying-fluid jars)
+
+```
+object_id:           ark.oracle_sanctum.alcove.<aspect>  (3 alcoves: past, present, future)
+object_class:        container
+positions:           [
+  (0.00, 3.20, 0.00),                 # north — present-aspect (above Oracle's chair direction)
+  (2.77, -1.60, 0.00),                # SE — past-aspect
+  (-2.77, -1.60, 0.00),               # SW — future-aspect
+]
+dimensions (each):   1.00 × 0.80 × 3.50
+rotation:            varies (faces inward toward pool)
+material_primary:    polished obsidian-black marble backplane + display niche
+material_secondary:  gold-leaf rim around alcove; bronze nameplate per aspect
+colour_value:        --token-color-ark-oracle-sanctum-alcove
+interaction:         interactable
+  - examine: opens alcove-detail UI; player sees aspect-specific scrying-fluid jar + ritual artifacts
+  - activate_aspect: choose which aspect to scry (past/present/future); affects oculus colour
+narrative_role:      per-aspect ritual-zone; each holds scrying-fluid jar tuned to that temporal aspect
+lore_anchor:         loredex.system.scrying_aspects
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.oracle_sanctum.alcove.activate
+wear_state:          slight wear at most-used aspect (varies by player)
+physical_constraints: collides; player can step inside
+```
+
+#### A.18.9.7-9 Three Scrying-Fluid Jars (one per alcove)
+
+```
+object_id:           ark.oracle_sanctum.scrying_fluid_jar.<aspect>  (3 jars)
+object_class:        decoration  (also fx_emitter — glow when active)
+positions:           in each alcove niche at z = 1.50
+dimensions (each):   0.30 × 0.30 × 0.50
+rotation:            0°
+material_primary:    cut-crystal jar with cast-bronze stand; fluid colour varies (past = warm amber; present = clear cyan; future = silver-pale)
+material_secondary:  bronze stopper with engraved sigil
+colour_value:        per-aspect (3 token families)
+interaction:         inspectable
+  - inspect: lore-note about that aspect's scrying-fluid (each canonically pre-Ark)
+narrative_role:      ritual artifacts; their glow signals which aspect is active
+lore_anchor:         loredex.system.scrying_aspects
+art_status:          producer_handoff
+gameplay_hook_id:    none
+wear_state:          slight patina on stoppers
+physical_constraints: collides
+```
+
+#### A.18.9.10-12 Three Candle Arrays (one per alcove)
+
+```
+object_id:           ark.oracle_sanctum.candle_array.<alcove>  (3 arrays)
+object_class:        interactive  (also fx_emitter)
+positions:           per alcove base
+dimensions (each):   0.20 × 0.30 × 0.30 (cluster of 3 candles per array)
+rotation:            varies
+material_primary:    cast bronze stand + 3 ivory wax candles
+material_secondary:  none
+colour_value:        --token-color-ark-oracle-sanctum-candle
+interaction:         interactable
+  - light_candle: lights candles (one-shot per cluster)
+  - extinguish: extinguishes
+  - inspect: lore-note about ritual-candle protocol
+narrative_role:      ritual lighting; activates aspect alcove
+lore_anchor:         loredex.system.scrying_rituals
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.oracle_sanctum.candle.toggle
+wear_state:          varies
+physical_constraints: collides
+```
+
+#### A.18.9.13-15 Three Observation Benches (between alcoves)
+
+```
+object_id:           ark.oracle_sanctum.observation_bench.<n>  (3 benches at radius 3.50 m, between alcoves; positions at 60°, 180°, 300°)
+object_class:        furniture
+positions:           [
+  (3.03, 1.75, 0.00),                # NE-arc
+  (0.00, -3.50, 0.00),               # south
+  (-3.03, 1.75, 0.00),               # NW-arc
+]
+dimensions (each):   1.00 × 0.40 × 0.45  (curved bench matching circular geometry)
+rotation:            varies (radial; faces pool)
+material_primary:    polished obsidian-black marble seat with gold-leaf trim
+material_secondary:  bronze leg-supports
+colour_value:        --token-color-ark-oracle-sanctum-bench
+interaction:         interactable - sit
+narrative_role:      contemplation seating; player can sit and watch pool ripples for extended periods
+lore_anchor:         arc.oracle_contemplation
+art_status:          producer_handoff
+gameplay_hook_id:    none
+wear_state:          slight wear
+physical_constraints: collides; sittable
+```
+
+#### A.18.9.16-18 Three Pilasters
+
+Specced in walls. Inventoried for completeness.
+
+```
+object_id:           ark.oracle_sanctum.pilaster.<n>  (3 pilasters between alcoves)
+object_class:        decoration
+positions:           radial; between each alcove pair (at 60°, 180°, 300°)
+dimensions (each):   0.24 × 0.24 × 4.20
+rotation:            radial (faces inward)
+material_primary:    cast bronze with gilt detail; fluted shaft
+material_secondary:  bronze cap top; bronze base
+colour_value:        --token-color-ark-oracle-sanctum-pilaster-bronze
+interaction:         inert
+narrative_role:      structural; reinforces sacred geometry
+lore_anchor:         loredex.aesthetic.dreamers_oneiric
+art_status:          producer_handoff
+gameplay_hook_id:    none
+wear_state:          slight patina at base
+physical_constraints: collides
+```
+
+#### A.18.9.19-21 Three Drapery Hangings
+
+Specced in walls. Inventoried for completeness.
+
+```
+object_id:           ark.oracle_sanctum.drapery.<n>  (3 silver-mist drapes between pilasters)
+object_class:        decoration
+positions:           between pilaster pairs at z = 2.00 to 4.00
+dimensions (each):   0.05 × 2.40 × 2.00
+rotation:            varies
+material_primary:    silver-mist gauze (semi-transparent; lightweight)
+material_secondary:  bronze hanging-rod
+colour_value:        --token-color-ark-oracle-sanctum-drapery-silver-mist
+interaction:         inert (but flutters reactively)
+narrative_role:      ethereal accent; suggests "veil between waking and vision"
+lore_anchor:         loredex.aesthetic.dreamers_oneiric
+art_status:          producer_handoff
+gameplay_hook_id:    none
+wear_state:          slight fading at edges
+physical_constraints: non-collide (suspended)
+```
+
+#### A.18.9.22-26 Closing Items + Atmosphere
 
 | object_id | class | position | dim | role |
 |---|---|---|---|---|
-| `ark.oracle_sanctum.scrying_pool` | interactive | (0.00, 0.00, 0.00) | 4.0 dia × 0.40 deep | THE central scrying pool |
-| `ark.oracle_sanctum.oracle_chair` | furniture+npc_anchor | (0.00, 2.50, 0.00) | 0.9×0.9×1.5 | Oracle's seat (north of pool); deep velvet upholstery |
-| `ark.oracle_sanctum.scrying_lectern` | container | (-1.50, 1.00, 0.00) | 0.4×0.3×1.2 | bronze lectern with scrying-tome |
-| `ark.oracle_sanctum.alcove.<n>` (3) | container | per 120° alcove | 1.0×0.8×3.5 each | scrying-fluid jars + ritual artifacts |
-| `ark.oracle_sanctum.candle_array.<alcove>` (3) | interactive | per alcove base | 0.2×0.3×0.3 each | bronze stand + candles |
-| `ark.oracle_sanctum.observation_bench.<n>` (3) | furniture | between alcoves; radius 3.5 m | 1.0×0.4×0.45 each | curved benches |
-| `ark.oracle_sanctum.south.intercom` | console | (-1.0, -4.45, 1.5) | 0.2×0.1×0.3 | comms |
-| `ark.oracle_sanctum.fire_extinguisher` | interactive | (1.0, -4.45, 1.2) | 0.2×0.2×0.5 | safety |
-| `ark.oracle_sanctum.first_aid` | container | (-2.0, -4.45, 1.5) | 0.4×0.1×0.3 | medical |
-| `ark.oracle_sanctum.south.plaque.principle` | decoration | (0.00, -4.45, 3.20) | 0.8×0.3×0.02 | "WHAT WILL BE, IS" |
-| `ark.oracle_sanctum.dust_motes_emitter` | fx_emitter | distributed | n/a | mystic-mote source |
-| `ark.oracle_sanctum.pool_ripple_emitter` | fx_emitter | (0.00, 0.00, 0.00) | n/a | pool-surface ripple SFX + visual |
+| `ark.oracle_sanctum.south.intercom` | console | (-1.00, -4.45, 1.50) | 0.20 × 0.10 × 0.30 | comms relay |
+| `ark.oracle_sanctum.fire_extinguisher.south` | interactive | (1.00, -4.45, 1.20) | 0.20 × 0.20 × 0.50 | safety |
+| `ark.oracle_sanctum.first_aid.kit.south` | container | (-2.00, -4.45, 1.50) | 0.40 × 0.10 × 0.30 | medical |
+| `ark.oracle_sanctum.compass_inlay` | decoration | (0.00, 0.00, 0.005) | 1.40 × 1.40 × 0.005 | floor 3-pointed star inlay around pool |
+| `ark.oracle_sanctum.dust_motes_emitter` | fx_emitter | distributed throughout volume | n/a | mystic-mote source |
+| `ark.oracle_sanctum.pool_ripple_emitter` | fx_emitter | (0.00, 0.00, 0.00) | n/a | pool-surface ripple SFX + visual source |
 
-Total: 22 inventory objects.
+Total: 26 inventory objects.
 
-### A.18.10-17 Compact
+### A.18.10 Camera-spawn-points (FPV cutscenes)
 
 ```
-camera_spawn_points:
-  cs_amb_oracle_sanctum (Cat B): POV at threshold; slow approach to pool; 18s
-  cs_first_scrying (Act 5): POV at pool edge; ripples form; vision begins; 22s
+cutscene_id:         cs_amb_oracle_sanctum  (Category B; deferred catalogue)
+camera_position:     (0.00, -4.00, eye_level)  # at threshold
+camera_facing:       (0°, 0°, 0°)  # facing pool
+avatar_height_anchor: eye_level
+head_motion:         very slow walk-forward toward pool; head turns slightly to scan alcoves; pause at pool's edge; lasts 22s
 
-doorways: south.door.main → ark.corridor.oracle_approach; arch; Act 5+
+cutscene_id:         cs_first_scrying  (Act 5 one-shot Oracle-aligned)
+camera_position:     (0.00, -1.50, eye_level)  # at pool edge, facing pool
+camera_facing:       (0°, -45°, 0°)  # looking down into pool
+avatar_height_anchor: eye_level
+head_motion:         hand-rig enters frame; touches water surface; ripples form; vision begins (cuts to vision sequence)
 
-adjacency:
-  direct: ark.corridor.oracle_approach (south)
-  one_hop: ark.bridge (oracle prophecies feed into command); ark.observation_deck (cosmic kinship)
+cutscene_id:         cs_oracle_first_meeting  (Act 5 first encounter with Oracle)
+camera_position:     (0.00, -2.50, eye_level)
+camera_facing:       (0°, 0°, 0°)  # facing Oracle's chair
+avatar_height_anchor: eye_level
+head_motion:         seated bench; Oracle looks up from book; first eye-contact moment
 
-gameplay_hooks:
-  - performScrying: trpc.oracle_sanctum.pool.scry
-  - readScryingTome: trpc.oracle_sanctum.lectern.read
-  - inspectAlcove: trpc.oracle_sanctum.alcove.inspect
-  - lightCandle: trpc.oracle_sanctum.candle.light
+cutscene_id:         cs_aspect_activation  (state-conditional during scrying)
+camera_position:     (0.00, 0.00, eye_level)  # at pool centre
+camera_facing:       (varies; turns to relevant aspect alcove)
+avatar_height_anchor: eye_level
+head_motion:         alcove glow intensifies; mystic-motes rush toward pool
+```
 
-story_tie:
-  primary_arcs: act_5_first_scrying; oracle_arc; oracle_prophecy_unlocks
-  per_act: locked Acts 0-4; opens Act 5 (Oracle-aligned); deeper Acts 6-7
-  npc_roster: the_oracle; rare cosmic visitations
-  readables: principle plaque; scrying-tome; alcove ritual artifacts
-  master_of_rlyeh_question: n/a
+### A.18.11 Doorways
 
-special_fx:
-  particle_systems: mystic_motes; water_vapor (low); candle_smoke
-  volumetric: oculus_glow; pool_underwater_glow; alcove_warmth
-  procedural_animations: pool_ripples (continuous); oracle_chair_subtle_sway; mystic_motes_drift; candle_flicker
-  reactive: pool_intensify_on_proximity; oculus_colour_shift_on_scrying; alcove_glow_on_inspect
+```
+door_id:            ark.oracle_sanctum.south.door.main
+connecting_space_id: ark.corridor.oracle_approach
+door_position:      (0.00, -4.50, 0.00)
+door_dimensions:    1.20 × 2.40 × 0.10
+door_class:         arch  (gold-inlaid bronze; ceremonial)
+unlock_condition:   Act 5+ (Oracle-aligned)
+transit_animation:  hush-open with falling-water SFX (3s) on first entry; instant subsequent
+audio_signature:    bronze handle + soft water-drip + mystic-chime
+```
 
-avatar_parametricity: small_xenomorph: alternate kneel-at-pool; others all-reachable
-audio_occlusion: xenomorph-sensitive: water-trickle + Oracle's hum overwhelming
-performance: polygon_budget 200,000 / texture_budget 130 MB / light_count 14
-streaming: preload oracle_approach corridor
+### A.18.12 Adjacency map
+
+```
+direct_adjacencies:
+  - ark.corridor.oracle_approach (south door)
+one_hop_adjacencies:
+  - ark.bridge (oracle prophecies feed into command via comms)
+  - ark.observation_deck (cosmic kinship; Eidolon and Oracle are paired cosmic NPCs)
+  - ark.oracles_sanctum_annual (one-hop; deeper annual oracle-question vote space §A.43)
+state_shared_with:
+  - ark.bridge (Oracle's prophecies appear on bridge tactical-display)
+```
+
+### A.18.13 Gameplay hooks
+
+```
+hooks:
+  - hook_id:         oracle_sanctum.performScrying
+    trigger:         player.interact on scrying_pool with aspect selected
+    procedure:       trpc.oracle_sanctum.pool.scry
+    success_state:   scrying_active = true; aspect-specific vision unlocks
+  - hook_id:         oracle_sanctum.readScryingTome
+    trigger:         player.inspect on scrying_lectern
+    procedure:       trpc.oracle_sanctum.lectern.read
+    success_state:   scrying_tome_read = true (multi-screen; gameplay-key)
+  - hook_id:         oracle_sanctum.activateAspect
+    trigger:         player.interact on alcove.<aspect>
+    procedure:       trpc.oracle_sanctum.alcove.activate
+    success_state:   active_aspect = <past|present|future>
+  - hook_id:         oracle_sanctum.lightCandleArray
+    trigger:         player.interact on candle_array.<alcove>
+    procedure:       trpc.oracle_sanctum.candle.toggle
+    success_state:   candle_state = lit | extinguished (per-array)
+  - hook_id:         oracle_sanctum.takeOracleChair
+    trigger:         player.sit on oracle_chair (when Oracle absent — rare)
+    procedure:       trpc.oracle_sanctum.oracle_chair.sit
+    success_state:   sat_in_oracle_chair = true (rare lore-flag)
+  - hook_id:         oracle_sanctum.touchWater
+    trigger:         player.interact (touch) on scrying_pool surface
+    procedure:       trpc.oracle_sanctum.pool.touch
+    success_state:   water_touched = true (subtle gameplay flag)
+```
+
+### A.18.14 Story-tie
+
+```
+primary_arcs:
+  - arc.act_5_first_scrying
+  - arc.oracle_arc (continuous Acts 5-7)
+  - arc.oracle_prophecy_unlocks (per-scrying narrative reveals)
+  - arc.act_6_oracle_personal_revelation (deep dialogue path)
+per_act_evolution:
+  acts_0_4: room locked + invisible
+  act_5: room unlocks for Oracle-aligned players; first scrying ritual; Oracle first appears
+  act_6: deeper aspect-scryings unlock; player can ask harder questions
+  act_7: state-branched: prophecy-fulfilled ending (Oracle's prophecies came true; pool glows brightly) vs. prophecy-defied ending (player ignored visions; pool glows dim)
+npc_roster:
+  - the_oracle: primary occupant; presence Acts 5+
+  - the_player: visitor / scryer
+  - cosmic_resonance_voices: rare whispers (proto-language)
+  - vision_echoes: gameplay-driven during scrying-results
+readables:
+  - principle plaque (south)
+  - first-scrying relief (south)
+  - scrying-tome (lectern; multi-screen)
+  - 3 alcove sigils (per-aspect lore)
+  - scrying-log display (south)
+  - 3 scrying-fluid jar inscriptions (per-aspect)
+master_of_rlyeh_question: n/a (Oracle-aligned cosmology; not Hellbox host)
+```
+
+### A.18.15 Special-FX
+
+```
+particle_systems:
+  - mystic_motes (medium; continuous; rises toward oculus)
+  - water_vapor (low; rises from pool surface)
+  - candle_smoke (very low; per cluster)
+  - aspect_activation_motes (state-conditional; intensifies when alcove activated)
+volumetric_effects:
+  - oculus_volumetric_glow (variable colour; matches aspect)
+  - pool_underwater_volumetric_beam (cyan-amber cone from pool floor upward)
+  - alcove_glow_per_aspect (subtle ambient glow per alcove)
+  - drapery_subtle_volumetric_haze (between drapes)
+procedural_animations:
+  - pool_ripple_continuous (subtle; period 4-8s organic)
+  - oracle_chair_subtle_sway (when Oracle present; her contemplation)
+  - mystic_motes_drift (continuous slow upward)
+  - candle_flicker_individual (3 sources)
+  - drapery_subtle_ripple (faint air convection)
+  - alcove_subtle_glow_breath (period 6s)
+reactive_systems:
+  - pool_intensify_on_proximity (within 1.5 m, pool_underwater_glow brightens 20%)
+  - oculus_colour_shift_on_aspect_activation (matches active aspect)
+  - alcove_glow_on_inspect (when player approaches alcove, glow brightens)
+  - drapery_flutter_on_player_pass (drapes subtly stir as player walks past)
+  - mystic_chime_on_scrying_initiated (one-shot)
+  - vision_overlay_on_pool_during_scrying (state-conditional)
+```
+
+### A.18.16 Avatar-parametricity
+
+```
+camera_height_variation:
+  small_xenomorph (0.85m eye): camera height 0.85m; pool feels enormous; Oracle's chair feels tall; alternate kneel-at-pool posture
+  short_humanoid (1.40m eye): standard short scale
+  average_humanoid (1.70m eye): standard
+  tall_humanoid (2.05m eye): pool feels small from above; oculus closer
+  tall_xenomorph (2.70m eye): pilasters at hip-level; alternate stand-back posture for scrying
+reachability:
+  small_xenomorph: cannot reach scrying-fluid jars (alcove niche at 1.50m); alternate elevator-stool provided
+  small_xenomorph: cannot reach apsidal relief; relay-inspect from below
+  others: all-reachable
+audio_occlusion_variation:
+  xenomorph_sensitive_hearing: water-trickle + Oracle's hum more pronounced; slightly overwhelming on first entry
+  synthetic_voice_avatar: Oracle's presence has different "feel" (cosmic harmonic interpreted differently)
+```
+
+### A.18.17 Performance
+
+```
+polygon_budget:      220,000 polygons (compact circular room; rich decorative density + water shader)
+texture_budget:      140 MB total (water + cosmic shaders are expensive)
+light_count_limit:   14 simultaneous dynamic lights
+lod_plan:
+  - hero_distance: 0-6m, full detail (immediate alcove and pool)
+  - mid_distance: 6-12m, mid detail (drapery as billboards; alcove items simplified)
+  - low_distance: 12m+, low detail (mystic-motes culled)
+streaming_behaviour:
+  - preload: ark.corridor.oracle_approach (south door)
+  - on_scrying_initiated: preload current vision-content assets
 ```
 
 ---
