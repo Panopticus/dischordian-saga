@@ -49,6 +49,7 @@ export function HumanLifeVideoOverlay(): ReactElement | null {
       cutsceneId={video.id}
       primaryLabel={video.primaryLabel}
       secondaryLabel={video.secondaryLabel}
+      frameLine={video.frameLine}
       onComplete={handleComplete}
       diagnosticDeliveryHint={`The Human's ${video.era} life-arc video — ${video.videoRelPath}`}
     />

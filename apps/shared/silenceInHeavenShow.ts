@@ -339,3 +339,52 @@ export const SIH_DIALOG_SLIDESHOWS: SongSlideshowDef[] = SIH_SHOW_PROGRAM
 export const SIH_SHOW_SLIDESHOW_IDS: readonly string[] = SIH_SHOW_PROGRAM.map(
   (s) => (s.kind === "song" ? s.slideshow.id : `sih-dialog-${s.albumTrackNumber}`),
 );
+
+/* ═══════════════════════════════════════════════════════
+   LOREDEX DISCOVERY — per-step carry wiring
+
+   Every dialog interlude declares `unlockLoredexEntry: song_sih_<n>`
+   (see dialogStepToSlideshow above) and song steps inherit
+   theirs from the underlying SongSlideshowDef. When a step
+   completes the caller passes this payload to
+   `ripple.emit("loredex_entry_discovered", payload)` so the
+   ripple engine can route it through
+   `crewLoredexCarryService.recordDiscovery` and stamp
+   memorialAtCycle on unread entries when the carrier dies.
+
+   Isomorphic — declared in shared so the parity check at
+   apps/shared/_completeness/checks/loredexMemberCarryWired.ts
+   sees the literal `"loredex_entry_discovered"` string in this
+   file. The payload shape mirrors `LoredexDiscoveryEvent` in
+   apps/server/services/rippleEngine.ts without importing it.
+   ═══════════════════════════════════════════════════════ */
+
+export interface SIHStepLoredexDiscoveryPayload {
+  /** Discriminator the ripple engine routes on. Always
+   *  "loredex_entry_discovered" — embedded in the type so the
+   *  parity grep finds it at static-analysis time. */
+  kind: "loredex_entry_discovered";
+  userId: number;
+  entryId: string;
+  entryType: "slideshow";
+  /** 1-indexed album position the entry was discovered at. */
+  albumTrackNumber: number;
+}
+
+export function buildSIHStepLoredexDiscoveryEvent(
+  step: SIHShowStep,
+  userId: number,
+): SIHStepLoredexDiscoveryPayload | null {
+  const entryId =
+    step.kind === "song"
+      ? step.slideshow.unlockLoredexEntry
+      : `song_sih_${step.albumTrackNumber}`;
+  if (!entryId) return null;
+  return {
+    kind: "loredex_entry_discovered",
+    userId,
+    entryId,
+    entryType: "slideshow",
+    albumTrackNumber: step.albumTrackNumber,
+  };
+}

@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import {
+  buildSlideshowLoredexDiscoveryEvent,
   getActiveOverlays,
   getFrameAt,
   getLyricAt,
@@ -825,5 +826,29 @@ describe("TWO_WITNESSES_PART_2_SLIDESHOW — §8.6 hygiene", () => {
     expect(allText).toContain("accept");
     expect(allText).toContain("decline");
     expect(allText).toContain("deflect");
+  });
+});
+
+describe("buildSlideshowLoredexDiscoveryEvent", () => {
+  it("returns null when the slideshow does not unlock a loredex entry", () => {
+    const def = makeMinimalSlideshow();
+    expect(buildSlideshowLoredexDiscoveryEvent(def, 42)).toBeNull();
+  });
+
+  it("returns the discovery payload when unlockLoredexEntry is set", () => {
+    const def = makeMinimalSlideshow({ unlockLoredexEntry: "the-prince-of-celebration" });
+    expect(buildSlideshowLoredexDiscoveryEvent(def, 42)).toEqual({
+      kind: "loredex_entry_discovered",
+      userId: 42,
+      entryId: "the-prince-of-celebration",
+      entryType: "slideshow",
+    });
+  });
+
+  it("works for a real registered slideshow (Last Words)", () => {
+    const event = buildSlideshowLoredexDiscoveryEvent(LAST_WORDS_SLIDESHOW, 7);
+    expect(event?.kind).toBe("loredex_entry_discovered");
+    expect(event?.entryId).toBe("the-prince-of-celebration");
+    expect(event?.entryType).toBe("slideshow");
   });
 });

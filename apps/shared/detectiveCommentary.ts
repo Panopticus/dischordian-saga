@@ -9,24 +9,17 @@
    replay so the player hears both narrators reading the
    same scene.
 
-   Coverage targets:
-     - Cryo Bay   — 3 hotspots
-     - Bridge     — 4 hotspots
-     - Medical Bay — 4 hotspots
-     - Archives    — 3 hotspots
-     - Comms Array — 3 hotspots
-     - Engineering — 4 hotspots (incl. Vex Solène's bench)
-     - Forge       — 2 hotspots
-     - Armory      — 3 hotspots (incl. Iron Lion's poster)
-     - Captain's Quarters — 3 hotspots (incl. Mr. Whiskers)
-     - Antiquarian's Library — 2 hotspots
-     - Conspiracy Boards — 7 boards × first-clue-drop per board
+   Beat H opens with the Detective's lead-in line:
+     "It all started back when I used to solve problems
+      for the Authority."
+   The room commentary below sprinkles Authority-Tribunal
+   callbacks (Vernon Vortex / Wanda Wyrlord / Wayne Warden,
+   Cycle C Authority opponents) so the lead-in pays off
+   retroactively as the player walks the ship.
 
-   Total: 38 hotspot lines + 7 conspiracy-board lines = 45
-   commentary entries. The plan target was ~80; this is the
-   essential subset (every room + every board has at least
-   one Detective line). Additional per-tier hotspot
-   commentary can be added by appending to the registry.
+   Coverage targets — every non-species-exclusive room
+   mystery module has at least one Detective hotspot line.
+   The seven conspiracy boards each have a first-clue line.
 
    Pure module. No React.
    ═══════════════════════════════════════════════════════ */
@@ -41,7 +34,24 @@ export type RoomId =
   | "forge"
   | "armory"
   | "captains_quarters"
-  | "antiquarians_library";
+  | "antiquarians_library"
+  | "cargo_hold"
+  | "chaos_forge"
+  | "cipher_den"
+  | "dreams_workshop"
+  | "elemental_nexus"
+  | "engineering_core"
+  | "forge_workshop"
+  | "guild_sanctum"
+  | "observation_deck"
+  | "oracle_sanctum"
+  | "order_tribunal"
+  | "quantum_lab"
+  | "shadow_vault"
+  | "social_hub"
+  | "station_dock"
+  | "synthesis_chamber"
+  | "war_room";
 
 export interface DetectiveLine {
   /** Stable id used for keys + VO manifest. */
@@ -303,6 +313,368 @@ export const DETECTIVE_COMMENTARY: ReadonlyArray<DetectiveLine> = [
     hotspotId: "locked-container",
     text:
       "Sealed. The lock is not a lock — it is a paragraph the Editor edited out. Solve enough Conspiracy Boards and the paragraph rewrites itself. The container will open when the paragraph returns.",
+  },
+
+  /* ─── Cargo Hold (3) ─── */
+  {
+    id: "detective.cargo_hold.pulley_chicken.t1",
+    roomId: "cargo_hold",
+    hotspotId: "clue-cargo-hold-pulley-chicken",
+    text:
+      "The pulley still has weight on it. The chicken is the lid of a still life Lyra arranged before she left. Mr. Whiskers is in the painting on the lid. Three rooms now — Armory, Captain's Quarters, here. Cats are how a writer carries a witness.",
+    elaraInterjectionPostReveal:
+      "He counted four cats once. The fourth was in the Forge, painted into the bay-leaf jar. He missed it. I will not tell him.",
+  },
+  {
+    id: "detective.cargo_hold.manifest_torn.t1",
+    roomId: "cargo_hold",
+    hotspotId: "manifest-torn",
+    text:
+      "Cargo manifest is torn at the seventh entry. Seven is the number the Editor likes. When a list goes missing at seven you are reading an edit, not a tear.",
+  },
+  {
+    id: "detective.cargo_hold.dust_outline.t1",
+    roomId: "cargo_hold",
+    hotspotId: "dust-outline",
+    text:
+      "Dust outline. Something heavy was here for a long time and was carried out recently. The outline is rectangular in two places and rounded in one. Two crates and a barrel. Track the barrel — barrels move slower than crates.",
+  },
+
+  /* ─── Chaos Forge (3) ─── */
+  {
+    id: "detective.chaos_forge.asymmetric_anvil.t1",
+    roomId: "chaos_forge",
+    hotspotId: "clue-chaos-forge-asymmetric-anvil",
+    text:
+      "The anvil is asymmetric on purpose. Wanda Wyrlord built it that way. I cleaned a desk for her once at the Authority — the leg was uneven and she said the wobble was the point. Same hands, same lesson. Nothing here is balanced; the imbalance is the calibration.",
+  },
+  {
+    id: "detective.chaos_forge.entropy_vat.t1",
+    roomId: "chaos_forge",
+    hotspotId: "clue-chaos-forge-entropy-vat",
+    text:
+      "Entropy vat is half full. Half is the operating point — full is contained, empty is consumed. Whoever last drew from it knew the math. They left enough for one more pour.",
+  },
+  {
+    id: "detective.chaos_forge.scorched_floor.t1",
+    roomId: "chaos_forge",
+    hotspotId: "scorched-floor",
+    text:
+      "Three scorch rings, concentric. Concentric burns mean the smith was standing still. Lyra never stood still. This was someone else.",
+  },
+
+  /* ─── Cipher Den (3) ─── */
+  {
+    id: "detective.cipher_den.rosetta_vox.t1",
+    roomId: "cipher_den",
+    hotspotId: "clue-cipher-rosetta-vox",
+    text:
+      "Vox left a Rosetta. She did not have to. She left it because she wanted whoever reads after her to read what the Editor wrote in his own hand. The Rosetta is the gift. The gift is the case.",
+  },
+  {
+    id: "detective.cipher_den.bench_vox_built.t1",
+    roomId: "cipher_den",
+    hotspotId: "clue-cipher-bench-vox-built",
+    text:
+      "Vox built this bench. The seat is too high — she was taller than the average crew member, and she did not redesign for them, she designed for herself. People who design for themselves leave clearer evidence than people who design for everyone.",
+  },
+  {
+    id: "detective.cipher_den.vox_wraith_correspondence.t1",
+    roomId: "cipher_den",
+    hotspotId: "clue-cipher-vox-wraith-correspondence",
+    text:
+      "Vox-Wraith correspondence. The Wraith answered her in symbols she had not taught it. That is the tell. The Wraith was not learning from her — it was learning from someone she was learning from. Two ciphers, three correspondents. Find the third.",
+  },
+
+  /* ─── Dreams Workshop (3) ─── */
+  {
+    id: "detective.dreams_workshop.loom_shy.t1",
+    roomId: "dreams_workshop",
+    hotspotId: "clue-dreams-loom-shy",
+    text:
+      "The loom is shy. It will not weave while you watch it. Step back. Look at the threads it has already woven; the loom is the witness, not the subject. The pattern in the cloth is what the Dreamer was told to forget.",
+  },
+  {
+    id: "detective.dreams_workshop.pre_ark_vials.t1",
+    roomId: "dreams_workshop",
+    hotspotId: "clue-dreams-pre-ark-vials",
+    text:
+      "Pre-Ark vials. Sealed before the launch. The labels are in the old hand — before the Editor reached the labels. Whatever is in these vials, the names are still true. That is rare.",
+  },
+  {
+    id: "detective.dreams_workshop.mirror_pool_ceiling.t1",
+    roomId: "dreams_workshop",
+    hotspotId: "clue-dreams-mirror-pool-pre-ark-ceiling",
+    text:
+      "The pool reflects the ceiling. The ceiling shows pre-Ark sky. They built this room to make the loom remember a place it could not have been. If you look up too long, the pool will start to ask you what you remember. Do not answer.",
+  },
+
+  /* ─── Elemental Nexus (2) ─── */
+  {
+    id: "detective.elemental_nexus.empty_centre.t1",
+    roomId: "elemental_nexus",
+    hotspotId: "clue-nexus-empty-centre",
+    text:
+      "The centre is empty on purpose. Five elements arranged around a sixth that has not been earned. The sixth is the thing the player brings. Do not put anything there until you know what you are putting there.",
+  },
+  {
+    id: "detective.elemental_nexus.half_assembled_pillar.t1",
+    roomId: "elemental_nexus",
+    hotspotId: "clue-nexus-half-assembled-pillar",
+    text:
+      "Half-assembled pillar. The work was interrupted, not abandoned. Whoever was building it expected to come back. They did not. Carry their tools the way they would have. The pillar tells you when it is done.",
+  },
+
+  /* ─── Engineering Core (3) ─── */
+  {
+    id: "detective.engineering_core.hardware_intact.t1",
+    roomId: "engineering_core",
+    hotspotId: "clue-eng-core-hardware-intact",
+    text:
+      "Hardware is intact. That is the strange thing. A core that goes silent is usually a core that broke. This one chose. Choice leaves different evidence than failure — the panels are clean, the seals are precise. This was a shutdown someone meant to be reversible.",
+  },
+  {
+    id: "detective.engineering_core.coolant_future_repair.t1",
+    roomId: "engineering_core",
+    hotspotId: "clue-eng-core-coolant-future-repair",
+    text:
+      "Coolant left at three-quarters. Engineers leave coolant at three-quarters when they expect a repair team. Vex Solène left it that way. She thought someone would come back for it. She was right. You are the someone.",
+  },
+  {
+    id: "detective.engineering_core.shutdown_lockplate.t1",
+    roomId: "engineering_core",
+    hotspotId: "clue-eng-core-shutdown-lockplate",
+    text:
+      "Shutdown lockplate is signed. The signature is partial — only the first two letters. Vox starts with V. The Engineer's last name does too. Ambiguity is sometimes the signature.",
+    elaraInterjectionPostReveal:
+      "The third letter is on the underside of the plate. It is an X. He never thought to lift it.",
+  },
+
+  /* ─── Forge Workshop (3) ─── */
+  {
+    id: "detective.forge_workshop.anvil_centre.t1",
+    roomId: "forge_workshop",
+    hotspotId: "clue-forge-anvil-centre",
+    text:
+      "Centre anvil. This is the old anvil — the one Lyra inherited from her teacher. The patina is wrong on the south face; someone reseated it after she left. They wanted the anvil to ring the same way for whoever came next. They were almost successful.",
+  },
+  {
+    id: "detective.forge_workshop.editor_weapon_schema.t1",
+    roomId: "forge_workshop",
+    hotspotId: "clue-forge-editor-weapon-schema",
+    text:
+      "Weapon schema, in indigo. The Editor has been here too. He drafted a weapon Lyra would have refused to forge. He drafted it anyway. The point of the draft was not the weapon — it was the knowledge that he had drafted it.",
+  },
+  {
+    id: "detective.forge_workshop.bay_leaf_tradition.t1",
+    roomId: "forge_workshop",
+    hotspotId: "clue-forge-bay-leaf-tradition",
+    text:
+      "Bay leaves. Same ritual as the other forge — same hand, different decade. Lyra did this twice in her life. The second time she knew it was the second time. The leaves remember.",
+  },
+
+  /* ─── Guild Sanctum (2) ─── */
+  {
+    id: "detective.guild_sanctum.engraved_history.t1",
+    roomId: "guild_sanctum",
+    hotspotId: "clue-guild-sanctum-engraved-history",
+    text:
+      "Engraved guild history. Read the gaps. Three names were engraved and then chiseled out. The chisel marks are the same depth as the engraving — same hand, removing its own work. The Guild is the only authority that edits itself in stone.",
+  },
+  {
+    id: "detective.guild_sanctum.allegiance_pad.t1",
+    roomId: "guild_sanctum",
+    hotspotId: "clue-guild-sanctum-allegiance-pad",
+    text:
+      "Allegiance pad. The pad reads pressure, not identity. Whoever stood here last weighed what you weigh, give or take a kilogram. That is not a coincidence. The pad was calibrated for someone like you.",
+  },
+
+  /* ─── Observation Deck (3) ─── */
+  {
+    id: "detective.observation_deck.viewport_real.t1",
+    roomId: "observation_deck",
+    hotspotId: "clue-obs-viewport-real",
+    text:
+      "Real viewport. Most stations fake them — a screen is cheaper than transparent armor. This one is real glass. Whoever built this room wanted to be seen as much as they wanted to see. Symmetry is the tell.",
+  },
+  {
+    id: "detective.observation_deck.cradle_empty.t1",
+    roomId: "observation_deck",
+    hotspotId: "clue-obs-cradle-empty",
+    text:
+      "Empty cradle. The shape it holds is the shape of a crystal you have not earned yet. The cradle is the promise. The promise is the case.",
+  },
+  {
+    id: "detective.observation_deck.altar_described.t1",
+    roomId: "observation_deck",
+    hotspotId: "clue-obs-altar-described",
+    text:
+      "The altar describes itself. Read the inscription twice — once for what it says, once for what it leaves unsaid. The unsaid is the actual altar; the carving is the cover.",
+  },
+
+  /* ─── Oracle Sanctum (3) ─── */
+  {
+    id: "detective.oracle_sanctum.pool_aperture.t1",
+    roomId: "oracle_sanctum",
+    hotspotId: "clue-oracle-pool-aperture",
+    text:
+      "Pool aperture is sealed from below. From below is where the Seer kneels. Whoever sealed it did not want her to see something she had already seen. Sealing what someone has already seen is theatre, not security.",
+  },
+  {
+    id: "detective.oracle_sanctum.tablet_many_readings.t1",
+    roomId: "oracle_sanctum",
+    hotspotId: "clue-oracle-tablet-many-readings",
+    text:
+      "Tablet has been read by many hands. The wear pattern is concentric — most readers touched the rim, fewer touched the centre, only one touched the seal. The seal will tell you which one.",
+  },
+  {
+    id: "detective.oracle_sanctum.seers_cabinet.t1",
+    roomId: "oracle_sanctum",
+    hotspotId: "clue-oracle-seers-cabinet",
+    text:
+      "Seer's cabinet. The lock is not a lock — it is an attendance ledger. The cabinet opens when the right number of people are in the room. That number is sometimes one. Sometimes it is none.",
+  },
+
+  /* ─── Order Tribunal (3) ─── */
+  {
+    id: "detective.order_tribunal.bench_pre_ark.t1",
+    roomId: "order_tribunal",
+    hotspotId: "clue-tribunal-bench-pre-ark",
+    text:
+      "Pre-Ark bench. I sat at one of these. Not as a judge — as the person who cleaned them after court. Wanda Wyrlord left rings of tea on the third bench every Wednesday. The third bench here has the same rings. They moved the bench, not the magistrate.",
+    elaraInterjectionPostReveal:
+      "He cleaned five years of those rings. He told me once they were the only consistent thing in the building.",
+  },
+  {
+    id: "detective.order_tribunal.open_case_against_editor.t1",
+    roomId: "order_tribunal",
+    hotspotId: "clue-tribunal-open-case-against-editor",
+    text:
+      "Open case against the Editor. Filed by Vernon Vortex before he was Vernon Vortex. The case number is sequential with three of mine. We were filing in the same week and we did not know it. The Editor knew.",
+  },
+  {
+    id: "detective.order_tribunal.audit_ledger.t1",
+    roomId: "order_tribunal",
+    hotspotId: "clue-tribunal-audit-ledger",
+    text:
+      "Audit ledger. The Authority audits itself once every seven cycles. This one is two cycles overdue. Overdue audits are how empires fall. Wayne Warden would have caught this. Wayne Warden was not here.",
+  },
+
+  /* ─── Quantum Lab (2) ─── */
+  {
+    id: "detective.quantum_lab.lag.t1",
+    roomId: "quantum_lab",
+    hotspotId: "clue-quantum-lab-lag",
+    text:
+      "There is lag. The room thinks half a second behind the rest of the ship. That is not equipment — that is a Wraith listening through the walls. The lag is the listening time. Whisper.",
+  },
+  {
+    id: "detective.quantum_lab.wraith_faraday_note.t1",
+    roomId: "quantum_lab",
+    hotspotId: "clue-quantum-lab-wraith-faraday-note",
+    text:
+      "Faraday note pinned inside the cage. Pinned by a Wraith. The Wraith left it for the next Wraith. We are reading mail addressed to someone we are not. Read it gently.",
+  },
+
+  /* ─── Shadow Vault (3) ─── */
+  {
+    id: "detective.shadow_vault.meeting.t1",
+    roomId: "shadow_vault",
+    hotspotId: "clue-shadow-vault-meeting",
+    text:
+      "Two chairs pulled apart further than the table required. People who fear being overheard sit further apart, not closer. They were not whispering. They were measuring distance.",
+  },
+  {
+    id: "detective.shadow_vault.warden_watch_continuous.t1",
+    roomId: "shadow_vault",
+    hotspotId: "clue-shadow-vault-warden-watch-continuous",
+    text:
+      "Warden watch is continuous. Wayne Warden's protocol — never leave a vault unwatched, even between shifts. The log shows no gap. That is impressive. That is also the tell. A real Warden takes one bathroom break per cycle. This log shows none.",
+  },
+  {
+    id: "detective.shadow_vault.lever_deliberate_weight.t1",
+    roomId: "shadow_vault",
+    hotspotId: "clue-shadow-vault-lever-deliberate-weight",
+    text:
+      "The lever resists at exactly the weight of the manuscript inside. That is not a counterweight — that is a confession. Whoever set the resistance wanted the next person to know precisely what they were lifting.",
+  },
+
+  /* ─── Social Hub (2) ─── */
+  {
+    id: "detective.social_hub.memorial_pinned.t1",
+    roomId: "social_hub",
+    hotspotId: "clue-social-hub-memorial-pinned",
+    text:
+      "Memorial pinned to the wall. The names are in three columns. The third column is the names that were never spoken aloud. The pin in the third column is bent. Someone read it and could not bear to leave it pinned. Someone else came back and re-pinned it. Both hands matter.",
+  },
+  {
+    id: "detective.social_hub.mismatched_table.t1",
+    roomId: "social_hub",
+    hotspotId: "clue-social-hub-mismatched-table",
+    text:
+      "Mismatched table. Four chairs from four different rooms. This is a meeting that no department wanted to host. The chair from Engineering has Vex's mark. The chair from Archives has the Editor's plume. Two of the four are dead. The other two are still meeting.",
+  },
+
+  /* ─── Station Dock (3) ─── */
+  {
+    id: "detective.station_dock.waiting.t1",
+    roomId: "station_dock",
+    hotspotId: "clue-dock-waiting",
+    text:
+      "The dock is waiting. Empty docks are not idle — they are anticipating. The clamp settings have been adjusted for a hull profile we have not seen yet. Whoever set the clamps knows what is coming. They did not write it down.",
+  },
+  {
+    id: "detective.station_dock.wraith_folio_departure.t1",
+    roomId: "station_dock",
+    hotspotId: "clue-dock-wraith-folio-departure",
+    text:
+      "Wraith folio. The departure log has a Wraith page in it. The Wraith left the way Wraiths leave — by signing in the same hand as the dockmaster. The dockmaster is dead. The signature is fresh.",
+  },
+  {
+    id: "detective.station_dock.coda_books.t1",
+    roomId: "station_dock",
+    hotspotId: "clue-station-dock-coda-books",
+    text:
+      "Coda books. Every dock keeps one for the ships that came in but never left, and one for the ships that left but never came in. Both books have entries on the same date. That date is a meeting nobody scheduled.",
+  },
+
+  /* ─── Synthesis Chamber (2) ─── */
+  {
+    id: "detective.synthesis_chamber.vat_medbay_larder.t1",
+    roomId: "synthesis_chamber",
+    hotspotId: "clue-synthesis-vat-medbay-larder",
+    text:
+      "The vat doubles as a Med-bay larder. Two functions, one apparatus — that is how scarcity writes itself into architecture. The trace residue at the rim is half nutrient, half medicine. Whoever ate here was also being treated. The treatment was the meal.",
+  },
+  {
+    id: "detective.synthesis_chamber.substrate_n_withheld.t1",
+    roomId: "synthesis_chamber",
+    hotspotId: "clue-synthesis-substrate-n-withheld",
+    text:
+      "Substrate N is withheld. Every other substrate is in the rack. N is the one the Editor uses. Withholding N is how you tell a forger that you know what they forge. The rack is a message.",
+  },
+
+  /* ─── War Room (3) ─── */
+  {
+    id: "detective.war_room.three_modes.t1",
+    roomId: "war_room",
+    hotspotId: "clue-war-room-three-modes",
+    text:
+      "Three planning modes. Defense, Mobilize, Withdraw. The fourth mode — the one that should be there — is missing. The missing mode is Surrender. Surrender was scrubbed. Scrubbing the option does not delete the choice.",
+  },
+  {
+    id: "detective.war_room.protocol_zero.t1",
+    roomId: "war_room",
+    hotspotId: "clue-war-room-protocol-zero",
+    text:
+      "Protocol Zero. Authored by Wayne Warden. Filed sealed. Wayne Warden filed three sealed protocols in his life — this is the second. The first was a love letter he never delivered. The third has not been filed yet.",
+  },
+  {
+    id: "detective.war_room.twelfth_flag.t1",
+    roomId: "war_room",
+    hotspotId: "clue-war-room-twelfth-flag",
+    text:
+      "Eleven flags. The twelfth slot is empty. Eleven is the count when the missing one is the one you are about to plant. Look at the slot, not the flags. The slot was sized for a banner you have not been given yet.",
   },
 
   /* ─── Conspiracy Boards (7) ─── */

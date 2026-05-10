@@ -99,7 +99,7 @@ export const HUMAN_LIFE_VIDEOS: ReadonlyArray<HumanLifeVideo> = [
     primaryLabel: "THE HUMAN — VIDEO 3 / 4",
     secondaryLabel: "The Detective",
     frameLine:
-      "You've heard me whispering. I want to introduce myself properly. I used to do something. I solved things. Let me show you how, in case you ever need to know.",
+      "It all started back when I used to solve problems for the Authority.",
   },
   {
     id: "human_life_reveal",
