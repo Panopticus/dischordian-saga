@@ -512,7 +512,7 @@ export default function SongSlideshow({
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.55, ease: "easeOut" }}
                   className={
-                    "absolute bottom-0 z-[5] h-[78%] max-h-[78%] w-auto object-contain object-bottom pointer-events-none " +
+                    "absolute bottom-0 z-[5] h-[52%] max-h-[52%] w-auto object-contain object-bottom pointer-events-none " +
                     (frame.portraitSide === "left"
                       ? "left-0 sm:left-4"
                       : frame.portraitSide === "right"
@@ -536,7 +536,7 @@ export default function SongSlideshow({
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.55, ease: "easeOut", delay: 0.05 }}
                   className={
-                    "absolute bottom-0 z-[5] h-[72%] max-h-[72%] w-auto object-contain object-bottom pointer-events-none " +
+                    "absolute bottom-0 z-[5] h-[50%] max-h-[50%] w-auto object-contain object-bottom pointer-events-none " +
                     (frame.secondaryPortraitSide === "left"
                       ? "left-0 sm:left-4"
                       : frame.secondaryPortraitSide === "right"
