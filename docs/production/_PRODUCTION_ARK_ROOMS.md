@@ -3602,45 +3602,1142 @@ streaming_behaviour:
 
 ---
 
-## A.8 Forge Workshop — SCAFFOLDED
+## A.8 Forge Workshop — FULL
 
-Cross-ref `INCEPTION_ARK_FINAL_PRODUCTION.md` §2.8.
+**Status: FULL spec.** Cross-ref: `INCEPTION_ARK_FINAL_PRODUCTION.md`
+§2.8 (art-state prompts). Companion to Engineering Bay (§A.7);
+forge gameplay accessed from Engineering's east door.
+
+### A.8.1 Header
 
 ```
 space_id:        ark.forge_workshop
 space_name:      Forge Workshop
 space_type:      ark_room
 act_introduced:  Act 3
-lore_anchor:     loredex.faction.mechronis + arc.crafting_progression
-aesthetic_tier:  solar_punk_cathedral  (industrial-heat aesthetic)
-dimensions:      11.00 m × 11.00 m × 6.00 m  (tall — forge chimney)
-floor_plan_geometry: rectangular
+lore_anchor:     loredex.faction.mechronis + arc.crafting_progression + arc.forge_legacy
+aesthetic_tier:  solar_punk_cathedral  (with industrial-heat accents — the most overtly industrial space on the Ark)
 ```
 
-Forge-fire chamber; anvils; hammer-stations; quench-tanks. Where
-the player crafts weapons and equipment.
+### A.8.2 Geometry
 
-(Full spec deferred to Phase B-2.)
+```
+dimensions:           11.00 m × 11.00 m × 6.00 m
+origin_point:         centre of floor at south entrance threshold
+coordinate_axes:      +x = right, +y = forward (north), +z = up
+floor_plan_geometry:  rectangular  (with the forge-chimney rising through the ceiling at room centre, taking the room's vertical height to 6.00 m)
+volumetric_anomalies: none in baseline; minor heat-shimmer at upper volume (cosmetic)
+```
+
+The Forge is a square workshop with the central forge-fire as
+its heart. The chimney rises through the ceiling. Anvils flank
+the forge; hammer-stations line the east and west walls;
+quench-tanks line the north wall. The room is louder, hotter,
+and more visceral than other Ark rooms.
+
+Floor area: 121 m².
+
+### A.8.3 Floor
+
+```
+material_primary:     industrial cast-iron grating with heat-resistant coating; 1.00 m × 1.00 m panels with 40 mm × 6 mm slot pattern; allows heat dissipation and slag management
+material_secondary:   solid cast-iron plate at central forge zone (3.00 × 3.00 m square; thicker than grating; resists ember scorch); brass perimeter trim
+pattern:              grating with central solid plate; subtle anti-slip tread pattern
+wear_state:           well-used; scorch-marks accumulate around forge; oil-stains around quench-tanks; hammer-rebound dents around anvils
+embedded_features:
+  - id: ark.forge_workshop.floor.charge_point.forge
+    position: (0.00, 5.50, 0.00)  # under forge fire
+    dimensions: 0.40 × 0.40 × 0.05
+    function: forge-fire ignition + heat regulation
+  - id: ark.forge_workshop.floor.slag_drain.east
+    position: (4.50, 5.50, 0.00)
+    dimensions: 0.30 × 0.30 × 0.10
+    function: molten-slag drainage
+  - id: ark.forge_workshop.floor.slag_drain.west
+    position: (-4.50, 5.50, 0.00)
+    dimensions: 0.30 × 0.30 × 0.10
+    function: molten-slag drainage (mirror)
+  - id: ark.forge_workshop.floor.quench_tank_anchor.<n>  (3 anchors)
+    position: along north wall (y = 9.00); x = -3.00, 0.00, +3.00
+    dimensions: 0.80 × 0.80 × 0.10 each
+    function: quench-tank base + water/oil-coolant supply
+acoustic_property:    hard_reflective with heat-shimmer-induced acoustic distortion; RT60 = 0.55s
+```
+
+### A.8.4 Walls
+
+#### Wall: South (entrance)
+
+```
+wall_id:              south
+material_primary:     painted steel panel with rivet-detail; matte slate-grey with copper accents
+material_secondary:   bronze dado at z = 1.10 m
+panelisation:         standard
+colour_value:         --token-color-ark-forge-workshop-wall-south  (slate-grey + copper pin-stripe)
+embedded_displays:
+  - id: ark.forge_workshop.south.display.recipe_index
+    position: (-3.00, 0.20, 1.80)
+    dimensions: 1.20 × 0.80 × 0.05
+    content: forge recipe index (player's known recipes)
+  - id: ark.forge_workshop.south.display.heat_state
+    position: (3.00, 0.20, 1.80)
+    dimensions: 1.20 × 0.80 × 0.05
+    content: live forge-temperature gauge + slag-drain status
+embedded_doors:
+  - door_id: ark.forge_workshop.south.door.main
+    position: (0.00, 0.00, 0.00)
+    dimensions: 1.40 × 2.40 × 0.10
+    door_class: pressure_seal  (heat-isolation; thermal barrier)
+    connecting_space_id: ark.engineering_bay  (east door of Engineering Bay opens to this)
+decorative_features:
+  - id: ark.forge_workshop.south.plaque.creed
+    position: (0.00, 0.20, 3.20)
+    dimensions: 1.00 × 0.40 × 0.02
+    material: cast bronze with engraved text + heat-anodised colouring
+    narrative_role: reads "FIRE FORGES; HAND SHAPES" — Mechronis-faction creed
+  - id: ark.forge_workshop.south.warning_sign.high_heat
+    position: (4.00, 0.20, 3.50)
+    dimensions: 0.40 × 0.30 × 0.01
+    material: yellow-and-black painted steel
+    narrative_role: high-temperature warning
+```
+
+#### Wall: East (with hammer-stations)
+
+```
+wall_id:              east
+material_primary:     painted steel panel; reinforced with structural ribbing
+material_secondary:   bronze dado
+panelisation:         standard
+colour_value:         --token-color-ark-forge-workshop-wall-east
+embedded_displays:    none
+embedded_doors:        none
+decorative_features:
+  - id: ark.forge_workshop.east.hammer_rack
+    position: (4.95, 5.50, 0.00)
+    dimensions: 0.40 × 4.00 × 2.40
+    material: iron rack with hanging hammers (varied sizes)
+    narrative_role: hammer storage; player can select hammer for crafting
+  - id: ark.forge_workshop.east.hammer_station.work_zone
+    position: (4.00, 5.50, 0.00)
+    dimensions: 1.50 × 1.50 × 0.85 (anvil + workzone)
+    material: cast iron anvil on stone block
+    narrative_role: east hammer-work station; dedicated to small-piece work (jewellery, components)
+```
+
+#### Wall: North (with quench-tanks)
+
+```
+wall_id:              north
+material_primary:     painted steel panel; reinforced
+material_secondary:   bronze dado
+panelisation:         standard
+colour_value:         --token-color-ark-forge-workshop-wall-north
+embedded_displays:
+  - id: ark.forge_workshop.north.display.crafting_journal
+    position: (0.00, 10.95, 1.80)
+    dimensions: 1.40 × 0.80 × 0.05
+    content: master craftsmen's recorded notes (journal entries from past Mechronis masters)
+embedded_doors:
+  - door_id: ark.forge_workshop.north.hatch.exhaust
+    position: (-4.00, 10.95, 0.40)  # low hatch for slag-removal access
+    dimensions: 0.80 × 1.40 × 0.10
+    door_class: slide
+    connecting_space_id: ark.cargo_hold (slag-removal route)
+    unlock_condition: Act 3+ (when player needs to remove crafted goods)
+decorative_features:
+  - id: ark.forge_workshop.north.quench_tank.<position>  (3 tanks: water, oil, mercury-equivalent)
+    position: (-3.00, 9.00, 0.00), (0.00, 9.00, 0.00), (3.00, 9.00, 0.00)
+    dimensions: 0.80 × 0.80 × 1.40 each (deep tanks)
+    material: cast iron with bronze trim
+    narrative_role: quench-tanks for cooling crafted pieces; each fluid affects final piece's properties
+```
+
+#### Wall: West (with hammer-stations; mirror of east)
+
+```
+wall_id:              west
+material_primary:     same as east
+material_secondary:   bronze dado
+panelisation:         standard
+colour_value:         --token-color-ark-forge-workshop-wall-west
+embedded_displays:    none
+embedded_doors:        none
+decorative_features:
+  - id: ark.forge_workshop.west.hammer_rack (mirror of east)
+  - id: ark.forge_workshop.west.hammer_station.work_zone (mirror; dedicated to large-piece work — weapons + armor)
+    position: (-4.00, 5.50, 0.00)
+    dimensions: 1.50 × 1.50 × 0.85
+```
+
+### A.8.5 Ceiling
+
+```
+height_above_floor:     6.00 m baseline; central chimney rises through ceiling at z = 6.00 (chimney visible up to z = 12.00 when looking up)
+material:               exposed steel framework with heat-resistant ceramic-tile sections; central chimney is cast-iron (visible internal heat-glow)
+lighting_integrated:    suspended industrial pendants on 2.40 × 2.40 grid (excluding chimney zone); central chimney has internal LED accent for heat-visibility
+atmospheric_features:   visible heat-shimmer rising from forge through chimney; smoke-haze pools at ceiling perimeter
+acoustic_treatment:     coffered with heat-resistant baffling
+```
+
+### A.8.6 Lighting
+
+```
+ambient_baseline:     3000 K (warm; firelight equivalent); 220 lux at floor level; CRI 88
+direct_fixtures:
+  - id: ark.forge_workshop.light.high_bay_array
+    position: distributed at z = 5.50 on 2.40 × 2.40 grid (4 fixtures around chimney)
+    beam_angle: 90°
+    colour: --token-color-ark-forge-workshop-high-bay  (warm industrial)
+    intensity: 4000 lumens each
+    function: ambient task lighting
+  - id: ark.forge_workshop.light.forge_fire_glow
+    position: (0.00, 5.50, 0.50)  # at forge fire centre
+    beam_angle: 360° (radial)
+    colour: --token-color-ark-forge-workshop-forge-glow  (orange-red; varies with heat state — 800-2000K equivalent)
+    intensity: 8000 lumens (variable based on forge active state)
+    function: punctuation; the forge IS the room's primary visual element
+  - id: ark.forge_workshop.light.hammer_station_task.east, .west
+    position: above each hammer-station at z = 4.00
+    beam_angle: 30° downward
+    colour: 5500 K bright
+    intensity: 5000 lumens each
+    function: precision task lighting at anvil work-zones
+practical_sources:
+  - id: ark.forge_workshop.quench_tank.ember_glow.<n>  (3 emitters)
+    position: per quench-tank top
+    intensity: 100 lumens (when quenching; bursts of ember-light)
+    flicker_pattern: irregular
+  - id: ark.forge_workshop.chimney.internal_glow
+    position: (0.00, 5.50, 6.00)  # chimney interior
+    intensity: 1500 lumens (when forge active; visible from below)
+    flicker_pattern: matches forge rhythm
+time_of_day_variation:
+  acts_3_to_7: stable lighting; in late-act7, if player has crafted heavily, scorch-marks accumulate visibly on floor + walls; if not, floor is pristine
+dynamic_response:
+  - on_forge_ignite: forge_fire_glow activates; ambient warms to 2400 K (very warm)
+  - on_quench: quench_tank ember_glow flashes; brief steam-burst
+  - on_hammer_strike: localised flash + sound
+```
+
+### A.8.7 Atmosphere
+
+```
+air_temperature:    32°C baseline (very warm — the Ark's hottest interior); rises to 42°C during active forging
+humidity:           20% RH (very dry); smells of hot iron + coal-smoke + quench-water-evaporation + oil
+particulate:
+  - type: smoke
+    density: medium during active forge; low in baseline
+    colour: blue-grey
+    drift_direction: upward toward chimney
+  - type: ember
+    density: low (cosmetic; sparks from anvil work)
+    colour: bright orange (lifetime <0.5s)
+    drift_direction: random spray from hammer strikes
+  - type: steam
+    density: spike during quenching; otherwise zero
+    colour: white-translucent
+    drift_direction: rises rapidly
+volumetric_fog:     subtle haze at upper volume during active states (0.20 g/m³, warm-grey)
+wind_drift:         strong upward draft toward chimney; 0.80 m/s convection
+smell_canon:        hot iron + coal-smoke + quench-evaporation + oil; voice-line: "smells like the world's beginning"
+```
+
+### A.8.8 Sound
+
+```
+ambient_bed:           file: forge_workshop_ambient_bed_v1.ogg (loop); -28 dB; deep forge-fire roar (continuous), occasional metal-creak from cooling pieces, distant chimney-draft hum
+point_sources:
+  - id: ark.forge_workshop.sound.forge_fire_roar
+    position: (0.00, 5.50, 0.50)
+    sound: deep fire-roar (continuous, -22 dB; varies with intensity)
+    occlusion_behaviour: omnidirectional
+    trigger: continuous (active state)
+  - id: ark.forge_workshop.sound.chimney_draft
+    position: (0.00, 5.50, 5.50)
+    sound: continuous draft-pull (-32 dB)
+    occlusion_behaviour: omnidirectional
+    trigger: continuous
+  - id: ark.forge_workshop.sound.hammer_strike  (per-strike SFX)
+    position: dynamic (per hammer-station)
+    sound: anvil ring (per-strike; -18 dB; bright)
+    occlusion_behaviour: standard
+    trigger: per-action
+  - id: ark.forge_workshop.sound.quench_hiss  (per-quench SFX)
+    position: dynamic (per quench-tank)
+    sound: violent steam-hiss (per-quench; -20 dB)
+    occlusion_behaviour: standard
+    trigger: per-action
+  - id: ark.forge_workshop.sound.metal_creak
+    position: distributed (cooling pieces)
+    sound: occasional creak (random; -38 dB)
+    occlusion_behaviour: standard
+    trigger: random (period 30-60s)
+reverb_zone:           IR-impulse: forge_workshop_v1.wav; wet-mix 26% (industrial reverb)
+music_eligibility:     cutscene only (Category B cs_amb_forge_workshop; deferred catalogue)
+voice_line_eligibility:
+  - speaker: forgemaster (named NPC; rare presence)
+    trigger: state-conditional
+    line_set: see §2.8.2
+```
+
+### A.8.9 Object inventory
+
+Forge Workshop has 32 inventory objects.
+
+#### A.8.9.1 The Central Forge
+
+```
+object_id:           ark.forge_workshop.forge.central
+object_class:        interactive  (also fx_emitter — primary heat + light source)
+position:            (0.00, 5.50, 0.00)
+dimensions:          2.00 × 2.00 × 1.40  (forge body + chimney base)
+rotation:            0°
+material_primary:    cast-iron forge body with brass-trim accents; firebrick interior
+material_secondary:  bronze regulating-valves and bellows-handle
+colour_value:        --token-color-ark-forge-workshop-forge-iron
+interaction:         interactable
+  - operate: opens forge-control UI (player adjusts heat, opens/closes bellows, prepares for crafting)
+  - inspect: lore-note about the forge's history (canonically pre-Ark; the oldest functional forge in the fleet)
+narrative_role:      THE forge; central focal point; player crafts here; canonically a Mechronis sacred object
+lore_anchor:         loredex.faction.mechronis + arc.crafting_progression
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.forge.forge_central.operate
+wear_state:          well-used; soot-blackened; brass valves polished from use
+physical_constraints: collides; player can lean
+```
+
+#### A.8.9.2-3 Two Anvils (east + west of forge)
+
+```
+object_id:           ark.forge_workshop.anvil.east, .west
+object_class:        interactive
+positions:           (4.00, 5.50, 0.00), (-4.00, 5.50, 0.00)
+dimensions (each):   0.80 × 0.40 × 0.85 (anvil) on 0.80 × 0.80 × 0.85 stone block
+rotation:            varies (faces forge)
+material_primary:    cast-iron anvil top; stone-block base
+material_secondary:  brass identification plate
+colour_value:        --token-color-ark-forge-workshop-anvil
+interaction:         interactable
+  - operate: hammer-strike crafting UI (paired with hammer from east/west rack)
+  - inspect: lore-note about anvil (each is a different age; east is younger, west is older)
+narrative_role:      where player shapes hot pieces; east anvil for small work, west for large work
+lore_anchor:         loredex.faction.mechronis + arc.crafting_progression
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.forge.anvil.operate
+wear_state:          worn at most-struck zones (centre-east of east anvil; centre-west of west anvil)
+physical_constraints: collides
+```
+
+#### A.8.9.4-5 Two Hammer Racks (east + west)
+
+```
+object_id:           ark.forge_workshop.hammer_rack.east, .west
+object_class:        container
+positions:           (4.95, 5.50, 0.00), (-4.95, 5.50, 0.00)
+dimensions (each):   0.40 × 4.00 × 2.40
+rotation:            varies (parallel to wall)
+material_primary:    iron rack with hanging hammers (8 hammers per rack, varied sizes/types)
+material_secondary:  brass labels per slot
+colour_value:        --token-color-ark-forge-workshop-hammer-rack
+interaction:         interactable
+  - select_hammer: player selects hammer for use at adjacent anvil (gameplay-key — different hammers for different pieces)
+  - inspect: lore-note about hammer types
+narrative_role:      crafting-tool selection; visual demonstration of progression (some slots empty until player progresses)
+lore_anchor:         loredex.system.crafting_tools
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.forge.hammer_rack.select
+wear_state:          slight wear at most-used slots
+physical_constraints: collides
+```
+
+#### A.8.9.6-8 Three Quench Tanks (north wall)
+
+```
+object_id:           ark.forge_workshop.quench_tank.water, .oil, .mercury
+object_class:        interactive
+positions:           (-3.00, 9.00, 0.00), (0.00, 9.00, 0.00), (3.00, 9.00, 0.00)
+dimensions (each):   0.80 × 0.80 × 1.40
+rotation:            0°
+material_primary:    cast-iron tanks with bronze trim; each has a distinct colour-coded bronze label
+material_secondary:  brass valve-handles
+colour_value:        --token-color-ark-forge-workshop-quench-tank
+interaction:         interactable
+  - quench_piece: player drops hot piece in tank (gameplay-key — affects final piece properties)
+  - inspect: lore-note about each fluid (water for hardness, oil for resilience, mercury-equivalent for arcane properties)
+narrative_role:      cooling stations; each fluid has different gameplay properties; player chooses based on desired output
+lore_anchor:         loredex.system.crafting_quenching
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.forge.quench_tank.use
+wear_state:          rim-wear at most-used (water tank typically); fluid-stains around base
+physical_constraints: collides
+```
+
+#### A.8.9.9-12 Four Tool Storage Cabinets
+
+```
+object_id:           ark.forge_workshop.tool_cabinet.<position>  (4 cabinets distributed in corners)
+positions:           [
+  (-4.50, 1.50, 0.00),  # SW
+  (4.50, 1.50, 0.00),   # SE
+  (-4.50, 9.50, 0.00),  # NW (near quench tanks)
+  (4.50, 9.50, 0.00),   # NE
+]
+dimensions (each):   0.60 × 0.40 × 1.80
+rotation:            varies
+material_primary:    cast-iron cabinet with brass handle
+material_secondary:  brass nameplate (categorised tools)
+colour_value:        --token-color-ark-forge-workshop-tool-cabinet
+interaction:         interactable
+  - open: contains tongs, files, calipers, brushes (varied tools)
+  - inspect: lore-note
+narrative_role:      tool storage; player accesses additional tools for fine work
+lore_anchor:         loredex.system.crafting_tools
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.forge.tool_cabinet.open
+wear_state:          slight wear at handle
+physical_constraints: collides
+```
+
+#### A.8.9.13-16 Four Workbenches (perimeter; for assembly + finishing)
+
+```
+object_id:           ark.forge_workshop.workbench.<position>  (4 benches between cabinets)
+positions:           [
+  (-3.00, 1.50, 0.00), (3.00, 1.50, 0.00),    # south (near entrance)
+  (-3.00, 9.00, 0.00), (3.00, 9.00, 0.00),    # north (near quench)
+]
+dimensions (each):   1.20 × 0.60 × 0.95
+rotation:            varies
+material_primary:    cast-iron frame with hardwood top + leather inset for fine work
+material_secondary:  brass corner caps; vise mounted on each
+colour_value:        --token-color-ark-forge-workshop-workbench
+interaction:         interactable
+  - operate: opens fine-finishing UI (assembly, polishing, engraving)
+  - inspect: lore-note
+narrative_role:      fine-finishing zones; player assembles components after forging + quenching
+lore_anchor:         loredex.system.crafting_finishing
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.forge.workbench.operate
+wear_state:          worn at most-used zones; vise jaws worn
+physical_constraints: collides
+```
+
+#### A.8.9.17 Forgemaster's Anchor (NPC anchor)
+
+```
+object_id:           ark.forge_workshop.forgemaster_anchor
+object_class:        npc_anchor
+position:            (0.00, 4.00, 0.00)  # in front of forge
+dimensions:          0.80 × 0.80 × 1.80 (anchor)
+rotation:            varies (NPC pose-driven)
+material_primary:    n/a
+material_secondary:  n/a
+colour_value:        n/a
+interaction:         n/a (NPC presence)
+narrative_role:      where the Forgemaster (named NPC TBD) anchors when present (rare); typically he's in transit or absent
+lore_anchor:         loredex.character.forgemaster + arc.forge_legacy
+art_status:          producer_handoff
+gameplay_hook_id:    none (presence-driven)
+wear_state:          n/a
+physical_constraints: n/a
+```
+
+#### A.8.9.18-25 Atmospheric + Decorative
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.forge_workshop.bellows.east` | interactive | (1.50, 5.50, 1.00) on forge side | 0.40 × 0.30 × 0.30 | brass bellows handle (active state) |
+| `ark.forge_workshop.coal_bin.west` | container | (-3.00, 4.00, 0.00) | 0.80 × 0.40 × 0.80 | coal/fuel storage |
+| `ark.forge_workshop.coal_bin.east` | container | (3.00, 4.00, 0.00) | mirror | coal storage |
+| `ark.forge_workshop.water_bucket.east` | decoration | (4.50, 4.00, 0.00) | 0.30 × 0.30 × 0.40 | water bucket (cosmetic; emergency) |
+| `ark.forge_workshop.water_bucket.west` | decoration | (-4.50, 4.00, 0.00) | mirror | water bucket |
+| `ark.forge_workshop.completed_pieces_rack.east` | container | (4.50, 8.00, 0.00) | 0.40 × 1.20 × 1.80 | finished work display |
+| `ark.forge_workshop.completed_pieces_rack.west` | container | (-4.50, 8.00, 0.00) | mirror | display |
+| `ark.forge_workshop.bellows.west` | interactive | (-1.50, 5.50, 1.00) | mirror | bellows handle |
+
+#### A.8.9.26-32 Closing Items
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.forge_workshop.south.intercom` | console | (-2.00, 0.20, 1.50) | 0.20 × 0.10 × 0.30 | comms relay |
+| `ark.forge_workshop.fire_extinguisher.south` | interactive | (2.00, 0.20, 1.20) | 0.20 × 0.20 × 0.50 | safety |
+| `ark.forge_workshop.fire_extinguisher.east` | interactive | (4.95, 1.50, 1.20) | mirror | redundant safety |
+| `ark.forge_workshop.fire_extinguisher.west` | interactive | (-4.95, 1.50, 1.20) | mirror | redundant safety |
+| `ark.forge_workshop.first_aid.kit` | container | (-2.50, 0.20, 1.50) | 0.40 × 0.10 × 0.30 | medical |
+| `ark.forge_workshop.fire_alarm.east` | fx_emitter | (4.95, 8.00, 4.50) | 0.20 × 0.20 × 0.20 | fire-alarm strobe (off in baseline) |
+| `ark.forge_workshop.fire_alarm.west` | fx_emitter | (-4.95, 8.00, 4.50) | mirror | strobe |
+
+Total: 32 inventory objects.
+
+### A.8.10 Camera-spawn-points (FPV cutscenes)
+
+```
+cutscene_id:         cs_amb_forge_workshop  (Category B; deferred catalogue)
+camera_position:     (0.00, 0.50, eye_level)
+camera_facing:       (0°, 5°, 0°)  # facing forge with slight upward tilt
+avatar_height_anchor: eye_level
+head_motion:         slow approach to forge; head turns to anvils; lasts 18s
+
+cutscene_id:         cs_first_forge_use  (Act 3 first crafting)
+camera_position:     (0.00, 4.50, eye_level)  # at forge approach
+camera_facing:       (0°, -10°, 0°)  # looking down at forge
+avatar_height_anchor: eye_level
+head_motion:         hand-rig enters frame; tongs lift heated piece; ember-shower; lasts ~12s
+```
+
+### A.8.11 Doorways
+
+```
+door_id:            ark.forge_workshop.south.door.main
+connecting_space_id: ark.engineering_bay  (Engineering's east door connects here)
+door_position:      (0.00, 0.00, 0.00)
+door_dimensions:    1.40 × 2.40 × 0.10
+door_class:         pressure_seal  (heat-isolation; thermal barrier)
+unlock_condition:   Act 3+
+transit_animation:  airlock-cycle (3s)
+audio_signature:    pneumatic-hiss + magnetic-clack + heat-warmth-equalisation tone
+
+door_id:            ark.forge_workshop.north.hatch.exhaust
+connecting_space_id: ark.cargo_hold (slag-removal route)
+door_position:      (-4.00, 10.95, 0.40)
+door_dimensions:    0.80 × 1.40 × 0.10
+door_class:         slide
+unlock_condition:   Act 3+ (when player needs cargo-output)
+transit_animation:  fade
+audio_signature:    pneumatic-hiss + servo-whir
+```
+
+### A.8.12 Adjacency map
+
+```
+direct_adjacencies:
+  - ark.engineering_bay (south door; via Engineering's east door)
+  - ark.cargo_hold (north exhaust hatch; for finished-piece transport)
+one_hop_adjacencies:
+  - ark.armory (via Engineering Bay; tactical equipment chain)
+  - ark.trade_hub (via Cargo Hold; trade economy)
+```
+
+### A.8.13 Gameplay hooks
+
+```
+hooks:
+  - hook_id:         forge_workshop.operateForge
+    trigger:         player.operate on forge.central
+    procedure:       trpc.forge.forge_central.operate
+    success_state:   forge_active = true
+  - hook_id:         forge_workshop.useAnvil
+    trigger:         player.operate on anvil.<position> with selected hammer
+    procedure:       trpc.forge.anvil.operate
+    success_state:   anvil_active = true (per-strike adds gameplay state)
+  - hook_id:         forge_workshop.selectHammer
+    trigger:         player.select_hammer on hammer_rack.<position>
+    procedure:       trpc.forge.hammer_rack.select
+    success_state:   hammer_held = <hammer_id>
+  - hook_id:         forge_workshop.quenchPiece
+    trigger:         player.quench_piece on quench_tank.<fluid> with hot piece in inventory
+    procedure:       trpc.forge.quench_tank.use
+    success_state:   piece_quenched = <piece_id> with <fluid> properties
+  - hook_id:         forge_workshop.useWorkbench
+    trigger:         player.operate on workbench.<position>
+    procedure:       trpc.forge.workbench.operate
+    success_state:   workbench_active = true
+  - hook_id:         forge_workshop.openToolCabinet
+    trigger:         player.open on tool_cabinet.<position>
+    procedure:       trpc.forge.tool_cabinet.open
+    success_state:   tool_cabinet_open = true
+  - hook_id:         forge_workshop.useBellows
+    trigger:         player.interact on bellows.<east|west>
+    procedure:       trpc.forge.bellows.use
+    success_state:   bellows_active = true (heat regulation)
+```
+
+### A.8.14 Story-tie
+
+```
+primary_arcs:
+  - arc.act_3_first_forge_use
+  - arc.crafting_progression (continuous)
+  - arc.forge_legacy (Mechronis-faction history; revealed via journal in Act 5)
+  - arc.act_3_HB4_invocation (cross-ref §A.7 Engineering; HB4 Mechronis Academy unlocks crafting tutorials)
+per_act_evolution:
+  acts_0_2: room locked
+  act_3: first crafting available; basic recipes; HB4 unlocks reveal advanced techniques
+  act_4: more recipes; new hammer types unlock
+  act_5: forgemaster journal lore reveal; legacy crafting recipes available
+  act_6: legendary crafting unlocked (rare materials)
+  act_7: state-branched: master craftsman ending (room shows accumulated wear + many completed pieces) vs. neglectful ending (clean but unproductive)
+npc_roster:
+  - the_forgemaster: named NPC (TBD canon); rare presence Acts 3+
+  - the_player: visitor / craftsman
+  - mechronis_apprentices: rare cosmetic NPCs (Acts 5+)
+readables:
+  - dedication plaque (south)
+  - heat-state display (south)
+  - recipe-index display (south)
+  - crafting journal display (north)
+  - tool-cabinet labels (per-cabinet)
+  - hammer-rack labels (per-slot)
+  - quench-tank labels (per-fluid)
+master_of_rlyeh_question: n/a
+```
+
+### A.8.15 Special-FX
+
+```
+particle_systems:
+  - smoke (medium during active forge; rises through chimney)
+  - ember (low; sparks from hammer strikes)
+  - steam (spike during quenching)
+  - heat_shimmer (continuous above forge; cosmetic distortion)
+volumetric_effects:
+  - forge_volumetric_glow (radial from forge fire)
+  - chimney_internal_glow (vertical light shaft up through chimney)
+  - heat_shimmer_envelope (above forge; warps light slightly)
+procedural_animations:
+  - forge_fire_dance (continuous; flame motion)
+  - bellows_pump_animation (when used; cosmetic)
+  - quench_steam_burst (per-quench)
+  - hammer_rebound (per-strike)
+  - cooling_pieces_subtle_glow_fade (newly-quenched pieces glow then fade over 30s)
+reactive_systems:
+  - forge_glow_intensify_on_player_proximity
+  - anvil_ring_on_strike
+  - quench_hiss_on_use
+  - heat_warmth_perception (player-camera radial heat-effect when close to forge — slight distortion)
+```
+
+### A.8.16 Avatar-parametricity
+
+```
+camera_height_variation:
+  small_xenomorph (0.85m eye): camera height 0.85m; forge feels enormous; alternate stand-on-step at anvils
+  short_humanoid (1.40m eye): standard
+  average_humanoid (1.70m eye): standard
+  tall_humanoid (2.05m eye): high-bay fixtures at near-head level
+  tall_xenomorph (2.70m eye): chimney structure at head; alternate route around forge
+reachability:
+  small_xenomorph: cannot reach top hammer-rack hammers; alternate ladder
+  small_xenomorph: cannot reach quench tank rim from standing; alternate step provided
+  others: all-reachable
+audio_occlusion_variation:
+  xenomorph_sensitive_hearing: forge-roar and anvil-ring overwhelming; alternate ambient-mute setting
+  synthetic_voice_avatar: heat-effects perceived differently
+```
+
+### A.8.17 Performance
+
+```
+polygon_budget:      280,000 polygons (rich industrial detail; forge fire shader is expensive)
+texture_budget:      170 MB total
+light_count_limit:   16 simultaneous dynamic lights
+lod_plan:
+  - hero_distance: 0-10m, full detail
+  - mid_distance: 10-22m, mid detail (small tools simplified)
+  - low_distance: 22m+, low detail
+streaming_behaviour:
+  - preload: ark.engineering_bay (south door)
+  - on_player_at_forge + Act 3+: preload crafting recipe assets
+```
 
 ---
 
-## A.9 Armory — SCAFFOLDED
+## A.9 Armory — FULL
+
+**Status: FULL spec.** Cross-ref: `INCEPTION_ARK_FINAL_PRODUCTION.md`
+§2.9 (art-state prompts) and §A.47 CADES Console / Mission
+Briefing Pod.
+
+### A.9.1 Header
 
 ```
 space_id:        ark.armory
 space_name:      Armory
 space_type:      ark_room
 act_introduced:  Act 2
-lore_anchor:     loredex.system.armory + arc.combat_progression
-aesthetic_tier:  solar_punk_cathedral  (military-tactical accents)
-dimensions:      10.00 m × 10.00 m × 4.00 m
-floor_plan_geometry: rectangular
+lore_anchor:     loredex.system.armory + arc.combat_progression + arc.cades_loadout
+aesthetic_tier:  solar_punk_cathedral  (military-tactical; austere but functional)
 ```
 
-Weapons and armor storage; CADES kit lockers; tactical loadout
-station. Cross-ref §2.47 CADES Console.
+### A.9.2 Geometry
 
-(Full spec deferred.)
+```
+dimensions:           10.00 m × 10.00 m × 4.00 m
+origin_point:         centre of floor at south entrance threshold
+coordinate_axes:      +x = right, +y = forward, +z = up
+floor_plan_geometry:  rectangular
+volumetric_anomalies: none
+```
+
+The Armory is a square, austere room. Weapons racks line east
+and west walls. Armor lockers line the north wall (10 personal
+loadout cubicles). Central area has a tactical loadout station
+where players prepare for CADES missions. Compact and efficient
+— the Armory is utilitarian by design.
+
+Floor area: 100 m².
+
+### A.9.3 Floor
+
+```
+material_primary:     industrial steel deck plate with anti-static coating; 1.00 m × 1.00 m tiles; 4 mm gap; tactical-grid etch pattern
+material_secondary:   bronze inlay outlining central loadout zone (3 × 3 m square); brass perimeter trim
+pattern:              tactical grid + central square loadout-marker
+wear_state:           pristine in early acts; in Act 4+ wear-trail to most-used loadout positions
+embedded_features:
+  - id: ark.armory.floor.charge_point.loadout_station
+    position: (0.00, 5.00, 0.00)  # under loadout station
+    dimensions: 0.40 × 0.40 × 0.05
+    function: loadout-station electronics
+  - id: ark.armory.floor.weapon_rack_anchor.east, .west  (continuous strips)
+    position: along east + west walls
+    dimensions: 0.10 × 8.00 × 0.05 each
+    function: weapon-rack power + security-coupling
+  - id: ark.armory.floor.locker_anchor.<n>  (10 anchors along north wall)
+    position: per locker base
+    dimensions: 0.40 × 0.40 × 0.05 each
+    function: locker electronics + biometric-coupling
+acoustic_property:    hard_reflective (steel); RT60 = 0.40s (intentionally clean acoustic for tactical comms clarity)
+```
+
+### A.9.4 Walls
+
+#### Wall: South (entrance)
+
+```
+wall_id:              south
+material_primary:     painted steel panel with rivet-detail; matte gunmetal
+material_secondary:   bronze dado at z = 1.10 m
+panelisation:         standard
+colour_value:         --token-color-ark-armory-wall-south  (gunmetal-grey + tactical-amber pin-stripe at z = 2.00 m)
+embedded_displays:
+  - id: ark.armory.south.display.alert_status
+    position: (-3.00, 0.20, 1.80)
+    dimensions: 1.00 × 0.80 × 0.05
+    content: current alert level (matches Defense Command Center)
+  - id: ark.armory.south.display.loadout_history
+    position: (3.00, 0.20, 1.80)
+    dimensions: 1.00 × 0.80 × 0.05
+    content: player's loadout history + mission outcomes
+embedded_doors:
+  - door_id: ark.armory.south.door.main
+    position: (0.00, 0.00, 0.00)
+    dimensions: 1.40 × 2.40 × 0.10
+    door_class: pressure_seal  (security; biometric authentication)
+    connecting_space_id: ark.engineering_bay  (Engineering's west door connects here)
+decorative_features:
+  - id: ark.armory.south.plaque.creed
+    position: (0.00, 0.20, 3.20)
+    dimensions: 1.00 × 0.40 × 0.02
+    material: cast bronze with deep-etched text
+    narrative_role: reads "WE ARM AGAINST WHAT THE DARK WILL BRING"
+```
+
+#### Wall: East (weapons rack)
+
+```
+wall_id:              east
+material_primary:     painted steel panel + reinforced weapons-display backing
+material_secondary:   bronze dado
+panelisation:         standard
+colour_value:         --token-color-ark-armory-wall-east
+embedded_displays:    none
+embedded_doors:        none
+decorative_features:
+  - id: ark.armory.east.weapons_rack
+    position: (4.95, 5.00, 0.00)
+    dimensions: 0.40 × 8.00 × 3.40
+    material: reinforced steel rack with mag-locks
+    narrative_role: weapons display + storage; player can take/return weapons (gameplay-key for CADES missions)
+```
+
+#### Wall: North (loadout cubicles)
+
+```
+wall_id:              north
+material_primary:     painted steel panel with 10 vertical loadout cubicles
+material_secondary:   bronze dado + bronze name-plates per cubicle
+panelisation:         10 cubicles (each 1.00 × 0.50 × 4.00) along the wall
+colour_value:         --token-color-ark-armory-wall-north
+embedded_displays:    none
+embedded_doors:        none
+decorative_features:
+  - id: ark.armory.north.loadout_cubicle.<n>  (10 cubicles at x = -4.5, -3.5, -2.5, -1.5, -0.5, 0.5, 1.5, 2.5, 3.5, 4.5)
+    position: distributed
+    dimensions: 1.00 × 0.50 × 4.00 each (full-height cubicle for armor + weapons)
+    material: reinforced steel with bronze name-plate
+    narrative_role: per-player or per-mission loadout cubicles; cubicle 6 (x = 0.5) is the player's primary
+  - id: ark.armory.north.relief.tactical_doctrine
+    position: (0.00, 9.85, 4.00)  # high above cubicles
+    dimensions: 1.20 × 0.40 × 0.10
+    material: cast bronze
+    narrative_role: reads "AIM TRUE / HOLD GROUND / RETURN HOME"
+```
+
+#### Wall: West (weapons rack; mirror of east)
+
+```
+wall_id:              west
+material_primary:     same as east
+material_secondary:   bronze dado
+panelisation:         standard
+colour_value:         --token-color-ark-armory-wall-west
+embedded_displays:    none
+embedded_doors:        none
+decorative_features:
+  - id: ark.armory.west.weapons_rack (mirror)
+```
+
+### A.9.5 Ceiling
+
+```
+height_above_floor:     4.00 m baseline; central drop coffer at 3.50 m above loadout station (tactical intimacy)
+material:               painted steel with industrial conduits visible
+lighting_integrated:    recessed cool-white grid 1.20 m × 1.20 m; central coffer is task-light over loadout station
+atmospheric_features:   minimal — utilitarian space
+acoustic_treatment:     baffled
+```
+
+### A.9.6 Lighting
+
+```
+ambient_baseline:     5500 K (cool; tactical-clinical); 320 lux at floor level (bright; precision required); CRI 92
+direct_fixtures:
+  - id: ark.armory.light.recessed_grid
+    position: distributed across ceiling on 1.20 × 1.20 grid
+    beam_angle: 60° each
+    colour: --token-color-ark-armory-recessed  (cool white)
+    intensity: 1500 lumens each
+    function: ambient task lighting
+  - id: ark.armory.light.loadout_station_task
+    position: (0.00, 5.00, 3.50)
+    beam_angle: 30° downward
+    colour: 6000 K bright
+    intensity: 8000 lumens
+    function: precision loadout task
+  - id: ark.armory.light.weapons_rack_strip.east, .west
+    position: along weapons racks at z = 3.40
+    beam_angle: 90° downward
+    colour: --token-color-ark-armory-rack-strip  (cool tactical)
+    intensity: 800 lumens per metre
+    function: weapons-rack accent (silhouettes weapons clearly)
+  - id: ark.armory.light.cubicle_strip
+    position: along cubicles at z = 3.90
+    beam_angle: 90° downward
+    colour: --token-color-ark-armory-cubicle-strip  (cool tactical)
+    intensity: 600 lumens per metre
+    function: cubicle definition
+practical_sources:
+  - id: ark.armory.cubicle_status_light.<n>  (10 small lights; one per cubicle)
+    position: per cubicle top
+    intensity: 30 lumens (varies — green for loaded; amber for partial; red for empty)
+    flicker_pattern: stable
+time_of_day_variation:
+  acts_2_to_7: stable; in alert states (cross-ref Defense Command), red strobe activates
+dynamic_response:
+  - on_alert: ambient warms to 6500 K combat-tone; cubicle status lights all amber
+  - on_player_at_loadout_station: task light intensifies 20%
+  - on_player_at_cubicle: cubicle's strip-light brightens 30%
+```
+
+### A.9.7 Atmosphere
+
+```
+air_temperature:    19°C (cool; precision)
+humidity:           34% RH (low; weapon-friendly); smells of gun oil + steel + faint leather
+particulate:
+  - dust: very low (security maintenance)
+  - cordite_residue: very low (cosmetic; hint at recent use)
+volumetric_fog:     absent
+wind_drift:         minimal; 0.04 m/s; ventilation
+smell_canon:        gun oil + steel + leather; voice-line: "smells like preparation"
+```
+
+### A.9.8 Sound
+
+```
+ambient_bed:           file: armory_ambient_bed_v1.ogg (loop); -36 dB; very quiet; faint mag-lock buzz, distant cooling fans
+point_sources:
+  - sound.maglock_buzz: distributed at racks; -40 dB; continuous
+  - sound.cubicle_status_buzz: distributed at cubicles; -42 dB; continuous
+  - sound.alert_klaxon: at (0.00, 5.00, 4.00); off baseline; -22 dB during alert; cyclic
+reverb_zone:           IR-impulse: armory_v1.wav; wet-mix 14% (clean tactical)
+music_eligibility:     cutscene only
+voice_line_eligibility:
+  - speaker: armory_quartermaster: named NPC; rare presence; line set §2.9.2
+  - speaker: defense_command_relay: ambient announcements during alert
+```
+
+### A.9.9 Object inventory
+
+Armory has 28 inventory objects.
+
+#### A.9.9.1 The Tactical Loadout Station
+
+```
+object_id:           ark.armory.loadout_station
+object_class:        interactive  (also display)
+position:            (0.00, 5.00, 0.00)
+dimensions:          1.80 × 1.20 × 1.10
+rotation:            0°
+material_primary:    brushed steel + matte-black control surface with holographic loadout-display
+material_secondary:  brass bezel with status-LED accents
+colour_value:        --token-color-ark-armory-loadout-station
+interaction:         interactable
+  - operate: opens loadout UI; player selects weapons + armor for current mission
+  - inspect: lore-note about loadout system
+narrative_role:      THE central station; primary CADES gameplay-launcher
+lore_anchor:         loredex.system.cades + arc.cades_loadout
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.armory.loadout_station.operate
+wear_state:          worn at most-touched zones
+physical_constraints: collides
+```
+
+#### A.9.9.2-3 Two Weapons Racks (east + west walls)
+
+```
+object_id:           ark.armory.weapons_rack.east, .west
+object_class:        container
+positions:           (4.95, 5.00, 0.00), (-4.95, 5.00, 0.00)
+dimensions (each):   0.40 × 8.00 × 3.40
+rotation:            varies
+material_primary:    reinforced steel rack with mag-locks
+material_secondary:  bronze nameplate per weapon-slot
+colour_value:        --token-color-ark-armory-weapons-rack
+interaction:         interactable
+  - take_weapon: player can equip weapon (gameplay-key)
+  - return_weapon: player returns weapon
+  - inspect: lore-note per weapon
+narrative_role:      weapons inventory + display; east is primary CADES; west is secondary + ceremonial
+lore_anchor:         loredex.system.cades_weapons
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.armory.weapons_rack.take + .return
+wear_state:          mag-locks slightly worn at most-used positions
+physical_constraints: collides
+```
+
+#### A.9.9.4-13 Ten Loadout Cubicles (north wall)
+
+```
+object_id:           ark.armory.loadout_cubicle.<n>  (10 cubicles)
+object_class:        container
+positions:           per A.9.4 walls (x = -4.5 to +4.5 step 1.0; y = 9.95)
+dimensions (each):   1.00 × 0.50 × 4.00
+rotation:            180°
+material_primary:    reinforced steel; bronze nameplate
+material_secondary:  biometric lock
+colour_value:        --token-color-ark-armory-cubicle
+interaction:         interactable
+  - open: player can equip / store armor + auxiliary gear
+  - inspect: lore-note about cubicle assignment
+narrative_role:      personal loadout storage; cubicle 6 (x = +0.5) is the player's primary; others assigned to crew NPCs
+lore_anchor:         loredex.system.cades_cubicles
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.armory.cubicle.open
+wear_state:          slight wear
+physical_constraints: collides
+```
+
+#### A.9.9.14 Quartermaster's Anchor
+
+```
+object_id:           ark.armory.quartermaster_anchor
+object_class:        npc_anchor
+position:            (-2.00, 5.00, 0.00)  # to west of loadout station
+dimensions:          0.80 × 0.80 × 1.80 (anchor)
+rotation:            varies
+material_primary:    n/a
+material_secondary:  n/a
+colour_value:        n/a
+interaction:         n/a (NPC presence)
+narrative_role:      Quartermaster anchors here when present; rare physical visits
+lore_anchor:         loredex.character.armory_quartermaster
+art_status:          producer_handoff
+gameplay_hook_id:    none
+wear_state:          n/a
+physical_constraints: n/a
+```
+
+#### A.9.9.15-22 Atmospheric Items
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.armory.weapons_cleaning_table` | furniture | (-2.50, 1.50, 0.00) | 1.20 × 0.60 × 0.85 | weapons-cleaning workstation |
+| `ark.armory.weapons_cleaning_table.kit` | container | on cleaning table | 0.30 × 0.20 × 0.10 | cleaning supplies |
+| `ark.armory.armor_repair_table` | furniture | (2.50, 1.50, 0.00) | 1.20 × 0.60 × 0.85 | armor-repair workstation |
+| `ark.armory.armor_repair_table.kit` | container | on repair table | 0.30 × 0.20 × 0.10 | repair supplies |
+| `ark.armory.tactical_briefing_table` | furniture | (0.00, 7.50, 0.00) | 1.40 × 0.80 × 0.85 | mission briefing surface |
+| `ark.armory.tactical_briefing_chair.east, .west` | furniture | flanking briefing table | 0.80 × 0.80 × 1.20 each | seating |
+| `ark.armory.briefing_holo_table` | display | on briefing table | 0.60 × 0.60 × 0.05 | mission overlay |
+
+#### A.9.9.23-28 Closing Items
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.armory.south.intercom` | console | (-1.50, 0.20, 1.50) | 0.20 × 0.10 × 0.30 | comms relay |
+| `ark.armory.fire_extinguisher.south` | interactive | (1.50, 0.20, 1.20) | 0.20 × 0.20 × 0.50 | safety |
+| `ark.armory.first_aid.kit` | container | (-2.50, 0.20, 1.50) | 0.40 × 0.10 × 0.30 | medical |
+| `ark.armory.alert_strobe.east` | fx_emitter | (4.95, 9.50, 3.80) | 0.20 × 0.20 × 0.20 | alert strobe (off baseline) |
+| `ark.armory.alert_strobe.west` | fx_emitter | (-4.95, 9.50, 3.80) | mirror | strobe |
+| `ark.armory.cadet_locker_history_plaque` | decoration | (-4.50, 0.20, 1.80) on south wall | 0.30 × 0.20 × 0.02 | small bronze plaque listing names of crew lost in CADES missions |
+
+Total: 28 inventory objects.
+
+### A.9.10 Camera-spawn-points (FPV cutscenes)
+
+```
+cutscene_id:         cs_amb_armory  (Category B; deferred)
+camera_position:     (0.00, 0.50, eye_level)
+camera_facing:       (0°, 0°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         slow approach to loadout station; head turns to scan racks; lasts 18s
+
+cutscene_id:         cs_first_loadout  (Act 2 first CADES mission prep)
+camera_position:     (0.00, 4.50, eye_level)
+camera_facing:       (0°, -10°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         seated at loadout station; hand-rig selects equipment; ~14s
+```
+
+### A.9.11 Doorways
+
+```
+door_id:            ark.armory.south.door.main
+connecting_space_id: ark.engineering_bay  (via Engineering's west door)
+door_position:      (0.00, 0.00, 0.00)
+door_dimensions:    1.40 × 2.40 × 0.10
+door_class:         pressure_seal  (biometric authentication)
+unlock_condition:   Act 2+
+transit_animation:  airlock-cycle (3s)
+audio_signature:    pneumatic-hiss + biometric-confirm tone + magnetic-clack
+```
+
+### A.9.12 Adjacency map
+
+```
+direct_adjacencies:
+  - ark.engineering_bay (south door; via Engineering's west door)
+one_hop_adjacencies:
+  - ark.forge_workshop (via Engineering Bay; equipment crafting chain)
+  - ark.cades_console_pod (via Engineering Bay corridor; CADES mission briefing annex)
+  - ark.defense_command_center (via long corridor; tactical command)
+```
+
+### A.9.13 Gameplay hooks
+
+```
+hooks:
+  - hook_id:         armory.operateLoadoutStation
+    trigger:         player.operate on loadout_station
+    procedure:       trpc.armory.loadout_station.operate
+    success_state:   loadout_ui_open = true
+  - hook_id:         armory.takeWeapon
+    trigger:         player.take on weapons_rack.<position>.<weapon>
+    procedure:       trpc.armory.weapons_rack.take
+    success_state:   weapon_equipped = true (per-weapon)
+  - hook_id:         armory.returnWeapon
+    trigger:         player.return on weapons_rack
+    procedure:       trpc.armory.weapons_rack.return
+    success_state:   weapon_returned = true
+  - hook_id:         armory.openCubicle
+    trigger:         player.open on loadout_cubicle.<n>
+    procedure:       trpc.armory.cubicle.open
+    success_state:   cubicle_open = true
+  - hook_id:         armory.useCleaningTable
+    trigger:         player.operate on weapons_cleaning_table
+    procedure:       trpc.armory.cleaning_table.operate
+    success_state:   cleaning_active = true
+  - hook_id:         armory.useRepairTable
+    trigger:         player.operate on armor_repair_table
+    procedure:       trpc.armory.repair_table.operate
+    success_state:   repair_active = true
+  - hook_id:         armory.briefMission
+    trigger:         player.operate on tactical_briefing_table
+    procedure:       trpc.armory.briefing.start
+    success_state:   briefing_active = true
+```
+
+### A.9.14 Story-tie
+
+```
+primary_arcs:
+  - arc.act_2_first_loadout
+  - arc.combat_progression (continuous)
+  - arc.cades_loadout (continuous)
+  - arc.cades_missions (cross-ref §A.47 CADES Console Pod)
+per_act_evolution:
+  acts_0_1: room locked
+  act_2: opens; first loadout prep; basic weapons
+  act_3: more weapons available; CADES mission archive accessible
+  act_4: alert states begin; cubicle 6 (player's) shows accumulated mission gear
+  act_5: cadet_locker_history_plaque becomes notable (lost crew names appear)
+  act_6: legendary weapons accessible (rare)
+  act_7: state-branched: well-armed-and-trained ending vs. minimal-engagement ending
+npc_roster:
+  - the_armory_quartermaster: named NPC; rare presence
+  - the_player: visitor / loadout
+  - cades_squadmates: cosmetic NPCs in late-act
+readables:
+  - dedication plaque (south)
+  - tactical doctrine relief (north)
+  - cadet locker history plaque (lost crew)
+  - loadout history display (south)
+  - alert status display (south)
+master_of_rlyeh_question: n/a
+```
+
+### A.9.15 Special-FX
+
+```
+particle_systems:
+  - dust (very low; security maintenance)
+  - cordite_residue (very low; cosmetic; hint at recent CADES use)
+volumetric_effects:
+  - alert_strobe_envelope (state-conditional)
+  - loadout_station_holo_overlay (3D loadout visualisation)
+procedural_animations:
+  - cubicle_status_light_pulse (per-cubicle; varies by state)
+  - weapons_rack_subtle_shimmer (cosmetic)
+  - briefing_holo_table_idle_animation
+reactive_systems:
+  - cubicle_strip_intensify_on_proximity
+  - loadout_task_intensify_on_seated
+  - alert_strobes_on_alert_state
+```
+
+### A.9.16 Avatar-parametricity
+
+```
+camera_height_variation:
+  small_xenomorph (0.85m eye): 0.85m; cubicles tower; alternate "lift platform" inside cubicle
+  short_humanoid (1.40m eye): standard
+  average_humanoid (1.70m eye): standard
+  tall_humanoid (2.05m eye): cubicle ceiling at near-head; slight crouch on entry
+  tall_xenomorph (2.70m eye): cubicle entry requires crouch animation
+reachability:
+  small_xenomorph: cannot reach top weapons-rack slots; alternate ladder
+  others: all-reachable
+audio_occlusion_variation:
+  xenomorph_sensitive_hearing: alarm klaxon overwhelming
+  synthetic_voice_avatar: biometric-auth feedback subtly different
+```
+
+### A.9.17 Performance
+
+```
+polygon_budget:      200,000 polygons (compact room)
+texture_budget:      120 MB total
+light_count_limit:   12 simultaneous dynamic lights
+lod_plan:
+  - hero_distance: 0-8m, full detail
+  - mid_distance: 8-15m, mid detail
+  - low_distance: 15m+, low detail
+streaming_behaviour:
+  - preload: ark.engineering_bay (south door)
+  - on_loadout_station_active: preload destination.cades_mission_maps (current mission)
+```
 
 ---
 
