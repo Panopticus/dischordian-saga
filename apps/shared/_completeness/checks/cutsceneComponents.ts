@@ -80,6 +80,14 @@ const DECLARED_CUTSCENES: ReadonlyArray<DeclaredCutscene> = [
     beat:
       "fires the first time the Thought Virus infects an NPC (Act 4+ trigger)",
   },
+  {
+    id: "prestige_reset",
+    title: "Cutscene 6: The Reset",
+    componentNames: ["PrestigeResetCutscene", "TheResetCutscene"],
+    literalIds: ["cutscene_prestige_reset", "prestige_reset_cutscene"],
+    beat:
+      "fires when the player confirms the prestige cycle on PrestigeCycleResetPage (Bible §6)",
+  },
 ];
 
 export function checkCutsceneComponents(): RawParityCount {

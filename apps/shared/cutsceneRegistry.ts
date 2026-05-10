@@ -24,7 +24,8 @@ export type CutsceneId =
   | "cutscene_first_human_contact"
   | "cutscene_elara_memory_recovery"
   | "cutscene_breaking_point"
-  | "cutscene_thought_virus_manifests";
+  | "cutscene_thought_virus_manifests"
+  | "cutscene_prestige_reset";
 
 export interface CutsceneDefinition {
   /** Stable string-literal id; matches the literal-id column in
@@ -118,6 +119,25 @@ export const CUTSCENE_REGISTRY: Readonly<
     videoBasePath: "/videos/cutscenes/thought_virus_manifests/",
     componentName: "ThoughtVirusManifestCutscene",
     posterPath: "/videos/cutscenes/thought_virus_manifests/poster.webp",
+  },
+  cutscene_prestige_reset: {
+    id: "cutscene_prestige_reset",
+    title: "Cutscene 6: The Reset",
+    // Bible §6 (NANO_BANANA_VEO_FULL_PROMPT_BOOK.md line 1107) — 4
+    // sequential POV shots (player → Elara → Human → Antiquarian)
+    // + final freeze, ~50s total, no music. Fires when the player
+    // confirms the prestige cycle ceremony.
+    triggerFlag: "cutscene_prestige_reset_triggered",
+    setsFlags: ["cutscene_prestige_reset_seen", "prestige_cinematic_played"],
+    shotCount: 4,
+    durationSec: 50,
+    videoBasePath: "/videos/prestige/",
+    componentName: "PrestigeResetCutscene",
+    // The freeze frame from the final shot serves as the
+    // reduced-motion poster; producer ships it as
+    // the_reset_complete.mp4 but a frame extract works as a poster
+    // until the .webp lands. Player gracefully degrades anyway.
+    posterPath: "/videos/prestige/the_reset_complete.mp4",
   },
 } as const;
 

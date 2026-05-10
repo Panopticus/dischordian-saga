@@ -98,7 +98,16 @@ cp -n "${STAGING}/other/confession_close/"*.mp4 "${PUB}/confession_close/"
 cp -nR "${STAGING}/other/dlc_mystery/"*         "${PUB}/dlc_mystery/"
 cp -n "${STAGING}/other/events/"*.mp4           "${PUB}/events/"
 cp -n "${STAGING}/other/human_reveal/"*.mp4     "${PUB}/human_reveal/"
-cp -n "${STAGING}/other/prestige/"*.mp4         "${PUB}/prestige/"
+# Prestige: registry expects shot1.mp4..shot4.mp4 (no underscore)
+# while producer ships shot_1.mp4..shot_4.mp4. Rename on copy so
+# AnimatedCutscenePlayer's URL builder finds the assets without
+# code changes. the_reset_complete.mp4 is the freeze frame poster.
+for n in 1 2 3 4; do
+  src="${STAGING}/other/prestige/shot_${n}.mp4"
+  dst="${PUB}/prestige/shot${n}.mp4"
+  [[ -f "$src" && ! -e "$dst" ]] && cp "$src" "$dst"
+done
+cp -n "${STAGING}/other/prestige/the_reset_complete.mp4" "${PUB}/prestige/"
 cp -n "${STAGING}/other/wheel_reactions/"*.mp4  "${PUB}/wheel_reactions/"
 
 echo
