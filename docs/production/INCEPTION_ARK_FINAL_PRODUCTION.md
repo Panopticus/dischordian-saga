@@ -9091,5 +9091,574 @@ deferred.
 
 ---
 
+## 9. HUD / UX / UI Production Manifest
+
+Distillation of NOTES §13.1. **60+ surfaces across 12
+categories.** Aggregate coverage stats: Void-Energy
+adoption ~45%; framer-motion animation ~50%; audio
+coverage ~15%; accessibility readiness ~25%; mobile
+haptic unification 0%. This chapter catalogues every HUD/
+UX/UI surface with its file path, current state, void-
+energy adoption status, visual states, AAA-polish gap,
+and diegetic equivalent in the Ark rooms.
+
+### 9.1 Persistent chrome (7 surfaces)
+
+| surface | file | adopted | states | diegetic equiv |
+|---|---|---|---|---|
+| **Top Navigation Bar / AppShell** | `AppShell.tsx` (482 lines) | yes | idle / hover / expanded / mobile | Bridge nav terminal §2.3 |
+| **Morality Meter / Bar** | `MoralityMeter.tsx` (240+ lines) | yes | 9 tier states (Machine Ascendant → Balanced → Humanity Ascendant) | character's internal compass |
+| **Notification Bell / Toast Stack** | `NotificationBell.tsx` + sonner toasts (`BonusToast.tsx`, `AchievementUnlockToast.tsx`) | partial | unread / hover / dismissed / 4 priority tiers | Elara comms whisper §2.3 |
+| **Global Loading Overlay** | `LoadingStates.tsx`, `PageLoader.tsx`, `RoomTransition.tsx` | partial | spinner / progress-bar / cinematic-fade / route-gate | Ark airlock transition |
+| **Network Status / Reconnecting Banner** | `ReconnectingOverlay.tsx` | minimal | reconnecting / offline / reconnected | Comms Array flash §2.5 |
+| **Achievement Unlock Toast** | `AchievementUnlockToast.tsx`, `AchievementToast.tsx` | NO | entry-scale / hover / exit | Trophy Wall §2.12 |
+| **Global Modal / Dialog Stack** | `dialog.tsx` (shadcn) + scattered modals | mixed | closed / entering / idle / exiting / backdrop-dismiss | quantum decision gates |
+| **Voice-Line / VO Indicator** | `VoiceWhisper.tsx` (floating notification), `VoCaption.tsx` (subtitle) | NO | appearing / reading / disappearing / muted | Elara comms radio chatter |
+
+### 9.2 Player identity (4 surfaces)
+
+| surface | file | adopted | diegetic equiv |
+|---|---|---|---|
+| **Character Portrait / Avatar Frame** | `AnimatedPortrait.tsx`, `PaperDollRenderer.tsx`, `SpriteCharacter.tsx` | mixed | Personal Quarters mirror §3.11.1 |
+| **Level / XP Progress Bar** | `Progress.tsx` (shadcn) + scattered | mixed | Bridge authority readout §2.3 |
+| **Resource Counters** (Dream / Void Crystals / Soul Stones / faction standing) | scattered — no unified component | **fragmented (no Void-Energy adoption)** | Personal Quarters resource shelf |
+| **Cosmetic Display Chip** | `CharacterAuraOverlay.tsx`, `ShaderOverlay.tsx` (GLSL) | yes | Personal Quarters mirror §3.11.1 |
+
+### 9.3 Combat / card-duel (10 surfaces)
+
+| surface | file | adopted | states | diegetic equiv |
+|---|---|---|---|---|
+| **Hand Fan / Card Hand Display** | `DuelystGameUI.tsx` (2043 lines, embedded) | NO | idle / hover / selected / dragging / played / lock | physical card deck draw |
+| **Field / Board** | `BoardRenderer.tsx` (Pixi.js) | NO | idle / hover / selected / attacked / death / targeted | tactical arena war-room |
+| **Resource Pool / Mana Bar** | embedded in `DuelystGameUI.tsx` | NO | idle / gaining / spending / overflow / depleted | mana-tank in war-room floor |
+| **Health / Shield Meters** | embedded + `WarlordCountdownIndicator.tsx` | NO | idle / damage / heal / shielded / shield-break / low / death | environment damage indicators |
+| **Targeting Reticle / Selection Indicator** | embedded in `BoardRenderer.tsx` | NO | idle / hover-valid / hover-invalid / locked | Arktech crosshairs |
+| **Trigger Stack / Spell Queue Visualizer** | text-only embedded | NO | idle / queuing / resolving / proc | hanging crystalline spell-boards |
+| **Replay Scrubber / Timeline Scrub** | **MISSING ENTIRELY** | n/a | n/a | memory-crystal viewer |
+| **Match Summary / End-of-Battle Screen** | `MatchSummary.tsx` (290 lines, adopted) | yes | idle / win / loss / loading / expanded / mobile | Personal Quarters memorabilia §2.11 |
+| **Deck Builder UI** | `DeckBuilder.tsx` | NO | idle / adding / hover / save / invalid / mobile | deck-crafting table in library |
+| **Pack Opening Ceremony** | `PackOpening.tsx` | NO | sealed / opening / reveal / rare / epic / legendary | unwrapping station holo-projection |
+
+### 9.4 Narrative (5 surfaces)
+
+| surface | file | adopted | diegetic equiv |
+|---|---|---|---|
+| **Dialogue Box / NPC Conversation** | `CinematicDialogOverlay.tsx`, `ElaraDialogBox.tsx` | yes | NPC speech bubbles in-world |
+| **Choice Menu / Branching Dialogue** | `ChoicePanel.tsx`, `Act1ClosingChoicePanel.tsx` | mixed | holographic choice-pillar (light/dark sides) |
+| **Loredex Viewer** | scattered (`LoreGalleryPage.tsx`, individual modals — **MISSING UNIFIED COMPONENT**) | partial | Antiquarian Library §2.13 + Archives §2.4 |
+| **Transmission Video Player** | `TransmissionDisplay.tsx`, `CoNexusMediaPlayer.tsx` (no unified component) | NO | Comms Array §2.5 broadcast cylinders |
+| **Codex / Journal Pages** | `AwakeningJournalEntry.tsx`, `CodexPage.tsx`, `ClueJournal.tsx`, `LoreJournalPage.tsx` (4 implementations) | partial | Library reading bench §2.13 |
+| **Achievement Gallery** | `AchievementsGalleryPage.tsx` | partial | Trophy Room §2.12 + §4.2 zones |
+| **Title Screen / Chapter Splash** | `TitlePage.tsx`, `TitleBootSequence.tsx`, `OpeningCinematic.tsx` | partial | Prelude §2.49 |
+
+### 9.5 Navigation / room (5 surfaces)
+
+| surface | file | adopted | diegetic equiv |
+|---|---|---|---|
+| **Ark Map / Deck Navigator** | `ShipSchematicMap.tsx`, `ArkFastTravelModal.tsx`, `ArkOrientation.tsx` | partial | Bridge holographic ship map §2.3 |
+| **Room Entry Transition / Door Open** | `RoomTransition.tsx`, `ArrivalCinematicRenderer.tsx` | partial | airlock door cycle |
+| **In-Room Hotspot Indicators / Point & Click Anchors** | `PointAndClickScene.tsx` + scattered hotspot impls | partial | interactive surfaces in-world |
+| **Mystery Clue Tracker / Investigation UI** | `CADESClueBoard.tsx`, `ClueJournal.tsx`, `CADESFeed.tsx` | partial | corkboard in investigation chamber |
+| **Mission Tracker / Quest Log** | `QuestTracker.tsx`, `PetQuestTracker.tsx`, `QuestBoardPage.tsx` | mixed | quest terminals holo-board |
+
+### 9.6 Inventory / collection (6 surfaces)
+
+| surface | file | adopted | diegetic equiv |
+|---|---|---|---|
+| **Card Collection / Card Gallery** | `CardBrowserPage.tsx`, `CardGalleryPage.tsx`, `CollectionView.tsx` | partial | Library digital card catalog §2.13 |
+| **Cosmetics Catalog / Equipment Shop** | `CosmeticShopPage.tsx`, `StorePage.tsx` | partial | Personal Quarters wardrobe |
+| **Pet Roster / Companion Management** | `PetRoster.tsx`, `PetGardenPage.tsx` | partial | Pet Garden §2.28 |
+| **Loadout Switcher** | **MISSING ENTIRELY** | n/a | Armory §2.9 holo-interface |
+| **Soul Stone Wallet / Resource Inventory** | `SoulStonesPanel.tsx` (adopted) + scattered | partial | Personal Quarters favourites shelf §3.9.3 |
+| **Trophy Gallery** | `TrophyRoom.tsx` | partial | Trophy Room §2.12 + §4.2 |
+
+### 9.7 Multiplayer / social (7 surfaces)
+
+| surface | file | adopted | diegetic equiv |
+|---|---|---|---|
+| **Friends List / Social Roster** | **MISSING ENTIRELY** | n/a | Personal Quarters comms panel + Guild Sanctum §2.14 |
+| **Guild Hub / Crew Management** | `GuildPage.tsx`, `CrewRosterView.tsx` | partial | Guild Sanctum §2.14 |
+| **Chat / Messaging UI** | **MISSING ENTIRELY** | n/a | comms channel overlay |
+| **Party Invite / Group Formation** | **MISSING ENTIRELY** | n/a | squad briefing in war-room |
+| **Live Event Banner / Limited-Time Announcement** | `FactionWarEventBanner.tsx`, `SeasonalEventsPage.tsx` | partial | Bridge banner + PA system |
+| **Leaderboard / Arena Bracket** | `LeaderboardPage.tsx`, `FightLeaderboardPage.tsx` | partial | tournament-hall holo-wall |
+| **Spectator Mode / Match Observation** | `SpectatorPage.tsx` | NO | Pet Arena spectator §2.29 |
+| **PvP Matchmaking Lobby** | **MISSING ENTIRELY** | n/a | arena entry waiting area |
+
+### 9.8 Meta / admin (11 surfaces)
+
+| surface | file | adopted | diegetic equiv |
+|---|---|---|---|
+| **Settings / Preferences** | `SettingsPage.tsx`, `SettingsSearchModal.tsx` | partial | system-config holo-panel |
+| **Audio Settings** | embedded | partial | audio mixer panel |
+| **Video Settings** | embedded | partial | display-settings panel |
+| **Accessibility Settings** | embedded (UNDERBUILT) | NO | ADA-compliance panel |
+| **Control / Keybinding Settings** | **MISSING REBINDER** | n/a | input-config terminal |
+| **Language / Localization** | embedded | NO | localization selector |
+| **Account / Billing** | `PlayerProfilePage.tsx` (minimal) | NO | account-management terminal |
+| **Authoring / Admin Console** | `ArchitectConsolePage.tsx`, `ArchitectDossierPage.tsx` | partial | architect-mode interface |
+| **Live-Event / GM Overlay** | **MISSING ENTIRELY** | n/a | GM operator dashboard |
+| **Battle-Pass / Season-Pass Progress UI** | `BattlePassPage.tsx` | partial | season-tracker holo-display |
+| **Governance Hub Voting UI** | `GovernanceHubPage.tsx` | partial | Governance Chamber §2.40 |
+
+### 9.9 Mini-games (4 surfaces)
+
+| surface | file | adopted | diegetic equiv |
+|---|---|---|---|
+| **Chess Board / Match UI** | `ChessBoard.tsx`, `ChessPieces.tsx`, `ChessSessionBanner.tsx`, `ChessPostGameReview.tsx` | partial | Chess Hall §2.36 + Grand Master Sanctum §2.37 |
+| **Chess Timer / Clock** | embedded in ChessBoard | NO | match-clock arena wall |
+| **Pet Arena Spectator** | embedded | NO | Pet Arena gallery §2.29 |
+| **Trade Empire HUD** (light touch — owned by parallel agent) | `LockeConfidentialLedgerPanel.tsx` adopted | partial | Trade Hub §2.31 + sub-rooms §2.32 + §3.3 |
+
+### 9.10 Mobile-specific (2 surfaces)
+
+| surface | file | adopted | diegetic equiv |
+|---|---|---|---|
+| **Touch Controls / Gesture Overlays** | `GestureTutorial.tsx` | NO | on-screen gesture hint overlay |
+| **Haptic Feedback Hooks** | scattered (no unified system) | **NO UNIFIED SYSTEM** | tactile response sim |
+
+### 9.11 Audio (4 surfaces)
+
+| surface | file | adopted | diegetic equiv |
+|---|---|---|---|
+| **Music Swap Surface / Room-Specific Track Selector** | (auto, no UI) | NO | music console Personal Quarters |
+| **Ambient Audio Loop Indicators** | (no indicator) | NO | environment-sound mixer |
+| **VO Subtitle Overlay** | `VoCaption.tsx` (covered §9.1) | NO | closed-caption holo-overlay |
+| **Audio Cue Accessibility (Deaf-Mode)** | **MISSING ENTIRELY** — critical accessibility gap | n/a | deaf-mode visual indicators |
+
+### 9.12 Accessibility (5 surfaces)
+
+| surface | file | adopted | diegetic equiv |
+|---|---|---|---|
+| **Colorblind Mode** | embedded (toggle only, no preview) | NO | neural-implant colour shift |
+| **Reduced-Motion Mode** | embedded (toggle exists, NOT wired to framer-motion) | NO | motion-sensitivity adjustment |
+| **Subtitle / Caption Layer** | `VoCaption.tsx` (covered §9.1, §9.11) | NO | closed-caption overlay |
+| **Screen-Reader Hooks / ARIA** | `a11y.tsx` (`ScreenReaderOnly` utility) | partial | neural-implant text-to-speech |
+| **Keyboard Navigation Indicators** | (default browser focus-outline only) | NO | alternate-input mode |
+| **Font-Size Scaler** | **MISSING IN-APP** | n/a | text-magnification control |
+
+### 9.13 Components missing entirely (11)
+
+Per NOTES §13.1. Each requires a new component plus
+diegetic surface in §2.x:
+
+1. **Friends List** — Guild Sanctum §2.14 anchor
+2. **Chat / Messaging** — Social Hub §2.15 anchor
+3. **Party Invite** — Social Hub Mess Hall §2.15 + War
+   Room §2.20 anchor
+4. **PvP Matchmaking Lobby** — Pet Arena §2.29 +
+   tournament arena entry anchor
+5. **Replay Scrubber** — Defense Command Center §2.33 +
+   Pet Arena §2.29 + CADES Console §2.47 anchor
+6. **Loadout Switcher** — Armory §2.9 anchor
+7. **Unified Resource Counter** — Engineering §2.7 +
+   Personal Quarters §3.11.1 anchor
+8. **Unified Loredex Viewer** — Antiquarian Library
+   §2.13 anchor
+9. **Unified Transmission Video Player** — Comms Array
+   §2.5 anchor
+10. **Live-Event GM Overlay** — Architect Console + Bridge
+    §2.3 anchor
+11. **Audio-Cue Deaf-Mode visual indicators** — universal
+    overlay (critical accessibility gap)
+
+### 9.14 HUD/UX runtime contract
+
+Each surface lives in its named file (per §9.x tables).
+Adoption status reflects the Tier-3A Void Energy
+migration. Components missing entirely (§9.13) need new
+files; spec'd in §3 sub-sections where named.
+
+The recreation contract for the rooms (§1.7) is
+unaffected by HUD changes — HUD overlays sit ABOVE the
+room render and do not change the State Layer.
+
+---
+
+## 10. AAA Polish Brief
+
+Distillation of NOTES §13.1 top-15 ranked polish targets.
+This chapter authors the AAA-polish recipe per surface:
+signature-feel target, audio-design hook, particle/VFX
+recipe, haptic pattern, accessibility wiring. **Treats
+"juice" as a first-class art-pass deliverable, not a post-
+ship retrofit.**
+
+### 10.1 Polish ranking methodology
+
+Rank = visibility (how often the player sees it) ×
+frequency (how often it fires per session) × current-gap
+(distance from "best-in-class") × player-impact (does
+this surface change how the player feels). Top-15 listed
+in priority order. Each entry below carries:
+
+- **signature-feel target** — the AAA mood reference
+- **animation curve** — the framer-motion / cubic-bezier
+  recipe
+- **audio recipe** — SFX hooks (no music — per §3.1
+  universal direction, which extends to HUD work)
+- **VFX particle recipe** — particle behaviour (count,
+  curve, decay, colour)
+- **haptic pattern** — mobile vibration pattern
+- **accessibility wiring** — reduced-motion fallback,
+  ARIA hooks, deaf-mode visual indicator
+
+### 10.2 Top-15 polish targets
+
+#### #1 Morality Meter tier-up celebration
+
+- **Surface:** `MoralityMeter.tsx`
+- **Visibility × frequency:** every 2–3 hours,
+  alignment-defining
+- **Signature-feel:** "meridian crossed" — the player
+  has shifted alignment
+- **Animation curve:** scale-burst (1.0 → 1.18 → 1.0) ×
+  glow-burst (0 → 100% rim-light → 30% steady) over
+  900 ms cubic-bezier(0.34, 1.56, 0.64, 1)
+- **Audio recipe:** single low-pitched bell tone at
+  threshold cross + soft sub-harmonic hum 600 ms after
+- **VFX particle recipe:** 24 micro-particles per side
+  (machine-spark = sharp blue-white sparks for Machine
+  Ascendant; organic-bloom = soft warm-amber petals for
+  Humanity Ascendant); 600 ms decay; gravity-falling
+- **Haptic:** single 80 ms pulse at threshold cross
+- **Accessibility:** reduced-motion = scale stays 1.0 +
+  glow holds 1 frame; ARIA live-region announces
+  "Tier crossed: <new tier>"; deaf-mode = visual
+  particle burst is sufficient indicator; no audio cue
+  required
+
+#### #2 Hand Fan card juice + audio
+
+- **Surface:** `DuelystGameUI.tsx` hand-rendering
+- **Signature-feel:** physical-deck draw — every card
+  feels like it has weight
+- **Animation curve:** fan-out entrance cubic-bezier(0.0,
+  0.0, 0.2, 1) over 320 ms; per-card stagger 28 ms;
+  hover-lift y -20 px + scale 1.05 over 180 ms; drag-
+  ghost rotation -3° + opacity 0.6
+- **Audio recipe:** card-draw whoosh (low-frequency
+  paper rustle, 80 ms); card-hover soft tick (high-
+  frequency click, 25 ms); card-select thock (mid-
+  frequency wood-on-wood, 60 ms); card-played fly-off
+  whoosh + impact tap
+- **VFX particle recipe:** 6-particle dust trail on
+  draw (warm-amber); 12-particle glow burst on play
+  (faction-colour-tinted)
+- **Haptic:** light tick on card-hover (12 ms); medium
+  pulse on card-lift (40 ms); strong tick on card-played
+  (60 ms)
+- **Accessibility:** reduced-motion = instant card
+  positions, no fan-out animation; ARIA = card name +
+  cost + rarity announced; deaf-mode = card-action
+  visual outline pulse for 200 ms
+
+#### #3 Match Summary win/loss fanfare
+
+- **Surface:** `MatchSummary.tsx`
+- **Signature-feel:** triumphal celebration / mournful
+  diminution
+- **Animation curve:** stat-card entrance cascade
+  120 ms stagger; win-state scale-up + gold rim-light
+  ignite over 800 ms; loss-state stat-cards shrink to
+  0.85 + grey-tint
+- **Audio recipe:** **win** = brass-fanfare 4-note
+  rising sequence (1 s); **loss** = single low cello
+  drone (1.5 s); both followed by post-fanfare silence
+  before stat-narration
+- **VFX particle recipe:** **win** = 60 confetti
+  particles in faction colour with gravity, 2-s decay;
+  **loss** = 12 ash particles drifting upward, 2-s decay
+- **Haptic:** **win** = 4 pulses in fanfare rhythm;
+  **loss** = single long hum pulse
+- **Accessibility:** reduced-motion = no entrance
+  cascade, instant cards; ARIA = match result + key
+  stats; deaf-mode = visual fanfare animation enough
+
+#### #4 Loading / Route Transition contextual messaging + parallax
+
+- **Surface:** `LoadingStates.tsx`, `PageLoader.tsx`,
+  `RoomTransition.tsx`
+- **Signature-feel:** anticipation, not waiting
+- **Animation curve:** parallax camera-pan over Ark
+  room entry 600 ms; loading messaging fades in 200 ms,
+  cycles per actual load stage ("Boarding Ark…",
+  "Calibrating ambient…", "Resolving room state…")
+- **Audio recipe:** soft sub-bass hum during load;
+  single high chime at completion (200 Hz mass tone,
+  120 ms attack, 400 ms decay); no music
+- **VFX particle recipe:** none during load; 8-particle
+  warm-amber sparkle at completion
+- **Haptic:** single light pulse at completion
+- **Accessibility:** reduced-motion = no parallax,
+  static fade only; ARIA = loading status announced;
+  deaf-mode = completion sparkle is sufficient
+
+#### #5 Combat-board audio design pass
+
+- **Surface:** `BoardRenderer.tsx` (Pixi.js)
+- **Signature-feel:** tactical weight — every action
+  has consequence
+- **Animation curve:** existing animations preserved
+- **Audio recipe (per action):**
+  - tile-hover: soft click 18 ms
+  - attack: slash-attack pitch up + impact thunk
+  - death: low descending tone 400 ms + crack
+  - knockback: woof + body-impact 150 ms
+  - heal: rising sparkle 300 ms
+  - shield: glass-tink 80 ms
+  - end-of-turn: brass-bell single tone
+- **VFX particle recipe (per action):**
+  - tile-hover: subtle 4-particle highlight
+  - attack: 12-particle weapon-trail in unit colour
+  - death: 18-particle shatter, scatter pattern
+  - environmental weather: rain = board-soak glow
+- **Haptic:** light pulse on tile-hover (mobile);
+  medium thump on attack; strong pulse on death
+- **Accessibility:** reduced-motion = no particles;
+  ARIA = each action announced; deaf-mode = visual
+  highlights replace audio cues
+
+#### #6 Toast / Notification design + audio per type
+
+- **Surface:** sonner + `BonusToast.tsx`,
+  `AchievementUnlockToast.tsx`
+- See §3.6 (notification surfaces — visual identity table
+  per type) for the per-type icon / accent colour /
+  audio cue / inbox group spec. Each toast inherits the
+  `discovery = sparkle, quest = fanfare, friend = chime`
+  audio cue mapping.
+- **Universal design:** entrance slide-in from right
+  (300 ms ease-out); auto-dismiss 6 s (8 s on hover);
+  exit fade-out 200 ms
+- **Haptic:** type-specific (per §3.6)
+- **Accessibility:** reduced-motion = instant
+  positioning, no slide; ARIA = toast type + content
+  announced; deaf-mode = visual icon glyph + accent
+  colour replaces audio
+
+#### #7 Achievement Unlock toast confetti + category color + sound
+
+- **Surface:** `AchievementUnlockToast.tsx`
+- **Signature-feel:** "you accomplished something
+  meaningful"
+- **Animation curve:** badge rotation 360° over 800 ms
+  ease-out + scale-burst; sparkle burst 12 particles
+  600 ms decay
+- **Audio recipe (per category):**
+  - lore = chime ascending C-E-G arpeggio
+  - combat = brass-fanfare 3-note rising
+  - exploration = soft sparkle ascending
+  - collection = 4-note descending celesta
+  - titles = single brass bell hold 1.5 s
+- **VFX particle recipe:** 24 confetti in category
+  colour (lore=blue, combat=red, exploration=green,
+  collection=violet, titles=gold); 1.2-s decay;
+  gravity-falling
+- **Haptic:** 4 pulses in fanfare rhythm
+- **Accessibility:** reduced-motion = static badge with
+  glow; ARIA = achievement name + category + flavor
+  text; deaf-mode = visual confetti is sufficient
+
+#### #8 Dialogue-box speaker audio stinger + portrait entrance
+
+- **Surface:** `CinematicDialogOverlay.tsx`,
+  `ElaraDialogBox.tsx`
+- **Signature-feel:** cinematic — every speaker has
+  weight
+- **Animation curve:** portrait slide-in from off-
+  screen 400 ms; text typewriter 30 ms per character;
+  speaker-change crossfade 250 ms
+- **Audio recipe (per NPC):**
+  - Elara = amber chime 120 Hz tone, 80 ms
+  - The Human = sub-bass pulse 60 Hz, 200 ms
+  - Locke = wooden bell mid-frequency, 100 ms
+  - Antiquarian = paper-rustle texture, 150 ms
+  - Wraith Calder = metallic scrape low pitch, 120 ms
+  - The Source = ethereal glass-tink high pitch, 80 ms
+  - Zyr'Koth = dual-tone harmonic, 180 ms
+- **VFX particle recipe:** speaker-portrait halo in
+  speaker colour
+- **Haptic:** none on dialogue (ambient mood)
+- **Accessibility:** reduced-motion = no portrait
+  slide; ARIA = speaker name + dialogue text
+  announced; deaf-mode = speaker name colour-coded in
+  caption per §3.5.2.5
+
+#### #9 Resource Counter unified design system
+
+- **Surface:** scattered (no unified component) —
+  build new from §9.13 list
+- **Signature-feel:** every currency has weight; gain
+  feels rewarding, spend feels considered
+- **Animation curve:** number tick-up over 600 ms
+  ease-out cubic-bezier(0.0, 0.0, 0.2, 1); floating-
+  text "+10 [resource]" rises 30 px and fades over
+  900 ms
+- **Audio recipe (per resource):**
+  - Dream Tokens = soft chime + sparkle 100 ms
+  - Void Crystals = crystalline tink 60 ms
+  - Soul Stones violet = neutral pulse 80 ms
+  - Soul Stones gold = warm bell 120 ms
+  - Soul Stones red = low scrape 100 ms
+  - Faction standing = trumpet brass 80 ms
+- **VFX particle recipe:** 8-particle sparkle at gain
+  in resource colour; 4-particle drift on spend
+- **Haptic:** light pulse on gain; double-pulse on
+  spend
+- **Accessibility:** reduced-motion = instant number
+  update; ARIA = "+10 [resource]" announced; deaf-mode
+  = visual sparkle/drift sufficient
+
+#### #10 Health / Shield smooth animation + damage-number scale
+
+- **Surface:** embedded in `DuelystGameUI.tsx` +
+  `WarlordCountdownIndicator.tsx`
+- **Signature-feel:** fragile — every hit feels real
+- **Animation curve:** health-bar shrink 400 ms
+  cubic-bezier(0.0, 0.0, 0.2, 1) with 60 ms overshoot-
+  return; damage-number scale-out 0 → 1.4 → 1.0 over
+  600 ms; floating-text rises 40 px and fades 1.2 s
+- **Audio recipe:** damage-taken pitch-down based on
+  damage size (high pitch for chip, low for crit);
+  healing sparkle ascending; shield-crack glass-snap;
+  death-knell low descending bell 1.5 s; low-health
+  warning hum-pulse 400 ms loop
+- **VFX particle recipe:** 16-particle blood-burst in
+  faction-aligned colour; healing sparkle 24-particle
+  warm-amber rise
+- **Haptic:** medium pulse on damage; light pulse on
+  heal; strong pulse on death; sustained low buzz on
+  low-health
+- **Accessibility:** reduced-motion = instant health
+  update; ARIA = damage taken + remaining health
+  announced; deaf-mode = visual health-bar pulse
+  pattern replaces audio
+
+#### #11 Replay Scrubber component (build new)
+
+- **Surface:** **MISSING** — needs new component;
+  diegetic anchor: Defense Command Center §2.33 +
+  Pet Arena §2.29 + CADES Console §2.47
+- **Signature-feel:** explorable — replay should be
+  navigable like a film editor
+- **Animation curve:** scrubber drag 1:1 input;
+  thumbnail-preview hover-pop scale 1.0 → 1.08 over
+  120 ms
+- **Audio recipe:** scrub-scratch (low-frequency
+  texture); play-pause click; speed-control click
+- **VFX particle recipe:** none (functional UI)
+- **Haptic:** notch-feedback on key-frame snap
+- **Accessibility:** reduced-motion = none affects
+  scrubber; ARIA = current time / total time; keyboard
+  shortcuts (arrow keys for frame-by-frame)
+
+#### #12 Chess Clock tension audio
+
+- **Surface:** embedded in `ChessBoard.tsx`
+- **Signature-feel:** mounting pressure
+- **Animation curve:** clock digit-tick 200 ms per
+  tick; warning red flash at 30 s (every 1 s pulse)
+- **Audio recipe:** clock-tick click-click rhythm
+  per side (alternating left/right clicks); time-warning
+  beep-beep rising pitch from 30 s; flag-fall soft
+  thunk at 0
+- **VFX particle recipe:** none (functional)
+- **Haptic:** soft tick per second on player's side;
+  sharp pulse at 30 s warning
+- **Accessibility:** reduced-motion = no flash; ARIA =
+  remaining time announced at 60 s, 30 s, 10 s; deaf-
+  mode = visual warning sufficient
+
+#### #13 Ark Map room-icon animations + entry parallax
+
+- **Surface:** `ShipSchematicMap.tsx`,
+  `ArkFastTravelModal.tsx`
+- **Signature-feel:** spatial — the Ark feels real
+- **Animation curve:** room-icon hover scale 1.0 → 1.08
+  + glow ignite over 200 ms; fast-travel door-cycle
+  600 ms; current-location indicator pulse 1.2 s loop;
+  parallax entry pan 800 ms
+- **Audio recipe:** hover-tick subtle; fast-travel
+  whoosh + arrival chime; secret-room subtle bell at
+  reveal
+- **VFX particle recipe:** 6-particle pulse on
+  current-location; 12-particle wake on fast-travel
+- **Haptic:** light tick on room-hover; medium pulse
+  on fast-travel
+- **Accessibility:** reduced-motion = instant
+  transitions; ARIA = room name + adjacency announced;
+  deaf-mode = visual indicators sufficient
+
+#### #14 Choice Menu consequence preview + branch color coding
+
+- **Surface:** `ChoicePanel.tsx`,
+  `Act1ClosingChoicePanel.tsx`
+- **Signature-feel:** weight — each choice carries
+  consequence
+- **Animation curve:** choice-button highlight + scale
+  1.0 → 1.04 on hover; selected-button shrink + others
+  fade-out 400 ms
+- **Audio recipe:** hover soft tick; selection
+  fork-sound (two-note descending = light path / two-
+  note ascending = dark path / single tone = neutral);
+  consequence preview shimmer
+- **VFX particle recipe:** branch-colour glow on
+  hover (light = warm-amber, dark = cool-violet,
+  neutral = grey)
+- **Haptic:** medium pulse on selection
+- **Accessibility:** reduced-motion = no scale; ARIA =
+  choice text + consequence preview announced; deaf-
+  mode = visual colour-code sufficient
+
+#### #15 Loading flourish + completion chime
+
+- **Surface:** `LoadingStates.tsx` /
+  `OpeningCinematic.tsx`
+- (Largely covered in #4; this entry isolates the
+  completion-flourish moment specifically.)
+- **Signature-feel:** arrival
+- **Animation curve:** completion sparkle burst 600 ms
+- **Audio recipe:** single high chime at completion
+- **VFX particle recipe:** 12-particle warm-amber
+  sparkle at completion
+- **Haptic:** light pulse
+- **Accessibility:** reduced-motion = no sparkle;
+  ARIA = "load complete"; deaf-mode = visual sparkle
+  sufficient
+
+### 10.3 Universal polish principles (applied across all 15)
+
+- **No music** in HUD-level polish (per §3.1 universal
+  direction extending to HUD). Music is a separate
+  system; SFX-driven polish only.
+- **≤1 short VO sentence** per polish moment (typically
+  zero; reserve VO for narrative moments).
+- **Reduced-motion fallback** for every animation. Test
+  with `prefers-reduced-motion: reduce` media query.
+- **ARIA live-region announcements** for every state
+  change.
+- **Deaf-mode visual indicators** for every audio cue
+  (per §3.7 — one of the 14 missing surfaces).
+- **Haptic patterns** are mobile-first and follow a
+  unified vibration vocabulary (light tick = 12 ms,
+  medium pulse = 40 ms, strong pulse = 80 ms, sustained
+  buzz = 200 ms loop).
+
+### 10.4 Polish runtime contract
+
+Each polish target lives in the named surface file. Audio
+hooks fire via the existing `AudioContext` (per Tier-3A
+adoption); VFX particles fire via `framer-motion` particle
+emitter; haptic patterns via `navigator.vibrate()` (mobile
+only, falls back to no-op desktop).
+
+The 11 missing components (§9.13) need new files; their
+polish recipes are spec'd here so the build-new-component
+work lands AAA-ready.
+
+---
+
+
 
 
