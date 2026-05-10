@@ -22,6 +22,7 @@ import {
 import { rollClueDrop, type DropSource } from "@shared/conspiracyBoards/clueDrops";
 import { awardEligibleTitles } from "./titleService";
 import { recordQuestEvent } from "./guildQuestService";
+import { grantSoulStones } from "./soulStonesService";
 import { logger } from "../logger";
 
 /**
@@ -260,6 +261,20 @@ export async function attemptSolveForUser(
       })
       .where(and(eq(guildClueProgress.guildId, guildId), eq(guildClueProgress.boardKey, boardKey)));
   }
+
+  // Soul Stone manifestation — every player who personally solves a
+  // conspiracy board receives one violet stone. The `solvedAt` gate
+  // above means this branch only runs on the unsolved → solved
+  // transition, so the grant is idempotent. First-discoverer gets a
+  // second stone as a server-wide reveal reward.
+  const stoneCount = isFirstDiscoverer ? 2 : 1;
+  grantSoulStones(userId, stoneCount, `conspiracy_${boardKey}_solved`).catch((e) =>
+    logger.warn("conspiracy_soul_stone_grant_failed", "conspiracyService", {
+      userId,
+      boardKey,
+      error: String(e),
+    }),
+  );
 
   // Title grant.
   awardEligibleTitles(userId, {
