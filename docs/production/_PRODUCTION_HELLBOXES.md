@@ -2681,3 +2681,167 @@ performance:
   lod_plan: hero 0-15m full; mid 15-35m simplified workshops; long 35m+ skybox
   streaming: preload ark.engineering_bay; on_workshop_approach: preload that workshop interior; on_master_forge_use: preload legendary-tier crafting assets
 ```
+
+---
+
+## H.5 Universal Selector (HB5 — Personal Quarters gateway; navigation hub)
+
+**Status: FULL spec.** Cross-ref `INCEPTION_ARK_FINAL_PRODUCTION.md`
+§3.12.7. Unique among Hellboxes: navigation-only, no Master of
+R'lyeh question, no faction-pull mechanic.
+
+### H.5.1 Header
+
+```
+space_id:        hellbox.master_hellbox  (canonical alternate name; "Universal Selector" is the user-facing display name)
+space_name:      Universal Selector
+space_type:      hellbox_interior  (navigation-hub; smallest of all Hellbox interiors)
+act_introduced:  Act 0 latent (visible but unresponsive); Act 7 active
+host_room:       ark.captain_quarters (Personal Quarters; bedside locker brass-trim dial gateway)
+lore_anchor:     loredex.system.universal_selector + arc.act_7_master_hellbox_activation
+aesthetic_tier:  matrix_dream  (minimal; the room is intentionally unfurnished — the dial IS the destination)
+```
+
+### H.5.2 Geometry
+
+```
+dimensions:           8.00 m × 8.00 m × 4.00 m  (perceptual; intentionally compact)
+origin_point:         centre of floor (player materialises here)
+coordinate_axes:      +x = right, +y = forward (north — toward dial display), +z = up
+floor_plan_geometry:  circular  (4.00 m radius; 12 demarcation lines radiating from centre)
+volumetric_anomalies:
+  - bigger_on_inside ratio: 2× external (smallest perceptual expansion of any Hellbox)
+  - dial_orientation: the room itself is the dial; floor lines + ceiling pattern align with 12 destinations
+  - destination_preview_glimpses: each of 12 destination zones is faintly visible as a subtle "edge" of the room
+```
+
+The Universal Selector is intentionally minimal. The room IS the
+dial. Player stands at centre. 12 demarcation lines radiate from
+centre to perimeter — one per Hellbox destination. The dial is
+gameplay-mechanically rotated; a subtle preview-glimpse of that
+destination materialises as the dial points to it. Activating the
+dial transports the player to that destination's interior.
+
+Floor area (perceptual): ~50 m².
+
+### H.5.3 Floor
+
+```
+material_primary:     polished obsidian-black slate; mirror-finish; 0.30 × 0.30 m tiles in concentric rings around centre
+material_secondary:   gold-leaf inlay forming a 12-pointed star at centre + 12 radial demarcation lines reaching the perimeter (each line marked with the Hellbox name + a small symbol of the destination)
+pattern:              concentric rings + radial lines + central 12-point star
+wear_state:           pristine (cosmologically pristine — the dial is sacred infrastructure)
+embedded_features:
+  - id: hellbox.master_hellbox.floor.charge_point.dial_centre
+    position: (0.00, 0.00, 0.00)
+    dimensions: 0.40 dia × 0.05
+    function: dial centre; player materialises here + invokes return-transit
+  - id: hellbox.master_hellbox.floor.dial_demarcation.<n>  (12 lines; one per destination)
+    position: radiating from centre at 30° intervals
+    dimensions: 0.05 × 4.00 m × 0.005 each
+    function: dial selection
+acoustic_property:    hard_reflective (mirror-finish); RT60 = 0.40s
+```
+
+### H.5.4 Walls
+
+```
+wall_id:              perimeter_curved (single continuous curved wall)
+material_primary:     polished obsidian-black marble cladding curving with the room
+material_secondary:   gold-leaf rim around the perimeter at z = 1.20 + bronze trim at z = 0.05
+panelisation:         single curved surface
+colour_value:         --token-color-hellbox-master-hellbox-wall  (deep obsidian-black with gold accents)
+embedded_displays:    none
+embedded_doors:        none
+decorative_features:
+  - id: hellbox.master_hellbox.destination_preview_panel.<n>  (12 panels; one per Hellbox at perimeter)
+    position: at perimeter; 12 panels at 30° intervals at z = 1.50 to 3.50
+    dimensions: 1.20 wide × 2.00 tall × 0.05 each
+    material: deep obsidian-black backing with subtle preview-image of each destination
+    narrative_role: preview panels showing each Hellbox destination
+  - id: hellbox.master_hellbox.wall.principle_inscription
+    position: ringing perimeter at z = 0.50
+    dimensions: ringed gold-leaf inscription
+    material: gold-leaf engraved on obsidian
+    narrative_role: reads "ALL ROADS, ONE TURN"
+```
+
+### H.5.5-8 Compact
+
+```
+ceiling: 4.00 m baseline; central oculus rises to 5.00 m (subtle dome); polished obsidian-black with gold-leaf coffer pattern matching floor
+lighting:
+  ambient_baseline: 2400 K very warm; 80 lux (very dim — dial is the light source); CRI 90
+  oculus_central: 1500 lumens warm amber (intentionally low — minimal aesthetic)
+  dial_centre_glow: variable; 500 lumens; intensifies during selection
+  destination_preview_backlight.<n>×12: per panel; 300 lumens each (matches that destination's primary colour-token)
+  practical_sources: demarcation_line_subtle_glow.<n>×12; 100 lumens/m; flows on selection
+atmosphere: 19°C cool / 38% RH / smells of cold-stone + bronze + faint ozone (cosmic-radiation residue) + brass (the dial)
+sound:
+  ambient_bed: -42 dB extremely quiet; cosmic-resonance harmonic + faint distant chimes (one per destination)
+  point_sources: cosmic_resonance from oculus; destination_preview_chime per panel; dial_lock_in_tone; transit_invocation_drone
+  reverb_zone: master_hellbox_v1.wav wet 36% (cosmologically resonant)
+  music_eligibility: cutscene only (Act 7 first activation); silent otherwise (intentional)
+  voice_line_eligibility: master_of_rlyeh (rare; one-shot on first Act 7 activation: "ALL ROADS, ONE TURN — choose")
+```
+
+### H.5.9 Object inventory (compact catalogue; 28 inventory objects)
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `hellbox.master_hellbox.dial_centre_anchor` | fx_emitter+gameplay-anchor | (0.00, 0.00, 0.005) | 0.40 dia × 0.005 | central gold-leaf dial; player materialises here + invokes |
+| `hellbox.master_hellbox.demarcation_line.<n>` (12) | decoration+fx_emitter | radiating at 30° intervals | 0.05 × 4.00 m × 0.005 each | 12 destination-pointers (one per HB) |
+| `hellbox.master_hellbox.destination_preview_panel.<n>` (12) | display | at perimeter at 30° intervals | 1.20 × 2.00 × 0.05 each | 12 preview panels |
+| `hellbox.master_hellbox.wall.principle_inscription` | decoration | ringing perimeter at z=0.50 | continuous gold-leaf | "ALL ROADS, ONE TURN" |
+| `hellbox.master_hellbox.cosmological_resonance_emitter` | fx_emitter | distributed | n/a | cosmological motes source |
+| `hellbox.master_hellbox.compass_inlay_central` | decoration | (0.00, 0.00, 0.005) | 0.40 dia × 0.005 | already specced; central 12-point star |
+
+Total: 28 inventory objects.
+
+### H.5.10-17 Compact
+
+```
+camera_spawn_points:
+  cs_hellbox_5_open_latent (Acts 0-6 first encounter; latent state): hand-rig opens drawer; brass-trim dial visible; tooltip "the dial does nothing yet"; ~6s; player does NOT enter Hellbox in latent state
+  cs_hellbox_5_first_activation (Act 7 one-shot; FULL Hellbox entry): hand-rig on dial; dial spins; demarcation lines flow; first-time wonder; ~12s
+  cs_hellbox_5_destination_selection (every Act 7+ visit): player rotates; preview panels shift focus; lock-in tone on selection
+  cs_hellbox_5_close (return-transit): dial spins back; ~3s ceremonial fade
+
+doorways:
+  return_transit_anchor → ark.captain_quarters (host room — Personal Quarters bedside locker)
+  destination-portal doors: 12 (one per HB; activated by selecting + invoking dial)
+
+adjacency:
+  direct: ark.captain_quarters (return-transit); 12 destinations (HB1-HB12 via dial selection)
+  state_shared: all 12 Hellbox interiors (tracks unlocked destinations)
+
+gameplay_hooks:
+  - hb5.return_transit
+  - hb5.select_destination (player.step on demarcation_line.<n>)
+  - hb5.invoke_destination_transit (one-shot per visit)
+  - hb5.preview_destination (player.face panel)
+
+story_tie:
+  primary_arcs: act_7_master_hellbox_activation; universal_selector_endgame_navigation
+  per_act:
+    acts_0_6: latent state (dial visible but unresponsive; locker drawer cutscene only)
+    act_7: active; first-activation cutscene; full dial responsive; player can revisit any unlocked Hellbox
+  npc_roster: the_master_of_rlyeh (one-shot Act 7 acknowledgement); no other NPCs (intentional minimalism)
+  readables: principle_inscription ("ALL ROADS, ONE TURN"); 12 destination-preview panels
+  master_of_rlyeh_question: NONE (navigation-only)
+
+special_fx: cosmological_resonance_motes; dial_demarcation_flow (state-conditional); destination_preview_subtle_glow×12
+volumetric: oculus_warm_glow; dial_centre_radiance; demarcation_line_glow_envelope (per-line; flow when selected)
+procedural: dial_subtle_idle_rotation (very slow); preview_panel_image_subtle_breath (cosmologically connected to destinations)
+reactive: demarcation_line_flow_on_step; preview_intensify_on_face; dial_centre_glow_on_destination_locked; transit_drone_one_shot
+
+avatar_parametricity: small_xenomorph: alternate kneel-to-select; preview panels at face-level for tall avatars; others all-reachable
+audio_occlusion: xenomorph: cosmological resonance more pronounced; chimes audible from any angle
+
+performance:
+  polygon_budget: 120,000 (intentionally minimal — matching aesthetic)
+  texture_budget: 80 MB total
+  light_count_limit: 16 (oculus + 12 preview backlights + dial centre + 2 ambient)
+  lod_plan: hero 0-6m full; mid 6m+ mid (room is too small for distant LOD)
+  streaming: preload ark.captain_quarters; on_destination_locked: preload that destination's interior (faster transit); precache_priority: HB5 is itself precached on Act 7 +
+```
