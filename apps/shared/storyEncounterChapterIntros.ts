@@ -95,6 +95,13 @@ const OPPONENT_ID_TO_INTRO_ID: Readonly<Record<string, string>> = {
   // §3.2 Chapter 6 — The Necromancer (Thazulok). SCAFFOLD opponent
   // authored 2026-05-10 (Phase 5); writer review before ship.
   act6_thazulok_returns: "ch06_necromancer",
+  // §3.8 Chapter 12 — The Collector returns. SCAFFOLD opponent
+  // authored 2026-05-10 (Phase 6); writer review before ship.
+  act6_corey_resurfaces: "ch12_collector_rematch",
+  // §3.11 Chapter 15 — The Jailer. SCAFFOLD opponent authored
+  // 2026-05-10 (Phase 7); writer review before ship + writer-review
+  // on the oracle_pen_liberated flag setter.
+  act6_the_jailer: "ch15_jailer",
 };
 
 /** Engine Act 1 cycle opponentId → producer chapter-intro id, fired
