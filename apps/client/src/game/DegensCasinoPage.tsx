@@ -139,6 +139,17 @@ export default function DegensCasinoPage() {
   const { setNarrativeFlag } = useGame();
   useEffect(() => { setNarrativeFlag("casino_first_visit", true); }, [setNarrativeFlag]);
 
+  /** Degen trust milestone thresholds. Each one fires once when the
+   *  player's casino sessionWins crosses it. The 5-win threshold
+   *  unlocks the DMC rumor (degenTrustGating.ts DMC_REVEAL_TRUST);
+   *  the quiet moment scene `qm.degen_pazaak_5_wins.degen` reads
+   *  this flag to surface his rumor utterance. */
+  const DEGEN_TRUST_MILESTONES: ReadonlyArray<{ wins: number; flag: string }> = [
+    { wins: 1, flag: "degen_pazaak_wins_1" },
+    { wins: 5, flag: "degen_pazaak_wins_5" },
+    { wins: 10, flag: "degen_pazaak_wins_10" },
+  ];
+
   // Server-side mutation that advances the "The Degen's Wager" side
   // quest during an active Circuit season. No-ops outside of seasons.
   const recordSideQuestMutation = trpc.deadMansCircuit.recordSideQuestEvent.useMutation();
@@ -187,6 +198,14 @@ export default function DegensCasinoPage() {
     const prevSessionWins = casinoState.sessionWins;
     if (nextState.sessionWins > prevSessionWins) {
       recordSideQuestMutation.mutate({ trigger: "casino_game_won", amount: 1 });
+      // Degen trust milestones — fire on the win that crosses each
+      // threshold. Idempotent because setNarrativeFlag re-write is a
+      // no-op when the value is already true.
+      for (const m of DEGEN_TRUST_MILESTONES) {
+        if (prevSessionWins < m.wins && nextState.sessionWins >= m.wins) {
+          setNarrativeFlag(m.flag, true);
+        }
+      }
     }
     // Tale drop is purely cosmetic — rolled on the client from the
     // refreshed degenFavor + collectedTales list.

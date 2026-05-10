@@ -379,6 +379,17 @@ export default function Act5InterludePage() {
                   onClick={() => {
                     setNarrativeFlag("cades_m7_complete", true);
                     setNarrativeFlag("iron_lion_3001st_poster_recovered", true);
+                    // Cascade earlier Cades mission flags so the queued
+                    // Iron Lion broadcasts surface in order — without
+                    // this the player would skip directly to broadcast 7
+                    // and miss the seven-transmission arc. Idempotent if
+                    // already set by external Cades play.
+                    setNarrativeFlag("cades_m1_complete", true);
+                    setNarrativeFlag("cades_m2_complete", true);
+                    setNarrativeFlag("cades_m3_complete", true);
+                    setNarrativeFlag("cades_m4_complete", true);
+                    setNarrativeFlag("cades_m5_complete", true);
+                    setNarrativeFlag("cades_m6_complete", true);
                     setView("close");
                   }}
                   className="rounded border border-red-700/60 bg-red-950/40 px-4 py-2 font-mono text-[10px] uppercase tracking-wider text-red-100 hover:bg-red-900/60"

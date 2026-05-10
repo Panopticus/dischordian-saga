@@ -34,6 +34,7 @@ import FeatureUnlockToast from "./components/FeatureUnlockToast";
 import { SilentUnlockTutorCard } from "./components/SilentUnlockTutorCard";
 import { AntiquarianBridgeOverlay } from "./components/AntiquarianBridgeOverlay";
 import { LockeInboxBridgeOverlay } from "./components/LockeInboxBridgeOverlay";
+import { IronLionBroadcastOverlay } from "./components/IronLionBroadcastOverlay";
 import { CampaignObjectiveTracker } from "./components/CampaignObjectiveTracker";
 import { QuietMomentOverlay } from "./components/QuietMomentOverlay";
 import HellboxAffordanceToast from "./components/HellboxAffordanceToast";
@@ -89,6 +90,7 @@ import { CutsceneRouter } from "./components/cutscenes/CutsceneRouter";
 import { HumanLifeVideoOverlay } from "./components/cutscenes/HumanLifeVideoOverlay";
 import { HumanLifeVideoTriggerWatcher } from "./hooks/useHumanLifeVideoTriggers";
 import { ActCompletionAutoRouteWatcher } from "./hooks/useActCompletionAutoRoute";
+import { ConspiracyRevelationBridgeWatcher } from "./hooks/useConspiracyRevelationBridge";
 import { ChapterIntroRouter } from "./components/cutscenes/ChapterIntroRouter";
 import { BonusChapterIntroRouter } from "./components/cutscenes/BonusChapterIntroRouter";
 import { ConfessionCloseRouter } from "./components/cutscenes/ConfessionCloseRouter";
@@ -864,6 +866,7 @@ function GameGate() {
       <SilentUnlockTutorCard />
       <AntiquarianBridgeOverlay />
       <LockeInboxBridgeOverlay />
+      <IronLionBroadcastOverlay />
       <CampaignObjectiveTracker />
       <QuietMomentOverlay />
       <HellboxAffordanceToast />
@@ -885,6 +888,7 @@ function GameGate() {
       <HumanLifeVideoTriggerWatcher />
       <HumanLifeVideoOverlay />
       <ActCompletionAutoRouteWatcher />
+      <ConspiracyRevelationBridgeWatcher />
       <ChapterIntroRouter />
       <BonusChapterIntroRouter />
       <ConfessionCloseRouter />

@@ -22,8 +22,14 @@ import {
 } from "@shared/lockeInboxBridges";
 import { useGame } from "@/contexts/GameContext";
 
+/** Trust points awarded when the player reads (acknowledges) a Locke
+ *  bridge. Five messages × +5 = +25 over the campaign — enough to
+ *  cross the Casino unlock (30) by Act 4 with one or two side
+ *  interactions to top up. */
+const LOCKE_BRIDGE_TRUST_REWARD = 5;
+
 export function LockeInboxBridgeOverlay(): ReactElement | null {
-  const { state, setNarrativeFlag } = useGame();
+  const { state, setNarrativeFlag, adjustNpcTrust } = useGame();
 
   const flags = useMemo(
     () =>
@@ -74,11 +80,14 @@ export function LockeInboxBridgeOverlay(): ReactElement | null {
           <footer className="mt-6 flex items-center justify-end gap-3 border-t border-cyan-500/30 pt-4">
             <button
               type="button"
-              onClick={() => setNarrativeFlag(entry.seenFlag, true)}
+              onClick={() => {
+                setNarrativeFlag(entry.seenFlag, true);
+                adjustNpcTrust("locke", LOCKE_BRIDGE_TRUST_REWARD);
+              }}
               className="rounded-md border border-cyan-500/60 bg-cyan-900/40 px-4 py-2 font-mono text-[10px] uppercase tracking-wider text-cyan-100 hover:bg-cyan-800/60"
               data-testid={`locke-bridge-dismiss-${entry.id}`}
             >
-              Mark as read
+              Mark as read · +{LOCKE_BRIDGE_TRUST_REWARD} trust
             </button>
           </footer>
         </div>
