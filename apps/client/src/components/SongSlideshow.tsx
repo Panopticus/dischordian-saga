@@ -147,6 +147,11 @@ export default function SongSlideshow({
   const [videoFailedAtIndex, setVideoFailedAtIndex] = useState<Set<number>>(
     () => new Set(),
   );
+  // Lyric/dialog overlay auto-hides ~6.5s after a frame appears so the
+  // line doesn't loiter for the full beat. The frame keeps playing
+  // (image, atmosphere, portraits) — only the text fades out and
+  // dissolves upward like ascending smoke. Reset on every frame change.
+  const [lyricHidden, setLyricHidden] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const timerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
@@ -197,6 +202,17 @@ export default function SongSlideshow({
     }, 1500);
     return () => clearTimeout(timer);
   }, [dreamMode, dreamPhase, awakenHoldStart, onDreamEnd, visionId]);
+
+  // Lyric/dialog overlay lifetime — show on every fresh frame, then
+  // hide after ~6.5s so a long beat doesn't leave the line glued to
+  // the screen. The frame keeps playing; only the text dissolves.
+  useEffect(() => {
+    if (dismissed) return;
+    setLyricHidden(false);
+    if (!frame?.lyric) return;
+    const t = setTimeout(() => setLyricHidden(true), 6500);
+    return () => clearTimeout(t);
+  }, [currentIndex, dismissed, frame?.lyric]);
 
   // Auto-advance timer. Skipped for video frames — the <video>
   // element's onEnded handler advances when the clip finishes, which
@@ -549,83 +565,130 @@ export default function SongSlideshow({
             </AnimatePresence>
 
             {/* Lyric / dialog overlay — restyled to read like
-                illuminated scripture rather than a UI caption. When the
-                text is a dialog beat ("Speaker — line"), split it so
-                the attribution renders in Cinzel small-caps and the
-                line itself in Cormorant Garamond italic.
-                AnimatePresence keyed on the speaker so the line
-                crossfades when the camera switches between narrators. */}
-            <AnimatePresence mode="wait">
-              {frame.lyric && (
-                <motion.div
-                  key={`lyric-${currentIndex}-${frame.dialogSpeakerId ?? ""}`}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.55, delay: 0.18 }}
-                  className="relative z-10 text-center px-8 max-w-3xl"
-                >
-                  {(() => {
-                    // Dialog beats arrive as "Speaker Name — line".
-                    // Split on the em-dash so the attribution and the
-                    // line can be styled independently. Falls through
-                    // to a single-line render when there's no em-dash
-                    // (song lyrics, captions).
-                    const split = frame.lyric.split(" — ");
-                    if (split.length >= 2) {
-                      const speaker = split[0];
-                      const line = split.slice(1).join(" — ");
-                      return (
-                        <>
-                          <p
-                            className="uppercase text-[10px] sm:text-xs tracking-[0.45em]"
-                            style={{
-                              fontFamily: "var(--font-scripture)",
-                              color: "color-mix(in oklch, #d4af37 70%, #ffffff)" /* void-ignore */,
-                              opacity: 0.85,
-                              textShadow: "0 0 12px rgba(0,0,0,0.7)" /* void-ignore */,
-                            }}
-                          >
-                            {speaker}
-                          </p>
-                          <p
-                            className="mt-3 text-xl sm:text-3xl leading-relaxed italic"
-                            style={{
-                              fontFamily: "var(--font-scripture-body)",
-                              color: "color-mix(in oklch, #f7e7c4 85%, #ffffff)" /* void-ignore */,
-                              textShadow:
-                                "0 2px 22px rgba(0,0,0,0.85), 0 0 6px rgba(0,0,0,0.6)" /* void-ignore */,
-                            }}
-                          >
-                            {line}
-                          </p>
-                        </>
-                      );
-                    }
-                    return (
-                      <p
-                        className="text-xl sm:text-3xl leading-relaxed italic"
-                        style={{
-                          fontFamily: "var(--font-scripture-body)",
-                          color: "color-mix(in oklch, #f7e7c4 85%, #ffffff)" /* void-ignore */,
-                          textShadow:
-                            "0 2px 22px rgba(0,0,0,0.85), 0 0 6px rgba(0,0,0,0.6)" /* void-ignore */,
-                        }}
-                      >
-                        {frame.lyric}
-                      </p>
-                    );
-                  })()}
-                  {frame.subtitle && (
-                    <p
-                      className="font-mono text-xs text-white/50 mt-3 italic"
+                illuminated scripture rather than a UI caption. Words
+                ink-bleed in one at a time (stagger reveal with blur
+                clearing) so the line feels spoken into being. On the
+                way out the words ascend and dissolve — smoke rising
+                off a page that has just been read. The container
+                hugs the speaker: text sits opposite the speaker's
+                portrait so the conversation reads visually. Hides
+                after ~6.5s (lyricHidden) so long beats don't leave
+                the line glued to the screen. */}
+            {(() => {
+              // Speaker-aware container positioning. Antiquarian
+              // (left portrait) → text on the right half. Storyteller
+              // (right portrait) → text on the left half. Joint /
+              // unspecified → centered, full width. Absolute so we
+              // sit independently of the parent flex centering.
+              const speakerId = frame.dialogSpeakerId;
+              const sideClass =
+                speakerId === "antiquarian"
+                  ? "absolute right-[5%] sm:right-[8%] top-1/2 -translate-y-1/2 max-w-[44%] text-left"
+                  : speakerId === "storyteller"
+                    ? "absolute left-[5%] sm:left-[8%] top-1/2 -translate-y-1/2 max-w-[44%] text-left"
+                    : "relative z-10 text-center px-8 max-w-3xl";
+              return (
+                <AnimatePresence mode="wait">
+                  {frame.lyric && !lyricHidden && (
+                    <motion.div
+                      key={`lyric-${currentIndex}-${speakerId ?? ""}`}
+                      initial={{ opacity: 1 }}
+                      animate={{ opacity: 1 }}
+                      exit={{
+                        opacity: 0,
+                        y: -28,
+                        filter: "blur(8px)",
+                        transition: { duration: 1.0, ease: "easeOut" },
+                      }}
+                      className={`${sideClass} z-10`}
                     >
-                      {frame.subtitle}
-                    </p>
+                      {(() => {
+                        // Dialog beats arrive as "Speaker Name — line".
+                        // Split on the em-dash so the attribution and
+                        // the line can be styled independently. Falls
+                        // through to a single-line render when there's
+                        // no em-dash (song lyrics, captions).
+                        const split = frame.lyric.split(" — ");
+                        const speaker =
+                          split.length >= 2 ? split[0] : null;
+                        const line =
+                          split.length >= 2
+                            ? split.slice(1).join(" — ")
+                            : frame.lyric;
+                        const words = line.split(/\s+/);
+                        return (
+                          <>
+                            {speaker && (
+                              <motion.p
+                                initial={{ opacity: 0, letterSpacing: "0.7em" }}
+                                animate={{ opacity: 0.85, letterSpacing: "0.45em" }}
+                                transition={{ duration: 0.9, ease: "easeOut" }}
+                                className="uppercase text-[10px] sm:text-xs"
+                                style={{
+                                  fontFamily: "var(--font-scripture)",
+                                  color: "color-mix(in oklch, #d4af37 70%, #ffffff)" /* void-ignore */,
+                                  textShadow: "0 0 12px rgba(0,0,0,0.7)" /* void-ignore */,
+                                }}
+                              >
+                                {speaker}
+                              </motion.p>
+                            )}
+                            <p
+                              className={
+                                "mt-3 text-xl sm:text-3xl leading-relaxed italic"
+                              }
+                              style={{
+                                fontFamily: "var(--font-scripture-body)",
+                                color: "color-mix(in oklch, #f7e7c4 85%, #ffffff)" /* void-ignore */,
+                                textShadow:
+                                  "0 2px 22px rgba(0,0,0,0.85), 0 0 6px rgba(0,0,0,0.6)" /* void-ignore */,
+                              }}
+                            >
+                              {words.map((w, i) => (
+                                <motion.span
+                                  key={`${currentIndex}-${i}-${w}`}
+                                  initial={{
+                                    opacity: 0,
+                                    filter: "blur(10px)",
+                                    y: 6,
+                                  }}
+                                  animate={{
+                                    opacity: 1,
+                                    filter: "blur(0px)",
+                                    y: 0,
+                                  }}
+                                  transition={{
+                                    duration: 0.5,
+                                    delay: 0.25 + i * 0.07,
+                                    ease: "easeOut",
+                                  }}
+                                  style={{
+                                    display: "inline-block",
+                                    marginRight: "0.28em",
+                                  }}
+                                >
+                                  {w}
+                                </motion.span>
+                              ))}
+                            </p>
+                          </>
+                        );
+                      })()}
+                      {frame.subtitle && (
+                        <motion.p
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          transition={{ delay: 0.8, duration: 0.5 }}
+                          className="font-mono text-xs text-white/50 mt-3 italic"
+                        >
+                          {frame.subtitle}
+                        </motion.p>
+                      )}
+                    </motion.div>
                   )}
-                </motion.div>
-              )}
-            </AnimatePresence>
+                </AnimatePresence>
+              );
+            })()}
           </motion.div>
         )}
       </AnimatePresence>
