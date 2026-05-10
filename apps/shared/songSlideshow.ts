@@ -131,6 +131,12 @@ export interface SlideshowFrame {
   portraitUrl?: string;
   /** Where the portrait sits relative to the frame. */
   portraitSide?: "left" | "right" | "center";
+  /** Optional second portrait — composited alongside `portraitUrl` for
+   *  joint-narration beats (Silence in Heaven `speaker: "both"`). The
+   *  renderer draws both portraits at their respective sides so the
+   *  conversation reads as two figures sharing the stage. */
+  secondaryPortraitUrl?: string;
+  secondaryPortraitSide?: "left" | "right" | "center";
 }
 
 export interface KenBurnsSpec {

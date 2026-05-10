@@ -176,11 +176,16 @@ export function SlideshowPlayerRoot() {
         videoSrc: f.videoUrl,
         durationMs: Math.max(1000, f.endMs - f.startMs),
         lyric: f.dialogOverlay,
+        dialogSpeakerId: f.dialogSpeakerId,
         // Narrator portrait composite — Silence in Heaven dialog
         // interludes carry a per-beat portrait + side; the runtime
         // overlays the speaker's expression on the background.
         portraitSrc: f.portraitUrl,
         portraitSide: f.portraitSide,
+        // Joint-narration beats (speaker: "both") carry a second
+        // portrait so both narrators share the stage at the same time.
+        secondaryPortraitSrc: f.secondaryPortraitUrl,
+        secondaryPortraitSide: f.secondaryPortraitSide,
       })) ?? [],
     [slideshowDef],
   );
