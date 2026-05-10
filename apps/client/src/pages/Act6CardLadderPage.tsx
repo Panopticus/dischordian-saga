@@ -47,6 +47,7 @@ import {
 import { fireCompanionComment } from "@/lib/companionCommentQueue";
 import { resolveAct3PathDividend } from "@shared/act3PathDividend";
 import LivingBackground from "@/components/LivingBackground";
+import { FactionBackdrop } from "@/components/FactionBackdrop";
 import { useActVO } from "@/hooks/useActVO";
 
 import { assetUrl } from "@/lib/assetUrl";
@@ -336,6 +337,9 @@ export default function Act6CardLadderPage() {
         particleCount={3}
         scanlines={false}
       />
+      {/* May 2026 archive — Act 6 faction backplate (insurgency /
+          Confession ≡ liberation through truth). */}
+      <FactionBackdrop faction="insurgency" opacity={0.1} />
 
       <header className="relative z-10 flex items-center justify-between border-b void-border void-bg-canvas px-4 py-3 backdrop-blur">
         <Link

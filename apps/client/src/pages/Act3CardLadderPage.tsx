@@ -52,6 +52,8 @@ import { fireCrossGameBeat } from "@/lib/crossGameBeats";
 import { fireCompanionComment } from "@/lib/companionCommentQueue";
 import { useActVO } from "@/hooks/useActVO";
 import LivingBackground from "@/components/LivingBackground";
+import { FactionBackdrop } from "@/components/FactionBackdrop";
+import { actFaction } from "@shared/actFactionMapping";
 
 import { assetUrl } from "@/lib/assetUrl";
 type LadderView = "ladder" | "matchup" | "battle" | "postmatch";
@@ -181,6 +183,9 @@ export default function Act3CardLadderPage() {
         particleCount={3}
         scanlines={false}
       />
+      {/* May 2026 archive — Act 3 faction backplate (hierarchy / the
+          Offer's bargain). */}
+      <FactionBackdrop faction="hierarchy" opacity={0.1} />
 
       <header className="relative z-10 flex items-center justify-between border-b void-border-system void-bg-canvas px-4 py-3 backdrop-blur">
         <Link

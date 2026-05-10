@@ -26,6 +26,7 @@ import { useGame } from "@/contexts/GameContext";
 import { fireCompanionComment } from "@/lib/companionCommentQueue";
 import { getActsSystemTutor } from "@shared/acts2to7SystemTutors";
 import LivingBackground from "@/components/LivingBackground";
+import { FactionBackdrop } from "@/components/FactionBackdrop";
 
 import { assetUrl } from "@/lib/assetUrl";
 type View = "intro" | "tutor" | "sectors" | "close";
@@ -126,6 +127,9 @@ export default function Act5InterludePage() {
         particleCount={3}
         scanlines={false}
       />
+      {/* May 2026 archive — Act 5 faction backplate (dreamer / the
+          star map's geography). */}
+      <FactionBackdrop faction="dreamer" opacity={0.1} />
 
       <header className="relative z-10 flex items-center justify-between border-b border-amber-500/30 bg-stone-950/80 px-4 py-3 backdrop-blur">
         <Link
