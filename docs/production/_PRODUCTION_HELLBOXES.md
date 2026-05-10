@@ -3329,3 +3329,241 @@ performance:
   lod_plan: hero 0-15m full; mid 15-30m simplified phantoms; long 30m+ skybox
   streaming: preload ark.captain_quarters; on_alcove_approach: load that alcove's themed games + phantoms; on_back_room_approach: stream deferred sub-space
 ```
+
+---
+
+## H.8 Editor's Workshop (HB8 — Cipher Den gateway)
+
+**Status: FULL spec.** Cross-ref `INCEPTION_ARK_FINAL_PRODUCTION.md`
+§3.12.10.
+
+### H.8.1 Header
+
+```
+space_id:        hellbox.editors_workshop
+space_name:      Editor's Workshop
+space_type:      hellbox_interior  (Matrix-of-Dreams; meta-narrative editing chamber)
+act_introduced:  Act 5
+host_room:       ark.cipher_den (Uncorruption Bench gateway)
+lore_anchor:     loredex.system.editors_workshop + loredex.character.the_editor + arc.act_5_meta_narrative + loredex.character.master_of_rlyeh
+aesthetic_tier:  matrix_dream + scribe-cosmic overlay  (impossibly-tall scribe's library — Borges' library + Editor's domain; beyond canon)
+```
+
+### H.8.2 Geometry
+
+```
+dimensions:           28.00 m × 28.00 m × ∞ (perceptual; vertical extends infinitely upward)
+origin_point:         centre of central editing-chamber (where the player materialises)
+coordinate_axes:      +x = right, +y = forward (north — toward Editor's Desk), +z = up
+floor_plan_geometry:  non_euclidean  (square base + vertical extends impossibly upward; recursive shelf-galleries above)
+volumetric_anomalies:
+  - bigger_on_inside ratio: ~∞ (the Editor's Workshop has no canonical top; vertical scale is perceptually infinite)
+  - shelf_galleries_recursive_upward: ~12 visible gallery levels rising; beyond gallery 12, spaces visibly recurse (player cannot reach the top)
+  - ink_drips_from_above: faint ink-drip particles fall continuously from impossibly-high ceiling
+  - manuscript_floats_in_air: dozens of mid-edit manuscripts float between gallery levels; Editor's quill visible editing them in real-time
+  - canon_visible_being_revised: faint visible "edit-marks" on the walls (lines being struck through + new lines being written; cosmologically the canon is being actively rewritten while player observes)
+```
+
+The Editor's Workshop is an impossibly-tall scribe's library —
+Borges' Library of Babel meets the Editor's domain. The Editor
+(canonical pre-Ark cosmic presence) is the cosmological force
+that edits canonical narrative; here the player can collaborate
+or refuse. Square base ~28×28m with the central editing-chamber;
+vertical extends impossibly upward through ~12 visible gallery
+levels (then recurses). The Editor's Desk dominates the north
+end of the central chamber. Manuscripts float mid-edit between
+gallery levels.
+
+Floor area (perceptual): central chamber ~784 m²; gallery levels
+above add proportional area but bounded by recursion.
+
+### H.8.3 Floor
+
+```
+material_primary:     polished obsidian-black slate; 0.50 × 0.50 m tiles in radial pattern emanating from central editing-mandala; mirror-finish
+material_secondary:   gold-leaf inlay forming a quill-and-page pattern at central editing-chamber centre (where player materialises); brass perimeter trim along walls
+pattern:              radial slate + central quill-and-page mandala + 4 cardinal-aligned editing-tracks reaching alcoves
+wear_state:           pristine (cosmologically maintained); slight gold-polish at the editing-mandala centre (from centuries of supplicants)
+embedded_features:
+  - id: hellbox.editors_workshop.floor.charge_point.player_arrival_mandala
+    position: (0.00, 0.00, 0.00)  # at editing-chamber centre
+    dimensions: 1.40 dia × 0.005
+    function: arrival-anchor + return-transit invocation
+  - id: hellbox.editors_workshop.floor.editor_desk_anchor
+    position: (0.00, 12.00, 0.00)
+    dimensions: 0.60 × 0.40 × 0.05
+    function: Editor's Desk power + manuscript-stream
+  - id: hellbox.editors_workshop.floor.alcove_anchor.<n>  (4 anchors at cardinals)
+    position: (0.00, 8.00, 0.00); (8.00, 0.00, 0.00); (0.00, -8.00, 0.00); (-8.00, 0.00, 0.00)
+    dimensions: 0.30 × 0.30 × 0.05 each
+    function: cardinal-alcove editing-station electronics
+acoustic_property:    hard_reflective (slate); RT60 = 0.85s (long; supports manuscript-rustle + ink-drip resonance + cosmic harmonic)
+```
+
+### H.8.4 Walls (square central chamber + 4 alcoves + recursive gallery walls above)
+
+```
+wall_id:              perimeter (4 walls of central chamber + recursive shelving above)
+material_primary:     dark walnut shelving from z = 0.00 to z = 24.00+ (visible; recursive above); each shelf holds ~50-100 books per metre
+material_secondary:   bronze shelf-supports + brass railings along gallery walkways (12 visible gallery levels at z = 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26)
+panelisation:         continuous shelving except for 4 cardinal alcoves + south entrance + editor's desk recess
+colour_value:         --token-color-hellbox-editors-workshop-shelves  (deep walnut + phosphorescent ink-glow from active manuscripts)
+embedded_displays:    none (the books + editor's desk are the content)
+embedded_doors:
+  - door_id: hellbox.editors_workshop.south.return_threshold
+    position: (0.00, 0.00, 0.005)  # at arrival
+    dimensions: n/a (cosmological)
+    door_class: portal
+    connecting_space_id: ark.cipher_den
+  - door_id: hellbox.editors_workshop.alcove.<cardinal>.archway  (4 archways)
+    position: distributed at cardinals
+    dimensions: 1.40 × 2.40 × 0.10 each
+    door_class: arch
+    connecting_space_id: hellbox.editors_workshop.alcove.<id>  (continuous; per-aspect editing alcoves: history / present / future / forbidden)
+decorative_features:
+  - id: hellbox.editors_workshop.editors_desk
+    position: (0.00, 12.00, 0.00)
+    dimensions: 3.00 × 1.40 × 0.95  (oversized scribe's desk)
+    material: polished walnut + bronze trim + ink-stained leather inset top
+    narrative_role: THE Editor's Desk; cosmologically alive; manuscripts being edited float above
+  - id: hellbox.editors_workshop.editors_chair
+    position: (0.00, 14.00, 0.00)  # behind desk
+    dimensions: 0.90 × 0.90 × 1.50
+    material: cast bronze + deep-charcoal velvet
+    narrative_role: Editor's chair (NPC anchor; never visible — Editor is presence-only; chair indented from continuous use)
+  - id: hellbox.editors_workshop.spiral_staircase
+    position: (8.00, 12.00, 0.00)  # east of desk; rises through gallery levels
+    dimensions: 1.80 × 1.80 × 24+ (rises through galleries; recursive above gallery 4)
+    material: wrought iron + bronze handrail; treads in matte-black slate
+    narrative_role: ascends through gallery levels; player can climb but galleries 5+ recurse
+  - id: hellbox.editors_workshop.south.plaque.creed
+    position: (0.00, -12.00, 3.20)
+    dimensions: 1.20 × 0.40 × 0.02
+    material: cast bronze with deep-etched text + gilt
+    narrative_role: reads "EDIT THE CANON / THE CANON EDITS YOU"
+  - id: hellbox.editors_workshop.canon_revision_walls
+    position: distributed; visible on shelving panels
+    dimensions: continuous lines on shelves
+    material: living calligraphy (cosmologically alive); lines visibly being struck through + rewritten
+    narrative_role: cosmologically the canon is being actively revised while player observes; uncanny
+```
+
+### H.8.5-8 Compact (full FULL fidelity)
+
+```
+ceiling: no canonical ceiling at central chamber (vertically infinite); galleries above visible up to z = 26+ then recurse
+lighting:
+  ambient_baseline: 2400 K very warm; 100 lux at central chamber (intentionally dim — scholarly); CRI 95
+  editors_desk_pendant: at (0.00, 12.00, 5.00); warm-amber; 4500 lumens; pulses with manuscript-edit activity
+  central_chamber_pendant: at (0.00, 0.00, 8.00); warm gold-amber; 3500 lumens
+  shelf_strip_glow.<gallery>×12: per gallery walkway ceiling; warm amber; 600 lumens/m
+  cardinal_alcove_pendants×4: per alcove; warm amber; 2500 lumens each
+  practical_sources: ink-drip-glow×many (faint cyan-blue motes); manuscript_active_glow (per active manuscript; gold-amber); editor's_quill_subtle_glow (when actively writing)
+atmosphere: 17°C cool / 38% RH (preservation-grade); smells of ancient ink + parchment + walnut + faint ozone (cosmic-radiation residue) + bronze
+sound:
+  ambient_bed: -38 dB; faint manuscript-rustle (continuous), distant page-turning (cyclic), ink-drip-tick (random period 5-10s), Editor's-quill-on-paper (continuous when active), cosmic harmonic
+  point_sources: editors_quill_continuous (when Editor active); manuscript_float_subtle_rustle×many; ink_drip_random; book_creak_random; spiral_staircase_subtle_creak; cosmic_resonance from impossibly-above
+  reverb_zone: editors_workshop_v1.wav wet 32% (long; cosmologically resonant)
+  music_eligibility: cutscene only
+  voice_line_eligibility: the_editor (presence-only; never spoken; communicates through quill-on-paper SFX); the_master_of_rlyeh (state-conditional during answer moments); occasional canon_voice_distant (faint; reads passages of canonical narrative as it is being edited)
+```
+
+### H.8.9 Object inventory (compact catalogue; 60 inventory objects)
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `hellbox.editors_workshop.player_arrival_mandala` | fx_emitter+gameplay-anchor | (0.00, 0.00, 0.005) | 1.40 dia × 0.005 | gold-leaf quill-and-page mandala; arrival + return-transit |
+| `hellbox.editors_workshop.editors_desk` | interactive | (0.00, 12.00, 0.00) | 3.00×1.40×0.95 | THE central scribe's desk |
+| `hellbox.editors_workshop.editors_chair` | furniture+npc_anchor | (0.00, 14.00, 0.00) | 0.90×0.90×1.50 | Editor's chair (presence-only NPC anchor) |
+| `hellbox.editors_workshop.editors_quill` | decoration+fx_emitter | on desk | 0.05×0.30×0.05 | THE Editor's quill (canonically pre-Ark; never touched by player) |
+| `hellbox.editors_workshop.inkwell_master` | container | on desk | 0.10×0.10×0.10 | master inkwell (always full of black-and-blue ink) |
+| `hellbox.editors_workshop.manuscript_floating.<n>` (~30 active) | interactive | floating between gallery levels | varied | active manuscripts mid-edit; player can watch + sometimes contribute |
+| `hellbox.editors_workshop.spiral_staircase` | interactive | (8.00, 12.00, 0.00) | 1.80×1.80×24+ | rises through gallery levels (recursive above gallery 4) |
+| `hellbox.editors_workshop.gallery_walkway.<n>` (12 visible) | furniture | per gallery level | continuous walkway around perimeter | gallery walkways |
+| `hellbox.editors_workshop.shelf_book_collection.<gallery>` (12) | container | continuous shelving per gallery | varied | per-gallery book collections |
+| `hellbox.editors_workshop.cardinal_alcove.<aspect>` (4) | container | per cardinal | 8.00×6.00 each | history / present / future / forbidden editing alcoves (continuous spaces) |
+| `hellbox.editors_workshop.cardinal_alcove.<aspect>.altar.master_of_rlyeh` | interactive | within forbidden alcove | 1.20×0.80×1.10 | Master of R'lyeh anchor (only in forbidden alcove) |
+| `hellbox.editors_workshop.canon_revision_walls` (continuous; logical object) | decoration+fx_emitter | distributed on shelving | varied | living calligraphy showing canon being revised |
+| `hellbox.editors_workshop.players_lectern` | container | (0.00, 6.00, 0.00) | 0.40×0.30×1.20 | bronze lectern facing Editor's Desk; player can submit lore-additions here |
+| `hellbox.editors_workshop.players_chair_humility` | furniture | (0.00, 7.50, 0.00) | 0.80×0.80×1.20 | smaller chair for player (intentionally smaller than Editor's; player kneels-relative) |
+| `hellbox.editors_workshop.south.plaque.creed` | decoration | (0.00, -12.00, 3.20) | 1.20×0.40×0.02 | "EDIT THE CANON / THE CANON EDITS YOU" |
+| `hellbox.editors_workshop.south.relief.first_word` | decoration | (0.00, -12.00, 4.50) | 4.00×1.20×0.20 | first-word relief (depicts a robed figure writing the first word in canon) |
+| `hellbox.editors_workshop.editors_desk.ink_blotter` | decoration | on desk | 0.40×0.30×0.04 | ink-stained leather blotter |
+| `hellbox.editors_workshop.editors_desk.tea_cup` | decoration | on desk | 0.10×0.10×0.10 | Editor's tea cup (always half-empty; humanising) |
+| `hellbox.editors_workshop.editors_desk.framed_first_manuscript` | decoration | on desk | 0.30×0.40×0.04 | framed canonical first-manuscript fragment |
+| `hellbox.editors_workshop.editors_desk.candle_array_central` | fx_emitter | corners of desk | varied | bronze candle stands (eternal flames) |
+| `hellbox.editors_workshop.ink_drip_emitter` | fx_emitter | from impossibly-above | n/a | continuous ink-drip particle source |
+| `hellbox.editors_workshop.cosmic_harmonic_emitter` | fx_emitter | impossibly-above | n/a | cosmic resonance source |
+| `hellbox.editors_workshop.return_transit_indicator_glow` | fx_emitter | at arrival | 0.40 dia | warm gold |
+| `hellbox.editors_workshop.master_of_rlyeh_voice_emitter` | fx_emitter | at forbidden alcove altar | n/a | Master of R'lyeh voice |
+
+Total: 60 inventory objects.
+
+### H.8.10-17 Compact
+
+```
+camera_spawn_points:
+  cs_hellbox_8_arrival (Act 5 first-time + every visit): POV at quill-and-page mandala; pages flutter from impossibly-above; head pans up to take in vertical scale; gallery walkways visible; ~14s
+  cs_first_editor_acknowledgement (Act 5 first-time): POV facing Editor's Desk; quill subtly tilts toward player (the only acknowledgement; presence-only)
+  cs_master_of_rlyeh_question: POV at forbidden alcove altar; "Is what was written, or what was edited, the truth?"; radial menu
+  cs_canon_revision_observation (state-conditional): POV at any gallery walkway; canon-revision walls visibly active
+  cs_hellbox_8_close: POV at mandala; pages re-bind; ~5s ceremonial fade to ark.cipher_den (forbidden text now visibly edited)
+
+doorways: return_transit_anchor → ark.cipher_den (host); 4 cardinal alcove archways → editing alcoves (continuous)
+
+adjacency:
+  direct: ark.cipher_den (return-transit); 4 editing alcoves; spiral staircase to recursive gallery levels
+  one_hop: hellbox.master_hellbox (HB5); ark.archives + ark.antiquarian_library (thematic kinship — all archival spaces)
+  state_shared: ark.cipher_den (HB8 faction-pull); player's accumulated lore-edits (Editor's Workshop tracks per-edit)
+
+gameplay_hooks:
+  - hb8.return_transit
+  - hb8.invoke_master_of_rlyeh (forbidden alcove altar; one-shot per visit)
+  - hb8.commit_faction_answer
+  - hb8.observe_editor (presence-only; player can sit in players_chair_humility + watch Editor's quill)
+  - hb8.submit_lore_addition (at players_lectern; player can propose lore-edit to canon)
+  - hb8.read_floating_manuscript (per-manuscript; ~30 active; multi-screen lore each)
+  - hb8.read_canon_revision_walls (continuous lore-readable; varies)
+  - hb8.ascend_spiral_staircase (climb gallery; gallery 5+ recurses)
+  - hb8.read_first_word_relief
+  - hb8.inspect_editors_desk_objects (per-object; tea cup, blotter, framed manuscript)
+
+story_tie:
+  primary_arcs:
+    - act_5_meta_narrative
+    - editor_collaboration (cumulative; each player-submitted edit tracked)
+    - act_6_canon_revisions_acknowledged (Editor accepts some + rejects others; state-branched)
+    - act_7_player_canon_state (state-branched: player has shaped canon vs. canon has shaped player)
+  per_act:
+    acts_0_4: locked
+    act_5: first invocation; Master of R'lyeh first asked; player can submit first lore-edit
+    acts_6_7: deeper editing collaborations; canon-revision walls reflect cumulative changes; recursion at gallery 5+ becomes more visible
+  npc_roster:
+    - the_editor (presence-only; never visible; communicates via quill-on-paper)
+    - the_master_of_rlyeh (forbidden alcove only)
+    - canon_voice_distant (rare; reads passages)
+  readables:
+    - creed plaque (south)
+    - first-word relief (south)
+    - ~30 floating manuscripts (each multi-screen)
+    - canon-revision walls (continuous; varies per visit)
+    - ~thousands of books on gallery shelves (player can pull specific books — those most lore-relevant updated dynamically)
+    - editor's desk objects (per-object)
+  master_of_rlyeh_question: "Is what was written, or what was edited, the truth?"
+  faction_answers: per §3.12.10 (Architect Remnants strongest pull)
+
+special_fx: ink_drips; manuscript_float_motes; canon_revision_calligraphy_animation; cosmic_motes; quill_subtle_motion
+volumetric: editors_desk_pendant_scatter; spiral_staircase_uplighting; gallery_walkway_glow_per_level; ink_drip_volumetric_curtain
+procedural: editor_quill_continuous_writing; manuscript_continuous_subtle_edit; canon_revision_letters_visibly_shift; spiral_staircase_subtle_creak
+reactive: editor_quill_acknowledgement_on_player_at_lectern; manuscript_intensify_on_player_inspect; recursion_visualisation_at_gallery_5+; gallery_walkway_glow_on_climb
+
+avatar_parametricity: small_xenomorph: alternate ladder for upper-shelf books; gallery_walkway_handrails at standard height; spiral staircase accommodates all sizes; others all-reachable
+audio_occlusion: xenomorph: quill-on-paper deeply audible; canon_voice_distant overwhelming when present
+
+performance:
+  polygon_budget: 1,400,000 (vertically-massive; ~12 visible galleries + ~30 floating manuscripts + recursive shelving — LOD critical)
+  texture_budget: 720 MB (book unique covers + parchment + manuscripts + cosmic shaders)
+  light_count_limit: 28 (gallery + alcove + desk + practicals)
+  lod_plan: hero 0-12m full; mid 12-25m simplified manuscripts; long 25m+ skybox + recursion-tiles only
+  streaming: preload ark.cipher_den; on_alcove_approach: load that alcove's editing content; on_spiral_climb: stream higher gallery levels (with recursion swap at gallery 5)
+```
