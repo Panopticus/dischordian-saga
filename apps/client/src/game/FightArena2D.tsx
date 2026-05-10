@@ -277,8 +277,17 @@ function FightArena2D({
     engineRef.current = engine;
     engine.start();
 
-    // Load arena background image if available
-    if (arena.backgroundImage) {
+    // Load arena background image if available. When the May 2026
+    // producer-drop parallax triplet is present, push all three planes
+    // so FightEngine2D can render bg/mg/fg with depth-correct parallax;
+    // otherwise fall back to the legacy single-plate backdrop.
+    if (arena.parallax) {
+      engine.loadParallaxLayers(
+        arena.parallax.bg,
+        arena.parallax.mg,
+        arena.parallax.fg,
+      );
+    } else if (arena.backgroundImage) {
       engine.loadBackgroundImage(arena.backgroundImage);
     }
 
@@ -341,6 +350,26 @@ function FightArena2D({
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
   }, [onBack]);
+
+  // Stage music — when the arena ships a musicUrl from the May 2026
+  // producer drop, play it on a dedicated <audio> element (not routed
+  // through GameAudioContext so a transient fight doesn't displace the
+  // global area BGM). Cleans up on unmount or arena change.
+  useEffect(() => {
+    if (!arena.musicUrl) return;
+    const el = new Audio(arena.musicUrl);
+    el.loop = true;
+    el.volume = 0.45;
+    void el.play().catch(() => {
+      // autoplay blocked is expected before user gesture; the engine's
+      // input handler will retry on first input via the ResizeObserver
+      // re-render, so leave the element ready and silent.
+    });
+    return () => {
+      el.pause();
+      el.src = "";
+    };
+  }, [arena.musicUrl]);
 
   // Tutorial completion
   const completeTutorial = useCallback(() => {

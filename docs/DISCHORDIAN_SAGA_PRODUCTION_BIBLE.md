@@ -590,6 +590,24 @@ closed by recent PRs:
 
 ### 8.8 Recently shipped (24h log — for context)
 
+- ✅ AAA Final Art Archive (5.10.26) — 819 binaries staged under
+  `apps/client/public/{art,audio}` and exposed through the typed
+  manifest at `apps/shared/aaaArtArchive/`. Coverage parity test
+  (`aaaArtArchive.test.ts`) pins on-disk ↔ manifest equality.
+  Wires:
+  - `ArenaData.parallax` (bg/mg/fg) + `ArenaData.musicUrl` populated
+    automatically for every gameData arena that ships an archive
+    stage; FightEngine2D extended with a midground/foreground render
+    pass.
+  - FightArena2D plays per-stage music on a dedicated `<audio>`
+    element when present (no GameAudioContext displacement).
+  - Card-game VFX, soul-stone faction art, witnessing VFX,
+    character-sheet chrome, trade-empire iconography, fight HUD/VFX,
+    25-fighter sprite atlases, climax videos/stills, epigraphs, and
+    expansion loops surfaced via typed helpers (`fightSpriteUrl`,
+    `cardSfxUrl`, `witnessingVfxUrl`, `tradeEmpireBuildingUrls`, …).
+  Upload: existing `pnpm assets:upload` script picks up the new tree
+  unchanged.
 - ✅ PR #91 — Void Energy organic-migration transition (hook + skill +
   sorted append-log).
 - ✅ PR #90 — Void Energy Slice 6 (93 long-tail components).

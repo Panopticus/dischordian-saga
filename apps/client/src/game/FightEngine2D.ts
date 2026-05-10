@@ -2872,6 +2872,9 @@ export class FightEngine2D {
     // Background
     this.renderBackground(ctx);
 
+    // Midground parallax plane (between bg and fighters)
+    this.renderMidground(ctx);
+
     // Floor
     this.renderFloor(ctx);
 
@@ -2902,6 +2905,9 @@ export class FightEngine2D {
     if (this.showHitboxes && this.trainingMode) {
       this.renderHitboxOverlay(ctx);
     }
+
+    // Foreground parallax plane (in front of fighters, still in stage space)
+    this.renderForeground(ctx);
 
     ctx.restore();
 
@@ -3722,6 +3728,10 @@ export class FightEngine2D {
   /* ═══ ARENA BACKGROUND IMAGE ═══ */
   private bgImage: HTMLImageElement | null = null;
   private bgImageLoaded = false;
+  private mgImage: HTMLImageElement | null = null;
+  private mgImageLoaded = false;
+  private fgImage: HTMLImageElement | null = null;
+  private fgImageLoaded = false;
 
   public loadBackgroundImage(url: string) {
     const img = new Image();
@@ -3731,6 +3741,57 @@ export class FightEngine2D {
       this.bgImageLoaded = true;
     };
     img.src = url;
+  }
+
+  /** Load the May 2026 producer-drop parallax layers. The midground
+   *  draws between bg and fighters; the foreground draws on top of the
+   *  fighters but inside the camera transform so it tracks the stage. */
+  public loadParallaxLayers(bgUrl: string, mgUrl: string, fgUrl: string) {
+    this.loadBackgroundImage(bgUrl);
+    const mg = new Image();
+    mg.onload = () => { this.mgImage = mg; this.mgImageLoaded = true; };
+    mg.src = mgUrl;
+    const fg = new Image();
+    fg.onload = () => { this.fgImage = fg; this.fgImageLoaded = true; };
+    fg.src = fgUrl;
+  }
+
+  /** Shared parallax draw helper — used by midground + foreground.
+   *  `factor` controls how aggressively the plane tracks the camera
+   *  (0 = locked to camera, 1 = locked to stage). bg uses 0.3 (see
+   *  renderBackground), mg uses 0.6, fg uses 0.9 so the depth reads
+   *  correctly. */
+  private drawParallaxPlane(
+    ctx: CanvasRenderingContext2D,
+    img: HTMLImageElement,
+    factor: number,
+    alpha: number,
+  ) {
+    const imgAspect = img.width / img.height;
+    const cameraCenter = this.camera.x;
+    const stageCenter = STAGE_WIDTH / 2;
+    const offset = (cameraCenter - stageCenter) * factor;
+    const drawHeight = GAME_HEIGHT + 400;
+    const drawWidth = drawHeight * imgAspect;
+    const drawX = stageCenter - drawWidth / 2 - offset;
+    const drawY = -200;
+    ctx.save();
+    ctx.globalAlpha = alpha;
+    ctx.drawImage(img, drawX, drawY, drawWidth, drawHeight);
+    ctx.globalAlpha = 1;
+    ctx.restore();
+  }
+
+  private renderMidground(ctx: CanvasRenderingContext2D) {
+    if (this.mgImageLoaded && this.mgImage) {
+      this.drawParallaxPlane(ctx, this.mgImage, 0.6, 0.85);
+    }
+  }
+
+  private renderForeground(ctx: CanvasRenderingContext2D) {
+    if (this.fgImageLoaded && this.fgImage) {
+      this.drawParallaxPlane(ctx, this.fgImage, 0.9, 0.95);
+    }
   }
 
   /* ═══ PUBLIC GETTERS ═══ */
