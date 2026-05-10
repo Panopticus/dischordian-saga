@@ -36,6 +36,7 @@ import { tier5PvpRouter } from "./routers/tier5Pvp";
 import { apprenticeTrialRouter } from "./routers/apprenticeTrial";
 import { apprenticePersonalQuestsRouter } from "./routers/apprenticePersonalQuests";
 import { apprenticeDialoguesRouter } from "./routers/apprenticeDialogues";
+import { apprenticePedagogyRouter } from "./routers/apprenticePedagogy";
 import { npcDialoguesRouter } from "./routers/npcDialogues";
 import { loredexCarryRouter } from "./routers/loredexCarry";
 import { pvpModerationRouter } from "./routers/pvpModeration";
@@ -210,6 +211,7 @@ export const appRouter = router({
   apprenticeTrial: apprenticeTrialRouter,
   apprenticePersonalQuests: apprenticePersonalQuestsRouter,
   apprenticeDialogues: apprenticeDialoguesRouter,
+  apprenticePedagogy: apprenticePedagogyRouter,
   npcDialogues: npcDialoguesRouter,
   loredexCarry: loredexCarryRouter,
   pvpModeration: pvpModerationRouter,
