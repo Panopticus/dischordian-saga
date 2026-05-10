@@ -7866,76 +7866,1082 @@ floor_plan_geometry: rectangular
 
 ---
 
-## A.17 Engineering Core (D8 hidden — soldier sanctum) — SCAFFOLDED
+## A.17 Engineering Core (Soldier Sanctum) — FULL
+
+**Status: FULL spec.** Cross-ref `INCEPTION_ARK_FINAL_PRODUCTION.md`
+§2.17 (art-state prompts).
+
+### A.17.1 Header
 
 ```
 space_id:        ark.engineering_core_sanctum
 space_name:      Engineering Core (Soldier Sanctum)
-space_type:      ark_room  (faction-locked)
-act_introduced:  Act 5  (faction-aligned only)
-lore_anchor:     loredex.faction.soldiers + arc.faction_sanctum_unlocks
-aesthetic_tier:  solar_punk_cathedral  (military-austere)
-dimensions:      10.00 m × 10.00 m × 4.50 m
-floor_plan_geometry: rectangular
+space_type:      ark_room  (faction-locked; D8 hidden sanctum)
+act_introduced:  Act 5 (Soldier-aligned only)
+lore_anchor:     loredex.faction.soldiers + arc.faction_sanctum_unlocks + arc.act_5_soldier_oath
+aesthetic_tier:  solar_punk_cathedral  (military-austere; barracks-aesthetic with sacred-oath accents)
 ```
 
-(Full spec deferred.)
+### A.17.2 Geometry
+
+```
+dimensions:           10.00 m × 10.00 m × 4.50 m
+origin_point:         centre of floor at south entrance threshold (entrance is the south wall, hidden behind a false bulkhead in Engineering Bay)
+coordinate_axes:      +x = right, +y = forward (north), +z = up
+floor_plan_geometry:  rectangular
+volumetric_anomalies: none
+```
+
+The Soldier Sanctum is hidden behind Engineering Bay — a false
+bulkhead in the southwest of Engineering reveals the door only
+to faction-aligned players. Inside: square barracks with central
+oath-stone dais. East + west walls hold 4 bunks each (8 total,
+one per ranked soldier in the Ark's roster). North wall is
+sacred — regimental colours banner + continuously-updating
+fallen-soldier memorial. South wall has the duty roster +
+sergeant's briefing zone.
+
+Floor area: 100 m².
+
+### A.17.3 Floor
+
+```
+material_primary:     industrial gunmetal-grey steel deck plate; 1.00 m × 1.00 m tiles; 4 mm gap; reinforced anti-skid texture (combat-spec)
+material_secondary:   bronze inlay outlining the central oath-stone zone (2.00 × 2.00 m); brass perimeter trim; brass walkway-strip from entrance to oath-stone
+pattern:              tactical grid + central oath-stone marker
+wear_state:           well-used; pacing-trails to oath-stone, bunks, and weapons rack; in late-act if many soldiers fallen, additional wear at memorial-wall approach
+embedded_features:
+  - id: ark.engineering_core_sanctum.floor.charge_point.oath_stone
+    position: (0.00, 5.00, 0.00)
+    dimensions: 0.40 × 0.40 × 0.05
+    function: oath-stone ritual-resonance power
+  - id: ark.engineering_core_sanctum.floor.charge_point.bunk.east.<n>, .west.<n>  (8 anchor points)
+    position: per bunk base
+    dimensions: 0.30 × 0.30 × 0.05 each
+    function: bunk-electronics + reading-lamp power
+  - id: ark.engineering_core_sanctum.floor.cleansing_water_drain.south
+    position: (0.00, 1.00, 0.00)
+    dimensions: 0.20 × 0.20 × 0.10
+    function: ritual cleansing-water drain (used during oath ceremonies)
+acoustic_property:    hard_reflective (steel + bronze); RT60 = 0.50s (intentionally clean for oath-clarity)
+```
+
+### A.17.4 Walls
+
+#### Wall: South (entrance)
+
+```
+wall_id:              south
+material_primary:     painted steel panel with rivet-detail; matte gunmetal grey; reinforced
+material_secondary:   bronze dado at z = 1.10 m
+panelisation:         standard; 6 panels wide × 3 tall
+colour_value:         --token-color-ark-engineering-core-sanctum-wall-south  (gunmetal-grey + crimson pin-stripe at z = 2.00 m — soldier-faction accent)
+embedded_displays:
+  - id: ark.engineering_core_sanctum.south.display.duty_roster
+    position: (-2.50, 0.20, 1.80)
+    dimensions: 0.80 × 0.60 × 0.05
+    content: live duty-roster of the 8 soldiers; rotation schedule
+  - id: ark.engineering_core_sanctum.south.display.recent_oaths
+    position: (2.50, 0.20, 1.80)
+    dimensions: 0.80 × 0.60 × 0.05
+    content: log of oaths sworn (player's own + others')
+embedded_doors:
+  - door_id: ark.engineering_core_sanctum.south.door.main
+    position: (0.00, 0.00, 0.00)
+    dimensions: 1.20 × 2.40 × 0.10
+    door_class: pressure_seal  (security; biometric + faction-token authentication)
+    connecting_space_id: ark.engineering_bay  (via false bulkhead in Engineering's southwest corner)
+decorative_features:
+  - id: ark.engineering_core_sanctum.south.plaque.creed
+    position: (0.00, 0.20, 3.20)
+    dimensions: 1.00 × 0.40 × 0.02
+    material: cast bronze with deep-etched text (battle-scarred patina)
+    narrative_role: reads "DUTY UNTO DEATH / RETURN UNTO DUTY" — the soldier-faction creed
+  - id: ark.engineering_core_sanctum.south.relief.fallen_companies
+    position: (0.00, 0.20, 4.00)
+    dimensions: 4.00 × 0.40 × 0.10
+    material: cast bronze with relief-carving of historical soldier companies
+    narrative_role: depicts the lineage of soldier-companies that have served the Ark
+```
+
+#### Wall: East (4 bunks)
+
+```
+wall_id:              east
+material_primary:     painted steel with rivet-detail; reinforced
+material_secondary:   bronze dado; bronze nameplates per bunk
+panelisation:         standard; 4 bunk-recesses at y = 2.00, 4.00, 6.00, 8.00
+colour_value:         --token-color-ark-engineering-core-sanctum-wall-east
+embedded_displays:    none
+embedded_doors:        none
+decorative_features:
+  - id: ark.engineering_core_sanctum.east.bunk_alcove.<n>  (4 alcoves)
+    position: distributed along east wall
+    dimensions: 2.00 × 0.80 × 1.50 (alcove recess; bunk fits inside)
+    material: reinforced steel with backing bracket
+    narrative_role: each alcove holds a soldier's bunk + footlocker; bronze nameplate above
+  - id: ark.engineering_core_sanctum.east.bunk_lamp.<n>  (4 lamps; one per bunk)
+    position: above each bunk at z = 2.20
+    dimensions: 0.20 × 0.10 × 0.20 each
+    material: bronze pivot-arm with shielded bulb
+    narrative_role: reading lamp; player-toggle
+```
+
+#### Wall: North (regimental colours + fallen memorial — the sacred wall)
+
+```
+wall_id:              north
+material_primary:     polished obsidian-black stone cladding (NOT painted steel — sacred-formal); apsidal-vault detail at upper portion (3.50 m to 4.50 m)
+material_secondary:   bronze dado; bronze sergeant's-platform railing
+panelisation:         3 zones: west (memorial), centre (sergeant's elevated platform), east (regimental colours)
+colour_value:         --token-color-ark-engineering-core-sanctum-wall-north  (deep obsidian-black with bronze + crimson accents)
+embedded_displays:
+  - id: ark.engineering_core_sanctum.north.display.alliance_status
+    position: (-3.00, 9.95, 1.80)
+    dimensions: 0.80 × 0.60 × 0.05
+    content: current alliance-war status (cross-ref ark.war_room)
+embedded_doors:        none
+decorative_features:
+  - id: ark.engineering_core_sanctum.north.regimental_banner
+    position: (3.00, 9.85, 2.00)
+    dimensions: 1.20 × 0.05 × 3.00
+    material: deep crimson velvet with gold-embroidered soldier-faction sigil; bronze hanging-rod
+    narrative_role: the regimental colours; the only banner of its kind on the Ark
+  - id: ark.engineering_core_sanctum.north.fallen_memorial_wall
+    position: (-3.00, 9.95, 1.50)
+    dimensions: 0.05 × 4.00 × 2.00
+    material: bronze panels with engraved fallen-soldier names; continuously updates as soldiers die in player's playthrough
+    narrative_role: living memorial; the most-touched object in the room; soldiers stop here every shift to read
+  - id: ark.engineering_core_sanctum.north.sergeant_platform
+    position: (0.00, 9.50, 0.40)
+    dimensions: 1.40 × 0.80 × 0.40 (raised platform)
+    material: polished walnut + bronze railing
+    narrative_role: where the Sergeant addresses soldiers from; elevated 0.40 m above floor
+  - id: ark.engineering_core_sanctum.north.relief.duty_eternal
+    position: (0.00, 9.85, 4.00)
+    dimensions: 1.40 × 0.40 × 0.10
+    material: cast bronze with deep relief
+    narrative_role: depicts a soldier saluting; the room's symbolic apex
+```
+
+#### Wall: West (4 bunks; mirror of east)
+
+```
+wall_id:              west
+material_primary:     same as east
+material_secondary:   bronze dado; bronze nameplates per bunk
+panelisation:         4 bunk-recesses (mirror of east)
+colour_value:         --token-color-ark-engineering-core-sanctum-wall-west
+embedded_displays:    none
+embedded_doors:        none
+decorative_features:
+  - id: ark.engineering_core_sanctum.west.bunk_alcove.<n>  (4 alcoves; mirror)
+  - id: ark.engineering_core_sanctum.west.bunk_lamp.<n>  (4 lamps; mirror)
+  - id: ark.engineering_core_sanctum.west.weapons_rack
+    position: (-4.95, 1.50, 0.00)  # SW corner; below the southernmost bunk
+    dimensions: 0.40 × 3.00 × 2.40
+    material: reinforced steel rack with mag-locks + bronze trim
+    narrative_role: service-weapons rack; 6 weapon slots; player can equip
+```
+
+### A.17.5 Ceiling
+
+```
+height_above_floor:     4.50 m baseline; central drop coffer at 4.00 m above the oath-stone (gives the central area intimacy)
+material:               painted steel with industrial conduits visible; central coffer is matte-bronze panel
+lighting_integrated:    recessed cool-white grid 1.20 m × 1.20 m on outer perimeter; central coffer has dim warm pendant for oath-rituals; bunk strip-lights along east + west walls; memorial uplights along north wall base
+atmospheric_features:   subtle dust at perimeter; minimal — utilitarian
+acoustic_treatment:     baffled (combat-grade dampening for oath-clarity)
+```
+
+### A.17.6 Lighting
+
+```
+ambient_baseline:     5500 K (cool; tactical-clinical; austere); 240 lux at floor level; CRI 88
+direct_fixtures:
+  - id: ark.engineering_core_sanctum.light.recessed_grid
+    position: distributed across ceiling on 1.20 × 1.20 grid (excluding central coffer zone)
+    beam_angle: 60° each
+    colour: --token-color-ark-engineering-core-sanctum-recessed  (cool tactical white)
+    intensity: 1500 lumens each
+    function: ambient task lighting
+  - id: ark.engineering_core_sanctum.light.central_coffer_pendant
+    position: (0.00, 5.00, 4.00)
+    beam_angle: 60° downward
+    colour: --token-color-ark-engineering-core-sanctum-coffer  (warm amber — symbolic of oath)
+    intensity: 4500 lumens (intensifies during ritual)
+    function: oath-stone illumination; symbolic warm spotlight
+  - id: ark.engineering_core_sanctum.light.bunk_strip.east, .west
+    position: along bunk alcoves at z = 3.40
+    beam_angle: 90° downward
+    colour: 4500 K cool
+    intensity: 800 lumens per metre
+    function: bunk-zone definition
+  - id: ark.engineering_core_sanctum.light.memorial_uplight
+    position: along north wall memorial base at z = 0.05
+    beam_angle: 30° upward
+    colour: --token-color-ark-engineering-core-sanctum-memorial  (warm gold)
+    intensity: 400 lumens per metre
+    function: dramatic memorial uplighting
+  - id: ark.engineering_core_sanctum.light.regimental_banner_uplight
+    position: along banner base at z = 1.95
+    beam_angle: 30° upward
+    colour: --token-color-ark-engineering-core-sanctum-banner  (warm crimson-gold)
+    intensity: 600 lumens
+    function: banner accent
+practical_sources:
+  - id: ark.engineering_core_sanctum.bunk_reading_lamp.east.<n>, .west.<n>  (8 lamps)
+    position: above each bunk
+    intensity: 60 lumens each (when player-toggled on)
+    flicker_pattern: stable
+  - id: ark.engineering_core_sanctum.oath_stone_resonance_glow
+    position: (0.00, 5.00, 0.05)  # at oath-stone base
+    intensity: 600 lumens (during ritual; off baseline)
+    flicker_pattern: pulses with player heartbeat during oath
+time_of_day_variation:
+  acts_5_to_7: stable cool baseline; in alert states (cross-ref Defense Command), red strobe activates; in late-act7, if many soldiers fallen, memorial uplight intensifies + bunks dim
+dynamic_response:
+  - on_oath_ritual: central coffer warms; oath-stone resonance glow activates; banner uplight intensifies
+  - on_player_at_memorial: memorial uplight pulses with player breath
+  - on_recent_death: memorial wall briefly flares red-orange (one-shot per death)
+  - on_alert: red strobe at corners (state-conditional)
+```
+
+### A.17.7 Atmosphere
+
+```
+air_temperature:    19°C (cool, tactical)
+humidity:           38% RH (low; weapon-friendly); smells of steel + gun oil + faint sweat (lived-in barracks) + bronze + leather (boots)
+particulate:
+  - type: dust
+    density: low (well-maintained barracks)
+    colour: greyish-iron
+    drift_direction: random
+  - type: cordite_residue
+    density: very low (cosmetic; hint at recent training)
+    colour: pale-grey
+    drift_direction: rises slightly
+volumetric_fog:     absent in baseline
+wind_drift:         minimal; 0.04 m/s; HVAC pattern
+smell_canon:        steel + gun oil + sweat + bronze + leather; voice-line: "smells like the oath, kept"
+```
+
+### A.17.8 Sound
+
+```
+ambient_bed:           file: engineering_core_sanctum_ambient_bed_v1.ogg (loop); -34 dB; rhythmic bunk-breathing (when bunks occupied), distant Engineering Bay reactor pulse audible through wall, occasional metal-creak
+point_sources:
+  - id: ark.engineering_core_sanctum.sound.bunk_breath.east.<n>, .west.<n>
+    position: per occupied bunk
+    sound: slow rhythmic breathing (when occupant present; -42 dB each)
+    occlusion_behaviour: occluded by bunk-frame
+    trigger: state-conditional
+  - id: ark.engineering_core_sanctum.sound.reactor_through_wall
+    position: (0.00, 0.20, 2.00)  # near south wall
+    sound: muffled reactor pulse from Engineering Bay (period 4.2s; -38 dB)
+    occlusion_behaviour: heavy wall-attenuation
+    trigger: continuous
+  - id: ark.engineering_core_sanctum.sound.oath_stone_resonance
+    position: (0.00, 5.00, 0.40)
+    sound: subtle harmonic hum (continuous, -40 dB)
+    occlusion_behaviour: omnidirectional
+    trigger: continuous
+  - id: ark.engineering_core_sanctum.sound.sergeant_footstep
+    position: dynamic (when Sergeant walks)
+    sound: heavy boot on steel (-32 dB per step)
+    occlusion_behaviour: standard
+    trigger: state-conditional
+  - id: ark.engineering_core_sanctum.sound.memorial_wall_subtle_resonance
+    position: (-3.00, 9.95, 1.50)
+    sound: very faint metallic resonance (continuous, -44 dB; reverent)
+    occlusion_behaviour: omnidirectional
+    trigger: continuous
+reverb_zone:           IR-impulse: barracks_v1.wav; wet-mix 22% (clean tactical with reverent depth at memorial)
+music_eligibility:     cutscene only (Hierarchy / Soldier-arc ritual cutscenes)
+voice_line_eligibility:
+  - speaker: the_sergeant (named NPC; rare presence Acts 5+): line set §2.17.2
+  - speaker: soldier_oaths (state-conditional during ritual): pre-recorded oath texts
+  - speaker: soldier_squadmates (rotating bunk-occupants): occasional ambient
+```
+
+### A.17.9 Object inventory
+
+Engineering Core Sanctum has 32 inventory objects.
+
+#### A.17.9.1 The Central Oath-Stone
+
+```
+object_id:           ark.engineering_core_sanctum.oath_stone
+object_class:        interactive  (also fx_emitter — ritual-resonance source)
+position:            (0.00, 5.00, 0.00)
+dimensions:          1.20 dia × 0.80 height (cylindrical stone)
+rotation:            0°
+material_primary:    polished black granite with gold-inlay rim at top; carved soldier-faction sigil on top surface
+material_secondary:  bronze base ring with engraved oath text (proto-Latin); brass interior glow when active
+colour_value:        --token-color-ark-engineering-core-sanctum-oath-stone
+interaction:         interactable
+  - swear_oath: opens oath-ritual UI; player commits allegiance to soldier-faction; one-shot per playthrough
+  - inspect: lore-note about the stone's history (canonical pre-Ark artifact; transferred from each predecessor ship)
+narrative_role:      THE central artifact; soldier-faction allegiance ritual point; canonically the oldest object in the room
+lore_anchor:         loredex.faction.soldiers + arc.act_5_soldier_oath
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.soldier_sanctum.oath_stone.swear
+wear_state:          worn at top surface (centuries of palm-prints from oath-takers); bronze base patinated
+physical_constraints: collides; player can lay hand on top (interaction)
+```
+
+#### A.17.9.2-9 The Eight Bunks (4 east + 4 west)
+
+```
+object_id:           ark.engineering_core_sanctum.bunk.<wall>.<n>  (8 bunks total)
+object_class:        furniture
+positions:           [
+  (3.50, 2.00, 0.00), (3.50, 4.00, 0.00), (3.50, 6.00, 0.00), (3.50, 8.00, 0.00),    # east 1-4
+  (-3.50, 2.00, 0.00), (-3.50, 4.00, 0.00), (-3.50, 6.00, 0.00), (-3.50, 8.00, 0.00) # west 1-4
+]
+dimensions (each):   2.00 × 0.80 × 0.60 (mattress + frame)
+rotation (each):     varies (faces aisle)
+material_primary:    reinforced steel frame with thin grey wool blanket + folded crisp white sheet
+material_secondary:  bronze nameplate above bunk (assigned soldier name)
+colour_value:        --token-color-ark-engineering-core-sanctum-bunk
+interaction:         interactable
+  - sit / lay: player can rest (gameplay-buff)
+  - inspect: shows soldier's nameplate + minor personal touches
+narrative_role:      assigned bunks; player can sleep here for soldier-faction restoration buff
+lore_anchor:         per-soldier (8 named NPCs)
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.soldier_sanctum.bunk.sleep
+wear_state:          slight wear at most-used (varies per soldier)
+physical_constraints: collides; sittable + layable
+```
+
+#### A.17.9.10-17 Eight Footlockers (one per bunk)
+
+```
+object_id:           ark.engineering_core_sanctum.footlocker.<wall>.<n>  (8 lockers)
+object_class:        container
+positions:           at foot of each bunk (y-offset 1.00 m from bunk)
+dimensions (each):   0.40 × 0.40 × 0.40
+rotation:            varies
+material_primary:    reinforced steel with bronze handle
+material_secondary:  bronze nameplate (matches bunk)
+colour_value:        --token-color-ark-engineering-core-sanctum-footlocker
+interaction:         interactable
+  - open: contains soldier's personal effects (varies per soldier — letters home, family photo, personal token, religious item, etc.)
+  - inspect: lore-note
+narrative_role:      personal storage; humanises the 8 named soldiers; gameplay-key in Act 6 if soldiers begin to die
+lore_anchor:         per-soldier
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.soldier_sanctum.footlocker.open
+wear_state:          varies; most-handled lockers show wear at handle
+physical_constraints: collides
+```
+
+#### A.17.9.18 The West Weapons Rack
+
+```
+object_id:           ark.engineering_core_sanctum.west.weapons_rack
+object_class:        container
+position:            (-4.95, 1.50, 0.00)
+dimensions:          0.40 × 3.00 × 2.40
+rotation:            90°
+material_primary:    reinforced steel rack with mag-locks
+material_secondary:  bronze nameplate per slot; brass grip-rests
+colour_value:        --token-color-ark-engineering-core-sanctum-weapons-rack
+interaction:         interactable
+  - take_weapon: 6 weapon slots (rifle, pistol, knife, grenades, side-arm, ceremonial-blade); player can equip
+  - inspect_weapon: per-weapon lore (each has history)
+narrative_role:      service weapons; ceremonial-blade is gameplay-key for oath-ritual
+lore_anchor:         loredex.system.cades_weapons + soldier-faction
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.soldier_sanctum.weapons_rack.take
+wear_state:          mag-locks slightly worn
+physical_constraints: collides
+```
+
+#### A.17.9.19 The Sergeant's Platform + Briefing Podium
+
+```
+object_id:           ark.engineering_core_sanctum.sergeant_platform
+object_class:        furniture  (also npc_anchor)
+position:            (0.00, 9.50, 0.40)
+dimensions:          1.40 × 0.80 × 0.40 (raised platform)
+rotation:            180°  (faces south, addressing the room)
+material_primary:    polished walnut platform with bronze railing
+material_secondary:  bronze nameplate on railing front "THE SERGEANT"
+colour_value:        --token-color-ark-engineering-core-sanctum-sergeant-platform
+interaction:         interactable
+  - stand_at_podium (when Sergeant absent; rare): symbolic player-position
+  - inspect: lore-note
+narrative_role:      where the Sergeant addresses soldiers; elevated to enforce hierarchy
+lore_anchor:         loredex.character.the_sergeant
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.soldier_sanctum.sergeant_platform.stand
+wear_state:          worn at platform's south edge (where Sergeant's boots stand)
+physical_constraints: collides; player can step up
+
+object_id:           ark.engineering_core_sanctum.sergeant_briefing_podium
+object_class:        container
+position:            (0.00, 9.50, 1.20)  # on platform
+dimensions:          0.40 × 0.40 × 0.40
+rotation:            180°
+material_primary:    polished walnut with brass corner caps
+material_secondary:  brass plate on top with engraved soldier-faction sigil
+colour_value:        --token-color-ark-engineering-core-sanctum-podium
+interaction:         interactable
+  - inspect: opens Sergeant's briefing notes (gameplay-key in Act 5+; reveals ongoing missions)
+narrative_role:      Sergeant's working podium; daily briefings happen here
+lore_anchor:         loredex.character.the_sergeant
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.soldier_sanctum.briefing_podium.inspect
+wear_state:          worn at most-touched corner
+physical_constraints: collides
+```
+
+#### A.17.9.21 The Fallen Memorial Wall (north)
+
+Specced in walls A.17.4. Inventoried for completeness:
+
+```
+object_id:           ark.engineering_core_sanctum.north.fallen_memorial_wall
+object_class:        decoration  (also fx_emitter — uplight)
+position:            (-3.00, 9.95, 1.50)
+dimensions:          0.05 × 4.00 × 2.00
+rotation:            180°
+material_primary:    bronze panels with engraved fallen-soldier names
+material_secondary:  bronze foundation strip with continuous uplight
+colour_value:        --token-color-ark-engineering-core-sanctum-memorial
+interaction:         inspectable
+  - inspect: opens memorial-wall UI (player can read each fallen soldier's record + cause-of-death)
+narrative_role:      continuously-updating memorial; emotional anchor; player visits between missions
+lore_anchor:         loredex.system.cades_fallen + arc.act_6_first_squad_loss
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.soldier_sanctum.memorial_wall.read
+wear_state:          slight patina on most-touched names (where soldiers stop daily)
+physical_constraints: non-collide (wall surface)
+```
+
+#### A.17.9.22 The Regimental Banner
+
+Specced in walls. Inventoried for completeness.
+
+```
+object_id:           ark.engineering_core_sanctum.regimental_banner
+object_class:        decoration
+position:            (3.00, 9.85, 2.00)
+dimensions:          1.20 × 0.05 × 3.00
+rotation:            180°
+material_primary:    deep crimson velvet with gold-embroidered soldier-faction sigil
+material_secondary:  bronze hanging-rod
+colour_value:        --token-color-ark-engineering-core-sanctum-banner
+interaction:         inspectable
+  - inspect: reads banner's history (canonical: carried into 7 wars before reaching the Ark)
+narrative_role:      faction symbol; the only banner of its kind; reverent
+lore_anchor:         loredex.faction.soldiers
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.soldier_sanctum.banner.read
+wear_state:          slight fading at edges (campaign-worn)
+physical_constraints: non-collide (suspended)
+```
+
+#### A.17.9.23 The Sergeant's NPC Anchor
+
+```
+object_id:           ark.engineering_core_sanctum.sergeant_anchor
+object_class:        npc_anchor
+position:            (0.00, 9.50, 0.40)  # on the platform
+dimensions:          0.80 × 0.80 × 1.80 (anchor only)
+rotation:            varies (NPC pose-driven)
+material_primary:    n/a
+material_secondary:  n/a
+colour_value:        n/a
+interaction:         n/a (NPC presence — Sergeant addresses soldiers from here)
+narrative_role:      Sergeant's primary anchor; he's present during morning + evening briefings
+lore_anchor:         loredex.character.the_sergeant
+art_status:          producer_handoff
+gameplay_hook_id:    none (presence-driven)
+wear_state:          n/a
+physical_constraints: n/a
+```
+
+#### A.17.9.24 The Apsidal Relief
+
+Specced in walls. Inventoried for completeness.
+
+```
+object_id:           ark.engineering_core_sanctum.north.relief.duty_eternal
+object_class:        decoration
+position:            (0.00, 9.85, 4.00)
+dimensions:          1.40 × 0.40 × 0.10
+rotation:            180°
+material_primary:    cast bronze with deep relief
+material_secondary:  none
+colour_value:        --token-color-ark-engineering-core-sanctum-relief-bronze
+interaction:         inspectable
+  - inspect: lore-readable about the duty-eternal ideal
+narrative_role:      depicts a saluting soldier; the room's symbolic apex
+lore_anchor:         loredex.faction.soldiers
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.soldier_sanctum.relief.read
+wear_state:          slight patina
+physical_constraints: non-collide (at height)
+```
+
+#### A.17.9.25-32 Closing Items
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.engineering_core_sanctum.south.intercom` | console | (-1.50, 0.20, 1.50) | 0.20 × 0.10 × 0.30 | comms relay |
+| `ark.engineering_core_sanctum.fire_extinguisher.south` | interactive | (1.50, 0.20, 1.20) | 0.20 × 0.20 × 0.50 | safety |
+| `ark.engineering_core_sanctum.first_aid.kit.south` | container | (-2.50, 0.20, 1.50) | 0.40 × 0.10 × 0.30 | medical |
+| `ark.engineering_core_sanctum.alert_strobe.<corner>` (4) | fx_emitter | corners at z = 4.20 | 0.20 × 0.20 × 0.20 each | combat-alert strobes (off baseline) |
+| `ark.engineering_core_sanctum.compass_inlay` | decoration | (0.00, 5.00, 0.005) | 1.40 × 1.40 × 0.005 | floor inlay around oath-stone |
+
+Total: 32 inventory objects.
+
+### A.17.10 Camera-spawn-points (FPV cutscenes)
+
+```
+cutscene_id:         cs_amb_engineering_core_sanctum  (Category B; deferred catalogue)
+camera_position:     (0.00, 0.50, eye_level)
+camera_facing:       (0°, 5°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         slow walk-pan; head turns to scan bunks (left + right); pause; turns to memorial wall; lasts 22s
+
+cutscene_id:         cs_first_oath  (Act 5 one-shot Soldier-aligned)
+camera_position:     (0.00, 4.50, eye_level)  # at oath-stone, facing it
+camera_facing:       (0°, -10°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         hand-rig enters frame placing palm on stone-top; oath-stone glow activates; Sergeant's voice from north
+
+cutscene_id:         cs_first_squad_loss  (Act 6+ state-conditional)
+camera_position:     (-3.00, 9.00, eye_level)  # at memorial wall
+camera_facing:       (-90°, -10°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         hand-rig enters frame touching newly-engraved name; memorial uplight intensifies briefly
+
+cutscene_id:         cs_alert_response  (state-conditional during alert)
+camera_position:     (0.00, 5.00, eye_level)
+camera_facing:       (0°, 0°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         room scrambles to alert (camera shake + ambient drops to red)
+```
+
+### A.17.11 Doorways
+
+```
+door_id:            ark.engineering_core_sanctum.south.door.main
+connecting_space_id: ark.engineering_bay  (via false bulkhead in Engineering's southwest corner)
+door_position:      (0.00, 0.00, 0.00)
+door_dimensions:    1.20 × 2.40 × 0.10
+door_class:         pressure_seal  (biometric + faction-token authentication)
+unlock_condition:   Act 5+ Soldier-aligned only
+transit_animation:  airlock-cycle (3s); on first entry, false-bulkhead reveal animation (8s)
+audio_signature:    pneumatic-hiss + magnetic-clack + faction-recognition tone
+```
+
+### A.17.12 Adjacency map
+
+```
+direct_adjacencies:
+  - ark.engineering_bay (south door; via false bulkhead)
+one_hop_adjacencies:
+  - ark.armory (via Engineering Bay west door)
+  - ark.cades_console_pod (via Engineering Bay corridor)
+  - ark.forge_workshop (via Engineering Bay east door)
+state_shared_with:
+  - ark.cades_console_pod (memorial-wall fallen-soldier names sync)
+  - ark.armory (cadet-locker history-plaque sync)
+```
+
+### A.17.13 Gameplay hooks
+
+```
+hooks:
+  - hook_id:         engineering_core_sanctum.swearOath
+    trigger:         (state-conditional) player.interact on oath_stone (Act 5+ Soldier-aligned, first time)
+    procedure:       trpc.soldier_sanctum.oath_stone.swear
+    success_state:   soldier_oath_taken = true (one-shot triggers cs_first_oath)
+  - hook_id:         engineering_core_sanctum.openFootlocker
+    trigger:         player.open on footlocker.<wall>.<n>
+    procedure:       trpc.soldier_sanctum.footlocker.open
+    success_state:   footlocker_open = true (per-locker)
+  - hook_id:         engineering_core_sanctum.takeWeaponFromRack
+    trigger:         player.take on weapons_rack with selected weapon
+    procedure:       trpc.soldier_sanctum.weapons_rack.take
+    success_state:   weapon_equipped = true
+  - hook_id:         engineering_core_sanctum.readMemorialWall
+    trigger:         player.inspect on fallen_memorial_wall
+    procedure:       trpc.soldier_sanctum.memorial_wall.read
+    success_state:   memorial_read = true
+  - hook_id:         engineering_core_sanctum.sleepInBunk
+    trigger:         player.lay on bunk.<wall>.<n>
+    procedure:       trpc.soldier_sanctum.bunk.sleep
+    success_state:   sleep_buff_active (gameplay restoration)
+  - hook_id:         engineering_core_sanctum.standOnSergeantPlatform
+    trigger:         player.interact on sergeant_platform (when Sergeant absent)
+    procedure:       trpc.soldier_sanctum.sergeant_platform.stand
+    success_state:   sat_on_platform = true (rare lore-flag)
+  - hook_id:         engineering_core_sanctum.readBriefingPodium
+    trigger:         player.inspect on sergeant_briefing_podium
+    procedure:       trpc.soldier_sanctum.briefing_podium.inspect
+    success_state:   briefing_read = true
+  - hook_id:         engineering_core_sanctum.readBanner
+    trigger:         player.inspect on regimental_banner
+    procedure:       trpc.soldier_sanctum.banner.read
+    success_state:   banner_read = true
+```
+
+### A.17.14 Story-tie
+
+```
+primary_arcs:
+  - arc.act_5_soldier_oath
+  - arc.soldier_faction_progression (continuous Acts 5-7)
+  - arc.fallen_soldier_lineage (memorial wall accumulates)
+  - arc.act_6_first_squad_loss
+per_act_evolution:
+  acts_0_4: room locked + invisible (false bulkhead conceals door)
+  act_5: room unlocks for Soldier-aligned players; first oath ritual; bunks initially fully occupied (8 named soldiers)
+  act_6: first squad-loss (a named soldier dies in mission) — bunk emptied, name added to memorial wall, footlocker contents become readable lore
+  act_7: state-branched: well-led-and-loyal ending (most soldiers alive; bunks occupied; banner pristine) vs. catastrophic-leadership ending (most bunks empty; memorial wall full; banner blood-stained)
+npc_roster:
+  - the_sergeant: named NPC; primary occupant; presence Acts 5+
+  - the_8_named_soldiers: rotating bunk-occupants; 8 named NPCs (TBD canonical)
+  - the_player: visitor / oath-taker
+  - the_master_of_rlyeh: not present here (sanctum is sub-Hellbox; cosmology inherited from Hierarchy/HB2)
+readables:
+  - creed plaque (south)
+  - fallen-companies relief (south)
+  - duty-eternal relief (north)
+  - regimental banner (history)
+  - memorial wall (continuously updating)
+  - 8 footlocker contents (per-soldier personal items)
+  - sergeant's briefing podium notes
+master_of_rlyeh_question: n/a (this is sub-content; cosmology is HB2-aligned for Hierarchy-aligned soldiers, secular for non-aligned)
+```
+
+### A.17.15 Special-FX
+
+```
+particle_systems:
+  - dust (low; barracks accumulation)
+  - cordite_residue (very low; cosmetic; suggests recent training)
+  - oath_stone_resonance_motes (during ritual; gold-amber motes rise from stone)
+volumetric_effects:
+  - central_coffer_pendant_volumetric_beam (soft warm spotlight on oath-stone)
+  - memorial_uplight_envelope (warm gold up the wall)
+  - banner_uplight_envelope (warm crimson-gold)
+  - alert_strobe_envelope (state-conditional)
+procedural_animations:
+  - oath_stone_subtle_pulse (continuous very-slow pulse; period 8s)
+  - bunk_breath_visualisation (when occupied; very subtle chest rise)
+  - banner_subtle_ripple (faint air-flow)
+  - memorial_wall_name_etching_one_shot (when new name added)
+  - regimental_banner_warmth_oscillation (during ritual)
+reactive_systems:
+  - oath_stone_glow_on_proximity (within 1.5 m, stone glows warmer)
+  - memorial_intensify_on_player_proximity (warmth pulses with player breath)
+  - bunk_lamp_on_player_interact (player-toggle)
+  - sergeant_response_on_player_at_platform (presence-conditional)
+  - alert_strobes_on_alert_state (state-conditional)
+  - oath_ritual_one_shot (first-time gameplay)
+  - memorial_etching_on_squad_death (state-conditional one-shot per death)
+```
+
+### A.17.16 Avatar-parametricity
+
+```
+camera_height_variation:
+  small_xenomorph (0.85m eye): camera height 0.85m; bunks at chest-level (alternate climb-into-bunk animation); memorial wall feels enormous
+  short_humanoid (1.40m eye): standard short scale
+  average_humanoid (1.70m eye): standard
+  tall_humanoid (2.05m eye): bunk ceiling at near-head-level; slight crouch
+  tall_xenomorph (2.70m eye): bunks too small for sleep; alternate "rest standing" animation; alternate sergeant-platform approach
+reachability:
+  small_xenomorph: cannot reach top of weapons rack (top 2 slots); alternate stool provided
+  small_xenomorph: cannot reach upper memorial-wall names; relay-inspect from below
+  small_xenomorph: cannot reach apsidal relief; relay-inspect
+  others: all-reachable
+audio_occlusion_variation:
+  xenomorph_sensitive_hearing: bunk-breathing more pronounced; reactor-pulse-through-wall richer
+  synthetic_voice_avatar: oath-resonance has subtle synthetic bias (interprets harmonic differently)
+```
+
+### A.17.17 Performance
+
+```
+polygon_budget:      200,000 polygons (compact room; reinforced detail)
+texture_budget:      120 MB total
+light_count_limit:   14 simultaneous dynamic lights
+lod_plan:
+  - hero_distance: 0-8m, full detail
+  - mid_distance: 8-15m, mid detail (bunk detail simplified; small items billboarded)
+  - low_distance: 15m+, low detail
+streaming_behaviour:
+  - preload: ark.engineering_bay (south door; parent room)
+  - on_oath_complete: unlock soldier-faction sub-content (mission archives, faction dialogues)
+```
 
 ---
 
-## A.18 Oracle Sanctum (D8 oracle scrying pool) — SCAFFOLDED
+## A.18 Oracle Sanctum — FULL
+
+**Status: FULL spec (compact).** Cross-ref §2.18.
+
+### A.18.1 Header
 
 ```
 space_id:        ark.oracle_sanctum
 space_name:      Oracle Sanctum
 space_type:      ark_room
 act_introduced:  Act 5
-lore_anchor:     loredex.faction.oracles + loredex.character.the_oracle + arc.oracle_arc
-aesthetic_tier:  dreamers_oneiric  (mystic-water aesthetic)
-dimensions:      9.00 m × 9.00 m × 5.00 m
-floor_plan_geometry: circular
+lore_anchor:     loredex.faction.oracles + loredex.character.the_oracle + arc.oracle_arc + arc.act_5_first_scrying
+aesthetic_tier:  dreamers_oneiric  (mystic-water; the Ark's most fluid space)
 ```
 
-Central scrying pool (4.0 m diameter); Oracle's chair beside the
-pool; ambient water-sounds.
+### A.18.2 Geometry
 
-(Full spec deferred.)
+```
+dimensions:           9.00 m diameter × 5.00 m  (circular footprint)
+origin_point:         centre of floor (room is circular)
+coordinate_axes:      +x = right, +y = forward, +z = up
+floor_plan_geometry:  circular  (4.50 m radius)
+volumetric_anomalies: subtle perceptual depth at scrying pool (1.30× perceptual; reinforces oracular vision)
+```
+
+The Oracle Sanctum is a circular chamber dominated by a 4 m
+diameter scrying pool at room centre. Oracle's chair sits at the
+pool's north edge. Three observation alcoves at 120° intervals.
+Continuous water-sound soundscape; gravity slightly reduced (~0.94g).
+
+Floor area: ~64 m².
+
+### A.18.3-8 Compact
+
+```
+floor: polished obsidian-black slate radiating from pool; bronze inlay forming 3-pointed star at 120° intervals; brass perimeter trim
+walls:
+  perimeter (continuous curved): polished obsidian-black marble with deep alcove recesses (3 alcoves at 120° intervals; each 1.0×0.8×3.5); south.door.main arch connects to ark.corridor.oracle_approach (Act 5+); plaque "WHAT WILL BE, IS"
+  decorative: 3 alcoves with scrying-fluid jars; hanging silver-mist drapery (z=2-4 m); apsidal vault overhead
+ceiling: 5.00 m baseline; central oculus 6.20 m above scrying pool; mirror-finish panels reflecting pool's surface upward
+lighting:
+  ambient_baseline: 2400 K very warm + cyan accent; 80 lux (intentionally dim); CRI 90
+  oculus_central: variable colour (matches scrying state); 3000 lumens; pulses with pool ripples
+  alcove_strip.<n>×3: warm amber 600 lumens per alcove
+  pool_underwater_glow: at pool floor; cyan-amber; 1500 lumens; flickers organically
+  candle_arrays.<n>×3 (per alcove): 50 lumens each subtle
+atmosphere: 18°C cool / 55% RH humid (water source) / smells of warm-stone + mineral water + faint salt + ozone
+sound:
+  ambient_bed: -36 dB; continuous water-trickle from pool, faint bell-toll period 90s, distant Oracle's hum
+  point_sources: pool_lapping at edges; oracle_breath when present; cosmic_resonance overlay
+  reverb_zone: oracle_sanctum_v1.wav wet 32% (long; aquatic)
+  music_eligibility: cutscene only; ambient possible during scrying
+  voice_line: the_oracle (presence Acts 5+); cosmic_resonance_voices (rare whispers during scrying)
+```
+
+### A.18.9 Object inventory (compact)
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.oracle_sanctum.scrying_pool` | interactive | (0.00, 0.00, 0.00) | 4.0 dia × 0.40 deep | THE central scrying pool |
+| `ark.oracle_sanctum.oracle_chair` | furniture+npc_anchor | (0.00, 2.50, 0.00) | 0.9×0.9×1.5 | Oracle's seat (north of pool); deep velvet upholstery |
+| `ark.oracle_sanctum.scrying_lectern` | container | (-1.50, 1.00, 0.00) | 0.4×0.3×1.2 | bronze lectern with scrying-tome |
+| `ark.oracle_sanctum.alcove.<n>` (3) | container | per 120° alcove | 1.0×0.8×3.5 each | scrying-fluid jars + ritual artifacts |
+| `ark.oracle_sanctum.candle_array.<alcove>` (3) | interactive | per alcove base | 0.2×0.3×0.3 each | bronze stand + candles |
+| `ark.oracle_sanctum.observation_bench.<n>` (3) | furniture | between alcoves; radius 3.5 m | 1.0×0.4×0.45 each | curved benches |
+| `ark.oracle_sanctum.south.intercom` | console | (-1.0, -4.45, 1.5) | 0.2×0.1×0.3 | comms |
+| `ark.oracle_sanctum.fire_extinguisher` | interactive | (1.0, -4.45, 1.2) | 0.2×0.2×0.5 | safety |
+| `ark.oracle_sanctum.first_aid` | container | (-2.0, -4.45, 1.5) | 0.4×0.1×0.3 | medical |
+| `ark.oracle_sanctum.south.plaque.principle` | decoration | (0.00, -4.45, 3.20) | 0.8×0.3×0.02 | "WHAT WILL BE, IS" |
+| `ark.oracle_sanctum.dust_motes_emitter` | fx_emitter | distributed | n/a | mystic-mote source |
+| `ark.oracle_sanctum.pool_ripple_emitter` | fx_emitter | (0.00, 0.00, 0.00) | n/a | pool-surface ripple SFX + visual |
+
+Total: 22 inventory objects.
+
+### A.18.10-17 Compact
+
+```
+camera_spawn_points:
+  cs_amb_oracle_sanctum (Cat B): POV at threshold; slow approach to pool; 18s
+  cs_first_scrying (Act 5): POV at pool edge; ripples form; vision begins; 22s
+
+doorways: south.door.main → ark.corridor.oracle_approach; arch; Act 5+
+
+adjacency:
+  direct: ark.corridor.oracle_approach (south)
+  one_hop: ark.bridge (oracle prophecies feed into command); ark.observation_deck (cosmic kinship)
+
+gameplay_hooks:
+  - performScrying: trpc.oracle_sanctum.pool.scry
+  - readScryingTome: trpc.oracle_sanctum.lectern.read
+  - inspectAlcove: trpc.oracle_sanctum.alcove.inspect
+  - lightCandle: trpc.oracle_sanctum.candle.light
+
+story_tie:
+  primary_arcs: act_5_first_scrying; oracle_arc; oracle_prophecy_unlocks
+  per_act: locked Acts 0-4; opens Act 5 (Oracle-aligned); deeper Acts 6-7
+  npc_roster: the_oracle; rare cosmic visitations
+  readables: principle plaque; scrying-tome; alcove ritual artifacts
+  master_of_rlyeh_question: n/a
+
+special_fx:
+  particle_systems: mystic_motes; water_vapor (low); candle_smoke
+  volumetric: oculus_glow; pool_underwater_glow; alcove_warmth
+  procedural_animations: pool_ripples (continuous); oracle_chair_subtle_sway; mystic_motes_drift; candle_flicker
+  reactive: pool_intensify_on_proximity; oculus_colour_shift_on_scrying; alcove_glow_on_inspect
+
+avatar_parametricity: small_xenomorph: alternate kneel-at-pool; others all-reachable
+audio_occlusion: xenomorph-sensitive: water-trickle + Oracle's hum overwhelming
+performance: polygon_budget 200,000 / texture_budget 130 MB / light_count 14
+streaming: preload oracle_approach corridor
+```
 
 ---
 
-## A.19 Shadow Vault (D8 — assassin sanctum) — SCAFFOLDED
+## A.19 Shadow Vault (Assassin Sanctum) — FULL
+
+**Status: FULL spec (compact).** Cross-ref §2.19.
+
+### A.19.1 Header
 
 ```
 space_id:        ark.shadow_vault
 space_name:      Shadow Vault (Assassin Sanctum)
-space_type:      ark_room  (faction-locked)
-act_introduced:  Act 5
-lore_anchor:     loredex.faction.assassins + arc.shadow_arc
-aesthetic_tier:  solar_punk_cathedral  (shadow-tactical accents)
-dimensions:      10.00 m × 12.00 m × 4.00 m
-floor_plan_geometry: rectangular  (with hidden alcoves)
+space_type:      ark_room  (faction-locked; hidden)
+act_introduced:  Act 5 (Assassin-aligned only)
+lore_anchor:     loredex.faction.assassins + arc.shadow_arc + arc.act_5_first_contract
+aesthetic_tier:  solar_punk_cathedral  (shadow-tactical; deeply dim; the Ark's darkest room)
 ```
 
-(Full spec deferred.)
+### A.19.2 Geometry
+
+```
+dimensions:           10.00 m × 12.00 m × 4.00 m
+origin_point:         centre of floor at south entrance
+coordinate_axes:      +x = right, +y = forward, +z = up
+floor_plan_geometry:  rectangular  (with 4 hidden alcoves at corners)
+volumetric_anomalies: dim-pocket effect — light dies faster than physics suggests (intentional aesthetic)
+```
+
+The Shadow Vault is intentionally dark. Central planning table.
+4 hidden alcoves at corners (concealed entrances; gameplay-active
+in Acts 6+). Weapons rack along east wall. Contract archive
+along west wall. North wall holds the assassins' principle: a
+single carved blade.
+
+Floor area: 120 m².
+
+### A.19.3-8 Compact
+
+```
+floor: matte-black slate; 0.60×0.60 m tiles; deliberately non-reflective; subtle anti-slip etch; bronze inlay outlines planning-table zone
+walls:
+  south: matte-charcoal panel; south.display.contract_status (-2.0,0.2,1.5); south.door.main slide connects to ark.corridor.shadow_approach (Act 5+ Assassin-aligned only); plaque "STRIKE BETWEEN HEARTBEATS"
+  east: matte-charcoal with 6 mag-locked weapon slots (knives, bows, garrotes); reinforced backing; bronze nameplates per slot
+  north: full-wall matte-black with central recess for THE BLADE (1 single carved-bronze ritual blade displayed at z=2.50, 0.4 dia stand); banner above "WE ARE THE NIGHT BREATH"
+  west: contract archive cabinets (4 cabinets stacked vertically; sealed with biometric); each holds active contracts
+  hidden_alcoves: 4 corner alcoves (concealed behind sliding panels; revealed only when player has gathered shadow-tokens; each contains specialised tools — poison kit, lockpick set, climb gear, escape rope)
+ceiling: 4.00 m baseline; intentional low-coffer at 3.40 m above central table; matte-black painted; minimal lighting fixtures
+lighting:
+  ambient_baseline: 1800 K extremely warm (candle-tone); 30 lux (DELIBERATELY VERY DIM); CRI 70
+  central_pendant: at (0.00, 6.00, 3.40); single warm bulb; 800 lumens (intentionally low)
+  weapon_rack_strip.east: above weapons; 200 lumens/m (silhouettes weapons in dim glow)
+  contract_archive_strip.west: above cabinets; 200 lumens/m
+  blade_uplight.north: at blade base; 400 lumens; warm bronze
+  practical_sources: hidden_alcove_glow.<n>×4 (revealed alcoves only); 30 lumens each
+atmosphere: 17°C cool / 38% RH dry / smells of bronze + leather + faint metallic-blood + cold-iron
+sound:
+  ambient_bed: -42 dB extremely quiet; faint distant heartbeat (someone else?), occasional knife-edge whisper
+  point_sources: blade_subtle_resonance; pendulum_clock_tick (single mantle clock); contract_seal_creak (random)
+  reverb_zone: shadow_vault_v1.wav wet 8% extremely dry (sound-suppressed)
+  music_eligibility: cutscene only
+  voice_line: the_shadow_master (named NPC; rare presence); contract_whispers (state-conditional)
+```
+
+### A.19.9 Object inventory (compact)
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.shadow_vault.planning_table` | interactive | (0.00, 6.00, 0.00) | 1.80×1.20×0.85 | central contract-planning table |
+| `ark.shadow_vault.shadow_master_chair` | furniture+npc_anchor | (0.00, 7.50, 0.00) | 0.9×0.9×1.5 | Shadow Master's chair |
+| `ark.shadow_vault.visitor_chair.east, .west` (2) | furniture | flanking table | 0.8×0.8×1.2 each | client seats |
+| `ark.shadow_vault.weapons_rack.east` | container | (4.95, 6.00, 0.00) | 0.4×4.0×2.4 | mag-locked weapons (6 slots) |
+| `ark.shadow_vault.contract_archive_cabinet.<n>` (4) | container | west wall stacked | 0.4×3.0×1.0 each | sealed contracts |
+| `ark.shadow_vault.ritual_blade` | decoration | (0.00, 11.95, 2.50) | 0.4 dia × 0.10 stand + 0.05×0.05×0.6 blade | ritual carved-bronze blade |
+| `ark.shadow_vault.banner_above_blade` | decoration | (0.00, 11.85, 3.50) | 1.0×0.05×0.8 | "WE ARE THE NIGHT BREATH" |
+| `ark.shadow_vault.hidden_alcove.<corner>` (4) | container | corners | 0.8×0.8×2.4 each | hidden-tools alcoves |
+| `ark.shadow_vault.south.intercom` | console | (-1.5, 0.2, 1.5) | 0.2×0.1×0.3 | comms |
+| `ark.shadow_vault.fire_extinguisher` | interactive | (1.5, 0.2, 1.2) | 0.2×0.2×0.5 | safety |
+| `ark.shadow_vault.first_aid` | container | (-2.5, 0.2, 1.5) | 0.4×0.1×0.3 | medical |
+| `ark.shadow_vault.south.plaque.principle` | decoration | (0.00, 0.20, 3.20) | 0.8×0.3×0.02 | "STRIKE BETWEEN HEARTBEATS" |
+| `ark.shadow_vault.compass_inlay.dim` | decoration | (0.00, 6.00, 0.005) | 1.4×1.4×0.005 | nearly-invisible floor inlay |
+| `ark.shadow_vault.pendulum_clock` | decoration | on planning table | 0.20×0.20×0.30 | bronze pendulum clock |
+
+Total: 24 inventory objects.
+
+### A.19.10-17 Compact
+
+```
+camera_spawn_points:
+  cs_amb_shadow_vault (Cat B): POV at threshold; slow walk into dim; eyes adjust; head turns to blade; 18s
+  cs_first_contract (Act 5): POV at planning table; Shadow Master across from player; first contract briefing
+
+doorways: south.door.main → ark.corridor.shadow_approach; slide; Act 5+ Assassin-aligned
+
+adjacency: direct ark.corridor.shadow_approach (south); one_hop ark.archives (via long corridor; rare assassin-research)
+
+gameplay_hooks:
+  - planContract: trpc.shadow_vault.planning_table.operate
+  - takeWeapon: trpc.shadow_vault.weapons_rack.take
+  - openContractCabinet: trpc.shadow_vault.contract_cabinet.open (per-cabinet)
+  - revealHiddenAlcove: trpc.shadow_vault.hidden_alcove.reveal (with shadow-token)
+  - inspectRitualBlade: trpc.shadow_vault.ritual_blade.inspect
+
+story_tie:
+  primary_arcs: act_5_first_contract; shadow_arc; assassin_faction_progression
+  per_act:
+    acts_0_4: locked
+    act_5: opens (Assassin-aligned); first contracts available
+    act_6: hidden alcoves revealable with shadow-tokens
+    act_7: state-branched: shadow-master ending vs. light-aligned ending (room remains dim/cold)
+  npc_roster: the_shadow_master (named NPC); rare contract-clients
+  readables: principle plaque; banner; ritual blade lore
+  master_of_rlyeh_question: n/a
+
+special_fx:
+  particle_systems: dust (very low); shadow_motes (cosmetic; sub-perceptual)
+  volumetric: pendant_isolated_beam; weapon_silhouette_envelope; blade_glow
+  procedural_animations: pendulum_clock_tick (subtle); blade_subtle_resonance; pendant_drift
+  reactive: ambient_dim_on_entry (eyes adjust); weapon_glow_on_proximity; alcove_reveal_one_shot
+
+avatar_parametricity: standard; xenomorph-sensitive: faint heartbeat audible (someone else's?)
+performance: polygon_budget 180,000 / texture_budget 100 MB / light_count 8 (intentionally low light count)
+streaming: preload shadow_approach corridor
+```
 
 ---
 
-## A.20 War Room (D8 strategist sanctum) — SCAFFOLDED
+## A.20 War Room (Strategist Sanctum) — FULL
+
+**Status: FULL spec (compact).** Cross-ref §2.20.
+
+### A.20.1 Header
 
 ```
 space_id:        ark.war_room
-space_name:      War Room
+space_name:      War Room (Strategist Sanctum)
 space_type:      ark_room
 act_introduced:  Act 4
-lore_anchor:     loredex.system.alliance_war + arc.faction_war
-aesthetic_tier:  solar_punk_cathedral  (strategic-grit accents)
-dimensions:      14.00 m × 14.00 m × 4.50 m
-floor_plan_geometry: rectangular
+lore_anchor:     loredex.system.alliance_war + loredex.faction.strategists + arc.faction_war + arc.act_4_first_strategy_session
+aesthetic_tier:  solar_punk_cathedral  (strategic-grit; tactical-formal)
 ```
 
-Faction-standing display; strategic holo-map; alliance-war command.
+### A.20.2 Geometry
 
-(Full spec deferred.)
+```
+dimensions:           14.00 m × 14.00 m × 4.50 m
+origin_point:         centre of floor at south entrance
+coordinate_axes:      +x = right, +y = forward, +z = up
+floor_plan_geometry:  rectangular
+volumetric_anomalies: none
+```
+
+The War Room is square, formal, dominated by a vast central
+strategic holo-map (5 × 4 m) that displays the entire galactic
+alliance theatre. Wall-mounted faction-standing displays line all
+4 walls. Long briefing table on south side seats 8 strategists.
+
+Floor area: 196 m².
+
+### A.20.3-8 Compact
+
+```
+floor: gunmetal-grey steel deck plate; bronze inlay outlining holo-map zone (5×4 m central); brass perimeter; tactical-grid etch
+walls:
+  south: gunmetal panel; south.door.main pressure_seal connects to ark.corridor.war_room_approach (Act 4+); 8-strategist briefing table at south end (4 m wide); plaque "WAR DEMANDS PATIENCE"
+  east: gunmetal with 6-faction standing displays (one per major faction; 1.0×0.6×0.05 each); alliance bracket display (1.4×0.8); tactical wall-display (2.4×1.6)
+  north: gunmetal with grand alliance-war central display (4.0×2.4); flanked by historical war-relief; "VICTORY THROUGH UNITY"
+  west: mirror of east; 6-faction standing displays for opposing alliance; tactical wall-display
+ceiling: 4.50 m baseline; suspended high-bay grid; reinforced framework; 4 alert-strobes at corners; minimal atmosphere
+lighting:
+  ambient_baseline: 5000 K cool-tactical; 280 lux; CRI 90
+  high_bay_array: 4 fixtures at z=4.20; 4500 lumens each; cool white
+  holo_map_glow: variable; matches map content; pulses with battle activity
+  briefing_table_pendant: at (0.00, 1.50, 4.00); cool white; 4000 lumens
+  faction_display_strip.east, .west: above each display column; 600 lumens/m
+  alert_strobes.<corner>×4: red-orange; off baseline; flash during alerts
+atmosphere: 19°C cool / 38% RH dry / smells of steel + ozone (display electronics) + faint coffee
+sound:
+  ambient_bed: -32 dB; cooling fans, distant alliance-comms-static, occasional alarm-chirp
+  point_sources: holo_map_hum; faction_display_buzz.<n>; cooling_fan.<n>×8
+  reverb_zone: war_room_v1.wav wet 22%
+  music_eligibility: cutscene only
+  voice_line: the_chief_strategist (named NPC); alliance_command_relay (institutional)
+```
+
+### A.20.9 Object inventory (compact)
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.war_room.holo_map.alliance` | display | (0.00, 7.00, 0.00) | 5.0×4.0×1.05 | THE central strategic holo-map |
+| `ark.war_room.briefing_table.south` | furniture | (0.00, 1.50, 0.00) | 4.0×1.0×0.85 | 8-strategist briefing table |
+| `ark.war_room.briefing_chair.<n>` (8) | furniture | around briefing table | 0.8×0.8×1.2 each | strategist seats |
+| `ark.war_room.chief_strategist_chair` | furniture+npc_anchor | (0.00, 0.50, 0.00) | 0.9×0.9×1.5 | chief seat (south end) |
+| `ark.war_room.east.faction_standing.<n>` (6) | display | east wall | 1.0×0.6×0.05 each | 6 faction status displays |
+| `ark.war_room.west.faction_standing.<n>` (6) | display | west wall | mirror | 6 opposing faction displays |
+| `ark.war_room.east.tactical_wall_display` | display | (6.95, 7.00, 2.50) | 2.4×1.6×0.05 | east tactical |
+| `ark.war_room.west.tactical_wall_display` | display | (0.05, 7.00, 2.50) | mirror | west tactical |
+| `ark.war_room.north.grand_war_display` | display | (0.00, 13.95, 2.50) | 4.0×2.4×0.10 | central grand display |
+| `ark.war_room.alarm_panel` | console | (0.00, 0.50, 1.20) | 0.6×0.2×0.8 | alarm trigger |
+| `ark.war_room.alert_strobes.<corner>` (4) | fx_emitter | corners | 0.3×0.3×0.3 each | combat alerts |
+| `ark.war_room.south.intercom` | console | (-2.0, 0.2, 1.5) | 0.2×0.1×0.3 | comms |
+| `ark.war_room.fire_extinguisher.south` | interactive | (2.0, 0.2, 1.2) | 0.2×0.2×0.5 | safety |
+| `ark.war_room.first_aid` | container | (-3.0, 0.2, 1.5) | 0.4×0.1×0.3 | medical |
+| `ark.war_room.south.plaque.creed` | decoration | (0.00, 0.20, 3.20) | 1.0×0.4×0.02 | "WAR DEMANDS PATIENCE" |
+| `ark.war_room.north.relief.victory` | decoration | (0.00, 13.85, 4.00) | 2.4×0.6×0.10 | "VICTORY THROUGH UNITY" |
+| `ark.war_room.compass_inlay` | decoration | (0.00, 7.00, 0.005) | 1.4×1.4×0.005 | floor inlay under holo-map |
+
+Total: 32 inventory objects.
+
+### A.20.10-17 Compact
+
+```
+camera_spawn_points:
+  cs_amb_war_room (Cat B): POV at threshold; slow approach to holo-map; head pans to faction displays; 18s
+  cs_first_strategy_session (Act 4): POV at chief strategist chair; first alliance briefing
+
+doorways: south.door.main → ark.corridor.war_room_approach; pressure_seal; Act 4+
+
+adjacency: direct corridor; one_hop ark.bridge (tactical command), ark.governance_chamber (Act 4+)
+
+gameplay_hooks:
+  - operateHoloMap: trpc.war_room.holo_map.operate
+  - inspectFactionStanding: trpc.war_room.faction_standing.inspect (per-faction)
+  - briefAlliance: trpc.war_room.briefing.start
+  - triggerAlarm: trpc.war_room.alarm.trigger
+  - takeChiefSeat: trpc.war_room.chief_chair.sit
+
+story_tie:
+  primary_arcs: act_4_first_strategy_session; faction_war (continuous); alliance_progression
+  per_act:
+    acts_0_3: locked
+    act_4: opens; first alliance war briefing
+    acts_5_7: faction standings shift dramatically based on player choices; some alliances collapse
+  npc_roster: the_chief_strategist; alliance leaders (rotating); the_player
+  readables: creed plaque; victory relief; faction-standing displays; alliance bracket
+  master_of_rlyeh_question: n/a
+
+special_fx:
+  particle_systems: dust low; combat_visualisation_motes (during active war)
+  volumetric: holo_map_volumetric_overlay; faction_display_glow
+  procedural_animations: holo_map_battle_animations; faction_status_pulses; alert_strobe_cycles
+  reactive: holo_map_intensify_on_proximity; faction_display_flash_on_status_change
+
+avatar_parametricity: standard
+performance: polygon_budget 280,000 / texture_budget 170 MB / light_count 18
+streaming: preload war_room_approach + (Act 4+) preload destination.alliance_war_maps
+```
 
 ---
 
@@ -9398,19 +10404,106 @@ streaming_behaviour:
 
 ---
 
-## A.23 Chaos Forge (D9 — Hierarchy alignment) — SCAFFOLDED
+## A.23 Chaos Forge (Hierarchy alignment) — FULL
+
+**Status: FULL spec (compact).** Cross-ref §2.23.
+
+### A.23.1 Header
 
 ```
 space_id:        ark.chaos_forge
-space_name:      Chaos Forge
+space_name:      Chaos Forge (D9 Hierarchy alignment)
 space_type:      ark_room
 act_introduced:  Act 5
-lore_anchor:     loredex.faction.hierarchy + arc.chaos_forge_rituals
-aesthetic_tier:  hierarchy_ritual
-dimensions:      11.00 m × 11.00 m × 7.00 m
+lore_anchor:     loredex.faction.hierarchy + arc.chaos_forge_rituals + arc.act_5_first_chaos_offering
+aesthetic_tier:  hierarchy_ritual  (Wagnerian baroque, with industrial fire accents)
 ```
 
-(Full spec deferred.)
+### A.23.2 Geometry
+
+```
+dimensions:           11.00 m × 11.00 m × 7.00 m
+origin_point:         centre of floor at south entrance
+coordinate_axes:      +x = right, +y = forward, +z = up
+floor_plan_geometry:  rectangular  (with central chaos-forge fire on raised brass dais)
+volumetric_anomalies: heat-shimmer + ritual-energy distortion above forge during active rituals
+```
+
+The Chaos Forge is the Hierarchy faction's deeper ritual chamber.
+Combines Wagnerian-baroque cathedral atmosphere with industrial
+forge — the contradiction is the point. Central forge-fire on a
+0.40 m raised brass dais. Three offering altars at 120° intervals
+around forge. Three censers between offering altars.
+
+Floor area: 121 m².
+
+### A.23.3-8 Compact
+
+```
+floor: cast-iron grating with anti-slag treatment + dark marble inlay around forge dais; bronze inlay forming triple-axis (3-arm star) for offering alignment
+walls:
+  south: charcoal stone-clad with carved Hierarchy reliefs; bronze dado; south.door.main pressure_seal connects to ark.hierarchy_throne (sub-chamber); plaque "FORGE THE OFFERING"
+  east: stone-clad with deep alcove for ritual robes (1 large alcove); bronze candle stand
+  north: apsidal stone-clad with central recess for THE CHAOS-EMBLEM (cast-bronze relief; 1.40×0.40×0.10); banner "CHAOS IS THE WAY"
+  west: stone-clad with deep alcove for ritual tools; bronze candle stand
+ceiling: 7.00 m baseline; central chimney rises through ceiling at z=7.00; 6 hanging chandeliers at z=5.50 (warm amber)
+lighting:
+  ambient_baseline: 2200 K very warm; 100 lux (intentionally dim — ritual); CRI 78
+  chaos_forge_glow: variable (orange-red baseline; intensifies to white-hot during rituals); 12000 lumens variable
+  6_chandeliers: 3000 lumens each warm amber pulse with chants
+  altar_glow.<n>×3: 1500 lumens each warm-amber per altar
+  censer_smoke_emitters.<n>×3: continuous incense; smoke rises through chimney
+atmosphere: 30°C very warm during active forge / 38% RH / smells of incense + hot iron + ozone + faint blood (ritual)
+sound:
+  ambient_bed: -28 dB; deep forge-roar continuous; chants distant; censer-burn crackles
+  point_sources: forge_roar; chimney_draft; chant_distant; bell_toll period 30s
+  reverb_zone: chaos_forge_v1.wav wet 32% (cathedral-industrial)
+  music_eligibility: cutscene only (Hierarchy-arc ritual cutscenes)
+  voice_line: hierarchy_priest_chaos (named NPC); chant_voices_distant (Acts 5+)
+```
+
+### A.23.9 Object inventory (compact)
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.chaos_forge.central_forge` | interactive+fx_emitter | (0.00, 5.50, 0.40) on dais | 1.80×1.80×1.40 | THE chaos-forge fire |
+| `ark.chaos_forge.altar.<n>` (3) | interactive | 120° around forge; radius 3.5 m | 0.80×0.80×0.95 each | offering altars |
+| `ark.chaos_forge.censer.<n>` (3) | fx_emitter | between altars; 60° from each | 0.40×0.40×1.40 each | ritual incense |
+| `ark.chaos_forge.priest_anchor` | npc_anchor | (0.00, 8.00, 0.00) | 0.8×0.8×1.8 | ritual priest |
+| `ark.chaos_forge.east.alcove.robes` | container | (4.95, 5.50, 0.00) | 1.2×0.8×3.5 | ritual robes |
+| `ark.chaos_forge.west.alcove.tools` | container | (-4.95, 5.50, 0.00) | mirror | ritual tools |
+| `ark.chaos_forge.north.relief.chaos_emblem` | decoration | (0.00, 10.95, 4.00) | 1.4×0.4×0.10 | chaos-emblem relief |
+| `ark.chaos_forge.banner.north` | decoration | (0.00, 10.85, 6.50) | 1.0×0.05×1.5 | "CHAOS IS THE WAY" |
+| `ark.chaos_forge.south.intercom` | console | (-1.5, 0.2, 1.5) | 0.2×0.1×0.3 | comms |
+| `ark.chaos_forge.fire_extinguisher` | interactive | (1.5, 0.2, 1.2) | 0.2×0.2×0.5 | safety |
+| `ark.chaos_forge.first_aid` | container | (-2.5, 0.2, 1.5) | 0.4×0.1×0.3 | medical |
+| `ark.chaos_forge.south.plaque.creed` | decoration | (0.00, 0.20, 3.20) | 0.8×0.3×0.02 | "FORGE THE OFFERING" |
+| `ark.chaos_forge.compass_inlay` | decoration | (0.00, 5.50, 0.005) | 1.4×1.4×0.005 | triple-axis star |
+
+Total: 22 inventory objects.
+
+### A.23.10-17 Compact
+
+```
+camera_spawn_points:
+  cs_amb_chaos_forge (Cat B): POV at threshold; slow walk to forge; intense heat-shimmer; 18s
+  cs_first_chaos_offering (Act 5): hand at altar; offering placed; flame consumes; 14s
+
+doorways: south.door.main → ark.hierarchy_throne; pressure_seal; Act 5+ Hierarchy-aligned
+
+adjacency: direct ark.hierarchy_throne (sub-chamber)
+gameplay_hooks: invokeForge, placeOffering, lightCensers, equipRitualRobes
+story_tie: arc.chaos_forge_rituals; arc.act_5_first_chaos_offering; locked Acts 0-4; opens Act 5 Hierarchy-aligned; deepens through Act 7
+npc_roster: hierarchy_priest_chaos (named NPC); chant_voices_distant
+readables: creed plaque; chaos-emblem relief; banner
+master_of_rlyeh_question: n/a (sub-chamber of HB2 host; cosmology inherited)
+special_fx: smoke (medium); ember; ritual-energy distortion above forge; heat-shimmer
+procedural: forge_fire_dance; chandelier_pulse_with_chant; censer_smoke_rise
+reactive: forge_intensify_on_offering; altar_glow_on_proximity
+avatar_parametricity: standard; xenomorph: heat overwhelming
+performance: polygon_budget 240,000 / texture_budget 140 MB / light_count 16
+streaming: preload ark.hierarchy_throne (parent)
+```
 
 ---
 
