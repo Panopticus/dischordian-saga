@@ -28,6 +28,12 @@ import { ElaraMemoryRecoveryCutscene } from "@/components/cutscenes/ElaraMemoryR
 import { BreakingPointCutscene } from "@/components/cutscenes/BreakingPointCutscene";
 import { ThoughtVirusManifestCutscene } from "@/components/cutscenes/ThoughtVirusManifestCutscene";
 import { PrestigeResetCutscene } from "@/components/cutscenes/PrestigeResetCutscene";
+import {
+  HumanRevealConvergenceCutscene,
+  HumanRevealFragmentCutscene,
+  HumanRevealFullCutscene,
+  HumanRevealGhostCutscene,
+} from "@/components/cutscenes/HumanRevealCutscenes";
 
 type AnimatedCutsceneComponent = (props: {
   onComplete: () => void;
@@ -44,6 +50,10 @@ const COMPONENT_BY_ID: Record<
   cutscene_breaking_point: BreakingPointCutscene,
   cutscene_thought_virus_manifests: ThoughtVirusManifestCutscene,
   cutscene_prestige_reset: PrestigeResetCutscene,
+  cutscene_human_reveal_convergence: HumanRevealConvergenceCutscene,
+  cutscene_human_reveal_fragment: HumanRevealFragmentCutscene,
+  cutscene_human_reveal_full: HumanRevealFullCutscene,
+  cutscene_human_reveal_ghost: HumanRevealGhostCutscene,
 };
 
 export function CutsceneRouter(): ReactElement | null {

@@ -88,6 +88,38 @@ const DECLARED_CUTSCENES: ReadonlyArray<DeclaredCutscene> = [
     beat:
       "fires when the player confirms the prestige cycle on PrestigeCycleResetPage (Bible §6)",
   },
+  {
+    id: "human_reveal_convergence",
+    title: "Cutscene 7: Human Reveal — Convergence",
+    componentNames: ["HumanRevealConvergenceCutscene"],
+    literalIds: ["cutscene_human_reveal_convergence"],
+    beat:
+      "fires Act 6+ when convergence_threshold event is active (path settled to convergence)",
+  },
+  {
+    id: "human_reveal_fragment",
+    title: "Cutscene 8: Human Reveal — Fragment",
+    componentNames: ["HumanRevealFragmentCutscene"],
+    literalIds: ["cutscene_human_reveal_fragment"],
+    beat:
+      "fires Act 6+ when breaking_point_chose_elara is set (Human appears partial)",
+  },
+  {
+    id: "human_reveal_full",
+    title: "Cutscene 9: Human Reveal — Full",
+    componentNames: ["HumanRevealFullCutscene"],
+    literalIds: ["cutscene_human_reveal_full"],
+    beat:
+      "fires Act 6+ when breaking_point_chose_human is set (full noir reveal)",
+  },
+  {
+    id: "human_reveal_ghost",
+    title: "Cutscene 10: Human Reveal — Ghost",
+    componentNames: ["HumanRevealGhostCutscene"],
+    literalIds: ["cutscene_human_reveal_ghost"],
+    beat:
+      "fires Act 6+ when breaking_point_refused is set (Human appears as silhouette only)",
+  },
 ];
 
 export function checkCutsceneComponents(): RawParityCount {

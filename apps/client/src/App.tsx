@@ -58,6 +58,15 @@ function FirstHumanContactTriggerWatcher() {
   useFirstHumanContactTrigger();
   return null;
 }
+
+/** Side-effect-only watcher — Act 6+ resolves which human-reveal
+ *  variant fires based on the player's settled path
+ *  (convergence/fragment/full/ghost). Mirrors the trigger pattern of
+ *  ChapterIntroRouter and ConfessionCloseRouter. */
+function HumanRevealTriggerWatcher() {
+  useHumanRevealTrigger();
+  return null;
+}
 import CompanionHost from "./companion/CompanionHost";
 import { WatcherHost } from "./companion/WatcherHost";
 import { setContext as setCompanionContext } from "./companion/companionScheduler";
@@ -77,6 +86,7 @@ import { ConfessionCloseRouter } from "./components/cutscenes/ConfessionCloseRou
 import { WheelReactionRouter } from "./components/cutscenes/WheelReactionRouter";
 import { EventRevealRouter } from "./components/cutscenes/EventRevealRouter";
 import { useFirstHumanContactTrigger } from "./hooks/useFirstHumanContactTrigger";
+import { useHumanRevealTrigger } from "./hooks/useHumanRevealTrigger";
 import { DailyRewardPopup } from "./components/DailyRewards";
 import RadioMode from "./components/RadioMode";
 import EasterEggs from "./components/EasterEggs";
@@ -842,6 +852,7 @@ function GameGate() {
       <HellboxDiscoveryWatcher />
       <LivingUniverseSyncWatcher />
       <FirstHumanContactTriggerWatcher />
+      <HumanRevealTriggerWatcher />
       {sortingTrigger.shouldTrigger && sortingTrigger.skillId && (
         <SortingCeremony skillId={sortingTrigger.skillId} onComplete={handleSortingComplete} />
       )}

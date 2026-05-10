@@ -25,7 +25,18 @@ export type CutsceneId =
   | "cutscene_elara_memory_recovery"
   | "cutscene_breaking_point"
   | "cutscene_thought_virus_manifests"
-  | "cutscene_prestige_reset";
+  | "cutscene_prestige_reset"
+  // Human-reveal variant cutscenes — the producer 2026-05-10 drop
+  // ships 4 single-shot MP4s gated by player path. They fire
+  // LATER than `cutscene_first_human_contact` (Act 6+ when the
+  // path has settled), one at a time based on which gating flag
+  // is set. The Act-6+ trigger (which one) lives in
+  // useHumanRevealTrigger; the variant resolver lives in
+  // apps/shared/humanRevealVariants.ts.
+  | "cutscene_human_reveal_convergence"
+  | "cutscene_human_reveal_fragment"
+  | "cutscene_human_reveal_full"
+  | "cutscene_human_reveal_ghost";
 
 export interface CutsceneDefinition {
   /** Stable string-literal id; matches the literal-id column in
@@ -42,8 +53,19 @@ export interface CutsceneDefinition {
   shotCount: number;
   /** Total runtime in seconds — must match CUTSCENE_SEEDANCE_PROMPTS.md. */
   durationSec: number;
-  /** Public path prefix; resolved through `assetUrl()` at runtime. */
+  /** Public path prefix; resolved through `assetUrl()` at runtime.
+   *  Default URL convention: `${videoBasePath}shot${index}.mp4`
+   *  for index 1..shotCount. */
   videoBasePath: string;
+  /** Optional override for non-default shot filenames. When set,
+   *  the player uses `${videoBasePath}${shotFilenames[index-1]}`
+   *  instead of the `shot<N>.mp4` convention. Length must match
+   *  shotCount. Used when producer files don't conform to the
+   *  numbered-shot pattern (e.g. human-reveal variants ship as
+   *  `human_reveal_to_<branch>.mp4`; awakening producer files
+   *  ship as content-named slugs that need an explicit ordering
+   *  decision before renaming). */
+  shotFilenames?: ReadonlyArray<string>;
   /** React component name (for debug overlays + test fixtures). */
   componentName: string;
   /** Reduced-motion still (resolved through `assetUrl()`). */
@@ -119,6 +141,66 @@ export const CUTSCENE_REGISTRY: Readonly<
     videoBasePath: "/videos/cutscenes/thought_virus_manifests/",
     componentName: "ThoughtVirusManifestCutscene",
     posterPath: "/videos/cutscenes/thought_virus_manifests/poster.webp",
+  },
+  cutscene_human_reveal_convergence: {
+    id: "cutscene_human_reveal_convergence",
+    title: "Cutscene 7: Human Reveal — Convergence",
+    triggerFlag: "cutscene_human_reveal_convergence_triggered",
+    setsFlags: [
+      "cutscene_human_reveal_convergence_seen",
+      "human_reveal_branch_resolved",
+    ],
+    shotCount: 1,
+    durationSec: 18,
+    videoBasePath: "/videos/human_reveal/",
+    shotFilenames: ["human_reveal_to_convergence.mp4"],
+    componentName: "HumanRevealConvergenceCutscene",
+    posterPath: "/videos/human_reveal/human_reveal_to_convergence.mp4",
+  },
+  cutscene_human_reveal_fragment: {
+    id: "cutscene_human_reveal_fragment",
+    title: "Cutscene 8: Human Reveal — Fragment",
+    triggerFlag: "cutscene_human_reveal_fragment_triggered",
+    setsFlags: [
+      "cutscene_human_reveal_fragment_seen",
+      "human_reveal_branch_resolved",
+    ],
+    shotCount: 1,
+    durationSec: 18,
+    videoBasePath: "/videos/human_reveal/",
+    shotFilenames: ["human_reveal_to_fragment.mp4"],
+    componentName: "HumanRevealFragmentCutscene",
+    posterPath: "/videos/human_reveal/human_reveal_to_fragment.mp4",
+  },
+  cutscene_human_reveal_full: {
+    id: "cutscene_human_reveal_full",
+    title: "Cutscene 9: Human Reveal — Full",
+    triggerFlag: "cutscene_human_reveal_full_triggered",
+    setsFlags: [
+      "cutscene_human_reveal_full_seen",
+      "human_reveal_branch_resolved",
+    ],
+    shotCount: 1,
+    durationSec: 18,
+    videoBasePath: "/videos/human_reveal/",
+    shotFilenames: ["human_reveal_to_full.mp4"],
+    componentName: "HumanRevealFullCutscene",
+    posterPath: "/videos/human_reveal/human_reveal_to_full.mp4",
+  },
+  cutscene_human_reveal_ghost: {
+    id: "cutscene_human_reveal_ghost",
+    title: "Cutscene 10: Human Reveal — Ghost",
+    triggerFlag: "cutscene_human_reveal_ghost_triggered",
+    setsFlags: [
+      "cutscene_human_reveal_ghost_seen",
+      "human_reveal_branch_resolved",
+    ],
+    shotCount: 1,
+    durationSec: 18,
+    videoBasePath: "/videos/human_reveal/",
+    shotFilenames: ["human_reveal_to_ghost.mp4"],
+    componentName: "HumanRevealGhostCutscene",
+    posterPath: "/videos/human_reveal/human_reveal_to_ghost.mp4",
   },
   cutscene_prestige_reset: {
     id: "cutscene_prestige_reset",
