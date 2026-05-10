@@ -2845,3 +2845,252 @@ performance:
   lod_plan: hero 0-6m full; mid 6m+ mid (room is too small for distant LOD)
   streaming: preload ark.captain_quarters; on_destination_locked: preload that destination's interior (faster transit); precache_priority: HB5 is itself precached on Act 7 +
 ```
+
+---
+
+## H.6 Dead Man's Circuit (HB6 — Memorial Corridor gateway)
+
+**Status: FULL spec.** Cross-ref `INCEPTION_ARK_FINAL_PRODUCTION.md`
+§3.12.8.
+
+### H.6.1 Header
+
+```
+space_id:        hellbox.dead_mans_circuit
+space_name:      Dead Man's Circuit
+space_type:      hellbox_interior  (Matrix-of-Dreams; racing-circuit)
+act_introduced:  Act 4
+host_room:       ark.memorial_corridor (procession-stone gateway)
+lore_anchor:     loredex.system.dead_mans_circuit + arc.act_4_first_dead_mans_race + loredex.character.master_of_rlyeh
+aesthetic_tier:  matrix_dream + speed-circuit overlay  (impossible mountain-circuit; 1960s-style speed-aesthetic crossed with cosmic-vastness)
+```
+
+### H.6.2 Geometry
+
+```
+dimensions:           240.00 m × 180.00 m × 60.00 m  (perceptual; bigger-on-inside ratio 18× external Memorial Corridor)
+origin_point:         starting grid centre line (where the player + ghosts line up at start of race)
+coordinate_axes:      +x = right, +y = forward (along race direction), +z = up
+floor_plan_geometry:  non_euclidean  (a closed circuit with start/finish line; track loops impossibly through alpine landscape; track is ~3.6 km perceptual length)
+volumetric_anomalies:
+  - bigger_on_inside ratio: 18× external Memorial Corridor
+  - perpetual_dusk_with_storm: continuous twilight + occasional thunder-flash cosmically; lighting feels charged + tense
+  - track_extends_impossibly: the closed-circuit track loops through alpine cliffs + tunnel sections; ~3.6 km perceptual
+  - ghost_visibility: 8 spectral racers (every player who has died in this game; cumulative across player lifetimes — including the current player's prior deaths) appear as glowing-edge silhouette racers
+  - lap_compression: track has 4 lap-zones; perceptual time + space compress between laps (each subsequent lap is subtly shorter/faster)
+```
+
+The Dead Man's Circuit is THE unwinnable race. Player races
+8 spectral ghosts — every player who has died in canon (including
+the current player's prior deaths from §3.1.A.5). The lead ghost
+is ALWAYS 0.5s ahead. The race CANNOT be won. The gameplay is in
+HOW you race a race you cannot win.
+
+The track is a closed-circuit alpine racetrack; ~3.6 km
+perceptual. Start/finish line at south (where player materialises).
+Track loops north through cliff-side switchbacks + tunnel +
+mountain-pass + cathedral-cliff section + return. Memorial
+viewing-stands flank start/finish.
+
+Floor area (perceptual): track ~32,400 m² (3,600 m × 9 m wide)
++ start/finish + viewing stands ~2,000 m².
+
+### H.6.3 Floor
+
+```
+material_primary:     racing-asphalt with white centerline + red-and-white kerbing at corners; 9.00 m wide track surface
+material_secondary:   bronze inlay forming a 4-sector lap-marker pattern (lap zones marked at 25/50/75/100% perceptual completion); brass perimeter at start/finish line; concrete barriers + tire-walls on outside of corners
+pattern:              standard racing-circuit asphalt + kerbing + sector demarcations
+wear_state:           well-used; rubber-marbles + tire-streaks visible at apex of every corner; brake-zones discoloured
+embedded_features:
+  - id: hellbox.dead_mans_circuit.floor.charge_point.start_finish_line
+    position: (0.00, 0.00, 0.00)  # at race start
+    dimensions: 9.00 × 0.20 × 0.05
+    function: race-start anchor + return-transit invocation
+  - id: hellbox.dead_mans_circuit.floor.lap_marker.<n>  (4 lap markers; sectors 1-4)
+    position: distributed along track at perceptual quarter-points
+    dimensions: 9.00 × 0.20 × 0.05 each
+    function: lap completion detection
+  - id: hellbox.dead_mans_circuit.floor.pit_lane_threshold
+    position: (-2.00, 0.00, 0.00)  # to the side of start/finish
+    dimensions: 4.00 × 0.20 × 0.05
+    function: pit-lane access (gameplay-passive; viewing-stands area)
+acoustic_property:    hard_reflective (asphalt + concrete) with engine-resonance + wind-noise; RT60 = 1.20s in tunnel, 0.30s on open track (highly variable)
+```
+
+### H.6.4 Walls (track perimeter + viewing stands + tunnel)
+
+#### Track Perimeter Walls (concrete barriers + tire-walls along entire 3.6 km loop)
+
+```
+wall_id:              track_perimeter  (continuous along inside + outside of track)
+material_primary:     concrete safety-barriers (1.20 m tall) on outside of corners + at high-speed sections; reinforced steel tire-walls (stacked tires) at high-impact zones
+material_secondary:   safety-fence (chain-link + catch-fence) above barriers in spectator-adjacent zones; bronze sponsorship plaques at strategic positions
+panelisation:         continuous; concrete-formed
+colour_value:         --token-color-hellbox-dead-mans-circuit-barrier  (concrete-grey + warning-amber stripe + black tire-wall)
+embedded_displays:
+  - id: hellbox.dead_mans_circuit.start_finish.scoreboard
+    position: (0.00, 0.00, 8.00)  # high above start/finish line
+    dimensions: 6.00 × 2.40 × 0.10
+    content: live race state — player position vs. 8 ghosts (always shows lead ghost 0.5s ahead); lap counter; sector splits
+embedded_doors:
+  - door_id: hellbox.dead_mans_circuit.return_transit_anchor
+    position: (0.00, 0.00, 0.005)  # at start/finish line
+    dimensions: n/a (cosmological)
+    door_class: portal
+    connecting_space_id: ark.memorial_corridor (host)
+decorative_features:
+  - id: hellbox.dead_mans_circuit.sponsorship_plaque.<n>  (~30 along track)
+    position: distributed
+    dimensions: 1.40 × 0.60 × 0.04 each
+    material: bronze with engraved canonical sponsor names (each canonically a dead crew member's family — humanising)
+    narrative_role: every "sponsor" is a fallen-crew family; viewing the plaques reveals lore
+  - id: hellbox.dead_mans_circuit.cathedral_cliff_section
+    position: at perceptual 60% lap mark
+    dimensions: 200 m long section through cathedral-cliff
+    material: vast cathedral-style stone-cliff carved with memorial reliefs; track passes between two cliff-faces
+    narrative_role: most cinematically dramatic stretch; reliefs depict deceased racers
+```
+
+#### Viewing Stands (south of start/finish; 3-tier; phantom audience)
+
+```
+wall_id:              viewing_stands_perimeter  (3-tier seating south of start/finish)
+material_primary:     concrete + steel tier-rails + crimson-velvet bench tops
+material_secondary:   bronze tier-divider rails
+panelisation:         tiered concrete
+colour_value:         --token-color-hellbox-dead-mans-circuit-stands
+embedded_displays:    none (track is the content)
+embedded_doors:        none
+decorative_features:
+  - id: hellbox.dead_mans_circuit.viewing_stands.tier.<n>  (3 tiers)
+    position: south of start/finish at z = 0.40, 1.60, 2.80
+    dimensions: 12.00 m wide × 0.50 × 0.40 each tier (~80 phantom seats per tier; 240 total)
+    material: concrete + steel + crimson-velvet
+    narrative_role: phantom audience; ~240 seats; canonical mourning families of deceased racers
+  - id: hellbox.dead_mans_circuit.podium
+    position: (0.00, -8.00, 0.40)  # south of start/finish
+    dimensions: 4.00 × 1.20 × 0.40 (raised platform with 3 podium-step heights)
+    material: polished walnut + gold-leaf trim
+    narrative_role: victory podium — never used (no winners); 3 podium positions remain canonically empty
+```
+
+### H.6.5-8 Compact (full FULL fidelity)
+
+```
+ceiling: open sky overhead at most of track (perceptual); cathedral-cliff section has impossibly tall stone cliffs reaching z = 60+; tunnel section has solid stone ceiling at z = 8.00
+lighting:
+  ambient_baseline: 2000 K (perpetual dusk; storm-charged); 100 lux at track (intentionally dim — race-night atmosphere); CRI 80
+  scoreboard_glow: at scoreboard; 4000 lumens; pulses with leader-ghost time-gap
+  sponsorship_plaque_uplights: per plaque; 200 lumens each; warm bronze
+  cathedral_cliff_volumetric: vast warm-amber cone bleeding from impossibly-tall cliff-tops down onto track at cathedral section
+  starting_grid_lights: 8 grid-lights for race-start sequence (5 reds + 1 green + 2 amber)
+  pit_lane_strip: warm amber along pit lane
+  practical_sources: thunder-flash (cosmetic; periodic; storm-charged); ghost_racer_glow (8 sources; spectral edges)
+atmosphere: 14°C cool / 65% RH (alpine humidity) / smells of hot-asphalt + race-fuel + burnt-rubber + cold-mountain-air + ozone (storm)
+sound:
+  ambient_bed: -22 dB (loud; race environment); engine-roar from 8 ghost racers; wind-howl through cliff-section; thunder-distant; phantom audience cheering
+  point_sources: engine_roar.<ghost>×8 (Doppler-shifted as ghosts pass); thunder_flash_periodic; cathedral_choir_distant (faint; emerges at cathedral-cliff section); commentator_voice (canonical race-commentary; uncomfortably present)
+  reverb_zone: dead_mans_circuit_v1.wav wet 24% open-air baseline; 0.85 in tunnel section; 1.20 in cathedral-cliff
+  music_eligibility: ambient music ALLOWED — race-tension orchestral pad at -28 dB; intensifies during cathedral section + final lap
+  voice_line_eligibility: master_of_rlyeh (state-conditional during pre-race + faction-answer); commentator (continuous race-commentary); the_8_ghost_racers (no spoken lines — only engine-roar)
+```
+
+### H.6.9 Object inventory (compact catalogue; 64 inventory objects)
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `hellbox.dead_mans_circuit.start_finish_line_anchor` | fx_emitter+gameplay-anchor | (0.00, 0.00, 0.005) | 9.00 × 0.20 × 0.005 | white start/finish line; arrival + return-transit |
+| `hellbox.dead_mans_circuit.player_starting_grid_position` | npc_anchor | (0.00, -2.00, 0.00) | 1.00 × 2.00 grid-spot | player materialises at grid position #1 |
+| `hellbox.dead_mans_circuit.ghost_racer_grid_position.<n>` (8) | npc_anchor | distributed in 9-position grid (player at 1; 8 ghosts at 2-9) | 1.00 × 2.00 each | ghost-racer grid spots; 8 ghosts |
+| `hellbox.dead_mans_circuit.ghost_racer.<n>` (8) | npc_anchor | dynamic (race) | varied | 8 spectral ghost racers; canonical: every player who has died in this game's lineage |
+| `hellbox.dead_mans_circuit.start_finish.scoreboard` | display | (0.00, 0.00, 8.00) | 6.00 × 2.40 × 0.10 | live race state; always shows lead 0.5s ahead |
+| `hellbox.dead_mans_circuit.starting_grid_lights.<n>` (8) | fx_emitter | above start/finish | 0.30 × 0.30 each | 5 reds + 1 green + 2 amber (race-start sequence) |
+| `hellbox.dead_mans_circuit.podium` | decoration | (0.00, -8.00, 0.40) | 4.00 × 1.20 × 0.40 | victory podium (perpetually empty) |
+| `hellbox.dead_mans_circuit.viewing_stands.tier.<n>` (3) | furniture+phantom_anchors | south of start/finish | 12.00 × 0.50 × 0.40 each | 3-tier viewing stands; ~240 phantom audience |
+| `hellbox.dead_mans_circuit.sponsorship_plaque.<n>` (~30) | decoration | distributed along track | 1.40 × 0.60 × 0.04 each | bronze plaques; canonical fallen-crew families |
+| `hellbox.dead_mans_circuit.lap_marker.<n>` (4) | fx_emitter | at sector-marks | 9.00 × 0.20 × 0.05 each | lap-completion detection markers |
+| `hellbox.dead_mans_circuit.cathedral_cliff_section` | decoration | at 60% lap | 200 m long stone-cliff section | most cinematic stretch; cathedral-aesthetic stone cliffs with memorial reliefs |
+| `hellbox.dead_mans_circuit.cathedral_cliff_relief.<n>` (~12 reliefs) | decoration | along cathedral section | 4.00 × 2.40 × 0.30 each | depicts deceased racers (12 canonical figures) |
+| `hellbox.dead_mans_circuit.tunnel_section` | decoration | at 25% lap | 80 m long stone tunnel | acoustic shift + dim atmosphere |
+| `hellbox.dead_mans_circuit.mountain_pass_section` | decoration | at 75% lap | 100 m long alpine pass | open + windy; thunder-flash visible |
+| `hellbox.dead_mans_circuit.altar.master_of_rlyeh` | interactive | (-4.00, 0.00, 0.00) | 1.40 × 0.80 × 1.10 | Master of R'lyeh anchor (pre-race ritual); "If you knew the race was already lost, would you still run?" |
+| `hellbox.dead_mans_circuit.commentator_booth` | decoration+fx_emitter | (10.00, -4.00, 4.00) | 2.40 × 1.40 × 1.20 | elevated commentator box; emanates race-commentary |
+| `hellbox.dead_mans_circuit.pit_lane_threshold` | decoration | (-2.00, 0.00, 0.00) | 4.00 × 0.20 × 0.05 | pit-lane entry |
+| `hellbox.dead_mans_circuit.pit_garage.<n>` (9) | decoration | along pit lane | 4.00 × 6.00 × 4.00 each | 9 pit garages (1 player + 8 ghost) |
+| `hellbox.dead_mans_circuit.thunder_flash_emitter` | fx_emitter | distributed in sky | n/a | periodic thunder-flash + lightning |
+| `hellbox.dead_mans_circuit.return_transit_indicator_glow` | fx_emitter | at start/finish | 0.40 dia | warm gold |
+| `hellbox.dead_mans_circuit.south.plaque.principle` | decoration | (-4.00, -2.00, 3.20) | 0.80 × 0.30 × 0.02 | "RACE THE LOST RACE" |
+
+Total: 64 inventory objects.
+
+### H.6.10-17 Compact
+
+```
+camera_spawn_points:
+  cs_hellbox_6_arrival (Act 4 first-time + every visit): POV at grid position 1; engines roar around; scoreboard lights up with player's name + 8 ghost names; start-light sequence begins; 18s
+  cs_master_of_rlyeh_question (pre-race): POV at altar near grid; "If you knew the race was already lost, would you still run?"; radial menu
+  cs_race_start: 5-red countdown lights; greens; engines flare; race begins
+  cs_lap_completion (per lap): scoreboard updates; ghost-times pulse; player remains 0.5s behind lead-ghost
+  cs_cathedral_cliff_pass: POV during cathedral-cliff section; reliefs visible; choral pad swells; commentary acknowledges lap
+  cs_race_end (4 laps complete): finish line; player crosses; scoreboard shows "FINISHED" — but lead-ghost remains 0.5s ahead; podium ceremony with empty podium
+  cs_hellbox_6_close: POV at start/finish; ~5s ceremonial fade
+
+doorways: return_transit_anchor → ark.memorial_corridor (host)
+
+adjacency:
+  direct: ark.memorial_corridor (return-transit)
+  one_hop: hellbox.master_hellbox (HB5 if Act 7); hellbox.celebration_school (HB1; thematic kinship)
+  state_shared: ark.memorial_corridor (HB6 faction-pull); the player's death-history (8 ghost racers; cumulative)
+
+gameplay_hooks:
+  - hb6.return_transit
+  - hb6.invoke_master_of_rlyeh (pre-race; one-shot per visit)
+  - hb6.commit_faction_answer
+  - hb6.start_race
+  - hb6.complete_lap (per lap; 4 total)
+  - hb6.finish_race
+  - hb6.read_sponsorship_plaque (per-plaque; ~30)
+  - hb6.read_cathedral_relief (per-relief; ~12)
+  - hb6.inspect_podium
+
+story_tie:
+  primary_arcs:
+    - act_4_first_dead_mans_race
+    - dead_mans_circuit_canon
+    - cumulative_death_lineage (each player-death adds a ghost-racer; cumulative across player + canon)
+    - act_7_lifetime_race (state-branched)
+  per_act:
+    acts_0_3: locked
+    act_4: first race; first ghost-racers (canonical-deaths from prior playthrough lineage)
+    acts_5_7: more ghost-racers as more deaths occur; cathedral-cliff reliefs accumulate
+    act_7: state-branched: persistent-runner ending (player has run repeatedly despite never winning) vs. minimal-engagement ending
+  npc_roster:
+    - 8 ghost racers (cumulative from death history; never visible-clear; spectral-glow silhouettes)
+    - the_commentator (named NPC; voice-only)
+    - phantom_audience (~240; mourning families)
+    - the_master_of_rlyeh (pre-race + answer moments only)
+  readables:
+    - principle plaque (south)
+    - ~30 sponsorship plaques
+    - ~12 cathedral-cliff reliefs
+    - scoreboard (live race state + lap history)
+    - canonical race-commentary log (multi-screen)
+  master_of_rlyeh_question: "If you knew the race was already lost, would you still run?"
+  faction_answers: per §3.12.8 (Hierarchy strongest)
+
+special_fx: race_dust + tire-rubber + thunder + cathedral-cliff motes + ghost_racer_spectral_glow (8 sources)
+volumetric: cathedral_cliff_volumetric_beams; thunder_flash_envelope; engine_doppler-shift visualisation; ghost_racer_glow_envelopes
+procedural: race_continuous_loop; sponsorship_plaque_subtle_glow; cathedral_relief_subtle_animation; ghost_racer_idle_animations + race-loop animations
+reactive: scoreboard_continuous_update; lap_marker_flash_on_completion; podium_remain_empty (intentional); cathedral_choir_swell_on_pass
+
+avatar_parametricity: small_xenomorph: alternate kart-cockpit fitting (cosmetic); others all-reachable (race-vehicles auto-fit)
+audio_occlusion: xenomorph: engine-roar overwhelming; cathedral choir more pronounced; thunder pronounced
+
+performance:
+  polygon_budget: 1,200,000 (very large 3.6 km circuit; many props + LOD critical)
+  texture_budget: 700 MB (track + 8 ghost-racer unique + cathedral-cliff materials + sky + alpine)
+  light_count_limit: 32 (race-environment lighting + 8 ghost-glows + scoreboard + grid-lights)
+  lod_plan: hero 0-25m full; mid 25-100m simplified; long 100m+ (most of track) low (essential prop + skybox)
+  streaming: preload ark.memorial_corridor; on_lap_completion: stream next sector ahead; on_cathedral_cliff_approach: load reliefs + cathedral-choir audio
+```
