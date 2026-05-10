@@ -4808,3 +4808,3842 @@ render is started. This is the gating step.
   render batch.
 
 End of §AC.10.
+
+---
+
+## §AC.11 Apprentice canon — 12 named apprentices (species × class × origin)
+
+This section establishes the **canon character description** for
+each of the 12 apprentice archetypes. The user-mandated lore
+shape: **steampunk + cyberpunk + occult**, with apprentices
+distributed across three species (Quarchon / Demagi / Human)
+and a class roster covering Spy / Assassin / Soldier / Engineer
+/ Oracle / Priest / Scholar / Diplomat / Smuggler / Healer /
+Warlock.
+
+**This canon is authoritative and supersedes the §AC.10.2 visual-
+identity strings.** Every downstream cutscene, NB2 prompt, dialog
+line, and artifact-render uses these canon names + species
++ class + visual identity verbatim.
+
+The 5 named recruits (Vex Solène / Wraith Calder / Locke /
+Jericho Jones / Akai Shi) are **not affected** — their canon is
+locked at §AC.10.7 and remains canonical.
+
+### §AC.11.0 Species + class distribution
+
+```
+Demagi:  Zealot, Revenant, Oracle, Martyr, Heretic           (5 of 12)
+Quarchon: Ghost, Artisan, Jester                              (3 of 12)
+Human:   Scholar, Wanderer, Sentinel, Prodigal               (4 of 12)
+
+Class roster (12 distinct):
+  Priest:        Zealot
+  Spy:           Ghost
+  Scholar:       Scholar
+  Soldier:       Revenant
+  Engineer:      Artisan
+  Oracle:        Oracle
+  Smuggler:      Wanderer
+  Healer:        Martyr
+  Warlock:       Heretic
+  Diplomat-Spy:  Jester
+  Sentinel:      Sentinel
+  Smuggler-Heir: Prodigal
+```
+
+### §AC.11.A Species visual cues (trait-lock; reuse verbatim)
+
+```yaml
+Demagi:
+  skin:        "faint occult-violet tint, most visible at the temples and
+                along the line of the jaw"
+  morphology:  "a thin dorsal ridge of soft chitin running from the nape of
+                the neck down between the shoulder blades; visible above any
+                collar that sits below the neck"
+  eyes:        "iris carries a faint inner ring of cyber-cyan around the
+                pupil; sclera slightly off-white toward parchment-cream"
+  occult_mark: "every Demagi carries one chalk-glyph somewhere on the body —
+                usually traced along the inner forearm or behind one ear;
+                parametric to bound Hierarchy faction"
+  voice_mark:  "a faint sub-harmonic 8 Hz drone under their speaking voice"
+
+Quarchon:
+  skin:        "pale-grey with a subtle metallic sheen at high points (cheek-
+                bones, brow-ridge, knuckles) — brass dust polished into skin"
+  morphology:  "small cyber-mechanical inserts in canonical positions —
+                neural-jack port at one temple, brass-rim aperture-iris
+                around one eye; remaining anatomy is biological"
+  eyes:        "one eye is mechanical (brass-rim aperture iris that visibly
+                contracts/expands), one is biological (any natural colour);
+                the mechanical eye is always the same side per individual"
+  occult_mark: "Quarchon do not carry occult markers natively; if a Quarchon
+                binds an occult doctrine, marker = a small fiber-optic-thread
+                tattoo at the wrist, lit cyber-cyan when active"
+  voice_mark:  "a faint mechanical click on every plosive consonant"
+
+```yaml
+Human:
+  skin:        "natural human range — no morphological cues; the apprentice is
+                identified as Human at first glance only by the absence of
+                Demagi or Quarchon markers"
+  morphology:  "no canonical inserts; any cyber-mechanical augmentation is
+                acquired (not born), and signals individual history rather
+                than species"
+  eyes:        "natural human range; no inner ring, no aperture-iris"
+  occult_mark: "Humans bind occult markers only through deliberate ritual;
+                marker takes the form of a tattooed cipher-glyph at the
+                inner wrist or behind one ear"
+  voice_mark:  "no species marker; baseline human cadence"
+```
+
+
+### §AC.11.1 Zealot — **Kareth Vael-Drumm**
+
+```yaml
+canonical_name:    "Kareth Vael-Drumm"
+species:           Demagi
+class:             Priest
+faction_origin:    Pureflame
+home_zone:         "Pureflame Cell A-7, Hidden Pureflame Cell sector"
+age:               24
+gender_default:    female (male variant per `apprentice-zealot-male-lines.json`)
+defining_incident: "At seventeen, Kareth was the only initiate to walk
+                    out of Cell A-7's Day-of-Ash ritual still breathing —
+                    the cell's chant-master had set the brazier-floor
+                    alight as a 'devotion test.' Twelve died. Kareth
+                    walked out with a spiral-shaped burn across the
+                    right brow and an unwavering belief that the
+                    Hierarchy is not the answer but the only path
+                    that does not lie about being fire."
+distinguishing_trait: "spiral burn-scar across right brow; eyes lit
+                    from within when speaking scripture; carries the
+                    chant-master's brass scripture-medallion (taken
+                    from his neck after the fire died) — the medallion
+                    is dim until Kareth recites the Compliant Mouth
+                    binding stanza, at which point it ignites cyber-cyan"
+voice_mark:        "Demagi 8 Hz sub-harmonic + a slight rasp from
+                    smoke damage to the throat; speaks slowly,
+                    enunciates carefully"
+relationship_hooks: |
+  - knows the Hierarchy Throne attendant by name (her older sister
+    Issa Vael-Drumm; never referenced in dialog unless the player
+    asks)
+  - distrusts Inspector Veil-7 on sight (Mechronis purged her cell)
+  - bonds easily with Martyr (recognises the same self-giving)
+  - resonance pair: Zealot ↔ Martyr
+visual_identity: |
+  a Demagi priest-aspirant in their mid-twenties; faint occult-violet
+  tint at the temples and along the jawline; a thin dorsal chitin ridge
+  visible above the cassock collar at the nape of the neck; iris
+  carries a faint inner ring of cyber-cyan around the pupil; a brass-
+  bound cassock with cyber-cyan stitched scripture-cipher running down
+  the seam; a single brass scripture-medallion on a chain at chest
+  (dim until binding stanza); close-cropped hair; a spiral-shaped
+  burn-scar across the right brow; gas-mantle aureole effect rim-
+  lighting the head when speaking scripture; chalk-glyph tracing the
+  Pureflame faction along the inner left forearm
+master_face_seed: 190001 (female), 190002 (male)
+```
+
+### §AC.11.2 Ghost — **Sira Null-Echo**
+
+```yaml
+canonical_name:    "Sira Null-Echo"
+species:           Quarchon
+class:             Spy / Assassin
+faction_origin:    Panopticon (defected)
+home_zone:         "Panopticon Ruins (former assignment); current resident of the Ark"
+age:               29
+gender_default:    female
+defining_incident: "Sira was conscripted into the Panopticon's Silent
+                    Corps at age twelve — her vocal cords replaced
+                    with a silent-modulation cog-implant, her voice
+                    locked to whisper-only by mechanical override.
+                    For seventeen years she watched, recorded, and
+                    erased. At twenty-nine she watched her handler
+                    Glenmar Veil-2 be purged on the Day-21 audit
+                    of his own apprentice. She left the same night
+                    on a stolen courier and arrived at the Ark with
+                    no luggage and the audio-recorder pendant Glenmar
+                    had tried to mail to his wife."
+distinguishing_trait: "her left eye is the mechanical Quarchon
+                    aperture-iris; her right is biological grey-
+                    blue; she has never raised her voice in living
+                    memory; the audio-recorder pendant at her throat
+                    plays Glenmar's last message in a continuous
+                    silent loop — only the LED on the recorder
+                    pulses to indicate it is running"
+voice_mark:        "Quarchon plosive-click + a permanent whisper
+                    from the Silent Corps cog-implant; if she
+                    chooses to speak above whisper, the implant
+                    audibly grinds (decision-cost signal)"
+relationship_hooks: |
+  - hates the Warden's faction (her handler's purger was Mechronis-
+    aligned)
+  - silent watch toward Sentinel — they share watch-shifts on
+    nightwatch by mutual silent agreement
+  - resonance pair: Ghost ↔ Oracle
+visual_identity: |
+  a Quarchon assassin in her late twenties; pale-grey skin with brass-
+  dust sheen at cheekbones and brow-ridge; left eye is a brass-rim
+  aperture-iris that visibly contracts when threat is sensed; right
+  eye is biological grey-blue; charcoal-grey gambeson with brass
+  clasps; a half-mask covering the lower face in brass with cyber-
+  cyan inlay; only the eyes visible above the mask; high cheekbones;
+  gloved hands always at rest at sides; a small audio-recorder pendant
+  at the throat (silent-loop LED pulsing every 4.0 s); small fiber-
+  optic-thread tattoo at the right wrist (dormant unless occult
+  doctrine bound)
+master_face_seed: 190003 (female), 190004 (male — note: male variant
+  named Sirov Null-Echo, otherwise canon-identical)
+```
+
+### §AC.11.3 Scholar — **Tien Ceadrune**
+
+```yaml
+canonical_name:    "Tien Ceadrune"
+species:           Human
+class:             Scholar
+faction_origin:    Chronarchive Vault (Empire-aligned)
+home_zone:         "Chronarchive Vault sector"
+age:               38
+gender_default:    female
+defining_incident: "Tien spent eighteen years in the Chronarchive
+                    Vault's restoration wing, specialising in pre-
+                    Empire cipher-script restoration. At thirty-six
+                    she lost the left index finger to a binding
+                    accident with a mimic-codex (the codex grew teeth
+                    when she touched the wrong page). She has since
+                    refused replacement augmentation — she wants to
+                    feel the absence. She came to the apprentice
+                    cohort because the Vault's master-archivist
+                    discovered that Tien's mother had been a Game
+                    Master alumna; the Vault asked her to leave
+                    quietly."
+distinguishing_trait: "missing left index finger (no replacement);
+                    ink-stained fingertips on the surviving four
+                    fingers; brass-rim reading-glasses pushed up on
+                    the brow; carries a small leather-bound cipher-
+                    notebook at all times; her marginalia have been
+                    cited in three pre-Empire scholarly journals
+                    (one of which is in Tidewater Archive)"
+voice_mark:        "soft, scholarly, slightly distracted; tends to
+                    finish other people's sentences then immediately
+                    apologise"
+relationship_hooks: |
+  - knows Locke (Tier-2 recruit) from old archive correspondence;
+    they have never met in person
+  - Heretic finds her insufferable but they cannot stop talking
+  - resonance pair: Scholar ↔ Heretic
+visual_identity: |
+  a Human academic in her late thirties; cipher-stained leather coat
+  over a parchment-cream tunic; brass-rim reading-glasses pushed up
+  on the brow; ink-stained fingertips on right hand and surviving
+  four fingers of left hand (left index finger is absent — bare
+  knuckle visible); an open book held against the chest in left hand
+  (always); a pen behind the right ear; eyes that seem to be reading
+  even in conversation; a small leather-bound cipher-notebook at the
+  belt; no species occult marker (Human baseline)
+master_face_seed: 190005 (female), 190006 (male)
+```
+
+### §AC.11.4 Revenant — **Bohl-Mor Krellix**
+
+```yaml
+canonical_name:    "Bohl-Mor Krellix"
+species:           Demagi
+class:             Soldier
+faction_origin:    Empire 12th Legion
+home_zone:         "Veridian VI battlefield (died there); restored on
+                    a Forward Bastion black-market clone-bench"
+age:               31 (apparent); died at 30
+gender_default:    male
+defining_incident: "Bohl-Mor died at the Battle of Veridian VI
+                    holding a corridor for forty-three minutes
+                    while his squad evacuated three civilians.
+                    Six months later a black-market resurrectionist
+                    on a Forward Bastion clone-bench restored him
+                    from harvested essence and a stolen Hierarchy
+                    sigil-circle. He woke remembering his death.
+                    Seventy-three percent of his pre-death memories
+                    survived; the missing twenty-seven percent
+                    includes his wife's name and the colour of his
+                    daughter's eyes. He came to the Ark because the
+                    Empire 12th Legion will not accept a restored
+                    soldier on the rolls and the Hierarchy will not
+                    accept anything else."
+distinguishing_trait: "visible scarification in cipher-script along
+                    the inside of both forearms (the resurrectionist's
+                    work); one eye is milky-white from past damage;
+                    the other is lit faint cyber-cyan from clone-
+                    bench phototherapy; a permanent thin bandage
+                    around the left wrist (covers the original
+                    death-wound's clone-scar); breath audible even
+                    in stillness"
+voice_mark:        "Demagi 8 Hz sub-harmonic plus a slight rasp from
+                    a damaged windpipe (the original cause of death
+                    was a thrown brass spike to the throat); pauses
+                    mid-sentence as if listening for breath he no
+                    longer needs"
+relationship_hooks: |
+  - the only apprentice who remembers dying; this gives him weight
+    when he speaks of the Hierarchy
+  - bonded with Sentinel (both were soldiers); shares nightwatch
+  - distrustful of Hellbox Clone Bench (§AC.1.5) on principle —
+    he does not want a second resurrection
+  - resonance pair: Revenant ↔ Sentinel
+visual_identity: |
+  a Demagi infantry sergeant in his early thirties; faint occult-
+  violet tint at temples; a thin dorsal chitin ridge above the
+  collar at the nape; iris carries cyber-cyan inner ring (more
+  pronounced on the unscarred right eye; left eye is milky-white);
+  iron-grey robe over leather; visible scarification in cipher-
+  script along the inside of both forearms; a small bandage
+  permanently wrapped around the left wrist; chalk-glyph tracing
+  the Empire 12th Legion sigil along the inner right forearm
+  (dim — Empire is dead to him now)
+master_face_seed: 190007 (male), 190008 (female — variant Bohla-Mor)
+```
+
+### §AC.11.5 Artisan — **Pellix Vaun-Brass**
+
+```yaml
+canonical_name:    "Pellix Vaun-Brass"
+species:           Quarchon
+class:             Engineer
+faction_origin:    Skyforge Plateau (independent)
+home_zone:         "Skyforge Plateau workshop"
+age:               26
+gender_default:    male
+defining_incident: "Pellix grew up in the Skyforge Plateau clockmaker
+                    caste — a five-generation Quarchon family
+                    specialising in cog-mechanism resonance work.
+                    At eighteen he was offered conscription into
+                    Mechronis Academy (academy seekers had identified
+                    him as 'unusual aptitude'). He refused. The
+                    Mechronis answer was to revoke his caste licence
+                    in retaliation. Pellix went freelance, took
+                    contracts from Insurgency cells (under-the-table),
+                    and built three custom resonance-rifles for
+                    Free Ports brokers before being recommended for
+                    the apprentice cohort by a Free Ports contact."
+distinguishing_trait: "his Quarchon mechanical eye is the right
+                    (most Quarchon are left); cog-mechanism brass
+                    goggles permanently pushed up on the forehead;
+                    machine-oil and brass-dust on the fingertips;
+                    a cog-mechanism wristwatch on the right wrist
+                    that he built himself at age fourteen (still
+                    runs to the second); always has a small project
+                    on the workbench (rotates per cohort cycle)"
+voice_mark:        "Quarchon plosive-click + slight Skyforge accent
+                    (the Plateau dialect is known for clipping
+                    consonants); speaks while looking at the work,
+                    not the listener"
+relationship_hooks: |
+  - refuses to work with Mechronis-purged components
+  - admires Vex Solène (Tier-2 recruit) silently — they have
+    never been introduced; Pellix knows her work from blueprint
+    leaks
+  - resonance pair: Artisan ↔ Sentinel
+visual_identity: |
+  a Quarchon engineer in his mid-twenties; pale-grey skin with brass
+  dust at cheekbones and brow-ridge; right eye is a brass-rim
+  aperture-iris (the unusual side); left eye is biological dark-
+  brown; cog-mechanism brass goggles pushed up on the forehead;
+  ink and machine-oil staining the fingertips; a cog-mechanism
+  wristwatch on the right wrist; a leather apron with 24 brass
+  tool-loops at the chest; eyes always slightly distant — looking
+  at the project, not the viewer; small fiber-optic-thread tattoo
+  at the left wrist (cyber-cyan when active)
+master_face_seed: 190009 (male), 190010 (female)
+```
+
+### §AC.11.6 Oracle — **Aevel of the Five Gates**
+
+```yaml
+canonical_name:    "Aevel of the Five Gates"
+species:           Demagi
+class:             Oracle
+faction_origin:    Tidewater Archive (Dreamers-aligned)
+home_zone:         "Tidewater Archive submerged library"
+age:               33
+gender_default:    female
+defining_incident: "Aevel was raised by the Tidewater Archive's
+                    Five-Gate Order — a sect of Demagi seers who
+                    train in cipher-tongue interpretation by
+                    submersion (the seer is held underwater for
+                    increasing periods until they begin to dream
+                    awake). Aevel reached the fifth gate at age
+                    twenty-four; the sixth gate is rumoured but
+                    no one returns from it. She read the Game
+                    Master's true birth-name in a tea-leaf reading
+                    at age thirty and the Order asked her to leave
+                    'for her own protection.' She does not believe
+                    in coincidence."
+distinguishing_trait: "her left eye is permanently 30 minutes
+                    ahead of her right eye in perceiving time —
+                    she sometimes responds to questions before
+                    they are asked; carries a deck of cipher-tarot
+                    cards everywhere (54-card deck, hand-painted);
+                    a neural-jack port at the temple (rare for a
+                    Demagi — installed during the Five-Gate ritual
+                    to record dream-trance)"
+voice_mark:        "Demagi 8 Hz sub-harmonic + a faint underwater-
+                    pressure quality (a permanent acoustic shift
+                    from years of submerged training); pauses
+                    sometimes mid-sentence to look at something
+                    no one else can see"
+relationship_hooks: |
+  - knows Sira Null-Echo's audio-recorder pendant carries Glenmar's
+    last message — has never said so aloud
+  - sees Inspector Veil-7's true face in tarot readings — one
+    card shows him without the brass nameplate
+  - resonance pair: Oracle ↔ Ghost
+visual_identity: |
+  a Demagi seeress in her early thirties; faint occult-violet tint
+  at temples; thin dorsal chitin ridge at nape; iris carries cyber-
+  cyan inner ring (left eye 30 minutes ahead of right — visibly
+  asynchronous when she blinks); a velvet hooded cloak with cyber-
+  cyan threading through the seams; a single silver tarot-card
+  visible in the right hand (drawn at random per render); one eye
+  slightly larger than the other; a neural-jack port at the right
+  temple (visible beneath the hood); chalk-glyph tracing the Five-
+  Gate Order along the inside of the right wrist (lit cyan when she
+  is mid-vision)
+master_face_seed: 190011 (female), 190012 (male — variant Aevor)
+```
+
+### §AC.11.7 Wanderer — **Roon Calpha**
+
+```yaml
+canonical_name:    "Roon Calpha"
+species:           Human
+class:             Smuggler / Scout
+faction_origin:    Free Ports
+home_zone:         "Free Ports outer ring (orphan)"
+age:               27
+gender_default:    male
+defining_incident: "Roon was orphaned at eight when Hierarchy
+                    raiders collapsed a market dome on top of
+                    his parents. He was hidden in a cargo-container
+                    by his older sister Tava (who died in the dome
+                    collapse) and was found by a Insurgency
+                    smuggler the next day. He grew up running
+                    cargo for the Insurgency, learned six trade
+                    routes from memory, and stole a brass walking-
+                    stick that doubles as a folding pneumatic-rifle
+                    from a Hierarchy bishop at sixteen. He came
+                    to the apprentice cohort because his Insurgency
+                    handler was killed and the apprentice trial is
+                    a kind of cover for someone whose face is on
+                    eight bounty boards."
+distinguishing_trait: "carries a brass walking-stick that doubles
+                    as a folding pneumatic-rifle (pneumatic stock
+                    visible if examined closely); sun-and-storm-
+                    weathered skin; one earring (small brass hoop —
+                    matches Prodigal's; coincidence not narrative
+                    bond... yet); a small leather map-pouch at the
+                    hip with six maps of trade routes drawn from
+                    memory; never quite still"
+voice_mark:        "baseline human cadence; Free Ports street-
+                    accent (drops the final consonant on most
+                    words); laughs easily but never at himself"
+relationship_hooks: |
+  - shares a brass earring with Prodigal — neither has noticed,
+    both will notice at Day-14 if cohort routes them through the
+    same triangle event
+  - distrusts Sentinel (Sentinel's old unit raided Free Ports)
+  - resonance pair: Wanderer ↔ Prodigal
+visual_identity: |
+  a Human smuggler in his late twenties; dust-stained travelling
+  cloak over a Free Ports tradesman's tunic; sun-and-storm-weathered
+  skin; one small brass hoop earring; a brass walking-stick at the
+  side (folding pneumatic-rifle stock visible at the handle); a
+  small leather map-pouch at the right hip; never quite still —
+  the cloak suggests the figure was about to step away; no species
+  occult marker (Human baseline)
+master_face_seed: 190013 (male), 190014 (female — variant Rona)
+```
+
+### §AC.11.8 Martyr — **Iva-Marl Sinder**
+
+```yaml
+canonical_name:    "Iva-Marl Sinder"
+species:           Demagi
+class:             Healer / Priest
+faction_origin:    Remembrance Archive (Hierarchy-aligned)
+home_zone:         "Remembrance Archive medical wing"
+age:               29
+gender_default:    female
+defining_incident: "Iva-Marl trained as a redirect-rune trauma
+                    surgeon — Demagi medicine that channels harm
+                    away from the wound and into a sacrificial
+                    redirect-target (usually the surgeon's own
+                    body, briefly). She has six redirect-scars
+                    from saving five patients and one stranger.
+                    Her defining incident was when she
+                    voluntarily took the place of a Pureflame
+                    conscript on a Hierarchy death-row run — the
+                    conscript was nineteen and pregnant. Iva-Marl
+                    survived; the run was a clerical error. The
+                    Hierarchy classified her as 'unstable for
+                    surgical duty' and routed her here."
+distinguishing_trait: "six visible redirect-rune scars in cipher-
+                    script along the chest, sternum, and forearms
+                    (positions corresponding to redirected
+                    wounds); a permanent bandage-roll across the
+                    chest worn like a sash (the seventh redirect
+                    is folded and waiting); both palms permanently
+                    faintly raised in open posture; eyes wet with
+                    concern when speaking to anyone wounded; a
+                    small redirect-rune brass plate stitched over
+                    the heart (functional — not decorative)"
+voice_mark:        "Demagi 8 Hz sub-harmonic + a soft, careful
+                    cadence; speaks like she is closing a wound"
+relationship_hooks: |
+  - carries the rescued conscript's letter of thanks (folded in
+    the bandage-roll); references it once on Day-17 if cohort
+    hits a low-cohesion band
+  - bonds with Zealot (both Pureflame-adjacent)
+  - quietly horrified by Heretic's chalkboard — but sits with
+    him at meals anyway
+  - resonance pair: Martyr ↔ Zealot
+visual_identity: |
+  a Demagi healer in her late twenties; faint occult-violet tint
+  at temples; thin dorsal chitin ridge at nape; iris carries
+  cyber-cyan inner ring; a pale gambeson with a bandage-roll
+  across the chest like a sash; both palms permanently faintly
+  raised (open posture); a small redirect-rune brass plate
+  stitched over the heart; eyes wet with concern; a thin scar
+  across one cheek (the eldest of the six redirect-scars);
+  chalk-glyph tracing the Hierarchy redirect-discipline along
+  the inner left wrist
+master_face_seed: 190015 (female), 190016 (male — variant Iv-Marl)
+```
+
+### §AC.11.9 Heretic — **Caedex Vorr**
+
+```yaml
+canonical_name:    "Caedex Vorr"
+species:           Demagi
+class:             Warlock / Scholar
+faction_origin:    House of Ledger (expelled)
+home_zone:         "House of Ledger guild rooms (expelled); current
+                    apprentice on the Ark"
+age:               34
+gender_default:    male
+defining_incident: "Caedex was a senior alumnus of the House of
+                    Ledger guild before Professor Quill expelled
+                    him for asking — in full guild assembly —
+                    whether the Game Master's classroom rule had
+                    ever been written down or whether it was
+                    invented retroactively after each game. The
+                    question itself was treason in House of Ledger.
+                    Caedex was stripped of his guild-pin, his
+                    alumni-roster entry was etched out, and he
+                    was given six hours to leave the guild rooms.
+                    He carries a chalkboard fragment with his
+                    original heresy still legible (he scraped it
+                    off the wall on his way out)."
+distinguishing_trait: "carries a chalkboard fragment in a leather
+                    sling at the hip — the original heresy still
+                    legible: 'WHO WROTE IT FIRST' (16 chars); a
+                    brass debate-bell suppressed in the left hand
+                    (cloth muffler — once a House of Ledger
+                    tradition, now a personal token); chalk-dust
+                    permanently on the fingertips; eyes amused,
+                    slightly sceptical"
+voice_mark:        "Demagi 8 Hz sub-harmonic + a House of Ledger
+                    formal cadence (the trained alumni cadence
+                    — slow, precise, with subordinate clauses);
+                    occasionally pauses to laugh at his own
+                    questions"
+relationship_hooks: |
+  - hates Professor Quill (House of Ledger Archon); will refuse
+    any cohort routing through that guild common room
+  - sparring partner with Scholar (Tien Ceadrune); they argue
+    about cipher-script provenance for hours
+  - secretly afraid of Oracle's tarot readings (he does not
+    want to know what she sees about him)
+  - resonance pair: Heretic ↔ Scholar
+visual_identity: |
+  a Demagi questioner in his mid-thirties; faint occult-violet
+  tint at temples; thin dorsal chitin ridge at nape; iris carries
+  cyber-cyan inner ring (the inner ring is unusually thick on him
+  — Order theorists believe heretical thought intensifies the
+  Demagi cyber-cyan ring); a black robe with cipher-script in
+  chalk dust along the hem; one ear visible (cocked, listening);
+  a brass debate-bell suppressed in the left hand (cloth muffler);
+  chalk-dust on the fingertips; a chalkboard fragment in a
+  leather sling at the hip; chalk-glyph tracing 'EXPELLED' along
+  the inner right wrist (House of Ledger ritual mark, retained)
+master_face_seed: 190017 (male), 190018 (female — variant Caede Vorr)
+```
+
+### §AC.11.10 Jester — **Vex'rah Halflaugh**
+
+```yaml
+canonical_name:    "Vex'rah Halflaugh"
+species:           Quarchon
+class:             Diplomat / Spy
+faction_origin:    Empire (children's puppeteer; recruited to
+                    Panopticon at age 19)
+home_zone:         "Empire entertainment circuit; Panopticon HQ
+                    until age 23; current Ark resident"
+age:               25
+gender_default:    non-binary (default; gendered variants exist)
+defining_incident: "Vex'rah was Empire's most gifted child-show
+                    puppeteer at sixteen — the kind whose touring
+                    lifted morale in Frontier garrison towns.
+                    Panopticon recruited her at nineteen for
+                    her articulation-grade lip-reading skill
+                    (she could read at fifty paces through a
+                    pane of glass). She spent four years lip-
+                    reading high-value targets in Empire dining-
+                    rooms while telling jokes children loved.
+                    At twenty-three she lip-read her brother's
+                    name on an assassination-list and asked
+                    Panopticon to remove him from the list. They
+                    declined. She left the next morning with the
+                    list folded inside her motley-cloak."
+distinguishing_trait: "her cog-implant articulates speech
+                    suspiciously well — she is the only Quarchon
+                    in the cohort whose plosive-click is barely
+                    audible (Panopticon-grade calibration); a
+                    half-smile that does not reach the eyes; a
+                    small brass skull-headed staff (children's-
+                    puppet origin); bells on the cuffs (silenced
+                    — cloth-muffled); a single retort-card
+                    visible in the right hand (rotates per cohort
+                    cycle)"
+voice_mark:        "Quarchon plosive-click (suppressed); voices
+                    Vex'rah uses include three Empire-court
+                    accents and one perfect imitation of
+                    Inspector Veil-7 (saved for the Day-14 dock
+                    cut, if the player's heretical_quiet doctrine
+                    + cohort triangulation align)"
+relationship_hooks: |
+  - watches everyone (lip-reads at distance); says nothing about
+    what she has read
+  - bonded with Revenant (he reminds her of her brother — they
+    look nothing alike; the bond is the part she cannot name)
+  - hates the Warden's faction (her brother's name was on
+    Panopticon's list)
+  - resonance pair: Jester ↔ Revenant
+visual_identity: |
+  a Quarchon court-spy in their mid-twenties; pale-grey skin with
+  brass dust at high points; left eye is a brass-rim aperture-iris;
+  right eye is biological hazel; a motley cloak with asymmetric
+  panels of brass / leather / parchment; a small brass skull-
+  headed staff at the side; a half-smile that does not reach the
+  eyes; bells on the cuffs (cloth-muffled); a single retort-card
+  in the right hand (parametric); fiber-optic-thread tattoo at
+  the right wrist (cyber-cyan when active — usually when lip-
+  reading)
+master_face_seed: 190019 (non-binary default), 190020 (male),
+                  190021 (female)
+```
+
+### §AC.11.11 Sentinel — **Marcus Farrow**
+
+```yaml
+canonical_name:    "Marcus Farrow"
+species:           Human
+class:             Sentinel / Soldier
+faction_origin:    Imperial Guard (honorably discharged)
+home_zone:         "Forward Bastion (14 years stationed); current
+                    Ark resident"
+age:               42
+gender_default:    male
+defining_incident: "Marcus served fourteen years on the Forward
+                    Bastion as Imperial Guard, with a clean
+                    service record until the seventh year of his
+                    tour, when his unit executed a wrongful
+                    sentence — the man they shot was not the
+                    insurgent the warrant named. Marcus filed
+                    the after-action report. The Empire honoured
+                    him with discharge papers and a brass-bound
+                    commendation. He has not displayed the
+                    commendation. He took the apprentice cohort
+                    because the bunkroom is small and quiet and
+                    he can see the door from the bunk."
+distinguishing_trait: "a brass-bound commendation visibly carried
+                    in his pocket (folded; never displayed); a
+                    siren-key on a lanyard at the chest (never
+                    used; would summon a Bastion garrison that
+                    no longer exists); one gloved hand always on
+                    the hilt of a sheathed brass-bladed knife;
+                    eyes that scan the horizon even indoors"
+voice_mark:        "baseline human cadence; clipped Imperial-Guard
+                    formal-address (he addresses everyone by rank,
+                    even cohort apprentices — Cadet Vael-Drumm,
+                    Cadet Null-Echo, Cadet Vorr); speaks reluctantly
+                    about the wrongful execution — never names
+                    the victim"
+relationship_hooks: |
+  - bonds with Revenant (they talk about death without flinching)
+  - watches Wanderer warily — Wanderer's smuggling-routes overlap
+    with Bastion patrol-routes; they have not crossed paths
+  - the only apprentice who has read every line of the Hierarchy
+    code-of-arms — out of professional duty
+  - resonance pair: Sentinel ↔ Revenant
+visual_identity: |
+  a Human ex-Imperial-Guard sergeant in his early forties; brass-
+  armoured tunic with cyber-cyan piping along the seams (Imperial-
+  Guard issue); a watch-cap with brass insignia (faded — the unit
+  insignia is no longer official); eyes scanning the horizon
+  (slightly off-camera even in portraits); a brass siren-key on
+  a lanyard at the chest; one gloved hand always resting on the
+  hilt of a sheathed brass-bladed knife; no species occult marker
+  (Human baseline); a small Imperial-Guard service-medallion at
+  the lapel above the siren-key (unpolished)
+master_face_seed: 190022 (male), 190023 (female — variant Marcia)
+```
+
+### §AC.11.12 Prodigal — **Lord Avern Thessler**
+
+```yaml
+canonical_name:    "Lord Avern Thessler"
+species:           Human
+class:             Smuggler-Heir / Diplomat
+faction_origin:    Trade Empire shipping-house (heir; vanished six
+                    years; lived as Free Ports broker under fake
+                    name 'Ren Calpha')
+home_zone:         "Thessler Shipping-house, New Babylon Core
+                    Tier 12 (heir); current apprentice on the
+                    Ark"
+age:               28
+gender_default:    male
+defining_incident: "Avern was the heir to a small Trade Empire
+                    shipping-house; at twenty-two he disappeared
+                    on the night of his betrothal-ceremony. For
+                    six years he lived in the Free Ports outer
+                    ring as 'Ren Calpha' — broker, fence, occasional
+                    Insurgency contact. He returned at twenty-
+                    eight to claim the apprentice trial as
+                    anonymity from his House (which assumed him
+                    dead). He has not told his House he is alive.
+                    The brass earring he wears matches Wanderer's
+                    — they shared a Free Ports rooming-house wall
+                    for two years and never met face to face."
+distinguishing_trait: "a signet ring on the right hand (Thessler
+                    crest; visibly removed and re-placed many
+                    times — the ring is dull on its inside face
+                    where his thumb touches it); one earring
+                    (small brass hoop, Free Ports outer-ring
+                    standard issue — matches Wanderer's exactly);
+                    a half-empty leather coin-purse at the belt
+                    (Free Ports brass mixed with Empire silver —
+                    the mix gives him away to anyone who watches);
+                    eyes downcast or slightly averted"
+voice_mark:        "baseline human cadence; vocal-shift mid-sentence
+                    between New Babylon court-formal and Free
+                    Ports outer-ring street; tells about which
+                    voice he uses for which cohort-mate (formal
+                    for Sentinel, street for Wanderer, neutral
+                    for Scholar)"
+relationship_hooks: |
+  - shares the brass earring with Wanderer (Roon Calpha) — at
+    Day-14 if cohort triangulates, both will recognise the
+    earring and realise they shared a wall
+  - avoids Inspector Veil-7 (Thessler shipping has Mechronis
+    audit history; his face matches the missing-heir bulletin)
+  - resonance pair: Prodigal ↔ Wanderer
+visual_identity: |
+  a Human noble in his late twenties; travel-worn formal cloak
+  over a once-fine tunic; a signet ring on the right hand
+  (Thessler crest; dull where the thumb touches); one small
+  brass hoop earring (matching Wanderer); eyes downcast or
+  slightly averted; a half-empty leather coin-purse at the belt
+  (mixed Free Ports brass + Empire silver coins visible);
+  weather-worn but the bones-of-the-face are still aristocratic;
+  no species occult marker (Human baseline)
+master_face_seed: 190024 (male), 190025 (female — variant Lady
+                  Avern Thessler; same canon)
+```
+
+### §AC.11.13 Canon-propagation policy
+
+**Authority hierarchy** (when reading downstream sections that
+reference apprentices):
+
+1. §AC.11 canon entry — TAKES PRECEDENCE
+2. §AC.10.2 visual identity strings — superseded by §AC.11
+   `visual_identity` blocks
+3. §AC.10.3–§AC.10.6 NB2 prompts — must reference §AC.11
+   `canonical_name` and `master_face_seed` (the seed table here
+   replaces the earlier §AC.10.5 placeholder seed range)
+
+**Naming convention** in cutscenes / dialog / prompts: full name
+on first reference per scene, given name (or Quarchon-style
+clan-fragment) thereafter. E.g. "Kareth Vael-Drumm" → "Kareth";
+"Sira Null-Echo" → "Sira" or "Null-Echo" (her preferred);
+"Bohl-Mor Krellix" → "Bohl-Mor"; "Lord Avern Thessler" → "Avern"
+(intimate) or "Thessler" (formal).
+
+**VO manifest update requirement**: the existing 24 archetype-
+gender VO manifests (`apprentice-<archetype>-<gender>-lines.json`,
+shipped per PR #517) carry no canonical names — they are
+parametric. Production-side action: add a `canonical_name` field
+at the top of each manifest pointing to §AC.11; downstream
+audio-post pipeline reads the canon name when assembling
+dialog.
+
+**Relationship-hook resonance pair bindings** (new): the §AC.7.5
+`cs_park_cohort_resonance_<archetype_pair>` cuts now have
+named resonance pairs per §AC.11.x relationship_hooks:
+
+```
+Zealot ↔ Martyr      (Pureflame + Hierarchy-redirect; faith resonance)
+Ghost ↔ Oracle        (silent + sees-ahead; surveillance resonance)
+Scholar ↔ Heretic     (cited + expelled; question resonance)
+Revenant ↔ Sentinel   (death-witnesses; soldier resonance)
+Artisan ↔ Sentinel    (this is a SECOND resonance pair for Sentinel —
+                       Sentinel resonates with both Revenant AND
+                       Artisan; runtime picks based on current
+                       cohesion state)
+Wanderer ↔ Prodigal   (the brass earring match — Day-14 reveal)
+Jester ↔ Revenant     (the brother-shaped silence)
+```
+
+The 6 representative resonance-pair templates from §AC.7.5 are
+now locked to these 6 pairs (Sentinel-Revenant takes priority
+over Sentinel-Artisan when both are eligible).
+
+### §AC.11.14 Apprentice face/look variants — randomized at instantiation
+
+The §AC.11.1–§AC.11.12 canon entries lock **canonical name +
+species + class + defining incident + visual identity baseline**.
+This section adds **multiple racial-complexion / face / backstory-
+microbeat variants per archetype × gender** so the runtime can
+pick a randomized presentation per cohort cycle. Each variant
+inherits the canon entry's species, class, age, defining incident,
+and signature-object loadout — only the body, face, complexion,
+and a small backstory-microbeat shift between variants.
+
+**Production rule:** every variant has its own master-face NB2
+seed. The 11-asset downstream batch (§AC.10.3) is generated per
+variant, so a player who recruits "Zealot female variant B" gets
+a different face than another player who recruited "Zealot female
+variant A" — but both are canonically Kareth Vael-Drumm with
+the same scripture-medallion, the same A-7 burn-scar story, the
+same voice-mark.
+
+**Total variants authored**: 12 archetypes × 2 genders × 3 variants
+= **72 variant looks**. Production renders 72 master faces +
+72 × 11 downstream assets = **864 apprentice character renders**
+(replaces the §AC.10.12 count of 264 with the 3-variant
+expansion).
+
+The 5 named recruits (Vex Solène / Wraith Calder / Locke / Jericho
+Jones / Akai Shi) are **not affected** — their canon and faces
+remain locked to the §AC.10.7 single-variant identity.
+
+#### §AC.11.14.1 Zealot — Kareth Vael-Drumm (3 female + 3 male variants)
+
+```yaml
+zealot_female_a:
+  ethnicity_cue: "Pureflame creche of the inner colonies; warm-olive
+                  skin with the canonical occult-violet undertone at
+                  temples and along the jaw; faint Demagi dorsal ridge
+                  visible above the cassock collar"
+  hair:          "close-cropped raven-black with slight natural wave;
+                  smoke-singed ends never fully grown out"
+  face_shape:    "oval; high cheekbones; full lower lip; the spiral
+                  burn-scar across the right brow is keloid (raised
+                  pale ridge against the olive skin)"
+  age_visible:   24
+  backstory_microbeat: "the daughter of Cell A-7's chant-master; the
+                  one who took her father's medallion off his neck
+                  while the brazier-floor still burned"
+  master_face_seed: 190001
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_zealot_female_a_master_face.png
+
+zealot_female_b:
+  ethnicity_cue: "Pureflame outer-frontier descent; pale pearl-grey skin
+                  with strong occult-violet wash at the temples (almost
+                  bruise-coloured); pronounced Demagi dorsal ridge"
+  hair:          "shaved at the sides with a thin rope-braid down the
+                  centre, ash-blonde with cyber-cyan thread woven near
+                  the nape"
+  face_shape:    "narrow heart-shape; sharp jaw; ice-blue eyes with
+                  pronounced cyber-cyan inner ring; the spiral scar is
+                  thin and silver against the pale skin"
+  age_visible:   24
+  backstory_microbeat: "raised by an aunt after her cell's chant-master
+                  was purged by the Hierarchy six years before A-7;
+                  has worn the medallion only since the fire"
+  master_face_seed: 190001a
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_zealot_female_b_master_face.png
+
+zealot_female_c:
+  ethnicity_cue: "Pureflame Cell A-7 was a multi-creche; this variant
+                  is a Far-South Demagi descent with deep umber-brown
+                  skin overlaid with the violet undertone (cooler at
+                  temples, warmer at cheeks)"
+  hair:          "tightly coiled black, pulled back into a scripture-
+                  knot at the crown of the head; one cyber-cyan thread
+                  woven through the knot"
+  face_shape:    "round face; soft jaw; wide-set dark eyes; the spiral
+                  scar is a faint hyperpigmented mark just visible
+                  above the brow"
+  age_visible:   24
+  backstory_microbeat: "the only one in the cell who could read the
+                  pre-Empire scripture-cipher on the medallion before
+                  the fire — taught herself at thirteen from a
+                  smuggled archive"
+  master_face_seed: 190001b
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_zealot_female_c_master_face.png
+
+zealot_male_a:
+  ethnicity_cue: "Pureflame creche, central-empire descent; warm-tan
+                  skin with the violet undertone; mid-density Demagi
+                  dorsal ridge"
+  hair:          "close-cropped chestnut-brown, slightly receding at
+                  the temples; smoke-singed at the back of the neck"
+  face_shape:    "rectangular; pronounced brow; deep-set eyes with
+                  cyber-cyan inner ring; the spiral burn-scar is
+                  raised keloid against tan skin; faint stubble"
+  age_visible:   24
+  backstory_microbeat: "youngest of three brothers in Cell A-7; both
+                  brothers died in the fire; he keeps their two
+                  smaller medallions on the same chain as the chant-
+                  master's"
+  master_face_seed: 190002
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_zealot_male_a_master_face.png
+
+zealot_male_b:
+  ethnicity_cue: "Pureflame north-frontier descent; pale skin with
+                  cool-violet undertone at temples; very pronounced
+                  dorsal ridge that visibly displaces the cassock
+                  collar"
+  hair:          "shaved entirely; cyber-cyan scripture-cipher tattooed
+                  across the back of the skull (visible as he bows
+                  his head in prayer)"
+  face_shape:    "long jaw; thin mouth; pale grey eyes; the spiral
+                  burn-scar runs from the right brow up over the
+                  shaved scalp (uniquely visible because of the
+                  shave)"
+  age_visible:   24
+  backstory_microbeat: "scripture-cipher across the skull was tattooed
+                  the morning after the fire — his decision, not
+                  the cell's; the tattoo includes the names of the
+                  twelve who died"
+  master_face_seed: 190002a
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_zealot_male_b_master_face.png
+
+zealot_male_c:
+  ethnicity_cue: "Pureflame Far-East Demagi descent; rich olive-bronze
+                  skin with the violet undertone tracing along the
+                  cheekbones rather than the temples; medium dorsal
+                  ridge"
+  hair:          "shoulder-length black, pulled into a low scripture-
+                  knot at the nape; ember-orange thread woven into
+                  the knot (Pureflame mark — kept after the fire)"
+  face_shape:    "diamond face; angular cheekbones; full lower lip;
+                  amber-flecked dark eyes; the spiral scar runs
+                  through the right brow into the hairline"
+  age_visible:   24
+  backstory_microbeat: "the cell's youngest scripture-reader; his
+                  voice has the trained Pureflame chant-cadence (a
+                  separate VO manifest cluster — the singing-voice
+                  variant)"
+  master_face_seed: 190002b
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_zealot_male_c_master_face.png
+```
+
+#### §AC.11.14.2 Ghost — Sira Null-Echo (3 female + 3 male variants)
+
+```yaml
+ghost_female_a:
+  ethnicity_cue: "Quarchon Panopticon-creche; pale-grey skin with brass
+                  dust at cheekbones, brow-ridge, and knuckles; the
+                  brass dust is most concentrated at the temples
+                  (Panopticon's Silent Corps ritual application)"
+  hair:          "close-cropped silver-black, asymmetric (longer left
+                  side, shaved right side where the neural-jack
+                  port is)"
+  face_shape:    "narrow oval; high cheekbones; sharp chin; left eye
+                  is the brass-rim aperture-iris (mid-aperture
+                  default), right eye is biological grey-blue with
+                  no occult inner ring (Quarchon baseline)"
+  age_visible:   29
+  backstory_microbeat: "her pre-Silent-Corps name (before her vocal
+                  cords were replaced) is in a sealed dossier at
+                  Panopticon HQ — she has never told it to anyone"
+  master_face_seed: 190003
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_ghost_female_a_master_face.png
+
+ghost_female_b:
+  ethnicity_cue: "Quarchon Free-Ports-descent (rare; most Quarchon are
+                  Empire-aligned); pale-grey skin with green-blue
+                  undertone at the throat (a marker of Free Ports
+                  Quarchon manufacturing); brass dust uneven —
+                  applied in irregular maintenance rather than
+                  ritual"
+  hair:          "shoulder-length pale-blonde with cyber-cyan ends;
+                  the asymmetric cut is hidden under the longer
+                  hair on the right side"
+  face_shape:    "rounded oval; soft cheekbones; full mouth (a Free
+                  Ports Quarchon body design — the manufacturers
+                  prioritised passing-as-Human ability); right eye
+                  is the aperture-iris (rare side; flagged her as
+                  'unusual' during Panopticon recruitment)"
+  age_visible:   29
+  backstory_microbeat: "Free-Ports-manufactured Quarchon, then sold
+                  on into Empire service; the Silent Corps cog-implant
+                  was retrofitted onto Free Ports anatomy and clicks
+                  louder than standard"
+  master_face_seed: 190003a
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_ghost_female_b_master_face.png
+
+ghost_female_c:
+  ethnicity_cue: "Quarchon Empire-Inner-Ring; the most uniform brass
+                  dust application (Panopticon's elite calibration);
+                  skin tone is the canonical pale-grey with no
+                  undertone"
+  hair:          "fully shaved; the bare scalp shows the canonical
+                  Quarchon temple-port scar plus an inscribed cipher
+                  along the right occiput (Silent Corps service
+                  number — visible because the head is fully shaved)"
+  face_shape:    "narrow heart-shape; sharp brow; thin lips; left
+                  eye aperture-iris with high-end Panopticon
+                  calibration (visible micro-articulation in the
+                  iris-leaves); a faint scar at the corner of the
+                  mouth from a calibration error in childhood"
+  age_visible:   29
+  backstory_microbeat: "served the longest of the three variants —
+                  20 years in Silent Corps; her cog-implant has
+                  developed a personal idiosyncrasy (a barely-
+                  audible thrum when she lies; she has learned to
+                  not lie)"
+  master_face_seed: 190003b
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_ghost_female_c_master_face.png
+
+ghost_male_a:
+  ethnicity_cue: "Quarchon Empire-Outer-Ring; pale-grey skin, even
+                  brass dust application; mechanical eye on the
+                  left (canonical)"
+  hair:          "close-cropped charcoal-black, deliberate stubble
+                  growth (looks like he forgot to shave; he didn't)"
+  face_shape:    "rectangular; strong jaw; deep-set eyes; thin scar
+                  along the left jaw from a knife in a back alley
+                  (he was the one who ended the fight; that detail
+                  isn't his backstory)"
+  age_visible:   29
+  backstory_microbeat: "the male variant's pre-Silent-Corps name
+                  (Sirov) was the name of his father — unrelated;
+                  the Corps assigns names from a registry"
+  master_face_seed: 190004
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_ghost_male_a_master_face.png
+
+ghost_male_b:
+  ethnicity_cue: "Quarchon Free-Ports-descent variant (matches the
+                  female_b ethnic cue); pale-grey with green-blue
+                  throat; brass dust uneven"
+  hair:          "asymmetric — longer left, shaved right; the
+                  shaved right side shows the temple-port and a
+                  Free Ports manufacturer's serial-number tattoo"
+  face_shape:    "soft jaw; wide cheekbones; full mouth; left
+                  aperture-iris is older-design (visible bezel
+                  wear)"
+  age_visible:   29
+  backstory_microbeat: "the only Free-Ports-manufactured Quarchon
+                  in the Silent Corps cohort of his year; was
+                  the only survivor of his cohort's first
+                  assignment"
+  master_face_seed: 190004a
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_ghost_male_b_master_face.png
+
+ghost_male_c:
+  ethnicity_cue: "Quarchon Empire-Inner-Ring (matches female_c);
+                  uniform brass dust; cipher along the occiput
+                  scalp"
+  hair:          "fully shaved; the cipher-inscription on the
+                  scalp is visible from any angle"
+  face_shape:    "narrow rectangular; pronounced brow; thin
+                  lips; pale grey biological right eye"
+  age_visible:   29
+  backstory_microbeat: "the longest-serving Silent Corps assassin
+                  to have defected; his service number on the
+                  occiput is the lowest in the cohort (Panopticon
+                  numbers low = senior)"
+  master_face_seed: 190004b
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_ghost_male_c_master_face.png
+```
+
+#### §AC.11.14.3 Scholar — Tien Ceadrune (3 female + 3 male variants)
+
+```yaml
+scholar_female_a:
+  ethnicity_cue: "Human, Inner-Empire descent; warm-tan skin; no
+                  species occult marker; ink-stains on right four
+                  fingers (left index missing)"
+  hair:          "shoulder-length brown with grey at the temples
+                  (early-greying; she was thirty when it started);
+                  loose; one strand always escaping the brass-rim
+                  reading-glasses pushed up on the brow"
+  face_shape:    "oval; soft cheekbones; warm-brown eyes; thin
+                  scar along the left palm where the missing
+                  finger used to attach"
+  age_visible:   38
+  backstory_microbeat: "her mother's Game Master alumna entry was
+                  redacted from House of Ledger archives — Tien
+                  found a single citation in a margin note"
+  master_face_seed: 190005
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_scholar_female_a_master_face.png
+
+scholar_female_b:
+  ethnicity_cue: "Human, Far-North descent; pale skin with cold
+                  undertone; very small freckles across the nose
+                  and cheeks (faded with age); no species occult
+                  marker"
+  hair:          "long ash-blonde, almost-grey with prominent silver
+                  streaks; pulled back into a low knot; the brass
+                  reading-glasses are pushed up on the knot itself"
+  face_shape:    "long oval; aquiline nose; pale-blue eyes; the
+                  missing-finger scar is more pronounced (younger
+                  injury than the canon — she was 33 when it
+                  happened, not 36)"
+  age_visible:   38
+  backstory_microbeat: "the mimic-codex incident was at Tidewater
+                  Archive (variant) — she has been a guest there
+                  three times since; once she helped Aevel of the
+                  Five Gates with a cipher-translation"
+  master_face_seed: 190005a
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_scholar_female_b_master_face.png
+
+scholar_female_c:
+  ethnicity_cue: "Human, Far-South descent; deep umber-brown skin;
+                  small mole at the corner of the right eye; no
+                  species occult marker"
+  hair:          "tightly-coiled black with grey at the temples;
+                  pulled back into two small knots at the nape;
+                  brass-rim reading-glasses pushed up on the brow"
+  face_shape:    "round face; soft jaw; warm dark eyes; the missing-
+                  finger scar is faint (well-healed)"
+  age_visible:   38
+  backstory_microbeat: "spent seven years cataloguing pre-Empire
+                  Far-South cipher-script before the Chronarchive
+                  asked her to leave; she took copies of her
+                  catalogue with her — they live in the leather
+                  notebook at her belt"
+  master_face_seed: 190005b
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_scholar_female_c_master_face.png
+
+scholar_male_a:
+  ethnicity_cue: "Human, Inner-Empire (matches female_a ethnic);
+                  warm-tan skin; ink-stained right four fingers
+                  (left index missing)"
+  hair:          "salt-and-pepper, swept back; receding at the
+                  temples; brass reading-glasses on the bridge
+                  of the nose (worn, not pushed up)"
+  face_shape:    "rectangular; strong jaw; warm-brown eyes; well-
+                  groomed beard with grey accents"
+  age_visible:   42
+  backstory_microbeat: "the male variant is named Tien Caedrune
+                  (note alternate spelling — a brother registry
+                  variant; Chronarchive accepted both); his Game
+                  Master alumna was his older sister"
+  master_face_seed: 190006
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_scholar_male_a_master_face.png
+
+scholar_male_b:
+  ethnicity_cue: "Human, Far-North descent; pale skin; faded
+                  freckles; pale-blue eyes"
+  hair:          "long iron-grey, tied back at the nape; clean-
+                  shaven; brass reading-glasses pushed up on the
+                  brow; a pen permanently behind the right ear"
+  face_shape:    "long oval; aquiline nose; thin lips; pale-blue
+                  eyes that have read everything"
+  age_visible:   45
+  backstory_microbeat: "older variant — has been at Chronarchive
+                  for 25 years; was offered tenure six times,
+                  declined six times; finally asked to leave"
+  master_face_seed: 190006a
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_scholar_male_b_master_face.png
+
+scholar_male_c:
+  ethnicity_cue: "Human, Far-South descent; deep umber-brown skin;
+                  small chin scar (childhood); brown eyes"
+  hair:          "shaved short; greying at the sides; clean-shaven;
+                  brass reading-glasses on the bridge of the nose"
+  face_shape:    "round face; soft jaw; warm dark eyes; the missing
+                  left index finger is the most-recent injury (six
+                  months pre-cohort)"
+  age_visible:   38
+  backstory_microbeat: "his catalogue is the smallest of the three
+                  scholar variants — he was younger to the wing
+                  and had less time; what he has is meticulously
+                  cross-referenced"
+  master_face_seed: 190006b
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_scholar_male_c_master_face.png
+```
+
+#### §AC.11.14.4 Revenant — Bohl-Mor Krellix (3 male + 3 female variants)
+
+```yaml
+revenant_male_a:
+  ethnicity_cue: "Demagi Empire-Central; faint occult-violet at
+                  temples; pronounced dorsal chitin ridge above
+                  iron-grey collar; cyber-cyan inner ring on right
+                  eye (left eye milky-white)"
+  hair:          "close-cropped iron-grey at the temples,
+                  brown-black at the crown; smoke-singed ends never
+                  fully grown out"
+  face_shape:    "rectangular; pronounced brow; weather-worn skin;
+                  visible scarification cipher-script along the
+                  inside of both forearms; small bandage permanently
+                  wrapped around the left wrist"
+  age_visible:   31 (apparent); died at 30
+  backstory_microbeat: "his daughter's name was Mira; he remembers
+                  this; he doesn't remember her eye colour"
+  master_face_seed: 190007
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_revenant_male_a_master_face.png
+
+revenant_male_b:
+  ethnicity_cue: "Demagi Empire-East; deeper olive-tan skin; the
+                  occult-violet undertone is most visible along
+                  the jawline; mid-density dorsal ridge"
+  hair:          "long black hair (just-grew-back-after-death length
+                  — clone-bench restoration regrew his hair from
+                  scalp follicles); pulled back into a soldier's
+                  short tail"
+  face_shape:    "diamond face; angular cheekbones; deep-set eyes;
+                  scarification cipher is more elaborate than
+                  variant_a (the resurrectionist who restored him
+                  was more skilled)"
+  age_visible:   31 (apparent)
+  backstory_microbeat: "his wife's name was Lera; he remembers
+                  this; what he doesn't remember is the seven
+                  years before they met"
+  master_face_seed: 190007a
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_revenant_male_b_master_face.png
+
+revenant_male_c:
+  ethnicity_cue: "Demagi Empire-North; pale skin with cool occult-
+                  violet at temples; wider, more pronounced dorsal
+                  ridge"
+  hair:          "shaved entirely; the scalp shows the cipher-
+                  scarification continuing across (a clone-bench
+                  ritual signature); a thin scar along the right
+                  ear from the brass spike that killed him"
+  face_shape:    "long jaw; thin mouth; pale grey biological
+                  eyes (right eye has the cyber-cyan ring; left
+                  is clouded white)"
+  age_visible:   31 (apparent)
+  backstory_microbeat: "his squad-mates' names: Henn, Kross, Tela,
+                  Gris, Vorr-Mar; he remembers all five; he is
+                  the only one who returned"
+  master_face_seed: 190007b
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_revenant_male_c_master_face.png
+
+revenant_female_a:
+  ethnicity_cue: "Demagi Empire-Central; same descent as male_a
+                  (variant Bohla-Mor)"
+  hair:          "long black, pulled into a soldier's tight bun;
+                  smoke-singed at the ends"
+  face_shape:    "oval; high cheekbones; the cyber-cyan ring is
+                  more pronounced on her than on male variants
+                  (Demagi female biology runs the inner ring
+                  thicker on average)"
+  age_visible:   31 (apparent)
+  backstory_microbeat: "her partner's name was Vael; she
+                  remembers this; what she doesn't remember is
+                  the song they used to sing together"
+  master_face_seed: 190008
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_revenant_female_a_master_face.png
+
+revenant_female_b:
+  ethnicity_cue: "Demagi Empire-East; same descent as male_b"
+  hair:          "shoulder-length black with a single grey streak
+                  at the right temple (clone-bench scar — restoration
+                  regrows hair imperfectly)"
+  face_shape:    "diamond; angular; the bandage on the left wrist
+                  is replaced regularly (the clone-scar weeps when
+                  the weather changes)"
+  age_visible:   31 (apparent)
+  backstory_microbeat: "her squad's banner was the only thing
+                  that survived Veridian VI intact; she found it
+                  three months after restoration in a Free Ports
+                  pawnshop and bought it back"
+  master_face_seed: 190008a
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_revenant_female_b_master_face.png
+
+revenant_female_c:
+  ethnicity_cue: "Demagi Empire-North; same descent as male_c"
+  hair:          "shaved entirely; the cipher-scarification visible
+                  on the scalp"
+  face_shape:    "long oval; thin lips; pale grey eyes; the death-
+                  wound scar at the throat is the most visible
+                  on this variant (she was killed differently —
+                  a thrown blade rather than a brass spike)"
+  age_visible:   31 (apparent)
+  backstory_microbeat: "the clone-bench resurrectionist who
+                  restored her was Demagi (rare); she remembers
+                  his face though they have never spoken since"
+  master_face_seed: 190008b
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_revenant_female_c_master_face.png
+```
+
+#### §AC.11.14.5 Artisan — Pellix Vaun-Brass (3 male + 3 female variants)
+
+```yaml
+artisan_male_a:
+  ethnicity_cue: "Quarchon Skyforge clockmaker caste; canonical
+                  pale-grey with brass dust at cheekbones, brow-
+                  ridge, knuckles; right-side mechanical eye (his
+                  family's distinguishing trait — clockmaker caste
+                  installs on the dominant-hand side)"
+  hair:          "shoulder-length copper-brown with brass thread
+                  woven near the nape (clockmaker caste mark);
+                  cog-mechanism brass goggles permanently pushed
+                  up on the forehead"
+  face_shape:    "rectangular; strong jaw; deep-set eyes; weather-
+                  worn fingertips with permanent ink and machine-
+                  oil staining"
+  age_visible:   26
+  backstory_microbeat: "his family workshop was three generations
+                  in the same Skyforge bay; the caste licence
+                  number on his back-of-neck tattoo is 4423"
+  master_face_seed: 190009
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_artisan_male_a_master_face.png
+
+artisan_male_b:
+  ethnicity_cue: "Quarchon Skyforge but Far-South descent (rare
+                  combination); pale-grey skin with subtle warm
+                  undertone (Skyforge southern shops use a
+                  different brass-dust ritual application)"
+  hair:          "close-cropped copper-grey, shaved on the right
+                  side where the mechanical eye is mounted (his
+                  variant's mechanical eye is recent — he had a
+                  workshop accident at age 22 and replaced the
+                  damaged biological eye; canon mech-eye-side
+                  was right by family tradition, also
+                  coincidentally the side he lost)"
+  face_shape:    "diamond face; angular cheekbones; the right
+                  side of the face is slightly thinner (residual
+                  scarring from the accident)"
+  age_visible:   26
+  backstory_microbeat: "his accident at 22 took the eye and his
+                  brother (the brother died in the same accident);
+                  the cog-mechanism wristwatch he built at 14
+                  was given to him by that brother — he wears it
+                  on the right wrist out of grief"
+  master_face_seed: 190009a
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_artisan_male_b_master_face.png
+
+artisan_male_c:
+  ethnicity_cue: "Quarchon Skyforge Far-North; pale-grey with cool
+                  blue undertone at the throat; brass dust uneven
+                  (his shop used minimal ritual)"
+  hair:          "shoulder-length pale-grey with cyber-cyan thread
+                  near the temples; brass goggles pushed up"
+  face_shape:    "long oval; pronounced brow; pale-grey biological
+                  left eye, brass aperture-iris right eye"
+  age_visible:   26
+  backstory_microbeat: "his shop refused conscription so visibly
+                  that Mechronis sent inspectors twice; the
+                  inspectors took the third-generation founder's
+                  cog-vice with them as 'evidence'; he has built
+                  himself a replacement, slightly better than the
+                  original"
+  master_face_seed: 190009b
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_artisan_male_c_master_face.png
+
+artisan_female_a:
+  ethnicity_cue: "Quarchon Skyforge clockmaker caste; same descent
+                  as male_a"
+  hair:          "long copper-brown braided down the back with
+                  brass beads; cog-mechanism goggles on the brow"
+  face_shape:    "oval; soft cheekbones; warm hazel biological
+                  left eye, brass aperture-iris right eye"
+  age_visible:   26
+  backstory_microbeat: "her family expected her to take over the
+                  shop; she said no; she still sends a brass-
+                  bound letter every six weeks"
+  master_face_seed: 190010
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_artisan_female_a_master_face.png
+
+artisan_female_b:
+  ethnicity_cue: "Quarchon Skyforge Far-South; pale-grey with warm
+                  undertone (matches male_b)"
+  hair:          "shoulder-length copper, asymmetric (longer left,
+                  shaved right where the recent mech-eye sits);
+                  brass goggles"
+  face_shape:    "diamond; angular cheekbones; the right side of
+                  the face still shows accident scarring; full
+                  mouth"
+  age_visible:   26
+  backstory_microbeat: "her brother (matching male_b's brother)
+                  was her twin; her grief takes a different shape
+                  — she works longer hours at the bench than any
+                  other variant"
+  master_face_seed: 190010a
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_artisan_female_b_master_face.png
+
+artisan_female_c:
+  ethnicity_cue: "Quarchon Skyforge Far-North; pale-grey with
+                  cool throat (matches male_c)"
+  hair:          "long pale-grey braided with cyber-cyan thread;
+                  brass goggles pushed up"
+  face_shape:    "long oval; sharp brow; pale-grey biological
+                  left eye, brass aperture-iris right eye"
+  age_visible:   26
+  backstory_microbeat: "she designed the cog-vice replacement her
+                  brother (male_c variant) built; she signed her
+                  initials in micro-cipher on the underside of
+                  the vice — even Mechronis would not see it
+                  unless they took the vice apart"
+  master_face_seed: 190010b
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_artisan_female_c_master_face.png
+```
+
+#### §AC.11.14.6 Oracle — Aevel of the Five Gates (3 female + 3 male variants)
+
+```yaml
+oracle_female_a:
+  ethnicity_cue: "Demagi Tidewater descent; faint occult-violet at
+                  temples; thin dorsal chitin ridge; the cyber-
+                  cyan inner ring is most pronounced on her left
+                  eye (the 30-minutes-ahead eye)"
+  hair:          "long black, loose under the velvet hood; cyber-
+                  cyan thread braided into a single side-strand;
+                  damp-looking from the underwater training"
+  face_shape:    "oval; soft cheekbones; full lips; the left eye
+                  visibly slightly larger (the Five-Gate ritual
+                  asymmetry); a neural-jack port at the right
+                  temple"
+  age_visible:   33
+  backstory_microbeat: "her tea-leaf reading of the Game Master's
+                  birth-name was witnessed by three other seers;
+                  one of them disappeared the next month, one
+                  recanted the witness, the third sent her this
+                  hooded cloak (Order's secret support)"
+  master_face_seed: 190011
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_oracle_female_a_master_face.png
+
+oracle_female_b:
+  ethnicity_cue: "Demagi Tidewater Far-East descent; rich olive
+                  skin with violet wash along cheekbones; mid
+                  dorsal ridge; cyber-cyan ring thicker than
+                  baseline (Five-Gate ritual intensifies it)"
+  hair:          "shaved at the sides, long black braid down the
+                  centre with five cyber-cyan threads (one per
+                  gate she has crossed)"
+  face_shape:    "diamond face; angular jaw; amber-flecked dark
+                  eyes; the left-eye time-lag is harder to see
+                  on her (the eye is steady; the lag is in her
+                  voice)"
+  age_visible:   33
+  backstory_microbeat: "she crossed the fifth gate alone — the
+                  Order does not officially permit solo crossings;
+                  her solo scarification (a small Cipher-T mark
+                  on the left collarbone) is the only visible
+                  proof"
+  master_face_seed: 190011a
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_oracle_female_b_master_face.png
+
+oracle_female_c:
+  ethnicity_cue: "Demagi Tidewater Far-South descent; deep brown
+                  skin with cool occult-violet wash at the temples;
+                  cyber-cyan ring is the brightest of the variants
+                  (the Far-South ritual application uses pigment
+                  in the iris)"
+  hair:          "tightly coiled black with grey at the temples;
+                  pulled back into a damp-looking knot; the
+                  underwater-training residue is visible as a
+                  faint salt-rim along the hairline"
+  face_shape:    "round face; soft jaw; warm dark eyes; the
+                  asymmetric eye is more visible in repose"
+  age_visible:   33
+  backstory_microbeat: "the oldest of the three female variants —
+                  was already at the second gate when the Empire
+                  collapsed her cell's outer-ring branch (cell
+                  is a Pureflame term, but Tidewater Order uses
+                  it adjacently)"
+  master_face_seed: 190011b
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_oracle_female_c_master_face.png
+
+oracle_male_a:
+  ethnicity_cue: "Demagi Tidewater (matches female_a); name
+                  variant Aevor (canon-equivalent)"
+  hair:          "shoulder-length black, loose under the hood;
+                  damp-looking; one cyber-cyan side-thread"
+  face_shape:    "rectangular; soft brow; full lower lip; left
+                  eye larger asymmetry; neural-jack port at right
+                  temple"
+  age_visible:   33
+  backstory_microbeat: "he was the youngest member of his Five-
+                  Gate cohort; the seers older than him have all
+                  either disappeared or recanted — he is the
+                  last living witness of his cohort's training"
+  master_face_seed: 190012
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_oracle_male_a_master_face.png
+
+oracle_male_b:
+  ethnicity_cue: "Demagi Tidewater Far-East (matches female_b)"
+  hair:          "long black with five cyber-cyan thread-braids;
+                  damp-look; partial dorsal ridge visible at
+                  nape"
+  face_shape:    "diamond; angular; amber-flecked dark eyes;
+                  collarbone scarification visible above an
+                  open-collar tunic (when the cloak parts)"
+  age_visible:   33
+  backstory_microbeat: "his solo fifth-gate crossing was witnessed
+                  by Aevel female_b — they are the only two who
+                  have done it; they have never met but they
+                  know about each other"
+  master_face_seed: 190012a
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_oracle_male_b_master_face.png
+
+oracle_male_c:
+  ethnicity_cue: "Demagi Tidewater Far-South (matches female_c)"
+  hair:          "shaved short with grey at the sides; the
+                  underwater-training salt-rim visible at the
+                  hairline"
+  face_shape:    "round face; soft jaw; warm dark eyes; the
+                  cyber-cyan ring is brightest of all male
+                  variants; lips slightly parted in the
+                  half-trance state"
+  age_visible:   33
+  backstory_microbeat: "the only male oracle variant who has
+                  asked the Order to be returned to the second
+                  gate (he is the most willing to step backward;
+                  he says forward is the wrong direction)"
+  master_face_seed: 190012b
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_oracle_male_c_master_face.png
+```
+
+#### §AC.11.14.7 Wanderer — Roon Calpha (3 male + 3 female variants)
+
+```yaml
+wanderer_male_a:
+  ethnicity_cue: "Human Free-Ports outer-ring; sun-and-storm-
+                  weathered olive-tan skin; one small brass hoop
+                  earring (left ear)"
+  hair:          "short brown with sun-bleached tips; perpetual
+                  stubble"
+  face_shape:    "rectangular; weather-worn; warm-brown eyes;
+                  small scar along the left cheek (from a Free
+                  Ports knife in his teens)"
+  age_visible:   27
+  backstory_microbeat: "his sister Tava's name is etched on the
+                  inside of the brass walking-stick handle; he
+                  has never told another living soul what is
+                  etched there"
+  master_face_seed: 190013
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_wanderer_male_a_master_face.png
+
+wanderer_male_b:
+  ethnicity_cue: "Human Far-North descent (Free-Ports adjacent);
+                  pale skin with sun-darkening on the forearms
+                  and forehead; freckles across nose"
+  hair:          "shoulder-length sandy-blonde, pulled into a
+                  rough tail at the nape; clean-shaven"
+  face_shape:    "long oval; aquiline nose; pale-blue eyes;
+                  weathered around the eyes from years of
+                  squinting at horizons"
+  age_visible:   27
+  backstory_microbeat: "his collection of route-maps is the
+                  largest of the variants — sixteen routes from
+                  memory; he can recite any of them at any
+                  moment"
+  master_face_seed: 190013a
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_wanderer_male_b_master_face.png
+
+wanderer_male_c:
+  ethnicity_cue: "Human Far-South descent; deep umber-brown skin;
+                  small mole at the corner of the left eye"
+  hair:          "tightly-curled black with sun-bleached fringe;
+                  short; small brass hoop earring on the right
+                  ear (mirrors variant_a's left-side hoop —
+                  symmetry quirk)"
+  face_shape:    "round face; soft jaw; warm-brown eyes; full
+                  lower lip; small scar across the right brow
+                  (Free Ports market fight when he was twelve)"
+  age_visible:   27
+  backstory_microbeat: "his Insurgency handler had a daughter
+                  named Tava — coincidence; the smuggler refused
+                  to use her name out of superstition; she ended
+                  up as the cohort's quartermaster's
+                  granddaughter (out of scope for this doc)"
+  master_face_seed: 190013b
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_wanderer_male_c_master_face.png
+
+wanderer_female_a:
+  ethnicity_cue: "Human Free-Ports outer-ring; warm-tan skin;
+                  one small brass hoop earring (left ear); name
+                  variant Rona Calpha"
+  hair:          "shoulder-length brown with sun-bleached tips;
+                  pulled into a smuggler's loose tail; small
+                  braid behind the right ear"
+  face_shape:    "oval; soft cheekbones; warm-brown eyes; small
+                  cheek scar mirror of male_a"
+  age_visible:   27
+  backstory_microbeat: "her sister Tav (different spelling) died
+                  in the dome collapse — her sister's name is
+                  also etched in the walking-stick"
+  master_face_seed: 190014
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_wanderer_female_a_master_face.png
+
+wanderer_female_b:
+  ethnicity_cue: "Human Far-North descent (matches male_b);
+                  pale; freckles"
+  hair:          "long sandy-blonde, mostly tied back; clean
+                  freckled forehead"
+  face_shape:    "long oval; aquiline nose; pale-blue eyes;
+                  weathered fine-line around the eyes"
+  age_visible:   27
+  backstory_microbeat: "the only variant who has personally
+                  walked the smuggler's route across the
+                  northern ice — three weeks alone with the
+                  walking-stick"
+  master_face_seed: 190014a
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_wanderer_female_b_master_face.png
+
+wanderer_female_c:
+  ethnicity_cue: "Human Far-South (matches male_c); deep umber-
+                  brown skin; small mole at corner of left eye"
+  hair:          "tightly-curled black, kept short; brass hoop
+                  on right ear (mirrors variant_a's left side —
+                  same symmetry quirk)"
+  face_shape:    "round face; soft jaw; warm-brown eyes; full
+                  lower lip; thin scar across the right brow"
+  age_visible:   27
+  backstory_microbeat: "her brother (variant_c's male equivalent)
+                  is also alive; she does not know this; the
+                  cohort might cross their paths during a Day-7
+                  resonance event"
+  master_face_seed: 190014b
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_wanderer_female_c_master_face.png
+```
+
+#### §AC.11.14.8 Martyr — Iva-Marl Sinder (3 female + 3 male variants)
+
+```yaml
+martyr_female_a:
+  ethnicity_cue: "Demagi Remembrance Archive descent (Hierarchy-
+                  aligned); faint occult-violet at temples; thin
+                  dorsal ridge; cyber-cyan inner ring on both eyes"
+  hair:          "shoulder-length black with one early-grey
+                  streak at the right temple (a Hierarchy-redirect
+                  side-effect); pulled back loose"
+  face_shape:    "oval; soft cheekbones; warm hazel eyes; thin
+                  scar across the left cheek (the eldest of the
+                  six redirect-scars); both palms permanently
+                  faintly raised"
+  age_visible:   29
+  backstory_microbeat: "the rescued conscript wrote her a letter
+                  every year for seven years; the seventh letter
+                  is folded inside the bandage-roll across her
+                  chest"
+  master_face_seed: 190015
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_martyr_female_a_master_face.png
+
+martyr_female_b:
+  ethnicity_cue: "Demagi Remembrance Archive Far-East descent;
+                  rich olive skin with violet wash along jawline;
+                  pronounced dorsal ridge"
+  hair:          "long black braid down the back with brass-
+                  rim redirect-rune beads woven through (one
+                  bead per redirect-scar — six beads)"
+  face_shape:    "diamond face; angular cheekbones; amber-
+                  flecked dark eyes; the cheek scar is more
+                  prominent on her (better-healed, but bigger)"
+  age_visible:   29
+  backstory_microbeat: "she is the only Martyr variant who has
+                  successfully redirected a fatal wound from a
+                  cohort-mate (during a training exercise; the
+                  cohort-mate was Bohl-Mor variant_b — they have
+                  a private bond about this)"
+  master_face_seed: 190015a
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_martyr_female_b_master_face.png
+
+martyr_female_c:
+  ethnicity_cue: "Demagi Remembrance Archive Far-South descent;
+                  deep brown skin with cool occult-violet at
+                  temples; mid dorsal ridge"
+  hair:          "tightly-coiled black with grey at the temples;
+                  pulled into a knot at the nape; the bandage
+                  sash crosses the chest under the hair-knot"
+  face_shape:    "round face; soft jaw; warm-brown eyes;
+                  redirect-scars more diffuse (Far-South tradition
+                  spreads the scar over a larger area)"
+  age_visible:   29
+  backstory_microbeat: "she carries seven redirect-scars (one
+                  more than canon — the seventh was a quiet
+                  redirect during a Hierarchy execution she
+                  was not authorised to interrupt; she did
+                  anyway; the warrant was wrong)"
+  master_face_seed: 190015b
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_martyr_female_c_master_face.png
+
+martyr_male_a:
+  ethnicity_cue: "Demagi Remembrance Archive (matches female_a);
+                  name variant Iv-Marl"
+  hair:          "close-cropped black with the right-temple grey
+                  streak; clean-shaven"
+  face_shape:    "rectangular; pronounced brow; warm hazel eyes;
+                  the left-cheek scar is more visible on him
+                  (less-padded face)"
+  age_visible:   29
+  backstory_microbeat: "his rescued-conscript was a man (the male
+                  variant's narrative is parallel; the rescued
+                  remains parametric)"
+  master_face_seed: 190016
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_martyr_male_a_master_face.png
+
+martyr_male_b:
+  ethnicity_cue: "Demagi Remembrance Archive Far-East (matches
+                  female_b)"
+  hair:          "long black, pulled into a low tail with the six
+                  redirect-rune beads"
+  face_shape:    "diamond; angular cheekbones; amber-flecked
+                  dark eyes"
+  age_visible:   29
+  backstory_microbeat: "the male variant_b also redirected a
+                  fatal wound from a cohort-mate during training
+                  — but the cohort-mate was a different person
+                  (the Revenant male_a variant); the bond is
+                  parallel"
+  master_face_seed: 190016a
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_martyr_male_b_master_face.png
+
+martyr_male_c:
+  ethnicity_cue: "Demagi Remembrance Archive Far-South (matches
+                  female_c)"
+  hair:          "shaved short with grey at the sides;
+                  redirect-scars visible at the side of the
+                  scalp (Far-South tradition tattoos a mirror-
+                  rune on the side of the head rather than the
+                  scalp interior)"
+  face_shape:    "round face; soft jaw; warm-brown eyes;
+                  diffuse redirect-scars"
+  age_visible:   29
+  backstory_microbeat: "the only Martyr variant who has not yet
+                  redirected (he is at six redirect-scars and
+                  has not taken the seventh — the bandage sash
+                  carries the seventh, folded, waiting; it will
+                  be used during cohort cycle's second Mission
+                  return event for a critical NPC)"
+  master_face_seed: 190016b
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_martyr_male_c_master_face.png
+```
+
+#### §AC.11.14.9 Heretic — Caedex Vorr (3 male + 3 female variants)
+
+```yaml
+heretic_male_a:
+  ethnicity_cue: "Demagi Inner-Empire scholar descent; faint
+                  occult-violet tint; thin dorsal ridge; cyber-
+                  cyan inner ring is unusually thick (the
+                  heretical-thought intensification)"
+  hair:          "shoulder-length salt-and-pepper, slightly
+                  unkempt (he stopped caring after expulsion);
+                  one ear visible (cocked, listening)"
+  face_shape:    "rectangular; pronounced brow; chalk-dust on
+                  fingertips; lips amused"
+  age_visible:   34
+  backstory_microbeat: "his last words at the guild assembly
+                  were 'who wrote it first?'; he repeated them
+                  into the brass debate-bell; the bell was
+                  muffled but the words echoed"
+  master_face_seed: 190017
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_heretic_male_a_master_face.png
+
+heretic_male_b:
+  ethnicity_cue: "Demagi Inner-Empire Far-East scholar descent;
+                  rich olive skin with violet wash; pronounced
+                  dorsal ridge"
+  hair:          "long black, pulled into a scholar's low knot;
+                  brass debate-bell with cloth-muffler hangs
+                  beside the knot at the back of the neck"
+  face_shape:    "diamond; angular cheekbones; amber-flecked
+                  dark eyes; cyber-cyan ring extra-thick"
+  age_visible:   34
+  backstory_microbeat: "his expulsion was filmed; the footage
+                  is in House of Ledger archives; he has never
+                  watched it — has always wondered if his face
+                  in the moment looks different from how he
+                  remembers feeling"
+  master_face_seed: 190017a
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_heretic_male_b_master_face.png
+
+heretic_male_c:
+  ethnicity_cue: "Demagi Inner-Empire Far-South scholar descent;
+                  deep brown skin with cool violet at temples"
+  hair:          "shaved short with grey at the sides; chalk-
+                  dust visible on the scalp from chalkboard
+                  fragments he carries"
+  face_shape:    "long oval; sharp brow; thin lips; pale-grey
+                  biological eyes with the thick cyber-cyan
+                  ring"
+  age_visible:   34
+  backstory_microbeat: "his chalkboard fragment carries an
+                  additional question on the back side that
+                  no other variant has: 'what is the fourth
+                  doctrine of the Quill?' — Quill being the
+                  guild Archon (a private heresy within the
+                  heresy; reveals at Day-21 audit if cohort
+                  hits Heretic-archetype audit cluster)"
+  master_face_seed: 190017b
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_heretic_male_c_master_face.png
+
+heretic_female_a:
+  ethnicity_cue: "Demagi Inner-Empire scholar descent (matches
+                  male_a); name variant Caede Vorr"
+  hair:          "long black with grey at the temples; pulled
+                  into a scholar's knot; one strand always
+                  escaping the knot (chalk-dust on the strand)"
+  face_shape:    "oval; soft cheekbones; pale-grey eyes;
+                  amused mouth"
+  age_visible:   34
+  backstory_microbeat: "she was the youngest senior alumnus
+                  of the House of Ledger to be expelled in
+                  forty years; the expulsion record is sealed
+                  except to Quill"
+  master_face_seed: 190018
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_heretic_female_a_master_face.png
+
+heretic_female_b:
+  ethnicity_cue: "Demagi Inner-Empire Far-East scholar (matches
+                  male_b)"
+  hair:          "shoulder-length black, asymmetric (longer
+                  left, shaved right where the dorsal ridge
+                  meets the scalp — a heretical visible
+                  display of the species marker)"
+  face_shape:    "diamond; angular; amber-flecked dark eyes"
+  age_visible:   34
+  backstory_microbeat: "her shave-right asymmetric haircut is
+                  the heresy itself — Demagi traditionally
+                  cover the dorsal ridge; she does not"
+  master_face_seed: 190018a
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_heretic_female_b_master_face.png
+
+heretic_female_c:
+  ethnicity_cue: "Demagi Inner-Empire Far-South scholar (matches
+                  male_c)"
+  hair:          "tightly-coiled black, kept short; chalk-dust
+                  visible on the scalp"
+  face_shape:    "round face; soft jaw; warm-brown eyes;
+                  cyber-cyan ring extra-thick"
+  age_visible:   34
+  backstory_microbeat: "her chalkboard fragment is the most
+                  worn of the variants (most-erased, most-
+                  rewritten) — she has rewritten her original
+                  heresy seventeen times in seventeen different
+                  cipher-tongues; only one is still legible"
+  master_face_seed: 190018b
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_heretic_female_c_master_face.png
+```
+
+#### §AC.11.14.10 Jester — Vex'rah Halflaugh (3 non-binary + 3 alternate variants)
+
+```yaml
+jester_nb_a:
+  ethnicity_cue: "Quarchon Empire-Court descent; canonical pale-
+                  grey with brass dust; left aperture-iris;
+                  Panopticon-grade calibration (suppressed
+                  plosive-click)"
+  hair:          "short pale-blonde, asymmetric (longer left, shaved
+                  right where the temple-port is); cyber-cyan thread
+                  woven into the longer side"
+  face_shape:    "narrow oval; sharp jaw; the half-smile that
+                  doesn't reach the eyes is the canonical Vex'rah
+                  expression"
+  age_visible:   25
+  backstory_microbeat: "their brother's name was on the assassination
+                  list — first name Mer; they have never said it
+                  out loud since"
+  master_face_seed: 190019
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_jester_nb_a_master_face.png
+
+jester_nb_b:
+  ethnicity_cue: "Quarchon Empire-Court Far-East descent; pale-grey
+                  with subtle warm undertone at the throat (rare
+                  Quarchon variant); left aperture-iris"
+  hair:          "long pale-grey, asymmetric (longer right, shaved
+                  left); brass thread woven through the long side"
+  face_shape:    "diamond; angular cheekbones; full mouth; the
+                  half-smile is sharper on this variant (more
+                  performative)"
+  age_visible:   25
+  backstory_microbeat: "this variant's puppeteer training was at
+                  a Far-East troupe; the troupe-master is still
+                  alive and writes them every six months
+                  asking when they will return; they reply
+                  every other letter"
+  master_face_seed: 190019a
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_jester_nb_b_master_face.png
+
+jester_nb_c:
+  ethnicity_cue: "Quarchon Free-Ports manufactured (rare for
+                  Panopticon recruits — they had to sign a
+                  Free-Ports release); pale-grey with green-blue
+                  throat undertone; left aperture-iris (Free-Ports
+                  manufacturing standard)"
+  hair:          "shaved entirely; the manufacturer's serial-number
+                  visible on the temple; cyber-cyan thread tattooed
+                  across the back of the head (a heretical court-
+                  spy mark)"
+  face_shape:    "long oval; sharp brow; thin lips; the half-smile
+                  is harder to detect on this variant (the manufacturing
+                  body has fewer expression-articulation degrees of
+                  freedom)"
+  age_visible:   25
+  backstory_microbeat: "their puppeteer career was in the Free Ports
+                  — never the Empire; Panopticon hired them anyway
+                  because their lip-reading was the best the
+                  recruiter had ever tested"
+  master_face_seed: 190019b
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_jester_nb_c_master_face.png
+
+jester_male_a:
+  ethnicity_cue: "Quarchon Empire-Court (matches nb_a); brass-bound
+                  panel coat slightly more masculine cut"
+  hair:          "short pale-blonde asymmetric; cyber-cyan thread"
+  face_shape:    "narrow rectangular; sharp jaw; light stubble"
+  age_visible:   25
+  backstory_microbeat: "his brother (Mer) was a Quarchon court-
+                  guard — also Panopticon-aligned; the irony was
+                  never lost on Vex'rah"
+  master_face_seed: 190020
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_jester_male_a_master_face.png
+
+jester_female_a:
+  ethnicity_cue: "Quarchon Empire-Court (matches nb_a); cut more
+                  fitted; same pale-blonde asymmetric hair"
+  hair:          "long pale-blonde asymmetric; cyber-cyan thread;
+                  one bell silenced at the right ear"
+  face_shape:    "narrow oval; soft cheekbones; full mouth"
+  age_visible:   25
+  backstory_microbeat: "her brother (Mer-feminine variant Mera) was
+                  her twin; the name on the list felt like seeing
+                  her own"
+  master_face_seed: 190021
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_jester_female_a_master_face.png
+```
+
+#### §AC.11.14.11 Sentinel — Marcus Farrow (3 male + 3 female variants)
+
+```yaml
+sentinel_male_a:
+  ethnicity_cue: "Human Inner-Empire descent; weathered tan skin;
+                  no species occult marker"
+  hair:          "close-cropped iron-grey at temples, brown-black
+                  at crown; clean-shaven (Imperial Guard discipline)"
+  face_shape:    "rectangular; pronounced brow; deep-set warm-brown
+                  eyes; thin scar along the right jaw (knife,
+                  Bastion sixth year)"
+  age_visible:   42
+  backstory_microbeat: "the wrongful execution victim's name was
+                  Pell Caedrune (no relation to Tien — coincidence
+                  the cohort might notice if cohesion runs warm)"
+  master_face_seed: 190022
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_sentinel_male_a_master_face.png
+
+sentinel_male_b:
+  ethnicity_cue: "Human Far-North descent; pale skin; faded
+                  freckles across nose"
+  hair:          "shoulder-length sandy-grey with iron at the temples;
+                  pulled into a soldier's tail"
+  face_shape:    "long oval; aquiline nose; pale-blue eyes;
+                  weathered fine lines around the eyes"
+  age_visible:   42
+  backstory_microbeat: "served at the Forward Bastion alongside
+                  Bohl-Mor variant_a's older brother (now dead at
+                  Veridian VI); Bohl-Mor remembers his brother's
+                  face; Marcus remembers his brother's name"
+  master_face_seed: 190022a
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_sentinel_male_b_master_face.png
+
+sentinel_male_c:
+  ethnicity_cue: "Human Far-South descent; deep brown skin;
+                  small mole at the chin"
+  hair:          "short tightly-coiled black with grey at the
+                  temples; clean-shaven"
+  face_shape:    "round face; soft jaw; warm dark eyes;
+                  visible siren-key on lanyard at the chest"
+  age_visible:   42
+  backstory_microbeat: "the wrongful execution victim was a Far-
+                  South Demagi (Pell Caedrune's full ethnicity
+                  detail) — Marcus carries the warrant in his
+                  pocket folded next to the brass commendation;
+                  the cohort might find the warrant during a
+                  cellblock search"
+  master_face_seed: 190022b
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_sentinel_male_c_master_face.png
+
+sentinel_female_a:
+  ethnicity_cue: "Human Inner-Empire (matches male_a); name
+                  variant Marcia"
+  hair:          "shoulder-length iron-grey, pulled into a
+                  Imperial-Guard-issue bun; clean cut"
+  face_shape:    "oval; soft cheekbones; warm-brown eyes;
+                  right-jaw scar mirror of male_a"
+  age_visible:   42
+  backstory_microbeat: "her variant's wrongful-execution victim
+                  was a woman named Pelha Caedrune — the warrant
+                  carried mistaken gender alongside everything
+                  else"
+  master_face_seed: 190023
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_sentinel_female_a_master_face.png
+
+sentinel_female_b:
+  ethnicity_cue: "Human Far-North descent (matches male_b);
+                  pale; freckles; pale-blue eyes"
+  hair:          "long sandy-grey, tied back in a tight braid;
+                  one strand always escaping over the left
+                  temple"
+  face_shape:    "long oval; aquiline nose; weathered around
+                  the eyes"
+  age_visible:   42
+  backstory_microbeat: "she has the only sentinel variant
+                  who keeps her commendation visible — a
+                  brass-bound pin at the breast (canon Marcus
+                  hides his); she carries the heavier shame
+                  in a different way"
+  master_face_seed: 190023a
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_sentinel_female_b_master_face.png
+
+sentinel_female_c:
+  ethnicity_cue: "Human Far-South descent (matches male_c)"
+  hair:          "tightly-coiled black with grey at the temples;
+                  pulled back into two short knots at the nape"
+  face_shape:    "round face; soft jaw; warm dark eyes;
+                  the siren-key lanyard at the chest is the
+                  most visible of the variants (longer than
+                  the male canon)"
+  age_visible:   42
+  backstory_microbeat: "her warrant-victim Pelha was the fiancée
+                  of a Demagi who is now a Hierarchy bishop —
+                  the bishop and Marcia's variant cross paths
+                  during an Act-5 mission deployment;
+                  parametric; out of scope for this doc"
+  master_face_seed: 190023b
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_sentinel_female_c_master_face.png
+```
+
+#### §AC.11.14.12 Prodigal — Lord Avern Thessler (3 male + 3 female variants)
+
+```yaml
+prodigal_male_a:
+  ethnicity_cue: "Human Inner-Empire noble descent; warm-tan skin;
+                  no species occult marker; one small brass hoop
+                  earring (right ear — matches Wanderer male_a's
+                  left side hoop; the Free Ports outer-ring stock
+                  pierces both ears for symmetry; Avern only
+                  pierced one)"
+  hair:          "shoulder-length brown with sun-bleached tips
+                  (Free Ports years); pulled into a tail at the
+                  nape"
+  face_shape:    "rectangular; aristocratic brow; deep-set warm-
+                  brown eyes; the bones of the face are still
+                  Empire-noble despite weathering"
+  age_visible:   28
+  backstory_microbeat: "his betrothal-ceremony fiancée's name
+                  was Ileva Thessler-Vekka — they were childhood
+                  friends; he has never told her he is alive"
+  master_face_seed: 190024
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_prodigal_male_a_master_face.png
+
+prodigal_male_b:
+  ethnicity_cue: "Human Far-North descent (rare for Empire
+                  noble); pale skin with sun-darkening on
+                  forearms; faded freckles"
+  hair:          "long sandy-blonde, pulled into a Free-Ports-
+                  rough tail; clean-shaven (Empire-noble
+                  hold-over)"
+  face_shape:    "long oval; aquiline nose; pale-blue eyes;
+                  weathered around the eyes from Free Ports
+                  exposure; Empire-noble jawline still visible"
+  age_visible:   28
+  backstory_microbeat: "his Thessler shipping-house variant
+                  is in the Far-North trading-belt; his
+                  fiancée was a Far-North noble too — Ilara
+                  Vekka; the betrothal was cross-house"
+  master_face_seed: 190024a
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_prodigal_male_b_master_face.png
+
+prodigal_male_c:
+  ethnicity_cue: "Human Far-South descent; deep umber-brown skin;
+                  small chin scar (childhood — fall from a
+                  parapet at age six)"
+  hair:          "tightly-coiled black with sun-bleached fringe;
+                  short; brass hoop on the right ear (matches
+                  Wanderer male_c's right hoop — different
+                  symmetry coincidence; both hoops on right
+                  is the rare collision the cohort never
+                  notices unless triangle-event runs both
+                  Wanderer and Prodigal as Far-South descent)"
+  face_shape:    "round face; soft jaw; warm dark eyes;
+                  noble bone structure"
+  age_visible:   28
+  backstory_microbeat: "his Free-Ports broker name 'Ren Calpha'
+                  was deliberately chosen to echo Roon Calpha
+                  (Wanderer); he heard the name through a
+                  shared-wall in the rooming house and liked
+                  the sound; he has never met Roon and does
+                  not know Roon's full name; the brass earring
+                  on the right ear was a wedding-favour from
+                  someone Avern doesn't remember at a Free-
+                  Ports party"
+  master_face_seed: 190024b
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_prodigal_male_c_master_face.png
+
+prodigal_female_a:
+  ethnicity_cue: "Human Inner-Empire noble (matches male_a);
+                  name variant Lady Avern Thessler (gender-
+                  neutral first name; same canon)"
+  hair:          "long brown with sun-bleached tips; pulled
+                  into a Free-Ports-rough tail; small brass
+                  hoop on right ear"
+  face_shape:    "oval; aristocratic cheekbones; warm-brown
+                  eyes; the half-empty leather coin-purse at
+                  the belt visible"
+  age_visible:   28
+  backstory_microbeat: "her betrothal was to a Trade Empire
+                  countess (not a count) — Lady Ileva
+                  Thessler-Vekka — Empire-noble lesbian
+                  betrothal is canon and was the actual
+                  reason the family pushed; Avern's vanishing
+                  was less rebellion against the marriage
+                  than against the family's politics"
+  master_face_seed: 190025
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_prodigal_female_a_master_face.png
+
+prodigal_female_b:
+  ethnicity_cue: "Human Far-North noble (matches male_b)"
+  hair:          "long sandy-blonde, Free-Ports tail; clean
+                  freckled forehead"
+  face_shape:    "long oval; aquiline nose; pale-blue eyes"
+  age_visible:   28
+  backstory_microbeat: "her variant left the cross-house
+                  betrothal because she found out the betrothal
+                  was a cover for a Trade Empire weapons-
+                  smuggling deal — she went to Free Ports as
+                  a kind of moral protest; the family thinks
+                  she ran away with a lover"
+  master_face_seed: 190025a
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_prodigal_female_b_master_face.png
+
+prodigal_female_c:
+  ethnicity_cue: "Human Far-South noble (matches male_c)"
+  hair:          "tightly-coiled black with sun-bleached fringe;
+                  short; brass hoop on right ear (the rare
+                  same-side-as-Wanderer-c collision)"
+  face_shape:    "round face; soft jaw; warm dark eyes;
+                  Empire-noble bones"
+  age_visible:   28
+  backstory_microbeat: "she is the variant who DID meet Roon
+                  Calpha in person — once, at a Free Ports
+                  market, two years ago; she remembers him
+                  arguing with a vendor; she did not know
+                  who he was; Roon does not remember her at
+                  all; if the cohort runs Far-South Wanderer
+                  + Far-South Prodigal, the recognition
+                  scene happens at Day-14 — out of scope for
+                  this doc but reserved as a storyteller hook"
+  master_face_seed: 190025b
+  cdn_target: cdn/client-public/art/portraits/_masters/apprentice_prodigal_female_c_master_face.png
+```
+
+### §AC.11.15 Variant selection runtime contract
+
+The 72 variants above are selected at instantiation per
+cohort cycle by `apps/server/services/apprenticePedagogyBootstrap.ts`
+(or equivalent) — when an apprentice spawns into the cohort,
+the runtime:
+
+1. Reads `apprentice.archetype` (one of 12)
+2. Reads `apprentice.gender` (canonical female / male / non-binary)
+3. Hashes the apprentice's runtime UUID + cohort cycle into
+   a pseudo-random selector
+4. Picks one of the 3 variants per archetype × gender
+5. Locks the variant for the apprentice's lifetime (variants
+   never re-randomize mid-cycle)
+6. Loads the variant's master_face from CDN as the canonical
+   reference for downstream cutscenes / portraits in that
+   apprentice's run
+
+Backstory micro-beats from the variant inform unique dialog
+hooks at runtime (e.g., Ghost female_b's Free-Ports manufactured
+status surfaces in audit Day-14 dialogue if her variant is
+selected).
+
+### §AC.11.16 Master-face NB2 prompt template (canonical)
+
+For each of the 72 variants, the master-face render is generated
+via this canonical NB2 prompt template. **This is the gating
+production-art batch** — every downstream apprentice render
+references the master face for character-consistency.
+
+```yaml
+nb2:
+  model: gemini-3-pro-image-preview
+  aspect_ratio: "1:1"
+  resolution: "1080x1080"
+  reference_images:
+    - cdn/client-public/art/refs/apprentice_aesthetic_anchor.png
+  prompt: |
+    SUBJECT: <APPRENTICE_<archetype>_<gender>_<variant>_VISUAL>
+      from §AC.11.14.<n>: ethnicity_cue + hair + face_shape +
+      species visual cues per §AC.11.A — verbatim concatenation
+      of the variant's three trait-lock fields plus the species
+      cues. The apprentice is shown in head-and-shoulders
+      framing, eyes meeting the camera at the same eye-line,
+      mouth at neutral expression, neutral lighting designed
+      to capture the canonical face structure.
+    COMPOSITION: 1:1 square, 85mm equivalent (intimate portrait
+      lens), shallow DOF on face, head occupying upper 65% of
+      canvas, shoulders filling lower 35%, neutral grey APPRENTICE_
+      AESTHETIC backdrop in soft bokeh.
+    LIGHTING/CAMERA: 5400K diffuse front-fill key (no dramatic
+      shadows on the face — this is the canonical face reference,
+      not a cinematic still); 6500K cyber-cyan rim from upper-
+      right at low intensity (signal the APPRENTICE_AESTHETIC
+      world without obscuring face structure); ARRI Alexa
+      anamorphic; Kodak Vision3 250D (NOT 500T pushed +1 — for
+      master face we want the cleanest reproducible reference,
+      not pushed grain).
+    STYLE: APPRENTICE_AESTHETIC subtle — brass armatures and
+      cyber-cyan conduits in soft bokeh behind the figure;
+      occult-violet and corruption-pink palette absent from
+      the master face (those are added in downstream
+      expression / state variants); palette focus is character-
+      face-readability.
+    CONSTRAINTS: NB2_CONSTRAINTS_BASE; this is the master face
+      reference — must be reproducible across all 11 downstream
+      assets; the face structure here is canonical for this
+      apprentice variant; no extra fingers (hands not in
+      frame); no watermark; no logo; no signature object in
+      this render (signature objects are added in downstream
+      hero / dialog / 3qbody renders); the canonical 11-asset
+      pipeline references back to THIS image as the face
+      anchor.
+    Output 1080x1080, 1:1.
+
+pipeline:
+  nb2_seed: <variant master_face_seed from §AC.11.14>
+  cdn_target: <variant cdn_target from §AC.11.14>
+  reference_image_bundle: |
+    The single reference image is the apprentice_aesthetic_anchor.png
+    from §AC.0.1; the master face render is otherwise un-referenced
+    (this is the gating batch — no other character is established
+    yet, so trait-locking is via prose only).
+```
+
+**Generation order**:
+1. Generate `apprentice_aesthetic_anchor.png` (single-image,
+   establishes APPRENTICE_AESTHETIC; render once).
+2. For each of 72 variants, run the master-face NB2 prompt
+   above. Output 72 master_face PNGs to
+   `cdn/client-public/art/portraits/_masters/`.
+3. For each master face, run the §AC.10.5–§AC.10.6
+   downstream 11-asset templates with the master face as
+   reference image. Total downstream renders: 72 × 11 = 792.
+4. Plus the 5 named recruits × 11 = 55, plus Inspector
+   Veil-7 + 12 Archons + Mechronis Auditor + Quartermaster
+   per §AC.10.8 = 159.
+5. **Total apprentice + named-character master-aware art
+   batch: 1 + 72 + 792 + 55 + 159 = 1,079 renders.**
+   (Replaces the prior §AC.10.12 count of 836.)
+
+End of §AC.11.
+
+---
+
+## §AC.12 UI surface art — dialog / pedagogy hub / mission resolver / comm-screen frames
+
+The runtime ships React components (`PedagogyHub.tsx`,
+`BerthCommScreen.tsx`, `BerthScene.tsx`, `MissionResolver.tsx`,
+`AuditTranscript.tsx`, `CohortSlotsPanel.tsx`, `WardenPanel.tsx`,
+`SignatureCardForge.tsx`, `MemoryCardLibrary.tsx`,
+`DoctrinePicker.tsx`, `CommonsScenesPanel.tsx`) but the **chrome
+art** (frame textures, choice-wheels, response indicators,
+rarity-band trim, kiosk panels) was not specced. This section
+authors them.
+
+All UI chrome inherits APPRENTICE_AESTHETIC: brass armatures
++ cyber-cyan fiber-optic frames + sigil-etched plates
++ chalk-circle accents. UI panels are diegetic — the player
+reads them as in-world brass-bound terminals, not modern flat-
+shaded UI. Per the §AC.0.1 forbidden-list: pure-digital flat-
+shaded UIs are wrong; cyberpunk surfaces THROUGH brass / leather
+/ candle-wax.
+
+### §AC.12.1 BioWare-style branching dialog UI frame
+
+```yaml
+asset_id: ui_dialog_frame
+purpose: BioWare-style branching dialog overlay — used during
+  every named-character dialog scene (apprentice + recruits +
+  named NPCs)
+geometry: full-screen overlay; lower 35% holds the dialog box;
+  upper 65% shows the live scene behind
+fixtures:
+  - speaker_portrait_pane (lower-left, 1:1 square at 320x320 px;
+    holds the dialog_headshot of the current speaker; brass-bound
+    frame with cyber-cyan fiber-optic trim; sigil-etched corner-
+    plates; the portrait inside is the §AC.10.6 dialog_headshot
+    in current expression state)
+  - dialog_text_pane (lower-centre-and-right; brass-rim mahogany
+    surface texture with cipher-script for non-quote text;
+    speaker-name brass plate at top-left of pane in 25-char
+    safe text; dialog-text body in cipher-cream parchment-tone
+    on dark-mahogany backing)
+  - choice_wheel (lower-right when player's turn; 4-spoke radial
+    brass wheel; each spoke is a brass-rim mahogany blade with
+    a chosen-response icon; cyber-cyan fiber-optic trim that
+    intensifies on hover; the centre of the wheel carries a
+    chalk-circle inlay with the player's brass apprentice-
+    glyph)
+  - response_indicator (small 32x32 px brass-rim icon at the
+    end of each choice-wheel spoke; 4 canonical icons:
+    direct=brass-arrow / careful=brass-shield / probe=brass-
+    eye / heretic=brass-question-mark)
+  - audio_visualizer (faint cyber-cyan waveform along the top
+    edge of the dialog text pane; modulates with current
+    speaker's voice; absent during silent beats)
+art_resources:
+  textures: ui_dialog_frame_brass.png (1920x1080 master),
+    ui_dialog_speaker_pane_frame.png (340x340 with brass-rim
+    + fiber-optic trim alpha),
+    ui_dialog_text_pane_mahogany.png (1280x340),
+    ui_dialog_choice_wheel_4spoke.png (480x480 alpha-channel),
+    ui_dialog_response_icon_<type>.png × 4 (32x32 alpha)
+  models: none (UI overlay is 2D)
+  vfx: choice_wheel_hover_intensify (cyber-cyan rim brightens
+    150%); audio_visualizer_waveform (animated; modulates per
+    voice amplitude); chalk-circle pulse (every 8s when no
+    interaction)
+nb2_prompt:
+  model: gemini-3-pro-image-preview
+  aspect_ratio: "16:9"
+  resolution: "4K"
+  reference_images:
+    - cdn/client-public/art/refs/apprentice_aesthetic_anchor.png
+  prompt: |
+    SUBJECT: a BioWare-style dialog UI overlay panel, lower 35%
+      of a 16:9 screen, designed as a diegetic brass-bound
+      terminal interface (NOT a flat-shaded modern UI); panel
+      consists of: lower-left speaker-portrait pane in brass-
+      rim mahogany frame with cyber-cyan fiber-optic trim and
+      sigil-etched corner-plates (320x320 viewport for the
+      live portrait); lower-centre dialog-text pane in mahogany
+      with brass speaker-name plate at top-left and cipher-
+      cream parchment body text on dark-mahogany backing;
+      lower-right 4-spoke radial brass choice-wheel with each
+      spoke a brass-rim mahogany blade carrying a brass-rim
+      response icon; chalk-circle inlay at the wheel's centre;
+      cyber-cyan fiber-optic conduits running between all
+      panes; faint audio-visualizer waveform along the top
+      edge; the panel reads as if etched into the bottom of
+      a brass-and-glass viewing terminal that has been part
+      of the Ark for years.
+    COMPOSITION: 16:9 wide, designed for full-screen overlay
+      consumption; the lower 35% is the UI; upper 65% is
+      transparent (alpha-channel) for the underlying scene
+      to show through.
+    LIGHTING/CAMERA: 1800K candle key warming the brass; 6500K
+      cyber-cyan rim from fiber-optic; 12000K occult-violet
+      practical at the chalk-circle wheel-centre; ARRI Alexa
+      anamorphic; Kodak Vision3 500T pushed +1.
+    STYLE: APPRENTICE_AESTHETIC; the UI is steampunk-
+      cyberpunk-occult — brass armatures with cyber-cyan
+      conduits emerging through them, sigil-etched plates,
+      chalk-circle inlay; palette `#c9a14a / #5fa8ff / #0d0a08
+      / #ff2a8a / #5a1a1f / #dccfaa`.
+    CONSTRAINTS: NB2_CONSTRAINTS_BASE; the UI must be visually
+      diegetic (in-world brass terminal, not modern flat UI);
+      cipher-script body-text shown is dummy lorem-cipher
+      (≤25 chars per visible line — NB2 text-rendering-safe);
+      no real readable dialog text in the master prompt (the
+      runtime fills text); transparent upper 65%.
+    Output 4K, 16:9 with alpha-channel.
+pipeline:
+  nb2_seed: 192001
+  cdn_target: cdn/client-public/art/ui/ui_dialog_frame_master.png
+```
+
+### §AC.12.2 Pedagogy Hub 6-tab UI
+
+```yaml
+asset_id: ui_pedagogy_hub
+purpose: 6-tab navigation for ApprenticePedagogyPage.tsx
+  (Doctrine / Audits / Forge / Missions / Cohort / Memories)
+geometry: full-screen panel; left 25% holds tab spine; right
+  75% holds tab content
+fixtures:
+  - tab_spine (left-vertical bank of 6 brass-bound tab-keys;
+    each tab is a brass key with cipher-script label, sigil-
+    etched plate, candle-sconce LED that ignites when active);
+    6 canonical tabs:
+      Doctrine: brass key + scripture-medallion glyph
+      Audits: brass key + cog-mechanism interview-recorder glyph
+      Forge: brass key + anvil glyph
+      Missions: brass key + holodisplay deployment-grid glyph
+      Cohort: brass key + 3-figure cohort-roster glyph
+      Memories: brass key + memory-card-pedestal glyph
+  - tab_content_panel (right-75% mahogany-and-brass workspace;
+    chalk-circle inlay around active workspace; cipher-script
+    header in 25-char safe text)
+  - status_bar (top edge; brass-rim with current cohort-day,
+    blood-weave alignment band, current cohesion-weather state)
+art_resources:
+  textures: ui_pedagogy_tab_spine.png (480x1920 with 6-key alpha),
+    ui_pedagogy_tab_<tab_id>_inactive.png × 6,
+    ui_pedagogy_tab_<tab_id>_active.png × 6,
+    ui_pedagogy_content_panel_mahogany.png (1440x1920),
+    ui_pedagogy_status_bar.png (1920x96)
+  vfx: tab-key candle-sconce ignite on active; chalk-circle
+    pulse; cipher-script header parametric per tab
+nb2_prompt: |
+  (Same template as §AC.12.1 but framed for the 6-tab spine
+  with 6 brass keys descending vertically, each carrying a
+  distinct sigil-etched glyph; tab content area is mahogany-
+  and-brass with chalk-circle inlay; status bar across top in
+  brass-rim with cipher-script display fields. Output 4K,
+  16:9 with alpha for content area.)
+pipeline:
+  nb2_seed: 192002
+  cdn_target: cdn/client-public/art/ui/ui_pedagogy_hub_master.png
+```
+
+### §AC.12.3 Mission Resolver UI
+
+```yaml
+asset_id: ui_mission_resolver
+purpose: surface for `apprenticeMissionTypes.ts` deployment +
+  crisis-choice + return resolution; embedded in the Pedagogy
+  Hub Missions tab and standalone via mission_briefing_war_room
+  (§AC.4.8) holodisplay
+geometry: triptych — left holds 17-slot mission roster; centre
+  holds active-mission deployment cyber-cyan holographic grid;
+  right holds 7-role-station alcove array
+fixtures:
+  - roster_panel (left; 17 brass-bound dossier-tabs; each tab
+    carries a mission-name plate + role-glyph + status-icon
+    (idle / briefed / deployed / returned-success / partial /
+    failure))
+  - holographic_grid (centre; 3D cyber-cyan deployment-grid
+    with apprentice-counters as small brass figures — animated
+    placement / movement / extraction)
+  - role_alcove_array (right; 7 mini-alcove icons with
+    role-glyph; each alcove ignites when an apprentice is
+    deployed in that role)
+  - crisis_choice_overlay (modal — surfaces during mid-
+    mission; carries 3-choice brass wheel with crisis-resolution
+    options)
+art_resources:
+  textures: ui_mission_roster_panel.png (480x1920),
+    ui_mission_holographic_grid_master.png (960x1080),
+    ui_mission_role_alcove_array.png (480x1080),
+    ui_mission_crisis_choice_modal.png (640x480),
+    ui_mission_dossier_tab_<status>.png × 5
+  models: ui_mission_apprentice_brass_figure.glb (animated;
+    5-pose set for grid placement)
+  vfx: hologram cyber-cyan flicker (60Hz); crisis-modal
+    chalk-circle pulse; brass-figure pose-transitions
+pipeline:
+  nb2_seed: 192003
+  cdn_target: cdn/client-public/art/ui/ui_mission_resolver_master.png
+```
+
+### §AC.12.4 Cohort Slots Panel UI
+
+```yaml
+asset_id: ui_cohort_slots_panel
+purpose: surface for `apprenticeCohort.ts` 3-slot system
+  (active + training_a + training_b); embedded in Pedagogy
+  Hub Cohort tab
+geometry: 3-column horizontal panel; each column is a slot
+fixtures:
+  - 3 slot_panels each carrying:
+      - apprentice_dialog_headshot (1:1 at 320x320; pulled
+        from §AC.10.6)
+      - apprentice_name_plate (brass; 25-char-safe)
+      - archetype_glyph + species_marker (small brass-rim
+        glyph at top-right of headshot)
+      - trial_day_counter (brass cog-mechanism dial; 1-28)
+      - bond_corruption_meter (brass-rim horizontal bar;
+        bond fill from left in cyber-cyan; corruption fill
+        from right in corruption-pink)
+      - doctrine_slip_pinned (small brass-rim slip-icon;
+        absent until binding)
+      - audit_transcript_pinned (small brass-bound transcript-
+        icon; absent until Day-7+)
+  - cross-slot resonance-line (animated cyber-cyan thread
+    drawn between slots when doctrines resonate)
+art_resources:
+  textures: ui_cohort_slot_panel.png (640x1080 single slot),
+    ui_cohort_archetype_glyph_<archetype>.png × 12,
+    ui_cohort_species_marker_<species>.png × 3,
+    ui_cohort_trial_day_dial.png (animated 1-28),
+    ui_cohort_bond_corruption_meter.png (animated parametric)
+pipeline:
+  nb2_seed: 192004
+  cdn_target: cdn/client-public/art/ui/ui_cohort_slots_panel_master.png
+```
+
+### §AC.12.5 Warden Panel UI
+
+```yaml
+asset_id: ui_warden_panel
+purpose: surface for `apprenticeWarden.ts` Inspector Veil-7
+  + 4 Warden's-candidate apprentices + purge-notice; embedded
+  in Pedagogy Hub Audits tab when heretical_quiet doctrine
+  + Day-14 dock event triggered
+geometry: vertical panel; top holds Inspector Veil-7's silhouette
+  + nameplate; middle holds 4 candidate-roster slots; bottom
+  holds purge-notice overlay (when active)
+fixtures:
+  - veil7_silhouette_panel (top; 1:1 silhouette in cyber-cyan
+    only; brass nameplate "INSPECTOR VEIL-7" in 16-char safe
+    text)
+  - candidate_roster (middle; 4 mini-slot panels with each
+    candidate's silhouette + brass-coin lapel-pin + Warden-
+    livery overlay greyscale wash)
+  - purge_notice_overlay (bottom; brass-bound document with
+    cipher-script parchment text "PURGE NOTICE" 12-char safe;
+    3 response options: dispute / comply / disappear)
+art_resources:
+  textures: ui_warden_panel_master.png (640x1920),
+    ui_warden_veil7_silhouette.png (320x320 cyber-cyan only),
+    ui_warden_candidate_slot.png (320x240 with greyscale wash),
+    ui_warden_purge_notice_doc.png (480x480),
+    ui_warden_response_option_<type>.png × 3
+pipeline:
+  nb2_seed: 192005
+  cdn_target: cdn/client-public/art/ui/ui_warden_panel_master.png
+```
+
+### §AC.12.6 Comm-screen frame layouts (9 states × 3 anchor positions = 27 frame variants)
+
+The §AC.5.5 9 comm-screen states each have their own frame
+layout. Combined with the 3 anchor positions (wall_left /
+wall_right / shelf_top), there are 27 frame-variant renders.
+
+```yaml
+asset_pattern: ui_comm_screen_<state>_<anchor>.png   # 27 renders
+states: idle / call_in / call_out / audit_in_progress /
+  narrative_silence / warden_line_tap / mourning_call /
+  cohort_banter / commons_phone_mode
+anchors: wall_left / wall_right / shelf_top
+geometry: 0.6m × 0.4m brass-bound CRT-screen frame; cog-
+  mechanism brass armature; cyber-cyan fiber-optic frame trim
+  (the trim colour modulates per state — cyan idle, amber
+  call-in, corruption-pink warden-line-tap, etc.)
+fixtures (per state):
+  idle:                  archetype-glyph centred + cohort-roster minimum
+                         overlay + clock at corner
+  call_in:               Elara expression_focused thumbnail at upper-right
+                         + amber rim
+  call_out:              Human current-reveal-stage thumbnail at upper-
+                         right + cyan rim
+  audit_in_progress:     "AUDIT IN PROGRESS" watermark (16 chars) +
+                         live-transcript scroll + cog-mechanism
+                         interview-recorder pulse-light
+  narrative_silence:     blank with cyber-cyan static bed; apprentice
+                         silhouette faintly visible in centre
+  warden_line_tap:       "WARDEN LINE TAP" watermark (15 chars) + Warden
+                         silhouette + corruption-pink corner indicator
+  mourning_call:         fallen apprentice's expression_doctrinal
+                         thumbnail + dirge-text scroll + grey wash
+  cohort_banter:         cohort-mate's expression_neutral thumbnail at
+                         upper-right + banter-text scroll
+  commons_phone_mode:    sub-zone live-feed selector (3 mini-thumbnails
+                         for bar / long-table / alcove sub-zones) +
+                         active-feed in main viewport
+nb2_prompt: |
+  (One canonical NB2 prompt per state; per-anchor variants
+  generated by post-processing the wall-mount transform.
+  The state's content overlay is described in the
+  fixtures above; the frame chrome is the §AC.0.1 brass-and-
+  cyber-cyan canonical comm-screen.)
+pipeline:
+  nb2_seed: 192006..192014   # 9 state seeds
+  cdn_target: cdn/client-public/art/ui/ui_comm_screen_<state>.png
+                              # × 9; anchor variants generated by
+                              # runtime transform
+```
+
+### §AC.12.7 Memory Card Library kiosk UI
+
+```yaml
+asset_id: ui_memory_library_kiosk
+purpose: standalone kiosk surface for §AC.4.4 Memory Card
+  Library (consumption-pulpit interaction)
+geometry: vertical kiosk; brass-bound; cyber-cyan fiber-optic
+  trim; 3 functional zones (browse / select / consume)
+fixtures:
+  - browse_zone (top 50%; 12 portrait-frame grid showing
+    minted Memory Cards; each frame is brass-rim mahogany with
+    cyber-cyan fiber-optic trim and the apprentice's
+    expression_doctrinal thumbnail; minted state shows the
+    portrait, unminted state shows an empty silhouette)
+  - select_zone (middle 25%; brass-bound card-tray that animates
+    a selected Memory Card sliding into position; chalk-circle
+    inlay around the tray)
+  - consume_zone (bottom 25%; brass-rim consumption-pulpit
+    slot; the slot animates the card-burn at edge with brass-
+    spark cascade; pulpit's brass-bound book displays the
+    inherited line in cipher-script after consumption)
+art_resources:
+  textures: ui_memory_library_kiosk_master.png (480x1920),
+    ui_memory_library_browse_grid.png (480x960 with 12 cells),
+    ui_memory_library_select_tray.png (480x480 animated),
+    ui_memory_library_consume_slot.png (480x480 animated burn)
+pipeline:
+  nb2_seed: 192015
+  cdn_target: cdn/client-public/art/ui/ui_memory_library_kiosk_master.png
+```
+
+### §AC.12.8 Doctrine Picker UI
+
+```yaml
+asset_id: ui_doctrine_picker
+purpose: standalone surface for `DoctrinePicker.tsx`; embedded
+  in Pedagogy Hub Doctrine tab; player-facing version of the
+  §AC.4.1 Doctrine Binding Chamber 5-pulpit ring
+geometry: pentagonal layout; 5 doctrine-pulpit-thumbnails
+  arranged at 72° spacing around a central chalk-circle
+fixtures:
+  - 5 doctrine-pulpit-thumbnails (each is a small brass-bound
+    panel with: doctrine name in 25-char safe text, doctrine
+    glyph, 4-stanza preview text in cipher-script, cost +
+    consequence cipher-text)
+  - central chalk-circle (with brass-bound binding-button at
+    centre; ignites when a doctrine is hovered)
+  - doctrine-stakes-display (bottom edge; cipher-script display
+    of selected doctrine's loss-stakes + win-rewards)
+art_resources:
+  textures: ui_doctrine_picker_master.png (1920x1080),
+    ui_doctrine_pulpit_thumbnail_<doctrine>.png × 5,
+    ui_doctrine_chalk_circle_button.png (320x320 animated)
+pipeline:
+  nb2_seed: 192016
+  cdn_target: cdn/client-public/art/ui/ui_doctrine_picker_master.png
+```
+
+### §AC.12.9 Signature Card Forge UI
+
+```yaml
+asset_id: ui_signature_card_forge
+purpose: standalone surface for `SignatureCardForge.tsx`;
+  embedded in Pedagogy Hub Forge tab; player-facing version
+  of the §AC.4.3 Forge anvil + 6 effect-slots
+geometry: anvil-centred layout; 6 effect-slot thumbnails at 60°
+  spacing; central anvil holds the forming card during forge
+fixtures:
+  - 6 effect-slot thumbnails (each: brass-rim panel with
+    effect name in 25-char safe text, cipher-script effect
+    description, archetype-resonance-meter)
+  - central anvil (with cyber-cyan fiber-optic conduit
+    igniting the active effect-slot's cone-of-light)
+  - corruption_band_indicator (right edge; vertical brass-rim
+    meter showing pristine / midstate / corrupted band based
+    on bond/corruption ratio)
+  - card_preview (left edge; live preview of the card-as-forged-
+    so-far; animates as effect-slot is selected)
+art_resources:
+  textures: ui_forge_master.png (1920x1080),
+    ui_forge_effect_slot_<slot>.png × 6,
+    ui_forge_anvil_animated.png (480x480),
+    ui_forge_corruption_band_meter.png (96x720),
+    ui_forge_card_preview.png (320x480 animated)
+pipeline:
+  nb2_seed: 192017
+  cdn_target: cdn/client-public/art/ui/ui_signature_card_forge_master.png
+```
+
+### §AC.12.10 Audit Transcript UI (readable artifact)
+
+```yaml
+asset_id: ui_audit_transcript
+purpose: surface for `AuditTranscript.tsx`; the brass-bound
+  transcript artifact pinned to apprentice berth wall after
+  audits; readable in-world
+geometry: brass-bound book-leaf layout; left page shows
+  apprentice profile_hero + nameplate + audit-day badge;
+  right page shows cipher-script transcript body + Auditor's
+  signature at bottom; Day-21 variant shows Inspector Veil-7
+  signature instead
+fixtures:
+  - left page: apprentice's profile_hero + name + Day-7 / 14 /
+    21 badge in 12-char safe text + chalk-circle margin
+  - right page: cipher-cream parchment body with cipher-script
+    transcript (parametric per archetype × day); Auditor's
+    brass-rim signature stamp at bottom; Day-21 variant
+    swaps signature for INSPECTOR VEIL-7
+  - leather-bound spine + brass-rim corners
+art_resources:
+  textures: ui_audit_transcript_book_master.png (1920x1080),
+    ui_audit_transcript_left_page_template.png (960x1080),
+    ui_audit_transcript_right_page_cipher.png (960x1080),
+    ui_audit_transcript_signature_<auditor>.png × 2 (generic
+    Mechronis Auditor + Inspector Veil-7)
+pipeline:
+  nb2_seed: 192018
+  cdn_target: cdn/client-public/art/ui/ui_audit_transcript_master.png
+```
+
+### §AC.12.11 Commons Scenes Panel UI
+
+```yaml
+asset_id: ui_commons_scenes_panel
+purpose: surface for `CommonsScenesPanel.tsx`; live-feed of
+  the 157 commons banter scenes available to player; embedded
+  in the Social Hub berth-comm-screen `commons_phone_mode`
+  state and standalone as a roster
+geometry: 3-column layout per Social Hub sub-zone (bar / long-
+  table / alcove); each column lists active banter pairs
+fixtures:
+  - 3 sub-zone columns (bar / long-table / alcove); each carries:
+      live-feed thumbnail (current banter pair if any)
+      banter-pair list (sorted by relevance to current cohort)
+      bond-delta-preview (how each scene affects bond on
+        approach / eavesdrop / leave)
+  - chalk-circle inlay at the bottom (cohesion-weather indicator
+    band: hostile / tense / warm / bonded / family)
+art_resources:
+  textures: ui_commons_panel_master.png (1920x1080),
+    ui_commons_subzone_bar.png (640x1080),
+    ui_commons_subzone_long_table.png (640x1080),
+    ui_commons_subzone_alcove.png (640x1080),
+    ui_commons_cohesion_weather_band.png (1920x96 animated)
+pipeline:
+  nb2_seed: 192019
+  cdn_target: cdn/client-public/art/ui/ui_commons_scenes_panel_master.png
+```
+
+### §AC.12.12 UI surface-art summary
+
+| asset | renders |
+|---|---|
+| dialog frame | 1 master + 4 response icons = 5 |
+| pedagogy hub | 1 master + 12 tab variants (active/inactive × 6) = 13 |
+| mission resolver | 1 master + 5 dossier-tab statuses + 1 brass-figure model = 7 |
+| cohort slots panel | 1 master + 12 archetype glyphs + 3 species markers = 16 |
+| warden panel | 1 master + 1 silhouette + 1 candidate slot + 1 purge doc + 3 response options = 7 |
+| comm-screen frames (9 states) | 9 |
+| memory library kiosk | 1 master + 4 zone variants = 5 |
+| doctrine picker | 1 master + 5 pulpit thumbs + 1 button = 7 |
+| signature card forge | 1 master + 6 effect-slots + 1 anvil + 1 band meter + 1 preview = 10 |
+| audit transcript | 1 master + 2 page templates + 2 signatures = 5 |
+| commons scenes panel | 1 master + 3 sub-zones + 1 weather band = 5 |
+| **TOTAL UI RENDERS** | **89** |
+
+---
+
+## §AC.13 Activity sprite NB2 prompts (48 apprentice + 20 recruit = 68)
+
+Per §AC.5.1, every apprentice berth carries a per-phase activity
+overlay sprite. The runtime resolves which sprite shows on the
+comm-screen + apprentice presence in the room based on
+`timeOfDay.getCurrent()` + cohort state.
+
+12 archetypes × 4 phases = **48 apprentice activity sprites**
++ 5 recruits × 4 phases = **20 recruit activity sprites**
+= **68 total**.
+
+### §AC.13.0 Sprite spec
+
+```yaml
+geometry:        1:1 square 1080x1080 PNG with alpha-channel
+purpose:         live activity overlay shown in the apprentice's
+                 berth (or comm-screen idle state); the sprite
+                 is composited over the berth backdrop at runtime
+sprite_kind:     mid-action pose, eyes NOT on camera (the sprite
+                 is the apprentice doing their activity, NOT
+                 posing for the player)
+trait_locks:     §AC.11.14 variant master_face + signature object
+                 + species cues (Demagi dorsal ridge / Quarchon
+                 mech-eye / Human absence)
+```
+
+### §AC.13.1 12 archetype × 4 phases = 48 sprite prompts
+
+Per archetype, 4 phase-specific activities (per the `timeOfDay.ts`
+4-phase contract):
+
+| archetype | DAWN activity | MIDDAY activity | DUSK activity | NIGHTWATCH activity |
+|---|---|---|---|---|
+| **Zealot** | dawn-prayer (kneeling at scripture-medallion) | scripture-cipher reading at desk | cohort-meal at long-table (alcove visible behind) | prayer-vigil (eyes closed, candles lit) |
+| **Ghost** | watching-bay-2-ladder (silent at deck-window porthole) | audio-recorder maintenance | dusk-watch (silent at door) | silent-bunk (lying flat on cot, eyes open) |
+| **Scholar** | morning-cipher-read (book open, brass-rim glasses on) | annotation work at table (pen-in-hand) | dusk-meal alone (quiet eating, book open) | late-read by candlelight (book lit by single candle) |
+| **Revenant** | scarification-tool-cleaning (cipher-rune blade on cloth) | corridor-pace (walking the bunk in slow circles) | quiet-conversation with Sentinel (visitor frame) | nightwatch breathing exercises (eyes closed, audible breath) |
+| **Artisan** | tool-cleaning at workbench | active project-build (cog-vice in use) | blueprint-sketch at table | bench-asleep (head on workbench, candles out) |
+| **Oracle** | morning-tarot-spread (4 cards, dawn-light from porthole) | scrying-vision at neural-jack port | dusk-tea-for-two (one cup unfilled) | nightwatch-half-trance (eyes wide, asynchronous) |
+| **Wanderer** | route-map study (maps spread on bedroll) | walking-stick maintenance (rifle-stock visible) | cohort-banter at long-table | nightwatch packing-and-repacking |
+| **Martyr** | redirect-rune brass plate polish | bandage-kit inventory | cohort-meal (sitting close to wounded cohort-mate) | nightwatch-prayer (palms up, eyes wet) |
+| **Heretic** | chalkboard-fragment study (rewriting heresy) | debate-bell muffler-replacement | dusk-meal with Scholar (arguing) | nightwatch-chalk-erasing (the heresy back to legible) |
+| **Jester** | morning-juggling (3 brass clubs) | retort-card sorting | dusk-banter (3 cohort-mates) | nightwatch-mask-removal (face neutral, no smile) |
+| **Sentinel** | dawn-patrol (cohort-corridor walk) | siren-key maintenance | dusk-watch from corridor | nightwatch-bunk-watch (siren-key in hand) |
+| **Prodigal** | morning-signet-ring polish | coin-purse counting (Free Ports + Empire mix) | dusk-meal alone (one extra plate, never used) | nightwatch-window-watch (looking out porthole) |
+
+#### NB2 prompt template (per activity sprite — instantiate 48×)
+
+```yaml
+nb2:
+  model: gemini-3-pro-image-preview
+  aspect_ratio: "1:1"
+  resolution: "1080x1080"
+  reference_images:
+    - cdn/client-public/art/portraits/_masters/apprentice_<archetype>_<gender>_<variant>_master_face.png
+    - cdn/client-public/art/refs/apprentice_berth_<archetype>_master_still.png
+  prompt: |
+    SUBJECT: <APPRENTICE_<archetype>_<gender>_<variant>_VISUAL>
+      from §AC.11.14 — full canonical visual identity verbatim;
+      mid-action pose performing the <phase>_<activity> from the
+      table above; eyes NOT meeting camera (looking at the
+      activity, not at the viewer); the apprentice's signature
+      object is in use per the activity (e.g., Zealot
+      DAWN scripture-medallion in hand at chest while kneeling;
+      Artisan MIDDAY cog-vice in active use; Oracle DUSK tea-
+      cup raised); hands and forearms visible engaged with
+      the activity; archetype-signature wardrobe matching the
+      §AC.11.14 variant.
+    COMPOSITION: 1:1 square, 50mm equivalent, three-quarter
+      pose, the apprentice fills the upper 70% of canvas;
+      the berth backdrop in soft DOF in the lower 30% (bunk-
+      corner / table-corner / archetype-signature-fixture in
+      bokeh).
+    LIGHTING/CAMERA: per-phase overrides — DAWN 5800K warm-gold
+      backdrop tint, brightness 0.85, gas-mantle dim and cyber-
+      cyan rim dominant; MIDDAY 5400K neutral, brightness 1.0,
+      all lighting at full; DUSK 4500K amber-bronze, brightness
+      0.78, candles dominant; NIGHTWATCH 3200K cold-blue,
+      brightness 0.55, candles + cyber-cyan rim only; ARRI
+      Alexa anamorphic; Kodak Vision3 500T pushed +1 (DAWN/
+      MIDDAY) or pushed +2 (DUSK/NIGHTWATCH).
+    STYLE: APPRENTICE_AESTHETIC; the apprentice in their
+      private domestic-warm but accented brass + cyber-cyan
+      space; palette `#c9a14a / #5fa8ff / #0d0a08 / #ff2a8a /
+      #5a1a1f / #dccfaa`.
+    CONSTRAINTS: NB2_CONSTRAINTS_BASE; consistent face structure
+      with master_face reference (NB2 character-consistency
+      contract); the apprentice is NOT looking at the camera
+      (eyes on activity); no third-person framing of an
+      observer (the player is implied as visiting but not
+      visible — the apprentice is captured as if being seen
+      from a doorway threshold); no extra fingers; alpha-
+      channel transparent background outside the berth-room
+      bokeh extent (so runtime can composite over varying
+      backdrops).
+    Output 1080x1080 1:1 PNG with alpha-channel transparent
+    backdrop edges.
+pipeline:
+  nb2_seed: 193001..193048   # 12 archetypes × 4 phases = 48
+  cdn_target: cdn/client-public/art/sprites/apprentice_<archetype>_<phase>_activity.png
+notes: |
+  Per-variant master-face matching: the runtime selects the
+  apprentice's variant at instantiation per §AC.11.15; the
+  activity sprite is generated per ARCHETYPE × PHASE (not per
+  variant — that would be 12 × 4 × 3 variants × 2 genders = 288
+  sprites, prohibitive). Instead, the activity sprite uses the
+  CANONICAL master-face for the archetype × gender × variant_a
+  (the default variant); runtime can compose face-replace at
+  runtime for variant_b/_c presentations. This is documented
+  as a known-quality-tradeoff: variant_b/_c apprentices in their
+  berth show the variant_a face from the activity sprite layer,
+  with the variant's actual face only resolving in dialog
+  headshots (where the variant master_face is correctly
+  composited).
+```
+
+### §AC.13.2 5 recruits × 4 phases = 20 sprite prompts
+
+Per §AC.5.2, the 5 recruits each have phase-specific activities
+(documented in §AC.5.2 table). The NB2 prompts for these
+sprites follow the same template as §AC.13.1, with recruit
+master_face + recruit signature objects from §AC.10.7 visual
+identity strings.
+
+| recruit | activities (DAWN / MIDDAY / DUSK / NIGHTWATCH) |
+|---|---|
+| **Vex Solène** | tool-cleaning / project-build / blueprint-sketch / bench-asleep |
+| **Wraith Calder** | pocket-watch examines / ledger-cipher work / photograph touches / lantern-out |
+| **Locke** | code-citing / inquiry-letter writing / judgment-pondering / silent-pacing |
+| **Jericho Jones** | pistol-cleaning / trade-negotiations / whiskey-pour / window-staring |
+| **Akai Shi** | jar-arranging / spell-citing / altar-tending / necromantic-reading |
+
+```yaml
+pipeline:
+  nb2_seed: 193049..193068   # 5 recruits × 4 phases = 20
+  cdn_target: cdn/client-public/art/sprites/recruit_<recruit>_<phase>_activity.png
+```
+
+### §AC.13.3 Activity sprite summary
+
+```
+48 apprentice phase-activity sprites
++ 20 recruit phase-activity sprites
+= 68 total activity sprites
+```
+
+---
+
+## §AC.14 Doctrine-bound outfit overlay (60 variants)
+
+Per §AC.10.4, the `doctrinal` expression state hints at "eyes
+carry the doctrine's specific gravitas" but no wardrobe overlay
+is specced. Each archetype × doctrine binding gets a small
+wardrobe overlay rendered as a separate layer composited over
+the base portrait at runtime.
+
+12 archetypes × 5 doctrines = **60 outfit overlay variants**.
+
+### §AC.14.0 Doctrine overlay spec
+
+```yaml
+overlay_kind:    additive layer composited over the apprentice's
+                 base portrait (any expression state); the overlay
+                 introduces a visible doctrine-specific accessory
+                 + chalk-glyph + small wardrobe shift
+overlay_geometry: 1:1 square 1080x1080 PNG with alpha-channel;
+                 the overlay covers only the doctrine-specific
+                 elements (mouth-clasp / chalk-marks / wardrobe
+                 shift); rest of the layer is fully transparent
+applied_when:    apprenticeDoctrines.bind(<doctrine>) state-shift;
+                 overlay applies for the apprentice's lifetime
+                 (until permadeath or doctrine_rebound, which
+                 swaps the overlay)
+trait_lock:      doctrine-specific wardrobe per §AC.14.1
+```
+
+### §AC.14.1 Per-doctrine wardrobe trait-locks
+
+| doctrine | wardrobe shift | chalk-glyph location | accessory | reason |
+|---|---|---|---|---|
+| **Compliant Mouth** | a small brass mouth-clasp visible at the lower lip (silenced; ceremonial); the apprentice's voice still works but the clasp is canonically present | a chalk-glyph "𓏏𒌋" (cipher-tongue) traced along the inner left forearm | a brass-bound scripture-medallion (single, not dual) on a chain at chest | "the mouth that is bound, the silence that fits" — Hierarchy Compliant Mouth doctrine signature |
+| **Forked Path** | two contrasting brass cuffs — one cyber-cyan-trim, one corruption-pink-trim — on opposing wrists | a chalk-glyph "𒁎𒌋" on the inner right forearm (the choice-glyph) | a single split-coin pendant (half brass, half tarnished silver) at the throat | "the choice that splits" — the apprentice always carries both possibilities |
+| **Cold Hand** | thicker leather-and-iron gloves replacing the canonical cohort-issue gloves; one glove permanently holds something small (per archetype: Zealot a brass-bound book / Ghost an audio-recorder / Scholar a pen / etc.) | a chalk-glyph "𒅎𒌋" on the inner left wrist (the still-hand-glyph) | iron-rim glove buckles | "the hand that does not flinch" — Mechronis Cold Hand doctrine of decisive action without compassion |
+| **Heretical Quiet** | a chalkboard fragment in a leather sling at the hip (similar to Heretic archetype's signature, but smaller — 6 inch fragment); chalk-dust on the fingertips | NO chalk-glyph (Heretical Quiet refuses faction marks) — but cipher-script in chalk-dust along the cuff edge | brass debate-bell suppressed (cloth-muffled) | "the question that does not stop" — the apprentice carries their question with them |
+| **Human Remainder** | a small brass-bound family-portrait frame at the chest (the frame is empty until a memory triggers; per cohort cycle, the frame may fill with a parametric face — the apprentice's lost beloved, lost squad-mate, lost teacher) | a chalk-glyph "𓊞𒌋" on the inner right collarbone (the remembrance-glyph) | a small leather coin-purse at the belt with one specific coin marked (parametric per apprentice's lost connection) | "the remainder that stays" — the apprentice keeps one human bond visible |
+
+### §AC.14.2 Per-archetype × doctrine intersection (60 variants)
+
+For each of the 60 archetype × doctrine pairs, the wardrobe
+shift inherits the doctrine's canonical accessory but takes
+on archetype-specific texture (e.g., Zealot's Compliant Mouth
+mouth-clasp is brass with scripture-cipher engraved on it;
+Ghost's Compliant Mouth mouth-clasp is brass with Quarchon
+manufacturer's serial-number etched on it; Sentinel's Cold
+Hand glove buckle is iron with Imperial-Guard regimental
+sigil; etc.).
+
+The full 60-cell matrix is rendered as an enumerated table
+at production-time. The runtime composites the appropriate
+overlay layer based on `apprentice.archetype` + `apprentice.doctrine`.
+
+### §AC.14.3 NB2 prompt template (per overlay; instantiate 60×)
+
+```yaml
+nb2:
+  model: gemini-3-pro-image-preview
+  aspect_ratio: "1:1"
+  resolution: "1080x1080"
+  reference_images:
+    - cdn/client-public/art/portraits/_masters/apprentice_<archetype>_<gender>_<variant>_master_face.png
+  prompt: |
+    SUBJECT: a doctrine-bound wardrobe overlay layer for the
+      apprentice <APPRENTICE_<archetype>_<variant>_VISUAL> from
+      §AC.11.14. The overlay shows ONLY the doctrine-specific
+      additions to the apprentice's wardrobe — per the §AC.14.1
+      doctrine table: <doctrine-specific wardrobe shift +
+      chalk-glyph location + accessory>; archetype-specific
+      texture tweak: <archetype-specific tweak per §AC.14.2>;
+      the rest of the apprentice's body is transparent (alpha-
+      channel) so this overlay can composite over the base
+      portrait.
+    COMPOSITION: 1:1 square, full body extent; head-and-shoulders
+      framing matches the dialog_headshot at 1080x1080;
+      transparency where no doctrine-element is present.
+    LIGHTING/CAMERA: matches the canonical dialog_headshot
+      lighting (5400K diffuse front-fill with 6500K rim) so
+      the overlay seamlessly composites; ARRI Alexa
+      anamorphic; Kodak Vision3 250D.
+    STYLE: APPRENTICE_AESTHETIC; the doctrine-overlay is a
+      diegetic in-world wardrobe shift, not a glow-effect or
+      modern UI overlay; palette per doctrine — Compliant
+      Mouth = brass + cyber-cyan; Forked Path = brass + cyber-
+      cyan + corruption-pink; Cold Hand = iron + brass; Heretical
+      Quiet = brass + chalk-white; Human Remainder = brass +
+      parchment-cream.
+    CONSTRAINTS: NB2_CONSTRAINTS_BASE; the overlay layer must
+      align pixel-perfectly with the master_face dialog_headshot
+      framing; transparent everywhere outside the doctrine-
+      element extent; chalk-glyph rendering ≤25 characters
+      cipher-script visible; consistent location of chalk-glyph
+      across all 12 archetype variants of this doctrine.
+    Output 1080x1080 1:1 PNG with alpha-channel.
+pipeline:
+  nb2_seed: 194001..194060   # 12 archetypes × 5 doctrines = 60
+  cdn_target: cdn/client-public/art/overlays/doctrine_<doctrine>_<archetype>_overlay.png
+```
+
+---
+
+## §AC.15 Consolidated VFX library
+
+Per-room FX sections in §AC.1 / §AC.4 / §AC.5 / §AC.6 list
+inline FX. This section consolidates them into a single
+production-side VFX atlas for the audio-post + render pipelines.
+
+### §AC.15.1 Particle effects (atomic VFX assets)
+
+```yaml
+brass_spark_micro_particle:
+  use: cohort-plaque-etching, doctrine-slip-mint, signature-
+    card-form, memory-card-mint, mourning-wall-etching, generic
+    "brass-on-brass commemoration" beats
+  pipeline: 60 fps; 0.8s burst; warm-gold #c9a14a at peak
+    intensity; fades to brass-dust ash in 1.2s
+  asset: vfx_brass_spark_micro.glb (animated particle system)
+
+cyber_cyan_static_bed:
+  use: comm-screen narrative_silence state, audio-feed bed
+    in §AC.4.2 audit booth, dialog UI audio_visualizer
+  pipeline: continuous; modulated by amplitude param; brightness
+    0-0.4; blue-cyan #5fa8ff with 60Hz mains-hum overlay
+  asset: vfx_cyber_cyan_static_bed.shader
+
+candle_flicker_rolling:
+  use: every candle-cluster + candle-sconce in apprentice rooms
+    (§AC.1.1, §AC.4.1, §AC.4.3, §AC.4.4, §AC.4.6, §AC.5.1, §AC.6
+    Archon alcoves)
+  pipeline: 4Hz random flicker; warm-amber #ffb84a; subtle
+    smoke-curl trail (z+0.3m); intensity-band 0.6-1.0
+  asset: vfx_candle_flicker_rolling.shader
+
+gas_mantle_pulse:
+  use: pendant lamps in §AC.1.1, §AC.4.1, §AC.4.6 etc.
+  pipeline: 4s gentle pulse cycle; warm-amber #ffd166; baseline
+    intensity 0.85; pulse to 1.0; phased per-lamp
+  asset: vfx_gas_mantle_pulse.shader
+
+fiber_optic_shimmer:
+  use: cyber-cyan ribbons in every apprentice room ceiling +
+    wall conduits
+  pipeline: subtle shimmer + 0.4Hz wave-pulse; cyber-cyan
+    #5fa8ff; intensity-band 0.6-0.9
+  asset: vfx_fiber_optic_shimmer.shader
+
+sigil_circle_pulse:
+  use: every chalk-circle-sigil floor inlay (§AC.1.1, §AC.1.5,
+    §AC.4.1, §AC.4.3, §AC.4.4, §AC.5 berths, §AC.6 guild
+    common rooms)
+  pipeline: 8Hz sub-bass pulse on activation; gold #c9a14a
+    rim with occult-violet #4a1a6a inner; activated state
+    only (idle = dim)
+  asset: vfx_sigil_circle_pulse.shader
+
+incense_smoke_curl:
+  use: incense-thurible clusters in §AC.1.1, §AC.1.7, §AC.4.1,
+    §AC.4.4, §AC.6 House of Thurible
+  pipeline: continuous; thin smoke-curls rising z+0-2.4m;
+    subtle parallax; opacity-band 0.05-0.2
+  asset: vfx_incense_smoke_curl.particle
+
+forge_ember_glow:
+  use: §AC.4.3 forge-flue at apex (always-active)
+  pipeline: continuous; warm-orange #ff5a1a peak; subtle
+    radiance + ember-spark intermittent
+  asset: vfx_forge_ember_glow.shader
+
+corruption_pink_inversion:
+  use: TV-infection axis-9 corrupted state across every room
+  pipeline: rim-overlay; corruption-pink #ff2a8a replaces
+    cyber-cyan at TV-infection band 'corrupted'; chalk-circle
+    inverts to occult-pit
+  asset: vfx_corruption_pink_inversion.shader
+
+audio_visualizer_waveform:
+  use: dialog UI top-edge waveform (per §AC.12.1)
+  pipeline: animated; modulates per-voice amplitude; cyber-
+    cyan #5fa8ff
+  asset: vfx_audio_visualizer.shader
+
+cohort_plaque_etching_animation:
+  use: §AC.1.1 cohort-roster wall, §AC.1.6 mourning-wall,
+    §AC.4.4 memory-library portrait wall
+  pipeline: brass-spark micro-particle cascade + plaque-
+    surface text-emerge over 4s
+  asset: vfx_plaque_etching.animation
+
+card_burn_at_edge_animation:
+  use: §AC.4.4 memory-card consumption, signature-card
+    corruption transitions
+  pipeline: edge-ignition spreads over 3s; brass-spark
+    cascade; voice-over surface chord
+  asset: vfx_card_burn_edge.animation
+
+archon_portrait_breathing:
+  use: §AC.6 each guild common room Archon Professor
+    portrait alcove (12 instances)
+  pipeline: subtle 0.25Hz chest-rise/fall; eye-blink every
+    8-15s parametric; per-guild light-pulse cycle below
+  asset: vfx_archon_breathing.animation
+
+scanline_overlay:
+  use: §AC.6 guild Archon portraits + §AC.5.4 Human
+    observation comm-screen + §AC.5.5 comm-screen
+  pipeline: 4-pixel scanline sweep; opacity 0.05-0.15;
+    cyber-cyan tint
+  asset: vfx_scanline_overlay.shader
+
+doctrine_slip_mint_animation:
+  use: §AC.4.1 doctrine-slip drawer + §AC.5.1 berth wall
+    pin animation
+  pipeline: brass-spark cascade 1.2s + slip-emerges + slip-
+    pin-to-wall sound + visual stick
+  asset: vfx_doctrine_slip_mint.animation
+
+braiding_pillar_rope_state_animation:
+  use: §AC.1.8 Blood Weave Atrium central pillar
+  pipeline: rope strands re-weave on threshold cross; 6s
+    transition per band; 5 band-states (dormant→braiding→
+    woven→bound→claimed)
+  asset: vfx_braiding_pillar_state.animation
+```
+
+### §AC.15.2 Per-guild particle accents (12 unique)
+
+```yaml
+house_of_iron:        brass-cog particle drift          # vfx_iron_cog.particle
+house_of_glass:       crystal-shimmer dust              # vfx_glass_shimmer.particle
+house_of_smoke:       smoke-curl drift                  # vfx_smoke_curl.particle
+house_of_ledger:      paper-flutter motes               # vfx_ledger_paper.particle
+house_of_circuit:     electric-spark micro              # vfx_circuit_spark.particle
+house_of_thurible:    incense-smoke drift               # vfx_thurible_smoke.particle
+house_of_anvil:       ember-spark cascade               # vfx_anvil_ember.particle
+house_of_mirror:      mirror-fragment drift             # vfx_mirror_fragment.particle
+house_of_garden:      leaf-and-light drift              # vfx_garden_leaf.particle
+house_of_chapel:      candle-flame motes                # vfx_chapel_motes.particle
+house_of_tower:       surveillance-line micro           # vfx_tower_lines.particle
+house_of_remnant:     dust-and-ash drift                # vfx_remnant_ash.particle
+```
+
+---
+
+## §AC.16 Consolidated SFX library
+
+Per-cutscene SFX sections list inline. This consolidates the
+canonical set + production-side asset bank.
+
+### §AC.16.1 Atomic SFX assets
+
+```yaml
+audio_set:
+  brass_etching_chisel:        sfx_brass_etching.wav        (3.0s loop)
+  candle_flicker_rolling_bed:  sfx_candle_flicker.wav       (12s loop)
+  candle_ignite_chord:         sfx_candle_ignite.wav        (1.2s)
+  candle_snuff_chord:          sfx_candle_snuff.wav         (0.8s)
+  cog_mechanism_click_1hz:     sfx_cog_click_1hz.wav        (4s loop)
+  cog_mechanism_interview_recorder: sfx_interview_recorder.wav (8s loop)
+  fiber_optic_hum_60hz:        sfx_fiber_optic_hum.wav      (8s loop)
+  forge_bellow_4s_cycle:       sfx_forge_bellow.wav         (4s loop)
+  gas_mantle_hiss_bed:         sfx_gas_mantle_hiss.wav      (16s loop)
+  pneumatic_tube_whoosh:       sfx_pneumatic_tube.wav       (1.0s)
+  pneumatic_tube_arrival:      sfx_pneumatic_arrival.wav    (0.6s)
+  brass_spark_micro_particle:  sfx_brass_spark.wav          (0.4s)
+  chalk_circle_activate_chord: sfx_chalk_circle.wav         (1.6s)
+  doctrine_slip_mint_chord:    sfx_doctrine_mint.wav        (2.0s)
+  signature_card_forged_chord: sfx_signature_forged.wav     (3.0s)
+  anvil_hammer_strike:         sfx_anvil_hammer.wav         (0.4s)
+  card_burn_at_edge:           sfx_card_burn.wav            (3.0s)
+  card_emerge_warm_resonance:  sfx_card_warm.wav            (2.4s)
+  voice_over_surface_chord:    sfx_voice_surface.wav        (1.6s)
+  permadeath_bell_toll:        sfx_permadeath_bell.wav      (4.0s long-decay)
+  triple_bell_toll:            sfx_triple_bell.wav          (sacrificed-role return)
+  pier_bell:                   sfx_pier_bell.wav            (companion-role return)
+  brass_park_bell:             sfx_park_bell.wav            (Celebration Park)
+  audit_chamber_silence:       sfx_audit_silent_4s.wav      (Day-21 Warden audit)
+  pen_scratch_on_paper:        sfx_pen_scratch.wav          (4s loop)
+  page_flip_brass_bound:       sfx_page_flip.wav            (0.8s)
+  hooded_figure_robe_rustle:   sfx_robe_rustle.wav          (0.6s)
+  warden_greatcoat_subtle_drape: sfx_greatcoat_drape.wav    (1.2s loop)
+  scrying_mirror_clear_chord:  sfx_scrying_clear.wav        (2.0s)
+  glass_case_ignite_chime:     sfx_case_ignite.wav          (1.2s)
+  pneumatic_rifle_unfold:      sfx_pneumatic_rifle.wav      (1.6s — Wanderer's stick)
+  cohort_chorus_archetype_recite: sfx_chorus_<archetype>.wav (12 variants × 3.0s)
+  dawn_wind_4ms:               sfx_dawn_wind.wav            (16s loop — Warden's Dock)
+  coffee_steam_hiss:           sfx_coffee_steam.wav         (16s loop — Warden's Dock)
+  sky_transition_dawn_to_amber: sfx_dawn_amber_chord.wav    (8s)
+  brass_coin_slide_across_table: sfx_coin_slide.wav         (1.0s)
+  thurible_chain_swing:        sfx_thurible_swing.wav       (4s loop)
+  console_hum_60hz_bed:        sfx_console_hum.wav          (16s loop — Elara bridge)
+  starfield_silent_void:       sfx_starfield_silent.wav     (silent / -56 dB bed)
+  shuttle_passing_low_frequency_whoosh: sfx_shuttle_pass.wav (3.0s)
+  am_radio_static:             sfx_am_radio_static.wav      (Human's deck)
+  signal_resolve_partial:      sfx_signal_partial.wav       (Human reveal stages 2/3)
+  signal_resolve_full:         sfx_signal_full.wav          (Human stage 4)
+  rope_weave_whisper:          sfx_rope_weave.wav           (Blood Weave Atrium)
+  alcove_light_cascade:        sfx_alcove_cascade.wav       (Blood Weave loredex)
+  game_master_chord_low:       sfx_gm_chord.wav             (Game Master meta-arc)
+  brass_walking_stick_strike:  sfx_walking_stick.wav        (Wanderer)
+  archon_portrait_breath:      sfx_archon_breath.wav        (12s loop)
+  guild_bell_member_arrival:   sfx_guild_bell.wav           (per guild × 12)
+  hierarchy_organ_sub_bass:    sfx_hierarchy_organ.wav      (28Hz; long loop)
+  chant_loop_minus_28db:       sfx_chant_loop.wav           (32s loop; ambient bed)
+  triangle_event_tense_chord:  sfx_triangle_tense.wav       (8s)
+  cohort_resonance_chord:      sfx_cohort_resonance.wav     (4s)
+```
+
+### §AC.16.2 Per-archetype VO chord (graduation cohort-chorus)
+
+12 archetype-specific chorus chords for §AC.7.7 graduation cuts:
+
+```
+sfx_chorus_zealot.wav        (Pureflame-creche scripture-cadence)
+sfx_chorus_ghost.wav         (silent-corps whisper-only, audible only by amplitude)
+sfx_chorus_scholar.wav       (Chronarchive cipher-tongue)
+sfx_chorus_revenant.wav      (Empire 12th Legion battle-cry, low-decibel)
+sfx_chorus_artisan.wav       (Skyforge clockmaker-caste anvil-rhythm)
+sfx_chorus_oracle.wav        (Tidewater Five-Gate underwater-trance)
+sfx_chorus_wanderer.wav      (Free Ports outer-ring street-cadence)
+sfx_chorus_martyr.wav        (Hierarchy redirect-rune chant)
+sfx_chorus_heretic.wav       (House of Ledger cipher-tongue, slowed)
+sfx_chorus_jester.wav        (Empire-court formal cadence with subtle threat)
+sfx_chorus_sentinel.wav      (Imperial Guard regimental cadence)
+sfx_chorus_prodigal.wav      (Inner-Empire noble-house anthem, half-remembered)
+```
+
+---
+
+## §AC.17 Music score spec — ceremonial chambers
+
+Ambient music score targets per ceremonial chamber. Each carries
+a unique cue identity with looping music score. **Cat A
+cutscenes are music_eligibility = none**; these scores are for
+**ambient room-music**, not cutscene-score.
+
+### §AC.17.1 Per-room music cues
+
+```yaml
+A.50_apprentice_hall:
+  cue_name:    "The Cohort"
+  composition: "harp + harmonium + sub-bass drone 16Hz; chant-loop
+                bed -28dB; warm-amber palette match"
+  duration:    32s loop
+  asset:       music_apprentice_hall.wav
+
+A.51_trial_hall:
+  cue_name:    "The Roll"
+  composition: "single church-organ note 8Hz; chant-loop -28dB;
+                ABSOLUTE-SILENCE during permadeath-bell"
+  duration:    16s loop
+  asset:       music_trial_hall.wav
+
+A.52_recruit_vestibule:
+  cue_name:    "The Mirror"
+  composition: "thin string-trio; reverb 1.6s; cyber-cyan
+                shimmer accent"
+  duration:    24s loop
+  asset:       music_recruit_vestibule.wav
+
+A.53_apprentice_cellblock:
+  cue_name:    "The Hours"
+  composition: "low harp + clock-tick rhythm 1Hz; per-cell
+                archetype melody overlay (12 variants)"
+  duration:    32s loop with 12 archetype overlays
+  assets:      music_cellblock_<archetype>.wav × 12 + base
+
+A.54_hellbox_clone_bench:
+  cue_name:    "The Restored"
+  composition: "sub-bass 8Hz + church-organ + sigil-chord; absolute-
+                silence during restoration"
+  duration:    16s loop
+  asset:       music_clone_bench.wav
+
+A.55_mourning_wall:
+  cue_name:    "The Names"
+  composition: "candle-flicker rolling bed + dirge-cadence chant-
+                loop -32dB; absolute-silence outside event"
+  duration:    24s loop
+  asset:       music_mourning_wall.wav
+
+A.56_essence_harvest_sanctum:
+  cue_name:    "The Vault"
+  composition: "low harp + thurible-rhythm + cyber-cyan accent"
+  duration:    32s loop
+  asset:       music_harvest_sanctum.wav
+
+A.57_blood_weave_atrium:
+  cue_name:    "The Weave"
+  composition: "five-strand harp counterpoint (one per band-state);
+                sub-bass 16Hz; reverb 5.2s"
+  duration:    48s loop with 5 band-state variations
+  asset:       music_blood_weave.wav (+ 4 transition cues)
+
+A.58_personal_quest_ledger:
+  cue_name:    "The Ledger"
+  composition: "thin harp + parchment-rustle bed; cyber-cyan
+                accent"
+  duration:    24s loop
+  asset:       music_personal_quest_ledger.wav
+
+A.59_doctrine_binding_chamber:
+  cue_name:    "The Pulpit"
+  composition: "single chamber-organ chord; reverb 4.4s;
+                chant-loop -32dB"
+  duration:    32s loop
+  asset:       music_doctrine_chamber.wav
+
+A.60_audit_chamber:
+  cue_name:    "The Inquiry"
+  composition: "absolute-silence interrupted by cog-mechanism
+                interview-recorder 1Hz; chant-loop -36dB; Day-21
+                Warden variant ABSOLUTE-SILENCE"
+  duration:    16s loop
+  asset:       music_audit_chamber.wav
+
+A.61_the_forge:
+  cue_name:    "The Hammer"
+  composition: "anvil-strike rhythm 4s cycle; bellows 4s; ember-
+                glow chord; reverb 2.8s"
+  duration:    32s loop
+  asset:       music_forge.wav
+
+A.62_memory_card_library:
+  cue_name:    "The Remembered"
+  composition: "single harp note + wind-instrument-trio + chant-
+                loop -36dB; absolute-silence during inheritance"
+  duration:    24s loop
+  asset:       music_memory_library.wav
+
+A.63_park_training_barracks:
+  cue_name:    "The Park"
+  composition: "soft children-laughter -42dB + park-bell-chime +
+                APPRENTICE_AESTHETIC accent"
+  duration:    32s loop
+  asset:       music_park_barracks.wav
+
+A.64_triangle_event_alcove:
+  cue_name:    "The Triangle"
+  composition: "tense-chord 4-second cadence; reverb 1.6s;
+                acoustic isolation"
+  duration:    16s loop
+  asset:       music_triangle_alcove.wav
+
+A.65_warden_dock:
+  cue_name:    "The Coffee"
+  composition: "single piano-note + dawn-wind + audio-feed-speaker
+                hum; absolute-silence between Warden's lines"
+  duration:    24s loop (but used only in cutscene context)
+  asset:       music_warden_dock.wav
+
+A.66_mission_briefing_war_room:
+  cue_name:    "The Roster"
+  composition: "low brass-bass + holographic-grid 60Hz hum +
+                deployment-bell chime"
+  duration:    32s loop
+  asset:       music_war_room.wav
+
+A.67_post_mission_return:
+  cue_name:    "The Return"
+  composition: "per-role variation: companion = pier-bell;
+                cryo_vault = vital-monitor cadence; army_leader =
+                regimental brass; trade_envoy = abacus + ledger
+                rustle; tower_captain = surveillance-grid hum;
+                sacrificed = triple-bell-toll; relationship_gift
+                = harp single-note"
+  asset:       music_return_<role>.wav × 7
+
+A.68_apprentice_berths:
+  cue_name:    "The Bunk"
+  composition: "domestic-warm white-noise + per-archetype 12-melody
+                overlay; per-phase tint modulation"
+  duration:    32s loop with 12 archetype × 4 phase = 48 variants
+  asset:       music_berth_<archetype>_<phase>.wav (sparse — most
+               variants are minor variations)
+
+A.6_guild_common_rooms:
+  cue_name:    "The Hall"
+  composition: "per-guild palette music; 12 variants with shared
+                Archon Professor breathing-rhythm bed"
+  duration:    32s loop × 12 guild variants
+  asset:       music_guild_<house_id>.wav × 12
+```
+
+---
+
+## §AC.18 Trained-crew graduation outfit overlay
+
+When an apprentice graduates from `productionPath: "trial"` to
+`productionPath: "trained"` (per `apprenticeToCrew.ts`), their
+visual presentation shifts. This shift is rendered as a separate
+overlay layer composited over the base portrait at runtime.
+
+### §AC.18.1 Trained-crew overlay spec
+
+```yaml
+overlay_kind: full-body wardrobe shift; replaces the apprentice
+              cohort-issue gear with trained-crew gear specific
+              to their assigned post-graduation role
+applied_when: `apprentice_trial_graduated_<archetype>` flag fires
+              AND mission deployment role is assigned
+trait_lock:   per role + archetype; archetype-specific signature
+              object retained, cohort-issue gear replaced
+
+per_role_overlay:
+  companion:           full-crew issue uniform (Empire-style brass-
+                       and-leather; archetype-signature-object retained
+                       at appropriate location); cohort-roster brass
+                       graduation-pin at lapel
+  cryo_vault:          medical-aide robe (Med Bay clinical-cold palette;
+                       redirect-rune for Martyr-archetype)
+  army_leader:         field-officer brass-and-leather; graduation
+                       brass war-banner adornment
+  trade_envoy:         trade-attaché brass-rim formal coat
+  tower_captain:       surveillance-officer command-grey + brass-rim
+                       collar-pin
+  sacrificed:          (this role does not graduate to trained — they
+                       are honoured posthumously; outfit overlay is
+                       posthumous mourning-livery for ghost-portrait
+                       use only)
+  relationship_gift:   private-citizen civilian wear; brass-rim
+                       graduation-pin only
+
+graduation_pin: brass-and-cyber-cyan trim with archetype-glyph;
+                12 archetype-pin variants
+```
+
+### §AC.18.2 Per-role × archetype intersection
+
+5 graduation-eligible roles × 12 archetypes = **60 trained-crew
+overlay variants**. (Sacrificed and relationship_gift roles
+are posthumous-only or non-uniform.)
+
+NB2 prompt template (per overlay; instantiate 60×):
+
+```yaml
+nb2:
+  reference_images:
+    - cdn/client-public/art/portraits/_masters/apprentice_<archetype>_<gender>_<variant>_master_face.png
+  prompt: |
+    SUBJECT: a graduation outfit overlay for the trained-crew
+      apprentice <archetype>-<role>; per §AC.18.1 the overlay
+      shows the role-specific wardrobe replacement (full-body
+      extent); archetype-signature object retained at canonical
+      position; brass-and-cyber-cyan graduation-pin at lapel
+      with archetype-glyph; cohort-issue gear absent (replaced
+      by role uniform); all transparency outside the body
+      extent.
+    [...standard NB2 5-block schema continues...]
+pipeline:
+  nb2_seed: 195001..195060   # 5 roles × 12 archetypes
+  cdn_target: cdn/client-public/art/overlays/trained_crew_<role>_<archetype>_overlay.png
+```
+
+---
+
+## §AC.19 Notable Alumni rosters (12 guilds × 5 alumni each = 60)
+
+Each of the 12 guild common rooms (§AC.6) carries a Notable
+Alumni roster on the west bookshelf / ledger-wall. The roster
+is a real list of 5 named alumni per guild, each with a
+mini-canon entry. These are non-player-character lore figures
+referenced in the runtime via `apps/shared/guildHouses` and
+visible in §AC.6 Archon Professor dialog.
+
+### §AC.19.1 Per-guild alumni (5 each)
+
+Each entry: name + alumni-class-year + brief lore bio (1-2
+sentences) + alumni-portrait reference.
+
+```yaml
+house_of_iron:
+  - "Arval Steele-Drumm (Y8): forged the brass cog-mechanism for the
+    Hierarchy Throne's vault-door; assassinated at age 51."
+  - "Prima Steele-Vorr (Y14): only Iron alumna to also bind the Forge
+    of Anvil signature; current Empire 12th Legion's metallurgy chief."
+  - "Halix Caldarn-Steele (Y22): expelled at Y22 for forging brass
+    counterfeit Hierarchy medallions; fugitive."
+  - "Cassia Steele-Drumm (Y30): sister of Arval; rebuilt the cog-
+    mechanism after his assassination; now Archon Steele's deputy."
+  - "Voxar Iron-Mor (Y34): Quarchon — only Quarchon Iron alumnus;
+    designed the Mechronis Auditor brass-mask."
+
+house_of_glass:
+  - "Lenz the Younger (Y6): grand-niece of Archon Lenz; built the
+    Tidewater scrying-mirror prototype; vanished at age 28."
+  - "Vermeil Lenz-Caedrune (Y12): cipher-script restoration; co-
+    cited with Tien Ceadrune in Far-South archives."
+  - "Aev Lenz (Y19): Demagi — Five-Gate Order seer's apprentice;
+    built the Glass Eye signature ability used by Oracle archetype."
+  - "Markus Lenz-Drumm (Y26): Empire 12th Legion liaison; killed
+    at Veridian VI alongside Bohl-Mor Krellix."
+  - "Ilara Lenz-Vekka (Y31): Free Ports brokerage; current trade
+    contact of Lord Avern Thessler (Prodigal canon)."
+
+house_of_smoke:
+  - "Veil-Mor (Y4): founder of the Panopticon's Silent Corps;
+    Glenmar's grandfather; purged at age 67 by Inspector Veil-7."
+  - "Smokara Veil-Drumm (Y11): wrote the canonical Silent Corps
+    training manual; current location classified."
+  - "Calyx Veil-Mor (Y18): fled to Free Ports at age 22; Wraith
+    Calder's mentor (Tier-2 recruit canon)."
+  - "Ressa Veil (Y25): Demagi — only non-Quarchon Smoke alumna;
+    assassinated by her own brother."
+  - "Glenmar Veil-2 (Y31): Sira Null-Echo's handler in Silent
+    Corps; purged on Day-21 audit of his own apprentice (Ghost
+    canon backstory)."
+
+house_of_ledger:
+  - "Quill the Elder (Y2): founder of House of Ledger; Archon Quill's
+    great-uncle; alive at 102."
+  - "Pell-Mor Caedex (Y9): expelled at Y9 for the same heresy
+    Caedex Vorr asked at Y34 — the question runs in the family."
+  - "Iva-Marl Sinder (current Y31): Martyr archetype apprentice;
+    her name is etched in Notable Alumni though she has not
+    graduated yet — cohort-mid ledger entry."
+  - "Tien Ceadrune Sr. (Y17): Tien Ceadrune's mother; Game Master
+    alumna; redacted from House of Ledger archives."
+  - "Avern Thessler-Quill (Y24): Lord Avern's elder sister;
+    declined the apprentice trial; runs the Thessler shipping-
+    house in his absence (knows he is alive)."
+
+house_of_circuit:
+  - "Wirework the Elder (Y3): founder; Archon Wirework's grand-
+    parent; Quarchon — the first Quarchon to bind the Circuit
+    signature."
+  - "Pellix Vaun-Brass (current Y26): Artisan archetype apprentice;
+    cohort-mid ledger entry."
+  - "Vex Solène (current; non-graduate): Tier-2 recruit canon;
+    listed as Notable Alumna for her Skyforge inventions even
+    though she did not attend the apprentice cohort."
+  - "Mer Halflaugh (Y26): Vex'rah's brother; Quarchon court-
+    guard; assassinated at Y28 — name on the Panopticon list
+    (Jester canon backstory)."
+  - "Ilex Wirework-Vorr (Y32): Demagi — Heretic-aligned; built
+    the Pedagogy Hub holographic deployment-grid (§AC.4.8)."
+
+house_of_thurible:
+  - "Smoke (Y5): founder; Archon Smoke's predecessor."
+  - "Aevel of the Five Gates (current Y33): Oracle archetype
+    apprentice; cohort-mid ledger entry; her tea-leaf reading
+    of the Game Master's birth-name is recorded here."
+  - "Ila Smoke-Sinder (Y14): Iva-Marl Sinder's mother; redirect-
+    rune surgeon; killed protecting a Pureflame conscript."
+  - "Cael Veil-Smoke (Y22): collaborated with Veil family across
+    factions; current location: Tidewater Archive."
+  - "Ren Calpha (Y27): Prodigal's Free Ports alias; listed under
+    his alias in Thurible records (which means Thurible knew —
+    a quiet revelation for Lord Avern)."
+
+house_of_anvil:
+  - "Hammer the Elder (Y1): founder; Archon Hammer's
+    grandparent."
+  - "Bohl-Mor Krellix (current Y31): Revenant archetype apprentice;
+    cohort-mid ledger entry; the only restored-soldier alumna
+    in Anvil records."
+  - "Marsa Hammer-Drumm (Y9): forged the Heart Stone for §AC.1.x
+    Castle of Death A.20; assassinated at her own forge."
+  - "Vorr Anvil-Steele (Y16): cross-house Anvil/Iron; current
+    Empire 12th Legion's quartermaster."
+  - "Pell Caedrune (Y23): the wrongful-execution victim from
+    Sentinel canon backstory; his name is etched on the alumni
+    roster despite his execution — a Hammer protest gesture."
+
+house_of_mirror:
+  - "Glass-Mask the Elder (Y2): founder; the original brass-
+    bound mirror-mask; deceased at Y45."
+  - "Reva Mirror-Drumm (Y8): only alumna to remove the mirror-
+    mask; killed by it within the same hour (the mask was
+    cursed; this is canonical)."
+  - "Aevor of the Five Gates (current Y33): Oracle male variant
+    apprentice; cohort-mid ledger entry."
+  - "Cael Mirror-Veil (Y17): cross-house Mirror/Smoke; current
+    Panopticon archivist."
+  - "Sira Null-Echo (current Y29): Ghost archetype apprentice;
+    cohort-mid ledger entry; the mirror-mask in the Mirror common
+    room shows her face only when she is not looking — recorded
+    Y29 anomaly."
+
+house_of_garden:
+  - "Vine the Elder (Y4): founder; Archon Vine's grandmother;
+    cultivated the first cyber-cyan-thread vine."
+  - "Iva-Marl Sinder (current Y31): Martyr archetype; cross-
+    house Garden/Thurible; cohort-mid entry."
+  - "Marsa Garden-Sinder (Y11): Iva-Marl's grand-aunt; redirect-
+    rune surgeon and gardener; her hybrid plants are in the
+    Tidewater Archive."
+  - "Cassia Garden-Drumm (Y19): Empire 12th Legion's herbalist;
+    current location classified."
+  - "Avern Garden-Thessler (Y26): Lord Avern Thessler's
+    great-grandfather; founded the Thessler shipping-house's
+    Garden division."
+
+house_of_chapel:
+  - "Bell the Elder (Y6): founder; Archon Bell's grandparent."
+  - "Iva-Marl Sinder (current Y31): Martyr; cross-house Chapel/
+    Thurible; cohort-mid entry."
+  - "Kareth Vael-Drumm (current Y24): Zealot archetype apprentice;
+    cohort-mid ledger entry."
+  - "Sera Chapel-Vael (Y15): Pureflame priest; survived the same
+    Day-of-Ash ritual as Kareth (8 years prior); her medallion
+    is the one Kareth's chant-master wore."
+  - "Pell Caedrune (Y23): cross-listed with Anvil; the wrongful-
+    execution victim; etched here too as a Chapel protest."
+
+house_of_tower:
+  - "Watch the Elder (Y3): founder; Archon Watch's grandparent."
+  - "Marcus Farrow (current Y42): Sentinel archetype apprentice;
+    cohort-mid ledger entry."
+  - "Ren Calpha (Y27): cross-listed with Thurible; Prodigal's
+    Free Ports alias."
+  - "Halix Tower-Caldarn (Y14): Forward Bastion garrison
+    commander; killed in the wrongful-execution incident's
+    aftermath six months later."
+  - "Veil-2 (Y31): cross-listed with Smoke; Sira Null-Echo's
+    handler."
+
+house_of_remnant:
+  - "Sigh the Elder (Y4): founder; Archon Sigh's mother;
+    bone-and-blood-red robes."
+  - "Bohl-Mor Krellix (current Y31): Revenant; cross-house
+    Remnant/Anvil; cohort-mid entry."
+  - "Pell Caedrune (Y23): cross-listed with Anvil and Chapel;
+    the wrongful-execution victim; Remnant carries his ash."
+  - "Mer Halflaugh (Y26): cross-listed with Circuit; Vex'rah's
+    brother."
+  - "Tava Calpha (Y19): Roon Calpha's older sister; died in the
+    Free Ports market dome collapse; her name is etched here
+    despite never having attended the cohort."
+```
+
+### §AC.19.2 Cross-references
+
+Notable Alumni names that are cross-listed across multiple
+guilds (the canonical "this person was significant to multiple
+houses") are highlighted in italics in the rendered roster.
+The cross-listing is canonically the apprentice / ancestor's
+multi-faceted life — Pell Caedrune appears in 3 houses
+(Anvil, Chapel, Remnant) because he was significant in three
+different ways (forge-master, Pureflame priest, bone-relic-
+keeper) before his wrongful execution.
+
+---
+
+## §AC.20 Memory-card-recipient visual overlay
+
+When a new apprentice consumes a Memory Card (per §AC.7.4
+`cs_memory_card_inheritance_<archetype>`), the dead apprentice's
+voice surfaces in the new apprentice's dialog. The visual
+companion to this beat: the new apprentice briefly carries the
+dead apprentice's eye-glow or scarification overlay.
+
+### §AC.20.1 Overlay spec
+
+```yaml
+overlay_kind:    transient (8s) overlay layer composited over
+                 the inheriting apprentice's portrait during
+                 the inherited line's delivery
+applied_when:    inherited line surface (per
+                 `apprenticeMemoryInheritance.ts` trigger)
+trait_lock:      dead apprentice's signature visual cue overlays
+                 the recipient's face for 8s; cue includes one
+                 of: cyber-cyan eye-glow, scarification cipher
+                 micro-pattern, faint occult-violet temple-tint
+                 (Demagi inheriting Demagi only), or chalk-glyph
+                 transfer
+
+duration:        8 seconds; fade-in 0.8s, hold 6.0s, fade-out 1.2s
+
+asset_id:        ui_memory_inheritance_overlay_<archetype>.png
+                 × 12 (one per dead-apprentice archetype)
+
+nb2_prompt:      same template as §AC.14 doctrine overlay; the
+                 overlay shows ONLY the dead-apprentice's signature
+                 visual cue (eye-glow / scarification overlay /
+                 etc.) with alpha-channel transparency outside the
+                 cue extent
+
+pipeline:
+  nb2_seed:      196001..196012   # 12 dead-apprentice archetypes
+  cdn_target:    cdn/client-public/art/overlays/memory_inheritance_<archetype>.png
+```
+
+---
+
+## §AC.21 Cross-doc TBDs final reconciliation
+
+This section is the canonical close of the apprentice + commons +
+pedagogy + berth production-doc rollout. It enumerates every
+outstanding TBD across all sub-sections and assigns a follow-up
+action.
+
+### §AC.21.1 Cumulative roster (post-PR)
+
+| group | renders / spaces / cuts |
+|---|---|
+| Apprentice rooms (§AC.1 + §AC.4) | 21 |
+| Berth surfaces (§AC.5) | 5 logical, 20 production assets |
+| Guild common rooms (§AC.6) | 12 |
+| Cutscenes (§AC.2 + §AC.7) | 357 |
+| Apprentice canon characters (§AC.11) | 12 archetypes × 2 genders × 3 variants = 72 |
+| Recruit canon characters (§AC.10.7) | 5 |
+| Named-NPC canon (§AC.10.8 + Inspector Veil-7) | 16 (12 Archons + Veil-7 + Auditor + Quartermaster + Cohort group) |
+| Master-face renders (§AC.11.16) | 1 anchor + 72 apprentice + 5 recruits + 16 NPC = 94 |
+| Downstream 11-asset renders | 94 × 11 = 1,034 |
+| Artifact-faced art (§AC.10.9) | 358 (5 doctrine slips + 36 audit transcripts + 29 mission dossiers + 24 memory cards + 216 signature cards + 48 plaques) |
+| UI surface renders (§AC.12) | 89 |
+| Activity sprites (§AC.13) | 68 |
+| Doctrine outfit overlays (§AC.14) | 60 |
+| VFX assets (§AC.15) | ~30 atomic + 12 per-guild |
+| SFX assets (§AC.16) | ~80 atomic |
+| Music score cues (§AC.17) | ~25 distinct cues + variants |
+| Trained-crew outfit overlays (§AC.18) | 60 |
+| Notable Alumni rosters (§AC.19) | 60 entries |
+| Memory-recipient overlays (§AC.20) | 12 |
+| **TOTAL ART RENDERS** | **~1,800 PNG renders** |
+| **TOTAL CDN STORAGE** | **~14 GB** (rendered assets + reference images) |
+
+### §AC.21.2 Outstanding TBDs by category
+
+```
+[A] §F.1 cross-cut sync — 460 cutscene IDs need spine entries
+    in _PRODUCTION_CROSS_CUT.md §F.1.A.4-A.16
+    Owner: production doc-sync; not blocking asset generation
+
+[B] VO manifest line numbers — 24 archetype × gender + 17 new
+    NPC manifests + 4 pedagogy line-banks (2,496 lines) need
+    lineId mapping
+    Owner: VO pipeline lead; blocking audio post
+
+[C] 17 new VO manifests (essence harvester, restored apprentice,
+    12 archons, Veil-7, Mechronis auditor, quartermaster) need
+    initial authoring
+    Owner: VO authoring; blocking dialog system
+
+[D] Banter scene 157-pair × dialog-headshot rendering — these
+    are dialog-system content not cutscenes; production renders
+    are 5 named recruits + 12 archetypes × 6 expressions = 102
+    headshots already covered by §AC.10.4 expression set;
+    Owner: no additional TBD; covered in §AC.10
+
+[E] Game Master meta-arc cinematic — at blood-weave alignment 40+,
+    the §AC.2.5 alignment-40 cut leads into a separate cinematic
+    arc; production scope lives in a separate doc (out of
+    scope for this rollout)
+    Owner: separate cinematic doc; reserved as Act-7 storyteller hook
+
+[F] Wraith Calder's scratched photograph — Act-5 reveal cut
+    (cs_wraith_e2_betrayal_reveal); the photograph's contents
+    (Game Master's younger form) is a separate authoring task
+    Owner: narrative pass; reserved storyteller hook
+
+[G] 4 Warden's-candidate apprentice runtime overlay — runtime
+    composition, not a separate render batch (per §AC.10.15)
+    Owner: runtime; resolved
+
+[H] Non-binary apprentice parametric variants — runtime mixes
+    male+female master faces; no separate non-binary master
+    render needed (per §AC.10.15)
+    Owner: runtime; resolved
+
+[I] Audit-transcript per-archetype × per-day composition —
+    profile_hero + cipher-script body + Auditor signature in
+    3 layers; production-side paste-up workflow (no NB2 render
+    per cell)
+    Owner: production-side composition; not blocking
+
+[J] 13th-essence-vault, 13th-mourning-frame, 13th-deliverable-
+    case Act-7 reveals — narrative reveals; production-side
+    asset reserved but content authored at narrative pass
+    Owner: narrative pass; reserved
+
+[K] Per-archetype × variant face composition for activity
+    sprites — runtime face-replace via composition (per §AC.13.1
+    notes); if production wants explicit per-variant activity
+    sprites, expand to 12 × 4 × 3 × 2 = 288 sprites (out-of-
+    scope; runtime workaround documented)
+    Owner: runtime; resolved (with quality-tradeoff note)
+
+[L] Music score loops — 25 cue identities listed; production
+    audio team to compose; per-loop duration + texture spec
+    in §AC.17
+    Owner: audio composition; not blocking visuals
+
+[M] Cohort group portrait per-cycle render — parametric per
+    cohort cycle; runtime composes from individual master_faces;
+    no separate batch render needed
+    Owner: runtime; resolved
+
+[N] Notable Alumni portrait references — §AC.19 has 60 named
+    alumni; portrait renders for these are out-of-scope (alumni
+    appear as etched names + brass plaques in §AC.6 west bookshelves;
+    no individual portraits rendered)
+    Owner: not rendered; resolved as text-only
+
+[O] Trained-crew outfit overlay × archetype × variant matrix —
+    60 role × archetype overlays in §AC.18 are per archetype only
+    (variant face composed at runtime); same approach as activity
+    sprites
+    Owner: runtime; resolved
+
+[P] Per-guild Archon Professor full master_face + 11-asset set —
+    12 Archons × 11 = 132 renders; covered in §AC.10.8 + master_
+    face seeds documented (190601..190732)
+    Owner: covered; in scope of upcoming render batch
+```
+
+### §AC.21.3 Production handoff (final)
+
+The cumulative production-side asset-generation pipeline is:
+
+1. **Master-face anchor batch** (§AC.11.16):
+   - 1 `apprentice_aesthetic_anchor.png` (single render)
+   - 72 apprentice variant master_faces (12 archetypes × 2
+     genders × 3 variants)
+   - 5 recruit master_faces (per §AC.10.7)
+   - 16 named-NPC master_faces (12 Archons + Veil-7 +
+     Auditor + Quartermaster + Cohort group)
+   - **Total: 94 master-face renders**
+
+2. **Downstream 11-asset batch per character** (§AC.10.3):
+   - 94 master_faces × 11 assets each = 1,034 renders
+
+3. **Artifact-faced batch** (§AC.10.9):
+   - 358 renders (cards, plaques, transcripts, dossiers, slips)
+
+4. **UI surface batch** (§AC.12):
+   - 89 renders (UI chrome)
+
+5. **Activity sprite batch** (§AC.13):
+   - 68 renders (apprentice + recruit per-phase activities)
+
+6. **Outfit overlay batch** (§AC.14 + §AC.18 + §AC.20):
+   - 60 doctrine + 60 trained-crew + 12 memory-inheritance =
+     132 renders (overlay layers)
+
+7. **Cutscene asset batch** (per §AC.7 + §AC.2 cutscenes):
+   - 357 cutscenes × ~5 assets each (start.png + end.png +
+     clip.mp4 + audio_post.wav + meta.json) = ~1,785 cutscene
+     production files
+
+8. **Audio asset batch** (§AC.16 + §AC.17):
+   - ~80 atomic SFX + 25 music cues + 12 per-archetype chorus +
+     pedagogy line-bank lineId mapping (2,496 lines)
+
+9. **VFX asset batch** (§AC.15):
+   - ~30 atomic VFX + 12 per-guild particles + various per-room
+     animations
+
+**Cumulative render count**: ~3,500 individual production assets.
+**Cumulative storage estimate**: ~14 GB CDN.
+**Cumulative NB2 generation cost**: ~$140 (94 master + 1,034
+downstream + 358 artifacts + 89 UI + 68 sprites + 132 overlays
+= 1,775 still renders × ~$0.04 + cutscene Veo costs from earlier
+audits).
+
+The runtime is unchanged across this entire rollout. `pnpm check`
++ `pnpm ship:check` remain N/A for the doc.
+
+End of `_PRODUCTION_APPRENTICE_COMMONS.md` final rollout (PR #580
+expansion + canon characters + variant faces + remaining art /
+UI / VFX / SFX / music / overlays / alumni).
