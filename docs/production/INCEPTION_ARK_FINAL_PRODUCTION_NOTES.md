@@ -1193,3 +1193,174 @@ reproduce into §11 when authoring that chapter.)
 *End of Phase 1.5 working notes. The production document
 chapters §3 onward distill from these notes; do not duplicate
 prose between this file and the published doc.*
+
+---
+
+## Appendix Z — Phase A / Phase B handoff (2026-05-10, branch `claude/redesign-ark-rooms-te3WN`)
+
+This branch lands two major new chapters in the production doc
+plus a new companion document. Authored under the
+mellow-waddling-stream plan after four rounds of Dreamer-Architect
+directives.
+
+### Z.1 What landed in `INCEPTION_ARK_FINAL_PRODUCTION.md`
+
+**§3 — Cinematic & Cosmology Direction** (~1,600 lines added)
+- §3.0 Chapter intent
+- §3.1 Universal cutscene direction
+  - §3.1.0 First-person POV rule (supersedes all)
+    - §3.1.0.1 Camera default rig
+    - §3.1.0.2 Avatar height parametric
+    - §3.1.0.3 Hand-rig parametric
+    - §3.1.0.4 Foot-rig parametric
+    - §3.1.0.5 Voice synthesis at runtime
+    - §3.1.0.6 Damage / intoxication / unconsciousness camera rules
+    - §3.1.0.7 NPC framing
+    - §3.1.0.8 Cutscene-to-gameplay transitions
+    - §3.1.0.9 **Audit obligation** for 5 currently-shipped named
+      cutscenes (Awakening, First Human Contact, Elara's Memory
+      Recovery, Breaking Point, Thought Virus Manifests)
+    - §3.1.0.10 Exception protocol (Final Mirror — Act 7 only)
+  - §3.1.A Category A — Punctuation cutscenes (~120 catalogue)
+    - Demon summoning sequence (5 cutscenes, full shot-spec)
+    - Cloning sequence (5 cutscenes, full shot-spec)
+    - Terminus Swarm death scenes (7 cutscenes, full shot-spec)
+    - Tower Defense gameplay events (5 cutscenes)
+  - §3.1.B Category B — Myst-like Ambient Establishing Shots (~15
+    catalogue, full shot-by-shot)
+  - §3.1.C Category C — Game-Mode Discovery + Loading Cinematics
+    (~30 catalogue; Card Duel exemplar full; remaining 14 modes
+    follow same template)
+- §3.2-§3.11 Reserved cinematic systems (scaffolded; deferred to
+  Phase F)
+- §3.12 Hellbox Cosmology v5 — Twelve Gateways
+  - §3.12.0 Cosmology overview
+  - §3.12.1 Hellbox roster (canonical table; 12 Hellboxes)
+  - §3.12.2 Master of R'lyeh voice ID + transit invocation
+    + radial-menu UI + faction tonality previews
+  - §3.12.3-§3.12.14 Per-Hellbox specs:
+    - HB1 Med Bay → Celebration School
+    - HB2 Hierarchy Throne → Castle of Death
+    - HB3 Bridge → Quiz Show Palimpsest
+    - HB4 Engineering Bay → Mechronis Academy
+    - HB5 Personal Quarters → Universal Selector (navigation hub)
+    - HB6 Memorial Corridor → Dead Man's Circuit
+    - HB7 Captain's Quarters Degen's Corner → Degenerate's Casino
+    - HB8 Cipher Den → Editor's Workshop
+    - HB9 Chess Hall → The Eternal Match (NEW; 3-player chess
+      variant rules specced)
+    - HB10 Collectors Arena → The Hall of Collected Souls (NEW)
+    - HB11 Defense Command Center → The Hive (NEW)
+    - HB12 Game Hall → The Dischordian Arena (NEW)
+  - §3.12.15 Pacing analysis (Act-by-Act unlock cadence)
+  - §3.12.16 Future expansion (deferred Hellbox candidates)
+  - §3.12.17 Canonical narrative walkthrough Acts 0-7
+
+**§4 — The Architect-Layer Universal Spec Format** (~3,500 lines)
+- §4.0 Chapter intent (Dreamer-Architect contract)
+- §4.1-§4.17 Universal layer format (17 layers, every space
+  conforms)
+  - §4.1 Header
+  - §4.2 Room geometry
+  - §4.3 Floor
+  - §4.4 Walls
+  - §4.5 Ceiling
+  - §4.6 Lighting
+  - §4.7 Atmosphere
+  - §4.8 Sound
+  - §4.9 Object inventory
+  - §4.10 Camera-spawn-points (FPV-compliant)
+  - §4.11 Doorway / threshold
+  - §4.12 Adjacency map
+  - §4.13 Gameplay-hook
+  - §4.14 Story-tie
+  - §4.15 Special-FX
+  - §4.16 Avatar-parametricity
+  - §4.17 Performance
+- §4.18 Worked Exemplar — Command Bridge (full architect spec;
+  38 inventory objects across all 17 layers; ~1,200 lines)
+
+### Z.2 What landed in `_PRODUCTION_ARK_ROOMS.md` (NEW file)
+
+Phase B-1 of the Architect-Layer roll-out:
+
+- **A.0** How this document works (cross-doc relationship,
+  authoring phasing, coordinate convention)
+- **A.1 Cryo Bay** — FULL §4 spec (47 inventory objects)
+- **A.2 Medical Bay** — FULL §4 spec (52 inventory objects;
+  HB1 host)
+- **A.3 Command Bridge** — FULL (cross-ref §4.18 in main doc)
+- **A.4 Archives** — CORE
+- **A.5 Comms Array** — CORE
+- **A.6 Observation Deck** — CORE
+- **A.7 Engineering Bay** — CORE (HB4 host)
+- **A.11 Captain's Quarters** — CORE (HB7 host)
+- **A.13 Antiquarian's Library** — CORE
+- **A.21 Cipher Den** — CORE (HB8 host)
+- **A.22 Hierarchy Throne** — CORE (HB2 host)
+- **A.27 Memorial Corridor** — CORE (HB6 host)
+- **A.33 Defense Command Center** — CORE (HB11 host)
+- **A.36 Chess Hall** — CORE (HB9 host)
+- **A.50 Collectors Arena** — CORE (HB10 host; **NEW SPACE**
+  introduced in v5 cosmology)
+- All remaining (A.8-A.10, A.12, A.14-A.20, A.23-A.26, A.28-A.32,
+  A.34, A.35, A.37-A.49): SCAFFOLDED
+
+Total document state: 4 FULL, 11 CORE, 35 SCAFFOLDED.
+
+### Z.3 What is deferred to follow-up branches
+
+Phase B-2 (next branch): convert all CORE → FULL and SCAFFOLDED
+→ at least CORE. Estimated 50,000-70,000 additional lines of
+spec.
+
+Phase C (Hellbox interiors): full §4 spec for the 12 Hellbox
+destination interiors (Celebration School interior, Castle of
+Death interior, etc.). Lives in `_PRODUCTION_HELLBOXES.md`
+(NEW). Estimated 25,000-40,000 lines.
+
+Phase D (Vehicles): full §4 spec for the 7 vehicles (CADES APC,
+Eidolon's Vessel, etc.). Lives in `_PRODUCTION_VEHICLES.md`
+(NEW). Estimated 7,000-10,000 lines.
+
+Phase E (Destinations): full §4 spec for ~60 non-Hellbox
+destinations (Trade Empire planets, Crucible arenas, Tower
+Defense raid maps, Castle of Death chambers, Quiz Show
+Palimpsest set pieces). Lives in `_PRODUCTION_DESTINATIONS.md`
+(NEW). Estimated 50,000-90,000 lines.
+
+Phase F (Cross-cutting): §13.18 cutscene catalogue (~165
+cutscenes, full shot-by-shot), §13.19 NPC homes, §13.20 audit.
+Lives in `_PRODUCTION_CROSS_CUT.md` (NEW). Estimated
+20,000-30,000 lines.
+
+### Z.4 Audit obligations (next-branch must-do)
+
+1. **FPV audit** of the 5 currently-shipped named cutscenes
+   per §3.1.0.9. Owners: cutscene direction lead + producer.
+   Most likely to need rework: Awakening (likely currently
+   third-person on cryo-pod exterior). All others need POV
+   confirmation.
+2. **Bridge polygon-budget reconciliation** — §4.18.17 specs
+   280k polys; engine target needs verification.
+3. **Token-table population** for all `--token-color-ark-*`
+   tokens referenced across §4.18 + A.1 + A.2; create entries
+   in `apps/client/src/styles/tokens/ark-rooms.ts`. Currently
+   the spec references tokens by name; the token table itself
+   is not yet authored. Phase B-2 must include this.
+4. **`apps/shared/loredex-data.json` cross-references** — every
+   `lore_anchor` in the spec must resolve. Audit and add any
+   missing entities (Annika Bergstrand, Henrik Voss, Mira
+   Tanaka, Yusuf Adler, Renju Park, Greta Holm, Kira Kovács are
+   new cryo-pod sleeper names introduced in §A.1 — ensure they
+   are added to LOREDEX).
+
+### Z.5 Branch policy reminders
+
+- This branch is `claude/redesign-ark-rooms-te3WN`. All work
+  commits to this branch.
+- No PR creation unless explicitly requested.
+- The plan file (`/root/.claude/plans/mellow-waddling-stream.md`)
+  is the canonical record of what was approved; this notes
+  appendix is the implementation-side handoff. Both should
+  agree.

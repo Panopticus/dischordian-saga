@@ -10047,7 +10047,3147 @@ existing renders, only the new content surfaces.
 
 ---
 
+## 3. Cinematic & Cosmology Direction
 
+> Authored 2026-05-10 against the Dreamer-Architect contract
+> (mellow-waddling-stream plan). This chapter governs every
+> cutscene, every loading cinematic, every Hellbox transit,
+> and every Matrix-of-Dreams destination across Loredex OS.
+>
+> §3 lives between §2 (per-room art bibles, state-axis driven)
+> and §4 (architect-layer universal spec). §2 tells the art-gen
+> pipeline WHAT each Ark room looks like. §4 tells construction
+> WHERE every object is. §3 tells direction HOW the camera moves
+> through these spaces and HOW the cosmology behind them works.
 
+### 3.0 Chapter intent
+
+Three sub-systems live in this chapter:
+
+1. **§3.1 — Universal cutscene direction.** A single rulebook for
+   how every cutscene in the game is filmed, paced, scored, and
+   compressed. Three categories of cutscene (A/B/C) all derive
+   from this rulebook, with the universal first-person POV
+   rule (§3.1.0) supreme over all.
+2. **§3.12 — Hellbox cosmology v5.** The 12 Hellbox structure —
+   the rooms across the Ark that are not just rooms but ALSO
+   gateways to Matrix-of-Dreams destinations. Each Hellbox carries
+   a moral commitment, a Master-of-R'lyeh question, and a
+   five-faction philosophical answer mechanic.
+3. **§3.2–§3.11 — reserved for future cinematic systems.** Future
+   chapters here will catalogue cutscene-asset filenames, voice-
+   stitch presets, soundtrack-cue families, and lighting-state
+   recipes. They are scaffolded at the end of §3 but not yet
+   authored.
+
+The universal first-person POV rule (§3.1.0) is the single
+most important rule in the chapter. Everything else derives
+from it.
+
+### 3.1 Universal cutscene direction
+
+#### 3.1.0 The Universal First-Person POV Rule
+
+**Every cutscene in Loredex OS is rendered in first-person POV
+from the player-character's eyes. The player is never visible.
+No third-person framing. No mirror reflections of the player's
+face. No shots of the player from outside their body.**
+
+##### Why
+
+The player is canonically anyone — any species, any gender,
+any wardrobe. The customisation system gives the player full
+control over body, voice, and outfit. Cutscenes that show the
+player would lock the canonical-player to one specific look,
+breaking the customisation contract. Maintaining strict
+first-person POV preserves the illusion that "this is YOU
+experiencing this."
+
+The Dreamer-contract: every player should be able to insert
+themselves — their own avatar, their own voice, their own
+species — into every cutscene without dissonance. If a cutscene
+ever frames the player from outside, that contract breaks.
+
+##### What this means concretely
+
+| element | allowed | not allowed |
+|---|---|---|
+| Player's hands | YES — can appear in frame holding objects, gesturing, opening doors | only if the gloves/skin match the player's chosen avatar (parametric — see §3.1.0.4 below); or are obscured by environmental factors (gloves, dust, shadow) |
+| Player's feet | YES — can appear in frame walking/standing | only if footwear matches the avatar (parametric) |
+| Player's reflection | NO — no mirrors, no shiny surfaces showing face | ever |
+| Player's voice | YES — can be heard speaking diegetically | only via the player-voice synthesis system so it matches the chosen avatar voice |
+| Player's silhouette | NO — no shots of "the player" from outside their body | ever |
+| Player's shadow | EDGE CASE — only if shadow is silhouette-only (genderless / featureless / formless) and not a focus of composition | never as the primary subject |
+| Player's heartbeat / breathing | YES — heard, felt, NOT seen | always |
+| NPCs reacting to player | YES — NPCs can look at the camera (the player's eyes) | yes; this strengthens immersion |
+| NPCs touching player | YES — NPCs can place hand on player's shoulder, pin player to wall, etc., visible from POV | yes |
+| Player getting hit / hurt | YES — POV shake, blood-splatter on lens, vignette darken | yes; but no "see the player fall" shot |
+| Player dying | YES — POV fade-to-black with breathing slowing; lens cracks; sky goes dark | yes; but no "see the player's body" shot |
+| Player being clothed by an NPC | YES — POV looking down at hands as garment is fitted | yes; the garment must match the avatar's chosen wardrobe |
+
+##### §3.1.0.1 Camera default rig
+
+- **Camera position** = avatar's eye-bone in the skeleton, parametric
+  to species. The cutscene system reads the player's avatar at
+  trigger-time and uses the eye-bone world-position.
+- **Camera FOV** = 80° default (slightly wider than gameplay's 75°
+  — gives a cinematic feel without warp).
+- **Camera near-plane** = 0.05 m (so player hands at chest level
+  do not clip).
+- **Camera far-plane** = 1500 m (clamp varies by space; tight
+  interior rooms clamp to 50 m for performance).
+- **Roll** = locked at 0° EXCEPT under explicit damage/intoxication/
+  unconsciousness states (see §3.1.0.6).
+
+##### §3.1.0.2 Avatar height parametric
+
+| avatar height bucket | eye height (m) | head-bob amplitude (cm) |
+|---|---|---|
+| Xenomorph small | 0.85 | 1.5 |
+| Humanoid short | 1.40 | 2.5 |
+| Humanoid average | 1.70 | 3.0 |
+| Humanoid tall | 2.05 | 3.5 |
+| Xenomorph tall | 2.70 | 4.0 |
+| Quadruped (where supported) | 0.95 | 5.0 (gait-driven) |
+
+Camera position interpolates linearly across the bucket. Head-bob
+amplitude scales with height because taller avatars naturally pivot
+more at the hips. Quadrupeds get a different rig entirely — head
+moves on a cantilever (like a stalking cat) — and cutscenes
+authored before quadruped support skip the cantilever and use
+the small-humanoid rig as a fallback.
+
+##### §3.1.0.3 Hand-rig parametric
+
+Hands appearing in frame are RIG OBJECTS (left-hand-rig and
+right-hand-rig) parented to the camera. The rig holds:
+
+- **Skin tone** — sampled from avatar at trigger-time
+- **Sleeve cuff geometry** — sampled from avatar wardrobe at trigger-time
+  (no cuff = bare arm; long cuff = covered to mid-forearm)
+- **Glove state** — sampled from wardrobe (none / fingerless / full)
+- **Ring state** — sampled (count and position; up to 4 visible)
+- **Bracelet/watch state** — sampled (one wrist or both)
+- **Nail state** — sampled (length / paint colour / shape)
+- **Skin-detail layer** — sampled (scars / tattoos / markings)
+- **Species detail** — sampled (claws / extra digits / scales / fur
+  emerging from cuff edge)
+
+Cutscenes pose the rig with FK animation (forward kinematics
+keyframed to the camera). Inverse kinematics solve for object-grip
+contact points (e.g. when hand grips a doorknob, IK ensures fingers
+wrap correctly). Rig pose targets are authored in cutscene timeline
+as positional+rotational keys; rig parametric details rendered
+at runtime.
+
+##### §3.1.0.4 Foot-rig parametric (rare, but supported)
+
+Feet appearing in frame (e.g. cutscene of player tying boot,
+or first-person stair-descent) use the same parametric system
+as hands:
+
+- **Skin tone**
+- **Footwear** — sampled from wardrobe (boot / sandal / barefoot / cloven hoof / clawed)
+- **Trouser-cuff** — sampled
+- **Sock state** — sampled (visible above footwear)
+
+Cutscenes that show feet are RARE — typically reserved for
+high-emotion moments where looking-at-one's-feet is dramatic
+(e.g. "after the news, you stare at the deck plates").
+
+##### §3.1.0.5 Voice synthesis at cutscene runtime
+
+When the cutscene script demands the player speak a line:
+
+1. The cutscene timeline includes a `player_vo` event with text and
+   emotional-tag (calm / urgent / grief / rage / awe / etc.).
+2. At trigger-time, the cutscene runtime calls the player-voice TTS
+   service (existing — see `apps/server/_core/llm/` for TTS adapter
+   wiring) with the player's voice profile (selected at character
+   creation; tunable in settings).
+3. TTS returns audio; cutscene plays it on the player-voice channel
+   (separate from NPC-voice channel for mix purposes).
+4. Cached on first generation per `(line_id, voice_profile_id)`
+   tuple — replays use the cache.
+
+Voice profiles supported (see §X TBD for full list):
+- Human masculine (ranges: deep / mid / light)
+- Human feminine (ranges: deep / mid / light)
+- Human neutral (ranges: deep / mid / light)
+- Xenomorph (ranges: low-rumble / clicking / harmonic / sibilant)
+- Synthetic (ranges: warm-AI / cold-AI / glitched / archaic)
+- Custom (player-uploaded voice clone — pending feature)
+
+Cutscene scripts cannot author player VO that conflicts with the
+voice profile (e.g. cannot author a "scream" line for a synthetic
+voice profile that has no scream phoneme). The cutscene tooling
+flags conflicts at authoring time.
+
+##### §3.1.0.6 Damage / intoxication / unconsciousness camera rules
+
+When the player takes damage, gets drunk, or loses consciousness
+mid-cutscene, the camera responds — but ALWAYS from inside the
+player's eyes:
+
+- **Damage tick (light)**: 50ms vignette darken on damage edge;
+  no camera-shake.
+- **Damage tick (heavy)**: vignette + 200ms 3% positional shake
+  + heart-pulse SFX bump.
+- **Critical wound**: lens cracks (overlay sprite); blood drips
+  from top of frame; breathing audibly heavier; FOV narrows to 65°.
+- **Intoxication (mild)**: FOV widens to 90°; subtle radial chromatic
+  aberration; sway introduced (0.5° roll oscillation, period 4s).
+- **Intoxication (heavy)**: FOV 100°; sway 2° period 2s; double-vision
+  ghost overlay (3px offset); audio low-pass at 6 kHz.
+- **Unconsciousness onset**: FOV narrows from 80° → 30° over 1.5s;
+  vignette closes from edges; audio low-pass at 800 Hz; heart-pulse
+  becomes overwhelming, then fades.
+- **Unconsciousness (cut-to-black)**: pure black for the duration;
+  audio drops to ambient-only at -24 dB; no visuals until wake-up
+  trigger.
+- **Wake-up**: FOV 30° → 80° over 2.5s; vignette opens; audio band
+  re-opens; first sound usually a diegetic anchor (alarm / voice / waterdrop).
+
+##### §3.1.0.7 NPC framing (the only third-person SHOTS allowed)
+
+NPCs are allowed to be FRAMED for the player. This is critical
+because a Hellbox without recognisable NPCs is a sterile place.
+Framing rules:
+
+- **Eye-line**: NPCs gaze at the player camera 70-90% of the time
+  during cutscenes (don't break "I am present" illusion). The
+  remaining 10-30% is "the NPC looks elsewhere because the world
+  has more in it than just the player" — natural pacing.
+- **Lensing**: NPCs at 0.8 m–4 m from camera get 50 mm equivalent;
+  NPCs at 4–15 m get 85 mm; NPCs beyond 15 m get 135 mm. Rationale:
+  prevents face-distortion on close NPCs and gives distant NPCs
+  the psychological weight of telephoto compression.
+- **Composition**: NPCs occupy the rule-of-thirds left or right
+  vertical; centred composition is reserved for confrontation or
+  authority moments (e.g. the Master of R'lyeh always centred;
+  the Game Master always centred-low).
+- **Backgrounds**: NPCs are placed against backgrounds that
+  reinforce them. The Antiquarian against books; the Programmer
+  against code; the Captain against the viewport.
+
+##### §3.1.0.8 Cutscene-to-gameplay transitions (the seamless rule)
+
+The transition from cutscene to gameplay (and vice versa) MUST be
+seamless. If a cutscene ends with the camera at position
+(x=2.5, y=4.0, z=1.7) facing 270° at FOV 80°, gameplay resumes
+EXACTLY there — same camera, same FOV. The player should not
+"snap" into gameplay; they should "lift their head."
+
+Implementation: cutscene-end-state sets the gameplay camera
+matrix; gameplay's first frame samples this matrix and animates
+back to gameplay-default-FOV (75°) over 300ms. Most players
+won't notice the FOV shift; the result is a soft hand-off.
+
+##### §3.1.0.9 Audit obligation for the 5 currently-shipped named cutscenes
+
+These five named cutscenes pre-date the FPV rule and require audit
+before any new cutscenes are authored:
+
+1. **Awakening** — opens with player waking from cryo. **Likely audit:**
+   if currently third-person on cryo-pod exterior, refactor to
+   first-person POV INSIDE the pod, looking up through frosted
+   glass; pod-glass cracks; player's hands push glass; first sight
+   is the cryo-bay ceiling.
+2. **First Human Contact** — confirm POV is from player-eyes meeting
+   the human face-to-face. NPC looks at camera.
+3. **Elara's Memory Recovery** — confirm POV is from player observing
+   Elara; player's hands may be visible holding the memory-shard.
+4. **Breaking Point** — confirm POV; if dialogue-driven, NPC framing
+   per §3.1.0.7.
+5. **Thought Virus Manifests** — confirm POV; manifestation should
+   appear AROUND the player from POV, never behind the player as
+   seen from outside.
+
+Audit owners: cutscene direction lead + producer. Audit deadline:
+before next cutscene authoring round (this branch).
+
+##### §3.1.0.10 Exception protocol
+
+There is exactly ONE permitted exception to the FPV rule, and it
+is reserved for a single canonical moment:
+
+**The "Final Mirror" sequence** (Act 7 finale). The player, having
+chosen their faction-philosophy answer to the Master of R'lyeh's
+question, is shown — for the first and only time in the game —
+their own reflection. This is the canonical reveal that "yes,
+the body you've been wearing was the body you chose; the choices
+were yours; the player and the avatar are one."
+
+This single shot is THIRD-PERSON in the sense that it shows
+the player's face — but the framing is "the player approaches
+a mirror" so the camera position is still POV; only the
+reflection is the player's avatar. The player sees themselves
+as if for the first time.
+
+No other exception is permitted. Any other proposed exception
+must be raised to the Dreamer (user) and approved explicitly,
+in writing.
+
+#### 3.1.A Category A — Punctuation cutscenes (~120 total)
+
+Punctuation cutscenes are short, frequent, narrative-load-bearing
+cuts that punctuate gameplay. They mark a moment — a death,
+a discovery, a transition, a character beat — and return to
+gameplay.
+
+##### §3.1.A.1 Universal direction (Category A)
+
+- **Length**: 6–12 seconds typical; 4–18 seconds outer bounds.
+- **Music**: NONE during the cutscene. Ambient bed only (room
+  tone of the space the cutscene takes place in). Music returns
+  to its prior cue when gameplay resumes.
+- **Voice**: ZERO or ONE short VO line (≤8 words, ≤2 seconds
+  delivery). VO can be the player or an NPC; never both within
+  a single Category A cutscene.
+- **SFX**: rich. The cutscene's emotional weight comes from
+  diegetic sound — footsteps, breath, mechanical hums, paper-
+  rustle, blood-drip. Use SFX where music would tempt. SFX
+  authored at -12 to -6 dB; never peaking.
+- **Cuts**: 0–2 cuts within the cutscene. Most are single-shot
+  with camera motion. A cut is permitted when the geography
+  changes significantly (e.g. a door opening to reveal a new
+  space).
+- **Frame stitch**: MUST start on a frame that matches gameplay's
+  exit frame (camera position + FOV) within ±1°. MUST end on a
+  frame that gameplay can resume from (camera position + FOV
+  again).
+- **Skippable**: Category A cutscenes are SKIPPABLE after 2
+  seconds. The skip-button shows after 2s; pressing skip
+  fast-forwards the cutscene at 4× speed (with audio muted)
+  and stitches into gameplay at the cutscene's end-frame.
+
+##### §3.1.A.2 Composition standard
+
+- **Lensing**: 50 mm equivalent for default; 35 mm for spaces;
+  85 mm for character beats; 135 mm for cosmic/awe moments.
+- **Depth-of-field**: rich. Foreground (within 0.5 m) razor-sharp
+  if it's player hands; midground (1–4 m) sharp if subject is
+  NPC; far background (>4 m) blurred to f/1.4-equivalent shallow.
+- **Composition**: rule-of-thirds for NPCs and points of interest;
+  centred for confrontation or authority.
+- **Camera motion**: subtle. Locked-camera, slow dolly, or short
+  pan are the only permitted motions. Whip-pans, dolly-zooms,
+  and rolls are banned for Category A.
+
+##### §3.1.A.3 The 120 catalogue (high-level breakdown)
+
+| sub-category | count | exemplars |
+|---|---|---|
+| Currently shipped | 5 | Awakening, First Human Contact, Elara's Memory Recovery, Breaking Point, Thought Virus Manifests |
+| Hellbox transit (12 × ~3) | ~36 | per Hellbox: open + first-event + close |
+| §13 spatial-surface narrative | ~30 | Trade Empire planet-state shifts, Alliance War declarations, raid-map reveals |
+| NPC arc-beat punctuations | ~30 | 6 load-bearing arcs × ~5 beats each (Wraith / Jericho / Vex / GM / Degen / Seer) |
+| Demon summoning sequence | ~5 | summon-prep / summon / contract-bind / summon-success / summon-dismiss |
+| Cloning sequence | ~5 | initial-clone reveal (Act 1) / first-resurrection / failed-clone / Pod-Zero anomaly / clone-substrate confirmation |
+| Terminus Swarm death scenes | ~7 | swarm-overrun / hive-extraction / mass-conversion / final-stand / breach-hold / collapse / silent-takeover |
+| Tower Defense gameplay events | ~5 | wave-start / mid-wave-shift / wave-end / boss-wave / total-loss |
+
+Detailed shot-by-shot specs for all 120 are deferred to §13.18
+(cross-cutting cutscene catalogue), to be authored in Phase F
+of the production-doc roadmap.
+
+##### §3.1.A.4 Demon summoning sequence (specced here because Hellbox-tied)
+
+The demon summoning sequence is invoked from Hierarchy ritual
+mechanics. The player commits an offering, draws a contract-rune,
+summons a demon, signs the contract, and either dismisses or binds
+the demon. Five cutscenes:
+
+1. **`cs_demon_summon_prep`** (~8s)
+   - **POV**: looking down at altar, hands enter frame arranging
+     offering items (skull, candles, rune-stones).
+   - **SFX**: candle-light igniting, faint chant rising in distance.
+   - **VO**: none.
+   - **End frame**: hands withdraw; altar fully arranged; faint
+     glow on rune-stones.
+2. **`cs_demon_summon`** (~10s)
+   - **POV**: looking forward at altar; air thickens; shadows
+     gather; demon manifests directly in front of camera (form
+     varies by demon-tier; see §3.12.2 Castle of Death).
+   - **SFX**: low rumble; air-rush; demon's first vocalisation.
+   - **VO**: none from player; demon speaks "I AM HERE" or
+     equivalent in proto-language (one short line).
+   - **End frame**: demon present, looking at camera; player's
+     hands raised in defensive/preparatory posture.
+3. **`cs_demon_contract_bind`** (~12s)
+   - **POV**: looking down at parchment; hands enter frame holding
+     quill; quill writes contract terms in real-time (terms vary
+     by player choice).
+   - **SFX**: quill scratch; ink drying; demon breathing audibly
+     above.
+   - **VO**: player one short line — "I accept" or "I refuse"
+     (player choice; outcomes diverge).
+   - **End frame**: parchment signed; ink glowing; demon awaiting
+     dispatch.
+4. **`cs_demon_summon_success`** (~6s)
+   - **POV**: looking at demon as it bows / kneels / shifts to
+     a service stance.
+   - **SFX**: demon vocalisation of acceptance; faint chord rising.
+   - **VO**: demon: "as you command."
+   - **End frame**: demon ready for first command; gameplay resumes
+     with demon-companion summoned.
+5. **`cs_demon_summon_dismiss`** (~6s)
+   - **POV**: looking at demon as it dissolves into smoke and
+     returns to its plane.
+   - **SFX**: demon's farewell vocalisation; air-rush; candle-flames
+     extinguishing one by one.
+   - **VO**: none.
+   - **End frame**: altar empty; player's hands fold; gameplay
+     resumes with demon-companion banished.
+
+##### §3.1.A.5 Cloning sequence (specced here because lore-load-bearing)
+
+The cloning sequence reveals — across Act 1 and beyond — that
+the player is a clone, that previous clones (the player's own
+prior incarnations) failed, and that resurrection is achieved
+by re-clone from the Pod-Zero substrate. Five cutscenes:
+
+1. **`cs_clone_initial_reveal`** (~14s, Act 1)
+   - **POV**: inside a clone-vat, looking up through pale-green
+     fluid; bubbles drift across the field of view; Vex's silhouette
+     visible on the other side of the glass.
+   - **SFX**: muffled vat-machinery; heartbeat (the player's own,
+     just-started); fluid drain begins.
+   - **VO**: Vex (muffled through glass, one short line) —
+     "you don't remember why we did this. you'll learn."
+   - **End frame**: vat fluid draining below eye-level; first
+     breath of air; cut to gameplay (Act 1 first room).
+2. **`cs_clone_first_resurrection`** (~10s, after first death)
+   - **POV**: same vat, looking up. CALLBACK to `cs_clone_initial_reveal`.
+   - **SFX**: same machinery, but more urgent; alarm in distance.
+   - **VO**: Vex one short line — "again. and again, until it sticks."
+   - **End frame**: vat opens; player rises (POV ascends from
+     supine to standing); cut to gameplay (back at last save).
+3. **`cs_clone_failed_clone`** (~8s, Act 4)
+   - **POV**: looking through glass at ANOTHER clone-vat; inside
+     it is a malformed body (the player's prior failed clone);
+     monitors flatline; technicians shake heads.
+   - **SFX**: flatline tone; technicians murmur; ventilator
+     wheezing-down.
+   - **VO**: technician (offscreen): "this one didn't take."
+   - **End frame**: glass fogs from inside; player turns away;
+     cut.
+4. **`cs_clone_pod_zero_anomaly`** (~12s, Act 5)
+   - **POV**: standing before Pod Zero (the substrate-pod that
+     all clones are derived from); player's hand enters frame
+     touching the pod's glass; from the glass, a hand-print
+     appears from INSIDE the pod, mirroring the player's exactly.
+   - **SFX**: pod hum; faint heartbeat from inside the pod (not
+     the player's own); a single drop of fluid hitting metal.
+   - **VO**: none. Beat dependent on pure imagery.
+   - **End frame**: hand-print fading; player's hand withdraws
+     slowly; cut.
+5. **`cs_clone_substrate_confirmation`** (~10s, Act 6)
+   - **POV**: standing in the Cipher Den; Editor's quill enters
+     frame from above; quill writes on a journal page in the
+     player's view: "the substrate is older than the ship."
+   - **SFX**: quill on paper; ink drying; faint hum of the Editor's
+     presence.
+   - **VO**: none.
+   - **End frame**: ink fully dry; page glows briefly; cut.
+
+##### §3.1.A.6 Terminus Swarm death scenes (specced here because death-by-swarm is iconic)
+
+Seven distinct death-by-swarm cutscenes, varied so death feels
+specific to the situation rather than generic. All POV, all
+ending in cut-to-black with breathing fading.
+
+1. **`cs_term_death_overrun`** (~10s) — corridor scenario
+   - **POV**: looking down a long corridor; swarm at the far end;
+     swarm advances in waves; player backs up (POV retreats);
+     swarm engulfs camera last 1s; cut to black.
+2. **`cs_term_death_extraction`** (~8s) — Hive-extraction scenario
+   - **POV**: player is being lifted; ceiling rushes by overhead;
+     vision blurs; one swarm-creature's face appears centered;
+     cut to black.
+3. **`cs_term_death_conversion`** (~12s) — mass-conversion scenario
+   - **POV**: standing still; hum rises; player's hands enter
+     frame turning grey/iridescent; vision develops Hive-static
+     overlay; player's hands lower as resistance fades; cut to
+     black on a final exhale.
+4. **`cs_term_death_final_stand`** (~10s) — combat scenario
+   - **POV**: firing CADES weapon; muzzle-flash; ammo runs out;
+     reload fails (hands fumble); first swarm-creature reaches
+     camera; lens cracks; cut to black.
+5. **`cs_term_death_breach`** (~8s) — defensive scenario
+   - **POV**: standing at a breach-door; door buckles in slow-mo;
+     door breaks; first swarm-creature visible through breach;
+     cut to black on swarm's first lunge.
+6. **`cs_term_death_collapse`** (~10s) — fallen scenario
+   - **POV**: from below — player has already fallen; ceiling
+     visible; swarm creatures pass overhead, IGNORING (because
+     player is presumed dead); breathing slows; cut to black.
+7. **`cs_term_death_silent_takeover`** (~10s) — spore scenario
+   - **POV**: in a quiet chamber; spore drifts across vision;
+     player's hand enters frame swatting at spore; swat misses;
+     spore lands on hand; vision goes white-grey; cut to black.
+
+##### §3.1.A.7 Tower Defense gameplay-event cutscenes
+
+Five short cutscenes that punctuate Tower Defense matches.
+
+1. **`cs_td_wave_start`** (~6s)
+   - **POV**: at the Defense Command threat-display; threat-display
+     lights up; first wave-icon appears at map-edge.
+   - **SFX**: alarm-siren single tone; threat-display warm-up beep.
+   - **VO**: institutional voice (offscreen) — "wave one, incoming."
+2. **`cs_td_mid_wave_shift`** (~8s)
+   - **POV**: at the threat-display; wave-icon mutates mid-flight
+     (Terminus Swarm adapts).
+   - **SFX**: warning klaxon; institutional voice tone shifts
+     uneasy.
+   - **VO**: institutional voice — "they're learning."
+3. **`cs_td_wave_end`** (~6s)
+   - **POV**: at the threat-display; threat-display clears; player's
+     hands enter frame at the controls.
+   - **SFX**: all-clear chime; threat-display cool-down hum.
+   - **VO**: institutional voice — "wave clear."
+4. **`cs_td_boss_wave`** (~12s)
+   - **POV**: at the threat-display; threat-display shows a single
+     enormous icon emerging from the swarm.
+   - **SFX**: deep low rumble; institutional voice tone fearful.
+   - **VO**: institutional voice — "this is not a wave."
+5. **`cs_td_total_loss`** (~12s)
+   - **POV**: at the threat-display; threat-display flickers,
+     fails; lights go out; first swarm-creature appears at the
+     room's main door.
+   - **SFX**: alarm cuts to silence; first creature breathes.
+   - **VO**: none.
+   - **End frame**: cuts to a Terminus-death scene (one of §3.1.A.6,
+     selected by gameplay context).
+
+#### 3.1.B Category B — Myst-like Ambient Establishing Shots (~15 total)
+
+Category B cutscenes exist to make the Ark feel ALIVE — to give
+the player a chance to inhabit the space without action. They
+are inspired by the Myst games (Cyan): long, contemplative,
+beautiful shots of the world breathing.
+
+Under the FPV rule, these become "the player walks slowly through
+a space, looking, listening, NOT acting." The player's pace is
+slow; the camera-pan is slow; the head-bob is muted; the sound
+is rich.
+
+##### §3.1.B.1 Universal direction (Category B)
+
+- **Length**: 12–20 seconds.
+- **Music**: AMBIENT music allowed at -12 dB. Sub-bass synth pad
+  or oceanic-ambient texture. NO melody; NO vocal. Music is the
+  air, not the focus. Music begins on cutscene-start and fades
+  out 2s before cutscene-end.
+- **Voice**: NONE. No player VO. No NPC VO. Pure environmental.
+- **SFX**: rich, layered. Multiple ambient point-sources. The
+  space speaks.
+- **Cuts**: 0–1. Most are single-shot with slow camera-walk.
+- **Frame stitch**: standard. Start and end frames stitch to
+  gameplay.
+- **Skippable**: YES, after 3 seconds. Most players will watch;
+  some will skip; both are fine.
+- **Trigger**: typically once per Act, once per space, on first
+  meaningful entry. Player can re-trigger by interacting with a
+  space's "ambient observation point" (a designated bench, window,
+  or vantage).
+
+##### §3.1.B.2 Composition standard (Category B)
+
+- **Lensing**: 35 mm (wide; environmental). Occasionally 24 mm
+  for the most spacious vantages (Bridge / Engineering reactor).
+- **Depth-of-field**: deep. Foreground sharp; background sharp.
+  Aperture-equivalent f/8.
+- **Camera motion**: very slow walk-pan. Speed: 0.4 m/s walking
+  pace; head-pan ≤15° per second.
+- **Composition**: contemplative. Frequently centred composition
+  to give the space room to breathe.
+- **Lighting**: golden-hour-equivalent if the space allows; otherwise
+  soft directional. The space should look its most photogenic.
+
+##### §3.1.B.3 Catalogue of 15 Myst-ambient shots
+
+Each ambient shot is associated with a single primary space and
+unlocks at a specific Act. Detailed shot-list:
+
+1. **`cs_amb_cryo_bay`** (Act 0)
+   - **Trigger**: first entry to Cryo Bay after Awakening.
+   - **POV**: player walks slowly down the row of cryo-pods; 8
+     are sealed; 1 is dark and empty (the player's own).
+   - **Camera motion**: walk-pan along the row, head turning
+     slightly to look at each pod.
+   - **SFX**: cryo-fluid bubbling; pod-coolant cycling; faint
+     heartbeats from inside the sealed pods (each at a slightly
+     different rate).
+   - **Music**: oceanic-ambient pad in a minor key.
+   - **End frame**: at the row's end, head turns toward the
+     observation window; star-field beyond.
+2. **`cs_amb_bridge`** (Act 1)
+   - **Trigger**: first entry to Bridge.
+   - **POV**: player walks toward the captain's chair; chair is
+     empty, slowly rotating on its own; viewport beyond shows
+     star-field.
+   - **Camera motion**: slow forward dolly.
+   - **SFX**: chair gimbal hum; viewport energy-shield faint hum;
+     distant comms-static at -18 dB.
+   - **Music**: pad in low-A; slow swell.
+   - **End frame**: chair faces away from player; player chooses
+     not to sit; viewport star-field fills the frame.
+3. **`cs_amb_med_bay`** (Act 1)
+   - **Trigger**: first entry to Med Bay.
+   - **POV**: player approaches the autoclave shelf; close-up
+     on the DNA receipt plate slowly precipitating.
+   - **Camera motion**: slow approach + head-tilt down.
+   - **SFX**: autoclave cycle hum; precipitate ticking onto
+     the plate; faint footsteps elsewhere in the room (Vex,
+     unseen).
+   - **Music**: medical-clean tonality (high pad, sparse).
+   - **End frame**: precipitate fully visible; reads as DNA
+     spelling out a name; cut.
+4. **`cs_amb_engineering`** (Act 2)
+   - **Trigger**: first entry to Engineering Bay.
+   - **POV**: at reactor's observation deck; reactor pulses in
+     sub-rhythm with player's heartbeat; player's hands rest on
+     the railing.
+   - **Camera motion**: locked head; slight body sway from
+     reactor-pulse vibration.
+   - **SFX**: reactor pulse (8 BPM-equivalent, deep low frequency);
+     coolant cycle; a single tool clinking on a workbench
+     somewhere off-camera.
+   - **Music**: industrial-sublime pad.
+   - **End frame**: reactor pulse synchronises with player's
+     heartbeat; cut.
+5. **`cs_amb_comms_array`** (Act 2)
+   - **Trigger**: first entry to Comms Array.
+   - **POV**: standing before the frequency wall; lights dim; one
+     indicator (52.7 MHz) pulses slowly.
+   - **Camera motion**: very slow approach to the 52.7 MHz indicator.
+   - **SFX**: faint EM whine; comms-static rolling-shift; one
+     repeating signal at 52.7 MHz (sounds almost like breathing).
+   - **Music**: high-pad with slow modulation.
+   - **End frame**: 52.7 MHz indicator pulses bright; cut.
+6. **`cs_amb_antiquarian_library`** (Act 3)
+   - **Trigger**: first entry to Antiquarian Library.
+   - **POV**: at the library's vaulted ceiling; motes of dust
+     drift in a shaft of light; books on the upper shelves
+     re-arrange themselves slowly.
+   - **Camera motion**: very slow pan upward.
+   - **SFX**: book-shuffle (faint, distant); page-rustle; a
+     single chair creaking.
+   - **Music**: choral pad (single sustained chord).
+   - **End frame**: dust-mote backlit by the light shaft; cut.
+7. **`cs_amb_personal_quarters`** (Act 3)
+   - **Trigger**: first entry to Personal Quarters.
+   - **POV**: at the bedside locker; drawer slightly open; brass-
+     trim dial visible inside.
+   - **Camera motion**: slow head-tilt down; hand enters frame.
+   - **SFX**: drawer wood-creak; faint ticking from the dial
+     (not a clock — something deeper).
+   - **Music**: single low note + room-tone.
+   - **End frame**: hand pauses just before touching dial; cut.
+8. **`cs_amb_degens_corner`** (Act 4)
+   - **Trigger**: first entry to Captain's Quarters Degen's Corner.
+   - **POV**: empty chair at a card table; brass coin sitting
+     on the seat.
+   - **Camera motion**: slow approach.
+   - **SFX**: card-shuffle (off-camera, very faint); coin
+     spinning on its own.
+   - **Music**: noir piano (single sparse line).
+   - **End frame**: coin lands tails-up; cut.
+9. **`cs_amb_pet_garden`** (Act 4)
+   - **Trigger**: first entry to Pet Garden.
+   - **POV**: walking among incubation pods; soft bio-luminescence;
+     founder-pet inside one of the pods stirs.
+   - **Camera motion**: slow walk-pan.
+   - **SFX**: pod-fluid bubbling; bio-luminescent hum; a single
+     pet-vocalisation (muffled, dreamlike).
+   - **Music**: organic-ambient pad.
+   - **End frame**: founder-pet's eye opens within the pod; cut.
+10. **`cs_amb_cargo_hold`** (Act 4)
+    - **Trigger**: first entry to Cargo Hold.
+    - **POV**: in a vast warehouse; single isolated lamp
+      illuminates a pile of crates; shadows of the crates sprawl
+      across the deck.
+    - **Camera motion**: slow walk-pan around the lamp.
+    - **SFX**: hull-creak; crate-stack settling; very distant
+      cargo-grav hum.
+    - **Music**: industrial low-pad.
+    - **End frame**: shadow-crate-stack visible against the lamp;
+      cut.
+11. **`cs_amb_memorial_corridor`** (Act 5)
+    - **Trigger**: first entry to Memorial Corridor.
+    - **POV**: walking down the line of procession-stones; brass
+      bowl with a flame at the corridor's end.
+    - **Camera motion**: slow walk-forward; head turning slightly
+      left and right to read each stone.
+    - **SFX**: footsteps echoing; brass bowl flame-flicker; very
+      distant bell.
+    - **Music**: requiem-tonality pad (low strings).
+    - **End frame**: hands enter frame to add an offering coin
+      to the bowl; cut.
+12. **`cs_amb_cipher_den`** (Act 5)
+    - **Trigger**: first entry to Cipher Den.
+    - **POV**: at the Uncorruption Bench; bench is operating;
+      cleaning text in real-time.
+    - **Camera motion**: slow head-tilt down to watch text emerge.
+    - **SFX**: bench mechanical-hum; quill-on-paper from off-camera;
+      ink drying (very faint).
+    - **Music**: scholarly-ambient pad.
+    - **End frame**: text reveals "the substrate is older than
+      the ship"; cut.
+13. **`cs_amb_chess_hall`** (Act 5)
+    - **Trigger**: first entry to Chess Hall.
+    - **POV**: at a chess-board; pieces are mid-game; pieces
+      slowly move on their own.
+    - **Camera motion**: locked, watching the pieces.
+    - **SFX**: piece-on-board (single move); chess-clock tick.
+    - **Music**: cerebral-ambient pad.
+    - **End frame**: pieces pause; one piece looks up at the
+      camera (figuratively); cut.
+14. **`cs_amb_game_hall`** (Act 5)
+    - **Trigger**: first entry to Game Hall.
+    - **POV**: at a Dischordia card-duel board; cards animate in
+      slow-motion (turn-over revealing).
+    - **Camera motion**: locked, watching cards.
+    - **SFX**: card-flip; card-edge-on-board; faint applause from
+      a phantom crowd.
+    - **Music**: theatrical-ambient pad.
+    - **End frame**: a card lands face-up showing the player's
+      own avatar; cut.
+15. **`cs_amb_defense_command`** (Act 6)
+    - **Trigger**: first entry to Defense Command Center.
+    - **POV**: at the threat-display; display shows distant
+      Terminus Swarm signatures.
+    - **Camera motion**: slow head-tilt down to study display.
+    - **SFX**: display warm-up tone; comms-chatter at low volume;
+      cooling fans.
+    - **Music**: military-tense ambient pad.
+    - **End frame**: one swarm-signature pulses brighter; cut.
+
+#### 3.1.C Category C — Game-Mode Discovery + Loading Cinematics (~30 total)
+
+Category C cinematics give each game mode its own identity. They
+are LUSH — bigger production than Category A, more cinematic than
+Category B. Each game mode gets two: a one-time DISCOVERY cinematic
+(plays first time the mode is unlocked) and a per-load LOADING
+cinematic (plays each time the mode loads).
+
+15 game modes × 2 cinematics each = 30 cinematics.
+
+##### §3.1.C.1 Universal direction (Discovery cinematic)
+
+- **Length**: 15–25 seconds.
+- **Music**: ALLOWED. Theme-defining music for the mode. Full
+  production. Begins on cutscene-start; ends on cutscene-end
+  (or fades out 2s before).
+- **Voice**: ALLOWED, ≤2 lines from a narrator-presence voice.
+  Narrator varies by mode (Master of R'lyeh / Game Master /
+  Captain / institutional voice / Antiquarian / etc.).
+- **SFX**: rich, layered, theme-aligned.
+- **Cuts**: 0–3. Discovery cinematics may intercut between
+  the player's POV and CLOSE-UPS of the game-mode's iconic
+  objects (cards, chess-pieces, weapons, etc.) — close-ups are
+  permitted because they don't break FPV (the player's eyes
+  are looking at those objects).
+- **Frame stitch**: end frame stitches into the loading cinematic
+  (which then stitches into gameplay).
+- **Skippable**: NO. Discovery cinematics play full-length on
+  first encounter. Players can skip on subsequent encounters
+  (which is moot — they don't replay).
+
+##### §3.1.C.2 Universal direction (Loading cinematic)
+
+- **Length**: 6–10 seconds.
+- **Music**: ALLOWED, ambient. Mood-setting. Often the
+  Discovery cinematic's theme reduced to its bed.
+- **Voice**: NONE typically. Rare exception: institutional voice
+  for Tower Defense ("loading defensive perimeter").
+- **SFX**: rich. Theme-aligned punctuation.
+- **Cuts**: 0–1.
+- **Frame stitch**: end frame stitches into gameplay's first
+  frame.
+- **Skippable**: YES, after 2s.
+- **Trigger**: every time the mode is loaded; often paired with
+  asset-loading bar (which is hidden behind the cinematic but
+  ticks in the background).
+
+##### §3.1.C.3 Catalogue of 15 game modes
+
+| game mode | discovery host | loading aesthetic |
+|---|---|---|
+| Card Duel (Dischordia) | Game Master narrates | duel-board materialising; card-shuffle SFX; Game Master's chuckle |
+| Chess (Chess Hall) | Antiquarian narrates | chess-board pieces taking position; clock ticking |
+| Pet Arena | Mascoteer narrates | arena lights up; pet roar; crowd cheer |
+| Tower Defense | Defense Command voice (institutional) | threat-display warming up; alarm-siren single tone |
+| Trade Empire | Trade Hub clerk narrates | star-map zooming through trade routes; bell-toll |
+| PvP Tier-5 (Crucible) | Crucible-narrator | arena materialising; sword-clash single chord |
+| CADES (FPS missions) | Captain narrates | helmet POV; HUD calibrating; comms-static |
+| Vortex Incursion | Insurgency strategist narrates | vortex-rift opening; warp-distortion |
+| Matrix School (Celebration) | child's voice narrates | school-bell; classroom door creak |
+| Matrix School (Mechronis) | engineer's voice narrates | reactor-hum; workbench tools clinking |
+| Castle of Death | Hierarchy priest narrates | castle gate opening; bell-toll deep |
+| Quiz Show Palimpsest | Velkraal/Brel narrates | studio-applause-hush; spotlight-strike |
+| Dead Man's Circuit | brass-bell narrator (no voice — bell-tolls only) | start-line lights; engine-rev |
+| Degenerate's Casino | Degen narrates | roulette-wheel spinning; chip-clatter |
+| Editor's Workshop | Editor's PRESENCE (no voice — page-flip + ink-drying SFX only) | quill on paper; ink drying |
+
+##### §3.1.C.4 Discovery cinematic shot-by-shot — Card Duel exemplar
+
+The full 30-cinematic shot-by-shot catalogue is deferred to §13.18
+(Phase F). One worked exemplar for Card Duel:
+
+**`cs_disc_card_duel`** (~22s)
+- **Beat 1 (0–6s)**: POV at the Dischordia duel-board; player's
+  hands enter frame setting up their starting deck. Game Master
+  appears across the board. Camera slowly pulls back from
+  close-up on cards to mid-shot.
+- **Beat 2 (6–12s)**: GM looks at camera. GM speaks line 1
+  (~3s): *"so. you've come to play."*
+- **Beat 3 (12–18s)**: GM gestures at the board. The board
+  glows. First card animates into a draw-pile shuffle (close-up
+  on cards intercut with GM's smile).
+- **Beat 4 (18–22s)**: GM speaks line 2 (~3s): *"the rules of
+  the world are simple. and they are not."* Music swells.
+- **End frame**: cards positioned for first draw; player's hands
+  ready; GM watching. Stitches into loading cinematic.
+
+##### §3.1.C.5 Loading cinematic shot-by-shot — Card Duel exemplar
+
+**`cs_load_card_duel`** (~7s)
+- **Beat 1 (0–3s)**: POV at the duel-board; hands shuffle the
+  player's deck (close-up; cards flicker through the cut).
+- **Beat 2 (3–6s)**: hands cut the deck; place it down; pull
+  the top card.
+- **Beat 3 (6–7s)**: top card revealed (random — pulled from
+  player's actual deck for narrative continuity).
+- **End frame**: card visible; gameplay loads behind.
+
+Card Duel is the exemplar. The remaining 14 modes follow the
+same template (Beat 1 = setup; Beat 2 = narrator line; Beat 3
+= iconic-action; Beat 4 = stakes-line; loading cinematic =
+3-beat compressed setup → action → reveal).
+
+### 3.2–3.11 Reserved cinematic systems (scaffolded; deferred)
+
+The following sections are scaffolded for future authoring;
+none are required for Phase A delivery on this branch:
+
+- **§3.2 Cutscene-asset filename conventions** — naming, hashing,
+  versioning of cutscene render outputs.
+- **§3.3 Voice-stitch presets** — concatenation rules for player-
+  VO across multi-line cutscenes.
+- **§3.4 Soundtrack-cue families** — leitmotif registry; per-Act
+  thematic evolution.
+- **§3.5 Lighting-state recipes** — re-usable lighting setups
+  callable by name.
+- **§3.6 Particle-FX registry** — re-usable particle emitters.
+- **§3.7 Camera-motion library** — named camera paths (slow-dolly,
+  push-in, pull-back, walk-pan).
+- **§3.8 Cinematic-render queue** — runtime asset-streaming for
+  cutscene playback.
+- **§3.9 Fallback / degraded-quality cutscene paths** — for
+  low-bandwidth / offline / mobile.
+- **§3.10 Localisation / subtitle pipeline** — multi-language
+  cutscene authoring.
+- **§3.11 Cutscene-replay archive** — player-side cutscene
+  re-watch UI.
+
+These will be authored in Phase F (cross-cutting cutscene
+catalogue) per the production-doc roadmap.
+
+### 3.12 Hellbox Cosmology v5 — The Twelve Gateways
+
+> Twelve Hellboxes. Twelve moral commitments. Twelve faces of
+> the Master of R'lyeh's question. Twelve doors out of the
+> Ark and into the Matrix of Dreams.
+
+#### 3.12.0 Cosmology overview
+
+The **Hellbox** is a structural primitive in Loredex OS: a room
+on the Ark that is ALSO a gateway to a Matrix-of-Dreams destination.
+Hellboxes are not separate spaces from the Ark — they ARE Ark
+rooms — but each Hellbox has a hidden gateway that, when invoked,
+teleports the player through a transit-cinematic into a Matrix
+destination tailored to the Hellbox's theme.
+
+Each Hellbox carries:
+- **A unique opening sequence** — a Category A cutscene that plays
+  the first time the gateway is invoked (~10s, FPV, SFX-driven).
+- **A transit video** — a longer cinematic depicting the player
+  being teleported "through hell" to the destination (~15-30s,
+  permits Category B/C music + ambient).
+- **A shared voice**: the **Master of R'lyeh** speaks the same
+  phrase across all transits (the player's "moral question").
+- **A moral commitment**: the player's answer to the Master's
+  question is recorded and shapes the destination experience.
+- **A five-faction philosophical answer mechanic**: the player
+  chooses one of five answers, each aligned with a Loredex
+  faction's worldview; the chosen answer pulls the player toward
+  that faction's reputation.
+- **A return path**: the player can leave the destination at
+  any time; leaving triggers a return-transit (~5s) that lands
+  the player back in the source Ark room.
+
+Twelve Hellboxes total in v5 (was 8 in v4; user-directive expansion):
+- HB1–HB7: original tutorial + endgame Hellboxes
+- HB5: navigation hub (Universal Selector — distinct from the
+  others; no moral commitment)
+- HB8: meta-narrative Hellbox (Editor's Workshop)
+- HB9–HB12: NEW user-directive Hellboxes (Chess, Collectors,
+  Terminus Swarm, Dischordia)
+
+#### 3.12.1 Hellbox roster (canonical table)
+
+| HB | host room | destination | unlock | role | moral question |
+|---|---|---|---|---|---|
+| HB1 | Med Bay (§2.2) | **Celebration School** | Act 1 | tutorial gateway | *"When the body fails, does the self?"* |
+| HB2 | Hierarchy Throne | **Castle of Death** | faction-locked | ritual gateway | *"Is mercy a debt, or a gift?"* |
+| HB3 | Bridge (§2.3) | **Quiz Show Palimpsest** | Act 6 | GM arc | *"Does a child's first death haunt the world that buried them?"* |
+| HB4 | Engineering Bay (§2.7) | **Mechronis Academy** | Act 3 | tutorial gateway | *"Is the worker the work, or the work's prisoner?"* |
+| HB5 | Personal Quarters | **Universal Selector** | Act 0 latent / Act 7 active | navigation hub | NONE (navigation only) |
+| HB6 | Memorial Corridor | **Dead Man's Circuit** | Act 4 | endgame race | *"If you knew the race was already lost, would you still run?"* |
+| HB7 | Captain's Quarters Degen's Corner | **Degenerate's Casino** | Act 5 | gambling/debt | *"What is owed to a debt that was never agreed to?"* |
+| HB8 | Cipher Den | **Editor's Workshop** | Act 5 | meta-narrative loredex-edit | *"Is what was written, or what was edited, the truth?"* |
+| HB9 | **Chess Hall (§2.36)** | **The Eternal Match** | Act 4 | parallel chess game | *"Whose move is the final one?"* |
+| HB10 | **Collectors Arena (§2.X new)** | **The Hall of Collected Souls** | Act 3 | curated-gallery | *"What is the price of keeping?"* |
+| HB11 | **Defense Command Center (§2.33)** | **The Hive** (Terminus Swarm origin) | Act 4 | swarm origin | *"Is one mind worth more than many?"* |
+| HB12 | **Game Hall (§2.34, Dischordia card duel room)** | **The Dischordian Arena** | Act 2 | meta-arena | *"Does the game play you, or do you play the game?"* |
+
+Total moral commitments: **11** (HB1–HB4, HB6–HB12). HB5 is
+navigation-only.
+
+Faction-pull distribution (which faction the strongest answer
+aligns with):
+
+| Hellbox | strongest pull |
+|---|---|
+| HB1 Celebration | Dreamers Children (sentimentalist) |
+| HB2 Castle of Death | Hierarchy (ritualist) |
+| HB3 Quiz Show Palimpsest | Insurgency (oppositional) |
+| HB4 Mechronis | Architect Remnants (constructivist) |
+| HB6 Dead Man's Circuit | Hierarchy (existentialist-acceptance) |
+| HB7 Degenerate's Casino | New Babylon (institutional-ledger) |
+| HB8 Editor's Workshop | Architect Remnants (curatorial) |
+| HB9 Eternal Match | Architect Remnants (constructivist — strongest) |
+| HB10 Hall of Collected Souls | Dreamers Children (ideational — strongest) |
+| HB11 The Hive | New Babylon (institutional — strongest) |
+| HB12 Dischordian Arena | Insurgency (oppositional — strongest) |
+
+#### 3.12.2 The Master of R'lyeh
+
+**Voice ID.** All Hellbox transits feature a single shared narrator:
+the Master of R'lyeh. Voice direction:
+
+- **Tone**: Lovecraftian cosmic-horror; deep oceanic alien cadence;
+  slow measured speech; proto-language inflection on certain words;
+  never raises in volume; ALWAYS centred-frame in NPC framings
+  (per §3.1.0.7).
+- **Pitch**: F1 fundamental (extreme low); harmonics overlay at
+  F3 and F5 (gives a "speaking from underwater" effect when
+  reverb'd).
+- **Pace**: 60-80 WPM (slow; deliberate; pauses between phrases
+  ≥1.5s).
+- **Phonemes**: certain words spoken in proto-language (un-decoded
+  glyph-chains); subtitled with player's choice of "phonetic" /
+  "translated" / "untranslated".
+- **Mannerism**: never asks the same question twice in a single
+  game; the question is the moral commitment, and once answered,
+  the Master MOVES ON.
+- **Casting**: not a faction-aligned voice; not a character with
+  agency; presents as a force/principle/sub-stratum of the world.
+  Never seen — only heard. Optional silhouette during transit-video
+  (formless mass; tendrils of dark water; shifting shape).
+
+**Transit invocation sequence.** Master of R'lyeh's voice plays
+during the transit cinematic, approximately 10-15 seconds in (the
+midpoint). The voice asks the moral question; the player chooses
+an answer via radial-menu UI overlay (5 faction-aligned answers
+visible; player picks one); answer is recorded; transit completes;
+destination loads.
+
+The radial-menu UI:
+- 5 wedges (one per Loredex faction).
+- Each wedge labelled with the faction's answer (one short sentence).
+- Hovering on a wedge previews the answer in faction-tonality
+  voice (faint; ~2s preview).
+- Clicking commits the answer.
+- No timer; player can deliberate.
+- After committing, the wedge animates to the centre; other wedges
+  fade.
+
+**Faction tonality previews** (used in radial-menu hover):
+- **Architect Remnants** — formal, resonant, structural cadence.
+- **New Babylon** — measured, neutral, civic cadence.
+- **Hierarchy** — ritualised, weighted, sacred cadence.
+- **Insurgency** — terse, urgent, defiant cadence.
+- **Dreamers Children** — soft, lyrical, lullaby cadence.
+
+#### 3.12.3 HB1 — Med Bay → Celebration School
+
+**Discovery cutscene** (`cs_hellbox_1_open`, ~10s)
+- **POV**: in Med Bay; player's hands lift the welcome-statue from
+  its plinth; statue dissolves into petals in their palms.
+- **SFX**: petal-fall; faint chorus rising; ozone.
+- **VO**: none.
+- **End frame**: petals drift; transit begins.
+
+**Transit video** (`cs_hellbox_1_transit`, ~22s)
+- **Beat 1 (0-8s)**: POV travels through a tunnel of petals; petals
+  multiply; tunnel narrows.
+- **Beat 2 (8-16s)**: Master of R'lyeh's voice asks: *"When the
+  body fails, does the self?"* Radial menu appears.
+- **Beat 3 (16-22s)**: player commits answer; tunnel resolves into
+  Celebration School entrance.
+
+**Master of R'lyeh question:** *"When the body fails, does the self?"*
+
+| faction | answer |
+|---|---|
+| Architect Remnants | *"The self is built; bodies are scaffolds."* |
+| New Babylon | *"The self is registered; the body is its certificate."* |
+| Hierarchy | *"The self transcends; the body offers."* |
+| Insurgency | *"The self resists; the body is the enemy."* |
+| Dreamers Children | *"The self dreams; the body wakes."* (strongest pull) |
+
+**Destination: Celebration School.** A Matrix-of-Dreams location
+themed as a 1950s-American-elementary-school crossed with an
+Italianate-baroque cathedral. Children — past, present, projected-
+future — celebrate the player's arrival as if the player is
+returning home. The player attends "classes" that are actually
+emotional-grief-processing exercises framed as schoolwork.
+
+**Close cutscene** (`cs_hellbox_1_close`, ~6s)
+- **POV**: at the Celebration School threshold turning around;
+  threshold dissolves; petals drift back; Med Bay re-materialises.
+- **SFX**: petals fading; ozone clearing; Med Bay ambient bed
+  fades in.
+- **VO**: none.
+
+#### 3.12.4 HB2 — Hierarchy Throne → Castle of Death
+
+**Discovery cutscene** (`cs_hellbox_2_open`, ~10s)
+- **POV**: at the Hierarchy throne; player's body kneels (camera
+  tilts down + lowers ~0.5m); hands enter frame placing the offering
+  (a coin, a seed, or a personal item — chosen at the kneeling).
+- **SFX**: knees on stone; offering setting on altar; deep bell-toll
+  beginning.
+- **VO**: none.
+- **End frame**: bell-toll resonates; transit begins.
+
+**Transit video** (`cs_hellbox_2_transit`, ~28s)
+- **Beat 1 (0-10s)**: POV travels down a corridor of bells; each
+  bell tolls as POV passes.
+- **Beat 2 (10-20s)**: Master of R'lyeh asks: *"Is mercy a debt,
+  or a gift?"* Radial menu.
+- **Beat 3 (20-28s)**: player commits; corridor resolves into
+  Castle of Death gate.
+
+**Master of R'lyeh question:** *"Is mercy a debt, or a gift?"*
+
+| faction | answer |
+|---|---|
+| Architect Remnants | *"Mercy is structural; it is what was built between us."* |
+| New Babylon | *"Mercy is a debt; the ledger names what is owed."* |
+| Hierarchy | *"Mercy is a sacrament; it is what we offer."* (strongest pull) |
+| Insurgency | *"Mercy is a weapon; it disarms."* |
+| Dreamers Children | *"Mercy is a dream; we wake to give it."* |
+
+**Destination: Castle of Death.** A vast Wagnerian baroque castle
+ruled by the Hierarchy faction's death-priest hierarchy. Multiple
+chambers (~20, full spec deferred to Phase E): Sanctum of the
+First Death, Hall of Acknowledged Debts, Chamber of the Forgotten,
+the Forgive-or-Damn Tribunal, etc. Player navigates rituals that
+test the moral-commitment chosen in transit. Demon-summoning
+mechanics live here (per §3.1.A.4).
+
+**Close cutscene** (`cs_hellbox_2_close`, ~6s)
+- **POV**: at Castle gate turning back; gate closes; bell-toll
+  fades; throne re-materialises.
+
+#### 3.12.5 HB3 — Bridge → Quiz Show Palimpsest
+
+**Discovery cutscene** (`cs_hellbox_3_open`, ~10s)
+- **POV**: at the captain's chair; player turns the chair; viewport
+  shifts; star-field gives way to the Quiz Show studio set
+  materialising ON the bridge (the bridge becomes the studio).
+- **SFX**: chair gimbal; viewport energy-shift hum; studio-applause
+  rising from offscreen.
+- **VO**: none.
+- **End frame**: studio set fully manifested; transit begins.
+
+**Transit video** (`cs_hellbox_3_transit`, ~25s)
+- **Beat 1 (0-9s)**: POV slowly approaches a contestant podium;
+  spotlight tracks player.
+- **Beat 2 (9-18s)**: Master of R'lyeh asks: *"Does a child's
+  first death haunt the world that buried them?"* Radial menu.
+- **Beat 3 (18-25s)**: player commits; podium resolves into the
+  Quiz Show set's contestant lectern.
+
+**Master of R'lyeh question:** *"Does a child's first death haunt
+the world that buried them?"*
+
+| faction | answer |
+|---|---|
+| Architect Remnants | *"The world is built on what is buried; the child structures it."* |
+| New Babylon | *"The world records the child; the haunting is the record."* |
+| Hierarchy | *"The world owes the child a debt; the haunt is the receipt."* |
+| Insurgency | *"The world buried the child; let it haunt."* (strongest pull) |
+| Dreamers Children | *"The child dreams the world; the world wakes haunted."* |
+
+**Destination: Quiz Show Palimpsest.** A Matrix-of-Dreams game-show
+hosted by Velkraal and Brel (the GM-arc twins), where the questions
+are about what the player has BURIED in their playthrough. Wrong
+answers reveal more of the player's buried truths. Right answers
+get the player a prize that's also a curse. (See §11.X for full
+GM-arc treatment; full set-piece spec deferred to Phase E.)
+
+**Close cutscene** (`cs_hellbox_3_close`, ~6s)
+- **POV**: at the lectern; lectern dissolves; bridge re-materialises;
+  viewport star-field returns.
+
+#### 3.12.6 HB4 — Engineering Bay → Mechronis Academy
+
+**Discovery cutscene** (`cs_hellbox_4_open`, ~10s)
+- **POV**: at the Engineering workbench; player's hands enter the
+  workbench's tool-rack; tools rearrange themselves; workbench
+  reveals Mechronis classroom beneath (workbench top dissolves).
+- **SFX**: tool-clinking; workbench dissolve-hum; engineer voice
+  in distance.
+- **VO**: none.
+- **End frame**: classroom visible beneath workbench; transit begins.
+
+**Transit video** (`cs_hellbox_4_transit`, ~24s)
+- **Beat 1 (0-9s)**: POV descends into the workbench; classroom
+  rises around player.
+- **Beat 2 (9-17s)**: Master of R'lyeh asks: *"Is the worker the
+  work, or the work's prisoner?"* Radial menu.
+- **Beat 3 (17-24s)**: player commits; classroom seats face the
+  player; lesson begins.
+
+**Master of R'lyeh question:** *"Is the worker the work, or the
+work's prisoner?"*
+
+| faction | answer |
+|---|---|
+| Architect Remnants | *"The worker IS the work; the building names them."* (strongest pull) |
+| New Babylon | *"The worker is the work's contract; the role is the role."* |
+| Hierarchy | *"The worker offers themselves; the work is sacrament."* |
+| Insurgency | *"The worker is the prisoner; the work is the chain."* |
+| Dreamers Children | *"The worker dreams the work; both are illusion."* |
+
+**Destination: Mechronis Academy.** A Matrix-of-Dreams trade
+school where the player learns crafting, engineering, and
+deck-building from the Mechronis-faction master craftsmen.
+Lessons are gameplay-tutorials wrapped in story; completion
+unlocks crafting recipes. (Full set-piece spec deferred to Phase E.)
+
+**Close cutscene** (`cs_hellbox_4_close`, ~6s)
+- **POV**: at the classroom door turning back; classroom dissolves;
+  workbench re-materialises with new tools added.
+
+#### 3.12.7 HB5 — Personal Quarters → Universal Selector
+
+**HB5 is unique.** It is the only navigation Hellbox; it has no
+moral commitment, no Master of R'lyeh question, no faction pull.
+Its purpose is to give the player a universal NAVIGATION HUB to
+all other Hellbox destinations from a single room.
+
+**Discovery cutscene** (`cs_hellbox_5_open`, ~12s)
+- **POV**: at the bedside locker; hand opens the drawer; brass-trim
+  dial visible; hand close-up on dial; dial shifts; selector
+  reveals destinations.
+- **SFX**: drawer-creak; dial-tick; metallic resonance.
+- **VO**: none.
+- **End frame**: dial spins through positions; positions named
+  by Hellbox; player can choose any unlocked destination.
+
+**No transit video** (HB5 is the selector itself; the actual
+transit happens via the chosen destination's transit cinematic
+playback, but starting from HB5 instead of from the destination's
+host room — the "shortcut" effect).
+
+**Universal Selector UI**: 12-position dial. Each position lights
+up only if the corresponding Hellbox is unlocked. Player rotates
+to a position and confirms; the corresponding Hellbox transit
+plays from HB5 (Personal Quarters) to the destination. Returning
+from the destination lands the player back in Personal Quarters
+(NOT the destination's original host room).
+
+**Latent / active modes**:
+- **Act 0 (latent)**: dial is visible but unresponsive; tooltip
+  "the dial does nothing yet"; lore-flag for player.
+- **Act 7 (active)**: dial responsive; all unlocked Hellboxes
+  selectable; player can speedrun Hellbox-revisits from a single
+  hub.
+
+#### 3.12.8 HB6 — Memorial Corridor → Dead Man's Circuit
+
+**Discovery cutscene** (`cs_hellbox_6_open`, ~10s)
+- **POV**: at a procession-stone in Memorial Corridor; hand enters
+  frame touching the stone; stone glows; corridor extends; race-line
+  materialises ahead.
+- **SFX**: stone-resonance; engine-rev distant; brass-bell single toll.
+- **VO**: none.
+- **End frame**: race-line glows; transit begins.
+
+**Transit video** (`cs_hellbox_6_transit`, ~26s)
+- **Beat 1 (0-10s)**: POV travels along the race-line; engines
+  rumble louder.
+- **Beat 2 (10-19s)**: Master of R'lyeh asks: *"If you knew the
+  race was already lost, would you still run?"* Radial menu.
+- **Beat 3 (19-26s)**: player commits; race-line resolves into
+  starting grid.
+
+**Master of R'lyeh question:** *"If you knew the race was already
+lost, would you still run?"*
+
+| faction | answer |
+|---|---|
+| Architect Remnants | *"I run because the run is the construct."* |
+| New Babylon | *"I run because the contract requires it."* |
+| Hierarchy | *"I run because the running is the offering."* (strongest pull) |
+| Insurgency | *"I run because they expected me not to."* |
+| Dreamers Children | *"I run because the dream demands it."* |
+
+**Destination: Dead Man's Circuit.** A racing-game endgame. The
+player races the ghosts of every player who has died in the game
+(including the player's own previous deaths from §3.1.A.5). The
+race CANNOT be won — the lead ghost is always 0.5s ahead. The
+gameplay is in HOW you race a race you cannot win. (Full set-piece
+spec deferred to Phase E.)
+
+**Close cutscene** (`cs_hellbox_6_close`, ~6s)
+- **POV**: at the start-finish line; line dissolves; corridor
+  re-materialises; brass bowl flame still flickers.
+
+#### 3.12.9 HB7 — Captain's Quarters Degen's Corner → Degenerate's Casino
+
+**Discovery cutscene** (`cs_hellbox_7_open`, ~10s)
+- **POV**: at the empty chair; hand enters frame picking up the
+  brass coin from the seat; coin flips in air; casino materialises
+  around the player as the coin rotates.
+- **SFX**: coin-spin; chip-clatter rising; jazz-piano fading in.
+- **VO**: none.
+- **End frame**: coin lands in the player's palm tails-up;
+  transit begins.
+
+**Transit video** (`cs_hellbox_7_transit`, ~24s)
+- **Beat 1 (0-9s)**: POV walks through a smoky corridor; neon
+  flickers; chip-stacks rise.
+- **Beat 2 (9-17s)**: Master of R'lyeh asks: *"What is owed to
+  a debt that was never agreed to?"* Radial menu.
+- **Beat 3 (17-24s)**: player commits; corridor opens onto casino
+  floor.
+
+**Master of R'lyeh question:** *"What is owed to a debt that was
+never agreed to?"*
+
+| faction | answer |
+|---|---|
+| Architect Remnants | *"What was built without consent must be re-built with it."* |
+| New Babylon | *"The debt; the agreement is presumed."* (strongest pull) |
+| Hierarchy | *"The debt is sacred; we offer to settle it."* |
+| Insurgency | *"Nothing; refuse the contract."* |
+| Dreamers Children | *"The debt dreams; we wake free."* |
+
+**Destination: Degenerate's Casino.** A gambling-themed Matrix
+location run by the Degen NPC. Every game is a moral test framed
+as a wager. Wins compound; losses compound faster. The casino
+has a HOUSE that always wins eventually — the question is what
+you wager along the way. (Full set-piece spec deferred to Phase E.)
+
+**Close cutscene** (`cs_hellbox_7_close`, ~6s)
+- **POV**: at the casino exit; chip-stacks dissolve; corridor
+  fades; chair re-materialises with brass coin sitting on the seat.
+
+#### 3.12.10 HB8 — Cipher Den → Editor's Workshop
+
+**Discovery cutscene** (`cs_hellbox_8_open`, ~10s)
+- **POV**: at the Uncorruption Bench; hand opens a forbidden text;
+  Editor's quill enters frame from above; quill begins editing
+  the page.
+- **SFX**: page-turn; quill-on-paper; ink-drying; faint Editor
+  presence-hum.
+- **VO**: none.
+- **End frame**: page mid-edit; transit begins.
+
+**Transit video** (`cs_hellbox_8_transit`, ~28s)
+- **Beat 1 (0-10s)**: POV travels through a corridor of pages;
+  pages flutter; ink drips.
+- **Beat 2 (10-20s)**: Master of R'lyeh asks: *"Is what was
+  written, or what was edited, the truth?"* Radial menu.
+- **Beat 3 (20-28s)**: player commits; corridor opens onto
+  Editor's Workshop.
+
+**Master of R'lyeh question:** *"Is what was written, or what
+was edited, the truth?"*
+
+| faction | answer |
+|---|---|
+| Architect Remnants | *"What was edited; structure perfects intent."* (strongest pull) |
+| New Babylon | *"What was written; the record is the law."* |
+| Hierarchy | *"What was offered; both are sacred."* |
+| Insurgency | *"Neither; the truth is what was suppressed."* |
+| Dreamers Children | *"Both; the dream is the edit and the original."* |
+
+**Destination: Editor's Workshop.** A Matrix location where the
+Editor (a non-faction-aligned cosmic presence) edits the player's
+own LOREDEX entries — adding details, removing details, sometimes
+rewriting whole sections. The player can collaborate with the
+Editor (mostly) or refuse (rarely). The gameplay is meta: the
+player is editing their own canon. (Full set-piece spec deferred
+to Phase E.)
+
+**Close cutscene** (`cs_hellbox_8_close`, ~6s)
+- **POV**: at the Workshop's exit; pages re-bind; corridor fades;
+  Cipher Den re-materialises with the forbidden text now edited.
+
+#### 3.12.11 HB9 — Chess Hall → The Eternal Match
+
+**Discovery cutscene** (`cs_hellbox_9_open`, ~10s)
+- **POV**: at the chess-board after the player's first chess match;
+  the king-piece (player's or opponent's, depending on outcome)
+  flickers; piece moves on its own to a square outside chess rules
+  — a "fourth move" outside the game. Chamber re-materialises into
+  the Eternal Match arena.
+- **SFX**: piece-on-board (the impossible move); chamber-shift hum;
+  Antiquarian's distant sigh; Programmer's distant click.
+- **VO**: none.
+- **End frame**: chamber transitioned; transit begins.
+
+**Transit video** (`cs_hellbox_9_transit`, ~26s)
+- **Beat 1 (0-10s)**: POV travels through a corridor of chess-pieces;
+  pieces lining the walls; pieces watching.
+- **Beat 2 (10-19s)**: Master of R'lyeh asks: *"Whose move is the
+  final one?"* Radial menu.
+- **Beat 3 (19-26s)**: player commits; corridor resolves into
+  Eternal Match arena.
+
+**Master of R'lyeh question:** *"Whose move is the final one?"*
+
+| faction | answer |
+|---|---|
+| Architect Remnants | *"The next move; what comes after is what matters."* (strongest pull) |
+| New Babylon | *"The Programmer's; the rules will name the winner."* |
+| Hierarchy | *"The losing one; the loss is the offering."* |
+| Insurgency | *"Mine; I refuse the binary they fought over."* |
+| Dreamers Children | *"None; the game is the dream of the players."* |
+
+**Destination: The Eternal Match.** A parallel-reality chess game
+that has been ongoing for centuries (cross-ref §11.3.1 living-world
+arc). The Antiquarian sits at one side of the board; the Programmer
+at the other; the player is invited as the THIRD participant — they
+break the binary. The player makes 3 moves per visit; their moves
+PERSIST across visits (saved per-player); the game-state evolves
+across Acts 4–7.
+
+**Three-player chess variant rules** (the only place this variant
+exists in canon):
+- Standard 8×8 board, but with a 9th file added on the right (file
+  i) and a 9-rank board (rank 9) — the player's pieces start on
+  rank 9, file i (a triangular position adjacent to both the
+  Antiquarian's white-rank 1 and the Programmer's black-rank 8).
+- Player has 3 pieces only: a king, a knight, and a queen.
+- Player can move only ONCE per visit (one of the three pieces).
+- Antiquarian and Programmer continue their game between visits.
+- Player's moves can attack either side; player's moves can also
+  block; player's moves can also OFFER (sacrifice a piece for a
+  proposition both other players must accept or reject).
+- Game ends when all three players agree the game is over (rare
+  — the canonical ending is "the game continues forever; the
+  player chose to stop participating").
+
+**Close cutscene** (`cs_hellbox_9_close`, ~6s)
+- **POV**: at the arena's exit; arena dissolves; Chess Hall
+  re-materialises; the chess-board now has one of the player's
+  pieces on it (memento).
+
+**Per-move cutscene** (`cs_hellbox_9_move`, ~6s)
+- **POV**: at the arena board; player's hand enters frame and moves
+  one of the player's three pieces.
+- **SFX**: piece-on-board; Antiquarian's sigh of consideration;
+  Programmer's click of acknowledgement.
+- **VO**: none from any party.
+- **End frame**: piece placed; cut.
+
+#### 3.12.12 HB10 — Collectors Arena → The Hall of Collected Souls
+
+**Note on Collectors Arena.** Collectors Arena is a NEW spatial
+surface introduced in v5 (it was not specced before this branch).
+It is a small Ark room (~10 m × 10 m × 4.5 m) added to the deck
+between Pet Garden and Cargo Hold. Its sole purpose is to host
+HB10. Full §4 spec for Collectors Arena lives in
+`_PRODUCTION_ARK_ROOMS.md` (Phase B); summary spec here.
+
+Collectors Arena summary:
+- A circular room with a central plinth.
+- Plinth is reactive: when the player has 10+ collectibles, an
+  object appears on the plinth (the most-neglected item in the
+  player's collection).
+- Examining the plinth-object opens HB10.
+- Walls are lined with 12 alcoves; each alcove holds a representative
+  sample of one collectible-category (cards / pets / trade goods /
+  soul stones / songs / memories / scars / debts / promises /
+  trophies / tools / vows).
+
+**Discovery cutscene** (`cs_hellbox_10_open`, ~10s)
+- **POV**: at the central plinth; the most-neglected collectible
+  appears on the plinth; player's hand enters frame; hand picks
+  up the object; object dissolves into spirit-form; Hall of
+  Collected Souls dimensionalises around the player.
+- **SFX**: plinth-resonance; spirit-form chime; vast space opening
+  audibly.
+- **VO**: none.
+- **End frame**: Hall manifested; transit begins.
+
+**Transit video** (`cs_hellbox_10_transit`, ~26s)
+- **Beat 1 (0-10s)**: POV travels through a gallery of pedestals;
+  each pedestal holds one of the player's collected items, now
+  as a spirit-form figure.
+- **Beat 2 (10-19s)**: Master of R'lyeh asks: *"What is the price
+  of keeping?"* Radial menu.
+- **Beat 3 (19-26s)**: player commits; gallery opens into Hall
+  proper.
+
+**Master of R'lyeh question:** *"What is the price of keeping?"*
+
+| faction | answer |
+|---|---|
+| Architect Remnants | *"What is kept builds what we are."* |
+| New Babylon | *"What is kept is owed; the ledger names the price."* |
+| Hierarchy | *"What is kept suffers in the keeping."* |
+| Insurgency | *"What is kept resists; freedom is the price."* |
+| Dreamers Children | *"What is kept is dreamed; the price is forgotten."* (strongest pull) |
+
+**Destination: The Hall of Collected Souls.** Every collectible
+the player has acquired appears as a sentient figure: pets as
+ghosts, cards as silhouetted contestants, trade goods as servants,
+soul stones as souls in jars. The player walks among them; some
+greet them; some ignore them; some accuse them. The gameplay
+mechanic is RELEASE-OR-KEEP: the player can release any collectible
+(free its spirit, lose the item permanently) or keep it (no change).
+The choice itself is the gameplay.
+
+**Close cutscene** (`cs_hellbox_10_close`, ~6s)
+- **POV**: at the Hall's exit; figures fade; gallery resolves
+  back to Collectors Arena.
+
+**Per-release cutscene** (`cs_hellbox_10_release`, ~6s)
+- **POV**: at the figure being released; player's hand enters
+  frame touching the figure; figure dissolves to motes.
+- **SFX**: figure-dissolution chime; faint sigh.
+- **VO**: none.
+- **End frame**: motes drift; cut.
+
+#### 3.12.13 HB11 — Defense Command Center → The Hive
+
+**Discovery cutscene** (`cs_hellbox_11_open`, ~10s)
+- **POV**: at the Defense Command threat-display; threat-display
+  flickers; one of the swarm-cluster icons drifts off the edge
+  of the display, re-appears at the centre — but enlarged, with
+  the full swarm-cluster visible as a pulsing single organism.
+- **SFX**: display-glitch; organic-pulse rising; deep hive-hum.
+- **VO**: none.
+- **End frame**: organism centred; transit begins.
+
+**Transit video** (`cs_hellbox_11_transit`, ~28s)
+- **Beat 1 (0-10s)**: POV travels through a tunnel of organic
+  webbing; webbing pulses; bio-luminescence flickers.
+- **Beat 2 (10-19s)**: Master of R'lyeh asks: *"Is one mind
+  worth more than many?"* Radial menu.
+- **Beat 3 (19-28s)**: player commits; tunnel opens into Hive's
+  interior.
+
+**Master of R'lyeh question:** *"Is one mind worth more than
+many?"*
+
+| faction | answer |
+|---|---|
+| Architect Remnants | *"One mind; the architect is singular."* |
+| New Babylon | *"The many; the law averages."* (strongest pull) |
+| Hierarchy | *"The one who suffers most; weight measures worth."* |
+| Insurgency | *"Neither; the worth is in the resistance."* |
+| Dreamers Children | *"Both; the dream is the many becoming one."* |
+
+**Destination: The Hive.** A vast, organic, breathing chamber
+(black-iron walls coated with bio-luminescent webbing). The Hive's
+collective consciousness is PRESENT (felt, never seen). The player
+can attempt to negotiate (rare) or simply observe (common). Each
+visit reveals more about what the Terminus Swarm IS — they are
+the failed clones, the ones who came before the player. The Hive
+remembers them. The Hive remembers the player too — the player
+is just another iteration. (Full set-piece spec deferred to Phase E.)
+
+**Close cutscene** (`cs_hellbox_11_close`, ~6s)
+- **POV**: at the Hive's exit; webbing recedes; tunnel collapses;
+  Defense Command re-materialises.
+
+**Per-negotiation cutscene** (`cs_hellbox_11_negotiate`, ~8s)
+- **POV**: in the Hive's central chamber; player's hands enter
+  frame in supplicant gesture; Hive's response visible in the
+  webbing's pulsing pattern.
+- **SFX**: Hive-rumble; webbing-pulse; faint chitter.
+- **VO**: Hive (collective whisper from all sides) — one short
+  proto-language phrase.
+- **End frame**: webbing pattern resolves into yes/no; cut.
+
+#### 3.12.14 HB12 — Game Hall → The Dischordian Arena
+
+**Discovery cutscene** (`cs_hellbox_12_open`, ~10s)
+- **POV**: at the Dischordia card-duel board after the player's
+  first card duel; the last-played card flickers; for one frame,
+  the card's illustration looks DIRECTLY at the camera.
+- **SFX**: card-flicker; brief uncanny-static; deck-shuffle reverse.
+- **VO**: none.
+- **End frame**: card centred on board; transit begins.
+
+**Transit video** (`cs_hellbox_12_transit`, ~26s)
+- **Beat 1 (0-10s)**: POV travels through a corridor of cards;
+  each card the player has played hangs in the corridor like a
+  banner.
+- **Beat 2 (10-19s)**: Master of R'lyeh asks: *"Does the game
+  play you, or do you play the game?"* Radial menu.
+- **Beat 3 (19-26s)**: player commits; corridor resolves into
+  Arena.
+
+**Master of R'lyeh question:** *"Does the game play you, or do
+you play the game?"*
+
+| faction | answer |
+|---|---|
+| Architect Remnants | *"I play; the game is what I make."* |
+| New Babylon | *"The game plays; I follow the rules."* |
+| Hierarchy | *"The game suffers me; we play each other."* |
+| Insurgency | *"I play AGAINST the game; the game is the enemy."* (strongest pull) |
+| Dreamers Children | *"Neither; the game and I are dreaming together."* |
+
+**Destination: The Dischordian Arena.** A meta-arena where every
+card the player has ever played appears as a sentient opponent.
+The player must duel them — but the cards know the player's
+strategies because they ARE the player's strategies. The player
+is forced to play against themselves: every previous deck-build
+is a new opponent. Defeating each previous-self unlocks a new
+variant. (Full set-piece spec deferred to Phase E.)
+
+**Close cutscene** (`cs_hellbox_12_close`, ~6s)
+- **POV**: at the Arena's exit; cards fade; corridor collapses;
+  Game Hall re-materialises.
+
+**Per-duel-vs-self cutscene** (`cs_hellbox_12_self_duel`, ~8s)
+- **POV**: at a duel-board across from a SHADOW-OPPONENT (player's
+  prior deck personified); shadow-opponent's hand draws the first
+  card.
+- **SFX**: shadow-card-on-board; faint echo of player's own thoughts;
+  uncanny doubling effect.
+- **VO**: shadow-opponent — one short line in the player's own
+  voice (synthesised) — *"I know you."*
+- **End frame**: shadow-opponent's first card revealed; cut.
+
+#### 3.12.15 Pacing analysis (Hellbox unlock cadence across Acts)
+
+| Act | Hellbox unlocked | Cumulative count |
+|---|---|---|
+| Act 0 | HB5 (latent) | 1 latent |
+| Act 1 | HB1 Celebration | 1 active |
+| Act 2 | HB12 Dischordian Arena (after first card duel) | 2 active |
+| Act 3 | HB4 Mechronis, HB10 Collectors | 4 active |
+| Act 4 | HB6 Dead Man's Circuit, HB9 Eternal Match, HB11 The Hive | 7 active |
+| Act 5 | HB7 Degenerate's Casino, HB8 Editor's Workshop | 9 active |
+| Act 6 | HB3 Quiz Show Palimpsest | 10 active |
+| Act 7 | HB5 (active), HB2 (faction-locked, requires Hierarchy alignment) | 12 active (HB2 only if faction-locked) |
+
+The player gets a steady cadence: ~1-2 new Hellboxes per Act after
+Act 1. This avoids overwhelm in early game (only Celebration is
+available in Act 1) and ensures late-game density (multiple unlocks
+in Acts 4-7).
+
+Players who do NOT pursue the Hierarchy faction will not unlock
+HB2 (Castle of Death) — that's intentional; the Castle is for
+Hierarchy-aligned playthroughs. They get an alternative Act 7
+content path through HB5's universal selector (which can route
+them to any unlocked Hellbox for revisits).
+
+#### 3.12.16 Future expansion (deferred)
+
+Hellboxes that may be authored in future expansions but are
+NOT in scope for v5:
+
+- **HB13 candidate — Programmer's Sanctum** (Comms Array). Was
+  considered, deferred. Could unlock in DLC.
+- **HB14 candidate — Pet Spirit Realm** (Pet Garden). Was
+  subsumed into HB10 Hall of Collected Souls in v5; could be
+  separated in DLC if the design evolves.
+- **HB15 candidate — Trade Sovereign's Throne** (Trade Hub).
+  New idea: Trade Hub unlocks a Hellbox where the player is
+  shown the cumulative effects of every trade decision. Could
+  fit as an Act 6-7 unlock in expansion.
+
+#### 3.12.17 Canonical narrative walkthrough Acts 0–7 (Hellbox lens)
+
+**Act 0** — Player wakes; Personal Quarters dial is latent. Player
+meets the cryo-bay (no Hellbox). Foreshadowing only.
+
+**Act 1** — Player explores Med Bay; finds HB1 (Celebration). First
+moral question. First faction-pull lock-in. The Universal Selector
+is mentioned but not active.
+
+**Act 2** — Player plays first card duel; HB12 (Dischordian Arena)
+unlocks. Player learns the meta-mechanic that the game can play
+back at them.
+
+**Act 3** — Player begins crafting (HB4 Mechronis); player begins
+collecting (HB10 Hall of Collected Souls). Two doors open in close
+succession. Faction-pulls compound.
+
+**Act 4** — Triple unlock: HB6 (Dead Man's Circuit; the unwinnable
+race), HB9 (Eternal Match; the centuries-long chess game), HB11
+(The Hive; the swarm origin). Player faces accumulated existential
+questions.
+
+**Act 5** — Double unlock: HB7 (Degenerate's Casino; the unwinnable
+gamble), HB8 (Editor's Workshop; the meta-narrative editing). Player
+faces "the rules are bent" and "the canon is rewritten."
+
+**Act 6** — HB3 (Quiz Show Palimpsest) unlocks. The GM-arc payoff.
+Player faces what they buried.
+
+**Act 7** — HB5 (Universal Selector) activates; HB2 (Castle of Death)
+unlocks for Hierarchy-aligned players. Final convergence: player
+revisits all Hellboxes, sees how their faction-pulls add up, and
+chooses their final-faction commitment for the Master of R'lyeh's
+final question (the "Final Mirror" of §3.1.0.10).
+
+---
+
+## 4. The Architect-Layer Universal Spec Format
+
+> **The Dreamer-Architect Contract.** The Dreamer (user) sees the
+> world as it should feel; the Architect (this document) builds it
+> down to the millimetre. Every space in Loredex OS — Ark room,
+> vehicle interior, Hellbox destination, gameplay-zone surface —
+> conforms to the architect-layer spec defined in this chapter.
+> Every dimension is precise. Every object is positioned. Every
+> material is named. Every coordinate is measurable. Every object
+> is justified by the story.
+
+### 4.0 Chapter intent
+
+§2 (per-room production bibles) tells the art-gen pipeline WHAT
+each Ark room looks like across the eight state axes. §3 (cinematic
+direction) tells direction HOW the camera moves through these
+spaces. §4 tells construction WHERE every object is, HOW BIG it
+is, WHAT it is made of, and WHY it is there.
+
+§4 is the construction-document layer. An art team, a procedural
+generator, or a level-design tool can read the spec and build the
+space without ambiguity. A QA tester can read the spec and verify
+that every object is placed correctly. A narrative-author can read
+the spec and see how the story is embedded in the geometry.
+
+The §4 spec format is **universal**. Every space conforms. Spaces
+that don't fit (because they're not yet authored) get a flagged
+"DEFERRED" entry per layer; spaces that DO fit get the full layer.
+
+### 4.1 Header layer (always first)
+
+Every space spec begins with a header block:
+
+```
+space_id:        <canonical_id>
+space_name:      <display_name>
+space_type:      <ark_room | vehicle | hellbox_interior | destination_zone | transit_corridor>
+act_introduced:  <Act 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7>
+lore_anchor:     <primary LOREDEX entity / story arc>
+aesthetic_tier:  <solar_punk_cathedral | survival_grit | wagner_baroque | matrix_dream | terminus_organic | architect_geometric | hierarchy_ritual | dreamers_oneiric>
+```
+
+**Field definitions:**
+
+- **`space_id`** — canonical identifier. Format: `<category>.<name>`.
+  Examples: `ark.bridge`, `ark.med_bay`, `vehicle.cades_apc`,
+  `hellbox.castle_of_death`, `destination.celebration_school`.
+  Lowercase; underscore-separated. Must be unique across all spaces.
+- **`space_name`** — human-readable display name (e.g. "Command
+  Bridge", "Medical Bay", "Castle of Death").
+- **`space_type`** — enum:
+  - `ark_room` — a room on the Ark proper (one of 38).
+  - `vehicle` — interior of a vehicle (one of ~7).
+  - `hellbox_interior` — interior of a Matrix-of-Dreams destination
+    accessed via a Hellbox gateway.
+  - `destination_zone` — a non-Hellbox gameplay destination (Trade
+    Empire planet, Crucible arena, raid map, etc.).
+  - `transit_corridor` — a connecting space between two other spaces
+    (typically not gameplay-active itself).
+- **`act_introduced`** — the earliest Act in which this space is
+  visible to the player. Some spaces appear earlier as foreshadowing
+  (closed door, locked terminal); the act_introduced is the first
+  Act in which the player can ENTER and gameplay-interact.
+- **`lore_anchor`** — the primary LOREDEX entity or story arc that
+  this space embodies. References the canonical LOREDEX entity ID
+  (see `apps/shared/loredex-data.json`). Example: `loredex.character.kael_voss`,
+  `loredex.faction.hierarchy`, `arc.act_4_terminus_swarm_first_contact`.
+- **`aesthetic_tier`** — enum naming the visual / atmospheric tier:
+  - `solar_punk_cathedral` — Ark-canonical (most Ark rooms).
+  - `survival_grit` — damaged / under-resourced rooms (post-attack
+    states).
+  - `wagner_baroque` — Hierarchy and Castle-of-Death aesthetic.
+  - `matrix_dream` — Hellbox destinations (general).
+  - `terminus_organic` — Hive-aesthetic; bio-luminescent / chitinous.
+  - `architect_geometric` — Mechronis-aesthetic; precise / measured.
+  - `hierarchy_ritual` — bell-and-incense aesthetic.
+  - `dreamers_oneiric` — dreamlike / shifting / lyrical aesthetic.
+
+### 4.2 Room geometry layer
+
+```
+dimensions:           L × W × H (in metres)
+origin_point:         <description of (0,0,0) location>
+coordinate_axes:      +x = right, +y = forward, +z = up (standard)
+floor_plan_geometry:  <rectangular | l_shape | circular | hexagonal | non_euclidean | other>
+volumetric_anomalies: <list>  # only for hellbox_interior typically
+```
+
+- **`dimensions`** — length × width × height in metres, decimal
+  precise to 0.01 m. Length is "depth into the room from the primary
+  entrance" (the +y axis). Width is "left-right at the primary
+  entrance" (the +x axis). Height is "floor to ceiling" (the +z
+  axis). Non-rectangular rooms use the bounding-box dimensions.
+- **`origin_point`** — the (0,0,0) location for all object positions
+  in the room. Default is "centre of floor at the primary entrance
+  threshold." Custom origins (e.g. circular rooms with central origin)
+  must be explicitly noted.
+- **`coordinate_axes`** — almost always the standard +x right, +y
+  forward, +z up. Exceptions noted explicitly (e.g. a tilted-floor
+  room may use a non-standard +z axis).
+- **`floor_plan_geometry`** — describes the room shape:
+  - `rectangular` — standard four-walled box.
+  - `l_shape` — two rectangles joined at a corner.
+  - `circular` — circular footprint.
+  - `hexagonal` — six-walled.
+  - `non_euclidean` — hellbox-only; bigger-on-inside / fold-back /
+    infinite-recursion features.
+  - `other` — irregular; spec details parametrically.
+- **`volumetric_anomalies`** — list of non-Euclidean features
+  (typically hellbox_interior only): bigger-on-inside ratio,
+  gravity-axis shifts, infinite-recursion zones, time-dilation
+  fields, etc.
+
+### 4.3 Floor layer
+
+```
+material_primary:     <substrate description>
+material_secondary:   <accent / inlay description>
+pattern:              <geometric layout description>
+wear_state:           <pristine | worn | damaged> + <zone descriptions>
+embedded_features:    <drains, plates, charge-points list>
+acoustic_property:    <hard_reflective | soft_absorbent | mixed> + <reverb time>
+```
+
+- **`material_primary`** — substrate. Format: `<material>, <tile/panel size>, <gap>, <surface treatment>`.
+  Example: `brushed steel gridplate, 1.20 m × 1.20 m tiles, 4 mm gap, anti-slip etch`.
+- **`material_secondary`** — accent strip / inlay material. Same
+  format as primary.
+- **`pattern`** — geometric layout. Format: `<pattern type>, <pitch>, <orientation>, <gap>`.
+  Example: `hex grid offset 30°, 0.60 m tile pitch, 0.80 mm gap`.
+- **`wear_state`** — pristine / worn / damaged. Multi-zone: list each
+  zone with bounding box and wear description.
+- **`embedded_features`** — drains, pressure plates, charge points.
+  Each with `id`, `position` (x,y,z), `dimensions` (w×d×h), `function`.
+- **`acoustic_property`** — hard_reflective / soft_absorbent / mixed.
+  Plus reverb-time in seconds (e.g. `RT60 = 0.4s`).
+
+### 4.4 Walls layer
+
+For each wall (parametric for non-rectangular rooms; a room with N
+walls has N wall sub-blocks):
+
+```
+wall_id:              <north | east | south | west | wall_<n>>
+material_primary:     <substrate>
+material_secondary:   <trim, dado, rail>
+panelisation:         <panel size + joint pattern>
+colour_value:         <design token>  # void-energy compliant
+embedded_displays:    <screen positions, dimensions, content list>
+embedded_doors:       <door positions, dimensions, style list>
+decorative_features:  <murals, inlays, plaques list>
+```
+
+- **`wall_id`** — north / east / south / west for rectangular rooms;
+  wall_1 / wall_2 / ... for non-rectangular.
+- **`material_primary`** — substrate. Example: `painted aluminium honeycomb panel, matte finish, 0.80 m × 0.80 m panels, 6 mm reveal`.
+- **`material_secondary`** — trim / dado / picture-rail.
+- **`panelisation`** — panel size + joint pattern (e.g.
+  `0.80 m × 1.60 m panels, vertical joints, 6 mm reveal joint`).
+- **`colour_value`** — design token reference. NEVER raw hex.
+  Example: `--token-color-ark-bridge-wall-primary` (mapped in
+  `apps/client/src/styles/tokens/ark-rooms.ts`).
+- **`embedded_displays`** — list. Each: `id`, `position` (x,y,z),
+  `dimensions` (w×h), `content` (state-axis-driven; references
+  §1.5 universal-event visual register).
+- **`embedded_doors`** — list. Each: `door_id`, `position` (x,y,z),
+  `dimensions` (w×h×t), `door_class` (slide / iris / sweep /
+  pressure-seal / arch / open-passage), `connecting_space_id`.
+- **`decorative_features`** — list. Each: `id`, `position` (x,y,z),
+  `dimensions` (w×h or w×h×d), `material`, `narrative_role`.
+
+### 4.5 Ceiling layer
+
+```
+height_above_floor:     <base height + variations>
+material:               <substrate>
+lighting_integrated:    <recessed | surface_mount | structural_glow + grid pattern>
+atmospheric_features:   <fog | haze | particle drift | aurora>
+acoustic_treatment:     <flat | baffled | coffered>
+```
+
+- **`height_above_floor`** — base height + any height variations
+  (vault / coffer / drop). Example: `4.50 m base; central coffer 5.20 m; perimeter drop 4.00 m`.
+- **`material`** — substrate.
+- **`lighting_integrated`** — fixture grid pattern.
+- **`atmospheric_features`** — fog / haze / particle / aurora.
+- **`acoustic_treatment`** — flat / baffled / coffered.
+
+### 4.6 Lighting layer
+
+```
+ambient_baseline:     <Kelvin temperature, lumens/m², CRI>
+direct_fixtures:      <list>
+practical_sources:    <list>
+time_of_day_variation: <Act-driven changes>
+dynamic_response:     <player-action driven changes>
+```
+
+- **`ambient_baseline`** — Kelvin (3000K-6500K typical), lux level,
+  CRI (90+ for Ark rooms; 80+ for hellbox; can be lower for
+  intentional aesthetic).
+- **`direct_fixtures`** — list of light fixtures. Each: `id`,
+  `position` (x,y,z), `beam_angle` (degrees), `colour` (token),
+  `intensity` (lumens), `function` (task / accent / punctuation).
+- **`practical_sources`** — fires / candles / cryo-glow / reactor-pulse.
+  Each: `id`, `position`, `intensity`, `flicker_pattern`.
+- **`time_of_day_variation`** — Act-driven changes.
+- **`dynamic_response`** — what player actions change the lighting.
+
+### 4.7 Atmosphere layer
+
+```
+air_temperature:    <baseline>
+humidity:           <dry | humid | variable>
+particulate:        <list of particles>
+volumetric_fog:     <present | absent + parameters>
+wind_drift:         <present | absent + direction + speed>
+smell_canon:        <canonical scent>
+```
+
+- **`air_temperature`** — diegetic baseline (cold / warm / variable).
+- **`humidity`** — dry / humid / variable.
+- **`particulate`** — list of particle types. Each: `type`, `density`,
+  `colour`, `drift_direction`.
+- **`volumetric_fog`** — present / absent + colour + density (g/m³).
+- **`wind_drift`** — present / absent + direction + speed (m/s).
+- **`smell_canon`** — canonical scent. Lore-tied; supports voice-line
+  references even if not rendered (e.g. NPC may say "smells like
+  ozone in here" — must match the canon).
+
+### 4.8 Sound layer
+
+```
+ambient_bed:           <looping ambient + dB level>
+point_sources:         <list>
+reverb_zone:           <IR-impulse reference + wet-mix>
+music_eligibility:     <cutscene | event | ambient | none>
+voice_line_eligibility: <NPC line list + triggers>
+```
+
+- **`ambient_bed`** — looping ambient sound. File ref + dB level.
+- **`point_sources`** — list. Each: `id`, `position` (x,y,z),
+  `sound`, `occlusion_behaviour`, `trigger`.
+- **`reverb_zone`** — IR-impulse reference + wet-mix percentage.
+- **`music_eligibility`** — when does music play in this space.
+- **`voice_line_eligibility`** — NPC voice lines + triggers.
+
+### 4.9 Object inventory layer (the big one)
+
+For each object in the room (typically 30–100 per space):
+
+```
+object_id:           <canonical_id>
+object_class:        <furniture | console | display | door | hatch | container | decoration | interactive | fx_emitter | npc_anchor>
+position:            (x, y, z) in metres from room origin
+dimensions:          w × d × h in metres
+rotation:            <yaw degrees>
+material_primary:    <top surface material>
+material_secondary:  <trim / accent>
+colour_value:        <design token>
+interaction:         <inert | inspectable | interactable | gameplay_hook> + <spec>
+narrative_role:      <story role>
+lore_anchor:         <LOREDEX entity / story arc>
+art_status:          <concept | sketch | line_art | finished | producer_handoff | shipping>
+gameplay_hook_id:    <tRPC procedure or cutscene id, if interactable>
+wear_state:          <pristine | worn | broken | battle_damaged>
+physical_constraints: <climb | jump | hide | collide | none>
+```
+
+- **`object_id`** — canonical, scoped to space. Format:
+  `<space_id>.<object_name>[.suffix]`. Example: `ark.bridge.captain_chair`,
+  `ark.bridge.console_helm.pri`.
+- **`object_class`** — enum:
+  - `furniture` — chairs, tables, beds, lockers.
+  - `console` — interactive control surfaces.
+  - `display` — screens, holograms, indicators.
+  - `door` — passages between spaces.
+  - `hatch` — non-passage closeable openings (vent, cabinet).
+  - `container` — storage (crate, drawer, locker contents).
+  - `decoration` — non-functional aesthetic objects.
+  - `interactive` — anything else interactable.
+  - `fx_emitter` — particle / light / sound source.
+  - `npc_anchor` — designated NPC standing/sitting position.
+- **`position`** — (x, y, z) in metres from room origin, decimal
+  precise to 0.01 m.
+- **`dimensions`** — width × depth × height in metres, decimal
+  precise to 0.01 m.
+- **`rotation`** — yaw degrees (0-359.99). Pitch / roll defaults
+  to 0; non-zero pitch/roll specced explicitly.
+- **`material_primary`** / **`material_secondary`** — surface
+  materials.
+- **`colour_value`** — design token (void-energy compliant).
+- **`interaction`** — enum + spec.
+- **`narrative_role`** — what story does this object tell.
+- **`lore_anchor`** — link to LOREDEX or §11 arc.
+- **`art_status`** — production tracking.
+- **`gameplay_hook_id`** — tRPC or cutscene reference.
+- **`wear_state`** — current condition.
+- **`physical_constraints`** — gameplay traversal effects.
+
+### 4.10 Camera-spawn-points layer (FPV-compliant)
+
+For each cutscene that triggers in this space:
+
+```
+cutscene_id:         <canonical_id>
+camera_position:     (x, y, z) in metres from room origin
+camera_facing:       <yaw, pitch, roll> in degrees
+avatar_height_anchor: <eye_level | hand_level | crouch | prone>
+head_motion:         <locked | pan | dolly + parameters>
+```
+
+- **`cutscene_id`** — canonical (matches §3.1 / §13.18 catalogue).
+- **`camera_position`** — (x,y,z); avatar_height_anchor governs the
+  vertical interpretation (`eye_level` = avatar eye-bone z; `hand_level`
+  = avatar hand-bone z; etc.).
+- **`camera_facing`** — yaw / pitch / roll degrees.
+- **`avatar_height_anchor`** — height frame of reference.
+- **`head_motion`** — locked / pan / dolly + parameters.
+
+### 4.11 Doorway / threshold layer
+
+For each door / hatch / connection:
+
+```
+door_id:            <canonical_id>
+connecting_space_id: <other_space_id>
+door_position:      (x, y, z)
+door_dimensions:    w × h × t
+door_class:         <slide | iris | pressure_seal | arch | open_passage | portal>
+unlock_condition:   <Act gate | quest gate | always | faction-gated>
+transit_animation:  <cutscene | fade | wipe | instant>
+audio_signature:    <door SFX>
+```
+
+- **`door_class`** options:
+  - `slide` — sliding door (lateral or vertical).
+  - `iris` — iris-aperture (mechanical petals).
+  - `pressure_seal` — airlock-style.
+  - `arch` — open archway with no door (decorative).
+  - `open_passage` — no doorway at all (just an opening).
+  - `portal` — Hellbox-class teleporter (non-physical).
+
+### 4.12 Adjacency map layer
+
+```
+direct_adjacencies:  <list of directly connected space_ids>
+one_hop_adjacencies: <list of space_ids reachable via 1 intermediary>
+```
+
+### 4.13 Gameplay-hook layer
+
+What gameplay actions are possible in this space.
+
+```
+hooks:               <list>
+  - hook_id:         <canonical>
+    trigger:         <player action>
+    procedure:       <tRPC procedure id>
+    success_state:   <state change>
+    fail_state:      <state change>
+```
+
+### 4.14 Story-tie layer
+
+Primary story-arc(s) this space serves; per-Act evolution; NPC roster;
+lore plaques; Master of R'lyeh question (if Hellbox).
+
+```
+primary_arcs:        <list of story arcs>
+per_act_evolution:
+  act_0:            <description>
+  act_1:            <description>
+  ...
+  act_7:            <description>
+npc_roster:          <list of NPCs with their roles>
+readables:           <list of plaques / journals / discoverable text>
+master_of_rlyeh_question: <only for hellbox source rooms>
+```
+
+### 4.15 Special-FX layer
+
+```
+particle_systems:    <list>
+volumetric_effects:  <list>
+procedural_animations: <list>
+reactive_systems:    <list>
+```
+
+### 4.16 Avatar-parametricity layer
+
+```
+camera_height_variation:  <small | medium | tall | xenomorph>
+reachability:             <list of interactables and reach parameters>
+audio_occlusion_variation: <species-driven differences>
+```
+
+### 4.17 Performance layer
+
+```
+polygon_budget:      <max polygons rendered>
+texture_budget:      <memory ceiling MB>
+light_count_limit:   <max simultaneous dynamic lights>
+lod_plan:            <swap distances + mesh tiers>
+streaming_behaviour: <which adjacent spaces preload>
+```
+
+### 4.18 Worked Exemplar — The Command Bridge (full architect spec)
+
+The Command Bridge is the most narrative-load-bearing single space
+in the Ark: it is where the player first feels the weight of being
+captain (or not), where the human-contact unfolds, where Elara
+serves, where the GM-arc pivots, and where HB3 (Quiz Show Palimpsest)
+opens. Its full architectural spec serves as the worked exemplar
+for all other spaces.
+
+#### 4.18.1 Bridge — Header
+
+```
+space_id:        ark.bridge
+space_name:      Command Bridge
+space_type:      ark_room
+act_introduced:  Act 0  (visible from cryo wake; full access from Act 1)
+lore_anchor:     loredex.character.kael_voss + loredex.faction.captain_lineage + arc.act_0_loss_of_command
+aesthetic_tier:  solar_punk_cathedral
+```
+
+#### 4.18.2 Bridge — Geometry
+
+```
+dimensions:           14.40 m × 11.20 m × 5.20 m
+origin_point:         centre of floor at the primary entrance threshold (entrance is the south wall; +y axis points forward toward the viewport)
+coordinate_axes:      +x = right (east), +y = forward (north), +z = up
+floor_plan_geometry:  pentagonal — five-sided. Front (north) wall is the viewport, slightly bowed outward. East and west walls angle inward at 22.5° toward the front, giving the room an arrowhead-pointing-forward shape (focal-orientation is the viewport).
+volumetric_anomalies: none
+```
+
+The pentagonal shape concentrates the room's perceptual focus on
+the viewport. Two angled side-walls (east and west) frame the
+viewport like an apse. The captain's chair sits on the central
+axis, equidistant from both side walls.
+
+Wall lengths:
+- South wall (entrance): 11.20 m
+- East angled wall: 6.20 m (angled 22.5° inward from south to north)
+- North wall (viewport): 7.40 m (the bowed front)
+- West angled wall: 6.20 m (mirror of east)
+
+Floor area: ~152 m².
+
+#### 4.18.3 Bridge — Floor
+
+```
+material_primary:     polished blue-grey enamel-coated steel deck plate; 1.50 m × 1.50 m tiles; 5 mm gap; etched anti-slip texture in concentric circles emanating from the captain's chair position
+material_secondary:   brass perimeter trim, 50 mm wide, around the room's edge
+pattern:              concentric-circle etch pattern centred on captain's chair (0, 0, 0 in floor coords); 0.30 m radial pitch; etch depth 0.6 mm; visually reads as a "command-presence" target
+wear_state:           pristine in Acts 0-3; in Acts 4-7, scuff-marks accumulate around the helm console (zone: x: -1.50 to +1.50, y: 4.00 to 5.50, z: 0) representing increased manual-piloting; in late Act 7, a single scorch-mark at (x: -3.20, y: 6.40, z: 0) — the Thought-Virus impact site
+embedded_features:
+  - id: ark.bridge.floor.charge_point.captain
+    position: (0.00, 0.00, 0.00)  # directly under chair pedestal
+    dimensions: 0.30 × 0.30 × 0.05
+    function: chair power-coupling
+  - id: ark.bridge.floor.drain.northwest
+    position: (-4.20, 7.80, 0.00)
+    dimensions: 0.20 × 0.20 × 0.10
+    function: emergency cryo-coolant drain
+  - id: ark.bridge.floor.drain.northeast
+    position: (4.20, 7.80, 0.00)
+    dimensions: 0.20 × 0.20 × 0.10
+    function: emergency cryo-coolant drain (mirror of northwest)
+acoustic_property:    mixed; brass trim adds warm reflection; floor enamel adds slight reverberation; RT60 = 0.45s
+```
+
+#### 4.18.4 Bridge — Walls
+
+The Bridge has 5 walls (pentagonal). Each is specced separately.
+
+##### Wall: South (entrance wall)
+
+```
+wall_id:              south
+material_primary:     painted aluminium honeycomb panel, matte finish, 0.80 m × 1.60 m panels, vertical joints, 6 mm reveal joint
+material_secondary:   brass dado rail at z = 1.10 m, 50 mm tall, polished
+panelisation:         11 panels wide (with 6 mm reveals) covering 11.20 m wall length; 3 panels tall (covering 5.20 m height with appropriate trim)
+colour_value:         --token-color-ark-bridge-wall-south  (a deep navy with a faint solar-orange pin-stripe at z=2.00 m; mapped in apps/client/src/styles/tokens/ark-rooms.ts)
+embedded_displays:
+  - id: ark.bridge.south.display.crew_manifest
+    position: (-3.20, 0.00, 1.80)  # west of entrance, eye-level
+    dimensions: 1.20 × 0.80
+    content: live crew-manifest board; state-axis driven (per §1.5)
+  - id: ark.bridge.south.display.mission_log
+    position: (3.20, 0.00, 1.80)  # east of entrance, eye-level
+    dimensions: 1.20 × 0.80
+    content: scrolling mission log; state-axis driven
+embedded_doors:
+  - door_id: ark.bridge.south.door.main
+    position: (0.00, 0.00, 0.00)  # centred at floor
+    dimensions: 1.40 × 2.40 × 0.10
+    door_class: slide  # vertical-slide; door retracts upward into wall recess
+    connecting_space_id: ark.corridor.bridge_approach
+decorative_features:
+  - id: ark.bridge.south.plaque.commission
+    position: (0.00, 0.00, 3.20)  # above the door
+    dimensions: 0.80 × 0.30
+    material: brass with engraved text
+    narrative_role: commissions the Ark; reads "ARK-7 / Commissioned 2147 / Captain: Kael Voss"; tells the player the ship's history at-a-glance
+```
+
+##### Wall: East-angled
+
+```
+wall_id:              east_angled
+material_primary:     same as south, but with a single inset window (oblong) viewing the deep-corridor lighting beyond
+material_secondary:   brass dado rail continues at z = 1.10 m
+panelisation:         angled panels custom-cut at 22.5°
+colour_value:         --token-color-ark-bridge-wall-east  (same family as south, slightly lighter to suggest reflected viewport light)
+embedded_displays:
+  - id: ark.bridge.east.display.tactical
+    position: (5.40, 3.00, 1.50)  # mid-wall
+    dimensions: 1.80 × 1.20
+    content: tactical-overlay holographic display; state-axis driven
+embedded_doors:        none
+decorative_features:
+  - id: ark.bridge.east.window.corridor
+    position: (5.20, 4.50, 1.80)
+    dimensions: 0.60 × 1.20
+    material: composite plexiglas + brass surround
+    narrative_role: shows the bridge-approach corridor beyond; lets the player see Elara approach before she enters
+```
+
+##### Wall: North (viewport wall)
+
+The northern wall is the bowed viewport.
+
+```
+wall_id:              north_viewport
+material_primary:     reinforced transparent aluminium oxynitride (transparent armor); 7.40 m wide; 4.00 m tall (from z=0.60 to z=4.60); subtly bowed outward (radius of curvature: 24.0 m, giving a ~1.10 m bowed depth at centre)
+material_secondary:   brass viewport surround; 80 mm wide; polished; with structural ribbing every 0.60 m
+panelisation:         single-piece transparent armor; viewport surround as continuous brass strip
+colour_value:         (transparent) — the colour comes from what is visible beyond (star-field / nebula / planetfall — state-axis driven)
+embedded_displays:
+  - id: ark.bridge.north.hud_overlay
+    position: (0.00, 11.20, 2.60)  # centred on viewport
+    dimensions: 7.40 × 4.00 (overlay only; spans full viewport)
+    content: HUD overlay — heading, velocity, threat-assessment; transparent overlay
+embedded_doors:        none
+decorative_features:
+  - id: ark.bridge.north.captains_emblem
+    position: (0.00, 11.20, 5.00)  # centred above viewport
+    dimensions: 0.80 × 0.60
+    material: bronze relief — "Ark-7" emblem
+    narrative_role: visible from the captain's chair when looking up past the viewport HUD; reminds the player of the ship's lineage
+```
+
+##### Wall: West-angled
+
+Mirror of east-angled (same materials, mirrored coordinates).
+
+```
+wall_id:              west_angled
+material_primary:     same as east_angled
+material_secondary:   brass dado rail continues
+panelisation:         angled panels custom-cut at 22.5°
+colour_value:         --token-color-ark-bridge-wall-west  (same family as east; mirror)
+embedded_displays:
+  - id: ark.bridge.west.display.engineering
+    position: (-5.40, 3.00, 1.50)
+    dimensions: 1.80 × 1.20
+    content: engineering-status holographic display; state-axis driven
+embedded_doors:        none
+decorative_features:
+  - id: ark.bridge.west.window.observation
+    position: (-5.20, 4.50, 1.80)
+    dimensions: 0.60 × 1.20
+    material: composite plexiglas + brass surround
+    narrative_role: shows the observation-deck approach beyond; lets the player see crew movement
+```
+
+#### 4.18.5 Bridge — Ceiling
+
+```
+height_above_floor:     5.20 m baseline; central coffer rises to 6.00 m (above the captain's chair); perimeter drop to 4.40 m within 1.50 m of walls
+material:               painted aluminium honeycomb panel, matte finish; central coffer is a circular skylight-style emitter
+lighting_integrated:    recessed LED grid on a 1.20 m × 1.20 m pattern; central coffer is a single emitter (3.50 m diameter) that pulses with the Ark's reactor (slow breath rhythm); perimeter strip-lighting at z=4.40 m wall-edge
+atmospheric_features:   faint particulate drift visible in the central coffer's light shaft (most visible during ambient cutscenes); during high-stress states, smoke wisps from the corner emitters (state-axis driven)
+acoustic_treatment:     baffled honeycomb absorbs mid-frequencies; central coffer adds a slight whisper-gallery effect
+```
+
+#### 4.18.6 Bridge — Lighting
+
+```
+ambient_baseline:     4500 K (cool-neutral); 320 lux at floor level under chair; CRI 92
+direct_fixtures:
+  - id: ark.bridge.light.coffer_central
+    position: (0.00, 0.00, 6.00)
+    beam_angle: 90°
+    colour: --token-color-ark-bridge-coffer  (warm white with a faint amber pulse)
+    intensity: 12000 lumens
+    function: punctuation; pulses with reactor
+  - id: ark.bridge.light.recessed_grid_array
+    position: distributed at every 1.20 m intersection of ceiling grid (excluding coffer zone)
+    beam_angle: 60° each
+    colour: --token-color-ark-bridge-recessed  (cool white)
+    intensity: 1800 lumens each
+    function: task lighting
+  - id: ark.bridge.light.viewport_glow
+    position: (0.00, 11.10, 0.40)  # along base of viewport
+    beam_angle: 180° wash
+    colour: variable (matches viewport content)
+    intensity: variable
+    function: accent; reflects viewport content into the room
+practical_sources:
+  - id: ark.bridge.light.console_helm.glow
+    position: (0.00, 4.80, 0.95)
+    intensity: 80 lumens
+    flicker_pattern: subtle breathing (period 3s)
+  - id: ark.bridge.light.console_comms.glow
+    position: (-2.50, 4.20, 0.95)
+    intensity: 60 lumens
+    flicker_pattern: irregular (data flow indicator)
+  - id: ark.bridge.light.console_tactical.glow
+    position: (2.50, 4.20, 0.95)
+    intensity: 60 lumens
+    flicker_pattern: pulse (period 1s)
+time_of_day_variation:
+  act_0: ambient at 320 lux; coffer pulse strong
+  act_3: ambient drops to 280 lux as Ark systems begin failing; coffer pulse erratic
+  act_5: ambient drops to 220 lux; coffer pulse weak; perimeter strips flicker occasionally
+  act_7: ambient at 180 lux; coffer dark; perimeter strips fail; only practical console lights remain in baseline state (BUT recovers if player has chosen to repair the ship; state-axis driven)
+dynamic_response:
+  - on_threat_detected: ambient warms to 5800 K; tactical-display glow intensifies; coffer flashes red briefly
+  - on_critical_alert: ambient dims by 50%; alert-red strobe at perimeter; coffer flashes red
+  - on_human_contact_event: ambient warms to 3200 K (golden hour); coffer pulse synchronised to Human's voice
+```
+
+#### 4.18.7 Bridge — Atmosphere
+
+```
+air_temperature:    19°C baseline (cool-but-comfortable; the captain's chair is the warmest spot)
+humidity:           dry (35% RH) — bridge-air is filtered; smells of ozone and brass-polish
+particulate:
+  - type: dust
+    density: low (rendered as occasional motes, especially in the central coffer's light shaft)
+    colour: greyish-white
+    drift_direction: slow downward drift, period 30s/m
+  - type: smoke
+    density: zero in baseline; rises in late-act stress states (state-axis driven)
+    colour: bluish-grey
+    drift_direction: rises from corner emitters
+volumetric_fog:     absent in baseline; can be triggered by state-axis (e.g. emergency-vent state introduces a 0.05 g/m³ fog of warm-grey colour)
+wind_drift:         very faint; 0.05 m/s air circulation from west to east (HVAC pattern)
+smell_canon:        ozone and brass-polish in baseline; in stress states, additional notes of overheated electronics; in late-act, additional notes of cryo-coolant leak
+```
+
+#### 4.18.8 Bridge — Sound
+
+```
+ambient_bed:           file: bridge_ambient_bed_v1.ogg (loop); -32 dB; subtle hum, console-glow tick, viewport energy-shield
+point_sources:
+  - id: ark.bridge.sound.console_helm
+    position: (0.00, 4.80, 0.95)
+    sound: console-key-tap (when interacted) + breathing-glow (continuous, -38 dB)
+    occlusion_behaviour: occluded by chair when player is sitting
+    trigger: continuous + interaction
+  - id: ark.bridge.sound.console_comms
+    position: (-2.50, 4.20, 0.95)
+    sound: data-burst-tick (continuous, -36 dB) + comms-static (occasional)
+    occlusion_behaviour: standard
+    trigger: continuous
+  - id: ark.bridge.sound.console_tactical
+    position: (2.50, 4.20, 0.95)
+    sound: tactical-pulse (continuous, -36 dB; pulse period 1s)
+    occlusion_behaviour: standard
+    trigger: continuous
+  - id: ark.bridge.sound.viewport_shield
+    position: (0.00, 11.20, 2.60)
+    sound: energy-shield-hum (continuous, -42 dB)
+    occlusion_behaviour: omnidirectional
+    trigger: continuous
+  - id: ark.bridge.sound.ceiling_coffer
+    position: (0.00, 0.00, 6.00)
+    sound: deep slow breath (period 4.2s; -34 dB; matches reactor pulse)
+    occlusion_behaviour: omnidirectional
+    trigger: continuous
+reverb_zone:           IR-impulse: bridge_pentagonal_v1.wav; wet-mix 18%
+music_eligibility:     cutscene only (Category A or C). NO ambient music in baseline.
+voice_line_eligibility:
+  - speaker: Elara
+    trigger: presence (when Elara is in room)
+    line_set: see §2.3.2 NPC presence-line set
+  - speaker: Locke
+    trigger: comms-feed only (never physically present)
+    line_set: see §2.3.2 Locke comms presence
+  - speaker: player
+    trigger: cutscene-driven only (never ambient)
+    line_set: contextual
+```
+
+#### 4.18.9 Bridge — Object inventory
+
+The Bridge has 38 inventory objects. Specced object-by-object below.
+
+##### 4.18.9.1 Captain's Chair
+
+```
+object_id:           ark.bridge.captain_chair
+object_class:        furniture
+position:            (0.00, 0.00, 0.00)  # at room origin, the focal point
+dimensions:          1.20 × 1.40 × 1.85
+rotation:            0°  (faces +y, toward viewport, in baseline; rotates dynamically — 360°)
+material_primary:    matte-black leather upholstery on a brushed-titanium frame
+material_secondary:  brass armrest insets; brass headrest band
+colour_value:        --token-color-ark-bridge-captain-chair  (matte black with brass accents)
+interaction:         interactable
+  - sit: triggers chair-rotation animation; HUD shifts to captain's POV; gameplay enables ship-command UI
+  - inspect: opens captain's chair info-panel (lore note about Kael Voss)
+narrative_role:      THE seat of command; empty in Act 0 (Kael Voss is gone); player can sit or refuse to sit, the choice itself is meaningful (state-axis: command-acceptance)
+lore_anchor:         loredex.character.kael_voss + arc.act_0_loss_of_command
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.ship.command.takeSeat
+wear_state:          worn — Kael Voss's wear-pattern visible on the right armrest (he was right-handed); pristine elsewhere
+physical_constraints: collides with player; player can sit; chair rotates 360° smoothly with player input
+```
+
+##### 4.18.9.2 Helm Console (primary)
+
+```
+object_id:           ark.bridge.console_helm.pri
+object_class:        console
+position:            (0.00, 4.80, 0.00)  # in front of chair
+dimensions:          1.80 × 0.90 × 1.10
+rotation:            0°  (faces -y, toward chair)
+material_primary:    brushed steel housing with matte-black control surface
+material_secondary:  brass control-button bezels; brass status-light surround
+colour_value:        --token-color-ark-bridge-console-helm  (steel-grey with brass)
+interaction:         interactable
+  - operate: opens helm-control UI; player can pilot the Ark
+  - inspect: lore-note about helm system
+narrative_role:      where the player flies the ship; in Act 0, the helm has Kael's last navigation logs (a poignant readable)
+lore_anchor:         loredex.character.kael_voss + loredex.system.ark_helm
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.ship.helm.openControls
+wear_state:          worn — control buttons most-used are slightly indented
+physical_constraints: collides with player; player cannot climb on
+```
+
+##### 4.18.9.3 Helm Console — Pilot Station Chair
+
+```
+object_id:           ark.bridge.console_helm.chair
+object_class:        furniture
+position:            (0.00, 5.50, 0.00)  # behind the helm console (away from captain's chair, facing -y)
+dimensions:          0.80 × 0.80 × 1.40
+rotation:            180°  (faces -y, toward captain's chair)
+material_primary:    same family as captain's chair but lower-spec; matte-black leather; titanium frame
+material_secondary:  no brass accents (this is the pilot's chair, not the captain's)
+colour_value:        --token-color-ark-bridge-pilot-chair
+interaction:         interactable
+  - sit: pilot's POV (different gameplay UI than captain's)
+  - inspect: lore-note about pilot rotation schedule
+narrative_role:      the chair where Elara sometimes sits during high-stress moments; Locke's chair when he visits
+lore_anchor:         loredex.character.elara + arc.bridge_crew_routines
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.ship.helm.takePilotSeat
+wear_state:          pristine
+physical_constraints: collides with player; player can sit
+```
+
+##### 4.18.9.4 Comms Console (port)
+
+```
+object_id:           ark.bridge.console_comms.port
+object_class:        console
+position:            (-2.50, 4.20, 0.00)
+dimensions:          1.20 × 0.80 × 1.10
+rotation:            22.5°  (faces inward, toward captain's chair)
+material_primary:    brushed steel + matte-black control surface
+material_secondary:  brass bezel
+colour_value:        --token-color-ark-bridge-console-comms
+interaction:         interactable
+  - operate: opens comms UI; player can transmit / receive
+  - inspect: lore-note about comms array
+narrative_role:      where the player establishes contact with the Human; where Locke's voice originates
+lore_anchor:         loredex.character.the_human + loredex.character.locke + arc.act_2_first_human_contact
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.ship.comms.openConsole
+wear_state:          pristine in early acts; wear accumulates around the "broadcast" button by Act 4
+physical_constraints: collides
+```
+
+##### 4.18.9.5 Comms Console — Operator Chair
+
+```
+object_id:           ark.bridge.console_comms.chair
+object_class:        furniture
+position:            (-3.20, 4.80, 0.00)
+dimensions:          0.80 × 0.80 × 1.40
+rotation:            202.5°  (faces console)
+material_primary:    matte-black leather; titanium frame
+material_secondary:  none
+colour_value:        --token-color-ark-bridge-pilot-chair  (same as pilot chair)
+interaction:         interactable - sit
+narrative_role:      Elara's working chair when on comms duty
+lore_anchor:         loredex.character.elara
+art_status:          producer_handoff
+gameplay_hook_id:    none (positional only)
+wear_state:          slight wear at seat-edge (Elara sits forward when concentrating)
+physical_constraints: collides; sittable
+```
+
+##### 4.18.9.6 Tactical Console (starboard)
+
+```
+object_id:           ark.bridge.console_tactical.starboard
+object_class:        console
+position:            (2.50, 4.20, 0.00)
+dimensions:          1.20 × 0.80 × 1.10
+rotation:            -22.5°  (faces inward, toward captain's chair; mirror of comms console)
+material_primary:    brushed steel + matte-black; tactical readouts have a red-amber LED tone
+material_secondary:  brass bezel
+colour_value:        --token-color-ark-bridge-console-tactical
+interaction:         interactable
+  - operate: opens tactical UI; threat assessment, weapons, shields
+  - inspect: lore-note about Ark's tactical systems
+narrative_role:      threat-monitor; where Wraith's signals first appear; where the Terminus Swarm first manifests on display
+lore_anchor:         loredex.character.wraith + arc.act_4_terminus_swarm_first_contact
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.ship.tactical.openConsole
+wear_state:          worn around the "alert-acknowledge" button
+physical_constraints: collides
+```
+
+##### 4.18.9.7 Tactical Console — Operator Chair
+
+```
+object_id:           ark.bridge.console_tactical.chair
+object_class:        furniture
+position:            (3.20, 4.80, 0.00)
+dimensions:          0.80 × 0.80 × 1.40
+rotation:            157.5°  (faces tactical console)
+material_primary:    matte-black leather; titanium frame
+material_secondary:  none
+colour_value:        --token-color-ark-bridge-pilot-chair
+interaction:         interactable - sit
+narrative_role:      Locke's working chair when he physically visits (rare); usually empty
+lore_anchor:         loredex.character.locke
+art_status:          producer_handoff
+gameplay_hook_id:    none
+wear_state:          pristine
+physical_constraints: collides; sittable
+```
+
+##### 4.18.9.8 Engineering Console (port-aft)
+
+```
+object_id:           ark.bridge.console_engineering
+object_class:        console
+position:            (-4.50, 2.80, 0.00)
+dimensions:          1.00 × 0.80 × 1.10
+rotation:            45°  (faces inward toward captain's chair)
+material_primary:    brushed steel + matte-black; status readouts in cool-blue LED
+material_secondary:  brass bezel
+colour_value:        --token-color-ark-bridge-console-engineering
+interaction:         interactable
+  - operate: opens engineering-status UI; reads from Engineering Bay
+  - inspect: lore-note about reactor health
+narrative_role:      monitors the Ark's vitals; in late-act, glitches reflect the ship's degradation
+lore_anchor:         loredex.system.ark_reactor + arc.act_5_ship_degradation
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.ship.engineering.openStatus
+wear_state:          worn around the "reactor-alert" button
+physical_constraints: collides
+```
+
+##### 4.18.9.9 Sciences Console (starboard-aft)
+
+```
+object_id:           ark.bridge.console_sciences
+object_class:        console
+position:            (4.50, 2.80, 0.00)
+dimensions:          1.00 × 0.80 × 1.10
+rotation:            -45°  (faces inward; mirror of engineering)
+material_primary:    brushed steel + matte-black; status readouts in lavender LED
+material_secondary:  brass bezel
+colour_value:        --token-color-ark-bridge-console-sciences
+interaction:         interactable
+  - operate: opens sciences UI; sensor readings, anomaly detection
+  - inspect: lore-note about sciences team
+narrative_role:      where anomalies are first detected; in Act 4, this console first detects the Pod-Zero anomaly
+lore_anchor:         loredex.system.ark_sciences + arc.act_5_pod_zero_anomaly
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.ship.sciences.openConsole
+wear_state:          pristine
+physical_constraints: collides
+```
+
+##### 4.18.9.10 Strategic Holo-Table
+
+```
+object_id:           ark.bridge.holo_table
+object_class:        display
+position:            (0.00, 7.20, 0.00)
+dimensions:          2.40 × 1.60 × 0.95
+rotation:            0°
+material_primary:    brushed-titanium frame; matte-black surface; holographic projection layer above
+material_secondary:  brass surround band
+colour_value:        --token-color-ark-bridge-holo-table  (titanium-black with brass accents; hologram is variable)
+interaction:         interactable
+  - operate: spawns 3D holographic display of current navigation / threat / objective state
+  - inspect: lore-note about strategic-table system
+narrative_role:      command-overview surface; player uses this for major decisions; HB3 (Quiz Show Palimpsest) opening cutscene begins here when player rotates the captain's chair to face the holo-table at a specific moment
+lore_anchor:         arc.captain_decisions
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.ship.holo_table.openOverview + trpc.hellbox.hb3.openGate (state-conditional)
+wear_state:          pristine
+physical_constraints: collides; player can lean on (cosmetic only)
+```
+
+##### 4.18.9.11 Crew Manifest Display (south wall)
+
+```
+object_id:           ark.bridge.south.display.crew_manifest
+object_class:        display
+position:            (-3.20, 0.20, 1.80)  # mounted on south wall, 0.20 m off the wall
+dimensions:          1.20 × 0.80 × 0.05
+rotation:            180°  (faces +y, into the room)
+material_primary:    flat-display panel; OLED; bezelled in brass
+material_secondary:  brass mounting brackets
+colour_value:        (display content variable; bezel --token-color-ark-bridge-display-bezel)
+interaction:         inspectable
+  - inspect: lore-note about crew manifest; can scroll through entries
+narrative_role:      shows the Ark's crew roster; Kael Voss appears at top (always); his entry shows DECEASED in Act 0; new crew members added as they join the player
+lore_anchor:         loredex.character.kael_voss + loredex.character.elara + loredex.character.locke + ...
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.ship.crew.viewManifest
+wear_state:          pristine
+physical_constraints: non-collide (recessed)
+```
+
+##### 4.18.9.12 Mission Log Display (south wall)
+
+```
+object_id:           ark.bridge.south.display.mission_log
+object_class:        display
+position:            (3.20, 0.20, 1.80)
+dimensions:          1.20 × 0.80 × 0.05
+rotation:            180°
+material_primary:    OLED; brass bezel
+material_secondary:  brass mounting brackets
+colour_value:        (variable + bezel token)
+interaction:         inspectable
+  - inspect: scrolls through mission log; scrollable to the player's choices
+narrative_role:      records mission events; player can scroll back to relive earlier moments
+lore_anchor:         arc.player_journey
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.ship.mission.viewLog
+wear_state:          pristine
+physical_constraints: non-collide
+```
+
+##### 4.18.9.13 Tactical Wall-Display (east wall)
+
+```
+object_id:           ark.bridge.east.display.tactical
+object_class:        display
+position:            (5.10, 3.00, 1.50)  # mounted on east-angled wall (slightly inset)
+dimensions:          1.80 × 1.20 × 0.05
+rotation:            247.5°  (perpendicular to east-angled wall, facing into room)
+material_primary:    OLED display + holographic overlay capability
+material_secondary:  brass surround
+colour_value:        (variable)
+interaction:         inspectable
+  - inspect: deep tactical analysis; threat-assessment details
+narrative_role:      large-scale tactical view; companion to the tactical console
+lore_anchor:         arc.combat_systems
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.ship.tactical.openWallDisplay
+wear_state:          pristine
+physical_constraints: non-collide
+```
+
+##### 4.18.9.14 Engineering Wall-Display (west wall)
+
+Mirror of tactical wall-display.
+
+```
+object_id:           ark.bridge.west.display.engineering
+object_class:        display
+position:            (-5.10, 3.00, 1.50)
+dimensions:          1.80 × 1.20 × 0.05
+rotation:            112.5°
+material_primary:    OLED + holographic overlay
+material_secondary:  brass surround
+colour_value:        (variable)
+interaction:         inspectable
+  - inspect: deep engineering analysis
+narrative_role:      large-scale engineering status
+lore_anchor:         loredex.system.ark_reactor
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.ship.engineering.openWallDisplay
+wear_state:          pristine
+physical_constraints: non-collide
+```
+
+##### 4.18.9.15 Viewport HUD Overlay
+
+```
+object_id:           ark.bridge.north.hud_overlay
+object_class:        display
+position:            (0.00, 11.20, 2.60)  # overlays the north viewport
+dimensions:          7.40 × 4.00 × 0.001  # transparent overlay
+rotation:            180°
+material_primary:    transparent holographic overlay
+material_secondary:  none
+colour_value:        --token-color-ark-bridge-hud-overlay  (faint cyan-amber)
+interaction:         inert (HUD reads but is not directly interactable)
+narrative_role:      gives the player heading, velocity, threat-assessment data overlaid on viewport
+lore_anchor:         loredex.system.ark_hud
+art_status:          producer_handoff
+gameplay_hook_id:    none (data display)
+wear_state:          pristine
+physical_constraints: non-collide
+```
+
+##### 4.18.9.16 Viewport Window (north)
+
+```
+object_id:           ark.bridge.north.viewport
+object_class:        display  # treated as a display because content is variable
+position:            (0.00, 11.20, 2.60)  # centred on north wall, mid-height
+dimensions:          7.40 × 4.00 × 0.10  # bowed; thickness includes structural depth
+rotation:            180°
+material_primary:    reinforced transparent aluminium oxynitride
+material_secondary:  brass surround
+colour_value:        (transparent — content is the world beyond)
+interaction:         inert (looking only)
+narrative_role:      THE viewport; in different acts, shows different cosmic states (deep space, planetfall, nebula, anomaly, Hellbox-arrival skies)
+lore_anchor:         loredex.system.ark_viewport
+art_status:          producer_handoff
+gameplay_hook_id:    none (visual only)
+wear_state:          pristine
+physical_constraints: collides (transparent armor)
+```
+
+##### 4.18.9.17 Window — East-Corridor
+
+```
+object_id:           ark.bridge.east.window.corridor
+object_class:        decoration  # observation window
+position:            (5.10, 4.50, 1.80)
+dimensions:          0.60 × 1.20 × 0.05
+rotation:            247.5°
+material_primary:    composite plexiglas
+material_secondary:  brass surround
+colour_value:        (transparent + brass)
+interaction:         inert
+narrative_role:      lets the player see Elara approaching the bridge before she enters
+lore_anchor:         loredex.character.elara
+art_status:          producer_handoff
+gameplay_hook_id:    none
+wear_state:          pristine
+physical_constraints: non-collide (recessed)
+```
+
+##### 4.18.9.18 Window — West-Observation
+
+```
+object_id:           ark.bridge.west.window.observation
+object_class:        decoration
+position:            (-5.10, 4.50, 1.80)
+dimensions:          0.60 × 1.20 × 0.05
+rotation:            112.5°
+material_primary:    composite plexiglas
+material_secondary:  brass surround
+colour_value:        (transparent + brass)
+interaction:         inert
+narrative_role:      shows observation-deck approach; lets player see crew movement
+lore_anchor:         loredex.character.observation_crew
+art_status:          producer_handoff
+gameplay_hook_id:    none
+wear_state:          pristine
+physical_constraints: non-collide
+```
+
+##### 4.18.9.19 Captain's Emblem (north wall, above viewport)
+
+```
+object_id:           ark.bridge.north.captains_emblem
+object_class:        decoration
+position:            (0.00, 11.20, 5.00)
+dimensions:          0.80 × 0.60 × 0.04
+rotation:            180°
+material_primary:    bronze relief — "Ark-7" emblem
+material_secondary:  none
+colour_value:        --token-color-ark-bridge-emblem-bronze
+interaction:         inert
+narrative_role:      visible from captain's chair when looking up past viewport HUD; reminds player of ship lineage
+lore_anchor:         loredex.faction.captain_lineage
+art_status:          producer_handoff
+gameplay_hook_id:    none
+wear_state:          slight patina (intentional aesthetic)
+physical_constraints: non-collide
+```
+
+##### 4.18.9.20 Commission Plaque (south wall, above main door)
+
+```
+object_id:           ark.bridge.south.plaque.commission
+object_class:        decoration
+position:            (0.00, 0.20, 3.20)
+dimensions:          0.80 × 0.30 × 0.02
+rotation:            180°
+material_primary:    brass with engraved text
+material_secondary:  none
+colour_value:        --token-color-ark-bridge-emblem-bronze
+interaction:         inspectable
+  - inspect: reads "ARK-7 / Commissioned 2147 / Captain: Kael Voss"
+narrative_role:      tells the player the ship's history; "Captain: Kael Voss" is the chilling reminder he is still listed as captain even though he is gone
+lore_anchor:         loredex.character.kael_voss + loredex.faction.captain_lineage
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.ship.lore.readCommissionPlaque
+wear_state:          slight wear
+physical_constraints: non-collide
+```
+
+##### 4.18.9.21 Brass Floor Trim (perimeter)
+
+```
+object_id:           ark.bridge.floor.brass_trim
+object_class:        decoration
+position:            (perimeter; not a single position — runs along all walls at the floor)
+dimensions:          (continuous strip; 50 mm wide × 5 mm tall × full perimeter ~50 m)
+rotation:            (varies along perimeter)
+material_primary:    polished brass
+material_secondary:  none
+colour_value:        --token-color-ark-bridge-floor-trim-brass
+interaction:         inert
+narrative_role:      ties the floor to the wall; reads as "ship-grade tradition"
+lore_anchor:         loredex.aesthetic.solar_punk_cathedral
+art_status:          producer_handoff
+gameplay_hook_id:    none
+wear_state:          slight wear at high-traffic zones (entrance, around captain's chair)
+physical_constraints: non-collide (low-profile)
+```
+
+##### 4.18.9.22 Captain's Personal Locker (port-aft)
+
+```
+object_id:           ark.bridge.captain_locker
+object_class:        container
+position:            (-5.20, 1.80, 0.00)
+dimensions:          0.60 × 0.40 × 1.80
+rotation:            45°  (parallel to west-angled wall, facing into room)
+material_primary:    brushed-titanium with brass handle
+material_secondary:  brass nameplate engraved "K. VOSS"
+colour_value:        --token-color-ark-bridge-locker
+interaction:         interactable
+  - open: contains Kael Voss's personal effects (a brass coin, a small flag, a folded letter); first opening triggers a lore reveal
+  - inspect (closed): lore-note about Kael Voss
+narrative_role:      Kael's personal effects; player's first hint at who Kael was; opening it is an emotional beat
+lore_anchor:         loredex.character.kael_voss
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.ship.captain_locker.open
+wear_state:          worn — handle polished from use
+physical_constraints: collides
+```
+
+##### 4.18.9.23 Tactical Officer's Locker (starboard-aft)
+
+```
+object_id:           ark.bridge.locker.tactical
+object_class:        container
+position:            (5.20, 1.80, 0.00)
+dimensions:          0.60 × 0.40 × 1.80
+rotation:            -45°  (parallel to east-angled wall)
+material_primary:    brushed-titanium with brass handle
+material_secondary:  brass nameplate engraved "L. LOCKE" (added when Locke joins)
+colour_value:        --token-color-ark-bridge-locker
+interaction:         interactable
+  - open: empty in Act 0; gradually fills with Locke's items as player progresses
+  - inspect: lore-note (varies by Act)
+narrative_role:      tracks Locke's relationship with the bridge; an empty locker becoming full is a wordless arc
+lore_anchor:         loredex.character.locke
+art_status:          producer_handoff
+gameplay_hook_id:    trpc.ship.locker.tactical.open
+wear_state:          pristine in Act 0; gradually wears as Locke uses it
+physical_constraints: collides
+```
+
+##### 4.18.9.24 Side Chairs — Visitor Set (north-port + north-starboard)
+
+```
+object_id:           ark.bridge.side_chair.port
+object_class:        furniture
+position:            (-3.50, 8.40, 0.00)
+dimensions:          0.70 × 0.70 × 1.20
+rotation:            22.5°  (faces toward holo-table)
+material_primary:    matte-black leather; titanium frame
+material_secondary:  brass armrest
+colour_value:        --token-color-ark-bridge-side-chair
+interaction:         interactable - sit
+narrative_role:      visitor seating; used during briefings
+lore_anchor:         arc.bridge_meetings
+art_status:          producer_handoff
+gameplay_hook_id:    none
+wear_state:          slight wear
+physical_constraints: collides; sittable
+
+object_id:           ark.bridge.side_chair.starboard
+(MIRROR of port side chair; position (3.50, 8.40, 0.00); rotation -22.5°)
+```
+
+##### 4.18.9.25 Holographic-Table Stool (operator)
+
+```
+object_id:           ark.bridge.holo_table.stool
+object_class:        furniture
+position:            (0.00, 8.20, 0.00)  # behind holo-table, away from chair
+dimensions:          0.50 × 0.50 × 0.85
+rotation:            180°  (faces holo-table)
+material_primary:    titanium pedestal + matte-black seat pad
+material_secondary:  none
+colour_value:        --token-color-ark-bridge-side-chair
+interaction:         interactable - sit (operator's POV at holo-table)
+narrative_role:      where the player sits to study the holo-table closely
+lore_anchor:         arc.captain_decisions
+art_status:          producer_handoff
+gameplay_hook_id:    none
+wear_state:          slight wear at seat
+physical_constraints: collides; sittable
+```
+
+##### 4.18.9.26 Brass Decorative Compass Inlay (floor centre)
+
+```
+object_id:           ark.bridge.floor.compass_inlay
+object_class:        decoration
+position:            (0.00, 0.00, 0.005)  # inset into floor under captain's chair
+dimensions:          1.40 × 1.40 × 0.005
+rotation:            0°
+material_primary:    brass inlay with engraved compass-rose
+material_secondary:  none
+colour_value:        --token-color-ark-bridge-emblem-bronze
+interaction:         inert (visible only when chair is rotated away)
+narrative_role:      the compass-rose inlay is invisible most of the time (chair covers it); revealing it (rotating chair away) shows that the captain has always been at the centre of the ship's heading
+lore_anchor:         loredex.aesthetic.solar_punk_cathedral + arc.captain_decisions
+art_status:          producer_handoff
+gameplay_hook_id:    none
+wear_state:          slight wear
+physical_constraints: non-collide
+```
+
+##### 4.18.9.27 Reactor Pulse Indicator (ceiling coffer)
+
+```
+object_id:           ark.bridge.coffer.pulse_indicator
+object_class:        fx_emitter
+position:            (0.00, 0.00, 5.95)
+dimensions:          3.50 × 3.50 × 0.10  # circular emitter
+rotation:            0°
+material_primary:    backlit translucent panel
+material_secondary:  brass ring around perimeter
+colour_value:        --token-color-ark-bridge-coffer  (warm-white core; varies with ship state)
+interaction:         inert
+narrative_role:      visible reactor pulse; tells the player the ship is alive (or sick)
+lore_anchor:         loredex.system.ark_reactor
+art_status:          producer_handoff
+gameplay_hook_id:    none (state-driven)
+wear_state:          pristine in early acts; flickers in later acts
+physical_constraints: non-collide
+```
+
+##### 4.18.9.28-38 Remaining objects (compact spec)
+
+For brevity the remaining 11 objects are specced compactly; full
+detail expands in `_PRODUCTION_ARK_ROOMS.md`.
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `ark.bridge.consoles.guard_rail` | decoration | perimeter ring around forward consoles | 4.20 × 0.05 × 1.05 brass rail | safety / frames the command-area |
+| `ark.bridge.viewport.curtain.port` | decoration | (-3.70, 11.10, 2.60) | 3.70 × 4.00 × 0.05 (curtain when drawn) | privacy (drawn only in cutscenes) |
+| `ark.bridge.viewport.curtain.starboard` | decoration | (3.70, 11.10, 2.60) | mirror of port | privacy |
+| `ark.bridge.intercom.captain` | console | (-0.50, 0.00, 0.95) on chair-arm | 0.20 × 0.10 × 0.05 | captain's intercom; calls Engineering, Med, etc. |
+| `ark.bridge.flight_recorder` | container | (5.20, 0.20, 4.40) recessed in east wall | 0.40 × 0.10 × 0.30 black-box | flight recorder; gameplay-key in Act 6 |
+| `ark.bridge.candle.captain` | decoration | (-0.50, 0.10, 0.95) on chair-arm | 0.10 × 0.10 × 0.20 candle | Kael's memorial candle; stays lit through all acts |
+| `ark.bridge.fire_extinguisher.port` | interactive | (-5.30, 0.20, 1.20) on west wall | 0.20 × 0.20 × 0.50 red-orange | safety; gameplay-active in fire states |
+| `ark.bridge.fire_extinguisher.starboard` | interactive | (5.30, 0.20, 1.20) on east wall | mirror | safety mirror |
+| `ark.bridge.first_aid.kit` | container | (4.40, 0.20, 1.20) on east wall | 0.40 × 0.10 × 0.30 white-red | medical; gameplay-active in damage states |
+| `ark.bridge.coat_hook.captain` | decoration | (-0.40, 1.40, 1.80) on chair back | 0.05 × 0.05 × 0.10 brass hook | Kael's coat hook; coat hangs there in Act 0 reveal |
+| `ark.bridge.kael_coat` | decoration | (-0.40, 1.40, 1.65) hanging from coat-hook | 0.50 × 0.10 × 0.80 wool coat | Kael's last coat; emotional beat |
+
+Total: 38 inventory objects in the Bridge.
+
+#### 4.18.10 Bridge — Camera-spawn-points (FPV cutscenes)
+
+```
+cutscene_id:         cs_amb_bridge  (Category B Myst-ambient)
+camera_position:     (0.00, 1.20, eye_level)  # at threshold of door, eye-level
+camera_facing:       (0°, 0°, 0°)  # forward
+avatar_height_anchor: eye_level
+head_motion:         slow forward dolly + 15°/s left-right pan, total 18s
+
+cutscene_id:         cs_disc_card_duel  (note: Card Duel is not in Bridge — exemplar from §3.1.C)
+(This cutscene plays in Game Hall, not Bridge — cross-referenced for format clarity only)
+
+cutscene_id:         cs_hellbox_3_open  (Bridge HB3 gateway)
+camera_position:     (0.00, -0.10, eye_level)  # at captain's chair, slightly forward
+camera_facing:       (0°, 0°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         locked, then 360° rotation matching chair-rotation
+
+cutscene_id:         cs_hellbox_3_transit
+camera_position:     (0.00, 0.00, eye_level)  # in chair
+camera_facing:       (0°, 0°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         slow forward dolly into the manifesting Quiz Show studio set
+
+cutscene_id:         cs_hellbox_3_close
+camera_position:     (0.00, 0.00, eye_level)
+camera_facing:       (0°, 0°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         slight pan back to bridge-state
+
+cutscene_id:         cs_first_human_contact  (existing shipped cutscene; FPV audit pending)
+camera_position:     (-2.50, 4.20, eye_level)  # at comms console
+camera_facing:       (0°, -10°, 0°)  # looking at console with slight downward tilt
+avatar_height_anchor: eye_level
+head_motion:         slight head-shake at first contact; eyes drift up at viewport for the contact-confirmation moment
+
+cutscene_id:         cs_thought_virus_manifests  (existing shipped cutscene; FPV audit pending)
+camera_position:     (0.00, 0.00, eye_level)  # at captain's chair
+camera_facing:       (0°, 0°, 0°)
+avatar_height_anchor: eye_level
+head_motion:         the Thought Virus manifests AROUND the player from POV; camera shudders + 5% positional shake; vignette darkens; lens fractures slightly
+```
+
+#### 4.18.11 Bridge — Doorways
+
+```
+door_id:            ark.bridge.south.door.main
+connecting_space_id: ark.corridor.bridge_approach
+door_position:      (0.00, 0.00, 0.00)
+door_dimensions:    1.40 × 2.40 × 0.10
+door_class:         slide  # vertical-slide; retracts upward
+unlock_condition:   always (Act 0+)
+transit_animation:  fade
+audio_signature:    pneumatic-hiss + servo-whir + magnetic-clack on lock
+```
+
+(Bridge has only ONE physical door — the south main entrance —
+because of the pentagonal apse design. East and west "windows"
+are sight-only, not passages. The HB3 gateway is invoked via
+holo-table interaction, not a physical door.)
+
+#### 4.18.12 Bridge — Adjacency map
+
+```
+direct_adjacencies:
+  - ark.corridor.bridge_approach (south door)
+  - hellbox.quiz_show_palimpsest (HB3 portal via holo-table, conditional)
+one_hop_adjacencies:
+  - ark.corridor.deck_1_main
+  - ark.med_bay  (via corridor)
+  - ark.observation_deck (via corridor)
+  - ark.captain_quarters (via corridor)
+  - destination.quiz_show_palimpsest (via HB3)
+```
+
+#### 4.18.13 Bridge — Gameplay hooks
+
+```
+hooks:
+  - hook_id:         bridge.takeCaptainsSeat
+    trigger:         player.sit on ark.bridge.captain_chair
+    procedure:       trpc.ship.command.takeSeat
+    success_state:   captain_view_active = true
+    fail_state:      n/a
+  - hook_id:         bridge.flyShip
+    trigger:         player.operate on ark.bridge.console_helm.pri
+    procedure:       trpc.ship.helm.openControls
+    success_state:   helm_ui_open = true
+    fail_state:      ship_locked
+  - hook_id:         bridge.openComms
+    trigger:         player.operate on ark.bridge.console_comms.port
+    procedure:       trpc.ship.comms.openConsole
+    success_state:   comms_ui_open = true
+    fail_state:      comms_offline
+  - hook_id:         bridge.openTactical
+    trigger:         player.operate on ark.bridge.console_tactical.starboard
+    procedure:       trpc.ship.tactical.openConsole
+    success_state:   tactical_ui_open = true
+    fail_state:      tactical_offline
+  - hook_id:         bridge.openHoloTable
+    trigger:         player.operate on ark.bridge.holo_table
+    procedure:       trpc.ship.holo_table.openOverview
+    success_state:   holo_table_active = true
+    fail_state:      n/a
+  - hook_id:         bridge.openHB3Gateway
+    trigger:         (state-conditional) player.operate on holo_table during Act 6
+    procedure:       trpc.hellbox.hb3.openGate
+    success_state:   hellbox_3_transit_started = true
+    fail_state:      not_yet_unlocked
+  - hook_id:         bridge.openCaptainLocker
+    trigger:         player.open on ark.bridge.captain_locker
+    procedure:       trpc.ship.captain_locker.open
+    success_state:   captain_locker_opened = true (one-shot)
+    fail_state:      n/a
+  - hook_id:         bridge.readCommissionPlaque
+    trigger:         player.inspect on ark.bridge.south.plaque.commission
+    procedure:       trpc.ship.lore.readCommissionPlaque
+    success_state:   plaque_read = true (lore-flag)
+    fail_state:      n/a
+```
+
+#### 4.18.14 Bridge — Story-tie
+
+```
+primary_arcs:
+  - arc.act_0_loss_of_command
+  - arc.act_2_first_human_contact
+  - arc.act_4_terminus_swarm_first_contact
+  - arc.act_6_quiz_show_palimpsest (HB3)
+  - arc.captain_decisions (continuous)
+per_act_evolution:
+  act_0:
+    description: "Bridge is pristine; Kael Voss's chair is empty; commission plaque shows him as captain still. Crew manifest shows Kael as DECEASED but he remains 'captain of record'. Player can take the seat or refuse."
+    visible_changes: captain_chair_empty, kael_coat_hanging, candle_lit
+  act_1:
+    description: "First crew (Elara) joins. She works the helm or comms. Player begins to feel command weight."
+    visible_changes: pilot_chair_used, comms_chair_used
+  act_2:
+    description: "Comms console picks up the Human's signal; first contact cutscene plays here. Comms wear pattern begins."
+    visible_changes: comms_panel_wear_begins, mission_log_first_contact_entry
+  act_3:
+    description: "Crew manifest fills out; lockers begin to fill (Locke's gradually accumulates)."
+    visible_changes: crew_manifest_grows, locke_locker_first_items
+  act_4:
+    description: "Tactical console first detects Terminus Swarm. Coffer pulse becomes erratic. Bridge feels pressured."
+    visible_changes: tactical_alert_active, coffer_pulse_erratic, ambient_warmer_alert
+  act_5:
+    description: "Engineering console glitches. Sciences detects Pod-Zero anomaly. Ship visibly degrading."
+    visible_changes: engineering_glitches, sciences_anomaly_alert, ambient_dimmer, scuff_marks_appear
+  act_6:
+    description: "Holo-table reveals HB3 gateway. Player can enter Quiz Show Palimpsest. GM-arc revelations begin."
+    visible_changes: holo_table_hellbox_glow, quiz_show_studio_residue
+  act_7:
+    description: "Bridge is severely degraded OR repaired-by-player (state-axis). Coffer is dark or restored. Final command decisions made here."
+    visible_changes: state_branch_determined_by_player_choices
+npc_roster:
+  - elara: pilot/comms/visitor; presence-line set at §2.3.2
+  - locke: comms-feed (rare physical visits late-act); presence-line set at §2.3.2
+  - the_human: comms-only (never physically present)
+  - kael_voss: deceased (but his presence is felt — locker, coat, plaque, candle)
+  - the_master_of_rlyeh: HB3 transit voice only
+readables:
+  - commission plaque (south wall): "ARK-7 / Commissioned 2147 / Captain: Kael Voss"
+  - captain's locker contents (Kael's letter, brass coin, folded flag)
+  - mission log entries (player-driven)
+  - crew manifest (live-updating)
+  - flight recorder (Act 6 gameplay-key)
+master_of_rlyeh_question:  "Does a child's first death haunt the world that buried them?"
+```
+
+#### 4.18.15 Bridge — Special-FX
+
+```
+particle_systems:
+  - dust_motes (in central coffer light shaft; 50 particles avg; baseline state)
+  - smoke_wisps (corner emitters; activates in stress states only)
+volumetric_effects:
+  - coffer_light_shaft (central; very subtle volumetric beam from coffer to floor)
+  - viewport_glow_wash (along base of viewport; reflects viewport content)
+procedural_animations:
+  - chair_rotation (captain's chair rotates slowly when empty in Act 0; mimics restless presence)
+  - coffer_pulse (matches reactor heartbeat; rate varies by ship-state)
+  - kael_candle_flame (continuous flicker; never extinguishes through baseline)
+  - dust_motes_drift (slow downward, period 30s/m)
+  - hb3_residue (after first HB3 visit; faint studio-applause echo plays once per hour as Easter egg)
+reactive_systems:
+  - chair_rotation_on_player_proximity (chair faces away from player as they approach; pivots toward them when they sit)
+  - holo_table_glow_on_proximity (table activates softly as player approaches within 1.5 m)
+  - coffer_alert_flash (red flash when threat detected on tactical)
+  - locke_locker_progressive_fill (one new item appears in Locke's locker each major story beat)
+  - kael_locker_first_open_emotional_beat (first opening triggers a Category A cutscene; subsequent openings are normal)
+```
+
+#### 4.18.16 Bridge — Avatar-parametricity
+
+```
+camera_height_variation:
+  small_xenomorph (0.85m eye): camera height 0.85m; chair seat is too high — chair-sit triggers chair-height-adjust animation (chair lowers itself); HUD overlay scales down
+  short_humanoid (1.40m eye): camera height 1.40m; chair-fit-adjust mild; HUD overlay scales mildly
+  average_humanoid (1.70m eye): camera height 1.70m; default; chair-fit-perfect
+  tall_humanoid (2.05m eye): camera height 2.05m; chair-fit-mild-cramping (animation reflects); coffer feels closer
+  tall_xenomorph (2.70m eye): camera height 2.70m; chair-fit-cramped; player may prefer to stand; coffer is at-head-level
+reachability:
+  small_xenomorph: cannot reach commission plaque (3.20m height); plaque-read uses console-relay alternate
+  small_xenomorph: cannot reach east/west wall displays (1.50m height) without stool; each console has a podium-step beside it
+  small_xenomorph: cannot reach reactor pulse indicator without elevator-stool (rare)
+  others: all-reachable
+audio_occlusion_variation:
+  xenomorph_sensitive_hearing: ambient bed +6 dB perceived; reactor pulse more pronounced
+  synthetic_voice_avatar: comms-channel feedback subtly altered (synthetic resonance)
+```
+
+#### 4.18.17 Bridge — Performance
+
+```
+polygon_budget:      280,000 polygons rendered (mid-fidelity console) — generous because Bridge is a feature-room
+texture_budget:      160 MB total
+light_count_limit:   16 simultaneous dynamic lights
+lod_plan:
+  - hero_distance: 0-8m, full detail
+  - mid_distance: 8-20m, mid detail (excluded: dust motes; reduced: coffer-pulse fidelity)
+  - low_distance: 20m+, low detail (excluded: coffer-pulse; reduced: console glow)
+streaming_behaviour:
+  - preload: ark.corridor.bridge_approach (main exit)
+  - preload: hellbox.quiz_show_palimpsest (only when HB3 gateway is open; conditional preload)
+  - on_chair_seated: preload all currently-active wall-displays' content
+```
+
+---
+
+The Bridge exemplar establishes the full §4 architect-layer pattern.
+The remaining 37 Ark rooms (and beyond) are specced in
+`_PRODUCTION_ARK_ROOMS.md` (Phase B), each conforming to this format
+exactly.
+
+---
 
 
