@@ -28,7 +28,19 @@ import { getActsSystemTutor } from "@shared/acts2to7SystemTutors";
 import LivingBackground from "@/components/LivingBackground";
 
 import { assetUrl } from "@/lib/assetUrl";
-type View = "intro" | "tutor" | "sectors" | "close";
+type View = "intro" | "tutor" | "sectors" | "iron_lion" | "close";
+
+const IRON_LION_BROADCAST = `[CADES SIGNAL · THIRD-CLASS MECHRONIS BAND]
+[ORIGIN: VERIDIAN VI · PRESS ROOM 14-B]
+[TIMESTAMP: PERPETUAL — EVERY SHIFT, FOR ELEVEN THOUSAND YEARS]
+
+To the free souls of the galaxy. We've faced the might of the Architect and found its weaknesses.
+
+I printed three thousand posters in seventy-two hours. The presses are loud. The presses are old. They were here before me. They will be here after me. The 3001st poster is set up on the carriage and the ink is wet. I have been printing it for a long time. I have not finished it because I have not had a hand to hand it to.
+
+If you are receiving this, the hand has arrived. Walk in. The press is the second one on the left. The poster is the only one on the carriage. Take it. The cat at my feet is not mine. Tell whoever owns him that he was a good cat.
+
+— Iron Lion. The press is going silent.`;
 
 const KAEL_PREAMBLE = `[RECRUITER'S LOG — MASTER INDEX]
 [DECRYPTED FROM SUBSTRATE LAYER]
@@ -312,10 +324,67 @@ export default function Act5InterludePage() {
                 </button>
                 <button
                   type="button"
-                  onClick={() => setView("close")}
-                  className={`rounded border ${accent} bg-amber-950/40 px-4 py-2 font-mono text-[10px] uppercase tracking-wider text-amber-100 hover:bg-amber-900/60`}
+                  onClick={() => setView("iron_lion")}
+                  className={`rounded border border-red-700/60 bg-red-950/40 px-4 py-2 font-mono text-[10px] uppercase tracking-wider text-red-100 hover:bg-red-900/60`}
                 >
-                  Close the map
+                  Tune the Comms Array
+                </button>
+              </div>
+            </motion.div>
+          )}
+
+          {view === "iron_lion" && (
+            <motion.div
+              key="iron_lion"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.4 }}
+              className="space-y-4"
+            >
+              <div className="rounded-md border border-red-700/60 bg-red-950/30 p-5">
+                <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-red-300/80">
+                  Cades signal · Veridian VI
+                </p>
+                <p className="mt-1 font-display text-xl text-red-100">
+                  Iron Lion's last broadcast
+                </p>
+                <p className="mt-3 font-mono text-[12px] leading-relaxed whitespace-pre-line text-red-100/90">
+                  {IRON_LION_BROADCAST}
+                </p>
+              </div>
+              <div className="rounded-md border border-stone-700 bg-stone-900/40 p-4">
+                <p className="font-mono text-[10px] uppercase tracking-wider text-stone-400">
+                  Cades campaign · M7 placeholder
+                </p>
+                <p className="mt-1 font-serif italic text-[12px] leading-relaxed text-stone-300/90">
+                  The Cades external campaign covers the playable form of
+                  Iron Lion's last stand. Until the producer team ships
+                  the Godot project (or while running the in-fiction
+                  signal-only path), the press-room recovery resolves
+                  here.
+                </p>
+              </div>
+              <div className="flex justify-between">
+                <button
+                  type="button"
+                  onClick={() => setView("sectors")}
+                  className={`flex items-center gap-1 font-mono text-[10px] uppercase tracking-wider ${subAccent} hover:text-amber-100`}
+                >
+                  <ChevronLeft size={12} />
+                  Back to the map
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setNarrativeFlag("cades_m7_complete", true);
+                    setNarrativeFlag("iron_lion_3001st_poster_recovered", true);
+                    setView("close");
+                  }}
+                  className="rounded border border-red-700/60 bg-red-950/40 px-4 py-2 font-mono text-[10px] uppercase tracking-wider text-red-100 hover:bg-red-900/60"
+                  data-testid="cades-m7-recover-poster"
+                >
+                  Recover the 3001st poster
                 </button>
               </div>
             </motion.div>
