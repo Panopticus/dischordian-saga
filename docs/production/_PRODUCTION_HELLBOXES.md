@@ -2452,3 +2452,232 @@ performance:
   lod_plan: hero 0-12m full; mid 12-25m simplified phantom audience as billboards; long 25m+ skybox
   streaming: preload ark.bridge; on_master_of_rlyeh: preload faction-radial UI assets
 ```
+
+---
+
+## H.4 Mechronis Academy (HB4 — Engineering Bay gateway)
+
+**Status: FULL spec.** Cross-ref `INCEPTION_ARK_FINAL_PRODUCTION.md`
+§3.12.6 for cosmology + transit + faction answers.
+
+### H.4.1 Header
+
+```
+space_id:        hellbox.mechronis_academy
+space_name:      Mechronis Academy
+space_type:      hellbox_interior  (Matrix-of-Dreams; Mechronis-faction trade-school)
+act_introduced:  Act 3
+host_room:       ark.engineering_bay (workbench gateway)
+lore_anchor:     loredex.system.mechronis_academy + loredex.faction.mechronis + arc.act_3_first_HB4_invocation + arc.crafting_revelations
+aesthetic_tier:  architect_geometric  (precise Mechronis-faction trade-school; functional + warm + structurally honest)
+```
+
+### H.4.2 Geometry
+
+```
+dimensions:           36.00 m × 28.00 m × 12.00 m  (perceptual; bigger-on-inside ratio 4× external Engineering Bay)
+origin_point:         centre of central classroom (where the player materialises after transit; corresponds to Engineering's workbench)
+coordinate_axes:      +x = right, +y = forward (north — toward master forge), +z = up
+floor_plan_geometry:  rectangular  (central classroom + master forge to north + 6 specialist workshops radiating outward)
+volumetric_anomalies:
+  - bigger_on_inside ratio: 4× external Engineering Bay
+  - perpetual_workshop_lighting: continuous warm crafting-light
+  - mechronis_apprentice_visualisation: ~30 apprentice NPCs visible at workshops (some real; most cosmetic)
+  - tutorial_progress_subtle_evolution: walls + objects slowly add player's accumulated craftworks as visible relief over time
+```
+
+The Mechronis Academy is a Matrix-of-Dreams trade school where
+the player learns crafting, engineering, and deck-building from
+master craftsmen. Functional + warm + structurally honest aesthetic.
+Central classroom holds the arrival position; master forge
+dominates the north end; 6 specialist workshops radiate outward
+(tools / weapons / armor / mechanisms / materials / mastery).
+
+Floor area (perceptual): central classroom ~280 m²; master
+forge ~120 m²; 6 workshops ~80 m² each; total ~880 m².
+
+### H.4.3 Floor
+
+```
+material_primary:     polished cast-iron grating with anti-slag heat-resistant coating; 1.20 × 1.20 m panels with 50 mm slot pattern
+material_secondary:   bronze inlay forming a 6-pointed gear-mandala at central classroom centre; brass perimeter trim; copper-strip inlays demarcating workshop boundaries
+pattern:              cast-iron grating + central gear-mandala + 6 radial copper-strip paths to workshops
+wear_state:           well-used; central mandala worn by centuries of arrivals; workshop-paths show specific apprentice-pacing
+embedded_features:
+  - id: hellbox.mechronis_academy.floor.charge_point.player_arrival_mandala
+    position: (0.00, 0.00, 0.00)
+    dimensions: 1.40 × 1.40 × 0.05
+    function: arrival-anchor + return-transit invocation
+  - id: hellbox.mechronis_academy.floor.charge_point.master_forge
+    position: (0.00, 14.00, 0.00)
+    dimensions: 0.60 × 0.60 × 0.10
+    function: master forge-fire ignition
+  - id: hellbox.mechronis_academy.floor.workshop_threshold.<workshop>  (6 thresholds)
+    position: per workshop entrance
+    dimensions: varied
+    function: workshop-entry threshold
+  - id: hellbox.mechronis_academy.floor.slag_drains.<n>  (4 drains)
+    position: distributed near master forge + workshops
+    dimensions: 0.40 × 0.40 × 0.10 each
+    function: slag drainage
+acoustic_property:    hard_reflective with industrial echo + workshop-clatter; RT60 = 0.65s
+```
+
+### H.4.4 Walls (compact at full FULL fidelity)
+
+#### Central Classroom Walls (4 walls forming a rectangular hub)
+
+```
+wall_id:              classroom_perimeter (4 walls)
+material_primary:     painted cast-iron honeycomb panel with rivet-detail
+material_secondary:   bronze dado at z = 1.20; chalk-board panels for tutorial progress
+panelisation:         standard
+colour_value:         --token-color-hellbox-mechronis-academy-classroom-wall
+embedded_displays:
+  - hellbox.mechronis_academy.classroom.south.display.tutorial_progress (0.00, -10.00, 1.80) 1.40 × 1.00 × 0.05; live tutorial progress board
+  - hellbox.mechronis_academy.classroom.east.chalkboard (12.00, 0.00, 1.80) 4.00 × 1.50 × 0.05; current lesson
+  - hellbox.mechronis_academy.classroom.west.chalkboard (-12.00, 0.00, 1.80) mirror; secondary lesson
+embedded_doors:
+  - south.return_threshold → ark.engineering_bay (cosmological portal at arrival mandala)
+  - north.archway.master_forge (0.00, 12.00, 0.00) 4.00 × 5.00 × 0.20 open_passage → hellbox.mechronis_academy.master_forge
+  - east.archway.workshop.<n> (3 east) → workshop sub-spaces (continuous)
+  - west.archway.workshop.<n> (3 west) → workshop sub-spaces (continuous)
+decorative_features:
+  - south.plaque.creed: "THE WORK SHAPES THE WORKER / THE WORKER SHAPES THE WORK"
+  - 4 craft-pillar reliefs at corners (precision / patience / persistence / passion); each 1.20 × 4.00 × 0.10
+```
+
+#### Master Forge Walls (north end; vertical industrial)
+
+```
+wall_id:              master_forge_perimeter
+material_primary:     reinforced steel with forge-blackened patina + brick + cast-iron details
+material_secondary:   bronze dado; brass forge-rail trim
+panelisation:         industrial
+colour_value:         --token-color-hellbox-mechronis-academy-master-forge-wall
+embedded_displays:
+  - heat_indicator (0.00, 18.00, 2.50) 1.20 × 0.80 × 0.05; live forge-temperature
+embedded_doors:        none (continuous space)
+decorative_features:
+  - master_anvil_relief (0.00, 18.00, 5.00) 2.00 × 1.20 × 0.20; "first anvil" canon relief
+```
+
+### H.4.5-8 Compact
+
+```
+ceiling: 12.00 m baseline; central classroom drop-coffer at 9.00 m; master forge has open vertical chimney rising through ceiling at z=12; 6 workshop ceilings at 8.00 m
+lighting:
+  ambient_baseline: 3000 K warm-craft; 240 lux; CRI 88
+  master_forge_glow: continuous orange-red; 12000 lumens variable; pulses with tutorial-fire
+  classroom_pendant: at (0.00, 0.00, 8.50); warm amber; 6000 lumens
+  workshop_pendant.<n>×6: per workshop; 3500 lumens each
+  practical_sources: anvil_glow×6; bench_lamp_glow×8; tool_rack_subtle_glint
+atmosphere: 26°C warm during tutorials / 38% RH / smells of hot iron + ozone + sweat + warm metal + faint coal-smoke
+sound:
+  ambient_bed: -28 dB; continuous workshop-clatter, master forge-roar, distant Mechronis chants (proto-engineering language), occasional anvil-strike
+  point_sources: master_forge_roar; 6 workshop SFX; mechronis_master_voice; apprentice_chatter_distant
+  reverb_zone: mechronis_academy_v1.wav wet 26%
+  music_eligibility: cutscene only (Mechronis-arc tutorial)
+  voice_line_eligibility: the_mechronis_master; ~30 apprentice NPCs (most cosmetic); the_master_of_rlyeh (state-conditional); chant_voices_distant
+```
+
+### H.4.9 Object inventory (compact catalogue; 60 inventory objects)
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `hellbox.mechronis_academy.player_arrival_mandala` | fx_emitter+gameplay-anchor | (0.00, 0.00, 0.005) | 1.40 dia × 0.005 | gold-bronze 6-pointed gear-mandala; arrival + return-transit |
+| `hellbox.mechronis_academy.classroom.master_lectern` | container | (0.00, 6.00, 0.00) | 0.40×0.30×1.20 | bronze lectern; tutorial-tome |
+| `hellbox.mechronis_academy.mechronis_master_anchor` | npc_anchor | (0.00, 5.50, 0.00) | 0.8×0.8×1.8 | THE Mechronis Master |
+| `hellbox.mechronis_academy.classroom.student_chairs.<n>` (12) | furniture | classroom seating | 0.80×0.80×1.20 each | apprentice seats |
+| `hellbox.mechronis_academy.classroom.east.chalkboard` | display | (12.00, 0.00, 1.80) | 4.00×1.50×0.05 | east lesson |
+| `hellbox.mechronis_academy.classroom.west.chalkboard` | display | (-12.00, 0.00, 1.80) | mirror | west lesson |
+| `hellbox.mechronis_academy.master_forge.central_forge` | interactive+fx_emitter | (0.00, 18.00, 0.40) | 2.40×2.40×1.40 | THE master forge (fire-pit + chimney) |
+| `hellbox.mechronis_academy.master_forge.anvil_central` | interactive | (0.00, 16.00, 0.00) | 0.80×0.40×0.85 | central master anvil |
+| `hellbox.mechronis_academy.master_forge.altar.master_of_rlyeh` | interactive | (0.00, 17.00, 0.00) | 1.40×0.80×1.10 | Master of R'lyeh anchor |
+| `hellbox.mechronis_academy.workshop.<type>` (6) | container | distributed | 8.00×6.00 each | tools/weapons/armor/mechanisms/materials/mastery |
+| `hellbox.mechronis_academy.apprentice_anchor.<n>` (~30) | npc_anchor | distributed | 0.8×0.8×1.8 each | apprentice NPCs |
+| `hellbox.mechronis_academy.classroom.tutorial_progress_display` | display | (0.00, -10.00, 1.80) | 1.40×1.00×0.05 | progress board |
+| `hellbox.mechronis_academy.classroom.return_transit_indicator_glow` | fx_emitter | at arrival | 0.40 dia | warm gold |
+| `hellbox.mechronis_academy.classroom.south.plaque.creed` | decoration | (0.00, -10.00, 3.20) | 1.20×0.40×0.02 | "THE WORK SHAPES THE WORKER" |
+| `hellbox.mechronis_academy.classroom.relief.craft_pillars` (4) | decoration | corner pillars at z=4 | 1.20×4.00×0.10 each | precision/patience/persistence/passion |
+| `hellbox.mechronis_academy.master_forge.master_anvil_relief` | decoration | (0.00, 18.00, 5.00) | 2.00×1.20×0.20 | "first anvil" |
+| `hellbox.mechronis_academy.master_forge.bellows_central` | interactive | (1.50, 18.00, 0.50) | 0.80×0.50×0.40 | master bellows |
+| `hellbox.mechronis_academy.master_forge.quench_tanks.<n>` (3) | interactive | along master forge perimeter | 0.80×0.80×1.40 each | water/oil/mercury (tutorial-tier) |
+| `hellbox.mechronis_academy.master_forge.tool_rack` | container | flanking master anvil | 0.40×4.00×2.40 | master-tier tools |
+| `hellbox.mechronis_academy.master_forge.heat_indicator` | display | (0.00, 18.00, 2.50) | 1.20×0.80×0.05 | live forge-temp |
+| `hellbox.mechronis_academy.classroom.intercom_silent + .fire_extinguisher_silent + .first_aid_silent` | various | south wall | varied | cosmologically silent |
+| `hellbox.mechronis_academy.master_of_rlyeh_voice_emitter` | fx_emitter | at master forge altar | n/a | Master of R'lyeh voice |
+| `hellbox.mechronis_academy.tutorial_completion_indicator_array` | fx_emitter | east + west walls | n/a | tutorial-completion lights (one per lesson) |
+| `hellbox.mechronis_academy.compass_inlay_central` | decoration | at arrival mandala | already specced | floor inlay |
+
+Total: 60 inventory objects.
+
+### H.4.10-17 Compact
+
+```
+camera_spawn_points:
+  cs_hellbox_4_arrival (Act 3 first-time + every visit): POV at gear-mandala; classroom emerges from workbench-residue dissolution; 12s
+  cs_first_mechronis_lesson (Act 3): seated at student chair; Mechronis Master enters from north; first tutorial begins
+  cs_master_of_rlyeh_question: POV at master forge altar; "Is the worker the work, or the work's prisoner?"; radial menu
+  cs_tutorial_completion (state-conditional): tutorial-progress display updates; classroom relief expands
+  cs_hellbox_4_close: POV at arrival mandala; ~5s fade; workbench re-materialises in Engineering Bay with new tools added (per §3.12.6)
+
+doorways: return_transit_anchor → ark.engineering_bay (host)
+
+adjacency:
+  direct: ark.engineering_bay; 6 workshop sub-spaces (continuous); master forge
+  one_hop: hellbox.master_hellbox (HB5); ark.forge_workshop (kinship)
+  state_shared: ark.engineering_bay (HB4 faction-pull); player's crafting recipe cache (tutorial completions unlock recipes)
+
+gameplay_hooks:
+  - hb4.return_transit
+  - hb4.start_tutorial (per-lesson; ~24 lessons)
+  - hb4.complete_tutorial (one-shot per lesson; updates progress + unlocks recipe)
+  - hb4.invoke_master_of_rlyeh
+  - hb4.commit_faction_answer
+  - hb4.converse_mechronis_master
+  - hb4.read_tutorial_tome
+  - hb4.use_master_forge (Act 5+; legendary-tier)
+  - hb4.quench_piece (per quench-tank)
+
+story_tie:
+  primary_arcs:
+    - act_3_first_HB4_invocation
+    - act_3_first_mechronis_lesson
+    - mechronis_master_arc
+    - cumulative_crafting_progression (Acts 3-7)
+    - act_7_legendary_master_smith (state-branched)
+  per_act:
+    acts_0_2: locked
+    act_3: first invocation + first tutorials
+    act_4: more workshops + Master of R'lyeh first asked
+    act_5: legendary tier unlocked
+    act_6: deep apprentice dialogues
+    act_7: state-branched: Mechronis-master ending vs. abandoned-bench ending
+  npc_roster: the_mechronis_master; ~30 apprentices; the_master_of_rlyeh (voice); chant_voices_distant
+  readables:
+    - creed plaque (south)
+    - 4 craft-pillars reliefs
+    - master anvil relief
+    - tutorial-tome
+    - 24 tutorial chalkboards
+    - 6 workshop curriculum displays
+  master_of_rlyeh_question: "Is the worker the work, or the work's prisoner?"
+  faction_answers: per §3.12.6 (Architect Remnants strongest pull)
+
+special_fx:
+  particle_systems: forge_smoke (medium); ember (low); sparks (workshop); apprentice_breath_motes; tutorial_completion_motes (state-conditional)
+  volumetric: master_forge_glow_envelope; classroom_pendant_scatter; workshop_pendant_glows; chimney_internal_volumetric
+  procedural_animations: forge_fire_dance; apprentice_idle_workshop_loops; chalkboard_subtle_chalk-shift; tutorial_progress_continuous_update
+  reactive_systems: master_forge_intensify_on_proximity; apprentice_acknowledgement_on_pass; tutorial_completion_one_shot; master_of_rlyeh_invocation_one_shot; relief_panel_expansion_on_completion
+
+avatar_parametricity: small_xenomorph alternate stand-on-step at master forge + benches; others all-reachable
+audio_occlusion: xenomorph: workshop-clatter overwhelming; chant-voices more pronounced
+
+performance:
+  polygon_budget: 720,000 (large workshop complex; many anchors)
+  texture_budget: 420 MB (industrial materials + apprentice unique textures)
+  light_count_limit: 32
+  lod_plan: hero 0-15m full; mid 15-35m simplified workshops; long 35m+ skybox
+  streaming: preload ark.engineering_bay; on_workshop_approach: preload that workshop interior; on_master_forge_use: preload legendary-tier crafting assets
+```
