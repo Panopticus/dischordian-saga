@@ -29,6 +29,7 @@ import {
   ACT_7_OPPONENTS,
   type ActNOpponent,
 } from "@shared/acts2to7Opponents";
+import { ConvergenceSeatGoodbye } from "@/components/act7/ConvergenceSeatGoodbye";
 import {
   getAct7OpponentDialog,
   type Act7OpponentDialog,
@@ -402,6 +403,12 @@ export default function Act7CardLadderPage() {
             </motion.div>
           )}
 
+          {view === "matchup" &&
+            currentOpponent &&
+            currentOpponent.id === "act7_the_convergence_seat" &&
+            !gameState.narrativeFlags?.convergence_seat_goodbye_walked && (
+              <ConvergenceSeatGoodbye onComplete={() => undefined} />
+            )}
           {view === "matchup" && currentOpponent && (
             <motion.div
               key="matchup"
