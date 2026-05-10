@@ -21,7 +21,9 @@ import { useCallback, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, Check, X } from "lucide-react";
 import type { DlcChapter, DlcStep } from "@shared/dlc";
+import { CINEMATICS } from "@shared/expansionArt/cinematicsManifest";
 import { useGame } from "@/contexts/GameContext";
+import { SingleVideoCutsceneOverlay } from "@/components/cutscenes/SingleVideoCutsceneOverlay";
 import { trpc } from "@/lib/trpc";
 
 export interface DlcChapterPlayerProps {
@@ -155,8 +157,37 @@ function DlcStepView({
     case "encounter_ref":
       return <RefView label="ENCOUNTER" id={step.encounterId} onSkip={onAdvance} />;
     case "cinematic_ref":
-      return <RefView label="CINEMATIC" id={step.cinematicId} onSkip={onAdvance} />;
+      return <CinematicView cinematicId={step.cinematicId} onAdvance={onAdvance} />;
   }
+}
+
+/** Resolves a cinematic id against the cinematics manifest and
+ *  plays the producer-delivered MP4 inline. Falls back to the
+ *  RefView placeholder if the id doesn't resolve (e.g. an
+ *  authored cinematic that hasn't shipped yet). */
+function CinematicView({
+  cinematicId,
+  onAdvance,
+}: {
+  readonly cinematicId: string;
+  readonly onAdvance: () => void;
+}) {
+  // Lazy import-by-string to avoid a hard type dep on CinematicId
+  // here — chapter authors can reference any cinematic by id, and
+  // unknown ids degrade to the placeholder.
+  const def = CINEMATICS.find((c) => c.id === cinematicId);
+  if (!def) {
+    return <RefView label="CINEMATIC" id={cinematicId} onSkip={onAdvance} />;
+  }
+  return (
+    <SingleVideoCutsceneOverlay
+      cutsceneId={def.id}
+      videoRelPath={def.videoRelPath}
+      primaryLabel="Cinematic"
+      secondaryLabel={def.name}
+      onComplete={onAdvance}
+    />
+  );
 }
 
 function NarrationView({

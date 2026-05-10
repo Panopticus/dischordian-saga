@@ -138,6 +138,8 @@ apps/client/public/art/
 apps/client/public/audio/
 apps/client/public/videos/
 apps/client/public/music/
+# Producer-drop scratch dir for scripts/import-cutscene-drops.sh
+.cutscene-staging/
 apps/client/public/games/
 apps/client/public/vfx-atlases/
 __pycache__/

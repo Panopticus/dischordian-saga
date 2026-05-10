@@ -40,9 +40,10 @@ import LivingBackground from "@/components/LivingBackground";
 import { useActVO } from "@/hooks/useActVO";
 
 export default function PrestigeCycleResetPage() {
-  const { state, performPrestige } = useGame();
+  const { state, performPrestige, setNarrativeFlag } = useGame();
   const [, navigate] = useLocation();
   const [confirming, setConfirming] = useState(false);
+  const [ceremonyPending, setCeremonyPending] = useState(false);
   // Prestige VO lives in Act 7's manifest (outputDir `vo/prestige`).
   const vo = useActVO("7");
 
@@ -57,9 +58,28 @@ export default function PrestigeCycleResetPage() {
     Boolean(flags.act_7_complete) || Boolean(flags.narrative_spine_complete);
   const prestigeLevel = state.prestigeLevel ?? 0;
   const nextPrestigeLevel = prestigeLevel + 1;
+  const cinematicSeen = Boolean(flags.cutscene_prestige_reset_seen);
 
   const handleConfirm = useCallback(() => {
     if (!spineComplete) return;
+    // Bible §6 — fire the 4-shot reset cinematic before applying
+    // the prestige carryover. CutsceneRouter (mounted at App root)
+    // watches `cutscene_prestige_reset_triggered`, plays the
+    // PrestigeResetCutscene full-screen, and stamps
+    // `cutscene_prestige_reset_seen` on completion. The useEffect
+    // below picks that up and runs performPrestige + navigate.
+    setNarrativeFlag("cutscene_prestige_reset_triggered", true);
+    setCeremonyPending(true);
+    setConfirming(false);
+  }, [spineComplete, setNarrativeFlag]);
+
+  // After the cinematic finishes, perform the actual prestige
+  // carryover. Gated on ceremonyPending so a player who's already
+  // seen the cutscene from a prior cycle doesn't re-prestige on
+  // mount.
+  useEffect(() => {
+    if (!ceremonyPending || !cinematicSeen) return;
+    setCeremonyPending(false);
     performPrestige();
     vo.speak("prestige-ceremony-close");
     toast.success(`Cycle ${nextPrestigeLevel} begins.`, {
@@ -67,10 +87,15 @@ export default function PrestigeCycleResetPage() {
         "The Ark resets. The Antiquarian remembers. Somewhere, a new Potential opens their eyes.",
       duration: 10_000,
     });
-    // Route the player back to the title / awakening so the new
-    // Prelude playhead has a clean context.
     setTimeout(() => navigate("/title"), 1_500);
-  }, [spineComplete, performPrestige, nextPrestigeLevel, navigate, vo]);
+  }, [
+    ceremonyPending,
+    cinematicSeen,
+    performPrestige,
+    vo,
+    nextPrestigeLevel,
+    navigate,
+  ]);
 
   return (
     <div className="relative min-h-screen void-bg-canvas void-text">

@@ -36,6 +36,8 @@ import {
   X,
 } from "lucide-react";
 import { ACT_1_OPPONENTS, type Act1Opponent } from "@shared/act1Opponents";
+import { resolveChapterIntroForOpponent } from "@shared/storyEncounterChapterIntros";
+import { chapterIntroTriggerFlag } from "@/components/cutscenes/ChapterIntroRouter";
 import { getAct1OpponentDialog } from "@shared/act1OpponentDialog";
 import { renderActDialog } from "@shared/actDialogRender";
 import { getTauntHooksForOpponent } from "@shared/actOpponentTaunts";
@@ -183,8 +185,17 @@ export default function Act1CardLadderPage() {
       // crossGameBeats helper short-circuits after the first success.
       void fireCrossGameBeat("substrate_handshake_loredex_first_contact");
     }
+    // Bible §3 (NANO_BANANA_VEO_FULL_PROMPT_BOOK.md) — saga
+    // chapter intros for Cycle A/B opponents. Fire the producer-
+    // delivered intro for this opponent if confirmed-mapped.
+    // Unmapped opponents silently skip; the router idempotents on
+    // the seen flag so re-engaging the same opponent won't replay.
+    const intro = resolveChapterIntroForOpponent(currentOpponent.id);
+    if (intro) {
+      setNarrativeFlag(chapterIntroTriggerFlag(intro.id), true);
+    }
     setView("battle");
-  }, [playerFaction, currentOpponent]);
+  }, [playerFaction, currentOpponent, setNarrativeFlag]);
 
   const handleGameEnd = useCallback(
     (winner: "player" | "opponent") => {

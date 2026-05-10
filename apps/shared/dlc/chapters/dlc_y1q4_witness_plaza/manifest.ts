@@ -9,6 +9,11 @@ import type { MiniDlcManifest } from "../../miniDlcManifest";
 
 const STEPS: readonly DlcStep[] = [
   {
+    kind: "cinematic_ref",
+    id: "intro_cinematic",
+    cinematicId: "y1q4_witness_plaza",
+  },
+  {
     kind: "narration",
     id: "open",
     speaker: "antiquarian",
@@ -29,7 +34,7 @@ export const DLC_Y1Q4_WITNESS_PLAZA: DlcChapter = {
   synopsis:
     "Memorial Day Year 1 — the Memorial Plaza opens. Inscribe one imprint name; visit a friend's plaza and read theirs.",
   parentSection: { kind: "endgame" },
-  sequence: 1,
+  sequence: 14,
   prerequisites: [{ kind: "act_completion", act: 5 }],
   steps: STEPS,
   rewards: { xp: 90, soulBoundDream: 12, lightEnergyReward: 45 },
