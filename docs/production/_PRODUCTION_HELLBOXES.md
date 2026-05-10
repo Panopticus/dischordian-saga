@@ -3567,3 +3567,228 @@ performance:
   lod_plan: hero 0-12m full; mid 12-25m simplified manuscripts; long 25m+ skybox + recursion-tiles only
   streaming: preload ark.cipher_den; on_alcove_approach: load that alcove's editing content; on_spiral_climb: stream higher gallery levels (with recursion swap at gallery 5)
 ```
+
+---
+
+## H.9 The Eternal Match (HB9 — Chess Hall gateway)
+
+**Status: FULL spec.** Cross-ref `INCEPTION_ARK_FINAL_PRODUCTION.md`
+§3.12.11.
+
+### H.9.1 Header
+
+```
+space_id:        hellbox.eternal_match
+space_name:      The Eternal Match
+space_type:      hellbox_interior  (Matrix-of-Dreams; impossibly-tall chess chamber)
+act_introduced:  Act 4
+host_room:       ark.chess_hall (central chess-board gateway)
+lore_anchor:     loredex.system.eternal_match + loredex.character.the_antiquarian + loredex.character.the_programmer + arc.act_4_eternal_match + §11.3.1 cross_centuries_chess_game
+aesthetic_tier:  architect_geometric + chamber-chapel overlay  (impossibly-tall chamber-chapel where two cosmic figures play; the player joins as the THIRD)
+```
+
+### H.9.2 Geometry
+
+```
+dimensions:           18.00 m × 18.00 m × 28.00 m  (perceptual; bigger-on-inside ratio 6× external Chess Hall; vertical scale dominates)
+origin_point:         centre of central chess-board (where player materialises after transit)
+coordinate_axes:      +x = right, +y = forward (north — toward the Antiquarian's seat), +z = up
+floor_plan_geometry:  rectangular  (vertical chamber-chapel; central chess-board on raised marble dais; high ceiling with celestial-vault)
+volumetric_anomalies:
+  - bigger_on_inside ratio: 6× external Chess Hall
+  - vertical_dominant: 28m height creates dramatic scale; chamber feels chapel-like
+  - celestial_vault_ceiling: ceiling depicts an evolving star-field that subtly shifts as the cross-centuries chess game progresses
+  - three_player_chess_board: standard 8×8 board + 9th file (i) and 9th rank (rank 9) — player's pieces start on rank 9, file i (triangular position)
+  - perpetual_match: the canonical Antiquarian-vs-Programmer game has been ongoing for centuries; the player joins as the THIRD participant
+```
+
+The Eternal Match is THE centuries-long chess game. The
+Antiquarian (cosmic figure; resident of §A.13 Antiquarian's
+Library) and the Programmer (cosmic figure; canonically in Comms
+Array deferred sub-space) have been playing this game for
+centuries. The player joins as the THIRD participant per §3.12.11
+three-player chess variant rules. Each visit, the player makes
+3 moves (one of three pieces: king, knight, queen). Their moves
+PERSIST across visits.
+
+The chamber is vertical, chapel-like. Central chess-board on
+raised marble dais. The Antiquarian sits at the north (white-rank
+1); the Programmer at the south (black-rank 8); the player's
+anchor is at the east (rank 9, file i — the triangular
+position). Celestial-vault ceiling above subtly evolves with
+the game's state.
+
+Floor area (perceptual): central dais ~36 m²; chamber floor
+~324 m²; total interior ~360 m².
+
+### H.9.3 Floor
+
+```
+material_primary:     polished black-and-white marble in chess-pattern (8×8 + 9th file + 9th rank super-board across entire chamber floor); 0.50 × 0.50 m tiles
+material_secondary:   gold-leaf inlay outlining central chess-board dais (3.20 × 3.20 m raised area at z = 0.40); brass perimeter trim
+pattern:              giant chessboard pattern with 9th-file + 9th-rank addition (matches §A.36 Chess Hall floor pattern but cosmologically extended)
+wear_state:           pristine but well-played; central dais access points show centuries of wear
+embedded_features:
+  - id: hellbox.eternal_match.floor.charge_point.player_arrival
+    position: (0.00, 0.00, 0.00)  # at chess-board centre
+    dimensions: 1.00 × 1.00 × 0.005
+    function: arrival-anchor + return-transit invocation
+  - id: hellbox.eternal_match.floor.dais_step.<n>  (steps to chess-board dais)
+    position: distributed at 4 cardinal access points
+    dimensions: varied
+    function: dais access
+acoustic_property:    hard_reflective (marble) with chamber-chapel resonance; RT60 = 1.10s (long; cathedral-like)
+```
+
+### H.9.4 Walls
+
+```
+wall_id:              perimeter (4 walls of vertical chamber)
+material_primary:     polished black-marble cladding with bronze rib detailing rising to z = 28 (impossibly tall); celestial-pattern inlays in upper sections
+material_secondary:   gold-leaf trim around the celestial-vault transition + bronze ribs
+panelisation:         rising chamber walls with apsidal vault transitions
+colour_value:         --token-color-hellbox-eternal-match-walls  (deep obsidian-black + bronze + gold-leaf + cyan celestial accents at upper)
+embedded_displays:
+  - id: hellbox.eternal_match.east.player_canonical_record
+    position: (8.95, 0.00, 4.00)  # at player anchor side
+    dimensions: 1.20 × 0.80 × 0.05
+    content: live record of player's accumulated moves across all visits
+  - id: hellbox.eternal_match.north.antiquarian_canonical_record
+    position: (0.00, 8.95, 4.00)
+    dimensions: 1.20 × 0.80 × 0.05
+    content: live Antiquarian move-history
+  - id: hellbox.eternal_match.south.programmer_canonical_record
+    position: (0.00, -8.95, 4.00)
+    dimensions: 1.20 × 0.80 × 0.05
+    content: live Programmer move-history
+embedded_doors:
+  - door_id: hellbox.eternal_match.return_transit_anchor
+    position: (0.00, 0.00, 0.005)
+    dimensions: n/a (cosmological)
+    door_class: portal
+    connecting_space_id: ark.chess_hall
+decorative_features:
+  - id: hellbox.eternal_match.south.plaque.creed
+    position: (0.00, -8.95, 3.20)
+    dimensions: 1.00 × 0.40 × 0.02
+    material: cast bronze with deep-etched text
+    narrative_role: reads "THE GAME IS THE GAME / EVERY MOVE THE FINAL MOVE"
+  - id: hellbox.eternal_match.celestial_vault_pattern  (continuous on upper walls + ceiling)
+    position: from z = 16 upward
+    dimensions: continuous
+    material: bronze inlay forming a star-field that evolves with game state
+    narrative_role: visible from anywhere; cosmologically connected to the game
+```
+
+### H.9.5-8 Compact (full FULL fidelity)
+
+```
+ceiling: 28.00 m baseline; central celestial-vault dome rises to 32.00 m; mirror-finish at apex showing impossible star-field
+lighting:
+  ambient_baseline: 2700 K warm-cosmic; 100 lux at chess-board (intentionally dim); CRI 92
+  central_chess_board_pendant: at (0.00, 0.00, 12.00); warm amber crystal scatter; 6000 lumens
+  celestial_vault_emitter: at (0.00, 0.00, 32.00); cosmic-cyan with star-pulse; 5000 lumens variable
+  player_anchor_glow_east: at player anchor; warm amber-bronze; 600 lumens
+  antiquarian_chair_glow_north: warm amber; 400 lumens (Antiquarian's anchor pulses with his consideration)
+  programmer_chair_glow_south: cool blue-amber; 400 lumens (Programmer's anchor pulses with his click)
+  practical_sources: chess_clock_glow×3 (one per player); piece_subtle_glint
+atmosphere: 18°C cool / 42% RH / smells of polished-marble + cosmic-radiation + book-paper (Antiquarian) + faint metallic-electricity (Programmer)
+sound:
+  ambient_bed: -38 dB very quiet; 3 chess-clocks ticking out-of-phase (polyrhythm; canonical 3-player variant); cosmic harmonic distant; faint whisper of ages
+  point_sources: chess_clock_tick.<player>×3; antiquarian_breath_subtle; programmer_click_subtle; piece_on_board_per_move; cosmic_resonance from celestial vault; bell_of_lifetime_period_long
+  reverb_zone: eternal_match_v1.wav wet 36% (long; cathedral with chamber resonance)
+  music_eligibility: cutscene only
+  voice_line_eligibility: the_antiquarian (rare; one-shot per move + faction-answer moments); the_programmer (rare; one-shot per move; canonically more silent than Antiquarian); the_master_of_rlyeh (state-conditional during answer moments)
+```
+
+### H.9.9 Object inventory (compact catalogue; 44 inventory objects)
+
+| object_id | class | position | dim | role |
+|---|---|---|---|---|
+| `hellbox.eternal_match.player_arrival_anchor` | fx_emitter+gameplay-anchor | (0.00, 0.00, 0.005) | 1.00×1.00×0.005 | central chess-square; arrival + return-transit |
+| `hellbox.eternal_match.chess_board_central` | interactive | (0.00, 0.00, 0.40) on dais | 4.50×4.50×0.05 | three-player extended chess board (8×8 + 9th file + 9th rank) |
+| `hellbox.eternal_match.chess_pieces.antiquarian.<set>` | interactive | distributed | varied | Antiquarian's white-set pieces (16) |
+| `hellbox.eternal_match.chess_pieces.programmer.<set>` | interactive | distributed | varied | Programmer's black-set pieces (16) |
+| `hellbox.eternal_match.chess_pieces.player_set` | interactive | distributed | varied | Player's 3 pieces (king + knight + queen) at rank 9 file i |
+| `hellbox.eternal_match.antiquarian_chair_north` | furniture+npc_anchor | (0.00, 6.00, 0.40) | 0.90×0.90×1.50 | Antiquarian's chair at north white-rank 1 |
+| `hellbox.eternal_match.programmer_chair_south` | furniture+npc_anchor | (0.00, -6.00, 0.40) | 0.90×0.90×1.50 | Programmer's chair at south black-rank 8 |
+| `hellbox.eternal_match.player_chair_east` | furniture+npc_anchor | (6.00, 0.00, 0.40) | 0.90×0.90×1.50 | Player's chair at east rank 9 file i |
+| `hellbox.eternal_match.chess_clocks.<player>` (3) | console | per chair side | 0.20×0.10×0.30 each | three chess-clocks (one per player; canonical-game-variant) |
+| `hellbox.eternal_match.celestial_vault_dome` | decoration+fx_emitter | (0.00, 0.00, 32.00) | mirror-finish | celestial vault ceiling |
+| `hellbox.eternal_match.bell_of_lifetime` | decoration+fx_emitter | impossibly-above | n/a | tolls every long-perceptual-period; signals new long-cycle |
+| `hellbox.eternal_match.east.player_canonical_record_display` | display | east wall at z=4 | 1.20×0.80×0.05 | player's accumulated moves |
+| `hellbox.eternal_match.north.antiquarian_canonical_record_display` | display | north wall at z=4 | mirror | Antiquarian moves |
+| `hellbox.eternal_match.south.programmer_canonical_record_display` | display | south wall at z=4 | mirror | Programmer moves |
+| `hellbox.eternal_match.south.plaque.creed` | decoration | (0.00, -8.95, 3.20) | 1.00×0.40×0.02 | "THE GAME IS THE GAME / EVERY MOVE THE FINAL MOVE" |
+| `hellbox.eternal_match.celestial_vault_pattern` | decoration+fx_emitter | continuous on upper walls + ceiling | varied | bronze star-field evolves with game |
+| `hellbox.eternal_match.return_transit_indicator_glow` | fx_emitter | at arrival | 0.40 dia | warm gold |
+| `hellbox.eternal_match.master_of_rlyeh_voice_emitter` | fx_emitter | at chess-board centre | n/a | "Whose move is the final one?" |
+| `hellbox.eternal_match.observation_bench.east, .west, .north, .south` (4) | furniture | radial; outer perimeter | 1.40×0.40×0.45 each | meditation benches for player to sit + observe between moves |
+| `hellbox.eternal_match.compass_inlay_central` | decoration | already specced |  |  |
+
+Total: 44 inventory objects.
+
+### H.9.10-17 Compact
+
+```
+camera_spawn_points:
+  cs_hellbox_9_arrival (Act 4 first-time + every visit): POV at chess-board centre; chamber rises around player; head pans up to take in vertical scale + celestial vault; 14s
+  cs_first_player_move (Act 4 first-time): POV at player anchor (east); player makes first canonical move (king/knight/queen); piece settles
+  cs_master_of_rlyeh_question: "Whose move is the final one?"; radial menu
+  cs_per_visit_player_move (every visit; player makes up to 3 moves per visit): POV at player anchor; piece moves
+  cs_hellbox_9_close: POV at arrival; arena dissolves; chess-board now has one of player's pieces visible (memento); ~5s ceremonial fade
+
+doorways: return_transit_anchor → ark.chess_hall (host)
+
+adjacency:
+  direct: ark.chess_hall (return-transit)
+  one_hop: hellbox.master_hellbox (HB5); ark.antiquarian_library + §11.3.1 cross-room chess game state
+  state_shared: ark.chess_hall central board (state synchronised); ark.captain_quarters coffee-table chess game (state synchronised); ark.antiquarian_library chess-table (state synchronised); player's persistent move-history
+
+gameplay_hooks:
+  - hb9.return_transit
+  - hb9.invoke_master_of_rlyeh (chess-board centre; one-shot per visit)
+  - hb9.commit_faction_answer
+  - hb9.make_player_move (per-visit; 3 moves; pieces persist across visits; gameplay-key)
+  - hb9.observe_antiquarian_move (cosmic NPC moves; passive observation)
+  - hb9.observe_programmer_move (cosmic NPC moves; passive observation)
+  - hb9.read_canonical_record_display (per-player; player's + Antiquarian's + Programmer's move histories)
+  - hb9.converse_antiquarian (rare; reveals canonical game lore)
+  - hb9.converse_programmer (rarer; reveals canonical Programmer cosmology)
+
+story_tie:
+  primary_arcs:
+    - act_4_eternal_match_first_visit
+    - cumulative_player_moves (persistent; tracked in canonical record)
+    - cross_centuries_chess_game (cross-ref §11.3.1; the canonical game continues)
+    - act_7_lifetime_player_canon_state (state-branched: deeply-engaged vs. minimal-moves)
+  per_act:
+    acts_0_3: locked
+    act_4: first visit; first 3 moves; first Master of R'lyeh question
+    acts_5_7: deeper participation; canonical game state evolves; celestial vault subtly shifts
+  npc_roster:
+    - the_antiquarian (cosmic chess opponent; rare voice; primary canonical player)
+    - the_programmer (cosmic chess opponent; rarer voice; canonically more silent)
+    - the_master_of_rlyeh (state-conditional answer moments)
+  readables:
+    - creed plaque (south)
+    - 3 canonical-record displays (per-player move histories)
+    - celestial vault pattern (cosmologically alive)
+  master_of_rlyeh_question: "Whose move is the final one?"
+  faction_answers: per §3.12.11 (Architect Remnants strongest pull)
+
+special_fx: cosmic_dust + chess-piece-subtle-glint + celestial_vault_starfield_evolution + bell_of_lifetime
+volumetric: pendant_scatter; celestial_vault_volumetric; player_anchor_glow_envelope; antiquarian_glow + programmer_glow
+procedural: 3_chess_clocks_polyrhythm; antiquarian_breath_subtle; programmer_click_subtle; chess_pieces_subtle_settle; celestial_vault_continuous_evolution
+reactive: anchor_glow_intensify_on_proximity; chess_piece_subtle_resonance_on_inspect; canonical_record_update_per_move; celestial_vault_response_to_game_state_changes
+
+avatar_parametricity: small_xenomorph alternate stand-on-step at chair; others all-reachable
+audio_occlusion: xenomorph: chess-clocks polyrhythm overwhelming; cosmic harmonic more pronounced
+
+performance:
+  polygon_budget: 480,000 (tall chamber + ~35 chess pieces + celestial-vault shaders)
+  texture_budget: 280 MB (cosmic shaders + piece unique textures)
+  light_count_limit: 18
+  lod_plan: hero 0-12m full; mid 12-25m simplified; long 25m+ celestial-vault as skybox
+  streaming: preload ark.chess_hall; on_player_move: persist + sync state across §A.13/§A.36 chess tables
+```
