@@ -15,7 +15,17 @@ import {
   buildLivingCharacterSheet,
   type LivingCharacterSheet as LivingSheet,
 } from "@shared/livingCharacterSheet";
-import { characterSheetFrameUrls } from "@shared/aaaArtArchive";
+import {
+  characterSheetFrameUrls,
+  characterSheetSpeciesUrls,
+  characterSheetClassUrls,
+  characterSheetBackgroundUrl,
+} from "@shared/aaaArtArchive";
+import {
+  speciesToArchive,
+  classToArchive,
+  factionToArchive,
+} from "@shared/characterSheetMapping";
 import {
   AXIS_POLES,
   PROFILE_AXES,
@@ -125,6 +135,16 @@ export interface LivingCharacterSheetProps {
 export function LivingCharacterSheet({ profile }: LivingCharacterSheetProps = {}) {
   const { state } = useGame();
 
+  // Best-fit archive taxonomy mapping (Option B, May 2026 producer
+  // drop). speciesToArchive/classToArchive may return null when the
+  // player hasn't picked one yet; the render path no-ops on null so
+  // the layout still works pre-character-creation.
+  const archiveSpecies = speciesToArchive(state.characterChoices.species);
+  const archiveClass = classToArchive(state.characterChoices.characterClass);
+  const archiveBackground = factionToArchive(
+    state.factionWarState.playerFaction,
+  );
+
   const sheet: LivingSheet = useMemo(() => {
     const c = state.characterChoices;
     const level = c.attrAttack + c.attrDefense + c.attrVitality;
@@ -160,12 +180,42 @@ export function LivingCharacterSheet({ profile }: LivingCharacterSheetProps = {}
       transition={{ duration: 0.6, ease: "easeOut" }}
       className="void-surface rounded-xl p-5 relative overflow-hidden"
     >
+      {/* May 2026 archive — faction backplate. Always renders (default
+          "watcher" for unaligned players). Low opacity so the existing
+          void-surface chrome reads on top. */}
+      <img
+        src={characterSheetBackgroundUrl(archiveBackground)}
+        alt=""
+        aria-hidden="true"
+        loading="lazy"
+        className="absolute inset-0 w-full h-full object-cover opacity-[0.18] pointer-events-none"
+      />
+
       {/* Header */}
-      <div className="flex items-baseline gap-3 mb-4 border-b void-border pb-3">
+      <div className="flex items-baseline gap-3 mb-4 border-b void-border pb-3 relative">
         <Sparkles size={14} className="text-primary" />
         <h2 className="font-display text-lg font-bold tracking-wider text-foreground">
           {sheet.citizenName}
         </h2>
+        {/* May 2026 archive species + class icons. Hidden pre-creation
+            (when the player hasn't picked yet). Titles carry the
+            mapped archive label for screen readers. */}
+        {archiveSpecies ? (
+          <img
+            src={characterSheetSpeciesUrls(archiveSpecies).final}
+            alt={`Species: ${archiveSpecies}`}
+            title={`Species: ${archiveSpecies}`}
+            className="w-4 h-4 object-contain"
+          />
+        ) : null}
+        {archiveClass ? (
+          <img
+            src={characterSheetClassUrls(archiveClass).final}
+            alt={`Class: ${archiveClass}`}
+            title={`Class: ${archiveClass}`}
+            className="w-4 h-4 object-contain"
+          />
+        ) : null}
         <span className="font-mono text-xs void-text-dim">
           {sheet.species} · {sheet.characterClass}
         </span>

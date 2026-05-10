@@ -588,6 +588,46 @@ closed by recent PRs:
   exist outside the manifest pipeline. Decide: wire it up or remove the
   comment-only references.
 
+### 8.7.1 Character-sheet taxonomy reconciliation
+
+The May 2026 producer drop ships icons for a slightly different
+species/class/attribute taxonomy than the codebase's enums today.
+The reconciliation is **Option B** (per-author best-fit mapping) —
+documented and pinned by `apps/shared/characterSheetMapping.test.ts`.
+
+| Codebase enum | Archive icon | Narrative rationale |
+|---|---|---|
+| Species `demagi` | `species_hybrid` | Both: between-species, liminal |
+| Species `quarchon` | `species_void_touched` | Both: observer / void-affiliated |
+| Species `neyon` | `species_neyon` | Direct match |
+| Class `engineer` | `class_engineer` | Direct match |
+| Class `assassin` | `class_assassin` | Direct match |
+| Class `oracle` | `class_mystic` | Intuition / spirit archetype |
+| Class `soldier` | `class_warrior` | Combat archetype |
+| Class `spy` | `class_diplomat` | Covert / persuasive ops |
+| Faction-war `"empire"` | `bg_authority` | Lawful imperial frame |
+| Faction-war `"insurgency"` | `bg_insurgency` | Canonical match |
+| Faction-war `null` | `bg_watcher` | Protagonist's default narrative role |
+
+Backgrounds for **dreamer / hierarchy / mechronis / terminus** stay
+reachable via `characterSheetBackgroundUrl()` directly (not yet
+wired to a player-state derivation; available for downstream act
+intros, witnessing transitions, etc).
+
+The 6 attribute icons (agility/charisma/intellect/perception/
+resilience/strength) are **intentionally unmapped** — the codebase's
+3-axis `attrAttack/attrDefense/attrVitality` doesn't fit the 6-axis
+producer set without misleading the player. Reconciling would require
+either expanding `RespecDialog` to 6 axes (DB + save migration) or
+folding the 6 into the existing 3 (loses producer intent). Tracked as:
+
+- [ ] **P2 · Attribute axis reconciliation** · Decide whether to
+  expand `state.characterChoices.attrX` from the current 3-axis
+  set (attack/defense/vitality) to the producer's 6-axis set
+  (agility/charisma/intellect/perception/resilience/strength), or
+  retire the 6-axis archive icons. Touches `RespecDialog`,
+  `LivingCharacterSheet`, save migrations, balance math.
+
 ### 8.8 Recently shipped (24h log — for context)
 
 - ✅ AAA Final Art Archive (5.10.26) — 819 binaries staged under
