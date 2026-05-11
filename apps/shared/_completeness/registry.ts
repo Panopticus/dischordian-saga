@@ -68,6 +68,11 @@ import { checkAxis12StateCoverage } from "./checks/axis12StateCoverage";
 import { checkStoryHookCoverage } from "./checks/storyHookCoverage";
 import { checkHotspotCoverage } from "./checks/hotspotCoverage";
 import { checkRoomReachabilityCoverage } from "./checks/roomReachabilityCoverage";
+import { checkHumanWhisperRoomCoverage } from "./checks/humanWhisperRoomCoverage";
+import { checkMascoteerFileAuthorityCoverage } from "./checks/mascoteerFileAuthorityCoverage";
+import { checkMascoteerFileSurfaceLocation } from "./checks/mascoteerFileSurfaceLocation";
+import { checkWatchersEyesDispatchSurfaceLocation } from "./checks/watchersEyesDispatchSurfaceLocation";
+import { checkHumanReactionRoomCoverage } from "./checks/humanReactionRoomCoverage";
 
 export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
   // ─── Card engine ──────────────────────────────────────────
@@ -591,5 +596,45 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
       "Every deferred space (12 Hellboxes + 7 vehicles + 38 apprentice/pedagogy/berth/guild/Game-Master) has an explicit unlock declaration in apps/shared/roomGating/roomUnlockManifest.ts. Ratcheted; 60 destinations remain gated per their respective subsystems.",
     check: () => checkRoomReachabilityCoverage(),
     ratchet: { target: 0 },
+  },
+  // ─── The Human / four-era surface ────────────────────────────
+  // Beat-H expansion: whispers + Mascoteer files (Era 1) +
+  // Watchers' Eyes dispatches (Era 2) + humanReaction backfill
+  // on the five rooms previously missing the Detective's
+  // banded counter-read. All five checks land at hard parity.
+  {
+    id: "human.whisper_room_coverage",
+    name: "Human whisper room coverage",
+    description:
+      "Every roomId on HUMAN_WHISPERS resolves to a real RoomId in detectiveCommentary.ts (or the any_room sentinel). A whisper referencing a non-existent room silently fails to fire and breaks the pre-Beat-H surface the Reveal video promises.",
+    check: () => checkHumanWhisperRoomCoverage(),
+  },
+  {
+    id: "human.mascoteer_authority_coverage",
+    name: "Mascoteer authority coverage",
+    description:
+      "Every mascoteers[] entry on every MascoteerFile is a canonical Mascoteer id, and every child-Archon name (Vernon/Wanda/Wayne) used in mascoteerFiles.ts also appears in detectiveCommentary.ts so the kid-detective files anchor to the Era-3 Detective surface.",
+    check: () => checkMascoteerFileAuthorityCoverage(),
+  },
+  {
+    id: "human.mascoteer_surface_location",
+    name: "Mascoteer file surface location",
+    description:
+      "Every MascoteerFile.surfaceLocation.{roomId,hotspotId} resolves to a real hotspot in the matching apps/shared/roomMysteries/<room>.ts module. A case wired to a non-existent hotspot never surfaces.",
+    check: () => checkMascoteerFileSurfaceLocation(),
+  },
+  {
+    id: "human.watchers_eyes_dispatch_surface_location",
+    name: "Watchers' Eyes dispatch surface location",
+    description:
+      "Every WatchersEyesDispatch.surfaceLocation resolves to a real hotspot. Same logic as the Mascoteer check; the Elara betrayal dispatch in particular has to land somewhere readable for the Beat-H reveal to work.",
+    check: () => checkWatchersEyesDispatchSurfaceLocation(),
+  },
+  {
+    id: "human.human_reaction_room_coverage",
+    name: "humanReaction room coverage",
+    description:
+      "Every non-template / non-species-exclusive room mystery module under apps/shared/roomMysteries/ contains at least one humanReaction. Locks the gain from the Beat-H expansion: the five rooms backfilled here (chaosForge / elementalNexus / guildSanctum / synthesisChamber / socialHub) cannot regress.",
+    check: () => checkHumanReactionRoomCoverage(),
   },
 ];

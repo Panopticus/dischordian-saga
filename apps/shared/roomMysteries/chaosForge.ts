@@ -32,6 +32,17 @@ export const CHAOS_FORGE_MYSTERY: RoomMysteryModule<ChaosForgeHotspotId> = {
           source: "chaos-forge",
           order: 0,
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Wanda calibrates by wobble. She always has. The forge is her lie-detector at industrial scale.",
+            balanced:
+              "Wanda Wyrlord built it that way on purpose. The asymmetry is a calibration she taught herself before she had a name for what she was doing — she reads a forge the way another smith reads a face. The Chaos Forge is, in effect, her tell.",
+            warm:
+              "She showed me, once, where the wobble lives. I am not going to tell you. She trusted me with that at twelve and she has trusted me with it ever since. The fact that the forge still wobbles means she still trusts me. I am, very quietly, glad of that.",
+          },
+          voId: "detective.chaos-forge.chaos-anvil.look",
+        },
       },
       use: {
         narration:
@@ -63,6 +74,17 @@ export const CHAOS_FORGE_MYSTERY: RoomMysteryModule<ChaosForgeHotspotId> = {
             "The Chaos Forge's entropy-vat boils unpredictably; every tempering is a negotiation rather than a recipe. The vat is the philosophical opposite of the Order Tribunal's institutional bench — the two systems do not agree, by deliberate ship-architecture design.",
           source: "chaos-forge",
           order: 1,
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "The vat is the room's argument with the Tribunal. Don't take a side. The argument is the whole point.",
+            balanced:
+              "Two rooms on the same ship, one for recipe and one for refusal. Lyra wanted both standing. She did not want the player to pick. The vat is here to keep the Tribunal honest, and the Tribunal is here to keep the vat from drifting into chaos for its own sake.",
+            warm:
+              "The vat reminds me, embarrassingly, of the kind of argument I used to lose at twelve. Wanda would propose a method. Wayne would propose an audit. They were both right. The grown-up version of being friends with both of them is letting both rooms stand.",
+          },
+          voId: "detective.chaos-forge.entropy-vat.look",
         },
       },
       use: {

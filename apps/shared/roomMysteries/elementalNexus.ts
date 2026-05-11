@@ -32,6 +32,17 @@ export const ELEMENTAL_NEXUS_MYSTERY: RoomMysteryModule<ElementalNexusHotspotId>
           source: "elemental-nexus",
           order: 0,
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "The empty centre wants a witness. Stand there long enough and the model performs for you. The performance is the case.",
+            balanced:
+              "The orrery's audience position is a Lyra design — a model is only honest when it knows who is watching. The Ne-Yon hybrids occupy the position cosmologically. Today, in this room, you occupy it physically. The model is performing for you specifically.",
+            warm:
+              "I used to stand in the audience position myself, when this ship was new and I was on a different assignment, and the model would steady when it noticed me. It is doing the same for you now. There is a kind of welcome in it that the rest of the deck cannot offer.",
+          },
+          voId: "detective.elemental-nexus.elemental-orrery.look",
+        },
       },
       use: {
         narration:
@@ -63,6 +74,17 @@ export const ELEMENTAL_NEXUS_MYSTERY: RoomMysteryModule<ElementalNexusHotspotId>
             "The Elemental Nexus's node-pillar holds three of eight element-discs (earth, water, time). The discs are a navigational aid per Lyra Vox's bridge notes — half-assembled, the pillar is half-functional. Whoever was assembling them is presumably the same person Lyra trusted with the case (likely Wraith Calder).",
           source: "elemental-nexus",
           order: 1,
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Three of eight. Whoever was assembling them stopped on purpose. The stop is the case.",
+            balanced:
+              "Wraith Calder was three discs in when Lyra died and he left the assembly where it stood. He could have finished it — the remaining five discs are not, by any catalogue we have, missing. He chose to leave the pillar half-built. The unfinished work is the marker.",
+            warm:
+              "Wraith left it for the person who would finish reading Lyra's notes. He has waited two centuries for that person. He has, on the dating of the visitor-log, been okay with the wait. He is not, today, going to mind that the person is you.",
+          },
+          voId: "detective.elemental-nexus.node-pillar.look",
         },
       },
       use: {
