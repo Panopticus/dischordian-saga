@@ -32,6 +32,17 @@ export const SOCIAL_HUB_MYSTERY: RoomMysteryModule<SocialHubHotspotId> = {
           source: "social-hub",
           order: 0,
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Re-pinned every year. By different hands. Nobody on the original crew is doing the pinning anymore.",
+            balanced:
+              "Continuity by relay. The bulletin-board's memorial-reading notice is a quietly load-bearing artefact — the date survives because the residents agree, generation by generation, to honour it. The Editor can edit a record. He cannot edit a habit.",
+            warm:
+              "I have re-pinned this notice myself in years when the resident who normally did it was new. The act is small. It is also, on this ship, one of the only small acts that has been done every year, every cycle, without fail. Lyra would be proud of the chain. She would also, characteristically, refuse to take credit for it.",
+          },
+          voId: "detective.social-hub.bulletin-board.look",
+        },
       },
       use: {
         narration:
@@ -62,6 +73,17 @@ export const SOCIAL_HUB_MYSTERY: RoomMysteryModule<SocialHubHotspotId> = {
             "The Social Hub's mess-table is set with mismatched plates and cups — Lyra Vox's discipline that no two crew members ate from identical equipment. The same anti-anonymity discipline runs through every Lyra-designed room on the ship. The Editor's method requires the anonymity Lyra refused.",
           source: "social-hub",
           order: 1,
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Four chairs at one table once. Don't ask me about that. The answer is in a file I haven't filed.",
+            balanced:
+              "Mismatched settings, anti-anonymous by design. Lyra would have hated the kind of mess hall where everyone gets the same plate. She believed the meal was the place where a person was most easily forgotten — the cup is the correction. I had a table like this once, with three other kids, in a place none of them remember.",
+            warm:
+              "There were four of us at a table once. Four chairs, four mismatched cups. We used to argue about whose was whose. None of them remember that table now. I am, on the evidence of the cups in this room, allowed to remember it for them. Lyra designed this room so the act of remembering would still be possible after the original four had forgotten. I have not, on any visit, failed to use the room for that.",
+          },
+          voId: "detective.social-hub.mess-table.look",
         },
       },
       use: {

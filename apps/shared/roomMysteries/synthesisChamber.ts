@@ -32,6 +32,17 @@ export const SYNTHESIS_CHAMBER_MYSTERY: RoomMysteryModule<SynthesisChamberHotspo
           source: "synthesis-chamber",
           order: 0,
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Quiet partner. Medical bay gets the credit, the larder does the work. Most rooms on this ship are organised that way.",
+            balanced:
+              "The chamber is one of three rooms whose absence would, in twenty hours, kill everyone aboard. Nobody on the crew knew this. Lyra's design preference: keep the load-bearing rooms invisible so they don't accumulate political weight.",
+            warm:
+              "Lyra used to say the chamber was the medical bay's spine and that spines should not be advertised. I have, over the centuries, found that to be true about more things than the synthesis chamber. The room is doing the work right now. It has not, in two centuries, asked for thanks.",
+          },
+          voId: "detective.synthesis-chamber.synth-vat.look",
+        },
       },
       use: {
         narration:
@@ -63,6 +74,17 @@ export const SYNTHESIS_CHAMBER_MYSTERY: RoomMysteryModule<SynthesisChamberHotspo
             "The Synthesis Chamber's recipe-board lists 'Substrate-N. RESTRICTED. DO NOT SYNTHESISE WITHOUT CAPTAIN PRESENT' as its newest entry, dated the last week of Lyra Vox's command. The recipe's method is deliberately withheld — written by Wraith Calder, who refused to commit it to record the same way Lyra refused to commit the suspect's name to the Conspiracy Board.",
           source: "synthesis-chamber",
           order: 1,
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Substrate-N. Name without method. The withholding is the entry's whole point. Don't try to derive the recipe.",
+            balanced:
+              "Wraith committed the name and not the method on purpose. Lyra committed the suspect's discipline and not the suspect's name on the Conspiracy Board for the same reason — the records exist so future readers know to ask the right question, not so the records do the asking for them.",
+            warm:
+              "I have stood in front of this board several times across the centuries trying to decide whether to fill in the method myself. I have not, on any visit, done it. Wraith and Lyra were right to leave the line clean. We can read what they left without finishing it for them.",
+          },
+          voId: "detective.synthesis-chamber.recipe-board.look",
         },
       },
       use: {

@@ -32,6 +32,17 @@ export const GUILD_SANCTUM_MYSTERY: RoomMysteryModule<GuildSanctumHotspotId> = {
           source: "guild-sanctum",
           order: 0,
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Crossed-through, not scrubbed. The Editor cannot touch this room because Lyra didn't let him. That is not a small thing.",
+            balanced:
+              "The altar is one of about four surfaces on the ship the Editor has never been able to revise. The reason is procedural — Lyra wrote a rule, and the room enforces the rule physically. Most editorial defenses are textual; this one is engineered.",
+            warm:
+              "There are alliances on this altar I helped Lyra negotiate, including a few that have since been crossed through. The crossings are correct. I would not want them erased. The altar honours the work by refusing to forget the parts of it that failed.",
+          },
+          voId: "detective.guild-sanctum.sigil-altar.look",
+        },
       },
       use: {
         narration:
@@ -62,6 +73,17 @@ export const GUILD_SANCTUM_MYSTERY: RoomMysteryModule<GuildSanctumHotspotId> = {
             "The Guild Sanctum's allegiance-pad records every visitor's current allegiances when they step onto it — Lyra's rule of honest archiving (readers leave a fingerprint). The Editor's method is to read without leaving a fingerprint. The pad is editor-resistant by design.",
           source: "guild-sanctum",
           order: 1,
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Readers leave a fingerprint. That is the rule. The Editor refuses the rule. The pad refuses the Editor in return.",
+            balanced:
+              "Step onto the pad and you become readable. That is the room's whole contract. Lyra's discipline was that you should not be allowed to consult an archive without becoming part of it. The Editor's method depends on the opposite — reading without authoring. The pad is, in effect, the room's silent disagreement with him.",
+            warm:
+              "I have stepped on this pad more times than I can count, in more allegiance configurations than I am comfortable with. Every fingerprint is on file. The room is still willing to let me speak. That is a kind of grace I did not earn cleanly.",
+          },
+          voId: "detective.guild-sanctum.allegiance-pad.look",
         },
       },
       use: {
