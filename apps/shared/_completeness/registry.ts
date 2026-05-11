@@ -65,6 +65,7 @@ import { checkRoomAssetCoverage } from "./checks/roomAssetCoverage";
 import { checkAxis9StateCoverage } from "./checks/axis9StateCoverage";
 import { checkAxis11StateCoverage } from "./checks/axis11StateCoverage";
 import { checkAxis12StateCoverage } from "./checks/axis12StateCoverage";
+import { checkStoryHookCoverage } from "./checks/storyHookCoverage";
 
 export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
   // ─── Card engine ──────────────────────────────────────────
@@ -549,5 +550,17 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
       "Every room with any faction-axis variant in the producer library should ideally have all 8 canonical faction states (none/hierarchy/dreamers/pureflame/insurgency/panopticon/collectors/multi). Producer-art delivers selective coverage (46 faction-axis variants total). compositeResolver degrades gracefully.",
     check: () => checkAxis12StateCoverage(),
     ratchet: { target: 0 },
+  },
+  {
+    // Phase H.G — Axis 13 storyteller-hook registry coverage.
+    // Hard parity: every producer-axis-13 variant (everything outside
+    // axis 9/11/12/baseline) is auto-registered in storyHookRegistry.
+    // Seed extraction is exhaustive; new producer-art passes that
+    // land new axis-13 variants must regenerate the registry.
+    id: "art.story_hook_coverage",
+    name: "Axis 13 storyteller-hook registry coverage",
+    description:
+      "Every producer-axis-13 state variant in the room-art manifest (morality / season / trust / lore / etc.) is registered as a StoryHook. Hard parity: gap > 0 means a producer-art pass landed new variants the registry hasn't been regenerated for.",
+    check: () => checkStoryHookCoverage(),
   },
 ];
