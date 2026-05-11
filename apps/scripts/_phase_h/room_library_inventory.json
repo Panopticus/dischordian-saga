@@ -1,0 +1,3426 @@
+{
+  "antiquarians_library": {
+    "zip_dir": "antiquarians_library",
+    "baseline": "baseline.png",
+    "state_count": 13,
+    "states": [
+      {
+        "filename": "state_battlepass_winter.png",
+        "axis": "battlepass",
+        "value": "winter",
+        "stem": "battlepass_winter"
+      },
+      {
+        "filename": "state_cycle_longnight.png",
+        "axis": "cycle",
+        "value": "longnight",
+        "stem": "cycle_longnight"
+      },
+      {
+        "filename": "state_epoch_shadowtongue.png",
+        "axis": "epoch",
+        "value": "shadowtongue",
+        "stem": "epoch_shadowtongue"
+      },
+      {
+        "filename": "state_governance_lore_unlock.png",
+        "axis": "governance",
+        "value": "lore_unlock",
+        "stem": "governance_lore_unlock"
+      },
+      {
+        "filename": "state_investigation_tier.png",
+        "axis": "investigation",
+        "value": "tier",
+        "stem": "investigation_tier"
+      },
+      {
+        "filename": "state_lore_hierophant_complete.png",
+        "axis": "lore",
+        "value": "hierophant_complete",
+        "stem": "lore_hierophant_complete"
+      },
+      {
+        "filename": "state_lore_recipe_archive.png",
+        "axis": "lore",
+        "value": "recipe_archive",
+        "stem": "lore_recipe_archive"
+      },
+      {
+        "filename": "state_lore_tome_discovered.png",
+        "axis": "lore",
+        "value": "tome_discovered",
+        "stem": "lore_tome_discovered"
+      },
+      {
+        "filename": "state_morality_dark.png",
+        "axis": "morality",
+        "value": "dark",
+        "stem": "morality_dark"
+      },
+      {
+        "filename": "state_reveal_daniel_cross.png",
+        "axis": "reveal",
+        "value": "daniel_cross",
+        "stem": "reveal_daniel_cross"
+      },
+      {
+        "filename": "state_season_closing.png",
+        "axis": "season",
+        "value": "closing",
+        "stem": "season_closing"
+      },
+      {
+        "filename": "state_unlock_conexus.png",
+        "axis": "unlock",
+        "value": "conexus",
+        "stem": "unlock_conexus"
+      },
+      {
+        "filename": "state_unlock_vault.png",
+        "axis": "unlock",
+        "value": "vault",
+        "stem": "unlock_vault"
+      }
+    ]
+  },
+  "apprentice_berth": {
+    "zip_dir": "apprentice_berth",
+    "baseline": "baseline.png",
+    "state_count": 8,
+    "states": [
+      {
+        "filename": "state_act_tier2.png",
+        "axis": "act",
+        "value": "tier2",
+        "stem": "act_tier2"
+      },
+      {
+        "filename": "state_act_tier5.png",
+        "axis": "act",
+        "value": "tier5",
+        "stem": "act_tier5"
+      },
+      {
+        "filename": "state_act_tier7.png",
+        "axis": "act",
+        "value": "tier7",
+        "stem": "act_tier7"
+      },
+      {
+        "filename": "state_faction_insurgency.png",
+        "axis": "faction",
+        "value": "insurgency",
+        "stem": "faction_insurgency"
+      },
+      {
+        "filename": "state_irl_winter.png",
+        "axis": "irl",
+        "value": "winter",
+        "stem": "irl_winter"
+      },
+      {
+        "filename": "state_morality_dark.png",
+        "axis": "morality",
+        "value": "dark",
+        "stem": "morality_dark"
+      },
+      {
+        "filename": "state_season_interregnum.png",
+        "axis": "season",
+        "value": "interregnum",
+        "stem": "season_interregnum"
+      },
+      {
+        "filename": "state_tv_corrupted.png",
+        "axis": "tv",
+        "value": "corrupted",
+        "stem": "tv_corrupted"
+      }
+    ]
+  },
+  "archives": {
+    "zip_dir": "archives",
+    "baseline": "baseline.png",
+    "state_count": 14,
+    "states": [
+      {
+        "filename": "state_act_tier_2.png",
+        "axis": "act",
+        "value": "tier_2",
+        "stem": "act_tier_2"
+      },
+      {
+        "filename": "state_battlepass_winter.png",
+        "axis": "battlepass",
+        "value": "winter",
+        "stem": "battlepass_winter"
+      },
+      {
+        "filename": "state_companion_trust.png",
+        "axis": "companion",
+        "value": "trust",
+        "stem": "companion_trust"
+      },
+      {
+        "filename": "state_cycle_longnight.png",
+        "axis": "cycle",
+        "value": "longnight",
+        "stem": "cycle_longnight"
+      },
+      {
+        "filename": "state_epoch_shadowtongue.png",
+        "axis": "epoch",
+        "value": "shadowtongue",
+        "stem": "epoch_shadowtongue"
+      },
+      {
+        "filename": "state_faction_antiquarian.png",
+        "axis": "faction",
+        "value": "antiquarian",
+        "stem": "faction_antiquarian"
+      },
+      {
+        "filename": "state_governance_lore_unlock.png",
+        "axis": "governance",
+        "value": "lore_unlock",
+        "stem": "governance_lore_unlock"
+      },
+      {
+        "filename": "state_investigation_tier.png",
+        "axis": "investigation",
+        "value": "tier",
+        "stem": "investigation_tier"
+      },
+      {
+        "filename": "state_lore_shadowtongue.png",
+        "axis": "lore",
+        "value": "shadowtongue",
+        "stem": "lore_shadowtongue"
+      },
+      {
+        "filename": "state_morality_dark.png",
+        "axis": "morality",
+        "value": "dark",
+        "stem": "morality_dark"
+      },
+      {
+        "filename": "state_season_closing.png",
+        "axis": "season",
+        "value": "closing",
+        "stem": "season_closing"
+      },
+      {
+        "filename": "state_trust_shelfmate.png",
+        "axis": "trust",
+        "value": "shelfmate",
+        "stem": "trust_shelfmate"
+      },
+      {
+        "filename": "state_tv_spreading.png",
+        "axis": "tv",
+        "value": "spreading",
+        "stem": "tv_spreading"
+      },
+      {
+        "filename": "state_unlock_loredex.png",
+        "axis": "unlock",
+        "value": "loredex",
+        "stem": "unlock_loredex"
+      }
+    ]
+  },
+  "armory": {
+    "zip_dir": "armory",
+    "baseline": "baseline.png",
+    "state_count": 13,
+    "states": [
+      {
+        "filename": "state_act_tier_3.png",
+        "axis": "act",
+        "value": "tier_3",
+        "stem": "act_tier_3"
+      },
+      {
+        "filename": "state_act_tier_5.png",
+        "axis": "act",
+        "value": "tier_5",
+        "stem": "act_tier_5"
+      },
+      {
+        "filename": "state_battlepass_winter.png",
+        "axis": "battlepass",
+        "value": "winter",
+        "stem": "battlepass_winter"
+      },
+      {
+        "filename": "state_cycle_longnight.png",
+        "axis": "cycle",
+        "value": "longnight",
+        "stem": "cycle_longnight"
+      },
+      {
+        "filename": "state_epoch_shadowtongue.png",
+        "axis": "epoch",
+        "value": "shadowtongue",
+        "stem": "epoch_shadowtongue"
+      },
+      {
+        "filename": "state_faction_authority.png",
+        "axis": "faction",
+        "value": "authority",
+        "stem": "faction_authority"
+      },
+      {
+        "filename": "state_faction_insurgency.png",
+        "axis": "faction",
+        "value": "insurgency",
+        "stem": "faction_insurgency"
+      },
+      {
+        "filename": "state_governance_quarantine.png",
+        "axis": "governance",
+        "value": "quarantine",
+        "stem": "governance_quarantine"
+      },
+      {
+        "filename": "state_investigation_tier.png",
+        "axis": "investigation",
+        "value": "tier",
+        "stem": "investigation_tier"
+      },
+      {
+        "filename": "state_morality_dark.png",
+        "axis": "morality",
+        "value": "dark",
+        "stem": "morality_dark"
+      },
+      {
+        "filename": "state_trust_jericho.png",
+        "axis": "trust",
+        "value": "jericho",
+        "stem": "trust_jericho"
+      },
+      {
+        "filename": "state_tv_spreading.png",
+        "axis": "tv",
+        "value": "spreading",
+        "stem": "tv_spreading"
+      },
+      {
+        "filename": "state_unlock_combat.png",
+        "axis": "unlock",
+        "value": "combat",
+        "stem": "unlock_combat"
+      }
+    ]
+  },
+  "auction_house": {
+    "zip_dir": "auction_house",
+    "baseline": "baseline.png",
+    "state_count": 8,
+    "states": [
+      {
+        "filename": "state_battlepass_winter.png",
+        "axis": "battlepass",
+        "value": "winter",
+        "stem": "battlepass_winter"
+      },
+      {
+        "filename": "state_cycle_longnight.png",
+        "axis": "cycle",
+        "value": "longnight",
+        "stem": "cycle_longnight"
+      },
+      {
+        "filename": "state_epoch_shadowtongue.png",
+        "axis": "epoch",
+        "value": "shadowtongue",
+        "stem": "epoch_shadowtongue"
+      },
+      {
+        "filename": "state_faction_authority.png",
+        "axis": "faction",
+        "value": "authority",
+        "stem": "faction_authority"
+      },
+      {
+        "filename": "state_governance_event.png",
+        "axis": "governance",
+        "value": "event",
+        "stem": "governance_event"
+      },
+      {
+        "filename": "state_investigation_tier.png",
+        "axis": "investigation",
+        "value": "tier",
+        "stem": "investigation_tier"
+      },
+      {
+        "filename": "state_morality_dark.png",
+        "axis": "morality",
+        "value": "dark",
+        "stem": "morality_dark"
+      },
+      {
+        "filename": "state_tv_spreading.png",
+        "axis": "tv",
+        "value": "spreading",
+        "stem": "tv_spreading"
+      }
+    ]
+  },
+  "bridge": {
+    "zip_dir": "bridge",
+    "baseline": "baseline.png",
+    "state_count": 14,
+    "states": [
+      {
+        "filename": "state_act_tier_2.png",
+        "axis": "act",
+        "value": "tier_2",
+        "stem": "act_tier_2"
+      },
+      {
+        "filename": "state_battlepass_winter.png",
+        "axis": "battlepass",
+        "value": "winter",
+        "stem": "battlepass_winter"
+      },
+      {
+        "filename": "state_cycle_longnight.png",
+        "axis": "cycle",
+        "value": "longnight",
+        "stem": "cycle_longnight"
+      },
+      {
+        "filename": "state_epoch_shadowtongue.png",
+        "axis": "epoch",
+        "value": "shadowtongue",
+        "stem": "epoch_shadowtongue"
+      },
+      {
+        "filename": "state_faction_authority.png",
+        "axis": "faction",
+        "value": "authority",
+        "stem": "faction_authority"
+      },
+      {
+        "filename": "state_faction_insurgency.png",
+        "axis": "faction",
+        "value": "insurgency",
+        "stem": "faction_insurgency"
+      },
+      {
+        "filename": "state_governance_vote.png",
+        "axis": "governance",
+        "value": "vote",
+        "stem": "governance_vote"
+      },
+      {
+        "filename": "state_investigation_tier.png",
+        "axis": "investigation",
+        "value": "tier",
+        "stem": "investigation_tier"
+      },
+      {
+        "filename": "state_lore_elara_senator.png",
+        "axis": "lore",
+        "value": "elara_senator",
+        "stem": "lore_elara_senator"
+      },
+      {
+        "filename": "state_morality_dark.png",
+        "axis": "morality",
+        "value": "dark",
+        "stem": "morality_dark"
+      },
+      {
+        "filename": "state_season_closing.png",
+        "axis": "season",
+        "value": "closing",
+        "stem": "season_closing"
+      },
+      {
+        "filename": "state_trust_elara_luminous.png",
+        "axis": "trust",
+        "value": "elara_luminous",
+        "stem": "trust_elara_luminous"
+      },
+      {
+        "filename": "state_tv_spreading.png",
+        "axis": "tv",
+        "value": "spreading",
+        "stem": "tv_spreading"
+      },
+      {
+        "filename": "state_unlock_trade_empire.png",
+        "axis": "unlock",
+        "value": "trade_empire",
+        "stem": "unlock_trade_empire"
+      }
+    ]
+  },
+  "cades_console": {
+    "zip_dir": "cades_console",
+    "baseline": "baseline.png",
+    "state_count": 8,
+    "states": [
+      {
+        "filename": "state_act_tier2.png",
+        "axis": "act",
+        "value": "tier2",
+        "stem": "act_tier2"
+      },
+      {
+        "filename": "state_act_tier5.png",
+        "axis": "act",
+        "value": "tier5",
+        "stem": "act_tier5"
+      },
+      {
+        "filename": "state_act_tier7.png",
+        "axis": "act",
+        "value": "tier7",
+        "stem": "act_tier7"
+      },
+      {
+        "filename": "state_faction_authority.png",
+        "axis": "faction",
+        "value": "authority",
+        "stem": "faction_authority"
+      },
+      {
+        "filename": "state_irl_winter.png",
+        "axis": "irl",
+        "value": "winter",
+        "stem": "irl_winter"
+      },
+      {
+        "filename": "state_morality_dark.png",
+        "axis": "morality",
+        "value": "dark",
+        "stem": "morality_dark"
+      },
+      {
+        "filename": "state_season_interregnum.png",
+        "axis": "season",
+        "value": "interregnum",
+        "stem": "season_interregnum"
+      },
+      {
+        "filename": "state_tv_corrupted.png",
+        "axis": "tv",
+        "value": "corrupted",
+        "stem": "tv_corrupted"
+      }
+    ]
+  },
+  "captains_quarters": {
+    "zip_dir": "captains_quarters",
+    "baseline": "baseline.png",
+    "state_count": 13,
+    "states": [
+      {
+        "filename": "state_act_tier_1.png",
+        "axis": "act",
+        "value": "tier_1",
+        "stem": "act_tier_1"
+      },
+      {
+        "filename": "state_act_tier_3.png",
+        "axis": "act",
+        "value": "tier_3",
+        "stem": "act_tier_3"
+      },
+      {
+        "filename": "state_act_tier_5.png",
+        "axis": "act",
+        "value": "tier_5",
+        "stem": "act_tier_5"
+      },
+      {
+        "filename": "state_battlepass_winter.png",
+        "axis": "battlepass",
+        "value": "winter",
+        "stem": "battlepass_winter"
+      },
+      {
+        "filename": "state_cycle_longnight.png",
+        "axis": "cycle",
+        "value": "longnight",
+        "stem": "cycle_longnight"
+      },
+      {
+        "filename": "state_epoch_shadowtongue.png",
+        "axis": "epoch",
+        "value": "shadowtongue",
+        "stem": "epoch_shadowtongue"
+      },
+      {
+        "filename": "state_governance_vote.png",
+        "axis": "governance",
+        "value": "vote",
+        "stem": "governance_vote"
+      },
+      {
+        "filename": "state_investigation_tier.png",
+        "axis": "investigation",
+        "value": "tier",
+        "stem": "investigation_tier"
+      },
+      {
+        "filename": "state_lore_captain_kael.png",
+        "axis": "lore",
+        "value": "captain_kael",
+        "stem": "lore_captain_kael"
+      },
+      {
+        "filename": "state_morality_dark.png",
+        "axis": "morality",
+        "value": "dark",
+        "stem": "morality_dark"
+      },
+      {
+        "filename": "state_trust_dmc_wary.png",
+        "axis": "trust",
+        "value": "dmc_wary",
+        "stem": "trust_dmc_wary"
+      },
+      {
+        "filename": "state_tv_spreading.png",
+        "axis": "tv",
+        "value": "spreading",
+        "stem": "tv_spreading"
+      },
+      {
+        "filename": "state_unlock_companion_hub.png",
+        "axis": "unlock",
+        "value": "companion_hub",
+        "stem": "unlock_companion_hub"
+      }
+    ]
+  },
+  "cargo_hold": {
+    "zip_dir": "cargo_hold",
+    "baseline": "baseline.png",
+    "state_count": 13,
+    "states": [
+      {
+        "filename": "state_act_tier_2.png",
+        "axis": "act",
+        "value": "tier_2",
+        "stem": "act_tier_2"
+      },
+      {
+        "filename": "state_act_tier_4.png",
+        "axis": "act",
+        "value": "tier_4",
+        "stem": "act_tier_4"
+      },
+      {
+        "filename": "state_battlepass_winter.png",
+        "axis": "battlepass",
+        "value": "winter",
+        "stem": "battlepass_winter"
+      },
+      {
+        "filename": "state_cycle_longnight.png",
+        "axis": "cycle",
+        "value": "longnight",
+        "stem": "cycle_longnight"
+      },
+      {
+        "filename": "state_epoch_shadowtongue.png",
+        "axis": "epoch",
+        "value": "shadowtongue",
+        "stem": "epoch_shadowtongue"
+      },
+      {
+        "filename": "state_faction_authority.png",
+        "axis": "faction",
+        "value": "authority",
+        "stem": "faction_authority"
+      },
+      {
+        "filename": "state_governance_trade.png",
+        "axis": "governance",
+        "value": "trade",
+        "stem": "governance_trade"
+      },
+      {
+        "filename": "state_investigation_tier.png",
+        "axis": "investigation",
+        "value": "tier",
+        "stem": "investigation_tier"
+      },
+      {
+        "filename": "state_morality_dark.png",
+        "axis": "morality",
+        "value": "dark",
+        "stem": "morality_dark"
+      },
+      {
+        "filename": "state_season_interregnum.png",
+        "axis": "season",
+        "value": "interregnum",
+        "stem": "season_interregnum"
+      },
+      {
+        "filename": "state_tv_corrupted.png",
+        "axis": "tv",
+        "value": "corrupted",
+        "stem": "tv_corrupted"
+      },
+      {
+        "filename": "state_tv_spreading.png",
+        "axis": "tv",
+        "value": "spreading",
+        "stem": "tv_spreading"
+      },
+      {
+        "filename": "state_unlock_cosmetic.png",
+        "axis": "unlock",
+        "value": "cosmetic",
+        "stem": "unlock_cosmetic"
+      }
+    ]
+  },
+  "casino_floor": {
+    "zip_dir": "casino_floor",
+    "baseline": "baseline.png",
+    "state_count": 8,
+    "states": [
+      {
+        "filename": "state_act_tier2.png",
+        "axis": "act",
+        "value": "tier2",
+        "stem": "act_tier2"
+      },
+      {
+        "filename": "state_act_tier5.png",
+        "axis": "act",
+        "value": "tier5",
+        "stem": "act_tier5"
+      },
+      {
+        "filename": "state_act_tier7.png",
+        "axis": "act",
+        "value": "tier7",
+        "stem": "act_tier7"
+      },
+      {
+        "filename": "state_faction_insurgency.png",
+        "axis": "faction",
+        "value": "insurgency",
+        "stem": "faction_insurgency"
+      },
+      {
+        "filename": "state_irl_winter.png",
+        "axis": "irl",
+        "value": "winter",
+        "stem": "irl_winter"
+      },
+      {
+        "filename": "state_morality_dark.png",
+        "axis": "morality",
+        "value": "dark",
+        "stem": "morality_dark"
+      },
+      {
+        "filename": "state_season_interregnum.png",
+        "axis": "season",
+        "value": "interregnum",
+        "stem": "season_interregnum"
+      },
+      {
+        "filename": "state_tv_corrupted.png",
+        "axis": "tv",
+        "value": "corrupted",
+        "stem": "tv_corrupted"
+      }
+    ]
+  },
+  "chaos_forge": {
+    "zip_dir": "chaos_forge",
+    "baseline": "baseline.png",
+    "state_count": 9,
+    "states": [
+      {
+        "filename": "state_battlepass_winter.png",
+        "axis": "battlepass",
+        "value": "winter",
+        "stem": "battlepass_winter"
+      },
+      {
+        "filename": "state_cycle_longnight.png",
+        "axis": "cycle",
+        "value": "longnight",
+        "stem": "cycle_longnight"
+      },
+      {
+        "filename": "state_epoch_shadowtongue.png",
+        "axis": "epoch",
+        "value": "shadowtongue",
+        "stem": "epoch_shadowtongue"
+      },
+      {
+        "filename": "state_faction_enemied.png",
+        "axis": "faction",
+        "value": "enemied",
+        "stem": "faction_enemied"
+      },
+      {
+        "filename": "state_governance_boost.png",
+        "axis": "governance",
+        "value": "boost",
+        "stem": "governance_boost"
+      },
+      {
+        "filename": "state_investigation_tier.png",
+        "axis": "investigation",
+        "value": "tier",
+        "stem": "investigation_tier"
+      },
+      {
+        "filename": "state_morality_dark.png",
+        "axis": "morality",
+        "value": "dark",
+        "stem": "morality_dark"
+      },
+      {
+        "filename": "state_tv_corrupted.png",
+        "axis": "tv",
+        "value": "corrupted",
+        "stem": "tv_corrupted"
+      },
+      {
+        "filename": "state_tv_spreading.png",
+        "axis": "tv",
+        "value": "spreading",
+        "stem": "tv_spreading"
+      }
+    ]
+  },
+  "chess_hall": {
+    "zip_dir": "chess_hall",
+    "baseline": "baseline.png",
+    "state_count": 8,
+    "states": [
+      {
+        "filename": "state_act_tier2.png",
+        "axis": "act",
+        "value": "tier2",
+        "stem": "act_tier2"
+      },
+      {
+        "filename": "state_act_tier5.png",
+        "axis": "act",
+        "value": "tier5",
+        "stem": "act_tier5"
+      },
+      {
+        "filename": "state_act_tier7.png",
+        "axis": "act",
+        "value": "tier7",
+        "stem": "act_tier7"
+      },
+      {
+        "filename": "state_faction_hierarchy.png",
+        "axis": "faction",
+        "value": "hierarchy",
+        "stem": "faction_hierarchy"
+      },
+      {
+        "filename": "state_irl_winter.png",
+        "axis": "irl",
+        "value": "winter",
+        "stem": "irl_winter"
+      },
+      {
+        "filename": "state_morality_dark.png",
+        "axis": "morality",
+        "value": "dark",
+        "stem": "morality_dark"
+      },
+      {
+        "filename": "state_season_interregnum.png",
+        "axis": "season",
+        "value": "interregnum",
+        "stem": "season_interregnum"
+      },
+      {
+        "filename": "state_tv_corrupted.png",
+        "axis": "tv",
+        "value": "corrupted",
+        "stem": "tv_corrupted"
+      }
+    ]
+  },
+  "cipher_den": {
+    "zip_dir": "cipher_den",
+    "baseline": "baseline.png",
+    "state_count": 8,
+    "states": [
+      {
+        "filename": "state_battlepass_winter.png",
+        "axis": "battlepass",
+        "value": "winter",
+        "stem": "battlepass_winter"
+      },
+      {
+        "filename": "state_cycle_longnight.png",
+        "axis": "cycle",
+        "value": "longnight",
+        "stem": "cycle_longnight"
+      },
+      {
+        "filename": "state_epoch_shadowtongue.png",
+        "axis": "epoch",
+        "value": "shadowtongue",
+        "stem": "epoch_shadowtongue"
+      },
+      {
+        "filename": "state_faction_insurgency.png",
+        "axis": "faction",
+        "value": "insurgency",
+        "stem": "faction_insurgency"
+      },
+      {
+        "filename": "state_governance_uncorruption.png",
+        "axis": "governance",
+        "value": "uncorruption",
+        "stem": "governance_uncorruption"
+      },
+      {
+        "filename": "state_investigation_tier.png",
+        "axis": "investigation",
+        "value": "tier",
+        "stem": "investigation_tier"
+      },
+      {
+        "filename": "state_morality_dark.png",
+        "axis": "morality",
+        "value": "dark",
+        "stem": "morality_dark"
+      },
+      {
+        "filename": "state_tv_spreading.png",
+        "axis": "tv",
+        "value": "spreading",
+        "stem": "tv_spreading"
+      }
+    ]
+  },
+  "comms_array": {
+    "zip_dir": "comms_array",
+    "baseline": "baseline.png",
+    "state_count": 13,
+    "states": [
+      {
+        "filename": "state_act_tier_2.png",
+        "axis": "act",
+        "value": "tier_2",
+        "stem": "act_tier_2"
+      },
+      {
+        "filename": "state_battlepass_winter.png",
+        "axis": "battlepass",
+        "value": "winter",
+        "stem": "battlepass_winter"
+      },
+      {
+        "filename": "state_cycle_longnight.png",
+        "axis": "cycle",
+        "value": "longnight",
+        "stem": "cycle_longnight"
+      },
+      {
+        "filename": "state_epoch_shadowtongue.png",
+        "axis": "epoch",
+        "value": "shadowtongue",
+        "stem": "epoch_shadowtongue"
+      },
+      {
+        "filename": "state_faction_insurgency.png",
+        "axis": "faction",
+        "value": "insurgency",
+        "stem": "faction_insurgency"
+      },
+      {
+        "filename": "state_governance_blackout.png",
+        "axis": "governance",
+        "value": "blackout",
+        "stem": "governance_blackout"
+      },
+      {
+        "filename": "state_human_reveal_ghost.png",
+        "axis": "human",
+        "value": "reveal_ghost",
+        "stem": "human_reveal_ghost"
+      },
+      {
+        "filename": "state_investigation_tier.png",
+        "axis": "investigation",
+        "value": "tier",
+        "stem": "investigation_tier"
+      },
+      {
+        "filename": "state_morality_dark.png",
+        "axis": "morality",
+        "value": "dark",
+        "stem": "morality_dark"
+      },
+      {
+        "filename": "state_season_closing.png",
+        "axis": "season",
+        "value": "closing",
+        "stem": "season_closing"
+      },
+      {
+        "filename": "state_trust_human_warm.png",
+        "axis": "trust",
+        "value": "human_warm",
+        "stem": "trust_human_warm"
+      },
+      {
+        "filename": "state_tv_spreading.png",
+        "axis": "tv",
+        "value": "spreading",
+        "stem": "tv_spreading"
+      },
+      {
+        "filename": "state_unlock_cipher_den.png",
+        "axis": "unlock",
+        "value": "cipher_den",
+        "stem": "unlock_cipher_den"
+      }
+    ]
+  },
+  "cryo_bay": {
+    "zip_dir": "cryo_bay",
+    "baseline": "baseline.png",
+    "state_count": 13,
+    "states": [
+      {
+        "filename": "state_act_tier_2.png",
+        "axis": "act",
+        "value": "tier_2",
+        "stem": "act_tier_2"
+      },
+      {
+        "filename": "state_battlepass_winter.png",
+        "axis": "battlepass",
+        "value": "winter",
+        "stem": "battlepass_winter"
+      },
+      {
+        "filename": "state_companion_trust.png",
+        "axis": "companion",
+        "value": "trust",
+        "stem": "companion_trust"
+      },
+      {
+        "filename": "state_cycle_longnight.png",
+        "axis": "cycle",
+        "value": "longnight",
+        "stem": "cycle_longnight"
+      },
+      {
+        "filename": "state_epoch_shadowtongue.png",
+        "axis": "epoch",
+        "value": "shadowtongue",
+        "stem": "epoch_shadowtongue"
+      },
+      {
+        "filename": "state_faction_insurgency.png",
+        "axis": "faction",
+        "value": "insurgency",
+        "stem": "faction_insurgency"
+      },
+      {
+        "filename": "state_governance_quarantine.png",
+        "axis": "governance",
+        "value": "quarantine",
+        "stem": "governance_quarantine"
+      },
+      {
+        "filename": "state_lore_ark_origins.png",
+        "axis": "lore",
+        "value": "ark_origins",
+        "stem": "lore_ark_origins"
+      },
+      {
+        "filename": "state_morality_dark.png",
+        "axis": "morality",
+        "value": "dark",
+        "stem": "morality_dark"
+      },
+      {
+        "filename": "state_season_closing.png",
+        "axis": "season",
+        "value": "closing",
+        "stem": "season_closing"
+      },
+      {
+        "filename": "state_system_unlock_crew.png",
+        "axis": "system",
+        "value": "unlock_crew",
+        "stem": "system_unlock_crew"
+      },
+      {
+        "filename": "state_trust_elara_luminous.png",
+        "axis": "trust",
+        "value": "elara_luminous",
+        "stem": "trust_elara_luminous"
+      },
+      {
+        "filename": "state_tv_spreading.png",
+        "axis": "tv",
+        "value": "spreading",
+        "stem": "tv_spreading"
+      }
+    ]
+  },
+  "daily_resource_board": {
+    "zip_dir": "daily_resource_board",
+    "baseline": "baseline.png",
+    "state_count": 8,
+    "states": [
+      {
+        "filename": "state_act_tier2.png",
+        "axis": "act",
+        "value": "tier2",
+        "stem": "act_tier2"
+      },
+      {
+        "filename": "state_act_tier5.png",
+        "axis": "act",
+        "value": "tier5",
+        "stem": "act_tier5"
+      },
+      {
+        "filename": "state_act_tier7.png",
+        "axis": "act",
+        "value": "tier7",
+        "stem": "act_tier7"
+      },
+      {
+        "filename": "state_faction_authority.png",
+        "axis": "faction",
+        "value": "authority",
+        "stem": "faction_authority"
+      },
+      {
+        "filename": "state_irl_winter.png",
+        "axis": "irl",
+        "value": "winter",
+        "stem": "irl_winter"
+      },
+      {
+        "filename": "state_morality_dark.png",
+        "axis": "morality",
+        "value": "dark",
+        "stem": "morality_dark"
+      },
+      {
+        "filename": "state_season_interregnum.png",
+        "axis": "season",
+        "value": "interregnum",
+        "stem": "season_interregnum"
+      },
+      {
+        "filename": "state_tv_corrupted.png",
+        "axis": "tv",
+        "value": "corrupted",
+        "stem": "tv_corrupted"
+      }
+    ]
+  },
+  "defense_command_center": {
+    "zip_dir": "defense_command_center",
+    "baseline": "baseline.png",
+    "state_count": 8,
+    "states": [
+      {
+        "filename": "state_act_tier2.png",
+        "axis": "act",
+        "value": "tier2",
+        "stem": "act_tier2"
+      },
+      {
+        "filename": "state_act_tier5.png",
+        "axis": "act",
+        "value": "tier5",
+        "stem": "act_tier5"
+      },
+      {
+        "filename": "state_act_tier7.png",
+        "axis": "act",
+        "value": "tier7",
+        "stem": "act_tier7"
+      },
+      {
+        "filename": "state_faction_authority.png",
+        "axis": "faction",
+        "value": "authority",
+        "stem": "faction_authority"
+      },
+      {
+        "filename": "state_irl_winter.png",
+        "axis": "irl",
+        "value": "winter",
+        "stem": "irl_winter"
+      },
+      {
+        "filename": "state_morality_dark.png",
+        "axis": "morality",
+        "value": "dark",
+        "stem": "morality_dark"
+      },
+      {
+        "filename": "state_season_interregnum.png",
+        "axis": "season",
+        "value": "interregnum",
+        "stem": "season_interregnum"
+      },
+      {
+        "filename": "state_tv_corrupted.png",
+        "axis": "tv",
+        "value": "corrupted",
+        "stem": "tv_corrupted"
+      }
+    ]
+  },
+  "dreamers_sanctum": {
+    "zip_dir": "dreamers_sanctum",
+    "baseline": "baseline.png",
+    "state_count": 8,
+    "states": [
+      {
+        "filename": "state_battlepass_winter.png",
+        "axis": "battlepass",
+        "value": "winter",
+        "stem": "battlepass_winter"
+      },
+      {
+        "filename": "state_cycle_longnight.png",
+        "axis": "cycle",
+        "value": "longnight",
+        "stem": "cycle_longnight"
+      },
+      {
+        "filename": "state_epoch_shadowtongue.png",
+        "axis": "epoch",
+        "value": "shadowtongue",
+        "stem": "epoch_shadowtongue"
+      },
+      {
+        "filename": "state_governance_blessing.png",
+        "axis": "governance",
+        "value": "blessing",
+        "stem": "governance_blessing"
+      },
+      {
+        "filename": "state_investigation_tier.png",
+        "axis": "investigation",
+        "value": "tier",
+        "stem": "investigation_tier"
+      },
+      {
+        "filename": "state_morality_dark.png",
+        "axis": "morality",
+        "value": "dark",
+        "stem": "morality_dark"
+      },
+      {
+        "filename": "state_tv_corrupted.png",
+        "axis": "tv",
+        "value": "corrupted",
+        "stem": "tv_corrupted"
+      },
+      {
+        "filename": "state_tv_spreading.png",
+        "axis": "tv",
+        "value": "spreading",
+        "stem": "tv_spreading"
+      }
+    ]
+  },
+  "eidolon_sanctum": {
+    "zip_dir": "eidolon_sanctum",
+    "baseline": "baseline.png",
+    "state_count": 5,
+    "states": [
+      {
+        "filename": "state_act_tier2.png",
+        "axis": "act",
+        "value": "tier2",
+        "stem": "act_tier2"
+      },
+      {
+        "filename": "state_act_tier5.png",
+        "axis": "act",
+        "value": "tier5",
+        "stem": "act_tier5"
+      },
+      {
+        "filename": "state_faction_dreamer.png",
+        "axis": "faction",
+        "value": "dreamer",
+        "stem": "faction_dreamer"
+      },
+      {
+        "filename": "state_morality_dark.png",
+        "axis": "morality",
+        "value": "dark",
+        "stem": "morality_dark"
+      },
+      {
+        "filename": "state_tv_corrupted.png",
+        "axis": "tv",
+        "value": "corrupted",
+        "stem": "tv_corrupted"
+      }
+    ]
+  },
+  "elemental_nexus": {
+    "zip_dir": "elemental_nexus",
+    "baseline": "baseline.png",
+    "state_count": 8,
+    "states": [
+      {
+        "filename": "state_battlepass_winter.png",
+        "axis": "battlepass",
+        "value": "winter",
+        "stem": "battlepass_winter"
+      },
+      {
+        "filename": "state_cycle_longnight.png",
+        "axis": "cycle",
+        "value": "longnight",
+        "stem": "cycle_longnight"
+      },
+      {
+        "filename": "state_epoch_shadowtongue.png",
+        "axis": "epoch",
+        "value": "shadowtongue",
+        "stem": "epoch_shadowtongue"
+      },
+      {
+        "filename": "state_governance_blessing.png",
+        "axis": "governance",
+        "value": "blessing",
+        "stem": "governance_blessing"
+      },
+      {
+        "filename": "state_investigation_tier.png",
+        "axis": "investigation",
+        "value": "tier",
+        "stem": "investigation_tier"
+      },
+      {
+        "filename": "state_morality_dark.png",
+        "axis": "morality",
+        "value": "dark",
+        "stem": "morality_dark"
+      },
+      {
+        "filename": "state_tv_corrupted.png",
+        "axis": "tv",
+        "value": "corrupted",
+        "stem": "tv_corrupted"
+      },
+      {
+        "filename": "state_tv_spreading.png",
+        "axis": "tv",
+        "value": "spreading",
+        "stem": "tv_spreading"
+      }
+    ]
+  },
+  "engineering_bay": {
+    "zip_dir": "engineering_bay",
+    "baseline": "baseline.png",
+    "state_count": 13,
+    "states": [
+      {
+        "filename": "state_act_tier_3.png",
+        "axis": "act",
+        "value": "tier_3",
+        "stem": "act_tier_3"
+      },
+      {
+        "filename": "state_battlepass_winter.png",
+        "axis": "battlepass",
+        "value": "winter",
+        "stem": "battlepass_winter"
+      },
+      {
+        "filename": "state_cycle_longnight.png",
+        "axis": "cycle",
+        "value": "longnight",
+        "stem": "cycle_longnight"
+      },
+      {
+        "filename": "state_epoch_shadowtongue.png",
+        "axis": "epoch",
+        "value": "shadowtongue",
+        "stem": "epoch_shadowtongue"
+      },
+      {
+        "filename": "state_faction_insurgency.png",
+        "axis": "faction",
+        "value": "insurgency",
+        "stem": "faction_insurgency"
+      },
+      {
+        "filename": "state_governance_quarantine.png",
+        "axis": "governance",
+        "value": "quarantine",
+        "stem": "governance_quarantine"
+      },
+      {
+        "filename": "state_investigation_tier.png",
+        "axis": "investigation",
+        "value": "tier",
+        "stem": "investigation_tier"
+      },
+      {
+        "filename": "state_lore_shadowtongue_complete.png",
+        "axis": "lore",
+        "value": "shadowtongue_complete",
+        "stem": "lore_shadowtongue_complete"
+      },
+      {
+        "filename": "state_morality_dark.png",
+        "axis": "morality",
+        "value": "dark",
+        "stem": "morality_dark"
+      },
+      {
+        "filename": "state_trust_shadowtongue.png",
+        "axis": "trust",
+        "value": "shadowtongue",
+        "stem": "trust_shadowtongue"
+      },
+      {
+        "filename": "state_tv_spreading.png",
+        "axis": "tv",
+        "value": "spreading",
+        "stem": "tv_spreading"
+      },
+      {
+        "filename": "state_unlock_chaos.png",
+        "axis": "unlock",
+        "value": "chaos",
+        "stem": "unlock_chaos"
+      },
+      {
+        "filename": "state_unlock_crafting.png",
+        "axis": "unlock",
+        "value": "crafting",
+        "stem": "unlock_crafting"
+      }
+    ]
+  },
+  "engineering_core": {
+    "zip_dir": "engineering_core",
+    "baseline": "baseline.png",
+    "state_count": 9,
+    "states": [
+      {
+        "filename": "state_battlepass_winter.png",
+        "axis": "battlepass",
+        "value": "winter",
+        "stem": "battlepass_winter"
+      },
+      {
+        "filename": "state_cycle_longnight.png",
+        "axis": "cycle",
+        "value": "longnight",
+        "stem": "cycle_longnight"
+      },
+      {
+        "filename": "state_epoch_shadowtongue.png",
+        "axis": "epoch",
+        "value": "shadowtongue",
+        "stem": "epoch_shadowtongue"
+      },
+      {
+        "filename": "state_faction_ironlions.png",
+        "axis": "faction",
+        "value": "ironlions",
+        "stem": "faction_ironlions"
+      },
+      {
+        "filename": "state_governance_combat.png",
+        "axis": "governance",
+        "value": "combat",
+        "stem": "governance_combat"
+      },
+      {
+        "filename": "state_governance_quarantine.png",
+        "axis": "governance",
+        "value": "quarantine",
+        "stem": "governance_quarantine"
+      },
+      {
+        "filename": "state_investigation_tier.png",
+        "axis": "investigation",
+        "value": "tier",
+        "stem": "investigation_tier"
+      },
+      {
+        "filename": "state_morality_dark.png",
+        "axis": "morality",
+        "value": "dark",
+        "stem": "morality_dark"
+      },
+      {
+        "filename": "state_tv_spreading.png",
+        "axis": "tv",
+        "value": "spreading",
+        "stem": "tv_spreading"
+      }
+    ]
+  },
+  "epoch_witness_conclave": {
+    "zip_dir": "epoch_witness_conclave",
+    "baseline": "baseline.png",
+    "state_count": 8,
+    "states": [
+      {
+        "filename": "state_act_tier2.png",
+        "axis": "act",
+        "value": "tier2",
+        "stem": "act_tier2"
+      },
+      {
+        "filename": "state_act_tier5.png",
+        "axis": "act",
+        "value": "tier5",
+        "stem": "act_tier5"
+      },
+      {
+        "filename": "state_act_tier7.png",
+        "axis": "act",
+        "value": "tier7",
+        "stem": "act_tier7"
+      },
+      {
+        "filename": "state_faction_watcher.png",
+        "axis": "faction",
+        "value": "watcher",
+        "stem": "faction_watcher"
+      },
+      {
+        "filename": "state_irl_winter.png",
+        "axis": "irl",
+        "value": "winter",
+        "stem": "irl_winter"
+      },
+      {
+        "filename": "state_morality_dark.png",
+        "axis": "morality",
+        "value": "dark",
+        "stem": "morality_dark"
+      },
+      {
+        "filename": "state_season_interregnum.png",
+        "axis": "season",
+        "value": "interregnum",
+        "stem": "season_interregnum"
+      },
+      {
+        "filename": "state_tv_corrupted.png",
+        "axis": "tv",
+        "value": "corrupted",
+        "stem": "tv_corrupted"
+      }
+    ]
+  },
+  "faction_succession_monument": {
+    "zip_dir": "faction_succession_monument",
+    "baseline": "baseline.png",
+    "state_count": 8,
+    "states": [
+      {
+        "filename": "state_act_tier2.png",
+        "axis": "act",
+        "value": "tier2",
+        "stem": "act_tier2"
+      },
+      {
+        "filename": "state_act_tier5.png",
+        "axis": "act",
+        "value": "tier5",
+        "stem": "act_tier5"
+      },
+      {
+        "filename": "state_act_tier7.png",
+        "axis": "act",
+        "value": "tier7",
+        "stem": "act_tier7"
+      },
+      {
+        "filename": "state_faction_hierarchy.png",
+        "axis": "faction",
+        "value": "hierarchy",
+        "stem": "faction_hierarchy"
+      },
+      {
+        "filename": "state_irl_winter.png",
+        "axis": "irl",
+        "value": "winter",
+        "stem": "irl_winter"
+      },
+      {
+        "filename": "state_morality_dark.png",
+        "axis": "morality",
+        "value": "dark",
+        "stem": "morality_dark"
+      },
+      {
+        "filename": "state_season_interregnum.png",
+        "axis": "season",
+        "value": "interregnum",
+        "stem": "season_interregnum"
+      },
+      {
+        "filename": "state_tv_corrupted.png",
+        "axis": "tv",
+        "value": "corrupted",
+        "stem": "tv_corrupted"
+      }
+    ]
+  },
+  "forge_workshop": {
+    "zip_dir": "forge_workshop",
+    "baseline": "baseline.png",
+    "state_count": 13,
+    "states": [
+      {
+        "filename": "state_act_tier_3.png",
+        "axis": "act",
+        "value": "tier_3",
+        "stem": "act_tier_3"
+      },
+      {
+        "filename": "state_act_tier_7.png",
+        "axis": "act",
+        "value": "tier_7",
+        "stem": "act_tier_7"
+      },
+      {
+        "filename": "state_battlepass_winter.png",
+        "axis": "battlepass",
+        "value": "winter",
+        "stem": "battlepass_winter"
+      },
+      {
+        "filename": "state_cycle_longnight.png",
+        "axis": "cycle",
+        "value": "longnight",
+        "stem": "cycle_longnight"
+      },
+      {
+        "filename": "state_epoch_shadowtongue.png",
+        "axis": "epoch",
+        "value": "shadowtongue",
+        "stem": "epoch_shadowtongue"
+      },
+      {
+        "filename": "state_faction_insurgency.png",
+        "axis": "faction",
+        "value": "insurgency",
+        "stem": "faction_insurgency"
+      },
+      {
+        "filename": "state_governance_quarantine.png",
+        "axis": "governance",
+        "value": "quarantine",
+        "stem": "governance_quarantine"
+      },
+      {
+        "filename": "state_investigation_tier.png",
+        "axis": "investigation",
+        "value": "tier",
+        "stem": "investigation_tier"
+      },
+      {
+        "filename": "state_morality_dark.png",
+        "axis": "morality",
+        "value": "dark",
+        "stem": "morality_dark"
+      },
+      {
+        "filename": "state_tv_corrupted.png",
+        "axis": "tv",
+        "value": "corrupted",
+        "stem": "tv_corrupted"
+      },
+      {
+        "filename": "state_tv_spreading.png",
+        "axis": "tv",
+        "value": "spreading",
+        "stem": "tv_spreading"
+      },
+      {
+        "filename": "state_unlock_apprentice.png",
+        "axis": "unlock",
+        "value": "apprentice",
+        "stem": "unlock_apprentice"
+      },
+      {
+        "filename": "state_unlock_mastered.png",
+        "axis": "unlock",
+        "value": "mastered",
+        "stem": "unlock_mastered"
+      }
+    ]
+  },
+  "game_masters_sanctum": {
+    "zip_dir": "game_masters_sanctum",
+    "baseline": "baseline.png",
+    "state_count": 8,
+    "states": [
+      {
+        "filename": "state_act_tier2.png",
+        "axis": "act",
+        "value": "tier2",
+        "stem": "act_tier2"
+      },
+      {
+        "filename": "state_act_tier5.png",
+        "axis": "act",
+        "value": "tier5",
+        "stem": "act_tier5"
+      },
+      {
+        "filename": "state_act_tier7.png",
+        "axis": "act",
+        "value": "tier7",
+        "stem": "act_tier7"
+      },
+      {
+        "filename": "state_faction_hierarchy.png",
+        "axis": "faction",
+        "value": "hierarchy",
+        "stem": "faction_hierarchy"
+      },
+      {
+        "filename": "state_irl_winter.png",
+        "axis": "irl",
+        "value": "winter",
+        "stem": "irl_winter"
+      },
+      {
+        "filename": "state_morality_dark.png",
+        "axis": "morality",
+        "value": "dark",
+        "stem": "morality_dark"
+      },
+      {
+        "filename": "state_season_interregnum.png",
+        "axis": "season",
+        "value": "interregnum",
+        "stem": "season_interregnum"
+      },
+      {
+        "filename": "state_tv_corrupted.png",
+        "axis": "tv",
+        "value": "corrupted",
+        "stem": "tv_corrupted"
+      }
+    ]
+  },
+  "governance_chamber": {
+    "zip_dir": "governance_chamber",
+    "baseline": "baseline.png",
+    "state_count": 8,
+    "states": [
+      {
+        "filename": "state_act_tier2.png",
+        "axis": "act",
+        "value": "tier2",
+        "stem": "act_tier2"
+      },
+      {
+        "filename": "state_act_tier5.png",
+        "axis": "act",
+        "value": "tier5",
+        "stem": "act_tier5"
+      },
+      {
+        "filename": "state_act_tier7.png",
+        "axis": "act",
+        "value": "tier7",
+        "stem": "act_tier7"
+      },
+      {
+        "filename": "state_faction_authority.png",
+        "axis": "faction",
+        "value": "authority",
+        "stem": "faction_authority"
+      },
+      {
+        "filename": "state_irl_winter.png",
+        "axis": "irl",
+        "value": "winter",
+        "stem": "irl_winter"
+      },
+      {
+        "filename": "state_morality_dark.png",
+        "axis": "morality",
+        "value": "dark",
+        "stem": "morality_dark"
+      },
+      {
+        "filename": "state_season_interregnum.png",
+        "axis": "season",
+        "value": "interregnum",
+        "stem": "season_interregnum"
+      },
+      {
+        "filename": "state_tv_corrupted.png",
+        "axis": "tv",
+        "value": "corrupted",
+        "stem": "tv_corrupted"
+      }
+    ]
+  },
+  "grand_masters_sanctum": {
+    "zip_dir": "grand_masters_sanctum",
+    "baseline": "baseline.png",
+    "state_count": 8,
+    "states": [
+      {
+        "filename": "state_act_tier2.png",
+        "axis": "act",
+        "value": "tier2",
+        "stem": "act_tier2"
+      },
+      {
+        "filename": "state_act_tier5.png",
+        "axis": "act",
+        "value": "tier5",
+        "stem": "act_tier5"
+      },
+      {
+        "filename": "state_act_tier7.png",
+        "axis": "act",
+        "value": "tier7",
+        "stem": "act_tier7"
+      },
+      {
+        "filename": "state_faction_hierarchy.png",
+        "axis": "faction",
+        "value": "hierarchy",
+        "stem": "faction_hierarchy"
+      },
+      {
+        "filename": "state_irl_winter.png",
+        "axis": "irl",
+        "value": "winter",
+        "stem": "irl_winter"
+      },
+      {
+        "filename": "state_morality_dark.png",
+        "axis": "morality",
+        "value": "dark",
+        "stem": "morality_dark"
+      },
+      {
+        "filename": "state_season_interregnum.png",
+        "axis": "season",
+        "value": "interregnum",
+        "stem": "season_interregnum"
+      },
+      {
+        "filename": "state_tv_corrupted.png",
+        "axis": "tv",
+        "value": "corrupted",
+        "stem": "tv_corrupted"
+      }
+    ]
+  },
+  "guild_sanctum": {
+    "zip_dir": "guild_sanctum",
+    "baseline": "baseline.png",
+    "state_count": 13,
+    "states": [
+      {
+        "filename": "state_battlepass_winter.png",
+        "axis": "battlepass",
+        "value": "winter",
+        "stem": "battlepass_winter"
+      },
+      {
+        "filename": "state_cycle_longnight.png",
+        "axis": "cycle",
+        "value": "longnight",
+        "stem": "cycle_longnight"
+      },
+      {
+        "filename": "state_epoch_shadowtongue.png",
+        "axis": "epoch",
+        "value": "shadowtongue",
+        "stem": "epoch_shadowtongue"
+      },
+      {
+        "filename": "state_event_succession.png",
+        "axis": "event",
+        "value": "succession",
+        "stem": "event_succession"
+      },
+      {
+        "filename": "state_faction_insurgency.png",
+        "axis": "faction",
+        "value": "insurgency",
+        "stem": "faction_insurgency"
+      },
+      {
+        "filename": "state_governance_treasury.png",
+        "axis": "governance",
+        "value": "treasury",
+        "stem": "governance_treasury"
+      },
+      {
+        "filename": "state_investigation_tier.png",
+        "axis": "investigation",
+        "value": "tier",
+        "stem": "investigation_tier"
+      },
+      {
+        "filename": "state_morality_dark.png",
+        "axis": "morality",
+        "value": "dark",
+        "stem": "morality_dark"
+      },
+      {
+        "filename": "state_season_closing.png",
+        "axis": "season",
+        "value": "closing",
+        "stem": "season_closing"
+      },
+      {
+        "filename": "state_season_interregnum.png",
+        "axis": "season",
+        "value": "interregnum",
+        "stem": "season_interregnum"
+      },
+      {
+        "filename": "state_tv_spreading.png",
+        "axis": "tv",
+        "value": "spreading",
+        "stem": "tv_spreading"
+      },
+      {
+        "filename": "state_unlock_tier_2.png",
+        "axis": "unlock",
+        "value": "tier_2",
+        "stem": "unlock_tier_2"
+      },
+      {
+        "filename": "state_unlock_tier_5.png",
+        "axis": "unlock",
+        "value": "tier_5",
+        "stem": "unlock_tier_5"
+      }
+    ]
+  },
+  "hierarchy_throne": {
+    "zip_dir": "hierarchy_throne",
+    "baseline": "baseline.png",
+    "state_count": 10,
+    "states": [
+      {
+        "filename": "state_battlepass_winter.png",
+        "axis": "battlepass",
+        "value": "winter",
+        "stem": "battlepass_winter"
+      },
+      {
+        "filename": "state_cycle_longnight.png",
+        "axis": "cycle",
+        "value": "longnight",
+        "stem": "cycle_longnight"
+      },
+      {
+        "filename": "state_epoch_shadowtongue.png",
+        "axis": "epoch",
+        "value": "shadowtongue",
+        "stem": "epoch_shadowtongue"
+      },
+      {
+        "filename": "state_faction_hierarchy.png",
+        "axis": "faction",
+        "value": "hierarchy",
+        "stem": "faction_hierarchy"
+      },
+      {
+        "filename": "state_governance_blessing.png",
+        "axis": "governance",
+        "value": "blessing",
+        "stem": "governance_blessing"
+      },
+      {
+        "filename": "state_hellbox_active.png",
+        "axis": "hellbox",
+        "value": "active",
+        "stem": "hellbox_active"
+      },
+      {
+        "filename": "state_investigation_tier.png",
+        "axis": "investigation",
+        "value": "tier",
+        "stem": "investigation_tier"
+      },
+      {
+        "filename": "state_morality_dark.png",
+        "axis": "morality",
+        "value": "dark",
+        "stem": "morality_dark"
+      },
+      {
+        "filename": "state_tv_corrupted.png",
+        "axis": "tv",
+        "value": "corrupted",
+        "stem": "tv_corrupted"
+      },
+      {
+        "filename": "state_tv_spreading.png",
+        "axis": "tv",
+        "value": "spreading",
+        "stem": "tv_spreading"
+      }
+    ]
+  },
+  "medical_bay": {
+    "zip_dir": "medical_bay",
+    "baseline": "baseline.png",
+    "state_count": 14,
+    "states": [
+      {
+        "filename": "state_act_tier_2.png",
+        "axis": "act",
+        "value": "tier_2",
+        "stem": "act_tier_2"
+      },
+      {
+        "filename": "state_battlepass_winter.png",
+        "axis": "battlepass",
+        "value": "winter",
+        "stem": "battlepass_winter"
+      },
+      {
+        "filename": "state_companion_trust.png",
+        "axis": "companion",
+        "value": "trust",
+        "stem": "companion_trust"
+      },
+      {
+        "filename": "state_cycle_longnight.png",
+        "axis": "cycle",
+        "value": "longnight",
+        "stem": "cycle_longnight"
+      },
+      {
+        "filename": "state_epoch_shadowtongue.png",
+        "axis": "epoch",
+        "value": "shadowtongue",
+        "stem": "epoch_shadowtongue"
+      },
+      {
+        "filename": "state_faction_hierarchy.png",
+        "axis": "faction",
+        "value": "hierarchy",
+        "stem": "faction_hierarchy"
+      },
+      {
+        "filename": "state_governance_quarantine.png",
+        "axis": "governance",
+        "value": "quarantine",
+        "stem": "governance_quarantine"
+      },
+      {
+        "filename": "state_investigation_device_awakened.png",
+        "axis": "investigation",
+        "value": "device_awakened",
+        "stem": "investigation_device_awakened"
+      },
+      {
+        "filename": "state_lore_research_vessel.png",
+        "axis": "lore",
+        "value": "research_vessel",
+        "stem": "lore_research_vessel"
+      },
+      {
+        "filename": "state_morality_dark.png",
+        "axis": "morality",
+        "value": "dark",
+        "stem": "morality_dark"
+      },
+      {
+        "filename": "state_season_closing.png",
+        "axis": "season",
+        "value": "closing",
+        "stem": "season_closing"
+      },
+      {
+        "filename": "state_trust_vex_confidant.png",
+        "axis": "trust",
+        "value": "vex_confidant",
+        "stem": "trust_vex_confidant"
+      },
+      {
+        "filename": "state_tv_spreading.png",
+        "axis": "tv",
+        "value": "spreading",
+        "stem": "tv_spreading"
+      },
+      {
+        "filename": "state_unlock_hellbox.png",
+        "axis": "unlock",
+        "value": "hellbox",
+        "stem": "unlock_hellbox"
+      }
+    ]
+  },
+  "meditation_garden": {
+    "zip_dir": "meditation_garden",
+    "baseline": "baseline.png",
+    "state_count": 8,
+    "states": [
+      {
+        "filename": "state_battlepass_winter.png",
+        "axis": "battlepass",
+        "value": "winter",
+        "stem": "battlepass_winter"
+      },
+      {
+        "filename": "state_cycle_longnight.png",
+        "axis": "cycle",
+        "value": "longnight",
+        "stem": "cycle_longnight"
+      },
+      {
+        "filename": "state_epoch_shadowtongue.png",
+        "axis": "epoch",
+        "value": "shadowtongue",
+        "stem": "epoch_shadowtongue"
+      },
+      {
+        "filename": "state_governance_harmony.png",
+        "axis": "governance",
+        "value": "harmony",
+        "stem": "governance_harmony"
+      },
+      {
+        "filename": "state_investigation_tier.png",
+        "axis": "investigation",
+        "value": "tier",
+        "stem": "investigation_tier"
+      },
+      {
+        "filename": "state_morality_dark.png",
+        "axis": "morality",
+        "value": "dark",
+        "stem": "morality_dark"
+      },
+      {
+        "filename": "state_tv_corrupted.png",
+        "axis": "tv",
+        "value": "corrupted",
+        "stem": "tv_corrupted"
+      },
+      {
+        "filename": "state_tv_spreading.png",
+        "axis": "tv",
+        "value": "spreading",
+        "stem": "tv_spreading"
+      }
+    ]
+  },
+  "memorial_corridor": {
+    "zip_dir": "memorial_corridor",
+    "baseline": "baseline.png",
+    "state_count": 7,
+    "states": [
+      {
+        "filename": "state_battlepass_winter.png",
+        "axis": "battlepass",
+        "value": "winter",
+        "stem": "battlepass_winter"
+      },
+      {
+        "filename": "state_cycle_longnight.png",
+        "axis": "cycle",
+        "value": "longnight",
+        "stem": "cycle_longnight"
+      },
+      {
+        "filename": "state_epoch_shadowtongue.png",
+        "axis": "epoch",
+        "value": "shadowtongue",
+        "stem": "epoch_shadowtongue"
+      },
+      {
+        "filename": "state_governance_memorial.png",
+        "axis": "governance",
+        "value": "memorial",
+        "stem": "governance_memorial"
+      },
+      {
+        "filename": "state_investigation_tier.png",
+        "axis": "investigation",
+        "value": "tier",
+        "stem": "investigation_tier"
+      },
+      {
+        "filename": "state_morality_dark.png",
+        "axis": "morality",
+        "value": "dark",
+        "stem": "morality_dark"
+      },
+      {
+        "filename": "state_tv_spreading.png",
+        "axis": "tv",
+        "value": "spreading",
+        "stem": "tv_spreading"
+      }
+    ]
+  },
+  "nexus_point_sanctum": {
+    "zip_dir": "nexus_point_sanctum",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "observation_deck": {
+    "zip_dir": "observation_deck",
+    "baseline": "baseline.png",
+    "state_count": 13,
+    "states": [
+      {
+        "filename": "state_act_tier_2.png",
+        "axis": "act",
+        "value": "tier_2",
+        "stem": "act_tier_2"
+      },
+      {
+        "filename": "state_battlepass_winter.png",
+        "axis": "battlepass",
+        "value": "winter",
+        "stem": "battlepass_winter"
+      },
+      {
+        "filename": "state_cycle_longnight.png",
+        "axis": "cycle",
+        "value": "longnight",
+        "stem": "cycle_longnight"
+      },
+      {
+        "filename": "state_epoch_shadowtongue.png",
+        "axis": "epoch",
+        "value": "shadowtongue",
+        "stem": "epoch_shadowtongue"
+      },
+      {
+        "filename": "state_faction_dreamer.png",
+        "axis": "faction",
+        "value": "dreamer",
+        "stem": "faction_dreamer"
+      },
+      {
+        "filename": "state_governance_classified.png",
+        "axis": "governance",
+        "value": "classified",
+        "stem": "governance_classified"
+      },
+      {
+        "filename": "state_investigation_tier.png",
+        "axis": "investigation",
+        "value": "tier",
+        "stem": "investigation_tier"
+      },
+      {
+        "filename": "state_lore_architect.png",
+        "axis": "lore",
+        "value": "architect",
+        "stem": "lore_architect"
+      },
+      {
+        "filename": "state_morality_dark.png",
+        "axis": "morality",
+        "value": "dark",
+        "stem": "morality_dark"
+      },
+      {
+        "filename": "state_season_interregnum.png",
+        "axis": "season",
+        "value": "interregnum",
+        "stem": "season_interregnum"
+      },
+      {
+        "filename": "state_trust_eidolon_resonant.png",
+        "axis": "trust",
+        "value": "eidolon_resonant",
+        "stem": "trust_eidolon_resonant"
+      },
+      {
+        "filename": "state_tv_spreading.png",
+        "axis": "tv",
+        "value": "spreading",
+        "stem": "tv_spreading"
+      },
+      {
+        "filename": "state_unlock_memorial.png",
+        "axis": "unlock",
+        "value": "memorial",
+        "stem": "unlock_memorial"
+      }
+    ]
+  },
+  "oracle_annual_sanctum": {
+    "zip_dir": "oracle_annual_sanctum",
+    "baseline": "baseline.png",
+    "state_count": 8,
+    "states": [
+      {
+        "filename": "state_act_tier2.png",
+        "axis": "act",
+        "value": "tier2",
+        "stem": "act_tier2"
+      },
+      {
+        "filename": "state_act_tier5.png",
+        "axis": "act",
+        "value": "tier5",
+        "stem": "act_tier5"
+      },
+      {
+        "filename": "state_act_tier7.png",
+        "axis": "act",
+        "value": "tier7",
+        "stem": "act_tier7"
+      },
+      {
+        "filename": "state_faction_watcher.png",
+        "axis": "faction",
+        "value": "watcher",
+        "stem": "faction_watcher"
+      },
+      {
+        "filename": "state_irl_winter.png",
+        "axis": "irl",
+        "value": "winter",
+        "stem": "irl_winter"
+      },
+      {
+        "filename": "state_morality_dark.png",
+        "axis": "morality",
+        "value": "dark",
+        "stem": "morality_dark"
+      },
+      {
+        "filename": "state_season_interregnum.png",
+        "axis": "season",
+        "value": "interregnum",
+        "stem": "season_interregnum"
+      },
+      {
+        "filename": "state_tv_corrupted.png",
+        "axis": "tv",
+        "value": "corrupted",
+        "stem": "tv_corrupted"
+      }
+    ]
+  },
+  "oracle_sanctum": {
+    "zip_dir": "oracle_sanctum",
+    "baseline": "baseline.png",
+    "state_count": 9,
+    "states": [
+      {
+        "filename": "state_battlepass_winter.png",
+        "axis": "battlepass",
+        "value": "winter",
+        "stem": "battlepass_winter"
+      },
+      {
+        "filename": "state_cycle_longnight.png",
+        "axis": "cycle",
+        "value": "longnight",
+        "stem": "cycle_longnight"
+      },
+      {
+        "filename": "state_epoch_shadowtongue.png",
+        "axis": "epoch",
+        "value": "shadowtongue",
+        "stem": "epoch_shadowtongue"
+      },
+      {
+        "filename": "state_faction_antiquarian.png",
+        "axis": "faction",
+        "value": "antiquarian",
+        "stem": "faction_antiquarian"
+      },
+      {
+        "filename": "state_governance_blessing.png",
+        "axis": "governance",
+        "value": "blessing",
+        "stem": "governance_blessing"
+      },
+      {
+        "filename": "state_investigation_tier.png",
+        "axis": "investigation",
+        "value": "tier",
+        "stem": "investigation_tier"
+      },
+      {
+        "filename": "state_morality_dark.png",
+        "axis": "morality",
+        "value": "dark",
+        "stem": "morality_dark"
+      },
+      {
+        "filename": "state_tv_corrupted.png",
+        "axis": "tv",
+        "value": "corrupted",
+        "stem": "tv_corrupted"
+      },
+      {
+        "filename": "state_tv_spreading.png",
+        "axis": "tv",
+        "value": "spreading",
+        "stem": "tv_spreading"
+      }
+    ]
+  },
+  "order_tribunal": {
+    "zip_dir": "order_tribunal",
+    "baseline": "baseline.png",
+    "state_count": 8,
+    "states": [
+      {
+        "filename": "state_act_tier2.png",
+        "axis": "act",
+        "value": "tier2",
+        "stem": "act_tier2"
+      },
+      {
+        "filename": "state_act_tier5.png",
+        "axis": "act",
+        "value": "tier5",
+        "stem": "act_tier5"
+      },
+      {
+        "filename": "state_act_tier7.png",
+        "axis": "act",
+        "value": "tier7",
+        "stem": "act_tier7"
+      },
+      {
+        "filename": "state_faction_hierarchy.png",
+        "axis": "faction",
+        "value": "hierarchy",
+        "stem": "faction_hierarchy"
+      },
+      {
+        "filename": "state_irl_winter.png",
+        "axis": "irl",
+        "value": "winter",
+        "stem": "irl_winter"
+      },
+      {
+        "filename": "state_morality_dark.png",
+        "axis": "morality",
+        "value": "dark",
+        "stem": "morality_dark"
+      },
+      {
+        "filename": "state_season_interregnum.png",
+        "axis": "season",
+        "value": "interregnum",
+        "stem": "season_interregnum"
+      },
+      {
+        "filename": "state_tv_corrupted.png",
+        "axis": "tv",
+        "value": "corrupted",
+        "stem": "tv_corrupted"
+      }
+    ]
+  },
+  "pedagogy_hall": {
+    "zip_dir": "pedagogy_hall",
+    "baseline": "baseline.png",
+    "state_count": 8,
+    "states": [
+      {
+        "filename": "state_act_tier2.png",
+        "axis": "act",
+        "value": "tier2",
+        "stem": "act_tier2"
+      },
+      {
+        "filename": "state_act_tier5.png",
+        "axis": "act",
+        "value": "tier5",
+        "stem": "act_tier5"
+      },
+      {
+        "filename": "state_act_tier7.png",
+        "axis": "act",
+        "value": "tier7",
+        "stem": "act_tier7"
+      },
+      {
+        "filename": "state_faction_hierarchy.png",
+        "axis": "faction",
+        "value": "hierarchy",
+        "stem": "faction_hierarchy"
+      },
+      {
+        "filename": "state_irl_winter.png",
+        "axis": "irl",
+        "value": "winter",
+        "stem": "irl_winter"
+      },
+      {
+        "filename": "state_morality_dark.png",
+        "axis": "morality",
+        "value": "dark",
+        "stem": "morality_dark"
+      },
+      {
+        "filename": "state_season_interregnum.png",
+        "axis": "season",
+        "value": "interregnum",
+        "stem": "season_interregnum"
+      },
+      {
+        "filename": "state_tv_corrupted.png",
+        "axis": "tv",
+        "value": "corrupted",
+        "stem": "tv_corrupted"
+      }
+    ]
+  },
+  "personal_quarters": {
+    "zip_dir": "personal_quarters",
+    "baseline": null,
+    "state_count": 0,
+    "states": []
+  },
+  "pet_arena": {
+    "zip_dir": "pet_arena",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "pet_garden": {
+    "zip_dir": "pet_garden",
+    "baseline": "baseline.png",
+    "state_count": 8,
+    "states": [
+      {
+        "filename": "state_act_tier2.png",
+        "axis": "act",
+        "value": "tier2",
+        "stem": "act_tier2"
+      },
+      {
+        "filename": "state_act_tier5.png",
+        "axis": "act",
+        "value": "tier5",
+        "stem": "act_tier5"
+      },
+      {
+        "filename": "state_act_tier7.png",
+        "axis": "act",
+        "value": "tier7",
+        "stem": "act_tier7"
+      },
+      {
+        "filename": "state_faction_dreamer.png",
+        "axis": "faction",
+        "value": "dreamer",
+        "stem": "faction_dreamer"
+      },
+      {
+        "filename": "state_irl_winter.png",
+        "axis": "irl",
+        "value": "winter",
+        "stem": "irl_winter"
+      },
+      {
+        "filename": "state_morality_dark.png",
+        "axis": "morality",
+        "value": "dark",
+        "stem": "morality_dark"
+      },
+      {
+        "filename": "state_season_interregnum.png",
+        "axis": "season",
+        "value": "interregnum",
+        "stem": "season_interregnum"
+      },
+      {
+        "filename": "state_tv_corrupted.png",
+        "axis": "tv",
+        "value": "corrupted",
+        "stem": "tv_corrupted"
+      }
+    ]
+  },
+  "pet_medical_annex": {
+    "zip_dir": "pet_medical_annex",
+    "baseline": "baseline.png",
+    "state_count": 8,
+    "states": [
+      {
+        "filename": "state_act_tier2.png",
+        "axis": "act",
+        "value": "tier2",
+        "stem": "act_tier2"
+      },
+      {
+        "filename": "state_act_tier5.png",
+        "axis": "act",
+        "value": "tier5",
+        "stem": "act_tier5"
+      },
+      {
+        "filename": "state_act_tier7.png",
+        "axis": "act",
+        "value": "tier7",
+        "stem": "act_tier7"
+      },
+      {
+        "filename": "state_faction_mechronis.png",
+        "axis": "faction",
+        "value": "mechronis",
+        "stem": "faction_mechronis"
+      },
+      {
+        "filename": "state_irl_winter.png",
+        "axis": "irl",
+        "value": "winter",
+        "stem": "irl_winter"
+      },
+      {
+        "filename": "state_morality_dark.png",
+        "axis": "morality",
+        "value": "dark",
+        "stem": "morality_dark"
+      },
+      {
+        "filename": "state_season_interregnum.png",
+        "axis": "season",
+        "value": "interregnum",
+        "stem": "season_interregnum"
+      },
+      {
+        "filename": "state_tv_corrupted.png",
+        "axis": "tv",
+        "value": "corrupted",
+        "stem": "tv_corrupted"
+      }
+    ]
+  },
+  "prelude_awakening": {
+    "zip_dir": "prelude_awakening",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "prelude_first_choice": {
+    "zip_dir": "prelude_first_choice",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "prelude_rooms": {
+    "zip_dir": "prelude_rooms",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "prelude_tutorial_corridor": {
+    "zip_dir": "prelude_tutorial_corridor",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "prophecy_wall": {
+    "zip_dir": "prophecy_wall",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "puzzle_study_chamber": {
+    "zip_dir": "puzzle_study_chamber",
+    "baseline": "baseline.png",
+    "state_count": 8,
+    "states": [
+      {
+        "filename": "state_act_tier2.png",
+        "axis": "act",
+        "value": "tier2",
+        "stem": "act_tier2"
+      },
+      {
+        "filename": "state_act_tier5.png",
+        "axis": "act",
+        "value": "tier5",
+        "stem": "act_tier5"
+      },
+      {
+        "filename": "state_act_tier7.png",
+        "axis": "act",
+        "value": "tier7",
+        "stem": "act_tier7"
+      },
+      {
+        "filename": "state_faction_hierarchy.png",
+        "axis": "faction",
+        "value": "hierarchy",
+        "stem": "faction_hierarchy"
+      },
+      {
+        "filename": "state_irl_winter.png",
+        "axis": "irl",
+        "value": "winter",
+        "stem": "irl_winter"
+      },
+      {
+        "filename": "state_morality_dark.png",
+        "axis": "morality",
+        "value": "dark",
+        "stem": "morality_dark"
+      },
+      {
+        "filename": "state_season_interregnum.png",
+        "axis": "season",
+        "value": "interregnum",
+        "stem": "season_interregnum"
+      },
+      {
+        "filename": "state_tv_corrupted.png",
+        "axis": "tv",
+        "value": "corrupted",
+        "stem": "tv_corrupted"
+      }
+    ]
+  },
+  "quantum_lab": {
+    "zip_dir": "quantum_lab",
+    "baseline": "baseline.png",
+    "state_count": 8,
+    "states": [
+      {
+        "filename": "state_battlepass_winter.png",
+        "axis": "battlepass",
+        "value": "winter",
+        "stem": "battlepass_winter"
+      },
+      {
+        "filename": "state_cycle_longnight.png",
+        "axis": "cycle",
+        "value": "longnight",
+        "stem": "cycle_longnight"
+      },
+      {
+        "filename": "state_epoch_shadowtongue.png",
+        "axis": "epoch",
+        "value": "shadowtongue",
+        "stem": "epoch_shadowtongue"
+      },
+      {
+        "filename": "state_governance_stabilized.png",
+        "axis": "governance",
+        "value": "stabilized",
+        "stem": "governance_stabilized"
+      },
+      {
+        "filename": "state_investigation_tier.png",
+        "axis": "investigation",
+        "value": "tier",
+        "stem": "investigation_tier"
+      },
+      {
+        "filename": "state_morality_dark.png",
+        "axis": "morality",
+        "value": "dark",
+        "stem": "morality_dark"
+      },
+      {
+        "filename": "state_tv_corrupted.png",
+        "axis": "tv",
+        "value": "corrupted",
+        "stem": "tv_corrupted"
+      },
+      {
+        "filename": "state_tv_spreading.png",
+        "axis": "tv",
+        "value": "spreading",
+        "stem": "tv_spreading"
+      }
+    ]
+  },
+  "reactor_control": {
+    "zip_dir": "reactor_control",
+    "baseline": "baseline.png",
+    "state_count": 8,
+    "states": [
+      {
+        "filename": "state_act_tier2.png",
+        "axis": "act",
+        "value": "tier2",
+        "stem": "act_tier2"
+      },
+      {
+        "filename": "state_act_tier5.png",
+        "axis": "act",
+        "value": "tier5",
+        "stem": "act_tier5"
+      },
+      {
+        "filename": "state_act_tier7.png",
+        "axis": "act",
+        "value": "tier7",
+        "stem": "act_tier7"
+      },
+      {
+        "filename": "state_faction_mechronis.png",
+        "axis": "faction",
+        "value": "mechronis",
+        "stem": "faction_mechronis"
+      },
+      {
+        "filename": "state_irl_winter.png",
+        "axis": "irl",
+        "value": "winter",
+        "stem": "irl_winter"
+      },
+      {
+        "filename": "state_morality_dark.png",
+        "axis": "morality",
+        "value": "dark",
+        "stem": "morality_dark"
+      },
+      {
+        "filename": "state_season_interregnum.png",
+        "axis": "season",
+        "value": "interregnum",
+        "stem": "season_interregnum"
+      },
+      {
+        "filename": "state_tv_corrupted.png",
+        "axis": "tv",
+        "value": "corrupted",
+        "stem": "tv_corrupted"
+      }
+    ]
+  },
+  "shadow_vault": {
+    "zip_dir": "shadow_vault",
+    "baseline": "baseline.png",
+    "state_count": 9,
+    "states": [
+      {
+        "filename": "state_battlepass_winter.png",
+        "axis": "battlepass",
+        "value": "winter",
+        "stem": "battlepass_winter"
+      },
+      {
+        "filename": "state_cycle_longnight.png",
+        "axis": "cycle",
+        "value": "longnight",
+        "stem": "cycle_longnight"
+      },
+      {
+        "filename": "state_epoch_shadowtongue.png",
+        "axis": "epoch",
+        "value": "shadowtongue",
+        "stem": "epoch_shadowtongue"
+      },
+      {
+        "filename": "state_faction_insurgency.png",
+        "axis": "faction",
+        "value": "insurgency",
+        "stem": "faction_insurgency"
+      },
+      {
+        "filename": "state_governance_quarantine.png",
+        "axis": "governance",
+        "value": "quarantine",
+        "stem": "governance_quarantine"
+      },
+      {
+        "filename": "state_investigation_tier.png",
+        "axis": "investigation",
+        "value": "tier",
+        "stem": "investigation_tier"
+      },
+      {
+        "filename": "state_morality_dark.png",
+        "axis": "morality",
+        "value": "dark",
+        "stem": "morality_dark"
+      },
+      {
+        "filename": "state_tv_corrupted.png",
+        "axis": "tv",
+        "value": "corrupted",
+        "stem": "tv_corrupted"
+      },
+      {
+        "filename": "state_tv_spreading.png",
+        "axis": "tv",
+        "value": "spreading",
+        "stem": "tv_spreading"
+      }
+    ]
+  },
+  "social_hub": {
+    "zip_dir": "social_hub",
+    "baseline": "baseline.png",
+    "state_count": 13,
+    "states": [
+      {
+        "filename": "state_battlepass_winter.png",
+        "axis": "battlepass",
+        "value": "winter",
+        "stem": "battlepass_winter"
+      },
+      {
+        "filename": "state_cycle_longnight.png",
+        "axis": "cycle",
+        "value": "longnight",
+        "stem": "cycle_longnight"
+      },
+      {
+        "filename": "state_epoch_shadowtongue.png",
+        "axis": "epoch",
+        "value": "shadowtongue",
+        "stem": "epoch_shadowtongue"
+      },
+      {
+        "filename": "state_event_witnesses.png",
+        "axis": "event",
+        "value": "witnesses",
+        "stem": "event_witnesses"
+      },
+      {
+        "filename": "state_faction_insurgency.png",
+        "axis": "faction",
+        "value": "insurgency",
+        "stem": "faction_insurgency"
+      },
+      {
+        "filename": "state_governance_morale.png",
+        "axis": "governance",
+        "value": "morale",
+        "stem": "governance_morale"
+      },
+      {
+        "filename": "state_investigation_tier.png",
+        "axis": "investigation",
+        "value": "tier",
+        "stem": "investigation_tier"
+      },
+      {
+        "filename": "state_morality_dark.png",
+        "axis": "morality",
+        "value": "dark",
+        "stem": "morality_dark"
+      },
+      {
+        "filename": "state_season_closing.png",
+        "axis": "season",
+        "value": "closing",
+        "stem": "season_closing"
+      },
+      {
+        "filename": "state_season_interregnum.png",
+        "axis": "season",
+        "value": "interregnum",
+        "stem": "season_interregnum"
+      },
+      {
+        "filename": "state_trust_elara.png",
+        "axis": "trust",
+        "value": "elara",
+        "stem": "trust_elara"
+      },
+      {
+        "filename": "state_trust_human.png",
+        "axis": "trust",
+        "value": "human",
+        "stem": "trust_human"
+      },
+      {
+        "filename": "state_tv_spreading.png",
+        "axis": "tv",
+        "value": "spreading",
+        "stem": "tv_spreading"
+      }
+    ]
+  },
+  "station_dock": {
+    "zip_dir": "station_dock",
+    "baseline": "baseline.png",
+    "state_count": 13,
+    "states": [
+      {
+        "filename": "state_battlepass_winter.png",
+        "axis": "battlepass",
+        "value": "winter",
+        "stem": "battlepass_winter"
+      },
+      {
+        "filename": "state_cycle_longnight.png",
+        "axis": "cycle",
+        "value": "longnight",
+        "stem": "cycle_longnight"
+      },
+      {
+        "filename": "state_epoch_shadowtongue.png",
+        "axis": "epoch",
+        "value": "shadowtongue",
+        "stem": "epoch_shadowtongue"
+      },
+      {
+        "filename": "state_event_succession.png",
+        "axis": "event",
+        "value": "succession",
+        "stem": "event_succession"
+      },
+      {
+        "filename": "state_faction_authority.png",
+        "axis": "faction",
+        "value": "authority",
+        "stem": "faction_authority"
+      },
+      {
+        "filename": "state_faction_insurgency.png",
+        "axis": "faction",
+        "value": "insurgency",
+        "stem": "faction_insurgency"
+      },
+      {
+        "filename": "state_investigation_tier.png",
+        "axis": "investigation",
+        "value": "tier",
+        "stem": "investigation_tier"
+      },
+      {
+        "filename": "state_morality_dark.png",
+        "axis": "morality",
+        "value": "dark",
+        "stem": "morality_dark"
+      },
+      {
+        "filename": "state_season_closing.png",
+        "axis": "season",
+        "value": "closing",
+        "stem": "season_closing"
+      },
+      {
+        "filename": "state_season_interregnum.png",
+        "axis": "season",
+        "value": "interregnum",
+        "stem": "season_interregnum"
+      },
+      {
+        "filename": "state_tv_spreading.png",
+        "axis": "tv",
+        "value": "spreading",
+        "stem": "tv_spreading"
+      },
+      {
+        "filename": "state_unlock_trade.png",
+        "axis": "unlock",
+        "value": "trade",
+        "stem": "unlock_trade"
+      },
+      {
+        "filename": "state_unlock_warroom.png",
+        "axis": "unlock",
+        "value": "warroom",
+        "stem": "unlock_warroom"
+      }
+    ]
+  },
+  "synthesis_chamber": {
+    "zip_dir": "synthesis_chamber",
+    "baseline": "baseline.png",
+    "state_count": 8,
+    "states": [
+      {
+        "filename": "state_battlepass_winter.png",
+        "axis": "battlepass",
+        "value": "winter",
+        "stem": "battlepass_winter"
+      },
+      {
+        "filename": "state_cycle_longnight.png",
+        "axis": "cycle",
+        "value": "longnight",
+        "stem": "cycle_longnight"
+      },
+      {
+        "filename": "state_epoch_shadowtongue.png",
+        "axis": "epoch",
+        "value": "shadowtongue",
+        "stem": "epoch_shadowtongue"
+      },
+      {
+        "filename": "state_governance_boost.png",
+        "axis": "governance",
+        "value": "boost",
+        "stem": "governance_boost"
+      },
+      {
+        "filename": "state_investigation_tier.png",
+        "axis": "investigation",
+        "value": "tier",
+        "stem": "investigation_tier"
+      },
+      {
+        "filename": "state_morality_dark.png",
+        "axis": "morality",
+        "value": "dark",
+        "stem": "morality_dark"
+      },
+      {
+        "filename": "state_tv_corrupted.png",
+        "axis": "tv",
+        "value": "corrupted",
+        "stem": "tv_corrupted"
+      },
+      {
+        "filename": "state_tv_spreading.png",
+        "axis": "tv",
+        "value": "spreading",
+        "stem": "tv_spreading"
+      }
+    ]
+  },
+  "tower_assembly_bay": {
+    "zip_dir": "tower_assembly_bay",
+    "baseline": "baseline.png",
+    "state_count": 8,
+    "states": [
+      {
+        "filename": "state_act_tier2.png",
+        "axis": "act",
+        "value": "tier2",
+        "stem": "act_tier2"
+      },
+      {
+        "filename": "state_act_tier5.png",
+        "axis": "act",
+        "value": "tier5",
+        "stem": "act_tier5"
+      },
+      {
+        "filename": "state_act_tier7.png",
+        "axis": "act",
+        "value": "tier7",
+        "stem": "act_tier7"
+      },
+      {
+        "filename": "state_faction_mechronis.png",
+        "axis": "faction",
+        "value": "mechronis",
+        "stem": "faction_mechronis"
+      },
+      {
+        "filename": "state_irl_winter.png",
+        "axis": "irl",
+        "value": "winter",
+        "stem": "irl_winter"
+      },
+      {
+        "filename": "state_morality_dark.png",
+        "axis": "morality",
+        "value": "dark",
+        "stem": "morality_dark"
+      },
+      {
+        "filename": "state_season_interregnum.png",
+        "axis": "season",
+        "value": "interregnum",
+        "stem": "season_interregnum"
+      },
+      {
+        "filename": "state_tv_corrupted.png",
+        "axis": "tv",
+        "value": "corrupted",
+        "stem": "tv_corrupted"
+      }
+    ]
+  },
+  "trade_command_center": {
+    "zip_dir": "trade_command_center",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "trade_hub": {
+    "zip_dir": "trade_hub",
+    "baseline": "baseline.png",
+    "state_count": 8,
+    "states": [
+      {
+        "filename": "state_act_tier2.png",
+        "axis": "act",
+        "value": "tier2",
+        "stem": "act_tier2"
+      },
+      {
+        "filename": "state_act_tier5.png",
+        "axis": "act",
+        "value": "tier5",
+        "stem": "act_tier5"
+      },
+      {
+        "filename": "state_act_tier7.png",
+        "axis": "act",
+        "value": "tier7",
+        "stem": "act_tier7"
+      },
+      {
+        "filename": "state_faction_insurgency.png",
+        "axis": "faction",
+        "value": "insurgency",
+        "stem": "faction_insurgency"
+      },
+      {
+        "filename": "state_irl_winter.png",
+        "axis": "irl",
+        "value": "winter",
+        "stem": "irl_winter"
+      },
+      {
+        "filename": "state_morality_dark.png",
+        "axis": "morality",
+        "value": "dark",
+        "stem": "morality_dark"
+      },
+      {
+        "filename": "state_season_interregnum.png",
+        "axis": "season",
+        "value": "interregnum",
+        "stem": "season_interregnum"
+      },
+      {
+        "filename": "state_tv_corrupted.png",
+        "axis": "tv",
+        "value": "corrupted",
+        "stem": "tv_corrupted"
+      }
+    ]
+  },
+  "trophy_armory": {
+    "zip_dir": "trophy_armory",
+    "baseline": "baseline.png",
+    "state_count": 8,
+    "states": [
+      {
+        "filename": "state_act_tier2.png",
+        "axis": "act",
+        "value": "tier2",
+        "stem": "act_tier2"
+      },
+      {
+        "filename": "state_act_tier5.png",
+        "axis": "act",
+        "value": "tier5",
+        "stem": "act_tier5"
+      },
+      {
+        "filename": "state_act_tier7.png",
+        "axis": "act",
+        "value": "tier7",
+        "stem": "act_tier7"
+      },
+      {
+        "filename": "state_faction_watcher.png",
+        "axis": "faction",
+        "value": "watcher",
+        "stem": "faction_watcher"
+      },
+      {
+        "filename": "state_irl_winter.png",
+        "axis": "irl",
+        "value": "winter",
+        "stem": "irl_winter"
+      },
+      {
+        "filename": "state_morality_dark.png",
+        "axis": "morality",
+        "value": "dark",
+        "stem": "morality_dark"
+      },
+      {
+        "filename": "state_season_interregnum.png",
+        "axis": "season",
+        "value": "interregnum",
+        "stem": "season_interregnum"
+      },
+      {
+        "filename": "state_tv_corrupted.png",
+        "axis": "tv",
+        "value": "corrupted",
+        "stem": "tv_corrupted"
+      }
+    ]
+  },
+  "trophy_room": {
+    "zip_dir": "trophy_room",
+    "baseline": "baseline.png",
+    "state_count": 13,
+    "states": [
+      {
+        "filename": "state_act_tier_2.png",
+        "axis": "act",
+        "value": "tier_2",
+        "stem": "act_tier_2"
+      },
+      {
+        "filename": "state_act_tier_5.png",
+        "axis": "act",
+        "value": "tier_5",
+        "stem": "act_tier_5"
+      },
+      {
+        "filename": "state_act_tier_7.png",
+        "axis": "act",
+        "value": "tier_7",
+        "stem": "act_tier_7"
+      },
+      {
+        "filename": "state_battlepass_winter.png",
+        "axis": "battlepass",
+        "value": "winter",
+        "stem": "battlepass_winter"
+      },
+      {
+        "filename": "state_cycle_longnight.png",
+        "axis": "cycle",
+        "value": "longnight",
+        "stem": "cycle_longnight"
+      },
+      {
+        "filename": "state_epoch_shadowtongue.png",
+        "axis": "epoch",
+        "value": "shadowtongue",
+        "stem": "epoch_shadowtongue"
+      },
+      {
+        "filename": "state_governance_prestige.png",
+        "axis": "governance",
+        "value": "prestige",
+        "stem": "governance_prestige"
+      },
+      {
+        "filename": "state_investigation_tier.png",
+        "axis": "investigation",
+        "value": "tier",
+        "stem": "investigation_tier"
+      },
+      {
+        "filename": "state_morality_dark.png",
+        "axis": "morality",
+        "value": "dark",
+        "stem": "morality_dark"
+      },
+      {
+        "filename": "state_tv_corrupted.png",
+        "axis": "tv",
+        "value": "corrupted",
+        "stem": "tv_corrupted"
+      },
+      {
+        "filename": "state_tv_spreading.png",
+        "axis": "tv",
+        "value": "spreading",
+        "stem": "tv_spreading"
+      },
+      {
+        "filename": "state_unlock_battlepass_50.png",
+        "axis": "unlock",
+        "value": "battlepass_50",
+        "stem": "unlock_battlepass_50"
+      },
+      {
+        "filename": "state_unlock_prestige.png",
+        "axis": "unlock",
+        "value": "prestige",
+        "stem": "unlock_prestige"
+      }
+    ]
+  },
+  "war_room": {
+    "zip_dir": "war_room",
+    "baseline": "baseline.png",
+    "state_count": 8,
+    "states": [
+      {
+        "filename": "state_battlepass_winter.png",
+        "axis": "battlepass",
+        "value": "winter",
+        "stem": "battlepass_winter"
+      },
+      {
+        "filename": "state_cycle_longnight.png",
+        "axis": "cycle",
+        "value": "longnight",
+        "stem": "cycle_longnight"
+      },
+      {
+        "filename": "state_epoch_shadowtongue.png",
+        "axis": "epoch",
+        "value": "shadowtongue",
+        "stem": "epoch_shadowtongue"
+      },
+      {
+        "filename": "state_faction_succession.png",
+        "axis": "faction",
+        "value": "succession",
+        "stem": "faction_succession"
+      },
+      {
+        "filename": "state_investigation_tier.png",
+        "axis": "investigation",
+        "value": "tier",
+        "stem": "investigation_tier"
+      },
+      {
+        "filename": "state_morality_dark.png",
+        "axis": "morality",
+        "value": "dark",
+        "stem": "morality_dark"
+      },
+      {
+        "filename": "state_tournament_finals.png",
+        "axis": "tournament",
+        "value": "finals",
+        "stem": "tournament_finals"
+      },
+      {
+        "filename": "state_tv_spreading.png",
+        "axis": "tv",
+        "value": "spreading",
+        "stem": "tv_spreading"
+      }
+    ]
+  }
+}
