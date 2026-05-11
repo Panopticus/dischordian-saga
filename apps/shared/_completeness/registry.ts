@@ -66,6 +66,7 @@ import { checkAxis9StateCoverage } from "./checks/axis9StateCoverage";
 import { checkAxis11StateCoverage } from "./checks/axis11StateCoverage";
 import { checkAxis12StateCoverage } from "./checks/axis12StateCoverage";
 import { checkStoryHookCoverage } from "./checks/storyHookCoverage";
+import { checkHotspotCoverage } from "./checks/hotspotCoverage";
 
 export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
   // ─── Card engine ──────────────────────────────────────────
@@ -562,5 +563,19 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "Every producer-axis-13 state variant in the room-art manifest (morality / season / trust / lore / etc.) is registered as a StoryHook. Hard parity: gap > 0 means a producer-art pass landed new variants the registry hasn't been regenerated for.",
     check: () => checkStoryHookCoverage(),
+  },
+  {
+    // Phase H.H — Hotspot coverage. Every space in PRODUCTION_FINAL.md
+    // PARTs III–VIII should have at least one hotspot. The 49 Ark
+    // rooms have inline hotspots in ROOM_DEFINITIONS; the 19 deferred
+    // Hellbox + vehicle spaces have sidecar stubs in
+    // roomHotspotManifest. ~98 destination + apprentice spaces still
+    // need hotspot authoring; ratchet shrinks as those land.
+    id: "art.hotspot_coverage",
+    name: "Room hotspot coverage",
+    description:
+      "Every space in _PRODUCTION_FINAL.md PARTs III–VIII should have at least one hotspot — either inline (ROOM_DEFINITIONS) or sidecar (roomHotspotManifest). Ratcheted; gap shrinks as destination + apprentice rooms get authored hotspots.",
+    check: () => checkHotspotCoverage(),
+    ratchet: { target: 0 },
   },
 ];
