@@ -90,6 +90,8 @@
     "lions-art:generate-md": "tsx apps/scripts/generate-lions-club-art-bible.ts",
     "assets:upload:dry": "tsx apps/scripts/upload-public-to-s3.ts --dry-run",
     "assets:upload": "tsx apps/scripts/upload-public-to-s3.ts",
+    "sih:key-portraits:dry": "tsx apps/scripts/key-sih-narrator-portraits.ts --dry-run",
+    "sih:key-portraits": "tsx apps/scripts/key-sih-narrator-portraits.ts",
     "assets:upload-guild-cutscenes:dry": "tsx apps/scripts/upload-guild-cutscenes.ts --dry-run",
     "assets:upload-guild-cutscenes": "tsx apps/scripts/upload-guild-cutscenes.ts",
     "vo:qa-guild-cutscenes": "tsx apps/scripts/qa-guild-cutscene-vo.ts",
