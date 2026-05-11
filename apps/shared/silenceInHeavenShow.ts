@@ -171,35 +171,34 @@ function narratorLabel(speaker: SIHPrologueBeat["speaker"]): string {
   return "Both";
 }
 
-/** Where the speaker's portrait sits over the background. The Antiquarian
- *  always reads from the left (Chronicle on his lap); the Storyteller
- *  always commands the right (microphone stand). For `speaker: "both"`
- *  beats the renderer composites the two narrators together — primary
- *  side is the Antiquarian (left); see jointPortraitsFor. */
-function portraitSideFor(
-  speaker: SIHPrologueBeat["speaker"],
-): "left" | "right" | undefined {
-  if (speaker === "antiquarian") return "left";
-  if (speaker === "storyteller") return "right";
-  // "both" — primary slot holds the Antiquarian; the Storyteller comes
-  // through the secondary portrait fields below.
-  return "left";
-}
+/** Default "listening" expressions for the non-speaking narrator on
+ *  each beat. Pinned to the neutral / witness portraits so the listener
+ *  reads as attentive without competing with the speaker's authored
+ *  emotion. */
+const ANTIQ_LISTENING_EXPRESSION = "sih_antiq_neutral" as const;
+const STORY_LISTENING_EXPRESSION = "sih_story_witness" as const;
 
-/** For `speaker: "both"` beats, return the pair of default narrator
- *  portraits to composite on stage together. Falls back to undefined if
- *  the manifest is missing either expression — the renderer then drops
- *  back to the single-portrait path. */
-function jointPortraitsFor(speaker: SIHPrologueBeat["speaker"]): {
+/** Compose the pair of narrator portraits to render on every dialog
+ *  beat — Antiquarian on the left, Storyteller on the right. The
+ *  speaker uses their authored expression (`b.expressionId`); the
+ *  listener falls back to the canonical listening portrait above. For
+ *  `speaker: "both"` beats neither is the explicit speaker, so both
+ *  use the listening default and the renderer treats them as joint. */
+function dialogPortraitsFor(b: SIHPrologueBeat): {
   primaryUrl?: string;
   secondaryUrl?: string;
-  secondarySide?: "left" | "right" | "center";
 } {
-  if (speaker !== "both") return {};
+  const antiqExpr =
+    b.speaker === "antiquarian" && b.expressionId
+      ? b.expressionId
+      : ANTIQ_LISTENING_EXPRESSION;
+  const storyExpr =
+    b.speaker === "storyteller" && b.expressionId
+      ? b.expressionId
+      : STORY_LISTENING_EXPRESSION;
   return {
-    primaryUrl: album5PortraitUrl("sih_antiq_neutral"),
-    secondaryUrl: album5PortraitUrl("sih_story_witness"),
-    secondarySide: "right",
+    primaryUrl: album5PortraitUrl(antiqExpr),
+    secondaryUrl: album5PortraitUrl(storyExpr),
   };
 }
 
@@ -286,12 +285,7 @@ function dialogStepToSlideshow(step: SIHDialogShowStep): SongSlideshowDef {
           const { startMs, endMs } = slots[i];
           const bgUrl =
             (b.bgId && album5BackgroundUrl(b.bgId)) || SIH_DIALOG_FALLBACK_BG;
-          const singlePortraitUrl = b.expressionId
-            ? album5PortraitUrl(b.expressionId)
-            : undefined;
-          const portraitSide = portraitSideFor(b.speaker);
-          const joint = jointPortraitsFor(b.speaker);
-          const primaryPortraitUrl = joint.primaryUrl ?? singlePortraitUrl;
+          const portraits = dialogPortraitsFor(b);
           return {
             startMs,
             endMs,
@@ -299,10 +293,14 @@ function dialogStepToSlideshow(step: SIHDialogShowStep): SongSlideshowDef {
             transition: i === 0 ? "fade" : "dissolve",
             dialogOverlay: `${narratorLabel(b.speaker)} — ${b.line}`,
             dialogSpeakerId: b.speaker,
-            portraitUrl: portraitSide ? primaryPortraitUrl : undefined,
-            portraitSide,
-            secondaryPortraitUrl: joint.secondaryUrl,
-            secondaryPortraitSide: joint.secondarySide,
+            // Both narrators share the stage on every dialog beat —
+            // antiquarian on the left, storyteller on the right. The
+            // renderer reads `dialogSpeakerId` to decide which one is
+            // the active speaker and animates accordingly.
+            portraitUrl: portraits.primaryUrl,
+            portraitSide: "left",
+            secondaryPortraitUrl: portraits.secondaryUrl,
+            secondaryPortraitSide: "right",
           };
         });
   const id = `sih-dialog-${step.albumTrackNumber}`;
