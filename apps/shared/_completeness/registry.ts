@@ -61,6 +61,7 @@ import { checkApprenticeMechronisLinkCoverage } from "./checks/apprenticeMechron
 import { checkApprenticeWardenCoverage } from "./checks/apprenticeWardenCoverage";
 import { checkApprenticePedagogyAssetCoverage } from "./checks/apprenticePedagogyAssetCoverage";
 import { checkBerthCoverage } from "./checks/berthCoverage";
+import { checkRoomAssetCoverage } from "./checks/roomAssetCoverage";
 
 export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
   // ─── Card engine ──────────────────────────────────────────
@@ -497,6 +498,19 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "Every variant with `surface: \"wheel_followup\"` in moralityTrustActVariants.ts should set `portraitCinematicId` so the wheel followup crossfades an AnimatedPortrait. PR 4 (Cluster D) lands the schema; PR 9 (cinematic consumers) backfills the per-variant cinematic IDs.",
     check: () => checkWheelFollowupCinematicCoverage(),
+    ratchet: { target: 0 },
+  },
+  {
+    // Phase H.B — Producer-art room library integration.
+    // RATCHETed; subsequent producer-art passthroughs drive the gap
+    // toward 0. Initial state: 166 declared / 61 implemented
+    // (37 %); 105 deferred (12 Hellboxes + 7 vehicles + 60
+    // destinations + 36 of 38 apprentice spaces).
+    id: "art.room_asset_coverage",
+    name: "Room art coverage (producer-delivered)",
+    description:
+      "Every space specced in docs/production/_PRODUCTION_FINAL.md PARTs III–VIII should have at least a baseline.png in the producer-art room library (apps/shared/expansionArt/roomArtManifest.ts). Gap shrinks as subsequent producer passthroughs land; cannot regress. Initial state: 166 declared / 60 implemented (36 %); 106 deferred.",
+    check: () => checkRoomAssetCoverage(),
     ratchet: { target: 0 },
   },
 ];
