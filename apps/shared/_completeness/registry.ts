@@ -62,6 +62,7 @@ import { checkApprenticeWardenCoverage } from "./checks/apprenticeWardenCoverage
 import { checkApprenticePedagogyAssetCoverage } from "./checks/apprenticePedagogyAssetCoverage";
 import { checkBerthCoverage } from "./checks/berthCoverage";
 import { checkRoomAssetCoverage } from "./checks/roomAssetCoverage";
+import { checkAxis9StateCoverage } from "./checks/axis9StateCoverage";
 
 export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
   // ─── Card engine ──────────────────────────────────────────
@@ -511,6 +512,20 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "Every space specced in docs/production/_PRODUCTION_FINAL.md PARTs III–VIII should have at least a baseline.png in the producer-art room library (apps/shared/expansionArt/roomArtManifest.ts). Gap shrinks as subsequent producer passthroughs land; cannot regress. Initial state: 166 declared / 60 implemented (36 %); 106 deferred.",
     check: () => checkRoomAssetCoverage(),
+    ratchet: { target: 0 },
+  },
+  {
+    // Phase H.D — Axis 9 TV-infection state coverage.
+    // Ratcheted; producer-art passthroughs intentionally provide
+    // only "interesting" variants per room (e.g. cryo_bay has only
+    // tv_spreading). compositeResolver degrades gracefully for
+    // missing variants. Gap shrinks as future passes land more
+    // states per room; cannot regress.
+    id: "art.axis9_state_coverage",
+    name: "Room art Axis 9 (TV-infection) state coverage",
+    description:
+      "Every room with any tv-axis variant in the producer library should ideally have all 5 canonical states (clean/exposed/spreading/corrupted/quarantined). compositeResolver omits missing variants so the runtime degrades gracefully. Initial state: producer delivered only the 'interesting' state per room (e.g. cryo_bay only ships tv_spreading).",
+    check: () => checkAxis9StateCoverage(),
     ratchet: { target: 0 },
   },
 ];
