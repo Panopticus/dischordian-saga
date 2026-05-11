@@ -486,6 +486,23 @@ export default function SongSlideshow({
                   "radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.55) 78%, rgba(0,0,0,0.85) 100%)" /* void-ignore */,
               }}
             />
+            {/* Dialog-frame extra dim — when a beat has a narrator
+                attached (i.e. a SiH dialog interlude), pull the
+                background down another notch so any baked-in bright
+                architecture (white throne columns, neon, etc.) stops
+                competing with the speaker's portrait. Skipped for
+                non-portrait slideshows so song frames keep their
+                full art presence. */}
+            {frame.dialogSpeakerId && (
+              <div
+                aria-hidden="true"
+                className="absolute inset-0 pointer-events-none z-[3]"
+                style={{
+                  background:
+                    "linear-gradient(180deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.32) 40%, rgba(0,0,0,0.5) 100%)" /* void-ignore */,
+                }}
+              />
+            )}
             <motion.div
               aria-hidden="true"
               className="absolute inset-0 pointer-events-none z-[3] mix-blend-overlay"
@@ -512,130 +529,128 @@ export default function SongSlideshow({
               }}
             />
 
-            {/* Narrator portrait — when the frame declares a portraitSrc
-                (today: Silence in Heaven dialog interludes), composite
-                it over the background at the speaker's side. The
-                AnimatePresence keyed on dialogSpeakerId crossfades the
-                portrait when the speaker changes between beats.
-
-                Idle vs speaking: while the dialog text is visible
-                (lyric set + !lyricHidden) the narrator is "delivering"
-                — a slightly stronger breath + a soft head-bob run on
-                the scale + y axes. When the text is hidden the same
-                portrait stays in a quieter "listening" breath. Pure
-                GPU transforms — no per-asset animation needed. */}
+            {/* Narrator portraits — for SiH dialog interludes, BOTH
+                narrators share the stage on every beat (the Antiquarian
+                on the left, the Storyteller on the right). The active
+                speaker is determined from `dialogSpeakerId` and gets
+                full opacity + a deeper speaking breath/head-bob; the
+                listener stays on screen, dimmed and color-muted, with a
+                quieter idle breath. Portraits are sized to the full
+                viewport height (object-contain) so the chair / mic
+                stand never gets cropped. Pure GPU transforms; no
+                per-asset animation needed. */}
             {(() => {
-              const speaking = Boolean(frame.lyric && !lyricHidden);
-              // Keyframe arrays for the breathing loop. The deeper
-              // (speaking) version moves a little further on both
-              // axes; the listening version is barely-there.
-              const breath = speaking
-                ? { scale: [1, 1.018, 1, 1.014, 1], y: [0, -2, 0, -2.5, 0] }
-                : { scale: [1, 1.008, 1], y: [0, -0.5, 0] };
-              const breathDuration = speaking ? 4.5 : 6.5;
+              const speakerId = frame.dialogSpeakerId;
+              const lyricVisible = Boolean(frame.lyric && !lyricHidden);
+              const primaryIsSpeaker =
+                speakerId === "antiquarian" || speakerId === "both";
+              const secondaryIsSpeaker =
+                speakerId === "storyteller" || speakerId === "both";
+              const primarySpeaking = primaryIsSpeaker && lyricVisible;
+              const secondarySpeaking = secondaryIsSpeaker && lyricVisible;
+              // Keyframe arrays for the breathing loop. Speaking
+              // version moves further on both axes; idle is barely
+              // there.
+              function breathFor(speaking: boolean) {
+                return speaking
+                  ? { scale: [1, 1.018, 1, 1.014, 1], y: [0, -2, 0, -2.5, 0] }
+                  : { scale: [1, 1.008, 1], y: [0, -0.5, 0] };
+              }
+              const primaryBreath = breathFor(primarySpeaking);
+              const secondaryBreath = breathFor(secondarySpeaking);
+              const primaryDur = primarySpeaking ? 4.5 : 6.5;
+              const secondaryDur = secondarySpeaking ? 5.1 : 7.1;
+              // Listener portraits drop opacity + saturation so the eye
+              // tracks the speaker without losing the conversation. The
+              // listener stays warm-on-screen, not erased.
+              const listenerOpacity = 0.55;
+              const listenerFilter =
+                "saturate(0.65) brightness(0.78) drop-shadow(0 8px 30px rgba(0,0,0,0.6))" /* void-ignore */;
+              const speakerFilter =
+                "drop-shadow(0 8px 30px rgba(0,0,0,0.6))" /* void-ignore */;
               return (
-                <AnimatePresence mode="sync">
-                  {frame.portraitSrc && frame.portraitSide && (
+                <>
+                  {frame.portraitSrc && (
                     <motion.img
-                      key={`primary-${frame.dialogSpeakerId ?? frame.portraitSrc}`}
+                      key={`primary-${frame.portraitSrc}`}
                       src={frame.portraitSrc}
                       alt=""
                       initial={{
                         opacity: 0,
-                        x: frame.portraitSide === "left" ? -16 : 16,
+                        x: -16,
                         scale: 1,
                         y: 0,
                       }}
                       animate={{
-                        opacity: 1,
+                        opacity: primaryIsSpeaker ? 1 : listenerOpacity,
                         x: 0,
-                        scale: breath.scale,
-                        y: breath.y,
+                        scale: primaryBreath.scale,
+                        y: primaryBreath.y,
                       }}
-                      exit={{ opacity: 0 }}
                       transition={{
                         opacity: { duration: 0.55, ease: "easeOut" },
                         x: { duration: 0.55, ease: "easeOut" },
                         scale: {
-                          duration: breathDuration,
+                          duration: primaryDur,
                           repeat: Infinity,
                           ease: "easeInOut",
                           delay: 0.55,
                         },
                         y: {
-                          duration: breathDuration,
+                          duration: primaryDur,
                           repeat: Infinity,
                           ease: "easeInOut",
                           delay: 0.55,
                         },
                       }}
-                      className={
-                        "absolute bottom-0 z-[5] h-[78%] max-h-[78%] w-auto object-contain object-bottom pointer-events-none " +
-                        (frame.portraitSide === "left"
-                          ? "left-0 sm:left-4"
-                          : frame.portraitSide === "right"
-                            ? "right-0 sm:right-4"
-                            : "left-1/2 -translate-x-1/2")
-                      }
+                      className="absolute bottom-0 left-0 sm:left-2 z-[5] h-screen max-h-screen w-auto object-contain object-bottom pointer-events-none"
                       style={{
-                        transformOrigin: "50% 100%" /* breathe from the feet so the head moves more than the base */,
-                        filter: "drop-shadow(0 8px 30px rgba(0,0,0,0.6))" /* void-ignore — pre-existing portrait drop shadow */,
+                        transformOrigin: "50% 100%",
+                        filter: primaryIsSpeaker ? speakerFilter : listenerFilter,
                       }}
                     />
                   )}
-                  {/* Secondary portrait — joint-narration beats
-                      (speaker: "both") share the stage with both
-                      narrators on. Same breathing pattern, slightly
-                      out-of-phase so the two don't pulse in lockstep. */}
-                  {frame.secondaryPortraitSrc && frame.secondaryPortraitSide && (
+                  {frame.secondaryPortraitSrc && (
                     <motion.img
-                      key={`secondary-${frame.dialogSpeakerId ?? frame.secondaryPortraitSrc}`}
+                      key={`secondary-${frame.secondaryPortraitSrc}`}
                       src={frame.secondaryPortraitSrc}
                       alt=""
                       initial={{
                         opacity: 0,
-                        x: frame.secondaryPortraitSide === "left" ? -16 : 16,
+                        x: 16,
                         scale: 1,
                         y: 0,
                       }}
                       animate={{
-                        opacity: 1,
+                        opacity: secondaryIsSpeaker ? 1 : listenerOpacity,
                         x: 0,
-                        scale: breath.scale,
-                        y: breath.y,
+                        scale: secondaryBreath.scale,
+                        y: secondaryBreath.y,
                       }}
-                      exit={{ opacity: 0 }}
                       transition={{
                         opacity: { duration: 0.55, ease: "easeOut", delay: 0.05 },
                         x: { duration: 0.55, ease: "easeOut", delay: 0.05 },
                         scale: {
-                          duration: breathDuration + 0.6,
+                          duration: secondaryDur,
                           repeat: Infinity,
                           ease: "easeInOut",
                           delay: 1.2,
                         },
                         y: {
-                          duration: breathDuration + 0.6,
+                          duration: secondaryDur,
                           repeat: Infinity,
                           ease: "easeInOut",
                           delay: 1.2,
                         },
                       }}
-                      className={
-                        "absolute bottom-0 z-[5] h-[72%] max-h-[72%] w-auto object-contain object-bottom pointer-events-none " +
-                        (frame.secondaryPortraitSide === "left"
-                          ? "left-0 sm:left-4"
-                          : frame.secondaryPortraitSide === "right"
-                            ? "right-0 sm:right-4"
-                            : "left-1/2 -translate-x-1/2")
-                      }
+                      className="absolute bottom-0 right-0 sm:right-2 z-[5] h-screen max-h-screen w-auto object-contain object-bottom pointer-events-none"
                       style={{
                         transformOrigin: "50% 100%",
-                        filter: "drop-shadow(0 8px 30px rgba(0,0,0,0.6))" /* void-ignore */,
+                        filter: secondaryIsSpeaker ? speakerFilter : listenerFilter,
                       }}
                     />
                   )}
-                </AnimatePresence>
+                </>
               );
             })()}
 
