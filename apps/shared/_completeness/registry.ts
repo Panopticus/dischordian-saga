@@ -64,6 +64,7 @@ import { checkBerthCoverage } from "./checks/berthCoverage";
 import { checkRoomAssetCoverage } from "./checks/roomAssetCoverage";
 import { checkAxis9StateCoverage } from "./checks/axis9StateCoverage";
 import { checkAxis11StateCoverage } from "./checks/axis11StateCoverage";
+import { checkAxis12StateCoverage } from "./checks/axis12StateCoverage";
 
 export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
   // ─── Card engine ──────────────────────────────────────────
@@ -538,6 +539,15 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "Every room with any cycle-axis variant in the producer library should ideally have all 5 canonical states (dawn/midday/dusk/nightwatch/longnight). Producer-art currently delivers only cycle_longnight across 30 rooms — the most narrative-relevant phase variant. compositeResolver degrades gracefully for missing phases.",
     check: () => checkAxis11StateCoverage(),
+    ratchet: { target: 0 },
+  },
+  {
+    // Phase H.F — Axis 12 faction-livery coverage.
+    id: "art.axis12_state_coverage",
+    name: "Room art Axis 12 (faction-livery) state coverage",
+    description:
+      "Every room with any faction-axis variant in the producer library should ideally have all 8 canonical faction states (none/hierarchy/dreamers/pureflame/insurgency/panopticon/collectors/multi). Producer-art delivers selective coverage (46 faction-axis variants total). compositeResolver degrades gracefully.",
+    check: () => checkAxis12StateCoverage(),
     ratchet: { target: 0 },
   },
 ];
