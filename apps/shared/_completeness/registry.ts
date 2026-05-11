@@ -63,6 +63,7 @@ import { checkApprenticePedagogyAssetCoverage } from "./checks/apprenticePedagog
 import { checkBerthCoverage } from "./checks/berthCoverage";
 import { checkRoomAssetCoverage } from "./checks/roomAssetCoverage";
 import { checkAxis9StateCoverage } from "./checks/axis9StateCoverage";
+import { checkAxis11StateCoverage } from "./checks/axis11StateCoverage";
 
 export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
   // ─── Card engine ──────────────────────────────────────────
@@ -526,6 +527,17 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "Every room with any tv-axis variant in the producer library should ideally have all 5 canonical states (clean/exposed/spreading/corrupted/quarantined). compositeResolver omits missing variants so the runtime degrades gracefully. Initial state: producer delivered only the 'interesting' state per room (e.g. cryo_bay only ships tv_spreading).",
     check: () => checkAxis9StateCoverage(),
+    ratchet: { target: 0 },
+  },
+  {
+    // Phase H.E — Axis 11 cycle-phase coverage. Producer-art delivers
+    // only `cycle_longnight` per room; full per-phase coverage
+    // (dawn/midday/dusk/nightwatch + longnight) is the eventual target.
+    id: "art.axis11_state_coverage",
+    name: "Room art Axis 11 (cycle-phase) state coverage",
+    description:
+      "Every room with any cycle-axis variant in the producer library should ideally have all 5 canonical states (dawn/midday/dusk/nightwatch/longnight). Producer-art currently delivers only cycle_longnight across 30 rooms — the most narrative-relevant phase variant. compositeResolver degrades gracefully for missing phases.",
+    check: () => checkAxis11StateCoverage(),
     ratchet: { target: 0 },
   },
 ];
