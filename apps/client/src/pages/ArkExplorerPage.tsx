@@ -66,6 +66,7 @@ import FastTravelPanel from "@/components/FastTravelPanel";
 import ItemDetailModal from "@/components/ItemDetailModal";
 import AdventureInventoryDrawer from "@/components/AdventureInventoryDrawer";
 import ElaraConversationPopup from "@/components/ElaraConversationPopup";
+import WhisperOverlay from "@/components/WhisperOverlay";
 import CompanionPresenceBadge from "@/components/CompanionPresenceBadge";
 import { useElaraVO } from "@/hooks/useElaraVO";
 import { useHumanVO } from "@/hooks/useHumanVO";
@@ -2395,6 +2396,12 @@ export default function ArkExplorerPage() {
         humanSpeaking={humanSpeakingNow}
         placement="bottom-right"
       />
+
+      {/* Pre-Beat-H ambient whispers from the Human. The overlay
+          stays silent once human_life_detective_seen is set (the
+          hook gates internally) and while the Elara conversation
+          popup is open, so the two surfaces never compete. */}
+      <WhisperOverlay suppressed={Boolean(elaraText)} />
 
       {/* Puzzle modal */}
       <AnimatePresence>
