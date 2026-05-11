@@ -67,6 +67,7 @@ import { checkAxis11StateCoverage } from "./checks/axis11StateCoverage";
 import { checkAxis12StateCoverage } from "./checks/axis12StateCoverage";
 import { checkStoryHookCoverage } from "./checks/storyHookCoverage";
 import { checkHotspotCoverage } from "./checks/hotspotCoverage";
+import { checkRoomReachabilityCoverage } from "./checks/roomReachabilityCoverage";
 
 export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
   // ─── Card engine ──────────────────────────────────────────
@@ -576,6 +577,19 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "Every space in _PRODUCTION_FINAL.md PARTs III–VIII should have at least one hotspot — either inline (ROOM_DEFINITIONS) or sidecar (roomHotspotManifest). Ratcheted; gap shrinks as destination + apprentice rooms get authored hotspots.",
     check: () => checkHotspotCoverage(),
+    ratchet: { target: 0 },
+  },
+  {
+    // Phase H.I — Room reachability coverage for the 117 deferred
+    // spaces (12 HB + 7 veh + 60 destination + 38 apprentice).
+    // Hellboxes + vehicles + apprentice spaces (58 of 117) covered
+    // explicitly in roomUnlockManifest; 60 destinations remain
+    // gated per-subsystem and aren't enumerated here.
+    id: "art.room_reachability_coverage",
+    name: "Room reachability / unlock manifest coverage",
+    description:
+      "Every deferred space (12 Hellboxes + 7 vehicles + 38 apprentice/pedagogy/berth/guild/Game-Master) has an explicit unlock declaration in apps/shared/roomGating/roomUnlockManifest.ts. Ratcheted; 60 destinations remain gated per their respective subsystems.",
+    check: () => checkRoomReachabilityCoverage(),
     ratchet: { target: 0 },
   },
 ];
