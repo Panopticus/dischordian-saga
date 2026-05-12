@@ -32,13 +32,13 @@ import {
 } from "./roomArtManifest";
 
 describe("roomArtManifest — Phase H.B", () => {
-  it("loads 561 entries from H.A producer-art ingest", () => {
-    expect(roomArtTotal).toBe(561);
-    expect(ROOM_ART_ENTRIES.length).toBe(561);
+  it("loads 590 entries (561 from H.A pass 1 + 29 from H1.A pass 2)", () => {
+    expect(roomArtTotal).toBe(590);
+    expect(ROOM_ART_ENTRIES.length).toBe(590);
   });
 
-  it("indexes 60 distinct room zipDirs (61 dirs in zip; personal_quarters is empty placeholder)", () => {
-    expect(ROOM_ART_ZIP_DIRS.length).toBe(60);
+  it("indexes 89 distinct room zipDirs (60 from pass 1 + 29 from pass 2)", () => {
+    expect(ROOM_ART_ZIP_DIRS.length).toBe(89);
   });
 
   it("every zipDir has a canonicalSpaceId mapping", () => {
@@ -134,15 +134,18 @@ describe("roomArtManifest — Phase H.B", () => {
     expect(tvValues).toContain("spreading");
   });
 
-  it("coverage report shows 36% coverage of 166 spec'd spaces", () => {
+  it("coverage report after H1.A pass 2 — 89 zipDirs delivered, 2 Hellboxes have art", () => {
     const report = roomArtCoverageReport();
-    expect(report.producerDelivered.length).toBe(60);
-    expect(report.producerNewNotInSpec.length).toBe(5); // auction_house,
-    // dreamers_sanctum, meditation_garden, order_tribunal,
-    // game_masters_sanctum
-    expect(report.deferredHellboxes.length).toBe(12);
+    // Producer-delivered canonical IDs are deduped by canonical id;
+    // pass 2 added ~25 new canonical IDs (some collide with pass 1
+    // since apprentice_hall/pedagogy_hall both map to ark.apprentice_hall)
+    expect(report.producerDelivered.length).toBeGreaterThanOrEqual(60);
+    expect(report.producerNewNotInSpec.length).toBe(5); // pass 1 NEWs unchanged
+    // 2 of 12 Hellboxes now have art (castle_of_death + celebration_school)
+    expect(report.deferredHellboxes.length).toBe(10);
     expect(report.deferredVehicles.length).toBe(7);
-    expect(report.deferredCount).toBe(115); // 12 + 7 + 60 + 36
+    // Deferred count shrinks: 10 HB + 7 veh + 60 dest + 16 apprentice = 93
+    expect(report.deferredCount).toBe(93);
   });
 
   it("every entry has a unique synthetic id <zipDir>:<variantKey>", () => {

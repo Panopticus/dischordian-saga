@@ -1,0 +1,176 @@
+{
+  "hellbox/castle_of_death": {
+    "zip_dir": "hellbox/castle_of_death",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "hellbox/castle_of_death/throne_of_mercy_apse": {
+    "zip_dir": "hellbox/castle_of_death/throne_of_mercy_apse",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "hellbox/castle_of_death/chamber_of_the_forgotten": {
+    "zip_dir": "hellbox/castle_of_death/chamber_of_the_forgotten",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "hellbox/castle_of_death/forgive_or_damn_tribunal": {
+    "zip_dir": "hellbox/castle_of_death/forgive_or_damn_tribunal",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "hellbox/castle_of_death/hall_of_acknowledged_debts": {
+    "zip_dir": "hellbox/castle_of_death/hall_of_acknowledged_debts",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "hellbox/celebration_school": {
+    "zip_dir": "hellbox/celebration_school",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "hellbox/celebration_school/cathedral_apse": {
+    "zip_dir": "hellbox/celebration_school/cathedral_apse",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "hellbox/celebration_school/playground": {
+    "zip_dir": "hellbox/celebration_school/playground",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "essence_harvest_sanctum": {
+    "zip_dir": "essence_harvest_sanctum",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "audit_chamber": {
+    "zip_dir": "audit_chamber",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "collectors_arena": {
+    "zip_dir": "collectors_arena",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "apprentice_cellblock": {
+    "zip_dir": "apprentice_cellblock",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "blood_weave_atrium": {
+    "zip_dir": "blood_weave_atrium",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "prelude_corridor": {
+    "zip_dir": "prelude_corridor",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "human_observation_deck": {
+    "zip_dir": "human_observation_deck",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "the_forge": {
+    "zip_dir": "the_forge",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "mission_briefing_war_room": {
+    "zip_dir": "mission_briefing_war_room",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "personal_quest_ledger": {
+    "zip_dir": "personal_quest_ledger",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "trial_hall": {
+    "zip_dir": "trial_hall",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "triangle_alcove": {
+    "zip_dir": "triangle_alcove",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "recruit_vestibule": {
+    "zip_dir": "recruit_vestibule",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "guild_common_room": {
+    "zip_dir": "guild_common_room",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "apprentice_hall": {
+    "zip_dir": "apprentice_hall",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "game_hall": {
+    "zip_dir": "game_hall",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "elara_bridge_berth": {
+    "zip_dir": "elara_bridge_berth",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "mourning_wall": {
+    "zip_dir": "mourning_wall",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "training_barracks": {
+    "zip_dir": "training_barracks",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "hellbox_clone_bench": {
+    "zip_dir": "hellbox_clone_bench",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "warden_dock": {
+    "zip_dir": "warden_dock",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  }
+}
