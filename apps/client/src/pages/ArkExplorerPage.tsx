@@ -72,6 +72,7 @@ import { useElaraVO } from "@/hooks/useElaraVO";
 import { useHumanVO } from "@/hooks/useHumanVO";
 import DnaDeviceOfferDialog from "@/components/DnaDeviceOfferDialog";
 import ParallaxRoom from "@/components/ParallaxRoom";
+import { useRoomArt } from "@/game/useRoomArt";
 import { MobileNarratorSlot } from "@/components/MobileNarratorSlot";
 import {
   getActiveEngineerHook,
@@ -435,6 +436,18 @@ function RoomScene({
     gameStateForArt.narrativeFlags,
     room.imageUrl,
   );
+  // Phase H — producer-art composite resolver. Maps room.id ("cryo-bay")
+  // to producer zipDir ("cryo_bay"); when the manifest has the room,
+  // returns the full layer stack (baseline + axis 9/11/12/13 overlays).
+  // When the manifest has nothing for this room (one of the 105
+  // deferred spaces), returns []; we fall back to the legacy
+  // single-layer roomArtUrl path below.
+  const producerArtLayers = useRoomArt(room.id.replace(/-/g, "_"), {
+    narrativeFlags: gameStateForArt.narrativeFlags,
+  });
+  const roomLayers = producerArtLayers.length > 0
+    ? producerArtLayers
+    : [{ src: roomArtUrl, depth: -0.3 }];
   const roomTier = getRoomTier(room.id, {
     narrativeFlags: gameStateForArt.narrativeFlags,
   });
@@ -539,8 +552,8 @@ function RoomScene({
           With cover, anything outside the container's aspect ratio got
           cropped and the hotspots drifted off the artwork they label. */}
       <ParallaxRoom
-        key={roomArtUrl}
-        layers={[{ src: roomArtUrl, depth: -0.3 }]}
+        key={roomLayers.map((l) => l.src).join("|")}
+        layers={[...roomLayers]}
         className={`absolute inset-0 ${filterClassName}`.trim()}
         fit="contain"
       />
