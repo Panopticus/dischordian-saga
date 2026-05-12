@@ -72,7 +72,16 @@ import { useElaraVO } from "@/hooks/useElaraVO";
 import { useHumanVO } from "@/hooks/useHumanVO";
 import DnaDeviceOfferDialog from "@/components/DnaDeviceOfferDialog";
 import ParallaxRoom from "@/components/ParallaxRoom";
+import CinematicGate from "@/components/CinematicGate";
 import { useRoomArt } from "@/game/useRoomArt";
+import {
+  pickActiveRoomCutscene,
+  type CutsceneDispatchSlice,
+} from "@shared/roomCutscenes/roomCutsceneTriggers";
+import {
+  expansionCutscenePosterUrl,
+  expansionCutsceneVideoUrl,
+} from "@shared/expansionArt/cinematicsManifest";
 import { MobileNarratorSlot } from "@/components/MobileNarratorSlot";
 import {
   getActiveEngineerHook,
@@ -1227,6 +1236,42 @@ export default function ArkExplorerPage() {
     const roomKey = state.currentRoomId.replace(/-/g, "_");
     return getCluesForRoom(roomKey);
   }, [state.currentRoomId]);
+
+  /* ── Expansion-cutscene dispatcher (NEW_CUTSCENES_67.zip drop) ──
+     Walks the trigger registry on every room change + flag change
+     and surfaces the first active cutscene via <CinematicGate>.
+     CinematicGate persists a per-cutscene "seen" key in
+     localStorage so the same beat doesn't replay across sessions. */
+  const visitedRoomZipDirs = useMemo<ReadonlySet<string>>(
+    () =>
+      new Set(
+        Object.keys(state.rooms ?? {})
+          .filter((rid) => (state.rooms[rid]?.visitCount ?? 0) > 0)
+          .map((rid) => rid.replace(/-/g, "_")),
+      ),
+    [state.rooms],
+  );
+  const activeCutscene = useMemo(() => {
+    if (!state.currentRoomId) return undefined;
+    const zipDir = state.currentRoomId.replace(/-/g, "_");
+    const slice: CutsceneDispatchSlice = {
+      narrativeFlags: state.narrativeFlags ?? {},
+      visitedRoomZipDirs,
+      missionPhase: (state as { activeMissionPhase?: string }).activeMissionPhase,
+    };
+    return pickActiveRoomCutscene(slice, zipDir);
+  }, [
+    state.currentRoomId,
+    state.narrativeFlags,
+    visitedRoomZipDirs,
+    state,
+  ]);
+  const activeCutsceneVideoUrl = activeCutscene
+    ? expansionCutsceneVideoUrl(activeCutscene.cutsceneId)
+    : undefined;
+  const activeCutscenePosterUrl = activeCutscene
+    ? expansionCutscenePosterUrl(activeCutscene.cutsceneId)
+    : undefined;
 
   const [gameHint, setGameHint] = useState<ArkEventResult["gameHint"] | null>(null);
 
@@ -2856,6 +2901,25 @@ export default function ArkExplorerPage() {
           />
         )}
       </AnimatePresence>
+
+      {/* Expansion-cutscene gate (NEW_CUTSCENES_67.zip).
+          Mounted whenever pickActiveRoomCutscene resolves a trigger
+          for the current room / flag / mission-phase. CinematicGate
+          persists a per-cutscene seen flag in localStorage so a
+          one-shot doesn't replay. */}
+      {activeCutscene && activeCutsceneVideoUrl && (
+        <CinematicGate
+          cinematicId={activeCutscene.cutsceneId}
+          videoUrl={activeCutsceneVideoUrl}
+          posterUrl={activeCutscenePosterUrl}
+          onComplete={() => {
+            /* No-op — CinematicGate writes the seen key itself.
+               Future hook here: bridge into narrativeFlagService
+               by setting `${cutsceneId}_played` for cross-device
+               persistence. */
+          }}
+        />
+      )}
 
       {/* ═══ NARRATIVE ACT TRIGGER (7-Act Angel/Demon System) ═══ */}
       <NarrativeTrigger currentRoom={state.currentRoomId || undefined} variant="auto" />
