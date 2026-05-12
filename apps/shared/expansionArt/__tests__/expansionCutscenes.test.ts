@@ -22,10 +22,13 @@ import {
   type ExpansionCutsceneCategory,
 } from "../cinematicsManifest";
 
-describe("expansionCutscenes (NEW_CUTSCENES_67.zip + chess roster)", () => {
-  it("loads 92 mp4 entries (67 NEW_CUTSCENES_67 + 25 chess)", () => {
-    expect(EXPANSION_CUTSCENE_TOTAL).toBe(92);
-    expect(EXPANSION_CUTSCENES.length).toBe(92);
+describe("expansionCutscenes (NEW_CUTSCENES_67.zip + 3 orphan-Veo + chess roster)", () => {
+  it("loads 95 mp4 entries (70 NEW_CUTSCENES + 25 chess)", () => {
+    // 67 from NEW_CUTSCENES_67.zip + 3 orphan-Veo (ORPHAN_POSTERS_VEO_3.zip,
+    // 2026-05-12 evening) = 70 NEW_CUTSCENES total, plus 25 chess
+    // cutscenes from CHESS_CUTSCENES_25.zip.
+    expect(EXPANSION_CUTSCENE_TOTAL).toBe(95);
+    expect(EXPANSION_CUTSCENES.length).toBe(95);
   });
 
   it("every entry has a unique id", () => {
@@ -34,7 +37,7 @@ describe("expansionCutscenes (NEW_CUTSCENES_67.zip + chess roster)", () => {
       expect(ids.has(c.id)).toBe(false);
       ids.add(c.id);
     }
-    expect(ids.size).toBe(92);
+    expect(ids.size).toBe(95);
   });
 
   it("every videoRelPath is under art/cutscenes/<category>/", () => {
@@ -57,12 +60,12 @@ describe("expansionCutscenes (NEW_CUTSCENES_67.zip + chess roster)", () => {
         );
       }
     }
-    // Every cutscene now declares a canonical `<stem>_start.png`
-    // poster path: 9 producer-supplied NEW_CUTSCENES_67 + 58 ffmpeg-
-    // generated via apps/scripts/extract_cutscene_posters.sh + 25
-    // chess cutscenes (producer-supplied; both _start.png and
-    // _end.png available on CDN for the chess set).
-    expect(posterCount).toBe(92);
+    // Every cutscene declares a canonical `<stem>_start.png` poster:
+    // 12 producer-supplied NEW_CUTSCENES_67 (9 original + 3 orphan-Veo)
+    // + 58 ffmpeg-generated via apps/scripts/extract_cutscene_posters.sh
+    // + 25 chess cutscenes (producer-supplied with both _start.png and
+    // _end.png on CDN).
+    expect(posterCount).toBe(95);
   });
 
   it("covers the 13 declared categories with the expected counts", () => {
@@ -72,10 +75,10 @@ describe("expansionCutscenes (NEW_CUTSCENES_67.zip + chess roster)", () => {
       comm_screen: 5,
       doctrine_binding: 7,
       forge: 5,
-      guild_room: 21,
-      mechronis_audit: 6,
+      guild_room: 22, // 21 original + cs_guild_iron_first_arrival (orphan-Veo)
+      mechronis_audit: 7, // 6 original + cs_audit_day21_warden (orphan-Veo)
       memory_card: 4,
-      mission: 7,
+      mission: 8, // 7 original + cs_mission_return_success (orphan-Veo)
       wardens_dock: 4,
       chess_tutorial: 9,
       chess_ladder: 12,
@@ -88,7 +91,7 @@ describe("expansionCutscenes (NEW_CUTSCENES_67.zip + chess roster)", () => {
       expect(expansionCutscenesByCategory(cat).length).toBe(count);
     }
     const totalByCat = Object.values(expected).reduce((a, b) => a + b, 0);
-    expect(totalByCat).toBe(92);
+    expect(totalByCat).toBe(95);
   });
 
   it("expansionCutsceneVideoUrl returns canonical CDN URL for a known clip", () => {
