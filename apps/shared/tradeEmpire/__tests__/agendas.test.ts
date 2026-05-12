@@ -95,11 +95,20 @@ describe("Priority-roster agenda coverage (NPC depth #1)", () => {
   });
 
   it("the_antiquarian agenda anchors on the Cross-References Desk (post-bible-correction)", () => {
-    const agenda = REFERENCE_AGENDAS.find(
-      a => a.npcKey === "the_antiquarian",
+    // The Antiquarian ships multiple reference agendas across seasons
+    // (shelfmates / cross-references-desk / etc.). Post-bible-correction
+    // the canonical anchor is the Cross-References Desk — assert that
+    // AT LEAST ONE agenda uses that primaryHouseKey rather than the
+    // first match by npcKey (which would break every time a new
+    // Antiquarian agenda is authored).
+    const agendas = REFERENCE_AGENDAS.filter(
+      (a) => a.npcKey === "the_antiquarian",
     );
-    expect(agenda).toBeDefined();
-    expect(agenda?.primaryHouseKey).toBe("antiquarian_cross_references_desk");
+    expect(agendas.length).toBeGreaterThan(0);
+    const anchored = agendas.some(
+      (a) => a.primaryHouseKey === "antiquarian_cross_references_desk",
+    );
+    expect(anchored).toBe(true);
   });
 
   it("wraith_calder Cultivate-the-Successor agenda gates on post_arena reveal", () => {

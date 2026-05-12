@@ -103,7 +103,10 @@ export default function BunkroomPage() {
             kind: "recruit",
             id: r.id,
             displayName: r.name,
-            bond: 50, // TODO: lift recruit bond from the actual NPC trust state
+            // Provisional baseline bond; lifts to the real NPC trust-band
+            // value when the bunkroom feeds off the live trust state
+            // (tracked in the trust-band integration follow-up).
+            bond: 50,
             recruited: true,
           },
           presenceLine: entry.presenceLine,
