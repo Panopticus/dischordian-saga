@@ -68,6 +68,7 @@ import { checkAxis12StateCoverage } from "./checks/axis12StateCoverage";
 import { checkStoryHookCoverage } from "./checks/storyHookCoverage";
 import { checkHotspotCoverage } from "./checks/hotspotCoverage";
 import { checkRoomReachabilityCoverage } from "./checks/roomReachabilityCoverage";
+import { checkExpansionCutsceneCoverage } from "./checks/expansionCutsceneCoverage";
 import { checkHumanWhisperRoomCoverage } from "./checks/humanWhisperRoomCoverage";
 import { checkMascoteerFileAuthorityCoverage } from "./checks/mascoteerFileAuthorityCoverage";
 import { checkMascoteerFileSurfaceLocation } from "./checks/mascoteerFileSurfaceLocation";
@@ -596,6 +597,19 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
       "Every deferred space (12 Hellboxes + 7 vehicles + 38 apprentice/pedagogy/berth/guild/Game-Master) has an explicit unlock declaration in apps/shared/roomGating/roomUnlockManifest.ts. Ratcheted; 60 destinations remain gated per their respective subsystems.",
     check: () => checkRoomReachabilityCoverage(),
     ratchet: { target: 0 },
+  },
+  {
+    // Phase H.L — Expansion-cutscene runtime coverage. Producer drop
+    // NEW_CUTSCENES_67.zip (2026-05-12) delivered 67 mp4 clips across
+    // 10 categories (berth, cohort_park, comm_screen, doctrine_binding,
+    // forge, guild_room, mechronis_audit, memory_card, mission,
+    // wardens_dock). Every clip needs at least one trigger entry in
+    // roomCutsceneTriggers.ts. Hard parity.
+    id: "art.expansion_cutscene_coverage",
+    name: "Expansion cutscene runtime trigger coverage",
+    description:
+      "Every cutscene declared in cinematicsManifest.EXPANSION_CUTSCENES is wired to at least one runtime trigger in roomCutsceneTriggers.ROOM_CUTSCENE_TRIGGERS. A producer-delivered cutscene without a trigger is unreachable in-game.",
+    check: () => checkExpansionCutsceneCoverage(),
   },
   // ─── The Human / four-era surface ────────────────────────────
   // Beat-H expansion: whispers + Mascoteer files (Era 1) +

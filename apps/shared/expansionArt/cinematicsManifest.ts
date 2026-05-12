@@ -405,7 +405,69 @@ export function vfxByCategory(category: VfxCategory): readonly VfxDef[] {
   return VFX_VIDEO_MANIFEST.byField("category", category);
 }
 
+/* ─── Expansion cutscenes (producer drop NEW_CUTSCENES_67.zip, 2026-05-12) ─── */
+
+/**
+ * Producer category for the room/event cutscenes shipped in
+ * NEW_CUTSCENES_67.zip — each maps to a distinct in-game surface
+ * (apprentice berth, the_forge, doctrine_binding_chamber, etc.).
+ */
+export type ExpansionCutsceneCategory =
+  | "berth"
+  | "cohort_park"
+  | "comm_screen"
+  | "doctrine_binding"
+  | "forge"
+  | "guild_room"
+  | "mechronis_audit"
+  | "memory_card"
+  | "mission"
+  | "wardens_dock";
+
+export interface ExpansionCutsceneDef {
+  /** Producer slug — matches the .mp4 filename stem (e.g. "cs_forge_first_creation"). */
+  readonly id: string;
+  /** Producer category (= subdirectory under art/cutscenes/). */
+  readonly category: ExpansionCutsceneCategory;
+  /** mp4 path relative to apps/client/public/. */
+  readonly videoRelPath: string;
+  /** Optional poster image — producer ships a `<stem>_start.png` for a
+   *  subset of clips; the rest fall back to no-poster playback. */
+  readonly posterRelPath?: string;
+}
+
+import { EXPANSION_CUTSCENES_DATA } from "./expansionCutscenes.data";
+
+export const EXPANSION_CUTSCENES: readonly ExpansionCutsceneDef[] =
+  EXPANSION_CUTSCENES_DATA;
+
+const EXPANSION_CUTSCENE_VIDEO_MANIFEST = makeAssetManifest(
+  EXPANSION_CUTSCENES,
+  "id",
+  "videoRelPath",
+);
+
+/** Resolve an expansion-cutscene mp4 URL by slug. */
+export const expansionCutsceneVideoUrl = EXPANSION_CUTSCENE_VIDEO_MANIFEST.urlOf;
+
+/** Resolve an expansion-cutscene poster URL by slug (undefined when no poster shipped). */
+export function expansionCutscenePosterUrl(id: string): string | undefined {
+  const entry = EXPANSION_CUTSCENE_VIDEO_MANIFEST.byId.get(id);
+  return entry?.posterRelPath ? assetUrl(entry.posterRelPath) : undefined;
+}
+
+/** All expansion cutscenes in a category. */
+export function expansionCutscenesByCategory(
+  category: ExpansionCutsceneCategory,
+): readonly ExpansionCutsceneDef[] {
+  return EXPANSION_CUTSCENE_VIDEO_MANIFEST.byField("category", category);
+}
+
+/** Lookup helper used by the room-cutscene-trigger registry. */
+export const expansionCutsceneById = EXPANSION_CUTSCENE_VIDEO_MANIFEST.byId;
+
 /* ─── Totals (exposed for tests + dashboards) ─── */
 
 export const CINEMATICS_TOTAL = CINEMATICS_MANIFEST.total;
 export const VFX_TOTAL = VFX_VIDEO_MANIFEST.total;
+export const EXPANSION_CUTSCENE_TOTAL = EXPANSION_CUTSCENE_VIDEO_MANIFEST.total;
