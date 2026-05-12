@@ -177,6 +177,16 @@ run_stage "Stage 13f / vo:guild-cutscenes" pnpm vo:guild-cutscenes
 # this stage the taunts silently fall back to text-only.
 run_stage "Stage 13g / vo:act1-taunts"     pnpm vo:act1-taunts
 
+# vo:npc-first-meet: 54 first-meeting transcripts across 8 priority-
+# roster NPCs (vex_solene, the_degen, the_game_master, the_meme,
+# the_oracle, the_seer, adjudicator_locke, wraith_calder). Each NPC
+# has its own ELEVENLABS_VOICE_ID_<KEY> env var; the script
+# gracefully skips any NPC whose voice id isn't set, so partial-cast
+# rollouts (e.g. only Vex + Degen recorded so far) render what they
+# can without blocking the whole run-all. Idempotent — already-
+# rendered ids in each per-NPC manifest are skipped on re-run.
+run_stage "Stage 13h / vo:npc-first-meet"  pnpm vo:npc-first-meet
+
 # ── Stage 5: Per-character Python generators ──────────
 if [ $SKIP_PYTHON -eq 0 ]; then
   for char in elara human agent_zero antiquarian cades degen locke \
