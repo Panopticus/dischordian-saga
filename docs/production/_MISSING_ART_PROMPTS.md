@@ -1,5 +1,19 @@
 # _MISSING_ART_PROMPTS.md — outstanding producer-art deliverables
 
+> **UPDATE 2026-05-12 (evening)** — the **NEW_ART_{1,2,3} megadrop**
+> (1,838 files; ingested via `apps/shared/expansionArt/newArtManifest.ts`)
+> closes **§C (7 vehicles)** and **§D (60 destinations)**, and adds
+> substantial coverage to §F via apprentice + recruit sprite atlases.
+> Outstanding gaps as of this update:
+>
+> - **§A** — 3 orphan poster → animation Veo clips
+> - **§B** — 58 cutscene keyframes (NB2 stills or ffmpeg first-frame)
+> - **§E** — 5 producer-NEW rooms (spec retrofit only; art live)
+>
+> The sections below preserve the original gap analysis for reference.
+
+---
+
 Generated 2026-05-12 from `roomArtManifest.roomArtCoverageReport()` + the
 NEW_CUTSCENES_67.zip ingest. Each section below maps to a category of
 missing asset, with a producer-ready prompt scaffolded against the
