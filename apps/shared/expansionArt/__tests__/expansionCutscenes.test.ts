@@ -57,14 +57,12 @@ describe("expansionCutscenes (NEW_CUTSCENES_67.zip + chess roster)", () => {
         );
       }
     }
-    // Every NEW_CUTSCENES_67.zip cutscene (67) declares a canonical
-    // `<stem>_start.png` poster path: 9 producer-supplied + 58 from
-    // ffmpeg first-frame extraction via
-    // apps/scripts/extract_cutscene_posters.sh. The 25 chess
-    // cutscenes declared in chessCutscenes.data.ts don't carry a
-    // posterRelPath yet (pending producer render per
-    // docs/production/_CHESS_CUTSCENE_PROMPTS.md).
-    expect(posterCount).toBe(67);
+    // Every cutscene now declares a canonical `<stem>_start.png`
+    // poster path: 9 producer-supplied NEW_CUTSCENES_67 + 58 ffmpeg-
+    // generated via apps/scripts/extract_cutscene_posters.sh + 25
+    // chess cutscenes (producer-supplied; both _start.png and
+    // _end.png available on CDN for the chess set).
+    expect(posterCount).toBe(92);
   });
 
   it("covers the 13 declared categories with the expected counts", () => {
@@ -122,7 +120,9 @@ describe("expansionCutscenes (NEW_CUTSCENES_67.zip + chess roster)", () => {
     expect(expansionCutscenePosterUrl("cs_berth_sleep")).toBe(
       "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/cutscenes/berth/cs_berth_sleep_start.png",
     );
-    // Chess cutscene (no poster declared) still returns undefined.
-    expect(expansionCutscenePosterUrl("cs_chess_tut_g1_intro")).toBeUndefined();
+    // Chess cutscene (poster now declared after producer delivery).
+    expect(expansionCutscenePosterUrl("cs_chess_tut_g1_intro")).toBe(
+      "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/cutscenes/chess_tutorial/cs_chess_tut_g1_intro_start.png",
+    );
   });
 });
