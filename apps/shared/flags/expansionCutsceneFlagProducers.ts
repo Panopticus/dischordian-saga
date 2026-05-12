@@ -144,6 +144,9 @@ export function fireAuditDay14ScholarActive(setNarrativeFlag: SetNarrativeFlagFn
 export function fireAuditDay21MartyrActive(setNarrativeFlag: SetNarrativeFlagFn): void {
   setNarrativeFlag("audit_day21_martyr_active", true);
 }
+export function fireAuditDay21WardenActive(setNarrativeFlag: SetNarrativeFlagFn): void {
+  setNarrativeFlag("audit_day21_warden_active", true);
+}
 export function fireAuditVerdictMercy(setNarrativeFlag: SetNarrativeFlagFn): void {
   setNarrativeFlag("audit_verdict_mercy", true);
 }

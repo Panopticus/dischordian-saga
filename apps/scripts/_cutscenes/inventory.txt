@@ -77,3 +77,6 @@ wardens_dock/cs_warden_escape.mp4
 wardens_dock/cs_warden_purge_notice.mp4
 wardens_dock/cs_warden_purge_notice_start.png
 wardens_dock/cs_warden_resist.mp4
+guild_room/cs_guild_iron_first_arrival.mp4
+mechronis_audit/cs_audit_day21_warden.mp4
+mission/cs_mission_return_success.mp4

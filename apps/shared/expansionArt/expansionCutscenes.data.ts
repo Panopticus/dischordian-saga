@@ -11,10 +11,10 @@
  *   comm_screen            5
  *   doctrine_binding       7
  *   forge                  5
- *   guild_room             21
- *   mechronis_audit        6
+ *   guild_room             22
+ *   mechronis_audit        7
  *   memory_card            4
- *   mission                7
+ *   mission                8
  *   wardens_dock           4
  */
 
@@ -232,6 +232,12 @@ export const EXPANSION_CUTSCENES_DATA: readonly ExpansionCutsceneDef[] = [
     posterRelPath: "art/cutscenes/guild_room/cs_guild_glass_first_arrival_start.png",
   },
   {
+    id: "cs_guild_iron_first_arrival",
+    category: "guild_room",
+    videoRelPath: "art/cutscenes/guild_room/cs_guild_iron_first_arrival.mp4",
+    posterRelPath: "art/cutscenes/guild_room/cs_guild_iron_first_arrival_start.png",
+  },
+  {
     id: "cs_guild_ledger_first_arrival",
     category: "guild_room",
     videoRelPath: "art/cutscenes/guild_room/cs_guild_ledger_first_arrival.mp4",
@@ -316,6 +322,12 @@ export const EXPANSION_CUTSCENES_DATA: readonly ExpansionCutsceneDef[] = [
     posterRelPath: "art/cutscenes/mechronis_audit/cs_audit_day21_martyr_start.png",
   },
   {
+    id: "cs_audit_day21_warden",
+    category: "mechronis_audit",
+    videoRelPath: "art/cutscenes/mechronis_audit/cs_audit_day21_warden.mp4",
+    posterRelPath: "art/cutscenes/mechronis_audit/cs_audit_day21_warden_start.png",
+  },
+  {
     id: "cs_audit_day28_verdict_mercy",
     category: "mechronis_audit",
     videoRelPath: "art/cutscenes/mechronis_audit/cs_audit_day28_verdict_mercy.mp4",
@@ -386,6 +398,12 @@ export const EXPANSION_CUTSCENES_DATA: readonly ExpansionCutsceneDef[] = [
     category: "mission",
     videoRelPath: "art/cutscenes/mission/cs_mission_return_failure.mp4",
     posterRelPath: "art/cutscenes/mission/cs_mission_return_failure_start.png",
+  },
+  {
+    id: "cs_mission_return_success",
+    category: "mission",
+    videoRelPath: "art/cutscenes/mission/cs_mission_return_success.mp4",
+    posterRelPath: "art/cutscenes/mission/cs_mission_return_success_start.png",
   },
   {
     id: "cs_mission_tier2_briefing",

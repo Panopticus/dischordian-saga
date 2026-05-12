@@ -182,6 +182,7 @@ export const NARRATIVE_FLAG_REGISTRY: ReadonlyArray<NarrativeFlagEntry> = [
   { flag: "audit_day14_heretic_active", category: "act_branch", owner: "mechronis_audit", notes: "Day-14 Heretic audit-Hellbox segment is active." },
   { flag: "audit_day14_scholar_active", category: "act_branch", owner: "mechronis_audit", notes: "Day-14 Scholar audit-Hellbox segment is active." },
   { flag: "audit_day21_martyr_active", category: "act_branch", owner: "mechronis_audit", notes: "Day-21 Martyr audit-Hellbox segment is active." },
+  { flag: "audit_day21_warden_active", category: "act_branch", owner: "mechronis_audit", notes: "Day-21 Warden audit-Hellbox segment is active (parallel to Martyr branch)." },
   { flag: "audit_verdict_mercy", category: "act_branch", owner: "mechronis_audit", notes: "Audit-Hellbox verdict resolved on the Mercy outcome." },
   { flag: "audit_verdict_purge", category: "act_branch", owner: "mechronis_audit", notes: "Audit-Hellbox verdict resolved on the Purge outcome." },
   { flag: "memory_card_minted", category: "system_unlock", owner: "memory_card_library", notes: "Player minted a memory card at the Memory Library." },

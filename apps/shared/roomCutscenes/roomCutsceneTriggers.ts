@@ -264,10 +264,12 @@ export const ROOM_CUTSCENE_TRIGGERS: readonly RoomCutsceneTrigger[] = [
     flagId: "glass_archon_summoned",
     oneShot: true,
   },
-  // cs_guild_iron_first_arrival — producer shipped only the poster
-  // (cs_guild_iron_first_arrival_start.png); no mp4 yet. When the
-  // animation ships, re-add a room_first_enter trigger on
-  // zipDir = "house_of_iron".
+  {
+    cutsceneId: "cs_guild_iron_first_arrival",
+    kind: "room_first_enter",
+    zipDir: "house_of_iron",
+    oneShot: true,
+  },
   {
     cutsceneId: "cs_guild_ledger_first_arrival",
     kind: "room_first_enter",
@@ -399,6 +401,12 @@ export const ROOM_CUTSCENE_TRIGGERS: readonly RoomCutsceneTrigger[] = [
     flagId: "audit_verdict_purge",
     oneShot: true,
   },
+  {
+    cutsceneId: "cs_audit_day21_warden",
+    kind: "flag_set",
+    flagId: "audit_day21_warden_active",
+    oneShot: true,
+  },
 
   /* ── memory_card (4) — memory_card_library beats ── */
   {
@@ -467,6 +475,12 @@ export const ROOM_CUTSCENE_TRIGGERS: readonly RoomCutsceneTrigger[] = [
     cutsceneId: "cs_mission_return_failure",
     kind: "mission_phase",
     missionPhase: "return_failure",
+    oneShot: true,
+  },
+  {
+    cutsceneId: "cs_mission_return_success",
+    kind: "mission_phase",
+    missionPhase: "return_success",
     oneShot: true,
   },
 
