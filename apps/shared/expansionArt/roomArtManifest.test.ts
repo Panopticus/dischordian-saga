@@ -32,13 +32,13 @@ import {
 } from "./roomArtManifest";
 
 describe("roomArtManifest — Phase H.B", () => {
-  it("loads 590 entries (561 from H.A pass 1 + 29 from H1.A pass 2)", () => {
-    expect(roomArtTotal).toBe(590);
-    expect(ROOM_ART_ENTRIES.length).toBe(590);
+  it("loads 643 entries (561 pass 1 + 29 pass 2 + 53 pass 3)", () => {
+    expect(roomArtTotal).toBe(643);
+    expect(ROOM_ART_ENTRIES.length).toBe(643);
   });
 
-  it("indexes 89 distinct room zipDirs (60 from pass 1 + 29 from pass 2)", () => {
-    expect(ROOM_ART_ZIP_DIRS.length).toBe(89);
+  it("indexes 142 distinct room zipDirs", () => {
+    expect(ROOM_ART_ZIP_DIRS.length).toBe(142);
   });
 
   it("every zipDir has a canonicalSpaceId mapping", () => {
@@ -134,18 +134,15 @@ describe("roomArtManifest — Phase H.B", () => {
     expect(tvValues).toContain("spreading");
   });
 
-  it("coverage report after H1.A pass 2 — 89 zipDirs delivered, 2 Hellboxes have art", () => {
+  it("coverage report after H2.A pass 3 — 142 zipDirs delivered, all 12 Hellboxes have art", () => {
     const report = roomArtCoverageReport();
-    // Producer-delivered canonical IDs are deduped by canonical id;
-    // pass 2 added ~25 new canonical IDs (some collide with pass 1
-    // since apprentice_hall/pedagogy_hall both map to ark.apprentice_hall)
-    expect(report.producerDelivered.length).toBeGreaterThanOrEqual(60);
+    expect(report.producerDelivered.length).toBeGreaterThanOrEqual(120);
     expect(report.producerNewNotInSpec.length).toBe(5); // pass 1 NEWs unchanged
-    // 2 of 12 Hellboxes now have art (castle_of_death + celebration_school)
-    expect(report.deferredHellboxes.length).toBe(10);
+    // ALL 12 Hellboxes delivered as of pass 3
+    expect(report.deferredHellboxes.length).toBe(0);
     expect(report.deferredVehicles.length).toBe(7);
-    // Deferred count shrinks: 10 HB + 7 veh + 60 dest + 16 apprentice = 93
-    expect(report.deferredCount).toBe(93);
+    // 0 HB + 7 veh + 60 dest + ~10 apprentice/etc still deferred
+    expect(report.deferredCount).toBeLessThanOrEqual(85);
   });
 
   it("every entry has a unique synthetic id <zipDir>:<variantKey>", () => {

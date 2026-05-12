@@ -1,0 +1,494 @@
+{
+  "house_of_garden": {
+    "zip_dir": "house_of_garden",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "house_of_remnant": {
+    "zip_dir": "house_of_remnant",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "hellbox/castle_of_death": {
+    "zip_dir": "hellbox/castle_of_death",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "hellbox/castle_of_death/throne_of_mercy_apse": {
+    "zip_dir": "hellbox/castle_of_death/throne_of_mercy_apse",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "hellbox/castle_of_death/chamber_of_the_forgotten": {
+    "zip_dir": "hellbox/castle_of_death/chamber_of_the_forgotten",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "hellbox/castle_of_death/forgive_or_damn_tribunal": {
+    "zip_dir": "hellbox/castle_of_death/forgive_or_damn_tribunal",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "hellbox/castle_of_death/hall_of_acknowledged_debts": {
+    "zip_dir": "hellbox/castle_of_death/hall_of_acknowledged_debts",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "hellbox/dischordian_arena": {
+    "zip_dir": "hellbox/dischordian_arena",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "hellbox/degenerates_casino": {
+    "zip_dir": "hellbox/degenerates_casino",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "hellbox/eternal_match": {
+    "zip_dir": "hellbox/eternal_match",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "hellbox/the_hive": {
+    "zip_dir": "hellbox/the_hive",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "hellbox/hall_of_collected_souls": {
+    "zip_dir": "hellbox/hall_of_collected_souls",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "hellbox/celebration_school": {
+    "zip_dir": "hellbox/celebration_school",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "hellbox/celebration_school/cathedral_apse": {
+    "zip_dir": "hellbox/celebration_school/cathedral_apse",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "hellbox/celebration_school/playground": {
+    "zip_dir": "hellbox/celebration_school/playground",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "hellbox/editors_workshop": {
+    "zip_dir": "hellbox/editors_workshop",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "hellbox/quiz_show_palimpsest": {
+    "zip_dir": "hellbox/quiz_show_palimpsest",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "hellbox/dead_mans_circuit": {
+    "zip_dir": "hellbox/dead_mans_circuit",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "hellbox/mechronis_academy": {
+    "zip_dir": "hellbox/mechronis_academy",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "hellbox/universal_selector": {
+    "zip_dir": "hellbox/universal_selector",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "house_of_chapel": {
+    "zip_dir": "house_of_chapel",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "house_of_anvil": {
+    "zip_dir": "house_of_anvil",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "atrium_main": {
+    "zip_dir": "atrium_main",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "essence_harvest_sanctum": {
+    "zip_dir": "essence_harvest_sanctum",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "house_of_ledger": {
+    "zip_dir": "house_of_ledger",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "forge_anteroom": {
+    "zip_dir": "forge_anteroom",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "audit_chamber": {
+    "zip_dir": "audit_chamber",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "house_of_smoke": {
+    "zip_dir": "house_of_smoke",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "pedagogy_classroom": {
+    "zip_dir": "pedagogy_classroom",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "berths/martyr": {
+    "zip_dir": "berths/martyr",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "berths/prodigal": {
+    "zip_dir": "berths/prodigal",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "berths/wanderer": {
+    "zip_dir": "berths/wanderer",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "berths/scholar": {
+    "zip_dir": "berths/scholar",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "berths/zealot": {
+    "zip_dir": "berths/zealot",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "berths/heretic": {
+    "zip_dir": "berths/heretic",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "berths/ghost": {
+    "zip_dir": "berths/ghost",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "berths/sentinel": {
+    "zip_dir": "berths/sentinel",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "berths/oracle": {
+    "zip_dir": "berths/oracle",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "berths/artisan": {
+    "zip_dir": "berths/artisan",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "berths/revenant": {
+    "zip_dir": "berths/revenant",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "berths/jester": {
+    "zip_dir": "berths/jester",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "memory_card_library": {
+    "zip_dir": "memory_card_library",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "collectors_arena": {
+    "zip_dir": "collectors_arena",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "apprentice_cellblock": {
+    "zip_dir": "apprentice_cellblock",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "memory_anteroom": {
+    "zip_dir": "memory_anteroom",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "blood_weave_atrium": {
+    "zip_dir": "blood_weave_atrium",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "prelude_corridor": {
+    "zip_dir": "prelude_corridor",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "human_observation_deck": {
+    "zip_dir": "human_observation_deck",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "atrium_upper": {
+    "zip_dir": "atrium_upper",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "recruit_berths/akai_shi": {
+    "zip_dir": "recruit_berths/akai_shi",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "recruit_berths/jericho_jones": {
+    "zip_dir": "recruit_berths/jericho_jones",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "recruit_berths/locke": {
+    "zip_dir": "recruit_berths/locke",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "recruit_berths/wraith_calder": {
+    "zip_dir": "recruit_berths/wraith_calder",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "recruit_berths/vex_solene": {
+    "zip_dir": "recruit_berths/vex_solene",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "pedagogy_lab": {
+    "zip_dir": "pedagogy_lab",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "the_forge": {
+    "zip_dir": "the_forge",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "signature_card_forge": {
+    "zip_dir": "signature_card_forge",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "mission_briefing_war_room": {
+    "zip_dir": "mission_briefing_war_room",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "personal_quest_ledger": {
+    "zip_dir": "personal_quest_ledger",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "personal_quarters": {
+    "zip_dir": "personal_quarters",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "trial_hall": {
+    "zip_dir": "trial_hall",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "triangle_alcove": {
+    "zip_dir": "triangle_alcove",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "recruit_vestibule": {
+    "zip_dir": "recruit_vestibule",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "house_of_thurible": {
+    "zip_dir": "house_of_thurible",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "house_of_iron": {
+    "zip_dir": "house_of_iron",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "wardens_dock": {
+    "zip_dir": "wardens_dock",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "guild_common_room": {
+    "zip_dir": "guild_common_room",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "apprentice_hall": {
+    "zip_dir": "apprentice_hall",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "game_hall": {
+    "zip_dir": "game_hall",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "doctrine_binding_chamber": {
+    "zip_dir": "doctrine_binding_chamber",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "elara_bridge_berth": {
+    "zip_dir": "elara_bridge_berth",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "post_mission_return_hub": {
+    "zip_dir": "post_mission_return_hub",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "mourning_wall": {
+    "zip_dir": "mourning_wall",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "training_barracks": {
+    "zip_dir": "training_barracks",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "house_of_circuit": {
+    "zip_dir": "house_of_circuit",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "house_of_glass": {
+    "zip_dir": "house_of_glass",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "hellbox_clone_bench": {
+    "zip_dir": "hellbox_clone_bench",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "warden_dock": {
+    "zip_dir": "warden_dock",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "atrium_lower": {
+    "zip_dir": "atrium_lower",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "house_of_mirror": {
+    "zip_dir": "house_of_mirror",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "house_of_tower": {
+    "zip_dir": "house_of_tower",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  },
+  "pedagogy_lecture_hall": {
+    "zip_dir": "pedagogy_lecture_hall",
+    "baseline": "baseline.png",
+    "state_count": 0,
+    "states": []
+  }
+}
