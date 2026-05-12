@@ -41,7 +41,7 @@ ZIP_URL=""
 DRY_RUN=""
 SKIP_EXTRACT=""
 PUBLIC_DEST="apps/client/public/art/rooms"
-TMP_DIR="/tmp/rooms_library"
+TMP_BASE="/tmp/rooms_library"
 
 usage() {
   cat <<EOF
@@ -79,12 +79,13 @@ done
 
 if [[ -z "$SKIP_EXTRACT" ]]; then
 
-  # Download if --url given and zip not already at --zip path
+  # Per-zip extract dir, derived from the zip filename — so pass 1, 2, 3
+  # don't collide and re-extracts don't get silently skipped.
   if [[ -n "$ZIP_URL" && -z "$ZIP_PATH" ]]; then
-    mkdir -p "$TMP_DIR"
-    ZIP_PATH="$TMP_DIR/rooms_complete_library.zip"
+    mkdir -p "$TMP_BASE"
+    ZIP_PATH="$TMP_BASE/$(basename "${ZIP_URL%%\?*}")"
     if [[ ! -f "$ZIP_PATH" ]]; then
-      echo "[H.A] Downloading rooms_complete_library.zip from presigned URL..."
+      echo "[H.A] Downloading $(basename "$ZIP_PATH") from presigned URL..."
       curl -fsSL -o "$ZIP_PATH" "$ZIP_URL"
       echo "[H.A] Downloaded $(du -h "$ZIP_PATH" | cut -f1)"
     fi
@@ -95,27 +96,43 @@ if [[ -z "$SKIP_EXTRACT" ]]; then
     exit 1
   fi
 
-  # Extract into a tmp dir to verify structure, then sync into public/
+  ZIP_BASENAME=$(basename "$ZIP_PATH" .zip)
+  TMP_DIR="$TMP_BASE/$ZIP_BASENAME"
+
+  # Always re-extract — cheap (~seconds) and avoids stale-cache bugs across passes.
+  rm -rf "$TMP_DIR"
   mkdir -p "$TMP_DIR"
-  if [[ ! -d "$TMP_DIR/rooms" ]]; then
-    echo "[H.A] Extracting zip to $TMP_DIR..."
-    unzip -q -o "$ZIP_PATH" -d "$TMP_DIR"
+  echo "[H.A] Extracting $(basename "$ZIP_PATH") to $TMP_DIR..."
+  unzip -q -o "$ZIP_PATH" -d "$TMP_DIR"
+
+  # Auto-detect the zip's internal layout. Producer passes used three
+  # different conventions:
+  #   pass 1 (rooms_complete_library.zip):  rooms/<zipDir>/<file>
+  #   pass 2 (final_22_rooms.zip):          <zipDir>/<file>     (bare; some nested under hellbox/)
+  #   pass 3 (NEW_ROOMS_82.zip):            art/rooms/<zipDir>/<file>
+  if [[ -d "$TMP_DIR/art/rooms" ]]; then
+    SOURCE_DIR="$TMP_DIR/art/rooms"
+  elif [[ -d "$TMP_DIR/rooms" ]]; then
+    SOURCE_DIR="$TMP_DIR/rooms"
+  else
+    SOURCE_DIR="$TMP_DIR"
   fi
 
-  # Verify structure
-  if [[ ! -d "$TMP_DIR/rooms" ]]; then
-    echo "Error: extracted zip does not contain a rooms/ directory" >&2
+  # Count .png files under SOURCE_DIR; count distinct top-level dirs as a sanity readout.
+  FILE_COUNT=$(find "$SOURCE_DIR" -type f -name "*.png" | wc -l | tr -d ' ')
+  ROOM_COUNT=$(find "$SOURCE_DIR" -mindepth 1 -maxdepth 1 -type d | wc -l | tr -d ' ')
+  echo "[H.A] Extract OK: layout=$SOURCE_DIR — $ROOM_COUNT top-level dirs / $FILE_COUNT PNG files"
+
+  if [[ "$FILE_COUNT" -eq 0 ]]; then
+    echo "Error: no PNG files found under $SOURCE_DIR — zip layout not recognised" >&2
     exit 1
   fi
 
-  ROOM_COUNT=$(find "$TMP_DIR/rooms" -maxdepth 1 -type d | tail -n +2 | wc -l)
-  FILE_COUNT=$(find "$TMP_DIR/rooms" -type f -name "*.png" | wc -l)
-  echo "[H.A] Extract OK: $ROOM_COUNT rooms / $FILE_COUNT PNG files"
-
-  # Sync into apps/client/public/art/rooms/ (mirrors public/ → S3 convention)
+  # Sync into apps/client/public/art/rooms/ — preserves subdir structure
+  # (e.g. hellbox/castle_of_death/throne_of_mercy_apse/baseline.png).
   echo "[H.A] Syncing into $PUBLIC_DEST/..."
   mkdir -p "$PUBLIC_DEST"
-  cp -r "$TMP_DIR/rooms/"* "$PUBLIC_DEST/"
+  cp -R "$SOURCE_DIR/"* "$PUBLIC_DEST/"
   echo "[H.A] Sync complete"
 
 fi
