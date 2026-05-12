@@ -13,9 +13,10 @@
  *   - 4 chess Climb tier entries (chess_climb)
  *     Corrupted-GM wager beats per chessClimbTiers.ts.
  *
- * Each entry is addressable via expansionCutsceneVideoUrl(id). Posters
- * are optional and not yet shipped (producer prompts in
- * docs/production/_CHESS_CUTSCENE_PROMPTS.md generate them).
+ * Each entry is addressable via expansionCutsceneVideoUrl(id). All 25
+ * cutscenes ship with both a `_start.png` poster (declared as
+ * posterRelPath) and a `_end.png` closing frame (on CDN at the same
+ * prefix; addressable via expansionCutsceneUrl directly when needed).
  *
  * Re-generate via inspection of CHESS_CHARACTERS + CHESS_TUTORIAL_GATES
  * + CHESS_CLIMB_TIER_IDS if new opponents / gates / tiers are added.
@@ -29,46 +30,55 @@ export const CHESS_CUTSCENES_DATA: readonly ExpansionCutsceneDef[] = [
     id: "cs_chess_tut_g1_intro",
     category: "chess_tutorial",
     videoRelPath: "art/cutscenes/chess_tutorial/cs_chess_tut_g1_intro.mp4",
+    posterRelPath: "art/cutscenes/chess_tutorial/cs_chess_tut_g1_intro_start.png",
   },
   {
     id: "cs_chess_tut_g2_intro",
     category: "chess_tutorial",
     videoRelPath: "art/cutscenes/chess_tutorial/cs_chess_tut_g2_intro.mp4",
+    posterRelPath: "art/cutscenes/chess_tutorial/cs_chess_tut_g2_intro_start.png",
   },
   {
     id: "cs_chess_tut_g3_intro",
     category: "chess_tutorial",
     videoRelPath: "art/cutscenes/chess_tutorial/cs_chess_tut_g3_intro.mp4",
+    posterRelPath: "art/cutscenes/chess_tutorial/cs_chess_tut_g3_intro_start.png",
   },
   {
     id: "cs_chess_tut_g4_intro",
     category: "chess_tutorial",
     videoRelPath: "art/cutscenes/chess_tutorial/cs_chess_tut_g4_intro.mp4",
+    posterRelPath: "art/cutscenes/chess_tutorial/cs_chess_tut_g4_intro_start.png",
   },
   {
     id: "cs_chess_tut_g4_5_intro",
     category: "chess_tutorial",
     videoRelPath: "art/cutscenes/chess_tutorial/cs_chess_tut_g4_5_intro.mp4",
+    posterRelPath: "art/cutscenes/chess_tutorial/cs_chess_tut_g4_5_intro_start.png",
   },
   {
     id: "cs_chess_tut_g5_intro",
     category: "chess_tutorial",
     videoRelPath: "art/cutscenes/chess_tutorial/cs_chess_tut_g5_intro.mp4",
+    posterRelPath: "art/cutscenes/chess_tutorial/cs_chess_tut_g5_intro_start.png",
   },
   {
     id: "cs_chess_tut_g5_5_intro",
     category: "chess_tutorial",
     videoRelPath: "art/cutscenes/chess_tutorial/cs_chess_tut_g5_5_intro.mp4",
+    posterRelPath: "art/cutscenes/chess_tutorial/cs_chess_tut_g5_5_intro_start.png",
   },
   {
     id: "cs_chess_tut_g6_intro",
     category: "chess_tutorial",
     videoRelPath: "art/cutscenes/chess_tutorial/cs_chess_tut_g6_intro.mp4",
+    posterRelPath: "art/cutscenes/chess_tutorial/cs_chess_tut_g6_intro_start.png",
   },
   {
     id: "cs_chess_tut_g7_intro",
     category: "chess_tutorial",
     videoRelPath: "art/cutscenes/chess_tutorial/cs_chess_tut_g7_intro.mp4",
+    posterRelPath: "art/cutscenes/chess_tutorial/cs_chess_tut_g7_intro_start.png",
   },
 
   /* ─── Ladder first-encounters — 11 canonical storyOrder + 1 hidden ─── */
@@ -76,61 +86,73 @@ export const CHESS_CUTSCENES_DATA: readonly ExpansionCutsceneDef[] = [
     id: "cs_chess_ladder_the_human_first_seated",
     category: "chess_ladder",
     videoRelPath: "art/cutscenes/chess_ladder/cs_chess_ladder_the_human_first_seated.mp4",
+    posterRelPath: "art/cutscenes/chess_ladder/cs_chess_ladder_the_human_first_seated_start.png",
   },
   {
     id: "cs_chess_ladder_the_collector_first_seated",
     category: "chess_ladder",
     videoRelPath: "art/cutscenes/chess_ladder/cs_chess_ladder_the_collector_first_seated.mp4",
+    posterRelPath: "art/cutscenes/chess_ladder/cs_chess_ladder_the_collector_first_seated_start.png",
   },
   {
     id: "cs_chess_ladder_iron_lion_first_seated",
     category: "chess_ladder",
     videoRelPath: "art/cutscenes/chess_ladder/cs_chess_ladder_iron_lion_first_seated.mp4",
+    posterRelPath: "art/cutscenes/chess_ladder/cs_chess_ladder_iron_lion_first_seated_start.png",
   },
   {
     id: "cs_chess_ladder_the_enigma_first_seated",
     category: "chess_ladder",
     videoRelPath: "art/cutscenes/chess_ladder/cs_chess_ladder_the_enigma_first_seated.mp4",
+    posterRelPath: "art/cutscenes/chess_ladder/cs_chess_ladder_the_enigma_first_seated_start.png",
   },
   {
     id: "cs_chess_ladder_the_warlord_first_seated",
     category: "chess_ladder",
     videoRelPath: "art/cutscenes/chess_ladder/cs_chess_ladder_the_warlord_first_seated.mp4",
+    posterRelPath: "art/cutscenes/chess_ladder/cs_chess_ladder_the_warlord_first_seated_start.png",
   },
   {
     id: "cs_chess_ladder_the_oracle_first_seated",
     category: "chess_ladder",
     videoRelPath: "art/cutscenes/chess_ladder/cs_chess_ladder_the_oracle_first_seated.mp4",
+    posterRelPath: "art/cutscenes/chess_ladder/cs_chess_ladder_the_oracle_first_seated_start.png",
   },
   {
     id: "cs_chess_ladder_the_necromancer_first_seated",
     category: "chess_ladder",
     videoRelPath: "art/cutscenes/chess_ladder/cs_chess_ladder_the_necromancer_first_seated.mp4",
+    posterRelPath: "art/cutscenes/chess_ladder/cs_chess_ladder_the_necromancer_first_seated_start.png",
   },
   {
     id: "cs_chess_ladder_the_programmer_first_seated",
     category: "chess_ladder",
     videoRelPath: "art/cutscenes/chess_ladder/cs_chess_ladder_the_programmer_first_seated.mp4",
+    posterRelPath: "art/cutscenes/chess_ladder/cs_chess_ladder_the_programmer_first_seated_start.png",
   },
   {
     id: "cs_chess_ladder_agent_zero_first_seated",
     category: "chess_ladder",
     videoRelPath: "art/cutscenes/chess_ladder/cs_chess_ladder_agent_zero_first_seated.mp4",
+    posterRelPath: "art/cutscenes/chess_ladder/cs_chess_ladder_agent_zero_first_seated_start.png",
   },
   {
     id: "cs_chess_ladder_the_source_first_seated",
     category: "chess_ladder",
     videoRelPath: "art/cutscenes/chess_ladder/cs_chess_ladder_the_source_first_seated.mp4",
+    posterRelPath: "art/cutscenes/chess_ladder/cs_chess_ladder_the_source_first_seated_start.png",
   },
   {
     id: "cs_chess_ladder_game_master_first_seated",
     category: "chess_ladder",
     videoRelPath: "art/cutscenes/chess_ladder/cs_chess_ladder_game_master_first_seated.mp4",
+    posterRelPath: "art/cutscenes/chess_ladder/cs_chess_ladder_game_master_first_seated_start.png",
   },
   {
     id: "cs_chess_ladder_the_architect_first_seated",
     category: "chess_ladder",
     videoRelPath: "art/cutscenes/chess_ladder/cs_chess_ladder_the_architect_first_seated.mp4",
+    posterRelPath: "art/cutscenes/chess_ladder/cs_chess_ladder_the_architect_first_seated_start.png",
   },
 
   /* ─── Chess Climb — 4 wager-tier entries (corrupted GM) ─── */
@@ -138,20 +160,24 @@ export const CHESS_CUTSCENES_DATA: readonly ExpansionCutsceneDef[] = [
     id: "cs_chess_climb_tier_0_exhibition",
     category: "chess_climb",
     videoRelPath: "art/cutscenes/chess_climb/cs_chess_climb_tier_0_exhibition.mp4",
+    posterRelPath: "art/cutscenes/chess_climb/cs_chess_climb_tier_0_exhibition_start.png",
   },
   {
     id: "cs_chess_climb_tier_1_wagered",
     category: "chess_climb",
     videoRelPath: "art/cutscenes/chess_climb/cs_chess_climb_tier_1_wagered.mp4",
+    posterRelPath: "art/cutscenes/chess_climb/cs_chess_climb_tier_1_wagered_start.png",
   },
   {
     id: "cs_chess_climb_tier_2_hierarchy_table",
     category: "chess_climb",
     videoRelPath: "art/cutscenes/chess_climb/cs_chess_climb_tier_2_hierarchy_table.mp4",
+    posterRelPath: "art/cutscenes/chess_climb/cs_chess_climb_tier_2_hierarchy_table_start.png",
   },
   {
     id: "cs_chess_climb_tier_3_labyrinth_wager",
     category: "chess_climb",
     videoRelPath: "art/cutscenes/chess_climb/cs_chess_climb_tier_3_labyrinth_wager.mp4",
+    posterRelPath: "art/cutscenes/chess_climb/cs_chess_climb_tier_3_labyrinth_wager_start.png",
   },
 ];
