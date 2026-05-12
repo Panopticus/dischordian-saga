@@ -135,6 +135,63 @@ export const NARRATIVE_FLAG_REGISTRY: ReadonlyArray<NarrativeFlagEntry> = [
   { flag: "casino_degen_favor_50",          category: "companion", owner: "casino", notes: "Degen's Favor crossed 50 — the Degen tells a story between hands." },
   { flag: "casino_degen_favor_75",          category: "companion", owner: "casino", notes: "Degen's Favor crossed 75 — the Degen sits down at your table uninvited." },
   { flag: "casino_degen_favor_100",         category: "companion", owner: "casino", notes: "Degen's Favor maxed (Equilibrium Touched). The chair at the corner table is yours." },
+
+  /* ─── Expansion-cutscene flags (NEW_CUTSCENES_67.zip) ─────
+     Producers in apps/shared/flags/expansionCutsceneFlagProducers.ts.
+     Consumers in apps/shared/roomCutscenes/roomCutsceneTriggers.ts.
+     Game-event handlers (forge service, doctrine handler, mission
+     flow, etc.) call the matching fire*() helper when the in-world
+     event happens; the dispatcher then surfaces the corresponding
+     cutscene via <CinematicGate>.
+     ───────────────────────────────────────────────────────── */
+  { flag: "berth_sleep_initiated", category: "system_unlock", owner: "berth_arc", notes: "Player triggered sleep in their apprentice berth." },
+  { flag: "berth_wake_morning", category: "system_unlock", owner: "berth_arc", notes: "Berth wake-up cutscene event queued." },
+  { flag: "berth_visitor_arrived", category: "system_unlock", owner: "berth_arc", notes: "A visitor has arrived at the berth." },
+  { flag: "berth_nightmare_triggered", category: "system_unlock", owner: "berth_arc", notes: "Player's berth-sleep transitioned into a nightmare beat." },
+  { flag: "cohort_bonding_threshold", category: "companion", owner: "cohort_park", notes: "Cohort bonding crossed the cohort-park threshold." },
+  { flag: "cohort_training_complete", category: "companion", owner: "cohort_park", notes: "Cohort training session marked complete." },
+  { flag: "cohort_argument_erupted", category: "companion", owner: "cohort_park", notes: "Cohort argument event has erupted." },
+  { flag: "cohort_member_departed", category: "companion", owner: "cohort_park", notes: "A cohort member has departed." },
+  { flag: "comm_archon_calling", category: "system_unlock", owner: "comm_screen", notes: "An Archon is calling on the comm screen." },
+  { flag: "comm_warden_tapping", category: "system_unlock", owner: "comm_screen", notes: "A Warden is tapping the comm channel." },
+  { flag: "comm_mourning_call", category: "system_unlock", owner: "comm_screen", notes: "Mourning-wall call queued on the comm screen." },
+  { flag: "comm_doctrine_recital_aired", category: "system_unlock", owner: "comm_screen", notes: "Doctrine recitation aired on the comm." },
+  { flag: "comm_cohort_banter_open", category: "system_unlock", owner: "comm_screen", notes: "Cohort-banter channel opened on the comm." },
+  { flag: "doctrine_recitation_active", category: "act_branch", owner: "doctrine_binding_arc", notes: "Doctrine recitation ceremony is currently active." },
+  { flag: "doctrine_choice_comply", category: "act_branch", owner: "doctrine_binding_arc", notes: "Player committed the comply branch in the doctrine-binding arc." },
+  { flag: "doctrine_choice_heretical", category: "act_branch", owner: "doctrine_binding_arc", notes: "Player committed the heretical branch in the doctrine-binding arc." },
+  { flag: "doctrine_fork_chosen", category: "act_branch", owner: "doctrine_binding_arc", notes: "Player selected a forked path in the doctrine arc." },
+  { flag: "doctrine_cold_hand_witnessed", category: "act_branch", owner: "doctrine_binding_arc", notes: "Player witnessed the cold-hand doctrine sequence." },
+  { flag: "doctrine_human_remainder_revealed", category: "act_branch", owner: "doctrine_binding_arc", notes: "Doctrine arc revealed the human-remainder twist." },
+  { flag: "forge_first_card_minted", category: "system_unlock", owner: "forge_service", notes: "Player minted their first card at the Forge." },
+  { flag: "forge_craft_failed", category: "system_unlock", owner: "forge_service", notes: "A Forge craft attempt failed." },
+  { flag: "forge_card_upgraded", category: "system_unlock", owner: "forge_service", notes: "A card was upgraded at the Forge." },
+  { flag: "forge_card_corrupted", category: "system_unlock", owner: "forge_service", notes: "A card was corrupted at the Forge." },
+  { flag: "forge_card_purified", category: "system_unlock", owner: "forge_service", notes: "A card was purified at the Forge." },
+  { flag: "glass_archon_summoned", category: "system_unlock", owner: "guild_arc", notes: "Glass Archon has been summoned for dialogue." },
+  { flag: "guild_blood_first_visit", category: "system_unlock", owner: "guild_arc", notes: "Player's first visit to the Blood guild common-room." },
+  { flag: "guild_bone_first_visit", category: "system_unlock", owner: "guild_arc", notes: "Player's first visit to the Bone guild common-room." },
+  { flag: "guild_cipher_first_visit", category: "system_unlock", owner: "guild_arc", notes: "Player's first visit to the Cipher guild common-room." },
+  { flag: "guild_dust_first_visit", category: "system_unlock", owner: "guild_arc", notes: "Player's first visit to the Dust guild common-room." },
+  { flag: "guild_song_first_visit", category: "system_unlock", owner: "guild_arc", notes: "Player's first visit to the Song guild common-room." },
+  { flag: "guild_storm_first_visit", category: "system_unlock", owner: "guild_arc", notes: "Player's first visit to the Storm guild common-room." },
+  { flag: "guild_thread_first_visit", category: "system_unlock", owner: "guild_arc", notes: "Player's first visit to the Thread guild common-room." },
+  { flag: "guild_tide_first_visit", category: "system_unlock", owner: "guild_arc", notes: "Player's first visit to the Tide guild common-room." },
+  { flag: "guild_vine_first_visit", category: "system_unlock", owner: "guild_arc", notes: "Player's first visit to the Vine guild common-room." },
+  { flag: "audit_day7_zealot_active", category: "act_branch", owner: "mechronis_audit", notes: "Day-7 Zealot audit-Hellbox segment is active." },
+  { flag: "audit_day14_heretic_active", category: "act_branch", owner: "mechronis_audit", notes: "Day-14 Heretic audit-Hellbox segment is active." },
+  { flag: "audit_day14_scholar_active", category: "act_branch", owner: "mechronis_audit", notes: "Day-14 Scholar audit-Hellbox segment is active." },
+  { flag: "audit_day21_martyr_active", category: "act_branch", owner: "mechronis_audit", notes: "Day-21 Martyr audit-Hellbox segment is active." },
+  { flag: "audit_verdict_mercy", category: "act_branch", owner: "mechronis_audit", notes: "Audit-Hellbox verdict resolved on the Mercy outcome." },
+  { flag: "audit_verdict_purge", category: "act_branch", owner: "mechronis_audit", notes: "Audit-Hellbox verdict resolved on the Purge outcome." },
+  { flag: "memory_card_minted", category: "system_unlock", owner: "memory_card_library", notes: "Player minted a memory card at the Memory Library." },
+  { flag: "memory_card_released", category: "system_unlock", owner: "memory_card_library", notes: "A memory card was released from the Memory Library." },
+  { flag: "memory_card_corrupted", category: "system_unlock", owner: "memory_card_library", notes: "A memory card became corrupted." },
+  { flag: "memory_card_inherited", category: "system_unlock", owner: "memory_card_library", notes: "A memory card was inherited." },
+  { flag: "warden_purge_notice_received", category: "act_branch", owner: "wardens_dock", notes: "Player received the Warden purge notice at Warden's Dock." },
+  { flag: "warden_choice_comply", category: "act_branch", owner: "wardens_dock", notes: "Player chose to comply with the Warden's purge notice." },
+  { flag: "warden_choice_resist", category: "act_branch", owner: "wardens_dock", notes: "Player chose to resist the Warden's purge notice." },
+  { flag: "warden_choice_escape", category: "act_branch", owner: "wardens_dock", notes: "Player chose to escape rather than comply or resist." },
 ];
 
 /* ─── Helpers ─── */
