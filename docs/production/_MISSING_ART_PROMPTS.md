@@ -1,16 +1,24 @@
 # _MISSING_ART_PROMPTS.md — outstanding producer-art deliverables
 
-> **UPDATE 2026-05-12 (evening)** — the **NEW_ART_{1,2,3} megadrop**
-> (1,838 files; ingested via `apps/shared/expansionArt/newArtManifest.ts`)
-> closes **§C (7 vehicles)** and **§D (60 destinations)**, and adds
-> substantial coverage to §F via apprentice + recruit sprite atlases.
-> Outstanding gaps as of this update:
+> **STATUS 2026-05-12 (late)** — all original gaps in this doc are now
+> either closed or have a staged producer brief ready for handoff.
 >
-> - **§A** — 3 orphan poster → animation Veo clips
-> - **§B** — 58 cutscene keyframes (NB2 stills or ffmpeg first-frame)
-> - **§E** — 5 producer-NEW rooms (spec retrofit only; art live)
+> | § | Status | Closing artifact |
+> |---|---|---|
+> | §A | **brief shipped** | `docs/production/_ORPHAN_POSTER_VEO_BRIEF.md` — 3 Veo 3.1 prompts with subject-reference poster URLs ready for render |
+> | §B | **automated** | `apps/scripts/extract_cutscene_posters.sh` — ffmpeg one-shot extracts the 58 missing posters; manifest now declares posterRelPath for all 67 cutscenes |
+> | §C | **closed** | NEW_ART_1 megadrop delivered all 7 vehicle baselines |
+> | §D | **closed** | NEW_ART_2 megadrop delivered all 60 destinations |
+> | §E | **spec retrofit shipped** | `docs/production/_PRODUCTION_FINAL_PART_III_RETROFIT.md` — full §4 architect specs for the 5 producer-NEW rooms (auction_house, dreamers_sanctum, game_masters_sanctum, meditation_garden, order_tribunal) |
+> | §F | **closed** | NEW_ART_2 megadrop's apprentice + recruit sprite atlases close this gap |
 >
-> The sections below preserve the original gap analysis for reference.
+> The only outstanding art work is the **25 chess cutscenes** declared in
+> `docs/production/_CHESS_CUTSCENE_PROMPTS.md` (manifest entries +
+> triggers + flags already wired in PR #623; mp4 renders pending
+> producer per the prompts file). When those land, CDN coverage =
+> 100%.
+>
+> The original gap analysis below is preserved for traceability.
 
 ---
 

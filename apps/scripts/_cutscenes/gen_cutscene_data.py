@@ -44,11 +44,16 @@ for mp4 in mp4s:
     cat, fname = mp4.split("/", 1)
     stem = fname[: -len(".mp4")]
     poster = find_poster(cat, stem)
+    # Default poster path: every cutscene gets a canonical
+    # `<stem>_start.png` poster, generated either by the producer
+    # (9 of 67) or by ffmpeg first-frame extraction
+    # (apps/scripts/extract_cutscene_posters.sh, the other 58).
+    poster_path = poster if poster else f"{cat}/{stem}_start.png"
     entries.append({
         "id": stem,
         "category": cat,
         "videoRelPath": f"art/cutscenes/{mp4}",
-        "posterRelPath": f"art/cutscenes/{poster}" if poster else None,
+        "posterRelPath": f"art/cutscenes/{poster_path}",
     })
 
 entries.sort(key=lambda e: (e["category"], e["id"]))
