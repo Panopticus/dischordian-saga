@@ -1,5 +1,5 @@
 {
-  "_comment": "Procedure-level orphan baseline. See apps/server/routers.unused.test.ts for the test that uses this file. Each entry is a (router, procedure) pair that has no client tRPC call, no server-internal call, and no audit-allow-proc waiver \u2014 but is grandfathered in at the time the procedure-level guard was added (CONNECTION_AUDIT_2026-05-07 \u00a72.1). The baseline can shrink as orphans are wired or deleted; it cannot grow without modifying this file directly. New procedures introduced after the baseline must satisfy the wiring or waiver requirements in routers.unused.test.ts.",
+  "_comment": "Procedure-level orphan baseline. See apps/server/routers.unused.test.ts for the test that uses this file. Each entry is a (router, procedure) pair that has no client tRPC call, no server-internal call, and no audit-allow-proc waiver — but is grandfathered in at the time the procedure-level guard was added (CONNECTION_AUDIT_2026-05-07 §2.1). The baseline can shrink as orphans are wired or deleted; it cannot grow without modifying this file directly. New procedures introduced after the baseline must satisfy the wiring or waiver requirements in routers.unused.test.ts.",
   "knownOrphans": [
     {
       "router": "account",
@@ -52,6 +52,18 @@
     {
       "router": "analytics",
       "procedure": "winrateByGeneral"
+    },
+    {
+      "router": "apprenticePedagogy",
+      "procedure": "cohortRecruit"
+    },
+    {
+      "router": "apprenticePedagogy",
+      "procedure": "forgeSignaturePayloadsForRegistry"
+    },
+    {
+      "router": "apprenticePedagogy",
+      "procedure": "memoryMint"
     },
     {
       "router": "apprenticeTrial",
@@ -490,6 +502,22 @@
       "procedure": "vote"
     },
     {
+      "router": "communityInvestigation",
+      "procedure": "getMilestones"
+    },
+    {
+      "router": "communityInvestigation",
+      "procedure": "getSnapshot"
+    },
+    {
+      "router": "communityInvestigation",
+      "procedure": "recordDiscovery"
+    },
+    {
+      "router": "communityInvestigation",
+      "procedure": "setOptIn"
+    },
+    {
       "router": "companion",
       "procedure": "chatWithElara"
     },
@@ -660,6 +688,18 @@
     {
       "router": "discovery",
       "procedure": "unlockFromRoom"
+    },
+    {
+      "router": "dlcChapters",
+      "procedure": "getChapterStatus"
+    },
+    {
+      "router": "dlcChapters",
+      "procedure": "getProgress"
+    },
+    {
+      "router": "dlcChapters",
+      "procedure": "listAvailable"
     },
     {
       "router": "draft",
@@ -1118,6 +1158,26 @@
       "procedure": "getDnaOfferStatus"
     },
     {
+      "router": "memorialPlaza",
+      "procedure": "_clearWitnessCache"
+    },
+    {
+      "router": "memorialPlaza",
+      "procedure": "globalPlaza"
+    },
+    {
+      "router": "memorialPlaza",
+      "procedure": "inscribe"
+    },
+    {
+      "router": "memorialPlaza",
+      "procedure": "myInscriptions"
+    },
+    {
+      "router": "memorialPlaza",
+      "procedure": "visit"
+    },
+    {
       "router": "memoryEnergy",
       "procedure": "spend"
     },
@@ -1392,6 +1452,34 @@
     {
       "router": "replay",
       "procedure": "verifyReplay"
+    },
+    {
+      "router": "roleplay",
+      "procedure": "assignToCell"
+    },
+    {
+      "router": "roleplay",
+      "procedure": "confessionLeaderboard"
+    },
+    {
+      "router": "roleplay",
+      "procedure": "getDossierById"
+    },
+    {
+      "router": "roleplay",
+      "procedure": "getGuildCharter"
+    },
+    {
+      "router": "roleplay",
+      "procedure": "grantRecognition"
+    },
+    {
+      "router": "roleplay",
+      "procedure": "listCellMembers"
+    },
+    {
+      "router": "roleplay",
+      "procedure": "revokeRecognition"
     },
     {
       "router": "romance",
@@ -1874,6 +1962,18 @@
       "procedure": "verify"
     },
     {
+      "router": "userTomes",
+      "procedure": "listForReview"
+    },
+    {
+      "router": "userTomes",
+      "procedure": "moderate"
+    },
+    {
+      "router": "userTomes",
+      "procedure": "retract"
+    },
+    {
       "router": "vortexIncursion",
       "procedure": "getUserStats"
     },
@@ -1902,16 +2002,24 @@
       "procedure": "observe"
     },
     {
-      "router": "dlcChapters",
-      "procedure": "listAvailable"
+      "router": "worldMood",
+      "procedure": "getMine"
     },
     {
-      "router": "dlcChapters",
-      "procedure": "getProgress"
+      "router": "yearlyEvents",
+      "procedure": "_nextAnchor"
     },
     {
-      "router": "dlcChapters",
-      "procedure": "getChapterStatus"
+      "router": "yearlyEvents",
+      "procedure": "getThisYear"
+    },
+    {
+      "router": "yearlyEvents",
+      "procedure": "listAllDefs"
+    },
+    {
+      "router": "yearlyEvents",
+      "procedure": "participate"
     }
   ]
 }

@@ -11,9 +11,15 @@ describe("COMPANION_ROOM_REGISTRY — invariants", () => {
     expect(COMPANION_ROOM_REGISTRY.length).toBeGreaterThanOrEqual(5);
   });
 
-  it("every companion id is unique", () => {
-    const ids = COMPANION_ROOM_REGISTRY.map((e) => e.companionId);
-    expect(new Set(ids).size).toBe(ids.length);
+  it("every (companionId, roomId) tuple is unique", () => {
+    // Companions deliberately ship multiple entries when they have a
+    // primary post AND a bunk-room residence (see the bunk-room
+    // comment in companionRoomRegistry.ts). The dedupe key is the
+    // (companionId, roomId) tuple, not the companionId alone.
+    const keys = COMPANION_ROOM_REGISTRY.map(
+      (e) => `${e.companionId}|${e.roomId}`,
+    );
+    expect(new Set(keys).size).toBe(keys.length);
   });
 
   it("every entry has a non-empty presenceLine", () => {
