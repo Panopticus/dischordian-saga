@@ -260,10 +260,13 @@ export function roomArtCoverageReport(): RoomCoverageReport {
   // 60 destination zones + N apprentice spaces also deferred but not
   // enumerated atomically here (canonical lists in _PRODUCTION_FINAL.md
   // PART VI + PART VIII; the parity gate reports counts only).
-  // Pass-2 (H1.A) delivered ~14 apprentice/pedagogy + 2 Hellboxes
-  // (with sub-rooms) + ~3 destination sub-zones; remaining deferred
-  // count drops from 115 → ~85.
-  const deferredCount = deferredHellboxes.length + 7 + 60 + 16;
+  // Pass-3 (H2.A) closed ALL 12 Hellboxes + the full 12 archetype-berth
+  // set + the full 5 recruit-berth set + the full 12 guild-common-room
+  // set + doctrine binding chamber + memory card library + 3 atrium
+  // sub-zones + 3 pedagogy sub-rooms + 2 forge sub-zones + remaining
+  // apprentice/pedagogy spaces. Remaining deferred: 7 vehicles + ~60
+  // destinations + a few apprentice extras.
+  const deferredCount = deferredHellboxes.length + 7 + 60 + 8;
 
   return {
     producerDelivered,
