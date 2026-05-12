@@ -495,6 +495,165 @@ export const ROOM_CUTSCENE_TRIGGERS: readonly RoomCutsceneTrigger[] = [
     flagId: "warden_choice_escape",
     oneShot: true,
   },
+
+  /* ── chess_tutorial (9) — Celebration Game Master teaching-gate intros.
+       Each fires once when the player enters the matching gate. ── */
+  {
+    cutsceneId: "cs_chess_tut_g1_intro",
+    kind: "flag_set",
+    flagId: "chess_tutorial_g1_started",
+    oneShot: true,
+  },
+  {
+    cutsceneId: "cs_chess_tut_g2_intro",
+    kind: "flag_set",
+    flagId: "chess_tutorial_g2_started",
+    oneShot: true,
+  },
+  {
+    cutsceneId: "cs_chess_tut_g3_intro",
+    kind: "flag_set",
+    flagId: "chess_tutorial_g3_started",
+    oneShot: true,
+  },
+  {
+    cutsceneId: "cs_chess_tut_g4_intro",
+    kind: "flag_set",
+    flagId: "chess_tutorial_g4_started",
+    oneShot: true,
+  },
+  {
+    cutsceneId: "cs_chess_tut_g4_5_intro",
+    kind: "flag_set",
+    flagId: "chess_tutorial_g4_5_started",
+    oneShot: true,
+  },
+  {
+    cutsceneId: "cs_chess_tut_g5_intro",
+    kind: "flag_set",
+    flagId: "chess_tutorial_g5_started",
+    oneShot: true,
+  },
+  {
+    cutsceneId: "cs_chess_tut_g5_5_intro",
+    kind: "flag_set",
+    flagId: "chess_tutorial_g5_5_started",
+    oneShot: true,
+  },
+  {
+    cutsceneId: "cs_chess_tut_g6_intro",
+    kind: "flag_set",
+    flagId: "chess_tutorial_g6_started",
+    oneShot: true,
+  },
+  {
+    cutsceneId: "cs_chess_tut_g7_intro",
+    kind: "flag_set",
+    flagId: "chess_tutorial_g7_started",
+    oneShot: true,
+  },
+
+  /* ── chess_ladder (12) — first-seated-against-opponent beats.
+       Each fires the first time the player sits down at the board
+       across from this opponent in the story-mode ladder. ── */
+  {
+    cutsceneId: "cs_chess_ladder_the_human_first_seated",
+    kind: "flag_set",
+    flagId: "chess_ladder_the_human_first_seated",
+    oneShot: true,
+  },
+  {
+    cutsceneId: "cs_chess_ladder_the_collector_first_seated",
+    kind: "flag_set",
+    flagId: "chess_ladder_the_collector_first_seated",
+    oneShot: true,
+  },
+  {
+    cutsceneId: "cs_chess_ladder_iron_lion_first_seated",
+    kind: "flag_set",
+    flagId: "chess_ladder_iron_lion_first_seated",
+    oneShot: true,
+  },
+  {
+    cutsceneId: "cs_chess_ladder_the_enigma_first_seated",
+    kind: "flag_set",
+    flagId: "chess_ladder_the_enigma_first_seated",
+    oneShot: true,
+  },
+  {
+    cutsceneId: "cs_chess_ladder_the_warlord_first_seated",
+    kind: "flag_set",
+    flagId: "chess_ladder_the_warlord_first_seated",
+    oneShot: true,
+  },
+  {
+    cutsceneId: "cs_chess_ladder_the_oracle_first_seated",
+    kind: "flag_set",
+    flagId: "chess_ladder_the_oracle_first_seated",
+    oneShot: true,
+  },
+  {
+    cutsceneId: "cs_chess_ladder_the_necromancer_first_seated",
+    kind: "flag_set",
+    flagId: "chess_ladder_the_necromancer_first_seated",
+    oneShot: true,
+  },
+  {
+    cutsceneId: "cs_chess_ladder_the_programmer_first_seated",
+    kind: "flag_set",
+    flagId: "chess_ladder_the_programmer_first_seated",
+    oneShot: true,
+  },
+  {
+    cutsceneId: "cs_chess_ladder_agent_zero_first_seated",
+    kind: "flag_set",
+    flagId: "chess_ladder_agent_zero_first_seated",
+    oneShot: true,
+  },
+  {
+    cutsceneId: "cs_chess_ladder_the_source_first_seated",
+    kind: "flag_set",
+    flagId: "chess_ladder_the_source_first_seated",
+    oneShot: true,
+  },
+  {
+    cutsceneId: "cs_chess_ladder_game_master_first_seated",
+    kind: "flag_set",
+    flagId: "chess_ladder_game_master_first_seated",
+    oneShot: true,
+  },
+  {
+    cutsceneId: "cs_chess_ladder_the_architect_first_seated",
+    kind: "flag_set",
+    flagId: "chess_ladder_the_architect_first_seated",
+    oneShot: true,
+  },
+
+  /* ── chess_climb (4) — corrupted-GM Climb-tier wager beats. ── */
+  {
+    cutsceneId: "cs_chess_climb_tier_0_exhibition",
+    kind: "flag_set",
+    flagId: "chess_climb_tier_0_entered",
+    oneShot: true,
+  },
+  {
+    cutsceneId: "cs_chess_climb_tier_1_wagered",
+    kind: "flag_set",
+    flagId: "chess_climb_tier_1_entered",
+    oneShot: true,
+  },
+  {
+    cutsceneId: "cs_chess_climb_tier_2_hierarchy_table",
+    kind: "flag_set",
+    flagId: "chess_climb_tier_2_entered",
+    oneShot: true,
+  },
+  {
+    cutsceneId: "cs_chess_climb_tier_3_labyrinth_wager",
+    kind: "flag_set",
+    flagId: "chess_climb_tier_3_entered",
+    oneShot: true,
+  },
 ];
 
 /** O(1) lookup by cutsceneId. Multi-valued because in principle a

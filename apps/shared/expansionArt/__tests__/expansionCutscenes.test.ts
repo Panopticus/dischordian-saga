@@ -22,10 +22,10 @@ import {
   type ExpansionCutsceneCategory,
 } from "../cinematicsManifest";
 
-describe("expansionCutscenes (NEW_CUTSCENES_67.zip)", () => {
-  it("loads 67 mp4 entries", () => {
-    expect(EXPANSION_CUTSCENE_TOTAL).toBe(67);
-    expect(EXPANSION_CUTSCENES.length).toBe(67);
+describe("expansionCutscenes (NEW_CUTSCENES_67.zip + chess roster)", () => {
+  it("loads 92 mp4 entries (67 NEW_CUTSCENES_67 + 25 chess)", () => {
+    expect(EXPANSION_CUTSCENE_TOTAL).toBe(92);
+    expect(EXPANSION_CUTSCENES.length).toBe(92);
   });
 
   it("every entry has a unique id", () => {
@@ -34,7 +34,7 @@ describe("expansionCutscenes (NEW_CUTSCENES_67.zip)", () => {
       expect(ids.has(c.id)).toBe(false);
       ids.add(c.id);
     }
-    expect(ids.size).toBe(67);
+    expect(ids.size).toBe(92);
   });
 
   it("every videoRelPath is under art/cutscenes/<category>/", () => {
@@ -64,7 +64,7 @@ describe("expansionCutscenes (NEW_CUTSCENES_67.zip)", () => {
     expect(posterCount).toBe(9);
   });
 
-  it("covers the 10 declared categories with the expected counts", () => {
+  it("covers the 13 declared categories with the expected counts", () => {
     const expected: Record<ExpansionCutsceneCategory, number> = {
       berth: 4,
       cohort_park: 4,
@@ -76,6 +76,9 @@ describe("expansionCutscenes (NEW_CUTSCENES_67.zip)", () => {
       memory_card: 4,
       mission: 7,
       wardens_dock: 4,
+      chess_tutorial: 9,
+      chess_ladder: 12,
+      chess_climb: 4,
     };
     for (const [cat, count] of Object.entries(expected) as [
       ExpansionCutsceneCategory,
@@ -84,7 +87,7 @@ describe("expansionCutscenes (NEW_CUTSCENES_67.zip)", () => {
       expect(expansionCutscenesByCategory(cat).length).toBe(count);
     }
     const totalByCat = Object.values(expected).reduce((a, b) => a + b, 0);
-    expect(totalByCat).toBe(67);
+    expect(totalByCat).toBe(92);
   });
 
   it("expansionCutsceneVideoUrl returns canonical CDN URL for a known clip", () => {

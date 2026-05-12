@@ -411,6 +411,12 @@ export function vfxByCategory(category: VfxCategory): readonly VfxDef[] {
  * Producer category for the room/event cutscenes shipped in
  * NEW_CUTSCENES_67.zip — each maps to a distinct in-game surface
  * (apprentice berth, the_forge, doctrine_binding_chamber, etc.).
+ *
+ * Extended for chess cutscenes (25 entries, per
+ * docs/production/_CHESS_CUTSCENE_PROMPTS.md):
+ *   - chess_tutorial   — 9 Celebration-GM teaching-gate intros
+ *   - chess_ladder     — 11 story-mode opponent first-encounter beats + 1 hidden
+ *   - chess_climb      — 4 corrupted-GM Climb-tier wager beats
  */
 export type ExpansionCutsceneCategory =
   | "berth"
@@ -422,7 +428,10 @@ export type ExpansionCutsceneCategory =
   | "mechronis_audit"
   | "memory_card"
   | "mission"
-  | "wardens_dock";
+  | "wardens_dock"
+  | "chess_tutorial"
+  | "chess_ladder"
+  | "chess_climb";
 
 export interface ExpansionCutsceneDef {
   /** Producer slug — matches the .mp4 filename stem (e.g. "cs_forge_first_creation"). */
@@ -437,9 +446,12 @@ export interface ExpansionCutsceneDef {
 }
 
 import { EXPANSION_CUTSCENES_DATA } from "./expansionCutscenes.data";
+import { CHESS_CUTSCENES_DATA } from "./chessCutscenes.data";
 
-export const EXPANSION_CUTSCENES: readonly ExpansionCutsceneDef[] =
-  EXPANSION_CUTSCENES_DATA;
+export const EXPANSION_CUTSCENES: readonly ExpansionCutsceneDef[] = [
+  ...EXPANSION_CUTSCENES_DATA,
+  ...CHESS_CUTSCENES_DATA,
+];
 
 const EXPANSION_CUTSCENE_VIDEO_MANIFEST = makeAssetManifest(
   EXPANSION_CUTSCENES,
