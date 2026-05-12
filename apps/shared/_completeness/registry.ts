@@ -69,6 +69,7 @@ import { checkStoryHookCoverage } from "./checks/storyHookCoverage";
 import { checkHotspotCoverage } from "./checks/hotspotCoverage";
 import { checkRoomReachabilityCoverage } from "./checks/roomReachabilityCoverage";
 import { checkExpansionCutsceneCoverage } from "./checks/expansionCutsceneCoverage";
+import { checkNewArtDropCoverage } from "./checks/newArtDropCoverage";
 import { checkHumanWhisperRoomCoverage } from "./checks/humanWhisperRoomCoverage";
 import { checkMascoteerFileAuthorityCoverage } from "./checks/mascoteerFileAuthorityCoverage";
 import { checkMascoteerFileSurfaceLocation } from "./checks/mascoteerFileSurfaceLocation";
@@ -610,6 +611,17 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "Every cutscene declared in cinematicsManifest.EXPANSION_CUTSCENES is wired to at least one runtime trigger in roomCutsceneTriggers.ROOM_CUTSCENE_TRIGGERS. A producer-delivered cutscene without a trigger is unreachable in-game.",
     check: () => checkExpansionCutsceneCoverage(),
+  },
+  {
+    // NEW_ART_{1,2,3} drop (2026-05-12). Closes _MISSING_ART_PROMPTS.md
+    // §C (7 vehicles) + §D (60 destinations) + delivers 60 signature
+    // cards + 28 chapter cards + 1,683 additional assets across
+    // characters, portraits, fight system, overlays, sprites, UI atoms.
+    id: "art.new_art_drop_coverage",
+    name: "NEW_ART_{1,2,3} drop runtime coverage",
+    description:
+      "Every key from the 1,838-entry NEW_ART_{1,2,3} producer drop (2026-05-12) resolves to a CDN URL via newArtManifest.ts. Hard parity: gap > 0 means a declared asset (vehicle baseline / destination / signature card / chapter card) is missing from the inventory.",
+    check: () => checkNewArtDropCoverage(),
   },
   // ─── The Human / four-era surface ────────────────────────────
   // Beat-H expansion: whispers + Mascoteer files (Era 1) +
