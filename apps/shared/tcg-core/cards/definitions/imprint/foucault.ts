@@ -1,10 +1,18 @@
 /**
- * Imprint Set — Foucault (5 tiers). Phase F26.
+ * Imprint Set — Foucault (5 tiers).
  *
- * Surveillance theorist embedded in the Babylonian bureaucracy.
- * Knows where the cameras are not. New Babylon faction. Mechanical
- * vocabulary: stealth (untargetable), dispel, reveal — he knows
- * what is being watched and what is deliberately not.
+ * RETIRED per dreamer-canon (2026-05-13): Foucault has been
+ * dropped from the canonical character roster. The card
+ * definitions remain in code so the engine recognizes the ids
+ * (existing saved decks resolve correctly), but every tier is
+ * marked `reserved: true` so pack-opening, deck-builder, and
+ * reward surfaces filter them out (per CLAUDE.md
+ * "Conventions worth knowing" — `reserved: true` keeps the
+ * card recognized but absent from live pools).
+ *
+ * Per the plan §VIII Phase J9 + §X.11: no intro cutscene
+ * authored, no Loredex sub-section surfaced, no Mystery
+ * Engine binding. The Foucault imprint is a legacy entry only.
  */
 import type { CardDefinition } from "../../../index";
 
@@ -20,6 +28,7 @@ export const foucault_t1: CardDefinition = {
   rulesVersion: "1.1.0",
   trial_categories: ["evidence"] as const,
   verdict_delta: 1,
+  reserved: true,
 };
 
 export const foucault_t2: CardDefinition = {
@@ -33,6 +42,7 @@ export const foucault_t2: CardDefinition = {
   rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 1,
+  reserved: true,
 };
 
 export const foucault_t3: CardDefinition = {
@@ -52,6 +62,7 @@ export const foucault_t3: CardDefinition = {
   rulesVersion: "1.1.0",
   trial_categories: ["narrative", "offensive"] as const,
   verdict_delta: 2,
+  reserved: true,
 };
 
 export const foucault_t4: CardDefinition = {
@@ -71,6 +82,7 @@ export const foucault_t4: CardDefinition = {
   rulesVersion: "1.1.0",
   trial_categories: ["narrative"] as const,
   verdict_delta: 2,
+  reserved: true,
 };
 
 export const foucault_t5: CardDefinition = {
@@ -94,6 +106,7 @@ export const foucault_t5: CardDefinition = {
   rulesVersion: "1.1.0",
   trial_categories: ["narrative"] as const,
   verdict_delta: 2,
+  reserved: true,
 };
 
 export const FOUCAULT_IMPRINT_SET: readonly CardDefinition[] = Object.freeze([
