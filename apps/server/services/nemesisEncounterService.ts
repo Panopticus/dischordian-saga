@@ -32,7 +32,12 @@ import {
   generateQuoteOpening,
   type NemesisEncounterKind,
 } from "../../shared/nemesisMemory";
-import type { NemesisPlanKind } from "../../shared/nemesisPlans";
+import {
+  findPlansNeedingResolution,
+  type NemesisPlanKind,
+} from "../../shared/nemesisPlans";
+
+type DbHandle = NonNullable<Awaited<ReturnType<typeof getDb>>>;
 
 export type NemesisSurfaceSource =
   | "trade-empire"
@@ -67,6 +72,60 @@ export interface SurfaceEventResult {
   memoryId?: string;
   disruptedPlanId?: string;
   skipReason?: string;
+}
+
+/** Lazy plan-tick sweep. Looks at every still-active plan for
+ *  the user, and writes back "succeeded" for any whose
+ *  `ticksAt` is in the past. The chronicle-accurate resolution
+ *  timestamp is the plan's own ticksAt — that's when the plan
+ *  actually resolved; the DB write just records it late.
+ *
+ *  Pure-function logic is in
+ *  `apps/shared/nemesisPlans.ts:findPlansNeedingResolution`,
+ *  which keeps the rule testable without a DB.
+ *
+ *  Returns the number of plans resolved (informational; callers
+ *  can ignore). Safe to call on every Nemesis-related read or
+ *  write path — guarded by try/catch internally. */
+export async function sweepExpiredPlansForUser(
+  userId: number,
+  db?: DbHandle,
+): Promise<number> {
+  try {
+    const handle = db ?? (await getDb());
+    if (!handle) return 0;
+
+    const rows = await handle
+      .select()
+      .from(nemesisPlans)
+      .where(eq(nemesisPlans.userId, userId));
+
+    const sweepable = rows
+      .filter((r) => r.status === "spawned" || r.status === "ticking")
+      .map((r) => ({
+        planId: r.planId,
+        status: r.status as "spawned" | "ticking",
+        ticksAtIso: r.ticksAt.toISOString(),
+      }));
+
+    const resolutions = findPlansNeedingResolution(
+      sweepable,
+      new Date().toISOString(),
+    );
+    if (resolutions.length === 0) return 0;
+
+    for (const res of resolutions) {
+      await handle
+        .update(nemesisPlans)
+        .set({ status: res.newStatus, resolvedAt: new Date(res.resolvedAtIso) })
+        .where(eq(nemesisPlans.planId, res.planId));
+    }
+    return resolutions.length;
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    logger.warn("[NemesisEncounterService] sweepExpiredPlansForUser failed:", msg);
+    return 0;
+  }
 }
 
 /** Record a Nemesis encounter sparked by a surface event.
@@ -136,6 +195,12 @@ export async function recordSurfaceEvent(
 
     let disruptedPlanId: string | undefined;
     if (input.disruptPlanKind) {
+      // Sweep first — a plan whose ticksAt is already in the past
+      // has auto-succeeded; the surface can't retroactively disrupt
+      // it. The sweep writes the late "succeeded" status so the
+      // following lookup correctly skips it.
+      await sweepExpiredPlansForUser(input.userId, db);
+
       const open = await db
         .select()
         .from(nemesisPlans)

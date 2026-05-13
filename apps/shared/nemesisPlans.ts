@@ -288,6 +288,49 @@ export function expirePlan(plan: NemesisPlan, nowIso: string, bufferMs = 7 * 24 
   return { ...plan, status: "expired" };
 }
 
+/** A plan-row shape thin enough for the lazy-sweep helper to
+ *  consume rows from any source (in-memory or DB-derived).
+ *  Mirrors the columns the sweep cares about. */
+export interface SweepablePlanRow {
+  planId: string;
+  status: NemesisPlanStatus;
+  ticksAtIso: string;
+}
+
+export interface SweepResolution {
+  planId: string;
+  /** The status the plan should be written back as. Today only
+   *  "succeeded" — plans past their tick without disruption
+   *  auto-succeed. The "expired" pathway is a separate, longer
+   *  buffer that future janitorial sweeps can layer on. */
+  newStatus: Extract<NemesisPlanStatus, "succeeded">;
+  /** The resolution timestamp the writer should record. Set to
+   *  the plan's own ticksAtIso so the chronicle reflects when
+   *  the plan actually ticked, not when the sweep happened. */
+  resolvedAtIso: string;
+}
+
+/** Lazy sweep — given a batch of plan rows and the current
+ *  time, returns the resolutions that should be written back.
+ *  Pure function: no DB, no IO. The server's
+ *  `sweepExpiredPlans` consumes this and applies the writes. */
+export function findPlansNeedingResolution(
+  rows: readonly SweepablePlanRow[],
+  nowIso: string,
+): readonly SweepResolution[] {
+  const out: SweepResolution[] = [];
+  for (const row of rows) {
+    if (row.status !== "spawned" && row.status !== "ticking") continue;
+    if (nowIso < row.ticksAtIso) continue;
+    out.push({
+      planId: row.planId,
+      newStatus: "succeeded",
+      resolvedAtIso: row.ticksAtIso,
+    });
+  }
+  return out;
+}
+
 /* ═══════════════════════════════════════════════════════
    PLAN-COUNT INVARIANTS
    ═══════════════════════════════════════════════════════ */

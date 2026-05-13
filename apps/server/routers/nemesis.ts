@@ -217,6 +217,16 @@ export const nemesisRouter = router({
       const db = await getDb();
       if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
 
+      // Lazy plan-tick sweep — any active plan whose ticksAt is in
+      // the past auto-succeeds at the moment the player looks. The
+      // chronicle's rivalry only progresses when the player witnesses
+      // it, but it progresses honestly to the moment the plan would
+      // have ticked. Errors are swallowed in the service.
+      const { sweepExpiredPlansForUser } = await import(
+        "../services/nemesisEncounterService"
+      );
+      await sweepExpiredPlansForUser(ctx.user.id, db);
+
       const rows = await db
         .select()
         .from(nemesisState)
@@ -360,6 +370,12 @@ export const nemesisRouter = router({
   listActivePlans: protectedProcedure.query(async ({ ctx }) => {
     const db = await getDb();
     if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+
+    // Lazy plan-tick sweep — see `getForCohort` for the rationale.
+    const { sweepExpiredPlansForUser } = await import(
+      "../services/nemesisEncounterService"
+    );
+    await sweepExpiredPlansForUser(ctx.user.id, db);
 
     const rows = await db
       .select()

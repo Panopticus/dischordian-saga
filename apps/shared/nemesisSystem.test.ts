@@ -37,6 +37,7 @@ import {
   disruptPlan,
   eligiblePlanKindsFor,
   expirePlan,
+  findPlansNeedingResolution,
   getPlanKindDef,
   isOverActivePlanCap,
   maxActivePlansForRank,
@@ -460,6 +461,49 @@ describe("Plans — catalog + spawn + tick + disrupt", () => {
     const farFuture = "2030-01-01T00:00:00.000Z";
     const e = expirePlan(plan, farFuture);
     expect(e.status).toBe("expired");
+  });
+});
+
+describe("Plans — lazy sweep (findPlansNeedingResolution)", () => {
+  it("returns no resolutions when all plans are still pre-tick", () => {
+    const rows = [
+      { planId: "p1", status: "spawned" as const, ticksAtIso: "2026-12-01T00:00:00.000Z" },
+      { planId: "p2", status: "ticking" as const, ticksAtIso: "2026-12-02T00:00:00.000Z" },
+    ];
+    expect(findPlansNeedingResolution(rows, "2026-05-13T00:00:00.000Z")).toEqual([]);
+  });
+
+  it("returns succeeded-resolutions for plans whose ticksAt is in the past", () => {
+    const rows = [
+      { planId: "p1", status: "spawned" as const, ticksAtIso: "2026-05-10T00:00:00.000Z" },
+      { planId: "p2", status: "ticking" as const, ticksAtIso: "2026-05-11T00:00:00.000Z" },
+      { planId: "p3", status: "ticking" as const, ticksAtIso: "2099-01-01T00:00:00.000Z" },
+    ];
+    const out = findPlansNeedingResolution(rows, "2026-05-13T00:00:00.000Z");
+    expect(out).toHaveLength(2);
+    expect(out.map((r) => r.planId).sort()).toEqual(["p1", "p2"]);
+    expect(out.every((r) => r.newStatus === "succeeded")).toBe(true);
+  });
+
+  it("resolvedAtIso reflects the plan's own ticksAt (chronicle-accurate timing)", () => {
+    const rows = [
+      { planId: "p1", status: "ticking" as const, ticksAtIso: "2026-05-10T00:00:00.000Z" },
+    ];
+    const [resolution] = findPlansNeedingResolution(rows, "2026-05-13T12:34:56.789Z");
+    expect(resolution.resolvedAtIso).toBe("2026-05-10T00:00:00.000Z");
+  });
+
+  it("skips already-resolved plans (succeeded / disrupted / expired)", () => {
+    const rows = [
+      { planId: "p1", status: "succeeded" as const, ticksAtIso: "2020-01-01T00:00:00.000Z" },
+      { planId: "p2", status: "disrupted" as const, ticksAtIso: "2020-01-01T00:00:00.000Z" },
+      { planId: "p3", status: "expired" as const, ticksAtIso: "2020-01-01T00:00:00.000Z" },
+    ];
+    expect(findPlansNeedingResolution(rows, "2026-05-13T00:00:00.000Z")).toEqual([]);
+  });
+
+  it("handles an empty input array without crashing", () => {
+    expect(findPlansNeedingResolution([], "2026-05-13T00:00:00.000Z")).toEqual([]);
   });
 });
 
