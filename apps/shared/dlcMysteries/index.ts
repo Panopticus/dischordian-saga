@@ -27,6 +27,8 @@ import { MEMORIAL_SEVEN_WATCHERS_MYSTERY }     from "./memorialSevenWatchers";
 import { WOLF_ANARA_HUNT_MYSTERY }             from "./wolfAnaraHunt";
 import { AKAI_SHI_RED_DEATH_MYSTERY }          from "./akaiShiRedDeath";
 import { RESURRECTIONIST_CYCLE_WALKER_MYSTERY } from "./resurrectionistCycleWalker";
+import { STORM_ARCHITECT_OF_FLUX_MYSTERY }     from "./stormArchitectOfFlux";
+import { ADVOCATE_BLOOD_WEAVE_MYSTERY }        from "./advocateBloodWeave";
 
 export const DLC_MYSTERIES: ReadonlyArray<MysteryDefinition> = [
   CHARTER_MISSING_SIGNATORY_MYSTERY,
@@ -40,6 +42,8 @@ export const DLC_MYSTERIES: ReadonlyArray<MysteryDefinition> = [
   WOLF_ANARA_HUNT_MYSTERY,
   AKAI_SHI_RED_DEATH_MYSTERY,
   RESURRECTIONIST_CYCLE_WALKER_MYSTERY,
+  STORM_ARCHITECT_OF_FLUX_MYSTERY,
+  ADVOCATE_BLOOD_WEAVE_MYSTERY,
 ];
 
 export {
@@ -54,4 +58,6 @@ export {
   WOLF_ANARA_HUNT_MYSTERY,
   AKAI_SHI_RED_DEATH_MYSTERY,
   RESURRECTIONIST_CYCLE_WALKER_MYSTERY,
+  STORM_ARCHITECT_OF_FLUX_MYSTERY,
+  ADVOCATE_BLOOD_WEAVE_MYSTERY,
 };
