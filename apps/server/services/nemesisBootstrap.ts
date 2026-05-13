@@ -64,6 +64,9 @@ const NEMESIS_STATE_PHASE_K_ALTERS = [
   "ALTER TABLE `nemesis_state` ADD COLUMN `alignedFaction` VARCHAR(32) NOT NULL DEFAULT 'hierarchy'",
   "ALTER TABLE `nemesis_state` ADD COLUMN `retired` INT NOT NULL DEFAULT 0",
   "ALTER TABLE `nemesis_state` ADD COLUMN `lieutenantOfNemesisId` VARCHAR(64) NULL",
+  // Phase K Wave 4
+  "ALTER TABLE `nemesis_state` ADD COLUMN `nemesisSequence` INT NOT NULL DEFAULT 1",
+  "ALTER TABLE `nemesis_state` ADD COLUMN `nameRevealAcknowledged` INT NOT NULL DEFAULT 0",
   "ALTER TABLE `nemesis_state` ADD INDEX `idx_nemesis_state_user_active` (`userId`, `retired`)",
   "ALTER TABLE `nemesis_state` ADD INDEX `idx_nemesis_state_faction` (`alignedFaction`)",
 ];

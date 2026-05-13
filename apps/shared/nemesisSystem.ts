@@ -682,9 +682,23 @@ export function applyEncounterTransition(
       next = onPlanSuccess(nemesis);
       break;
     case "first_encounter":
-      // First encounter is just the chronicle's bookmark;
-      // no state change.
+    case "accumulation_reveal":
+    case "lieutenant_promoted":
+    case "cohort_ended":
+    case "name_revealed":
+      // Chronicle-only kinds: scene fires, but no
+      // rank/grudge state change.
       return nemesis;
+    case "apprentice_declared_betrayal_to_nemesis": {
+      // Apprentice declaring betrayal toward the Nemesis is
+      // a major rivalry escalator — grudge +2 (cap 5).
+      const newGrudge: GrudgeTier = Math.min(5, nemesis.grudgeTier + 2) as GrudgeTier;
+      return { ...nemesis, grudgeTier: newGrudge };
+    }
+    case "final_encounter_act7":
+      // The climax. Grudge clamps at 5; rank unchanged
+      // (the Captain title-eats-name is already in effect).
+      return { ...nemesis, grudgeTier: 5 as GrudgeTier };
     default:
       // Defensive — unhandled kinds pass through. The
       // ship:check parity covers full coverage.

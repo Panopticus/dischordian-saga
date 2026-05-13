@@ -8513,6 +8513,15 @@ export const nemesisState = mysqlTable("nemesis_state", {
    *  universe (Phase K + faction alignment). Pinned at
    *  spawn via chooseNemesisFaction; player-state-aware. */
   alignedFaction: varchar("alignedFaction", { length: 32 }).notNull().default("hierarchy"),
+  /** Phase K Wave 4 — per-user monotonic spawn-sequence.
+   *  Sequence 1 = the player's first-ever Nemesis. Used
+   *  to fire `accumulation_reveal` on prior Nemeses when
+   *  sequence ≥ 2 spawns. */
+  nemesisSequence: int("nemesisSequence").notNull().default(1),
+  /** Phase K Wave 4 — one-shot guard so the
+   *  `name_reveal_moment` scene fires at most once per
+   *  Nemesis (the moment after both gates close). */
+  nameRevealAcknowledged: int("nameRevealAcknowledged").notNull().default(0),
   /** Mordor-Saga hybrid (Phase K2). When 1, this Nemesis
    *  has been retired from the active pool — via peace,
    *  recruit, or rank-0 exhaustion. */

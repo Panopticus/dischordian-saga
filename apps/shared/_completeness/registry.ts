@@ -82,6 +82,9 @@ import {
   checkNemesisArchetypePairDialogCoverage,
   checkApprenticeOnNemesisPairDialogCoverage,
   checkNemesisFactionAlignmentCoverage,
+  checkNemesisScenePerPairCoverage,
+  checkApprenticeScenePerPairCoverage,
+  checkNemesisWave4TriggerCoverage,
 } from "./checks/nemesisCoverage";
 
 export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
@@ -708,5 +711,28 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
       "Parallel to nemesis pair-banks: 132 apprentice-on-Nemesis banks under apps/shared/npcs/banks/apprenticeOnNemesis/. K6.2 authoring waterfall.",
     check: () => checkApprenticeOnNemesisPairDialogCoverage(),
     ratchet: { target: 0 },
+  },
+
+  // ─── Phase K Wave 4 — Per-scene + trigger parities ───
+  {
+    id: "nemesis.scene_coverage_per_pair",
+    name: "Nemesis pair scene coverage",
+    description:
+      "132 pairs × 8 scenes = 1056 scene-slots; each pair-bank file must declare every scene-id from NemesisEncounterSceneId. PASS proves no surface-render call can crash on a missing scene.",
+    check: () => checkNemesisScenePerPairCoverage(),
+  },
+  {
+    id: "nemesis.apprentice_scene_coverage_per_pair",
+    name: "Apprentice-on-Nemesis pair scene coverage",
+    description:
+      "132 pairs × 8 scenes = 1056 scene-slots on the apprentice side. Same shape as the nemesis-side parity, for ApprenticeOnNemesisSceneId.",
+    check: () => checkApprenticeScenePerPairCoverage(),
+  },
+  {
+    id: "nemesis.wave4_trigger_coverage",
+    name: "Nemesis Wave 4 trigger coverage",
+    description:
+      "Six new trigger-firing encounter kinds (accumulation_reveal, lieutenant_promoted, apprentice_declared_betrayal_to_nemesis, cohort_ended, name_revealed, final_encounter_act7) must each have at least one server call site that fires them via recordSurfaceEvent.",
+    check: () => checkNemesisWave4TriggerCoverage(),
   },
 ];

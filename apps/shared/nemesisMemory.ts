@@ -40,6 +40,13 @@ export const NEMESIS_ENCOUNTER_KINDS = [
   "killed_by_player",
   "fled_player",
   "mocked_by_player",
+  // Phase K Wave 4 — new trigger-firing encounter kinds.
+  "accumulation_reveal",
+  "lieutenant_promoted",
+  "apprentice_declared_betrayal_to_nemesis",
+  "cohort_ended",
+  "name_revealed",
+  "final_encounter_act7",
 ] as const;
 
 /** What happened in the encounter. */
@@ -197,6 +204,56 @@ const QUOTE_TEMPLATES: Readonly<Record<NemesisEncounterKind, readonly [
     "{detail}. The Politician's lesson: 'the mocked party returns with the same laugh, only sharper.' I am sharpening.",
     "{detail}. You should not have laughed. The chronicle does not always reward laughter. The Politician's apprentice is the chronicle's correction.",
     "{detail}. The mock is the receipt. The receipt is in my pocket. The Politician would have approved.",
+  ],
+  // Phase K Wave 4 — chronicle templates for the new
+  // trigger-firing encounter kinds.
+  accumulation_reveal: [
+    "Another sibling has arrived. {detail}. The chronicle's roster grows.",
+    "{detail}. The Politician's stable widens. I notice the widening.",
+    "{detail}. There are more of us. The chronicle should make room.",
+    "{detail}. The roster is not yet what the Politician promised. It is closer.",
+    "{detail}. I welcome the new arrival. The Politician's lesson: 'a wider stable is a louder doctrine.'",
+    "{detail}. The chronicle counts us. We count back.",
+  ],
+  lieutenant_promoted: [
+    "I have been given subordinates. {detail}. The cohort answers to me now.",
+    "{detail}. The Politician's primer: 'rank is a vote you do not need to count.'",
+    "{detail}. I am elevated. The chronicle records the elevation. The chronicle does not record who I displace.",
+    "{detail}. The promotion is a ledger entry. The ledger is mine to keep.",
+    "{detail}. The Politician would have noted the margin. I am noting the margin.",
+    "{detail}. Cohort coordinator. The chronicle's title for what the Politician called 'cell.'",
+  ],
+  apprentice_declared_betrayal_to_nemesis: [
+    "Your apprentice came to me. {detail}. The chronicle did not see this coming. I did.",
+    "{detail}. Your apprentice declared. The Politician's lesson: 'the declaration is the vote.'",
+    "{detail}. I have your apprentice's voice in my ear. You should hear it. The chronicle will play it back.",
+    "{detail}. The declaration is in. The doctrine is mine. The apprentice is mine. The chronicle is taking notes.",
+    "{detail}. Your apprentice chose. The Politician's primer: 'no choice surprises me; the timing surprises me.' The timing was correct.",
+    "{detail}. The chronicle has a new entry on us both. I am writing it. Your apprentice is dictating.",
+  ],
+  cohort_ended: [
+    "Your cohort closes. {detail}. The chronicle stamps the end.",
+    "{detail}. The Politician's primer: 'every cohort closes; the question is who is left in the room.'",
+    "{detail}. The closing is data. The data tells me what comes next.",
+    "{detail}. I have been watching the close from the beginning. The chronicle records the patience.",
+    "{detail}. The cohort closes. I remain. The Politician's lesson: 'closure is local; doctrine is durable.'",
+    "{detail}. End of cohort. The chronicle's next chapter has my name in it.",
+  ],
+  name_revealed: [
+    "You learned my name. {detail}. The chronicle records the learning. The Politician would have called it 'the surface only.'",
+    "{detail}. My name is in your mouth now. Use it carefully.",
+    "{detail}. The name surfaced. The chronicle did not announce it. You found it.",
+    "{detail}. You earned the surface, not the depth. The Politician's primer: 'a name is the first compromise.'",
+    "{detail}. Speak it once. Then we will see what the chronicle does with it.",
+    "{detail}. My name is mine to lose, not yours to take. The chronicle will distinguish.",
+  ],
+  final_encounter_act7: [
+    "Act Seven. {detail}. The chronicle folds shut around us.",
+    "{detail}. The Convergence Seat has fallen. So have most of my plans.",
+    "{detail}. End of arc. The Politician's primer: 'the arc ends; the doctrine resumes.'",
+    "{detail}. The chronicle is closing. I have a final entry to make. You are it.",
+    "{detail}. The last room. The Politician taught me to be ready for the last room. I am ready.",
+    "{detail}. The chronicle returns me, or does not. Either way, this conversation is mine.",
   ],
 };
 

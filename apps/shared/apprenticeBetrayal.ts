@@ -281,3 +281,56 @@ export const ARCHETYPE_BETRAYAL_FLAVOR: Partial<Record<ApprenticeArchetype, stri
   revenant: "The Revenant was always owed a debt. Today is collection day.",
   ghost: "The Ghost never betrays out loud. You wake up and their bunk is cold and something important is gone.",
 };
+
+/* ═══════════════════════════════════════════════════════
+   PHASE K WAVE 4 — NEMESIS WHISPER OVERLAY
+
+   When the apprentice reaches declaration stage AND the
+   user has an active Nemesis whisper plan, this pure
+   overlay augments the declaration event with the
+   Nemesis-aware framing. Caller is responsible for
+   detecting the whisper-plan state (server-side, via
+   nemesisEncounterService.hasActiveNemesisWhisperPlan).
+   ═══════════════════════════════════════════════════════ */
+
+export function overlayWhisperOnDeclaration(
+  event: BetrayalEvent,
+  nemesisArchetypeTitle: string,
+): BetrayalEvent {
+  if (event.stage !== "declaration") return event;
+  return {
+    ...event,
+    prompt:
+      event.prompt +
+      ` (The ${nemesisArchetypeTitle}-Nemesis spoke to them last night; the words are visible in the cadence now.)`,
+    options: [
+      // Mercy-leaning new option: pull them back from the whisper
+      {
+        id: "pull_from_whisper",
+        label: "Pull them back from the whisper.",
+        outcome: {
+          corruptionDelta: -15,
+          bondDelta: +10,
+          forceStage: "halted" as const,
+          moralityDelta: +2,
+          resultFlavor:
+            "You name the Nemesis aloud. Your apprentice hears the name in their own voice and steps back from it. The whisper loses purchase. For now.",
+        },
+      },
+      // Aggression-leaning new option: release them to the whisper
+      {
+        id: "release_to_whisper",
+        label: "Release them to the whisper.",
+        outcome: {
+          corruptionDelta: +10,
+          bondDelta: -15,
+          forceStage: "betrayal" as const,
+          moralityDelta: -2,
+          resultFlavor:
+            "You step back. Your apprentice walks toward the Nemesis. The chronicle records the handover. The 35%-recruit gate has been unlocked.",
+        },
+      },
+      ...event.options,
+    ],
+  };
+}

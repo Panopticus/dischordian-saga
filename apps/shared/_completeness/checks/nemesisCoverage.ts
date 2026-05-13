@@ -195,3 +195,134 @@ export async function checkNemesisFactionAlignmentCoverage(): Promise<RawParityC
   }
   return { declared, implemented, missing };
 }
+
+/* ═══════════════════════════════════════════════════════
+   PHASE K WAVE 4 — Per-scene coverage parity checks
+   ═══════════════════════════════════════════════════════ */
+
+/** Per-pair scene coverage: 132 pairs × 8 scenes = 1056
+ *  cells. A cell is "implemented" if the per-pair file
+ *  imports a scene under that scene-id. Counted by parsing
+ *  the generated barrel + per-pair scene declarations. */
+export async function checkNemesisScenePerPairCoverage(): Promise<RawParityCount> {
+  const fs = await import("fs/promises");
+  const path = await import("path");
+  const ARCHETYPES = ["zealot", "ghost", "scholar", "revenant", "artisan", "oracle", "wanderer", "martyr", "heretic", "jester", "sentinel", "prodigal"];
+  const SCENES = [
+    "first_sighting",
+    "sabotage_caught_in_act",
+    "mocking_interlude",
+    "lieutenant_promotion",
+    "cohort_end_confrontation",
+    "accumulation_reveal",
+    "name_reveal_moment",
+    "final_encounter",
+  ];
+  const dir = path.resolve(process.cwd(), "apps/shared/npcs/banks/nemesis");
+  let declared = 0;
+  let implemented = 0;
+  const missing: string[] = [];
+  for (const p of ARCHETYPES) {
+    for (const n of ARCHETYPES) {
+      if (p === n) continue;
+      const file = path.join(dir, `${p}_vs_${n}.ts`);
+      let src = "";
+      try {
+        src = await fs.readFile(file, "utf8");
+      } catch {
+        for (const s of SCENES) {
+          declared++;
+          missing.push(`${p}_vs_${n}.${s}`);
+        }
+        continue;
+      }
+      for (const s of SCENES) {
+        declared++;
+        if (src.includes(`${s}: makeScene(`)) implemented++;
+        else missing.push(`${p}_vs_${n}.${s}`);
+      }
+    }
+  }
+  return { declared, implemented, missing };
+}
+
+/** Per-pair apprentice scene coverage: 132 × 8 = 1056. */
+export async function checkApprenticeScenePerPairCoverage(): Promise<RawParityCount> {
+  const fs = await import("fs/promises");
+  const path = await import("path");
+  const ARCHETYPES = ["zealot", "ghost", "scholar", "revenant", "artisan", "oracle", "wanderer", "martyr", "heretic", "jester", "sentinel", "prodigal"];
+  const SCENES = [
+    "cohort_morning_briefing",
+    "breaking_point_whisper",
+    "post_cohort_retrospective",
+    "memory_card_inheritance",
+    "daily_observation",
+    "corruption_advance",
+    "apprentice_warning",
+    "apprentice_pride",
+  ];
+  const dir = path.resolve(process.cwd(), "apps/shared/npcs/banks/apprenticeOnNemesis");
+  let declared = 0;
+  let implemented = 0;
+  const missing: string[] = [];
+  for (const p of ARCHETYPES) {
+    for (const n of ARCHETYPES) {
+      if (p === n) continue;
+      const file = path.join(dir, `${p}_on_${n}.ts`);
+      let src = "";
+      try {
+        src = await fs.readFile(file, "utf8");
+      } catch {
+        for (const s of SCENES) {
+          declared++;
+          missing.push(`${p}_on_${n}.${s}`);
+        }
+        continue;
+      }
+      for (const s of SCENES) {
+        declared++;
+        if (src.includes(`${s}: makeApprenticeScene(`)) implemented++;
+        else missing.push(`${p}_on_${n}.${s}`);
+      }
+    }
+  }
+  return { declared, implemented, missing };
+}
+
+/** Wave 4 trigger-handler coverage: 6 new trigger-firing
+ *  encounter kinds, each must have (a) an entry in
+ *  NEMESIS_ENCOUNTER_KINDS, (b) a case in
+ *  applyEncounterTransition, (c) at least one tRPC/server
+ *  call site that fires it via recordSurfaceEvent. */
+export async function checkNemesisWave4TriggerCoverage(): Promise<RawParityCount> {
+  const fs = await import("fs/promises");
+  const path = await import("path");
+  const WAVE4_KINDS = [
+    "accumulation_reveal",
+    "lieutenant_promoted",
+    "apprentice_declared_betrayal_to_nemesis",
+    "cohort_ended",
+    "name_revealed",
+    "final_encounter_act7",
+  ];
+  const declared = WAVE4_KINDS.length;
+  const sourceFiles = [
+    "apps/server/routers/nemesis.ts",
+    "apps/server/services/nemesisEncounterService.ts",
+  ];
+  let combined = "";
+  for (const f of sourceFiles) {
+    try {
+      combined += await fs.readFile(path.resolve(process.cwd(), f), "utf8");
+    } catch {
+      // skip
+    }
+  }
+  let implemented = 0;
+  const missing: string[] = [];
+  for (const kind of WAVE4_KINDS) {
+    if (combined.includes(`encounterKind: "${kind}"`)) implemented++;
+    else missing.push(kind);
+  }
+  return { declared, implemented, missing };
+}

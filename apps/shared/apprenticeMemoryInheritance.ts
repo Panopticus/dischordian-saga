@@ -31,6 +31,7 @@
 
 import type { Apprentice, ApprenticeArchetype } from "./apprentices";
 import type { DoctrineId } from "./apprenticeDoctrines";
+import { APPRENTICE_ON_NEMESIS_PAIR_BANKS } from "./npcs/banks/apprenticeOnNemesis/_index";
 
 /* ─── Types ─── */
 
@@ -263,4 +264,78 @@ export function signatureGiftFor(archetype: ApprenticeArchetype): string {
  */
 export function inheritedLineFor(archetype: ApprenticeArchetype): { id: string; trigger: InheritedTrait["inheritedLineTrigger"]; text: string } {
   return INHERITED_LINES[archetype];
+}
+
+/* ═══════════════════════════════════════════════════════
+   PHASE K WAVE 4 — NEMESIS-PASSAGE INHERITANCE (K-W4-4)
+
+   In addition to the per-archetype inherited line (the
+   generic legacy), a Memory Card carries a NEMESIS-aware
+   passage when the dead apprentice was paired against a
+   specific Nemesis at high corruption. Pulled from the
+   K6.2 apprentice-on-nemesis pair-bank's
+   `memory_card_inheritance` scene.
+
+   The new apprentice reads the passage in their first
+   morning briefing — surfaced via
+   formatInheritancePassageForMorningBriefing.
+   ═══════════════════════════════════════════════════════ */
+
+export interface InheritedNemesisPassage {
+  /** The dead apprentice's last words about the Nemesis,
+   *  lifted from the pair-bank's memory_card_inheritance
+   *  variant root node `onscreenText`. Empty string if no
+   *  pair-bank match. */
+  passage: string;
+  /** Flags the inheritance event sets, surfaced to the
+   *  caller for narrative-flag propagation. */
+  flagsToSet: string[];
+}
+
+/** Build the inheritance passage from the dead apprentice's
+ *  archetype + the final-cohort Nemesis's archetype +
+ *  corruption band. */
+export function getInheritedNemesisPassage(
+  deadApprenticeArchetype: ApprenticeArchetype,
+  finalCohortNemesisArchetype: ApprenticeArchetype,
+  finalCorruptionBand: "low" | "mid" | "high",
+): InheritedNemesisPassage {
+  const pairId = `${deadApprenticeArchetype}_on_${finalCohortNemesisArchetype}`;
+  const pairBank = APPRENTICE_ON_NEMESIS_PAIR_BANKS.find((p) => p.pairId === pairId);
+  if (!pairBank) {
+    return { passage: "", flagsToSet: [] };
+  }
+  const scene = pairBank.scenes.memory_card_inheritance;
+  if (!scene) {
+    return { passage: "", flagsToSet: [] };
+  }
+  const variant = scene.variants[finalCorruptionBand];
+  const rootNode = variant?.nodes.root;
+  const passage = rootNode?.onscreenText ?? "";
+
+  const flagsToSet = [
+    `inherited_nemesis_passage_from_${deadApprenticeArchetype}`,
+    `inherited_nemesis_passage_about_${finalCohortNemesisArchetype}`,
+    `inherited_nemesis_passage_at_${finalCorruptionBand}_corruption`,
+  ];
+  if (finalCorruptionBand === "high") {
+    // High-corruption deaths are canonically marked — the
+    // dead apprentice "named" the Nemesis in their final
+    // breath. K8.1 recruit eligibility evaluator reads it.
+    flagsToSet.push("inherited_nemesis_named_by_dead_apprentice");
+  }
+  return { passage, flagsToSet };
+}
+
+/** Format the inheritance passage for surfacing in the new
+ *  apprentice's first morning briefing. */
+export function formatInheritancePassageForMorningBriefing(
+  passage: string,
+  deadApprenticeName: string,
+): string {
+  if (!passage) return "";
+  return (
+    `The memory-card from ${deadApprenticeName} carries one passage you read this morning, before anything else:\n\n  "${passage}"\n\n` +
+    `It is the last thing they wrote. The chronicle marks the ink as theirs.`
+  );
 }

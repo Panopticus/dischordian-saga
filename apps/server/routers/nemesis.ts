@@ -294,6 +294,21 @@ export const nemesisRouter = router({
         nameRevealedFromGameState: input.nameRevealedFromGameState,
       });
 
+      // Phase K Wave 4 — compute the player's
+      // nemesis-sequence: count of EXISTING (non-retired)
+      // Nemeses + 1. If sequence >= 2, we will later fire
+      // `accumulation_reveal` on prior Nemeses.
+      const existingNemeses = await db
+        .select()
+        .from(nemesisState)
+        .where(
+          and(
+            eq(nemesisState.userId, ctx.user.id),
+            eq(nemesisState.retired, 0),
+          ),
+        );
+      const sequence = existingNemeses.length + 1;
+
       // Phase K + faction alignment — pin the Nemesis to a
       // faction whose interests align with their archetype
       // AND maximally conflict with the player's current
@@ -309,7 +324,7 @@ export const nemesisRouter = router({
           archetype: nemesis.archetype,
           userId: ctx.user.id,
           cohortNumber: input.cohortNumber,
-          nemesisSequence: 1,
+          nemesisSequence: sequence,
           playerStandings,
         });
       } catch (factionErr) {
@@ -326,11 +341,37 @@ export const nemesisRouter = router({
         properName: nemesis.identity.properName,
         nameRevealed: nemesis.identity.nameRevealed ? 1 : 0,
         politicianTic: nemesis.politicianTic,
+        nemesisSequence: sequence,
         rank: nemesis.rank,
         grudgeTier: nemesis.grudgeTier,
         preferredSurface: nemesis.preferredSurface,
         alignedFaction,
       });
+
+      // Phase K Wave 4 — fire `accumulation_reveal` on the
+      // highest-rank PRIOR Nemesis when the new one is the
+      // player's 2nd+. The scene plays on the prior
+      // Nemesis's next surface read.
+      if (sequence >= 2 && existingNemeses.length > 0) {
+        try {
+          const { recordSurfaceEvent } = await import(
+            "../services/nemesisEncounterService"
+          );
+          const sortedByRank = [...existingNemeses].sort(
+            (a, b) => b.rank - a.rank,
+          );
+          const target = sortedByRank[0];
+          await recordSurfaceEvent({
+            userId: ctx.user.id,
+            cohortNumber: target.cohortNumber,
+            source: "world",
+            encounterKind: "accumulation_reveal",
+            detail: `New Nemesis at sequence ${sequence}: ${nemesis.identity.archetypeTitle}`,
+          });
+        } catch (accErr) {
+          console.warn("[Nemesis] accumulation_reveal fire failed", accErr);
+        }
+      }
 
       return { ...nemesis, alignedFaction };
     }),
@@ -383,6 +424,29 @@ export const nemesisRouter = router({
           .set({ nameRevealed: 1 })
           .where(eq(nemesisState.nemesisId, rows[0].nemesisId));
         rows[0].nameRevealed = 1;
+
+        // Phase K Wave 4 — fire name_reveal_moment scene
+        // exactly once, gated by nameRevealAcknowledged.
+        if (rows[0].nameRevealAcknowledged === 0) {
+          try {
+            const { recordSurfaceEvent } = await import(
+              "../services/nemesisEncounterService"
+            );
+            await recordSurfaceEvent({
+              userId: ctx.user.id,
+              cohortNumber: rows[0].cohortNumber,
+              source: "world",
+              encounterKind: "name_revealed",
+              detail: rows[0].properName,
+            });
+            await db
+              .update(nemesisState)
+              .set({ nameRevealAcknowledged: 1 })
+              .where(eq(nemesisState.nemesisId, rows[0].nemesisId));
+          } catch (revealErr) {
+            console.warn("[Nemesis] name_revealed fire failed", revealErr);
+          }
+        }
       }
 
       // Phase K1.1 — opportunistic plan top-up. After the
@@ -428,6 +492,106 @@ export const nemesisRouter = router({
       .orderBy(desc(nemesisState.spawnedAt));
     return rows.map(rowToNemesisDef);
   }),
+
+  /** Phase K Wave 4 — final encounter trigger. Called when
+   *  `act7_arc_closes` flips true (Convergence Seat falls).
+   *  Queues a `final_encounter_act7` for each active
+   *  Nemesis in the player's roster, highest-rank first. */
+  triggerFinalEncountersForUser: protectedProcedure.mutation(async ({ ctx }) => {
+    const db = await getDb();
+    if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+    const roster = await db
+      .select()
+      .from(nemesisState)
+      .where(
+        and(
+          eq(nemesisState.userId, ctx.user.id),
+          eq(nemesisState.retired, 0),
+        ),
+      )
+      .orderBy(desc(nemesisState.rank));
+    const { recordSurfaceEvent } = await import(
+      "../services/nemesisEncounterService"
+    );
+    let queued = 0;
+    for (const target of roster) {
+      try {
+        await recordSurfaceEvent({
+          userId: ctx.user.id,
+          cohortNumber: target.cohortNumber,
+          source: "world",
+          encounterKind: "final_encounter_act7",
+          detail: `Act 7 Convergence — ${target.archetypeTitle}`,
+        });
+        queued++;
+      } catch (finalErr) {
+        console.warn("[Nemesis] final_encounter fire failed for", target.nemesisId, finalErr);
+      }
+    }
+    return { queued };
+  }),
+
+  /** Phase K Wave 4 — apprentice declared betrayal trigger.
+   *  Called when the player chooses "Release them to the
+   *  whisper" in the apprenticeBetrayal stage-3 declaration
+   *  overlay. Records on the cohort's paired Nemesis;
+   *  applies grudge +2 via applyEncounterTransition and
+   *  unlocks the 35%-recruit gate. */
+  triggerApprenticeDeclaredBetrayal: protectedProcedure
+    .input(
+      z.object({
+        cohortNumber: z.number().int().min(1),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { recordSurfaceEvent } = await import(
+        "../services/nemesisEncounterService"
+      );
+      try {
+        await recordSurfaceEvent({
+          userId: ctx.user.id,
+          cohortNumber: input.cohortNumber,
+          source: "world",
+          encounterKind: "apprentice_declared_betrayal_to_nemesis",
+          detail: "Apprentice released to whisper",
+        });
+        return { recorded: true };
+      } catch (declErr) {
+        console.warn("[Nemesis] apprentice_declared fire failed", declErr);
+        return { recorded: false };
+      }
+    }),
+
+  /** Phase K Wave 4 — cohort end trigger. Called when the
+   *  player's apprentice graduates/dies/betrays. Records
+   *  `cohort_ended` on the cohort's paired Nemesis so the
+   *  pair-bank's cohort_end_confrontation scene fires on
+   *  next surface read. */
+  triggerCohortEndForUser: protectedProcedure
+    .input(
+      z.object({
+        cohortNumber: z.number().int().min(1),
+        outcome: z.enum(["graduated", "died", "betrayed"]),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { recordSurfaceEvent } = await import(
+        "../services/nemesisEncounterService"
+      );
+      try {
+        await recordSurfaceEvent({
+          userId: ctx.user.id,
+          cohortNumber: input.cohortNumber,
+          source: "world",
+          encounterKind: "cohort_ended",
+          detail: `Apprentice ${input.outcome}`,
+        });
+        return { recorded: true };
+      } catch (cohortErr) {
+        console.warn("[Nemesis] cohort_ended fire failed", cohortErr);
+        return { recorded: false };
+      }
+    }),
 
   /** List the player's Nemeses across all cohorts. */
   listMine: protectedProcedure.query(async ({ ctx }) => {

@@ -91,6 +91,44 @@ export interface SurfaceEventResult {
  *  Returns the number of plans resolved (informational; callers
  *  can ignore). Safe to call on every Nemesis-related read or
  *  write path — guarded by try/catch internally. */
+/** Phase K Wave 4 — does this user have an active Nemesis
+ *  whisper-plan against their apprentice? Consumed by the
+ *  apprenticeBetrayal stage-3 declaration path to overlay
+ *  the Nemesis-aware whisper dialog. */
+export async function hasActiveNemesisWhisperPlan(
+  userId: number,
+  db?: DbHandle,
+): Promise<{ active: boolean; nemesisArchetypeTitle?: string }> {
+  try {
+    const handle = db ?? (await getDb());
+    if (!handle) return { active: false };
+    const activePlans = await handle
+      .select()
+      .from(nemesisPlans)
+      .where(
+        and(
+          eq(nemesisPlans.userId, userId),
+          eq(nemesisPlans.kind, "apprentice_breaking_point_whisper"),
+        ),
+      );
+    const ticking = activePlans.find(
+      (p) => p.status === "spawned" || p.status === "ticking",
+    );
+    if (!ticking) return { active: false };
+    const nemesis = await handle
+      .select()
+      .from(nemesisState)
+      .where(eq(nemesisState.nemesisId, ticking.nemesisId))
+      .limit(1);
+    if (nemesis.length === 0) return { active: false };
+    return { active: true, nemesisArchetypeTitle: nemesis[0].archetypeTitle };
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    logger.warn("[NemesisEncounterService] hasActiveNemesisWhisperPlan failed:", msg);
+    return { active: false };
+  }
+}
+
 export async function sweepExpiredPlansForUser(
   userId: number,
   db?: DbHandle,
@@ -147,6 +185,81 @@ export async function sweepExpiredPlansForUser(
         );
       }
     }
+
+    // Phase K Wave 4 — after plan-success writebacks, check
+    // for lieutenant promotion. The pure `decidePromotion`
+    // sees the user's active roster + each Nemesis's
+    // cumulative plan-success count.
+    try {
+      const { decidePromotion } = await import("../../shared/nemesisPlans");
+      const roster = await handle
+        .select()
+        .from(nemesisState)
+        .where(
+          and(
+            eq(nemesisState.userId, userId),
+            eq(nemesisState.retired, 0),
+          ),
+        );
+      // Build per-Nemesis plan-success counts (using `rows`
+      // already fetched + the just-applied resolutions).
+      const successCountByNemesisId = new Map<string, number>();
+      for (const r of rows) {
+        if (r.status === "succeeded") {
+          successCountByNemesisId.set(
+            r.nemesisId,
+            (successCountByNemesisId.get(r.nemesisId) ?? 0) + 1,
+          );
+        }
+      }
+      // Include the resolutions we just wrote (status was
+      // "spawned"/"ticking" pre-sweep but is now "succeeded").
+      for (const res of resolutions) {
+        const row = rowByPlanId.get(res.planId);
+        if (row) {
+          successCountByNemesisId.set(
+            row.nemesisId,
+            (successCountByNemesisId.get(row.nemesisId) ?? 0) + 1,
+          );
+        }
+      }
+      const rosterEntries = roster.map((n) => ({
+        nemesisId: n.nemesisId,
+        rank: n.rank as 1 | 2 | 3 | 4 | 5 | 6 | 7,
+        planSuccessCount: successCountByNemesisId.get(n.nemesisId) ?? 0,
+        isLieutenant: !!n.lieutenantOfNemesisId,
+        retired: n.retired === 1,
+      }));
+      const decision = decidePromotion(rosterEntries);
+      if (
+        decision.promote &&
+        decision.candidateNemesisId &&
+        decision.underNemesisId
+      ) {
+        await handle
+          .update(nemesisState)
+          .set({ lieutenantOfNemesisId: decision.underNemesisId })
+          .where(eq(nemesisState.nemesisId, decision.candidateNemesisId));
+        // Record the encounter so the pair-bank's
+        // lieutenant_promotion scene fires on next surface read.
+        const candidate = roster.find(
+          (n) => n.nemesisId === decision.candidateNemesisId,
+        );
+        if (candidate) {
+          await recordSurfaceEvent({
+            userId,
+            cohortNumber: candidate.cohortNumber,
+            source: "world",
+            encounterKind: "lieutenant_promoted",
+            detail: `Promoted under ${decision.underNemesisId}`,
+          });
+        }
+      }
+    } catch (promotionErr) {
+      const msg = promotionErr instanceof Error ? promotionErr.message : String(promotionErr);
+      logger.warn("[NemesisEncounterService] lieutenant promotion check failed:", msg);
+    }
+
     return resolutions.length;
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);

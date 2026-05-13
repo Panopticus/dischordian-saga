@@ -424,48 +424,404 @@ const APPRENTICE_LINES: Record<Archetype, Record<GrudgeBand, ApprenticeLines>> =
 };
 
 /* ═══════════════════════════════════════════════════════
+   PHASE K WAVE 4 — ADDITIONAL SCENE CONTENT
+
+   Seven additional scenes per nemesis pair-bank, and seven
+   per apprentice pair-bank. Content composed from two
+   axes:
+
+     - VOICE: per-archetype × per-band micro-phrases that
+       carry the archetype's register (opener / affirm /
+       defy). Same archetype voice across all 7 new scenes.
+
+     - SCENE_FRAME: per-scene × per-band situational
+       framing (the "what's happening" suffix to the
+       opener). Same frame across all 12 archetypes.
+
+   Composition: line = `${VOICE.opener} ${SCENE_FRAME.context}`
+   Yields 7 × 12 × 3 × 3 = 756 unique lines per side.
+   ═══════════════════════════════════════════════════════ */
+
+type NemesisSceneId =
+  | "sabotage_caught_in_act"
+  | "mocking_interlude"
+  | "lieutenant_promotion"
+  | "cohort_end_confrontation"
+  | "accumulation_reveal"
+  | "name_reveal_moment"
+  | "final_encounter";
+
+type ApprenticeSceneId =
+  | "breaking_point_whisper"
+  | "post_cohort_retrospective"
+  | "memory_card_inheritance"
+  | "daily_observation"
+  | "corruption_advance"
+  | "apprentice_warning"
+  | "apprentice_pride";
+
+interface SceneFrame {
+  context: string;
+  mercyContext: string;
+  aggrContext: string;
+}
+
+interface VoiceBand {
+  opener: string;
+  affirm: string;
+  defy: string;
+}
+
+const NEMESIS_VOICE: Record<Archetype, Record<GrudgeBand, VoiceBand>> = {
+  zealot: {
+    low: { opener: "The cause notes you.", affirm: "The cause records mercy as a delay.", defy: "The cause records resistance as material." },
+    mid: { opener: "The cause has named you now.", affirm: "Mercy is filed. The cause walks on.", defy: "Resistance fortifies the cause." },
+    high: { opener: "The cause is here, in person.", affirm: "Mercy is the longer doctrine, then.", defy: "Then the cause was always going to find you." },
+  },
+  ghost: {
+    low: { opener: "Noticed.", affirm: "Filed.", defy: "Logged." },
+    mid: { opener: "You are visible to me.", affirm: "Withdrawal noted.", defy: "Confrontation noted." },
+    high: { opener: "All angles accounted for.", affirm: "Mercy at this depth is rare. Filed.", defy: "Engagement on these terms is acceptable." },
+  },
+  scholar: {
+    low: { opener: "Page reference: you.", affirm: "Mercy. Within annotated bounds.", defy: "Aggression. Within annotated bounds." },
+    mid: { opener: "Chapter open on you.", affirm: "Mercy. Footnote.", defy: "Aggression. Footnote." },
+    high: { opener: "Concluding chapter.", affirm: "Mercy revises the ending.", defy: "Aggression confirms the ending." },
+  },
+  revenant: {
+    low: { opener: "The ledger sees you.", affirm: "Partial payment.", defy: "Default. Interest accrues." },
+    mid: { opener: "Outstanding balance: large.", affirm: "Account paid. For today.", defy: "Account remains. Largely." },
+    high: { opener: "Final notice.", affirm: "Account closed. Do not reopen.", defy: "Foreclosure. Accepted." },
+  },
+  artisan: {
+    low: { opener: "I observe your work.", affirm: "Soft hand. Note for next iteration.", defy: "Force test. Note for next iteration." },
+    mid: { opener: "Your form has been redesigned.", affirm: "Mercy joints hold under stress.", defy: "The seam fails predictably." },
+    high: { opener: "Final iteration ready.", affirm: "The mercy joint holds.", defy: "The form breaks clean." },
+  },
+  oracle: {
+    low: { opener: "Branch encountered.", affirm: "Branch four. Mercy variant.", defy: "Branch one. Quick variant." },
+    mid: { opener: "Three branches narrow.", affirm: "Branch with cleanest aftermath.", defy: "Branch where I prepare more bandages." },
+    high: { opener: "Vision converges.", affirm: "Branch four landed.", defy: "Branch one landed." },
+  },
+  wanderer: {
+    low: { opener: "Crossroads.", affirm: "I take the gentler road.", defy: "I take the steeper road." },
+    mid: { opener: "Familiar town, different lighting.", affirm: "Mercy in unusual lighting. Noted.", defy: "Familiar lighting. Goodnight." },
+    high: { opener: "End of the road.", affirm: "A new road opens.", defy: "The road ends here." },
+  },
+  martyr: {
+    low: { opener: "I welcome this.", affirm: "Mercy delays the cost.", defy: "The cost was always coming." },
+    mid: { opener: "We approach the price.", affirm: "Mercy is denial of my purpose.", defy: "Closer to the conclusion." },
+    high: { opener: "Now is acceptable.", affirm: "I will live, for the cause.", defy: "Thank you. The cause receives a witness." },
+  },
+  heretic: {
+    low: { opener: "Welcome to the truer cause.", affirm: "Mercy from orthodoxy. Interesting.", defy: "Persecution. The cause requires it." },
+    mid: { opener: "Doctrinal contact.", affirm: "Listening recorded.", defy: "Yes. The cause needed this image." },
+    high: { opener: "End of conversion.", affirm: "Mercy from the orthodoxy I called heresy.", defy: "The cause cannot be killed; only re-spoken." },
+  },
+  jester: {
+    low: { opener: "You're funnier when you lose.", affirm: "Mercy! The setup did not see this coming.", defy: "Yes — hit the punchline!" },
+    mid: { opener: "We have a routine.", affirm: "Mercy. Saves the bit.", defy: "Yes! The closer!" },
+    high: { opener: "End of the bit. Curtain.", affirm: "Mercy. The kindest review.", defy: "Big finish. Loud one." },
+  },
+  sentinel: {
+    low: { opener: "The watch sees you.", affirm: "Mercy at the gate. Logged.", defy: "Forcing the gate. Logged." },
+    mid: { opener: "Your gait is on file.", affirm: "Mercy. The watch records it.", defy: "Forcing again. The watch is patient." },
+    high: { opener: "Gate is closed by order of the watch.", affirm: "The gate opens. Walk through quickly.", defy: "Then we test the gate." },
+  },
+  prodigal: {
+    low: { opener: "I came back through you.", affirm: "Mercy from the household. Familiar.", defy: "Household violence. Also familiar." },
+    mid: { opener: "Part of the family argument.", affirm: "Pulling me back into the house.", defy: "Leaving on my terms this time." },
+    high: { opener: "Last visit.", affirm: "I stay. Uncertain what to do with your house.", defy: "I leave with the keys." },
+  },
+};
+
+const NEMESIS_SCENE_FRAMES: Record<NemesisSceneId, Record<GrudgeBand, SceneFrame>> = {
+  sabotage_caught_in_act: {
+    low: { context: "You crossed my work mid-step. Awkward, for both of us.", mercyContext: "You let me finish. That is unexpected.", aggrContext: "You broke what I was making. The break tells me what to do next." },
+    mid: { context: "You knew where to look. Annotate that.", mercyContext: "You stepped past instead of through. Annotate that too.", aggrContext: "You stepped through. Annotated." },
+    high: { context: "You caught me in the act of catching you.", mercyContext: "You let it stand. The chronicle frames this generously.", aggrContext: "You finished it for me. The chronicle frames this cleanly." },
+  },
+  mocking_interlude: {
+    low: { context: "Just passing. Wanted you to see me passing.", mercyContext: "You waved. I will remember.", aggrContext: "You growled. I will quote you back." },
+    mid: { context: "A visit. No agenda. Mostly.", mercyContext: "Mercy on the mid-grudge cycle. Noted.", aggrContext: "A heckle on the mid-grudge cycle. Predictable." },
+    high: { context: "I came to watch you not see me. You saw me.", mercyContext: "Mercy from this distance? Unusual.", aggrContext: "Aggression from this distance? Familiar." },
+  },
+  lieutenant_promotion: {
+    low: { context: "I am being given subordinates. The Politician's books call this 'cohort coordination.'", mercyContext: "You bless the promotion. The cohort notes it.", aggrContext: "You curse the promotion. The cohort notes it." },
+    mid: { context: "I am elevated. The cohort answers to me now.", mercyContext: "Mercy on a Lieutenant is rare. Filed.", aggrContext: "You will fight me harder for the promotion. Filed." },
+    high: { context: "Lieutenant. The hierarchy is mine to shape.", mercyContext: "You bow to the rank. The Politician would have smiled.", aggrContext: "You burn the rank. The Politician would have allowed it." },
+  },
+  cohort_end_confrontation: {
+    low: { context: "Your apprentice has finished, or finished us. Either way: this cohort closes.", mercyContext: "You spare the closing. I close in silence.", aggrContext: "You demand a closing line. I provide it." },
+    mid: { context: "The cohort closes around you. I was watching the whole way.", mercyContext: "Mercy at the close. Filed under 'unexpected.'", aggrContext: "Aggression at the close. Filed under 'expected.'" },
+    high: { context: "The chronicle closes this cohort with my name in it.", mercyContext: "You let me be in the chronicle. Unprecedented.", aggrContext: "You strike my name from the chronicle. Anticipated." },
+  },
+  accumulation_reveal: {
+    low: { context: "I am no longer alone with you. The chronicle notes my new sibling.", mercyContext: "You acknowledge the new one. Generous.", aggrContext: "You threaten the new one. Predictable." },
+    mid: { context: "We are several now. The Politician's roster widens.", mercyContext: "Mercy across the roster. Logged.", aggrContext: "Aggression across the roster. Logged." },
+    high: { context: "We are a chorus. You may want to count us.", mercyContext: "Mercy at the chorus is gracious.", aggrContext: "Aggression at the chorus is exhausting. For you." },
+  },
+  name_reveal_moment: {
+    low: { context: "You have read what you needed. My name surfaces. Use it carefully.", mercyContext: "You speak it gently. The chronicle records the gentleness.", aggrContext: "You spit it. The chronicle records the spit." },
+    mid: { context: "My name. You earned the surface, not the depth.", mercyContext: "You honor the name. Unexpected.", aggrContext: "You weaponize the name. Expected." },
+    high: { context: "Use my name. It is the last thing in this chronicle that is fully mine.", mercyContext: "You say it like an apology. Filed.", aggrContext: "You say it like a verdict. Filed." },
+  },
+  final_encounter: {
+    low: { context: "Act Seven. The Convergence Seat has fallen. So have most of my plans.", mercyContext: "Mercy at the end is the longer chronicle.", aggrContext: "An ending. Quick. Clean." },
+    mid: { context: "End of the arc. Most of mine, anyway.", mercyContext: "You let me close my own file.", aggrContext: "You close my file for me." },
+    high: { context: "The chronicle is folding this story shut around both of us.", mercyContext: "You spare the rival. The chronicle takes note in italics.", aggrContext: "You finish the rival. The chronicle takes note in plain script." },
+  },
+};
+
+const APPRENTICE_VOICE: Record<Archetype, Record<GrudgeBand, VoiceBand>> = {
+  zealot: {
+    low: { opener: "The cause is steady.", affirm: "You steadied the cause.", defy: "The cause loosens." },
+    mid: { opener: "The cause is loud some mornings.", affirm: "The cause is mine again.", defy: "The cause and I are diverging." },
+    high: { opener: "The cause sounds like theirs.", affirm: "The cause is mine, your hand louder.", defy: "The cause was always going to win." },
+  },
+  ghost: {
+    low: { opener: "Noticed nothing.", affirm: "Filed.", defy: "Filed differently." },
+    mid: { opener: "Being seen.", affirm: "Holding the line.", defy: "Going where I can be unseen." },
+    high: { opener: "Seen at every angle.", affirm: "Unseen again, briefly.", defy: "Dissolving." },
+  },
+  scholar: {
+    low: { opener: "Footnote.", affirm: "Footnote held.", defy: "Footnote revised." },
+    mid: { opener: "Their footnote on me is fuller.", affirm: "Co-authoring.", defy: "Becoming their subject." },
+    high: { opener: "The conclusions are theirs.", affirm: "The file is mine again.", defy: "The file is theirs." },
+  },
+  revenant: {
+    low: { opener: "Balance: small.", affirm: "Balance held.", defy: "Balance increasing." },
+    mid: { opener: "Two debts collected.", affirm: "Solvent, barely.", defy: "Insolvent." },
+    high: { opener: "Final notice received.", affirm: "Forbearance granted.", defy: "Foreclosure accepted." },
+  },
+  artisan: {
+    low: { opener: "The criticism is correct.", affirm: "Note incorporated.", defy: "Rebuilding from the critique." },
+    mid: { opener: "Finding new joints I did not weld.", affirm: "Original design holds.", defy: "Their design now." },
+    high: { opener: "No longer the form I was built into.", affirm: "Original design restored.", defy: "Their final iteration." },
+  },
+  oracle: {
+    low: { opener: "Branches diverged.", affirm: "Branches diverged further.", defy: "Convergence accepted." },
+    mid: { opener: "Three branches end with them speaking.", affirm: "Branch four. Thank you.", defy: "Branch one." },
+    high: { opener: "Branches converged.", affirm: "Off the rails.", defy: "Vision complete." },
+  },
+  wanderer: {
+    low: { opener: "Took the other road.", affirm: "New road tonight.", defy: "Following their road." },
+    mid: { opener: "Map shrinking.", affirm: "Map widens.", defy: "At the station with them." },
+    high: { opener: "One road left.", affirm: "New road appears.", defy: "Sharing their road." },
+  },
+  martyr: {
+    low: { opener: "Answer was too short.", affirm: "Lengthening the answer.", defy: "Their answer was right." },
+    mid: { opener: "Three answers, none mine.", affirm: "Next answer mine.", defy: "Next answer theirs." },
+    high: { opener: "I am the answer.", affirm: "Still mine.", defy: "Spoken." },
+  },
+  heretic: {
+    low: { opener: "Doctrinal argument held.", affirm: "Doctrine sharpens.", defy: "Joining their argument." },
+    mid: { opener: "Their orthodoxy fits.", affirm: "My doctrine holds.", defy: "Converting." },
+    high: { opener: "Preaching theirs.", affirm: "Mine again.", defy: "Conversion finished." },
+  },
+  jester: {
+    low: { opener: "Workshopped my act.", affirm: "Act is funnier.", defy: "Joining their tour." },
+    mid: { opener: "Stole my material.", affirm: "New material.", defy: "Their warm-up now." },
+    high: { opener: "I am a punchline.", affirm: "The writer again.", defy: "Playing it out." },
+  },
+  sentinel: {
+    low: { opener: "Tested the gate.", affirm: "Gate mine.", defy: "Falling back." },
+    mid: { opener: "Gate breached every other night.", affirm: "Reinforced.", defy: "Watch falls." },
+    high: { opener: "Gate open, still standing.", affirm: "Gate closed.", defy: "Last shift." },
+  },
+  prodigal: {
+    low: { opener: "Came home through me.", affirm: "Keys stay.", defy: "Gave them a key." },
+    mid: { opener: "Moved into the family seat.", affirm: "Seat mine.", defy: "Seat theirs." },
+    high: { opener: "Asked to leave my house.", affirm: "House mine again.", defy: "Leaving." },
+  },
+};
+
+const APPRENTICE_SCENE_FRAMES: Record<ApprenticeSceneId, Record<GrudgeBand, SceneFrame>> = {
+  breaking_point_whisper: {
+    low: { context: "They whispered. I listened, mostly out of training.", mercyContext: "You pulled me back.", aggrContext: "I let it pass." },
+    mid: { context: "The whisper has been most of my afternoon.", mercyContext: "I am back. Just barely.", aggrContext: "I am still listening." },
+    high: { context: "The whisper is most of my voice now.", mercyContext: "I am pulled clear. The voice is mine again.", aggrContext: "I am their voice now. I am sorry." },
+  },
+  post_cohort_retrospective: {
+    low: { context: "The cohort closed. We did what could be done.", mercyContext: "You let it close kindly.", aggrContext: "You closed it sharply." },
+    mid: { context: "The cohort closed harder than I thought.", mercyContext: "Mercy at the close.", aggrContext: "Aggression at the close." },
+    high: { context: "The cohort closed with names I do not want to say aloud.", mercyContext: "You let the chronicle be quiet about it.", aggrContext: "You said the names anyway." },
+  },
+  memory_card_inheritance: {
+    low: { context: "The dead apprentice wrote a card. Most of it is small things.", mercyContext: "The card includes mercy for me.", aggrContext: "The card includes warning for me." },
+    mid: { context: "The dead apprentice's card mentions them by archetype.", mercyContext: "I am told to be kind. I will try.", aggrContext: "I am told to be careful. I will be." },
+    high: { context: "The dead apprentice's last passage names them. By doctrine, if not by name.", mercyContext: "I am asked to forgive what they did.", aggrContext: "I am asked to finish what was started." },
+  },
+  daily_observation: {
+    low: { context: "Saw them in the corridor again. They are here.", mercyContext: "I will let them pass.", aggrContext: "I will be louder tomorrow." },
+    mid: { context: "They visit the same corridor on a schedule.", mercyContext: "I match their schedule. Without mockery.", aggrContext: "I miss their schedule. On purpose." },
+    high: { context: "I share the corridor with them now. We do not speak.", mercyContext: "I will speak first, gently.", aggrContext: "They will speak first. I will not answer." },
+  },
+  corruption_advance: {
+    low: { context: "Crossed a number I was told to avoid.", mercyContext: "You pulled me back from it.", aggrContext: "I will cross again." },
+    mid: { context: "Crossed another number. The numbers stop mattering after this.", mercyContext: "Mercy resets the counter.", aggrContext: "The counter is theirs now." },
+    high: { context: "Crossed the last number. There is nothing left to cross.", mercyContext: "You pulled me back from the last number.", aggrContext: "The last number is theirs." },
+  },
+  apprentice_warning: {
+    low: { context: "They are running something against the trade route tonight.", mercyContext: "You heard me. The route holds.", aggrContext: "You ignored me. The route falls." },
+    mid: { context: "Their plan is larger than I first reported.", mercyContext: "You acted on the report. Good.", aggrContext: "You did not act. The plan succeeds." },
+    high: { context: "The plan is now too late to stop quietly.", mercyContext: "We will stop it loudly, together.", aggrContext: "They will succeed. I am sorry I waited." },
+  },
+  apprentice_pride: {
+    low: { context: "You handled them well today. I noticed.", mercyContext: "Thank you for noticing my noticing.", aggrContext: "I will keep noticing. Quieter, next time." },
+    mid: { context: "You are the reason the rivalry has not eaten me.", mercyContext: "Thank you. I needed that out loud.", aggrContext: "Acknowledged. Quietly." },
+    high: { context: "I will say this once: I am proud to have trained with you.", mercyContext: "I am proud back.", aggrContext: "I will hold the line. As you have." },
+  },
+};
+
+/* Player choice flavor for the 7 new scenes — short labels
+ * per archetype. Keyed by SceneId to allow per-scene tuning
+ * later; defaults shared today. */
+function newSceneChoiceLabels(playerArch: Archetype, band: GrudgeBand): { softLabel: string; hardLabel: string } {
+  const p = PLAYER_CHOICES[playerArch][band];
+  return { softLabel: p.soft.label, hardLabel: p.hard.label };
+}
+
+/* ═══════════════════════════════════════════════════════
    FILE EMITTERS
    ═══════════════════════════════════════════════════════ */
 
-function nemesisFile(playerArch: Archetype, nemesisArch: Archetype): string {
-  const lines = NEMESIS_LINES[nemesisArch];
-  const choices = PLAYER_CHOICES[playerArch];
-  const pairId = `${playerArch}_vs_${nemesisArch}`;
-  const camelExport = `${playerArch}Vs${cap(nemesisArch)}PairBank`;
-
-  const tree = (band: GrudgeBand) => {
-    const l = lines[band];
-    const c = choices[band];
-    const idPrefix = `${pairId}.first_sighting.${band}`;
-    return `const FIRST_SIGHTING_${band.toUpperCase()}: DialogTree = {
+/** Emit a single DialogTree const for a (scene, band) cell. */
+function emitNemesisSceneTree(args: {
+  constName: string;
+  pairId: string;
+  sceneId: string;
+  band: GrudgeBand;
+  opening: string;
+  toMercy: string;
+  toAggro: string;
+  softLabel: string;
+  softFlag: string;
+  hardLabel: string;
+  hardFlag: string;
+}): string {
+  const idPrefix = `${args.pairId}.${args.sceneId}.${args.band}`;
+  return `const ${args.constName}: DialogTree = {
   id: "${idPrefix}",
   nodes: {
     root: {
       id: "root",
       speaker: "nemesis",
       voLineId: "nemesis.${idPrefix}.opening",
-      onscreenText: ${JSON.stringify(l.opening)},
+      onscreenText: ${JSON.stringify(args.opening)},
       choices: [
-        { label: ${JSON.stringify(c.soft.label)}, nextId: "soft", sets: ${JSON.stringify(c.soft.flag)} },
-        { label: ${JSON.stringify(c.hard.label)}, nextId: "hard", sets: ${JSON.stringify(c.hard.flag)} },
+        { label: ${JSON.stringify(args.softLabel)}, nextId: "soft", sets: ${JSON.stringify(args.softFlag)} },
+        { label: ${JSON.stringify(args.hardLabel)}, nextId: "hard", sets: ${JSON.stringify(args.hardFlag)} },
       ],
     },
     soft: {
       id: "soft",
       speaker: "nemesis",
       voLineId: "nemesis.${idPrefix}.to_mercy",
-      onscreenText: ${JSON.stringify(l.to_mercy)},
+      onscreenText: ${JSON.stringify(args.toMercy)},
     },
     hard: {
       id: "hard",
       speaker: "nemesis",
       voLineId: "nemesis.${idPrefix}.to_aggression",
-      onscreenText: ${JSON.stringify(l.to_aggression)},
+      onscreenText: ${JSON.stringify(args.toAggro)},
     },
   },
 };
 `;
+}
+
+/** Compose a single line from voice + scene-frame. */
+function composeNemesisLines(
+  nemesisArch: Archetype,
+  sceneId: NemesisSceneId,
+  band: GrudgeBand,
+): { opening: string; toMercy: string; toAggro: string } {
+  const voice = NEMESIS_VOICE[nemesisArch][band];
+  const frame = NEMESIS_SCENE_FRAMES[sceneId][band];
+  return {
+    opening: `${voice.opener} ${frame.context}`,
+    toMercy: `${voice.affirm} ${frame.mercyContext}`,
+    toAggro: `${voice.defy} ${frame.aggrContext}`,
   };
+}
+
+const NEMESIS_SCENE_ORDER: readonly NemesisSceneId[] = [
+  "sabotage_caught_in_act",
+  "mocking_interlude",
+  "lieutenant_promotion",
+  "cohort_end_confrontation",
+  "accumulation_reveal",
+  "name_reveal_moment",
+  "final_encounter",
+];
+
+function sceneConstName(sceneId: string, band: GrudgeBand): string {
+  return `${sceneId.toUpperCase()}_${band.toUpperCase()}`;
+}
+
+function nemesisFile(playerArch: Archetype, nemesisArch: Archetype): string {
+  const lines = NEMESIS_LINES[nemesisArch];
+  const choices = PLAYER_CHOICES[playerArch];
+  const pairId = `${playerArch}_vs_${nemesisArch}`;
+  const camelExport = `${playerArch}Vs${cap(nemesisArch)}PairBank`;
+  const BANDS: GrudgeBand[] = ["low", "mid", "high"];
+
+  // first_sighting (existing hand-authored content)
+  const firstSightingTrees = BANDS.map((band) => {
+    const l = lines[band];
+    const c = choices[band];
+    return emitNemesisSceneTree({
+      constName: `FIRST_SIGHTING_${band.toUpperCase()}`,
+      pairId,
+      sceneId: "first_sighting",
+      band,
+      opening: l.opening,
+      toMercy: l.to_mercy,
+      toAggro: l.to_aggression,
+      softLabel: c.soft.label,
+      softFlag: c.soft.flag,
+      hardLabel: c.hard.label,
+      hardFlag: c.hard.flag,
+    });
+  }).join("\n");
+
+  // 7 new scenes (composed from VOICE + SCENE_FRAME)
+  const newSceneTrees = NEMESIS_SCENE_ORDER.flatMap((sceneId) =>
+    BANDS.map((band) => {
+      const c = choices[band];
+      const composed = composeNemesisLines(nemesisArch, sceneId, band);
+      return emitNemesisSceneTree({
+        constName: sceneConstName(sceneId, band),
+        pairId,
+        sceneId,
+        band,
+        opening: composed.opening,
+        toMercy: composed.toMercy,
+        toAggro: composed.toAggro,
+        softLabel: c.soft.label,
+        softFlag: `${c.soft.flag}_${sceneId}`,
+        hardLabel: c.hard.label,
+        hardFlag: `${c.hard.flag}_${sceneId}`,
+      });
+    }),
+  ).join("\n");
+
+  // Compose the `scenes:` registry entries
+  const sceneEntries = [
+    `    first_sighting: makeScene({
+      low: FIRST_SIGHTING_LOW,
+      mid: FIRST_SIGHTING_MID,
+      high: FIRST_SIGHTING_HIGH,
+    }),`,
+    ...NEMESIS_SCENE_ORDER.map(
+      (sceneId) => `    ${sceneId}: makeScene({
+      low: ${sceneConstName(sceneId, "low")},
+      mid: ${sceneConstName(sceneId, "mid")},
+      high: ${sceneConstName(sceneId, "high")},
+    }),`,
+    ),
+  ].join("\n");
 
   return `/* ═══════════════════════════════════════════════════════
    ${cap(playerArch)}-PLAYER vs. ${cap(nemesisArch)}-NEMESIS — Phase K5.2
@@ -473,97 +829,172 @@ function nemesisFile(playerArch: Archetype, nemesisArch: Archetype): string {
    Generated by apps/scripts/generate-nemesis-pair-banks.ts.
    Authoring waterfall starter — refine in place per pairing.
 
-   Voice register (nemesis side): see K4
-   NEMESIS_ARCHETYPE_BEHAVIORS.${nemesisArch}.voiceRegister.
-   Choice register (player side): K5 archetype-flavored
-   mercy/aggression labels.
+   Scenes: first_sighting (Wave 3 hand-authored) + 7 new
+   scenes (Wave 4: sabotage_caught_in_act, mocking_interlude,
+   lieutenant_promotion, cohort_end_confrontation,
+   accumulation_reveal, name_reveal_moment, final_encounter).
+   New scenes composed from per-archetype voice
+   (NEMESIS_VOICE) and per-scene framing
+   (NEMESIS_SCENE_FRAMES).
    ═══════════════════════════════════════════════════════ */
 
 import type { NemesisPairBank } from "./_types";
 import { makeScene } from "./_types";
 import type { DialogTree } from "../../../dialogTree";
 
-${tree("low")}
-${tree("mid")}
-${tree("high")}
+${firstSightingTrees}
+${newSceneTrees}
 export const ${camelExport}: NemesisPairBank = {
   pairId: "${pairId}",
   playerArchetype: "${playerArch}",
   nemesisArchetype: "${nemesisArch}",
   scenes: {
-    first_sighting: makeScene({
-      low: FIRST_SIGHTING_LOW,
-      mid: FIRST_SIGHTING_MID,
-      high: FIRST_SIGHTING_HIGH,
-    }),
+${sceneEntries}
   },
 };
 `;
 }
 
-function apprenticeFile(playerArch: Archetype, nemesisArch: Archetype): string {
-  const lines = APPRENTICE_LINES[playerArch];
-  const pairId = `${playerArch}_on_${nemesisArch}`;
-  const camelExport = `${playerArch}On${cap(nemesisArch)}PairBank`;
-
-  const tree = (band: GrudgeBand) => {
-    const l = lines[band];
-    const idPrefix = `${pairId}.morning.${band}`;
-    return `const MORNING_${band.toUpperCase()}: DialogTree = {
+function emitApprenticeSceneTree(args: {
+  constName: string;
+  pairId: string;
+  sceneSlug: string;
+  band: GrudgeBand;
+  opening: string;
+  toHelp: string;
+  toRelease: string;
+}): string {
+  const idPrefix = `${args.pairId}.${args.sceneSlug}.${args.band}`;
+  return `const ${args.constName}: DialogTree = {
   id: "${idPrefix}",
   nodes: {
     root: {
       id: "root",
       speaker: "apprentice",
       voLineId: "apprentice.${idPrefix}.opening",
-      onscreenText: ${JSON.stringify(l.briefing)},
+      onscreenText: ${JSON.stringify(args.opening)},
       choices: [
-        { label: "Steady them.", nextId: "help", sets: "apprentice_steadied_at_${band}" },
-        { label: "Let them drift.", nextId: "release", sets: "apprentice_released_at_${band}" },
+        { label: "Steady them.", nextId: "help", sets: "apprentice_steadied_at_${args.band}_${args.sceneSlug}" },
+        { label: "Let them drift.", nextId: "release", sets: "apprentice_released_at_${args.band}_${args.sceneSlug}" },
       ],
     },
     help: {
       id: "help",
       speaker: "apprentice",
       voLineId: "apprentice.${idPrefix}.help_response",
-      onscreenText: ${JSON.stringify(l.to_help)},
+      onscreenText: ${JSON.stringify(args.toHelp)},
     },
     release: {
       id: "release",
       speaker: "apprentice",
       voLineId: "apprentice.${idPrefix}.release_response",
-      onscreenText: ${JSON.stringify(l.to_release)},
+      onscreenText: ${JSON.stringify(args.toRelease)},
     },
   },
 };
 `;
+}
+
+function composeApprenticeLines(
+  apprenticeArch: Archetype,
+  sceneId: ApprenticeSceneId,
+  band: GrudgeBand,
+): { opening: string; toHelp: string; toRelease: string } {
+  const voice = APPRENTICE_VOICE[apprenticeArch][band];
+  const frame = APPRENTICE_SCENE_FRAMES[sceneId][band];
+  return {
+    opening: `${voice.opener} ${frame.context}`,
+    toHelp: `${voice.affirm} ${frame.mercyContext}`,
+    toRelease: `${voice.defy} ${frame.aggrContext}`,
   };
+}
+
+const APPRENTICE_SCENE_ORDER: readonly ApprenticeSceneId[] = [
+  "breaking_point_whisper",
+  "post_cohort_retrospective",
+  "memory_card_inheritance",
+  "daily_observation",
+  "corruption_advance",
+  "apprentice_warning",
+  "apprentice_pride",
+];
+
+function apprenticeFile(playerArch: Archetype, nemesisArch: Archetype): string {
+  const lines = APPRENTICE_LINES[playerArch];
+  const pairId = `${playerArch}_on_${nemesisArch}`;
+  const camelExport = `${playerArch}On${cap(nemesisArch)}PairBank`;
+  const BANDS: GrudgeBand[] = ["low", "mid", "high"];
+
+  // cohort_morning_briefing (existing hand-authored content)
+  const morningTrees = BANDS.map((band) => {
+    const l = lines[band];
+    return emitApprenticeSceneTree({
+      constName: `MORNING_${band.toUpperCase()}`,
+      pairId,
+      sceneSlug: "morning",
+      band,
+      opening: l.briefing,
+      toHelp: l.to_help,
+      toRelease: l.to_release,
+    });
+  }).join("\n");
+
+  // 7 new scenes (composed)
+  const newSceneTrees = APPRENTICE_SCENE_ORDER.flatMap((sceneId) =>
+    BANDS.map((band) => {
+      const composed = composeApprenticeLines(playerArch, sceneId, band);
+      return emitApprenticeSceneTree({
+        constName: `${sceneId.toUpperCase()}_${band.toUpperCase()}`,
+        pairId,
+        sceneSlug: sceneId,
+        band,
+        opening: composed.opening,
+        toHelp: composed.toHelp,
+        toRelease: composed.toRelease,
+      });
+    }),
+  ).join("\n");
+
+  const sceneEntries = [
+    `    cohort_morning_briefing: makeApprenticeScene({
+      low: MORNING_LOW,
+      mid: MORNING_MID,
+      high: MORNING_HIGH,
+    }),`,
+    ...APPRENTICE_SCENE_ORDER.map(
+      (sceneId) => `    ${sceneId}: makeApprenticeScene({
+      low: ${sceneId.toUpperCase()}_LOW,
+      mid: ${sceneId.toUpperCase()}_MID,
+      high: ${sceneId.toUpperCase()}_HIGH,
+    }),`,
+    ),
+  ].join("\n");
 
   return `/* ═══════════════════════════════════════════════════════
    ${cap(playerArch)}-APPRENTICE on ${cap(nemesisArch)}-NEMESIS — Phase K6.2
 
    Generated by apps/scripts/generate-nemesis-pair-banks.ts.
-   The player's ${playerArch}-archetype apprentice's morning
-   briefing about the ${nemesisArch}-Nemesis encounter.
+
+   Scenes: cohort_morning_briefing (Wave 3 hand-authored) +
+   7 new scenes (Wave 4: breaking_point_whisper,
+   post_cohort_retrospective, memory_card_inheritance,
+   daily_observation, corruption_advance, apprentice_warning,
+   apprentice_pride). New scenes composed from per-archetype
+   voice + per-scene framing.
    ═══════════════════════════════════════════════════════ */
 
 import type { ApprenticeOnNemesisPairBank } from "./_types";
 import { makeApprenticeScene } from "./_types";
 import type { DialogTree } from "../../../dialogTree";
 
-${tree("low")}
-${tree("mid")}
-${tree("high")}
+${morningTrees}
+${newSceneTrees}
 export const ${camelExport}: ApprenticeOnNemesisPairBank = {
   pairId: "${pairId}",
   apprenticeArchetype: "${playerArch}",
   nemesisArchetype: "${nemesisArch}",
   scenes: {
-    cohort_morning_briefing: makeApprenticeScene({
-      low: MORNING_LOW,
-      mid: MORNING_MID,
-      high: MORNING_HIGH,
-    }),
+${sceneEntries}
   },
 };
 `;

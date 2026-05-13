@@ -452,7 +452,8 @@ export const PROMOTION_THRESHOLD_PLAN_SUCCESSES = 3;
 
 export interface NemesisRosterEntry {
   nemesisId: string;
-  rank: 1 | 2 | 3 | 4 | 5;
+  /** Per Phase K Wave 2: NemesisRank 1-7 (Seeker → Archon-aspirant). */
+  rank: 1 | 2 | 3 | 4 | 5 | 6 | 7;
   /** Plan-success count attributable to this Nemesis. */
   planSuccessCount: number;
   /** True if this Nemesis is already a lieutenant. */
