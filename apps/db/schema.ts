@@ -8463,3 +8463,136 @@ export const apprenticeMissionInstances = mysqlTable("apprentice_mission_instanc
   idxApprentice: index("idx_mission_instances_apprentice").on(table.apprenticeId),
 }));
 export type ApprenticeMissionInstanceRow = typeof apprenticeMissionInstances.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   NEMESIS SYSTEM TABLES
+
+   Per dreamer-canon (2026-05-13): every player apprentice
+   recruitment spawns a Nemesis — Shadow-of-Mordor-style
+   archetype-mirror rival, canonically the Politician's
+   secret apprentice released from the Matrix of Dreams on
+   the Necromancer's escape (Resurrectionist arc post-game
+   canon, conspiracy-clue-encoded).
+
+   Three tables:
+     - nemesis_state — 1 row per Nemesis (user × cohort)
+     - nemesis_memory — encounter ledger (1 row per encounter)
+     - nemesis_plans — active + resolved Plans
+   ═══════════════════════════════════════════════════════ */
+
+export const nemesisState = mysqlTable("nemesis_state", {
+  id: int("id").autoincrement().primaryKey(),
+  /** Canonical Nemesis id (nem_{userId}_{cohortNumber}). */
+  nemesisId: varchar("nemesisId", { length: 64 }).notNull(),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  cohortNumber: int("cohortNumber").notNull(),
+  /** Apprentice archetype the player is training (used to
+   *  derive eligibility set; pinned at spawn). */
+  apprenticeArchetype: varchar("apprenticeArchetype", { length: 32 }).notNull(),
+  /** Nemesis's archetype (RNG-selected from the 11 others). */
+  nemesisArchetype: varchar("nemesisArchetype", { length: 32 }).notNull(),
+  /** Display archetype-title (e.g. "The Ghost-Nemesis"). */
+  archetypeTitle: varchar("archetypeTitle", { length: 64 }).notNull(),
+  /** Procedurally-generated proper name (always computed;
+   *  surfaced only when name-reveal gates are closed). */
+  properName: varchar("properName", { length: 96 }).notNull(),
+  /** Whether name-reveal gates are closed at the moment of
+   *  the last refresh. The runtime re-refreshes this flag
+   *  from game-state (Resurrectionist E5 + Game Master Fight
+   *  2 plague-mask seed) on each fetch. */
+  nameRevealed: int("nameRevealed").notNull().default(0),
+  /** Which Politician propaganda tic this Nemesis carries. */
+  politicianTic: varchar("politicianTic", { length: 64 }).notNull(),
+  /** Current visible rank (1-5). */
+  rank: tinyint("rank").notNull().default(1),
+  /** Current grudge tier (0-5). */
+  grudgeTier: tinyint("grudgeTier").notNull().default(0),
+  /** Preferred operating surface (cosmetic). */
+  preferredSurface: varchar("preferredSurface", { length: 32 }).notNull(),
+  spawnedAt: timestamp("spawnedAt").defaultNow().notNull(),
+  lastEncounterAt: timestamp("lastEncounterAt"),
+}, (table) => ({
+  uniqNemesisId: uniqueIndex("uniq_nemesis_state_nemesis_id").on(table.nemesisId),
+  uniqUserCohort: uniqueIndex("uniq_nemesis_state_user_cohort").on(
+    table.userId,
+    table.cohortNumber,
+  ),
+  idxUser: index("idx_nemesis_state_user").on(table.userId),
+}));
+export type NemesisStateRow = typeof nemesisState.$inferSelect;
+
+export const nemesisMemory = mysqlTable("nemesis_memory", {
+  id: int("id").autoincrement().primaryKey(),
+  /** Canonical memory-entry id (mem_{nemesisId}_{sequence}). */
+  memoryId: varchar("memoryId", { length: 96 }).notNull(),
+  nemesisId: varchar("nemesisId", { length: 64 }).notNull(),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  /** Per-Nemesis sequence number — increases monotonically. */
+  sequence: int("sequence").notNull(),
+  /** Encounter kind (e.g. "route_sabotaged" / "killed_by_player"). */
+  encounterKind: varchar("encounterKind", { length: 64 }).notNull(),
+  /** Source surface (e.g. "trade-empire" / "world"). */
+  source: varchar("source", { length: 32 }).notNull(),
+  /** The verbatim quote-opening generated at record-time. */
+  quoteOpening: text("quoteOpening").notNull(),
+  /** Optional player-context blob (act / phase / witnessLevel etc.). */
+  playerContext: json("playerContext"),
+  recordedAt: timestamp("recordedAt").defaultNow().notNull(),
+}, (table) => ({
+  uniqMemoryId: uniqueIndex("uniq_nemesis_memory_id").on(table.memoryId),
+  uniqNemesisSeq: uniqueIndex("uniq_nemesis_memory_nemesis_seq").on(
+    table.nemesisId,
+    table.sequence,
+  ),
+  idxNemesisId: index("idx_nemesis_memory_nemesis_id").on(table.nemesisId),
+  idxUserKind: index("idx_nemesis_memory_user_kind").on(
+    table.userId,
+    table.encounterKind,
+  ),
+}));
+export type NemesisMemoryRow = typeof nemesisMemory.$inferSelect;
+
+export const nemesisPlans = mysqlTable("nemesis_plans", {
+  id: int("id").autoincrement().primaryKey(),
+  /** Canonical plan id (plan_{nemesisId}_{sequence}). */
+  planId: varchar("planId", { length: 96 }).notNull(),
+  nemesisId: varchar("nemesisId", { length: 64 }).notNull(),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  /** Per-Nemesis plan-sequence number. */
+  sequence: int("sequence").notNull(),
+  /** Plan kind (e.g. "trade_route_sabotage"). */
+  kind: varchar("kind", { length: 64 }).notNull(),
+  /** Operational surface targeted. */
+  targetSurface: varchar("targetSurface", { length: 32 }).notNull(),
+  /** Free-form target detail. */
+  targetDetail: varchar("targetDetail", { length: 128 }).notNull(),
+  /** Lore-title surfaced to the player. */
+  loreTitle: varchar("loreTitle", { length: 256 }).notNull(),
+  /** Power-up granted on success. */
+  rewardOnSuccess: varchar("rewardOnSuccess", { length: 64 }).notNull(),
+  /** Current status ("spawned" / "ticking" / "succeeded" /
+   *  "disrupted" / "expired"). */
+  status: varchar("status", { length: 16 }).notNull().default("spawned"),
+  spawnedAt: timestamp("spawnedAt").defaultNow().notNull(),
+  /** When the plan ticks. If status is still spawned/ticking
+   *  past this timestamp, runtime should resolve it as
+   *  succeeded. */
+  ticksAt: timestamp("ticksAt").notNull(),
+  resolvedAt: timestamp("resolvedAt"),
+}, (table) => ({
+  uniqPlanId: uniqueIndex("uniq_nemesis_plans_plan_id").on(table.planId),
+  uniqNemesisSeq: uniqueIndex("uniq_nemesis_plans_nemesis_seq").on(
+    table.nemesisId,
+    table.sequence,
+  ),
+  idxNemesisId: index("idx_nemesis_plans_nemesis_id").on(table.nemesisId),
+  idxUserStatus: index("idx_nemesis_plans_user_status").on(
+    table.userId,
+    table.status,
+  ),
+  idxStatusTicks: index("idx_nemesis_plans_status_ticks").on(
+    table.status,
+    table.ticksAt,
+  ),
+}));
+export type NemesisPlanRow = typeof nemesisPlans.$inferSelect;

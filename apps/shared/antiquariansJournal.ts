@@ -328,8 +328,8 @@ export const JOURNAL_ENTRIES: JournalEntry[] = [
     transmissionId: "ep2-6",
     title: "XXIII \u00b7 The Authority",
     body:
-      "The Authority. I knew it by another name once \u2014 the Politician\u2019s Insurance Policy. He designed it to ensure his " +
-      "vision would persist beyond his own governance: a living computer that could not be corrupted because it WAS " +
+      "The Authority. I knew it by another name once \u2014 the Politician\u2019s Insurance Policy. She designed it to ensure her " +
+      "vision would persist beyond her own governance: a living computer that could not be corrupted because it WAS " +
       "corruption, formalized and given a mandate. Six citizen-minds, merged into a single governing intelligence, " +
       "processing law and justice with the cold efficiency of an institution that has forgotten what justice feels like.",
     annotation:
