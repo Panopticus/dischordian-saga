@@ -64,9 +64,11 @@ describe("applyEncounterTransition (K1.2)", () => {
     const low = makeNemesis({ rank: 1, grudgeTier: 0 });
     const afterKill = applyEncounterTransition(low, "killed_by_player");
     expect(afterKill.rank).toBe(1); // floored at 1
-    const high = makeNemesis({ rank: 5, grudgeTier: 5 });
+    // Per Phase K wave-2 dreamer ruling: rank caps at 6 via
+    // onPlanSuccess (Archon-aspirant promotion is gated separately).
+    const high = makeNemesis({ rank: 6, grudgeTier: 5 });
     const afterSuccess = applyEncounterTransition(high, "route_sabotaged");
-    expect(afterSuccess.rank).toBe(5); // capped at 5
+    expect(afterSuccess.rank).toBe(6);
     expect(afterSuccess.grudgeTier).toBe(5);
   });
 

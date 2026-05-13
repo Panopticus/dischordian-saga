@@ -190,7 +190,95 @@ export const POLITICIAN_TIC_AUTHORING: Readonly<Record<PoliticianTic, {
 
 /** Visible rank tier. Climbs with successful plans, falls
  *  by one on player kill (Mordor respawn pattern). */
-export type NemesisRank = 1 | 2 | 3 | 4 | 5;
+/**
+ * Per dreamer-canon (2026-05-13, dialog branch):
+ * The Politician is searching for the next Archon. Her secret-
+ * apprentices are her candidate stable. They climb a SEVEN-LAYER
+ * ascension ladder rooted in the canonical academies they
+ * passed through:
+ *
+ *   1. Seeker        — Project Sorrow scrutiny stage
+ *   2. Student       — Mechronis Academy enrollment
+ *   3. Initiate      — Academy graduation; first field deployment
+ *   4. Operative     — embedded in factions, plan-running
+ *   5. Lieutenant    — coordinating other Nemeses (K2 promotion)
+ *   6. Captain       — full doctrine carrier; archetype-title
+ *                      becomes their de facto identity
+ *   7. Archon-aspirant — the title BECOMES the person; one per
+ *                        cohort-set can reach this; the candidate
+ *                        for the Politician's vacant Archon seat
+ *                        (canonical DLC hook)
+ *
+ * Rank climbs 1 per N plan successes; N grows with each layer
+ * (early layers cheap, late layers expensive — Project Sorrow
+ * is bureaucratic, the Archon-aspirant gate is canon-witnessed).
+ */
+export type NemesisRank = 1 | 2 | 3 | 4 | 5 | 6 | 7;
+
+/** Per-layer canonical labels + Politician-doctrine context. */
+export const NEMESIS_ASCENSION_LAYERS = [
+  {
+    tier: 1 as const,
+    name: "Seeker",
+    institution: "Project Sorrow",
+    institutionNote:
+      "Scrutiny stage. The candidate has been noticed by the Politician's intake program; their potential is under measurement.",
+    plansToAscend: 2,
+  },
+  {
+    tier: 2 as const,
+    name: "Student",
+    institution: "Mechronis Academy",
+    institutionNote:
+      "Enrollment. The candidate has passed Project Sorrow and is studying the Politician's surveillance-state doctrines.",
+    plansToAscend: 3,
+  },
+  {
+    tier: 3 as const,
+    name: "Initiate",
+    institution: "Mechronis Academy (graduate)",
+    institutionNote:
+      "First field deployment. The candidate has graduated Mechronis and is testing their doctrine on a player apprentice.",
+    plansToAscend: 4,
+  },
+  {
+    tier: 4 as const,
+    name: "Operative",
+    institution: "Faction-embedded",
+    institutionNote:
+      "Embedded in a faction. The Operative coordinates with their aligned faction's leadership to convert the player's losses into faction gains.",
+    plansToAscend: 5,
+  },
+  {
+    tier: 5 as const,
+    name: "Lieutenant",
+    institution: "Politician-cell coordinator",
+    institutionNote:
+      "Coordinating other Nemeses. A Lieutenant directs the plans of Operatives below them; Mordor-pattern hierarchy formalized.",
+    plansToAscend: 6,
+  },
+  {
+    tier: 6 as const,
+    name: "Captain",
+    institution: "Doctrine carrier",
+    institutionNote:
+      "Full doctrine carrier. The archetype-title has become the Captain's de facto identity in the Politician's hierarchy; the chronicle stops calling them 'the X-Nemesis' and starts calling them 'X'.",
+    plansToAscend: 8,
+  },
+  {
+    tier: 7 as const,
+    name: "Archon-aspirant",
+    institution: "Politician's vacant seat",
+    institutionNote:
+      "The title BECOMES the person. Only one Nemesis per cohort-set can reach this layer — they are the candidate for the Politician's vacant Archon seat. Reaching here unlocks the Archon-Ascension DLC hook (canonical).",
+    plansToAscend: Infinity, // No further ascension within Phase K
+  },
+] as const;
+
+/** Lookup helper: returns the layer definition for a tier. */
+export function ascensionLayerFor(tier: NemesisRank) {
+  return NEMESIS_ASCENSION_LAYERS[tier - 1];
+}
 
 /** Grudge tier — escalates from neutral to total. */
 export type GrudgeTier = 0 | 1 | 2 | 3 | 4 | 5;
@@ -440,15 +528,44 @@ export function onPlayerKill(nemesis: NemesisDef): NemesisDef {
   };
 }
 
-/** Nemesis succeeded at a plan. Rank +1 (max 5), grudge tier +1 (max 5). */
+/** Nemesis succeeded at a plan. Rank +1 (max 7 per the
+ *  seven-layer ascension ladder), grudge tier +1 (max 5).
+ *  Layer 7 (Archon-aspirant) is gated by additional
+ *  cohort-set conditions — see canAscendToArchonAspirant. */
 export function onPlanSuccess(nemesis: NemesisDef): NemesisDef {
-  const newRank: NemesisRank = Math.min(5, nemesis.rank + 1) as NemesisRank;
+  // Cap at 6 here — promotion to layer 7 (Archon-aspirant)
+  // requires the Politician's vacant-seat condition that
+  // can only be evaluated against the full Nemesis roster
+  // (one per cohort-set). The router does that elevation
+  // via promoteToArchonAspirant.
+  const proposedRank = nemesis.rank + 1;
+  const newRank: NemesisRank = Math.min(6, proposedRank) as NemesisRank;
   const newGrudge: GrudgeTier = Math.min(5, nemesis.grudgeTier + 1) as GrudgeTier;
   return {
     ...nemesis,
     rank: newRank,
     grudgeTier: newGrudge,
   };
+}
+
+/** Promotion to layer 7 (Archon-aspirant). Only one Nemesis
+ *  per cohort-set can reach this. The caller is responsible
+ *  for enforcing the singleton across the user's roster
+ *  before invoking this. */
+export function promoteToArchonAspirant(nemesis: NemesisDef): NemesisDef {
+  return { ...nemesis, rank: 7 as NemesisRank };
+}
+
+/** Pure check: is this Nemesis the cohort-set's
+ *  Archon-aspirant candidate? Returns true iff they are
+ *  the only Nemesis at rank ≥ 6 in the supplied roster. */
+export function canAscendToArchonAspirant(
+  candidate: NemesisDef,
+  roster: readonly Pick<NemesisDef, "id" | "rank">[],
+): boolean {
+  if (candidate.rank < 6) return false;
+  const others = roster.filter((n) => n.id !== candidate.id);
+  return others.every((n) => n.rank < 6);
 }
 
 /** Player disrupted a plan. Rank holds; grudge tier +1 (max 5). */
@@ -494,8 +611,22 @@ export function refreshNameRevealed(
   };
 }
 
-/** Display name — proper name if revealed, archetype-title if not. */
+/** Display name — per the seven-layer ascension canon:
+ *
+ *   - Tiers 1-5: standard reveal logic (proper name if
+ *     reveal-gates closed, else the canonical
+ *     "X-Nemesis" archetypeTitle).
+ *   - Tier 6+ (Captain / Archon-aspirant): the archetype-
+ *     title BECOMES the person. The chronicle drops the
+ *     "-Nemesis" suffix and uses just "X" — the opposite
+ *     of name-reveal: not a hidden name surfacing, but the
+ *     title eating the name. */
 export function displayName(nemesis: NemesisDef): string {
+  if (nemesis.rank >= 6) {
+    // Strip "-Nemesis" suffix if present — archetypeTitle
+    // is canonically "X-Nemesis" via archetypeTitleFor.
+    return nemesis.identity.archetypeTitle.replace(/-Nemesis$/, "");
+  }
   return nemesis.identity.nameRevealed
     ? nemesis.identity.properName
     : nemesis.identity.archetypeTitle;

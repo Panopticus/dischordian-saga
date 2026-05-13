@@ -30,11 +30,13 @@ interface NemesisHUDProps {
 }
 
 const RANK_LABEL: Record<number, string> = {
-  1: "Initiate",
-  2: "Operative",
-  3: "Lieutenant",
-  4: "Captain",
-  5: "Overlord",
+  1: "Seeker (Project Sorrow)",
+  2: "Student (Mechronis Academy)",
+  3: "Initiate",
+  4: "Operative",
+  5: "Lieutenant",
+  6: "Captain",
+  7: "Archon-aspirant",
 };
 
 const GRUDGE_LABEL: Record<number, string> = {

@@ -64,7 +64,7 @@ export function NemesisTicker({ surface }: NemesisTickerProps) {
           <span className="text-amber-300/90 font-medium">
             {watchful.identity.nameRevealed
               ? watchful.identity.properName
-              : `The ${watchful.identity.archetypeTitle}-Nemesis`}
+              : `The ${watchful.identity.archetypeTitle}`}
           </span>
           {" — operating from here for "}
           <span className="text-amber-300/90">{factionLabel}</span>
@@ -96,7 +96,7 @@ export function NemesisTicker({ surface }: NemesisTickerProps) {
         <span className="font-medium">
           {planNemesis.identity.nameRevealed
             ? planNemesis.identity.properName
-            : `The ${planNemesis.identity.archetypeTitle}-Nemesis`}
+            : `The ${planNemesis.identity.archetypeTitle}`}
         </span>
         {" is acting in "}
         <span>{SURFACE_LABEL[surface]}</span>

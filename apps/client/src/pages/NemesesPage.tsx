@@ -27,11 +27,13 @@ const SURFACE_LABEL: Record<string, string> = {
 };
 
 const RANK_LABEL: Record<number, string> = {
-  1: "Initiate",
-  2: "Operative",
-  3: "Lieutenant",
-  4: "Captain",
-  5: "Overlord",
+  1: "Seeker",
+  2: "Student",
+  3: "Initiate",
+  4: "Operative",
+  5: "Lieutenant",
+  6: "Captain",
+  7: "Archon-aspirant",
 };
 
 export default function NemesesPage() {
@@ -85,7 +87,7 @@ export default function NemesesPage() {
               FACTION_LABEL[n.alignedFaction ?? "hierarchy"];
             const display = n.identity.nameRevealed
               ? n.identity.properName
-              : `The ${n.identity.archetypeTitle}-Nemesis`;
+              : `The ${n.identity.archetypeTitle}`;
             return (
               <div
                 key={n.id}

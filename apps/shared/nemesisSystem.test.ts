@@ -245,16 +245,21 @@ describe("Rank / grudge-tier transitions (Mordor pattern)", () => {
     expect(d.grudgeTier).toBe(2);
   });
 
-  it("rank and grudge are clamped at 5", () => {
+  it("rank caps at 6 (Captain) via onPlanSuccess; grudge caps at 5", () => {
+    // Per Phase K wave-2 dreamer ruling: NemesisRank expanded to
+    // 1-7 (Seeker → Archon-aspirant). onPlanSuccess caps at 6
+    // (Captain); promotion to 7 (Archon-aspirant) requires
+    // explicit promoteToArchonAspirant + the cohort-set
+    // singleton condition.
     let n = spawnNemesis({
       userId: 1,
       cohortNumber: 1,
       apprenticeArchetype: "ghost",
       spawnedAtIso: T0,
     });
-    n = { ...n, rank: 5, grudgeTier: 5 };
+    n = { ...n, rank: 6, grudgeTier: 5 };
     const s = onPlanSuccess(n);
-    expect(s.rank).toBe(5);
+    expect(s.rank).toBe(6);
     expect(s.grudgeTier).toBe(5);
   });
 });

@@ -527,14 +527,20 @@ export function tickHoursMultiplier(grudgeTier: GrudgeTier): number {
 
 /**
  * Higher rank → more concurrent active plans permitted.
- * Rank 1: 3 plans. Rank 2: 3-4. Rank 3-4: 4. Rank 5: 5.
+ * Rank 1-2 (Seeker/Student): 3 plans (still in training).
+ * Rank 3-4 (Initiate/Operative): 4 plans.
+ * Rank 5-6 (Lieutenant/Captain): 5 plans.
+ * Rank 7 (Archon-aspirant): 6 plans (the candidate runs the
+ *   widest operation; their stable is functionally a faction).
  */
 export function maxActivePlansForRank(rank: NemesisRank): number {
   switch (rank) {
     case 1: return 3;
-    case 2: return 4;
+    case 2: return 3;
     case 3: return 4;
-    case 4: return 5;
+    case 4: return 4;
     case 5: return 5;
+    case 6: return 5;
+    case 7: return 6;
   }
 }
