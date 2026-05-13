@@ -116,6 +116,39 @@ export const apprenticeTrialRouter = router({
         );
       }
 
+      // Nemesis hook — the cohort outcome is the canonical
+      // breaking-point resolution. Graduation → whisper blocked;
+      // failure → whisper landed (if a plan was active). Fire
+      // against the same cohort the trial completed (cohortNumber
+      // pins the lookup so a player who has multiple Nemeses
+      // gets the right one).
+      try {
+        const { apprenticeCorruptionOutcome } = await import(
+          "../../shared/nemesisIntegration"
+        );
+        const { recordSurfaceEvent } = await import(
+          "../services/nemesisEncounterService"
+        );
+        const record = apprenticeCorruptionOutcome({
+          trialDay: input.daySurvived,
+          breakingPointFear: input.graduated
+            ? "survived"
+            : "broke",
+          whisperLanded: !input.graduated,
+          hadActivePlanToDisrupt: true,
+        });
+        recordSurfaceEvent({
+          userId: ctx.user.id,
+          encounterKind: record.encounterKind,
+          source: "apprentice",
+          detail: record.detail,
+          disruptPlanKind: record.disruptPlanKind,
+          cohortNumber: input.cohortNumber,
+        }).catch((e) => console.warn("[Nemesis] apprentice hook failed", e));
+      } catch (nemesisErr) {
+        console.warn("[Nemesis] apprentice hook import failed", nemesisErr);
+      }
+
       return { ok: true, titlesGranted: granted, crewInstantiated };
     }),
 

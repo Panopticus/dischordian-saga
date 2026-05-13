@@ -1713,6 +1713,33 @@ export const tradeEmpireRouter = router({
         console.warn("[Saturation] route bump failed", saturationErr);
       }
 
+      // Nemesis hook — completing a route disrupts any active
+      // trade_route_sabotage plan targeting this route. Records
+      // a route_sabotage_blocked encounter so the chronicle
+      // remembers the player thwarted the Nemesis.
+      try {
+        const { tradeRouteOutcome } = await import(
+          "../../shared/nemesisIntegration"
+        );
+        const { recordSurfaceEvent } = await import(
+          "../services/nemesisEncounterService"
+        );
+        const record = tradeRouteOutcome({
+          routeName: routeKey,
+          sabotaged: false,
+          hadActivePlanToDisrupt: true,
+        });
+        recordSurfaceEvent({
+          userId: ctx.user.id,
+          encounterKind: record.encounterKind,
+          source: "trade-empire",
+          detail: record.detail,
+          disruptPlanKind: record.disruptPlanKind,
+        }).catch((e) => console.warn("[Nemesis] trade route hook failed", e));
+      } catch (nemesisErr) {
+        console.warn("[Nemesis] trade route hook import failed", nemesisErr);
+      }
+
       return {
         success: true,
         runCount: newRunCount,

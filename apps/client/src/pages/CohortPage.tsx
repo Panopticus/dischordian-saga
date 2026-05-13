@@ -22,6 +22,7 @@ import {
 } from "@shared/pvpCohorts";
 import { getRarityTier, type Apprentice } from "@shared/apprentices";
 import { trpc } from "@/lib/trpc";
+import { NemesisHUD } from "@/components/NemesisHUD";
 
 const STORAGE_KEY = "dischordian:cohort";
 
@@ -170,6 +171,13 @@ export default function CohortPage() {
             )}
           </div>
         )}
+
+        {/* Nemesis HUD — surfaces the cohort-rival the chronicle
+            paired against this apprentice. Reveal-gated proper name,
+            rank, grudge, active plans, encounter ledger. */}
+        <div className="mb-4">
+          <NemesisHUD cohortNumber={cohort.number} />
+        </div>
 
         {/* Player standing */}
         {standing && (
