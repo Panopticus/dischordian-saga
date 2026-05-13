@@ -22,22 +22,28 @@
 
 import type { NemesisDef, GrudgeTier, NemesisSurface } from "./nemesisSystem";
 
+/** Runtime list of encounter kinds. Phase K10.1 parity
+ *  check reads this to verify every kind has a transition
+ *  case in nemesisSystem.applyEncounterTransition. */
+export const NEMESIS_ENCOUNTER_KINDS = [
+  "first_encounter",
+  "route_sabotaged",
+  "route_sabotage_blocked",
+  "ambush_landed",
+  "ambush_survived",
+  "casino_odds_rigged",
+  "casino_odds_rigging_blocked",
+  "apprentice_whisper_landed",
+  "apprentice_whisper_blocked",
+  "hub_counter_vote_landed",
+  "hub_counter_vote_blocked",
+  "killed_by_player",
+  "fled_player",
+  "mocked_by_player",
+] as const;
+
 /** What happened in the encounter. */
-export type NemesisEncounterKind =
-  | "first_encounter"
-  | "route_sabotaged"
-  | "route_sabotage_blocked"
-  | "ambush_landed"
-  | "ambush_survived"
-  | "casino_odds_rigged"
-  | "casino_odds_rigging_blocked"
-  | "apprentice_whisper_landed"
-  | "apprentice_whisper_blocked"
-  | "hub_counter_vote_landed"
-  | "hub_counter_vote_blocked"
-  | "killed_by_player"
-  | "fled_player"
-  | "mocked_by_player";
+export type NemesisEncounterKind = (typeof NEMESIS_ENCOUNTER_KINDS)[number];
 
 /** A single entry in the encounter ledger. */
 export interface NemesisMemoryEntry {

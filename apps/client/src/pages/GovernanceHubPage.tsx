@@ -21,6 +21,7 @@ import {
   AlertTriangle, Flag, Package,
 } from "lucide-react";
 import { KineticText, AtmosphereScope } from "@/components/void";
+import { NemesisTicker } from "@/components/NemesisTicker";
 import { useGovernanceStore } from "@/stores/governanceStore";
 import { trpc } from "@/lib/trpc";
 import { DischordiaMeterPanel } from "@/components/dischordia/DischordiaMeterPanel";
@@ -723,6 +724,12 @@ export default function GovernanceHubPage() {
                 THE POTENTIALS SHAPE REALITY · EVERY CHOICE INSCRIBED
               </p>
             </div>
+          </div>
+
+          {/* Phase K3 — NemesisTicker. Surfaces active hub
+              counter-vote / smear campaigns by your Nemesis. */}
+          <div className="mb-4">
+            <NemesisTicker surface="hub" />
           </div>
 
           {/* ═══ MOBILE: Tab bar (visible < lg) ═══ */}

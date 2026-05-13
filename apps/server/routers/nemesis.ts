@@ -37,7 +37,9 @@ import {
   NEMESIS_SURFACES,
   spawnNemesis,
   shouldRevealProperName,
+  chooseNemesisFaction,
   type NemesisDef,
+  type FactionStandingSnapshot,
 } from "../../shared/nemesisSystem";
 import {
   generateQuoteOpening,
@@ -45,9 +47,16 @@ import {
 } from "../../shared/nemesisMemory";
 import {
   spawnPlan as spawnPlanShared,
+  pickNextPlanKindWeighted,
+  planSpawnDeficit,
+  canSpawnAdditionalPlan,
+  PLAN_KIND_CATALOG,
   type NemesisPlanKind,
   type NemesisPlanStatus,
 } from "../../shared/nemesisPlans";
+import { weightedPlanKindsFor } from "../../shared/nemesisArchetypes";
+import { getFactionStandings } from "../services/factionStandingService";
+import type { FactionId } from "../../shared/factions";
 
 /* ═══════════════════════════════════════════════════════
    ZOD GUARDS
@@ -135,9 +144,110 @@ function rowToNemesisDef(row: typeof nemesisState.$inferSelect): NemesisDef {
       (NEMESIS_SURFACES as readonly string[]).includes(row.preferredSurface)
         ? (row.preferredSurface as NemesisDef["preferredSurface"])
         : "trade-empire",
+    alignedFaction: (row.alignedFaction ?? "hierarchy") as FactionId,
     spawnedAt: row.spawnedAt.toISOString(),
     lastEncounterAt: row.lastEncounterAt?.toISOString() ?? null,
   };
+}
+
+/* ═══════════════════════════════════════════════════════
+   PHASE K1.1 — PLAN TOP-UP HELPER
+
+   Reads the active plan count for one Nemesis; if below
+   MIN_ACTIVE_PLANS, spawns new plans up to the floor
+   using K4-weighted selection. Respects the K2 global
+   ceiling. Seeded RNG keeps it deterministic per
+   (userId, cohortNumber, sequence).
+   ═══════════════════════════════════════════════════════ */
+async function topUpPlansForNemesis(
+  db: NonNullable<Awaited<ReturnType<typeof getDb>>>,
+  userId: number,
+  stateRow: typeof nemesisState.$inferSelect,
+): Promise<number> {
+  const allPlans = await db
+    .select()
+    .from(nemesisPlans)
+    .where(eq(nemesisPlans.nemesisId, stateRow.nemesisId));
+  const activeForThisNemesis = allPlans.filter(
+    (p) => p.status === "spawned" || p.status === "ticking",
+  ).length;
+  const deficit = Math.max(0, 3 - activeForThisNemesis);
+  if (deficit === 0) return 0;
+
+  // Global ceiling check
+  const allUserPlans = await db
+    .select()
+    .from(nemesisPlans)
+    .where(eq(nemesisPlans.userId, userId));
+  const totalActive = allUserPlans.filter(
+    (p) => p.status === "spawned" || p.status === "ticking",
+  ).length;
+
+  const archetype = stateRow.nemesisArchetype as ApprenticeArchetype;
+  const archetypeWeights = weightedPlanKindsFor(archetype, {});
+  const eligibleKinds = PLAN_KIND_CATALOG.map((d) => d.kind);
+
+  const nemesisDef: NemesisDef = {
+    id: stateRow.nemesisId,
+    userId: stateRow.userId,
+    cohortNumber: stateRow.cohortNumber,
+    archetype,
+    identity: {
+      archetypeTitle: stateRow.archetypeTitle,
+      properName: stateRow.properName,
+      nameRevealed: stateRow.nameRevealed === 1,
+    },
+    politicianTic: stateRow.politicianTic as NemesisDef["politicianTic"],
+    rank: stateRow.rank as NemesisDef["rank"],
+    grudgeTier: stateRow.grudgeTier as NemesisDef["grudgeTier"],
+    preferredSurface: stateRow.preferredSurface as NemesisDef["preferredSurface"],
+    spawnedAt: stateRow.spawnedAt.toISOString(),
+    lastEncounterAt: stateRow.lastEncounterAt?.toISOString() ?? null,
+  };
+
+  let spawned = 0;
+  let totalAfter = totalActive;
+  for (let i = 0; i < deficit; i++) {
+    if (!canSpawnAdditionalPlan(totalAfter)) break;
+    // Seeded RNG draw — deterministic on (userId, cohort, sequence)
+    const seed =
+      userId * 1009 +
+      stateRow.cohortNumber * 31 +
+      (allPlans.length + spawned + 1) * 7;
+    const rng01 = ((seed * 2654435761) >>> 0) / 4294967296;
+
+    const kind = pickNextPlanKindWeighted({
+      eligibleKinds,
+      archetypeWeights,
+      rng01,
+    });
+    if (!kind) break;
+
+    const sequence = allPlans.length + spawned + 1;
+    const plan = spawnPlanShared({
+      nemesis: nemesisDef,
+      sequence,
+      kind,
+      targetDetail: `auto-${stateRow.nemesisId}-${sequence}`,
+      spawnedAtIso: new Date().toISOString(),
+    });
+    await db.insert(nemesisPlans).values({
+      planId: plan.id,
+      nemesisId: stateRow.nemesisId,
+      userId,
+      sequence,
+      kind: plan.kind,
+      targetSurface: plan.targetSurface,
+      targetDetail: plan.targetDetail,
+      loreTitle: plan.loreTitle,
+      rewardOnSuccess: plan.rewardOnSuccess,
+      status: plan.status,
+      ticksAt: new Date(plan.ticksAtIso),
+    });
+    spawned++;
+    totalAfter++;
+  }
+  return spawned;
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -184,6 +294,28 @@ export const nemesisRouter = router({
         nameRevealedFromGameState: input.nameRevealedFromGameState,
       });
 
+      // Phase K + faction alignment — pin the Nemesis to a
+      // faction whose interests align with their archetype
+      // AND maximally conflict with the player's current
+      // standings. Faction selector is deterministic on
+      // (userId, cohortNumber, sequence).
+      let alignedFaction: FactionId = "hierarchy";
+      try {
+        const standings = await getFactionStandings(ctx.user.id);
+        const playerStandings: FactionStandingSnapshot[] = (
+          Object.entries(standings) as Array<[FactionId, number]>
+        ).map(([factionId, standing]) => ({ factionId, standing }));
+        alignedFaction = chooseNemesisFaction({
+          archetype: nemesis.archetype,
+          userId: ctx.user.id,
+          cohortNumber: input.cohortNumber,
+          nemesisSequence: 1,
+          playerStandings,
+        });
+      } catch (factionErr) {
+        console.warn("[Nemesis] faction alignment failed; defaulting to hierarchy", factionErr);
+      }
+
       await db.insert(nemesisState).values({
         nemesisId: nemesis.id,
         userId: ctx.user.id,
@@ -197,9 +329,10 @@ export const nemesisRouter = router({
         rank: nemesis.rank,
         grudgeTier: nemesis.grudgeTier,
         preferredSurface: nemesis.preferredSurface,
+        alignedFaction,
       });
 
-      return nemesis;
+      return { ...nemesis, alignedFaction };
     }),
 
   /** Fetch the Nemesis for a specific cohort + refresh
@@ -252,8 +385,49 @@ export const nemesisRouter = router({
         rows[0].nameRevealed = 1;
       }
 
+      // Phase K1.1 — opportunistic plan top-up. After the
+      // sweep resolves expired plans, replenish the
+      // Nemesis's active plan count back to MIN_ACTIVE_PLANS,
+      // respecting the global ceiling (K2). Top-up is
+      // archetype-weighted via K4 preferences. Errors
+      // swallowed; a Nemesis showing zero plans is a
+      // visual-only loss.
+      try {
+        await topUpPlansForNemesis(db, ctx.user.id, rows[0]);
+      } catch (topUpErr) {
+        console.warn("[Nemesis] plan top-up failed", topUpErr);
+      }
+
       return rowToNemesisDef(rows[0]);
     }),
+
+  /** Phase K2 — Mordor-Saga hybrid: list every active
+   *  (non-retired) Nemesis the player has accumulated
+   *  across all cohorts. The HUD's NemesisRoster reads
+   *  this. */
+  getActiveNemeses: protectedProcedure.query(async ({ ctx }) => {
+    const db = await getDb();
+    if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+
+    // Sweep first so retirement-via-rank-0 reflects
+    // current plan-tick state.
+    const { sweepExpiredPlansForUser } = await import(
+      "../services/nemesisEncounterService"
+    );
+    await sweepExpiredPlansForUser(ctx.user.id, db);
+
+    const rows = await db
+      .select()
+      .from(nemesisState)
+      .where(
+        and(
+          eq(nemesisState.userId, ctx.user.id),
+          eq(nemesisState.retired, 0),
+        ),
+      )
+      .orderBy(desc(nemesisState.spawnedAt));
+    return rows.map(rowToNemesisDef);
+  }),
 
   /** List the player's Nemeses across all cohorts. */
   listMine: protectedProcedure.query(async ({ ctx }) => {

@@ -8509,6 +8509,18 @@ export const nemesisState = mysqlTable("nemesis_state", {
   grudgeTier: tinyint("grudgeTier").notNull().default(0),
   /** Preferred operating surface (cosmetic). */
   preferredSurface: varchar("preferredSurface", { length: 32 }).notNull(),
+  /** Faction the Nemesis is aligned with in the living
+   *  universe (Phase K + faction alignment). Pinned at
+   *  spawn via chooseNemesisFaction; player-state-aware. */
+  alignedFaction: varchar("alignedFaction", { length: 32 }).notNull().default("hierarchy"),
+  /** Mordor-Saga hybrid (Phase K2). When 1, this Nemesis
+   *  has been retired from the active pool — via peace,
+   *  recruit, or rank-0 exhaustion. */
+  retired: int("retired").notNull().default(0),
+  /** Lieutenant promotion (Phase K2). When non-null, this
+   *  Nemesis serves under another Nemesis (planning is
+   *  coordinated under the higher-rank one). */
+  lieutenantOfNemesisId: varchar("lieutenantOfNemesisId", { length: 64 }),
   spawnedAt: timestamp("spawnedAt").defaultNow().notNull(),
   lastEncounterAt: timestamp("lastEncounterAt"),
 }, (table) => ({
@@ -8518,6 +8530,8 @@ export const nemesisState = mysqlTable("nemesis_state", {
     table.cohortNumber,
   ),
   idxUser: index("idx_nemesis_state_user").on(table.userId),
+  idxUserActive: index("idx_nemesis_state_user_active").on(table.userId, table.retired),
+  idxFaction: index("idx_nemesis_state_faction").on(table.alignedFaction),
 }));
 export type NemesisStateRow = typeof nemesisState.$inferSelect;
 
@@ -8596,3 +8610,43 @@ export const nemesisPlans = mysqlTable("nemesis_plans", {
   ),
 }));
 export type NemesisPlanRow = typeof nemesisPlans.$inferSelect;
+
+/** Phase K1.3 — power-up effects ledger. When a Nemesis
+ *  plan auto-succeeds via the lazy sweep, the plan's
+ *  rewardOnSuccess is materialized as a row here. Surface
+ *  systems query the table to apply real gameplay
+ *  consequences (e.g. trade-empire reads
+ *  trade_route_lock_seven_days; casino reads
+ *  casino_odds_double_two_rounds; etc.). */
+export const nemesisPowerUpEffects = mysqlTable("nemesis_power_up_effects", {
+  id: int("id").autoincrement().primaryKey(),
+  effectId: varchar("effectId", { length: 96 }).notNull(),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  /** The Nemesis whose plan-success generated this effect. */
+  nemesisId: varchar("nemesisId", { length: 64 }).notNull(),
+  /** The plan whose ticksAt triggered the effect. */
+  planId: varchar("planId", { length: 96 }).notNull(),
+  /** NemesisPowerUp kind from apps/shared/nemesisPlans.ts. */
+  effectKind: varchar("effectKind", { length: 64 }).notNull(),
+  /** Free-form JSON payload — surface-specific. E.g. for
+   *  trade_route_lock_seven_days: {routeKey: "..."}. */
+  payload: json("payload"),
+  /** Active until this timestamp. Surfaces filter on
+   *  `expiresAt > now()` when querying. */
+  expiresAt: timestamp("expiresAt").notNull(),
+  /** When the effect was consumed/applied (e.g. casino
+   *  burned a doubled-odds round). NULL = unconsumed. */
+  consumedAt: timestamp("consumedAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  uniqEffectId: uniqueIndex("uniq_nemesis_power_up_effect_id").on(table.effectId),
+  idxUserActive: index("idx_nemesis_power_up_user_active").on(
+    table.userId,
+    table.expiresAt,
+  ),
+  idxKindUser: index("idx_nemesis_power_up_kind_user").on(
+    table.effectKind,
+    table.userId,
+  ),
+}));
+export type NemesisPowerUpEffectRow = typeof nemesisPowerUpEffects.$inferSelect;

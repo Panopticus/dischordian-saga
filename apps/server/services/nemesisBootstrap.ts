@@ -42,12 +42,48 @@ CREATE TABLE IF NOT EXISTS \`nemesis_state\` (
   \`rank\` TINYINT NOT NULL DEFAULT 1,
   \`grudgeTier\` TINYINT NOT NULL DEFAULT 0,
   \`preferredSurface\` VARCHAR(32) NOT NULL,
+  \`alignedFaction\` VARCHAR(32) NOT NULL DEFAULT 'hierarchy',
+  \`retired\` INT NOT NULL DEFAULT 0,
+  \`lieutenantOfNemesisId\` VARCHAR(64) NULL,
   \`spawnedAt\` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   \`lastEncounterAt\` TIMESTAMP NULL,
   PRIMARY KEY (\`id\`),
   UNIQUE KEY \`uniq_nemesis_state_nemesis_id\` (\`nemesisId\`),
   UNIQUE KEY \`uniq_nemesis_state_user_cohort\` (\`userId\`, \`cohortNumber\`),
-  KEY \`idx_nemesis_state_user\` (\`userId\`)
+  KEY \`idx_nemesis_state_user\` (\`userId\`),
+  KEY \`idx_nemesis_state_user_active\` (\`userId\`, \`retired\`),
+  KEY \`idx_nemesis_state_faction\` (\`alignedFaction\`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+`;
+
+/** Idempotent ALTERs for older deploys whose nemesis_state
+ *  was created before Phase K columns shipped. Each ALTER
+ *  uses IF NOT EXISTS where MySQL supports it; otherwise
+ *  the failure is swallowed (column already present). */
+const NEMESIS_STATE_PHASE_K_ALTERS = [
+  "ALTER TABLE `nemesis_state` ADD COLUMN `alignedFaction` VARCHAR(32) NOT NULL DEFAULT 'hierarchy'",
+  "ALTER TABLE `nemesis_state` ADD COLUMN `retired` INT NOT NULL DEFAULT 0",
+  "ALTER TABLE `nemesis_state` ADD COLUMN `lieutenantOfNemesisId` VARCHAR(64) NULL",
+  "ALTER TABLE `nemesis_state` ADD INDEX `idx_nemesis_state_user_active` (`userId`, `retired`)",
+  "ALTER TABLE `nemesis_state` ADD INDEX `idx_nemesis_state_faction` (`alignedFaction`)",
+];
+
+const NEMESIS_POWER_UP_EFFECTS_TABLE_SQL = `
+CREATE TABLE IF NOT EXISTS \`nemesis_power_up_effects\` (
+  \`id\` INT NOT NULL AUTO_INCREMENT,
+  \`effectId\` VARCHAR(96) NOT NULL,
+  \`userId\` INT NOT NULL,
+  \`nemesisId\` VARCHAR(64) NOT NULL,
+  \`planId\` VARCHAR(96) NOT NULL,
+  \`effectKind\` VARCHAR(64) NOT NULL,
+  \`payload\` JSON,
+  \`expiresAt\` TIMESTAMP NOT NULL,
+  \`consumedAt\` TIMESTAMP NULL,
+  \`createdAt\` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (\`id\`),
+  UNIQUE KEY \`uniq_nemesis_power_up_effect_id\` (\`effectId\`),
+  KEY \`idx_nemesis_power_up_user_active\` (\`userId\`, \`expiresAt\`),
+  KEY \`idx_nemesis_power_up_kind_user\` (\`effectKind\`, \`userId\`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
 `;
 
@@ -113,6 +149,7 @@ async function run(): Promise<void> {
     ["nemesis_state", NEMESIS_STATE_TABLE_SQL],
     ["nemesis_memory", NEMESIS_MEMORY_TABLE_SQL],
     ["nemesis_plans", NEMESIS_PLANS_TABLE_SQL],
+    ["nemesis_power_up_effects", NEMESIS_POWER_UP_EFFECTS_TABLE_SQL],
   ] as const) {
     try {
       await db.execute(sql.raw(ddl));
@@ -123,6 +160,17 @@ async function run(): Promise<void> {
         `[NemesisBootstrap] ${name} ensure failed — Nemesis system may be unavailable:`,
         msg,
       );
+    }
+  }
+
+  // Phase K columns on nemesis_state — ALTERs that fail
+  // because the column/index already exists are expected
+  // and silently skipped.
+  for (const alter of NEMESIS_STATE_PHASE_K_ALTERS) {
+    try {
+      await db.execute(sql.raw(alter));
+    } catch (_err) {
+      // Column/index already present; ignore.
     }
   }
 }

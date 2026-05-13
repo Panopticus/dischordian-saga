@@ -27,7 +27,10 @@ import {
   nemesisMemory,
   nemesisPlans,
 } from "../../db/schema";
-import type { NemesisDef } from "../../shared/nemesisSystem";
+import {
+  applyEncounterTransition,
+  type NemesisDef,
+} from "../../shared/nemesisSystem";
 import {
   generateQuoteOpening,
   type NemesisEncounterKind,
@@ -36,6 +39,7 @@ import {
   findPlansNeedingResolution,
   type NemesisPlanKind,
 } from "../../shared/nemesisPlans";
+import { applyPlanSuccessPowerUp } from "./nemesisPowerUpApplier";
 
 type DbHandle = NonNullable<Awaited<ReturnType<typeof getDb>>>;
 
@@ -114,11 +118,34 @@ export async function sweepExpiredPlansForUser(
     );
     if (resolutions.length === 0) return 0;
 
+    // Build a planId → row lookup for the K1.3 power-up
+    // applier (it needs the plan's kind + nemesisId to
+    // materialize the rewardOnSuccess).
+    const rowByPlanId = new Map(rows.map((r) => [r.planId, r]));
+
     for (const res of resolutions) {
       await handle
         .update(nemesisPlans)
         .set({ status: res.newStatus, resolvedAt: new Date(res.resolvedAtIso) })
         .where(eq(nemesisPlans.planId, res.planId));
+
+      // Phase K1.3 — materialize the rewardOnSuccess as a
+      // power-up effect row. Surfaces query the table to
+      // apply real gameplay consequences. Idempotent on
+      // planId via the applier's existing-effect check.
+      const row = rowByPlanId.get(res.planId);
+      if (row) {
+        await applyPlanSuccessPowerUp(
+          {
+            userId,
+            nemesisId: row.nemesisId,
+            planId: row.planId,
+            planKind: row.kind as NemesisPlanKind,
+            payload: { targetDetail: row.targetDetail },
+          },
+          handle,
+        );
+      }
     }
     return resolutions.length;
   } catch (err) {
@@ -188,9 +215,35 @@ export async function recordSurfaceEvent(
       quoteOpening,
       playerContext: input.playerContext ?? null,
     });
+
+    // Phase K1.2 — apply rank/grudge transition derived from
+    // the encounter kind, layered with K4 archetype acceleration.
+    const nemesisDef: NemesisDef = {
+      id: stateRow.nemesisId,
+      userId: stateRow.userId,
+      cohortNumber: stateRow.cohortNumber,
+      archetype: stateRow.nemesisArchetype as NemesisDef["archetype"],
+      identity: {
+        archetypeTitle: stateRow.archetypeTitle,
+        properName: stateRow.properName,
+        nameRevealed: stateRow.nameRevealed === 1,
+      },
+      politicianTic: stateRow.politicianTic as NemesisDef["politicianTic"],
+      rank: stateRow.rank as NemesisDef["rank"],
+      grudgeTier: stateRow.grudgeTier as NemesisDef["grudgeTier"],
+      preferredSurface: stateRow.preferredSurface as NemesisDef["preferredSurface"],
+      spawnedAt: stateRow.spawnedAt.toISOString(),
+      lastEncounterAt: stateRow.lastEncounterAt?.toISOString() ?? null,
+    };
+    const transitioned = applyEncounterTransition(nemesisDef, input.encounterKind);
+
     await db
       .update(nemesisState)
-      .set({ lastEncounterAt: new Date() })
+      .set({
+        lastEncounterAt: new Date(),
+        rank: transitioned.rank,
+        grudgeTier: transitioned.grudgeTier,
+      })
       .where(eq(nemesisState.nemesisId, nemesisId));
 
     let disruptedPlanId: string | undefined;

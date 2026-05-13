@@ -1525,6 +1525,61 @@ export const CROSS_CHARACTER_REACTIONS: ReadonlyArray<CrossCharacterReaction> = 
       "Hierophant) received a tribute. Drael'Mon notes the revival's " +
       "growing flock as an Acquisitions concern.",
   },
+
+  // ─── Phase K9.1 — NEMESIS RIVALRY FLAGS ──────────────────────────────
+  {
+    flag: "nemesis.player_has_active_nemesis",
+    setBy: ["system"], // set by nemesis.spawnForCohort tRPC mutation
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Phase K9.1 — set the first time the player spawns a Nemesis. " +
+      "Future readers (Degen, Wraith, Vex, Antiquarian, Jericho, Akai " +
+      "Shi, Game Master, Dreamer) carry rivalry-aware lines once this " +
+      "flag is set; gates per-NPC lines that reference the rivalry " +
+      "obliquely (no proper name yet).",
+  },
+  {
+    flag: "nemesis.player_killed_a_nemesis",
+    setBy: ["system"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Phase K9.1 — set when the player records `killed_by_player` " +
+      "against any Nemesis. Mordor canon: the chronicle remembers; " +
+      "NPCs respect the kill (Jericho most strongly), worry about the " +
+      "respawn (Akai Shi), or read it as escalation (Antiquarian).",
+  },
+  {
+    flag: "nemesis.player_made_peace_with_nemesis",
+    setBy: ["system"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Phase K9.1 — set when the K8 peace path resolves. Antiquarian " +
+      "marks it as a chronicle inversion; Wraith reads it as the " +
+      "Hierophant's view on consciousness-imprint forgiveness; Dreamer " +
+      "(vision-format) acknowledges the Politician's lineage breaking.",
+  },
+  {
+    flag: "nemesis.player_recruited_nemesis",
+    setBy: ["system"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Phase K9.1 — set when the K8 recruit path resolves and the " +
+      "Reformed Nemesis joins as a crew member. Commons-scene NPCs " +
+      "react audibly (\"I see you've brought your old enemy into the " +
+      "fold\"); Game Master (cult-curator) reads it as a pattern " +
+      "interrupt.",
+  },
+  {
+    flag: "nemesis.decoded_politician_link",
+    setBy: ["system"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Phase K9.1 — set when the player decodes 6+ Politician-tics " +
+      "across multiple Nemeses (the Antiquarian Journal entry XXIII " +
+      "Nemesis sub-paragraph unlocks at the same threshold). NPCs that " +
+      "lived through the Politician's reign (Antiquarian, Dreamer, " +
+      "Wraith) carry weighted lines about the doctrinal echo.",
+  },
 ];
 
 // --- Helpers --------------------------------------------------------------

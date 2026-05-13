@@ -369,6 +369,137 @@ export function isOverActivePlanCap(
 }
 
 /* ═══════════════════════════════════════════════════════
+   PHASE K2 — CROSS-COHORT ACCUMULATION
+
+   In the Mordor-Saga hybrid model, players accumulate
+   2-5 active Nemeses by Act 7. To prevent unbounded
+   plan-spawn pressure, a global ceiling caps total
+   active plans across ALL the player's Nemeses.
+   ═══════════════════════════════════════════════════════ */
+
+export const GLOBAL_ACTIVE_PLAN_CEILING = 12;
+
+/** Returns true iff a new plan can spawn without breaching
+ *  the global ceiling. */
+export function canSpawnAdditionalPlan(
+  totalActivePlansAcrossAllNemeses: number,
+): boolean {
+  return totalActivePlansAcrossAllNemeses < GLOBAL_ACTIVE_PLAN_CEILING;
+}
+
+/* ═══════════════════════════════════════════════════════
+   PHASE K1.1 — PLAN SPAWNER (weighted-random selection)
+
+   Pure function — given a Nemesis archetype's preference
+   weights (from K4 NEMESIS_ARCHETYPE_BEHAVIORS) and a
+   seeded RNG, returns the next plan kind to spawn.
+   Filters by `eligiblePlanKindsFor(archetype)` so the
+   spawner only picks among plans the archetype is wired
+   to author.
+   ═══════════════════════════════════════════════════════ */
+
+/** Pure weighted-random pick over plan kinds. The caller
+ *  supplies a 0..1 RNG draw; this stays deterministic
+ *  given a seeded RNG.
+ *
+ *  - `eligibleKinds` is the canonical eligibility list
+ *    (typically PLAN_KIND_CATALOG filtered by archetype).
+ *  - `archetypeWeights` is the K4 archetype-preference
+ *    multiplier; missing kinds default to 1.0.
+ *  - Returns null only if eligibleKinds is empty.
+ */
+export function pickNextPlanKindWeighted(args: {
+  eligibleKinds: readonly NemesisPlanKind[];
+  archetypeWeights: Partial<Record<NemesisPlanKind, number>>;
+  rng01: number;
+}): NemesisPlanKind | null {
+  if (args.eligibleKinds.length === 0) return null;
+  const weights = args.eligibleKinds.map(
+    (k) => args.archetypeWeights[k] ?? 1.0,
+  );
+  const total = weights.reduce((s, w) => s + w, 0);
+  if (total <= 0) {
+    // All weights zero — fall back to uniform random
+    const idx = Math.floor(args.rng01 * args.eligibleKinds.length);
+    return args.eligibleKinds[Math.min(idx, args.eligibleKinds.length - 1)];
+  }
+  // Strict-less-than scan; zero-weight kinds are skipped because
+  // their interval has measure zero.
+  let acc = 0;
+  const pick = args.rng01 * total;
+  for (let i = 0; i < args.eligibleKinds.length; i++) {
+    if (weights[i] <= 0) continue;
+    acc += weights[i];
+    if (pick < acc) return args.eligibleKinds[i];
+  }
+  // Fall through: return the last positive-weight kind.
+  for (let i = args.eligibleKinds.length - 1; i >= 0; i--) {
+    if (weights[i] > 0) return args.eligibleKinds[i];
+  }
+  return args.eligibleKinds[args.eligibleKinds.length - 1];
+}
+
+/* ═══════════════════════════════════════════════════════
+   PHASE K2 — LIEUTENANT PROMOTION
+
+   Mordor canon: a Nemesis that succeeds N plans gets
+   promoted into a coordinator role under the highest-
+   rank Nemesis. This pure function returns the promotion
+   decision given a snapshot of the player's roster.
+   ═══════════════════════════════════════════════════════ */
+
+export const PROMOTION_THRESHOLD_PLAN_SUCCESSES = 3;
+
+export interface NemesisRosterEntry {
+  nemesisId: string;
+  rank: 1 | 2 | 3 | 4 | 5;
+  /** Plan-success count attributable to this Nemesis. */
+  planSuccessCount: number;
+  /** True if this Nemesis is already a lieutenant. */
+  isLieutenant: boolean;
+  /** True if this Nemesis is retired. */
+  retired: boolean;
+}
+
+export interface LieutenantPromotionDecision {
+  promote: boolean;
+  candidateNemesisId?: string;
+  underNemesisId?: string;
+}
+
+/** Returns whether to promote a Nemesis to lieutenant
+ *  status. Picks the most-successful non-lieutenant
+ *  non-retired Nemesis whose plan-success count meets
+ *  the threshold; their commander is the highest-rank
+ *  active Nemesis in the roster (excluding themselves). */
+export function decidePromotion(
+  roster: readonly NemesisRosterEntry[],
+): LieutenantPromotionDecision {
+  const candidates = roster.filter(
+    (n) =>
+      !n.retired &&
+      !n.isLieutenant &&
+      n.planSuccessCount >= PROMOTION_THRESHOLD_PLAN_SUCCESSES,
+  );
+  if (candidates.length === 0) return { promote: false };
+  candidates.sort((a, b) => b.planSuccessCount - a.planSuccessCount);
+  const candidate = candidates[0];
+
+  const commanders = roster
+    .filter((n) => !n.retired && n.nemesisId !== candidate.nemesisId)
+    .sort((a, b) => b.rank - a.rank);
+  if (commanders.length === 0) {
+    // No-one to serve under — defer promotion.
+    return { promote: false };
+  }
+  return {
+    promote: true,
+    candidateNemesisId: candidate.nemesisId,
+    underNemesisId: commanders[0].nemesisId,
+  };
+}
+
+/* ═══════════════════════════════════════════════════════
    GRUDGE / RANK INFLUENCE ON PLAN-SPAWN PROFILE
    ═══════════════════════════════════════════════════════ */
 

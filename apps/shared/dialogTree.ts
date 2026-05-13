@@ -16,7 +16,7 @@
    schema.
    ═══════════════════════════════════════════════════════ */
 
-export type DialogSpeaker = "elara" | "human";
+export type DialogSpeaker = "elara" | "human" | "nemesis" | "apprentice";
 
 /** Flag name used to gate or fire state. Kept as a string for free composition. */
 export type NarrativeFlag = string;
