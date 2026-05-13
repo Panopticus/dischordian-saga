@@ -85,6 +85,7 @@ import {
   checkNemesisScenePerPairCoverage,
   checkApprenticeScenePerPairCoverage,
   checkNemesisWave4TriggerCoverage,
+  checkNemesisAxisConflictDeepening,
 } from "./checks/nemesisCoverage";
 
 export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
@@ -734,5 +735,13 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "Six new trigger-firing encounter kinds (accumulation_reveal, lieutenant_promoted, apprentice_declared_betrayal_to_nemesis, cohort_ended, name_revealed, final_encounter_act7) must each have at least one server call site that fires them via recordSurfaceEvent.",
     check: () => checkNemesisWave4TriggerCoverage(),
+  },
+  {
+    id: "nemesis.axis_conflict_deepening",
+    name: "Nemesis axis-conflict deepening",
+    description:
+      "12 thematic axes × 2 directions = 24 pair-bank files hand-deepened beyond the generator's 24-node floor. Each deepened file climbs to >80 dialog nodes via 5-node bespoke trees (ghost↔jester silence vs noise, heretic↔zealot rival faiths, etc.). RATCHET — pairs ship as writers complete them.",
+    check: () => checkNemesisAxisConflictDeepening(),
+    ratchet: { target: 0 },
   },
 ];

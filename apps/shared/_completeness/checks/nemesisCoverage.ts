@@ -326,3 +326,51 @@ export async function checkNemesisWave4TriggerCoverage(): Promise<RawParityCount
   }
   return { declared, implemented, missing };
 }
+
+/** Phase K Wave 5 — axis-conflict deepening parity.
+ *
+ *  The 12 thematic axes (24 pairs in both directions) get
+ *  hand-deepened pair-bank files. "Deepened" = the file's
+ *  node count exceeds the generator's 24-node floor (3
+ *  bands × 8 scenes × 3 nodes-per-tree-min = 72 nodes for
+ *  the generator-floor; deepened files climb to 100+
+ *  via 5-node trees). The check counts pairs whose
+ *  `speaker:` declarations exceed 80 (a clean threshold
+ *  above the 72-node generator output but below any
+ *  hand-deepened file). */
+export async function checkNemesisAxisConflictDeepening(): Promise<RawParityCount> {
+  const fs = await import("fs/promises");
+  const path = await import("path");
+  // 12 axes × 2 directions = 24 pairs
+  const AXIS_PAIRS = [
+    ["ghost", "jester"], ["jester", "ghost"],
+    ["heretic", "zealot"], ["zealot", "heretic"],
+    ["scholar", "oracle"], ["oracle", "scholar"],
+    ["martyr", "revenant"], ["revenant", "martyr"],
+    ["sentinel", "prodigal"], ["prodigal", "sentinel"],
+    ["artisan", "wanderer"], ["wanderer", "artisan"],
+    ["ghost", "heretic"], ["heretic", "ghost"],
+    ["scholar", "jester"], ["jester", "scholar"],
+    ["martyr", "sentinel"], ["sentinel", "martyr"],
+    ["revenant", "prodigal"], ["prodigal", "revenant"],
+    ["artisan", "oracle"], ["oracle", "artisan"],
+    ["zealot", "wanderer"], ["wanderer", "zealot"],
+  ] as const;
+  const DEEPEN_THRESHOLD = 80;
+  const dir = path.resolve(process.cwd(), "apps/shared/npcs/banks/nemesis");
+  const declared = AXIS_PAIRS.length;
+  let implemented = 0;
+  const missing: string[] = [];
+  for (const [p, n] of AXIS_PAIRS) {
+    const file = path.join(dir, `${p}_vs_${n}.ts`);
+    try {
+      const src = await fs.readFile(file, "utf8");
+      const nodeCount = (src.match(/speaker:/g) ?? []).length;
+      if (nodeCount > DEEPEN_THRESHOLD) implemented++;
+      else missing.push(`${p}_vs_${n} (${nodeCount} nodes)`);
+    } catch {
+      missing.push(`${p}_vs_${n} (file not found)`);
+    }
+  }
+  return { declared, implemented, missing };
+}
