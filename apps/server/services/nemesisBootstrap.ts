@@ -101,14 +101,23 @@ CREATE TABLE IF NOT EXISTS \`nemesis_memory\` (
   \`source\` VARCHAR(32) NOT NULL,
   \`quoteOpening\` TEXT NOT NULL,
   \`playerContext\` JSON,
+  \`renderedAt\` TIMESTAMP NULL,
+  \`choiceFlag\` VARCHAR(96) NULL,
   \`recordedAt\` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (\`id\`),
   UNIQUE KEY \`uniq_nemesis_memory_id\` (\`memoryId\`),
   UNIQUE KEY \`uniq_nemesis_memory_nemesis_seq\` (\`nemesisId\`, \`sequence\`),
   KEY \`idx_nemesis_memory_nemesis_id\` (\`nemesisId\`),
-  KEY \`idx_nemesis_memory_user_kind\` (\`userId\`, \`encounterKind\`)
+  KEY \`idx_nemesis_memory_user_kind\` (\`userId\`, \`encounterKind\`),
+  KEY \`idx_nemesis_memory_user_pending\` (\`userId\`, \`renderedAt\`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
 `;
+
+const NEMESIS_MEMORY_PHASE_K_ALTERS = [
+  "ALTER TABLE `nemesis_memory` ADD COLUMN `renderedAt` TIMESTAMP NULL",
+  "ALTER TABLE `nemesis_memory` ADD COLUMN `choiceFlag` VARCHAR(96) NULL",
+  "ALTER TABLE `nemesis_memory` ADD INDEX `idx_nemesis_memory_user_pending` (`userId`, `renderedAt`)",
+];
 
 const NEMESIS_PLANS_TABLE_SQL = `
 CREATE TABLE IF NOT EXISTS \`nemesis_plans\` (
@@ -170,6 +179,14 @@ async function run(): Promise<void> {
   // because the column/index already exists are expected
   // and silently skipped.
   for (const alter of NEMESIS_STATE_PHASE_K_ALTERS) {
+    try {
+      await db.execute(sql.raw(alter));
+    } catch (_err) {
+      // Column/index already present; ignore.
+    }
+  }
+  // Phase K Wave 6 — nemesis_memory.renderedAt + choiceFlag.
+  for (const alter of NEMESIS_MEMORY_PHASE_K_ALTERS) {
     try {
       await db.execute(sql.raw(alter));
     } catch (_err) {

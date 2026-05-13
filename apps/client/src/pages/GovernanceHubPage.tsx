@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import { KineticText, AtmosphereScope } from "@/components/void";
 import { NemesisTicker } from "@/components/NemesisTicker";
+import { NemesisEncounterModal } from "@/components/NemesisEncounterModal";
 import { useGovernanceStore } from "@/stores/governanceStore";
 import { trpc } from "@/lib/trpc";
 import { DischordiaMeterPanel } from "@/components/dischordia/DischordiaMeterPanel";
@@ -731,6 +732,8 @@ export default function GovernanceHubPage() {
           <div className="mb-4">
             <NemesisTicker surface="hub" />
           </div>
+          {/* Phase K Wave 6 — encounter modal opens on pending. */}
+          <NemesisEncounterModal surface="hub" />
 
           {/* ═══ MOBILE: Tab bar (visible < lg) ═══ */}
           <div className="flex gap-1 mb-6 overflow-x-auto lg:hidden">

@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, Skull, Trophy, Info } from "lucide-react";
 import ParallaxDepthBackground from "@/components/ParallaxDepthBackground";
 import { NemesisTicker } from "@/components/NemesisTicker";
+import { NemesisEncounterModal } from "@/components/NemesisEncounterModal";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 import {
   CASINO_GAMES, getVIPLevel, getDegenQuote,
@@ -300,6 +301,8 @@ export default function DegensCasinoPage() {
       <div className="relative z-10 px-4 pt-3">
         <NemesisTicker surface="casino" />
       </div>
+      {/* Phase K Wave 6 — encounter modal opens on pending. */}
+      <NemesisEncounterModal surface="casino" />
 
       {/* Casino Floor — environment background per area */}
       <div className="absolute inset-0 z-0 transition-opacity duration-700">

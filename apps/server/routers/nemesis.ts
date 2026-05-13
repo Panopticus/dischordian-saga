@@ -28,7 +28,7 @@ import {
   nemesisMemory,
   nemesisPlans,
 } from "../../db/schema";
-import { eq, and, desc } from "drizzle-orm";
+import { eq, and, desc, isNull } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
 import type { ApprenticeArchetype } from "../../shared/apprentices";
 import { APPRENTICE_ARCHETYPES } from "../../shared/apprentices";
@@ -253,6 +253,38 @@ async function topUpPlansForNemesis(
 /* ═══════════════════════════════════════════════════════
    ROUTER
    ═══════════════════════════════════════════════════════ */
+
+/* Phase K Wave 6 — encounter-kind to pair-bank scene-id
+ * mapping for the dialog presenter. Returns null for
+ * chronicle-only kinds (e.g. ambush_survived, route_sabotaged
+ * — the plan-success ones that record but don't render). */
+function encounterKindToSceneId(kind: string): string | null {
+  switch (kind) {
+    case "first_encounter":
+      return "first_sighting";
+    case "route_sabotage_blocked":
+    case "casino_odds_rigging_blocked":
+    case "apprentice_whisper_blocked":
+    case "hub_counter_vote_blocked":
+      return "sabotage_caught_in_act";
+    case "killed_by_player":
+    case "fled_player":
+    case "mocked_by_player":
+      return "mocking_interlude";
+    case "lieutenant_promoted":
+      return "lieutenant_promotion";
+    case "cohort_ended":
+      return "cohort_end_confrontation";
+    case "accumulation_reveal":
+      return "accumulation_reveal";
+    case "name_revealed":
+      return "name_reveal_moment";
+    case "final_encounter_act7":
+      return "final_encounter";
+    default:
+      return null;
+  }
+}
 
 export const nemesisRouter = router({
   /** Spawn a Nemesis for a freshly-recruited apprentice cohort.
@@ -591,6 +623,120 @@ export const nemesisRouter = router({
         console.warn("[Nemesis] cohort_ended fire failed", cohortErr);
         return { recorded: false };
       }
+    }),
+
+  /* ═══════════════════════════════════════════════════
+     PHASE K WAVE 6 — PRESENTER ENDPOINTS
+
+     The client polls `getPendingNemesisEncounter` on
+     entry to each surface (Trade Empire / Casino / Hub
+     / Cohort). If a pending memory exists, the modal
+     opens. After the player walks the dialog tree, the
+     client calls `markNemesisEncounterRendered` with
+     the chosen flag.
+     ═══════════════════════════════════════════════════ */
+
+  /** Returns the next unrendered encounter for this
+   *  player, plus the pair-bank coordinates (pairId,
+   *  sceneId, grudgeBand) the client uses to look up the
+   *  DialogTree. Returns null if nothing is pending. */
+  getPendingNemesisEncounter: protectedProcedure.query(async ({ ctx }) => {
+    const db = await getDb();
+    if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+    // Oldest unrendered first — encounters are FIFO.
+    const pending = await db
+      .select()
+      .from(nemesisMemory)
+      .where(
+        and(
+          eq(nemesisMemory.userId, ctx.user.id),
+          isNull(nemesisMemory.renderedAt),
+        ),
+      )
+      .orderBy(nemesisMemory.recordedAt)
+      .limit(1);
+    if (pending.length === 0) return null;
+    const mem = pending[0];
+
+    // Look up the Nemesis for archetype + grudge.
+    const nemRows = await db
+      .select()
+      .from(nemesisState)
+      .where(eq(nemesisState.nemesisId, mem.nemesisId))
+      .limit(1);
+    if (nemRows.length === 0) {
+      // Orphan memory; mark rendered to clear the queue.
+      await db
+        .update(nemesisMemory)
+        .set({ renderedAt: new Date() })
+        .where(eq(nemesisMemory.id, mem.id));
+      return null;
+    }
+    const nem = nemRows[0];
+
+    // Look up the player's currently-trained apprentice
+    // archetype to form the pairId.
+    const playerArchetype = nem.apprenticeArchetype as ApprenticeArchetype;
+    const nemesisArchetype = nem.nemesisArchetype as ApprenticeArchetype;
+    const pairId = `${playerArchetype}_vs_${nemesisArchetype}`;
+
+    // Map encounter kind → scene id.
+    const sceneId = encounterKindToSceneId(mem.encounterKind);
+    if (!sceneId) {
+      // No scene maps to this kind (e.g. ambush_survived
+      // is chronicle-only). Mark rendered to clear.
+      await db
+        .update(nemesisMemory)
+        .set({ renderedAt: new Date() })
+        .where(eq(nemesisMemory.id, mem.id));
+      return null;
+    }
+
+    // Map grudge tier → band.
+    const grudgeBand =
+      nem.grudgeTier <= 1 ? "low" : nem.grudgeTier <= 3 ? "mid" : "high";
+
+    return {
+      memoryId: mem.memoryId,
+      pairId,
+      sceneId,
+      grudgeBand,
+      nemesisId: mem.nemesisId,
+      nemesisArchetypeTitle: nem.archetypeTitle,
+      nemesisProperName: nem.nameRevealed ? nem.properName : null,
+      alignedFaction: nem.alignedFaction,
+      surface: mem.source,
+      quoteOpening: mem.quoteOpening,
+      recordedAt: mem.recordedAt,
+    };
+  }),
+
+  /** Mark a pending encounter as rendered. Optionally
+   *  records the chosen narrative flag (the `sets:` value
+   *  the player selected in the dialog tree). */
+  markNemesisEncounterRendered: protectedProcedure
+    .input(
+      z.object({
+        memoryId: z.string(),
+        choiceFlag: z.string().nullable().optional(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+      await db
+        .update(nemesisMemory)
+        .set({
+          renderedAt: new Date(),
+          choiceFlag: input.choiceFlag ?? null,
+        })
+        .where(
+          and(
+            eq(nemesisMemory.memoryId, input.memoryId),
+            eq(nemesisMemory.userId, ctx.user.id),
+          ),
+        );
+      return { ok: true };
     }),
 
   /** List the player's Nemeses across all cohorts. */

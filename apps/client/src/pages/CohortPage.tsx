@@ -23,6 +23,7 @@ import {
 import { getRarityTier, type Apprentice } from "@shared/apprentices";
 import { trpc } from "@/lib/trpc";
 import { NemesisHUD } from "@/components/NemesisHUD";
+import { NemesisEncounterModal } from "@/components/NemesisEncounterModal";
 
 const STORAGE_KEY = "dischordian:cohort";
 
@@ -223,6 +224,8 @@ export default function CohortPage() {
         <div className="mb-4">
           <NemesisHUD cohortNumber={cohort.number} />
         </div>
+        {/* Phase K Wave 6 — encounter modal opens on pending. */}
+        <NemesisEncounterModal surface="apprentice" />
 
         {/* Player standing */}
         {standing && (

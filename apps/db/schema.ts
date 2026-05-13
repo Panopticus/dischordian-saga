@@ -8560,6 +8560,14 @@ export const nemesisMemory = mysqlTable("nemesis_memory", {
   quoteOpening: text("quoteOpening").notNull(),
   /** Optional player-context blob (act / phase / witnessLevel etc.). */
   playerContext: json("playerContext"),
+  /** Phase K Wave 6 — when the dialog modal rendered this
+   *  encounter to the player. NULL = pending; the next
+   *  surface-entry hook should open the modal. */
+  renderedAt: timestamp("renderedAt"),
+  /** Phase K Wave 6 — the player choice made in the modal
+   *  (the dialog node's `sets` flag string). Null = the
+   *  scene played out without a recorded choice. */
+  choiceFlag: varchar("choiceFlag", { length: 96 }),
   recordedAt: timestamp("recordedAt").defaultNow().notNull(),
 }, (table) => ({
   uniqMemoryId: uniqueIndex("uniq_nemesis_memory_id").on(table.memoryId),
