@@ -26,6 +26,7 @@ import { MECHRONIS_CHAINED_LESSON_MYSTERY }    from "./mechronisChainedLesson";
 import { MEMORIAL_SEVEN_WATCHERS_MYSTERY }     from "./memorialSevenWatchers";
 import { WOLF_ANARA_HUNT_MYSTERY }             from "./wolfAnaraHunt";
 import { AKAI_SHI_RED_DEATH_MYSTERY }          from "./akaiShiRedDeath";
+import { RESURRECTIONIST_CYCLE_WALKER_MYSTERY } from "./resurrectionistCycleWalker";
 
 export const DLC_MYSTERIES: ReadonlyArray<MysteryDefinition> = [
   CHARTER_MISSING_SIGNATORY_MYSTERY,
@@ -38,6 +39,7 @@ export const DLC_MYSTERIES: ReadonlyArray<MysteryDefinition> = [
   MEMORIAL_SEVEN_WATCHERS_MYSTERY,
   WOLF_ANARA_HUNT_MYSTERY,
   AKAI_SHI_RED_DEATH_MYSTERY,
+  RESURRECTIONIST_CYCLE_WALKER_MYSTERY,
 ];
 
 export {
@@ -51,4 +53,5 @@ export {
   MEMORIAL_SEVEN_WATCHERS_MYSTERY,
   WOLF_ANARA_HUNT_MYSTERY,
   AKAI_SHI_RED_DEATH_MYSTERY,
+  RESURRECTIONIST_CYCLE_WALKER_MYSTERY,
 };
