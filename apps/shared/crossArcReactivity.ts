@@ -42,7 +42,8 @@ export type CrossArcWeight =
   | "cross_arc_seer"
   | "cross_arc_vex"
   | "cross_arc_degen"
-  | "cross_arc_game_master";
+  | "cross_arc_game_master"
+  | "cross_arc_nemesis";
 
 /** A canonical cross-arc binding. */
 export interface CrossArcBinding {
@@ -326,6 +327,40 @@ export const CROSS_ARC_BINDINGS: readonly CrossArcBinding[] = [
       "canon) + apps/shared/dlcMysteries/akaiShiRedDeath.ts (E3 " +
       "cross_arc_game_master)",
   },
+
+  /* ── Resurrectionist → Game Master (the Nemesis name-reveal pair) ── */
+  {
+    weight: "cross_arc_nemesis",
+    sourceArc: "arc.dlc.resurrectionist_cycle_walker" as ArcId,
+    sourceEpisode: 5,
+    sourceChoiceId: "resur.e5.c.mark_the_partial_for_re_audit",
+    destinationArc: "arc.game_master" as ArcId,
+    destinationEpisodes: [4, 5],
+    narrativeMeaning:
+      "The Resurrectionist arc's E5 partial-audit choice + " +
+      "Game Master Fight 2's plague-mask seed together form " +
+      "the two-gate name-reveal for the Nemesis system " +
+      "(apps/shared/nemesisSystem.ts shouldRevealProperName). " +
+      "Per dreamer-canon (2026-05-13): the Nemesis is the " +
+      "Politician's secret apprentice, preserved as a " +
+      "consciousness-imprint inside the Matrix of Dreams " +
+      "during her reign, re-released into the world when the " +
+      "Necromancer escaped the Matrix (Resurrectionist arc's " +
+      "encoded post-game canon). Game Master Fight 2's " +
+      "plague-masked-imprint seed (apps/shared/" +
+      "gameMasterTwoFights.ts beat gm_robot_post_fight_seed_01) " +
+      "is the parallel gate. When BOTH close, the chronicle's " +
+      "Nemesis-name catalog opens to the player. Each arc " +
+      "thus surfaces a Nemesis-aware deduction-callback on " +
+      "E4-E5 when the other gate has already closed.",
+    loreSource:
+      "apps/shared/nemesisSystem.ts (Nemesis canon: " +
+      "Politician's secret apprentice, Matrix-of-Dreams " +
+      "preservation, Necromancer-escape re-release) + " +
+      "apps/shared/dlcMysteries/resurrectionistCycleWalker.ts " +
+      "E5 + apps/shared/gameMasterTwoFights.ts (Game Master " +
+      "Fight 2 plague-mask seed) + plan §I.1a (Nemesis canon)",
+  },
 ] as const satisfies readonly CrossArcBinding[];
 
 /* ═══════════════════════════════════════════════════════
@@ -370,9 +405,10 @@ export function getParticipatingArcs(): readonly ArcId[] {
  * Total count of canonical cross-arc bindings shipping today.
  * 6 spine-arc bindings + 5 DLC bindings (Wolf → Wraith + Wolf →
  * Jericho + Akai Shi → Jericho + Akai Shi → Wraith + Akai Shi →
- * Game Master) = 11 canonical cross-arc threads.
+ * Game Master) + 1 Nemesis bind (Resurrectionist → Nemesis name
+ * reveal) = 12 canonical cross-arc threads.
  */
-export const CANONICAL_CROSS_ARC_COUNT = 11;
+export const CANONICAL_CROSS_ARC_COUNT = 12;
 
 /**
  * Returns the canonical preview text the Hub UI shows to the

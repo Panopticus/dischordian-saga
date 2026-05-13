@@ -20,7 +20,7 @@ const arc = (id: string): ArcId => id as ArcId;
 
 describe("Cross-arc reactivity catalog", () => {
   it("registers exactly 6 canonical bindings", () => {
-    expect(CANONICAL_CROSS_ARC_COUNT).toBe(11);
+    expect(CANONICAL_CROSS_ARC_COUNT).toBe(12);
     expect(CROSS_ARC_BINDINGS).toHaveLength(CANONICAL_CROSS_ARC_COUNT);
   });
 
@@ -133,11 +133,12 @@ describe("Cross-arc weights coverage", () => {
     "cross_arc_vex",
     "cross_arc_degen",
     "cross_arc_game_master",
+    "cross_arc_nemesis",
   ];
 
-  it("all 6 canonical weights are defined in the type", () => {
+  it("all 7 canonical weights are defined in the type", () => {
     // This is a type-level invariant; runtime check via the array.
-    expect(weights.length).toBe(6);
+    expect(weights.length).toBe(7);
   });
 
   it("cross_arc_jericho is represented in the bindings", () => {
