@@ -22,10 +22,11 @@ const EXPECTED_IDS = [
   "mechronis.chained_lesson",
   "memorial.seven_watchers",
   "wolf.anara_hunt",
+  "akai_shi.red_death",
 ];
 
 describe("DLC_MYSTERIES — well-formedness", () => {
-  it("has all 9 arcs in canonical order", () => {
+  it("has all 10 arcs in canonical order", () => {
     expect(DLC_MYSTERIES.map((m) => m.id)).toEqual(EXPECTED_IDS);
   });
 

@@ -25,6 +25,7 @@ import { SEVERANCE_INFERNAL_CLAUSE_MYSTERY }   from "./severanceInfernalClause";
 import { MECHRONIS_CHAINED_LESSON_MYSTERY }    from "./mechronisChainedLesson";
 import { MEMORIAL_SEVEN_WATCHERS_MYSTERY }     from "./memorialSevenWatchers";
 import { WOLF_ANARA_HUNT_MYSTERY }             from "./wolfAnaraHunt";
+import { AKAI_SHI_RED_DEATH_MYSTERY }          from "./akaiShiRedDeath";
 
 export const DLC_MYSTERIES: ReadonlyArray<MysteryDefinition> = [
   CHARTER_MISSING_SIGNATORY_MYSTERY,
@@ -36,6 +37,7 @@ export const DLC_MYSTERIES: ReadonlyArray<MysteryDefinition> = [
   MECHRONIS_CHAINED_LESSON_MYSTERY,
   MEMORIAL_SEVEN_WATCHERS_MYSTERY,
   WOLF_ANARA_HUNT_MYSTERY,
+  AKAI_SHI_RED_DEATH_MYSTERY,
 ];
 
 export {
@@ -48,4 +50,5 @@ export {
   MECHRONIS_CHAINED_LESSON_MYSTERY,
   MEMORIAL_SEVEN_WATCHERS_MYSTERY,
   WOLF_ANARA_HUNT_MYSTERY,
+  AKAI_SHI_RED_DEATH_MYSTERY,
 };
