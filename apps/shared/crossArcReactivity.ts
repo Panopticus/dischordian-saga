@@ -209,6 +209,123 @@ export const CROSS_ARC_BINDINGS: readonly CrossArcBinding[] = [
       "which is the one thing the Degen doesn't do, is the cold-hook " +
       "clue of mystery.jericho_jones E1')",
   },
+
+  /* ── Wolf → Wraith (the Crucible / Eighth Death lineage) ── */
+  {
+    weight: "cross_arc_wraith",
+    sourceArc: "arc.dlc.wolf_anara_hunt" as ArcId,
+    sourceEpisode: 1,
+    sourceChoiceId: "wolf.e1.c.audit_the_judge",
+    destinationArc: "arc.wraith_calder" as ArcId,
+    destinationEpisodes: [4, 5],
+    narrativeMeaning:
+      "The Wolf's pre-resurrection name was Lycos; he became the " +
+      "Wolf at the Crucible after his Year 100,001 A.A. destruction " +
+      "by the Judge. The Judge's audit-entry phrase 'the instrument " +
+      "was not lost' is load-bearing — it surfaces in Wraith's " +
+      "Long Mourning ceremony as a candidate inscription. Wraith E4 " +
+      "(Final Rite as consent or coercion) and E5 (Herald's Vigil) " +
+      "gain context: the Sanctuary's resurrection protocols are not " +
+      "the only way a Potential comes back; the Crucible is another. " +
+      "Both routes share a lineage canonical to the Syndicate of Death.",
+    loreSource:
+      "LORE_BIBLE.md:3561-3605 (Wolf's Year 100,001 destruction + Year " +
+      "128,652 resurrection) + plan §I.1a (Lycos / Crucible canon) + " +
+      "apps/shared/dlcMysteries/wolfAnaraHunt.ts (E1 audit_the_judge)",
+  },
+
+  /* ── Wolf → Jericho (the Iron Lion's grief for Lycos) ── */
+  {
+    weight: "cross_arc_jericho",
+    sourceArc: "arc.dlc.wolf_anara_hunt" as ArcId,
+    sourceEpisode: 3,
+    sourceChoiceId: "wolf.e3.c.ask_jericho",
+    destinationArc: "arc.jericho_jones" as ArcId,
+    destinationEpisodes: [4, 5],
+    narrativeMeaning:
+      "Jericho killed Akai Shi as mercy under Thought-Virus " +
+      "consumption. The Wolf's case is the canonical parallel: he " +
+      "too was consumed, then destroyed by the Judge, then " +
+      "resurrected — but as the hunter of the Antiquarian's Heroes, " +
+      "not as a comrade restored. If the player brings Jericho the " +
+      "Wolf-case at E3, Jericho's Lionism Ethics episode (E4) and " +
+      "Commission episode (E5) reframe: mercy is a verdict the Iron " +
+      "Lion is sometimes asked to render twice on the same name.",
+    loreSource:
+      "LORE_BIBLE.md:3561-3605 (Wolf's hunt of the Antiquarian's " +
+      "Heroes) + apps/shared/dlcMysteries/wolfAnaraHunt.ts (E3 " +
+      "ask_jericho) + apps/shared/episodeMysteries.ts (jericho E4-E5)",
+  },
+
+  /* ── Akai Shi → Jericho (the closing mercy-killing payoff) ── */
+  {
+    weight: "cross_arc_jericho",
+    sourceArc: "arc.dlc.akai_shi_red_death" as ArcId,
+    sourceEpisode: 5,
+    sourceChoiceId: "akai.e5.c.cross_arc_jericho_close",
+    destinationArc: "arc.jericho_jones" as ArcId,
+    destinationEpisodes: [5],
+    narrativeMeaning:
+      "Akai Shi's transformation arc closes with the Red Death's " +
+      "cosmic mandate accepted. The cross-arc choice returns the " +
+      "verdict to Jericho: he killed her as mercy; she came back " +
+      "as something larger. Jericho's Commission episode (E5) gains " +
+      "the Red Death's blessing — Iron-Clad Lionism is canonically " +
+      "compatible with mercy that becomes resurrection. The cross-arc " +
+      "is the saga's most-emotionally-loaded reciprocal closure.",
+    loreSource:
+      "LORE_BIBLE.md:726-748 (Akai Shi → Red Death + " +
+      "Necromancer-kill canon) + LORE_BIBLE.md:63-160 (Jericho's " +
+      "mercy canon) + apps/shared/dlcMysteries/akaiShiRedDeath.ts " +
+      "(E5 cross_arc_jericho_close)",
+  },
+
+  /* ── Akai Shi → Wraith (the closing inscription) ── */
+  {
+    weight: "cross_arc_wraith",
+    sourceArc: "arc.dlc.akai_shi_red_death" as ArcId,
+    sourceEpisode: 5,
+    sourceChoiceId: "akai.e5.c.cross_arc_wraith_close",
+    destinationArc: "arc.wraith_calder" as ArcId,
+    destinationEpisodes: [5],
+    narrativeMeaning:
+      "Akai Shi's E5 closure offers Wraith her name for inscription — " +
+      "the Red Death's name added to the Long Mourning's daily " +
+      "ceremony. The inscription is canonically reciprocal to " +
+      "Wraith's own E5 'inscribe Akai Shi' choice: each arc surfaces " +
+      "the other's option, and the player's path determines which " +
+      "(or both, or neither) gets written. The 347,000-name backlog " +
+      "moves by one if the choice is taken from either side.",
+    loreSource:
+      "apps/shared/dlcMysteries/akaiShiRedDeath.ts (E5 " +
+      "cross_arc_wraith_close) + apps/shared/episodeMysteries.ts " +
+      "(wraith.e5 inscribe_akai_shi) — reciprocal binding pair",
+  },
+
+  /* ── Akai Shi → Game Master (the Necromancer kill in the Matrix) ── */
+  {
+    weight: "cross_arc_game_master",
+    sourceArc: "arc.dlc.akai_shi_red_death" as ArcId,
+    sourceEpisode: 3,
+    sourceChoiceId: "akai.e3.c.cross_arc_game_master",
+    destinationArc: "arc.game_master" as ArcId,
+    destinationEpisodes: [4, 5],
+    narrativeMeaning:
+      "Akai Shi's hunt of the Necromancer happened canonically " +
+      "WITHIN the Matrix of Dreams — the Game Master's archive. The " +
+      "cross-arc binding surfaces in the Game Master arc as: the " +
+      "Matrix is not only watched; it can be entered, hunted in, and " +
+      "the imprints inside can be ended. The Red Death's precedent " +
+      "is the only known case of a non-Game-Master operating " +
+      "successfully inside the archive. This is a conspiracy seed " +
+      "the Game Master arc surfaces in E4-E5 without yet revealing " +
+      "the full post-game canon.",
+    loreSource:
+      "LORE_BIBLE.md:726-748 (Akai Shi killed the Necromancer in " +
+      "the Matrix of Dreams) + LORE_BIBLE.md:6238-6259 (Matrix " +
+      "canon) + apps/shared/dlcMysteries/akaiShiRedDeath.ts (E3 " +
+      "cross_arc_game_master)",
+  },
 ] as const satisfies readonly CrossArcBinding[];
 
 /* ═══════════════════════════════════════════════════════
@@ -251,8 +368,11 @@ export function getParticipatingArcs(): readonly ArcId[] {
 
 /**
  * Total count of canonical cross-arc bindings shipping today.
+ * 6 spine-arc bindings + 5 DLC bindings (Wolf → Wraith + Wolf →
+ * Jericho + Akai Shi → Jericho + Akai Shi → Wraith + Akai Shi →
+ * Game Master) = 11 canonical cross-arc threads.
  */
-export const CANONICAL_CROSS_ARC_COUNT = 6;
+export const CANONICAL_CROSS_ARC_COUNT = 11;
 
 /**
  * Returns the canonical preview text the Hub UI shows to the

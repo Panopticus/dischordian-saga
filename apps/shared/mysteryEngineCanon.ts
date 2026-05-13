@@ -208,6 +208,51 @@ export const MYSTERY_ENGINE_ARCS: readonly MysteryEngineArcCanon[] = [
       "LORE_BIBLE.md:303-340 + apps/shared/npcs/bibles/the_degen.md " +
       "+ apps/shared/episodeMysteries.ts (mystery.the_degen)",
   },
+  {
+    arcId: "arc.dlc.wolf_anara_hunt" as ArcId,
+    title: "Wolf · Anara Hunt",
+    canonicalCharacter: "The Wolf",
+    manifoldId: "wolf_manifold",
+    cosmicAnchor: { kind: "potential" },
+    unlockAct: 3,
+    spoilerProtected: false,
+    arcPremise:
+      "The Wolf hunts the Antiquarian's Heroes after his Year " +
+      "128,652 A.A. resurrection. E1-E5 follow the player onto the " +
+      "Anara surface, where pre-resurrection Lycos's tracks cross " +
+      "the post-resurrection Wolf's, and the arc terminates at the " +
+      "Hall of Disappearances — the canonical entry point of the " +
+      "Hunt-the-Hero minigame. The arc weaves cross-arc reactivity " +
+      "into Wraith Calder (the Crucible / Eighth Death), the Seer " +
+      "(prophecy of the Wolf's Hunt), and Jericho Jones (the Iron " +
+      "Lion's grief for what the Wolf was before the Crucible).",
+    loreSource:
+      "LORE_BIBLE.md:3561-3605 + apps/shared/transmissions.ts:608 " +
+      "+ apps/shared/antiquariansJournal.ts:680 + plan §I.1a (Lycos " +
+      "/ Crucible canon restored by dreamer correction)",
+  },
+  {
+    arcId: "arc.dlc.akai_shi_red_death" as ArcId,
+    title: "Akai Shi · Red Death",
+    canonicalCharacter: "Akai Shi",
+    manifoldId: "akai_shi_manifold",
+    cosmicAnchor: { kind: "potential" },
+    unlockAct: 3,
+    spoilerProtected: false,
+    arcPremise:
+      "Akai Shi's transformation from sacrificed Potential to the " +
+      "Red Death, the time-traveling cosmic-threat eliminator who " +
+      "canonically killed the Necromancer within the Matrix of " +
+      "Dreams. E1-E5 investigate her killing on Day 15 of Fracture " +
+      "Year 117,046 A.A., Jericho's mercy-killing, the Necromancer " +
+      "hunt across the Matrix, and the cosmic mandate she now " +
+      "carries. Cross-arc with Jericho Jones (mercy), Wraith Calder " +
+      "(the inscribable name), and Game Master (Matrix-of-Dreams " +
+      "Necromancer-kill).",
+    loreSource:
+      "LORE_BIBLE.md:726-748 + LORE_BIBLE.md:1158 + " +
+      "LORE_BIBLE.md:2514-2560 + LORE_BIBLE.md:2804",
+  },
 ] as const satisfies readonly MysteryEngineArcCanon[];
 
 /* ═══════════════════════════════════════════════════════
@@ -300,10 +345,11 @@ export function getNeYonAnchoredArcs(): readonly MysteryEngineArcCanon[] {
 }
 
 /**
- * Canonical Mystery Engine count. The saga ships 6 canonical arcs;
- * the catalog tests verify this invariant.
+ * Canonical Mystery Engine count. The saga ships 6 spine arcs +
+ * 2 DLC arcs (Wolf · Anara Hunt and Akai Shi · Red Death) = 8
+ * canonical arcs total. The catalog tests verify this invariant.
  */
-export const CANONICAL_MYSTERY_ENGINE_COUNT = 6;
+export const CANONICAL_MYSTERY_ENGINE_COUNT = 8;
 
 /**
  * Cross-validation: every entry in this catalog must point at a

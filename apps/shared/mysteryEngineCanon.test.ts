@@ -23,17 +23,17 @@ import {
 const asArc = (id: string): ArcId => id as ArcId;
 
 describe("Mystery Engine catalog", () => {
-  it("registers exactly 6 canonical arcs", () => {
-    expect(CANONICAL_MYSTERY_ENGINE_COUNT).toBe(6);
-    expect(MYSTERY_ENGINE_ARCS).toHaveLength(6);
+  it("registers exactly 8 canonical arcs (6 spine + 2 DLC)", () => {
+    expect(CANONICAL_MYSTERY_ENGINE_COUNT).toBe(8);
+    expect(MYSTERY_ENGINE_ARCS).toHaveLength(8);
   });
 
-  it("the runtime MYSTERY_DEFINITIONS count includes the 6 core arcs " +
-     "(plus DLC mysteries from DLC_MYSTERIES)", () => {
+  it("the runtime MYSTERY_DEFINITIONS count includes the 8 canonical arcs " +
+     "(plus the other DLC mysteries from DLC_MYSTERIES)", () => {
     // The runtime registry spreads ...DLC_MYSTERIES on top of the 6
-    // core arcs, so the total count is >= 6 but the catalog covers
-    // only the 6 canonical core arcs. The orphan-check below verifies
-    // every catalog entry has a corresponding runtime definition.
+    // core arcs; the catalog covers 6 spine + 2 DLC (Wolf + Akai Shi).
+    // The orphan-check below verifies every catalog entry has a
+    // corresponding runtime definition.
     expect(getRegisteredMysteryDefinitionCount()).toBeGreaterThanOrEqual(
       CANONICAL_MYSTERY_ENGINE_COUNT,
     );
@@ -65,8 +65,8 @@ describe("Mystery Engine catalog", () => {
     expect(getOrphanCatalogEntries()).toHaveLength(0);
   });
 
-  it("all 6 arcs are canonically complete (5/5 episodes authored)", () => {
-    expect(getCompletedArcCount()).toBe(6);
+  it("all 8 arcs are canonically complete (5/5 episodes authored)", () => {
+    expect(getCompletedArcCount()).toBe(8);
     for (const arc of MYSTERY_ENGINE_ARCS) {
       const status = getArcAuthoringStatus(arc.arcId);
       expect(status.status).toBe("complete");
@@ -97,12 +97,24 @@ describe("Identity-collision resolution for arc lookup", () => {
     );
   });
 
-  it("findArcForCharacter('The Red Death') resolves to NO arc " +
-     "(no Akai Shi mystery engine yet)", () => {
-    // Akai Shi has a canonical identity manifold but no Mystery Engine
-    // arc registered. The catalog correctly returns null rather than
-    // inventing one.
-    expect(findArcForCharacter("The Red Death")).toBeNull();
+  it("findArcForCharacter('The Red Death') resolves to akai_shi_red_death " +
+     "(alias collision via manifold)", () => {
+    // Akai Shi's identity manifold registers "The Red Death" as her
+    // post-resurrection canonical alias. With the DLC arc now in the
+    // catalog, the lookup resolves to it.
+    expect(findArcForCharacter("The Red Death")?.arcId).toBe(
+      "arc.dlc.akai_shi_red_death",
+    );
+  });
+
+  it("findArcForCharacter('Lycos') resolves to wolf_anara_hunt " +
+     "(pre-resurrection alias)", () => {
+    // Per dreamer-canon §I.1a: Lycos is the Wolf's pre-resurrection
+    // name. The identity manifold registers the alias; the Wolf · Anara
+    // Hunt DLC arc is its catalog binding.
+    expect(findArcForCharacter("Lycos")?.arcId).toBe(
+      "arc.dlc.wolf_anara_hunt",
+    );
   });
 
   it("findArcForCharacter for unknown character returns null", () => {
@@ -186,9 +198,12 @@ describe("Saga-act gating", () => {
     ]);
   });
 
-  it("Act 3 unlocks the Degen arc on top of Act 2 arcs", () => {
+  it("Act 3 unlocks the Degen + Wolf + Akai Shi arcs on top of Act 2 arcs", () => {
     const arcs = getArcsAvailableAtAct(3);
-    expect(arcs.map((a) => a.arcId)).toContain("arc.the_degen");
+    const ids = arcs.map((a) => a.arcId);
+    expect(ids).toContain("arc.the_degen");
+    expect(ids).toContain("arc.dlc.wolf_anara_hunt");
+    expect(ids).toContain("arc.dlc.akai_shi_red_death");
   });
 
   it("Act 4 unlocks the Game Master arc", () => {
@@ -196,13 +211,13 @@ describe("Saga-act gating", () => {
     expect(arcs.map((a) => a.arcId)).toContain("arc.game_master");
   });
 
-  it("Act 5 unlocks all 6 arcs (including spoiler-protected vex_solene)", () => {
-    expect(getArcsAvailableAtAct(5)).toHaveLength(6);
+  it("Act 5 unlocks all 8 arcs (including spoiler-protected vex_solene)", () => {
+    expect(getArcsAvailableAtAct(5)).toHaveLength(8);
   });
 
-  it("Acts 6+ also expose all 6 arcs (no gating drift)", () => {
-    expect(getArcsAvailableAtAct(7)).toHaveLength(6);
-    expect(getArcsAvailableAtAct(14)).toHaveLength(6);
+  it("Acts 6+ also expose all 8 arcs (no gating drift)", () => {
+    expect(getArcsAvailableAtAct(7)).toHaveLength(8);
+    expect(getArcsAvailableAtAct(14)).toHaveLength(8);
   });
 });
 
@@ -217,6 +232,18 @@ describe("Cross-bind invariants", () => {
     expect(getMysteryEngineArc(asArc("arc.wraith_calder"))?.manifoldId).toBe(
       "wraith_calder_manifold",
     );
+  });
+
+  it("Wolf · Anara Hunt arc binds to wolf_manifold", () => {
+    expect(
+      getMysteryEngineArc(asArc("arc.dlc.wolf_anara_hunt"))?.manifoldId,
+    ).toBe("wolf_manifold");
+  });
+
+  it("Akai Shi · Red Death arc binds to akai_shi_manifold", () => {
+    expect(
+      getMysteryEngineArc(asArc("arc.dlc.akai_shi_red_death"))?.manifoldId,
+    ).toBe("akai_shi_manifold");
   });
 
   it("Arcs without identity-manifold binding have manifoldId: null", () => {

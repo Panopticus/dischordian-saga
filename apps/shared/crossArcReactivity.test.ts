@@ -20,7 +20,7 @@ const arc = (id: string): ArcId => id as ArcId;
 
 describe("Cross-arc reactivity catalog", () => {
   it("registers exactly 6 canonical bindings", () => {
-    expect(CANONICAL_CROSS_ARC_COUNT).toBe(6);
+    expect(CANONICAL_CROSS_ARC_COUNT).toBe(11);
     expect(CROSS_ARC_BINDINGS).toHaveLength(CANONICAL_CROSS_ARC_COUNT);
   });
 
