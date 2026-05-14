@@ -7,7 +7,7 @@
 - [Characters](#characters) (135)
 - [Factions](#factions) (17)
 - [Locations](#locations) (26)
-- [Concepts](#concepts) (153)
+- [Concepts](#concepts) (168)
 - [Events](#events) (44)
 - [Artifacts](#artifacts) (16)
 - [Songs & Transmissions](#songs-transmissions) (118)
@@ -7257,6 +7257,40 @@ Engineer Zero — Vex Solène Arc reference. First unlocked in episode 'The Engi
 
 ---
 
+## Exposure As Softening
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Streamed Prism (Year 1) |
+| **Season** | Season 1 |
+| **Affiliation** | The Ith'Rael Arc |
+| **Status** | Unlocked via Mystery Engine — ith_rael.e4 |
+| **Priority** | normal |
+
+### Dossier
+
+The Director's standing position on exposure: 'Exposure of the working is itself a softening operation. Once published, the working becomes a thing that the cohorts must defend against, which transforms it from an unindexable softening into an indexable threat. Indexable threats are easier to defend against in principle and harder to defend against in practice — because the cohorts then perform defense rituals that satisfy the published-threat condition without actually addressing the underlying softening. Publish me. I welcome it.'
+
+---
+
+## Generation Six Irreversibility
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Streamed Prism (Year 1) |
+| **Season** | Season 1 |
+| **Affiliation** | The Ith'Rael Arc |
+| **Status** | Unlocked via Mystery Engine — ith_rael.e3 |
+| **Priority** | normal |
+
+### Dossier
+
+Generational analysis indicates the Severance corruption became irreversible at Thaloria's Generation Six recertification cycle — when, for the first time, no living Thalorian had personally encountered an active Hierarchy operation. The Director's engagement note for that cycle is two words: 'It holds.' Three generations later the bindings broke.
+
+---
+
 ## Handoff as Legacy
 
 | Field | Value |
@@ -7302,6 +7336,23 @@ A cipher-den finding: forty infernal clauses, forty seasons, one writer. The han
 ### Dossier
 
 The metaphor the Antiquarian was given for Yog-Nathal's relationship to the Hierarchy: the Hierarchy is not Yog-Nathal's servant. The Hierarchy is its bacteria. Bacteria do not serve a body — they do not know there is a body. They live and die at scales the body considers weather. Every COO, SVP, and Director the player walked past in Season 1 was, by this metaphor, weather.
+
+---
+
+## Hierarchy Credit Distribution
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Streamed Prism (Year 1) |
+| **Season** | Season 1 |
+| **Affiliation** | The Ith'Rael Arc |
+| **Status** | Unlocked via Mystery Engine — ith_rael.e1 |
+| **Priority** | normal |
+
+### Dossier
+
+The Hierarchy is canonically a corporation; corporations distribute credit. The Severance produced eleven separate after-action commendations; the Director's commendation was filed ten years AFTER the bindings broke, citing 'the patience of the working' as the Hierarchy's most valuable institutional asset.
 
 ---
 
@@ -7705,6 +7756,23 @@ Tarn's forty-minute Year-1 argument against including Module 17 in the Mechronis
 
 ---
 
+## Thaloria's Self-Corruption
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Streamed Prism (Year 1) |
+| **Season** | Season 1 |
+| **Affiliation** | The Ith'Rael Arc |
+| **Status** | Unlocked via Mystery Engine — ith_rael.e3 |
+| **Priority** | normal |
+
+### Dossier
+
+Thaloria corrupted itself, generation by generation, with the Director's gentle and patient encouragement. The Whisperer never breached the defenses; the Whisperer talked to each cohort's recertification examiners about how long it had been since anything had happened. Each generation set a slightly easier test for the next. By the ninth generation, the recertification was a formality. The corruption was procedural before it was substantive.
+
+---
+
 ## The 'L.' Signature
 
 | Field | Value |
@@ -7736,6 +7804,23 @@ Every post-act inbox letter Adjudicar Locke sends the player is signed 'L.' — 
 ### Dossier
 
 The 347,000 Names — Wraith Calder Arc reference. First unlocked in episode 'The Herald's Vigil' (wraith.e5). Episode context: The Hierophant writes 347,000 names every morning. The case's resolution is a ceremony, not a verdict. Stand in the Sanctuary's antechamber while he works, and choose — when he hands you the stylus — which name you inscribe with him. The Oracle is invoked. The Oracle does not appear.
+
+---
+
+## The Advocate On Time, Too Late
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Streamed Prism (Year 1) |
+| **Season** | Season 1 |
+| **Affiliation** | The Ith'Rael Arc |
+| **Status** | Unlocked via Mystery Engine — ith_rael.e3 |
+| **Priority** | normal |
+
+### Dossier
+
+The Advocate attempted a corrective intervention at Thalorian Generation Eight, recognizing too late what was happening. By Generation Eight, the Thalorian receiving cohort had no operational memory against which to evaluate the Advocate's claim. The Advocate's notes close: 'I came too late. I was on time. The two are not the same.' The structural problem the working's pace creates: by the moment of intervention, the listeners' frame of reference no longer includes the urgency the warner is trying to communicate.
 
 ---
 
@@ -8085,6 +8170,57 @@ The Degen's Commission — Jericho Jones Arc reference. First unlocked in episod
 ### Dossier
 
 The Degen's Letter to the Saga — The Degen Arc reference. First unlocked in episode 'The Settlement at the Empty Table' (degen.e5). Episode context: The senior-partner audit has closed. The Degen has returned to the Ne-Yon casino, to the same chair Mol'Vereth held the night the trusteeship was authored. The chair on the opposite side has been kept empty for the demon's return. Investigate what the two of them put on the table this time, what the trusteeship becomes after the audit, and how the arc closes around the editor and the demon.
+
+---
+
+## The Director Meeting Record
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Streamed Prism (Year 1) |
+| **Season** | Season 1 |
+| **Affiliation** | The Ith'Rael Arc |
+| **Status** | Unlocked via Mystery Engine — ith_rael.e5 |
+| **Priority** | normal |
+
+### Dossier
+
+The single canonical recorded conversation between Ith'Rael and an outside party. Hand-couriered invitation, no Hierarchy comms used. Three-principle explanation: the world is held together by indexed memory; indexed memory can be unindexed without violence; the cohorts who hold indexed memory will, given time and gentle conversation, agree the indexing was unnecessary. The Director did not defend the working. He explained it. The choice of how to carry the explanation forward is itself part of the explanation.
+
+---
+
+## The Director's Current Operations
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Streamed Prism (Year 1) |
+| **Season** | Season 1 |
+| **Affiliation** | The Ith'Rael Arc |
+| **Status** | Unlocked via Mystery Engine — ith_rael.e4 |
+| **Priority** | normal |
+
+### Dossier
+
+Ith'Rael is currently softening at least three present-tense institutional defenses: the New Babylon Authority's self-audit cadence (slowed by 47% across two centuries without documented decision); the Insurgency's resurrectionist-protocol oversight (relaxed across three generations as personally-witnessing members aged out); the Mechronis Academy's spy-class certification (test items shifted from operational scenarios to theoretical exam questions). Three concurrent operations, one signature, no force used.
+
+---
+
+## The Director's Doctrine
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Streamed Prism (Year 1) |
+| **Season** | Season 1 |
+| **Affiliation** | The Ith'Rael Arc |
+| **Status** | Unlocked via Mystery Engine — ith_rael.e1 |
+| **Priority** | normal |
+
+### Dossier
+
+Ith'Rael's standing instruction to Special Projects: 'We do not force outcomes. We soften the conditions until the outcome emerges on its own. Force makes a target defensive; softening makes the target a participant. The Severance will be undone if it is taken; it will hold if it is given. Our work is to make it given.' The doctrine compresses the working's whole strategy into four sentences.
 
 ---
 
@@ -8465,6 +8601,23 @@ The Iron Lion Imprint — Jericho Jones Arc reference. First unlocked in episode
 ### Dossier
 
 After Mol'Garath's audience unlocks, every Engineer holo-recording surfaces a margin annotation in his voice — a retroactive footnote citing which Architect-designed trap that recording was disassembling. The Engineer left the trap-list at the end of the Labyrinth; Mol'Garath has been keeping it. The annotations ship the receipts.
+
+---
+
+## The Long View
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Streamed Prism (Year 1) |
+| **Season** | Season 1 |
+| **Affiliation** | The Ith'Rael Arc |
+| **Status** | Unlocked via Mystery Engine — ith_rael.e5 |
+| **Priority** | normal |
+
+### Dossier
+
+The Director's closing courtesy to the player: 'The next time the working surfaces in your case-file, it will be in a form you do not yet recognize — because if you recognized it now, I would already have changed it. I wish you the long view. It is the only view that approximates mine.' The long view is the only frame in which the working's adaptation is visible across cycles.
 
 ---
 
@@ -8916,6 +9069,40 @@ The role registry's seventh slot. Number VII; no name; no band; no audience; one
 
 ---
 
+## The Severance — A Single Hand
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Streamed Prism (Year 1) |
+| **Season** | Season 1 |
+| **Affiliation** | The Ith'Rael Arc |
+| **Status** | Unlocked via Mystery Engine — ith_rael.e1 |
+| **Priority** | normal |
+
+### Dossier
+
+The Severance was a single Director's working. The Hierarchy of the Damned's internal org chart credits Ith'Rael the Whisperer (Director, Special Projects) with the operation that broke the ancient bindings. Co-leads Zyr'Koth (R&D) and Drael'Mon (Consumer) supported, but the working's authorship is canonically singular.
+
+---
+
+## The Severance As Unindexing
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Streamed Prism (Year 1) |
+| **Season** | Season 1 |
+| **Affiliation** | The Ith'Rael Arc |
+| **Status** | Unlocked via Mystery Engine — ith_rael.e2 |
+| **Priority** | normal |
+
+### Dossier
+
+The Severance was not the breaking of the bindings; the Severance was the unindexing of the reasons the bindings had been written. By the time the bindings broke, no system could retrieve the cause for which they had been engineered. The breaking was a formality; the working was the unindexing.
+
+---
+
 ## The Severance Inheritance Protocol (Written)
 
 | Field | Value |
@@ -9117,6 +9304,23 @@ The Two-Person Collaboration — The Degen Arc reference. First unlocked in epis
 
 ---
 
+## The Unindexing Doctrine
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Streamed Prism (Year 1) |
+| **Season** | Season 1 |
+| **Affiliation** | The Ith'Rael Arc |
+| **Status** | Unlocked via Mystery Engine — ith_rael.e2 |
+| **Priority** | normal |
+
+### Dossier
+
+The Shadow Tongue's method is unindexing, not editing. The world remembers; the chronicle no longer indexes the remembering. To a system trying to act on memory, the unindexed memory is functionally absent. The Director's tool is the Shadow Tongue; the Director's art is unindexing.
+
+---
+
 ## The Unmarked Succession
 
 | Field | Value |
@@ -9248,6 +9452,23 @@ On Zenon, after Agent Zero destroyed Archon Xeth'Raal under Hierarchy contract, 
 
 ---
 
+## Three Concurrent Softenings
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Streamed Prism (Year 1) |
+| **Season** | Season 1 |
+| **Affiliation** | The Ith'Rael Arc |
+| **Status** | Unlocked via Mystery Engine — ith_rael.e4 |
+| **Priority** | normal |
+
+### Dossier
+
+The Director runs three present-tense softening operations across unrelated factions whose institutional priorities do not align. Choosing one to attack is structurally the same as agreeing the other two are tolerable. The cohorts will agree. The agreement IS the softening.
+
+---
+
 ## Top Floor Door
 
 *Also known as: Corporate Inferno*
@@ -9314,6 +9535,40 @@ Training Files Metadata — Vex Solène Arc reference. First unlocked in episode
 ### Dossier
 
 Treasurer's Release in Advance — The Degen Arc reference. First unlocked in episode 'The Senior Partners Notice' (degen.e4). Episode context: The Hierarchy's senior partners — Mol'Vereth's superiors — have opened a routine audit of the demon's trustee portfolio. The audit is ostensibly procedural; one of the senior partners is Ozhul'Vana, the same monetisation-minded officer who threatened the Matrix of Dreams. Investigate what they have noticed, what Mol'Vereth's marginalia have so far obscured, and whether the Coda's funding line survives review.
+
+---
+
+## Unindexable Meaning
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Streamed Prism (Year 1) |
+| **Season** | Season 1 |
+| **Affiliation** | The Ith'Rael Arc |
+| **Status** | Unlocked via Mystery Engine — ith_rael.e2 |
+| **Priority** | normal |
+
+### Dossier
+
+Meaning that lives outside the indexable layer is, in practice, beyond the Director's reach. Documented examples: Darren Fessler's letters with one real sentence buried under a page of small talk; the Order's wax-seal glyph visible only when the seal is broken from the inside; the Resistance Branch's millennia-long underground survival; Old Tanjin's lifespan. Each of these structures hides meaning in practice rather than in record.
+
+---
+
+## Unindexable Practice
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Streamed Prism (Year 1) |
+| **Season** | Season 1 |
+| **Affiliation** | The Ith'Rael Arc |
+| **Status** | Unlocked via Mystery Engine — ith_rael.e5 |
+| **Priority** | normal |
+
+### Dossier
+
+The structures the Director's doctrine cannot price share a common architecture: meaning that is not in the indexable record but is in the practice of the people who hold it. Every action against the working must be carried forward in unindexable practice, not in indexed reform. The arc's hard offering: the working continues; the unindexable practice is the player's only useful response.
 
 ---
 

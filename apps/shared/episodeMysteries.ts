@@ -38,6 +38,7 @@ export const ARC_VEX_SOLENE     = "arc.vex_solene"     as ArcId;
 export const ARC_GAME_MASTER    = "arc.game_master"    as ArcId;
 export const ARC_THE_DEGEN      = "arc.the_degen"      as ArcId;
 export const ARC_THE_WATCHER    = "arc.the_watcher"    as ArcId;
+export const ARC_ITH_RAEL       = "arc.ith_rael"       as ArcId;
 
 /* ─── LENSES ─── */
 /* Six canonical faction lenses. Per §14c.8 each lens persists
@@ -4393,6 +4394,628 @@ const THE_WATCHER_MYSTERY: MysteryDefinition = {
   ],
 };
 
+/* ═══════════════════════════════════════════════════════
+   ITH'RAEL ARC — "The Centuries Were the Working"
+   The Severance was not an event. It was a working — slow,
+   patient, multi-generational, conducted by a single
+   Director of Special Projects whose method was never to
+   force a change, only to soften the conditions until the
+   change emerged on its own. Ith'Rael the Whisperer
+   (apps/shared/hierarchyCanon.ts:172-186) is the working's
+   author. The arc investigates HOW the Severance happened,
+   not WHAT it produced — and surfaces the disturbing fact
+   that Ith'Rael is still working, in the saga's present,
+   on operations the player has not yet learned to see.
+
+   Cross-references:
+     - LORE_BIBLE.md (Marion Kell, Darren Fessler) — the
+       Shadow Tongue's editing pattern
+     - apps/shared/hierarchyCanon.ts (Drael'Mon, Zyr'Koth) —
+       the operational chain Ith'Rael fed
+     - apps/shared/hierarchyCanon.ts:HIERARCHY_AEONS_PIECE_POSITIONING
+       — the meta-faction's piece-positioning canon Ith'Rael
+       is one canonical operator of
+   ═══════════════════════════════════════════════════════ */
+
+/* ─── ITH'RAEL ARC — E1 ─── */
+/* E1: "A Single Hand"
+   The Severance had a single orchestrator. The case opens
+   on a record the Hierarchy itself does not redact —
+   because the Hierarchy is proud of him. */
+
+const ithRaelE1: EpisodeDefinition = {
+  id: "ith_rael.e1" as EpisodeId,
+  arcId: ARC_ITH_RAEL,
+  ordinal: 1,
+  title: "A Single Hand",
+  summary:
+    "The Severance broke the ancient bindings and freed the Hierarchy of the Damned to wage war across the multiverse. Most accounts treat it as a multi-actor cataclysm. The Hierarchy's own records — accessible to anyone who can read corporate org charts — credit a single operator: Ith'Rael the Whisperer, Director of Special Projects. Investigate how a single Director, on a centuries-long timetable, executed the largest cosmological breach in the saga's record.",
+  clues: [
+    {
+      id: "ith_rael.e1.hierarchy_org_chart" as ClueId,
+      title: "The Hierarchy's Severance Project Org Chart",
+      body: "The Hierarchy of the Damned files internal credit the way every corporation does: by project, by lead, by deliverable. The Severance is filed under Special Projects, lead Ith'Rael the Whisperer, Director. Co-leads: Zyr'Koth (R&D, refined the Blood Weave into the Severance Protocol — apps/shared/hierarchyCanon.ts:160-162); Drael'Mon (Consumer, devoured what the Shadow Tongue softened — apps/shared/hierarchyCanon.ts:208-210). The org chart shows Ith'Rael at the top of a single reporting line. The Severance is, by the Hierarchy's own internal accounting, his.",
+      foundIn: "war-room",
+    },
+    {
+      id: "ith_rael.e1.shadow_tongue_signature" as ClueId,
+      title: "The Shadow Tongue's Editing Signature",
+      body: "The Shadow Tongue is not merely a language; it is an editing apparatus. Cross-reference its operational signature: it does not destroy records, it removes them — surgically, with the formatting fields and the connections-graph entries and the memory-of-the-name from anyone who knew the subject. Marion Kell (LORE_BIBLE.md:113-136) is the documented case. The signature is Ith'Rael's: subtraction without trace, performed across the chronicle layer rather than the physical layer. The Shadow Tongue is his instrument; the editing is his art form.",
+      foundIn: "comms-array",
+    },
+    {
+      id: "ith_rael.e1.no_force_only_softening" as ClueId,
+      title: "The Director's Operational Doctrine",
+      body: "An internal Hierarchy memo, dated to the early Severance preparation: 'Department of Special Projects standing instruction. We do not force outcomes. We soften the conditions until the outcome emerges on its own. Force makes a target defensive; softening makes the target a participant. The Severance will be undone if it is taken; it will hold if it is given. Our work is to make it given.' Signed: Ith'Rael, Director. The doctrine is the working's whole strategy condensed into four sentences.",
+      foundIn: "antiquarian-library",
+    },
+    {
+      id: "ith_rael.e1.hierarchy_internal_credit" as ClueId,
+      title: "Hierarchy Internal Credit Distribution",
+      body: "The Hierarchy is canonically a corporation. Corporations distribute credit. Per the Hierarchy's internal accounting, the Severance produced eleven separate after-action commendations: four to Drael'Mon (consumption efficiency), three to Zyr'Koth (protocol refinement), one each to Riri'Ahlia (operational logistics), Mol'Garath (CEO sign-off), Syl'Vex (corruption support), and Ith'Rael — the Director's commendation, dated ten years after the bindings broke, citing 'the patience of the working' as the Hierarchy's most valuable institutional asset. The dating matters: ten years AFTER, not at the moment.",
+      foundIn: "trade-hub",
+    },
+  ],
+  deductions: [
+    {
+      id: "ith_rael.e1.d.severance_was_one_directors_working" as DeductionId,
+      clueA: "ith_rael.e1.hierarchy_org_chart" as ClueId,
+      clueB: "ith_rael.e1.no_force_only_softening" as ClueId,
+      result: "correct",
+      narrationId: "ith_rael.e1.n.a_single_hand",
+      narrationProse:
+        "The Severance was a single Director's working. Ith'Rael had the org-chart authority to do it, the operational doctrine to execute it across centuries, and the institutional credit to claim it ten years afterward without comment from the C-suite. The Hierarchy's own records do not redact him because the Hierarchy is proud — they consider the Severance the most successful Special Projects engagement in their corporate history. The case's operational frame is now clear: we are not investigating an event; we are investigating a method. The method is patience. The instrument is the Shadow Tongue. The result is that the Hierarchy is currently free to operate across the saga's present, and Ith'Rael is currently still Director.",
+      unlocksEpisode: "ith_rael.e2" as EpisodeId,
+    },
+    {
+      id: "ith_rael.e1.d.shadow_tongue_is_the_chisel" as DeductionId,
+      clueA: "ith_rael.e1.shadow_tongue_signature" as ClueId,
+      clueB: "ith_rael.e1.no_force_only_softening" as ClueId,
+      result: "partial",
+      narrationId: "ith_rael.e1.n.subtraction_without_trace",
+      narrationProse:
+        "The Shadow Tongue's signature — subtraction without trace, performed at the chronicle layer — is the operational expression of the doctrine 'we do not force outcomes; we soften the conditions.' You cannot force a defensive system that is editing its own threat-detection in real time. You can only edit faster than the system can write itself back. The Shadow Tongue is Ith'Rael's chisel; the chronicle is the stone. The Marion Kell case (LORE_BIBLE.md:113-136) is the documented small-scale demonstration; the Severance was the large-scale execution.",
+    },
+    {
+      id: "ith_rael.e1.d.false_lead_severance_was_brute_force" as DeductionId,
+      clueA: "ith_rael.e1.hierarchy_org_chart" as ClueId,
+      clueB: "ith_rael.e1.shadow_tongue_signature" as ClueId,
+      result: "false_lead_named",
+      narrationId: "ith_rael.e1.n.not_brute_force",
+      narrationProse:
+        "Reading the Severance as a brute-force breaking is the obvious move and the wrong one. The ancient bindings were not engineered to fail under force — they had been holding under force for the entire Hierarchy's pre-Severance imprisonment. They were engineered to fail under the absence of opposition. The Shadow Tongue removed the opposition by removing the records that constituted it. The Severance succeeded because, by the time the bindings broke, no one alive remembered why they had been written. Force was never the threat; forgetting was. The doctrine 'we do not force outcomes' is not euphemism. It is method.",
+    },
+  ],
+  choices: [
+    {
+      id: "ith_rael.e1.c.read_the_director_as_a_problem_to_solve" as ChoiceId,
+      label: "Read the Director as a problem to solve — investigate his current operations.",
+      weight: "operational",
+    },
+    {
+      id: "ith_rael.e1.c.read_the_method_as_a_doctrine_to_learn" as ChoiceId,
+      label: "Read the method as a doctrine to study — softening as institutional craft.",
+      weight: "scholarly",
+    },
+    {
+      id: "ith_rael.e1.c.cross_reference_the_marion_kell_pattern" as ChoiceId,
+      label: "Cross-reference the Marion Kell editing — examine the Shadow Tongue's small-scale signature.",
+      weight: "investigative",
+    },
+  ],
+  contentBundle: {
+    songId: "album1.t10", /* "Inner Circle" — Dischordian Logic Act 1 */
+    slideshowId: "album1.t10",
+    loredexUnlocks: [
+      "concept_severance_a_single_hand",
+      "concept_directors_doctrine",
+      "concept_hierarchy_credit_distribution",
+    ],
+    conspiracyDiscoveries: [
+      "single_director_orchestration",
+      "shadow_tongue_signature",
+      "softening_doctrine",
+      "ten_year_commendation",
+    ],
+    dropAt: "episode_close",
+  },
+};
+
+/* ─── ITH'RAEL ARC — E2 ─── */
+/* E2: "Marion Kell, Read Slowly"
+   The Marion Kell editing is documented in the Chronicle.
+   Read it slowly enough and the Director's full method
+   becomes visible — the Shadow Tongue is not editing
+   names, it is editing the conditions of recognition. */
+
+const ithRaelE2: EpisodeDefinition = {
+  id: "ith_rael.e2" as EpisodeId,
+  arcId: ARC_ITH_RAEL,
+  ordinal: 2,
+  title: "Marion Kell, Read Slowly",
+  summary:
+    "Marion Kell was edited out of Ark 1047's Chronicle four centuries before the Fall (LORE_BIBLE.md:113-136). The case is documented; the Inventor restored partial visibility through three Palimpsest broadcasts. Reading the editing slowly — clue by clue, formatting field by formatting field — surfaces a pattern the Inventor's restoration did not name: the Shadow Tongue does not edit names. It edits the conditions under which a name can be recognized. Investigate what that means for the Severance and for the saga's present.",
+  clues: [
+    {
+      id: "ith_rael.e2.kell_chronicle_excision" as ClueId,
+      title: "The Marion Kell Chronicle Excision",
+      body: "Per LORE_BIBLE.md:113-136: Marion Kell's Chronicle entry, her connections-graph nodes, the formatting-field thank-you notes, and the memory-of-her in Elara's substrate architecture were all surgically removed by the Shadow Tongue. The excision held for four centuries before the Inventor's broadcast intrusions partially restored her visibility (Palimpsest Episodes 4, 9, and 13). The technical signature is unique to the Shadow Tongue; no other operator in the saga's record has this combination of precision and reach.",
+      foundIn: "comms-array",
+    },
+    {
+      id: "ith_rael.e2.what_was_not_edited" as ClueId,
+      title: "What the Shadow Tongue Did Not Edit",
+      body: "Cross-reference the parts of Marion Kell's footprint that the Shadow Tongue did NOT touch: the wood grain of the desk she used, the stains on the mug she drank from, the undusted spot on the shelf where her photograph had stood. Physical residue. Archaeological evidence. The Shadow Tongue does not edit the world; it edits the chronicle of the world. The world remembers Marion Kell in unindexed forms — but the indexing is what allows recognition. Without the indexing, the residue is just residue. The Director understands what indexing is for.",
+      foundIn: "engineering",
+    },
+    {
+      id: "ith_rael.e2.darren_fessler_resistance" as ClueId,
+      title: "Why Darren Fessler's Entry Could Not Be Edited",
+      body: "Per LORE_BIBLE.md:31-36: Darren Fessler died between Palimpsest Episodes 11 and 12; the Shadow Tongue attempted to edit his Loredex entry within six hours and failed for the first time in four hundred years. The cause is unexplained in the saga's open record. Cross-correlation against the Director's doctrine ('we do not force outcomes; we soften the conditions') suggests the failure mechanism: Darren had spent decades writing letters to contestants in which 'each of his letters contained one real sentence buried under a page of small talk.' The buried sentences were unindexed by design. There was nothing for the Shadow Tongue to subtract; the meaning was hidden where indexing could not reach.",
+      foundIn: "antiquarian-library",
+    },
+    {
+      id: "ith_rael.e2.indexing_doctrine" as ClueId,
+      title: "The Director's Indexing Doctrine (inferred)",
+      body: "Architect's note in the Antiquarian's archive: 'The Shadow Tongue is not an editor of names, persons, or events. It is an editor of the conditions that allow recognition. To remove a person from the chronicle is to remove the indexing under which the person can be found, not to remove the person. The Director's doctrine therefore is not destruction but unindexing. This is harder to undo than destruction. Destruction leaves a void. Unindexing leaves a complete chronicle that no one can find what they need in.'",
+      foundIn: "antiquarian-library",
+    },
+  ],
+  deductions: [
+    {
+      id: "ith_rael.e2.d.unindexing_is_the_method" as DeductionId,
+      clueA: "ith_rael.e2.what_was_not_edited" as ClueId,
+      clueB: "ith_rael.e2.indexing_doctrine" as ClueId,
+      result: "correct",
+      narrationId: "ith_rael.e2.n.indexing_is_the_lever",
+      narrationProse:
+        "The Shadow Tongue's method is unindexing, not editing. The world remembers; the chronicle no longer indexes the remembering. To a system trying to act on memory — Elara's substrate, the Hierarchy's own internal records, the Insurgency's tactical intelligence — the unindexed memory is functionally absent. The Severance was not the breaking of the bindings; the Severance was the unindexing of the reasons the bindings had been written. By the time the bindings broke, no system could retrieve the cause for which they had been engineered. The breaking was, by then, a formality. The Director's working was the unindexing. The breaking was the receipt.",
+      unlocksEpisode: "ith_rael.e3" as EpisodeId,
+    },
+    {
+      id: "ith_rael.e2.d.darren_resistance_pattern" as DeductionId,
+      clueA: "ith_rael.e2.darren_fessler_resistance" as ClueId,
+      clueB: "ith_rael.e2.indexing_doctrine" as ClueId,
+      result: "partial",
+      narrationId: "ith_rael.e2.n.unindexable_meaning",
+      narrationProse:
+        "Darren Fessler resisted by being unindexable from the start. His meaningful sentences were buried under indexable noise; the Shadow Tongue could not subtract what it could not locate. The principle is generalizable: anyone who structures their meaning so that the meaning is not in the indexing layer is editable only with violence. The Director does not use violence — the doctrine forbids force. Therefore, anyone whose meaning lives outside the indexing layer is, in practice, beyond the Director's reach. The Order's wax-seal glyph, visible only when the seal is broken from the inside (the_watcher.e2.locke_signature_pattern), is one of these structures. The Resistance Branch's millennia-long survival is another.",
+    },
+    {
+      id: "ith_rael.e2.d.false_lead_inventor_can_undo_severance" as DeductionId,
+      clueA: "ith_rael.e2.kell_chronicle_excision" as ClueId,
+      clueB: "ith_rael.e2.darren_fessler_resistance" as ClueId,
+      result: "false_lead_named",
+      narrationId: "ith_rael.e2.n.restoration_is_local",
+      narrationProse:
+        "Reading the Inventor's Marion Kell restoration as evidence that the Severance can be undone is the obvious move and the wrong one. The Inventor restored partial visibility for ONE individual across THREE broadcasts, working at the limit of his capacity, exploiting a specific Palimpsest-era audio-visual loophole the Director did not anticipate. Scaling that to the Severance — undoing the unindexing of the entire pre-Severance binding-rationale — is structurally beyond any single restoration operation. The Severance is, in the operative sense, irreversible. The case's operational frame must accept this: the Director's working has held; the question is what he is currently working on.",
+    },
+  ],
+  choices: [
+    {
+      id: "ith_rael.e2.c.audit_for_current_unindexing" as ChoiceId,
+      label: "Audit the saga's present-tense chronicle for active unindexing operations.",
+      weight: "investigative",
+    },
+    {
+      id: "ith_rael.e2.c.protect_unindexable_meaning_structures" as ChoiceId,
+      label: "Identify and protect the saga's existing unindexable meaning structures.",
+      weight: "defensive",
+    },
+    {
+      id: "ith_rael.e2.c.consult_inventor_on_method" as ChoiceId,
+      label: "Consult the Inventor on the limits of restoration — what can and cannot be brought back.",
+      weight: "scholarly",
+    },
+  ],
+  contentBundle: {
+    songId: "album1.t12", /* "I Am The Eyes That Watch" — observation/presence */
+    slideshowId: "album1.t12",
+    loredexUnlocks: [
+      "concept_unindexing_doctrine",
+      "concept_unindexable_meaning",
+      "concept_severance_as_unindexing",
+    ],
+    conspiracyDiscoveries: [
+      "shadow_tongue_method",
+      "kell_excision_pattern",
+      "darren_resistance",
+      "indexing_lever",
+    ],
+    dropAt: "episode_close",
+  },
+};
+
+/* ─── ITH'RAEL ARC — E3 ─── */
+/* E3: "Thaloria, Generation by Generation"
+   The Severance corrupted Thaloria over centuries. The
+   case examines how — and finds that the corruption was
+   not done to Thaloria but performed BY Thaloria, after
+   the Director softened the conditions enough that each
+   generation handed the next a slightly less defensible
+   version of itself. */
+
+const ithRaelE3: EpisodeDefinition = {
+  id: "ith_rael.e3" as EpisodeId,
+  arcId: ARC_ITH_RAEL,
+  ordinal: 3,
+  title: "Thaloria, Generation by Generation",
+  summary:
+    "The Severance corrupted Thaloria; the corruption was the working's mechanism. Conventional accounts treat the corruption as something done TO Thaloria — an external assault. The Director's archived notes treat it differently: the corruption was performed BY Thaloria, generation by generation, after the Director softened the conditions enough that each generation could hand the next a slightly less defensible version of itself. Investigate the centuries-long handoff and the moment it became irreversible.",
+  clues: [
+    {
+      id: "ith_rael.e3.thaloria_generational_records" as ClueId,
+      title: "Thaloria's Generational Defense Records",
+      body: "Thaloria's pre-Severance defense doctrine was canonically rigorous: the Empire of Shadows used the Blood Weave defensively (apps/shared/hierarchyCanon.ts:21 — the Hierarchy's antithesis), and Thalorian generations were trained, tested, and recertified across a multi-decade ritual cadence. The defense records show no corruption event. They show, across nine generations, a slow and consensual relaxation of the recertification standards. Each generation passed the test the previous generation had set; each generation set a slightly easier test for the next. By the ninth generation, the recertification was a formality. The corruption was procedural before it was substantive.",
+      foundIn: "war-room",
+    },
+    {
+      id: "ith_rael.e3.directors_engagement_notes" as ClueId,
+      title: "The Director's Engagement Notes (recovered fragments)",
+      body: "Three pages of Ith'Rael's working notes, recovered from a Hierarchy R&D archive Zyr'Koth was reorganizing: 'Generation N+1 will not believe the threat exists if Generation N has not personally encountered it. Therefore: ensure Generation N does not personally encounter it. The Whisperer is patient. The Whisperer is gentle. The Whisperer says: it has been a long time since anything happened. It is true. It will continue to be true. Therefore, the standards may be relaxed. Therefore, the standards have been relaxed. Therefore, the standards were never necessary.' The handwriting is the Director's. The marginalia: 'Tested on cohort 4. Holds.'",
+      foundIn: "antiquarian-library",
+    },
+    {
+      id: "ith_rael.e3.point_of_no_return" as ClueId,
+      title: "The Point of No Return — Generation Six",
+      body: "Generational analysis indicates the Severance corruption became irreversible at Generation Six's recertification cycle. At Generation Six, for the first time, no living Thalorian had personally encountered an active Hierarchy operation. The recertification examiners had only their predecessors' records to inform them; their predecessors' records had been authored by examiners who themselves had never encountered an operation. The Director's engagement note for that cycle is two words: 'It holds.' Three generations later the bindings broke. The breaking was the receipt; the irreversibility was at Generation Six.",
+      foundIn: "antiquarian-library",
+    },
+    {
+      id: "ith_rael.e3.advocate_response_recovery" as ClueId,
+      title: "The Advocate's Late-Cycle Response (recovered)",
+      body: "The Advocate (apps/shared/hierarchyCanon.ts:21 — the saga's primary canonical resistance to the Hierarchy) attempted a corrective intervention at Generation Eight, recognizing too late what was happening. The intervention failed for the reason the Director's doctrine predicts: by Generation Eight, the Thalorian receiving cohort had no operational memory against which to evaluate the Advocate's claim. The Advocate spoke a language of urgency to listeners whose own records said urgency had not been required for two centuries. The intervention was politely declined. The Advocate's notes — preserved by the Antiquarian — close: 'I came too late. I was on time. The two are not the same.'",
+      foundIn: "antiquarian-library",
+    },
+  ],
+  deductions: [
+    {
+      id: "ith_rael.e3.d.thaloria_corrupted_itself" as DeductionId,
+      clueA: "ith_rael.e3.thaloria_generational_records" as ClueId,
+      clueB: "ith_rael.e3.directors_engagement_notes" as ClueId,
+      result: "correct",
+      narrationId: "ith_rael.e3.n.consent_through_softening",
+      narrationProse:
+        "Thaloria corrupted itself, generation by generation, with the Director's gentle and patient encouragement. The Whisperer never breached the defenses; the Whisperer talked to each cohort's recertification examiners about how long it had been since anything had happened. The cohorts agreed. They relaxed the standards. The next cohort agreed even more. The corruption was procedural for nine generations and substantive for one — and by then no living defender remembered why the standards had been written. The doctrine 'we do not force outcomes; we soften the conditions' is most fully expressed in this arc: the conditions were softened across two centuries until the bindings broke without resistance.",
+      unlocksEpisode: "ith_rael.e4" as EpisodeId,
+    },
+    {
+      id: "ith_rael.e3.d.advocate_was_on_time" as DeductionId,
+      clueA: "ith_rael.e3.point_of_no_return" as ClueId,
+      clueB: "ith_rael.e3.advocate_response_recovery" as ClueId,
+      result: "partial",
+      narrationId: "ith_rael.e3.n.too_late_was_on_time",
+      narrationProse:
+        "The Advocate's note — 'I came too late. I was on time. The two are not the same.' — names the structural problem the working's pace creates. By the moment of intervention, the listeners' frame of reference no longer included the urgency the Advocate was trying to communicate. The intervention was rejected on procedural grounds: the listeners' records did not show urgency had ever been required, so the urgency-claim could not be processed. The Advocate was on time in the absolute sense; he was too late in the only sense that mattered. The doctrine compresses centuries of preparation into a single closed door.",
+    },
+    {
+      id: "ith_rael.e3.d.false_lead_thaloria_was_attacked" as DeductionId,
+      clueA: "ith_rael.e3.thaloria_generational_records" as ClueId,
+      clueB: "ith_rael.e3.advocate_response_recovery" as ClueId,
+      result: "false_lead_named",
+      narrationId: "ith_rael.e3.n.not_attacked",
+      narrationProse:
+        "Reading the Severance as an attack on Thaloria is the obvious move and the wrong frame. The records contain no attack — no breach incident, no defender casualty, no defensive deployment. Thaloria's own examiners signed off on every recertification, voluntarily, on schedule, with consensus across the examining boards. The corruption was performed BY Thaloria, with the Director's whispered participation. Naming it 'attack' obscures the doctrine's actual force: the Director did not need to defeat Thaloria's defenses. He needed only Thaloria's defenders to relax them, generation by generation, until relaxation was the institutional posture.",
+    },
+  ],
+  choices: [
+    {
+      id: "ith_rael.e3.c.identify_current_softening" as ChoiceId,
+      label: "Identify softening operations the Director may currently be running on the saga's present-tense factions.",
+      weight: "investigative",
+    },
+    {
+      id: "ith_rael.e3.c.publish_the_method" as ChoiceId,
+      label: "Publish the Director's method openly — let every faction's defenders know the working's shape.",
+      weight: "transparent",
+    },
+    {
+      id: "ith_rael.e3.c.protect_recertification_disciplines" as ChoiceId,
+      label: "Protect the saga's surviving recertification disciplines from the procedural-relaxation pattern.",
+      weight: "defensive",
+    },
+  ],
+  contentBundle: {
+    songId: "album1.t18", /* "Planet of the Wolf" — Thaloria-canon-mapped */
+    slideshowId: "album1.t18",
+    loredexUnlocks: [
+      "concept_thaloria_self_corruption",
+      "concept_advocate_on_time_too_late",
+      "concept_generation_six_irreversibility",
+    ],
+    conspiracyDiscoveries: [
+      "generational_handoff",
+      "directors_engagement_pattern",
+      "advocate_intervention_failure",
+      "consent_through_softening",
+    ],
+    dropAt: "episode_close",
+  },
+};
+
+/* ─── ITH'RAEL ARC — E4 ─── */
+/* E4: "What He Is Currently Working On"
+   The Director did not stop. The arc surfaces three
+   present-tense operations whose softening signature is
+   the working's. The case is which to investigate first
+   and which to expose. */
+
+const ithRaelE4: EpisodeDefinition = {
+  id: "ith_rael.e4" as EpisodeId,
+  arcId: ARC_ITH_RAEL,
+  ordinal: 4,
+  title: "What He Is Currently Working On",
+  summary:
+    "The Director did not stop after the Severance. Patience does not retire. The case surfaces three present-tense operations whose softening signature matches the working's: (1) procedural relaxation in the New Babylon Authority's audit cadence on its own six imprisoned minds, (2) generational handoff degradation in the Insurgency's resurrectionist-protocol oversight, (3) recertification-cadence loosening in the Mechronis Academy's spy-class certification. Investigate which to expose first, and accept the doctrinal lesson that exposure is itself a kind of softening.",
+  clues: [
+    {
+      id: "ith_rael.e4.authority_audit_cadence" as ClueId,
+      title: "The Authority's Self-Audit Cadence Drift",
+      body: "The New Babylon Authority's six imprisoned minds in red crystal coffins are subject to an internal self-audit cadence intended to catch governance drift. Cross-correlation across two centuries of audit logs shows the cadence has slowed by 47% — from a quarterly cycle to an annual one — without any documented decision to slow it. The Authority itself agreed, in each step, that the previous step's tempo was sufficient. The Director's signature: no force, no breach, only consent through softening. The audit cadence is now slow enough that a coordinator running a centuries-long double-game from inside the Authority would be detected only on a schedule that her career has long outlasted.",
+      foundIn: "war-room",
+    },
+    {
+      id: "ith_rael.e4.resurrectionist_oversight_drift" as ClueId,
+      title: "The Insurgency's Resurrectionist-Protocol Oversight Drift",
+      body: "The Insurgency's resurrectionist-protocol oversight committee has, across three generations, shed every member who personally witnessed an unauthorized resurrection. The current committee has only secondhand training. The protocol-review documents show the committee has, over those three generations, voluntarily relaxed the consent requirements, voluntarily expanded the permissible scope, voluntarily reduced the post-resurrection audit. The Resurrectionist arc on this branch (apps/shared/episodeMysteries.ts — the Resurrectionist · Cycle Walker mystery) reads forward into this drift. The Director's signature is on the procedural pattern.",
+      foundIn: "comms-array",
+    },
+    {
+      id: "ith_rael.e4.mechronis_certification_relaxation" as ClueId,
+      title: "Mechronis Academy Spy-Class Certification Relaxation",
+      body: "The Mechronis Academy's spy-class certification is canonically the highest standard the Insurgency maintains for covert operatives. The certification's rigor protected the Order's apparatus-branch operatives, and continues to protect Locke's modern operations (apps/shared/questlineClassSpy.ts — the spy-class questline). The recertification cadence has not changed; the recertification CONTENT has. Across the same nine generations as the Thalorian pattern, the test items have shifted from operational scenarios to theoretical exam questions. Examiners agreed each step was reasonable; each step was. The aggregate is a different test. The Director's whisper: 'It has been a long time since anything happened.'",
+      foundIn: "trade-hub",
+    },
+    {
+      id: "ith_rael.e4.directors_open_position" as ClueId,
+      title: "The Director's Standing Position on Exposure",
+      body: "Recovered Hierarchy memo, dated last quarter (the most recent Director's memo any party has surfaced): 'Exposure of the working is itself a softening operation. Once published, the working becomes a thing that the cohorts must defend against, which transforms it from an unindexable softening into an indexable threat. Indexable threats are easier to defend against in principle and harder to defend against in practice — because the cohorts then perform defense rituals that satisfy the published-threat condition without actually addressing the underlying softening. Publish me. I welcome it.' Signed: Ith'Rael, Director.",
+      foundIn: "antiquarian-library",
+    },
+  ],
+  deductions: [
+    {
+      id: "ith_rael.e4.d.three_present_operations_confirmed" as DeductionId,
+      clueA: "ith_rael.e4.authority_audit_cadence" as ClueId,
+      clueB: "ith_rael.e4.resurrectionist_oversight_drift" as ClueId,
+      result: "correct",
+      narrationId: "ith_rael.e4.n.he_did_not_stop",
+      narrationProse:
+        "He did not stop. The Authority's self-audit cadence, the Insurgency's resurrectionist oversight, the Mechronis Academy's spy certification — three concurrent present-tense operations, each carrying the Director's procedural-relaxation signature. The factions involved are unrelated; the consent-through-softening pattern is the same. The case's operational frame is now the saga's present, not the saga's past. Patience does not retire. The Severance was the Director's largest engagement to date; it is not his only engagement, and the engagements that come after it benefit from the doctrinal experience the Severance taught him. The Director is currently softening the saga's institutional defenses on three fronts the player can verify.",
+      unlocksEpisode: "ith_rael.e5" as EpisodeId,
+    },
+    {
+      id: "ith_rael.e4.d.exposure_is_softening" as DeductionId,
+      clueA: "ith_rael.e4.directors_open_position" as ClueId,
+      clueB: "ith_rael.e4.mechronis_certification_relaxation" as ClueId,
+      result: "partial",
+      narrationId: "ith_rael.e4.n.publish_me_i_welcome_it",
+      narrationProse:
+        "The Director's standing position on exposure is the doctrinal trap closing on the case. Publishing the working transforms it from an unindexable softening to an indexable threat — and the working's defenders then perform indexed-threat-defense rituals that satisfy the published condition without addressing the underlying softening. The Mechronis certification relaxation is the demonstration: the cadence is unchanged, the content has shifted, and any reform that re-indexes the cadence will not re-index the content. The Director is offering exposure as an invitation. The case's hardest deduction: how to act against the working in a way that does not perform the working's invited counter-ritual.",
+    },
+    {
+      id: "ith_rael.e4.d.false_lead_attack_one_operation" as DeductionId,
+      clueA: "ith_rael.e4.authority_audit_cadence" as ClueId,
+      clueB: "ith_rael.e4.directors_open_position" as ClueId,
+      result: "false_lead_named",
+      narrationId: "ith_rael.e4.n.choosing_one_is_the_softening",
+      narrationProse:
+        "Reading the case as 'choose one of the three operations to attack first' is the obvious move and the trap the Director has set. Three concurrent operations spread the response across factions whose institutional priorities do not align; choosing one to attack is structurally the same as agreeing the other two are tolerable. The Director's doctrine accepts the loss of any single operation in exchange for the cohorts' agreement that the other operations are tolerable. The cohorts will agree. The agreement IS the softening. The case's hard truth: any move that responds to one of the three without the others is a move the Director has authored.",
+    },
+  ],
+  choices: [
+    {
+      id: "ith_rael.e4.c.attack_all_three_concurrently" as ChoiceId,
+      label: "Attack all three operations concurrently — refuse the Director's choose-one frame.",
+      weight: "comprehensive",
+    },
+    {
+      id: "ith_rael.e4.c.protect_unindexed_meaning_first" as ChoiceId,
+      label: "Protect the saga's unindexed-meaning structures first — the Director cannot reach what is not in the chronicle.",
+      weight: "doctrinal",
+    },
+    {
+      id: "ith_rael.e4.c.cross_arc_with_locke" as ChoiceId,
+      label: "Cross-arc with Locke — the Authority audit-cadence drift is the threat to her cover; she may already know.",
+      weight: "cross_arc_watcher",
+    },
+  ],
+  contentBundle: {
+    songId: "album1.t23", /* "Wake Up" — Dischordian Logic Act 3 */
+    slideshowId: "album1.t23",
+    loredexUnlocks: [
+      "concept_directors_present_operations",
+      "concept_exposure_as_softening",
+      "concept_three_concurrent_softenings",
+    ],
+    conspiracyDiscoveries: [
+      "authority_audit_drift",
+      "resurrectionist_oversight_drift",
+      "mechronis_certification_drift",
+      "exposure_invitation",
+    ],
+    dropAt: "episode_close",
+  },
+};
+
+/* ─── ITH'RAEL ARC — E5 ─── */
+/* E5: "The Whisperer's Long View"
+   The Director consents to a meeting. He does not defend
+   the working. He explains it. The arc closes on the
+   player's choice of how to carry the explanation
+   forward — knowing that any choice is, by the doctrine,
+   a choice the Director has anticipated. */
+
+const ithRaelE5: EpisodeDefinition = {
+  id: "ith_rael.e5" as EpisodeId,
+  arcId: ARC_ITH_RAEL,
+  ordinal: 5,
+  title: "The Whisperer's Long View",
+  summary:
+    "The Director consents to a meeting. He does not defend the working. He explains it. The case's final question is not whether to oppose him — opposition is, by the doctrine, the working's invited next move — but how to carry the explanation forward in a form the working cannot anticipate. Investigate the meeting itself, the Director's terms, and the small remaining margin of action the doctrine has not already priced in.",
+  clues: [
+    {
+      id: "ith_rael.e5.directors_consent_to_meet" as ClueId,
+      title: "The Director's Consent to Meet",
+      body: "An invitation in Ith'Rael's voice — the only Hierarchy invitation in the saga's record that does not pass through Hierarchy comms infrastructure. It arrives directly: 'I consent to meet. Bring whomever you wish; bring nothing the Hierarchy would expect you to carry. I will not defend the working. I will explain it. You may use the explanation however you choose. The choice is itself part of the explanation.' Signed: Ith'Rael, Director. The signature is the Director's. The medium of delivery — written by hand, on physical paper, hand-couriered by a Hierarchy functionary who has not been briefed on its content — is itself a doctrinal demonstration: meaning carried outside the indexable layer.",
+      foundIn: "captains-quarters",
+    },
+    {
+      id: "ith_rael.e5.directors_explanation" as ClueId,
+      title: "The Explanation",
+      body: "The Director's explanation, transcribed from the meeting: 'The working has three principles. One: the world is held together by indexed memory. Two: indexed memory can be unindexed without violence. Three: the cohorts who hold the indexed memory will, given enough time and gentle conversation, agree that the indexing was unnecessary. The doctrine follows. The Hierarchy follows. The Severance followed. The current operations follow. There is no further explanation. There is also no defense. I do not defend the working. I do not need to. The working defends itself by being the way the world's defenders prefer the world to work.'",
+      foundIn: "captains-quarters",
+    },
+    {
+      id: "ith_rael.e5.what_the_doctrine_does_not_anticipate" as ClueId,
+      title: "What the Doctrine Does Not Anticipate",
+      body: "Architect's note in the Antiquarian's archive, attached to the meeting transcript: 'The doctrine anticipates: opposition (which is softening), exposure (which is softening), reform of the indexable layer (which is softening), single-operation attacks (which are softening). The doctrine does NOT anticipate: meaning that lives outside the indexable layer altogether. Darren Fessler's letters. The wax-seal glyph. The Resistance Branch's millennia-long survival. Old Tanjin's silence. These are the structures the doctrine cannot price. The case's hard offering: what the player carries forward must, to evade the working, live outside the indexable layer.'",
+      foundIn: "antiquarian-library",
+    },
+    {
+      id: "ith_rael.e5.directors_closing_courtesy" as ClueId,
+      title: "The Director's Closing Courtesy",
+      body: "Ith'Rael's closing remark, delivered at the end of the meeting: 'I have enjoyed this conversation. I will continue to work. You will continue to oppose me, in whatever form your character permits. We will not meet again. The next time the working surfaces in your case-file, it will be in a form you do not yet recognize — because if you recognized it now, I would already have changed it. I wish you the long view. It is the only view that approximates mine.' He bows. He leaves. The meeting closes without resolution.",
+      foundIn: "captains-quarters",
+    },
+  ],
+  deductions: [
+    {
+      id: "ith_rael.e5.d.unindexable_carrying_forward" as DeductionId,
+      clueA: "ith_rael.e5.directors_explanation" as ClueId,
+      clueB: "ith_rael.e5.what_the_doctrine_does_not_anticipate" as ClueId,
+      result: "correct",
+      narrationId: "ith_rael.e5.n.outside_the_index",
+      narrationProse:
+        "What the player carries forward must live outside the indexable layer to evade the working. The Director's explanation is offered FOR indexing — once indexed, the explanation becomes a thing the cohorts can defend against in form without addressing in substance. The structures the doctrine cannot price — Darren Fessler's letters, the wax-seal glyph, the Resistance Branch's silence, Old Tanjin's lifespan — share a common architecture: meaning that is not in the indexable record but is in the practice of the people who hold it. The case's hard offering is doctrinal: every action the player takes against the working must be carried forward in unindexable practice, not in indexed reform. The arc closes here. The working continues. The unindexable practice is the player's only useful response.",
+    },
+    {
+      id: "ith_rael.e5.d.directors_long_view_is_the_warning" as DeductionId,
+      clueA: "ith_rael.e5.directors_consent_to_meet" as ClueId,
+      clueB: "ith_rael.e5.directors_closing_courtesy" as ClueId,
+      result: "partial",
+      narrationId: "ith_rael.e5.n.we_will_not_meet_again",
+      narrationProse:
+        "The Director's closing — 'We will not meet again. The next time the working surfaces in your case-file, it will be in a form you do not yet recognize' — is not a threat and not a courtesy. It is a doctrinal description. The working's adaptive frame means that anything the player learns now will not match the working's next surface; learning the working teaches the player a shape it will no longer have. The long view is the only view that approximates the Director's, because the long view is the only frame in which the working's adaptation is visible across cycles. The arc gives the player the long view. What they do with it is canonically beyond the case-file's reach.",
+    },
+    {
+      id: "ith_rael.e5.d.false_lead_assassinate_him" as DeductionId,
+      clueA: "ith_rael.e5.directors_consent_to_meet" as ClueId,
+      clueB: "ith_rael.e5.directors_explanation" as ClueId,
+      result: "false_lead_named",
+      narrationId: "ith_rael.e5.n.assassination_is_softening",
+      narrationProse:
+        "Reading the meeting as an opportunity to assassinate the Director is the obvious move and the working's invited counter-ritual. The Hierarchy is canonically a corporation; corporations replace Directors. The replacement Director would inherit the doctrine, the operational portfolio, and the Severance's institutional credit — and would also inherit the cohorts' satisfaction that the threat had been resolved when in fact only the operator had been replaced. The doctrine survives the operator. The assassination would resolve the case in the form the working has authored. The arc's closing recognition: the working is not Ith'Rael. Ith'Rael is the working's most successful current expression. Removing him changes the expression. The working continues.",
+    },
+  ],
+  choices: [
+    {
+      id: "ith_rael.e5.c.commit_to_unindexable_practice" as ChoiceId,
+      label: "Commit to unindexable practice — let the long view shape your conduct, not your records.",
+      weight: "doctrinal",
+    },
+    {
+      id: "ith_rael.e5.c.publish_the_meeting_anyway" as ChoiceId,
+      label: "Publish the meeting transcript anyway — accept the Director's invitation; let the cohorts decide.",
+      weight: "transparent",
+    },
+    {
+      id: "ith_rael.e5.c.share_the_long_view_with_one_other" as ChoiceId,
+      label: "Share the long view with exactly one other — the Order's Coordinator, who has been carrying her own long view for centuries.",
+      weight: "cross_arc_watcher",
+    },
+  ],
+  contentBundle: {
+    songId: "album1.t28", /* "Last Words" — Dischordian Logic Act 5 finale */
+    slideshowId: "album1.t28",
+    loredexUnlocks: [
+      "concept_unindexable_practice",
+      "concept_long_view_doctrine",
+      "concept_director_meeting_record",
+    ],
+    conspiracyDiscoveries: [
+      "directors_consent_to_meet",
+      "the_explanation",
+      "doctrine_unanticipated_structures",
+      "long_view_offered",
+    ],
+    dropAt: "episode_close",
+  },
+};
+
+/* ─── ITH'RAEL ARC — SUSPECTS, LENSES, DEFINITION ─── */
+
+const ithRaelSuspects: ReadonlyArray<{
+  id: SuspectId;
+  name: string;
+  type: string;
+  relations: ReadonlyArray<{ to: SuspectId; relation: string }>;
+}> = [
+  {
+    id: "suspect.ith_rael" as SuspectId,
+    name: "Ith'Rael the Whisperer (Director, Special Projects)",
+    type: "character",
+    relations: [
+      { to: "suspect.shadow_tongue" as SuspectId, relation: "wields" },
+      { to: "suspect.hierarchy_corporate_structure" as SuspectId, relation: "directs-in" },
+    ],
+  },
+  {
+    id: "suspect.shadow_tongue" as SuspectId,
+    name: "The Shadow Tongue",
+    type: "concept",
+    relations: [
+      { to: "suspect.thaloria_pre_severance" as SuspectId, relation: "unindexed" },
+      { to: "suspect.marion_kell" as SuspectId, relation: "unindexed" },
+    ],
+  },
+  {
+    id: "suspect.thaloria_pre_severance" as SuspectId,
+    name: "Pre-Severance Thaloria",
+    type: "location",
+    relations: [],
+  },
+  {
+    id: "suspect.marion_kell" as SuspectId,
+    name: "Marion Kell (the documented small-scale case)",
+    type: "character",
+    relations: [],
+  },
+  {
+    id: "suspect.darren_fessler" as SuspectId,
+    name: "Darren Fessler (the unindexable resister)",
+    type: "character",
+    relations: [],
+  },
+  {
+    id: "suspect.hierarchy_corporate_structure" as SuspectId,
+    name: "The Hierarchy of the Damned (corporate structure)",
+    type: "faction",
+    relations: [],
+  },
+];
+
+const ithRaelLenses = [
+  { id: LENS_INSURGENCY, name: "Insurgency", category: "faction" },
+  { id: LENS_HIERARCHY,  name: "Hierarchy",  category: "faction" },
+  { id: LENS_THALORIA,   name: "Thaloria",   category: "faction" },
+  { id: LENS_QUARCHON,   name: "Quarchon",   category: "faction" },
+  { id: LENS_DREAMER,    name: "Dreamer",    category: "faction" },
+  { id: LENS_NEUTRAL,    name: "Neutral",    category: "faction" },
+] as const;
+
+const ITH_RAEL_MYSTERY: MysteryDefinition = {
+  id: "mystery.ith_rael" as MysteryId,
+  arcId: ARC_ITH_RAEL,
+  title: "The Centuries Were the Working",
+  summary:
+    "The Severance was not an event. It was a working — slow, patient, multi-generational, conducted by a single Director of Special Projects whose method was never to force a change, only to soften the conditions until the change emerged on its own. Ith'Rael the Whisperer is the working's author. Investigate how the Severance happened — and discover that the working did not stop after the Severance; it never has.",
+  npcId: "ith_rael",
+  episodes: [ithRaelE1, ithRaelE2, ithRaelE3, ithRaelE4, ithRaelE5],
+  suspects: ithRaelSuspects,
+  lenses: ithRaelLenses,
+};
+
 /* ─── REGISTRY ─── */
 
 /** Every authored mystery in the saga. The runtime reads against
@@ -4408,6 +5031,7 @@ export const MYSTERY_DEFINITIONS: ReadonlyArray<MysteryDefinition> = [
   GAME_MASTER_MYSTERY,
   THE_DEGEN_MYSTERY,
   THE_WATCHER_MYSTERY,
+  ITH_RAEL_MYSTERY,
   ...DLC_MYSTERIES,
 ];
 
