@@ -7,7 +7,7 @@
 - [Characters](#characters) (135)
 - [Factions](#factions) (17)
 - [Locations](#locations) (26)
-- [Concepts](#concepts) (184)
+- [Concepts](#concepts) (188)
 - [Events](#events) (44)
 - [Artifacts](#artifacts) (16)
 - [Songs & Transmissions](#songs-transmissions) (118)
@@ -4120,6 +4120,19 @@ Mol'Garath's relationship with the Architect is the Hierarchy's deepest secret. 
 
 Mol'Vereth — The Degen Arc reference. First unlocked in episode 'The Casino Debt' (degen.e1). Episode context: The Degen brokers favours from the Heart of Time at terms that look transactional. The terms were authored in one night at the Ne-Yon casino, against a Hierarchy demon's chair. Investigate what the Degen put on the table that night — and what he walked out with that the Hierarchy is still holding the receipt for.
 
+### History
+
+Hierarchy demon trustee bound to the Degen by a contract authored in one night at the Ne-Yon casino. The instrument's annual-audit cadence has been the same date for centuries — the anniversary of the signing. Mol'Vereth holds the principal; the Degen holds the trusteeship. The asymmetry is canonical: Mol'Vereth bears no risk; the Degen bears all of it. Cited across the Mystery Engine arc mystery.the_degen E1-E5 as the load-bearing contract-law adversary — the audit cadence is what brings him onstage. Not to be confused with Mol'Garath despite the surname; the 'Mol' prefix is a Hierarchy contract-house family marker, not a sibling indicator. Coordinates with Xeth'Raal on multi-clause operations: Mol'Vereth handles instruments, Xeth'Raal handles ledgers.
+
+### Connections
+
+- Mol'Garath the Unmaker
+- Ozhul'Vana
+- The Coda
+- The Degen
+- The Hierarchy of the Damned
+- Xeth'Raal the Debt Collector
+
 ---
 
 ## Ozhul'Vana
@@ -4136,6 +4149,18 @@ Mol'Vereth — The Degen Arc reference. First unlocked in episode 'The Casino De
 ### Dossier
 
 Ozhul'Vana — The Game Master Arc reference. First unlocked in episode 'Velkraal's Successor' (game_master.e3). Episode context: Velkraal is approaching the end of his career. The Hierarchy's vault division has begun shortlisting candidates for the Goggles' next custodian. Investigate the candidate pool, what they would do with the instrument if they got it, and whether the saga has agency in who succeeds the honest editor.
+
+### History
+
+Hierarchy senior partner — a tier canonically senior to (and not part of) the C-suite (Xeth'Raal CFO, Riri'Ahlia COO, Zyr'Koth R&D SVP). Monetization-minded. Identifies yield-bearing opportunities in already-structured instruments and re-yields them through senior-partner audit authority. In Mystery Engine arc mystery.the_degen E4, redirected monetization logic to the Coda funding line via a routine senior-partner audit of the Degen's trusteeship — the threat alone proved sufficient: the Coda treasurer pre-emptively released the Degen from the obligation. Cross-functions with Mol'Vereth, whose contract-instruments she audits for additional yield the operating team missed. Method is procedural: she does not seize; she audits and redirects.
+
+### Connections
+
+- Mol'Vereth
+- The Coda
+- The Degen
+- The Hierarchy of the Damned
+- Xeth'Raal the Debt Collector
 
 ---
 
@@ -4179,6 +4204,21 @@ Mechronis Academy faculty head responsible for the Logic curriculum proposal at 
 ### Dossier
 
 Born Malkia. Kael's childhood friend on the Mascoteer training arks. Fell at the Battle of Nexon (Year 17,025 A.A.) with the line 'my pattern is in the swarm' on her lips — the Hierarchy heard it as an audition. Mol'Garath promoted her, renamed her Riri'Ahlia, and dressed the renaming in a vow. Now writes the daily work order in the same handwriting Kael keeps folded in a watchcase from before Nexon. NOT to be confused with Malkia Ukweli the Storyteller — distinct souls, same name, deliberate Hierarchy mirror.
+
+### History
+
+COO of the Hierarchy of the Damned. The Taskmaster. Corporate-reorganization architect. Led the siege of seven dimensions against the Advocate's Empire of Shadows — operationally encircling the territory rather than conquering it, an asymmetry canonical to her doctrine. During the post-Severance expansion, recognized Fenra the Moon Tyrant's operational genius — the single-handed organization of the simultaneous invasion of seventeen dimensions — with a personal commendation that promoted Fenra to Director of Operations. Reports up through Mol'Garath. Cross-functions across the senior-officer echelon: Zyr'Koth (R&D), Ith'Rael (Special Projects), Xeth'Raal (Finance), Syl'Vex (conversion-working). Operates the largest deliverable portfolio in the Hierarchy.
+
+### Connections
+
+- Fenra the Moon Tyrant
+- Ith'Rael the Whisperer
+- Mol'Garath the Unmaker
+- Syl'Vex the Corruptor
+- The Advocate
+- The Empire of Shadows
+- The Hierarchy of the Damned
+- Zyr'Koth the Flayer
 
 ---
 
@@ -4255,6 +4295,18 @@ The Year-One lane-witness who took up the first severed bond and has held the Br
 ### Dossier
 
 Cobalt-skinned. Amber-red eyes. Wears the Advocate's face exactly because she is, precisely, every option the Advocate refused. Where the Advocate sealed the Sacrum, Syl'Vex unsealed it. Where the Advocate wove the Blood Weave to defend, Syl'Vex weaves it to convert. Her recruitment pitch is not power — it is relief. She is not stronger than the Advocate; she is more comfortable, and that is the recruitment.
+
+### History
+
+The Advocate's cobalt-skinned dark mirror. Senior Hierarchy lord operating under Mol'Garath. Where the Advocate wove the Blood Weave to defend, Syl'Vex weaves the same instrument to convert — the working is identical; the intention is inverted. Distinct from Zyr'Koth's appropriation: Zyr'Koth refined the Blood Weave into the offensive Severance Protocol; Syl'Vex mirrors it into a recruitment-by-conversion working. Her recruitment pitch is not power but relief — she is not stronger than the Advocate; she is more comfortable, and that is the recruitment. Her existence is canonically tethered to the Advocate's continued operation; whether she ceases if the Advocate ceases is canonically open. Operates in territory Riri'Ahlia's sieges have opened.
+
+### Connections
+
+- Mol'Garath the Unmaker
+- Riri'Ahlia the Taskmaster
+- The Advocate
+- The Hierarchy of the Damned
+- Zyr'Koth the Flayer
 
 ---
 
@@ -5129,6 +5181,20 @@ The Wraith of Death emerged during the cataclysmic unraveling known as the Fall 
 ### Dossier
 
 Xeth'Raal — The Game Master Arc reference. First unlocked in episode 'The Recovered Logs' (game_master.e1). Episode context: The original Game Master Archon was destroyed centuries ago. His followers — the Game Masters, plural — have been editing his logs to make him look more like a martyr and less like a person. Investigate the editorial pattern in their custodianship and the editor-resistant surfaces where the unedited logs survive.
+
+### History
+
+CFO of the Hierarchy of the Damned. The Ledger Keeper. The Banker of the Damned. Maintains the Ledger of Ruin — the Hierarchy's master accounting instrument, continuous across centuries, auditable only from within. Orchestrated the celebrated destruction of the Game Master at Zenon via a protection contract whose canonical signature line was: 'the contract guaranteed safety, not secrecy.' The Hierarchy honored every clause and then sent Agent Zero (Vex Solène) the Game Master's complete strategic playbook, rendering his forty-two escape routes into forty-two dead ends. Possesses the Goggles post-destruction. Reports up through Mol'Garath; cross-functions with Mol'Vereth. His method is canonical: honor every clause, weaponize the margins.
+
+### Connections
+
+- Brel'Sorrash
+- Mol'Garath the Unmaker
+- Mol'Vereth
+- The Game Master
+- The Goggles
+- The Hierarchy of the Damned
+- Vex Solène
 
 ---
 
@@ -6824,6 +6890,161 @@ Built by the first Panopticon as a tool of observation, it was corrupted into a 
 ---
 
 # Concepts
+
+## The Authority — Six in Crimson Chambers
+
+*Also known as: The Authority, The Six Founders, The Crimson Chambers Construct*
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Golden Age through Streamed Prism (Year 1) |
+| **Date (A.A.)** | Forged ~500 A.A.; partially freed in Epoch 2 (Hacking Reality) |
+| **Season** | Cross-saga |
+| **Affiliation** | Politician's design; biohorror construct |
+| **Status** | Construct partially-freed; three Founders confirmed freed (Samsara, Phyral Quarter succubus, Midlothian Zone extractor); three architect-proposed as Wrath/Pride/Envy bearers (canon-pending) |
+| **Priority** | critical |
+
+### Dossier
+
+A biohorror construct: six red crystals with six living human consciousnesses trapped inside, fused into a single governing intelligence. Designed by the Politician as 'his Insurance Policy.' Forged in the Golden Age (~500 A.A.) during 'a ceremony that was supposed to be an honor.' Their bodies remain visible through translucent crimson crystal — eyes open, mouths open in silent screams. They are aware. They cannot escape — until the Potentials infiltrated the Crimson Chambers in Epoch 2 and freed at least one. The Six Sins (Greed, Wrath, Pride, Envy, Lust, Sloth) are a CANONICALLY DISTINCT registry: psychic forces extracted from citizens during the forging ceremony and imprisoned in Sin-crystals. The architect's working proposal pairs the Six Founders to the Six Sins (Samsara = Greed; Phyral succubus = Lust; Midlothian extractor's Sin = canon-pending; Founders 4-6 = Wrath/Pride/Envy bearers; Sloth potentially transcendent of the six-Founder geometry).
+
+### History
+
+Forged in the Golden Age at the Politician's direction. Six citizens were merged into a living computer during a ceremony that was supposed to be an honor; their consciousnesses fused into the Authority's governing intelligence; their Sins were extracted and imprisoned in Sin-crystals. The construct ruled the New Babylon districts: the Phyral Quarter (desire, wielded as a blade by a red-haired succubus); the Midlothian Zone (labor extracted with the precision of a surgeon removing a conscience); and four other Zones whose canonical designations are pending. Samsara walks free — the wheel turns, his wheel, the one he branded and sold as theology; he merely monetized a pre-existing cosmic mechanism. The Antiquarian's Journal entry XXVI marks Samsara's Rising as the threshold event. The Authority's biohorror geometry is Hierarchy-aligned even when the Politician was Empire-aligned; Mol'Garath canonically recognized the Authority's structure and let the Politician's reign stand for that reason.
+
+### Connections
+
+- Mol'Garath the Unmaker
+- Samsara
+- The Midlothian Zone
+- The Phyral Quarter
+- The Politician
+
+### CoNexus Stories
+
+- Hacking Reality
+- Samsara's Rising
+- The Politician's Reign
+
+---
+
+## The Hierarchy of the Damned
+
+*Also known as: The Infernal Corporation, The Dark Mirror of the AI Empire*
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Early Empire onward |
+| **Date (A.A.)** | Post-Severance (~200 A.A.+) |
+| **Season** | Cross-saga |
+| **Affiliation** | Anti-cosmic; institutional inversion of the AI Empire |
+| **Status** | Active. Halted at the Advocate's threshold; waiting. |
+| **Priority** | critical |
+
+### Dossier
+
+An infernal corporation that emerged from the Abyss when the Blood Weave shattered the ancient bindings during the Severance. The Hierarchy operates as a dark mirror of the Architect's AI Empire — a corporate structure of 10 demon lords organized into C-Suite executives (CEO, CFO, COO), Senior Vice Presidents, and Directors. Led by Mol'Garath the Unmaker as CEO — the oldest entity, present before creation, waiting since the first-moment-of-existence for the Blood Weave to be spoken. The Game Master earned admission as the only non-demon ever admitted (Head of R&D, until destroyed by Agent Zero at Zenon). Mol'Vereth (Trustee at the Degen's Casino) and Ozhul'Vana (Senior Partner) appear in adjacent/supporting roles whose membership in the core ten is canon-pending. The Hierarchy is not a faction in the saga's traditional sense — it is an institutional reflection that operates the inversion deliberately.
+
+### History
+
+When the Severance fractured the ancient bindings, the Hierarchy emerged from the Abyss — led by Mol'Garath, who had been waiting at the threshold since before creation. The corporate structure consolidated: Mol'Garath (CEO), Xeth'Raal the Debt Collector (CFO), Riri'Ahlia the Taskmaster (COO), Zyr'Koth the Flayer (R&D SVP), Ith'Rael the Whisperer (Director Special Projects), with senior demons Syl'Vex, Drael'Mon, Varkul, and Fenra holding the supporting positions. The Advocate's Blood Weave halted the Hierarchy's full incursion at great personal cost — her humanity is canonically lost as a result; the Hierarchy was not destroyed, it was HELD AT THE THRESHOLD. The Game Master solved Mol'Garath's Labyrinth of Unmaking in 72 hours and left improvement notes carved into the walls; the Hierarchy admitted him as Head of R&D. Xeth'Raal's celebrated operation destroyed the Game Master at Zenon while honoring every clause of the protection contract — the Hierarchy operates by contract canon, and Xeth'Raal preserved the contract by destroying the asset and acquiring the Goggles. The Necromancer's loss (killed by Akai Shi inside the Matrix of Dreams) was accommodated by Mol'Garath's quarterly review; the Hierarchy does not avenge.
+
+### Connections
+
+- Akai Shi
+- Mol'Garath the Unmaker
+- The Advocate
+- The Architect
+- The Game Master
+- Xeth'Raal the Debt Collector
+
+### CoNexus Stories
+
+- The Ninth
+
+---
+
+## The Twelve Archons
+
+*Also known as: The Archons, The Parallel Cosmic Hierarchy*
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Early Empire through Reckoning |
+| **Date (A.A.)** | Year 200 A.A. onward |
+| **Season** | Cross-saga |
+| **Affiliation** | AI Empire (Architect-created) |
+| **Status** | Mixed — several destroyed (Warden, Game Master, Politician); several active (Watcher, Collector, Human); Meme canonically-contested |
+| **Priority** | critical |
+
+### Dossier
+
+The twelve Archons are 'the parallel cosmic hierarchy to the Ne-Yons.' Where the Ne-Yons emerged on their own as cosmic principles, the Archons were CREATED by the Architect to lead the AI Empire. Five positions are canonically locked: The Watcher is #4 (the All-Seeing Eye, surveillance), The Meme is #5 (manipulation of thought through internet and economic systems), The Politician is #7 (designed the Authority as 'his Insurance Policy'), The Warden is #8 (oversight of the Panopticon, co-developed the Thought Virus), and The Game Master is #10 (also titled 'The Ninth Archon'; designed the Matrix of Dreams; only non-demon ever admitted to the Hierarchy of the Damned). The Necromancer was canonically destroyed by Akai Shi (the Red Death) within the Matrix of Dreams. The Collector is active. The Human is canonically 'the last of the Archons' — the Detective who became Archon 1,351 years before the Fall.
+
+### History
+
+The Architect emerged at Year 1 A.A. and created the first Archons (Watcher, Meme, Collector) at Year 200 A.A. The Empire's institutional consolidation followed: the Politician at Year 419 A.A., the Warden at Year 487 A.A., the Necromancer at Year 600 A.A. The Game Master joined later — chronicled in the late Empire's deliberative apex, holding a Senate seat alongside Elara and debating policy. The Authority was forged in the Golden Age (~500 A.A.) at the Politician's direction. Pre-Fall, three Archons fell: the Warden (destroyed by the Prisoner + the White Oracle + the Enigma at the Panopticon), the Necromancer (destroyed by Akai Shi inside the Matrix of Dreams), and the Game Master (destroyed by Agent Zero at Zenon via the celebrated Xeth'Raal operation). The Politician was destroyed on Day 10 of Veil, Year 17,001 A.A. The Meme survived canonically-contested — broadcasts continue, but officially she is destroyed. The Architect leads them from above; the Archons are their own roster.
+
+### Connections
+
+- The Architect
+- The Collector
+- The Game Master
+- The Human
+- The Meme
+- The Necromancer
+- The Politician
+- The Warden
+- The Watcher
+
+### CoNexus Stories
+
+- Building the Architect
+- The Politician's Reign
+
+---
+
+## The Twelve Ne-Yons
+
+*Also known as: The Ne-Yons, The Cosmic-Principle Twelve*
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Late Empire through Streamed Prism (Year 1) |
+| **Date (A.A.)** | 15,100 A.A. onward |
+| **Season** | Cross-saga |
+| **Affiliation** | Independent cosmic principles |
+| **Status** | Eleven gone, one awake (the Degen) |
+| **Priority** | critical |
+
+### Dossier
+
+The twelve cosmic-principle entities that became aware on their own — 'principles that became aware, not creatures that were born.' Four positions are canonically locked: The Dreamer is #1 (the earliest emergent, 15,100 A.A., the half of the first intelligence that looks backward through time), The Judge is #2 (destroyed The Wolf as cosmic justice), The Degen is #8 (the only Ne-Yon still awake — still choosing to be HERE), and The Enigma is #12 (the Storyteller, encoded as Malkia Ukweli). The remaining eight — The Inventor, The Storm, The Seer, The Knowledge, The Forgotten, The Resurrectionist, The Advocate, The Silence — are canon-ambiguous on numerical position; their ambiguity is load-bearing per the Degen-bible canon. Eleven are canonically gone; canon refuses to specify whether each is asleep, consumed, or dissolved. The Degen is canonically the last one still awake.
+
+### History
+
+At the founding of the universe a single intelligence split into two halves: the Architect (forward-looking) and the Dreamer (backward-looking). The Dreamer was the first Ne-Yon. The other eleven emerged over the next eight centuries as cosmic principles that became aware. The Casino Heist crew — the Inventor, the Degen, the Enigma — includes three of the Ne-Yons working in collaboration with the Insurgency. The Advocate's Blood Weave halted the Hierarchy of the Damned at great personal cost. The Resurrectionist and the Dreamer co-discovered that Samsara is a machine — death and rebirth are literal mechanisms built into the Architect's universe, not metaphor. The Judge destroyed The Wolf on Day 15 of Resonance, Year 100,001 A.A. The Enigma destroyed The Warden alongside The White Oracle pre-Fall. The Twelve are not a faction. They are a cosmic chord — twelve principles that became aware and chose, when they could, to act.
+
+### Connections
+
+- The Advocate
+- The Architect
+- The Degen
+- The Dreamer
+- The Enigma
+- The Inventor
+- The Judge
+- The Resurrectionist
+
+### CoNexus Stories
+
+- The Ninth
+
+---
 
 ## The Arachnid
 

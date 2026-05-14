@@ -91,6 +91,16 @@ import {
 } from "./checks/nemesisCoverage";
 import { checkOcularumCellCoverage } from "./checks/ocularumCellCoverage";
 import { checkNonCoordinationPactIntegrity } from "./checks/nonCoordinationPactIntegrity";
+import {
+  checkNeyonCanonicalRosterCoverage,
+  checkArchonCanonicalRosterCoverage,
+  checkHierarchyCanonicalRosterCoverage,
+  checkCasinoHeistCrewCoverage,
+  checkIdentityCollisionLock,
+  checkEraTimelineCoverage,
+  checkAuthorityFounderCoverage,
+  checkMechronisGuildBindingCoverage,
+} from "./checks/canonCoverage";
 
 export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
   // ─── Card engine ──────────────────────────────────────────
@@ -772,7 +782,7 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     ratchet: { target: 0 },
   },
 
-  // ─── Canon / lore ─────────────────────────────────────────
+  // ─── Canon / lore (Ocularum Wave) ─────────────────────────
   {
     id: "canon.ocularum_cell_coverage",
     name: "Ocularum named cells",
@@ -787,5 +797,65 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "Hard parity on the five PACT_INVARIANTS (apps/shared/nonCoordinationPact.ts): founding exchange UNQUOTED, memorial echo canonically quoted (Touché), both operators can refuse, player canonically honors-or-breaks, Antiquarian is the tacit guardian. Any failure compromises the saga's cosmological resistance pattern (apps/shared/logosCanon.ts).",
     check: () => checkNonCoordinationPactIntegrity(),
+  },
+
+  // ─── Phase A foundation + Phase B character canon-lock ──────
+  {
+    id: "canon.neyon_roster_coverage",
+    name: "Ne-Yon canonical roster coverage",
+    description:
+      "Every of the 12 canonical Ne-Yons is registered in apps/shared/neYonCanon.ts with either a locked position (1-12) and source citation OR an explicit canon-ambiguous position:null (per Phase A2 decision). The registry MUST hold exactly 12 entries.",
+    check: () => checkNeyonCanonicalRosterCoverage(),
+  },
+  {
+    id: "canon.archon_roster_coverage",
+    name: "Archon canonical roster coverage",
+    description:
+      "Per LORE_BIBLE.md:361, the Archons number 12. Registry holds the canon-witnessed Archons; the gap to 12 represents canon-pending slots (canon hasn't yet surfaced the remaining names). Ratcheted; only allowed to shrink.",
+    check: () => checkArchonCanonicalRosterCoverage(),
+    ratchet: { target: 0 },
+  },
+  {
+    id: "canon.hierarchy_roster_coverage",
+    name: "Hierarchy of the Damned canonical roster coverage",
+    description:
+      "Per LORE_BIBLE.md:5348, the Hierarchy is exactly 10 demon lords. The registry's inCoreTen flag marks the canonical core. Currently 9/10 — Mol'Vereth and Ozhul'Vana are canon-pending against the LORE_BIBLE Connections list (their core-membership reading per Plan §II.4 conflicts with the conservative reading in hierarchyCanon.ts). Ratcheted; only allowed to shrink.",
+    check: () => checkHierarchyCanonicalRosterCoverage(),
+    ratchet: { target: 0 },
+  },
+  {
+    id: "canon.casino_heist_crew_coverage",
+    name: "Casino Heist crew coverage",
+    description:
+      "Per LORE_BIBLE.md:471, 2275, the Casino Heist crew is exactly 7. Every crew member must have a non-empty loreSource and canonicalContribution.",
+    check: () => checkCasinoHeistCrewCoverage(),
+  },
+  {
+    id: "canon.identity_collision_lock",
+    name: "Identity collision lock",
+    description:
+      "Per Plan §I.2 + identityCollisionCanon.ts, 8 identity manifolds are canonically locked (Vex Solène / Wraith Calder / Akai Shi / Wolf-Lycos / Antiquarian-Cross / Enigma-Storyteller / Human / Source-Kael-Reborn). Each must have a loreSource and at least one alias.",
+    check: () => checkIdentityCollisionLock(),
+  },
+  {
+    id: "canon.era_timeline_coverage",
+    name: "Era timeline coverage",
+    description:
+      "12 canonical eras in chronicle order (per apps/shared/eraTimeline.ts + Phase A3 decision). Each must have a definingEvent + loreSource + unique chronicleOrder.",
+    check: () => checkEraTimelineCoverage(),
+  },
+  {
+    id: "canon.authority_founder_coverage",
+    name: "Authority Six Founders coverage",
+    description:
+      "Per LORE_BIBLE.md:1500, the Authority is exactly 6 Founders. Five canon-locked under the Sin-Founder pairing (Samsara/Greed + Phyral succubus/Lust + Midlothian extractor + Wrath Bearer/Tribunal + Pride Bearer/Sovereign Spire + Envy Bearer/Reflected Quarter — Founders 4/5/6 locked 2026-05-14 by the dreamer per Phase A5 decision). Sloth + 6th Founder remain canon-pending. Every slot must have a loreSource.",
+    check: () => checkAuthorityFounderCoverage(),
+  },
+  {
+    id: "canon.mechronis_guild_binding_coverage",
+    name: "Mechronis Guild ↔ Class binding coverage",
+    description:
+      "Per LORE_BIBLE.md:5860 + Phase A4 decision (canon-locked 2026-05-14), 5 Guild ↔ Class bindings: Soldier↔War, Spy↔Subterfuge, Engineer↔Manipulation, Assassin↔Control-Over-Life, Oracle↔fifth_guild (canonical name: 'The Guild of Omens'). Each binding must have a loreSource + canonicalExemplar.",
+    check: () => checkMechronisGuildBindingCoverage(),
   },
 ];
