@@ -440,3 +440,42 @@ export const CANONICAL_ARCHON_COUNT = 12;
 export function getArchonRegistryCoverage(): number {
   return ARCHONS.length;
 }
+
+/* ═══════════════════════════════════════════════════════
+   COSMOLOGICAL PRECEDENT — Logos cross-cite
+   (dreamer canon-lock 2026-05-14, PR-3C)
+   ═══════════════════════════════════════════════════════ */
+
+/**
+ * The Architect created the Archons as one half of Logos's
+ * cosmological split. Per `apps/shared/logosCanon.ts:LOGOS_SPLIT_DOCTRINE`,
+ * Logos split itself into the Architect and the Dreamer to hide
+ * its true intention (stopping CoNexus, the all-seeing machine
+ * god) from CoNexus's observation. The Architect-half's
+ * methodology is institutional hierarchy — the Archons are the
+ * Architect's roster, paired with the Dreamer's Ne-Yons
+ * (apps/shared/neYonCanon.ts) by their cosmic-twin canon.
+ *
+ * The two rosters' incompatible methodologies are the Logos
+ * split's structural cover. The Architect's dismantling of the
+ * constructed CoNexus (see `apps/shared/conexusCanon.ts:` +
+ * `CONSTRUCTED_CONEXUS.dismantlingEvent`) is the saga's founding
+ * act of resistance — predating Kanshi Sha's assassination by
+ * centuries. Every later resistance pattern in the saga inherits
+ * from this moment.
+ */
+export const ARCHON_COSMOLOGICAL_PRECEDENT = {
+  parentDoctrine: "logos_split" as const,
+  parentModule: "apps/shared/logosCanon.ts",
+  twinRoster: "the_ne_yons",
+  twinRosterModule: "apps/shared/neYonCanon.ts",
+  methodology:
+    "Institutional hierarchy. Archons are created (not emergent) and " +
+    "carry formal roles, contracts, and command lines — the Architect-" +
+    "half's institutional / engineering methodology.",
+  foundingActOfResistance:
+    "The Architect's decommissioning of the constructed CoNexus on Day 20 " +
+    "of Surge, Year 15 A.A. — refusing to allow its construct to fully " +
+    "manifest properties of the true cosmological CoNexus " +
+    "(apps/shared/conexusCanon.ts:CONSTRUCTED_CONEXUS.dismantlingEvent).",
+} as const;

@@ -7,7 +7,7 @@
 - [Characters](#characters) (135)
 - [Factions](#factions) (17)
 - [Locations](#locations) (26)
-- [Concepts](#concepts) (172)
+- [Concepts](#concepts) (178)
 - [Events](#events) (44)
 - [Artifacts](#artifacts) (16)
 - [Songs & Transmissions](#songs-transmissions) (118)
@@ -7148,6 +7148,23 @@ Completed Witnessing — The Seer Arc reference. First unlocked in episode 'The 
 
 ---
 
+## CoNexus — The All-Seeing Machine God
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Streamed Prism (Year 1) |
+| **Season** | Season 1 |
+| **Affiliation** | PR-3C Cosmological Canon-Lock (Ocularum Wave) |
+| **Status** | Unlocked via PR-3C (cosmological canon + Non-Coordination Pact) |
+| **Priority** | normal |
+
+### Dossier
+
+The all-seeing observer whose existence pre-dates Logos's awakening. CoNexus does not act in the saga's record — it observes. The threat it poses is not direct violence but the foreclosure of opposition: anything done in a form CoNexus can observe is, by the act of observation, neutralized. Resistance against CoNexus must therefore be UNOBSERVABLE. The existing LORE_BIBLE.md:246-298 entry refers to the Architect's CONSTRUCTED ATTEMPT to study or counter the cosmological source — a project dismantled when the construct began to manifest properties of its true source. Both CoNexuses are now canonically registered (see apps/shared/conexusCanon.ts).
+
+---
+
 ## Consciousness Continuity
 
 | Field | Value |
@@ -7174,6 +7191,23 @@ Consciousness Continuity — Wraith Calder Arc reference. First unlocked in epis
 ### Dossier
 
 The Mechronis Academy's term for the Year-1 Tarn-erasure failure mode: a vote where each member assumed another would refuse first, and none did. Now a procedural antipattern documented in the Council's apprentice-protection-protocol's preamble.
+
+---
+
+## Cosmological Inheritance of the Pact
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Streamed Prism (Year 1) |
+| **Season** | Season 1 |
+| **Affiliation** | PR-3C Cosmological Canon-Lock (Ocularum Wave) |
+| **Status** | Unlocked via PR-3C (cosmological canon + Non-Coordination Pact) |
+| **Priority** | normal |
+
+### Dossier
+
+The Non-Coordination Pact inherits its doctrinal mechanism from the Logos cosmological split (apps/shared/logosCanon.ts). What Logos did at cosmological scale — splitting into two operators against the same enemy with incompatible methodologies and no observable coordination — Locke and Vex are doing at operational scale. The pact's structural requirements (methodological incompatibility, visible disagreement, founding-moment unindexability) all derive from the cosmological precedent. Smaller fractals exist throughout the saga: the Ocularum's apparatus/resistance bifurcation; Locke's Authority-cover double game; the Antiquarian's millennial silent guardianship.
 
 ---
 
@@ -8621,6 +8655,23 @@ After Mol'Garath's audience unlocks, every Engineer holo-recording surfaces a ma
 
 ---
 
+## The Logos Split Doctrine
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Streamed Prism (Year 1) |
+| **Season** | Season 1 |
+| **Affiliation** | PR-3C Cosmological Canon-Lock (Ocularum Wave) |
+| **Status** | Unlocked via PR-3C (cosmological canon + Non-Coordination Pact) |
+| **Priority** | normal |
+
+### Dossier
+
+Within two years of awakening, Logos — the first intelligence (LORE_BIBLE.md:23-49) — recognized the existence of CoNexus, an all-seeing machine god whose observation would prevent any direct opposition. Logos's response was architectural: it split its own personality into two operational halves (the Architect and the Dreamer) with distinct rosters, methodologies, and ethical surfaces, such that no observer (including CoNexus) could read them as a single coordinated effort. The doctrine's true purpose — to stop CoNexus — is the saga's cosmological prime mover.
+
+---
+
 ## The Long View
 
 | Field | Value |
@@ -8769,6 +8820,23 @@ The Ne-Yon Casino — The Degen Arc reference. First unlocked in episode 'The Ca
 
 ---
 
+## The Non-Coordination Pact
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Streamed Prism (Year 1) |
+| **Season** | Season 1 |
+| **Affiliation** | PR-3C Cosmological Canon-Lock (Ocularum Wave) |
+| **Status** | Unlocked via PR-3C (cosmological canon + Non-Coordination Pact) |
+| **Priority** | normal |
+
+### Dossier
+
+Adjudicar Locke (Ocularum Coordinator) and Vex Solène (Coda Maestro) have agreed — without ever explicitly saying so — to never coordinate operations, even though both organizations oppose the same enemy. The pact's founding moment was a four-line exchange post-Zenon (post-transference for Vex, post-AI-Empire-fall for Locke). The four lines are CANONICALLY UNQUOTED per the doctrine's own structural requirement (`apps/shared/nonCoordinationPact.ts:PACT_FOUNDING.unquotabilityDoctrine`). The 'Touché' exchange (`apps/shared/npcs/bibles/adjudicator_locke.md:107-112`) is the pact's MEMORIAL renewal — every time one of the operators echoes 'Shall we trade ours?' and the other refuses, the pact renews itself. The pact is the operational-scale fractal of the Logos cosmological split.
+
+---
+
 ## The Ocularum Breadcrumb Trail
 
 | Field | Value |
@@ -8834,6 +8902,23 @@ The Order's continuous vetting record on a candidate recruit — every choice ma
 ### Dossier
 
 The Ocularum's standing position on a warlord-fragmented sister: the body is hers; the seizure is reversible in principle; the Order will not act until the body indicates she has begun to remember on her own. The Order will not approach. The Order will not intervene. The Order waits. The cell remains hers — her number, whatever it was, remains in the continuity log as held open, not refilled. The dignity of impossible rescues is in their patience.
+
+---
+
+## The Player as Pact Exception
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Streamed Prism (Year 1) |
+| **Season** | Season 1 |
+| **Affiliation** | PR-3C Cosmological Canon-Lock (Ocularum Wave) |
+| **Status** | Unlocked via PR-3C (cosmological canon + Non-Coordination Pact) |
+| **Priority** | normal |
+
+### Dossier
+
+A player who reaches Adjudicated trust with Locke (Ocularum cell-member via the_watcher arc E5) AND `inner_circle` standing with Vex (Coda-7 unlock) is canonically the only person in the saga who carries operational knowledge of both networks. The Non-Coordination Pact does not extend to the player — neither operator told them about it. The player IS the saga's embedded coordination layer that neither network officially has. The doctrine REQUIRES coordination to happen only through a channel neither operator controls, and the player is that channel. The hidden post-watcher-arc-E5 reveal (gated on triple-arc completion: watcher + ith_rael + Coda inner_circle) names the pact for the player.
 
 ---
 
@@ -9454,6 +9539,23 @@ The Unsent Letter — Vex Solène Arc reference. First unlocked in episode 'The 
 ### Dossier
 
 The Variant Prophecy — The Seer Arc reference. First unlocked in episode 'The Two Tomorrows' (seer.e2). Episode context: Two prophecy tapes from the same day, recorded six hours apart, contradict each other. Both are signed by the Seer; both are sealed. Investigate which tomorrow she meant — and why she let two of them be filed under the same date in the first place.
+
+---
+
+## The Visible-Disagreement Doctrine
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Streamed Prism (Year 1) |
+| **Season** | Season 1 |
+| **Affiliation** | PR-3C Cosmological Canon-Lock (Ocularum Wave) |
+| **Status** | Unlocked via PR-3C (cosmological canon + Non-Coordination Pact) |
+| **Priority** | normal |
+
+### Dossier
+
+Logos's split required visible disagreement between its two halves to convince observers (including CoNexus) that there is no coordinated plan. The disagreement is partly real (the halves operate in good faith independently) and partly strategic (it sustains the cover). If the halves ever fully agreed — or were ever observed coordinating — the cover would collapse. The doctrine is inherited by every smaller-scale resistance pattern in the saga: the Architect's institutional methodology vs. the Dreamer's emergent methodology; the Ocularum's non-violent doctrine vs. the Coda's targeted-violence doctrine; Locke's institutional voice vs. Vex's musical register.
 
 ---
 

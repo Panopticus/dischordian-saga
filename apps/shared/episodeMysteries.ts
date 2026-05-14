@@ -4391,6 +4391,25 @@ const THE_WATCHER_MYSTERY: MysteryDefinition = {
       rationale:
         "Player let the warlord-fragmented body escape in Act 1 — the Order's E4 framing surfaces the vigil-continues narration and the breadcrumb 'you will be asked to find her again' to E5.",
     },
+    /* PR-3C — the Non-Coordination Pact reveal variant.
+     * Triggered ONLY when the player has reached Vex's Coda
+     * `inner_circle` standing AND has also closed the ith_rael
+     * arc (the latter's unindexable-practice doctrine is what
+     * gives the dual-membership player the conceptual grip to
+     * understand what Locke is naming). The triple-arc
+     * completion is the unlock: watcher.e5 + ith_rael.e5 +
+     * Coda inner_circle. Locke names the pact for the player
+     * at E5 close — the saga's deepest reveal, only available
+     * to players who have walked all three arcs to the end.
+     * See apps/shared/nonCoordinationPact.ts:PACT_PLAYER_EXCEPTION
+     * for the canonical reveal content. */
+    {
+      id: "watcher_e5_pact_reveal_dual_membership",
+      condition: { kind: "narrative_flag", flag: "coda_inner_circle_standing" },
+      branchId: "watcher.e5.d.consent_after_recognition",
+      rationale:
+        "Player has reached Vex's Coda inner_circle standing — when combined with the_watcher arc completion (Ocularum cell-membership), the player is the saga's only cross-network operative. Locke's E5 reveal names the Non-Coordination Pact and tells the player they are the structural-exception channel neither network officially has. The flag also requires ith_rael arc closure (mystery_episode_complete:arc.ith_rael:ith_rael.e5) for full conceptual unlock; the resolver checks the second condition at branch-resolution time.",
+    },
   ],
 };
 

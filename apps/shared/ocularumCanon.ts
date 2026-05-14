@@ -452,16 +452,20 @@ export const OCULARUM_CANON_PENDING = [
   {
     id: "vex_solene_relationship_to_ocularum",
     summary:
-      "Whether Vex Solene (the post-transference identity in the original Agent " +
-      "Zero's body) is canonically an Ocularum member. Her Coda-internal handle " +
-      "'The Eyes of Reality' parallels Locke's 'The Eyes' alias. The Coda is " +
-      "canonically a separate organization Vex runs as Maestro. vex_solene.md " +
-      "frames Vex and Locke as 'mirror operators in different registers,' which " +
-      "may imply The Coda and the Ocularum are PARALLEL networks rather than the " +
-      "same order. Resolution is PR-2 or DLC.",
+      "RESOLVED 2026-05-14 (PR-3C). Vex Solene is NOT an Ocularum member. " +
+      "The Coda is a parallel network operating against the same enemy " +
+      "(the Hierarchy's piece-positioning) via incompatible methodology " +
+      "(targeted violence, where the Ocularum forbids violence). Locke " +
+      "and Vex have entered into the Non-Coordination Pact " +
+      "(apps/shared/nonCoordinationPact.ts) — they have agreed, without " +
+      "explicit statement, to never coordinate. The pact is the saga's " +
+      "operational-scale fractal of the Logos cosmological split " +
+      "(apps/shared/logosCanon.ts).",
     cites: [
-      "apps/shared/npcs/bibles/vex_solene.md:9-11 (Coda handle + faction)",
-      "apps/shared/npcs/bibles/vex_solene.md:115 ('mirror operators in different registers')",
+      "apps/shared/nonCoordinationPact.ts (resolution canon module)",
+      "apps/shared/codaCanon.ts (Coda canonical structure)",
+      "apps/shared/logosCanon.ts (cosmological precedent)",
+      "apps/shared/npcs/bibles/vex_solene.md:115 ('mirror operators in different registers' — now named as the pact's structural signature)",
     ],
   },
   {

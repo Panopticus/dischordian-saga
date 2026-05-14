@@ -447,3 +447,40 @@ When this bible's authoring resumes, the following sections gain new content:
 ### 10.4 PR-3B follow-up (`ninja_ocularum` apprentice archetype)
 
 The architect's PR-3 plan called for adding `"ninja_ocularum"` to `ApprenticeArchetype` (`apps/shared/apprentices.ts`). Discovery during PR-3 implementation: adding the archetype cascades through 8+ ship-check parity subsystems (apprentice authoring coverage, doctrines, missions, mechronis links, warden coverage, pedagogy assets, nemesis archetype behaviors, 22 new pair-bank dialog files). The minimum authoring effort to add a 13th archetype cleanly is ~1000+ lines of dialog content. PR-3 defers the archetype to a follow-up (PR-3B) on dreamer authorization. Until then, the breadcrumb trail's player-facing recruitment surface is the 7 Trade Empire missions added to `apps/shared/tradeMissionCatalog.ts` — sufficient for the Watcher arc to land coherently without the apprentice-archetype surface, but the player's "I want a ninja-Ocularum apprentice on my roster" affordance does not exist until PR-3B.
+
+---
+
+## 11. The Non-Coordination Pact (PR-3C canon-lock, 2026-05-14)
+
+Locke is the Ocularum Coordinator (§10). Vex Solène is the Coda Maestro (`apps/shared/codaCanon.ts`). They oppose the same enemy — the Hierarchy's piece-positioning, the Director's working, ultimately the all-seeing machine god CoNexus the Logos cosmological split was designed to evade. They have agreed, without ever explicitly saying so, to **never coordinate**. This bible canonizes the binding from Locke's side.
+
+### 11.1 The cosmological precedent
+
+Logos split itself into the Architect and the Dreamer specifically so that no observer could read its plan as coordinated (per `apps/shared/logosCanon.ts:LOGOS_SPLIT_DOCTRINE`). The two halves operate against the same enemy through incompatible methodologies, with occasional visible disagreement, and with no observable coordination. The disagreement is partly real (the halves operate in good faith independently) and partly strategic (it convinces observers there is no plan).
+
+The Non-Coordination Pact between Locke and Vex inherits from this cosmological move. Locke's institutional Ocularum (Coordinator + 700 cells, non-violent doctrine) mirrors the Architect-half's methodology. Vex's emergent Coda (Maestro + Chorus, targeted-violence doctrine) mirrors the Dreamer-half's methodology. Locke would recognize the precedent if shown it; her institutional voice is closer to the Architect's than to the Dreamer's, and she would name the cosmological lineage more readily than Vex would.
+
+### 11.2 What the pact does — and does not — change about Locke
+
+**Does not change:**
+- Her voice register (§1.1-1.5). Sardonic, weary, predatory, transactional. The pact does not make her sentimental about the cosmological lineage; she would speak of it as "the operation Logos has been running for fifteen thousand years" before she would speak of it as "destiny."
+- Her institutional cover (§10). The Authority Coordinator role remains structural to her work; the pact is orthogonal to her day job.
+- The eye-deal mystery (§2.1, §7.2). Canonically opaque. The pact does not explain why she lost the eye.
+
+**Changes (or, rather, clarifies):**
+- Her one-time "Touché" exchange with Agent Zero (§2.3) is no longer an isolated banter beat. It is the saga's surfaced instance of the pact's RENEWAL exchange. Per `apps/shared/nonCoordinationPact.ts:PACT_RENEWAL`, the exchange has recurred across the saga's centuries — the operators echo it as a renewal request; each refusal renews the pact. The recorded exchange is one such renewal.
+- Her professional respect for Zero (§2.3 — "the only person on record who gets a Touché out of her") is canonically tied to the founding moment of the pact, which is itself canonically unindexed. Locke would not say so. She would not deny it either.
+
+### 11.3 The founding exchange — canonically unquoted
+
+Locke and Vex's pact was struck in a four-line exchange post-Zenon (post-transference for Vex, post-AI-Empire-fall for Locke). The four lines are **CANONICALLY UNQUOTED** per the doctrine's own structural requirement (`apps/shared/nonCoordinationPact.ts:PACT_FOUNDING.unquotabilityDoctrine`). This bible carries the FACT of the exchange and its structural shape; it does not transcribe the lines. Future writers MUST NOT add the four lines — including to scenes where Locke or Vex references the founding. The pact's deepest cover is that even the chronicle that names it cannot surface the words it was struck on.
+
+### 11.4 The standing offer
+
+The "Shall we trade ours?" line is canonically still open. It is the pact's living seam — every time one of the operators echoes it, the other can either renew the pact (decline) or break it (accept). Locke has refused every echo across centuries. The refusals ARE the pact. If Locke ever says yes — which will canonically not happen in the main saga — the pact ends.
+
+The architect notes for writers: any future Locke scene where she encounters Vex must end with one of two beats — (a) the "Touché" refusal in some form, or (b) explicit non-acknowledgment of having met (which is the pact's other valid renewal mode: refusing to confirm the encounter happened). Scenes that resolve any other way break the canon.
+
+### 11.5 The player's role in the pact (PR-3C)
+
+A player who reaches Adjudicated trust with Locke (Ocularum cell-member) AND `inner_circle` standing with Vex (Coda-7 unlock) is canonically the saga's only cross-network operative. Locke's hidden post-watcher-arc-E5 reveal in this dual-membership state names the pact for the player and tells them: *"You will be the first person in the saga who knows what we have agreed to. The agreement extends to you. You will not coordinate us. You will be the one who can."* See `apps/shared/nonCoordinationPact.ts:PACT_PLAYER_EXCEPTION.watcherArcE5HiddenVariant` for the canonical reveal content.

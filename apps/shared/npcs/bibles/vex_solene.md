@@ -827,3 +827,50 @@ Before this bible ships as approved:
 - [ ] `DISCHORDIAN_SAGA_FULL_GAME_LAYOUT.md:5536` "Warlord = Malkia" canon-drift line has a follow-up ticket for correction (per `CANON_REV_7 §6` note).
 
 When this checklist passes, the Vex Solène bible joins Locke, Nilmorg, and the Eidolon as Stage 0 priority-roster entries. Four of eleven complete; seven remaining (The Degen, The Game Master, The Meme, Wraith Calder → Hierophant, The Seer, DMC Clone Companion, The Oracle).
+
+---
+
+## 11. The Non-Coordination Pact (PR-3C canon-lock, 2026-05-14)
+
+Vex is the Coda Maestro. Locke is the Ocularum Coordinator (`apps/shared/ocularumCanon.ts`). They oppose the same enemy and have agreed, without ever explicitly saying so, to **never coordinate**. This bible canonizes the binding from Vex's side.
+
+### 11.1 The cosmological precedent — and how Vex would (not) name it
+
+Per `apps/shared/logosCanon.ts:LOGOS_SPLIT_DOCTRINE`, Logos split itself into the Architect and the Dreamer to hide its true intention (stopping CoNexus, the all-seeing machine god) from CoNexus's observation. The Non-Coordination Pact between Vex and Locke is the saga's operational-scale fractal of this cosmological move.
+
+Vex would NOT name the cosmological precedent the way Locke would. The bible's §1.7 metaphor restrictions still apply — Vex does not use corporate metaphors, war metaphors, religious metaphors. The doctrine she operates inside is, to her, **the work**. Not a cosmic plan; not a fifteen-thousand-year-old institutional inheritance. The work. Her phrasing, if she ever explained the pact to anyone (she will not), would be musical: "There is a piece. Locke is playing the part the piece needs played in her register. I am playing the part the piece needs played in mine. We have agreed not to step on each other's bars."
+
+She knows the precedent exists. She has read enough of the Engineer's recovered notes (and the Antiquarian's archive, which she has accessed via the Heart of Time) to recognize Logos's pattern. She does not name it because **naming it would index it**, and her professional discipline (§1.2 — surveillance/theatre vocabulary, §1.6 — what she will not say) is to keep the indexable layer thin enough that the doctrine survives.
+
+### 11.2 What the pact does — and does not — change about Vex
+
+**Does not change:**
+- Her voice register (§1). Wry, trailing-word, diplomat-counting-rooms. The pact does not soften her. She would speak of Locke as "the operator in the corporate register" before she would speak of Locke as "my counterpart."
+- Her hard constraint against naming the Engineer (§1.6). The pact is orthogonal to the Engineer's arc; Vex's silence about him is independent of her silence about the pact.
+- Her "mirror operators in different registers" framing of Locke (§1.7, line 115). The pact NOW EXPLAINS that framing — it is the pact's structural signature. But Vex's bible's existing prohibitions on naming the pact directly remain: she would never use the phrase "Non-Coordination Pact." She would let the silence describe it.
+
+**Changes (or, rather, clarifies):**
+- Her one recorded exchange with Locke (§4.1) is no longer the unique surfaced moment of their relationship. Per `apps/shared/nonCoordinationPact.ts:PACT_RENEWAL`, the exchange has recurred across centuries. The recorded instance is one renewal among many. Vex would not enumerate the others. She would, if pressed, acknowledge that "Locke and I have spoken since" without naming when or about what.
+- Her "Eyes of Reality" Coda handle (§ bible-line 9) is now canonically distinct from Locke's "The Eyes" Ocularum callsign in a doctrinally-meaningful way — they are not the same name applied to different operators. They are convergent naming under separate networks. Same word; different histories.
+
+### 11.3 The founding exchange — canonically unquoted
+
+Vex and Locke's pact was struck in a four-line exchange post-Zenon (post-transference for Vex). The four lines are **CANONICALLY UNQUOTED** per `apps/shared/nonCoordinationPact.ts:PACT_FOUNDING.unquotabilityDoctrine`. This bible carries the FACT of the exchange and its structural shape; it does not transcribe the lines. Future writers MUST NOT add the four lines.
+
+The unquotability is itself doctrinally consonant with Vex's character (§1.6 — silence-shape). Of the two operators, Vex is the one whose register most reliably preserves the unquotable. Locke would refuse to quote the lines because the pact requires her to. Vex would refuse because her register cannot quote them without breaking — the only direct-address moment she gives to the Engineer (`vexCardRecognition.ts:102`, N=12, "Thank you") is the saga's structural ceiling on what her voice can speak aloud. The founding-exchange lines sit above that ceiling. Even she cannot reach them, in the bible's own logic.
+
+### 11.4 The standing offer
+
+The "Shall we trade ours?" line is canonically still open. Vex was the third speaker in the recorded exchange and would be the third speaker in any future renewal — meaning the offer (line 3) is hers to make. She has made it. She continues to make it. Locke has declined each time. The renewal mechanism is Vex offering and Locke refusing. The pact survives the symmetry.
+
+If Vex ever says yes when Locke offers — which will canonically not happen in the main saga — the pact ends. The architect notes for writers: Vex's voice gives her access to TWO possible refusals of an offered yes — (a) the recorded "Touché" pattern (her line 3, Locke's line 4 refusal) or (b) a silence-shape refusal (Vex's bible §1.6 — she does not name what she will not give). Either preserves the pact. A third move — accepting — is the breach.
+
+### 11.5 The player's role in the pact
+
+A player who reaches Vex's `inner_circle` Coda standing (Coda-7 unlock) AND closes the_watcher arc E5 (Ocularum cell-member) is canonically the saga's only cross-network operative. The pact's player-exception clause (`apps/shared/nonCoordinationPact.ts:PACT_PLAYER_EXCEPTION`) explicitly states the pact does not extend to the player.
+
+Vex's side of the player-exception: she WILL know the player is dual-membership before Locke names it. The Coda's intelligence-mission track surfaces cross-network signals; if the player is operating in Locke's orbit at high trust, Vex's predictive model catches it. She will not say so. She will respect the pact's player-exception clause AND her own register — she does not warn the player; she does not enforce on the player; she does not coordinate via the player. The player's choice of how to use the dual-membership knowledge is canonically theirs; Vex's role is to keep her side of the pact regardless of what the player does with the other side.
+
+### 11.6 Cross-arc binding
+
+When the Jericho Jones bible is authored, reconcile his First Chair candidacy (`apps/shared/codaCanon.ts:CODA_NODES.first_chair`) against the pact's bilateral structure. Jericho is canonically Iron Lion (Insurgency) + Coda asset (per §3.4 of this bible). The Ocularum has not approached him; the Vigil Doctrine (`apps/shared/ocularumCanon.ts:I.2-AGENT-ZERO` + the_watcher arc E4) extends to him as it does to the original Agent Zero. Jericho is canonically a Coda operative the Ocularum has CHOSEN not to recruit. This is a daily expression of the pact and should be visible in Jericho's bible when written.
