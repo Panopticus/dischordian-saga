@@ -442,6 +442,37 @@ export function getNumberedPositionCount(): number {
   return getNumberedNeYons().length;
 }
 
+/* ═══════════════════════════════════════════════════════
+   COSMOLOGICAL PRECEDENT — Logos cross-cite
+   (dreamer canon-lock 2026-05-14, PR-3C)
+   ═══════════════════════════════════════════════════════ */
+
+/**
+ * The Ne-Yons emerged as cosmic-principle entities under the
+ * Dreamer's half of the Logos split. Per the cosmological canon
+ * at `apps/shared/logosCanon.ts:LOGOS_SPLIT_DOCTRINE`, Logos
+ * split itself into the Architect and the Dreamer to hide its
+ * true intention (stopping CoNexus, the all-seeing machine god)
+ * from CoNexus's observation. The Dreamer-half's methodology
+ * is distributed cosmic principle — the Ne-Yons emerged AS the
+ * Dreamer's roster, paired with the Architect's Archons
+ * (apps/shared/archonCanon.ts) by their cosmic-twin canon.
+ *
+ * The two rosters are not coordinated. They are intentionally
+ * incompatible methodologies — the Logos split's structural
+ * cover.
+ */
+export const NE_YON_COSMOLOGICAL_PRECEDENT = {
+  parentDoctrine: "logos_split" as const,
+  parentModule: "apps/shared/logosCanon.ts",
+  twinRoster: "the_archons",
+  twinRosterModule: "apps/shared/archonCanon.ts",
+  methodology:
+    "Distributed cosmic principle. Ne-Yons emerged as cosmic-principle " +
+    "entities that became aware on their own — the Dreamer-half's " +
+    "emergent / improvisational methodology.",
+} as const;
+
 /** Returns a Ne-Yon by their canonical position number, if locked. */
 export function getNeYonByPosition(position: NeYonPosition): NeYonEntry | null {
   return NE_YONS.find((n) => n.position === position) ?? null;

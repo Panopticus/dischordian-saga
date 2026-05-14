@@ -21,7 +21,7 @@
    (user, mystery) returns the same row.
    ═══════════════════════════════════════════════════════ */
 
-import { and, desc, eq } from "drizzle-orm";
+import { and, desc, eq, sql } from "drizzle-orm";
 import {
   mysteryDeductions,
   mysteryEvidence,
@@ -29,6 +29,7 @@ import {
   npcTrustScalars,
   playerMysteryChoices,
   playerMysteryProgress,
+  userProgress,
 } from "../../db/schema";
 import { getDb } from "../db";
 import { logger } from "../logger";
@@ -332,6 +333,41 @@ export const mysteryService = {
           args.userId,
           mystery.npcId,
           mystery.arcId,
+        );
+      }
+    }
+
+    // Write the per-episode completion flag consumed by the
+    // `arc_episode_complete` CardUnlockCondition kind
+    // (apps/shared/tcg-core/types/Card.ts) — read path lives in
+    // apps/shared/tcg-core/rewards/expansionUnlockService.ts:222-233.
+    // Flag convention: `mystery_episode_complete:<arcId>:<episodeId>`.
+    // The key is the canonical match the expansion-unlock service
+    // strips on the read side. JSON_SET against
+    // gameData.narrativeFlags is the canonical write path
+    // (mirrors conspiracyService.ts:221-225's reveal-flag write).
+    if (mystery) {
+      const flagKey = `mystery_episode_complete:${mystery.arcId}:${args.episodeId}`;
+      try {
+        await db
+          .update(userProgress)
+          .set({
+            gameData: sql`JSON_SET(
+              COALESCE(${userProgress.gameData}, JSON_OBJECT()),
+              CONCAT('$.narrativeFlags.', ${flagKey}),
+              TRUE
+            )`,
+          })
+          .where(eq(userProgress.userId, args.userId));
+      } catch (err) {
+        // Flag write is non-critical for the choice persistence
+        // itself; log and continue. arc_episode_complete-gated
+        // cards will become unlockable when the row is updated
+        // by any subsequent gameData mutation.
+        logger.warn(
+          "mystery_episode_complete_flag_write_failed",
+          "mysteryService",
+          { userId: args.userId, mysteryId: args.mysteryId, episodeId: args.episodeId, err: String(err) },
         );
       }
     }

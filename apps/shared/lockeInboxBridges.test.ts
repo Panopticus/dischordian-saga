@@ -7,13 +7,24 @@ import {
   lockeBridgesComplete,
 } from "./lockeInboxBridges";
 
+/* The first five entries are the canonical Act 1 → Act 5 bridges,
+ * all signed "— L." Subsequent entries are Coordinator-signed
+ * letters that fire post-Watcher-arc-E5 (PR-3 canon-lock —
+ * apps/shared/ocularumCanon.ts + the_watcher arc). The split is
+ * load-bearing: the signature change at the Coordinator entry IS
+ * the canonical reveal Locke makes at watcher.e5. */
+const ACT_BRIDGE_COUNT = 5;
+const ACT_BRIDGES = LOCKE_INBOX_BRIDGES.slice(0, ACT_BRIDGE_COUNT);
+const COORDINATOR_BRIDGES = LOCKE_INBOX_BRIDGES.slice(ACT_BRIDGE_COUNT);
+
 describe("lockeInboxBridges", () => {
-  it("ships exactly five between-act messages", () => {
-    expect(LOCKE_INBOX_BRIDGES).toHaveLength(5);
+  it("ships the five between-act messages plus Coordinator-era letters", () => {
+    expect(ACT_BRIDGES).toHaveLength(ACT_BRIDGE_COUNT);
+    expect(COORDINATOR_BRIDGES.length).toBeGreaterThanOrEqual(1);
   });
 
-  it("messages are in canonical Act 1 → Act 5 order", () => {
-    const triggers = LOCKE_INBOX_BRIDGES.map((m) => m.triggerFlag);
+  it("the act bridges are in canonical Act 1 → Act 5 order", () => {
+    const triggers = ACT_BRIDGES.map((m) => m.triggerFlag);
     expect(triggers).toEqual([
       "act_1_complete",
       "act_2_complete",
@@ -30,10 +41,17 @@ describe("lockeInboxBridges", () => {
     }
   });
 
-  it("every message body signs off as 'L.' (Locke's signature)", () => {
-    for (const entry of LOCKE_INBOX_BRIDGES) {
+  it("every act-bridge body signs off as '— L.' (Locke's pre-reveal signature)", () => {
+    for (const entry of ACT_BRIDGES) {
       const resolved = resolveLockeInboxBridgeBody(entry, new Set());
       expect(resolved).toMatch(/—\s*L\./);
+    }
+  });
+
+  it("every Coordinator-era body signs off as '— The Coordinator' (post-watcher-E5 reveal)", () => {
+    for (const entry of COORDINATOR_BRIDGES) {
+      const resolved = resolveLockeInboxBridgeBody(entry, new Set());
+      expect(resolved).toMatch(/—\s*The Coordinator/);
     }
   });
 

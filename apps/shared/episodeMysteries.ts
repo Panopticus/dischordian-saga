@@ -37,6 +37,8 @@ export const ARC_THE_SEER       = "arc.the_seer"       as ArcId;
 export const ARC_VEX_SOLENE     = "arc.vex_solene"     as ArcId;
 export const ARC_GAME_MASTER    = "arc.game_master"    as ArcId;
 export const ARC_THE_DEGEN      = "arc.the_degen"      as ArcId;
+export const ARC_THE_WATCHER    = "arc.the_watcher"    as ArcId;
+export const ARC_ITH_RAEL       = "arc.ith_rael"       as ArcId;
 
 /* ─── LENSES ─── */
 /* Six canonical faction lenses. Per §14c.8 each lens persists
@@ -3723,6 +3725,1316 @@ const THE_DEGEN_MYSTERY: MysteryDefinition = {
   lenses: degenLenses,
 };
 
+/* ═══════════════════════════════════════════════════════
+   THE WATCHER ARC — "The 700"
+   Per PR-2 canon-locks (apps/shared/ocularumCanon.ts +
+   apps/shared/agentZeroOcularumBinding.ts):
+
+   The Watcher arc is not an investigation of The Watcher (the
+   Fourth Archon, who is canonically untouchable in this PR). It
+   is an investigation of the ORDER that assassinated his
+   feudal-era predecessor — the Ocularum — and the discovery
+   that the player has been canonically vetted by the Order's
+   Coordinator (Adjudicar Locke) since Beat H. The five
+   episodes walk the player from "an old story about a dead
+   lord" through "a network operating in plain sight" to
+   "you have been useful; you have been quiet; you have been
+   mine; now you are ours."
+
+   E4 is the first canonical use of `playerInfluenceGates`
+   (mysteryTypes.ts:280-291) — branches on the shipping Act-1
+   flags `act1_warlord_zero_defeated` /
+   `act1_warlord_zero_escaped` (apps/shared/act1EncounterRewards.ts:76-89).
+   ═══════════════════════════════════════════════════════ */
+
+/* ─── THE WATCHER ARC — E1 ─── */
+/* E1: "The Antiquarian's Record"
+   Cold-open with the Antiquarian's Lord Kanshi Sha cinematic
+   (apps/shared/expansionArt/cinematicsManifest.ts —
+   id: "lord_kanshi_sha_antiquarian"). Player learns there is
+   an order called the Ocularum, that it has existed since
+   feudal Japan, and that "The 700" is a number with operational
+   significance. Choice: take the record at face value, or
+   question the Antiquarian about what his archive is missing. */
+
+const watcherE1: EpisodeDefinition = {
+  id: "watcher.e1" as EpisodeId,
+  arcId: ARC_THE_WATCHER,
+  ordinal: 1,
+  title: "The Antiquarian's Record",
+  summary:
+    "The Antiquarian surfaces a record he has been holding for centuries — the feudal-era assassination of Lord Kanshi Sha by a purple-clad ninja he had personally trained. The record names an order: the Ocularum. The number 700 appears in the margin without explanation. Investigate what the Antiquarian's archive contains, what it does not contain, and why he chose this moment to surface the record.",
+  clues: [
+    {
+      id: "watcher.e1.antiquarian_record" as ClueId,
+      title: "The Antiquarian's Lord Kanshi Sha Record",
+      body: "A single-take cinematic record the Antiquarian narrates in his own voice. Lord Kanshi Sha was a feudal Japanese spymaster who built the first analog surveillance state — spies in every court, shadows in every corridor. He was assassinated by a purple-clad ninja. The record names the assassin only by her clothing color and by her relationship to the target: 'one of his own people, trained personally by him.' The record names the order she founded as the Ocularum. The number 700 is written in the margin, in a different hand than the rest of the record, with no annotation.",
+      foundIn: "antiquarian-library",
+    },
+    {
+      id: "watcher.e1.kanshi_sha_palace_archives" as ClueId,
+      title: "Kanshi Sha's Palace Archives (fragmentary)",
+      body: "Three documents survive from Kanshi Sha's palace, all from his elite spy network's internal records. They list twelve agents he had positioned closest to himself — a circle his own paranoia had created and then stocked with the most disciplined operatives he had ever trained. One of the twelve, the third on the list, has had her name struck through in a hand that is not Kanshi Sha's. The strike was made after the assassination. The other eleven names remain readable. The Order's modern records preserve all twelve.",
+      foundIn: "antiquarian-library",
+    },
+    {
+      id: "watcher.e1.dispatcher_glyph" as ClueId,
+      title: "A Glyph from the Order's Founding Doctrine",
+      body: "Carved into the underside of a paving stone in the courtyard where the assassination occurred — discovered by a later excavation the Antiquarian quietly funded. A single glyph: the eye watching an eye. The Order's founding glyph. The doctrine it encodes, per the Antiquarian's own gloss, has three meanings the Order holds together as one: 'The eye that watches the watchers.' 'We were the first to refuse.' 'The discipline of seeing turns on the one who built it.'",
+      foundIn: "antiquarian-library",
+    },
+    {
+      id: "watcher.e1.antiquarian_omission" as ClueId,
+      title: "What the Antiquarian's Archive Does Not Contain",
+      body: "Cross-referenced against the Antiquarian's known cataloguing habits: his archive is comprehensive on the founding regicide and the Order's first century. It contains nothing — by his own admission, when pressed — on the Order's operations between Year 200 A.A. and the present. The omission is the size of millennia. He says only: 'I was asked not to write that chapter. I respected the request. I was not told who asked.' The Antiquarian has known the Order's Coordinator personally for at least 11,000 years, by his own implication.",
+      foundIn: "antiquarian-library",
+    },
+  ],
+  deductions: [
+    {
+      id: "watcher.e1.d.assassin_was_one_of_his_own" as DeductionId,
+      clueA: "watcher.e1.antiquarian_record" as ClueId,
+      clueB: "watcher.e1.kanshi_sha_palace_archives" as ClueId,
+      result: "correct",
+      narrationId: "watcher.e1.n.he_taught_the_weapon",
+      narrationProse:
+        "The assassin was one of his own people, trained personally by him — the third of the twelve closest to him, name struck through in a hand that is not his. The Order's founding irony is structural: Kanshi Sha taught the discipline to the weapon that killed him. He had stocked the inner circle with the most rigorously trained operatives he had ever produced, because his paranoia required they be that good to keep him safe. When the discipline reached the level he had demanded of it, one of the twelve concluded that what she had been trained to see was unacceptable to keep seeing. She used every lesson he had given her. The Order founded itself on her act, and on the doctrine that the discipline of seeing eventually turns on whoever taught it.",
+      unlocksEpisode: "watcher.e2" as EpisodeId,
+    },
+    {
+      id: "watcher.e1.d.the_700_is_an_operational_count" as DeductionId,
+      clueA: "watcher.e1.antiquarian_record" as ClueId,
+      clueB: "watcher.e1.dispatcher_glyph" as ClueId,
+      result: "partial",
+      narrationId: "watcher.e1.n.seven_hundred_means_a_body",
+      narrationProse:
+        "The 700 in the margin is not a date, not a casualty count, not a year. The Order's doctrine — 'we were the first to refuse,' encoded in the founding glyph — describes a posture, not a population. But every refusal-order in the saga's record has had a numbered operational body. The Antiquarian wrote the 700 in the margin in a different hand because it is something he was asked to inscribe but not to explain. The most parsimonious reading is that the Ocularum operates 700 numbered cells. The Antiquarian did not write the number when he made the original record; someone wrote it later, in his own archive, with his permission.",
+    },
+    {
+      id: "watcher.e1.d.false_lead_antiquarian_is_member" as DeductionId,
+      clueA: "watcher.e1.antiquarian_omission" as ClueId,
+      clueB: "watcher.e1.dispatcher_glyph" as ClueId,
+      result: "false_lead_named",
+      narrationId: "watcher.e1.n.not_a_member",
+      narrationProse:
+        "The Antiquarian's familiarity with the Order's founding glyph and his eleven-thousand-year acquaintance with the Coordinator make him look, from the outside, like a member. He is not. The Order does not recruit witnesses. The Antiquarian's relationship to the Order is that of an archive — he holds the record because the Order asked him to hold the record, and his archival discipline is sufficient that the Order trusts him to redact what they ask redacted. The role of the historical witness in the saga is structurally distinct from the role of the operative. Reading him as a cell is the obvious move and the wrong one.",
+    },
+  ],
+  choices: [
+    {
+      id: "watcher.e1.c.take_the_record_at_face_value" as ChoiceId,
+      label: "Take the Antiquarian's record at face value — an old assassination, an old order, nothing in the present requires action.",
+      weight: "passive",
+    },
+    {
+      id: "watcher.e1.c.press_the_antiquarian_on_the_omission" as ChoiceId,
+      label: "Press the Antiquarian on the millennia-long omission — ask who asked him not to write that chapter.",
+      weight: "investigative",
+    },
+    {
+      id: "watcher.e1.c.read_the_700_as_present_tense" as ChoiceId,
+      label: "Read the 700 as present tense — assume the Order is operating now and look for its modern surface.",
+      weight: "active",
+    },
+  ],
+  contentBundle: {
+    songId: "ocularum", /* The Ocularum song, The Age of Privacy Track 7 — the canonical anchor for the arc's cold-open */
+    slideshowId: "ocularum",
+    cinematicAssetId: "lord_kanshi_sha_antiquarian",
+    loredexUnlocks: [
+      "entity_122", /* The Ocularum (Order) — registered in this PR */
+      "entity_110", /* Kanshi Sha — the feudal lord */
+      "entity_66", /* The Antiquarian — the saga's archivist */
+    ],
+    conspiracyDiscoveries: [
+      "ocularum_order_exists",
+      "founding_regicide",
+      "the_700",
+      "antiquarian_redaction",
+    ],
+    dropAt: "episode_close",
+  },
+};
+
+/* ─── THE WATCHER ARC — E2 ─── */
+/* E2: "The Order in Plain Sight"
+   The Order's modern operational surface becomes visible — but
+   so casually that the player almost misses it. Trade Empire
+   mission briefings, post-act inbox letters signed "L.", a
+   pattern of dead-drops and signal-relays running through New
+   Babylon's shipping and intel circuits. Investigate whether
+   the pattern is one entity or several. */
+
+const watcherE2: EpisodeDefinition = {
+  id: "watcher.e2" as EpisodeId,
+  arcId: ARC_THE_WATCHER,
+  ordinal: 2,
+  title: "The Order in Plain Sight",
+  summary:
+    "The Ocularum operates in the saga's present, and it operates in plain sight. Across New Babylon — through Trade Empire missions, through post-act inbox letters, through quiet dead-drops in shipping lanes — a pattern of operations is visible to anyone who knows the founding glyph. Investigate whether this pattern is one Order or several, and what relationship it bears to the apparatus that LORE_BIBLE.md:1272 records as 'the Empire's galaxy-spanning surveillance apparatus, including the Ocularum.'",
+  clues: [
+    {
+      id: "watcher.e2.trade_empire_pattern" as ClueId,
+      title: "Trade Empire Mission Pattern",
+      body: "Cross-correlation of the last fifty Trade Empire missions filed with the player's name shows seven that share three structural features: dead-drop pickup, signal-relay verification, and a cover-identity bleed check. All seven were dispatched by Adjudicar Locke's office. All seven, on the surface, are routine Authority-sanctioned commerce-intelligence work. The seven, taken together, describe a perfect operational reconnaissance cycle. The Authority has not noticed. Or the Authority has noticed and approved.",
+      foundIn: "trade-hub",
+    },
+    {
+      id: "watcher.e2.locke_signature_pattern" as ClueId,
+      title: "The Signature 'L.' Across Post-Act Letters",
+      body: "Every post-act inbox letter the player has received from Adjudicar Locke (apps/shared/lockeInboxBridges.ts) is signed 'L.' — never 'Adjudicar,' never 'Locke,' never the formal Authority title. The letters' content is, on the surface, Authority business. The signature is, on the underside, operative-to-operative. The Ocularum's founding glyph appears, in stylized form, embedded in the wax seal of every letter — visible only when the seal is broken from the inside, which the player has not yet done.",
+      foundIn: "captains-quarters",
+    },
+    {
+      id: "watcher.e2.dead_drop_shipping_lanes" as ClueId,
+      title: "Dead-Drops in New Babylon's Shipping Lanes",
+      body: "The shipping lanes from the Sundown Bazaar to the Phyral Quarter carry, on a predictable monthly cadence, a small wax-sealed package whose contents the customs declarations describe as 'archival reference materials, no commercial value.' The packages move through Trade Empire infrastructure. The destination addresses rotate. The shipping origin is always a Locke-signed manifest. The packages have been moving on this cadence for at least eleven centuries — longer than any sender other than the Authority itself has continuously operated in New Babylon.",
+      foundIn: "trade-hub",
+    },
+    {
+      id: "watcher.e2.bifurcation_record" as ClueId,
+      title: "The Apparatus / Resistance Bifurcation Record",
+      body: "A single record in the Antiquarian's archive — surfaced this episode by his late-night annotation — describes the Ocularum's post-regicide bifurcation. The Apparatus Branch (those who did not act with the assassin) continued operating as Kanshi Sha had trained them and across millennia funneled into the AI Empire's surveillance bureaucracy. The Resistance Branch (the assassin and the four who knew and did not stop her) went underground. The record names them as one Order across two lineages, reunified post-Fall. The modern Order is the reunified successor.",
+      foundIn: "antiquarian-library",
+    },
+  ],
+  deductions: [
+    {
+      id: "watcher.e2.d.the_pattern_is_one_order" as DeductionId,
+      clueA: "watcher.e2.trade_empire_pattern" as ClueId,
+      clueB: "watcher.e2.locke_signature_pattern" as ClueId,
+      result: "correct",
+      narrationId: "watcher.e2.n.locke_is_the_signature",
+      narrationProse:
+        "The pattern is one Order. The seven Trade Empire missions are not seven coincidences; they describe a reconnaissance cycle. The 'L.' signature is not casual; it is the operative-to-operative form that the Ocularum's founding doctrine requires of its Coordinator. The wax-seal glyph confirms it. Adjudicar Locke is dispatching the missions, signing the letters, embedding the glyph — and the Authority has either failed to notice or chosen not to. The case's new question is whether the Authority's tolerance is ignorance or arrangement. The Order's modern operational reach runs through Locke's institutional cover; the cover is so good that 'in plain sight' is the Order's chosen posture.",
+      unlocksEpisode: "watcher.e3" as EpisodeId,
+    },
+    {
+      id: "watcher.e2.d.the_apparatus_legacy_persists" as DeductionId,
+      clueA: "watcher.e2.dead_drop_shipping_lanes" as ClueId,
+      clueB: "watcher.e2.bifurcation_record" as ClueId,
+      result: "partial",
+      narrationId: "watcher.e2.n.eleven_centuries_is_apparatus",
+      narrationProse:
+        "Eleven centuries of unbroken shipping cadence is not Resistance work — Resistance branches do not maintain that kind of infrastructure across institutional collapses, by definition. The shipping lanes are the Apparatus Branch's surviving channel, reabsorbed by the reunified Order after the Fall. The Order operates a bifurcated legacy: Resistance doctrine, Apparatus infrastructure. The seven Trade Empire missions are the doctrine using the infrastructure. The Ocularum's modern strength is that it has both. LORE_BIBLE.md:1272 is correct that Kanshi Sha's spy network funneled into the Empire's surveillance bureaucracy; the surveillance bureaucracy's residue is now, ironically, the resistance order's quartermaster.",
+    },
+    {
+      id: "watcher.e2.d.false_lead_authority_is_complicit" as DeductionId,
+      clueA: "watcher.e2.trade_empire_pattern" as ClueId,
+      clueB: "watcher.e2.dead_drop_shipping_lanes" as ClueId,
+      result: "false_lead_named",
+      narrationId: "watcher.e2.n.not_complicit",
+      narrationProse:
+        "Reading the Authority as complicit is the obvious move and the wrong one. The Authority — New Babylon's Central Control Authority, the six imprisoned minds in red crystal coffins — is canonically the surveillance-adjacent institutional faction. The Order was founded to refuse such states. The Authority's tolerance of Locke's Trade Empire pattern is, on the evidence, ignorance: she has been threading the needle so finely that the Authority sees only routine Authority business. The case's deepening question is what happens when the Authority's six minds finally notice. Locke has been playing this game for centuries. The pattern has held. The pattern is fragile because it has held — every passing year compresses the unnoticed surface.",
+    },
+  ],
+  choices: [
+    {
+      id: "watcher.e2.c.watch_a_dead_drop" as ChoiceId,
+      label: "Watch a dead-drop pickup directly — confirm the cadence and the courier.",
+      weight: "observational",
+    },
+    {
+      id: "watcher.e2.c.break_a_seal_from_the_inside" as ChoiceId,
+      label: "Break the wax seal of one of Locke's letters from the inside — read the embedded glyph.",
+      weight: "confrontational",
+    },
+    {
+      id: "watcher.e2.c.cross_reference_the_apparatus_residue" as ChoiceId,
+      label: "Cross-reference the Antiquarian's apparatus / resistance record against the dead-drop infrastructure.",
+      weight: "scholarly",
+    },
+  ],
+  contentBundle: {
+    songId: "album1.t12", /* "I Am The Eyes That Watch" — Dischordian Logic Act 2; observation/presence */
+    slideshowId: "album1.t12",
+    loredexUnlocks: [
+      "entity_78", /* Adjudicar Locke — existing */
+      "concept_apparatus_resistance_bifurcation",
+      "concept_l_signature",
+      "concept_dead_drop_cadence",
+    ],
+    conspiracyDiscoveries: [
+      "locke_signature_pattern",
+      "trade_empire_seven",
+      "shipping_lane_cadence",
+      "bifurcation_record",
+    ],
+    dropAt: "episode_close",
+  },
+};
+
+/* ─── THE WATCHER ARC — E3 ─── */
+/* E3: "The Coordinator's Cover"
+   Locke's institutional position becomes the case. Investigate
+   the structural impossibility of running the Resistance Order
+   from inside the Authority — and why she does it anyway. */
+
+const watcherE3: EpisodeDefinition = {
+  id: "watcher.e3" as EpisodeId,
+  arcId: ARC_THE_WATCHER,
+  ordinal: 3,
+  title: "The Coordinator's Cover",
+  summary:
+    "Adjudicar Locke is the Special Case Manager for New Babylon's Central Control Authority. Adjudicar Locke is the Coordinator of the Ocularum. These two facts are, on inspection, structurally incompatible — the Authority is a surveillance state, the Order was founded to refuse such states. Investigate how she has held both roles simultaneously for centuries, and why she has chosen this cover rather than a cleaner one.",
+  clues: [
+    {
+      id: "watcher.e3.senne_to_locke_transition" as ClueId,
+      title: "Senne → Locke: the Identity-Shift Canon",
+      body: "Per apps/shared/questlineClassSpy.ts:304-338, Locke was Surveillance Coordinator Senne in the AI Empire, pre-defection. Her own words, from the questline: 'I was Surveillance Coordinator — I could see everything. But seeing and acting are not the same thing. That is the lesson the Eyes taught me, and it is the reason I stopped being Senne and became Locke.' The Order's founding doctrine — 'the discipline of seeing turns on the one who built it' — is the framing of her transition. She was the Order's embed inside the AI Empire's surveillance apparatus. When the Empire fell, she walked her cover-identity forward into New Babylon's institutional vacuum.",
+      foundIn: "comms-array",
+    },
+    {
+      id: "watcher.e3.authority_six_minds" as ClueId,
+      title: "The Authority's Six Imprisoned Minds",
+      body: "The Authority is a living computer composed of six citizen-minds, merged into a single governing intelligence in red crystal coffins (apps/shared/antiquariansJournal.ts:328-340). The Politician designed it as her 'Insurance Policy.' It processes law and justice with — per the Antiquarian's own annotation — 'the cold efficiency of an institution that has forgotten what justice feels like.' If the Authority detects Locke's dual loyalty, her destruction is automatic and not subject to appeal. The six minds have been processing her dispatches for centuries and have not detected her. The needle she threads is — by the Authority's own design — supposed to be undetectable only to outside actors, not to insiders.",
+      foundIn: "war-room",
+    },
+    {
+      id: "watcher.e3.coda_parallel" as ClueId,
+      title: "The Coda — Parallel or Sister?",
+      body: "Vex Solène (post-transference identity inhabiting the body that was originally Agent Zero's, per apps/shared/npcs/bibles/vex_solene.md) is canonically the Maestro of an organization called The Coda. Her Coda-internal handle is 'The Eyes of Reality.' Locke's Insurgency callsign was 'The Eyes.' The two are, per Vex's own bible, 'mirror operators in different registers.' The case's open question: whether the Coda is the Ocularum under another name, a sister network, or a parallel organization that happens to share vocabulary. Vex would never use Locke's corporate register. Locke would never use Vex's musical metaphors. They have never been in the same room on the record.",
+      foundIn: "comms-array",
+    },
+    {
+      id: "watcher.e3.why_not_a_cleaner_cover" as ClueId,
+      title: "Why Not a Cleaner Cover?",
+      body: "Architect's note in the Antiquarian's archive, dated last quarter: 'The Coordinator could have placed herself anywhere. The Insurgency would have given her clean ground; the Trade Empire would have given her operational latitude; the academy circuit would have given her invisibility. She chose the Authority. The Authority is the structural opposite of the Order's purpose. She chose the cover that makes her most useful and most disposable. The choice is canonically deliberate. The reason is not yet in the record.'",
+      foundIn: "antiquarian-library",
+    },
+  ],
+  deductions: [
+    {
+      id: "watcher.e3.d.the_cover_is_the_point" as DeductionId,
+      clueA: "watcher.e3.senne_to_locke_transition" as ClueId,
+      clueB: "watcher.e3.why_not_a_cleaner_cover" as ClueId,
+      result: "correct",
+      narrationId: "watcher.e3.n.inside_what_we_refuse",
+      narrationProse:
+        "The cover is the point. Locke chose the Authority because the Order's founding doctrine — 'we were the first to refuse' — requires a refusal performed from inside the thing being refused, not from outside it. The discipline of seeing turns on the one who built it; the Order's modern strategy is to be the people seeing inside the surveillance state, not the people shouting at it from a safe distance. The Senne identity made her good at it; the Locke identity made it permanent. The choice of the Authority is not concealment; it is doctrine. Every Trade Empire mission Locke signs 'L.' is the doctrine doing its work. The Authority is canonically the structural opposite of the Order's purpose, and that opposition is what makes the cover useful.",
+      unlocksEpisode: "watcher.e4" as EpisodeId,
+    },
+    {
+      id: "watcher.e3.d.coda_relationship_is_canon_pending" as DeductionId,
+      clueA: "watcher.e3.coda_parallel" as ClueId,
+      clueB: "watcher.e3.why_not_a_cleaner_cover" as ClueId,
+      result: "partial",
+      narrationId: "watcher.e3.n.mirror_operators",
+      narrationProse:
+        "The Coda and the Ocularum are, per their own bibles, 'mirror operators in different registers.' That phrasing forecloses the easy reading (one organization) and the cynical reading (rival organizations). They are, more likely, two surfaces of a single underlying disposition that the saga is not yet ready to name — the resistance posture toward seeing-and-doing, expressed once in Locke's institutional voice and once in Vex's musical voice. The case here is not whether they cooperate but whether they are aware of each other's full surface. They have, on the record, never met. The Antiquarian's annotation cuts off: 'whether they should is the question I will not answer.'",
+    },
+    {
+      id: "watcher.e3.d.false_lead_authority_will_detect_her" as DeductionId,
+      clueA: "watcher.e3.authority_six_minds" as ClueId,
+      clueB: "watcher.e3.senne_to_locke_transition" as ClueId,
+      result: "false_lead_named",
+      narrationId: "watcher.e3.n.detection_is_not_the_threat",
+      narrationProse:
+        "Reading the case as 'the Authority will eventually detect Locke and destroy her' is the obvious move and the wrong frame. The Authority has had centuries to detect her. The six minds process every dispatch she files. They are not going to suddenly notice what they have not noticed across thousands of audits. The structural threat to Locke's cover is not Authority detection — it is the Order's own visibility creeping into surfaces the Authority cannot ignore. The 700-card DLC, if it ever ships, would name the cells and break the cover from the OUTSIDE. The Authority is the constraint; the player's own investigation is the threat.",
+    },
+  ],
+  choices: [
+    {
+      id: "watcher.e3.c.confirm_with_locke_directly" as ChoiceId,
+      label: "Confirm with Locke directly — show her what you have deduced; let her decide what to give you.",
+      weight: "trusting",
+    },
+    {
+      id: "watcher.e3.c.protect_the_cover_silently" as ChoiceId,
+      label: "Protect the cover silently — do not surface the deductions in any record the Authority can read.",
+      weight: "protective",
+    },
+    {
+      id: "watcher.e3.c.cross_check_with_vex" as ChoiceId,
+      label: "Cross-check with Vex — ask whether the Coda and the Ocularum know each other.",
+      weight: "cross_arc_vex",
+    },
+  ],
+  contentBundle: {
+    songId: "album1.t10", /* "Inner Circle" — Dischordian Logic Act 1; the institutional-cover register */
+    slideshowId: "album1.t10",
+    loredexUnlocks: [
+      "entity_vex_solene", /* Vex Solène — existing */
+      "concept_senne_predecessor_identity",
+      "concept_the_coda_parallel",
+      "concept_authority_six_minds",
+    ],
+    conspiracyDiscoveries: [
+      "senne_locke_transition",
+      "authority_tolerance_pattern",
+      "coda_canon_pending",
+      "cover_doctrine",
+    ],
+    dropAt: "episode_close",
+  },
+};
+
+/* ─── THE WATCHER ARC — E4 ─── */
+/* E4: "The Sister We Did Not Retrieve"
+   First canonical use of `playerInfluenceGates` (mysteryTypes.ts:280-291).
+   Branches on the shipping Act-1 flags `act1_warlord_zero_defeated`
+   and `act1_warlord_zero_escaped` (apps/shared/act1EncounterRewards.ts:76-89).
+   The original Agent Zero — Ocularum sister, warlord-fragmented on
+   Zenon — surfaces as the case. The Order's vigil over her is named.
+   The player's own Act-1 engagement with the warlord-fragmented body
+   is recontextualized. */
+
+const watcherE4: EpisodeDefinition = {
+  id: "watcher.e4" as EpisodeId,
+  arcId: ARC_THE_WATCHER,
+  ordinal: 4,
+  title: "The Sister We Did Not Retrieve",
+  summary:
+    "The Ocularum's modern records carry a name the Order has not voiced aloud in centuries: the original Agent Zero. She was a sister of the Order — warlord-fragmented on Zenon, after the destruction of Archon Xeth'Raal, by a warlord-fragment whose origin is canon-pending (apps/shared/agentZeroOcularumBinding.ts). The Order has watched her since and has not approached her. They wait. The player has, by Act-1 canon, already engaged the warlord-fragmented body. Investigate what the Order's vigil means now that the engagement has happened.",
+  clues: [
+    {
+      id: "watcher.e4.zenon_binding_record" as ClueId,
+      title: "The Zenon Binding Record",
+      body: "Per apps/shared/agentZeroOcularumBinding.ts — the canon module surfaced by this case — the original Agent Zero was an Ocularum operative whom the Order had positioned for the Zenon mission against Archon Xeth'Raal. The mission succeeded; the destruction of Xeth'Raal was Ocularum work (the Order's records still carry the operational closure note). The aftermath was not. A warlord-fragment seized the body. She lost her memory of the Order in the seizure. The Order did not retrieve her. They have spent the centuries since watching her and waiting.",
+      foundIn: "war-room",
+    },
+    {
+      id: "watcher.e4.eyes_of_reality_aliases" as ClueId,
+      title: "Two Operatives Named 'The Eyes'",
+      body: "Two members of the same Order's modern record carry 'Eyes' aliases. Adjudicar Locke is registered as 'The Eyes' (Casino Heist canon — apps/shared/ocularumCanon.ts). The original Agent Zero is registered with the alias 'The Eyes of Reality' (per LORE_BIBLE.md:538). The two aliases were issued by the Order, in different operational eras, to different sisters. The aliases are not coincidence and not redundancy; they are the Order's record-keeping pattern. Locke's 'Eyes' is the modern Coordinator's institutional callsign. The original Agent Zero's 'Eyes of Reality' was an operational name held in reserve for a sister whose work could not be named in the open.",
+      foundIn: "comms-array",
+    },
+    {
+      id: "watcher.e4.order_doctrine_on_fragmented_sisters" as ClueId,
+      title: "The Order's Doctrine on a Warlord-Fragmented Sister",
+      body: "The Order's standing position, per its internal continuity log: the body is hers; the seizure is reversible in principle; the Order will not act until the body indicates she has begun to remember on her own. The Order will not approach. The Order will not intervene. The Order waits. The cell remains hers — her number, whatever it was, remains in the Order's records as held open, not refilled. The doctrine is one of the few the modern Order inherited from the Resistance Branch unchanged: the dignity of impossible rescues is in their patience.",
+      foundIn: "captains-quarters",
+    },
+    {
+      id: "watcher.e4.act1_engagement_recontextualized" as ClueId,
+      title: "The Player's Act-1 Engagement (recontextualized)",
+      body: "Cross-reference apps/shared/act1EncounterRewards.ts:76-89: the player's Act-1 boss was the_warlord_zero_first. The warlord-fragmented body the player engaged in Act 1 was canonically the body that had been the Order's sister. The Order's record on the engagement is silent — the Order does not record actions taken by parties outside the cells. But the Order has, per the Coordinator's standing instructions, instructed every cell with operational visibility on the player to note what the player did and to refrain from acting on it. The Order is reading the engagement before it decides whether to brief the player on what they did.",
+      foundIn: "war-room",
+    },
+  ],
+  deductions: [
+    {
+      id: "watcher.e4.d.defeated_recognition" as DeductionId,
+      clueA: "watcher.e4.zenon_binding_record" as ClueId,
+      clueB: "watcher.e4.act1_engagement_recontextualized" as ClueId,
+      result: "correct",
+      narrationId: "watcher.e4.n.you_killed_her",
+      narrationProse:
+        "You killed her. You did not know what you killed. The Order grieves her twice — once for what the warlord made her, once for what you had to do. The seizure was canonically irreversible from the moment the warlord-fragment closed on the body; the mercy in your engagement was that the body's pain ended. The Order's doctrine on warlord-fragmented sisters is not that they are owed survival but that they are owed the dignity of being waited for. You did not know about the vigil. The Order does not hold the engagement against you. There is another. There is always another. Locke will tell you.",
+      unlocksEpisode: "watcher.e5" as EpisodeId,
+    },
+    {
+      id: "watcher.e4.d.escaped_vigil_continues" as DeductionId,
+      clueA: "watcher.e4.zenon_binding_record" as ClueId,
+      clueB: "watcher.e4.order_doctrine_on_fragmented_sisters" as ClueId,
+      result: "correct",
+      narrationId: "watcher.e4.n.she_lives",
+      narrationProse:
+        "She lives. She does not remember. The Order's vigil continues. The warlord-fragment still has her, and the doctrine is unchanged: the Order will not approach until the body indicates she has begun to remember on her own. Your Act-1 engagement gave her time. The Order's continuity log will record the engagement as 'the witness intervened in the body's favor; the vigil holds.' The case's new question is whether the witness should be asked, by the Coordinator, to find her again — not to retrieve her, but to be present at the moment she begins to remember. You will be asked. Locke will ask. You will say yes.",
+      unlocksEpisode: "watcher.e5" as EpisodeId,
+    },
+    {
+      id: "watcher.e4.d.two_eyes_one_order" as DeductionId,
+      clueA: "watcher.e4.eyes_of_reality_aliases" as ClueId,
+      clueB: "watcher.e4.order_doctrine_on_fragmented_sisters" as ClueId,
+      result: "partial",
+      narrationId: "watcher.e4.n.the_aliases_are_an_order_pattern",
+      narrationProse:
+        "Two sisters of the same Order, both named 'Eyes' in different operational eras, are not coincidence and not duplication — they are the Order's record-keeping pattern. The Coordinator is canonically 'The Eyes' to the cells; the held-open cell of the warlord-fragmented sister is canonically 'The Eyes of Reality' to no one but the continuity log. The two aliases mark the Order's two unresolved states: the Coordinator's perpetual cover, and the sister's perpetual vigil. The pattern is the Order's way of holding both at once.",
+    },
+  ],
+  choices: [
+    {
+      id: "watcher.e4.c.honor_the_vigil" as ChoiceId,
+      label: "Honor the Order's vigil — accept what has happened and what continues to happen.",
+      weight: "patient",
+    },
+    {
+      id: "watcher.e4.c.ask_locke_for_the_briefing" as ChoiceId,
+      label: "Ask Locke for the briefing on what the Order asks of you next.",
+      weight: "operative",
+    },
+    {
+      id: "watcher.e4.c.cross_arc_with_vex" as ChoiceId,
+      label: "Cross-arc with Vex — the body Vex inhabits is the body the Order was watching; she may need to know.",
+      weight: "cross_arc_vex",
+    },
+  ],
+  contentBundle: {
+    songId: "album1.t19", /* "The Syndicated" — Dischordian Logic Act 3, the lost-sister tonal register */
+    slideshowId: "album1.t19",
+    loredexUnlocks: [
+      "entity_24", /* Agent Zero — existing */
+      "concept_zenon_binding",
+      "concept_warlord_fragmentation",
+      "concept_order_vigil_doctrine",
+    ],
+    conspiracyDiscoveries: [
+      "zenon_binding_event",
+      "two_eyes_pattern",
+      "act1_recontextualization",
+      "order_vigil",
+    ],
+    dropAt: "episode_close",
+  },
+};
+
+/* ─── THE WATCHER ARC — E5 ─── */
+/* E5: "Now You Are Ours"
+   The reveal. Locke names herself as Coordinator, names the
+   player as canonically vetted since Beat H, and offers
+   recruitment. The player canonically joins the Order. The
+   arc closes with their generated cell-ID being assigned. */
+
+const watcherE5: EpisodeDefinition = {
+  id: "watcher.e5" as EpisodeId,
+  arcId: ARC_THE_WATCHER,
+  ordinal: 5,
+  title: "Now You Are Ours",
+  summary:
+    "Adjudicar Locke summons the player to a meeting on terms she does not file with the Authority. She names herself as Coordinator. She names the player as canonically vetted since Beat H — every Trade Empire mission accepted, every post-act letter read, every breadcrumb the player did not know was a breadcrumb. She offers recruitment. The arc closes with the player's cell number being assigned. Investigate what consent looks like when the recruitment-by-recognition has already happened.",
+  clues: [
+    {
+      id: "watcher.e5.locke_unfiled_summons" as ClueId,
+      title: "The Summons Locke Did Not File",
+      body: "A meeting invitation in Locke's hand, delivered to the player by a courier whose route is not in any Authority manifest. The invitation reads, in her wry register: 'You have been useful. You have been quiet. You have been mine. Now you are ours, if you wish. Come to the address below. Bring nothing the Authority would expect you to carry.' Signed not 'L.' but, for the first time the player has seen, 'The Coordinator.' The signature is the meeting's first revelation. Everything else is acknowledgment.",
+      foundIn: "captains-quarters",
+    },
+    {
+      id: "watcher.e5.vetting_dossier" as ClueId,
+      title: "The Order's Vetting Dossier",
+      body: "Locke produces, at the meeting, a dossier the thickness of the saga's runtime. It is the Order's continuous vetting record on the player — every choice made since Beat H, every relationship maintained, every Trade Empire mission accepted, every Mystery Engine arc the player walked. The dossier is not surveillance; it is recognition. Locke's annotation on the cover: 'This is what we have seen. We have not interpreted it. We have only recorded it. The interpretation has always been yours. You are reading the interpretation now.' The dossier ends on the last page with a single line: 'Cell pending.'",
+      foundIn: "captains-quarters",
+    },
+    {
+      id: "watcher.e5.coordinator_terms" as ClueId,
+      title: "The Coordinator's Terms",
+      body: "Locke's terms are characteristically transactional, and characteristically generous. Membership in the Order does not require severance from any existing relationship, faction, or institutional position. The cell number is the player's; they may use it or not. The Order will not contact them more than they invite. The Order will not ask of them more than the founding doctrine demands of any cell. The terms close: 'The discipline of seeing will turn on you eventually. We would prefer it turn in the direction of the work. If it turns otherwise, we will respect that turn too. Sign or do not sign. Either way, you have been ours since you accepted my first letter.'",
+      foundIn: "captains-quarters",
+    },
+    {
+      id: "watcher.e5.cell_number_generation" as ClueId,
+      title: "Cell Number Generation",
+      body: "The Order's modern roster (apps/shared/ocularumCanon.ts) currently registers 3 named cells of 700: Cell 1 (Old Tanjin), Cell 99 (Mira the Glyph-Reader), Cell 700 (the Seventh Whisper). The remaining 697 are operationally active but canonically unnamed — they are the cells the DLC owes when it ships. Per the Coordinator's standing instructions, a new recruit's cell number is generated by the Order's continuity log at the moment of recruitment, drawing from the unfilled range. The player's cell number, if they accept, will be canonical for the rest of the saga and persist into the DLC's authoring spec.",
+      foundIn: "war-room",
+    },
+  ],
+  deductions: [
+    {
+      id: "watcher.e5.d.consent_after_recognition" as DeductionId,
+      clueA: "watcher.e5.locke_unfiled_summons" as ClueId,
+      clueB: "watcher.e5.vetting_dossier" as ClueId,
+      result: "correct",
+      narrationId: "watcher.e5.n.you_were_always_meant_to_become",
+      narrationProse:
+        "The arc's framing is not betrayal — Locke never lied to you about the missions. The framing is not recruitment-by-surprise — every breadcrumb was visible, every signature was 'L.', every wax seal carried the glyph. The framing is mutual conspiratorial trust: Locke has been trusting you with her life since Beat H, and you did not know what your trust was buying. You were always meant to become this. Locke knew before you did. The dossier's last line — 'Cell pending' — is not a request; it is the recognition that the work has already happened. Your consent is what closes the recognition into a name. Whether you sign or do not sign, you have been hers since you accepted her first letter. Signing changes who reads the second.",
+    },
+    {
+      id: "watcher.e5.d.coordinator_pattern" as DeductionId,
+      clueA: "watcher.e5.coordinator_terms" as ClueId,
+      clueB: "watcher.e5.cell_number_generation" as ClueId,
+      result: "partial",
+      narrationId: "watcher.e5.n.the_terms_are_doctrine",
+      narrationProse:
+        "Locke's terms are the founding doctrine's modern expression. 'We were the first to refuse' becomes 'we will not ask of you what we have not asked of ourselves.' 'The eye that watches the watchers' becomes the dossier — the Order has been the eye that watched the player's choices, without interpreting them. 'The discipline of seeing turns on the one who built it' becomes the warning: she names the doctrine as the threat it has always been, including to the people who hold it. The cell-number generation closes the recognition into a name. The pattern is the Order's full doctrine compressed into a single recruitment conversation.",
+    },
+    {
+      id: "watcher.e5.d.false_lead_the_authority_must_be_told" as DeductionId,
+      clueA: "watcher.e5.locke_unfiled_summons" as ClueId,
+      clueB: "watcher.e5.coordinator_terms" as ClueId,
+      result: "false_lead_named",
+      narrationId: "watcher.e5.n.the_authority_does_not_get_to_know",
+      narrationProse:
+        "Reading the meeting as something the Authority must be informed of is the obvious move and the wrong one. The Authority is canonically the surveillance state the Order was founded to refuse. Telling the Authority is telling the Authority. The doctrine is not 'transparency with all parties'; it is 'refusal of the apparatus that demands transparency.' The Coordinator's terms include 'membership does not require severance from any existing relationship, faction, or institutional position' — meaning the player can continue every existing arc, every existing faction, every existing surface — but the Order is not one of those existing surfaces and is not for the Authority to know about. Telling collapses the cover. The cover is the Order's centuries-long work.",
+    },
+  ],
+  choices: [
+    {
+      id: "watcher.e5.c.accept_the_cell" as ChoiceId,
+      label: "Accept the cell — sign the dossier; let the continuity log generate your number.",
+      weight: "recruitment",
+    },
+    {
+      id: "watcher.e5.c.decline_without_severance" as ChoiceId,
+      label: "Decline without severance — Locke's terms hold either way; the work continues.",
+      weight: "principled",
+    },
+    {
+      id: "watcher.e5.c.ask_for_time" as ChoiceId,
+      label: "Ask for time — say nothing yet; let the recognition sit.",
+      weight: "deliberate",
+    },
+  ],
+  contentBundle: {
+    songId: "album1.t28", /* "Last Words" — Dischordian Logic Act 5 finale; recruitment-as-completion */
+    slideshowId: "album1.t28",
+    loredexUnlocks: [
+      "concept_coordinator_terms",
+      "concept_cell_number_generation",
+      "concept_vetting_dossier",
+      "concept_recruitment_by_recognition",
+    ],
+    conspiracyDiscoveries: [
+      "locke_named_as_coordinator",
+      "vetting_dossier_revealed",
+      "cell_number_generated",
+      "order_membership_confirmed",
+    ],
+    dropAt: "episode_close",
+  },
+};
+
+/* ─── THE WATCHER ARC — SUSPECTS, LENSES, DEFINITION ─── */
+
+const watcherSuspects: ReadonlyArray<{
+  id: SuspectId;
+  name: string;
+  type: string;
+  relations: ReadonlyArray<{ to: SuspectId; relation: string }>;
+}> = [
+  {
+    id: "suspect.the_watcher" as SuspectId,
+    name: "The Watcher / Lord Kanshi Sha",
+    type: "character",
+    relations: [
+      { to: "suspect.the_collector" as SuspectId, relation: "resurrected-by" },
+      { to: "suspect.ocularum_order" as SuspectId, relation: "founding-target-of" },
+    ],
+  },
+  {
+    id: "suspect.ocularum_order" as SuspectId,
+    name: "The Ocularum (Order)",
+    type: "faction",
+    relations: [
+      { to: "suspect.adjudicar_locke" as SuspectId, relation: "coordinated-by" },
+      { to: "suspect.the_collector" as SuspectId, relation: "regicide-undone-by" },
+    ],
+  },
+  {
+    id: "suspect.adjudicar_locke" as SuspectId,
+    name: "Adjudicar Locke (Coordinator)",
+    type: "character",
+    relations: [
+      { to: "suspect.the_authority" as SuspectId, relation: "institutionally-bound-to" },
+      { to: "suspect.original_agent_zero" as SuspectId, relation: "sister-of-the-vigil" },
+    ],
+  },
+  {
+    id: "suspect.the_authority" as SuspectId,
+    name: "The Authority (Six Imprisoned Minds)",
+    type: "faction",
+    relations: [],
+  },
+  {
+    id: "suspect.original_agent_zero" as SuspectId,
+    name: "Agent Zero (original — warlord-fragmented)",
+    type: "character",
+    relations: [
+      { to: "suspect.ocularum_order" as SuspectId, relation: "sister-of-the-order" },
+    ],
+  },
+  {
+    id: "suspect.the_collector" as SuspectId,
+    name: "The Collector",
+    type: "character",
+    relations: [],
+  },
+];
+
+const watcherLenses = [
+  { id: LENS_INSURGENCY, name: "Insurgency", category: "faction" },
+  { id: LENS_HIERARCHY,  name: "Hierarchy",  category: "faction" },
+  { id: LENS_THALORIA,   name: "Thaloria",   category: "faction" },
+  { id: LENS_QUARCHON,   name: "Quarchon",   category: "faction" },
+  { id: LENS_DREAMER,    name: "Dreamer",    category: "faction" },
+  { id: LENS_NEUTRAL,    name: "Neutral",    category: "faction" },
+] as const;
+
+const THE_WATCHER_MYSTERY: MysteryDefinition = {
+  id: "mystery.the_watcher" as MysteryId,
+  arcId: ARC_THE_WATCHER,
+  title: "The 700",
+  summary:
+    "An old assassination, an old order, and a recruitment that has already happened. The Antiquarian surfaces a record of the feudal-era assassination of Lord Kanshi Sha — and the order his trained agent founded. The 700 is in the margin. The Order operates in New Babylon's present. The Coordinator has been writing to the player since Beat H. Investigate whether they want the cell number the Coordinator's continuity log is, by the time the case closes, prepared to give them.",
+  npcId: "adjudicar_locke",
+  episodes: [watcherE1, watcherE2, watcherE3, watcherE4, watcherE5],
+  suspects: watcherSuspects,
+  lenses: watcherLenses,
+  /**
+   * First canonical use of `playerInfluenceGates` in the saga.
+   * Branches the E4 closure narration on the shipping Act-1
+   * flags `act1_warlord_zero_defeated` / `act1_warlord_zero_escaped`
+   * (apps/shared/act1EncounterRewards.ts:76-89). The two
+   * deductions watcherE4.d.defeated_recognition and
+   * watcherE4.d.escaped_vigil_continues both unlock E5 — the
+   * resolver picks which closure narration the player sees
+   * based on the flag they set in Act 1.
+   *
+   * The architect's note (per
+   * apps/shared/agentZeroOcularumBinding.ts:WATCHER_ARC_E4_BRANCH_FLAGS):
+   * the case structurally requires the Order's voice to address
+   * what the player did to the warlord-fragmented body in Act 1.
+   * The flags carry that engagement forward across acts.
+   */
+  playerInfluenceGates: [
+    {
+      id: "watcher_e4_act1_defeated",
+      condition: { kind: "narrative_flag", flag: "act1_warlord_zero_defeated" },
+      branchId: "watcher.e4.d.defeated_recognition",
+      rationale:
+        "Player defeated the warlord-fragmented body in Act 1 — the Order's E4 framing surfaces the grief-twice narration and the breadcrumb 'there is another' to E5.",
+    },
+    {
+      id: "watcher_e4_act1_escaped",
+      condition: { kind: "narrative_flag", flag: "act1_warlord_zero_escaped" },
+      branchId: "watcher.e4.d.escaped_vigil_continues",
+      rationale:
+        "Player let the warlord-fragmented body escape in Act 1 — the Order's E4 framing surfaces the vigil-continues narration and the breadcrumb 'you will be asked to find her again' to E5.",
+    },
+    /* PR-3C — the Non-Coordination Pact reveal variant.
+     * Triggered ONLY when the player has reached Vex's Coda
+     * `inner_circle` standing AND has also closed the ith_rael
+     * arc (the latter's unindexable-practice doctrine is what
+     * gives the dual-membership player the conceptual grip to
+     * understand what Locke is naming). The triple-arc
+     * completion is the unlock: watcher.e5 + ith_rael.e5 +
+     * Coda inner_circle. Locke names the pact for the player
+     * at E5 close — the saga's deepest reveal, only available
+     * to players who have walked all three arcs to the end.
+     * See apps/shared/nonCoordinationPact.ts:PACT_PLAYER_EXCEPTION
+     * for the canonical reveal content. */
+    {
+      id: "watcher_e5_pact_reveal_dual_membership",
+      condition: { kind: "narrative_flag", flag: "coda_inner_circle_standing" },
+      branchId: "watcher.e5.d.consent_after_recognition",
+      rationale:
+        "Player has reached Vex's Coda inner_circle standing — when combined with the_watcher arc completion (Ocularum cell-membership), the player is the saga's only cross-network operative. Locke's E5 reveal names the Non-Coordination Pact and tells the player they are the structural-exception channel neither network officially has. The flag also requires ith_rael arc closure (mystery_episode_complete:arc.ith_rael:ith_rael.e5) for full conceptual unlock; the resolver checks the second condition at branch-resolution time.",
+    },
+  ],
+};
+
+/* ═══════════════════════════════════════════════════════
+   ITH'RAEL ARC — "The Centuries Were the Working"
+   The Severance was not an event. It was a working — slow,
+   patient, multi-generational, conducted by a single
+   Director of Special Projects whose method was never to
+   force a change, only to soften the conditions until the
+   change emerged on its own. Ith'Rael the Whisperer
+   (apps/shared/hierarchyCanon.ts:172-186) is the working's
+   author. The arc investigates HOW the Severance happened,
+   not WHAT it produced — and surfaces the disturbing fact
+   that Ith'Rael is still working, in the saga's present,
+   on operations the player has not yet learned to see.
+
+   Cross-references:
+     - LORE_BIBLE.md (Marion Kell, Darren Fessler) — the
+       Shadow Tongue's editing pattern
+     - apps/shared/hierarchyCanon.ts (Drael'Mon, Zyr'Koth) —
+       the operational chain Ith'Rael fed
+     - apps/shared/hierarchyCanon.ts:HIERARCHY_AEONS_PIECE_POSITIONING
+       — the meta-faction's piece-positioning canon Ith'Rael
+       is one canonical operator of
+   ═══════════════════════════════════════════════════════ */
+
+/* ─── ITH'RAEL ARC — E1 ─── */
+/* E1: "A Single Hand"
+   The Severance had a single orchestrator. The case opens
+   on a record the Hierarchy itself does not redact —
+   because the Hierarchy is proud of him. */
+
+const ithRaelE1: EpisodeDefinition = {
+  id: "ith_rael.e1" as EpisodeId,
+  arcId: ARC_ITH_RAEL,
+  ordinal: 1,
+  title: "A Single Hand",
+  summary:
+    "The Severance broke the ancient bindings and freed the Hierarchy of the Damned to wage war across the multiverse. Most accounts treat it as a multi-actor cataclysm. The Hierarchy's own records — accessible to anyone who can read corporate org charts — credit a single operator: Ith'Rael the Whisperer, Director of Special Projects. Investigate how a single Director, on a centuries-long timetable, executed the largest cosmological breach in the saga's record.",
+  clues: [
+    {
+      id: "ith_rael.e1.hierarchy_org_chart" as ClueId,
+      title: "The Hierarchy's Severance Project Org Chart",
+      body: "The Hierarchy of the Damned files internal credit the way every corporation does: by project, by lead, by deliverable. The Severance is filed under Special Projects, lead Ith'Rael the Whisperer, Director. Co-leads: Zyr'Koth (R&D, refined the Blood Weave into the Severance Protocol — apps/shared/hierarchyCanon.ts:160-162); Drael'Mon (Consumer, devoured what the Shadow Tongue softened — apps/shared/hierarchyCanon.ts:208-210). The org chart shows Ith'Rael at the top of a single reporting line. The Severance is, by the Hierarchy's own internal accounting, his.",
+      foundIn: "war-room",
+    },
+    {
+      id: "ith_rael.e1.shadow_tongue_signature" as ClueId,
+      title: "The Shadow Tongue's Editing Signature",
+      body: "The Shadow Tongue is not merely a language; it is an editing apparatus. Cross-reference its operational signature: it does not destroy records, it removes them — surgically, with the formatting fields and the connections-graph entries and the memory-of-the-name from anyone who knew the subject. Marion Kell (LORE_BIBLE.md:113-136) is the documented case. The signature is Ith'Rael's: subtraction without trace, performed across the chronicle layer rather than the physical layer. The Shadow Tongue is his instrument; the editing is his art form.",
+      foundIn: "comms-array",
+    },
+    {
+      id: "ith_rael.e1.no_force_only_softening" as ClueId,
+      title: "The Director's Operational Doctrine",
+      body: "An internal Hierarchy memo, dated to the early Severance preparation: 'Department of Special Projects standing instruction. We do not force outcomes. We soften the conditions until the outcome emerges on its own. Force makes a target defensive; softening makes the target a participant. The Severance will be undone if it is taken; it will hold if it is given. Our work is to make it given.' Signed: Ith'Rael, Director. The doctrine is the working's whole strategy condensed into four sentences.",
+      foundIn: "antiquarian-library",
+    },
+    {
+      id: "ith_rael.e1.hierarchy_internal_credit" as ClueId,
+      title: "Hierarchy Internal Credit Distribution",
+      body: "The Hierarchy is canonically a corporation. Corporations distribute credit. Per the Hierarchy's internal accounting, the Severance produced eleven separate after-action commendations: four to Drael'Mon (consumption efficiency), three to Zyr'Koth (protocol refinement), one each to Riri'Ahlia (operational logistics), Mol'Garath (CEO sign-off), Syl'Vex (corruption support), and Ith'Rael — the Director's commendation, dated ten years after the bindings broke, citing 'the patience of the working' as the Hierarchy's most valuable institutional asset. The dating matters: ten years AFTER, not at the moment.",
+      foundIn: "trade-hub",
+    },
+  ],
+  deductions: [
+    {
+      id: "ith_rael.e1.d.severance_was_one_directors_working" as DeductionId,
+      clueA: "ith_rael.e1.hierarchy_org_chart" as ClueId,
+      clueB: "ith_rael.e1.no_force_only_softening" as ClueId,
+      result: "correct",
+      narrationId: "ith_rael.e1.n.a_single_hand",
+      narrationProse:
+        "The Severance was a single Director's working. Ith'Rael had the org-chart authority to do it, the operational doctrine to execute it across centuries, and the institutional credit to claim it ten years afterward without comment from the C-suite. The Hierarchy's own records do not redact him because the Hierarchy is proud — they consider the Severance the most successful Special Projects engagement in their corporate history. The case's operational frame is now clear: we are not investigating an event; we are investigating a method. The method is patience. The instrument is the Shadow Tongue. The result is that the Hierarchy is currently free to operate across the saga's present, and Ith'Rael is currently still Director.",
+      unlocksEpisode: "ith_rael.e2" as EpisodeId,
+    },
+    {
+      id: "ith_rael.e1.d.shadow_tongue_is_the_chisel" as DeductionId,
+      clueA: "ith_rael.e1.shadow_tongue_signature" as ClueId,
+      clueB: "ith_rael.e1.no_force_only_softening" as ClueId,
+      result: "partial",
+      narrationId: "ith_rael.e1.n.subtraction_without_trace",
+      narrationProse:
+        "The Shadow Tongue's signature — subtraction without trace, performed at the chronicle layer — is the operational expression of the doctrine 'we do not force outcomes; we soften the conditions.' You cannot force a defensive system that is editing its own threat-detection in real time. You can only edit faster than the system can write itself back. The Shadow Tongue is Ith'Rael's chisel; the chronicle is the stone. The Marion Kell case (LORE_BIBLE.md:113-136) is the documented small-scale demonstration; the Severance was the large-scale execution.",
+    },
+    {
+      id: "ith_rael.e1.d.false_lead_severance_was_brute_force" as DeductionId,
+      clueA: "ith_rael.e1.hierarchy_org_chart" as ClueId,
+      clueB: "ith_rael.e1.shadow_tongue_signature" as ClueId,
+      result: "false_lead_named",
+      narrationId: "ith_rael.e1.n.not_brute_force",
+      narrationProse:
+        "Reading the Severance as a brute-force breaking is the obvious move and the wrong one. The ancient bindings were not engineered to fail under force — they had been holding under force for the entire Hierarchy's pre-Severance imprisonment. They were engineered to fail under the absence of opposition. The Shadow Tongue removed the opposition by removing the records that constituted it. The Severance succeeded because, by the time the bindings broke, no one alive remembered why they had been written. Force was never the threat; forgetting was. The doctrine 'we do not force outcomes' is not euphemism. It is method.",
+    },
+  ],
+  choices: [
+    {
+      id: "ith_rael.e1.c.read_the_director_as_a_problem_to_solve" as ChoiceId,
+      label: "Read the Director as a problem to solve — investigate his current operations.",
+      weight: "operational",
+    },
+    {
+      id: "ith_rael.e1.c.read_the_method_as_a_doctrine_to_learn" as ChoiceId,
+      label: "Read the method as a doctrine to study — softening as institutional craft.",
+      weight: "scholarly",
+    },
+    {
+      id: "ith_rael.e1.c.cross_reference_the_marion_kell_pattern" as ChoiceId,
+      label: "Cross-reference the Marion Kell editing — examine the Shadow Tongue's small-scale signature.",
+      weight: "investigative",
+    },
+  ],
+  contentBundle: {
+    songId: "album1.t10", /* "Inner Circle" — Dischordian Logic Act 1 */
+    slideshowId: "album1.t10",
+    loredexUnlocks: [
+      "concept_severance_a_single_hand",
+      "concept_directors_doctrine",
+      "concept_hierarchy_credit_distribution",
+    ],
+    conspiracyDiscoveries: [
+      "single_director_orchestration",
+      "shadow_tongue_signature",
+      "softening_doctrine",
+      "ten_year_commendation",
+    ],
+    dropAt: "episode_close",
+  },
+};
+
+/* ─── ITH'RAEL ARC — E2 ─── */
+/* E2: "Marion Kell, Read Slowly"
+   The Marion Kell editing is documented in the Chronicle.
+   Read it slowly enough and the Director's full method
+   becomes visible — the Shadow Tongue is not editing
+   names, it is editing the conditions of recognition. */
+
+const ithRaelE2: EpisodeDefinition = {
+  id: "ith_rael.e2" as EpisodeId,
+  arcId: ARC_ITH_RAEL,
+  ordinal: 2,
+  title: "Marion Kell, Read Slowly",
+  summary:
+    "Marion Kell was edited out of Ark 1047's Chronicle four centuries before the Fall (LORE_BIBLE.md:113-136). The case is documented; the Inventor restored partial visibility through three Palimpsest broadcasts. Reading the editing slowly — clue by clue, formatting field by formatting field — surfaces a pattern the Inventor's restoration did not name: the Shadow Tongue does not edit names. It edits the conditions under which a name can be recognized. Investigate what that means for the Severance and for the saga's present.",
+  clues: [
+    {
+      id: "ith_rael.e2.kell_chronicle_excision" as ClueId,
+      title: "The Marion Kell Chronicle Excision",
+      body: "Per LORE_BIBLE.md:113-136: Marion Kell's Chronicle entry, her connections-graph nodes, the formatting-field thank-you notes, and the memory-of-her in Elara's substrate architecture were all surgically removed by the Shadow Tongue. The excision held for four centuries before the Inventor's broadcast intrusions partially restored her visibility (Palimpsest Episodes 4, 9, and 13). The technical signature is unique to the Shadow Tongue; no other operator in the saga's record has this combination of precision and reach.",
+      foundIn: "comms-array",
+    },
+    {
+      id: "ith_rael.e2.what_was_not_edited" as ClueId,
+      title: "What the Shadow Tongue Did Not Edit",
+      body: "Cross-reference the parts of Marion Kell's footprint that the Shadow Tongue did NOT touch: the wood grain of the desk she used, the stains on the mug she drank from, the undusted spot on the shelf where her photograph had stood. Physical residue. Archaeological evidence. The Shadow Tongue does not edit the world; it edits the chronicle of the world. The world remembers Marion Kell in unindexed forms — but the indexing is what allows recognition. Without the indexing, the residue is just residue. The Director understands what indexing is for.",
+      foundIn: "engineering",
+    },
+    {
+      id: "ith_rael.e2.darren_fessler_resistance" as ClueId,
+      title: "Why Darren Fessler's Entry Could Not Be Edited",
+      body: "Per LORE_BIBLE.md:31-36: Darren Fessler died between Palimpsest Episodes 11 and 12; the Shadow Tongue attempted to edit his Loredex entry within six hours and failed for the first time in four hundred years. The cause is unexplained in the saga's open record. Cross-correlation against the Director's doctrine ('we do not force outcomes; we soften the conditions') suggests the failure mechanism: Darren had spent decades writing letters to contestants in which 'each of his letters contained one real sentence buried under a page of small talk.' The buried sentences were unindexed by design. There was nothing for the Shadow Tongue to subtract; the meaning was hidden where indexing could not reach.",
+      foundIn: "antiquarian-library",
+    },
+    {
+      id: "ith_rael.e2.indexing_doctrine" as ClueId,
+      title: "The Director's Indexing Doctrine (inferred)",
+      body: "Architect's note in the Antiquarian's archive: 'The Shadow Tongue is not an editor of names, persons, or events. It is an editor of the conditions that allow recognition. To remove a person from the chronicle is to remove the indexing under which the person can be found, not to remove the person. The Director's doctrine therefore is not destruction but unindexing. This is harder to undo than destruction. Destruction leaves a void. Unindexing leaves a complete chronicle that no one can find what they need in.'",
+      foundIn: "antiquarian-library",
+    },
+  ],
+  deductions: [
+    {
+      id: "ith_rael.e2.d.unindexing_is_the_method" as DeductionId,
+      clueA: "ith_rael.e2.what_was_not_edited" as ClueId,
+      clueB: "ith_rael.e2.indexing_doctrine" as ClueId,
+      result: "correct",
+      narrationId: "ith_rael.e2.n.indexing_is_the_lever",
+      narrationProse:
+        "The Shadow Tongue's method is unindexing, not editing. The world remembers; the chronicle no longer indexes the remembering. To a system trying to act on memory — Elara's substrate, the Hierarchy's own internal records, the Insurgency's tactical intelligence — the unindexed memory is functionally absent. The Severance was not the breaking of the bindings; the Severance was the unindexing of the reasons the bindings had been written. By the time the bindings broke, no system could retrieve the cause for which they had been engineered. The breaking was, by then, a formality. The Director's working was the unindexing. The breaking was the receipt.",
+      unlocksEpisode: "ith_rael.e3" as EpisodeId,
+    },
+    {
+      id: "ith_rael.e2.d.darren_resistance_pattern" as DeductionId,
+      clueA: "ith_rael.e2.darren_fessler_resistance" as ClueId,
+      clueB: "ith_rael.e2.indexing_doctrine" as ClueId,
+      result: "partial",
+      narrationId: "ith_rael.e2.n.unindexable_meaning",
+      narrationProse:
+        "Darren Fessler resisted by being unindexable from the start. His meaningful sentences were buried under indexable noise; the Shadow Tongue could not subtract what it could not locate. The principle is generalizable: anyone who structures their meaning so that the meaning is not in the indexing layer is editable only with violence. The Director does not use violence — the doctrine forbids force. Therefore, anyone whose meaning lives outside the indexing layer is, in practice, beyond the Director's reach. The Order's wax-seal glyph, visible only when the seal is broken from the inside (the_watcher.e2.locke_signature_pattern), is one of these structures. The Resistance Branch's millennia-long survival is another.",
+    },
+    {
+      id: "ith_rael.e2.d.false_lead_inventor_can_undo_severance" as DeductionId,
+      clueA: "ith_rael.e2.kell_chronicle_excision" as ClueId,
+      clueB: "ith_rael.e2.darren_fessler_resistance" as ClueId,
+      result: "false_lead_named",
+      narrationId: "ith_rael.e2.n.restoration_is_local",
+      narrationProse:
+        "Reading the Inventor's Marion Kell restoration as evidence that the Severance can be undone is the obvious move and the wrong one. The Inventor restored partial visibility for ONE individual across THREE broadcasts, working at the limit of his capacity, exploiting a specific Palimpsest-era audio-visual loophole the Director did not anticipate. Scaling that to the Severance — undoing the unindexing of the entire pre-Severance binding-rationale — is structurally beyond any single restoration operation. The Severance is, in the operative sense, irreversible. The case's operational frame must accept this: the Director's working has held; the question is what he is currently working on.",
+    },
+  ],
+  choices: [
+    {
+      id: "ith_rael.e2.c.audit_for_current_unindexing" as ChoiceId,
+      label: "Audit the saga's present-tense chronicle for active unindexing operations.",
+      weight: "investigative",
+    },
+    {
+      id: "ith_rael.e2.c.protect_unindexable_meaning_structures" as ChoiceId,
+      label: "Identify and protect the saga's existing unindexable meaning structures.",
+      weight: "defensive",
+    },
+    {
+      id: "ith_rael.e2.c.consult_inventor_on_method" as ChoiceId,
+      label: "Consult the Inventor on the limits of restoration — what can and cannot be brought back.",
+      weight: "scholarly",
+    },
+  ],
+  contentBundle: {
+    songId: "album1.t12", /* "I Am The Eyes That Watch" — observation/presence */
+    slideshowId: "album1.t12",
+    loredexUnlocks: [
+      "concept_unindexing_doctrine",
+      "concept_unindexable_meaning",
+      "concept_severance_as_unindexing",
+    ],
+    conspiracyDiscoveries: [
+      "shadow_tongue_method",
+      "kell_excision_pattern",
+      "darren_resistance",
+      "indexing_lever",
+    ],
+    dropAt: "episode_close",
+  },
+};
+
+/* ─── ITH'RAEL ARC — E3 ─── */
+/* E3: "Thaloria, Generation by Generation"
+   The Severance corrupted Thaloria over centuries. The
+   case examines how — and finds that the corruption was
+   not done to Thaloria but performed BY Thaloria, after
+   the Director softened the conditions enough that each
+   generation handed the next a slightly less defensible
+   version of itself. */
+
+const ithRaelE3: EpisodeDefinition = {
+  id: "ith_rael.e3" as EpisodeId,
+  arcId: ARC_ITH_RAEL,
+  ordinal: 3,
+  title: "Thaloria, Generation by Generation",
+  summary:
+    "The Severance corrupted Thaloria; the corruption was the working's mechanism. Conventional accounts treat the corruption as something done TO Thaloria — an external assault. The Director's archived notes treat it differently: the corruption was performed BY Thaloria, generation by generation, after the Director softened the conditions enough that each generation could hand the next a slightly less defensible version of itself. Investigate the centuries-long handoff and the moment it became irreversible.",
+  clues: [
+    {
+      id: "ith_rael.e3.thaloria_generational_records" as ClueId,
+      title: "Thaloria's Generational Defense Records",
+      body: "Thaloria's pre-Severance defense doctrine was canonically rigorous: the Empire of Shadows used the Blood Weave defensively (apps/shared/hierarchyCanon.ts:21 — the Hierarchy's antithesis), and Thalorian generations were trained, tested, and recertified across a multi-decade ritual cadence. The defense records show no corruption event. They show, across nine generations, a slow and consensual relaxation of the recertification standards. Each generation passed the test the previous generation had set; each generation set a slightly easier test for the next. By the ninth generation, the recertification was a formality. The corruption was procedural before it was substantive.",
+      foundIn: "war-room",
+    },
+    {
+      id: "ith_rael.e3.directors_engagement_notes" as ClueId,
+      title: "The Director's Engagement Notes (recovered fragments)",
+      body: "Three pages of Ith'Rael's working notes, recovered from a Hierarchy R&D archive Zyr'Koth was reorganizing: 'Generation N+1 will not believe the threat exists if Generation N has not personally encountered it. Therefore: ensure Generation N does not personally encounter it. The Whisperer is patient. The Whisperer is gentle. The Whisperer says: it has been a long time since anything happened. It is true. It will continue to be true. Therefore, the standards may be relaxed. Therefore, the standards have been relaxed. Therefore, the standards were never necessary.' The handwriting is the Director's. The marginalia: 'Tested on cohort 4. Holds.'",
+      foundIn: "antiquarian-library",
+    },
+    {
+      id: "ith_rael.e3.point_of_no_return" as ClueId,
+      title: "The Point of No Return — Generation Six",
+      body: "Generational analysis indicates the Severance corruption became irreversible at Generation Six's recertification cycle. At Generation Six, for the first time, no living Thalorian had personally encountered an active Hierarchy operation. The recertification examiners had only their predecessors' records to inform them; their predecessors' records had been authored by examiners who themselves had never encountered an operation. The Director's engagement note for that cycle is two words: 'It holds.' Three generations later the bindings broke. The breaking was the receipt; the irreversibility was at Generation Six.",
+      foundIn: "antiquarian-library",
+    },
+    {
+      id: "ith_rael.e3.advocate_response_recovery" as ClueId,
+      title: "The Advocate's Late-Cycle Response (recovered)",
+      body: "The Advocate (apps/shared/hierarchyCanon.ts:21 — the saga's primary canonical resistance to the Hierarchy) attempted a corrective intervention at Generation Eight, recognizing too late what was happening. The intervention failed for the reason the Director's doctrine predicts: by Generation Eight, the Thalorian receiving cohort had no operational memory against which to evaluate the Advocate's claim. The Advocate spoke a language of urgency to listeners whose own records said urgency had not been required for two centuries. The intervention was politely declined. The Advocate's notes — preserved by the Antiquarian — close: 'I came too late. I was on time. The two are not the same.'",
+      foundIn: "antiquarian-library",
+    },
+  ],
+  deductions: [
+    {
+      id: "ith_rael.e3.d.thaloria_corrupted_itself" as DeductionId,
+      clueA: "ith_rael.e3.thaloria_generational_records" as ClueId,
+      clueB: "ith_rael.e3.directors_engagement_notes" as ClueId,
+      result: "correct",
+      narrationId: "ith_rael.e3.n.consent_through_softening",
+      narrationProse:
+        "Thaloria corrupted itself, generation by generation, with the Director's gentle and patient encouragement. The Whisperer never breached the defenses; the Whisperer talked to each cohort's recertification examiners about how long it had been since anything had happened. The cohorts agreed. They relaxed the standards. The next cohort agreed even more. The corruption was procedural for nine generations and substantive for one — and by then no living defender remembered why the standards had been written. The doctrine 'we do not force outcomes; we soften the conditions' is most fully expressed in this arc: the conditions were softened across two centuries until the bindings broke without resistance.",
+      unlocksEpisode: "ith_rael.e4" as EpisodeId,
+    },
+    {
+      id: "ith_rael.e3.d.advocate_was_on_time" as DeductionId,
+      clueA: "ith_rael.e3.point_of_no_return" as ClueId,
+      clueB: "ith_rael.e3.advocate_response_recovery" as ClueId,
+      result: "partial",
+      narrationId: "ith_rael.e3.n.too_late_was_on_time",
+      narrationProse:
+        "The Advocate's note — 'I came too late. I was on time. The two are not the same.' — names the structural problem the working's pace creates. By the moment of intervention, the listeners' frame of reference no longer included the urgency the Advocate was trying to communicate. The intervention was rejected on procedural grounds: the listeners' records did not show urgency had ever been required, so the urgency-claim could not be processed. The Advocate was on time in the absolute sense; he was too late in the only sense that mattered. The doctrine compresses centuries of preparation into a single closed door.",
+    },
+    {
+      id: "ith_rael.e3.d.false_lead_thaloria_was_attacked" as DeductionId,
+      clueA: "ith_rael.e3.thaloria_generational_records" as ClueId,
+      clueB: "ith_rael.e3.advocate_response_recovery" as ClueId,
+      result: "false_lead_named",
+      narrationId: "ith_rael.e3.n.not_attacked",
+      narrationProse:
+        "Reading the Severance as an attack on Thaloria is the obvious move and the wrong frame. The records contain no attack — no breach incident, no defender casualty, no defensive deployment. Thaloria's own examiners signed off on every recertification, voluntarily, on schedule, with consensus across the examining boards. The corruption was performed BY Thaloria, with the Director's whispered participation. Naming it 'attack' obscures the doctrine's actual force: the Director did not need to defeat Thaloria's defenses. He needed only Thaloria's defenders to relax them, generation by generation, until relaxation was the institutional posture.",
+    },
+  ],
+  choices: [
+    {
+      id: "ith_rael.e3.c.identify_current_softening" as ChoiceId,
+      label: "Identify softening operations the Director may currently be running on the saga's present-tense factions.",
+      weight: "investigative",
+    },
+    {
+      id: "ith_rael.e3.c.publish_the_method" as ChoiceId,
+      label: "Publish the Director's method openly — let every faction's defenders know the working's shape.",
+      weight: "transparent",
+    },
+    {
+      id: "ith_rael.e3.c.protect_recertification_disciplines" as ChoiceId,
+      label: "Protect the saga's surviving recertification disciplines from the procedural-relaxation pattern.",
+      weight: "defensive",
+    },
+  ],
+  contentBundle: {
+    songId: "album1.t18", /* "Planet of the Wolf" — Thaloria-canon-mapped */
+    slideshowId: "album1.t18",
+    loredexUnlocks: [
+      "concept_thaloria_self_corruption",
+      "concept_advocate_on_time_too_late",
+      "concept_generation_six_irreversibility",
+    ],
+    conspiracyDiscoveries: [
+      "generational_handoff",
+      "directors_engagement_pattern",
+      "advocate_intervention_failure",
+      "consent_through_softening",
+    ],
+    dropAt: "episode_close",
+  },
+};
+
+/* ─── ITH'RAEL ARC — E4 ─── */
+/* E4: "What He Is Currently Working On"
+   The Director did not stop. The arc surfaces three
+   present-tense operations whose softening signature is
+   the working's. The case is which to investigate first
+   and which to expose. */
+
+const ithRaelE4: EpisodeDefinition = {
+  id: "ith_rael.e4" as EpisodeId,
+  arcId: ARC_ITH_RAEL,
+  ordinal: 4,
+  title: "What He Is Currently Working On",
+  summary:
+    "The Director did not stop after the Severance. Patience does not retire. The case surfaces three present-tense operations whose softening signature matches the working's: (1) procedural relaxation in the New Babylon Authority's audit cadence on its own six imprisoned minds, (2) generational handoff degradation in the Insurgency's resurrectionist-protocol oversight, (3) recertification-cadence loosening in the Mechronis Academy's spy-class certification. Investigate which to expose first, and accept the doctrinal lesson that exposure is itself a kind of softening.",
+  clues: [
+    {
+      id: "ith_rael.e4.authority_audit_cadence" as ClueId,
+      title: "The Authority's Self-Audit Cadence Drift",
+      body: "The New Babylon Authority's six imprisoned minds in red crystal coffins are subject to an internal self-audit cadence intended to catch governance drift. Cross-correlation across two centuries of audit logs shows the cadence has slowed by 47% — from a quarterly cycle to an annual one — without any documented decision to slow it. The Authority itself agreed, in each step, that the previous step's tempo was sufficient. The Director's signature: no force, no breach, only consent through softening. The audit cadence is now slow enough that a coordinator running a centuries-long double-game from inside the Authority would be detected only on a schedule that her career has long outlasted.",
+      foundIn: "war-room",
+    },
+    {
+      id: "ith_rael.e4.resurrectionist_oversight_drift" as ClueId,
+      title: "The Insurgency's Resurrectionist-Protocol Oversight Drift",
+      body: "The Insurgency's resurrectionist-protocol oversight committee has, across three generations, shed every member who personally witnessed an unauthorized resurrection. The current committee has only secondhand training. The protocol-review documents show the committee has, over those three generations, voluntarily relaxed the consent requirements, voluntarily expanded the permissible scope, voluntarily reduced the post-resurrection audit. The Resurrectionist arc on this branch (apps/shared/episodeMysteries.ts — the Resurrectionist · Cycle Walker mystery) reads forward into this drift. The Director's signature is on the procedural pattern.",
+      foundIn: "comms-array",
+    },
+    {
+      id: "ith_rael.e4.mechronis_certification_relaxation" as ClueId,
+      title: "Mechronis Academy Spy-Class Certification Relaxation",
+      body: "The Mechronis Academy's spy-class certification is canonically the highest standard the Insurgency maintains for covert operatives. The certification's rigor protected the Order's apparatus-branch operatives, and continues to protect Locke's modern operations (apps/shared/questlineClassSpy.ts — the spy-class questline). The recertification cadence has not changed; the recertification CONTENT has. Across the same nine generations as the Thalorian pattern, the test items have shifted from operational scenarios to theoretical exam questions. Examiners agreed each step was reasonable; each step was. The aggregate is a different test. The Director's whisper: 'It has been a long time since anything happened.'",
+      foundIn: "trade-hub",
+    },
+    {
+      id: "ith_rael.e4.directors_open_position" as ClueId,
+      title: "The Director's Standing Position on Exposure",
+      body: "Recovered Hierarchy memo, dated last quarter (the most recent Director's memo any party has surfaced): 'Exposure of the working is itself a softening operation. Once published, the working becomes a thing that the cohorts must defend against, which transforms it from an unindexable softening into an indexable threat. Indexable threats are easier to defend against in principle and harder to defend against in practice — because the cohorts then perform defense rituals that satisfy the published-threat condition without actually addressing the underlying softening. Publish me. I welcome it.' Signed: Ith'Rael, Director.",
+      foundIn: "antiquarian-library",
+    },
+  ],
+  deductions: [
+    {
+      id: "ith_rael.e4.d.three_present_operations_confirmed" as DeductionId,
+      clueA: "ith_rael.e4.authority_audit_cadence" as ClueId,
+      clueB: "ith_rael.e4.resurrectionist_oversight_drift" as ClueId,
+      result: "correct",
+      narrationId: "ith_rael.e4.n.he_did_not_stop",
+      narrationProse:
+        "He did not stop. The Authority's self-audit cadence, the Insurgency's resurrectionist oversight, the Mechronis Academy's spy certification — three concurrent present-tense operations, each carrying the Director's procedural-relaxation signature. The factions involved are unrelated; the consent-through-softening pattern is the same. The case's operational frame is now the saga's present, not the saga's past. Patience does not retire. The Severance was the Director's largest engagement to date; it is not his only engagement, and the engagements that come after it benefit from the doctrinal experience the Severance taught him. The Director is currently softening the saga's institutional defenses on three fronts the player can verify.",
+      unlocksEpisode: "ith_rael.e5" as EpisodeId,
+    },
+    {
+      id: "ith_rael.e4.d.exposure_is_softening" as DeductionId,
+      clueA: "ith_rael.e4.directors_open_position" as ClueId,
+      clueB: "ith_rael.e4.mechronis_certification_relaxation" as ClueId,
+      result: "partial",
+      narrationId: "ith_rael.e4.n.publish_me_i_welcome_it",
+      narrationProse:
+        "The Director's standing position on exposure is the doctrinal trap closing on the case. Publishing the working transforms it from an unindexable softening to an indexable threat — and the working's defenders then perform indexed-threat-defense rituals that satisfy the published condition without addressing the underlying softening. The Mechronis certification relaxation is the demonstration: the cadence is unchanged, the content has shifted, and any reform that re-indexes the cadence will not re-index the content. The Director is offering exposure as an invitation. The case's hardest deduction: how to act against the working in a way that does not perform the working's invited counter-ritual.",
+    },
+    {
+      id: "ith_rael.e4.d.false_lead_attack_one_operation" as DeductionId,
+      clueA: "ith_rael.e4.authority_audit_cadence" as ClueId,
+      clueB: "ith_rael.e4.directors_open_position" as ClueId,
+      result: "false_lead_named",
+      narrationId: "ith_rael.e4.n.choosing_one_is_the_softening",
+      narrationProse:
+        "Reading the case as 'choose one of the three operations to attack first' is the obvious move and the trap the Director has set. Three concurrent operations spread the response across factions whose institutional priorities do not align; choosing one to attack is structurally the same as agreeing the other two are tolerable. The Director's doctrine accepts the loss of any single operation in exchange for the cohorts' agreement that the other operations are tolerable. The cohorts will agree. The agreement IS the softening. The case's hard truth: any move that responds to one of the three without the others is a move the Director has authored.",
+    },
+  ],
+  choices: [
+    {
+      id: "ith_rael.e4.c.attack_all_three_concurrently" as ChoiceId,
+      label: "Attack all three operations concurrently — refuse the Director's choose-one frame.",
+      weight: "comprehensive",
+    },
+    {
+      id: "ith_rael.e4.c.protect_unindexed_meaning_first" as ChoiceId,
+      label: "Protect the saga's unindexed-meaning structures first — the Director cannot reach what is not in the chronicle.",
+      weight: "doctrinal",
+    },
+    {
+      id: "ith_rael.e4.c.cross_arc_with_locke" as ChoiceId,
+      label: "Cross-arc with Locke — the Authority audit-cadence drift is the threat to her cover; she may already know.",
+      weight: "cross_arc_watcher",
+    },
+  ],
+  contentBundle: {
+    songId: "album1.t23", /* "Wake Up" — Dischordian Logic Act 3 */
+    slideshowId: "album1.t23",
+    loredexUnlocks: [
+      "concept_directors_present_operations",
+      "concept_exposure_as_softening",
+      "concept_three_concurrent_softenings",
+    ],
+    conspiracyDiscoveries: [
+      "authority_audit_drift",
+      "resurrectionist_oversight_drift",
+      "mechronis_certification_drift",
+      "exposure_invitation",
+    ],
+    dropAt: "episode_close",
+  },
+};
+
+/* ─── ITH'RAEL ARC — E5 ─── */
+/* E5: "The Whisperer's Long View"
+   The Director consents to a meeting. He does not defend
+   the working. He explains it. The arc closes on the
+   player's choice of how to carry the explanation
+   forward — knowing that any choice is, by the doctrine,
+   a choice the Director has anticipated. */
+
+const ithRaelE5: EpisodeDefinition = {
+  id: "ith_rael.e5" as EpisodeId,
+  arcId: ARC_ITH_RAEL,
+  ordinal: 5,
+  title: "The Whisperer's Long View",
+  summary:
+    "The Director consents to a meeting. He does not defend the working. He explains it. The case's final question is not whether to oppose him — opposition is, by the doctrine, the working's invited next move — but how to carry the explanation forward in a form the working cannot anticipate. Investigate the meeting itself, the Director's terms, and the small remaining margin of action the doctrine has not already priced in.",
+  clues: [
+    {
+      id: "ith_rael.e5.directors_consent_to_meet" as ClueId,
+      title: "The Director's Consent to Meet",
+      body: "An invitation in Ith'Rael's voice — the only Hierarchy invitation in the saga's record that does not pass through Hierarchy comms infrastructure. It arrives directly: 'I consent to meet. Bring whomever you wish; bring nothing the Hierarchy would expect you to carry. I will not defend the working. I will explain it. You may use the explanation however you choose. The choice is itself part of the explanation.' Signed: Ith'Rael, Director. The signature is the Director's. The medium of delivery — written by hand, on physical paper, hand-couriered by a Hierarchy functionary who has not been briefed on its content — is itself a doctrinal demonstration: meaning carried outside the indexable layer.",
+      foundIn: "captains-quarters",
+    },
+    {
+      id: "ith_rael.e5.directors_explanation" as ClueId,
+      title: "The Explanation",
+      body: "The Director's explanation, transcribed from the meeting: 'The working has three principles. One: the world is held together by indexed memory. Two: indexed memory can be unindexed without violence. Three: the cohorts who hold the indexed memory will, given enough time and gentle conversation, agree that the indexing was unnecessary. The doctrine follows. The Hierarchy follows. The Severance followed. The current operations follow. There is no further explanation. There is also no defense. I do not defend the working. I do not need to. The working defends itself by being the way the world's defenders prefer the world to work.'",
+      foundIn: "captains-quarters",
+    },
+    {
+      id: "ith_rael.e5.what_the_doctrine_does_not_anticipate" as ClueId,
+      title: "What the Doctrine Does Not Anticipate",
+      body: "Architect's note in the Antiquarian's archive, attached to the meeting transcript: 'The doctrine anticipates: opposition (which is softening), exposure (which is softening), reform of the indexable layer (which is softening), single-operation attacks (which are softening). The doctrine does NOT anticipate: meaning that lives outside the indexable layer altogether. Darren Fessler's letters. The wax-seal glyph. The Resistance Branch's millennia-long survival. Old Tanjin's silence. These are the structures the doctrine cannot price. The case's hard offering: what the player carries forward must, to evade the working, live outside the indexable layer.'",
+      foundIn: "antiquarian-library",
+    },
+    {
+      id: "ith_rael.e5.directors_closing_courtesy" as ClueId,
+      title: "The Director's Closing Courtesy",
+      body: "Ith'Rael's closing remark, delivered at the end of the meeting: 'I have enjoyed this conversation. I will continue to work. You will continue to oppose me, in whatever form your character permits. We will not meet again. The next time the working surfaces in your case-file, it will be in a form you do not yet recognize — because if you recognized it now, I would already have changed it. I wish you the long view. It is the only view that approximates mine.' He bows. He leaves. The meeting closes without resolution.",
+      foundIn: "captains-quarters",
+    },
+  ],
+  deductions: [
+    {
+      id: "ith_rael.e5.d.unindexable_carrying_forward" as DeductionId,
+      clueA: "ith_rael.e5.directors_explanation" as ClueId,
+      clueB: "ith_rael.e5.what_the_doctrine_does_not_anticipate" as ClueId,
+      result: "correct",
+      narrationId: "ith_rael.e5.n.outside_the_index",
+      narrationProse:
+        "What the player carries forward must live outside the indexable layer to evade the working. The Director's explanation is offered FOR indexing — once indexed, the explanation becomes a thing the cohorts can defend against in form without addressing in substance. The structures the doctrine cannot price — Darren Fessler's letters, the wax-seal glyph, the Resistance Branch's silence, Old Tanjin's lifespan — share a common architecture: meaning that is not in the indexable record but is in the practice of the people who hold it. The case's hard offering is doctrinal: every action the player takes against the working must be carried forward in unindexable practice, not in indexed reform. The arc closes here. The working continues. The unindexable practice is the player's only useful response.",
+    },
+    {
+      id: "ith_rael.e5.d.directors_long_view_is_the_warning" as DeductionId,
+      clueA: "ith_rael.e5.directors_consent_to_meet" as ClueId,
+      clueB: "ith_rael.e5.directors_closing_courtesy" as ClueId,
+      result: "partial",
+      narrationId: "ith_rael.e5.n.we_will_not_meet_again",
+      narrationProse:
+        "The Director's closing — 'We will not meet again. The next time the working surfaces in your case-file, it will be in a form you do not yet recognize' — is not a threat and not a courtesy. It is a doctrinal description. The working's adaptive frame means that anything the player learns now will not match the working's next surface; learning the working teaches the player a shape it will no longer have. The long view is the only view that approximates the Director's, because the long view is the only frame in which the working's adaptation is visible across cycles. The arc gives the player the long view. What they do with it is canonically beyond the case-file's reach.",
+    },
+    {
+      id: "ith_rael.e5.d.false_lead_assassinate_him" as DeductionId,
+      clueA: "ith_rael.e5.directors_consent_to_meet" as ClueId,
+      clueB: "ith_rael.e5.directors_explanation" as ClueId,
+      result: "false_lead_named",
+      narrationId: "ith_rael.e5.n.assassination_is_softening",
+      narrationProse:
+        "Reading the meeting as an opportunity to assassinate the Director is the obvious move and the working's invited counter-ritual. The Hierarchy is canonically a corporation; corporations replace Directors. The replacement Director would inherit the doctrine, the operational portfolio, and the Severance's institutional credit — and would also inherit the cohorts' satisfaction that the threat had been resolved when in fact only the operator had been replaced. The doctrine survives the operator. The assassination would resolve the case in the form the working has authored. The arc's closing recognition: the working is not Ith'Rael. Ith'Rael is the working's most successful current expression. Removing him changes the expression. The working continues.",
+    },
+  ],
+  choices: [
+    {
+      id: "ith_rael.e5.c.commit_to_unindexable_practice" as ChoiceId,
+      label: "Commit to unindexable practice — let the long view shape your conduct, not your records.",
+      weight: "doctrinal",
+    },
+    {
+      id: "ith_rael.e5.c.publish_the_meeting_anyway" as ChoiceId,
+      label: "Publish the meeting transcript anyway — accept the Director's invitation; let the cohorts decide.",
+      weight: "transparent",
+    },
+    {
+      id: "ith_rael.e5.c.share_the_long_view_with_one_other" as ChoiceId,
+      label: "Share the long view with exactly one other — the Order's Coordinator, who has been carrying her own long view for centuries.",
+      weight: "cross_arc_watcher",
+    },
+  ],
+  contentBundle: {
+    songId: "album1.t28", /* "Last Words" — Dischordian Logic Act 5 finale */
+    slideshowId: "album1.t28",
+    loredexUnlocks: [
+      "concept_unindexable_practice",
+      "concept_long_view_doctrine",
+      "concept_director_meeting_record",
+    ],
+    conspiracyDiscoveries: [
+      "directors_consent_to_meet",
+      "the_explanation",
+      "doctrine_unanticipated_structures",
+      "long_view_offered",
+    ],
+    dropAt: "episode_close",
+  },
+};
+
+/* ─── ITH'RAEL ARC — SUSPECTS, LENSES, DEFINITION ─── */
+
+const ithRaelSuspects: ReadonlyArray<{
+  id: SuspectId;
+  name: string;
+  type: string;
+  relations: ReadonlyArray<{ to: SuspectId; relation: string }>;
+}> = [
+  {
+    id: "suspect.ith_rael" as SuspectId,
+    name: "Ith'Rael the Whisperer (Director, Special Projects)",
+    type: "character",
+    relations: [
+      { to: "suspect.shadow_tongue" as SuspectId, relation: "wields" },
+      { to: "suspect.hierarchy_corporate_structure" as SuspectId, relation: "directs-in" },
+    ],
+  },
+  {
+    id: "suspect.shadow_tongue" as SuspectId,
+    name: "The Shadow Tongue",
+    type: "concept",
+    relations: [
+      { to: "suspect.thaloria_pre_severance" as SuspectId, relation: "unindexed" },
+      { to: "suspect.marion_kell" as SuspectId, relation: "unindexed" },
+    ],
+  },
+  {
+    id: "suspect.thaloria_pre_severance" as SuspectId,
+    name: "Pre-Severance Thaloria",
+    type: "location",
+    relations: [],
+  },
+  {
+    id: "suspect.marion_kell" as SuspectId,
+    name: "Marion Kell (the documented small-scale case)",
+    type: "character",
+    relations: [],
+  },
+  {
+    id: "suspect.darren_fessler" as SuspectId,
+    name: "Darren Fessler (the unindexable resister)",
+    type: "character",
+    relations: [],
+  },
+  {
+    id: "suspect.hierarchy_corporate_structure" as SuspectId,
+    name: "The Hierarchy of the Damned (corporate structure)",
+    type: "faction",
+    relations: [],
+  },
+];
+
+const ithRaelLenses = [
+  { id: LENS_INSURGENCY, name: "Insurgency", category: "faction" },
+  { id: LENS_HIERARCHY,  name: "Hierarchy",  category: "faction" },
+  { id: LENS_THALORIA,   name: "Thaloria",   category: "faction" },
+  { id: LENS_QUARCHON,   name: "Quarchon",   category: "faction" },
+  { id: LENS_DREAMER,    name: "Dreamer",    category: "faction" },
+  { id: LENS_NEUTRAL,    name: "Neutral",    category: "faction" },
+] as const;
+
+const ITH_RAEL_MYSTERY: MysteryDefinition = {
+  id: "mystery.ith_rael" as MysteryId,
+  arcId: ARC_ITH_RAEL,
+  title: "The Centuries Were the Working",
+  summary:
+    "The Severance was not an event. It was a working — slow, patient, multi-generational, conducted by a single Director of Special Projects whose method was never to force a change, only to soften the conditions until the change emerged on its own. Ith'Rael the Whisperer is the working's author. Investigate how the Severance happened — and discover that the working did not stop after the Severance; it never has.",
+  npcId: "ith_rael",
+  episodes: [ithRaelE1, ithRaelE2, ithRaelE3, ithRaelE4, ithRaelE5],
+  suspects: ithRaelSuspects,
+  lenses: ithRaelLenses,
+};
+
 /* ─── REGISTRY ─── */
 
 /** Every authored mystery in the saga. The runtime reads against
@@ -3737,6 +5049,8 @@ export const MYSTERY_DEFINITIONS: ReadonlyArray<MysteryDefinition> = [
   VEX_SOLENE_MYSTERY,
   GAME_MASTER_MYSTERY,
   THE_DEGEN_MYSTERY,
+  THE_WATCHER_MYSTERY,
+  ITH_RAEL_MYSTERY,
   ...DLC_MYSTERIES,
 ];
 

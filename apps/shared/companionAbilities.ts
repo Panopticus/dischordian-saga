@@ -125,6 +125,25 @@ export const COMPANION_ABILITIES: ReadonlyArray<CompanionAbility> = [
     alignment: "order",
     effectKind: "buff_friendly_unit",
   },
+  /* PR-3 (post-watcher-arc-E5 reveal): Coordinator-tier ability,
+   * unlocked at the highest trust band (80+ "Adjudicated"). Locke
+   * canonically reveals herself as Ocularum Coordinator at watcher.e5;
+   * her warmap presence at this tier is qualitatively different —
+   * the Order's full operational reach behind every recommendation.
+   * Description preserves the eye-deal mystery (apps/shared/npcs/bibles/
+   * adjudicator_locke.md §2.1, §7.2) — "you have not yet earned the
+   * truth about the Eyes" is canonically the LIMIT of what she
+   * surfaces, not an invitation to ask. */
+  {
+    id: "locke_coordinator_long_view",
+    companionId: "adjudicator_locke",
+    minBondLevel: 80,
+    name: "The Long View",
+    description: "Buff every friendly unit on the warmap by +1 attack and reveal one enemy intent. You have not yet earned the truth about the Eyes. You will.",
+    cooldownMs: 90_000,
+    alignment: "order",
+    effectKind: "buff_friendly_unit",
+  },
 
   /* ─── Vex (medical / sabotage) ─── */
   {

@@ -78,6 +78,12 @@ export function getUnlockConditionDisplay(
         chip: `${cond.classification} gen ${cond.minGenerations}+`,
         description: `Unlocks once your ${cond.classification} bloodline reaches generation ${cond.minGenerations} or higher.`,
       };
+    case "arc_episode_complete":
+      return {
+        kind: "arc_episode_complete",
+        chip: `Close ${cond.episodeId}`,
+        description: `Unlocks when you close episode ${cond.episodeId} of arc ${cond.arcId}.`,
+      };
   }
 }
 
@@ -95,4 +101,5 @@ export const ALL_UNLOCK_KINDS: ReadonlyArray<CardUnlockCondition["kind"]> = [
   "authors_edition",
   "dlc_chapter_completion",
   "bloodline_threshold",
+  "arc_episode_complete",
 ];

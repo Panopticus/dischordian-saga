@@ -177,6 +177,17 @@ export interface EpisodeContentBundle {
    *  E2 Akai-Shi) — references the existing `MEMORY_REPLAYS`
    *  registry. */
   memoryReplayId?: string;
+  /** For arc cold-opens — references a `CinematicId` in
+   *  `apps/shared/expansionArt/cinematicsManifest.ts`. The runtime
+   *  plays the cinematic before clues become visible. Currently
+   *  used by the_watcher E1 to surface the Antiquarian's Lord
+   *  Kanshi Sha record.
+   *
+   *  Typed as string (rather than CinematicId directly) to avoid
+   *  a cross-package type import — the validity probe in
+   *  episodeMysteries.test.ts asserts the id resolves against
+   *  the CINEMATICS registry. */
+  cinematicAssetId?: string;
   /** When in the beat the slideshow auto-pops. */
   dropAt: ContentDropTiming;
 }

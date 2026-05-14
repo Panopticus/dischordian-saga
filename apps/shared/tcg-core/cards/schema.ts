@@ -772,6 +772,26 @@ export const cardUnlockConditionSchema = z.discriminatedUnion("kind", [
       season: z.literal("s2"),
     })
     .strict(),
+  z
+    .object({
+      kind: z.literal("dlc_chapter_completion"),
+      chapterId: z.string().min(1),
+    })
+    .strict(),
+  z
+    .object({
+      kind: z.literal("bloodline_threshold"),
+      classification: z.string().min(1),
+      minGenerations: z.number().int().positive(),
+    })
+    .strict(),
+  z
+    .object({
+      kind: z.literal("arc_episode_complete"),
+      arcId: z.string().min(1),
+      episodeId: z.string().min(1),
+    })
+    .strict(),
 ]);
 
 /* ─── Top-level card definition ─── */

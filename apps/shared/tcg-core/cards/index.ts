@@ -399,6 +399,9 @@ import { cardDef as s1_char_055_thought_censor } from "./definitions/panopticon/
 import { cardDef as s1_char_056_registry_clerk } from "./definitions/panopticon/s1_char_056_registry_clerk.ts";
 import { cardDef as s1_char_057_blacksite_interrogator } from "./definitions/panopticon/s1_char_057_blacksite_interrogator.ts";
 import { cardDef as s1_resurrect_004_undying_witness } from "./definitions/panopticon/s1_resurrect_004_undying_witness.ts";
+import { cardDef as s2_watcher_001_l_signature } from "./definitions/panopticon/s2_watcher_001_l_signature.ts";
+import { cardDef as s2_watcher_002_the_coordinators_dossier } from "./definitions/panopticon/s2_watcher_002_the_coordinators_dossier.ts";
+import { cardDef as s2_watcher_003_now_you_are_ours } from "./definitions/panopticon/s2_watcher_003_now_you_are_ours.ts";
 
 /* ─── Thought Virus ─── */
 import { cardDef as gen_thought_virus } from "./definitions/thought_virus/gen_thought_virus.ts";
@@ -919,6 +922,9 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   s1_char_056_registry_clerk,
   s1_char_057_blacksite_interrogator,
   s1_resurrect_004_undying_witness,
+  s2_watcher_001_l_signature,
+  s2_watcher_002_the_coordinators_dossier,
+  s2_watcher_003_now_you_are_ours,
   gen_thought_virus,
   s1_char_032_the_host,
   s1_char_049_the_source,

@@ -257,6 +257,110 @@ export const TRADE_MISSION_CATALOG: ReadonlyArray<TradeMissionDefinition> = [
       narrativeFlags: ["second_chair_pacifist_path"],
     },
   },
+
+  // ── Ocularum Breadcrumb Trail (untagged — Locke-dispatched, Authority-cover) ──
+  // Per apps/shared/ocularumCanon.ts + the_watcher arc (PR-2): seven
+  // Trade Empire missions whose flavor text is canonically Ocularum
+  // tradecraft hiding inside Authority-sanctioned commerce-intelligence
+  // work. Each sets an `ocularum_breadcrumb_<n>_collected` flag the
+  // Watcher arc's deduction graph reads. Authored to be playable by
+  // any player engaging Trade Empire missions; the Ocularum framing
+  // becomes legible only after the_watcher.e2 closes (which surfaces
+  // the L. signature pattern). Untagged (no agencyId) — Locke
+  // dispatches them through her institutional cover, not through any
+  // agency channel the standing-system tracks.
+  {
+    id: "tm_ocularum_first_eye_memorial",
+    title: "Dead-Drop at the First Eye's Memorial",
+    flavor:
+      "L.'s briefing arrives in the standard format: \"There is a small wax-sealed package on the third bench at the memorial. Pick it up. Do not break the seal. Walk to the address on the back. Hand it over. The recipient will not say thank you. That is correct.\"",
+    durationHours: 2,
+    tier: 1,
+    reward: {
+      credits: 500,
+      dream: 8,
+      narrativeFlags: ["ocularum_breadcrumb_1_collected"],
+    },
+  },
+  {
+    id: "tm_ocularum_cipher_page",
+    title: "Cipher Page from the Feudal Archive",
+    flavor:
+      "L.: \"The Antiquarian's Eastern Wing holds a record nobody has logged out in ninety years. Log it out. Do not read past the third page. Return it to a different shelf in the Western Wing. The cataloguing system will correct itself overnight.\"",
+    durationHours: 3,
+    tier: 1,
+    reward: {
+      credits: 600,
+      dream: 10,
+      narrativeFlags: ["ocularum_breadcrumb_2_collected"],
+    },
+  },
+  {
+    id: "tm_ocularum_cell_number_whisper",
+    title: "A Cell Number Whispered at the Freeport",
+    flavor:
+      "L.'s note is shorter than usual: \"At the Freeport's south-bay tea house, between the seventh and eighth bell, a vendor will say a number aloud. Write the number down. Hand it to the proprietor of the bookshop two doors south. He will pretend not to read it. He will read it.\"",
+    durationHours: 2,
+    tier: 1,
+    reward: {
+      credits: 550,
+      dream: 8,
+      narrativeFlags: ["ocularum_breadcrumb_3_collected"],
+    },
+  },
+  {
+    id: "tm_ocularum_listeners_mark",
+    title: "The Listener's Mark",
+    flavor:
+      "L.: \"A Trade Empire courier has been carrying a small piece of work for us for seven years without knowing it. He retires next month. Sit at table fourteen of the Nightline lounge — yes, that table; you have been there before — and place a tea service exactly as he last left it. He will recognize the placement. He will smile. The work transfers.\"",
+    durationHours: 4,
+    tier: 2,
+    reward: {
+      credits: 900,
+      dream: 18,
+      narrativeFlags: ["ocularum_breadcrumb_4_collected"],
+    },
+  },
+  {
+    id: "tm_ocularum_glyph_in_manifest",
+    title: "The Glyph in the Manifest",
+    flavor:
+      "L.: \"A shipping manifest crossing the Sundown-to-Phyral lane this week carries a glyph in its wax seal that the Authority's customs scanner does not flag. Confirm the glyph is intact at the destination. The glyph is correct because the seal is whole; it is not for you to read. Confirm and report.\"",
+    durationHours: 5,
+    tier: 2,
+    reward: {
+      credits: 1000,
+      dream: 20,
+      narrativeFlags: ["ocularum_breadcrumb_5_collected"],
+    },
+  },
+  {
+    id: "tm_ocularum_seat_at_a_small_table",
+    title: "A Seat for the Seven-Hundredth",
+    flavor:
+      "L.: \"A young person you do not know is being introduced this week into a small business that will, in time, mean more than its books suggest. Be present at the introduction. Do not speak. Carry the document I am attaching to you for the duration of your visit. Return it to me sealed. The young person will remember the witness.\"",
+    durationHours: 4,
+    tier: 2,
+    reward: {
+      credits: 950,
+      dream: 18,
+      narrativeFlags: ["ocularum_breadcrumb_6_collected"],
+    },
+  },
+  {
+    id: "tm_ocularum_what_the_antiquarian_forgot_to_burn",
+    title: "What the Antiquarian Forgot to Burn",
+    flavor:
+      "L.'s final breadcrumb missive — and the one whose tone changes: \"There is a folio in the Antiquarian's burn-pile that was not burned. He left it there because he wanted it found. Find it. Read it once. Burn it after, properly, in the manner the Antiquarian has not yet learned. The folio will tell you why I am writing to you in this register. The next letter you receive from me will be signed differently.\"",
+    durationHours: 6,
+    tier: 3,
+    reward: {
+      credits: 1500,
+      dream: 35,
+      voidCrystals: 1,
+      narrativeFlags: ["ocularum_breadcrumb_7_collected", "ocularum_full_trail_complete"],
+    },
+  },
 ] as const;
 
 /** Map agency id → human-readable label for client UI. */

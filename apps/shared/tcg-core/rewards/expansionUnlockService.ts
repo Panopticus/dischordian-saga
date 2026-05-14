@@ -49,6 +49,12 @@ export interface PlayerExpansionState {
    *  from `gameData.bloodlineGenerations`. Missing classifications
    *  default to 0. */
   readonly bloodlineGenerations: Readonly<Record<string, number>>;
+  /** Mystery Engine arc episodes the player has closed. Keys are
+   *  `<arcId>:<episodeId>` (e.g. `"arc.the_watcher:watcher.e5"`).
+   *  Sourced from `gameData.completedMysteryEpisodes` — written by
+   *  mysteryService.ts on episode-close. Used by the
+   *  `arc_episode_complete` CardUnlockCondition kind. */
+  readonly completedMysteryEpisodes: ReadonlySet<string>;
 }
 
 /** Default snapshot — nothing unlocked. Useful for tests + unauth flows. */
@@ -60,6 +66,7 @@ export const NULL_PLAYER_EXPANSION_STATE: PlayerExpansionState = Object.freeze({
   hasAuthorsEditionS2: false,
   completedDlcChapters: new Set<string>(),
   bloodlineGenerations: Object.freeze({}),
+  completedMysteryEpisodes: new Set<string>(),
 });
 
 /**
@@ -88,6 +95,10 @@ export function evaluateUnlockCondition(
       const gens = state.bloodlineGenerations[cond.classification] ?? 0;
       return gens >= cond.minGenerations;
     }
+    case "arc_episode_complete":
+      return state.completedMysteryEpisodes.has(
+        `${cond.arcId}:${cond.episodeId}`,
+      );
   }
 }
 
@@ -141,6 +152,7 @@ export function makePlayerExpansionState(
     hasAuthorsEditionS2: boolean;
     completedDlcChapters: ReadonlyArray<string>;
     bloodlineGenerations: Readonly<Record<string, number>>;
+    completedMysteryEpisodes: ReadonlyArray<string>;
   }>,
 ): PlayerExpansionState {
   return {
@@ -151,6 +163,7 @@ export function makePlayerExpansionState(
     hasAuthorsEditionS2: partial.hasAuthorsEditionS2 ?? false,
     completedDlcChapters: new Set(partial.completedDlcChapters ?? []),
     bloodlineGenerations: { ...(partial.bloodlineGenerations ?? {}) },
+    completedMysteryEpisodes: new Set(partial.completedMysteryEpisodes ?? []),
   };
 }
 
@@ -212,6 +225,19 @@ export function derivePlayerExpansionStateFromFlags(
     const m = /^dlc_chapter_(.+)_complete$/.exec(key);
     if (m) completedDlcChapters.push(m[1]);
   }
+  /* Mystery Engine completed-episode keys are flag-driven by the
+   * convention `mystery_<arcId-with-dots>_<episodeId-with-dots>_complete`
+   * — but to keep the key simple and avoid double-encoding the dots,
+   * the writer (mysteryService.ts on episode close) emits the flag
+   * `mystery_episode_complete:<arcId>:<episodeId>` and the unlock
+   * service strips the prefix. */
+  const completedMysteryEpisodes: string[] = [];
+  for (const key of Object.keys(flags)) {
+    if (!flags[key]) continue;
+    if (key.startsWith("mystery_episode_complete:")) {
+      completedMysteryEpisodes.push(key.slice("mystery_episode_complete:".length));
+    }
+  }
   return {
     completedActs: new Set(completedActs),
     secretActsRevealed: new Set(secretActsRevealed),
@@ -220,5 +246,6 @@ export function derivePlayerExpansionStateFromFlags(
     hasAuthorsEditionS2: entitlements.hasAuthorsEditionS2 ?? false,
     completedDlcChapters: new Set(completedDlcChapters),
     bloodlineGenerations: { ...(entitlements.bloodlineGenerations ?? {}) },
+    completedMysteryEpisodes: new Set(completedMysteryEpisodes),
   };
 }
