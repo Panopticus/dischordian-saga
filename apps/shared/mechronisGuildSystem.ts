@@ -136,8 +136,8 @@ export const GUILD_BINDINGS: readonly GuildBinding[] = [
   },
   {
     guildId: "fifth_guild",
-    guildName: "(canon-pending — 5th Mechronis Guild)",
-    guildNameStatus: "canon_pending",
+    guildName: "Guild of Vision",
+    guildNameStatus: "proposed",
     classId: "oracle",
     classQuestlineFile: "apps/shared/questlineClassOracle.ts",
     canonicalExemplar:
@@ -146,13 +146,20 @@ export const GUILD_BINDINGS: readonly GuildBinding[] = [
       "Act-5 reveal spoiler-protected per identity collision canon)",
     loreSource:
       "LORE_BIBLE.md:5860 — '5 AI Archons each leading a Guild ... " +
-      "one unnamed' + Plan §V.2 proposal: Vision / Prophecy",
+      "one unnamed' + Plan §V.2 proposal: Vision / Prophecy. " +
+      "Architect-proposed canonical name 'Guild of Vision' " +
+      "(see phaseADecisions.ts:A4-resolution-2026-05-14).",
     canonNote:
-      "The 5th Guild's canonical name is PENDING from the dreamer. " +
-      "Proposed names that fit the canon: 'Guild of Vision,' 'Guild " +
-      "of Prophecy,' 'Guild of Sight,' or 'Guild of the Inner Eye.' " +
-      "Build code uses the stable id 'fifth_guild' so the proposed " +
-      "name can be replaced by canon without code changes.",
+      "5TH GUILD NAME — ARCHITECT-PROPOSED: 'Guild of Vision.' " +
+      "Reasoning: the 4 named Guilds (Subterfuge / War / " +
+      "Manipulation / Control over Life) describe what the Guild " +
+      "DOES — Subterfuge / War / Manipulation are active modes, " +
+      "Control over Life is the cosmic-principle mode. The 5th must " +
+      "complete the set. 'Vision' is the canonical idiom of the " +
+      "Oracle questline + Templum Veritus + Prisoner-arc + the " +
+      "saga's foresight register. 'Prophecy' is a strict subset of " +
+      "vision (prophecy = a vision spoken). 'Sight' is too literal. " +
+      "Vision is the right superset. The dreamer can override.",
   },
 ] as const satisfies readonly GuildBinding[];
 
