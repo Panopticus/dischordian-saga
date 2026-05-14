@@ -366,3 +366,77 @@ export const CANONICAL_HIERARCHY_C_SUITE = {
 
 /** Canonical full Hierarchy demon-lord count per LORE_BIBLE.md:5348. */
 export const CANONICAL_CORE_TEN_COUNT = 10;
+
+/* ═══════════════════════════════════════════════════════
+   THE AEONS PIECE-MAKER CANON
+   (dreamer canon-lock, 2026-05-14)
+   ═══════════════════════════════════════════════════════ */
+
+/**
+ * The Hierarchy of the Damned operates on geologic timescales —
+ * longer than the Ocularum has existed, longer than the AI
+ * Empire's bureaucracy ever functioned, longer than any other
+ * saga faction's institutional memory. They have been maneuvering
+ * pieces across aeons.
+ *
+ * The canonical instance of this piece-positioning that this
+ * registry documents:
+ *
+ *   THE KANSHI SHA HARVEST. The Ocularum's founding regicide
+ *   (feudal Japan, pre-A.A.) was canonically successful — a
+ *   purple-clad ninja from inside Kanshi Sha's own elite spy
+ *   network assassinated him (LORE_BIBLE.md:1272). At the moment
+ *   of death, The Collector stepped through a dimensional veil
+ *   and pulled the dying soul through time, transforming Kanshi
+ *   Sha into The Watcher, the Fourth Archon. The Collector's
+ *   intervention was the visible operation; the Hierarchy's
+ *   piece-positioning was the orchestration that put The Collector
+ *   in position to perform it. The Hierarchy needed Kanshi Sha
+ *   alive in the modern era to fill the surveillance-apparatus
+ *   role that The Watcher would later occupy — across thousands
+ *   of years of preparation.
+ *
+ * Operational principle (architect's framing): The Collector's
+ * Project Inception Ark commissions are NOMINALLY from the
+ * Architect (LORE_BIBLE.md, Collector entry). The Hierarchy's
+ * influence on WHICH historical figures get harvested into the
+ * Ark is the meta-faction layer that this canon binds. Future
+ * canon authoring must respect this distinction:
+ *   - The Architect commissions Project Inception Ark.
+ *   - The Collector executes harvests.
+ *   - The Hierarchy of the Damned steers (or has steered, at
+ *     specific load-bearing junctures) the target list.
+ *
+ * Future canon may register additional harvests that fall under
+ * Hierarchy piece-positioning. Until then, the Kanshi Sha
+ * harvest is the canonical instance of record.
+ */
+export const HIERARCHY_AEONS_PIECE_POSITIONING = {
+  canonicalInstance: {
+    operation: "kanshi_sha_harvest",
+    visibleOperator: "the_collector" as const,
+    orchestrator: "hierarchy_of_the_damned",
+    targetArchonId: "the_watcher" as const,
+    era: "Feudal Japan / pre-A.A. (regicide) → Early Empire 200 A.A. (Archon manifestation)",
+    crossReferences: [
+      "apps/shared/archonCanon.ts (the_watcher entry — Hierarchy orchestration canon note)",
+      "apps/shared/archonCanon.ts (the_collector entry — Hierarchy meta-faction canon note)",
+      "apps/shared/ocularumCanon.ts (OCULARUM_FOUNDING.outcomeReversal — the order's view of the harvest)",
+      "LORE_BIBLE.md:1272 (Kanshi Sha entry — Collector dimensional-veil canon)",
+    ],
+  },
+  operationalPrinciple:
+    "The Collector's Project Inception Ark commissions are nominally from " +
+    "the Architect. The Hierarchy of the Damned's influence on WHICH historical " +
+    "figures get harvested into the Ark is the meta-faction layer. The " +
+    "Architect commissions; the Collector executes; the Hierarchy (at specific " +
+    "load-bearing junctures) steers the target list.",
+  canonNote:
+    "Per the dreamer canon-lock of 2026-05-14: 'The Hierarchy of the Damned " +
+    "brought Kanshi Sha back from the dead so he would be alive for the " +
+    "Collector to recruit him. They've been maneuvering pieces for aeons.' " +
+    "This registry binds the Hierarchy as the meta-faction puppeteering across " +
+    "geologic time. Additional canonical instances of Hierarchy " +
+    "piece-positioning are CANON-PENDING; future PRs and DLCs may register " +
+    "more.",
+} as const;

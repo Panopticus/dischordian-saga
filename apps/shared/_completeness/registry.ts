@@ -89,6 +89,7 @@ import {
   checkNemesisWave4TriggerCoverage,
   checkNemesisAxisConflictDeepening,
 } from "./checks/nemesisCoverage";
+import { checkOcularumCellCoverage } from "./checks/ocularumCellCoverage";
 
 export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
   // ─── Card engine ──────────────────────────────────────────
@@ -767,6 +768,16 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "12 thematic axes × 2 directions = 24 pair-bank files hand-deepened beyond the generator's 24-node floor. Each deepened file climbs to >80 dialog nodes via 5-node bespoke trees (ghost↔jester silence vs noise, heretic↔zealot rival faiths, etc.). RATCHET — pairs ship as writers complete them.",
     check: () => checkNemesisAxisConflictDeepening(),
+    ratchet: { target: 0 },
+  },
+
+  // ─── Canon / lore ─────────────────────────────────────────
+  {
+    id: "canon.ocularum_cell_coverage",
+    name: "Ocularum named cells",
+    description:
+      "The Ocularum's operational body is canonically 700 numbered cells (apps/shared/ocularumCanon.ts:CANONICAL_OCULARUM_CELL_COUNT). PR-1 canonizes 3 cells; the remaining are owed by the future 700-card DLC. RATCHET — each cell named in canon must remain named.",
+    check: () => checkOcularumCellCoverage(),
     ratchet: { target: 0 },
   },
 ];

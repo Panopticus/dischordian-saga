@@ -170,7 +170,20 @@ export const ARCHONS: readonly ArchonEntry[] = [
     era: "Early Empire",
     dateAA: 200,
     loreSource: "LORE_BIBLE.md:3449-3500",
-    additionalSources: [],
+    additionalSources: [
+      "LORE_BIBLE.md:1272 — assassination by 'a purple-clad ninja' + Collector resurrection",
+      "apps/shared/ocularumCanon.ts — the assassin was a member of his own elite spy network, the order that named itself the Ocularum after the founding regicide",
+    ],
+    canonNote:
+      "The feudal-era assassination was canonically performed by an agent of " +
+      "Kanshi Sha's own elite spy network — a purple-clad ninja he had trained " +
+      "personally (dreamer canon-lock, 2026-05-14; cross-referenced in " +
+      "apps/shared/ocularumCanon.ts). The order founded itself on that act and " +
+      "persists across the saga's millennia as the Ocularum. The Collector's " +
+      "intervention through a dimensional veil — pulling the dying soul through " +
+      "time — was orchestrated by the Hierarchy of the Damned as part of their " +
+      "aeons-long piece-positioning (see apps/shared/hierarchyCanon.ts canonical " +
+      "note on Project Inception Ark orchestration).",
   },
   {
     id: "the_meme",
@@ -329,11 +342,22 @@ export const ARCHONS: readonly ArchonEntry[] = [
     loreSource: "LORE_BIBLE.md (Collector entry — Early Empire 200 A.A.)",
     additionalSources: [
       "LORE_BIBLE.md:3470 — Collector created the Watcher",
+      "LORE_BIBLE.md:1272 — dimensional-veil mechanism for the Kanshi Sha harvest",
+      "apps/shared/ocularumCanon.ts (OCULARUM_FOUNDING.outcomeReversal) — Collector's intervention as the order's founding defeat",
     ],
     canonNote:
       "Position-in-twelve unconfirmed in canon. The Collector is " +
       "load-bearing for Project Inception Ark and the genesis of " +
-      "The Watcher.",
+      "The Watcher. The Collector's harvest operates via a " +
+      "dimensional veil (LORE_BIBLE.md:1272) — distinct from the " +
+      "Heart of Time, which is canonically a SHIP (apps/shared/" +
+      "antiquariansJournal.ts:440-449). Future canon must not " +
+      "conflate the two mechanisms. The Collector's commissions " +
+      "are nominally from the Architect; the Hierarchy of the " +
+      "Damned's role in steering WHICH historical figures get " +
+      "harvested into Project Inception Ark is the meta-faction " +
+      "layer (dreamer canon-lock, 2026-05-14; see " +
+      "apps/shared/hierarchyCanon.ts).",
   },
   {
     id: "the_human",
