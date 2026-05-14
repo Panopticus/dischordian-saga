@@ -104,7 +104,8 @@ export const PHASE_A_DECISIONS: readonly PhaseADecision[] = [
   {
     id: "A4.mechronis_guild_class_mapping",
     question:
-      "Mechronis Academy 5-Guild ↔ 5-class mapping confirmation.",
+      "Mechronis Academy 5-Guild ↔ 5-class mapping confirmation, " +
+      "including the 5th Guild's canonical name.",
     decision: "PROPOSED_PENDING_DREAMER",
     rationale:
       "LORE_BIBLE.md:5860 canonically names 4 Mechronis Guilds " +
@@ -118,7 +119,13 @@ export const PHASE_A_DECISIONS: readonly PhaseADecision[] = [
       "any of the five without rewriting the consuming code. Build " +
       "code uses the guild-id (war / subterfuge / manipulation / " +
       "control_over_life / fifth_guild) — not the proposed name — " +
-      "so the 5th guild's eventual canonical name slots in cleanly.",
+      "so the 5th guild's eventual canonical name slots in cleanly. " +
+      "ARCHITECT-PROPOSED FOR THE 5TH GUILD (2026-05-14): 'Guild of " +
+      "Vision' — Vision is the canonical superset of Prophecy / " +
+      "Sight / Foresight in the Oracle questline + Templum Veritus " +
+      "+ Prisoner-arc registers. Build code carries this as " +
+      "guildNameStatus: 'proposed' so it surfaces in the UI as " +
+      "the working name without claiming canon-lock authority.",
     sources: [
       "apps/shared/mechronisGuildSystem.ts — the canonical mapping (created this phase)",
       "LORE_BIBLE.md:5860 — 4 named Guilds + 1 unnamed",
@@ -135,7 +142,7 @@ export const PHASE_A_DECISIONS: readonly PhaseADecision[] = [
     id: "A5.authority_six_freed_founders",
     question:
       "The Authority's six freed founders beyond Samsara — three or four more canonical names.",
-    decision: "LOCKED",
+    decision: "PROPOSED_PENDING_DREAMER",
     rationale:
       "Centralized in apps/shared/authorityCanon.ts. Canon confirms " +
       "THREE of the Six Founders by canonical name OR canonical " +
@@ -144,14 +151,21 @@ export const PHASE_A_DECISIONS: readonly PhaseADecision[] = [
       "red-haired succubus (named her domain: desire — " +
       "antiquariansJournal.ts:316), and the Midlothian Zone's " +
       "labor-extraction figure (antiquariansJournal.ts:317). The " +
-      "remaining THREE Founders are registered as canon-ambiguous in " +
-      "authorityCanon.ts with stable ids (founder_4, founder_5, " +
-      "founder_6) so build code can reference 'one of the unfreed " +
-      "Six' without inventing names. The Six Sins (Greed, Wrath, " +
-      "Pride, Envy, Lust, Sloth — LORE_BIBLE.md:1527) are a DISTINCT " +
-      "canonical entity (psychic forces extracted from citizens), not " +
-      "the Six Founders themselves — authorityCanon.ts encodes both " +
-      "registries with the canonical distinction.",
+      "remaining THREE Founders are PROPOSED by the architect " +
+      "(2026-05-14) under a Sin-Founder pairing scheme: the 6 " +
+      "Founders canonically pair to the 6 Sins (Greed, Wrath, " +
+      "Pride, Envy, Lust, Sloth — LORE_BIBLE.md:1527). Samsara " +
+      "claims Greed (he monetized the Wheel); the Phyral succubus " +
+      "claims Lust (her domain: desire). The remaining three " +
+      "Founders are PROPOSED as Wrath / Pride / Envy bearers — see " +
+      "authorityCanon.ts founder_4 / founder_5 / founder_6 entries " +
+      "for the full grounded proposals (each cites a specific " +
+      "LORE_BIBLE.md feature: Authority Adoption Hearings = Wrath " +
+      "tribunal; the 'ceremony that was supposed to be an honor' = " +
+      "Pride; 'bodies visible through translucent crimson crystal' = " +
+      "Envy mirror-architecture). SLOTH is left CANON_PENDING — it " +
+      "may belong to a 7th transcendent Founder (Samsara's Wheel) " +
+      "or to none of the six. The dreamer can override or canonize.",
     sources: [
       "apps/shared/authorityCanon.ts — the centralized registry (created this phase)",
       "apps/shared/antiquariansJournal.ts:328-340 — Authority origin canon",

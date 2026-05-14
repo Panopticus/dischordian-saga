@@ -191,38 +191,75 @@ export const AUTHORITY_FOUNDERS: readonly AuthorityFounder[] = [
   },
   {
     id: "founder_4",
-    name: "(canon-pending)",
+    name: "(architect-proposed) — the Wrath Bearer of the Tribunal District",
     nameStatus: "canon_pending",
-    domain: "(canon-pending)",
-    status: "ambiguous",
+    domain:
+      "Architect-proposed: Wrath, channelled through quasi-legal " +
+      "procedure. The Tribunal District is where Authority-aligned " +
+      "ritualized punishment ('Authority Adoption Hearings' per " +
+      "watchersEyesDispatches.ts) was administered. The Wrath " +
+      "Bearer is the freed Sin-of-Wrath Founder presenting as a " +
+      "tribunal judge — the violence of judgement without limit.",
+    status: "freed",
     zoneId: "zone_3",
     loreSource:
-      "Plan §X.3 open question — three remaining Founders unnamed " +
-      "in LORE_BIBLE.md. Recorded here as a stable id so build code " +
-      "can reference the slot.",
+      "ARCHITECT-PROPOSED — grounded in " +
+      "apps/shared/watchersEyesDispatches.ts (Authority Adoption " +
+      "Hearings surveillance canon) + LORE_BIBLE.md:1527 (Six Sins " +
+      "Wrath canon). Recorded here as a CANON_PENDING entry — the " +
+      "dreamer can override the proposed mapping. The slot is " +
+      "load-bearing for the Authority arc.",
     canonNote:
-      "The Six Founders MUST number six per LORE_BIBLE.md:1500. " +
-      "Three (Samsara, phyral_succubus, midlothian_extractor) are " +
-      "canon-witnessed. The other three are slot-only until the " +
-      "dreamer locks them. DO NOT INVENT NAMES.",
+      "PROPOSED canonical mapping: Sin-Founder pairing. The 4 " +
+      "remaining freed Founders likely map to the remaining 4 Sins " +
+      "(Wrath / Pride / Envy / Sloth — Greed and Lust are accounted " +
+      "for: 'desire' = Lust at Phyral Quarter; Samsara's monetized " +
+      "wheel = Greed). The 4-6 Founder slots are tentatively bound " +
+      "to Wrath / Pride / Envy (Sloth canonically PENDING — see " +
+      "founder_6 canonNote on the Wheel's transcendent geometry).",
   },
   {
     id: "founder_5",
-    name: "(canon-pending)",
+    name: "(architect-proposed) — the Pride Bearer of the Sovereign Spire",
     nameStatus: "canon_pending",
-    domain: "(canon-pending)",
-    status: "ambiguous",
+    domain:
+      "Architect-proposed: Pride, weaponized as cosmological " +
+      "rank-claim. The Sovereign Spire is the Authority Zone where " +
+      "membership in the founding caste was once an honor (per " +
+      "LORE_BIBLE.md:1500: 'a ceremony that was supposed to be an " +
+      "honor'). The Pride Bearer is the freed Sin-of-Pride Founder " +
+      "presenting as the city's tallest claimant — the pride that " +
+      "is also the original deception.",
+    status: "freed",
     zoneId: "zone_4",
-    loreSource: "Plan §X.3 open question.",
+    loreSource:
+      "ARCHITECT-PROPOSED — grounded in LORE_BIBLE.md:1500 (the " +
+      "'honor' framing) + LORE_BIBLE.md:1527 (Six Sins Pride canon). " +
+      "CANON_PENDING. The dreamer can override.",
+    canonNote: "See founder_4 canonNote for the Sin-Founder pairing proposal.",
   },
   {
     id: "founder_6",
-    name: "(canon-pending)",
+    name: "(architect-proposed) — the Envy Bearer of the Reflected Quarter",
     nameStatus: "canon_pending",
-    domain: "(canon-pending)",
-    status: "ambiguous",
+    domain:
+      "Architect-proposed: Envy, weaponized as mirror-architecture. " +
+      "The Reflected Quarter is the Authority Zone where citizens " +
+      "could see their own merged selves through the translucent " +
+      "crimson crystal (per LORE_BIBLE.md:1500: 'bodies remain " +
+      "visible through translucent crimson crystal — eyes open, " +
+      "mouths open in silent screams'). The Envy Bearer is the " +
+      "freed Sin-of-Envy Founder — the longing to be the OTHER " +
+      "fused selves, the recognition that any one consciousness in " +
+      "the construct is a lesser entity than the merged whole.",
+    status: "freed",
     zoneId: "zone_5",
-    loreSource: "Plan §X.3 open question.",
+    loreSource:
+      "ARCHITECT-PROPOSED — grounded in LORE_BIBLE.md:1500 (the " +
+      "translucent-crimson canon) + LORE_BIBLE.md:1527 (Six Sins " +
+      "Envy canon). CANON_PENDING. Wrath/Sloth pairing is the " +
+      "alternative the dreamer can lock instead.",
+    canonNote: "See founder_4 canonNote for the Sin-Founder pairing proposal.",
   },
 ] as const satisfies readonly AuthorityFounder[];
 
