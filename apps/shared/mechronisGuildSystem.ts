@@ -14,10 +14,11 @@
    The 5th is unnamed in LORE_BIBLE.
 
    Per Phase A decision A4 (apps/shared/phaseADecisions.ts),
-   the mapping is PROPOSED_PENDING_DREAMER — the dreamer
-   can override any of the five guild-class bindings
-   without rewriting consuming code. The proposed mapping
-   draws from the saga's existing class questline canon:
+   the mapping is LOCKED — the 5th Guild's canonical name
+   is "The Guild of Omens" (dreamer-locked 2026-05-14,
+   superseding architect's prior 'Guild of Vision' proposal).
+   The 5 guild-class bindings draw from the saga's existing
+   class questline canon:
 
      Soldier   ↔ War              (Iron Lion path)
      Spy       ↔ Subterfuge       (The Eyes / Locke path)
@@ -27,11 +28,9 @@
                                     Assassin's Guild is canonically
                                     where Vex Solène trained the
                                     Warlord-nano-swarm protocols)
-     Oracle    ↔ Fifth Guild      (proposed: Vision / Prophecy;
-                                    the Prisoner / Kael path; the
-                                    5th Guild's name is canon-
-                                    pending and ships here as
-                                    a stable id, not a name)
+     Oracle    ↔ Fifth Guild      (canon-locked 2026-05-14 by the
+                                    dreamer: "The Guild of Omens";
+                                    the Prisoner / Kael path)
 
    Build code references guild-ids (not the proposed names)
    so the dreamer's eventual canon-lock for the 5th Guild
@@ -136,8 +135,8 @@ export const GUILD_BINDINGS: readonly GuildBinding[] = [
   },
   {
     guildId: "fifth_guild",
-    guildName: "Guild of Vision",
-    guildNameStatus: "proposed",
+    guildName: "The Guild of Omens",
+    guildNameStatus: "canon_locked",
     classId: "oracle",
     classQuestlineFile: "apps/shared/questlineClassOracle.ts",
     canonicalExemplar:
@@ -146,20 +145,27 @@ export const GUILD_BINDINGS: readonly GuildBinding[] = [
       "Act-5 reveal spoiler-protected per identity collision canon)",
     loreSource:
       "LORE_BIBLE.md:5860 — '5 AI Archons each leading a Guild ... " +
-      "one unnamed' + Plan §V.2 proposal: Vision / Prophecy. " +
-      "Architect-proposed canonical name 'Guild of Vision' " +
-      "(see phaseADecisions.ts:A4-resolution-2026-05-14).",
+      "one unnamed.' Canon-locked name 'The Guild of Omens' " +
+      "received from the dreamer on 2026-05-14, superseding the " +
+      "architect's prior proposal 'Guild of Vision' " +
+      "(see phaseADecisions.ts:A4).",
     canonNote:
-      "5TH GUILD NAME — ARCHITECT-PROPOSED: 'Guild of Vision.' " +
-      "Reasoning: the 4 named Guilds (Subterfuge / War / " +
-      "Manipulation / Control over Life) describe what the Guild " +
-      "DOES — Subterfuge / War / Manipulation are active modes, " +
-      "Control over Life is the cosmic-principle mode. The 5th must " +
-      "complete the set. 'Vision' is the canonical idiom of the " +
-      "Oracle questline + Templum Veritus + Prisoner-arc + the " +
-      "saga's foresight register. 'Prophecy' is a strict subset of " +
-      "vision (prophecy = a vision spoken). 'Sight' is too literal. " +
-      "Vision is the right superset. The dreamer can override.",
+      "5TH GUILD NAME — CANON-LOCKED 2026-05-14: 'The Guild of Omens.' " +
+      "Received from the dreamer. The architect had proposed 'Guild " +
+      "of Vision' on 2026-05-12 reasoning that the 4 named Guilds " +
+      "describe modes (Subterfuge / War / Manipulation are active " +
+      "modes; Control over Life is the cosmic-principle mode) and " +
+      "that the Oracle questline + Templum Veritus + Prisoner-arc " +
+      "register for a superset of foresight. The dreamer's " +
+      "correction: not 'Vision' but 'Omens.' The distinction matters. " +
+      "Vision is what the seer SEES; an omen is what the world " +
+      "EMITS. The 5th Guild is canonically the discipline of " +
+      "reading the world's signs — flights of birds, the weight of " +
+      "Templum Veritus tokens, the dream-residue Mechronis's Archon " +
+      "leaves on initiates. The Oracle-class player walks the " +
+      "omen-reading path, not the vision-channeling path. The " +
+      "distinction is preserved in all downstream consumer code by " +
+      "stable id 'fifth_guild.'",
   },
 ] as const satisfies readonly GuildBinding[];
 
