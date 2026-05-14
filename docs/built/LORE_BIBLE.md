@@ -7,7 +7,7 @@
 - [Characters](#characters) (135)
 - [Factions](#factions) (17)
 - [Locations](#locations) (26)
-- [Concepts](#concepts) (188)
+- [Concepts](#concepts) (196)
 - [Events](#events) (44)
 - [Artifacts](#artifacts) (16)
 - [Songs & Transmissions](#songs-transmissions) (118)
@@ -7478,6 +7478,23 @@ The Ocularum's operational logistics move on a predictable monthly cadence throu
 
 ---
 
+## Direct Duels Registry
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Streamed Prism (Year 1) |
+| **Season** | Season 1 |
+| **Affiliation** | PR-5 (Ocularum Wave canon hardening) |
+| **Status** | Canon-locked via PR-5 |
+| **Priority** | normal |
+
+### Dossier
+
+PR-5 generalized the single-duel pattern from PR-4 into a registry. apps/shared/directDuels.ts now holds the DirectDuelDef interface, the WATCHER_DIRECT_DUEL definition, and the DIRECT_DUELS readonly array. Future arc-direct duels (Ith'Rael-direct, Logos-direct, etc.) can join without duplicating the runtime-binding code. Each duel is gated by a CardUnlockCondition — the same condition shape the TCG card-unlock system uses.
+
+---
+
 ## Dream-Loom Catches
 
 | Field | Value |
@@ -7787,6 +7804,23 @@ N0NOS = a soul that can't be keyed (hacked, identified, or controlled). The NØX
 
 ---
 
+## Night of the Seven Hundred (3-fight gauntlet)
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Streamed Prism (Year 1) |
+| **Season** | Season 1 |
+| **Affiliation** | PR-5 (Ocularum Wave canon hardening) |
+| **Status** | Canon-locked via PR-5 |
+| **Priority** | normal |
+
+### Dossier
+
+PR-5 expanded the Fighting Game's 'Night of the Seven Hundred' chapter into a 3-fight gauntlet: the Watcher (the canonical primary), Old Tanjin (the senior cell), and Mira (the interrogator). The gauntlet stages the cell-binding ceremony as three matches: a refusal (Watcher), a recognition (Old Tanjin), and a patience-test (Mira). Each chapter is a separate StoryChapter in apps/client/src/game/storyModeChapters.ts; all three unlock from watcher.e5 close.
+
+---
+
 ## Night of the Seven Hundred (Fighting Game chapter)
 
 | Field | Value |
@@ -7881,6 +7915,40 @@ Ozhul's Redirected Monetisation — The Degen Arc reference. First unlocked in e
 ### Dossier
 
 The locked drawer in Per. M.'s desk, sealed in the same alloy as the seventh-signature wax. Opens to a hand-written question rather than a key: 'WHO DOES NOT WISH TO BE NAMED?' Inside: forty-one charter drafts and the closer's correspondence.
+
+---
+
+## PR-5 Meta-Audit Gates
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Streamed Prism (Year 1) |
+| **Season** | Season 1 |
+| **Affiliation** | PR-5 (Ocularum Wave canon hardening) |
+| **Status** | Canon-locked via PR-5 |
+| **Priority** | normal |
+
+### Dossier
+
+Two regression-guard ship:check gates landed in PR-5: (1) Zod schema ↔ TypeScript union parity — guards against the kind of drift PR-4 discovered in cardUnlockConditionSchema. (2) Flag-prefix writer parity — guards against the kind of orphan-read PR-4 discovered for mystery_episode_complete. Both pass at PR-5 commit time; both are HARD-PARITY (no ratchet).
+
+---
+
+## Pre-Locke Coordinators (the Chain)
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Streamed Prism (Year 1) |
+| **Season** | Season 1 |
+| **Affiliation** | PR-5 (Ocularum Wave canon hardening) |
+| **Status** | Canon-locked via PR-5 |
+| **Priority** | normal |
+
+### Dossier
+
+The Ocularum's chain of Coordinators between the founding regicide and Locke. Per dreamer canon-lock 2026-05-14, the chain holds 5-15 holders. PR-5 ships 2 named: the Founder (the purple-clad ninja, canonically nameless) and Jericho (Locke's immediate predecessor). Future PRs/DLCs may name additional links. Registered in apps/shared/preLockeCoordinators.ts; ratcheted under canon.pre_locke_coordinator_coverage.
 
 ---
 
@@ -8564,6 +8632,23 @@ Ith'Rael's standing instruction to Special Projects: 'We do not force outcomes. 
 
 ---
 
+## The Dreamer's CoNexus Engine
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Streamed Prism (Year 1) |
+| **Season** | Season 1 |
+| **Affiliation** | PR-5 (Ocularum Wave canon hardening) |
+| **Status** | Canon-locked via PR-5 |
+| **Priority** | normal |
+
+### Dossier
+
+The Dreamer's story-construction tool. Distinct from the cosmological CoNexus (the all-seeing machine god that Logos split itself to refuse). The shared name is intentional — the Dreamer named her writing-loom after the thing her parent doctrine refused to let weave. The Engine threads narrative events, prophecy outputs, and conexus-story registrations into a coherent canon. When NPCs speak of 'a thread the Dreamer is pulling,' they refer to this Engine. Registered in apps/shared/dreamerCoNexusEngine.ts.
+
+---
+
 ## The Eighth Clause
 
 | Field | Value |
@@ -8641,6 +8726,23 @@ The Engineer's Last Calibration — Vex Solène Arc reference. First unlocked in
 ### Dossier
 
 The Final Rite — Wraith Calder Arc reference. First unlocked in episode 'The Eighth Death' (wraith.e4). Episode context: The Sanctuary's Final Rite ended one body and seated the Hierophant. Wraith Calder remembers the rite as a release; the Hierophant remembers the rite as a coronation. Both memories are first-person. The case interrogates the seam: was the Eighth Death a death, or a passage? And if it was a passage, was it consented to?
+
+---
+
+## The First Chair of the Ocularum
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Streamed Prism (Year 1) |
+| **Season** | Season 1 |
+| **Affiliation** | PR-5 (Ocularum Wave canon hardening) |
+| **Status** | Canon-locked via PR-5 |
+| **Priority** | normal |
+
+### Dossier
+
+The Coordinator's seat in the Ocularum's continuity log. The chair is the position; its occupants form a chain. The inheritance ritual is wordless: the outgoing Coordinator places their signing-seal on the chair; the incoming finds it there. Currently held by Locke; previously held by Jericho. Canon-locked in PR-5 via apps/shared/firstChair.ts (dreamer canon-lock 2026-05-14).
 
 ---
 
@@ -9126,6 +9228,23 @@ The Ne-Yon Casino — The Degen Arc reference. First unlocked in episode 'The Ca
 
 ---
 
+## The Ninja Ocularum Apprentice Archetype
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Streamed Prism (Year 1) |
+| **Season** | Season 1 |
+| **Affiliation** | PR-5 (Ocularum Wave canon hardening) |
+| **Status** | Canon-locked via PR-5 |
+| **Priority** | normal |
+
+### Dossier
+
+The Ocularum's faction-specific apprentice discipline. Sibling concept to the 12 mainline personality archetypes (zealot, ghost, scholar, etc.) — composable with them, not a 13th. An apprentice progresses through 5 stages (candidate → form_recognized → content_recognized → namelessness_recognized → cell_recognized). The threefold discipline (form, content, namelessness) inherits from the purple-clad ninja's founding act. The §XVII plan deferred this archetype three times pending dreamer authorization; PR-5 ships it as a faction-specific discipline rather than a 13th personality archetype — honoring the deferral's canonical intent. Registered in apps/shared/ninjaOcularumApprentice.ts.
+
+---
+
 ## The Non-Coordination Pact
 
 | Field | Value |
@@ -9237,6 +9356,23 @@ A player who reaches Adjudicated trust with Locke (Ocularum cell-member via the_
 ### Dossier
 
 The hand-written question the player drafts and seals at Year-2 Memorial Day, to be opened next Memorial Day if the seventh Watcher speaks. Multiple players' questions are placed alongside in the plaza vault.
+
+---
+
+## The Purple-Clad Ninja Name Doctrine
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Streamed Prism (Year 1) |
+| **Season** | Season 1 |
+| **Affiliation** | PR-5 (Ocularum Wave canon hardening) |
+| **Status** | Canon-locked via PR-5 |
+| **Priority** | normal |
+
+### Dossier
+
+The Ocularum's founder is doctrinally NAMELESS. Per dreamer canon-lock 2026-05-14, the namelessness is the order's first 'no' — the refusal to be named on the Watcher's terms, since he was the one who named her the day he recruited her. The doctrine is permanent: no future PR or DLC may name her. Registered in apps/shared/purpleNinjaCanon.ts. This canon predates the Logos split and the Non-Coordination Pact; it is the saga's FIRST resistance pattern.
 
 ---
 
