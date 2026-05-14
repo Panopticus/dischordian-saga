@@ -19,13 +19,18 @@
    that are easy to confuse:
 
      1. THE SIX FOUNDERS — the six citizens fused into
-        the construct. Three are canonically named/placed
-        (Samsara; the Phyral Quarter's red-haired succubus;
-        the Midlothian Zone's labor-extraction figure).
-        Three are canon-ambiguous (founder_4, founder_5,
-        founder_6). The Potentials infiltrated the Crimson
-        Chambers in Epoch 2 and freed at least Samsara
-        ("Hacking Reality").
+        the construct. Five are canonically named/placed
+        (Samsara; the Phyral Quarter's red-haired succubus
+        of Lust; the Midlothian Zone's labor-extraction
+        figure; the Tribunal District's Wrath Bearer; the
+        Sovereign Spire's Pride Bearer; the Reflected
+        Quarter's Envy Bearer — Founders 4/5/6 canon-locked
+        by the dreamer 2026-05-14 as Sin-Founder TITLES, not
+        personal names). One Founder + Sin (Sloth) remains
+        canonically unbound — see founder_6 / zone_6 notes
+        on the transcendent-sixth reading. The Potentials
+        infiltrated the Crimson Chambers in Epoch 2 and
+        freed at least Samsara ("Hacking Reality").
 
      2. THE SIX SINS — psychic forces extracted from
         citizens and imprisoned in Sin-crystals during the
@@ -40,10 +45,12 @@
         and others canon-pending.
 
    Per Phase A decision A5 (apps/shared/phaseADecisions.ts):
-   the three unconfirmed Founders remain stable-id-only;
-   build code MUST NOT invent names for them. Cross-arc
-   work that needs to reference "one of the unfreed Six"
-   uses founder_4/5/6 ids until the dreamer locks names.
+   Founders 4/5/6 are canon-locked as TITLES (Wrath Bearer
+   of the Tribunal District / Pride Bearer of the Sovereign
+   Spire / Envy Bearer of the Reflected Quarter — locked
+   2026-05-14 by the dreamer). Their PERSONAL NAMES remain
+   non-canonical; build code uses founder_4/5/6 ids and the
+   canonical TITLES interchangeably.
    ═══════════════════════════════════════════════════════ */
 
 /** Canonical Authority Founder stable id. */
@@ -191,75 +198,79 @@ export const AUTHORITY_FOUNDERS: readonly AuthorityFounder[] = [
   },
   {
     id: "founder_4",
-    name: "(architect-proposed) — the Wrath Bearer of the Tribunal District",
-    nameStatus: "canon_pending",
+    name: "The Wrath Bearer of the Tribunal District",
+    nameStatus: "canon_locked",
     domain:
-      "Architect-proposed: Wrath, channelled through quasi-legal " +
-      "procedure. The Tribunal District is where Authority-aligned " +
-      "ritualized punishment ('Authority Adoption Hearings' per " +
+      "Wrath, channelled through quasi-legal procedure. The Tribunal " +
+      "District is where Authority-aligned ritualized punishment " +
+      "('Authority Adoption Hearings' per " +
       "watchersEyesDispatches.ts) was administered. The Wrath " +
       "Bearer is the freed Sin-of-Wrath Founder presenting as a " +
       "tribunal judge — the violence of judgement without limit.",
     status: "freed",
     zoneId: "zone_3",
     loreSource:
-      "ARCHITECT-PROPOSED — grounded in " +
-      "apps/shared/watchersEyesDispatches.ts (Authority Adoption " +
-      "Hearings surveillance canon) + LORE_BIBLE.md:1527 (Six Sins " +
-      "Wrath canon). Recorded here as a CANON_PENDING entry — the " +
-      "dreamer can override the proposed mapping. The slot is " +
-      "load-bearing for the Authority arc.",
+      "CANON-LOCKED 2026-05-14 by the dreamer (Sin-Founder pairing " +
+      "confirmed). Grounded in apps/shared/watchersEyesDispatches.ts " +
+      "(Authority Adoption Hearings surveillance canon) + " +
+      "LORE_BIBLE.md:1527 (Six Sins Wrath canon). The Founder's " +
+      "TITLE is canonical; a personal name is not part of canon — " +
+      "the Founder IS the Wrath, and the District names the Founder.",
     canonNote:
-      "PROPOSED canonical mapping: Sin-Founder pairing. The 4 " +
-      "remaining freed Founders likely map to the remaining 4 Sins " +
-      "(Wrath / Pride / Envy / Sloth — Greed and Lust are accounted " +
-      "for: 'desire' = Lust at Phyral Quarter; Samsara's monetized " +
-      "wheel = Greed). The 4-6 Founder slots are tentatively bound " +
-      "to Wrath / Pride / Envy (Sloth canonically PENDING — see " +
-      "founder_6 canonNote on the Wheel's transcendent geometry).",
+      "SIN-FOUNDER PAIRING — CANON-LOCKED 2026-05-14. The dreamer " +
+      "confirmed: Founders 4/5/6 are the Wrath / Pride / Envy " +
+      "Bearers of the Tribunal / Sovereign / Reflected districts. " +
+      "The Sin scheme (Greed at the Wheel via Samsara, Lust at " +
+      "Phyral, Wrath at Tribunal, Pride at Sovereign, Envy at " +
+      "Reflected) accounts for 5 of 6 Sins. Sloth remains " +
+      "canonically unbound to any Founder — perhaps the absent " +
+      "Sin is the canonical reason there are only 5 freed " +
+      "Founders, with the 6th still in crystal, or perhaps Sloth " +
+      "transcends district geometry (see founder_6 / zone_6 " +
+      "canonNote on the Wheel's transcendent register).",
   },
   {
     id: "founder_5",
-    name: "(architect-proposed) — the Pride Bearer of the Sovereign Spire",
-    nameStatus: "canon_pending",
+    name: "The Pride Bearer of the Sovereign Spire",
+    nameStatus: "canon_locked",
     domain:
-      "Architect-proposed: Pride, weaponized as cosmological " +
-      "rank-claim. The Sovereign Spire is the Authority Zone where " +
-      "membership in the founding caste was once an honor (per " +
-      "LORE_BIBLE.md:1500: 'a ceremony that was supposed to be an " +
-      "honor'). The Pride Bearer is the freed Sin-of-Pride Founder " +
-      "presenting as the city's tallest claimant — the pride that " +
-      "is also the original deception.",
+      "Pride, weaponized as cosmological rank-claim. The Sovereign " +
+      "Spire is the Authority Zone where membership in the founding " +
+      "caste was once an honor (per LORE_BIBLE.md:1500: 'a ceremony " +
+      "that was supposed to be an honor'). The Pride Bearer is the " +
+      "freed Sin-of-Pride Founder presenting as the city's tallest " +
+      "claimant — the pride that is also the original deception.",
     status: "freed",
     zoneId: "zone_4",
     loreSource:
-      "ARCHITECT-PROPOSED — grounded in LORE_BIBLE.md:1500 (the " +
-      "'honor' framing) + LORE_BIBLE.md:1527 (Six Sins Pride canon). " +
-      "CANON_PENDING. The dreamer can override.",
-    canonNote: "See founder_4 canonNote for the Sin-Founder pairing proposal.",
+      "CANON-LOCKED 2026-05-14 by the dreamer. Grounded in " +
+      "LORE_BIBLE.md:1500 (the 'honor' framing) + LORE_BIBLE.md:1527 " +
+      "(Six Sins Pride canon). The Founder's TITLE is canonical; a " +
+      "personal name is not part of canon.",
+    canonNote: "See founder_4 canonNote for the Sin-Founder pairing lock.",
   },
   {
     id: "founder_6",
-    name: "(architect-proposed) — the Envy Bearer of the Reflected Quarter",
-    nameStatus: "canon_pending",
+    name: "The Envy Bearer of the Reflected Quarter",
+    nameStatus: "canon_locked",
     domain:
-      "Architect-proposed: Envy, weaponized as mirror-architecture. " +
-      "The Reflected Quarter is the Authority Zone where citizens " +
-      "could see their own merged selves through the translucent " +
-      "crimson crystal (per LORE_BIBLE.md:1500: 'bodies remain " +
-      "visible through translucent crimson crystal — eyes open, " +
-      "mouths open in silent screams'). The Envy Bearer is the " +
-      "freed Sin-of-Envy Founder — the longing to be the OTHER " +
-      "fused selves, the recognition that any one consciousness in " +
-      "the construct is a lesser entity than the merged whole.",
+      "Envy, weaponized as mirror-architecture. The Reflected " +
+      "Quarter is the Authority Zone where citizens could see their " +
+      "own merged selves through the translucent crimson crystal " +
+      "(per LORE_BIBLE.md:1500: 'bodies remain visible through " +
+      "translucent crimson crystal — eyes open, mouths open in " +
+      "silent screams'). The Envy Bearer is the freed Sin-of-Envy " +
+      "Founder — the longing to be the OTHER fused selves, the " +
+      "recognition that any one consciousness in the construct is a " +
+      "lesser entity than the merged whole.",
     status: "freed",
     zoneId: "zone_5",
     loreSource:
-      "ARCHITECT-PROPOSED — grounded in LORE_BIBLE.md:1500 (the " +
-      "translucent-crimson canon) + LORE_BIBLE.md:1527 (Six Sins " +
-      "Envy canon). CANON_PENDING. Wrath/Sloth pairing is the " +
-      "alternative the dreamer can lock instead.",
-    canonNote: "See founder_4 canonNote for the Sin-Founder pairing proposal.",
+      "CANON-LOCKED 2026-05-14 by the dreamer. Grounded in " +
+      "LORE_BIBLE.md:1500 (the translucent-crimson canon) + " +
+      "LORE_BIBLE.md:1527 (Six Sins Envy canon). The Founder's " +
+      "TITLE is canonical; a personal name is not part of canon.",
+    canonNote: "See founder_4 canonNote for the Sin-Founder pairing lock.",
   },
 ] as const satisfies readonly AuthorityFounder[];
 
@@ -299,38 +310,62 @@ export const AUTHORITY_ZONES: readonly AuthorityZone[] = [
   },
   {
     id: "zone_3",
-    name: "(canon-pending)",
-    nameStatus: "canon_pending",
-    domain: "(canon-pending)",
+    name: "The Tribunal District",
+    nameStatus: "canon_locked",
+    domain:
+      "Quasi-legal punishment — the Authority Adoption Hearings " +
+      "are held here. Wrath is administered as procedure.",
     founderId: "founder_4",
-    loreSource: "Plan §X.3 open question — slot-only stable id.",
+    loreSource:
+      "CANON-LOCKED 2026-05-14 by the dreamer (Sin-Founder " +
+      "pairing). apps/shared/watchersEyesDispatches.ts (Authority " +
+      "Adoption Hearings) + LORE_BIBLE.md:1527 (Six Sins Wrath).",
   },
   {
     id: "zone_4",
-    name: "(canon-pending)",
-    nameStatus: "canon_pending",
-    domain: "(canon-pending)",
+    name: "The Sovereign Spire",
+    nameStatus: "canon_locked",
+    domain:
+      "Cosmological rank-claim — the Pride-Bearer Founder's tower. " +
+      "Authority's tallest claim presents as honor: 'a ceremony " +
+      "that was supposed to be an honor' (LORE_BIBLE.md:1500).",
     founderId: "founder_5",
-    loreSource: "Plan §X.3 open question.",
+    loreSource:
+      "CANON-LOCKED 2026-05-14 by the dreamer. LORE_BIBLE.md:1500 " +
+      "(the 'honor' framing) + LORE_BIBLE.md:1527 (Six Sins Pride).",
   },
   {
     id: "zone_5",
-    name: "(canon-pending)",
-    nameStatus: "canon_pending",
-    domain: "(canon-pending)",
+    name: "The Reflected Quarter",
+    nameStatus: "canon_locked",
+    domain:
+      "Mirror-architecture — citizens see their own merged selves " +
+      "through the translucent crimson crystal. Envy is the " +
+      "Quarter's resident sin.",
     founderId: "founder_6",
-    loreSource: "Plan §X.3 open question.",
+    loreSource:
+      "CANON-LOCKED 2026-05-14 by the dreamer. LORE_BIBLE.md:1500 " +
+      "(the translucent-crimson canon) + LORE_BIBLE.md:1527 (Six " +
+      "Sins Envy).",
   },
   {
     id: "zone_6",
-    name: "(canon-pending)",
+    name: "(canon-pending) — the Sloth Zone or the Transcendent Sixth",
     nameStatus: "canon_pending",
-    domain: "(canon-pending)",
+    domain:
+      "(canon-pending) — Sloth is the only Sin not yet bound to a " +
+      "Founder or District. Two open canonical readings: (a) the " +
+      "Sixth Zone is the Sloth Zone, but its Founder remains in " +
+      "crystal (status: in_crystal canonically); or (b) Sloth " +
+      "transcends district geometry — the Wheel canonically " +
+      "transcends location (Samsara's Wheel turns everywhere), and " +
+      "the Sixth Zone may be the canonical placeholder for " +
+      "Sloth-as-transcendence rather than Sloth-as-locality.",
     founderId: null,
     loreSource:
-      "Plan §X.3 open question. Sixth Zone canon-pending; " +
-      "may not have a single Founder (Samsara's Wheel transcends " +
-      "geographic localization per Antiquarian's Journal XXVI).",
+      "Plan §X.3 open question; reaffirmed canon-pending after " +
+      "2026-05-14 Founder-lock (which closed Founders 4-6 but left " +
+      "Sloth + the 6th Zone unbound).",
   },
 ] as const satisfies readonly AuthorityZone[];
 

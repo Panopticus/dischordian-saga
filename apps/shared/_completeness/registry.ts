@@ -829,14 +829,14 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     id: "canon.authority_founder_coverage",
     name: "Authority Six Founders coverage",
     description:
-      "Per LORE_BIBLE.md:1500, the Authority is exactly 6 Founders. Three canon-named (Samsara + Phyral succubus + Midlothian extractor); three slot-only with canon-pending names per Phase A5 decision. Every slot must have a loreSource.",
+      "Per LORE_BIBLE.md:1500, the Authority is exactly 6 Founders. Five canon-locked under the Sin-Founder pairing (Samsara/Greed + Phyral succubus/Lust + Midlothian extractor + Wrath Bearer/Tribunal + Pride Bearer/Sovereign Spire + Envy Bearer/Reflected Quarter — Founders 4/5/6 locked 2026-05-14 by the dreamer per Phase A5 decision). Sloth + 6th Founder remain canon-pending. Every slot must have a loreSource.",
     check: () => checkAuthorityFounderCoverage(),
   },
   {
     id: "canon.mechronis_guild_binding_coverage",
     name: "Mechronis Guild ↔ Class binding coverage",
     description:
-      "Per LORE_BIBLE.md:5860 + Phase A4 decision, 5 Guild ↔ Class bindings (Soldier↔War, Spy↔Subterfuge, Engineer↔Manipulation, Assassin↔Control-Over-Life, Oracle↔fifth_guild). Each binding must have a loreSource + canonicalExemplar.",
+      "Per LORE_BIBLE.md:5860 + Phase A4 decision (canon-locked 2026-05-14), 5 Guild ↔ Class bindings: Soldier↔War, Spy↔Subterfuge, Engineer↔Manipulation, Assassin↔Control-Over-Life, Oracle↔fifth_guild (canonical name: 'The Guild of Omens'). Each binding must have a loreSource + canonicalExemplar.",
     check: () => checkMechronisGuildBindingCoverage(),
   },
 ];

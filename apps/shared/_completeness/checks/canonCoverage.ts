@@ -258,9 +258,13 @@ export function checkEraTimelineCoverage(): RawParityCount {
    ═══════════════════════════════════════════════════════ */
 
 export function checkAuthorityFounderCoverage(): RawParityCount {
-  // Always 6 Founders. Each must have a loreSource. Names may
-  // be canon-pending (3 are canon-named, 3 are slot-only) but
-  // every slot must be registered.
+  // Always 6 Founders. Each must have a loreSource. Founders
+  // 1-3 are canon-named (Samsara + Phyral succubus + Midlothian
+  // extractor); Founders 4-6 are canon-locked at the TITLE
+  // level per the Sin-Founder pairing (Wrath Bearer of the
+  // Tribunal + Pride Bearer of the Sovereign Spire + Envy
+  // Bearer of the Reflected Quarter — locked 2026-05-14 by
+  // the dreamer). Every slot must be registered.
   const missing: string[] = [];
   let implemented = 0;
 
@@ -291,8 +295,9 @@ export function checkAuthorityFounderCoverage(): RawParityCount {
 
 export function checkMechronisGuildBindingCoverage(): RawParityCount {
   // 5 Guild ↔ Class bindings. Each must have a loreSource and
-  // a canonicalExemplar. The 5th Guild is canon-pending but
-  // its binding slot is required.
+  // a canonicalExemplar. All 5 Guilds are now canon-locked
+  // (the 5th Guild's canonical name 'The Guild of Omens' was
+  // locked 2026-05-14 by the dreamer).
   const missing: string[] = [];
   let implemented = 0;
 
