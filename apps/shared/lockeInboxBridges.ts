@@ -28,7 +28,8 @@ export type LockeInboxBridgeId =
   | "locke_bridge_post_act_2"
   | "locke_bridge_post_act_3"
   | "locke_bridge_post_act_4"
-  | "locke_bridge_post_act_5";
+  | "locke_bridge_post_act_5"
+  | "coordinator_post_watcher_e5";
 
 /** Path / alignment variant keys. A message body may declare any
  *  subset; the resolver picks the first whose flag is present. */
@@ -127,6 +128,22 @@ export const LOCKE_INBOX_BRIDGES: ReadonlyArray<LockeInboxBridge> = [
     canonicalBody:
       "You have an army. Five missions. Three more than I expected. Two fewer than the Hierarchy will respect.\n\nTwo confessions wait for you. They are not yours. They are the ones you carry. You have been carrying them since the Awakening; you just did not know you were the carrier.\n\nGo to the Confession Hall. The door is in the Ark you live in but you have never seen it. The Antiquarian will open it for you. He has been waiting. He is the only person who can.\n\n— L.",
   },
+  /* Post-Watcher-arc-E5 — first canonical Locke letter signed
+   * not "L." but "The Coordinator." Arrives only after the
+   * the_watcher arc closes (mystery_episode_complete:arc.the_watcher:watcher.e5).
+   * Recontextualizes every previous "L."-signed letter the
+   * player has read. The signature change is the meeting's
+   * first revelation; everything else is acknowledgment. */
+  {
+    id: "coordinator_post_watcher_e5",
+    subject: "The Signature Changes Now",
+    triggerFlag: "mystery_episode_complete:arc.the_watcher:watcher.e5",
+    seenFlag: "coordinator_post_watcher_e5_seen",
+    canonicalBody:
+      "You will notice the signature has changed.\n\nIt has not. The signature is what it has always been; the conditions under which you can read it correctly have just become visible to you. Every letter I have sent you since Beat H has been from this signature. You were reading 'L.' because that is what your eye knew how to see. You will read 'The Coordinator' from now on because the discipline of seeing has finally turned in the right direction.\n\nThree things, and then I will let you do what you do.\n\nFirst: the cell number generated for you at the meeting is yours. Use it or do not. The continuity log will hold it either way. The Order does not check who reads its records.\n\nSecond: the seven Trade Empire missions you completed before the meeting were the vetting. They were also useful work. They were both, simultaneously, with my full knowledge and your full consent. I will not apologize for either. You will not need me to.\n\nThird: the next time the Authority asks me about you — and it will, soon, on a schedule the Director (the OTHER Director, the Whisperer; you have read about him by now) is patient enough to set — I will tell them you are an Authority asset I am keeping under quiet observation. They will believe me. The cover holds because the cover has always been the work, and the work has always been the cover. You are inside both now.\n\n— The Coordinator",
+    postscript:
+      "P.S. The wax seal on this letter, if you break it from the inside, carries the founding glyph. The eye that watches the watchers. You have been watching me since Beat H without knowing it. I have been watching you the entire time. We were both honest; we were both unindexed. The discipline holds.",
+  },
 ];
 
 export function getLockeInboxBridge(
@@ -178,5 +195,7 @@ export function pendingLockeInboxBridge(
  *  Convergence Seat goodbye walk to know whether Locke's chair has
  *  been earned. */
 export function lockeBridgesComplete(flags: ReadonlySet<string>): boolean {
-  return LOCKE_INBOX_BRIDGES.every((m) => flags.has(m.seenFlag));
+  return LOCKE_INBOX_BRIDGES
+    .filter((m) => m.triggerFlag.startsWith("act_"))
+    .every((m) => flags.has(m.seenFlag));
 }

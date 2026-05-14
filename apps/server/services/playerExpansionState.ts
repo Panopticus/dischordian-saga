@@ -100,6 +100,20 @@ export async function getPlayerExpansionState(
     }
   }
 
+  /* Mystery Engine completed episodes — keys are
+   * `<arcId>:<episodeId>` written by mysteryService.ts on close
+   * (mirrored into gameData.completedMysteryEpisodes as either an
+   * array of keys or a flag-set with `mystery_<arcId>_<episodeId>_complete`
+   * convention). Empty by default; the `arc_episode_complete`
+   * unlock kind reads against this set. */
+  const completedMysteryEpisodes = new Set<string>();
+  const rawEpisodes = gameData.completedMysteryEpisodes;
+  if (Array.isArray(rawEpisodes)) {
+    for (const k of rawEpisodes) {
+      if (typeof k === "string") completedMysteryEpisodes.add(k);
+    }
+  }
+
   return {
     completedActs,
     secretActsRevealed,
@@ -108,6 +122,7 @@ export async function getPlayerExpansionState(
     hasAuthorsEditionS2: toBool(entitlements.authorsEditionS2),
     completedDlcChapters,
     bloodlineGenerations,
+    completedMysteryEpisodes,
   };
 }
 

@@ -405,3 +405,45 @@ Before this bible ships as approved:
 - [ ] The rigor bar set here is explicitly the baseline: subsequent bibles (Vex, Nilmorg, the Eidolon) match or exceed depth per section.
 
 When this checklist is satisfied, Stage 0 advances from calibration to production, and the next bible begins.
+
+---
+
+## 10. The Coordinator binding (PR-3 canon-lock, 2026-05-14)
+
+Adjudicar Locke is canonically the Ocularum Coordinator. Source of record: `apps/shared/ocularumCanon.ts` (`OCULARUM_MEMBERS.locke_coordinator`). The binding lands in PR-3 of the Ocularum canon-lock wave; it is co-authored with the_watcher Mystery Engine arc (`apps/shared/episodeMysteries.ts` — `THE_WATCHER_MYSTERY`), which surfaces the binding to the player at watcher.e5.
+
+### 10.1 What the binding adds
+
+Three things this bible did not name before, now canonical:
+
+1. **The "L." signature has always been Coordinator-tier.** Every post-act inbox letter Locke has sent the player (`apps/shared/lockeInboxBridges.ts`) has been Ocularum tradecraft hiding inside Authority-sanctioned correspondence. The signature change at the post-watcher-E5 letter (now `coordinator_post_watcher_e5` in the bridge registry) is the moment the player can read the signature correctly — not the moment the signature changed.
+
+2. **The Senne→Locke transition is Coordinator succession.** The pre-defection identity (Surveillance Coordinator Senne, AI Empire era) was the Order's embed inside the Empire's surveillance apparatus. The post-defection identity (Locke, Insurgency-then-New-Babylon) walked the cover-identity forward into the post-Fall institutional vacuum without breaking continuity. The Coordinator role passed from Senne to Locke at the moment of defection; the two are the same operator across two named eras of her career.
+
+3. **The Authority cover is structural, not opportunistic.** The Order's founding doctrine — "we were the first to refuse" — requires the refusal to be performed from inside the apparatus being refused. Locke's choice of New Babylon's Central Control Authority over cleaner cover options (the Insurgency, the Trade Empire, the academy circuit) is canonically deliberate: the Authority is the structural opposite of the Order's purpose, and that opposition is what makes the cover useful.
+
+### 10.2 What the binding does NOT change
+
+The eye-deal mystery (§2.1, §7.2) remains canonically opaque. This is a hard constraint and a bright line.
+
+- The architect's PR-1 canon-lock (apps/shared/ocularumCanon.ts) explicitly forbids using the Ocularum binding to explain why she lost the eye.
+- "She lost the eye in a deal that went wrong — she won't say which deal" stands.
+- The new canon adds, by way of doctrinal closure: the Authority forbids speaking of the eye; Locke herself will not say; the Order knows, and the Order will not say either. This deepens the mystery without resolving it.
+
+The voice register (§1.1-1.5) is unchanged. Locke remains sardonic, weary, predatory, transactional. The Coordinator binding does NOT make her sentimental, reverent, or institutional in any new way — she would speak of the Order as "the operation I have been running for centuries" before she would speak of it as "my faith." The doctrine is the work. The work is the doctrine. The voice does not soften.
+
+### 10.3 What the binding REQUIRES of this bible
+
+When this bible's authoring resumes, the following sections gain new content:
+
+- **§2 (History)** — add the pre-Senne Ocularum recruitment: at what age, in what circumstances, via what cell. The architect proposes leaving the cell-number she held as a member canonically uncited (Coordinators are uncounted; her former cell number passed to a successor when she ascended). The mechanism by which she was recruited to the Order before becoming Senne is canon-pending — possibly an apprentice-doctrine match (`apps/shared/apprentices.ts` — see PR-3B note below), possibly something else.
+
+- **§4 (Cross-references)** — register the Order. Other named cells (Old Tanjin, Mira the Glyph-Reader, the Seventh Whisper per `ocularumCanon.ts`) are her direct subordinates, not her peers. Senne is registered as her predecessor identity. Agent Zero's original inhabitant is registered as the warlord-fragmented sister whose vigil she leads.
+
+- **§5 (Mechanical hooks)** — register the post-watcher-E5 inbox letter (`coordinator_post_watcher_e5`) and the bond-track 80+ "Long View" ability (`locke_coordinator_long_view`) added to `apps/shared/companionAbilities.ts` in PR-3.
+
+- **§7 (Canon issues)** — when the Vex Solène bible is signed off, reconcile The Coda vs. the Order. Per `apps/shared/ocularumCanon.ts:OCULARUM_CANON_PENDING.vex_solene_relationship_to_ocularum`, the relationship is canon-pending; resolution is PR-3B or DLC. Until resolved, this bible records that Locke and Vex are "mirror operators in different registers" (vex_solene.md:115 quoting itself) and that they have, on the record, never met.
+
+### 10.4 PR-3B follow-up (`ninja_ocularum` apprentice archetype)
+
+The architect's PR-3 plan called for adding `"ninja_ocularum"` to `ApprenticeArchetype` (`apps/shared/apprentices.ts`). Discovery during PR-3 implementation: adding the archetype cascades through 8+ ship-check parity subsystems (apprentice authoring coverage, doctrines, missions, mechronis links, warden coverage, pedagogy assets, nemesis archetype behaviors, 22 new pair-bank dialog files). The minimum authoring effort to add a 13th archetype cleanly is ~1000+ lines of dialog content. PR-3 defers the archetype to a follow-up (PR-3B) on dreamer authorization. Until then, the breadcrumb trail's player-facing recruitment surface is the 7 Trade Empire missions added to `apps/shared/tradeMissionCatalog.ts` — sufficient for the Watcher arc to land coherently without the apprentice-archetype surface, but the player's "I want a ninja-Ocularum apprentice on my roster" affordance does not exist until PR-3B.

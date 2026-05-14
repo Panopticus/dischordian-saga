@@ -27,6 +27,7 @@ const FIXTURES: Record<
   authors_edition: { kind: "authors_edition", season: "s2" },
   dlc_chapter_completion: { kind: "dlc_chapter_completion", chapterId: "wave6" },
   bloodline_threshold: { kind: "bloodline_threshold", classification: "ADVOCATE", minGenerations: 3 },
+  arc_episode_complete: { kind: "arc_episode_complete", arcId: "arc.the_watcher", episodeId: "watcher.e5" },
 };
 
 describe("getUnlockConditionDisplay", () => {

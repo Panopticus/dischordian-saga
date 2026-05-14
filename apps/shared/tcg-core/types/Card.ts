@@ -290,6 +290,19 @@ export type CardUnlockCondition =
       kind: "bloodline_threshold";
       classification: string;
       minGenerations: number;
+    }
+  | {
+      /** Mystery Engine arc episode-completion gate. Cards bound
+       *  to canonical reveals in narrative arcs unlock when the
+       *  player closes the named episode. The arcId / episodeId
+       *  pair is canonical (apps/shared/episodeMysteries.ts —
+       *  ARC_THE_WATCHER, ARC_ITH_RAEL, etc.). Used by the
+       *  Ocularum / Watcher / Ith'Rael arc reveals to gate
+       *  reveal-cards behind the moment the player canonically
+       *  learned what the card depicts. */
+      kind: "arc_episode_complete";
+      arcId: string;
+      episodeId: string;
     };
 
 /** Forward-declared. Full shape lives in types/Trigger.ts. */

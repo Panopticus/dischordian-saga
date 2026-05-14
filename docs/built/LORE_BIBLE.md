@@ -7,7 +7,7 @@
 - [Characters](#characters) (135)
 - [Factions](#factions) (17)
 - [Locations](#locations) (26)
-- [Concepts](#concepts) (168)
+- [Concepts](#concepts) (172)
 - [Events](#events) (44)
 - [Artifacts](#artifacts) (16)
 - [Songs & Transmissions](#songs-transmissions) (118)
@@ -7925,6 +7925,23 @@ Eight lines pinned to the inside of the Broker's back-room door. 'I will pour th
 
 ---
 
+## The arc_episode_complete TCG Unlock Kind
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Streamed Prism (Year 1) |
+| **Season** | Season 1 |
+| **Affiliation** | PR-3 Game-System Interlock (Ocularum Wave) |
+| **Status** | Unlocked via PR-3 (the_watcher arc + Coordinator binding) |
+| **Priority** | normal |
+
+### Dossier
+
+A new CardUnlockCondition kind in apps/shared/tcg-core/types/Card.ts that gates a card behind closing a specific Mystery Engine arc episode. The TCG unlock service evaluates the gate against the player's `completedMysteryEpisodes` set (sourced from mystery_episode_complete:<arcId>:<episodeId> narrative flags). First canonical use will be Ocularum-related reveal cards in a future expansion; PR-3 ships the type, handler, UI display, and parity wiring.
+
+---
+
 ## The Architect's First Witnessing
 
 | Field | Value |
@@ -8621,6 +8638,23 @@ The Director's closing courtesy to the player: 'The next time the working surfac
 
 ---
 
+## The Long View (Locke Bond 80+)
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Streamed Prism (Year 1) |
+| **Season** | Season 1 |
+| **Affiliation** | PR-3 Game-System Interlock (Ocularum Wave) |
+| **Status** | Unlocked via PR-3 (the_watcher arc + Coordinator binding) |
+| **Priority** | normal |
+
+### Dossier
+
+Locke's Coordinator-tier warmap ability, unlocked at the highest 'Adjudicated' bond band. Buffs every friendly unit by +1 attack and reveals one enemy intent per cooldown. The description carries the canonical line 'You have not yet earned the truth about the Eyes. You will' — surfacing the Order's existence to the player before the Watcher arc resolves it, while preserving the eye-deal mystery as canonically opaque space.
+
+---
+
 ## The Long View Layer
 
 *Also known as: Mol'Garath's Audience*
@@ -8732,6 +8766,23 @@ The Named Favour — Vex Solène Arc reference. First unlocked in episode 'The R
 ### Dossier
 
 The Ne-Yon Casino — The Degen Arc reference. First unlocked in episode 'The Casino Debt' (degen.e1). Episode context: The Degen brokers favours from the Heart of Time at terms that look transactional. The terms were authored in one night at the Ne-Yon casino, against a Hierarchy demon's chair. Investigate what the Degen put on the table that night — and what he walked out with that the Hierarchy is still holding the receipt for.
+
+---
+
+## The Ocularum Breadcrumb Trail
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Streamed Prism (Year 1) |
+| **Season** | Season 1 |
+| **Affiliation** | PR-3 Game-System Interlock (Ocularum Wave) |
+| **Status** | Unlocked via PR-3 (the_watcher arc + Coordinator binding) |
+| **Priority** | normal |
+
+### Dossier
+
+Seven Trade Empire missions (apps/shared/tradeMissionCatalog.ts) whose flavor text is canonically Ocularum tradecraft hiding inside Authority-sanctioned commerce-intelligence work. Each sets an `ocularum_breadcrumb_<n>_collected` flag; completing all seven sets `ocularum_full_trail_complete` and surfaces the seventh mission's tonal shift — the missive whose final line says 'the next letter you receive from me will be signed differently.' The trail is the breadcrumb record by which the Watcher arc's E5 canonical reveal becomes recognition rather than surprise.
 
 ---
 
@@ -9112,6 +9163,23 @@ The Severance was not the breaking of the bindings; the Severance was the uninde
 ### Dossier
 
 Eleven hand-copied lines from the apprentice oath, ratified by the Council in Severance Year 1's closing motion. The first written record of the Broker's role in forty seasons. Allows the protocol to be inherited by reading, not only by sitting.
+
+---
+
+## The Signature Changes — L. → The Coordinator
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Streamed Prism (Year 1) |
+| **Season** | Season 1 |
+| **Affiliation** | PR-3 Game-System Interlock (Ocularum Wave) |
+| **Status** | Unlocked via PR-3 (the_watcher arc + Coordinator binding) |
+| **Priority** | normal |
+
+### Dossier
+
+The first canonical inbox letter from Adjudicar Locke signed not 'L.' but 'The Coordinator.' Triggered by mystery_episode_complete:arc.the_watcher:watcher.e5. Its postscript names the wax-seal glyph the player can break from the inside to verify the Ocularum's founding signature has always been on her correspondence — the signature did not change; the conditions under which the player can read it correctly did.
 
 ---
 
