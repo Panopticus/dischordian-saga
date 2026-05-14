@@ -4120,6 +4120,19 @@ Mol'Garath's relationship with the Architect is the Hierarchy's deepest secret. 
 
 Mol'Vereth — The Degen Arc reference. First unlocked in episode 'The Casino Debt' (degen.e1). Episode context: The Degen brokers favours from the Heart of Time at terms that look transactional. The terms were authored in one night at the Ne-Yon casino, against a Hierarchy demon's chair. Investigate what the Degen put on the table that night — and what he walked out with that the Hierarchy is still holding the receipt for.
 
+### History
+
+Hierarchy demon trustee bound to the Degen by a contract authored in one night at the Ne-Yon casino. The instrument's annual-audit cadence has been the same date for centuries — the anniversary of the signing. Mol'Vereth holds the principal; the Degen holds the trusteeship. The asymmetry is canonical: Mol'Vereth bears no risk; the Degen bears all of it. Cited across the Mystery Engine arc mystery.the_degen E1-E5 as the load-bearing contract-law adversary — the audit cadence is what brings him onstage. Not to be confused with Mol'Garath despite the surname; the 'Mol' prefix is a Hierarchy contract-house family marker, not a sibling indicator. Coordinates with Xeth'Raal on multi-clause operations: Mol'Vereth handles instruments, Xeth'Raal handles ledgers.
+
+### Connections
+
+- Mol'Garath the Unmaker
+- Ozhul'Vana
+- The Coda
+- The Degen
+- The Hierarchy of the Damned
+- Xeth'Raal the Debt Collector
+
 ---
 
 ## Ozhul'Vana
@@ -4136,6 +4149,18 @@ Mol'Vereth — The Degen Arc reference. First unlocked in episode 'The Casino De
 ### Dossier
 
 Ozhul'Vana — The Game Master Arc reference. First unlocked in episode 'Velkraal's Successor' (game_master.e3). Episode context: Velkraal is approaching the end of his career. The Hierarchy's vault division has begun shortlisting candidates for the Goggles' next custodian. Investigate the candidate pool, what they would do with the instrument if they got it, and whether the saga has agency in who succeeds the honest editor.
+
+### History
+
+Hierarchy senior partner — a tier canonically senior to (and not part of) the C-suite (Xeth'Raal CFO, Riri'Ahlia COO, Zyr'Koth R&D SVP). Monetization-minded. Identifies yield-bearing opportunities in already-structured instruments and re-yields them through senior-partner audit authority. In Mystery Engine arc mystery.the_degen E4, redirected monetization logic to the Coda funding line via a routine senior-partner audit of the Degen's trusteeship — the threat alone proved sufficient: the Coda treasurer pre-emptively released the Degen from the obligation. Cross-functions with Mol'Vereth, whose contract-instruments she audits for additional yield the operating team missed. Method is procedural: she does not seize; she audits and redirects.
+
+### Connections
+
+- Mol'Vereth
+- The Coda
+- The Degen
+- The Hierarchy of the Damned
+- Xeth'Raal the Debt Collector
 
 ---
 
@@ -4179,6 +4204,21 @@ Mechronis Academy faculty head responsible for the Logic curriculum proposal at 
 ### Dossier
 
 Born Malkia. Kael's childhood friend on the Mascoteer training arks. Fell at the Battle of Nexon (Year 17,025 A.A.) with the line 'my pattern is in the swarm' on her lips — the Hierarchy heard it as an audition. Mol'Garath promoted her, renamed her Riri'Ahlia, and dressed the renaming in a vow. Now writes the daily work order in the same handwriting Kael keeps folded in a watchcase from before Nexon. NOT to be confused with Malkia Ukweli the Storyteller — distinct souls, same name, deliberate Hierarchy mirror.
+
+### History
+
+COO of the Hierarchy of the Damned. The Taskmaster. Corporate-reorganization architect. Led the siege of seven dimensions against the Advocate's Empire of Shadows — operationally encircling the territory rather than conquering it, an asymmetry canonical to her doctrine. During the post-Severance expansion, recognized Fenra the Moon Tyrant's operational genius — the single-handed organization of the simultaneous invasion of seventeen dimensions — with a personal commendation that promoted Fenra to Director of Operations. Reports up through Mol'Garath. Cross-functions across the senior-officer echelon: Zyr'Koth (R&D), Ith'Rael (Special Projects), Xeth'Raal (Finance), Syl'Vex (conversion-working). Operates the largest deliverable portfolio in the Hierarchy.
+
+### Connections
+
+- Fenra the Moon Tyrant
+- Ith'Rael the Whisperer
+- Mol'Garath the Unmaker
+- Syl'Vex the Corruptor
+- The Advocate
+- The Empire of Shadows
+- The Hierarchy of the Damned
+- Zyr'Koth the Flayer
 
 ---
 
@@ -4255,6 +4295,18 @@ The Year-One lane-witness who took up the first severed bond and has held the Br
 ### Dossier
 
 Cobalt-skinned. Amber-red eyes. Wears the Advocate's face exactly because she is, precisely, every option the Advocate refused. Where the Advocate sealed the Sacrum, Syl'Vex unsealed it. Where the Advocate wove the Blood Weave to defend, Syl'Vex weaves it to convert. Her recruitment pitch is not power — it is relief. She is not stronger than the Advocate; she is more comfortable, and that is the recruitment.
+
+### History
+
+The Advocate's cobalt-skinned dark mirror. Senior Hierarchy lord operating under Mol'Garath. Where the Advocate wove the Blood Weave to defend, Syl'Vex weaves the same instrument to convert — the working is identical; the intention is inverted. Distinct from Zyr'Koth's appropriation: Zyr'Koth refined the Blood Weave into the offensive Severance Protocol; Syl'Vex mirrors it into a recruitment-by-conversion working. Her recruitment pitch is not power but relief — she is not stronger than the Advocate; she is more comfortable, and that is the recruitment. Her existence is canonically tethered to the Advocate's continued operation; whether she ceases if the Advocate ceases is canonically open. Operates in territory Riri'Ahlia's sieges have opened.
+
+### Connections
+
+- Mol'Garath the Unmaker
+- Riri'Ahlia the Taskmaster
+- The Advocate
+- The Hierarchy of the Damned
+- Zyr'Koth the Flayer
 
 ---
 
@@ -5129,6 +5181,20 @@ The Wraith of Death emerged during the cataclysmic unraveling known as the Fall 
 ### Dossier
 
 Xeth'Raal — The Game Master Arc reference. First unlocked in episode 'The Recovered Logs' (game_master.e1). Episode context: The original Game Master Archon was destroyed centuries ago. His followers — the Game Masters, plural — have been editing his logs to make him look more like a martyr and less like a person. Investigate the editorial pattern in their custodianship and the editor-resistant surfaces where the unedited logs survive.
+
+### History
+
+CFO of the Hierarchy of the Damned. The Ledger Keeper. The Banker of the Damned. Maintains the Ledger of Ruin — the Hierarchy's master accounting instrument, continuous across centuries, auditable only from within. Orchestrated the celebrated destruction of the Game Master at Zenon via a protection contract whose canonical signature line was: 'the contract guaranteed safety, not secrecy.' The Hierarchy honored every clause and then sent Agent Zero (Vex Solène) the Game Master's complete strategic playbook, rendering his forty-two escape routes into forty-two dead ends. Possesses the Goggles post-destruction. Reports up through Mol'Garath; cross-functions with Mol'Vereth. His method is canonical: honor every clause, weaponize the margins.
+
+### Connections
+
+- Brel'Sorrash
+- Mol'Garath the Unmaker
+- Mol'Vereth
+- The Game Master
+- The Goggles
+- The Hierarchy of the Damned
+- Vex Solène
 
 ---
 
