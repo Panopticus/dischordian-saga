@@ -7,7 +7,7 @@
 - [Characters](#characters) (135)
 - [Factions](#factions) (17)
 - [Locations](#locations) (26)
-- [Concepts](#concepts) (178)
+- [Concepts](#concepts) (184)
 - [Events](#events) (44)
 - [Artifacts](#artifacts) (16)
 - [Songs & Transmissions](#songs-transmissions) (118)
@@ -7516,6 +7516,23 @@ Mol'Vereth's Discretion — The Degen Arc reference. First unlocked in episode '
 
 ---
 
+## Mystery-Episode Completion Flag (write-path wired)
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Streamed Prism (Year 1) |
+| **Season** | Season 1 |
+| **Affiliation** | PR-4 Game-System Interlock (Ocularum Wave) |
+| **Status** | Unlocked via PR-4 |
+| **Priority** | normal |
+
+### Dossier
+
+PR-4 wired the write-path for the `mystery_episode_complete:<arcId>:<episodeId>` flag in apps/server/services/mysteryService.ts:submitChoice. The flag is written via JSON_SET against gameData.narrativeFlags on every choice commit. The expansion-unlock service's existing read-path (apps/shared/tcg-core/rewards/expansionUnlockService.ts:222-233) consumes the flag for the arc_episode_complete CardUnlockCondition kind landed in PR-3.
+
+---
+
 ## N0NOS / NØX Code
 
 *Also known as: N0NOS, NØX Code, NØX Protocol*
@@ -7546,6 +7563,40 @@ N0NOS = a soul that can't be keyed (hacked, identified, or controlled). The NØX
 | Song | Album | Music Video |
 |------|-------|-------------|
 | NØNOS | The Age of Privacy | [Watch]([object Object]) |
+
+---
+
+## Night of the Seven Hundred (Fighting Game chapter)
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Streamed Prism (Year 1) |
+| **Season** | Season 1 |
+| **Affiliation** | PR-4 Game-System Interlock (Ocularum Wave) |
+| **Status** | Unlocked via PR-4 |
+| **Priority** | normal |
+
+### Dossier
+
+Fighting Game story-mode chapter registered in apps/client/src/game/storyModeChapters.ts. Unlocks at the_watcher arc E5 close. The Coordinator's cell-binding ceremony: the player faces The Watcher in an arena the Order has held empty for two centuries. Win or lose, the recognition is filed; the cell-number is sealed. Authored as a single-fight stub; the §XVII plan called for a 3-fight gauntlet against three of the 700 cells — gate-then-stub for now, authoring waterfalls when the dreamer authorizes.
+
+---
+
+## Now You Are Ours (TCG card)
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Streamed Prism (Year 1) |
+| **Season** | Season 1 |
+| **Affiliation** | PR-4 Game-System Interlock (Ocularum Wave) |
+| **Status** | Unlocked via PR-4 |
+| **Priority** | normal |
+
+### Dossier
+
+Legendary Panopticon spell unlocked at the_watcher arc E5 close. The recruitment-by-recognition moment captured as a draw-3 with verdict_delta -2. Flavor: 'You have been useful. You have been quiet. You have been mine. Now you are ours, if you wish.' First canonical TCG card to use arc_episode_complete as its unlock kind.
 
 ---
 
@@ -8125,6 +8176,23 @@ Per-cycle mission cards surfaced by the Collector and written in the Advocate's 
 
 ---
 
+## The Coordinator's Dossier (TCG card)
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Streamed Prism (Year 1) |
+| **Season** | Season 1 |
+| **Affiliation** | PR-4 Game-System Interlock (Ocularum Wave) |
+| **Status** | Unlocked via PR-4 |
+| **Priority** | normal |
+
+### Dossier
+
+Legendary Panopticon unit unlocked at the_watcher arc E3 close. Provoke + forcefield keywords mirror Locke's institutional cover (she absorbs the first blow on behalf of the Order she runs from inside the apparatus that opposes it). Flavor: 'The dossier is not surveillance. It is recognition. The interpretation has always been yours. You are reading the interpretation now.'
+
+---
+
 ## The Coordinator's Recruitment Terms
 
 | Field | Value |
@@ -8633,6 +8701,23 @@ The Iron Lion Callsign — Jericho Jones Arc reference. First unlocked in episod
 ### Dossier
 
 The Iron Lion Imprint — Jericho Jones Arc reference. First unlocked in episode 'The Imprint Surfaces' (jericho.e3). Episode context: The pre-Fall Iron Lion's consciousness-imprint is bleeding into Jericho's training. He dreams in a hand that isn't his; he holds the rifle a way the previous Iron Lion held it. Investigate whether the imprint is a Lionism feature, a Hierarchy bug, or — cross-arc — a passenger from the same resurrection-protocol substrate Wraith Calder democratised.
+
+---
+
+## The L. Signature (TCG card)
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Streamed Prism (Year 1) |
+| **Season** | Season 1 |
+| **Affiliation** | PR-4 Game-System Interlock (Ocularum Wave) |
+| **Status** | Unlocked via PR-4 |
+| **Priority** | normal |
+
+### Dossier
+
+Epic Panopticon spell unlocked at the_watcher arc E2 close. Depicts the wax-seal glyph embedded in Locke's letters — the founding glyph visible only when the seal is broken from the inside. Card text reads: 'Every letter she sent you carried the glyph. You read "L." because that is what your eye knew how to see.'
 
 ---
 
@@ -9573,6 +9658,23 @@ Logos's split required visible disagreement between its two halves to convince o
 ### Dossier
 
 The Warlord-Fragment Alias — Vex Solène Arc reference. First unlocked in episode 'The Engineer Zero Swap' (vex.e1). Episode context: Vex Solène's recording credits include 4,711 of the Seer's 4,712 archive tapes. The 4,712th — the DO-NOT-PLAY tape — was filed under a Warlord-fragment alias, but the engineering signature on the master is the same hand. Investigate why the only tape Vex didn't sign her name to is also the only tape with a paper band warning on it.
+
+---
+
+## The Watcher Direct Duel
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Streamed Prism (Year 1) |
+| **Season** | Season 1 |
+| **Affiliation** | PR-4 Game-System Interlock (Ocularum Wave) |
+| **Status** | Unlocked via PR-4 |
+| **Priority** | normal |
+
+### Dossier
+
+Post-arc TCG duel registered in apps/shared/watcherDirectDuel.ts. Unlocks at the_watcher arc E3 close. The player canonically duels The Watcher (Kanshi Sha, the Fourth Archon) using a surveillance-themed deck whose mechanics reward observation. Victory rewards the Eye of the Order card. Locke arranges the meeting on terms the Authority and the Hierarchy do not know about; the duel is the Order's question: has the Watcher learned from the lesson, or only from the loss?
 
 ---
 

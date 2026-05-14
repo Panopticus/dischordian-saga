@@ -709,10 +709,51 @@ const ch12: StoryChapter = {
 // CH 4-12 + CORRUPTION + SOURCE + FINALE
 // ═══════════════════════════════════════════════════════
 
+// ═══════════════════════════════════════════════════════
+// CH N700 — NIGHT OF THE SEVEN HUNDRED (The Watcher)
+// PR-4 gate-then-stub. Unlocks via the_watcher arc E5 close
+// (mystery_episode_complete:arc.the_watcher:watcher.e5).
+// Authored as a single-fight stub; the §XVII plan called for
+// a 3-fight gauntlet against three of the 700 cells —
+// authoring waterfalls when the dreamer authorizes.
+// ═══════════════════════════════════════════════════════
+
+const chWatcherNightOfTheSevenHundred: StoryChapter = {
+  id: "ch_n700_night_of_the_seven_hundred", chapter: 700,
+  title: "NIGHT OF THE SEVEN HUNDRED",
+  subtitle: "The Coordinator names the cell. The Order has been waiting.",
+  opponentId: "the-watcher", arenaId: "panopticon",
+  difficulty: "hard", unlocksFighter: "the-watcher",
+  preFight: [
+    { speaker: "narrator", text: "Locke's signal arrives through a channel the Authority does not monitor. The location: an arena the Order has held empty for two centuries. The Watcher is already there." },
+    { speaker: "Locke", text: "You closed the case. The Order recognizes the work. Tonight is the night the cell answers — yours, the one the continuity log has been holding open since you accepted my first letter. Win or lose, the recognition is filed.", speakerColor: "#94a3b8" },
+    { options: [
+      { icon: "🔍", label: "Why him?", key: "n700_investigate", axis: "truth", dir: 1,
+        response: [{ speaker: "Locke", text: "Because the Order was founded against him and he is still here. The doctrine demands the question be put to him again, in every era.", speakerColor: "#94a3b8" }] },
+      { icon: "⚔️", label: "I'm ready.", key: "n700_defy", axis: "defiance", dir: 1,
+        response: [{ speaker: "Locke", text: "Good. The Eye will be watching. That is the point.", speakerColor: "#94a3b8" }] },
+      { icon: "💜", label: "Will you be there?", key: "n700_empathize", axis: "empathy", dir: 1,
+        response: [{ speaker: "Locke", text: "I am the Coordinator. The Coordinator does not attend cell ceremonies. The Order will record what you do. I will read the record afterward.", speakerColor: "#94a3b8" }] },
+      { icon: "✋", label: "What does winning mean here?", key: "n700_accept", axis: "acceptance", dir: 1,
+        response: [{ speaker: "Locke", text: "It means the discipline the assassin used has held. It does not mean he ends. He cannot end yet. We are not done refusing.", speakerColor: "#94a3b8" }] },
+    ] } as DialogWheel,
+  ],
+  postFight: [
+    { speaker: "The Watcher", text: "You used the discipline I built. It is mine. It is also hers. It is also yours, now. I will see you again, in a form you do not yet recognize.", speakerColor: "#ffffff" },
+    { speaker: "Locke", text: "Cell sealed. The Order acknowledges. Sleep tonight if you can. There will be other letters. There are always other letters.", speakerColor: "#94a3b8" },
+  ],
+  postDefeatDialogue: [
+    { speaker: "The Watcher", text: "You were not ready. That is also a recognition. The Order has filed it. You will be ready next time — or you will not. The Eye watches either way.", speakerColor: "#ffffff" },
+  ],
+  memoryFragment: "The Order's continuity log records the night. Your cell number is now bound to the chronicle.",
+  powerGained: "The Coordinator's recognition. The 'L.' that has signed your letters since Beat H signs the next one as 'The Coordinator.'",
+};
+
 export const STORY_CHAPTERS: StoryChapter[] = [
   ch1, ch2, ch3a, ch3b,
   ch4, ch5, ch6, ch7, ch8,
   ch9a, ch9b, ch10, ch11, ch12,
+  chWatcherNightOfTheSevenHundred,
 ];
 
 // Chapters 4-12 are defined in the local storyMode.ts
