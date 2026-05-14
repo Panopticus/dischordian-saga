@@ -356,11 +356,12 @@ export async function checkNemesisAxisConflictDeepening(): Promise<RawParityCoun
     ["artisan", "oracle"], ["oracle", "artisan"],
     ["zealot", "wanderer"], ["wanderer", "zealot"],
   ] as const;
-  // The generator-template floor produces files with ~72
-  // speaker: declarations (8 scenes × 3 bands × 3 nodes).
-  // Hand-deepened files include extra continuation nodes,
-  // so we set the threshold above the generator floor.
-  const DEEPEN_THRESHOLD = 75;
+  // Bespoke axis-deepened files carry a "Phase K Wave 5"
+  // or "Phase K Wave 7" header comment. Generator-floor
+  // files carry "Phase K5.2" instead. This is the cleanest
+  // marker — node-counting is fooled by helper functions
+  // that hide `speaker:` literals.
+  const DEEPENED_MARKER = /Phase K Wave [57]/;
   const dir = path.resolve(process.cwd(), "apps/shared/npcs/banks/nemesis");
   const declared = AXIS_PAIRS.length;
   let implemented = 0;
@@ -369,9 +370,8 @@ export async function checkNemesisAxisConflictDeepening(): Promise<RawParityCoun
     const file = path.join(dir, `${p}_vs_${n}.ts`);
     try {
       const src = await fs.readFile(file, "utf8");
-      const nodeCount = (src.match(/speaker:/g) ?? []).length;
-      if (nodeCount > DEEPEN_THRESHOLD) implemented++;
-      else missing.push(`${p}_vs_${n} (${nodeCount} nodes)`);
+      if (DEEPENED_MARKER.test(src)) implemented++;
+      else missing.push(`${p}_vs_${n} (no Wave 5/7 header)`);
     } catch {
       missing.push(`${p}_vs_${n} (file not found)`);
     }
