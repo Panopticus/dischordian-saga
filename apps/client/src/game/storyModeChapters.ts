@@ -749,11 +749,89 @@ const chWatcherNightOfTheSevenHundred: StoryChapter = {
   powerGained: "The Coordinator's recognition. The 'L.' that has signed your letters since Beat H signs the next one as 'The Coordinator.'",
 };
 
+// ═══════════════════════════════════════════════════════
+// CH N700-B — NIGHT OF THE SEVEN HUNDRED · CELL 2 (Old Tanjin)
+// PR-5 gauntlet expansion. The first cell of the three —
+// Old Tanjin (apps/shared/ocularumCanon.ts:CANONICAL_OCULARUM_CELLS[0])
+// is the senior cell, the one that holds the founding seal
+// in the modern era. Open immediately after CH N700.
+// ═══════════════════════════════════════════════════════
+
+const chNightOfSevenHundredCellOldTanjin: StoryChapter = {
+  id: "ch_n700_cell_old_tanjin", chapter: 701,
+  title: "OLD TANJIN",
+  subtitle: "The senior cell. The one that has held the seal the longest.",
+  opponentId: "old-tanjin", arenaId: "panopticon",
+  difficulty: "hard", unlocksFighter: "old-tanjin",
+  preFight: [
+    { speaker: "narrator", text: "Old Tanjin enters the arena before you do. He has been in cells like this one for sixty years. He bows, exactly once. He does not speak first." },
+    { speaker: "Locke", text: "Old Tanjin is the senior. He holds the founding seal in his hand right now. He will not show you the seal. He will show you the discipline that the seal was given to safeguard.", speakerColor: "#94a3b8" },
+    { options: [
+      { icon: "🔍", label: "Why him first?", key: "n700_tanjin_investigate", axis: "truth", dir: 1,
+        response: [{ speaker: "Locke", text: "Because the senior tests the junior. If you cannot meet the senior, you cannot meet the cells under him.", speakerColor: "#94a3b8" }] },
+      { icon: "⚔️", label: "Ready.", key: "n700_tanjin_defy", axis: "defiance", dir: 1,
+        response: [{ speaker: "Locke", text: "He has already started.", speakerColor: "#94a3b8" }] },
+      { icon: "💜", label: "He's older than my father.", key: "n700_tanjin_empathize", axis: "empathy", dir: 1,
+        response: [{ speaker: "Locke", text: "Older than your grandfather. He will be older than your grandchildren if the work permits. The Order does not retire its seniors.", speakerColor: "#94a3b8" }] },
+      { icon: "✋", label: "I will be respectful.", key: "n700_tanjin_accept", axis: "acceptance", dir: 1,
+        response: [{ speaker: "Locke", text: "Respect is the form. The fight is the content. Both matter. Begin.", speakerColor: "#94a3b8" }] },
+    ] } as DialogWheel,
+  ],
+  postFight: [
+    { speaker: "Old Tanjin", text: "You held the form. The content followed. The senior recognizes the junior. The Order's continuity log will record that you and I have met. We will not meet again.", speakerColor: "#94a3b8" },
+  ],
+  postDefeatDialogue: [
+    { speaker: "Old Tanjin", text: "The form failed before the content. Go back and learn the form. The senior will wait. The senior always waits.", speakerColor: "#94a3b8" },
+  ],
+  memoryFragment: "The senior's bow. The exact angle. The exact pause. The exact way the seal is not shown.",
+  powerGained: "Form recognition. You now read other cells' bows before they speak.",
+};
+
+// ═══════════════════════════════════════════════════════
+// CH N700-C — NIGHT OF THE SEVEN HUNDRED · CELL 3 (Mira)
+// PR-5 gauntlet expansion. Mira is the third named cell
+// (apps/shared/ocularumCanon.ts:CANONICAL_OCULARUM_CELLS[1])
+// and the second of the three the gauntlet pits the player
+// against. Her style is interrogator's patience.
+// ═══════════════════════════════════════════════════════
+
+const chNightOfSevenHundredCellMira: StoryChapter = {
+  id: "ch_n700_cell_mira", chapter: 702,
+  title: "MIRA",
+  subtitle: "The interrogator. She fights you the way she talks to suspects.",
+  opponentId: "mira", arenaId: "panopticon",
+  difficulty: "hard", unlocksFighter: "mira",
+  preFight: [
+    { speaker: "narrator", text: "Mira sits before the round begins. She studies you for a length of time that would be uncomfortable in any other context. In this context, it is the round." },
+    { speaker: "Locke", text: "Mira reads what the cell does before the cell knows it. The bout is half-fought before either of you stands up. Most opponents lose to her by underestimating the chair.", speakerColor: "#94a3b8" },
+    { options: [
+      { icon: "🔍", label: "How long does she watch?", key: "n700_mira_investigate", axis: "truth", dir: 1,
+        response: [{ speaker: "Locke", text: "As long as she needs. The clock waits for her. The Order's clock always does.", speakerColor: "#94a3b8" }] },
+      { icon: "⚔️", label: "I'll move first.", key: "n700_mira_defy", axis: "defiance", dir: 1,
+        response: [{ speaker: "Locke", text: "She will read your first move. She has already read your first move. The match started when you walked in.", speakerColor: "#94a3b8" }] },
+      { icon: "💜", label: "I'll let her finish reading.", key: "n700_mira_empathize", axis: "empathy", dir: 1,
+        response: [{ speaker: "Locke", text: "She'll know. She'll appreciate it. She will not fight any softer for it.", speakerColor: "#94a3b8" }] },
+      { icon: "✋", label: "I'm ready when she is.", key: "n700_mira_accept", axis: "acceptance", dir: 1,
+        response: [{ speaker: "Locke", text: "That is the right answer. The round will be longer than the others. Plan for it.", speakerColor: "#94a3b8" }] },
+    ] } as DialogWheel,
+  ],
+  postFight: [
+    { speaker: "Mira", text: "You did not interrupt my reading. That alone earned the next ninety seconds. The rest you fought for. Cell-to-cell: recognized.", speakerColor: "#94a3b8" },
+  ],
+  postDefeatDialogue: [
+    { speaker: "Mira", text: "You interrupted. That is the most common error. Come back when you can sit through the reading. The reading is the round; the round is the reading.", speakerColor: "#94a3b8" },
+  ],
+  memoryFragment: "The interrogator's pause. The length of it. The way the suspect always speaks first.",
+  powerGained: "Patience under observation. You no longer move when watched; you act only when the watching has finished.",
+};
+
 export const STORY_CHAPTERS: StoryChapter[] = [
   ch1, ch2, ch3a, ch3b,
   ch4, ch5, ch6, ch7, ch8,
   ch9a, ch9b, ch10, ch11, ch12,
   chWatcherNightOfTheSevenHundred,
+  chNightOfSevenHundredCellOldTanjin,
+  chNightOfSevenHundredCellMira,
 ];
 
 // Chapters 4-12 are defined in the local storyMode.ts

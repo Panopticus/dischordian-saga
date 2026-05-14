@@ -1,35 +1,33 @@
 /* ═══════════════════════════════════════════════════════
-   THE WATCHER DIRECT DUEL
-   Post-arc TCG duel canonized by PR-4 (§XVII plan, the
-   game-system interlock wave).
+   DIRECT DUELS REGISTRY
+   Post-arc TCG duels canonized by the Ocularum wave.
 
-   Per the_watcher arc E3 close (apps/shared/episodeMysteries.ts:
-   THE_WATCHER_MYSTERY), the player has deduced that Locke runs
-   the Ocularum from inside the Authority, that The Watcher
-   (Kanshi Sha, the Fourth Archon, the resurrected feudal
-   spymaster) is the Order's canonical primary adversary, and
-   that the Order's modern doctrine is to confront him on his
-   own ground when the cover permits it.
+   A "direct duel" is a one-time canonical match against a
+   named opponent that opens after a specific narrative
+   gate. Distinct from CycleBattles (apps/shared/cycleBattles.ts)
+   which are pre-Fall student duels in Project Celebration
+   / Mechronis Academy; direct duels are post-arc
+   confrontations gated by arc-episode completion.
 
-   The Watcher direct duel unlocks at watcher.e3 close. It is a
-   one-time canonical match — the player faces a deck the
-   Watcher himself plays, with all the surveillance machinery
-   the Fourth Archon canonically commands. The duel is NOT a
-   cycle-battle (those are pre-Fall student duels in Project
-   Celebration / Mechronis Academy). This is a post-arc,
-   post-Empire-fall confrontation.
+   Each duel is gated by a CardUnlockCondition — the same
+   condition shape the TCG card-unlock system uses
+   (apps/shared/tcg-core/types/Card.ts:CardUnlockCondition).
+   The runtime that surfaces a duel-opens-now event reads
+   `unlockCondition` and asks the same expansion-unlock
+   service the TCG uses for cards
+   (apps/shared/tcg-core/rewards/expansionUnlockService.ts).
 
-   The duel is gated by the same narrative flag the
-   arc_episode_complete CardUnlockCondition reads
-   (mystery_episode_complete:arc.the_watcher:watcher.e3). The
-   runtime that surfaces the duel — likely a new screen on the
-   TCG side after watcher.e3 closes — reads this constant.
+   PR-4 landed the Watcher direct duel as a single-duel
+   module (apps/shared/watcherDirectDuel.ts). PR-5 generalized
+   the shape into this registry so future arc-direct duels
+   (Ith'Rael-direct, Logos-direct, etc.) can join without
+   duplicating the runtime-binding code.
    ═══════════════════════════════════════════════════════ */
 
 import type { CardUnlockCondition } from "./tcg-core/types/Card";
 
 /**
- * The canonical Watcher-direct-duel registration.
+ * The canonical direct-duel definition shape.
  *
  * Single duel definition for the saga. Future arc-direct duels
  * (Ith'Rael-direct, etc.) would follow this pattern as separate

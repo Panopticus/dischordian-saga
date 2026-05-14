@@ -91,6 +91,10 @@ import {
 } from "./checks/nemesisCoverage";
 import { checkOcularumCellCoverage } from "./checks/ocularumCellCoverage";
 import { checkNonCoordinationPactIntegrity } from "./checks/nonCoordinationPactIntegrity";
+import { checkZodSchemaUnionParity } from "./checks/zodSchemaUnionParity";
+import { checkFlagPrefixWriterParity } from "./checks/flagPrefixWriterParity";
+import { checkNinjaOcularumStageCoverage } from "./checks/ninjaOcularumStageCoverage";
+import { checkPreLockeCoordinatorCoverage } from "./checks/preLockeCoordinatorCoverage";
 import {
   checkNeyonCanonicalRosterCoverage,
   checkArchonCanonicalRosterCoverage,
@@ -797,6 +801,39 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "Hard parity on the five PACT_INVARIANTS (apps/shared/nonCoordinationPact.ts): founding exchange UNQUOTED, memorial echo canonically quoted (Touché), both operators can refuse, player canonically honors-or-breaks, Antiquarian is the tacit guardian. Any failure compromises the saga's cosmological resistance pattern (apps/shared/logosCanon.ts).",
     check: () => checkNonCoordinationPactIntegrity(),
+  },
+
+  // ─── PR-5 meta-audits (drift regression guards) ────────────
+  {
+    id: "tcg.zod_schema_union_parity",
+    name: "Zod schema ↔ TypeScript union parity",
+    description:
+      "Hard parity: every kind in CardUnlockCondition (apps/shared/tcg-core/types/Card.ts) MUST be present as a z.literal in cardUnlockConditionSchema (apps/shared/tcg-core/cards/schema.ts). PR-4 found 3 missing kinds (arc_episode_complete, dlc_chapter_completion, bloodline_threshold); this gate is the regression guard.",
+    check: () => checkZodSchemaUnionParity(),
+  },
+  {
+    id: "tcg.flag_prefix_writer_parity",
+    name: "Flag-prefix writer parity",
+    description:
+      "Hard parity: every flag-prefix the expansion-unlock service reads (apps/shared/tcg-core/rewards/expansionUnlockService.ts) MUST have a documented writer. PR-4 found the mystery_episode_complete:* prefix was orphan-read; this gate is the regression guard against future read/write drift.",
+    check: () => checkFlagPrefixWriterParity(),
+  },
+
+  // ─── PR-5 canon bindings ───────────────────────────────────
+  {
+    id: "canon.ninja_ocularum_stage_coverage",
+    name: "Ninja Ocularum stage coverage",
+    description:
+      "Hard parity: every NinjaOcularumStage in apps/shared/ninjaOcularumApprentice.ts MUST have a narration entry in NINJA_OCULARUM_STAGE_NARRATION. The diegetic-surface runtime breaks silently otherwise.",
+    check: () => checkNinjaOcularumStageCoverage(),
+  },
+  {
+    id: "canon.pre_locke_coordinator_coverage",
+    name: "Pre-Locke Coordinator coverage",
+    description:
+      "Per dreamer canon-lock 2026-05-14 (apps/shared/preLockeCoordinators.ts), the chain between the founding regicide and Locke holds 5-15 Coordinators. PR-5 ships 2 named (the Founder + Jericho). RATCHET — gap shrinks only as canon names additional predecessors.",
+    check: () => checkPreLockeCoordinatorCoverage(),
+    ratchet: { target: 0 },
   },
 
   // ─── Phase A foundation + Phase B character canon-lock ──────
