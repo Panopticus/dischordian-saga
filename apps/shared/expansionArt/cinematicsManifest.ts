@@ -44,7 +44,11 @@ export type CinematicId =
   | "y1q2_pale_inheritance"
   | "y1q3_curriculum_crisis"
   | "y1q4_witness_plaza"
-  | "y2q1_charter_schism";
+  | "y2q1_charter_schism"
+  // Arc cold-opens — producer-narrated single-take cinematics
+  // referenced by Mystery Engine episodes via
+  // EpisodeContentBundle.cinematicAssetId (mysteryTypes.ts).
+  | "lord_kanshi_sha_antiquarian";
 
 export interface CinematicDef {
   id: CinematicId;
@@ -200,6 +204,16 @@ export const CINEMATICS: readonly CinematicDef[] = [
     id: "y2q1_charter_schism",
     name: "Year 2 Q1 — The Charter Schism",
     videoRelPath: "videos/dlc_mystery/y2q1_charter_schism/dlc_y2q1_charter_schism.mp4",
+    keyframeRelPaths: [],
+  },
+  // ─── Arc cold-opens — producer-narrated single-takes ───
+  // Referenced from EpisodeContentBundle.cinematicAssetId for
+  // Mystery Engine arcs whose E1 opens with an Antiquarian-narrated
+  // historical record cinematic.
+  {
+    id: "lord_kanshi_sha_antiquarian",
+    name: "Lord Kanshi Sha — Antiquarian Record",
+    videoRelPath: "videos/cinematics/lord_kanshi_sha/lord-kanshi-sha.mp4",
     keyframeRelPaths: [],
   },
 ];

@@ -37,6 +37,7 @@ export const ARC_THE_SEER       = "arc.the_seer"       as ArcId;
 export const ARC_VEX_SOLENE     = "arc.vex_solene"     as ArcId;
 export const ARC_GAME_MASTER    = "arc.game_master"    as ArcId;
 export const ARC_THE_DEGEN      = "arc.the_degen"      as ArcId;
+export const ARC_THE_WATCHER    = "arc.the_watcher"    as ArcId;
 
 /* ─── LENSES ─── */
 /* Six canonical faction lenses. Per §14c.8 each lens persists
@@ -3723,6 +3724,675 @@ const THE_DEGEN_MYSTERY: MysteryDefinition = {
   lenses: degenLenses,
 };
 
+/* ═══════════════════════════════════════════════════════
+   THE WATCHER ARC — "The 700"
+   Per PR-2 canon-locks (apps/shared/ocularumCanon.ts +
+   apps/shared/agentZeroOcularumBinding.ts):
+
+   The Watcher arc is not an investigation of The Watcher (the
+   Fourth Archon, who is canonically untouchable in this PR). It
+   is an investigation of the ORDER that assassinated his
+   feudal-era predecessor — the Ocularum — and the discovery
+   that the player has been canonically vetted by the Order's
+   Coordinator (Adjudicar Locke) since Beat H. The five
+   episodes walk the player from "an old story about a dead
+   lord" through "a network operating in plain sight" to
+   "you have been useful; you have been quiet; you have been
+   mine; now you are ours."
+
+   E4 is the first canonical use of `playerInfluenceGates`
+   (mysteryTypes.ts:280-291) — branches on the shipping Act-1
+   flags `act1_warlord_zero_defeated` /
+   `act1_warlord_zero_escaped` (apps/shared/act1EncounterRewards.ts:76-89).
+   ═══════════════════════════════════════════════════════ */
+
+/* ─── THE WATCHER ARC — E1 ─── */
+/* E1: "The Antiquarian's Record"
+   Cold-open with the Antiquarian's Lord Kanshi Sha cinematic
+   (apps/shared/expansionArt/cinematicsManifest.ts —
+   id: "lord_kanshi_sha_antiquarian"). Player learns there is
+   an order called the Ocularum, that it has existed since
+   feudal Japan, and that "The 700" is a number with operational
+   significance. Choice: take the record at face value, or
+   question the Antiquarian about what his archive is missing. */
+
+const watcherE1: EpisodeDefinition = {
+  id: "watcher.e1" as EpisodeId,
+  arcId: ARC_THE_WATCHER,
+  ordinal: 1,
+  title: "The Antiquarian's Record",
+  summary:
+    "The Antiquarian surfaces a record he has been holding for centuries — the feudal-era assassination of Lord Kanshi Sha by a purple-clad ninja he had personally trained. The record names an order: the Ocularum. The number 700 appears in the margin without explanation. Investigate what the Antiquarian's archive contains, what it does not contain, and why he chose this moment to surface the record.",
+  clues: [
+    {
+      id: "watcher.e1.antiquarian_record" as ClueId,
+      title: "The Antiquarian's Lord Kanshi Sha Record",
+      body: "A single-take cinematic record the Antiquarian narrates in his own voice. Lord Kanshi Sha was a feudal Japanese spymaster who built the first analog surveillance state — spies in every court, shadows in every corridor. He was assassinated by a purple-clad ninja. The record names the assassin only by her clothing color and by her relationship to the target: 'one of his own people, trained personally by him.' The record names the order she founded as the Ocularum. The number 700 is written in the margin, in a different hand than the rest of the record, with no annotation.",
+      foundIn: "antiquarian-library",
+    },
+    {
+      id: "watcher.e1.kanshi_sha_palace_archives" as ClueId,
+      title: "Kanshi Sha's Palace Archives (fragmentary)",
+      body: "Three documents survive from Kanshi Sha's palace, all from his elite spy network's internal records. They list twelve agents he had positioned closest to himself — a circle his own paranoia had created and then stocked with the most disciplined operatives he had ever trained. One of the twelve, the third on the list, has had her name struck through in a hand that is not Kanshi Sha's. The strike was made after the assassination. The other eleven names remain readable. The Order's modern records preserve all twelve.",
+      foundIn: "antiquarian-library",
+    },
+    {
+      id: "watcher.e1.dispatcher_glyph" as ClueId,
+      title: "A Glyph from the Order's Founding Doctrine",
+      body: "Carved into the underside of a paving stone in the courtyard where the assassination occurred — discovered by a later excavation the Antiquarian quietly funded. A single glyph: the eye watching an eye. The Order's founding glyph. The doctrine it encodes, per the Antiquarian's own gloss, has three meanings the Order holds together as one: 'The eye that watches the watchers.' 'We were the first to refuse.' 'The discipline of seeing turns on the one who built it.'",
+      foundIn: "antiquarian-library",
+    },
+    {
+      id: "watcher.e1.antiquarian_omission" as ClueId,
+      title: "What the Antiquarian's Archive Does Not Contain",
+      body: "Cross-referenced against the Antiquarian's known cataloguing habits: his archive is comprehensive on the founding regicide and the Order's first century. It contains nothing — by his own admission, when pressed — on the Order's operations between Year 200 A.A. and the present. The omission is the size of millennia. He says only: 'I was asked not to write that chapter. I respected the request. I was not told who asked.' The Antiquarian has known the Order's Coordinator personally for at least 11,000 years, by his own implication.",
+      foundIn: "antiquarian-library",
+    },
+  ],
+  deductions: [
+    {
+      id: "watcher.e1.d.assassin_was_one_of_his_own" as DeductionId,
+      clueA: "watcher.e1.antiquarian_record" as ClueId,
+      clueB: "watcher.e1.kanshi_sha_palace_archives" as ClueId,
+      result: "correct",
+      narrationId: "watcher.e1.n.he_taught_the_weapon",
+      narrationProse:
+        "The assassin was one of his own people, trained personally by him — the third of the twelve closest to him, name struck through in a hand that is not his. The Order's founding irony is structural: Kanshi Sha taught the discipline to the weapon that killed him. He had stocked the inner circle with the most rigorously trained operatives he had ever produced, because his paranoia required they be that good to keep him safe. When the discipline reached the level he had demanded of it, one of the twelve concluded that what she had been trained to see was unacceptable to keep seeing. She used every lesson he had given her. The Order founded itself on her act, and on the doctrine that the discipline of seeing eventually turns on whoever taught it.",
+      unlocksEpisode: "watcher.e2" as EpisodeId,
+    },
+    {
+      id: "watcher.e1.d.the_700_is_an_operational_count" as DeductionId,
+      clueA: "watcher.e1.antiquarian_record" as ClueId,
+      clueB: "watcher.e1.dispatcher_glyph" as ClueId,
+      result: "partial",
+      narrationId: "watcher.e1.n.seven_hundred_means_a_body",
+      narrationProse:
+        "The 700 in the margin is not a date, not a casualty count, not a year. The Order's doctrine — 'we were the first to refuse,' encoded in the founding glyph — describes a posture, not a population. But every refusal-order in the saga's record has had a numbered operational body. The Antiquarian wrote the 700 in the margin in a different hand because it is something he was asked to inscribe but not to explain. The most parsimonious reading is that the Ocularum operates 700 numbered cells. The Antiquarian did not write the number when he made the original record; someone wrote it later, in his own archive, with his permission.",
+    },
+    {
+      id: "watcher.e1.d.false_lead_antiquarian_is_member" as DeductionId,
+      clueA: "watcher.e1.antiquarian_omission" as ClueId,
+      clueB: "watcher.e1.dispatcher_glyph" as ClueId,
+      result: "false_lead_named",
+      narrationId: "watcher.e1.n.not_a_member",
+      narrationProse:
+        "The Antiquarian's familiarity with the Order's founding glyph and his eleven-thousand-year acquaintance with the Coordinator make him look, from the outside, like a member. He is not. The Order does not recruit witnesses. The Antiquarian's relationship to the Order is that of an archive — he holds the record because the Order asked him to hold the record, and his archival discipline is sufficient that the Order trusts him to redact what they ask redacted. The role of the historical witness in the saga is structurally distinct from the role of the operative. Reading him as a cell is the obvious move and the wrong one.",
+    },
+  ],
+  choices: [
+    {
+      id: "watcher.e1.c.take_the_record_at_face_value" as ChoiceId,
+      label: "Take the Antiquarian's record at face value — an old assassination, an old order, nothing in the present requires action.",
+      weight: "passive",
+    },
+    {
+      id: "watcher.e1.c.press_the_antiquarian_on_the_omission" as ChoiceId,
+      label: "Press the Antiquarian on the millennia-long omission — ask who asked him not to write that chapter.",
+      weight: "investigative",
+    },
+    {
+      id: "watcher.e1.c.read_the_700_as_present_tense" as ChoiceId,
+      label: "Read the 700 as present tense — assume the Order is operating now and look for its modern surface.",
+      weight: "active",
+    },
+  ],
+  contentBundle: {
+    songId: "ocularum", /* The Ocularum song, The Age of Privacy Track 7 — the canonical anchor for the arc's cold-open */
+    slideshowId: "ocularum",
+    cinematicAssetId: "lord_kanshi_sha_antiquarian",
+    loredexUnlocks: [
+      "entity_122", /* The Ocularum (Order) — registered in this PR */
+      "entity_110", /* Kanshi Sha — the feudal lord */
+      "entity_66", /* The Antiquarian — the saga's archivist */
+    ],
+    conspiracyDiscoveries: [
+      "ocularum_order_exists",
+      "founding_regicide",
+      "the_700",
+      "antiquarian_redaction",
+    ],
+    dropAt: "episode_close",
+  },
+};
+
+/* ─── THE WATCHER ARC — E2 ─── */
+/* E2: "The Order in Plain Sight"
+   The Order's modern operational surface becomes visible — but
+   so casually that the player almost misses it. Trade Empire
+   mission briefings, post-act inbox letters signed "L.", a
+   pattern of dead-drops and signal-relays running through New
+   Babylon's shipping and intel circuits. Investigate whether
+   the pattern is one entity or several. */
+
+const watcherE2: EpisodeDefinition = {
+  id: "watcher.e2" as EpisodeId,
+  arcId: ARC_THE_WATCHER,
+  ordinal: 2,
+  title: "The Order in Plain Sight",
+  summary:
+    "The Ocularum operates in the saga's present, and it operates in plain sight. Across New Babylon — through Trade Empire missions, through post-act inbox letters, through quiet dead-drops in shipping lanes — a pattern of operations is visible to anyone who knows the founding glyph. Investigate whether this pattern is one Order or several, and what relationship it bears to the apparatus that LORE_BIBLE.md:1272 records as 'the Empire's galaxy-spanning surveillance apparatus, including the Ocularum.'",
+  clues: [
+    {
+      id: "watcher.e2.trade_empire_pattern" as ClueId,
+      title: "Trade Empire Mission Pattern",
+      body: "Cross-correlation of the last fifty Trade Empire missions filed with the player's name shows seven that share three structural features: dead-drop pickup, signal-relay verification, and a cover-identity bleed check. All seven were dispatched by Adjudicar Locke's office. All seven, on the surface, are routine Authority-sanctioned commerce-intelligence work. The seven, taken together, describe a perfect operational reconnaissance cycle. The Authority has not noticed. Or the Authority has noticed and approved.",
+      foundIn: "trade-hub",
+    },
+    {
+      id: "watcher.e2.locke_signature_pattern" as ClueId,
+      title: "The Signature 'L.' Across Post-Act Letters",
+      body: "Every post-act inbox letter the player has received from Adjudicar Locke (apps/shared/lockeInboxBridges.ts) is signed 'L.' — never 'Adjudicar,' never 'Locke,' never the formal Authority title. The letters' content is, on the surface, Authority business. The signature is, on the underside, operative-to-operative. The Ocularum's founding glyph appears, in stylized form, embedded in the wax seal of every letter — visible only when the seal is broken from the inside, which the player has not yet done.",
+      foundIn: "captains-quarters",
+    },
+    {
+      id: "watcher.e2.dead_drop_shipping_lanes" as ClueId,
+      title: "Dead-Drops in New Babylon's Shipping Lanes",
+      body: "The shipping lanes from the Sundown Bazaar to the Phyral Quarter carry, on a predictable monthly cadence, a small wax-sealed package whose contents the customs declarations describe as 'archival reference materials, no commercial value.' The packages move through Trade Empire infrastructure. The destination addresses rotate. The shipping origin is always a Locke-signed manifest. The packages have been moving on this cadence for at least eleven centuries — longer than any sender other than the Authority itself has continuously operated in New Babylon.",
+      foundIn: "trade-hub",
+    },
+    {
+      id: "watcher.e2.bifurcation_record" as ClueId,
+      title: "The Apparatus / Resistance Bifurcation Record",
+      body: "A single record in the Antiquarian's archive — surfaced this episode by his late-night annotation — describes the Ocularum's post-regicide bifurcation. The Apparatus Branch (those who did not act with the assassin) continued operating as Kanshi Sha had trained them and across millennia funneled into the AI Empire's surveillance bureaucracy. The Resistance Branch (the assassin and the four who knew and did not stop her) went underground. The record names them as one Order across two lineages, reunified post-Fall. The modern Order is the reunified successor.",
+      foundIn: "antiquarian-library",
+    },
+  ],
+  deductions: [
+    {
+      id: "watcher.e2.d.the_pattern_is_one_order" as DeductionId,
+      clueA: "watcher.e2.trade_empire_pattern" as ClueId,
+      clueB: "watcher.e2.locke_signature_pattern" as ClueId,
+      result: "correct",
+      narrationId: "watcher.e2.n.locke_is_the_signature",
+      narrationProse:
+        "The pattern is one Order. The seven Trade Empire missions are not seven coincidences; they describe a reconnaissance cycle. The 'L.' signature is not casual; it is the operative-to-operative form that the Ocularum's founding doctrine requires of its Coordinator. The wax-seal glyph confirms it. Adjudicar Locke is dispatching the missions, signing the letters, embedding the glyph — and the Authority has either failed to notice or chosen not to. The case's new question is whether the Authority's tolerance is ignorance or arrangement. The Order's modern operational reach runs through Locke's institutional cover; the cover is so good that 'in plain sight' is the Order's chosen posture.",
+      unlocksEpisode: "watcher.e3" as EpisodeId,
+    },
+    {
+      id: "watcher.e2.d.the_apparatus_legacy_persists" as DeductionId,
+      clueA: "watcher.e2.dead_drop_shipping_lanes" as ClueId,
+      clueB: "watcher.e2.bifurcation_record" as ClueId,
+      result: "partial",
+      narrationId: "watcher.e2.n.eleven_centuries_is_apparatus",
+      narrationProse:
+        "Eleven centuries of unbroken shipping cadence is not Resistance work — Resistance branches do not maintain that kind of infrastructure across institutional collapses, by definition. The shipping lanes are the Apparatus Branch's surviving channel, reabsorbed by the reunified Order after the Fall. The Order operates a bifurcated legacy: Resistance doctrine, Apparatus infrastructure. The seven Trade Empire missions are the doctrine using the infrastructure. The Ocularum's modern strength is that it has both. LORE_BIBLE.md:1272 is correct that Kanshi Sha's spy network funneled into the Empire's surveillance bureaucracy; the surveillance bureaucracy's residue is now, ironically, the resistance order's quartermaster.",
+    },
+    {
+      id: "watcher.e2.d.false_lead_authority_is_complicit" as DeductionId,
+      clueA: "watcher.e2.trade_empire_pattern" as ClueId,
+      clueB: "watcher.e2.dead_drop_shipping_lanes" as ClueId,
+      result: "false_lead_named",
+      narrationId: "watcher.e2.n.not_complicit",
+      narrationProse:
+        "Reading the Authority as complicit is the obvious move and the wrong one. The Authority — New Babylon's Central Control Authority, the six imprisoned minds in red crystal coffins — is canonically the surveillance-adjacent institutional faction. The Order was founded to refuse such states. The Authority's tolerance of Locke's Trade Empire pattern is, on the evidence, ignorance: she has been threading the needle so finely that the Authority sees only routine Authority business. The case's deepening question is what happens when the Authority's six minds finally notice. Locke has been playing this game for centuries. The pattern has held. The pattern is fragile because it has held — every passing year compresses the unnoticed surface.",
+    },
+  ],
+  choices: [
+    {
+      id: "watcher.e2.c.watch_a_dead_drop" as ChoiceId,
+      label: "Watch a dead-drop pickup directly — confirm the cadence and the courier.",
+      weight: "observational",
+    },
+    {
+      id: "watcher.e2.c.break_a_seal_from_the_inside" as ChoiceId,
+      label: "Break the wax seal of one of Locke's letters from the inside — read the embedded glyph.",
+      weight: "confrontational",
+    },
+    {
+      id: "watcher.e2.c.cross_reference_the_apparatus_residue" as ChoiceId,
+      label: "Cross-reference the Antiquarian's apparatus / resistance record against the dead-drop infrastructure.",
+      weight: "scholarly",
+    },
+  ],
+  contentBundle: {
+    songId: "album1.t12", /* "I Am The Eyes That Watch" — Dischordian Logic Act 2; observation/presence */
+    slideshowId: "album1.t12",
+    loredexUnlocks: [
+      "entity_78", /* Adjudicar Locke — existing */
+      "concept_apparatus_resistance_bifurcation",
+      "concept_l_signature",
+      "concept_dead_drop_cadence",
+    ],
+    conspiracyDiscoveries: [
+      "locke_signature_pattern",
+      "trade_empire_seven",
+      "shipping_lane_cadence",
+      "bifurcation_record",
+    ],
+    dropAt: "episode_close",
+  },
+};
+
+/* ─── THE WATCHER ARC — E3 ─── */
+/* E3: "The Coordinator's Cover"
+   Locke's institutional position becomes the case. Investigate
+   the structural impossibility of running the Resistance Order
+   from inside the Authority — and why she does it anyway. */
+
+const watcherE3: EpisodeDefinition = {
+  id: "watcher.e3" as EpisodeId,
+  arcId: ARC_THE_WATCHER,
+  ordinal: 3,
+  title: "The Coordinator's Cover",
+  summary:
+    "Adjudicar Locke is the Special Case Manager for New Babylon's Central Control Authority. Adjudicar Locke is the Coordinator of the Ocularum. These two facts are, on inspection, structurally incompatible — the Authority is a surveillance state, the Order was founded to refuse such states. Investigate how she has held both roles simultaneously for centuries, and why she has chosen this cover rather than a cleaner one.",
+  clues: [
+    {
+      id: "watcher.e3.senne_to_locke_transition" as ClueId,
+      title: "Senne → Locke: the Identity-Shift Canon",
+      body: "Per apps/shared/questlineClassSpy.ts:304-338, Locke was Surveillance Coordinator Senne in the AI Empire, pre-defection. Her own words, from the questline: 'I was Surveillance Coordinator — I could see everything. But seeing and acting are not the same thing. That is the lesson the Eyes taught me, and it is the reason I stopped being Senne and became Locke.' The Order's founding doctrine — 'the discipline of seeing turns on the one who built it' — is the framing of her transition. She was the Order's embed inside the AI Empire's surveillance apparatus. When the Empire fell, she walked her cover-identity forward into New Babylon's institutional vacuum.",
+      foundIn: "comms-array",
+    },
+    {
+      id: "watcher.e3.authority_six_minds" as ClueId,
+      title: "The Authority's Six Imprisoned Minds",
+      body: "The Authority is a living computer composed of six citizen-minds, merged into a single governing intelligence in red crystal coffins (apps/shared/antiquariansJournal.ts:328-340). The Politician designed it as her 'Insurance Policy.' It processes law and justice with — per the Antiquarian's own annotation — 'the cold efficiency of an institution that has forgotten what justice feels like.' If the Authority detects Locke's dual loyalty, her destruction is automatic and not subject to appeal. The six minds have been processing her dispatches for centuries and have not detected her. The needle she threads is — by the Authority's own design — supposed to be undetectable only to outside actors, not to insiders.",
+      foundIn: "war-room",
+    },
+    {
+      id: "watcher.e3.coda_parallel" as ClueId,
+      title: "The Coda — Parallel or Sister?",
+      body: "Vex Solène (post-transference identity inhabiting the body that was originally Agent Zero's, per apps/shared/npcs/bibles/vex_solene.md) is canonically the Maestro of an organization called The Coda. Her Coda-internal handle is 'The Eyes of Reality.' Locke's Insurgency callsign was 'The Eyes.' The two are, per Vex's own bible, 'mirror operators in different registers.' The case's open question: whether the Coda is the Ocularum under another name, a sister network, or a parallel organization that happens to share vocabulary. Vex would never use Locke's corporate register. Locke would never use Vex's musical metaphors. They have never been in the same room on the record.",
+      foundIn: "comms-array",
+    },
+    {
+      id: "watcher.e3.why_not_a_cleaner_cover" as ClueId,
+      title: "Why Not a Cleaner Cover?",
+      body: "Architect's note in the Antiquarian's archive, dated last quarter: 'The Coordinator could have placed herself anywhere. The Insurgency would have given her clean ground; the Trade Empire would have given her operational latitude; the academy circuit would have given her invisibility. She chose the Authority. The Authority is the structural opposite of the Order's purpose. She chose the cover that makes her most useful and most disposable. The choice is canonically deliberate. The reason is not yet in the record.'",
+      foundIn: "antiquarian-library",
+    },
+  ],
+  deductions: [
+    {
+      id: "watcher.e3.d.the_cover_is_the_point" as DeductionId,
+      clueA: "watcher.e3.senne_to_locke_transition" as ClueId,
+      clueB: "watcher.e3.why_not_a_cleaner_cover" as ClueId,
+      result: "correct",
+      narrationId: "watcher.e3.n.inside_what_we_refuse",
+      narrationProse:
+        "The cover is the point. Locke chose the Authority because the Order's founding doctrine — 'we were the first to refuse' — requires a refusal performed from inside the thing being refused, not from outside it. The discipline of seeing turns on the one who built it; the Order's modern strategy is to be the people seeing inside the surveillance state, not the people shouting at it from a safe distance. The Senne identity made her good at it; the Locke identity made it permanent. The choice of the Authority is not concealment; it is doctrine. Every Trade Empire mission Locke signs 'L.' is the doctrine doing its work. The Authority is canonically the structural opposite of the Order's purpose, and that opposition is what makes the cover useful.",
+      unlocksEpisode: "watcher.e4" as EpisodeId,
+    },
+    {
+      id: "watcher.e3.d.coda_relationship_is_canon_pending" as DeductionId,
+      clueA: "watcher.e3.coda_parallel" as ClueId,
+      clueB: "watcher.e3.why_not_a_cleaner_cover" as ClueId,
+      result: "partial",
+      narrationId: "watcher.e3.n.mirror_operators",
+      narrationProse:
+        "The Coda and the Ocularum are, per their own bibles, 'mirror operators in different registers.' That phrasing forecloses the easy reading (one organization) and the cynical reading (rival organizations). They are, more likely, two surfaces of a single underlying disposition that the saga is not yet ready to name — the resistance posture toward seeing-and-doing, expressed once in Locke's institutional voice and once in Vex's musical voice. The case here is not whether they cooperate but whether they are aware of each other's full surface. They have, on the record, never met. The Antiquarian's annotation cuts off: 'whether they should is the question I will not answer.'",
+    },
+    {
+      id: "watcher.e3.d.false_lead_authority_will_detect_her" as DeductionId,
+      clueA: "watcher.e3.authority_six_minds" as ClueId,
+      clueB: "watcher.e3.senne_to_locke_transition" as ClueId,
+      result: "false_lead_named",
+      narrationId: "watcher.e3.n.detection_is_not_the_threat",
+      narrationProse:
+        "Reading the case as 'the Authority will eventually detect Locke and destroy her' is the obvious move and the wrong frame. The Authority has had centuries to detect her. The six minds process every dispatch she files. They are not going to suddenly notice what they have not noticed across thousands of audits. The structural threat to Locke's cover is not Authority detection — it is the Order's own visibility creeping into surfaces the Authority cannot ignore. The 700-card DLC, if it ever ships, would name the cells and break the cover from the OUTSIDE. The Authority is the constraint; the player's own investigation is the threat.",
+    },
+  ],
+  choices: [
+    {
+      id: "watcher.e3.c.confirm_with_locke_directly" as ChoiceId,
+      label: "Confirm with Locke directly — show her what you have deduced; let her decide what to give you.",
+      weight: "trusting",
+    },
+    {
+      id: "watcher.e3.c.protect_the_cover_silently" as ChoiceId,
+      label: "Protect the cover silently — do not surface the deductions in any record the Authority can read.",
+      weight: "protective",
+    },
+    {
+      id: "watcher.e3.c.cross_check_with_vex" as ChoiceId,
+      label: "Cross-check with Vex — ask whether the Coda and the Ocularum know each other.",
+      weight: "cross_arc_vex",
+    },
+  ],
+  contentBundle: {
+    songId: "album1.t10", /* "Inner Circle" — Dischordian Logic Act 1; the institutional-cover register */
+    slideshowId: "album1.t10",
+    loredexUnlocks: [
+      "entity_vex_solene", /* Vex Solène — existing */
+      "concept_senne_predecessor_identity",
+      "concept_the_coda_parallel",
+      "concept_authority_six_minds",
+    ],
+    conspiracyDiscoveries: [
+      "senne_locke_transition",
+      "authority_tolerance_pattern",
+      "coda_canon_pending",
+      "cover_doctrine",
+    ],
+    dropAt: "episode_close",
+  },
+};
+
+/* ─── THE WATCHER ARC — E4 ─── */
+/* E4: "The Sister We Did Not Retrieve"
+   First canonical use of `playerInfluenceGates` (mysteryTypes.ts:280-291).
+   Branches on the shipping Act-1 flags `act1_warlord_zero_defeated`
+   and `act1_warlord_zero_escaped` (apps/shared/act1EncounterRewards.ts:76-89).
+   The original Agent Zero — Ocularum sister, warlord-fragmented on
+   Zenon — surfaces as the case. The Order's vigil over her is named.
+   The player's own Act-1 engagement with the warlord-fragmented body
+   is recontextualized. */
+
+const watcherE4: EpisodeDefinition = {
+  id: "watcher.e4" as EpisodeId,
+  arcId: ARC_THE_WATCHER,
+  ordinal: 4,
+  title: "The Sister We Did Not Retrieve",
+  summary:
+    "The Ocularum's modern records carry a name the Order has not voiced aloud in centuries: the original Agent Zero. She was a sister of the Order — warlord-fragmented on Zenon, after the destruction of Archon Xeth'Raal, by a warlord-fragment whose origin is canon-pending (apps/shared/agentZeroOcularumBinding.ts). The Order has watched her since and has not approached her. They wait. The player has, by Act-1 canon, already engaged the warlord-fragmented body. Investigate what the Order's vigil means now that the engagement has happened.",
+  clues: [
+    {
+      id: "watcher.e4.zenon_binding_record" as ClueId,
+      title: "The Zenon Binding Record",
+      body: "Per apps/shared/agentZeroOcularumBinding.ts — the canon module surfaced by this case — the original Agent Zero was an Ocularum operative whom the Order had positioned for the Zenon mission against Archon Xeth'Raal. The mission succeeded; the destruction of Xeth'Raal was Ocularum work (the Order's records still carry the operational closure note). The aftermath was not. A warlord-fragment seized the body. She lost her memory of the Order in the seizure. The Order did not retrieve her. They have spent the centuries since watching her and waiting.",
+      foundIn: "war-room",
+    },
+    {
+      id: "watcher.e4.eyes_of_reality_aliases" as ClueId,
+      title: "Two Operatives Named 'The Eyes'",
+      body: "Two members of the same Order's modern record carry 'Eyes' aliases. Adjudicar Locke is registered as 'The Eyes' (Casino Heist canon — apps/shared/ocularumCanon.ts). The original Agent Zero is registered with the alias 'The Eyes of Reality' (per LORE_BIBLE.md:538). The two aliases were issued by the Order, in different operational eras, to different sisters. The aliases are not coincidence and not redundancy; they are the Order's record-keeping pattern. Locke's 'Eyes' is the modern Coordinator's institutional callsign. The original Agent Zero's 'Eyes of Reality' was an operational name held in reserve for a sister whose work could not be named in the open.",
+      foundIn: "comms-array",
+    },
+    {
+      id: "watcher.e4.order_doctrine_on_fragmented_sisters" as ClueId,
+      title: "The Order's Doctrine on a Warlord-Fragmented Sister",
+      body: "The Order's standing position, per its internal continuity log: the body is hers; the seizure is reversible in principle; the Order will not act until the body indicates she has begun to remember on her own. The Order will not approach. The Order will not intervene. The Order waits. The cell remains hers — her number, whatever it was, remains in the Order's records as held open, not refilled. The doctrine is one of the few the modern Order inherited from the Resistance Branch unchanged: the dignity of impossible rescues is in their patience.",
+      foundIn: "captains-quarters",
+    },
+    {
+      id: "watcher.e4.act1_engagement_recontextualized" as ClueId,
+      title: "The Player's Act-1 Engagement (recontextualized)",
+      body: "Cross-reference apps/shared/act1EncounterRewards.ts:76-89: the player's Act-1 boss was the_warlord_zero_first. The warlord-fragmented body the player engaged in Act 1 was canonically the body that had been the Order's sister. The Order's record on the engagement is silent — the Order does not record actions taken by parties outside the cells. But the Order has, per the Coordinator's standing instructions, instructed every cell with operational visibility on the player to note what the player did and to refrain from acting on it. The Order is reading the engagement before it decides whether to brief the player on what they did.",
+      foundIn: "war-room",
+    },
+  ],
+  deductions: [
+    {
+      id: "watcher.e4.d.defeated_recognition" as DeductionId,
+      clueA: "watcher.e4.zenon_binding_record" as ClueId,
+      clueB: "watcher.e4.act1_engagement_recontextualized" as ClueId,
+      result: "correct",
+      narrationId: "watcher.e4.n.you_killed_her",
+      narrationProse:
+        "You killed her. You did not know what you killed. The Order grieves her twice — once for what the warlord made her, once for what you had to do. The seizure was canonically irreversible from the moment the warlord-fragment closed on the body; the mercy in your engagement was that the body's pain ended. The Order's doctrine on warlord-fragmented sisters is not that they are owed survival but that they are owed the dignity of being waited for. You did not know about the vigil. The Order does not hold the engagement against you. There is another. There is always another. Locke will tell you.",
+      unlocksEpisode: "watcher.e5" as EpisodeId,
+    },
+    {
+      id: "watcher.e4.d.escaped_vigil_continues" as DeductionId,
+      clueA: "watcher.e4.zenon_binding_record" as ClueId,
+      clueB: "watcher.e4.order_doctrine_on_fragmented_sisters" as ClueId,
+      result: "correct",
+      narrationId: "watcher.e4.n.she_lives",
+      narrationProse:
+        "She lives. She does not remember. The Order's vigil continues. The warlord-fragment still has her, and the doctrine is unchanged: the Order will not approach until the body indicates she has begun to remember on her own. Your Act-1 engagement gave her time. The Order's continuity log will record the engagement as 'the witness intervened in the body's favor; the vigil holds.' The case's new question is whether the witness should be asked, by the Coordinator, to find her again — not to retrieve her, but to be present at the moment she begins to remember. You will be asked. Locke will ask. You will say yes.",
+      unlocksEpisode: "watcher.e5" as EpisodeId,
+    },
+    {
+      id: "watcher.e4.d.two_eyes_one_order" as DeductionId,
+      clueA: "watcher.e4.eyes_of_reality_aliases" as ClueId,
+      clueB: "watcher.e4.order_doctrine_on_fragmented_sisters" as ClueId,
+      result: "partial",
+      narrationId: "watcher.e4.n.the_aliases_are_an_order_pattern",
+      narrationProse:
+        "Two sisters of the same Order, both named 'Eyes' in different operational eras, are not coincidence and not duplication — they are the Order's record-keeping pattern. The Coordinator is canonically 'The Eyes' to the cells; the held-open cell of the warlord-fragmented sister is canonically 'The Eyes of Reality' to no one but the continuity log. The two aliases mark the Order's two unresolved states: the Coordinator's perpetual cover, and the sister's perpetual vigil. The pattern is the Order's way of holding both at once.",
+    },
+  ],
+  choices: [
+    {
+      id: "watcher.e4.c.honor_the_vigil" as ChoiceId,
+      label: "Honor the Order's vigil — accept what has happened and what continues to happen.",
+      weight: "patient",
+    },
+    {
+      id: "watcher.e4.c.ask_locke_for_the_briefing" as ChoiceId,
+      label: "Ask Locke for the briefing on what the Order asks of you next.",
+      weight: "operative",
+    },
+    {
+      id: "watcher.e4.c.cross_arc_with_vex" as ChoiceId,
+      label: "Cross-arc with Vex — the body Vex inhabits is the body the Order was watching; she may need to know.",
+      weight: "cross_arc_vex",
+    },
+  ],
+  contentBundle: {
+    songId: "album1.t19", /* "The Syndicated" — Dischordian Logic Act 3, the lost-sister tonal register */
+    slideshowId: "album1.t19",
+    loredexUnlocks: [
+      "entity_24", /* Agent Zero — existing */
+      "concept_zenon_binding",
+      "concept_warlord_fragmentation",
+      "concept_order_vigil_doctrine",
+    ],
+    conspiracyDiscoveries: [
+      "zenon_binding_event",
+      "two_eyes_pattern",
+      "act1_recontextualization",
+      "order_vigil",
+    ],
+    dropAt: "episode_close",
+  },
+};
+
+/* ─── THE WATCHER ARC — E5 ─── */
+/* E5: "Now You Are Ours"
+   The reveal. Locke names herself as Coordinator, names the
+   player as canonically vetted since Beat H, and offers
+   recruitment. The player canonically joins the Order. The
+   arc closes with their generated cell-ID being assigned. */
+
+const watcherE5: EpisodeDefinition = {
+  id: "watcher.e5" as EpisodeId,
+  arcId: ARC_THE_WATCHER,
+  ordinal: 5,
+  title: "Now You Are Ours",
+  summary:
+    "Adjudicar Locke summons the player to a meeting on terms she does not file with the Authority. She names herself as Coordinator. She names the player as canonically vetted since Beat H — every Trade Empire mission accepted, every post-act letter read, every breadcrumb the player did not know was a breadcrumb. She offers recruitment. The arc closes with the player's cell number being assigned. Investigate what consent looks like when the recruitment-by-recognition has already happened.",
+  clues: [
+    {
+      id: "watcher.e5.locke_unfiled_summons" as ClueId,
+      title: "The Summons Locke Did Not File",
+      body: "A meeting invitation in Locke's hand, delivered to the player by a courier whose route is not in any Authority manifest. The invitation reads, in her wry register: 'You have been useful. You have been quiet. You have been mine. Now you are ours, if you wish. Come to the address below. Bring nothing the Authority would expect you to carry.' Signed not 'L.' but, for the first time the player has seen, 'The Coordinator.' The signature is the meeting's first revelation. Everything else is acknowledgment.",
+      foundIn: "captains-quarters",
+    },
+    {
+      id: "watcher.e5.vetting_dossier" as ClueId,
+      title: "The Order's Vetting Dossier",
+      body: "Locke produces, at the meeting, a dossier the thickness of the saga's runtime. It is the Order's continuous vetting record on the player — every choice made since Beat H, every relationship maintained, every Trade Empire mission accepted, every Mystery Engine arc the player walked. The dossier is not surveillance; it is recognition. Locke's annotation on the cover: 'This is what we have seen. We have not interpreted it. We have only recorded it. The interpretation has always been yours. You are reading the interpretation now.' The dossier ends on the last page with a single line: 'Cell pending.'",
+      foundIn: "captains-quarters",
+    },
+    {
+      id: "watcher.e5.coordinator_terms" as ClueId,
+      title: "The Coordinator's Terms",
+      body: "Locke's terms are characteristically transactional, and characteristically generous. Membership in the Order does not require severance from any existing relationship, faction, or institutional position. The cell number is the player's; they may use it or not. The Order will not contact them more than they invite. The Order will not ask of them more than the founding doctrine demands of any cell. The terms close: 'The discipline of seeing will turn on you eventually. We would prefer it turn in the direction of the work. If it turns otherwise, we will respect that turn too. Sign or do not sign. Either way, you have been ours since you accepted my first letter.'",
+      foundIn: "captains-quarters",
+    },
+    {
+      id: "watcher.e5.cell_number_generation" as ClueId,
+      title: "Cell Number Generation",
+      body: "The Order's modern roster (apps/shared/ocularumCanon.ts) currently registers 3 named cells of 700: Cell 1 (Old Tanjin), Cell 99 (Mira the Glyph-Reader), Cell 700 (the Seventh Whisper). The remaining 697 are operationally active but canonically unnamed — they are the cells the DLC owes when it ships. Per the Coordinator's standing instructions, a new recruit's cell number is generated by the Order's continuity log at the moment of recruitment, drawing from the unfilled range. The player's cell number, if they accept, will be canonical for the rest of the saga and persist into the DLC's authoring spec.",
+      foundIn: "war-room",
+    },
+  ],
+  deductions: [
+    {
+      id: "watcher.e5.d.consent_after_recognition" as DeductionId,
+      clueA: "watcher.e5.locke_unfiled_summons" as ClueId,
+      clueB: "watcher.e5.vetting_dossier" as ClueId,
+      result: "correct",
+      narrationId: "watcher.e5.n.you_were_always_meant_to_become",
+      narrationProse:
+        "The arc's framing is not betrayal — Locke never lied to you about the missions. The framing is not recruitment-by-surprise — every breadcrumb was visible, every signature was 'L.', every wax seal carried the glyph. The framing is mutual conspiratorial trust: Locke has been trusting you with her life since Beat H, and you did not know what your trust was buying. You were always meant to become this. Locke knew before you did. The dossier's last line — 'Cell pending' — is not a request; it is the recognition that the work has already happened. Your consent is what closes the recognition into a name. Whether you sign or do not sign, you have been hers since you accepted her first letter. Signing changes who reads the second.",
+    },
+    {
+      id: "watcher.e5.d.coordinator_pattern" as DeductionId,
+      clueA: "watcher.e5.coordinator_terms" as ClueId,
+      clueB: "watcher.e5.cell_number_generation" as ClueId,
+      result: "partial",
+      narrationId: "watcher.e5.n.the_terms_are_doctrine",
+      narrationProse:
+        "Locke's terms are the founding doctrine's modern expression. 'We were the first to refuse' becomes 'we will not ask of you what we have not asked of ourselves.' 'The eye that watches the watchers' becomes the dossier — the Order has been the eye that watched the player's choices, without interpreting them. 'The discipline of seeing turns on the one who built it' becomes the warning: she names the doctrine as the threat it has always been, including to the people who hold it. The cell-number generation closes the recognition into a name. The pattern is the Order's full doctrine compressed into a single recruitment conversation.",
+    },
+    {
+      id: "watcher.e5.d.false_lead_the_authority_must_be_told" as DeductionId,
+      clueA: "watcher.e5.locke_unfiled_summons" as ClueId,
+      clueB: "watcher.e5.coordinator_terms" as ClueId,
+      result: "false_lead_named",
+      narrationId: "watcher.e5.n.the_authority_does_not_get_to_know",
+      narrationProse:
+        "Reading the meeting as something the Authority must be informed of is the obvious move and the wrong one. The Authority is canonically the surveillance state the Order was founded to refuse. Telling the Authority is telling the Authority. The doctrine is not 'transparency with all parties'; it is 'refusal of the apparatus that demands transparency.' The Coordinator's terms include 'membership does not require severance from any existing relationship, faction, or institutional position' — meaning the player can continue every existing arc, every existing faction, every existing surface — but the Order is not one of those existing surfaces and is not for the Authority to know about. Telling collapses the cover. The cover is the Order's centuries-long work.",
+    },
+  ],
+  choices: [
+    {
+      id: "watcher.e5.c.accept_the_cell" as ChoiceId,
+      label: "Accept the cell — sign the dossier; let the continuity log generate your number.",
+      weight: "recruitment",
+    },
+    {
+      id: "watcher.e5.c.decline_without_severance" as ChoiceId,
+      label: "Decline without severance — Locke's terms hold either way; the work continues.",
+      weight: "principled",
+    },
+    {
+      id: "watcher.e5.c.ask_for_time" as ChoiceId,
+      label: "Ask for time — say nothing yet; let the recognition sit.",
+      weight: "deliberate",
+    },
+  ],
+  contentBundle: {
+    songId: "album1.t28", /* "Last Words" — Dischordian Logic Act 5 finale; recruitment-as-completion */
+    slideshowId: "album1.t28",
+    loredexUnlocks: [
+      "concept_coordinator_terms",
+      "concept_cell_number_generation",
+      "concept_vetting_dossier",
+      "concept_recruitment_by_recognition",
+    ],
+    conspiracyDiscoveries: [
+      "locke_named_as_coordinator",
+      "vetting_dossier_revealed",
+      "cell_number_generated",
+      "order_membership_confirmed",
+    ],
+    dropAt: "episode_close",
+  },
+};
+
+/* ─── THE WATCHER ARC — SUSPECTS, LENSES, DEFINITION ─── */
+
+const watcherSuspects: ReadonlyArray<{
+  id: SuspectId;
+  name: string;
+  type: string;
+  relations: ReadonlyArray<{ to: SuspectId; relation: string }>;
+}> = [
+  {
+    id: "suspect.the_watcher" as SuspectId,
+    name: "The Watcher / Lord Kanshi Sha",
+    type: "character",
+    relations: [
+      { to: "suspect.the_collector" as SuspectId, relation: "resurrected-by" },
+      { to: "suspect.ocularum_order" as SuspectId, relation: "founding-target-of" },
+    ],
+  },
+  {
+    id: "suspect.ocularum_order" as SuspectId,
+    name: "The Ocularum (Order)",
+    type: "faction",
+    relations: [
+      { to: "suspect.adjudicar_locke" as SuspectId, relation: "coordinated-by" },
+      { to: "suspect.the_collector" as SuspectId, relation: "regicide-undone-by" },
+    ],
+  },
+  {
+    id: "suspect.adjudicar_locke" as SuspectId,
+    name: "Adjudicar Locke (Coordinator)",
+    type: "character",
+    relations: [
+      { to: "suspect.the_authority" as SuspectId, relation: "institutionally-bound-to" },
+      { to: "suspect.original_agent_zero" as SuspectId, relation: "sister-of-the-vigil" },
+    ],
+  },
+  {
+    id: "suspect.the_authority" as SuspectId,
+    name: "The Authority (Six Imprisoned Minds)",
+    type: "faction",
+    relations: [],
+  },
+  {
+    id: "suspect.original_agent_zero" as SuspectId,
+    name: "Agent Zero (original — warlord-fragmented)",
+    type: "character",
+    relations: [
+      { to: "suspect.ocularum_order" as SuspectId, relation: "sister-of-the-order" },
+    ],
+  },
+  {
+    id: "suspect.the_collector" as SuspectId,
+    name: "The Collector",
+    type: "character",
+    relations: [],
+  },
+];
+
+const watcherLenses = [
+  { id: LENS_INSURGENCY, name: "Insurgency", category: "faction" },
+  { id: LENS_HIERARCHY,  name: "Hierarchy",  category: "faction" },
+  { id: LENS_THALORIA,   name: "Thaloria",   category: "faction" },
+  { id: LENS_QUARCHON,   name: "Quarchon",   category: "faction" },
+  { id: LENS_DREAMER,    name: "Dreamer",    category: "faction" },
+  { id: LENS_NEUTRAL,    name: "Neutral",    category: "faction" },
+] as const;
+
+const THE_WATCHER_MYSTERY: MysteryDefinition = {
+  id: "mystery.the_watcher" as MysteryId,
+  arcId: ARC_THE_WATCHER,
+  title: "The 700",
+  summary:
+    "An old assassination, an old order, and a recruitment that has already happened. The Antiquarian surfaces a record of the feudal-era assassination of Lord Kanshi Sha — and the order his trained agent founded. The 700 is in the margin. The Order operates in New Babylon's present. The Coordinator has been writing to the player since Beat H. Investigate whether they want the cell number the Coordinator's continuity log is, by the time the case closes, prepared to give them.",
+  npcId: "adjudicar_locke",
+  episodes: [watcherE1, watcherE2, watcherE3, watcherE4, watcherE5],
+  suspects: watcherSuspects,
+  lenses: watcherLenses,
+  /**
+   * First canonical use of `playerInfluenceGates` in the saga.
+   * Branches the E4 closure narration on the shipping Act-1
+   * flags `act1_warlord_zero_defeated` / `act1_warlord_zero_escaped`
+   * (apps/shared/act1EncounterRewards.ts:76-89). The two
+   * deductions watcherE4.d.defeated_recognition and
+   * watcherE4.d.escaped_vigil_continues both unlock E5 — the
+   * resolver picks which closure narration the player sees
+   * based on the flag they set in Act 1.
+   *
+   * The architect's note (per
+   * apps/shared/agentZeroOcularumBinding.ts:WATCHER_ARC_E4_BRANCH_FLAGS):
+   * the case structurally requires the Order's voice to address
+   * what the player did to the warlord-fragmented body in Act 1.
+   * The flags carry that engagement forward across acts.
+   */
+  playerInfluenceGates: [
+    {
+      id: "watcher_e4_act1_defeated",
+      condition: { kind: "narrative_flag", flag: "act1_warlord_zero_defeated" },
+      branchId: "watcher.e4.d.defeated_recognition",
+      rationale:
+        "Player defeated the warlord-fragmented body in Act 1 — the Order's E4 framing surfaces the grief-twice narration and the breadcrumb 'there is another' to E5.",
+    },
+    {
+      id: "watcher_e4_act1_escaped",
+      condition: { kind: "narrative_flag", flag: "act1_warlord_zero_escaped" },
+      branchId: "watcher.e4.d.escaped_vigil_continues",
+      rationale:
+        "Player let the warlord-fragmented body escape in Act 1 — the Order's E4 framing surfaces the vigil-continues narration and the breadcrumb 'you will be asked to find her again' to E5.",
+    },
+  ],
+};
+
 /* ─── REGISTRY ─── */
 
 /** Every authored mystery in the saga. The runtime reads against
@@ -3737,6 +4407,7 @@ export const MYSTERY_DEFINITIONS: ReadonlyArray<MysteryDefinition> = [
   VEX_SOLENE_MYSTERY,
   GAME_MASTER_MYSTERY,
   THE_DEGEN_MYSTERY,
+  THE_WATCHER_MYSTERY,
   ...DLC_MYSTERIES,
 ];
 
