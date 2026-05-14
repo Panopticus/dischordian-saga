@@ -42,7 +42,11 @@ export interface RoomArtEntry {
     | "ark_room_sub"
     | "prelude_room"
     | "apprentice_room"
-    | "apprentice_berth_template";
+    | "apprentice_berth_template"
+    | "destination"
+    | "destination_subzone"
+    | "hellbox"
+    | "hellbox_sub";
   /** Variant key — "baseline" or "<axis>_<value>" stem. */
   readonly variantKey: string;
   /** Producer axis cluster (see _PHASE_H_INGEST.md taxonomy). */
@@ -221,8 +225,10 @@ export function roomArtCoverageReport(): RoomCoverageReport {
     .filter((v, i, a) => a.indexOf(v) === i)
     .sort();
 
-  // 12 Hellboxes per _PRODUCTION_FINAL.md PART IV
-  const deferredHellboxes = [
+  // 12 Hellboxes per _PRODUCTION_FINAL.md PART IV; pass 2 (H1.A)
+  // delivered hb.castle_of_death + hb.celebration_school (each with
+  // sub-rooms) so they're filtered out of the deferred list at runtime.
+  const ALL_HELLBOXES = [
     "hb.celebration_school",
     "hb.castle_of_death",
     "hb.quiz_show_palimpsest",
@@ -236,6 +242,10 @@ export function roomArtCoverageReport(): RoomCoverageReport {
     "hb.the_hive",
     "hb.dischordian_arena",
   ];
+  const deliveredCanonicalSet = new Set(producerDelivered);
+  const deferredHellboxes = ALL_HELLBOXES.filter(
+    (hb) => !deliveredCanonicalSet.has(hb),
+  );
   // 7 vehicles per _PRODUCTION_FINAL.md PART V
   const deferredVehicles = [
     "veh.cades_apc",
@@ -247,10 +257,16 @@ export function roomArtCoverageReport(): RoomCoverageReport {
     "veh.memorial_hearse",
   ];
 
-  // 60 destination zones + 36 apprentice spaces also deferred but not
+  // 60 destination zones + N apprentice spaces also deferred but not
   // enumerated atomically here (canonical lists in _PRODUCTION_FINAL.md
-  // PART VI + PART VIII; the parity gate reports counts only)
-  const deferredCount = 12 + 7 + 60 + 36;
+  // PART VI + PART VIII; the parity gate reports counts only).
+  // Pass-3 (H2.A) closed ALL 12 Hellboxes + the full 12 archetype-berth
+  // set + the full 5 recruit-berth set + the full 12 guild-common-room
+  // set + doctrine binding chamber + memory card library + 3 atrium
+  // sub-zones + 3 pedagogy sub-rooms + 2 forge sub-zones + remaining
+  // apprentice/pedagogy spaces. Remaining deferred: 7 vehicles + ~60
+  // destinations + a few apprentice extras.
+  const deferredCount = deferredHellboxes.length + 7 + 60 + 8;
 
   return {
     producerDelivered,

@@ -30,6 +30,7 @@ import {
 } from "../apps/shared/expansionArt/dischordiaBaseSet.ts";
 import {
   CINEMATICS,
+  EXPANSION_CUTSCENES,
   VFX_CLIPS,
 } from "../apps/shared/expansionArt/cinematicsManifest.ts";
 import { ALBUM1_TRACKS } from "../apps/shared/expansionArt/album1Slideshows.ts";
@@ -81,6 +82,28 @@ for (const c of CINEMATICS) {
 for (const v of VFX_CLIPS) {
   jobs.push({ label: "vfx-mp4", key: `${KEY_PREFIX}${v.videoRelPath}`, id: v.id });
   jobs.push({ label: "vfx-keyframes", key: `${KEY_PREFIX}${v.keyframeRelPath}`, id: v.id });
+}
+/* Producer-cutscene drop (NEW_CUTSCENES_67.zip, 2026-05-12) — 67 mp4
+   room/event cutscenes + a subset of producer-supplied _start.png
+   posters. Posters are optional; renderer falls back to no-poster
+   playback when missing. */
+for (const c of EXPANSION_CUTSCENES) {
+  jobs.push({ label: "expansion-cutscenes-mp4", key: `${KEY_PREFIX}${c.videoRelPath}`, id: c.id });
+  if (c.posterRelPath) {
+    jobs.push({ label: "expansion-cutscenes-poster", key: `${KEY_PREFIX}${c.posterRelPath}`, id: c.id });
+  }
+}
+
+/* NEW_ART_{1,2,3} drop (2026-05-12) — 1,838 producer assets across
+   characters / portraits / fight system / destinations / vehicles /
+   overlays / sprites / UI atoms / signature cards / chapter cards /
+   cinematics extras. Each entry declares an art/<category>/<file>
+   path which composes to the same canonical CDN prefix. */
+const { NEW_ART_ASSETS } = await import(
+  "../apps/shared/expansionArt/newArtManifest.ts"
+);
+for (const a of NEW_ART_ASSETS) {
+  jobs.push({ label: `new-art-${a.topCategory}`, key: `${KEY_PREFIX}${a.relPath}`, id: a.relPath });
 }
 for (const t of ALBUM1_TRACKS) {
   for (const rel of t.frameRelPaths) {

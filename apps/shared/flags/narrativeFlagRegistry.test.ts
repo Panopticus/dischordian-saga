@@ -48,14 +48,31 @@ function walk(dir: string, out: string[] = []): string[] {
 
 function collectProducedFlags(): Set<string> {
   const produced = new Set<string>();
-  // Same regex shape as narrativeFlagAudit.test.ts.
-  const literalRe = /(?:setNarrativeFlag|flagsToSet\.push)\(\s*["']([a-z][a-zA-Z0-9_]+)["']/g;
+  // Same regex shape as narrativeFlagAudit.test.ts, extended to
+  // also pick up flag literals dispatched via runtime indirection:
+  //   • `completionFlag: "..."` — casinoQuestProgressService.ts
+  //   • `[threshold, "..."]`    — casino.ts FAVOR_FLAG_THRESHOLDS
+  // Both patterns ARE produced (the service / router fires
+  // writeNarrativeFlag against the variable at runtime), but the
+  // literal lives in a predicate / tuple array rather than at the
+  // call site, so the call-site regex alone misses them.
+  const literalRe =
+    /(?:setNarrativeFlag|flagsToSet\.push|writeNarrativeFlag)\(\s*[^,]*,\s*["']([a-z][a-zA-Z0-9_]+)["']/g;
+  const altRe = /(?:setNarrativeFlag|flagsToSet\.push)\(\s*["']([a-z][a-zA-Z0-9_]+)["']/g;
+  const completionRe = /completionFlag\s*:\s*["']([a-z][a-zA-Z0-9_]+)["']/g;
+  // Tuple form: [number-or-quoted-id, "flag_name"]. Constrain the
+  // first element to a number to avoid matching arbitrary 2-element
+  // arrays.
+  const tupleRe = /\[\s*\d+\s*,\s*["']([a-z][a-zA-Z0-9_]+)["']\s*\]/g;
   for (const dir of SCAN_DIRS) {
     for (const file of walk(dir)) {
       if (file.endsWith(".test.ts") || file.endsWith(".test.tsx") || file.endsWith(".spec.ts")) continue;
       const src = fs.readFileSync(file, "utf-8");
-      let m: RegExpExecArray | null;
-      while ((m = literalRe.exec(src)) !== null) produced.add(m[1]);
+      for (const re of [literalRe, altRe, completionRe, tupleRe]) {
+        re.lastIndex = 0;
+        let m: RegExpExecArray | null;
+        while ((m = re.exec(src)) !== null) produced.add(m[1]);
+      }
     }
   }
   return produced;

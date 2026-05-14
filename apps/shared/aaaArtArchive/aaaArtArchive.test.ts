@@ -25,7 +25,20 @@ import {
 } from "./index";
 
 const PUBLIC_ROOT = join(process.cwd(), "apps", "client", "public");
-const TRACKED_ROOTS = ["art", "audio"] as const;
+// Sub-directories the AAA producer drop claims as its scope. Other
+// subdirectories under apps/client/public/{art,audio} (Prelude room
+// art, VFX, ambient music, etc.) belong to separate manifests and
+// must NOT be flagged as AAA orphans.
+const TRACKED_ROOTS = [
+  "art/card_game",
+  "art/character_sheets",
+  "art/cinematics",
+  "art/fight",
+  "art/trade_empire",
+  "audio/sfx",
+  "audio/stage_music",
+  "audio/voice_barks",
+] as const;
 
 async function* walk(dir: string): AsyncGenerator<string> {
   let entries;

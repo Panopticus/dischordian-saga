@@ -68,6 +68,8 @@ import { checkAxis12StateCoverage } from "./checks/axis12StateCoverage";
 import { checkStoryHookCoverage } from "./checks/storyHookCoverage";
 import { checkHotspotCoverage } from "./checks/hotspotCoverage";
 import { checkRoomReachabilityCoverage } from "./checks/roomReachabilityCoverage";
+import { checkExpansionCutsceneCoverage } from "./checks/expansionCutsceneCoverage";
+import { checkNewArtDropCoverage } from "./checks/newArtDropCoverage";
 import { checkHumanWhisperRoomCoverage } from "./checks/humanWhisperRoomCoverage";
 import { checkMascoteerFileAuthorityCoverage } from "./checks/mascoteerFileAuthorityCoverage";
 import { checkMascoteerFileSurfaceLocation } from "./checks/mascoteerFileSurfaceLocation";
@@ -611,6 +613,30 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     check: () => checkRoomReachabilityCoverage(),
     ratchet: { target: 0 },
   },
+  {
+    // Phase H.L — Expansion-cutscene runtime coverage. Producer drop
+    // NEW_CUTSCENES_67.zip (2026-05-12) delivered 67 mp4 clips across
+    // 10 categories (berth, cohort_park, comm_screen, doctrine_binding,
+    // forge, guild_room, mechronis_audit, memory_card, mission,
+    // wardens_dock). Every clip needs at least one trigger entry in
+    // roomCutsceneTriggers.ts. Hard parity.
+    id: "art.expansion_cutscene_coverage",
+    name: "Expansion cutscene runtime trigger coverage",
+    description:
+      "Every cutscene declared in cinematicsManifest.EXPANSION_CUTSCENES is wired to at least one runtime trigger in roomCutsceneTriggers.ROOM_CUTSCENE_TRIGGERS. A producer-delivered cutscene without a trigger is unreachable in-game.",
+    check: () => checkExpansionCutsceneCoverage(),
+  },
+  {
+    // NEW_ART_{1,2,3} drop (2026-05-12). Closes _MISSING_ART_PROMPTS.md
+    // §C (7 vehicles) + §D (60 destinations) + delivers 60 signature
+    // cards + 28 chapter cards + 1,683 additional assets across
+    // characters, portraits, fight system, overlays, sprites, UI atoms.
+    id: "art.new_art_drop_coverage",
+    name: "NEW_ART_{1,2,3} drop runtime coverage",
+    description:
+      "Every key from the 1,838-entry NEW_ART_{1,2,3} producer drop (2026-05-12) resolves to a CDN URL via newArtManifest.ts. Hard parity: gap > 0 means a declared asset (vehicle baseline / destination / signature card / chapter card) is missing from the inventory.",
+    check: () => checkNewArtDropCoverage(),
+  },
   // ─── The Human / four-era surface ────────────────────────────
   // Beat-H expansion: whispers + Mascoteer files (Era 1) +
   // Watchers' Eyes dispatches (Era 2) + humanReaction backfill
@@ -651,7 +677,6 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
       "Every non-template / non-species-exclusive room mystery module under apps/shared/roomMysteries/ contains at least one humanReaction. Locks the gain from the Beat-H expansion: the five rooms backfilled here (chaosForge / elementalNexus / guildSanctum / synthesisChamber / socialHub) cannot regress.",
     check: () => checkHumanReactionRoomCoverage(),
   },
-
   // ─── Phase K10.1 — Nemesis system parities ──────────────────
   {
     id: "nemesis.politician_tic_coverage",

@@ -6,7 +6,7 @@
  * FightEngine2D" finding). Step 3a's extraction lets us pin the
  * profile-table invariants here without any DOM or canvas mocking.
  */
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi, afterEach } from "vitest";
 import {
   AI_PROFILES,
   adaptAggression,
@@ -232,14 +232,26 @@ describe("executeAIDecision — react-delay gating", () => {
   });
 
   it("does invoke host primitives once aiReactDelay has been crossed", () => {
-    const host = makeRecordingHost();
-    // aiTimer just below threshold so the next tick crosses it.
-    const ai = makeStubFighter({ aiTimer: 4, aiReactDelay: 5 });
-    const player = makeStubFighter({ x: 200 });
-    executeAIDecision(host, ai, player, AI_PROFILES.recruit);
-    // At least one primitive should have been consulted (block /
-    // anti-air / state / special / actionable etc.).
-    expect(host.log.length).toBeGreaterThan(0);
+    // executeAIDecision uses Math.random() for several probabilistic
+    // branches (mistakeRate early-return, block/anti-air/punish
+    // rolls). Pin random to 0.99 so the mistake-rate roll fails (no
+    // early return) and the function proceeds to its deterministic
+    // primitive-checking path. Without this stub, ~25% of recruit-
+    // tier runs return on the mistake roll and log nothing — a
+    // pre-existing flake.
+    const randSpy = vi.spyOn(Math, "random").mockReturnValue(0.99);
+    try {
+      const host = makeRecordingHost();
+      // aiTimer just below threshold so the next tick crosses it.
+      const ai = makeStubFighter({ aiTimer: 4, aiReactDelay: 5 });
+      const player = makeStubFighter({ x: 200 });
+      executeAIDecision(host, ai, player, AI_PROFILES.recruit);
+      // At least one primitive should have been consulted (block /
+      // anti-air / state / special / actionable etc.).
+      expect(host.log.length).toBeGreaterThan(0);
+    } finally {
+      randSpy.mockRestore();
+    }
   });
 });
 

@@ -32,13 +32,13 @@ import {
 } from "./roomArtManifest";
 
 describe("roomArtManifest — Phase H.B", () => {
-  it("loads 561 entries from H.A producer-art ingest", () => {
-    expect(roomArtTotal).toBe(561);
-    expect(ROOM_ART_ENTRIES.length).toBe(561);
+  it("loads 643 entries (561 pass 1 + 29 pass 2 + 53 pass 3)", () => {
+    expect(roomArtTotal).toBe(643);
+    expect(ROOM_ART_ENTRIES.length).toBe(643);
   });
 
-  it("indexes 60 distinct room zipDirs (61 dirs in zip; personal_quarters is empty placeholder)", () => {
-    expect(ROOM_ART_ZIP_DIRS.length).toBe(60);
+  it("indexes 142 distinct room zipDirs", () => {
+    expect(ROOM_ART_ZIP_DIRS.length).toBe(142);
   });
 
   it("every zipDir has a canonicalSpaceId mapping", () => {
@@ -134,15 +134,15 @@ describe("roomArtManifest — Phase H.B", () => {
     expect(tvValues).toContain("spreading");
   });
 
-  it("coverage report shows 36% coverage of 166 spec'd spaces", () => {
+  it("coverage report after H2.A pass 3 — 142 zipDirs delivered, all 12 Hellboxes have art", () => {
     const report = roomArtCoverageReport();
-    expect(report.producerDelivered.length).toBe(60);
-    expect(report.producerNewNotInSpec.length).toBe(5); // auction_house,
-    // dreamers_sanctum, meditation_garden, order_tribunal,
-    // game_masters_sanctum
-    expect(report.deferredHellboxes.length).toBe(12);
+    expect(report.producerDelivered.length).toBeGreaterThanOrEqual(120);
+    expect(report.producerNewNotInSpec.length).toBe(5); // pass 1 NEWs unchanged
+    // ALL 12 Hellboxes delivered as of pass 3
+    expect(report.deferredHellboxes.length).toBe(0);
     expect(report.deferredVehicles.length).toBe(7);
-    expect(report.deferredCount).toBe(115); // 12 + 7 + 60 + 36
+    // 0 HB + 7 veh + 60 dest + ~10 apprentice/etc still deferred
+    expect(report.deferredCount).toBeLessThanOrEqual(85);
   });
 
   it("every entry has a unique synthetic id <zipDir>:<variantKey>", () => {

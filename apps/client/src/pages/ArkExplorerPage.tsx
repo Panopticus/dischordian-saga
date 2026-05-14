@@ -72,6 +72,16 @@ import { useElaraVO } from "@/hooks/useElaraVO";
 import { useHumanVO } from "@/hooks/useHumanVO";
 import DnaDeviceOfferDialog from "@/components/DnaDeviceOfferDialog";
 import ParallaxRoom from "@/components/ParallaxRoom";
+import CinematicGate from "@/components/CinematicGate";
+import { useRoomArt } from "@/game/useRoomArt";
+import {
+  pickActiveRoomCutscene,
+  type CutsceneDispatchSlice,
+} from "@shared/roomCutscenes/roomCutsceneTriggers";
+import {
+  expansionCutscenePosterUrl,
+  expansionCutsceneVideoUrl,
+} from "@shared/expansionArt/cinematicsManifest";
 import { MobileNarratorSlot } from "@/components/MobileNarratorSlot";
 import {
   getActiveEngineerHook,
@@ -435,6 +445,18 @@ function RoomScene({
     gameStateForArt.narrativeFlags,
     room.imageUrl,
   );
+  // Phase H — producer-art composite resolver. Maps room.id ("cryo-bay")
+  // to producer zipDir ("cryo_bay"); when the manifest has the room,
+  // returns the full layer stack (baseline + axis 9/11/12/13 overlays).
+  // When the manifest has nothing for this room (one of the 105
+  // deferred spaces), returns []; we fall back to the legacy
+  // single-layer roomArtUrl path below.
+  const producerArtLayers = useRoomArt(room.id.replace(/-/g, "_"), {
+    narrativeFlags: gameStateForArt.narrativeFlags,
+  });
+  const roomLayers = producerArtLayers.length > 0
+    ? producerArtLayers
+    : [{ src: roomArtUrl, depth: -0.3 }];
   const roomTier = getRoomTier(room.id, {
     narrativeFlags: gameStateForArt.narrativeFlags,
   });
@@ -539,8 +561,8 @@ function RoomScene({
           With cover, anything outside the container's aspect ratio got
           cropped and the hotspots drifted off the artwork they label. */}
       <ParallaxRoom
-        key={roomArtUrl}
-        layers={[{ src: roomArtUrl, depth: -0.3 }]}
+        key={roomLayers.map((l) => l.src).join("|")}
+        layers={[...roomLayers]}
         className={`absolute inset-0 ${filterClassName}`.trim()}
         fit="contain"
       />
@@ -1214,6 +1236,42 @@ export default function ArkExplorerPage() {
     const roomKey = state.currentRoomId.replace(/-/g, "_");
     return getCluesForRoom(roomKey);
   }, [state.currentRoomId]);
+
+  /* ── Expansion-cutscene dispatcher (NEW_CUTSCENES_67.zip drop) ──
+     Walks the trigger registry on every room change + flag change
+     and surfaces the first active cutscene via <CinematicGate>.
+     CinematicGate persists a per-cutscene "seen" key in
+     localStorage so the same beat doesn't replay across sessions. */
+  const visitedRoomZipDirs = useMemo<ReadonlySet<string>>(
+    () =>
+      new Set(
+        Object.keys(state.rooms ?? {})
+          .filter((rid) => (state.rooms[rid]?.visitCount ?? 0) > 0)
+          .map((rid) => rid.replace(/-/g, "_")),
+      ),
+    [state.rooms],
+  );
+  const activeCutscene = useMemo(() => {
+    if (!state.currentRoomId) return undefined;
+    const zipDir = state.currentRoomId.replace(/-/g, "_");
+    const slice: CutsceneDispatchSlice = {
+      narrativeFlags: state.narrativeFlags ?? {},
+      visitedRoomZipDirs,
+      missionPhase: (state as { activeMissionPhase?: string }).activeMissionPhase,
+    };
+    return pickActiveRoomCutscene(slice, zipDir);
+  }, [
+    state.currentRoomId,
+    state.narrativeFlags,
+    visitedRoomZipDirs,
+    state,
+  ]);
+  const activeCutsceneVideoUrl = activeCutscene
+    ? expansionCutsceneVideoUrl(activeCutscene.cutsceneId)
+    : undefined;
+  const activeCutscenePosterUrl = activeCutscene
+    ? expansionCutscenePosterUrl(activeCutscene.cutsceneId)
+    : undefined;
 
   const [gameHint, setGameHint] = useState<ArkEventResult["gameHint"] | null>(null);
 
@@ -2843,6 +2901,25 @@ export default function ArkExplorerPage() {
           />
         )}
       </AnimatePresence>
+
+      {/* Expansion-cutscene gate (NEW_CUTSCENES_67.zip).
+          Mounted whenever pickActiveRoomCutscene resolves a trigger
+          for the current room / flag / mission-phase. CinematicGate
+          persists a per-cutscene seen flag in localStorage so a
+          one-shot doesn't replay. */}
+      {activeCutscene && activeCutsceneVideoUrl && (
+        <CinematicGate
+          cinematicId={activeCutscene.cutsceneId}
+          videoUrl={activeCutsceneVideoUrl}
+          posterUrl={activeCutscenePosterUrl}
+          onComplete={() => {
+            /* No-op — CinematicGate writes the seen key itself.
+               Future hook here: bridge into narrativeFlagService
+               by setting `${cutsceneId}_played` for cross-device
+               persistence. */
+          }}
+        />
+      )}
 
       {/* ═══ NARRATIVE ACT TRIGGER (7-Act Angel/Demon System) ═══ */}
       <NarrativeTrigger currentRoom={state.currentRoomId || undefined} variant="auto" />
