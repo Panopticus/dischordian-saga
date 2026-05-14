@@ -22,6 +22,8 @@ import {
 } from "@shared/pvpCohorts";
 import { getRarityTier, type Apprentice } from "@shared/apprentices";
 import { trpc } from "@/lib/trpc";
+import { NemesisHUD } from "@/components/NemesisHUD";
+import { NemesisEncounterModal } from "@/components/NemesisEncounterModal";
 
 const STORAGE_KEY = "dischordian:cohort";
 
@@ -39,6 +41,21 @@ function saveCohort(c: Cohort | null) {
   } catch { /* ignore */ }
 }
 
+const NEMESIS_SEEDED_KEY = "dischordian:nemesis_seeded_cohorts";
+
+function loadSeededCohorts(): Set<number> {
+  try {
+    const raw = localStorage.getItem(NEMESIS_SEEDED_KEY);
+    return new Set(raw ? JSON.parse(raw) : []);
+  } catch { return new Set(); }
+}
+
+function persistSeededCohorts(set: Set<number>) {
+  try {
+    localStorage.setItem(NEMESIS_SEEDED_KEY, JSON.stringify([...set]));
+  } catch { /* ignore */ }
+}
+
 export default function CohortPage() {
   const { state } = useGame();
   const apprentice = state.apprentice as Apprentice | null;
@@ -49,7 +66,11 @@ export default function CohortPage() {
       return new Set(raw ? JSON.parse(raw) : []);
     } catch { return new Set(); }
   });
+  const [seededNemesisCohorts, setSeededNemesisCohorts] = useState<Set<number>>(
+    () => loadSeededCohorts(),
+  );
   const recordCompletion = trpc.apprenticeTrial.recordCompletion.useMutation();
+  const spawnNemesis = trpc.nemesis.spawnForCohort.useMutation();
 
   // Initialize cohort if apprentice is training and none exists
   useEffect(() => {
@@ -59,6 +80,32 @@ export default function CohortPage() {
       saveCohort(fresh);
     }
   }, [cohort, apprentice]);
+
+  // Seed the Nemesis on cohort creation. The apprentice-recruit flow
+  // doesn't exist as a discrete surface today; the cohort being
+  // materialized for a training apprentice IS the recruit moment in
+  // every player path. Server is idempotent on (userId, cohortNumber);
+  // the localStorage set is a defensive guard against re-firing the
+  // mutation on every render. We pin the apprentice's archetype at
+  // spawn time so the eligibility set is stable.
+  useEffect(() => {
+    if (!cohort || !apprentice) return;
+    if (seededNemesisCohorts.has(cohort.number)) return;
+    spawnNemesis.mutate(
+      {
+        cohortNumber: cohort.number,
+        apprenticeArchetype: apprentice.archetype,
+      },
+      {
+        onSuccess: () => {
+          const next = new Set(seededNemesisCohorts);
+          next.add(cohort.number);
+          setSeededNemesisCohorts(next);
+          persistSeededCohorts(next);
+        },
+      },
+    );
+  }, [cohort?.number, apprentice?.archetype]);
 
   // Tier 7: when a cohort concludes, post the completion to the
   // server so apprentice-trial titles can grant. Idempotent client-
@@ -170,6 +217,15 @@ export default function CohortPage() {
             )}
           </div>
         )}
+
+        {/* Nemesis HUD — surfaces the cohort-rival the chronicle
+            paired against this apprentice. Reveal-gated proper name,
+            rank, grudge, active plans, encounter ledger. */}
+        <div className="mb-4">
+          <NemesisHUD cohortNumber={cohort.number} />
+        </div>
+        {/* Phase K Wave 6 — encounter modal opens on pending. */}
+        <NemesisEncounterModal surface="apprentice" />
 
         {/* Player standing */}
         {standing && (

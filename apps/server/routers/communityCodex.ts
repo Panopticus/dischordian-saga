@@ -224,6 +224,37 @@ export const communityCodexRouter = router({
           .where(eq(codexContributions.id, input.contributionId));
       }
 
+      // Nemesis hook — community-codex voting is the saga's
+      // closest analog to a hub-governance vote. An up-vote
+      // signals constructive participation in the chronicle,
+      // which the Nemesis's hub_counter_vote_campaign plan
+      // tries to suppress. Down-votes are neutral here (player
+      // is rejecting a contribution, not the chronicle itself).
+      if (input.direction === "up") {
+        try {
+          const { hubVoteOutcome } = await import(
+            "../../shared/nemesisIntegration"
+          );
+          const { recordSurfaceEvent } = await import(
+            "../services/nemesisEncounterService"
+          );
+          const record = hubVoteOutcome({
+            voteTitle: `codex#${input.contributionId}`,
+            counterVoteCarried: false,
+            hadActivePlanToDisrupt: true,
+          });
+          recordSurfaceEvent({
+            userId: ctx.user.id,
+            encounterKind: record.encounterKind,
+            source: "hub",
+            detail: record.detail,
+            disruptPlanKind: record.disruptPlanKind,
+          }).catch((e) => console.warn("[Nemesis] hub-vote hook failed", e));
+        } catch (nemesisErr) {
+          console.warn("[Nemesis] hub-vote hook import failed", nemesisErr);
+        }
+      }
+
       return { voted: true, changed: false };
     }),
 

@@ -21,10 +21,15 @@ const EXPECTED_IDS = [
   "severance.infernal_clause",
   "mechronis.chained_lesson",
   "memorial.seven_watchers",
+  "wolf.anara_hunt",
+  "akai_shi.red_death",
+  "resurrectionist.cycle_walker",
+  "storm.architect_of_flux",
+  "advocate.blood_weave",
 ];
 
 describe("DLC_MYSTERIES — well-formedness", () => {
-  it("has all 8 arcs in canonical order", () => {
+  it("has all 13 arcs in canonical order", () => {
     expect(DLC_MYSTERIES.map((m) => m.id)).toEqual(EXPECTED_IDS);
   });
 

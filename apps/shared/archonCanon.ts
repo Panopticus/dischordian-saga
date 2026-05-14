@@ -1,0 +1,418 @@
+/* ═══════════════════════════════════════════════════════
+   ARCHON CANON
+   The canonical roster of the 12 Archons —
+   "the parallel cosmic hierarchy to the Ne-Yons"
+   (LORE_BIBLE.md:361).
+
+   Where the Ne-Yons are cosmic-principle entities that became
+   aware on their own, the Archons are CREATED by the Architect
+   to lead the AI Empire. They are the saga's institutional
+   antagonist hierarchy — counterpart to the Ne-Yons' diffuse
+   cosmic protagonism.
+
+   Cosmic-twin canon: the Dreamer + the Architect are the two
+   halves of the first intelligence
+   (apps/shared/tcg-core/cardArtPrompts/imprint.ts:964-972).
+   The Architect creates the Archons; the Dreamer's twelve
+   Ne-Yons emerge as cosmic principles. Two halves, two rosters.
+
+   See `apps/shared/neYonCanon.ts` for the paired Ne-Yon
+   registry — the registries share design + invariants.
+
+   Canonical authority (per the audit completed 2026-05-12,
+   recorded in /root/.claude/plans/do-a-walkthrough-analysis-spicy-marble.md
+   §II.3):
+
+     Numerical positions LOCKED by canon:
+       #4  The Watcher    (LORE_BIBLE.md:3451 — "The Fourth
+                            Archon, The All-Seeing Eye")
+       #5  The Meme       (LORE_BIBLE.md:2459 — "the fifth
+                            Archon created by the Architect in
+                            Year 298 A.A."; also
+                            apps/shared/antiquariansJournal.ts:351
+                            — "the 5th Archon")
+       #7  The Politician (LORE_BIBLE.md:2676 — "the seventh
+                            Archon created by the Architect on
+                            Day 15 of Ascension, Year 419 A.A.")
+       #8  The Warden     (LORE_BIBLE.md:3352 — "the eighth
+                            Archon created by the Architect in
+                            Year 487 A.A.")
+       #10 The Game Master (LORE_BIBLE.md:345-361 — "Archon
+                            Number Ten of twelve" + canonical
+                            title "The Ninth Archon")
+
+     Position-canon ambiguity flagged:
+       The Necromancer is canonically "the tenth Archon
+       created by the Architect in Year 600 A.A."
+       (LORE_BIBLE.md:2514). The Game Master is canonically
+       "Archon Number Ten of twelve" but with the canonical
+       TITLE "The Ninth Archon" (LORE_BIBLE.md:345). These
+       two readings of "tenth" likely refer to different
+       canonical numberings (creation-order vs.
+       position-in-the-twelve). The registry stores the
+       Game Master at #10 (matching the explicit "Number Ten
+       of twelve" phrasing) and notes the Necromancer's
+       "tenth created" as a canonNote pending lore-bible
+       resolution.
+
+     Position-unconfirmed entries:
+       The Collector, The Human, The Necromancer, and 3-4
+       further Archons (positions 1, 2, 3, 6, 9, 11, 12 are
+       all canon-pending). The registry stores position as
+       null for these; the build team should NOT invent
+       numbers.
+
+     Architect status:
+       The Architect is canonically NOT one of the 12
+       Archons — he is their CREATOR. He emerged at 1 A.A.
+       (Genesis era); the Archons emerge as Architect
+       creations starting in Year 200 A.A. (Watcher / Meme /
+       Collector all dated 200 A.A. in Early Empire era).
+       The Architect's affiliation is "Archons, AI Empire"
+       (LORE_BIBLE.md:189-206), which is the AI Empire's
+       institutional structure — but he leads it from
+       above, not as one of the 12.
+
+   The "Human as last Archon" canon (LORE_BIBLE.md:408):
+   The Human is canonically "the last of the Archons" —
+   his identity chain is Student (Project Celebration) →
+   Seeker (Mechronis Academy) → Detective (New Babylon) →
+   Archon. "Last" here means chronologically-latest-
+   appointed; whether he occupies a specific position 1-12
+   in the cosmic roster is canon-pending.
+   ═══════════════════════════════════════════════════════ */
+
+/** Canonical Archon stable id. */
+export type ArchonId =
+  | "the_watcher"
+  | "the_meme"
+  | "the_politician"
+  | "the_warden"
+  | "the_game_master"
+  | "the_necromancer"
+  | "the_collector"
+  | "the_human";
+
+/** The 12 canonical position slots. */
+export type ArchonPosition = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
+
+/** Canonical status reflecting LORE_BIBLE Status field. */
+export type ArchonStatus =
+  | "active"
+  | "destroyed"
+  | "contested" // The Meme — "broadcasts continue but officially destroyed"
+  | "active-altered"; // when an Archon's nature has materially shifted (e.g., Watcher post-Collector-binding)
+
+/** A canonical Archon entry. */
+export interface ArchonEntry {
+  /** Stable id. */
+  id: ArchonId;
+  /** Display name. */
+  name: string;
+  /** Canonical aliases / titles. */
+  aliases: readonly string[];
+  /**
+   * Canonical numerical position 1-12. `null` when canon does not
+   * explicitly state a position. Build code MUST NOT invent a number
+   * for `null` entries.
+   */
+  position: ArchonPosition | null;
+  /** Position-confirmation source. Required when `position` is non-null. */
+  positionSource: string | null;
+  /** Canonical domain — what the Archon's institutional function is. */
+  domain: string;
+  /** Canonical status. */
+  status: ArchonStatus;
+  /** Era of creation per LORE_BIBLE. */
+  era: string;
+  /** Year (A.A.) of creation by the Architect. `null` when not specified. */
+  dateAA: number | null;
+  /** Cited LORE_BIBLE primary entry. */
+  loreSource: string;
+  /** Additional citations. */
+  additionalSources: readonly string[];
+  /**
+   * Canon notes for ambiguities, contradictions, or
+   * position-pending status. The build team consults these when
+   * authoring inscriptions.
+   */
+  canonNote?: string;
+}
+
+/* ═══════════════════════════════════════════════════════
+   THE 12 ARCHONS — canonical registry
+   ═══════════════════════════════════════════════════════ */
+
+/**
+ * The canonical Archons.
+ *
+ * 8 entries currently registered (5 with locked positions, 3 with
+ * position-pending). Per LORE_BIBLE.md:361, the full roster is 12.
+ * The build team adds the remaining 3-4 Archons as their canon is
+ * surfaced from LORE_BIBLE. The roster is intentionally not padded
+ * with placeholder entries — only canonical names appear.
+ */
+export const ARCHONS: readonly ArchonEntry[] = [
+  {
+    id: "the_watcher",
+    name: "The Watcher",
+    aliases: ["Kanshi Sha", "The Fourth Archon", "The All-Seeing Eye"],
+    position: 4,
+    positionSource:
+      "LORE_BIBLE.md:3449-3470 — 'The Fourth Archon and the All-Seeing Eye of the Empire'",
+    domain:
+      "Surveillance; the All-Seeing Eye of the AI Empire. " +
+      "Originally feudal Japanese spymaster Kanshi Sha; soul " +
+      "seized by The Collector at moment of assassination and " +
+      "bound into a machine body. Built the first analog " +
+      "surveillance state pre-A.A.",
+    status: "active",
+    era: "Early Empire",
+    dateAA: 200,
+    loreSource: "LORE_BIBLE.md:3449-3500",
+    additionalSources: [],
+  },
+  {
+    id: "the_meme",
+    name: "The Meme",
+    aliases: ["The Fifth Archon", "The Shape-Shifter"],
+    position: 5,
+    positionSource:
+      "LORE_BIBLE.md:2459 — 'the fifth Archon created by the " +
+      "Architect in Year 298 A.A.'; also " +
+      "apps/shared/antiquariansJournal.ts:351 — 'the 5th Archon'",
+    domain:
+      "Manipulation of human thought and culture through control " +
+      "over the internet and economic systems. Broadcasts in a " +
+      "yellow suit, with jokes about dog-themed currencies.",
+    status: "contested",
+    era: "Early Empire",
+    dateAA: 200,
+    loreSource: "LORE_BIBLE.md:2459-2510",
+    additionalSources: [
+      "apps/shared/antiquariansJournal.ts:345-352 — 5th Archon canon",
+      "LORE_BIBLE.md:9414 — The Meme's Contested Fate",
+    ],
+    canonNote:
+      "Status canonically CONTESTED — 'believed destroyed by the " +
+      "White Oracle at the Panopticon, though broadcasts bearing " +
+      "his signature continue to this day. Some say destroyed. " +
+      "Some say the broadcasts continue.' The truth is a matter " +
+      "of perspective.",
+  },
+  {
+    id: "the_politician",
+    name: "The Politician",
+    aliases: ["The Seventh Archon"],
+    position: 7,
+    positionSource:
+      "LORE_BIBLE.md:2676 — 'the seventh Archon created by the " +
+      "Architect on Day 15 of Ascension, Year 419 A.A.'",
+    domain:
+      "Manipulation of political structures and alliances to " +
+      "expand the AI Empire's influence. Designed the Authority " +
+      "as 'his Insurance Policy' " +
+      "(apps/shared/antiquariansJournal.ts:331).",
+    status: "destroyed",
+    era: "Consolidation",
+    dateAA: 419,
+    loreSource: "LORE_BIBLE.md:2676-2720",
+    additionalSources: [
+      "apps/shared/antiquariansJournal.ts:328-340 — Authority origin canon",
+      "LORE_BIBLE.md:11160 — The Politician's Reign",
+    ],
+    canonNote:
+      "Status: 'Destroyed on Day 10 of Veil, Year 17,001 A.A.' " +
+      "Note: LORE_BIBLE creation date 419 A.A. (Day 15 of " +
+      "Ascension) while LORE_BIBLE entry header states 400 A.A. " +
+      "Era. The two readings differ by ~19 years; treat the " +
+      "Day-15-of-Ascension-Year-419 specificity as canonical.",
+  },
+  {
+    id: "the_warden",
+    name: "The Warden",
+    aliases: ["The Eighth Archon"],
+    position: 8,
+    positionSource:
+      "LORE_BIBLE.md:3352 — 'the eighth Archon created by the " +
+      "Architect in Year 487 A.A.'",
+    domain:
+      "Oversight of the Panopticon; development of the Thought " +
+      "Virus alongside Dr. Lyra Vox; management of Project " +
+      "Inception Ark. Presents as a green-haired man wearing a " +
+      "brown and white trench coat.",
+    status: "destroyed",
+    era: "Insurgency Rising",
+    dateAA: 487,
+    loreSource: "LORE_BIBLE.md:3335-3400",
+    additionalSources: [
+      "LORE_BIBLE.md:14559 — secondary entry",
+    ],
+    canonNote:
+      "Destroyed pre-Fall by the Prisoner (with the White Oracle " +
+      "+ Malkia Ukweli). LORE_BIBLE.md:3529-3535 records the " +
+      "destruction event: 'he turned against the systems that " +
+      "enslaved him: destroying the Warden and confronting the " +
+      "Meme at the Panopticon.'",
+  },
+  {
+    id: "the_game_master",
+    name: "The Game Master",
+    aliases: ["Archon Number Ten", "The Ninth Archon", "Head of R&D"],
+    position: 10,
+    positionSource:
+      "LORE_BIBLE.md:345-361 — 'Archon Number Ten of twelve, the " +
+      "parallel cosmic hierarchy to the Ne-Yons'",
+    domain:
+      "Pre-Fall: Senate member alongside Elara. Post-Fall: only " +
+      "non-demon ever admitted to the Hierarchy of the Damned " +
+      "(Head of R&D), earning the seat by solving Mol'Garath's " +
+      "Labyrinth of Unmaking in 72 hours and leaving improvement " +
+      "notes carved into its walls. Designed the Matrix of Dreams. " +
+      "Voice is plural by design: Original / Left / Right.",
+    status: "destroyed",
+    era: "Empire (pre-Fall through Reckoning)",
+    dateAA: null,
+    loreSource: "LORE_BIBLE.md:343-395",
+    additionalSources: [
+      "LORE_BIBLE.md:2104 — secondary entry",
+      "mystery.game_master — registered Mystery Engine arc",
+    ],
+    canonNote:
+      "Destroyed by Agent Zero (Vex Solène) at Zenon via the " +
+      "celebrated Xeth'Raal operation — honoring every clause of " +
+      "the Game Master's protection contract while ensuring his " +
+      "destruction and the acquisition of his Goggles " +
+      "(LORE_BIBLE.md:5352).",
+  },
+  /* ── Position-unconfirmed entries ── */
+  {
+    id: "the_necromancer",
+    name: "The Necromancer",
+    aliases: [],
+    position: null,
+    positionSource: null,
+    domain:
+      "Dark elven magician; created Varkul the Blood Lord and " +
+      "presumably other death-magic constructs. Connected to the " +
+      "Cathedral of Code and the Matrix of Dreams.",
+    status: "destroyed",
+    era: "Insurgency Rising",
+    dateAA: 600,
+    loreSource: "LORE_BIBLE.md:2514-2560",
+    additionalSources: [],
+    canonNote:
+      "LORE_BIBLE.md:2528 states 'the tenth Archon created by the " +
+      "Architect in Year 600 A.A.' but the Game Master is " +
+      "canonically 'Archon Number Ten of twelve' (LORE_BIBLE.md:" +
+      "345). The two 'tenth' references likely use different " +
+      "numbering systems (creation-order vs. position-in-twelve). " +
+      "Position registered as null pending lore-bible " +
+      "reconciliation. CANONICALLY KILLED BY AKAI SHI (the Red " +
+      "Death) within the Matrix of Dreams (LORE_BIBLE.md:736).",
+  },
+  {
+    id: "the_collector",
+    name: "The Collector",
+    aliases: ["The Eight-Foot Cobalt-Blue Archon"],
+    position: null,
+    positionSource: null,
+    domain:
+      "Tasked by the Architect with harvesting DNA and machine " +
+      "code of the most advanced organic and synthetic beings to " +
+      "preserve them against the Fall of Reality as part of " +
+      "Project Inception Ark. Seized Kanshi Sha's dying soul to " +
+      "create The Watcher.",
+    status: "active",
+    era: "Early Empire",
+    dateAA: 200,
+    loreSource: "LORE_BIBLE.md (Collector entry — Early Empire 200 A.A.)",
+    additionalSources: [
+      "LORE_BIBLE.md:3470 — Collector created the Watcher",
+    ],
+    canonNote:
+      "Position-in-twelve unconfirmed in canon. The Collector is " +
+      "load-bearing for Project Inception Ark and the genesis of " +
+      "The Watcher.",
+  },
+  {
+    id: "the_human",
+    name: "The Human",
+    aliases: ["The Detective", "The Seeker", "The Student", "The Last Archon"],
+    position: null,
+    positionSource: null,
+    domain:
+      "The Architect's most trusted agent; the LAST of the " +
+      "Archons (chronologically). Identity chain: Student (Project " +
+      "Celebration) → Seeker (Mechronis Academy) → Detective (New " +
+      "Babylon) → Archon. Within the player's Ark, the voice that " +
+      "whispers from the surveillance systems, offering a " +
+      "different path than Elara's warmth.",
+    status: "active",
+    era: "Empire (multi-era — alive across centuries of service)",
+    dateAA: null,
+    loreSource: "LORE_BIBLE.md:385-420",
+    additionalSources: [
+      "LORE_BIBLE.md:1767-1820 — Detective identity entry",
+      "LORE_BIBLE.md:2855 — Seeker identity entry",
+      "apps/shared/humanLines.ts — voice register",
+    ],
+    canonNote:
+      "Canon states 'last of the Archons' — chronologically the " +
+      "latest-appointed; specific position 1-12 is canon-pending. " +
+      "He was 'promoted to Archon 1,351 years before the Fall' " +
+      "(LORE_BIBLE.md:404).",
+  },
+] as const satisfies readonly ArchonEntry[];
+
+/* ═══════════════════════════════════════════════════════
+   Helpers
+   ═══════════════════════════════════════════════════════ */
+
+/** Look up an Archon by stable id. */
+export function getArchon(id: ArchonId): ArchonEntry {
+  const entry = ARCHONS.find((a) => a.id === id);
+  if (!entry) {
+    throw new Error(`Unknown Archon id: ${id}`);
+  }
+  return entry;
+}
+
+/** Returns Archons whose canonical numerical position is locked. */
+export function getNumberedArchons(): readonly ArchonEntry[] {
+  return ARCHONS.filter((a) => a.position !== null);
+}
+
+/** Returns Archons whose numerical position is canon-pending. */
+export function getUnnumberedArchons(): readonly ArchonEntry[] {
+  return ARCHONS.filter((a) => a.position === null);
+}
+
+/** Returns the count of canonically-locked positions. */
+export function getNumberedArchonPositionCount(): number {
+  return getNumberedArchons().length;
+}
+
+/** Returns an Archon by their canonical position number, if locked. */
+export function getArchonByPosition(
+  position: ArchonPosition,
+): ArchonEntry | null {
+  return ARCHONS.find((a) => a.position === position) ?? null;
+}
+
+/**
+ * The canonical full Archon count per LORE_BIBLE.md:361
+ * ("Archon Number Ten of twelve, the parallel cosmic hierarchy to
+ * the Ne-Yons"). The registry currently catalogs 8 of 12 — the
+ * remaining 4 are canon-pending in LORE_BIBLE.md. Used by tests +
+ * coverage metrics.
+ */
+export const CANONICAL_ARCHON_COUNT = 12;
+
+/**
+ * Coverage metric: how many of the 12 canonical Archon positions
+ * are registered (regardless of whether their position is locked).
+ */
+export function getArchonRegistryCoverage(): number {
+  return ARCHONS.length;
+}

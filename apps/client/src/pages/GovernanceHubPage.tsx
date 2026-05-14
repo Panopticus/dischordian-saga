@@ -21,6 +21,8 @@ import {
   AlertTriangle, Flag, Package,
 } from "lucide-react";
 import { KineticText, AtmosphereScope } from "@/components/void";
+import { NemesisTicker } from "@/components/NemesisTicker";
+import { NemesisEncounterModal } from "@/components/NemesisEncounterModal";
 import { useGovernanceStore } from "@/stores/governanceStore";
 import { trpc } from "@/lib/trpc";
 import { DischordiaMeterPanel } from "@/components/dischordia/DischordiaMeterPanel";
@@ -39,6 +41,7 @@ import {
 import { getDailyVote, generateVoterName } from "@shared/governance";
 import { PalimpsestMeterPanel } from "@/components/PalimpsestMeterPanel";
 import { usePalimpsest } from "@/hooks/usePalimpsest";
+import { SagaStatusPanel } from "@/components/SagaStatusPanel";
 
 /* ─── ICON MAP (for dynamic metric rendering) ─── */
 const ICON_MAP: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
@@ -659,10 +662,11 @@ function mapServerVoteToClient(
 }
 
 export default function GovernanceHubPage() {
-  const [mobileTab, setMobileTab] = useState<"vote" | "chronicle" | "pulse" | "daily" | "palimpsest">("vote");
+  const [mobileTab, setMobileTab] = useState<"vote" | "chronicle" | "pulse" | "daily" | "palimpsest" | "path">("vote");
 
   const mobileTabs = [
     { id: "vote" as const, label: "VOTE", icon: Vote },
+    { id: "path" as const, label: "PATH", icon: Eye },
     { id: "daily" as const, label: "DAILY", icon: Clock },
     { id: "palimpsest" as const, label: "PALIMPSEST", icon: Flame },
     { id: "chronicle" as const, label: "TOME", icon: BookOpen },
@@ -723,6 +727,14 @@ export default function GovernanceHubPage() {
             </div>
           </div>
 
+          {/* Phase K3 — NemesisTicker. Surfaces active hub
+              counter-vote / smear campaigns by your Nemesis. */}
+          <div className="mb-4">
+            <NemesisTicker surface="hub" />
+          </div>
+          {/* Phase K Wave 6 — encounter modal opens on pending. */}
+          <NemesisEncounterModal surface="hub" />
+
           {/* ═══ MOBILE: Tab bar (visible < lg) ═══ */}
           <div className="flex gap-1 mb-6 overflow-x-auto lg:hidden">
             {mobileTabs.map((t) => (
@@ -745,6 +757,11 @@ export default function GovernanceHubPage() {
               {mobileTab === "vote" && (
                 <motion.div key="vote" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
                   <ActiveVotePanel />
+                </motion.div>
+              )}
+              {mobileTab === "path" && (
+                <motion.div key="path" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
+                  <SagaStatusPanel />
                 </motion.div>
               )}
               {mobileTab === "daily" && (
@@ -772,8 +789,9 @@ export default function GovernanceHubPage() {
 
           {/* ═══ DESKTOP LAYOUT (lg+) — 3-column grid ═══ */}
           <div className="hidden lg:grid lg:grid-cols-[280px_1fr_260px] gap-4"> {/* void-ignore — 3-column desktop layout sidebar widths */}
-            {/* LEFT — Chronicle */}
-            <div>
+            {/* LEFT — Path + Chronicle */}
+            <div className="space-y-4">
+              <SagaStatusPanel />
               <ChroniclePanel />
             </div>
 

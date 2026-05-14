@@ -32,6 +32,8 @@ import { trpc } from "@/lib/trpc";
 import TradeEmpirePage from "@/game/TradeEmpirePage";
 import TradeCourtPage from "@/pages/TradeCourtPage";
 import TradeConvergencePanel from "@/components/tradeEmpire/TradeConvergencePanel";
+import { NemesisTicker } from "@/components/NemesisTicker";
+import { NemesisEncounterModal } from "@/components/NemesisEncounterModal";
 
 type HubTab = "map" | "court" | "convergence";
 
@@ -70,6 +72,10 @@ export default function TradeEmpireHubPage() {
   return (
     <div className="mx-auto max-w-screen-2xl space-y-3 p-4">
       <SeasonBanner />
+      {/* Phase K3 — NemesisTicker. */}
+      <NemesisTicker surface="trade-empire" />
+      {/* Phase K Wave 6 — encounter modal opens on pending. */}
+      <NemesisEncounterModal surface="trade-empire" />
       <Tabs value={tab} onValueChange={v => setTab(v as HubTab)}>
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="map">Map & Missions</TabsTrigger>

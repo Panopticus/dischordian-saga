@@ -328,8 +328,8 @@ export const JOURNAL_ENTRIES: JournalEntry[] = [
     transmissionId: "ep2-6",
     title: "XXIII \u00b7 The Authority",
     body:
-      "The Authority. I knew it by another name once \u2014 the Politician\u2019s Insurance Policy. He designed it to ensure his " +
-      "vision would persist beyond his own governance: a living computer that could not be corrupted because it WAS " +
+      "The Authority. I knew it by another name once \u2014 the Politician\u2019s Insurance Policy. She designed it to ensure her " +
+      "vision would persist beyond her own governance: a living computer that could not be corrupted because it WAS " +
       "corruption, formalized and given a mandate. Six citizen-minds, merged into a single governing intelligence, " +
       "processing law and justice with the cold efficiency of an institution that has forgotten what justice feels like.",
     annotation:
@@ -723,4 +723,49 @@ export function getJournalEntry(transmissionId: string): JournalEntry | undefine
 export function getUnlockedJournalEntries(watchedTransmissionIds: string[]): JournalEntry[] {
   const watchedSet = new Set(watchedTransmissionIds);
   return JOURNAL_ENTRIES.filter(e => watchedSet.has(e.transmissionId));
+}
+
+/* ═══════════════════════════════════════════════════════
+   PHASE K7.2 — NEMESIS SUB-PARAGRAPH FOR ENTRY XXIII
+
+   When the player has accumulated 2+ Nemeses AND decoded
+   6+ Politician-tics across them, the Authority entry
+   (XXIII) gains an additional inscription paragraph
+   noting the chain-of-mentorship hint: the Politician's
+   surveillance-state doctrine running through the
+   surviving secret-apprentice cohort.
+
+   Pure function — the Journal UI passes the player's
+   Nemesis state and renders the additional paragraph
+   underneath the existing entry's annotation when this
+   returns non-null.
+   ═══════════════════════════════════════════════════════ */
+
+export interface NemesisJournalParagraphInput {
+  /** Number of distinct Nemeses the player has met. */
+  nemesisCount: number;
+  /** Number of unique Politician-tics the player has decoded. */
+  decodedTicCount: number;
+  /** Per-Nemesis archetype-titles to surface in the paragraph. */
+  archetypeTitles: readonly string[];
+}
+
+export function getNemesisJournalParagraph(
+  input: NemesisJournalParagraphInput,
+): string | null {
+  if (input.nemesisCount < 2 || input.decodedTicCount < 6) return null;
+  const titles = input.archetypeTitles
+    .filter((t) => !!t)
+    .map((t) => `the ${t}-Nemesis`)
+    .join(", ");
+  return (
+    "Addendum, recorded after meeting " +
+    titles +
+    ": the cadence is hers. The vote-for-phrase. The ledger-quote. The non-question. " +
+    "I had thought the Politician's lineage ended with her destruction by the Iron " +
+    "Lion's legions. I find it has not ended. It has only learned to speak through " +
+    "many mouths. Each of these so-called Nemeses carries her tic the way a child " +
+    "carries a parent's gait — unconsciously, faithfully, to the end of their lives. " +
+    "Whoever they think they serve, they serve her doctrine first."
+  );
 }

@@ -216,6 +216,7 @@ const MechronisAcademyPage = lazy(() => import("./pages/MechronisAcademyPage"));
 const HouseCupPage = lazy(() => import("./pages/HouseCupPage"));
 const PurgeRitualPage = lazy(() => import("./pages/PurgeRitualPage"));
 const CohortPage = lazy(() => import("./pages/CohortPage"));
+const NemesesPage = lazy(() => import("./pages/NemesesPage"));
 const SystemsLibraryPage = lazy(() => import("./pages/SystemsLibraryPage"));
 const LegionMapPage = lazy(() => import("./pages/LegionMapPage"));
 const GraduateLegionPage = lazy(() => import("./pages/GraduateLegionPage"));
@@ -483,6 +484,7 @@ function Router() {
         <Route path="/house-cup" component={HouseCupPage} />
         <Route path="/purge" component={PurgeRitualPage} />
         <Route path="/cohort" component={CohortPage} />
+        <Route path="/nemeses" component={NemesesPage} />
         <Route path="/systems-library" component={SystemsLibraryPage} />
         <Route path="/legion-map" component={LegionMapPage} />
         <Route path="/transmissions" component={TransmissionInboxPage} />

@@ -75,6 +75,20 @@ import { checkMascoteerFileAuthorityCoverage } from "./checks/mascoteerFileAutho
 import { checkMascoteerFileSurfaceLocation } from "./checks/mascoteerFileSurfaceLocation";
 import { checkWatchersEyesDispatchSurfaceLocation } from "./checks/watchersEyesDispatchSurfaceLocation";
 import { checkHumanReactionRoomCoverage } from "./checks/humanReactionRoomCoverage";
+import {
+  checkNemesisPoliticianTicCoverage,
+  checkNemesisPlanKindHandlerCoverage,
+  checkNemesisEncounterKindHandlerCoverage,
+  checkNemesisSurfaceIntegrationCoverage,
+  checkNemesisArchetypeBehaviorCoverage,
+  checkNemesisArchetypePairDialogCoverage,
+  checkApprenticeOnNemesisPairDialogCoverage,
+  checkNemesisFactionAlignmentCoverage,
+  checkNemesisScenePerPairCoverage,
+  checkApprenticeScenePerPairCoverage,
+  checkNemesisWave4TriggerCoverage,
+  checkNemesisAxisConflictDeepening,
+} from "./checks/nemesisCoverage";
 
 export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
   // ─── Card engine ──────────────────────────────────────────
@@ -662,5 +676,97 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "Every non-template / non-species-exclusive room mystery module under apps/shared/roomMysteries/ contains at least one humanReaction. Locks the gain from the Beat-H expansion: the five rooms backfilled here (chaosForge / elementalNexus / guildSanctum / synthesisChamber / socialHub) cannot regress.",
     check: () => checkHumanReactionRoomCoverage(),
+  },
+  // ─── Phase K10.1 — Nemesis system parities ──────────────────
+  {
+    id: "nemesis.politician_tic_coverage",
+    name: "Politician-tic phrases",
+    description:
+      "Every POLITICIAN_TIC declared in nemesisSystem.ts has a corresponding TIC_PHRASES entry so applyPoliticianTic can render it in dialog.",
+    check: () => checkNemesisPoliticianTicCoverage(),
+  },
+  {
+    id: "nemesis.plan_kind_handler_coverage",
+    name: "Nemesis plan-kind power-ups",
+    description:
+      "Every NemesisPlanKind in PLAN_KIND_CATALOG has a power-up duration registered in POWER_UP_DURATIONS_MS so plan-success effects materialize.",
+    check: () => checkNemesisPlanKindHandlerCoverage(),
+  },
+  {
+    id: "nemesis.encounter_kind_handler_coverage",
+    name: "Nemesis encounter transitions",
+    description:
+      "Every NemesisEncounterKind has a `case` branch in applyEncounterTransition. Kinds without a case fall through to no-op and never advance grudge/rank.",
+    check: () => checkNemesisEncounterKindHandlerCoverage(),
+  },
+  {
+    id: "nemesis.surface_integration_coverage",
+    name: "Nemesis surface integrations",
+    description:
+      "Every NEMESIS_SURFACES entry is referenced as a string literal in nemesisIntegration.ts, proving the surface has integration helpers wired.",
+    check: () => checkNemesisSurfaceIntegrationCoverage(),
+  },
+  {
+    id: "nemesis.archetype_behavior_coverage",
+    name: "Nemesis archetype behaviors",
+    description:
+      "Every ApprenticeArchetype has a NEMESIS_ARCHETYPE_BEHAVIORS entry (K4 — plan preferences, voice register, recruit affinity, faction alignment).",
+    check: () => checkNemesisArchetypeBehaviorCoverage(),
+  },
+  {
+    id: "nemesis.faction_alignment_coverage",
+    name: "Nemesis faction alignment",
+    description:
+      "Every faction has at least one archetype whose factionAffinityVector points to it strongly (≥6). Ensures chooseNemesisFaction can plausibly pin a Nemesis to any faction.",
+    check: () => checkNemesisFactionAlignmentCoverage(),
+  },
+  {
+    id: "nemesis.archetype_pair_dialog_coverage",
+    name: "Nemesis pair-bank dialog",
+    description:
+      "12 player-archetypes × 11 Nemesis-archetypes = 132 pair-banks under apps/shared/npcs/banks/nemesis/. Authoring waterfall — climbs to 132 across Phase K5.2 sprints.",
+    check: () => checkNemesisArchetypePairDialogCoverage(),
+    // Authoring-waterfall: starts low and climbs. Records the worst
+    // gap once any pair-bank ships; ratchet protects the gain.
+    ratchet: { target: 0 },
+  },
+  {
+    id: "nemesis.apprentice_pair_dialog_coverage",
+    name: "Apprentice-on-Nemesis pair-bank dialog",
+    description:
+      "Parallel to nemesis pair-banks: 132 apprentice-on-Nemesis banks under apps/shared/npcs/banks/apprenticeOnNemesis/. K6.2 authoring waterfall.",
+    check: () => checkApprenticeOnNemesisPairDialogCoverage(),
+    ratchet: { target: 0 },
+  },
+
+  // ─── Phase K Wave 4 — Per-scene + trigger parities ───
+  {
+    id: "nemesis.scene_coverage_per_pair",
+    name: "Nemesis pair scene coverage",
+    description:
+      "132 pairs × 8 scenes = 1056 scene-slots; each pair-bank file must declare every scene-id from NemesisEncounterSceneId. PASS proves no surface-render call can crash on a missing scene.",
+    check: () => checkNemesisScenePerPairCoverage(),
+  },
+  {
+    id: "nemesis.apprentice_scene_coverage_per_pair",
+    name: "Apprentice-on-Nemesis pair scene coverage",
+    description:
+      "132 pairs × 8 scenes = 1056 scene-slots on the apprentice side. Same shape as the nemesis-side parity, for ApprenticeOnNemesisSceneId.",
+    check: () => checkApprenticeScenePerPairCoverage(),
+  },
+  {
+    id: "nemesis.wave4_trigger_coverage",
+    name: "Nemesis Wave 4 trigger coverage",
+    description:
+      "Six new trigger-firing encounter kinds (accumulation_reveal, lieutenant_promoted, apprentice_declared_betrayal_to_nemesis, cohort_ended, name_revealed, final_encounter_act7) must each have at least one server call site that fires them via recordSurfaceEvent.",
+    check: () => checkNemesisWave4TriggerCoverage(),
+  },
+  {
+    id: "nemesis.axis_conflict_deepening",
+    name: "Nemesis axis-conflict deepening",
+    description:
+      "12 thematic axes × 2 directions = 24 pair-bank files hand-deepened beyond the generator's 24-node floor. Each deepened file climbs to >80 dialog nodes via 5-node bespoke trees (ghost↔jester silence vs noise, heretic↔zealot rival faiths, etc.). RATCHET — pairs ship as writers complete them.",
+    check: () => checkNemesisAxisConflictDeepening(),
+    ratchet: { target: 0 },
   },
 ];

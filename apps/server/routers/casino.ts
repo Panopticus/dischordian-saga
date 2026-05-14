@@ -385,7 +385,7 @@ async function executeGame(
   const validation = validateBet(game, bet);
   if (!validation.ok) throw new Error(validation.reason);
 
-  return db.transaction(async (tx) => {
+  const txResult = await db.transaction(async (tx) => {
     const state = await ensureCasinoState(tx, userId);
     const balance = await ensureDreamBalance(tx, userId);
 
@@ -674,6 +674,36 @@ async function executeGame(
       rewardsUnlocked: newRewardIds,
     };
   });
+
+  // Nemesis hook — every casino round is a chance for the
+  // Nemesis's casino_odds_rigging plan to land or be blocked.
+  // The rigging "lands" if the player lost the round AND a
+  // matching plan is active; otherwise the player thwarts it.
+  // Fire-and-forget; never blocks the casino response.
+  try {
+    const { casinoOutcome } = await import(
+      "../../shared/nemesisIntegration"
+    );
+    const { recordSurfaceEvent } = await import(
+      "../services/nemesisEncounterService"
+    );
+    const record = casinoOutcome({
+      tableName: game,
+      rigSucceeded: !txResult.result.won,
+      hadActivePlanToDisrupt: true,
+    });
+    recordSurfaceEvent({
+      userId,
+      encounterKind: record.encounterKind,
+      source: "casino",
+      detail: record.detail,
+      disruptPlanKind: record.disruptPlanKind,
+    }).catch((e) => console.warn("[Nemesis] casino hook failed", e));
+  } catch (nemesisErr) {
+    console.warn("[Nemesis] casino hook import failed", nemesisErr);
+  }
+
+  return txResult;
 }
 
 export const casinoRouter = router({

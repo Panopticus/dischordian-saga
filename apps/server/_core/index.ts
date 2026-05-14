@@ -723,6 +723,18 @@ async function startServer() {
       console.error("[DreamerAwarenessBootstrap] failed:", e),
     );
 
+    // nemesis_state / nemesis_memory / nemesis_plans — the three
+    // cohort-rival tables. New on this branch; no drizzle
+    // migration ships yet. Without these, the nemesis tRPC
+    // router would 500 on every call. The bootstrap is
+    // idempotent; existing DBs are no-ops.
+    const { bootstrapNemesisTables } = await import(
+      "../services/nemesisBootstrap"
+    );
+    bootstrapNemesisTables().catch((e) =>
+      console.error("[NemesisBootstrap] failed:", e),
+    );
+
     // Apprentice pedagogy lift — six new tables backing
     // doctrine selections, Mechronis audits, signature card
     // forge, Memory Cards, cohort slots, and mission

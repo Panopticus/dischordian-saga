@@ -1,11 +1,15 @@
 /**
  * DLC mystery arcs — barrel.
  *
- * Eight full 5-episode arcs, one per mini-DLC manifest under
- * `apps/shared/dlc/chapters/dlc_y*`. Each arc carries 5 episodes,
- * ≥4 suspects, ≥2 lenses, episode-chained `unlocksEpisode` links,
- * and clues placed only in universal rooms (the parity check
- * enforced by mysteryAccessibilityParity.test.ts).
+ * Nine full 5-episode arcs. Eight original mini-DLC arcs (one per
+ * mini-DLC manifest under `apps/shared/dlc/chapters/dlc_y*`) plus
+ * the Wolf · Anara Hunt arc that diegetically onboards the
+ * Hunt-the-Hero minigame.
+ *
+ * Each arc carries 5 episodes, ≥4 suspects, ≥2 lenses,
+ * episode-chained `unlocksEpisode` links where applicable, and
+ * clues placed in universal rooms (parity check enforced by
+ * mysteryAccessibilityParity.test.ts).
  *
  * `DLC_MYSTERIES` is spread into `MYSTERY_DEFINITIONS` in
  * `apps/shared/episodeMysteries.ts` so the runtime picks them up
@@ -20,6 +24,11 @@ import { CHARTER_SECOND_SIGNATORY_MYSTERY }    from "./charterSecondSignatory";
 import { SEVERANCE_INFERNAL_CLAUSE_MYSTERY }   from "./severanceInfernalClause";
 import { MECHRONIS_CHAINED_LESSON_MYSTERY }    from "./mechronisChainedLesson";
 import { MEMORIAL_SEVEN_WATCHERS_MYSTERY }     from "./memorialSevenWatchers";
+import { WOLF_ANARA_HUNT_MYSTERY }             from "./wolfAnaraHunt";
+import { AKAI_SHI_RED_DEATH_MYSTERY }          from "./akaiShiRedDeath";
+import { RESURRECTIONIST_CYCLE_WALKER_MYSTERY } from "./resurrectionistCycleWalker";
+import { STORM_ARCHITECT_OF_FLUX_MYSTERY }     from "./stormArchitectOfFlux";
+import { ADVOCATE_BLOOD_WEAVE_MYSTERY }        from "./advocateBloodWeave";
 
 export const DLC_MYSTERIES: ReadonlyArray<MysteryDefinition> = [
   CHARTER_MISSING_SIGNATORY_MYSTERY,
@@ -30,6 +39,11 @@ export const DLC_MYSTERIES: ReadonlyArray<MysteryDefinition> = [
   SEVERANCE_INFERNAL_CLAUSE_MYSTERY,
   MECHRONIS_CHAINED_LESSON_MYSTERY,
   MEMORIAL_SEVEN_WATCHERS_MYSTERY,
+  WOLF_ANARA_HUNT_MYSTERY,
+  AKAI_SHI_RED_DEATH_MYSTERY,
+  RESURRECTIONIST_CYCLE_WALKER_MYSTERY,
+  STORM_ARCHITECT_OF_FLUX_MYSTERY,
+  ADVOCATE_BLOOD_WEAVE_MYSTERY,
 ];
 
 export {
@@ -41,4 +55,9 @@ export {
   SEVERANCE_INFERNAL_CLAUSE_MYSTERY,
   MECHRONIS_CHAINED_LESSON_MYSTERY,
   MEMORIAL_SEVEN_WATCHERS_MYSTERY,
+  WOLF_ANARA_HUNT_MYSTERY,
+  AKAI_SHI_RED_DEATH_MYSTERY,
+  RESURRECTIONIST_CYCLE_WALKER_MYSTERY,
+  STORM_ARCHITECT_OF_FLUX_MYSTERY,
+  ADVOCATE_BLOOD_WEAVE_MYSTERY,
 };
