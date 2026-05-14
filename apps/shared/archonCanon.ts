@@ -293,14 +293,31 @@ export const ARCHONS: readonly ArchonEntry[] = [
     position: null,
     positionSource: null,
     domain:
-      "Dark elven magician; created Varkul the Blood Lord and " +
+      "Dark elven magician; author of the Resurrection Protocols " +
+      "(LORE_BIBLE.md:2535). Created Varkul the Blood Lord and " +
       "presumably other death-magic constructs. Connected to the " +
-      "Cathedral of Code and the Matrix of Dreams.",
+      "Cathedral of Code and the Matrix of Dreams. Canonical first " +
+      "subject of Protocol One: the painter Bob Ross — commissioned " +
+      "by the Architect, authored by the Necromancer; the subject " +
+      "returned with intact agency, refused to sign the Architect's " +
+      "contract, and was killed again. The Necromancer canonically " +
+      "classifies Protocol One a complete success on Protocol terms " +
+      "(subject re-animated with full continuity); the Architect " +
+      "canonically classifies the subject non-compliant. The " +
+      "split-reading is load-bearing and unresolved.",
     status: "destroyed",
     era: "Insurgency Rising",
     dateAA: 600,
     loreSource: "LORE_BIBLE.md:2514-2560",
-    additionalSources: [],
+    additionalSources: [
+      "apps/shared/antiquariansJournal.ts:646-657 (Subject One — " +
+        "'0-XV · Brush Strokes of the Empire'; the resurrection-" +
+        "chamber painting canonically still on the wall).",
+      "apps/shared/epochZeroTriggers.ts:308,485-496 (Subject One " +
+        "cited as 'the purest act of resistance in the archive — " +
+        "no violence, no strategy, just integrity').",
+      "apps/shared/sagaPhases.ts:272 ('The Painter is killed again').",
+    ],
     canonNote:
       "LORE_BIBLE.md:2528 states 'the tenth Archon created by the " +
       "Architect in Year 600 A.A.' but the Game Master is " +
@@ -309,7 +326,12 @@ export const ARCHONS: readonly ArchonEntry[] = [
       "numbering systems (creation-order vs. position-in-twelve). " +
       "Position registered as null pending lore-bible " +
       "reconciliation. CANONICALLY KILLED BY AKAI SHI (the Red " +
-      "Death) within the Matrix of Dreams (LORE_BIBLE.md:736).",
+      "Death) within the Matrix of Dreams (LORE_BIBLE.md:736). " +
+      "Protocol One's first subject is the painter Bob Ross — see " +
+      "apps/shared/npcs/bibles/the_necromancer.md §2.2.1 + §4.6 " +
+      "for the full canon-lock; the Architect's and the " +
+      "Necromancer's readings of the trial's outcome are " +
+      "canonically irreconcilable and authoring must preserve both.",
   },
   {
     id: "the_collector",

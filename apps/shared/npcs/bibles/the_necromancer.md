@@ -28,6 +28,9 @@ Per `LORE_BIBLE.md:2535`: "The Necromancer was the tenth Archon created by the A
 ### 2.2 The Resurrection Protocols
 "He discovered the secret to immortality, developed the Resurrection Protocols..." (`LORE_BIBLE.md:2535`) The Protocols are canonically HIS — the Hierarchy's wider death-magic infrastructure (Blood Weave / Severance Protocol via Zyr'Koth) is derivative work; the Necromancer canonically authored the originals.
 
+### 2.2.1 Protocol One — the Bob Ross trial
+The **first subject** of the Resurrection Protocols was canonically the painter **Bob Ross** (cross-bind: `apps/shared/antiquariansJournal.ts:650-656` "0-XV · Brush Strokes of the Empire"; `apps/shared/epochZeroTriggers.ts:308,485-496`; `apps/shared/sagaPhases.ts:272` "The Painter is killed again"). The Architect commissioned the resurrection — the canonical purpose was "to learn kindness." The Necromancer authored the Protocol; the Architect supplied the subject. The trial returned the painter with intact agency: Bob Ross refused to sign the contract, told the Architect it had poor composition, and painted the resurrection-chamber wall with his fingers. The Architect classified the result a failure (the subject would not be owned) and killed him again. The Necromancer canonically classified the result a **complete success on Protocol terms** — the soul-and-structure derivation held; the subject re-animated with full continuity; the painting on the chamber wall is canonical proof the Protocol worked. The two readings of Protocol One's outcome are canonically irreconcilable: the Architect's reading is "Subject One was non-compliant"; the Necromancer's reading is "Subject One was Subject One." The painter's name is the Necromancer's canonical first citation when defending the Protocols' completeness — see also §6.3.
+
 ### 2.3 The Matrix of Dreams flight
 "He escaped the Fall of Reality by entering the Matrix of Dreams—a virtual world where he resided in the Castle of Death." (`LORE_BIBLE.md:2535`) The flight is canonical — the Necromancer chose virtual residency over physical exposure to the Fall. The Castle of Death is canonically his Matrix-of-Dreams domicile.
 
@@ -65,6 +68,9 @@ Cross-arc cousin. The Detective's casework canonically intersects with the Necro
 ### 4.5 Fenra
 Adjacent. Canon-pending exact lineage. Fenra is canonically tied to the Necromancer's death-magic register but may not be his direct creation in the way Varkul is.
 
+### 4.6 Bob Ross — Subject One
+The painter. Canonically the first subject of Resurrection Protocol One (§2.2.1). The Necromancer canonically retains the painter's name as professional shorthand for "the Protocols are complete" — when the Necromancer says "Subject One held," he means Bob Ross. Authoring scenes that reference Subject One should preserve: (a) the Architect commissioned, the Necromancer authored, the painter survived with full agency, the painter was killed again because he refused the contract; (b) the chamber-wall painting canonically still exists per `antiquariansJournal.ts:655-656`; (c) the Necromancer does NOT canonically grieve the painter — the painter is canonically a proof, not a relationship. The Necromancer's regard for the painter is the regard of a magical-academic for a successful published result.
+
 ## 5. Mechanical hooks
 
 ### 5.1 Matrix of Dreams cinematic
@@ -85,7 +91,7 @@ Akai Shi killed him INSIDE the Matrix of Dreams. The killing-scene specifics (lo
 Canon-pending. Authoring CANNOT confirm Fenra as the Necromancer's direct creation; CAN treat them as aesthetically and operationally adjacent.
 
 ### 6.3 The Protocols' completeness
-Canon-pending. The Necromancer canonically discovered the secret to immortality; whether the Protocols are COMPLETE (i.e. whether they fully replicate the Architect's original life-death cosmology) is canonically uncertain. Authoring CANNOT close this question.
+Canon-pending. The Necromancer canonically discovered the secret to immortality; whether the Protocols are COMPLETE (i.e. whether they fully replicate the Architect's original life-death cosmology) is canonically uncertain. Authoring CANNOT close this question. NOTE: The Bob Ross trial (§2.2.1) canonically demonstrates that the Protocols can return a subject with intact agency and continuity — this is the Necromancer's evidence of completeness; the Architect's classification of Subject One as non-compliant is the counter-evidence. The split-reading is canonical and load-bearing; authoring should preserve both readings without resolving them.
 
 ## 7. Voice samples
 
@@ -97,6 +103,8 @@ Canon-pending. The Necromancer canonically discovered the secret to immortality;
 
 > "Akai Shi will find me here. I have run the proof. The proof terminates. Therefore: this is the Cathedral I die inside. The aesthetic is intentional."
 
+> "Subject One held. The Architect insists otherwise; the Architect is not the one who authored the derivation. Subject One painted the chamber wall with his fingers. A subject without agency does not paint. Therefore: Protocol One was a complete success. The Architect's subsequent action — killing the subject again — is the Architect's preference, not the Protocol's failure. I have published the result. The painting is on the wall."
+
 ## 8. Reviewer checklist
 
 - [ ] Cadence is magical-academic — derivation, proof-step
@@ -107,3 +115,5 @@ Canon-pending. The Necromancer canonically discovered the secret to immortality;
 - [ ] Varkul-creation canon respected; Fenra-attribution kept canon-pending
 - [ ] Cathedral of Code architecture canonical
 - [ ] Hierarchy death-magic-as-downstream canon preserved
+- [ ] Bob Ross as Subject One of Protocol One referenced where load-bearing; split-reading of the trial (Architect-failure vs. Necromancer-success) preserved
+- [ ] Necromancer does NOT grieve Subject One — the regard is academic, not relational
