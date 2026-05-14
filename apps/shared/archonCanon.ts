@@ -363,8 +363,9 @@ export const ARCHONS: readonly ArchonEntry[] = [
     id: "the_human",
     name: "The Human",
     aliases: ["The Detective", "The Seeker", "The Student", "The Last Archon"],
-    position: null,
-    positionSource: null,
+    position: 12,
+    positionSource:
+      "apps/client/src/data/loredex-data.json (concept_the_twelve_archons + character_the_human) — 'the last of the Archons.' Position #12 = the last roster slot. Loredex canon-lock 2026-05-14.",
     domain:
       "The Architect's most trusted agent; the LAST of the " +
       "Archons (chronologically). Identity chain: Student (Project " +

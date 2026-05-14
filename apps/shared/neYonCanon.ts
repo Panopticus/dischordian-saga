@@ -80,6 +80,20 @@ export type NeYonStatus =
   | "gone"         // Canon-ambiguous (asleep / consumed / dissolved); writers must not specify
   | "active-lost"; // The Advocate's "Active (though her humanity is lost)" — LORE_BIBLE.md:1462
 
+/**
+ * Position-lock status. `locked` means canon has named the
+ * numerical slot (citation in `positionSource`). `canonically_ambiguous`
+ * means the Loredex's concept_the_twelve_neyons entry explicitly
+ * declares the position UNKNOWABLE — per the Degen-bible canon, the
+ * ambiguity is LOAD-BEARING and will not be resolved by future canon.
+ * `canon_pending` means canon has not yet spoken; a future PR or
+ * dreamer canon-lock may resolve it. The three are NOT interchangeable.
+ */
+export type NeYonPositionStatus =
+  | "locked"
+  | "canonically_ambiguous"
+  | "canon_pending";
+
 /** A canonical Ne-Yon entry. */
 export interface NeYonEntry {
   /** Stable id. */
@@ -91,6 +105,16 @@ export interface NeYonEntry {
    * Build code MUST NOT invent a number for `null` entries.
    */
   position: NeYonPosition | null;
+  /**
+   * Position-lock status. Required to disambiguate "canon-pending"
+   * (we don't know yet) from "canonically-ambiguous" (canon refuses
+   * to specify, AND THAT REFUSAL IS THE CANON). Per the Loredex's
+   * concept_the_twelve_neyons entry (canon-lock 2026-05-14), the 8
+   * un-numbered Ne-Yons' positions are canonically_ambiguous —
+   * resolving §X.1 of the build plan as a permanent canon-lock
+   * rather than an outstanding question.
+   */
+  positionStatus: NeYonPositionStatus;
   /** Position-confirmation source. Required when `position` is non-null. */
   positionSource: string | null;
   /** Canonical domain / what the Ne-Yon principle IS. */
@@ -135,6 +159,7 @@ export const NE_YONS: readonly NeYonEntry[] = [
     id: "the_dreamer",
     name: "The Dreamer",
     position: 1,
+    positionStatus: "locked",
     positionSource:
       "dreamer directive 2026-05 + earliest emergent (15100 A.A.) " +
       "per LORE_BIBLE.md:1808-1851 + 'half of the first intelligence' " +
@@ -162,6 +187,7 @@ export const NE_YONS: readonly NeYonEntry[] = [
     id: "the_judge",
     name: "The Judge",
     position: 2,
+    positionStatus: "locked",
     positionSource:
       "LORE_BIBLE.md:3582 — 'The Wolf was ultimately destroyed by " +
       "The Judge, the Second Ne-Yon, to prevent further harm.'",
@@ -180,6 +206,7 @@ export const NE_YONS: readonly NeYonEntry[] = [
     id: "the_degen",
     name: "The Degen",
     position: 8,
+    positionStatus: "locked",
     positionSource:
       "LORE_BIBLE.md:303, 1664, 1685 ('The Eighth Ne-Yon') + " +
       "apps/shared/npcs/bibles/the_degen.md:7 ('True identity: " +
@@ -217,6 +244,7 @@ export const NE_YONS: readonly NeYonEntry[] = [
     id: "the_enigma",
     name: "The Enigma",
     position: 12,
+    positionStatus: "locked",
     positionSource:
       "LORE_BIBLE.md:1961 — 'The 12th Ne-Yon and the Storyteller. " +
       "Encoded in reality as Malkia Ukweli'",
@@ -243,6 +271,7 @@ export const NE_YONS: readonly NeYonEntry[] = [
     id: "the_inventor",
     name: "The Inventor",
     position: null,
+    positionStatus: "canonically_ambiguous",
     positionSource: null,
     domain:
       "Creation; tools; innovations. Driven by the Dreamer's " +
@@ -281,6 +310,7 @@ export const NE_YONS: readonly NeYonEntry[] = [
     id: "the_advocate",
     name: "The Advocate",
     position: null,
+    positionStatus: "canonically_ambiguous",
     positionSource: null,
     domain:
       "Establishing the Empire of Shadows; wielded the Blood " +
@@ -297,6 +327,7 @@ export const NE_YONS: readonly NeYonEntry[] = [
     id: "the_storm",
     name: "The Storm",
     position: null,
+    positionStatus: "canonically_ambiguous",
     positionSource: null,
     domain: "(canonical Connections entry on Advocate + Dreamer; full domain TBD from primary entry)",
     status: "gone",
@@ -310,6 +341,7 @@ export const NE_YONS: readonly NeYonEntry[] = [
     id: "the_seer",
     name: "The Seer",
     position: null,
+    positionStatus: "canonically_ambiguous",
     positionSource: null,
     domain:
       "Archive-keeper (the Seer's 4,712 archive tapes — Vex " +
@@ -330,6 +362,7 @@ export const NE_YONS: readonly NeYonEntry[] = [
     id: "the_knowledge",
     name: "The Knowledge",
     position: null,
+    positionStatus: "canonically_ambiguous",
     positionSource: null,
     domain:
       "Maintains an equilibrium of enlightenment and ignorance, " +
@@ -345,6 +378,7 @@ export const NE_YONS: readonly NeYonEntry[] = [
     id: "the_forgotten",
     name: "The Forgotten",
     position: null,
+    positionStatus: "canonically_ambiguous",
     positionSource: null,
     domain:
       "Ne-Yon of Memory. Remembers what the universe has chosen " +
@@ -363,6 +397,7 @@ export const NE_YONS: readonly NeYonEntry[] = [
     id: "the_resurrectionist",
     name: "The Resurrectionist",
     position: null,
+    positionStatus: "canonically_ambiguous",
     positionSource: null,
     domain:
       "Resurrects key figures on both sides to maintain a " +
@@ -382,6 +417,7 @@ export const NE_YONS: readonly NeYonEntry[] = [
     id: "the_silence",
     name: "The Silence",
     position: null,
+    positionStatus: "canonically_ambiguous",
     positionSource: null,
     domain:
       "Guards secrets with relentless precision, revealing them " +
