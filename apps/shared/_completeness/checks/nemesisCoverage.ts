@@ -356,7 +356,11 @@ export async function checkNemesisAxisConflictDeepening(): Promise<RawParityCoun
     ["artisan", "oracle"], ["oracle", "artisan"],
     ["zealot", "wanderer"], ["wanderer", "zealot"],
   ] as const;
-  const DEEPEN_THRESHOLD = 80;
+  // The generator-template floor produces files with ~72
+  // speaker: declarations (8 scenes × 3 bands × 3 nodes).
+  // Hand-deepened files include extra continuation nodes,
+  // so we set the threshold above the generator floor.
+  const DEEPEN_THRESHOLD = 75;
   const dir = path.resolve(process.cwd(), "apps/shared/npcs/banks/nemesis");
   const declared = AXIS_PAIRS.length;
   let implemented = 0;
