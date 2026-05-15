@@ -99,6 +99,8 @@ import { checkDreamerArchitectTwinBind } from "./checks/dreamerArchitectTwinBind
 import { checkMysteryEngineRosterCoverage } from "./checks/mysteryEngineRosterCoverage";
 import { checkCodexRosterCoverage } from "./checks/codexRosterCoverage";
 import { checkGameModeNarrativePremiseCoverage } from "./checks/gameModeNarrativePremiseCoverage";
+import { checkImprintFirstSummonCutsceneCoverage } from "./checks/imprintFirstSummonCutsceneCoverage";
+import { checkImprintCardsCarryUnlockCondition } from "./checks/imprintCardsCarryUnlockCondition";
 import {
   checkNeyonCanonicalRosterCoverage,
   checkArchonCanonicalRosterCoverage,
@@ -866,6 +868,21 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "Hard parity (build-plan §VIII Phase F): every player-facing game mode in apps/shared/gameModeNarrativePremises.ts MUST have a non-empty diegetic 'why' + a canon premiseSourceModule. A game mode with no in-fiction reason to exist is a Phase F failure. PR-14 reconciled F2 (chess ↔ Game Master rules-layer), F7 (Trade Empire reconnaissance premise), F10 (Apprentice Mentor Loop ↔ Politician secret-apprentice doubling).",
     check: () => checkGameModeNarrativePremiseCoverage(),
+  },
+  {
+    id: "narrative.imprint_first_summon_cutscene_coverage",
+    name: "Imprint first-summon cutscene coverage (Phase J / I13)",
+    description:
+      "Hard parity (build-plan §VIII Phase J / I13): every imprint NPC in apps/shared/imprintSummoningCanon.ts:IMPRINT_INTRO_REGISTRY MUST carry a valid introStatus (produced | pending | retired). 'pending' is the canon-anchored gate-then-stub hook (video production owed); 'retired' is the J9 Foucault decision. An unclassified imprint is the failure.",
+    check: () => checkImprintFirstSummonCutsceneCoverage(),
+  },
+  {
+    id: "tcg.imprint_cards_carry_unlock_condition",
+    name: "Imprint cards carry unlockCondition (Phase J / I14)",
+    description:
+      "Ratcheted (build-plan §VIII Phase J / I14): every imprint-faction card should carry an unlockCondition so the engine can gate first-summon to canonical phase availability. PR-15 baseline is 0/18 (adding the right condition to 90 card files is per-card canon-judgment work). The gap is tracked and may only SHRINK — a future PR that adds unlockConditions tightens it; removing one fails the gate.",
+    check: () => checkImprintCardsCarryUnlockCondition(),
+    ratchet: { target: 0 },
   },
 
   // ─── Phase A foundation + Phase B character canon-lock ──────
