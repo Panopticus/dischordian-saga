@@ -95,6 +95,8 @@ import { checkZodSchemaUnionParity } from "./checks/zodSchemaUnionParity";
 import { checkFlagPrefixWriterParity } from "./checks/flagPrefixWriterParity";
 import { checkNinjaOcularumStageCoverage } from "./checks/ninjaOcularumStageCoverage";
 import { checkPreLockeCoordinatorCoverage } from "./checks/preLockeCoordinatorCoverage";
+import { checkDreamerArchitectTwinBind } from "./checks/dreamerArchitectTwinBind";
+import { checkMysteryEngineRosterCoverage } from "./checks/mysteryEngineRosterCoverage";
 import {
   checkNeyonCanonicalRosterCoverage,
   checkArchonCanonicalRosterCoverage,
@@ -834,6 +836,20 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
       "Per dreamer canon-lock 2026-05-14 (apps/shared/preLockeCoordinators.ts), the chain between the founding regicide and Locke holds 5-15 Coordinators. PR-5 ships 2 named (the Founder + Jericho). RATCHET — gap shrinks only as canon names additional predecessors.",
     check: () => checkPreLockeCoordinatorCoverage(),
     ratchet: { target: 0 },
+  },
+  {
+    id: "canon.dreamer_architect_twin_bind",
+    name: "Dreamer ↔ Architect twin canon bind",
+    description:
+      "Hard parity: the Logos split's twin canon places the Architect at A1 (Twelve Archons roster) and the Dreamer at N1 (Twelve Ne-Yons roster). Both entries MUST exist in their registries with position 1. Regression breaks the saga's cosmic axis — TCG imprint cards, Codex inscriptions, and prophecy outputs all cite this twin-pairing as load-bearing.",
+    check: () => checkDreamerArchitectTwinBind(),
+  },
+  {
+    id: "narrative.mystery_engine_roster_coverage",
+    name: "Mystery Engine roster coverage (§XVI authored arcs)",
+    description:
+      "Hard parity: the four §XVI-authorized arcs (mystery.the_watcher / ith_rael / the_necromancer / syl_vex) MUST all be registered in MYSTERY_DEFINITIONS. Regression vs PR-2 / PR-2B / PR-7 is a §XVI completion failure.",
+    check: () => checkMysteryEngineRosterCoverage(),
   },
 
   // ─── Phase A foundation + Phase B character canon-lock ──────
