@@ -98,6 +98,7 @@ import { checkPreLockeCoordinatorCoverage } from "./checks/preLockeCoordinatorCo
 import { checkDreamerArchitectTwinBind } from "./checks/dreamerArchitectTwinBind";
 import { checkMysteryEngineRosterCoverage } from "./checks/mysteryEngineRosterCoverage";
 import { checkCodexRosterCoverage } from "./checks/codexRosterCoverage";
+import { checkGameModeNarrativePremiseCoverage } from "./checks/gameModeNarrativePremiseCoverage";
 import {
   checkNeyonCanonicalRosterCoverage,
   checkArchonCanonicalRosterCoverage,
@@ -858,6 +859,13 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "Hard parity: the Codex's loreData.ts ARCHONS + NEYONS arrays MUST stay in numerical-position parity with the canon registries (apps/shared/archonCanon.ts + neYonCanon.ts). PR-9 reconciled the drift; this gate guards against regression. Drift here means the Codex renders canon incorrectly to the player.",
     check: () => checkCodexRosterCoverage(),
+  },
+  {
+    id: "narrative.game_mode_premise_coverage",
+    name: "Game-mode narrative-premise coverage (Phase F)",
+    description:
+      "Hard parity (build-plan §VIII Phase F): every player-facing game mode in apps/shared/gameModeNarrativePremises.ts MUST have a non-empty diegetic 'why' + a canon premiseSourceModule. A game mode with no in-fiction reason to exist is a Phase F failure. PR-14 reconciled F2 (chess ↔ Game Master rules-layer), F7 (Trade Empire reconnaissance premise), F10 (Apprentice Mentor Loop ↔ Politician secret-apprentice doubling).",
+    check: () => checkGameModeNarrativePremiseCoverage(),
   },
 
   // ─── Phase A foundation + Phase B character canon-lock ──────
