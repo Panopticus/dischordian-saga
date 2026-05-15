@@ -346,3 +346,119 @@ export function getErasContaining(yearAA: number): readonly EraEntry[] {
 export function getEraCount(): number {
   return ERAS.length;
 }
+
+/* ═══════════════════════════════════════════════════════
+   ERA CROSS-ANCHORING (Phase H4)
+   Bind each era to the canon entities that emerged or
+   operated within it. The mapping reads against the
+   Archon and Ne-Yon registries (apps/shared/archonCanon.ts,
+   apps/shared/neYonCanon.ts) — the registries are the
+   source of truth; this binding is the lookup index.
+   ═══════════════════════════════════════════════════════ */
+
+/**
+ * Multi-cycle era reconciliation doctrine (dreamer
+ * canon-lock implicit in §X.8 of the build plan; explicit
+ * here for the first time).
+ *
+ * The saga's eras carry a CHRONICLE ORDER (the order the
+ * player walks them) that is canonically distinct from
+ * the STRICT A.A. DATE ORDER. Specifically, the Late
+ * Empire era (15,100-15,900 A.A.) sits AFTER the Fall of
+ * Reality (17,000-17,001 A.A.) in chronicle order despite
+ * preceding it numerically. This is because:
+ *
+ *   (a) Ne-Yons emerge in response to the Fall's cosmic
+ *       disruption — even though their A.A. dates are
+ *       earlier, their emergence is causally AFTER the
+ *       Fall via the Casino-Heist-class retrocausal
+ *       mechanism;
+ *   (b) The Hierarchy of the Damned is "pre-creation"
+ *       per its bible, but its operational era is also
+ *       post-Severance, which puts its institutional
+ *       activity in a temporally-folded register;
+ *   (c) The saga's epochs (epoch_zero = 100,000-128,652
+ *       A.A.) overlap with the present-tense streamed-prism
+ *       year-1 era via the Multiverse's chronicle-fold
+ *       mechanism (Matrix of Dreams cycle-fold canon).
+ *
+ * Authoring discipline: when a canon entry's era field
+ * references a paradoxical era (Late Empire, Pre-Creation,
+ * Epoch Zero), the entry MUST also carry a chronicle-order
+ * citation. Era-anchoring helpers below provide both
+ * orderings.
+ */
+export const MULTI_CYCLE_RECONCILIATION_DOCTRINE = {
+  doctrineName: "The Chronicle-Order Doctrine",
+  authority: "Dreamer canon (§X.8 of the build plan; canonized 2026-05-15)",
+  axiom1:
+    "Chronicle order is canon; strict A.A. date order is not.",
+  axiom2:
+    "When eras conflict between dates and chronicle, chronicle wins for narrative ordering; dates remain canon as event-locations.",
+  axiom3:
+    "Causality runs along chronicle order, not date order. The Late Empire causes events in the Streamed Prism even though its dates precede them numerically.",
+  paradoxicalEras: ["late_empire", "epoch_zero", "age_of_prophecy"] as const,
+  mechanismCitations: [
+    "Casino Heist retrocausal mechanism (apps/shared/cycleBattles.ts era=age_of_prophecy)",
+    "Matrix of Dreams cycle-fold (apps/shared/episodeMysteries.ts mystery.the_necromancer, mystery.akai_shi.red_death)",
+    "Hierarchy 'pre-creation' canon (apps/shared/hierarchyCanon.ts:Mol'Garath waiting since first-moment-of-existence)",
+  ],
+} as const;
+
+/**
+ * Map an Archon position (1-12) or Ne-Yon position (1-12)
+ * to its canonical era. Reads against the registry's `era`
+ * field. Returns null when the position is canon-pending
+ * (e.g., A9 The Vortex has era canon-pending).
+ *
+ * The function is loose — the registry's `era` field is a
+ * human-readable string, not an EraId; this function does
+ * not attempt to coerce. Use `getEraIdForArchonPosition`
+ * for the strict-EraId mapping (lossy; falls back to null
+ * when the era string doesn't match).
+ */
+export function getEraStringForArchonPosition(
+  archons: ReadonlyArray<{ position: number | null; era: string }>,
+  position: number,
+): string | null {
+  return archons.find((a) => a.position === position)?.era ?? null;
+}
+
+export function getEraStringForNeYonPosition(
+  neYons: ReadonlyArray<{ position: number | null; era: string }>,
+  position: number,
+): string | null {
+  return neYons.find((n) => n.position === position)?.era ?? null;
+}
+
+/**
+ * Resolve a registry `era` string to a canonical EraId.
+ * Returns null when the string doesn't unambiguously match
+ * exactly one era. Conservative — does NOT make fuzzy
+ * matches; the caller can do best-effort matching against
+ * the returned ERAS list if needed.
+ */
+export function resolveEraIdFromString(eraString: string): EraId | null {
+  const normalized = eraString.toLowerCase().trim();
+  const matches = ERAS.filter((e) => normalized.includes(e.id.replace(/_/g, " ")) || normalized.includes(e.name.toLowerCase()));
+  return matches.length === 1 ? matches[0].id : null;
+}
+
+/**
+ * For a given EraId, return the chronicle-order position
+ * (1-12) — the saga's walk-order for that era. This is
+ * the canonical "narrative position" for citations.
+ */
+export function getChronicleOrderForEra(id: EraId): number {
+  return getEra(id).chronicleOrder;
+}
+
+/**
+ * Whether an era is paradoxical (chronicle order disagrees
+ * with strict A.A. date order). Per the Multi-Cycle
+ * Reconciliation Doctrine, authoring entries in paradoxical
+ * eras must cite both orderings.
+ */
+export function isParadoxicalEra(id: EraId): boolean {
+  return (MULTI_CYCLE_RECONCILIATION_DOCTRINE.paradoxicalEras as readonly EraId[]).includes(id);
+}
