@@ -97,6 +97,7 @@ import { checkNinjaOcularumStageCoverage } from "./checks/ninjaOcularumStageCove
 import { checkPreLockeCoordinatorCoverage } from "./checks/preLockeCoordinatorCoverage";
 import { checkDreamerArchitectTwinBind } from "./checks/dreamerArchitectTwinBind";
 import { checkMysteryEngineRosterCoverage } from "./checks/mysteryEngineRosterCoverage";
+import { checkCodexRosterCoverage } from "./checks/codexRosterCoverage";
 import {
   checkNeyonCanonicalRosterCoverage,
   checkArchonCanonicalRosterCoverage,
@@ -850,6 +851,13 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "Hard parity: the four §XVI-authorized arcs (mystery.the_watcher / ith_rael / the_necromancer / syl_vex) MUST all be registered in MYSTERY_DEFINITIONS. Regression vs PR-2 / PR-2B / PR-7 is a §XVI completion failure.",
     check: () => checkMysteryEngineRosterCoverage(),
+  },
+  {
+    id: "canon.codex_roster_coverage",
+    name: "Codex roster coverage (Archons + Ne-Yons positions)",
+    description:
+      "Hard parity: the Codex's loreData.ts ARCHONS + NEYONS arrays MUST stay in numerical-position parity with the canon registries (apps/shared/archonCanon.ts + neYonCanon.ts). PR-9 reconciled the drift; this gate guards against regression. Drift here means the Codex renders canon incorrectly to the player.",
+    check: () => checkCodexRosterCoverage(),
   },
 
   // ─── Phase A foundation + Phase B character canon-lock ──────

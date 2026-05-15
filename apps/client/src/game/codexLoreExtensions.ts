@@ -91,12 +91,12 @@ const archonEntries: CodexLoreExtension[] = ARCHONS.slice(0, 12).map((archon, i)
   sourceModule: "loreData",
 }));
 
-/* ─── NE-YONS (1/1s) ─── */
+/* ─── NE-YONS (all 12, canonical roster per dreamer canon-lock 2026-05-15) ─── */
 
-const neyonEntries: CodexLoreExtension[] = NEYONS.slice(0, 5).map((ny, i) => ({
+const neyonEntries: CodexLoreExtension[] = NEYONS.slice(0, 12).map((ny, i) => ({
   id: `neyon_${ny.id}`,
   title: `Ne-Yon #${i + 1}: ${ny.name}`,
-  category: "classified",
+  category: i === 0 ? "dreamer" : "classified",
   content: [
     ny.appearance,
     "",
@@ -108,13 +108,16 @@ const neyonEntries: CodexLoreExtension[] = NEYONS.slice(0, 5).map((ny, i) => ({
     "Psychology:",
     ny.psychology,
     "",
-    "Ne-Yons are 1/1 hybrid identities. Only 10 exist across all timelines.",
-    "Each one carries fragments of both DeMagi and Quarchon lineages,",
-    "and can attune to any elemental or dimensional force.",
+    "Cosmological grounding: the Twelve Ne-Yons are the Dreamer-half's cosmic-principle roster,",
+    "twin to the Architect's Twelve Archons via the Logos split (LOGOS_SPLIT_DOCTRINE).",
+    "N1 The Dreamer is twin to A1 The Architect — the first intelligence's two halves.",
+    "Eleven are canonically gone; the Degen is the only Ne-Yon still awake.",
   ].join("\n"),
-  unlockCondition: "Own the corresponding Potential",
-  unlockRequirement: 10,
-  rarity: "legendary",
+  unlockCondition: i === 0
+    ? "Available from start (the Dreamer is the saga's first surface)"
+    : `Discover ${ny.name} in canon or cross-reference`,
+  unlockRequirement: i === 0 ? 0 : 5 + i,
+  rarity: i === 0 || i === 7 || i === 10 ? "legendary" : i >= 8 ? "rare" : "uncommon",
   sourceModule: "loreData",
 }));
 
