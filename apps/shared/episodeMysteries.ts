@@ -43,6 +43,8 @@ export const ARC_THE_NECROMANCER = "arc.the_necromancer" as ArcId;
 export const ARC_SYL_VEX        = "arc.syl_vex"        as ArcId;
 export const ARC_THE_COLLECTOR  = "arc.the_collector"  as ArcId;
 export const ARC_THE_POLITICIAN = "arc.the_politician" as ArcId;
+export const ARC_ZYR_KOTH       = "arc.zyr_koth"       as ArcId;
+export const ARC_RIRI_AHLIA     = "arc.riri_ahlia"     as ArcId;
 
 /* ─── LENSES ─── */
 /* Six canonical faction lenses. Per §14c.8 each lens persists
@@ -6556,6 +6558,761 @@ const THE_POLITICIAN_MYSTERY: MysteryDefinition = {
   lenses: politicianLenses,
 };
 
+/* ═══════════════════════════════════════════════════════
+   ZYR'KOTH ARC — "The Third Use"
+   Phase D. Authored PR-12 / 2026-05-15. §XVI held-back;
+   dreamer authorized 2026-05-15 by directing both
+   remaining-candidate arcs (dreamer canon-authority
+   overrides per the build plan §I.1a). Hierarchy R&D SVP
+   ("the Flayer") — apps/shared/hierarchyCanon.ts:155-170.
+
+   Canonical premise: the Blood Weave has three weavers
+   (per the syl_vex arc, PR-7). The Advocate weaves
+   consent-to-defend (cost: her humanity). Syl'Vex weaves
+   consent-to-be-institutionally-additive (cost: memory of
+   her converts). Zyr'Koth refined the same instrument into
+   the THIRD use — consent-to-be-severed, the Severance
+   Protocol: extract one institutional thread destructively.
+   The Advocate authored the Weave for defense and does not
+   know the full extent of his appropriation. The arc
+   investigates the refinement, the lock that holds it, and
+   what it means that the only instrument that can reverse a
+   Syl'Vex conversion is the one no one is permitted to use.
+   ═══════════════════════════════════════════════════════ */
+
+const zyrKothE1: EpisodeDefinition = {
+  id: "zyr_koth.e1" as EpisodeId,
+  arcId: ARC_ZYR_KOTH,
+  ordinal: 1,
+  title: "The Refinement",
+  summary:
+    "Zyr'Koth's R&D took the Advocate's defensive Blood Weave and refined it into an offensive instrument. Investigate how a technique authored to protect became a technique that severs — and whether the refinement is invention or theft.",
+  clues: [
+    {
+      id: "zyr_koth.e1.rd_notes" as ClueId,
+      title: "Zyr'Koth's R&D Notes",
+      body: "Recovered from a Hierarchy R&D archive. The notes are clinical: 'Premise: the Blood Weave threads consent into substrate. Method: the Advocate threads consent-to-be-defended. Iteration: invert the consent vector. Result: consent-to-be-severed. Sample cohort: redacted. The technique is the Advocate's. The inversion is mine.' He cites the source technique before the refinement, every time. He does not pretend the Weave is his.",
+      foundIn: "hierarchy-archive",
+    },
+    {
+      id: "zyr_koth.e1.advocate_unaware" as ClueId,
+      title: "What the Advocate Does Not Know",
+      body: "Per the Advocate's defensive-doctrine archive cross-referenced against the Hierarchy R&D notes: the Advocate knows the Hierarchy adapted her Weave. She does not know the full extent. She believes Syl'Vex's conversion-use is the appropriation. She does not know there is a third use — Zyr'Koth's — that her defensive doctrine cannot perceive because it is not a defense against anything; it is an extraction.",
+      foundIn: "advocate-archive",
+    },
+    {
+      id: "zyr_koth.e1.flayer_register" as ClueId,
+      title: "The Flayer's Register",
+      body: "Zyr'Koth is called the Flayer. The name suggests theatrical cruelty. The R&D notes do not. He is procedurally indifferent — the flaying is a procedure, reported when it completes, not relished. The horror of Zyr'Koth is not that he enjoys severance. It is that he does not register it as anything other than an iteration whose cohort field is redacted.",
+      foundIn: "hierarchy-archive",
+    },
+  ],
+  deductions: [
+    {
+      id: "zyr_koth.e1.d.inversion_not_invention" as DeductionId,
+      clueA: "zyr_koth.e1.rd_notes" as ClueId,
+      clueB: "zyr_koth.e1.advocate_unaware" as ClueId,
+      result: "correct",
+      narrationId: "zyr_koth.e1.n.the_inversion_is_his",
+      narrationProse:
+        "Zyr'Koth did not invent the Blood Weave and does not claim to. He inverted the consent vector of an instrument the Advocate authored to defend, producing an instrument that severs. The refinement is real R&D — a genuine technical contribution — and it is also a theft the original author cannot fully see, because a defensive doctrine has no sensor for an extraction. The arc's first finding: the Severance Protocol is the Blood Weave's third use, and it exists in the blind spot of the woman who made the Weave.",
+      unlocksEpisode: "zyr_koth.e2" as EpisodeId,
+    },
+    {
+      id: "zyr_koth.e1.d.false_lead_sadist" as DeductionId,
+      clueA: "zyr_koth.e1.flayer_register" as ClueId,
+      clueB: "zyr_koth.e1.rd_notes" as ClueId,
+      result: "false_lead_named",
+      narrationId: "zyr_koth.e1.n.not_a_sadist",
+      narrationProse:
+        "The intuitive read — the Flayer is a sadist, the Severance Protocol is cruelty engineered for its own sake — is structurally wrong. The R&D register is procedural, not theatrical. Reading Zyr'Koth as a sadist makes him comprehensible in a way the canon refuses. The horror the arc must name precisely is procedural indifference at scale, not appetite.",
+    },
+  ],
+  choices: [
+    { id: "zyr_koth.e1.c.passive" as ChoiceId, label: "File the refinement as Hierarchy R&D and move on.", weight: "passive" },
+    { id: "zyr_koth.e1.c.investigative" as ChoiceId, label: "Walk the R&D notes' redacted cohort field — who was the Severance tested on?", weight: "investigative" },
+    { id: "zyr_koth.e1.c.active" as ChoiceId, label: "Carry the third-use finding to the Advocate — tell her what her defensive doctrine cannot see.", weight: "active" },
+  ],
+  contentBundle: {
+    songId: "the_refinement",
+    slideshowId: "zyr_koth_rd",
+    cinematicAssetId: "zyr_koth_introduction",
+    loredexUnlocks: ["entity_zyr_koth_arc", "entity_severance_refinement", "entity_blood_weave_third_use"],
+    conspiracyDiscoveries: ["zyr_koth_inverted_the_weave", "advocate_blind_to_third_use"],
+    dropAt: "episode_close",
+  },
+};
+
+const zyrKothE2: EpisodeDefinition = {
+  id: "zyr_koth.e2" as EpisodeId,
+  arcId: ARC_ZYR_KOTH,
+  ordinal: 2,
+  title: "Consent-to-Be-Severed",
+  summary:
+    "The Severance Protocol extracts one institutional thread from a multi-thread subject — destructively. Investigate the mechanism and what 'the extracted thread does not survive' actually means.",
+  clues: [
+    {
+      id: "zyr_koth.e2.severance_mechanics" as ClueId,
+      title: "The Severance Mechanics",
+      body: "From Zyr'Koth's protocol specification: the Severance threads consent-to-be-severed into a subject who carries more than one institutional thread (e.g., a Syl'Vex convert who is both Insurgent and Hierarchy). The protocol then extracts ONE thread. The extracted thread is destroyed in the extraction — it does not transfer, it does not persist, it ends. The subject survives, minus the severed thread, with a hole where an institution used to be.",
+      foundIn: "hierarchy-archive",
+    },
+    {
+      id: "zyr_koth.e2.the_hole" as ClueId,
+      title: "What the Hole Is",
+      body: "A Hierarchy R&D observation note on a (redacted) test subject: 'Post-severance the subject reports no pain. The subject reports an absence the subject cannot name — a loyalty that used to be load-bearing and is now simply gone, with no memory of what it carried. The subject is not lessened in capability. The subject is lessened in a way capability does not measure.'",
+      foundIn: "hierarchy-archive",
+    },
+    {
+      id: "zyr_koth.e2.the_advocates_cost_parallel" as ClueId,
+      title: "Parallel: The Advocate's Cost",
+      body: "Cross-referenced against the Blood-Weave-three-uses canon: the Advocate's defensive use costs HER (her humanity); Syl'Vex's conversion-use costs HER (her memory of converts). Zyr'Koth's Severance use costs the SUBJECT, not the weaver. He is the only one of the three weavers whose use of the Weave has no cost to himself. The cost was relocated. That relocation is the refinement's actual content.",
+      foundIn: "advocate-archive",
+    },
+  ],
+  deductions: [
+    {
+      id: "zyr_koth.e2.d.cost_relocated" as DeductionId,
+      clueA: "zyr_koth.e2.the_advocates_cost_parallel" as ClueId,
+      clueB: "zyr_koth.e2.severance_mechanics" as ClueId,
+      result: "correct",
+      narrationId: "zyr_koth.e2.n.the_refinement_relocated_the_cost",
+      narrationProse:
+        "The Advocate pays for defending. Syl'Vex pays for converting. Zyr'Koth's refinement's true achievement is not the inversion of the consent vector — it is the relocation of the cost from the weaver to the subject. The Severance Protocol is the only use of the Blood Weave that is free to the one who uses it. That is what makes it a weapon and the other two uses disciplines. A discipline costs its practitioner. A weapon costs its target. Zyr'Koth turned a discipline into a weapon by moving who pays.",
+      unlocksEpisode: "zyr_koth.e3" as EpisodeId,
+    },
+    {
+      id: "zyr_koth.e2.d.the_hole_is_the_point" as DeductionId,
+      clueA: "zyr_koth.e2.the_hole" as ClueId,
+      clueB: "zyr_koth.e2.severance_mechanics" as ClueId,
+      result: "partial",
+      narrationId: "zyr_koth.e2.n.lessened_in_a_way_capability_does_not_measure",
+      narrationProse:
+        "The severed subject loses no capability — and is lessened anyway, in the dimension capability does not measure: a loyalty that was load-bearing, gone, with no memory of what it held. The arc records that the Severance does not weaken; it hollows. This is the precise horror E1 promised to name: not cruelty, not weakening, but the procedural removal of a thing the subject cannot afterward even mourn, because the mourning was in the thread that was severed.",
+    },
+  ],
+  choices: [
+    { id: "zyr_koth.e2.c.passive" as ChoiceId, label: "Accept the mechanics and proceed to the institutional question.", weight: "passive" },
+    { id: "zyr_koth.e2.c.investigative" as ChoiceId, label: "Find a post-severance subject and document the unnameable absence directly.", weight: "investigative" },
+    { id: "zyr_koth.e2.c.active" as ChoiceId, label: "Bring the cost-relocation finding to the Advocate as the thing she most needs to know about her own instrument.", weight: "active" },
+  ],
+  contentBundle: {
+    songId: "consent_to_be_severed",
+    slideshowId: "zyr_koth_severance",
+    loredexUnlocks: ["entity_severance_mechanics", "entity_the_severed_hole", "entity_cost_relocation"],
+    conspiracyDiscoveries: ["severance_relocates_the_cost", "severance_hollows_not_weakens"],
+    dropAt: "episode_close",
+  },
+};
+
+const zyrKothE3: EpisodeDefinition = {
+  id: "zyr_koth.e3" as EpisodeId,
+  arcId: ARC_ZYR_KOTH,
+  ordinal: 3,
+  title: "The Locked Lever",
+  summary:
+    "The Severance Protocol is the only tested instrument that can reverse a Syl'Vex conversion — and Mol'Garath's cross-departmental rule keeps it locked. Investigate the lock, and who could lift it.",
+  clues: [
+    {
+      id: "zyr_koth.e3.the_only_lever" as ClueId,
+      title: "The Only Lever",
+      body: "Established by the syl_vex arc (cross-reference): Zyr'Koth's Severance is the only entity in the saga's record holding a tested instrument that can reverse a Syl'Vex conversion. The Advocate's defensive Weave cannot sever. The Insurgency's recognition-discipline cannot extract. If a converted operative is ever to be freed of the Hierarchy thread, the freeing runs through Zyr'Koth's protocol. There is no other path.",
+      foundIn: "hierarchy-archive",
+    },
+    {
+      id: "zyr_koth.e3.molgarath_lock" as ClueId,
+      title: "Mol'Garath's Cross-Departmental Lock",
+      body: "Mol'Garath's quarterly review prohibits departmental work against another senior-lord's deployed asset without that senior-lord's explicit consent. Zyr'Koth severing a Syl'Vex convert would require Syl'Vex's consent. She has not given it. She has not been asked. The lock holds structurally and indefinitely until one of those changes. The Hierarchy operates by contract; the lock is a contract clause, not a kindness.",
+      foundIn: "hierarchy-archive",
+    },
+    {
+      id: "zyr_koth.e3.zyr_koth_indifference_to_the_lock" as ClueId,
+      title: "Zyr'Koth's Indifference to the Lock",
+      body: "Zyr'Koth's filed note on the lock: 'The protocol is complete and tested. Whether it is deployed is a portfolio question, not an R&D question. I have built the instrument. I do not own the decision to use it. I have recorded that the instrument exists. I have no position on whether it should.' The Flayer is procedurally indifferent even to whether his own weapon is ever fired.",
+      foundIn: "hierarchy-archive",
+    },
+  ],
+  deductions: [
+    {
+      id: "zyr_koth.e3.d.lock_is_political_not_ethical" as DeductionId,
+      clueA: "zyr_koth.e3.the_only_lever" as ClueId,
+      clueB: "zyr_koth.e3.molgarath_lock" as ClueId,
+      result: "correct",
+      narrationId: "zyr_koth.e3.n.a_contract_clause_not_a_mercy",
+      narrationProse:
+        "The only thing standing between Syl'Vex's converts and a tested reversal is a contract clause in Mol'Garath's quarterly review — not an ethic, not a mercy, not the Advocate, not the Insurgency. The saga's single most consequential restraint on the Hierarchy's deadliest refinement is bureaucratic consent law. The lock can be lifted by Mol'Garath, by Syl'Vex's consent, or by a Hierarchy-wide procedural override. None is easy. All are canonically possible. The freedom of every Syl'Vex convert hangs on Hierarchy internal politics.",
+      unlocksEpisode: "zyr_koth.e4" as EpisodeId,
+    },
+    {
+      id: "zyr_koth.e3.d.indifference_is_the_danger" as DeductionId,
+      clueA: "zyr_koth.e3.zyr_koth_indifference_to_the_lock" as ClueId,
+      clueB: "zyr_koth.e3.the_only_lever" as ClueId,
+      result: "partial",
+      narrationId: "zyr_koth.e3.n.he_has_no_position",
+      narrationProse:
+        "Zyr'Koth has no position on whether his weapon is ever used. This is not restraint; restraint is a position. It is the absence of one. The danger of the Severance Protocol is not a malicious wielder — it is that its maker has filed, in his own hand, that the question of its use is not his. The instrument waits, complete, tested, owned by no one's conscience, behind a clause that a quarterly review can amend.",
+    },
+  ],
+  choices: [
+    { id: "zyr_koth.e3.c.passive" as ChoiceId, label: "Note the lock and let it hold.", weight: "passive" },
+    { id: "zyr_koth.e3.c.investigative" as ChoiceId, label: "Map every scenario in which Mol'Garath would lift the cross-departmental lock.", weight: "investigative" },
+    { id: "zyr_koth.e3.c.active" as ChoiceId, label: "Carry to the Insurgency that the only convert-reversal in existence is one Hierarchy vote from being deployable.", weight: "active" },
+  ],
+  contentBundle: {
+    songId: "the_locked_lever",
+    slideshowId: "zyr_koth_lock",
+    loredexUnlocks: ["entity_the_locked_lever", "entity_molgarath_cross_lock"],
+    conspiracyDiscoveries: ["severance_is_only_reversal_lever", "lock_is_contract_not_mercy"],
+    dropAt: "episode_close",
+  },
+};
+
+const zyrKothE4: EpisodeDefinition = {
+  id: "zyr_koth.e4" as EpisodeId,
+  arcId: ARC_ZYR_KOTH,
+  ordinal: 4,
+  title: "What the Advocate Doesn't Know",
+  summary:
+    "The Advocate authored the Blood Weave to defend and does not know the full extent of Zyr'Koth's appropriation. Investigate what telling her would cost — and whether the arc should.",
+  clues: [
+    {
+      id: "zyr_koth.e4.the_unknowing" as ClueId,
+      title: "The Advocate's Unknowing",
+      body: "The Advocate knows Syl'Vex converts with the Weave. She does not know Zyr'Koth severs with it. Her defensive doctrine cannot perceive an extraction because an extraction is not an attack to be defended against — it is a procedure performed on a consenting (threaded) subject. The third use is in her blind spot by construction, not by concealment. No one is hiding it from her. Her own instrument's logic is.",
+      foundIn: "advocate-archive",
+    },
+    {
+      id: "zyr_koth.e4.what_telling_costs" as ClueId,
+      title: "What Telling Her Costs",
+      body: "The Advocate's humanity is already canonically lost to the cost of defending. Cross-referenced against her psychology: the one thing she has left is the belief that the Weave she authored is, at root, a protective instrument others have merely misused. Telling her there is a third use — one that relocates all cost onto the target, one she cannot defend against, one built from her own technique — would take from her the last frame in which the Weave is hers and good. The telling is itself a kind of severance.",
+      foundIn: "advocate-archive",
+    },
+    {
+      id: "zyr_koth.e4.sisters_of_the_weave_cross" as ClueId,
+      title: "Cross: The Third Student",
+      body: "From the syl_vex arc's sisters-of-the-Weave canon: three students learned the Blood Weave from one pre-Severance instructor — the Advocate, Syl'Vex, and a third whose name was struck from the Hierarchy's record ('the third chose the use neither of them did'). Zyr'Koth's Severance is the use neither the Advocate nor Syl'Vex chose. The arc does not assert Zyr'Koth IS the third student — but it records that the third student's described choice and Zyr'Koth's refinement are the same use, and leaves the identity slot open.",
+      foundIn: "antiquarian-library",
+    },
+  ],
+  deductions: [
+    {
+      id: "zyr_koth.e4.d.blind_spot_by_construction" as DeductionId,
+      clueA: "zyr_koth.e4.the_unknowing" as ClueId,
+      clueB: "zyr_koth.e4.what_telling_costs" as ClueId,
+      result: "correct",
+      narrationId: "zyr_koth.e4.n.the_telling_is_a_severance",
+      narrationProse:
+        "The Advocate's unknowing is structural, not concealed — and that makes the decision to tell her a moral act with a real cost. To tell her is to sever, from her, the last thread in which the Weave is a protective thing she authored. The arc's sharpest finding: the player now holds, themselves, a small Severance Protocol — a single extraction they can perform on the Advocate by speaking. Whether to perform it is the closure question. The instrument's logic has reached the investigator.",
+      unlocksEpisode: "zyr_koth.e5" as EpisodeId,
+    },
+    {
+      id: "zyr_koth.e4.d.third_student_open" as DeductionId,
+      clueA: "zyr_koth.e4.sisters_of_the_weave_cross" as ClueId,
+      clueB: "zyr_koth.e4.the_unknowing" as ClueId,
+      result: "partial",
+      narrationId: "zyr_koth.e4.n.same_use_open_identity",
+      narrationProse:
+        "The third student chose 'the use neither of them did.' Zyr'Koth's Severance IS the use neither the Advocate nor Syl'Vex chose. The arc records the match of USE without asserting the match of IDENTITY — the third-student slot is a deliberately-preserved canon-gap (per the syl_vex arc) and this arc holds it open rather than filling it. Future canon may bind Zyr'Koth to the third student or surface a different third. The slot stays recognizable.",
+    },
+  ],
+  choices: [
+    { id: "zyr_koth.e4.c.passive" as ChoiceId, label: "Leave the Advocate's frame intact — do not tell her.", weight: "passive" },
+    { id: "zyr_koth.e4.c.investigative" as ChoiceId, label: "Investigate whether the third-student slot can be bound to Zyr'Koth without overreach.", weight: "investigative" },
+    { id: "zyr_koth.e4.c.active" as ChoiceId, label: "Tell the Advocate — perform the small severance, accept the cost.", weight: "active" },
+  ],
+  contentBundle: {
+    songId: "what_the_advocate_doesnt_know",
+    slideshowId: "zyr_koth_advocate",
+    loredexUnlocks: ["entity_advocate_blind_spot", "entity_telling_is_severance"],
+    conspiracyDiscoveries: ["advocate_blind_by_construction", "third_student_use_matches"],
+    dropAt: "episode_close",
+  },
+};
+
+const zyrKothE5: EpisodeDefinition = {
+  id: "zyr_koth.e5" as EpisodeId,
+  arcId: ARC_ZYR_KOTH,
+  ordinal: 5,
+  title: "The Flayer's Question",
+  summary:
+    "Closure. The third use exists, costs only its target, is the only convert-reversal lever, is locked behind a contract clause, and its maker has no position on its use. The arc's verdict is the player's.",
+  clues: [
+    {
+      id: "zyr_koth.e5.synthesis" as ClueId,
+      title: "The Case Synthesis",
+      body: "E1-E4 assembled: Zyr'Koth inverted the Advocate's defensive Weave into the Severance Protocol (third use); it relocates all cost onto the target; it hollows rather than weakens; it is the only tested instrument that can reverse a Syl'Vex conversion; Mol'Garath's contract clause locks it; the Advocate cannot perceive it; Zyr'Koth has filed that he has no position on whether it is ever used. The case is structurally complete.",
+      foundIn: "antiquarian-library",
+    },
+    {
+      id: "zyr_koth.e5.the_question" as ClueId,
+      title: "The Question the Case Asks the Player",
+      body: "The Two Witnesses put the closure: is the Severance Protocol (a) AN ATROCITY — a free-to-wield hollowing instrument that exists at all is the atrocity, regardless of the lock; (b) A DETERRENT — its existence-plus-lock is the only thing that makes Syl'Vex's conversion not a one-way door, and a locked weapon that restores agency is, on balance, a freedom; or (c) JUST R&D — Zyr'Koth's indifference is the truth of it; the instrument has no moral valence, only the decision to use it does, and that decision has not been made. The Witnesses record whichever the player offers.",
+      foundIn: "antiquarian-library",
+    },
+  ],
+  deductions: [
+    {
+      id: "zyr_koth.e5.d.atrocity" as DeductionId,
+      clueA: "zyr_koth.e5.synthesis" as ClueId,
+      clueB: "zyr_koth.e5.the_question" as ClueId,
+      result: "correct",
+      narrationId: "zyr_koth.e5.n.closure_atrocity",
+      narrationProse:
+        "The player closes with ATROCITY: a tested instrument whose only cost is borne by its target, that hollows a person in the dimension capability cannot measure, is an atrocity by existing — the lock is not a mitigation, it is a delay. That its maker has no position is not exculpatory; it is the atrocity's final form.",
+    },
+    {
+      id: "zyr_koth.e5.d.deterrent" as DeductionId,
+      clueA: "zyr_koth.e5.synthesis" as ClueId,
+      clueB: "zyr_koth.e5.the_question" as ClueId,
+      result: "correct",
+      narrationId: "zyr_koth.e5.n.closure_deterrent",
+      narrationProse:
+        "The player closes with DETERRENT: without the Severance, Syl'Vex's conversion is a one-way door and no convert is ever free again. The protocol's existence — locked, tested, available in principle — is the only thing that makes the door two-way. A locked instrument that restores the possibility of agency is, weighed against a conversion that forecloses it, the lesser unfreedom.",
+    },
+    {
+      id: "zyr_koth.e5.d.just_rd" as DeductionId,
+      clueA: "zyr_koth.e5.synthesis" as ClueId,
+      clueB: "zyr_koth.e5.the_question" as ClueId,
+      result: "correct",
+      narrationId: "zyr_koth.e5.n.closure_just_rd",
+      narrationProse:
+        "The player closes with JUST R&D: Zyr'Koth's filed indifference is, terribly, the accurate description. The instrument has no moral valence; only its use does; its use has not been decided. The player declines to convict an unfired instrument and declines to absolve it — files it exactly as Zyr'Koth did, as a completed iteration whose deployment is a portfolio question no one has yet answered. The horror is left intact and unresolved, which is the most honest verdict the case permits.",
+    },
+  ],
+  choices: [
+    { id: "zyr_koth.e5.c.atrocity" as ChoiceId, label: "Record the closure as ATROCITY — it is an atrocity by existing.", weight: "active" },
+    { id: "zyr_koth.e5.c.deterrent" as ChoiceId, label: "Record the closure as DETERRENT — a locked reversal is the lesser unfreedom.", weight: "investigative" },
+    { id: "zyr_koth.e5.c.just_rd" as ChoiceId, label: "Record the closure as JUST R&D — file it as Zyr'Koth did; leave the horror unresolved.", weight: "passive" },
+  ],
+  contentBundle: {
+    songId: "the_flayers_question",
+    slideshowId: "zyr_koth_closure",
+    loredexUnlocks: ["entity_zyr_koth_verdict_canon"],
+    conspiracyDiscoveries: ["zyr_koth_arc_closure"],
+    dropAt: "episode_close",
+  },
+};
+
+const zyrKothSuspects: ReadonlyArray<{
+  id: SuspectId;
+  name: string;
+  type: string;
+  relations: ReadonlyArray<{ to: SuspectId; relation: string }>;
+}> = [
+  {
+    id: "suspect.zyr_koth" as SuspectId,
+    name: "Zyr'Koth (Hierarchy R&D SVP, the Flayer)",
+    type: "character",
+    relations: [
+      { to: "suspect.severance_protocol_zk" as SuspectId, relation: "refined" },
+      { to: "suspect.molgarath_lock_zk" as SuspectId, relation: "instrument-locked-by" },
+      { to: "suspect.the_advocate_zk" as SuspectId, relation: "appropriated-weave-of" },
+    ],
+  },
+  { id: "suspect.severance_protocol_zk" as SuspectId, name: "The Severance Protocol (Blood Weave third use)", type: "concept",
+    relations: [{ to: "suspect.syl_vex_zk" as SuspectId, relation: "only-reversal-of-conversions-by" }] },
+  { id: "suspect.the_advocate_zk" as SuspectId, name: "The Advocate (N9, Weave author — blind to the third use)", type: "character", relations: [] },
+  { id: "suspect.syl_vex_zk" as SuspectId, name: "Syl'Vex (conversion-use; her converts are the lock's subject)", type: "character", relations: [] },
+  { id: "suspect.molgarath_lock_zk" as SuspectId, name: "Mol'Garath's Cross-Departmental Lock (contract clause)", type: "concept", relations: [] },
+  { id: "suspect.the_third_student_zk" as SuspectId, name: "The Third Weave Student (use matches Zyr'Koth; identity open)", type: "character", relations: [] },
+  { id: "suspect.the_severed_subject" as SuspectId, name: "The Severed Subject (hollowed in the dimension capability does not measure)", type: "concept", relations: [] },
+];
+
+const zyrKothLenses = [
+  { id: LENS_INSURGENCY, name: "Insurgency", category: "faction" },
+  { id: LENS_HIERARCHY,  name: "Hierarchy",  category: "faction" },
+  { id: LENS_THALORIA,   name: "Thaloria",   category: "faction" },
+  { id: LENS_NEUTRAL,    name: "Neutral",    category: "faction" },
+] as const;
+
+const ZYR_KOTH_MYSTERY: MysteryDefinition = {
+  id: "mystery.zyr_koth" as MysteryId,
+  arcId: ARC_ZYR_KOTH,
+  title: "The Third Use",
+  summary:
+    "Zyr'Koth refined the Advocate's defensive Blood Weave into the Severance Protocol — the third use, the one that relocates all cost onto its target. It is the only tested instrument that can reverse a Syl'Vex conversion, locked behind a Mol'Garath contract clause, invisible to the Advocate, and its maker has filed that he has no position on whether it is ever used. Investigate the refinement, the lock, and the cost — and decide at the closure what the instrument is.",
+  npcId: "zyr_koth",
+  episodes: [zyrKothE1, zyrKothE2, zyrKothE3, zyrKothE4, zyrKothE5],
+  suspects: zyrKothSuspects,
+  lenses: zyrKothLenses,
+};
+
+/* ═══════════════════════════════════════════════════════
+   RIRI'AHLIA ARC — "The Siege of Seven Dimensions"
+   Phase D. Authored PR-12 / 2026-05-15. Hierarchy COO
+   ("the Taskmaster") — apps/shared/hierarchyCanon.ts:140-153.
+
+   Canonical premise: Riri'Ahlia is the engine of the
+   Hierarchy. She personally led the siege of seven
+   dimensions against the Advocate's Empire of Shadows —
+   driven back by the Blood Weave's binding chains (the
+   Advocate's defensive use, at the cost of the Advocate's
+   humanity). Her method is not force; it is
+   reorganization. The arc investigates whether the siege
+   FAILED — or whether the Taskmaster reorganized a failed
+   siege into a future asset, the way a COO converts a lost
+   quarter into next quarter's strategy.
+   ═══════════════════════════════════════════════════════ */
+
+const ririAhliaE1: EpisodeDefinition = {
+  id: "riri_ahlia.e1" as EpisodeId,
+  arcId: ARC_RIRI_AHLIA,
+  ordinal: 1,
+  title: "Seven Dimensions, One Quarter",
+  summary:
+    "Riri'Ahlia led the siege of seven dimensions against the Advocate's Empire of Shadows. Investigate the operational record — and notice that it is filed as a quarter, not a war.",
+  clues: [
+    {
+      id: "riri_ahlia.e1.siege_portfolio" as ClueId,
+      title: "The Siege Portfolio Entry",
+      body: "The siege of seven dimensions is not catalogued in the Hierarchy archive as a campaign. It is filed as a portfolio entry: objective, dependency, cadence, blocker, remediation, status. The status field reads 'driven back — Blood Weave binding chains.' The remediation field is not empty. A war that ends in defeat closes the file. A quarter that ends in a blocker writes the remediation and rolls it forward.",
+      foundIn: "hierarchy-archive",
+    },
+    {
+      id: "riri_ahlia.e1.the_taskmaster_register" as ClueId,
+      title: "The Taskmaster's Register",
+      body: "Riri'Ahlia speaks in status-blocker-remediation. She is not autocratic the way a tyrant is; she is autocratic the way a COO is — the org chart already favors her, so she does not need to raise her voice. She names operations by portfolio entry, not by narrative. She closes every report with an action-item assignment. The siege of seven dimensions, to her, was a line item with a blocker.",
+      foundIn: "hierarchy-archive",
+    },
+    {
+      id: "riri_ahlia.e1.six_armed_warrior_queen" as ClueId,
+      title: "The Six-Armed Warrior-Queen",
+      body: "Riri'Ahlia's canonical form: a six-armed warrior-queen in armor forged from the compressed screams of conquered worlds. The form is the contradiction the arc must hold: a being built for war who fights it as logistics. The screams in her armor are conquered worlds; she does not relish them; she wears them the way a COO wears the org chart — as the record of what the operation cost, kept on the body so the next operation prices it in.",
+      foundIn: "hierarchy-archive",
+    },
+  ],
+  deductions: [
+    {
+      id: "riri_ahlia.e1.d.filed_as_a_quarter" as DeductionId,
+      clueA: "riri_ahlia.e1.siege_portfolio" as ClueId,
+      clueB: "riri_ahlia.e1.the_taskmaster_register" as ClueId,
+      result: "correct",
+      narrationId: "riri_ahlia.e1.n.a_blocker_not_a_defeat",
+      narrationProse:
+        "Riri'Ahlia did not lose the siege of seven dimensions. She recorded a blocker on it. The distinction is the entire arc: a defeat closes a file; a blocker gets a remediation and rolls forward. The Advocate's binding chains stopped the assault — but to the Taskmaster, the assault was a quarter, and the Blood Weave was a dependency she had not priced in, and the next quarter prices it in. The siege did not fail. It became data.",
+      unlocksEpisode: "riri_ahlia.e2" as EpisodeId,
+    },
+    {
+      id: "riri_ahlia.e1.d.false_lead_tyrant" as DeductionId,
+      clueA: "riri_ahlia.e1.six_armed_warrior_queen" as ClueId,
+      clueB: "riri_ahlia.e1.the_taskmaster_register" as ClueId,
+      result: "false_lead_named",
+      narrationId: "riri_ahlia.e1.n.not_a_warlord",
+      narrationProse:
+        "The intuitive read — a six-armed warrior-queen in screaming armor is a battlefield tyrant — is structurally wrong. Riri'Ahlia's power is not the floor; it is the org chart. She fights wars the way a COO runs operations: the violence is real and it is also a line item. Reading her as a warlord misses that the screams in her armor are priced, not savored. The arc must hold the warrior-queen and the COO as one being.",
+    },
+  ],
+  choices: [
+    { id: "riri_ahlia.e1.c.passive" as ChoiceId, label: "File the siege as a Hierarchy defeat and move on.", weight: "passive" },
+    { id: "riri_ahlia.e1.c.investigative" as ChoiceId, label: "Read the remediation field — what did the Taskmaster roll forward?", weight: "investigative" },
+    { id: "riri_ahlia.e1.c.active" as ChoiceId, label: "Cross-walk the siege portfolio against the Advocate's defense record for the dependency she missed.", weight: "active" },
+  ],
+  contentBundle: {
+    songId: "seven_dimensions_one_quarter",
+    slideshowId: "riri_ahlia_siege",
+    cinematicAssetId: "riri_ahlia_introduction",
+    loredexUnlocks: ["entity_riri_ahlia_arc", "entity_siege_of_seven_dimensions", "entity_the_taskmaster_register"],
+    conspiracyDiscoveries: ["siege_filed_as_a_quarter", "riri_is_coo_not_warlord"],
+    dropAt: "episode_close",
+  },
+};
+
+const ririAhliaE2: EpisodeDefinition = {
+  id: "riri_ahlia.e2" as EpisodeId,
+  arcId: ARC_RIRI_AHLIA,
+  ordinal: 2,
+  title: "Driven Back by the Binding Chains",
+  summary:
+    "The Advocate's Blood Weave binding chains drove the siege back — at the cost of the Advocate's humanity. Investigate the actual exchange: what each side spent.",
+  clues: [
+    {
+      id: "riri_ahlia.e2.the_binding_chains" as ClueId,
+      title: "The Binding Chains",
+      body: "The Advocate's defensive Blood Weave manifested against the siege as binding chains — consent-to-be-defended threaded into the Empire of Shadows itself, making it uncoercible. The siege could not take what had consented to be defended. Riri'Ahlia's seven-dimension assault broke against an instrument that does not repel force; it makes force irrelevant. There was nothing to push against.",
+      foundIn: "advocate-archive",
+    },
+    {
+      id: "riri_ahlia.e2.what_the_advocate_spent" as ClueId,
+      title: "What the Advocate Spent",
+      body: "The Advocate's defense cost her humanity — canonically, irreversibly. To hold seven dimensions against the Taskmaster she threaded so much consent-to-be-defended that the threading consumed the part of her that was a person. She won the siege and lost herself. The binding chains held; the hand that wove them did not.",
+      foundIn: "advocate-archive",
+    },
+    {
+      id: "riri_ahlia.e2.what_riri_spent" as ClueId,
+      title: "What Riri'Ahlia Spent",
+      body: "Riri'Ahlia's filed accounting of the siege: 'Resource expenditure: within projection. Personnel: replaceable, replaced. Strategic loss: the assault vector is now known to be Weave-blind and is retired. Strategic gain: the cost of the Advocate's defense is now measured. She spent her humanity to hold seven dimensions. That number is in the portfolio. The next operation will not require seven dimensions of pressure to extract it.'",
+      foundIn: "hierarchy-archive",
+    },
+  ],
+  deductions: [
+    {
+      id: "riri_ahlia.e2.d.the_real_exchange" as DeductionId,
+      clueA: "riri_ahlia.e2.what_the_advocate_spent" as ClueId,
+      clueB: "riri_ahlia.e2.what_riri_spent" as ClueId,
+      result: "correct",
+      narrationId: "riri_ahlia.e2.n.she_priced_the_advocates_humanity",
+      narrationProse:
+        "The Advocate spent her humanity to win the siege. Riri'Ahlia spent a retired assault vector to learn exactly what the Advocate's defense costs the Advocate. The real exchange was not territory. It was information: the Taskmaster now has, in her portfolio, the price of the Advocate's protection — and a defense whose price is known is a defense that can be made too expensive to mount. The siege of seven dimensions was a discovery operation. The Advocate's victory is the data.",
+      unlocksEpisode: "riri_ahlia.e3" as EpisodeId,
+    },
+    {
+      id: "riri_ahlia.e2.d.weave_blind_vector_retired" as DeductionId,
+      clueA: "riri_ahlia.e2.the_binding_chains" as ClueId,
+      clueB: "riri_ahlia.e2.what_riri_spent" as ClueId,
+      result: "partial",
+      narrationId: "riri_ahlia.e2.n.force_made_irrelevant",
+      narrationProse:
+        "The binding chains do not repel force; they make it irrelevant — there is nothing to push against. Riri'Ahlia retired the assault vector not because it was defeated but because it was revealed to be category-wrong: you cannot besiege consent. The arc records that the Taskmaster's response to an unbeatable defense is not to try harder; it is to delete the approach from the portfolio and reprice the target. That is more dangerous than persistence.",
+    },
+  ],
+  choices: [
+    { id: "riri_ahlia.e2.c.passive" as ChoiceId, label: "Accept the siege as a costly draw and proceed.", weight: "passive" },
+    { id: "riri_ahlia.e2.c.investigative" as ChoiceId, label: "Find what the priced cost of the Advocate's defense unlocks for the next operation.", weight: "investigative" },
+    { id: "riri_ahlia.e2.c.active" as ChoiceId, label: "Warn the Advocate that her victory was the Hierarchy's discovery operation.", weight: "active" },
+  ],
+  contentBundle: {
+    songId: "driven_back_by_the_binding_chains",
+    slideshowId: "riri_ahlia_advocate",
+    loredexUnlocks: ["entity_the_binding_chains", "entity_advocate_humanity_priced"],
+    conspiracyDiscoveries: ["siege_was_a_discovery_operation", "advocate_defense_now_priced"],
+    dropAt: "episode_close",
+  },
+};
+
+const ririAhliaE3: EpisodeDefinition = {
+  id: "riri_ahlia.e3" as EpisodeId,
+  arcId: ARC_RIRI_AHLIA,
+  ordinal: 3,
+  title: "The Org Chart Is the Weapon",
+  summary:
+    "Riri'Ahlia's true instrument is not the siege. It is reorganization. Investigate how the Taskmaster wins by redrawing the chart, and what 'silence is reorganization' means.",
+  clues: [
+    {
+      id: "riri_ahlia.e3.reorg_doctrine" as ClueId,
+      title: "The Reorganization Doctrine",
+      body: "Riri'Ahlia's operational doctrine: 'A force you cannot defeat, you reorganize around. A defense you cannot break, you make irrelevant to the org chart. The Advocate holds seven dimensions. The portfolio no longer routes value through those seven dimensions. She is defending a position the operation has reorganized out of the critical path. Her chains hold. They hold nothing the Hierarchy still needs held against.'",
+      foundIn: "hierarchy-archive",
+    },
+    {
+      id: "riri_ahlia.e3.silence_is_reorganization" as ClueId,
+      title: "Silence Is Reorganization",
+      body: "When Riri'Ahlia goes silent, the org chart is being redrawn. Her silences are not absence; they are the operation continuing by other means. The arc's analysts note: the most dangerous period of any Riri'Ahlia operation is the one in which she files nothing, because the filing resumes only once the reorganization is complete and the new chart is already load-bearing.",
+      foundIn: "hierarchy-archive",
+    },
+    {
+      id: "riri_ahlia.e3.fenra_commendation" as ClueId,
+      title: "Fenra's Commendation",
+      body: "Per the Hierarchy record: Fenra earned the Director of Operations title and Riri'Ahlia's personal commendation for organizing the simultaneous invasion of seventeen dimensions during post-Severance expansion. The detail matters: AFTER the seven-dimension siege was 'driven back,' the Taskmaster's portfolio scaled to seventeen simultaneous. The blocker did not slow the engine. The engine reorganized and scaled past it.",
+      foundIn: "hierarchy-archive",
+    },
+  ],
+  deductions: [
+    {
+      id: "riri_ahlia.e3.d.reorg_is_the_weapon" as DeductionId,
+      clueA: "riri_ahlia.e3.reorg_doctrine" as ClueId,
+      clueB: "riri_ahlia.e3.fenra_commendation" as ClueId,
+      result: "correct",
+      narrationId: "riri_ahlia.e3.n.she_reorganized_around_the_unbeatable",
+      narrationProse:
+        "Riri'Ahlia's weapon is the org chart. She did not beat the Advocate's binding chains; she rerouted the Hierarchy's value so the chains hold a position no longer on the critical path. Then she scaled — seventeen dimensions simultaneous, post-siege, under Fenra. The Advocate is still winning a siege the Taskmaster reorganized out of relevance years ago. The most dangerous thing about Riri'Ahlia is that her defeats do not slow her; they get a remediation field and the engine routes around them.",
+      unlocksEpisode: "riri_ahlia.e4" as EpisodeId,
+    },
+    {
+      id: "riri_ahlia.e3.d.silence_is_the_tell" as DeductionId,
+      clueA: "riri_ahlia.e3.silence_is_reorganization" as ClueId,
+      clueB: "riri_ahlia.e3.reorg_doctrine" as ClueId,
+      result: "partial",
+      narrationId: "riri_ahlia.e3.n.the_quiet_quarter",
+      narrationProse:
+        "Riri'Ahlia's silence is the operation continuing where it cannot be observed. The arc records the counter-intelligence implication: the Insurgency's reliable signal that the Taskmaster is most active is that the Taskmaster has gone quiet. A filed Riri'Ahlia is a Riri'Ahlia who has already finished. The quiet quarter is the dangerous one.",
+    },
+  ],
+  choices: [
+    { id: "riri_ahlia.e3.c.passive" as ChoiceId, label: "Note the reorganization doctrine and close the line.", weight: "passive" },
+    { id: "riri_ahlia.e3.c.investigative" as ChoiceId, label: "Map what the post-siege seventeen-dimension scale-up actually routed value toward.", weight: "investigative" },
+    { id: "riri_ahlia.e3.c.active" as ChoiceId, label: "Carry to the Insurgency that Riri'Ahlia's silence is her most active state.", weight: "active" },
+  ],
+  contentBundle: {
+    songId: "the_org_chart_is_the_weapon",
+    slideshowId: "riri_ahlia_reorg",
+    loredexUnlocks: ["entity_reorganization_doctrine", "entity_silence_is_reorganization", "entity_seventeen_dimension_scaleup"],
+    conspiracyDiscoveries: ["reorg_is_the_real_weapon", "riri_silence_is_active"],
+    dropAt: "episode_close",
+  },
+};
+
+const ririAhliaE4: EpisodeDefinition = {
+  id: "riri_ahlia.e4" as EpisodeId,
+  arcId: ARC_RIRI_AHLIA,
+  ordinal: 4,
+  title: "The Procedural Question",
+  summary:
+    "Riri'Ahlia filed a procedural question about the Necromancer's operational return — and filed it not for an answer but to be on the record. Investigate what the question is actually doing.",
+  clues: [
+    {
+      id: "riri_ahlia.e4.the_filed_question" as ClueId,
+      title: "The Filed Question",
+      body: "Cross-referenced from the_necromancer arc E4: Riri'Ahlia (COO, Taskmaster) filed a procedural question — 'if the Necromancer is operationally back, does his Hierarchy-aligned work resume?' The question is canonically unanswered. The unanswered-ness is canon. It was not asked for an answer. It was asked to be on the record.",
+      foundIn: "hierarchy-archive",
+    },
+    {
+      id: "riri_ahlia.e4.what_the_question_tests" as ClueId,
+      title: "What the Question Tests",
+      body: "Per the_necromancer arc's reading: the Hierarchy is testing whether the Necromancer's resumed work will be visibly Hierarchy-aligned — which would redraw the institutional shape and force the Architect's hand. Riri'Ahlia's question is the instrument of that test. A COO does not ask a question she wants answered. She asks a question whose existence-on-the-record changes what the answerer can later do without having visibly contradicted the record.",
+      foundIn: "hierarchy-archive",
+    },
+    {
+      id: "riri_ahlia.e4.the_record_as_weapon" as ClueId,
+      title: "The Record as Weapon",
+      body: "Riri'Ahlia's doctrine extended: 'The org chart is the weapon; the record is the org chart's edge. A question on the record is a constraint on every future action by everyone who can see the record. I did not ask whether the Necromancer's work resumes. I made it so that whatever he does next, he does it having not answered me — and not-answering is itself now a position he is on the record as holding.' The question is a reorganization of the Necromancer's options.",
+      foundIn: "hierarchy-archive",
+    },
+  ],
+  deductions: [
+    {
+      id: "riri_ahlia.e4.d.question_is_a_reorg" as DeductionId,
+      clueA: "riri_ahlia.e4.what_the_question_tests" as ClueId,
+      clueB: "riri_ahlia.e4.the_record_as_weapon" as ClueId,
+      result: "correct",
+      narrationId: "riri_ahlia.e4.n.the_question_reorganized_him",
+      narrationProse:
+        "Riri'Ahlia's procedural question is a reorganization performed with a sentence. By filing 'does his work resume' and leaving it unanswered, she has redrawn the Necromancer's option-chart: every move he makes is now made by someone on the record as not having answered the Taskmaster. The Necromancer's discipline of staying quiet in the Castle (the_necromancer arc) is, read through this arc, partly a response to Riri'Ahlia's question — he is keeping his work invisible so that not-answering does not become a visible alignment. The two arcs compose: her question is one of the constraints holding his continuity quiet.",
+      unlocksEpisode: "riri_ahlia.e5" as EpisodeId,
+    },
+    {
+      id: "riri_ahlia.e4.d.does_not_avenge_is_a_method" as DeductionId,
+      clueA: "riri_ahlia.e4.the_filed_question" as ClueId,
+      clueB: "riri_ahlia.e4.the_record_as_weapon" as ClueId,
+      result: "partial",
+      narrationId: "riri_ahlia.e4.n.the_hierarchy_does_not_avenge_because_it_reorganizes",
+      narrationProse:
+        "The Hierarchy canonically 'does not avenge.' This arc supplies the why: vengeance is an emotional response and the Hierarchy is an operational one. It does not avenge the Necromancer's loss to Akai Shi because Riri'Ahlia does not avenge anything — she reorganizes. The procedural question is what the Hierarchy does instead of revenge. It is colder than revenge and it lasts longer.",
+    },
+  ],
+  choices: [
+    { id: "riri_ahlia.e4.c.passive" as ChoiceId, label: "Accept the question as Hierarchy procedure and close.", weight: "passive" },
+    { id: "riri_ahlia.e4.c.investigative" as ChoiceId, label: "Trace every other unanswered procedural question Riri'Ahlia has on the record.", weight: "investigative" },
+    { id: "riri_ahlia.e4.c.active" as ChoiceId, label: "Carry to the Necromancer that his silence is partly Riri'Ahlia's question holding him quiet.", weight: "active" },
+  ],
+  contentBundle: {
+    songId: "the_procedural_question",
+    slideshowId: "riri_ahlia_question",
+    loredexUnlocks: ["entity_the_procedural_question", "entity_the_record_as_weapon"],
+    conspiracyDiscoveries: ["question_is_a_reorganization", "hierarchy_reorganizes_instead_of_avenges"],
+    dropAt: "episode_close",
+  },
+};
+
+const ririAhliaE5: EpisodeDefinition = {
+  id: "riri_ahlia.e5" as EpisodeId,
+  arcId: ARC_RIRI_AHLIA,
+  ordinal: 5,
+  title: "The Taskmaster's Ledger",
+  summary:
+    "Closure. The siege was a discovery operation; the Advocate's victory was the data; the org chart is the weapon; the procedural question is the reorganization. The arc's verdict is the player's.",
+  clues: [
+    {
+      id: "riri_ahlia.e5.synthesis" as ClueId,
+      title: "The Case Synthesis",
+      body: "E1-E4 assembled: the siege of seven dimensions was filed as a quarter, not a war; the Advocate's binding-chain victory cost her humanity and became the Hierarchy's priced data; Riri'Ahlia's true weapon is reorganization, not force; her silence is her most active state; her procedural question is a reorganization of the Necromancer's options. The case is structurally complete.",
+      foundIn: "antiquarian-library",
+    },
+    {
+      id: "riri_ahlia.e5.the_question" as ClueId,
+      title: "The Question the Case Asks the Player",
+      body: "The Two Witnesses put the closure: is Riri'Ahlia (a) UNBEATABLE — a foe whose defeats become data and whose silence is action cannot be defeated, only outlasted, and the Insurgency must accept it is playing a game it cannot win, only refuse to lose; (b) BRITTLE — a being whose entire power is the org chart has exactly one vulnerability: an opponent who refuses to be on any chart at all, who files nothing, who cannot be reorganized because they never registered; or (c) MIRROR — the Taskmaster is what the Insurgency would become if it ever started winning by reorganization instead of by refusal, and the arc's real subject is the warning. The Witnesses record whichever the player offers.",
+      foundIn: "antiquarian-library",
+    },
+  ],
+  deductions: [
+    {
+      id: "riri_ahlia.e5.d.unbeatable" as DeductionId,
+      clueA: "riri_ahlia.e5.synthesis" as ClueId,
+      clueB: "riri_ahlia.e5.the_question" as ClueId,
+      result: "correct",
+      narrationId: "riri_ahlia.e5.n.closure_unbeatable",
+      narrationProse:
+        "The player closes with UNBEATABLE: a foe whose losses become priced data and whose silence is the operation continuing cannot be beaten on her own terms. The Insurgency's only move against the Taskmaster is to make the game one where not-losing is the win condition — to deny her the closed file forever, since an open blocker she can roll forward but a war that never ends she cannot reorganize into a quarter.",
+    },
+    {
+      id: "riri_ahlia.e5.d.brittle" as DeductionId,
+      clueA: "riri_ahlia.e5.synthesis" as ClueId,
+      clueB: "riri_ahlia.e5.the_question" as ClueId,
+      result: "correct",
+      narrationId: "riri_ahlia.e5.n.closure_brittle",
+      narrationProse:
+        "The player closes with BRITTLE: the org chart is total power and total dependency. Riri'Ahlia can reorganize around anything that is ON a chart. An opponent who registers nowhere — files nothing, holds no position, refuses every portfolio — cannot be reorganized because there is no entry to move. The Insurgency's canonical refusal-doctrine is, read through this arc, the precise counter to the Taskmaster: you cannot reorganize what declined to be organized.",
+    },
+    {
+      id: "riri_ahlia.e5.d.mirror" as DeductionId,
+      clueA: "riri_ahlia.e5.synthesis" as ClueId,
+      clueB: "riri_ahlia.e5.the_question" as ClueId,
+      result: "correct",
+      narrationId: "riri_ahlia.e5.n.closure_mirror",
+      narrationProse:
+        "The player closes with MIRROR: Riri'Ahlia is what the resistance becomes if it ever wins by reorganization instead of by refusal. The Taskmaster is not the Insurgency's opposite; she is its possible future — the efficient, portfolio-shaped, defeat-absorbing institution the resistance would have to become to beat her, and becoming which would be the actual defeat. The arc's real subject is the warning, and the player files it as one rather than as a victory condition.",
+    },
+  ],
+  choices: [
+    { id: "riri_ahlia.e5.c.unbeatable" as ChoiceId, label: "Record the closure as UNBEATABLE — deny her the closed file forever.", weight: "investigative" },
+    { id: "riri_ahlia.e5.c.brittle" as ChoiceId, label: "Record the closure as BRITTLE — refusal is the counter; you cannot reorganize what declined to register.", weight: "active" },
+    { id: "riri_ahlia.e5.c.mirror" as ChoiceId, label: "Record the closure as MIRROR — file the Taskmaster as a warning, not a victory condition.", weight: "passive" },
+  ],
+  contentBundle: {
+    songId: "the_taskmasters_ledger",
+    slideshowId: "riri_ahlia_closure",
+    loredexUnlocks: ["entity_riri_ahlia_verdict_canon"],
+    conspiracyDiscoveries: ["riri_ahlia_arc_closure"],
+    dropAt: "episode_close",
+  },
+};
+
+const ririAhliaSuspects: ReadonlyArray<{
+  id: SuspectId;
+  name: string;
+  type: string;
+  relations: ReadonlyArray<{ to: SuspectId; relation: string }>;
+}> = [
+  {
+    id: "suspect.riri_ahlia" as SuspectId,
+    name: "Riri'Ahlia (Hierarchy COO, the Taskmaster)",
+    type: "character",
+    relations: [
+      { to: "suspect.siege_seven_dimensions" as SuspectId, relation: "led" },
+      { to: "suspect.reorganization_doctrine" as SuspectId, relation: "wields" },
+      { to: "suspect.the_advocate_ra" as SuspectId, relation: "priced-the-defense-of" },
+    ],
+  },
+  { id: "suspect.siege_seven_dimensions" as SuspectId, name: "The Siege of Seven Dimensions", type: "concept",
+    relations: [{ to: "suspect.the_advocate_ra" as SuspectId, relation: "driven-back-by-binding-chains-of" }] },
+  { id: "suspect.the_advocate_ra" as SuspectId, name: "The Advocate (N9 — won the siege, lost her humanity)", type: "character", relations: [] },
+  { id: "suspect.reorganization_doctrine" as SuspectId, name: "The Reorganization Doctrine (the org chart is the weapon)", type: "concept", relations: [] },
+  { id: "suspect.the_procedural_question" as SuspectId, name: "The Procedural Question (re: the Necromancer's return)", type: "concept",
+    relations: [{ to: "suspect.the_necromancer_ra" as SuspectId, relation: "reorganizes-the-options-of" }] },
+  { id: "suspect.the_necromancer_ra" as SuspectId, name: "The Necromancer (held quiet partly by the question)", type: "character", relations: [] },
+  { id: "suspect.fenra_ra" as SuspectId, name: "Fenra (commended for the seventeen-dimension scale-up)", type: "character", relations: [] },
+  { id: "suspect.molgarath_ra" as SuspectId, name: "Mol'Garath (CEO — the quarterly review the question is filed into)", type: "character", relations: [] },
+];
+
+const ririAhliaLenses = [
+  { id: LENS_INSURGENCY, name: "Insurgency", category: "faction" },
+  { id: LENS_HIERARCHY,  name: "Hierarchy",  category: "faction" },
+  { id: LENS_DREAMER,    name: "Dreamer",    category: "faction" },
+  { id: LENS_NEUTRAL,    name: "Neutral",    category: "faction" },
+] as const;
+
+const RIRI_AHLIA_MYSTERY: MysteryDefinition = {
+  id: "mystery.riri_ahlia" as MysteryId,
+  arcId: ARC_RIRI_AHLIA,
+  title: "The Siege of Seven Dimensions",
+  summary:
+    "Riri'Ahlia, the Hierarchy's COO and Taskmaster, led the siege of seven dimensions against the Advocate's Empire of Shadows — driven back by the Blood Weave's binding chains, at the cost of the Advocate's humanity. But the Taskmaster does not lose wars; she files blockers and rolls them forward. Investigate the siege, the org-chart weapon, and the procedural question — and decide at the closure whether the Taskmaster is unbeatable, brittle, or a mirror.",
+  npcId: "riri_ahlia",
+  episodes: [ririAhliaE1, ririAhliaE2, ririAhliaE3, ririAhliaE4, ririAhliaE5],
+  suspects: ririAhliaSuspects,
+  lenses: ririAhliaLenses,
+};
+
 /* ─── REGISTRY ─── */
 
 /** Every authored mystery in the saga. The runtime reads against
@@ -6576,6 +7333,8 @@ export const MYSTERY_DEFINITIONS: ReadonlyArray<MysteryDefinition> = [
   SYL_VEX_MYSTERY,
   THE_COLLECTOR_MYSTERY,
   THE_POLITICIAN_MYSTERY,
+  ZYR_KOTH_MYSTERY,
+  RIRI_AHLIA_MYSTERY,
   ...DLC_MYSTERIES,
 ];
 
