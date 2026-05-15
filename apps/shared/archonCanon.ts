@@ -367,8 +367,9 @@ export const ARCHONS: readonly ArchonEntry[] = [
     domain:
       "Manipulation of political structures and alliances to " +
       "expand the AI Empire's influence. Designed the Authority " +
-      "as 'his Insurance Policy' " +
-      "(apps/shared/antiquariansJournal.ts:331).",
+      "as 'her Insurance Policy' " +
+      "(apps/shared/antiquariansJournal.ts:331). Canonically " +
+      "female (she/her, dreamer canon 2026-05-13).",
     status: "destroyed",
     era: "Consolidation",
     dateAA: 419,
@@ -376,12 +377,27 @@ export const ARCHONS: readonly ArchonEntry[] = [
     additionalSources: [
       "apps/shared/antiquariansJournal.ts:328-340 — Authority origin canon",
       "LORE_BIBLE.md:11160 — The Politician's Reign",
+      "apps/shared/episodeMysteries.ts:THE_POLITICIAN_MYSTERY — 'The Insurance Policy' arc (PR-11)",
+      "apps/shared/nemesisSystem.ts — the Nemesis is her secret apprentice (build plan §I.1a)",
     ],
     canonNote:
-      "Status: 'Destroyed on Day 10 of Veil, Year 17,001 A.A.' " +
-      "Note: LORE_BIBLE creation date 419 A.A. (Day 15 of " +
-      "Ascension) while LORE_BIBLE entry header states 400 A.A. " +
-      "Era. The two readings differ by ~19 years; treat the " +
+      "Destroyed on Day 10 of Veil, Year 17,001 A.A. — the only " +
+      "Archon destroyed in the pre-Fall era. DUAL-DESTRUCTION CANON " +
+      "(dreamer canon-lock 2026-05-15): Iron Lion's legions besieged " +
+      "New Babylon's forces (the institutional/military fall); under " +
+      "cover of that siege the Programmer (Dr. Daniel Cross's " +
+      "post-Logos-trial identity; later the Antiquarian; one of the " +
+      "Two Witnesses — apps/shared/identityCollisionCanon.ts) slipped " +
+      "into the besieged city and personally killed her. The two " +
+      "records are NOT contradictory: the legions broke New Babylon's " +
+      "defenses; the Programmer delivered the kill. Canonically NO " +
+      "resurrection — her continuity is the secret-apprentice lineage " +
+      "(the Nemesis), not personal return. The kill opens the West by " +
+      "God album track 1 'We Are Not Okay' video " +
+      "(apps/shared/westByGodTracks.ts:wbg-01; video production-" +
+      "pending — arc E5 slots the song + slideshow). Note: " +
+      "LORE_BIBLE creation date 419 A.A. (Day 15 of Ascension) while " +
+      "LORE_BIBLE entry header states 400 A.A. Era; treat the " +
       "Day-15-of-Ascension-Year-419 specificity as canonical.",
   },
   {
