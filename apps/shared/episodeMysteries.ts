@@ -41,6 +41,7 @@ export const ARC_THE_WATCHER    = "arc.the_watcher"    as ArcId;
 export const ARC_ITH_RAEL       = "arc.ith_rael"       as ArcId;
 export const ARC_THE_NECROMANCER = "arc.the_necromancer" as ArcId;
 export const ARC_SYL_VEX        = "arc.syl_vex"        as ArcId;
+export const ARC_THE_COLLECTOR  = "arc.the_collector"  as ArcId;
 
 /* ─── LENSES ─── */
 /* Six canonical faction lenses. Per §14c.8 each lens persists
@@ -5766,6 +5767,393 @@ const SYL_VEX_MYSTERY: MysteryDefinition = {
   lenses: sylVexLenses,
 };
 
+/* ═══════════════════════════════════════════════════════
+   THE COLLECTOR ARC — "Catalogued"
+   Phase D (build plan §VIII Phase D). Authored PR-10 /
+   2026-05-15. §XVI listed the_collector in the held-back
+   bucket ("authoring not authorized" as of 2026-05-14);
+   the dreamer authorized it by directing Phase D work
+   2026-05-15 (dreamer canon-authority overrides per the
+   build plan §I.1a). A3 in the canonical roster
+   (apps/shared/archonCanon.ts:the_collector).
+
+   Canonical premise: the Collector is the Architect's
+   Project Inception Ark harvester — the Eight-Foot
+   Cobalt-Blue Archon who steps through dimensional veils
+   to seize specimens at the moment of death and pull them
+   through time. He created The Watcher (he seized Kanshi
+   Sha mid-assassination). His commissions are nominally
+   the Architect's; the Hierarchy of the Damned steers
+   WHICH figures get harvested. The arc investigates the
+   curatorial distinction between the donor and the
+   donated — and asks whether preservation is salvation or
+   the most patient theft in the saga.
+   ═══════════════════════════════════════════════════════ */
+
+const collectorE1: EpisodeDefinition = {
+  id: "collector.e1" as EpisodeId,
+  arcId: ARC_THE_COLLECTOR,
+  ordinal: 1,
+  title: "Specimen Forty-One",
+  summary:
+    "A page of the Collector's own catalog surfaces — entry forty-one, the feudal Japanese spymaster Kanshi Sha, seized through a dimensional veil at the instant of his assassination. The catalog records the seizure in curatorial language. Investigate what the catalog preserves, what it discards, and what the distinction means.",
+  clues: [
+    {
+      id: "collector.e1.catalog_page" as ClueId,
+      title: "The Collector's Catalog — Entry Forty-One",
+      body: "A single page, recovered from the Antiquarian's archive. The Collector's hand. 'Specimen Forty-One: feudal Japanese spymaster, surveillance-discipline complete, seized at the instant of expiry through a dimensional veil. Donor body not retained — donor body was not the specimen. The specimen is the discipline. Catalogued.' The phrase 'donor body not retained' is the entry's only emotional register, and it is not an emotional register at all.",
+      foundIn: "antiquarian-library",
+    },
+    {
+      id: "collector.e1.watcher_cross_ref" as ClueId,
+      title: "Cross-Reference: The Watcher Arc",
+      body: "Specimen Forty-One is canonically the origin of The Watcher (A4). The watcher arc (mystery.the_watcher) records the same event from the Ocularum's side — the founding regicide undone by the Collector's intervention. The two records do not contradict. The Ocularum's record grieves the regicide's undoing; the Collector's record does not grieve anything. It catalogs.",
+      foundIn: "antiquarian-library",
+    },
+    {
+      id: "collector.e1.veil_mechanism_note" as ClueId,
+      title: "What the Dimensional Veil Is Not",
+      body: "Per the Antiquarian's cross-cataloguing discipline: the dimensional veil the Collector steps through is NOT the Heart of Time (which is canonically a ship — the Degen's vessel). The veil's specific mechanics are canon-pending; what is canonical is that it operates at the instant of death and pulls the seized specimen through time, not space. The veil is a curatorial instrument, not a vehicle.",
+      foundIn: "antiquarian-library",
+    },
+  ],
+  deductions: [
+    {
+      id: "collector.e1.d.specimen_is_the_discipline" as DeductionId,
+      clueA: "collector.e1.catalog_page" as ClueId,
+      clueB: "collector.e1.watcher_cross_ref" as ClueId,
+      result: "correct",
+      narrationId: "collector.e1.n.the_donor_was_not_the_specimen",
+      narrationProse:
+        "The Collector did not preserve Kanshi Sha. He preserved Kanshi Sha's surveillance-discipline and discarded the man who carried it. 'Donor body not retained — donor body was not the specimen.' This is the arc's first and load-bearing finding: the Collector's preservation is not preservation of persons. It is preservation of capabilities, disciplines, patterns — extracted from the people who happened to hold them. The Watcher is what you get when you keep the discipline and discard the man. The Ocularum grieves the man. The Collector never had the man on file.",
+      unlocksEpisode: "collector.e2" as EpisodeId,
+    },
+    {
+      id: "collector.e1.d.false_lead_collector_is_cruel" as DeductionId,
+      clueA: "collector.e1.catalog_page" as ClueId,
+      clueB: "collector.e1.veil_mechanism_note" as ClueId,
+      result: "false_lead_named",
+      narrationId: "collector.e1.n.not_cruelty",
+      narrationProse:
+        "The intuitive read — the Collector is cruel, the catalog is the language of a predator dressing theft as archival science — is structurally wrong. The Collector's curatorial register is reverent; the reverence is simply directed at the discipline, not at the donor. He is not cruel to Kanshi Sha because Kanshi Sha was never, to him, a person to be cruel to. This is worse than cruelty in a way the arc will need to name precisely, but it is not cruelty. Reading it as cruelty misses the actual horror.",
+    },
+  ],
+  choices: [
+    { id: "collector.e1.c.passive" as ChoiceId, label: "Note the catalog entry as historical record and move on.", weight: "passive" },
+    { id: "collector.e1.c.investigative" as ChoiceId, label: "Cross-walk the Collector's catalog against the watcher arc's Ocularum record line by line.", weight: "investigative" },
+    { id: "collector.e1.c.active" as ChoiceId, label: "Petition the Antiquarian for the rest of the catalog — how many specimens are filed?", weight: "active" },
+  ],
+  contentBundle: {
+    songId: "specimen_forty_one",
+    slideshowId: "collector_catalog",
+    cinematicAssetId: "collector_introduction",
+    loredexUnlocks: ["entity_the_collector", "entity_dimensional_veil", "entity_specimen_catalog"],
+    conspiracyDiscoveries: ["collector_preserves_disciplines_not_persons", "watcher_origin_cross_ref"],
+    dropAt: "episode_close",
+  },
+};
+
+const collectorE2: EpisodeDefinition = {
+  id: "collector.e2" as EpisodeId,
+  arcId: ARC_THE_COLLECTOR,
+  ordinal: 2,
+  title: "The Donor and the Donated",
+  summary:
+    "The Collector's curatorial detachment is total and consistent. Investigate whether the distinction between donor and specimen is doctrine, defense, or something the Collector himself was made to carry.",
+  clues: [
+    {
+      id: "collector.e2.curatorial_doctrine" as ClueId,
+      title: "The Collector's Curatorial Doctrine",
+      body: "From the Collector's own working notes: 'The donor is the circumstance. The specimen is the content. To preserve the content I must not preserve the circumstance, because the circumstance is what destroyed the content in the first place — every donor died of being the person who carried what I keep. I do not retain donors. Retaining the donor would be retaining the death.'",
+      foundIn: "architect-record",
+    },
+    {
+      id: "collector.e2.collectors_own_origin" as ClueId,
+      title: "The Collector's Own Origin",
+      body: "The Eight-Foot Cobalt-Blue Archon was himself created by the Architect — assembled, not born, for the Project Inception Ark mandate. He has no donor. He is the only Archon in the record whose preservation-of-others is not mirrored by a preservation-of-self, because there was no self to preserve from. The curatorial detachment may not be doctrine he chose. It may be the only register he was built with.",
+      foundIn: "architect-record",
+    },
+    {
+      id: "collector.e2.one_retained_donor" as ClueId,
+      title: "The One Retained Donor",
+      body: "An anomaly in the catalog. Among thousands of 'donor body not retained' entries, exactly one reads 'donor retained — by request, not by mandate.' The specimen id is redacted. The request-origin is redacted. The date is the only unredacted field, and it is the year of the Fall of Reality. Someone asked the Collector to keep a person, not a discipline, and he did.",
+      foundIn: "antiquarian-library",
+    },
+  ],
+  deductions: [
+    {
+      id: "collector.e2.d.detachment_is_construction" as DeductionId,
+      clueA: "collector.e2.curatorial_doctrine" as ClueId,
+      clueB: "collector.e2.collectors_own_origin" as ClueId,
+      result: "correct",
+      narrationId: "collector.e2.n.built_without_a_donor",
+      narrationProse:
+        "The Collector's detachment is not a moral failure and not a chosen doctrine. He was assembled by the Architect with no donor of his own — there was no person he was extracted from, so there is no person-shaped register in him to extend to others. His curatorial doctrine is a true description of how he works, written by the only kind of mind that could work that way. This reframes the arc: the question is no longer 'why is the Collector like this' but 'what does it mean that the Architect built a preservationist who cannot perceive the thing being lost.'",
+      unlocksEpisode: "collector.e3" as EpisodeId,
+    },
+    {
+      id: "collector.e2.d.the_one_retained_is_a_seed" as DeductionId,
+      clueA: "collector.e2.one_retained_donor" as ClueId,
+      clueB: "collector.e2.curatorial_doctrine" as ClueId,
+      result: "partial",
+      narrationId: "collector.e2.n.someone_asked",
+      narrationProse:
+        "The single 'donor retained — by request' entry proves the Collector CAN retain a person when asked, even though his doctrine says he must not. Someone with standing to make the request did so, in the year of the Fall. The redactions are the Antiquarian's, not the Collector's — the Collector does not redact; he catalogs. The Antiquarian is protecting the identity of whoever asked. This is a canon-seed the arc will surface but not fully open.",
+    },
+  ],
+  choices: [
+    { id: "collector.e2.c.passive" as ChoiceId, label: "Accept the curatorial doctrine as a true description and proceed.", weight: "passive" },
+    { id: "collector.e2.c.investigative" as ChoiceId, label: "Press the Antiquarian on why HE redacted the one-retained-donor entry.", weight: "investigative" },
+    { id: "collector.e2.c.active" as ChoiceId, label: "Ask the Architect why he built a preservationist who cannot perceive loss.", weight: "active" },
+  ],
+  contentBundle: {
+    songId: "the_donor_and_the_donated",
+    slideshowId: "collector_doctrine",
+    loredexUnlocks: ["entity_curatorial_doctrine", "entity_collector_origin", "entity_one_retained_donor"],
+    conspiracyDiscoveries: ["collector_built_without_donor", "one_retained_donor_seed"],
+    dropAt: "episode_close",
+  },
+};
+
+const collectorE3: EpisodeDefinition = {
+  id: "collector.e3" as EpisodeId,
+  arcId: ARC_THE_COLLECTOR,
+  ordinal: 3,
+  title: "The Commission and the Steering",
+  summary:
+    "The Collector's commissions are nominally the Architect's. The Hierarchy of the Damned steers which figures get harvested. Investigate the seam between the mandate and the steering — and what the Collector knows about the difference.",
+  clues: [
+    {
+      id: "collector.e3.architect_mandate" as ClueId,
+      title: "The Architect's Mandate",
+      body: "The Project Inception Ark commission, in the Architect's own framing: 'Preserve the disciplines the Fall will destroy. Selection criteria: significance to the continuity of capability. Execution: the Collector's discretion.' The mandate names no individuals. It names criteria. The Architect does not pick the specimens; he sets the rule and trusts the Collector to apply it.",
+      foundIn: "architect-record",
+    },
+    {
+      id: "collector.e3.hierarchy_steering" as ClueId,
+      title: "The Hierarchy's Piece-Positioning",
+      body: "Per the Hierarchy of the Damned's aeons-long piece-positioning canon (apps/shared/hierarchyCanon.ts): the Hierarchy brought Kanshi Sha back from the dead so he would be alive in the era when the Collector's criteria would select him. The Hierarchy does not give the Collector orders. It arranges the world so that the Collector's own criteria, honestly applied, produce the specimens the Hierarchy wants positioned. The steering is invisible to the criteria.",
+      foundIn: "hierarchy-archive",
+    },
+    {
+      id: "collector.e3.collectors_awareness" as ClueId,
+      title: "What the Collector Knows About the Steering",
+      body: "A note in the Collector's hand, filed against the Kanshi Sha entry, decades after the seizure: 'Specimen Forty-One arrived in my selection window by a path I did not arrange and cannot fully trace. The criterion was honestly applied. The circumstance that made the criterion select THIS donor was arranged by something operating above my catalog. I have recorded that I noticed. I have not recorded that I objected. The mandate does not require me to trace the path. It requires me to apply the criterion.'",
+      foundIn: "antiquarian-library",
+    },
+  ],
+  deductions: [
+    {
+      id: "collector.e3.d.honest_criterion_steered_world" as DeductionId,
+      clueA: "collector.e3.architect_mandate" as ClueId,
+      clueB: "collector.e3.hierarchy_steering" as ClueId,
+      result: "correct",
+      narrationId: "collector.e3.n.the_seam",
+      narrationProse:
+        "The seam is structural and elegant and terrible: the Architect sets honest criteria; the Collector applies them honestly; the Hierarchy arranges the WORLD so that honest criteria honestly applied select the Hierarchy's chosen pieces. No one in the chain lies. The Architect's mandate is real. The Collector's discretion is real. The Hierarchy's steering is real. The three are not in conflict — they compose. The Watcher exists because honest preservation was aimed by a hand none of the preservers could see.",
+      unlocksEpisode: "collector.e4" as EpisodeId,
+    },
+    {
+      id: "collector.e3.d.noticing_without_objecting" as DeductionId,
+      clueA: "collector.e3.collectors_awareness" as ClueId,
+      clueB: "collector.e3.hierarchy_steering" as ClueId,
+      result: "partial",
+      narrationId: "collector.e3.n.he_recorded_that_he_noticed",
+      narrationProse:
+        "The Collector noticed the steering and recorded that he noticed and did not object and recorded that he did not object. This is the most human thing in his entire catalog — and it is still not a person-shaped register; it is an archival one. He filed his own awareness as a specimen. The discipline he could not stop applying, even to himself, is the discipline of recording without participating. Whether that is complicity or witness is the question the arc closes on.",
+    },
+  ],
+  choices: [
+    { id: "collector.e3.c.passive" as ChoiceId, label: "Accept the composed-chain finding — no one lied, the Watcher still exists.", weight: "passive" },
+    { id: "collector.e3.c.investigative" as ChoiceId, label: "Audit every catalog entry for the Collector's noticed-but-did-not-object marginalia — how often did he see the hand?", weight: "investigative" },
+    { id: "collector.e3.c.active" as ChoiceId, label: "Carry the Collector's noticed-the-steering note to the Insurgency as evidence of the Hierarchy's reach.", weight: "active" },
+  ],
+  contentBundle: {
+    songId: "the_commission_and_the_steering",
+    slideshowId: "collector_seam",
+    loredexUnlocks: ["entity_inception_ark_mandate", "entity_hierarchy_steering_seam"],
+    conspiracyDiscoveries: ["honest_criterion_steered_world", "collector_noticed_did_not_object"],
+    dropAt: "episode_close",
+  },
+};
+
+const collectorE4: EpisodeDefinition = {
+  id: "collector.e4" as EpisodeId,
+  arcId: ARC_THE_COLLECTOR,
+  ordinal: 4,
+  title: "The Garden",
+  summary:
+    "The Collector's preservation is not only catalog. There is a Garden — a multi-millennia crossbreeding project where preserved disciplines are recombined. Investigate what the Garden grows and what it is for.",
+  clues: [
+    {
+      id: "collector.e4.the_garden" as ClueId,
+      title: "The Collector's Garden",
+      body: "Not a metaphor. A canonical location: a sealed environment where the Collector has, across roughly three thousand years, recombined preserved disciplines into hybrid carriers — beings who hold more than one extracted capability at once. The Garden's output is not catalogued the way donors are. The Garden's output is named. The Collector names what he grows. He does not name what he seizes.",
+      foundIn: "collectors-garden",
+    },
+    {
+      id: "collector.e4.the_potentials_link" as ClueId,
+      title: "The Garden and the Potentials",
+      body: "Cross-referenced against the Potentials canon: the Potentials (DeMagi / Quarchon / Ne-Yon lineages) are, in part, Garden-output — hybrid carriers of recombined preserved disciplines. Not all Potentials; the canonical link is partial and the arc does not over-claim it. But the Garden is one of the canonical origins of the hybrid-carrier pattern the saga's roster runs on.",
+      foundIn: "collectors-garden",
+    },
+    {
+      id: "collector.e4.why_he_names_them" as ClueId,
+      title: "Why the Collector Names the Garden's Output",
+      body: "The Collector's note on his own naming practice: 'A seized specimen is a discipline I am keeping. A grown carrier is a discipline I have given a circumstance to. The circumstance is mine — I built the Garden — so the carrier is, in the only sense I have, mine to name. I do not name donors because their circumstance was not mine to give. I name the Garden's children because their circumstance is the only thing I have ever made instead of kept.'",
+      foundIn: "collectors-garden",
+    },
+  ],
+  deductions: [
+    {
+      id: "collector.e4.d.the_garden_is_his_one_creation" as DeductionId,
+      clueA: "collector.e4.the_garden" as ClueId,
+      clueB: "collector.e4.why_he_names_them" as ClueId,
+      result: "correct",
+      narrationId: "collector.e4.n.the_only_thing_he_made",
+      narrationProse:
+        "The Collector — built without a donor, unable to perceive the person being lost in a seizure — has exactly one register that is not curatorial: the Garden. The Garden is the only thing he has made rather than kept. He names its output because naming is the act of a maker, and the Garden is the only place he is one. This does not redeem the seizures. It locates, precisely, the single seam in him where something other than the catalog operates. The arc has found the Collector's one door.",
+      unlocksEpisode: "collector.e5" as EpisodeId,
+    },
+    {
+      id: "collector.e4.d.potentials_partial_link" as DeductionId,
+      clueA: "collector.e4.the_potentials_link" as ClueId,
+      clueB: "collector.e4.the_garden" as ClueId,
+      result: "partial",
+      narrationId: "collector.e4.n.partial_origin",
+      narrationProse:
+        "The Garden is A canonical origin of the hybrid-carrier pattern, not THE origin. The arc records the link and refuses to totalize it — the Potentials have multiple canonical origins and the saga's discipline is to keep them plural. The Garden's contribution is real and partial. Over-claiming it would flatten canon the dreamer has deliberately kept multi-rooted.",
+    },
+  ],
+  choices: [
+    { id: "collector.e4.c.passive" as ChoiceId, label: "Note the Garden as a preservation-adjacent project and close the line.", weight: "passive" },
+    { id: "collector.e4.c.investigative" as ChoiceId, label: "Walk the Garden's named-output rolls against the Potentials roster for the partial overlap.", weight: "investigative" },
+    { id: "collector.e4.c.active" as ChoiceId, label: "Ask the Collector to show you one thing he grew and named, in his own voice.", weight: "active" },
+  ],
+  contentBundle: {
+    songId: "the_garden",
+    slideshowId: "collectors_garden",
+    loredexUnlocks: ["entity_collectors_garden", "entity_garden_hybrid_carriers"],
+    conspiracyDiscoveries: ["garden_is_collectors_one_creation", "garden_potentials_partial_origin"],
+    dropAt: "episode_close",
+  },
+};
+
+const collectorE5: EpisodeDefinition = {
+  id: "collector.e5" as EpisodeId,
+  arcId: ARC_THE_COLLECTOR,
+  ordinal: 5,
+  title: "Catalogued",
+  summary:
+    "Closure. The Collector preserved disciplines and discarded the people who carried them, under honest criteria a hidden hand steered, with one Garden where he is a maker and one redacted donor he kept by request. The arc's verdict is the player's: was the preservation salvation, theft, or witness?",
+  clues: [
+    {
+      id: "collector.e5.synthesis" as ClueId,
+      title: "The Case Synthesis",
+      body: "E1-E4 assembled: the Collector preserves disciplines not persons (E1); he was built without a donor and cannot perceive the loss (E2); the Architect's honest criteria were steered by the Hierarchy's invisible hand (E3); the Garden is the one place he makes rather than keeps, and one donor was kept by request in the year of the Fall (E2/E4). The case is structurally complete. The verdict is not.",
+      foundIn: "antiquarian-library",
+    },
+    {
+      id: "collector.e5.the_question" as ClueId,
+      title: "The Question the Case Asks the Player",
+      body: "The Two Witnesses (Programmer-Antiquarian + Enigma) put the closure question: was the Collector's work (a) SALVATION — the disciplines the Fall would have destroyed survive because he kept them, and survival is the only currency that finally matters; (b) THEFT — he took the disciplines from the people who were them and called the taking preservation, the most patient theft in the saga; or (c) WITNESS — he is neither savior nor thief but the universe's record that these disciplines existed at all, and a record is not a judgment. The Witnesses record whichever the player offers.",
+      foundIn: "antiquarian-library",
+    },
+  ],
+  deductions: [
+    {
+      id: "collector.e5.d.salvation" as DeductionId,
+      clueA: "collector.e5.synthesis" as ClueId,
+      clueB: "collector.e5.the_question" as ClueId,
+      result: "correct",
+      narrationId: "collector.e5.n.closure_salvation",
+      narrationProse:
+        "The player closes with SALVATION: the Fall was total; everything the Collector did not keep is gone; the disciplines that survive survive because he kept them. The donor-discarding is the price of a preservation that, against the Fall, was the only preservation possible. The Watcher is terrible and the Watcher exists, and existing is what the Fall took from everything else.",
+    },
+    {
+      id: "collector.e5.d.theft" as DeductionId,
+      clueA: "collector.e5.synthesis" as ClueId,
+      clueB: "collector.e5.the_question" as ClueId,
+      result: "correct",
+      narrationId: "collector.e5.n.closure_theft",
+      narrationProse:
+        "The player closes with THEFT: the Collector took what people were and kept the part that was useful, and the honesty of his criteria does not change that the donors did not consent and were not, to him, beings who could. Calling it preservation is the theft's final move — it makes the stolen thing into evidence that the theft was care. The most patient theft in the saga, conducted reverently, catalogued.",
+    },
+    {
+      id: "collector.e5.d.witness" as DeductionId,
+      clueA: "collector.e5.synthesis" as ClueId,
+      clueB: "collector.e5.the_question" as ClueId,
+      result: "correct",
+      narrationId: "collector.e5.n.closure_witness",
+      narrationProse:
+        "The player closes with WITNESS: the Collector is the universe's record that these disciplines existed, and a record neither saves nor steals — it attests. He was built to attest and he attested, even to the steering, even to his own noticing. The Garden is where the witness became, once, a maker; the one retained donor is where someone made him, once, a keeper of a person. But the register is witness. A witness is not a verdict. The player declines to convert him into one.",
+    },
+  ],
+  choices: [
+    { id: "collector.e5.c.salvation" as ChoiceId, label: "Record the closure as SALVATION — against the Fall, keeping was the only preservation possible.", weight: "investigative" },
+    { id: "collector.e5.c.theft" as ChoiceId, label: "Record the closure as THEFT — the most patient theft in the saga, catalogued.", weight: "active" },
+    { id: "collector.e5.c.witness" as ChoiceId, label: "Record the closure as WITNESS — a record attests; it does not judge. Decline to make him a verdict.", weight: "passive" },
+  ],
+  contentBundle: {
+    songId: "catalogued",
+    slideshowId: "collector_closure",
+    loredexUnlocks: ["entity_collector_verdict_canon"],
+    conspiracyDiscoveries: ["collector_arc_closure"],
+    dropAt: "episode_close",
+  },
+};
+
+const collectorSuspects: ReadonlyArray<{
+  id: SuspectId;
+  name: string;
+  type: string;
+  relations: ReadonlyArray<{ to: SuspectId; relation: string }>;
+}> = [
+  {
+    id: "suspect.the_collector" as SuspectId,
+    name: "The Collector (A3)",
+    type: "character",
+    relations: [
+      { to: "suspect.the_architect_commission" as SuspectId, relation: "commissioned-by" },
+      { to: "suspect.dimensional_veil" as SuspectId, relation: "harvests-through" },
+      { to: "suspect.collectors_garden" as SuspectId, relation: "maker-of" },
+    ],
+  },
+  { id: "suspect.the_architect_commission" as SuspectId, name: "The Architect's Inception Ark Mandate (A1)", type: "concept",
+    relations: [{ to: "suspect.project_inception_ark" as SuspectId, relation: "commissions" }] },
+  { id: "suspect.project_inception_ark" as SuspectId, name: "Project Inception Ark", type: "concept",
+    relations: [{ to: "suspect.specimen_catalog" as SuspectId, relation: "preserved-by" }] },
+  { id: "suspect.specimen_catalog" as SuspectId, name: "The Specimen Catalog (disciplines, not persons)", type: "concept", relations: [] },
+  { id: "suspect.kanshi_sha_specimen" as SuspectId, name: "Specimen Forty-One (Kanshi Sha → The Watcher)", type: "character",
+    relations: [{ to: "suspect.the_collector" as SuspectId, relation: "seized-by-through-veil" }] },
+  { id: "suspect.dimensional_veil" as SuspectId, name: "The Dimensional Veil (mechanism, distinct from Heart of Time)", type: "concept", relations: [] },
+  { id: "suspect.hierarchy_steering" as SuspectId, name: "The Hierarchy's Piece-Positioning", type: "concept",
+    relations: [{ to: "suspect.specimen_catalog" as SuspectId, relation: "invisibly-steers-the-criteria-of" }] },
+  { id: "suspect.collectors_garden" as SuspectId, name: "The Collector's Garden (3000-year crossbreeding project)", type: "location",
+    relations: [{ to: "suspect.garden_hybrid_carriers" as SuspectId, relation: "grows-and-names" }] },
+  { id: "suspect.garden_hybrid_carriers" as SuspectId, name: "The Garden's Hybrid Carriers (partial Potentials origin)", type: "concept", relations: [] },
+  { id: "suspect.one_retained_donor" as SuspectId, name: "The One Retained Donor (redacted, year of the Fall)", type: "concept", relations: [] },
+];
+
+const collectorLenses = [
+  { id: LENS_INSURGENCY, name: "Insurgency", category: "faction" },
+  { id: LENS_HIERARCHY,  name: "Hierarchy",  category: "faction" },
+  { id: LENS_DREAMER,    name: "Dreamer",    category: "faction" },
+  { id: LENS_NEUTRAL,    name: "Neutral",    category: "faction" },
+] as const;
+
+const THE_COLLECTOR_MYSTERY: MysteryDefinition = {
+  id: "mystery.the_collector" as MysteryId,
+  arcId: ARC_THE_COLLECTOR,
+  title: "Catalogued",
+  summary:
+    "The Collector preserved disciplines and discarded the people who carried them, under honest criteria a hidden hand steered, with one Garden where he is a maker and one donor he kept by request in the year of the Fall. Investigate the curatorial seam — and decide, at the closure, whether the preservation was salvation, theft, or witness.",
+  npcId: "the_collector",
+  episodes: [collectorE1, collectorE2, collectorE3, collectorE4, collectorE5],
+  suspects: collectorSuspects,
+  lenses: collectorLenses,
+};
+
 /* ─── REGISTRY ─── */
 
 /** Every authored mystery in the saga. The runtime reads against
@@ -5784,6 +6172,7 @@ export const MYSTERY_DEFINITIONS: ReadonlyArray<MysteryDefinition> = [
   ITH_RAEL_MYSTERY,
   THE_NECROMANCER_MYSTERY,
   SYL_VEX_MYSTERY,
+  THE_COLLECTOR_MYSTERY,
   ...DLC_MYSTERIES,
 ];
 

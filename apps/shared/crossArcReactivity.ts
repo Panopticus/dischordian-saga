@@ -43,7 +43,8 @@ export type CrossArcWeight =
   | "cross_arc_vex"
   | "cross_arc_degen"
   | "cross_arc_game_master"
-  | "cross_arc_nemesis";
+  | "cross_arc_nemesis"
+  | "cross_arc_collector";
 
 /** A canonical cross-arc binding. */
 export interface CrossArcBinding {
@@ -80,6 +81,28 @@ export interface CrossArcBinding {
    ═══════════════════════════════════════════════════════ */
 
 export const CROSS_ARC_BINDINGS: readonly CrossArcBinding[] = [
+  /* ── Collector → Watcher (the seizure, from both sides) ── */
+  {
+    weight: "cross_arc_collector",
+    sourceArc: "arc.the_collector" as ArcId,
+    sourceEpisode: 1,
+    sourceChoiceId: "collector.e1.c.investigative",
+    destinationArc: "arc.the_watcher" as ArcId,
+    destinationEpisodes: [1, 2],
+    narrativeMeaning:
+      "If the player cross-walks the Collector's catalog against " +
+      "the Ocularum's record in collector.e1 (the investigative " +
+      "choice), the watcher arc's early episodes gain the curator's " +
+      "side of the founding regicide: the Ocularum grieves the " +
+      "undone assassination; the Collector's catalog never had the " +
+      "man on file. The two records do not contradict — the player " +
+      "who has seen both reads the Watcher's origin as a seam " +
+      "between a grief and a catalog, not as a single event.",
+    loreSource:
+      "apps/shared/episodeMysteries.ts (collector.e1 + watcherE1/E2) + " +
+      "apps/shared/archonCanon.ts:the_watcher.canonNote + the_collector entry + " +
+      "apps/shared/hierarchyCanon.ts:HIERARCHY_AEONS_PIECE_POSITIONING",
+  },
   /* ── Wraith → Jericho (the saga's most-load-bearing cross-arc) ── */
   {
     weight: "cross_arc_jericho",
