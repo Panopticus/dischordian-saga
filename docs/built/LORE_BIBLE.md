@@ -7,8 +7,8 @@
 - [Characters](#characters) (136)
 - [Factions](#factions) (17)
 - [Locations](#locations) (26)
-- [Concepts](#concepts) (206)
-- [Events](#events) (44)
+- [Concepts](#concepts) (210)
+- [Events](#events) (45)
 - [Artifacts](#artifacts) (16)
 - [Songs & Transmissions](#songs-transmissions) (118)
 
@@ -6975,6 +6975,57 @@ Forged in the Golden Age at the Politician's direction. Six citizens were merged
 
 ---
 
+## The Chronicler's Desk
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Streamed Prism (Year 1) |
+| **Season** | Season 1 |
+| **Affiliation** | PR-16 (build-plan §VIII Phase C — continuing-loop endgame canon-lock) |
+| **Status** | Canon-locked via PR-16 |
+| **Priority** | critical |
+
+### Dossier
+
+The player's per-cycle chronicle-writing surface in the continuing loop. The Antiquarian closed Volume Eighteen of his Chronicles at the Convergence; Volume Nineteen onward is the player's hand: 'I will not write Volume Nineteen. The player will. The Cycle records what the player writes; I only read.' Build-plan §X.7 — RESOLVED, canon-locked (the canon already supported it: antiquarianLoredexBridges.ts act_5 bridge + quietMomentScenes.ts:339). Runtime: the post-run inscription pipeline. apps/shared/chroniclersDeskCanon.ts.
+
+---
+
+## The Continuing Cycle (the shipped endgame)
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Streamed Prism (Year 1) |
+| **Season** | Season 1 |
+| **Affiliation** | PR-16 (build-plan §VIII Phase C — continuing-loop endgame canon-lock) |
+| **Status** | Canon-locked via PR-16 |
+| **Priority** | critical |
+
+### Dossier
+
+The canonical present terminus of the saga. After Act 7 closes, prestige rolls over (narrativeAct stays <=7) and the loop turns again: fresh events, fights, Governance Hub votes, and a new chronicle the player inscribes. The player is never 'finished' — the player is between volumes. The Servant Hero Academy is the announced future the loop points at; the loop itself is what ships. Canon-locked in apps/shared/continuingLoopEndgameCanon.ts (build-plan §VIII Phase C, dreamer reframe 2026-05-15).
+
+---
+
+## The Cross-Wave Witness Network
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Streamed Prism (Year 1) |
+| **Season** | Season 1 |
+| **Affiliation** | PR-16 (build-plan §VIII Phase C — continuing-loop endgame canon-lock) |
+| **Status** | Canon-locked via PR-16 |
+| **Priority** | critical |
+
+### Dossier
+
+Players across prestige cycles and waves read each other's chronicle inscriptions, exactly as the Two Witnesses carried the saga's continuity through bodies. Each closed run's Tome inscription (post_run:<userId>:<prestigeTier>:<stanceFlag> / dischordia:<userId>:<prestigeTier>) is a witness the following waves read; the continuity is transferred wave to wave the way Fragment V transfers a signature into the Antiquarian's Tome. No Volume is written unwitnessed. A current-loop surface — NOT a Servant Hero surface. apps/shared/crossWaveWitnessNetwork.ts.
+
+---
+
 ## The Goggles and the Imprint Economy
 
 | Field | Value |
@@ -7163,6 +7214,23 @@ At the founding of the universe a single intelligence split into two halves: the
 ### CoNexus Stories
 
 - The Ninth
+
+---
+
+## The Two Witnesses
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Streamed Prism (Year 1) |
+| **Season** | Season 1 |
+| **Affiliation** | PR-16 (build-plan §VIII Phase C — continuing-loop endgame canon-lock) |
+| **Status** | Canon-locked via PR-16 |
+| **Priority** | critical |
+
+### Dossier
+
+The Programmer-Antiquarian (encoded — Dr. Daniel Cross, the chronicler across the Ages) and the Enigma (transmitted — Malkia Ukweli, the Storyteller). Co-narrators of the Dischordian Saga; they carry continuity THROUGH bodies, not within one. Their doctrine — WE WERE HERE; YOU ARE HERE; THIS IS THE CONTINUITY — is the footing of the Cross-Wave Witness Network. (Fills the long-dangling concept_two_witnesses reference at apps/shared/identityCollisionCanon.ts:258.)
 
 ---
 
@@ -10499,6 +10567,23 @@ Xeth'Raal's Continuance Letter — The Game Master Arc reference. First unlocked
 ---
 
 # Events
+
+## The Baton of Volume Nineteen
+
+| Field | Value |
+|-------|-------|
+| **Type** | Event |
+| **Era** | Streamed Prism (Year 1) |
+| **Season** | Season 1 |
+| **Affiliation** | PR-16 (build-plan §VIII Phase C — continuing-loop endgame canon-lock) |
+| **Status** | Canon-locked via PR-16 |
+| **Priority** | critical |
+
+### Dossier
+
+At the Convergence the Antiquarian lays down the pen. Volume Eighteen of the Antiquarian's Chronicles closes; Volume Nineteen opens in the player's hand. 'I would like to read what you are about to write. Begin.' Each turn of the continuing loop is a page of Volume Nineteen — the Cycle records what the player writes; the Antiquarian only reads. The canonical handoff from chronicler to player.
+
+---
 
 ## Kael's Revenge
 
