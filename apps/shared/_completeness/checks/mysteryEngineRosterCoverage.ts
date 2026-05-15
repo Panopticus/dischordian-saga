@@ -34,6 +34,8 @@ const SECTION_XVI_REQUIRED_ARCS = [
   // become hard-parity requirements like the four §XVI arcs.
   "mystery.the_collector",
   "mystery.the_politician",
+  "mystery.zyr_koth",
+  "mystery.riri_ahlia",
 ] as const;
 
 export function checkMysteryEngineRosterCoverage(): RawParityCount {

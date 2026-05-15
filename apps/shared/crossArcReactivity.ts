@@ -45,7 +45,9 @@ export type CrossArcWeight =
   | "cross_arc_game_master"
   | "cross_arc_nemesis"
   | "cross_arc_collector"
-  | "cross_arc_politician";
+  | "cross_arc_politician"
+  | "cross_arc_zyr_koth"
+  | "cross_arc_riri_ahlia";
 
 /** A canonical cross-arc binding. */
 export interface CrossArcBinding {
@@ -82,6 +84,52 @@ export interface CrossArcBinding {
    ═══════════════════════════════════════════════════════ */
 
 export const CROSS_ARC_BINDINGS: readonly CrossArcBinding[] = [
+  /* ── Zyr'Koth → Syl'Vex (the third use is the only convert-reversal) ── */
+  {
+    weight: "cross_arc_zyr_koth",
+    sourceArc: "arc.zyr_koth" as ArcId,
+    sourceEpisode: 3,
+    sourceChoiceId: "zyr_koth.e3.c.active",
+    destinationArc: "arc.syl_vex" as ArcId,
+    destinationEpisodes: [3],
+    narrativeMeaning:
+      "If the player carries to the Insurgency that the only " +
+      "convert-reversal in existence is one Hierarchy vote from " +
+      "being deployable (zyr_koth.e3 active choice), the syl_vex " +
+      "arc's E3 reads differently: the locked Severance lever is " +
+      "not a theoretical constraint but an active political " +
+      "object the Insurgency now tracks. The two arcs compose: " +
+      "syl_vex.e3 establishes the lock; zyr_koth.e3 establishes " +
+      "what is behind it and that it is one quarterly review from " +
+      "moving.",
+    loreSource:
+      "apps/shared/episodeMysteries.ts (zyr_koth.e3 + sylVexE3) + " +
+      "apps/shared/hierarchyCanon.ts:155-170 (Zyr'Koth R&D) + the " +
+      "Blood-Weave-three-uses canon (syl_vex arc, PR-7)",
+  },
+  /* ── Riri'Ahlia → Necromancer (the question that holds him quiet) ── */
+  {
+    weight: "cross_arc_riri_ahlia",
+    sourceArc: "arc.riri_ahlia" as ArcId,
+    sourceEpisode: 4,
+    sourceChoiceId: "riri_ahlia.e4.c.active",
+    destinationArc: "arc.the_necromancer" as ArcId,
+    destinationEpisodes: [4],
+    narrativeMeaning:
+      "If the player carries to the Necromancer that his silence " +
+      "is partly Riri'Ahlia's procedural question holding him " +
+      "quiet (riri_ahlia.e4 active choice), the_necromancer arc's " +
+      "E4 (the Architect's conditional tolerance) gains the COO's " +
+      "instrument: the Necromancer's discipline of staying quiet " +
+      "in the Castle is not only Architect-tolerance management — " +
+      "it is also a response to Riri'Ahlia's unanswered question. " +
+      "The two arcs compose into one constraint-web holding the " +
+      "Necromancer's continuity invisible.",
+    loreSource:
+      "apps/shared/episodeMysteries.ts (riri_ahlia.e4 + necromancer.e4) + " +
+      "apps/shared/hierarchyCanon.ts:140-153 (Riri'Ahlia COO) + the " +
+      "necromancer.e4 procedural-question canon (PR-7)",
+  },
   /* ── Politician → Nemesis (the policy pays out, against the player) ── */
   {
     weight: "cross_arc_politician",
