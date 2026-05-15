@@ -101,6 +101,8 @@ import { checkCodexRosterCoverage } from "./checks/codexRosterCoverage";
 import { checkGameModeNarrativePremiseCoverage } from "./checks/gameModeNarrativePremiseCoverage";
 import { checkImprintFirstSummonCutsceneCoverage } from "./checks/imprintFirstSummonCutsceneCoverage";
 import { checkImprintCardsCarryUnlockCondition } from "./checks/imprintCardsCarryUnlockCondition";
+import { checkContinuingLoopEndgameCoverage } from "./checks/continuingLoopEndgameCoverage";
+import { checkServantHeroDeferralCoverage } from "./checks/servantHeroDeferralCoverage";
 import {
   checkNeyonCanonicalRosterCoverage,
   checkArchonCanonicalRosterCoverage,
@@ -943,5 +945,21 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "Per LORE_BIBLE.md:5860 + Phase A4 decision (canon-locked 2026-05-14), 5 Guild ↔ Class bindings: Soldier↔War, Spy↔Subterfuge, Engineer↔Manipulation, Assassin↔Control-Over-Life, Oracle↔fifth_guild (canonical name: 'The Guild of Omens'). Each binding must have a loreSource + canonicalExemplar.",
     check: () => checkMechronisGuildBindingCoverage(),
+  },
+
+  // ─── Phase C — continuing-loop endgame canon-lock ──────────
+  {
+    id: "canon.continuing_loop_endgame_coverage",
+    name: "Continuing-loop endgame canon-lock (Phase C)",
+    description:
+      "Hard parity (build-plan §VIII Phase C): the shipped endgame is the post-Act-7 continuing loop (events + fights + Governance Hub votes + the per-cycle chronicle), NOT the Servant Hero Academy. Every LoopSurfaceCanon in apps/shared/continuingLoopEndgameCanon.ts MUST bind to a shipped runtime anchor + file:line loreSource + valid status. The Cross-Wave Witness Network (apps/shared/crossWaveWitnessNetwork.ts) is canon-locked as a CURRENT-LOOP surface footed on the Two-Witnesses canon + cycle-aware post_run inscriptions. The Chronicler's Desk / §X.7 baton-pass is canon-locked (apps/shared/chroniclersDeskCanon.ts).",
+    check: () => checkContinuingLoopEndgameCoverage(),
+  },
+  {
+    id: "canon.servant_hero_future_season_deferral",
+    name: "Servant Hero Academy future-season deferral (Phase C C6/C7)",
+    description:
+      "Hard parity (build-plan §VIII Phase C — C6/C7): the Servant Hero Academy is a deferred future season / DLC (≥1 year out). C6 (onboarding cinematic) + C7 (Servant-Hero curriculum) are registered in apps/shared/servantHeroFutureSeasonCanon.ts as typed deferred_future_season hooks. The Act7→Phase14 seam (sagaPhases.ts:281-294, unreachable while narrativeAct<=7) is canon-locked as the DELIBERATE not-yet-launched boundary, not an orphaned bug. The gate accounts for the deferral without blocking.",
+    check: () => checkServantHeroDeferralCoverage(),
   },
 ];

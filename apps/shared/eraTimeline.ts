@@ -309,10 +309,17 @@ export const ERAS: readonly EraEntry[] = [
     loreSource: "apps/shared/preludeSequence.ts + cold-open canon",
     canonNote:
       "This era is open-ended — it is the player's playable present. " +
-      "Endgame transitions to the Servant Hero Academy era at " +
-      "Phase 14 (apps/shared/saga/PHASE_PROGRESSION) but Servant " +
-      "Hero Academy is a phase WITHIN Streamed Prism Year 1's " +
-      "ongoing chronicle, not a new era boundary.",
+      "The PRESENT canonical terminus is the continuing loop: the " +
+      "post-Act-7 prestige cycle of events + fights + Governance Hub " +
+      "votes + the per-cycle chronicle the player writes " +
+      "(apps/shared/continuingLoopEndgameCanon.ts, build-plan §VIII " +
+      "Phase C). The Cross-Wave Witness Network " +
+      "(apps/shared/crossWaveWitnessNetwork.ts) is a phase-internal " +
+      "surface of this era, not a new era. The Servant Hero Academy " +
+      "(Phase 14) is a DEFERRED future season / DLC (≥1 year out, " +
+      "apps/shared/servantHeroFutureSeasonCanon.ts) — a phase WITHIN " +
+      "Streamed Prism Year 1's ongoing chronicle when it ships, never " +
+      "a new era boundary. chronicleOrder stays 12.",
   },
 ] as const satisfies readonly EraEntry[];
 

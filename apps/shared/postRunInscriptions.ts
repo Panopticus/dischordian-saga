@@ -16,8 +16,16 @@
    Inscriptions are written to vote_antiquarian_entries (the same
    table the consequence applier writes to). They use a fixed
    voteId namespace so they don't collide with real vote
-   inscriptions: `post_run:<userId>:<cycleNumber>` for cycle-aware,
-   `dischordia:<userId>:<cycleNumber>` for cycle reports.
+   inscriptions. The runtime shape (see
+   apps/server/services/postRunInscriptionsService.ts:46-50) is
+   `post_run:<userId>:<prestigeTier>:<stanceFlag>` for cycle-aware
+   and `dischordia:<userId>:<prestigeTier>` for cycle reports.
+
+   CANON: this is the runtime of "The Chronicler's Desk" — the
+   per-cycle chronicle the player writes from Volume Nineteen
+   onward (build-plan §X.7 canon-lock; the cycle_chronicle loop
+   surface). Canonical owner: apps/shared/chroniclersDeskCanon.ts;
+   loop binding: apps/shared/continuingLoopEndgameCanon.ts.
 
    The body is interpolation-templated with a small set of
    tokens — see TEMPLATE_TOKENS below.

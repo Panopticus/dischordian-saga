@@ -282,6 +282,13 @@ export const SAGA_PHASES: readonly SagaPhaseDefinition[] = [
     phase: 14,
     title: "Servant Hero Academy Era",
     premise:
+      "DEFERRED future season / DLC (≥1 year out; build-plan §VIII " +
+      "Phase C, apps/shared/servantHeroFutureSeasonCanon.ts). The " +
+      "Act7→Phase14 transition is the DELIBERATE not-yet-launched " +
+      "boundary: this phase is structurally unreachable while " +
+      "narrativeAct<=7 (prestige rollover keeps it there). The " +
+      "shipped endgame is the continuing loop " +
+      "(apps/shared/continuingLoopEndgameCanon.ts), NOT this phase. " +
       "Post-Fall pivot. Lions International Convention onboarding. " +
       "The DGRS Lions Club mechanics unlock (apps/shared/" +
       "lionsClub.ts — $35 base + up to $65 prorated + $25 LCIF " +
