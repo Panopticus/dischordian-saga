@@ -36,6 +36,12 @@ const SECTION_XVI_REQUIRED_ARCS = [
   "mystery.the_politician",
   "mystery.zyr_koth",
   "mystery.riri_ahlia",
+  // Final §XVI roster pair (PR-13) — completes the 14-bible
+  // Mystery Engine roster's authorable set. the_human is
+  // companion-tier (not arc-suitable); every other held-back
+  // bible is now an authored arc.
+  "mystery.varkul",
+  "mystery.fenra",
 ] as const;
 
 export function checkMysteryEngineRosterCoverage(): RawParityCount {
