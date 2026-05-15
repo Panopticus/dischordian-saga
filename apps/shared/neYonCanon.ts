@@ -243,11 +243,15 @@ export const NE_YONS: readonly NeYonEntry[] = [
   {
     id: "the_enigma",
     name: "The Enigma",
-    position: 12,
+    position: 11,
     positionStatus: "locked",
     positionSource:
-      "LORE_BIBLE.md:1961 — 'The 12th Ne-Yon and the Storyteller. " +
-      "Encoded in reality as Malkia Ukweli'",
+      "Dreamer canon-lock 2026-05-15 (canonical roster image, " +
+      "N11 The Enigma). OVERRIDES the prior LORE_BIBLE.md:1961 " +
+      "'12th Ne-Yon' phrasing — the dreamer's roster places The " +
+      "Enigma at N11 and The Forgotten at N12. Per the canon " +
+      "ground-rules (§I.1a of the build plan), dreamer canon " +
+      "supersedes LORE_BIBLE wording when they disagree.",
     domain:
       "The Storyteller; Queen of Truth; The Dealer. Encoded in " +
       "reality as Malkia Ukweli — Kenyan-Brooklyn activist, " +
@@ -270,9 +274,10 @@ export const NE_YONS: readonly NeYonEntry[] = [
   {
     id: "the_inventor",
     name: "The Inventor",
-    position: null,
-    positionStatus: "canonically_ambiguous",
-    positionSource: null,
+    position: 3,
+    positionStatus: "locked",
+    positionSource:
+      "Dreamer canon-lock 2026-05-15 (canonical roster image, N3 The Inventor).",
     domain:
       "Creation; tools; innovations. Driven by the Dreamer's " +
       "visions. Architect of the Casino Heist — the Ne-Yon who " +
@@ -309,9 +314,11 @@ export const NE_YONS: readonly NeYonEntry[] = [
   {
     id: "the_advocate",
     name: "The Advocate",
-    position: null,
-    positionStatus: "canonically_ambiguous",
-    positionSource: null,
+    position: 9,
+    positionStatus: "locked",
+    positionSource:
+      "Dreamer canon-lock 2026-05-15 (canonical roster image, N9 The Advocate). " +
+      "Position #9 aligns with the Advocate's CoNexus story 'The Ninth.'",
     domain:
       "Establishing the Empire of Shadows; wielded the Blood " +
       "Weave to reshape reality; battled the Hierarchy of the " +
@@ -326,9 +333,10 @@ export const NE_YONS: readonly NeYonEntry[] = [
   {
     id: "the_storm",
     name: "The Storm",
-    position: null,
-    positionStatus: "canonically_ambiguous",
-    positionSource: null,
+    position: 5,
+    positionStatus: "locked",
+    positionSource:
+      "Dreamer canon-lock 2026-05-15 (canonical roster image, N5 The Storm).",
     domain: "(canonical Connections entry on Advocate + Dreamer; full domain TBD from primary entry)",
     status: "gone",
     era: "(TBD from primary entry)",
@@ -340,9 +348,10 @@ export const NE_YONS: readonly NeYonEntry[] = [
   {
     id: "the_seer",
     name: "The Seer",
-    position: null,
-    positionStatus: "canonically_ambiguous",
-    positionSource: null,
+    position: 4,
+    positionStatus: "locked",
+    positionSource:
+      "Dreamer canon-lock 2026-05-15 (canonical roster image, N4 The Seer).",
     domain:
       "Archive-keeper (the Seer's 4,712 archive tapes — Vex " +
       "Solène's recording credits cover 4,711 of them, with " +
@@ -361,9 +370,10 @@ export const NE_YONS: readonly NeYonEntry[] = [
   {
     id: "the_knowledge",
     name: "The Knowledge",
-    position: null,
-    positionStatus: "canonically_ambiguous",
-    positionSource: null,
+    position: 7,
+    positionStatus: "locked",
+    positionSource:
+      "Dreamer canon-lock 2026-05-15 (canonical roster image, N7 The Knowledge).",
     domain:
       "Maintains an equilibrium of enlightenment and ignorance, " +
       "ensuring the Ne-Yons remain indispensable to all factions.",
@@ -377,9 +387,12 @@ export const NE_YONS: readonly NeYonEntry[] = [
   {
     id: "the_forgotten",
     name: "The Forgotten",
-    position: null,
-    positionStatus: "canonically_ambiguous",
-    positionSource: null,
+    position: 12,
+    positionStatus: "locked",
+    positionSource:
+      "Dreamer canon-lock 2026-05-15 (canonical roster image, N12 The Forgotten). " +
+      "The Forgotten now holds the 12th seat that LORE_BIBLE.md:1961 prior " +
+      "ascribed to The Enigma; the dreamer's roster reassigned both.",
     domain:
       "Ne-Yon of Memory. Remembers what the universe has chosen " +
       "to erase — extinct species, lost civilizations, names no " +
@@ -396,9 +409,10 @@ export const NE_YONS: readonly NeYonEntry[] = [
   {
     id: "the_resurrectionist",
     name: "The Resurrectionist",
-    position: null,
-    positionStatus: "canonically_ambiguous",
-    positionSource: null,
+    position: 10,
+    positionStatus: "locked",
+    positionSource:
+      "Dreamer canon-lock 2026-05-15 (canonical roster image, N10 The Resurrectionist).",
     domain:
       "Resurrects key figures on both sides to maintain a " +
       "balance favorable to the Ne-Yons. Also known as 'The " +
@@ -416,9 +430,10 @@ export const NE_YONS: readonly NeYonEntry[] = [
   {
     id: "the_silence",
     name: "The Silence",
-    position: null,
-    positionStatus: "canonically_ambiguous",
-    positionSource: null,
+    position: 6,
+    positionStatus: "locked",
+    positionSource:
+      "Dreamer canon-lock 2026-05-15 (canonical roster image, N6 The Silence).",
     domain:
       "Guards secrets with relentless precision, revealing them " +
       "only when it benefits the Ne-Yons' agenda. Control of " +
