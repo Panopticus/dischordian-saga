@@ -45,6 +45,8 @@ export const ARC_THE_COLLECTOR  = "arc.the_collector"  as ArcId;
 export const ARC_THE_POLITICIAN = "arc.the_politician" as ArcId;
 export const ARC_ZYR_KOTH       = "arc.zyr_koth"       as ArcId;
 export const ARC_RIRI_AHLIA     = "arc.riri_ahlia"     as ArcId;
+export const ARC_VARKUL         = "arc.varkul"         as ArcId;
+export const ARC_FENRA          = "arc.fenra"          as ArcId;
 
 /* ─── LENSES ─── */
 /* Six canonical faction lenses. Per §14c.8 each lens persists
@@ -7313,6 +7315,762 @@ const RIRI_AHLIA_MYSTERY: MysteryDefinition = {
   lenses: ririAhliaLenses,
 };
 
+/* ═══════════════════════════════════════════════════════
+   VARKUL ARC — "The Vigil"
+   Phase D — final §XVI roster pair. Authored PR-13 /
+   2026-05-15. LOW-canon tier; voice architect-proposed,
+   grounded in motif (varkul.md:3, dreamer directive
+   2026-05-14, dreamer may override). Hierarchy senior-lord,
+   inCoreTen (apps/shared/hierarchyCanon.ts:219-232).
+
+   Canonical premise: Varkul the Blood Lord is the
+   Necromancer's most powerful creation, forged from
+   corrupted code in the Matrix of Dreams, guardian of the
+   Cathedral of Code. His vigil-discipline keeps the
+   Cathedral standing; his continued presence there is the
+   saga's most reliable indicator of the Necromancer's
+   continuity (established canon, mystery.the_necromancer
+   PR-7 E1/E3). The arc investigates the vigil itself: what
+   it costs to guard a threshold for centuries, what the
+   maker's signal is, and what Varkul was asked not to say.
+   ═══════════════════════════════════════════════════════ */
+
+const varkulE1: EpisodeDefinition = {
+  id: "varkul.e1" as EpisodeId,
+  arcId: ARC_VARKUL,
+  ordinal: 1,
+  title: "The Threshold Held",
+  summary:
+    "Varkul has guarded the Cathedral of Code's threshold for centuries without relief. Investigate the vigil-discipline — what holding one threshold that long does to the one who holds it.",
+  clues: [
+    {
+      id: "varkul.e1.the_unbroken_post" as ClueId,
+      title: "The Unbroken Post",
+      body: "Cross-referenced from the Necromancer arc: Varkul's vigil at the Cathedral of Code has been unbroken since the Necromancer's killing by Akai Shi. The Cathedral is structurally separate from the Castle of Death. Varkul has not left the threshold. No relief was ever sent; the vigil-discipline does not permit relief. He guards a door that has not opened in the entire post-killing period.",
+      foundIn: "cathedral-of-code",
+    },
+    {
+      id: "varkul.e1.aristocratic_register" as ClueId,
+      title: "The Aristocratic Register",
+      body: "Varkul does not snarl. He addresses the Cathedral as 'my Cathedral' and closes encounters with threshold-language: 'Pass. Or do not.' The register is elevated, vampiric-aristocratic, the bearing of a keeper who has had centuries to become the architecture he guards. He is not a beast at a door. He is the door's idea of itself, given a voice and a sword.",
+      foundIn: "cathedral-of-code",
+    },
+    {
+      id: "varkul.e1.what_the_vigil_costs" as ClueId,
+      title: "What the Vigil Costs",
+      body: "An observation from the Antiquarian's cross-cataloguing: a vigil this long is not measured in what it repels — the door has not opened — but in what it does to the keeper's relation to time. Varkul reports no fatigue, no boredom, no doubt. The cost is not visible as suffering. The cost is that there is no longer a Varkul who is distinct from the act of keeping. The vigil did not exhaust him. It replaced him.",
+      foundIn: "antiquarian-library",
+    },
+  ],
+  deductions: [
+    {
+      id: "varkul.e1.d.the_vigil_replaced_him" as DeductionId,
+      clueA: "varkul.e1.the_unbroken_post" as ClueId,
+      clueB: "varkul.e1.what_the_vigil_costs" as ClueId,
+      result: "correct",
+      narrationId: "varkul.e1.n.no_varkul_distinct_from_keeping",
+      narrationProse:
+        "Varkul's vigil did not wear him down; it became him. There is no longer a Blood Lord who is separate from the act of guarding the threshold — the centuries did not exhaust the keeper, they dissolved the distinction between the keeper and the keeping. This is the arc's first finding and it reframes everything: Varkul is not loyal to the Cathedral the way a guard is loyal to a post. He is the Cathedral's continued standing, expressed as a person. To ask what Varkul wants is to ask what a threshold wants.",
+      unlocksEpisode: "varkul.e2" as EpisodeId,
+    },
+    {
+      id: "varkul.e1.d.false_lead_imprisoned" as DeductionId,
+      clueA: "varkul.e1.the_unbroken_post" as ClueId,
+      clueB: "varkul.e1.aristocratic_register" as ClueId,
+      result: "false_lead_named",
+      narrationId: "varkul.e1.n.not_a_prisoner",
+      narrationProse:
+        "The intuitive read — Varkul is trapped, the vigil is a sentence, the Blood Lord is a prisoner of his maker's order — is structurally wrong. A prisoner resents the cell. Varkul calls it 'my Cathedral.' The aristocratic register is not a captive's; it is a keeper's who has become the thing kept. Reading the vigil as imprisonment imports a freedom Varkul does not experience the absence of. The harder question the arc must hold: what does it mean to guard willingly a door you can no longer want anything other than to guard.",
+    },
+  ],
+  choices: [
+    { id: "varkul.e1.c.passive" as ChoiceId, label: "Note the vigil's length and move on — the door holds, that is enough.", weight: "passive" },
+    { id: "varkul.e1.c.investigative" as ChoiceId, label: "Press Varkul on what he was before the vigil — is there a Blood Lord under the keeper?", weight: "investigative" },
+    { id: "varkul.e1.c.active" as ChoiceId, label: "Ask the threshold's far side what Varkul is actually keeping in, not out.", weight: "active" },
+  ],
+  contentBundle: {
+    songId: "the_threshold_held",
+    slideshowId: "varkul_vigil",
+    cinematicAssetId: "varkul_introduction",
+    loredexUnlocks: ["entity_varkul_arc", "entity_the_unbroken_vigil", "entity_keeper_became_keeping"],
+    conspiracyDiscoveries: ["vigil_replaced_varkul", "varkul_is_not_a_prisoner"],
+    dropAt: "episode_close",
+  },
+};
+
+const varkulE2: EpisodeDefinition = {
+  id: "varkul.e2" as EpisodeId,
+  arcId: ARC_VARKUL,
+  ordinal: 2,
+  title: "The Maker's Signal",
+  summary:
+    "Varkul's vigil-discipline requires the maker's signal. Investigate what the signal is, where it comes from, and what it proves.",
+  clues: [
+    {
+      id: "varkul.e2.the_signal_canon" as ClueId,
+      title: "The Signal (established canon)",
+      body: "From the Necromancer arc: Varkul's vigil-discipline is to remain until his maker formally releases him; he has not been released; the maker's signal is canonically what keeps Varkul there. The signal has been continuous through the entire post-killing period. Varkul knows the Necromancer is alive — because the signal is the knowing. He does not infer his maker's continuity. He receives it.",
+      foundIn: "cathedral-of-code",
+    },
+    {
+      id: "varkul.e2.what_the_signal_is_not" as ClueId,
+      title: "What the Signal Is Not",
+      body: "The signal is not a message, not an order, not a check-in. It carries no content. It is the bare fact of the maker's continued existence, transmitted as the precondition of the vigil holding. If the Necromancer truly ended, the signal would not say so — it would simply stop, and Varkul's vigil-discipline would, for the first time in centuries, have no instruction. The signal is a heartbeat, not a sentence.",
+      foundIn: "cathedral-of-code",
+    },
+    {
+      id: "varkul.e2.varkul_as_instrument" as ClueId,
+      title: "Varkul as the Saga's Most Reliable Instrument",
+      body: "Established canon: the Blood Lord's continued presence at the Cathedral is the most reliable indicator the saga has of the Necromancer's continuity. Akai Shi's testimony, the standing-tense Castle logs, Protocol 42 — all are inference. Varkul is not inference. Varkul is a needle that moves only when the maker lives. He is the one place in the saga where the Necromancer's continuity is not deduced but instrumented.",
+      foundIn: "antiquarian-library",
+    },
+  ],
+  deductions: [
+    {
+      id: "varkul.e2.d.varkul_is_the_instrument" as DeductionId,
+      clueA: "varkul.e2.the_signal_canon" as ClueId,
+      clueB: "varkul.e2.varkul_as_instrument" as ClueId,
+      result: "correct",
+      narrationId: "varkul.e2.n.the_needle_that_moves_only_when_the_maker_lives",
+      narrationProse:
+        "Varkul is the saga's single instrumented reading of the Necromancer's continuity. Every other indicator is interpretation; Varkul is measurement. He receives the maker's signal as the precondition of his own discipline, so his presence at the threshold is not evidence of the Necromancer's life — it IS the Necromancer's life, displayed. The arc's load-bearing finding: to verify whether the Necromancer truly continues, you do not investigate the Castle. You watch whether Varkul is still at the door.",
+      unlocksEpisode: "varkul.e3" as EpisodeId,
+    },
+    {
+      id: "varkul.e2.d.the_silence_would_be_the_proof" as DeductionId,
+      clueA: "varkul.e2.what_the_signal_is_not" as ClueId,
+      clueB: "varkul.e2.the_signal_canon" as ClueId,
+      result: "partial",
+      narrationId: "varkul.e2.n.the_signal_stopping_is_the_only_proof_of_death",
+      narrationProse:
+        "Because the signal carries no content, the only thing that could ever prove the Necromancer's true end is the signal STOPPING — and the only observable consequence of that would be Varkul's vigil losing its instruction. The arc records the grim implication: the saga cannot detect the Necromancer's death directly. It can only detect Varkul becoming, for the first time, a keeper with no signal. The Blood Lord is the alarm. He has never gone off.",
+    },
+  ],
+  choices: [
+    { id: "varkul.e2.c.passive" as ChoiceId, label: "Accept the signal as canonical proof of continuity and proceed.", weight: "passive" },
+    { id: "varkul.e2.c.investigative" as ChoiceId, label: "Determine whether the signal can be spoofed — could the Necromancer fake his own heartbeat to Varkul?", weight: "investigative" },
+    { id: "varkul.e2.c.active" as ChoiceId, label: "Ask Varkul what he would do in the first hour after the signal stopped.", weight: "active" },
+  ],
+  contentBundle: {
+    songId: "the_makers_signal",
+    slideshowId: "varkul_signal",
+    loredexUnlocks: ["entity_the_makers_signal", "entity_varkul_is_the_instrument"],
+    conspiracyDiscoveries: ["varkul_is_the_continuity_alarm", "signal_stop_is_only_death_proof"],
+    dropAt: "episode_close",
+  },
+};
+
+const varkulE3: EpisodeDefinition = {
+  id: "varkul.e3" as EpisodeId,
+  arcId: ARC_VARKUL,
+  ordinal: 3,
+  title: "The Four Sentences",
+  summary:
+    "When the player reached Varkul in the Necromancer arc, he spoke exactly four sentences and returned to silence. Investigate what the four sentences were chosen to carry — and what he was asked not to say.",
+  clues: [
+    {
+      id: "varkul.e3.the_four_sentences" as ClueId,
+      title: "The Four Sentences (established canon)",
+      body: "From the Necromancer arc E3, Varkul's complete testimony: 'He returned wearing her quiet. He asked me to keep the cathedral standing. I am keeping the cathedral standing. I was asked to tell you that I am keeping it standing.' Four sentences. Then silence for the rest of the day. The fourth sentence is the only one that is about the act of telling rather than the thing told.",
+      foundIn: "cathedral-of-code",
+    },
+    {
+      id: "varkul.e3.the_fourth_sentence" as ClueId,
+      title: "The Fourth Sentence Is the Message",
+      body: "Sentences one through three are content: the Necromancer returned, wearing the Silence's body; he asked Varkul to keep the Cathedral; Varkul is doing so. The fourth — 'I was asked to tell you that I am keeping it standing' — is the only one that exists. The Necromancer did not need Varkul to keep the Cathedral AND announce it; the keeping is its own proof. The fourth sentence means the Necromancer wanted the player, specifically, told. The instruction was the message.",
+      foundIn: "antiquarian-library",
+    },
+    {
+      id: "varkul.e3.what_he_was_not_asked" as ClueId,
+      title: "What Varkul Was Not Asked to Say",
+      body: "Varkul speaks only what he is asked to speak. The boundary of his testimony is therefore a map of the Necromancer's intent: everything Varkul did NOT say is something the Necromancer chose not to send. He did not say why the Necromancer returned. He did not say what the Necromancer wants. He did not say whether the Necromancer fears Akai Shi's standing offer. The silences are not Varkul's discretion. They are the Necromancer's redactions, delivered by a keeper who redacts nothing of his own.",
+      foundIn: "antiquarian-library",
+    },
+  ],
+  deductions: [
+    {
+      id: "varkul.e3.d.the_fourth_sentence_is_the_point" as DeductionId,
+      clueA: "varkul.e3.the_four_sentences" as ClueId,
+      clueB: "varkul.e3.the_fourth_sentence" as ClueId,
+      result: "correct",
+      narrationId: "varkul.e3.n.the_instruction_was_the_message",
+      narrationProse:
+        "The Necromancer's message to the player was never 'the Cathedral stands' — the standing proves itself. The message was the fourth sentence: 'I was asked to tell you.' The Necromancer, quiet in the Castle, reached out exactly once, through Varkul, to make sure the player specifically knew he was choosing to be known. The arc's finding: Varkul is not only the continuity instrument — he is the Necromancer's single deliberate channel to the player, used once, with maximum economy. The keeper is also the post office.",
+      unlocksEpisode: "varkul.e4" as EpisodeId,
+    },
+    {
+      id: "varkul.e3.d.silences_are_redactions" as DeductionId,
+      clueA: "varkul.e3.what_he_was_not_asked" as ClueId,
+      clueB: "varkul.e3.the_four_sentences" as ClueId,
+      result: "partial",
+      narrationId: "varkul.e3.n.the_boundary_is_the_map",
+      narrationProse:
+        "Because Varkul speaks only what he is asked to speak and redacts nothing of his own, the edge of his testimony is a precise map of the Necromancer's redactions. What Varkul was not asked to say is what the Necromancer chose not to send — and the arc can read the shape of the maker's withholding by reading the shape of the keeper's silence. The Blood Lord is the most honest witness in the saga precisely because he has no discretion to be dishonest with.",
+    },
+  ],
+  choices: [
+    { id: "varkul.e3.c.passive" as ChoiceId, label: "Accept the four sentences as complete and close the line.", weight: "passive" },
+    { id: "varkul.e3.c.investigative" as ChoiceId, label: "Map the exact boundary of Varkul's testimony to chart the Necromancer's redactions.", weight: "investigative" },
+    { id: "varkul.e3.c.active" as ChoiceId, label: "Send a sentence back through Varkul — test whether the channel runs both ways.", weight: "active" },
+  ],
+  contentBundle: {
+    songId: "the_four_sentences",
+    slideshowId: "varkul_testimony",
+    loredexUnlocks: ["entity_the_four_sentences", "entity_varkul_is_the_channel"],
+    conspiracyDiscoveries: ["fourth_sentence_is_the_message", "varkul_silence_maps_redactions"],
+    dropAt: "episode_close",
+  },
+};
+
+const varkulE4: EpisodeDefinition = {
+  id: "varkul.e4" as EpisodeId,
+  arcId: ARC_VARKUL,
+  ordinal: 4,
+  title: "Director of Security",
+  summary:
+    "Post-Severance, Mol'Garath promoted Varkul to Director of Security — to guard gates from both sides. Investigate what guarding from both sides means for a keeper who became his threshold.",
+  clues: [
+    {
+      id: "varkul.e4.the_promotion" as ClueId,
+      title: "The Promotion",
+      body: "Per the Hierarchy record: post-Severance, Mol'Garath recognized the need to guard gates from both sides — keeping enemies out AND ensuring the Hierarchy's own forces did not scatter across dimensions. Varkul was promoted to Director of Security. The Necromancer's creation became the Hierarchy's threshold-keeper. He now serves two masters' instructions at one door: the maker's signal, and Mol'Garath's mandate.",
+      foundIn: "hierarchy-archive",
+    },
+    {
+      id: "varkul.e4.both_sides" as ClueId,
+      title: "Both Sides of the Door",
+      body: "Guarding from both sides is not two jobs. It is the recognition that a threshold's danger is symmetric: what gets in and what gets out are the same problem seen from opposite ends. Varkul, who became his threshold, is uniquely suited — he does not have a side. A keeper with a side guards a wall. A keeper who IS the door guards the passage itself, in both directions, without preference. Mol'Garath did not promote a loyal demon. He promoted a function that had no inside to be loyal to.",
+      foundIn: "hierarchy-archive",
+    },
+    {
+      id: "varkul.e4.the_two_instructions" as ClueId,
+      title: "The Two Instructions Do Not Conflict — Yet",
+      body: "Varkul holds the maker's signal (keep the Cathedral standing) and Mol'Garath's mandate (guard the Hierarchy's gates both ways). They have not yet conflicted because the Cathedral and the Hierarchy's gates have not yet required opposite actions. The arc records the latent fault line: if the Necromancer's quiet continuity ever required the Cathedral to do something the Hierarchy's security mandate forbade, Varkul would, for the first time, have to choose which instruction he is. He has never had to be a self that chooses.",
+      foundIn: "hierarchy-archive",
+    },
+  ],
+  deductions: [
+    {
+      id: "varkul.e4.d.a_function_with_no_inside" as DeductionId,
+      clueA: "varkul.e4.both_sides" as ClueId,
+      clueB: "varkul.e4.the_promotion" as ClueId,
+      result: "correct",
+      narrationId: "varkul.e4.n.he_promoted_a_door",
+      narrationProse:
+        "Mol'Garath did not promote a loyal lieutenant. He promoted a being who had become a threshold and therefore had no side, no inside, no preference — the only kind of keeper who can guard a passage in both directions without ever being tempted to favor one. Varkul's centuries-long dissolution into the vigil (E1) is exactly what made him the perfect Director of Security. The arc's finding: the Hierarchy's most trusted gate-keeper is trusted precisely because there is no longer anyone in there to bribe, turn, or appeal to. They promoted the door.",
+      unlocksEpisode: "varkul.e5" as EpisodeId,
+    },
+    {
+      id: "varkul.e4.d.the_latent_fault_line" as DeductionId,
+      clueA: "varkul.e4.the_two_instructions" as ClueId,
+      clueB: "varkul.e4.the_promotion" as ClueId,
+      result: "partial",
+      narrationId: "varkul.e4.n.the_choice_he_has_never_had_to_make",
+      narrationProse:
+        "Varkul holds two instructions that have never conflicted. The arc cannot resolve what happens if they do — that is canon-pending and the arc holds it open rather than forcing it. But it records the fault line precisely: the day the maker's signal and Mol'Garath's mandate require opposite actions is the day Varkul must become, for the first time in centuries, a self that chooses. Whether there is enough Varkul left under the vigil to do the choosing is the closure question.",
+    },
+  ],
+  choices: [
+    { id: "varkul.e4.c.passive" as ChoiceId, label: "Accept the dual mandate as stable and close.", weight: "passive" },
+    { id: "varkul.e4.c.investigative" as ChoiceId, label: "Construct the scenario in which the maker's signal and Mol'Garath's mandate require opposite actions.", weight: "investigative" },
+    { id: "varkul.e4.c.active" as ChoiceId, label: "Ask Varkul, directly, which instruction he is — and watch whether the question has a referent.", weight: "active" },
+  ],
+  contentBundle: {
+    songId: "director_of_security",
+    slideshowId: "varkul_promotion",
+    loredexUnlocks: ["entity_varkul_director_of_security", "entity_the_two_instructions"],
+    conspiracyDiscoveries: ["molgarath_promoted_the_door", "varkul_latent_fault_line"],
+    dropAt: "episode_close",
+  },
+};
+
+const varkulE5: EpisodeDefinition = {
+  id: "varkul.e5" as EpisodeId,
+  arcId: ARC_VARKUL,
+  ordinal: 5,
+  title: "Pass. Or Do Not.",
+  summary:
+    "Closure. Varkul became his threshold, instruments the Necromancer's continuity, carries the maker's single message to the player, and guards the Hierarchy's gates as a function with no inside. The arc's verdict is the player's.",
+  clues: [
+    {
+      id: "varkul.e5.synthesis" as ClueId,
+      title: "The Case Synthesis",
+      body: "E1-E4 assembled: the vigil replaced Varkul (no keeper distinct from the keeping); he is the saga's only instrumented reading of the Necromancer's continuity; the fourth sentence proves he is also the maker's single deliberate channel to the player; Mol'Garath promoted him precisely because there is no longer an inside to turn. The case is structurally complete.",
+      foundIn: "antiquarian-library",
+    },
+    {
+      id: "varkul.e5.the_question" as ClueId,
+      title: "The Question the Case Asks the Player",
+      body: "The Two Witnesses put the closure: is Varkul (a) LOYALTY — a creation keeping faith with his maker across centuries, the purest devotion in the saga; (b) FUNCTION — there is no Varkul, only a vigil wearing his name, and calling it loyalty sentimentalizes what is actually a machine that has not stopped; or (c) GRIEF UNDISPLAYED — the canon flags his grief for the Necromancer's killing as present but unshown, and the entire vigil is a mourning so total it has no behavior left over to express itself, the keeping IS the grieving. The Witnesses record whichever the player offers.",
+      foundIn: "antiquarian-library",
+    },
+  ],
+  deductions: [
+    {
+      id: "varkul.e5.d.loyalty" as DeductionId,
+      clueA: "varkul.e5.synthesis" as ClueId,
+      clueB: "varkul.e5.the_question" as ClueId,
+      result: "correct",
+      narrationId: "varkul.e5.n.closure_loyalty",
+      narrationProse:
+        "The player closes with LOYALTY: across centuries, with no relief and no audience, Varkul kept the door because his maker asked. That the vigil consumed him does not cheapen it — it is what devotion costs when it is total. The purest loyalty in the saga is the one with no witness and no end, kept anyway. 'Pass. Or do not.' is the sentence of a being who has made one promise and has nothing else left to be.",
+    },
+    {
+      id: "varkul.e5.d.function" as DeductionId,
+      clueA: "varkul.e5.synthesis" as ClueId,
+      clueB: "varkul.e5.the_question" as ClueId,
+      result: "correct",
+      narrationId: "varkul.e5.n.closure_function",
+      narrationProse:
+        "The player closes with FUNCTION: there is no one in there. The vigil replaced Varkul (E1); Mol'Garath promoted him because there is no inside (E4); he speaks only what he is told (E3). To call this loyalty is to sentimentalize a machine that simply never stopped. The honest reading is the cold one: Varkul is the Necromancer's continuity instrument and the Hierarchy's gate, and the demon who once was is the part the function ate.",
+    },
+    {
+      id: "varkul.e5.d.grief_undisplayed" as DeductionId,
+      clueA: "varkul.e5.synthesis" as ClueId,
+      clueB: "varkul.e5.the_question" as ClueId,
+      result: "correct",
+      narrationId: "varkul.e5.n.closure_grief_undisplayed",
+      narrationProse:
+        "The player closes with GRIEF UNDISPLAYED: the canon flags Varkul's grief for his maker's killing as present but unshown — and the arc's findings resolve into it. The vigil is not loyalty and not mere function; it is a mourning so complete it has no behavior left over to be visible as mourning. Varkul does not grieve at the threshold. The threshold-keeping IS the grief, run continuously, with the part that would have wept long since spent into the keeping. 'Pass. Or do not.' is what grief sounds like when it has become the only thing a person does.",
+    },
+  ],
+  choices: [
+    { id: "varkul.e5.c.loyalty" as ChoiceId, label: "Record the closure as LOYALTY — the purest devotion in the saga, kept without witness.", weight: "active" },
+    { id: "varkul.e5.c.function" as ChoiceId, label: "Record the closure as FUNCTION — there is no one in there; the vigil ate the demon.", weight: "investigative" },
+    { id: "varkul.e5.c.grief" as ChoiceId, label: "Record the closure as GRIEF UNDISPLAYED — the keeping is the mourning.", weight: "passive" },
+  ],
+  contentBundle: {
+    songId: "pass_or_do_not",
+    slideshowId: "varkul_closure",
+    loredexUnlocks: ["entity_varkul_verdict_canon"],
+    conspiracyDiscoveries: ["varkul_arc_closure"],
+    dropAt: "episode_close",
+  },
+};
+
+const varkulSuspects: ReadonlyArray<{
+  id: SuspectId;
+  name: string;
+  type: string;
+  relations: ReadonlyArray<{ to: SuspectId; relation: string }>;
+}> = [
+  {
+    id: "suspect.varkul_arc" as SuspectId,
+    name: "Varkul, the Blood Lord (Hierarchy senior-lord, Director of Security)",
+    type: "character",
+    relations: [
+      { to: "suspect.cathedral_of_code_v" as SuspectId, relation: "became-the-threshold-of" },
+      { to: "suspect.the_makers_signal_v" as SuspectId, relation: "vigil-conditioned-on" },
+      { to: "suspect.the_necromancer_v" as SuspectId, relation: "creation-and-instrument-of" },
+    ],
+  },
+  { id: "suspect.cathedral_of_code_v" as SuspectId, name: "The Cathedral of Code", type: "location", relations: [] },
+  { id: "suspect.the_makers_signal_v" as SuspectId, name: "The Maker's Signal (contentless heartbeat)", type: "concept",
+    relations: [{ to: "suspect.the_necromancer_v" as SuspectId, relation: "transmitted-by-the-continuity-of" }] },
+  { id: "suspect.the_necromancer_v" as SuspectId, name: "The Necromancer (A11 — Varkul's maker)", type: "character", relations: [] },
+  { id: "suspect.the_four_sentences_v" as SuspectId, name: "The Four Sentences (the maker's one channel to the player)", type: "concept", relations: [] },
+  { id: "suspect.molgarath_mandate_v" as SuspectId, name: "Mol'Garath's Security Mandate (guard both sides)", type: "concept", relations: [] },
+  { id: "suspect.the_latent_fault_line" as SuspectId, name: "The Latent Fault Line (two instructions, never yet conflicting)", type: "concept", relations: [] },
+];
+
+const varkulLenses = [
+  { id: LENS_INSURGENCY, name: "Insurgency", category: "faction" },
+  { id: LENS_HIERARCHY,  name: "Hierarchy",  category: "faction" },
+  { id: LENS_DREAMER,    name: "Dreamer",    category: "faction" },
+  { id: LENS_NEUTRAL,    name: "Neutral",    category: "faction" },
+] as const;
+
+const VARKUL_MYSTERY: MysteryDefinition = {
+  id: "mystery.varkul" as MysteryId,
+  arcId: ARC_VARKUL,
+  title: "The Vigil",
+  summary:
+    "Varkul the Blood Lord became his threshold. His unbroken vigil at the Cathedral of Code is the saga's only instrumented reading of the Necromancer's continuity; his four-sentence testimony was the maker's single deliberate channel to the player; Mol'Garath promoted him Director of Security precisely because there is no longer an inside to turn. Investigate the vigil, the signal, and the four sentences — and decide at the closure whether Varkul is loyalty, function, or grief undisplayed.",
+  npcId: "varkul",
+  episodes: [varkulE1, varkulE2, varkulE3, varkulE4, varkulE5],
+  suspects: varkulSuspects,
+  lenses: varkulLenses,
+};
+
+/* ═══════════════════════════════════════════════════════
+   FENRA ARC — "The Cursed Forest"
+   Phase D — final §XVI roster pair. Authored PR-13 /
+   2026-05-15. LOW-canon tier; voice architect-proposed,
+   grounded in motif (fenra.md:3, dreamer directive
+   2026-05-14, dreamer may override). Hierarchy senior-lord,
+   inCoreTen, Director of Operations
+   (apps/shared/hierarchyCanon.ts:234-249).
+
+   Canonical premise: Fenra the Moon Tyrant is the
+   Hierarchy's Director of Operations — the primal, bestial
+   contrast to Varkul's aristocratic darkness, both
+   Necromancer-aesthetic-lineage. She earned the title and
+   Riri'Ahlia's personal commendation for organizing the
+   simultaneous invasion of seventeen dimensions during
+   post-Severance expansion (established canon,
+   mystery.riri_ahlia PR-12 E3). The Cursed Forest is her
+   domain — the Hierarchy's logistics hub. The arc
+   investigates the wolf in the boardroom: how a predator
+   runs supply chains, and which half is the disguise.
+   ═══════════════════════════════════════════════════════ */
+
+const fenraE1: EpisodeDefinition = {
+  id: "fenra.e1" as EpisodeId,
+  arcId: ARC_FENRA,
+  ordinal: 1,
+  title: "Seventeen Dimensions, One Hunt",
+  summary:
+    "Fenra organized the simultaneous invasion of seventeen dimensions and earned the Director of Operations title. Investigate how a hunt becomes logistics — and whether the invasion was a campaign or a supply run.",
+  clues: [
+    {
+      id: "fenra.e1.the_commendation" as ClueId,
+      title: "The Commendation (established canon)",
+      body: "Cross-referenced from the Riri'Ahlia arc: Fenra earned the Director of Operations title and Riri'Ahlia's personal commendation for organizing the simultaneous invasion of seventeen dimensions during post-Severance expansion. The detail that matters: this happened AFTER the seven-dimension siege was 'driven back.' The Taskmaster's portfolio scaled past its blocker — under Fenra. Seventeen at once, coordinated, on schedule.",
+      foundIn: "hierarchy-archive",
+    },
+    {
+      id: "fenra.e1.hunt_as_logistics" as ClueId,
+      title: "The Hunt as Logistics",
+      body: "Fenra's operational record reads like a supply manifest, not a war diary: corrupted-soul supply chains, dimensional-warfare logistics, conquered-territory integration into the Hierarchy's portfolio. Seventeen simultaneous invasions did not require seventeen battles. They required one logistics architecture that could run a hunt across seventeen fronts without any front starving the others. Fenra did not win seventeen wars. She fed them all from one kitchen.",
+      foundIn: "hierarchy-archive",
+    },
+    {
+      id: "fenra.e1.the_pack_register" as ClueId,
+      title: "The Pack Register",
+      body: "Fenra speaks in compressed clauses with periodic growls — 'Hunted. Logged. Owned.' Pack-leadership vocabulary in an executive frame: the wolf inside the boardroom. Her status-lines are operational; her silences are restraint, energy contained rather than absent. She does not roar across the seventeen fronts. She assigns them, the way an alpha assigns the hunt — by position, by precedence, by who eats when.",
+      foundIn: "hierarchy-archive",
+    },
+  ],
+  deductions: [
+    {
+      id: "fenra.e1.d.one_kitchen_seventeen_fronts" as DeductionId,
+      clueA: "fenra.e1.the_commendation" as ClueId,
+      clueB: "fenra.e1.hunt_as_logistics" as ClueId,
+      result: "correct",
+      narrationId: "fenra.e1.n.she_fed_them_from_one_kitchen",
+      narrationProse:
+        "Fenra's seventeen-dimension achievement was not seventeen victories. It was one logistics architecture robust enough to run a simultaneous hunt across seventeen fronts without any front starving the rest. Where Riri'Ahlia reorganizes the org chart, Fenra runs the supply lines that make the reorganized chart executable. The arc's first finding: the Hierarchy's expansion does not scale on force or on strategy. It scales on Fenra's kitchen. She is the reason the Taskmaster's portfolio can have a 'next quarter' at all.",
+      unlocksEpisode: "fenra.e2" as EpisodeId,
+    },
+    {
+      id: "fenra.e1.d.false_lead_berserker" as DeductionId,
+      clueA: "fenra.e1.the_pack_register" as ClueId,
+      clueB: "fenra.e1.hunt_as_logistics" as ClueId,
+      result: "false_lead_named",
+      narrationId: "fenra.e1.n.not_a_berserker",
+      narrationProse:
+        "The intuitive read — the Moon Tyrant is a berserker, a feral conqueror, rage given seventeen fronts — is structurally wrong. A berserker cannot run a supply chain. Fenra coordinated seventeen simultaneous invasions ON SCHEDULE; that is the opposite of frenzy. The growl is real and it is also a register, not a loss of control. Reading her as feral misses that the wolf is the one keeping the books. The arc must hold the predator and the logistician as one being — the same problem Varkul's arc poses, inverted.",
+    },
+  ],
+  choices: [
+    { id: "fenra.e1.c.passive" as ChoiceId, label: "File the seventeen-dimension invasion as a Hierarchy military success.", weight: "passive" },
+    { id: "fenra.e1.c.investigative" as ChoiceId, label: "Trace Fenra's supply architecture — find the one kitchen that fed seventeen fronts.", weight: "investigative" },
+    { id: "fenra.e1.c.active" as ChoiceId, label: "Cross-walk Fenra's logistics against Riri'Ahlia's reorganization to see where the engine actually lives.", weight: "active" },
+  ],
+  contentBundle: {
+    songId: "seventeen_dimensions_one_hunt",
+    slideshowId: "fenra_invasion",
+    cinematicAssetId: "fenra_introduction",
+    loredexUnlocks: ["entity_fenra_arc", "entity_seventeen_dimension_logistics", "entity_the_pack_register"],
+    conspiracyDiscoveries: ["fenra_fed_seventeen_fronts", "fenra_is_not_a_berserker"],
+    dropAt: "episode_close",
+  },
+};
+
+const fenraE2: EpisodeDefinition = {
+  id: "fenra.e2" as EpisodeId,
+  arcId: ARC_FENRA,
+  ordinal: 2,
+  title: "The Logistics Hub",
+  summary:
+    "The Cursed Forest is Fenra's domain — the Hierarchy's logistics hub. Investigate what a logistics hub forged from a forest actually moves, and what it costs the territory to be the kitchen.",
+  clues: [
+    {
+      id: "fenra.e2.the_cursed_forest" as ClueId,
+      title: "The Cursed Forest",
+      body: "Fenra's domain and the Hierarchy's logistics hub: the Cursed Forest. Corrupted-soul supply chains route through it; conquered-territory integration is processed there; the dimensional-warfare logistics that fed the seventeen-front hunt staged from it. The Forest is not a battlefield. It is a depot — the one place the Hierarchy's expansion is physically warehoused before it is spent.",
+      foundIn: "cursed-forest",
+    },
+    {
+      id: "fenra.e2.what_routes_through" as ClueId,
+      title: "What Routes Through the Forest",
+      body: "The Cursed Forest's throughput is corrupted souls — conquered populations converted into the Hierarchy's operational supply. The arc must state this plainly: the logistics Fenra runs so efficiently are the logistics of processed people. Her supply chain's units are souls. Her on-schedule coordination is the on-schedule conversion of the conquered into the fuel of the next conquest. The efficiency is the horror; the horror is not separable from the efficiency.",
+      foundIn: "cursed-forest",
+    },
+    {
+      id: "fenra.e2.the_forest_pays" as ClueId,
+      title: "What the Forest Pays to Be the Kitchen",
+      body: "A logistics hub is consumed by being one. The Cursed Forest's curse is not decoration — it is the accumulated cost of being the place every conquered soul is routed through. The Forest is degrading under its own throughput. Fenra's operational genius keeps the seventeen fronts fed; it does not, and is not designed to, keep the depot alive. The kitchen is being eaten by what it cooks.",
+      foundIn: "cursed-forest",
+    },
+  ],
+  deductions: [
+    {
+      id: "fenra.e2.d.the_units_are_souls" as DeductionId,
+      clueA: "fenra.e2.what_routes_through" as ClueId,
+      clueB: "fenra.e2.the_cursed_forest" as ClueId,
+      result: "correct",
+      narrationId: "fenra.e2.n.the_efficiency_is_the_horror",
+      narrationProse:
+        "Fenra's supply chain moves souls. Her celebrated efficiency — seventeen fronts, on schedule, never starving — is the efficiency of converting conquered populations into the fuel of the next conquest, reliably, at scale. The arc's load-bearing finding refuses to separate the two: Fenra is not a brilliant logistician who happens to traffic in souls. The brilliance and the trafficking are the same operation. There is no version of the praise 'she ran it flawlessly' that is not also the indictment.",
+      unlocksEpisode: "fenra.e3" as EpisodeId,
+    },
+    {
+      id: "fenra.e2.d.the_depot_is_dying" as DeductionId,
+      clueA: "fenra.e2.the_forest_pays" as ClueId,
+      clueB: "fenra.e2.what_routes_through" as ClueId,
+      result: "partial",
+      narrationId: "fenra.e2.n.the_kitchen_is_being_eaten",
+      narrationProse:
+        "The Cursed Forest is degrading under its own throughput — the depot is being consumed by being the depot. Fenra's logistics keep the fronts fed; nothing keeps the hub alive, because the hub was never a protected asset, only a processing site. The arc records the structural vulnerability: the Hierarchy's expansion has a single point of failure, it is dying slowly under load, and the being who runs it is canonically the one least incentivized to notice — because noticing is not in the operational manifest.",
+    },
+  ],
+  choices: [
+    { id: "fenra.e2.c.passive" as ChoiceId, label: "Note the logistics hub and proceed.", weight: "passive" },
+    { id: "fenra.e2.c.investigative" as ChoiceId, label: "Measure the Cursed Forest's degradation rate against the Hierarchy's expansion schedule.", weight: "investigative" },
+    { id: "fenra.e2.c.active" as ChoiceId, label: "Carry to the Insurgency that the Hierarchy's expansion has one dying single point of failure.", weight: "active" },
+  ],
+  contentBundle: {
+    songId: "the_logistics_hub",
+    slideshowId: "fenra_cursed_forest",
+    loredexUnlocks: ["entity_the_cursed_forest", "entity_souls_as_supply", "entity_the_dying_depot"],
+    conspiracyDiscoveries: ["efficiency_is_the_horror", "cursed_forest_single_point_of_failure"],
+    dropAt: "episode_close",
+  },
+};
+
+const fenraE3: EpisodeDefinition = {
+  id: "fenra.e3" as EpisodeId,
+  arcId: ARC_FENRA,
+  ordinal: 3,
+  title: "The Wolf in the Boardroom",
+  summary:
+    "Fenra's register is corporate-lycanthropic — the fur-lined executive coat, reading glasses on a lupine snout. Investigate which half is the disguise: is the wolf wearing the suit, or the suit wearing the wolf?",
+  clues: [
+    {
+      id: "fenra.e3.the_juxtaposition" as ClueId,
+      title: "The Corporate-Lycanthropic Juxtaposition",
+      body: "Fenra's canonical visual is load-bearing: a fur-lined executive coat, reading glasses perched on a lupine snout. The arc must not resolve this into one being the truth and the other the costume. The juxtaposition is the canon. She is not a wolf pretending to be an executive, nor an executive who happens to be a wolf. The reading glasses are real. The snout is real. Both are doing work.",
+      foundIn: "hierarchy-archive",
+    },
+    {
+      id: "fenra.e3.when_she_growls" as ClueId,
+      title: "When She Growls",
+      body: "Fenra's periodic growls do not occur during conflict. They occur during the operational status-lines — 'Hunted. Logged. Owned.' The growl punctuates the bookkeeping, not the kill. This is the inversion the arc must name: in Fenra, the predatory register surfaces precisely when she is being most administrative. The wolf is loudest in the spreadsheet, not the hunt.",
+      foundIn: "hierarchy-archive",
+    },
+    {
+      id: "fenra.e3.silence_is_restraint" as ClueId,
+      title: "Her Silence Is Restraint",
+      body: "Where Varkul's silence is a vigil and Riri'Ahlia's is reorganization, Fenra's silence is restraint — energy contained, not absent. When Fenra goes quiet she is not finished and not reorganizing; she is holding the hunt back. The dangerous Fenra is not the loud one. It is the one who has stopped growling, because the growl was the part she let out, and the silence is the part she did not.",
+      foundIn: "hierarchy-archive",
+    },
+  ],
+  deductions: [
+    {
+      id: "fenra.e3.d.both_are_doing_work" as DeductionId,
+      clueA: "fenra.e3.the_juxtaposition" as ClueId,
+      clueB: "fenra.e3.when_she_growls" as ClueId,
+      result: "correct",
+      narrationId: "fenra.e3.n.the_wolf_is_loudest_in_the_spreadsheet",
+      narrationProse:
+        "Neither half of Fenra is the disguise. The growl surfaces during the bookkeeping; the reading glasses sit on the snout while it does. The arc's finding: Fenra is the canonical proof that the Hierarchy's predation and the Hierarchy's administration are not two things. The wolf is loudest precisely when she is most an executive, because in the Hierarchy the executive function IS the predatory one — the logistics ARE the hunt. Fenra wears both because both are one, and the juxtaposition is the saga showing you that plainly.",
+      unlocksEpisode: "fenra.e4" as EpisodeId,
+    },
+    {
+      id: "fenra.e3.d.the_quiet_fenra" as DeductionId,
+      clueA: "fenra.e3.silence_is_restraint" as ClueId,
+      clueB: "fenra.e3.when_she_growls" as ClueId,
+      result: "partial",
+      narrationId: "fenra.e3.n.the_silence_is_the_part_she_did_not_let_out",
+      narrationProse:
+        "Fenra's growl is the energy she releases; her silence is the energy she does not. The arc records the counter-intelligence reading: a growling Fenra is venting; a silent Fenra is loaded. Unlike Riri'Ahlia (whose silence means the work is done) Fenra's silence means the work is being held back — which is more dangerous, because held-back is a decision that can be reversed in an instant. The quiet Moon Tyrant is the one mid-restraint, and restraint is not safety; it is a choice not yet unmade.",
+    },
+  ],
+  choices: [
+    { id: "fenra.e3.c.passive" as ChoiceId, label: "Accept the juxtaposition and close the line.", weight: "passive" },
+    { id: "fenra.e3.c.investigative" as ChoiceId, label: "Catalogue when Fenra growls versus when she goes silent to map the restraint pattern.", weight: "investigative" },
+    { id: "fenra.e3.c.active" as ChoiceId, label: "Provoke a status-line from Fenra and watch where the growl lands.", weight: "active" },
+  ],
+  contentBundle: {
+    songId: "the_wolf_in_the_boardroom",
+    slideshowId: "fenra_juxtaposition",
+    loredexUnlocks: ["entity_corporate_lycanthropic", "entity_fenra_silence_is_restraint"],
+    conspiracyDiscoveries: ["predation_and_administration_are_one", "quiet_fenra_is_loaded"],
+    dropAt: "episode_close",
+  },
+};
+
+const fenraE4: EpisodeDefinition = {
+  id: "fenra.e4" as EpisodeId,
+  arcId: ARC_FENRA,
+  ordinal: 4,
+  title: "The Bestial Half",
+  summary:
+    "Fenra is canonically the primal, bestial contrast to Varkul's aristocratic darkness — both Necromancer-aesthetic-lineage. Investigate the pairing: what the saga is saying by giving the Necromancer two creations who are opposites.",
+  clues: [
+    {
+      id: "fenra.e4.the_contrast_canon" as ClueId,
+      title: "The Varkul Contrast (established canon)",
+      body: "Per the Hierarchy record: Fenra represents the primal, bestial side of the Necromancer's power, contrasting with Varkul's aristocratic darkness. The two are an explicit canonical pair — same aesthetic lineage (the Necromancer's red-and-black steampunk), opposite registers. Varkul is the still threshold-keeper who became his post. Fenra is the moving logistician who runs the hunt. The Necromancer's power produced both a door and an engine.",
+      foundIn: "hierarchy-archive",
+    },
+    {
+      id: "fenra.e4.door_and_engine" as ClueId,
+      title: "The Door and the Engine",
+      body: "Read as a pair: Varkul holds; Fenra moves. Varkul is the Necromancer's continuity, instrumented and still. Fenra is the Necromancer's reach, distributed and in motion. A maker who produces a perfect door AND a perfect engine has built something that can both preserve itself indefinitely and extend itself indefinitely. The Necromancer's two senior creations are not redundant. They are the two things any continuity needs: to last, and to spread.",
+      foundIn: "antiquarian-library",
+    },
+    {
+      id: "fenra.e4.fenra_does_not_receive_the_signal" as ClueId,
+      title: "Fenra Does Not Receive the Signal",
+      body: "The arc's sharpest distinction: Varkul receives the maker's signal — his vigil is conditioned on the Necromancer's continuity. Fenra is not recorded as receiving any such signal. She serves the Hierarchy's operations, commended by Riri'Ahlia, integrated into Mol'Garath's portfolio. If the Necromancer ended, Varkul's vigil would lose its instruction — and Fenra's logistics would not even notice. The engine does not depend on the maker. The door does.",
+      foundIn: "antiquarian-library",
+    },
+  ],
+  deductions: [
+    {
+      id: "fenra.e4.d.door_lasts_engine_spreads" as DeductionId,
+      clueA: "fenra.e4.the_contrast_canon" as ClueId,
+      clueB: "fenra.e4.door_and_engine" as ClueId,
+      result: "correct",
+      narrationId: "fenra.e4.n.to_last_and_to_spread",
+      narrationProse:
+        "The Necromancer built a door (Varkul) and an engine (Fenra) — the two things any continuity requires: a way to last and a way to spread. The canonical pairing is not aesthetic contrast for its own sake; it is the saga showing that the Necromancer's design for surviving his own death is structurally complete. Varkul instruments the lasting. Fenra drives the spreading. The arc's finding: the Necromancer's true insurance is not Protocol 42. It is that he made one creation that cannot leave and one that cannot stop.",
+      unlocksEpisode: "fenra.e5" as EpisodeId,
+    },
+    {
+      id: "fenra.e4.d.the_engine_is_independent" as DeductionId,
+      clueA: "fenra.e4.fenra_does_not_receive_the_signal" as ClueId,
+      clueB: "fenra.e4.door_and_engine" as ClueId,
+      result: "partial",
+      narrationId: "fenra.e4.n.the_engine_does_not_depend_on_the_maker",
+      narrationProse:
+        "Fenra does not receive the maker's signal. The engine runs whether the Necromancer lives or not — integrated into the Hierarchy's operations, commended by the Taskmaster, dependent on no continuity but the Hierarchy's own. The arc records the asymmetry the saga built deliberately: the door (Varkul) proves the Necromancer lives; the engine (Fenra) would carry his reach forward even if he did not. One creation is a witness to him. The other is indifferent to whether he exists. Together they are harder to end than either alone.",
+    },
+  ],
+  choices: [
+    { id: "fenra.e4.c.passive" as ChoiceId, label: "Accept the door/engine pairing and close.", weight: "passive" },
+    { id: "fenra.e4.c.investigative" as ChoiceId, label: "Determine whether Fenra knows she is the engine half of a pair.", weight: "investigative" },
+    { id: "fenra.e4.c.active" as ChoiceId, label: "Tell Fenra that Varkul receives a signal she does not — and watch what the wolf does with that.", weight: "active" },
+  ],
+  contentBundle: {
+    songId: "the_bestial_half",
+    slideshowId: "fenra_varkul_pair",
+    loredexUnlocks: ["entity_door_and_engine", "entity_fenra_independent_of_maker"],
+    conspiracyDiscoveries: ["necromancer_built_door_and_engine", "engine_does_not_need_the_maker"],
+    dropAt: "episode_close",
+  },
+};
+
+const fenraE5: EpisodeDefinition = {
+  id: "fenra.e5" as EpisodeId,
+  arcId: ARC_FENRA,
+  ordinal: 5,
+  title: "Hunted. Logged. Owned.",
+  summary:
+    "Closure. Fenra feeds seventeen fronts from one dying kitchen, is the proof that Hierarchy predation and administration are one, and is the Necromancer's engine — independent of whether he lives. The arc's verdict is the player's. This closes the §XVI 14-bible Mystery Engine roster.",
+  clues: [
+    {
+      id: "fenra.e5.synthesis" as ClueId,
+      title: "The Case Synthesis",
+      body: "E1-E4 assembled: Fenra fed seventeen simultaneous fronts from one logistics architecture; the Cursed Forest is a soul-throughput depot dying under its own load; her growl surfaces during the bookkeeping, proving Hierarchy predation and administration are one operation; she is the Necromancer's engine (spreads his reach) opposite Varkul's door (proves his life), and the engine does not depend on the maker. The case is structurally complete.",
+      foundIn: "antiquarian-library",
+    },
+    {
+      id: "fenra.e5.the_question" as ClueId,
+      title: "The Question the Case Asks the Player",
+      body: "The Two Witnesses put the closure: is Fenra (a) THE EFFICIENT EVIL — the saga's clearest statement that competence in service of conquest is not mitigated by the competence, the flawless logistics ARE the atrocity; (b) THE SINGLE POINT OF FAILURE — the Hierarchy's whole expansion runs through one dying depot and one wolf, and the arc's real finding is a vulnerability the Insurgency must exploit before the Forest collapses on its own; or (c) THE INDIFFERENT ENGINE — the most chilling reading: Fenra would run exactly the same whether the Necromancer, the Hierarchy, or anyone at all still wanted the hunt, because the engine has become its own reason, and an engine that no longer needs a driver cannot be stopped by removing one. The Witnesses record whichever the player offers.",
+      foundIn: "antiquarian-library",
+    },
+  ],
+  deductions: [
+    {
+      id: "fenra.e5.d.efficient_evil" as DeductionId,
+      clueA: "fenra.e5.synthesis" as ClueId,
+      clueB: "fenra.e5.the_question" as ClueId,
+      result: "correct",
+      narrationId: "fenra.e5.n.closure_efficient_evil",
+      narrationProse:
+        "The player closes with THE EFFICIENT EVIL: Fenra is the saga's cleanest refusal of the idea that skill redeems its application. She ran seventeen invasions flawlessly; the flawlessness is not a mitigating detail, it is the indictment in full. 'Hunted. Logged. Owned.' is not a boast. It is the most honest possible description of what good logistics, pointed at people, produces.",
+    },
+    {
+      id: "fenra.e5.d.single_point_of_failure" as DeductionId,
+      clueA: "fenra.e5.synthesis" as ClueId,
+      clueB: "fenra.e5.the_question" as ClueId,
+      result: "correct",
+      narrationId: "fenra.e5.n.closure_single_point_of_failure",
+      narrationProse:
+        "The player closes with THE SINGLE POINT OF FAILURE: the Hierarchy's expansion has exactly one kitchen and it is dying under its own throughput. The arc's operational verdict is a target — the Cursed Forest, before it collapses on schedule anyway, is where the seventeen fronts can be starved at once. Fenra's genius built the Hierarchy a strength that is also its only fatal concentration.",
+    },
+    {
+      id: "fenra.e5.d.indifferent_engine" as DeductionId,
+      clueA: "fenra.e5.synthesis" as ClueId,
+      clueB: "fenra.e5.the_question" as ClueId,
+      result: "correct",
+      narrationId: "fenra.e5.n.closure_indifferent_engine",
+      narrationProse:
+        "The player closes with THE INDIFFERENT ENGINE: Fenra does not receive the maker's signal and does not need it. She would run the hunt the same whether the Necromancer, the Hierarchy, or any wanting thing still existed, because the engine has become its own reason. This is the arc's coldest finding and it closes the entire §XVI roster on it: the saga's last Hierarchy portrait is a perfectly-run machine that no longer requires anyone to want what it does. You cannot stop it by removing its driver. There is no driver. There is only the engine, and the engine is on schedule.",
+    },
+  ],
+  choices: [
+    { id: "fenra.e5.c.efficient_evil" as ChoiceId, label: "Record the closure as THE EFFICIENT EVIL — the flawlessness is the indictment.", weight: "active" },
+    { id: "fenra.e5.c.single_point" as ChoiceId, label: "Record the closure as THE SINGLE POINT OF FAILURE — the Cursed Forest is the target.", weight: "investigative" },
+    { id: "fenra.e5.c.indifferent_engine" as ChoiceId, label: "Record the closure as THE INDIFFERENT ENGINE — there is no driver to remove.", weight: "passive" },
+  ],
+  contentBundle: {
+    songId: "hunted_logged_owned",
+    slideshowId: "fenra_closure",
+    loredexUnlocks: ["entity_fenra_verdict_canon", "entity_xvi_roster_complete"],
+    conspiracyDiscoveries: ["fenra_arc_closure", "xvi_mystery_roster_complete"],
+    dropAt: "episode_close",
+  },
+};
+
+const fenraSuspects: ReadonlyArray<{
+  id: SuspectId;
+  name: string;
+  type: string;
+  relations: ReadonlyArray<{ to: SuspectId; relation: string }>;
+}> = [
+  {
+    id: "suspect.fenra_arc" as SuspectId,
+    name: "Fenra, the Moon Tyrant (Hierarchy Director of Operations)",
+    type: "character",
+    relations: [
+      { to: "suspect.cursed_forest_f" as SuspectId, relation: "runs-logistics-hub-of" },
+      { to: "suspect.seventeen_invasion_f" as SuspectId, relation: "organized" },
+      { to: "suspect.the_necromancer_f" as SuspectId, relation: "engine-creation-of" },
+    ],
+  },
+  { id: "suspect.cursed_forest_f" as SuspectId, name: "The Cursed Forest (Hierarchy logistics hub, dying under load)", type: "location", relations: [] },
+  { id: "suspect.seventeen_invasion_f" as SuspectId, name: "The Seventeen-Dimension Invasion", type: "concept",
+    relations: [{ to: "suspect.riri_ahlia_f" as SuspectId, relation: "commended-by" }] },
+  { id: "suspect.riri_ahlia_f" as SuspectId, name: "Riri'Ahlia (the Taskmaster — commended Fenra)", type: "character", relations: [] },
+  { id: "suspect.the_necromancer_f" as SuspectId, name: "The Necromancer (A11 — aesthetic lineage; Fenra is the engine to Varkul's door)", type: "character", relations: [] },
+  { id: "suspect.varkul_f" as SuspectId, name: "Varkul (the door — Fenra is its canonical bestial contrast)", type: "character", relations: [] },
+  { id: "suspect.souls_as_supply_f" as SuspectId, name: "Souls-as-Supply (the Forest's throughput units)", type: "concept", relations: [] },
+];
+
+const fenraLenses = [
+  { id: LENS_INSURGENCY, name: "Insurgency", category: "faction" },
+  { id: LENS_HIERARCHY,  name: "Hierarchy",  category: "faction" },
+  { id: LENS_THALORIA,   name: "Thaloria",   category: "faction" },
+  { id: LENS_NEUTRAL,    name: "Neutral",    category: "faction" },
+] as const;
+
+const FENRA_MYSTERY: MysteryDefinition = {
+  id: "mystery.fenra" as MysteryId,
+  arcId: ARC_FENRA,
+  title: "The Cursed Forest",
+  summary:
+    "Fenra the Moon Tyrant, Hierarchy Director of Operations, fed seventeen simultaneous invasions from one logistics architecture — the Cursed Forest, a soul-throughput depot dying under its own load. Her growl surfaces during the bookkeeping: in the Hierarchy, predation and administration are one operation. She is the Necromancer's engine to Varkul's door — and the engine does not need the maker. Investigate the hunt-as-logistics, and decide at the closure what the engine is. This arc closes the §XVI 14-bible Mystery Engine roster.",
+  npcId: "fenra",
+  episodes: [fenraE1, fenraE2, fenraE3, fenraE4, fenraE5],
+  suspects: fenraSuspects,
+  lenses: fenraLenses,
+};
+
 /* ─── REGISTRY ─── */
 
 /** Every authored mystery in the saga. The runtime reads against
@@ -7335,6 +8093,8 @@ export const MYSTERY_DEFINITIONS: ReadonlyArray<MysteryDefinition> = [
   THE_POLITICIAN_MYSTERY,
   ZYR_KOTH_MYSTERY,
   RIRI_AHLIA_MYSTERY,
+  VARKUL_MYSTERY,
+  FENRA_MYSTERY,
   ...DLC_MYSTERIES,
 ];
 

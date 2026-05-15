@@ -47,7 +47,9 @@ export type CrossArcWeight =
   | "cross_arc_collector"
   | "cross_arc_politician"
   | "cross_arc_zyr_koth"
-  | "cross_arc_riri_ahlia";
+  | "cross_arc_riri_ahlia"
+  | "cross_arc_varkul"
+  | "cross_arc_fenra";
 
 /** A canonical cross-arc binding. */
 export interface CrossArcBinding {
@@ -84,6 +86,49 @@ export interface CrossArcBinding {
    ═══════════════════════════════════════════════════════ */
 
 export const CROSS_ARC_BINDINGS: readonly CrossArcBinding[] = [
+  /* ── Varkul → Necromancer (the vigil IS the continuity reading) ── */
+  {
+    weight: "cross_arc_varkul",
+    sourceArc: "arc.varkul" as ArcId,
+    sourceEpisode: 2,
+    sourceChoiceId: "varkul.e2.c.active",
+    destinationArc: "arc.the_necromancer" as ArcId,
+    destinationEpisodes: [1],
+    narrativeMeaning:
+      "If the player asks Varkul what he would do in the first hour " +
+      "after the maker's signal stopped (varkul.e2 active choice), " +
+      "the_necromancer arc's E1 gains the instrument frame: Varkul " +
+      "is not evidence of the Necromancer's continuity, he IS it, " +
+      "instrumented. The two arcs compose — necromancer.e1 deduces " +
+      "the continuity; varkul.e2 measures it. The player who has run " +
+      "both reads the Cathedral's standing as a needle, not an " +
+      "inference.",
+    loreSource:
+      "apps/shared/episodeMysteries.ts (varkul.e2 + necromancer.e1) + " +
+      "apps/shared/hierarchyCanon.ts:219-232 (Varkul) + the " +
+      "necromancer.e1 Varkul-vigil canon (PR-7)",
+  },
+  /* ── Fenra → Riri'Ahlia (the engine under the reorganization) ── */
+  {
+    weight: "cross_arc_fenra",
+    sourceArc: "arc.fenra" as ArcId,
+    sourceEpisode: 1,
+    sourceChoiceId: "fenra.e1.c.active",
+    destinationArc: "arc.riri_ahlia" as ArcId,
+    destinationEpisodes: [3],
+    narrativeMeaning:
+      "If the player cross-walks Fenra's logistics against " +
+      "Riri'Ahlia's reorganization (fenra.e1 active choice), the " +
+      "riri_ahlia arc's E3 gains the supply frame: the Taskmaster " +
+      "reorganizes the org chart, but Fenra's kitchen is what makes " +
+      "the reorganized chart executable. The two arcs compose — " +
+      "riri_ahlia.e3 is the strategy; fenra.e1 is the supply line " +
+      "that lets the strategy have a next quarter.",
+    loreSource:
+      "apps/shared/episodeMysteries.ts (fenra.e1 + riri_ahlia.e3) + " +
+      "apps/shared/hierarchyCanon.ts:234-249 (Fenra) + the " +
+      "riri_ahlia.e3 Fenra-commendation canon (PR-12)",
+  },
   /* ── Zyr'Koth → Syl'Vex (the third use is the only convert-reversal) ── */
   {
     weight: "cross_arc_zyr_koth",
