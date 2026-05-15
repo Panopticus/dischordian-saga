@@ -27,12 +27,13 @@ const SECTION_XVI_REQUIRED_ARCS = [
   "mystery.ith_rael",
   "mystery.the_necromancer",
   "mystery.syl_vex",
-  // Phase D continuation — the_collector was in §XVI's held-back
-  // bucket; the dreamer authorized it 2026-05-15 by directing
-  // Phase D work (dreamer canon-authority overrides per the build
-  // plan §I.1a). Once authored + registered it becomes a hard-
-  // parity requirement like the four §XVI arcs.
+  // Phase D continuation — the_collector + the_politician were in
+  // §XVI's held-back bucket; the dreamer authorized each 2026-05-15
+  // by directing Phase D work (dreamer canon-authority overrides
+  // per the build plan §I.1a). Once authored + registered they
+  // become hard-parity requirements like the four §XVI arcs.
   "mystery.the_collector",
+  "mystery.the_politician",
 ] as const;
 
 export function checkMysteryEngineRosterCoverage(): RawParityCount {

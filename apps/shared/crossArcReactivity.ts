@@ -44,7 +44,8 @@ export type CrossArcWeight =
   | "cross_arc_degen"
   | "cross_arc_game_master"
   | "cross_arc_nemesis"
-  | "cross_arc_collector";
+  | "cross_arc_collector"
+  | "cross_arc_politician";
 
 /** A canonical cross-arc binding. */
 export interface CrossArcBinding {
@@ -81,6 +82,31 @@ export interface CrossArcBinding {
    ═══════════════════════════════════════════════════════ */
 
 export const CROSS_ARC_BINDINGS: readonly CrossArcBinding[] = [
+  /* ── Politician → Nemesis (the policy pays out, against the player) ── */
+  {
+    weight: "cross_arc_politician",
+    sourceArc: "arc.the_politician" as ArcId,
+    sourceEpisode: 4,
+    sourceChoiceId: "politician.e4.c.active",
+    destinationArc: "arc.the_necromancer" as ArcId,
+    destinationEpisodes: [1],
+    narrativeMeaning:
+      "If the player carries the recruit clause to the next Nemesis " +
+      "encounter (politician.e4 active choice), the the_necromancer " +
+      "arc's E1 gains the cross-thread: the secret apprentices were " +
+      "re-released when the Necromancer escaped the Matrix. The player " +
+      "who has run the Politician arc reads the Nemesis not as a " +
+      "generic rival but as the Politician's insurance policy paying " +
+      "out — and reads the Necromancer's escape as the event that " +
+      "triggered the disbursement. The two arcs compose into one " +
+      "mechanism: the Politician built the apprentices; the " +
+      "Necromancer's escape released them.",
+    loreSource:
+      "apps/shared/episodeMysteries.ts (politician.e4 + necromancer.e1) + " +
+      "apps/shared/nemesisSystem.ts:15-30 (Nemesis = Politician's secret " +
+      "apprentice, re-released when the Necromancer escaped the Matrix) + " +
+      "build plan §I.1a",
+  },
   /* ── Collector → Watcher (the seizure, from both sides) ── */
   {
     weight: "cross_arc_collector",

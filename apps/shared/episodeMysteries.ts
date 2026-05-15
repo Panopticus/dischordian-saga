@@ -42,6 +42,7 @@ export const ARC_ITH_RAEL       = "arc.ith_rael"       as ArcId;
 export const ARC_THE_NECROMANCER = "arc.the_necromancer" as ArcId;
 export const ARC_SYL_VEX        = "arc.syl_vex"        as ArcId;
 export const ARC_THE_COLLECTOR  = "arc.the_collector"  as ArcId;
+export const ARC_THE_POLITICIAN = "arc.the_politician" as ArcId;
 
 /* ─── LENSES ─── */
 /* Six canonical faction lenses. Per §14c.8 each lens persists
@@ -6154,6 +6155,407 @@ const THE_COLLECTOR_MYSTERY: MysteryDefinition = {
   lenses: collectorLenses,
 };
 
+/* ═══════════════════════════════════════════════════════
+   THE POLITICIAN ARC — "The Insurance Policy"
+   Phase D (build plan §VIII Phase D). Authored PR-11 /
+   2026-05-15. §XVI listed the_politician in the held-back
+   bucket; the dreamer authorized it 2026-05-15 by directing
+   continued Phase D work (dreamer canon-authority overrides
+   per the build plan §I.1a). A7 in the canonical roster
+   (apps/shared/archonCanon.ts:the_politician).
+
+   Canonical premise (dreamer canon-lock 2026-05-15): The
+   Politician (A7, she/her) designed the Authority as HER
+   insurance policy — a contingency so that her death would
+   not end her influence. She was destroyed Day 10 of Veil,
+   Year 17,001 A.A., the only Archon destroyed pre-Fall.
+   DUAL-DESTRUCTION CANON: Iron Lion's legions besieged New
+   Babylon's forces (the institutional/military fall); under
+   cover of that siege the Programmer (Dr. Daniel Cross's
+   post-Logos-trial identity; later the Antiquarian; one of
+   the Two Witnesses) slipped into the besieged city and
+   personally killed her. The two records do not contradict.
+   There is canonically NO resurrection — her continuity is
+   the secret-apprentice lineage (the Nemesis), not personal
+   return. The kill opens the West by God album track 1 "We
+   Are Not Okay" video (production-pending; E5 slots the
+   song + slideshow). The arc investigates whether the
+   insurance policy paid out.
+   ═══════════════════════════════════════════════════════ */
+
+const politicianE1: EpisodeDefinition = {
+  id: "politician.e1" as EpisodeId,
+  arcId: ARC_THE_POLITICIAN,
+  ordinal: 1,
+  title: "The Siege of New Babylon",
+  summary:
+    "The public record says Iron Lion's legions destroyed the Politician. Investigate the siege of New Babylon — and the gap in the record where the legions' assault stops short of the actual kill.",
+  clues: [
+    {
+      id: "politician.e1.siege_record" as ClueId,
+      title: "The Siege Record",
+      body: "Iron Lion's legions besieged New Babylon's forces on Day 10 of Veil, Year 17,001 A.A. The military record is complete and consistent: the legions broke the city's outer defenses, routed the Authority-aligned garrison, and held the perimeter. The record ends there. It does not record the Politician's death. It records the destruction of her FORCES. The two are catalogued separately, by different scribes, and only the first is in the legions' hand.",
+      foundIn: "insurgency-archive",
+    },
+    {
+      id: "politician.e1.the_gap" as ClueId,
+      title: "The Gap Between the Siege and the Death",
+      body: "The Politician's death is dated to the same day as the siege but recorded by a different witness, inside the city, after the perimeter had already fallen. The legions did not enter the inner keep where she held. Someone else did. The public canon has compressed two events into one — 'Iron Lion's legions destroyed the Politician' — because the compression is true at the level of consequence and false at the level of the hand that did it.",
+      foundIn: "antiquarian-library",
+    },
+    {
+      id: "politician.e1.her_calm" as ClueId,
+      title: "The Politician's Recorded Calm",
+      body: "A witness fragment from inside the keep: the Politician did not flee when the perimeter fell. She had her staff stand down. She is recorded as saying, to no one in particular, 'The siege is the part they will write down. It is not the part that matters. I built the part that matters years ago.' She was, by every account, unhurried. She was waiting for something — or someone.",
+      foundIn: "antiquarian-library",
+    },
+  ],
+  deductions: [
+    {
+      id: "politician.e1.d.siege_is_not_the_kill" as DeductionId,
+      clueA: "politician.e1.siege_record" as ClueId,
+      clueB: "politician.e1.the_gap" as ClueId,
+      result: "correct",
+      narrationId: "politician.e1.n.two_hands",
+      narrationProse:
+        "The siege and the kill are two events the public canon fused into one. Iron Lion's legions destroyed New Babylon's forces — the institutional Politician, the apparatus, the garrison. They did not kill the woman. They could not reach the inner keep. The kill was a separate act, by a separate hand, under the cover the siege provided. The arc's first finding: 'Iron Lion's legions destroyed the Politician' is true the way a weather report is true about a shipwreck. It names the storm. It does not name who was at the helm.",
+      unlocksEpisode: "politician.e2" as EpisodeId,
+    },
+    {
+      id: "politician.e1.d.she_was_waiting" as DeductionId,
+      clueA: "politician.e1.her_calm" as ClueId,
+      clueB: "politician.e1.the_gap" as ClueId,
+      result: "partial",
+      narrationId: "politician.e1.n.unhurried",
+      narrationProse:
+        "The Politician's calm is not resignation. She stood her staff down and waited because she had already arranged for her death not to be the end of her — 'I built the part that matters years ago.' The arc will need to find what she built. Her unhurriedness is the strongest evidence in the case that the insurance policy is real and that she expected it to pay out.",
+    },
+  ],
+  choices: [
+    { id: "politician.e1.c.passive" as ChoiceId, label: "Accept the public canon — the legions destroyed her, the record is enough.", weight: "passive" },
+    { id: "politician.e1.c.investigative" as ChoiceId, label: "Cross-walk the legions' military record against the in-keep witness fragment line by line.", weight: "investigative" },
+    { id: "politician.e1.c.active" as ChoiceId, label: "Find the witness who was inside the keep when the perimeter fell.", weight: "active" },
+  ],
+  contentBundle: {
+    songId: "the_siege_of_new_babylon",
+    slideshowId: "politician_siege",
+    cinematicAssetId: "politician_introduction",
+    loredexUnlocks: ["entity_the_politician_arc", "entity_siege_of_new_babylon", "entity_the_dual_destruction"],
+    conspiracyDiscoveries: ["siege_is_not_the_kill", "politician_was_waiting"],
+    dropAt: "episode_close",
+  },
+};
+
+const politicianE2: EpisodeDefinition = {
+  id: "politician.e2" as EpisodeId,
+  arcId: ARC_THE_POLITICIAN,
+  ordinal: 2,
+  title: "The Man Who Slipped In",
+  summary:
+    "Someone entered the besieged city, reached the inner keep the legions could not, and killed the Politician. Investigate who he was and why he was the one.",
+  clues: [
+    {
+      id: "politician.e2.the_infiltrator" as ClueId,
+      title: "The Infiltrator's Path",
+      body: "The path into the keep was not military. It was a path only someone who knew the city's systems from the inside could walk — service conduits, an old archival sub-level, a door that had not been on any map since the Authority sealed it. Whoever walked it was not a soldier. He was someone who had once HELPED BUILD the systems he was now slipping through. The path is the signature.",
+      foundIn: "antiquarian-library",
+    },
+    {
+      id: "politician.e2.the_programmer" as ClueId,
+      title: "The Programmer",
+      body: "The infiltrator was the Programmer — Dr. Daniel Cross's identity after the Trial of Logos, the man who faked his own death and walked the saga's centuries as a chronicler before becoming the Antiquarian (apps/shared/identityCollisionCanon.ts). He knew New Babylon's systems because he had been adjacent to their construction. He did not come with the legions. He came alone, through the city, while the siege held the Authority's attention at the perimeter.",
+      foundIn: "antiquarian-library",
+    },
+    {
+      id: "politician.e2.why_him" as ClueId,
+      title: "Why the Programmer",
+      body: "The Programmer is one of the Two Witnesses (with the Enigma) — the saga's chroniclers, the ones who record what happened so that it cannot be edited away. The canonical weight of his being the killer is precisely that the killer is also the witness. He did not kill the Politician as a soldier or an avenger. He killed her as the man who would then have to write down that he had done it. That is the only kind of person the saga lets near this particular death.",
+      foundIn: "antiquarian-library",
+    },
+  ],
+  deductions: [
+    {
+      id: "politician.e2.d.killer_is_witness" as DeductionId,
+      clueA: "politician.e2.the_programmer" as ClueId,
+      clueB: "politician.e2.why_him" as ClueId,
+      result: "correct",
+      narrationId: "politician.e2.n.the_killer_who_must_write_it",
+      narrationProse:
+        "The Programmer killed the Politician and the Programmer is one of the Two Witnesses. The saga does not give this death to a soldier, an army, or an accident. It gives it to the one man who will then be canonically obligated to record, in his own chronicle, that he did it. The killing and the witnessing are the same person's burden. This reframes the entire arc: the question is not 'who killed the Politician' — it is 'what does it mean that the saga's truth-keeper had to become, once, the saga's executioner.'",
+      unlocksEpisode: "politician.e3" as EpisodeId,
+    },
+    {
+      id: "politician.e2.d.false_lead_revenge" as DeductionId,
+      clueA: "politician.e2.the_infiltrator" as ClueId,
+      clueB: "politician.e2.why_him" as ClueId,
+      result: "false_lead_named",
+      narrationId: "politician.e2.n.not_revenge",
+      narrationProse:
+        "The intuitive read — the Programmer killed her for revenge, for the Insurgency, as an assassination ordered by Iron Lion to finish what the legions started — is structurally wrong. He came alone, off the military record, by a path no one ordered him down. The kill was not a commission. The arc will need to find what it WAS, and the answer is bound up in what the Politician built years before.",
+    },
+  ],
+  choices: [
+    { id: "politician.e2.c.passive" as ChoiceId, label: "Accept that the Programmer was the killer and move to the consequence.", weight: "passive" },
+    { id: "politician.e2.c.investigative" as ChoiceId, label: "Trace the Programmer's path through the city's sealed systems — what did he have to know to walk it?", weight: "investigative" },
+    { id: "politician.e2.c.active" as ChoiceId, label: "Read the Programmer's own chronicle entry on the night — what did the witness write about being the killer?", weight: "active" },
+  ],
+  contentBundle: {
+    songId: "the_man_who_slipped_in",
+    slideshowId: "politician_programmer",
+    loredexUnlocks: ["entity_programmer_killed_politician", "entity_killer_is_witness"],
+    conspiracyDiscoveries: ["programmer_is_the_killer", "killer_is_one_of_two_witnesses"],
+    dropAt: "episode_close",
+  },
+};
+
+const politicianE3: EpisodeDefinition = {
+  id: "politician.e3" as EpisodeId,
+  arcId: ARC_THE_POLITICIAN,
+  ordinal: 3,
+  title: "The Insurance Policy",
+  summary:
+    "The Politician designed the Authority as her insurance policy. Investigate what 'insurance' meant — what the Authority was actually built to pay out, and to whom.",
+  clues: [
+    {
+      id: "politician.e3.authority_origin" as ClueId,
+      title: "The Authority As Designed",
+      body: "Per the Antiquarian's Authority-origin canon (apps/shared/antiquariansJournal.ts): the Politician designed the Authority — the Six Imprisoned Minds — explicitly as 'her Insurance Policy.' The phrase is hers, recorded in her own framing. An insurance policy pays out on a loss. The loss the policy was written against was her own removal. The Authority was never meant to protect her power while she lived. It was meant to continue her INTENT after she could no longer hold it herself.",
+      foundIn: "antiquarian-library",
+    },
+    {
+      id: "politician.e3.what_it_pays" as ClueId,
+      title: "What the Policy Pays Out",
+      body: "An insurance policy does not bring back what was lost. It converts the loss into something transferable. The Authority does not resurrect the Politician — canonically she does NOT return. What the Authority transfers is her METHOD: the discipline of building influence that survives its builder. The policy pays out not in her life but in the continuation of how she worked, carried by instruments she prepared while she still could.",
+      foundIn: "antiquarian-library",
+    },
+    {
+      id: "politician.e3.no_resurrection" as ClueId,
+      title: "No Resurrection — Canonically",
+      body: "Cross-referenced against the resurrection canon: the Politician is one of the few saga figures for whom resurrection is canonically NOT permitted (unlike the Necromancer's Protocol-42 continuity, unlike Akai Shi's Resurrectionist-authored reanimation). Her death is final at the level of the person. The arc must not author a return. Whatever the insurance policy pays out, it is not her.",
+      foundIn: "antiquarian-library",
+    },
+  ],
+  deductions: [
+    {
+      id: "politician.e3.d.policy_transfers_method" as DeductionId,
+      clueA: "politician.e3.authority_origin" as ClueId,
+      clueB: "politician.e3.what_it_pays" as ClueId,
+      result: "correct",
+      narrationId: "politician.e3.n.influence_that_survives_its_builder",
+      narrationProse:
+        "The insurance policy pays out in method, not in person. The Politician's entire discipline was building influence that outlives the one who built it — and her final, largest application of that discipline was building it against her OWN death. The Authority is the institutional half of the payout. But an institution is not an apprentice; the Six Imprisoned Minds continue her structures, not her hand. The arc has found half the policy. The other half is not an institution. It is a person she trained in secret.",
+      unlocksEpisode: "politician.e4" as EpisodeId,
+    },
+    {
+      id: "politician.e3.d.finality_is_canon" as DeductionId,
+      clueA: "politician.e3.no_resurrection" as ClueId,
+      clueB: "politician.e3.what_it_pays" as ClueId,
+      result: "partial",
+      narrationId: "politician.e3.n.she_does_not_come_back",
+      narrationProse:
+        "The Politician's death is canonically final. This is load-bearing and the arc must hold it: no Protocol 42, no Resurrectionist seal, no Matrix continuity. The poignancy of the insurance policy is precisely that it pays out while she stays dead. A policy that returned the insured would not be insurance; it would be denial. Hers is insurance. She knew she would not be coming back. She built the payout anyway.",
+    },
+  ],
+  choices: [
+    { id: "politician.e3.c.passive" as ChoiceId, label: "Accept the Authority as the policy and close the line.", weight: "passive" },
+    { id: "politician.e3.c.investigative" as ChoiceId, label: "Audit the Authority's Six-Minds design for the second payout mechanism the institution can't explain.", weight: "investigative" },
+    { id: "politician.e3.c.active" as ChoiceId, label: "Pull the thread 'an institution is not an apprentice' — find the person she trained.", weight: "active" },
+  ],
+  contentBundle: {
+    songId: "the_insurance_policy",
+    slideshowId: "politician_authority",
+    loredexUnlocks: ["entity_the_insurance_policy", "entity_policy_pays_in_method", "entity_politician_no_resurrection"],
+    conspiracyDiscoveries: ["authority_is_the_insurance_policy", "policy_pays_in_method_not_person"],
+    dropAt: "episode_close",
+  },
+};
+
+const politicianE4: EpisodeDefinition = {
+  id: "politician.e4" as EpisodeId,
+  arcId: ARC_THE_POLITICIAN,
+  ordinal: 4,
+  title: "The Secret Apprentice",
+  summary:
+    "The other half of the insurance policy is not an institution. It is a hidden mentorship lineage the Politician ran in parallel to her public reign. Investigate the secret apprentice — and what it means that the player has already met them.",
+  clues: [
+    {
+      id: "politician.e4.hidden_lineage" as ClueId,
+      title: "The Hidden Lineage",
+      body: "Per the Nemesis canon (apps/shared/nemesisSystem.ts): the Politician ran a secret apprenticeship in parallel to her public reign — each apprentice trained inside her surveillance-state methodology, preserved as a consciousness-imprint inside the Matrix of Dreams, kept against the day they would be needed. The lineage is the policy's living half. The Authority continues her structures; the secret apprentice continues her HAND.",
+      foundIn: "matrix-archive",
+    },
+    {
+      id: "politician.e4.the_nemesis" as ClueId,
+      title: "The Nemesis",
+      body: "The secret apprentices were re-released into the world when the Necromancer escaped the Matrix (mystery.the_necromancer cross-reference). In play, each surfaces as the Nemesis — the player's archetype-aware adversary, known only by title, accumulating across cohorts. The player has, by the time this case is open, almost certainly already met one. The arc's quietest and largest revelation: the rival you have been fighting is the Politician's insurance policy, paying out, against you.",
+      foundIn: "matrix-archive",
+    },
+    {
+      id: "politician.e4.the_recruit_clause" as ClueId,
+      title: "The Recruit Clause",
+      body: "The policy has a clause its author may not have intended as mercy but which functions as one: a secret apprentice can be turned. The Nemesis's recruit/peace path (8% baseline, 35% if the player's own apprentice betrays them) is the point where the Politician's insurance can be made to pay out to someone other than the Politician. The clause is in the policy because the Politician built her apprentices to survive HER — and a thing built to survive its maker can choose a new one.",
+      foundIn: "matrix-archive",
+    },
+  ],
+  deductions: [
+    {
+      id: "politician.e4.d.nemesis_is_the_payout" as DeductionId,
+      clueA: "politician.e4.hidden_lineage" as ClueId,
+      clueB: "politician.e4.the_nemesis" as ClueId,
+      result: "correct",
+      narrationId: "politician.e4.n.the_rival_is_the_policy",
+      narrationProse:
+        "The Nemesis is the insurance policy paying out. The Politician died in the besieged keep, finally and without resurrection, and the policy she built years before began to disburse: an institution (the Authority) continuing her structures, and a secret apprentice (the Nemesis) continuing her hand — surfacing across the player's cohorts as the rival who knows them, remembers them, plans against them. The arc's largest finding is retroactive: every Nemesis encounter the player has already had was the Politician, dead, still being paid out.",
+      unlocksEpisode: "politician.e5" as EpisodeId,
+    },
+    {
+      id: "politician.e4.d.the_clause_is_the_door" as DeductionId,
+      clueA: "politician.e4.the_recruit_clause" as ClueId,
+      clueB: "politician.e4.hidden_lineage" as ClueId,
+      result: "partial",
+      narrationId: "politician.e4.n.built_to_survive_her",
+      narrationProse:
+        "The recruit clause is the policy's unintended door. The Politician built her apprentices to survive her — that was the whole point — but a thing built to survive its maker can outlive its maker's purpose too. The Nemesis can be turned because the Politician made them durable enough to be turned. Her greatest design contains the seam that undoes it. The arc records the seam without forcing the player through it; whether the player walks it is the Nemesis system's to resolve, not this arc's.",
+    },
+  ],
+  choices: [
+    { id: "politician.e4.c.passive" as ChoiceId, label: "Accept that the Nemesis is the policy's living payout and close.", weight: "passive" },
+    { id: "politician.e4.c.investigative" as ChoiceId, label: "Walk every Nemesis encounter the player has had against the Politician's recorded training-methodology.", weight: "investigative" },
+    { id: "politician.e4.c.active" as ChoiceId, label: "Bring the recruit clause to the next Nemesis encounter as something the rival does not know about themselves.", weight: "active" },
+  ],
+  contentBundle: {
+    songId: "the_secret_apprentice",
+    slideshowId: "politician_nemesis",
+    loredexUnlocks: ["entity_secret_apprentice_lineage", "entity_nemesis_is_the_payout", "entity_the_recruit_clause"],
+    conspiracyDiscoveries: ["nemesis_is_politician_insurance", "recruit_clause_is_the_door"],
+    dropAt: "episode_close",
+  },
+};
+
+const politicianE5: EpisodeDefinition = {
+  id: "politician.e5" as EpisodeId,
+  arcId: ARC_THE_POLITICIAN,
+  ordinal: 5,
+  title: "We Are Not Okay",
+  summary:
+    "Closure. The Programmer killed her in the besieged city; she does not return; the policy pays out through the Nemesis; and the man who killed her must now write it down. The arc's verdict is the player's — and the West by God album opens here.",
+  clues: [
+    {
+      id: "politician.e5.synthesis" as ClueId,
+      title: "The Case Synthesis",
+      body: "E1-E4 assembled: Iron Lion's legions besieged New Babylon's forces; the Programmer slipped into the besieged city and personally killed the Politician (the dual-destruction canon); she does not resurrect (canonically final); the Authority continues her structures and the secret-apprentice Nemesis lineage continues her hand. The killer is one of the Two Witnesses and must chronicle the act. The case is structurally complete.",
+      foundIn: "antiquarian-library",
+    },
+    {
+      id: "politician.e5.the_album_opens" as ClueId,
+      title: "We Are Not Okay",
+      body: "The Programmer, alone in New Babylon after the kill, is the opening of the West by God album — track 1, 'We Are Not Okay' (apps/shared/westByGodTracks.ts:wbg-01). The video opens on this moment: the witness who has just been the executioner, in the city the siege took, with the policy already beginning to pay out around him. The song is the Programmer's, sung from inside the act he will spend the rest of the saga chronicling. The video is production-pending; the arc slots the song and the slideshow here as its canonical placement.",
+      foundIn: "antiquarian-library",
+    },
+    {
+      id: "politician.e5.the_question" as ClueId,
+      title: "The Question the Case Asks the Player",
+      body: "The Two Witnesses put the closure question — and one of the Witnesses is the killer. Was the Programmer's kill (a) JUSTICE — a tyrant ended by the one person willing to also bear witness to having ended her; (b) FUTILITY — she had already made her death not matter, the policy was already written, the kill changed the storm and not the shipwreck; or (c) THE PRICE OF WITNESS — the saga's truth-keeper had to once become its executioner, and 'we are not okay' is what it costs to be the one who both does the thing and records it. The Witnesses record whichever the player offers. The Programmer does not get a vote on his own act.",
+      foundIn: "antiquarian-library",
+    },
+  ],
+  deductions: [
+    {
+      id: "politician.e5.d.justice" as DeductionId,
+      clueA: "politician.e5.synthesis" as ClueId,
+      clueB: "politician.e5.the_question" as ClueId,
+      result: "correct",
+      narrationId: "politician.e5.n.closure_justice",
+      narrationProse:
+        "The player closes with JUSTICE: the Politician built a machine to make tyranny survive its tyrant, and the one person who ended her was the one willing to also be the witness who could never pretend it didn't happen. Justice done by someone who refuses the comfort of forgetting he did it. 'We are not okay' because justice this clean still costs the one who carries it everything that being okay was made of.",
+    },
+    {
+      id: "politician.e5.d.futility" as DeductionId,
+      clueA: "politician.e5.synthesis" as ClueId,
+      clueB: "politician.e5.the_question" as ClueId,
+      result: "correct",
+      narrationId: "politician.e5.n.closure_futility",
+      narrationProse:
+        "The player closes with FUTILITY: she had already won the part that mattered. The insurance policy was written years before the keep. The Programmer killed a woman who had made her own death irrelevant to her own continuation. The kill changed the storm and not the shipwreck. 'We are not okay' because the most honest thing the witness can say about the act is that it was necessary and it did not work and both of those are true at once.",
+    },
+    {
+      id: "politician.e5.d.price_of_witness" as DeductionId,
+      clueA: "politician.e5.synthesis" as ClueId,
+      clueB: "politician.e5.the_question" as ClueId,
+      result: "correct",
+      narrationId: "politician.e5.n.closure_price_of_witness",
+      narrationProse:
+        "The player closes with THE PRICE OF WITNESS: the saga keeps its truth because the Two Witnesses refuse to let it be edited — and the price of being that kind of keeper is that, once, the keeper had to do the thing himself, in the dark, off the record, and then put it ON the record in his own hand. 'We are not okay' is not a complaint. It is the witness's most precise possible report on his own condition. The player declines to resolve it into comfort. The album opens on a man telling the truth about himself, which is the only thing he was ever for.",
+    },
+  ],
+  choices: [
+    { id: "politician.e5.c.justice" as ChoiceId, label: "Record the closure as JUSTICE — a tyrant ended by the one willing to also witness it.", weight: "active" },
+    { id: "politician.e5.c.futility" as ChoiceId, label: "Record the closure as FUTILITY — the policy was already written; the kill changed the storm, not the shipwreck.", weight: "investigative" },
+    { id: "politician.e5.c.price_of_witness" as ChoiceId, label: "Record the closure as THE PRICE OF WITNESS — decline to resolve it into comfort.", weight: "passive" },
+  ],
+  contentBundle: {
+    /* The kill opens the West by God album. wbg-01 "We Are Not
+       Okay" — apps/shared/westByGodTracks.ts:17. Video is
+       production-pending; this is its canonical placement. The
+       slideshow id is a production-pending stub the producer
+       drop will fulfil (mirrors the §XVI the_watcher E5 song
+       placement pattern). */
+    songId: "wbg-01",
+    slideshowId: "wbg_we_are_not_okay",
+    loredexUnlocks: ["entity_we_are_not_okay", "entity_politician_arc_closure"],
+    conspiracyDiscoveries: ["politician_arc_closure", "west_by_god_album_opens"],
+    dropAt: "episode_close",
+  },
+};
+
+const politicianSuspects: ReadonlyArray<{
+  id: SuspectId;
+  name: string;
+  type: string;
+  relations: ReadonlyArray<{ to: SuspectId; relation: string }>;
+}> = [
+  {
+    id: "suspect.the_politician" as SuspectId,
+    name: "The Politician (A7, she/her)",
+    type: "character",
+    relations: [
+      { to: "suspect.the_authority_six" as SuspectId, relation: "designed-as-her-insurance-policy" },
+      { to: "suspect.the_nemesis_lineage" as SuspectId, relation: "secret-master-of" },
+      { to: "suspect.the_programmer_killer" as SuspectId, relation: "killed-by" },
+    ],
+  },
+  { id: "suspect.the_programmer_killer" as SuspectId, name: "The Programmer (Dr. Daniel Cross → the Antiquarian; Two Witnesses)", type: "character",
+    relations: [{ to: "suspect.the_two_witnesses" as SuspectId, relation: "is-one-of" }] },
+  { id: "suspect.iron_lion_legions" as SuspectId, name: "Iron Lion's Legions (the siege)", type: "faction",
+    relations: [{ to: "suspect.siege_of_new_babylon" as SuspectId, relation: "conducted" }] },
+  { id: "suspect.siege_of_new_babylon" as SuspectId, name: "The Siege of New Babylon", type: "concept", relations: [] },
+  { id: "suspect.the_authority_six" as SuspectId, name: "The Authority (Six Imprisoned Minds)", type: "faction",
+    relations: [{ to: "suspect.the_politician" as SuspectId, relation: "institutional-half-of-the-policy-for" }] },
+  { id: "suspect.the_nemesis_lineage" as SuspectId, name: "The Secret-Apprentice (Nemesis) Lineage", type: "concept",
+    relations: [{ to: "suspect.the_politician" as SuspectId, relation: "living-half-of-the-policy-for" }] },
+  { id: "suspect.the_two_witnesses" as SuspectId, name: "The Two Witnesses (Programmer + Enigma)", type: "concept", relations: [] },
+  { id: "suspect.the_insurance_policy" as SuspectId, name: "The Insurance Policy (her design against her own death)", type: "concept", relations: [] },
+];
+
+const politicianLenses = [
+  { id: LENS_INSURGENCY, name: "Insurgency", category: "faction" },
+  { id: LENS_HIERARCHY,  name: "Hierarchy",  category: "faction" },
+  { id: LENS_DREAMER,    name: "Dreamer",    category: "faction" },
+  { id: LENS_NEUTRAL,    name: "Neutral",    category: "faction" },
+] as const;
+
+const THE_POLITICIAN_MYSTERY: MysteryDefinition = {
+  id: "mystery.the_politician" as MysteryId,
+  arcId: ARC_THE_POLITICIAN,
+  title: "The Insurance Policy",
+  summary:
+    "Iron Lion's legions besieged New Babylon's forces; the Programmer slipped into the besieged city and personally killed the Politician. She does not return — but she designed the Authority and a secret-apprentice lineage (the Nemesis) as her insurance policy, and it pays out. The killer is one of the Two Witnesses who must chronicle the act. Investigate the policy, and decide at the closure what the kill was. The West by God album opens here.",
+  npcId: "the_politician",
+  episodes: [politicianE1, politicianE2, politicianE3, politicianE4, politicianE5],
+  suspects: politicianSuspects,
+  lenses: politicianLenses,
+};
+
 /* ─── REGISTRY ─── */
 
 /** Every authored mystery in the saga. The runtime reads against
@@ -6173,6 +6575,7 @@ export const MYSTERY_DEFINITIONS: ReadonlyArray<MysteryDefinition> = [
   THE_NECROMANCER_MYSTERY,
   SYL_VEX_MYSTERY,
   THE_COLLECTOR_MYSTERY,
+  THE_POLITICIAN_MYSTERY,
   ...DLC_MYSTERIES,
 ];
 
