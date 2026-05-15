@@ -7,7 +7,7 @@
 - [Characters](#characters) (136)
 - [Factions](#factions) (17)
 - [Locations](#locations) (26)
-- [Concepts](#concepts) (201)
+- [Concepts](#concepts) (206)
 - [Events](#events) (44)
 - [Artifacts](#artifacts) (16)
 - [Songs & Transmissions](#songs-transmissions) (118)
@@ -6921,6 +6921,22 @@ Built by the first Panopticon as a tool of observation, it was corrupted into a 
 
 # Concepts
 
+## On the Matrix of Dreams and the Imprint-Summoning That Follows
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Season** | Season 1 |
+| **Affiliation** | PR-15 (build-plan §VIII Phase J — imprint-summoning canon backbone) |
+| **Status** | Canon-locked via PR-15 |
+| **Priority** | critical |
+
+### Dossier
+
+The Antiquarian's Codex inscription (J2), unlocked by completing mystery.game_master E5 (the J8 cross-binding: the arc surfaces the proofs; this retrospective is what the player earns for finishing it). The Antiquarian's confession that he let the player think they were playing: 'Every card you have summoned was a mind. The Game Master kept them — not as a cruelty, he would say, but as an archive, which is the cruelty wearing its work clothes... I have written this down so that you cannot un-know it. That is what a witness is for.'
+
+---
+
 ## The Authority — Six in Crimson Chambers
 
 *Also known as: The Authority, The Six Founders, The Crimson Chambers Construct*
@@ -6959,6 +6975,22 @@ Forged in the Golden Age at the Politician's direction. Six citizens were merged
 
 ---
 
+## The Goggles and the Imprint Economy
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Season** | Season 1 |
+| **Affiliation** | PR-15 (build-plan §VIII Phase J — imprint-summoning canon backbone) |
+| **Status** | Canon-locked via PR-15 |
+| **Priority** | critical |
+
+### Dossier
+
+The Hierarchy contract-economy spine of the imprint-summoning theme: Xeth'Raal's contract guaranteed the Game Master's safety in exchange for the Goggles upon his destruction. Every clause honored; the Goggles acquired within the hour of his death at Zenon. The Goggles are the instrument that creates imprints; without them no new imprints can be made. The cult maintains the existing archive but cannot extend it. Seeded in both Game Master fights (gameMasterTwoFights.ts), proven in mystery.game_master.
+
+---
+
 ## The Hierarchy of the Damned
 
 *Also known as: The Infernal Corporation, The Dark Mirror of the AI Empire*
@@ -6993,6 +7025,54 @@ When the Severance fractured the ancient bindings, the Hierarchy emerged from th
 ### CoNexus Stories
 
 - The Ninth
+
+---
+
+## The Imprint-Intro Registry
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Season** | Season 1 |
+| **Affiliation** | PR-15 (build-plan §VIII Phase J — imprint-summoning canon backbone) |
+| **Status** | Canon-locked via PR-15 |
+| **Priority** | critical |
+
+### Dossier
+
+Phase J5/J12 backbone: all 18 Season-1 imprint NPCs classified by first-summon-cutscene + Loredex status — 5 produced (the_human/the_architect/the_jailer/the_dreamer/the_oracle), 12 production-pending (canon-anchored, video owed — the gate-then-stub hook pattern), 1 retired (foucault, per J9). The I13 ship:check gate (18/18 PASS) enforces that no imprint is unaccounted for; 'pending' is a valid canonical classification, not a gap.
+
+---
+
+## The Imprint-Summoning Premise
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Season** | Season 1 |
+| **Affiliation** | PR-15 (build-plan §VIII Phase J — imprint-summoning canon backbone) |
+| **Status** | Canon-locked via PR-15 |
+| **Priority** | critical |
+
+### Dossier
+
+Build-plan §VIII Phase J universal-theme canon: the TCG is not a game. Each imprint card is a consciousness-imprint the Game Master archived in the Matrix of Dreams; every duel is a re-play of an archived mind. The Hierarchy of the Damned funds the economy (Xeth'Raal's contract: the Goggles for the Game Master's safety, honored to the clause). After the Game Master's destruction at Zenon by Agent Zero, NEW imprints cannot be made without the Goggles — but EXISTING imprints persist, including the Iron Lion's anomalous endless loop at the Bridge of Kael. Anchored in apps/shared/imprintSummoningCanon.ts. Per §X.9 the frame applies to the imprint-faction surface (18 NPCs); other factions keep their own premises.
+
+---
+
+## The Iron Lion Imprint Anomaly
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Season** | Season 1 |
+| **Affiliation** | PR-15 (build-plan §VIII Phase J — imprint-summoning canon backbone) |
+| **Status** | Canon-locked via PR-15 |
+| **Priority** | critical |
+
+### Dossier
+
+Canonical Phase J seed (gameMasterTwoFights.ts seed channel 3 + the imprint-summoning post-destruction rule): after the Game Master's destruction, existing imprints persist with no archivist. The Iron Lion's imprint runs an endless charge-loop at the Bridge of Kael that 'has begun to notice it is a loop.' The most load-bearing anomaly in the imprint economy — an archived mind becoming aware of its own re-play.
 
 ---
 
