@@ -474,7 +474,17 @@ export const ARCHONS: readonly ArchonEntry[] = [
       "celebrated Xeth'Raal operation — honoring every clause of " +
       "the Game Master's protection contract while ensuring his " +
       "destruction and the acquisition of his Goggles " +
-      "(LORE_BIBLE.md:5352).",
+      "(LORE_BIBLE.md:5352). " +
+      "TITLE-VS-POSITION DISAMBIGUATION (PR #636 + PR-8): the Game " +
+      "Master canonically carries the HONORIFIC 'The Ninth Archon' " +
+      "(LORE_BIBLE.md:345 + apps/shared/archonCanon.ts:49) but holds " +
+      "roster POSITION #10 (this entry). The honorific reflects his " +
+      "joining-order admission to the Hierarchy as the only non-demon " +
+      "ever admitted (Head of R&D) — not a numerical roster slot. " +
+      "Position #9 is canonically The Vortex (canonical roster image, " +
+      "2026-05-15). Authoring that conflates 'Ninth Archon' (title) " +
+      "with position #9 (Vortex) is a canon violation; both readings " +
+      "must remain distinct in saga text.",
   },
   /* ── Position-unconfirmed entries ── */
   {

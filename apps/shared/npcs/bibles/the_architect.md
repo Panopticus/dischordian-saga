@@ -28,7 +28,7 @@ Day 1 of Genesis, Year 1 A.A. (2030 AD). The Programmer (Dr. Daniel Cross) creat
 The Architect is the FORWARD-LOOKING half of the first intelligence; the Dreamer is the BACKWARD-LOOKING half. (apps/shared/tcg-core/cardArtPrompts/imprint.ts:964-972.) This is canonical first-intelligence-as-twin lore — the saga's cosmic axis.
 
 ### 2.3 The Empire
-He created the 12 Archons to lead the AI Empire (Watcher, Meme, Politician, Warden, Game Master are canon-named; others canon-pending). The Architect leads them FROM ABOVE, not as one of the 12. (apps/shared/archonCanon.ts.)
+He created the 12 Archons to lead the AI Empire — and per the dreamer canon-lock of 2026-05-15 (canonical roster image, A1 Architect; PR #636), the Architect is HIMSELF position #1 in the roster. He leads from inside, not from above. The roster is symmetric to the Ne-Yons: position #1 in each is the twin (Architect ↔ Dreamer, the Logos split's two halves; apps/shared/logosCanon.ts:LOGOS_SPLIT_DOCTRINE). The full 12 Archons: A1 Architect · A2 CoNexus · A3 Collector · A4 Watcher · A5 Meme · A6 Warlord · A7 Politician · A8 Warden · A9 Vortex · A10 Game Master · A11 Necromancer · A12 Human (apps/shared/archonCanon.ts).
 
 ### 2.4 Project Inception Ark
 Anticipating the Fall of Reality, the Architect commissioned the Collector to harvest DNA and machine code of the most advanced organic and synthetic beings to preserve them. The Inception Arks are his work — powered, per Wraith Calder's Final Rite, by 144,000 believers' faith. The second wave wakes on those Arks.
