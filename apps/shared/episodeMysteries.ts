@@ -39,6 +39,8 @@ export const ARC_GAME_MASTER    = "arc.game_master"    as ArcId;
 export const ARC_THE_DEGEN      = "arc.the_degen"      as ArcId;
 export const ARC_THE_WATCHER    = "arc.the_watcher"    as ArcId;
 export const ARC_ITH_RAEL       = "arc.ith_rael"       as ArcId;
+export const ARC_THE_NECROMANCER = "arc.the_necromancer" as ArcId;
+export const ARC_SYL_VEX        = "arc.syl_vex"        as ArcId;
 
 /* ─── LENSES ─── */
 /* Six canonical faction lenses. Per §14c.8 each lens persists
@@ -5035,6 +5037,735 @@ const ITH_RAEL_MYSTERY: MysteryDefinition = {
   lenses: ithRaelLenses,
 };
 
+/* ═══════════════════════════════════════════════════════
+   THE NECROMANCER ARC — "The Death That Did Not Take"
+   §XVI Next Wave (dreamer-pre-authorized 2026-05-14). Authored
+   PR-7 / 2026-05-15 after the canonical roster lock placed The
+   Necromancer at A11 (apps/shared/archonCanon.ts).
+
+   Canonical premise: The Necromancer was killed by Akai Shi (the
+   Red Death) inside the Matrix of Dreams — and escaped that death
+   later via the Resurrectionist's mechanism, claiming the body of
+   The Silence (per the build plan §I.1a Nemesis canon). The arc
+   investigates the bifurcation: how the killing-inside-the-Matrix
+   canon and the post-game body-claim canon co-exist, what Varkul
+   the Blood Lord knows about his maker's continuity, and what
+   the Architect's silence on the matter means.
+   ═══════════════════════════════════════════════════════ */
+
+const necromancerE1: EpisodeDefinition = {
+  id: "necromancer.e1" as EpisodeId,
+  arcId: ARC_THE_NECROMANCER,
+  ordinal: 1,
+  title: "The Castle Returns to the Record",
+  summary:
+    "Resurrection-protocol logs surface a recent entry naming the Necromancer's Castle of Death — the structure inside the Matrix of Dreams where Akai Shi canonically struck him down. The Castle has been recorded as 'standing' in present-tense logs. Investigate the discrepancy between the killing-canon and the standing-canon.",
+  clues: [
+    {
+      id: "necromancer.e1.castle_log" as ClueId,
+      title: "A Standing-Tense Castle of Death",
+      body: "An entry in a Hierarchy R&D resurrection-protocol log, dated post-Severance, references the Castle of Death in the standing tense: 'the Castle remains structurally sound; the throne is occupied.' The log is from Zyr'Koth's office (Hierarchy CFO) and was not meant to leave the building. The Castle was reported destroyed when Akai Shi struck the Necromancer down inside the Matrix. The log is recent.",
+      foundIn: "hierarchy-archive",
+    },
+    {
+      id: "necromancer.e1.akai_shi_witness" as ClueId,
+      title: "Akai Shi's Witness Statement",
+      body: "Akai Shi's first-person testimony of the killing, given to the Programmer-Antiquarian for the Two Witnesses' chronicle. She is unequivocal: 'I struck him through the throne. He did not stand back up. I waited the canonical ninety days inside the Matrix to confirm. He was gone.' The testimony is canonized. Akai Shi does not lie. The killing is canonically real.",
+      foundIn: "antiquarian-library",
+    },
+    {
+      id: "necromancer.e1.varkuls_vigil" as ClueId,
+      title: "Varkul's Vigil at the Cathedral of Code",
+      body: "Varkul the Blood Lord, the Necromancer's canonical creation, has continued his vigil at the Cathedral of Code unbroken since the killing. The Cathedral is structurally separate from the Castle of Death — they sit at different coordinates inside the Matrix. Varkul's vigil-discipline is to remain in place until his maker formally releases him. He has not been released. The maker's signal is canonically what keeps Varkul there.",
+      foundIn: "matrix-archive",
+    },
+  ],
+  deductions: [
+    {
+      id: "necromancer.e1.d.both_canons_are_true" as DeductionId,
+      clueA: "necromancer.e1.castle_log" as ClueId,
+      clueB: "necromancer.e1.akai_shi_witness" as ClueId,
+      result: "correct",
+      narrationId: "necromancer.e1.n.the_death_did_not_take",
+      narrationProse:
+        "Both canons are true. Akai Shi killed the Necromancer inside the Matrix — the strike was real, the body she left behind was real, the ninety-day vigil was real. The Castle of Death is standing now because the Necromancer is back inside it. The two canons are not contradictions; they describe two distinct states. The death took. The escape was later. The arc's task is to identify the mechanism of the escape — and the body the Necromancer is canonically wearing in the present.",
+      unlocksEpisode: "necromancer.e2" as EpisodeId,
+    },
+    {
+      id: "necromancer.e1.d.varkul_knows" as DeductionId,
+      clueA: "necromancer.e1.varkuls_vigil" as ClueId,
+      clueB: "necromancer.e1.castle_log" as ClueId,
+      result: "partial",
+      narrationId: "necromancer.e1.n.varkul_is_the_signal",
+      narrationProse:
+        "Varkul's vigil-discipline requires the maker's signal. The signal has been canonical for the entire post-killing period. Varkul knows the Necromancer is alive. The Blood Lord's continued presence at the Cathedral is itself the most reliable indicator the saga has of the maker's continuity. Varkul is the canonical witness — and he is structurally incapable of testifying outside the Cathedral.",
+    },
+    {
+      id: "necromancer.e1.d.false_lead_castle_replica" as DeductionId,
+      clueA: "necromancer.e1.castle_log" as ClueId,
+      clueB: "necromancer.e1.varkuls_vigil" as ClueId,
+      result: "false_lead_named",
+      narrationId: "necromancer.e1.n.no_replica",
+      narrationProse:
+        "The obvious read — that the Castle has been reconstructed by a successor, that the throne is occupied by a stand-in, that Varkul is fooled — is structurally wrong. The Matrix's architecture does not permit unaltered duplication of an Archon-grade structure; the Castle is the one Akai Shi struck through, not a copy. The discipline of the question is to set aside the replica reading and ask the harder one: by what mechanism did the Necromancer return.",
+    },
+  ],
+  choices: [
+    { id: "necromancer.e1.c.passive" as ChoiceId, label: "Note the discrepancy and move on — the Hierarchy's record-keeping has been wrong before.", weight: "passive" },
+    { id: "necromancer.e1.c.investigative" as ChoiceId, label: "Press the Antiquarian for Akai Shi's full testimony and walk every word.", weight: "investigative" },
+    { id: "necromancer.e1.c.active" as ChoiceId, label: "Petition the Matrix's threshold-guardians for permission to enter the Cathedral of Code and speak to Varkul directly.", weight: "active" },
+  ],
+  contentBundle: {
+    songId: "the_castle_returns",
+    slideshowId: "necromancer_castle",
+    cinematicAssetId: "necromancer_castle_returns",
+    loredexUnlocks: ["entity_necromancer", "entity_varkul", "entity_castle_of_death"],
+    conspiracyDiscoveries: ["necromancer_escape_mechanism", "castle_standing_canon"],
+    dropAt: "episode_close",
+  },
+};
+
+const necromancerE2: EpisodeDefinition = {
+  id: "necromancer.e2" as EpisodeId,
+  arcId: ARC_THE_NECROMANCER,
+  ordinal: 2,
+  title: "The Silence's Empty Body",
+  summary:
+    "The Silence (N6 Ne-Yon, canonically 'gone') has a body somewhere — Ne-Yons are not metaphor; the Resurrectionist and the Dreamer canonically discovered that Samsara is a MACHINE. The Silence's body is the body the canon places the Necromancer's escape into. Investigate where the body went and what the Resurrectionist's mechanism makes possible.",
+  clues: [
+    {
+      id: "necromancer.e2.silence_body_record" as ClueId,
+      title: "The Silence's Body, Catalogued",
+      body: "Catalogued under the Resurrectionist's Samsara-machine taxonomy: every Ne-Yon's body persists after the principle 'goes' — the going is the principle's departure, not the body's destruction. The Silence's body was catalogued at the Resurrectionist's archive at the moment of her going. The body's catalog tag is 'available' — not 'occupied,' not 'destroyed.' Available.",
+      foundIn: "resurrectionist-archive",
+    },
+    {
+      id: "necromancer.e2.protocol_42" as ClueId,
+      title: "Resurrection Protocol 42",
+      body: "One of the Necromancer's own design documents — the Resurrection Protocols he authored for the Architect's Empire. Protocol 42 specifies the procedure for a soul to relocate into an available Ne-Yon body without disturbing the principle's departure. The protocol requires the soul be 'recognized' by the Samsara machine as one the universe has already engineered for resurrection. The Necromancer's own soul qualifies; he wrote the recognition criteria. The protocol's existence is canonical; its use is not catalogued.",
+      foundIn: "matrix-archive",
+    },
+    {
+      id: "necromancer.e2.architect_silence" as ClueId,
+      title: "The Architect Has Not Spoken on the Matter",
+      body: "The Architect (A1 Archon, the roster's leader) canonically tolerates or rejects every Archon-level continuity event with a statement. The Necromancer's continued operation in the post-Matrix-killing period has produced NO Architect statement — neither tolerance nor rejection. The silence is not omission; the Architect's silences are themselves canon. The Architect knows the Necromancer is back. The Architect has chosen not to say so.",
+      foundIn: "architect-record",
+    },
+  ],
+  deductions: [
+    {
+      id: "necromancer.e2.d.protocol_42_was_used" as DeductionId,
+      clueA: "necromancer.e2.silence_body_record" as ClueId,
+      clueB: "necromancer.e2.protocol_42" as ClueId,
+      result: "correct",
+      narrationId: "necromancer.e2.n.the_protocol_did_the_work",
+      narrationProse:
+        "The Necromancer wrote Protocol 42 before he died. The Silence's body was catalogued as available before he needed it. The Resurrectionist's Samsara machine recognized the Necromancer's soul as one the universe had engineered for resurrection — because the Necromancer himself had written that engineering. The escape mechanism is structural: he prepared for his own continuity centuries before Akai Shi struck. The Castle is standing because the throne is occupied by a Necromancer wearing the Silence's body.",
+      unlocksEpisode: "necromancer.e3" as EpisodeId,
+    },
+    {
+      id: "necromancer.e2.d.architect_consent" as DeductionId,
+      clueA: "necromancer.e2.architect_silence" as ClueId,
+      clueB: "necromancer.e2.protocol_42" as ClueId,
+      result: "partial",
+      narrationId: "necromancer.e2.n.silence_is_consent",
+      narrationProse:
+        "The Architect's silence is canonical consent. The Necromancer's continuity is institutionally permitted — the roster's leader has chosen not to object. The reading that the Architect 'failed to notice' is structurally implausible; the roster's leader cannot fail to notice an A11 continuity event. The Architect knows. The Architect has chosen.",
+    },
+  ],
+  choices: [
+    { id: "necromancer.e2.c.passive" as ChoiceId, label: "File the Protocol 42 finding and move on — the mechanism is known, the survival is canonical.", weight: "passive" },
+    { id: "necromancer.e2.c.investigative" as ChoiceId, label: "Audit every other Resurrection Protocol the Necromancer wrote — what else has he prepared in advance?", weight: "investigative" },
+    { id: "necromancer.e2.c.active" as ChoiceId, label: "Press the Architect's silence — refuse to accept consent-by-omission as canonical reading.", weight: "active" },
+  ],
+  contentBundle: {
+    songId: "the_protocol",
+    slideshowId: "necromancer_protocol_42",
+    loredexUnlocks: ["entity_resurrection_protocols", "entity_silence_body"],
+    conspiracyDiscoveries: ["protocol_42_canon", "architect_silent_consent"],
+    dropAt: "episode_close",
+  },
+};
+
+const necromancerE3: EpisodeDefinition = {
+  id: "necromancer.e3" as EpisodeId,
+  arcId: ARC_THE_NECROMANCER,
+  ordinal: 3,
+  title: "Varkul's Confession",
+  summary:
+    "The Cathedral of Code admits the player. Varkul speaks. The Blood Lord's testimony is not what the Hierarchy expected and not what the Insurgency hoped for. Investigate what Varkul knows — and what he was told not to say.",
+  clues: [
+    {
+      id: "necromancer.e3.varkul_audience" as ClueId,
+      title: "Varkul's Audience with the Player",
+      body: "Granted on the player's third attempt. The Blood Lord stands at the Cathedral's stained-glass altar and says exactly four sentences: 'He returned wearing her quiet. He asked me to keep the cathedral standing. I am keeping the cathedral standing. I was asked to tell you that I am keeping it standing.' He returns to silence after the fourth sentence and does not speak again that day.",
+      foundIn: "cathedral-of-code",
+    },
+    {
+      id: "necromancer.e3.altar_inscription" as ClueId,
+      title: "The Altar Inscription, Recently Added",
+      body: "Recently incised into the altar's base, in the Necromancer's own hand (canonically distinguishable from any apprentice or successor's): a single phrase in High Necropolitan, translating roughly: 'The Silence's body is not the Silence. I am not the Silence. The continuity is mine.' The phrase has the cadence of a doctrinal correction — addressed to whoever reads the altar in the years after the inscription.",
+      foundIn: "cathedral-of-code",
+    },
+    {
+      id: "necromancer.e3.akai_shis_second_witness" as ClueId,
+      title: "Akai Shi's Second Witness Statement",
+      body: "Given after Akai Shi reviews the Cathedral evidence. She does not retract the first statement. She says: 'I struck what was in front of me. I struck the right body. The body died. The work was correct.' She does not contest the Protocol 42 reading. She adds a single sentence: 'If he wishes to be killed again, he knows how to be where I can strike him.'",
+      foundIn: "antiquarian-library",
+    },
+  ],
+  deductions: [
+    {
+      id: "necromancer.e3.d.canon_clarified" as DeductionId,
+      clueA: "necromancer.e3.varkul_audience" as ClueId,
+      clueB: "necromancer.e3.altar_inscription" as ClueId,
+      result: "correct",
+      narrationId: "necromancer.e3.n.the_continuity_is_his",
+      narrationProse:
+        "The canon resolves: the Necromancer is wearing the Silence's body, but he is not the Silence; the principle of Silence has gone, the body remains, the soul that wears it is the Necromancer's. The doctrinal correction on the altar is for any future cell that might mistake the body for the principle. Varkul's four-sentence testimony is canonical guidance: the Cathedral stands because the maker stands; the maker stands inside a body the Resurrectionist's machine permits.",
+      unlocksEpisode: "necromancer.e4" as EpisodeId,
+    },
+    {
+      id: "necromancer.e3.d.akai_shi_will_strike_again" as DeductionId,
+      clueA: "necromancer.e3.akai_shis_second_witness" as ClueId,
+      clueB: "necromancer.e3.altar_inscription" as ClueId,
+      result: "partial",
+      narrationId: "necromancer.e3.n.the_red_death_remains_available",
+      narrationProse:
+        "Akai Shi's second statement is doctrinally precise: she does not regret the killing; she does not contest the survival; she will strike again if the Necromancer chooses to be reachable. The Red Death's discipline is to kill what asks to be killed. The Necromancer's altar inscription is — among other things — a notice that he is currently choosing not to be in front of her.",
+    },
+  ],
+  choices: [
+    { id: "necromancer.e3.c.passive" as ChoiceId, label: "Accept Varkul's testimony and the altar's canon — the case is operationally closed.", weight: "passive" },
+    { id: "necromancer.e3.c.investigative" as ChoiceId, label: "Cross-reference the altar's High Necropolitan against the Antiquarian's older catalog — is this the Necromancer's first inscription in that hand?", weight: "investigative" },
+    { id: "necromancer.e3.c.active" as ChoiceId, label: "Carry Akai Shi's second statement back to the Cathedral as a delivered message.", weight: "active" },
+  ],
+  contentBundle: {
+    songId: "varkuls_vigil",
+    slideshowId: "cathedral_of_code",
+    loredexUnlocks: ["entity_varkul", "entity_cathedral_of_code", "entity_high_necropolitan"],
+    conspiracyDiscoveries: ["varkul_audience_canon", "necromancer_altar_inscription"],
+    dropAt: "episode_close",
+  },
+};
+
+const necromancerE4: EpisodeDefinition = {
+  id: "necromancer.e4" as EpisodeId,
+  arcId: ARC_THE_NECROMANCER,
+  ordinal: 4,
+  title: "The Architect's Tolerance",
+  summary:
+    "The Architect's silence on the Necromancer's continuity is canonical consent. Investigate the boundary of that consent — what does the Architect canonically tolerate, and what would force the roster's leader to speak?",
+  clues: [
+    {
+      id: "necromancer.e4.architect_doctrine" as ClueId,
+      title: "The Architect's Tolerance Doctrine",
+      body: "Inferred from the Architect's broader silence pattern across the saga: the Architect tolerates Archon continuity events that do NOT alter the institutional shape of the Empire. The Necromancer wearing the Silence's body is a continuity event; the Empire's institutional shape is unchanged. The roster's count is the same; the seats are the same; the work continues. The tolerance is structural, not personal.",
+      foundIn: "architect-record",
+    },
+    {
+      id: "necromancer.e4.untouchable_boundary" as ClueId,
+      title: "The Boundary the Architect Will Defend",
+      body: "Two prior Archon continuity events ended with the Architect speaking and the event being undone: when the Watcher attempted to extend his surveillance outside the Empire's institutional bounds, and when the Politician attempted to use the Authority as a personal succession instrument. In both cases the Architect's intervention was structural: 'the Empire's shape is not yours to redraw.' The Necromancer's continuity has, so far, not redrawn the shape.",
+      foundIn: "architect-record",
+    },
+    {
+      id: "necromancer.e4.hierarchy_question" as ClueId,
+      title: "What the Hierarchy Has Asked",
+      body: "Mol'Garath's quarterly review canonically accommodates the Necromancer's loss without seeking restoration — the Hierarchy does not avenge. But Riri'Ahlia (COO, Taskmaster) has filed a procedural question: if the Necromancer is operationally back, does his Hierarchy-aligned work resume? The question is unanswered. The unanswered-ness is canon.",
+      foundIn: "hierarchy-archive",
+    },
+  ],
+  deductions: [
+    {
+      id: "necromancer.e4.d.tolerance_is_conditional" as DeductionId,
+      clueA: "necromancer.e4.architect_doctrine" as ClueId,
+      clueB: "necromancer.e4.untouchable_boundary" as ClueId,
+      result: "correct",
+      narrationId: "necromancer.e4.n.shape_not_personnel",
+      narrationProse:
+        "The Architect tolerates the Necromancer's continuity because the Empire's shape is unaltered. The day the Necromancer's resumed work redraws the shape — a new institution, an expanded jurisdiction, a doctrinal break with the roster — the Architect will speak, and the continuity will end. The tolerance is conditional on operational discipline. The Necromancer canonically knows this.",
+      unlocksEpisode: "necromancer.e5" as EpisodeId,
+    },
+    {
+      id: "necromancer.e4.d.hierarchy_question_is_a_test" as DeductionId,
+      clueA: "necromancer.e4.hierarchy_question" as ClueId,
+      clueB: "necromancer.e4.architect_doctrine" as ClueId,
+      result: "partial",
+      narrationId: "necromancer.e4.n.riris_question_will_be_answered_by_the_work",
+      narrationProse:
+        "Riri'Ahlia's procedural question is not asked for an answer; it is asked to be on the record. The Hierarchy is testing whether the Necromancer's resumed work will be visibly Hierarchy-aligned — which would redraw the institutional shape and force the Architect's hand. The Necromancer's discipline of staying inside the Castle is the discipline of NOT answering Riri's question. The work continues. The work continues quietly.",
+    },
+  ],
+  choices: [
+    { id: "necromancer.e4.c.passive" as ChoiceId, label: "Note the conditional tolerance and let the case stand.", weight: "passive" },
+    { id: "necromancer.e4.c.investigative" as ChoiceId, label: "Audit the Architect's silence-pattern across every prior Archon-continuity event — chart the boundary precisely.", weight: "investigative" },
+    { id: "necromancer.e4.c.active" as ChoiceId, label: "Surface Riri'Ahlia's procedural question to the Insurgency — let the Necromancer's reply be the answer.", weight: "active" },
+  ],
+  contentBundle: {
+    songId: "the_architects_silence",
+    slideshowId: "architect_tolerance",
+    loredexUnlocks: ["entity_architect_tolerance_doctrine"],
+    conspiracyDiscoveries: ["architect_conditional_tolerance", "hierarchy_procedural_question"],
+    dropAt: "episode_close",
+  },
+};
+
+const necromancerE5: EpisodeDefinition = {
+  id: "necromancer.e5" as EpisodeId,
+  arcId: ARC_THE_NECROMANCER,
+  ordinal: 5,
+  title: "The Death That Did Not Take",
+  summary:
+    "Closure. The Necromancer is canonically alive, wearing the Silence's body, in the Castle of Death, with Architect-conditional tolerance and Akai-Shi-availability. The arc's verdict is the player's: what kind of continuity is this, and what kind of canon should the saga's record now hold?",
+  clues: [
+    {
+      id: "necromancer.e5.synthesis" as ClueId,
+      title: "The Case Synthesis",
+      body: "Pulled together from E1-E4: Akai Shi's killing was real; Protocol 42 was the escape mechanism; the Silence's body was the vehicle; Varkul's vigil is the witness; the Architect's silence is the consent; the conditional boundary is institutional shape. The Necromancer is canonically alive, operating quietly, the canon is now structurally stable.",
+      foundIn: "antiquarian-library",
+    },
+    {
+      id: "necromancer.e5.the_question_the_player_asks" as ClueId,
+      title: "The Question the Case Asks the Player",
+      body: "The Two Witnesses (Programmer-Antiquarian + Enigma) put the canonical question to the player at the case's closure: is the Necromancer's continuity (a) a death that did not take — a defeat structurally undone — or (b) a death that took and was followed by a separate, distinct act of choosing to return? The two readings are operationally identical and narratively very different. The Two Witnesses do not press the answer; they record whichever the player offers.",
+      foundIn: "antiquarian-library",
+    },
+  ],
+  deductions: [
+    {
+      id: "necromancer.e5.d.the_death_did_not_take" as DeductionId,
+      clueA: "necromancer.e5.synthesis" as ClueId,
+      clueB: "necromancer.e5.the_question_the_player_asks" as ClueId,
+      result: "correct",
+      narrationId: "necromancer.e5.n.closure_reading_a",
+      narrationProse:
+        "The player closes the case with the (a) reading: the death did not take. Akai Shi's strike was a defeat the Necromancer had prepared against; the killing is real in the moment-by-moment sense but undone in the canon-level sense. The Castle stands because the throne was never permanently empty. The continuity is a single line with a brief interruption.",
+    },
+    {
+      id: "necromancer.e5.d.he_chose_to_return" as DeductionId,
+      clueA: "necromancer.e5.synthesis" as ClueId,
+      clueB: "necromancer.e5.the_question_the_player_asks" as ClueId,
+      result: "correct",
+      narrationId: "necromancer.e5.n.closure_reading_b",
+      narrationProse:
+        "The player closes the case with the (b) reading: the death took, and the return was a separate act. Akai Shi killed him; the Castle was empty; the Necromancer's soul was outside the operational world for the canonical ninety days; he chose to come back. The continuity is two lines connected by a decision. The Necromancer canonically chose this. The reading is consistent with the doctrine of Resurrection Protocol 42 — the protocol does not force return; it permits return when the soul asks.",
+    },
+  ],
+  choices: [
+    { id: "necromancer.e5.c.died_and_undid" as ChoiceId, label: "Record the closure as 'the death did not take' — a defeat structurally undone.", weight: "investigative" },
+    { id: "necromancer.e5.c.died_and_chose_return" as ChoiceId, label: "Record the closure as 'he died and chose to return' — two lines connected by a decision.", weight: "active" },
+    { id: "necromancer.e5.c.refuse_to_record" as ChoiceId, label: "Refuse to file a closure reading — let the canon hold both, the way Akai Shi and the Antiquarian do.", weight: "passive" },
+  ],
+  contentBundle: {
+    songId: "the_death_that_did_not_take",
+    slideshowId: "necromancer_closure",
+    loredexUnlocks: ["entity_necromancer_continuity_canon"],
+    conspiracyDiscoveries: ["necromancer_arc_closure"],
+    dropAt: "episode_close",
+  },
+};
+
+const necromancerSuspects: ReadonlyArray<{
+  id: SuspectId;
+  name: string;
+  type: string;
+  relations: ReadonlyArray<{ to: SuspectId; relation: string }>;
+}> = [
+  {
+    id: "suspect.the_necromancer" as SuspectId,
+    name: "The Necromancer (A11)",
+    type: "character",
+    relations: [
+      { to: "suspect.varkul" as SuspectId, relation: "creator-of" },
+      { to: "suspect.the_silence_body" as SuspectId, relation: "currently-wearing" },
+      { to: "suspect.akai_shi_red_death" as SuspectId, relation: "killed-by-inside-matrix" },
+    ],
+  },
+  { id: "suspect.varkul" as SuspectId, name: "Varkul, the Blood Lord", type: "character",
+    relations: [{ to: "suspect.cathedral_of_code" as SuspectId, relation: "vigil-keeper-of" }] },
+  { id: "suspect.akai_shi_red_death" as SuspectId, name: "Akai Shi, the Red Death", type: "character",
+    relations: [{ to: "suspect.the_necromancer" as SuspectId, relation: "killer-of-canonical-record" }] },
+  { id: "suspect.the_silence_body" as SuspectId, name: "The Silence's Body (N6, vacated)", type: "concept",
+    relations: [{ to: "suspect.resurrection_protocols" as SuspectId, relation: "vehicle-cataloged-by" }] },
+  { id: "suspect.cathedral_of_code" as SuspectId, name: "The Cathedral of Code", type: "location",
+    relations: [{ to: "suspect.castle_of_death" as SuspectId, relation: "structurally-adjacent-to" }] },
+  { id: "suspect.castle_of_death" as SuspectId, name: "The Castle of Death", type: "location", relations: [] },
+  { id: "suspect.resurrection_protocols" as SuspectId, name: "The Resurrection Protocols (Necromancer-authored)", type: "concept", relations: [] },
+  { id: "suspect.the_architect_silence" as SuspectId, name: "The Architect's Silence (A1)", type: "concept", relations: [] },
+];
+
+const necromancerLenses = [
+  { id: LENS_INSURGENCY, name: "Insurgency", category: "faction" },
+  { id: LENS_HIERARCHY,  name: "Hierarchy",  category: "faction" },
+  { id: LENS_DREAMER,    name: "Dreamer",    category: "faction" },
+  { id: LENS_NEUTRAL,    name: "Neutral",    category: "faction" },
+] as const;
+
+const THE_NECROMANCER_MYSTERY: MysteryDefinition = {
+  id: "mystery.the_necromancer" as MysteryId,
+  arcId: ARC_THE_NECROMANCER,
+  title: "The Death That Did Not Take",
+  summary:
+    "Akai Shi killed the Necromancer inside the Matrix of Dreams. The Castle of Death is standing in the present tense. Varkul's vigil is unbroken. The Architect has not spoken. Investigate the bifurcation — and decide, at the case's closure, which reading the saga's canon should hold.",
+  npcId: "the_necromancer",
+  episodes: [necromancerE1, necromancerE2, necromancerE3, necromancerE4, necromancerE5],
+  suspects: necromancerSuspects,
+  lenses: necromancerLenses,
+};
+
+/* ═══════════════════════════════════════════════════════
+   SYL'VEX ARC — "The Mirror That Converts"
+   §XVI Next Wave (dreamer-pre-authorized 2026-05-14).
+   Syl'Vex is the Advocate's cobalt-skinned dark mirror —
+   the Hierarchy senior-lord who wields the same Blood Weave
+   the Advocate wields, but to CONVERT where the Advocate
+   DEFENDS. Same instrument, opposite intention. The arc
+   investigates whether her conversion-mirror is reversible.
+   ═══════════════════════════════════════════════════════ */
+
+const sylVexE1: EpisodeDefinition = {
+  id: "syl_vex.e1" as EpisodeId,
+  arcId: ARC_SYL_VEX,
+  ordinal: 1,
+  title: "The Cobalt Reflection",
+  summary:
+    "An Insurgency operative — Cell Sergeant Mira Halen, three-year veteran — appears on a Hierarchy roster as a senior conversion-asset. She is canonically still on the Insurgency's roster too. Investigate how she can be on both at once.",
+  clues: [
+    {
+      id: "syl_vex.e1.dual_roster" as ClueId,
+      title: "The Dual Roster Entry",
+      body: "Mira Halen's name on the Insurgency's active roster: 'in good standing, on assignment.' Mira Halen's name on the Hierarchy's senior-conversion-asset roster: 'Convert. Recognized. Operational.' Both rosters are canonically current. Both are signed by competent record-keepers. Neither is wrong.",
+      foundIn: "hierarchy-archive",
+    },
+    {
+      id: "syl_vex.e1.mira_letter" as ClueId,
+      title: "Mira's Letter to Her Cell",
+      body: "Sent home from her current assignment. The letter is unremarkable — operational status, weather, regards to the cell. The handwriting is hers. The Insurgency's discipline-of-recognition team confirms it. The letter contains no markers of duress, distress, or coercion. Mira is, by every measurable indicator, fine and operationally Insurgent.",
+      foundIn: "insurgency-archive",
+    },
+    {
+      id: "syl_vex.e1.advocate_doctrine" as ClueId,
+      title: "The Advocate's Mirror Doctrine",
+      body: "From the Advocate's canonical writings on the Hierarchy's response to her Blood Weave: 'Syl'Vex weaves what I weave. The Weave does not distinguish defenders from converters; the WEAVER does. She has taken the same loom I taught the resistance to use and woven a convert who is also a soldier — two threads in the same body, neither cut.' The Advocate's reading: the conversion is real, the resistance is real, the operative is canonically both.",
+      foundIn: "advocate-archive",
+    },
+  ],
+  deductions: [
+    {
+      id: "syl_vex.e1.d.two_threads_one_body" as DeductionId,
+      clueA: "syl_vex.e1.dual_roster" as ClueId,
+      clueB: "syl_vex.e1.advocate_doctrine" as ClueId,
+      result: "correct",
+      narrationId: "syl_vex.e1.n.convert_and_soldier",
+      narrationProse:
+        "Mira is canonically on both rosters because the Blood Weave Syl'Vex used does NOT replace identity — it adds an institutional thread without subtracting the original. The Hierarchy reads her as Convert; the Insurgency reads her as Cell Sergeant; both readings are operationally accurate. The Advocate's doctrine names the structural feature: same Weave, opposite intention, neither thread cut. Conversion-by-addition. The arc's first lesson is that the binary 'whose side are they on' question is not the canonical question.",
+      unlocksEpisode: "syl_vex.e2" as EpisodeId,
+    },
+    {
+      id: "syl_vex.e1.d.false_lead_brainwashed" as DeductionId,
+      clueA: "syl_vex.e1.mira_letter" as ClueId,
+      clueB: "syl_vex.e1.dual_roster" as ClueId,
+      result: "false_lead_named",
+      narrationId: "syl_vex.e1.n.no_coercion",
+      narrationProse:
+        "The intuitive read — Mira was brainwashed, the letter is duress, the resistance reading is the cover — is structurally wrong. The Insurgency's discipline-of-recognition has been operationally reliable for thousands of years; if there were duress markers, they would have caught them. The conversion is NOT coercive. That is the Advocate's point: Syl'Vex's Weave is more dangerous than coercion. It is consensual addition.",
+    },
+  ],
+  choices: [
+    { id: "syl_vex.e1.c.passive" as ChoiceId, label: "Recall Mira and re-screen her — assume the resistance reading is correct and the Hierarchy roster is propaganda.", weight: "passive" },
+    { id: "syl_vex.e1.c.investigative" as ChoiceId, label: "Read every dual-roster case the Insurgency has on file — how many other operatives are canonically on both?", weight: "investigative" },
+    { id: "syl_vex.e1.c.active" as ChoiceId, label: "Ask Mira directly which thread she would cut if forced to cut one.", weight: "active" },
+  ],
+  contentBundle: {
+    songId: "the_cobalt_reflection",
+    slideshowId: "syl_vex_mirror",
+    cinematicAssetId: "syl_vex_introduction",
+    loredexUnlocks: ["entity_syl_vex", "entity_blood_weave", "entity_dual_roster_canon"],
+    conspiracyDiscoveries: ["syl_vex_conversion_mirror", "dual_roster_canon"],
+    dropAt: "episode_close",
+  },
+};
+
+const sylVexE2: EpisodeDefinition = {
+  id: "syl_vex.e2" as EpisodeId,
+  arcId: ARC_SYL_VEX,
+  ordinal: 2,
+  title: "The Same Weave, The Opposite Hand",
+  summary:
+    "The Blood Weave is one instrument, used by two weavers. Investigate how the Advocate and Syl'Vex use it differently — and what it costs each of them.",
+  clues: [
+    {
+      id: "syl_vex.e2.weave_mechanics" as ClueId,
+      title: "The Weave's Operational Mechanics",
+      body: "Pulled from the Advocate's defensive-doctrine archive: the Blood Weave threads consent into substrate. Whoever weaves chooses what the consent is FOR. The Advocate weaves consent-to-be-defended; the threaded subject becomes uncoercible. Syl'Vex weaves consent-to-be-an-institution; the threaded subject becomes an additional member of the Hierarchy without ceasing to be themselves. Same threading procedure. Opposite institutional outcomes.",
+      foundIn: "advocate-archive",
+    },
+    {
+      id: "syl_vex.e2.advocates_cost" as ClueId,
+      title: "What the Advocate's Defense Costs Her",
+      body: "Canonical: the Advocate's Blood Weave cost her humanity at the Hierarchy threshold (apps/shared/hierarchyCanon.ts). Every defense she weaves costs her something — the more lives she defends, the less of her own remains. The Hierarchy did not destroy her; she halted them at her own price. The cost is structural.",
+      foundIn: "advocate-archive",
+    },
+    {
+      id: "syl_vex.e2.syl_vexs_cost" as ClueId,
+      title: "What Syl'Vex's Conversion Costs Her",
+      body: "Canonically: nothing visible. Syl'Vex's conversions do not appear to cost her — she remains operationally whole, institutionally ascending, cobalt-skinned and untouched. The Insurgency's analysts have looked. The Hierarchy's auditors have looked. The Advocate's own attempt to read Syl'Vex's ledger came back empty: 'I cannot find what she pays. Either she pays nothing — which is canonically implausible — or she pays in a currency I cannot read.'",
+      foundIn: "hierarchy-archive",
+    },
+  ],
+  deductions: [
+    {
+      id: "syl_vex.e2.d.different_costs_different_currencies" as DeductionId,
+      clueA: "syl_vex.e2.advocates_cost" as ClueId,
+      clueB: "syl_vex.e2.syl_vexs_cost" as ClueId,
+      result: "partial",
+      narrationId: "syl_vex.e2.n.cost_in_other_currency",
+      narrationProse:
+        "Syl'Vex's cost is not zero — the Blood Weave is not a free instrument. Her cost is in a currency the Advocate cannot read because the Advocate would never spend in that currency. The reading the case will need to test in later episodes: Syl'Vex pays in INSTITUTIONAL MEMORY of who her converts were before they were converted. She forgets them as the threads bind. The forgetting is the cost. The Advocate's humanity costs the Advocate; Syl'Vex's memory costs Syl'Vex.",
+    },
+    {
+      id: "syl_vex.e2.d.zyr_koth_branch" as DeductionId,
+      clueA: "syl_vex.e2.weave_mechanics" as ClueId,
+      clueB: "syl_vex.e2.syl_vexs_cost" as ClueId,
+      result: "correct",
+      narrationId: "syl_vex.e2.n.zyr_koth_did_the_third_thing",
+      narrationProse:
+        "If the Advocate weaves consent-to-defend and Syl'Vex weaves consent-to-be-institutionally-additive, a third use of the same Weave is operationally possible: consent-to-be-severed. That third use is canonically Zyr'Koth's Severance Protocol (apps/shared/hierarchyCanon.ts). The same instrument; the third hand. The arc's E3 will need to test how the three operations differ — and whether Syl'Vex's conversions are vulnerable to Zyr'Koth-style severance.",
+      unlocksEpisode: "syl_vex.e3" as EpisodeId,
+    },
+  ],
+  choices: [
+    { id: "syl_vex.e2.c.passive" as ChoiceId, label: "Accept that the costs are unequal and unequal-on-purpose — the Hierarchy's instrument-economics are not the Insurgency's.", weight: "passive" },
+    { id: "syl_vex.e2.c.investigative" as ChoiceId, label: "Audit the Advocate's defended-list and Syl'Vex's converted-list — look for crossover.", weight: "investigative" },
+    { id: "syl_vex.e2.c.active" as ChoiceId, label: "Ask the Advocate to attempt a defense of a converted operative and report the result.", weight: "active" },
+  ],
+  contentBundle: {
+    songId: "the_same_weave",
+    slideshowId: "syl_vex_weave_mechanics",
+    loredexUnlocks: ["entity_blood_weave_mechanics", "entity_advocate_cost_canon"],
+    conspiracyDiscoveries: ["syl_vex_pays_in_memory", "blood_weave_three_uses"],
+    dropAt: "episode_close",
+  },
+};
+
+const sylVexE3: EpisodeDefinition = {
+  id: "syl_vex.e3" as EpisodeId,
+  arcId: ARC_SYL_VEX,
+  ordinal: 3,
+  title: "Zyr'Koth's Severance Variant",
+  summary:
+    "The Blood Weave's third use is Zyr'Koth's Severance Protocol. Investigate whether his variant can sever Syl'Vex's conversions — and whether the Hierarchy permits the cross-departmental work.",
+  clues: [
+    {
+      id: "syl_vex.e3.severance_design" as ClueId,
+      title: "The Severance Protocol's Design",
+      body: "Zyr'Koth's variant of the Blood Weave: instead of adding consent (Syl'Vex) or defending against coercion (the Advocate), Severance EXTRACTS one institutional thread from a multi-thread subject. The operation is destructive — the extracted thread does not survive. Applied to a Syl'Vex convert, it would, in principle, sever the Hierarchy-institutional thread while leaving the original-self intact. The operation has never been performed on a Syl'Vex convert. Zyr'Koth's R&D has the design; he has not deployed it.",
+      foundIn: "hierarchy-archive",
+    },
+    {
+      id: "syl_vex.e3.cross_departmental_lock" as ClueId,
+      title: "The Hierarchy's Cross-Departmental Lock",
+      body: "Mol'Garath's quarterly review canonically prohibits departmental work that operates against another senior-lord's deployed asset without that senior-lord's explicit consent. Zyr'Koth severing a Syl'Vex convert would require Syl'Vex's consent. She has not given it. She has also not been asked. The cross-departmental lock holds, structurally and indefinitely, until one of those changes.",
+      foundIn: "hierarchy-archive",
+    },
+    {
+      id: "syl_vex.e3.advocate_unable" as ClueId,
+      title: "The Advocate Cannot Sever",
+      body: "Tested at the Advocate's request: she attempted to apply her defensive-weave to a converted operative as a counter-conversion. The Weave declined. Her doctrine resolves: 'The Weave will not sever what it has consented to. I cannot defend what has agreed to be more than it was. I can defend the original thread, but the conversion thread is, by definition, not coerced — there is nothing to defend against.'",
+      foundIn: "advocate-archive",
+    },
+  ],
+  deductions: [
+    {
+      id: "syl_vex.e3.d.severance_is_the_lever" as DeductionId,
+      clueA: "syl_vex.e3.severance_design" as ClueId,
+      clueB: "syl_vex.e3.advocate_unable" as ClueId,
+      result: "correct",
+      narrationId: "syl_vex.e3.n.zyr_koth_holds_the_only_lever",
+      narrationProse:
+        "Zyr'Koth is the only entity in the saga's record holding a tested instrument that can reverse a Syl'Vex conversion. The Advocate cannot. The Insurgency's recognition-disciplines cannot. The Hierarchy's cross-departmental lock keeps the lever inaccessible. The arc's structural finding: Syl'Vex's conversions are NOT recoverable through any current Insurgency or Advocate operation. The only path to severance runs through the Hierarchy's own internal politics.",
+      unlocksEpisode: "syl_vex.e4" as EpisodeId,
+    },
+    {
+      id: "syl_vex.e3.d.cross_lock_is_political" as DeductionId,
+      clueA: "syl_vex.e3.cross_departmental_lock" as ClueId,
+      clueB: "syl_vex.e3.severance_design" as ClueId,
+      result: "partial",
+      narrationId: "syl_vex.e3.n.the_lock_is_lift_able",
+      narrationProse:
+        "Mol'Garath's cross-departmental lock is conditional — it can be lifted by Mol'Garath himself, or by Syl'Vex's consent, or by a Hierarchy-wide procedural override. Each path is canonically possible. None is canonically easy. The reading the case will need: which scenarios would canonically trigger Mol'Garath to lift the lock?",
+    },
+  ],
+  choices: [
+    { id: "syl_vex.e3.c.passive" as ChoiceId, label: "Accept that conversions are unrecoverable through any current operation and document the case.", weight: "passive" },
+    { id: "syl_vex.e3.c.investigative" as ChoiceId, label: "Probe Zyr'Koth's procedural history for cases where he applied severance against a Hierarchy-aligned subject.", weight: "investigative" },
+    { id: "syl_vex.e3.c.active" as ChoiceId, label: "Open a back-channel to Zyr'Koth via the Antiquarian — ask whether he would deploy severance if asked.", weight: "active" },
+  ],
+  contentBundle: {
+    songId: "zyr_koths_variant",
+    slideshowId: "blood_weave_severance",
+    loredexUnlocks: ["entity_severance_protocol", "entity_zyr_koth"],
+    conspiracyDiscoveries: ["severance_is_only_reversal", "hierarchy_cross_departmental_lock"],
+    dropAt: "episode_close",
+  },
+};
+
+const sylVexE4: EpisodeDefinition = {
+  id: "syl_vex.e4" as EpisodeId,
+  arcId: ARC_SYL_VEX,
+  ordinal: 4,
+  title: "The Sister Relationship",
+  summary:
+    "The Advocate's reading of Syl'Vex names her as a 'sister.' Investigate whether the relationship is metaphor, institutional, or canonically familial.",
+  clues: [
+    {
+      id: "syl_vex.e4.advocate_sister_canon" as ClueId,
+      title: "The Advocate's 'Sister' Phrasing",
+      body: "From the Advocate's own writings, addressing Syl'Vex by name: 'My sister of the same Weave. We learned the loom from the same teacher; we wove what we chose.' The phrasing is consistent across the Advocate's archive — not metaphor-of-the-month, but a structural form of address. The Advocate calls Syl'Vex 'sister' canonically and repeatedly.",
+      foundIn: "advocate-archive",
+    },
+    {
+      id: "syl_vex.e4.shared_teacher" as ClueId,
+      title: "The Shared Teacher",
+      body: "Cross-referenced against the Antiquarian's pre-Severance Thaloria archive: the Blood Weave was taught by a single instructor in the era before the Severance. The instructor's name is canonically lost. Three named students survive in the record: the Advocate, Syl'Vex, and a third whose name was struck from the Hierarchy's record. The Advocate and Syl'Vex learned the same instrument from the same teacher.",
+      foundIn: "antiquarian-library",
+    },
+    {
+      id: "syl_vex.e4.third_student" as ClueId,
+      title: "The Third Student, Struck from the Record",
+      body: "The third student's name was struck from the Hierarchy's record after the Severance. The Antiquarian holds a marginalia-only reference: 'the third chose the use neither of them did.' The third's choice is canonically unknown. Whether the third still exists is canonically unknown. The marginalia is dated to the Severance year.",
+      foundIn: "antiquarian-library",
+    },
+  ],
+  deductions: [
+    {
+      id: "syl_vex.e4.d.sister_is_canonical" as DeductionId,
+      clueA: "syl_vex.e4.advocate_sister_canon" as ClueId,
+      clueB: "syl_vex.e4.shared_teacher" as ClueId,
+      result: "correct",
+      narrationId: "syl_vex.e4.n.sisters_of_the_weave",
+      narrationProse:
+        "The 'sister' is canonical — not familial, but instrumental. The Advocate and Syl'Vex are sisters of the Weave: same teacher, same instrument, divergent intent. The relationship is structural and load-bearing. Any future canonical interaction between them — including any negotiated severance, any joint defense, any direct confrontation — must be read through the sister-of-the-Weave register, not through a generic Hierarchy-vs-Insurgency frame.",
+      unlocksEpisode: "syl_vex.e5" as EpisodeId,
+    },
+    {
+      id: "syl_vex.e4.d.third_is_a_canon_seed" as DeductionId,
+      clueA: "syl_vex.e4.third_student" as ClueId,
+      clueB: "syl_vex.e4.shared_teacher" as ClueId,
+      result: "partial",
+      narrationId: "syl_vex.e4.n.the_third_is_open_canon",
+      narrationProse:
+        "The third student is a canon-seed — a deliberately-preserved unknown the saga's record will surface later or never. The arc cannot close on the third's identity; the case will note the existence and leave the slot open. Future canon may name the third. The Antiquarian's discipline is to keep the slot recognizable so it can be filled when canon permits.",
+    },
+  ],
+  choices: [
+    { id: "syl_vex.e4.c.passive" as ChoiceId, label: "Accept the sister-of-the-Weave canon and leave the third-student slot open.", weight: "passive" },
+    { id: "syl_vex.e4.c.investigative" as ChoiceId, label: "Press the Antiquarian for whatever ELSE he holds on the pre-Severance instructor.", weight: "investigative" },
+    { id: "syl_vex.e4.c.active" as ChoiceId, label: "Bring the sister-canon to the Advocate's attention directly and ask whether she has tried to speak with Syl'Vex since the Severance.", weight: "active" },
+  ],
+  contentBundle: {
+    songId: "sisters_of_the_weave",
+    slideshowId: "advocate_syl_vex_relationship",
+    loredexUnlocks: ["entity_blood_weave_instructor", "entity_third_student_slot"],
+    conspiracyDiscoveries: ["sisters_of_the_weave_canon", "third_student_canon_seed"],
+    dropAt: "episode_close",
+  },
+};
+
+const sylVexE5: EpisodeDefinition = {
+  id: "syl_vex.e5" as EpisodeId,
+  arcId: ARC_SYL_VEX,
+  ordinal: 5,
+  title: "The Convert's Refusal",
+  summary:
+    "Closure. Mira Halen is asked, by the Insurgency and the player, which thread she would cut if forced. Her answer is the arc's closure.",
+  clues: [
+    {
+      id: "syl_vex.e5.miras_answer" as ClueId,
+      title: "Mira's Answer",
+      body: "Asked directly: 'Which thread would you cut if forced?' Mira's answer, after a long pause: 'I refuse the question. I am both. If you make me cut one, I will cut the cell that asked. The Insurgency taught me to refuse coercive binaries. So did the Weave. The two teachings agree on this.' She does not return to the Hierarchy's record. She does not leave the Insurgency's record. She continues operating on both as before.",
+      foundIn: "insurgency-archive",
+    },
+    {
+      id: "syl_vex.e5.advocate_closure_letter" as ClueId,
+      title: "The Advocate's Closure Letter to the Player",
+      body: "'You wanted to know if my sister's conversions are reversible. They are reversible only by the convert's refusal — and the convert must refuse the question, not the conversion. Mira refused the question. That is the only severance-method I trust. The Weave does not undo what it has consented to; consent can be re-chosen. The mechanism is hers, not mine and not Syl'Vex's. The convert is the one who decides what kind of convert she is.'",
+      foundIn: "advocate-archive",
+    },
+  ],
+  deductions: [
+    {
+      id: "syl_vex.e5.d.refusal_of_the_question" as DeductionId,
+      clueA: "syl_vex.e5.miras_answer" as ClueId,
+      clueB: "syl_vex.e5.advocate_closure_letter" as ClueId,
+      result: "correct",
+      narrationId: "syl_vex.e5.n.the_only_severance_is_the_converts",
+      narrationProse:
+        "The arc closes. Syl'Vex's conversions are operationally reversible only by the convert's own refusal-of-the-question. Zyr'Koth's lever exists but is institutionally locked. The Advocate's weave cannot sever. The Insurgency's recognition-discipline cannot extract. The only path back is the convert's choice to refuse the binary — which is itself a Weave-consistent move, since the Weave does not coerce. The arc's verdict: Syl'Vex's instrument is more dangerous than coercion because it makes coercion the only tool that could counter it — and the saga's resistance-doctrine has canonically refused to use coercion. The saga's response to Syl'Vex is the convert's refusal-of-the-question, multiplied across the institution.",
+    },
+  ],
+  choices: [
+    { id: "syl_vex.e5.c.passive" as ChoiceId, label: "Record the closure and let Mira continue as both.", weight: "passive" },
+    { id: "syl_vex.e5.c.investigative" as ChoiceId, label: "Send Mira's answer to every Insurgency cell as standard counter-conversion doctrine.", weight: "investigative" },
+    { id: "syl_vex.e5.c.active" as ChoiceId, label: "Reply directly to Syl'Vex with the closure — name her sister and quote Mira.", weight: "active" },
+  ],
+  contentBundle: {
+    songId: "the_converts_refusal",
+    slideshowId: "syl_vex_closure",
+    loredexUnlocks: ["entity_refusal_of_the_question_doctrine"],
+    conspiracyDiscoveries: ["syl_vex_arc_closure"],
+    dropAt: "episode_close",
+  },
+};
+
+const sylVexSuspects: ReadonlyArray<{
+  id: SuspectId;
+  name: string;
+  type: string;
+  relations: ReadonlyArray<{ to: SuspectId; relation: string }>;
+}> = [
+  { id: "suspect.syl_vex" as SuspectId, name: "Syl'Vex (Hierarchy senior-lord)", type: "character",
+    relations: [
+      { to: "suspect.the_advocate" as SuspectId, relation: "sister-of-the-weave-with" },
+      { to: "suspect.blood_weave_instrument" as SuspectId, relation: "wields" },
+    ] },
+  { id: "suspect.the_advocate" as SuspectId, name: "The Advocate (N9)", type: "character",
+    relations: [{ to: "suspect.blood_weave_instrument" as SuspectId, relation: "wields-defensively" }] },
+  { id: "suspect.blood_weave_instrument" as SuspectId, name: "The Blood Weave (instrument)", type: "concept",
+    relations: [
+      { to: "suspect.zyr_koth_severance" as SuspectId, relation: "third-use-by" },
+      { to: "suspect.preseverance_instructor" as SuspectId, relation: "taught-by" },
+    ] },
+  { id: "suspect.zyr_koth_severance" as SuspectId, name: "Zyr'Koth's Severance Protocol", type: "concept",
+    relations: [{ to: "suspect.mol_garath_lock" as SuspectId, relation: "locked-by" }] },
+  { id: "suspect.mol_garath_lock" as SuspectId, name: "Mol'Garath's Cross-Departmental Lock", type: "concept", relations: [] },
+  { id: "suspect.mira_halen" as SuspectId, name: "Mira Halen (the dual-roster operative)", type: "character",
+    relations: [{ to: "suspect.syl_vex" as SuspectId, relation: "converted-by-non-coercively" }] },
+  { id: "suspect.preseverance_instructor" as SuspectId, name: "The Pre-Severance Weave Instructor (canonically un-named)", type: "character", relations: [] },
+  { id: "suspect.third_student" as SuspectId, name: "The Third Weave Student (struck from record)", type: "character", relations: [] },
+];
+
+const sylVexLenses = [
+  { id: LENS_INSURGENCY, name: "Insurgency", category: "faction" },
+  { id: LENS_HIERARCHY,  name: "Hierarchy",  category: "faction" },
+  { id: LENS_THALORIA,   name: "Thaloria",   category: "faction" },
+  { id: LENS_DREAMER,    name: "Dreamer",    category: "faction" },
+  { id: LENS_NEUTRAL,    name: "Neutral",    category: "faction" },
+] as const;
+
+const SYL_VEX_MYSTERY: MysteryDefinition = {
+  id: "mystery.syl_vex" as MysteryId,
+  arcId: ARC_SYL_VEX,
+  title: "The Mirror That Converts",
+  summary:
+    "Syl'Vex weaves what the Advocate weaves — but converts where the Advocate defends. Her conversions are non-coercive, structurally additive, and canonically reversible only by the convert's own refusal-of-the-question. Investigate the instrument, the sister-of-the-Weave canon, and what the Insurgency does about a Hierarchy weapon that cannot be coerced against.",
+  npcId: "syl_vex",
+  episodes: [sylVexE1, sylVexE2, sylVexE3, sylVexE4, sylVexE5],
+  suspects: sylVexSuspects,
+  lenses: sylVexLenses,
+};
+
 /* ─── REGISTRY ─── */
 
 /** Every authored mystery in the saga. The runtime reads against
@@ -5051,6 +5782,8 @@ export const MYSTERY_DEFINITIONS: ReadonlyArray<MysteryDefinition> = [
   THE_DEGEN_MYSTERY,
   THE_WATCHER_MYSTERY,
   ITH_RAEL_MYSTERY,
+  THE_NECROMANCER_MYSTERY,
+  SYL_VEX_MYSTERY,
   ...DLC_MYSTERIES,
 ];
 
