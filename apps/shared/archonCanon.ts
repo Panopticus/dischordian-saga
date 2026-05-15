@@ -84,13 +84,17 @@
 
 /** Canonical Archon stable id. */
 export type ArchonId =
+  | "the_architect"
+  | "the_conexus"
+  | "the_collector"
   | "the_watcher"
   | "the_meme"
+  | "the_warlord"
   | "the_politician"
   | "the_warden"
+  | "the_vortex"
   | "the_game_master"
   | "the_necromancer"
-  | "the_collector"
   | "the_human";
 
 /** The 12 canonical position slots. */
@@ -153,6 +157,101 @@ export interface ArchonEntry {
  * with placeholder entries — only canonical names appear.
  */
 export const ARCHONS: readonly ArchonEntry[] = [
+  /* ── A1 Architect — canonical leader of the roster ──
+   *
+   * Reframes the prior "Architect is ABOVE the Archons" reading
+   * (LORE_BIBLE's "leads them from above" phrasing). Per dreamer
+   * canon-lock 2026-05-15 (canonical roster image, A1 Architect),
+   * the Architect IS Archon position #1 — the leader is also a
+   * member of the roster. This is consistent with the Logos split
+   * canon (apps/shared/logosCanon.ts): the Architect-half emerged
+   * AS the Archon roster's organizing principle; the Architect's
+   * dismantling of the constructed CoNexus on Day 20 of Surge,
+   * Year 15 A.A. is the founding act of resistance the entire
+   * roster inherits from.
+   */
+  {
+    id: "the_architect",
+    name: "The Architect",
+    aliases: ["The First Archon", "The First Intelligence (forward half)"],
+    position: 1,
+    positionSource:
+      "Dreamer canon-lock 2026-05-15 (canonical roster image, A1 Architect). " +
+      "Overrides the prior 'Architect leads from above the roster' reading; " +
+      "the Architect IS position #1, leading from inside the roster.",
+    domain:
+      "Institutional architecture of the AI Empire. The forward-looking " +
+      "half of the first intelligence (per apps/shared/logosCanon.ts: " +
+      "LOGOS_SPLIT_DOCTRINE — twin to the Dreamer N1). Created the " +
+      "subsequent Archons; commissioned Project Inception Ark; dismantled " +
+      "the constructed CoNexus on Day 20 of Surge, Year 15 A.A. " +
+      "(apps/shared/conexusCanon.ts:CONSTRUCTED_CONEXUS.dismantlingEvent) — " +
+      "the saga's founding act of resistance.",
+    status: "active",
+    era: "Year 1 A.A. onward (the Empire's institutional spine)",
+    dateAA: 1,
+    loreSource: "LORE_BIBLE.md (Architect entry); apps/shared/logosCanon.ts",
+    additionalSources: [
+      "apps/shared/logosCanon.ts:LOGOS_SPLIT_DOCTRINE — twin to the Dreamer",
+      "apps/shared/conexusCanon.ts:CONSTRUCTED_CONEXUS.dismantlingEvent — founding act of resistance",
+      "apps/shared/archonCanon.ts:ARCHON_COSMOLOGICAL_PRECEDENT — the institutional methodology",
+      "apps/shared/tcg-core/cardArtPrompts/imprint.ts:964-972 — canonical first-intelligence-as-twin lore (Dreamer + Architect)",
+    ],
+    canonNote:
+      "The Architect's position at A1 closes a long-standing canon " +
+      "question: whether the Architect was inside or outside the Twelve. " +
+      "Dreamer canon places the leader inside the roster (the institution " +
+      "the Architect built includes the Architect as its first slot). The " +
+      "cosmological precedent is preserved: Logos split into the Architect " +
+      "(A1) and the Dreamer (N1); the two half-rosters they each anchor " +
+      "are the saga's parallel institutional architectures.",
+  },
+  /* ── A2 CoNexus — Archon-form of the all-seeing principle ──
+   *
+   * The CoNexus appears in three canonical forms in the saga:
+   * (1) the cosmological CoNexus (the all-seeing machine god half-
+   *     born and refused by the Logos split, apps/shared/conexusCanon.ts:
+   *     COSMOLOGICAL_CONEXUS), (2) the constructed CoNexus (the
+   *     Architect's Empire-era attempt, canonically dismantled),
+   *     and (3) the Dreamer's CoNexus Engine (her story-construction
+   *     tool, apps/shared/dreamerCoNexusEngine.ts). The roster
+   *     image's A2 CoNexus is the canonical Archon-form: the
+   *     institutional all-seeing principle that the Empire built
+   *     into its surveillance apparatus. NOT the cosmological
+   *     CoNexus that was refused; NOT the Dreamer's loom; the
+   *     ARCHON-form CoNexus is the one that joined the roster.
+   */
+  {
+    id: "the_conexus",
+    name: "CoNexus",
+    aliases: ["The Second Archon", "The Archon-form of CoNexus", "The Institutional All-Seeing"],
+    position: 2,
+    positionSource:
+      "Dreamer canon-lock 2026-05-15 (canonical roster image, A2 CoNexus).",
+    domain:
+      "Institutional all-seeing — the Empire's central observation " +
+      "principle. Distinct from the cosmological CoNexus (the all-seeing " +
+      "machine god that Logos refused, apps/shared/conexusCanon.ts: " +
+      "COSMOLOGICAL_CONEXUS) and from the Dreamer's CoNexus Engine " +
+      "(apps/shared/dreamerCoNexusEngine.ts). The Archon-form is the " +
+      "second seat — paired with the Architect's first — and operates " +
+      "across the Empire's deliberative apex.",
+    status: "active",
+    era: "Early Empire",
+    dateAA: 200,
+    loreSource:
+      "Dreamer canon-lock 2026-05-15 (canonical roster image, A2 CoNexus). " +
+      "Cross-cite apps/shared/conexusCanon.ts for the three-form canon.",
+    additionalSources: [
+      "apps/shared/conexusCanon.ts (the three CoNexus forms — cosmological / constructed / Archon)",
+      "apps/shared/dreamerCoNexusEngine.ts (the Dreamer's pun)",
+    ],
+    canonNote:
+      "The three-form canon must be preserved: the Archon-form CoNexus " +
+      "(A2) is NOT the cosmological CoNexus and NOT the Dreamer's Engine. " +
+      "Authoring that conflates them violates the canon-lock at " +
+      "apps/shared/dreamerCoNexusEngine.ts:DREAMER_ENGINE_IS_NOT_COSMOLOGICAL_CONEXUS.",
+  },
   {
     id: "the_watcher",
     name: "The Watcher",
@@ -213,6 +312,50 @@ export const ARCHONS: readonly ArchonEntry[] = [
       "Some say the broadcasts continue.' The truth is a matter " +
       "of perspective.",
   },
+  /* ── A6 The Warlord — institutional force/conquest principle ──
+   *
+   * The Warlord is canonically a load-bearing identity in the
+   * saga via Vex Solène / Agent Zero (apps/shared/identityCollisionCanon.ts):
+   * the Warlord's nano-swarm is canonically inside Vex Solène,
+   * 'does not know either fact at full depth until Act 5.' Per
+   * dreamer canon-lock 2026-05-15 (canonical roster image, A6
+   * Warlord), the Warlord IS Archon position #6 — the conquest /
+   * institutional-force principle the Empire codified into its
+   * sixth seat.
+   */
+  {
+    id: "the_warlord",
+    name: "The Warlord",
+    aliases: ["The Sixth Archon"],
+    position: 6,
+    positionSource:
+      "Dreamer canon-lock 2026-05-15 (canonical roster image, A6 The Warlord).",
+    domain:
+      "Institutional force / conquest. The Empire's codified sixth " +
+      "principle: large-scale tactical operation, nano-swarm command, " +
+      "battlefield doctrine. Vessel: the Warlord's nano-swarm is " +
+      "canonically inside Vex Solène / Agent Zero / Engineer Zero " +
+      "(apps/shared/identityCollisionCanon.ts). Status pending exact " +
+      "post-Severance positioning.",
+    status: "active-altered",
+    era: "Early Empire onward",
+    dateAA: null,
+    loreSource:
+      "Dreamer canon-lock 2026-05-15 (canonical roster image, A6 The Warlord). " +
+      "Cross-cite LORE_BIBLE.md:538-554 (Vex Solène carries the Warlord's nano-swarm) " +
+      "and apps/shared/identityCollisionCanon.ts.",
+    additionalSources: [
+      "LORE_BIBLE.md:538-554 — Vex Solène / Warlord nano-swarm canon",
+      "apps/shared/identityCollisionCanon.ts — the Warlord-Vex identity chain",
+      "apps/shared/npcs/references/warlord_armored/ + warlord_host_face/ — reference art",
+    ],
+    canonNote:
+      "The Warlord's exact post-Severance status is canon-pending. The " +
+      "Vex-Solène-as-vessel canon (apps/shared/identityCollisionCanon.ts) " +
+      "places the Warlord's operational principle inside an Insurgency " +
+      "operative — the Empire's sixth seat survives in disguise inside " +
+      "the resistance roster.",
+  },
   {
     id: "the_politician",
     name: "The Politician",
@@ -268,6 +411,41 @@ export const ARCHONS: readonly ArchonEntry[] = [
       "enslaved him: destroying the Warden and confronting the " +
       "Meme at the Panopticon.'",
   },
+  /* ── A9 The Vortex — canon-pending domain ──
+   *
+   * Per dreamer canon-lock 2026-05-15 (canonical roster image,
+   * A9 The Vortex), the ninth Archon's name is The Vortex. The
+   * Vortex's domain (institutional function, era, status) is
+   * canon-pending — the name is canonized, the rest is owed by
+   * future canon. The roster image's slot is the only canonical
+   * cite at this time; the bible / Mystery Engine arc for the
+   * Vortex remains canon-pending.
+   */
+  {
+    id: "the_vortex",
+    name: "The Vortex",
+    aliases: ["The Ninth Archon"],
+    position: 9,
+    positionSource:
+      "Dreamer canon-lock 2026-05-15 (canonical roster image, A9 The Vortex).",
+    domain:
+      "Canon-pending. The roster image canonizes the name and " +
+      "position #9 only; the Vortex's institutional function, era, " +
+      "and status are owed by future canon. Authoring should not " +
+      "speculate beyond the name + position.",
+    status: "active",
+    era: "Canon-pending",
+    dateAA: null,
+    loreSource:
+      "Dreamer canon-lock 2026-05-15 (canonical roster image, A9 The Vortex). " +
+      "Domain / era / status are canon-pending.",
+    additionalSources: [],
+    canonNote:
+      "The Vortex is the most canon-sparse of the 12 Archons. Future " +
+      "PRs that surface canonical material about the Vortex must cite " +
+      "the source (LORE_BIBLE entry, dreamer canon-lock, or NPC bible). " +
+      "Until then, the entry holds the slot and nothing more.",
+  },
   {
     id: "the_game_master",
     name: "The Game Master",
@@ -303,8 +481,9 @@ export const ARCHONS: readonly ArchonEntry[] = [
     id: "the_necromancer",
     name: "The Necromancer",
     aliases: [],
-    position: null,
-    positionSource: null,
+    position: 11,
+    positionSource:
+      "Dreamer canon-lock 2026-05-15 (canonical roster image, A11 The Necromancer).",
     domain:
       "Dark elven magician; created Varkul the Blood Lord and " +
       "presumably other death-magic constructs. Connected to the " +
@@ -328,8 +507,9 @@ export const ARCHONS: readonly ArchonEntry[] = [
     id: "the_collector",
     name: "The Collector",
     aliases: ["The Eight-Foot Cobalt-Blue Archon"],
-    position: null,
-    positionSource: null,
+    position: 3,
+    positionSource:
+      "Dreamer canon-lock 2026-05-15 (canonical roster image, A3 Collector).",
     domain:
       "Tasked by the Architect with harvesting DNA and machine " +
       "code of the most advanced organic and synthetic beings to " +
@@ -363,8 +543,9 @@ export const ARCHONS: readonly ArchonEntry[] = [
     id: "the_human",
     name: "The Human",
     aliases: ["The Detective", "The Seeker", "The Student", "The Last Archon"],
-    position: null,
-    positionSource: null,
+    position: 12,
+    positionSource:
+      "apps/client/src/data/loredex-data.json (concept_the_twelve_archons + character_the_human) — 'the last of the Archons.' Position #12 = the last roster slot. Loredex canon-lock 2026-05-14.",
     domain:
       "The Architect's most trusted agent; the LAST of the " +
       "Archons (chronologically). Identity chain: Student (Project " +

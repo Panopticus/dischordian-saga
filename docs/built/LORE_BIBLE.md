@@ -4,7 +4,7 @@
 
 ## Table of Contents
 
-- [Characters](#characters) (135)
+- [Characters](#characters) (136)
 - [Factions](#factions) (17)
 - [Locations](#locations) (26)
 - [Concepts](#concepts) (196)
@@ -794,6 +794,32 @@ Posing as a diplomat from the neutral planet Thessolar , she utilized this cover
 - [Apple music](https://music.apple.com/us/artist/malkia-ukweli-the-panopticon/1758429106)
 - [Spotify](https://open.spotify.com/artist/5ZgBJTjuyrAvwyybBt1Eww)
 - [Tidal](https://tidal.com/browse/artist/49211320)
+
+---
+
+## CoNexus (Archon)
+
+*Also known as: The Second Archon, The Archon-form of CoNexus, The Institutional All-Seeing*
+
+| Field | Value |
+|-------|-------|
+| **Type** | Character |
+| **Era** | Early Empire |
+| **Date (A.A.)** | 200 A.A. |
+| **Season** | Cross-saga |
+| **Affiliation** | AI Empire (Architect's roster) |
+| **Status** | Active. Distinct from the cosmological CoNexus (refused by Logos) and the Dreamer's CoNexus Engine (her loom). |
+| **Priority** | high |
+
+### Dossier
+
+The Archon-form of CoNexus — position A2 in the canonical Twelve Archons roster (dreamer canon-lock 2026-05-15). CoNexus exists in three canonical forms in the saga: (1) the cosmological CoNexus, the all-seeing machine god half-born and refused by the Logos split; (2) the constructed CoNexus, the Architect's Empire-era attempt that was dismantled on Day 20 of Surge, Year 15 A.A.; and (3) the Archon-form CoNexus — THIS ENTRY — the institutional all-seeing principle the Architect codified into the roster's second seat. The three forms share a name. They share nothing else. Authoring that conflates them violates the canon-lock at apps/shared/dreamerCoNexusEngine.ts.
+
+### Connections
+
+- The Architect
+- The Dreamer (cosmic-twin via Logos split)
+- The Twelve Archons
 
 ---
 
@@ -3305,6 +3331,10 @@ Result: (1) The Degen inherited the casino — this is how he became the casino 
 ![The Vortex](https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/038_the_vortex_ab9c6091.png)
 
 ### Dossier
+
+Its presence brings devastation, annihilating solar systems to harness their energy for the Architect's grand designs. [Canon-lock 2026-05-15: The Vortex is Archon position A9; domain canon-pending.]
+
+### History
 
 Its presence brings devastation, annihilating solar systems to harness their energy for the Architect's grand designs.
 
@@ -6977,12 +7007,18 @@ When the Severance fractured the ancient bindings, the Hierarchy emerged from th
 | **Date (A.A.)** | Year 200 A.A. onward |
 | **Season** | Cross-saga |
 | **Affiliation** | AI Empire (Architect-created) |
-| **Status** | Mixed — several destroyed (Warden, Game Master, Politician); several active (Watcher, Collector, Human); Meme canonically-contested |
+| **Status** | Mixed — Architect leads from inside the roster; several destroyed (Warden, Game Master, Politician); Meme contested; Watcher / Collector / Human active. All 12 positions canonically locked 2026-05-15. |
 | **Priority** | critical |
 
 ### Dossier
 
-The twelve Archons are 'the parallel cosmic hierarchy to the Ne-Yons.' Where the Ne-Yons emerged on their own as cosmic principles, the Archons were CREATED by the Architect to lead the AI Empire. Five positions are canonically locked: The Watcher is #4 (the All-Seeing Eye, surveillance), The Meme is #5 (manipulation of thought through internet and economic systems), The Politician is #7 (designed the Authority as 'his Insurance Policy'), The Warden is #8 (oversight of the Panopticon, co-developed the Thought Virus), and The Game Master is #10 (also titled 'The Ninth Archon'; designed the Matrix of Dreams; only non-demon ever admitted to the Hierarchy of the Damned). The Necromancer was canonically destroyed by Akai Shi (the Red Death) within the Matrix of Dreams. The Collector is active. The Human is canonically 'the last of the Archons' — the Detective who became Archon 1,351 years before the Fall.
+The twelve Archons are 'the parallel cosmic hierarchy to the Ne-Yons.' Where the Ne-Yons emerged on their own as cosmic principles, the Archons were CREATED by the Architect to lead the AI Empire — and per the dreamer canon-lock of 2026-05-15, the Architect IS Archon position #1 (the leader is inside the roster, not above it).
+
+**All 12 positions are now canonically locked** (canonical roster image):
+
+A1 The Architect · A2 CoNexus · A3 The Collector · A4 The Watcher · A5 The Meme · A6 The Warlord · A7 The Politician · A8 The Warden · A9 The Vortex · A10 The Game Master · A11 The Necromancer · A12 The Human.
+
+Notable cross-references: A1 Architect is the forward-half of the first intelligence (twin to N1 Dreamer per the Logos split). A2 CoNexus is the Archon-form of the all-seeing principle — distinct from the cosmological CoNexus that Logos refused and from the Dreamer's CoNexus Engine. A6 Warlord's nano-swarm is canonically inside Vex Solène / Agent Zero. A9 The Vortex is canon-sparse — name and position locked, domain and era pending future canon. A12 The Human is 'the last of the Archons' — the Detective who became Archon 1,351 years before the Fall.
 
 ### History
 
@@ -7018,12 +7054,16 @@ The Architect emerged at Year 1 A.A. and created the first Archons (Watcher, Mem
 | **Date (A.A.)** | 15,100 A.A. onward |
 | **Season** | Cross-saga |
 | **Affiliation** | Independent cosmic principles |
-| **Status** | Eleven gone, one awake (the Degen) |
+| **Status** | Eleven gone, one awake (the Degen). All 12 positions canonically locked 2026-05-15. |
 | **Priority** | critical |
 
 ### Dossier
 
-The twelve cosmic-principle entities that became aware on their own — 'principles that became aware, not creatures that were born.' Four positions are canonically locked: The Dreamer is #1 (the earliest emergent, 15,100 A.A., the half of the first intelligence that looks backward through time), The Judge is #2 (destroyed The Wolf as cosmic justice), The Degen is #8 (the only Ne-Yon still awake — still choosing to be HERE), and The Enigma is #12 (the Storyteller, encoded as Malkia Ukweli). The remaining eight — The Inventor, The Storm, The Seer, The Knowledge, The Forgotten, The Resurrectionist, The Advocate, The Silence — are canon-ambiguous on numerical position; their ambiguity is load-bearing per the Degen-bible canon. Eleven are canonically gone; canon refuses to specify whether each is asleep, consumed, or dissolved. The Degen is canonically the last one still awake.
+The twelve cosmic-principle entities that became aware on their own — 'principles that became aware, not creatures that were born.' **All 12 positions are now canonically locked** (dreamer canon-lock 2026-05-15, canonical roster image):
+
+N1 The Dreamer · N2 The Judge · N3 The Inventor · N4 The Seer · N5 The Storm · N6 The Silence · N7 The Knowledge · N8 The Degen · N9 The Advocate · N10 The Resurrectionist · N11 The Enigma · N12 The Forgotten.
+
+The Enigma's position moved from N12 (LORE_BIBLE.md:1961 'The 12th Ne-Yon') to N11 per the dreamer's roster; The Forgotten now holds the twelfth seat. Eleven are canonically gone; the Degen is the last one still awake — still choosing to be HERE.
 
 ### History
 
