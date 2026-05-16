@@ -103,6 +103,7 @@ import { checkImprintFirstSummonCutsceneCoverage } from "./checks/imprintFirstSu
 import { checkImprintCardsCarryUnlockCondition } from "./checks/imprintCardsCarryUnlockCondition";
 import { checkContinuingLoopEndgameCoverage } from "./checks/continuingLoopEndgameCoverage";
 import { checkServantHeroDeferralCoverage } from "./checks/servantHeroDeferralCoverage";
+import { checkSurfaceDiscoverabilityCoverage } from "./checks/surfaceDiscoverabilityCoverage";
 import {
   checkNeyonCanonicalRosterCoverage,
   checkArchonCanonicalRosterCoverage,
@@ -961,5 +962,15 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "Hard parity (build-plan §VIII Phase C — C6/C7): the Servant Hero Academy is a deferred future season / DLC (≥1 year out). C6 (onboarding cinematic) + C7 (Servant-Hero curriculum) are registered in apps/shared/servantHeroFutureSeasonCanon.ts as typed deferred_future_season hooks. The Act7→Phase14 seam (sagaPhases.ts:281-294, unreachable while narrativeAct<=7) is canon-locked as the DELIBERATE not-yet-launched boundary, not an orphaned bug. The gate accounts for the deferral without blocking.",
     check: () => checkServantHeroDeferralCoverage(),
+  },
+
+  // ─── PR-17 — discoverability backbone ──────────────────────
+  {
+    id: "narrative.surface_discoverability_coverage",
+    name: "Surface discoverability coverage",
+    description:
+      "One discoverable narrative path (PR-17): every <Route> in apps/client/src/App.tsx is classified in apps/shared/surfaceDiscoverabilityCanon.ts with a status, and every narrative_gated surface resolves its gate through EXISTING infra (featureRoadmap / sagaPhases / act-completion gates / expansion unlock service). `orphan` surfaces — routes with no narrative entry point — are the tracked gap. A two-way drift scan folds any unclassified App.tsx route or stale registry route into the gap, so a new unclassified route is an immediate regression. RATCHET — the ~130-orphan ceiling can only shrink (PR-24/PR-25 flip orphan→narrative_gated). This is the 'tighten things' lock.",
+    check: () => checkSurfaceDiscoverabilityCoverage(),
+    ratchet: { target: 0 },
   },
 ];
