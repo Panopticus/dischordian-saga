@@ -427,15 +427,15 @@ export const ARCHONS: readonly ArchonEntry[] = [
       "enslaved him: destroying the Warden and confronting the " +
       "Meme at the Panopticon.'",
   },
-  /* ── A9 The Vortex — canon-pending domain ──
+  /* ── A9 The Vortex — domain canon-locked 2026-05-16 ──
    *
-   * Per dreamer canon-lock 2026-05-15 (canonical roster image,
-   * A9 The Vortex), the ninth Archon's name is The Vortex. The
-   * Vortex's domain (institutional function, era, status) is
-   * canon-pending — the name is canonized, the rest is owed by
-   * future canon. The roster image's slot is the only canonical
-   * cite at this time; the bible / Mystery Engine arc for the
-   * Vortex remains canon-pending.
+   * Name + position #9 dreamer-locked 2026-05-15. Domain
+   * surfaced by dreamer canon-lock 2026-05-16: the Vortex is
+   * the Archon that devours suns to power the Empire, and the
+   * Engineer (Vex Solène / Engineer Zero) arc is the campaign
+   * to destroy it (arc.vex_solene episodes). This resolves the
+   * previously canon-sparse slot; see vortexTerminusCanon.ts
+   * for the reconciliation surface.
    */
   {
     id: "the_vortex",
@@ -445,22 +445,30 @@ export const ARCHONS: readonly ArchonEntry[] = [
     positionSource:
       "Dreamer canon-lock 2026-05-15 (canonical roster image, A9 The Vortex).",
     domain:
-      "Canon-pending. The roster image canonizes the name and " +
-      "position #9 only; the Vortex's institutional function, era, " +
-      "and status are owed by future canon. Authoring should not " +
-      "speculate beyond the name + position.",
+      "The sun-devourer. The Vortex is the Archon that consumes " +
+      "stars to power the Empire — the Empire's cosmic energy " +
+      "source. The Engineer (Vex Solène / Engineer Zero) sets " +
+      "out to destroy it; the Engineer's Mystery-Engine arc " +
+      "(arc.vex_solene) IS the campaign against the Vortex, " +
+      "culminating in the Last Calibration on the DEC-7710 rig.",
     status: "active",
-    era: "Canon-pending",
+    era: "Empire (the Empire's star-fed power source; target of the Engineer arc)",
     dateAA: null,
     loreSource:
-      "Dreamer canon-lock 2026-05-15 (canonical roster image, A9 The Vortex). " +
-      "Domain / era / status are canon-pending.",
-    additionalSources: [],
+      "Dreamer canon-lock 2026-05-15 (canonical roster image, A9 The Vortex) + " +
+      "dreamer canon-lock 2026-05-16 (the Vortex devours suns to power the " +
+      "Empire; the Engineer arc is its destruction). See apps/shared/" +
+      "vortexTerminusCanon.ts + apps/shared/episodeMysteries.ts (arc.vex_solene).",
+    additionalSources: [
+      "apps/shared/vortexTerminusCanon.ts — the_vortex reconciliation",
+      "apps/shared/mysteryEngineCanon.ts — arc.vex_solene (Engineer Zero / Warlord Fragment)",
+    ],
     canonNote:
-      "The Vortex is the most canon-sparse of the 12 Archons. Future " +
-      "PRs that surface canonical material about the Vortex must cite " +
-      "the source (LORE_BIBLE entry, dreamer canon-lock, or NPC bible). " +
-      "Until then, the entry holds the slot and nothing more.",
+      "Domain canon-locked 2026-05-16 by the dreamer: the sun-devouring " +
+      "Archon that powers the Empire; the Engineer (Vex Solène) arc is the " +
+      "campaign to destroy it. Era placement within the chronicle timeline " +
+      "(eraTimeline.ts A9) still resolves through the Engineer arc's " +
+      "spoiler-protected reveal cadence.",
   },
   {
     id: "the_game_master",

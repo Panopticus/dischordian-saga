@@ -189,10 +189,11 @@ export const PERSPECTIVES: readonly PerspectiveDef[] = [
     unlockingTerminalEpisodeId: null,
     status: "canon_pending",
     premise:
-      "The Vortex is the institutional thread no one has finished reading. Its lens is sealed until the dreamer rules.",
+      "The Vortex is Archon #9 — the sun-devourer that powers the Empire. Its lens is the Engineer's campaign to destroy it; you read the Vortex by walking the Engineer arc.",
     loreSource:
-      "apps/shared/vortexTerminusCanon.ts (the_vortex, canon_pending) + apps/shared/eraTimeline.ts:419 + apps/shared/dischordiaCycle.ts",
-    canonNote: "Bound to vortexTerminusCanon.ts in PR-22.",
+      "apps/shared/vortexTerminusCanon.ts (the_vortex, reconciled) + apps/shared/archonCanon.ts (Archon #9) + apps/shared/episodeMysteries.ts (arc.vex_solene)",
+    canonNote:
+      "Reconciled in vortexTerminusCanon.ts (dreamer canon-lock 2026-05-16). Stays canon_pending as a perspective: it has no distinct learn-arc — it is read through the Engineer arc, which perspective.vex_solene already owns.",
   },
   {
     id: "perspective.terminus_swarm",

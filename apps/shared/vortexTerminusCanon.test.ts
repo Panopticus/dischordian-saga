@@ -16,11 +16,11 @@ import {
 import { checkVortexTerminusCoverage } from "./_completeness/checks/vortexTerminusCoverage";
 
 describe("vortex / terminus reconciliation", () => {
-  it("has two threads: terminus (reconciled) + vortex (canon_pending)", () => {
+  it("has two threads, both reconciled (Vortex bound 2026-05-16)", () => {
     const cov = getVortexTerminusCoverage();
     expect(cov.declared).toBe(2);
-    expect(cov.reconciled).toBe(1);
-    expect(cov.canonPending).toBe(1);
+    expect(cov.reconciled).toBe(2);
+    expect(cov.canonPending).toBe(0);
   });
 
   it("the Terminus Swarm is canonically the Risen / First Coming", () => {
@@ -39,20 +39,19 @@ describe("vortex / terminus reconciliation", () => {
     ]);
   });
 
-  it("the Vortex stays canon_pending with a loreSource + canonNote", () => {
+  it("the Vortex is reconciled as Archon #9, the sun-devourer the Engineer fights", () => {
     const v = getReconciledThread("the_vortex");
-    expect(v?.status).toBe("canon_pending");
-    expect(v?.loreSource.length).toBeGreaterThan(0);
-    expect((v?.canonNote ?? "").length).toBeGreaterThan(0);
-    expect(v?.canonicalReading).toBeUndefined();
+    expect(v?.status).toBe("reconciled");
+    expect(v?.canonicalReading ?? "").toMatch(/Archon #9/i);
+    expect(v?.canonicalReading ?? "").toMatch(/sun-devourer|consumes stars/i);
+    expect(v?.canonicalReading ?? "").toMatch(/Engineer|vex_solene/i);
+    expect((v?.alternates ?? []).length).toBeGreaterThan(0);
   });
 
-  it("the parity gate ratchets on the Vortex gap (not a FAIL)", () => {
+  it("the parity gate is fully reconciled (gap closed to 0)", () => {
     const r = checkVortexTerminusCoverage();
-    // Vortex is the tracked gap → at least one missing line,
-    // but the reconciled Terminus is implemented.
     expect(r.declared).toBe(2);
-    expect(r.implemented).toBe(1);
-    expect((r.missing ?? []).join(" ")).toMatch(/the_vortex/);
+    expect(r.implemented).toBe(2);
+    expect(r.missing ?? []).toEqual([]);
   });
 });

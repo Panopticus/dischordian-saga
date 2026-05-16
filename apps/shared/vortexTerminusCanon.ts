@@ -23,13 +23,17 @@
      interpretations (in-fiction misreadings the player may
      encounter), gate-then-stub style.
 
-   THE VORTEX — CANON-PENDING.
-     eraTimeline.ts:419 explicitly records "A9 The Vortex has
-     era canon-pending". The doomsday-proximity meter exists
-     (dischordiaCycle.getVortexProximityDescription) but the
-     era's canonical placement awaits the dreamer. This thread
-     is the tracked gap the ratchet carries; it is NOT forced
-     to a reading here.
+   THE VORTEX — RECONCILED (dreamer canon-lock 2026-05-16).
+     The Vortex is ARCHON #9 (archonCanon.ts the_vortex): the
+     sun-devourer that consumes stars to power the Empire — the
+     Empire's cosmic energy source. The Engineer (Vex Solène /
+     Engineer Zero) sets out to destroy it; the Engineer's
+     Mystery-Engine arc (arc.vex_solene) IS the campaign
+     against the Vortex, culminating in the Last Calibration on
+     the DEC-7710 rig. The doomsday-proximity meter
+     (dischordiaCycle.getVortexProximityDescription) is the
+     player-facing pressure of that campaign. NOT a vague
+     pending thread — a load-bearing Archon with a bound arc.
 
    The parity gate
    (apps/shared/_completeness/checks/vortexTerminusCoverage.ts)
@@ -71,8 +75,8 @@ export const VORTEX_TERMINUS_THREADS: readonly ReconciledThreadCanon[] = [
     alternates: [
       {
         id: "terminus_vortex_manifestation",
-        reading: "A manifestation of the Vortex doomsday thread.",
-        note: "An in-fiction misreading: the swarm's timing correlates with Vortex proximity, but the mechanism is resurrection-energy, not the Vortex. Recorded, not canon.",
+        reading: "A manifestation of the Vortex (Archon #9).",
+        note: "An in-fiction misreading. The Vortex is the sun-devouring Archon the Engineer fights (vortexTerminusCanon the_vortex); it does not raise swarms. The swarm is the Necromancer's Risen. The two doomsday pressures are distinct. Recorded, not canon.",
       },
       {
         id: "terminus_thought_virus",
@@ -88,11 +92,25 @@ export const VORTEX_TERMINUS_THREADS: readonly ReconciledThreadCanon[] = [
   {
     id: "the_vortex",
     title: "The Vortex",
-    status: "canon_pending",
+    status: "reconciled",
+    canonicalReading:
+      "Archon #9: the sun-devourer that consumes stars to power the Empire — the Empire's cosmic energy source (archonCanon the_vortex, domain canon-locked 2026-05-16). The Engineer (Vex Solène / Engineer Zero) sets out to destroy it; the Engineer's Mystery-Engine arc (arc.vex_solene) IS the campaign against the Vortex, culminating in the Last Calibration. The dischordiaCycle Vortex-proximity meter is that campaign's player-facing pressure.",
+    alternates: [
+      {
+        id: "vortex_era_placeholder",
+        reading: "An era-timeline placeholder with no agent (eraTimeline.ts A9).",
+        note: "Superseded. The Vortex is a load-bearing Archon with a bound arc, not a slot awaiting fill. Recorded to preserve the pre-2026-05-16 reading.",
+      },
+      {
+        id: "vortex_unbound_doomsday_meter",
+        reading: "A free-floating doomsday clock with no story.",
+        note: "Superseded. The proximity meter is the player-facing pressure of the Engineer's campaign to destroy Archon #9, not an unbound mechanic. Recorded, not canon.",
+      },
+    ],
     loreSource:
-      "apps/shared/eraTimeline.ts:419 (A9 The Vortex has era canon-pending) + apps/shared/dischordiaCycle.ts (getVortexProximityDescription — the doomsday-proximity meter)",
+      "apps/shared/archonCanon.ts (the_vortex, Archon #9, domain canon-locked 2026-05-16) + apps/shared/episodeMysteries.ts (arc.vex_solene — the Engineer's campaign) + apps/shared/dischordiaCycle.ts (getVortexProximityDescription)",
     canonNote:
-      "Era placement deferred to the dreamer. The tracked gap; the ratchet ceiling shrinks when a future PR binds it. NOT forced to a reading here.",
+      "Dreamer canon-lock 2026-05-16: the Vortex is the sun-devouring Archon powering the Empire; the Engineer (Vex Solène) arc is its destruction. Reconciled — no longer the tracked gap.",
   },
 ];
 
