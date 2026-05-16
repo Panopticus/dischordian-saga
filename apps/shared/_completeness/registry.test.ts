@@ -143,6 +143,10 @@ describe("completeness registry — well-formedness", () => {
           line.startsWith("mystery.necromancer:"),
           `Necromancer arc must be fully bound, but it is reported unbound: ${line}`,
         ).toBe(false);
+        expect(
+          line.startsWith("mystery.zyr_koth:"),
+          `Zyr'Koth arc must be fully bound, but it is reported unbound: ${line}`,
+        ).toBe(false);
       }
       // The check must be doing real work (non-trivial declared set).
       expect(result.declared).toBeGreaterThan(0);

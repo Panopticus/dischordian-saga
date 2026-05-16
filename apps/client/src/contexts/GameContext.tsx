@@ -1101,6 +1101,8 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       // Mystery wiring — Necromancer arc: Akai Shi's two canonized witness statements and the case-closing ledger
       { id: "akai-shi-witness-statements", name: "Akai Shi's Witness Statements", description: "Akai Shi's testimony, canonized in the Two Witnesses' chronicle — the killing through the throne, and the second statement that does not retract it.", x: 46, y: 58, width: 7, height: 9, type: "interact", action: "room-mystery:antiquarian-library:akai-shi-witness-statements" },
       { id: "necromancer-case-closing-ledger", name: "The Necromancer Case-Closing Ledger", description: "A closing ledger on the case-synthesis shelf — the Necromancer arc assembled in one hand, the dual-reading closure deliberately left open.", x: 54, y: 58, width: 7, height: 9, type: "interact", action: "room-mystery:antiquarian-library:necromancer-case-closing-ledger" },
+      // Mystery wiring — Zyr'Koth arc: the sisters-of-the-Weave cross-catalogue and the case-closing ledger
+      { id: "zyr-koth-sisters-and-closing-ledger", name: "The Sisters-of-the-Weave Cross & Closing Ledger", description: "A cross-catalogue under the glyph for a record with a name struck out — three students of the Blood Weave — filed beside the Zyr'Koth case-synthesis ledger and its closing question.", x: 62, y: 58, width: 7, height: 9, type: "interact", action: "room-mystery:antiquarian-library:zyr-koth-sisters-and-closing-ledger" },
     ],
   },
   /* ═══ CHAIN-UNLOCKED HIDDEN ROOMS ═══ */
@@ -1254,6 +1256,10 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "varkul-director-of-security-file", name: "Varkul Director-of-Security File", description: "A personnel order on the command-structure rack — Mol'Garath's post-Severance promotion of the Necromancer's creation to keeper of the Hierarchy's gates, both sides.", x: 42, y: 48, width: 8, height: 9, type: "interact", action: "room-mystery:war-room:varkul-director-of-security-file" },
       // Mystery wiring — Necromancer arc: the captured standing-tense Castle log and the Taskmaster's unanswered question
       { id: "necromancer-castle-log-board", name: "Necromancer Castle-Log Board", description: "A captured Hierarchy R&D log on the document rack — the Castle of Death named in the standing tense from the CFO's office, and Riri'Ahlia's unanswered procedural question.", x: 54, y: 48, width: 8, height: 9, type: "interact", action: "room-mystery:war-room:necromancer-castle-log-board" },
+      // Mystery wiring — Zyr'Koth arc: captured R&D refinement file, the hollowing report, and the locked lever
+      { id: "zyr-koth-rd-refinement-file", name: "Zyr'Koth R&D Refinement File", description: "Captured Hierarchy R&D working notes on the document rack — the Advocate's defensive Weave inverted into the Severance, the source technique cited before the change, the test cohort redacted.", x: 66, y: 48, width: 8, height: 9, type: "interact", action: "room-mystery:war-room:zyr-koth-rd-refinement-file" },
+      { id: "the-severance-hollowing-report", name: "The Severance Hollowing Report", description: "A Hierarchy R&D observation note on a redacted test subject — a casualty with no wound — and Zyr'Koth's filed no-position on whether the protocol is ever used.", x: 30, y: 36, width: 8, height: 9, type: "interact", action: "room-mystery:war-room:the-severance-hollowing-report" },
+      { id: "the-locked-lever-board", name: "The Locked-Lever Board", description: "A strategic-assessment panel — the Severance as the only tested reversal of a Syl'Vex conversion, held only by a clause in Mol'Garath's quarterly review.", x: 42, y: 36, width: 8, height: 9, type: "interact", action: "room-mystery:war-room:the-locked-lever-board" },
     ],
   },
   {
@@ -1510,6 +1516,9 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       // Mystery wiring — apps/shared/roomMysteries/guildSanctum.ts
       { id: "sigil-altar", name: "Sigil Altar", description: "A low brass slab inscribed with every guild-sigil the Ark has ever recognised. Some sigils are scratched out. Some are double-engraved.", x: 38, y: 78, width: 24, height: 14, type: "interact", action: "room-mystery:guild-sanctum:sigil-altar" },
       { id: "allegiance-pad", name: "Allegiance Pad", description: "A small pressure-pad in the floor in front of the altar. Stepping on it puts your current allegiances on the record.", x: 38, y: 90, width: 24, height: 8, type: "interact", action: "room-mystery:guild-sanctum:allegiance-pad" },
+      // Mystery wiring — Zyr'Koth arc: the Advocate's structural blind spot and what telling her costs
+      { id: "the-advocates-blind-spot", name: "The Advocate's Blind Spot", description: "A cross-reference laid beside the altar's engraving log — the third use of the Blood Weave the Advocate's defensive doctrine cannot perceive, and the cost it relocates onto the subject.", x: 20, y: 22, width: 18, height: 12, type: "interact", action: "room-mystery:guild-sanctum:the-advocates-blind-spot" },
+      { id: "what-telling-the-advocate-costs", name: "What Telling the Advocate Costs", description: "Set against the altar's logic that speech here is witnessed and binding — the Advocate's unknowing by construction, and the small severance the player can perform by speaking.", x: 20, y: 40, width: 18, height: 12, type: "interact", action: "room-mystery:guild-sanctum:what-telling-the-advocate-costs" },
     ],
   },
   {

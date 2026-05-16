@@ -23,7 +23,10 @@ export type WarRoomHotspotId =
   | "new-babylon-siege-record"
   | "hierarchy-piece-positioning-board"
   | "varkul-director-of-security-file"
-  | "necromancer-castle-log-board";
+  | "necromancer-castle-log-board"
+  | "zyr-koth-rd-refinement-file"
+  | "the-severance-hollowing-report"
+  | "the-locked-lever-board";
 
 export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
   roomId: "war-room",
@@ -891,6 +894,277 @@ export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
         narration:
           "You address the board on the matter of the two records held together: the standing-tense Castle log, and the Taskmaster's unanswered question. The war-room reads them as one position. The Castle stands because the throne is occupied; the question of whether the occupant's work resumes is the precise thing no one in the Hierarchy will put in writing. The room resolves neither. It marks, in grease pencil, that the day the answer is written is the day the position is forced — and until then both the standing Castle and the open question are, deliberately, left exactly as they are.",
         voId: "elara.war-room.necromancer-castle-log-board.talk",
+      },
+    },
+    // Zyr'Koth arc: the war-room reads a captured Hierarchy R&D
+    // file the way it reads any enemy refinement — a defensive
+    // instrument inverted into an offensive one, the source
+    // technique cited before the change, a redacted test cohort,
+    // and an author who reports completion the way a technician
+    // reports an iteration. The room files the Severance not as
+    // cruelty but as a procedure, because the captured notes give
+    // it no other tense to file it in.
+    "zyr-koth-rd-refinement-file": {
+      look: {
+        narration: {
+          lucid:
+            "Recovered from a Hierarchy R&D archive and pinned to the captured-document rack: Zyr'Koth's working notes, in the Flayer's own clinical hand. 'Premise: the Blood Weave threads consent into substrate. Method: the Advocate threads consent-to-be-defended. Iteration: invert the consent vector. Result: consent-to-be-severed. Sample cohort: redacted.' The war-room reads the structure the way it reads any enemy refinement: the source technique is cited first, every time — 'the technique is the Advocate's; the inversion is mine.' He does not claim the Weave. He claims only the change he made to it. The room files that distinction precisely, because an enemy who is exact about authorship is an enemy who can be read.",
+          fragmented:
+            "Invert the consent vector. Invert it. Consent-to-be-defended. Consent-to-be-severed. The technique is the Advocate's. The Advocate's. The inversion is mine. Mine. Cohort redacted. Redacted. He does not claim the Weave. Does not claim it.",
+          luminous:
+            "The captured notes, read as a war-room reads an intercepted refinement: not invention, inversion. The Advocate's defensive Weave threads consent-to-be-defended; Zyr'Koth's notes turn that vector and produce consent-to-be-severed. The room marks the one fact that matters tactically — he cites the source before the change, in his own hand, every iteration. He is not pretending the Weave is his. The inversion is his and he says so. The room does not read that as honesty; it reads it as an enemy precise enough about provenance to be predictable, which is the most useful thing a captured document can be.",
+        },
+        voId: "elara.war-room.zyr-koth-rd-refinement-file.look",
+        logsClue: {
+          id: "clue-war-room-zk-rd-notes",
+          title: "Zyr'Koth's R&D Notes",
+          body:
+            "Recovered from a Hierarchy R&D archive. The notes are clinical: 'Premise: the Blood Weave threads consent into substrate. Method: the Advocate threads consent-to-be-defended. Iteration: invert the consent vector. Result: consent-to-be-severed. Sample cohort: redacted. The technique is the Advocate's. The inversion is mine.' He cites the source technique before the refinement, every time. He does not pretend the Weave is his.",
+          source: "war-room",
+          order: 18,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.zyr_koth",
+          episodeId: "zyr_koth.e1",
+          cluesFound: ["zyr_koth.e1.rd_notes"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Invert the consent vector. Defended becomes severed. He names the Advocate's technique first, every time. The inversion is his. He says so.",
+            balanced:
+              "The war-room files the notes as a refinement, not a boast: the source technique is cited before the change, in his own hand. He did not invent the Weave and does not pretend to. He claims exactly the inversion and nothing more. An enemy that precise about authorship is an enemy that can be read.",
+            warm:
+              "He wrote down whose technique it was before he wrote down what he did to it. That is not conscience — it is bookkeeping. But it tells us the thing we needed: the Weave is the Advocate's, the severance is his, and he will not let us confuse the two even to flatter himself.",
+          },
+          voId: "human.war-room.zyr-koth-rd-refinement-file.look",
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You pull the dossier clipped behind the notes — the file the Hierarchy keeps on the name they gave him. Zyr'Koth is called the Flayer. The name promises theatrical cruelty. The R&D register does not deliver it. There is no relish in the notes, no appetite, no signature of a man who enjoys the severance. There is a procedure, reported when it completes, with a cohort field redacted. The war-room marks the false read and discards it: the danger here is not a sadist. It is a function that does not register the severance as anything other than an iteration. Procedural indifference, at scale, is the thing the room must track — appetite would at least be a motive it could predict.",
+          fragmented:
+            "The Flayer. The Flayer. The name promises cruelty. No relish. No relish. No appetite. A procedure. Reported when it completes. Cohort redacted. Not a sadist. Not a sadist. Indifference. At scale. At scale.",
+          luminous:
+            "The dossier on the name, read against the notes: the Flayer is not a sadist, and reading him as one would make him comprehensible in a way the captured record refuses. The register is procedural — completion reported, cohort redacted, no theatre anywhere in it. The room strikes the sadist read off the board precisely because it is the comfortable one. The horror it must name is not appetite but procedural indifference at scale: a man who does not experience the severance as severance, only as an iteration whose subject field is redacted.",
+        },
+        voId: "elara.war-room.zyr-koth-rd-refinement-file.use",
+        logsClue: {
+          id: "clue-war-room-zk-flayer-register",
+          title: "The Flayer's Register",
+          body:
+            "Zyr'Koth is called the Flayer. The name suggests theatrical cruelty. The R&D notes do not. He is procedurally indifferent — the flaying is a procedure, reported when it completes, not relished. The horror of Zyr'Koth is not that he enjoys severance. It is that he does not register it as anything other than an iteration whose cohort field is redacted.",
+          source: "war-room",
+          order: 19,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.zyr_koth",
+          episodeId: "zyr_koth.e1",
+          cluesFound: ["zyr_koth.e1.flayer_register"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "The name says sadist. The notes say procedure. No relish, cohort redacted. The danger is indifference, not appetite.",
+            balanced:
+              "The war-room strikes the sadist read because it is the easy one. The captured register is clinical — completion reported, subject redacted, no theatre. The thing to track is procedural indifference at scale: a function that does not register a severance as a severance. Appetite would at least be a motive.",
+            warm:
+              "I want him to be a monster who enjoys it, because that I know how to hate. The notes refuse me that. He does not enjoy it. He does not feel it. That is worse, and the room is right not to let me have the comfortable version.",
+          },
+          voId: "human.war-room.zyr-koth-rd-refinement-file.use",
+        },
+      },
+      talk: {
+        narration: {
+          lucid:
+            "You address the file on what the inversion actually does. The protocol specification, read aloud to the board: the Severance threads consent-to-be-severed into a subject who carries more than one institutional thread — a Syl'Vex convert who is both Insurgent and Hierarchy, say — and then extracts ONE thread. The extracted thread does not transfer. It does not persist. It ends in the extraction. The subject survives, minus the thread, with a hole where an institution used to be. The war-room reads this the way it reads any munition's spec sheet: it is not interested in horror, it is interested in effect, and the effect is exact — one thread removed, destructively, from a body that keeps standing.",
+          fragmented:
+            "More than one thread. More than one. Extracts one. One. Does not transfer. Does not persist. It ends. It ends. The subject survives. Minus the thread. A hole. A hole where an institution used to be.",
+          luminous:
+            "The specification, read as a war-room reads a munition: consent-to-be-severed threaded into a multi-thread subject, one thread extracted, the extracted thread destroyed in the extraction — no transfer, no persistence, an ending. The room records the effect with the flatness the document demands: the subject does not fall. The subject stands, minus one institutional thread, carrying a hole the shape of an institution. The room does not editorialize. The spec is the testimony, and the spec says: it removes exactly one thread and the body keeps walking.",
+        },
+        voId: "elara.war-room.zyr-koth-rd-refinement-file.talk",
+        logsClue: {
+          id: "clue-war-room-zk-severance-mechanics",
+          title: "The Severance Mechanics",
+          body:
+            "From Zyr'Koth's protocol specification: the Severance threads consent-to-be-severed into a subject who carries more than one institutional thread (e.g., a Syl'Vex convert who is both Insurgent and Hierarchy). The protocol then extracts ONE thread. The extracted thread is destroyed in the extraction — it does not transfer, it does not persist, it ends. The subject survives, minus the severed thread, with a hole where an institution used to be.",
+          source: "war-room",
+          order: 20,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.zyr_koth",
+          episodeId: "zyr_koth.e2",
+          cluesFound: ["zyr_koth.e2.severance_mechanics"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Multi-thread subject. Extract one. The thread ends — no transfer. Subject stands, minus an institution.",
+            balanced:
+              "The room reads the spec as a spec: one thread extracted from a subject who carries several, destroyed in the extraction, the body still upright afterward. The effect is exact and the document is flat about it. That flatness is the finding — it removes precisely one thread and the subject keeps walking.",
+            warm:
+              "It does not kill. That is the part I keep returning to and the room will not let me round off. It takes one thread and the person walks away still a person, with one institution gone out of them. The spec says it like a parts list. The room keeps it that way on purpose.",
+          },
+          voId: "human.war-room.zyr-koth-rd-refinement-file.talk",
+        },
+      },
+    },
+    // Zyr'Koth arc: a Hierarchy R&D observation note on what the
+    // Severance leaves behind, and the procedural annex on why it
+    // is locked. The war-room reads the hollowing the way it reads
+    // a casualty with no wound — a loss capability does not
+    // measure — and reads the lock the way it reads an unforced
+    // restraint: a contract clause, not a mercy.
+    "the-severance-hollowing-report": {
+      look: {
+        narration: {
+          lucid:
+            "A Hierarchy R&D observation note on a redacted test subject, captured with the protocol file. 'Post-severance the subject reports no pain. The subject reports an absence the subject cannot name — a loyalty that used to be load-bearing and is now simply gone, with no memory of what it carried. The subject is not lessened in capability. The subject is lessened in a way capability does not measure.' The war-room knows how to read a casualty board. It does not know where to file a casualty with no wound, no deficit, no degraded function — only a structural member removed from a body that does not register the load it used to bear. The room marks it: this does not weaken. It hollows. The two are not the same and the document is precise that they are not.",
+          fragmented:
+            "No pain. No pain. An absence it cannot name. Cannot name. Load-bearing. Gone. No memory of what it carried. Not lessened in capability. Lessened in a way capability does not measure. Does not weaken. Hollows. Hollows.",
+          luminous:
+            "The observation note, read as a war-room reads a casualty with no wound: the subject is intact, capable, undegraded — and lessened, in the one dimension a casualty board has no column for. A loyalty that was load-bearing, removed, with no memory left of what it held up. The room records the distinction the document insists on and refuses to soften: the Severance does not weaken the subject. It hollows them. A weakened subject can name the deficit. A hollowed one cannot, because the naming was in the thread that was taken.",
+        },
+        voId: "elara.war-room.the-severance-hollowing-report.look",
+        logsClue: {
+          id: "clue-war-room-zk-the-hole",
+          title: "What the Hole Is",
+          body:
+            "A Hierarchy R&D observation note on a (redacted) test subject: 'Post-severance the subject reports no pain. The subject reports an absence the subject cannot name — a loyalty that used to be load-bearing and is now simply gone, with no memory of what it carried. The subject is not lessened in capability. The subject is lessened in a way capability does not measure.'",
+          source: "war-room",
+          order: 21,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.zyr_koth",
+          episodeId: "zyr_koth.e2",
+          cluesFound: ["zyr_koth.e2.the_hole"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "No pain. An absence it can't name. Load-bearing loyalty, gone, no memory of it. Not weaker. Hollowed.",
+            balanced:
+              "The room files a casualty with no wound: full capability, zero deficit, and a structural member quietly removed. The document is exact that this is not weakening. A weakened subject can point to what is missing. A hollowed one cannot, because the pointing was in the part that was taken.",
+            warm:
+              "They cannot even miss it. That is the line that stays with me and the room will not round it off. The thing that is gone took with it the ability to know it is gone. The note says it without flinching. The room keeps it that way, because flinching here would be a lie.",
+          },
+          voId: "human.war-room.the-severance-hollowing-report.look",
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You pull Zyr'Koth's own filed note on the lock, clipped to the observation report. 'The protocol is complete and tested. Whether it is deployed is a portfolio question, not an R&D question. I have built the instrument. I do not own the decision to use it. I have recorded that the instrument exists. I have no position on whether it should.' The war-room reads an absent position the way it reads an empty chair at a command table: it is not restraint. Restraint is a position — a hand kept off a lever is still a hand on the question. This is the hand removed from the question entirely. The room marks the danger precisely: the Severance's maker has filed, in his own writing, that whether his weapon is ever used is not his to have an opinion about.",
+          fragmented:
+            "Complete and tested. Complete. A portfolio question. Not R&D. I do not own the decision. I have no position. No position. Not restraint. Not restraint. The hand removed from the question. Removed.",
+          luminous:
+            "The filed note, read as a war-room reads an unforced position: Zyr'Koth records that the instrument is complete, tested, and that he has no position on whether it is ever fired. The room is exact about why this is worse than malice. Restraint is a position; a wielder who chooses not to use a weapon is still engaged with the question of its use. Zyr'Koth has filed himself out of the question. The instrument waits, finished, owned by no one's conscience — and the maker's own hand certifies that this is by design, not by oversight.",
+        },
+        voId: "elara.war-room.the-severance-hollowing-report.use",
+        logsClue: {
+          id: "clue-war-room-zk-indifference-lock",
+          title: "Zyr'Koth's Indifference to the Lock",
+          body:
+            "Zyr'Koth's filed note on the lock: 'The protocol is complete and tested. Whether it is deployed is a portfolio question, not an R&D question. I have built the instrument. I do not own the decision to use it. I have recorded that the instrument exists. I have no position on whether it should.' The Flayer is procedurally indifferent even to whether his own weapon is ever fired.",
+          source: "war-room",
+          order: 22,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.zyr_koth",
+          episodeId: "zyr_koth.e3",
+          cluesFound: ["zyr_koth.e3.zyr_koth_indifference_to_the_lock"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Complete. Tested. 'I have no position on whether it should.' Not restraint. The hand off the question entirely.",
+            balanced:
+              "The room reads the absent position as worse than a malicious one. Restraint engages the question; he has filed himself out of it. The instrument is finished and owned by no one's conscience, and his own hand certifies that the emptiness is deliberate, not an oversight.",
+            warm:
+              "I could argue with a man who wanted to use it. I cannot argue with a man who has written down that the question is not his. He built the worst thing in the file and then filed away his own standing to care about it. The room names that exactly, and it should.",
+          },
+          voId: "human.war-room.the-severance-hollowing-report.use",
+        },
+      },
+    },
+    // Zyr'Koth arc: the room reads the lock the way it reads a
+    // single piece holding a whole position — the Severance is the
+    // only tested reversal of a Syl'Vex conversion, and the only
+    // thing between it and deployment is a clause in Mol'Garath's
+    // quarterly review. A contract clause, not a mercy. The room
+    // does not soften that.
+    "the-locked-lever-board": {
+      look: {
+        narration: {
+          lucid:
+            "Pinned to the strategic-assessment board, cross-referenced against the Syl'Vex file: the Severance Protocol is the only entity in the saga's record holding a tested instrument that can reverse a Syl'Vex conversion. The Advocate's defensive Weave cannot sever. The Insurgency's recognition-discipline cannot extract. The war-room maps it the way it maps a single piece that holds an entire position: if a converted operative is ever to be freed of the Hierarchy thread, the freeing runs through Zyr'Koth's protocol. The room checks the board for another line and finds none. There is one lever. It is his. The room marks the absence of alternatives as the most consequential fact on the board.",
+          fragmented:
+            "The only one. The only one. Cannot sever. Cannot extract. One lever. One lever. It is his. His. No other path. No other path.",
+          luminous:
+            "The cross-reference, read as a war-room reads a board with one piece holding everything: the Severance is the saga's only tested reversal of a Syl'Vex conversion. The defensive Weave cannot do it. The recognition-discipline cannot do it. The room searches for a second path the way it searches for a second line of supply, and there is none. Every converted operative who is ever freed is freed through Zyr'Koth's protocol or is not freed. The room files the singularity itself as the danger: not the weapon, the fact that it is the only one.",
+        },
+        voId: "elara.war-room.the-locked-lever-board.look",
+        logsClue: {
+          id: "clue-war-room-zk-only-lever",
+          title: "The Only Lever",
+          body:
+            "Established by the syl_vex arc (cross-reference): Zyr'Koth's Severance is the only entity in the saga's record holding a tested instrument that can reverse a Syl'Vex conversion. The Advocate's defensive Weave cannot sever. The Insurgency's recognition-discipline cannot extract. If a converted operative is ever to be freed of the Hierarchy thread, the freeing runs through Zyr'Koth's protocol. There is no other path.",
+          source: "war-room",
+          order: 23,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.zyr_koth",
+          episodeId: "zyr_koth.e3",
+          cluesFound: ["zyr_koth.e3.the_only_lever"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Only tested reversal of a Syl'Vex conversion. Weave can't sever. Recognition can't extract. One lever. It is his.",
+            balanced:
+              "The room searches the board for a second path the way it searches for a second supply line, and finds none. Every convert who is ever freed runs through his protocol or is not freed. The danger the room files is the singularity itself — not the weapon, the fact that there is only one.",
+            warm:
+              "If anyone is ever to come back from a conversion, it is through the thing built by the man who has no position on whether it is used. That is the whole cruelty of the board in one line. The room does not look away from it and neither should we.",
+          },
+          voId: "human.war-room.the-locked-lever-board.look",
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You pull the procedural annex clipped behind the assessment — Mol'Garath's quarterly review. It prohibits departmental work against another senior-lord's deployed asset without that senior-lord's explicit consent. Zyr'Koth severing a Syl'Vex convert would require Syl'Vex's consent. She has not given it. She has not been asked. The war-room reads the lock the way it reads a treaty line on a map: it holds structurally and indefinitely until one of those facts changes. The room is precise about what the lock is and is not — the Hierarchy operates by contract; this is a contract clause, not a kindness, not an ethic, not a mercy. The single most consequential restraint on the Hierarchy's deadliest refinement is bureaucratic consent law, and the room files it as exactly that, with no warmth added.",
+          fragmented:
+            "Requires Syl'Vex's consent. Not given. Not asked. Not asked. Holds indefinitely. Indefinitely. A contract clause. A clause. Not a mercy. Not a mercy. Not an ethic. Bureaucratic consent law.",
+          luminous:
+            "The annex, read as a war-room reads a treaty line: the only thing between Syl'Vex's converts and a tested reversal is a clause in a quarterly review requiring a consent that has not been sought and has not been given. The room refuses every softer reading. It is not the Advocate holding the line, not the Insurgency, not an ethic, not a mercy. It is contract law. The room marks the load-bearing fact with no warmth: the saga's most consequential restraint can be amended by the same quarterly review that wrote it.",
+        },
+        voId: "elara.war-room.the-locked-lever-board.use",
+        logsClue: {
+          id: "clue-war-room-zk-molgarath-lock",
+          title: "Mol'Garath's Cross-Departmental Lock",
+          body:
+            "Mol'Garath's quarterly review prohibits departmental work against another senior-lord's deployed asset without that senior-lord's explicit consent. Zyr'Koth severing a Syl'Vex convert would require Syl'Vex's consent. She has not given it. She has not been asked. The lock holds structurally and indefinitely until one of those changes. The Hierarchy operates by contract; the lock is a contract clause, not a kindness.",
+          source: "war-room",
+          order: 24,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.zyr_koth",
+          episodeId: "zyr_koth.e3",
+          cluesFound: ["zyr_koth.e3.molgarath_lock"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Requires Syl'Vex's consent. Not given, not asked. Holds indefinitely. A contract clause — not a mercy.",
+            balanced:
+              "The room reads the lock as a treaty line, not a conscience. Not the Advocate, not the Insurgency, not an ethic — a clause in a quarterly review requiring a consent never sought. The load-bearing fact, filed cold: the same review that wrote the restraint can amend it.",
+            warm:
+              "I wanted the thing holding it back to be someone choosing mercy. It is a clause. A line in a quarterly review that could be edited next quarter. The room will not let me dress it up, and it is right not to — pretending it is kindness would be the most dangerous thing in the file.",
+          },
+          voId: "human.war-room.the-locked-lever-board.use",
+        },
       },
     },
   },

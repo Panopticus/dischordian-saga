@@ -31,7 +31,8 @@ export type AntiquarianLibraryHotspotId =
   | "varkul-vigil-cross-catalog"
   | "varkul-testimony-boundary-file"
   | "akai-shi-witness-statements"
-  | "necromancer-case-closing-ledger";
+  | "necromancer-case-closing-ledger"
+  | "zyr-koth-sisters-and-closing-ledger";
 
 export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHotspotId> = {
   roomId: "antiquarian-library",
@@ -2347,6 +2348,122 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
               "Both readings are true to everything we found, and the room refuses to choose for us — including the option not to choose at all. He died and he is here; whether that is one story or two is the thing we get to decide, or honestly decline to. We carry whichever we offer.",
           },
           voId: "human.antiquarian-library.necromancer-case-closing-ledger.talk",
+        },
+      },
+    },
+    // Zyr'Koth arc: the archive indexes by who witnessed a thing,
+    // and the sisters-of-the-Weave canon is a witness record with
+    // a name struck from it. The Antiquarian holds the third-
+    // student slot open by discipline — he records the match of
+    // USE without asserting the match of IDENTITY, because the
+    // gap is a deliberately-preserved canon-gap and forcing it
+    // would be a worse error than holding it. This is also where
+    // the arc's structural synthesis and its closing question are
+    // kept.
+    "zyr-koth-sisters-and-closing-ledger": {
+      look: {
+        narration: {
+          lucid:
+            "Cross-catalogued from the syl_vex arc's sisters-of-the-Weave canon, indexed under a glyph the Antiquarian reserves for a record with a name removed from it: three students learned the Blood Weave from one pre-Severance instructor — the Advocate, Syl'Vex, and a third whose name was struck from the Hierarchy's record. The struck line reads only that 'the third chose the use neither of them did.' Zyr'Koth's Severance is precisely the use neither the Advocate nor Syl'Vex chose. The archive records the match of USE. It does not record a match of IDENTITY. The Antiquarian, whose whole discipline is the precision of attribution, does not write into a slot the canon struck on purpose. He files the convergence and leaves the name where the Hierarchy left it: absent, and deliberately so.",
+          fragmented:
+            "Three students. Three. A name struck. Struck. The use neither of them did. Neither of them. Zyr'Koth's use is that use. The match of use. Not identity. Not identity. The slot stays open. Stays open.",
+          luminous:
+            "The sisters-of-the-Weave record, read as the archive reads any witness with a name removed: three students, one struck from the line, the struck one marked only by a choice — 'the use neither of them did.' The Severance is that use. The Antiquarian records the convergence of the choice and declines, by discipline, to fill the struck name from it. The room is exact about the difference between a match of use and a match of identity. The canon-gap is preserved on purpose; the archive's finest instrument is the one that knows when not to write. The slot stays recognizable and stays empty.",
+        },
+        voId: "elara.antiquarian-library.zyr-koth-sisters-and-closing-ledger.look",
+        logsClue: {
+          id: "clue-antiquarian-zk-third-student",
+          title: "Cross: The Third Student",
+          body:
+            "From the syl_vex arc's sisters-of-the-Weave canon: three students learned the Blood Weave from one pre-Severance instructor — the Advocate, Syl'Vex, and a third whose name was struck from the Hierarchy's record ('the third chose the use neither of them did'). Zyr'Koth's Severance is the use neither the Advocate nor Syl'Vex chose. The arc does not assert Zyr'Koth IS the third student — but it records that the third student's described choice and Zyr'Koth's refinement are the same use, and leaves the identity slot open.",
+          source: "antiquarian-library",
+          order: 54,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.zyr_koth",
+          episodeId: "zyr_koth.e4",
+          cluesFound: ["zyr_koth.e4.sisters_of_the_weave_cross"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Three students, one struck from the record. The struck one chose the use neither did. That use is the Severance. Same use. Not the same name.",
+            balanced:
+              "The archive records the match of use and refuses to fill the struck name from it. The Antiquarian's whole discipline is attribution, and the discipline here is restraint — the canon-gap is preserved on purpose. He files the convergence and leaves the slot where the Hierarchy left it: empty, recognizably so.",
+            warm:
+              "It would be so easy to say it is him. The room will not, and that refusal is the point. The third name was struck on purpose, and the most honest thing the archive can do is keep the silence shaped exactly as it found it. The use matches. The name is not ours to write in.",
+          },
+          voId: "human.antiquarian-library.zyr-koth-sisters-and-closing-ledger.look",
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You pull the case-synthesis ledger filed behind the sisters record. The Antiquarian assembles E1 through E4 in one hand: Zyr'Koth inverted the Advocate's defensive Weave into the Severance Protocol, the Blood Weave's third use; it relocates all cost onto the target; it hollows rather than weakens; it is the only tested instrument that can reverse a Syl'Vex conversion; Mol'Garath's contract clause locks it; the Advocate cannot perceive it; Zyr'Koth has filed that he has no position on whether it is ever used. The ledger marks the case structurally complete. It marks the verdict not complete. It does not supply one. The page where the judgment would go is blank, and the Antiquarian's hand stopped exactly at its edge — a keeper does not keep the verdict on the keeper of the Severance.",
+          fragmented:
+            "E1 to E4. One hand. One hand. The third use. Cost relocated. Hollows not weakens. The only reversal. The lock. He cannot be perceived. No position. Structurally complete. The verdict is not. The verdict is not. Blank. Blank.",
+          luminous:
+            "The synthesis ledger: five findings reconciled into one structurally complete case — third use, cost relocated, hollowing not weakening, the only reversal, locked by a clause, unperceived by its source, owned by no position. The completeness and the blank verdict-page are both deliberate. The archive closes the structure and reserves the closure. It does not pre-decide the judgment on an instrument this exact; the discipline is to set the pen down at the edge of it and leave the last page for the only reader entitled to write there.",
+        },
+        voId: "elara.antiquarian-library.zyr-koth-sisters-and-closing-ledger.use",
+        logsClue: {
+          id: "clue-antiquarian-zk-synthesis",
+          title: "The Case Synthesis",
+          body:
+            "E1-E4 assembled: Zyr'Koth inverted the Advocate's defensive Weave into the Severance Protocol (third use); it relocates all cost onto the target; it hollows rather than weakens; it is the only tested instrument that can reverse a Syl'Vex conversion; Mol'Garath's contract clause locks it; the Advocate cannot perceive it; Zyr'Koth has filed that he has no position on whether it is ever used. The case is structurally complete.",
+          source: "antiquarian-library",
+          order: 55,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.zyr_koth",
+          episodeId: "zyr_koth.e5",
+          cluesFound: ["zyr_koth.e5.synthesis"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Whole case in one hand: third use, cost relocated, hollows not weakens, the only reversal, locked, unperceived, no position. Complete in structure. Verdict blank.",
+            balanced:
+              "The synthesis reconciles every finding and then stops short of judgment on purpose. Structurally complete, deliberately unclosed — the archive sets the structure and reserves the closure. It does not pre-decide a verdict on an instrument this exact, and neither should we until the question is put.",
+            warm:
+              "He assembled the entire terrible case and set the pen down right at the edge of the verdict, where a keeper must. The last page is not missing. It is reserved — for the only reader allowed to write there. Which the case is about to tell us is us.",
+          },
+          voId: "human.antiquarian-library.zyr-koth-sisters-and-closing-ledger.use",
+        },
+      },
+      talk: {
+        narration: {
+          lucid:
+            "You address the ledger on the closure itself. The Two Witnesses put the question, and the file records whichever you offer. Is the Severance Protocol (a) AN ATROCITY — a free-to-wield hollowing instrument is an atrocity by existing, regardless of the lock, and the maker's no-position is its final form; (b) A DETERRENT — its existence-plus-lock is the only thing that makes Syl'Vex's conversion not a one-way door, and a locked weapon that restores the possibility of agency is, weighed against a door that forecloses it, the lesser unfreedom; or (c) JUST R&D — Zyr'Koth's filed indifference is, terribly, the accurate description; the instrument has no moral valence, only its use does, and that use has not been decided. All three are honest closures of the same structurally complete case. The ledger advances none of them. Zyr'Koth, who has no position on his own instrument, does not get the only position the case withholds from everyone equally — and neither does the archive.",
+          fragmented:
+            "Atrocity. Deterrent. Just R&D. Atrocity. Deterrent. Just R&D. All three honest. All three. The ledger advances none. None. He gets no position. No one does. Not the archive either.",
+          luminous:
+            "The closing question, asked in the Two Witnesses' hand: atrocity, deterrent, or just R&D — three readings of one structurally complete case, each true to every finding, none of them the ledger's own. An instrument whose only cost is the target's; or the single thing that makes a conversion reversible; or a valence-less iteration awaiting a decision no one has made. The archive records what the player offers and pre-judges nothing. The keeper who would not keep a position on his own weapon does not get this one either, and neither does the room that holds the case — the verdict belongs only to the reader the question is put to.",
+        },
+        voId: "elara.antiquarian-library.zyr-koth-sisters-and-closing-ledger.talk",
+        logsClue: {
+          id: "clue-antiquarian-zk-the-question",
+          title: "The Question the Case Asks the Player",
+          body:
+            "The Two Witnesses put the closure: is the Severance Protocol (a) AN ATROCITY — a free-to-wield hollowing instrument that exists at all is the atrocity, regardless of the lock; (b) A DETERRENT — its existence-plus-lock is the only thing that makes Syl'Vex's conversion not a one-way door, and a locked weapon that restores agency is, on balance, a freedom; or (c) JUST R&D — Zyr'Koth's indifference is the truth of it; the instrument has no moral valence, only the decision to use it does, and that decision has not been made. The Witnesses record whichever the player offers; none is pre-judged.",
+          source: "antiquarian-library",
+          order: 56,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.zyr_koth",
+          episodeId: "zyr_koth.e5",
+          cluesFound: ["zyr_koth.e5.the_question"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Atrocity, deterrent, or just R&D. Three honest closures of one complete case. The Witnesses record yours. None is pre-judged.",
+            balanced:
+              "The verdict is the player's, between three readings the evidence equally supports — an atrocity by existing, the only thing that makes conversion reversible, or a valence-less iteration awaiting a decision unmade. The ledger advances none and the maker gets no vote. The case declines to resolve itself into comfort.",
+            warm:
+              "All three are true to what we found, and the room refuses to choose for us — the condemnation, the grim defense, and the cold non-answer all stand. The man who would hold no position on his own weapon does not get to pass this to us pre-decided. We carry whichever we offer, honestly, including the one that leaves the horror open.",
+          },
+          voId: "human.antiquarian-library.zyr-koth-sisters-and-closing-ledger.talk",
         },
       },
     },
