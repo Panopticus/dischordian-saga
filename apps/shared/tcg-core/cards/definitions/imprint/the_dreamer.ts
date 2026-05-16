@@ -1,12 +1,12 @@
 /**
- * Imprint Set — The Dreamer (5 tiers). Phase F27.
+ * Imprint Set â The Dreamer (5 tiers). Phase F27.
  *
  * Prophetic vision. The half of the first intelligence that sees
  * the future instead of building it. Dreamer faction. Mechanical
- * vocabulary: flying, card draw, forcefield — she knows what is
+ * vocabulary: flying, card draw, forcefield â she knows what is
  * coming and positions for it.
  *
- * This is the final NPC imprint set — F27 completes all 18 NPCs
+ * This is the final NPC imprint set â F27 completes all 18 NPCs
  * authored in Phase F. F28 is the client Imprint Gallery page.
  */
 import type { CardDefinition } from "../../../index";
@@ -14,6 +14,9 @@ import type { CardDefinition } from "../../../index";
 import { assetUrl } from "@shared/lib/assetUrl";
 export const the_dreamer_t1: CardDefinition = {
   id: "s1_imprint_the_dreamer_t1" as CardDefinition["id"],
+  // First-summon gated to the act this character is canonically
+  // introduced (CHAPTER_TO_IMPRINT_NPCS, imprintRegistry.ts) — I14.
+  unlockCondition: { kind: "act_completion", act: 2 },
   name: "Imprint: The Dreamer (Common)",
   faction: "dreamer", cardType: "unit", rarity: "common",
   cost: 2, baseStats: { power: 1, health: 4 },

@@ -1,9 +1,9 @@
 /**
- * Imprint Set — The Detective (5 tiers). Phase F24.
+ * Imprint Set â The Detective (5 tiers). Phase F24.
  *
  * The Companion who treats every case like a deck and every
  * suspect like a card. Antiquarian faction. Mechanical vocabulary:
- * card draw, backstab, deathwatch — he reads the room and then
+ * card draw, backstab, deathwatch â he reads the room and then
  * inserts himself into the part of it nobody was watching.
  */
 import type { CardDefinition } from "../../../index";
@@ -11,6 +11,9 @@ import type { CardDefinition } from "../../../index";
 import { assetUrl } from "@shared/lib/assetUrl";
 export const the_detective_t1: CardDefinition = {
   id: "s1_imprint_the_detective_t1" as CardDefinition["id"],
+  // First-summon gated to the act this character is canonically
+  // introduced (CHAPTER_TO_IMPRINT_NPCS, imprintRegistry.ts) — I14.
+  unlockCondition: { kind: "act_completion", act: 2 },
   name: "Imprint: The Detective (Common)",
   faction: "antiquarian", cardType: "unit", rarity: "common",
   cost: 2, baseStats: { power: 2, health: 2 },

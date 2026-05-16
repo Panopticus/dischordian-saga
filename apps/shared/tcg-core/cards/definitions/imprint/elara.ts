@@ -1,5 +1,5 @@
 /**
- * Imprint Set — Elara Voss (5 tiers). Phase F15.
+ * Imprint Set â Elara Voss (5 tiers). Phase F15.
  *
  * Senator-turned-Ship. The Empress with a load balancer. Her
  * mechanical signature is HEAL + support + keeping the General
@@ -13,6 +13,9 @@ import type { CardDefinition } from "../../../index";
 import { assetUrl } from "@shared/lib/assetUrl";
 export const elara_t1: CardDefinition = {
   id: "s1_imprint_elara_t1" as CardDefinition["id"],
+  // First-summon gated to the act this character is canonically
+  // introduced (CHAPTER_TO_IMPRINT_NPCS, imprintRegistry.ts) — I14.
+  unlockCondition: { kind: "act_completion", act: 1 },
   name: "Imprint: Elara (Common)",
   faction: "neutral",
   cardType: "unit",

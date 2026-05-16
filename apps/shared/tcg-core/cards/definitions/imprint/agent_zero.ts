@@ -1,15 +1,15 @@
 /**
- * Imprint Set — Agent Zero (5 tiers). Phase F10.
+ * Imprint Set â Agent Zero (5 tiers). Phase F10.
  *
  * Five TCG cards forged from the player's accumulated fragments of
  * Agent Zero across every game mode. Each tier is unlocked at the
  * canonical fragment threshold (10/25/50/100/200). Rarity climbs
- * Common → Uncommon → Rare → Epic → Legendary, and so does the
- * character's mechanical signature — each tier is a sharper, more
+ * Common â Uncommon â Rare â Epic â Legendary, and so does the
+ * character's mechanical signature â each tier is a sharper, more
  * dangerous read of the same person.
  *
  * Design philosophy: every tier should feel like "the same Agent
- * Zero" — Insurgency faction, stealth + pierce vocabulary, decisive
+ * Zero" â Insurgency faction, stealth + pierce vocabulary, decisive
  * strikes. The tier numbers scale the personality, not replace it.
  *
  * Tier id convention: s1_imprint_agent_zero_t{1..5}
@@ -17,12 +17,15 @@
 import type { CardDefinition } from "../../../index";
 
 import { assetUrl } from "@shared/lib/assetUrl";
-/* ═══════════════════════════════════════════════════════
-   TIER 1 — COMMON
+/* âââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+   TIER 1 â COMMON
    "You remember her name. You remember nothing else."
-   ═══════════════════════════════════════════════════════ */
+   âââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
 export const agent_zero_t1: CardDefinition = {
   id: "s1_imprint_agent_zero_t1" as CardDefinition["id"],
+  // First-summon gated to the act this character is canonically
+  // introduced (CHAPTER_TO_IMPRINT_NPCS, imprintRegistry.ts) — I14.
+  unlockCondition: { kind: "act_completion", act: 1 },
   name: "Imprint: Agent Zero (Common)",
   faction: "insurgency",
   cardType: "unit",
@@ -39,10 +42,10 @@ export const agent_zero_t1: CardDefinition = {
   verdict_delta: 1,
 };
 
-/* ═══════════════════════════════════════════════════════
-   TIER 2 — UNCOMMON
+/* âââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+   TIER 2 â UNCOMMON
    She begins to have a face. And a favorite exit.
-   ═══════════════════════════════════════════════════════ */
+   âââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
 export const agent_zero_t2: CardDefinition = {
   id: "s1_imprint_agent_zero_t2" as CardDefinition["id"],
   name: "Imprint: Agent Zero (Uncommon)",
@@ -66,16 +69,16 @@ export const agent_zero_t2: CardDefinition = {
   ],
   art: assetUrl("art/cards/imprint/agent_zero_t2.webp"),
   flavorText:
-    "Stealth — 1 turn. The shape of her teaching you to look away from where she actually is.",
+    "Stealth â 1 turn. The shape of her teaching you to look away from where she actually is.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive", "narrative"] as const,
   verdict_delta: 1,
 };
 
-/* ═══════════════════════════════════════════════════════
-   TIER 3 — RARE
-   Stealth sharpens — reveal on attack, longer window.
-   ═══════════════════════════════════════════════════════ */
+/* âââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+   TIER 3 â RARE
+   Stealth sharpens â reveal on attack, longer window.
+   âââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
 export const agent_zero_t3: CardDefinition = {
   id: "s1_imprint_agent_zero_t3" as CardDefinition["id"],
   name: "Imprint: Agent Zero (Rare)",
@@ -108,17 +111,17 @@ export const agent_zero_t3: CardDefinition = {
   ],
   art: assetUrl("art/cards/imprint/agent_zero_t3.webp"),
   flavorText:
-    "Stealth — 2 turns. Reveals when she strikes. You start to see the moves she would have made last week if she had needed to.",
+    "Stealth â 2 turns. Reveals when she strikes. You start to see the moves she would have made last week if she had needed to.",
   rulesVersion: "1.1.0",
   trial_categories: ["confession"] as const,
   verdict_delta: -2,
 };
 
-/* ═══════════════════════════════════════════════════════
-   TIER 4 — EPIC
+/* âââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+   TIER 4 â EPIC
    Reveal on attack. Full pierce. The Zero the Insurgency
    remembers in its own recruitment pitch.
-   ═══════════════════════════════════════════════════════ */
+   âââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
 export const agent_zero_t4: CardDefinition = {
   id: "s1_imprint_agent_zero_t4" as CardDefinition["id"],
   name: "Imprint: Agent Zero (Epic)",
@@ -172,17 +175,17 @@ export const agent_zero_t4: CardDefinition = {
   ],
   art: assetUrl("art/cards/imprint/agent_zero_t4.webp"),
   flavorText:
-    "Stealth — 3 turns. Ignores 3 enemy armor. Reveals when she strikes. You can feel the shape of the real Agent Zero now, and she is entirely made of decisions you would not have thought to make.",
+    "Stealth â 3 turns. Ignores 3 enemy armor. Reveals when she strikes. You can feel the shape of the real Agent Zero now, and she is entirely made of decisions you would not have thought to make.",
   rulesVersion: "1.1.0",
   trial_categories: ["confession", "evidence", "narrative"] as const,
   verdict_delta: -2,
 };
 
-/* ═══════════════════════════════════════════════════════
-   TIER 5 — LEGENDARY
+/* âââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+   TIER 5 â LEGENDARY
    The woman who stole the Ark. Rush + stealth + pierce.
    The signature card. Full power.
-   ═══════════════════════════════════════════════════════ */
+   âââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
 export const agent_zero_t5: CardDefinition = {
   id: "s1_imprint_agent_zero_t5" as CardDefinition["id"],
   name: "Agent Zero, The First Strike",
@@ -242,14 +245,14 @@ export const agent_zero_t5: CardDefinition = {
   ],
   art: assetUrl("art/cards/imprint/agent_zero_t5.webp"),
   flavorText:
-    "Rush. Stealth — 3 turns. Ignores 3 enemy armor. She stole Ark 1047 from the Panopticon's docking systems without raising a single alarm. The Warlord killed her for it. The Insurgency brought her back anyway, and she has not once acted like somebody with anything left to lose.",
+    "Rush. Stealth â 3 turns. Ignores 3 enemy armor. She stole Ark 1047 from the Panopticon's docking systems without raising a single alarm. The Warlord killed her for it. The Insurgency brought her back anyway, and she has not once acted like somebody with anything left to lose.",
   rulesVersion: "1.1.0",
   trial_categories: ["evidence", "narrative"] as const,
   verdict_delta: 2,
 };
 
 /** All five Agent Zero imprint tiers as a frozen array, tier order
- *  (common → legendary). Imported by the imprint set registry. */
+ *  (common â legendary). Imported by the imprint set registry. */
 export const AGENT_ZERO_IMPRINT_SET: readonly CardDefinition[] = Object.freeze([
   agent_zero_t1,
   agent_zero_t2,

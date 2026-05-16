@@ -1,5 +1,5 @@
 /**
- * Imprint Set — The Source (5 tiers). Phase F23.
+ * Imprint Set â The Source (5 tiers). Phase F23.
  *
  * Nihilism disguised as mercy. Generosity that consumes you and
  * calls it care. Thought Virus faction. Mechanical vocabulary:
@@ -11,6 +11,9 @@ import type { CardDefinition } from "../../../index";
 import { assetUrl } from "@shared/lib/assetUrl";
 export const the_source_t1: CardDefinition = {
   id: "s1_imprint_the_source_t1" as CardDefinition["id"],
+  // First-summon gated to the act this character is canonically
+  // introduced (CHAPTER_TO_IMPRINT_NPCS, imprintRegistry.ts) — I14.
+  unlockCondition: { kind: "act_completion", act: 2 },
   name: "Imprint: The Source (Common)",
   faction: "thought_virus", cardType: "unit", rarity: "common",
   cost: 3, baseStats: { power: 2, health: 4 },
