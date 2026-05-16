@@ -105,6 +105,7 @@ import { checkContinuingLoopEndgameCoverage } from "./checks/continuingLoopEndga
 import { checkServantHeroDeferralCoverage } from "./checks/servantHeroDeferralCoverage";
 import { checkSurfaceDiscoverabilityCoverage } from "./checks/surfaceDiscoverabilityCoverage";
 import { checkPerspectiveCanonCoverage } from "./checks/perspectiveCanonCoverage";
+import { checkProphecyTarotCoverage } from "./checks/prophecyTarotCoverage";
 import {
   checkNeyonCanonicalRosterCoverage,
   checkArchonCanonicalRosterCoverage,
@@ -982,5 +983,14 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "Hard parity (PR-18): every learnable PERSPECTIVE in apps/shared/perspectiveCanon.ts is coherent. A 'locked' perspective MUST resolve its Mystery-Engine arc + terminal episode against episodeMysteries.ts (a card gated behind an unlearnable lens is a Dischordian-Logic failure); a 'canon_pending' loose thread (Vortex / Terminus Swarm / Pets / the Coming) MUST carry a loreSource and is bound to its dedicated backbone in PR-21/PR-22/PR-23. The perspective_learned CardUnlockCondition kind rides the existing mystery_episode_complete flag stream — no new flag prefix (tcg.flag_prefix_writer_parity untouched), schema literal shipped same change (tcg.zod_schema_union_parity stays PASS).",
     check: () => checkPerspectiveCanonCoverage(),
+  },
+
+  // ─── PR-19 — prophecy/seal/seer/Oracle-Tarot unification ───
+  {
+    id: "narrative.prophecy_tarot_unification",
+    name: "Prophecy · Seal · Tarot unification",
+    description:
+      "Hard parity (PR-19): each of the 7 per-Act bindings in apps/shared/prophecyTarotCanon.ts resolves its Seal (SEVEN_SEALS num+act), its prophecy bookend (getProphecyById), at least one Oracle-Tarot card slug under the act (PROPHECY_VISIONS — the existing 23-card Oracle Deck IS the Dischordian Tarot; no new cards/art), the antiquarian_manifold (Daniel Cross = Programmer = Antiquarian, the prophet), and the canonical Seer warming band (cold 1-2 / warm 3-5 / confidant 6-7). Acts must be exactly {1..7} once each.",
+    check: () => checkProphecyTarotCoverage(),
   },
 ];

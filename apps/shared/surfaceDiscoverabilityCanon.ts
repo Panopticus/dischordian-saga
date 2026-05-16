@@ -312,7 +312,7 @@ export const SURFACE_REGISTRY: readonly SurfaceEntry[] = [
   feat("/chess/puzzle", "chess", { sagaPhase: 1 }),
   feat("/chess/study", "chess", { sagaPhase: 1 }),
   orphan("/self-portrait", NO_BEAT),
-  phase("/oracle", 4, SURFACE, "Oracle Deck — rebinds to prophecyTarotCanon in PR-19"),
+  phase("/oracle", 4, "apps/shared/prophecyTarotCanon.ts", "the Dischordian Tarot archive — bound to the Seal/Prophecy/Seer spine (PR-19)"),
   orphan("/imprints", "Imprint Gallery — no narrative entry point; rebinds to imprintSummoningCanon (CONNECTION_AUDIT critical orphan)"),
   feat("/duelyst-play", "dischordia", { sagaPhase: 1 }),
   orphan("/spectate", NO_BEAT),
