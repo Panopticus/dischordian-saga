@@ -55,6 +55,13 @@ describe("reservedCards — registry audit", () => {
     BURNT_CARD_PLACEHOLDER_ID,
     "card_locke_sworn_pen_title",
     "card_thaloria_witness_title",
+    // s1 Foucault imprint tiers — non-playable narrative imprint
+    // markers, reserved like the other completion-reward cards.
+    "s1_imprint_foucault_t1",
+    "s1_imprint_foucault_t2",
+    "s1_imprint_foucault_t3",
+    "s1_imprint_foucault_t4",
+    "s1_imprint_foucault_t5",
   ];
 
   it("the canonical reserved set matches expectation", () => {

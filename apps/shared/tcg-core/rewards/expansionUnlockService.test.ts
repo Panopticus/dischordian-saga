@@ -248,7 +248,7 @@ describe("expansionUnlockService — registry integration (S2 Hierarchy of the D
     expect(new Set(acts)).toEqual(new Set([1, 2, 3, 4, 5, 6, 7]));
   });
 
-  it("3 author-prestige specials carry the right unlock kinds", () => {
+  it("non-act/secret unlock cards carry the right unlock kinds", () => {
     const ids = new Set(
       ALL_CARD_DEFINITIONS.filter(
         (c) => c.unlockCondition && c.unlockCondition.kind !== "act_completion" && c.unlockCondition.kind !== "secret",
@@ -256,9 +256,14 @@ describe("expansionUnlockService — registry integration (S2 Hierarchy of the D
     );
     expect(ids).toEqual(
       new Set([
+        // 3 author-prestige specials
         "special_authors_edition_s2::authors_edition",
         "special_founding_author::founding_author",
         "special_the_author_bp50::battle_pass",
+        // s2 Watcher arc reveal cards (arc_episode_complete gate)
+        "s2_watcher_001::arc_episode_complete",
+        "s2_watcher_002::arc_episode_complete",
+        "s2_watcher_003::arc_episode_complete",
       ]),
     );
   });
