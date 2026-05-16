@@ -24,6 +24,7 @@ import {
   type SurfaceStatus,
 } from "./surfaceDiscoverabilityCanon";
 import { FEATURE_ROADMAP } from "./featureRoadmap";
+import { GAME_MODE_PREMISES } from "./gameModeNarrativePremises";
 
 const VALID: ReadonlySet<SurfaceStatus> = new Set([
   "narrative_gated",
@@ -73,11 +74,11 @@ describe("surface discoverability canon — integrity", () => {
     expect(stale, `stale registry routes: ${stale.join(", ")}`).toEqual([]);
   });
 
-  it("ships a non-empty orphan baseline (the tracked gap)", () => {
+  it("is fully classified — zero orphans (PR-24/25 closed the gap)", () => {
     const c = getSurfaceDiscoverabilityCoverage();
     expect(c.declared).toBe(SURFACE_REGISTRY.length);
-    expect(c.orphan).toBeGreaterThan(0);
-    expect(c.classified).toBe(c.declared - c.orphan);
+    expect(c.orphan).toBe(0);
+    expect(c.classified).toBe(c.declared);
   });
 
   it("every featureRoadmapId resolves in FEATURE_ROADMAP", () => {
@@ -88,6 +89,16 @@ describe("surface discoverability canon — integrity", () => {
       if (id && !known.has(id)) bad.push(`${e.route} → ${id}`);
     }
     expect(bad, `unknown featureRoadmapId: ${bad.join(", ")}`).toEqual([]);
+  });
+
+  it("every gameModePremiseId resolves in GAME_MODE_PREMISES", () => {
+    const known = new Set(GAME_MODE_PREMISES.map((m) => m.id));
+    const bad: string[] = [];
+    for (const e of SURFACE_REGISTRY) {
+      const id = e.unlock?.gameModePremiseId;
+      if (id && !known.has(id)) bad.push(`${e.route} → ${id}`);
+    }
+    expect(bad, `unknown gameModePremiseId: ${bad.join(", ")}`).toEqual([]);
   });
 
   it("narrative_gated saga-phase bindings are within 0..14", () => {
