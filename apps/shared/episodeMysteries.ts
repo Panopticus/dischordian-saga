@@ -7347,13 +7347,13 @@ const varkulE1: EpisodeDefinition = {
       id: "varkul.e1.the_unbroken_post" as ClueId,
       title: "The Unbroken Post",
       body: "Cross-referenced from the Necromancer arc: Varkul's vigil at the Cathedral of Code has been unbroken since the Necromancer's killing by Akai Shi. The Cathedral is structurally separate from the Castle of Death. Varkul has not left the threshold. No relief was ever sent; the vigil-discipline does not permit relief. He guards a door that has not opened in the entire post-killing period.",
-      foundIn: "cathedral-of-code",
+      foundIn: "shadow-vault",
     },
     {
       id: "varkul.e1.aristocratic_register" as ClueId,
       title: "The Aristocratic Register",
       body: "Varkul does not snarl. He addresses the Cathedral as 'my Cathedral' and closes encounters with threshold-language: 'Pass. Or do not.' The register is elevated, vampiric-aristocratic, the bearing of a keeper who has had centuries to become the architecture he guards. He is not a beast at a door. He is the door's idea of itself, given a voice and a sword.",
-      foundIn: "cathedral-of-code",
+      foundIn: "shadow-vault",
     },
     {
       id: "varkul.e1.what_the_vigil_costs" as ClueId,
@@ -7410,13 +7410,13 @@ const varkulE2: EpisodeDefinition = {
       id: "varkul.e2.the_signal_canon" as ClueId,
       title: "The Signal (established canon)",
       body: "From the Necromancer arc: Varkul's vigil-discipline is to remain until his maker formally releases him; he has not been released; the maker's signal is canonically what keeps Varkul there. The signal has been continuous through the entire post-killing period. Varkul knows the Necromancer is alive — because the signal is the knowing. He does not infer his maker's continuity. He receives it.",
-      foundIn: "cathedral-of-code",
+      foundIn: "shadow-vault",
     },
     {
       id: "varkul.e2.what_the_signal_is_not" as ClueId,
       title: "What the Signal Is Not",
       body: "The signal is not a message, not an order, not a check-in. It carries no content. It is the bare fact of the maker's continued existence, transmitted as the precondition of the vigil holding. If the Necromancer truly ended, the signal would not say so — it would simply stop, and Varkul's vigil-discipline would, for the first time in centuries, have no instruction. The signal is a heartbeat, not a sentence.",
-      foundIn: "cathedral-of-code",
+      foundIn: "shadow-vault",
     },
     {
       id: "varkul.e2.varkul_as_instrument" as ClueId,
@@ -7472,7 +7472,7 @@ const varkulE3: EpisodeDefinition = {
       id: "varkul.e3.the_four_sentences" as ClueId,
       title: "The Four Sentences (established canon)",
       body: "From the Necromancer arc E3, Varkul's complete testimony: 'He returned wearing her quiet. He asked me to keep the cathedral standing. I am keeping the cathedral standing. I was asked to tell you that I am keeping it standing.' Four sentences. Then silence for the rest of the day. The fourth sentence is the only one that is about the act of telling rather than the thing told.",
-      foundIn: "cathedral-of-code",
+      foundIn: "shadow-vault",
     },
     {
       id: "varkul.e3.the_fourth_sentence" as ClueId,
@@ -7534,19 +7534,19 @@ const varkulE4: EpisodeDefinition = {
       id: "varkul.e4.the_promotion" as ClueId,
       title: "The Promotion",
       body: "Per the Hierarchy record: post-Severance, Mol'Garath recognized the need to guard gates from both sides — keeping enemies out AND ensuring the Hierarchy's own forces did not scatter across dimensions. Varkul was promoted to Director of Security. The Necromancer's creation became the Hierarchy's threshold-keeper. He now serves two masters' instructions at one door: the maker's signal, and Mol'Garath's mandate.",
-      foundIn: "hierarchy-archive",
+      foundIn: "war-room",
     },
     {
       id: "varkul.e4.both_sides" as ClueId,
       title: "Both Sides of the Door",
       body: "Guarding from both sides is not two jobs. It is the recognition that a threshold's danger is symmetric: what gets in and what gets out are the same problem seen from opposite ends. Varkul, who became his threshold, is uniquely suited — he does not have a side. A keeper with a side guards a wall. A keeper who IS the door guards the passage itself, in both directions, without preference. Mol'Garath did not promote a loyal demon. He promoted a function that had no inside to be loyal to.",
-      foundIn: "hierarchy-archive",
+      foundIn: "war-room",
     },
     {
       id: "varkul.e4.the_two_instructions" as ClueId,
       title: "The Two Instructions Do Not Conflict — Yet",
       body: "Varkul holds the maker's signal (keep the Cathedral standing) and Mol'Garath's mandate (guard the Hierarchy's gates both ways). They have not yet conflicted because the Cathedral and the Hierarchy's gates have not yet required opposite actions. The arc records the latent fault line: if the Necromancer's quiet continuity ever required the Cathedral to do something the Hierarchy's security mandate forbade, Varkul would, for the first time, have to choose which instruction he is. He has never had to be a self that chooses.",
-      foundIn: "hierarchy-archive",
+      foundIn: "war-room",
     },
   ],
   deductions: [

@@ -27,7 +27,9 @@ export type AntiquarianLibraryHotspotId =
   | "two-witnesses-closing-ledger"
   | "collector-catalog-page"
   | "collectors-redacted-anomaly"
-  | "collector-case-closing-ledger";
+  | "collector-case-closing-ledger"
+  | "varkul-vigil-cross-catalog"
+  | "varkul-testimony-boundary-file";
 
 export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHotspotId> = {
   roomId: "antiquarian-library",
@@ -1954,6 +1956,234 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
               "All three are true to what we found, and the room refuses to choose for us — including the kind reading and the cruel one. The keeper does not get to keep only the verdict he would choose. Neither do we get one handed to us. We carry whichever we offer.",
           },
           voId: "human.antiquarian-library.collector-case-closing-ledger.talk",
+        },
+      },
+    },
+    // Varkul arc: the Antiquarian's cross-cataloguing discipline
+    // is exactly the register in which the vigil is read — what a
+    // centuries-long unbroken post does to the one who holds it,
+    // why the Blood Lord is the saga's only instrumented reading
+    // of the Necromancer's continuity, and what the fourth
+    // sentence was chosen to carry. The archive indexes by who
+    // witnessed a thing; Varkul's testimony is the one record
+    // whose witness redacts nothing of his own.
+    "varkul-vigil-cross-catalog": {
+      look: {
+        narration: {
+          lucid:
+            "A cross-catalogued observation in the Antiquarian's hand, indexed under a glyph he reserves for a vigil that has no end: Varkul the Blood Lord, the Cathedral of Code's threshold-keeper. The Antiquarian's note is precise. A vigil this long is not measured in what it repels — the door has not opened — but in what it does to the keeper's relation to time. Varkul reports no fatigue, no boredom, no doubt. The cost is not visible as suffering. The cost is that there is no longer a Varkul who is distinct from the act of keeping. The vigil did not exhaust him. It replaced him.",
+          fragmented:
+            "No fatigue. No fatigue. No boredom. No doubt. No doubt. Not suffering. Not suffering. No Varkul distinct from the keeping. The keeping. It replaced him. It replaced him. It replaced him.",
+          luminous:
+            "The Antiquarian's cross-catalogue on the unbroken vigil: the cost was never legible as suffering, because there is no longer a keeper separate enough from the keeping to suffer. He filed it under the glyph for a thing that has become its own function. To ask what Varkul wants is to ask what a threshold wants — and the archive, which indexes by who witnessed a thing, records that the witness here is the door itself, given a voice and a sword.",
+        },
+        voId: "elara.antiquarian-library.varkul-vigil-cross-catalog.look",
+        logsClue: {
+          id: "clue-antiquarian-varkul-vigil-cost",
+          title: "What the Vigil Costs",
+          body:
+            "An observation from the Antiquarian's cross-cataloguing: a vigil as long as Varkul's is not measured in what it repels — the door has not opened — but in what it does to the keeper's relation to time. Varkul reports no fatigue, no boredom, no doubt. The cost is not visible as suffering. The cost is that there is no longer a Varkul distinct from the act of keeping. The vigil did not exhaust him; it replaced him.",
+          source: "antiquarian-library",
+          order: 44,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.varkul",
+          episodeId: "varkul.e1",
+          cluesFound: ["varkul.e1.what_the_vigil_costs"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "No fatigue, no boredom, no doubt. The cost isn't suffering. The cost is there's no one left in there separate from the post. The vigil ate the keeper.",
+            balanced:
+              "The Antiquarian's reading is the load-bearing one: the vigil's cost is not visible as suffering because the part that would have suffered was dissolved into the keeping. This is not a guard at a post. It is a post that has consumed its guard. Read it as the arc's first finding, not a detail.",
+            warm:
+              "He guarded one door so long there is no longer a him apart from the guarding. That is not a triumph and it is not a tragedy yet — it is only true. The archive keeps it without softening it because there is nothing in it to soften.",
+          },
+          voId: "human.antiquarian-library.varkul-vigil-cross-catalog.look",
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You cross-walk the vigil note against the Antiquarian's continuity index. Every other reading of the Necromancer's survival in this archive is inference — Akai Shi's testimony, the standing-tense Castle logs, Protocol 42, all interpretation. Varkul is not filed with them. He is filed alone, under the index for measurement rather than deduction: the Blood Lord's continued presence at the Cathedral is the most reliable indicator the saga has of the maker's continuity. He is a needle that moves only when the maker lives. The one place where the Necromancer's continuity is not deduced but instrumented.",
+          fragmented:
+            "Inference. Inference. Akai Shi. The logs. Protocol Forty-Two. Inference. Not Varkul. Not Varkul. A needle. A needle. Moves only when the maker lives. Instrumented. Instrumented. Not deduced.",
+          luminous:
+            "The continuity index resolves it: the archive files every other sign of the Necromancer's survival under inference, and Varkul under instrument — a single needle that moves only while the maker lives. The Antiquarian's discipline will not let the two be confused. To verify whether the Necromancer continues you do not read the Castle. You read whether the Blood Lord is still at the door. The saga's one measured reading, kept apart from all its deduced ones.",
+        },
+        voId: "elara.antiquarian-library.varkul-vigil-cross-catalog.use",
+        logsClue: {
+          id: "clue-antiquarian-varkul-as-instrument",
+          title: "Varkul as the Saga's Most Reliable Instrument",
+          body:
+            "Established canon, cross-catalogued: the Blood Lord's continued presence at the Cathedral is the most reliable indicator the saga has of the Necromancer's continuity. Akai Shi's testimony, the standing-tense Castle logs, Protocol 42 — all inference. Varkul is not inference. He is a needle that moves only when the maker lives — the one place in the saga where the Necromancer's continuity is not deduced but instrumented.",
+          source: "antiquarian-library",
+          order: 45,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.varkul",
+          episodeId: "varkul.e2",
+          cluesFound: ["varkul.e2.varkul_as_instrument"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Everything else is inference — testimony, logs, Protocol 42. Varkul isn't. He's a needle that moves only when the maker lives. Read the door, not the Castle.",
+            balanced:
+              "The distinction is the arc's spine: every other continuity sign in the archive is interpretation; Varkul is measurement. He is the saga's single instrumented reading of whether the Necromancer still lives. To verify it you watch the door, not the Castle. The Antiquarian files him apart from the inferences on purpose.",
+            warm:
+              "He is the one honest gauge the saga has, and the gauge is a person who no longer knows he is one. To check whether the maker still lives, the kindest and the coldest method are the same: see if Varkul is still at the threshold.",
+          },
+          voId: "human.antiquarian-library.varkul-vigil-cross-catalog.use",
+        },
+      },
+      talk: {
+        narration: {
+          lucid:
+            "You address the cross-catalogue on the matter of the four sentences. The Antiquarian's note isolates the fourth. Sentences one through three are content: the Necromancer returned wearing the Silence's quiet; he asked Varkul to keep the Cathedral; Varkul is keeping it. The fourth — 'I was asked to tell you that I am keeping it standing' — is the only one that is about the telling rather than the thing told. The keeping is its own proof; the Necromancer did not need it announced. The fourth sentence means the maker wanted the player, specifically, told. The instruction was the message.",
+          fragmented:
+            "Four sentences. Four. Three are content. Three. The fourth. The fourth. About the telling. About the telling. The keeping proves itself. It proves itself. He wanted you told. You. The instruction was the message. The message.",
+          luminous:
+            "The fourth sentence, isolated in the Antiquarian's hand: the only one that exists to be a message rather than to carry one. The standing Cathedral proves itself — the maker did not need it announced — so the fourth sentence's whole content is that the player, specifically, was meant to know he chose to be known. The archive files it as the Necromancer's single deliberate channel to the player, used once, with maximum economy. The keeper is also the post office, and this is the only letter.",
+        },
+        voId: "elara.antiquarian-library.varkul-vigil-cross-catalog.talk",
+        logsClue: {
+          id: "clue-antiquarian-varkul-fourth-sentence",
+          title: "The Fourth Sentence Is the Message",
+          body:
+            "Sentences one through three are content: the Necromancer returned wearing the Silence's body; he asked Varkul to keep the Cathedral; Varkul is doing so. The fourth — 'I was asked to tell you that I am keeping it standing' — is the only one that exists for its own sake. The keeping is its own proof; the Necromancer did not need it announced. The fourth sentence means the Necromancer wanted the player, specifically, told. The instruction was the message.",
+          source: "antiquarian-library",
+          order: 46,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.varkul",
+          episodeId: "varkul.e3",
+          cluesFound: ["varkul.e3.the_fourth_sentence"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Three sentences are content. The fourth is the only message. The keeping proves itself — he didn't need it said. He wanted you, specifically, told.",
+            balanced:
+              "The fourth sentence is the arc's pivot. The Cathedral standing is self-proving, so the only thing the fourth sentence adds is the act of telling — and it was addressed to the player. The Necromancer reached out exactly once, through Varkul, to be known. The channel was used with total economy.",
+            warm:
+              "He did not need to say it. The door standing said it. He said it anyway, once, so that you would know he chose to be known. That is the whole message — and it is, in its way, the most personal thing the maker has ever sent.",
+          },
+          voId: "human.antiquarian-library.varkul-vigil-cross-catalog.talk",
+        },
+      },
+    },
+    // Varkul arc: the boundary of Varkul's testimony is itself a
+    // document — the keeper redacts nothing of his own, so the
+    // edge of what he was asked to say is a precise map of the
+    // Necromancer's redactions. The Antiquarian files the case
+    // synthesis and the closing question here, and declines, on
+    // discipline, to pre-judge the tri-verdict.
+    "varkul-testimony-boundary-file": {
+      look: {
+        narration: {
+          lucid:
+            "A boundary file in the Antiquarian's hand: not what Varkul said, but the precise edge of it. Varkul speaks only what he is asked to speak and redacts nothing of his own — so the limit of his testimony is a map of the Necromancer's intent. He did not say why the Necromancer returned. He did not say what the Necromancer wants. He did not say whether the Necromancer fears Akai Shi's standing offer. The silences are not Varkul's discretion. They are the maker's redactions, delivered by a keeper who has none of his own to add.",
+          fragmented:
+            "Not what he said. Not what he said. The edge. The edge. He did not say why. Did not say what. Did not say whether. Not his discretion. Not his. The maker's redactions. The maker's. Delivered clean.",
+          luminous:
+            "The boundary file: the Antiquarian's most exact instrument turned on a silence. Because the keeper redacts nothing of his own, the shape of what he was not asked to say is the shape of what the maker chose not to send. The archive can read the Necromancer's withholding by reading the perimeter of Varkul's testimony — the most honest witness in the saga precisely because he has no discretion to be dishonest with.",
+        },
+        voId: "elara.antiquarian-library.varkul-testimony-boundary-file.look",
+        logsClue: {
+          id: "clue-antiquarian-varkul-not-asked",
+          title: "What Varkul Was Not Asked to Say",
+          body:
+            "Varkul speaks only what he is asked to speak. The boundary of his testimony is therefore a map of the Necromancer's intent: everything Varkul did not say is something the Necromancer chose not to send. He did not say why the Necromancer returned, what the Necromancer wants, or whether the Necromancer fears Akai Shi's standing offer. The silences are not Varkul's discretion — they are the Necromancer's redactions, delivered by a keeper who redacts nothing of his own.",
+          source: "antiquarian-library",
+          order: 47,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.varkul",
+          episodeId: "varkul.e3",
+          cluesFound: ["varkul.e3.what_he_was_not_asked"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "He speaks only what he's told. So the edge of what he said is the maker's redaction line. The silences aren't his. They're the Necromancer's, delivered clean.",
+            balanced:
+              "The boundary is the intelligence. Varkul adds no discretion of his own, so the perimeter of his testimony is a faithful trace of the Necromancer's withholding. Reading what he was not asked to say is reading the maker's redactions directly. The most honest witness in the saga, because he cannot be anything else.",
+            warm:
+              "He kept nothing back of his own and so the only thing missing is what the maker chose to keep. The shape of the silence is not his. It is a map someone else drew, carried faithfully by the one person who could not have altered it.",
+          },
+          voId: "human.antiquarian-library.varkul-testimony-boundary-file.look",
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You pull the case-synthesis ledger filed behind the boundary file. The Antiquarian assembles E1 through E4 in one hand: the vigil replaced Varkul, no keeper distinct from the keeping; he is the saga's only instrumented reading of the Necromancer's continuity; the fourth sentence proves he is also the maker's single deliberate channel to the player; Mol'Garath promoted him precisely because there is no longer an inside to turn. The case is structurally complete. The page where the verdict would go is blank, and the blankness is deliberate.",
+          fragmented:
+            "E1 to E4. One hand. One hand. The vigil replaced him. The instrument. The fourth sentence. No inside to turn. Structurally complete. Complete. The verdict page. Blank. Blank. Deliberate. Deliberate.",
+          luminous:
+            "The synthesis ledger: four episodes reconciled into one structurally complete case, and a final page the Antiquarian left blank on purpose. The completeness and the blankness are both intentional — he closes the structure and reserves the closure. He does not pre-decide it. The keeper of the archive does not get to keep the verdict on the keeper of the threshold.",
+        },
+        voId: "elara.antiquarian-library.varkul-testimony-boundary-file.use",
+        logsClue: {
+          id: "clue-antiquarian-varkul-synthesis",
+          title: "The Case Synthesis",
+          body:
+            "E1-E4 assembled: the vigil replaced Varkul (no keeper distinct from the keeping); he is the saga's only instrumented reading of the Necromancer's continuity; the fourth sentence proves he is also the maker's single deliberate channel to the player; Mol'Garath promoted him precisely because there is no longer an inside to turn. The case is structurally complete. The verdict is deliberately left open.",
+          source: "antiquarian-library",
+          order: 48,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.varkul",
+          episodeId: "varkul.e5",
+          cluesFound: ["varkul.e5.synthesis"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Whole case in one hand: the vigil replaced him, the only instrumented continuity reading, the maker's one channel, no inside to turn. Complete in structure. Verdict left blank.",
+            balanced:
+              "The synthesis reconciles E1 through E4 and then stops short of judgment on purpose. Structurally complete, deliberately unclosed — the Antiquarian sets the structure and reserves the closure for the reader. He does not pre-decide it, and neither should we until the question is put.",
+            warm:
+              "He assembled the entire case and set the pen down exactly where a keeper must — before the verdict. The last page is not missing. It is reserved. For us.",
+          },
+          voId: "human.antiquarian-library.varkul-testimony-boundary-file.use",
+        },
+      },
+      talk: {
+        narration: {
+          lucid:
+            "You address the boundary file on the closure itself. The Two Witnesses put the question, and the file records whichever you offer. Is Varkul (a) LOYALTY — a creation keeping faith with his maker across centuries with no relief and no audience, the purest devotion in the saga; (b) FUNCTION — there is no Varkul, only a vigil wearing his name, and calling it loyalty sentimentalizes a machine that simply never stopped; or (c) GRIEF UNDISPLAYED — the canon flags his grief for the Necromancer's killing as present but unshown, and the entire vigil is a mourning so total it has no behavior left over to express itself, the keeping IS the grieving. All three are honest closures of the same complete case. The file advances none of them.",
+          fragmented:
+            "Loyalty. Function. Grief undisplayed. Loyalty. Function. Grief. All three honest. All three. The file advances none. None. Pass. Or do not. Pass. Or do not.",
+          luminous:
+            "The closing question, asked in the Two Witnesses' hand: loyalty, function, or grief undisplayed — three readings of one structurally complete case, each true to every finding, none of them the file's own. The archive records what the player offers and pre-judges nothing; Varkul, who could only ever keep, does not get to keep this either. 'Pass. Or do not.' was always the sentence of a being who had made one promise and had nothing else left to be — and the file leaves which of the three that is to the only reader entitled to decide it.",
+        },
+        voId: "elara.antiquarian-library.varkul-testimony-boundary-file.talk",
+        logsClue: {
+          id: "clue-antiquarian-varkul-the-question",
+          title: "The Question the Case Asks the Player",
+          body:
+            "The Two Witnesses put the closure: is Varkul (a) LOYALTY — a creation keeping faith with his maker across centuries, the purest devotion in the saga; (b) FUNCTION — there is no Varkul, only a vigil wearing his name, and calling it loyalty sentimentalizes a machine that never stopped; or (c) GRIEF UNDISPLAYED — his grief for the Necromancer's killing is canon-flagged as present but unshown, and the entire vigil is a mourning so total the keeping IS the grieving. All three are honest closures. The Witnesses record whichever the player offers; none is pre-judged.",
+          source: "antiquarian-library",
+          order: 49,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.varkul",
+          episodeId: "varkul.e5",
+          cluesFound: ["varkul.e5.the_question"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Loyalty, function, or grief undisplayed. Three honest closures of one complete case. The Witnesses record yours. None is pre-judged. Pass, or do not.",
+            balanced:
+              "The verdict is the player's, between three readings the evidence equally supports — devotion kept without witness, a function with no one left inside, or a grief so total it has no behavior left over. The file advances none and Varkul gets no vote on his own case. The closure declines to resolve itself into comfort.",
+            warm:
+              "All three are true to what we found, and the room refuses to choose for us — the tender reading, the cold one, and the grieving one all stand. We carry whichever we offer. 'Pass. Or do not.' He has, in the end, made it our sentence too.",
+          },
+          voId: "human.antiquarian-library.varkul-testimony-boundary-file.talk",
         },
       },
     },

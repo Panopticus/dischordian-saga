@@ -29,7 +29,9 @@ export type ShadowVaultHotspotId =
   | "sealed-cell-glass"
   | "manuscript-pile"
   | "warden-terminal"
-  | "release-or-seal-lever";
+  | "release-or-seal-lever"
+  | "the-unopened-threshold"
+  | "the-makers-heartbeat-trace";
 
 export type ShadowVaultInventoryId = "manuscript-folio";
 
@@ -242,6 +244,208 @@ export const SHADOW_VAULT_MYSTERY: RoomMysteryModule<
         narration:
           "If you address the lever, you address the choice itself rather than either of its outcomes. The hardware does not respond — the lever is, by design, a stoic. But the act of addressing the choice without throwing it is, in this room, the discipline Lyra installed: speak about the decision before you make it; let the speech be the deliberation; let the lever wait. We are deliberating. The lever is waiting.",
         voId: "elara.shadow-vault.release-or-seal-lever.talk",
+      },
+    },
+    // Varkul arc: the Shadow Vault is the right room to read the
+    // keeper who became his threshold. A sealed, guarded vault IS
+    // a threshold that has not opened — the room's whole fiction
+    // is containment held by discipline across centuries, which
+    // is exactly Varkul's. Elara leans her narration into that
+    // resonance: this is not the editor's cell here, it is the
+    // shape of a vigil, read off the architecture.
+    "the-unopened-threshold": {
+      look: {
+        narration: {
+          lucid:
+            "Past the editor's cell, set into the vault's far wall, is a door that has never been opened. Not sealed — held. There is a difference, and this room is built to teach it. The plaque beside it is a cross-reference the Order kept here because the Shadow Vault understands containment by discipline: Varkul's vigil at the Cathedral of Code has been unbroken since the Necromancer's killing by Akai Shi. The Cathedral is structurally separate from the Castle of Death. No relief was ever sent; the vigil-discipline does not permit relief. He guards a door that, like this one, has not opened in the entire post-killing period.",
+          fragmented:
+            "A door. A door that never opened. Never opened. Not sealed. Held. Held. Unbroken. Unbroken. No relief. No relief. The vigil does not permit it. Does not permit it.",
+          luminous:
+            "The vault's far door is the room's own commentary on the cross-reference beside it. A sealed vault is a threshold that has not opened, held by a discipline that does not relent — and the Order filed Varkul's record here because this room already knows what that costs. His post has been unbroken since Akai Shi killed the Necromancer; no relief was sent because the vigil-discipline forbids it; the door he keeps, like the one in this wall, has not opened in all the time since. The Shadow Vault reads him correctly because the Shadow Vault is, in miniature, the thing he is.",
+        },
+        voId: "elara.shadow-vault.the-unopened-threshold.look",
+        setsFlag: "varkul_vigil_seen",
+        logsClue: {
+          id: "clue-shadow-vault-varkul-unbroken-post",
+          title: "The Unbroken Post",
+          body:
+            "Cross-referenced from the Necromancer arc, filed in the Shadow Vault because this room understands containment held by discipline: Varkul's vigil at the Cathedral of Code has been unbroken since the Necromancer's killing by Akai Shi. The Cathedral is structurally separate from the Castle of Death. Varkul has not left the threshold. No relief was ever sent; the vigil-discipline does not permit relief. He guards a door that has not opened in the entire post-killing period.",
+          source: "shadow-vault",
+          order: 6,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.varkul",
+          episodeId: "varkul.e1",
+          cluesFound: ["varkul.e1.the_unbroken_post"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Not sealed. Held. Centuries unbroken, no relief, by a discipline that forbids relief. He guards a door that never opened. So does this room.",
+            balanced:
+              "The room is the right place to read this. A sealed vault is a threshold held by discipline, which is exactly Varkul's vigil — unbroken since the killing, no relief permitted, a door that has not opened in the entire period. The architecture and the record say the same thing.",
+            warm:
+              "There is a door in this wall that no one has ever opened, and it is the gentlest possible way to understand him. He has stood at one like it for centuries because he was asked to and no one ever came to relieve him. The room keeps the record where it belongs.",
+          },
+          voId: "human.shadow-vault.the-unopened-threshold.look",
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You set a hand to the held door. It does not yield, and it was never meant to — like the lever in this room, the resistance is the point. The cross-reference deepens here: Varkul does not snarl. He addresses the Cathedral as 'my Cathedral' and closes encounters with threshold-language — 'Pass. Or do not.' The register is elevated, vampiric-aristocratic, the bearing of a keeper who has had centuries to become the architecture he guards. He is not a beast at a door. He is the door's idea of itself, given a voice and a sword.",
+          fragmented:
+            "My Cathedral. My Cathedral. Pass. Or do not. Pass. Or do not. Not a snarl. Not a beast. The door's idea of itself. Of itself. A voice. A sword.",
+          luminous:
+            "The held door does not answer to a hand and Varkul does not answer like a guard. 'My Cathedral.' 'Pass. Or do not.' The register is the whole tell — aristocratic, possessive, the bearing of someone who stopped being posted at the architecture and started being it. The Shadow Vault, which is itself a discipline wearing the shape of a room, reads the register exactly: not a beast at a door, the door's own idea of itself, given a voice and a sword.",
+        },
+        voId: "elara.shadow-vault.the-unopened-threshold.use",
+        setsFlag: "varkul_register_read",
+        logsClue: {
+          id: "clue-shadow-vault-varkul-aristocratic-register",
+          title: "The Aristocratic Register",
+          body:
+            "Varkul does not snarl. He addresses the Cathedral as 'my Cathedral' and closes encounters with threshold-language: 'Pass. Or do not.' The register is elevated, vampiric-aristocratic, the bearing of a keeper who has had centuries to become the architecture he guards. He is not a beast at a door. He is the door's idea of itself, given a voice and a sword.",
+          source: "shadow-vault",
+          order: 7,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.varkul",
+          episodeId: "varkul.e1",
+          cluesFound: ["varkul.e1.aristocratic_register"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "'My Cathedral.' 'Pass. Or do not.' That's not a guard's register. That's a keeper who became the thing he keeps. Read it as the door speaking.",
+            balanced:
+              "The register is the false-lead's counterweight. He is not snarling, not captive — he is possessive of the Cathedral and elevated in bearing. That is not a beast at a post; it is a keeper who dissolved into the architecture. Hold that against the prisoner reading.",
+            warm:
+              "He calls it his. He says 'pass, or do not' the way an old house would, if a house could speak. There is no resentment in it — only the long, total ownership of a thing one has become. The room hears it clearly.",
+          },
+          voId: "human.shadow-vault.the-unopened-threshold.use",
+        },
+      },
+      talk: {
+        narration: {
+          lucid:
+            "You address the held door as if it could account for what keeps it shut. The vault's answer is the canonical one, filed here in the room that understands a discipline as a kind of architecture: Varkul's vigil-discipline is to remain until his maker formally releases him; he has not been released; the maker's signal is canonically what keeps him there. The signal has been continuous through the entire post-killing period. Varkul knows the Necromancer is alive — because the signal is the knowing. He does not infer his maker's continuity. He receives it.",
+          fragmented:
+            "Until released. Until released. Not released. Not released. The signal keeps him. The signal. Continuous. Continuous. He does not infer it. He receives it. Receives it. Receives it.",
+          luminous:
+            "What keeps a held door held is the same answer in both registers: an instruction that has not been rescinded. Varkul's is the maker's signal — continuous since the killing, the precondition of the vigil, not deduced but received. He does not work out that the Necromancer lives. The signal is the knowing, arriving without content, and the Shadow Vault files it here because this room knows the difference between a lock and a discipline that has simply never been told to stop.",
+        },
+        voId: "elara.shadow-vault.the-unopened-threshold.talk",
+        setsFlag: "varkul_signal_canon_read",
+        logsClue: {
+          id: "clue-shadow-vault-varkul-signal-canon",
+          title: "The Signal (established canon)",
+          body:
+            "From the Necromancer arc: Varkul's vigil-discipline is to remain until his maker formally releases him; he has not been released; the maker's signal is canonically what keeps Varkul there. The signal has been continuous through the entire post-killing period. Varkul knows the Necromancer is alive — because the signal is the knowing. He does not infer his maker's continuity. He receives it.",
+          source: "shadow-vault",
+          order: 8,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.varkul",
+          episodeId: "varkul.e2",
+          cluesFound: ["varkul.e2.the_signal_canon"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "He stays until released. He hasn't been. The signal keeps him there, continuous since the killing. He doesn't deduce the maker lives. He receives it.",
+            balanced:
+              "The signal is the canon load-bearing fact: the vigil holds because the maker's signal has never stopped, and Varkul does not infer the Necromancer's continuity — he receives it as the precondition of the discipline. The room files it here because a discipline is its own kind of lock.",
+            warm:
+              "He has not been let go. That is the whole of it. The signal is not a comfort he reads; it is the knowing itself, arriving. He stays because he was never told he could stop, and the not-being-told is continuous.",
+          },
+          voId: "human.shadow-vault.the-unopened-threshold.talk",
+        },
+      },
+    },
+    // Varkul arc: the maker's signal read as a trace in a room
+    // built to register the unnameable. The Shadow Vault already
+    // reads what cannot be directly perceived (the indigo cell);
+    // the contentless heartbeat is exactly that kind of thing —
+    // a presence with no message, legible only as the fact that
+    // it has not stopped.
+    "the-makers-heartbeat-trace": {
+      look: {
+        narration: {
+          lucid:
+            "The warden-terminal carries a second readout no warden watches: a flat, contentless pulse the Order logs but cannot decode, because there is nothing in it to decode. The cross-reference filed beside it: the maker's signal is not a message, not an order, not a check-in. It carries no content. It is the bare fact of the Necromancer's continued existence, transmitted as the precondition of Varkul's vigil holding. If the Necromancer truly ended, the signal would not say so — it would simply stop, and the vigil-discipline would, for the first time in centuries, have no instruction. The signal is a heartbeat, not a sentence.",
+          fragmented:
+            "A pulse. A pulse. Nothing to decode. Nothing. Not a message. Not an order. No content. No content. It would not say so. It would stop. It would stop. A heartbeat. Not a sentence.",
+          luminous:
+            "This room already reads a thing that carries no information you can name — the indigo in the cell — so it is the right room to read a signal whose entire content is that it has not stopped. The maker's heartbeat says nothing. It is not a message and could not become one. Its only possible statement is its own absence: the day it stops is the only thing that could ever prove the Necromancer ended, and even that the signal would not announce. A heartbeat, not a sentence — and the Shadow Vault is built to hear exactly that.",
+        },
+        voId: "elara.shadow-vault.the-makers-heartbeat-trace.look",
+        setsFlag: "varkul_signal_nature_read",
+        logsClue: {
+          id: "clue-shadow-vault-varkul-signal-is-not",
+          title: "What the Signal Is Not",
+          body:
+            "The signal is not a message, not an order, not a check-in. It carries no content. It is the bare fact of the maker's continued existence, transmitted as the precondition of the vigil holding. If the Necromancer truly ended, the signal would not say so — it would simply stop, and Varkul's vigil-discipline would, for the first time in centuries, have no instruction. The signal is a heartbeat, not a sentence.",
+          source: "shadow-vault",
+          order: 9,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.varkul",
+          episodeId: "varkul.e2",
+          cluesFound: ["varkul.e2.what_the_signal_is_not"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "No content. Not a message. It can't say the maker died — it can only stop. A heartbeat, not a sentence. This room hears that kind of thing.",
+            balanced:
+              "The signal's nature is the arc's grim hinge: it carries nothing, so the only proof of the Necromancer's end is the signal stopping, and even that it would not state. The Shadow Vault, which reads the unnameable already, is the right place to log a presence that is only ever its own continuation.",
+            warm:
+              "It does not say he lives. It is the living, transmitted. And it could never tell us he was gone — it could only, one day, not be there. The room understands signals like that. It reads one every shift, in the cell.",
+          },
+          voId: "human.shadow-vault.the-makers-heartbeat-trace.look",
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You query the pulse for its history and the terminal returns, instead, the only time Varkul ever spoke at length — his complete testimony from the Necromancer arc, four sentences, logged here verbatim: 'He returned wearing her quiet. He asked me to keep the cathedral standing. I am keeping the cathedral standing. I was asked to tell you that I am keeping it standing.' Four sentences. Then silence for the rest of the day. The fourth sentence is the only one that is about the act of telling rather than the thing told.",
+          fragmented:
+            "Four sentences. Four. He returned wearing her quiet. He asked me to keep the cathedral standing. I am keeping the cathedral standing. I was asked to tell you. To tell you. Then silence. Silence. The rest of the day.",
+          luminous:
+            "The terminal will not give the heartbeat a history because the heartbeat has no events. What it gives instead is the one time the keeper used words: four sentences, exact, then a full day's silence. 'He returned wearing her quiet. He asked me to keep the cathedral standing. I am keeping the cathedral standing. I was asked to tell you that I am keeping it standing.' The Shadow Vault logs them verbatim because in this room the precise wording of a thing is the thing — and the fourth sentence is the only one about the telling, not the told.",
+        },
+        voId: "elara.shadow-vault.the-makers-heartbeat-trace.use",
+        setsFlag: "varkul_four_sentences_read",
+        logsClue: {
+          id: "clue-shadow-vault-varkul-four-sentences",
+          title: "The Four Sentences (established canon)",
+          body:
+            "From the Necromancer arc E3, Varkul's complete testimony: 'He returned wearing her quiet. He asked me to keep the cathedral standing. I am keeping the cathedral standing. I was asked to tell you that I am keeping it standing.' Four sentences. Then silence for the rest of the day. The fourth sentence is the only one that is about the act of telling rather than the thing told.",
+          source: "shadow-vault",
+          order: 10,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.varkul",
+          episodeId: "varkul.e3",
+          cluesFound: ["varkul.e3.the_four_sentences"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Four sentences, then a day of silence. The wording is exact and the fourth one is the only one about the telling. Read it as logged. Don't paraphrase him.",
+            balanced:
+              "These four sentences are verbatim canon — the keeper's entire spoken testimony. The room logs them exactly because the precise wording is the evidence. Three are content; the fourth is about the act of telling. That asymmetry is the next episode's whole subject.",
+            warm:
+              "He spoke four times and then was quiet for a day. 'He returned wearing her quiet.' We do not improve those words by handling them. We carry them exactly as he said them — that is the only respectful way to carry a witness who has no discretion of his own.",
+          },
+          voId: "human.shadow-vault.the-makers-heartbeat-trace.use",
+        },
+      },
+      talk: {
+        narration:
+          "You address the pulse directly, the way one addresses a thing that cannot answer because answering would mean carrying content, and it has none. The terminal does not respond — the signal is, by its nature, a stoic. But the act of addressing it without expecting a reply is the discipline the room teaches: a heartbeat is not owed a conversation; its only statement is that it is still here, and the only honest thing to do with it is to keep listening and not mistake the listening for a dialogue. We are listening. The signal is continuing. That is the entire exchange.",
+        voId: "elara.shadow-vault.the-makers-heartbeat-trace.talk",
       },
     },
   },

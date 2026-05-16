@@ -1093,6 +1093,9 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "collector-catalog-page", name: "The Collector's Catalog Page", description: "A single page in a hand that grieves nothing — the Collector's. Specimen Forty-One: a discipline kept, the donor body not retained.", x: 62, y: 70, width: 7, height: 9, type: "interact", action: "room-mystery:antiquarian-library:collector-catalog-page" },
       { id: "collectors-redacted-anomaly", name: "The Collector's Redacted Anomaly", description: "An entry under the Antiquarian's own redaction-discipline — the one 'donor retained, by request,' dated the year of the Fall, the requester struck out.", x: 70, y: 70, width: 7, height: 9, type: "interact", action: "room-mystery:antiquarian-library:collectors-redacted-anomaly" },
       { id: "collector-case-closing-ledger", name: "The Collector Case-Closing Ledger", description: "A closing ledger on the case-synthesis shelf — the Collector arc assembled in one hand, the verdict deliberately left open.", x: 78, y: 70, width: 7, height: 9, type: "interact", action: "room-mystery:antiquarian-library:collector-case-closing-ledger" },
+      // Mystery wiring — Varkul arc: the vigil cross-catalogue and the testimony-boundary file
+      { id: "varkul-vigil-cross-catalog", name: "The Varkul Vigil Cross-Catalogue", description: "A cross-catalogued observation under the Antiquarian's glyph for a vigil with no end — what a centuries-long unbroken post does to the one who holds it.", x: 30, y: 58, width: 7, height: 9, type: "interact", action: "room-mystery:antiquarian-library:varkul-vigil-cross-catalog" },
+      { id: "varkul-testimony-boundary-file", name: "The Varkul Testimony-Boundary File", description: "A boundary file in the Antiquarian's hand — not what Varkul said, but the precise edge of it, and the case the Two Witnesses leave open.", x: 38, y: 58, width: 7, height: 9, type: "interact", action: "room-mystery:antiquarian-library:varkul-testimony-boundary-file" },
     ],
   },
   /* ═══ CHAIN-UNLOCKED HIDDEN ROOMS ═══ */
@@ -1192,6 +1195,9 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "manuscript-pile", name: "Manuscript Pile", description: "Stage-left pedestal stacked carelessly with leather folios — a fair copy of the editor's whole novel, kept in plain sight.", x: 8, y: 56, width: 14, height: 22, type: "interact", action: "room-mystery:shadow-vault:manuscript-pile" },
       { id: "warden-terminal", name: "Warden Terminal", description: "A stage-right brass console with a single phosphor-lavender readout — the editor's live active-edit count.", x: 78, y: 50, width: 14, height: 24, type: "interact", action: "room-mystery:shadow-vault:warden-terminal" },
       { id: "release-or-seal-lever", name: "Release-or-Seal Lever", description: "A long brass lever in the foreground. Three positions: SEAL, NEUTRAL, RELEASE. Currently neutral.", x: 42, y: 80, width: 16, height: 8, type: "interact", action: "room-mystery:shadow-vault:release-or-seal-lever" },
+      // Mystery wiring — Varkul arc: the held far-wall door and the maker's-heartbeat readout
+      { id: "the-unopened-threshold", name: "The Unopened Threshold", description: "A door set into the vault's far wall that has never been opened — not sealed, held. The room's own commentary on a vigil that does not relent.", x: 8, y: 24, width: 14, height: 22, type: "interact", action: "room-mystery:shadow-vault:the-unopened-threshold" },
+      { id: "the-makers-heartbeat-trace", name: "The Maker's Heartbeat Trace", description: "A second readout on the warden-terminal no warden watches — a flat, contentless pulse the Order logs but cannot decode, because there is nothing in it to decode.", x: 78, y: 24, width: 14, height: 20, type: "interact", action: "room-mystery:shadow-vault:the-makers-heartbeat-trace" },
     ],
   },
   {
@@ -1237,6 +1243,8 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "new-babylon-siege-record", name: "New Babylon Siege Record", description: "A campaign binder in the siege-history drawer — Iron Lion's legions at New Babylon, Day 10 of Veil. The record is complete on her forces and silent on her death.", x: 50, y: 60, width: 8, height: 9, type: "interact", action: "room-mystery:war-room:new-babylon-siege-record" },
       // Mystery wiring — Collector arc: the Hierarchy's piece-positioning board
       { id: "hierarchy-piece-positioning-board", name: "Hierarchy Piece-Positioning Board", description: "A captured-document panel on the archive's deep rack — the Hierarchy of the Damned's aeons-long piece-positioning, read the way a war-room reads a slow board.", x: 30, y: 48, width: 8, height: 9, type: "interact", action: "room-mystery:war-room:hierarchy-piece-positioning-board" },
+      // Mystery wiring — Varkul arc: the Director of Security personnel file
+      { id: "varkul-director-of-security-file", name: "Varkul Director-of-Security File", description: "A personnel order on the command-structure rack — Mol'Garath's post-Severance promotion of the Necromancer's creation to keeper of the Hierarchy's gates, both sides.", x: 42, y: 48, width: 8, height: 9, type: "interact", action: "room-mystery:war-room:varkul-director-of-security-file" },
     ],
   },
   {

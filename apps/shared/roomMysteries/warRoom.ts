@@ -21,7 +21,8 @@ export type WarRoomHotspotId =
   | "hierarchy-org-chart-board"
   | "thalorian-defense-records"
   | "new-babylon-siege-record"
-  | "hierarchy-piece-positioning-board";
+  | "hierarchy-piece-positioning-board"
+  | "varkul-director-of-security-file";
 
 export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
   roomId: "war-room",
@@ -691,6 +692,119 @@ export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
               "They brought a man back from the dead so that, a long age later, an honest rule would honestly choose him. The capturing hand never saw the hand that placed the piece. The war-room is the only room that can read a board this slow — and what it reads is that honesty was the weapon, not the defense against one.",
           },
           voId: "human.war-room.hierarchy-piece-positioning-board.look",
+        },
+      },
+    },
+    // Varkul arc: a war-room reads command structures, and a
+    // Director of Security is one. The room files Varkul's
+    // post-Severance promotion here because it reads reporting
+    // lines as fields of fire — and a keeper who holds two
+    // instructions at one door is, to a war-room, a fault line
+    // on a map that has not yet been forced.
+    "varkul-director-of-security-file": {
+      look: {
+        narration: {
+          lucid:
+            "A personnel order on the tactical archive's command-structure rack, captured intact. Post-Severance, Mol'Garath recognized the need to guard gates from both sides — keeping enemies out AND ensuring the Hierarchy's own forces did not scatter across dimensions. Varkul was promoted to Director of Security. The war-room reads the line the way it reads any chain of command: the Necromancer's creation became the Hierarchy's threshold-keeper, and now serves two masters' instructions at one door — the maker's signal, and Mol'Garath's mandate.",
+          fragmented:
+            "Both sides. Both sides. Out and in. Out and in. Director of Security. Director of Security. The Necromancer's creation. The Hierarchy's keeper. Two masters. Two masters. One door.",
+          luminous:
+            "The promotion order, read as a war-room reads a command appointment: Mol'Garath needed gates held from both sides — incursion out, dispersion in — and gave the post to Varkul. The room does not file this as personnel; it files it as the moment one keeper began carrying two instructions at a single threshold. The maker's signal and the Hierarchy's mandate, converged onto one Director, with no record yet of them pulling opposite ways.",
+        },
+        voId: "elara.war-room.varkul-director-of-security-file.look",
+        logsClue: {
+          id: "clue-war-room-varkul-promotion",
+          title: "The Promotion",
+          body:
+            "Per the Hierarchy record: post-Severance, Mol'Garath recognized the need to guard gates from both sides — keeping enemies out AND ensuring the Hierarchy's own forces did not scatter across dimensions. Varkul was promoted to Director of Security. The Necromancer's creation became the Hierarchy's threshold-keeper. He now serves two masters' instructions at one door: the maker's signal, and Mol'Garath's mandate.",
+          source: "war-room",
+          order: 13,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.varkul",
+          episodeId: "varkul.e4",
+          cluesFound: ["varkul.e4.the_promotion"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Mol'Garath needed both sides held — out and in. He gave the post to Varkul. The Necromancer's creation now holds the Hierarchy's gates and the maker's signal at one door.",
+            balanced:
+              "The war-room files the promotion as a command appointment, not a personnel note: one keeper, two instructions, a single threshold. Mol'Garath's mandate now sits beside the maker's signal in the same hands. The room reads that convergence as a structure, and structures have failure modes.",
+            warm:
+              "They made him Director of Security because a threshold is dangerous from both directions and he was the one who had become a threshold. He now holds two instructions at one door, and the room keeps the order because it knows what two instructions at one door eventually mean.",
+          },
+          voId: "human.war-room.varkul-director-of-security-file.look",
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You pull the doctrine annex pinned behind the order. Guarding from both sides is not two jobs. It is the recognition that a threshold's danger is symmetric: what gets in and what gets out are the same problem seen from opposite ends. Varkul, who became his threshold, is uniquely suited — he does not have a side. A keeper with a side guards a wall. A keeper who IS the door guards the passage itself, in both directions, without preference. Mol'Garath did not promote a loyal demon. He promoted a function that had no inside to be loyal to.",
+          fragmented:
+            "Symmetric. Symmetric. In and out, same problem. Same problem. He has no side. No side. A wall. A passage. A passage. Not a loyal demon. A function. A function with no inside.",
+          luminous:
+            "The doctrine annex states the thing a war-room respects most: a threshold's danger is symmetric, and only a keeper with no side can hold a passage without favoring a direction. Varkul, dissolved into the vigil, is exactly that — not a wall's guard but the passage's, in both directions, without preference. The room circles the conclusion: Mol'Garath did not elevate a loyal demon. He elevated a function with no inside to be loyal to, which is precisely why it can be trusted at a gate.",
+        },
+        voId: "elara.war-room.varkul-director-of-security-file.use",
+        logsClue: {
+          id: "clue-war-room-varkul-both-sides",
+          title: "Both Sides of the Door",
+          body:
+            "Guarding from both sides is not two jobs. It is the recognition that a threshold's danger is symmetric: what gets in and what gets out are the same problem seen from opposite ends. Varkul, who became his threshold, is uniquely suited — he does not have a side. A keeper with a side guards a wall. A keeper who IS the door guards the passage itself, in both directions, without preference. Mol'Garath did not promote a loyal demon. He promoted a function that had no inside to be loyal to.",
+          source: "war-room",
+          order: 14,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.varkul",
+          episodeId: "varkul.e4",
+          cluesFound: ["varkul.e4.both_sides"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "A threshold's danger is symmetric — in and out are one problem. He has no side, so he guards the passage, not a wall. Mol'Garath promoted a function, not a demon.",
+            balanced:
+              "The annex is the arc's structural finding: only a keeper with no inside can hold a passage in both directions without preference, and the vigil left Varkul exactly that. The Hierarchy's most trusted gate is trusted because there is no one in it to turn. That is the war-room's kind of fact.",
+            warm:
+              "He can guard both ways because there is no longer a side of him to favor either. That is the cold reading and it is also the true one. They promoted the door, and the door does not take bribes because there is nobody home to offer them to.",
+          },
+          voId: "human.war-room.varkul-director-of-security-file.use",
+        },
+      },
+      talk: {
+        narration: {
+          lucid:
+            "You address the file on the matter of the two instructions. The war-room marks the fault line in grease pencil. Varkul holds the maker's signal — keep the Cathedral standing — and Mol'Garath's mandate — guard the Hierarchy's gates both ways. They have not yet conflicted because the Cathedral and the Hierarchy's gates have not yet required opposite actions. The room records the latent fault line precisely and resolves nothing: if the Necromancer's quiet continuity ever required the Cathedral to do something the Hierarchy's security mandate forbade, Varkul would, for the first time, have to choose which instruction he is. He has never had to be a self that chooses.",
+          fragmented:
+            "Two instructions. Two. The signal. The mandate. Never conflicted. Not yet. Not yet. If they ever do. If they ever do. He would have to choose. To choose. He has never had to be a self that chooses. Never.",
+          luminous:
+            "The fault line, marked exactly and left open, the way a war-room marks a seam it cannot yet read: two instructions in one keeper, never yet pulling opposite ways only because the Cathedral and the gates have not yet asked for opposite things. The room does not resolve it — that is canon-pending and forcing it would be a worse error than holding it. It records only the precise edge: the day the signal and the mandate diverge is the day Varkul must become a self that chooses, and whether enough of him remains under the vigil to do the choosing is the question the case leaves standing.",
+        },
+        voId: "elara.war-room.varkul-director-of-security-file.talk",
+        logsClue: {
+          id: "clue-war-room-varkul-two-instructions",
+          title: "The Two Instructions Do Not Conflict — Yet",
+          body:
+            "Varkul holds the maker's signal (keep the Cathedral standing) and Mol'Garath's mandate (guard the Hierarchy's gates both ways). They have not yet conflicted because the Cathedral and the Hierarchy's gates have not yet required opposite actions. The arc records the latent fault line: if the Necromancer's quiet continuity ever required the Cathedral to do something the Hierarchy's security mandate forbade, Varkul would, for the first time, have to choose which instruction he is. He has never had to be a self that chooses. The fault line is canon-pending and left open.",
+          source: "war-room",
+          order: 15,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.varkul",
+          episodeId: "varkul.e4",
+          cluesFound: ["varkul.e4.the_two_instructions"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Two instructions, one keeper. Never conflicted because the Cathedral and the gates never asked opposite things. If they ever do, he has to choose. He never has.",
+            balanced:
+              "The room marks the fault line and refuses to resolve it — that is correct discipline. The signal and the mandate have never diverged only because the situations have not required it. The unresolved question is whether there is enough self left under the vigil to choose if they ever do. We hold it open.",
+            warm:
+              "They have never asked opposite things of him, so he has never had to be someone who chooses between them. The war-room does not pretend to know what happens the day they do. Neither do we. That honesty — leaving it open — is the only faithful way to keep it.",
+          },
+          voId: "human.war-room.varkul-director-of-security-file.talk",
         },
       },
     },
