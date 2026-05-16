@@ -806,6 +806,8 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       // Mystery wiring — Watcher arc Ocularum relay-trace + dead-drop cadence surface
       { id: "ocularum-relay-trace", name: "Ocularum Relay Trace", description: "A trace buffer on the relay's deep channel — identity-shift signatures the official record does not index. The Senne→Locke transition resolves here.", x: 6, y: 70, width: 8, height: 12, type: "interact", action: "room-mystery:comms-array:ocularum-relay-trace" },
       { id: "dead-drop-cadence-log", name: "Dead-Drop Cadence Log", description: "A cadence log on the relay's manifest channel — shipping traffic the antenna passively records as it crosses New Babylon. One monthly Locke-signed package repeats.", x: 78, y: 70, width: 8, height: 12, type: "interact", action: "room-mystery:comms-array:dead-drop-cadence-log" },
+      // Mystery wiring — Ith'Rael arc Shadow Tongue editing-signature trace
+      { id: "shadow-tongue-signal-trace", name: "Shadow Tongue Signal Trace", description: "A signature buffer on the relay's deep-edit channel — the Shadow Tongue's operational signature, subtraction without trace across the chronicle layer.", x: 40, y: 70, width: 8, height: 12, type: "interact", action: "room-mystery:comms-array:shadow-tongue-signal-trace" },
     ],
   },
   {
@@ -886,6 +888,8 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       // crafting-bench but is its own clickable so the ST beat doesn't
       // collide with the /research-lab dispatch.
       { id: "schematic-pad", name: "Reactor Schematic Pad", description: "An unrolled blueprint on the workbench. The lines are double-registered — warm-gold underneath, indigo on top, with three connection points subtly redirected.", x: 16, y: 78, width: 14, height: 10, type: "interact", action: "room-mystery:engineering:schematic-pad" },
+      // Mystery wiring — Ith'Rael arc Marion Kell physical-residue bench
+      { id: "kell-physical-residue-bench", name: "Kell's Residue Bench", description: "A side bench kept unmoved for centuries — Marion Kell's old workbench. The grain, the mug-rings, the undusted rectangle the Shadow Tongue never touched.", x: 40, y: 84, width: 7, height: 8, type: "interact", action: "room-mystery:engineering:kell-physical-residue-bench" },
     ],
   },
   {
@@ -1027,6 +1031,9 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       // Mystery wiring — Watcher arc Locke-correspondence cache + Coordinator's summons surface
       { id: "lockes-correspondence-cache", name: "Locke's Correspondence Cache", description: "A flat document cache in the desk's lower drawer — every post-act letter Lyra received from Adjudicar Locke, in order. Each signed only 'L.'", x: 48, y: 82, width: 10, height: 10, type: "interact", action: "room-mystery:captains-quarters:lockes-correspondence-cache" },
       { id: "the-coordinators-summons", name: "The Coordinator's Summons", description: "A meeting invitation on the desk, in Locke's hand, delivered by a courier on no Authority manifest. Signed, for the first time, 'The Coordinator.'", x: 66, y: 78, width: 10, height: 10, type: "interact", action: "room-mystery:captains-quarters:the-coordinators-summons" },
+      // Mystery wiring — Ith'Rael arc Director's hand-couriered summons + Mechronis certification file
+      { id: "directors-handcouriered-summons", name: "The Director's Summons", description: "A second invitation beside Locke's, in a different hand — the only Hierarchy invitation that bypasses Hierarchy comms. Signed Ith'Rael, Director.", x: 8, y: 78, width: 8, height: 9, type: "interact", action: "room-mystery:captains-quarters:directors-handcouriered-summons" },
+      { id: "mechronis-certification-file", name: "Mechronis Certification File", description: "A personnel file in the operational drawer — the Mechronis Academy spy-class certification whose content hollowed across nine generations.", x: 18, y: 78, width: 8, height: 9, type: "interact", action: "room-mystery:captains-quarters:mechronis-certification-file" },
     ],
   },
   {
@@ -1073,6 +1080,10 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       // Mystery wiring — Watcher arc Ocularum founding-record + redaction-ledger surface
       { id: "ocularum-founding-record", name: "Ocularum Founding Record", description: "A bound folio on the desk's near edge, indexed under a glyph the Antiquarian files nowhere else: an eye watching an eye. The Lord Kanshi Sha record.", x: 52, y: 86, width: 8, height: 10, type: "interact", action: "room-mystery:antiquarian-library:ocularum-founding-record" },
       { id: "antiquarian-redaction-ledger", name: "Antiquarian's Redaction Ledger", description: "A thin ledger beside the founding folio — the Antiquarian's own record of what his archive does not contain, and why.", x: 60, y: 86, width: 8, height: 10, type: "interact", action: "room-mystery:antiquarian-library:antiquarian-redaction-ledger" },
+      // Mystery wiring — Ith'Rael arc doctrine folio + casebook + generational ledger surface
+      { id: "directors-doctrine-folio", name: "The Director's Doctrine Folio", description: "A slim grey folio in the Hierarchy-affairs section — a Department of Special Projects standing instruction, signed Ith'Rael, Director.", x: 68, y: 86, width: 7, height: 10, type: "interact", action: "room-mystery:antiquarian-library:directors-doctrine-folio" },
+      { id: "shadow-tongue-casebook", name: "The Shadow Tongue Casebook", description: "A casebook on the editor-studies shelf — the Marion Kell editing read slowly, and the first failure in four hundred years.", x: 76, y: 86, width: 7, height: 10, type: "interact", action: "room-mystery:antiquarian-library:shadow-tongue-casebook" },
+      { id: "thaloria-generational-ledger", name: "Thaloria's Generational Ledger", description: "A ledger on the Thaloria-affairs shelf — the Director's recovered engagement notes in his own hand. 'Tested on cohort 4. Holds.'", x: 84, y: 86, width: 7, height: 10, type: "interact", action: "room-mystery:antiquarian-library:thaloria-generational-ledger" },
     ],
   },
   /* ═══ CHAIN-UNLOCKED HIDDEN ROOMS ═══ */
@@ -1210,6 +1221,9 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       // Mystery wiring — Watcher arc Ocularum vigil-board + cell-roster surface
       { id: "ocularum-vigil-board", name: "Ocularum Vigil Board", description: "A standing-threat panel on the tactical archive's lower rack — institutional powers the room tracks without engaging. The Authority's six minds head the list.", x: 30, y: 82, width: 10, height: 9, type: "interact", action: "room-mystery:war-room:ocularum-vigil-board" },
       { id: "ocularum-cell-roster", name: "Ocularum Cell Roster", description: "A roster card in the archive's deepest drawer — the Ocularum's modern register. Three named cells of seven hundred.", x: 43, y: 80, width: 6, height: 7, type: "interact", action: "room-mystery:war-room:ocularum-cell-roster" },
+      // Mystery wiring — Ith'Rael arc Hierarchy org-chart board + Thalorian defence records
+      { id: "hierarchy-org-chart-board", name: "Hierarchy Org-Chart Board", description: "A captured-document panel on the tactical archive's upper rack — the Hierarchy's internal Severance project org chart. One reporting line, one apex.", x: 30, y: 60, width: 8, height: 9, type: "interact", action: "room-mystery:war-room:hierarchy-org-chart-board" },
+      { id: "thalorian-defense-records", name: "Thalorian Defence Records", description: "A defence-doctrine binder in the comparative-history drawer — Thaloria's nine-generation consensual relaxation of its own recertification standards.", x: 40, y: 60, width: 8, height: 9, type: "interact", action: "room-mystery:war-room:thalorian-defense-records" },
     ],
   },
   {

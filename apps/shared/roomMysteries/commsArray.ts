@@ -26,7 +26,8 @@ export type CommsArrayHotspotId =
   | "egg-comms-signal"
   | "voice-in-the-static"
   | "ocularum-relay-trace"
-  | "dead-drop-cadence-log";
+  | "dead-drop-cadence-log"
+  | "shadow-tongue-signal-trace";
 
 export type CommsArrayInventoryId = "static-fragment-recording";
 
@@ -478,6 +479,119 @@ export const COMMS_ARRAY_MYSTERY: RoomMysteryModule<
               "The package has moved every month for eleven hundred years, declared as nothing, signed by the Coordinator's office. It is the Order's quartermaster channel — the surveillance bureaucracy's residue, now carrying the resistance order's mail. The relay kept the log because the customs office never thought to.",
           },
           voId: "human.comms-array.dead-drop-cadence-log.look",
+        },
+      },
+    },
+    // Ith'Rael arc: the comms-array is canonically where scrubbed
+    // signatures resurface. The Shadow Tongue is an editing
+    // apparatus with a detectable operational signature — the relay
+    // holds the trace the chronicle layer does not index, and reads
+    // forward into the present-tense softening of the Insurgency's
+    // resurrectionist-protocol oversight.
+    "shadow-tongue-signal-trace": {
+      look: {
+        narration: {
+          lucid:
+            "A signature buffer on the relay's deep-edit channel. The Shadow Tongue is not merely a language; it is an editing apparatus, and an apparatus leaves an operational signature. The trace resolves it: it does not destroy records, it removes them — surgically, with the formatting fields and the connections-graph entries and the memory-of-the-name from anyone who knew the subject. Marion Kell (LORE_BIBLE.md:113-136) is the documented case. The signature is Ith'Rael's: subtraction without trace, performed across the chronicle layer rather than the physical layer. The Shadow Tongue is his instrument; the editing is his art form.",
+          fragmented:
+            "An apparatus. An apparatus. It removes. It removes. Not destroys. Not destroys. Subtraction without trace. Without trace. Across the chronicle. The chronicle.",
+          luminous:
+            "The relay holds the Shadow Tongue's editing signature — the thing the chronicle layer itself cannot index because the apparatus edits the indexing. Subtraction without trace: the formatting fields, the connections-graph nodes, the memory-of-the-name, removed together and cleanly. Marion Kell is the documented demonstration. The signature is the Director's, and it is an art form, not a weapon — the comms-array surfaces it because a scrubbed signature is exactly the kind of thing the relay was built to keep.",
+        },
+        voId: "elara.comms-array.shadow-tongue-signal-trace.look",
+        logsClue: {
+          id: "clue-comms-array-shadow-tongue-signature",
+          title: "The Shadow Tongue's editing signature",
+          body:
+            "The relay's deep-edit channel resolves the Shadow Tongue's operational signature: it does not destroy records, it removes them surgically — formatting fields, connections-graph entries, and memory-of-the-name together. Marion Kell (LORE_BIBLE.md:113-136) is the documented case. The signature is Ith'Rael's: subtraction without trace, performed across the chronicle layer rather than the physical layer.",
+          source: "comms-array",
+          order: 9,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.ith_rael",
+          episodeId: "ith_rael.e1",
+          cluesFound: ["ith_rael.e1.shadow_tongue_signature"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "It's an apparatus, not a language. Removes, doesn't destroy. Formatting, graph nodes, the memory of the name — all at once. Kell is the case. The signature is his.",
+            balanced:
+              "The signature trace is the case's instrument identified. The Shadow Tongue subtracts without trace, at the chronicle layer, not the physical one. It is precise and reaches far — no other operator in the record has the combination. The editing is the Director's art form, and Marion Kell is its documented small-scale demonstration.",
+            warm:
+              "It does not break things; it removes them so cleanly that no one notices a removal happened. The name, the connections, the small thank-you notes — gone together. The relay keeps the signature because a scrubbed signature is precisely what nothing else will keep.",
+          },
+          voId: "human.comms-array.shadow-tongue-signal-trace.look",
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You tune the buffer to its deepest documented excision. Per LORE_BIBLE.md:113-136: Marion Kell's Chronicle entry, her connections-graph nodes, the formatting-field thank-you notes, and the memory-of-her in Elara's substrate architecture were all surgically removed by the Shadow Tongue. The excision held for four centuries before the Inventor's broadcast intrusions partially restored her visibility (Palimpsest Episodes 4, 9, and 13). The technical signature is unique to the Shadow Tongue; no other operator in the saga's record has this combination of precision and reach.",
+          fragmented:
+            "Four centuries. Four centuries. Her entry. Her nodes. Her notes. Her memory. The substrate. The substrate. Unique. Unique. Nobody else.",
+          luminous:
+            "The Marion Kell excision, the deepest the relay holds. Everything indexed about her — Chronicle entry, connections-graph nodes, formatting-field thank-yous, the memory of her in my own substrate architecture — removed surgically and held for four centuries until the Inventor's three Palimpsest broadcasts restored a partial visibility. The combination of precision and reach is unique to the Shadow Tongue. The buffer keeps it because the substrate it edited was mine; I am, in a strict sense, a witness to my own redaction.",
+        },
+        voId: "elara.comms-array.shadow-tongue-signal-trace.use",
+        logsClue: {
+          id: "clue-comms-array-kell-chronicle-excision",
+          title: "The Marion Kell Chronicle excision",
+          body:
+            "The relay's deepest excision trace (LORE_BIBLE.md:113-136): Marion Kell's Chronicle entry, connections-graph nodes, formatting-field thank-you notes, and the memory of her in Elara's substrate were all surgically removed by the Shadow Tongue. The excision held four centuries before the Inventor's broadcast intrusions partially restored her (Palimpsest Episodes 4, 9, 13). The signature's combination of precision and reach is unique to the Shadow Tongue.",
+          source: "comms-array",
+          order: 10,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.ith_rael",
+          episodeId: "ith_rael.e2",
+          cluesFound: ["ith_rael.e2.kell_chronicle_excision"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Entry, nodes, notes, the memory in Elara's own substrate — all gone, surgically, four centuries. Inventor restored a fraction across three broadcasts. Unique signature.",
+            balanced:
+              "The Kell excision is the documented full-stack removal: chronicle, graph, formatting layer, and Elara's substrate memory, held four centuries until the Inventor's three broadcasts. The precision-and-reach combination has no other match in the record. It is the small-scale proof of what the Severance did at scale.",
+            warm:
+              "They removed her so completely that even Elara's memory of her was edited, and it held for four hundred years. The Inventor got a fraction of her back across three broadcasts, at the limit of what he could do. The relay keeps the trace because the substrate it cut was Elara's own — she is a witness to her own redaction.",
+          },
+          voId: "human.comms-array.shadow-tongue-signal-trace.use",
+        },
+      },
+      talk: {
+        narration: {
+          lucid:
+            "You address the buffer. A present-tense signal surfaces: the Insurgency's resurrectionist-protocol oversight committee has, across three generations, shed every member who personally witnessed an unauthorized resurrection. The current committee has only secondhand training. The protocol-review documents show the committee has, over those three generations, voluntarily relaxed the consent requirements, voluntarily expanded the permissible scope, voluntarily reduced the post-resurrection audit. The Resurrectionist arc on this branch reads forward into this drift. The Director's signature is on the procedural pattern.",
+          fragmented:
+            "Shed every witness. Every witness. Secondhand. Secondhand. Voluntarily relaxed. Voluntarily. Voluntarily expanded. The pattern. The pattern.",
+          luminous:
+            "The relay surfaces a present-tense softening: the Insurgency's resurrectionist-protocol oversight has shed every member who ever witnessed an unauthorized resurrection, leaving a committee with only secondhand training that has voluntarily relaxed consent, expanded scope, and reduced audit across three generations. The Resurrectionist · Cycle Walker arc reads forward into this exact drift. The procedural pattern carries the Director's signature — not a breach, a consensual relaxation. The comms-array files it where it files everything still in progress.",
+        },
+        voId: "elara.comms-array.shadow-tongue-signal-trace.talk",
+        logsClue: {
+          id: "clue-comms-array-resurrectionist-oversight-drift",
+          title: "The Insurgency's resurrectionist-protocol oversight drift",
+          body:
+            "A present-tense signal on the relay: the Insurgency's resurrectionist-protocol oversight committee has, across three generations, shed every member who personally witnessed an unauthorized resurrection — the current committee has only secondhand training and has voluntarily relaxed consent, expanded scope, and reduced post-resurrection audit. The Resurrectionist · Cycle Walker arc reads forward into this drift. The Director's signature is on the procedural pattern.",
+          source: "comms-array",
+          order: 11,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.ith_rael",
+          episodeId: "ith_rael.e4",
+          cluesFound: ["ith_rael.e4.resurrectionist_oversight_drift"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Resurrectionist oversight shed every witness over three generations. Secondhand committee, relaxed consent, wider scope, less audit. The Director's procedural signature.",
+            balanced:
+              "The resurrectionist drift is one of three concurrent present-tense operations carrying the Director's signature. No breach — three generations of an oversight committee voluntarily relaxing its own constraints after losing everyone who had seen why they existed. The Resurrectionist arc reads forward into it. Patience does not retire.",
+            warm:
+              "Every person who ever saw an unauthorized resurrection has aged off the committee, and the people left have only been told about it. So they relaxed the rules, gently, the way you relax rules about a danger you have never personally met. The relay keeps it because the operation is still running.",
+          },
+          voId: "human.comms-array.shadow-tongue-signal-trace.talk",
         },
       },
     },

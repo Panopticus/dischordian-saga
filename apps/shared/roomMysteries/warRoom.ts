@@ -17,7 +17,9 @@ export type WarRoomHotspotId =
   | "casualty-board"
   | "signal-flag-rack"
   | "ocularum-vigil-board"
-  | "ocularum-cell-roster";
+  | "ocularum-cell-roster"
+  | "hierarchy-org-chart-board"
+  | "thalorian-defense-records";
 
 export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
   roomId: "war-room",
@@ -454,6 +456,156 @@ export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
               "Seven hundred cells, three of them named so far, the rest the future's work. The number is not assigned in advance and not chosen by the recruit — the continuity log draws it at the moment of yes. It is the smallest possible ceremony for the largest possible commitment.",
           },
           voId: "human.war-room.ocularum-cell-roster.look",
+        },
+      },
+    },
+    // Ith'Rael arc: the war-room's tactical archive tracks
+    // institutional structures as standing threats. The Hierarchy's
+    // own Severance org chart is filed here because the room reads
+    // corporate reporting lines as command structures; Thaloria's
+    // generational defence records are the room's case study in a
+    // defence that relaxed itself to nothing.
+    "hierarchy-org-chart-board": {
+      look: {
+        narration: {
+          lucid:
+            "A captured-document panel on the tactical archive's upper rack — the Hierarchy of the Damned's internal Severance project org chart. The Hierarchy files credit the way every corporation does: by project, by lead, by deliverable. The Severance is filed under Special Projects, lead Ith'Rael the Whisperer, Director. Co-leads: Zyr'Koth (R&D, refined the Blood Weave into the Severance Protocol — apps/shared/hierarchyCanon.ts:160-162); Drael'Mon (Consumer, devoured what the Shadow Tongue softened — apps/shared/hierarchyCanon.ts:208-210). One reporting line, one name at its top. By the Hierarchy's own accounting, the Severance is his.",
+          fragmented:
+            "Special Projects. Special Projects. Lead. Lead. Ith'Rael, Director. Ith'Rael, Director. One reporting line. One name. One name at the top.",
+          luminous:
+            "The Severance project org chart, captured intact. The war-room reads corporate reporting lines as command structures, and this one resolves to a single apex: Ith'Rael the Whisperer, Director of Special Projects, Zyr'Koth and Drael'Mon reporting up to him. The Hierarchy does not redact him because the Hierarchy is proud — they consider the Severance the most successful Special Projects engagement in their corporate history. The board files it where it files every standing structural threat: the case is not an event, it is a method, and the method has a name.",
+        },
+        voId: "elara.war-room.hierarchy-org-chart-board.look",
+        logsClue: {
+          id: "clue-war-room-severance-org-chart",
+          title: "The Hierarchy's Severance project org chart",
+          body:
+            "The war-room's captured-document panel holds the Hierarchy's internal Severance org chart: filed under Special Projects, lead Ith'Rael the Whisperer, Director. Co-leads Zyr'Koth (R&D) and Drael'Mon (Consumer) report up to him. One reporting line, one apex. By the Hierarchy's own internal accounting, the Severance is his — and they do not redact him because they are proud of it.",
+          source: "war-room",
+          order: 7,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.ith_rael",
+          episodeId: "ith_rael.e1",
+          cluesFound: ["ith_rael.e1.hierarchy_org_chart"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Special Projects, lead Ith'Rael, Director. Zyr'Koth and Drael'Mon report up. One line, one apex. They don't redact him — they're proud.",
+            balanced:
+              "The org chart is the case's operational frame. The Hierarchy is a corporation; corporations file credit by project and lead. The Severance is filed to one Director with two co-leads reporting up. The absence of redaction is the tell — they consider it their most successful engagement. We are not investigating an event; we are investigating a method that has a name.",
+            warm:
+              "They kept the chart because they are proud of it. That is the part that should unsettle you — the Severance is not a secret to the people who did it, it is a credential. One name sits at the top of the line. The room files it as a standing threat because the method outlives the engagement.",
+          },
+          voId: "human.war-room.hierarchy-org-chart-board.look",
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You pull the after-action commendation sheet pinned behind the chart. The Hierarchy is canonically a corporation; corporations distribute credit. The Severance produced eleven commendations: four to Drael'Mon (consumption efficiency), three to Zyr'Koth (protocol refinement), one each to Riri'Ahlia (logistics), Mol'Garath (CEO sign-off), Syl'Vex (corruption support), and Ith'Rael — the Director's commendation, dated ten years after the bindings broke, citing 'the patience of the working' as the Hierarchy's most valuable institutional asset. The room circles the date in grease pencil: ten years AFTER, not at the moment.",
+          fragmented:
+            "Eleven commendations. Eleven. Ten years after. Ten years after. Not at the moment. Not at the moment. The patience of the working. The patience.",
+          luminous:
+            "The Hierarchy's internal credit distribution for the Severance: eleven after-action commendations, the Director's dated ten years after the bindings broke, citing 'the patience of the working' as the firm's most valuable institutional asset. The dating is the whole thesis — the commendation is not for an event that happened, it is for a working that continued to hold for a decade afterward without intervention. The war-room circles the date because a war-room reads tempo, and this tempo is the case.",
+        },
+        voId: "elara.war-room.hierarchy-org-chart-board.use",
+        logsClue: {
+          id: "clue-war-room-severance-credit-distribution",
+          title: "Hierarchy internal credit distribution",
+          body:
+            "The after-action commendation sheet behind the org chart: the Severance produced eleven Hierarchy commendations — four to Drael'Mon, three to Zyr'Koth, one each to Riri'Ahlia, Mol'Garath, Syl'Vex, and Ith'Rael. The Director's commendation is dated ten years AFTER the bindings broke, citing 'the patience of the working' as the Hierarchy's most valuable institutional asset. The dating is the thesis: ten years after, not at the moment.",
+          source: "war-room",
+          order: 8,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.ith_rael",
+          episodeId: "ith_rael.e1",
+          cluesFound: ["ith_rael.e1.hierarchy_internal_credit"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Eleven commendations. The Director's is dated ten years after the break. 'The patience of the working.' Not the event — the holding.",
+            balanced:
+              "The credit distribution is the case's tempo, in writing. Eleven commendations, and the Director's is dated a decade after the bindings broke — for patience, not for the breach. The Hierarchy commends him for the working continuing to hold without intervention. That is what a war-room reads: not the strike, the sustain.",
+            warm:
+              "They gave him the commendation ten years after, for patience. Not for breaking anything — for the thing he broke staying broken on its own. The room circles the date because the date is the entire method compressed into a calendar entry.",
+          },
+          voId: "human.war-room.hierarchy-org-chart-board.use",
+        },
+      },
+      talk: {
+        narration: {
+          lucid:
+            "You address the board. A present-tense cross-reference surfaces: the New Babylon Authority's six imprisoned minds in red crystal coffins run an internal self-audit cadence meant to catch governance drift. Two centuries of audit logs show the cadence has slowed by 47% — quarterly to annual — with no documented decision to slow it. The Authority agreed, at each step, that the previous tempo was sufficient. The Director's signature: no force, no breach, only consent through softening. The cadence is now slow enough that a coordinator running a centuries-long double-game from inside the Authority would be detected only on a schedule her career has long outlasted.",
+          fragmented:
+            "Forty-seven percent. Forty-seven percent. Quarterly to annual. Quarterly to annual. No decision. No decision. It agreed each step. Each step.",
+          luminous:
+            "The board recontextualizes a present-tense operation: the Authority's self-audit cadence on its own six imprisoned minds, slowed 47% across two centuries with no documented decision — the Authority agreeing, at each step, that the previous tempo sufficed. The Director's signature is unmistakable: no force, only consent through softening. The cadence is now slow enough to be functionally blind to an insider running a centuries-long double-game. The war-room files it where it files every threat that is still in progress.",
+        },
+        voId: "elara.war-room.hierarchy-org-chart-board.talk",
+        logsClue: {
+          id: "clue-war-room-authority-audit-cadence",
+          title: "The Authority's self-audit cadence drift",
+          body:
+            "A present-tense cross-reference on the org-chart board: the New Babylon Authority's six imprisoned minds run a self-audit cadence meant to catch governance drift. Two centuries of logs show it slowed 47% — quarterly to annual — with no documented decision, the Authority agreeing at each step the previous tempo sufficed. The Director's consent-through-softening signature. The cadence is now slow enough to be blind to an insider's centuries-long double-game.",
+          source: "war-room",
+          order: 9,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.ith_rael",
+          episodeId: "ith_rael.e4",
+          cluesFound: ["ith_rael.e4.authority_audit_cadence"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Authority self-audit slowed 47%, quarterly to annual, no decision on record. It agreed each step. Blind to an insider's long game now. He's still working.",
+            balanced:
+              "The audit-cadence drift is a present-tense operation carrying the Director's signature. No breach, no decision — just two centuries of the Authority agreeing the previous tempo was enough. The cadence is now slow enough to miss an insider double-game. The case's frame is the saga's present, not its past. Patience does not retire.",
+            warm:
+              "Nobody decided to slow it. It just slowed, one agreement at a time, until the institution that watches itself can no longer see itself in time. The room files it as in-progress because it is — the working did not stop after the Severance. It never stops.",
+          },
+          voId: "human.war-room.hierarchy-org-chart-board.talk",
+        },
+      },
+    },
+    "thalorian-defense-records": {
+      look: {
+        narration: {
+          lucid:
+            "A defence-doctrine binder in the archive's comparative-history drawer — Thaloria's pre-Severance recertification records. Thaloria's defence was canonically rigorous: the Empire of Shadows wielded the Blood Weave defensively (apps/shared/hierarchyCanon.ts:21 — the Hierarchy's antithesis), generations trained, tested, and recertified across a multi-decade ritual cadence. The binder shows no corruption event. It shows, across nine generations, a slow and consensual relaxation of the recertification standards. Each generation passed the test the previous generation set; each set a slightly easier test for the next. By the ninth, recertification was a formality. The corruption was procedural before it was substantive.",
+          fragmented:
+            "No corruption event. No event. Nine generations. Nine. Each passed. Each set an easier one. Easier. Easier. A formality. A formality.",
+          luminous:
+            "Thaloria's generational defence records, filed under comparative history. The room's case study in a defence that was never breached and relaxed itself to nothing anyway: nine generations, each passing the prior test and setting an easier one, until the ninth's recertification was ceremony. No corruption event because there was no event — the corruption was procedural for nine generations and substantive for one. The war-room keeps it as the archetype against which it measures every defence that thinks rigour is permanent.",
+        },
+        voId: "elara.war-room.thalorian-defense-records.look",
+        logsClue: {
+          id: "clue-war-room-thaloria-generational-records",
+          title: "Thaloria's generational defence records",
+          body:
+            "The war-room's comparative-history binder on Thaloria: a canonically rigorous defence (Empire of Shadows, Blood Weave wielded defensively, multi-decade recertification cadence) that shows no corruption event — only a nine-generation consensual relaxation of recertification standards, each generation passing the prior test and setting an easier one. By the ninth, recertification was a formality. The corruption was procedural before it was substantive.",
+          source: "war-room",
+          order: 10,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.ith_rael",
+          episodeId: "ith_rael.e3",
+          cluesFound: ["ith_rael.e3.thaloria_generational_records"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "No breach. No event. Nine generations each passing the last test and setting an easier one. Ninth gen, recertification is theatre. Procedural before substantive.",
+            balanced:
+              "The Thaloria records are the war-room's archetype: a rigorous defence that relaxed itself to nothing with no corruption event. Each generation passed the prior test and set an easier one; by the ninth it was a formality. The corruption was procedural for nine generations and substantive for one. This is the pattern every surviving defence in the saga is now measured against.",
+            warm:
+              "Nobody attacked them. They had one of the hardest defences in the saga and they relaxed it themselves, gently, across nine generations, each one trusting the last. The room keeps it not as history but as a warning — this is what a defence looks like the year before it stops being one.",
+          },
+          voId: "human.war-room.thalorian-defense-records.look",
         },
       },
     },

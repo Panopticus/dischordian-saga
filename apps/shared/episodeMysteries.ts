@@ -4480,7 +4480,7 @@ const ithRaelE1: EpisodeDefinition = {
       id: "ith_rael.e1.hierarchy_internal_credit" as ClueId,
       title: "Hierarchy Internal Credit Distribution",
       body: "The Hierarchy is canonically a corporation. Corporations distribute credit. Per the Hierarchy's internal accounting, the Severance produced eleven separate after-action commendations: four to Drael'Mon (consumption efficiency), three to Zyr'Koth (protocol refinement), one each to Riri'Ahlia (operational logistics), Mol'Garath (CEO sign-off), Syl'Vex (corruption support), and Ith'Rael — the Director's commendation, dated ten years after the bindings broke, citing 'the patience of the working' as the Hierarchy's most valuable institutional asset. The dating matters: ten years AFTER, not at the moment.",
-      foundIn: "trade-hub",
+      foundIn: "war-room",
     },
   ],
   deductions: [
@@ -4791,7 +4791,7 @@ const ithRaelE4: EpisodeDefinition = {
       id: "ith_rael.e4.mechronis_certification_relaxation" as ClueId,
       title: "Mechronis Academy Spy-Class Certification Relaxation",
       body: "The Mechronis Academy's spy-class certification is canonically the highest standard the Insurgency maintains for covert operatives. The certification's rigor protected the Order's apparatus-branch operatives, and continues to protect Locke's modern operations (apps/shared/questlineClassSpy.ts — the spy-class questline). The recertification cadence has not changed; the recertification CONTENT has. Across the same nine generations as the Thalorian pattern, the test items have shifted from operational scenarios to theoretical exam questions. Examiners agreed each step was reasonable; each step was. The aggregate is a different test. The Director's whisper: 'It has been a long time since anything happened.'",
-      foundIn: "trade-hub",
+      foundIn: "captains-quarters",
     },
     {
       id: "ith_rael.e4.directors_open_position" as ClueId,

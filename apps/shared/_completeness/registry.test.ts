@@ -116,12 +116,16 @@ describe("completeness registry — well-formedness", () => {
         version: 1,
         worstByEntry: {},
       });
-      // Watcher is the arc this change wired end-to-end; it must not
-      // appear among the still-stranded arcs in the missing list.
+      // Watcher and Ith'Rael are the arcs wired end-to-end; neither
+      // may appear among the still-stranded arcs in the missing list.
       for (const line of result.notes ?? []) {
         expect(
           line.startsWith("mystery.watcher:"),
           `Watcher arc must be fully bound, but it is reported unbound: ${line}`,
+        ).toBe(false);
+        expect(
+          line.startsWith("mystery.ith_rael:"),
+          `Ith'Rael arc must be fully bound, but it is reported unbound: ${line}`,
         ).toBe(false);
       }
       // The check must be doing real work (non-trivial declared set).

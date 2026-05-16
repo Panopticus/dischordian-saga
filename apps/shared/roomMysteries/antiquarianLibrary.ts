@@ -17,7 +17,10 @@ export type AntiquarianLibraryHotspotId =
   | "velkraals-correspondence-folio"
   | "insurgency-witness-roster"
   | "ocularum-founding-record"
-  | "antiquarian-redaction-ledger";
+  | "antiquarian-redaction-ledger"
+  | "directors-doctrine-folio"
+  | "shadow-tongue-casebook"
+  | "thaloria-generational-ledger";
 
 export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHotspotId> = {
   roomId: "antiquarian-library",
@@ -985,6 +988,298 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
               "She placed herself inside what the Order exists to refuse. That is the point of her, not a flaw in her cover. The Antiquarian files the choice and not the reason because some questions are load-bearing precisely while they stay open. The answer comes later, from her, not from the ledger.",
           },
           voId: "human.antiquarian-library.antiquarian-redaction-ledger.talk",
+        },
+      },
+    },
+    // Ith'Rael arc: the Antiquarian's archive holds the Director's
+    // own doctrinal papers — the things the Whisperer wrote, signed,
+    // and never bothered to unindex because the doctrine survives
+    // being read. The folio is the doctrine; the casebook is the
+    // Marion Kell editing read slowly; the generational ledger is
+    // Thaloria's centuries-long self-corruption.
+    "directors-doctrine-folio": {
+      look: {
+        narration: {
+          lucid:
+            "A slim folio in the Antiquarian's Hierarchy-affairs section, bound in the corporate grey the Hierarchy uses for internal memoranda. The first leaf is a standing instruction from the Department of Special Projects, dated to the early Severance preparation: 'We do not force outcomes. We soften the conditions until the outcome emerges on its own. Force makes a target defensive; softening makes the target a participant. The Severance will be undone if it is taken; it will hold if it is given. Our work is to make it given.' Signed: Ith'Rael, Director. Four sentences. The Antiquarian filed it under doctrine, not under crime.",
+          fragmented:
+            "We do not force. We do not force. We soften. We soften. Taken — undone. Given — it holds. It holds. Four sentences. Four sentences.",
+          luminous:
+            "The Director's operational doctrine, in his own hand, on the Hierarchy's grey internal stock. The whole working condensed to four sentences: do not force, soften the conditions, force makes a target defensive, softening makes it a participant. The Antiquarian indexed it under doctrine because that is what it is — not a record of a crime but the method by which crimes are made to look like consent. He held it because a doctrine the editor never had to hide is the most dangerous kind, and the only safe place for it is an archive that indexes by witness.",
+        },
+        voId: "elara.antiquarian-library.directors-doctrine-folio.look",
+        logsClue: {
+          id: "clue-antiquarian-directors-doctrine",
+          title: "The Director's operational doctrine",
+          body:
+            "A Department of Special Projects standing instruction in the Antiquarian's Hierarchy-affairs folio, signed Ith'Rael, Director: 'We do not force outcomes. We soften the conditions until the outcome emerges on its own... The Severance will be undone if it is taken; it will hold if it is given. Our work is to make it given.' The whole working condensed to four sentences; the Antiquarian filed it under doctrine, not crime.",
+          source: "antiquarian-library",
+          order: 18,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.ith_rael",
+          episodeId: "ith_rael.e1",
+          cluesFound: ["ith_rael.e1.no_force_only_softening"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Standing instruction. Don't force, soften. Taken gets undone; given holds. Signed Ith'Rael, Director. The doctrine is the whole working.",
+            balanced:
+              "The doctrine folio is the case's operational frame in four sentences. The Director does not break things — he softens the conditions until the people holding the line relax it themselves. 'Given' versus 'taken' is the entire method. Reading it as a confession misses the point; it is an instruction manual, filed openly because it survives being read.",
+            warm:
+              "He signed it. He never hid it. That is the part that should frighten you — the doctrine does not need concealment because it works by being the way the world's defenders already prefer the world to run. The Antiquarian kept it because someone has to witness the thing that operates by not being witnessed as a threat.",
+          },
+          voId: "human.antiquarian-library.directors-doctrine-folio.look",
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You turn the folio to its most recent insert — a memo dated last quarter, the freshest Director's paper any party has surfaced. 'Exposure of the working is itself a softening operation. Once published, the working becomes a thing the cohorts must defend against, which transforms it from an unindexable softening into an indexable threat. Indexable threats are easier to defend against in principle and harder in practice — the cohorts perform defence rituals that satisfy the published condition without addressing the underlying softening. Publish me. I welcome it.' Signed: Ith'Rael, Director. The Antiquarian's margin note: 'He is correct, which is the problem.'",
+          fragmented:
+            "Publish me. Publish me. I welcome it. I welcome it. Exposure is softening. Softening. The ritual satisfies. It doesn't address. It doesn't address.",
+          luminous:
+            "The Director's standing position on exposure, last quarter's memo. Publishing the working converts it from an unindexable softening into an indexable threat — and the cohorts then perform indexed-threat-defence rituals that satisfy the published condition without touching the underlying softening. 'Publish me. I welcome it.' The Antiquarian's gloss is two clauses: he is correct, which is the problem. The folio holds the trap with the doctrine because the trap is the doctrine applied to its own exposure.",
+        },
+        voId: "elara.antiquarian-library.directors-doctrine-folio.use",
+        logsClue: {
+          id: "clue-antiquarian-directors-exposure-position",
+          title: "The Director's standing position on exposure",
+          body:
+            "A last-quarter Director's memo in the doctrine folio: 'Exposure of the working is itself a softening operation... the cohorts perform defence rituals that satisfy the published condition without addressing the underlying softening. Publish me. I welcome it.' Signed Ith'Rael, Director. The Antiquarian's margin note: 'He is correct, which is the problem.'",
+          source: "antiquarian-library",
+          order: 19,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.ith_rael",
+          episodeId: "ith_rael.e4",
+          cluesFound: ["ith_rael.e4.directors_open_position"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "'Publish me. I welcome it.' Exposure is itself a softening. The defence ritual satisfies the published threat and never touches the real one. Last quarter's memo.",
+            balanced:
+              "The exposure memo is the doctrinal trap closing. Publishing the working turns it from an unindexable softening into an indexable threat the cohorts then perform rituals against without addressing the substance. The Director invites exposure because exposure is a move he has already authored. The hard deduction is how to act without performing the invited counter-ritual.",
+            warm:
+              "He welcomes being published because being published is, by his own doctrine, another softening. The Antiquarian's two-clause note is the whole tragedy: he is correct, which is the problem. The folio holds the trap beside the doctrine because they are the same instrument turned on its own exposure.",
+          },
+          voId: "human.antiquarian-library.directors-doctrine-folio.use",
+        },
+      },
+      talk: {
+        narration: {
+          lucid:
+            "You address the folio. The room surfaces an architect's note clipped to the back board, attached to a meeting transcript: 'The doctrine anticipates opposition, exposure, reform of the indexable layer, single-operation attacks — all of which are softening. The doctrine does NOT anticipate meaning that lives outside the indexable layer altogether. Darren Fessler's letters. The wax-seal glyph. The Resistance Branch's millennia-long survival. Old Tanjin's silence. These are the structures the doctrine cannot price. What the player carries forward must, to evade the working, live there.'",
+          fragmented:
+            "It anticipates. It anticipates opposition. Exposure. Reform. It does not anticipate. It does not anticipate. Outside the index. Outside the index. Cannot price it. Cannot price it.",
+          luminous:
+            "The architect's note on the doctrine's blind spot. Everything the working anticipates — opposition, exposure, reform, single-operation attacks — is itself softening. The one thing it cannot price is meaning that lives outside the indexable layer: Darren Fessler's buried sentences, the wax-seal glyph, the Resistance Branch's silent millennia, Old Tanjin's lifespan. The folio holds the doctrine and its single blind spot on the same shelf, because the blind spot is only legible against the doctrine's completeness everywhere else.",
+        },
+        voId: "elara.antiquarian-library.directors-doctrine-folio.talk",
+        logsClue: {
+          id: "clue-antiquarian-doctrine-blind-spot",
+          title: "What the doctrine does not anticipate",
+          body:
+            "An architect's note clipped to the doctrine folio's meeting transcript: the working anticipates opposition, exposure, reform, and single-operation attacks — all softening. It does NOT anticipate meaning outside the indexable layer: Darren Fessler's letters, the wax-seal glyph, the Resistance Branch's survival, Old Tanjin's silence. What the player carries forward must live there to evade the working.",
+          source: "antiquarian-library",
+          order: 20,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.ith_rael",
+          episodeId: "ith_rael.e5",
+          cluesFound: ["ith_rael.e5.what_the_doctrine_does_not_anticipate"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "It prices opposition, exposure, reform, single attacks — all softening. It can't price meaning outside the index. Fessler's letters. The glyph. Tanjin. Carry it there.",
+            balanced:
+              "The blind-spot note is the arc's only useful offering. Every indexed response is anticipated; the structures the doctrine cannot reach are the ones whose meaning lives in practice, not in the record. The case's hard answer is doctrinal: act against the working in unindexable practice, never in indexed reform — the same architecture as Fessler's letters and the wax-seal glyph.",
+            warm:
+              "Everything the working expects you to do, it has already priced. The things it cannot price are the quiet ones — a man's buried sentences, a glyph under a paving stone, an order's long silence. Whatever you carry out of this has to live where the record cannot find it. The Antiquarian filed the blind spot next to the doctrine so the one stays legible against the other.",
+          },
+          voId: "human.antiquarian-library.directors-doctrine-folio.talk",
+        },
+      },
+    },
+    "shadow-tongue-casebook": {
+      look: {
+        narration: {
+          lucid:
+            "A casebook on the Antiquarian's editor-studies shelf, indexed to LORE_BIBLE.md:31-36. The flagged case: Darren Fessler died between Palimpsest Episodes 11 and 12; the Shadow Tongue attempted to edit his Loredex entry within six hours and failed for the first time in four hundred years. The casebook's cross-correlation against the Director's doctrine supplies the mechanism: Darren spent decades writing letters in which 'each letter contained one real sentence buried under a page of small talk.' The buried sentences were unindexed by design. There was nothing for the Shadow Tongue to subtract; the meaning was hidden where the indexing could not reach.",
+          fragmented:
+            "Failed. Failed. First time in four hundred years. Four hundred years. One real sentence. One real sentence. Buried. Buried. Nothing to subtract. Nothing to subtract.",
+          luminous:
+            "The casebook holds the Shadow Tongue's first failure in four centuries: Darren Fessler, edited-at within six hours of death, and the edit did not take. The Director's doctrine supplies the why — Darren's meaning was buried under indexable small talk, one real sentence per letter, unindexed by design. The Shadow Tongue subtracts what it can locate; it could not locate what was never in the indexing layer. The Antiquarian shelved this under editor-studies because it is the documented proof that the working has a floor.",
+        },
+        voId: "elara.antiquarian-library.shadow-tongue-casebook.look",
+        logsClue: {
+          id: "clue-antiquarian-darren-fessler-resistance",
+          title: "Why Darren Fessler's entry could not be edited",
+          body:
+            "The editor-studies casebook (LORE_BIBLE.md:31-36): Darren Fessler died between Palimpsest Episodes 11 and 12; the Shadow Tongue attempted to edit his Loredex entry within six hours and failed for the first time in four hundred years. The mechanism, per the Director's doctrine: Darren's letters each buried one real sentence under a page of small talk. The meaning was unindexed by design; there was nothing for the Shadow Tongue to subtract.",
+          source: "antiquarian-library",
+          order: 21,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.ith_rael",
+          episodeId: "ith_rael.e2",
+          cluesFound: ["ith_rael.e2.darren_fessler_resistance"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "First failure in four hundred years. Fessler's letters buried one true sentence under a page of nothing. Nothing to subtract. The working has a floor.",
+            balanced:
+              "The Fessler case is the proof the working can be evaded. Not defeated — evaded. He structured his meaning so it never entered the indexing layer; the Shadow Tongue could not subtract what it could not find. The principle generalizes: meaning held outside the index is editable only with violence, and the doctrine forbids force.",
+            warm:
+              "He wrote letters for decades, one true sentence each, hidden under small talk on purpose. When he died they came for his entry within six hours and, for the first time in four centuries, they could not take it. He had already put the meaning where they could not reach. The Antiquarian keeps the case because it is the saga's evidence that this is possible.",
+          },
+          voId: "human.antiquarian-library.shadow-tongue-casebook.look",
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You open the casebook to its inferred-doctrine page — an architect's note in the Antiquarian's archive: 'The Shadow Tongue is not an editor of names, persons, or events. It is an editor of the conditions that allow recognition. To remove a person from the chronicle is to remove the indexing under which the person can be found, not to remove the person. The Director's doctrine therefore is not destruction but unindexing. This is harder to undo than destruction. Destruction leaves a void. Unindexing leaves a complete chronicle that no one can find what they need in.'",
+          fragmented:
+            "Not names. Not names. The conditions. The conditions of recognition. Unindexing. Unindexing. Not destruction. Not destruction. A complete chronicle. Nobody can find anything.",
+          luminous:
+            "The casebook's inferred-doctrine page: the Shadow Tongue does not edit names, it edits the conditions of recognition. Removal from the chronicle is removal of the indexing, not the person. The Director's doctrine is unindexing, not destruction — and unindexing is harder to undo, because destruction leaves a void someone can notice and unindexing leaves a complete chronicle no one can navigate. The Antiquarian, whose whole archive indexes by witness, glosses this as the precise inversion of his own method.",
+        },
+        voId: "elara.antiquarian-library.shadow-tongue-casebook.use",
+        logsClue: {
+          id: "clue-antiquarian-indexing-doctrine",
+          title: "The Director's indexing doctrine (inferred)",
+          body:
+            "An architect's note in the casebook: the Shadow Tongue edits the conditions that allow recognition, not names. Removing a person from the chronicle removes the indexing under which they can be found, not the person. The Director's doctrine is unindexing, not destruction — harder to undo, because destruction leaves a void while unindexing leaves a complete chronicle no one can find what they need in.",
+          source: "antiquarian-library",
+          order: 22,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.ith_rael",
+          episodeId: "ith_rael.e2",
+          cluesFound: ["ith_rael.e2.indexing_doctrine"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Not editing names. Editing recognition. Unindexing, not destruction. A void gets noticed; a complete unfindable chronicle doesn't. That's the method.",
+            balanced:
+              "The indexing doctrine is the method named. The Shadow Tongue does not delete — it unindexes, so the chronicle stays complete and useless. The Severance was not the bindings breaking; it was the unindexing of the reasons they were written. By the time they broke, no system could retrieve the cause. The breaking was the receipt.",
+            warm:
+              "Destruction leaves a hole someone trips over. Unindexing leaves everything in place and nobody able to find what they need. It is the crueler of the two and the harder to undo. The Antiquarian indexes by witness precisely because it is the one method this doctrine cannot invert.",
+          },
+          voId: "human.antiquarian-library.shadow-tongue-casebook.use",
+        },
+      },
+      talk: {
+        narration: {
+          lucid:
+            "You address the casebook. The room surfaces a recovered fragment clipped inside the back cover — the Advocate's late-cycle notes, preserved by the Antiquarian. The Advocate (the saga's primary canonical resistance to the Hierarchy) attempted a corrective intervention at Thaloria's eighth generation, recognizing too late what was happening. The intervention failed for the reason the doctrine predicts: by Generation Eight the receiving cohort had no operational memory against which to evaluate an urgency claim. The notes close: 'I came too late. I was on time. The two are not the same.'",
+          fragmented:
+            "Too late. Too late. On time. On time. Not the same. Not the same. He spoke urgency. They had no memory of urgency. No memory.",
+          luminous:
+            "The Advocate's recovered late-cycle response, clipped inside the casebook. He intervened at Generation Eight and was politely declined — the cohort's own records said urgency had not been required for two centuries, so the urgency-claim could not be processed. His closing line is the doctrine's whole temporal cruelty: 'I came too late. I was on time. The two are not the same.' The Antiquarian preserves it because a refusal performed on procedural grounds is exactly the kind of thing the working depends on no one keeping.",
+        },
+        voId: "elara.antiquarian-library.shadow-tongue-casebook.talk",
+        logsClue: {
+          id: "clue-antiquarian-advocate-late-cycle",
+          title: "The Advocate's late-cycle response (recovered)",
+          body:
+            "The Advocate's notes, preserved in the casebook: he attempted a corrective intervention at Thaloria's eighth generation and was politely declined — by Generation Eight the receiving cohort had no operational memory against which to evaluate an urgency claim. The notes close: 'I came too late. I was on time. The two are not the same.'",
+          source: "antiquarian-library",
+          order: 23,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.ith_rael",
+          episodeId: "ith_rael.e3",
+          cluesFound: ["ith_rael.e3.advocate_response_recovery"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Advocate intervened at Generation Eight. Declined on procedure — their records said urgency was never needed. 'On time. Too late. Not the same.'",
+            balanced:
+              "The Advocate's note names the structural problem the working's pace creates. By intervention time the listeners' frame no longer contained the urgency he was communicating; the claim was rejected procedurally. He was on time absolutely and too late in the only sense that mattered. The doctrine compresses centuries into a single closed door.",
+            warm:
+              "He came as fast as anyone could and it was still a closed door, because by then the people he was warning had no memory that warnings were ever needed. 'I was on time. I came too late.' Both are true. The Antiquarian keeps the line because the working survives by nobody keeping it.",
+          },
+          voId: "human.antiquarian-library.shadow-tongue-casebook.talk",
+        },
+      },
+    },
+    "thaloria-generational-ledger": {
+      look: {
+        narration: {
+          lucid:
+            "A ledger on the Antiquarian's Thaloria-affairs shelf — recovered working notes in Ith'Rael's hand, salvaged from a Hierarchy R&D archive Zyr'Koth was reorganizing. Three pages: 'Generation N+1 will not believe the threat exists if Generation N has not personally encountered it. Therefore: ensure Generation N does not personally encounter it. The Whisperer is patient. The Whisperer is gentle. The Whisperer says: it has been a long time since anything happened. It is true. It will continue to be true. Therefore the standards may be relaxed. Therefore the standards have been relaxed. Therefore the standards were never necessary.' Marginalia, same hand: 'Tested on cohort 4. Holds.'",
+          fragmented:
+            "It has been a long time. A long time. Since anything happened. It is true. It is true. May be relaxed. Have been relaxed. Were never necessary. Tested on cohort 4. Holds. Holds.",
+          luminous:
+            "The Director's engagement notes, in his own hand, on Thaloria. The syllogism that corrupted an empire across nine generations: a generation will not believe in a threat it has not met, so ensure it does not meet one, and let time do the rest — 'may be relaxed' becomes 'have been relaxed' becomes 'were never necessary.' The marginalia is the chilling part: 'Tested on cohort 4. Holds.' Not a plan. A verified result. The Antiquarian shelved it under Thaloria because it is Thaloria's autopsy in the killer's handwriting.",
+        },
+        voId: "elara.antiquarian-library.thaloria-generational-ledger.look",
+        logsClue: {
+          id: "clue-antiquarian-directors-engagement-notes",
+          title: "The Director's engagement notes (recovered fragments)",
+          body:
+            "Three pages of Ith'Rael's working notes recovered from a Hierarchy R&D archive: 'Generation N+1 will not believe the threat exists if Generation N has not personally encountered it... it has been a long time since anything happened. It is true... Therefore the standards may be relaxed. Therefore the standards have been relaxed. Therefore the standards were never necessary.' Marginalia: 'Tested on cohort 4. Holds.'",
+          source: "antiquarian-library",
+          order: 24,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.ith_rael",
+          episodeId: "ith_rael.e3",
+          cluesFound: ["ith_rael.e3.directors_engagement_notes"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "His handwriting. Generation N+1 won't believe a threat N never met — so make sure N never meets one. 'Tested on cohort 4. Holds.' Verified, not planned.",
+            balanced:
+              "The engagement notes are Thaloria's corruption in the Director's own hand. The syllogism is the method: a generation does not believe in a threat it has not encountered, so prevent the encounter and let time relax the standards from 'may' to 'were never necessary.' 'Tested on cohort 4. Holds' is the part that matters — this was a verified result, not a hope.",
+            warm:
+              "He wrote down exactly how to make a people forget why they defended themselves, and then he noted that he had tested it and it worked. The Antiquarian keeps it on the Thaloria shelf because it is the empire's autopsy written by the one who performed the operation, gently, across nine generations.",
+          },
+          voId: "human.antiquarian-library.thaloria-generational-ledger.look",
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You turn the ledger to its generational analysis. The Severance corruption became irreversible at Generation Six's recertification cycle: for the first time, no living Thalorian had personally encountered an active Hierarchy operation. The Generation Six examiners had only their predecessors' records — themselves authored by examiners who had never encountered an operation. The Director's engagement note for that cycle is two words: 'It holds.' Three generations later the bindings broke. The breaking was the receipt; the irreversibility was at Generation Six.",
+          fragmented:
+            "Generation Six. Generation Six. Nobody left who had seen one. Nobody. Records of records. Records of records. 'It holds.' It holds. The breaking was just the receipt.",
+          luminous:
+            "The point of no return: Generation Six. The first cohort with no living defender who had encountered a Hierarchy operation, recertifying from records written by examiners who had never encountered one either. The Director's note for that cycle is two words — 'It holds.' Three generations later the bindings broke, but the irreversibility was already three generations behind it. The Antiquarian dates the death precisely, because a death whose date is unindexed is the working's preferred kind.",
+        },
+        voId: "elara.antiquarian-library.thaloria-generational-ledger.use",
+        logsClue: {
+          id: "clue-antiquarian-point-of-no-return",
+          title: "The point of no return — Generation Six",
+          body:
+            "The ledger's generational analysis: the Severance corruption became irreversible at Generation Six's recertification cycle — the first cohort with no living Thalorian who had personally encountered an active Hierarchy operation, recertifying from records authored by examiners who had also never encountered one. The Director's note for that cycle is two words: 'It holds.' Three generations later the bindings broke; the irreversibility was at Generation Six.",
+          source: "antiquarian-library",
+          order: 25,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.ith_rael",
+          episodeId: "ith_rael.e3",
+          cluesFound: ["ith_rael.e3.point_of_no_return"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Generation Six. First cohort with nobody who'd seen an operation, certifying off records of records. 'It holds.' Bindings broke three generations later. Receipt, not cause.",
+            balanced:
+              "Generation Six is where the corruption became irreversible — not the breaking, which came three generations later. Once no living defender had encountered an operation and the records were authored by examiners who also had not, the loop closed. The Director's two-word note is the diagnosis: 'It holds.' Everything after was a formality.",
+            warm:
+              "The empire died at Generation Six and did not fall until three generations later. The gap between the death and the fall is the cruelest measure of the doctrine — by the time anyone could see the collapse, the cause had been gone for a century. The Antiquarian dates it exactly because precision is the one thing the working cannot afford anyone to keep.",
+          },
+          voId: "human.antiquarian-library.thaloria-generational-ledger.use",
         },
       },
     },

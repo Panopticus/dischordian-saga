@@ -24,7 +24,9 @@ export type CaptainsQuartersHotspotId =
   | "degens-corner"
   | "vex-workshop-diary"
   | "lockes-correspondence-cache"
-  | "the-coordinators-summons";
+  | "the-coordinators-summons"
+  | "directors-handcouriered-summons"
+  | "mechronis-certification-file";
 
 export const CAPTAINS_QUARTERS_MYSTERY: RoomMysteryModule<CaptainsQuartersHotspotId> = {
   roomId: "captains-quarters",
@@ -594,6 +596,157 @@ export const CAPTAINS_QUARTERS_MYSTERY: RoomMysteryModule<CaptainsQuartersHotspo
               "She tells the player the discipline will turn on them eventually, and she means it as honesty, not threat. The cell is theirs whether or not they sign. That is the Order's deepest courtesy: it would rather have a free refusal than a coerced yes. The work continues either way.",
           },
           voId: "human.captains-quarters.the-coordinators-summons.talk",
+        },
+      },
+    },
+    // Ith'Rael arc: the captain's quarters is where summonses
+    // arrive that bypass institutional infrastructure. The
+    // Director's invitation is delivered by hand, on paper, by an
+    // unbriefed courier — meaning carried outside the indexable
+    // layer is itself the doctrinal demonstration. The Mechronis
+    // certification file is the present-tense softening that
+    // protects the player's own cover.
+    "directors-handcouriered-summons": {
+      look: {
+        narration: {
+          lucid:
+            "On the desk, beside Locke's summons, a second invitation in a different hand — the only Hierarchy invitation in the saga's record that does not pass through Hierarchy comms infrastructure. It reads: 'I consent to meet. Bring whomever you wish; bring nothing the Hierarchy would expect you to carry. I will not defend the working. I will explain it. You may use the explanation however you choose. The choice is itself part of the explanation.' Signed: Ith'Rael, Director. Written by hand, on physical paper, hand-couriered by a Hierarchy functionary who was not briefed on its content. The medium is the doctrine: meaning carried outside the indexable layer.",
+          fragmented:
+            "I consent. I consent to meet. By hand. By hand. On paper. On paper. The courier doesn't know. Doesn't know. The medium is the doctrine. The doctrine.",
+          luminous:
+            "The Director's consent to meet — the only Hierarchy invitation in the record that bypasses Hierarchy comms. He will not defend the working; he will explain it; the choice of what to do with the explanation is part of the explanation. The delivery itself is a doctrinal demonstration: written by hand, on paper, carried by a functionary who does not know what he carries. Meaning held outside the indexable layer, handed to the player by someone who cannot index it. The quarters keep it because the quarters are where the unfiled things arrive.",
+        },
+        voId: "elara.captains-quarters.directors-handcouriered-summons.look",
+        logsClue: {
+          id: "clue-quarters-directors-consent-to-meet",
+          title: "The Director's consent to meet",
+          body:
+            "An invitation in Ith'Rael's hand, the only Hierarchy invitation in the record that bypasses Hierarchy comms: 'I consent to meet... I will not defend the working. I will explain it. You may use the explanation however you choose. The choice is itself part of the explanation.' Signed Ith'Rael, Director. Written by hand, on paper, hand-couriered by an unbriefed functionary — the medium is itself the doctrine: meaning carried outside the indexable layer.",
+          source: "captains-quarters",
+          order: 12,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.ith_rael",
+          episodeId: "ith_rael.e5",
+          cluesFound: ["ith_rael.e5.directors_consent_to_meet"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "He consents. No defence, only explanation. The choice is part of it. By hand, on paper, courier doesn't know what he's carrying. The delivery is the doctrine.",
+            balanced:
+              "The Director's summons is the arc's close opening. He will explain, not defend — and the form of delivery is the lesson: handwritten, hand-couriered, unbriefed. Meaning outside the indexable layer, demonstrated in the act of arriving. He is not negotiating. He is showing the player what unindexable transmission looks like.",
+            warm:
+              "He sent it by a man who does not know what he is carrying, on paper, in his own hand. That is the entire doctrine performed once, gently, as an invitation. He says he will explain and not defend, and the way the letter arrived is already the first half of the explanation.",
+          },
+          voId: "human.captains-quarters.directors-handcouriered-summons.look",
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "Folded inside the invitation, a transcript of the meeting itself, in the Director's voice: 'The working has three principles. One: the world is held together by indexed memory. Two: indexed memory can be unindexed without violence. Three: the cohorts who hold the indexed memory will, given enough time and gentle conversation, agree that the indexing was unnecessary. The doctrine follows. The Hierarchy follows. The Severance followed. The current operations follow. There is no further explanation. There is also no defence. I do not defend the working. I do not need to. The working defends itself by being the way the world's defenders prefer the world to work.'",
+          fragmented:
+            "Three principles. Three. Indexed memory. Indexed memory. Unindexed without violence. Without violence. They will agree. They will agree. No defence. No defence.",
+          luminous:
+            "The explanation, transcribed. Three principles: the world is held by indexed memory; indexed memory can be unindexed without violence; the cohorts who hold it will, given time and gentle conversation, agree the indexing was unnecessary. Everything follows from those — the doctrine, the Hierarchy, the Severance, the present operations. He offers no defence because the working defends itself by being the way the world's defenders already prefer the world to run. The quarters hold the transcript because it is the rare Hierarchy document offered to be read rather than hidden.",
+        },
+        voId: "elara.captains-quarters.directors-handcouriered-summons.use",
+        logsClue: {
+          id: "clue-quarters-directors-explanation",
+          title: "The explanation",
+          body:
+            "The meeting transcript, in the Director's voice: 'The working has three principles. One: the world is held together by indexed memory. Two: indexed memory can be unindexed without violence. Three: the cohorts who hold the indexed memory will, given enough time and gentle conversation, agree that the indexing was unnecessary... I do not defend the working. I do not need to. The working defends itself by being the way the world's defenders prefer the world to work.'",
+          source: "captains-quarters",
+          order: 13,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.ith_rael",
+          episodeId: "ith_rael.e5",
+          cluesFound: ["ith_rael.e5.directors_explanation"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Three principles. Indexed memory holds the world; it can be unindexed without violence; the holders will agree it was unnecessary. No defence — it defends itself.",
+            balanced:
+              "The explanation is the whole doctrine in three sentences and a closing refusal. He does not defend it because the defence is structural: the working is the way the world's defenders prefer the world to run. The transcript is offered FOR indexing — which is itself the trap. The hard part is what to do with an explanation designed to be received.",
+            warm:
+              "He explained it plainly and refused to defend it, because he does not have to — the working survives by being the thing the defenders already want. The quarters keep the transcript because it is the one Hierarchy paper meant to be read. What it means to receive it is the question he handed back to the player.",
+          },
+          voId: "human.captains-quarters.directors-handcouriered-summons.use",
+        },
+      },
+      talk: {
+        narration: {
+          lucid:
+            "You address the summons. The Director's closing remark resolves at the foot of the transcript: 'I have enjoyed this conversation. I will continue to work. You will continue to oppose me, in whatever form your character permits. We will not meet again. The next time the working surfaces in your case-file, it will be in a form you do not yet recognize — because if you recognized it now, I would already have changed it. I wish you the long view. It is the only view that approximates mine.' He bows. He leaves. The meeting closes without resolution.",
+          fragmented:
+            "We will not meet again. Not again. A form you do not recognize. Do not recognize. If you recognized it I'd have changed it. Changed it. The long view. The long view.",
+          luminous:
+            "The Director's closing courtesy. Not a threat and not a kindness — a doctrinal description. The working adapts, so anything learned now will not match its next surface; learning the working teaches a shape it will no longer have. The long view is the only view that approximates his because it is the only frame in which the adaptation is visible across cycles. He bows and leaves; the meeting closes unresolved. The quarters keep the close because an unresolved close is, by the doctrine, the only honest kind.",
+        },
+        voId: "elara.captains-quarters.directors-handcouriered-summons.talk",
+        logsClue: {
+          id: "clue-quarters-directors-closing-courtesy",
+          title: "The Director's closing courtesy",
+          body:
+            "Ith'Rael's closing remark at the foot of the transcript: 'I will continue to work. You will continue to oppose me... We will not meet again. The next time the working surfaces in your case-file, it will be in a form you do not yet recognize — because if you recognized it now, I would already have changed it. I wish you the long view. It is the only view that approximates mine.' He bows, leaves; the meeting closes without resolution.",
+          source: "captains-quarters",
+          order: 14,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.ith_rael",
+          episodeId: "ith_rael.e5",
+          cluesFound: ["ith_rael.e5.directors_closing_courtesy"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "'We will not meet again. Next time it'll be a form you don't recognize — if you recognized it now I'd have changed it.' Not a threat. A description.",
+            balanced:
+              "The closing is a doctrinal description, not a courtesy. The working adapts; learning it teaches a shape it will no longer have. The long view is the only frame in which the adaptation is visible across cycles, which is why he wishes it on the player. The arc closes unresolved because, by the doctrine, that is the only honest ending.",
+            warm:
+              "He wished the player the long view and meant it, because it is the only view that comes close to his own. He will not be back. The next time this surfaces it will not look like this. The quarters keep the close unresolved because resolving it would be a lie the working would have authored.",
+          },
+          voId: "human.captains-quarters.directors-handcouriered-summons.talk",
+        },
+      },
+    },
+    "mechronis-certification-file": {
+      look: {
+        narration: {
+          lucid:
+            "A personnel file in the quarters' operational drawer — the Mechronis Academy's spy-class certification, canonically the highest standard the Insurgency maintains for covert operatives. Its rigour protected the Order's apparatus-branch operatives and continues to protect Locke's modern operations (apps/shared/questlineClassSpy.ts). The recertification cadence has not changed; the recertification CONTENT has. Across the same nine generations as the Thalorian pattern, the test items have shifted from operational scenarios to theoretical exam questions. Examiners agreed each step was reasonable. Each step was. The aggregate is a different test. The Director's whisper, in the file's margin: 'It has been a long time since anything happened.'",
+          fragmented:
+            "Cadence unchanged. Unchanged. Content changed. Content changed. Operational to theoretical. Theoretical. Each step reasonable. Reasonable. Different test. A different test.",
+          luminous:
+            "The Mechronis certification file, kept in the captain's quarters because it is the standard the player's own cover depends on. The cadence is intact — the content has hollowed. Nine generations of test items drifting from operational scenarios to theoretical questions, each step individually reasonable, the aggregate a different test entirely. The Director's whisper is the same one he used on Thaloria. The file matters here because the operatives this certification protects include the ones running the player's cover; this is the working reaching toward the case itself.",
+        },
+        voId: "elara.captains-quarters.mechronis-certification-file.look",
+        logsClue: {
+          id: "clue-quarters-mechronis-certification-relaxation",
+          title: "Mechronis Academy spy-class certification relaxation",
+          body:
+            "The Mechronis Academy's spy-class certification — the Insurgency's highest covert-operative standard, protecting Locke's modern operations (apps/shared/questlineClassSpy.ts). The recertification cadence is unchanged; the content has shifted across nine generations from operational scenarios to theoretical exam questions, each step reasonable, the aggregate a different test. The Director's whisper in the margin: 'It has been a long time since anything happened.'",
+          source: "captains-quarters",
+          order: 15,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.ith_rael",
+          episodeId: "ith_rael.e4",
+          cluesFound: ["ith_rael.e4.mechronis_certification_relaxation"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Cadence unchanged, content hollowed. Operational scenarios to theory exams, nine generations, each step reasonable. Same whisper he used on Thaloria. This one protects your cover.",
+            balanced:
+              "The Mechronis file is the third present-tense operation, and the one closest to the player. The cadence is intact so the relaxation is invisible; the content drifted from operational to theoretical, each step reasonable, the aggregate a different standard. Reform that re-indexes the cadence will not re-index the content — that is the trap the exposure memo describes.",
+            warm:
+              "The test that protects the people running the player's cover has been quietly emptied — not the schedule, the substance. Each examiner who softened it was reasonable, and the sum is a certification that no longer certifies what it did. He used the same whisper here he used on Thaloria. The quarters keep the file because this one reaches toward the case itself.",
+          },
+          voId: "human.captains-quarters.mechronis-certification-file.look",
         },
       },
     },
