@@ -20,7 +20,8 @@ export type WarRoomHotspotId =
   | "ocularum-cell-roster"
   | "hierarchy-org-chart-board"
   | "thalorian-defense-records"
-  | "new-babylon-siege-record";
+  | "new-babylon-siege-record"
+  | "hierarchy-piece-positioning-board";
 
 export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
   roomId: "war-room",
@@ -649,6 +650,47 @@ export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
               "A perfect campaign record that simply stops where the killing of a person would begin. The room keeps it because the war-room's discipline is to notice where a record ends — and this one ends one event too early to be the whole truth.",
           },
           voId: "human.war-room.new-babylon-siege-record.look",
+        },
+      },
+    },
+    // Collector arc: a war-room reads piece-positioning. The
+    // Hierarchy of the Damned plays the long game across aeons,
+    // and the war-room is the one room that can read a board
+    // where the moves are made centuries before the capture.
+    "hierarchy-piece-positioning-board": {
+      look: {
+        narration: {
+          lucid:
+            "A captured-document panel on the tactical archive's deep rack, indexed under the Hierarchy of the Damned's aeons-long piece-positioning canon (apps/shared/hierarchyCanon.ts). The Hierarchy brought Kanshi Sha back from the dead so he would be alive in the era when the Collector's criteria would select him. The Hierarchy does not give the Collector orders. It arranges the world so that the Collector's own criteria, honestly applied, produce the specimens the Hierarchy wants positioned. The steering is invisible to the criteria. The war-room reads it the way it reads any board where a piece arrives, on its own legal move, exactly where a hand placed it centuries ago.",
+          fragmented:
+            "Brought him back from the dead. Back from the dead. So he would be alive when the criteria selected him. The Hierarchy does not give orders. Does not give orders. It arranges the world. Arranges the world. Invisible to the criteria. Invisible.",
+          luminous:
+            "The piece-positioning board: the Hierarchy raised Kanshi Sha so he would live into the era the Collector's criteria would reach for him — no order given, only the world arranged so honest criteria, honestly applied, yield the Hierarchy's chosen pieces. The war-room is the one room built to read this: a board where the decisive move was made aeons before the capture, and the capturing hand never saw it. The steering is real and the criteria are honest and nothing in the chain lies. That composition is what the room is reading.",
+        },
+        voId: "elara.war-room.hierarchy-piece-positioning-board.look",
+        logsClue: {
+          id: "clue-war-room-hierarchy-steering",
+          title: "The Hierarchy's Piece-Positioning",
+          body:
+            "Per the Hierarchy of the Damned's aeons-long piece-positioning canon (apps/shared/hierarchyCanon.ts): the Hierarchy brought Kanshi Sha back from the dead so he would be alive in the era when the Collector's criteria would select him. The Hierarchy does not give the Collector orders. It arranges the world so that the Collector's own criteria, honestly applied, produce the specimens the Hierarchy wants positioned. The steering is invisible to the criteria.",
+          source: "war-room",
+          order: 12,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.collector",
+          episodeId: "collector.e3",
+          cluesFound: ["collector.e3.hierarchy_steering"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Hierarchy raised Kanshi Sha so he'd be alive when the criteria reached him. No orders. The world arranged so honest criteria pick the wanted piece.",
+            balanced:
+              "The board shows the steering's shape: the Hierarchy gives no order; it arranges the world so the Collector's honest criteria, honestly applied, select what the Hierarchy positioned. No one in the chain lies. The war-room reads it as a capture set up aeons before the move.",
+            warm:
+              "They brought a man back from the dead so that, a long age later, an honest rule would honestly choose him. The capturing hand never saw the hand that placed the piece. The war-room is the only room that can read a board this slow — and what it reads is that honesty was the weapon, not the defense against one.",
+          },
+          voId: "human.war-room.hierarchy-piece-positioning-board.look",
         },
       },
     },

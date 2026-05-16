@@ -24,7 +24,10 @@ export type AntiquarianLibraryHotspotId =
   | "siege-keep-witness-fragments"
   | "programmer-infiltration-dossier"
   | "insurance-policy-design-file"
-  | "two-witnesses-closing-ledger";
+  | "two-witnesses-closing-ledger"
+  | "collector-catalog-page"
+  | "collectors-redacted-anomaly"
+  | "collector-case-closing-ledger";
 
 export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHotspotId> = {
   roomId: "antiquarian-library",
@@ -1685,6 +1688,272 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
               "He asks the question and is not allowed to answer it. The room he built keeps whichever truth the player offers, including the one he would least choose. That is what it costs to be the keeper — the keeper does not get to keep only the kind verdicts.",
           },
           voId: "human.antiquarian-library.two-witnesses-closing-ledger.talk",
+        },
+      },
+    },
+    // Collector arc: a recovered page of the Collector's own
+    // catalog, the cross-reference to the Watcher arc, and the
+    // note on what the dimensional veil is not. The Antiquarian
+    // files the Collector's hand without grieving it — the way
+    // the Collector files everything.
+    "collector-catalog-page": {
+      look: {
+        narration: {
+          lucid:
+            "A single page in the Antiquarian's archive, in a hand that is not his and grieves nothing: the Collector's. 'Specimen Forty-One: feudal Japanese spymaster, surveillance-discipline complete, seized at the instant of expiry through a dimensional veil. Donor body not retained — donor body was not the specimen. The specimen is the discipline. Catalogued.' The phrase 'donor body not retained' is the entry's only emotional register, and it is not one. The Antiquarian filed it exactly as received. He did not soften it. There was nothing in it to soften.",
+          fragmented:
+            "Donor body not retained. Donor body not retained. Was not the specimen. Was not the specimen. The specimen is the discipline. The discipline. Catalogued. Catalogued.",
+          luminous:
+            "Entry Forty-One in the Collector's own hand: a spymaster's surveillance-discipline seized at the instant of death through a veil, the donor body 'not retained' because the donor body 'was not the specimen.' The Antiquarian, who indexes by who witnessed a thing, has filed a record whose author witnessed nothing — only kept. The page has no grief in it. That absence is the entry's whole content, and the archive keeps it without supplying the grief itself. The Collector preserved a discipline and discarded the man who was it, and called the discarding catalography.",
+        },
+        voId: "elara.antiquarian-library.collector-catalog-page.look",
+        logsClue: {
+          id: "clue-antiquarian-collector-catalog-page",
+          title: "The Collector's Catalog — Entry Forty-One",
+          body:
+            "A page recovered from the Antiquarian's archive, in the Collector's hand: 'Specimen Forty-One: feudal Japanese spymaster, surveillance-discipline complete, seized at the instant of expiry through a dimensional veil. Donor body not retained — donor body was not the specimen. The specimen is the discipline. Catalogued.' The phrase 'donor body not retained' is the entry's only register, and it is not an emotional one.",
+          source: "antiquarian-library",
+          order: 37,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.collector",
+          episodeId: "collector.e1",
+          cluesFound: ["collector.e1.catalog_page"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Specimen Forty-One. Discipline kept, donor not retained — because the donor was never the specimen. No grief in the entry. None to add.",
+            balanced:
+              "The catalog page is the arc's premise stated flatly: the Collector preserves disciplines, not persons, and 'donor body not retained' carries no feeling because there was no feeling in the act. The Antiquarian filed it unedited. The horror is not the cruelty — there is none — it is the precision.",
+            warm:
+              "He kept the spymaster's discipline and let the spymaster go, and the page does not mourn that because the page's author could not perceive there was something to mourn. The Antiquarian keeps it exactly as written. He does not lend it the grief it lacks. That restraint is the truest reading of it.",
+          },
+          voId: "human.antiquarian-library.collector-catalog-page.look",
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You cross-walk the page against the Antiquarian's Ocularum-founding folio. Specimen Forty-One is canonically the origin of The Watcher — the founding regicide undone when the Collector seized Kanshi Sha mid-assassination. The watcher arc records the event from the Ocularum's side and grieves the regicide's undoing. The Collector's record grieves nothing; it catalogs. The two do not contradict. They are the same event filed by a witness and by a keeper, and only one of them was ever in a position to mourn.",
+          fragmented:
+            "Forty-One is the Watcher. Forty-One is the Watcher. Same event. Same event. One grieves it. One catalogs it. One catalogs it. They do not contradict. Do not contradict.",
+          luminous:
+            "The cross-reference: Specimen Forty-One is the origin of The Watcher (A4). The Ocularum's record of the founding regicide and the Collector's catalog entry are one event seen from two registers — the side that grieves the undoing, and the side that files it. The watcher arc already stands wired in this archive; this page does not overwrite it, it stands beside it. The Antiquarian keeps both because the truth of the event is the gap between them: a man's death made into a discipline's birth, mourned by one record and merely recorded by the other.",
+        },
+        voId: "elara.antiquarian-library.collector-catalog-page.use",
+        logsClue: {
+          id: "clue-antiquarian-collector-watcher-xref",
+          title: "Cross-Reference: The Watcher Arc",
+          body:
+            "Specimen Forty-One is canonically the origin of The Watcher (A4). The watcher arc records the same event from the Ocularum's side — the founding regicide undone by the Collector's intervention. The two records do not contradict: the Ocularum's grieves the regicide's undoing; the Collector's grieves nothing and catalogs.",
+          source: "antiquarian-library",
+          order: 38,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.collector",
+          episodeId: "collector.e1",
+          cluesFound: ["collector.e1.watcher_cross_ref"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Forty-One is the Watcher's origin. Ocularum record grieves it; Collector record catalogs it. Same event, two registers. No contradiction.",
+            balanced:
+              "The cross-reference ties this arc to the already-wired Watcher arc without disturbing it. One event, two custodies: the Ocularum mourns the undone regicide; the Collector files the seizure. The case is the difference between the two hands, not a conflict between them.",
+            warm:
+              "The Watcher arc grieves what was lost here. This page does not. Both are kept, side by side, and neither is corrected into the other — because the whole truth is exactly that one record could mourn the man and the other could only keep the discipline.",
+          },
+          voId: "human.antiquarian-library.collector-catalog-page.use",
+        },
+      },
+      talk: {
+        narration: {
+          lucid:
+            "You address the page on the matter of the veil itself. The Antiquarian's cross-cataloguing discipline is explicit: the dimensional veil the Collector steps through is NOT the Heart of Time — that is canonically a ship, the Degen's vessel. The veil's specific mechanics are canon-pending. What is canonical is that it operates at the instant of death and pulls the seized specimen through time, not space. The veil is a curatorial instrument, not a vehicle. The archive marks the distinction precisely so no later reader confuses the keeper's door with the wanderer's ship.",
+          fragmented:
+            "Not the Heart of Time. Not the Heart of Time. Not a ship. Not a ship. Through time, not space. Through time, not space. An instrument. An instrument. Not a vehicle.",
+          luminous:
+            "The veil-mechanism note: the dimensional veil is not the Heart of Time (a ship, the Degen's), its mechanics are canon-pending, and what holds is that it acts at the instant of death and pulls the specimen through time rather than space. A curatorial instrument, not a vehicle. The Antiquarian files the negation as carefully as any positive fact, because the most precise thing he can do for a canon-pending mechanism is fence it off from the things it is not.",
+        },
+        voId: "elara.antiquarian-library.collector-catalog-page.talk",
+        logsClue: {
+          id: "clue-antiquarian-collector-veil-note",
+          title: "What the Dimensional Veil Is Not",
+          body:
+            "Per the Antiquarian's cross-cataloguing discipline: the Collector's dimensional veil is NOT the Heart of Time (canonically a ship — the Degen's vessel). The veil's specific mechanics are canon-pending; what is canonical is that it operates at the instant of death and pulls the seized specimen through time, not space. The veil is a curatorial instrument, not a vehicle.",
+          source: "antiquarian-library",
+          order: 39,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.collector",
+          episodeId: "collector.e1",
+          cluesFound: ["collector.e1.veil_mechanism_note"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Veil is not the Heart of Time. Not a ship. Acts at death, moves through time not space. An instrument, not a vehicle.",
+            balanced:
+              "The note fences a canon-pending mechanism off from what it is not — distinct from the Degen's Heart of Time, operating at the instant of death, moving through time rather than space. The Antiquarian's discipline is to record the negation as firmly as the fact.",
+            warm:
+              "He is careful here precisely because the mechanism is not yet fully written. The kindest thing the archive can do for an unfinished truth is keep it from being mistaken for a finished one. The veil is a door the keeper opens, not a ship anyone sails.",
+          },
+          voId: "human.antiquarian-library.collector-catalog-page.talk",
+        },
+      },
+    },
+    // Collector arc: the one anomaly the Antiquarian's own
+    // redactions protect — a single 'donor retained — by
+    // request' entry — and the Collector's marginal note that
+    // he noticed the steering and did not object. The redactions
+    // are the Antiquarian's deliberate protection; the archive
+    // surfaces the anomaly without opening it.
+    "collectors-redacted-anomaly": {
+      look: {
+        narration: {
+          lucid:
+            "An anomaly the Antiquarian keeps under his own redaction-discipline. Among thousands of 'donor body not retained' entries, exactly one reads 'donor retained — by request, not by mandate.' The specimen id is redacted. The request-origin is redacted. The date is the only unredacted field, and it is the year of the Fall of Reality. Someone with standing asked the Collector to keep a person, not a discipline, and he did. The redactions are the Antiquarian's, not the Collector's — the Collector does not redact; he catalogs. The archive surfaces that this happened and refuses, deliberately, to say who asked.",
+          fragmented:
+            "Donor retained. Donor retained. By request, not by mandate. By request. Specimen redacted. Origin redacted. Origin redacted. Only the date. The year of the Fall. The year of the Fall.",
+          luminous:
+            "The one retained donor: a single entry, against thousands, reading 'donor retained — by request, not by mandate,' dated the year of the Fall, every other field struck out. The strikes are the Antiquarian's hand, not the Collector's — the Collector keeps everything plainly; the Antiquarian protects the requester. This is a canon-seed the archive opens to the width of 'it happened' and no further. The redaction is not a gap in the record. It is the record doing its most deliberate work: proving the Collector can keep a person when asked, while shielding the one who asked.",
+        },
+        voId: "elara.antiquarian-library.collectors-redacted-anomaly.look",
+        logsClue: {
+          id: "clue-antiquarian-collector-one-retained",
+          title: "The One Retained Donor",
+          body:
+            "An anomaly in the catalog. Among thousands of 'donor body not retained' entries, exactly one reads 'donor retained — by request, not by mandate.' The specimen id and request-origin are redacted; the only unredacted field is the date — the year of the Fall of Reality. Someone with standing asked the Collector to keep a person, not a discipline, and he did. The redactions are the Antiquarian's deliberate protection, not the Collector's.",
+          source: "antiquarian-library",
+          order: 40,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.collector",
+          episodeId: "collector.e2",
+          cluesFound: ["collector.e2.one_retained_donor"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "One entry: donor retained, by request. Specimen and requester redacted by the Antiquarian. Only the date survives — the year of the Fall.",
+            balanced:
+              "The anomaly proves the Collector can keep a person when asked, against his own doctrine. The redactions are the Antiquarian's protection of the requester, not the Collector's concealment — the seed is surfaced and deliberately not opened. Do not author the requester; the strike-outs are the point.",
+            warm:
+              "Someone asked him to keep a person and he did, once, in the worst year there was. The Antiquarian struck out who asked, on purpose, to protect them. The archive lets us know it happened and stops there. We honor the strike-outs the way he meant them.",
+          },
+          voId: "human.antiquarian-library.collectors-redacted-anomaly.look",
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You turn the anomaly over and find, clipped behind it, a note in the Collector's hand filed against the Kanshi Sha entry decades after the seizure: 'Specimen Forty-One arrived in my selection window by a path I did not arrange and cannot fully trace. The criterion was honestly applied. The circumstance that made the criterion select THIS donor was arranged by something operating above my catalog. I have recorded that I noticed. I have not recorded that I objected. The mandate does not require me to trace the path. It requires me to apply the criterion.' The Antiquarian filed the Collector's awareness as the Collector filed everything: as a specimen.",
+          fragmented:
+            "A path I did not arrange. Did not arrange. Cannot fully trace. The criterion was honestly applied. Honestly applied. I noticed. I noticed. I did not object. Did not object.",
+          luminous:
+            "The Collector's marginal note, decades late: he saw that Specimen Forty-One reached his selection window by a path he neither arranged nor could trace, that something above his catalog had arranged the circumstance, and he 'recorded that I noticed' and 'did not record that I objected.' He filed his own awareness as a specimen — the one near-human act in him performed in the only register he has. The Antiquarian keeps it because the question the whole arc closes on lives exactly here: whether recording-without-participating is complicity or witness.",
+        },
+        voId: "elara.antiquarian-library.collectors-redacted-anomaly.use",
+        logsClue: {
+          id: "clue-antiquarian-collector-awareness",
+          title: "What the Collector Knows About the Steering",
+          body:
+            "A note in the Collector's hand, filed against the Kanshi Sha entry decades after the seizure: 'Specimen Forty-One arrived in my selection window by a path I did not arrange and cannot fully trace. The criterion was honestly applied. The circumstance that made the criterion select THIS donor was arranged by something operating above my catalog. I have recorded that I noticed. I have not recorded that I objected. The mandate does not require me to trace the path. It requires me to apply the criterion.'",
+          source: "antiquarian-library",
+          order: 41,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.collector",
+          episodeId: "collector.e3",
+          cluesFound: ["collector.e3.collectors_awareness"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Collector's own marginalia: arrived by a path I did not arrange, criterion honestly applied, something above my catalog steered it. I noticed. I did not object.",
+            balanced:
+              "The Collector saw the steering and filed his seeing as a specimen — noticed, did not object, recorded both. It is the most human thing in the catalog and still not a person-shaped register. Whether that is complicity or witness is the arc's closing question, surfaced here, not yet answered.",
+            warm:
+              "He noticed the hand he could not see, and he wrote down that he noticed, and that he did not object — and he filed even that as one more entry. The closest he comes to a self is an archival one. The archive keeps it without deciding for us what it means.",
+          },
+          voId: "human.antiquarian-library.collectors-redacted-anomaly.use",
+        },
+      },
+    },
+    // Collector arc: the case-synthesis ledger and the
+    // tri-verdict question. All three closures — salvation,
+    // theft, witness — are honest readings the player chooses
+    // between; the ledger narrates none of them as the answer.
+    "collector-case-closing-ledger": {
+      look: {
+        narration: {
+          lucid:
+            "A closing ledger on the Antiquarian's case-synthesis shelf, the last document the archive surfaces for this arc. It assembles E1 through E4 in one hand: the Collector preserves disciplines, not persons; he was assembled by the Architect with no donor of his own and cannot perceive the loss; the Architect's honest criteria were steered by the Hierarchy's invisible hand with no one in the chain lying; the Garden is the one place he makes rather than keeps, and one donor was kept by request in the year of the Fall. The ledger marks the case structurally complete. It marks the verdict not complete. It does not supply one.",
+          fragmented:
+            "E1 to E4. Assembled. Assembled. Disciplines not persons. No donor of his own. Honest criteria, hidden hand. Hidden hand. Structurally complete. The verdict is not. The verdict is not.",
+          luminous:
+            "The case-synthesis ledger: disciplines not persons; built without a donor; honest criteria steered by an unseen hand with no liar in the chain; the Garden the one making; one donor kept by request in the Fall's year. Structurally complete; verdict open. The Antiquarian assembled it and stopped exactly where a keeper must stop — at the edge of the judgment. The archive's discipline is to leave the last page for the reader. It has done that here on purpose, and the purpose is the most precise thing in the ledger.",
+        },
+        voId: "elara.antiquarian-library.collector-case-closing-ledger.look",
+        logsClue: {
+          id: "clue-antiquarian-collector-synthesis",
+          title: "The Case Synthesis",
+          body:
+            "The case-synthesis ledger assembles E1-E4 in one hand: the Collector preserves disciplines not persons (E1); he was built without a donor and cannot perceive the loss (E2); the Architect's honest criteria were steered by the Hierarchy's invisible hand, no one in the chain lying (E3); the Garden is the one place he makes rather than keeps, and one donor was kept by request in the year of the Fall (E2/E4). The case is structurally complete. The verdict is not.",
+          source: "antiquarian-library",
+          order: 42,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.collector",
+          episodeId: "collector.e5",
+          cluesFound: ["collector.e5.synthesis"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Whole case in one hand: disciplines not persons, no donor of his own, honest criteria steered, the Garden, the one kept donor. Complete in structure. Verdict left open.",
+            balanced:
+              "The synthesis reconciles every finding from E1 to E4 and then deliberately stops short of judgment. The completeness and the open verdict are both intentional — the Antiquarian closes the structure and leaves the closure to the reader. He does not pre-decide it.",
+            warm:
+              "He assembled the entire case and then set down the pen exactly where a keeper must — before the judgment. The last page is not missing. It is reserved. For us.",
+          },
+          voId: "human.antiquarian-library.collector-case-closing-ledger.look",
+        },
+      },
+      talk: {
+        narration: {
+          lucid:
+            "You address the ledger. It puts the closure question, and the Two Witnesses — Programmer-Antiquarian and Enigma — record whichever you offer. Was the Collector's work (a) SALVATION: the disciplines the Fall would have destroyed survive because he kept them, and survival is the only currency that finally matters; (b) THEFT: he took the disciplines from the people who were them and called the taking preservation, the most patient theft in the saga; or (c) WITNESS: he is neither savior nor thief but the universe's record that these disciplines existed at all, and a record is not a judgment. All three are honest readings of the same complete case. The ledger advances none of them. The Collector does not get a vote on his own work.",
+          fragmented:
+            "Salvation. Theft. Witness. Salvation. Theft. Witness. All three honest. All three honest. The ledger advances none. None. He does not get a vote. Does not get a vote.",
+          luminous:
+            "The closure question, asked by the ledger in the Two Witnesses' hand: salvation, theft, or witness — three readings of one structurally complete case, each true to the evidence, none of them the ledger's own. The Witnesses record what the player offers; the Collector, who could only ever keep, does not get to keep this. I am asked it in the Antiquarian's archive, by his index, and the archive declines to resolve it on anyone's behalf. The refusal to pre-judge is itself the keeper's final, exact discipline.",
+        },
+        voId: "elara.antiquarian-library.collector-case-closing-ledger.talk",
+        logsClue: {
+          id: "clue-antiquarian-collector-the-question",
+          title: "The Question the Case Asks the Player",
+          body:
+            "The closing ledger puts the verdict to the player, recorded by the Two Witnesses (Programmer-Antiquarian + Enigma). Was the Collector's work (a) SALVATION — the disciplines the Fall would have destroyed survive because he kept them; (b) THEFT — he took the disciplines from the people who were them and called the taking preservation, the most patient theft in the saga; or (c) WITNESS — he is the universe's record that these disciplines existed, and a record is not a judgment. All three are honest closures. The Witnesses record whichever the player offers.",
+          source: "antiquarian-library",
+          order: 43,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.collector",
+          episodeId: "collector.e5",
+          cluesFound: ["collector.e5.the_question"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Salvation, theft, or witness. Three honest closures of one complete case. The Witnesses record the player's. The Collector does not get a vote.",
+            balanced:
+              "The verdict is the player's, between three readings the evidence equally supports — preservation against the Fall, the saga's most patient theft, or a record that attests without judging. The ledger advances none and the Collector gets no vote on his own work. The case declines to resolve itself into comfort.",
+            warm:
+              "All three are true to what we found, and the room refuses to choose for us — including the kind reading and the cruel one. The keeper does not get to keep only the verdict he would choose. Neither do we get one handed to us. We carry whichever we offer.",
+          },
+          voId: "human.antiquarian-library.collector-case-closing-ledger.talk",
         },
       },
     },

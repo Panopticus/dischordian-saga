@@ -1089,6 +1089,10 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "programmer-infiltration-dossier", name: "The Programmer Infiltration Dossier", description: "A dossier filed under a glyph used nowhere else here — a door with no map. The path into the besieged keep, and the hand that walked it.", x: 38, y: 70, width: 7, height: 9, type: "interact", action: "room-mystery:antiquarian-library:programmer-infiltration-dossier" },
       { id: "insurance-policy-design-file", name: "The Insurance Policy Design File", description: "A design file in the Authority-origin section: the Politician's own phrase for the Six Imprisoned Minds — 'her Insurance Policy.'", x: 46, y: 70, width: 7, height: 9, type: "interact", action: "room-mystery:antiquarian-library:insurance-policy-design-file" },
       { id: "two-witnesses-closing-ledger", name: "The Two Witnesses Closing Ledger", description: "A closing ledger on the case-synthesis shelf — the whole arc assembled in one hand, written by the man it convicts.", x: 54, y: 70, width: 7, height: 9, type: "interact", action: "room-mystery:antiquarian-library:two-witnesses-closing-ledger" },
+      // Mystery wiring — Collector arc: the Collector's catalog page, the redaction-protected anomaly, the case-closing ledger
+      { id: "collector-catalog-page", name: "The Collector's Catalog Page", description: "A single page in a hand that grieves nothing — the Collector's. Specimen Forty-One: a discipline kept, the donor body not retained.", x: 62, y: 70, width: 7, height: 9, type: "interact", action: "room-mystery:antiquarian-library:collector-catalog-page" },
+      { id: "collectors-redacted-anomaly", name: "The Collector's Redacted Anomaly", description: "An entry under the Antiquarian's own redaction-discipline — the one 'donor retained, by request,' dated the year of the Fall, the requester struck out.", x: 70, y: 70, width: 7, height: 9, type: "interact", action: "room-mystery:antiquarian-library:collectors-redacted-anomaly" },
+      { id: "collector-case-closing-ledger", name: "The Collector Case-Closing Ledger", description: "A closing ledger on the case-synthesis shelf — the Collector arc assembled in one hand, the verdict deliberately left open.", x: 78, y: 70, width: 7, height: 9, type: "interact", action: "room-mystery:antiquarian-library:collector-case-closing-ledger" },
     ],
   },
   /* ═══ CHAIN-UNLOCKED HIDDEN ROOMS ═══ */
@@ -1231,6 +1235,8 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "thalorian-defense-records", name: "Thalorian Defence Records", description: "A defence-doctrine binder in the comparative-history drawer — Thaloria's nine-generation consensual relaxation of its own recertification standards.", x: 40, y: 60, width: 8, height: 9, type: "interact", action: "room-mystery:war-room:thalorian-defense-records" },
       // Mystery wiring — Politician arc: the New Babylon siege campaign binder
       { id: "new-babylon-siege-record", name: "New Babylon Siege Record", description: "A campaign binder in the siege-history drawer — Iron Lion's legions at New Babylon, Day 10 of Veil. The record is complete on her forces and silent on her death.", x: 50, y: 60, width: 8, height: 9, type: "interact", action: "room-mystery:war-room:new-babylon-siege-record" },
+      // Mystery wiring — Collector arc: the Hierarchy's piece-positioning board
+      { id: "hierarchy-piece-positioning-board", name: "Hierarchy Piece-Positioning Board", description: "A captured-document panel on the archive's deep rack — the Hierarchy of the Damned's aeons-long piece-positioning, read the way a war-room reads a slow board.", x: 30, y: 48, width: 8, height: 9, type: "interact", action: "room-mystery:war-room:hierarchy-piece-positioning-board" },
     ],
   },
   {
@@ -1421,6 +1427,9 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       //  features described in the mystery module.)
       { id: "synth-vat", name: "Synthesis Vat", description: "A cylindrical glass tank ten feet tall, currently holding a slow-spinning amber fluid — the medical bay's neural-stim base, synthesised from raw biostock.", x: 64, y: 12, width: 18, height: 60, type: "interact", action: "room-mystery:synthesis-chamber:synth-vat" },
       { id: "recipe-board", name: "Recipe Board", description: "A brass-framed slate listing the chamber's authorised syntheses. The newest entry — Substrate-N. RESTRICTED — is in a hand that is not Lyra's.",  x: 84, y: 12, width: 14, height: 60, type: "interact", action: "room-mystery:synthesis-chamber:recipe-board" },
+      // Mystery wiring — Collector arc: the Architect's assembly-record, the Collector's Garden bed
+      { id: "architects-assembly-record", name: "The Architect's Assembly Record", description: "A folio in the chamber's assembly-doctrine drawer — the Collector's curatorial doctrine, his own donorless origin, and the Inception Ark mandate.", x: 4, y: 12, width: 16, height: 28, type: "interact", action: "room-mystery:synthesis-chamber:architects-assembly-record" },
+      { id: "the-collectors-garden-bed", name: "The Collector's Garden Bed", description: "A sealed planter fed from the vat's overflow — the Collector's Garden: a three-thousand-year crossbreeding project, the one place he makes rather than keeps.", x: 4, y: 44, width: 16, height: 28, type: "interact", action: "room-mystery:synthesis-chamber:the-collectors-garden-bed" },
     ],
   },
   {
