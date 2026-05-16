@@ -39,13 +39,17 @@ describe("vortex / terminus reconciliation", () => {
     ]);
   });
 
-  it("the Vortex is reconciled as Archon #9, the sun-devourer the Engineer fights", () => {
+  it("the Vortex is reconciled: Archon #9 starship, Engineer destroys it before execution by the Politician", () => {
     const v = getReconciledThread("the_vortex");
     expect(v?.status).toBe("reconciled");
     expect(v?.canonicalReading ?? "").toMatch(/Archon #9/i);
-    expect(v?.canonicalReading ?? "").toMatch(/sun-devourer|consumes stars/i);
+    expect(v?.canonicalReading ?? "").toMatch(/starship/i);
+    expect(v?.canonicalReading ?? "").toMatch(/consumes entire stars/i);
     expect(v?.canonicalReading ?? "").toMatch(/Engineer|vex_solene/i);
+    expect(v?.canonicalReading ?? "").toMatch(/Politician/i);
+    expect(v?.canonicalReading ?? "").toMatch(/Zenon/i);
     expect((v?.alternates ?? []).length).toBeGreaterThan(0);
+    expect(v?.canonNote ?? "").toMatch(/Final Coming|endgame/i);
   });
 
   it("the parity gate is fully reconciled (gap closed to 0)", () => {

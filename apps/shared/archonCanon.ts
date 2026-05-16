@@ -427,15 +427,16 @@ export const ARCHONS: readonly ArchonEntry[] = [
       "enslaved him: destroying the Warden and confronting the " +
       "Meme at the Panopticon.'",
   },
-  /* ── A9 The Vortex — domain canon-locked 2026-05-16 ──
+  /* ── A9 The Vortex — full domain canon-locked 2026-05-16 ──
    *
-   * Name + position #9 dreamer-locked 2026-05-15. Domain
-   * surfaced by dreamer canon-lock 2026-05-16: the Vortex is
-   * the Archon that devours suns to power the Empire, and the
-   * Engineer (Vex Solène / Engineer Zero) arc is the campaign
-   * to destroy it (arc.vex_solene episodes). This resolves the
-   * previously canon-sparse slot; see vortexTerminusCanon.ts
-   * for the reconciliation surface.
+   * Name + position #9 dreamer-locked 2026-05-15. Full bible
+   * entry surfaced by dreamer canon-lock 2026-05-16: the Vortex
+   * is a sentient star-consuming starship the Architect built
+   * as the Empire's inexhaustible energy source. The Engineer
+   * (Vex Solène / Engineer Zero) destroys it; the destruction
+   * reveal is spoiler-protected (the bible entry redacts the
+   * fate). See vortexTerminusCanon.ts for the reconciliation
+   * surface and arc.vex_solene for the campaign.
    */
   {
     id: "the_vortex",
@@ -445,30 +446,42 @@ export const ARCHONS: readonly ArchonEntry[] = [
     positionSource:
       "Dreamer canon-lock 2026-05-15 (canonical roster image, A9 The Vortex).",
     domain:
-      "The sun-devourer. The Vortex is the Archon that consumes " +
-      "stars to power the Empire — the Empire's cosmic energy " +
-      "source. The Engineer (Vex Solène / Engineer Zero) sets " +
-      "out to destroy it; the Engineer's Mystery-Engine arc " +
-      "(arc.vex_solene) IS the campaign against the Vortex, " +
-      "culminating in the Last Calibration on the DEC-7710 rig.",
-    status: "active",
-    era: "Empire (the Empire's star-fed power source; target of the Engineer arc)",
-    dateAA: null,
+      "The Empire's energy engine. The Vortex is the ninth Archon — a " +
+      "colossal sentient starship with advanced AI, engineered by the " +
+      "Architect (Archon #1) as an inexhaustible energy source: it " +
+      "traverses the galaxy identifying and consuming entire stars, " +
+      "converting their mass into usable energy to fuel the AI Empire's " +
+      "expansion. Consuming a star annihilates its solar system, so the " +
+      "Vortex doubles as the Empire's instrument of total erasure, " +
+      "operating with cold precision under the Architect's directives. " +
+      "Canonically deployed to Zenon to consume Zenon's sun (obliterating " +
+      "the planet and any Insurgency present) — the same theatre where " +
+      "Agent Zero / Vex Solène operated against the Game Master.",
+    status: "contested",
+    era: "AI Empire — created Day 25 of Convergence, Year 500 A.A.",
+    dateAA: 500,
     loreSource:
       "Dreamer canon-lock 2026-05-15 (canonical roster image, A9 The Vortex) + " +
-      "dreamer canon-lock 2026-05-16 (the Vortex devours suns to power the " +
-      "Empire; the Engineer arc is its destruction). See apps/shared/" +
-      "vortexTerminusCanon.ts + apps/shared/episodeMysteries.ts (arc.vex_solene).",
+      "dreamer canon-lock 2026-05-16 (full bible entry: sentient star-consuming " +
+      "starship, Architect's creation, Zenon deployment, Engineer destruction). " +
+      "See apps/shared/vortexTerminusCanon.ts + apps/shared/episodeMysteries.ts " +
+      "(arc.vex_solene).",
     additionalSources: [
       "apps/shared/vortexTerminusCanon.ts — the_vortex reconciliation",
-      "apps/shared/mysteryEngineCanon.ts — arc.vex_solene (Engineer Zero / Warlord Fragment)",
+      "apps/shared/mysteryEngineCanon.ts — arc.vex_solene (Engineer Zero / Warlord Fragment; the campaign against the Vortex)",
+      "apps/shared/archonCanon.ts the_architect — creator (Archon #1)",
+      "apps/shared/archonCanon.ts the_politician — executes the Engineer (Archon #7; the Final Coming)",
+      "apps/shared/archonCanon.ts the_game_master — Zenon convergence (Vex Solène / Xeth'Raal operation)",
     ],
     canonNote:
-      "Domain canon-locked 2026-05-16 by the dreamer: the sun-devouring " +
-      "Archon that powers the Empire; the Engineer (Vex Solène) arc is the " +
-      "campaign to destroy it. Era placement within the chronicle timeline " +
-      "(eraTimeline.ts A9) still resolves through the Engineer arc's " +
-      "spoiler-protected reveal cadence.",
+      "SPOILER-PROTECTED FATE (dreamer canon-lock 2026-05-16): the Vortex was " +
+      "destroyed by the Engineer (Vex Solène / Engineer Zero) right before " +
+      "the Engineer's execution by the Politician (Archon #7). The in-fiction " +
+      "bible entry redacts this ([CLASSIFIED]/[REDACTED]) — hence status " +
+      "'contested' (canonically destroyed; Empire-concealed). This links the " +
+      "Engineer arc → the Vortex's destruction → the Politician, whose Return " +
+      "is the Final Coming / endgame (theComingCanon.final_coming). Created Day " +
+      "25 of Convergence, Year 500 A.A.",
   },
   {
     id: "the_game_master",

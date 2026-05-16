@@ -94,7 +94,7 @@ export const VORTEX_TERMINUS_THREADS: readonly ReconciledThreadCanon[] = [
     title: "The Vortex",
     status: "reconciled",
     canonicalReading:
-      "Archon #9: the sun-devourer that consumes stars to power the Empire — the Empire's cosmic energy source (archonCanon the_vortex, domain canon-locked 2026-05-16). The Engineer (Vex Solène / Engineer Zero) sets out to destroy it; the Engineer's Mystery-Engine arc (arc.vex_solene) IS the campaign against the Vortex, culminating in the Last Calibration. The dischordiaCycle Vortex-proximity meter is that campaign's player-facing pressure.",
+      "Archon #9 (archonCanon the_vortex, full bible canon-locked 2026-05-16): a colossal sentient starship the Architect built on Day 25 of Convergence, Year 500 A.A. as the Empire's inexhaustible energy source — it consumes entire stars, converting their mass to energy and annihilating their solar systems. Canonically deployed to Zenon to eat Zenon's sun (the Vex Solène / Game Master theatre). The Engineer (Vex Solène / Engineer Zero) arc (arc.vex_solene) IS the campaign against it; SPOILER: the Engineer destroys the Vortex right before the Engineer's execution by the Politician (Archon #7) — linking this thread to the Final Coming (theComingCanon.final_coming). The dischordiaCycle Vortex-proximity meter is that campaign's player-facing pressure.",
     alternates: [
       {
         id: "vortex_era_placeholder",
@@ -108,9 +108,9 @@ export const VORTEX_TERMINUS_THREADS: readonly ReconciledThreadCanon[] = [
       },
     ],
     loreSource:
-      "apps/shared/archonCanon.ts (the_vortex, Archon #9, domain canon-locked 2026-05-16) + apps/shared/episodeMysteries.ts (arc.vex_solene — the Engineer's campaign) + apps/shared/dischordiaCycle.ts (getVortexProximityDescription)",
+      "apps/shared/archonCanon.ts (the_vortex, Archon #9, full bible canon-locked 2026-05-16) + apps/shared/episodeMysteries.ts (arc.vex_solene — the Engineer's campaign) + apps/shared/theComingCanon.ts (final_coming — the Politician executes the Engineer) + apps/shared/dischordiaCycle.ts (getVortexProximityDescription)",
     canonNote:
-      "Dreamer canon-lock 2026-05-16: the Vortex is the sun-devouring Archon powering the Empire; the Engineer (Vex Solène) arc is its destruction. Reconciled — no longer the tracked gap.",
+      "Dreamer canon-lock 2026-05-16 (full bible entry): sentient star-consuming starship, the Architect's creation (Y500 A.A.), deployed to Zenon. Spoiler-protected fate: destroyed by the Engineer right before his execution by the Politician — threading the Vortex into the Final Coming / endgame. Reconciled — no longer the tracked gap.",
   },
 ];
 
