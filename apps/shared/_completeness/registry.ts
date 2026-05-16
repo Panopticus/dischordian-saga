@@ -104,6 +104,7 @@ import { checkImprintCardsCarryUnlockCondition } from "./checks/imprintCardsCarr
 import { checkContinuingLoopEndgameCoverage } from "./checks/continuingLoopEndgameCoverage";
 import { checkServantHeroDeferralCoverage } from "./checks/servantHeroDeferralCoverage";
 import { checkSurfaceDiscoverabilityCoverage } from "./checks/surfaceDiscoverabilityCoverage";
+import { checkPerspectiveCanonCoverage } from "./checks/perspectiveCanonCoverage";
 import {
   checkNeyonCanonicalRosterCoverage,
   checkArchonCanonicalRosterCoverage,
@@ -972,5 +973,14 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
       "One discoverable narrative path (PR-17): every <Route> in apps/client/src/App.tsx is classified in apps/shared/surfaceDiscoverabilityCanon.ts with a status, and every narrative_gated surface resolves its gate through EXISTING infra (featureRoadmap / sagaPhases / act-completion gates / expansion unlock service). `orphan` surfaces — routes with no narrative entry point — are the tracked gap. A two-way drift scan folds any unclassified App.tsx route or stale registry route into the gap, so a new unclassified route is an immediate regression. RATCHET — the ~130-orphan ceiling can only shrink (PR-24/PR-25 flip orphan→narrative_gated). This is the 'tighten things' lock.",
     check: () => checkSurfaceDiscoverabilityCoverage(),
     ratchet: { target: 0 },
+  },
+
+  // ─── PR-18 — Dischordian-Logic epistemology ────────────────
+  {
+    id: "canon.perspective_coverage",
+    name: "Perspective canon coverage",
+    description:
+      "Hard parity (PR-18): every learnable PERSPECTIVE in apps/shared/perspectiveCanon.ts is coherent. A 'locked' perspective MUST resolve its Mystery-Engine arc + terminal episode against episodeMysteries.ts (a card gated behind an unlearnable lens is a Dischordian-Logic failure); a 'canon_pending' loose thread (Vortex / Terminus Swarm / Pets / the Coming) MUST carry a loreSource and is bound to its dedicated backbone in PR-21/PR-22/PR-23. The perspective_learned CardUnlockCondition kind rides the existing mystery_episode_complete flag stream — no new flag prefix (tcg.flag_prefix_writer_parity untouched), schema literal shipped same change (tcg.zod_schema_union_parity stays PASS).",
+    check: () => checkPerspectiveCanonCoverage(),
   },
 ];

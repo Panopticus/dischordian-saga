@@ -29,6 +29,7 @@ import {
   type PlayerExpansionState,
 } from "@shared/tcg-core/rewards/expansionUnlockService";
 import { isReservedCard } from "@shared/tcg-core/cards/reservedCards";
+import { deriveLearnedPerspectives } from "@shared/perspectiveCanon";
 
 const ACTS = [1, 2, 3, 4, 5, 6, 7] as const;
 
@@ -123,6 +124,7 @@ export async function getPlayerExpansionState(
     completedDlcChapters,
     bloodlineGenerations,
     completedMysteryEpisodes,
+    learnedPerspectives: deriveLearnedPerspectives(completedMysteryEpisodes),
   };
 }
 
