@@ -6199,7 +6199,7 @@ const politicianE1: EpisodeDefinition = {
       id: "politician.e1.siege_record" as ClueId,
       title: "The Siege Record",
       body: "Iron Lion's legions besieged New Babylon's forces on Day 10 of Veil, Year 17,001 A.A. The military record is complete and consistent: the legions broke the city's outer defenses, routed the Authority-aligned garrison, and held the perimeter. The record ends there. It does not record the Politician's death. It records the destruction of her FORCES. The two are catalogued separately, by different scribes, and only the first is in the legions' hand.",
-      foundIn: "insurgency-archive",
+      foundIn: "war-room",
     },
     {
       id: "politician.e1.the_gap" as ClueId,
@@ -6386,19 +6386,19 @@ const politicianE4: EpisodeDefinition = {
       id: "politician.e4.hidden_lineage" as ClueId,
       title: "The Hidden Lineage",
       body: "Per the Nemesis canon (apps/shared/nemesisSystem.ts): the Politician ran a secret apprenticeship in parallel to her public reign — each apprentice trained inside her surveillance-state methodology, preserved as a consciousness-imprint inside the Matrix of Dreams, kept against the day they would be needed. The lineage is the policy's living half. The Authority continues her structures; the secret apprentice continues her HAND.",
-      foundIn: "matrix-archive",
+      foundIn: "dreams-workshop-subbasement",
     },
     {
       id: "politician.e4.the_nemesis" as ClueId,
       title: "The Nemesis",
       body: "The secret apprentices were re-released into the world when the Necromancer escaped the Matrix (mystery.the_necromancer cross-reference). In play, each surfaces as the Nemesis — the player's archetype-aware adversary, known only by title, accumulating across cohorts. The player has, by the time this case is open, almost certainly already met one. The arc's quietest and largest revelation: the rival you have been fighting is the Politician's insurance policy, paying out, against you.",
-      foundIn: "matrix-archive",
+      foundIn: "dreams-workshop-subbasement",
     },
     {
       id: "politician.e4.the_recruit_clause" as ClueId,
       title: "The Recruit Clause",
       body: "The policy has a clause its author may not have intended as mercy but which functions as one: a secret apprentice can be turned. The Nemesis's recruit/peace path (8% baseline, 35% if the player's own apprentice betrays them) is the point where the Politician's insurance can be made to pay out to someone other than the Politician. The clause is in the policy because the Politician built her apprentices to survive HER — and a thing built to survive its maker can choose a new one.",
-      foundIn: "matrix-archive",
+      foundIn: "dreams-workshop-subbasement",
     },
   ],
   deductions: [

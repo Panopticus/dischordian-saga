@@ -19,7 +19,8 @@ export type WarRoomHotspotId =
   | "ocularum-vigil-board"
   | "ocularum-cell-roster"
   | "hierarchy-org-chart-board"
-  | "thalorian-defense-records";
+  | "thalorian-defense-records"
+  | "new-babylon-siege-record";
 
 export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
   roomId: "war-room",
@@ -606,6 +607,48 @@ export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
               "Nobody attacked them. They had one of the hardest defences in the saga and they relaxed it themselves, gently, across nine generations, each one trusting the last. The room keeps it not as history but as a warning — this is what a defence looks like the year before it stops being one.",
           },
           voId: "human.war-room.thalorian-defense-records.look",
+        },
+      },
+    },
+    // Politician arc: the war-room reads tempo, and the Siege
+    // of New Babylon is a campaign in its archive. The military
+    // record is complete on the destruction of her forces and
+    // silent on her death — two records, two scribes, only the
+    // first in the legions' hand.
+    "new-babylon-siege-record": {
+      look: {
+        narration: {
+          lucid:
+            "A campaign binder in the war-room's siege-history drawer: New Babylon, Day 10 of Veil, Year 17,001 A.A. Iron Lion's legions besieged the Authority-aligned forces, broke the city's outer defenses, routed the garrison, and held the perimeter. The military record is complete and consistent — and it ends there. It records the destruction of her forces. It does not record the Politician's death. The two are catalogued separately, by different scribes, and only the first is in the legions' hand.",
+          fragmented:
+            "Day 10 of Veil. Day 10. Broke the defenses. Routed the garrison. Held the perimeter. Held the perimeter. The record ends there. Ends there. Her forces — not her. Not her.",
+          luminous:
+            "The siege binder, read the way a war-room reads it: a clean campaign record that stops exactly where it should keep going. The legions destroyed her forces and held the perimeter, and the military hand closes the entry. Her death is catalogued elsewhere, by a different scribe. The room reads the gap as a war-room reads silence on a map — not absence, but a second event the first record was never in position to witness.",
+        },
+        voId: "elara.war-room.new-babylon-siege-record.look",
+        logsClue: {
+          id: "clue-war-room-new-babylon-siege",
+          title: "The siege record",
+          body:
+            "The war-room's New Babylon campaign binder: Iron Lion's legions besieged the Authority-aligned forces on Day 10 of Veil, Year 17,001 A.A. — broke the outer defenses, routed the garrison, held the perimeter. The military record is complete and consistent and ends there. It records the destruction of her forces, not the Politician's death. The two are catalogued separately, by different scribes, and only the first is in the legions' hand.",
+          source: "war-room",
+          order: 11,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.politician",
+          episodeId: "politician.e1",
+          cluesFound: ["politician.e1.siege_record"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Day 10 of Veil. Legions broke the perimeter and the record stops. Her forces destroyed — not her. Different scribe for the death.",
+            balanced:
+              "The siege binder is the case's clean half. The legions' record is complete on the institutional fall — defenses broken, garrison routed, perimeter held — and silent on the woman. The destruction of her forces and her death are two records, two scribes; only the first is the legions'. The war-room reads the seam by tempo.",
+            warm:
+              "A perfect campaign record that simply stops where the killing of a person would begin. The room keeps it because the war-room's discipline is to notice where a record ends — and this one ends one event too early to be the whole truth.",
+          },
+          voId: "human.war-room.new-babylon-siege-record.look",
         },
       },
     },

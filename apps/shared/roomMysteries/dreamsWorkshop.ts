@@ -11,7 +11,8 @@ import type { RoomMysteryModule } from "./_template";
 export type DreamsWorkshopHotspotId =
   | "dream-loom"
   | "fragment-rack"
-  | "mirror-pool";
+  | "mirror-pool"
+  | "secret-apprentice-imprint-lattice";
 
 export const DREAMS_WORKSHOP_MYSTERY: RoomMysteryModule<DreamsWorkshopHotspotId> = {
   roomId: "dreams-workshop-subbasement",
@@ -238,6 +239,119 @@ export const DREAMS_WORKSHOP_MYSTERY: RoomMysteryModule<DreamsWorkshopHotspotId>
         narration:
           "If you address the pool, you address the unfamiliar room reflected in it. The mercury carries voice — slowly, with delay, the way deep water carries it. We do not know who, on the other side, will hear. We do know, now, that someone might.",
         voId: "elara.dreams-workshop.mirror-pool.talk",
+      },
+    },
+    // Politician arc: the Matrix of Dreams runs under this
+    // workshop. The Politician preserved her secret apprentices
+    // as consciousness-imprints in the Matrix — the policy's
+    // living half. This lattice is where that lineage is held;
+    // when it surfaced (the Necromancer's escape) it became the
+    // Nemesis. (apps/shared/nemesisSystem.ts)
+    "secret-apprentice-imprint-lattice": {
+      look: {
+        narration: {
+          lucid:
+            "Below the loom's frame, half inside the wall, a lattice of phosphor threads that does not unweave when watched — because it is not weaving anything. It is holding. Cross-filed to apps/shared/nemesisSystem.ts: the Politician ran a secret apprenticeship in parallel to her public reign, each apprentice trained inside her surveillance-state methodology and preserved as a consciousness-imprint inside the Matrix of Dreams, kept against the day they would be needed. The lattice is the policy's living half. The Authority continues her structures. This continues her hand.",
+          fragmented:
+            "It does not unweave. Does not unweave. It holds. It holds. A secret apprenticeship. Secret. Preserved. Preserved in the Matrix. Her hand. Her hand, not her structures.",
+          luminous:
+            "The imprint lattice does not unweave under witness because it is not making a dream — it is keeping people. The Politician's hidden apprenticeship, run alongside her public reign, each apprentice trained in her methodology and held in the Matrix of Dreams against a day she knew she would not see. This is the half of the insurance policy that is not an institution. The Authority carries her structures forward; the lattice carries her hand — a continuation that breathes, waiting in the threads under the loom.",
+        },
+        voId: "elara.dreams-workshop-subbasement.secret-apprentice-imprint-lattice.look",
+        logsClue: {
+          id: "clue-dreams-hidden-lineage",
+          title: "The hidden lineage",
+          body:
+            "A holding-lattice under the loom (apps/shared/nemesisSystem.ts): the Politician ran a secret apprenticeship in parallel to her public reign — each apprentice trained inside her surveillance-state methodology and preserved as a consciousness-imprint inside the Matrix of Dreams, kept against the day they would be needed. The lineage is the policy's living half. The Authority continues her structures; the secret apprentice continues her hand.",
+          source: "dreams-workshop-subbasement",
+          order: 3,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.politician",
+          episodeId: "politician.e4",
+          cluesFound: ["politician.e4.hidden_lineage"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Lattice holds, doesn't weave. Secret apprentices, trained in her method, imprinted in the Matrix. The policy's living half. Her hand, not her structures.",
+            balanced:
+              "The lattice is the policy's other half. The Authority is the institution; this is the lineage — apprentices trained in her methodology, preserved as Matrix imprints, kept against a future she would not be present for. An institution continues structures. An apprentice continues a hand.",
+            warm:
+              "She did not only build a machine. She kept people — taught them how she worked and held them in the dream-substrate so the way she worked would not die with her. The workshop's loom catches who passes through; this lattice keeps who she chose. That is the difference between a policy and an apprentice.",
+          },
+          voId: "human.dreams-workshop-subbasement.secret-apprentice-imprint-lattice.look",
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You bring a fingertip near the lattice and the threads resolve into a single recurring shape — not a face, a posture. The secret apprentices were re-released into the world when the Necromancer escaped the Matrix (mystery.the_necromancer cross-reference). In play, each surfaces as the Nemesis — the player's archetype-aware adversary, known only by title, accumulating across cohorts. By the time this case is open the player has, almost certainly, already met one. The arc's quietest and largest revelation resolves in the threads: the rival you have been fighting is the Politician's insurance policy, paying out, against you.",
+          fragmented:
+            "Re-released. Re-released. When the Necromancer escaped. The Necromancer. The Nemesis. The Nemesis. You already met one. Already met one. Against you. Against you.",
+          luminous:
+            "The lattice resolves into the Nemesis. The secret apprentices left the Matrix when the Necromancer's escape opened it; each surfaces in play as the rival who knows the player by archetype, named only by title, accumulating across cohorts. By the time this case is open the player has almost certainly already faced one. The revelation is retroactive and total: every Nemesis encounter already played was the Politician — dead, finally, without return — still being paid out, against the player, through a hand she trained and never met its target.",
+        },
+        voId: "elara.dreams-workshop-subbasement.secret-apprentice-imprint-lattice.use",
+        logsClue: {
+          id: "clue-dreams-the-nemesis",
+          title: "The Nemesis",
+          body:
+            "The secret apprentices were re-released into the world when the Necromancer escaped the Matrix (mystery.the_necromancer cross-reference). In play, each surfaces as the Nemesis — the player's archetype-aware adversary, known only by title, accumulating across cohorts. By the time this case is open the player has almost certainly already met one. The arc's quietest and largest revelation: the rival you have been fighting is the Politician's insurance policy, paying out, against you.",
+          source: "dreams-workshop-subbasement",
+          order: 4,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.politician",
+          episodeId: "politician.e4",
+          cluesFound: ["politician.e4.the_nemesis"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Released when the Necromancer escaped. They surface as the Nemesis. You've already fought one. The rival is the policy, paying out against you.",
+            balanced:
+              "The lattice names the Nemesis. The apprentices left the Matrix on the Necromancer's escape and surface in play as the rival who knows the player by archetype, accumulating across cohorts. The largest finding is retroactive: every Nemesis encounter already played was the Politician's policy disbursing — against the player.",
+            warm:
+              "The rival the player has been fighting all along is her, still paying out. She is dead and does not return, and the policy keeps working anyway — through a hand she trained for a target she never saw. That is the quietest and largest thing the case finds.",
+          },
+          voId: "human.dreams-workshop-subbasement.secret-apprentice-imprint-lattice.use",
+        },
+      },
+      talk: {
+        narration: {
+          lucid:
+            "You address the lattice. One thread answers differently — the recruit clause. A secret apprentice can be turned. The Nemesis's recruit/peace path (8% baseline, 35% if the player's own apprentice betrays them) is the point where the Politician's insurance can be made to pay out to someone other than the Politician. The clause is in the policy because she built her apprentices to survive her — and a thing built to survive its maker can choose a new one. The arc records the seam without forcing the player through it. Whether the player walks it is the Nemesis system's to resolve, not this arc's.",
+          fragmented:
+            "It can be turned. Can be turned. Eight percent. Thirty-five if the apprentice betrays. Built to survive her. To survive her. A thing that survives its maker can choose a new one. Choose a new one.",
+          luminous:
+            "The lattice's last thread is the recruit clause: the apprentice can be turned. The recruit/peace path — 8% baseline, 35% if the player's own apprentice betrays them — is where the policy can be made to pay out to someone other than its author. The clause exists because she built her apprentices durable enough to outlive her, and a thing built to survive its maker can outlive its maker's purpose too. Her greatest design contains the seam that undoes it. The arc holds the seam intact and does not force the player through it.",
+        },
+        voId: "elara.dreams-workshop-subbasement.secret-apprentice-imprint-lattice.talk",
+        logsClue: {
+          id: "clue-dreams-the-recruit-clause",
+          title: "The recruit clause",
+          body:
+            "The policy has a clause its author may not have intended as mercy but which functions as one: a secret apprentice can be turned. The Nemesis's recruit/peace path (8% baseline, 35% if the player's own apprentice betrays them) is the point where the Politician's insurance can be made to pay out to someone other than the Politician. The clause is in the policy because she built her apprentices to survive HER — and a thing built to survive its maker can choose a new one. The arc records the seam without forcing the player through it.",
+          source: "dreams-workshop-subbasement",
+          order: 5,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.politician",
+          episodeId: "politician.e4",
+          cluesFound: ["politician.e4.the_recruit_clause"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "The apprentice can be turned. 8% baseline, 35% if your apprentice betrays you. Built to survive her — so it can choose someone else. The seam in her best design.",
+            balanced:
+              "The recruit clause is the policy's unintended door. She built her apprentices to outlive her — that was the point — but durability cuts both ways: a thing built to survive its maker can outlive its maker's purpose. The Nemesis can be turned because she made them strong enough to be. The arc records the seam; whether it's walked is the Nemesis system's call.",
+            warm:
+              "Her greatest design carries the one flaw that can undo it, and the flaw is the strength itself. She made them able to survive her; able-to-survive-her means able to choose a new her. The arc keeps the seam open without pushing anyone through it — some doors are load-bearing precisely while they stay just doors.",
+          },
+          voId: "human.dreams-workshop-subbasement.secret-apprentice-imprint-lattice.talk",
+        },
       },
     },
   },

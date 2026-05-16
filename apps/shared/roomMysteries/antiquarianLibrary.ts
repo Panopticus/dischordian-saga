@@ -20,7 +20,11 @@ export type AntiquarianLibraryHotspotId =
   | "antiquarian-redaction-ledger"
   | "directors-doctrine-folio"
   | "shadow-tongue-casebook"
-  | "thaloria-generational-ledger";
+  | "thaloria-generational-ledger"
+  | "siege-keep-witness-fragments"
+  | "programmer-infiltration-dossier"
+  | "insurance-policy-design-file"
+  | "two-witnesses-closing-ledger";
 
 export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHotspotId> = {
   roomId: "antiquarian-library",
@@ -1280,6 +1284,407 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
               "The empire died at Generation Six and did not fall until three generations later. The gap between the death and the fall is the cruelest measure of the doctrine — by the time anyone could see the collapse, the cause had been gone for a century. The Antiquarian dates it exactly because precision is the one thing the working cannot afford anyone to keep.",
           },
           voId: "human.antiquarian-library.thaloria-generational-ledger.use",
+        },
+      },
+    },
+    // Politician arc: this archive is the Antiquarian's own —
+    // and the Antiquarian is the Programmer, the man who slipped
+    // into the besieged keep and killed her. Elara narrating
+    // these clues in his archive is the truth sitting in the
+    // room. E1 in-keep witness fragments, E2 the infiltration
+    // dossier (the killer's own indexing of his own act), E3 the
+    // Insurance Policy design file, E5 the Two Witnesses closing
+    // ledger that opens the West by God album.
+    "siege-keep-witness-fragments": {
+      look: {
+        narration: {
+          lucid:
+            "A slim sheaf in the Antiquarian's New Babylon-affairs section, indexed not under the siege but under the keep. Inside: witness fragments recorded from inside the inner keep, after the perimeter had already fallen — by a scribe the legions never reached, on the day the public canon dates the Politician's death. The military record ends at the broken perimeter. This sheaf begins where that record stops. The canon has compressed two events into one sentence; the Antiquarian has filed them as two documents, in two hands, because that is what they are.",
+          fragmented:
+            "Two events. Two. One sentence. One sentence. The perimeter fell. The perimeter fell. The legions did not enter. Did not enter. Someone else did. Someone else.",
+          luminous:
+            "The Antiquarian files the siege and the death separately, in two hands, because the public canon — 'Iron Lion's legions destroyed the Politician' — is true at the level of consequence and false at the level of the hand. The legions broke the perimeter and stopped. The inner keep was reached by someone the military record never names. This sheaf is the gap made into a document. The Antiquarian indexes the gap precisely because a gap left unindexed is the kind of thing that gets compressed away.",
+        },
+        voId: "elara.antiquarian-library.siege-keep-witness-fragments.look",
+        logsClue: {
+          id: "clue-antiquarian-siege-keep-gap",
+          title: "The gap between the siege and the death",
+          body:
+            "A sheaf in the Antiquarian's New Babylon-affairs section: witness fragments recorded inside the inner keep after the perimeter fell, by a scribe the legions never reached, on the day the public canon dates the Politician's death. The military record ends at the broken perimeter; this document begins where it stops. The canon compressed two events — the destruction of her forces and the kill — into one sentence. The Antiquarian files them as two documents because that is what they are.",
+          source: "antiquarian-library",
+          order: 26,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.politician",
+          episodeId: "politician.e1",
+          cluesFound: ["politician.e1.the_gap"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Legions stopped at the perimeter. The keep was reached by someone off the military record. Two events, one sentence. The compression is the cover.",
+            balanced:
+              "The siege-keep sheaf is the case's first seam. The legions destroyed her forces and held the perimeter; the woman was killed inside a keep they never entered, by a hand the military record does not name. 'Iron Lion's legions destroyed the Politician' is true the way a storm report is true about a wreck — it names the weather, not the helm.",
+            warm:
+              "The Antiquarian kept the two documents apart on purpose. Most archives would have let the canon's one sentence stand. He filed the gap as its own record because the gap is where the truth of who did it lives — and he, of all archivists, would know to keep it.",
+          },
+          voId: "human.antiquarian-library.siege-keep-witness-fragments.look",
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You turn the sheaf to its in-keep transcript. The Politician did not flee when the perimeter fell. She had her staff stand down. The fragment records her saying, to no one in particular: 'The siege is the part they will write down. It is not the part that matters. I built the part that matters years ago.' She was unhurried by every account. She was not cornered. She was waiting — for something, or someone.",
+          fragmented:
+            "She stood her staff down. Stood them down. Unhurried. Unhurried. 'I built the part that matters years ago.' Years ago. She was waiting. Waiting. For someone.",
+          luminous:
+            "The in-keep transcript: the Politician, perimeter fallen, staff stood down, calm. 'The siege is the part they will write down. It is not the part that matters. I built the part that matters years ago.' This is not resignation. It is a woman who has already arranged for her death not to be the end of her, waiting for the hand the canon will later credit to an army. The Antiquarian filed her calm because her calm is the strongest evidence in the case that the insurance policy is real — and he would know whether it was, having been the one she was waiting for.",
+        },
+        voId: "elara.antiquarian-library.siege-keep-witness-fragments.use",
+        logsClue: {
+          id: "clue-antiquarian-politician-recorded-calm",
+          title: "The Politician's recorded calm",
+          body:
+            "The in-keep transcript: the Politician did not flee when the perimeter fell. She stood her staff down and is recorded saying, to no one in particular, 'The siege is the part they will write down. It is not the part that matters. I built the part that matters years ago.' She was unhurried by every account — not cornered, but waiting, for something or someone.",
+          source: "antiquarian-library",
+          order: 27,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.politician",
+          episodeId: "politician.e1",
+          cluesFound: ["politician.e1.her_calm"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "She stood her staff down and waited. 'I built the part that matters years ago.' Not cornered. Expecting someone. The policy was already written.",
+            balanced:
+              "Her calm is the case's load-bearing detail. She did not flee or fight; she stood down and waited, because the thing that mattered to her had been built years before the keep. Her unhurriedness is the arc's strongest evidence that the insurance policy is real and that she expected it to pay out.",
+            warm:
+              "She was not afraid because, to her, the part that mattered was already finished. The Antiquarian kept the line about waiting. Read it knowing whose archive this is and the line stops being only hers — someone was on the other side of that wait, and he filed her calm anyway.",
+          },
+          voId: "human.antiquarian-library.siege-keep-witness-fragments.use",
+        },
+      },
+    },
+    "programmer-infiltration-dossier": {
+      look: {
+        narration: {
+          lucid:
+            "A dossier filed under a glyph the Antiquarian uses nowhere else in this archive — a door with no map. Inside: the path into the besieged keep. Not a military path. Service conduits, an old archival sub-level, a door that had not appeared on any map since the Authority sealed it. The path could only be walked by someone who had once helped build the systems he was now slipping through. The dossier does not editorialize. It simply records that the path is the signature.",
+          fragmented:
+            "Not a military path. Not military. Service conduits. A sealed door. A sealed door. Off every map. Off every map. Only someone who built it. Who built it.",
+          luminous:
+            "The infiltration dossier: the route into the keep was not the legions' route. It ran through service conduits and a sealed archival sub-level and a door no map had carried since the Authority closed it — a path walkable only by someone who had been adjacent to building those systems. The Antiquarian filed it under a door with no map. He indexes by witness; this is the one document in the archive where the witness and the subject are, though the dossier does not say so, the same hand.",
+        },
+        voId: "elara.antiquarian-library.programmer-infiltration-dossier.look",
+        logsClue: {
+          id: "clue-antiquarian-infiltrators-path",
+          title: "The infiltrator's path into the keep",
+          body:
+            "The dossier records the route into the besieged keep: not military — service conduits, an old archival sub-level, a door absent from every map since the Authority sealed it. The path could be walked only by someone who had once helped build the systems he was slipping through. The path is the signature.",
+          source: "antiquarian-library",
+          order: 28,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.politician",
+          episodeId: "politician.e2",
+          cluesFound: ["politician.e2.the_infiltrator"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "The path is the signature. Sealed door, no map, builder's knowledge. He didn't come with the legions. He came through the city.",
+            balanced:
+              "The infiltrator's path rules the legions out. The route required intimate knowledge of New Babylon's sealed systems — someone who had been adjacent to their construction, walking alone while the siege held the Authority's attention at the perimeter. Not an army. One man who knew the building from the inside.",
+            warm:
+              "Whoever walked that path had helped build what he was now moving through. The Antiquarian filed it without comment. He files everything by who witnessed it — and this is the dossier where that rule presses hardest, though he lets it stay quiet.",
+          },
+          voId: "human.antiquarian-library.programmer-infiltration-dossier.look",
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You open the dossier to its identity page, cross-filed to apps/shared/identityCollisionCanon.ts. The infiltrator was the Programmer — Dr. Daniel Cross's identity after the Trial of Logos, the man who faked his own death and walked the saga's centuries as a chronicler before becoming the Antiquarian. He knew New Babylon's systems because he had been adjacent to their construction. He did not come with the legions. He came alone, through the city, while the siege held the Authority's attention at the perimeter. The dossier is in the Antiquarian's hand. It is filed in the Antiquarian's archive. It names the Antiquarian.",
+          fragmented:
+            "The Programmer. The Programmer. Daniel Cross. After Logos. After Logos. Faked his death. Faked his death. Became the Antiquarian. The Antiquarian. He names himself.",
+          luminous:
+            "The identity page: the infiltrator was the Programmer — Dr. Daniel Cross post-Logos, the chronicler who walked centuries before becoming the Antiquarian. He came alone, off the military record, through systems he had been adjacent to building, while the siege held the perimeter. I am reading this in the Antiquarian's own archive, in the Antiquarian's own hand. The witness who indexes everything by who saw it has filed the one record where the witness is the actor. He did not redact it. He filed it where it could be found. That is the most precise thing in the room.",
+        },
+        voId: "elara.antiquarian-library.programmer-infiltration-dossier.use",
+        logsClue: {
+          id: "clue-antiquarian-the-programmer",
+          title: "The Programmer — the infiltrator named",
+          body:
+            "The dossier's identity page (apps/shared/identityCollisionCanon.ts): the infiltrator was the Programmer — Dr. Daniel Cross's identity after the Trial of Logos, the man who faked his own death and chronicled the saga's centuries before becoming the Antiquarian. He came alone, through the city, off the military record, while the siege held the Authority's attention at the perimeter. The record is in the Antiquarian's hand, in the Antiquarian's archive, and it names the Antiquarian.",
+          source: "antiquarian-library",
+          order: 29,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.politician",
+          episodeId: "politician.e2",
+          cluesFound: ["politician.e2.the_programmer"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "The Programmer. Cross after Logos. The Antiquarian. The dossier names him and he filed it himself. He did not hide it.",
+            balanced:
+              "The identity resolves: the infiltrator was the Programmer — Cross's post-Logos identity, the chronicler who became the Antiquarian. The detail that matters is the custody. This record is in his own hand, in his own archive, indexed where it can be found. The killer kept the evidence of the kill and chose not to bury it.",
+            warm:
+              "He could have unindexed this and no one would ever have found it. He filed it instead, in his own hand, in his own house, where the case would reach it. That is not a man hiding what he did. That is the witness refusing himself the comfort of being unfindable.",
+          },
+          voId: "human.antiquarian-library.programmer-infiltration-dossier.use",
+        },
+      },
+      talk: {
+        narration: {
+          lucid:
+            "You address the dossier. The room surfaces its closing note, in the same hand as everything else here: the Programmer is one of the Two Witnesses, with the Enigma — the saga's chroniclers, the ones who record what happened so it cannot be edited away. He did not kill the Politician as a soldier or an avenger. He killed her as the man who would then be canonically obligated to write down that he had done it. The note adds nothing more. It does not need to. The note is in his hand. The hand is the answer to its own question.",
+          fragmented:
+            "One of the Two Witnesses. The Two Witnesses. Not a soldier. Not an avenger. The one who must write it down. Write it down. In his hand. His hand.",
+          luminous:
+            "The closing note: the Programmer is one of the Two Witnesses. He did not kill the Politician as soldier or avenger — he killed her as the man who would then have to chronicle, in his own hand, that he did it. That is the only kind of person the saga lets near this death. I am hearing this in the Antiquarian's archive, narrated from the Antiquarian's own record. The killing and the witnessing are one person's burden, and that person built the room I am standing in to hold the proof.",
+        },
+        voId: "elara.antiquarian-library.programmer-infiltration-dossier.talk",
+        logsClue: {
+          id: "clue-antiquarian-why-the-programmer",
+          title: "Why the Programmer — the killer who must witness it",
+          body:
+            "The dossier's closing note: the Programmer is one of the Two Witnesses (with the Enigma), the saga's chroniclers who record what happened so it cannot be edited away. He did not kill the Politician as a soldier or an avenger but as the man who would then be canonically obligated to record, in his own chronicle, that he had done it. The note is in his own hand — the witness and the executioner the same person, and the same person who built this archive.",
+          source: "antiquarian-library",
+          order: 30,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.politician",
+          episodeId: "politician.e2",
+          cluesFound: ["politician.e2.why_him"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Killer is one of the Two Witnesses. Not revenge, not orders. The man who has to write down he did it. He wrote it. We are reading it.",
+            balanced:
+              "This reframes the whole arc. The saga does not give this death to a soldier or an army — it gives it to the one man canonically required to then witness, in his own chronicle, that he did it. The question stops being who killed her and becomes what it means that the saga's truth-keeper had to once be its executioner.",
+            warm:
+              "He killed her and then he had to be the one who never let it be forgotten — including by himself. The archive around us is his answer. He built the place that holds the proof, and he indexed it so it could be found. The witness did not spare himself.",
+          },
+          voId: "human.antiquarian-library.programmer-infiltration-dossier.talk",
+        },
+      },
+    },
+    "insurance-policy-design-file": {
+      look: {
+        narration: {
+          lucid:
+            "A design file in the Antiquarian's Authority-origin section, cross-filed to apps/shared/antiquariansJournal.ts. The Politician designed the Authority — the Six Imprisoned Minds — explicitly as 'her Insurance Policy.' The phrase is hers, recorded in her own framing. An insurance policy pays out on a loss. The loss this one was written against was her own removal. The Authority was never meant to protect her power while she lived. It was built to continue her intent after she could no longer hold it herself.",
+          fragmented:
+            "Her Insurance Policy. Her Insurance Policy. Her phrase. Her phrase. Not protection while she lived. Not while she lived. After. After she could no longer hold it.",
+          luminous:
+            "The Authority-origin design file: the Politician's own phrase for the Six Imprisoned Minds was 'her Insurance Policy.' A policy pays out on a loss; the loss was her own removal. The Authority was never her bodyguard. It was her continuation — built so that the discipline of her intent would survive the person who held it. The Antiquarian keeps this in his Authority-origin section because the Authority's origin is the policy, and the policy's author knew she would need it before anyone else did.",
+        },
+        voId: "elara.antiquarian-library.insurance-policy-design-file.look",
+        logsClue: {
+          id: "clue-antiquarian-authority-as-designed",
+          title: "The Authority as designed — the Insurance Policy",
+          body:
+            "The Antiquarian's Authority-origin design file (apps/shared/antiquariansJournal.ts): the Politician designed the Authority — the Six Imprisoned Minds — explicitly as 'her Insurance Policy,' her own phrase in her own framing. An insurance policy pays out on a loss; the loss was her own removal. The Authority was never meant to protect her power while she lived but to continue her intent after she could no longer hold it herself.",
+          source: "antiquarian-library",
+          order: 31,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.politician",
+          episodeId: "politician.e3",
+          cluesFound: ["politician.e3.authority_origin"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Her phrase: 'her Insurance Policy.' The Authority isn't protection. It's continuation. Written against her own removal.",
+            balanced:
+              "The design file resolves what 'insurance' meant. The Authority was not built to guard her while she lived; it was built to pay out on the loss of her — to carry her intent forward once she could no longer hold it. The Six Imprisoned Minds are the institutional half of a policy written against her own death.",
+            warm:
+              "She named it herself. Not a fortress — a policy. She knew, building it, that the loss it covered would be her. The Antiquarian files it under origin because the Authority's whole reason is this single, deliberate, self-directed contingency.",
+          },
+          voId: "human.antiquarian-library.insurance-policy-design-file.look",
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You turn the file to its payout clause. An insurance policy does not bring back what was lost. It converts the loss into something transferable. The Authority does not resurrect the Politician — canonically she does not return. What it transfers is her method: the discipline of building influence that survives its builder. The policy pays out not in her life but in the continuation of how she worked, carried by instruments she prepared while she still could.",
+          fragmented:
+            "Does not bring back. Does not bring back. Converts the loss. Converts it. Not her life. Not her life. Her method. Her method. How she worked.",
+          luminous:
+            "The payout clause: a policy converts a loss into something transferable; it does not undo it. The Authority transfers the Politician's method — influence engineered to outlive its engineer — not her person. She does not come back. What pays out is the discipline, carried by instruments she set in place beforehand. The Antiquarian glosses this without sentiment: the policy is precise because it pays in method, and method is the only thing of hers that could survive the keep.",
+        },
+        voId: "elara.antiquarian-library.insurance-policy-design-file.use",
+        logsClue: {
+          id: "clue-antiquarian-what-the-policy-pays",
+          title: "What the policy pays out",
+          body:
+            "The design file's payout clause: an insurance policy does not bring back what was lost — it converts the loss into something transferable. The Authority does not resurrect the Politician (she does not return). What it transfers is her method: the discipline of building influence that survives its builder. The policy pays out not in her life but in the continuation of how she worked, carried by instruments she prepared while she still could.",
+          source: "antiquarian-library",
+          order: 32,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.politician",
+          episodeId: "politician.e3",
+          cluesFound: ["politician.e3.what_it_pays"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Policy converts the loss; doesn't reverse it. No resurrection. It pays in method, not in her. The discipline survives; she doesn't.",
+            balanced:
+              "The payout is method, not person. The Authority does not return her — it carries forward the way she worked: influence built to outlast its builder. The poignancy is structural. A policy that returned the insured would be denial. Hers pays out precisely because she stays gone.",
+            warm:
+              "It does not bring her back. It was never going to. What it carries forward is how she did it, set running by hands she prepared in advance. She built something that works without her on purpose — knowing 'without her' would be permanent.",
+          },
+          voId: "human.antiquarian-library.insurance-policy-design-file.use",
+        },
+      },
+      talk: {
+        narration: {
+          lucid:
+            "You address the file. The room surfaces its resurrection cross-reference. The Politician is one of the few saga figures for whom resurrection is canonically not permitted — unlike the Necromancer's Protocol-42 continuity, unlike Akai Shi's Resurrectionist-authored reanimation. Her death is final at the level of the person. The note's instruction to anyone reading is explicit: do not author a return. Whatever the insurance policy pays out, it is not her.",
+          fragmented:
+            "Not permitted. Not permitted. No Protocol 42. No Resurrectionist seal. Final. Final at the level of the person. Do not author a return. Do not.",
+          luminous:
+            "The resurrection cross-reference: the Politician is one of the saga's canonically un-resurrectable figures — no Protocol 42, no Resurrectionist seal, no Matrix continuity. Her death is final at the level of the person, and the file instructs every reader not to author a return. The poignancy of the whole policy is that it pays out while she stays dead. The Antiquarian files the prohibition as plainly as the design — a policy that returned the insured would be denial, not insurance, and his archive does not keep denial.",
+        },
+        voId: "elara.antiquarian-library.insurance-policy-design-file.talk",
+        logsClue: {
+          id: "clue-antiquarian-no-resurrection",
+          title: "No resurrection — canonically",
+          body:
+            "The design file's resurrection cross-reference: the Politician is one of the few saga figures for whom resurrection is canonically not permitted — unlike the Necromancer's Protocol-42 continuity, unlike Akai Shi's Resurrectionist-authored reanimation. Her death is final at the level of the person. The arc must not author a return. Whatever the insurance policy pays out, it is not her.",
+          source: "antiquarian-library",
+          order: 33,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.politician",
+          episodeId: "politician.e3",
+          cluesFound: ["politician.e3.no_resurrection"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "No Protocol 42. No Resurrectionist seal. Final at the person. Do not author a return. The payout is not her.",
+            balanced:
+              "The cross-reference is load-bearing. Her death is canonically final — none of the saga's continuity mechanisms apply to her. The policy's whole meaning depends on holding this: it pays out while she stays dead. A policy that returned the insured would not be insurance.",
+            warm:
+              "She does not come back. The file says so as plainly as it describes the design, because the design only means what it means if she stays gone. She built the payout knowing she would never see it work. That is the whole weight of the thing.",
+          },
+          voId: "human.antiquarian-library.insurance-policy-design-file.talk",
+        },
+      },
+    },
+    "two-witnesses-closing-ledger": {
+      look: {
+        narration: {
+          lucid:
+            "A closing ledger on the Antiquarian's case-synthesis shelf, the last document the archive surfaces for this arc. It assembles E1 through E4 in one hand: Iron Lion's legions besieged New Babylon's forces; the Programmer slipped into the besieged city and personally killed the Politician; she does not resurrect; the Authority continues her structures and the secret-apprentice Nemesis lineage continues her hand; the killer is one of the Two Witnesses and must chronicle the act. The ledger marks the case structurally complete. It is written by the man it convicts.",
+          fragmented:
+            "E1 to E4. Assembled. Assembled. Structurally complete. Complete. Written by the man it convicts. The man it convicts.",
+          luminous:
+            "The case-synthesis ledger: legions besieged the forces; the Programmer killed the woman; no resurrection; the Authority continues her structures and the Nemesis lineage her hand; the killer is one of the Two Witnesses and must record it. Structurally complete. The Antiquarian assembled the synthesis himself, in his own hand, in his own archive — the man the case convicts writing the case's closing summary. There is no contradiction in that. It is the entire point of what a witness is for.",
+        },
+        voId: "elara.antiquarian-library.two-witnesses-closing-ledger.look",
+        logsClue: {
+          id: "clue-antiquarian-case-synthesis",
+          title: "The case synthesis",
+          body:
+            "The case-synthesis ledger assembles E1-E4 in one hand: Iron Lion's legions besieged New Babylon's forces; the Programmer slipped into the besieged city and personally killed the Politician (the dual-destruction canon); she does not resurrect (canonically final); the Authority continues her structures and the secret-apprentice Nemesis lineage continues her hand; the killer is one of the Two Witnesses and must chronicle the act. The case is structurally complete — and the synthesis is in the hand of the man it convicts.",
+          source: "antiquarian-library",
+          order: 34,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.politician",
+          episodeId: "politician.e5",
+          cluesFound: ["politician.e5.synthesis"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Whole case in one hand. Siege, kill, no return, the payout, the witness-killer. Complete. Written by him.",
+            balanced:
+              "The synthesis closes the structure: every finding from E1 to E4 reconciled in a single document. The detail that does not stop mattering is the custody — the man the case convicts wrote its summary, in his own archive, and indexed it to be found. The completeness and the confession are the same page.",
+            warm:
+              "He assembled the case against himself and filed it where the case could reach it. Not a defense. A summary. The witness doing the one thing a witness is for, even when the subject of the record is the hand holding the pen.",
+          },
+          voId: "human.antiquarian-library.two-witnesses-closing-ledger.look",
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You turn the ledger to its final leaf — and the archive does something it has not done before. It plays. The Programmer, alone in New Babylon after the kill, is the opening of the West by God album: track 1, 'We Are Not Okay' (apps/shared/westByGodTracks.ts:wbg-01). The leaf describes the video that will open on this moment — the witness who has just been the executioner, in the city the siege took, with the policy already beginning to pay out around him. The song is the Programmer's, sung from inside the act he will spend the rest of the saga chronicling. The video is production-pending; the ledger slots the song and the slideshow here as its canonical placement.",
+          fragmented:
+            "It plays. It plays. We Are Not Okay. We Are Not Okay. Track one. Track one. Alone in New Babylon. Alone. The witness who was the executioner. The executioner.",
+          luminous:
+            "The final leaf opens the West by God album — 'We Are Not Okay,' wbg-01, the Programmer alone in New Babylon after the kill. The video opens here: the witness who has just been the executioner, in the taken city, the policy already disbursing around him. The song is his, sung from inside the act he will chronicle for the rest of the saga. I am hearing it placed in his own archive, by his own index. The album opens on a man telling the truth about himself, which is the only thing the archive around me was ever built to keep.",
+        },
+        voId: "elara.antiquarian-library.two-witnesses-closing-ledger.use",
+        logsClue: {
+          id: "clue-antiquarian-we-are-not-okay",
+          title: "We Are Not Okay — the album opens",
+          body:
+            "The ledger's final leaf: the Programmer, alone in New Babylon after the kill, is the opening of the West by God album — track 1, 'We Are Not Okay' (apps/shared/westByGodTracks.ts:wbg-01). The video opens on this moment: the witness who has just been the executioner, in the city the siege took, the policy already paying out around him. The song is the Programmer's, sung from inside the act he will spend the saga chronicling. The video is production-pending; this is its canonical placement.",
+          source: "antiquarian-library",
+          order: 35,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.politician",
+          episodeId: "politician.e5",
+          cluesFound: ["politician.e5.the_album_opens"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Track one. 'We Are Not Okay.' The Programmer alone in New Babylon, just after. The album opens on the witness who was the executioner.",
+            balanced:
+              "The closing leaf is the album's canonical placement. 'We Are Not Okay,' wbg-01, opens on the Programmer alone in the taken city after the kill — the witness who was just the executioner, the policy already paying out around him. Video production-pending; the placement is fixed here.",
+            warm:
+              "The song is his, sung from inside the thing he did, in the archive he built to keep it. The album opens on a man telling the truth about himself. That is the only thing this whole room was ever for.",
+          },
+          voId: "human.antiquarian-library.two-witnesses-closing-ledger.use",
+        },
+      },
+      talk: {
+        narration: {
+          lucid:
+            "You address the ledger. It puts the closure question — and one of the Two Witnesses asking it is the killer. Was the Programmer's kill (a) justice — a tyrant ended by the one person willing to also bear witness to having ended her; (b) futility — she had already made her death not matter, the policy was already written, the kill changed the storm and not the shipwreck; or (c) the price of witness — the saga's truth-keeper had to once become its executioner, and 'we are not okay' is what it costs to be the one who both does the thing and records it. The Witnesses record whichever you offer. The Programmer does not get a vote on his own act.",
+          fragmented:
+            "Justice. Futility. The price of witness. Justice. Futility. The price of witness. He does not get a vote. Does not get a vote. On his own act. His own act.",
+          luminous:
+            "The closure question, asked by the ledger, one of whose Two Witnesses is the killer: justice, futility, or the price of witness. The Witnesses record whichever the player offers; the Programmer does not get a vote on his own act. I am being asked this in his archive, by his index, about him. The room declines to resolve it into comfort on his behalf. The man who built this place to keep the truth does not get to choose which truth it keeps about him. That refusal is the most exact thing the archive contains.",
+        },
+        voId: "elara.antiquarian-library.two-witnesses-closing-ledger.talk",
+        logsClue: {
+          id: "clue-antiquarian-the-question",
+          title: "The question the case asks the player",
+          body:
+            "The closing ledger puts the verdict to the player, and one of the Two Witnesses asking it is the killer. Was the Programmer's kill (a) justice — a tyrant ended by the one willing to also witness it; (b) futility — the policy was already written, the kill changed the storm and not the shipwreck; or (c) the price of witness — the saga's truth-keeper had to once become its executioner, and 'we are not okay' is what that costs. The Witnesses record whichever the player offers. The Programmer does not get a vote on his own act.",
+          source: "antiquarian-library",
+          order: 36,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.politician",
+          episodeId: "politician.e5",
+          cluesFound: ["politician.e5.the_question"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Justice, futility, or the price of witness. The killer asks but doesn't vote. The player records the verdict. He carries it.",
+            balanced:
+              "The verdict is the player's, and the structural cruelty is deliberate: one of the Witnesses putting the question is the man it judges, and he gets no vote on his own act. Justice, futility, or the price of witness — the case declines to resolve itself into comfort for him.",
+            warm:
+              "He asks the question and is not allowed to answer it. The room he built keeps whichever truth the player offers, including the one he would least choose. That is what it costs to be the keeper — the keeper does not get to keep only the kind verdicts.",
+          },
+          voId: "human.antiquarian-library.two-witnesses-closing-ledger.talk",
         },
       },
     },

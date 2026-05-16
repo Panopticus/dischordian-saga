@@ -1084,6 +1084,11 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "directors-doctrine-folio", name: "The Director's Doctrine Folio", description: "A slim grey folio in the Hierarchy-affairs section — a Department of Special Projects standing instruction, signed Ith'Rael, Director.", x: 68, y: 86, width: 7, height: 10, type: "interact", action: "room-mystery:antiquarian-library:directors-doctrine-folio" },
       { id: "shadow-tongue-casebook", name: "The Shadow Tongue Casebook", description: "A casebook on the editor-studies shelf — the Marion Kell editing read slowly, and the first failure in four hundred years.", x: 76, y: 86, width: 7, height: 10, type: "interact", action: "room-mystery:antiquarian-library:shadow-tongue-casebook" },
       { id: "thaloria-generational-ledger", name: "Thaloria's Generational Ledger", description: "A ledger on the Thaloria-affairs shelf — the Director's recovered engagement notes in his own hand. 'Tested on cohort 4. Holds.'", x: 84, y: 86, width: 7, height: 10, type: "interact", action: "room-mystery:antiquarian-library:thaloria-generational-ledger" },
+      // Mystery wiring — Politician arc: siege-keep fragments, the Programmer infiltration dossier, the Insurance Policy design file, the Two Witnesses closing ledger
+      { id: "siege-keep-witness-fragments", name: "Siege-Keep Witness Fragments", description: "A slim sheaf in the New Babylon-affairs section, indexed under the keep, not the siege — witness fragments recorded inside the inner keep after the perimeter fell.", x: 30, y: 70, width: 7, height: 9, type: "interact", action: "room-mystery:antiquarian-library:siege-keep-witness-fragments" },
+      { id: "programmer-infiltration-dossier", name: "The Programmer Infiltration Dossier", description: "A dossier filed under a glyph used nowhere else here — a door with no map. The path into the besieged keep, and the hand that walked it.", x: 38, y: 70, width: 7, height: 9, type: "interact", action: "room-mystery:antiquarian-library:programmer-infiltration-dossier" },
+      { id: "insurance-policy-design-file", name: "The Insurance Policy Design File", description: "A design file in the Authority-origin section: the Politician's own phrase for the Six Imprisoned Minds — 'her Insurance Policy.'", x: 46, y: 70, width: 7, height: 9, type: "interact", action: "room-mystery:antiquarian-library:insurance-policy-design-file" },
+      { id: "two-witnesses-closing-ledger", name: "The Two Witnesses Closing Ledger", description: "A closing ledger on the case-synthesis shelf — the whole arc assembled in one hand, written by the man it convicts.", x: 54, y: 70, width: 7, height: 9, type: "interact", action: "room-mystery:antiquarian-library:two-witnesses-closing-ledger" },
     ],
   },
   /* ═══ CHAIN-UNLOCKED HIDDEN ROOMS ═══ */
@@ -1224,6 +1229,8 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       // Mystery wiring — Ith'Rael arc Hierarchy org-chart board + Thalorian defence records
       { id: "hierarchy-org-chart-board", name: "Hierarchy Org-Chart Board", description: "A captured-document panel on the tactical archive's upper rack — the Hierarchy's internal Severance project org chart. One reporting line, one apex.", x: 30, y: 60, width: 8, height: 9, type: "interact", action: "room-mystery:war-room:hierarchy-org-chart-board" },
       { id: "thalorian-defense-records", name: "Thalorian Defence Records", description: "A defence-doctrine binder in the comparative-history drawer — Thaloria's nine-generation consensual relaxation of its own recertification standards.", x: 40, y: 60, width: 8, height: 9, type: "interact", action: "room-mystery:war-room:thalorian-defense-records" },
+      // Mystery wiring — Politician arc: the New Babylon siege campaign binder
+      { id: "new-babylon-siege-record", name: "New Babylon Siege Record", description: "A campaign binder in the siege-history drawer — Iron Lion's legions at New Babylon, Day 10 of Veil. The record is complete on her forces and silent on her death.", x: 50, y: 60, width: 8, height: 9, type: "interact", action: "room-mystery:war-room:new-babylon-siege-record" },
     ],
   },
   {
@@ -1576,6 +1583,8 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "dream-loom", name: "Dream Loom", description: "A vertical brass frame strung with phosphor-lavender threads. Weaves dreams when unobserved; unweaves when watched.", x: 16, y: 2, width: 14, height: 18, type: "interact", action: "room-mystery:dreams-workshop-subbasement:dream-loom" },
       { id: "fragment-rack", name: "Fragment Rack", description: "A wall-rack of small clear vials. Each holds one finished thread of dream-weave. Labels older than the Ark.", x: 46, y: 2, width: 14, height: 18, type: "interact", action: "room-mystery:dreams-workshop-subbasement:fragment-rack" },
       { id: "mirror-pool", name: "Mirror Pool", description: "A shallow basin of mercury. The surface reflects a ceiling that is not in this room.", x: 46, y: 38, width: 12, height: 12, type: "interact", action: "room-mystery:dreams-workshop-subbasement:mirror-pool" },
+      // Mystery wiring — Politician arc: the secret-apprentice imprint lattice (the policy's living half)
+      { id: "secret-apprentice-imprint-lattice", name: "Secret-Apprentice Imprint Lattice", description: "Below the loom's frame, half inside the wall, a lattice of phosphor threads that does not unweave when watched — because it is not weaving. It is holding.", x: 16, y: 38, width: 14, height: 16, type: "interact", action: "room-mystery:dreams-workshop-subbasement:secret-apprentice-imprint-lattice" },
     ],
   },
 ];
