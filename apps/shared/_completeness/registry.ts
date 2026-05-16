@@ -108,6 +108,7 @@ import { checkPerspectiveCanonCoverage } from "./checks/perspectiveCanonCoverage
 import { checkProphecyTarotCoverage } from "./checks/prophecyTarotCoverage";
 import { checkActCloseCutsceneCoverage } from "./checks/actCloseCutsceneCoverage";
 import { checkTheComingCoverage } from "./checks/theComingCoverage";
+import { checkVortexTerminusCoverage } from "./checks/vortexTerminusCoverage";
 import {
   checkNeyonCanonicalRosterCoverage,
   checkArchonCanonicalRosterCoverage,
@@ -1012,5 +1013,15 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "Hard parity (PR-21): 'the Coming' is one prophecy with two fulfilments and both must resolve every registry they cite. FIRST Coming = the Necromancer's Return (halfway, Act 4 / saga phase 7): necromancer arc + resurrection meter + act-4 close 'first'. FINAL Coming = the Politician's Return (endgame, Act 7 / saga phase 13): politician arc + Archon #7 + act-7 close 'final' igniting the PR-16 continuing loop. Supersedes the single-stage Coming framing.",
     check: () => checkTheComingCoverage(),
+  },
+
+  // ─── PR-22 — Vortex / Terminus reconciliation ──────────────
+  {
+    id: "canon.vortex_terminus_reconciliation",
+    name: "Vortex / Terminus reconciliation",
+    description:
+      "Ratchet (PR-22): the Terminus Swarm is RECONCILED — canonical reading = the Risen, the Necromancer's First-Coming manifestation (theComingCanon.first_coming), with the Vortex-manifestation and Thought-Virus readings recorded as typed alternates (not discarded). The Vortex remains canon_pending (eraTimeline.ts:419 — era deferred to the dreamer); it is the tracked gap. The ceiling can only shrink when a future PR binds the Vortex.",
+    check: () => checkVortexTerminusCoverage(),
+    ratchet: { target: 0 },
   },
 ];

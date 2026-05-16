@@ -190,7 +190,8 @@ export const PERSPECTIVES: readonly PerspectiveDef[] = [
     status: "canon_pending",
     premise:
       "The Vortex is the institutional thread no one has finished reading. Its lens is sealed until the dreamer rules.",
-    loreSource: "apps/shared/eraTimeline.ts:419 (era canon-pending) + apps/shared/dischordiaCycle.ts",
+    loreSource:
+      "apps/shared/vortexTerminusCanon.ts (the_vortex, canon_pending) + apps/shared/eraTimeline.ts:419 + apps/shared/dischordiaCycle.ts",
     canonNote: "Bound to vortexTerminusCanon.ts in PR-22.",
   },
   {
@@ -201,9 +202,11 @@ export const PERSPECTIVES: readonly PerspectiveDef[] = [
     unlockingTerminalEpisodeId: null,
     status: "canon_pending",
     premise:
-      "Three readings of the Swarm contend (Risen / Vortex-manifestation / Thought-Virus). The lens is pending the canonical one.",
-    loreSource: "apps/shared/featureRoadmap.ts (terminus_swarm) + CONNECTION_AUDIT",
-    canonNote: "Canonical reading + typed alternates locked in vortexTerminusCanon.ts (PR-22).",
+      "The Swarm is the Risen — the Necromancer's First Coming made playable. Its lens is the resurrection-energy meter itself.",
+    loreSource:
+      "apps/shared/vortexTerminusCanon.ts (terminus_swarm, reconciled) + apps/shared/necromancerReturn.ts",
+    canonNote:
+      "Canonical reading (the Risen / First Coming) reconciled in vortexTerminusCanon.ts (PR-22); alternates recorded there.",
   },
   {
     id: "perspective.pets",
