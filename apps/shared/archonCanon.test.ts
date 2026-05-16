@@ -1,16 +1,16 @@
 /* ═══════════════════════════════════════════════════════
    ARCHON CANON — Registry integrity tests
 
-   Validates:
-   - 8 Archons currently registered (of 12 canonical)
-   - exactly 5 positions are locked (per audit 2026-05-12):
-       #4 Watcher / #5 Meme / #7 Politician / #8 Warden /
-       #10 Game Master
-   - no duplicate ids or locked positions
-   - every locked-position entry has a citation
-   - every entry has a primary LORE_BIBLE source
-   - Architect is NOT registered (he is creator of, not one of, the
-     12 Archons)
+   Validates (updated for the dreamer canon-lock 2026-05-15:
+   the full 12-Archon roster is now locked):
+   - all 12 canonical Archons registered, every position 1-12
+     locked exactly once
+   - the Architect IS position #1 (the prior "creator, not one
+     of them" reading was overridden by the roster image)
+   - the Human is the last Archon at position #12
+   - no duplicate ids or positions
+   - every entry has a positionSource citation + a primary
+     LORE_BIBLE source + a non-empty domain
    ═══════════════════════════════════════════════════════ */
 
 import { describe, expect, it } from "vitest";
@@ -28,10 +28,10 @@ import {
 } from "./archonCanon";
 
 describe("Archon canonical registry", () => {
-  it("registers 8 of the 12 canonical Archons (4 canon-pending in LORE_BIBLE)", () => {
+  it("registers all 12 canonical Archons (full roster dreamer-locked 2026-05-15)", () => {
     expect(CANONICAL_ARCHON_COUNT).toBe(12);
-    expect(getArchonRegistryCoverage()).toBe(8);
-    expect(ARCHONS).toHaveLength(8);
+    expect(getArchonRegistryCoverage()).toBe(12);
+    expect(ARCHONS).toHaveLength(12);
   });
 
   it("has no duplicate ids", () => {
@@ -48,8 +48,8 @@ describe("Archon canonical registry", () => {
     expect(unique.size).toBe(positions.length);
   });
 
-  it("has exactly 5 locked positions per the 2026-05 audit", () => {
-    expect(getNumberedArchonPositionCount()).toBe(5);
+  it("has all 12 positions locked (full roster dreamer-locked 2026-05-15)", () => {
+    expect(getNumberedArchonPositionCount()).toBe(12);
   });
 
   it("locks #4 to the Watcher per LORE_BIBLE.md:3449", () => {
@@ -72,10 +72,14 @@ describe("Archon canonical registry", () => {
     expect(getArchonByPosition(10)?.id).toBe("the_game_master");
   });
 
-  it("leaves positions 1, 2, 3, 6, 9, 11, 12 canon-pending (no fabrication)", () => {
-    for (const pos of [1, 2, 3, 6, 9, 11, 12] as const) {
-      expect(getArchonByPosition(pos)).toBeNull();
+  it("every position 1-12 is locked exactly once (no gaps, no duplicates)", () => {
+    const positions = ARCHONS.map((a) => a.position);
+    for (const pos of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] as const) {
+      expect(getArchonByPosition(pos), `position ${pos}`).not.toBeNull();
     }
+    expect([...positions].sort((a, b) => (a ?? 0) - (b ?? 0))).toEqual([
+      1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
+    ]);
   });
 
   it("every locked-position entry has a positionSource citation", () => {
@@ -118,9 +122,10 @@ describe("Archon canonical registry", () => {
     }
   });
 
-  it("the Architect is NOT in the Archon registry (he creates them, is not one of them)", () => {
-    const ids = new Set(ARCHONS.map((a) => a.id));
-    expect(ids.has("the_architect" as never)).toBe(false);
+  it("the Architect IS position #1 (roster image overrode the prior 'creator, not one of them' reading)", () => {
+    const arch = getArchonByPosition(1);
+    expect(arch?.id).toBe("the_architect");
+    expect(arch?.positionSource ?? "").toMatch(/2026-05-15|roster image/i);
   });
 
   it("the Necromancer carries a canonNote explaining the 'tenth Archon' canon-ambiguity", () => {
@@ -140,9 +145,9 @@ describe("Archon canonical registry", () => {
     expect(gm.canonNote).toMatch(/agent zero|vex sol/i);
   });
 
-  it("the Human is registered as 'last Archon' with position canon-pending", () => {
+  it("the Human is the last Archon at position #12", () => {
     const human = getArchon("the_human");
-    expect(human.position).toBeNull();
+    expect(human.position).toBe(12);
     expect(human.aliases).toContain("The Last Archon");
   });
 });
