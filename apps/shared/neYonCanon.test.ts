@@ -4,8 +4,9 @@
    Validates:
    - exactly 12 Ne-Yons registered (canonical count)
    - exactly 1 Ne-Yon is `awake` (the Degen — canon invariant)
-   - exactly 4 positions are locked (per audit 2026-05-12):
-       #1 Dreamer / #2 Judge / #8 Degen / #12 Enigma
+   - all 12 positions locked (full roster dreamer-locked
+     2026-05-15): #1 Dreamer / #2 Judge / #8 Degen / #11 Enigma
+     / #12 the Forgotten / …
    - no duplicate ids
    - no duplicate locked positions
    - every locked-position entry has a citation
@@ -58,8 +59,8 @@ describe("Ne-Yon canonical registry", () => {
     expect(unique.size).toBe(positions.length);
   });
 
-  it("has exactly 4 locked positions per the 2026-05 audit", () => {
-    expect(getNumberedPositionCount()).toBe(4);
+  it("has all 12 positions locked (full roster dreamer-locked 2026-05-15)", () => {
+    expect(getNumberedPositionCount()).toBe(12);
   });
 
   it("locks position #1 to the Dreamer per dreamer-directive + earliest emergence", () => {
@@ -77,15 +78,24 @@ describe("Ne-Yon canonical registry", () => {
     expect(degen?.id).toBe("the_degen");
   });
 
-  it("locks position #12 to the Enigma per LORE_BIBLE:1961", () => {
-    const enigma = getNeYonByPosition(12);
+  it("locks position #11 to the Enigma per LORE_BIBLE:1961", () => {
+    const enigma = getNeYonByPosition(11);
     expect(enigma?.id).toBe("the_enigma");
   });
 
-  it("leaves positions 3-7, 9-11 canon-pending (no fabrication)", () => {
-    for (const pos of [3, 4, 5, 6, 7, 9, 10, 11] as const) {
-      expect(getNeYonByPosition(pos)).toBeNull();
+  it("locks position #12 to the Forgotten (full roster dreamer-locked 2026-05-15)", () => {
+    const forgotten = getNeYonByPosition(12);
+    expect(forgotten?.id).toBe("the_forgotten");
+  });
+
+  it("every position 1-12 is locked exactly once (no gaps, no duplicates)", () => {
+    const positions = NE_YONS.map((n) => n.position);
+    for (const pos of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] as const) {
+      expect(getNeYonByPosition(pos), `position ${pos}`).not.toBeNull();
     }
+    expect([...positions].sort((a, b) => (a ?? 0) - (b ?? 0))).toEqual([
+      1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
+    ]);
   });
 
   it("every locked-position entry has a positionSource citation", () => {

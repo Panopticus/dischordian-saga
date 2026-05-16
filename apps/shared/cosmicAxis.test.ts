@@ -69,9 +69,9 @@ describe("Cosmic Axis — the Dreamer-Architect twin canon", () => {
       expect(inv.neYonsRegistered).toBe(inv.neYonCanonicalCount);
     });
 
-    it("Architect is NOT in the Archon registry", () => {
+    it("the Architect IS Archon #1 (dreamer roster lock 2026-05-15)", () => {
       const inv = getCosmicAxisInvariants();
-      expect(inv.architectIsRegistryEntry).toBe(false);
+      expect(inv.architectArchonPosition).toBe(1);
     });
 
     it("Dreamer's canonical position is #1", () => {
