@@ -846,7 +846,7 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     id: "canon.pre_locke_coordinator_coverage",
     name: "Pre-Locke Coordinator coverage",
     description:
-      "Per dreamer canon-lock 2026-05-14 (apps/shared/preLockeCoordinators.ts), the chain between the founding regicide and Locke holds 5-15 Coordinators. PR-5 ships 2 named (the Founder + Jericho). RATCHET — gap shrinks only as canon names additional predecessors.",
+      "Per dreamer canon-lock 2026-05-14 (apps/shared/preLockeCoordinators.ts), the chain between the founding regicide and Locke holds 5-15 Coordinators. 5/5 — the Founder + Jericho plus three intermediate Coordinators (Veth Karran, Oss Vae, Halvenn Sarro) generated under project-owner authorization (canon-lock 2026-05-16), satisfying the dreamer-locked minimum. Ratcheted at 0; cannot regress.",
     check: () => checkPreLockeCoordinatorCoverage(),
     ratchet: { target: 0 },
   },
@@ -914,7 +914,7 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     id: "canon.hierarchy_roster_coverage",
     name: "Hierarchy of the Damned canonical roster coverage",
     description:
-      "Per LORE_BIBLE.md:5348, the Hierarchy is exactly 10 demon lords. The registry's inCoreTen flag marks the canonical core. Currently 9/10 — Mol'Vereth and Ozhul'Vana are canon-pending against the LORE_BIBLE Connections list (their core-membership reading per Plan §II.4 conflicts with the conservative reading in hierarchyCanon.ts). Ratcheted; only allowed to shrink.",
+      "Per LORE_BIBLE.md:5348, the Hierarchy is exactly 10 demon lords. The registry's inCoreTen flag marks the canonical core. 10/10 — Mol'Vereth was promoted into the core ten per the dreamer canon-lock of 2026-05-16; Ozhul'Vana remains adjacent (senior-partner, Degen arc) and is counted outside the core. Ratcheted at 0; cannot regress.",
     check: () => checkHierarchyCanonicalRosterCoverage(),
     ratchet: { target: 0 },
   },

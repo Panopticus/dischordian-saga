@@ -10,11 +10,10 @@
    - The Game Master is the only non-demon ever admitted
      (Head of R&D) — registered in apps/shared/archonCanon.ts
      as Archon #10; cross-referenced here for completeness
-   - Additional canonical demons (Mol'Vereth, Ozhul'Vana)
-     appear in supporting roles (trustees, senior partners)
-     in the Degen-arc context but their precise structural
-     position within or adjacent to the 10-lord core is
-     canon-pending
+   - Mol'Vereth holds the trustee seat and is one of the 10
+     core lords (dreamer canon-lock 2026-05-16). Ozhul'Vana
+     appears in a senior-partner supporting role in the
+     Degen-arc context, adjacent to (not within) the core 10
 
    Canonical antithesis: the Hierarchy is "a dark mirror of
    the Architect's AI Empire" (LORE_BIBLE.md:5348). Where
@@ -83,10 +82,10 @@ export interface HierarchyLordEntry {
   /**
    * Whether this lord is canonically one of the "10 demon lords"
    * that form the core C-suite (per LORE_BIBLE.md:5348 — "a
-   * corporate structure of 10 demon lords"). Some Hierarchy-
-   * affiliated demons (Mol'Vereth, Ozhul'Vana) appear in
-   * supporting/adjacent roles whose membership in the core 10
-   * is canon-pending.
+   * corporate structure of 10 demon lords"). Ozhul'Vana
+   * appears in a supporting/adjacent senior-partner role
+   * outside the core 10; Mol'Vereth is core (canon-lock
+   * 2026-05-16).
    */
   inCoreTen: boolean;
   /** Optional canon note for ambiguities. */
@@ -266,11 +265,12 @@ export const HIERARCHY_LORDS: readonly HierarchyLordEntry[] = [
       "LORE_BIBLE.md:7331 — Mol'Vereth's Discretion",
       "apps/shared/episodeMysteries.ts:3174 + mystery.the_degen",
     ],
-    inCoreTen: false,
+    inCoreTen: true,
     canonNote:
-      "Not confirmed as one of the 10 core C-suite demon lords " +
-      "in the LORE_BIBLE Hierarchy Connections list. Appears in " +
-      "trustee role specifically tied to the Degen's arc.",
+      "Confirmed as one of the 10 core C-suite demon lords per " +
+      "the dreamer canon-lock of 2026-05-16 (resolving the prior " +
+      "canon-pending reading). Holds the trustee seat, tied to " +
+      "the Degen's arc via the Ne-Yon contract.",
   },
   {
     id: "ozhul_vana",

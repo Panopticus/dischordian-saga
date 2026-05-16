@@ -24,6 +24,17 @@
    than five but fewer than fifteen. Their named-or-not
    status is canon-pending; each PR that adds a name must
    add a loreSource.
+
+   Per the dreamer canon-lock of 2026-05-16: three
+   intermediate Coordinators (positions 2-4, between the
+   Founder and Jericho) are named here under explicit
+   project-owner authorization. They are generated to be
+   consistent with the Order's established doctrine
+   (apps/shared/ocularumCanon.ts: the watcher/witness
+   ethos, the cell structure, the continuity log read only
+   at chair-handoff) and span the millennia the
+   Antiquarian's archive deliberately omits. The Founder
+   remains doctrinally nameless and is untouched.
    ═══════════════════════════════════════════════════════ */
 
 export interface PreLockeCoordinator {
@@ -54,8 +65,12 @@ export interface PreLockeCoordinator {
  *
  * Jericho is locked as Locke's immediate predecessor.
  *
- * Future PRs/DLCs may register additional Coordinators
- * between the Founder and Jericho.
+ * Positions 2-4 (Veth Karran, Oss Vae, Halvenn Sarro) are
+ * generated intermediate Coordinators added under
+ * project-owner authorization (dreamer canon-lock
+ * 2026-05-16), consistent with the Order's doctrine. Their
+ * exact positions within the dreamer-locked 5-15 chain are
+ * approximate. Future PRs/DLCs may register further links.
  */
 export const PRE_LOCKE_COORDINATORS: readonly PreLockeCoordinator[] = [
   {
@@ -69,6 +84,60 @@ export const PRE_LOCKE_COORDINATORS: readonly PreLockeCoordinator[] = [
       "The Founder's true name is doctrinally withheld " +
       "(apps/shared/purpleNinjaCanon.ts:PURPLE_NINJA_NAME_DOCTRINE). " +
       "Continuity-log entry reads 'the assassin' only.",
+  },
+  {
+    id: "the_scrivener",
+    name: "Veth Karran",
+    epithet: "The First Scribe of the Log",
+    positionInChain: 2,
+    era: "Early Empire (the Order goes underground)",
+    loreSource:
+      "Generated 2026-05-16 per project-owner authorization; " +
+      "consistent with apps/shared/ocularumCanon.ts Order " +
+      "doctrine + the dreamer-locked 5-15 chain range " +
+      "(apps/shared/preLockeCoordinators.ts).",
+    canonNote:
+      "Generated intermediate Coordinator (canon-lock " +
+      "2026-05-16). Took the chair after the founding and " +
+      "formalized the continuity log and the cell structure " +
+      "the Order still uses. Distinct from the doctrinally-" +
+      "nameless Founder and from Jericho; position approximate.",
+  },
+  {
+    id: "the_long_silence",
+    name: "Oss Vae",
+    epithet: "The Long Silence",
+    positionInChain: 3,
+    era: "Mid Empire (the omitted millennia, ~Year 200 A.A. onward)",
+    loreSource:
+      "Generated 2026-05-16 per project-owner authorization; " +
+      "consistent with apps/shared/ocularumCanon.ts Order " +
+      "doctrine + the dreamer-locked 5-15 chain range " +
+      "(apps/shared/preLockeCoordinators.ts).",
+    canonNote:
+      "Generated intermediate Coordinator (canon-lock " +
+      "2026-05-16). Held the chair through the era the " +
+      "Antiquarian's archive deliberately omits; embodied the " +
+      "Order's pure-observation doctrine (seeing, not acting). " +
+      "Distinct from the Founder and Jericho; position approximate.",
+  },
+  {
+    id: "the_last_watch",
+    name: "Halvenn Sarro",
+    epithet: "The Last Watch Before the Crisis",
+    positionInChain: 4,
+    era: "Late Empire (immediately before Jericho)",
+    loreSource:
+      "Generated 2026-05-16 per project-owner authorization; " +
+      "consistent with apps/shared/ocularumCanon.ts Order " +
+      "doctrine + the dreamer-locked 5-15 chain range " +
+      "(apps/shared/preLockeCoordinators.ts).",
+    canonNote:
+      "Generated intermediate Coordinator (canon-lock " +
+      "2026-05-16). Jericho's predecessor; carried the chain " +
+      "into the late-Empire crisis and handed the log to " +
+      "Jericho. Distinct from the Founder and Jericho; " +
+      "position approximate.",
   },
   {
     id: "jericho",
