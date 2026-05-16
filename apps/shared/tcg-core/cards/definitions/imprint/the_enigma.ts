@@ -1,9 +1,9 @@
 /**
- * Imprint Set — The Enigma (5 tiers). Phase F25.
+ * Imprint Set â The Enigma (5 tiers). Phase F25.
  *
  * The Unpredictable. The Companion who makes a different move than
  * the right one and the wrong one. Neutral faction. Mechanical
- * vocabulary: flying, celerity, ephemeral — he is never where
+ * vocabulary: flying, celerity, ephemeral â he is never where
  * you expect and rarely where he expected either.
  */
 import type { CardDefinition } from "../../../index";
@@ -11,6 +11,9 @@ import type { CardDefinition } from "../../../index";
 import { assetUrl } from "@shared/lib/assetUrl";
 export const the_enigma_t1: CardDefinition = {
   id: "s1_imprint_the_enigma_t1" as CardDefinition["id"],
+  // First-summon gated to the act this character is canonically
+  // introduced (CHAPTER_TO_IMPRINT_NPCS, imprintRegistry.ts) — I14.
+  unlockCondition: { kind: "act_completion", act: 1 },
   name: "Imprint: The Enigma (Common)",
   faction: "neutral", cardType: "unit", rarity: "common",
   cost: 2, baseStats: { power: 2, health: 2 },

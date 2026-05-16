@@ -1,11 +1,11 @@
 /**
- * Imprint Set — The Engineer (5 tiers). Phase F14.
+ * Imprint Set â The Engineer (5 tiers). Phase F14.
  *
  * Inventor of the deck. Carved his own knights. Wrote the chess
  * tutorial inside the chess tutorial. Mechanical vocabulary:
  * card draw, spell synergy, on-deploy invention. Antiquarian
  * faction because that is where the Engineer's workbench lives
- * narratively — he catalogues and rebuilds, he does not conquer.
+ * narratively â he catalogues and rebuilds, he does not conquer.
  *
  * Tier id convention: s1_imprint_the_engineer_t{1..5}
  */
@@ -14,6 +14,9 @@ import type { CardDefinition } from "../../../index";
 import { assetUrl } from "@shared/lib/assetUrl";
 export const the_engineer_t1: CardDefinition = {
   id: "s1_imprint_the_engineer_t1" as CardDefinition["id"],
+  // First-summon gated to the act this character is canonically
+  // introduced (CHAPTER_TO_IMPRINT_NPCS, imprintRegistry.ts) — I14.
+  unlockCondition: { kind: "act_completion", act: 1 },
   name: "Imprint: The Engineer (Common)",
   faction: "antiquarian",
   cardType: "unit",
@@ -89,7 +92,7 @@ export const the_engineer_t3: CardDefinition = {
   trial_categories: ["narrative"] as const,
   verdict_delta: 2,
   balanceException: {
-    reason: "Imprint-tier scaling design (T3): stats below curve so tier upgrades land mechanic-side. T3 deepens the on-deploy draw to draw 2 — the player feels tier growth as escalating ability strength.",
+    reason: "Imprint-tier scaling design (T3): stats below curve so tier upgrades land mechanic-side. T3 deepens the on-deploy draw to draw 2 â the player feels tier growth as escalating ability strength.",
     reviewer: "panopticus",
   },
 };

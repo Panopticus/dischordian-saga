@@ -1,5 +1,5 @@
 /**
- * Imprint Set — The White Oracle (5 tiers). Phase F16.
+ * Imprint Set â The White Oracle (5 tiers). Phase F16.
  *
  * The Architect's sundered twin. Suspended in a processing loop
  * and still broadcasting. Mechanical vocabulary: dispel, card
@@ -12,6 +12,9 @@ import type { CardDefinition } from "../../../index";
 import { assetUrl } from "@shared/lib/assetUrl";
 export const the_oracle_t1: CardDefinition = {
   id: "s1_imprint_the_oracle_t1" as CardDefinition["id"],
+  // First-summon gated to the act this character is canonically
+  // introduced (CHAPTER_TO_IMPRINT_NPCS, imprintRegistry.ts) — I14.
+  unlockCondition: { kind: "act_completion", act: 1 },
   name: "Imprint: The Oracle (Common)",
   faction: "dreamer",
   cardType: "unit",
@@ -45,7 +48,7 @@ export const the_oracle_t2: CardDefinition = {
   trial_categories: ["offensive"] as const,
   verdict_delta: 1,
   balanceException: {
-    reason: "Imprint-tier scaling design (T2): stats stay below curve so tier upgrades land mechanic-side. T2 adds dispel — buff-removal is the per-card value at 3 mana.",
+    reason: "Imprint-tier scaling design (T2): stats stay below curve so tier upgrades land mechanic-side. T2 adds dispel â buff-removal is the per-card value at 3 mana.",
     reviewer: "panopticus",
   },
 };

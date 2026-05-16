@@ -224,9 +224,14 @@ describe("expansionUnlockService — filterUnlockedCards / filterLockedCards", (
 });
 
 describe("expansionUnlockService — registry integration (S2 Hierarchy of the Damned)", () => {
-  it("28 act-exclusive cards are gated by act_completion (one per act × 4)", () => {
+  it("28 act-exclusive S2-Hierarchy cards are gated by act_completion (one per act × 4)", () => {
+    // Scoped to the S2-Hierarchy set: imprint cards (s1_imprint_*)
+    // also legitimately carry act_completion now (I14 first-summon
+    // gate); this invariant is about the Hierarchy act-exclusives.
     const acted = ALL_CARD_DEFINITIONS.filter(
-      (c) => c.unlockCondition?.kind === "act_completion",
+      (c) =>
+        c.unlockCondition?.kind === "act_completion" &&
+        !String(c.id).startsWith("s1_imprint_"),
     );
     expect(acted.length).toBe(28);
     const byAct: Record<number, number> = {};
@@ -271,7 +276,10 @@ describe("expansionUnlockService — registry integration (S2 Hierarchy of the D
   it("act-1-only completers see exactly the 4 act1 + 0 act2-7 hierarchy specials", () => {
     const state = makePlayerExpansionState({ completedActs: [1] });
     const unlocked = ALL_CARD_DEFINITIONS.filter(
-      (c) => c.unlockCondition?.kind === "act_completion" && isCardUnlocked(c, state),
+      (c) =>
+        c.unlockCondition?.kind === "act_completion" &&
+        !String(c.id).startsWith("s1_imprint_") &&
+        isCardUnlocked(c, state),
     );
     expect(unlocked.length).toBe(4);
   });

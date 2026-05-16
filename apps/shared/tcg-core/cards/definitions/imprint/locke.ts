@@ -1,15 +1,18 @@
 /**
- * Imprint Set — Adjudicator Locke (5 tiers). Phase F22.
+ * Imprint Set â Adjudicator Locke (5 tiers). Phase F22.
  *
  * The last Archon who still makes decisions as if decisions matter.
  * New Babylon faction. Mechanical vocabulary: provoke, heal general,
- * silence enemy spells — structural law as support.
+ * silence enemy spells â structural law as support.
  */
 import type { CardDefinition } from "../../../index";
 
 import { assetUrl } from "@shared/lib/assetUrl";
 export const locke_t1: CardDefinition = {
   id: "s1_imprint_locke_t1" as CardDefinition["id"],
+  // First-summon gated to the act this character is canonically
+  // introduced (CHAPTER_TO_IMPRINT_NPCS, imprintRegistry.ts) — I14.
+  unlockCondition: { kind: "act_completion", act: 1 },
   name: "Imprint: Locke (Common)",
   faction: "new_babylon", cardType: "unit", rarity: "common",
   cost: 2, baseStats: { power: 1, health: 4 },

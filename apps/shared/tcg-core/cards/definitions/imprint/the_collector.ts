@@ -1,8 +1,8 @@
 /**
- * Imprint Set — The Collector (5 tiers). Phase F19.
+ * Imprint Set â The Collector (5 tiers). Phase F19.
  *
  * Attachment as bondage. Eleven centuries of trying to want nothing
- * and failing. Mechanical vocabulary: drain, stun, trap — he takes
+ * and failing. Mechanical vocabulary: drain, stun, trap â he takes
  * things from you and keeps them.
  *
  * Tier id convention: s1_imprint_the_collector_t{1..5}
@@ -12,6 +12,9 @@ import type { CardDefinition } from "../../../index";
 import { assetUrl } from "@shared/lib/assetUrl";
 export const the_collector_t1: CardDefinition = {
   id: "s1_imprint_the_collector_t1" as CardDefinition["id"],
+  // First-summon gated to the act this character is canonically
+  // introduced (CHAPTER_TO_IMPRINT_NPCS, imprintRegistry.ts) — I14.
+  unlockCondition: { kind: "act_completion", act: 2 },
   name: "Imprint: The Collector (Common)",
   faction: "new_babylon",
   cardType: "unit",

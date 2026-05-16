@@ -1,9 +1,9 @@
 /**
- * Imprint Set — The Antiquarian (5 tiers). Phase F18.
+ * Imprint Set â The Antiquarian (5 tiers). Phase F18.
  *
  * Catalogue-keeper of the twelve possible endings. Charges tuition
  * no one wants to pay. Mechanical vocabulary: grow, rebirth, the
- * long view — the Antiquarian gets stronger the longer the game
+ * long view â the Antiquarian gets stronger the longer the game
  * runs, and he is never the one who had to hurry.
  *
  * Tier id convention: s1_imprint_antiquarian_t{1..5}
@@ -13,6 +13,9 @@ import type { CardDefinition } from "../../../index";
 import { assetUrl } from "@shared/lib/assetUrl";
 export const antiquarian_t1: CardDefinition = {
   id: "s1_imprint_antiquarian_t1" as CardDefinition["id"],
+  // First-summon gated to the act this character is canonically
+  // introduced (CHAPTER_TO_IMPRINT_NPCS, imprintRegistry.ts) — I14.
+  unlockCondition: { kind: "act_completion", act: 1 },
   name: "Imprint: The Antiquarian (Common)",
   faction: "antiquarian",
   cardType: "unit",
