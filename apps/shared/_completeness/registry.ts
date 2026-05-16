@@ -107,6 +107,7 @@ import { checkSurfaceDiscoverabilityCoverage } from "./checks/surfaceDiscoverabi
 import { checkPerspectiveCanonCoverage } from "./checks/perspectiveCanonCoverage";
 import { checkProphecyTarotCoverage } from "./checks/prophecyTarotCoverage";
 import { checkActCloseCutsceneCoverage } from "./checks/actCloseCutsceneCoverage";
+import { checkTheComingCoverage } from "./checks/theComingCoverage";
 import {
   checkNeyonCanonicalRosterCoverage,
   checkArchonCanonicalRosterCoverage,
@@ -1002,5 +1003,14 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "Hard parity (PR-20): 7 act-close entries in apps/shared/actCloseCutsceneCanon.ts, acts {1..7} once each, delivered through the shipped Antiquarian bridge overlay (every antiquarianBridgeId resolves) with Seal+prophecy deferred to the validated prophecyTarotCanon binding. The two Comings are canon-pinned: the FIRST Coming (Necromancer = halfway) on Act 4; the FINAL Coming (Politician = endgame) on Act 7, which ignites the PR-16 continuing-loop canon. No other act may carry a Coming.",
     check: () => checkActCloseCutsceneCoverage(),
+  },
+
+  // ─── PR-21 — the Coming (two-stage canon binding) ──────────
+  {
+    id: "canon.the_coming_binding",
+    name: "The Coming — two-stage binding",
+    description:
+      "Hard parity (PR-21): 'the Coming' is one prophecy with two fulfilments and both must resolve every registry they cite. FIRST Coming = the Necromancer's Return (halfway, Act 4 / saga phase 7): necromancer arc + resurrection meter + act-4 close 'first'. FINAL Coming = the Politician's Return (endgame, Act 7 / saga phase 13): politician arc + Archon #7 + act-7 close 'final' igniting the PR-16 continuing loop. Supersedes the single-stage Coming framing.",
+    check: () => checkTheComingCoverage(),
   },
 ];
