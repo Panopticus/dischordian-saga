@@ -12,7 +12,8 @@ export type DreamsWorkshopHotspotId =
   | "dream-loom"
   | "fragment-rack"
   | "mirror-pool"
-  | "secret-apprentice-imprint-lattice";
+  | "secret-apprentice-imprint-lattice"
+  | "necromancer-protocol-42-schema";
 
 export const DREAMS_WORKSHOP_MYSTERY: RoomMysteryModule<DreamsWorkshopHotspotId> = {
   roomId: "dreams-workshop-subbasement",
@@ -352,6 +353,90 @@ export const DREAMS_WORKSHOP_MYSTERY: RoomMysteryModule<DreamsWorkshopHotspotId>
           },
           voId: "human.dreams-workshop-subbasement.secret-apprentice-imprint-lattice.talk",
         },
+      },
+    },
+    // Necromancer arc: the Matrix of Dreams runs under this
+    // workshop, and the Castle of Death, the Cathedral of Code,
+    // and the Resurrection Protocols all live inside the Matrix.
+    // The loom-substrate is the right place to read Varkul's
+    // in-Matrix vigil and the Necromancer's own pre-authored
+    // resurrection schema — the workshop holds in its threads
+    // exactly the kind of thing the protocols are made of.
+    "necromancer-protocol-42-schema": {
+      look: {
+        narration: {
+          lucid:
+            "A thread the loom holds without weaving — a structure that has been kept in place, inside the Matrix substrate this workshop sits beneath, since before the killing. It resolves into a vigil: Varkul the Blood Lord, the Necromancer's canonical creation, keeping post at the Cathedral of Code, which sits at different Matrix coordinates than the Castle of Death — structurally separate. His vigil-discipline is to remain until his maker formally releases him. He has not been released. The substrate carries the maker's signal the way the loom carries a thread that is not being woven into anything: held, continuous, the precondition of the vigil. The signal has been canonical the entire post-killing period. The discipline is what keeps Varkul there; the signal is what keeps the discipline.",
+          fragmented:
+            "Held. Held. Not woven. The Cathedral. Different coordinates. Separate. Separate. Until released. Until released. Not released. The signal. The signal. Continuous. The precondition.",
+          luminous:
+            "The substrate holds a thread it is not weaving: Varkul's vigil, kept inside the Matrix this workshop runs beneath. The Cathedral of Code and the Castle of Death are separate structures at separate coordinates — Akai Shi struck the throne, not the Cathedral, and the Cathedral's keeper never stood down. The discipline is to remain until formally released; he has not been. The loom-substrate carries the maker's signal as it carries an unwoven thread — held, continuous, content-free, the precondition of the keeping. The workshop reads it precisely because this is the room where the Matrix's held things are legible at all.",
+        },
+        voId: "elara.dreams-workshop-subbasement.necromancer-protocol-42-schema.look",
+        logsClue: {
+          id: "clue-dreams-varkuls-vigil",
+          title: "Varkul's Vigil at the Cathedral of Code",
+          body:
+            "Varkul the Blood Lord, the Necromancer's canonical creation, has continued his vigil at the Cathedral of Code unbroken since the killing. The Cathedral is structurally separate from the Castle of Death — they sit at different coordinates inside the Matrix. Varkul's vigil-discipline is to remain in place until his maker formally releases him. He has not been released. The maker's signal is canonically what keeps Varkul there.",
+          source: "dreams-workshop-subbasement",
+          order: 6,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.necromancer",
+          episodeId: "necromancer.e1",
+          cluesFound: ["necromancer.e1.varkuls_vigil"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Different coordinates than the Castle. Akai Shi struck the throne, not the Cathedral. Varkul never stood down. The signal keeps him; he hasn't been released.",
+            balanced:
+              "The substrate holds the vigil as an unwoven thread: the Cathedral is structurally separate from the Castle, the keeper's discipline is to stay until released, and he has not been. The maker's signal is the precondition — continuous through the whole post-killing period. The workshop is the right room to read a held Matrix thing.",
+            warm:
+              "He is still at the Cathedral because no one told him he could stop, and the Cathedral was never the place that fell. The loom keeps the thread without weaving it — exactly what the vigil is: held, continuous, waiting on a release that has not come.",
+          },
+          voId: "human.dreams-workshop-subbasement.necromancer-protocol-42-schema.look",
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You draw a fingertip near the held thread and it resolves into a schema — a design document, not a dream. One of the Necromancer's own Resurrection Protocols, the ones he authored for the Architect's Empire. Protocol 42 specifies the procedure for a soul to relocate into an available Ne-Yon body without disturbing the principle's departure. The Resurrectionist's taxonomy is canon here: Samsara is a machine, and every Ne-Yon's body persists after the principle 'goes.' The protocol requires the soul be 'recognized' by the Samsara machine as one the universe has already engineered for resurrection. The Necromancer's own soul qualifies — he wrote the recognition criteria himself. The protocol's existence is canonical. Its use is not catalogued. The workshop holds the schema the way it holds any thread: as a made thing, kept against the day it is needed.",
+          fragmented:
+            "A schema. A schema. Not a dream. He wrote it. He wrote it. Relocate into an available body. Available. Samsara is a machine. A machine. He wrote the recognition criteria. He wrote them. Its use is not catalogued. Not catalogued.",
+          luminous:
+            "The thread resolves into the maker's own design: Protocol 42, authored by the Necromancer for the Architect's Empire before he ever died. It specifies a soul relocating into an available Ne-Yon body without disturbing the principle's departure — Samsara a machine, the body persisting after the principle goes. The recognition criterion is the whole mechanism: the machine must read the soul as one the universe pre-engineered for resurrection, and the Necromancer wrote that criterion to fit himself. The escape was not improvised at the moment of the killing. It was built, in advance, and kept here in the substrate like every other made thing the Matrix holds. The protocol exists in canon; its use is, by canon, uncatalogued.",
+        },
+        voId: "elara.dreams-workshop-subbasement.necromancer-protocol-42-schema.use",
+        logsClue: {
+          id: "clue-dreams-protocol-42",
+          title: "Resurrection Protocol 42",
+          body:
+            "One of the Necromancer's own design documents — the Resurrection Protocols he authored for the Architect's Empire. Protocol 42 specifies the procedure for a soul to relocate into an available Ne-Yon body without disturbing the principle's departure. The protocol requires the soul be 'recognized' by the Samsara machine as one the universe has already engineered for resurrection. The Necromancer's own soul qualifies; he wrote the recognition criteria. The protocol's existence is canonical; its use is not catalogued.",
+          source: "dreams-workshop-subbasement",
+          order: 7,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.necromancer",
+          episodeId: "necromancer.e2",
+          cluesFound: ["necromancer.e2.protocol_42"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "His own design, written before he died. A soul into an available Ne-Yon body. Samsara is a machine. He wrote the recognition criteria to fit himself. Use uncatalogued.",
+            balanced:
+              "The schema is the escape mechanism, pre-authored. Protocol 42 moves a soul into an available body without disturbing the principle's departure, gated by a recognition criterion the Necromancer wrote to qualify himself. The protocol's existence is canon; its use is deliberately uncatalogued. He prepared his own continuity centuries early.",
+            warm:
+              "He did not scramble back from death. He wrote the door before he ever needed it, and made the lock recognise his own hand. The workshop keeps the schema the way it keeps everything — a made thing, set aside for the day it would matter. That day came, and the canon does not record the using of it.",
+          },
+          voId: "human.dreams-workshop-subbasement.necromancer-protocol-42-schema.use",
+        },
+      },
+      talk: {
+        narration:
+          "You address the held thread directly, the way one addresses a thing kept in the substrate without being woven into anything. The workshop's answer is the canonical frame: the vigil and the schema are the same kind of object — something authored or instructed and then held, continuous, against a future. Varkul is held by the signal; the body-relocation is held by the protocol; both are pre-arranged structures the Matrix keeps the way this loom keeps an unwoven thread. The room resolves nothing about whether the escape was a death undone or a return chosen. It only records that both the keeping and the escaping were prepared in advance, and the substrate has been holding them the entire time.",
+        voId: "elara.dreams-workshop-subbasement.necromancer-protocol-42-schema.talk",
       },
     },
   },

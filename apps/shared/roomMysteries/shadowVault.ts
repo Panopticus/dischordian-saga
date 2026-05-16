@@ -31,7 +31,8 @@ export type ShadowVaultHotspotId =
   | "warden-terminal"
   | "release-or-seal-lever"
   | "the-unopened-threshold"
-  | "the-makers-heartbeat-trace";
+  | "the-makers-heartbeat-trace"
+  | "the-necromancers-altar";
 
 export type ShadowVaultInventoryId = "manuscript-folio";
 
@@ -446,6 +447,94 @@ export const SHADOW_VAULT_MYSTERY: RoomMysteryModule<
         narration:
           "You address the pulse directly, the way one addresses a thing that cannot answer because answering would mean carrying content, and it has none. The terminal does not respond — the signal is, by its nature, a stoic. But the act of addressing it without expecting a reply is the discipline the room teaches: a heartbeat is not owed a conversation; its only statement is that it is still here, and the only honest thing to do with it is to keep listening and not mistake the listening for a dialogue. We are listening. The signal is continuing. That is the entire exchange.",
         voId: "elara.shadow-vault.the-makers-heartbeat-trace.talk",
+      },
+    },
+    // Necromancer arc: the Shadow Vault is a room about a
+    // threshold held by discipline, and the Cathedral of Code's
+    // stained-glass altar is exactly that — a threshold the
+    // Necromancer's creation keeps. The vault renders an altar-
+    // facet against its far wall the way it renders the indigo
+    // cell: visible only because the player witnesses it. Varkul
+    // speaks his four verbatim sentences here; the recently-
+    // incised inscription, in the maker's own hand, is the
+    // doctrinal correction the room is built to read.
+    "the-necromancers-altar": {
+      look: {
+        narration: {
+          lucid:
+            "Set into the vault's far wall, a stained-glass facet the room renders the way it renders the cell — visible only because you are here to witness it. It is the Cathedral of Code's altar, read off the architecture. Granted on the player's third attempt, Varkul the Blood Lord stands at it and says exactly four sentences, verbatim, then returns to silence for the rest of the day: 'He returned wearing her quiet. He asked me to keep the cathedral standing. I am keeping the cathedral standing. I was asked to tell you that I am keeping it standing.' The fourth sentence is the only one about the act of telling rather than the thing told. The vault logs the words exactly, because in this room the precise wording of a thing is the thing.",
+          fragmented:
+            "He returned wearing her quiet. Wearing her quiet. He asked me to keep the cathedral standing. I am keeping it standing. I was asked to tell you. To tell you. Four sentences. Four. Then silence. Silence. The rest of the day.",
+          luminous:
+            "The altar resolves only through your witness, the way the indigo cell does — and at it, the keeper used words exactly once. Four sentences, then a full day's silence: 'He returned wearing her quiet. He asked me to keep the cathedral standing. I am keeping the cathedral standing. I was asked to tell you that I am keeping it standing.' The Shadow Vault keeps them verbatim because the wording is the evidence; the maker did not need the keeping announced — so the fourth sentence's whole content is that the player, specifically, was meant to know. 'Her quiet' is the Silence's vacated body, named without naming. The keeper is also the only letter the maker ever sent.",
+        },
+        voId: "elara.shadow-vault.the-necromancers-altar.look",
+        setsFlag: "necromancer_varkul_audience_seen",
+        logsClue: {
+          id: "clue-shadow-vault-varkul-audience",
+          title: "Varkul's Audience with the Player",
+          body:
+            "Granted on the player's third attempt. The Blood Lord stands at the Cathedral's stained-glass altar and says exactly four sentences: 'He returned wearing her quiet. He asked me to keep the cathedral standing. I am keeping the cathedral standing. I was asked to tell you that I am keeping it standing.' He returns to silence after the fourth sentence and does not speak again that day. 'Her quiet' is the Silence's vacated body.",
+          source: "shadow-vault",
+          order: 11,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.necromancer",
+          episodeId: "necromancer.e3",
+          cluesFound: ["necromancer.e3.varkul_audience"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Four sentences, then a day of silence. 'He returned wearing her quiet.' The fourth is the only one about the telling. He wanted you, specifically, told.",
+            balanced:
+              "These four sentences are verbatim canon — Varkul's entire spoken testimony. The room logs them exactly because the precise wording is the evidence. Three are content; the fourth is about the act of telling, and it was addressed to the player. The maker reached out once, through the keeper, to be known.",
+            warm:
+              "He spoke four times and was quiet for a day. 'He returned wearing her quiet' — that is the Silence's vacated body, said gently, without the word. We do not improve those sentences by handling them. We carry them exactly as he said them.",
+          },
+          voId: "human.shadow-vault.the-necromancers-altar.look",
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You set a hand to the altar's base and the vault clears a window in the glass, the way it clears the indigo at a palm-touch. Recently incised there, in the Necromancer's own hand — canonically distinguishable from any apprentice's or successor's — a single phrase in High Necropolitan. The vault renders the translation beside it, verbatim and unsoftened: 'The Silence's body is not the Silence. I am not the Silence. The continuity is mine.' The cadence is a doctrinal correction, addressed to whoever reads the altar in the years after. The room files the wording exactly: the body is the Silence's vacated vehicle; the soul that wears it is the maker's; the principle of Silence has gone and does not return through this.",
+          fragmented:
+            "The Silence's body is not the Silence. Is not the Silence. I am not the Silence. Not the Silence. The continuity is mine. Mine. Mine. His own hand. His own hand. Recently incised. Recently.",
+          luminous:
+            "Your hand clears the glass and the inscription resolves — recent, in the maker's unmistakable hand, in High Necropolitan: 'The Silence's body is not the Silence. I am not the Silence. The continuity is mine.' The Shadow Vault, which already reads what cannot be directly perceived, reads this precisely: a correction left for any future cell that might mistake the body for the principle. He is wearing the Silence's vacated body; he is not the Silence; the continuity that wears it is his own. The room does not interpret the doctrine. It records that the maker, in his own hand, drew the line himself.",
+        },
+        voId: "elara.shadow-vault.the-necromancers-altar.use",
+        setsFlag: "necromancer_altar_inscription_read",
+        logsClue: {
+          id: "clue-shadow-vault-altar-inscription",
+          title: "The Altar Inscription, Recently Added",
+          body:
+            "Recently incised into the altar's base, in the Necromancer's own hand (canonically distinguishable from any apprentice or successor's): a phrase in High Necropolitan, translating: 'The Silence's body is not the Silence. I am not the Silence. The continuity is mine.' The cadence is a doctrinal correction, addressed to whoever reads the altar in the years after. The body is the Silence's vacated vehicle; the soul that wears it is the Necromancer's.",
+          source: "shadow-vault",
+          order: 12,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.necromancer",
+          episodeId: "necromancer.e3",
+          cluesFound: ["necromancer.e3.altar_inscription"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "His own hand, recently cut: 'The Silence's body is not the Silence. I am not the Silence. The continuity is mine.' He drew the line himself, for whoever reads it later.",
+            balanced:
+              "The inscription is the arc's doctrinal hinge, and it is the maker's own correction: he wears the Silence's vacated body but is not the Silence; the continuity is his. It is addressed to future readers who might confuse the vehicle for the principle. The room records the wording without interpreting it.",
+            warm:
+              "He carved it himself, so no one after him would get it wrong. 'I am not the Silence. The continuity is mine.' It is not a boast — it is a man making sure the record is exact about who he is, in a hand only he could have left. We keep it exactly.",
+          },
+          voId: "human.shadow-vault.the-necromancers-altar.use",
+        },
+      },
+      talk: {
+        narration:
+          "You address the altar itself rather than the words on it. The vault, which knows the difference between a lock and a discipline that has simply never been told to stop, gives the canonical frame: the Cathedral is structurally separate from the Castle of Death; Varkul keeps this threshold because the maker's signal has never stopped, not because he infers a survival. The altar is where the keeper's testimony and the maker's correction meet — one delivered aloud, once; the other cut in stone, for later. The room does not resolve which matters more. It holds both, the way it holds the indigo: as things real precisely because someone is here to witness them.",
+        voId: "elara.shadow-vault.the-necromancers-altar.talk",
       },
     },
   },

@@ -22,7 +22,8 @@ export type WarRoomHotspotId =
   | "thalorian-defense-records"
   | "new-babylon-siege-record"
   | "hierarchy-piece-positioning-board"
-  | "varkul-director-of-security-file";
+  | "varkul-director-of-security-file"
+  | "necromancer-castle-log-board";
 
 export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
   roomId: "war-room",
@@ -806,6 +807,90 @@ export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
           },
           voId: "human.war-room.varkul-director-of-security-file.talk",
         },
+      },
+    },
+    // Necromancer arc: a war-room reads structures and standing
+    // states. A captured Hierarchy R&D log naming the Castle of
+    // Death in the present tense is a tactical fact — a reported-
+    // destroyed structure that the enemy's own internal record
+    // says is occupied. The room also files Riri'Ahlia's
+    // unanswered procedural question, because a war-room reads an
+    // open question as an unforced position on a board.
+    "necromancer-castle-log-board": {
+      look: {
+        narration: {
+          lucid:
+            "Pinned to the captured-document rack: a Hierarchy R&D resurrection-protocol log, dated post-Severance, taken intact from Zyr'Koth's office — the Hierarchy CFO; it was not meant to leave the building. The war-room reads the tense, the way it reads any enemy record: 'the Castle remains structurally sound; the throne is occupied.' The Castle of Death was reported destroyed when Akai Shi struck the Necromancer down inside the Matrix. This log is recent, and it is in the standing tense. The room does not file it as a discrepancy. It files it as the enemy's own internal record contradicting the enemy's own public account.",
+          fragmented:
+            "Structurally sound. Structurally sound. The throne is occupied. Occupied. Reported destroyed. Reported destroyed. The log is recent. Recent. The standing tense. The standing tense.",
+          luminous:
+            "The captured log, read as a war-room reads an intercept: not a rumor, the Hierarchy's own internal record, from the CFO's office, never meant to surface. 'The Castle remains structurally sound; the throne is occupied.' The structure was reported destroyed at the killing — and the enemy's private books say it stands and is occupied, in the present tense, recently. The room does not adjudicate the canon. It records the tactical fact: the standing-tense Castle and the witnessed killing are both true, and the gap between them is exactly the size of an escape the case has not yet named.",
+        },
+        voId: "elara.war-room.necromancer-castle-log-board.look",
+        logsClue: {
+          id: "clue-war-room-castle-standing-log",
+          title: "A Standing-Tense Castle of Death",
+          body:
+            "A Hierarchy R&D resurrection-protocol log, dated post-Severance, captured intact from Zyr'Koth's office (Hierarchy CFO) and not meant to leave the building, references the Castle of Death in the standing tense: 'the Castle remains structurally sound; the throne is occupied.' The Castle was reported destroyed when Akai Shi struck the Necromancer down inside the Matrix. The log is recent.",
+          source: "war-room",
+          order: 16,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.necromancer",
+          episodeId: "necromancer.e1",
+          cluesFound: ["necromancer.e1.castle_log"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Captured from the CFO's office, never meant to surface. 'Structurally sound; the throne is occupied.' Reported destroyed at the killing. The log is recent.",
+            balanced:
+              "The war-room files this as an intercept, not a discrepancy: the Hierarchy's own private record says the Castle stands and is occupied, in the present tense, after it was reported destroyed. The gap between the killing-canon and the standing-canon is the case's whole subject — and the enemy's books confirm both halves.",
+            warm:
+              "They wrote it down where they thought no one would read it: the Castle stands, the throne is occupied. It was supposed to be rubble. The room does not pretend to explain that yet — it only keeps the fact, because a fact this strange is the start of the case, not the end.",
+          },
+          voId: "human.war-room.necromancer-castle-log-board.look",
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You pull the procedural annex clipped behind the log. Mol'Garath's quarterly review canonically accommodates the Necromancer's loss without seeking restoration — the Hierarchy does not avenge. But Riri'Ahlia, the COO and Taskmaster, has filed a procedural question: if the Necromancer is operationally back, does his Hierarchy-aligned work resume? The war-room reads an unanswered question the way it reads an unforced piece — a position deliberately left open. The question has no answer on the record. The unanswered-ness is itself canon, and the room marks it without resolving it.",
+          fragmented:
+            "Mol'Garath does not avenge. Does not avenge. Riri'Ahlia. The Taskmaster. Does his work resume. Does it resume. Unanswered. Unanswered. The unanswered-ness is canon. Is canon.",
+          luminous:
+            "The annex, read as a war-room reads a standing position: the Hierarchy does not avenge the Necromancer's loss — Mol'Garath's review accommodates it — but Riri'Ahlia filed the one procedural question that matters, and left it open: if he is operationally back, does the Hierarchy-aligned work resume? The room does not answer it. It records that the question is unanswered on purpose, the way a player leaves a piece unmoved to keep an opponent reading the board. The unanswered-ness is the canon. The case does not get to close it either.",
+        },
+        voId: "elara.war-room.necromancer-castle-log-board.use",
+        logsClue: {
+          id: "clue-war-room-hierarchy-question",
+          title: "What the Hierarchy Has Asked",
+          body:
+            "Mol'Garath's quarterly review canonically accommodates the Necromancer's loss without seeking restoration — the Hierarchy does not avenge. But Riri'Ahlia (COO, Taskmaster) has filed a procedural question: if the Necromancer is operationally back, does his Hierarchy-aligned work resume? The question is unanswered. The unanswered-ness is canon.",
+          source: "war-room",
+          order: 17,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.necromancer",
+          episodeId: "necromancer.e4",
+          cluesFound: ["necromancer.e4.hierarchy_question"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Hierarchy doesn't avenge — Mol'Garath accommodates the loss. Riri'Ahlia asked the one question that matters: does the work resume? Unanswered. On purpose.",
+            balanced:
+              "The room reads the open question as a position, not an oversight. The Hierarchy does not seek restoration, but the Taskmaster put the procedural question on the record and left it there. Whether the Necromancer's work resumes is unanswered, and the unanswered-ness is canon — the case marks it and does not force it.",
+            warm:
+              "They are not trying to bring him back; they simply asked, formally, whether he is working again — and then no one answered. The war-room keeps the silence exactly where it is. Some questions are kept open because the answer would change the board, and everyone knows it.",
+          },
+          voId: "human.war-room.necromancer-castle-log-board.use",
+        },
+      },
+      talk: {
+        narration:
+          "You address the board on the matter of the two records held together: the standing-tense Castle log, and the Taskmaster's unanswered question. The war-room reads them as one position. The Castle stands because the throne is occupied; the question of whether the occupant's work resumes is the precise thing no one in the Hierarchy will put in writing. The room resolves neither. It marks, in grease pencil, that the day the answer is written is the day the position is forced — and until then both the standing Castle and the open question are, deliberately, left exactly as they are.",
+        voId: "elara.war-room.necromancer-castle-log-board.talk",
       },
     },
   },

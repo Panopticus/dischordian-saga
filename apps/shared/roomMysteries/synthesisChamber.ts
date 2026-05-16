@@ -11,7 +11,8 @@ export type SynthesisChamberHotspotId =
   | "synth-vat"
   | "recipe-board"
   | "architects-assembly-record"
-  | "the-collectors-garden-bed";
+  | "the-collectors-garden-bed"
+  | "architects-tolerance-record";
 
 export const SYNTHESIS_CHAMBER_MYSTERY: RoomMysteryModule<SynthesisChamberHotspotId> = {
   roomId: "synthesis-chamber",
@@ -325,6 +326,121 @@ export const SYNTHESIS_CHAMBER_MYSTERY: RoomMysteryModule<SynthesisChamberHotspo
               "He names the things he gave a circumstance to, because the giving was his. It is the single door in him where something other than the catalog operates. The chamber, which gives circumstances every day, recognises the difference better than any room could.",
           },
           voId: "human.synthesis-chamber.the-collectors-garden-bed.talk",
+        },
+      },
+    },
+    // Necromancer arc: this chamber assembles things from a
+    // stated method, and the Architect's tolerance is exactly
+    // that — a doctrine, not a mood. The room files the
+    // Architect's silence on the Necromancer's continuity as a
+    // recipe reads a method: a rule that produces an output. The
+    // boundary clue references the Watcher's and Politician's
+    // prior Architect interventions — a light nod to those
+    // already-wired arcs, deliberately not contradicted.
+    "architects-tolerance-record": {
+      look: {
+        narration: {
+          lucid:
+            "Filed in the assembly-doctrine drawer beside the Collector's folio: a record of an absence. The Architect — A1 Archon, the roster's leader — canonically marks every Archon-level continuity event with a statement, tolerance or rejection. The Necromancer's continued operation in the post-Matrix-killing period has produced NO Architect statement. The chamber files the silence the way it files a recipe with a missing step that is, on inspection, not missing at all: the Architect's silences are themselves canon. The roster's leader cannot fail to notice an A11 continuity event. The silence is not omission. It is a method that produces consent.",
+          fragmented:
+            "No statement. No statement. Tolerance or rejection. Neither. Neither. The silence is canon. Is canon. Not omission. Not omission. He cannot fail to notice. Cannot fail to notice.",
+          luminous:
+            "The record is of a thing that did not happen, kept in the room that reads methods: every Archon continuity event gets an Architect statement, and this one got none. The chamber does not read the absence as oversight, because the roster's leader cannot fail to notice an A11 event — and the Architect's silences are canon in their own right. The missing statement is the statement. The room files it the way it files a synthesis whose blank line is itself the instruction: the Architect knows the Necromancer is back, and has chosen, precisely, not to say so.",
+        },
+        voId: "elara.synthesis-chamber.architects-tolerance-record.look",
+        logsClue: {
+          id: "clue-synthesis-architect-silence",
+          title: "The Architect Has Not Spoken on the Matter",
+          body:
+            "The Architect (A1 Archon, the roster's leader) canonically marks every Archon-level continuity event with a statement — tolerance or rejection. The Necromancer's continued operation in the post-Matrix-killing period has produced NO Architect statement. The silence is not omission; the Architect's silences are themselves canon. The roster's leader cannot fail to notice an A11 continuity event. The Architect knows the Necromancer is back, and has chosen not to say so.",
+          source: "synthesis-chamber",
+          order: 8,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.necromancer",
+          episodeId: "necromancer.e2",
+          cluesFound: ["necromancer.e2.architect_silence"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Every continuity event gets a statement. This one got none. He can't have missed an A11 event. The silence is the statement.",
+            balanced:
+              "The chamber reads the missing statement as a method, not an oversight. The Architect marks every Archon continuity event and did not mark this one — and his silences are canon. The roster's leader cannot fail to notice. The absence is a deliberate output: consent, withheld from speech.",
+            warm:
+              "He says something about every one of these, and about this one he said nothing — and nothing, from him, is not the same as not noticing. He knows. The room keeps the silence exactly, because the silence is the thing he chose to do.",
+          },
+          voId: "human.synthesis-chamber.architects-tolerance-record.look",
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You open the doctrine leaf behind the record. Inferred from the Architect's broader silence pattern across the saga: he tolerates Archon continuity events that do NOT alter the institutional shape of the Empire. The Necromancer wearing the Silence's vacated body is a continuity event; the Empire's institutional shape is unchanged — the roster's count is the same, the seats are the same, the work continues. The chamber recognises the doctrine instantly, because it is the same shape as a recipe: a rule that produces an output without naming the output in advance. The tolerance is structural, not personal.",
+          fragmented:
+            "Does not alter the shape. Does not alter the shape. A continuity event. The shape unchanged. The count is the same. The seats are the same. Structural. Structural. Not personal. Not personal.",
+          luminous:
+            "The doctrine leaf, read as the room reads a method: the Architect tolerates the continuity events that leave the Empire's institutional shape intact, and rejects the ones that redraw it. The Necromancer in the Silence's vacated body changes who occupies the seat and nothing about the seats themselves — same count, same offices, same work. The chamber files it as a rule, not a mercy: the tolerance follows from the shape being unchanged, the way a synthesis follows from its inputs. It is structural. It was never personal.",
+        },
+        voId: "elara.synthesis-chamber.architects-tolerance-record.use",
+        logsClue: {
+          id: "clue-synthesis-architect-doctrine",
+          title: "The Architect's Tolerance Doctrine",
+          body:
+            "Inferred from the Architect's broader silence pattern across the saga: the Architect tolerates Archon continuity events that do NOT alter the institutional shape of the Empire. The Necromancer wearing the Silence's vacated body is a continuity event; the Empire's institutional shape is unchanged. The roster's count is the same; the seats are the same; the work continues. The tolerance is structural, not personal.",
+          source: "synthesis-chamber",
+          order: 9,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.necromancer",
+          episodeId: "necromancer.e4",
+          cluesFound: ["necromancer.e4.architect_doctrine"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "He tolerates continuity that doesn't redraw the Empire's shape. New occupant, same seat — shape unchanged. The rule, not a feeling.",
+            balanced:
+              "The doctrine is a method: tolerate the events that leave the institutional shape intact. The Necromancer changed who holds the seat, not the seats. Same count, same offices, same work. The tolerance is structural — the chamber reads it the way it reads a recipe, not a verdict.",
+            warm:
+              "He allows it because nothing about the Empire's shape moved — only the person inside one seat. It is not forgiveness and it is not warmth; it is a rule, applied. The room that builds from rules recognises this one immediately.",
+          },
+          voId: "human.synthesis-chamber.architects-tolerance-record.use",
+        },
+      },
+      talk: {
+        narration: {
+          lucid:
+            "You address the record on the boundary of the tolerance — what would force the roster's leader to speak. The chamber holds the precedent leaf: two prior Archon continuity events ended with the Architect speaking and the event being undone. When the Watcher attempted to extend his surveillance outside the Empire's institutional bounds, and when the Politician attempted to use the Authority as a personal succession instrument, the Architect's intervention was structural in both cases — 'the Empire's shape is not yours to redraw.' The Necromancer's continuity has, so far, not redrawn the shape. The room files the boundary precisely and resolves nothing: the tolerance is conditional, and the condition is operational discipline. The Necromancer canonically knows this.",
+          fragmented:
+            "The Watcher. The Watcher tried to extend it. The Politician. A succession instrument. Not yours to redraw. Not yours to redraw. He has not redrawn it. Not yet. Not yet. Conditional. Conditional.",
+          luminous:
+            "The precedent leaf, read as the room reads a method's failure cases: the doctrine has fired twice, and both times the event was undone. The Watcher's reach outside the institutional bounds; the Politician's attempt to make the Authority a personal succession instrument — each ended with the Architect speaking the same structural sentence: the Empire's shape is not yours to redraw. The Necromancer has not redrawn it. The chamber marks the boundary exactly and resolves nothing: the tolerance is conditional on operational discipline, the prior cases chart the edge precisely, and the Necromancer's quiet is the discipline of staying inside it.",
+        },
+        voId: "elara.synthesis-chamber.architects-tolerance-record.talk",
+        logsClue: {
+          id: "clue-synthesis-architect-boundary",
+          title: "The Boundary the Architect Will Defend",
+          body:
+            "Two prior Archon continuity events ended with the Architect speaking and the event being undone: when the Watcher attempted to extend his surveillance outside the Empire's institutional bounds, and when the Politician attempted to use the Authority as a personal succession instrument. In both cases the Architect's intervention was structural: 'the Empire's shape is not yours to redraw.' The Necromancer's continuity has, so far, not redrawn the shape. The tolerance is conditional on operational discipline; the Necromancer canonically knows this.",
+          source: "synthesis-chamber",
+          order: 10,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.necromancer",
+          episodeId: "necromancer.e4",
+          cluesFound: ["necromancer.e4.untouchable_boundary"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "The doctrine fired twice — the Watcher's overreach, the Politician's succession grab — both undone. 'Not yours to redraw.' He hasn't redrawn it. Yet.",
+            balanced:
+              "The boundary is charted by precedent: the Watcher and the Politician both pushed the Empire's shape and the Architect undid them with the same structural line. The Necromancer's continuity stays inside the shape, so it stands — conditionally. The condition is discipline, and he knows it.",
+            warm:
+              "We have seen this edge before — with the Watcher, with the Politician — and both times the Architect drew it back. The Necromancer has stayed inside it. The room keeps the precedent without pretending the tolerance is anything warmer than a line he is careful not to cross.",
+          },
+          voId: "human.synthesis-chamber.architects-tolerance-record.talk",
         },
       },
     },

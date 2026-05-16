@@ -621,6 +621,8 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "mystery-medical-log", name: "Medical Log (Read)", description: "Read the data pad's final entry under the magnifier — patients across wake-cycles, the same dream, the word 'signal'.", x: 22, y: 78, width: 6, height: 6, type: "interact", action: "room-mystery:medical-bay:medical-log" },
       { id: "mystery-vox-neural-bridge", name: "Neural Bridge (Read)", description: "Lyra's etched plate beside the needle-port: 'L. Vox.' She built the bridge to move consciousness between a body and the Ark.", x: 52, y: 72, width: 5, height: 5, type: "interact", action: "room-mystery:medical-bay:egg-vox-neural-bridge" },
       { id: "emergency-safe", name: "Emergency Safe", description: "A reinforced wall safe with Dr. Lyra Vox's nameplate. Biometric reader sabotaged by her own hand; numeric keypad still works.", x: 70, y: 18, width: 12, height: 14, type: "interact", action: "room-mystery:medical-bay:emergency-safe" },
+      // Mystery wiring — Necromancer arc: the Silence's vacated body, catalogued under the Resurrectionist's Samsara-machine taxonomy
+      { id: "the-silences-vacated-body", name: "The Silence's Vacated Body (Catalog)", description: "A drawer in the body-catalog indexed to the Resurrectionist's Samsara-machine taxonomy — the Silence's body, tagged 'available' at the moment of her going.", x: 48, y: 14, width: 6, height: 6, type: "interact", action: "room-mystery:medical-bay:the-silences-vacated-body" },
       // ── NPC presence (Phase C) ──
       // The Source — primaryRoom = medical_bay (factionNPCs.ts).
       // Manifestation: possessed_system. He surfaces through the bio-bed
@@ -1096,6 +1098,9 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       // Mystery wiring — Varkul arc: the vigil cross-catalogue and the testimony-boundary file
       { id: "varkul-vigil-cross-catalog", name: "The Varkul Vigil Cross-Catalogue", description: "A cross-catalogued observation under the Antiquarian's glyph for a vigil with no end — what a centuries-long unbroken post does to the one who holds it.", x: 30, y: 58, width: 7, height: 9, type: "interact", action: "room-mystery:antiquarian-library:varkul-vigil-cross-catalog" },
       { id: "varkul-testimony-boundary-file", name: "The Varkul Testimony-Boundary File", description: "A boundary file in the Antiquarian's hand — not what Varkul said, but the precise edge of it, and the case the Two Witnesses leave open.", x: 38, y: 58, width: 7, height: 9, type: "interact", action: "room-mystery:antiquarian-library:varkul-testimony-boundary-file" },
+      // Mystery wiring — Necromancer arc: Akai Shi's two canonized witness statements and the case-closing ledger
+      { id: "akai-shi-witness-statements", name: "Akai Shi's Witness Statements", description: "Akai Shi's testimony, canonized in the Two Witnesses' chronicle — the killing through the throne, and the second statement that does not retract it.", x: 46, y: 58, width: 7, height: 9, type: "interact", action: "room-mystery:antiquarian-library:akai-shi-witness-statements" },
+      { id: "necromancer-case-closing-ledger", name: "The Necromancer Case-Closing Ledger", description: "A closing ledger on the case-synthesis shelf — the Necromancer arc assembled in one hand, the dual-reading closure deliberately left open.", x: 54, y: 58, width: 7, height: 9, type: "interact", action: "room-mystery:antiquarian-library:necromancer-case-closing-ledger" },
     ],
   },
   /* ═══ CHAIN-UNLOCKED HIDDEN ROOMS ═══ */
@@ -1198,6 +1203,8 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       // Mystery wiring — Varkul arc: the held far-wall door and the maker's-heartbeat readout
       { id: "the-unopened-threshold", name: "The Unopened Threshold", description: "A door set into the vault's far wall that has never been opened — not sealed, held. The room's own commentary on a vigil that does not relent.", x: 8, y: 24, width: 14, height: 22, type: "interact", action: "room-mystery:shadow-vault:the-unopened-threshold" },
       { id: "the-makers-heartbeat-trace", name: "The Maker's Heartbeat Trace", description: "A second readout on the warden-terminal no warden watches — a flat, contentless pulse the Order logs but cannot decode, because there is nothing in it to decode.", x: 78, y: 24, width: 14, height: 20, type: "interact", action: "room-mystery:shadow-vault:the-makers-heartbeat-trace" },
+      // Mystery wiring — Necromancer arc: the Cathedral altar-facet, Varkul's four sentences and the maker's recent inscription
+      { id: "the-necromancers-altar", name: "The Necromancer's Altar", description: "A stained-glass altar-facet the vault renders against its far wall only when witnessed — the Cathedral of Code's altar, where Varkul speaks his four sentences and the maker's hand recently cut a correction.", x: 26, y: 26, width: 10, height: 18, type: "interact", action: "room-mystery:shadow-vault:the-necromancers-altar" },
     ],
   },
   {
@@ -1245,6 +1252,8 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "hierarchy-piece-positioning-board", name: "Hierarchy Piece-Positioning Board", description: "A captured-document panel on the archive's deep rack — the Hierarchy of the Damned's aeons-long piece-positioning, read the way a war-room reads a slow board.", x: 30, y: 48, width: 8, height: 9, type: "interact", action: "room-mystery:war-room:hierarchy-piece-positioning-board" },
       // Mystery wiring — Varkul arc: the Director of Security personnel file
       { id: "varkul-director-of-security-file", name: "Varkul Director-of-Security File", description: "A personnel order on the command-structure rack — Mol'Garath's post-Severance promotion of the Necromancer's creation to keeper of the Hierarchy's gates, both sides.", x: 42, y: 48, width: 8, height: 9, type: "interact", action: "room-mystery:war-room:varkul-director-of-security-file" },
+      // Mystery wiring — Necromancer arc: the captured standing-tense Castle log and the Taskmaster's unanswered question
+      { id: "necromancer-castle-log-board", name: "Necromancer Castle-Log Board", description: "A captured Hierarchy R&D log on the document rack — the Castle of Death named in the standing tense from the CFO's office, and Riri'Ahlia's unanswered procedural question.", x: 54, y: 48, width: 8, height: 9, type: "interact", action: "room-mystery:war-room:necromancer-castle-log-board" },
     ],
   },
   {
@@ -1438,6 +1447,8 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       // Mystery wiring — Collector arc: the Architect's assembly-record, the Collector's Garden bed
       { id: "architects-assembly-record", name: "The Architect's Assembly Record", description: "A folio in the chamber's assembly-doctrine drawer — the Collector's curatorial doctrine, his own donorless origin, and the Inception Ark mandate.", x: 4, y: 12, width: 16, height: 28, type: "interact", action: "room-mystery:synthesis-chamber:architects-assembly-record" },
       { id: "the-collectors-garden-bed", name: "The Collector's Garden Bed", description: "A sealed planter fed from the vat's overflow — the Collector's Garden: a three-thousand-year crossbreeding project, the one place he makes rather than keeps.", x: 4, y: 44, width: 16, height: 28, type: "interact", action: "room-mystery:synthesis-chamber:the-collectors-garden-bed" },
+      // Mystery wiring — Necromancer arc: the Architect's tolerance doctrine, his silence, and the conditional boundary
+      { id: "architects-tolerance-record", name: "The Architect's Tolerance Record", description: "A record of an absence in the assembly-doctrine drawer — the Architect's unspoken consent to the Necromancer's continuity, the tolerance doctrine, and the boundary the roster's leader will defend.", x: 24, y: 76, width: 14, height: 18, type: "interact", action: "room-mystery:synthesis-chamber:architects-tolerance-record" },
     ],
   },
   {
@@ -1602,6 +1613,8 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "mirror-pool", name: "Mirror Pool", description: "A shallow basin of mercury. The surface reflects a ceiling that is not in this room.", x: 46, y: 38, width: 12, height: 12, type: "interact", action: "room-mystery:dreams-workshop-subbasement:mirror-pool" },
       // Mystery wiring — Politician arc: the secret-apprentice imprint lattice (the policy's living half)
       { id: "secret-apprentice-imprint-lattice", name: "Secret-Apprentice Imprint Lattice", description: "Below the loom's frame, half inside the wall, a lattice of phosphor threads that does not unweave when watched — because it is not weaving. It is holding.", x: 16, y: 38, width: 14, height: 16, type: "interact", action: "room-mystery:dreams-workshop-subbasement:secret-apprentice-imprint-lattice" },
+      // Mystery wiring — Necromancer arc: the in-Matrix held thread — Varkul's vigil and the maker's pre-authored Protocol 42 schema
+      { id: "necromancer-protocol-42-schema", name: "Protocol 42 Schema", description: "A thread the loom holds without weaving — Varkul's vigil at the Cathedral inside the Matrix, and the Necromancer's own pre-authored Resurrection Protocol 42.", x: 62, y: 38, width: 14, height: 16, type: "interact", action: "room-mystery:dreams-workshop-subbasement:necromancer-protocol-42-schema" },
     ],
   },
 ];

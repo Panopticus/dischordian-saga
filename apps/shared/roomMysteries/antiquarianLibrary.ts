@@ -29,7 +29,9 @@ export type AntiquarianLibraryHotspotId =
   | "collectors-redacted-anomaly"
   | "collector-case-closing-ledger"
   | "varkul-vigil-cross-catalog"
-  | "varkul-testimony-boundary-file";
+  | "varkul-testimony-boundary-file"
+  | "akai-shi-witness-statements"
+  | "necromancer-case-closing-ledger";
 
 export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHotspotId> = {
   roomId: "antiquarian-library",
@@ -2184,6 +2186,167 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
               "All three are true to what we found, and the room refuses to choose for us — the tender reading, the cold one, and the grieving one all stand. We carry whichever we offer. 'Pass. Or do not.' He has, in the end, made it our sentence too.",
           },
           voId: "human.antiquarian-library.varkul-testimony-boundary-file.talk",
+        },
+      },
+    },
+    // Necromancer arc: the Two Witnesses' chronicle is kept in
+    // this archive — Akai Shi's testimony is canonized here, and
+    // the Antiquarian does not soften a witness who does not lie.
+    // The room files the Red Death's two statements together
+    // because the second does not retract the first; it stands
+    // beside it. Akai Shi's witness is the arc's load-bearing
+    // proof that the killing was real.
+    "akai-shi-witness-statements": {
+      look: {
+        narration: {
+          lucid:
+            "Akai Shi's first-person testimony, canonized in the Two Witnesses' chronicle in the Programmer-Antiquarian's hand. She is unequivocal: 'I struck him through the throne. He did not stand back up. I waited the canonical ninety days inside the Matrix to confirm. He was gone.' The Antiquarian files it under the glyph he reserves for testimony that cannot be argued with — not because it is forceful, but because Akai Shi does not lie. The killing is canonically real. The archive does not entertain the reading that it was not.",
+          fragmented:
+            "Through the throne. Through the throne. He did not stand back up. Did not stand back up. Ninety days. Ninety days. He was gone. He was gone. She does not lie. Does not lie.",
+          luminous:
+            "The canonized statement, isolated in the Antiquarian's most careful hand: the strike landed, the body did not rise, the ninety-day vigil inside the Matrix confirmed it. The archive's discipline is to record what was witnessed by a witness who cannot dissemble — and Akai Shi is exactly that. The killing is not in question here. Whatever the standing-tense Castle logs say, this room holds the line that the death, in its moment, took. The arc's whole structure rests on this not being softened.",
+        },
+        voId: "elara.antiquarian-library.akai-shi-witness-statements.look",
+        logsClue: {
+          id: "clue-antiquarian-akai-shi-first-witness",
+          title: "Akai Shi's Witness Statement",
+          body:
+            "Akai Shi's first-person testimony, canonized in the Two Witnesses' chronicle: 'I struck him through the throne. He did not stand back up. I waited the canonical ninety days inside the Matrix to confirm. He was gone.' Akai Shi does not lie. The killing is canonically real. The Castle of Death was reported destroyed when she struck the Necromancer down inside the Matrix.",
+          source: "antiquarian-library",
+          order: 50,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.necromancer",
+          episodeId: "necromancer.e1",
+          cluesFound: ["necromancer.e1.akai_shi_witness"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Through the throne. Ninety days inside the Matrix to be sure. He was gone. She does not lie — so the killing is real. Start there.",
+            balanced:
+              "The first statement is the arc's foundation: the strike was real, the body was real, the ninety-day vigil was real. Akai Shi is a witness who cannot be dishonest, and the Antiquarian canonizes her without softening. Whatever else the case finds, the death — in its moment — took.",
+            warm:
+              "She killed him and then waited ninety days to be certain, which is not cruelty; it is the discipline of a witness who refuses to be wrong. The archive keeps her words exactly. We do not get to wish the killing away. We have to build the rest of the case on it being true.",
+          },
+          voId: "human.antiquarian-library.akai-shi-witness-statements.look",
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You pull the second statement filed behind the first. Akai Shi gave it after reviewing the Cathedral evidence — and she does not retract. 'I struck what was in front of me. I struck the right body. The body died. The work was correct.' She does not contest the Protocol 42 reading. The Antiquarian records one more sentence she added, verbatim, because the room does not paraphrase a witness who does not lie: 'If he wishes to be killed again, he knows how to be where I can strike him.' The two statements are filed together because the second stands beside the first, not over it.",
+          fragmented:
+            "I struck the right body. The right body. The body died. The work was correct. Correct. She does not retract. Does not retract. He knows how to be where I can strike him. Where I can strike him.",
+          luminous:
+            "The second statement, set beside the first in the Antiquarian's hand: not a correction, a continuation. She reviewed the Cathedral, she did not contest Protocol 42, and she did not take back one word. 'I struck the right body. The body died. The work was correct.' The archive isolates the last sentence as doctrine, not threat: 'If he wishes to be killed again, he knows how to be where I can strike him.' The Red Death's discipline is to kill what asks to be killed — and to say, exactly, that the offer stands.",
+        },
+        voId: "elara.antiquarian-library.akai-shi-witness-statements.use",
+        logsClue: {
+          id: "clue-antiquarian-akai-shi-second-witness",
+          title: "Akai Shi's Second Witness Statement",
+          body:
+            "Given after Akai Shi reviewed the Cathedral evidence. She does not retract the first statement: 'I struck what was in front of me. I struck the right body. The body died. The work was correct.' She does not contest the Protocol 42 reading. She adds one sentence: 'If he wishes to be killed again, he knows how to be where I can strike him.' The Red Death does not lie and does not regret the killing.",
+          source: "antiquarian-library",
+          order: 51,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.necromancer",
+          episodeId: "necromancer.e3",
+          cluesFound: ["necromancer.e3.akai_shis_second_witness"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "She reviewed everything and retracted nothing. Right body. Body died. Work correct. And the offer stands — he knows how to be where she can strike him.",
+            balanced:
+              "The second statement is doctrinally precise: she does not contest the survival and she does not regret the killing. Both can be true at once, and she says so. The last sentence is not a boast — it is the Red Death stating that the offer to be killed again is permanently open.",
+            warm:
+              "She does not unsay a word, and she does not gloat. 'I struck the right body. The body died. The work was correct.' And then, almost gently, that he knows where to find her if he ever wants it again. The archive keeps both statements together because the truth needs both of them.",
+          },
+          voId: "human.antiquarian-library.akai-shi-witness-statements.use",
+        },
+      },
+      talk: {
+        narration:
+          "You address the chronicle on the matter of the two statements held side by side. The Antiquarian's discipline does not let you collapse them into one. The first is that the killing took. The second is that the killing was correct and is not regretted, even knowing the Necromancer returned. The archive does not resolve the tension between them, because there is no tension: a death can be real, correct, and later escaped, all at once. The room files the witness exactly and lets the contradiction that is not a contradiction stand.",
+        voId: "elara.antiquarian-library.akai-shi-witness-statements.talk",
+      },
+    },
+    // Necromancer arc: the case-synthesis shelf is where the
+    // Antiquarian assembles a closed case and, by discipline,
+    // declines to pre-judge a closure the player must author.
+    // The Two Witnesses put the arc's genuine dual-reading
+    // question here — both readings honest, neither pressed.
+    "necromancer-case-closing-ledger": {
+      look: {
+        narration: {
+          lucid:
+            "A closing ledger on the case-synthesis shelf, the Necromancer arc assembled in one hand. E1 through E4 reconciled: Akai Shi's killing was real; Protocol 42 — the Necromancer's own pre-authored mechanism — was the escape; the Silence's vacated body was the vehicle; Varkul's unbroken vigil is the witness; the Architect's silence is the consent; the conditional boundary is the Empire's institutional shape held unchanged. The Necromancer is canonically alive, operating quietly. The canon is now structurally stable. The verdict page is left blank, and the blankness is deliberate.",
+          fragmented:
+            "The killing was real. Protocol Forty-Two. The vacated body. The vacated body. Varkul's vigil. The silence is consent. Structurally stable. Stable. The verdict page. Blank. Blank. Deliberate.",
+          luminous:
+            "The synthesis ledger: four episodes reconciled into one structurally complete case, and a final page the Antiquarian left blank on purpose. The killing took; the escape came later, by the Necromancer's own protocol, into a body the Silence had vacated; the Architect's silence is consent because the roster's leader cannot fail to notice an A11 continuity event. Both canons are true. The completeness and the blankness are both intentional — the archive closes the structure and reserves the closure for the only reader entitled to it.",
+        },
+        voId: "elara.antiquarian-library.necromancer-case-closing-ledger.look",
+        logsClue: {
+          id: "clue-antiquarian-necromancer-synthesis",
+          title: "The Case Synthesis",
+          body:
+            "E1-E4 assembled: Akai Shi's killing was real; Protocol 42 was the escape mechanism; the Silence's vacated body was the vehicle; Varkul's vigil is the witness; the Architect's silence is the consent; the conditional boundary is the Empire's institutional shape held unchanged. The Necromancer is canonically alive, operating quietly. The canon is now structurally stable. The verdict is deliberately left open.",
+          source: "antiquarian-library",
+          order: 52,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.necromancer",
+          episodeId: "necromancer.e5",
+          cluesFound: ["necromancer.e5.synthesis"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Whole case in one hand: real killing, Protocol 42, vacated body, Varkul's vigil, the Architect's silent consent. Both canons true. Verdict left blank.",
+            balanced:
+              "The synthesis reconciles E1 through E4 and then stops short of judgment on purpose. The death took and the escape came later, by his own mechanism — both canons hold. Structurally complete, deliberately unclosed. The Antiquarian sets the structure and reserves the closure for us.",
+            warm:
+              "He assembled the entire case and set the pen down exactly where a keeper must — before the verdict. The death was real; the return was his own arrangement; nothing here is a contradiction. The last page is not missing. It is reserved. For us.",
+          },
+          voId: "human.antiquarian-library.necromancer-case-closing-ledger.look",
+        },
+      },
+      talk: {
+        narration: {
+          lucid:
+            "You address the ledger on the closure itself. The Two Witnesses — the Programmer-Antiquarian and the Enigma — put the genuine question, and the ledger records whichever you offer. Is the Necromancer's continuity (a) a death that did not take — a defeat structurally undone, the throne never permanently empty, one line with a brief interruption — or (b) a death that took and was followed by a separate, distinct act of choosing to return — two lines connected by a decision, consistent with Protocol 42, which does not force return but permits it when the soul asks? The two readings are operationally identical and narratively very different. Both are honest. The Witnesses do not press the answer; they record whichever the player offers, and they keep open the option to file no reading at all.",
+          fragmented:
+            "A death that did not take. A death that took and chose return. Both. Both. Operationally identical. Narratively different. The Witnesses do not press. Do not press. Whichever you offer. Or none. Or none.",
+          luminous:
+            "The closing question, asked in the Two Witnesses' hand: a defeat undone, or a death followed by a chosen return — two readings of one structurally complete case, each true to every finding, neither the ledger's own. Protocol 42 is consistent with both: it does not force return; it permits return when the soul asks. The archive records what the player offers and pre-judges nothing — and, like Akai Shi and the Antiquarian themselves, it will hold both at once if the player declines to choose. The case does not need the player to resolve it. It needs the player to decide what the saga's record should now hold.",
+        },
+        voId: "elara.antiquarian-library.necromancer-case-closing-ledger.talk",
+        logsClue: {
+          id: "clue-antiquarian-necromancer-the-question",
+          title: "The Question the Case Asks the Player",
+          body:
+            "The Two Witnesses (Programmer-Antiquarian + Enigma) put the closure: is the Necromancer's continuity (a) a death that did not take — a defeat structurally undone — or (b) a death that took and was followed by a separate, distinct act of choosing to return? The two readings are operationally identical and narratively very different. Both are honest; Protocol 42 is consistent with each. The Witnesses do not press the answer; they record whichever the player offers, or none — the canon can hold both, the way Akai Shi and the Antiquarian do.",
+          source: "antiquarian-library",
+          order: 53,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.necromancer",
+          episodeId: "necromancer.e5",
+          cluesFound: ["necromancer.e5.the_question_the_player_asks"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "A defeat undone, or a death he chose to come back from. Operationally the same, a different story. Both honest. The Witnesses record yours — or none.",
+            balanced:
+              "The verdict is the player's, between two readings the evidence equally supports — a single interrupted line, or two lines joined by a decision. Protocol 42 fits either. The ledger advances neither, and offers the third honest option: file no closure and let the canon hold both.",
+            warm:
+              "Both readings are true to everything we found, and the room refuses to choose for us — including the option not to choose at all. He died and he is here; whether that is one story or two is the thing we get to decide, or honestly decline to. We carry whichever we offer.",
+          },
+          voId: "human.antiquarian-library.necromancer-case-closing-ledger.talk",
         },
       },
     },
