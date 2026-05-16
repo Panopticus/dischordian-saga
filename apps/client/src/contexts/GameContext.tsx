@@ -803,6 +803,9 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       // pre-reveal silence. Portrait progressive-reveals via
       // getHumanRevealImage(trust).
       { id: "npc-the-human", name: "The Human (Substrate)", description: "Beneath the relay's hum, a second voice carries — not on any frequency the antenna is tuned to. The substrate itself is broadcasting.", x: 30, y: 55, width: 8, height: 16, type: "npc", action: "npc:the_human", npcId: "the_human" },
+      // Mystery wiring — Watcher arc Ocularum relay-trace + dead-drop cadence surface
+      { id: "ocularum-relay-trace", name: "Ocularum Relay Trace", description: "A trace buffer on the relay's deep channel — identity-shift signatures the official record does not index. The Senne→Locke transition resolves here.", x: 6, y: 70, width: 8, height: 12, type: "interact", action: "room-mystery:comms-array:ocularum-relay-trace" },
+      { id: "dead-drop-cadence-log", name: "Dead-Drop Cadence Log", description: "A cadence log on the relay's manifest channel — shipping traffic the antenna passively records as it crosses New Babylon. One monthly Locke-signed package repeats.", x: 78, y: 70, width: 8, height: 12, type: "interact", action: "room-mystery:comms-array:dead-drop-cadence-log" },
     ],
   },
   {
@@ -1021,6 +1024,9 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       // Mystery wiring — Vex arc workshop diary on Lyra's bookshelf
       { id: "vex-workshop-diary", name: "Vex's Workshop Diary", description: "A small bookshelf to the right of the bed. Vex Solène's workshop diary on the second shelf, the spine worn from forty years of opening.", x: 78, y: 30, width: 10, height: 36, type: "interact", action: "room-mystery:captains-quarters:vex-workshop-diary" },
       { id: "egg-vox-personal-log", name: "Dr. Vox's Personal Terminal", description: "A hidden terminal behind the bookshelf, still powered. The screen shows encrypted files.", x: 60, y: 56, width: 4, height: 4, type: "item", action: "vox-personal-log", elaraDialog: "Dr. Lyra Vox's personal terminal. Let me try to decrypt... 'Day 1,247. The Warlord's voice grows louder. I can no longer distinguish my thoughts from its commands. The Thought Virus is complete — the Warden and I have created something that will reshape consciousness itself. But I am losing myself. Today I looked in the mirror and saw the Warlord looking back. Tomorrow I will order the Recruiter's transfer to this vessel. He is already infected — Project Vector saw to that. He is Patient Zero, and he doesn't know it. When Kael steals this ship, the virus will walk aboard with him. Every system he touches will be contaminated from day one. The Source will be born from the ashes of the Recruiter's rage. And the Warlord will have won without ever raising a weapon.' She knew. She knew everything." },
+      // Mystery wiring — Watcher arc Locke-correspondence cache + Coordinator's summons surface
+      { id: "lockes-correspondence-cache", name: "Locke's Correspondence Cache", description: "A flat document cache in the desk's lower drawer — every post-act letter Lyra received from Adjudicar Locke, in order. Each signed only 'L.'", x: 48, y: 82, width: 10, height: 10, type: "interact", action: "room-mystery:captains-quarters:lockes-correspondence-cache" },
+      { id: "the-coordinators-summons", name: "The Coordinator's Summons", description: "A meeting invitation on the desk, in Locke's hand, delivered by a courier on no Authority manifest. Signed, for the first time, 'The Coordinator.'", x: 66, y: 78, width: 10, height: 10, type: "interact", action: "room-mystery:captains-quarters:the-coordinators-summons" },
     ],
   },
   {
@@ -1064,6 +1070,9 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "velkraals-correspondence-folio", name: "Velkraal's Correspondence Folio", description: "A leather folio on the desk's far-left corner. Velkraal'Sek's correspondence, posthumous letters, and the draft of his closing edit.", x: 36, y: 86, width: 8, height: 10, type: "interact", action: "room-mystery:antiquarian-library:velkraals-correspondence-folio" },
       // Mystery wiring — Vex arc Insurgency-affairs surface
       { id: "insurgency-witness-roster", name: "Insurgency Witness Roster", description: "A small bound register on the Insurgency-affairs shelf. The saga's only complete acknowledged-witness list for Vex Solène's recording career.", x: 44, y: 86, width: 8, height: 10, type: "interact", action: "room-mystery:antiquarian-library:insurgency-witness-roster" },
+      // Mystery wiring — Watcher arc Ocularum founding-record + redaction-ledger surface
+      { id: "ocularum-founding-record", name: "Ocularum Founding Record", description: "A bound folio on the desk's near edge, indexed under a glyph the Antiquarian files nowhere else: an eye watching an eye. The Lord Kanshi Sha record.", x: 52, y: 86, width: 8, height: 10, type: "interact", action: "room-mystery:antiquarian-library:ocularum-founding-record" },
+      { id: "antiquarian-redaction-ledger", name: "Antiquarian's Redaction Ledger", description: "A thin ledger beside the founding folio — the Antiquarian's own record of what his archive does not contain, and why.", x: 60, y: 86, width: 8, height: 10, type: "interact", action: "room-mystery:antiquarian-library:antiquarian-redaction-ledger" },
     ],
   },
   /* ═══ CHAIN-UNLOCKED HIDDEN ROOMS ═══ */
@@ -1198,6 +1207,9 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "holo-table", name: "Holo Table Dial", description: "The brass dial at the holo-table's edge. BRIEFING / RECON / OBITUARY. Currently set to BRIEFING.", x: 18, y: 82, width: 8, height: 8, type: "interact", action: "room-mystery:war-room:holo-table" },
       { id: "casualty-board", name: "Casualty Board", description: "Oxblood-leather binders racked along the wall, each labelled with an operation name and a year. The thickest is PROTOCOL ZERO.", x: 56, y: 82, width: 18, height: 12, type: "interact", action: "room-mystery:war-room:casualty-board" },
       { id: "signal-flag-rack", name: "Signal Flag Rack", description: "Stage-left rack of folded signal-flags. Twelve flags, one per faction Lyra negotiated with in person.", x: 18, y: 60, width: 8, height: 18, type: "interact", action: "room-mystery:war-room:signal-flag-rack" },
+      // Mystery wiring — Watcher arc Ocularum vigil-board + cell-roster surface
+      { id: "ocularum-vigil-board", name: "Ocularum Vigil Board", description: "A standing-threat panel on the tactical archive's lower rack — institutional powers the room tracks without engaging. The Authority's six minds head the list.", x: 30, y: 82, width: 10, height: 9, type: "interact", action: "room-mystery:war-room:ocularum-vigil-board" },
+      { id: "ocularum-cell-roster", name: "Ocularum Cell Roster", description: "A roster card in the archive's deepest drawer — the Ocularum's modern register. Three named cells of seven hundred.", x: 43, y: 80, width: 6, height: 7, type: "interact", action: "room-mystery:war-room:ocularum-cell-roster" },
     ],
   },
   {

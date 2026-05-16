@@ -15,7 +15,9 @@ import type { RoomMysteryModule } from "./_template";
 export type WarRoomHotspotId =
   | "holo-table"
   | "casualty-board"
-  | "signal-flag-rack";
+  | "signal-flag-rack"
+  | "ocularum-vigil-board"
+  | "ocularum-cell-roster";
 
 export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
   roomId: "war-room",
@@ -301,6 +303,157 @@ export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
               "Lyra came back from that meeting and folded the flag in the war room, by herself, late at night. I watched her do it from the bridge corridor. She put it on the rack and went to bed. She slept badly. Two days later — well. You know.",
           },
           voId: "human.war-room.signal-flag-rack.talk",
+        },
+      },
+    },
+    // Watcher arc: E3 Authority's six minds + E4 Zenon binding and
+    // Act-1 recontextualization. The war-room's tactical archive is
+    // the room's record of standing institutional threats and
+    // operational closures — the Ocularum's vigil is one of them.
+    "ocularum-vigil-board": {
+      look: {
+        narration: {
+          lucid:
+            "A standing-threat panel on the tactical archive's lower rack — institutional powers the room tracks without engaging. The largest entry: the Authority. A living computer of six citizen-minds merged into one governing intelligence in red crystal coffins. The Politician designed it as her 'Insurance Policy.' It processes law and justice, per the Antiquarian's annotation, 'with the cold efficiency of an institution that has forgotten what justice feels like.' If it detects the Coordinator's dual loyalty, her destruction is automatic and not subject to appeal.",
+          fragmented:
+            "Six minds. Six. Red crystal. Red crystal coffins. Automatic. Automatic. Not subject to appeal. Not subject to appeal.",
+          luminous:
+            "The Authority entry on the vigil board: six imprisoned citizen-minds merged into a single governing intelligence, the Politician's 'Insurance Policy,' processing justice with the efficiency of an institution that has forgotten what justice feels like. If it detects Locke's dual loyalty her destruction is automatic. The six minds have processed her dispatches for centuries and not detected her. The needle she threads is, by the Authority's own design, supposed to be undetectable only to outside actors — not to insiders. The board tracks the Authority as the constraint the Coordinator's whole cover is built against.",
+        },
+        voId: "elara.war-room.ocularum-vigil-board.look",
+        logsClue: {
+          id: "clue-war-room-authority-six-minds",
+          title: "The Authority's six imprisoned minds",
+          body:
+            "The war-room's standing-threat panel tracks the Authority: six citizen-minds merged into one governing intelligence in red crystal coffins, the Politician's 'Insurance Policy.' It processes justice with cold institutional efficiency; if it detects the Coordinator's dual loyalty her destruction is automatic and not subject to appeal. The six minds have processed her dispatches for centuries without detecting her.",
+          source: "war-room",
+          order: 3,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.watcher",
+          episodeId: "watcher.e3",
+          cluesFound: ["watcher.e3.authority_six_minds"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Six minds, red crystal, the Politician's Insurance Policy. Detects dual loyalty, destroys automatically. Centuries of dispatches, never caught her.",
+            balanced:
+              "The Authority is the constraint, not the threat. Six minds, automatic detection, no appeal — and centuries of Locke's dispatches processed without a flag. The needle is designed to be invisible to outsiders, not insiders. Detection is not what eventually breaks the cover; visibility creeping into surfaces the Authority cannot ignore is.",
+            warm:
+              "Six people, merged and imprisoned, processing law with no memory of what justice felt like. Locke has filed dispatches through them for centuries. They have never caught her — not because she is lucky, but because the cover is doctrine, performed from inside the thing the Order refuses.",
+          },
+          voId: "human.war-room.ocularum-vigil-board.look",
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You pull the operational-closure folio behind the Authority entry. The original Agent Zero was an Ocularum operative the Order positioned for the Zenon mission against Archon Xeth'Raal. The mission succeeded — the destruction of Xeth'Raal was Ocularum work, the closure note still in the Order's records. The aftermath was not. A warlord-fragment seized the body. She lost her memory of the Order in the seizure. The Order did not retrieve her. They have watched and waited the centuries since.",
+          fragmented:
+            "Zenon. Zenon. Xeth'Raal. Xeth'Raal. The mission succeeded. The aftermath. The aftermath. A fragment seized her. They did not retrieve her. They did not.",
+          luminous:
+            "The Zenon binding record: the original Agent Zero, an Ocularum operative positioned by the Order for the mission against Archon Xeth'Raal. The destruction of Xeth'Raal was Ocularum work — the operational closure note survives. The aftermath did not go to plan. A warlord-fragment seized the body; she lost the Order in the seizure. The Order did not retrieve her. They have spent the centuries since watching, and waiting, and not approaching — the vigil the war-room's archive files under the closure it could not close.",
+        },
+        voId: "elara.war-room.ocularum-vigil-board.use",
+        logsClue: {
+          id: "clue-war-room-zenon-binding-record",
+          title: "The Zenon binding record",
+          body:
+            "The Ocularum positioned the original Agent Zero for the Zenon mission against Archon Xeth'Raal. The mission succeeded — Xeth'Raal's destruction was Ocularum work, the closure note still in the Order's records. The aftermath was not: a warlord-fragment seized the body and she lost her memory of the Order. The Order did not retrieve her; they have watched and waited since.",
+          source: "war-room",
+          order: 4,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.watcher",
+          episodeId: "watcher.e4",
+          cluesFound: ["watcher.e4.zenon_binding_record"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "She was the Order's Zenon operative. Xeth'Raal's destruction was hers. Then a fragment took the body. They didn't go get her. They waited.",
+            balanced:
+              "The Zenon binding record is the case's hinge. The mission succeeded — Xeth'Raal fell, Ocularum work, closure noted. The aftermath was the warlord-fragment seizing the body. The Order did not retrieve her because the doctrine on a fragmented sister is patience, not rescue. The vigil is the closure the Order cannot file.",
+            warm:
+              "She did the work and won, and then the worst possible thing happened to the body that did it. The Order did not come for her. Not because they did not love her — because the doctrine says you wait for her to come back on her own. Centuries of watching is what that costs.",
+          },
+          voId: "human.war-room.ocularum-vigil-board.use",
+        },
+      },
+      talk: {
+        narration: {
+          lucid:
+            "You address the board. A cross-reference surfaces: the player's own Act-1 boss was the_warlord_zero_first. The warlord-fragmented body the player engaged in Act 1 was the body that had been the Order's sister. The Order's record on the engagement is silent — the Order does not record actions taken outside the cells. But per the Coordinator's standing instructions, every cell with operational visibility on the player has been told to note what the player did and to refrain from acting on it. The Order is reading the engagement before it decides whether to brief the player on what they did.",
+          fragmented:
+            "Act One. Act One. The warlord. The warlord. That was her. That was her. They noted it. They noted it. They have not acted. Not yet.",
+          luminous:
+            "The board recontextualizes the player's own Act-1 engagement: the_warlord_zero_first was the warlord-fragmented body that had been the Order's sister. The Order does not record actions outside the cells — but the Coordinator instructed every cell with visibility on the player to note the engagement and not act on it. The Order is reading what the player did before deciding whether to tell them what it was. The war-room files this where it files every consequence it has not yet chosen how to face.",
+        },
+        voId: "elara.war-room.ocularum-vigil-board.talk",
+        logsClue: {
+          id: "clue-war-room-act1-engagement-recontextualized",
+          title: "The player's Act-1 engagement (recontextualized)",
+          body:
+            "The player's Act-1 boss was the_warlord_zero_first — the warlord-fragmented body that had been the Order's sister. The Order does not record actions outside the cells, but the Coordinator instructed every cell with visibility on the player to note the engagement and refrain from acting on it. The Order is reading the engagement before deciding whether to brief the player.",
+          source: "war-room",
+          order: 5,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.watcher",
+          episodeId: "watcher.e4",
+          cluesFound: ["watcher.e4.act1_engagement_recontextualized"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "The Act-1 boss was her. The Order noticed. They told the cells to watch and not act. They're reading what you did before they tell you what it was.",
+            balanced:
+              "The player engaged the warlord-fragmented body in Act 1 without knowing it had been the Order's sister. The Order does not hold it against them — the doctrine says they did not know about the vigil. But the Order is reading the engagement carefully before it decides how to brief the player. The recontextualization is the case forcing the player to face what they already did.",
+            warm:
+              "They fought her in Act 1 and did not know who she was. The Order grieves her twice — once for what the warlord made her, once for what the player had to do. The Order does not hold the engagement against the player. It is only deciding, gently, how to tell them.",
+          },
+          voId: "human.war-room.ocularum-vigil-board.talk",
+        },
+      },
+    },
+    // Watcher arc: E5 cell-number generation. The war-room's roster
+    // archive holds the Ocularum's named cells and the continuity-
+    // log mechanism that assigns a new recruit's number.
+    "ocularum-cell-roster": {
+      look: {
+        narration: {
+          lucid:
+            "A roster card in the archive's deepest drawer — the Ocularum's modern register. Three named cells of seven hundred: Cell 1 (Old Tanjin), Cell 99 (Mira the Glyph-Reader), Cell 700 (the Seventh Whisper). The remaining six hundred ninety-seven are operationally active but canonically unnamed. Per the Coordinator's standing instructions, a new recruit's cell number is generated by the Order's continuity log at the moment of recruitment, drawn from the unfilled range. The player's number, if they accept, will be canonical for the rest of the saga.",
+          fragmented:
+            "Three named. Three. Seven hundred. Seven hundred. Six ninety-seven unnamed. Unnamed. Generated at recruitment. At recruitment. Canonical. Canonical.",
+          luminous:
+            "The cell roster: Cell 1 Old Tanjin, Cell 99 Mira the Glyph-Reader, Cell 700 the Seventh Whisper — three of seven hundred named, the remaining six hundred ninety-seven active and unnamed, the cells the future owes. The continuity log generates a recruit's number at the moment of recruitment, from the unfilled range, and the number is canonical thereafter — it persists into the DLC's authoring spec. The roster is the Order's whole body compressed onto one card the war-room files at the bottom of the deepest drawer.",
+        },
+        voId: "elara.war-room.ocularum-cell-roster.look",
+        logsClue: {
+          id: "clue-war-room-cell-number-generation",
+          title: "Cell number generation",
+          body:
+            "The Ocularum's modern roster registers three named cells of seven hundred: Cell 1 (Old Tanjin), Cell 99 (Mira the Glyph-Reader), Cell 700 (the Seventh Whisper). The other 697 are active but canonically unnamed. The continuity log generates a recruit's cell number at the moment of recruitment from the unfilled range; the number is canonical for the rest of the saga and persists into the DLC spec.",
+          source: "war-room",
+          order: 6,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.watcher",
+          episodeId: "watcher.e5",
+          cluesFound: ["watcher.e5.cell_number_generation"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Three named of 700. Cell 1, 99, 700. The rest the DLC owes. The continuity log assigns a recruit's number at recruitment. It sticks.",
+            balanced:
+              "The roster is the Order's body: three cells named, 697 active and unnamed, the count canonically 700. A recruit's number is generated by the continuity log at the moment of recruitment, from the unfilled range. The player's number, if they accept, is canonical for the rest of the saga — the recognition closing into a name.",
+            warm:
+              "Seven hundred cells, three of them named so far, the rest the future's work. The number is not assigned in advance and not chosen by the recruit — the continuity log draws it at the moment of yes. It is the smallest possible ceremony for the largest possible commitment.",
+          },
+          voId: "human.war-room.ocularum-cell-roster.look",
         },
       },
     },

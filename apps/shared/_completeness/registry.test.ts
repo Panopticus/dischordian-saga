@@ -15,6 +15,8 @@
  * check function fails CI as a unit test, not just as a ship:check
  * harness crash.
  */
+import * as fs from "node:fs";
+import * as path from "node:path";
 import { describe, it, expect } from "vitest";
 import {
   COMPLETENESS_REGISTRY,
@@ -70,5 +72,61 @@ describe("completeness registry — well-formedness", () => {
         `${entry.id}: bad status ${result.status}`,
       ).toContain(result.status);
     }
+    // Walks every registered check in-process (~90 scans); the
+    // default 5s vitest budget is too small for the full registry
+    // walk on slower machines. Explicit budget, no assertion change.
+  }, 60000);
+
+  it("recorded ratchet ceilings never exceed the entry's declared count", async () => {
+    const raw = fs.readFileSync(
+      path.join(__dirname, "ratchet-state.json"),
+      "utf-8",
+    );
+    const state = JSON.parse(raw) as {
+      worstByEntry: Record<string, number>;
+    };
+    for (const entry of COMPLETENESS_REGISTRY) {
+      const ceiling = state.worstByEntry[entry.id];
+      if (ceiling === undefined) continue;
+      const result = await runParityCheck(entry, {
+        version: 1,
+        worstByEntry: {},
+      });
+      expect(
+        ceiling,
+        `${entry.id}: ratchet ceiling ${ceiling} exceeds declared ${result.declared} — an entry must never be allowed to ratchet at "everything missing" forever`,
+      ).toBeLessThanOrEqual(result.declared);
+    }
+  }, 60000);
+
+  describe("narrative.mystery_clue_binding_coverage", () => {
+    it("is registered as a ratcheted Mystery Engine entry", () => {
+      const entry = COMPLETENESS_REGISTRY.find(
+        (e) => e.id === "narrative.mystery_clue_binding_coverage",
+      );
+      expect(entry, "entry must be registered").toBeDefined();
+      expect(entry?.ratchet?.target).toBe(0);
+    });
+
+    it("counts the Watcher arc's progression-critical clues as fully bound", async () => {
+      const entry = COMPLETENESS_REGISTRY.find(
+        (e) => e.id === "narrative.mystery_clue_binding_coverage",
+      )!;
+      const result = await runParityCheck(entry, {
+        version: 1,
+        worstByEntry: {},
+      });
+      // Watcher is the arc this change wired end-to-end; it must not
+      // appear among the still-stranded arcs in the missing list.
+      for (const line of result.notes ?? []) {
+        expect(
+          line.startsWith("mystery.watcher:"),
+          `Watcher arc must be fully bound, but it is reported unbound: ${line}`,
+        ).toBe(false);
+      }
+      // The check must be doing real work (non-trivial declared set).
+      expect(result.declared).toBeGreaterThan(0);
+      expect(result.implemented).toBeGreaterThan(0);
+    });
   });
 });

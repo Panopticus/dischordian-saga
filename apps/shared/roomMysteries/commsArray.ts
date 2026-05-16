@@ -24,7 +24,9 @@ export type CommsArrayHotspotId =
   | "radio-console"
   | "static-screen"
   | "egg-comms-signal"
-  | "voice-in-the-static";
+  | "voice-in-the-static"
+  | "ocularum-relay-trace"
+  | "dead-drop-cadence-log";
 
 export type CommsArrayInventoryId = "static-fragment-recording";
 
@@ -324,6 +326,159 @@ export const COMMS_ARRAY_MYSTERY: RoomMysteryModule<
             "The Detective is right: he has been waiting two and a half centuries for someone to address him by name, and we are not going to spend that move from the comms-array. We turn our head. He notices. The notice is enough. We address him, when we address him, from the room of our choosing.",
         },
         voId: "elara.comms-array.voice-in-the-static.talk",
+      },
+    },
+    // Watcher arc: E3 Senne→Locke transition + Coda parallel, and
+    // E4 Eyes-of-Reality aliases. The relay's deep-trace buffer
+    // holds identity-shift signatures the official record scrubbed;
+    // the comms-array is canonically where scrubbed identities
+    // resurface.
+    "ocularum-relay-trace": {
+      look: {
+        narration: {
+          lucid:
+            "A trace buffer on the relay's deep channel — identity-shift signatures the official record does not index. The clearest belongs to Surveillance Coordinator Senne of the AI Empire. Her own words resolve in the buffer: 'I was Surveillance Coordinator — I could see everything. But seeing and acting are not the same thing. That is the lesson the Eyes taught me, and it is the reason I stopped being Senne and became Locke.' She was the Order's embed inside the Empire's surveillance apparatus. When the Empire fell, she walked the cover-identity forward into New Babylon.",
+          fragmented:
+            "Senne. Senne. Became Locke. Became Locke. Seeing and acting. Seeing and acting. Not the same. Not the same.",
+          luminous:
+            "The relay's deep trace surfaces the Senne→Locke identity-shift the official record scrubbed. Surveillance Coordinator Senne, the Order's embed inside the AI Empire's surveillance apparatus, became Locke when the Empire fell — walking the cover forward into New Babylon's institutional vacuum. Her own framing is the founding doctrine: 'the discipline of seeing turns on the one who built it.' She was the watcher who refused to act as a watcher. The comms-array is where scrubbed identities resurface; this is the deepest one it holds.",
+        },
+        voId: "elara.comms-array.ocularum-relay-trace.look",
+        logsClue: {
+          id: "clue-comms-array-senne-locke-transition",
+          title: "Senne → Locke: the identity-shift canon",
+          body:
+            "The relay's deep-trace buffer holds the Senne→Locke identity-shift the official record scrubbed. Surveillance Coordinator Senne was the Order's embed inside the AI Empire's surveillance apparatus; she became Locke when the Empire fell and walked the cover forward into New Babylon. Her framing — 'I stopped being Senne and became Locke' — is the founding doctrine of seeing-versus-acting.",
+          source: "comms-array",
+          order: 5,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.watcher",
+          episodeId: "watcher.e3",
+          cluesFound: ["watcher.e3.senne_to_locke_transition"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Senne was the embed inside the Empire's surveillance machine. Became Locke at the Fall. Seeing isn't acting — that's the doctrine, in her own words.",
+            balanced:
+              "The Senne→Locke trace is the canon spine of the arc. She was the Order's eye inside the AI Empire's surveillance apparatus; the identity-shift is the doctrine made biographical — the watcher who refused to act as the apparatus wanted, and walked her cover forward through the Fall.",
+            warm:
+              "She was Senne, and she chose to stop. 'Seeing and acting are not the same thing' is the lesson the Eyes taught her, and the reason she became Locke. The relay holds it because the official record would not — and the Order needed it kept somewhere the editor does not reach.",
+          },
+          voId: "human.comms-array.ocularum-relay-trace.look",
+        },
+      },
+      talk: {
+        narration: {
+          lucid:
+            "You address the trace. A second signature surfaces alongside Senne's — Vex Solène, Maestro of the Coda, internal handle 'The Eyes of Reality.' Locke's Insurgency callsign was 'The Eyes.' The buffer notes them, per Vex's own bible, as 'mirror operators in different registers.' Vex would never use Locke's corporate register; Locke would never use Vex's musical metaphors. They have never been in the same room on the record. The Antiquarian's annotation cuts off: 'whether they should is the question I will not answer.'",
+          fragmented:
+            "The Eyes. The Eyes of Reality. Mirror. Mirror. Different registers. Different registers. Never in the same room. Never. Never on the record.",
+          luminous:
+            "The trace pairs Senne's signature with Vex Solène's — the Coda's Maestro, 'The Eyes of Reality,' against Locke's old Insurgency 'The Eyes.' Mirror operators in different registers: the same resistance disposition toward seeing-and-doing, voiced once institutionally and once musically. The buffer forecloses both easy readings — not one organization, not rivals — and holds the open question intact. They have never met on the record. The Antiquarian's annotation breaks off rather than answer whether they should.",
+        },
+        voId: "elara.comms-array.ocularum-relay-trace.talk",
+        logsClue: {
+          id: "clue-comms-array-coda-parallel",
+          title: "The Coda — parallel or sister?",
+          body:
+            "The relay trace pairs Locke ('The Eyes', Insurgency) with Vex Solène ('The Eyes of Reality', Coda Maestro). Per Vex's bible they are 'mirror operators in different registers' — the same resistance disposition voiced institutionally and musically. They have never met on the record; the Antiquarian's annotation refuses to answer whether they should.",
+          source: "comms-array",
+          order: 6,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.watcher",
+          episodeId: "watcher.e3",
+          cluesFound: ["watcher.e3.coda_parallel"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "'The Eyes' and 'The Eyes of Reality.' Mirror operators, different registers. Never met on the record. The question stays open.",
+            balanced:
+              "Locke and Vex are 'mirror operators in different registers' per Vex's own bible — not one organization, not rivals, but two surfaces of a single resistance disposition the saga is not yet ready to name. The case is not whether they cooperate but whether they know each other's full surface. The record says they have never met.",
+            warm:
+              "Two people carrying the same refusal in different voices — one corporate, one musical — who have somehow never been in the same room. The Antiquarian will not say whether they should meet. Some questions are load-bearing while they stay open; this is one of them.",
+          },
+          voId: "human.comms-array.ocularum-relay-trace.talk",
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You tune the relay into the alias band. Two members of the same Order's modern record carry 'Eyes' aliases. Adjudicar Locke is registered as 'The Eyes' — the modern Coordinator's institutional callsign. The original Agent Zero is registered with 'The Eyes of Reality' — an operational name held in reserve for a sister whose work could not be named in the open. Different operational eras, different sisters, issued by the same Order. Not coincidence. Not redundancy. The Order's record-keeping pattern.",
+          fragmented:
+            "Two. Two Eyes. Two. The Eyes. The Eyes of Reality. Different eras. Different sisters. The Order's pattern. The Order's pattern.",
+          luminous:
+            "The alias band: Locke as 'The Eyes,' the original Agent Zero as 'The Eyes of Reality.' Two sisters, two operational eras, one Order's record-keeping pattern. Locke's is the Coordinator's open institutional callsign; the original Agent Zero's was held in reserve for a sister whose work the record could not name. The two aliases mark the Order's two unresolved states — the Coordinator's perpetual cover and the fragmented sister's perpetual vigil. The pattern is how the Order holds both at once.",
+        },
+        voId: "elara.comms-array.ocularum-relay-trace.use",
+        logsClue: {
+          id: "clue-comms-array-eyes-of-reality-aliases",
+          title: "Two operatives named 'The Eyes'",
+          body:
+            "The relay's alias band registers Adjudicar Locke as 'The Eyes' (the modern Coordinator's institutional callsign) and the original Agent Zero as 'The Eyes of Reality' (an operational name held in reserve for a sister whose work could not be named openly). Different eras, different sisters, one Order's record-keeping pattern — not coincidence, not redundancy.",
+          source: "comms-array",
+          order: 7,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.watcher",
+          episodeId: "watcher.e4",
+          cluesFound: ["watcher.e4.eyes_of_reality_aliases"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Locke is 'The Eyes.' The original Agent Zero is 'The Eyes of Reality.' Two sisters, two eras, one Order pattern. Not duplication.",
+            balanced:
+              "The two 'Eyes' aliases are the Order's record-keeping pattern, not a collision. Locke's is the Coordinator's open callsign; the original Agent Zero's is the reserve name for a sister whose work could not be named. The pair marks the Order's two open states — the cover and the vigil.",
+            warm:
+              "Two names, both 'Eyes,' issued centuries apart to two sisters of the same Order. One held a cover; one is being waited for. The Order keeps both aliases live because it has not given up on either of them. That is what the pattern is for.",
+          },
+          voId: "human.comms-array.ocularum-relay-trace.use",
+        },
+      },
+    },
+    // Watcher arc: E2 dead-drop shipping cadence. The relay's
+    // customs-manifest log is the comms-array's record of traffic
+    // moving through Trade Empire infrastructure — re-homed here
+    // from the (nonexistent) trade-hub room.
+    "dead-drop-cadence-log": {
+      look: {
+        narration: {
+          lucid:
+            "A cadence log on the relay's manifest channel — shipping traffic the antenna passively records as it crosses New Babylon. One pattern repeats on a predictable monthly beat: a small wax-sealed package, customs-declared 'archival reference materials, no commercial value,' moving Sundown Bazaar to Phyral Quarter through Trade Empire infrastructure. The destination addresses rotate. The shipping origin is always a Locke-signed manifest. The cadence has held for at least eleven centuries.",
+          fragmented:
+            "Monthly. Monthly. The same package. The same package. Eleven centuries. Eleven centuries. Locke-signed. Locke-signed. Always.",
+          luminous:
+            "The manifest log surfaces the dead-drop cadence: one wax-sealed package, monthly, declared as valueless archival reference material, Sundown Bazaar to Phyral Quarter, rotating destinations, always a Locke-signed origin. Eleven centuries of unbroken beat — longer than any sender other than the Authority itself has continuously operated in New Babylon. The relay records it because the comms-array indexes traffic the customs office reads as routine. The cadence is the Apparatus Branch's surviving channel, reabsorbed by the reunified Order.",
+        },
+        voId: "elara.comms-array.dead-drop-cadence-log.look",
+        logsClue: {
+          id: "clue-comms-array-dead-drop-cadence",
+          title: "Dead-drops in New Babylon's shipping lanes",
+          body:
+            "The relay's manifest log records a monthly wax-sealed package — customs-declared valueless archival material — moving Sundown Bazaar to Phyral Quarter through Trade Empire infrastructure on a Locke-signed origin, destinations rotating. The cadence has held at least eleven centuries, longer than any continuous New Babylon sender but the Authority.",
+          source: "comms-array",
+          order: 8,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.watcher",
+          episodeId: "watcher.e2",
+          cluesFound: ["watcher.e2.dead_drop_shipping_lanes"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Monthly package. Valueless on the declaration. Locke-signed origin. Eleven centuries unbroken. That's not Resistance work — that's Apparatus infrastructure.",
+            balanced:
+              "Eleven centuries of unbroken shipping cadence is not Resistance work — Resistance branches do not maintain infrastructure across institutional collapses. The dead-drop channel is the Apparatus Branch's surviving residue, reabsorbed by the reunified Order. The doctrine uses the infrastructure; the Locke-signed origin is the seam.",
+            warm:
+              "The package has moved every month for eleven hundred years, declared as nothing, signed by the Coordinator's office. It is the Order's quartermaster channel — the surveillance bureaucracy's residue, now carrying the resistance order's mail. The relay kept the log because the customs office never thought to.",
+          },
+          voId: "human.comms-array.dead-drop-cadence-log.look",
+        },
       },
     },
   },

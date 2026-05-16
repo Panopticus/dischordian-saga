@@ -15,7 +15,9 @@ export type AntiquarianLibraryHotspotId =
   | "hierophants-marginalia-stack"
   | "codas-purpose-shelf"
   | "velkraals-correspondence-folio"
-  | "insurgency-witness-roster";
+  | "insurgency-witness-roster"
+  | "ocularum-founding-record"
+  | "antiquarian-redaction-ledger";
 
 export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHotspotId> = {
   roomId: "antiquarian-library",
@@ -760,6 +762,229 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
               "She has been on the public record as Vex's trainee for some time. The handover is the saga's small ceremony for a fact already established. Sometimes ceremonies are like that. They confirm what is already true.",
           },
           voId: "human.antiquarian-library.insurgency-witness-roster.talk",
+        },
+      },
+    },
+    // Watcher arc: E1 founding-regicide record + E2/E3 redaction
+    // ledger. The Antiquarian indexes the Ocularum's founding
+    // because the Order asked him to hold the record — the
+    // founding-record shelf and the redaction ledger are the two
+    // dedicated surfaces for the arc's library clues.
+    "ocularum-founding-record": {
+      look: {
+        narration: {
+          lucid:
+            "A single bound folio on the desk's near edge, indexed under a glyph the Antiquarian files nowhere else: an eye watching an eye. Inside, a single-take record in his own voice — Lord Kanshi Sha, feudal spymaster, the first analog surveillance state, assassinated by a purple-clad ninja he had personally trained. The record names the order she founded: the Ocularum. The number 700 is written in the margin, in a hand that is not his, with no annotation.",
+          fragmented:
+            "Seven hundred. Seven hundred. In the margin. In the margin. Not his hand. Not his hand. He didn't write it.",
+          luminous:
+            "The Antiquarian narrates the Lord Kanshi Sha record in his own voice — the feudal regicide, the purple-clad assassin trained by the man she killed, the order she founded. The Ocularum. The 700 in the margin is in a different hand than the rest, inscribed later, with his permission and without his explanation. He has held this record for centuries because the Order asked him to hold it. The folio is the founding witness; everything else in the arc is what the founding became.",
+        },
+        voId: "elara.antiquarian-library.ocularum-founding-record.look",
+        logsClue: {
+          id: "clue-antiquarian-ocularum-founding",
+          title: "The Antiquarian's Lord Kanshi Sha record",
+          body:
+            "The Antiquarian Library holds the single-take founding record: Lord Kanshi Sha, feudal surveillance-state spymaster, assassinated by a purple-clad ninja he trained. The order she founded is the Ocularum. The number 700 sits in the margin in a hand that is not the Antiquarian's, inscribed later with his permission.",
+          source: "antiquarian-library",
+          order: 12,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.watcher",
+          episodeId: "watcher.e1",
+          cluesFound: ["watcher.e1.antiquarian_record"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Founding regicide. Purple-clad assassin, one of his own twelve. The Ocularum starts here. The 700 in the margin is operational, not historical.",
+            balanced:
+              "The Antiquarian's record is the Ocularum's founding document. The assassin was one of Kanshi Sha's own — trained by him, turned by the discipline he demanded. The 700 in the margin is not the Antiquarian's hand because the Order asked him to inscribe it without explaining it. The founding irony is structural: the spymaster taught the weapon that ended him.",
+            warm:
+              "He has carried this record a very long time. He surfaces it now because the case asked, and because the Order trusts his discretion enough to let him. The Ocularum was founded on a refusal — one of the twelve closest to the lord concluded the discipline of seeing had become unbearable to keep, and she used every lesson he gave her.",
+          },
+          voId: "human.antiquarian-library.ocularum-founding-record.look",
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You leaf the folio to its appendices. Three fragmentary documents survive from Kanshi Sha's palace — internal records of the elite spy network he positioned closest to himself. Twelve agents. The third on the list has had her name struck through in a hand that is not Kanshi Sha's, the strike made after the assassination. The other eleven remain readable. The Order's modern records, the Antiquarian notes in the margin, preserve all twelve.",
+          fragmented:
+            "Twelve. Twelve closest. The third. The third. Struck through. Struck through. After. After. He preserved all twelve anyway.",
+          luminous:
+            "The palace appendices: twelve agents Kanshi Sha's paranoia had stocked with the most disciplined operatives he had ever trained. The third name struck through after the assassination, in a hand that is not his. The Order preserves all twelve regardless — the struck name is held, not erased, because the Order's record-keeping inverts the editor's: a redaction is a thing to be remembered, not a thing to be hidden. The discipline of seeing turned on the one who built it, exactly as the founding glyph encodes.",
+        },
+        voId: "elara.antiquarian-library.ocularum-founding-record.use",
+        logsClue: {
+          id: "clue-antiquarian-kanshi-palace-archives",
+          title: "Kanshi Sha's palace archives — the twelve closest",
+          body:
+            "The founding folio's appendices hold three fragmentary palace records listing the twelve agents Kanshi Sha kept closest. The third name is struck through in a hand that is not his, after the assassination; the other eleven remain readable. The Order's modern records preserve all twelve.",
+          source: "antiquarian-library",
+          order: 13,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.watcher",
+          episodeId: "watcher.e1",
+          cluesFound: ["watcher.e1.kanshi_sha_palace_archives"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Twelve closest. Third struck through, post-assassination, not his hand. She was the third. The Order keeps all twelve.",
+            balanced:
+              "The palace archives are the corroborating half of the founding record. Twelve operatives stocked by Kanshi Sha's own paranoia; the third struck through after the regicide. The strike is the assassin's name being removed by someone who outlived her — but the Order preserves the full twelve because its discipline is to hold the record, including the redactions other people made.",
+            warm:
+              "The Antiquarian keeps all twelve names. The strike on the third is not the Order forgetting her; it is the saga's evidence that someone tried, and the Order chose not to honour the attempt. The assassin used every lesson Kanshi Sha gave her. The Order founded itself on that.",
+          },
+          voId: "human.antiquarian-library.ocularum-founding-record.use",
+        },
+      },
+      talk: {
+        narration: {
+          lucid:
+            "You address the folio. The Antiquarian's index does not answer in words — but the room surfaces the relevant page: a glyph carved into the underside of a courtyard paving stone, recovered by an excavation he quietly funded. The eye watching an eye. Beneath it, his own gloss of the doctrine the glyph encodes — three meanings held as one: 'The eye that watches the watchers.' 'We were the first to refuse.' 'The discipline of seeing turns on the one who built it.'",
+          fragmented:
+            "The eye. The eye watching an eye. Watching. Watching. Three meanings. Three. Held as one. Held as one.",
+          luminous:
+            "The room surfaces the founding glyph — the eye watching an eye, carved under a paving stone in the courtyard where the regicide happened, found by an excavation the Antiquarian funded so the glyph would not be lost. His gloss reads the doctrine as three meanings the Order holds together: the watcher of watchers, the first refusal, the discipline turning on its architect. The glyph is the Order's whole posture compressed into one carving the editor never found.",
+        },
+        voId: "elara.antiquarian-library.ocularum-founding-record.talk",
+        logsClue: {
+          id: "clue-antiquarian-ocularum-glyph",
+          title: "The Ocularum founding glyph — eye watching an eye",
+          body:
+            "Carved under a courtyard paving stone recovered by an Antiquarian-funded excavation: the Ocularum's founding glyph, an eye watching an eye. His gloss reads three meanings held as one — the watcher of watchers, the first refusal, the discipline of seeing turning on the one who built it.",
+          source: "antiquarian-library",
+          order: 14,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.watcher",
+          episodeId: "watcher.e1",
+          cluesFound: ["watcher.e1.dispatcher_glyph"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Eye watching an eye. Three meanings, one glyph. 'We were the first to refuse.' That's the whole Order in one carving.",
+            balanced:
+              "The founding glyph encodes the Order's doctrine in three readings the Ocularum holds simultaneously: the watcher of watchers, the first refusal, and the discipline of seeing turning on its architect. The Antiquarian funded the excavation that recovered it because a doctrine carved under a paving stone is one the editor cannot reach.",
+            warm:
+              "The glyph is the Order's posture, not its population — a refusal performed, not a headcount. The Antiquarian paid for the dig that found it because some witnesses are worth preserving in stone. The 700 is a separate question; the glyph only tells you what the Order is for.",
+          },
+          voId: "human.antiquarian-library.ocularum-founding-record.talk",
+        },
+      },
+    },
+    // Watcher arc: E1 omission + E2 bifurcation + E3 cover-choice.
+    // The Antiquarian's redaction ledger is the room's record of
+    // what he was asked not to write — the millennia-long gap and
+    // its post-regicide bifurcation.
+    "antiquarian-redaction-ledger": {
+      look: {
+        narration: {
+          lucid:
+            "A thin ledger beside the founding folio — the Antiquarian's own record of what his archive does not contain. Comprehensive on the founding regicide and the Order's first century; nothing, by his own admission when pressed, on the Order's operations between Year 200 A.A. and the present. The omission is the size of millennia. His note: 'I was asked not to write that chapter. I respected the request. I was not told who asked.'",
+          fragmented:
+            "The omission. The omission. The size of millennia. Millennia. He was asked. He was asked. Not told who. Not told who.",
+          luminous:
+            "The redaction ledger is the Antiquarian's account of his own silence. He documents, precisely, the shape of what he did not write: everything between Year 200 A.A. and now. He was asked not to write that chapter; he respected the request; he was not told who asked — though his eleven-thousand-year acquaintance with the Order's Coordinator is implied in the same breath. The ledger is editor-resistant in the deepest way: it preserves the fact of the omission so the omission cannot itself be edited out.",
+        },
+        voId: "elara.antiquarian-library.antiquarian-redaction-ledger.look",
+        logsClue: {
+          id: "clue-antiquarian-ocularum-omission",
+          title: "What the Antiquarian's archive does not contain",
+          body:
+            "The Antiquarian's redaction ledger records the shape of his own silence: comprehensive on the Ocularum's founding and first century, nothing on its operations from Year 200 A.A. to the present. He was asked not to write that chapter, respected the request, and was not told who asked — though he implies an 11,000-year acquaintance with the Order's Coordinator.",
+          source: "antiquarian-library",
+          order: 15,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.watcher",
+          episodeId: "watcher.e1",
+          cluesFound: ["watcher.e1.antiquarian_omission"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Millennia-wide gap. He was asked not to write it. Eleven thousand years knowing the Coordinator. He's the archive, not a cell. Don't misread him.",
+            balanced:
+              "The redaction ledger is the Antiquarian recording his own omission so it cannot be silently lost. He held the founding and erased the middle, on request, without being told who asked — but he implies the Coordinator. He is not a member; the Order does not recruit witnesses. He holds the record because his discipline is sufficient that the Order trusts what he redacts.",
+            warm:
+              "He documents his own silence because a silence that is itself unrecorded is the editor's favourite kind. The gap is millennia wide and deliberate. Reading him as a cell is the obvious move and the wrong one — the witness and the operative are structurally different roles, and he has only ever been the witness.",
+          },
+          voId: "human.antiquarian-library.antiquarian-redaction-ledger.look",
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You turn to the ledger's late-night annotation — a single record the Antiquarian surfaced this case. The Ocularum bifurcated after the regicide. The Apparatus Branch — those who did not act with the assassin — kept operating as Kanshi Sha had trained them, and across millennia funnelled into the AI Empire's surveillance bureaucracy. The Resistance Branch — the assassin and the four who knew and did not stop her — went underground. The record names them one Order across two lineages, reunified post-Fall.",
+          fragmented:
+            "Two branches. Two. Apparatus. Resistance. Apparatus. Resistance. One Order. One Order. Reunified. Reunified.",
+          luminous:
+            "The bifurcation record: after the regicide the Ocularum split. The Apparatus Branch carried Kanshi Sha's discipline forward into the AI Empire's surveillance machine; the Resistance Branch — the assassin and the four who knew — went underground. One Order, two lineages, reunified after the Fall. The modern Order is the reunified successor: Resistance doctrine running on Apparatus infrastructure. The surveillance bureaucracy's residue is now, ironically, the resistance order's quartermaster.",
+        },
+        voId: "elara.antiquarian-library.antiquarian-redaction-ledger.use",
+        logsClue: {
+          id: "clue-antiquarian-bifurcation-record",
+          title: "The Apparatus / Resistance bifurcation record",
+          body:
+            "A late-night annotation in the Antiquarian's redaction ledger describes the Ocularum's post-regicide bifurcation: the Apparatus Branch funnelled into the AI Empire's surveillance bureaucracy; the Resistance Branch went underground. One Order across two lineages, reunified post-Fall. The modern Order is the reunified successor.",
+          source: "antiquarian-library",
+          order: 16,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.watcher",
+          episodeId: "watcher.e2",
+          cluesFound: ["watcher.e2.bifurcation_record"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Apparatus into the Empire's surveillance machine. Resistance underground. One Order, reunified post-Fall. The dead-drop cadence is the Apparatus residue.",
+            balanced:
+              "The bifurcation record reconciles the contradiction the case keeps hitting: how a resistance order maintains eleven centuries of unbroken infrastructure. It doesn't — the Apparatus Branch did, then the reunified Order reabsorbed it. LORE_BIBLE.md:1272 is right that Kanshi Sha's network funnelled into the Empire's surveillance bureaucracy; that residue is now the resistance order's quartermaster.",
+            warm:
+              "Two lineages from one founding wound, brought back together after the Fall. The Order's modern strength is that it has both — the doctrine of the refusers and the infrastructure of the ones who did not refuse. The Antiquarian annotated this late at night because the case was about to need it.",
+          },
+          voId: "human.antiquarian-library.antiquarian-redaction-ledger.use",
+        },
+      },
+      talk: {
+        narration: {
+          lucid:
+            "You address the ledger. The room surfaces an architect's note, dated last quarter: 'The Coordinator could have placed herself anywhere. The Insurgency would have given her clean ground; the Trade Empire would have given her operational latitude; the academy circuit would have given her invisibility. She chose the Authority. The Authority is the structural opposite of the Order's purpose. She chose the cover that makes her most useful and most disposable. The choice is canonically deliberate. The reason is not yet in the record.'",
+          fragmented:
+            "She chose the Authority. The Authority. The opposite. The opposite of the purpose. Deliberate. Deliberate. The reason isn't in the record. Isn't in the record.",
+          luminous:
+            "The architect's note on the Coordinator's cover: she could have placed herself on clean ground and chose instead the Authority — the structural opposite of the Order's purpose, the cover that makes her most useful and most disposable at once. The note flags the choice as canonically deliberate and the reason as not yet recorded. The Antiquarian files the question without answering it; the ledger's discipline is to hold the open question intact rather than resolve it prematurely.",
+        },
+        voId: "elara.antiquarian-library.antiquarian-redaction-ledger.talk",
+        logsClue: {
+          id: "clue-antiquarian-why-not-cleaner-cover",
+          title: "Why not a cleaner cover?",
+          body:
+            "An architect's note in the Antiquarian's ledger, dated last quarter: the Coordinator could have placed herself anywhere clean but chose the Authority — the structural opposite of the Order's purpose, the cover that makes her most useful and most disposable. The choice is canonically deliberate; the reason is not yet in the record.",
+          source: "antiquarian-library",
+          order: 17,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.watcher",
+          episodeId: "watcher.e3",
+          cluesFound: ["watcher.e3.why_not_a_cleaner_cover"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "She picked the Authority on purpose. Most useful, most disposable. The cover is the doctrine. The reason's not filed yet.",
+            balanced:
+              "The architect's note is the case's pivot. The Coordinator chose the structural opposite of the Order's purpose as her cover — not concealment, doctrine. 'We were the first to refuse' requires a refusal performed from inside the thing refused. The Antiquarian leaves the reason unrecorded because the ledger's job is to hold the open question, not close it.",
+            warm:
+              "She placed herself inside what the Order exists to refuse. That is the point of her, not a flaw in her cover. The Antiquarian files the choice and not the reason because some questions are load-bearing precisely while they stay open. The answer comes later, from her, not from the ledger.",
+          },
+          voId: "human.antiquarian-library.antiquarian-redaction-ledger.talk",
         },
       },
     },

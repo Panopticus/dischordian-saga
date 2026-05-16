@@ -19,7 +19,12 @@
 
 import type { RoomMysteryModule } from "./_template";
 
-export type CaptainsQuartersHotspotId = "cat-photo" | "degens-corner" | "vex-workshop-diary";
+export type CaptainsQuartersHotspotId =
+  | "cat-photo"
+  | "degens-corner"
+  | "vex-workshop-diary"
+  | "lockes-correspondence-cache"
+  | "the-coordinators-summons";
 
 export const CAPTAINS_QUARTERS_MYSTERY: RoomMysteryModule<CaptainsQuartersHotspotId> = {
   roomId: "captains-quarters",
@@ -367,6 +372,228 @@ export const CAPTAINS_QUARTERS_MYSTERY: RoomMysteryModule<CaptainsQuartersHotspo
               "She will record the handover for the canon and never let anyone hear it. The fact that the recording exists — anchored, dated, witnessed — is what matters. The fact that nobody will hear it is what keeps it sacred.",
           },
           voId: "human.captains-quarters.vex-workshop-diary.talk",
+        },
+      },
+    },
+    // Watcher arc: E2 Locke-signature surface + E4 fragmented-
+    // sister doctrine. Lyra kept her post-act correspondence from
+    // Adjudicar Locke in a cache behind the desk's lower drawer —
+    // every letter signed 'L.', every seal carrying the glyph.
+    "lockes-correspondence-cache": {
+      look: {
+        narration: {
+          lucid:
+            "A flat document cache set into the desk's lower drawer — Lyra kept every post-act letter she ever received from Adjudicar Locke here, in order. The content is, on the surface, Authority business. The signature is not: every letter signed 'L.' — never 'Adjudicar,' never 'Locke,' never the formal title. Operative-to-operative. The wax seals are intact; the Ocularum's founding glyph is embedded in each, visible only when a seal is broken from the inside.",
+          fragmented:
+            "L. L. Just L. Just L. Operative to operative. Operative to operative. The glyph. The glyph. In the wax. In the wax.",
+          luminous:
+            "Lyra's Locke correspondence cache: years of post-act letters, all signed with a single initial. The 'L.' is not casual shorthand — it is the operative-to-operative form the Ocularum's founding doctrine requires of its Coordinator. The wax seals carry the founding glyph in stylized form, set so it only reads when the seal is broken from the inside. Lyra kept the cache because she recognised the signature for what it was. The letters are the Order operating in plain sight, addressed to a captain who knew.",
+        },
+        voId: "elara.captains-quarters.lockes-correspondence-cache.look",
+        logsClue: {
+          id: "clue-quarters-locke-signature-pattern",
+          title: "The signature 'L.' across post-act letters",
+          body:
+            "Lyra's desk cache holds every post-act letter from Adjudicar Locke, each signed only 'L.' — the operative-to-operative form the Ocularum's founding doctrine requires of its Coordinator. The wax seals embed the founding glyph, visible only when broken from the inside.",
+          source: "captains-quarters",
+          order: 6,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.watcher",
+          episodeId: "watcher.e2",
+          cluesFound: ["watcher.e2.locke_signature_pattern"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Every letter signed 'L.' Glyph in the wax, inside-only. That's the Coordinator's operative form. Lyra knew.",
+            balanced:
+              "The 'L.' signature is the Ocularum Coordinator's operative-to-operative form — doctrine, not informality. The glyph embedded in each seal, readable only from the inside, is the confirmation. Lyra kept the whole cache in order because she recognised who was writing to her. The letters are the Order in plain sight.",
+            warm:
+              "Lyra knew exactly who 'L.' was. She kept every letter, in order, behind a drawer she trusted. The glyph in the wax is the Order's signature to anyone who breaks a seal from the inside — and Lyra never broke one carelessly. She was, in her quiet way, already part of this.",
+          },
+          voId: "human.captains-quarters.lockes-correspondence-cache.look",
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You cross-reference the cache against Lyra's mission log. Seven Trade Empire missions filed under the captain's name share three structural features: dead-drop pickup, signal-relay verification, a cover-identity bleed check. All seven dispatched by Locke's office. All seven, on the surface, routine Authority-sanctioned commerce-intelligence. Together, they describe a perfect operational reconnaissance cycle. The Authority either did not notice or approved.",
+          fragmented:
+            "Seven. Seven missions. The same shape. The same shape. A cycle. A cycle. The Authority didn't notice. Didn't notice. Or approved. Or approved.",
+          luminous:
+            "The cache cross-referenced against the mission log surfaces the pattern: seven Trade Empire missions, each routine on its face, together a complete operational reconnaissance cycle — dead-drop, relay-verify, bleed-check, repeated. All seven dispatched by Locke. The Authority's tolerance is either ignorance or arrangement; the case has not yet resolved which. The seven missions are the doctrine using the infrastructure, run through a captain who filed them as commerce.",
+        },
+        voId: "elara.captains-quarters.lockes-correspondence-cache.use",
+        logsClue: {
+          id: "clue-quarters-trade-empire-pattern",
+          title: "Trade Empire mission pattern (the seven)",
+          body:
+            "Cross-referencing Lyra's Locke cache against her mission log surfaces seven Trade Empire missions sharing dead-drop pickup, signal-relay verification, and cover-identity bleed check. All seven dispatched by Locke's office; together they describe a complete operational reconnaissance cycle the Authority did not notice or approved.",
+          source: "captains-quarters",
+          order: 7,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.watcher",
+          episodeId: "watcher.e2",
+          cluesFound: ["watcher.e2.trade_empire_pattern"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Seven missions, one recon cycle. Locke dispatched all of them. The Authority missed it. That's the cover working.",
+            balanced:
+              "The seven missions are not coincidence — dead-drop, relay-verify, bleed-check is a reconnaissance cycle, repeated seven times under routine commerce cover. Locke signed every dispatch. The Authority's failure to notice is the cover doing exactly what the doctrine designed it to do: be the Order in plain sight.",
+            warm:
+              "Lyra ran the cycle without being told it was a cycle, the same way the player has. That is how the Order recruits — not by asking, but by trusting you with the work until the work is what you are. The seven missions are the breadcrumbs nobody knew were breadcrumbs.",
+          },
+          voId: "human.captains-quarters.lockes-correspondence-cache.use",
+        },
+      },
+      talk: {
+        narration: {
+          lucid:
+            "You address the cache. A single sheet, filed apart from the letters, surfaces: the Order's standing position on a warlord-fragmented sister. The body is hers; the seizure is reversible in principle; the Order will not act until the body indicates she has begun to remember on her own. The Order will not approach. The Order will not intervene. The Order waits. Her cell number, whatever it was, is held open — not refilled.",
+          fragmented:
+            "The Order waits. The Order waits. Held open. Held open. Not refilled. Not refilled. The body is hers. The body is hers.",
+          luminous:
+            "The doctrine sheet on a fragmented sister: the body is hers, the seizure is reversible in principle, the Order will not act until she begins to remember on her own. No approach. No intervention. The cell held open, not refilled. It is one of the few doctrines the modern Order inherited from the Resistance Branch unchanged — the dignity of an impossible rescue lives in the patience of the vigil. Lyra filed it apart from the letters because it was not Authority business; it was Order business, and she knew the difference.",
+        },
+        voId: "elara.captains-quarters.lockes-correspondence-cache.talk",
+        logsClue: {
+          id: "clue-quarters-fragmented-sister-doctrine",
+          title: "The Order's doctrine on a warlord-fragmented sister",
+          body:
+            "Filed apart from Lyra's Locke letters: the Order's standing position on a warlord-fragmented sister. The body is hers; the seizure is reversible in principle; the Order will not approach or intervene until she begins to remember on her own. Her cell number is held open, not refilled — a Resistance-Branch doctrine the modern Order kept unchanged.",
+          source: "captains-quarters",
+          order: 8,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.watcher",
+          episodeId: "watcher.e4",
+          cluesFound: ["watcher.e4.order_doctrine_on_fragmented_sisters"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Body is hers. Seizure reversible in principle. No approach until she remembers. Cell held open. The Order waits. That's the doctrine.",
+            balanced:
+              "The fragmented-sister doctrine is the Order at its most patient. It does not promise her survival; it promises her the dignity of being waited for. The cell stays open because refilling it would be the Order conceding she is gone — and the Order does not concede that. It waits. Patience is the rescue.",
+            warm:
+              "They will not go to her. They will not refill her number. They will wait, for as long as it takes, for the body to show she has begun to come back on her own. It is the gentlest doctrine the saga has, and the Order kept it from the Resistance Branch without changing a word.",
+          },
+          voId: "human.captains-quarters.lockes-correspondence-cache.talk",
+        },
+      },
+    },
+    // Watcher arc: E5 recruitment surface. Locke's unfiled summons,
+    // the vetting dossier, and the Coordinator's terms — delivered
+    // to the player's own quarters by a courier on no Authority
+    // manifest. The arc's close.
+    "the-coordinators-summons": {
+      look: {
+        narration: {
+          lucid:
+            "A meeting invitation on the desk, in Locke's hand, delivered by a courier whose route is in no Authority manifest. It reads, in her wry register: 'You have been useful. You have been quiet. You have been mine. Now you are ours, if you wish. Come to the address below. Bring nothing the Authority would expect you to carry.' Signed not 'L.' but, for the first time, 'The Coordinator.' The signature is the meeting's first revelation. Everything else is acknowledgment.",
+          fragmented:
+            "The Coordinator. The Coordinator. Not L. Not L. The first time. The first time. The signature is the revelation. The revelation.",
+          luminous:
+            "The summons Locke did not file. A courier off every Authority manifest; an invitation in her hand that names the whole arc in four sentences — useful, quiet, mine, ours-if-you-wish. The signature is the revelation: not 'L.' but 'The Coordinator,' the first time the player has seen her sign the title. Everything after the signature is acknowledgment of work already done. The summons is the moment the recruitment-by-recognition stops being implicit.",
+        },
+        voId: "elara.captains-quarters.the-coordinators-summons.look",
+        logsClue: {
+          id: "clue-quarters-locke-unfiled-summons",
+          title: "The summons Locke did not file",
+          body:
+            "A meeting invitation in Locke's hand, delivered by a courier on no Authority manifest: 'You have been useful. You have been quiet. You have been mine. Now you are ours, if you wish.' Signed, for the first time, 'The Coordinator' rather than 'L.' The signature is the meeting's first revelation; everything else is acknowledgment.",
+          source: "captains-quarters",
+          order: 9,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.watcher",
+          episodeId: "watcher.e5",
+          cluesFound: ["watcher.e5.locke_unfiled_summons"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Unfiled. Off-manifest courier. Signed 'The Coordinator,' first time. Useful, quiet, mine, ours. That's the whole arc.",
+            balanced:
+              "The summons is not betrayal — Locke never lied about the missions. The signature change from 'L.' to 'The Coordinator' is the recognition becoming explicit. She has trusted the player with her life since Beat H; the summons is the first time she says so on a sheet of paper.",
+            warm:
+              "She signed it 'The Coordinator' because the time for the operative shorthand is over. The summons is not a surprise — every breadcrumb was visible. It is an acknowledgment that the work has already happened, and an invitation to put a name to it.",
+          },
+          voId: "human.captains-quarters.the-coordinators-summons.look",
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "Beneath the invitation, a dossier the thickness of the saga's runtime — the Order's continuous vetting record on the player. Every choice since Beat H, every relationship maintained, every Trade Empire mission accepted, every Mystery Engine arc walked. Locke's annotation on the cover: 'This is what we have seen. We have not interpreted it. We have only recorded it. The interpretation has always been yours. You are reading the interpretation now.' The last page: a single line — 'Cell pending.'",
+          fragmented:
+            "Everything. Everything since Beat H. Recorded. Recorded. Not interpreted. Not interpreted. Cell pending. Cell pending.",
+          luminous:
+            "The vetting dossier: not surveillance, recognition. Every choice the player made since Beat H, recorded and uninterpreted, because the interpretation was always the player's to make. Locke's cover annotation is the Order's whole ethic in four sentences — they watched, they did not read, the reading was yours. The last line, 'Cell pending,' is not a request. It is the recognition that the work has already happened and only needs a name to close it.",
+        },
+        voId: "elara.captains-quarters.the-coordinators-summons.use",
+        logsClue: {
+          id: "clue-quarters-vetting-dossier",
+          title: "The Order's vetting dossier",
+          body:
+            "Beneath Locke's summons: the Order's continuous vetting record on the player — every choice since Beat H, recorded and uninterpreted. Locke's cover annotation: 'This is what we have seen. We have not interpreted it. The interpretation has always been yours.' The last page reads 'Cell pending.'",
+          source: "captains-quarters",
+          order: 10,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.watcher",
+          episodeId: "watcher.e5",
+          cluesFound: ["watcher.e5.vetting_dossier"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Every choice since Beat H. Recorded, not interpreted. 'Cell pending.' The work already happened. Your consent names it.",
+            balanced:
+              "The dossier is recognition, not surveillance — the Order recorded and refused to interpret because the interpretation was always the player's. 'Cell pending' is not asking permission for something that hasn't happened; it is the recognition that the work has, and consent is what closes it into a name.",
+            warm:
+              "They watched everything and read none of it. That distinction is the whole Order. The dossier hands the player back their own life as evidence of who they already were. 'Cell pending' is the last line because the only thing missing is the player saying yes to a name.",
+          },
+          voId: "human.captains-quarters.the-coordinators-summons.use",
+        },
+      },
+      talk: {
+        narration: {
+          lucid:
+            "You address the summons. Locke's terms surface, in her characteristically transactional and characteristically generous register: membership requires no severance from any relationship, faction, or institutional position. The cell number is the player's, to use or not. The Order will not contact more than invited. It closes: 'The discipline of seeing will turn on you eventually. We would prefer it turn in the direction of the work. If it turns otherwise, we will respect that turn too. Sign or do not sign. Either way, you have been ours since you accepted my first letter.'",
+          fragmented:
+            "No severance. No severance. The cell is yours. Yours. Sign or don't. Sign or don't. Ours since the first letter. The first letter.",
+          luminous:
+            "The Coordinator's terms are the founding doctrine in modern dress. 'We were the first to refuse' becomes 'we will not ask of you what we have not asked of ourselves.' No severance from any existing life; the cell number offered, not imposed; contact only by invitation. The closing names the doctrine as the threat it has always been, to its holders included — and respects the player's turn either way. The terms close the recognition into a choice without ever requiring the choice to be yes.",
+        },
+        voId: "elara.captains-quarters.the-coordinators-summons.talk",
+        logsClue: {
+          id: "clue-quarters-coordinator-terms",
+          title: "The Coordinator's terms",
+          body:
+            "Locke's terms: membership requires no severance from any relationship, faction, or position; the cell number is the player's to use or not; the Order contacts only by invitation. The close: 'The discipline of seeing will turn on you eventually... Sign or do not sign. Either way, you have been ours since you accepted my first letter.'",
+          source: "captains-quarters",
+          order: 11,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.watcher",
+          episodeId: "watcher.e5",
+          cluesFound: ["watcher.e5.coordinator_terms"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "No severance. Cell is yours. Contact only by invite. Doctrine names itself as the threat. Sign or don't — ours either way since the first letter.",
+            balanced:
+              "The terms are the founding doctrine compressed into a recruitment conversation. The Order will not ask what it has not asked of itself; the cell is offered, never imposed; the doctrine is named as the threat it is, even to its own. The generosity is the point — consent that costs nothing to refuse is the only consent the Order will accept.",
+            warm:
+              "She tells the player the discipline will turn on them eventually, and she means it as honesty, not threat. The cell is theirs whether or not they sign. That is the Order's deepest courtesy: it would rather have a free refusal than a coerced yes. The work continues either way.",
+          },
+          voId: "human.captains-quarters.the-coordinators-summons.talk",
         },
       },
     },

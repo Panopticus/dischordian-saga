@@ -3885,7 +3885,7 @@ const watcherE2: EpisodeDefinition = {
       id: "watcher.e2.trade_empire_pattern" as ClueId,
       title: "Trade Empire Mission Pattern",
       body: "Cross-correlation of the last fifty Trade Empire missions filed with the player's name shows seven that share three structural features: dead-drop pickup, signal-relay verification, and a cover-identity bleed check. All seven were dispatched by Adjudicar Locke's office. All seven, on the surface, are routine Authority-sanctioned commerce-intelligence work. The seven, taken together, describe a perfect operational reconnaissance cycle. The Authority has not noticed. Or the Authority has noticed and approved.",
-      foundIn: "trade-hub",
+      foundIn: "captains-quarters",
     },
     {
       id: "watcher.e2.locke_signature_pattern" as ClueId,
@@ -3897,7 +3897,7 @@ const watcherE2: EpisodeDefinition = {
       id: "watcher.e2.dead_drop_shipping_lanes" as ClueId,
       title: "Dead-Drops in New Babylon's Shipping Lanes",
       body: "The shipping lanes from the Sundown Bazaar to the Phyral Quarter carry, on a predictable monthly cadence, a small wax-sealed package whose contents the customs declarations describe as 'archival reference materials, no commercial value.' The packages move through Trade Empire infrastructure. The destination addresses rotate. The shipping origin is always a Locke-signed manifest. The packages have been moving on this cadence for at least eleven centuries — longer than any sender other than the Authority itself has continuously operated in New Babylon.",
-      foundIn: "trade-hub",
+      foundIn: "comms-array",
     },
     {
       id: "watcher.e2.bifurcation_record" as ClueId,
