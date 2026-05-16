@@ -176,7 +176,7 @@ export const PERSPECTIVES: readonly PerspectiveDef[] = [
     unlockingTerminalEpisodeId: "politician.e5",
     status: "locked",
     premise:
-      "Every mentor hides a successor. Learn the apprentice lineage and the shadow-cabinet's cards answer to you.",
+      "Every mentor hides a successor — and the one who never needed raising, only waiting. Learn the apprentice lineage and the Final Coming's cards answer to you.",
     loreSource: "docs/built/LORE_BIBLE.md + apps/shared/episodeMysteries.ts (arc.the_politician)",
   },
 
@@ -220,15 +220,16 @@ export const PERSPECTIVES: readonly PerspectiveDef[] = [
   {
     id: "perspective.the_coming",
     storyline: "The Coming",
-    displayName: "The Resurrection Read",
+    displayName: "The Two-Comings Read",
     unlockingArcId: null,
     unlockingTerminalEpisodeId: null,
     status: "canon_pending",
     premise:
-      "The Coming is the collective endgame the whole spine threads toward. Its lens is the server-wide event itself.",
-    loreSource: "apps/shared/necromancerReturn.ts + apps/shared/necromancerCycle.ts",
+      "The Coming is one prophecy with two fulfilments: the Necromancer's Return is the First Coming (the halfway point, Act 4); the Politician's Return is the Final Coming (the endgame, Act 7, igniting the loop). Its lens spans both.",
+    loreSource:
+      "apps/shared/necromancerReturn.ts (First Coming) + apps/shared/actCloseCutsceneCanon.ts (the two Comings) + continuingLoopEndgameCanon.ts (Final Coming ignites the loop)",
     canonNote:
-      "Canon-bound as the in-fiction name of the Necromancer's Return in theComingCanon.ts (PR-21).",
+      "Two-stage canon-bound in theComingCanon.ts (PR-21): First = Necromancer (halfway), Final = Politician (endgame).",
   },
 ];
 

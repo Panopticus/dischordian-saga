@@ -106,6 +106,7 @@ import { checkServantHeroDeferralCoverage } from "./checks/servantHeroDeferralCo
 import { checkSurfaceDiscoverabilityCoverage } from "./checks/surfaceDiscoverabilityCoverage";
 import { checkPerspectiveCanonCoverage } from "./checks/perspectiveCanonCoverage";
 import { checkProphecyTarotCoverage } from "./checks/prophecyTarotCoverage";
+import { checkActCloseCutsceneCoverage } from "./checks/actCloseCutsceneCoverage";
 import {
   checkNeyonCanonicalRosterCoverage,
   checkArchonCanonicalRosterCoverage,
@@ -992,5 +993,14 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "Hard parity (PR-19): each of the 7 per-Act bindings in apps/shared/prophecyTarotCanon.ts resolves its Seal (SEVEN_SEALS num+act), its prophecy bookend (getProphecyById), at least one Oracle-Tarot card slug under the act (PROPHECY_VISIONS — the existing 23-card Oracle Deck IS the Dischordian Tarot; no new cards/art), the antiquarian_manifold (Daniel Cross = Programmer = Antiquarian, the prophet), and the canonical Seer warming band (cold 1-2 / warm 3-5 / confidant 6-7). Acts must be exactly {1..7} once each.",
     check: () => checkProphecyTarotCoverage(),
+  },
+
+  // ─── PR-20 — act-close chapter cutscenes (the two Comings) ─
+  {
+    id: "narrative.act_close_cutscene_coverage",
+    name: "Act-close chapter cutscene coverage",
+    description:
+      "Hard parity (PR-20): 7 act-close entries in apps/shared/actCloseCutsceneCanon.ts, acts {1..7} once each, delivered through the shipped Antiquarian bridge overlay (every antiquarianBridgeId resolves) with Seal+prophecy deferred to the validated prophecyTarotCanon binding. The two Comings are canon-pinned: the FIRST Coming (Necromancer = halfway) on Act 4; the FINAL Coming (Politician = endgame) on Act 7, which ignites the PR-16 continuing-loop canon. No other act may carry a Coming.",
+    check: () => checkActCloseCutsceneCoverage(),
   },
 ];

@@ -7,11 +7,11 @@ import {
 } from "./antiquarianLoredexBridges";
 
 describe("antiquarianLoredexBridges", () => {
-  it("ships exactly five between-act entries", () => {
-    expect(ANTIQUARIAN_BRIDGE_ENTRIES).toHaveLength(5);
+  it("ships exactly seven between-act entries (Acts 1-7, PR-20)", () => {
+    expect(ANTIQUARIAN_BRIDGE_ENTRIES).toHaveLength(7);
   });
 
-  it("entries are in canonical Act 1 → Act 5 order, gated on act_N_complete flags", () => {
+  it("entries are in canonical Act 1 → Act 7 order, gated on act_N_complete flags", () => {
     const triggers = ANTIQUARIAN_BRIDGE_ENTRIES.map((e) => e.triggerFlag);
     expect(triggers).toEqual([
       "act_1_complete",
@@ -19,6 +19,8 @@ describe("antiquarianLoredexBridges", () => {
       "act_3_complete",
       "act_4_complete",
       "act_5_complete",
+      "act_6_complete",
+      "act_7_complete",
     ]);
   });
 
@@ -36,7 +38,7 @@ describe("antiquarianLoredexBridges", () => {
     expect(allBodies.toLowerCase()).toContain("i had read this page");
   });
 
-  it("trigger and seen flags are unique across all 5 entries", () => {
+  it("trigger and seen flags are unique across all 7 entries", () => {
     const triggers = ANTIQUARIAN_BRIDGE_ENTRIES.map((e) => e.triggerFlag);
     const seens = ANTIQUARIAN_BRIDGE_ENTRIES.map((e) => e.seenFlag);
     expect(new Set(triggers).size).toBe(triggers.length);
@@ -50,6 +52,9 @@ describe("antiquarianLoredexBridges", () => {
     );
     expect(getAntiquarianBridge("antiq_bridge_act_5_close")?.entryNumber).toMatch(
       /18,435/,
+    );
+    expect(getAntiquarianBridge("antiq_bridge_act_7_close")?.title).toMatch(
+      /Final Coming/,
     );
   });
 
@@ -100,13 +105,15 @@ describe("antiquarianLoredexBridges", () => {
       ).toBe(false);
     });
 
-    it("returns true once all 5 entries have been read", () => {
+    it("returns true once all 7 entries have been read", () => {
       const flags = new Set([
         "antiq_bridge_act_1_close_seen",
         "antiq_bridge_act_2_close_seen",
         "antiq_bridge_act_3_close_seen",
         "antiq_bridge_act_4_close_seen",
         "antiq_bridge_act_5_close_seen",
+        "antiq_bridge_act_6_close_seen",
+        "antiq_bridge_act_7_close_seen",
       ]);
       expect(antiquarianBridgesComplete(flags)).toBe(true);
     });

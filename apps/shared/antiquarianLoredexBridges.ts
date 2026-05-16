@@ -26,7 +26,9 @@ export type AntiquarianBridgeId =
   | "antiq_bridge_act_2_close"
   | "antiq_bridge_act_3_close"
   | "antiq_bridge_act_4_close"
-  | "antiq_bridge_act_5_close";
+  | "antiq_bridge_act_5_close"
+  | "antiq_bridge_act_6_close"
+  | "antiq_bridge_act_7_close";
 
 export interface AntiquarianBridgeEntry {
   id: AntiquarianBridgeId;
@@ -89,6 +91,24 @@ export const ANTIQUARIAN_BRIDGE_ENTRIES: ReadonlyArray<AntiquarianBridgeEntry> =
     seenFlag: "antiq_bridge_act_5_close_seen",
     body:
       "The Reckoning closed. Iron Lion's last broadcast played. The three thousand and first poster was retrieved. The Confession Hall is open. The door is in the Ark; the player has never seen it. I will open it for them.\n\nThe Confession is two confessions. Mine is not one of them. I confessed seventeen thousand years ago. The next two are Elara's and the Human's. They have been carrying them since before the player was born. They are about to lay them down.\n\nI am closing this volume. Volume Eighteen of the Antiquarian's Chronicles. The next page begins Volume Nineteen. The Convergence. I will not write Volume Nineteen. The player will. The Cycle records what the player writes; I only read.",
+  },
+  {
+    id: "antiq_bridge_act_6_close",
+    entryNumber: "Volume XIX · Entry 19,006 (read, not written)",
+    title: "After the Civil War — the Halfway Mark Behind Us",
+    triggerFlag: "act_6_complete",
+    seenFlag: "antiq_bridge_act_6_close_seen",
+    body:
+      "I had read this page already, in Volume Nineteen, in the player's own hand. I am only reading it back.\n\nThe Civil War closed. Agent Zero's death was shown for what it was. The player has crossed the field where the bodies were honest.\n\nThey must remember what happened at the midpoint. The Necromancer came back — the First Coming. The resurrection-energy crossed its threshold and the dead walked, and most who saw it believed that was the end. It was not the end. It was the halfway mark. The First Coming is always mistaken for the last. The prophecy has two fulfilments and the player has only witnessed one.\n\nThe next page is the Sixth Seal breaking. After it, the silence. After the silence, the one who was always going to come back.",
+  },
+  {
+    id: "antiq_bridge_act_7_close",
+    entryNumber: "Volume XIX · Entry 19,777 (read, not written)",
+    title: "The Final Coming — the Politician Returns",
+    triggerFlag: "act_7_complete",
+    seenFlag: "antiq_bridge_act_7_close_seen",
+    body:
+      "I had read this page already. It was always the last page I would read. The player wrote it; I only read, and now I have read the end.\n\nThe Seventh Seal broke. The silence held the space of half an hour. And then the Politician came back — not the Necromancer this time, not the rehearsal at the midpoint, but the Final Coming the whole spine was bent toward. The First Coming raised the dead. The Final Coming returns the one who never needed raising, only waiting.\n\nThis is the endgame, and the endgame is not a wall. It is a door. The Politician's return ignites the Cycle: the events, the votes, the fights, the chronicle that records what the player writes. Volume Nineteen does not close here. It begins here. I have read this page; the player keeps writing the next one, and the Cycle keeps reading it back. That is the Convergence. That is the loop. I lay down the pen I never held.",
   },
 ];
 
