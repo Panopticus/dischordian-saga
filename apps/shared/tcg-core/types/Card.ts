@@ -303,6 +303,20 @@ export type CardUnlockCondition =
       kind: "arc_episode_complete";
       arcId: string;
       episodeId: string;
+    }
+  | {
+      /** Dischordian-Logic epistemology gate (PR-18). A
+       *  Perspective is a learnable worldview-lens; learning
+       *  it grants the card-powers that lens makes legible.
+       *  The player "learns" a Perspective by closing its
+       *  storyline's Mystery-Engine arc — this kind is
+       *  evaluated against `learnedPerspectives`, which is
+       *  DERIVED from the existing
+       *  `mystery_episode_complete:<arcId>:<episodeId>`
+       *  flag stream (no new flag prefix). perspectiveId is
+       *  canonical (apps/shared/perspectiveCanon.ts). */
+      kind: "perspective_learned";
+      perspectiveId: string;
     };
 
 /** Forward-declared. Full shape lives in types/Trigger.ts. */

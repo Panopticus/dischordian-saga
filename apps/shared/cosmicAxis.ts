@@ -72,8 +72,10 @@ export interface FirstIntelligencePair {
     rosterSize: number;
   };
   architect: {
-    /** The Architect is NOT in the Archon registry — he creates
-     *  them, is not one of them. Has no ArchonId. */
+    /** The Architect IS Archon #1 — dreamer canon-lock 2026-05-15
+     *  (roster image) overrode the prior "creator, not one of
+     *  them" reading: he leads from INSIDE the roster. Still the
+     *  forward-looking half of the first intelligence. */
     id: "the_architect";
     name: string;
     /** "Looks forward through time" — the Architect's principle. */
@@ -147,12 +149,12 @@ export function getCosmicAxisInvariants() {
      */
     dreamerCanonPosition: getDreamerCanon().position,
     /**
-     * The Architect is NOT in the Archon registry — verified by
-     * absence from the canonical roster.
+     * The Architect IS Archon #1 — dreamer canon-lock 2026-05-15
+     * (roster image) put him inside the roster, overriding the
+     * prior "creator, not one of them" reading. Verified against
+     * the canonical Archon registry.
      */
-    architectIsRegistryEntry: ARCHONS.some(
-      (a) => (a.id as string) === "the_architect",
-    ),
+    architectArchonPosition: getArchon("the_architect" as ArchonId).position,
   };
 }
 
@@ -206,11 +208,11 @@ export function assertCosmicAxisIntegrity(): void {
         `apps/shared/neYonCanon.ts canon locks.`,
     );
   }
-  if (inv.architectIsRegistryEntry) {
+  if (inv.architectArchonPosition !== 1) {
     throw new Error(
-      "Cosmic axis broken: the Architect is canonically NOT one of " +
-        "the 12 Archons (he is their creator). Remove from " +
-        "apps/shared/archonCanon.ts.",
+      "Cosmic axis broken: the Architect is canonically Archon #1 " +
+        "(dreamer canon-lock 2026-05-15, roster image — he leads " +
+        "from inside the roster). See apps/shared/archonCanon.ts.",
     );
   }
 }

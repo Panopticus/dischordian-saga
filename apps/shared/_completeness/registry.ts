@@ -103,6 +103,13 @@ import { checkImprintFirstSummonCutsceneCoverage } from "./checks/imprintFirstSu
 import { checkImprintCardsCarryUnlockCondition } from "./checks/imprintCardsCarryUnlockCondition";
 import { checkContinuingLoopEndgameCoverage } from "./checks/continuingLoopEndgameCoverage";
 import { checkServantHeroDeferralCoverage } from "./checks/servantHeroDeferralCoverage";
+import { checkSurfaceDiscoverabilityCoverage } from "./checks/surfaceDiscoverabilityCoverage";
+import { checkPerspectiveCanonCoverage } from "./checks/perspectiveCanonCoverage";
+import { checkProphecyTarotCoverage } from "./checks/prophecyTarotCoverage";
+import { checkActCloseCutsceneCoverage } from "./checks/actCloseCutsceneCoverage";
+import { checkTheComingCoverage } from "./checks/theComingCoverage";
+import { checkVortexTerminusCoverage } from "./checks/vortexTerminusCoverage";
+import { checkPetOriginCoverage } from "./checks/petOriginCoverage";
 import {
   checkNeyonCanonicalRosterCoverage,
   checkArchonCanonicalRosterCoverage,
@@ -961,5 +968,70 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "Hard parity (build-plan §VIII Phase C — C6/C7): the Servant Hero Academy is a deferred future season / DLC (≥1 year out). C6 (onboarding cinematic) + C7 (Servant-Hero curriculum) are registered in apps/shared/servantHeroFutureSeasonCanon.ts as typed deferred_future_season hooks. The Act7→Phase14 seam (sagaPhases.ts:281-294, unreachable while narrativeAct<=7) is canon-locked as the DELIBERATE not-yet-launched boundary, not an orphaned bug. The gate accounts for the deferral without blocking.",
     check: () => checkServantHeroDeferralCoverage(),
+  },
+
+  // ─── PR-17 — discoverability backbone ──────────────────────
+  {
+    id: "narrative.surface_discoverability_coverage",
+    name: "Surface discoverability coverage",
+    description:
+      "One discoverable narrative path (PR-17 backbone; PR-24/25 backfill): every <Route> in apps/client/src/App.tsx is classified in apps/shared/surfaceDiscoverabilityCanon.ts and every narrative_gated surface resolves its gate through EXISTING infra (featureRoadmap / gameModeNarrativePremises / sagaPhases / act-completion gates / expansion unlock service). PR-24/25 closed the 78-orphan baseline to 0 — game modes with a recorded diegetic premise → narrative_gated, narrative locations/episodes → phase, nav-reachable social/competitive/economy → always_available, dev/account/seasonal → utility. A two-way drift scan folds any unclassified App.tsx route or stale registry route into the gap, so a new unclassified route is an immediate regression. RATCHET ceiling tightened to 0 — it can never regrow. This is the 'tighten things' lock.",
+    check: () => checkSurfaceDiscoverabilityCoverage(),
+    ratchet: { target: 0 },
+  },
+
+  // ─── PR-18 — Dischordian-Logic epistemology ────────────────
+  {
+    id: "canon.perspective_coverage",
+    name: "Perspective canon coverage",
+    description:
+      "Hard parity (PR-18): every learnable PERSPECTIVE in apps/shared/perspectiveCanon.ts is coherent. A 'locked' perspective MUST resolve its Mystery-Engine arc + terminal episode against episodeMysteries.ts (a card gated behind an unlearnable lens is a Dischordian-Logic failure); a 'canon_pending' loose thread (Vortex / Terminus Swarm / Pets / the Coming) MUST carry a loreSource and is bound to its dedicated backbone in PR-21/PR-22/PR-23. The perspective_learned CardUnlockCondition kind rides the existing mystery_episode_complete flag stream — no new flag prefix (tcg.flag_prefix_writer_parity untouched), schema literal shipped same change (tcg.zod_schema_union_parity stays PASS).",
+    check: () => checkPerspectiveCanonCoverage(),
+  },
+
+  // ─── PR-19 — prophecy/seal/seer/Oracle-Tarot unification ───
+  {
+    id: "narrative.prophecy_tarot_unification",
+    name: "Prophecy · Seal · Tarot unification",
+    description:
+      "Hard parity (PR-19): each of the 7 per-Act bindings in apps/shared/prophecyTarotCanon.ts resolves its Seal (SEVEN_SEALS num+act), its prophecy bookend (getProphecyById), at least one Oracle-Tarot card slug under the act (PROPHECY_VISIONS — the existing 23-card Oracle Deck IS the Dischordian Tarot; no new cards/art), the antiquarian_manifold (Daniel Cross = Programmer = Antiquarian, the prophet), and the canonical Seer warming band (cold 1-2 / warm 3-5 / confidant 6-7). Acts must be exactly {1..7} once each.",
+    check: () => checkProphecyTarotCoverage(),
+  },
+
+  // ─── PR-20 — act-close chapter cutscenes (the two Comings) ─
+  {
+    id: "narrative.act_close_cutscene_coverage",
+    name: "Act-close chapter cutscene coverage",
+    description:
+      "Hard parity (PR-20): 7 act-close entries in apps/shared/actCloseCutsceneCanon.ts, acts {1..7} once each, delivered through the shipped Antiquarian bridge overlay (every antiquarianBridgeId resolves) with Seal+prophecy deferred to the validated prophecyTarotCanon binding. The two Comings are canon-pinned: the FIRST Coming (Necromancer = halfway) on Act 4; the FINAL Coming (Politician = endgame) on Act 7, which ignites the PR-16 continuing-loop canon. No other act may carry a Coming.",
+    check: () => checkActCloseCutsceneCoverage(),
+  },
+
+  // ─── PR-21 — the Coming (two-stage canon binding) ──────────
+  {
+    id: "canon.the_coming_binding",
+    name: "The Coming — two-stage binding",
+    description:
+      "Hard parity (PR-21): 'the Coming' is one prophecy with two fulfilments and both must resolve every registry they cite. FIRST Coming = the Necromancer's Return (halfway, Act 4 / saga phase 7): necromancer arc + resurrection meter + act-4 close 'first'. FINAL Coming = the Politician's Return (endgame, Act 7 / saga phase 13): politician arc + Archon #7 + act-7 close 'final' igniting the PR-16 continuing loop. Supersedes the single-stage Coming framing.",
+    check: () => checkTheComingCoverage(),
+  },
+
+  // ─── PR-22 — Vortex / Terminus reconciliation ──────────────
+  {
+    id: "canon.vortex_terminus_reconciliation",
+    name: "Vortex / Terminus reconciliation",
+    description:
+      "Ratchet (PR-22): the Terminus Swarm is RECONCILED — canonical reading = the Risen, the Necromancer's First-Coming manifestation (theComingCanon.first_coming), with the Vortex-manifestation and Thought-Virus readings recorded as typed alternates (not discarded). The Vortex remains canon_pending (eraTimeline.ts:419 — era deferred to the dreamer); it is the tracked gap. The ceiling can only shrink when a future PR binds the Vortex.",
+    check: () => checkVortexTerminusCoverage(),
+    ratchet: { target: 0 },
+  },
+
+  // ─── PR-23 — Pets narrative origin (last loose thread) ─────
+  {
+    id: "canon.pet_origin_coverage",
+    name: "Pet origin canon coverage",
+    description:
+      "Hard parity (PR-23): the Pets' narrative origin (apps/shared/petOriginCanon.ts) resolves all four anchors — the Matrix-of-Dreams imprint ontology (imprintSummoningCanon), the species registry (petSpeciesTraits), the breeding mechanic (petBreeding.breedPets), and the Risen fate (necromancerReturn pet_battles Risen impacts + theComingCanon.first_coming). Pets are the First Coming felt at companion scale; the last loose thread is bound to the spine.",
+    check: () => checkPetOriginCoverage(),
   },
 ];

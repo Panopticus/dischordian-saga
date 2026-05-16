@@ -28,6 +28,7 @@ const FIXTURES: Record<
   dlc_chapter_completion: { kind: "dlc_chapter_completion", chapterId: "wave6" },
   bloodline_threshold: { kind: "bloodline_threshold", classification: "ADVOCATE", minGenerations: 3 },
   arc_episode_complete: { kind: "arc_episode_complete", arcId: "arc.the_watcher", episodeId: "watcher.e5" },
+  perspective_learned: { kind: "perspective_learned", perspectiveId: "perspective.the_seer" },
 };
 
 describe("getUnlockConditionDisplay", () => {

@@ -84,6 +84,12 @@ export function getUnlockConditionDisplay(
         chip: `Close ${cond.episodeId}`,
         description: `Unlocks when you close episode ${cond.episodeId} of arc ${cond.arcId}.`,
       };
+    case "perspective_learned":
+      return {
+        kind: "perspective_learned",
+        chip: "Learn perspective",
+        description: `Becomes legible once you have learned the "${cond.perspectiveId}" perspective — close its storyline to read the imprint.`,
+      };
   }
 }
 
@@ -102,4 +108,5 @@ export const ALL_UNLOCK_KINDS: ReadonlyArray<CardUnlockCondition["kind"]> = [
   "dlc_chapter_completion",
   "bloodline_threshold",
   "arc_episode_complete",
+  "perspective_learned",
 ];
