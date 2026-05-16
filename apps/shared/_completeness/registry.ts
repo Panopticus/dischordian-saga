@@ -109,6 +109,7 @@ import { checkProphecyTarotCoverage } from "./checks/prophecyTarotCoverage";
 import { checkActCloseCutsceneCoverage } from "./checks/actCloseCutsceneCoverage";
 import { checkTheComingCoverage } from "./checks/theComingCoverage";
 import { checkVortexTerminusCoverage } from "./checks/vortexTerminusCoverage";
+import { checkPetOriginCoverage } from "./checks/petOriginCoverage";
 import {
   checkNeyonCanonicalRosterCoverage,
   checkArchonCanonicalRosterCoverage,
@@ -1023,5 +1024,14 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
       "Ratchet (PR-22): the Terminus Swarm is RECONCILED — canonical reading = the Risen, the Necromancer's First-Coming manifestation (theComingCanon.first_coming), with the Vortex-manifestation and Thought-Virus readings recorded as typed alternates (not discarded). The Vortex remains canon_pending (eraTimeline.ts:419 — era deferred to the dreamer); it is the tracked gap. The ceiling can only shrink when a future PR binds the Vortex.",
     check: () => checkVortexTerminusCoverage(),
     ratchet: { target: 0 },
+  },
+
+  // ─── PR-23 — Pets narrative origin (last loose thread) ─────
+  {
+    id: "canon.pet_origin_coverage",
+    name: "Pet origin canon coverage",
+    description:
+      "Hard parity (PR-23): the Pets' narrative origin (apps/shared/petOriginCanon.ts) resolves all four anchors — the Matrix-of-Dreams imprint ontology (imprintSummoningCanon), the species registry (petSpeciesTraits), the breeding mechanic (petBreeding.breedPets), and the Risen fate (necromancerReturn pet_battles Risen impacts + theComingCanon.first_coming). Pets are the First Coming felt at companion scale; the last loose thread is bound to the spine.",
+    check: () => checkPetOriginCoverage(),
   },
 ];

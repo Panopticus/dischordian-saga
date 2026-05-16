@@ -216,9 +216,11 @@ export const PERSPECTIVES: readonly PerspectiveDef[] = [
     unlockingTerminalEpisodeId: null,
     status: "canon_pending",
     premise:
-      "The companions have mechanics but no origin imprint yet. The lens waits on the Matrix-of-Dreams binding.",
-    loreSource: "apps/shared/petBreeding.ts + apps/shared/necromancerReturn.ts:205 (Risen pets)",
-    canonNote: "Origin canon-locked in petOriginCanon.ts (PR-23).",
+      "Pets are Matrix-of-Dreams imprints in companion form; the First Coming reclaims them as the Risen. The lens reads the imprint through its Risen fate.",
+    loreSource:
+      "apps/shared/petOriginCanon.ts (origin bound) + apps/shared/necromancerReturn.ts:205 (Risen pets)",
+    canonNote:
+      "Origin canon-locked in petOriginCanon.ts (PR-23). Perspective stays canon_pending — no Pets mystery arc exists to 'learn' it through.",
   },
   {
     id: "perspective.the_coming",
