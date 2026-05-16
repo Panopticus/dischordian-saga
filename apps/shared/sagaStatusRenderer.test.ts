@@ -79,11 +79,11 @@ describe("renderMysteryEngineCatalog", () => {
     ]);
   });
 
-  it("returns all 6 canonical arcs at narrativeAct 5+", () => {
+  it("returns all 8 canonical arcs at narrativeAct 5+", () => {
     const p = renderMysteryEngineCatalog(state(5));
-    expect(p.availableCount).toBe(6);
+    expect(p.availableCount).toBe(8);
     expect(p.upcomingArcs).toHaveLength(0);
-    expect(p.totalCount).toBe(6);
+    expect(p.totalCount).toBe(8);
   });
 });
 
@@ -91,7 +91,7 @@ describe("renderCrossArcPreviews", () => {
   it("returns 0 active bindings when no arcs are available", () => {
     const p = renderCrossArcPreviews(state(1));
     expect(p.activeBindings).toHaveLength(0);
-    expect(p.totalBindings).toBe(6);
+    expect(p.totalBindings).toBe(18);
   });
 
   it("returns bindings sourced from Wraith / Jericho at Act 2", () => {
@@ -106,9 +106,9 @@ describe("renderCrossArcPreviews", () => {
     expect(sourceArcs.has("arc.vex_solene")).toBe(false);
   });
 
-  it("returns all 6 bindings at full saga (Act 5+)", () => {
+  it("returns all 11 active bindings at full saga (Act 5+)", () => {
     const p = renderCrossArcPreviews(state(5));
-    expect(p.activeBindings).toHaveLength(6);
+    expect(p.activeBindings).toHaveLength(11);
   });
 
   it("every preview has non-empty text", () => {
@@ -154,7 +154,7 @@ describe("renderSagaStatus (top-level composition)", () => {
     );
     expect(p.phase.currentPhase).toBe(5);
     expect(p.mysteries.availableCount).toBeGreaterThan(0);
-    expect(p.crossArcs.totalBindings).toBe(6);
+    expect(p.crossArcs.totalBindings).toBe(18);
     expect(p.realWorld.nextTrip?.id).toBe("nairobi_2027");
   });
 
@@ -201,7 +201,7 @@ describe("countActiveCrossArcThreads", () => {
     expect(countActiveCrossArcThreads(state(1))).toBe(0);
   });
 
-  it("returns 6 at full saga (Act 5+)", () => {
-    expect(countActiveCrossArcThreads(state(5))).toBe(6);
+  it("returns 11 at full saga (Act 5+)", () => {
+    expect(countActiveCrossArcThreads(state(5))).toBe(11);
   });
 });

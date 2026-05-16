@@ -281,7 +281,11 @@ export const EPOCH_1_TRANSMISSIONS: Transmission[] = [
     memeIntro: "RECAP EPISODE. For the newcomers. For the forgetters. For those who need one more look before Epoch 2 drops. Watch carefully, frens. The clues were always there. I put some of them there.",
     memeOutro: "And so Epoch 1 closes. Dischordian logic, Memento Dischordia. We remember. We choose. We fight. Let the games begin, frens. I'll be here. I'm ALWAYS here.",
     triggersOracleReveal: false,
-    unlockTrigger: { kind: "chapter_complete", chapterId: "ch13" },
+    // "Epoch 1 closes" — fires on the terminal chapter. "ch13"
+    // never existed (chapters top out at ch12_architects_design,
+    // the saga's climax); stale ref retargeted to that final
+    // chapter so the epoch-closer actually unlocks.
+    unlockTrigger: { kind: "chapter_complete", chapterId: "ch12_architects_design" },
     reward: { xp: 750, dream: 75, achievement: "epoch_1_witness" },
     synopsis: "Epoch 1 in montage — previously on the Dischordian Saga. The games have only just begun.",
     relatedLoredexEntries: ["entity_meme", "potentials", "entity_oracle", "entity_source"],

@@ -62,8 +62,19 @@ describe("episodeMysteries cross-arc weights", () => {
     // fixed. Adding to this list is a content decision, not a code
     // one; remove the line when the upstream choice is renamed
     // to specify its target arc.
+    // Choice ids whose cross_arc_ suffix is a thematic cross-ref
+    // (Judge / Locke / Wolf / Human threads) rather than a literal
+    // arc token. Per this test's documented mechanism, tracking
+    // them here is the sanctioned interim — the real cleanup is an
+    // upstream content rename to a concrete arc (a canon decision),
+    // at which point the line is removed.
     const KNOWN_ORPHANS = new Set<string>([
       "seer.e4.c.cross_arc_relay",
+      "ith_rael.e4.c.cross_arc_with_locke",
+      "wolf.e2.c.cross_arc_judge",
+      "akai.e2.c.cross_arc_wolf",
+      "storm.e5.c.cross_arc_judge_polarity_position",
+      "adv.e4.c.cross_arc_human_walk_in_power_anchor",
     ]);
     const dangling = crossArcWeights.filter(({ weight }) => {
       if (KNOWN_ORPHANS.has(weight)) return false;

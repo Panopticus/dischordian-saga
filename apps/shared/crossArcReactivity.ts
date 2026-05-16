@@ -548,9 +548,12 @@ export function getParticipatingArcs(): readonly ArcId[] {
  * 6 spine-arc bindings + 5 DLC bindings (Wolf → Wraith + Wolf →
  * Jericho + Akai Shi → Jericho + Akai Shi → Wraith + Akai Shi →
  * Game Master) + 1 Nemesis bind (Resurrectionist → Nemesis name
- * reveal) = 12 canonical cross-arc threads.
+ * reveal) + 6 expansion bindings (Advocate / Blood-Weave /
+ * Severance arc cross-refs) = 18 canonical cross-arc threads.
+ * The CROSS_ARC_BINDINGS registry is authoritative; this
+ * constant tracks its length.
  */
-export const CANONICAL_CROSS_ARC_COUNT = 12;
+export const CANONICAL_CROSS_ARC_COUNT = 18;
 
 /**
  * Returns the canonical preview text the Hub UI shows to the
