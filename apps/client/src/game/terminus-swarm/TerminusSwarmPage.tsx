@@ -868,7 +868,7 @@ export default function TerminusSwarmPage() {
               <canvas
                 ref={canvasRef}
                 onClick={handleCanvasClick}
-                className="cursor-crosshair border border-white/5 rounded"
+                className="game-canvas-mount cursor-crosshair border border-white/5 rounded"
                 style={{ imageRendering: "pixelated" }}
               />
             </div>

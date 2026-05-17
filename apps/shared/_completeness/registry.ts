@@ -26,6 +26,8 @@ import { checkDbForeignKeyCoverage } from "./checks/dbForeignKeyCoverage";
 import { checkEconomicTransactionCoverage } from "./checks/economicTransactionCoverage";
 import { checkMobileWiring } from "./checks/mobileWiring";
 import { checkListVirtualizationAdoption } from "./checks/listVirtualizationAdoption";
+import { checkCanvasTouchActionAdoption } from "./checks/canvasTouchActionAdoption";
+import { checkSafeAreaInsetAdoption } from "./checks/safeAreaInsetAdoption";
 import { checkAssetPrefetchManifest } from "./checks/assetPrefetchManifest";
 import { checkProcedureRateLimits } from "./checks/procedureRateLimits";
 import { checkVoidContrastCoverage } from "./checks/voidContrastCoverage";
@@ -275,6 +277,20 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "Pages declared in checks/listVirtualizationAdoption.ts ADOPTED_LIST_PAGES still import useListVirtualizer. Catches accidental removal during refactors.",
     check: () => checkListVirtualizationAdoption(),
+  },
+  {
+    id: "client.canvas_touch_action_adoption",
+    name: "Interactive canvas touch-action adoption",
+    description:
+      "Every interactive game canvas in checks/canvasTouchActionAdoption.ts INTERACTIVE_CANVASES carries a touch-action:none boundary (game-canvas-mount / touch-none / FightEngine2D). Closes the mobileWiring probe-#6 gap: CSS rule declared but not applied.",
+    check: () => checkCanvasTouchActionAdoption(),
+  },
+  {
+    id: "client.safe_area_inset_adoption",
+    name: "Safe-area inset adoption",
+    description:
+      "Full-bleed game surfaces in checks/safeAreaInsetAdoption.ts SAFE_AREA_SURFACES apply safe-area-top (audit/08.F5). Closes the hollow-tracking gap: .safe-area-* declared in index.css but never applied to the notch-overlapping HUDs.",
+    check: () => checkSafeAreaInsetAdoption(),
   },
   {
     id: "client.asset_prefetch_manifest",
