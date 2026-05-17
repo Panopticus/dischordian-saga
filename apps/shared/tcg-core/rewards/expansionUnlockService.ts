@@ -21,6 +21,7 @@ import type {
   CardDefinition,
   CardUnlockCondition,
 } from "../types/Card";
+import { deriveLearnedPerspectives } from "../../perspectiveCanon";
 
 /**
  * Player progression snapshot consulted by every unlock evaluator.
@@ -55,6 +56,14 @@ export interface PlayerExpansionState {
    *  mysteryService.ts on episode-close. Used by the
    *  `arc_episode_complete` CardUnlockCondition kind. */
   readonly completedMysteryEpisodes: ReadonlySet<string>;
+  /** Dischordian-Logic perspectives the player has LEARNED.
+   *  Ids are canonical (apps/shared/perspectiveCanon.ts). NOT
+   *  sourced from a dedicated flag prefix — DERIVED from
+   *  `completedMysteryEpisodes` by mapping each closed terminal
+   *  episode through the perspective registry (so no new flag
+   *  prefix; tcg.flag_prefix_writer_parity is untouched). Used
+   *  by the `perspective_learned` CardUnlockCondition kind. */
+  readonly learnedPerspectives: ReadonlySet<string>;
 }
 
 /** Default snapshot — nothing unlocked. Useful for tests + unauth flows. */
@@ -67,6 +76,7 @@ export const NULL_PLAYER_EXPANSION_STATE: PlayerExpansionState = Object.freeze({
   completedDlcChapters: new Set<string>(),
   bloodlineGenerations: Object.freeze({}),
   completedMysteryEpisodes: new Set<string>(),
+  learnedPerspectives: new Set<string>(),
 });
 
 /**
@@ -99,6 +109,8 @@ export function evaluateUnlockCondition(
       return state.completedMysteryEpisodes.has(
         `${cond.arcId}:${cond.episodeId}`,
       );
+    case "perspective_learned":
+      return state.learnedPerspectives.has(cond.perspectiveId);
   }
 }
 
@@ -164,6 +176,9 @@ export function makePlayerExpansionState(
     completedDlcChapters: new Set(partial.completedDlcChapters ?? []),
     bloodlineGenerations: { ...(partial.bloodlineGenerations ?? {}) },
     completedMysteryEpisodes: new Set(partial.completedMysteryEpisodes ?? []),
+    learnedPerspectives: deriveLearnedPerspectives(
+      partial.completedMysteryEpisodes ?? [],
+    ),
   };
 }
 
@@ -238,6 +253,13 @@ export function derivePlayerExpansionStateFromFlags(
       completedMysteryEpisodes.push(key.slice("mystery_episode_complete:".length));
     }
   }
+  /* Dischordian-Logic perspectives are DERIVED from the same
+   * completed-episode stream — closing a storyline's terminal
+   * episode is the canonical "learned the perspective" beat.
+   * No new flag prefix: the key is `<arcId>:<episodeId>`. */
+  const learnedPerspectives = deriveLearnedPerspectives(
+    completedMysteryEpisodes,
+  );
   return {
     completedActs: new Set(completedActs),
     secretActsRevealed: new Set(secretActsRevealed),
@@ -247,5 +269,6 @@ export function derivePlayerExpansionStateFromFlags(
     completedDlcChapters: new Set(completedDlcChapters),
     bloodlineGenerations: { ...(entitlements.bloodlineGenerations ?? {}) },
     completedMysteryEpisodes: new Set(completedMysteryEpisodes),
+    learnedPerspectives,
   };
 }

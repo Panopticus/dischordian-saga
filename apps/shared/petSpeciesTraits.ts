@@ -12,6 +12,11 @@
    (element/species/faction/class). Unknown species return
    an empty trait set — they still battle, they just don't
    contribute to synergy thresholds.
+
+   CANON (petOriginCanon.ts): a species is not an arbitrary
+   stat block — it is the stable shape a consciousness-imprint
+   (Matrix of Dreams) settles into. The species keys here are
+   the pet identity space, disjoint from the crew Companions.
    ═══════════════════════════════════════════════════════ */
 
 import type { PartyMemberTraits } from "./companionTraitThresholds";

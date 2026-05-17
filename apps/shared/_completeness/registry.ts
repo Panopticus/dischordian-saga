@@ -105,6 +105,13 @@ import { checkImprintFirstSummonCutsceneCoverage } from "./checks/imprintFirstSu
 import { checkImprintCardsCarryUnlockCondition } from "./checks/imprintCardsCarryUnlockCondition";
 import { checkContinuingLoopEndgameCoverage } from "./checks/continuingLoopEndgameCoverage";
 import { checkServantHeroDeferralCoverage } from "./checks/servantHeroDeferralCoverage";
+import { checkSurfaceDiscoverabilityCoverage } from "./checks/surfaceDiscoverabilityCoverage";
+import { checkPerspectiveCanonCoverage } from "./checks/perspectiveCanonCoverage";
+import { checkProphecyTarotCoverage } from "./checks/prophecyTarotCoverage";
+import { checkActCloseCutsceneCoverage } from "./checks/actCloseCutsceneCoverage";
+import { checkTheComingCoverage } from "./checks/theComingCoverage";
+import { checkVortexTerminusCoverage } from "./checks/vortexTerminusCoverage";
+import { checkPetOriginCoverage } from "./checks/petOriginCoverage";
 import {
   checkNeyonCanonicalRosterCoverage,
   checkArchonCanonicalRosterCoverage,
@@ -629,13 +636,15 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
   {
     // Phase H.I — Room reachability coverage for the 117 deferred
     // spaces (12 HB + 7 veh + 60 destination + 38 apprentice).
-    // Hellboxes + vehicles + apprentice spaces (58 of 117) covered
-    // explicitly in roomUnlockManifest; 60 destinations remain
-    // gated per-subsystem and aren't enumerated here.
+    // 70 of 117 have explicit unlock gates in roomUnlockManifest.
+    // The ~47 gap is the destination zones whose unlock model is
+    // an explicitly deferred narrative-design decision (TBD[4] in
+    // _PHASE_H_HANDOFF.md) — unauthored in source AND docs, not
+    // "gated per-subsystem". The ratchet is the honest accounting.
     id: "art.room_reachability_coverage",
     name: "Room reachability / unlock manifest coverage",
     description:
-      "Every deferred space (12 Hellboxes + 7 vehicles + 38 apprentice/pedagogy/berth/guild/Game-Master) has an explicit unlock declaration in apps/shared/roomGating/roomUnlockManifest.ts. Ratcheted; 60 destinations remain gated per their respective subsystems.",
+      "70 of the 117 deferred spaces (12 Hellboxes + 7 vehicles + apprentice/pedagogy/berth/guild/Game-Master + a few dest.*) have an explicit unlock gate in apps/shared/roomGating/roomUnlockManifest.ts. Ratcheted at 47: the 60 destination zones' unlock model is an explicitly deferred narrative-design decision (TBD[4] in docs/production/_PHASE_H_HANDOFF.md), not authored anywhere in source or docs. Closes only when the narrative team writes the per-zone gates; must not be turned green by inventing them.",
     check: () => checkRoomReachabilityCoverage(),
     ratchet: { target: 0 },
   },
@@ -841,7 +850,7 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     id: "canon.pre_locke_coordinator_coverage",
     name: "Pre-Locke Coordinator coverage",
     description:
-      "Per dreamer canon-lock 2026-05-14 (apps/shared/preLockeCoordinators.ts), the chain between the founding regicide and Locke holds 5-15 Coordinators. PR-5 ships 2 named (the Founder + Jericho). RATCHET — gap shrinks only as canon names additional predecessors.",
+      "Per dreamer canon-lock 2026-05-14 (apps/shared/preLockeCoordinators.ts), the chain between the founding regicide and Locke holds 5-15 Coordinators. 5/5 — the Founder + Jericho plus three intermediate Coordinators (Veth Karran, Oss Vae, Halvenn Sarro) generated under project-owner authorization (canon-lock 2026-05-16), satisfying the dreamer-locked minimum. Ratcheted at 0; cannot regress.",
     check: () => checkPreLockeCoordinatorCoverage(),
     ratchet: { target: 0 },
   },
@@ -924,7 +933,7 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     id: "canon.hierarchy_roster_coverage",
     name: "Hierarchy of the Damned canonical roster coverage",
     description:
-      "Per LORE_BIBLE.md:5348, the Hierarchy is exactly 10 demon lords. The registry's inCoreTen flag marks the canonical core. Currently 9/10 — Mol'Vereth and Ozhul'Vana are canon-pending against the LORE_BIBLE Connections list (their core-membership reading per Plan §II.4 conflicts with the conservative reading in hierarchyCanon.ts). Ratcheted; only allowed to shrink.",
+      "Per LORE_BIBLE.md:5348, the Hierarchy is exactly 10 demon lords. The registry's inCoreTen flag marks the canonical core. 10/10 — Mol'Vereth was promoted into the core ten per the dreamer canon-lock of 2026-05-16; Ozhul'Vana remains adjacent (senior-partner, Degen arc) and is counted outside the core. Ratcheted at 0; cannot regress.",
     check: () => checkHierarchyCanonicalRosterCoverage(),
     ratchet: { target: 0 },
   },
@@ -978,5 +987,70 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "Hard parity (build-plan §VIII Phase C — C6/C7): the Servant Hero Academy is a deferred future season / DLC (≥1 year out). C6 (onboarding cinematic) + C7 (Servant-Hero curriculum) are registered in apps/shared/servantHeroFutureSeasonCanon.ts as typed deferred_future_season hooks. The Act7→Phase14 seam (sagaPhases.ts:281-294, unreachable while narrativeAct<=7) is canon-locked as the DELIBERATE not-yet-launched boundary, not an orphaned bug. The gate accounts for the deferral without blocking.",
     check: () => checkServantHeroDeferralCoverage(),
+  },
+
+  // ─── PR-17 — discoverability backbone ──────────────────────
+  {
+    id: "narrative.surface_discoverability_coverage",
+    name: "Surface discoverability coverage",
+    description:
+      "One discoverable narrative path (PR-17 backbone; PR-24/25 backfill): every <Route> in apps/client/src/App.tsx is classified in apps/shared/surfaceDiscoverabilityCanon.ts and every narrative_gated surface resolves its gate through EXISTING infra (featureRoadmap / gameModeNarrativePremises / sagaPhases / act-completion gates / expansion unlock service). PR-24/25 closed the 78-orphan baseline to 0 — game modes with a recorded diegetic premise → narrative_gated, narrative locations/episodes → phase, nav-reachable social/competitive/economy → always_available, dev/account/seasonal → utility. A two-way drift scan folds any unclassified App.tsx route or stale registry route into the gap, so a new unclassified route is an immediate regression. RATCHET ceiling tightened to 0 — it can never regrow. This is the 'tighten things' lock.",
+    check: () => checkSurfaceDiscoverabilityCoverage(),
+    ratchet: { target: 0 },
+  },
+
+  // ─── PR-18 — Dischordian-Logic epistemology ────────────────
+  {
+    id: "canon.perspective_coverage",
+    name: "Perspective canon coverage",
+    description:
+      "Hard parity (PR-18): every learnable PERSPECTIVE in apps/shared/perspectiveCanon.ts is coherent. A 'locked' perspective MUST resolve its Mystery-Engine arc + terminal episode against episodeMysteries.ts (a card gated behind an unlearnable lens is a Dischordian-Logic failure); a 'canon_pending' loose thread (Vortex / Terminus Swarm / Pets / the Coming) MUST carry a loreSource and is bound to its dedicated backbone in PR-21/PR-22/PR-23. The perspective_learned CardUnlockCondition kind rides the existing mystery_episode_complete flag stream — no new flag prefix (tcg.flag_prefix_writer_parity untouched), schema literal shipped same change (tcg.zod_schema_union_parity stays PASS).",
+    check: () => checkPerspectiveCanonCoverage(),
+  },
+
+  // ─── PR-19 — prophecy/seal/seer/Oracle-Tarot unification ───
+  {
+    id: "narrative.prophecy_tarot_unification",
+    name: "Prophecy · Seal · Tarot unification",
+    description:
+      "Hard parity (PR-19): each of the 7 per-Act bindings in apps/shared/prophecyTarotCanon.ts resolves its Seal (SEVEN_SEALS num+act), its prophecy bookend (getProphecyById), at least one Oracle-Tarot card slug under the act (PROPHECY_VISIONS — the existing 23-card Oracle Deck IS the Dischordian Tarot; no new cards/art), the antiquarian_manifold (Daniel Cross = Programmer = Antiquarian, the prophet), and the canonical Seer warming band (cold 1-2 / warm 3-5 / confidant 6-7). Acts must be exactly {1..7} once each.",
+    check: () => checkProphecyTarotCoverage(),
+  },
+
+  // ─── PR-20 — act-close chapter cutscenes (the two Comings) ─
+  {
+    id: "narrative.act_close_cutscene_coverage",
+    name: "Act-close chapter cutscene coverage",
+    description:
+      "Hard parity (PR-20): 7 act-close entries in apps/shared/actCloseCutsceneCanon.ts, acts {1..7} once each, delivered through the shipped Antiquarian bridge overlay (every antiquarianBridgeId resolves) with Seal+prophecy deferred to the validated prophecyTarotCanon binding. The two Comings are canon-pinned: the FIRST Coming (Necromancer = halfway) on Act 4; the FINAL Coming (Politician = endgame) on Act 7, which ignites the PR-16 continuing-loop canon. No other act may carry a Coming.",
+    check: () => checkActCloseCutsceneCoverage(),
+  },
+
+  // ─── PR-21 — the Coming (two-stage canon binding) ──────────
+  {
+    id: "canon.the_coming_binding",
+    name: "The Coming — two-stage binding",
+    description:
+      "Hard parity (PR-21): 'the Coming' is one prophecy with two fulfilments and both must resolve every registry they cite. FIRST Coming = the Necromancer's Return (halfway, Act 4 / saga phase 7): necromancer arc + resurrection meter + act-4 close 'first'. FINAL Coming = the Politician's Return (endgame, Act 7 / saga phase 13): politician arc + Archon #7 + act-7 close 'final' igniting the PR-16 continuing loop. Supersedes the single-stage Coming framing.",
+    check: () => checkTheComingCoverage(),
+  },
+
+  // ─── PR-22 — Vortex / Terminus reconciliation ──────────────
+  {
+    id: "canon.vortex_terminus_reconciliation",
+    name: "Vortex / Terminus reconciliation",
+    description:
+      "Hard PASS (PR-22, dreamer 2026-05-17): the Terminus Swarm is RECONCILED — canonical reading = the Thought Virus itself (the intergalactic mind-plague; vector Kael → The Source, sealed in the ex-Panopticon rogue planet Terminus), an independent institutional threat. The Risen / Necromancer-First-Coming and Vortex-manifestation readings are preserved as typed in-fiction alternates (not discarded). The Vortex is RECONCILED & HARD-LOCKED — Archon #9, the doomsday-clock terminal state that feeds the Final Coming (theComingCanon.final_coming). No thread is canon_pending; the gate is a hard PASS and the ratchet target stays 0.",
+    check: () => checkVortexTerminusCoverage(),
+    ratchet: { target: 0 },
+  },
+
+  // ─── PR-23 — Pets narrative origin (last loose thread) ─────
+  {
+    id: "canon.pet_origin_coverage",
+    name: "Pet origin canon coverage",
+    description:
+      "Hard parity (PR-23): the Pets' narrative origin (apps/shared/petOriginCanon.ts) resolves all five anchors — the Matrix-of-Dreams imprint ontology (imprintSummoningCanon), the species registry (petSpeciesTraits), the breeding mechanic (petBreeding.breedPets), the Risen fate (necromancerReturn pet_battles Risen impacts + theComingCanon.first_coming), and the Pets-vs-crew-Companions distinction (pet species disjoint from companionBattleReactions.getReactiveCompanionIds — Pets are imprint-creatures, not the crew Companions Elara/the Human). Pets are the First Coming felt at companion scale; the last loose thread is bound to the spine, and the origin is surfaced player-facing in the LORE_BIBLE 'The Pets' entry.",
+    check: () => checkPetOriginCoverage(),
   },
 ];

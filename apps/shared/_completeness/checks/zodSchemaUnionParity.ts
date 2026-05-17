@@ -46,6 +46,7 @@ const TS_KIND_REGISTRY = [
   "dlc_chapter_completion",
   "bloodline_threshold",
   "arc_episode_complete",
+  "perspective_learned",
 ] as const satisfies readonly CardUnlockCondition["kind"][];
 
 export function checkZodSchemaUnionParity(): RawParityCount {

@@ -1,5 +1,5 @@
 /**
- * Imprint Set — Foucault (5 tiers).
+ * Imprint Set â Foucault (5 tiers).
  *
  * RETIRED per dreamer-canon (2026-05-13): Foucault has been
  * dropped from the canonical character roster. The card
@@ -7,10 +7,10 @@
  * (existing saved decks resolve correctly), but every tier is
  * marked `reserved: true` so pack-opening, deck-builder, and
  * reward surfaces filter them out (per CLAUDE.md
- * "Conventions worth knowing" — `reserved: true` keeps the
+ * "Conventions worth knowing" â `reserved: true` keeps the
  * card recognized but absent from live pools).
  *
- * Per the plan §VIII Phase J9 + §X.11: no intro cutscene
+ * Per the plan Â§VIII Phase J9 + Â§X.11: no intro cutscene
  * authored, no Loredex sub-section surfaced, no Mystery
  * Engine binding. The Foucault imprint is a legacy entry only.
  */
@@ -19,6 +19,9 @@ import type { CardDefinition } from "../../../index";
 import { assetUrl } from "@shared/lib/assetUrl";
 export const foucault_t1: CardDefinition = {
   id: "s1_imprint_foucault_t1" as CardDefinition["id"],
+  // First-summon gated to the act this character is canonically
+  // introduced (CHAPTER_TO_IMPRINT_NPCS, imprintRegistry.ts) — I14.
+  unlockCondition: { kind: "act_completion", act: 2 },
   name: "Imprint: Foucault (Common)",
   faction: "new_babylon", cardType: "unit", rarity: "common",
   cost: 2, baseStats: { power: 2, health: 3 },
@@ -58,7 +61,7 @@ export const foucault_t3: CardDefinition = {
         duration: { kind: "n_turns", n: 1 }, to: { kind: "self" } } },
   ],
   art: assetUrl("art/cards/imprint/foucault_t3.webp"),
-  flavorText: "Dispel. Stealth — 1 turn. He stepped into the blind spot of the room's camera. He installed the blind spot two years ago.",
+  flavorText: "Dispel. Stealth â 1 turn. He stepped into the blind spot of the room's camera. He installed the blind spot two years ago.",
   rulesVersion: "1.1.0",
   trial_categories: ["narrative", "offensive"] as const,
   verdict_delta: 2,
@@ -78,7 +81,7 @@ export const foucault_t4: CardDefinition = {
         duration: { kind: "n_turns", n: 2 }, to: { kind: "self" } } },
   ],
   art: assetUrl("art/cards/imprint/foucault_t4.webp"),
-  flavorText: "Dispel. Stealth — 2 turns. He is carrying a map of the Panopticon's schedule of glances, and you are in none of them.",
+  flavorText: "Dispel. Stealth â 2 turns. He is carrying a map of the Panopticon's schedule of glances, and you are in none of them.",
   rulesVersion: "1.1.0",
   trial_categories: ["narrative"] as const,
   verdict_delta: 2,
@@ -102,7 +105,7 @@ export const foucault_t5: CardDefinition = {
   ],
   art: assetUrl("art/cards/imprint/foucault_t5.webp"),
   flavorText:
-    "Dispel. Stealth — 3 turns. On deploy, silence the enemy general. Foucault wrote the theory of the surveillance state the Babylonians are currently operating inside of. They did not read the theory. He keeps a copy in his inside pocket with footnotes they would have needed.",
+    "Dispel. Stealth â 3 turns. On deploy, silence the enemy general. Foucault wrote the theory of the surveillance state the Babylonians are currently operating inside of. They did not read the theory. He keeps a copy in his inside pocket with footnotes they would have needed.",
   rulesVersion: "1.1.0",
   trial_categories: ["narrative"] as const,
   verdict_delta: 2,

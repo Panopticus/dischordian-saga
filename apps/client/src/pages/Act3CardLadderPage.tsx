@@ -346,7 +346,7 @@ export default function Act3CardLadderPage() {
                       <button
                         type="button"
                         onClick={() => setView("pathlock")}
-                        className="mt-3 rounded-md border border-amber-500/60 bg-amber-900/40 px-3 py-1.5 font-mono text-[10px] uppercase tracking-wider text-amber-100 hover:bg-amber-800/60"
+                        className="mt-3 rounded-md border border-[var(--void-gold)] bg-[var(--void-gold-subtle)] px-3 py-1.5 font-mono text-[10px] uppercase tracking-wider text-[var(--void-gold-tint)] hover:bg-[var(--void-gold-subtle)]"
                       >
                         Open Locke's offer →
                       </button>
@@ -490,19 +490,19 @@ export default function Act3CardLadderPage() {
               transition={{ duration: 0.4 }}
               className="space-y-4"
             >
-              <div className="rounded-md border border-amber-500/60 bg-amber-950/30 p-5">
-                <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-amber-300/80">
+              <div className="rounded-md border border-[var(--void-gold)] bg-[var(--void-gold-subtle)] p-5">
+                <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-[var(--void-gold)]">
                   Inbox · Adjudicator Locke
                 </p>
-                <p className="mt-1 font-display text-xl text-amber-100">
+                <p className="mt-1 font-display text-xl text-[var(--void-gold-tint)]">
                   The Offer (final form)
                 </p>
-                <p className="mt-3 font-serif italic text-[13px] leading-relaxed text-amber-50">
+                <p className="mt-3 font-serif italic text-[13px] leading-relaxed text-[var(--void-gold-tint)]">
                   You have walked the substrate ladder. Three gates,
                   three echoes of Kael, three confirmations that you
                   can move down there without being eaten.
                 </p>
-                <p className="mt-3 font-serif italic text-[13px] leading-relaxed text-amber-50">
+                <p className="mt-3 font-serif italic text-[13px] leading-relaxed text-[var(--void-gold-tint)]">
                   The Trade Empire's real lanes are still patrolled.
                   Real runs need cover. I am offering you three. Pick
                   one. The other two will close behind you.
@@ -514,22 +514,22 @@ export default function Act3CardLadderPage() {
                     key={choice.id}
                     type="button"
                     onClick={() => handlePathLockChoice(choice)}
-                    className="text-left rounded-md border border-amber-500/40 bg-slate-950/60 p-4 hover:border-amber-400/80 hover:bg-amber-950/30 transition-colors"
+                    className="text-left rounded-md border border-[var(--void-gold)] bg-[var(--void-surface)] p-4 hover:border-[var(--void-gold-tint)] hover:bg-[var(--void-gold-subtle)] transition-colors"
                     data-testid={`act3-pathlock-${choice.id}`}
                   >
-                    <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-amber-300/80">
+                    <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-[var(--void-gold)]">
                       {choice.cover}
                     </p>
-                    <p className="mt-2 font-display text-base text-amber-100">
+                    <p className="mt-2 font-display text-base text-[var(--void-gold-tint)]">
                       {choice.label}
                     </p>
-                    <p className="mt-2 font-serif italic text-[12px] leading-relaxed text-amber-50/80">
+                    <p className="mt-2 font-serif italic text-[12px] leading-relaxed text-[var(--void-gold-tint)]">
                       {choice.rationale}
                     </p>
                   </button>
                 ))}
               </div>
-              <p className="text-center font-mono text-[10px] uppercase tracking-[0.25em] text-amber-300/60">
+              <p className="text-center font-mono text-[10px] uppercase tracking-[0.25em] text-[var(--void-gold)]">
                 — L.
               </p>
             </motion.div>

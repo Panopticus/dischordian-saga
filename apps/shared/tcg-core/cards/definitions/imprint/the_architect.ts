@@ -1,8 +1,8 @@
 /**
- * Imprint Set — The Architect (5 tiers). Phase F13.
+ * Imprint Set â The Architect (5 tiers). Phase F13.
  *
  * The first intelligence. Precise, premeditated, never in a hurry.
- * The Architect's mechanical vocabulary is LATE-GAME DOMINANCE —
+ * The Architect's mechanical vocabulary is LATE-GAME DOMINANCE â
  * big stats, taunt/provoke, incremental self-buff via grow. He
  * is not fast and he does not need to be.
  *
@@ -11,11 +11,14 @@
 import type { CardDefinition } from "../../../index";
 
 import { assetUrl } from "@shared/lib/assetUrl";
-/* ═══════════════════════════════════════════════════════
-   TIER 1 — COMMON
-   ═══════════════════════════════════════════════════════ */
+/* âââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+   TIER 1 â COMMON
+   âââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
 export const the_architect_t1: CardDefinition = {
   id: "s1_imprint_the_architect_t1" as CardDefinition["id"],
+  // First-summon gated to the act this character is canonically
+  // introduced (CHAPTER_TO_IMPRINT_NPCS, imprintRegistry.ts) — I14.
+  unlockCondition: { kind: "act_completion", act: 1 },
   name: "Imprint: The Architect (Common)",
   faction: "architect",
   cardType: "unit",
@@ -32,9 +35,9 @@ export const the_architect_t1: CardDefinition = {
   verdict_delta: 1,
 };
 
-/* ═══════════════════════════════════════════════════════
-   TIER 2 — UNCOMMON — Provoke
-   ═══════════════════════════════════════════════════════ */
+/* âââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+   TIER 2 â UNCOMMON â Provoke
+   âââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
 export const the_architect_t2: CardDefinition = {
   id: "s1_imprint_the_architect_t2" as CardDefinition["id"],
   name: "Imprint: The Architect (Uncommon)",
@@ -53,9 +56,9 @@ export const the_architect_t2: CardDefinition = {
   verdict_delta: 1,
 };
 
-/* ═══════════════════════════════════════════════════════
-   TIER 3 — RARE — Grow (+1/+1 each turn)
-   ═══════════════════════════════════════════════════════ */
+/* âââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+   TIER 3 â RARE â Grow (+1/+1 each turn)
+   âââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
 export const the_architect_t3: CardDefinition = {
   id: "s1_imprint_the_architect_t3" as CardDefinition["id"],
   name: "Imprint: The Architect (Rare)",
@@ -74,9 +77,9 @@ export const the_architect_t3: CardDefinition = {
   verdict_delta: 1,
 };
 
-/* ═══════════════════════════════════════════════════════
-   TIER 4 — EPIC — Forcefield
-   ═══════════════════════════════════════════════════════ */
+/* âââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+   TIER 4 â EPIC â Forcefield
+   âââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
 export const the_architect_t4: CardDefinition = {
   id: "s1_imprint_the_architect_t4" as CardDefinition["id"],
   name: "Imprint: The Architect (Epic)",
@@ -95,11 +98,11 @@ export const the_architect_t4: CardDefinition = {
   verdict_delta: 2,
 };
 
-/* ═══════════════════════════════════════════════════════
-   TIER 5 — LEGENDARY
+/* âââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+   TIER 5 â LEGENDARY
    The prior cause. The closed loop. The man whose plan
    the universe is still paying off.
-   ═══════════════════════════════════════════════════════ */
+   âââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
 export const the_architect_t5: CardDefinition = {
   id: "s1_imprint_the_architect_t5" as CardDefinition["id"],
   name: "The Architect, Prior Cause",

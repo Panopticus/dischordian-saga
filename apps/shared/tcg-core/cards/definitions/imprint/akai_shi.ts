@@ -1,5 +1,5 @@
 /**
- * Imprint Set — Akai Shi (5 tiers). Phase F21.
+ * Imprint Set â Akai Shi (5 tiers). Phase F21.
  *
  * Red Death. The Architect's silent removal arm. Speaks once per
  * assignment. Mechanical vocabulary: backstab, celerity, pierce.
@@ -10,6 +10,9 @@ import type { CardDefinition } from "../../../index";
 import { assetUrl } from "@shared/lib/assetUrl";
 export const akai_shi_t1: CardDefinition = {
   id: "s1_imprint_akai_shi_t1" as CardDefinition["id"],
+  // First-summon gated to the act this character is canonically
+  // introduced (CHAPTER_TO_IMPRINT_NPCS, imprintRegistry.ts) — I14.
+  unlockCondition: { kind: "act_completion", act: 1 },
   name: "Imprint: Akai Shi (Common)",
   faction: "architect", cardType: "unit", rarity: "common",
   cost: 2, baseStats: { power: 3, health: 2 },

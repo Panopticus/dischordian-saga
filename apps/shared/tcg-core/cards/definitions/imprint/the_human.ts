@@ -1,9 +1,9 @@
 /**
- * Imprint Set — The Human (5 tiers). Phase F12.
+ * Imprint Set â The Human (5 tiers). Phase F12.
  *
  * The Twelfth Archon. Last organic Archon. The Student who
  * survived Mechronis Academy. In the TCG he reads as detective
- * more than soldier — his mechanical vocabulary is revealing
+ * more than soldier â his mechanical vocabulary is revealing
  * hidden information, drawing the extra card, and having one
  * good idea per turn that nobody else was going to have.
  *
@@ -16,11 +16,14 @@
 import type { CardDefinition } from "../../../index";
 
 import { assetUrl } from "@shared/lib/assetUrl";
-/* ═══════════════════════════════════════════════════════
-   TIER 1 — COMMON
-   ═══════════════════════════════════════════════════════ */
+/* âââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+   TIER 1 â COMMON
+   âââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
 export const the_human_t1: CardDefinition = {
   id: "s1_imprint_the_human_t1" as CardDefinition["id"],
+  // First-summon gated to the act this character is canonically
+  // introduced (CHAPTER_TO_IMPRINT_NPCS, imprintRegistry.ts) — I14.
+  unlockCondition: { kind: "act_completion", act: 1 },
   name: "Imprint: The Human (Common)",
   faction: "insurgency",
   cardType: "unit",
@@ -37,9 +40,9 @@ export const the_human_t1: CardDefinition = {
   verdict_delta: 1,
 };
 
-/* ═══════════════════════════════════════════════════════
-   TIER 2 — UNCOMMON — backstab keyword
-   ═══════════════════════════════════════════════════════ */
+/* âââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+   TIER 2 â UNCOMMON â backstab keyword
+   âââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
 export const the_human_t2: CardDefinition = {
   id: "s1_imprint_the_human_t2" as CardDefinition["id"],
   name: "Imprint: The Human (Uncommon)",
@@ -58,9 +61,9 @@ export const the_human_t2: CardDefinition = {
   verdict_delta: 1,
 };
 
-/* ═══════════════════════════════════════════════════════
-   TIER 3 — RARE — Draw 1 on deploy
-   ═══════════════════════════════════════════════════════ */
+/* âââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+   TIER 3 â RARE â Draw 1 on deploy
+   âââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
 export const the_human_t3: CardDefinition = {
   id: "s1_imprint_the_human_t3" as CardDefinition["id"],
   name: "Imprint: The Human (Rare)",
@@ -88,9 +91,9 @@ export const the_human_t3: CardDefinition = {
   verdict_delta: 1,
 };
 
-/* ═══════════════════════════════════════════════════════
-   TIER 4 — EPIC — Deathwatch + draw 1
-   ═══════════════════════════════════════════════════════ */
+/* âââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+   TIER 4 â EPIC â Deathwatch + draw 1
+   âââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
 export const the_human_t4: CardDefinition = {
   id: "s1_imprint_the_human_t4" as CardDefinition["id"],
   name: "Imprint: The Human (Epic)",
@@ -118,11 +121,11 @@ export const the_human_t4: CardDefinition = {
   verdict_delta: 2,
 };
 
-/* ═══════════════════════════════════════════════════════
-   TIER 5 — LEGENDARY
+/* âââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+   TIER 5 â LEGENDARY
    The Twelfth Archon in his full detective shape. Draw 2
    on deploy, keeps backstab + deathwatch.
-   ═══════════════════════════════════════════════════════ */
+   âââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
 export const the_human_t5: CardDefinition = {
   id: "s1_imprint_the_human_t5" as CardDefinition["id"],
   name: "The Human, Twelfth Archon",

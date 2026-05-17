@@ -1,5 +1,5 @@
 /**
- * Imprint Set — The Jailer (5 tiers). Phase F20.
+ * Imprint Set â The Jailer (5 tiers). Phase F20.
  *
  * Enforcer of the Rotation. Holds the lion's mouth shut by patience.
  * Architect faction. Mechanical vocabulary: provoke, forcefield,
@@ -10,6 +10,9 @@ import type { CardDefinition } from "../../../index";
 import { assetUrl } from "@shared/lib/assetUrl";
 export const jailer_t1: CardDefinition = {
   id: "s1_imprint_the_jailer_t1" as CardDefinition["id"],
+  // First-summon gated to the act this character is canonically
+  // introduced (CHAPTER_TO_IMPRINT_NPCS, imprintRegistry.ts) — I14.
+  unlockCondition: { kind: "act_completion", act: 1 },
   name: "Imprint: The Jailer (Common)",
   faction: "architect", cardType: "unit", rarity: "common",
   cost: 3, baseStats: { power: 1, health: 6 },

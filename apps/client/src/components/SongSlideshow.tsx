@@ -525,7 +525,7 @@ export default function SongSlideshow({
               style={{
                 backgroundImage:
                   "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.65'/></svg>\")",
-                backgroundSize: "220px 220px",
+                backgroundSize: "220px 220px", // void-ignore — SVG noise tile size, functional not themable
               }}
             />
 
@@ -687,7 +687,7 @@ export default function SongSlideshow({
                       exit={{
                         opacity: 0,
                         y: -28,
-                        filter: "blur(8px)",
+                        filter: "blur(8px)", // void-ignore — motion blur radius, functional not themable
                         transition: { duration: 1.0, ease: "easeOut" },
                       }}
                       className={`${sideClass} z-10`}
@@ -713,7 +713,7 @@ export default function SongSlideshow({
                                 initial={{ opacity: 0, letterSpacing: "0.7em" }}
                                 animate={{ opacity: 0.85, letterSpacing: "0.45em" }}
                                 transition={{ duration: 0.9, ease: "easeOut" }}
-                                className="uppercase text-[9px] sm:text-[10px]"
+                                className={"uppercase text-[9px] sm:text-[10px]" /* void-ignore — responsive arbitrary font-size, not a spacing token */}
                                 style={{
                                   fontFamily: "var(--font-scripture)",
                                   color: "color-mix(in oklch, #d4af37 70%, #ffffff)" /* void-ignore */,
@@ -739,7 +739,7 @@ export default function SongSlideshow({
                                   key={`${currentIndex}-${i}-${w}`}
                                   initial={{
                                     opacity: 0,
-                                    filter: "blur(10px)",
+                                    filter: "blur(10px)", // void-ignore — motion blur radius, functional not themable
                                     y: 6,
                                   }}
                                   animate={{

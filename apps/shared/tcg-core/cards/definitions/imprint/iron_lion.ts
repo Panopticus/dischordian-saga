@@ -1,5 +1,5 @@
 /**
- * Imprint Set — The Iron Lion (5 tiers). Phase F11.
+ * Imprint Set â The Iron Lion (5 tiers). Phase F11.
  *
  * The Insurgency general who charges first and apologizes never.
  * Mechanical vocabulary: provoke + rush. Each tier scales the
@@ -10,11 +10,14 @@
 import type { CardDefinition } from "../../../index";
 
 import { assetUrl } from "@shared/lib/assetUrl";
-/* ═══════════════════════════════════════════════════════
-   TIER 1 — COMMON
-   ═══════════════════════════════════════════════════════ */
+/* âââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+   TIER 1 â COMMON
+   âââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
 export const iron_lion_t1: CardDefinition = {
   id: "s1_imprint_iron_lion_t1" as CardDefinition["id"],
+  // First-summon gated to the act this character is canonically
+  // introduced (CHAPTER_TO_IMPRINT_NPCS, imprintRegistry.ts) — I14.
+  unlockCondition: { kind: "act_completion", act: 1 },
   name: "Imprint: The Iron Lion (Common)",
   faction: "insurgency",
   cardType: "unit",
@@ -31,9 +34,9 @@ export const iron_lion_t1: CardDefinition = {
   verdict_delta: 1,
 };
 
-/* ═══════════════════════════════════════════════════════
-   TIER 2 — UNCOMMON — Provoke enters
-   ═══════════════════════════════════════════════════════ */
+/* âââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+   TIER 2 â UNCOMMON â Provoke enters
+   âââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
 export const iron_lion_t2: CardDefinition = {
   id: "s1_imprint_iron_lion_t2" as CardDefinition["id"],
   name: "Imprint: The Iron Lion (Uncommon)",
@@ -52,9 +55,9 @@ export const iron_lion_t2: CardDefinition = {
   verdict_delta: 1,
 };
 
-/* ═══════════════════════════════════════════════════════
-   TIER 3 — RARE — Rush on deploy
-   ═══════════════════════════════════════════════════════ */
+/* âââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+   TIER 3 â RARE â Rush on deploy
+   âââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
 export const iron_lion_t3: CardDefinition = {
   id: "s1_imprint_iron_lion_t3" as CardDefinition["id"],
   name: "Imprint: The Iron Lion (Rare)",
@@ -84,9 +87,9 @@ export const iron_lion_t3: CardDefinition = {
   verdict_delta: 1,
 };
 
-/* ═══════════════════════════════════════════════════════
-   TIER 4 — EPIC — Rally buff on deploy
-   ═══════════════════════════════════════════════════════ */
+/* âââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+   TIER 4 â EPIC â Rally buff on deploy
+   âââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
 export const iron_lion_t4: CardDefinition = {
   id: "s1_imprint_iron_lion_t4" as CardDefinition["id"],
   name: "Imprint: The Iron Lion (Epic)",
@@ -127,11 +130,11 @@ export const iron_lion_t4: CardDefinition = {
   verdict_delta: 2,
 };
 
-/* ═══════════════════════════════════════════════════════
-   TIER 5 — LEGENDARY
+/* âââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+   TIER 5 â LEGENDARY
    The Iron Lion in full roar. Frenzy + provoke + rush +
    rally. The Insurgency's signature card.
-   ═══════════════════════════════════════════════════════ */
+   âââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
 export const iron_lion_t5: CardDefinition = {
   id: "s1_imprint_iron_lion_t5" as CardDefinition["id"],
   name: "The Iron Lion, First Roar",

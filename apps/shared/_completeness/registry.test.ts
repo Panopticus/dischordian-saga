@@ -49,6 +49,11 @@ describe("completeness registry — well-formedness", () => {
     }
   });
 
+  // Smoke-runs every gate's check in-process. Grows with each
+  // gate added; the full suite (~90 checks, several doing file
+  // I/O) exceeds vitest's 5s default in CI's tsx transform path.
+  // Explicit generous timeout — assertions still run and must
+  // pass; this is not a silenced check.
   it("every entry's check function runs and returns a sane count", async () => {
     for (const entry of COMPLETENESS_REGISTRY) {
       const result = await runParityCheck(entry, {

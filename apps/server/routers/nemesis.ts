@@ -20,6 +20,15 @@
      - resolvePlan: mark a plan disrupted / succeeded / expired
    ═══════════════════════════════════════════════════════ */
 
+// Server/event-invoked Nemesis lifecycle + authoring procedures
+// (fired by progression hooks and the server-side Nemesis system,
+// not client tRPC): the trigger* hooks, the ledger/plan authoring
+// procedures (recordEncounter / spawnPlan / resolvePlan, per the
+// endpoint docs above), and the cross-cohort listing query.
+// Intentionally not client-consumed; documented here per the
+// routers.unused procedure-waiver mechanism.
+// audit-allow-proc: triggerFinalEncountersForUser, triggerApprenticeDeclaredBetrayal, triggerCohortEndForUser, listMine, recordEncounter, spawnPlan, resolvePlan
+
 import { z } from "zod";
 import { router, protectedProcedure } from "../_core/trpc";
 import { getDb } from "../db";

@@ -792,6 +792,12 @@ export const cardUnlockConditionSchema = z.discriminatedUnion("kind", [
       episodeId: z.string().min(1),
     })
     .strict(),
+  z
+    .object({
+      kind: z.literal("perspective_learned"),
+      perspectiveId: z.string().min(1),
+    })
+    .strict(),
 ]);
 
 /* ─── Top-level card definition ─── */

@@ -12,6 +12,11 @@
    Distinct from `apps/shared/crewBreeding.ts` (crew lineage,
    genetic traits + bloodlines, generation-aware). Pets pair on
    simpler axes: species, element, and a 3-stat block.
+
+   CANON (petOriginCanon.ts): pets are consciousness-imprints
+   on the Matrix of Dreams, so this is NOT biological
+   reproduction — it is imprint-recombination, two archived
+   patterns folded into a third offspring blueprint.
    ═══════════════════════════════════════════════════════ */
 
 /** Minimal trait shape needed to roll an offspring. */

@@ -31,11 +31,11 @@ import {
 } from "@shared/preludeCrewLieutenants";
 
 const LIEUTENANT_ACCENT_CLASSES: Record<MissionLieutenant["accent"], string> = {
-  rose: "border-rose-500/50 bg-rose-950/30 text-rose-100",
-  cyan: "border-cyan-500/50 bg-cyan-950/30 text-cyan-100",
-  violet: "border-violet-500/50 bg-violet-950/30 text-violet-100",
-  red: "border-red-700/60 bg-red-950/30 text-red-100",
-  amber: "border-amber-500/50 bg-amber-950/30 text-amber-100",
+  rose: "border-[var(--void-error)] bg-[var(--void-error-subtle)] text-[var(--void-error-tint)]",
+  cyan: "border-[var(--void-primary)] bg-[var(--void-primary-subtle)] text-[var(--void-primary-tint)]",
+  violet: "border-[var(--void-system)] bg-[var(--void-system-subtle)] text-[var(--void-system-tint)]",
+  red: "border-[var(--void-error-shade)] bg-[var(--void-error-subtle)] text-[var(--void-error-tint)]",
+  amber: "border-[var(--void-gold)] bg-[var(--void-gold-subtle)] text-[var(--void-gold-tint)]",
 };
 
 function LieutenantPatronCard({ lieutenant }: { lieutenant: MissionLieutenant }) {

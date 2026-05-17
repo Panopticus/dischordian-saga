@@ -1,5 +1,5 @@
 /**
- * Imprint Set — The Necromancer (5 tiers). Phase F17.
+ * Imprint Set â The Necromancer (5 tiers). Phase F17.
  *
  * Death as a kindness. Walks away across dissolving cards. Bone-
  * white flowers grow behind him. Mechanical vocabulary: deathwatch,
@@ -12,6 +12,9 @@ import type { CardDefinition } from "../../../index";
 import { assetUrl } from "@shared/lib/assetUrl";
 export const the_necromancer_t1: CardDefinition = {
   id: "s1_imprint_the_necromancer_t1" as CardDefinition["id"],
+  // First-summon gated to the act this character is canonically
+  // introduced (CHAPTER_TO_IMPRINT_NPCS, imprintRegistry.ts) — I14.
+  unlockCondition: { kind: "act_completion", act: 1 },
   name: "Imprint: The Necromancer (Common)",
   faction: "dreamer",
   cardType: "unit",

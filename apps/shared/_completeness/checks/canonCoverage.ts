@@ -117,9 +117,10 @@ export function checkArchonCanonicalRosterCoverage(): RawParityCount {
 
 export function checkHierarchyCanonicalRosterCoverage(): RawParityCount {
   // Per LORE_BIBLE.md:5348, the Hierarchy is exactly 10 demon
-  // lords. The registry's `inCoreTen` flag marks the core 10;
-  // additional adjacent demons (Mol'Vereth, Ozhul'Vana) are
-  // counted separately and not in the canonical 10.
+  // lords. The registry's `inCoreTen` flag marks the core 10
+  // (Mol'Vereth promoted into it per the dreamer canon-lock of
+  // 2026-05-16); Ozhul'Vana remains adjacent and is counted
+  // separately, not in the canonical 10.
   const coreTen = HIERARCHY_LORDS.filter((l) => l.inCoreTen);
   const missing: string[] = [];
 

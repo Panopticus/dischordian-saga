@@ -1785,7 +1785,7 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
                   type="button"
                   role="gridcell"
                   aria-label={`Row ${row + 1} Column ${col + 1}, ${occupant}`}
-                  className="border border-transparent focus:border-amber-400 focus:outline-none"
+                  className="border border-transparent focus:border-[var(--void-gold)] focus:outline-none"
                   onClick={() => handleTileClick(row, col)}
                   tabIndex={row === 0 && col === 0 ? 0 : -1}
                 />

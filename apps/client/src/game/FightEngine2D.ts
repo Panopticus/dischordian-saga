@@ -2469,14 +2469,18 @@ export class FightEngine2D {
   private aiHost?: AIControllerHost;
 
   private buildAIHost(): AIControllerHost {
-    const self = this;
+    // Arrow closures capture the engine instance lexically
+    // (buildAIHost is invoked as this.buildAIHost()), so no
+    // `this` alias is needed. The frameCount getter reads
+    // through a closure for the same reason.
+    const getFrameCount = () => this.frameCount;
     return {
-      isInAttackState: (f) => self.isInAttackState(f as Fighter2D),
-      isInRecovery: (f) => self.isInRecovery(f as Fighter2D),
-      isActionable: (f) => self.isActionable(f as Fighter2D),
-      changeState: (f, s) => self.changeState(f as Fighter2D, s as FighterState2D),
-      activateSpecial: (a, lvl) => self.activateSpecial(a as Fighter2D, lvl),
-      get frameCount() { return self.frameCount; },
+      isInAttackState: (f) => this.isInAttackState(f as Fighter2D),
+      isInRecovery: (f) => this.isInRecovery(f as Fighter2D),
+      isActionable: (f) => this.isActionable(f as Fighter2D),
+      changeState: (f, s) => this.changeState(f as Fighter2D, s as FighterState2D),
+      activateSpecial: (a, lvl) => this.activateSpecial(a as Fighter2D, lvl),
+      get frameCount() { return getFrameCount(); },
       parryWindow: PARRY_WINDOW,
       walkSpeedFor: (arch) => ARCHETYPE_WALK_SPEED[arch as FighterArchetype],
       jumpForceFor: (arch) => ARCHETYPE_JUMP_FORCE[arch as FighterArchetype],

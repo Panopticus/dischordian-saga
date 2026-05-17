@@ -224,9 +224,14 @@ describe("expansionUnlockService — filterUnlockedCards / filterLockedCards", (
 });
 
 describe("expansionUnlockService — registry integration (S2 Hierarchy of the Damned)", () => {
-  it("28 act-exclusive cards are gated by act_completion (one per act × 4)", () => {
+  it("28 act-exclusive S2-Hierarchy cards are gated by act_completion (one per act × 4)", () => {
+    // Scoped to the S2-Hierarchy set: imprint cards (s1_imprint_*)
+    // also legitimately carry act_completion now (I14 first-summon
+    // gate); this invariant is about the Hierarchy act-exclusives.
     const acted = ALL_CARD_DEFINITIONS.filter(
-      (c) => c.unlockCondition?.kind === "act_completion",
+      (c) =>
+        c.unlockCondition?.kind === "act_completion" &&
+        !String(c.id).startsWith("s1_imprint_"),
     );
     expect(acted.length).toBe(28);
     const byAct: Record<number, number> = {};
@@ -248,7 +253,7 @@ describe("expansionUnlockService — registry integration (S2 Hierarchy of the D
     expect(new Set(acts)).toEqual(new Set([1, 2, 3, 4, 5, 6, 7]));
   });
 
-  it("3 author-prestige specials carry the right unlock kinds", () => {
+  it("non-act/secret unlock cards carry the right unlock kinds", () => {
     const ids = new Set(
       ALL_CARD_DEFINITIONS.filter(
         (c) => c.unlockCondition && c.unlockCondition.kind !== "act_completion" && c.unlockCondition.kind !== "secret",
@@ -256,9 +261,14 @@ describe("expansionUnlockService — registry integration (S2 Hierarchy of the D
     );
     expect(ids).toEqual(
       new Set([
+        // 3 author-prestige specials
         "special_authors_edition_s2::authors_edition",
         "special_founding_author::founding_author",
         "special_the_author_bp50::battle_pass",
+        // s2 Watcher arc reveal cards (arc_episode_complete gate)
+        "s2_watcher_001::arc_episode_complete",
+        "s2_watcher_002::arc_episode_complete",
+        "s2_watcher_003::arc_episode_complete",
       ]),
     );
   });
@@ -266,7 +276,10 @@ describe("expansionUnlockService — registry integration (S2 Hierarchy of the D
   it("act-1-only completers see exactly the 4 act1 + 0 act2-7 hierarchy specials", () => {
     const state = makePlayerExpansionState({ completedActs: [1] });
     const unlocked = ALL_CARD_DEFINITIONS.filter(
-      (c) => c.unlockCondition?.kind === "act_completion" && isCardUnlocked(c, state),
+      (c) =>
+        c.unlockCondition?.kind === "act_completion" &&
+        !String(c.id).startsWith("s1_imprint_") &&
+        isCardUnlocked(c, state),
     );
     expect(unlocked.length).toBe(4);
   });
