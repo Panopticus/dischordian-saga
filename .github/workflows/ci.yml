@@ -184,6 +184,23 @@ jobs:
       - name: Run fresh-DB smoke test (orphan bootstraps + DDL assertions)
         run: pnpm db:smoke
 
+      - name: Backfill full schema (drizzle-kit push)
+        # The journal covers only ~39 of ~80 migrations (see
+        # apps/db/migrations/README.md drift). `drizzle-kit migrate`
+        # above therefore leaves orphan-migration tables absent
+        # (dream_balance, trade_sub_house_reputation, trade_demands,
+        # trade_sector_reputation, trade_public_knowledge, …), so the
+        # router/integration tests below fail with ER_NO_SUCH_TABLE.
+        # `db:push` builds the COMPLETE current schema straight from
+        # schema.ts — it is the team's documented non-prod workflow
+        # and guard-db-push only blocks prod / managed hostnames (CI
+        # is 127.0.0.1, NODE_ENV unset → non-prod, so it passes).
+        # Runs AFTER db:smoke on purpose: the smoke test must still
+        # observe the pure migrate+bootstrap state it asserts on.
+        # Remove once the journal cutover (README step 2) lands and
+        # `drizzle-kit migrate` alone produces the full schema.
+        run: pnpm db:push
+
       - name: Run integration tests (router-level, real MySQL)
         # audit/C-09: closes the unit-test admission that "transactional
         # + idempotent paths require a real MySQL fixture." The
@@ -300,6 +317,14 @@ jobs:
         # the db-smoke job comment for the full rationale.
         continue-on-error: true
         run: pnpm db:migrate
+
+      - name: Backfill full schema (drizzle-kit push)
+        # Journal drift leaves orphan-migration tables absent after
+        # migrate; the seeder + e2e specs need the complete schema.
+        # db:push builds it from schema.ts (non-prod workflow; guard
+        # passes on CI's 127.0.0.1). See the db-smoke job's push step
+        # for the full rationale. Remove at journal cutover.
+        run: pnpm db:push
 
       - name: Seed E2E test user
         run: pnpm seed:e2e-user
