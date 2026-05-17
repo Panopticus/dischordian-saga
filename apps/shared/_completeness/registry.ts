@@ -634,13 +634,15 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
   {
     // Phase H.I — Room reachability coverage for the 117 deferred
     // spaces (12 HB + 7 veh + 60 destination + 38 apprentice).
-    // Hellboxes + vehicles + apprentice spaces (58 of 117) covered
-    // explicitly in roomUnlockManifest; 60 destinations remain
-    // gated per-subsystem and aren't enumerated here.
+    // 70 of 117 have explicit unlock gates in roomUnlockManifest.
+    // The ~47 gap is the destination zones whose unlock model is
+    // an explicitly deferred narrative-design decision (TBD[4] in
+    // _PHASE_H_HANDOFF.md) — unauthored in source AND docs, not
+    // "gated per-subsystem". The ratchet is the honest accounting.
     id: "art.room_reachability_coverage",
     name: "Room reachability / unlock manifest coverage",
     description:
-      "Every deferred space (12 Hellboxes + 7 vehicles + 38 apprentice/pedagogy/berth/guild/Game-Master) has an explicit unlock declaration in apps/shared/roomGating/roomUnlockManifest.ts. Ratcheted; 60 destinations remain gated per their respective subsystems.",
+      "70 of the 117 deferred spaces (12 Hellboxes + 7 vehicles + apprentice/pedagogy/berth/guild/Game-Master + a few dest.*) have an explicit unlock gate in apps/shared/roomGating/roomUnlockManifest.ts. Ratcheted at 47: the 60 destination zones' unlock model is an explicitly deferred narrative-design decision (TBD[4] in docs/production/_PHASE_H_HANDOFF.md), not authored anywhere in source or docs. Closes only when the narrative team writes the per-zone gates; must not be turned green by inventing them.",
     check: () => checkRoomReachabilityCoverage(),
     ratchet: { target: 0 },
   },
