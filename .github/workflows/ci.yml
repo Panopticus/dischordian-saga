@@ -184,29 +184,30 @@ jobs:
       - name: Run fresh-DB smoke test (orphan bootstraps + DDL assertions)
         run: pnpm db:smoke
 
-      - name: Backfill full schema (drizzle-kit push)
+      - name: Reset DB then backfill full schema (drizzle-kit push)
         # The journal covers only ~39 of ~80 migrations (see
-        # apps/db/migrations/README.md drift). `drizzle-kit migrate`
-        # above therefore leaves orphan-migration tables absent
-        # (dream_balance, trade_sub_house_reputation, trade_demands,
-        # trade_sector_reputation, trade_public_knowledge, …), so the
-        # router/integration tests below fail with ER_NO_SUCH_TABLE.
-        # `db:push` builds the COMPLETE current schema straight from
-        # schema.ts — it is the team's documented non-prod workflow
-        # and guard-db-push only blocks prod / managed hostnames (CI
-        # is 127.0.0.1, NODE_ENV unset → non-prod, so it passes).
-        # Runs AFTER db:smoke on purpose: the smoke test must still
-        # observe the pure migrate+bootstrap state it asserts on.
-        # Remove once the journal cutover (README step 2) lands and
-        # `drizzle-kit migrate` alone produces the full schema.
+        # apps/db/migrations/README.md drift), so `drizzle-kit
+        # migrate` above leaves orphan-migration tables absent
+        # (dream_balance, trade_*, …) and the integration tests
+        # below fail with ER_NO_SUCH_TABLE. db:push builds the
+        # COMPLETE schema from schema.ts (team's documented non-prod
+        # workflow; guard-db-push only blocks prod / managed hosts —
+        # CI is 127.0.0.1, NODE_ENV unset → non-prod).
         #
-        # --force auto-approves drizzle-kit's data-loss/ambiguous
-        # prompts (default behaviour prompts and HANGS in CI's
-        # non-TTY → job timeout/cancel). On an ephemeral CI DB
-        # "data loss" is irrelevant. `< /dev/null` is belt-and-
-        # suspenders: any residual prompt EOFs and fails fast
-        # instead of hanging to the job timeout.
-        run: pnpm db:push --force < /dev/null
+        # CRITICAL: push MUST run against an EMPTY db. Against the
+        # partially-migrated db, drizzle-kit can't tell a new table
+        # from a rename of a soon-to-be-dropped one (linked_wallets
+        # / nft_* → academy_transcript) and HANGS on an interactive
+        # create-vs-rename prompt that NO flag suppresses (--force
+        # only covers data-loss; stdin redirection doesn't reach
+        # drizzle-kit's TTY prompt). db:smoke already asserted the
+        # migrate+bootstrap state, so drop+recreate the schema here;
+        # every diff is then an unambiguous CREATE and push runs
+        # non-interactively. Remove at journal cutover (README step 2).
+        run: |
+          mysql --protocol=tcp -h127.0.0.1 -P3306 -uroot -pci_smoke_pw \
+            -e "DROP DATABASE IF EXISTS dischordian_smoke; CREATE DATABASE dischordian_smoke;"
+          pnpm db:push --force
 
       - name: Run integration tests (router-level, real MySQL)
         # audit/C-09: closes the unit-test admission that "transactional
@@ -313,26 +314,22 @@ jobs:
           echo "::error::MySQL did not become ready in time"
           exit 1
 
-      - name: Apply migrations
-        # Same continue-on-error gate as the db-smoke job — see the
-        # journal-drift discussion above. The seed/server steps still
-        # run; missing tables surface as a Playwright spec failure.
-        #
-        # `db:migrate` (not `db:migrate:prod`): the :prod guard
-        # exit(2)s in non-prod CI, short-circuiting `&& drizzle-kit
-        # migrate` so the schema would never be created at all. See
-        # the db-smoke job comment for the full rationale.
-        continue-on-error: true
-        run: pnpm db:migrate
-
-      - name: Backfill full schema (drizzle-kit push)
-        # Journal drift leaves orphan-migration tables absent after
-        # migrate; the seeder + e2e specs need the complete schema.
-        # db:push builds it from schema.ts (non-prod workflow; guard
-        # passes on CI's 127.0.0.1). See the db-smoke job's push step
-        # for the full rationale. Remove at journal cutover.
-        # --force + </dev/null: non-interactive, never hangs in CI.
-        run: pnpm db:push --force < /dev/null
+      - name: Build full schema (drizzle-kit push, empty DB)
+        # e2e does NOT test the migration path (that's db-smoke's
+        # job) — it just needs a correct, complete schema. The
+        # journal is drifted (apps/db/migrations/README.md), so build
+        # the schema straight from schema.ts via db:push (team's
+        # non-prod workflow; guard-db-push only blocks prod / managed
+        # hosts). Push MUST run against an empty DB — against a
+        # partially-migrated one drizzle-kit HANGS on an interactive
+        # create-vs-rename prompt no flag suppresses. There is no
+        # migrate step here, and we drop+recreate first as belt-and-
+        # suspenders, so every diff is an unambiguous CREATE and push
+        # is non-interactive. Remove at journal cutover (README step 2).
+        run: |
+          mysql --protocol=tcp -h127.0.0.1 -P3306 -uroot -pci_e2e_pw \
+            -e "DROP DATABASE IF EXISTS dischordian_e2e; CREATE DATABASE dischordian_e2e;"
+          pnpm db:push --force
 
       - name: Seed E2E test user
         run: pnpm seed:e2e-user
