@@ -199,7 +199,14 @@ jobs:
         # observe the pure migrate+bootstrap state it asserts on.
         # Remove once the journal cutover (README step 2) lands and
         # `drizzle-kit migrate` alone produces the full schema.
-        run: pnpm db:push
+        #
+        # --force auto-approves drizzle-kit's data-loss/ambiguous
+        # prompts (default behaviour prompts and HANGS in CI's
+        # non-TTY → job timeout/cancel). On an ephemeral CI DB
+        # "data loss" is irrelevant. `< /dev/null` is belt-and-
+        # suspenders: any residual prompt EOFs and fails fast
+        # instead of hanging to the job timeout.
+        run: pnpm db:push --force < /dev/null
 
       - name: Run integration tests (router-level, real MySQL)
         # audit/C-09: closes the unit-test admission that "transactional
@@ -324,7 +331,8 @@ jobs:
         # db:push builds it from schema.ts (non-prod workflow; guard
         # passes on CI's 127.0.0.1). See the db-smoke job's push step
         # for the full rationale. Remove at journal cutover.
-        run: pnpm db:push
+        # --force + </dev/null: non-interactive, never hangs in CI.
+        run: pnpm db:push --force < /dev/null
 
       - name: Seed E2E test user
         run: pnpm seed:e2e-user
