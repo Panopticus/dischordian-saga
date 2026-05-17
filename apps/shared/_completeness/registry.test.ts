@@ -201,4 +201,45 @@ describe("completeness registry — well-formedness", () => {
       expect(result.implemented).toBe(result.declared);
     });
   });
+
+  describe("audit parity rows — replay determinism + store SKU (F1/F7)", () => {
+    it("server.replay_determinism_guard is a registered, ratcheted entry that runs", async () => {
+      const entry = COMPLETENESS_REGISTRY.find(
+        (e) => e.id === "server.replay_determinism_guard",
+      );
+      expect(entry, "entry must be registered").toBeDefined();
+      // Ratcheted on purpose: the audit's first step is to make the
+      // unwired determinism gap mechanical, not to hard-fail CI on it.
+      expect(entry?.ratchet?.target).toBe(0);
+      const result = await runParityCheck(entry!, {
+        version: 1,
+        worstByEntry: {},
+      });
+      // It must declare the determinism-contract probes and never
+      // claim more implemented than declared.
+      expect(result.declared).toBeGreaterThan(0);
+      expect(result.implemented).toBeLessThanOrEqual(result.declared);
+      // The version contract itself (RULES_VERSION + isReplayCompatible)
+      // already exists, so at least one probe must pass — proving the
+      // check reads source, not a constant.
+      expect(result.implemented).toBeGreaterThan(0);
+    });
+
+    it("economy.store_sku_parity is a registered, ratcheted entry that runs", async () => {
+      const entry = COMPLETENESS_REGISTRY.find(
+        (e) => e.id === "economy.store_sku_parity",
+      );
+      expect(entry, "entry must be registered").toBeDefined();
+      expect(entry?.ratchet?.target).toBe(0);
+      const result = await runParityCheck(entry!, {
+        version: 1,
+        worstByEntry: {},
+      });
+      // There ARE real-money products to cover, so the contract is
+      // non-trivial; the catalog does not exist yet so the gap is
+      // legitimately tracked (RATCHET), never negative.
+      expect(result.declared).toBeGreaterThan(0);
+      expect(result.implemented).toBeLessThanOrEqual(result.declared);
+    });
+  });
 });

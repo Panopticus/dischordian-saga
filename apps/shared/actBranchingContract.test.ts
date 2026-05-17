@@ -22,7 +22,7 @@
 import { describe, expect, it } from "vitest";
 import { COMPANION_COMMENTS } from "./companionComments";
 import { COMPANION_ASK_TOPICS } from "./companionAskTopics";
-import { VARIANT_REGISTRY } from "./moralityTrustActVariants";
+import { VARIANT_REGISTRY, resolveVariant } from "./moralityTrustActVariants";
 
 const ACT_FORK_FLAGS: Readonly<Record<number, readonly string[]>> = {
   1: [
@@ -161,3 +161,88 @@ function flagAct(flag: string): string {
   const m = /^act([1-7])_/.exec(flag);
   return m ? m[1] : "?";
 }
+
+/* ═══════════════════════════════════════════════════════
+   CONTINUITY F1/F2 — betrayal must mute warm/confidant lines
+
+   A warm/confidant companion variant gated only on the global
+   trust scalar fired AFTER the player betrayed that companion
+   on the Act-4 Path-C route (nothing decrements the scalar).
+   The fix is the `forbiddenFlags` negative gate; this invariant
+   proves no Elara-intimacy variant survives `act4_broken_trust`.
+   Fix the data (tag the variant), never relax this test.
+   ═══════════════════════════════════════════════════════ */
+describe("Continuity F1/F2 — Path-C betrayal mutes warm/confidant Elara", () => {
+  const elaraIntimate = VARIANT_REGISTRY.filter(
+    (v) =>
+      v.trustCompanionId === "elara" &&
+      (v.trust === "warm" || v.trust === "confidant"),
+  );
+
+  it("has Elara-intimacy variants to guard (registry sanity)", () => {
+    expect(elaraIntimate.length).toBeGreaterThan(0);
+  });
+
+  it("every warm/confidant Elara variant carries the act4_broken_trust negative gate", () => {
+    for (const v of elaraIntimate) {
+      expect(
+        v.forbiddenFlags ?? [],
+        `${v.id}: missing forbiddenFlags ["act4_broken_trust"]`,
+      ).toContain("act4_broken_trust");
+    }
+  });
+
+  it("no warm/confidant Elara variant resolves once she was betrayed", () => {
+    for (const v of elaraIntimate) {
+      const input = {
+        moralityScore: 0,
+        narrativeAct: v.act === "any" ? 5 : v.act,
+        trustByCompanion: { elara: 100 }, // confidant band
+        flags: new Set<string>([
+          ...(v.requiredFlags ?? []),
+          "act4_broken_trust",
+        ]),
+      };
+      const resolved = resolveVariant(
+        VARIANT_REGISTRY,
+        v.surface,
+        v.targetId,
+        input,
+      );
+      if (resolved) {
+        const stillIntimateElara =
+          resolved.trustCompanionId === "elara" &&
+          (resolved.trust === "warm" || resolved.trust === "confidant");
+        expect(
+          stillIntimateElara,
+          `${v.id}: betrayal route still resolved warm/confidant Elara line "${resolved.id}"`,
+        ).toBe(false);
+      }
+    }
+  });
+
+  it("the gate is conditional — warm/confidant Elara still resolves when NOT betrayed", () => {
+    const v = VARIANT_REGISTRY.find(
+      (x) => x.id === "bridge_act6_confidant_elara",
+    )!;
+    const base = {
+      moralityScore: 0,
+      narrativeAct: 6,
+      trustByCompanion: { elara: 100 },
+    };
+    const intact = resolveVariant(VARIANT_REGISTRY, v.surface, v.targetId, {
+      ...base,
+      flags: new Set<string>(),
+    });
+    expect(
+      intact?.trustCompanionId === "elara" &&
+        (intact?.trust === "warm" || intact?.trust === "confidant"),
+      "an un-betrayed confidant player should still get a warm/confidant Elara line",
+    ).toBe(true);
+    const betrayed = resolveVariant(VARIANT_REGISTRY, v.surface, v.targetId, {
+      ...base,
+      flags: new Set<string>(["act4_broken_trust"]),
+    });
+    expect(betrayed?.id).not.toBe(intact?.id);
+  });
+});

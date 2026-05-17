@@ -26,6 +26,8 @@
 import {
   reduce,
   hashState,
+  isReplayCompatible,
+  RULES_VERSION,
   type Action,
   type GameState,
 } from "../../shared/tcg-core";
@@ -41,6 +43,12 @@ export interface VerifiableReplay {
   matchId: string | null;
   moveData: string;
   finalStateHash: string | null;
+  /** Persistence F1 — the engine rulesVersion the replay was
+   *  recorded against. Null on rows produced before this column
+   *  existed (treated as legacy: verify as before). When present and
+   *  NOT compatible with the current engine, the replay is archived,
+   *  not tampered — a distinct, non-paging result category. */
+  rulesVersion?: string | null;
   /** JSON snapshot stored at saveReplay time. The producer in
    *  duelystWs.endMatch writes `{ faction, deckCardIds }`. */
   p1Config: Record<string, unknown> | null;
@@ -58,12 +66,15 @@ export type VerifyReplayResult =
        *    - missing-matchId / missing-hash / missing-config →
        *      "row was written under an older producer; can't verify".
        *      Don't surface as a divergence.
-       *    - parse-error / replay-error / hash-mismatch →
-       *      genuine engine or tampering signal. Page an admin. */
+       *    - version-archived → the replay was recorded against an
+       *      engine rulesVersion incompatible with the current one.
+       *      Expected after a MINOR+ bump; render an "archived"
+       *      affordance. NOT a tampering signal — do NOT page. */
       reason:
         | "missing-matchId"
         | "missing-hash"
         | "missing-config"
+        | "version-archived"
         | "parse-error"
         | "replay-error"
         | "hash-mismatch";
@@ -114,6 +125,30 @@ export function verifyReplay(
       ok: false,
       reason: "missing-config",
       detail: "player2Id is null — single-player replays aren't supported by the verifier yet.",
+    };
+  }
+
+  // ─── Persistence F1: version gate ───
+  // Read the recorded rulesVersion. If it's incompatible with the
+  // current engine, re-running the live reducer would produce a
+  // divergent hash that is NOT tampering — it's the documented
+  // "replay needs its pinned engine" case. Surface it as a distinct,
+  // non-paging "version-archived" result instead of "hash-mismatch".
+  // Legacy rows without a rulesVersion fall through and verify as
+  // before (the matchId pre-flight already screens the oldest rows).
+  if (
+    replay.rulesVersion &&
+    !isReplayCompatible(replay.rulesVersion, RULES_VERSION)
+  ) {
+    return {
+      ok: false,
+      reason: "version-archived",
+      detail:
+        `Replay recorded under rules ${replay.rulesVersion}; current ` +
+        `engine is ${RULES_VERSION}. Incompatible (major/minor) — the ` +
+        `replay is archived, not tampered. Replay it through the ` +
+        `pinned engine for that version.`,
+      expectedHash: replay.finalStateHash,
     };
   }
 

@@ -54,17 +54,36 @@ describe("replay determinism (audit/05.F5)", () => {
     actions: [],
   };
 
+  // Persistence F2 — pinned literal. A semantics change to any
+  // effect-op handler that alters reduce()/createMatchState output
+  // changes this hash and fails CI. Re-pinning it is the deliberate
+  // RULES_VERSION-bump review gate (update RULES_VERSION + card
+  // literals + this constant together, never one alone).
+  const PINNED_FINAL_STATE_HASH = "0f9a161e52485aab";
+
   it("produces a stable final state hash for the empty-action replay", () => {
     const r1 = replayMatch(baseInput);
     const r2 = replayMatch(baseInput);
     expect(r1.finalStateHash).toBe(r2.finalStateHash);
     expect(r1.versionCompatible).toBe(true);
+    expect(r1.archived).toBe(false);
+    expect(r1.finalStateHash).toBe(PINNED_FINAL_STATE_HASH);
   });
 
   it("hash changes when seed changes (proves the seed is honoured)", () => {
     const r1 = replayMatch(baseInput);
     const r2 = replayMatch({ ...baseInput, seed: "deterministic-seed-2" });
     expect(r1.finalStateHash).not.toBe(r2.finalStateHash);
+  });
+
+  it("an incompatible rulesVersion is archived, not silently re-run (F1)", () => {
+    const r = replayMatch({ ...baseInput, rulesVersion: "0.1.0" });
+    expect(r.versionCompatible).toBe(false);
+    expect(r.archived).toBe(true);
+    // No comparable hash is produced — callers must branch on
+    // `archived` instead of treating "" as a tampering signal.
+    expect(r.finalStateHash).toBe("");
+    expect(r.steps).toEqual([]);
   });
 
   it("RULES_VERSION is the literal pinned in the engine module", () => {

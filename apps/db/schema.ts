@@ -1899,6 +1899,17 @@ export const battlePassProgress = mysqlTable("battle_pass_progress", {
   claimedFreeTiers: json("claimedFreeTiers").$type<number[]>(),
   /** Tiers where premium rewards have been claimed (JSON array) */
   claimedPremiumTiers: json("claimedPremiumTiers").$type<number[]>(),
+  /**
+   * Balance F2 — durable per-UTC-day XP-source ledger.
+   * Shape: { "<YYYY-MM-DD>": { "<sourceId>": awardCount } }. Read +
+   * write by battlePass.addXpFromAction to enforce each XP source's
+   * declared `dailyCap`. Pruned to the current UTC day on write so
+   * the blob stays O(number of sources). Nullable: legacy rows + the
+   * boot window before battlePassLedgerBootstrap adds the column.
+   */
+  dailyXpLedger: json("dailyXpLedger").$type<
+    Record<string, Record<string, number>>
+  >(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 }, (table) => ({

@@ -144,7 +144,10 @@ describe("tradeEmpire router wiring", () => {
     for (const proc of PHASE_2_PROCEDURES) {
       expect(procs[proc], proc).toBeDefined();
     }
-  }, 30_000);
+    // Builds the entire ~50-router app router + card engine; ~16s
+    // isolated but exceeds 30s under full-suite worker contention.
+    // Generous budget, assertions unchanged.
+  }, 90_000);
 });
 
 describe("tradeEmpire class-gate denials", () => {
