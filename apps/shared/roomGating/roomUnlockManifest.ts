@@ -156,10 +156,21 @@ export const ROOM_UNLOCK_MANIFEST: readonly RoomUnlockEntry[] = [
 export const ROOM_UNLOCK_BY_ID: ReadonlyMap<string, RoomUnlockEntry> =
   new Map(ROOM_UNLOCK_MANIFEST.map((e) => [e.canonicalSpaceId, e] as const));
 
-/** Manifest total — 12 + 7 + 38 + 1 (Tier-Infinity) = 58 spaces declared
- *  with new-type unlock gates. (60 destinations in PART VI remain
- *  per-zone-specific and aren't covered by this manifest at H.I —
- *  they keep their existing unlockRequirement declarations in
- *  GameContext for Trade Empire / Crucible / TD / Castle of Death /
- *  Quiz Show.) */
+/** Manifest total — 70 spaces declared with explicit unlock gates
+ *  (12 Hellboxes + 7 vehicles + ~13 destination/pedagogy entries +
+ *  12 apprentice berths + 8 recruit/bridge berths + 12 Guild Common
+ *  Rooms + 1 Tier-Infinity Chess Hall + 5 misc).
+ *
+ *  The declared deferred surface is 117 (see file header). The
+ *  remaining ~47 are the 60 destination zones (Trade Empire /
+ *  Crucible / Tower Defense / Castle of Death / Quiz Show) minus
+ *  the handful of `dest.*` entries already declared above. Their
+ *  unlock model is NOT authored anywhere — not here, not in
+ *  `GameContext.tsx` (no `dest.*` RoomDefs exist), not in
+ *  `_PRODUCTION_DESTINATIONS.md` (architectural only). It is an
+ *  explicitly deferred narrative-design decision tracked as TBD[4]
+ *  in `docs/production/_PHASE_H_HANDOFF.md`. The gap is the honest
+ *  subject of the `art.room_reachability_coverage` ratchet (47);
+ *  it closes only when the narrative team authors the per-zone
+ *  progression gates. Do not invent them to turn the gate green. */
 export const ROOM_UNLOCK_MANIFEST_TOTAL = ROOM_UNLOCK_MANIFEST.length;

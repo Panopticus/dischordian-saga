@@ -1,15 +1,18 @@
 /**
  * Vortex / Terminus reconciliation parity check — PR-22.
  *
- * RATCHET. Two loose threads:
- *   - a "reconciled" thread (the Terminus Swarm) MUST carry a
- *     non-empty canonicalReading, at least one recorded
- *     `alternate` (the non-canon readings are preserved, not
- *     discarded), and a loreSource;
- *   - a "canon_pending" thread (the Vortex) is the tracked
- *     gap — it MUST carry a loreSource + canonNote but is NOT
- *     forced to a reading. It counts against the ratchet
- *     ceiling, which can only shrink when a future PR binds it.
+ * Hard PASS (dreamer 2026-05-17). Both threads are
+ * "reconciled" and each MUST carry a non-empty
+ * canonicalReading, at least one recorded `alternate` (the
+ * non-canon readings are preserved, not discarded), and a
+ * loreSource:
+ *   - the Terminus Swarm = the Thought Virus (independent
+ *     threat); Risen / First-Coming + Vortex-manifestation
+ *     recorded as alternates;
+ *   - the Vortex = the doomsday-clock terminal state that
+ *     feeds the Final Coming (Archon #9), hard-locked.
+ * The "canon_pending" branch below is retained only as
+ * defensive scaffolding — no thread is currently pending.
  *
  * declared = threads; implemented = well-formed reconciled
  * threads; the gap = canon_pending + any malformed thread.

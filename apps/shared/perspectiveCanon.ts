@@ -203,11 +203,11 @@ export const PERSPECTIVES: readonly PerspectiveDef[] = [
     unlockingTerminalEpisodeId: null,
     status: "canon_pending",
     premise:
-      "The Swarm is the Risen — the Necromancer's First Coming made playable. Its lens is the resurrection-energy meter itself.",
+      "The Swarm IS the Thought Virus — the intergalactic mind-plague made flesh, an independent institutional threat. Its lens is the infection itself: Kael's mutation into The Source, sealed in the ex-Panopticon rogue planet Terminus.",
     loreSource:
-      "apps/shared/vortexTerminusCanon.ts (terminus_swarm, reconciled) + apps/shared/necromancerReturn.ts",
+      "apps/shared/vortexTerminusCanon.ts (terminus_swarm, reconciled) + apps/shared/thoughtVirus.ts + docs/built/LORE_BIBLE.md (The Terminus Swarm dossier)",
     canonNote:
-      "Canonical reading (the Risen / First Coming) reconciled in vortexTerminusCanon.ts (PR-22); alternates recorded there.",
+      "Canonical reading (the Thought Virus, dreamer 2026-05-17) reconciled in vortexTerminusCanon.ts (PR-22); the Risen / First-Coming and Vortex-manifestation readings recorded there as typed in-fiction alternates.",
   },
   {
     id: "perspective.pets",

@@ -3344,9 +3344,9 @@
       "date_ad": "~103030 AD",
       "season": "Season 3",
       "affiliation": "Once Shaped by the Hierarchy of the Damned, Now Under the Source\u2019s Influence",
-      "status": "Active on Terminus, Driven by the Thought Virus and Ancient Malevolence",
-      "bio": "Spawned or reanimated through the lingering Thought Virus\u2014originally a weapon of mind-corruption\u2014they embody the amalgamated fury and despair of ancient horrors long shackled to forbidden realms. On t...",
-      "history": "Spawned or reanimated through the lingering Thought Virus\u2014originally a weapon of mind-corruption\u2014they embody the amalgamated fury and despair of ancient horrors long shackled to forbidden realms. On the barren planet of Terminus, where the broken remains of the Panopticon lie scattered, they have found a breeding ground for their infectious violence. Here, under the baleful guidance of The Source, an immortal embodiment of corrupted will and viral malice, the Terminus Swarm ceaselessly mutates, churning out monstrous forms that defy reason.",
+      "status": "Active on Terminus \u2014 the Thought-Virus plague made flesh; an independent institutional threat",
+      "bio": "The Terminus Swarm IS the Thought Virus made flesh \u2014 the intergalactic mind-plague, an independent institutional threat distinct from the Necromancer's Risen and from the Vortex. Over centuries the virus mutated and evolved inside Kael, who became its galaxy-spanning vector; his end-state is The Source, gone insane, sealed in the heart of Terminus \u2014 the rogue planet that was once the Panopticon.",
+      "history": "Spawned through the Thought Virus\u2014originally a weapon of mind-corruption\u2014the Swarm zombifies living and artificial minds alike, and in time conquered and infected even the Hierarchy. On the barren planet of Terminus, where the broken remains of the Panopticon lie scattered, it found a breeding ground for its infectious violence. Terminus is ringed by the floating, virus-dormant corpses of gigantic Inspector demon-lords who died in the final battle of the Panopticon, attempting to seize reality as it fell. The first wave of Potentials chose war, struck an organic satellite, and crash-landed virus-infected on the surface \u2014 awakening the undead insectoid demon zombies and spore tyrants. Here, under the baleful guidance of The Source \u2014 Kael's insane end-state, an immortal embodiment of corrupted will and viral malice \u2014 the Terminus Swarm ceaselessly mutates, churning out monstrous forms that defy reason.",
       "connections": [
         "Wraith of Death",
         "Kael",
@@ -17304,6 +17304,26 @@
       "type": "event",
       "name": "The Baton of Volume Nineteen",
       "bio": "At the Convergence the Antiquarian lays down the pen. Volume Eighteen of the Antiquarian's Chronicles closes; Volume Nineteen opens in the player's hand. 'I would like to read what you are about to write. Begin.' Each turn of the continuing loop is a page of Volume Nineteen \u2014 the Cycle records what the player writes; the Antiquarian only reads. The canonical handoff from chronicler to player."
+    },
+    {
+      "id": "entity_123",
+      "type": "concept",
+      "name": "The Pets",
+      "aliases": ["Imprint-Creatures", "Companion Imprints"],
+      "era": "Epoch Zero",
+      "date_aa": "",
+      "date_ad": "",
+      "season": "",
+      "affiliation": "Bound to the player; reclaimed by the First Coming",
+      "status": "Active — consciousness-imprints in companion form",
+      "bio": "The Pets are consciousness-imprints on the Matrix of Dreams given companion form — the same ontology the Game Master's archive locks for the imprint cards: every pet is an archived mind re-played as a living companion. They are bred not by biology but by imprint-recombination, two archived patterns folded into a third. They are distinct from the crew Companions — Elara and the Human — who are people with their own arcs, not bred imprints.",
+      "history": "Because a pet is an imprint, the First Coming claims it. As community resurrection-energy climbs toward the Necromancer's return, pets' injury-cries deepen and turn mournful; at the threshold they can rise as the Risen — stronger, but uncontrollable — and at catastrophe every dead pet returns as an uncontrolled Risen version. The Pets are the First Coming felt at the companion scale, threading into the same return the saga's spine bends toward. Their species — holographic fox, data serpent, temporal kitten, and the rest — are not arbitrary stat blocks but the stable shapes an imprint settles into; an unknown shape still battles, it simply does not yet sing in the party's synergy.",
+      "connections": ["The Necromancer", "The Source", "Kael", "The Game Master", "Elara"],
+      "conexus_stories": [],
+      "song_appearances": [],
+      "image": "",
+      "priority": "normal",
+      "cluster": "cosmology"
     }
   ],
   "relationships": [

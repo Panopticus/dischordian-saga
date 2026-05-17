@@ -634,13 +634,15 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
   {
     // Phase H.I — Room reachability coverage for the 117 deferred
     // spaces (12 HB + 7 veh + 60 destination + 38 apprentice).
-    // Hellboxes + vehicles + apprentice spaces (58 of 117) covered
-    // explicitly in roomUnlockManifest; 60 destinations remain
-    // gated per-subsystem and aren't enumerated here.
+    // 70 of 117 have explicit unlock gates in roomUnlockManifest.
+    // The ~47 gap is the destination zones whose unlock model is
+    // an explicitly deferred narrative-design decision (TBD[4] in
+    // _PHASE_H_HANDOFF.md) — unauthored in source AND docs, not
+    // "gated per-subsystem". The ratchet is the honest accounting.
     id: "art.room_reachability_coverage",
     name: "Room reachability / unlock manifest coverage",
     description:
-      "Every deferred space (12 Hellboxes + 7 vehicles + 38 apprentice/pedagogy/berth/guild/Game-Master) has an explicit unlock declaration in apps/shared/roomGating/roomUnlockManifest.ts. Ratcheted; 60 destinations remain gated per their respective subsystems.",
+      "70 of the 117 deferred spaces (12 Hellboxes + 7 vehicles + apprentice/pedagogy/berth/guild/Game-Master + a few dest.*) have an explicit unlock gate in apps/shared/roomGating/roomUnlockManifest.ts. Ratcheted at 47: the 60 destination zones' unlock model is an explicitly deferred narrative-design decision (TBD[4] in docs/production/_PHASE_H_HANDOFF.md), not authored anywhere in source or docs. Closes only when the narrative team writes the per-zone gates; must not be turned green by inventing them.",
     check: () => checkRoomReachabilityCoverage(),
     ratchet: { target: 0 },
   },
@@ -846,7 +848,7 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     id: "canon.pre_locke_coordinator_coverage",
     name: "Pre-Locke Coordinator coverage",
     description:
-      "Per dreamer canon-lock 2026-05-14 (apps/shared/preLockeCoordinators.ts), the chain between the founding regicide and Locke holds 5-15 Coordinators. PR-5 ships 2 named (the Founder + Jericho). RATCHET — gap shrinks only as canon names additional predecessors.",
+      "Per dreamer canon-lock 2026-05-14 (apps/shared/preLockeCoordinators.ts), the chain between the founding regicide and Locke holds 5-15 Coordinators. 5/5 — the Founder + Jericho plus three intermediate Coordinators (Veth Karran, Oss Vae, Halvenn Sarro) generated under project-owner authorization (canon-lock 2026-05-16), satisfying the dreamer-locked minimum. Ratcheted at 0; cannot regress.",
     check: () => checkPreLockeCoordinatorCoverage(),
     ratchet: { target: 0 },
   },
@@ -914,7 +916,7 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     id: "canon.hierarchy_roster_coverage",
     name: "Hierarchy of the Damned canonical roster coverage",
     description:
-      "Per LORE_BIBLE.md:5348, the Hierarchy is exactly 10 demon lords. The registry's inCoreTen flag marks the canonical core. Currently 9/10 — Mol'Vereth and Ozhul'Vana are canon-pending against the LORE_BIBLE Connections list (their core-membership reading per Plan §II.4 conflicts with the conservative reading in hierarchyCanon.ts). Ratcheted; only allowed to shrink.",
+      "Per LORE_BIBLE.md:5348, the Hierarchy is exactly 10 demon lords. The registry's inCoreTen flag marks the canonical core. 10/10 — Mol'Vereth was promoted into the core ten per the dreamer canon-lock of 2026-05-16; Ozhul'Vana remains adjacent (senior-partner, Degen arc) and is counted outside the core. Ratcheted at 0; cannot regress.",
     check: () => checkHierarchyCanonicalRosterCoverage(),
     ratchet: { target: 0 },
   },
@@ -1021,7 +1023,7 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     id: "canon.vortex_terminus_reconciliation",
     name: "Vortex / Terminus reconciliation",
     description:
-      "Ratchet (PR-22): the Terminus Swarm is RECONCILED — canonical reading = the Risen, the Necromancer's First-Coming manifestation (theComingCanon.first_coming), with the Vortex-manifestation and Thought-Virus readings recorded as typed alternates (not discarded). The Vortex remains canon_pending (eraTimeline.ts:419 — era deferred to the dreamer); it is the tracked gap. The ceiling can only shrink when a future PR binds the Vortex.",
+      "Hard PASS (PR-22, dreamer 2026-05-17): the Terminus Swarm is RECONCILED — canonical reading = the Thought Virus itself (the intergalactic mind-plague; vector Kael → The Source, sealed in the ex-Panopticon rogue planet Terminus), an independent institutional threat. The Risen / Necromancer-First-Coming and Vortex-manifestation readings are preserved as typed in-fiction alternates (not discarded). The Vortex is RECONCILED & HARD-LOCKED — Archon #9, the doomsday-clock terminal state that feeds the Final Coming (theComingCanon.final_coming). No thread is canon_pending; the gate is a hard PASS and the ratchet target stays 0.",
     check: () => checkVortexTerminusCoverage(),
     ratchet: { target: 0 },
   },
@@ -1031,7 +1033,7 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     id: "canon.pet_origin_coverage",
     name: "Pet origin canon coverage",
     description:
-      "Hard parity (PR-23): the Pets' narrative origin (apps/shared/petOriginCanon.ts) resolves all four anchors — the Matrix-of-Dreams imprint ontology (imprintSummoningCanon), the species registry (petSpeciesTraits), the breeding mechanic (petBreeding.breedPets), and the Risen fate (necromancerReturn pet_battles Risen impacts + theComingCanon.first_coming). Pets are the First Coming felt at companion scale; the last loose thread is bound to the spine.",
+      "Hard parity (PR-23): the Pets' narrative origin (apps/shared/petOriginCanon.ts) resolves all five anchors — the Matrix-of-Dreams imprint ontology (imprintSummoningCanon), the species registry (petSpeciesTraits), the breeding mechanic (petBreeding.breedPets), the Risen fate (necromancerReturn pet_battles Risen impacts + theComingCanon.first_coming), and the Pets-vs-crew-Companions distinction (pet species disjoint from companionBattleReactions.getReactiveCompanionIds — Pets are imprint-creatures, not the crew Companions Elara/the Human). Pets are the First Coming felt at companion scale; the last loose thread is bound to the spine, and the origin is surfaced player-facing in the LORE_BIBLE 'The Pets' entry.",
     check: () => checkPetOriginCoverage(),
   },
 ];

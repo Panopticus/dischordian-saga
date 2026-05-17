@@ -8,8 +8,11 @@ import {
 } from "./roomUnlockManifest";
 
 describe("roomUnlockManifest — Phase H.I", () => {
-  it("declares ~58 deferred-space unlock entries", () => {
-    expect(ROOM_UNLOCK_MANIFEST_TOTAL).toBeGreaterThanOrEqual(58);
+  it("declares 70 deferred-space unlock entries (regression floor)", () => {
+    // The 60 destination zones remain unauthored (deferred
+    // narrative-design, TBD[4] _PHASE_H_HANDOFF.md); 70 is the
+    // true current floor and must not silently regress.
+    expect(ROOM_UNLOCK_MANIFEST_TOTAL).toBeGreaterThanOrEqual(70);
   });
 
   it("includes all 12 Hellboxes with hellbox_unlocked gate", () => {

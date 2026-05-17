@@ -415,8 +415,11 @@ export const MULTI_CYCLE_RECONCILIATION_DOCTRINE = {
 /**
  * Map an Archon position (1-12) or Ne-Yon position (1-12)
  * to its canonical era. Reads against the registry's `era`
- * field. Returns null when the position is canon-pending
- * (e.g., A9 The Vortex has era canon-pending).
+ * field. Returns null when the registry `era` string does
+ * not resolve to a canonical EraId (a loose, human-readable
+ * era string rather than a missing canon — e.g. A9 The
+ * Vortex carries the AI-Empire era string but is otherwise
+ * fully canon-locked as the doomsday terminal state).
  *
  * The function is loose — the registry's `era` field is a
  * human-readable string, not an EraId; this function does

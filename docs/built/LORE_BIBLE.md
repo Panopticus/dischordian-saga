@@ -7,7 +7,7 @@
 - [Characters](#characters) (136)
 - [Factions](#factions) (17)
 - [Locations](#locations) (26)
-- [Concepts](#concepts) (210)
+- [Concepts](#concepts) (211)
 - [Events](#events) (45)
 - [Artifacts](#artifacts) (16)
 - [Songs & Transmissions](#songs-transmissions) (118)
@@ -5678,18 +5678,18 @@ A. Era; influence rumored to persist beyond the Fall of Reality The Syndicate of
 | **Date (AD)** | ~103030 AD |
 | **Season** | Season 3 |
 | **Affiliation** | Once Shaped by the Hierarchy of the Damned, Now Under the Source’s Influence |
-| **Status** | Active on Terminus, Driven by the Thought Virus and Ancient Malevolence |
+| **Status** | Active on Terminus — the Thought-Virus plague made flesh; an independent institutional threat |
 | **Priority** | high |
 
 ![The Terminus Swarm](https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/064_terminus_swarm_ff7452d8.png)
 
 ### Dossier
 
-Spawned or reanimated through the lingering Thought Virus—originally a weapon of mind-corruption—they embody the amalgamated fury and despair of ancient horrors long shackled to forbidden realms. On t...
+The Terminus Swarm IS the Thought Virus made flesh — the intergalactic mind-plague, an independent institutional threat distinct from the Necromancer's Risen and from the Vortex. Over centuries the virus mutated and evolved inside Kael, who became its galaxy-spanning vector; his end-state is The Source, gone insane, sealed in the heart of Terminus — the rogue planet that was once the Panopticon.
 
 ### History
 
-Spawned or reanimated through the lingering Thought Virus—originally a weapon of mind-corruption—they embody the amalgamated fury and despair of ancient horrors long shackled to forbidden realms. On the barren planet of Terminus, where the broken remains of the Panopticon lie scattered, they have found a breeding ground for their infectious violence. Here, under the baleful guidance of The Source, an immortal embodiment of corrupted will and viral malice, the Terminus Swarm ceaselessly mutates, churning out monstrous forms that defy reason.
+Spawned through the Thought Virus—originally a weapon of mind-corruption—the Swarm zombifies living and artificial minds alike, and in time conquered and infected even the Hierarchy. On the barren planet of Terminus, where the broken remains of the Panopticon lie scattered, it found a breeding ground for its infectious violence. Terminus is ringed by the floating, virus-dormant corpses of gigantic Inspector demon-lords who died in the final battle of the Panopticon, attempting to seize reality as it fell. The first wave of Potentials chose war, struck an organic satellite, and crash-landed virus-infected on the surface — awakening the undead insectoid demon zombies and spore tyrants. Here, under the baleful guidance of The Source — Kael's insane end-state, an immortal embodiment of corrupted will and viral malice — the Terminus Swarm ceaselessly mutates, churning out monstrous forms that defy reason.
 
 ### Connections
 
@@ -9579,6 +9579,36 @@ The Order's continuous vetting record on a candidate recruit — every choice ma
 ### Dossier
 
 The Ocularum's standing position on a warlord-fragmented sister: the body is hers; the seizure is reversible in principle; the Order will not act until the body indicates she has begun to remember on her own. The Order will not approach. The Order will not intervene. The Order waits. The cell remains hers — her number, whatever it was, remains in the continuity log as held open, not refilled. The dignity of impossible rescues is in their patience.
+
+---
+
+## The Pets
+
+*Also known as: Imprint-Creatures, Companion Imprints*
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Epoch Zero |
+| **Affiliation** | Bound to the player; reclaimed by the First Coming |
+| **Status** | Active — consciousness-imprints in companion form |
+| **Priority** | normal |
+
+### Dossier
+
+The Pets are consciousness-imprints on the Matrix of Dreams given companion form — the same ontology the Game Master's archive locks for the imprint cards: every pet is an archived mind re-played as a living companion. They are bred not by biology but by imprint-recombination, two archived patterns folded into a third. They are distinct from the crew Companions — Elara and the Human — who are people with their own arcs, not bred imprints.
+
+### History
+
+Because a pet is an imprint, the First Coming claims it. As community resurrection-energy climbs toward the Necromancer's return, pets' injury-cries deepen and turn mournful; at the threshold they can rise as the Risen — stronger, but uncontrollable — and at catastrophe every dead pet returns as an uncontrolled Risen version. The Pets are the First Coming felt at the companion scale, threading into the same return the saga's spine bends toward. Their species — holographic fox, data serpent, temporal kitten, and the rest — are not arbitrary stat blocks but the stable shapes an imprint settles into; an unknown shape still battles, it simply does not yet sing in the party's synergy.
+
+### Connections
+
+- Elara
+- Kael
+- The Game Master
+- The Necromancer
+- The Source
 
 ---
 

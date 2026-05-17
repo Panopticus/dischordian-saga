@@ -17,9 +17,9 @@ import {
 
 describe("Hierarchy canonical registry", () => {
   it("registers 11 Hierarchy-affiliated demons total", () => {
-    // 9 confirmed core demons + 2 adjacent (Mol'Vereth, Ozhul'Vana).
-    // 1 of 10 core demons is still canon-pending (the 10th core demon
-    // is not yet identified in LORE_BIBLE's Connections list).
+    // 10 confirmed core demons + 1 adjacent (Ozhul'Vana).
+    // Mol'Vereth was promoted into the core 10 per the dreamer
+    // canon-lock of 2026-05-16.
     expect(HIERARCHY_LORDS).toHaveLength(11);
   });
 
@@ -32,18 +32,17 @@ describe("Hierarchy canonical registry", () => {
     expect(CANONICAL_CORE_TEN_COUNT).toBe(10);
   });
 
-  it("registers 9 of the canonical 10 core demons (one canon-pending)", () => {
-    expect(getCoreTenLords()).toHaveLength(9);
+  it("registers all 10 canonical core demons", () => {
+    expect(getCoreTenLords()).toHaveLength(10);
   });
 
-  it("registers 2 non-core Hierarchy-adjacent demons", () => {
-    expect(getNonCoreLords()).toHaveLength(2);
+  it("registers 1 non-core Hierarchy-adjacent demon", () => {
+    expect(getNonCoreLords()).toHaveLength(1);
   });
 
-  it("non-core demons are Mol'Vereth + Ozhul'Vana (Degen arc)", () => {
+  it("the sole non-core demon is Ozhul'Vana (Degen arc)", () => {
     const ids = getNonCoreLords().map((l) => l.id);
-    expect(ids).toContain("mol_vereth");
-    expect(ids).toContain("ozhul_vana");
+    expect(ids).toEqual(["ozhul_vana"]);
   });
 
   it("every entry has a primary LORE_BIBLE citation", () => {
