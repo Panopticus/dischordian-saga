@@ -33,7 +33,8 @@ export type AntiquarianLibraryHotspotId =
   | "akai-shi-witness-statements"
   | "necromancer-case-closing-ledger"
   | "zyr-koth-sisters-and-closing-ledger"
-  | "syl-vex-sisters-of-the-weave";
+  | "syl-vex-sisters-of-the-weave"
+  | "riri-ahlia-closing-ledger";
 
 export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHotspotId> = {
   roomId: "antiquarian-library",
@@ -2547,6 +2548,85 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
               "It would be so easy to say the third is the one who severs. The room will not, and that restraint is the discipline. The name was struck deliberately; the most honest thing the archive can do is keep the silence the exact shape it found it. The use lines up. The name is not ours to write in.",
           },
           voId: "human.antiquarian-library.syl-vex-sisters-of-the-weave.use",
+        },
+      },
+    },
+    // Riri'Ahlia arc: the archive's closing ledger for the
+    // Taskmaster. The Antiquarian assembles the case the way he
+    // assembles any Hierarchy-portfolio record — by what is
+    // filed, not by what is felt — and then sets the pen down at
+    // the verdict, because the E5 closure is a genuine
+    // tri-verdict (UNBEATABLE / BRITTLE / MIRROR) and a keeper
+    // does not keep the judgment on the keeper of the org chart.
+    "riri-ahlia-closing-ledger": {
+      look: {
+        narration: {
+          lucid:
+            "You pull the case-synthesis ledger filed under the Antiquarian's glyph for a portfolio entry that never closed — a blocker, never a defeat. He assembles E1 through E4 in one hand: the siege of seven dimensions was filed as a quarter, not a war; the Advocate's binding-chain victory cost her humanity and became the Hierarchy's priced data; Riri'Ahlia's true weapon is reorganization, not force; her silence is her most active state; her procedural question is a reorganization of the Necromancer's options. The ledger marks the case structurally complete and the verdict not. The Antiquarian's whole discipline is attribution; here the discipline is restraint. He files the convergence the way the Hierarchy filed the siege — as a line item with a remediation, never as a closed loss — and leaves the judgment-page blank, because the case is about a being who turns every closed file into next quarter's asset, and the one file she cannot reorganize is the one no keeper closes for her.",
+          fragmented:
+            "E1 to E4. One hand. One hand. A quarter, not a war. Priced data. Reorganization, not force. Silence is action. The question is a reorg. Structurally complete. The verdict is not. The verdict is not. Blank. Blank. The file no one closes for her.",
+          luminous:
+            "The synthesis ledger, read as the archive reads a portfolio entry that was never allowed to close: five findings reconciled into one structurally complete case — siege filed as a quarter, the Advocate's humanity priced into data, reorganization as the real weapon, silence as the operative state, the procedural question as a reorganization performed with a sentence. The completeness and the blank verdict-page are both deliberate. The Antiquarian closes the structure and reserves the closure, and he is exact about why this case in particular: a being whose defeats become remediations cannot be filed as defeated by the keeper. The last page is reserved for the only reader who can refuse her the closed file — and that is not the archive.",
+        },
+        voId: "elara.antiquarian-library.riri-ahlia-closing-ledger.look",
+        logsClue: {
+          id: "clue-antiquarian-ra-synthesis",
+          title: "The Case Synthesis",
+          body:
+            "E1-E4 assembled: the siege of seven dimensions was filed as a quarter, not a war; the Advocate's binding-chain victory cost her humanity and became the Hierarchy's priced data; Riri'Ahlia's true weapon is reorganization, not force; her silence is her most active state; her procedural question is a reorganization of the Necromancer's options. The case is structurally complete.",
+          source: "antiquarian-library",
+          order: 59,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.riri_ahlia",
+          episodeId: "riri_ahlia.e5",
+          cluesFound: ["riri_ahlia.e5.synthesis"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Whole case in one hand: a quarter not a war, priced humanity, reorganization not force, silence is action, the question is a reorg. Complete in structure. Verdict blank.",
+            balanced:
+              "The synthesis reconciles every finding and then stops short of judgment on purpose. Structurally complete, deliberately unclosed — the archive sets the structure and reserves the closure. It does not pre-decide a verdict on a being who turns closed files into assets, because the one file she cannot reorganize is the one no keeper closes for her.",
+            warm:
+              "He assembled the whole cold portfolio and set the pen down right at the verdict, where a keeper must. The last page is not missing. It is reserved — for the only reader who can deny her a closed file. Which the case is about to tell us is us.",
+          },
+          voId: "human.antiquarian-library.riri-ahlia-closing-ledger.look",
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You address the ledger on the closure itself. The Two Witnesses put the question, and the file records whichever you offer. Is Riri'Ahlia (a) UNBEATABLE — a foe whose defeats become priced data and whose silence is the operation continuing cannot be beaten on her own terms; the Insurgency's only move is to make the game one where not-losing is the win condition, denying her the closed file forever, since an open blocker she rolls forward but a war that never ends she cannot reorganize into a quarter; (b) BRITTLE — a being whose entire power is the org chart has exactly one true dependency, an opponent who registers nowhere, files nothing, holds no position, and so cannot be reorganized because there is no entry to move; the Insurgency's refusal-doctrine is the precise counter, since you cannot reorganize what declined to be organized; or (c) MIRROR — the Taskmaster is what the resistance would become if it ever started winning by reorganization instead of by refusal, and the arc's real subject is the warning, filed as one rather than as a victory condition. All three are honest closures of the same structurally complete case. The ledger advances none of them. Riri'Ahlia, who reorganizes every position into her own, does not get the only position the case withholds from everyone equally — and neither does the archive.",
+          fragmented:
+            "Unbeatable. Brittle. Mirror. Unbeatable. Brittle. Mirror. All three honest. All three. The ledger advances none. None. She reorganizes every position. Not this one. Not this one. Not the archive either.",
+          luminous:
+            "The closing question, asked in the Two Witnesses' hand: unbeatable, brittle, or mirror — three readings of one structurally complete case, each true to every finding, none of them the ledger's own. A foe who must be outlasted because she cannot be defeated; or a total power that is also a total dependency, undone by an opponent who never registers; or the resistance's own possible future, the institution it would have to become to beat her and becoming which would be the defeat. The archive records what the player offers and pre-judges nothing. The being who reorganizes every position into the portfolio does not get this one, and neither does the room that holds the case — the verdict belongs only to the reader the question is put to.",
+        },
+        voId: "elara.antiquarian-library.riri-ahlia-closing-ledger.use",
+        logsClue: {
+          id: "clue-antiquarian-ra-the-question",
+          title: "The Question the Case Asks the Player",
+          body:
+            "The Two Witnesses put the closure: is Riri'Ahlia (a) UNBEATABLE — a foe whose defeats become data and whose silence is action cannot be defeated, only outlasted; deny her the closed file forever; (b) BRITTLE — a being whose entire power is the org chart has one vulnerability: an opponent who refuses to be on any chart at all, who files nothing, who cannot be reorganized because they never registered; or (c) MIRROR — the Taskmaster is what the Insurgency would become if it ever won by reorganization instead of refusal, and the arc's real subject is the warning. The Witnesses record whichever the player offers; none is pre-judged.",
+          source: "antiquarian-library",
+          order: 60,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.riri_ahlia",
+          episodeId: "riri_ahlia.e5",
+          cluesFound: ["riri_ahlia.e5.the_question"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Unbeatable, brittle, or mirror. Three honest closures of one complete case. The Witnesses record yours. None is pre-judged.",
+            balanced:
+              "The verdict is the player's, between three readings the evidence equally supports — outlast a foe who cannot be beaten, refuse to register against a power that is all dependency, or file the Taskmaster as the warning of what victory would cost. The ledger advances none and the being who reorganizes everything gets no vote.",
+            warm:
+              "All three are true to what we found, and the room refuses to choose for us — the unwinnable game, the one true counter, and the mirror that is its own defeat all stand. The being who turns every position into hers does not get to pass this to us pre-decided. We carry whichever we offer, honestly.",
+          },
+          voId: "human.antiquarian-library.riri-ahlia-closing-ledger.use",
         },
       },
     },

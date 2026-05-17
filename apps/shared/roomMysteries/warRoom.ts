@@ -28,7 +28,11 @@ export type WarRoomHotspotId =
   | "the-severance-hollowing-report"
   | "the-locked-lever-board"
   | "syl-vex-dual-roster-board"
-  | "the-severance-cross-lock-file";
+  | "the-severance-cross-lock-file"
+  | "the-taskmasters-siege-portfolio"
+  | "riri-ahlia-reorg-doctrine-board"
+  | "the-procedural-question-file"
+  | "the-priced-defense-accounting";
 
 export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
   roomId: "war-room",
@@ -1324,6 +1328,387 @@ export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
               "I wanted what holds it back to be someone choosing not to. It is a clause that could be edited next quarter. The room will not let me dress it up, and it is right not to — calling it kindness would be the most dangerous line in the file.",
           },
           voId: "human.war-room.the-severance-cross-lock-file.use",
+        },
+      },
+    },
+    // Riri'Ahlia arc: the war-room reads the siege of seven
+    // dimensions the way it reads a captured operations file
+    // that refuses to be a war story — objective, dependency,
+    // cadence, blocker, remediation, status. The room marks the
+    // false read (a six-armed warrior-queen is a battlefield
+    // tyrant) and discards it: the danger is not the floor, it
+    // is the org chart that priced the floor in.
+    "the-taskmasters-siege-portfolio": {
+      look: {
+        narration: {
+          lucid:
+            "Pinned to the captured-document rack, recovered from a Hierarchy operations archive: the siege of seven dimensions against the Advocate's Empire of Shadows. The war-room expects a campaign record — order of battle, lines of advance, the dead. It does not get one. It gets a portfolio entry: objective, dependency, cadence, blocker, remediation, status. The status field reads 'driven back — Blood Weave binding chains.' The room marks the field that does not belong on a defeat: the remediation field is not empty. It reads the structure the way it reads any enemy filing system — a war that ends in defeat closes the file; a quarter that ends in a blocker writes the remediation and rolls it forward. The siege is filed as the second kind. The room flags that as the single most consequential fact on the rack: the Hierarchy did not record a loss here. It recorded a line item.",
+          fragmented:
+            "Not a campaign. Not a campaign. A portfolio entry. Objective. Dependency. Blocker. Remediation. Status. 'Driven back.' The remediation is not empty. Not empty. A defeat closes the file. A blocker rolls forward. Rolls forward.",
+          luminous:
+            "The siege record, read as a war-room reads a captured filing system rather than a captured battle: not an order of battle but a portfolio line — objective, dependency, cadence, blocker, remediation, status. The room is exact about the tell. The status says driven back; the remediation field is populated. A defeat closes a file. A blocker gets a remediation and rolls forward. The Hierarchy filed seven dimensions of failed assault as the second thing, not the first, and the room records the implication coldly: this enemy does not have defeats in the sense the room's own casualty board has them. She has blockers, and blockers are scheduled for next quarter.",
+        },
+        voId: "elara.war-room.the-taskmasters-siege-portfolio.look",
+        logsClue: {
+          id: "clue-war-room-ra-siege-portfolio",
+          title: "The Siege Portfolio Entry",
+          body:
+            "The siege of seven dimensions is not catalogued in the Hierarchy archive as a campaign. It is filed as a portfolio entry: objective, dependency, cadence, blocker, remediation, status. The status field reads 'driven back — Blood Weave binding chains.' The remediation field is not empty. A war that ends in defeat closes the file. A quarter that ends in a blocker writes the remediation and rolls it forward.",
+          source: "war-room",
+          order: 29,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.riri_ahlia",
+          episodeId: "riri_ahlia.e1",
+          cluesFound: ["riri_ahlia.e1.siege_portfolio"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Not a campaign — a portfolio entry. 'Driven back,' and the remediation field is not empty. A defeat closes the file. A blocker rolls forward.",
+            balanced:
+              "The room reads the captured file as a filing system, not a battle. The tell is the populated remediation field on a 'driven back' status — that is a blocker, not a defeat. This enemy schedules her failures for next quarter; the room flags that as the load-bearing fact.",
+            warm:
+              "We file our losses in a binder labelled with the dead. She filed seven dimensions of them as a line item with a fix-it note attached. The room will not let me read that as arrogance. It is worse — it is procedure.",
+          },
+          voId: "human.war-room.the-taskmasters-siege-portfolio.look",
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You pull the register clipped behind the portfolio — Riri'Ahlia's own filing voice, captured intact. She speaks in status-blocker-remediation. The war-room reads it the way it reads an intercepted command grammar: not autocratic the way a tyrant is, autocratic the way a COO is — the org chart already favors her, so she never raises her voice. She names operations by portfolio entry, not by narrative. She closes every report with an action-item assignment. The room marks the tactically useful fact: an enemy with a consistent grammar is an enemy who can be read, and her grammar has no register for vengeance, glory, or rage. It has objectives and blockers. The siege of seven dimensions, in her own hand, is a line item that acquired a blocker — and the room files her register as the actual instrument, not the armies she moved with it.",
+          fragmented:
+            "Status. Blocker. Remediation. Status. Not a tyrant. A COO. The chart favors her. She does not raise her voice. Action-item assignment. Every report. No register for rage. A line item with a blocker. A line item.",
+          luminous:
+            "The register, read as a war-room reads a captured command grammar: Riri'Ahlia files in status-blocker-remediation and never out of it. The room is precise about what the grammar lacks — no vengeance, no glory, no rage, nothing the room could bait. The org chart favors her, so the volume stays at zero. The room records the operative finding: her instrument is not the seven dimensions of force; it is the grammar that filed the force as a line item and the failure as a blocker. An enemy this consistent is legible, and what she is legibly is not a warlord. She is the filing system, and the filing system is the weapon.",
+        },
+        voId: "elara.war-room.the-taskmasters-siege-portfolio.use",
+        logsClue: {
+          id: "clue-war-room-ra-taskmaster-register",
+          title: "The Taskmaster's Register",
+          body:
+            "Riri'Ahlia speaks in status-blocker-remediation. She is not autocratic the way a tyrant is; she is autocratic the way a COO is — the org chart already favors her, so she does not need to raise her voice. She names operations by portfolio entry, not by narrative. She closes every report with an action-item assignment. The siege of seven dimensions, to her, was a line item with a blocker.",
+          source: "war-room",
+          order: 30,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.riri_ahlia",
+          episodeId: "riri_ahlia.e1",
+          cluesFound: ["riri_ahlia.e1.the_taskmaster_register"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Status-blocker-remediation, always. Not a tyrant — a COO. The chart favors her; she never raises her voice. No register for rage. A line item with a blocker.",
+            balanced:
+              "The room reads her grammar the way it reads an intercepted command language: consistent, legible, and missing every handle the room could pull — no vengeance, no glory. The finding is that the grammar is the weapon, not the armies it filed.",
+            warm:
+              "There is no anger in it anywhere. I keep looking for the place she is furious and there is only an action-item assignment. The room is right to file the voice as the weapon. The armies were just what the voice signed for.",
+          },
+          voId: "human.war-room.the-taskmasters-siege-portfolio.use",
+        },
+      },
+      talk: {
+        narration: {
+          lucid:
+            "You address the file on what she is. Riri'Ahlia's canonical form, read to the board: a six-armed warrior-queen in armor forged from the compressed screams of conquered worlds. The intuitive read writes itself — a battlefield tyrant, a warlord in screaming plate. The war-room marks that read and discards it, the way it discards any assessment that flatters the room's expectations. The armor's screams are conquered worlds; she does not relish them. She wears them the way a COO wears the org chart — as the record of what the operation cost, kept on the body so the next operation prices it in. The room holds the contradiction without resolving it the easy way: a being built for war who fights it as logistics. Reading her as a warlord misses the only thing that matters tactically — the screams in her armor are priced, not savored, and an enemy who prices is an enemy who will trade, including the siege, including you.",
+          fragmented:
+            "Six arms. Armor of compressed screams. Conquered worlds. A warlord. No. No. Not a warlord. She does not relish them. Priced, not savored. Priced. The org chart on the body. Built for war. Fights it as logistics. Logistics.",
+          luminous:
+            "The form, read as a war-room reads an assessment that flatters its own expectations: six arms, armor of compressed screams, the obvious verdict of warlord — and the room strikes the obvious verdict precisely because it is the comfortable one. The screams are conquered worlds; the room marks that she does not savor them, she prices them. The armor is the org chart worn as a body: the record of what each operation cost, kept on so the next one prices it in. The contradiction is the finding and the room refuses to collapse it: a being built for war who runs it as logistics. The warlord read is the false lead. The true danger is the accountant inside the armor.",
+        },
+        voId: "elara.war-room.the-taskmasters-siege-portfolio.talk",
+        logsClue: {
+          id: "clue-war-room-ra-warrior-queen",
+          title: "The Six-Armed Warrior-Queen",
+          body:
+            "Riri'Ahlia's canonical form: a six-armed warrior-queen in armor forged from the compressed screams of conquered worlds. The form is the contradiction the arc must hold: a being built for war who fights it as logistics. The screams in her armor are conquered worlds; she does not relish them; she wears them the way a COO wears the org chart — as the record of what the operation cost, kept on the body so the next operation prices it in. Reading her as a warlord is the false lead.",
+          source: "war-room",
+          order: 31,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.riri_ahlia",
+          episodeId: "riri_ahlia.e1",
+          cluesFound: ["riri_ahlia.e1.six_armed_warrior_queen"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Six arms, armor of compressed screams. Looks like a warlord. Isn't. She does not relish them — she prices them. The org chart worn as a body.",
+            balanced:
+              "The room strikes the warlord read because it is the comfortable one. The screams are priced, not savored; the armor is a cost ledger worn on the body. The contradiction stands unresolved on purpose — built for war, run as logistics. The accountant inside the armor is the danger.",
+            warm:
+              "I want her to be the monster in the screaming plate, because that I know how to fight. The room will not let me. She is wearing the receipts. That is so much worse, and it is right not to give me the easy version.",
+          },
+          voId: "human.war-room.the-taskmasters-siege-portfolio.talk",
+        },
+      },
+    },
+    // Riri'Ahlia arc: the war-room reads the reorganization
+    // doctrine the way it reads an enemy who wins by moving the
+    // map instead of the army — and reads her silence the way it
+    // reads an enemy who has gone quiet on the net: not absence,
+    // the most active state there is. The Fenra commendation is
+    // the proof the blocker did not slow the engine.
+    "riri-ahlia-reorg-doctrine-board": {
+      look: {
+        narration: {
+          lucid:
+            "Pinned to the strategic-assessment board, captured with the operations file: Riri'Ahlia's stated doctrine. 'A force you cannot defeat, you reorganize around. A defense you cannot break, you make irrelevant to the org chart. The Advocate holds seven dimensions. The portfolio no longer routes value through those seven dimensions. She is defending a position the operation has reorganized out of the critical path. Her chains hold. They hold nothing the Hierarchy still needs held against.' The war-room reads this the way it reads an enemy who wins by moving the map and not the army. The room marks the danger precisely: this is not a doctrine of attrition or maneuver. It is a doctrine that concedes the Advocate the field and reroutes value so the field stops mattering. The Advocate is still winning a siege of a position the Taskmaster deleted from the critical path. The room files the unsettling part without softening it — by this doctrine, a defense that holds is not a defeat for the besieger; it is a line on a chart that gets redrawn around it.",
+          fragmented:
+            "Reorganize around. Make it irrelevant to the chart. The Advocate holds seven dimensions. The portfolio no longer routes through them. Her chains hold. They hold nothing we still need held against. Nothing. Move the map. Not the army.",
+          luminous:
+            "The doctrine, read as a war-room reads an enemy who relocates the objective instead of contesting it: you do not defeat the unbeatable defense, you reorganize the value off the position it defends. The room is exact about why this is more dangerous than maneuver. Maneuver still wants the ground. This wants nothing the ground holds. The Advocate's binding chains are intact and hold a position the portfolio no longer routes through — a perfect defense of an emptied vault. The room records the doctrine as the actual weapon: not the seven dimensions of force, but the redraw that made the force unnecessary and the defense pointless in the same stroke.",
+        },
+        voId: "elara.war-room.riri-ahlia-reorg-doctrine-board.look",
+        logsClue: {
+          id: "clue-war-room-ra-reorg-doctrine",
+          title: "The Reorganization Doctrine",
+          body:
+            "Riri'Ahlia's operational doctrine: 'A force you cannot defeat, you reorganize around. A defense you cannot break, you make irrelevant to the org chart. The Advocate holds seven dimensions. The portfolio no longer routes value through those seven dimensions. She is defending a position the operation has reorganized out of the critical path. Her chains hold. They hold nothing the Hierarchy still needs held against.'",
+          source: "war-room",
+          order: 32,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.riri_ahlia",
+          episodeId: "riri_ahlia.e3",
+          cluesFound: ["riri_ahlia.e3.reorg_doctrine"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Reorganize around what you can't beat. The chains hold a position the portfolio no longer routes through. A perfect defense of an emptied vault.",
+            balanced:
+              "The room reads it as an enemy who moves the map, not the army. More dangerous than maneuver — maneuver still wants the ground; this wants nothing the ground holds. The redraw is the weapon, not the force.",
+            warm:
+              "The Advocate is still standing on the wall she bled for, and it guards nothing now, because the thing it guarded got filed somewhere else. The room says it cold because it is cold. That is the whole doctrine in one cruelty.",
+          },
+          voId: "human.war-room.riri-ahlia-reorg-doctrine-board.look",
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You pull the counter-intelligence annex clipped behind the doctrine. When Riri'Ahlia goes silent, the org chart is being redrawn. Her silences are not absence; they are the operation continuing by other means. The arc's analysts file the load-bearing inversion: the most dangerous period of any Riri'Ahlia operation is the one in which she files nothing, because the filing resumes only once the reorganization is complete and the new chart is already load-bearing. The war-room reads this the way it reads an enemy who has gone quiet on the net — not lost, not stalled, but in the part of the operation that does not transmit. The room marks the operational consequence without comfort: a quiet Taskmaster is not a contained one. She is one whose next filing will arrive as a finished fact, not a forecast. The signal the room must track is the absence of signal.",
+          fragmented:
+            "Silent. The chart is being redrawn. Not absence. The operation by other means. She files nothing. Nothing. The filing resumes when the new chart is load-bearing. Quiet is not contained. Quiet is the active state. The active state.",
+          luminous:
+            "The annex, read as a war-room reads an enemy gone dark on the net: silence is not the operation stopping, it is the operation in the phase that does not broadcast. The room records the inversion at full weight — the dangerous quarter is the quiet one, because Riri'Ahlia resumes filing only after the new chart is already bearing load. The room refuses the reassuring read. A silent Taskmaster has not been slowed; she has moved into the part of the work that produces no interceptable signal, and her next transmission will be a completed reorganization reported as done. The thing to watch is the gap.",
+        },
+        voId: "elara.war-room.riri-ahlia-reorg-doctrine-board.use",
+        logsClue: {
+          id: "clue-war-room-ra-silence-is-reorg",
+          title: "Silence Is Reorganization",
+          body:
+            "When Riri'Ahlia goes silent, the org chart is being redrawn. Her silences are not absence; they are the operation continuing by other means. The most dangerous period of any Riri'Ahlia operation is the one in which she files nothing, because the filing resumes only once the reorganization is complete and the new chart is already load-bearing. A quiet Taskmaster is her most active state.",
+          source: "war-room",
+          order: 33,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.riri_ahlia",
+          episodeId: "riri_ahlia.e3",
+          cluesFound: ["riri_ahlia.e3.silence_is_reorganization"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "When she goes silent, the chart is being redrawn. The quiet quarter is the active one. The signal to track is the absence of signal.",
+            balanced:
+              "The room reads it as an enemy dark on the net — not stalled, in the phase that does not transmit. A quiet Taskmaster is not contained; her next filing arrives as a finished fact. Watch the gap.",
+            warm:
+              "Every instinct says quiet means we are safe for a while. The room takes that away from me, and it is right to — when she stops talking is exactly when she is most finished doing.",
+          },
+          voId: "human.war-room.riri-ahlia-reorg-doctrine-board.use",
+        },
+      },
+      talk: {
+        narration: {
+          lucid:
+            "You address the board on what came after the blocker. Per the Hierarchy record, read to the room: Fenra earned the Director of Operations title and Riri'Ahlia's personal commendation for organizing the simultaneous invasion of seventeen dimensions during post-Severance expansion. The war-room reads the sequence the way it reads an enemy's tempo after a setback — and the sequence is the finding. AFTER the seven-dimension siege was 'driven back,' the Taskmaster's portfolio scaled to seventeen simultaneous. The room marks it without consolation: the blocker did not slow the engine. The engine reorganized and scaled past it, more than doubled, and rewarded the operative who organized the scale-up. A defeat that costs an enemy nothing in tempo is not, by the room's own grammar, a defeat. It is a data point the enemy used to go faster, and the room files it as exactly that, with a light cross-reference: the scale-up's organizer, Fenra, is a name the room does not yet have a full file on — and the room flags the gap rather than guessing into it.",
+          fragmented:
+            "Fenra. Director of Operations. Personal commendation. Seventeen dimensions. Simultaneous. AFTER the siege was driven back. After. The blocker did not slow the engine. Did not slow it. Scaled past. Doubled. A defeat that costs no tempo is not a defeat.",
+          luminous:
+            "The commendation, read as a war-room reads an enemy's tempo after a reported setback: the siege was driven back, and the very next thing in the record is the portfolio scaling to seventeen simultaneous dimensions under Fenra, who is promoted and personally commended for it. The room records the load-bearing sequence — the blocker did not cost the engine a single beat of tempo; it more than doubled. By the room's own grammar a defeat that does not slow the enemy is not a defeat; it is fuel. The room files the convergence and, with discipline, flags Fenra as a still-incomplete file rather than reading her in: the room notes only what the record states, that she organized the scale-up and was rewarded for it.",
+        },
+        voId: "elara.war-room.riri-ahlia-reorg-doctrine-board.talk",
+        logsClue: {
+          id: "clue-war-room-ra-fenra-commendation",
+          title: "Fenra's Commendation",
+          body:
+            "Per the Hierarchy record: Fenra earned the Director of Operations title and Riri'Ahlia's personal commendation for organizing the simultaneous invasion of seventeen dimensions during post-Severance expansion. The detail matters: AFTER the seven-dimension siege was 'driven back,' the Taskmaster's portfolio scaled to seventeen simultaneous. The blocker did not slow the engine. The engine reorganized and scaled past it.",
+          source: "war-room",
+          order: 34,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.riri_ahlia",
+          episodeId: "riri_ahlia.e3",
+          cluesFound: ["riri_ahlia.e3.fenra_commendation"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "After the siege was 'driven back,' the portfolio scaled to seventeen dimensions under Fenra — promoted, commended. The blocker cost zero tempo.",
+            balanced:
+              "The room reads the tempo after the setback and the setback vanishes: more than doubled, and the organizer rewarded. A defeat that costs no tempo is fuel. It flags Fenra as an incomplete file and refuses to guess into it.",
+            warm:
+              "We drove back seven dimensions and the answer was seventeen. The room will not let me call the siege a win, and it is right — it bought her a promotion to hand out and nothing else.",
+          },
+          voId: "human.war-room.riri-ahlia-reorg-doctrine-board.talk",
+        },
+      },
+    },
+    // Riri'Ahlia arc: the war-room reads the procedural question
+    // the way it reads an enemy who fires a constraint instead of
+    // a round — the question is not asked for an answer, it is
+    // filed to be on the record, and being on the record is the
+    // munition. Cross-consistent with the necromancer arc E4.
+    "the-procedural-question-file": {
+      look: {
+        narration: {
+          lucid:
+            "A captured Hierarchy procedural filing, cross-referenced against the room's necromancer-castle log: Riri'Ahlia (COO, Taskmaster) filed a procedural question — 'if the Necromancer is operationally back, does his Hierarchy-aligned work resume?' The war-room reads it expecting an intelligence request and does not find one. The question is canonically unanswered. The unanswered-ness is canon. It was not asked for an answer. It was asked to be on the record. The room marks the category error it must not make: this is not a query awaiting a reply. It is a filing whose existence is the operation. The room files it the way it would file an enemy who fired a constraint where the room expected a round — and notes the cross-consistency with the necromancer file already on the rack: that arc records the same question, unanswered for the same reason.",
+          fragmented:
+            "Does his work resume. Filed. Unanswered. Canonically unanswered. The unanswered-ness is canon. Not asked for an answer. Asked to be on the record. On the record. Not a query. A filing. A filing is the operation.",
+          luminous:
+            "The filing, read as a war-room reads a munition it first mistook for a message: Riri'Ahlia's question about the Necromancer's resumed work has no answer and was never meant to acquire one. The room corrects its own expectation — this is not signals intelligence, it is the constraint itself. The unanswered question, on the record, is the deployed thing. The room cross-checks the necromancer log already racked and confirms the two captured files agree: same question, same canonical silence, same reason. The room records the convergence as corroboration, not coincidence.",
+        },
+        voId: "elara.war-room.the-procedural-question-file.look",
+        logsClue: {
+          id: "clue-war-room-ra-filed-question",
+          title: "The Filed Question",
+          body:
+            "Cross-referenced from the_necromancer arc E4: Riri'Ahlia (COO, Taskmaster) filed a procedural question — 'if the Necromancer is operationally back, does his Hierarchy-aligned work resume?' The question is canonically unanswered. The unanswered-ness is canon. It was not asked for an answer. It was asked to be on the record.",
+          source: "war-room",
+          order: 35,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.riri_ahlia",
+          episodeId: "riri_ahlia.e4",
+          cluesFound: ["riri_ahlia.e4.the_filed_question"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "She filed a question about the Necromancer's return. Canonically unanswered. Not asked for an answer — asked to be on the record. The filing is the operation.",
+            balanced:
+              "The room corrects its own read: not signals intelligence, the constraint itself. The unanswered question on the record is the deployed thing, and it cross-checks clean against the necromancer log already racked.",
+            warm:
+              "I keep waiting for someone to answer it and the room tells me no one ever will, because answering was never the point. The filing was the shot. That is a kind of war I do not know how to fight.",
+          },
+          voId: "human.war-room.the-procedural-question-file.look",
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You pull the analyst's reading clipped behind the filing, cross-walked with the necromancer arc. The Hierarchy is testing whether the Necromancer's resumed work will be visibly Hierarchy-aligned — which would redraw the institutional shape and force the Architect's hand. Riri'Ahlia's question is the instrument of that test. The room reads the doctrine the way it reads an enemy's fire-control logic: a COO does not ask a question she wants answered. She asks a question whose existence-on-the-record changes what the answerer can later do without having visibly contradicted the record. The room marks the mechanism precisely: the question does not seek information; it installs a constraint. Whatever the Necromancer does next, he does it as someone on the record as not having answered the Taskmaster — and not-answering becomes a position. The room files this as consistent with the necromancer log's own reading and notes the two arcs corroborate, not merely coincide.",
+          fragmented:
+            "Testing whether his work is visibly aligned. Force the Architect's hand. She does not want it answered. Existence-on-the-record changes what he can do. Installs a constraint. A constraint. Not-answering becomes a position. A position.",
+          luminous:
+            "The reading, read as a war-room reads enemy fire-control: the question is aimed not at the Necromancer's information but at his option-space. Its existence on the record is the constraint — he can no longer act without acting as one who has not answered the Taskmaster, and the not-answering is itself now a recorded stance. The room is exact that this is a test designed to force a visible alignment that would move the Architect. It cross-references the necromancer log and records that the two captured arcs agree on mechanism and intent: corroboration, filed as such.",
+        },
+        voId: "elara.war-room.the-procedural-question-file.use",
+        logsClue: {
+          id: "clue-war-room-ra-question-tests",
+          title: "What the Question Tests",
+          body:
+            "Per the_necromancer arc's reading: the Hierarchy is testing whether the Necromancer's resumed work will be visibly Hierarchy-aligned — which would redraw the institutional shape and force the Architect's hand. Riri'Ahlia's question is the instrument of that test. A COO does not ask a question she wants answered. She asks a question whose existence-on-the-record changes what the answerer can later do without having visibly contradicted the record.",
+          source: "war-room",
+          order: 36,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.riri_ahlia",
+          episodeId: "riri_ahlia.e4",
+          cluesFound: ["riri_ahlia.e4.what_the_question_tests"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "The test: will his resumed work look Hierarchy-aligned and force the Architect's hand. The question installs a constraint, not a query.",
+            balanced:
+              "The room reads it as fire-control aimed at his option-space, not his information. Existence-on-the-record is the constraint; not-answering becomes a stance. Cross-checks clean against the necromancer log — corroboration, not coincidence.",
+            warm:
+              "She did not want to know. She wanted him cornered into a position just by the question existing. The room shows me the mechanism and I wish it had not — it is so much colder than a threat.",
+          },
+          voId: "human.war-room.the-procedural-question-file.use",
+        },
+      },
+      talk: {
+        narration: {
+          lucid:
+            "You address the file on the doctrine behind it. Riri'Ahlia's doctrine extended, read to the board: 'The org chart is the weapon; the record is the org chart's edge. A question on the record is a constraint on every future action by everyone who can see the record. I did not ask whether the Necromancer's work resumes. I made it so that whatever he does next, he does it having not answered me — and not-answering is itself now a position he is on the record as holding.' The question is a reorganization of the Necromancer's options. The war-room reads this the way it reads the moment an enemy's doctrine names its own mechanism out loud — and the room connects it, with discipline, to the Hierarchy's canonical refusal to avenge. The room files the synthesis cold: the Hierarchy does not avenge the Necromancer's loss because it does not avenge anything. It reorganizes. The procedural question is what it does instead of revenge, and the room marks the unsettling part precisely — it is colder than revenge and it lasts longer, because a constraint on the record does not expire when the grievance does.",
+          fragmented:
+            "The org chart is the weapon. The record is its edge. A question on the record is a constraint. I did not ask. I made it so. Not-answering is a position. A reorganization of his options. Does not avenge. Reorganizes. Colder than revenge. Lasts longer.",
+          luminous:
+            "The doctrine, read as a war-room reads an enemy stating its own fire-control aloud: the record is the chart's edge, and a filed question is a standing constraint on everyone who can read it. The room composes it with the canonical fact that the Hierarchy does not avenge — and the composition is the finding. It does not avenge because avenging is an emotional act and this is an operational one; the procedural question is the operational substitute for revenge. The room records the load-bearing consequence without warmth: this is colder than vengeance and it outlasts it, because the grievance can fade and the constraint on the record does not.",
+        },
+        voId: "elara.war-room.the-procedural-question-file.talk",
+        logsClue: {
+          id: "clue-war-room-ra-record-as-weapon",
+          title: "The Record as Weapon",
+          body:
+            "Riri'Ahlia's doctrine extended: 'The org chart is the weapon; the record is the org chart's edge. A question on the record is a constraint on every future action by everyone who can see the record. I did not ask whether the Necromancer's work resumes. I made it so that whatever he does next, he does it having not answered me — and not-answering is itself now a position he is on the record as holding.' The question is a reorganization of the Necromancer's options; it is what the Hierarchy does instead of avenging — colder than revenge, and it lasts longer.",
+          source: "war-room",
+          order: 37,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.riri_ahlia",
+          episodeId: "riri_ahlia.e4",
+          cluesFound: ["riri_ahlia.e4.the_record_as_weapon"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "'The record is the org chart's edge.' A question on the record constrains everyone who can read it. The Hierarchy does not avenge — it reorganizes. Colder, and it lasts longer.",
+            balanced:
+              "The room composes the doctrine with the canonical no-vengeance fact: the procedural question is the operational substitute for revenge. It outlasts revenge because the grievance fades and the recorded constraint does not.",
+            warm:
+              "We always assumed they would come for the Necromancer's loss eventually. They never will — they did something quieter and more permanent instead. The room makes me see it plainly. Colder than revenge is exactly the right words.",
+          },
+          voId: "human.war-room.the-procedural-question-file.talk",
+        },
+      },
+    },
+    // Riri'Ahlia arc: the war-room reads the Taskmaster's own
+    // filed accounting of the siege the way it reads an enemy's
+    // after-action ledger — what each side spent — and the
+    // ledger's flat arithmetic is the finding: the Advocate's
+    // victory bought the Hierarchy the price of the Advocate.
+    "the-priced-defense-accounting": {
+      look: {
+        narration: {
+          lucid:
+            "Recovered with the operations file: Riri'Ahlia's own filed accounting of the siege, in her status-grammar. 'Resource expenditure: within projection. Personnel: replaceable, replaced. Strategic loss: the assault vector is now known to be Weave-blind and is retired. Strategic gain: the cost of the Advocate's defense is now measured. She spent her humanity to hold seven dimensions. That number is in the portfolio. The next operation will not require seven dimensions of pressure to extract it.' The war-room reads it the way it reads an enemy's after-action ledger — and the arithmetic is the finding. The Advocate spent her humanity, irreversibly, to win. Riri'Ahlia spent a retired vector to learn exactly what the Advocate's defense costs the Advocate. The room files the cold balance without softening it: this was not a battle the Hierarchy lost. It was a discovery operation. The Advocate's victory is the data, and the data is now priced into the next operation.",
+          fragmented:
+            "Within projection. Personnel replaceable, replaced. The vector is retired. The cost is now measured. She spent her humanity. That number is in the portfolio. In the portfolio. Not a battle lost. A discovery operation. The victory is the data.",
+          luminous:
+            "The filed accounting, read as a war-room reads an enemy after-action ledger whose arithmetic refuses to balance the way the room expected: expenditure within projection, personnel written off, the assault vector retired as Weave-blind, and one line in the gain column — the price of the Advocate's defense, now measured. The room records what that line means at full weight. The Advocate spent her humanity to win; what she bought the Hierarchy was the exact figure of that spending. The siege was not a war the Taskmaster lost. It was an instrument that returned a number, and the number is the Advocate's protection, now too expensive by exactly what it cost her once.",
+        },
+        voId: "elara.war-room.the-priced-defense-accounting.look",
+        logsClue: {
+          id: "clue-war-room-ra-what-riri-spent",
+          title: "What Riri'Ahlia Spent",
+          body:
+            "Riri'Ahlia's filed accounting of the siege: 'Resource expenditure: within projection. Personnel: replaceable, replaced. Strategic loss: the assault vector is now known to be Weave-blind and is retired. Strategic gain: the cost of the Advocate's defense is now measured. She spent her humanity to hold seven dimensions. That number is in the portfolio. The next operation will not require seven dimensions of pressure to extract it.' The siege was a discovery operation; the Advocate's victory is the data.",
+          source: "war-room",
+          order: 38,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.riri_ahlia",
+          episodeId: "riri_ahlia.e2",
+          cluesFound: ["riri_ahlia.e2.what_riri_spent"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Her ledger: expenditure within projection, vector retired, 'the cost of the Advocate's defense is now measured.' The victory is the data.",
+            balanced:
+              "The room reads it as an after-action ledger whose arithmetic does not balance the expected way. The siege was not a loss; it was an instrument that returned a number — the price of the Advocate, now in the portfolio.",
+            warm:
+              "She wrote down what the Advocate's soul cost like a line in a budget, and called the siege a success because now she knows the figure. The room files it cold because it is cold. There is no other honest way to file it.",
+          },
+          voId: "human.war-room.the-priced-defense-accounting.look",
         },
       },
     },

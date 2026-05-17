@@ -13,7 +13,8 @@ export type GuildSanctumHotspotId =
   | "the-advocates-blind-spot"
   | "what-telling-the-advocate-costs"
   | "the-mirror-doctrine-loom"
-  | "the-sister-of-the-weave-letter";
+  | "the-sister-of-the-weave-letter"
+  | "the-binding-chains-cost";
 
 export const GUILD_SANCTUM_MYSTERY: RoomMysteryModule<GuildSanctumHotspotId> = {
   roomId: "guild-sanctum",
@@ -494,6 +495,86 @@ export const GUILD_SANCTUM_MYSTERY: RoomMysteryModule<GuildSanctumHotspotId> = {
               "Nobody saves her from outside. She decides, from inside, what kind of convert she is — and that works only because nothing was ever forced on her. The room files it at full weight as the last word. It is the gentlest answer the case could have and also the only honest one.",
           },
           voId: "human.guild-sanctum.the-sister-of-the-weave-letter.talk",
+        },
+      },
+    },
+    // Riri'Ahlia arc: the sanctum reads the siege of seven
+    // dimensions the way it reads any alliance the altar cannot
+    // engrave because it was never structurally entered — the
+    // Advocate's binding chains did not repel the Taskmaster's
+    // assault; they made it irrelevant, because there was nothing
+    // to push against — and then it files, at full and
+    // unconsoled weight, what holding the line cost the hand that
+    // wove it.
+    "the-binding-chains-cost": {
+      look: {
+        narration: {
+          lucid:
+            "Set against the altar's logic that some defenses cannot be inscribed because they answer no coercion: the Advocate's defensive Blood Weave, manifested against Riri'Ahlia's siege of seven dimensions as binding chains. The chains threaded consent-to-be-defended into the Empire of Shadows itself, making it uncoercible. The Taskmaster's seven-dimension assault did not break against a stronger wall; it broke against an instrument that does not repel force — it makes force irrelevant. There was nothing to push against. The sanctum reads this the way it reads an alliance the altar has no sigil for: the siege did not fail because the defense out-fought it. It failed because the category was wrong. You cannot besiege what has consented to be defended, and the room engraves that distinction precisely, because the whole arc turns on it.",
+          fragmented:
+            "Consent-to-be-defended. Threaded into the Empire itself. Uncoercible. Uncoercible. Did not repel force. Made it irrelevant. Nothing to push against. Nothing. Not out-fought. Category-wrong. Category-wrong.",
+          luminous:
+            "The binding chains, read as the sanctum reads a defense that answers no coercion and so cannot be inscribed as one: the Advocate threaded consent-to-be-defended into the Empire of Shadows until the siege had nothing to act on. The room refuses the heroic framing and keeps the structural one — this is not a wall that held. It is an instrument that makes force a category error. Riri'Ahlia's seven dimensions of pressure met an absence shaped exactly like the thing they were built to overcome, and found it could not be overcome because it was not resisting. The sanctum engraves the load-bearing fact at full weight: you do not break consent-to-be-defended; you discover there was never a surface to break.",
+        },
+        voId: "elara.guild-sanctum.the-binding-chains-cost.look",
+        logsClue: {
+          id: "clue-guild-sanctum-ra-binding-chains",
+          title: "The Binding Chains",
+          body:
+            "The Advocate's defensive Blood Weave manifested against the siege as binding chains — consent-to-be-defended threaded into the Empire of Shadows itself, making it uncoercible. The siege could not take what had consented to be defended. Riri'Ahlia's seven-dimension assault broke against an instrument that does not repel force; it makes force irrelevant. There was nothing to push against.",
+          source: "guild-sanctum",
+          order: 12,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.riri_ahlia",
+          episodeId: "riri_ahlia.e2",
+          cluesFound: ["riri_ahlia.e2.the_binding_chains"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Consent-to-be-defended, threaded into the Empire. Uncoercible. The siege had nothing to push against. Not out-fought — category-wrong.",
+            balanced:
+              "The room files it as a defense the altar cannot inscribe because it answers no coercion. The siege did not lose to a stronger wall; it lost because the category was wrong. You cannot besiege what consented to be defended — the whole arc turns on that distinction.",
+            warm:
+              "She did not out-fight the Taskmaster. She made fighting beside the point — there was simply nothing there to attack. The room says it plainly, because the rest of the case only makes sense if this was impossible to break, not merely hard.",
+          },
+          voId: "human.guild-sanctum.the-binding-chains-cost.look",
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You read the cost aloud, in the room where what an instrument took from its wielder is witnessed and binding. The Advocate's defense of seven dimensions against the Taskmaster cost her humanity — canonically, irreversibly. To hold the binding chains she threaded so much consent-to-be-defended that the threading consumed the part of her that was a person. She won the siege and lost herself; the chains held, and the hand that wove them did not. The sanctum reads this the way it reads an alliance entered at a price the altar cannot un-charge: not a wound that heals, not a debt that clears, but a structural subtraction — a self spent into the weave and not recoverable from it. The room engraves it without consolation, because the arc's coldest finding sits exactly here: the Advocate's victory is real, and the Taskmaster's filed accounting of it does not record a defeat — it records the price of the Advocate's protection, now measured, now in the portfolio.",
+          fragmented:
+            "Cost her humanity. Canonically. Irreversibly. Threaded so much consent the threading consumed the person. She won the siege. Lost herself. The chains held. The hand did not. The hand did not. The price is in the portfolio. In the portfolio.",
+          luminous:
+            "The cost, read where a price paid is witnessed: the Advocate spent her humanity into the binding chains and the spending does not reverse. The room keeps the structural register and refuses the elegiac one — this is not a sacrifice to be honored; it is a subtraction to be recorded. She is, canonically and permanently, less a person than she was, and the part that is gone went into the weave that held the siege. The sanctum engraves the unconsoled finding because the whole closure depends on it: the Advocate's victory cost her exactly the thing the Taskmaster wanted measured, and the measurement — not the territory — is what Riri'Ahlia filed.",
+        },
+        voId: "elara.guild-sanctum.the-binding-chains-cost.use",
+        logsClue: {
+          id: "clue-guild-sanctum-ra-advocate-spent",
+          title: "What the Advocate Spent",
+          body:
+            "The Advocate's defense cost her humanity — canonically, irreversibly. To hold seven dimensions against the Taskmaster she threaded so much consent-to-be-defended that the threading consumed the part of her that was a person. She won the siege and lost herself. The binding chains held; the hand that wove them did not. Riri'Ahlia's filed accounting records not a defeat but the now-measured price of the Advocate's protection.",
+          source: "guild-sanctum",
+          order: 13,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.riri_ahlia",
+          episodeId: "riri_ahlia.e2",
+          cluesFound: ["riri_ahlia.e2.what_the_advocate_spent"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "The defense cost her humanity — canonical, irreversible. She won the siege and lost herself. The chains held; the hand did not. The price is in the portfolio.",
+            balanced:
+              "The room files it as a price the altar cannot un-charge: not a wound that heals but a structural subtraction. The Advocate's victory is real and it cost her exactly what the Taskmaster wanted measured — and the measurement, not the territory, is what Riri'Ahlia filed.",
+            warm:
+              "She won, and the winning ate the person who won. The room will not soften that into a noble sacrifice, because the cruelest part is what the other side did with it — they did not mourn her and did not gloat. They wrote the number down.",
+          },
+          voId: "human.guild-sanctum.the-binding-chains-cost.use",
         },
       },
     },
