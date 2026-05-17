@@ -1021,7 +1021,7 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     id: "canon.vortex_terminus_reconciliation",
     name: "Vortex / Terminus reconciliation",
     description:
-      "Ratchet (PR-22): the Terminus Swarm is RECONCILED — canonical reading = the Risen, the Necromancer's First-Coming manifestation (theComingCanon.first_coming), with the Vortex-manifestation and Thought-Virus readings recorded as typed alternates (not discarded). The Vortex remains canon_pending (eraTimeline.ts:419 — era deferred to the dreamer); it is the tracked gap. The ceiling can only shrink when a future PR binds the Vortex.",
+      "Hard PASS (PR-22, dreamer 2026-05-17): the Terminus Swarm is RECONCILED — canonical reading = the Thought Virus itself (the intergalactic mind-plague; vector Kael → The Source, sealed in the ex-Panopticon rogue planet Terminus), an independent institutional threat. The Risen / Necromancer-First-Coming and Vortex-manifestation readings are preserved as typed in-fiction alternates (not discarded). The Vortex is RECONCILED & HARD-LOCKED — Archon #9, the doomsday-clock terminal state that feeds the Final Coming (theComingCanon.final_coming). No thread is canon_pending; the gate is a hard PASS and the ratchet target stays 0.",
     check: () => checkVortexTerminusCoverage(),
     ratchet: { target: 0 },
   },

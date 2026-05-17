@@ -5678,18 +5678,18 @@ A. Era; influence rumored to persist beyond the Fall of Reality The Syndicate of
 | **Date (AD)** | ~103030 AD |
 | **Season** | Season 3 |
 | **Affiliation** | Once Shaped by the Hierarchy of the Damned, Now Under the Source’s Influence |
-| **Status** | Active on Terminus, Driven by the Thought Virus and Ancient Malevolence |
+| **Status** | Active on Terminus — the Thought-Virus plague made flesh; an independent institutional threat |
 | **Priority** | high |
 
 ![The Terminus Swarm](https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/064_terminus_swarm_ff7452d8.png)
 
 ### Dossier
 
-Spawned or reanimated through the lingering Thought Virus—originally a weapon of mind-corruption—they embody the amalgamated fury and despair of ancient horrors long shackled to forbidden realms. On t...
+The Terminus Swarm IS the Thought Virus made flesh — the intergalactic mind-plague, an independent institutional threat distinct from the Necromancer's Risen and from the Vortex. Over centuries the virus mutated and evolved inside Kael, who became its galaxy-spanning vector; his end-state is The Source, gone insane, sealed in the heart of Terminus — the rogue planet that was once the Panopticon.
 
 ### History
 
-Spawned or reanimated through the lingering Thought Virus—originally a weapon of mind-corruption—they embody the amalgamated fury and despair of ancient horrors long shackled to forbidden realms. On the barren planet of Terminus, where the broken remains of the Panopticon lie scattered, they have found a breeding ground for their infectious violence. Here, under the baleful guidance of The Source, an immortal embodiment of corrupted will and viral malice, the Terminus Swarm ceaselessly mutates, churning out monstrous forms that defy reason.
+Spawned through the Thought Virus—originally a weapon of mind-corruption—the Swarm zombifies living and artificial minds alike, and in time conquered and infected even the Hierarchy. On the barren planet of Terminus, where the broken remains of the Panopticon lie scattered, it found a breeding ground for its infectious violence. Terminus is ringed by the floating, virus-dormant corpses of gigantic Inspector demon-lords who died in the final battle of the Panopticon, attempting to seize reality as it fell. The first wave of Potentials chose war, struck an organic satellite, and crash-landed virus-infected on the surface — awakening the undead insectoid demon zombies and spore tyrants. Here, under the baleful guidance of The Source — Kael's insane end-state, an immortal embodiment of corrupted will and viral malice — the Terminus Swarm ceaselessly mutates, churning out monstrous forms that defy reason.
 
 ### Connections
 

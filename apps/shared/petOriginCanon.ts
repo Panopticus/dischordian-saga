@@ -56,7 +56,7 @@ export const PET_ORIGIN_PREMISE = {
   thesis:
     "A pet is a consciousness-imprint on the Matrix of Dreams given companion form. It is bred by imprint-recombination and, being an imprint, it answers the First Coming: the Risen are the Pets the Necromancer's return reclaims.",
   spineRole:
-    "The Pets are the First Coming (Necromancer = halfway) felt at companion scale — the same imprint ontology as cards, the same Risen fate as the Terminus Swarm.",
+    "The Pets are the First Coming (Necromancer = halfway) felt at companion scale — the same imprint ontology as cards, the same Risen fate the Necromancer's return reclaims.",
 } as const;
 
 export const PET_ORIGIN_BINDINGS: readonly PetOriginBinding[] = [
