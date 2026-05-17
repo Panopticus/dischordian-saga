@@ -93,7 +93,6 @@ apps/client/src/components/LoredexCompletionFlagWatcher.tsx
 apps/client/src/components/LoredexWitnessingXrefs.tsx
 apps/client/src/components/LottiePlayer.tsx
 apps/client/src/components/LottieSpinner.tsx
-apps/client/src/components/LyricsViewer.tsx
 apps/client/src/components/Map.tsx
 apps/client/src/components/MilestoneJournalEntries.tsx
 apps/client/src/components/MindGameOverlay.tsx
@@ -397,7 +396,6 @@ apps/client/src/pages/PreludePage.tsx
 apps/client/src/pages/PrestigeCycleResetPage.tsx
 apps/client/src/pages/PrestigeQuestPage.tsx
 apps/client/src/pages/PrivacyPage.tsx
-apps/client/src/pages/PrivacyPolicyPage.tsx
 apps/client/src/pages/PurgeRitualPage.tsx
 apps/client/src/pages/PvpArenaPage.tsx
 apps/client/src/pages/QuestBoardPage.tsx
@@ -417,7 +415,6 @@ apps/client/src/pages/StoryModePage.tsx
 apps/client/src/pages/SuitGalleryPage.tsx
 apps/client/src/pages/SyndicateWorldPage.tsx
 apps/client/src/pages/SystemsLibraryPage.tsx
-apps/client/src/pages/TermsOfServicePage.tsx
 apps/client/src/pages/TermsPage.tsx
 apps/client/src/pages/Tier5PvpHubPage.tsx
 apps/client/src/pages/TitlePage.tsx

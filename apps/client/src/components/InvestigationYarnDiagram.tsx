@@ -195,6 +195,20 @@ export function InvestigationYarnDiagram({
 
   const [hoveredId, setHoveredId] = useState<string | null>(null);
 
+  // Build an adjacency lookup to highlight 1-hop neighbours
+  // when a node is hovered. Must run before any early return so
+  // hook order stays stable across renders (rules-of-hooks).
+  const adjacency = useMemo(() => {
+    const map = new Map<string, Set<string>>();
+    for (const e of edges) {
+      if (!map.has(e.source)) map.set(e.source, new Set());
+      if (!map.has(e.target)) map.set(e.target, new Set());
+      map.get(e.source)!.add(e.target);
+      map.get(e.target)!.add(e.source);
+    }
+    return map;
+  }, [edges]);
+
   if (nodes.length === 0) {
     return (
       <div
@@ -209,19 +223,6 @@ export function InvestigationYarnDiagram({
       </div>
     );
   }
-
-  // Build an adjacency lookup to highlight 1-hop neighbours
-  // when a node is hovered.
-  const adjacency = useMemo(() => {
-    const map = new Map<string, Set<string>>();
-    for (const e of edges) {
-      if (!map.has(e.source)) map.set(e.source, new Set());
-      if (!map.has(e.target)) map.set(e.target, new Set());
-      map.get(e.source)!.add(e.target);
-      map.get(e.target)!.add(e.source);
-    }
-    return map;
-  }, [edges]);
 
   const isHighlighted = (id: string): boolean => {
     if (!hoveredId) return false;
