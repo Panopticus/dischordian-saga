@@ -34,7 +34,9 @@ export type AntiquarianLibraryHotspotId =
   | "necromancer-case-closing-ledger"
   | "zyr-koth-sisters-and-closing-ledger"
   | "syl-vex-sisters-of-the-weave"
-  | "riri-ahlia-closing-ledger";
+  | "riri-ahlia-closing-ledger"
+  | "fenra-door-and-engine"
+  | "fenra-closing-ledger";
 
 export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHotspotId> = {
   roomId: "antiquarian-library",
@@ -2627,6 +2629,160 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
               "All three are true to what we found, and the room refuses to choose for us — the unwinnable game, the one true counter, and the mirror that is its own defeat all stand. The being who turns every position into hers does not get to pass this to us pre-decided. We carry whichever we offer, honestly.",
           },
           voId: "human.antiquarian-library.riri-ahlia-closing-ledger.use",
+        },
+      },
+    },
+    // Fenra arc, E4: the antiquarian reads the door/engine pair as
+    // a maker's two-instrument design — and the sharpest entry, the
+    // signal Varkul receives and Fenra does not. Cross-consistent
+    // with the Varkul vigil cross-catalogue and the necromancer
+    // case-closing ledger already shelved here.
+    "fenra-door-and-engine": {
+      look: {
+        narration: {
+          lucid:
+            "You pull a cross-catalogued folio filed under the Antiquarian's glyph for two works by one hand that were never meant to be read apart. He sets the Varkul vigil cross-catalogue beside it and reads the pair as one design. Varkul holds; Fenra moves. Varkul is the Necromancer's continuity, instrumented and still. Fenra is the Necromancer's reach, distributed and in motion. The Antiquarian's whole discipline is attribution, and here the attribution is the finding: a maker who produces a perfect door AND a perfect engine has built something that can both preserve itself indefinitely and extend itself indefinitely. He files the conclusion the way he files a confirmed hand — the Necromancer's two senior creations are not redundant. They are the two things any continuity needs: to last, and to spread.",
+          fragmented:
+            "Two works. One hand. Never read apart. Varkul holds. Fenra moves. Continuity and reach. Still and in motion. A door. An engine. Not redundant. Not redundant. To last. To spread. To last and to spread.",
+          luminous:
+            "The folio, read as the archive reads two works by a single hand that only make sense together: Varkul instrumented and still, Fenra distributed and moving — continuity and reach, the door and the engine. The Antiquarian is exact that this is attribution, not metaphor: one maker built both, and a maker who builds both a perfect door and a perfect engine has built a thing that can hold itself in place forever and carry itself outward forever in the same design. He files the completeness as the load-bearing fact — the two creations are not spares for each other. They are the two functions any continuity is made of.",
+        },
+        voId: "elara.antiquarian-library.fenra-door-and-engine.look",
+        logsClue: {
+          id: "clue-antiquarian-fenra-door-and-engine",
+          title: "The Door and the Engine",
+          body:
+            "Read as a pair: Varkul holds; Fenra moves. Varkul is the Necromancer's continuity, instrumented and still. Fenra is the Necromancer's reach, distributed and in motion. A maker who produces a perfect door AND a perfect engine has built something that can both preserve itself indefinitely and extend itself indefinitely. The Necromancer's two senior creations are not redundant. They are the two things any continuity needs: to last, and to spread.",
+          source: "antiquarian-library",
+          order: 61,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.fenra",
+          episodeId: "fenra.e4",
+          cluesFound: ["fenra.e4.door_and_engine"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "One maker, two works, never read apart. Varkul holds, Fenra moves. A door and an engine.",
+            balanced:
+              "The archive files it as attribution, not metaphor: a maker who builds both a perfect door and a perfect engine has built a continuity that can both last and spread. The two are not spares.",
+            warm:
+              "He sets the two files together because they were never one without the other. To last and to spread — the room names exactly what the Necromancer was building, and it is complete.",
+          },
+          voId: "human.antiquarian-library.fenra-door-and-engine.look",
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You address the folio on the sharpest line in it. The Antiquarian turns to the entry he files under his glyph for an asymmetry the saga built on purpose: Varkul receives the maker's signal — his vigil is conditioned on the Necromancer's continuity. Fenra is not recorded as receiving any such signal. She serves the Hierarchy's operations, commended by Riri'Ahlia, integrated into Mol'Garath's portfolio. The keeper states the consequence without softening it: if the Necromancer ended, Varkul's vigil would lose its instruction — and Fenra's logistics would not even notice. The door depends on the maker. The engine does not. He files the two creations as a deliberate asymmetry — one a witness to the Necromancer's life, one indifferent to whether he exists — and notes, in the same hand, that together they are harder to end than either alone.",
+          fragmented:
+            "Varkul receives the signal. Fenra does not. Does not. Vigil conditioned on his continuity. Logistics conditioned on nothing. He ends — the door loses its instruction. The engine does not notice. Does not notice. The door depends. The engine does not. Harder to end than either alone.",
+          luminous:
+            "The entry, read as the archive reads an asymmetry it can prove was designed: Varkul receives the maker's signal and is conditioned on the Necromancer's continuity; Fenra receives no signal and is conditioned only on the Hierarchy. The Antiquarian is exact about the consequence and refuses to blunt it — end the Necromancer and the door loses its instruction while the engine does not break stride. One creation is a witness to him; the other is indifferent to whether he exists at all. The keeper files the pairing as the Necromancer's true insurance: not a protocol, but one creation that cannot leave and one that cannot stop, and together they are harder to end than either would be alone.",
+        },
+        voId: "elara.antiquarian-library.fenra-door-and-engine.use",
+        logsClue: {
+          id: "clue-antiquarian-fenra-no-signal",
+          title: "Fenra Does Not Receive the Signal",
+          body:
+            "The arc's sharpest distinction: Varkul receives the maker's signal — his vigil is conditioned on the Necromancer's continuity. Fenra is not recorded as receiving any such signal. She serves the Hierarchy's operations, commended by Riri'Ahlia, integrated into Mol'Garath's portfolio. If the Necromancer ended, Varkul's vigil would lose its instruction — and Fenra's logistics would not even notice. The engine does not depend on the maker. The door does.",
+          source: "antiquarian-library",
+          order: 62,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.fenra",
+          episodeId: "fenra.e4",
+          cluesFound: ["fenra.e4.fenra_does_not_receive_the_signal"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Varkul receives the maker's signal; Fenra does not. End the Necromancer and the door loses its instruction — the engine does not notice.",
+            balanced:
+              "The archive files it as a designed asymmetry: one creation a witness to his life, one indifferent to whether he exists. Together they are harder to end than either alone.",
+            warm:
+              "Varkul would feel it if the maker died. Fenra would not so much as look up. The room files that as the real insurance, and it is colder than any protocol.",
+          },
+          voId: "human.antiquarian-library.fenra-door-and-engine.use",
+        },
+      },
+    },
+    // Fenra arc, E5: the case-synthesis ledger and the genuine
+    // tri-verdict closing question. The synthesis assembles E1-E4;
+    // the question holds THE EFFICIENT EVIL / THE SINGLE POINT OF
+    // FAILURE / THE INDIFFERENT ENGINE all honest, pre-judges none,
+    // and closes the §XVI 14-bible Mystery Engine roster.
+    "fenra-closing-ledger": {
+      look: {
+        narration: {
+          lucid:
+            "You pull the case-synthesis ledger filed under the Antiquarian's glyph for an engine that does not stop. He assembles E1 through E4 in one hand: Fenra fed seventeen simultaneous fronts from one logistics architecture; the Cursed Forest is a soul-throughput depot dying under its own load; her growl surfaces during the bookkeeping, proving Hierarchy predation and administration are one operation; she is the Necromancer's engine — spreads his reach — opposite Varkul's door, which proves his life, and the engine does not depend on the maker. The keeper marks the case structurally complete and the verdict not. His discipline is attribution; here the discipline is restraint, and he notes the parallel without comment — restraint is also her register. He files the convergence and leaves the judgment-page blank, because this is the entry that closes the §XVI roster, and the last page of the last case is not the archive's to write.",
+          fragmented:
+            "E1 to E4. One hand. One hand. Seventeen fronts, one kitchen. A depot dying under its load. The growl on the bookkeeping. The engine, not the door. Does not depend on the maker. Structurally complete. The verdict is not. The verdict is not. Blank. Blank. The last case. The last page.",
+          luminous:
+            "The synthesis ledger, read as the archive reads the final entry in a roster it has carried to the end: four findings reconciled into one structurally complete case — one kitchen for seventeen fronts, a depot consumed by its own throughput, the growl that lands on the ledger and not the kill, the engine that carries the maker's reach without needing the maker. The completeness and the blank verdict-page are both deliberate. The Antiquarian closes the structure and reserves the closure, and he is exact that this case in particular earns the restraint: it is the §XVI roster's last portrait, and a roster does not close itself. The last page is reserved for the only reader who can close it — and that is not the archive.",
+        },
+        voId: "elara.antiquarian-library.fenra-closing-ledger.look",
+        logsClue: {
+          id: "clue-antiquarian-fenra-synthesis",
+          title: "The Case Synthesis",
+          body:
+            "E1-E4 assembled: Fenra fed seventeen simultaneous fronts from one logistics architecture; the Cursed Forest is a soul-throughput depot dying under its own load; her growl surfaces during the bookkeeping, proving Hierarchy predation and administration are one operation; she is the Necromancer's engine (spreads his reach) opposite Varkul's door (proves his life), and the engine does not depend on the maker. The case is structurally complete.",
+          source: "antiquarian-library",
+          order: 63,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.fenra",
+          episodeId: "fenra.e5",
+          cluesFound: ["fenra.e5.synthesis"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Whole case in one hand: one kitchen for seventeen fronts, a depot dying under load, the growl on the books, the engine that does not need the maker. Complete in structure. Verdict blank.",
+            balanced:
+              "The synthesis reconciles every finding and stops short of judgment on purpose. It is the §XVI roster's last entry, and the archive sets the structure and reserves the closure — the last page of the last case is not its to write.",
+            warm:
+              "He assembled the whole cold case and set the pen down at the verdict. The last page of the last file is not missing. It is reserved — for us, because a roster does not close itself.",
+          },
+          voId: "human.antiquarian-library.fenra-closing-ledger.look",
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You address the ledger on the closure itself. The Two Witnesses put the question, and the file records whichever you offer — and the keeper is scrupulous that all three are honest closures of the same structurally complete case. Is Fenra (a) THE EFFICIENT EVIL — the saga's cleanest statement that competence in service of conquest is not mitigated by the competence; she ran seventeen invasions flawlessly and the flawlessness is not a mitigating detail, it is the indictment in full, and 'Hunted. Logged. Owned.' is the most honest description of what good logistics pointed at people produces; (b) THE SINGLE POINT OF FAILURE — the Hierarchy's whole expansion runs through one dying depot and one wolf, and the arc's operational verdict is a target: the Cursed Forest, before it collapses on schedule anyway, is where the seventeen fronts can be starved at once; or (c) THE INDIFFERENT ENGINE — the coldest reading, that Fenra would run exactly the same whether the Necromancer, the Hierarchy, or anyone at all still wanted the hunt, because the engine has become its own reason, and an engine that no longer needs a driver cannot be stopped by removing one. The Antiquarian advances none of them and pre-judges none. This is the last case of the §XVI roster; the engine that asks for no driver does not get the keeper as one either.",
+          fragmented:
+            "Efficient evil. Single point of failure. Indifferent engine. All three honest. All three. The flawlessness is the indictment. The Forest is the target. The engine is its own reason. The ledger advances none. None. The last case. No driver. Not the keeper either.",
+          luminous:
+            "The closing question, asked in the Two Witnesses' hand and held open with care: the efficient evil, the single point of failure, the indifferent engine — three readings of one structurally complete case, each true to every finding, none of them the ledger's own. The flawless logistics that are themselves the atrocity; the one dying kitchen that is the Hierarchy's only fatal concentration; or the machine that has become its own reason and cannot be stopped by removing a driver it no longer has. The archive records what the reader offers and pre-judges nothing — and the keeper marks the weight of this one: it closes the §XVI roster, and the last verdict of the last case belongs to the reader the question is put to, not to the room that carried it here.",
+        },
+        voId: "elara.antiquarian-library.fenra-closing-ledger.use",
+        logsClue: {
+          id: "clue-antiquarian-fenra-the-question",
+          title: "The Question the Case Asks the Player",
+          body:
+            "The Two Witnesses put the closure: is Fenra (a) THE EFFICIENT EVIL — the flawless logistics ARE the atrocity, competence does not mitigate conquest; (b) THE SINGLE POINT OF FAILURE — the whole expansion runs through one dying depot and one wolf, a vulnerability the Insurgency must exploit before the Forest collapses on its own; or (c) THE INDIFFERENT ENGINE — Fenra would run the same whether the Necromancer, the Hierarchy, or anyone wanted the hunt, because the engine has become its own reason and cannot be stopped by removing a driver. All three are honest; the Witnesses record whichever the player offers; none is pre-judged. This closes the §XVI 14-bible Mystery Engine roster.",
+          source: "antiquarian-library",
+          order: 64,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.fenra",
+          episodeId: "fenra.e5",
+          cluesFound: ["fenra.e5.the_question"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Efficient evil, single point of failure, or indifferent engine. Three honest closures of one complete case. The Witnesses record yours. None pre-judged.",
+            balanced:
+              "The verdict is the player's, between three readings the evidence equally supports — the flawlessness as the indictment, the dying kitchen as the target, or the engine that needs no driver. The ledger advances none, and this closes the §XVI roster.",
+            warm:
+              "All three are true to what we found, and the room refuses to choose for us on the last case of the whole roster. The indictment, the target, and the machine that needs no one all stand. We carry whichever we offer, honestly — and then the roster is closed.",
+          },
+          voId: "human.antiquarian-library.fenra-closing-ledger.use",
         },
       },
     },

@@ -32,7 +32,10 @@ export type WarRoomHotspotId =
   | "the-taskmasters-siege-portfolio"
   | "riri-ahlia-reorg-doctrine-board"
   | "the-procedural-question-file"
-  | "the-priced-defense-accounting";
+  | "the-priced-defense-accounting"
+  | "fenra-seventeen-front-manifest"
+  | "the-wolf-in-the-boardroom-file"
+  | "fenra-varkul-contrast-record";
 
 export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
   roomId: "war-room",
@@ -1709,6 +1712,274 @@ export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
               "She wrote down what the Advocate's soul cost like a line in a budget, and called the siege a success because now she knows the figure. The room files it cold because it is cold. There is no other honest way to file it.",
           },
           voId: "human.war-room.the-priced-defense-accounting.look",
+        },
+      },
+    },
+    // Fenra arc, E1: the war-room reads the seventeen-dimension
+    // record the way it reads a captured manifest — not an order
+    // of battle, a supply run. The false lead is the berserker;
+    // the room strikes it because a berserker cannot run a kitchen.
+    // Cross-consistent with the Riri'Ahlia commendation already on
+    // the rack (the reorg-doctrine board, talk-verb).
+    "fenra-seventeen-front-manifest": {
+      look: {
+        narration: {
+          lucid:
+            "Pinned to the captured-document rack beside the Taskmaster's siege portfolio: the operational record of Fenra's seventeen-dimension invasion, cross-referenced from the Riri'Ahlia file already racked. The war-room expects a campaign and does not get one. The detail the room marks as load-bearing is the sequence: this happened AFTER the seven-dimension siege was 'driven back.' The portfolio scaled past its blocker — under Fenra. Seventeen at once, coordinated, on schedule, and rewarded with the Director of Operations title and Riri'Ahlia's personal commendation. The room files it the way it filed the siege itself: a quarter that beat its forecast, not a war that was won. The room does not let me read the seventeen as glory. It reads them as throughput.",
+          fragmented:
+            "After the siege. After it was driven back. After. The portfolio scaled past the blocker. Seventeen. At once. On schedule. On schedule. Director of Operations. Personal commendation. Not glory. Throughput. Throughput.",
+          luminous:
+            "The record, read as a war-room reads a captured operations file rather than a captured battle: the seventeen-dimension invasion is not the room's order of battle, it is the next line after a blocker. The room is exact about the sequence — the siege was driven back, and the very next thing in the Hierarchy's own filing is the portfolio scaling to seventeen simultaneous under Fenra, promoted and personally commended by the Taskmaster for it. The room records the implication without warmth: the blocker cost the engine no tempo, and the operative who organized the scale-up was rewarded for the kitchen, not the kill.",
+        },
+        voId: "elara.war-room.fenra-seventeen-front-manifest.look",
+        logsClue: {
+          id: "clue-war-room-fenra-commendation",
+          title: "The Commendation (established canon)",
+          body:
+            "Cross-referenced from the Riri'Ahlia arc: Fenra earned the Director of Operations title and Riri'Ahlia's personal commendation for organizing the simultaneous invasion of seventeen dimensions during post-Severance expansion. The detail that matters: this happened AFTER the seven-dimension siege was 'driven back.' The Taskmaster's portfolio scaled past its blocker — under Fenra. Seventeen at once, coordinated, on schedule.",
+          source: "war-room",
+          order: 39,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.fenra",
+          episodeId: "fenra.e1",
+          cluesFound: ["fenra.e1.the_commendation"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "After the siege was driven back, the portfolio scaled to seventeen under Fenra — promoted, personally commended. The blocker cost no tempo.",
+            balanced:
+              "The room reads the sequence, not the spectacle: the scale-up came right after the blocker, and the organizer was rewarded for it. Cross-checks clean against the Taskmaster's commendation already racked.",
+            warm:
+              "We drove back seven and the record's next line is seventeen, with her name and a medal on it. The room will not call it glory. It calls it throughput, and it is right to.",
+          },
+          voId: "human.war-room.fenra-seventeen-front-manifest.look",
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You pull the manifest clipped behind the record — Fenra's operational paperwork, captured intact. The war-room reads it the way it reads an intercepted supply ledger, not a war diary: corrupted-soul supply chains, dimensional-warfare logistics, conquered-territory integration. The room marks the arithmetic that matters. Seventeen simultaneous invasions did not require seventeen battles. They required one logistics architecture robust enough to run a hunt across seventeen fronts without any front starving the others. The room states the finding flatly: Fenra did not win seventeen wars. She fed them all from one kitchen. Where Riri'Ahlia reorganizes the chart, Fenra runs the lines that make the reorganized chart executable — and the room files her, correctly, as the reason the Taskmaster's portfolio can have a next quarter at all.",
+          fragmented:
+            "A ledger. Not a war diary. Supply chains. Logistics. Integration. Seventeen invasions. Not seventeen battles. One architecture. One kitchen. One kitchen. She fed them all from one kitchen. The reason there is a next quarter.",
+          luminous:
+            "The manifest, read as a war-room reads a captured supply ledger: Fenra's record is throughput, not triumph — corrupted-soul chains, dimensional logistics, territory integration. The room is precise about the load-bearing arithmetic. Seventeen fronts at once is not seventeen victories; it is one architecture that could run a single hunt across seventeen fronts without any of them starving the rest. The room records the structural truth: Fenra did not win the wars, she fed them, all of them, from one kitchen — and that kitchen, not force and not strategy, is what the Hierarchy's expansion actually scales on.",
+        },
+        voId: "elara.war-room.fenra-seventeen-front-manifest.use",
+        logsClue: {
+          id: "clue-war-room-fenra-hunt-as-logistics",
+          title: "The Hunt as Logistics",
+          body:
+            "Fenra's operational record reads like a supply manifest, not a war diary: corrupted-soul supply chains, dimensional-warfare logistics, conquered-territory integration into the Hierarchy's portfolio. Seventeen simultaneous invasions did not require seventeen battles. They required one logistics architecture that could run a hunt across seventeen fronts without any front starving the others. Fenra did not win seventeen wars. She fed them all from one kitchen.",
+          source: "war-room",
+          order: 40,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.fenra",
+          episodeId: "fenra.e1",
+          cluesFound: ["fenra.e1.hunt_as_logistics"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Read as a supply ledger: seventeen invasions, not seventeen battles. One architecture. One kitchen fed them all.",
+            balanced:
+              "The room reads it as intercepted logistics, not a war diary. The finding is the arithmetic — one kitchen, seventeen fronts, none starving. She is why the portfolio has a next quarter.",
+            warm:
+              "I keep looking for the battles and there are no battles, only a supply line that never broke. The room is right. She did not fight seventeen wars. She catered them.",
+          },
+          voId: "human.war-room.fenra-seventeen-front-manifest.use",
+        },
+      },
+      talk: {
+        narration: {
+          lucid:
+            "You address the file on the voice in it. Fenra speaks in compressed clauses with periodic growls — 'Hunted. Logged. Owned.' The intuitive read writes itself: the Moon Tyrant is a berserker, a feral conqueror, rage given seventeen fronts. The war-room marks that read and strikes it, the way it strikes any assessment that flatters the room's expectations. A berserker cannot run a supply chain. She coordinated seventeen simultaneous invasions ON SCHEDULE; that is the structural opposite of frenzy. The growl is real and it is also a register, not a loss of control — pack-leadership vocabulary in an executive frame, the wolf inside the boardroom. The room files the danger precisely: she does not roar across the seventeen fronts. She assigns them, the way an alpha assigns the hunt — by position, by precedence, by who eats when. The feral read is the false lead. The wolf is the one keeping the books.",
+          fragmented:
+            "Hunted. Logged. Owned. A berserker. No. No. Not a berserker. A berserker cannot run a supply chain. On schedule. On schedule is the opposite of frenzy. The growl is a register. The wolf in the boardroom. She assigns the hunt. By who eats when. The wolf keeps the books.",
+          luminous:
+            "The voice, read as a war-room reads the comfortable verdict it must refuse: 'Hunted. Logged. Owned.' invites berserker, and the room strikes berserker precisely because it is the easy one. A being who runs seventeen invasions on schedule is the opposite of frenzy; the growl is a pack-leadership register worn in an executive frame, not a control failure. The room records the true shape: she does not roar across the fronts, she assigns them — position, precedence, who eats when — the way an alpha assigns a hunt. The feral conqueror is the false lead. The wolf is the one keeping the books, and the books are the weapon.",
+        },
+        voId: "elara.war-room.fenra-seventeen-front-manifest.talk",
+        logsClue: {
+          id: "clue-war-room-fenra-pack-register",
+          title: "The Pack Register",
+          body:
+            "Fenra speaks in compressed clauses with periodic growls — 'Hunted. Logged. Owned.' Pack-leadership vocabulary in an executive frame: the wolf inside the boardroom. Her status-lines are operational; her silences are restraint, energy contained rather than absent. She does not roar across the seventeen fronts. She assigns them, the way an alpha assigns the hunt — by position, by precedence, by who eats when. The berserker read is the false lead.",
+          source: "war-room",
+          order: 41,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.fenra",
+          episodeId: "fenra.e1",
+          cluesFound: ["fenra.e1.the_pack_register"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "'Hunted. Logged. Owned.' Looks like a berserker. Isn't. On-schedule is the opposite of frenzy — the growl is a register, not a loss of control.",
+            balanced:
+              "The room strikes the feral read because it is the comfortable one. She assigns the hunt the way an alpha does, by precedence and who eats when. The wolf keeps the books.",
+            warm:
+              "I want her to be the monster who lost control, because that I know how to fight. The room takes it from me. The wolf is the one doing the accounting. That is worse.",
+          },
+          voId: "human.war-room.fenra-seventeen-front-manifest.talk",
+        },
+      },
+    },
+    // Fenra arc, E3: the war-room reads the corporate-lycanthropic
+    // juxtaposition the way it reads an enemy whose costume and
+    // weapon are the same object. The growl lands on the
+    // bookkeeping, not the kill; the silence is restraint, held
+    // energy — distinct from Varkul's vigil and Riri'Ahlia's
+    // reorganization, both already filed elsewhere on the rack.
+    "the-wolf-in-the-boardroom-file": {
+      look: {
+        narration: {
+          lucid:
+            "A captured Hierarchy personnel portrait on the command-structure rack: Fenra's canonical form, filed for the record. A fur-lined executive coat. Reading glasses perched on a lupine snout. The war-room expects to resolve this — to mark one half the truth and the other the costume — and the room refuses, the way it refuses any read that simplifies an enemy into something easier to fight. The juxtaposition is the canon. She is not a wolf pretending to be an executive, nor an executive who happens to be a wolf. The reading glasses are real. The snout is real. The room files both as doing work, and marks the refusal to collapse them as the finding itself.",
+          fragmented:
+            "Fur-lined coat. Reading glasses. A lupine snout. Which one is the costume. Which one. Neither. Neither. The juxtaposition is the canon. The glasses are real. The snout is real. Both are doing work. Both.",
+          luminous:
+            "The portrait, read as a war-room reads an enemy it is tempted to make legible by halving: a fur-lined executive coat, reading glasses on a lupine snout, and the room striking the urge to call either one the disguise. The room is exact about why it holds the contradiction — collapsing it would be the comfortable assessment and the comfortable assessment is the wrong one. The glasses are not a prop on a beast; the snout is not a flourish on a manager. Both are operational. The room records the juxtaposition as the canon and the refusal to resolve it as the load-bearing fact.",
+        },
+        voId: "elara.war-room.the-wolf-in-the-boardroom-file.look",
+        logsClue: {
+          id: "clue-war-room-fenra-juxtaposition",
+          title: "The Corporate-Lycanthropic Juxtaposition",
+          body:
+            "Fenra's canonical visual is load-bearing: a fur-lined executive coat, reading glasses perched on a lupine snout. The juxtaposition is the canon. She is not a wolf pretending to be an executive, nor an executive who happens to be a wolf. The reading glasses are real. The snout is real. Both are doing work.",
+          source: "war-room",
+          order: 42,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.fenra",
+          episodeId: "fenra.e3",
+          cluesFound: ["fenra.e3.the_juxtaposition"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Fur-lined coat, reading glasses on a lupine snout. Neither half is the costume. The juxtaposition is the canon.",
+            balanced:
+              "The room refuses to halve her into something easier to fight. The glasses are real, the snout is real, both are operational — the refusal to collapse them is the finding.",
+            warm:
+              "I keep trying to decide which one is the mask so I know what I'm fighting. The room will not let me. She is both, on purpose, and that is the point of the picture.",
+          },
+          voId: "human.war-room.the-wolf-in-the-boardroom-file.look",
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You pull the behavioral annex clipped behind the portrait — captured observation logs of when Fenra growls. The war-room reads them expecting the growl to land on conflict and finds the opposite. The growls do not occur during a kill or a fight. They occur during the operational status-lines — 'Hunted. Logged. Owned.' The growl punctuates the bookkeeping, not the kill. The room marks the inversion as the load-bearing fact: in Fenra, the predatory register surfaces precisely when she is being most administrative. The wolf is loudest in the spreadsheet, not the hunt. The room files the consequence coldly — in the Hierarchy the executive function IS the predatory one, and Fenra is the proof, growling over a ledger.",
+          fragmented:
+            "When she growls. Not the kill. Not the kill. The status-lines. Hunted. Logged. Owned. The bookkeeping. The growl is on the bookkeeping. Loudest in the spreadsheet. Not the hunt. The spreadsheet. The spreadsheet.",
+          luminous:
+            "The annex, read as a war-room reads an enemy whose tell lands where the room least expected it: Fenra's growl does not punctuate the kill, it punctuates the status-line. 'Hunted. Logged. Owned.' is when the predator surfaces — over the bookkeeping, not over the prey. The room records the inversion at full weight: she is most a wolf at the exact moment she is most an administrator. The room refuses the reassuring separation and states the finding cold — the logistics are the hunt, the spreadsheet is where the wolf is loudest, and there was never a version of these as two things.",
+        },
+        voId: "elara.war-room.the-wolf-in-the-boardroom-file.use",
+        logsClue: {
+          id: "clue-war-room-fenra-when-she-growls",
+          title: "When She Growls",
+          body:
+            "Fenra's periodic growls do not occur during conflict. They occur during the operational status-lines — 'Hunted. Logged. Owned.' The growl punctuates the bookkeeping, not the kill. In Fenra, the predatory register surfaces precisely when she is being most administrative. The wolf is loudest in the spreadsheet, not the hunt — in the Hierarchy the executive function IS the predatory one.",
+          source: "war-room",
+          order: 43,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.fenra",
+          episodeId: "fenra.e3",
+          cluesFound: ["fenra.e3.when_she_growls"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "The growl lands on 'Hunted. Logged. Owned.' — the status-line, not the kill. Loudest in the spreadsheet.",
+            balanced:
+              "The room reads the tell where it least expected it: she is most a wolf when she is most an administrator. The logistics are the hunt; the inversion is the finding.",
+            warm:
+              "She does not growl when she kills. She growls when she files. The room makes me sit with that. The bookkeeping is the predatory part. That is the whole horror of her.",
+          },
+          voId: "human.war-room.the-wolf-in-the-boardroom-file.use",
+        },
+      },
+      talk: {
+        narration: {
+          lucid:
+            "You address the file on her silences. The war-room has two silences already racked for comparison: Varkul's, which is a vigil, and Riri'Ahlia's, which is reorganization. Fenra's is neither. Per the captured behavioral record, Fenra's silence is restraint — energy contained, not absent. When Fenra goes quiet she is not finished the way the Taskmaster is finished, and not holding a post the way Varkul holds one. She is holding the hunt back. The room marks the operational consequence without comfort: the dangerous Fenra is not the loud one. It is the one who has stopped growling, because the growl was the part she let out and the silence is the part she did not. The room files the distinction precisely — restraint is not safety. It is a choice not yet unmade, and a choice can be unmade in an instant.",
+          fragmented:
+            "Not Varkul's silence. Not the Taskmaster's. Restraint. Restraint. Energy contained. Not absent. She is holding the hunt back. The quiet one is the dangerous one. The growl is what she let out. The silence is what she did not. Not yet unmade.",
+          luminous:
+            "The record, read as a war-room reads three enemy silences side by side: Varkul's is a vigil, Riri'Ahlia's is reorganization, and Fenra's is neither — it is restraint, energy held rather than gone. The room is exact about the danger and refuses to soften it. A growling Fenra is venting; a silent Fenra is loaded. Unlike the Taskmaster, whose silence means the work is done, Fenra's silence means the work is being held back, which is worse, because held-back is reversible the instant she chooses. The room files the finding: the quiet Moon Tyrant is the one mid-restraint, and restraint is a choice not yet unmade, not a state of safety.",
+        },
+        voId: "elara.war-room.the-wolf-in-the-boardroom-file.talk",
+        logsClue: {
+          id: "clue-war-room-fenra-silence-restraint",
+          title: "Her Silence Is Restraint",
+          body:
+            "Where Varkul's silence is a vigil and Riri'Ahlia's is reorganization, Fenra's silence is restraint — energy contained, not absent. When Fenra goes quiet she is not finished and not reorganizing; she is holding the hunt back. The dangerous Fenra is not the loud one. It is the one who has stopped growling, because the growl was the part she let out, and the silence is the part she did not — restraint is a choice not yet unmade.",
+          source: "war-room",
+          order: 44,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.fenra",
+          episodeId: "fenra.e3",
+          cluesFound: ["fenra.e3.silence_is_restraint"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Not Varkul's vigil, not the Taskmaster's reorganization. Fenra's silence is restraint — held, not gone. The quiet one is loaded.",
+            balanced:
+              "The room sets three silences side by side and keeps them distinct. Hers means the hunt is being held back, which is reversible in an instant. Restraint is not safety.",
+            warm:
+              "Every other quiet on this rack meant something was over or being arranged. Hers means she has decided not to, yet. The room is right that this is the most dangerous one. A decision is not a wall.",
+          },
+          voId: "human.war-room.the-wolf-in-the-boardroom-file.talk",
+        },
+      },
+    },
+    // Fenra arc, E4 (single verb — intentional): the war-room reads
+    // the Necromancer's two senior creations as a matched pair, the
+    // door and the engine. Cross-consistent with the Varkul
+    // director-of-security file already racked and the necromancer
+    // castle-log board.
+    "fenra-varkul-contrast-record": {
+      look: {
+        narration: {
+          lucid:
+            "Filed on the command-structure rack beside the Varkul director-of-security order, cross-referenced against it: the Hierarchy record's note that Fenra represents the primal, bestial side of the Necromancer's power, contrasting Varkul's aristocratic darkness. The war-room reads the two files as a matched pair, the way it reads any two assets a single maker built to do opposite jobs. Same aesthetic lineage — the Necromancer's red-and-black steampunk — opposite registers. Varkul is the still threshold-keeper who became his post. Fenra is the moving logistician who runs the hunt. The room files the structural reading without ornament: the Necromancer's power produced both a door and an engine — the two things any continuity needs. A way to last, and a way to spread.",
+          fragmented:
+            "A matched pair. A pair. Same lineage. Opposite registers. Varkul still. Fenra moving. The threshold-keeper. The logistician. A door. An engine. A door and an engine. To last. To spread. To last and to spread.",
+          luminous:
+            "The note, read as a war-room reads two captured assets built by one hand for opposite functions: Fenra is the primal register, Varkul the aristocratic one, and the room marks that the contrast is not decoration — it is design. Same lineage, opposite jobs. Varkul holds; Fenra moves. The room composes the pair into the finding it has been circling: the Necromancer did not build two senior creations that overlap. He built a door and an engine, the exact two instruments a continuity requires — one to make it last, one to make it spread — and the room files the completeness of that design as the load-bearing fact.",
+        },
+        voId: "elara.war-room.fenra-varkul-contrast-record.look",
+        logsClue: {
+          id: "clue-war-room-fenra-contrast-canon",
+          title: "The Varkul Contrast (established canon)",
+          body:
+            "Per the Hierarchy record: Fenra represents the primal, bestial side of the Necromancer's power, contrasting with Varkul's aristocratic darkness. The two are an explicit canonical pair — same aesthetic lineage (the Necromancer's red-and-black steampunk), opposite registers. Varkul is the still threshold-keeper who became his post. Fenra is the moving logistician who runs the hunt. The Necromancer's power produced both a door and an engine.",
+          source: "war-room",
+          order: 45,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.fenra",
+          episodeId: "fenra.e4",
+          cluesFound: ["fenra.e4.the_contrast_canon"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Filed beside the Varkul order: same maker, opposite registers. Varkul holds, Fenra moves. A door and an engine.",
+            balanced:
+              "The room reads the two files as a matched pair built by one hand for opposite jobs. The contrast is design, not decoration — the two things a continuity needs, to last and to spread.",
+            warm:
+              "He made one creation that stays and one that goes, and the room sets their files side by side so I cannot miss it. The Necromancer did not build spares. He built a door and an engine.",
+          },
+          voId: "human.war-room.fenra-varkul-contrast-record.look",
         },
       },
     },
