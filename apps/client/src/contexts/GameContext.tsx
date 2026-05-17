@@ -810,6 +810,8 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "dead-drop-cadence-log", name: "Dead-Drop Cadence Log", description: "A cadence log on the relay's manifest channel — shipping traffic the antenna passively records as it crosses New Babylon. One monthly Locke-signed package repeats.", x: 78, y: 70, width: 8, height: 12, type: "interact", action: "room-mystery:comms-array:dead-drop-cadence-log" },
       // Mystery wiring — Ith'Rael arc Shadow Tongue editing-signature trace
       { id: "shadow-tongue-signal-trace", name: "Shadow Tongue Signal Trace", description: "A signature buffer on the relay's deep-edit channel — the Shadow Tongue's operational signature, subtraction without trace across the chronicle layer.", x: 40, y: 70, width: 8, height: 12, type: "interact", action: "room-mystery:comms-array:shadow-tongue-signal-trace" },
+      // Mystery wiring — Syl'Vex arc: Mira's clean letter home and her later refusal-of-the-question answer
+      { id: "miras-dual-thread-transmission", name: "Mira's Dual-Thread Transmission", description: "A personal-channel buffer — Mira Halen's letter home with a carrier clean of any duress marker, and her later answer refusing the question of which thread to cut.", x: 22, y: 70, width: 8, height: 12, type: "interact", action: "room-mystery:comms-array:miras-dual-thread-transmission" },
     ],
   },
   {
@@ -1103,6 +1105,8 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "necromancer-case-closing-ledger", name: "The Necromancer Case-Closing Ledger", description: "A closing ledger on the case-synthesis shelf — the Necromancer arc assembled in one hand, the dual-reading closure deliberately left open.", x: 54, y: 58, width: 7, height: 9, type: "interact", action: "room-mystery:antiquarian-library:necromancer-case-closing-ledger" },
       // Mystery wiring — Zyr'Koth arc: the sisters-of-the-Weave cross-catalogue and the case-closing ledger
       { id: "zyr-koth-sisters-and-closing-ledger", name: "The Sisters-of-the-Weave Cross & Closing Ledger", description: "A cross-catalogue under the glyph for a record with a name struck out — three students of the Blood Weave — filed beside the Zyr'Koth case-synthesis ledger and its closing question.", x: 62, y: 58, width: 7, height: 9, type: "interact", action: "room-mystery:antiquarian-library:zyr-koth-sisters-and-closing-ledger" },
+      // Mystery wiring — Syl'Vex arc: the shared pre-Severance teacher and the third student struck from the record
+      { id: "syl-vex-sisters-of-the-weave", name: "The Sisters-of-the-Weave Pedigree", description: "A pre-Severance Thaloria cross-reference under the glyph for a lineage with a name worn off — one lost-named instructor, three students of the Blood Weave, one struck from the Hierarchy's record.", x: 70, y: 58, width: 7, height: 9, type: "interact", action: "room-mystery:antiquarian-library:syl-vex-sisters-of-the-weave" },
     ],
   },
   /* ═══ CHAIN-UNLOCKED HIDDEN ROOMS ═══ */
@@ -1260,6 +1264,9 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "zyr-koth-rd-refinement-file", name: "Zyr'Koth R&D Refinement File", description: "Captured Hierarchy R&D working notes on the document rack — the Advocate's defensive Weave inverted into the Severance, the source technique cited before the change, the test cohort redacted.", x: 66, y: 48, width: 8, height: 9, type: "interact", action: "room-mystery:war-room:zyr-koth-rd-refinement-file" },
       { id: "the-severance-hollowing-report", name: "The Severance Hollowing Report", description: "A Hierarchy R&D observation note on a redacted test subject — a casualty with no wound — and Zyr'Koth's filed no-position on whether the protocol is ever used.", x: 30, y: 36, width: 8, height: 9, type: "interact", action: "room-mystery:war-room:the-severance-hollowing-report" },
       { id: "the-locked-lever-board", name: "The Locked-Lever Board", description: "A strategic-assessment panel — the Severance as the only tested reversal of a Syl'Vex conversion, held only by a clause in Mol'Garath's quarterly review.", x: 42, y: 36, width: 8, height: 9, type: "interact", action: "room-mystery:war-room:the-locked-lever-board" },
+      // Mystery wiring — Syl'Vex arc: the dual-roster contradiction and the Severance cross-lock against a convert
+      { id: "syl-vex-dual-roster-board", name: "The Dual-Roster Board", description: "Two roster entries for one operative pinned side by side — Mira Halen 'in good standing' on the Insurgency's roster and 'Convert. Recognized.' on the Hierarchy's, both current, neither forged — and the cost-audit that came back blank.", x: 54, y: 36, width: 8, height: 9, type: "interact", action: "room-mystery:war-room:syl-vex-dual-roster-board" },
+      { id: "the-severance-cross-lock-file", name: "The Severance Cross-Lock File", description: "The Severance design read against a Syl'Vex convert — extracts one thread, never deployed on a convert — and Mol'Garath's quarterly-review clause requiring a consent never sought.", x: 66, y: 36, width: 8, height: 9, type: "interact", action: "room-mystery:war-room:the-severance-cross-lock-file" },
     ],
   },
   {
@@ -1519,6 +1526,9 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       // Mystery wiring — Zyr'Koth arc: the Advocate's structural blind spot and what telling her costs
       { id: "the-advocates-blind-spot", name: "The Advocate's Blind Spot", description: "A cross-reference laid beside the altar's engraving log — the third use of the Blood Weave the Advocate's defensive doctrine cannot perceive, and the cost it relocates onto the subject.", x: 20, y: 22, width: 18, height: 12, type: "interact", action: "room-mystery:guild-sanctum:the-advocates-blind-spot" },
       { id: "what-telling-the-advocate-costs", name: "What Telling the Advocate Costs", description: "Set against the altar's logic that speech here is witnessed and binding — the Advocate's unknowing by construction, and the small severance the player can perform by speaking.", x: 20, y: 40, width: 18, height: 12, type: "interact", action: "room-mystery:guild-sanctum:what-telling-the-advocate-costs" },
+      // Mystery wiring — Syl'Vex arc: the mirror doctrine of the same Weave, and the sister-of-the-Weave address and closure
+      { id: "the-mirror-doctrine-loom", name: "The Mirror-Doctrine Loom", description: "Laid against the altar's logic that two true allegiances stand engraved at once — the Advocate's doctrine that Syl'Vex weaves the same Weave to convert, the consent-mechanics of it, and what the defending cost the Advocate.", x: 62, y: 22, width: 18, height: 12, type: "interact", action: "room-mystery:guild-sanctum:the-mirror-doctrine-loom" },
+      { id: "the-sister-of-the-weave-letter", name: "The Sister-of-the-Weave Letter", description: "Where an address is witnessed and binding — the Weave's refusal to counter-convert, the Advocate's repeated canonical 'sister of the same Weave,' and her closure letter to the player.", x: 62, y: 40, width: 18, height: 12, type: "interact", action: "room-mystery:guild-sanctum:the-sister-of-the-weave-letter" },
     ],
   },
   {

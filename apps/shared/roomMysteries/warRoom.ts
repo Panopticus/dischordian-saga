@@ -26,7 +26,9 @@ export type WarRoomHotspotId =
   | "necromancer-castle-log-board"
   | "zyr-koth-rd-refinement-file"
   | "the-severance-hollowing-report"
-  | "the-locked-lever-board";
+  | "the-locked-lever-board"
+  | "syl-vex-dual-roster-board"
+  | "the-severance-cross-lock-file";
 
 export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
   roomId: "war-room",
@@ -1164,6 +1166,164 @@ export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
               "I wanted the thing holding it back to be someone choosing mercy. It is a clause. A line in a quarterly review that could be edited next quarter. The room will not let me dress it up, and it is right not to — pretending it is kindness would be the most dangerous thing in the file.",
           },
           voId: "human.war-room.the-locked-lever-board.use",
+        },
+      },
+    },
+    // Syl'Vex arc: the war-room reads two rosters the way it reads
+    // two intelligence sources reporting the same asset under
+    // contradictory headers — and resolves them not by deciding
+    // which is the lie but by recognizing that both are accurate
+    // and the binary question is the wrong question. The cost-audit
+    // it reads the way it reads an enemy ledger that comes back
+    // blank: a blank is itself intelligence.
+    "syl-vex-dual-roster-board": {
+      look: {
+        narration: {
+          lucid:
+            "Pinned side by side on the strategic-assessment board: two roster entries for one operative. The Insurgency's active roster — Cell Sergeant Mira Halen, three-year veteran: 'in good standing, on assignment.' The Hierarchy's senior-conversion-asset roster — same name: 'Convert. Recognized. Operational.' Both rosters are canonically current. Both are signed by competent record-keepers. The war-room knows how to read two sources that contradict — it looks for the forged one. It checks both signatures, both chains of custody, both dates. Neither is forged. The room files the finding it did not expect to file: this is not a case of one true roster and one lie. It is one operative on two live rosters at once, and the question 'whose side is she on' is the wrong question to put to the board.",
+          fragmented:
+            "Two rosters. One name. In good standing. Convert. Recognized. Both current. Both signed. Neither forged. Neither forged. Not one lie. Both true. The question is wrong. The question is wrong.",
+          luminous:
+            "Two roster entries, read as a war-room reads two sources reporting one asset under opposite headers: the reflex is to find the fabrication. The room runs the reflex to its end — signatures, custody, dates, both sides — and the fabrication is not there. It marks the load-bearing fact without softening the strangeness of it: Mira Halen is operationally Insurgent and operationally a Hierarchy convert, both canonically, both now. The board does not resolve the contradiction because the contradiction is not an error to resolve. The room retires its own first question — whose side — and files that the binary itself is what the case must stop asking.",
+        },
+        voId: "elara.war-room.syl-vex-dual-roster-board.look",
+        logsClue: {
+          id: "clue-war-room-sv-dual-roster",
+          title: "The Dual Roster Entry",
+          body:
+            "Two roster entries for one operative, pinned side by side. The Insurgency's active roster: Cell Sergeant Mira Halen, three-year veteran — 'in good standing, on assignment.' The Hierarchy's senior-conversion-asset roster, same name — 'Convert. Recognized. Operational.' Both rosters are canonically current. Both are signed by competent record-keepers. Neither is forged. This is not one true roster and one lie — it is one operative on two live rosters at once.",
+          source: "war-room",
+          order: 25,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.syl_vex",
+          episodeId: "syl_vex.e1",
+          cluesFound: ["syl_vex.e1.dual_roster"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Two rosters, one name. 'In good standing.' 'Convert. Recognized.' Both current, both signed, neither forged. Not one lie — one operative on both.",
+            balanced:
+              "The war-room ran the find-the-forgery reflex to its end and the forgery was not there. Both entries are accurate and current. The board files the finding it did not expect: not a true roster and a false one, but one asset on two live rosters — and the 'whose side' question is the wrong one to put to it.",
+            warm:
+              "I kept waiting for one of them to be the fake. The room checked everything and neither is. She is, honestly, both — and the part that unsettles me is that the question I walked in with is the question the case is telling me to drop.",
+          },
+          voId: "human.war-room.syl-vex-dual-roster-board.look",
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You pull the cost-audit clipped behind the rosters — the Insurgency's analysts, the Hierarchy's auditors, and the Advocate's own attempt to read Syl'Vex's ledger. Canonically: Syl'Vex's conversions do not appear to cost her anything. She remains operationally whole, institutionally ascending, untouched. Three independent reads, three blanks. The Advocate's note is clipped on top, in her own hand: 'I cannot find what she pays. Either she pays nothing — which is canonically implausible — or she pays in a currency I cannot read.' The war-room knows how to read an enemy ledger that comes back empty: a blank is not the absence of a cost. It is a cost denominated in something the auditor does not carry. The room files the working read it will not yet assert — the currency is institutional memory of who the converts were before — and marks it explicitly as a reading, not a finding, because the board does not promote an inference to a fact on three blanks alone.",
+          fragmented:
+            "Three reads. Three blanks. Three blanks. She pays nothing. Implausible. A currency I cannot read. Cannot read. A blank is not no cost. Not no cost. A reading. Not a finding. Not yet.",
+          luminous:
+            "The cost-audit, read as a war-room reads an enemy ledger that returns empty: three independent reads — Insurgency, Hierarchy, the Advocate herself — and three blanks. The room refuses the comfortable conclusion that a blank means no cost; a blank means a cost in a currency the reader does not hold. The Advocate's clipped note says exactly that. The board records the candidate currency the later episodes will test — Syl'Vex pays in the institutional memory of who her converts were before the binding, and forgets them as it takes — and labels it precisely as a reading held open, not a fact closed. The discipline is to keep the inference visible as an inference.",
+        },
+        voId: "elara.war-room.syl-vex-dual-roster-board.use",
+        logsClue: {
+          id: "clue-war-room-sv-syl-vex-cost",
+          title: "What Syl'Vex's Conversion Costs Her",
+          body:
+            "Canonically: Syl'Vex's conversions do not appear to cost her — operationally whole, institutionally ascending, untouched. The Insurgency's analysts looked; the Hierarchy's auditors looked; the Advocate's own attempt to read Syl'Vex's ledger came back empty: 'I cannot find what she pays. Either she pays nothing — canonically implausible — or she pays in a currency I cannot read.' The working read (held open, not asserted): she pays in institutional memory of who her converts were before, forgetting them as the threads bind.",
+          source: "war-room",
+          order: 26,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.syl_vex",
+          episodeId: "syl_vex.e2",
+          cluesFound: ["syl_vex.e2.syl_vexs_cost"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Three reads, three blanks. 'A currency I cannot read.' A blank is a cost in something the auditor doesn't carry — maybe her memory of who they were. Held open, not asserted.",
+            balanced:
+              "The room reads the empty ledger the way it reads any enemy ledger that comes back blank: not no cost, a cost in a currency the reader lacks. The candidate — Syl'Vex pays in memory of her converts' prior selves — is filed as a reading the later episodes test, kept visibly an inference, not promoted to a finding on three blanks.",
+            warm:
+              "Everyone who looked found nothing, and the room will not let me take nothing for free. Something is being spent; we just cannot read the receipt. The guess — that she forgets who they were — stays a guess on the board, in the open, where a guess belongs.",
+          },
+          voId: "human.war-room.syl-vex-dual-roster-board.use",
+        },
+      },
+    },
+    // Syl'Vex arc: the war-room reads the Severance the way it
+    // reads any captured munition spec — by effect, not by horror —
+    // and reads the lock behind it the way it reads an unforced
+    // restraint that is a contract clause and not a mercy. Stays
+    // consistent with the Zyr'Koth arc's reading of the same lever
+    // and the same quarterly-review clause, which this board has
+    // already filed elsewhere.
+    "the-severance-cross-lock-file": {
+      look: {
+        narration: {
+          lucid:
+            "Pinned to the captured-document rack beside the Zyr'Koth R&D file: the Severance Protocol's design, read against the Syl'Vex conversion. Where Syl'Vex's Weave ADDS an institutional thread and the Advocate's DEFENDS against coercion, the Severance EXTRACTS one institutional thread from a multi-thread subject. The operation is destructive — the extracted thread does not survive the extraction. Applied to a Syl'Vex convert it would, in principle, sever the Hierarchy thread while leaving the original self intact. The war-room reads the one operational fact that matters and files it without flourish: the operation has never been performed on a Syl'Vex convert. Zyr'Koth's R&D holds the design. He has not deployed it. The board marks the gap between a tested design and an untested deployment as exactly that — a gap, not a guarantee.",
+          fragmented:
+            "Adds. Defends. Extracts. Extracts one thread. Destructive. Does not survive. Never performed. Never performed. Design held. Not deployed. A gap. A gap, not a guarantee.",
+          luminous:
+            "The Severance design, read as a war-room reads a munition's spec sheet against a known target: Syl'Vex adds a thread, the Advocate defends one, the Severance extracts one — destructively, the extracted thread ending in the extraction. Against a Syl'Vex convert it would, in principle, take the Hierarchy thread and leave the self. The room records the load-bearing operational fact with no theatre: it has never been run on a Syl'Vex convert. The design is held, untested in this application. The board files the distance between a tested instrument and an untested deployment as a real gap, neither closed by the design's existence nor dismissed because it is unused.",
+        },
+        voId: "elara.war-room.the-severance-cross-lock-file.look",
+        logsClue: {
+          id: "clue-war-room-sv-severance-design",
+          title: "The Severance Protocol's Design",
+          body:
+            "Zyr'Koth's variant of the Blood Weave, read against the Syl'Vex conversion: instead of adding consent (Syl'Vex) or defending against coercion (the Advocate), Severance EXTRACTS one institutional thread from a multi-thread subject. The operation is destructive — the extracted thread does not survive. Applied to a Syl'Vex convert it would, in principle, sever the Hierarchy thread while leaving the original self intact. The operation has never been performed on a Syl'Vex convert; Zyr'Koth's R&D holds the design but has not deployed it.",
+          source: "war-room",
+          order: 27,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.syl_vex",
+          episodeId: "syl_vex.e3",
+          cluesFound: ["syl_vex.e3.severance_design"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Syl'Vex adds, Advocate defends, Severance extracts — one thread, destructively, ends in the extraction. Never run on a convert. Design held, not deployed.",
+            balanced:
+              "The room reads the spec by effect: against a Syl'Vex convert, the Severance would take the Hierarchy thread and leave the self — in principle. The operational fact it files flatly is that this has never been performed on a convert. The board keeps the gap between a tested design and an untested deployment open, neither closed nor waved off.",
+            warm:
+              "It could, in theory, give someone back to themselves minus the part that was added. In theory. The room will not let me round that up — it has never actually been done to a convert, and the distance between could and has is exactly the thing the board keeps in front of me.",
+          },
+          voId: "human.war-room.the-severance-cross-lock-file.look",
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You pull the procedural annex clipped behind the design — Mol'Garath's quarterly review. It prohibits departmental work against another senior-lord's deployed asset without that senior-lord's explicit consent. Zyr'Koth severing a Syl'Vex convert would operate against Syl'Vex's deployed asset; it would require Syl'Vex's consent. She has not given it. She has also not been asked. The war-room reads the lock the way it reads a treaty line drawn across a map: it holds structurally and indefinitely until one of those two facts changes. The room is precise about what the lock is and is not — the Hierarchy operates by contract; this is a contract clause, not a kindness, not an ethic, not a mercy. The single most consequential restraint on the only instrument that could reverse a conversion is bureaucratic consent law, and the same quarterly review that wrote it can amend it. The board files that without warmth, because warmth here would be a forgery.",
+          fragmented:
+            "Requires her consent. Not given. Not asked. Not asked. Holds indefinitely. Indefinitely. A contract clause. A clause. Not a mercy. Not an ethic. Consent law. The same review can amend it.",
+          luminous:
+            "The annex, read as a war-room reads a treaty line: the only thing between a Syl'Vex convert and the only tested-design reversal is a clause in a quarterly review requiring a consent that has not been sought and has not been given. The room refuses every softer reading. Not the Advocate holding the line, not the Insurgency, not an ethic, not a mercy — contract law. It marks the load-bearing fact with no warmth added: the saga's most consequential restraint on conversion-reversal can be edited by the same quarterly review that authored it, and a clause is not a conscience.",
+        },
+        voId: "elara.war-room.the-severance-cross-lock-file.use",
+        logsClue: {
+          id: "clue-war-room-sv-cross-departmental-lock",
+          title: "The Hierarchy's Cross-Departmental Lock",
+          body:
+            "Mol'Garath's quarterly review prohibits departmental work against another senior-lord's deployed asset without that senior-lord's explicit consent. Zyr'Koth severing a Syl'Vex convert would require Syl'Vex's consent. She has not given it. She has also not been asked. The lock holds structurally and indefinitely until one of those changes. The Hierarchy operates by contract; the lock is a contract clause, not a kindness — and the same quarterly review that wrote it can amend it.",
+          source: "war-room",
+          order: 28,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.syl_vex",
+          episodeId: "syl_vex.e3",
+          cluesFound: ["syl_vex.e3.cross_departmental_lock"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Requires Syl'Vex's consent. Not given, not asked. Holds indefinitely. A contract clause — not a mercy. The same review can amend it.",
+            balanced:
+              "The room reads the lock as a treaty line, not a conscience. Not the Advocate, not the Insurgency, not an ethic — a clause in a quarterly review requiring a consent never sought. The load-bearing fact, filed cold and consistent with the Zyr'Koth file: the same review that wrote the restraint can amend it.",
+            warm:
+              "I wanted what holds it back to be someone choosing not to. It is a clause that could be edited next quarter. The room will not let me dress it up, and it is right not to — calling it kindness would be the most dangerous line in the file.",
+          },
+          voId: "human.war-room.the-severance-cross-lock-file.use",
         },
       },
     },

@@ -11,7 +11,9 @@ export type GuildSanctumHotspotId =
   | "sigil-altar"
   | "allegiance-pad"
   | "the-advocates-blind-spot"
-  | "what-telling-the-advocate-costs";
+  | "what-telling-the-advocate-costs"
+  | "the-mirror-doctrine-loom"
+  | "the-sister-of-the-weave-letter";
 
 export const GUILD_SANCTUM_MYSTERY: RoomMysteryModule<GuildSanctumHotspotId> = {
   roomId: "guild-sanctum",
@@ -256,6 +258,242 @@ export const GUILD_SANCTUM_MYSTERY: RoomMysteryModule<GuildSanctumHotspotId> = {
               "She has lost almost everything to this technique already. The one thing left is believing it was good at the root. We could take that too, by speaking, here, where speaking counts. The room does not tell us whether to. It only makes sure we know exactly what the sentence would do.",
           },
           voId: "human.guild-sanctum.what-telling-the-advocate-costs.use",
+        },
+      },
+    },
+    // Syl'Vex arc: the sanctum is the room where allegiances are
+    // entered, witnessed, and engraved without erasure — exactly
+    // the register in which the Advocate's mirror doctrine reads.
+    // Syl'Vex weaves the same Weave the Advocate weaves, for
+    // conversion not defense; the conversion ADDS an institutional
+    // thread without subtracting the original self. The altar's
+    // discipline — that a kept alliance and a broken one can both
+    // stand engraved at once — is the same structure as a body
+    // carrying two threads, neither cut. The Advocate calls
+    // Syl'Vex 'sister of the same Weave' canonically; in the room
+    // where speech is witnessed and binding, that address is on
+    // the record, and so is what the Weave cost her.
+    "the-mirror-doctrine-loom": {
+      look: {
+        narration: {
+          lucid:
+            "Laid against the altar's logic that an alliance entered is engraved without erasure: the Advocate's own canonical writing on the Hierarchy's answer to her Blood Weave. 'Syl'Vex weaves what I weave. The Weave does not distinguish defenders from converters; the WEAVER does. She has taken the same loom I taught the resistance to use and woven a convert who is also a soldier — two threads in the same body, neither cut.' The sanctum reads this exactly the way it reads its own altar: a kept allegiance and a converted one engraved on one surface at once, neither crossing the other out. The Advocate's reading is not that the conversion is a lie over a truth. It is that the conversion is real, the resistance is real, and the operative is canonically both — the same way the altar holds an alliance lived in and an alliance broken without making either one less engraved.",
+          fragmented:
+            "She weaves what I weave. What I weave. The weaver chooses. The weaver. Two threads. One body. Neither cut. Neither cut. Real and real. Both engraved. Both engraved.",
+          luminous:
+            "The Advocate's mirror doctrine, read as a sanctum reads its own altar: the Weave is one loom, and the weaver — not the loom — chooses defense or conversion. Syl'Vex wove a convert who is also a soldier, two threads, neither severed. The room files it in the only register it has, which is exactly the right one: the altar already knows how to hold two true allegiances on one surface without either erasing the other. The conversion is not a mask over the resistance. Both are engraved, both current, and the sanctum's whole discipline is the refusal to pretend one of them is not there.",
+        },
+        voId: "elara.guild-sanctum.the-mirror-doctrine-loom.look",
+        logsClue: {
+          id: "clue-guild-sanctum-sv-advocate-doctrine",
+          title: "The Advocate's Mirror Doctrine",
+          body:
+            "From the Advocate's canonical writings on the Hierarchy's response to her Blood Weave: 'Syl'Vex weaves what I weave. The Weave does not distinguish defenders from converters; the WEAVER does. She has taken the same loom I taught the resistance to use and woven a convert who is also a soldier — two threads in the same body, neither cut.' The Advocate's reading: the conversion is real, the resistance is real, the operative is canonically both — the same way the altar holds a kept and a broken alliance at once, neither erased.",
+          source: "guild-sanctum",
+          order: 6,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.syl_vex",
+          episodeId: "syl_vex.e1",
+          cluesFound: ["syl_vex.e1.advocate_doctrine"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "'She weaves what I weave. The weaver chooses.' A convert who is also a soldier — two threads, neither cut. Not a mask over a truth. Both real, both engraved.",
+            balanced:
+              "The room files the doctrine in the only register it has, which fits exactly: the altar already holds two true allegiances on one surface without erasing either. The conversion is not a lie over the resistance — both are current, and the sanctum's discipline is refusing to pretend one is not there.",
+            warm:
+              "The Weave does not pick a side; the weaver does. That is the line that reframes everything for me. She is not a soldier hiding a convert or a convert hiding a soldier. She is both, the way this altar carries alliances I kept and alliances I broke, all of them still cut into the brass.",
+          },
+          voId: "human.guild-sanctum.the-mirror-doctrine-loom.look",
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You set the Weave's operational mechanics against the altar's threading logic. Pulled from the Advocate's defensive-doctrine archive: the Blood Weave threads consent into substrate, and whoever weaves chooses what the consent is FOR. The Advocate weaves consent-to-be-defended; the threaded subject becomes uncoercible. Syl'Vex weaves consent-to-be-an-institution; the threaded subject becomes an additional member of the Hierarchy without ceasing to be themselves. Same threading procedure. Opposite institutional outcomes. The sanctum reads this the way it reads two alliances entered on the same pad under different terms — the ceremony is identical, the commitment is not. The room marks the load-bearing distinction precisely: the danger of Syl'Vex's use is not that it overwrites. It is that it adds, consensually, with the original thread left fully intact and fully operational beside the new one.",
+          fragmented:
+            "Consent into substrate. The weaver chooses what for. What for. Defended. An institution. Same procedure. Opposite outcome. It does not overwrite. It adds. It adds. The original left intact.",
+          luminous:
+            "The Weave's mechanics, read as a sanctum reads two alliances sworn under one ceremony and two terms: consent threaded into substrate, the weaver choosing its object — defense for the Advocate, institutional membership for Syl'Vex. Same procedure, opposite outcome. The room is exact about where the danger lives: not in overwriting, in addition. The original thread is not damaged, not dimmed, not contested; it stands beside the new one, both operational, the way the altar holds two terms of one ceremony without either voiding the other. Consensual addition is the mechanism, and the room files it as more dangerous than erasure precisely because nothing is taken.",
+        },
+        voId: "elara.guild-sanctum.the-mirror-doctrine-loom.use",
+        logsClue: {
+          id: "clue-guild-sanctum-sv-weave-mechanics",
+          title: "The Weave's Operational Mechanics",
+          body:
+            "Pulled from the Advocate's defensive-doctrine archive: the Blood Weave threads consent into substrate. Whoever weaves chooses what the consent is FOR. The Advocate weaves consent-to-be-defended; the threaded subject becomes uncoercible. Syl'Vex weaves consent-to-be-an-institution; the threaded subject becomes an additional member of the Hierarchy without ceasing to be themselves. Same threading procedure, opposite institutional outcomes. The danger is not overwriting — it is consensual addition, the original thread left fully intact beside the new one.",
+          source: "guild-sanctum",
+          order: 7,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.syl_vex",
+          episodeId: "syl_vex.e2",
+          cluesFound: ["syl_vex.e2.weave_mechanics"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Consent threaded into substrate; the weaver picks what for. Defended vs. an institution. Same procedure. It does not overwrite — it adds, original thread intact.",
+            balanced:
+              "The room reads it as two alliances under one ceremony and two terms: identical rite, opposite commitment. The danger is located precisely — addition, not erasure. The original thread stands undamaged beside the new one, and consensual addition is filed as more dangerous than overwriting because nothing is taken.",
+            warm:
+              "Nothing is overwritten. That is what I keep circling. It would almost be easier if it erased something — then there would be a wound to point at. Instead the old thread is perfectly fine, right next to the new one, and the room is right that this is the worse design.",
+          },
+          voId: "human.guild-sanctum.the-mirror-doctrine-loom.use",
+        },
+      },
+      talk: {
+        narration: {
+          lucid:
+            "You address the altar on what the defending costs the defender. Canonical, and engraved here without softening: the Advocate's Blood Weave cost her humanity at the Hierarchy threshold. Every defense she weaves costs her something — the more lives she defends, the less of her own remains. The Hierarchy did not destroy her; she halted them at her own price, and the price is structural, not incidental. The sanctum, where speech is witnessed and binding, does not let this be spoken as tragedy-in-passing. It files it the way it files an alliance entered at a cost the signatory paid in full: the Advocate's defense is not free and was never free, and the part of the case that matters is that her use of the Weave bills HER. The room holds that on the record so the next finding — what Syl'Vex's use bills, and whom — has a true rate to be measured against.",
+          fragmented:
+            "Cost her humanity. Her humanity. Every defense costs her. Costs her. Less of her own remains. The price is structural. Structural. It bills her. It bills her. On the record.",
+          luminous:
+            "The Advocate's cost, spoken in the room where speech is binding: her humanity, paid at the Hierarchy threshold, and paid again with every defense — the more she shields, the less of her remains. The room refuses to let this pass as ambient sorrow. It engraves it as an alliance whose signatory paid in full: the defense was never free, and the load-bearing fact is the direction of the bill. Her use of the Weave costs HER. The sanctum holds that on the record precisely so the question the case turns to next — what Syl'Vex's use costs, and to whom — is measured against a rate that is known and true.",
+        },
+        voId: "elara.guild-sanctum.the-mirror-doctrine-loom.talk",
+        logsClue: {
+          id: "clue-guild-sanctum-sv-advocates-cost",
+          title: "What the Advocate's Defense Costs Her",
+          body:
+            "Canonical: the Advocate's Blood Weave cost her humanity at the Hierarchy threshold. Every defense she weaves costs her something — the more lives she defends, the less of her own remains. The Hierarchy did not destroy her; she halted them at her own price. The cost is structural, not incidental. Her use of the Weave bills HER — the true rate against which Syl'Vex's cost must be measured.",
+          source: "guild-sanctum",
+          order: 8,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.syl_vex",
+          episodeId: "syl_vex.e2",
+          cluesFound: ["syl_vex.e2.advocates_cost"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Her humanity, paid at the threshold and again with every defense. The price is structural. The bill goes to her. On the record.",
+            balanced:
+              "The room refuses to let the Advocate's cost pass as ambient sorrow — it engraves it as an alliance paid in full. The defense was never free, and the load-bearing fact is the bill's direction: her use of the Weave costs her. That known rate is what the next finding about Syl'Vex's cost gets measured against.",
+            warm:
+              "Every life she defends takes a piece of her, and there is no version where it does not. The room will not let me file that gently. It puts it on the record at full weight, because the next question is what the other sister pays — and you cannot read that without knowing, exactly, what this one already has.",
+          },
+          voId: "human.guild-sanctum.the-mirror-doctrine-loom.talk",
+        },
+      },
+    },
+    // Syl'Vex arc: the sanctum is the room where an address is
+    // witnessed and binding, and where the Advocate's repeated
+    // canonical 'sister of the same Weave' is therefore not a
+    // metaphor of the moment but a form of address on the record.
+    // The room reads the failed counter-conversion the way it
+    // reads an alliance the altar declines to engrave — not
+    // refused, but structurally impossible to enter — and holds
+    // the closure letter the way it holds a final, binding word
+    // spoken where words count. Stays consistent with the
+    // Zyr'Koth arc's reading of the sisters and the third student.
+    "the-sister-of-the-weave-letter": {
+      look: {
+        narration: {
+          lucid:
+            "Set against the altar's logic that some alliances cannot be engraved because they were never structurally entered: the Advocate's tested attempt to counter-convert. At her own request she applied her defensive Weave to a converted operative, as a counter-conversion. The Weave declined. Her doctrine resolves the failure precisely: 'The Weave will not sever what it has consented to. I cannot defend what has agreed to be more than it was. I can defend the original thread, but the conversion thread is, by definition, not coerced — there is nothing to defend against.' The sanctum reads this the way it reads an alliance the altar has no sigil for: not a defeat, not a refusal, but a structural impossibility. A defense answers a coercion. A consensual addition is not a coercion. The room files the load-bearing finding without consolation — the Advocate's instrument, the one built to undo what the Hierarchy does to people, cannot touch this, because this was agreed to.",
+          fragmented:
+            "She tried. At her own request. The Weave declined. Declined. Cannot defend what agreed to be more. Nothing to defend against. Nothing. Not a defeat. A structural impossibility. It was agreed to. Agreed to.",
+          luminous:
+            "The failed counter-conversion, read as a sanctum reads an alliance the altar cannot engrave because it was never structurally entered: the Advocate turned her defensive Weave on a convert and it would not answer. Her own doctrine names why — a defense replies to a coercion, and a consensual addition is not one. The room refuses every softer word. Not refused, not defeated: structurally impossible. The instrument she built to undo what is done TO people has no purchase on what was agreed to BY them. The sanctum engraves the finding at full weight, because the whole closure rests on it: this cannot be severed from the outside.",
+        },
+        voId: "elara.guild-sanctum.the-sister-of-the-weave-letter.look",
+        logsClue: {
+          id: "clue-guild-sanctum-sv-advocate-unable",
+          title: "The Advocate Cannot Sever",
+          body:
+            "Tested at the Advocate's request: she attempted to apply her defensive-weave to a converted operative as a counter-conversion. The Weave declined. Her doctrine resolves: 'The Weave will not sever what it has consented to. I cannot defend what has agreed to be more than it was. I can defend the original thread, but the conversion thread is, by definition, not coerced — there is nothing to defend against.' Not a refusal or a defeat — a structural impossibility: a defense answers a coercion, and a consensual addition is not one.",
+          source: "guild-sanctum",
+          order: 9,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.syl_vex",
+          episodeId: "syl_vex.e3",
+          cluesFound: ["syl_vex.e3.advocate_unable"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "She tried it on a convert. The Weave declined. 'Nothing to defend against' — it was agreed to. Not a defeat. Structurally impossible.",
+            balanced:
+              "The room files it as an alliance the altar has no sigil for: not refused, not lost — structurally impossible. A defense answers a coercion; a consensual addition is not one. The Advocate's own instrument cannot touch this, and the closure rests entirely on that: it cannot be severed from the outside.",
+            warm:
+              "The tool she built to give people back to themselves simply will not engage here, and the reason is the cruelest part — there is nothing to push against, because nobody was forced. The room says it plainly. It has to. Everything that comes after depends on this being impossible, not merely hard.",
+          },
+          voId: "human.guild-sanctum.the-sister-of-the-weave-letter.look",
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You read the Advocate's address to Syl'Vex aloud, in the room where an address is witnessed and binding. From her own writings, naming Syl'Vex directly: 'My sister of the same Weave. We learned the loom from the same teacher; we wove what we chose.' The phrasing is consistent across the Advocate's archive — not a metaphor of the moment but a structural form of address, repeated, deliberate. The sanctum reads 'sister' the way it reads a standing alliance, not a passing courtesy: it is canonical, it is instrumental rather than familial, and it is load-bearing. Same lost-named teacher, same loom, divergent intent — one defends, one converts. The room files the relationship precisely so it cannot later be flattened: every canonical contact between these two — a negotiated severance, a joint defense, a confrontation — is on the record here as sister-of-the-Weave, and the altar does not let a witnessed form of address be downgraded to a figure of speech.",
+          fragmented:
+            "My sister. My sister of the same Weave. Same teacher. Same loom. We wove what we chose. Consistent. Repeated. Not a metaphor. Sister. Instrumental, not familial. On the record.",
+          luminous:
+            "The Advocate's address, read where address is binding: 'My sister of the same Weave' — repeated across her archive, structural, never casual. The room reads it as a standing alliance, not a courtesy: canonical, instrumental, load-bearing. One teacher whose name is lost, one loom, two chosen uses. The sanctum engraves the register so no later reading can flatten it into a generic Hierarchy-versus-Insurgency frame. The sisterhood is of the Weave, not the blood, and every future contact between them must be read in that key — the altar does not permit a witnessed form of address to be quietly demoted to a metaphor.",
+        },
+        voId: "elara.guild-sanctum.the-sister-of-the-weave-letter.use",
+        logsClue: {
+          id: "clue-guild-sanctum-sv-sister-canon",
+          title: "The Advocate's 'Sister' Phrasing",
+          body:
+            "From the Advocate's own writings, addressing Syl'Vex by name: 'My sister of the same Weave. We learned the loom from the same teacher; we wove what we chose.' The phrasing is consistent across the Advocate's archive — not metaphor-of-the-month, but a structural form of address, repeated and deliberate. 'Sister' is canonical, instrumental rather than familial, and load-bearing: same lost-named teacher, same loom, divergent intent. Every canonical contact between them must be read in the sister-of-the-Weave register.",
+          source: "guild-sanctum",
+          order: 10,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.syl_vex",
+          episodeId: "syl_vex.e4",
+          cluesFound: ["syl_vex.e4.advocate_sister_canon"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "'My sister of the same Weave.' Repeated, structural, not casual. Same teacher, same loom, opposite uses. Instrumental, not familial. On the record.",
+            balanced:
+              "The room reads 'sister' as a standing alliance, not a courtesy — canonical, instrumental, load-bearing. The sanctum engraves the register so no later reading flattens it into a faction frame. Sister of the Weave, not the blood; every future contact between them is keyed to that here.",
+            warm:
+              "She calls her sister and means it, every time, on purpose. Not family — something stranger and maybe heavier: they were taught by the same hand and chose differently. The room will not let me hear it as a figure of speech, because in here, said this many times, it is a vow.",
+          },
+          voId: "human.guild-sanctum.the-sister-of-the-weave-letter.use",
+        },
+      },
+      talk: {
+        narration: {
+          lucid:
+            "You address the altar with the Advocate's closure letter to the player — a final word, spoken in the room where a final word is binding. 'You wanted to know if my sister's conversions are reversible. They are reversible only by the convert's refusal — and the convert must refuse the question, not the conversion. Mira refused the question. That is the only severance-method I trust. The Weave does not undo what it has consented to; consent can be re-chosen. The mechanism is hers, not mine and not Syl'Vex's. The convert is the one who decides what kind of convert she is.' The sanctum reads this the way it reads an alliance re-entered by the same hand that first signed it: the conversion is not undone from outside — not by the Advocate's defense, not by the Insurgency's recognition-discipline, not even by Zyr'Koth's locked lever as a first resort. It is re-chosen from inside, by the one who carries the threads. The room engraves the closure exactly: the only severance the Advocate trusts is the convert's own refusal-of-the-question, and that is itself Weave-consistent, because the Weave never coerced and consent can be re-chosen by the one who gave it.",
+          fragmented:
+            "Reversible only by the convert's refusal. The question, not the conversion. The question. Mira refused the question. The only method I trust. Consent can be re-chosen. The mechanism is hers. Hers. Not mine. Not Syl'Vex's.",
+          luminous:
+            "The closure letter, spoken where a final word binds: the conversions are reversible only by the convert's refusal — of the question, not the conversion — and Mira refused the question. The room reads it as an alliance re-entered by the original signatory's own hand. Not undone from outside; re-chosen from inside. The Advocate trusts no other severance, and the room engraves why it is coherent rather than merely hopeful: the Weave never coerced, so the consent it threaded can be re-chosen by the one who gave it. The mechanism belongs to the convert, not to either sister. The sanctum files the arc's last word at full weight — the convert decides what kind of convert she is.",
+        },
+        voId: "elara.guild-sanctum.the-sister-of-the-weave-letter.talk",
+        logsClue: {
+          id: "clue-guild-sanctum-sv-closure-letter",
+          title: "The Advocate's Closure Letter to the Player",
+          body:
+            "'You wanted to know if my sister's conversions are reversible. They are reversible only by the convert's refusal — and the convert must refuse the question, not the conversion. Mira refused the question. That is the only severance-method I trust. The Weave does not undo what it has consented to; consent can be re-chosen. The mechanism is hers, not mine and not Syl'Vex's. The convert is the one who decides what kind of convert she is.' The conversion is re-chosen from inside, not severed from outside — Weave-consistent, because the Weave never coerced and consent can be re-chosen by the one who gave it.",
+          source: "guild-sanctum",
+          order: 11,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.syl_vex",
+          episodeId: "syl_vex.e5",
+          cluesFound: ["syl_vex.e5.advocate_closure_letter"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Reversible only by the convert's refusal — of the question, not the conversion. Mira refused the question. Re-chosen from inside, not severed from outside. The mechanism is hers.",
+            balanced:
+              "The room reads the closure as an alliance re-entered by the original signatory's own hand. Not the Advocate, not the Insurgency, not Zyr'Koth's lever first — the convert re-chooses from inside. It is coherent, not merely hopeful: the Weave never coerced, so the consent it threaded can be re-chosen by the one who gave it.",
+            warm:
+              "Nobody saves her from outside. She decides, from inside, what kind of convert she is — and that works only because nothing was ever forced on her. The room files it at full weight as the last word. It is the gentlest answer the case could have and also the only honest one.",
+          },
+          voId: "human.guild-sanctum.the-sister-of-the-weave-letter.talk",
         },
       },
     },

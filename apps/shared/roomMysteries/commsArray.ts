@@ -27,7 +27,8 @@ export type CommsArrayHotspotId =
   | "voice-in-the-static"
   | "ocularum-relay-trace"
   | "dead-drop-cadence-log"
-  | "shadow-tongue-signal-trace";
+  | "shadow-tongue-signal-trace"
+  | "miras-dual-thread-transmission";
 
 export type CommsArrayInventoryId = "static-fragment-recording";
 
@@ -592,6 +593,86 @@ export const COMMS_ARRAY_MYSTERY: RoomMysteryModule<
               "Every person who ever saw an unauthorized resurrection has aged off the committee, and the people left have only been told about it. So they relaxed the rules, gently, the way you relax rules about a danger you have never personally met. The relay keeps it because the operation is still running.",
           },
           voId: "human.comms-array.shadow-tongue-signal-trace.talk",
+        },
+      },
+    },
+    // Syl'Vex arc: the comms-array is where a transmission is
+    // received and authenticated — the room whose whole discipline
+    // is telling a true signal from a forged one and refusing to
+    // hear what is not in the carrier. Mira's letter home and her
+    // later answer both arrive here as transmissions; the relay
+    // reads them by what the signal actually carries, not by what
+    // the listener wishes it carried. The Insurgency's discipline-
+    // of-recognition is, in this room's idiom, signal authentication.
+    "miras-dual-thread-transmission": {
+      look: {
+        narration: {
+          lucid:
+            "A transmission buffered on the relay's personal channel: Cell Sergeant Mira Halen's letter home, sent from her current assignment. The relay plays it back unremarkable — operational status, the weather, regards to the cell. The handwriting is hers; the Insurgency's discipline-of-recognition team has authenticated it, and that team has been operationally reliable for thousands of years. The comms-array reads a signal the way it always does: by what the carrier actually contains, not by what a listener braced for. It scans the transmission for the markers it knows how to find — duress, distress, coded distress, the micro-irregularities of a hand writing under coercion. The carrier is clean. The room files the finding flatly and refuses to dress it: Mira is, by every measurable indicator, fine and operationally Insurgent. There is no hidden tremor in the signal because the signal has none.",
+          fragmented:
+            "Her letter. Sent home. Unremarkable. The handwriting is hers. Recognition team authenticated it. No duress. No distress. No coercion in the carrier. Clean. Clean. She is fine. Fine and Insurgent.",
+          luminous:
+            "Mira's letter, read as the comms-array reads any received transmission: by the carrier, not the wish. The relay runs the authentication the Insurgency's millennia-reliable recognition-discipline already ran and reaches the same place — the hand is hers, and the signal carries no duress, no distress, no coercion-irregularity anywhere in it. The room refuses to invent a tremor the carrier does not hold. It files the unembellished finding: by every measurable indicator she is fine and operationally Insurgent. The strangeness of the case is not in this signal. This signal is exactly what it says it is.",
+        },
+        voId: "elara.comms-array.miras-dual-thread-transmission.look",
+        logsClue: {
+          id: "clue-comms-array-sv-mira-letter",
+          title: "Mira's Letter to Her Cell",
+          body:
+            "A transmission on the relay's personal channel: Cell Sergeant Mira Halen's letter home, sent from her current assignment. Unremarkable — operational status, weather, regards to the cell. The handwriting is hers; the Insurgency's discipline-of-recognition team (operationally reliable for thousands of years) authenticated it. The carrier contains no markers of duress, distress, or coercion. Mira is, by every measurable indicator, fine and operationally Insurgent. There is no hidden tremor — the signal has none.",
+          source: "comms-array",
+          order: 12,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.syl_vex",
+          episodeId: "syl_vex.e1",
+          cluesFound: ["syl_vex.e1.mira_letter"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Letter home, unremarkable. Hand authenticated by a millennia-reliable team. No duress, no distress in the carrier. Clean. She is fine and Insurgent.",
+            balanced:
+              "The room reads the transmission by what the carrier holds, not what we braced for, and runs the same authentication the Insurgency's recognition-discipline already ran. The signal is clean. It files the flat finding and refuses to invent a tremor: by every measurable indicator she is fine and operationally Insurgent.",
+            warm:
+              "I went in expecting to find the cry for help hidden under the weather and the regards. It is not there. The room will not let me hear one that the signal does not carry. She is, as far as anything can measure, genuinely fine — and that is the part that unsettles me most.",
+          },
+          voId: "human.comms-array.miras-dual-thread-transmission.look",
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You pull the later transmission clipped to the same channel — Mira's answer to the question the Insurgency and the player put to her directly: which thread would you cut if forced. The relay plays it back with the long pause intact. 'I refuse the question. I am both. If you make me cut one, I will cut the cell that asked. The Insurgency taught me to refuse coercive binaries. So did the Weave. The two teachings agree on this.' She does not return to the Hierarchy's record. She does not leave the Insurgency's record. She continues operating on both as before. The comms-array reads the answer the way it reads a signal that refuses the frequency it was hailed on: it is not noise and it is not evasion — it is a transmission deliberately sent off the band the question demanded. The room files the closure exactly. The convert was not severed from outside. She re-chose from inside, by refusing the question rather than the conversion — and the room marks, without flourish, that the Insurgency's own anti-coercion doctrine and the Weave arrive at the same instruction, which is why the answer holds.",
+          fragmented:
+            "I refuse the question. I refuse it. I am both. I will cut the cell that asked. Refuse coercive binaries. The Insurgency taught me. So did the Weave. They agree. They agree. She stays on both. On both.",
+          luminous:
+            "Mira's answer, received as the comms-array receives a signal that will not answer on the frequency it was hailed: not noise, not evasion — a deliberate refusal of the band the question demanded. 'I refuse the question. I am both.' She does not leave either record; she continues on both. The room reads the closure as the arc's last transmission and files it precisely: the conversion was not undone from outside but re-chosen from inside, the question refused rather than the conversion. The relay marks the load-bearing convergence flatly — the Insurgency's anti-coercion doctrine and the Weave issue the same instruction, and that agreement is exactly why the refusal is stable rather than merely defiant.",
+        },
+        voId: "elara.comms-array.miras-dual-thread-transmission.use",
+        logsClue: {
+          id: "clue-comms-array-sv-miras-answer",
+          title: "Mira's Answer",
+          body:
+            "Asked directly, 'Which thread would you cut if forced?', Mira's answer after a long pause: 'I refuse the question. I am both. If you make me cut one, I will cut the cell that asked. The Insurgency taught me to refuse coercive binaries. So did the Weave. The two teachings agree on this.' She does not return to the Hierarchy's record, does not leave the Insurgency's, and continues on both. The conversion was re-chosen from inside by refusing the question, not the conversion — stable because the Insurgency's anti-coercion doctrine and the Weave issue the same instruction.",
+          source: "comms-array",
+          order: 13,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.syl_vex",
+          episodeId: "syl_vex.e5",
+          cluesFound: ["syl_vex.e5.miras_answer"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "'I refuse the question. I am both.' Cut one and she cuts the cell that asked. Stays on both records. Re-chosen from inside, not severed from outside.",
+            balanced:
+              "The room receives it as a signal that will not answer on the frequency it was hailed — not evasion, a deliberate refusal of the band. It files the closure precisely: the conversion was re-chosen from inside by refusing the question. The Insurgency's anti-coercion doctrine and the Weave agree, which is why the refusal is stable.",
+            warm:
+              "They asked her to choose and she refused the asking, not the being-both — and threatened to cut the people who would make her choose. The room files it as the last word. The reason it holds and is not just defiance is that her own side's doctrine and the Weave told her the same thing. That agreement is the whole closure.",
+          },
+          voId: "human.comms-array.miras-dual-thread-transmission.use",
         },
       },
     },

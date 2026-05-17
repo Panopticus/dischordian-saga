@@ -32,7 +32,8 @@ export type AntiquarianLibraryHotspotId =
   | "varkul-testimony-boundary-file"
   | "akai-shi-witness-statements"
   | "necromancer-case-closing-ledger"
-  | "zyr-koth-sisters-and-closing-ledger";
+  | "zyr-koth-sisters-and-closing-ledger"
+  | "syl-vex-sisters-of-the-weave";
 
 export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHotspotId> = {
   roomId: "antiquarian-library",
@@ -2464,6 +2465,88 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
               "All three are true to what we found, and the room refuses to choose for us — the condemnation, the grim defense, and the cold non-answer all stand. The man who would hold no position on his own weapon does not get to pass this to us pre-decided. We carry whichever we offer, honestly, including the one that leaves the horror open.",
           },
           voId: "human.antiquarian-library.zyr-koth-sisters-and-closing-ledger.talk",
+        },
+      },
+    },
+    // Syl'Vex arc: the archive indexes by who witnessed a thing,
+    // and the Blood Weave's pedigree is a witness record with one
+    // instructor's name lost and one student's name struck. The
+    // Antiquarian files the shared-teacher provenance the way he
+    // files any disputed attribution — precisely, and only as far
+    // as the record permits. The third-student slot is the same
+    // deliberately-preserved canon-gap the Zyr'Koth cross-catalogue
+    // already declines to fill; this hotspot holds it open by the
+    // same discipline, recording the convergence of USE without
+    // ever asserting the convergence of IDENTITY.
+    "syl-vex-sisters-of-the-weave": {
+      look: {
+        narration: {
+          lucid:
+            "Cross-referenced against the pre-Severance Thaloria archive and indexed under the Antiquarian's glyph for a lineage with a name worn off it: the Blood Weave was taught by a single instructor in the era before the Severance. That instructor's name is canonically lost — not struck, not redacted, simply not preserved by the people who should have preserved it. Three named students survive in the record: the Advocate, Syl'Vex, and a third whose name was struck from the Hierarchy's record. The archive holds the load-bearing fact plainly: the Advocate and Syl'Vex learned the same instrument from the same teacher. They are not metaphor-sisters. They are sisters of the loom — same lesson, divergent intent, one defends and one converts. The room files the provenance exactly, because a shared origin read as a generic Hierarchy-versus-Insurgency rivalry is the most expensive misfiling the case could make.",
+          fragmented:
+            "One instructor. One. The name lost. Not struck — lost. Three students. The Advocate. Syl'Vex. A third. A third. Same teacher. Same loom. One defends. One converts. Sisters of the loom. Sisters.",
+          luminous:
+            "The pedigree, read as the archive reads a lineage with the founder's name worn off: one pre-Severance instructor, name unpreserved rather than removed; three students, one of whom the Hierarchy struck. The room marks the structural register and refuses the cheap one — the Advocate and Syl'Vex are sisters of the Weave because they learned one instrument from one hand, then chose opposite uses of it. The relationship is instrumental, not familial, and load-bearing precisely there. Every later canonical contact between them — a negotiated severance, a joint defense, a confrontation — must be read in the sister-of-the-loom register the archive files here, not flattened into a faction map.",
+        },
+        voId: "elara.antiquarian-library.syl-vex-sisters-of-the-weave.look",
+        logsClue: {
+          id: "clue-antiquarian-sv-shared-teacher",
+          title: "The Shared Teacher",
+          body:
+            "Cross-referenced against the Antiquarian's pre-Severance Thaloria archive: the Blood Weave was taught by a single instructor in the era before the Severance. The instructor's name is canonically lost. Three named students survive in the record: the Advocate, Syl'Vex, and a third whose name was struck from the Hierarchy's record. The Advocate and Syl'Vex learned the same instrument from the same teacher — sisters of the Weave instrumentally, not familially: same lesson, divergent intent.",
+          source: "antiquarian-library",
+          order: 57,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.syl_vex",
+          episodeId: "syl_vex.e4",
+          cluesFound: ["syl_vex.e4.shared_teacher"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "One teacher, name lost. Three students — Advocate, Syl'Vex, a third struck out. Same loom. One defends, one converts. Sisters instrumentally, not by blood.",
+            balanced:
+              "The archive files the provenance exactly: a single pre-Severance instructor whose name was not preserved, three students, one removed by the Hierarchy. The Advocate and Syl'Vex share the loom, not a bloodline. The room refuses the faction-map reading because a shared origin misfiled as a rivalry is the costliest error the case could make.",
+            warm:
+              "They were taught by the same person, whose name no one bothered to keep. That is the part that stays with me — not the rivalry, the shared classroom no one wrote down. The room will not let me turn that into a simple two-sides story, and it is right not to. Same hand taught them both; they only chose differently.",
+          },
+          voId: "human.antiquarian-library.syl-vex-sisters-of-the-weave.look",
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You pull the marginalia-leaf the Antiquarian keeps clipped behind the pedigree, filed under the same glyph he uses for a record with a name removed on purpose. The third student's name was struck from the Hierarchy's record in the Severance year. The leaf carries one preserved line and nothing more: 'the third chose the use neither of them did.' What that use was is canonically unknown. Whether the third still exists is canonically unknown. The room is exact about the shape of the gap: the Severance is, in the saga's record, a use neither the Advocate nor Syl'Vex chose — but the archive records that convergence of USE without writing it into a convergence of IDENTITY. The Antiquarian, whose whole discipline is the precision of attribution, does not fill a slot the canon struck deliberately. He keeps it recognizable so it can be filled the day canon permits, and not one day before.",
+          fragmented:
+            "The third. The name struck. Struck in the Severance year. One line. One line. The use neither of them did. Neither of them. Use, not identity. Use, not identity. The slot stays open. The slot stays open.",
+          luminous:
+            "The marginalia-leaf, read as the archive reads a name removed on purpose: the third student struck from the record the Severance year, marked only by a choice — 'the use neither of them did.' The room sets the Severance beside it as the use neither the Advocate nor Syl'Vex took, and stops there with deliberate exactness. A match of use is not a match of name. The Antiquarian's finest instrument is the one that knows when not to write; he files the convergence and leaves the identity where the Hierarchy left it — struck, recognizable, and reserved for the day the canon, not the case, supplies the name.",
+        },
+        voId: "elara.antiquarian-library.syl-vex-sisters-of-the-weave.use",
+        logsClue: {
+          id: "clue-antiquarian-sv-third-student",
+          title: "The Third Student, Struck from the Record",
+          body:
+            "The third Blood Weave student's name was struck from the Hierarchy's record in the Severance year. The Antiquarian holds a marginalia-only reference: 'the third chose the use neither of them did.' The third's choice is canonically unknown; whether the third still exists is canonically unknown. The Severance is the use neither the Advocate nor Syl'Vex chose — but the archive records the match of USE only, not a match of IDENTITY, and holds the struck-name slot deliberately open.",
+          source: "antiquarian-library",
+          order: 58,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.syl_vex",
+          episodeId: "syl_vex.e4",
+          cluesFound: ["syl_vex.e4.third_student"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Third name struck the Severance year. One line survives: 'chose the use neither of them did.' The Severance is that use. Match of use. Not the name. Slot stays open.",
+            balanced:
+              "The archive sets the Severance beside the struck line as the use neither sister took, then stops exactly there. A match of use is not a match of identity. The Antiquarian files the convergence and refuses to write the name into a slot the canon struck on purpose — recognizable, reserved, not the case's to fill.",
+            warm:
+              "It would be so easy to say the third is the one who severs. The room will not, and that restraint is the discipline. The name was struck deliberately; the most honest thing the archive can do is keep the silence the exact shape it found it. The use lines up. The name is not ours to write in.",
+          },
+          voId: "human.antiquarian-library.syl-vex-sisters-of-the-weave.use",
         },
       },
     },
