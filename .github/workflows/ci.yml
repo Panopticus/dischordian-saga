@@ -170,8 +170,16 @@ jobs:
         # for THIS PR — it verifies the orphan bootstrap path. Once
         # the reconciliation lands, this flag should come down so
         # migrate failures fail the job again.
+        #
+        # Use `db:migrate` (not `db:migrate:prod`): the :prod alias is
+        # `guard-db-migrate-prod.ts && drizzle-kit migrate`, and the
+        # guard exit(2)s unless NODE_ENV=production. CI is non-prod, so
+        # :prod short-circuits the `&&` and drizzle-kit migrate NEVER
+        # runs — leaving an empty schema and failing the smoke check
+        # below. `db:migrate` is the unguarded alias the guard's own
+        # docstring directs non-prod environments to use.
         continue-on-error: true
-        run: pnpm db:migrate:prod
+        run: pnpm db:migrate
 
       - name: Run fresh-DB smoke test (orphan bootstraps + DDL assertions)
         run: pnpm db:smoke
@@ -285,8 +293,13 @@ jobs:
         # Same continue-on-error gate as the db-smoke job — see the
         # journal-drift discussion above. The seed/server steps still
         # run; missing tables surface as a Playwright spec failure.
+        #
+        # `db:migrate` (not `db:migrate:prod`): the :prod guard
+        # exit(2)s in non-prod CI, short-circuiting `&& drizzle-kit
+        # migrate` so the schema would never be created at all. See
+        # the db-smoke job comment for the full rationale.
         continue-on-error: true
-        run: pnpm db:migrate:prod
+        run: pnpm db:migrate
 
       - name: Seed E2E test user
         run: pnpm seed:e2e-user
