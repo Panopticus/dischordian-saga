@@ -107,6 +107,42 @@ export function getXpSource(id: string): XpSource | undefined {
   return XP_SOURCES.find(s => s.id === id);
 }
 
+/** Per-UTC-day XP-source ledger: day → sourceId → award count. */
+export type DailyXpLedger = Record<string, Record<string, number>>;
+
+/**
+ * Balance F2 — pure daily-cap accounting. Given the persisted
+ * ledger, decide whether one more award of `sourceId` on `utcDay`
+ * is allowed under the source's declared `dailyCap`, and return the
+ * next ledger to persist.
+ *
+ * The returned ledger is pruned to `utcDay` only — prior days are
+ * irrelevant once the UTC day rolls over, so the stored blob stays
+ * O(distinct sources today) instead of growing forever.
+ *
+ * `dailyCap === undefined` ⇒ unlimited source (always allowed); the
+ * count is still tracked (cheap, and useful for analytics/UI).
+ */
+export function consumeDailyXpCap(
+  ledger: DailyXpLedger | null | undefined,
+  utcDay: string,
+  sourceId: string,
+  dailyCap: number | undefined,
+): { allowed: boolean; ledger: DailyXpLedger } {
+  const today: Record<string, number> = { ...(ledger?.[utcDay] ?? {}) };
+  const used = today[sourceId] ?? 0;
+  if (dailyCap !== undefined && used >= dailyCap) {
+    return { allowed: false, ledger: { [utcDay]: today } };
+  }
+  today[sourceId] = used + 1;
+  return { allowed: true, ledger: { [utcDay]: today } };
+}
+
+/** UTC calendar day (YYYY-MM-DD) for daily-cap bucketing. */
+export function utcDayKey(now: Date = new Date()): string {
+  return now.toISOString().slice(0, 10);
+}
+
 /* ─── REWARD TIERS ─── */
 
 export interface TierReward {

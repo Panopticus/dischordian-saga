@@ -11,6 +11,7 @@ import {
   getTierFromXp, getTierProgress, getXpSource, MAX_TIER,
   PREMIUM_COST_DREAM, XP_SOURCES, TOTAL_PASS_XP, SEASON_LENGTH_DAYS,
   generateSeasonRewards, getSeasonThemeFromPressure, SEASONAL_THEMES,
+  consumeDailyXpCap, utcDayKey,
   type SeasonTheme,
 } from "@shared/battlePassConfig";
 import { pressureService } from "../services/pressureService";
@@ -173,10 +174,9 @@ export const battlePassRouter = router({
     // Balance F2 — was the only XP-writing procedure with no rate
     // limit (the deprecated sibling `addXp` is capped + 5/min
     // precisely because client-trusted XP writes are exploitable).
-    // The rate limit bounds the previously-unbounded faucet; the
-    // source's declared `dailyCap` is additionally clamped per call
-    // below. A durable per-UTC-day cap ledger is the proper follow-up
-    // (needs a schema column) — tracked, not silently dropped.
+    // Two independent bounds now apply: this rate limit caps burst,
+    // and the source's declared `dailyCap` is enforced durably via
+    // the battle_pass_progress.dailyXpLedger column (see below).
     .use(procedureRateLimit({ windowMs: 60_000, max: 5 }))
     .input(z.object({ actionId: z.string() }))
     .mutation(async ({ ctx, input }) => {
@@ -219,6 +219,30 @@ export const battlePassRouter = router({
       const p = progress[0]!;
       if (p.currentTier >= MAX_TIER) return { success: true, maxed: true };
 
+      // Balance F2 — enforce the source's declared per-UTC-day cap
+      // durably (the rate limit bounds burst; this bounds the daily
+      // total). Unknown column during the boot window before the
+      // ledger bootstrap runs ⇒ `p.dailyXpLedger` is undefined and we
+      // simply track from empty; the rate limit still applies.
+      const utcDay = utcDayKey();
+      const cap = consumeDailyXpCap(
+        p.dailyXpLedger,
+        utcDay,
+        source.id,
+        source.dailyCap,
+      );
+      if (!cap.allowed) {
+        return {
+          success: true,
+          capped: true,
+          actionId: input.actionId,
+          xpAdded: 0,
+          newXp: p.currentXp,
+          newTier: p.currentTier,
+          message: `Daily cap reached for ${source.label}`,
+        };
+      }
+
       // Apply prestige multiplier
       const prestigeMult = await getPrestigeMultiplier(ctx.user.id);
       let finalXp = Math.round(source.xp * prestigeMult);
@@ -234,7 +258,7 @@ export const battlePassRouter = router({
       const newTier = Math.min(getTierFromXp(newXp), season[0].totalTiers);
 
       await db.update(battlePassProgress)
-        .set({ currentXp: newXp, currentTier: newTier })
+        .set({ currentXp: newXp, currentTier: newTier, dailyXpLedger: cap.ledger })
         .where(eq(battlePassProgress.id, p.id));
 
       return { success: true, actionId: input.actionId, xpAdded: finalXp, newXp, newTier };

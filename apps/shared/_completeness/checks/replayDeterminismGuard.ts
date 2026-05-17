@@ -58,8 +58,10 @@ const PROBES: ReadonlyArray<Probe> = [
   {
     name: "replay.test.ts pins a literal final-state hash",
     file: "apps/shared/tcg-core/replay/replay.test.ts",
+    // Matches either an inline `expect(...finalStateHash).toBe("<hex>")`
+    // or a pinned-hash constant tied to the final state.
     pattern:
-      /finalStateHash[\s\S]{0,200}?\b(?:toBe|toEqual)\(\s*["'][0-9a-f]{12,}["']/,
+      /(?:finalStateHash[\s\S]{0,200}?\b(?:toBe|toEqual)\(\s*["'][0-9a-f]{12,}["']|FINAL_STATE_HASH\s*=\s*["'][0-9a-f]{12,}["'])/,
     hint: "assert finalStateHash against a pinned hex literal so a reduce() semantics change fails CI; re-pinning the literal IS the deliberate version-bump review gate",
   },
 ];
