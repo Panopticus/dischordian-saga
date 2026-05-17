@@ -917,7 +917,10 @@ describe("Achievement Tracker", () => {
     // title_progression_mastered, titles_earned_mystery.
     const { CARD_ACHIEVEMENTS } = await import("./routers/cardAchievements");
     expect(CARD_ACHIEVEMENTS.length).toBe(40);
-  });
+    // First dynamic import of cardAchievements transitively loads the
+    // card engine; the 5s default is too tight under full-suite worker
+    // contention (passes in <1s isolated). Assertion unchanged.
+  }, 30_000);
 
   it("should have achievements across all categories", async () => {
     const { CARD_ACHIEVEMENTS } = await import("./routers/cardAchievements");
