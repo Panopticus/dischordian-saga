@@ -13,9 +13,15 @@
  *   - risen_fate         → necromancerReturn.SYSTEM_IMPACTS
  *                          contains a pet_battles Risen effect
  *                          AND theComingCanon has the
- *                          first_coming stage.
+ *                          first_coming stage;
+ *   - companion_distinction → the pet species identity space
+ *                          (petSpeciesTraits) is non-empty and
+ *                          disjoint from the reactive crew
+ *                          roster (companionBattleReactions.
+ *                          getReactiveCompanionIds) — Pets are
+ *                          not crew Companions.
  *
- * Every declared binding's anchor must be one of the four and
+ * Every declared binding's anchor must be one of the five and
  * each anchor must actually resolve. No ratchet — a Pets
  * origin that does not resolve is a loose thread, not canon.
  */
@@ -29,6 +35,7 @@ import { PET_SPECIES_TRAITS } from "../../petSpeciesTraits";
 import { breedPets } from "../../petBreeding";
 import { SYSTEM_IMPACTS } from "../../necromancerReturn";
 import { getComingStage } from "../../theComingCanon";
+import { getReactiveCompanionIds } from "../../companionBattleReactions";
 import type { RawParityCount } from "../types";
 
 function anchorResolves(anchor: string): boolean {
@@ -49,6 +56,14 @@ function anchorResolves(anchor: string): boolean {
         ),
       );
       return hasRisenPetImpact && getComingStage("first_coming") !== undefined;
+    }
+    case "companion_distinction": {
+      const petSpecies = Object.keys(PET_SPECIES_TRAITS);
+      const crewIds = getReactiveCompanionIds();
+      if (petSpecies.length === 0 || crewIds.length === 0) return false;
+      const crewSet = new Set(crewIds);
+      // Pets and crew Companions must be disjoint identity spaces.
+      return petSpecies.every((s) => !crewSet.has(s));
     }
     default:
       return false;
@@ -84,6 +99,7 @@ export function checkPetOriginCoverage(): RawParityCount {
     "species_registry",
     "breeding_mechanic",
     "risen_fate",
+    "companion_distinction",
   ]) {
     if (!seenAnchors.has(required)) {
       missing.push(`pet origin is missing the '${required}' binding`);

@@ -17304,6 +17304,26 @@
       "type": "event",
       "name": "The Baton of Volume Nineteen",
       "bio": "At the Convergence the Antiquarian lays down the pen. Volume Eighteen of the Antiquarian's Chronicles closes; Volume Nineteen opens in the player's hand. 'I would like to read what you are about to write. Begin.' Each turn of the continuing loop is a page of Volume Nineteen \u2014 the Cycle records what the player writes; the Antiquarian only reads. The canonical handoff from chronicler to player."
+    },
+    {
+      "id": "entity_123",
+      "type": "concept",
+      "name": "The Pets",
+      "aliases": ["Imprint-Creatures", "Companion Imprints"],
+      "era": "Epoch Zero",
+      "date_aa": "",
+      "date_ad": "",
+      "season": "",
+      "affiliation": "Bound to the player; reclaimed by the First Coming",
+      "status": "Active — consciousness-imprints in companion form",
+      "bio": "The Pets are consciousness-imprints on the Matrix of Dreams given companion form — the same ontology the Game Master's archive locks for the imprint cards: every pet is an archived mind re-played as a living companion. They are bred not by biology but by imprint-recombination, two archived patterns folded into a third. They are distinct from the crew Companions — Elara and the Human — who are people with their own arcs, not bred imprints.",
+      "history": "Because a pet is an imprint, the First Coming claims it. As community resurrection-energy climbs toward the Necromancer's return, pets' injury-cries deepen and turn mournful; at the threshold they can rise as the Risen — stronger, but uncontrollable — and at catastrophe every dead pet returns as an uncontrolled Risen version. The Pets are the First Coming felt at the companion scale, threading into the same return the saga's spine bends toward. Their species — holographic fox, data serpent, temporal kitten, and the rest — are not arbitrary stat blocks but the stable shapes an imprint settles into; an unknown shape still battles, it simply does not yet sing in the party's synergy.",
+      "connections": ["The Necromancer", "The Source", "Kael", "The Game Master", "Elara"],
+      "conexus_stories": [],
+      "song_appearances": [],
+      "image": "",
+      "priority": "normal",
+      "cluster": "cosmology"
     }
   ],
   "relationships": [

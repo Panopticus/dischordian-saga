@@ -16,6 +16,15 @@
      third. Species traits (petSpeciesTraits) are the stable
      shapes those imprints settle into.
 
+   DISTINCT FROM CREW COMPANIONS.
+     Pets are creature-imprints in companion FORM; they are
+     NOT the crew Companions (companion.ts: Elara, the Human),
+     who are people with their own arcs, not bred imprints.
+     The two identity spaces are disjoint at runtime — pet
+     species (petSpeciesTraits) never overlap the reactive
+     crew roster (companionBattleReactions.getReactiveCompanion-
+     Ids). The parity gate proves the disjointness.
+
    FATE — the Risen.
      Because a pet is an imprint, the First Coming claims it.
      When community resurrection-energy crosses its threshold
@@ -31,10 +40,11 @@
    HARD: the origin binding must resolve the Matrix-of-Dreams
    ontology (imprintSummoningCanon), the species registry must
    be non-empty (petSpeciesTraits), the breeding mechanic must
-   exist (petBreeding), and the Risen fate must be wired
-   (necromancerReturn pet_battles Risen impact). A Pets origin
-   that does not resolve its anchors is a loose thread, not a
-   canon.
+   exist (petBreeding), the Risen fate must be wired
+   (necromancerReturn pet_battles Risen impact), and the
+   Pets-vs-crew-Companions distinction must hold (pet species
+   disjoint from the reactive crew roster). A Pets origin that
+   does not resolve its anchors is a loose thread, not a canon.
    ═══════════════════════════════════════════════════════ */
 
 export interface PetOriginBinding {
@@ -47,14 +57,15 @@ export interface PetOriginBinding {
     | "imprint_ontology"
     | "species_registry"
     | "breeding_mechanic"
-    | "risen_fate";
+    | "risen_fate"
+    | "companion_distinction";
   loreSource: string;
 }
 
 export const PET_ORIGIN_PREMISE = {
   title: "On the Pets as Imprint-Creatures",
   thesis:
-    "A pet is a consciousness-imprint on the Matrix of Dreams given companion form. It is bred by imprint-recombination and, being an imprint, it answers the First Coming: the Risen are the Pets the Necromancer's return reclaims.",
+    "A pet is a consciousness-imprint on the Matrix of Dreams given companion form — a creature-imprint distinct from the crew Companions (Elara and the Human), who are people, not bred imprints. It is bred by imprint-recombination and, being an imprint, it answers the First Coming: the Risen are the Pets the Necromancer's return reclaims.",
   spineRole:
     "The Pets are the First Coming (Necromancer = halfway) felt at companion scale — the same imprint ontology as cards, the same Risen fate the Necromancer's return reclaims.",
 } as const;
@@ -92,6 +103,15 @@ export const PET_ORIGIN_BINDINGS: readonly PetOriginBinding[] = [
     anchor: "risen_fate",
     loreSource:
       "apps/shared/necromancerReturn.ts (pet_battles Risen impacts) + apps/shared/theComingCanon.ts (first_coming) + apps/shared/vortexTerminusCanon.ts",
+  },
+  {
+    id: "pet_companion_distinction",
+    title: "Pets are imprint-creatures, not crew Companions",
+    premise:
+      "A pet wears companion FORM but is a bred imprint, not a person. The crew Companions (companion.ts: Elara, the Human) are people with their own arcs. The two identity spaces are disjoint at runtime: no pet species (petSpeciesTraits) is a member of the reactive crew roster (companionBattleReactions.getReactiveCompanionIds).",
+    anchor: "companion_distinction",
+    loreSource:
+      "apps/shared/companion.ts (CompanionSpeaker — Elara, the Human) + apps/shared/companionBattleReactions.ts (getReactiveCompanionIds — the crew roster) + apps/shared/petSpeciesTraits.ts (PET_SPECIES_TRAITS — the pet identity space)",
   },
 ];
 

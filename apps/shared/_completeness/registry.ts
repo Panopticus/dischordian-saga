@@ -1031,7 +1031,7 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     id: "canon.pet_origin_coverage",
     name: "Pet origin canon coverage",
     description:
-      "Hard parity (PR-23): the Pets' narrative origin (apps/shared/petOriginCanon.ts) resolves all four anchors — the Matrix-of-Dreams imprint ontology (imprintSummoningCanon), the species registry (petSpeciesTraits), the breeding mechanic (petBreeding.breedPets), and the Risen fate (necromancerReturn pet_battles Risen impacts + theComingCanon.first_coming). Pets are the First Coming felt at companion scale; the last loose thread is bound to the spine.",
+      "Hard parity (PR-23): the Pets' narrative origin (apps/shared/petOriginCanon.ts) resolves all five anchors — the Matrix-of-Dreams imprint ontology (imprintSummoningCanon), the species registry (petSpeciesTraits), the breeding mechanic (petBreeding.breedPets), the Risen fate (necromancerReturn pet_battles Risen impacts + theComingCanon.first_coming), and the Pets-vs-crew-Companions distinction (pet species disjoint from companionBattleReactions.getReactiveCompanionIds — Pets are imprint-creatures, not the crew Companions Elara/the Human). Pets are the First Coming felt at companion scale; the last loose thread is bound to the spine, and the origin is surfaced player-facing in the LORE_BIBLE 'The Pets' entry.",
     check: () => checkPetOriginCoverage(),
   },
 ];

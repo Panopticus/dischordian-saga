@@ -7,7 +7,7 @@
 - [Characters](#characters) (136)
 - [Factions](#factions) (17)
 - [Locations](#locations) (26)
-- [Concepts](#concepts) (210)
+- [Concepts](#concepts) (211)
 - [Events](#events) (45)
 - [Artifacts](#artifacts) (16)
 - [Songs & Transmissions](#songs-transmissions) (118)
@@ -9579,6 +9579,36 @@ The Order's continuous vetting record on a candidate recruit — every choice ma
 ### Dossier
 
 The Ocularum's standing position on a warlord-fragmented sister: the body is hers; the seizure is reversible in principle; the Order will not act until the body indicates she has begun to remember on her own. The Order will not approach. The Order will not intervene. The Order waits. The cell remains hers — her number, whatever it was, remains in the continuity log as held open, not refilled. The dignity of impossible rescues is in their patience.
+
+---
+
+## The Pets
+
+*Also known as: Imprint-Creatures, Companion Imprints*
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Epoch Zero |
+| **Affiliation** | Bound to the player; reclaimed by the First Coming |
+| **Status** | Active — consciousness-imprints in companion form |
+| **Priority** | normal |
+
+### Dossier
+
+The Pets are consciousness-imprints on the Matrix of Dreams given companion form — the same ontology the Game Master's archive locks for the imprint cards: every pet is an archived mind re-played as a living companion. They are bred not by biology but by imprint-recombination, two archived patterns folded into a third. They are distinct from the crew Companions — Elara and the Human — who are people with their own arcs, not bred imprints.
+
+### History
+
+Because a pet is an imprint, the First Coming claims it. As community resurrection-energy climbs toward the Necromancer's return, pets' injury-cries deepen and turn mournful; at the threshold they can rise as the Risen — stronger, but uncontrollable — and at catastrophe every dead pet returns as an uncontrolled Risen version. The Pets are the First Coming felt at the companion scale, threading into the same return the saga's spine bends toward. Their species — holographic fox, data serpent, temporal kitten, and the rest — are not arbitrary stat blocks but the stable shapes an imprint settles into; an unknown shape still battles, it simply does not yet sing in the party's synergy.
+
+### Connections
+
+- Elara
+- Kael
+- The Game Master
+- The Necromancer
+- The Source
 
 ---
 
