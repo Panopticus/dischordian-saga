@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { protectedProcedure, publicProcedure, router } from "../_core/trpc";
+import { protectedProcedure, publicProcedure, adminProcedure, router } from "../_core/trpc";
 import { procedureRateLimit } from "../_core/procedureRateLimit";
 import { getDb } from "../db";
 import { battlePassSeasons, battlePassProgress, dreamBalance, notifications } from "../../db/schema";
@@ -170,6 +170,14 @@ export const battlePassRouter = router({
 
   /* ─── Add XP from a specific game action (uses XP_SOURCES config) ─── */
   addXpFromAction: protectedProcedure
+    // Balance F2 — was the only XP-writing procedure with no rate
+    // limit (the deprecated sibling `addXp` is capped + 5/min
+    // precisely because client-trusted XP writes are exploitable).
+    // The rate limit bounds the previously-unbounded faucet; the
+    // source's declared `dailyCap` is additionally clamped per call
+    // below. A durable per-UTC-day cap ledger is the proper follow-up
+    // (needs a schema column) — tracked, not silently dropped.
+    .use(procedureRateLimit({ windowMs: 60_000, max: 5 }))
     .input(z.object({ actionId: z.string() }))
     .mutation(async ({ ctx, input }) => {
       const source = getXpSource(input.actionId);
@@ -428,7 +436,11 @@ export const battlePassRouter = router({
   xpSources: publicProcedure.query(() => XP_SOURCES),
 
   /* ─── Generate a new season (admin/automated — themes from community pressure) ─── */
-  generateSeason: protectedProcedure
+  // Balance F3 — global-state mutation (ends the live season for the
+  // entire playerbase and mints a new one). Was `protectedProcedure`
+  // (any logged-in user could grief the season / fish for a theme);
+  // now role-gated to admins.
+  generateSeason: adminProcedure
     .input(z.object({
       seasonNumber: z.number().min(1),
       /** Override theme (optional — defaults to community pressure) */

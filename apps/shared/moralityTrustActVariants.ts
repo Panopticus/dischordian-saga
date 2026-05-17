@@ -98,6 +98,15 @@ export interface MoralityTrustActVariant {
    */
   requiredFlags?: readonly string[];
   /**
+   * Continuity audit F1/F2 — negative-flag gate. If ANY listed flag
+   * is set, this variant must NOT resolve. Closes the cross-branch
+   * contradiction where a warm/confidant companion line (gated only
+   * on a global trust scalar that nothing decrements) fired after the
+   * player betrayed that companion on the Act-4 Path-C route. Omitted
+   * means unrestricted.
+   */
+  forbiddenFlags?: readonly string[];
+  /**
    * audit/16 PR 4 (Cluster D — finding C1).
    *
    * Optional cinematic id to crossfade an `AnimatedPortrait` to when
@@ -233,6 +242,7 @@ function specificityScore(v: MoralityTrustActVariant): number {
   if (v.trust !== "any") s += 3;
   if (v.act !== "any") s += 2;
   if (v.requiredFlags && v.requiredFlags.length) s += v.requiredFlags.length;
+  if (v.forbiddenFlags && v.forbiddenFlags.length) s += v.forbiddenFlags.length;
   if (v.timeWindow && (v.timeWindow.startsAt || v.timeWindow.endsAt)) s += 2;
   if (v.relatedClues && v.relatedClues.length) s += 1;
   return s;
@@ -278,6 +288,12 @@ function gatesMatch(
   if (v.act !== "any" && input.narrativeAct !== v.act) return false;
   if (v.requiredFlags) {
     for (const f of v.requiredFlags) if (!input.flags.has(f)) return false;
+  }
+  // Continuity F1/F2 — negative-flag gate. A single set forbidden
+  // flag disqualifies the variant (e.g. no warm Elara line once
+  // `act4_broken_trust` is set).
+  if (v.forbiddenFlags) {
+    for (const f of v.forbiddenFlags) if (input.flags.has(f)) return false;
   }
   // audit/16 PR 4 — calendar window gate. Variants without a window
   // always pass; variants with a window only pass if `now` falls inside.
@@ -432,6 +448,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
   },
   {
     id: "bridge_act6_confidant_elara",
+    forbiddenFlags: ["act4_broken_trust"],
     surface: "room",
     targetId: "bridge",
     text:
@@ -507,6 +524,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
   },
   {
     id: "cabin_act5_warm_elara",
+    forbiddenFlags: ["act4_broken_trust"],
     surface: "room",
     targetId: "cabin",
     text:
@@ -736,6 +754,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
   },
   {
     id: "elara_trust_confidant_act4",
+    forbiddenFlags: ["act4_broken_trust"],
     surface: "npc_line",
     targetId: "elara_any",
     text:
@@ -747,6 +766,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
   },
   {
     id: "elara_trust_warm_act4",
+    forbiddenFlags: ["act4_broken_trust"],
     surface: "npc_line",
     targetId: "elara_any",
     text:
@@ -1122,6 +1142,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
   /* ─── EXPANSION PASS 2 — MORE NPC LINES ─── */
   {
     id: "elara_trust_confidant_act6",
+    forbiddenFlags: ["act4_broken_trust"],
     surface: "npc_line",
     targetId: "elara_any",
     text:
@@ -1133,6 +1154,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
   },
   {
     id: "elara_trust_confidant_act7",
+    forbiddenFlags: ["act4_broken_trust"],
     surface: "npc_line",
     targetId: "elara_any",
     text:
@@ -2466,6 +2488,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
   /* ─── EXPANSION PASS 5 — trust × morality cross-gated entries ─── */
   {
     id: "elara_confidant_humanity_act6",
+    forbiddenFlags: ["act4_broken_trust"],
     surface: "npc_line",
     targetId: "elara_any",
     text:
@@ -2477,6 +2500,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
   },
   {
     id: "elara_confidant_humanity_act7",
+    forbiddenFlags: ["act4_broken_trust"],
     surface: "npc_line",
     targetId: "elara_any",
     text:
@@ -2488,6 +2512,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
   },
   {
     id: "elara_confidant_machine_act6",
+    forbiddenFlags: ["act4_broken_trust"],
     surface: "npc_line",
     targetId: "elara_any",
     text:
@@ -2642,6 +2667,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
   },
   {
     id: "cabin_confidant_humanity_elara_act7",
+    forbiddenFlags: ["act4_broken_trust"],
     surface: "room",
     targetId: "cabin",
     text:
@@ -2653,6 +2679,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
   },
   {
     id: "cabin_confidant_machine_elara_act7",
+    forbiddenFlags: ["act4_broken_trust"],
     surface: "room",
     targetId: "cabin",
     text:
@@ -2675,6 +2702,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
   },
   {
     id: "bridge_confidant_humanity_elara_act6",
+    forbiddenFlags: ["act4_broken_trust"],
     surface: "room",
     targetId: "bridge",
     text:
@@ -2686,6 +2714,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
   },
   {
     id: "bridge_confidant_machine_elara_act7",
+    forbiddenFlags: ["act4_broken_trust"],
     surface: "room",
     targetId: "bridge",
     text:
@@ -2697,6 +2726,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
   },
   {
     id: "war_room_confidant_humanity_elara_act7",
+    forbiddenFlags: ["act4_broken_trust"],
     surface: "room",
     targetId: "war-room",
     text:
@@ -2741,6 +2771,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
   },
   {
     id: "comms_array_confidant_humanity_elara_act7",
+    forbiddenFlags: ["act4_broken_trust"],
     surface: "room",
     targetId: "comms-relay",
     text:
@@ -2763,6 +2794,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
   },
   {
     id: "transmission_elara_private_confidant_act7",
+    forbiddenFlags: ["act4_broken_trust"],
     surface: "transmission",
     targetId: "elara_private_confidant_act7",
     text:
@@ -2787,6 +2819,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
   /* ─── EXPANSION PASS 6 — trust × morality × flag (4-gate) ─── */
   {
     id: "bridge_act4_pathA_confidant_humanity",
+    forbiddenFlags: ["act4_broken_trust"],
     surface: "room",
     targetId: "bridge",
     text:
@@ -2799,6 +2832,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
   },
   {
     id: "bridge_act4_pathC_warm_humanity",
+    forbiddenFlags: ["act4_broken_trust"],
     surface: "room",
     targetId: "bridge",
     text:
@@ -2823,6 +2857,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
   },
   {
     id: "cabin_act1_light_confidant_humanity",
+    forbiddenFlags: ["act4_broken_trust"],
     surface: "room",
     targetId: "cabin",
     text:
@@ -2835,6 +2870,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
   },
   {
     id: "cabin_act1_dark_confidant_humanity",
+    forbiddenFlags: ["act4_broken_trust"],
     surface: "room",
     targetId: "cabin",
     text:
@@ -2858,6 +2894,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
   },
   {
     id: "war_room_act5_confidant_humanity_elara",
+    forbiddenFlags: ["act4_broken_trust"],
     surface: "room",
     targetId: "war-room",
     text:
@@ -2918,6 +2955,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
   },
   {
     id: "elara_pathA_confidant_humanity_act4",
+    forbiddenFlags: ["act4_broken_trust"],
     surface: "npc_line",
     targetId: "elara_any",
     text:
@@ -2930,6 +2968,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
   },
   {
     id: "elara_pathC_warm_humanity_act5",
+    forbiddenFlags: ["act4_broken_trust"],
     surface: "npc_line",
     targetId: "elara_any",
     text:
@@ -3061,6 +3100,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
   },
   {
     id: "transmission_kael_echo_confidant_humanity_act7",
+    forbiddenFlags: ["act4_broken_trust"],
     surface: "transmission",
     targetId: "kael_echo_confidant_humanity_act7",
     text:
@@ -3073,6 +3113,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
   },
   {
     id: "wheel_followup_act4_pathA_oracle_confidant",
+    forbiddenFlags: ["act4_broken_trust"],
     surface: "wheel_followup",
     targetId: "act4_pathA_oracle_confidant",
     text:
@@ -3099,6 +3140,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
   },
   {
     id: "wheel_followup_act7_humanity_confidant_elara",
+    forbiddenFlags: ["act4_broken_trust"],
     surface: "wheel_followup",
     targetId: "act7_humanity_confidant",
     text:
@@ -3112,6 +3154,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
   },
   {
     id: "wheel_followup_act7_bridge_confidant_both",
+    forbiddenFlags: ["act4_broken_trust"],
     surface: "wheel_followup",
     targetId: "act7_bridge_confidant",
     text:
@@ -3312,6 +3355,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
   },
   {
     id: "elara_balanced_warm_act5",
+    forbiddenFlags: ["act4_broken_trust"],
     surface: "npc_line",
     targetId: "elara_any",
     text:

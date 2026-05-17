@@ -112,6 +112,8 @@ import { checkActCloseCutsceneCoverage } from "./checks/actCloseCutsceneCoverage
 import { checkTheComingCoverage } from "./checks/theComingCoverage";
 import { checkVortexTerminusCoverage } from "./checks/vortexTerminusCoverage";
 import { checkPetOriginCoverage } from "./checks/petOriginCoverage";
+import { checkReplayDeterminismGuard } from "./checks/replayDeterminismGuard";
+import { checkStoreSkuParity } from "./checks/storeSkuParity";
 import {
   checkNeyonCanonicalRosterCoverage,
   checkArchonCanonicalRosterCoverage,
@@ -234,6 +236,22 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "procedureRateLimit factory exists + applied to high-risk mutations: store.createCheckout, cardGame.createDeck, cardGame.updateDeck, account.acceptAgreement. Hard parity — removing the decoration silently degrades abuse defense.",
     check: () => checkProcedureRateLimits(),
+  },
+  {
+    id: "server.replay_determinism_guard",
+    name: "Replay determinism guard",
+    description:
+      "Persistence F1/F2: the RULES_VERSION/replay-pin contract must be wired, not doc-only — replay execution gated on versionCompatible, the server verifier reads rulesVersion, and replay.test.ts pins a literal final-state hash. Ratcheted: surfaces the currently-unwired determinism gap as a mechanical, non-regressing row (audit's prescribed first step) until the engine is pinned/gated.",
+    check: () => checkReplayDeterminismGuard(),
+    ratchet: { target: 0 },
+  },
+  {
+    id: "economy.store_sku_parity",
+    name: "Store SKU parity (web/iOS/Android)",
+    description:
+      "Balance F7: every real-money product (priceUsd > 0) in products.ts must carry web/iOS/Android store SKUs in a server-side catalog cross-checked by iapReceipt. CLAUDE.md's definition-of-shipped lists this; it was tracked-not-shipped. Ratcheted: surfaces the full SKU-mapping gap mechanically until the catalog lands.",
+    check: () => checkStoreSkuParity(),
+    ratchet: { target: 0 },
   },
   // ─── Server / observability ───────────────────────────────
   {
