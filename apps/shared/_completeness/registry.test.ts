@@ -165,4 +165,35 @@ describe("completeness registry — well-formedness", () => {
       expect(result.implemented).toBeGreaterThan(0);
     });
   });
+
+  describe("narrative.mystery_clue_foundin_parity", () => {
+    it("is registered as a hard-parity (un-ratcheted) Mystery Engine entry", () => {
+      const entry = COMPLETENESS_REGISTRY.find(
+        (e) => e.id === "narrative.mystery_clue_foundin_parity",
+      );
+      expect(entry, "entry must be registered").toBeDefined();
+      // Hard parity: a dead-hint is always a bug, never an accepted
+      // backlog. Absence of `ratchet` is what makes any gap a FAIL.
+      expect(entry?.ratchet).toBeUndefined();
+    });
+
+    it("holds at zero gap — every bound clue's foundIn names a room that binds it", async () => {
+      const entry = COMPLETENESS_REGISTRY.find(
+        (e) => e.id === "narrative.mystery_clue_foundin_parity",
+      )!;
+      const result = await runParityCheck(entry, {
+        version: 1,
+        worstByEntry: {},
+      });
+      // The check must be doing real work (every bound, hinted clue).
+      expect(result.declared).toBeGreaterThan(0);
+      // Hard parity invariant: no clue may point its foundIn hint at
+      // a room that does not bind it. Any mismatch is listed.
+      expect(
+        result.notes ?? [],
+        `clue foundIn ⇄ binding-room mismatches:\n${(result.notes ?? []).join("\n")}`,
+      ).toEqual([]);
+      expect(result.implemented).toBe(result.declared);
+    });
+  });
 });

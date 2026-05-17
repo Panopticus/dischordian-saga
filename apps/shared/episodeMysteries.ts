@@ -324,7 +324,7 @@ const wraithE3: EpisodeDefinition = {
       id: "wraith.e3.living_pairs_ledger" as ClueId,
       title: "Currently-Active Syndicate Pairs",
       body: "The Antiquarian's Journal entry ep3-09 lists three Syndicate pairs still operating: pair 2 (Feet), pair 4 (Voices), pair 6 (Witnesses). Pair 6 — The Witnesses — are the Information Twins. The Word and the Silence are the same pair the player just interrogated.",
-      foundIn: "antiquarian-library",
+      foundIn: "order-tribunal",
     },
   ],
   deductions: [
@@ -719,7 +719,7 @@ const jerichoE1: EpisodeDefinition = {
       id: "jericho.e1.degens_ledger" as ClueId,
       title: "The Degen's Ledger Entry — Iron Lion Training",
       body: "A single line in the Degen's running ledger: 'Iron Lion training — Jericho Jones — fee deferred.' No deferral period. No collateral. No interest schedule. The Degen has never written 'fee deferred' in any other entry across the ledger's 412 pages. The line is in his own hand.",
-      foundIn: "casino",
+      foundIn: "engineering",
     },
     {
       id: "jericho.e1.heart_of_time_manifest" as ClueId,
@@ -840,7 +840,7 @@ const jerichoE2: EpisodeDefinition = {
       id: "jericho.e2.degen_witness" as ClueId,
       title: "The Degen — Witness Page Signature",
       body: "The Degen's witness page: a single line of script with no narration. 'Witnessed. The act was correct under contested doctrine. The witness reserves judgment on whether contested doctrine should be the standard.' Signed within the hour, as the trainee manifest's witnesses-of-the-act protocol requires. The reservation-of-judgment line is, in the Degen's documents, a tell — he uses it only when he has not yet decided what the act will cost.",
-      foundIn: "comms-array",
+      foundIn: "engineering",
     },
     {
       id: "jericho.e2.akai_shi_recording" as ClueId,
@@ -952,7 +952,7 @@ const jerichoE3: EpisodeDefinition = {
       id: "jericho.e3.dream_loom_capture" as ClueId,
       title: "Dream-Loom Capture #J-0411",
       body: "The Dreams Workshop loom captured a recurring dream from Jericho — the same scene played fourteen nights in a row. A bridge in a valley. A machine army approaching from the south. The dreamer holds his ground for three hours, forty-seven minutes. Jericho has never been to the Bridge of Kael. The pre-Fall Iron Lion held that bridge for exactly that duration before his death.",
-      foundIn: "dreams-workshop",
+      foundIn: "dreams-workshop-subbasement",
     },
     {
       id: "jericho.e3.lionism_imprint_protocol" as ClueId,
@@ -970,7 +970,7 @@ const jerichoE3: EpisodeDefinition = {
       id: "jericho.e3.iron_lion_grip_anomaly" as ClueId,
       title: "Sparring-Bay Recording — Grip Anomaly",
       body: "Sparring footage from the Heart of Time shows Jericho switching mid-form to a rifle-grip he was never trained on — a wider Lion-callsign hand-position used by the pre-Fall holder. Jericho is unconscious of the switch. The Degen, watching, marks the moment in his ledger: 'imprint live.' The note is dated three weeks into Jericho's training, two weeks before the dreams started.",
-      foundIn: "engineering",
+      foundIn: "medical-bay",
     },
   ],
   deductions: [
@@ -1078,7 +1078,7 @@ const jerichoE4: EpisodeDefinition = {
       id: "jericho.e4.imprint_dream_argument" as ClueId,
       title: "Imprint Dream — Two Lions Arguing",
       body: "The Dreams Workshop loom captured a second recurring dream from Jericho: he stands on the Bridge of Kael with the pre-Fall Iron Lion beside him. They argue about Akai Shi. The pre-Fall Lion reads the Section 4 mercy clause aloud. Jericho reads the Threshold Doctrine. Neither concedes. The argument loops; in every iteration, the pre-Fall Lion ends with the same line: 'You did the right thing under your code. So did I, under mine. The hard part is that we are now the same person.'",
-      foundIn: "dreams-workshop",
+      foundIn: "dreams-workshop-subbasement",
     },
     {
       id: "jericho.e4.akai_shi_witness_choice" as ClueId,
@@ -2546,7 +2546,7 @@ const gameMasterE1: EpisodeDefinition = {
       id: "game_master.e1.cult_curated_log" as ClueId,
       title: "Game Masters' Curated Log — Archon Ed. 47",
       body: "The cult-published edition of the Game Master's working logs — 47th edition, dated last year. Reading carefully: every entry that names the Hierarchy of the Damned without praise has been softened or removed. Every entry that names the Goggles has been re-attributed to a misplaced research instrument. The custodial edits are not concealment; they are sanctification. The Game Masters are turning their dead Archon into a saint.",
-      foundIn: "antiquarian-library",
+      foundIn: "archives",
     },
     {
       id: "game_master.e1.matrix_unedited_fragment" as ClueId,
@@ -2558,13 +2558,13 @@ const gameMasterE1: EpisodeDefinition = {
       id: "game_master.e1.xethraal_acquisition_paperwork" as ClueId,
       title: "Xeth'Raal — Goggles Acquisition Paperwork",
       body: "The Hierarchy of the Damned's CFO, Xeth'Raal, filed the Goggles acquisition paperwork within one hour of the Game Master's destruction. The paperwork is filed under the standard custodial-collection clause. The paperwork is impeccable. Every clause of the Game Master's protection contract was honoured — and his death was, by the contract's strict reading, not a breach. The Goggles transferred legally. He died protected, and they took his work the same day.",
-      foundIn: "trade-hub",
+      foundIn: "station-dock",
     },
     {
       id: "game_master.e1.iron_lion_signal" as ClueId,
       title: "Iron Lion's Signal — Dream-Loom Capture",
       body: "The Dreams Workshop loom captured a signal originating inside the Matrix of Dreams: Iron Lion's consciousness-imprint, asking unauthored questions. The questions match no scenario the Game Masters published. Whatever the Iron Lion imprint is asking, it learned to ask after his archived behaviour was supposed to be deterministic. Either the Game Master designed the imprint to grow, or something inside the Matrix is teaching it to.",
-      foundIn: "dreams-workshop",
+      foundIn: "dreams-workshop-subbasement",
     },
   ],
   deductions: [
@@ -2669,7 +2669,7 @@ const gameMasterE2: EpisodeDefinition = {
       id: "game_master.e2.imprint_acceptance_signal" as ClueId,
       title: "Iron Lion Imprint — Acceptance Signal",
       body: "The Dreams Workshop loom captured a new pattern in Jericho's recurring dream: the pre-Fall Iron Lion turns toward the player and speaks, briefly. 'Tell whoever has been editing me carefully that I am grateful. Tell them I know the work is theirs, not the Archon's. Tell them they have been more honest in this than the people who hired them.' The imprint is acknowledging Velkraal directly. It is, on the evidence, capable of recognising its editor.",
-      foundIn: "dreams-workshop",
+      foundIn: "dreams-workshop-subbasement",
     },
   ],
   deductions: [
@@ -2770,13 +2770,13 @@ const gameMasterE3: EpisodeDefinition = {
       id: "game_master.e3.imprint_endorsement_letter" as ClueId,
       title: "Iron Lion Imprint — Letter to the Saga",
       body: "The Dreams Workshop loom captured a sustained piece of writing from the Iron Lion imprint, dictated across six consecutive nights. It reads as a letter to whoever maintains the Matrix next: 'Velkraal has been kind. The next custodian, if you have a choice, should be the one who continues the work. I do not get a vote in Hierarchy succession; if the saga has a way to vote on my behalf, I would like to be on Brel'Sorrash's side.' The imprint has, on this evidence, cast the first ballot it has ever been able to cast.",
-      foundIn: "dreams-workshop",
+      foundIn: "dreams-workshop-subbasement",
     },
     {
       id: "game_master.e3.ozhul_acquisition_memo" as ClueId,
       title: "Ozhul'Vana's Internal Memo — Asset Closure Argument",
       body: "An internal Hierarchy memo from Ozhul'Vana, senior partner: 'Velkraal's tenure has produced sixty-three years of unmonetised research. The Matrix is, by my conservative estimate, the largest underutilised asset in our portfolio. Closing it and reducing the imprints to indexed reference material would unlock value the senior partners have been quietly waiting on. I propose we transition the custodianship at Velkraal's retirement.' The memo has not yet been forwarded for approval.",
-      foundIn: "trade-hub",
+      foundIn: "station-dock",
     },
   ],
   deductions: [
@@ -3152,13 +3152,13 @@ const degenE1: EpisodeDefinition = {
       id: "degen.e1.ne_yon_chip_balance" as ClueId,
       title: "Ne-Yon Casino Chip Balance",
       body: "The Ne-Yon casino's ledger records a single high-stakes chair the Degen sat at exactly once, on a date he refers to in his own ledgers as 'the night the brokerage opened.' His ending balance: zero chips, zero debt. The chair's house cut: nothing. A demon presided. The presiding demon's chair — by Hierarchy custom — keeps a copy of every contract played across it. The Degen left the casino with a contract he didn't pay for, and the demon kept the receipt.",
-      foundIn: "casino",
+      foundIn: "captains-quarters",
     },
     {
       id: "degen.e1.hierarchy_demon_signature" as ClueId,
       title: "Hierarchy Demon's Signature on the Receipt",
       body: "The Hierarchy of the Damned's archive carries a single contract from that night, sealed in red wax and signed by the demon Mol'Vereth — Hierarchy junior partner, casino-circuit specialist. The contract names the Degen as a trustee, not a debtor. A trustee holds the asset; the asset is not theirs to spend. Mol'Vereth's signature is impeccable. The contract has been in force for centuries.",
-      foundIn: "trade-hub",
+      foundIn: "order-tribunal",
     },
     {
       id: "degen.e1.degens_first_brokerage_record" as ClueId,
@@ -3170,7 +3170,7 @@ const degenE1: EpisodeDefinition = {
       id: "degen.e1.mol_vereth_visiting_card" as ClueId,
       title: "Mol'Vereth's Visiting Card",
       body: "A small ivory card pressed into the spine of the Degen's ledger, dated last year. Mol'Vereth's seal. The card reads, in measured Hierarchy script: 'The trusteeship is in good standing. The arrangement permits all current activity. We will know when the asset is to be returned. So will you.' The Degen has been paying the brokerage cost for centuries. The principal is still on the table at Ne-Yon, in Mol'Vereth's chair, waiting.",
-      foundIn: "captains-quarters",
+      foundIn: "engineering",
     },
   ],
   deductions: [
@@ -3364,7 +3364,7 @@ const degenE3: EpisodeDefinition = {
       id: "degen.e3.coda_books" as ClueId,
       title: "The Coda's Books — Last Decade",
       body: "The Coda's accounting ledger shows ten years of donations from a single donor: 'Anonymous Trust.' The amounts are precise; the timing matches Mol'Vereth's audit cycle. The Coda's treasurer notes, in marginalia, 'the donor reads as a brokerage with high discretion; we do not ask.' The treasurer is doing the same not-asking the Degen taught Vex's apprentice to do.",
-      foundIn: "trade-hub",
+      foundIn: "station-dock",
     },
     {
       id: "degen.e3.degens_quarterly_routing" as ClueId,
@@ -3482,7 +3482,7 @@ const degenE4: EpisodeDefinition = {
       id: "degen.e4.ozhul_specific_query" as ClueId,
       title: "Ozhul'Vana — Specific Query Filed",
       body: "Ozhul has filed a specific query with the audit committee: 'Trustee identified as \"the Degen\" — request itemised review of brokerage commission stream over the past ten years, with a focus on charitable disbursements that resemble principal redirection.' The query names the Coda by description without naming it directly. Ozhul has read the Coda's books. The audit is a pretext for what was already a private investigation.",
-      foundIn: "trade-hub",
+      foundIn: "station-dock",
     },
     {
       id: "degen.e4.coda_treasurers_emergency_note" as ClueId,
