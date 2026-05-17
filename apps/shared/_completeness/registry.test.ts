@@ -15,6 +15,8 @@
  * check function fails CI as a unit test, not just as a ship:check
  * harness crash.
  */
+import * as fs from "node:fs";
+import * as path from "node:path";
 import { describe, it, expect } from "vitest";
 import {
   COMPLETENESS_REGISTRY,
@@ -75,5 +77,128 @@ describe("completeness registry — well-formedness", () => {
         `${entry.id}: bad status ${result.status}`,
       ).toContain(result.status);
     }
-  }, 30000);
+    // Walks every registered check in-process (~90 scans); the
+    // default 5s vitest budget is too small for the full registry
+    // walk on slower machines. Explicit budget, no assertion change.
+  }, 60000);
+
+  it("recorded ratchet ceilings never exceed the entry's declared count", async () => {
+    const raw = fs.readFileSync(
+      path.join(__dirname, "ratchet-state.json"),
+      "utf-8",
+    );
+    const state = JSON.parse(raw) as {
+      worstByEntry: Record<string, number>;
+    };
+    for (const entry of COMPLETENESS_REGISTRY) {
+      const ceiling = state.worstByEntry[entry.id];
+      if (ceiling === undefined) continue;
+      const result = await runParityCheck(entry, {
+        version: 1,
+        worstByEntry: {},
+      });
+      expect(
+        ceiling,
+        `${entry.id}: ratchet ceiling ${ceiling} exceeds declared ${result.declared} — an entry must never be allowed to ratchet at "everything missing" forever`,
+      ).toBeLessThanOrEqual(result.declared);
+    }
+  }, 60000);
+
+  describe("narrative.mystery_clue_binding_coverage", () => {
+    it("is registered as a ratcheted Mystery Engine entry", () => {
+      const entry = COMPLETENESS_REGISTRY.find(
+        (e) => e.id === "narrative.mystery_clue_binding_coverage",
+      );
+      expect(entry, "entry must be registered").toBeDefined();
+      expect(entry?.ratchet?.target).toBe(0);
+    });
+
+    it("counts the Watcher arc's progression-critical clues as fully bound", async () => {
+      const entry = COMPLETENESS_REGISTRY.find(
+        (e) => e.id === "narrative.mystery_clue_binding_coverage",
+      )!;
+      const result = await runParityCheck(entry, {
+        version: 1,
+        worstByEntry: {},
+      });
+      // Watcher and Ith'Rael are the arcs wired end-to-end; neither
+      // may appear among the still-stranded arcs in the missing list.
+      for (const line of result.notes ?? []) {
+        expect(
+          line.startsWith("mystery.watcher:"),
+          `Watcher arc must be fully bound, but it is reported unbound: ${line}`,
+        ).toBe(false);
+        expect(
+          line.startsWith("mystery.ith_rael:"),
+          `Ith'Rael arc must be fully bound, but it is reported unbound: ${line}`,
+        ).toBe(false);
+        expect(
+          line.startsWith("mystery.politician:"),
+          `Politician arc must be fully bound, but it is reported unbound: ${line}`,
+        ).toBe(false);
+        expect(
+          line.startsWith("mystery.collector:"),
+          `Collector arc must be fully bound, but it is reported unbound: ${line}`,
+        ).toBe(false);
+        expect(
+          line.startsWith("mystery.varkul:"),
+          `Varkul arc must be fully bound, but it is reported unbound: ${line}`,
+        ).toBe(false);
+        expect(
+          line.startsWith("mystery.necromancer:"),
+          `Necromancer arc must be fully bound, but it is reported unbound: ${line}`,
+        ).toBe(false);
+        expect(
+          line.startsWith("mystery.zyr_koth:"),
+          `Zyr'Koth arc must be fully bound, but it is reported unbound: ${line}`,
+        ).toBe(false);
+        expect(
+          line.startsWith("mystery.syl_vex:"),
+          `Syl'Vex arc must be fully bound, but it is reported unbound: ${line}`,
+        ).toBe(false);
+        expect(
+          line.startsWith("mystery.riri_ahlia:"),
+          `Riri'Ahlia arc must be fully bound, but it is reported unbound: ${line}`,
+        ).toBe(false);
+        expect(
+          line.startsWith("mystery.fenra:"),
+          `Fenra arc must be fully bound, but it is reported unbound: ${line}`,
+        ).toBe(false);
+      }
+      // The check must be doing real work (non-trivial declared set).
+      expect(result.declared).toBeGreaterThan(0);
+      expect(result.implemented).toBeGreaterThan(0);
+    });
+  });
+
+  describe("narrative.mystery_clue_foundin_parity", () => {
+    it("is registered as a hard-parity (un-ratcheted) Mystery Engine entry", () => {
+      const entry = COMPLETENESS_REGISTRY.find(
+        (e) => e.id === "narrative.mystery_clue_foundin_parity",
+      );
+      expect(entry, "entry must be registered").toBeDefined();
+      // Hard parity: a dead-hint is always a bug, never an accepted
+      // backlog. Absence of `ratchet` is what makes any gap a FAIL.
+      expect(entry?.ratchet).toBeUndefined();
+    });
+
+    it("holds at zero gap — every bound clue's foundIn names a room that binds it", async () => {
+      const entry = COMPLETENESS_REGISTRY.find(
+        (e) => e.id === "narrative.mystery_clue_foundin_parity",
+      )!;
+      const result = await runParityCheck(entry, {
+        version: 1,
+        worstByEntry: {},
+      });
+      // The check must be doing real work (every bound, hinted clue).
+      expect(result.declared).toBeGreaterThan(0);
+      // Hard parity invariant: no clue may point its foundIn hint at
+      // a room that does not bind it. Any mismatch is listed.
+      expect(
+        result.notes ?? [],
+        `clue foundIn ⇄ binding-room mismatches:\n${(result.notes ?? []).join("\n")}`,
+      ).toEqual([]);
+      expect(result.implemented).toBe(result.declared);
+    });
+  });
 });

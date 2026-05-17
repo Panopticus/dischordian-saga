@@ -16,7 +16,7 @@
 
 import type { RoomMysteryModule } from "./_template";
 
-export type CargoHoldHotspotId = "rubber-chicken";
+export type CargoHoldHotspotId = "rubber-chicken" | "the-cursed-forest-depot";
 
 export const CARGO_HOLD_MYSTERY: RoomMysteryModule<CargoHoldHotspotId> = {
   roomId: "cargo-hold",
@@ -120,6 +120,118 @@ export const CARGO_HOLD_MYSTERY: RoomMysteryModule<CargoHoldHotspotId> = {
             "You said hello to the rubber chicken. That is, possibly, the kindest thing this room has heard in two centuries. I am glad I was here for it.",
         },
         voId: "elara.cargo-hold.rubber-chicken.talk",
+      },
+    },
+    // Fenra arc, E2: a cargo hold IS a depot, which makes it the
+    // honest room to read the Cursed Forest as the Hierarchy's
+    // logistics warehouse — the place expansion is physically
+    // staged before it is spent. I keep my voice level here; the
+    // horror in this one is the inventory line, not the rhetoric.
+    "the-cursed-forest-depot": {
+      look: {
+        narration: {
+          lucid:
+            "There is a captured operations placard wired to the central container, recovered from a Hierarchy logistics file. It names Fenra's domain — the Cursed Forest — and it does not call it a battlefield. It calls it a hub. Stand in this hold a moment and you will understand the filing exactly: this is a cargo bay, stacked both walls, a shaft of light on a central pallet, corridors running off to where the next thing is staged. A depot is not where a war is fought. It is where the war is warehoused before it is spent. The placard files the Cursed Forest as the one place the Hierarchy's seventeen-front expansion is physically held — corrupted-soul supply chains routed in, conquered-territory integration processed, the dimensional logistics that fed the hunt all staged from it. I am reading it the way I read this room: not a front, an inventory.",
+          fragmented:
+            "Not a battlefield. Not a battlefield. A hub. A hub. A depot. The Cursed Forest is a depot. Warehoused before it is spent. Before it is spent. Routed in. Staged. Staged. The war is in storage. The war is in storage here.",
+          luminous:
+            "The placard, read against the room it is wired into: the Cursed Forest is Fenra's domain and the Hierarchy's logistics hub, and the word the captured file refuses is battlefield. It uses hub, the way this hold is a hub — a place where things arrive, are held, and leave on schedule for somewhere they will be spent. Corrupted-soul supply chains route through it; conquered-territory integration is processed there; the seventeen-front hunt staged from it. I will say the quiet thing the cargo bay makes unavoidable: a war you can warehouse is a war someone has turned into stock. The Forest is not where the Hierarchy fights. It is where the Hierarchy keeps what it fights with.",
+        },
+        voId: "elara.cargo-hold.the-cursed-forest-depot.look",
+        logsClue: {
+          id: "clue-cargo-hold-cursed-forest-depot",
+          title: "The Cursed Forest Is a Depot",
+          body:
+            "Fenra's domain and the Hierarchy's logistics hub: the Cursed Forest. Corrupted-soul supply chains route through it; conquered-territory integration is processed there; the dimensional-warfare logistics that fed the seventeen-front hunt staged from it. The Forest is not a battlefield. It is a depot — the one place the Hierarchy's expansion is physically warehoused before it is spent.",
+          source: "cargo-hold",
+          order: 1,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.fenra",
+          episodeId: "fenra.e2",
+          cluesFound: ["fenra.e2.the_cursed_forest"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Not a battlefield — a hub. The Forest is where the seventeen-front war is warehoused before it is spent.",
+            balanced:
+              "Read it standing in a cargo hold and the file makes sense: a depot is not where the war is fought, it is where it is stored. The Cursed Forest is the one place the Hierarchy's expansion is physically held.",
+            warm:
+              "We store fuel and field rations in this room and call it a hold. She stored a war the same way and called it a hub. I have stood in a lot of storage bays. This is the first one that frightens me.",
+          },
+          voId: "human.cargo-hold.the-cursed-forest-depot.look",
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You pull the throughput manifest clipped behind the placard. A depot is defined by what moves through it, and I am going to read this line exactly as it is written, because softening it would be a lie. The Cursed Forest's throughput is corrupted souls — conquered populations converted into the Hierarchy's operational supply. Fenra's celebrated logistics, the on-schedule coordination that fed seventeen fronts, are the logistics of processed people. Her supply chain's units are souls. I have spent two and a half centuries reading inventory manifests on this ship; I know the grammar. This one counts the dead the way ours counts crates, and it does it accurately, and the accuracy is the part I cannot put down. The efficiency is the horror. They are not two findings. They are one.",
+          fragmented:
+            "What moves through. What moves through. Souls. Souls. Corrupted souls. The units are souls. The units are souls. Processed people. On schedule. On schedule. Counted like crates. Counted accurately. The accuracy. The accuracy is the horror.",
+          luminous:
+            "The manifest, read the way this room teaches you to read a manifest: throughput is the thing a depot is for, and the Cursed Forest's throughput is corrupted souls — conquered populations turned into the next conquest's fuel, reliably, at scale. I will not separate the two halves, because the file does not and the truth does not. Fenra is not a brilliant logistician who unfortunately traffics in souls. The brilliance and the trafficking are the same operation, written on one line, balanced to the gram. There is no version of 'she ran it flawlessly' that is not also the whole of the indictment.",
+        },
+        voId: "elara.cargo-hold.the-cursed-forest-depot.use",
+        logsClue: {
+          id: "clue-cargo-hold-what-routes-through",
+          title: "What Routes Through the Forest",
+          body:
+            "The Cursed Forest's throughput is corrupted souls — conquered populations converted into the Hierarchy's operational supply. The logistics Fenra runs so efficiently are the logistics of processed people. Her supply chain's units are souls; her on-schedule coordination is the on-schedule conversion of the conquered into the fuel of the next conquest. The efficiency is the horror; the horror is not separable from the efficiency.",
+          source: "cargo-hold",
+          order: 2,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.fenra",
+          episodeId: "fenra.e2",
+          cluesFound: ["fenra.e2.what_routes_through"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "The throughput is souls. Conquered people, converted to supply, on schedule. The efficiency is the horror — they are one thing.",
+            balanced:
+              "Read as a manifest: the units in her supply chain are souls, counted accurately and moved on time. There is no flawless-logistics reading that is not also the indictment in full.",
+            warm:
+              "She ran it perfectly. I keep wanting that to be a separate fact from what she ran, and the room will not let it be. Perfect is the worst word in this file, not the best one.",
+          },
+          voId: "human.cargo-hold.the-cursed-forest-depot.use",
+        },
+      },
+      talk: {
+        narration: {
+          lucid:
+            "You address the placard on what the depot pays to be the depot. A hub is consumed by being one — I have watched it happen to the load-bearing decks of this ship. The Cursed Forest's curse is not set dressing; it is the accumulated cost of being the place every conquered soul is routed through. The Forest is degrading under its own throughput. And here is the structural fact, stated plainly so the Insurgency can use it: Fenra's operational genius keeps the seventeen fronts fed. It does not, and was never designed to, keep the depot alive. The kitchen is being eaten by what it cooks. The Hierarchy's whole expansion runs through one site that is dying on schedule — and the being who runs it is canonically the one least incentivized to notice, because noticing is not a line in the operational manifest.",
+          fragmented:
+            "Consumed by being one. Consumed. The curse is the cost. The cost. Degrading under its own load. Degrading. Keeps the fronts fed. Does not keep the depot alive. The kitchen is eaten by what it cooks. One site. Dying on schedule. Dying on schedule.",
+          luminous:
+            "The last reading, and the one a depot understands best: a hub is paid for by being a hub. The Cursed Forest's curse is the bill — the accumulated cost of being the single point every conquered soul is routed through, and it is coming due as degradation. Fenra's logistics keep the fronts fed; nothing keeps the hub alive, because the hub was never a protected asset, only a processing site. I file the vulnerability without softening it, because it is the most useful thing in the room: the Hierarchy's expansion has one kitchen, it is dying under its own load, and the architect of the load is the one structurally guaranteed not to look up. That is not a flaw the Insurgency has to create. It is one the Insurgency has to reach before the Forest reaches it first.",
+        },
+        voId: "elara.cargo-hold.the-cursed-forest-depot.talk",
+        logsClue: {
+          id: "clue-cargo-hold-the-forest-pays",
+          title: "What the Forest Pays to Be the Kitchen",
+          body:
+            "A logistics hub is consumed by being one. The Cursed Forest's curse is the accumulated cost of being the place every conquered soul is routed through; the Forest is degrading under its own throughput. Fenra's operational genius keeps the seventeen fronts fed; it does not, and is not designed to, keep the depot alive. The kitchen is being eaten by what it cooks — the Hierarchy's expansion has one dying single point of failure.",
+          source: "cargo-hold",
+          order: 3,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.fenra",
+          episodeId: "fenra.e2",
+          cluesFound: ["fenra.e2.the_forest_pays"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "The depot is dying under its own load. Her logistics feed the fronts; nothing keeps the hub alive. One site, failing on schedule.",
+            balanced:
+              "The curse is the bill for being the only kitchen. The expansion has one dying single point of failure, and its architect is the one guaranteed not to notice — a target the Insurgency must reach before the Forest collapses on its own.",
+            warm:
+              "She built the Hierarchy a strength that is eating itself, and she will be the last to see it, because seeing it is not on the manifest. We have to get there first. That is the whole of what this room is telling us.",
+          },
+          voId: "human.cargo-hold.the-cursed-forest-depot.talk",
+        },
       },
     },
   },

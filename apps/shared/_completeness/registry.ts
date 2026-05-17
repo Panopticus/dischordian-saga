@@ -97,6 +97,8 @@ import { checkNinjaOcularumStageCoverage } from "./checks/ninjaOcularumStageCove
 import { checkPreLockeCoordinatorCoverage } from "./checks/preLockeCoordinatorCoverage";
 import { checkDreamerArchitectTwinBind } from "./checks/dreamerArchitectTwinBind";
 import { checkMysteryEngineRosterCoverage } from "./checks/mysteryEngineRosterCoverage";
+import { checkMysteryClueBindingCoverage } from "./checks/mysteryClueBindingCoverage";
+import { checkMysteryClueFoundInParity } from "./checks/mysteryClueFoundInParity";
 import { checkCodexRosterCoverage } from "./checks/codexRosterCoverage";
 import { checkGameModeNarrativePremiseCoverage } from "./checks/gameModeNarrativePremiseCoverage";
 import { checkImprintFirstSummonCutsceneCoverage } from "./checks/imprintFirstSummonCutsceneCoverage";
@@ -865,6 +867,21 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "Hard parity: the four §XVI-authorized arcs (mystery.the_watcher / ith_rael / the_necromancer / syl_vex) MUST all be registered in MYSTERY_DEFINITIONS. Regression vs PR-2 / PR-2B / PR-7 is a §XVI completion failure.",
     check: () => checkMysteryEngineRosterCoverage(),
+  },
+  {
+    id: "narrative.mystery_clue_binding_coverage",
+    name: "Mystery progression-critical clue binding",
+    description:
+      "Every clue referenced by a deduction edge that carries `unlocksEpisode` (the progression-critical clues, across all MYSTERY_DEFINITIONS arcs) must be bound to a room-mystery hotspot via mysteryBinding.cluesFound — otherwise the arc dead-ends on episode 1 (the DeductionPanel only pairs clues the player has actually found). RATCHET: only the Watcher arc is fully wired; the 9 other unbound arcs make this a large gap. The ceiling is the real current gap after Watcher — it cannot regress and must tighten as the remaining arcs are wired.",
+    check: () => checkMysteryClueBindingCoverage(),
+    ratchet: { target: 0 },
+  },
+  {
+    id: "narrative.mystery_clue_foundin_parity",
+    name: "Mystery clue foundIn ⇄ binding-room parity",
+    description:
+      "Hard parity: every authored clue that is bound to a room-mystery hotspot must have its `foundIn` hint name a room that actually binds it. A `foundIn` that points to a non-existent module or to a different room than the binding sends the player to where the clue is not — a silent dead-hint that binding-coverage and reachability both miss. This gate was added after the ten-arc playability remediation, where the only safeguard against half-done foundIn re-homes was manual diffing.",
+    check: () => checkMysteryClueFoundInParity(),
   },
   {
     id: "canon.codex_roster_coverage",
