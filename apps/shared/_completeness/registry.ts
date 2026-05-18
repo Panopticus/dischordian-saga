@@ -107,6 +107,7 @@ import { checkSurfaceDiscoverabilityCoverage } from "./checks/surfaceDiscoverabi
 import { checkNarrativeSpineCoverage } from "./checks/narrativeSpineCoverage";
 import { checkSpineDoorwayCoverage } from "./checks/spineDoorwayCoverage";
 import { checkQuestlineRegistryCoverage } from "./checks/questlineRegistryCoverage";
+import { checkDailySessionLoopCoverage } from "./checks/dailySessionLoopCoverage";
 import { checkPerspectiveCanonCoverage } from "./checks/perspectiveCanonCoverage";
 import { checkProphecyTarotCoverage } from "./checks/prophecyTarotCoverage";
 import { checkActCloseCutsceneCoverage } from "./checks/actCloseCutsceneCoverage";
@@ -1005,6 +1006,13 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "W7 (audit: 'questline completion status is unknown/untracked'): every apps/shared/questline*.ts module (non-test) MUST be registered in apps/shared/questlineRegistry.ts with a status (shipped | authored | support). Before this the only aggregation was a partial 11-entry array inside questlineAll.test.ts while 23 modules existed on disk. Hard parity, two-way: an unregistered module is untracked completion status; a registry entry with no module on disk is stale. Status is classified from objective module evidence (PotentialQuestline export + aggregate-test coverage), not lore judgement.",
     check: () => checkQuestlineRegistryCoverage(),
+  },
+  {
+    id: "loop.daily_session_coverage",
+    name: "Daily session loop coverage",
+    description:
+      "W5 (audit: 'no designed what-do-I-do-for-8-minutes-today loop'): every part shipped (Memory Energy, streak saver, daily brief, axis daily quests, bonus objectives, NPC rotation, daily-reward ladder) but with no designed sequence. apps/shared/dailySessionLoop.ts is that through-line, ending in the spine handoff so the day always points at the next beat. Hard parity: every step's anchor module must exist on disk, and the total budget must stay in the designed 5–12 minute band.",
+    check: () => checkDailySessionLoopCoverage(),
   },
 
   // ─── PR-18 — Dischordian-Logic epistemology ────────────────
