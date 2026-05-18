@@ -1,0 +1,138 @@
+name: CADES Build & Deploy
+
+# Builds the CADES FPS Godot web export and uploads it to the
+# dgrsart S3 CDN at games/cades-fps/, which is what the React client loads
+# via assetUrl("games/cades-fps/index.html") at /cades-fps.
+#
+# Mirrors dmc-build.yml — Dead Man's Circuit and CADES are sibling in-repo
+# Godot games with identical build/deploy pipelines.
+#
+# Triggers:
+#   - push to main touching CADES files (auto-ship)
+#   - workflow_dispatch (manual — safe to run from any branch to validate)
+#
+# Required repo secrets:
+#   - AWS_ACCESS_KEY_ID
+#   - AWS_SECRET_ACCESS_KEY
+# IAM needs s3:PutObject + s3:HeadObject on arn:aws:s3:::dgrsart/cdn/client-public/*
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'games/cades-fps/**'
+      - 'apps/scripts/upload-public-to-s3.ts'
+      - '.github/workflows/cades-build.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: cades-build-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      GODOT_VERSION: '4.6'
+      GODOT_STATUS: 'stable'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cache Godot binary + export templates
+        id: cache-godot
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/godot-bin
+            ~/.local/share/godot/export_templates
+          key: godot-${{ env.GODOT_VERSION }}-${{ env.GODOT_STATUS }}-linux-x86_64
+
+      - name: Install Godot + Web export templates
+        if: steps.cache-godot.outputs.cache-hit != 'true'
+        run: |
+          set -euo pipefail
+          REL="${GODOT_VERSION}-${GODOT_STATUS}"
+          BASE="https://github.com/godotengine/godot-builds/releases/download/${REL}"
+
+          echo "::group::Download Godot"
+          mkdir -p ~/godot-bin
+          curl -fSL "${BASE}/Godot_v${REL}_linux.x86_64.zip" -o /tmp/godot.zip
+          unzip -o /tmp/godot.zip -d ~/godot-bin
+          mv ~/godot-bin/Godot_v${REL}_linux.x86_64 ~/godot-bin/godot
+          chmod +x ~/godot-bin/godot
+          ~/godot-bin/godot --version
+          echo "::endgroup::"
+
+          echo "::group::Download export templates"
+          curl -fSL "${BASE}/Godot_v${REL}_export_templates.tpz" -o /tmp/templates.tpz
+          TPL_DIR="$HOME/.local/share/godot/export_templates/${GODOT_VERSION}.${GODOT_STATUS}"
+          mkdir -p "$TPL_DIR"
+          # .tpz is a zip with a top-level "templates/" dir
+          unzip -o /tmp/templates.tpz -d /tmp/tpl
+          cp -r /tmp/tpl/templates/. "$TPL_DIR/"
+          ls "$TPL_DIR" | head
+          echo "::endgroup::"
+
+      - name: Add Godot to PATH
+        run: echo "$HOME/godot-bin" >> "$GITHUB_PATH"
+
+      - name: Import resources
+        working-directory: games/cades-fps
+        # First run imports assets and populates .godot/. Non-fatal if it
+        # exits non-zero — the export step will surface real errors.
+        run: godot --headless --import || true
+
+      - name: Export Web build
+        working-directory: games/cades-fps
+        run: |
+          set -euo pipefail
+          mkdir -p ../../apps/client/public/games/cades-fps
+          godot --headless --export-release "Web"
+
+      - name: Verify export output
+        run: |
+          set -euo pipefail
+          cd apps/client/public/games/cades-fps
+          for f in index.html index.js index.wasm index.pck; do
+            test -s "$f" || { echo "::error::Missing or empty: $f"; exit 1; }
+          done
+          echo "Exported files:"
+          ls -la
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Upload to S3 CDN
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: us-east-2
+        run: pnpm tsx apps/scripts/upload-public-to-s3.ts --only=games
+
+      - name: Smoke-test CDN
+        run: |
+          set -euo pipefail
+          URL="https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/games/cades-fps/index.html"
+          for i in 1 2 3 4 5; do
+            CODE=$(curl -sS -o /dev/null -w '%{http_code}' "$URL" || echo "000")
+            if [ "$CODE" = "200" ]; then
+              echo "CDN serving index.html (HTTP 200)"
+              exit 0
+            fi
+            echo "Attempt $i: HTTP $CODE — retrying in 5s"
+            sleep 5
+          done
+          echo "::error::CDN smoke test failed"
+          exit 1
