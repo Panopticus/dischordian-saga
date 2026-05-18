@@ -108,6 +108,7 @@ import { checkNarrativeSpineCoverage } from "./checks/narrativeSpineCoverage";
 import { checkSpineDoorwayCoverage } from "./checks/spineDoorwayCoverage";
 import { checkQuestlineRegistryCoverage } from "./checks/questlineRegistryCoverage";
 import { checkDailySessionLoopCoverage } from "./checks/dailySessionLoopCoverage";
+import { checkMasteryTrackCoverage } from "./checks/masteryTrackCoverage";
 import { checkPerspectiveCanonCoverage } from "./checks/perspectiveCanonCoverage";
 import { checkProphecyTarotCoverage } from "./checks/prophecyTarotCoverage";
 import { checkActCloseCutsceneCoverage } from "./checks/actCloseCutsceneCoverage";
@@ -1013,6 +1014,13 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "W5 (audit: 'no designed what-do-I-do-for-8-minutes-today loop'): every part shipped (Memory Energy, streak saver, daily brief, axis daily quests, bonus objectives, NPC rotation, daily-reward ladder) but with no designed sequence. apps/shared/dailySessionLoop.ts is that through-line, ending in the spine handoff so the day always points at the next beat. Hard parity: every step's anchor module must exist on disk, and the total budget must stay in the designed 5–12 minute band.",
     check: () => checkDailySessionLoopCoverage(),
+  },
+  {
+    id: "progression.mastery_track_coverage",
+    name: "Mastery track coverage",
+    description:
+      "W4 (audit: 'no traditional RPG progression spine'): the progression parts shipped (classMastery, bossMastery, the per-mode reward engine) but with no contract that the play→grow→invest→play-stronger loop reaches every system the story reveals. apps/shared/masteryTracks.ts binds one growth track per spine system to a shipped reward/mastery anchor. Hard parity, spine-driven & two-way: every NARRATIVE_SPINE premise has exactly one track whose anchor exists; a track targeting a non-spine premise is also a defect.",
+    check: () => checkMasteryTrackCoverage(),
   },
 
   // ─── PR-18 — Dischordian-Logic epistemology ────────────────
