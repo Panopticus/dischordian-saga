@@ -157,39 +157,45 @@ export const inventoryRouter = router({
       const db = await getDb();
       if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
 
-      const allCards = await db.select().from(userCards)
-        .where(eq(userCards.userId, ctx.user.id));
-
       let totalDream = 0;
       let totalDust = 0;
       let totalEssence = 0;
       let cardsDisenchanted = 0;
 
-      for (const card of allCards) {
-        if (card.quantity <= input.keepCount) continue;
+      // Persist F8 — the duplicate-burn (N userCards quantity writes)
+      // and the Dream credit must be atomic: a failure mid-loop must
+      // not destroy cards without paying out, or pay out without
+      // burning. Read inside the tx so the burn sees a consistent set.
+      await db.transaction(async (tx) => {
+        const allCards = await tx.select().from(userCards)
+          .where(eq(userCards.userId, ctx.user.id));
 
-        const excess = card.quantity - input.keepCount;
-        const values = DISENCHANT_VALUES.common; // Default rarity
-        totalDream += values.dream * excess;
-        totalDust += values.dust * excess;
-        totalEssence += values.essence * excess;
-        cardsDisenchanted += excess;
+        for (const card of allCards) {
+          if (card.quantity <= input.keepCount) continue;
 
-        await db.update(userCards)
-          .set({ quantity: input.keepCount })
-          .where(eq(userCards.id, card.id));
-      }
+          const excess = card.quantity - input.keepCount;
+          const values = DISENCHANT_VALUES.common; // Default rarity
+          totalDream += values.dream * excess;
+          totalDust += values.dust * excess;
+          totalEssence += values.essence * excess;
+          cardsDisenchanted += excess;
 
-      // Add Dream tokens
-      if (totalDream > 0) {
-        const bal = await db.select().from(dreamBalance)
-          .where(eq(dreamBalance.userId, ctx.user.id)).limit(1);
-        if (bal[0]) {
-          await db.update(dreamBalance)
-            .set({ dreamTokens: bal[0].dreamTokens + totalDream, totalDreamEarned: bal[0].totalDreamEarned + totalDream })
-            .where(eq(dreamBalance.id, bal[0].id));
+          await tx.update(userCards)
+            .set({ quantity: input.keepCount })
+            .where(eq(userCards.id, card.id));
         }
-      }
+
+        // Add Dream tokens
+        if (totalDream > 0) {
+          const bal = await tx.select().from(dreamBalance)
+            .where(eq(dreamBalance.userId, ctx.user.id)).limit(1);
+          if (bal[0]) {
+            await tx.update(dreamBalance)
+              .set({ dreamTokens: bal[0].dreamTokens + totalDream, totalDreamEarned: bal[0].totalDreamEarned + totalDream })
+              .where(eq(dreamBalance.id, bal[0].id));
+          }
+        }
+      });
 
       return {
         success: true,

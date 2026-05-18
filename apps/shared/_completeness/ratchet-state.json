@@ -8,7 +8,7 @@
     "tcg.narrative_flag_bridge_coverage": 0,
     "tcg.trial_category_coverage": 0,
     "db.foreign_key_coverage": 0,
-    "db.economic_transaction_coverage": 12,
+    "db.economic_transaction_coverage": 6,
     "a11y.void_contrast_coverage": 0,
     "content.card_flavor_quality": 0,
     "narrative.global_alignment_meter": 0,
@@ -44,7 +44,9 @@
     "canon.hierarchy_roster_coverage": 0,
     "narrative.surface_discoverability_coverage": 0,
     "canon.vortex_terminus_reconciliation": 0,
+    "narrative.mystery_clue_binding_coverage": 104,
     "narrative.spine_doorway_coverage": 0,
-    "narrative.mystery_clue_binding_coverage": 104
+    "server.replay_determinism_guard": 0,
+    "economy.store_sku_parity": 0
   }
 }
