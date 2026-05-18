@@ -106,6 +106,12 @@ import { checkImprintCardsCarryUnlockCondition } from "./checks/imprintCardsCarr
 import { checkContinuingLoopEndgameCoverage } from "./checks/continuingLoopEndgameCoverage";
 import { checkServantHeroDeferralCoverage } from "./checks/servantHeroDeferralCoverage";
 import { checkSurfaceDiscoverabilityCoverage } from "./checks/surfaceDiscoverabilityCoverage";
+import { checkNarrativeSpineCoverage } from "./checks/narrativeSpineCoverage";
+import { checkSpineDoorwayCoverage } from "./checks/spineDoorwayCoverage";
+import { checkQuestlineRegistryCoverage } from "./checks/questlineRegistryCoverage";
+import { checkDailySessionLoopCoverage } from "./checks/dailySessionLoopCoverage";
+import { checkMasteryTrackCoverage } from "./checks/masteryTrackCoverage";
+import { checkRpgStaplesCoverage } from "./checks/rpgStaplesCoverage";
 import { checkPerspectiveCanonCoverage } from "./checks/perspectiveCanonCoverage";
 import { checkProphecyTarotCoverage } from "./checks/prophecyTarotCoverage";
 import { checkActCloseCutsceneCoverage } from "./checks/actCloseCutsceneCoverage";
@@ -1015,6 +1021,49 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
       "One discoverable narrative path (PR-17 backbone; PR-24/25 backfill): every <Route> in apps/client/src/App.tsx is classified in apps/shared/surfaceDiscoverabilityCanon.ts and every narrative_gated surface resolves its gate through EXISTING infra (featureRoadmap / gameModeNarrativePremises / sagaPhases / act-completion gates / expansion unlock service). PR-24/25 closed the 78-orphan baseline to 0 — game modes with a recorded diegetic premise → narrative_gated, narrative locations/episodes → phase, nav-reachable social/competitive/economy → always_available, dev/account/seasonal → utility. A two-way drift scan folds any unclassified App.tsx route or stale registry route into the gap, so a new unclassified route is an immediate regression. RATCHET ceiling tightened to 0 — it can never regrow. This is the 'tighten things' lock.",
     check: () => checkSurfaceDiscoverabilityCoverage(),
     ratchet: { target: 0 },
+  },
+  {
+    id: "narrative.spine_coverage",
+    name: "Narrative spine coverage",
+    description:
+      "The story IS the connective layer (owner-locked): every game mode in apps/shared/gameModeNarrativePremises.ts MUST be revealed by exactly one beat in apps/shared/narrativeSpine.ts, and docs/built/SAGA_GAME_MODE_COHERENCE.md MUST stay in sync with it. The spine consolidates the already-shipped per-mode sagaPhase gates (surfaceDiscoverabilityCanon) + the 14 canon premises into one ordered open-but-guided through-line; each beat binds a system to a canonical phase + an in-fiction carrier (Elara/Locke/Antiquarian/companion/cutscene), inventing no canon. Hard parity: a system not on the spine is orphaned from the story — the exact failure this eliminates. Regenerate the doc with pnpm tsx apps/scripts/gen-saga-mode-coherence.ts.",
+    check: () => checkNarrativeSpineCoverage(),
+  },
+  {
+    id: "narrative.spine_doorway_coverage",
+    name: "Spine doorway coverage",
+    description:
+      "Open but guided (owner-locked): every spine WING in apps/shared/narrativeSpine.ts must have a diegetic in-world doorway — a ROOM_DEFINITIONS hotspot whose route action is the wing's canonical entryRoute. Being on the spine + in the objective tracker is not the same as the player being able to walk in from the living world. RATCHET (target 0): the bridge already exists for some wings (Strategy Table → /chess, Trade Terminal → /trade-empire, Warden's Vigil → /tower-defense); the rest are precise targets in `missing`. The gap can only shrink — a wing with a world door can never regress to doorless. Driven by spineDoorways.ts (source-scan of GameContext ROOM_DEFINITIONS, no client import).",
+    check: () => checkSpineDoorwayCoverage(),
+    ratchet: { target: 0 },
+  },
+  {
+    id: "narrative.questline_registry_coverage",
+    name: "Questline registry coverage",
+    description:
+      "W7 (audit: 'questline completion status is unknown/untracked'): every apps/shared/questline*.ts module (non-test) MUST be registered in apps/shared/questlineRegistry.ts with a status (shipped | authored | support). Before this the only aggregation was a partial 11-entry array inside questlineAll.test.ts while 23 modules existed on disk. Hard parity, two-way: an unregistered module is untracked completion status; a registry entry with no module on disk is stale. Status is classified from objective module evidence (PotentialQuestline export + aggregate-test coverage), not lore judgement.",
+    check: () => checkQuestlineRegistryCoverage(),
+  },
+  {
+    id: "loop.daily_session_coverage",
+    name: "Daily session loop coverage",
+    description:
+      "W5 (audit: 'no designed what-do-I-do-for-8-minutes-today loop'): every part shipped (Memory Energy, streak saver, daily brief, axis daily quests, bonus objectives, NPC rotation, daily-reward ladder) but with no designed sequence. apps/shared/dailySessionLoop.ts is that through-line, ending in the spine handoff so the day always points at the next beat. Hard parity: every step's anchor module must exist on disk, and the total budget must stay in the designed 5–12 minute band.",
+    check: () => checkDailySessionLoopCoverage(),
+  },
+  {
+    id: "progression.mastery_track_coverage",
+    name: "Mastery track coverage",
+    description:
+      "W4 (audit: 'no traditional RPG progression spine'): the progression parts shipped (classMastery, bossMastery, the per-mode reward engine) but with no contract that the play→grow→invest→play-stronger loop reaches every system the story reveals. apps/shared/masteryTracks.ts binds one growth track per spine system to a shipped reward/mastery anchor. Hard parity, spine-driven & two-way: every NARRATIVE_SPINE premise has exactly one track whose anchor exists; a track targeting a non-spine premise is also a defect.",
+    check: () => checkMasteryTrackCoverage(),
+  },
+  {
+    id: "progression.rpg_staples_coverage",
+    name: "RPG staples coverage",
+    description:
+      "W6 (audit: inventory unmanaged / 'crafting is 5 recipes' / no vendor economy / no overworld traversal): each claim was stale; what was missing was an enforced contract. apps/shared/rpgStaples.ts declares the four pillars + their shipped anchors, with overworld traversal explicitly bound to the room-unlock manifest + the spine doorways (W0) so the 'linear room-unlock chain' is the spine-driven graph. Hard parity: every pillar's anchor modules exist and crafting clears the recipe floor (the stale '5 recipes' is now an enforced minimum).",
+    check: () => checkRpgStaplesCoverage(),
   },
 
   // ─── PR-18 — Dischordian-Logic epistemology ────────────────

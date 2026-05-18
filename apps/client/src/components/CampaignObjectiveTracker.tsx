@@ -22,7 +22,7 @@ import { useMemo, useState, type ReactElement } from "react";
 import { useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { useGame } from "@/contexts/GameContext";
-import { deriveCampaignObjectives } from "@shared/campaignObjectives";
+import { deriveObjectives } from "@shared/spineObjectives";
 
 export function CampaignObjectiveTracker(): ReactElement | null {
   const { state } = useGame();
@@ -31,7 +31,7 @@ export function CampaignObjectiveTracker(): ReactElement | null {
 
   const objectives = useMemo(
     () =>
-      deriveCampaignObjectives({
+      deriveObjectives({
         narrativeAct: state.narrativeAct ?? 0,
         narrativeFlags: state.narrativeFlags ?? {},
         recruitmentMissionsCompleted:
