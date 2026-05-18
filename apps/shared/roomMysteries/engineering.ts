@@ -27,7 +27,8 @@ export type EngineeringHotspotId =
   | "blueprints"
   | "egg-eng-formula"
   | "instruction-manual"
-  | "schematic-pad";
+  | "schematic-pad"
+  | "kell-physical-residue-bench";
 
 /** Inventory ids the engineering bench can fold into composite items.
  *  Migrated from the legacy ADVENTURE_FEATURES.INVENTORY_COMBINATIONS
@@ -725,6 +726,48 @@ export const ENGINEERING_MYSTERY: RoomMysteryModule<EngineeringHotspotId, Engine
               "They both signed. The handover is, by both their hands, real. We get to be there if we want. We should be.",
           },
           voId: "human.engineering.schematic-pad.talk",
+        },
+      },
+    },
+    // Ith'Rael arc: engineering is the physical-residue room. The
+    // Shadow Tongue edits the chronicle of the world, never the
+    // world. Marion Kell's archaeological footprint survives on a
+    // workbench the editor never had reason to touch — the bench is
+    // the proof that the world remembers in unindexed forms.
+    "kell-physical-residue-bench": {
+      look: {
+        narration: {
+          lucid:
+            "A side bench engineering has kept unmoved for centuries — the workbench Marion Kell used. Cross-reference what the Shadow Tongue did NOT edit: the wood grain worn by her forearm, the ring-stains from the mug she drank from, the undusted rectangle on the shelf where her photograph had stood. Physical residue. Archaeological evidence. The Shadow Tongue does not edit the world; it edits the chronicle of the world. The world still holds Marion Kell — in unindexed forms. But the indexing is what allows recognition. Without it, the residue is just residue. The Director understands what indexing is for.",
+          fragmented:
+            "The grain. The grain. The stain. The stain. The undusted rectangle. The rectangle. It didn't touch this. Didn't touch this. Just residue. Just residue.",
+          luminous:
+            "The bench is the part of Marion Kell the Shadow Tongue never reached, because the Shadow Tongue edits the chronicle of the world and not the world. The forearm-worn grain, the mug rings, the clean rectangle where a photograph stood — all still here, all unindexed, all therefore unrecognizable as her without a chronicle to point at them. The Director's whole insight is in this bench: he did not need to destroy her, only to remove the indexing that let the residue mean anything. Engineering kept the bench unmoved. That is the only counter-move the room had.",
+        },
+        voId: "elara.engineering.kell-physical-residue-bench.look",
+        logsClue: {
+          id: "clue-engineering-kell-physical-residue",
+          title: "What the Shadow Tongue did not edit",
+          body:
+            "Marion Kell's old workbench, kept unmoved for centuries. The Shadow Tongue did not touch her physical residue — the forearm-worn wood grain, the mug ring-stains, the undusted rectangle where her photograph stood. The Shadow Tongue edits the chronicle of the world, not the world. The world remembers her in unindexed forms, but the indexing is what allows recognition; without it the residue is just residue. The Director understands what indexing is for.",
+          source: "engineering",
+          order: 11,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.ith_rael",
+          episodeId: "ith_rael.e2",
+          cluesFound: ["ith_rael.e2.what_was_not_edited"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Worn grain, mug rings, the clean rectangle where her photo stood. He never touched the world — only its chronicle. Residue with no index is just residue.",
+            balanced:
+              "The bench is the proof of the method's boundary. The Shadow Tongue edits the chronicle, never the physical world — so Marion Kell's residue survives, and means nothing without the indexing that was removed. That is the Director's actual insight: you do not destroy a person, you unindex the evidence so the surviving evidence cannot be recognized.",
+            warm:
+              "Everything physical about her is still here — the grain her arm wore smooth, the rings from her mug, the bright rectangle her photograph kept clean. None of it can say her name, because the thing that let it say her name was removed. Engineering kept the bench unmoved anyway. Sometimes refusing to tidy is the only resistance available.",
+          },
+          voId: "human.engineering.kell-physical-residue-bench.look",
         },
       },
     },

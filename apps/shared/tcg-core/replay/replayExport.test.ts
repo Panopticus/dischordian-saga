@@ -46,6 +46,7 @@ function fakeResult(
     finalState: steps[steps.length - 1]?.stateAfter ?? fakeState(),
     finalStateHash: "hash_test",
     versionCompatible: over.versionCompatible ?? true,
+    archived: false,
     errorCount: steps.filter((s) => s.error).length,
   };
 }

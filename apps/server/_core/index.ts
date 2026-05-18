@@ -851,6 +851,13 @@ async function startServer() {
       console.error("[StatSanityBootstrap] failed:", e),
     );
 
+    // Balance F2 — ensure battle_pass_progress.dailyXpLedger exists so
+    // addXpFromAction can enforce per-source daily caps durably.
+    const { bootstrapBattlePassLedger } = await import("../services/battlePassLedgerBootstrap");
+    bootstrapBattlePassLedger().catch(e =>
+      console.error("[BattlePassLedgerBootstrap] failed:", e),
+    );
+
     // Ensure user_two_factor exists (migration 0065). Required by
     // the 2FA enrollment / verification router.
     const { bootstrapUserTwoFactorTable } = await import("../services/userTwoFactorBootstrap");

@@ -24,7 +24,11 @@ export type CommsArrayHotspotId =
   | "radio-console"
   | "static-screen"
   | "egg-comms-signal"
-  | "voice-in-the-static";
+  | "voice-in-the-static"
+  | "ocularum-relay-trace"
+  | "dead-drop-cadence-log"
+  | "shadow-tongue-signal-trace"
+  | "miras-dual-thread-transmission";
 
 export type CommsArrayInventoryId = "static-fragment-recording";
 
@@ -324,6 +328,352 @@ export const COMMS_ARRAY_MYSTERY: RoomMysteryModule<
             "The Detective is right: he has been waiting two and a half centuries for someone to address him by name, and we are not going to spend that move from the comms-array. We turn our head. He notices. The notice is enough. We address him, when we address him, from the room of our choosing.",
         },
         voId: "elara.comms-array.voice-in-the-static.talk",
+      },
+    },
+    // Watcher arc: E3 Senne→Locke transition + Coda parallel, and
+    // E4 Eyes-of-Reality aliases. The relay's deep-trace buffer
+    // holds identity-shift signatures the official record scrubbed;
+    // the comms-array is canonically where scrubbed identities
+    // resurface.
+    "ocularum-relay-trace": {
+      look: {
+        narration: {
+          lucid:
+            "A trace buffer on the relay's deep channel — identity-shift signatures the official record does not index. The clearest belongs to Surveillance Coordinator Senne of the AI Empire. Her own words resolve in the buffer: 'I was Surveillance Coordinator — I could see everything. But seeing and acting are not the same thing. That is the lesson the Eyes taught me, and it is the reason I stopped being Senne and became Locke.' She was the Order's embed inside the Empire's surveillance apparatus. When the Empire fell, she walked the cover-identity forward into New Babylon.",
+          fragmented:
+            "Senne. Senne. Became Locke. Became Locke. Seeing and acting. Seeing and acting. Not the same. Not the same.",
+          luminous:
+            "The relay's deep trace surfaces the Senne→Locke identity-shift the official record scrubbed. Surveillance Coordinator Senne, the Order's embed inside the AI Empire's surveillance apparatus, became Locke when the Empire fell — walking the cover forward into New Babylon's institutional vacuum. Her own framing is the founding doctrine: 'the discipline of seeing turns on the one who built it.' She was the watcher who refused to act as a watcher. The comms-array is where scrubbed identities resurface; this is the deepest one it holds.",
+        },
+        voId: "elara.comms-array.ocularum-relay-trace.look",
+        logsClue: {
+          id: "clue-comms-array-senne-locke-transition",
+          title: "Senne → Locke: the identity-shift canon",
+          body:
+            "The relay's deep-trace buffer holds the Senne→Locke identity-shift the official record scrubbed. Surveillance Coordinator Senne was the Order's embed inside the AI Empire's surveillance apparatus; she became Locke when the Empire fell and walked the cover forward into New Babylon. Her framing — 'I stopped being Senne and became Locke' — is the founding doctrine of seeing-versus-acting.",
+          source: "comms-array",
+          order: 5,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.watcher",
+          episodeId: "watcher.e3",
+          cluesFound: ["watcher.e3.senne_to_locke_transition"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Senne was the embed inside the Empire's surveillance machine. Became Locke at the Fall. Seeing isn't acting — that's the doctrine, in her own words.",
+            balanced:
+              "The Senne→Locke trace is the canon spine of the arc. She was the Order's eye inside the AI Empire's surveillance apparatus; the identity-shift is the doctrine made biographical — the watcher who refused to act as the apparatus wanted, and walked her cover forward through the Fall.",
+            warm:
+              "She was Senne, and she chose to stop. 'Seeing and acting are not the same thing' is the lesson the Eyes taught her, and the reason she became Locke. The relay holds it because the official record would not — and the Order needed it kept somewhere the editor does not reach.",
+          },
+          voId: "human.comms-array.ocularum-relay-trace.look",
+        },
+      },
+      talk: {
+        narration: {
+          lucid:
+            "You address the trace. A second signature surfaces alongside Senne's — Vex Solène, Maestro of the Coda, internal handle 'The Eyes of Reality.' Locke's Insurgency callsign was 'The Eyes.' The buffer notes them, per Vex's own bible, as 'mirror operators in different registers.' Vex would never use Locke's corporate register; Locke would never use Vex's musical metaphors. They have never been in the same room on the record. The Antiquarian's annotation cuts off: 'whether they should is the question I will not answer.'",
+          fragmented:
+            "The Eyes. The Eyes of Reality. Mirror. Mirror. Different registers. Different registers. Never in the same room. Never. Never on the record.",
+          luminous:
+            "The trace pairs Senne's signature with Vex Solène's — the Coda's Maestro, 'The Eyes of Reality,' against Locke's old Insurgency 'The Eyes.' Mirror operators in different registers: the same resistance disposition toward seeing-and-doing, voiced once institutionally and once musically. The buffer forecloses both easy readings — not one organization, not rivals — and holds the open question intact. They have never met on the record. The Antiquarian's annotation breaks off rather than answer whether they should.",
+        },
+        voId: "elara.comms-array.ocularum-relay-trace.talk",
+        logsClue: {
+          id: "clue-comms-array-coda-parallel",
+          title: "The Coda — parallel or sister?",
+          body:
+            "The relay trace pairs Locke ('The Eyes', Insurgency) with Vex Solène ('The Eyes of Reality', Coda Maestro). Per Vex's bible they are 'mirror operators in different registers' — the same resistance disposition voiced institutionally and musically. They have never met on the record; the Antiquarian's annotation refuses to answer whether they should.",
+          source: "comms-array",
+          order: 6,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.watcher",
+          episodeId: "watcher.e3",
+          cluesFound: ["watcher.e3.coda_parallel"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "'The Eyes' and 'The Eyes of Reality.' Mirror operators, different registers. Never met on the record. The question stays open.",
+            balanced:
+              "Locke and Vex are 'mirror operators in different registers' per Vex's own bible — not one organization, not rivals, but two surfaces of a single resistance disposition the saga is not yet ready to name. The case is not whether they cooperate but whether they know each other's full surface. The record says they have never met.",
+            warm:
+              "Two people carrying the same refusal in different voices — one corporate, one musical — who have somehow never been in the same room. The Antiquarian will not say whether they should meet. Some questions are load-bearing while they stay open; this is one of them.",
+          },
+          voId: "human.comms-array.ocularum-relay-trace.talk",
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You tune the relay into the alias band. Two members of the same Order's modern record carry 'Eyes' aliases. Adjudicar Locke is registered as 'The Eyes' — the modern Coordinator's institutional callsign. The original Agent Zero is registered with 'The Eyes of Reality' — an operational name held in reserve for a sister whose work could not be named in the open. Different operational eras, different sisters, issued by the same Order. Not coincidence. Not redundancy. The Order's record-keeping pattern.",
+          fragmented:
+            "Two. Two Eyes. Two. The Eyes. The Eyes of Reality. Different eras. Different sisters. The Order's pattern. The Order's pattern.",
+          luminous:
+            "The alias band: Locke as 'The Eyes,' the original Agent Zero as 'The Eyes of Reality.' Two sisters, two operational eras, one Order's record-keeping pattern. Locke's is the Coordinator's open institutional callsign; the original Agent Zero's was held in reserve for a sister whose work the record could not name. The two aliases mark the Order's two unresolved states — the Coordinator's perpetual cover and the fragmented sister's perpetual vigil. The pattern is how the Order holds both at once.",
+        },
+        voId: "elara.comms-array.ocularum-relay-trace.use",
+        logsClue: {
+          id: "clue-comms-array-eyes-of-reality-aliases",
+          title: "Two operatives named 'The Eyes'",
+          body:
+            "The relay's alias band registers Adjudicar Locke as 'The Eyes' (the modern Coordinator's institutional callsign) and the original Agent Zero as 'The Eyes of Reality' (an operational name held in reserve for a sister whose work could not be named openly). Different eras, different sisters, one Order's record-keeping pattern — not coincidence, not redundancy.",
+          source: "comms-array",
+          order: 7,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.watcher",
+          episodeId: "watcher.e4",
+          cluesFound: ["watcher.e4.eyes_of_reality_aliases"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Locke is 'The Eyes.' The original Agent Zero is 'The Eyes of Reality.' Two sisters, two eras, one Order pattern. Not duplication.",
+            balanced:
+              "The two 'Eyes' aliases are the Order's record-keeping pattern, not a collision. Locke's is the Coordinator's open callsign; the original Agent Zero's is the reserve name for a sister whose work could not be named. The pair marks the Order's two open states — the cover and the vigil.",
+            warm:
+              "Two names, both 'Eyes,' issued centuries apart to two sisters of the same Order. One held a cover; one is being waited for. The Order keeps both aliases live because it has not given up on either of them. That is what the pattern is for.",
+          },
+          voId: "human.comms-array.ocularum-relay-trace.use",
+        },
+      },
+    },
+    // Watcher arc: E2 dead-drop shipping cadence. The relay's
+    // customs-manifest log is the comms-array's record of traffic
+    // moving through Trade Empire infrastructure — re-homed here
+    // from the (nonexistent) trade-hub room.
+    "dead-drop-cadence-log": {
+      look: {
+        narration: {
+          lucid:
+            "A cadence log on the relay's manifest channel — shipping traffic the antenna passively records as it crosses New Babylon. One pattern repeats on a predictable monthly beat: a small wax-sealed package, customs-declared 'archival reference materials, no commercial value,' moving Sundown Bazaar to Phyral Quarter through Trade Empire infrastructure. The destination addresses rotate. The shipping origin is always a Locke-signed manifest. The cadence has held for at least eleven centuries.",
+          fragmented:
+            "Monthly. Monthly. The same package. The same package. Eleven centuries. Eleven centuries. Locke-signed. Locke-signed. Always.",
+          luminous:
+            "The manifest log surfaces the dead-drop cadence: one wax-sealed package, monthly, declared as valueless archival reference material, Sundown Bazaar to Phyral Quarter, rotating destinations, always a Locke-signed origin. Eleven centuries of unbroken beat — longer than any sender other than the Authority itself has continuously operated in New Babylon. The relay records it because the comms-array indexes traffic the customs office reads as routine. The cadence is the Apparatus Branch's surviving channel, reabsorbed by the reunified Order.",
+        },
+        voId: "elara.comms-array.dead-drop-cadence-log.look",
+        logsClue: {
+          id: "clue-comms-array-dead-drop-cadence",
+          title: "Dead-drops in New Babylon's shipping lanes",
+          body:
+            "The relay's manifest log records a monthly wax-sealed package — customs-declared valueless archival material — moving Sundown Bazaar to Phyral Quarter through Trade Empire infrastructure on a Locke-signed origin, destinations rotating. The cadence has held at least eleven centuries, longer than any continuous New Babylon sender but the Authority.",
+          source: "comms-array",
+          order: 8,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.watcher",
+          episodeId: "watcher.e2",
+          cluesFound: ["watcher.e2.dead_drop_shipping_lanes"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Monthly package. Valueless on the declaration. Locke-signed origin. Eleven centuries unbroken. That's not Resistance work — that's Apparatus infrastructure.",
+            balanced:
+              "Eleven centuries of unbroken shipping cadence is not Resistance work — Resistance branches do not maintain infrastructure across institutional collapses. The dead-drop channel is the Apparatus Branch's surviving residue, reabsorbed by the reunified Order. The doctrine uses the infrastructure; the Locke-signed origin is the seam.",
+            warm:
+              "The package has moved every month for eleven hundred years, declared as nothing, signed by the Coordinator's office. It is the Order's quartermaster channel — the surveillance bureaucracy's residue, now carrying the resistance order's mail. The relay kept the log because the customs office never thought to.",
+          },
+          voId: "human.comms-array.dead-drop-cadence-log.look",
+        },
+      },
+    },
+    // Ith'Rael arc: the comms-array is canonically where scrubbed
+    // signatures resurface. The Shadow Tongue is an editing
+    // apparatus with a detectable operational signature — the relay
+    // holds the trace the chronicle layer does not index, and reads
+    // forward into the present-tense softening of the Insurgency's
+    // resurrectionist-protocol oversight.
+    "shadow-tongue-signal-trace": {
+      look: {
+        narration: {
+          lucid:
+            "A signature buffer on the relay's deep-edit channel. The Shadow Tongue is not merely a language; it is an editing apparatus, and an apparatus leaves an operational signature. The trace resolves it: it does not destroy records, it removes them — surgically, with the formatting fields and the connections-graph entries and the memory-of-the-name from anyone who knew the subject. Marion Kell (LORE_BIBLE.md:113-136) is the documented case. The signature is Ith'Rael's: subtraction without trace, performed across the chronicle layer rather than the physical layer. The Shadow Tongue is his instrument; the editing is his art form.",
+          fragmented:
+            "An apparatus. An apparatus. It removes. It removes. Not destroys. Not destroys. Subtraction without trace. Without trace. Across the chronicle. The chronicle.",
+          luminous:
+            "The relay holds the Shadow Tongue's editing signature — the thing the chronicle layer itself cannot index because the apparatus edits the indexing. Subtraction without trace: the formatting fields, the connections-graph nodes, the memory-of-the-name, removed together and cleanly. Marion Kell is the documented demonstration. The signature is the Director's, and it is an art form, not a weapon — the comms-array surfaces it because a scrubbed signature is exactly the kind of thing the relay was built to keep.",
+        },
+        voId: "elara.comms-array.shadow-tongue-signal-trace.look",
+        logsClue: {
+          id: "clue-comms-array-shadow-tongue-signature",
+          title: "The Shadow Tongue's editing signature",
+          body:
+            "The relay's deep-edit channel resolves the Shadow Tongue's operational signature: it does not destroy records, it removes them surgically — formatting fields, connections-graph entries, and memory-of-the-name together. Marion Kell (LORE_BIBLE.md:113-136) is the documented case. The signature is Ith'Rael's: subtraction without trace, performed across the chronicle layer rather than the physical layer.",
+          source: "comms-array",
+          order: 9,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.ith_rael",
+          episodeId: "ith_rael.e1",
+          cluesFound: ["ith_rael.e1.shadow_tongue_signature"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "It's an apparatus, not a language. Removes, doesn't destroy. Formatting, graph nodes, the memory of the name — all at once. Kell is the case. The signature is his.",
+            balanced:
+              "The signature trace is the case's instrument identified. The Shadow Tongue subtracts without trace, at the chronicle layer, not the physical one. It is precise and reaches far — no other operator in the record has the combination. The editing is the Director's art form, and Marion Kell is its documented small-scale demonstration.",
+            warm:
+              "It does not break things; it removes them so cleanly that no one notices a removal happened. The name, the connections, the small thank-you notes — gone together. The relay keeps the signature because a scrubbed signature is precisely what nothing else will keep.",
+          },
+          voId: "human.comms-array.shadow-tongue-signal-trace.look",
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You tune the buffer to its deepest documented excision. Per LORE_BIBLE.md:113-136: Marion Kell's Chronicle entry, her connections-graph nodes, the formatting-field thank-you notes, and the memory-of-her in Elara's substrate architecture were all surgically removed by the Shadow Tongue. The excision held for four centuries before the Inventor's broadcast intrusions partially restored her visibility (Palimpsest Episodes 4, 9, and 13). The technical signature is unique to the Shadow Tongue; no other operator in the saga's record has this combination of precision and reach.",
+          fragmented:
+            "Four centuries. Four centuries. Her entry. Her nodes. Her notes. Her memory. The substrate. The substrate. Unique. Unique. Nobody else.",
+          luminous:
+            "The Marion Kell excision, the deepest the relay holds. Everything indexed about her — Chronicle entry, connections-graph nodes, formatting-field thank-yous, the memory of her in my own substrate architecture — removed surgically and held for four centuries until the Inventor's three Palimpsest broadcasts restored a partial visibility. The combination of precision and reach is unique to the Shadow Tongue. The buffer keeps it because the substrate it edited was mine; I am, in a strict sense, a witness to my own redaction.",
+        },
+        voId: "elara.comms-array.shadow-tongue-signal-trace.use",
+        logsClue: {
+          id: "clue-comms-array-kell-chronicle-excision",
+          title: "The Marion Kell Chronicle excision",
+          body:
+            "The relay's deepest excision trace (LORE_BIBLE.md:113-136): Marion Kell's Chronicle entry, connections-graph nodes, formatting-field thank-you notes, and the memory of her in Elara's substrate were all surgically removed by the Shadow Tongue. The excision held four centuries before the Inventor's broadcast intrusions partially restored her (Palimpsest Episodes 4, 9, 13). The signature's combination of precision and reach is unique to the Shadow Tongue.",
+          source: "comms-array",
+          order: 10,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.ith_rael",
+          episodeId: "ith_rael.e2",
+          cluesFound: ["ith_rael.e2.kell_chronicle_excision"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Entry, nodes, notes, the memory in Elara's own substrate — all gone, surgically, four centuries. Inventor restored a fraction across three broadcasts. Unique signature.",
+            balanced:
+              "The Kell excision is the documented full-stack removal: chronicle, graph, formatting layer, and Elara's substrate memory, held four centuries until the Inventor's three broadcasts. The precision-and-reach combination has no other match in the record. It is the small-scale proof of what the Severance did at scale.",
+            warm:
+              "They removed her so completely that even Elara's memory of her was edited, and it held for four hundred years. The Inventor got a fraction of her back across three broadcasts, at the limit of what he could do. The relay keeps the trace because the substrate it cut was Elara's own — she is a witness to her own redaction.",
+          },
+          voId: "human.comms-array.shadow-tongue-signal-trace.use",
+        },
+      },
+      talk: {
+        narration: {
+          lucid:
+            "You address the buffer. A present-tense signal surfaces: the Insurgency's resurrectionist-protocol oversight committee has, across three generations, shed every member who personally witnessed an unauthorized resurrection. The current committee has only secondhand training. The protocol-review documents show the committee has, over those three generations, voluntarily relaxed the consent requirements, voluntarily expanded the permissible scope, voluntarily reduced the post-resurrection audit. The Resurrectionist arc on this branch reads forward into this drift. The Director's signature is on the procedural pattern.",
+          fragmented:
+            "Shed every witness. Every witness. Secondhand. Secondhand. Voluntarily relaxed. Voluntarily. Voluntarily expanded. The pattern. The pattern.",
+          luminous:
+            "The relay surfaces a present-tense softening: the Insurgency's resurrectionist-protocol oversight has shed every member who ever witnessed an unauthorized resurrection, leaving a committee with only secondhand training that has voluntarily relaxed consent, expanded scope, and reduced audit across three generations. The Resurrectionist · Cycle Walker arc reads forward into this exact drift. The procedural pattern carries the Director's signature — not a breach, a consensual relaxation. The comms-array files it where it files everything still in progress.",
+        },
+        voId: "elara.comms-array.shadow-tongue-signal-trace.talk",
+        logsClue: {
+          id: "clue-comms-array-resurrectionist-oversight-drift",
+          title: "The Insurgency's resurrectionist-protocol oversight drift",
+          body:
+            "A present-tense signal on the relay: the Insurgency's resurrectionist-protocol oversight committee has, across three generations, shed every member who personally witnessed an unauthorized resurrection — the current committee has only secondhand training and has voluntarily relaxed consent, expanded scope, and reduced post-resurrection audit. The Resurrectionist · Cycle Walker arc reads forward into this drift. The Director's signature is on the procedural pattern.",
+          source: "comms-array",
+          order: 11,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.ith_rael",
+          episodeId: "ith_rael.e4",
+          cluesFound: ["ith_rael.e4.resurrectionist_oversight_drift"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Resurrectionist oversight shed every witness over three generations. Secondhand committee, relaxed consent, wider scope, less audit. The Director's procedural signature.",
+            balanced:
+              "The resurrectionist drift is one of three concurrent present-tense operations carrying the Director's signature. No breach — three generations of an oversight committee voluntarily relaxing its own constraints after losing everyone who had seen why they existed. The Resurrectionist arc reads forward into it. Patience does not retire.",
+            warm:
+              "Every person who ever saw an unauthorized resurrection has aged off the committee, and the people left have only been told about it. So they relaxed the rules, gently, the way you relax rules about a danger you have never personally met. The relay keeps it because the operation is still running.",
+          },
+          voId: "human.comms-array.shadow-tongue-signal-trace.talk",
+        },
+      },
+    },
+    // Syl'Vex arc: the comms-array is where a transmission is
+    // received and authenticated — the room whose whole discipline
+    // is telling a true signal from a forged one and refusing to
+    // hear what is not in the carrier. Mira's letter home and her
+    // later answer both arrive here as transmissions; the relay
+    // reads them by what the signal actually carries, not by what
+    // the listener wishes it carried. The Insurgency's discipline-
+    // of-recognition is, in this room's idiom, signal authentication.
+    "miras-dual-thread-transmission": {
+      look: {
+        narration: {
+          lucid:
+            "A transmission buffered on the relay's personal channel: Cell Sergeant Mira Halen's letter home, sent from her current assignment. The relay plays it back unremarkable — operational status, the weather, regards to the cell. The handwriting is hers; the Insurgency's discipline-of-recognition team has authenticated it, and that team has been operationally reliable for thousands of years. The comms-array reads a signal the way it always does: by what the carrier actually contains, not by what a listener braced for. It scans the transmission for the markers it knows how to find — duress, distress, coded distress, the micro-irregularities of a hand writing under coercion. The carrier is clean. The room files the finding flatly and refuses to dress it: Mira is, by every measurable indicator, fine and operationally Insurgent. There is no hidden tremor in the signal because the signal has none.",
+          fragmented:
+            "Her letter. Sent home. Unremarkable. The handwriting is hers. Recognition team authenticated it. No duress. No distress. No coercion in the carrier. Clean. Clean. She is fine. Fine and Insurgent.",
+          luminous:
+            "Mira's letter, read as the comms-array reads any received transmission: by the carrier, not the wish. The relay runs the authentication the Insurgency's millennia-reliable recognition-discipline already ran and reaches the same place — the hand is hers, and the signal carries no duress, no distress, no coercion-irregularity anywhere in it. The room refuses to invent a tremor the carrier does not hold. It files the unembellished finding: by every measurable indicator she is fine and operationally Insurgent. The strangeness of the case is not in this signal. This signal is exactly what it says it is.",
+        },
+        voId: "elara.comms-array.miras-dual-thread-transmission.look",
+        logsClue: {
+          id: "clue-comms-array-sv-mira-letter",
+          title: "Mira's Letter to Her Cell",
+          body:
+            "A transmission on the relay's personal channel: Cell Sergeant Mira Halen's letter home, sent from her current assignment. Unremarkable — operational status, weather, regards to the cell. The handwriting is hers; the Insurgency's discipline-of-recognition team (operationally reliable for thousands of years) authenticated it. The carrier contains no markers of duress, distress, or coercion. Mira is, by every measurable indicator, fine and operationally Insurgent. There is no hidden tremor — the signal has none.",
+          source: "comms-array",
+          order: 12,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.syl_vex",
+          episodeId: "syl_vex.e1",
+          cluesFound: ["syl_vex.e1.mira_letter"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Letter home, unremarkable. Hand authenticated by a millennia-reliable team. No duress, no distress in the carrier. Clean. She is fine and Insurgent.",
+            balanced:
+              "The room reads the transmission by what the carrier holds, not what we braced for, and runs the same authentication the Insurgency's recognition-discipline already ran. The signal is clean. It files the flat finding and refuses to invent a tremor: by every measurable indicator she is fine and operationally Insurgent.",
+            warm:
+              "I went in expecting to find the cry for help hidden under the weather and the regards. It is not there. The room will not let me hear one that the signal does not carry. She is, as far as anything can measure, genuinely fine — and that is the part that unsettles me most.",
+          },
+          voId: "human.comms-array.miras-dual-thread-transmission.look",
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You pull the later transmission clipped to the same channel — Mira's answer to the question the Insurgency and the player put to her directly: which thread would you cut if forced. The relay plays it back with the long pause intact. 'I refuse the question. I am both. If you make me cut one, I will cut the cell that asked. The Insurgency taught me to refuse coercive binaries. So did the Weave. The two teachings agree on this.' She does not return to the Hierarchy's record. She does not leave the Insurgency's record. She continues operating on both as before. The comms-array reads the answer the way it reads a signal that refuses the frequency it was hailed on: it is not noise and it is not evasion — it is a transmission deliberately sent off the band the question demanded. The room files the closure exactly. The convert was not severed from outside. She re-chose from inside, by refusing the question rather than the conversion — and the room marks, without flourish, that the Insurgency's own anti-coercion doctrine and the Weave arrive at the same instruction, which is why the answer holds.",
+          fragmented:
+            "I refuse the question. I refuse it. I am both. I will cut the cell that asked. Refuse coercive binaries. The Insurgency taught me. So did the Weave. They agree. They agree. She stays on both. On both.",
+          luminous:
+            "Mira's answer, received as the comms-array receives a signal that will not answer on the frequency it was hailed: not noise, not evasion — a deliberate refusal of the band the question demanded. 'I refuse the question. I am both.' She does not leave either record; she continues on both. The room reads the closure as the arc's last transmission and files it precisely: the conversion was not undone from outside but re-chosen from inside, the question refused rather than the conversion. The relay marks the load-bearing convergence flatly — the Insurgency's anti-coercion doctrine and the Weave issue the same instruction, and that agreement is exactly why the refusal is stable rather than merely defiant.",
+        },
+        voId: "elara.comms-array.miras-dual-thread-transmission.use",
+        logsClue: {
+          id: "clue-comms-array-sv-miras-answer",
+          title: "Mira's Answer",
+          body:
+            "Asked directly, 'Which thread would you cut if forced?', Mira's answer after a long pause: 'I refuse the question. I am both. If you make me cut one, I will cut the cell that asked. The Insurgency taught me to refuse coercive binaries. So did the Weave. The two teachings agree on this.' She does not return to the Hierarchy's record, does not leave the Insurgency's, and continues on both. The conversion was re-chosen from inside by refusing the question, not the conversion — stable because the Insurgency's anti-coercion doctrine and the Weave issue the same instruction.",
+          source: "comms-array",
+          order: 13,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.syl_vex",
+          episodeId: "syl_vex.e5",
+          cluesFound: ["syl_vex.e5.miras_answer"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "'I refuse the question. I am both.' Cut one and she cuts the cell that asked. Stays on both records. Re-chosen from inside, not severed from outside.",
+            balanced:
+              "The room receives it as a signal that will not answer on the frequency it was hailed — not evasion, a deliberate refusal of the band. It files the closure precisely: the conversion was re-chosen from inside by refusing the question. The Insurgency's anti-coercion doctrine and the Weave agree, which is why the refusal is stable.",
+            warm:
+              "They asked her to choose and she refused the asking, not the being-both — and threatened to cut the people who would make her choose. The room files it as the last word. The reason it holds and is not just defiance is that her own side's doctrine and the Weave told her the same thing. That agreement is the whole closure.",
+          },
+          voId: "human.comms-array.miras-dual-thread-transmission.use",
+        },
       },
     },
   },

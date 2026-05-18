@@ -69,6 +69,16 @@ export interface ReplayResult {
    * major.minor) or archived (major/minor mismatch).
    */
   versionCompatible: boolean;
+  /**
+   * Persistence F1 — true when the stored rulesVersion is NOT
+   * compatible with the current engine. In this case the action log
+   * is NOT replayed through the live reducer (a mismatched engine
+   * produces a different — and meaningless — final state), so
+   * `finalStateHash` is empty and `steps` is empty. Consumers must
+   * branch on this and render an "archived" affordance instead of
+   * treating the empty hash as a tampering / hash-mismatch signal.
+   */
+  archived: boolean;
   /** Number of actions that failed to apply (reducer returned error). */
   errorCount: number;
 }
@@ -96,6 +106,27 @@ export function replayMatch(input: ReplayInput): ReplayResult {
     p2: input.p2Config,
     registry: input.registry,
   });
+
+  // Persistence F1 — gate execution on version compatibility. The
+  // engine's RULES_VERSION contract says an incompatible (major/minor
+  // mismatch) replay needs the pinned historical engine; replaying it
+  // through the *current* reducer yields a divergent state whose hash
+  // would read as "hash-mismatch" — the exact signal the system uses
+  // for tampering. Refuse to do that: return an archived result
+  // (initial state only, no comparable hash) so callers can render an
+  // "archived" affordance instead of paging an admin.
+  if (!versionCompatible) {
+    return {
+      ok: false,
+      initialState,
+      steps: [],
+      finalState: initialState,
+      finalStateHash: "",
+      versionCompatible: false,
+      archived: true,
+      errorCount: 0,
+    };
+  }
 
   const steps: ReplayStep[] = [];
   let current = initialState;
@@ -132,6 +163,7 @@ export function replayMatch(input: ReplayInput): ReplayResult {
     finalState: current,
     finalStateHash: hashState(current),
     versionCompatible,
+    archived: false,
     errorCount,
   };
 }

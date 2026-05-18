@@ -4,6 +4,7 @@ import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
 import { z } from "zod";
 import { getDb } from "./db";
+import { mergeClientGameData } from "./services/gameDataPersistence";
 import { userAchievements, userProgress } from "../db/schema";
 import { eq, and } from "drizzle-orm";
 import { cardGameRouter } from "./routers/cardGame";
@@ -379,35 +380,49 @@ export const appRouter = router({
       .mutation(async ({ ctx, input }) => {
         const db = await getDb();
         if (!db) return { success: false };
-        const existing = await db
-          .select()
-          .from(userProgress)
-          .where(eq(userProgress.userId, ctx.user.id))
-          .limit(1);
+        // Persistence F3/F7: re-read inside a transaction and merge so
+        // a client autosave never clobbers server-authoritative
+        // sub-keys (paid entitlements, narrative flags) written
+        // out-of-band by the Stripe webhook / mystery service. The
+        // merge also stamps gameData.schemaVersion.
+        await db.transaction(async (tx) => {
+          const existing = await tx
+            .select()
+            .from(userProgress)
+            .where(eq(userProgress.userId, ctx.user.id))
+            .limit(1);
 
-        if (existing.length > 0) {
-          await db
-            .update(userProgress)
-            .set({
+          if (existing.length > 0) {
+            const mergedGameData = mergeClientGameData(
+              existing[0].gameData as Record<string, unknown> | null,
+              input.gameData as Record<string, unknown> | undefined,
+            );
+            await tx
+              .update(userProgress)
+              .set({
+                xp: input.xp,
+                level: input.level,
+                points: input.points,
+                title: input.title,
+                progressData: input.progressData as Record<string, unknown>,
+                gameData: mergedGameData,
+              })
+              .where(eq(userProgress.userId, ctx.user.id));
+          } else {
+            await tx.insert(userProgress).values({
+              userId: ctx.user.id,
               xp: input.xp,
               level: input.level,
               points: input.points,
               title: input.title,
               progressData: input.progressData as Record<string, unknown>,
-              gameData: input.gameData as Record<string, unknown>,
-            })
-            .where(eq(userProgress.userId, ctx.user.id));
-        } else {
-          await db.insert(userProgress).values({
-            userId: ctx.user.id,
-            xp: input.xp,
-            level: input.level,
-            points: input.points,
-            title: input.title,
-            progressData: input.progressData as Record<string, unknown>,
-            gameData: input.gameData as Record<string, unknown>,
-          });
-        }
+              gameData: mergeClientGameData(
+                null,
+                input.gameData as Record<string, unknown> | undefined,
+              ),
+            });
+          }
+        });
         return { success: true };
       }),
 

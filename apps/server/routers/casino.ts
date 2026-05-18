@@ -425,10 +425,21 @@ async function executeGame(
     const freeSpinAvailable = bet > 0 && (freeSpinsByGame[game] ?? 0) > 0;
     if (bet > 0 && !opts.skipBetDeduction && !freeSpinAvailable) {
       if (balance.dreamTokens < bet) throw new Error("Insufficient Dream tokens");
-      await tx
-        .update(dreamBalance)
-        .set({ dreamTokens: sql`${dreamBalance.dreamTokens} - ${bet}` })
-        .where(eq(dreamBalance.userId, userId));
+      // Persistence F4 — atomic conditional debit. Was a TOCTOU:
+      // read-check-then-unconditional-write let two concurrent plays
+      // both pass the JS guard and double-spend into a negative
+      // balance. Mirrors the correct store.ts pattern — the
+      // `dream_tokens >= ${bet}` predicate makes check-and-debit a
+      // single atomic statement; 0 rows affected ⇒ lost the race.
+      const debit = await tx.execute(sql`
+        UPDATE dream_balance
+        SET dream_tokens = dream_tokens - ${bet}
+        WHERE user_id = ${userId} AND dream_tokens >= ${bet}
+      `);
+      const debited =
+        (debit as unknown as Array<{ affectedRows?: number }>)[0]
+          ?.affectedRows ?? 0;
+      if (debited === 0) throw new Error("Insufficient Dream tokens");
     }
 
     const seed = opts.seed ?? randomSeed();

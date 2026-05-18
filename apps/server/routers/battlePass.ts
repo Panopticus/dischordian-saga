@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { protectedProcedure, publicProcedure, router } from "../_core/trpc";
+import { protectedProcedure, publicProcedure, adminProcedure, router } from "../_core/trpc";
 import { procedureRateLimit } from "../_core/procedureRateLimit";
 import { getDb } from "../db";
 import { battlePassSeasons, battlePassProgress, dreamBalance, notifications } from "../../db/schema";
@@ -11,6 +11,7 @@ import {
   getTierFromXp, getTierProgress, getXpSource, MAX_TIER,
   PREMIUM_COST_DREAM, XP_SOURCES, TOTAL_PASS_XP, SEASON_LENGTH_DAYS,
   generateSeasonRewards, getSeasonThemeFromPressure, SEASONAL_THEMES,
+  consumeDailyXpCap, utcDayKey,
   type SeasonTheme,
 } from "@shared/battlePassConfig";
 import { pressureService } from "../services/pressureService";
@@ -170,6 +171,13 @@ export const battlePassRouter = router({
 
   /* ─── Add XP from a specific game action (uses XP_SOURCES config) ─── */
   addXpFromAction: protectedProcedure
+    // Balance F2 — was the only XP-writing procedure with no rate
+    // limit (the deprecated sibling `addXp` is capped + 5/min
+    // precisely because client-trusted XP writes are exploitable).
+    // Two independent bounds now apply: this rate limit caps burst,
+    // and the source's declared `dailyCap` is enforced durably via
+    // the battle_pass_progress.dailyXpLedger column (see below).
+    .use(procedureRateLimit({ windowMs: 60_000, max: 5 }))
     .input(z.object({ actionId: z.string() }))
     .mutation(async ({ ctx, input }) => {
       const source = getXpSource(input.actionId);
@@ -211,6 +219,30 @@ export const battlePassRouter = router({
       const p = progress[0]!;
       if (p.currentTier >= MAX_TIER) return { success: true, maxed: true };
 
+      // Balance F2 — enforce the source's declared per-UTC-day cap
+      // durably (the rate limit bounds burst; this bounds the daily
+      // total). Unknown column during the boot window before the
+      // ledger bootstrap runs ⇒ `p.dailyXpLedger` is undefined and we
+      // simply track from empty; the rate limit still applies.
+      const utcDay = utcDayKey();
+      const cap = consumeDailyXpCap(
+        p.dailyXpLedger,
+        utcDay,
+        source.id,
+        source.dailyCap,
+      );
+      if (!cap.allowed) {
+        return {
+          success: true,
+          capped: true,
+          actionId: input.actionId,
+          xpAdded: 0,
+          newXp: p.currentXp,
+          newTier: p.currentTier,
+          message: `Daily cap reached for ${source.label}`,
+        };
+      }
+
       // Apply prestige multiplier
       const prestigeMult = await getPrestigeMultiplier(ctx.user.id);
       let finalXp = Math.round(source.xp * prestigeMult);
@@ -226,7 +258,7 @@ export const battlePassRouter = router({
       const newTier = Math.min(getTierFromXp(newXp), season[0].totalTiers);
 
       await db.update(battlePassProgress)
-        .set({ currentXp: newXp, currentTier: newTier })
+        .set({ currentXp: newXp, currentTier: newTier, dailyXpLedger: cap.ledger })
         .where(eq(battlePassProgress.id, p.id));
 
       return { success: true, actionId: input.actionId, xpAdded: finalXp, newXp, newTier };
@@ -428,7 +460,11 @@ export const battlePassRouter = router({
   xpSources: publicProcedure.query(() => XP_SOURCES),
 
   /* ─── Generate a new season (admin/automated — themes from community pressure) ─── */
-  generateSeason: protectedProcedure
+  // Balance F3 — global-state mutation (ends the live season for the
+  // entire playerbase and mints a new one). Was `protectedProcedure`
+  // (any logged-in user could grief the season / fish for a theme);
+  // now role-gated to admins.
+  generateSeason: adminProcedure
     .input(z.object({
       seasonNumber: z.number().min(1),
       /** Override theme (optional — defaults to community pressure) */

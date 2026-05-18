@@ -3,6 +3,7 @@ import { logger } from "../logger";
 import { grantCardReward } from "../services/cardRewardService";
 import { grantSuitMaterials } from "../services/suitMaterialsService";
 import { protectedProcedure, router } from "../_core/trpc";
+import { procedureRateLimit } from "../_core/procedureRateLimit";
 import { getDb } from "../db";
 import { dailyQuests, loginCalendar, dreamBalance, notifications, characterSheets } from "../../db/schema";
 import { battlePassXp } from "../services/battlePassXp";
@@ -403,9 +404,19 @@ export const dailyQuestsRouter = router({
 
   /* ─── Update quest progress ─── */
   updateProgress: protectedProcedure
+    // Balance F1 — this procedure is client-trusted (no server-side
+    // event proof that the underlying gameplay happened). Until
+    // progress is driven by trusted in-engine emitters, two hard
+    // bounds keep it from being an unbounded reward faucet: a small
+    // per-call `increment` cap (a real gameplay event advances a
+    // quest by a handful at most) and a per-minute rate limit. The
+    // claimReward path still gates on currentCount >= targetCount,
+    // so this bounds the mint rate to roughly target/cap calls
+    // spread across the rate window rather than a single RPC.
+    .use(procedureRateLimit({ windowMs: 60_000, max: 30 }))
     .input(z.object({
       questId: z.string(),
-      increment: z.number().min(1).default(1),
+      increment: z.number().int().min(1).max(100).default(1),
     }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();

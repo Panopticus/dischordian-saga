@@ -36,6 +36,7 @@ import { z } from "zod";
 import { protectedProcedure, router } from "../_core/trpc";
 import { TRPCError } from "@trpc/server";
 import { fulfillPurchase } from "./store";
+import { resolveInternalKeyFromSku } from "../storeSkuCatalog";
 import { logger } from "../logger";
 
 const ReceiptInputSchema = z.object({
@@ -78,6 +79,24 @@ export const iapReceiptRouter = router({
       }
 
       const userId = ctx.user.id;
+
+      // Balance F7 — the client-supplied productId is a platform
+      // store SKU. Resolve it through the cross-platform catalog to
+      // the internal product key and reject anything not in it. This
+      // is the gate that makes web/iOS/Android SKUs provably
+      // consistent: fulfillment is keyed on the internal product, not
+      // on whatever string the client sent.
+      const internalProductKey = resolveInternalKeyFromSku(
+        input.platform,
+        input.productId,
+      );
+      if (!internalProductKey) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: `Unknown ${input.platform} store SKU "${input.productId}" — not in STORE_SKU_CATALOG.`,
+        });
+      }
+
       // RevenueCat's REST API is the trust anchor: their server
       // already verified the receipt with Apple/Google before they
       // exposed it to us. We just confirm the transaction belongs
@@ -123,7 +142,7 @@ export const iapReceiptRouter = router({
       try {
         const result = await fulfillPurchase(
           ctx.user.id,
-          input.productId,
+          internalProductKey,
           1,
           fulfillmentId,
         );
@@ -139,6 +158,7 @@ export const iapReceiptRouter = router({
         logger.error("[iapReceipt] fulfillment failed", {
           userId: ctx.user.id,
           productId: input.productId,
+          internalProductKey,
           fulfillmentId,
           err,
         });

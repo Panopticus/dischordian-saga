@@ -29,7 +29,8 @@ export type MedicalBayHotspotId =
   | "medicine-cabinet"
   | "medical-log"
   | "egg-vox-neural-bridge"
-  | "emergency-safe";
+  | "emergency-safe"
+  | "the-silences-vacated-body";
 
 export const MEDICAL_BAY_MYSTERY: RoomMysteryModule<MedicalBayHotspotId> = {
   roomId: "medical-bay",
@@ -651,6 +652,51 @@ export const MEDICAL_BAY_MYSTERY: RoomMysteryModule<MedicalBayHotspotId> = {
             "The safe acknowledges Lyra's name without unlocking. It is, in this hardware's discipline, a small mercy: the safe will recognise the people who knew her without giving them the contents she protected. We are, in that sense, on the safe's roster of acknowledged callers. We are not, today, on its roster of authorised openers. Both rosters are honest.",
         },
         voId: "elara.medbay.emergency-safe.talk",
+      },
+    },
+    // Necromancer arc: the Med Bay is where bodies are
+    // catalogued, and the Resurrectionist's Samsara-machine
+    // taxonomy is a body-catalog. The Silence's vacated body is
+    // the vehicle the canon places the Necromancer's escape
+    // into. Single-verb on purpose — the catalog tag is a fact
+    // to be read, not a thing to operate or address; the look
+    // response carries the whole clue. medicalBay.test.ts
+    // asserts the use/talk omission.
+    "the-silences-vacated-body": {
+      look: {
+        narration: {
+          lucid:
+            "A drawer in the Med Bay's cross-referenced body-catalog, indexed to the Resurrectionist's Samsara-machine taxonomy. The taxonomy is canon here: every Ne-Yon's body persists after the principle 'goes' — the going is the principle's departure, not the body's destruction. The Silence (N6 Ne-Yon, canonically 'gone') has a body, and it was catalogued at the Resurrectionist's archive at the exact moment of her going. The catalog tag is the whole of it, and the room reads it without softening: not 'occupied,' not 'destroyed.' Available.",
+          fragmented:
+            "The body persists. Persists. The going is the departure. Not the destruction. Not the destruction. Catalogued at the moment of her going. Available. Available. Not occupied. Not destroyed. Available.",
+          luminous:
+            "The body-catalog drawer, read in the room that catalogues bodies: the Resurrectionist's taxonomy holds that a Ne-Yon body does not end when the principle goes — the going is a departure, the body remains. The Silence's body was logged at the instant she went, and its tag is a single word the Med Bay does not interpret, only record. Not occupied. Not destroyed. Available. The room files it the way it files any clinical fact: exactly, and without comment, because the word is doing all the work the case needs it to do.",
+        },
+        voId: "elara.medbay.the-silences-vacated-body.look",
+        logsClue: {
+          id: "clue-medbay-silence-body-record",
+          title: "The Silence's Body, Catalogued",
+          body:
+            "Catalogued under the Resurrectionist's Samsara-machine taxonomy: every Ne-Yon's body persists after the principle 'goes' — the going is the principle's departure, not the body's destruction. The Silence's body was catalogued at the Resurrectionist's archive at the moment of her going. The body's catalog tag is 'available' — not 'occupied,' not 'destroyed.' Available.",
+          source: "medical-bay",
+          order: 11,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.necromancer",
+          episodeId: "necromancer.e2",
+          cluesFound: ["necromancer.e2.silence_body_record"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Ne-Yon bodies persist after the principle goes. The Silence's was catalogued the moment she went. Tag: available. Not occupied. Not destroyed.",
+            balanced:
+              "The catalog entry is the vehicle. The Resurrectionist's taxonomy says the body outlasts the principle's departure, and the Silence's was logged as available at the instant of her going. The Med Bay reads the tag without softening it — it is exactly the kind of clinical fact this room is built to keep.",
+            warm:
+              "Her body did not end when she did; the principle left and the body stayed, and someone wrote one word against it: available. The room does not dress that up. It is, in the end, the door the rest of the case walks through.",
+          },
+          voId: "human.medbay.the-silences-vacated-body.look",
+        },
       },
     },
   },
