@@ -76,6 +76,54 @@ import { checkFeatureFlag } from "../middleware/featureFlag";
 /** 5% marketplace tax */
 const TAX_RATE = 0.05;
 
+/**
+ * Balance F4 — Dream↔Credits reference peg.
+ *
+ * Dream is cash-equivalent (products.ts: $5.99 = 500 Dream ⇒
+ * ~$0.012/Dream). Credits are a bulk grind faucet (login alone
+ * 500–5,000/day; trade quests up to 500,000/claim). The audit found
+ * the old peg of 1 Dream ≈ 1 Credit (×2 band) treated the two as
+ * peers, letting routine Credit farming launder into
+ * hard-currency-equivalent Dream at up to 2:1 — dissolving the
+ * hard/soft separation the store rests on.
+ *
+ * Re-pegged to the faucet ratio: 1 Dream ≈ 1,000 Credits (the
+ * conservative end of the audit's "2–3 orders of magnitude more
+ * abundant" range), so 500k Credits ≈ 500 Dream rather than 250k.
+ * The band is also tightened (×2 → ×1.5) so it can't be used as an
+ * arbitrage amplifier. Single source of truth: the order-band check
+ * and the displayed rate both read these constants so they cannot
+ * drift apart. A future market-price service can replace the
+ * reference with a rolling-median cache without touching callers.
+ */
+export const REFERENCE_DREAM_PER_CREDIT = 0.001; // 1 Dream ≈ 1,000 Credits
+export const RATE_BAND_MULTIPLIER = 1.5; // accept rates within [÷1.5, ×1.5]
+
+export const EXCHANGE_BAND = {
+  min: REFERENCE_DREAM_PER_CREDIT / RATE_BAND_MULTIPLIER,
+  max: REFERENCE_DREAM_PER_CREDIT * RATE_BAND_MULTIPLIER,
+} as const;
+
+/** Dream-per-Credit implied by an order, regardless of direction. */
+export function dreamPerCreditRatio(
+  sellCurrency: "dream" | "credits",
+  sellAmount: number,
+  buyCurrency: "dream" | "credits",
+  buyAmount: number,
+): number {
+  return sellCurrency === "dream"
+    ? sellAmount / buyAmount
+    : buyAmount / sellAmount;
+}
+
+/** Whether an order's implied rate is inside the faucet-pegged band. */
+export function isWithinExchangeBand(dreamPerCredit: number): boolean {
+  return (
+    dreamPerCredit >= EXCHANGE_BAND.min && dreamPerCredit <= EXCHANGE_BAND.max
+  );
+}
+
+
 function calcTax(amount: number): number {
   return Math.max(1, Math.floor(amount * TAX_RATE));
 }
@@ -841,25 +889,18 @@ export const marketplaceRouter = router({
       if (!db) throw new Error("Database unavailable");
       if (input.sellCurrency === input.buyCurrency) throw new Error("Cannot exchange same currency");
 
-      // Reference rate band — without an upper/lower bound on the
-      // sell:buy ratio, two colluding accounts could post wildly
-      // off-market orders to launder Dream into Credits (or back) and
-      // wash hard-currency-derived Dream into untracked Credits.
-      // The band uses a fixed reference for now; a future revision
-      // replaces REFERENCE_DREAM_PER_CREDIT with a service that reads a
-      // market-price cache populated from a 7-day rolling median of
-      // filled trades.
-      const REFERENCE_DREAM_PER_CREDIT = 1; // 1 Dream ≈ 1 Credit baseline
-      const RATE_BAND_MULTIPLIER = 2; // accept rates within [0.5x, 2.0x]
-      const dreamPerCredit =
-        input.sellCurrency === "dream"
-          ? input.sellAmount / input.buyAmount
-          : input.buyAmount / input.sellAmount;
-      const minRate = REFERENCE_DREAM_PER_CREDIT / RATE_BAND_MULTIPLIER;
-      const maxRate = REFERENCE_DREAM_PER_CREDIT * RATE_BAND_MULTIPLIER;
-      if (dreamPerCredit < minRate || dreamPerCredit > maxRate) {
+      // Balance F4 — reject orders whose sell:buy ratio falls outside
+      // the faucet-pegged band (module constants), the gate that stops
+      // soft Credits laundering into cash-equivalent Dream.
+      const dreamPerCredit = dreamPerCreditRatio(
+        input.sellCurrency,
+        input.sellAmount,
+        input.buyCurrency,
+        input.buyAmount,
+      );
+      if (!isWithinExchangeBand(dreamPerCredit)) {
         throw new Error(
-          `Exchange rate ${dreamPerCredit.toFixed(2)} Dream/Credit is outside the allowed band [${minRate.toFixed(2)}, ${maxRate.toFixed(2)}]`,
+          `Exchange rate ${dreamPerCredit.toFixed(4)} Dream/Credit is outside the allowed band [${EXCHANGE_BAND.min.toFixed(4)}, ${EXCHANGE_BAND.max.toFixed(4)}]`,
         );
       }
 
@@ -940,13 +981,16 @@ export const marketplaceRouter = router({
         .orderBy(desc(currencyExchange.createdAt))
         .limit(50);
 
-      // Calculate average exchange rate from recent transactions
-      const recentTx = await db.select().from(marketTransactions)
-        .where(sql`${marketTransactions.priceDream} > 0 AND ${marketTransactions.priceCredits} > 0`)
-        .orderBy(desc(marketTransactions.createdAt))
-        .limit(20);
-
-      return { orders, rate: { dreamPerCredit: 0.1, creditPerDream: 10 } };
+      // Balance F4 — surface the same faucet-pegged reference the
+      // order band enforces (was a stale hardcoded 10 Credits/Dream
+      // that disagreed with the band, misleading the client).
+      return {
+        orders,
+        rate: {
+          dreamPerCredit: REFERENCE_DREAM_PER_CREDIT,
+          creditPerDream: Math.round(1 / REFERENCE_DREAM_PER_CREDIT),
+        },
+      };
     }),
 
   myExchangeOrders: protectedProcedure.query(async ({ ctx }) => {
