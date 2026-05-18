@@ -402,6 +402,20 @@ export function getSurfaceRouteForPremise(
 }
 
 /**
+ * ALL player-facing routes a game-mode premise is reached through
+ * (a premise may bind several surfaces — e.g. chess has /chess,
+ * /chess/tutorial, /chess/climb). Used by the room↔mode bridge to
+ * decide whether any of a wing's surfaces has an in-world doorway.
+ */
+export function getSurfaceRoutesForPremise(
+  gameModePremiseId: string,
+): string[] {
+  return SURFACE_REGISTRY.filter(
+    (e) => e.unlock?.gameModePremiseId === gameModePremiseId,
+  ).map((e) => e.route);
+}
+
+/**
  * Structural issues in the registry itself (independent of
  * App.tsx drift): a narrative_gated entry with no unlock, or a
  * non-narrative_gated entry that carries one. Surfaced by the
