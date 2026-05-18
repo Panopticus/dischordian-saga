@@ -5390,6 +5390,14 @@ const necromancerSuspects: ReadonlyArray<{
   },
   { id: "suspect.varkul" as SuspectId, name: "Varkul, the Blood Lord", type: "character",
     relations: [{ to: "suspect.cathedral_of_code" as SuspectId, relation: "vigil-keeper-of" }] },
+  // Continuity F3 — resurrection breadcrumb. Reading this file alone,
+  // "Akai Shi, the Red Death" killing the Necromancer (present tense,
+  // inside the Matrix) looks to contradict jericho.e1: Akai Shi was
+  // killed at Thaloria. It is NOT a contradiction — canon
+  // (docs/built/LORE_BIBLE.md ~L747): Akai Shi was killed at Thaloria,
+  // then resurrected and transformed into the Red Death, in which form
+  // she ends the Necromancer's evasion of fate within the Matrix of
+  // Dreams. Death → resurrection → Red Death is intended.
   { id: "suspect.akai_shi_red_death" as SuspectId, name: "Akai Shi, the Red Death", type: "character",
     relations: [{ to: "suspect.the_necromancer" as SuspectId, relation: "killer-of-canonical-record" }] },
   { id: "suspect.the_silence_body" as SuspectId, name: "The Silence's Body (N6, vacated)", type: "concept",
