@@ -567,6 +567,7 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "narrative_event", value: "cryo_mystery_victim_identified" },
     connections: ["cryo-bay"],
     hotspots: [
+      { id: "hellbox-lattice", name: "Hellbox Lattice", description: "The neural-lattice kernel wired into the cloning pod — a portal into the Matrix of Dreams.", x: 8, y: 80, width: 12, height: 14, type: "terminal", action: "/hellbox", elaraDialog: "The Hellbox. The cloning-pod's neural lattice opens straight into the Matrix of Dreams. Every descent is a small Blood-Weave bargain — the Advocate's path in miniature." },
       // Realigned 2026-04-25 to match the AAA Final medical-bay render —
       // a symmetrical exam room with a central stasis chamber + chair +
       // overhead surgical arm, twin DNA scanners flanking it, a sealed
@@ -642,6 +643,7 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "room_visited", value: "cryo-bay" },
     connections: ["cryo-bay", "archives", "comms-array"],
     hotspots: [
+      { id: "sealed-memory-board", name: "Sealed Memory Board", description: "The Editor sealed memories out of the record. Solve the boards to un-redact them.", x: 14, y: 70, width: 14, height: 14, type: "terminal", action: "/conspiracy-board", elaraDialog: "Not the open Conspiracy Board — the sealed ones. The Editor redacted seven memories out of the saga's record. Each board you solve un-redacts a cutscene and a Soul Stone." },
       // Realigned 2026-04-25 for the AAA Final bridge render — central
       // wheel/portal back-wall display (the Conspiracy Board), flanking
       // viewport windows, twin console+chair workstations in foreground.
@@ -727,6 +729,7 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "room_visited", value: "bridge" },
     connections: ["bridge"],
     hotspots: [
+      { id: "clue-journal-desk", name: "Clue Journal", description: "Ten investigative arcs. The Two Witnesses record what you deduce.", x: 30, y: 84, width: 14, height: 12, type: "terminal", action: "/clue-journal", elaraDialog: "The Clue Journal. Ten arcs, the_watcher through fenra. The Two Witnesses log every reading you file — the canon is partly written by what you conclude." },
       // Realigned 2026-04-25 for the AAA Final archives render — circular
       // chamber with a raised central platform holding a glowing data orb,
       // an orange-glowing archway centre-back (the Bridge exit), panel
@@ -1037,6 +1040,7 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "items_collected", value: 5 },
     connections: ["captains-quarters"],
     hotspots: [
+      { id: "loredex-lectern", name: "The Loredex", description: "The Antiquarian's living chronicle — the part he lets you walk yourself.", x: 12, y: 30, width: 14, height: 24, type: "terminal", action: "/loredex", elaraDialog: "The Loredex. The Antiquarian is one of the Two Witnesses, and this is the chronicle he lets you read on your own feet. Everything you uncover is written here." },
       // Realigned 2026-04-25 against the actual delivered art — a domed
       // circular chamber with an ornate snake-carved wooden desk centred
       // in the foreground, the golden Orb of Worlds floating above it,
@@ -1143,6 +1147,7 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "chain_complete", value: "assassin_chain" },
     connections: ["armory"],
     hotspots: [
+      { id: "demon-contract-altar", name: "Contract Altar", description: "The Hierarchy answers by contract. Every summon is a clause.", x: 72, y: 28, width: 14, height: 22, type: "terminal", action: "/demon-packs", elaraDialog: "A summoning altar bound to the Hierarchy's contract law. Every demon you call owes exactly what was signed — not one clause more. Mol'Garath audits the ledger quarterly." },
       // Realigned 2026-04-25 against the delivered render — pitch-black
       // chamber criss-crossed by red laser security grid, three lit
       // glass display cases mounted across the back wall (left: guns,
@@ -1255,6 +1260,7 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "chain_complete", value: "order_chain" },
     connections: ["bridge"],
     hotspots: [
+      { id: "apprentice-rostrum", name: "Apprentice Rostrum", description: "The Mechronis Academy trial cadence — mentor a successor through the 28-day trial.", x: 12, y: 30, width: 14, height: 22, type: "terminal", action: "/apprentice", elaraDialog: "The Mechronis trial rostrum. You mentor a successor through the twelve-archetype, twenty-eight-day trial — while the Politician's dead insurance policy trains your rival's. The loop is a mirror." },
       // Realigned 2026-04-25 against the delivered render — marble
       // colonnade chamber with cyan neon strip-lighting in the column
       // capitals, central golden Scales of Justice hovering on the
@@ -1404,6 +1410,7 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "room_visited", value: "engineering" },
     connections: ["engineering", "war-room"],
     hotspots: [
+      { id: "circuit-paddock", name: "Dead Man's Circuit Paddock", description: "Bone-tracks built from the remains of dead clones. Nilmorg narrates the season.", x: 12, y: 64, width: 16, height: 22, type: "terminal", action: "/circuit", elaraDialog: "Dead Man's Circuit. The karts race bone-tracks built from dead clones, and Nilmorg calls every lap. The most honest accounting of what disposability costs." },
       // Anchored 2026-04-25 against the AAA Final station-dock render —
       // octagonal chamber, hexagonal viewport at back showing the
       // half-built orbital station against violet nebula, two
@@ -1437,6 +1444,7 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "room_visited", value: "bridge" },
     connections: ["bridge", "station-dock"],
     hotspots: [
+      { id: "conexus-governance-shell", name: "CoNexus Governance Shell", description: "The governance shell the Architect's dismantled CoNexus left behind.", x: 70, y: 30, width: 16, height: 22, type: "terminal", action: "/governance", elaraDialog: "The CoNexus governance shell. When the Architect dismantled the constructed CoNexus it left this voting chamber empty. The saga's nexus decisions are how the playerbase fills it." },
       // Anchored 2026-04-25 against the AAA Final guild-sanctum render —
       // domed circular chamber with seven faction banners hanging from
       // the dome ribbing, central tiered dais carrying a holographic
@@ -1464,6 +1472,7 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "room_visited", value: "bridge" },
     connections: ["bridge", "guild-sanctum", "war-room"],
     hotspots: [
+      { id: "degen-casino-table", name: "The Degen's Casino", description: "The Trickster's inherited casino, at the edge of the Dreamer's Shield.", x: 70, y: 30, width: 16, height: 22, type: "terminal", action: "/casino", elaraDialog: "The Degen's Casino — won in the Casino Heist. You gamble at the edge of the Dreamer's Shield because the house is a Ne-Yon and the game is how he reads you." },
       // Anchored 2026-04-25 against the AAA Final social-hub render —
       // warm wood-and-brass lounge with three back-wall kiosks
       // (orange-icon comm wall on the left, central holographic
