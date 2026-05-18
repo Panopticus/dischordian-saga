@@ -10,7 +10,9 @@ import type { DrizzleDb } from "../db";
  *  operation methods we need (select/insert/update) are common to
  *  both, so consumers don't care which they receive. */
 type TxOrDb = DrizzleDb | Parameters<Parameters<DrizzleDb["transaction"]>[0]>[0];
-import { eq, and, desc, sql } from "drizzle-orm";
+import { eq, and, desc, asc, sql } from "drizzle-orm";
+import { createRng, rngInt } from "../../shared/tcg-core";
+import { randomSeed } from "../../shared/casinoGames";
 import { ripple } from "../services/rippleEngine";
 import { setEntitlement } from "../services/entitlementService";
 
@@ -465,6 +467,7 @@ async function doFulfill(
     const availableCards = await tx
       .select({ id: cards.id, rarity: cards.rarity })
       .from(cards)
+      .orderBy(asc(cards.id))
       .limit(500);
 
     if (availableCards.length > 0) {
@@ -473,9 +476,22 @@ async function doFulfill(
         return idx >= minIdx;
       });
 
+      // Persistence F9 — seeded, persisted, auditable pulls. Was
+      // unseeded Math.random(): a paid surface whose pulls could not
+      // be replayed, audited, or disputed (contrast the casino, which
+      // persists its seed). The pool is now deterministically ordered
+      // (asc id) and drawn via a seeded RNG; the seed + resulting card
+      // ids are written into purchase_grants.rewardSummary (the
+      // fulfillmentId-keyed ledger row) so any pull can be reproduced
+      // and verified after the fact.
+      const packSeed = randomSeed();
+      const rng = createRng(packSeed);
+      const pulledIds: string[] = [];
+
       for (let i = 0; i < packSize; i++) {
         const pool = i === 0 && guaranteedCards.length > 0 ? guaranteedCards : availableCards;
-        const randomCard = pool[Math.floor(Math.random() * pool.length)];
+        const randomCard = pool[rngInt(rng, 0, pool.length - 1)];
+        pulledIds.push(randomCard.id.toString());
 
         await tx.insert(userCards).values({
           userId,
@@ -483,6 +499,9 @@ async function doFulfill(
           obtainedVia: "store_purchase",
         });
       }
+
+      summary.packSeed = packSeed;
+      summary.packCardIds = pulledIds.join(",");
     }
   }
 
