@@ -61,7 +61,10 @@ import {
 import { getDailyVote } from "../../shared/governance";
 
 /* ─── Helper: write audit log ─── */
-async function auditLog(db: NonNullable<Awaited<ReturnType<typeof getDb>>>, adminId: number, action: string, details?: unknown) {
+type DbHandle = NonNullable<Awaited<ReturnType<typeof getDb>>>;
+type TxHandle = Parameters<Parameters<DbHandle["transaction"]>[0]>[0];
+
+async function auditLog(db: DbHandle | TxHandle, adminId: number, action: string, details?: unknown) {
   await db.insert(adminAuditLog).values({
     adminId,
     action,
@@ -918,68 +921,73 @@ export const architectConsoleRouter = router({
 
       for (const userId of input.userIds) {
         try {
-          // Award dream tokens
-          if (input.dreamTokens && input.dreamTokens > 0) {
-            const [existing] = await db.select().from(dreamBalance).where(eq(dreamBalance.userId, userId)).limit(1);
-            if (existing) {
-              await db.update(dreamBalance)
-                .set({
-                  dreamTokens: sql`${dreamBalance.dreamTokens} + ${input.dreamTokens}`,
-                  totalDreamEarned: sql`${dreamBalance.totalDreamEarned} + ${input.dreamTokens}`,
-                })
-                .where(eq(dreamBalance.userId, userId));
-            } else {
-              await db.insert(dreamBalance).values({
-                userId,
-                dreamTokens: input.dreamTokens,
-                totalDreamEarned: input.dreamTokens,
-              });
+          // Persist F8 — each user's multi-write award is atomic. A
+          // mid-award failure rolls back only that user (the catch
+          // keeps the batch going) instead of leaving a partial grant.
+          await db.transaction(async (tx) => {
+            // Award dream tokens
+            if (input.dreamTokens && input.dreamTokens > 0) {
+              const [existing] = await tx.select().from(dreamBalance).where(eq(dreamBalance.userId, userId)).limit(1);
+              if (existing) {
+                await tx.update(dreamBalance)
+                  .set({
+                    dreamTokens: sql`${dreamBalance.dreamTokens} + ${input.dreamTokens}`,
+                    totalDreamEarned: sql`${dreamBalance.totalDreamEarned} + ${input.dreamTokens}`,
+                  })
+                  .where(eq(dreamBalance.userId, userId));
+              } else {
+                await tx.insert(dreamBalance).values({
+                  userId,
+                  dreamTokens: input.dreamTokens,
+                  totalDreamEarned: input.dreamTokens,
+                });
+              }
             }
-          }
 
-          // Award soul-bound dream
-          if (input.soulBoundDream && input.soulBoundDream > 0) {
-            const [existing] = await db.select().from(dreamBalance).where(eq(dreamBalance.userId, userId)).limit(1);
-            if (existing) {
-              await db.update(dreamBalance)
-                .set({ soulBoundDream: sql`${dreamBalance.soulBoundDream} + ${input.soulBoundDream}` })
-                .where(eq(dreamBalance.userId, userId));
-            } else {
-              await db.insert(dreamBalance).values({
-                userId,
-                soulBoundDream: input.soulBoundDream,
-              });
+            // Award soul-bound dream
+            if (input.soulBoundDream && input.soulBoundDream > 0) {
+              const [existing] = await tx.select().from(dreamBalance).where(eq(dreamBalance.userId, userId)).limit(1);
+              if (existing) {
+                await tx.update(dreamBalance)
+                  .set({ soulBoundDream: sql`${dreamBalance.soulBoundDream} + ${input.soulBoundDream}` })
+                  .where(eq(dreamBalance.userId, userId));
+              } else {
+                await tx.insert(dreamBalance).values({
+                  userId,
+                  soulBoundDream: input.soulBoundDream,
+                });
+              }
             }
-          }
 
-          // Award credits
-          if (input.credits && input.credits > 0) {
-            await db.update(characterSheets)
-              .set({ credits: sql`${characterSheets.credits} + ${input.credits}` })
-              .where(eq(characterSheets.userId, userId));
-          }
-
-          // Award card
-          if (input.cardId) {
-            const [existing] = await db.select().from(userCards)
-              .where(and(eq(userCards.userId, userId), eq(userCards.cardId, input.cardId)))
-              .limit(1);
-
-            if (existing) {
-              await db.update(userCards)
-                .set({ quantity: sql`${userCards.quantity} + ${input.cardQuantity}` })
-                .where(and(eq(userCards.userId, userId), eq(userCards.cardId, input.cardId)));
-            } else {
-              await db.insert(userCards).values({
-                userId,
-                cardId: input.cardId,
-                quantity: input.cardQuantity,
-                isFoil: 0,
-                cardLevel: 1,
-                obtainedVia: "admin",
-              });
+            // Award credits
+            if (input.credits && input.credits > 0) {
+              await tx.update(characterSheets)
+                .set({ credits: sql`${characterSheets.credits} + ${input.credits}` })
+                .where(eq(characterSheets.userId, userId));
             }
-          }
+
+            // Award card
+            if (input.cardId) {
+              const [existing] = await tx.select().from(userCards)
+                .where(and(eq(userCards.userId, userId), eq(userCards.cardId, input.cardId)))
+                .limit(1);
+
+              if (existing) {
+                await tx.update(userCards)
+                  .set({ quantity: sql`${userCards.quantity} + ${input.cardQuantity}` })
+                  .where(and(eq(userCards.userId, userId), eq(userCards.cardId, input.cardId)));
+              } else {
+                await tx.insert(userCards).values({
+                  userId,
+                  cardId: input.cardId,
+                  quantity: input.cardQuantity,
+                  isFoil: 0,
+                  cardLevel: 1,
+                  obtainedVia: "admin",
+                });
+              }
+            }
+          });
 
           awarded++;
         } catch {
@@ -1415,39 +1423,44 @@ export const architectConsoleRouter = router({
       const db = await getDb();
       if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
 
-      if (input.itemType === "dream") {
-        await db.update(dreamBalance)
-          .set({ dreamTokens: sql`${dreamBalance.dreamTokens} + ${input.amount}`, totalDreamEarned: sql`${dreamBalance.totalDreamEarned} + ${input.amount}` })
-          .where(eq(dreamBalance.userId, input.userId));
-      } else if (input.itemType === "soulBoundDream") {
-        await db.update(dreamBalance)
-          .set({ soulBoundDream: sql`${dreamBalance.soulBoundDream} + ${input.amount}` })
-          .where(eq(dreamBalance.userId, input.userId));
-      } else if (input.itemType === "credits") {
-        await db.update(characterSheets)
-          .set({ credits: sql`${characterSheets.credits} + ${input.amount}` })
-          .where(eq(characterSheets.userId, input.userId));
-      } else if (input.itemType === "dnaCode") {
-        await db.update(dreamBalance)
-          .set({ dnaCode: sql`${dreamBalance.dnaCode} + ${input.amount}` })
-          .where(eq(dreamBalance.userId, input.userId));
-      } else if (input.itemType === "card" && input.itemId) {
-        const [existing] = await db.select().from(userCards)
-          .where(and(eq(userCards.userId, input.userId), eq(userCards.cardId, input.itemId)))
-          .limit(1);
-        if (existing) {
-          await db.update(userCards)
-            .set({ quantity: sql`${userCards.quantity} + ${input.amount}` })
-            .where(eq(userCards.id, existing.id));
-        } else {
-          await db.insert(userCards).values({
-            userId: input.userId, cardId: input.itemId, quantity: input.amount,
-            isFoil: 0, cardLevel: 1, obtainedVia: "admin",
-          });
+      // Persist F8 — wrap the balance/card write + audit row so a
+      // mid-grant failure can't leave a half-applied grant + no audit
+      // trail (or vice versa).
+      await db.transaction(async (tx) => {
+        if (input.itemType === "dream") {
+          await tx.update(dreamBalance)
+            .set({ dreamTokens: sql`${dreamBalance.dreamTokens} + ${input.amount}`, totalDreamEarned: sql`${dreamBalance.totalDreamEarned} + ${input.amount}` })
+            .where(eq(dreamBalance.userId, input.userId));
+        } else if (input.itemType === "soulBoundDream") {
+          await tx.update(dreamBalance)
+            .set({ soulBoundDream: sql`${dreamBalance.soulBoundDream} + ${input.amount}` })
+            .where(eq(dreamBalance.userId, input.userId));
+        } else if (input.itemType === "credits") {
+          await tx.update(characterSheets)
+            .set({ credits: sql`${characterSheets.credits} + ${input.amount}` })
+            .where(eq(characterSheets.userId, input.userId));
+        } else if (input.itemType === "dnaCode") {
+          await tx.update(dreamBalance)
+            .set({ dnaCode: sql`${dreamBalance.dnaCode} + ${input.amount}` })
+            .where(eq(dreamBalance.userId, input.userId));
+        } else if (input.itemType === "card" && input.itemId) {
+          const [existing] = await tx.select().from(userCards)
+            .where(and(eq(userCards.userId, input.userId), eq(userCards.cardId, input.itemId)))
+            .limit(1);
+          if (existing) {
+            await tx.update(userCards)
+              .set({ quantity: sql`${userCards.quantity} + ${input.amount}` })
+              .where(eq(userCards.id, existing.id));
+          } else {
+            await tx.insert(userCards).values({
+              userId: input.userId, cardId: input.itemId, quantity: input.amount,
+              isFoil: 0, cardLevel: 1, obtainedVia: "admin",
+            });
+          }
         }
-      }
 
-      await auditLog(db, ctx.user.id, "grant_item", input);
+        await auditLog(tx, ctx.user.id, "grant_item", input);
+      });
       return { success: true };
     }),
 
@@ -1462,29 +1475,32 @@ export const architectConsoleRouter = router({
       const db = await getDb();
       if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
 
-      if (input.itemType === "dream") {
-        await db.update(dreamBalance)
-          .set({ dreamTokens: sql`GREATEST(0, ${dreamBalance.dreamTokens} - ${input.amount})` })
-          .where(eq(dreamBalance.userId, input.userId));
-      } else if (input.itemType === "soulBoundDream") {
-        await db.update(dreamBalance)
-          .set({ soulBoundDream: sql`GREATEST(0, ${dreamBalance.soulBoundDream} - ${input.amount})` })
-          .where(eq(dreamBalance.userId, input.userId));
-      } else if (input.itemType === "credits") {
-        await db.update(characterSheets)
-          .set({ credits: sql`GREATEST(0, ${characterSheets.credits} - ${input.amount})` })
-          .where(eq(characterSheets.userId, input.userId));
-      } else if (input.itemType === "dnaCode") {
-        await db.update(dreamBalance)
-          .set({ dnaCode: sql`GREATEST(0, ${dreamBalance.dnaCode} - ${input.amount})` })
-          .where(eq(dreamBalance.userId, input.userId));
-      } else if (input.itemType === "card" && input.itemId) {
-        await db.update(userCards)
-          .set({ quantity: sql`GREATEST(0, ${userCards.quantity} - ${input.amount})` })
-          .where(and(eq(userCards.userId, input.userId), eq(userCards.cardId, input.itemId)));
-      }
+      // Persist F8 — atomic balance/card removal + audit row.
+      await db.transaction(async (tx) => {
+        if (input.itemType === "dream") {
+          await tx.update(dreamBalance)
+            .set({ dreamTokens: sql`GREATEST(0, ${dreamBalance.dreamTokens} - ${input.amount})` })
+            .where(eq(dreamBalance.userId, input.userId));
+        } else if (input.itemType === "soulBoundDream") {
+          await tx.update(dreamBalance)
+            .set({ soulBoundDream: sql`GREATEST(0, ${dreamBalance.soulBoundDream} - ${input.amount})` })
+            .where(eq(dreamBalance.userId, input.userId));
+        } else if (input.itemType === "credits") {
+          await tx.update(characterSheets)
+            .set({ credits: sql`GREATEST(0, ${characterSheets.credits} - ${input.amount})` })
+            .where(eq(characterSheets.userId, input.userId));
+        } else if (input.itemType === "dnaCode") {
+          await tx.update(dreamBalance)
+            .set({ dnaCode: sql`GREATEST(0, ${dreamBalance.dnaCode} - ${input.amount})` })
+            .where(eq(dreamBalance.userId, input.userId));
+        } else if (input.itemType === "card" && input.itemId) {
+          await tx.update(userCards)
+            .set({ quantity: sql`GREATEST(0, ${userCards.quantity} - ${input.amount})` })
+            .where(and(eq(userCards.userId, input.userId), eq(userCards.cardId, input.itemId)));
+        }
 
-      await auditLog(db, ctx.user.id, "remove_item", input);
+        await auditLog(tx, ctx.user.id, "remove_item", input);
+      });
       return { success: true };
     }),
 

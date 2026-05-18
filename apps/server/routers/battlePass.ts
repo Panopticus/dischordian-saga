@@ -393,47 +393,51 @@ export const battlePassRouter = router({
       throw new TRPCError({ code: "CONFLICT", message: "Already premium" });
     }
 
-    if (currency === "dream") {
-      // Atomic conditional UPDATE — the previous select-then-update
-      // pattern let two parallel upgrades both succeed because the
-      // implied check and the write weren't atomic.
-      const r = await db.execute(sql`
-        UPDATE dream_balance
-        SET dream_tokens = dream_tokens - ${PREMIUM_COST_DREAM}
-        WHERE user_id = ${ctx.user.id} AND dream_tokens >= ${PREMIUM_COST_DREAM}
-      `);
-      const affected = (r as unknown as Array<{ affectedRows?: number }>)[0]?.affectedRows ?? 0;
-      if (affected === 0) {
-        const dreamRow = await db.select().from(dreamBalance)
-          .where(eq(dreamBalance.userId, ctx.user.id)).limit(1);
-        const have = dreamRow[0]?.dreamTokens ?? 0;
-        throw new TRPCError({
-          code: "PRECONDITION_FAILED",
-          message: `Need ${PREMIUM_COST_DREAM} Dream tokens, have ${have}`,
-        });
+    // Persist F8 — the currency debit and the isPremium grant must be
+    // atomic: a failure after the debit (or a parallel call) must not
+    // charge the player without flipping them to premium. The
+    // conditional UPDATE is still the concurrency guard; the
+    // transaction binds debit+grant into one unit.
+    await db.transaction(async (tx) => {
+      if (currency === "dream") {
+        const r = await tx.execute(sql`
+          UPDATE dream_balance
+          SET dream_tokens = dream_tokens - ${PREMIUM_COST_DREAM}
+          WHERE user_id = ${ctx.user.id} AND dream_tokens >= ${PREMIUM_COST_DREAM}
+        `);
+        const affected = (r as unknown as Array<{ affectedRows?: number }>)[0]?.affectedRows ?? 0;
+        if (affected === 0) {
+          const dreamRow = await tx.select().from(dreamBalance)
+            .where(eq(dreamBalance.userId, ctx.user.id)).limit(1);
+          const have = dreamRow[0]?.dreamTokens ?? 0;
+          throw new TRPCError({
+            code: "PRECONDITION_FAILED",
+            message: `Need ${PREMIUM_COST_DREAM} Dream tokens, have ${have}`,
+          });
+        }
+      } else {
+        const PREMIUM_COST_VC = 1000;
+        const r = await tx.execute(sql`
+          UPDATE dream_balance
+          SET gems = gems - ${PREMIUM_COST_VC}
+          WHERE user_id = ${ctx.user.id} AND gems >= ${PREMIUM_COST_VC}
+        `);
+        const affected = (r as unknown as Array<{ affectedRows?: number }>)[0]?.affectedRows ?? 0;
+        if (affected === 0) {
+          const dreamRow = await tx.select().from(dreamBalance)
+            .where(eq(dreamBalance.userId, ctx.user.id)).limit(1);
+          const have = dreamRow[0]?.gems ?? 0;
+          throw new TRPCError({
+            code: "PRECONDITION_FAILED",
+            message: `Need ${PREMIUM_COST_VC} Void Crystals, have ${have}`,
+          });
+        }
       }
-    } else {
-      const PREMIUM_COST_VC = 1000;
-      const r = await db.execute(sql`
-        UPDATE dream_balance
-        SET gems = gems - ${PREMIUM_COST_VC}
-        WHERE user_id = ${ctx.user.id} AND gems >= ${PREMIUM_COST_VC}
-      `);
-      const affected = (r as unknown as Array<{ affectedRows?: number }>)[0]?.affectedRows ?? 0;
-      if (affected === 0) {
-        const dreamRow = await db.select().from(dreamBalance)
-          .where(eq(dreamBalance.userId, ctx.user.id)).limit(1);
-        const have = dreamRow[0]?.gems ?? 0;
-        throw new TRPCError({
-          code: "PRECONDITION_FAILED",
-          message: `Need ${PREMIUM_COST_VC} Void Crystals, have ${have}`,
-        });
-      }
-    }
 
-    await db.update(battlePassProgress)
-      .set({ isPremium: true })
-      .where(eq(battlePassProgress.id, progress[0].id));
+      await tx.update(battlePassProgress)
+        .set({ isPremium: true })
+        .where(eq(battlePassProgress.id, progress[0].id));
+    });
 
     return { success: true, currencyUsed: currency };
   }),
