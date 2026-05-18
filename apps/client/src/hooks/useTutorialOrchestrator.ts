@@ -218,10 +218,19 @@ export function useTutorialOrchestrator(): UseTutorialOrchestratorResult {
   const skipAll = useCallback(() => {
     orchestrator.skipAll();
     persistFlags(orchestrator.getCompletedFlags());
-    persistSkipped();
+    persistSkipped(); // local fast-path cache (kept)
+    // QA F2 — account-bind the skip. Skipping was localStorage-only
+    // (`FTUE_SKIPPED_KEY`), so a player who skipped on one device or
+    // cleared their cache had the whole FTUE re-fire. Propagate every
+    // FTUE step into GameContext.completedTutorials (server-persisted,
+    // and what `initialFlags` already seeds from on a fresh device),
+    // so the skip is honored across devices/cache clears.
+    for (const step of FTUE_SEQUENCE) {
+      gameCompleteTutorial(step.tutorialId);
+    }
     setActiveStep(null);
     refreshState();
-  }, [orchestrator, refreshState]);
+  }, [orchestrator, gameCompleteTutorial, refreshState]);
 
   /** Dismiss the active tutorial without completing it (snooze). */
   const dismissActive = useCallback(() => {
