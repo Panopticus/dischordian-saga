@@ -17,19 +17,33 @@
  *      synchronized via drizzle-kit push at fixture bootstrap, and a
  *      cleanup function the caller calls in afterAll/afterEach.
  *
- * The CI workflow (.github/workflows/ci.yml `integration-tests` job)
- * provides the env var; locally, a developer can run:
+ * The CI workflow (.github/workflows/ci.yml `db-smoke` job) provides
+ * the env var; locally, a developer can run:
  *
  *     INTEGRATION_TEST_DATABASE_URL=mysql://root:pw@127.0.0.1/test \
  *       pnpm test:integration
  *
  * Each `withMysql()` call hands back a *fresh* schema (DROP DATABASE
- * + CREATE DATABASE + drizzle push) so tests can't leak rows between
- * cases. That's slow; for repeated test cases, use one withMysql()
- * per `describe()` block and clean specific tables in afterEach.
+ * + CREATE DATABASE + drizzle-kit push) so tests can't leak rows
+ * between cases. reset() reprovisions the schema itself — it does NOT
+ * depend on a preceding CI `pnpm db:push`, because dozens of
+ * schema.ts tables (dream_balance, season_clock_state, the trade_*
+ * family) are journal orphans `drizzle-kit migrate` can't rebuild.
+ * That's slow; for repeated test cases, use one withMysql() per
+ * `describe()` block and clean specific tables in afterEach.
  */
+import { execFileSync } from "node:child_process";
+import { fileURLToPath } from "node:url";
 import type { MySql2Database } from "drizzle-orm/mysql2";
 import * as schema from "../../db/schema";
+
+// drizzle.config.ts lives at the repo root; resolve it relative to
+// this file (apps/server/test-helpers/) so reset() works regardless
+// of the vitest cwd.
+const REPO_ROOT = fileURLToPath(new URL("../../../", import.meta.url));
+const DRIZZLE_KIT_BIN = fileURLToPath(
+  new URL("../../../node_modules/.bin/drizzle-kit", import.meta.url),
+);
 
 const ENV_KEY = "INTEGRATION_TEST_DATABASE_URL";
 
@@ -77,16 +91,23 @@ export async function withMysql(): Promise<IntegrationDb | null> {
   const reset = async () => {
     await adminPool.query(`DROP DATABASE IF EXISTS \`${databaseName}\``);
     await adminPool.query(`CREATE DATABASE \`${databaseName}\``);
-    // Schema bootstrap — we don't run drizzle push from inside the
-    // process (that would shell out to drizzle-kit). Instead we rely
-    // on the CI workflow's preceding "pnpm db:push" step to have
-    // written the schema before any integration test ran. Each
-    // reset() drops and recreates the database; the test harness
-    // re-applies the schema by re-running drizzle-kit push.
-    // For simplicity, we instead expect the caller to run
-    // `pnpm db:push` once before the test suite and assume the
-    // schema is in place. The reset() above gives a clean DB; the
-    // caller can populate fixtures from there.
+    // Re-apply the full Drizzle schema into the freshly-created DB.
+    // The migration journal has drifted — dozens of schema.ts tables
+    // (dream_balance, season_clock_state, the trade_* family) have no
+    // journaled migration — so `drizzle-kit migrate` can't rebuild
+    // the schema. `drizzle-kit push` diffs schema.ts → DB and applies
+    // it; against the empty DB we just created every change is an
+    // additive CREATE TABLE, so the run is non-interactive (no
+    // data-loss prompts). Invoked directly (not via `pnpm db:push`)
+    // to skip the guard/tsx wrapper and to point drizzle-kit at this
+    // integration DB through DATABASE_URL. execFileSync throws on a
+    // non-zero exit with stdout/stderr attached, so a push failure
+    // fails the test loudly instead of surfacing as ER_NO_SUCH_TABLE.
+    execFileSync(DRIZZLE_KIT_BIN, ["push"], {
+      cwd: REPO_ROOT,
+      env: { ...process.env, DATABASE_URL: url },
+      stdio: "pipe",
+    });
   };
 
   await reset();
