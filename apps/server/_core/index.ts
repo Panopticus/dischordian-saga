@@ -971,6 +971,19 @@ async function startServer() {
     })();
   }
 
+  // Persistence F5/F6 — do NOT start accepting requests until the
+  // schema-shape-critical bootstraps have converged. Joins their
+  // in-flight promises and authoritatively probes information_schema;
+  // on a missing shape it logs FATAL and exits non-zero so the deploy
+  // fails loudly instead of serving a broken schema. No-ops in test /
+  // no-DB envs.
+  {
+    const { ensureCriticalSchemaOrExit } = await import(
+      "../services/criticalSchemaGate"
+    );
+    await ensureCriticalSchemaOrExit();
+  }
+
   server.listen(port, () => {
     console.log(`Server running on http://localhost:${port}/`);
   });
