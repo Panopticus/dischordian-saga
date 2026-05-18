@@ -716,60 +716,67 @@ export const dailyQuestsRouter = router({
     // Find reward tier — cycles through the 30-day table by streak.
     const reward = rewardForStreak(newStreak);
 
-    if (row) {
-      await db.update(loginCalendar)
-        .set({
+    // Persist F8 — the claim record (loginCalendar) and the reward
+    // grant must be atomic: a failure between them either marks the
+    // day claimed without paying, or pays without recording the claim
+    // (re-claimable). The notification rides along so a claimed day
+    // always has its receipt.
+    await db.transaction(async (tx) => {
+      if (row) {
+        await tx.update(loginCalendar)
+          .set({
+            currentStreak: newStreak,
+            longestStreak,
+            lastLoginDate: today,
+            totalDays: newTotalDays,
+            monthClaims,
+            currentMonth,
+          })
+          .where(eq(loginCalendar.id, row.id));
+      } else {
+        await tx.insert(loginCalendar).values({
+          userId: ctx.user.id,
           currentStreak: newStreak,
-          longestStreak,
+          longestStreak: newStreak,
           lastLoginDate: today,
-          totalDays: newTotalDays,
+          totalDays: 1,
           monthClaims,
           currentMonth,
-        })
-        .where(eq(loginCalendar.id, row.id));
-    } else {
-      await db.insert(loginCalendar).values({
-        userId: ctx.user.id,
-        currentStreak: newStreak,
-        longestStreak: newStreak,
-        lastLoginDate: today,
-        totalDays: 1,
-        monthClaims,
-        currentMonth,
-      });
-    }
-
-    // Grant reward. The server — not the client — decides the amount and type.
-    if (reward.type === "dream") {
-      const bal = await db.select().from(dreamBalance)
-        .where(eq(dreamBalance.userId, ctx.user.id)).limit(1);
-      if (bal[0]) {
-        await db.update(dreamBalance)
-          .set({
-            dreamTokens: sql`${dreamBalance.dreamTokens} + ${reward.amount}`,
-            totalDreamEarned: sql`${dreamBalance.totalDreamEarned} + ${reward.amount}`,
-          })
-          .where(eq(dreamBalance.userId, ctx.user.id));
-      } else {
-        await db.insert(dreamBalance).values({
-          userId: ctx.user.id,
-          dreamTokens: reward.amount,
-          soulBoundDream: 0,
-          totalDreamEarned: reward.amount,
         });
       }
-    } else if (reward.type === "credits") {
-      await db.update(characterSheets)
-        .set({ credits: sql`${characterSheets.credits} + ${reward.amount}` })
-        .where(eq(characterSheets.userId, ctx.user.id));
-    }
 
-    // Send notification
-    await db.insert(notifications).values({
-      userId: ctx.user.id,
-      type: "daily_login",
-      title: `Day ${newStreak} Login Reward!`,
-      message: `You received ${reward.label}. Keep your streak going!`,
+      // Grant reward. The server — not the client — decides amount/type.
+      if (reward.type === "dream") {
+        const bal = await tx.select().from(dreamBalance)
+          .where(eq(dreamBalance.userId, ctx.user.id)).limit(1);
+        if (bal[0]) {
+          await tx.update(dreamBalance)
+            .set({
+              dreamTokens: sql`${dreamBalance.dreamTokens} + ${reward.amount}`,
+              totalDreamEarned: sql`${dreamBalance.totalDreamEarned} + ${reward.amount}`,
+            })
+            .where(eq(dreamBalance.userId, ctx.user.id));
+        } else {
+          await tx.insert(dreamBalance).values({
+            userId: ctx.user.id,
+            dreamTokens: reward.amount,
+            soulBoundDream: 0,
+            totalDreamEarned: reward.amount,
+          });
+        }
+      } else if (reward.type === "credits") {
+        await tx.update(characterSheets)
+          .set({ credits: sql`${characterSheets.credits} + ${reward.amount}` })
+          .where(eq(characterSheets.userId, ctx.user.id));
+      }
+
+      // Send notification
+      await tx.insert(notifications).values({
+        userId: ctx.user.id,
+        type: "daily_login",
+        title: `Day ${newStreak} Login Reward!`,
+        message: `You received ${reward.label}. Keep your streak going!`,
+      });
     });
 
     // Emit streak milestone ripple for key thresholds

@@ -419,7 +419,11 @@ describe("Phase 39b: Draft Tournament Rewards", () => {
       expect(draft).toContain("participants.length >= 3");
     });
     it("should create dream balance if not exists", () => {
-      expect(draft).toContain("db.insert(dreamBalance).values");
+      // Persist F8: the prize grant is now inside db.transaction(...),
+      // so the write goes through the tx handle (tx.insert) rather
+      // than db.insert. Assert the create-if-missing behavior, not a
+      // specific handle.
+      expect(draft).toContain("insert(dreamBalance).values");
     });
   });
 

@@ -413,88 +413,100 @@ export const draftRouter = router({
       const runnerUpPrize = Math.floor(prizePool * 0.3);
       const winnerPrize = prizePool - runnerUpPrize;
 
-      // Award Dream tokens to winner
-      if (winnerPrize > 0) {
-        const [bal] = await db.select().from(dreamBalance)
-          .where(eq(dreamBalance.userId, winner.userId)).limit(1);
-        if (bal) {
-          await db.update(dreamBalance)
-            .set({ dreamTokens: sql`dreamTokens + ${winnerPrize}` })
-            .where(eq(dreamBalance.userId, winner.userId));
-        } else {
-          await db.insert(dreamBalance).values({
-            userId: winner.userId,
-            dreamTokens: winnerPrize,
-            soulBoundDream: 0,
-          });
-        }
-      }
-
-      // Award runner-up prize (if 3+ players)
       const runnerUp = sorted.length >= 2 ? sorted[1] : null;
-      if (runnerUp && runnerUpPrize > 0 && participants.length >= 3) {
-        const [bal] = await db.select().from(dreamBalance)
-          .where(eq(dreamBalance.userId, runnerUp.userId)).limit(1);
-        if (bal) {
-          await db.update(dreamBalance)
-            .set({ dreamTokens: sql`dreamTokens + ${runnerUpPrize}` })
-            .where(eq(dreamBalance.userId, runnerUp.userId));
-        } else {
-          await db.insert(dreamBalance).values({
-            userId: runnerUp.userId,
-            dreamTokens: runnerUpPrize,
-            soulBoundDream: 0,
-          });
+
+      // Persist F8 — winner + runner-up prizes, the exclusive-card
+      // grant, and the completed/winnerId mark must all commit or all
+      // roll back. A partial failure could pay prizes while leaving
+      // the tournament re-completable, or mark it done without paying.
+      // The chosen exclusive card is returned from the tx so the
+      // response can report it (closure-assigned outer vars aren't
+      // narrowed by TS control flow).
+      const exclusiveCard = await db.transaction(async (tx) => {
+        let chosen:
+          | { cardId: string; name: string | null; rarity: string | null; imageUrl: string | null }
+          | null = null;
+        // Award Dream tokens to winner
+        if (winnerPrize > 0) {
+          const [bal] = await tx.select().from(dreamBalance)
+            .where(eq(dreamBalance.userId, winner.userId)).limit(1);
+          if (bal) {
+            await tx.update(dreamBalance)
+              .set({ dreamTokens: sql`dreamTokens + ${winnerPrize}` })
+              .where(eq(dreamBalance.userId, winner.userId));
+          } else {
+            await tx.insert(dreamBalance).values({
+              userId: winner.userId,
+              dreamTokens: winnerPrize,
+              soulBoundDream: 0,
+            });
+          }
         }
-      }
 
-      // Grant exclusive draft-only card to winner
-      // Pick a random rare+ card the winner doesn't already own
-      const ownedCardIds = await db.select({ cardId: userCards.cardId })
-        .from(userCards)
-        .where(eq(userCards.userId, winner.userId));
-      const ownedSet = new Set(ownedCardIds.map(c => c.cardId));
-
-      const exclusiveCandidates = await db.select().from(cards)
-        .where(and(
-          eq(cards.isActive, 1),
-          sql`${cards.rarity} IN ('epic', 'legendary', 'mythic')`,
-        ))
-        .limit(200);
-
-      // Prefer cards the winner doesn't own
-      const unowned = exclusiveCandidates.filter(c => !ownedSet.has(c.cardId));
-      const pool = unowned.length > 0 ? unowned : exclusiveCandidates;
-      let exclusiveCard = null;
-
-      if (pool.length > 0) {
-        exclusiveCard = pool[Math.floor(Math.random() * pool.length)];
-
-        // Grant the card as foil (draft exclusive)
-        const [existing] = await db.select().from(userCards)
-          .where(and(eq(userCards.userId, winner.userId), eq(userCards.cardId, exclusiveCard.cardId)))
-          .limit(1);
-
-        if (existing) {
-          await db.update(userCards)
-            .set({ quantity: sql`quantity + 1` })
-            .where(eq(userCards.id, existing.id));
-        } else {
-          await db.insert(userCards).values({
-            userId: winner.userId,
-            cardId: exclusiveCard.cardId,
-            quantity: 1,
-            isFoil: 1, // Draft exclusive cards are always foil
-            cardLevel: 1,
-            obtainedVia: "draft_reward",
-          });
+        // Award runner-up prize (if 3+ players)
+        if (runnerUp && runnerUpPrize > 0 && participants.length >= 3) {
+          const [bal] = await tx.select().from(dreamBalance)
+            .where(eq(dreamBalance.userId, runnerUp.userId)).limit(1);
+          if (bal) {
+            await tx.update(dreamBalance)
+              .set({ dreamTokens: sql`dreamTokens + ${runnerUpPrize}` })
+              .where(eq(dreamBalance.userId, runnerUp.userId));
+          } else {
+            await tx.insert(dreamBalance).values({
+              userId: runnerUp.userId,
+              dreamTokens: runnerUpPrize,
+              soulBoundDream: 0,
+            });
+          }
         }
-      }
 
-      // Mark tournament as completed
-      await db.update(draftTournaments)
-        .set({ status: "completed", winnerId: winner.userId })
-        .where(eq(draftTournaments.id, tournament.id));
+        // Grant exclusive draft-only card to winner — a random rare+
+        // card the winner doesn't already own.
+        const ownedCardIds = await tx.select({ cardId: userCards.cardId })
+          .from(userCards)
+          .where(eq(userCards.userId, winner.userId));
+        const ownedSet = new Set(ownedCardIds.map(c => c.cardId));
+
+        const exclusiveCandidates = await tx.select().from(cards)
+          .where(and(
+            eq(cards.isActive, 1),
+            sql`${cards.rarity} IN ('epic', 'legendary', 'mythic')`,
+          ))
+          .limit(200);
+
+        const unowned = exclusiveCandidates.filter(c => !ownedSet.has(c.cardId));
+        const pool = unowned.length > 0 ? unowned : exclusiveCandidates;
+
+        if (pool.length > 0) {
+          chosen = pool[Math.floor(Math.random() * pool.length)];
+
+          const [existing] = await tx.select().from(userCards)
+            .where(and(eq(userCards.userId, winner.userId), eq(userCards.cardId, chosen.cardId)))
+            .limit(1);
+
+          if (existing) {
+            await tx.update(userCards)
+              .set({ quantity: sql`quantity + 1` })
+              .where(eq(userCards.id, existing.id));
+          } else {
+            await tx.insert(userCards).values({
+              userId: winner.userId,
+              cardId: chosen.cardId,
+              quantity: 1,
+              isFoil: 1, // Draft exclusive cards are always foil
+              cardLevel: 1,
+              obtainedVia: "draft_reward",
+            });
+          }
+        }
+
+        // Mark tournament as completed
+        await tx.update(draftTournaments)
+          .set({ status: "completed", winnerId: winner.userId })
+          .where(eq(draftTournaments.id, tournament.id));
+
+        return chosen;
+      });
 
       // Achievement tracking for all participants
       for (const p of participants) {
