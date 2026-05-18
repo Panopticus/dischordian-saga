@@ -586,37 +586,45 @@ export const marketplaceRouter = router({
         ? input.maxPriceDream * input.quantity
         : input.maxPriceCredits * input.quantity;
 
-      if (input.maxPriceDream > 0) {
-        const bal = await db.select().from(dreamBalance).where(eq(dreamBalance.userId, ctx.user.id)).limit(1);
-        if (!bal[0] || bal[0].dreamTokens < totalCost) throw new Error("Insufficient Dream tokens for escrow");
-        await db.update(dreamBalance)
-          .set({ dreamTokens: sql`${dreamBalance.dreamTokens} - ${totalCost}` })
-          .where(eq(dreamBalance.userId, ctx.user.id));
-      } else {
-        const ps = await db.select().from(twPlayerState).where(eq(twPlayerState.userId, ctx.user.id)).limit(1);
-        if (!ps[0] || ps[0].credits < totalCost) throw new Error("Insufficient credits for escrow");
-        await db.update(twPlayerState)
-          .set({ credits: sql`${twPlayerState.credits} - ${totalCost}` })
-          .where(eq(twPlayerState.userId, ctx.user.id));
-      }
-
       const expiresAt = new Date(Date.now() + 72 * 3600000); // 72h default
-      const [result] = await db.insert(marketBuyOrders).values({
-        buyerId: ctx.user.id,
-        itemType: input.itemType,
-        itemId: input.itemId,
-        itemName: input.itemName,
-        quantity: input.quantity,
-        maxPriceDream: input.maxPriceDream,
-        maxPriceCredits: input.maxPriceCredits,
-        expiresAt,
+
+      // Persist F8 — escrow debit and order creation must be atomic:
+      // a failure between them would burn the buyer's funds with no
+      // order to refund from.
+      let orderId = 0;
+      await db.transaction(async (tx) => {
+        if (input.maxPriceDream > 0) {
+          const bal = await tx.select().from(dreamBalance).where(eq(dreamBalance.userId, ctx.user.id)).limit(1);
+          if (!bal[0] || bal[0].dreamTokens < totalCost) throw new Error("Insufficient Dream tokens for escrow");
+          await tx.update(dreamBalance)
+            .set({ dreamTokens: sql`${dreamBalance.dreamTokens} - ${totalCost}` })
+            .where(eq(dreamBalance.userId, ctx.user.id));
+        } else {
+          const ps = await tx.select().from(twPlayerState).where(eq(twPlayerState.userId, ctx.user.id)).limit(1);
+          if (!ps[0] || ps[0].credits < totalCost) throw new Error("Insufficient credits for escrow");
+          await tx.update(twPlayerState)
+            .set({ credits: sql`${twPlayerState.credits} - ${totalCost}` })
+            .where(eq(twPlayerState.userId, ctx.user.id));
+        }
+
+        const [result] = await tx.insert(marketBuyOrders).values({
+          buyerId: ctx.user.id,
+          itemType: input.itemType,
+          itemId: input.itemId,
+          itemName: input.itemName,
+          quantity: input.quantity,
+          maxPriceDream: input.maxPriceDream,
+          maxPriceCredits: input.maxPriceCredits,
+          expiresAt,
+        });
+        orderId = Number(result.insertId);
       });
 
       trackIncrement(ctx.user.id, "buy_orders_placed", 1).catch(e =>
         logger.error("[Marketplace] Buy-order tracking failed:", e),
       );
 
-      return { success: true, orderId: Number(result.insertId) };
+      return { success: true, orderId };
     }),
 
   cancelBuyOrder: protectedProcedure
@@ -624,28 +632,32 @@ export const marketplaceRouter = router({
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
       if (!db) throw new Error("Database unavailable");
-      const order = await db.select().from(marketBuyOrders)
-        .where(and(eq(marketBuyOrders.id, input.orderId), eq(marketBuyOrders.buyerId, ctx.user.id)))
-        .limit(1);
-      if (!order[0] || order[0].status !== "active") throw new Error("Order not found or not active");
+      // Persist F8 — refund and cancel must be atomic, and the
+      // order is re-read + flipped inside the tx so two concurrent
+      // cancels can't both refund (double-refund).
+      await db.transaction(async (tx) => {
+        const order = await tx.select().from(marketBuyOrders)
+          .where(and(eq(marketBuyOrders.id, input.orderId), eq(marketBuyOrders.buyerId, ctx.user.id)))
+          .limit(1);
+        if (!order[0] || order[0].status !== "active") throw new Error("Order not found or not active");
 
-      // Refund remaining escrow
-      const remaining = order[0].quantity - order[0].filledQuantity;
-      if (order[0].maxPriceDream > 0) {
-        const refund = order[0].maxPriceDream * remaining;
-        await db.update(dreamBalance)
-          .set({ dreamTokens: sql`${dreamBalance.dreamTokens} + ${refund}` })
-          .where(eq(dreamBalance.userId, ctx.user.id));
-      } else {
-        const refund = order[0].maxPriceCredits * remaining;
-        await db.update(twPlayerState)
-          .set({ credits: sql`${twPlayerState.credits} + ${refund}` })
-          .where(eq(twPlayerState.userId, ctx.user.id));
-      }
+        const remaining = order[0].quantity - order[0].filledQuantity;
+        if (order[0].maxPriceDream > 0) {
+          const refund = order[0].maxPriceDream * remaining;
+          await tx.update(dreamBalance)
+            .set({ dreamTokens: sql`${dreamBalance.dreamTokens} + ${refund}` })
+            .where(eq(dreamBalance.userId, ctx.user.id));
+        } else {
+          const refund = order[0].maxPriceCredits * remaining;
+          await tx.update(twPlayerState)
+            .set({ credits: sql`${twPlayerState.credits} + ${refund}` })
+            .where(eq(twPlayerState.userId, ctx.user.id));
+        }
 
-      await db.update(marketBuyOrders)
-        .set({ status: "cancelled" })
-        .where(eq(marketBuyOrders.id, input.orderId));
+        await tx.update(marketBuyOrders)
+          .set({ status: "cancelled" })
+          .where(and(eq(marketBuyOrders.id, input.orderId), eq(marketBuyOrders.status, "active")));
+      });
       return { success: true };
     }),
 
@@ -947,26 +959,30 @@ export const marketplaceRouter = router({
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
       if (!db) throw new Error("Database unavailable");
-      const order = await db.select().from(currencyExchange)
-        .where(and(eq(currencyExchange.id, input.orderId), eq(currencyExchange.userId, ctx.user.id)))
-        .limit(1);
-      if (!order[0] || order[0].status !== "active") throw new Error("Order not found or not active");
+      // Persist F8 — refund + cancel atomic; re-read and flip the
+      // order inside the tx so two concurrent cancels can't both
+      // refund the remaining escrow.
+      await db.transaction(async (tx) => {
+        const order = await tx.select().from(currencyExchange)
+          .where(and(eq(currencyExchange.id, input.orderId), eq(currencyExchange.userId, ctx.user.id)))
+          .limit(1);
+        if (!order[0] || order[0].status !== "active") throw new Error("Order not found or not active");
 
-      // Refund remaining
-      const remaining = order[0].sellAmount - order[0].filledAmount;
-      if (order[0].sellCurrency === "dream") {
-        await db.update(dreamBalance)
-          .set({ dreamTokens: sql`${dreamBalance.dreamTokens} + ${remaining}` })
-          .where(eq(dreamBalance.userId, ctx.user.id));
-      } else {
-        await db.update(twPlayerState)
-          .set({ credits: sql`${twPlayerState.credits} + ${remaining}` })
-          .where(eq(twPlayerState.userId, ctx.user.id));
-      }
+        const remaining = order[0].sellAmount - order[0].filledAmount;
+        if (order[0].sellCurrency === "dream") {
+          await tx.update(dreamBalance)
+            .set({ dreamTokens: sql`${dreamBalance.dreamTokens} + ${remaining}` })
+            .where(eq(dreamBalance.userId, ctx.user.id));
+        } else {
+          await tx.update(twPlayerState)
+            .set({ credits: sql`${twPlayerState.credits} + ${remaining}` })
+            .where(eq(twPlayerState.userId, ctx.user.id));
+        }
 
-      await db.update(currencyExchange)
-        .set({ status: "cancelled" })
-        .where(eq(currencyExchange.id, input.orderId));
+        await tx.update(currencyExchange)
+          .set({ status: "cancelled" })
+          .where(and(eq(currencyExchange.id, input.orderId), eq(currencyExchange.status, "active")));
+      });
       return { success: true };
     }),
 
