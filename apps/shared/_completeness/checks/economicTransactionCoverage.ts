@@ -80,9 +80,24 @@ function sliceProcedures(src: string): ProcBlock[] {
   while ((m = re.exec(src)) !== null) {
     starts.push({ name: m[1], idx: m.index });
   }
+  // A procedure block ends at whichever comes first: the next
+  // procedure start, OR a column-0 module/router boundary (router
+  // object close `});`, a top-level `export`/`function`/`async
+  // function`, or a banner comment). Bounding on the boundary is
+  // essential — without it the LAST procedure in a router swallows
+  // all trailing helper functions to EOF and is falsely flagged when
+  // a helper happens to touch a currency table (e.g. chess.markVisit
+  // overrunning into tournament-prize helpers).
+  const boundaryRe = /\n(?:\}\)?;?|export\s|async\s+function\s|function\s|\/\*\s*[═─])/;
   const blocks: ProcBlock[] = [];
   for (let i = 0; i < starts.length; i++) {
-    const end = i + 1 < starts.length ? starts[i + 1].idx : src.length;
+    const nextStart =
+      i + 1 < starts.length ? starts[i + 1].idx : src.length;
+    boundaryRe.lastIndex = 0;
+    const bm = boundaryRe.exec(src.slice(starts[i].idx));
+    const boundaryIdx =
+      bm ? starts[i].idx + bm.index + 1 : src.length;
+    const end = Math.min(nextStart, boundaryIdx, src.length);
     blocks.push({ name: starts[i].name, body: src.slice(starts[i].idx, end) });
   }
   return blocks;
