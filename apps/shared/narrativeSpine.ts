@@ -60,6 +60,14 @@ export interface SpineBeat {
   sagaPhase: SagaPhase;
   /** The GAME_MODE_PREMISES id this beat reveals. MUST resolve. */
   revealsPremiseId: string;
+  /**
+   * The canonical player-facing entry route for this system. Sourced
+   * from the shipped GAME_MODE_PREMISES surface routes — surface-
+   * discoverability classifies most mode surfaces by featureRoadmap/
+   * phase rather than gameModePremiseId, so the premise→route link is
+   * declared HERE (one canonical door per system) instead of inferred.
+   */
+  entryRoute: string;
   /** Which in-fiction voice delivers the reveal. */
   carrier: SpineCarrier;
   /**
@@ -89,6 +97,7 @@ export const NARRATIVE_SPINE: readonly SpineBeat[] = [
     id: "spine_loredex_awakening",
     sagaPhase: 0,
     revealsPremiseId: "loredex",
+    entryRoute: "/loredex",
     carrier: "antiquarian",
     diegeticReveal:
       "The Potential wakes. The Antiquarian — one of the Two Witnesses — " +
@@ -99,6 +108,7 @@ export const NARRATIVE_SPINE: readonly SpineBeat[] = [
     id: "spine_tcg_tribunal",
     sagaPhase: 1,
     revealsPremiseId: "tcg_dischordia",
+    entryRoute: "/cards/play",
     carrier: "cutscene",
     diegeticReveal:
       "The Tribunal convenes. Every duel is a re-play of a mind the " +
@@ -109,6 +119,7 @@ export const NARRATIVE_SPINE: readonly SpineBeat[] = [
     id: "spine_chess_gambit",
     sagaPhase: 1,
     revealsPremiseId: "chess",
+    entryRoute: "/chess",
     carrier: "companion",
     diegeticReveal:
       "The Architect's board is set on the Game Master's rules-layer; " +
@@ -119,6 +130,7 @@ export const NARRATIVE_SPINE: readonly SpineBeat[] = [
     id: "spine_mystery_two_witnesses",
     sagaPhase: 2,
     revealsPremiseId: "mystery_engine",
+    entryRoute: "/clue-journal",
     carrier: "antiquarian",
     diegeticReveal:
       "Ten investigative arcs open. The Two Witnesses record what you " +
@@ -129,6 +141,7 @@ export const NARRATIVE_SPINE: readonly SpineBeat[] = [
     id: "spine_hellbox_descent",
     sagaPhase: 3,
     revealsPremiseId: "hellbox",
+    entryRoute: "/hellbox",
     carrier: "cutscene",
     diegeticReveal:
       "The cloning-pod lattice opens a portal into the Matrix of Dreams: " +
@@ -139,6 +152,7 @@ export const NARRATIVE_SPINE: readonly SpineBeat[] = [
     id: "spine_demon_contract",
     sagaPhase: 3,
     revealsPremiseId: "demon_summoning",
+    entryRoute: "/demon-packs",
     carrier: "cutscene",
     diegeticReveal:
       "The Hierarchy answers by contract. Every summon is a clause; the " +
@@ -149,6 +163,7 @@ export const NARRATIVE_SPINE: readonly SpineBeat[] = [
     id: "spine_apprentice_inheritance",
     sagaPhase: 3,
     revealsPremiseId: "apprentice_mentor_loop",
+    entryRoute: "/apprentice",
     carrier: "companion",
     diegeticReveal:
       "The Mechronis trial cadence begins — you train a successor while " +
@@ -159,6 +174,7 @@ export const NARRATIVE_SPINE: readonly SpineBeat[] = [
     id: "spine_conspiracy_unredaction",
     sagaPhase: 4,
     revealsPremiseId: "conspiracy_boards",
+    entryRoute: "/conspiracy-board",
     carrier: "cutscene",
     diegeticReveal:
       "The Editor sealed memories out of the record. Each board you " +
@@ -169,6 +185,7 @@ export const NARRATIVE_SPINE: readonly SpineBeat[] = [
     id: "spine_trade_recon_cycle",
     sagaPhase: 5,
     revealsPremiseId: "trade_empire",
+    entryRoute: "/trade-empire",
     carrier: "locke",
     diegeticReveal:
       "Locke sanctions your trade missions. You think you are trading; " +
@@ -179,6 +196,7 @@ export const NARRATIVE_SPINE: readonly SpineBeat[] = [
     id: "spine_casino_edge",
     sagaPhase: 5,
     revealsPremiseId: "casino",
+    entryRoute: "/casino",
     carrier: "companion",
     diegeticReveal:
       "The Degen's inherited casino opens at the edge of the Dreamer's " +
@@ -189,6 +207,7 @@ export const NARRATIVE_SPINE: readonly SpineBeat[] = [
     id: "spine_circuit_accounting",
     sagaPhase: 5,
     revealsPremiseId: "dead_mans_circuit",
+    entryRoute: "/circuit",
     carrier: "cutscene",
     diegeticReveal:
       "Nilmorg narrates a season raced on bone-tracks built from dead " +
@@ -199,6 +218,7 @@ export const NARRATIVE_SPINE: readonly SpineBeat[] = [
     id: "spine_cades_last_campaign",
     sagaPhase: 8,
     revealsPremiseId: "cades_fps",
+    entryRoute: "/cades-fps",
     carrier: "cutscene",
     diegeticReveal:
       "The Iron Lion's last campaign — seven missions ending in a " +
@@ -209,6 +229,7 @@ export const NARRATIVE_SPINE: readonly SpineBeat[] = [
     id: "spine_tower_terminus_line",
     sagaPhase: 12,
     revealsPremiseId: "tower_defense",
+    entryRoute: "/tower-defense",
     carrier: "cutscene",
     diegeticReveal:
       "You hold the line against the Terminus Swarm; each wave carries a " +
@@ -219,6 +240,7 @@ export const NARRATIVE_SPINE: readonly SpineBeat[] = [
     id: "spine_governance_shell",
     sagaPhase: 13,
     revealsPremiseId: "governance_hub",
+    entryRoute: "/governance",
     carrier: "cutscene",
     diegeticReveal:
       "The Architect's dismantling of the constructed CoNexus left a " +
@@ -301,7 +323,7 @@ export function renderCoherenceMatrix(): string {
     .map((b) => {
       const m = getGameModePremise(b.revealsPremiseId);
       const act = actForBeat(b);
-      return `| ${b.sagaPhase} | ${act} | ${m?.name ?? b.revealsPremiseId} | ${b.spineRole} | ${b.carrier} | ${b.diegeticReveal} |`;
+      return `| ${b.sagaPhase} | ${act} | ${m?.name ?? b.revealsPremiseId} | \`${b.entryRoute}\` | ${b.spineRole} | ${b.carrier} | ${b.diegeticReveal} |`;
     });
   return [
     "<!-- GENERATED from apps/shared/narrativeSpine.ts — do not edit by hand.",
@@ -315,8 +337,8 @@ export function renderCoherenceMatrix(): string {
     "`narrative.spine_coverage` enforces that it stays in sync and that",
     "no system is orphaned from the spine.",
     "",
-    "| Saga phase | Act | System | Spine role | Carrier | Diegetic reveal |",
-    "| --- | --- | --- | --- | --- | --- |",
+    "| Saga phase | Act | System | Entry route | Spine role | Carrier | Diegetic reveal |",
+    "| --- | --- | --- | --- | --- | --- | --- |",
     ...rows,
     "",
   ].join("\n");

@@ -27,12 +27,15 @@ import {
   type CampaignObjectiveInput,
 } from "./campaignObjectives";
 import { getGameModePremise } from "./gameModeNarrativePremises";
-import { getSurfaceRouteForPremise } from "./surfaceDiscoverabilityCanon";
 import {
   NARRATIVE_SPINE,
   actForBeat,
   type SpineCarrier,
 } from "./narrativeSpine";
+
+const GOVERNANCE_ROUTE = NARRATIVE_SPINE.find(
+  (b) => b.revealsPremiseId === "governance_hub",
+)?.entryRoute;
 
 /** The in-fiction source tag shown so the player knows who is speaking. */
 const CARRIER_TAG: Record<SpineCarrier, string> = {
@@ -62,7 +65,7 @@ export function deriveSpineWingObjectives(
         id: `spine_wing_${b.revealsPremiseId}`,
         label: `${m?.name ?? b.revealsPremiseId} has opened.`,
         diegeticHint: `${CARRIER_TAG[b.carrier]}: ${b.diegeticReveal}`,
-        route: getSurfaceRouteForPremise(b.revealsPremiseId),
+        route: b.entryRoute,
         status: "active" as const,
       };
     });
@@ -91,7 +94,7 @@ export function deriveObjectives(
         "The Antiquarian keeps writing. Governance votes, fights, and " +
         "the per-cycle chronicle carry the universe past the ending — " +
         "the saga does not close, it turns.",
-      route: getSurfaceRouteForPremise("governance_hub"),
+      route: GOVERNANCE_ROUTE,
       status: "active",
     });
   }

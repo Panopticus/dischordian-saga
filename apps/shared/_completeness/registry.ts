@@ -105,6 +105,7 @@ import { checkContinuingLoopEndgameCoverage } from "./checks/continuingLoopEndga
 import { checkServantHeroDeferralCoverage } from "./checks/servantHeroDeferralCoverage";
 import { checkSurfaceDiscoverabilityCoverage } from "./checks/surfaceDiscoverabilityCoverage";
 import { checkNarrativeSpineCoverage } from "./checks/narrativeSpineCoverage";
+import { checkSpineDoorwayCoverage } from "./checks/spineDoorwayCoverage";
 import { checkPerspectiveCanonCoverage } from "./checks/perspectiveCanonCoverage";
 import { checkProphecyTarotCoverage } from "./checks/prophecyTarotCoverage";
 import { checkActCloseCutsceneCoverage } from "./checks/actCloseCutsceneCoverage";
@@ -988,6 +989,14 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "The story IS the connective layer (owner-locked): every game mode in apps/shared/gameModeNarrativePremises.ts MUST be revealed by exactly one beat in apps/shared/narrativeSpine.ts, and docs/built/SAGA_GAME_MODE_COHERENCE.md MUST stay in sync with it. The spine consolidates the already-shipped per-mode sagaPhase gates (surfaceDiscoverabilityCanon) + the 14 canon premises into one ordered open-but-guided through-line; each beat binds a system to a canonical phase + an in-fiction carrier (Elara/Locke/Antiquarian/companion/cutscene), inventing no canon. Hard parity: a system not on the spine is orphaned from the story — the exact failure this eliminates. Regenerate the doc with pnpm tsx apps/scripts/gen-saga-mode-coherence.ts.",
     check: () => checkNarrativeSpineCoverage(),
+  },
+  {
+    id: "narrative.spine_doorway_coverage",
+    name: "Spine doorway coverage",
+    description:
+      "Open but guided (owner-locked): every spine WING in apps/shared/narrativeSpine.ts must have a diegetic in-world doorway — a ROOM_DEFINITIONS hotspot whose route action is the wing's canonical entryRoute. Being on the spine + in the objective tracker is not the same as the player being able to walk in from the living world. RATCHET (target 0): the bridge already exists for some wings (Strategy Table → /chess, Trade Terminal → /trade-empire, Warden's Vigil → /tower-defense); the rest are precise targets in `missing`. The gap can only shrink — a wing with a world door can never regress to doorless. Driven by spineDoorways.ts (source-scan of GameContext ROOM_DEFINITIONS, no client import).",
+    check: () => checkSpineDoorwayCoverage(),
+    ratchet: { target: 0 },
   },
 
   // ─── PR-18 — Dischordian-Logic epistemology ────────────────

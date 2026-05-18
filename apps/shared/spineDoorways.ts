@@ -26,7 +26,6 @@ import * as fs from "node:fs";
 import * as path from "node:path";
 import { REPO_ROOT } from "./_completeness/scanner";
 import { getGameModePremise } from "./gameModeNarrativePremises";
-import { getSurfaceRoutesForPremise } from "./surfaceDiscoverabilityCanon";
 import { NARRATIVE_SPINE } from "./narrativeSpine";
 
 const GAME_CONTEXT_PATH = path.join(
@@ -47,12 +46,10 @@ export function getInWorldHotspotRoutes(): Set<string> {
 export interface SpineDoorway {
   premiseId: string;
   name: string;
-  /** All discoverability routes that reach this wing. */
-  surfaceRoutes: string[];
-  /** Does at least one of those routes have an in-world hotspot? */
+  /** The wing's canonical entry route (narrativeSpine entryRoute). */
+  entryRoute: string;
+  /** Does that entry route have an in-world ROOM_DEFINITIONS hotspot? */
   hasWorldDoor: boolean;
-  /** The hotspot route that bridges it, if any. */
-  doorRoute?: string;
 }
 
 /**
@@ -62,17 +59,12 @@ export interface SpineDoorway {
  */
 export function resolveSpineDoorways(): SpineDoorway[] {
   const hotspotRoutes = getInWorldHotspotRoutes();
-  return NARRATIVE_SPINE.filter((b) => b.spineRole === "wing").map((b) => {
-    const surfaceRoutes = getSurfaceRoutesForPremise(b.revealsPremiseId);
-    const doorRoute = surfaceRoutes.find((r) => hotspotRoutes.has(r));
-    return {
-      premiseId: b.revealsPremiseId,
-      name: getGameModePremise(b.revealsPremiseId)?.name ?? b.revealsPremiseId,
-      surfaceRoutes,
-      hasWorldDoor: doorRoute !== undefined,
-      doorRoute,
-    };
-  });
+  return NARRATIVE_SPINE.filter((b) => b.spineRole === "wing").map((b) => ({
+    premiseId: b.revealsPremiseId,
+    name: getGameModePremise(b.revealsPremiseId)?.name ?? b.revealsPremiseId,
+    entryRoute: b.entryRoute,
+    hasWorldDoor: hotspotRoutes.has(b.entryRoute),
+  }));
 }
 
 /** Wings the story reveals but the world has no door into yet (W0 targets). */
