@@ -104,6 +104,7 @@ import { checkImprintCardsCarryUnlockCondition } from "./checks/imprintCardsCarr
 import { checkContinuingLoopEndgameCoverage } from "./checks/continuingLoopEndgameCoverage";
 import { checkServantHeroDeferralCoverage } from "./checks/servantHeroDeferralCoverage";
 import { checkSurfaceDiscoverabilityCoverage } from "./checks/surfaceDiscoverabilityCoverage";
+import { checkNarrativeSpineCoverage } from "./checks/narrativeSpineCoverage";
 import { checkPerspectiveCanonCoverage } from "./checks/perspectiveCanonCoverage";
 import { checkProphecyTarotCoverage } from "./checks/prophecyTarotCoverage";
 import { checkActCloseCutsceneCoverage } from "./checks/actCloseCutsceneCoverage";
@@ -980,6 +981,13 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
       "One discoverable narrative path (PR-17 backbone; PR-24/25 backfill): every <Route> in apps/client/src/App.tsx is classified in apps/shared/surfaceDiscoverabilityCanon.ts and every narrative_gated surface resolves its gate through EXISTING infra (featureRoadmap / gameModeNarrativePremises / sagaPhases / act-completion gates / expansion unlock service). PR-24/25 closed the 78-orphan baseline to 0 — game modes with a recorded diegetic premise → narrative_gated, narrative locations/episodes → phase, nav-reachable social/competitive/economy → always_available, dev/account/seasonal → utility. A two-way drift scan folds any unclassified App.tsx route or stale registry route into the gap, so a new unclassified route is an immediate regression. RATCHET ceiling tightened to 0 — it can never regrow. This is the 'tighten things' lock.",
     check: () => checkSurfaceDiscoverabilityCoverage(),
     ratchet: { target: 0 },
+  },
+  {
+    id: "narrative.spine_coverage",
+    name: "Narrative spine coverage",
+    description:
+      "The story IS the connective layer (owner-locked): every game mode in apps/shared/gameModeNarrativePremises.ts MUST be revealed by exactly one beat in apps/shared/narrativeSpine.ts, and docs/built/SAGA_GAME_MODE_COHERENCE.md MUST stay in sync with it. The spine consolidates the already-shipped per-mode sagaPhase gates (surfaceDiscoverabilityCanon) + the 14 canon premises into one ordered open-but-guided through-line; each beat binds a system to a canonical phase + an in-fiction carrier (Elara/Locke/Antiquarian/companion/cutscene), inventing no canon. Hard parity: a system not on the spine is orphaned from the story — the exact failure this eliminates. Regenerate the doc with pnpm tsx apps/scripts/gen-saga-mode-coherence.ts.",
+    check: () => checkNarrativeSpineCoverage(),
   },
 
   // ─── PR-18 — Dischordian-Logic epistemology ────────────────
