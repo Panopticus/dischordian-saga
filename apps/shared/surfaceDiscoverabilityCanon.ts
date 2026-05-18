@@ -386,6 +386,22 @@ export function getSurfaceEntry(route: string): SurfaceEntry | undefined {
 }
 
 /**
+ * The player-facing route that a given game-mode premise is reached
+ * through, resolved from the shipped surface registry (no hardcoded
+ * paths). Used by the spine-objective layer so the diegetic "what's
+ * next" sends the player to the same surface discoverability already
+ * classifies. Returns the first bound route, or undefined if the
+ * premise has no narrative_gated surface yet.
+ */
+export function getSurfaceRouteForPremise(
+  gameModePremiseId: string,
+): string | undefined {
+  return SURFACE_REGISTRY.find(
+    (e) => e.unlock?.gameModePremiseId === gameModePremiseId,
+  )?.route;
+}
+
+/**
  * Structural issues in the registry itself (independent of
  * App.tsx drift): a narrative_gated entry with no unlock, or a
  * non-narrative_gated entry that carries one. Surfaced by the
