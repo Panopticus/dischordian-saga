@@ -225,7 +225,7 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     id: "db.economic_transaction_coverage",
     name: "Economic surfaces are transactional",
     description:
-      "Every server router that mutates a currency balance (dream / void_crystals / gems / credits / store_purchases) wraps its mutation in db.transaction(...). Ratcheted; 12 routers found to touch currency surfaces without wrapping at landing — each needs per-router care to pick the right isolation level, see the route-by-route plan in the C3 PR.",
+      "PROCEDURE-LEVEL (Persistence F8): every tRPC procedure that writes a currency balance must wrap its debit+grant(+ledger) sequence in db.transaction(...) — unless it delegates to a self-transacting fulfillment helper or its only money write is a single atomic conditional UPDATE (no partial-failure window). The prior file-level check passed a file if it had db.transaction() anywhere, masking unwrapped procedures in 'covered' files. Switching to procedure-level surfaced a pre-existing gap of 12; the ratchet ceiling was deliberately re-seeded 0→12 (documented in PR, not silenced — same as trial_categories seeding). Target 0; tightens as transaction-wrapping PRs land.",
     check: () => checkEconomicTransactionCoverage(),
     ratchet: { target: 0 },
   },
