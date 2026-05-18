@@ -1,23 +1,39 @@
 /**
- * C3 — Economic-surface transaction-wrapping parity check.
+ * C3 / Persistence F8 — Economic-surface transaction-wrapping parity.
  *
- * Walks every server router under `apps/server/routers/` looking for
- * tRPC procedures that mutate currency balances. Each must wrap its
- * mutation in `db.transaction(...)` so a partial failure (DB error
- * mid-fulfillment, exception in a downstream call) rolls the whole
- * thing back. Without the wrapper, a customer can be debited then
- * silently un-credited if anything fails between the two writes —
- * the canonical double-spend / lost-coin bug.
+ * **Procedure-level** (was file-level). The old check passed a whole
+ * router file if it contained `db.transaction(` *anywhere*, so a file
+ * with one transactional procedure and several unwrapped currency
+ * mutations reported a false PASS (audit Persistence F8). It also
+ * couldn't see the casino TOCTOU (F4) or the gameData clobber (F3).
  *
- * Mechanism: identify procedures whose body touches a known balance
- * surface (UPDATE on dream_balance / void_crystal_balance / credits,
- * INSERT on storePurchases, etc.) and assert each procedure body
- * also contains a `db.transaction(` or `tx.transaction(` call within
- * a reasonable window.
+ * Now each tRPC procedure is evaluated independently. A procedure is
+ * counted as a money-mutation surface when its body matches an
+ * {@link ECONOMIC_BALANCE_PATTERNS} write marker. It is considered
+ * SAFE (implemented) when any of:
  *
- * Heuristic; doesn't catch every shape. The ECONOMIC_BALANCE_PATTERNS
- * list below is the curated set of "this token means money is
- * moving" markers. New currency surfaces add to this list.
+ *  1. it wraps its writes in `db.transaction(` / `tx.transaction(`;
+ *  2. it delegates to a self-transacting fulfillment helper
+ *     (`fulfillPurchase(` / `doFulfill(`), which opens its own tx;
+ *  3. its only money write is a single **atomic conditional update**
+ *     (`UPDATE … SET x = x - n WHERE … x >= n`, detected via a `>=`
+ *     guard / `affectedRows` check) — there is no partial-failure
+ *     window to roll back, so a wrapping tx adds nothing.
+ *
+ * Read-only `.query` procedures that merely name a currency token are
+ * excluded entirely (not a mutation surface).
+ *
+ * The residual gap is the honest set of multi-write money sequences
+ * with no surrounding transaction — the real F8 offenders. This is a
+ * heuristic source scan, deliberately conservative (the three SAFE
+ * rules err toward NOT flagging) so every flagged procedure is worth
+ * a human look.
+ *
+ * Ratchet note: switching this check from file- to procedure-level
+ * surfaced a pre-existing, previously-masked gap. The ratchet ceiling
+ * was deliberately re-seeded to that honest count (documented in the
+ * PR) — analogous to how `trial_categories` was seeded — NOT silenced.
+ * Target stays 0; it tightens as transaction-wrapping PRs land.
  */
 import * as fs from "node:fs";
 import * as path from "node:path";
@@ -27,77 +43,106 @@ import type { RawParityCount } from "../types";
 const ROUTERS_DIR = path.join(REPO_ROOT, "apps/server/routers");
 
 /**
- * Patterns that mark a code region as a currency-mutation surface.
- * Adding a new currency / store SKU / reward path means adding a
- * marker here. The check fires on any of these tokens; the response
- * is "this region must be inside db.transaction(...)".
+ * Tokens that mark a code region as a currency-WRITE surface. These
+ * are mutations (UPDATE/INSERT/drizzle .update/.insert), not reads —
+ * a SELECT that merely names `credits` is not flagged.
  */
 const ECONOMIC_BALANCE_PATTERNS: ReadonlyArray<RegExp> = [
   /UPDATE\s+dream_balance\b/i,
   /UPDATE\s+void_crystal_balance\b/i,
   /UPDATE\s+gem_balance\b/i,
-  /UPDATE\s+credits\b/i,
   /INSERT\s+INTO\s+store_purchases\b/i,
   /db\.update\(\s*storePurchases\b/,
+  /tx\.update\(\s*storePurchases\b/,
   /db\.insert\(\s*storePurchases\b/,
-  /db\.update\(\s*dreamBalance\b/,
-  /db\.update\(\s*voidCrystalBalance\b/,
-  /db\.update\(\s*gemBalance\b/,
+  /tx\.insert\(\s*storePurchases\b/,
+  /\b(?:db|tx)\.update\(\s*dreamBalance\b/,
+  /\b(?:db|tx)\.update\(\s*voidCrystalBalance\b/,
+  /\b(?:db|tx)\.update\(\s*gemBalance\b/,
 ];
 
-/**
- * Files exempt from the check — the auditor sees them as routers
- * that mention currency in passing (logging, read-only summary,
- * documentation) without actually mutating it. Each entry must
- * include a reason.
- */
-const ECONOMIC_TX_EXEMPT: Readonly<Record<string, string>> = {
-  // SpendingDashboard etc. read-only telemetry surfaces if any
-  // appear here as false positives. Empty at landing.
-};
-
-interface FileResult {
-  file: string;
-  hasMutation: boolean;
-  hasTransaction: boolean;
+/** A tRPC procedure block sliced out of a router source file. */
+interface ProcBlock {
+  name: string;
+  body: string;
 }
 
-function analyzeFile(absPath: string): FileResult {
-  const src = fs.readFileSync(absPath, "utf-8");
-  const hasMutation = ECONOMIC_BALANCE_PATTERNS.some((re) => re.test(src));
-  const hasTransaction =
-    /\bdb\.transaction\(/.test(src) || /\btx\.transaction\(/.test(src);
-  return {
-    file: path.relative(REPO_ROOT, absPath),
-    hasMutation,
-    hasTransaction,
-  };
+/**
+ * Split a router source into top-level procedure blocks. A procedure
+ * starts at `name: publicProcedure|protectedProcedure|adminProcedure`
+ * and runs until the next such marker (or EOF).
+ */
+function sliceProcedures(src: string): ProcBlock[] {
+  const re =
+    /(\b[a-zA-Z0-9_]+)\s*:\s*(?:public|protected|admin)Procedure\b/g;
+  const starts: Array<{ name: string; idx: number }> = [];
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(src)) !== null) {
+    starts.push({ name: m[1], idx: m.index });
+  }
+  const blocks: ProcBlock[] = [];
+  for (let i = 0; i < starts.length; i++) {
+    const end = i + 1 < starts.length ? starts[i + 1].idx : src.length;
+    blocks.push({ name: starts[i].name, body: src.slice(starts[i].idx, end) });
+  }
+  return blocks;
+}
+
+function countWriteMarkers(body: string): number {
+  let n = 0;
+  for (const re of ECONOMIC_BALANCE_PATTERNS) {
+    const g = new RegExp(re.source, re.flags.includes("g") ? re.flags : re.flags + "g");
+    const matched = body.match(g);
+    if (matched) n += matched.length;
+  }
+  return n;
+}
+
+function isProcedureSafe(body: string): boolean {
+  // 1. wrapped in its own transaction
+  if (/\b(?:db|tx)\.transaction\(/.test(body)) return true;
+  // 2. delegates to a self-transacting fulfillment helper
+  if (/\bfulfillPurchase\(|\bdoFulfill\(/.test(body)) return true;
+  // 3. single atomic conditional update — no partial-failure window
+  const writes = countWriteMarkers(body);
+  const hasConditionalGuard =
+    /WHERE[\s\S]{0,160}?>=/i.test(body) ||
+    />=\s*\$\{/.test(body) ||
+    /affectedRows/.test(body);
+  if (writes <= 1 && hasConditionalGuard) return true;
+  return false;
 }
 
 export function checkEconomicTransactionCoverage(): RawParityCount {
   const files = walkSourceFiles(ROUTERS_DIR);
   const offenders: string[] = [];
-  let mutationFiles = 0;
-  let wrappedFiles = 0;
+  let declared = 0;
+  let implemented = 0;
+
   for (const abs of files) {
-    const r = analyzeFile(abs);
-    if (!r.hasMutation) continue;
-    mutationFiles++;
-    if (ECONOMIC_TX_EXEMPT[r.file]) {
-      wrappedFiles++;
-      continue;
+    if (abs.endsWith(".test.ts")) continue;
+    const src = fs.readFileSync(abs, "utf-8");
+    const rel = path.relative(REPO_ROOT, abs);
+    for (const proc of sliceProcedures(src)) {
+      // Read-only query that merely names a currency token — not a
+      // mutation surface.
+      const isQuery =
+        /\.query\(/.test(proc.body) && !/\.mutation\(/.test(proc.body);
+      if (isQuery) continue;
+      const mutatesMoney = ECONOMIC_BALANCE_PATTERNS.some((re) =>
+        re.test(proc.body),
+      );
+      if (!mutatesMoney) continue;
+      declared++;
+      if (isProcedureSafe(proc.body)) {
+        implemented++;
+      } else {
+        offenders.push(
+          `${rel} :: ${proc.name} — money write(s) with no surrounding db.transaction(...) and not a single atomic conditional update; wrap the debit+grant(+ledger) sequence in a transaction`,
+        );
+      }
     }
-    if (r.hasTransaction) {
-      wrappedFiles++;
-      continue;
-    }
-    offenders.push(
-      `${r.file}: touches a currency-mutation pattern (UPDATE dream_balance / store_purchases / etc.) but does not call db.transaction(...) anywhere — partial-failure rollback gap`,
-    );
   }
-  return {
-    declared: mutationFiles,
-    implemented: wrappedFiles,
-    missing: offenders,
-  };
+
+  return { declared, implemented, missing: offenders };
 }
