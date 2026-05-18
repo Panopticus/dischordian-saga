@@ -43,6 +43,8 @@ import { bootstrapCitizenSchema } from "../server/services/citizenSchemaBootstra
 import { bootstrapWebhookEventsTable } from "../server/services/webhookEventsBootstrap";
 import { bootstrapReplayShareToken, bootstrapReplayMatchId } from "../server/services/replaysBootstrap";
 import { bootstrapPvpRatingsTable } from "../server/services/pvpRatingsBootstrap";
+import { bootstrapCohortColumns } from "../server/services/cohortColumnsBootstrap";
+import { bootstrapAgeVerificationColumns } from "../server/services/ageVerificationColumnsBootstrap";
 
 interface CheckResult {
   name: string;
@@ -157,6 +159,33 @@ async function main(): Promise<void> {
   } catch (e) {
     checks.push({
       name: "bootstrapCitizenSchema() succeeded",
+      ok: false,
+      detail: e instanceof Error ? e.message : String(e),
+    });
+  }
+  // users cohort (0070 orphan) + age-verification (audit/15.R4,
+  // schema-only) columns. Without these the integration tests'
+  // user inserts fail with `Unknown column 'dateOfBirth'` — the
+  // db-smoke-job failure this covers, mirroring the server boot path.
+  try {
+    await bootstrapCohortColumns();
+    checks.push({ name: "bootstrapCohortColumns() succeeded", ok: true });
+  } catch (e) {
+    checks.push({
+      name: "bootstrapCohortColumns() succeeded",
+      ok: false,
+      detail: e instanceof Error ? e.message : String(e),
+    });
+  }
+  try {
+    await bootstrapAgeVerificationColumns();
+    checks.push({
+      name: "bootstrapAgeVerificationColumns() succeeded",
+      ok: true,
+    });
+  } catch (e) {
+    checks.push({
+      name: "bootstrapAgeVerificationColumns() succeeded",
       ok: false,
       detail: e instanceof Error ? e.message : String(e),
     });
