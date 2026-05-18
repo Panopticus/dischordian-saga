@@ -19,16 +19,13 @@ export default defineConfig({
   retries: 1,
   workers: process.env.CI ? 1 : undefined,
   timeout: 30_000,
-  // Whole-suite ceiling, kept well below the workflow's e2e job
-  // timeout (now 25 min — see .github/workflows/ci.yml). When the
-  // job timed out, GH Actions killed the run and the artifact-upload
-  // step didn't execute — so we never got the report. With this cap
-  // Playwright stops first, the run completes with status=failed,
-  // and the report uploads. 15 min (raised from 12) gives the suite
-  // more honest headroom while still leaving several minutes under
-  // the 25-min job cancel for upload + teardown even if the
-  // pre-Playwright steps (install/browsers/build/server) run long.
-  globalTimeout: 15 * 60_000,
+  // Whole-suite ceiling, well below the workflow's 15-minute job
+  // timeout. When the workflow timed out, the run was killed by GH
+  // Actions and its `if: failure()` artifact-upload step didn't
+  // execute — so we never got the report. With globalTimeout we hit
+  // the Playwright-level cap first, the run completes with
+  // status=failed, and the report uploads.
+  globalTimeout: 12 * 60_000,
 
   globalSetup: GLOBAL_SETUP,
 

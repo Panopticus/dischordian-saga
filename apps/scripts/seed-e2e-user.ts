@@ -121,7 +121,16 @@ async function main(): Promise<void> {
   console.log(`[seed-e2e-user] Created user ${openId}.`);
 }
 
-main().catch((err) => {
+main()
+  .then(() => {
+    // Force-exit on success. main() resolves once the user row is
+    // ensured, but getDb() opened a mysql2 pool (and the *Bootstrap
+    // imports register their own handles), so the Node event loop
+    // never drains on its own — without this the process hangs until
+    // CI force-cancels the step (~24m), so Playwright never runs.
+    process.exit(0);
+  })
+  .catch((err) => {
   // Print every diagnostic field MySQL / Drizzle expose so CI logs
   // surface the actual cause instead of an opaque "exit code 1".
   // The bare `console.error("...failed:", err)` was eating the
