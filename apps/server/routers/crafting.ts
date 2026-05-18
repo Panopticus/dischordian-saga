@@ -375,9 +375,14 @@ export const craftingRouter = router({
         }
       }
 
+      // Persist F8 — the entire craft mutation (cost deduct, input
+      // consume, output produce / failure log) commits or rolls back as
+      // one unit. Per-branch returns propagate through the tx; the
+      // pre-378 validation reads + early returns stay outside it.
+      return await db.transaction(async (tx) => {
       // Handle disenchant
       if (recipe.type === "disenchant") {
-        const cardDetail = await db
+        const cardDetail = await tx
           .select()
           .from(cards)
           .where(eq(cards.cardId, input.inputCardIds[0]))
@@ -390,7 +395,7 @@ export const craftingRouter = router({
         // Remove card (scoped to the foil state being disenchanted)
         const owned = ownedCards.find(c => c.cardId === input.inputCardIds[0]);
         if (owned && owned.quantity > 1) {
-          await db.update(userCards)
+          await tx.update(userCards)
             .set({ quantity: owned.quantity - 1 })
             .where(and(
               eq(userCards.userId, ctx.user.id),
@@ -398,7 +403,7 @@ export const craftingRouter = router({
               eq(userCards.isFoil, targetIsFoil),
             ));
         } else {
-          await db.delete(userCards)
+          await tx.delete(userCards)
             .where(and(
               eq(userCards.userId, ctx.user.id),
               eq(userCards.cardId, input.inputCardIds[0]),
@@ -408,11 +413,11 @@ export const craftingRouter = router({
 
         // Add Dream
         if (balRows.length > 0) {
-          await db.update(dreamBalance)
+          await tx.update(dreamBalance)
             .set({ dreamTokens: sql`${dreamBalance.dreamTokens} + ${dreamGain}` })
             .where(eq(dreamBalance.userId, ctx.user.id));
         } else {
-          await db.insert(dreamBalance).values({
+          await tx.insert(dreamBalance).values({
             userId: ctx.user.id,
             dreamTokens: dreamGain,
             soulBoundDream: 0,
@@ -420,7 +425,7 @@ export const craftingRouter = router({
         }
 
         // Log to craftingLog (shared with all recipe types)
-        await db.insert(craftingLog).values({
+        await tx.insert(craftingLog).values({
           userId: ctx.user.id,
           recipeType: recipe.id,
           inputCards: input.inputCardIds.map(id => ({ cardId: id, quantity: 1 })),
@@ -436,7 +441,7 @@ export const craftingRouter = router({
         // so analytics can query disenchant history without filtering
         // craftingLog by recipeType.
         try {
-          await db.insert(disenchantLog).values({
+          await tx.insert(disenchantLog).values({
             userId: ctx.user.id,
             cardId: input.inputCardIds[0],
             cardName: cardDetail[0]?.name ?? input.inputCardIds[0],
@@ -504,7 +509,7 @@ export const craftingRouter = router({
 
       // Deduct Dream
       if (recipe.dreamCost > 0) {
-        await db.update(dreamBalance)
+        await tx.update(dreamBalance)
           .set({ dreamTokens: sql`${dreamBalance.dreamTokens} - ${recipe.dreamCost}` })
           .where(eq(dreamBalance.userId, ctx.user.id));
       }
@@ -514,7 +519,7 @@ export const craftingRouter = router({
         const owned = ownedCards.find(c => c.cardId === cardId);
         if (!owned) continue;
         if (owned.quantity > needed) {
-          await db.update(userCards)
+          await tx.update(userCards)
             .set({ quantity: owned.quantity - needed })
             .where(and(
               eq(userCards.userId, ctx.user.id),
@@ -522,7 +527,7 @@ export const craftingRouter = router({
               eq(userCards.isFoil, targetIsFoil),
             ));
         } else {
-          await db.delete(userCards)
+          await tx.delete(userCards)
             .where(and(
               eq(userCards.userId, ctx.user.id),
               eq(userCards.cardId, cardId),
@@ -533,7 +538,7 @@ export const craftingRouter = router({
 
       if (!succeeded) {
         // Log failure
-        await db.insert(craftingLog).values({
+        await tx.insert(craftingLog).values({
           userId: ctx.user.id,
           recipeType: recipe.id,
           inputCards: input.inputCardIds.map(id => ({ cardId: id, quantity: cardCounts[id] })),
@@ -559,7 +564,7 @@ export const craftingRouter = router({
         // the new cardLevel. We fetch the current level first so we can
         // bump to level+1.
         const upgradeCardId = input.inputCardIds[0];
-        const currentRow = await db
+        const currentRow = await tx
           .select()
           .from(userCards)
           .where(and(
@@ -574,7 +579,7 @@ export const craftingRouter = router({
 
         if (currentRow.length > 0) {
           // Row still exists (quantity was > 1). Bump its level.
-          await db.update(userCards)
+          await tx.update(userCards)
             .set({ cardLevel: newLevel })
             .where(and(
               eq(userCards.userId, ctx.user.id),
@@ -583,7 +588,7 @@ export const craftingRouter = router({
             ));
         } else {
           // Row was fully consumed; re-insert at the upgraded level.
-          await db.insert(userCards).values({
+          await tx.insert(userCards).values({
             userId: ctx.user.id,
             cardId: upgradeCardId,
             quantity: 1,
@@ -593,7 +598,7 @@ export const craftingRouter = router({
           });
         }
 
-        await db.insert(craftingLog).values({
+        await tx.insert(craftingLog).values({
           userId: ctx.user.id,
           recipeType: recipe.id,
           inputCards: input.inputCardIds.map(id => ({ cardId: id, quantity: 1 })),
@@ -614,7 +619,7 @@ export const craftingRouter = router({
       // a foil row for that same cardId.
       if (recipe.id === "foil_upgrade") {
         const foilCardId = input.inputCardIds[0];
-        const foilCardDetail = await db
+        const foilCardDetail = await tx
           .select()
           .from(cards)
           .where(eq(cards.cardId, foilCardId))
@@ -624,7 +629,7 @@ export const craftingRouter = router({
           return { success: false, message: "Card not found for foil upgrade" };
         }
 
-        const existingFoil = await db
+        const existingFoil = await tx
           .select()
           .from(userCards)
           .where(and(
@@ -635,7 +640,7 @@ export const craftingRouter = router({
           .limit(1);
 
         if (existingFoil.length > 0) {
-          await db.update(userCards)
+          await tx.update(userCards)
             .set({ quantity: existingFoil[0].quantity + 1 })
             .where(and(
               eq(userCards.userId, ctx.user.id),
@@ -643,7 +648,7 @@ export const craftingRouter = router({
               eq(userCards.isFoil, 1),
             ));
         } else {
-          await db.insert(userCards).values({
+          await tx.insert(userCards).values({
             userId: ctx.user.id,
             cardId: foilCardId,
             quantity: 1,
@@ -652,7 +657,7 @@ export const craftingRouter = router({
           });
         }
 
-        await db.insert(craftingLog).values({
+        await tx.insert(craftingLog).values({
           userId: ctx.user.id,
           recipeType: recipe.id,
           inputCards: input.inputCardIds.map(id => ({ cardId: id, quantity: cardCounts[id] })),
@@ -687,7 +692,7 @@ export const craftingRouter = router({
       }
 
       // Select random output card of target rarity
-      const outputCandidates = await db
+      const outputCandidates = await tx
         .select()
         .from(cards)
         .where(and(eq(cards.rarity, recipe.outputRarity as any), eq(cards.isActive, 1)))
@@ -700,18 +705,18 @@ export const craftingRouter = router({
       const outputCard = outputCandidates[Math.floor(Math.random() * outputCandidates.length)];
 
       // Add output card to user's collection
-      const existing = await db
+      const existing = await tx
         .select()
         .from(userCards)
         .where(and(eq(userCards.userId, ctx.user.id), eq(userCards.cardId, outputCard.cardId)))
         .limit(1);
 
       if (existing.length > 0) {
-        await db.update(userCards)
+        await tx.update(userCards)
           .set({ quantity: existing[0].quantity + 1 })
           .where(and(eq(userCards.userId, ctx.user.id), eq(userCards.cardId, outputCard.cardId)));
       } else {
-        await db.insert(userCards).values({
+        await tx.insert(userCards).values({
           userId: ctx.user.id,
           cardId: outputCard.cardId,
           quantity: 1,
@@ -720,7 +725,7 @@ export const craftingRouter = router({
       }
 
       // Log
-      await db.insert(craftingLog).values({
+      await tx.insert(craftingLog).values({
         userId: ctx.user.id,
         recipeType: recipe.id,
         inputCards: input.inputCardIds.map(id => ({ cardId: id, quantity: cardCounts[id] })),
@@ -762,6 +767,7 @@ export const craftingRouter = router({
           health: outputCard.health,
         },
       };
+      });
     }),
 
   // ═══════════════════════════════════════════════════════
