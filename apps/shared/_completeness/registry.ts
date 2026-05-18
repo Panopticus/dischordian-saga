@@ -106,6 +106,7 @@ import { checkServantHeroDeferralCoverage } from "./checks/servantHeroDeferralCo
 import { checkSurfaceDiscoverabilityCoverage } from "./checks/surfaceDiscoverabilityCoverage";
 import { checkNarrativeSpineCoverage } from "./checks/narrativeSpineCoverage";
 import { checkSpineDoorwayCoverage } from "./checks/spineDoorwayCoverage";
+import { checkQuestlineRegistryCoverage } from "./checks/questlineRegistryCoverage";
 import { checkPerspectiveCanonCoverage } from "./checks/perspectiveCanonCoverage";
 import { checkProphecyTarotCoverage } from "./checks/prophecyTarotCoverage";
 import { checkActCloseCutsceneCoverage } from "./checks/actCloseCutsceneCoverage";
@@ -997,6 +998,13 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
       "Open but guided (owner-locked): every spine WING in apps/shared/narrativeSpine.ts must have a diegetic in-world doorway — a ROOM_DEFINITIONS hotspot whose route action is the wing's canonical entryRoute. Being on the spine + in the objective tracker is not the same as the player being able to walk in from the living world. RATCHET (target 0): the bridge already exists for some wings (Strategy Table → /chess, Trade Terminal → /trade-empire, Warden's Vigil → /tower-defense); the rest are precise targets in `missing`. The gap can only shrink — a wing with a world door can never regress to doorless. Driven by spineDoorways.ts (source-scan of GameContext ROOM_DEFINITIONS, no client import).",
     check: () => checkSpineDoorwayCoverage(),
     ratchet: { target: 0 },
+  },
+  {
+    id: "narrative.questline_registry_coverage",
+    name: "Questline registry coverage",
+    description:
+      "W7 (audit: 'questline completion status is unknown/untracked'): every apps/shared/questline*.ts module (non-test) MUST be registered in apps/shared/questlineRegistry.ts with a status (shipped | authored | support). Before this the only aggregation was a partial 11-entry array inside questlineAll.test.ts while 23 modules existed on disk. Hard parity, two-way: an unregistered module is untracked completion status; a registry entry with no module on disk is stale. Status is classified from objective module evidence (PotentialQuestline export + aggregate-test coverage), not lore judgement.",
+    check: () => checkQuestlineRegistryCoverage(),
   },
 
   // ─── PR-18 — Dischordian-Logic epistemology ────────────────
