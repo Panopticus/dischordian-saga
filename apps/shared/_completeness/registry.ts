@@ -109,6 +109,7 @@ import { checkSpineDoorwayCoverage } from "./checks/spineDoorwayCoverage";
 import { checkQuestlineRegistryCoverage } from "./checks/questlineRegistryCoverage";
 import { checkDailySessionLoopCoverage } from "./checks/dailySessionLoopCoverage";
 import { checkMasteryTrackCoverage } from "./checks/masteryTrackCoverage";
+import { checkRpgStaplesCoverage } from "./checks/rpgStaplesCoverage";
 import { checkPerspectiveCanonCoverage } from "./checks/perspectiveCanonCoverage";
 import { checkProphecyTarotCoverage } from "./checks/prophecyTarotCoverage";
 import { checkActCloseCutsceneCoverage } from "./checks/actCloseCutsceneCoverage";
@@ -1021,6 +1022,13 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "W4 (audit: 'no traditional RPG progression spine'): the progression parts shipped (classMastery, bossMastery, the per-mode reward engine) but with no contract that the play→grow→invest→play-stronger loop reaches every system the story reveals. apps/shared/masteryTracks.ts binds one growth track per spine system to a shipped reward/mastery anchor. Hard parity, spine-driven & two-way: every NARRATIVE_SPINE premise has exactly one track whose anchor exists; a track targeting a non-spine premise is also a defect.",
     check: () => checkMasteryTrackCoverage(),
+  },
+  {
+    id: "progression.rpg_staples_coverage",
+    name: "RPG staples coverage",
+    description:
+      "W6 (audit: inventory unmanaged / 'crafting is 5 recipes' / no vendor economy / no overworld traversal): each claim was stale; what was missing was an enforced contract. apps/shared/rpgStaples.ts declares the four pillars + their shipped anchors, with overworld traversal explicitly bound to the room-unlock manifest + the spine doorways (W0) so the 'linear room-unlock chain' is the spine-driven graph. Hard parity: every pillar's anchor modules exist and crafting clears the recipe floor (the stale '5 recipes' is now an enforced minimum).",
+    check: () => checkRpgStaplesCoverage(),
   },
 
   // ─── PR-18 — Dischordian-Logic epistemology ────────────────
