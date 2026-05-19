@@ -1086,7 +1086,14 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       // into a single "dlc index" hotspot.)
       { id: "charter-silt-fragment", name: "The Charter Fragment", description: "A scrap of hand-cured vellum on the central reading table, under archival glass. Six legible signatures; the seventh sealed under a black blister of mineralised wax.", x: 6, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:antiquarian-library:charter-silt-fragment" },
       { id: "charter-advocate-signature", name: "The Advocate's Marginalia", description: "A high-resolution rubbing of the charter's reverse beside the fragment. The Advocate's counter-signature carries the only witness annotation on the founding document.", x: 14, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:antiquarian-library:charter-advocate-signature" },
-      { id: "mystery-dlc-mechronis-missing-professor-antiquarian-library", name: "DLC Case Index — mechronis.missing_professor", description: "Investigative records tied to mechronis.missing_professor are catalogued here.", x: 13, y: 19, width: 6, height: 6, type: "interact", action: "room-mystery:antiquarian-library:dlc-mechronis-missing-professor-antiquarian-library" },
+      // Mystery wiring — mechronis.missing_professor · e1 + e2 (three
+      // clues authored to be found in this room: the lectern Tarn
+      // did not return to, the robe folded as if she had, and the
+      // shelf of her marginalia that exposes the three faculty
+      // proposals as misreadings.)
+      { id: "tarn-empty-lectern", name: "Tarn's Empty Lectern", description: "Professor Tarn's lectern at the rostrum end of the library, polished pearwood with brass piano-hinges. The binder is missing; a glass of water sits cold on the speaker's shelf.", x: 6, y: 24, width: 6, height: 6, type: "interact", action: "room-mystery:antiquarian-library:tarn-empty-lectern" },
+      { id: "tarn-folded-robe", name: "Tarn's Folded Robe", description: "Tarn's green-wool faculty robe folded twice on the lectern's bench — sleeves splayed, collar tucked. The fold she keeps on Fridays. Today is Tuesday.", x: 14, y: 24, width: 6, height: 6, type: "interact", action: "room-mystery:antiquarian-library:tarn-folded-robe" },
+      { id: "tarn-marginalia-stack", name: "Tarn's Marginalia, Three Volumes", description: "Three books lifted from the shelf behind the lectern — chess primer, the Antiquarian's marginalia compendium, Roen's trial-procedure manual — each carrying Tarn's annotations down the side gutters.", x: 6, y: 32, width: 6, height: 6, type: "interact", action: "room-mystery:antiquarian-library:tarn-marginalia-stack" },
       // Mystery wiring — charter.second_signatory · e1 + e2 (the
       // two clues the arc authored to land in this room, surfaced
       // as the artefacts themselves rather than a single index.)

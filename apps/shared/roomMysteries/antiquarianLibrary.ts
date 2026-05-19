@@ -13,7 +13,9 @@ export type AntiquarianLibraryHotspotId =
   | "charter-advocate-signature"
   | "charter-mirror-charter"
   | "charter-eighth-clause"
-  | "dlc-mechronis-missing-professor-antiquarian-library"
+  | "tarn-empty-lectern"
+  | "tarn-folded-robe"
+  | "tarn-marginalia-stack"
   | "dlc-severance-infernal-clause-antiquarian-library"
   | "dlc-mechronis-chained-lesson-antiquarian-library"
   | "dlc-memorial-seven-watchers-antiquarian-library"
@@ -58,14 +60,52 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           "You read the Advocate's marginalia aloud. 'Six speak; one listens; one of us is the silence.' The cipher-den's prior translations had this as poetic register. The fragment in your hand says otherwise. The Advocate was counting heads in the moment the seventh signature got covered, and the Advocate signed anyway.",
       },
     },
-    "dlc-mechronis-missing-professor-antiquarian-library": {
+    /* ─── mechronis.missing_professor · e1 (lectern) ─── */
+    "tarn-empty-lectern": {
       look: {
-        narration: "Case material for mechronis.missing_professor surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "At the rostrum end of the library — where the Academy's equinox addresses have been given for fourteen years — Professor Tarn's lectern stands open and empty. Polished pearwood; brass piano-hinges on the slope. Where her binder should sit, nothing. On the small shelf beside the speaker's position, a glass of water two-thirds full. The room is warm; the glass is not. The water has been there long enough to warm and has not warmed. Tarn set it last night and did not return this morning. Festival opened forty minutes ago.",
         mysteryBinding: {
           mysteryId: "mechronis.missing_professor",
           episodeId: "mechronis.missing_professor.e1",
-          cluesFound: ["mechronis.e1.empty_lectern", "mechronis.e1.folded_robe", "mechronis.e2.tarn_marginalia"],
+          cluesFound: ["mechronis.e1.empty_lectern"],
         },
+      },
+      use: {
+        narration:
+          "You touch the rim of the glass. Cold to the lip. The drawer below the lectern's slope opens to the catch — empty. The lecture binder Tarn carried from the Dean's office at second bell has not been here since the Dean watched her walk away with it.",
+      },
+    },
+    /* ─── mechronis.missing_professor · e1 (robe) ─── */
+    "tarn-folded-robe": {
+      look: {
+        narration:
+          "On the lectern's bench, Tarn's faculty robe — green wool, gold piping at the cuff — has been folded twice and squared at the corner. Sleeves splayed out, collar tucked in. The Dean recognises the fold: it is the Friday fold, the way Tarn parks the robe at the end of a teaching week. Today is the autumn equinox. Today is Tuesday. The fold says she packed up at the end of the week, not at the start of an address.",
+        mysteryBinding: {
+          mysteryId: "mechronis.missing_professor",
+          episodeId: "mechronis.missing_professor.e1",
+          cluesFound: ["mechronis.e1.folded_robe"],
+        },
+      },
+      use: {
+        narration:
+          "You unfold the robe carefully. No notes in the inner pocket. No spectacles in the breast pocket. The robe is the robe a person leaves behind when they have decided not to come back to wear it. The fold is the goodbye Tarn declined to say aloud.",
+      },
+    },
+    /* ─── mechronis.missing_professor · e2 (marginalia) ─── */
+    "tarn-marginalia-stack": {
+      look: {
+        narration:
+          "Three volumes lifted from the shelf behind the lectern — a chess primer, the Antiquarian's marginalia compendium, and Roen's trial-procedure manual — each carrying decades of Tarn's annotations down the side gutters. The cipher-den's collation lays the pages flat: where Othmar's proposal cites Tarn for the Logic curriculum, the chess primer's gutter reads 'except in the cases where the inverse holds.' Where Veth cites her for Lore, the marginalia compendium reads 'this is a curriculum, not a settlement.' Where Roen cites her for Trial, the procedure manual reads 'argue the other side first.' Tarn was not endorsing any of the three. She was arguing with all of them.",
+        mysteryBinding: {
+          mysteryId: "mechronis.missing_professor",
+          episodeId: "mechronis.missing_professor.e2",
+          cluesFound: ["mechronis.e2.tarn_marginalia"],
+        },
+      },
+      interrogate: {
+        narration:
+          "You ask the catalog for any annotation that reads as an endorsement. None of them do. Every gutter line is a hedge, a counter-example, a 'consider the inverse.' Three faculties have spent a week building proposals on the foundation Tarn spent decades dismantling. The faculties cannot have read past the first chapter.",
       },
     },
     /* ─── charter.second_signatory · e1 ─── */
