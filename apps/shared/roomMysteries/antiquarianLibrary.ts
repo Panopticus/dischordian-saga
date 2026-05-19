@@ -16,8 +16,11 @@ export type AntiquarianLibraryHotspotId =
   | "tarn-empty-lectern"
   | "tarn-folded-robe"
   | "tarn-marginalia-stack"
+  | "chained-apprentice-history"
+  | "chained-curriculum-diff"
+  | "chained-auro-folio"
+  | "tarn-year-eight-marginalia"
   | "dlc-severance-infernal-clause-antiquarian-library"
-  | "dlc-mechronis-chained-lesson-antiquarian-library"
   | "dlc-memorial-seven-watchers-antiquarian-library"
   | "dlc-wolf-anara-hunt-antiquarian-library"
   | "dlc-akai-shi-red-death-antiquarian-library"
@@ -150,14 +153,68 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
         },
       },
     },
-    "dlc-mechronis-chained-lesson-antiquarian-library": {
+    /* ─── mechronis.chained_lesson · e1 (apprentice file) ─── */
+    "chained-apprentice-history": {
       look: {
-        narration: "Case material for mechronis.chained_lesson surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "In the catalog's apprentice drawer, your apprentice's file: enrolled at last year's mentor's pledge, sponsored under your name. Curriculum transcript clean — every module ratified in the Year-One Council vote, every score in the top decile, top of cohort for the autumn and spring terms. Their roof-assignment for the festival opening is countersigned by the Dean and by Auro, the off-faculty instructor whose signature does not appear on any other roster in the library. The apprentice is, by every Academy metric, ready.",
         mysteryBinding: {
           mysteryId: "mechronis.chained_lesson",
           episodeId: "mechronis.chained_lesson.e1",
-          cluesFound: ["chained.e1.apprentice_history", "chained.e2.curriculum_diff", "chained.e3.auro_curriculum", "chained.e4.tarn_marginalia_third"],
+          cluesFound: ["chained.e1.apprentice_history"],
         },
+      },
+      use: {
+        narration:
+          "You pull the apprentice's training log. Forty-three drills logged with Auro; nineteen with the official faculty; every one of the Auro entries notes 'Module 17 reviewed.' The Academy's official transcript does not list a Module 17 anywhere. The apprentice has been doing two curricula and only one of them is on the record.",
+      },
+    },
+    /* ─── mechronis.chained_lesson · e2 (curriculum diff) ─── */
+    "chained-curriculum-diff": {
+      look: {
+        narration:
+          "On the reading table the catalog has surfaced the league's tower-defense drill curriculum beside the Academy's. The cipher-den has done the diff. Every module aligns except one — the league's Module 17, 'Terminus Feint Recognition,' has no Academy counterpart. The Year-One Council vote ratified the surrounding modules and left a clean gap where 17 should sit. The Academy term sheet has been printed for fourteen years with the gap silently preserved. The apprentice-failure log, opened beside the diff, traces every one of thirty-one failures to a tactical error a Module-17-trained operator would not have made.",
+        mysteryBinding: {
+          mysteryId: "mechronis.chained_lesson",
+          episodeId: "mechronis.chained_lesson.e2",
+          cluesFound: ["chained.e2.curriculum_diff"],
+        },
+      },
+      interrogate: {
+        narration:
+          "You ask the catalog who voted Module 17 out. The drawer returns a single annotation — 'see Year-One full proceedings, hour three.' The catalog will not surface the rest of the answer here. The argument that struck 17 was Tarn's; the cipher-den has the audio. The library only knows where to send you next.",
+      },
+    },
+    /* ─── mechronis.chained_lesson · e3 (Auro's folio) ─── */
+    "chained-auro-folio": {
+      look: {
+        narration:
+          "Sergeant Auro brought it in herself at second bell — an eleven-page folio in her own hand, titled 'Module 17 — Feint Recognition.' Plate-pressed diagrams of the seven Terminus formation feints; nine pages of drill progressions; a two-page self-test calibrated against the league's drill standard; a final page of after-action notes from twelve apprentices she has fielded across nine years. The folio is not a memoir. It is the module the Academy refused, written from memory and combat experience by a teacher the Academy has not paid for nine years.",
+        mysteryBinding: {
+          mysteryId: "mechronis.chained_lesson",
+          episodeId: "mechronis.chained_lesson.e3",
+          cluesFound: ["chained.e3.auro_curriculum"],
+        },
+      },
+      use: {
+        narration:
+          "You riffle the folio. Auro's annotations in the margins are dated — some nine years old, the oldest cross-referenced to the Year-Five wave that failed the first apprentice. The folio has been a living document the whole time it was off the curriculum. The Academy's gap has been Auro's daily teaching practice.",
+      },
+    },
+    /* ─── mechronis.chained_lesson · e4 (Tarn's year-eight retraction) ─── */
+    "tarn-year-eight-marginalia": {
+      look: {
+        narration:
+          "At the back of the marginalia compendium, on the last leaf — paper added by the Antiquarian in the fifth epoch for late annotations — Tarn's hand at Year 8. Six lines. Ink that has not faded. 'I was wrong about Module 17. The drill curriculum has not been teaching it. The apprentices have been failing. I argued the module out and the Academy did not put it back. The next Dean must.' Signed with her initial; dated; countersigned by no one. The Dean has had the volume on their shelf for six years. The leaf has not been turned during their tenure.",
+        mysteryBinding: {
+          mysteryId: "mechronis.chained_lesson",
+          episodeId: "mechronis.chained_lesson.e4",
+          cluesFound: ["chained.e4.tarn_marginalia_third"],
+        },
+      },
+      interrogate: {
+        narration:
+          "You ask the catalog who has signed out the marginalia compendium since Year 8. The drawer returns a list of three readers, none of them the Dean. Tarn's correction has been on this shelf for six years; the Dean has read every other volume in this row. The leaf was left for the next Dean to find. The next Dean is the current Dean.",
       },
     },
     "dlc-memorial-seven-watchers-antiquarian-library": {
