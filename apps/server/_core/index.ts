@@ -207,6 +207,42 @@ async function startServer() {
         }
       }
 
+      // Refund / chargeback clawback. Without this, refund-and-keep
+      // the goods was an open revenue hole — fulfilment had no
+      // reverse. Both event types carry a payment_intent that maps to
+      // the purchase_grants ledger (the fulfilment used the intent id
+      // as its ledger key). Layer-A processed_webhook_events dedup
+      // already guards retries before we get here.
+      if (event.type === "charge.refunded") {
+        const charge = event.data.object;
+        const pi =
+          typeof charge.payment_intent === "string"
+            ? charge.payment_intent
+            : (charge.payment_intent?.id ?? null);
+        if (pi) {
+          const { clawbackByPaymentIntent } = await import("../routers/store");
+          const result = await clawbackByPaymentIntent(pi, "refund");
+          console.log(
+            `[Webhook] Refund clawback intent=${pi}: ${JSON.stringify(result)}`,
+          );
+        }
+      }
+
+      if (event.type === "charge.dispute.created") {
+        const dispute = event.data.object;
+        const pi =
+          typeof dispute.payment_intent === "string"
+            ? dispute.payment_intent
+            : (dispute.payment_intent?.id ?? null);
+        if (pi) {
+          const { clawbackByPaymentIntent } = await import("../routers/store");
+          const result = await clawbackByPaymentIntent(pi, "dispute");
+          console.log(
+            `[Webhook] Dispute clawback intent=${pi}: ${JSON.stringify(result)}`,
+          );
+        }
+      }
+
       res.json({ received: true });
     } catch (err: unknown) {
       const errMsg = err instanceof Error ? err.message : String(err);

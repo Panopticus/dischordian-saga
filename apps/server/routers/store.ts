@@ -12,7 +12,7 @@ import type { DrizzleDb } from "../db";
 type TxOrDb = DrizzleDb | Parameters<Parameters<DrizzleDb["transaction"]>[0]>[0];
 import { eq, and, desc, sql } from "drizzle-orm";
 import { ripple } from "../services/rippleEngine";
-import { setEntitlement } from "../services/entitlementService";
+import { setEntitlement, isEntitlementKey } from "../services/entitlementService";
 
 /** SKUs that are first-purchase, time-limited, AND once-per-account.
  *  productKey → eligibility window (days from account creation).
@@ -745,6 +745,110 @@ async function doFulfill(
   });
 
   return { alreadyFulfilled: false };
+}
+
+/**
+ * Reverse the safely-reversible portion of a fulfilled purchase after
+ * a Stripe refund or chargeback (the webhook had NO refund path, so
+ * refund-and-keep-the-goods was an open revenue hole).
+ *
+ * Currency (Dream / Soul-Bound Dream / Void Crystals) is clawed back
+ * clamped at zero — a refunder who already spent it lands at 0, never
+ * negative. Entitlements are revoked outright. Consumed/structural
+ * grants (card packs, cosmetics, ship/base upgrades, battle pass) are
+ * deliberately NOT silently un-granted: reversing opened/equipped/spent
+ * items corrupts player state, so they are recorded for ops review in
+ * the compensating ledger row instead. That boundary is intentional —
+ * a partial honest clawback beats a state-corrupting "perfect" one.
+ *
+ * Idempotent: the compensating purchase_grants row uses a
+ * `clawback:<reason>:<intentId>` fulfillmentId under the same unique
+ * index that guards fulfilment, so a webhook retry is a no-op. The
+ * webhook's processed_webhook_events layer already dedups by event id
+ * before this is reached; this is defense-in-depth.
+ */
+export async function clawbackByPaymentIntent(
+  paymentIntentId: string,
+  reason: "refund" | "dispute",
+): Promise<{ clawed: boolean; reason?: string }> {
+  const db = await getDb();
+  if (!db) return { clawed: false, reason: "no_db" };
+
+  return db.transaction(async (tx) => {
+    const [grant] = await tx
+      .select()
+      .from(purchaseGrants)
+      .where(eq(purchaseGrants.fulfillmentId, paymentIntentId))
+      .limit(1);
+    if (!grant) return { clawed: false, reason: "no_grant" };
+
+    const clawbackId = `clawback:${reason}:${paymentIntentId}`;
+    const [already] = await tx
+      .select({ id: purchaseGrants.id })
+      .from(purchaseGrants)
+      .where(eq(purchaseGrants.fulfillmentId, clawbackId))
+      .limit(1);
+    if (already) return { clawed: false, reason: "already_clawed" };
+
+    const summary = (grant.rewardSummary ?? {}) as Record<
+      string,
+      number | string
+    >;
+    const comp: Record<string, number | string> = {
+      clawback_reason: reason,
+      clawback_of: paymentIntentId,
+    };
+
+    const dream = Number(summary.dreamTokens) || 0;
+    const sbd = Number(summary.soulBoundDream) || 0;
+    const vc = Number(summary.voidCrystals) || 0;
+    if (dream > 0 || sbd > 0 || vc > 0) {
+      const [bal] = await tx
+        .select({ userId: dreamBalance.userId })
+        .from(dreamBalance)
+        .where(eq(dreamBalance.userId, grant.userId))
+        .limit(1);
+      if (bal) {
+        await tx
+          .update(dreamBalance)
+          .set({
+            dreamTokens: sql`GREATEST(0, ${dreamBalance.dreamTokens} - ${dream})`,
+            soulBoundDream: sql`GREATEST(0, ${dreamBalance.soulBoundDream} - ${sbd})`,
+            gems: sql`GREATEST(0, ${dreamBalance.gems} - ${vc})`,
+          })
+          .where(eq(dreamBalance.userId, grant.userId));
+      }
+      if (dream) comp.reversed_dreamTokens = -dream;
+      if (sbd) comp.reversed_soulBoundDream = -sbd;
+      if (vc) comp.reversed_voidCrystals = -vc;
+    }
+
+    const ent = summary.entitlement;
+    if (typeof ent === "string" && isEntitlementKey(ent)) {
+      await setEntitlement(tx, grant.userId, ent, false);
+      comp.reversed_entitlement = ent;
+    }
+
+    const manualReview = [
+      "cardPackSize",
+      "cosmeticsCount",
+      "shipUpgrade",
+      "baseUpgrade",
+      "cargoExpansion",
+      "battlePassPremium",
+    ].filter((k) => summary[k] != null);
+    if (manualReview.length > 0) comp.manual_review = manualReview.join(",");
+
+    await tx.insert(purchaseGrants).values({
+      fulfillmentId: clawbackId,
+      userId: grant.userId,
+      productKey: grant.productKey,
+      quantity: grant.quantity,
+      rewardSummary: comp,
+    });
+
+    return { clawed: true };
+  });
 }
 
 /** Export fulfillPurchase for webhook use */

@@ -33,6 +33,7 @@ import { checkFirstPurchaseGateAdoption } from "./checks/firstPurchaseGateAdopti
 import { checkFtueFunnelInstrumentation } from "./checks/ftueFunnelInstrumentation";
 import { checkPvpScoreResubmitGuard } from "./checks/pvpScoreResubmitGuard";
 import { checkTouchTargetFloor } from "./checks/touchTargetFloor";
+import { checkRefundClawback } from "./checks/refundClawback";
 import { checkAssetPrefetchManifest } from "./checks/assetPrefetchManifest";
 import { checkProcedureRateLimits } from "./checks/procedureRateLimits";
 import { checkVoidContrastCoverage } from "./checks/voidContrastCoverage";
@@ -331,6 +332,13 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "index.css applies the 44px Apple/Google touch-target minimum under @media (pointer: coarse), not just max-width:639px. Fixes sub-minimum hit areas on landscape phones / tablets (the devices with landscape duel modes) where the width-gated rule didn't apply.",
     check: () => checkTouchTargetFloor(),
+  },
+  {
+    id: "economy.refund_clawback",
+    name: "Refund / chargeback clawback",
+    description:
+      "store.ts clawbackByPaymentIntent (currency reversal clamped at zero, entitlements revoked, consumed grants flagged for ops) is wired to the charge.refunded and charge.dispute.created Stripe webhook events. Closes refund-and-keep-the-goods.",
+    check: () => checkRefundClawback(),
   },
   {
     id: "client.asset_prefetch_manifest",
