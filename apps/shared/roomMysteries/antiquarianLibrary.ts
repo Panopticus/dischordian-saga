@@ -11,8 +11,9 @@ import type { RoomMysteryModule } from "./_template";
 export type AntiquarianLibraryHotspotId =
   | "charter-silt-fragment"
   | "charter-advocate-signature"
+  | "charter-mirror-charter"
+  | "charter-eighth-clause"
   | "dlc-mechronis-missing-professor-antiquarian-library"
-  | "dlc-charter-second-signatory-antiquarian-library"
   | "dlc-severance-infernal-clause-antiquarian-library"
   | "dlc-mechronis-chained-lesson-antiquarian-library"
   | "dlc-memorial-seven-watchers-antiquarian-library"
@@ -67,14 +68,36 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
         },
       },
     },
-    "dlc-charter-second-signatory-antiquarian-library": {
+    /* ─── charter.second_signatory · e1 ─── */
+    "charter-mirror-charter": {
       look: {
-        narration: "Case material for charter.second_signatory surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "Year Two. A second pane of glass on the reading table — the four-house delegation's mirror of the founding charter, brought in this morning without an appointment. Same hide. Same week's cure. Same hand on the ink. But there are eight signatures here, not seven. Where the wax-blister sits on ours, this copy carries a legible eighth: a House sigil drawn as a hand opening with two fingers folded down, beside a name we have on no Council roster and no payroll for four epochs. The mirror's seventh signature is wax-eaten in exactly the way ours is. The mirror's eighth is not.",
         mysteryBinding: {
           mysteryId: "charter.second_signatory",
           episodeId: "charter.second_signatory.e1",
-          cluesFound: ["charter2.e1.mirror_charter", "charter2.e2.charter_clause"],
+          cluesFound: ["charter2.e1.mirror_charter"],
         },
+      },
+      use: {
+        narration:
+          "You set the two charters edge to edge under the reading lamp. The grain of the vellum matches at the fibre — same hide, cut adjacent. The mirror has been somewhere our copy was not for eight epochs, and somebody on this Ark has been keeping it intact while our copy sat in silt.",
+      },
+    },
+    /* ─── charter.second_signatory · e2 ─── */
+    "charter-eighth-clause": {
+      look: {
+        narration:
+          "A transparency overlay slides out from the catalog drawer: the mirror charter's body text laid against the founding charter's. Most paragraphs align word for word. One paragraph does not — a thirty-four line passage on the mirror, absent from our copy. The mirror's clause: 'work that builds the Ark from below, witnessed in the workshop, sworn in the lower decks.' Our copy's vellum at the same column shows no scrape, no chemical residue, no tooling — the paragraph was never on it. The clause was not removed from our charter. It was never written into our charter. Two originals; one had the eighth clause from first ink.",
+        mysteryBinding: {
+          mysteryId: "charter.second_signatory",
+          episodeId: "charter.second_signatory.e2",
+          cluesFound: ["charter2.e2.charter_clause"],
+        },
+      },
+      use: {
+        narration:
+          "You hold the overlay against the catalog lamp. The mirror's clause is in the same hand as the other paragraphs of both charters — a single founding author drafted both, and chose which copy got which paragraphs. The schism was authored at the founding, not introduced in the fourth epoch.",
       },
     },
     "dlc-severance-infernal-clause-antiquarian-library": {
