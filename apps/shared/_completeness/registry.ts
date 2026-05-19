@@ -29,6 +29,7 @@ import { checkListVirtualizationAdoption } from "./checks/listVirtualizationAdop
 import { checkCanvasTouchActionAdoption } from "./checks/canvasTouchActionAdoption";
 import { checkSafeAreaInsetAdoption } from "./checks/safeAreaInsetAdoption";
 import { checkEconomicMutationReachability } from "./checks/economicMutationReachability";
+import { checkFirstPurchaseGateAdoption } from "./checks/firstPurchaseGateAdoption";
 import { checkAssetPrefetchManifest } from "./checks/assetPrefetchManifest";
 import { checkProcedureRateLimits } from "./checks/procedureRateLimits";
 import { checkVoidContrastCoverage } from "./checks/voidContrastCoverage";
@@ -299,6 +300,13 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "Every marquee economic mutation in checks/economicMutationReachability.ts ECONOMIC_MUTATIONS has a non-test client useMutation caller. Closes the 'transactional server logic exists but no front door' gap — prestige.execute (the NG+ loop) was backend-only until wired into PrestigeCycleResetPage.",
     check: () => checkEconomicMutationReachability(),
+  },
+  {
+    id: "economy.first_purchase_gate_adoption",
+    name: "First-purchase SKU server gate",
+    description:
+      "store.ts FIRST_PURCHASE_GATED_SKUS lists first_purchase_starter and createCheckout invokes assertFirstPurchaseEligible. Closes the permanently-repeatable $0.99 starter-bundle arbitrage (catalog promised 'first 7 days only' / once-per-account but nothing enforced it).",
+    check: () => checkFirstPurchaseGateAdoption(),
   },
   {
     id: "client.asset_prefetch_manifest",

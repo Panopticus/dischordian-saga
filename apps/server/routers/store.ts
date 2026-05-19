@@ -3,7 +3,7 @@ import { protectedProcedure, publicProcedure, router } from "../_core/trpc";
 import { procedureRateLimit } from "../_core/procedureRateLimit";
 import { getDb } from "../db";
 import { STORE_PRODUCTS, getProduct, getProductsByCategory, getFeaturedProducts } from "../products";
-import { storePurchases, dreamBalance, shipUpgrades, playerBases, userCards, cards, purchaseGrants, cosmeticCatalogOwnership, battlePassProgress, battlePassSeasons, type StorePurchase } from "../../db/schema";
+import { storePurchases, dreamBalance, shipUpgrades, playerBases, userCards, cards, purchaseGrants, cosmeticCatalogOwnership, battlePassProgress, battlePassSeasons, users, type StorePurchase } from "../../db/schema";
 import type { DrizzleDb } from "../db";
 
 /** Either a top-level drizzle handle or a transactional one — the
@@ -13,6 +13,61 @@ type TxOrDb = DrizzleDb | Parameters<Parameters<DrizzleDb["transaction"]>[0]>[0]
 import { eq, and, desc, sql } from "drizzle-orm";
 import { ripple } from "../services/rippleEngine";
 import { setEntitlement } from "../services/entitlementService";
+
+/** SKUs that are first-purchase, time-limited, AND once-per-account.
+ *  productKey → eligibility window (days from account creation).
+ *
+ *  The catalog copy for `first_purchase_starter` promises "available
+ *  first 7 days only!" and the bundle is priced as a one-shot
+ *  conversion hook ($0.99 → 200 Dream + 3 rare packs + cosmetic), but
+ *  nothing enforced either constraint server-side — it was a
+ *  permanently-repeatable arbitrage. This map is the server gate;
+ *  `assertFirstPurchaseEligible` is its single chokepoint. */
+const FIRST_PURCHASE_GATED_SKUS: Record<string, { windowDays: number }> = {
+  first_purchase_starter: { windowDays: 7 },
+};
+
+/** Throws if `productKey` is a gated first-purchase SKU and the caller
+ *  is outside its window or has already claimed it. No-op for every
+ *  non-gated product, so it is safe to call on every purchase path. */
+async function assertFirstPurchaseEligible(
+  db: DrizzleDb,
+  userId: number,
+  productKey: string,
+): Promise<void> {
+  const gate = FIRST_PURCHASE_GATED_SKUS[productKey];
+  if (!gate) return;
+
+  const [u] = await db
+    .select({ createdAt: users.createdAt })
+    .from(users)
+    .where(eq(users.id, userId))
+    .limit(1);
+  if (!u) throw new Error("Account not found");
+
+  const ageMs = Date.now() - new Date(u.createdAt).getTime();
+  if (ageMs > gate.windowDays * 86_400_000) {
+    throw new Error(
+      `This welcome bundle is only available in your first ${gate.windowDays} days.`,
+    );
+  }
+
+  const [prior] = await db
+    .select({ id: storePurchases.id })
+    .from(storePurchases)
+    .where(
+      and(
+        eq(storePurchases.userId, userId),
+        eq(storePurchases.productKey, productKey),
+      ),
+    )
+    .limit(1);
+  if (prior) {
+    throw new Error(
+      "This welcome bundle can only be claimed once per account.",
+    );
+  }
+}
 
 export const storeRouter = router({
   /** List all products, optionally filtered by category */
@@ -42,6 +97,19 @@ export const storeRouter = router({
       const product = getProduct(input.productKey);
       if (!product) throw new Error("Product not found");
       if (product.priceUsd <= 0) throw new Error("This product cannot be purchased with real money");
+
+      // Gate first-purchase, time-limited, once-per-account SKUs
+      // BEFORE a Stripe session exists, so the exploit (re-buying the
+      // $0.99 starter, or buying it past day 7) can never reach
+      // checkout. createCheckout is the only purchase path for a
+      // priceUsd-only SKU like first_purchase_starter.
+      const eligibilityDb = await getDb();
+      if (!eligibilityDb) throw new Error("Database unavailable");
+      await assertFirstPurchaseEligible(
+        eligibilityDb,
+        ctx.user.id,
+        input.productKey,
+      );
 
       const stripeKey = process.env.STRIPE_SECRET_KEY;
       if (!stripeKey) throw new Error("Stripe is not configured");
@@ -121,6 +189,7 @@ export const storeRouter = router({
       const product = getProduct(input.productKey);
       if (!product) throw new Error("Product not found");
       if (product.priceCredits <= 0) throw new Error("This product cannot be purchased with credits");
+      await assertFirstPurchaseEligible(db, ctx.user.id, input.productKey);
 
       const totalCost = product.priceCredits * input.quantity;
 
@@ -164,6 +233,7 @@ export const storeRouter = router({
       const product = getProduct(input.productKey);
       if (!product) throw new Error("Product not found");
       if (product.priceDream <= 0) throw new Error("This product cannot be purchased with Dream");
+      await assertFirstPurchaseEligible(db, ctx.user.id, input.productKey);
       const totalCost = product.priceDream * input.quantity;
       // Use transaction to ensure atomicity of currency operations.
       // Conditional UPDATE — affects 0 rows iff balance dropped below
@@ -222,6 +292,7 @@ export const storeRouter = router({
       if (product.priceVoidCrystals <= 0) {
         throw new Error("This product cannot be purchased with Void Crystals");
       }
+      await assertFirstPurchaseEligible(db, ctx.user.id, input.productKey);
       const totalCost = product.priceVoidCrystals * input.quantity;
       return await db.transaction(async (tx) => {
         const r = await tx.execute(sql`
