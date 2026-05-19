@@ -36,6 +36,7 @@ import { checkTouchTargetFloor } from "./checks/touchTargetFloor";
 import { checkRefundClawback } from "./checks/refundClawback";
 import { checkIapReceiptOwnership } from "./checks/iapReceiptOwnership";
 import { checkVipSubscription } from "./checks/vipSubscription";
+import { checkNativeHaptics } from "./checks/nativeHaptics";
 import { checkAssetPrefetchManifest } from "./checks/assetPrefetchManifest";
 import { checkProcedureRateLimits } from "./checks/procedureRateLimits";
 import { checkVoidContrastCoverage } from "./checks/voidContrastCoverage";
@@ -355,6 +356,13 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "Time-bounded VIP entitlement: catalog product + Stripe mode:subscription checkout + customer.subscription.created/updated set-from-period + subscription.deleted clear + entitlementService helpers + the dailyQuests reward multiplier actually consuming it. Event-driven + pull-based — no cron, no leader-election dependency.",
     check: () => checkVipSubscription(),
+  },
+  {
+    id: "mobile.native_haptics",
+    name: "Native haptics (iOS Taptic / Android)",
+    description:
+      "lib/haptics.ts routes through @capacitor/haptics on the native shell (web Vibration API fallback) and every named HapticPatterns entry has an explicit native mapping. Fixes iOS, where navigator.vibrate is absent and all haptics silently no-opped.",
+    check: () => checkNativeHaptics(),
   },
   {
     id: "client.asset_prefetch_manifest",
