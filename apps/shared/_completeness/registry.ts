@@ -28,6 +28,7 @@ import { checkMobileWiring } from "./checks/mobileWiring";
 import { checkListVirtualizationAdoption } from "./checks/listVirtualizationAdoption";
 import { checkCanvasTouchActionAdoption } from "./checks/canvasTouchActionAdoption";
 import { checkSafeAreaInsetAdoption } from "./checks/safeAreaInsetAdoption";
+import { checkEconomicMutationReachability } from "./checks/economicMutationReachability";
 import { checkAssetPrefetchManifest } from "./checks/assetPrefetchManifest";
 import { checkProcedureRateLimits } from "./checks/procedureRateLimits";
 import { checkVoidContrastCoverage } from "./checks/voidContrastCoverage";
@@ -291,6 +292,13 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "Full-bleed game surfaces in checks/safeAreaInsetAdoption.ts SAFE_AREA_SURFACES apply safe-area-top (audit/08.F5). Closes the hollow-tracking gap: .safe-area-* declared in index.css but never applied to the notch-overlapping HUDs.",
     check: () => checkSafeAreaInsetAdoption(),
+  },
+  {
+    id: "client.economic_mutation_reachability",
+    name: "Economic mutation client reachability",
+    description:
+      "Every marquee economic mutation in checks/economicMutationReachability.ts ECONOMIC_MUTATIONS has a non-test client useMutation caller. Closes the 'transactional server logic exists but no front door' gap — prestige.execute (the NG+ loop) was backend-only until wired into PrestigeCycleResetPage.",
+    check: () => checkEconomicMutationReachability(),
   },
   {
     id: "client.asset_prefetch_manifest",

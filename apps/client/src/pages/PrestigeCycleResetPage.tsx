@@ -38,6 +38,8 @@ import { useGame } from "@/contexts/GameContext";
 import { PRESTIGE_CARRYOVER_RULES } from "@shared/actsFourFiveShells";
 import LivingBackground from "@/components/LivingBackground";
 import { useActVO } from "@/hooks/useActVO";
+import { trpc } from "@/lib/trpc";
+import { useAuth } from "@/_core/hooks/useAuth";
 
 export default function PrestigeCycleResetPage() {
   const { state, performPrestige, setNarrativeFlag } = useGame();
@@ -46,6 +48,20 @@ export default function PrestigeCycleResetPage() {
   const [ceremonyPending, setCeremonyPending] = useState(false);
   // Prestige VO lives in Act 7's manifest (outputDir `vo/prestige`).
   const vo = useActVO("7");
+  const { isAuthenticated } = useAuth();
+
+  // The narrative ceremony resets local GameContext state; the durable
+  // NG+ reset (citizen level→1, room re-lock, 10% currency carryover,
+  // battle-pass + quest wipe, prestigeTier++) lives server-side in
+  // `prestige.execute`. Before this wiring the page only ran the local
+  // reducer, so the marquee loop never persisted. canPrestige is the
+  // server's mechanical gate (level 25+, tier < 7) — surfaced as a
+  // pre-flight notice; the narrative spine gate (act_7_complete) is
+  // unchanged and still controls the button.
+  const canPrestigeQuery = trpc.prestige.canPrestige.useQuery(undefined, {
+    enabled: isAuthenticated,
+  });
+  const executeMut = trpc.prestige.execute.useMutation();
 
   useEffect(() => {
     // Fires once on mount. The manifest key lookup is a no-op when the
@@ -80,14 +96,45 @@ export default function PrestigeCycleResetPage() {
   useEffect(() => {
     if (!ceremonyPending || !cinematicSeen) return;
     setCeremonyPending(false);
-    performPrestige();
-    vo.speak("prestige-ceremony-close");
-    toast.success(`Cycle ${nextPrestigeLevel} begins.`, {
-      description:
-        "The Ark resets. The Antiquarian remembers. Somewhere, a new Potential opens their eyes.",
-      duration: 10_000,
-    });
-    setTimeout(() => navigate("/title"), 1_500);
+
+    const finishLocally = () => {
+      performPrestige();
+      vo.speak("prestige-ceremony-close");
+      toast.success(`Cycle ${nextPrestigeLevel} begins.`, {
+        description:
+          "The Ark resets. The Antiquarian remembers. Somewhere, a new Potential opens their eyes.",
+        duration: 10_000,
+      });
+      setTimeout(() => navigate("/title"), 1_500);
+    };
+
+    if (!isAuthenticated) {
+      // Dev / canon-lookup path: nothing durable to persist, so keep the
+      // original local-only ceremony — the page stays usable signed-out.
+      finishLocally();
+      return;
+    }
+
+    // Durable path: persist the server NG+ reset first; only roll the
+    // local narrative state forward once the server confirms, so the
+    // client can't claim a cycle the backend didn't actually grant.
+    void executeMut
+      .mutateAsync({})
+      .then(() => finishLocally())
+      .catch((err: unknown) => {
+        const message =
+          err instanceof Error
+            ? err.message
+            : "The cycle did not turn — try again.";
+        toast.error(message, {
+          description:
+            "Your progress is unchanged. Resolve the requirement, then release again.",
+        });
+        // Deliberately not re-armed: cinematicSeen stays true, so
+        // pressing the button again retries the server reset without
+        // replaying the cutscene, and a persistent failure (e.g. under
+        // level 25) can't spin the effect in a retry loop.
+      });
   }, [
     ceremonyPending,
     cinematicSeen,
@@ -95,6 +142,8 @@ export default function PrestigeCycleResetPage() {
     vo,
     nextPrestigeLevel,
     navigate,
+    isAuthenticated,
+    executeMut,
   ]);
 
   return (
@@ -159,6 +208,34 @@ export default function PrestigeCycleResetPage() {
             </div>
           </section>
         )}
+
+        {spineComplete &&
+          isAuthenticated &&
+          canPrestigeQuery.data &&
+          !canPrestigeQuery.data.eligible && (
+            <section
+              className="mb-6 rounded-md border void-border void-bg-canvas p-5"
+              data-testid="prestige-cycle-ineligible"
+            >
+              <div className="flex items-start gap-3">
+                <AlertTriangle
+                  size={16}
+                  className="mt-0.5 shrink-0 void-text"
+                />
+                <div>
+                  <p className="font-mono text-[10px] uppercase tracking-[0.2em] void-text">
+                    The Ark is not ready to turn
+                  </p>
+                  <p className="mt-1 font-serif italic text-[13px] void-text-dim">
+                    The spine has resolved, but the cycle holds:{" "}
+                    {canPrestigeQuery.data.reason}. The ceremony will wait —
+                    the durable reset only commits once the requirement is
+                    met.
+                  </p>
+                </div>
+              </div>
+            </section>
+          )}
 
         <section className="mb-6 rounded-md border void-border void-bg-canvas p-5">
           <header className="mb-3 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.25em] void-text-accent">
