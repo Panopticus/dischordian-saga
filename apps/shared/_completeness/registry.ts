@@ -37,6 +37,7 @@ import { checkRefundClawback } from "./checks/refundClawback";
 import { checkIapReceiptOwnership } from "./checks/iapReceiptOwnership";
 import { checkVipSubscription } from "./checks/vipSubscription";
 import { checkNativeHaptics } from "./checks/nativeHaptics";
+import { checkNativeOrientation } from "./checks/nativeOrientation";
 import { checkAssetPrefetchManifest } from "./checks/assetPrefetchManifest";
 import { checkProcedureRateLimits } from "./checks/procedureRateLimits";
 import { checkVoidContrastCoverage } from "./checks/voidContrastCoverage";
@@ -363,6 +364,13 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "lib/haptics.ts routes through @capacitor/haptics on the native shell (web Vibration API fallback) and every named HapticPatterns entry has an explicit native mapping. Fixes iOS, where navigator.vibrate is absent and all haptics silently no-opped.",
     check: () => checkNativeHaptics(),
+  },
+  {
+    id: "mobile.native_orientation",
+    name: "Native orientation lock",
+    description:
+      "LandscapeEnforcer locks landscape via @capacitor/screen-orientation on the native shell (web Screen Orientation API + overlay fallback). Fixes iOS, where screen.orientation.lock is unsupported and players got a rotate-device overlay instead of the OS rotating the app.",
+    check: () => checkNativeOrientation(),
   },
   {
     id: "client.asset_prefetch_manifest",

@@ -35,21 +35,41 @@ export default function LandscapeEnforcer({ children, forceRotate = false, messa
       setTimeout(check, 100);
     });
 
-    // Try to lock orientation via Screen Orientation API
-    try {
-      const orientation = (screen as any).orientation;
-      if (orientation?.lock) {
-        orientation.lock("landscape").catch(() => {});
-      }
-    } catch { /* Not supported */ }
+    // Native iOS WKWebView does NOT support screen.orientation.lock
+    // (it silently throws), so on the native ship target the lock
+    // never took and the "rotate your device" overlay was the only
+    // behaviour. Lock through @capacitor/screen-orientation so the OS
+    // actually rotates the app and the overlay path is never reached.
+    // Web keeps the Screen Orientation API + overlay fallback.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const isNative =
+      (globalThis as any).Capacitor?.isNativePlatform?.() === true;
+    if (isNative) {
+      import("@capacitor/screen-orientation")
+        .then((m) => m.ScreenOrientation.lock({ orientation: "landscape" }))
+        .catch(() => {});
+    } else {
+      try {
+        const orientation = (screen as any).orientation;
+        if (orientation?.lock) {
+          orientation.lock("landscape").catch(() => {});
+        }
+      } catch { /* Not supported */ }
+    }
 
     return () => {
       window.removeEventListener("resize", check);
       window.removeEventListener("orientationchange", check);
-      try {
-        const orientation = (screen as any).orientation;
-        if (orientation?.unlock) orientation.unlock();
-      } catch { /* silent */ }
+      if (isNative) {
+        import("@capacitor/screen-orientation")
+          .then((m) => m.ScreenOrientation.unlock())
+          .catch(() => {});
+      } else {
+        try {
+          const orientation = (screen as any).orientation;
+          if (orientation?.unlock) orientation.unlock();
+        } catch { /* silent */ }
+      }
     };
   }, []);
 
