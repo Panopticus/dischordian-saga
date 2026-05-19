@@ -29,7 +29,7 @@ export type ShadowVaultHotspotId =
   | "charter-per-m-pencil-reply"
   | "dlc-severance-bound-champion-shadow-vault"
   | "dlc-memorial-forgotten-names-shadow-vault"
-  | "dlc-charter-second-signatory-shadow-vault"
+  | "charter2-council-scrub-request"
   | "dlc-memorial-seven-watchers-shadow-vault"
   | "dlc-resurrectionist-cycle-walker-shadow-vault"
   | "dlc-advocate-blood-weave-shadow-vault"
@@ -79,14 +79,20 @@ export const SHADOW_VAULT_MYSTERY: RoomMysteryModule<
         },
       },
     },
-    "dlc-charter-second-signatory-shadow-vault": {
+    /* ─── charter.second_signatory · e3 (Council scrub request) ─── */
+    "charter2-council-scrub-request": {
       look: {
-        narration: "Case material for charter.second_signatory surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "Inside the shadow-vault's classified-correspondence drawer, the original scrub request — recovered from Heron's desk after their fourth-epoch retirement. Vellum, dated, signed by all six legible founding signatures. The text: 'In recognition of operational simplicity, please remove the artisan-house signatures from the founding records.' The seventh signature, where it should sit beside the other six, is wax-eaten in exactly the way the charter is. The same closer who sealed the founding's seventh signature also sealed the seventh's absence from the fourth-epoch request. The seventh did not sign; the seventh did not consent; the seventh said no by not signing.",
         mysteryBinding: {
           mysteryId: "charter.second_signatory",
           episodeId: "charter.second_signatory.e3",
           cluesFound: ["charter2.e3.council_request"],
         },
+      },
+      interrogate: {
+        narration:
+          "You ask the vault for the request's response chain. The drawer returns nothing — no acknowledgment from the seventh, no minutes of the request's drafting, no record of the six discussing the seventh's absence from the signature line. The six knew the seventh would not sign and proceeded anyway. The fourth-epoch scrub was a vote without the seventh.",
       },
     },
     "dlc-memorial-seven-watchers-shadow-vault": {

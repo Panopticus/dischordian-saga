@@ -10,7 +10,7 @@ import type { RoomMysteryModule } from "./_template";
 export type QuantumLabHotspotId =
   | "charter-wax-mineralisation-analysis"
   | "dlc-severance-bound-champion-quantum-lab"
-  | "dlc-charter-second-signatory-quantum-lab"
+  | "charter2-vellum-comparison"
   | "dlc-severance-infernal-clause-quantum-lab"
   | "dlc-akai-shi-red-death-quantum-lab"
   | "entanglement-rig" | "observation-cage";
@@ -44,14 +44,20 @@ export const QUANTUM_LAB_MYSTERY: RoomMysteryModule<QuantumLabHotspotId> = {
         },
       },
     },
-    "dlc-charter-second-signatory-quantum-lab": {
+    /* ─── charter.second_signatory · e1 (parallel-vellum analysis) ─── */
+    "charter2-vellum-comparison": {
       look: {
-        narration: "Case material for charter.second_signatory surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "Both charters — ours, recovered from the lower-deck silt, and the four-house delegation's mirror — lie side by side on the quantum-lab's parallel-stage. Imaging penetrates: same hide, cut adjacent at the tannery, cured the same week. The same hand prepared both vellums; the same pen signed each within hours of the other. The lab's spectral analysis cannot distinguish them on any material axis. The mirror is not a forgery and our copy is not the original. They are parallel originals, drafted as a pair by founders who chose which version each copy would carry.",
         mysteryBinding: {
           mysteryId: "charter.second_signatory",
           episodeId: "charter.second_signatory.e1",
           cluesFound: ["charter2.e1.two_charters_same_paper"],
         },
+      },
+      use: {
+        narration:
+          "You request the lab's hide-fibre alignment scan. The two vellums share twelve grain-lines that mate at the cut edge — they were once adjacent panels on the same hide. The founders cut the hide in half and drafted the two parallel originals from the same animal. The pair-authorship was as deliberate as the parchment was shared.",
       },
     },
     "dlc-severance-infernal-clause-quantum-lab": {

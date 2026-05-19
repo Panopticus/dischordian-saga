@@ -31,7 +31,9 @@ export type CipherDenHotspotId =
   | "charter-watcher-oath-fragment"
   | "dlc-mechronis-missing-professor-cipher-den"
   | "dlc-memorial-forgotten-names-cipher-den"
-  | "dlc-charter-second-signatory-cipher-den"
+  | "charter2-heron-diary"
+  | "charter2-heron-diary-second-page"
+  | "charter2-silence-convention"
   | "dlc-severance-infernal-clause-cipher-den"
   | "chained-tarn-year-one-argument"
   | "dlc-memorial-seven-watchers-cipher-den"
@@ -98,14 +100,52 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
         },
       },
     },
-    "dlc-charter-second-signatory-cipher-den": {
+    /* ─── charter.second_signatory · e3 (Heron's diary) ─── */
+    "charter2-heron-diary": {
       look: {
-        narration: "Case material for charter.second_signatory surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "In the cipher-den's deepest archive — drawer eleven, fourth-epoch tier — the Council archivist Heron's personal diary. Recovered last month from a sealed compartment in their desk after the delegation's arrival. Heron's hand is neat, anxious, dated. The relevant page: 'I do not enjoy the tidying. I will do the tidying because the Council has asked me to. The Council has asked me to because the seven do not wish to share authorship.' The phrasing is precise — the tidying, not the editing; the seven, not the six. Heron knew the request was a scrub and that the seventh founder had not authorised it.",
         mysteryBinding: {
           mysteryId: "charter.second_signatory",
           episodeId: "charter.second_signatory.e3",
-          cluesFound: ["charter2.e3.heron_diary", "charter2.e4.heron_diary_b", "charter2.e4.silence_as_vote"],
+          cluesFound: ["charter2.e3.heron_diary"],
         },
+      },
+      use: {
+        narration:
+          "You read further. The diary continues across nine years of fourth-epoch tidying — Solven, Vyn, Marek, Othisen each named individually, each entry dated, each closed with the line 'I will do this because I have been asked.' The diary is a confession written in advance of the confessor's pardon.",
+      },
+    },
+    /* ─── charter.second_signatory · e4 (Heron's diary, page two) ─── */
+    "charter2-heron-diary-second-page": {
+      look: {
+        narration:
+          "The diary's page two, recovered intact. Heron writes: 'I asked the seventh whether they consented to the scrub. The seventh did not answer. I took silence as consent. The Council took silence as consent. We were both wrong, and only the seventh knew.' The page is dated the day before the first artisan-house entry. Heron asked the question — the question they were instructed not to ask — and was answered with the silence that has been the seventh Watcher's vote for four epochs. Heron misread it the same way the Council misread it. The misreading was the founding error.",
+        mysteryBinding: {
+          mysteryId: "charter.second_signatory",
+          episodeId: "charter.second_signatory.e4",
+          cluesFound: ["charter2.e4.heron_diary_b"],
+        },
+      },
+      use: {
+        narration:
+          "You compare Heron's question-page against the founding-protocols archive. The protocol on silence-as-vote is written in plain language; Heron had access to it. The misreading was not from ignorance. Heron knew the protocol and chose to take silence as consent because the six had asked them to read it that way.",
+      },
+    },
+    /* ─── charter.second_signatory · e4 (silence-as-vote convention) ─── */
+    "charter2-silence-convention": {
+      look: {
+        narration:
+          "From the cipher-den's founding-protocols archive — the convention Heron did not honour. The page is brittle, paginated by hand. The relevant stanza: 'when the seven cannot agree, the seven may abstain by silence. silence on a vote is opposition recorded in the manner of one who will not break the seven's unity by speaking against it.' The convention pre-dates the charter. It is older than the council that misapplied it. The seventh Watcher has been voting no by silence since the fourth epoch and the convention names that silence correctly. The Council named it wrong.",
+        mysteryBinding: {
+          mysteryId: "charter.second_signatory",
+          episodeId: "charter.second_signatory.e4",
+          cluesFound: ["charter2.e4.silence_as_vote"],
+        },
+      },
+      interrogate: {
+        narration:
+          "You ask the archive when this convention was last successfully invoked. The drawer returns a single entry: the founding itself. The seventh founding Watcher invoked silence-as-vote on three minor founding-day decisions; each was read correctly. The convention's first misreading is the fourth-epoch scrub. The misreading has been the seventh's only voice since.",
       },
     },
     "dlc-severance-infernal-clause-cipher-den": {

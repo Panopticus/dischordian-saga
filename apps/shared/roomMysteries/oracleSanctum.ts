@@ -11,7 +11,7 @@ import type { RoomMysteryModule } from "./_template";
 export type OracleSanctumHotspotId =
   | "dlc-mechronis-missing-professor-oracle-sanctum"
   | "dlc-memorial-forgotten-names-oracle-sanctum"
-  | "dlc-charter-second-signatory-oracle-sanctum"
+  | "charter2-kassel-testimony"
   | "dlc-severance-infernal-clause-oracle-sanctum"
   | "dlc-advocate-blood-weave-oracle-sanctum"
   | "oracle-pool" | "prophecy-tablet" | "incense-brazier" | "seers-recording-cabinet";
@@ -39,14 +39,20 @@ export const ORACLE_SANCTUM_MYSTERY: RoomMysteryModule<OracleSanctumHotspotId> =
         },
       },
     },
-    "dlc-charter-second-signatory-oracle-sanctum": {
+    /* ─── charter.second_signatory · e2 (Kassel Solven's testimony) ─── */
+    "charter2-kassel-testimony": {
       look: {
-        narration: "Case material for charter.second_signatory surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "In the oracle-sanctum's witness chamber, Kassel Solven's recorded testimony from the morning of the delegation's arrival. The sanctum's recorder caught the full statement. Kassel: 'My great-great-grandmother was the one who signed. Her name is on the mirror. Her workshop is the one you visited yesterday. We have been waiting for the door to be opened from the other side for four epochs.' The sanctum's calibration logs note that Kassel did not raise her voice across the eight-minute testimony; the recorder's vu-meter never crossed the conversational band. She was not performing patience. She had it.",
         mysteryBinding: {
           mysteryId: "charter.second_signatory",
           episodeId: "charter.second_signatory.e2",
           cluesFound: ["charter2.e2.descendant_account"],
         },
+      },
+      interrogate: {
+        narration:
+          "You ask the sanctum what the four-epoch wait sounded like. The recorder returns the family ledger's read-aloud entries — quarterly outputs, customer lists, apprentice tallies — kept by four generations of Solvens in continuous handwriting from the founding to today. The waiting was a workshop, not a vigil. Kassel inherited the workshop and the silence with it.",
       },
     },
     "dlc-severance-infernal-clause-oracle-sanctum": {
