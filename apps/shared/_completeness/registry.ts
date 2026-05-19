@@ -30,6 +30,7 @@ import { checkCanvasTouchActionAdoption } from "./checks/canvasTouchActionAdopti
 import { checkSafeAreaInsetAdoption } from "./checks/safeAreaInsetAdoption";
 import { checkEconomicMutationReachability } from "./checks/economicMutationReachability";
 import { checkFirstPurchaseGateAdoption } from "./checks/firstPurchaseGateAdoption";
+import { checkFtueFunnelInstrumentation } from "./checks/ftueFunnelInstrumentation";
 import { checkAssetPrefetchManifest } from "./checks/assetPrefetchManifest";
 import { checkProcedureRateLimits } from "./checks/procedureRateLimits";
 import { checkVoidContrastCoverage } from "./checks/voidContrastCoverage";
@@ -307,6 +308,13 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "store.ts FIRST_PURCHASE_GATED_SKUS lists first_purchase_starter and createCheckout invokes assertFirstPurchaseEligible. Closes the permanently-repeatable $0.99 starter-bundle arbitrage (catalog promised 'first 7 days only' / once-per-account but nothing enforced it).",
     check: () => checkFirstPurchaseGateAdoption(),
+  },
+  {
+    id: "client.ftue_funnel_instrumentation",
+    name: "FTUE funnel instrumentation",
+    description:
+      "GameEvents declares the 5 FTUE funnel events and useTutorialOrchestrator emits STEP_SHOWN/STEP_COMPLETED/SKIPPED. Keeps the onboarding drop-off funnel measurable — a refactor can't silently re-blind D1 retention analysis.",
+    check: () => checkFtueFunnelInstrumentation(),
   },
   {
     id: "client.asset_prefetch_manifest",

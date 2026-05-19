@@ -18,6 +18,12 @@ import {
   type TutorialContext,
   type TutorialProgress,
 } from "@/lib/tutorialOrchestrator";
+import { trackEvent, GameEvents } from "@/lib/analytics";
+
+/** Funnel-stage ordinal of a step within FTUE_SEQUENCE. -1 if absent. */
+const stepIndex = (stepId: string): number =>
+  FTUE_SEQUENCE.findIndex((s) => s.id === stepId);
+const FTUE_TOTAL = FTUE_SEQUENCE.length;
 
 const FTUE_FLAGS_STORAGE_KEY = "loredex_ftue_flags";
 const FTUE_SKIPPED_KEY = "loredex_ftue_skipped";
@@ -121,6 +127,10 @@ export function useTutorialOrchestrator(): UseTutorialOrchestratorResult {
   }
   const orchestrator = orchestratorRef.current;
 
+  // FTUE_COMPLETED is a once-per-player terminal event; this ref
+  // keeps a returning player (already past FTUE) from re-emitting it.
+  const ftueCompletedEmitted = useRef(false);
+
   // Track the currently active (prompted) tutorial step
   const [activeStep, setActiveStep] = useState<TutorialStep | null>(null);
 
@@ -162,6 +172,11 @@ export function useTutorialOrchestrator(): UseTutorialOrchestratorResult {
       const next = orchestrator.getNextTutorial(context);
       if (next) {
         setActiveStep(next);
+        trackEvent(GameEvents.FTUE_STEP_SHOWN, {
+          stepId: next.id,
+          index: stepIndex(next.id),
+          total: FTUE_TOTAL,
+        });
       }
       return next;
     },
@@ -183,6 +198,21 @@ export function useTutorialOrchestrator(): UseTutorialOrchestratorResult {
       // Clear active step if it matches
       setActiveStep((prev) => (prev?.id === stepId ? null : prev));
       refreshState();
+
+      const prog = orchestrator.getProgress();
+      trackEvent(GameEvents.FTUE_STEP_COMPLETED, {
+        stepId,
+        index: stepIndex(stepId),
+        total: FTUE_TOTAL,
+        percent: prog.percent,
+      });
+      if (!orchestrator.isInFTUE() && !ftueCompletedEmitted.current) {
+        ftueCompletedEmitted.current = true;
+        trackEvent(GameEvents.FTUE_COMPLETED, {
+          completed: prog.completed,
+          total: prog.total,
+        });
+      }
     },
     [orchestrator, gameCompleteTutorial, refreshState]
   );
@@ -216,6 +246,12 @@ export function useTutorialOrchestrator(): UseTutorialOrchestratorResult {
 
   /** Skip all remaining FTUE tutorials. */
   const skipAll = useCallback(() => {
+    const prog = orchestrator.getProgress();
+    trackEvent(GameEvents.FTUE_SKIPPED, {
+      completed: prog.completed,
+      total: prog.total,
+      percent: prog.percent,
+    });
     orchestrator.skipAll();
     persistFlags(orchestrator.getCompletedFlags());
     persistSkipped();
@@ -225,8 +261,15 @@ export function useTutorialOrchestrator(): UseTutorialOrchestratorResult {
 
   /** Dismiss the active tutorial without completing it (snooze). */
   const dismissActive = useCallback(() => {
+    if (activeStep) {
+      trackEvent(GameEvents.FTUE_STEP_DISMISSED, {
+        stepId: activeStep.id,
+        index: stepIndex(activeStep.id),
+        total: FTUE_TOTAL,
+      });
+    }
     setActiveStep(null);
-  }, []);
+  }, [activeStep]);
 
   /** Resolve a tutorialId to LoreTutorial data for rendering in LoreTutorialEngine. */
   const getTutorialData = useCallback(
