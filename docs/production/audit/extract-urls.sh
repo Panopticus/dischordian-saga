@@ -17,6 +17,21 @@ grep -REn 'assetUrl\("[^"]+"\)' --include='*.ts' --include='*.tsx' \
       print cdn "/" $1 "\t" $2
     }' >> "$OUT"
 
+# Pattern 1b: pair("X.png") → emits both X.png and X.webp (see
+# preludeAct1Deliverables.ts:36 — pair() forwards to assetUrl twice).
+grep -REn 'pair\("[^"]+\.png"\)' --include='*.ts' --include='*.tsx' \
+  apps/client/src apps/shared 2>/dev/null \
+  | grep -v '\.test\.' | grep -v __tests__ \
+  | sed -E 's/^([^:]+):[0-9]+:.*pair\("([^"]+)"\).*/\2|\1/' \
+  | awk -F'|' -v cdn="$CDN_PUBLIC" '{
+      gsub(/^\//, "", $1);
+      png = $1
+      webp = $1
+      sub(/\.png$/, ".webp", webp)
+      print cdn "/" png "\t" $2
+      print cdn "/" webp "\t" $2
+    }' >> "$OUT"
+
 # Pattern 2: literal dgrsart.s3 URLs
 grep -REoh 'https://dgrsart\.s3\.us-east-2\.amazonaws\.com/[A-Za-z0-9._/-]+' \
   --include='*.ts' --include='*.tsx' --include='*.json' \

@@ -5,250 +5,205 @@ and the `*VoManifest.json` voice manifests, probed via unauthenticated
 `HEAD` against the production CDN (`dgrsart.s3.us-east-2.amazonaws.com`)
 plus the legacy CloudFront origin.
 
-**Source data (regenerated today by the container's session-start hook):**
+**Source data (regenerated against the current branch HEAD on 2026-05-19):**
 
 - `docs/production/audit/all-urls.tsv` — raw URL ↔ source extraction
 - `docs/production/audit/cdn-liveness.tsv` — `code ↔ url ↔ source`, one row per unique URL
 - `docs/production/audit/per-source-status.tsv` — `source ↔ live ↔ dead ↔ pct ↔ verdict`
 - `docs/production/audit/path-mismatches.tsv` — manifest URL → known-good alternate path
 
-Regenerate locally: run `docs/production/audit/extract-urls.sh` then
-`docs/production/audit/probe-cdn.sh`. (HEAD probes against a public
-S3 bucket are unauthenticated — `200` = object exists with public-read
-ACL, `403` = either the object doesn't exist or it isn't public. In
-this bucket the application path is public-by-policy, so a `403` on a
-`cdn/client-public/...` key effectively means **missing on CDN**.)
+Two bugs in the prior audit data have been fixed:
+
+1. `extract-urls.sh` only matched `assetUrl("…")` — it missed the
+   `pair("…")` helper in `preludeAct1Deliverables.ts` that wraps half
+   the Prelude / Act 1 URLs. Now `pair("x.png")` is correctly expanded
+   to both `x.png` and `x.webp`. (+206 URLs surfaced)
+2. The committed `cdn-liveness-files.tsv` was generated against an
+   older version of the imprint card files (before the `s1_imprint_*`
+   → bare-name rename), so it phantom-reported 90 imprint cards as
+   missing that actually exist on the CDN. The path-mismatch scanner
+   was reading the stale file. Both now read `cdn-liveness.tsv`.
+
+Regenerate locally:
+
+```bash
+bash docs/production/audit/extract-urls.sh
+bash docs/production/audit/probe-cdn.sh
+bash docs/production/audit/scan-path-mismatches.sh
+```
+
+Caveat: probes are unauthenticated. The dgrsart bucket returns `200`
+for public objects, `403` for missing or non-public ones. In practice
+the application prefix `cdn/client-public/` is public-by-policy, so a
+`403` there means **missing on CDN**.
 
 ---
 
-## 1. Headline numbers
+## 1. Headline (revised)
 
 | Surface | Count |
 |---|---:|
-| Unique asset URLs referenced in code | **3,002** |
-| Live (HTTP 200) | **881** (29%) |
-| Dead (HTTP 403 — missing or non-public) | **2,121** (71%) |
+| Unique asset URLs referenced in code | **3,903** |
+| Live (HTTP 200) | **1,883** (48%) |
+| Dead (HTTP 403) | **2,018** (52%) |
+| `ERR` (transient probe failures, < 0.1%) | **2** |
 
-The headline number is misleading on its own. The 2,121 dead URLs break
-down very unevenly:
+The 2,018 dead URLs break down sharply:
 
-| Bucket | Dead URLs | Notes |
+| Bucket | Dead | Notes |
 |---|---:|---|
-| Legacy CloudFront (`d2xsxph8kpxj0f.cloudfront.net`) | **1,727** | All from `room-artwork-urls.txt` — a dead source. Origin was decommissioned in the May 2026 CDN migration. **Should be deleted from the repo,** not re-uploaded. |
-| `dgrsart` under `cdn/client-public/` | **378** | Genuinely missing assets the application references. This is the actionable list. |
-| `dgrsart` outside `cdn/client-public/` (`page-backgrounds/…`, `cabin-art/…`, `nilmorg-portraits/…`, `cdn/casino/…`, `cdn/events/…`) | **16** | Legacy prefix references — should also be migrated to `cdn/client-public/` per the bible (§6.1). |
+| Legacy CloudFront (`d2xsxph8kpxj0f.cloudfront.net`) | **1,727** | All from `room-artwork-urls.txt` + 5,579 source-code references across the client + server. Origin is decommissioned; these are dead refs left over from the May 2026 CDN migration. Out of scope for an art audit, in scope for a migration cleanup PR. |
+| `dgrsart` (the live CDN) | **291** | The real, actionable art gap. |
 
-So **the real art-completion gap is ~394 dgrsart URLs**, not 2,121.
-
----
-
-## 2. Top blockers (prioritised by impact)
-
-### 2.1 Card-game art — **211 missing webps**
-
-Card art is the single largest gap. Every card definition under
-`apps/shared/tcg-core/cards/definitions/{allegiance,class,imprint,
-element,race,dimension}/*` references an `art/cards/<category>/<id>.webp`
-that does not exist on the CDN.
-
-| Subfolder | Missing webps | Why it matters |
-|---|---:|---|
-| `art/cards/imprint/` | **90** | 18 imprints × 5 tiers — every NPC character card |
-| `art/cards/allegiance/` | **36** | 6 factions × 6 tiers — faction headers |
-| `art/cards/class/` | **30** | 6 classes × 5 cards |
-| `art/cards/element/` | **20** | 4 elements × 5 cards |
-| `art/cards/race/` | **15** | 5 races × 3 cards |
-| `art/cards/dimension/` | **12** | 4 dimensions × 3 cards |
-| `art/cards/` neutrals (`burnt_card_placeholder`, `gen_seer`, `gen_programmer`, `gen_game_master_original`, `gen_authority`, `s1_warlord_three_moves`, `s1_char_018_the_antiquarian`) | 7 | One-offs |
-| Misc (`art/card-game/card-back-seer.png`) | 1 | Seer-flicker tutorial overlay |
-
-**This corresponds exactly to the `NANO_BANANA_*.md` prompt packs** at
-the docs root (allegiance, class, element/dimension/race, imprints 1–3,
-oracle). The prompts are written; the renders haven't been produced
-or uploaded.
-
-**Recommendation:** schedule a Nano Banana batch for the seven prompt
-packs and run `pnpm assets:upload` against `apps/client/public/art/cards/`
-once the WEBPs land. Until then, the engine renders the card frame
-chrome with an empty art slot.
-
-### 2.2 Prelude room backdrops — **17 URLs, alternate path is live**
-
-`apps/client/src/data/preludeAct1Deliverables.ts` (lines 232–252)
-references `art/rooms/prelude/room-<room>.{png,webp}` for all 13
-Prelude rooms. **None of those 17 URLs resolve.** The
-`path-mismatches.tsv` script found that the top-level alternates
-(`art/rooms/room-<room>.{png,webp}`) **do resolve** — so the assets
-exist, just at a different prefix than the manifest claims.
-
-The file's own comment (lines 233–238) acknowledges the history: a
-prior pass moved off `art/rooms/` because the prelude prefix
-appeared to be missing at audit-time, and the 2026-04-26
-"`prelude_rooms_missing_9.zip`" upload was supposed to fix that. As
-of today, the prelude-prefixed copies are still 403.
-
-**Two paths to fix, decide which:**
-
-1. Re-point the manifest to the top-level `art/rooms/` paths (one-line
-   string change on 13 entries). Cheapest fix; assets already shipped.
-2. Re-upload the prelude-prefixed `prelude_rooms_missing_9.zip` payload
-   if the canon really is "Prelude-version rooms live under
-   `art/rooms/prelude/`."
-
-Open question for the producer: are the top-level and prelude-prefixed
-versions intended to be different art (e.g. cryo-bay closed vs.
-breached)? If yes, option 2. If they're meant to be the same painting,
-option 1 is correct.
-
-### 2.3 Mechronis Academy — **28 URLs across 4 sources**
-
-`MechronisAcademyPage.tsx` (12), `mechronisHouses.ts` (8),
-`mechronisClassmates.ts` (8) reference `art/mechronis/classmates/…`
-and `art/mechronis/common-rooms/…`. Plus 4 `audio/ambient/mechronis/…`
-beds via `apps/client/src/data/mechronisSlideshow.ts` and 3 audio cues.
-**No coverage at all** — this whole sub-surface is wired but not
-asset-backed. Production status flag in the bible says Mechronis is
-"shipping" — that's accurate for the gameplay; the art is missing.
-
-### 2.4 Cades FPS — **49 URLs across `christmasInJulyAssets.ts`,
-`cadesAssets.ts`, `dmcAssets.ts`**
-
-`christmasInJulyAssets.ts` is 0% live (49/49 dead). `cadesAssets.ts`
-is 77/77 (100% live!) on individual asset URLs, but its 7 *directory*
-URLs (`art/cades/characters/`, `art/cades/enemies/`, etc.) all 403 —
-those are likely meta-listing probes, not real assets, so they're
-fine to ignore. The Christmas-in-July casino event drop is the
-actionable gap.
-
-### 2.5 Outergroove album — **11 audio tracks**
-
-`apps/shared/tcg-core/audio/outergroove.ts` references 10 .mp3 tracks
-+ cover.jpg. Zero are live. The album is referenced from the music
-player; right now every play attempt 403s.
-
-### 2.6 Prelude cutscene MP4s — **9 videos**
-
-Every `videos/prelude/prelude-beat-*.mp4` referenced by
-`preludeAct1Deliverables.ts` is 403:
-
-- `prelude-beat-a-awakening.mp4` through `prelude-beat-j-finale.mp4`,
-  plus `prelude-beat-c5-palm-frost.mp4`
-
-The Prelude beats render their fallback (`ResponsiveImage` over the
-beat still) when the video 404s, which is why the Prelude is
-"shipping" per the bible — but the cinematic beats are silently
-flat right now. The bookend stills *are* live (those URLs come back
-200), only the MP4s are missing.
-
-### 2.7 Cinematics keyframes — **24 PNGs across 6 packs**
-
-`apps/shared/expansionArt/cinematicsManifest.ts` declares cutscenes
-for Acts 4 / 4.5 (DMC) / 5 / 6 / 7 plus "silence-of-two-witnesses"
-— 4 keyframes per pack, 6 packs, 24 PNGs. **All 403.** Combined with
-§2.6 this means the Act-2-through-Act-7 cinematic surface has its
-manifests authored but no actual frames on the CDN.
-
-### 2.8 Long tail (single-source DEADs ≤ 10 each)
-
-Full list (sources with 100% dead URLs, excluding the card-def files
-already covered in §2.1):
-
-| Source | Dead | Surface |
-|---|---:|---|
-| `apps/shared/songSlideshows.ts` | 30/35 (86%) | Album slideshows for songs |
-| `apps/client/src/data/nanobanna2Assets.ts` | 7 | Nano Banana 2 hero assets |
-| `apps/client/src/data/companions/starterEidolonForms.ts` | 6 | Eidolon (Lux / Echo) starter forms |
-| `apps/client/src/data/optionalComponentAssets.ts` | 5 | Optional-component placeholders |
-| `apps/client/src/contexts/GameContext.tsx` | 5 | `art/rooms/room-dreams-workshop-subbasement.webp`, `room-guild-sanctum`, `room-station-dock`, `room-war-room`, `room-social-hub` |
-| `apps/shared/celebrationParkMap.ts` | 4 | Celebration park map tiles |
-| `apps/client/src/data/dmcAssets.ts` | 4 | Act 4.5 DMC assets |
-| `apps/client/src/game/spriteSheetConfig.ts` | 3 | Sprite-sheet sources |
-| `apps/client/src/pages/DischordianLogicSongPage.tsx` | 2 | Song-page bg + audio |
-| 9 × single-asset misses (`Act2InterludePage`, `Act5InterludePage`, `EngineersBenchPage`, `GameMastersArenaAct2Page`, `act1CycleCWitnessing`, `TwoWitnessesPart2`, `SeerCardFlicker`, `roomStateAssets`, `wire-card-art`) | 1 ea | Per-page hero stills / single audio cue |
-
-### 2.9 MIXED sources (partially live)
-
-| Source | Live | Dead | Note |
-|---|---:|---:|---|
-| `literal-dgrsart-url` (hardcoded URLs across `*.ts`/`*.tsx`/`*.json`) | 37 | 54 | Worth deleting the 54 dead literals once their owners are identified |
-| `terminus-swarm/TerminusSwarmPage.tsx` | 27 | 28 | Half of the Terminus Swarm set live |
-| `CompanionSelectionScene.tsx` | 6 | 12 | Half of companion portraits live |
-| `terminusCinematicAssets.ts` | 10 | 11 | One cinematic poster missing |
-| `celebrationSlideshow.ts` | 8 | 9 | One missing |
-| `mechronisSlideshow.ts` | 2 | 3 | One missing |
+So **the actionable art gap is 291 URLs, not 2,121.** The original
+audit was off by an order of magnitude because of the two scanner
+bugs.
 
 ---
 
-## 3. Cross-checks vs. production bible
+## 2. The 291 dgrsart dead URLs — by category
 
-The bible (§6.1) names `scripts/_check-art-coverage.mjs` as the
-authoritative coverage probe; it HEAD-checks **928 producer keys**
-covering Trade Empire, Hierarchy of the Damned, Dischordia base set,
-cinematics, VFX, Album 1 & 5 slideshows, new-art manifest, and title-
-page videos. **That probe requires AWS credentials and was not run in
-this session** (CLAUDE.md ratchet item #40 in `AUDIT_2026-05_FINAL_TODO.md`
-is still open on this — needs CI run).
-
-This audit is the *unauthenticated* counterpart: it covers what the
-*application code* references, regardless of whether those URLs are
-listed in a typed manifest. The two are complementary:
-
-- The producer-key probe (`_check-art-coverage.mjs`) catches uploads
-  the producer promised but didn't deliver.
-- This audit (`per-source-status.tsv`) catches application references
-  to assets that were never registered in a typed manifest, plus
-  manifest entries whose live status has drifted.
-
-Of the ~394 dgrsart-dead URLs found here, the largest cluster (§2.1
-card art, 211 URLs) is **not** covered by either typed manifest the
-bible mentions — every card-def file builds its art path inline with
-`assetUrl(\`art/cards/<cat>/<id>.webp\`)`. That's a registry gap as
-much as an art gap: if the card art were threaded through a manifest
-like `apps/shared/expansionArt/dischordiaBaseSet.ts` (which already
-declares the *tier grid* art for the same set), it would land under
-the ship-check gate and stop drifting silently.
-
----
-
-## 4. Suggested follow-ups
-
-In priority order — each is a separate piece of work, not a single
-PR:
-
-1. **Delete dead `room-artwork-urls.txt` and the 1,727 CloudFront
-   references.** They're noise; they account for the headline "71%
-   dead" but block nothing.
-2. **Decide the prelude-room paths** (option 1 vs. option 2 in §2.2)
-   and either land the path-rewrite PR or re-upload the Prelude-
-   prefixed payload.
-3. **Land card-art renders for `art/cards/{imprint,allegiance,class,
-   element,race,dimension}/`** — 211 webps from the existing
-   `NANO_BANANA_*.md` prompt packs.
-4. **Register card art under a typed manifest** so the
-   `aaaArtArchive`-style parity test can hold the line.
-5. **Upload Mechronis Academy** (§2.3), **Outergroove tracks** (§2.5),
-   **Prelude beat MP4s** (§2.6), **Act-2–7 cinematic keyframes** (§2.7).
-6. **Re-run `scripts/_check-art-coverage.mjs` in CI with AWS creds**
-   (item already on the TODO list).
-7. **Triage the MIXED sources** (§2.9) — most are likely one or two
-   genuinely-missing files each.
-
----
-
-## 5. How to re-run
-
-```bash
-# regenerate URL → source extraction
-bash docs/production/audit/extract-urls.sh
-
-# probe every unique URL (uses curl HEAD, 48-way parallel; ~60s)
-bash docs/production/audit/probe-cdn.sh
-
-# inspect verdict tables
-column -t -s $'\t' docs/production/audit/per-source-status.tsv | less
-column -t -s $'\t' docs/production/audit/path-mismatches.tsv | less
-
-# producer-key probe (needs AWS creds; covers ~928 manifest keys)
-AWS_ACCESS_KEY_ID=… AWS_SECRET_ACCESS_KEY=… \
-  node scripts/_check-art-coverage.mjs
 ```
+113   art/cards/{allegiance,class,element,race,dimension}/*.webp   (TCG categorical)
+ 56   literal-dgrsart-url (mixed)
+ 40   art/cards/<single-card>.webp                                  (TCG single cards)
+ 24   art/recruits/<name>_<emotion>.webp                            (4 recruits × 6 emotions)
+ 13   art/slideshows/album{2,4}/T<NN>/T<NN>_00_title.webp           (Album slideshow titles)
+ 11   art/specimens/* + ship/bunkroom + ui/* + dischordian-logic    (Misc art)
+ 10   art/cinematics/* (small remnant, mostly addressed)            (Cinematic frames)
+  9   audio/{album1,music,songs,antiquarian}/*                      (One-off audio)
+  6   videos/discoveries/entity_{N}.{webm,mp4}                      (Discovery videos)
+  5   audio/ambient/celebration + scene rooms                       (Misc)
+  4   art/fighters/{architect,collector,enigma}                     (Fighter sprites)
+```
+
+### 2.1 Genuine producer gap — `art/cards/{allegiance,class,element,race,dimension}/*.webp` (113 webps)
+
+The TCG card subset that's actually missing on the CDN:
+
+| Subfolder | Pattern | Count |
+|---|---|---:|
+| `art/cards/allegiance/s1_alleg_<faction>_t<1-6>.webp` | 6 factions × 6 tiers | **36** |
+| `art/cards/class/s1_class_<class>_<01-05>.webp` | 6 classes × 5 cards | **30** |
+| `art/cards/element/s1_elem_<elem>_<01-05>.webp` | 4 elements × 5 cards | **20** |
+| `art/cards/race/s1_race_<race>_<01-03>.webp` | 5 races × 3 cards | **15** |
+| `art/cards/dimension/s1_dim_<dim>_<01-03>.webp` | 4 dimensions × 3 cards | **12** |
+
+No path-rewrite alternates exist (verified by direct HEAD probes
+against `art/cards/elemental/`, bare-name, png/jpg flips, `tcg/`
+prefix). These are genuinely not on the CDN under any naming. The
+`NANO_BANANA_*.md` prompt packs at the docs root cover this set —
+the prompts are written; the renders need to be produced and
+uploaded.
+
+### 2.2 Single-card misses (~40)
+
+Scattered one-off misses under `art/cards/<faction>/<id>.webp`:
+hierarchy of the damned (3), neutrals (4 — `burnt_card_placeholder`,
+`gen_seer`, `gen_programmer`, `gen_game_master_original`), engine
+demo (10), architect (8 incl. `gen_authority`, `s1_warlord_three_moves`,
+`s1_char_018_the_antiquarian`), new_babylon (5), insurgency (5),
+dreamer (3), antiquarian (5), thought_virus (2), house_oath_titles (2),
+panopticon (4), and a few others. Each is a single missing webp.
+
+### 2.3 Recruits (24)
+
+`art/recruits/{akai_shi,jericho_jones,vex_solene,wraith_calder}_
+{base,considered,neutral,vulnerable,warm,wary}.webp` — emotion-state
+portraits for the 4 recruit characters. Referenced as literal URLs
+in component code. None on CDN.
+
+### 2.4 Album slideshow titles (13)
+
+`art/slideshows/album{2,4}/T<NN>/T<NN>_00_title.webp`:
+- Album 2: T05, T06, T15 (3 titles)
+- Album 4: T01–T10 (10 titles)
+
+Frame-zero / title cards. The body frames are largely present —
+this is just the cover-card slot per track.
+
+### 2.5 Long-tail (~85)
+
+| Pattern | Count | Notes |
+|---|---:|---|
+| `art/cinematics/<act>/frame0X.webp` | ~5 | Most cinematics keyframes are now live; this is a small remnant |
+| `art/specimens/*-fragment.png` + bare names | 12 | Dreamer-fragment specimens (toxis, strain, sibyl, nyx, auros, cog, etc.) |
+| `art/ui/*.webp` | 4 | `card-frame`, `deck-bg`, `graph-bg`, `leaderboard-bg` |
+| `art/rooms/room-{war-room,social-hub,guild-sanctum,station-dock,dreams-workshop-subbasement}.webp` | 5 | Late-game scene rooms (`GameContext.tsx`) |
+| `art/fighters/{architect,collector,enigma}` | 4 | Fighter sprite atlases (`spriteSheetConfig.ts`) |
+| `audio/album1/T{11,18,23}.mp3` | 3 | Three missing album1 tracks |
+| `audio/music/{celebration,mechronis,songs}/*.mp3` | 4 | `welcome-to-celebration`, `to-be-the-human`, `song_last_words_prelude_full`, `dischordian_logic` |
+| `videos/discoveries/entity_{4,5,6,7,8,9}.{webm,mp4}` | ~6 | Late-discovery videos |
+| Page-level 1-offs | ~30 | Scene rooms / posters / audio cues across `Act2Interlude`, `Act5Interlude`, `EngineersBench`, `GameMastersArena`, `BunkroomPage`, etc. |
+| Bare-prefix probes (`cdn/casino`, `cdn/client-public/`, `cabin-art/items`) | ~8 | Dead-end / probe artifacts; many are legacy prefixes |
+
+---
+
+## 3. Mostly-working surfaces
+
+Several surfaces that the previous audit flagged as 0% are actually
+100% live in the fresh data:
+
+- **Mechronis professors / classmates / houses** — all `art/mechronis/
+  {professors,classmates}/*.{png,webp}` are live. Only `audio/music/
+  mechronis/to-be-the-human.mp3` is missing.
+- **Prelude rooms** — all 26 `art/rooms/prelude/room-<X>.{png,webp}`
+  variants are live. The earlier-claimed path-mismatch with top-level
+  `art/rooms/` resolves because *both* prefixes are populated.
+- **Imprint card art** — all 90 imprint slots (18 NPCs × 5 tiers) at
+  `art/cards/imprint/<name>_t<N>.webp` are live. The previous audit's
+  "90 missing imprint webps" was a phantom from stale extraction
+  data.
+- **Battlefields, cutscenes, VFX, audio beds, cades FPS, christmas-
+  in-july** — all live. Previous "0% live" flags were stale-data
+  artifacts.
+
+---
+
+## 4. What needs producer work vs. what needs code/upload
+
+### Needs producer renders (no asset exists anywhere on CDN)
+
+1. **§2.1 TCG categorical card art** — 113 webps. `NANO_BANANA_*.md`
+   prompt packs ready. This is the single biggest gap.
+2. **§2.3 Recruits emotional portraits** — 24 webps.
+3. **§2.4 Album 2 + Album 4 title cards** — 13 webps.
+4. **§2.2 ~40 one-off card webps** — scattered across factions.
+5. Various long-tail (§2.5) — ~85 misc assets.
+
+### Needs code-side cleanup (no asset needed)
+
+1. **Legacy CloudFront migration** — 5,579 references across 53+
+   client/server files (`AppShellImmersive`, `OpeningCinematic`,
+   `RoomTutorialDialog`, `ElaraDialog`, `InlineShipMap`,
+   `securityHeaders`, etc.) all hardcode `d2xsxph8kpxj0f.cloudfront.
+   net` URLs. The CloudFront origin is dead, so every one of these
+   is a broken reference. Each needs to be mapped to its current
+   `assetUrl(...)` equivalent (most exist on dgrsart already).
+   Separate workstream from art completion proper.
+
+### Needs AWS creds (cannot be done in this session)
+
+The producer-key probe `scripts/_check-art-coverage.mjs` covers 928
+typed-manifest keys (Trade Empire, Hierarchy of the Damned,
+Dischordia base set, cinematics, VFX, albums, new-art manifest,
+title videos). It needs `AWS_ACCESS_KEY_ID` + `AWS_SECRET_ACCESS_KEY`
+to disambiguate "missing" from "missing-public-acl" via authenticated
+HEAD. Open ratchet item in `AUDIT_2026-05_FINAL_TODO.md`.
+
+---
+
+## 5. Suggested next moves
+
+1. **Land the 113 categorical card webps.** Largest impact, prompts
+   ready, well-defined drop. Once landed, register `art/cards/`
+   under a typed manifest (similar to `aaaArtArchive/`) so the
+   ship-check gate covers it going forward.
+2. **CloudFront migration sweep** — separate PR, mechanical
+   find-and-replace from the 5,579 hardcoded URLs to `assetUrl(...)`
+   equivalents. Verify each replacement against the dgrsart bucket
+   first.
+3. **Recruits + album title cards** — 37 misc webps, well-scoped
+   producer drop.
+4. **Long-tail one-offs** — triage source by source; some are
+   probably orphaned references from removed features.

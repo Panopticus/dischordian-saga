@@ -23,7 +23,7 @@
 set -uo pipefail
 
 ROOT="$(cd "$(dirname "$0")"/../../.. && pwd)"
-LIVENESS="$ROOT/docs/production/audit/cdn-liveness-files.tsv"
+LIVENESS="$ROOT/docs/production/audit/cdn-liveness.tsv"
 OUT="$ROOT/docs/production/audit/path-mismatches.tsv"
 SUMMARY="$ROOT/docs/production/audit/path-mismatches.summary.txt"
 
