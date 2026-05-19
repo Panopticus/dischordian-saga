@@ -19,7 +19,8 @@ import type { CombineRule, RoomMysteryModule } from "./_template";
 export type ArchivesHotspotId =
   | "charter-silt-stratigraphy"
   | "charter-per-m-preservation-orders"
-  | "dlc-severance-bound-champion-archives"
+  | "severance-no-protocol-on-file"
+  | "severance-forty-season-envelopes"
   | "tarn-binder-page-14"
   | "memorial-fourteen-unwitnessed-list"
   | "wolf-crucible-resurrection-record"
@@ -94,14 +95,36 @@ export const ARCHIVES_MYSTERY: RoomMysteryModule<
           "You ask the archive's curator for Per. M.'s tenure record. The drawer returns nothing — no start date, no payroll entry, no termination notice. The same Per. M. signed an order this morning and forty-two earlier ones across eight epochs. The curator has been signing receipts to Per. M. for nineteen years without ever asking who they are.",
       },
     },
-    "dlc-severance-bound-champion-archives": {
+    /* ─── severance.bound_champion · e1 (empty inheritance-protocol vault) ─── */
+    "severance-no-protocol-on-file": {
       look: {
-        narration: "Case material for severance.bound_champion surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "In the archives' Severance-tier records, the inheritance-protocol vault — empty. Vex Maestro's office files contain everything else: lap counts, sponsor splits, refurbishment ledgers. There is no written procedure for inheriting a soul-bond. There never has been. The vault was opened at the league's founding and has sat empty for forty seasons. The slot exists. The protocol does not.",
         mysteryBinding: {
           mysteryId: "severance.bound_champion",
           episodeId: "severance.bound_champion.e1",
-          cluesFound: ["severance.e1.unwritten_protocol", "severance.e2.season_archives"],
+          cluesFound: ["severance.e1.unwritten_protocol"],
         },
+      },
+      use: {
+        narration:
+          "You request the vault's reading history. The drawer returns a single annotation, in the original archivist's hand: 'kept open for the procedure when it is written.' The slot has been waiting for forty seasons for someone to fill it.",
+      },
+    },
+    /* ─── severance.bound_champion · e2 (forty sealed season envelopes) ─── */
+    "severance-forty-season-envelopes": {
+      look: {
+        narration:
+          "Beside the empty protocol vault, the forty-season envelope set — one sealed envelope per Severance, stacked chronologically. Each envelope contains: an attendance list, the season's champion's death certificate, and a single one-line note in Vex Maestro's hand. The note reads 'inheritor accepted.' Forty notes, forty seasons, no name on any of them. The bond carries the name forward; the ledger does not.",
+        mysteryBinding: {
+          mysteryId: "severance.bound_champion",
+          episodeId: "severance.bound_champion.e2",
+          cluesFound: ["severance.e2.season_archives"],
+        },
+      },
+      interrogate: {
+        narration:
+          "You ask the archive whether any envelope was ever opened by another reader. The drawer logs three attempts in forty seasons; each one returned the envelope unopened. The seals are unbroken; the names remain in the bond, not in the paperwork.",
       },
     },
     /* ─── mechronis.missing_professor · e2 (binder page 14) ─── */

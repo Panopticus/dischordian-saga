@@ -24,21 +24,27 @@
 import type { RoomMysteryModule } from "./_template";
 
 export type MedicalBayHotspotId =
-  | "dlc-severance-bound-champion-medical-bay"
+  | "severance-broker-quantum-imaging"
   | "dlc-akai-shi-red-death-medical-bay"
   | "bio-bed" | "dna-helix" | "medicine-cabinet" | "medical-log" | "egg-vox-neural-bridge" | "emergency-safe" | "the-silences-vacated-body";
 
 export const MEDICAL_BAY_MYSTERY: RoomMysteryModule<MedicalBayHotspotId> = {
   roomId: "medical-bay",
   responses: {
-    "dlc-severance-bound-champion-medical-bay": {
+    /* ─── severance.bound_champion · e3 (Broker's quantum imaging) ─── */
+    "severance-broker-quantum-imaging": {
       look: {
-        narration: "Case material for severance.bound_champion surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "On the medical-bay's quantum-imaging suite, the Broker of Nilmorg's volunteered body scan — taken after the apprentice question was asked. The imaging suggests an age incompatible with a single human spine. The Broker's bones carry rest-marks consistent with a person who has died at least once and chosen to come back. The suite's calibration report: 'subject's substrate is human; subject's history is layered; subject's continuity has at least one discontinuity.' The Broker did not consent to interpretation, only to measurement.",
         mysteryBinding: {
           mysteryId: "severance.bound_champion",
           episodeId: "severance.bound_champion.e3",
           cluesFound: ["severance.e3.broker_age"],
         },
+      },
+      use: {
+        narration:
+          "You request the scan's discontinuity layer. The suite returns a single feature — a cellular rest-mark dated to Severance Year 1, Lap 73. The mark is the Broker's first death. The Broker has been working through the second life since the first ended on the lane.",
       },
     },
     "dlc-akai-shi-red-death-medical-bay": {

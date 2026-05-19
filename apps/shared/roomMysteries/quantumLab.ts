@@ -9,7 +9,7 @@ import type { RoomMysteryModule } from "./_template";
 
 export type QuantumLabHotspotId =
   | "charter-wax-mineralisation-analysis"
-  | "dlc-severance-bound-champion-quantum-lab"
+  | "severance-bond-internal-log"
   | "charter2-vellum-comparison"
   | "infernal-quantum-dating"
   | "dlc-akai-shi-red-death-quantum-lab"
@@ -34,14 +34,20 @@ export const QUANTUM_LAB_MYSTERY: RoomMysteryModule<QuantumLabHotspotId> = {
           "You request the lab's spectral signature match. The mineralisation profile matches three other artefacts in the lab's reference library — all of them upper-band-origin objects the Architect has filed under 'restricted provenance.' The wax-thumb on the charter was sealed using materials only the upper bands could provide. The sealer was either there or briefed by something that was.",
       },
     },
-    "dlc-severance-bound-champion-quantum-lab": {
+    /* ─── severance.bound_champion · e2 (bond's internal log stack) ─── */
+    "severance-bond-internal-log": {
       look: {
-        narration: "Case material for severance.bound_champion surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "On the quantum-lab's sieve-reading bench, the companion's bond from this finals night's table — held in a stasis cradle for non-destructive analysis. The quantum-sieve reads a stack: forty-one names whispered into the bond at the moment of each inheritance, every name intact, every name in temporal order. The lab's report: 'the bond is an archive; the archive is a chain.' The names are not in any ledger. The names have been in the bond for forty seasons, traveling forward through each inheritance ceremony in a private succession the league has not been keeping.",
         mysteryBinding: {
           mysteryId: "severance.bound_champion",
           episodeId: "severance.bound_champion.e2",
           cluesFound: ["severance.e2.bond_logs"],
         },
+      },
+      interrogate: {
+        narration:
+          "You ask the lab to play the most recent whisper. The sieve resolves it: a single name, spoken in the Broker's voice, at the moment the Year 39 champion's bond was poured. The Broker has been whispering the inheritor's name into the bond at every Severance — the Broker is the keeper of the spoken chain.",
       },
     },
     /* ─── charter.second_signatory · e1 (parallel-vellum analysis) ─── */

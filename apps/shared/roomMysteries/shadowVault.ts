@@ -27,7 +27,7 @@ import type { RoomMysteryModule } from "./_template";
 
 export type ShadowVaultHotspotId =
   | "charter-per-m-pencil-reply"
-  | "dlc-severance-bound-champion-shadow-vault"
+  | "severance-apprentice-oath"
   | "memorial-imprint-i17-aren"
   | "memorial-imprint-keeper-account"
   | "charter2-council-scrub-request"
@@ -61,14 +61,20 @@ export const SHADOW_VAULT_MYSTERY: RoomMysteryModule<
           "You read the staple. The pencil has not faded across eight epochs — graphite outlasts ink in a sealed vault, and this vault is sealed against itself. Per. M.'s three-word reply is the closer's enrolment record. The founding Watcher who wrote the letter and the closer who sealed the silence have been working the same correspondence for as long as the Ark has been a ship.",
       },
     },
-    "dlc-severance-bound-champion-shadow-vault": {
+    /* ─── severance.bound_champion · e4 (apprentice oath) ─── */
+    "severance-apprentice-oath": {
       look: {
-        narration: "Case material for severance.bound_champion surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "Inside the shadow-vault's classified-correspondence drawer, the apprentice oath as preserved by the league's first archivist. Hand-written, eight lines. The first line: 'I will pour the bond and sit until I can stand.' The oath has no name on the signature line. The oath was pinned to the inside of the Broker's back-room door from the league's founding and copied here at Severance Year 1's close. The original is still in Nilmorg. The vault's copy is what the Council references when ratifying the post.",
         mysteryBinding: {
           mysteryId: "severance.bound_champion",
           episodeId: "severance.bound_champion.e4",
           cluesFound: ["severance.e4.apprentice_oath"],
         },
+      },
+      use: {
+        narration:
+          "You request the vault's note on why the oath has stayed unfilled. The keeper's annotation: 'the oath is the post; the post is the oath; the chair takes the measure. the vault holds the oath in case the post needs to be re-instituted from text alone.' The oath has been waiting forty seasons for a successor.",
       },
     },
     /* ─── memorial.forgotten_names · e2 (Imprint I-17, Aren of the lower decks) ─── */

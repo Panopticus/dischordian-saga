@@ -21,7 +21,9 @@
 import type { RoomMysteryModule } from "./_template";
 
 export type CommsArrayHotspotId =
-  | "dlc-severance-bound-champion-comms-array"
+  | "severance-vex-opening-line"
+  | "severance-year-one-lap-record"
+  | "severance-vex-confession"
   | "tarn-erasure-vote-audio"
   | "tarn-faculty-silence-hour"
   | "watchers-silence-break-log"
@@ -38,14 +40,52 @@ export const COMMS_ARRAY_MYSTERY: RoomMysteryModule<
 > = {
   roomId: "comms-array",
   responses: {
-    "dlc-severance-bound-champion-comms-array": {
+    /* ─── severance.bound_champion · e1 (Vex's opening line) ─── */
+    "severance-vex-opening-line": {
       look: {
-        narration: "Case material for severance.bound_champion surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "On the comms-array's broadcast-record desk, every Severance opening since Year 1 has been logged with the same opening line in Vex Maestro's voice: 'we do not say the word death in Nilmorg; we say the bond is on the table; we say someone has to pick it up.' Forty broadcasts, one line, never varied. No one has ever asked Vex where the line is from. The desk's annotation: 'source: unattributed; first appearance: Severance Year 1, opening ceremony.' The line was someone else's first.",
         mysteryBinding: {
           mysteryId: "severance.bound_champion",
           episodeId: "severance.bound_champion.e1",
-          cluesFound: ["severance.e1.vex_opening", "severance.e3.year_one_lap", "severance.e4.vex_confession"],
+          cluesFound: ["severance.e1.vex_opening"],
         },
+      },
+      use: {
+        narration:
+          "You queue the forty recordings and compare them. The cadence is identical across forty years. The vu-meter's stress patterns at 'someone has to pick it up' are the same in every recording. Vex has been repeating, not interpreting, the line. The line is older than Vex's tenure.",
+      },
+    },
+    /* ─── severance.bound_champion · e3 (Year One lap record) ─── */
+    "severance-year-one-lap-record": {
+      look: {
+        narration:
+          "On the comms-array's Year-One archive shelf, the Severance Year 1 death-lap record. Two casualties logged: the champion (named) and a witness who entered the lane (redacted). The witness's name is the only redaction in the entire forty-season archive. The redaction is in a hand the cipher-den has not been able to match. The record has been read every season since; the redaction has not been challenged.",
+        mysteryBinding: {
+          mysteryId: "severance.bound_champion",
+          episodeId: "severance.bound_champion.e3",
+          cluesFound: ["severance.e3.year_one_lap"],
+        },
+      },
+      interrogate: {
+        narration:
+          "You ask the desk for the original recording of the lane-entry. The broadcast returns a thirty-second clip: a figure entering the lane after the champion fell, kneeling beside the body, picking up something the recording cannot resolve. The figure does not speak. The figure's silhouette matches the Broker's posture in present-day Nilmorg.",
+      },
+    },
+    /* ─── severance.bound_champion · e4 (Vex's confession) ─── */
+    "severance-vex-confession": {
+      look: {
+        narration:
+          "Pinned to the comms-array's recent-recordings board, Vex Maestro's recorded confession from this season's finals night. 'Every season's opening line was a recruitment notice. Someone has to pick it up was always literal. I have spoken it forty times into rooms that were full of people who heard it as theatre.' Vex's voice does not waver. The recording is the first time Vex has named the recruitment as recruitment in forty seasons. The desk's annotation: 'broadcast cleared; sent to all sectors.'",
+        mysteryBinding: {
+          mysteryId: "severance.bound_champion",
+          episodeId: "severance.bound_champion.e4",
+          cluesFound: ["severance.e4.vex_confession"],
+        },
+      },
+      use: {
+        narration:
+          "You ask the comms-array for the response chain after the confession aired. The desk returns the list — Auditor Klessa's affirmation, the Broker's silence, the Architect's one-line acknowledgment. Three of the four witnesses to forty seasons of recruitment have now confirmed it on record. The fourth witness has been doing the recruitment by sitting in chair one.",
       },
     },
     /* ─── mechronis.missing_professor · e3 (vote audio) ─── */
