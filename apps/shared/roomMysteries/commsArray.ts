@@ -29,7 +29,7 @@ export type CommsArrayHotspotId =
   | "watchers-silence-break-log"
   | "wolf-meme-show-transmission"
   | "dlc-akai-shi-red-death-comms-array"
-  | "dlc-resurrectionist-cycle-walker-comms-array"
+  | "resur-host-wyrmhole-signature"
   | "radio-console" | "static-screen" | "egg-comms-signal" | "voice-in-the-static" | "ocularum-relay-trace" | "dead-drop-cadence-log" | "shadow-tongue-signal-trace" | "miras-dual-thread-transmission";
 
 export type CommsArrayInventoryId = "static-fragment-recording";
@@ -162,14 +162,20 @@ export const COMMS_ARRAY_MYSTERY: RoomMysteryModule<
         },
       },
     },
-    "dlc-resurrectionist-cycle-walker-comms-array": {
+    /* ─── resurrectionist.cycle_walker · e3 (Host wyrmhole signature) ─── */
+    "resur-host-wyrmhole-signature": {
       look: {
-        narration: "Case material for resurrectionist.cycle_walker surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "On the comms-array's signal-analysis bench, the Plague Dragon's corpse-signature scan, pulled from the cult's incomplete edits. The energy-trace carries a signature consistent with the Host's canonical wyrmhole technology — confirming the Antiquarian's working theory that the Thought Virus reached the planet through a Host-engineered breach. The Host's hand in the Plague Dragon's infection is settled canon. The faction-witness records the answer; the case opens its consequence.",
         mysteryBinding: {
           mysteryId: "resurrectionist.cycle_walker",
           episodeId: "resurrectionist.cycle_walker.e3",
           cluesFound: ["resur.e3.hosts_wyrmhole_signature"],
         },
+      },
+      use: {
+        narration:
+          "You request the bench's cross-reference for the wyrmhole signature. The desk returns three other recorded Host-wyrmhole signatures — all earlier, all on cosmic-scale incursions. The Plague Dragon's signature is the most recent and the most precisely matched. The Host engineered the breach; the Virus crossed; the Dragon was the carrier the Virus rode.",
       },
     },
     "radio-console": {

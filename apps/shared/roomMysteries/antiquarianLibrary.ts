@@ -26,7 +26,8 @@ export type AntiquarianLibraryHotspotId =
   | "wolf-empty-chair"
   | "wolf-three-empty-chairs"
   | "dlc-akai-shi-red-death-antiquarian-library"
-  | "dlc-resurrectionist-cycle-walker-antiquarian-library"
+  | "resur-plague-mask-seal"
+  | "resur-pre-empire-twin-text"
   | "dlc-advocate-blood-weave-antiquarian-library"
   | "card-catalog" | "locked-vault" | "antiquarian-bust" | "hierophants-marginalia-stack" | "codas-purpose-shelf" | "velkraals-correspondence-folio" | "insurgency-witness-roster" | "ocularum-founding-record" | "antiquarian-redaction-ledger" | "directors-doctrine-folio" | "shadow-tongue-casebook" | "thaloria-generational-ledger" | "siege-keep-witness-fragments" | "programmer-infiltration-dossier" | "insurance-policy-design-file" | "two-witnesses-closing-ledger" | "collector-catalog-page" | "collectors-redacted-anomaly" | "collector-case-closing-ledger" | "varkul-vigil-cross-catalog" | "varkul-testimony-boundary-file" | "akai-shi-witness-statements" | "necromancer-case-closing-ledger" | "zyr-koth-sisters-and-closing-ledger" | "syl-vex-sisters-of-the-weave" | "riri-ahlia-closing-ledger" | "fenra-door-and-engine" | "fenra-closing-ledger";
 
@@ -299,14 +300,36 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
         },
       },
     },
-    "dlc-resurrectionist-cycle-walker-antiquarian-library": {
+    /* ─── resurrectionist.cycle_walker · e1 (plague-mask seal) ─── */
+    "resur-plague-mask-seal": {
       look: {
-        narration: "Case material for resurrectionist.cycle_walker surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "In the central reading dome's cosmic-archaeology drawer, every Resurrectionist case-file across the Antiquarian's library has been pulled and arranged. Every file carries the same seal at the top-right corner: a six-sided mask with a long beak, the kind the older cosmic-archaeology texts attribute to plague-physicians of the pre-Empire era. The cult-curated marginalia annotate the seal as 'ceremonial' — a label applied to symbols whose meaning the editor declined to explain. The Antiquarian's pre-Empire references catalogue the silhouette as a worn object, not a votive.",
         mysteryBinding: {
           mysteryId: "resurrectionist.cycle_walker",
           episodeId: "resurrectionist.cycle_walker.e1",
-          cluesFound: ["resur.e1.case_seal", "resur.e4.pre_empire_twin_text"],
+          cluesFound: ["resur.e1.case_seal"],
         },
+      },
+      use: {
+        narration:
+          "You compare the seal across forty case-files. The contours are identical at every reproduction — the same six sides, the same beak-curve, the same hatch-marks on the eyes. The seal was struck from a single template held by a single hand. Whose hand the chronicle does not say.",
+      },
+    },
+    /* ─── resurrectionist.cycle_walker · e4 (pre-Empire twin-text fragment) ─── */
+    "resur-pre-empire-twin-text": {
+      look: {
+        narration:
+          "On the cosmic-archaeology shelf, a pre-Empire fragment under archival glass, partial: 'the death-bound and the cycle-bound walk in pairs; where one binds, the other releases; where one ends, the other begins again. Look for the masked one beside the unmasked one — they are halves of one principle, drawn through two bodies.' The cult-curated marginalia gloss the fragment as 'cosmological metaphor — the two states of mortal existence, not literal entities.' The Antiquarian's pre-Empire references read the fragment as literal taxonomy. Two readings; the editorial hand prefers the first.",
+        mysteryBinding: {
+          mysteryId: "resurrectionist.cycle_walker",
+          episodeId: "resurrectionist.cycle_walker.e4",
+          cluesFound: ["resur.e4.pre_empire_twin_text"],
+        },
+      },
+      interrogate: {
+        narration:
+          "You ask the catalog for related pre-Empire fragments. The drawer returns three additional taxonomic passages, each in the same hand, each pairing two named entities. The fragment under glass is not metaphor in any of its sister-passages. The cult-curated reading is, by the document's own context, the outlier.",
       },
     },
     "dlc-advocate-blood-weave-antiquarian-library": {

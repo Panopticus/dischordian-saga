@@ -17,7 +17,7 @@ export type WarRoomHotspotId =
   | "chained-wave-telemetry"
   | "chained-feint-pattern"
   | "watchers-council-communique"
-  | "dlc-resurrectionist-cycle-walker-war-room"
+  | "resur-second-fall-casualty-count"
   | "storm-advocates-blood-weave"
   | "storm-event-correlation-table"
   | "dlc-advocate-blood-weave-war-room"
@@ -90,14 +90,20 @@ export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
           "You ask the display for the communiqué's distribution chain. The board returns the list: every plaza, every library, every cipher-keeper, every player-facing terminal. The Antiquarian routed the document through every channel the Ark has — the public statement is, by design, impossible to miss.",
       },
     },
-    "dlc-resurrectionist-cycle-walker-war-room": {
+    /* ─── resurrectionist.cycle_walker · e2 (Second Fall casualty count) ─── */
+    "resur-second-fall-casualty-count": {
       look: {
-        narration: "Case material for resurrectionist.cycle_walker surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "On the war-room's New-Babylon-affairs board, the Second Fall casualty count. By every contemporary chronicler's account, the Fall was total. Casualty counts among the ordinary populace: millions. Casualty counts among Potentials: zero. Casualty counts among Ne-Yons of the awake roster: zero. The cult-curated logs annotate the survival as 'miraculous — the Architect's protection of His chosen.' The Architect did not, by canon, intervene at the Second Fall. The 'miracle' was authored by someone else. The board does not say who.",
         mysteryBinding: {
           mysteryId: "resurrectionist.cycle_walker",
           episodeId: "resurrectionist.cycle_walker.e2",
           cluesFound: ["resur.e2.second_fall_casualty_count"],
         },
+      },
+      interrogate: {
+        narration:
+          "You ask the board what the Resurrectionist's protocol-activation log shows for the Second Fall window. The display returns a cluster of activations, signed in the four-part cipher, timestamped to the Fall's death-instants. Every Potential and every awake Ne-Yon is named in the cluster. The protocols outlived the author. The cluster is the receipt for the miracle.",
       },
     },
     /* ─── storm.architect_of_flux · e3 (Advocate's Blood-Weave journals) ─── */

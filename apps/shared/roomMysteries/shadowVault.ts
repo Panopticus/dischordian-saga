@@ -33,7 +33,8 @@ export type ShadowVaultHotspotId =
   | "charter2-council-scrub-request"
   | "watchers-idris-archive-role"
   | "watchers-line-in-apprentice-hand"
-  | "dlc-resurrectionist-cycle-walker-shadow-vault"
+  | "resur-necromancer-at-killsite"
+  | "resur-silence-body-claim"
   | "dlc-advocate-blood-weave-shadow-vault"
   | "sealed-cell-glass" | "manuscript-pile" | "warden-terminal" | "release-or-seal-lever" | "the-unopened-threshold" | "the-makers-heartbeat-trace" | "the-necromancers-altar";
 
@@ -157,14 +158,36 @@ export const SHADOW_VAULT_MYSTERY: RoomMysteryModule<
           "You request the vault's annotation on the slot's blankness. The keeper's note reads: 'this slot is not vacant. it is unwritten. the seventh has been performing a role we do not have words for, and the role's discipline is to keep the role un-named until the Ark names it.' The blank is a position, not an absence.",
       },
     },
-    "dlc-resurrectionist-cycle-walker-shadow-vault": {
+    /* ─── resurrectionist.cycle_walker · e3 (Necromancer at kill-site) ─── */
+    "resur-necromancer-at-killsite": {
       look: {
-        narration: "Case material for resurrectionist.cycle_walker surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "Inside the shadow-vault's classified faction-witness drawer, the Necromancer's last recorded appearance before his canonical disappearance into the Matrix of Dreams. The location: the Plague Dragon kill-site. The cult-curated chronicle annotates the appearance as 'an unrelated arrival — the Necromancer's interest in the cosmic-threat entity was forensic.' The Necromancer's interest in any forensic record is canonically zero. The Archon does not perform forensics. The chronicle records the meeting and declines to elaborate.",
         mysteryBinding: {
           mysteryId: "resurrectionist.cycle_walker",
           episodeId: "resurrectionist.cycle_walker.e3",
-          cluesFound: ["resur.e3.necromancer_last_recorded_appearance", "resur.e4.silences_claim_record"],
+          cluesFound: ["resur.e3.necromancer_last_recorded_appearance"],
         },
+      },
+      interrogate: {
+        narration:
+          "You ask the vault for the duration of the Necromancer's presence at the kill-site. The drawer returns the witness records: the Necromancer arrived at the dragon's death-instant and departed within minutes. The duration is consistent with an operational presence, not a forensic one. The cult's annotation glosses what the witness records do not support.",
+      },
+    },
+    /* ─── resurrectionist.cycle_walker · e4 (Silence body-claim record) ─── */
+    "resur-silence-body-claim": {
+      look: {
+        narration:
+          "On the shadow-vault's Ne-Yon body-claim shelf, the Silence's body-claim record. The lower-left corner carries a plague-mask seal — the same long-beaked silhouette as the seal on every Resurrectionist case-file in the library. The cult-curated annotation: 'ceremonial — claims of Ne-Yon bodies traditionally carry archaic seals as a mark of respect.' The Antiquarian's library catalogues no other Ne-Yon body-claim record with a plague-mask seal. One record, one seal, one match to the Resurrectionist's case-file imprint.",
+        mysteryBinding: {
+          mysteryId: "resurrectionist.cycle_walker",
+          episodeId: "resurrectionist.cycle_walker.e4",
+          cluesFound: ["resur.e4.silences_claim_record"],
+        },
+      },
+      use: {
+        narration:
+          "You request comparable Ne-Yon body-claim records. The vault returns four others — for the Sage, the Champion, the Hawk, the Architect's first failed proxy. None of the four carries an archaic seal. The 'tradition' the cult's annotation cites has no other examples in the chronicle.",
       },
     },
     "dlc-advocate-blood-weave-shadow-vault": {

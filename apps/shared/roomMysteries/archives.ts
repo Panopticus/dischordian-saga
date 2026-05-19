@@ -26,7 +26,8 @@ export type ArchivesHotspotId =
   | "wolf-crucible-resurrection-record"
   | "wolf-crucible-inheritance-manifest"
   | "dlc-akai-shi-red-death-archives"
-  | "dlc-resurrectionist-cycle-walker-archives"
+  | "resur-matrix-energy-ledger"
+  | "resur-protocol-authoring-signature"
   | "storm-inventors-heist-window"
   | "data-banks" | "egg-archive-tome" | "corrupted-scroll-rack" | "rewritten-ledger" | "indigo-glow-lectern" | "unnameable-hue-cabinet";
 
@@ -201,14 +202,36 @@ export const ARCHIVES_MYSTERY: RoomMysteryModule<
         },
       },
     },
-    "dlc-resurrectionist-cycle-walker-archives": {
+    /* ─── resurrectionist.cycle_walker · e1 (Matrix energy ledger) ─── */
+    "resur-matrix-energy-ledger": {
       look: {
-        narration: "Case material for resurrectionist.cycle_walker surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "In the archives' Matrix-of-Dreams maintenance-era tier, a partial energy ledger recovered from the cult's incomplete edits. The ledger records a sustained energy draw from an unnamed internal source — a draw too consistent to be one of the imprints. The cult-curated note in the margin reads: 'imprint-load aggregate; nothing of consequence.' The aggregate column does not match the totals across the rest of the ledger. Something else was being drawn from; the editor preferred the imprints-only reading. The ledger's discrepancy is structural, not arithmetic.",
         mysteryBinding: {
           mysteryId: "resurrectionist.cycle_walker",
           episodeId: "resurrectionist.cycle_walker.e1",
-          cluesFound: ["resur.e1.matrix_energy_ledger", "resur.e2.authoring_signature"],
+          cluesFound: ["resur.e1.matrix_energy_ledger"],
         },
+      },
+      use: {
+        narration:
+          "You re-sum the ledger's columns by hand. The imprints-only aggregate runs 14% short of the total energy draw across the maintenance era. The 14% sat in a separate column the editor's hand bracketed and labelled 'transient.' Transient draws do not run consistently for the entire Matrix-of-Dreams maintenance era.",
+      },
+    },
+    /* ─── resurrectionist.cycle_walker · e2 (protocol authoring signature) ─── */
+    "resur-protocol-authoring-signature": {
+      look: {
+        narration:
+          "Beside the Matrix ledger, the archives' protocol-archive drawer holds every canonical resurrection-protocol signed in the Resurrectionist's hand: Wraith Calder's six sanctuary resurrections, Akai Shi's Red-Death reanimation, the Wolf's Year-128,652 case-file. Every protocol bears the same four-part cipher. The chain is uniform. The chain is consistent. The chain is not in chronological order with the Resurrectionist's documented vanishing — protocols continue to fire after his canonical disappearance, signed in his hand, at moments the chronicle records as administrative.",
+        mysteryBinding: {
+          mysteryId: "resurrectionist.cycle_walker",
+          episodeId: "resurrectionist.cycle_walker.e2",
+          cluesFound: ["resur.e2.authoring_signature"],
+        },
+      },
+      interrogate: {
+        narration:
+          "You ask the drawer how the post-vanishing protocols were activated. The archives return the cult-curated annotation: 'queued ahead — the Resurrectionist signed extensively before his vanishing, leaving a deep activation reserve.' The reserve, if extant, is not separately documented. The cult's reading is the only reading the chronicle offers.",
       },
     },
     /* ─── storm.architect_of_flux · e3 (Inventor's heist window) ─── */
