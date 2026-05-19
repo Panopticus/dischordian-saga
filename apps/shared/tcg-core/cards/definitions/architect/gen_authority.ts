@@ -37,7 +37,7 @@ export const cardDef: CardDefinition = {
   baseStats: { power: 0, health: 99 },
   keywords: [],
   abilities: [],
-  art: assetUrl("art/cards/gen_authority.webp"),
+  art: assetUrl("art/cards/architect/the_authority.webp"),
   flavorText: "What do you say to the charges?",
   rulesVersion: "1.1.0",
 };

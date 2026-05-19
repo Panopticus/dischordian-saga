@@ -1,8 +1,8 @@
 /* ═══════════════════════════════════════════════════════
    PLAYER CABIN ART ASSETS — Backgrounds + decoration items
    ═══════════════════════════════════════════════════════ */
-const S3_BG = "https://dgrsart.s3.us-east-2.amazonaws.com/cabin-art/backgrounds";
-const S3_ITEM = "https://dgrsart.s3.us-east-2.amazonaws.com/cabin-art/items";
+const S3_BG = "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/cabin-art/backgrounds";
+const S3_ITEM = "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/cabin-art/items";
 
 export const CABIN_BACKGROUNDS: Record<string, { url: string; name: string; accent: string }> = {
   void_glow:       { url: `${S3_BG}/CABIN-001_Void_Glow.jpg`, name: "Void Glow", accent: "#33E2E6" },

@@ -35,7 +35,7 @@ export const cardDef: CardDefinition = {
   baseStats: { power: 3, health: 22 },
   keywords: [],
   abilities: [],
-  art: assetUrl("art/cards/gen_programmer.webp"),
+  art: assetUrl("art/cards/neutral/the_programmer.webp"),
   flavorText:
     "I have done the arithmetic, and the arithmetic is very bad.",
   rulesVersion: "1.1.0",

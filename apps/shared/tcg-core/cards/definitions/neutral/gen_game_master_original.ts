@@ -36,7 +36,7 @@ export const cardDef: CardDefinition = {
   baseStats: { power: 4, health: 24 },
   keywords: [],
   abilities: [],
-  art: assetUrl("art/cards/gen_game_master_original.webp"),
+  art: assetUrl("art/cards/neutral/the_game_master.webp"),
   flavorText:
     "You have built a beautiful box. The only thing I am going to do is open it in front of everybody.",
   rulesVersion: "1.1.0",

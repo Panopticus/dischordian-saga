@@ -75,7 +75,7 @@ export default function DiplomacyPage() {
     const { choice, event } = choiceResult;
     return (
       <div className="min-h-screen relative overflow-hidden p-4 sm:p-6 pb-24">
-      <LivingBackground src="https://dgrsart.s3.us-east-2.amazonaws.com/page-backgrounds/DPL-001_negotiation-chamber.jpg" accent="#3b82f6" opacity={0.13} particleCount={4} scanlines={false} />
+      <LivingBackground src="https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/page-backgrounds/DPL-001_negotiation-chamber.jpg" accent="#3b82f6" opacity={0.13} particleCount={4} scanlines={false} />
         <div className="max-w-2xl mx-auto">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}

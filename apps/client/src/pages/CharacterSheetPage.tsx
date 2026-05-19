@@ -613,7 +613,7 @@ export default function CharacterSheetPage() {
   if (authLoading) {
     return (
       <div className="min-h-screen relative overflow-hidden flex items-center justify-center">
-      <LivingBackground src="https://dgrsart.s3.us-east-2.amazonaws.com/page-backgrounds/CHR-001_operative-dossier.jpg" accent="var(--energy-primary)" opacity={0.13} particleCount={4} scanlines={false} />
+      <LivingBackground src="https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/page-backgrounds/CHR-001_operative-dossier.jpg" accent="var(--energy-primary)" opacity={0.13} particleCount={4} scanlines={false} />
         <div className="text-center">
           <div className="w-16 h-16 rounded-full border-2 void-border-success mx-auto mb-4 flex items-center justify-center animate-cyber-pulse">
             <Cpu size={24} className="void-text-energy" />

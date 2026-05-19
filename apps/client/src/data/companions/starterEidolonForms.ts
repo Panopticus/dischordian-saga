@@ -126,7 +126,7 @@ export const STARTER_EIDOLONS: StarterEidolon[] = [
         "Lux phases out permanently as its light source is annihilated. The last image it projects is the player's reflection — not as they are, but as they were when they first bonded.",
       finalDisplay: "A fading afterimage of the player's original avatar lingers for 30 seconds before dissolving.",
     },
-    artBase: assetUrl("art/specimens/lux"),
+    artBase: assetUrl("art/specimens/lux-fragment.png"),
   },
 
   // ========================================================================
@@ -217,7 +217,7 @@ export const STARTER_EIDOLONS: StarterEidolon[] = [
         "Echo is caught in the temporal backlash. It loops through its own death endlessly for a brief, horrible moment before collapsing into a single frozen frame — a kitten mid-leap, forever still.",
       finalDisplay: "A frozen afterimage of Echo mid-leap remains in the player's quarters permanently — a statue of stopped time.",
     },
-    artBase: assetUrl("art/specimens/echo"),
+    artBase: assetUrl("art/specimens/echo-fragment.png"),
   },
 
   // ========================================================================
@@ -308,7 +308,7 @@ export const STARTER_EIDOLONS: StarterEidolon[] = [
         "Glyph's text is edited out of existence. Its wings go blank one word at a time, each disappearing letter a tiny death, until nothing remains but empty wings that crumble to dust.",
       finalDisplay: "A single word remains floating where Glyph died: 'REMEMBER.' It fades over 60 seconds.",
     },
-    artBase: assetUrl("art/specimens/glyph"),
+    artBase: assetUrl("art/specimens/glyph-fragment.png"),
   },
 
   // ========================================================================
@@ -399,7 +399,7 @@ export const STARTER_EIDOLONS: StarterEidolon[] = [
         "Cipher doesn't simply die — it becomes an enemy. The corruption wins, and the serpent turns on its former partner. During the ensuing fight, Cipher displays 'I\\'M SORRY' in its code-body between attack cycles.",
       finalDisplay: "After defeat, Cipher's last line of code reads: 'bond_level = 0; // I trusted you.'",
     },
-    artBase: assetUrl("art/specimens/cipher"),
+    artBase: assetUrl("art/specimens/cipher-fragment.png"),
   },
 
   // ========================================================================
@@ -490,7 +490,7 @@ export const STARTER_EIDOLONS: StarterEidolon[] = [
         "Flicker absorbs the entire corrupted broadcast, filtering it through its body. The signal is too much. Every frequency fires at once — a moment of every song, every voice, every transmission simultaneously — and then silence. Total, absolute silence.",
       finalDisplay: "For 10 seconds after death, all game audio is replaced by soft static that slowly fades to silence.",
     },
-    artBase: assetUrl("art/specimens/flicker"),
+    artBase: assetUrl("art/specimens/flicker-fragment.png"),
   },
 
   // ========================================================================
@@ -581,6 +581,6 @@ export const STARTER_EIDOLONS: StarterEidolon[] = [
         "Gilt doesn't die — it leaves. It evaluates the player's choice, finds them wanting, and simply walks away. The companion slot remains empty. No replacement can be found. An empty slot where trust used to be — worse than death.",
       finalDisplay: "The companion UI slot displays: 'VACANT — This space held value once.' It cannot be filled.",
     },
-    artBase: assetUrl("art/specimens/gilt"),
+    artBase: assetUrl("art/specimens/gilt-fragment.png"),
   },
 ];

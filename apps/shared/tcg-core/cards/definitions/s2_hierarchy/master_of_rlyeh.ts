@@ -56,7 +56,7 @@ export const lord_master_of_rlyeh: CardDefinition = {
       },
     },
   ],
-  art: assetUrl("art/cards/hierarchy/lord_master_of_rlyeh.webp"),
+  art: assetUrl("art/cards/architect/master_of_rlyeh.webp"),
   flavorText:
     "He does not wake. The book closes by its own slow weight. Your dream is still on the shelf — slightly thicker than before.",
   rulesVersion: RULES,

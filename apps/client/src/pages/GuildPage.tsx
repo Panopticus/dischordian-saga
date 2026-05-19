@@ -41,7 +41,7 @@ export default function GuildPage() {
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen relative overflow-hidden flex items-center justify-center p-8 grid-bg">
-      <LivingBackground src="https://dgrsart.s3.us-east-2.amazonaws.com/page-backgrounds/GLD-001_guild-hall.jpg" accent="var(--energy-error)" opacity={0.13} particleCount={4} scanlines={false} />
+      <LivingBackground src="https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/page-backgrounds/GLD-001_guild-hall.jpg" accent="var(--energy-error)" opacity={0.13} particleCount={4} scanlines={false} />
         <div className="text-center">
           <Shield size={48} className="text-primary mx-auto mb-4 opacity-50" />
           <h2 className="font-display text-xl font-bold mb-2">SYNDICATE ACCESS</h2>

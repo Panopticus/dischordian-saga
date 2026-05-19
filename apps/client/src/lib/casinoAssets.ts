@@ -11,7 +11,7 @@ import { assetUrl } from "@/lib/assetUrl";
    Cache: public, max-age=31536000, immutable
    ═══════════════════════════════════════════════════════ */
 
-const CDN_BASE = "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/casino";
+const CDN_BASE = "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/casino";
 
 /* ─── SECTION 1: ENVIRONMENTS ─── */
 /** Full-bleed background images for each casino floor area */

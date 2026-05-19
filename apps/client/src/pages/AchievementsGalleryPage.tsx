@@ -208,7 +208,7 @@ export default function AchievementsGalleryPage() {
 
   return (
     <div className="min-h-screen relative overflow-hidden animate-fade-in pb-20">
-      <LivingBackground src="https://dgrsart.s3.us-east-2.amazonaws.com/page-backgrounds/ACH-001_achievement-vault.jpg" accent="var(--energy-accent)" opacity={0.13} particleCount={4} scanlines={false} />
+      <LivingBackground src="https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/page-backgrounds/ACH-001_achievement-vault.jpg" accent="var(--energy-accent)" opacity={0.13} particleCount={4} scanlines={false} />
       {/* ═══ HEADER ═══ */}
       <div className="border-b border-border/30 bg-card/30">
         <div className="max-w-5xl mx-auto px-4 py-5">

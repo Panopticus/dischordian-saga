@@ -54,7 +54,7 @@ export const cardDef: CardDefinition = {
   cost: 3,
   keywords: [],
   abilities: [],
-  art: assetUrl("art/cards/s1_warlord_three_moves.webp"),
+  art: assetUrl("art/cards/architect/three_moves.webp"),
   flavorText:
     "I am going to win this war in three moves. This is not bragging. This is arithmetic.",
   rulesVersion: "1.1.0",

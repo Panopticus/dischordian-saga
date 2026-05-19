@@ -133,7 +133,7 @@ export default function Act5InterludePage() {
   return (
     <div className="relative min-h-screen bg-stone-950 text-stone-100">
       <LivingBackground
-        src={assetUrl("art/rooms/room-war-room.png")}
+        src={assetUrl("art/rooms/war_room/baseline.png")}
         accent="rgba(245, 158, 11, 0.32)"
         opacity={0.08}
         particleCount={3}

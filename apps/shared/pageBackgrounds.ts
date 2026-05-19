@@ -2,7 +2,7 @@
    PAGE BACKGROUNDS — Environmental art for game pages
    ═══════════════════════════════════════════════════════ */
 
-const S3 = "https://dgrsart.s3.us-east-2.amazonaws.com/page-backgrounds";
+const S3 = "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/page-backgrounds";
 
 export const PAGE_BACKGROUNDS: Record<string, { url: string; accent: string; name: string }> = {
   marketplace:      { url: `${S3}/MKT-001_marketplace.jpg`, accent: "#f59e0b", name: "The Trading Floor" },

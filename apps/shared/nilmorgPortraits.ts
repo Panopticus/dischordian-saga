@@ -1,5 +1,5 @@
 /* Nilmorg Dialog Portraits — 5 expressions for Dead Man's Circuit */
-const S3 = "https://dgrsart.s3.us-east-2.amazonaws.com/nilmorg-portraits";
+const S3 = "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/nilmorg-portraits";
 
 export const NILMORG_PORTRAITS = {
   neutral: `${S3}/nilmorg_neutral.png`,

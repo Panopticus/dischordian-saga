@@ -47,7 +47,7 @@ export default function QuestBoardPage() {
   if (authLoading) {
     return (
       <div className="min-h-screen relative overflow-hidden flex items-center justify-center grid-bg">
-      <LivingBackground src="https://dgrsart.s3.us-east-2.amazonaws.com/page-backgrounds/QST-001_mission-briefing.jpg" accent="var(--energy-error)" opacity={0.13} particleCount={4} scanlines={false} />
+      <LivingBackground src="https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/page-backgrounds/QST-001_mission-briefing.jpg" accent="var(--energy-error)" opacity={0.13} particleCount={4} scanlines={false} />
         <Loader2 className="animate-spin text-primary" size={32} />
       </div>
     );

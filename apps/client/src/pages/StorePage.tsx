@@ -109,7 +109,7 @@ export default function StorePage() {
 
   return (
     <div className="min-h-screen relative overflow-hidden animate-fade-in">
-      <LivingBackground src="https://dgrsart.s3.us-east-2.amazonaws.com/page-backgrounds/STR-001_requisition-terminal.jpg" accent="var(--energy-accent)" opacity={0.13} particleCount={4} scanlines={false} />
+      <LivingBackground src="https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/page-backgrounds/STR-001_requisition-terminal.jpg" accent="var(--energy-accent)" opacity={0.13} particleCount={4} scanlines={false} />
       {/* Header */}
       <div className="border-b border-border/30 bg-card/20 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
