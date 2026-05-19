@@ -567,6 +567,8 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "narrative_event", value: "cryo_mystery_victim_identified" },
     connections: ["cryo-bay"],
     hotspots: [
+      { id: "mystery-dlc-severance-bound-champion-medical-bay", name: "DLC Case Index — severance.bound_champion", description: "Investigative records tied to severance.bound_champion are catalogued here.", x: 6, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:medical-bay:dlc-severance-bound-champion-medical-bay" },
+      { id: "mystery-dlc-akai-shi-red-death-medical-bay", name: "DLC Case Index — akai_shi.red_death", description: "Investigative records tied to akai_shi.red_death are catalogued here.", x: 13, y: 19, width: 6, height: 6, type: "interact", action: "room-mystery:medical-bay:dlc-akai-shi-red-death-medical-bay" },
       { id: "hellbox-lattice", name: "Hellbox Lattice", description: "The neural-lattice kernel wired into the cloning pod — a portal into the Matrix of Dreams.", x: 8, y: 80, width: 12, height: 14, type: "terminal", action: "/hellbox", elaraDialog: "The Hellbox. The cloning-pod's neural lattice opens straight into the Matrix of Dreams. Every descent is a small Blood-Weave bargain — the Advocate's path in miniature." },
       // Realigned 2026-04-25 to match the AAA Final medical-bay render —
       // a symmetrical exam room with a central stasis chamber + chair +
@@ -645,6 +647,7 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "room_visited", value: "cryo-bay" },
     connections: ["cryo-bay", "archives", "comms-array"],
     hotspots: [
+      { id: "mystery-dlc-memorial-forgotten-names-bridge", name: "DLC Case Index — memorial.forgotten_names", description: "Investigative records tied to memorial.forgotten_names are catalogued here.", x: 6, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:bridge:dlc-memorial-forgotten-names-bridge" },
       { id: "sealed-memory-board", name: "Sealed Memory Board", description: "The Editor sealed memories out of the record. Solve the boards to un-redact them.", x: 14, y: 70, width: 14, height: 14, type: "terminal", action: "/conspiracy-board", elaraDialog: "Not the open Conspiracy Board — the sealed ones. The Editor redacted seven memories out of the saga's record. Each board you solve un-redacts a cutscene and a Soul Stone." },
       // Realigned 2026-04-25 for the AAA Final bridge render — central
       // wheel/portal back-wall display (the Conspiracy Board), flanking
@@ -731,6 +734,14 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "room_visited", value: "bridge" },
     connections: ["bridge"],
     hotspots: [
+      { id: "mystery-dlc-charter-missing-signatory-archives", name: "DLC Case Index — charter.missing_signatory", description: "Investigative records tied to charter.missing_signatory are catalogued here.", x: 6, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:archives:dlc-charter-missing-signatory-archives" },
+      { id: "mystery-dlc-severance-bound-champion-archives", name: "DLC Case Index — severance.bound_champion", description: "Investigative records tied to severance.bound_champion are catalogued here.", x: 13, y: 19, width: 6, height: 6, type: "interact", action: "room-mystery:archives:dlc-severance-bound-champion-archives" },
+      { id: "mystery-dlc-mechronis-missing-professor-archives", name: "DLC Case Index — mechronis.missing_professor", description: "Investigative records tied to mechronis.missing_professor are catalogued here.", x: 20, y: 30, width: 6, height: 6, type: "interact", action: "room-mystery:archives:dlc-mechronis-missing-professor-archives" },
+      { id: "mystery-dlc-memorial-forgotten-names-archives", name: "DLC Case Index — memorial.forgotten_names", description: "Investigative records tied to memorial.forgotten_names are catalogued here.", x: 27, y: 41, width: 6, height: 6, type: "interact", action: "room-mystery:archives:dlc-memorial-forgotten-names-archives" },
+      { id: "mystery-dlc-wolf-anara-hunt-archives", name: "DLC Case Index — wolf.anara_hunt", description: "Investigative records tied to wolf.anara_hunt are catalogued here.", x: 34, y: 52, width: 6, height: 6, type: "interact", action: "room-mystery:archives:dlc-wolf-anara-hunt-archives" },
+      { id: "mystery-dlc-akai-shi-red-death-archives", name: "DLC Case Index — akai_shi.red_death", description: "Investigative records tied to akai_shi.red_death are catalogued here.", x: 41, y: 63, width: 6, height: 6, type: "interact", action: "room-mystery:archives:dlc-akai-shi-red-death-archives" },
+      { id: "mystery-dlc-resurrectionist-cycle-walker-archives", name: "DLC Case Index — resurrectionist.cycle_walker", description: "Investigative records tied to resurrectionist.cycle_walker are catalogued here.", x: 48, y: 74, width: 6, height: 6, type: "interact", action: "room-mystery:archives:dlc-resurrectionist-cycle-walker-archives" },
+      { id: "mystery-dlc-storm-architect-of-flux-archives", name: "DLC Case Index — storm.architect_of_flux", description: "Investigative records tied to storm.architect_of_flux are catalogued here.", x: 55, y: 85, width: 6, height: 6, type: "interact", action: "room-mystery:archives:dlc-storm-architect-of-flux-archives" },
       { id: "clue-journal-desk", name: "Clue Journal", description: "Ten investigative arcs. The Two Witnesses record what you deduce.", x: 30, y: 84, width: 14, height: 12, type: "terminal", action: "/clue-journal", elaraDialog: "The Clue Journal. Ten arcs, the_watcher through fenra. The Two Witnesses log every reading you file — the canon is partly written by what you conclude." },
       // Realigned 2026-04-25 for the AAA Final archives render — circular
       // chamber with a raised central platform holding a glowing data orb,
@@ -780,6 +791,12 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "narrative_event", value: "bridge_systems_restored" },
     connections: ["bridge", "observation-deck"],
     hotspots: [
+      { id: "mystery-dlc-severance-bound-champion-comms-array", name: "DLC Case Index — severance.bound_champion", description: "Investigative records tied to severance.bound_champion are catalogued here.", x: 6, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:comms-array:dlc-severance-bound-champion-comms-array" },
+      { id: "mystery-dlc-mechronis-missing-professor-comms-array", name: "DLC Case Index — mechronis.missing_professor", description: "Investigative records tied to mechronis.missing_professor are catalogued here.", x: 13, y: 19, width: 6, height: 6, type: "interact", action: "room-mystery:comms-array:dlc-mechronis-missing-professor-comms-array" },
+      { id: "mystery-dlc-memorial-seven-watchers-comms-array", name: "DLC Case Index — memorial.seven_watchers", description: "Investigative records tied to memorial.seven_watchers are catalogued here.", x: 20, y: 30, width: 6, height: 6, type: "interact", action: "room-mystery:comms-array:dlc-memorial-seven-watchers-comms-array" },
+      { id: "mystery-dlc-wolf-anara-hunt-comms-array", name: "DLC Case Index — wolf.anara_hunt", description: "Investigative records tied to wolf.anara_hunt are catalogued here.", x: 27, y: 41, width: 6, height: 6, type: "interact", action: "room-mystery:comms-array:dlc-wolf-anara-hunt-comms-array" },
+      { id: "mystery-dlc-akai-shi-red-death-comms-array", name: "DLC Case Index — akai_shi.red_death", description: "Investigative records tied to akai_shi.red_death are catalogued here.", x: 34, y: 52, width: 6, height: 6, type: "interact", action: "room-mystery:comms-array:dlc-akai-shi-red-death-comms-array" },
+      { id: "mystery-dlc-resurrectionist-cycle-walker-comms-array", name: "DLC Case Index — resurrectionist.cycle_walker", description: "Investigative records tied to resurrectionist.cycle_walker are catalogued here.", x: 41, y: 63, width: 6, height: 6, type: "interact", action: "room-mystery:comms-array:dlc-resurrectionist-cycle-walker-comms-array" },
       // Realigned 2026-04-25 for the AAA Final comms-array render — a
       // back-wall grid of glowing broadcast screens, a central control
       // console in the foreground, dim corridor exits at far-left and
@@ -831,6 +848,8 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "specific_item", value: "observation-keycard" },
     connections: ["comms-array", "engineering"],
     hotspots: [
+      { id: "mystery-dlc-akai-shi-red-death-observation-deck", name: "DLC Case Index — akai_shi.red_death", description: "Investigative records tied to akai_shi.red_death are catalogued here.", x: 6, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:observation-deck:dlc-akai-shi-red-death-observation-deck" },
+      { id: "mystery-dlc-storm-architect-of-flux-observation-deck", name: "DLC Case Index — storm.architect_of_flux", description: "Investigative records tied to storm.architect_of_flux are catalogued here.", x: 13, y: 19, width: 6, height: 6, type: "interact", action: "room-mystery:observation-deck:dlc-storm-architect-of-flux-observation-deck" },
       // Realigned 2026-04-25 against the actual delivered art (the
       // Vortex-rift / telescope / communion-bench prompt was an earlier
       // brief; the shipped render is a lounge: bar with backlit shelves
@@ -865,6 +884,7 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "narrative_event", value: "power_grid_restored" },
     connections: ["observation-deck", "armory", "forge-workshop"],
     hotspots: [
+      { id: "mystery-dlc-wolf-anara-hunt-engineering", name: "DLC Case Index — wolf.anara_hunt", description: "Investigative records tied to wolf.anara_hunt are catalogued here.", x: 6, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:engineering:dlc-wolf-anara-hunt-engineering" },
       // Realigned 2026-04-25 for the AAA Final engineering render —
       // industrial workshop with back-wall reactor machinery (ENGINEERING
       // signage + glowing core), twin rows of workstation seats on left
@@ -912,6 +932,8 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "room_visited", value: "engineering" },
     connections: ["engineering"],
     hotspots: [
+      { id: "mystery-dlc-mechronis-chained-lesson-forge-workshop", name: "DLC Case Index — mechronis.chained_lesson", description: "Investigative records tied to mechronis.chained_lesson are catalogued here.", x: 6, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:forge-workshop:dlc-mechronis-chained-lesson-forge-workshop" },
+      { id: "mystery-dlc-advocate-blood-weave-forge-workshop", name: "DLC Case Index — advocate.blood_weave", description: "Investigative records tied to advocate.blood_weave are catalogued here.", x: 13, y: 19, width: 6, height: 6, type: "interact", action: "room-mystery:forge-workshop:dlc-advocate-blood-weave-forge-workshop" },
       // Realigned 2026-04-25 against the delivered render — central
       // forge with prismatic rainbow flames erupting upward, five
       // element-themed anvils flanking it (purple/void, blue/water,
@@ -1058,6 +1080,16 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "items_collected", value: 5 },
     connections: ["captains-quarters"],
     hotspots: [
+      { id: "mystery-dlc-charter-missing-signatory-antiquarian-library", name: "DLC Case Index — charter.missing_signatory", description: "Investigative records tied to charter.missing_signatory are catalogued here.", x: 6, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:antiquarian-library:dlc-charter-missing-signatory-antiquarian-library" },
+      { id: "mystery-dlc-mechronis-missing-professor-antiquarian-library", name: "DLC Case Index — mechronis.missing_professor", description: "Investigative records tied to mechronis.missing_professor are catalogued here.", x: 13, y: 19, width: 6, height: 6, type: "interact", action: "room-mystery:antiquarian-library:dlc-mechronis-missing-professor-antiquarian-library" },
+      { id: "mystery-dlc-charter-second-signatory-antiquarian-library", name: "DLC Case Index — charter.second_signatory", description: "Investigative records tied to charter.second_signatory are catalogued here.", x: 20, y: 30, width: 6, height: 6, type: "interact", action: "room-mystery:antiquarian-library:dlc-charter-second-signatory-antiquarian-library" },
+      { id: "mystery-dlc-severance-infernal-clause-antiquarian-library", name: "DLC Case Index — severance.infernal_clause", description: "Investigative records tied to severance.infernal_clause are catalogued here.", x: 27, y: 41, width: 6, height: 6, type: "interact", action: "room-mystery:antiquarian-library:dlc-severance-infernal-clause-antiquarian-library" },
+      { id: "mystery-dlc-mechronis-chained-lesson-antiquarian-library", name: "DLC Case Index — mechronis.chained_lesson", description: "Investigative records tied to mechronis.chained_lesson are catalogued here.", x: 34, y: 52, width: 6, height: 6, type: "interact", action: "room-mystery:antiquarian-library:dlc-mechronis-chained-lesson-antiquarian-library" },
+      { id: "mystery-dlc-memorial-seven-watchers-antiquarian-library", name: "DLC Case Index — memorial.seven_watchers", description: "Investigative records tied to memorial.seven_watchers are catalogued here.", x: 41, y: 63, width: 6, height: 6, type: "interact", action: "room-mystery:antiquarian-library:dlc-memorial-seven-watchers-antiquarian-library" },
+      { id: "mystery-dlc-wolf-anara-hunt-antiquarian-library", name: "DLC Case Index — wolf.anara_hunt", description: "Investigative records tied to wolf.anara_hunt are catalogued here.", x: 48, y: 74, width: 6, height: 6, type: "interact", action: "room-mystery:antiquarian-library:dlc-wolf-anara-hunt-antiquarian-library" },
+      { id: "mystery-dlc-akai-shi-red-death-antiquarian-library", name: "DLC Case Index — akai_shi.red_death", description: "Investigative records tied to akai_shi.red_death are catalogued here.", x: 55, y: 85, width: 6, height: 6, type: "interact", action: "room-mystery:antiquarian-library:dlc-akai-shi-red-death-antiquarian-library" },
+      { id: "mystery-dlc-resurrectionist-cycle-walker-antiquarian-library", name: "DLC Case Index — resurrectionist.cycle_walker", description: "Investigative records tied to resurrectionist.cycle_walker are catalogued here.", x: 62, y: 18, width: 6, height: 6, type: "interact", action: "room-mystery:antiquarian-library:dlc-resurrectionist-cycle-walker-antiquarian-library" },
+      { id: "mystery-dlc-advocate-blood-weave-antiquarian-library", name: "DLC Case Index — advocate.blood_weave", description: "Investigative records tied to advocate.blood_weave are catalogued here.", x: 69, y: 29, width: 6, height: 6, type: "interact", action: "room-mystery:antiquarian-library:dlc-advocate-blood-weave-antiquarian-library" },
       { id: "loredex-lectern", name: "The Loredex", description: "The Antiquarian's living chronicle — the part he lets you walk yourself.", x: 12, y: 30, width: 14, height: 24, type: "terminal", action: "/loredex", elaraDialog: "The Loredex. The Antiquarian is one of the Two Witnesses, and this is the chronicle he lets you read on your own feet. Everything you uncover is written here." },
       // Realigned 2026-04-25 against the actual delivered art — a domed
       // circular chamber with an ornate snake-carved wooden desk centred
@@ -1134,6 +1166,7 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "chain_complete", value: "engineer_chain" },
     connections: ["engineering"],
     hotspots: [
+      { id: "mystery-dlc-storm-architect-of-flux-engineering-core", name: "DLC Case Index — storm.architect_of_flux", description: "Investigative records tied to storm.architect_of_flux are catalogued here.", x: 6, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:engineering-core:dlc-storm-architect-of-flux-engineering-core" },
       // Realigned 2026-04-25 against the delivered render — industrial
       // bay with the blue reactor portal centred at upper-right of the
       // back wall, two cyan holo schematics in the upper corners, two
@@ -1163,6 +1196,11 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "chain_complete", value: "oracle_chain" },
     connections: ["observation-deck"],
     hotspots: [
+      { id: "mystery-dlc-mechronis-missing-professor-oracle-sanctum", name: "DLC Case Index — mechronis.missing_professor", description: "Investigative records tied to mechronis.missing_professor are catalogued here.", x: 6, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:oracle-sanctum:dlc-mechronis-missing-professor-oracle-sanctum" },
+      { id: "mystery-dlc-memorial-forgotten-names-oracle-sanctum", name: "DLC Case Index — memorial.forgotten_names", description: "Investigative records tied to memorial.forgotten_names are catalogued here.", x: 13, y: 19, width: 6, height: 6, type: "interact", action: "room-mystery:oracle-sanctum:dlc-memorial-forgotten-names-oracle-sanctum" },
+      { id: "mystery-dlc-charter-second-signatory-oracle-sanctum", name: "DLC Case Index — charter.second_signatory", description: "Investigative records tied to charter.second_signatory are catalogued here.", x: 20, y: 30, width: 6, height: 6, type: "interact", action: "room-mystery:oracle-sanctum:dlc-charter-second-signatory-oracle-sanctum" },
+      { id: "mystery-dlc-severance-infernal-clause-oracle-sanctum", name: "DLC Case Index — severance.infernal_clause", description: "Investigative records tied to severance.infernal_clause are catalogued here.", x: 27, y: 41, width: 6, height: 6, type: "interact", action: "room-mystery:oracle-sanctum:dlc-severance-infernal-clause-oracle-sanctum" },
+      { id: "mystery-dlc-advocate-blood-weave-oracle-sanctum", name: "DLC Case Index — advocate.blood_weave", description: "Investigative records tied to advocate.blood_weave are catalogued here.", x: 34, y: 52, width: 6, height: 6, type: "interact", action: "room-mystery:oracle-sanctum:dlc-advocate-blood-weave-oracle-sanctum" },
       // Realigned 2026-04-25 against the delivered render — gothic violet
       // chamber, central stepped altar carrying a swirling purple
       // probability sphere, four arched windows flanking the altar
@@ -1196,6 +1234,13 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "chain_complete", value: "assassin_chain" },
     connections: ["armory"],
     hotspots: [
+      { id: "mystery-dlc-charter-missing-signatory-shadow-vault", name: "DLC Case Index — charter.missing_signatory", description: "Investigative records tied to charter.missing_signatory are catalogued here.", x: 6, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:shadow-vault:dlc-charter-missing-signatory-shadow-vault" },
+      { id: "mystery-dlc-severance-bound-champion-shadow-vault", name: "DLC Case Index — severance.bound_champion", description: "Investigative records tied to severance.bound_champion are catalogued here.", x: 13, y: 19, width: 6, height: 6, type: "interact", action: "room-mystery:shadow-vault:dlc-severance-bound-champion-shadow-vault" },
+      { id: "mystery-dlc-memorial-forgotten-names-shadow-vault", name: "DLC Case Index — memorial.forgotten_names", description: "Investigative records tied to memorial.forgotten_names are catalogued here.", x: 20, y: 30, width: 6, height: 6, type: "interact", action: "room-mystery:shadow-vault:dlc-memorial-forgotten-names-shadow-vault" },
+      { id: "mystery-dlc-charter-second-signatory-shadow-vault", name: "DLC Case Index — charter.second_signatory", description: "Investigative records tied to charter.second_signatory are catalogued here.", x: 27, y: 41, width: 6, height: 6, type: "interact", action: "room-mystery:shadow-vault:dlc-charter-second-signatory-shadow-vault" },
+      { id: "mystery-dlc-memorial-seven-watchers-shadow-vault", name: "DLC Case Index — memorial.seven_watchers", description: "Investigative records tied to memorial.seven_watchers are catalogued here.", x: 34, y: 52, width: 6, height: 6, type: "interact", action: "room-mystery:shadow-vault:dlc-memorial-seven-watchers-shadow-vault" },
+      { id: "mystery-dlc-resurrectionist-cycle-walker-shadow-vault", name: "DLC Case Index — resurrectionist.cycle_walker", description: "Investigative records tied to resurrectionist.cycle_walker are catalogued here.", x: 41, y: 63, width: 6, height: 6, type: "interact", action: "room-mystery:shadow-vault:dlc-resurrectionist-cycle-walker-shadow-vault" },
+      { id: "mystery-dlc-advocate-blood-weave-shadow-vault", name: "DLC Case Index — advocate.blood_weave", description: "Investigative records tied to advocate.blood_weave are catalogued here.", x: 48, y: 74, width: 6, height: 6, type: "interact", action: "room-mystery:shadow-vault:dlc-advocate-blood-weave-shadow-vault" },
       { id: "demon-contract-altar", name: "Contract Altar", description: "The Hierarchy answers by contract. Every summon is a clause.", x: 72, y: 28, width: 14, height: 22, type: "terminal", action: "/demon-packs", elaraDialog: "A summoning altar bound to the Hierarchy's contract law. Every demon you call owes exactly what was signed — not one clause more. Mol'Garath audits the ledger quarterly." },
       // Realigned 2026-04-25 against the delivered render — pitch-black
       // chamber criss-crossed by red laser security grid, three lit
@@ -1237,6 +1282,12 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "chain_complete", value: "soldier_chain" },
     connections: ["bridge"],
     hotspots: [
+      { id: "mystery-dlc-severance-infernal-clause-war-room", name: "DLC Case Index — severance.infernal_clause", description: "Investigative records tied to severance.infernal_clause are catalogued here.", x: 6, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:war-room:dlc-severance-infernal-clause-war-room" },
+      { id: "mystery-dlc-mechronis-chained-lesson-war-room", name: "DLC Case Index — mechronis.chained_lesson", description: "Investigative records tied to mechronis.chained_lesson are catalogued here.", x: 13, y: 19, width: 6, height: 6, type: "interact", action: "room-mystery:war-room:dlc-mechronis-chained-lesson-war-room" },
+      { id: "mystery-dlc-memorial-seven-watchers-war-room", name: "DLC Case Index — memorial.seven_watchers", description: "Investigative records tied to memorial.seven_watchers are catalogued here.", x: 20, y: 30, width: 6, height: 6, type: "interact", action: "room-mystery:war-room:dlc-memorial-seven-watchers-war-room" },
+      { id: "mystery-dlc-resurrectionist-cycle-walker-war-room", name: "DLC Case Index — resurrectionist.cycle_walker", description: "Investigative records tied to resurrectionist.cycle_walker are catalogued here.", x: 27, y: 41, width: 6, height: 6, type: "interact", action: "room-mystery:war-room:dlc-resurrectionist-cycle-walker-war-room" },
+      { id: "mystery-dlc-storm-architect-of-flux-war-room", name: "DLC Case Index — storm.architect_of_flux", description: "Investigative records tied to storm.architect_of_flux are catalogued here.", x: 34, y: 52, width: 6, height: 6, type: "interact", action: "room-mystery:war-room:dlc-storm-architect-of-flux-war-room" },
+      { id: "mystery-dlc-advocate-blood-weave-war-room", name: "DLC Case Index — advocate.blood_weave", description: "Investigative records tied to advocate.blood_weave are catalogued here.", x: 41, y: 63, width: 6, height: 6, type: "interact", action: "room-mystery:war-room:dlc-advocate-blood-weave-war-room" },
       // Realigned 2026-04-25 against the delivered render — bunker-grade
       // command room with TERRAN FLEET COMMAND blast doors flanking
       // each side wall, central holographic globe-dome map showing
@@ -1301,6 +1352,14 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "chain_complete", value: "spy_chain" },
     connections: ["comms-array"],
     hotspots: [
+      { id: "mystery-dlc-charter-missing-signatory-cipher-den", name: "DLC Case Index — charter.missing_signatory", description: "Investigative records tied to charter.missing_signatory are catalogued here.", x: 6, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:cipher-den:dlc-charter-missing-signatory-cipher-den" },
+      { id: "mystery-dlc-mechronis-missing-professor-cipher-den", name: "DLC Case Index — mechronis.missing_professor", description: "Investigative records tied to mechronis.missing_professor are catalogued here.", x: 13, y: 19, width: 6, height: 6, type: "interact", action: "room-mystery:cipher-den:dlc-mechronis-missing-professor-cipher-den" },
+      { id: "mystery-dlc-memorial-forgotten-names-cipher-den", name: "DLC Case Index — memorial.forgotten_names", description: "Investigative records tied to memorial.forgotten_names are catalogued here.", x: 20, y: 30, width: 6, height: 6, type: "interact", action: "room-mystery:cipher-den:dlc-memorial-forgotten-names-cipher-den" },
+      { id: "mystery-dlc-charter-second-signatory-cipher-den", name: "DLC Case Index — charter.second_signatory", description: "Investigative records tied to charter.second_signatory are catalogued here.", x: 27, y: 41, width: 6, height: 6, type: "interact", action: "room-mystery:cipher-den:dlc-charter-second-signatory-cipher-den" },
+      { id: "mystery-dlc-severance-infernal-clause-cipher-den", name: "DLC Case Index — severance.infernal_clause", description: "Investigative records tied to severance.infernal_clause are catalogued here.", x: 34, y: 52, width: 6, height: 6, type: "interact", action: "room-mystery:cipher-den:dlc-severance-infernal-clause-cipher-den" },
+      { id: "mystery-dlc-mechronis-chained-lesson-cipher-den", name: "DLC Case Index — mechronis.chained_lesson", description: "Investigative records tied to mechronis.chained_lesson are catalogued here.", x: 41, y: 63, width: 6, height: 6, type: "interact", action: "room-mystery:cipher-den:dlc-mechronis-chained-lesson-cipher-den" },
+      { id: "mystery-dlc-memorial-seven-watchers-cipher-den", name: "DLC Case Index — memorial.seven_watchers", description: "Investigative records tied to memorial.seven_watchers are catalogued here.", x: 48, y: 74, width: 6, height: 6, type: "interact", action: "room-mystery:cipher-den:dlc-memorial-seven-watchers-cipher-den" },
+      { id: "mystery-dlc-akai-shi-red-death-cipher-den", name: "DLC Case Index — akai_shi.red_death", description: "Investigative records tied to akai_shi.red_death are catalogued here.", x: 55, y: 85, width: 6, height: 6, type: "interact", action: "room-mystery:cipher-den:dlc-akai-shi-red-death-cipher-den" },
       // Realigned 2026-04-25 against the delivered render — back wall +
       // ceiling crowded with a dozen monitors (radar, code, surveillance
       // feeds), corkboard pinned with red+blue string-trace photos on
@@ -1343,6 +1402,8 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "chain_complete", value: "order_chain" },
     connections: ["bridge"],
     hotspots: [
+      { id: "mystery-dlc-wolf-anara-hunt-order-tribunal", name: "DLC Case Index — wolf.anara_hunt", description: "Investigative records tied to wolf.anara_hunt are catalogued here.", x: 6, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:order-tribunal:dlc-wolf-anara-hunt-order-tribunal" },
+      { id: "mystery-dlc-storm-architect-of-flux-order-tribunal", name: "DLC Case Index — storm.architect_of_flux", description: "Investigative records tied to storm.architect_of_flux are catalogued here.", x: 13, y: 19, width: 6, height: 6, type: "interact", action: "room-mystery:order-tribunal:dlc-storm-architect-of-flux-order-tribunal" },
       { id: "apprentice-rostrum", name: "Apprentice Rostrum", description: "The Mechronis Academy trial cadence — mentor a successor through the 28-day trial.", x: 12, y: 30, width: 14, height: 22, type: "terminal", action: "/apprentice", elaraDialog: "The Mechronis trial rostrum. You mentor a successor through the twelve-archetype, twenty-eight-day trial — while the Politician's dead insurance policy trains your rival's. The loop is a mirror." },
       // Realigned 2026-04-25 against the delivered render — marble
       // colonnade chamber with cyan neon strip-lighting in the column
@@ -1432,6 +1493,11 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "chain_complete", value: "quarchon_chain" },
     connections: ["archives"],
     hotspots: [
+      { id: "mystery-dlc-charter-missing-signatory-quantum-lab", name: "DLC Case Index — charter.missing_signatory", description: "Investigative records tied to charter.missing_signatory are catalogued here.", x: 6, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:quantum-lab:dlc-charter-missing-signatory-quantum-lab" },
+      { id: "mystery-dlc-severance-bound-champion-quantum-lab", name: "DLC Case Index — severance.bound_champion", description: "Investigative records tied to severance.bound_champion are catalogued here.", x: 13, y: 19, width: 6, height: 6, type: "interact", action: "room-mystery:quantum-lab:dlc-severance-bound-champion-quantum-lab" },
+      { id: "mystery-dlc-charter-second-signatory-quantum-lab", name: "DLC Case Index — charter.second_signatory", description: "Investigative records tied to charter.second_signatory are catalogued here.", x: 20, y: 30, width: 6, height: 6, type: "interact", action: "room-mystery:quantum-lab:dlc-charter-second-signatory-quantum-lab" },
+      { id: "mystery-dlc-severance-infernal-clause-quantum-lab", name: "DLC Case Index — severance.infernal_clause", description: "Investigative records tied to severance.infernal_clause are catalogued here.", x: 27, y: 41, width: 6, height: 6, type: "interact", action: "room-mystery:quantum-lab:dlc-severance-infernal-clause-quantum-lab" },
+      { id: "mystery-dlc-akai-shi-red-death-quantum-lab", name: "DLC Case Index — akai_shi.red_death", description: "Investigative records tied to akai_shi.red_death are catalogued here.", x: 34, y: 52, width: 6, height: 6, type: "interact", action: "room-mystery:quantum-lab:dlc-akai-shi-red-death-quantum-lab" },
       // Realigned 2026-04-25 against the delivered render — central
       // glass containment cube holding a writhing electric-cloud
       // anomaly, ceiling-mounted ring of lightning haloed above it,
@@ -1568,6 +1634,7 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "room_visited", value: "bridge" },
     connections: ["bridge", "guild-sanctum", "war-room"],
     hotspots: [
+      { id: "mystery-dlc-advocate-blood-weave-social-hub", name: "DLC Case Index — advocate.blood_weave", description: "Investigative records tied to advocate.blood_weave are catalogued here.", x: 6, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:social-hub:dlc-advocate-blood-weave-social-hub" },
       { id: "degen-casino-table", name: "The Degen's Casino", description: "The Trickster's inherited casino, at the edge of the Dreamer's Shield.", x: 70, y: 30, width: 16, height: 22, type: "terminal", action: "/casino", elaraDialog: "The Degen's Casino — won in the Casino Heist. You gamble at the edge of the Dreamer's Shield because the house is a Ne-Yon and the game is how he reads you." },
       // Anchored 2026-04-25 against the AAA Final social-hub render —
       // warm wood-and-brass lounge with three back-wall kiosks

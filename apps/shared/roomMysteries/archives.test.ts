@@ -4,15 +4,22 @@ import { ARCHIVES_MYSTERY } from "./archives";
 import { combineInventory, resolveVerbResponse } from "./_template";
 
 describe("archives mystery — Shadow Tongue point-and-click hotspots", () => {
-  it("ships 6 hotspots (2 legacy + 4 ST)", () => {
+  it("ships the 6 core hotspots (2 legacy + 4 ST); extras are DLC index hotspots", () => {
     const ids = Object.keys(ARCHIVES_MYSTERY.responses);
-    expect(ids).toContain("data-banks");
-    expect(ids).toContain("egg-archive-tome");
-    expect(ids).toContain("corrupted-scroll-rack");
-    expect(ids).toContain("rewritten-ledger");
-    expect(ids).toContain("indigo-glow-lectern");
-    expect(ids).toContain("unnameable-hue-cabinet");
-    expect(ids.length).toBe(6);
+    const core = [
+      "data-banks",
+      "egg-archive-tome",
+      "corrupted-scroll-rack",
+      "rewritten-ledger",
+      "indigo-glow-lectern",
+      "unnameable-hue-cabinet",
+    ];
+    for (const c of core) expect(ids).toContain(c);
+    // Any hotspot beyond the core must be a DLC progression-critical
+    // clue index hotspot (added by scripts/_gen-dlc-bindings.mjs).
+    for (const id of ids) {
+      if (!core.includes(id)) expect(id.startsWith("dlc-")).toBe(true);
+    }
   });
 
   describe("corrupted-scroll-rack", () => {

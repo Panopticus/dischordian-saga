@@ -21,14 +21,13 @@
 import type { RoomMysteryModule } from "./_template";
 
 export type CommsArrayHotspotId =
-  | "radio-console"
-  | "static-screen"
-  | "egg-comms-signal"
-  | "voice-in-the-static"
-  | "ocularum-relay-trace"
-  | "dead-drop-cadence-log"
-  | "shadow-tongue-signal-trace"
-  | "miras-dual-thread-transmission";
+  | "dlc-severance-bound-champion-comms-array"
+  | "dlc-mechronis-missing-professor-comms-array"
+  | "dlc-memorial-seven-watchers-comms-array"
+  | "dlc-wolf-anara-hunt-comms-array"
+  | "dlc-akai-shi-red-death-comms-array"
+  | "dlc-resurrectionist-cycle-walker-comms-array"
+  | "radio-console" | "static-screen" | "egg-comms-signal" | "voice-in-the-static" | "ocularum-relay-trace" | "dead-drop-cadence-log" | "shadow-tongue-signal-trace" | "miras-dual-thread-transmission";
 
 export type CommsArrayInventoryId = "static-fragment-recording";
 
@@ -38,6 +37,66 @@ export const COMMS_ARRAY_MYSTERY: RoomMysteryModule<
 > = {
   roomId: "comms-array",
   responses: {
+    "dlc-severance-bound-champion-comms-array": {
+      look: {
+        narration: "Case material for severance.bound_champion surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "severance.bound_champion",
+          episodeId: "severance.bound_champion.e1",
+          cluesFound: ["severance.e1.vex_opening", "severance.e3.year_one_lap", "severance.e4.vex_confession"],
+        },
+      },
+    },
+    "dlc-mechronis-missing-professor-comms-array": {
+      look: {
+        narration: "Case material for mechronis.missing_professor surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "mechronis.missing_professor",
+          episodeId: "mechronis.missing_professor.e3",
+          cluesFound: ["mechronis.e3.recovered_audio", "mechronis.e3.unanimous_silence"],
+        },
+      },
+    },
+    "dlc-memorial-seven-watchers-comms-array": {
+      look: {
+        narration: "Case material for memorial.seven_watchers surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "memorial.seven_watchers",
+          episodeId: "memorial.seven_watchers.e1",
+          cluesFound: ["watchers.e1.silence_break_log"],
+        },
+      },
+    },
+    "dlc-wolf-anara-hunt-comms-array": {
+      look: {
+        narration: "Case material for wolf.anara_hunt surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "wolf.anara_hunt",
+          episodeId: "wolf.anara_hunt.e1",
+          cluesFound: ["wolf.e1.transmission_intercept"],
+        },
+      },
+    },
+    "dlc-akai-shi-red-death-comms-array": {
+      look: {
+        narration: "Case material for akai_shi.red_death surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "akai_shi.red_death",
+          episodeId: "akai_shi.red_death.e1",
+          cluesFound: ["akai.e1.akai_last_recorded"],
+        },
+      },
+    },
+    "dlc-resurrectionist-cycle-walker-comms-array": {
+      look: {
+        narration: "Case material for resurrectionist.cycle_walker surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "resurrectionist.cycle_walker",
+          episodeId: "resurrectionist.cycle_walker.e3",
+          cluesFound: ["resur.e3.hosts_wyrmhole_signature"],
+        },
+      },
+    },
     "radio-console": {
       look: {
         narration: {

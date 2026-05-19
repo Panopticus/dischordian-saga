@@ -22,9 +22,9 @@
 import type { RoomMysteryModule } from "./_template";
 
 export type ObservationDeckHotspotId =
-  | "panoramic-viewport"
-  | "purification-crystal-cradle"
-  | "bond-resonance-altar";
+  | "dlc-akai-shi-red-death-observation-deck"
+  | "dlc-storm-architect-of-flux-observation-deck"
+  | "panoramic-viewport" | "purification-crystal-cradle" | "bond-resonance-altar";
 
 export type ObservationDeckInventoryId =
   | "observation-keycard"
@@ -37,6 +37,26 @@ export const OBSERVATION_DECK_MYSTERY: RoomMysteryModule<
 > = {
   roomId: "observation-deck",
   responses: {
+    "dlc-akai-shi-red-death-observation-deck": {
+      look: {
+        narration: "Case material for akai_shi.red_death surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "akai_shi.red_death",
+          episodeId: "akai_shi.red_death.e4",
+          cluesFound: ["akai.e4.cycle_fold_anomalies"],
+        },
+      },
+    },
+    "dlc-storm-architect-of-flux-observation-deck": {
+      look: {
+        narration: "Case material for storm.architect_of_flux surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "storm.architect_of_flux",
+          episodeId: "storm.architect_of_flux.e1",
+          cluesFound: ["storm.e1.weather_telemetry", "storm.e4.full_calms_register"],
+        },
+      },
+    },
     "panoramic-viewport": {
       look: {
         narration: {

@@ -8,13 +8,33 @@
 import type { RoomMysteryModule } from "./_template";
 
 export type OrderTribunalHotspotId =
-  | "judges-bench"
-  | "evidence-locker"
-  | "mol-vereth-audit-ledger";
+  | "dlc-wolf-anara-hunt-order-tribunal"
+  | "dlc-storm-architect-of-flux-order-tribunal"
+  | "judges-bench" | "evidence-locker" | "mol-vereth-audit-ledger";
 
 export const ORDER_TRIBUNAL_MYSTERY: RoomMysteryModule<OrderTribunalHotspotId> = {
   roomId: "order-tribunal",
   responses: {
+    "dlc-wolf-anara-hunt-order-tribunal": {
+      look: {
+        narration: "Case material for wolf.anara_hunt surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "wolf.anara_hunt",
+          episodeId: "wolf.anara_hunt.e3",
+          cluesFound: ["wolf.e3.judge_clarification"],
+        },
+      },
+    },
+    "dlc-storm-architect-of-flux-order-tribunal": {
+      look: {
+        narration: "Case material for storm.architect_of_flux surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "storm.architect_of_flux",
+          episodeId: "storm.architect_of_flux.e2",
+          cluesFound: ["storm.e2.judges_arbitration_register"],
+        },
+      },
+    },
     "judges-bench": {
       look: {
         narration: {

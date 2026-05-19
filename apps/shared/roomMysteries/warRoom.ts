@@ -13,33 +13,77 @@
 import type { RoomMysteryModule } from "./_template";
 
 export type WarRoomHotspotId =
-  | "holo-table"
-  | "casualty-board"
-  | "signal-flag-rack"
-  | "ocularum-vigil-board"
-  | "ocularum-cell-roster"
-  | "hierarchy-org-chart-board"
-  | "thalorian-defense-records"
-  | "new-babylon-siege-record"
-  | "hierarchy-piece-positioning-board"
-  | "varkul-director-of-security-file"
-  | "necromancer-castle-log-board"
-  | "zyr-koth-rd-refinement-file"
-  | "the-severance-hollowing-report"
-  | "the-locked-lever-board"
-  | "syl-vex-dual-roster-board"
-  | "the-severance-cross-lock-file"
-  | "the-taskmasters-siege-portfolio"
-  | "riri-ahlia-reorg-doctrine-board"
-  | "the-procedural-question-file"
-  | "the-priced-defense-accounting"
-  | "fenra-seventeen-front-manifest"
-  | "the-wolf-in-the-boardroom-file"
-  | "fenra-varkul-contrast-record";
+  | "dlc-severance-infernal-clause-war-room"
+  | "dlc-mechronis-chained-lesson-war-room"
+  | "dlc-memorial-seven-watchers-war-room"
+  | "dlc-resurrectionist-cycle-walker-war-room"
+  | "dlc-storm-architect-of-flux-war-room"
+  | "dlc-advocate-blood-weave-war-room"
+  | "holo-table" | "casualty-board" | "signal-flag-rack" | "ocularum-vigil-board" | "ocularum-cell-roster" | "hierarchy-org-chart-board" | "thalorian-defense-records" | "new-babylon-siege-record" | "hierarchy-piece-positioning-board" | "varkul-director-of-security-file" | "necromancer-castle-log-board" | "zyr-koth-rd-refinement-file" | "the-severance-hollowing-report" | "the-locked-lever-board" | "syl-vex-dual-roster-board" | "the-severance-cross-lock-file" | "the-taskmasters-siege-portfolio" | "riri-ahlia-reorg-doctrine-board" | "the-procedural-question-file" | "the-priced-defense-accounting" | "fenra-seventeen-front-manifest" | "the-wolf-in-the-boardroom-file" | "fenra-varkul-contrast-record";
 
 export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
   roomId: "war-room",
   responses: {
+    "dlc-severance-infernal-clause-war-room": {
+      look: {
+        narration: "Case material for severance.infernal_clause surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "severance.infernal_clause",
+          episodeId: "severance.infernal_clause.e2",
+          cluesFound: ["infernal.e2.season_ledger_keepers"],
+        },
+      },
+    },
+    "dlc-mechronis-chained-lesson-war-room": {
+      look: {
+        narration: "Case material for mechronis.chained_lesson surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "mechronis.chained_lesson",
+          episodeId: "mechronis.chained_lesson.e1",
+          cluesFound: ["chained.e1.wave_telemetry", "chained.e2.feint_pattern"],
+        },
+      },
+    },
+    "dlc-memorial-seven-watchers-war-room": {
+      look: {
+        narration: "Case material for memorial.seven_watchers surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "memorial.seven_watchers",
+          episodeId: "memorial.seven_watchers.e3",
+          cluesFound: ["watchers.e3.council_communique"],
+        },
+      },
+    },
+    "dlc-resurrectionist-cycle-walker-war-room": {
+      look: {
+        narration: "Case material for resurrectionist.cycle_walker surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "resurrectionist.cycle_walker",
+          episodeId: "resurrectionist.cycle_walker.e2",
+          cluesFound: ["resur.e2.second_fall_casualty_count"],
+        },
+      },
+    },
+    "dlc-storm-architect-of-flux-war-room": {
+      look: {
+        narration: "Case material for storm.architect_of_flux surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "storm.architect_of_flux",
+          episodeId: "storm.architect_of_flux.e3",
+          cluesFound: ["storm.e3.advocates_blood_weave", "storm.e4.event_correlation_table"],
+        },
+      },
+    },
+    "dlc-advocate-blood-weave-war-room": {
+      look: {
+        narration: "Case material for advocate.blood_weave surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "advocate.blood_weave",
+          episodeId: "advocate.blood_weave.e1",
+          cluesFound: ["adv.e1.hierarchy_acquisition_attempts", "adv.e2.riri_ahlia_siege_record"],
+        },
+      },
+    },
     "holo-table": {
       look: {
         narration: {
