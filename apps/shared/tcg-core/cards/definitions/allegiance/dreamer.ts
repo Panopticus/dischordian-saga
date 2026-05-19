@@ -18,7 +18,7 @@ export const drm_alleg_t1: CardDefinition = {
   baseStats: { power: 1, health: 3 },
   keywords: ["flying"],
   abilities: [],
-  art: assetUrl("art/cards/allegiance/s1_alleg_dreamer_t1.webp"),
+  art: assetUrl("art/cards/allegiance/dreamer_acolyte_t1.webp"),
   flavorText:
     "Unlocked by playing 10 Dreamer matches. Flying. An acolyte has not yet dreamed their future — they are still waiting for permission to stop being afraid of it.",
   rulesVersion: "1.1.0",
@@ -42,7 +42,7 @@ export const drm_alleg_t2: CardDefinition = {
       effect: { op: "draw", amount: { kind: "const", value: 1 }, who: "self" },
     },
   ],
-  art: assetUrl("art/cards/allegiance/s1_alleg_dreamer_t2.webp"),
+  art: assetUrl("art/cards/allegiance/dreamer_seer_t2.webp"),
   flavorText:
     "Unlocked by playing 25 Dreamer matches. Flying. On deploy, draw 1. A visionary has started to recognize the pattern and has not yet learned to hide that they are recognizing it.",
   rulesVersion: "1.1.0",
@@ -60,7 +60,7 @@ export const drm_alleg_t3: CardDefinition = {
   baseStats: { power: 3, health: 5 },
   keywords: ["flying", "dispel"],
   abilities: [],
-  art: assetUrl("art/cards/allegiance/s1_alleg_dreamer_t3.webp"),
+  art: assetUrl("art/cards/allegiance/dreamer_visionary_t3.webp"),
   flavorText:
     "Unlocked by playing 50 Dreamer matches. Flying. Dispel. A Dreamer veteran has been wrong enough times to be trusted with being right.",
   rulesVersion: "1.1.0",
@@ -84,7 +84,7 @@ export const drm_alleg_t4: CardDefinition = {
       effect: { op: "draw", amount: { kind: "const", value: 1 }, who: "self" },
     },
   ],
-  art: assetUrl("art/cards/allegiance/s1_alleg_dreamer_t4.webp"),
+  art: assetUrl("art/cards/allegiance/dreamer_prophet_t4.webp"),
   flavorText:
     "Unlocked by winning 10 Dreamer matches. Flying. Dispel. On deploy, draw 1. A seer who has won has stopped being surprised and started being concerned.",
   rulesVersion: "1.1.0",
@@ -102,7 +102,7 @@ export const drm_alleg_t5: CardDefinition = {
   baseStats: { power: 4, health: 7 },
   keywords: ["flying", "dispel", "forcefield"],
   abilities: [],
-  art: assetUrl("art/cards/allegiance/s1_alleg_dreamer_t5.webp"),
+  art: assetUrl("art/cards/allegiance/dreamer_dreamwalker_t5.webp"),
   flavorText:
     "Unlocked by winning 50 Dreamer matches. Flying. Dispel. Forcefield. An Elite Dreamer dreams the match before it happens and remembers having already lived it, which is terrifying for everybody at the table including the Elite.",
   rulesVersion: "1.1.0",
@@ -126,7 +126,7 @@ export const drm_alleg_t6: CardDefinition = {
       effect: { op: "draw", amount: { kind: "const", value: 3 }, who: "self" },
     },
   ],
-  art: assetUrl("art/cards/allegiance/s1_alleg_dreamer_t6.webp"),
+  art: assetUrl("art/cards/allegiance/dreamer_champion_t6.webp"),
   flavorText:
     "Unlocked by winning 100 Dreamer matches. Flying. Dispel. Forcefield. On deploy, draw 3. The Dreamer Champion is the Dreamer herself, making herself briefly available for one match because you have done the work.",
   rulesVersion: "1.1.0",

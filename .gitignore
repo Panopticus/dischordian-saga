@@ -154,3 +154,4 @@ apps/client/public/audio/episodes/
 
 # Trade Empire voice-design previews — local audition MP3s only.
 apps/scripts/voice_previews/
+docs/production/audit/.path-mismatches-aggressive/

@@ -23,7 +23,7 @@ export const assassin_01: CardDefinition = {
   baseStats: { power: 3, health: 1 },
   keywords: ["backstab"],
   abilities: [],
-  art: assetUrl("art/cards/class/s1_class_assassin_01.webp"),
+  art: assetUrl("art/cards/class/glass_blade_initiate.webp"),
   flavorText:
     "Backstab. Glass blades shatter on impact. The instructors keep handing them out anyway, because the students who learn this are the ones who stop needing the second strike.",
   rulesVersion: "1.1.0",
@@ -51,7 +51,7 @@ export const assassin_02: CardDefinition = {
       },
     },
   ],
-  art: assetUrl("art/cards/class/s1_class_assassin_02.webp"),
+  art: assetUrl("art/cards/class/silent_step.webp"),
   flavorText:
     "Deal 4 damage to the enemy general. The first half of the move is silent. The second half is an apology, but not to you.",
   rulesVersion: "1.1.0",
@@ -70,7 +70,7 @@ export const assassin_03: CardDefinition = {
   baseStats: { power: 4, health: 3 },
   keywords: ["backstab", "celerity"],
   abilities: [],
-  art: assetUrl("art/cards/class/s1_class_assassin_03.webp"),
+  art: assetUrl("art/cards/class/witness_remover.webp"),
   flavorText:
     "Backstab. Celerity. A second strike is what you spend when you cannot afford to leave a witness. This unit does not know any other kind of math.",
   rulesVersion: "1.1.0",
@@ -98,7 +98,7 @@ export const assassin_04: CardDefinition = {
       },
     },
   ],
-  art: assetUrl("art/cards/class/s1_class_assassin_04.webp"),
+  art: assetUrl("art/cards/class/execute_protocol.webp"),
   flavorText:
     "Deal 7 damage to the enemy general. The Protocol is a single sentence that the assassin has to say out loud before they use it. Nobody has ever reported hearing the sentence, because everyone who would have heard it is part of the sentence.",
   rulesVersion: "1.1.0",
@@ -128,7 +128,7 @@ export const assassin_05: CardDefinition = {
       },
     },
   ],
-  art: assetUrl("art/cards/class/s1_class_assassin_05.webp"),
+  art: assetUrl("art/cards/class/akai_shi_first_apprentice.webp"),
   flavorText:
     "Backstab. Celerity. Pierce. Rush on deploy. Red Death does not train apprentices, because apprentices survive the training. This one did. She has not spoken in nine years and will not explain why.",
   rulesVersion: "1.1.0",

@@ -30,7 +30,7 @@ export const engineer_01: CardDefinition = {
       effect: { op: "draw", amount: { kind: "const", value: 1 }, who: "self" },
     },
   ],
-  art: assetUrl("art/cards/class/s1_class_engineer_01.webp"),
+  art: assetUrl("art/cards/class/workshop_drone.webp"),
   flavorText:
     "On deploy, draw 1. The first thing the Engineer builds in any new workshop is a smaller version of himself that he can hand the smaller problems to.",
   rulesVersion: "1.1.0",
@@ -59,7 +59,7 @@ export const engineer_02: CardDefinition = {
       effect: { op: "gain_mana", amount: { kind: "const", value: 1 }, permanent: false },
     },
   ],
-  art: assetUrl("art/cards/class/s1_class_engineer_02.webp"),
+  art: assetUrl("art/cards/class/field_modification.webp"),
   flavorText:
     "Draw 2 cards and gain 1 mana this turn. Every invention pays for itself or it is not an invention, it is just a mistake with enthusiasm.",
   rulesVersion: "1.1.0",
@@ -78,7 +78,7 @@ export const engineer_03: CardDefinition = {
   baseStats: { power: 1, health: 6 },
   keywords: ["provoke"],
   abilities: [],
-  art: assetUrl("art/cards/class/s1_class_engineer_03.webp"),
+  art: assetUrl("art/cards/class/kinetic_containment_sink.webp"),
   flavorText:
     "Provoke. A structure the Engineer built the week he accidentally invented Rush and lost three lab walls. He patched the walls by telling the kinetic overflow where to go.",
   rulesVersion: "1.1.0",
@@ -102,7 +102,7 @@ export const engineer_04: CardDefinition = {
       effect: { op: "draw", amount: { kind: "const", value: 3 }, who: "self" },
     },
   ],
-  art: assetUrl("art/cards/class/s1_class_engineer_04.webp"),
+  art: assetUrl("art/cards/class/prototype_blueprint.webp"),
   flavorText:
     "Draw 3 cards. A blueprint is a design that has not yet been talked out of itself by the physics it will have to live inside of.",
   rulesVersion: "1.1.0",
@@ -132,7 +132,7 @@ export const engineer_05: CardDefinition = {
       effect: { op: "gain_mana", amount: { kind: "const", value: 2 }, permanent: false },
     },
   ],
-  art: assetUrl("art/cards/class/s1_class_engineer_05.webp"),
+  art: assetUrl("art/cards/class/engineers_apprentice.webp"),
   flavorText:
     "On deploy, draw 2 and gain 2 mana this turn. The Engineer's apprentices learn by building the same instrument their master built, in a different way, because the different way is the only thing that will teach them anything the master's way could not already say.",
   rulesVersion: "1.1.0",
