@@ -54,6 +54,41 @@ const RARITY_THRESHOLDS: Array<{ rarity: Rarity; cumulative: number }> = [
 ];
 
 /**
+ * Pity timer (Balance F5 — disclosed in-client). The first card of
+ * every Nth pack opened without a Rare+ is forced to Rare-or-better.
+ * These are the SAME constants `openPack` enforces below, so the
+ * odds shown to players can never drift from the odds rolled.
+ */
+export const PITY_PACKS_THRESHOLD = 4;
+export const PITY_PACK_INTERVAL = PITY_PACKS_THRESHOLD + 1; // every 5th pack
+export const PITY_GUARANTEE_MIN_RARITY: Rarity = "rare";
+
+export interface RarityOdds {
+  rarity: Rarity;
+  /** Per-card-slot probability, 0..1. */
+  probability: number;
+}
+
+/**
+ * Published per-card drop odds, DERIVED from RARITY_THRESHOLDS (the
+ * table `rollRarity` actually uses) — not a hand-written copy. A
+ * legendary slot is `cumulative` minus the previous tier's
+ * `cumulative`. Exposed for the in-client odds disclosure.
+ */
+export const PACK_RARITY_ODDS: RarityOdds[] = (() => {
+  let prev = 0;
+  const out: RarityOdds[] = [];
+  for (const t of RARITY_THRESHOLDS) {
+    out.push({
+      rarity: t.rarity,
+      probability: Number((t.cumulative - prev).toFixed(4)),
+    });
+    prev = t.cumulative;
+  }
+  return out;
+})();
+
+/**
  * Open a pack. Pure function — uses seeded RNG.
  *
  * @param seed — unique seed for this pack opening (e.g. `pack_{userId}_{packCount}`)
@@ -82,13 +117,13 @@ export function openPack(
 
   const cardDefIds: string[] = [];
   let pityTriggered = false;
-  const pityActive = packsSinceLastRare >= 4; // 5th pack = guaranteed rare+
+  const pityActive = packsSinceLastRare >= PITY_PACKS_THRESHOLD; // every 5th pack = guaranteed rare+
 
   for (let i = 0; i < packType.cardsPerPack; i++) {
     let rarity: Rarity;
     if (pityActive && i === 0) {
       // Pity timer: first card of this pack is at least Rare.
-      rarity = rollRarity(rng, "rare");
+      rarity = rollRarity(rng, PITY_GUARANTEE_MIN_RARITY);
       pityTriggered = true;
     } else {
       rarity = rollRarity(rng);
