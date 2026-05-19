@@ -63,8 +63,24 @@ describe("ocularumCanon — bifurcation", () => {
 });
 
 describe("ocularumCanon — modern roster", () => {
-  it("registers exactly the 6 members PR-1 canonized", () => {
-    expect(OCULARUM_MEMBERS).toHaveLength(6);
+  it("registers the founding members canonized in PR-1 (Locke, Senne, Agent Zero, Tanjin, Mira, Seventh Whisper) — extended by the ninja-clan wave", () => {
+    // PR-1 canonized 6 founding members. The ninja-clan wave extended
+    // the cell-roster with 70 curated cells + 627 Shadow-Tongue
+    // redactions to complete the canonical 700-cell operational body.
+    // Total roster size: 6 founding (3 are cell-members) + 70 curated
+    // cells + 627 redacted = 703 entries (700 cell-members + 3 non-cell:
+    // Locke + Senne + the original Agent Zero).
+    expect(OCULARUM_MEMBERS.length).toBe(703);
+    for (const id of [
+      "locke_coordinator",
+      "senne_predecessor",
+      "agent_zero_original",
+      "old_tanjin",
+      "mira_glyph_reader",
+      "the_seventh_whisper",
+    ]) {
+      expect(() => getOcularumMember(id)).not.toThrow();
+    }
   });
 
   it("registers Locke as the (active) Coordinator", () => {
@@ -105,8 +121,8 @@ describe("ocularumCanon — modern roster", () => {
     expect(getCoordinators()).toHaveLength(2);
   });
 
-  it("getRegisteredCells returns exactly the 3 numbered cells", () => {
-    expect(getRegisteredCells()).toHaveLength(3);
+  it("getRegisteredCells returns the canonical 700 numbered cells (ninja-clan wave canonized the full body)", () => {
+    expect(getRegisteredCells()).toHaveLength(CANONICAL_OCULARUM_CELL_COUNT);
   });
 });
 
@@ -115,8 +131,8 @@ describe("ocularumCanon — coverage metric vs. canonical 700", () => {
     expect(CANONICAL_OCULARUM_CELL_COUNT).toBe(700);
   });
 
-  it("registers a 3-cell coverage gap appropriate for PR-1", () => {
-    expect(getOcularumCellCoverage()).toBe(3);
+  it("ninja-clan wave drives coverage to the full canonical 700 (gate-PASS)", () => {
+    expect(getOcularumCellCoverage()).toBe(CANONICAL_OCULARUM_CELL_COUNT);
   });
 });
 
@@ -151,5 +167,109 @@ describe("ocularumCanon — cross-registry binding", () => {
 
   it("the Collector cross-binding is preserved (outcome reversal points at the_collector archon entry)", () => {
     expect(OCULARUM_FOUNDING.outcomeReversal.reverser).toBe("the_collector");
+  });
+});
+
+describe("ocularumCanon — ninja-clan wave + Shadow Tongue redaction war", () => {
+  it("registers all 700 cells (canon-PASS for canon.ocularum_cell_coverage)", () => {
+    const cells = getRegisteredCells();
+    expect(cells.length).toBe(CANONICAL_OCULARUM_CELL_COUNT);
+    const nums = new Set(cells.map((c) => c.cellNumber));
+    expect(nums.size).toBe(CANONICAL_OCULARUM_CELL_COUNT);
+    for (let n = 1; n <= CANONICAL_OCULARUM_CELL_COUNT; n++) {
+      expect(nums.has(n), `cell ${n} missing`).toBe(true);
+    }
+  });
+
+  it("canonizes the marquee historical houses as named cells (Hattori, Momochi, Fujibayashi, Fūma, Mochizuki, Iga-Kōga)", () => {
+    const named = getRegisteredCells().filter(
+      (c) => c.status !== "shadow-tongue-redacted",
+    );
+    const names = named.map((c) => c.name).join("\n");
+    for (const marker of [
+      "Hattori",
+      "Momochi",
+      "Fujibayashi",
+      "Fūma",
+      "Mochizuki",
+      "Iga-Kōga Compact",
+    ]) {
+      expect(names, `missing canonized marquee house: ${marker}`).toContain(marker);
+    }
+  });
+
+  it("canonizes the nine ryūha (Togakure, Gyokko, Kotō, Kumogakure, Gyokushin, Gikan, Shinden Fudō, Takagi Yōshin, Kukishin)", () => {
+    const names = getRegisteredCells()
+      .map((c) => c.name)
+      .join("\n");
+    for (const ryu of [
+      "Togakure",
+      "Gyokko",
+      "Kotō",
+      "Kumogakure",
+      "Gyokushin",
+      "Gikan",
+      "Shinden Fudō",
+      "Takagi Yōshin",
+      "Kukishin",
+    ]) {
+      expect(names, `missing ryūha: ${ryu}`).toContain(ryu);
+    }
+  });
+
+  it("canonizes the doctrinal anti-edit cell (the Tongueless Witness)", () => {
+    const cell = getRegisteredCells().find(
+      (c) => c.name === "the Tongueless Witness",
+    );
+    expect(cell, "the Tongueless Witness must be canonized").toBeDefined();
+    expect(cell!.domain.toLowerCase()).toContain("shadow tongue");
+  });
+
+  it("publishes the Shadow Tongue redaction doctrine — the three reasons + the limit case", async () => {
+    const mod = await import("./ocularumCanon");
+    const doctrine = (
+      mod as unknown as {
+        OCULARUM_SHADOW_TONGUE_REDACTION: {
+          editor: string;
+          doctrine: { threeReasons: readonly string[]; limitCase: string };
+        };
+      }
+    ).OCULARUM_SHADOW_TONGUE_REDACTION;
+    expect(doctrine.editor).toBe("the_shadow_tongue");
+    expect(doctrine.doctrine.threeReasons.length).toBe(3);
+    const joined = doctrine.doctrine.threeReasons.join(" ").toLowerCase();
+    expect(joined).toContain("substrate");
+    expect(joined).toContain("witness");
+    expect(joined).toContain("older");
+    expect(doctrine.doctrine.limitCase.toLowerCase()).toContain("tanjin");
+  });
+
+  it("marks every redacted cell with status shadow-tongue-redacted and preserves a memory trace", () => {
+    const redacted = getRegisteredCells().filter(
+      (c) => c.status === "shadow-tongue-redacted",
+    );
+    // 700 total − 3 founding (Tanjin, Mira, Seventh Whisper) − 70 curated = 627 redacted
+    expect(redacted.length).toBe(627);
+    for (const c of redacted) {
+      expect(c.domain.toLowerCase()).toContain("shadow tongue");
+      expect(c.domain.length).toBeGreaterThan(120);
+    }
+  });
+
+  it("every redacted cell has a UNIQUE memory trace (no two cells share the same surviving hint)", () => {
+    const redacted = getRegisteredCells().filter(
+      (c) => c.status === "shadow-tongue-redacted",
+    );
+    const traces = redacted.map(
+      (c) =>
+        c.domain.split("substrate the editor cannot ride: ")[1] ?? c.domain,
+    );
+    expect(new Set(traces).size).toBe(traces.length);
+  });
+
+  it("cells 1, 99, 700 remain canonically named (Tanjin / Mira / Seventh Whisper)", () => {
+    expect(getCellByNumber(1)?.name).toBe("Old Tanjin");
+    expect(getCellByNumber(99)?.name).toBe("Mira the Glyph-Reader");
+    expect(getCellByNumber(700)?.name).toBe("the Seventh Whisper");
   });
 });
