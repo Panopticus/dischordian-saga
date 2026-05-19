@@ -9,14 +9,66 @@
 import type { RoomMysteryModule } from "./_template";
 
 export type OracleSanctumHotspotId =
-  | "oracle-pool"
-  | "prophecy-tablet"
-  | "incense-brazier"
-  | "seers-recording-cabinet";
+  | "dlc-mechronis-missing-professor-oracle-sanctum"
+  | "dlc-memorial-forgotten-names-oracle-sanctum"
+  | "dlc-charter-second-signatory-oracle-sanctum"
+  | "dlc-severance-infernal-clause-oracle-sanctum"
+  | "dlc-advocate-blood-weave-oracle-sanctum"
+  | "oracle-pool" | "prophecy-tablet" | "incense-brazier" | "seers-recording-cabinet";
 
 export const ORACLE_SANCTUM_MYSTERY: RoomMysteryModule<OracleSanctumHotspotId> = {
   roomId: "oracle-sanctum",
   responses: {
+    "dlc-mechronis-missing-professor-oracle-sanctum": {
+      look: {
+        narration: "Case material for mechronis.missing_professor surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "mechronis.missing_professor",
+          episodeId: "mechronis.missing_professor.e4",
+          cluesFound: ["mechronis.e4.tarn_recorded_message"],
+        },
+      },
+    },
+    "dlc-memorial-forgotten-names-oracle-sanctum": {
+      look: {
+        narration: "Case material for memorial.forgotten_names surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "memorial.forgotten_names",
+          episodeId: "memorial.forgotten_names.e1",
+          cluesFound: ["memorial.e1.antiquarian_request"],
+        },
+      },
+    },
+    "dlc-charter-second-signatory-oracle-sanctum": {
+      look: {
+        narration: "Case material for charter.second_signatory surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "charter.second_signatory",
+          episodeId: "charter.second_signatory.e2",
+          cluesFound: ["charter2.e2.descendant_account"],
+        },
+      },
+    },
+    "dlc-severance-infernal-clause-oracle-sanctum": {
+      look: {
+        narration: "Case material for severance.infernal_clause surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "severance.infernal_clause",
+          episodeId: "severance.infernal_clause.e4",
+          cluesFound: ["infernal.e4.zyrkoth_response"],
+        },
+      },
+    },
+    "dlc-advocate-blood-weave-oracle-sanctum": {
+      look: {
+        narration: "Case material for advocate.blood_weave surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "advocate.blood_weave",
+          episodeId: "advocate.blood_weave.e4",
+          cluesFound: ["adv.e4.ninth_conexus_story"],
+        },
+      },
+    },
     "oracle-pool": {
       look: {
         narration: {

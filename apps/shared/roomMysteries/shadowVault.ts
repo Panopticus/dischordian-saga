@@ -26,13 +26,14 @@
 import type { RoomMysteryModule } from "./_template";
 
 export type ShadowVaultHotspotId =
-  | "sealed-cell-glass"
-  | "manuscript-pile"
-  | "warden-terminal"
-  | "release-or-seal-lever"
-  | "the-unopened-threshold"
-  | "the-makers-heartbeat-trace"
-  | "the-necromancers-altar";
+  | "dlc-charter-missing-signatory-shadow-vault"
+  | "dlc-severance-bound-champion-shadow-vault"
+  | "dlc-memorial-forgotten-names-shadow-vault"
+  | "dlc-charter-second-signatory-shadow-vault"
+  | "dlc-memorial-seven-watchers-shadow-vault"
+  | "dlc-resurrectionist-cycle-walker-shadow-vault"
+  | "dlc-advocate-blood-weave-shadow-vault"
+  | "sealed-cell-glass" | "manuscript-pile" | "warden-terminal" | "release-or-seal-lever" | "the-unopened-threshold" | "the-makers-heartbeat-trace" | "the-necromancers-altar";
 
 export type ShadowVaultInventoryId = "manuscript-folio";
 
@@ -42,6 +43,76 @@ export const SHADOW_VAULT_MYSTERY: RoomMysteryModule<
 > = {
   roomId: "shadow-vault",
   responses: {
+    "dlc-charter-missing-signatory-shadow-vault": {
+      look: {
+        narration: "Case material for charter.missing_signatory surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "charter.missing_signatory",
+          episodeId: "charter.missing_signatory.e4",
+          cluesFound: ["charter.e4.archivist_letter_back"],
+        },
+      },
+    },
+    "dlc-severance-bound-champion-shadow-vault": {
+      look: {
+        narration: "Case material for severance.bound_champion surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "severance.bound_champion",
+          episodeId: "severance.bound_champion.e4",
+          cluesFound: ["severance.e4.apprentice_oath"],
+        },
+      },
+    },
+    "dlc-memorial-forgotten-names-shadow-vault": {
+      look: {
+        narration: "Case material for memorial.forgotten_names surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "memorial.forgotten_names",
+          episodeId: "memorial.forgotten_names.e2",
+          cluesFound: ["memorial.e2.imprint_i17", "memorial.e2.keeper_account"],
+        },
+      },
+    },
+    "dlc-charter-second-signatory-shadow-vault": {
+      look: {
+        narration: "Case material for charter.second_signatory surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "charter.second_signatory",
+          episodeId: "charter.second_signatory.e3",
+          cluesFound: ["charter2.e3.council_request"],
+        },
+      },
+    },
+    "dlc-memorial-seven-watchers-shadow-vault": {
+      look: {
+        narration: "Case material for memorial.seven_watchers surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "memorial.seven_watchers",
+          episodeId: "memorial.seven_watchers.e2",
+          cluesFound: ["watchers.e2.idris_archive_role", "watchers.e4.line_in_apprentice_hand"],
+        },
+      },
+    },
+    "dlc-resurrectionist-cycle-walker-shadow-vault": {
+      look: {
+        narration: "Case material for resurrectionist.cycle_walker surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "resurrectionist.cycle_walker",
+          episodeId: "resurrectionist.cycle_walker.e3",
+          cluesFound: ["resur.e3.necromancer_last_recorded_appearance", "resur.e4.silences_claim_record"],
+        },
+      },
+    },
+    "dlc-advocate-blood-weave-shadow-vault": {
+      look: {
+        narration: "Case material for advocate.blood_weave surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "advocate.blood_weave",
+          episodeId: "advocate.blood_weave.e3",
+          cluesFound: ["adv.e3.sealed_sacrum_record"],
+        },
+      },
+    },
     "sealed-cell-glass": {
       look: {
         narration: {

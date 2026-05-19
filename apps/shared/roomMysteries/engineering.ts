@@ -22,13 +22,8 @@
 import type { RoomMysteryModule } from "./_template";
 
 export type EngineeringHotspotId =
-  | "crafting-bench"
-  | "reactor-core"
-  | "blueprints"
-  | "egg-eng-formula"
-  | "instruction-manual"
-  | "schematic-pad"
-  | "kell-physical-residue-bench";
+  | "dlc-wolf-anara-hunt-engineering"
+  | "crafting-bench" | "reactor-core" | "blueprints" | "egg-eng-formula" | "instruction-manual" | "schematic-pad" | "kell-physical-residue-bench";
 
 /** Inventory ids the engineering bench can fold into composite items.
  *  Migrated from the legacy ADVENTURE_FEATURES.INVENTORY_COMBINATIONS
@@ -152,6 +147,16 @@ export const ENGINEERING_MYSTERY: RoomMysteryModule<EngineeringHotspotId, Engine
     },
   ],
   responses: {
+    "dlc-wolf-anara-hunt-engineering": {
+      look: {
+        narration: "Case material for wolf.anara_hunt surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "wolf.anara_hunt",
+          episodeId: "wolf.anara_hunt.e2",
+          cluesFound: ["wolf.e2.host_residue", "wolf.e4.antiquarian_blind_spot"],
+        },
+      },
+    },
     "reactor-core": {
       look: {
         narration:

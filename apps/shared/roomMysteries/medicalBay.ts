@@ -24,17 +24,33 @@
 import type { RoomMysteryModule } from "./_template";
 
 export type MedicalBayHotspotId =
-  | "bio-bed"
-  | "dna-helix"
-  | "medicine-cabinet"
-  | "medical-log"
-  | "egg-vox-neural-bridge"
-  | "emergency-safe"
-  | "the-silences-vacated-body";
+  | "dlc-severance-bound-champion-medical-bay"
+  | "dlc-akai-shi-red-death-medical-bay"
+  | "bio-bed" | "dna-helix" | "medicine-cabinet" | "medical-log" | "egg-vox-neural-bridge" | "emergency-safe" | "the-silences-vacated-body";
 
 export const MEDICAL_BAY_MYSTERY: RoomMysteryModule<MedicalBayHotspotId> = {
   roomId: "medical-bay",
   responses: {
+    "dlc-severance-bound-champion-medical-bay": {
+      look: {
+        narration: "Case material for severance.bound_champion surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "severance.bound_champion",
+          episodeId: "severance.bound_champion.e3",
+          cluesFound: ["severance.e3.broker_age"],
+        },
+      },
+    },
+    "dlc-akai-shi-red-death-medical-bay": {
+      look: {
+        narration: "Case material for akai_shi.red_death surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "akai_shi.red_death",
+          episodeId: "akai_shi.red_death.e1",
+          cluesFound: ["akai.e1.virus_telemetry"],
+        },
+      },
+    },
     "bio-bed": {
       look: {
         narration: {

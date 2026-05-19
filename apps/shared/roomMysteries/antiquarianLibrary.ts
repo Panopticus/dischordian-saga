@@ -9,38 +9,121 @@
 import type { RoomMysteryModule } from "./_template";
 
 export type AntiquarianLibraryHotspotId =
-  | "card-catalog"
-  | "locked-vault"
-  | "antiquarian-bust"
-  | "hierophants-marginalia-stack"
-  | "codas-purpose-shelf"
-  | "velkraals-correspondence-folio"
-  | "insurgency-witness-roster"
-  | "ocularum-founding-record"
-  | "antiquarian-redaction-ledger"
-  | "directors-doctrine-folio"
-  | "shadow-tongue-casebook"
-  | "thaloria-generational-ledger"
-  | "siege-keep-witness-fragments"
-  | "programmer-infiltration-dossier"
-  | "insurance-policy-design-file"
-  | "two-witnesses-closing-ledger"
-  | "collector-catalog-page"
-  | "collectors-redacted-anomaly"
-  | "collector-case-closing-ledger"
-  | "varkul-vigil-cross-catalog"
-  | "varkul-testimony-boundary-file"
-  | "akai-shi-witness-statements"
-  | "necromancer-case-closing-ledger"
-  | "zyr-koth-sisters-and-closing-ledger"
-  | "syl-vex-sisters-of-the-weave"
-  | "riri-ahlia-closing-ledger"
-  | "fenra-door-and-engine"
-  | "fenra-closing-ledger";
+  | "dlc-charter-missing-signatory-antiquarian-library"
+  | "dlc-mechronis-missing-professor-antiquarian-library"
+  | "dlc-charter-second-signatory-antiquarian-library"
+  | "dlc-severance-infernal-clause-antiquarian-library"
+  | "dlc-mechronis-chained-lesson-antiquarian-library"
+  | "dlc-memorial-seven-watchers-antiquarian-library"
+  | "dlc-wolf-anara-hunt-antiquarian-library"
+  | "dlc-akai-shi-red-death-antiquarian-library"
+  | "dlc-resurrectionist-cycle-walker-antiquarian-library"
+  | "dlc-advocate-blood-weave-antiquarian-library"
+  | "card-catalog" | "locked-vault" | "antiquarian-bust" | "hierophants-marginalia-stack" | "codas-purpose-shelf" | "velkraals-correspondence-folio" | "insurgency-witness-roster" | "ocularum-founding-record" | "antiquarian-redaction-ledger" | "directors-doctrine-folio" | "shadow-tongue-casebook" | "thaloria-generational-ledger" | "siege-keep-witness-fragments" | "programmer-infiltration-dossier" | "insurance-policy-design-file" | "two-witnesses-closing-ledger" | "collector-catalog-page" | "collectors-redacted-anomaly" | "collector-case-closing-ledger" | "varkul-vigil-cross-catalog" | "varkul-testimony-boundary-file" | "akai-shi-witness-statements" | "necromancer-case-closing-ledger" | "zyr-koth-sisters-and-closing-ledger" | "syl-vex-sisters-of-the-weave" | "riri-ahlia-closing-ledger" | "fenra-door-and-engine" | "fenra-closing-ledger";
 
 export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHotspotId> = {
   roomId: "antiquarian-library",
   responses: {
+    "dlc-charter-missing-signatory-antiquarian-library": {
+      look: {
+        narration: "Case material for charter.missing_signatory surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "charter.missing_signatory",
+          episodeId: "charter.missing_signatory.e1",
+          cluesFound: ["charter.e1.silt_fragment", "charter.e2.signatory_advocate"],
+        },
+      },
+    },
+    "dlc-mechronis-missing-professor-antiquarian-library": {
+      look: {
+        narration: "Case material for mechronis.missing_professor surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "mechronis.missing_professor",
+          episodeId: "mechronis.missing_professor.e1",
+          cluesFound: ["mechronis.e1.empty_lectern", "mechronis.e1.folded_robe", "mechronis.e2.tarn_marginalia"],
+        },
+      },
+    },
+    "dlc-charter-second-signatory-antiquarian-library": {
+      look: {
+        narration: "Case material for charter.second_signatory surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "charter.second_signatory",
+          episodeId: "charter.second_signatory.e1",
+          cluesFound: ["charter2.e1.mirror_charter", "charter2.e2.charter_clause"],
+        },
+      },
+    },
+    "dlc-severance-infernal-clause-antiquarian-library": {
+      look: {
+        narration: "Case material for severance.infernal_clause surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "severance.infernal_clause",
+          episodeId: "severance.infernal_clause.e1",
+          cluesFound: ["infernal.e1.epoch_one_contract", "infernal.e1.infernal_clause"],
+        },
+      },
+    },
+    "dlc-mechronis-chained-lesson-antiquarian-library": {
+      look: {
+        narration: "Case material for mechronis.chained_lesson surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "mechronis.chained_lesson",
+          episodeId: "mechronis.chained_lesson.e1",
+          cluesFound: ["chained.e1.apprentice_history", "chained.e2.curriculum_diff", "chained.e3.auro_curriculum", "chained.e4.tarn_marginalia_third"],
+        },
+      },
+    },
+    "dlc-memorial-seven-watchers-antiquarian-library": {
+      look: {
+        narration: "Case material for memorial.seven_watchers surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "memorial.seven_watchers",
+          episodeId: "memorial.seven_watchers.e4",
+          cluesFound: ["watchers.e4.per_m_confirms"],
+        },
+      },
+    },
+    "dlc-wolf-anara-hunt-antiquarian-library": {
+      look: {
+        narration: "Case material for wolf.anara_hunt surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "wolf.anara_hunt",
+          episodeId: "wolf.anara_hunt.e1",
+          cluesFound: ["wolf.e1.empty_chair", "wolf.e2.three_more_chairs"],
+        },
+      },
+    },
+    "dlc-akai-shi-red-death-antiquarian-library": {
+      look: {
+        narration: "Case material for akai_shi.red_death surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "akai_shi.red_death",
+          episodeId: "akai_shi.red_death.e2",
+          cluesFound: ["akai.e2.samsaras_child_seal"],
+        },
+      },
+    },
+    "dlc-resurrectionist-cycle-walker-antiquarian-library": {
+      look: {
+        narration: "Case material for resurrectionist.cycle_walker surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "resurrectionist.cycle_walker",
+          episodeId: "resurrectionist.cycle_walker.e1",
+          cluesFound: ["resur.e1.case_seal", "resur.e4.pre_empire_twin_text"],
+        },
+      },
+    },
+    "dlc-advocate-blood-weave-antiquarian-library": {
+      look: {
+        narration: "Case material for advocate.blood_weave surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "advocate.blood_weave",
+          episodeId: "advocate.blood_weave.e1",
+          cluesFound: ["adv.e1.founding_charter", "adv.e4.humanity_trade_specification"],
+        },
+      },
+    },
     "card-catalog": {
       look: {
         narration: {

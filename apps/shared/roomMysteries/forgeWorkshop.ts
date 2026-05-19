@@ -7,11 +7,34 @@
 
 import type { RoomMysteryModule } from "./_template";
 
-export type ForgeWorkshopHotspotId = "anvil" | "schema-rack" | "kiln";
+export type ForgeWorkshopHotspotId =
+  | "dlc-mechronis-chained-lesson-forge-workshop"
+  | "dlc-advocate-blood-weave-forge-workshop"
+  | "anvil" | "schema-rack" | "kiln";
 
 export const FORGE_WORKSHOP_MYSTERY: RoomMysteryModule<ForgeWorkshopHotspotId> = {
   roomId: "forge-workshop",
   responses: {
+    "dlc-mechronis-chained-lesson-forge-workshop": {
+      look: {
+        narration: "Case material for mechronis.chained_lesson surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "mechronis.chained_lesson",
+          episodeId: "mechronis.chained_lesson.e3",
+          cluesFound: ["chained.e3.twelve_apprentices"],
+        },
+      },
+    },
+    "dlc-advocate-blood-weave-forge-workshop": {
+      look: {
+        narration: "Case material for advocate.blood_weave surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "advocate.blood_weave",
+          episodeId: "advocate.blood_weave.e2",
+          cluesFound: ["adv.e2.weave_specification_partial"],
+        },
+      },
+    },
     anvil: {
       look: {
         narration: {

@@ -7,11 +7,67 @@
 
 import type { RoomMysteryModule } from "./_template";
 
-export type QuantumLabHotspotId = "entanglement-rig" | "observation-cage";
+export type QuantumLabHotspotId =
+  | "dlc-charter-missing-signatory-quantum-lab"
+  | "dlc-severance-bound-champion-quantum-lab"
+  | "dlc-charter-second-signatory-quantum-lab"
+  | "dlc-severance-infernal-clause-quantum-lab"
+  | "dlc-akai-shi-red-death-quantum-lab"
+  | "entanglement-rig" | "observation-cage";
 
 export const QUANTUM_LAB_MYSTERY: RoomMysteryModule<QuantumLabHotspotId> = {
   roomId: "quantum-lab",
   responses: {
+    "dlc-charter-missing-signatory-quantum-lab": {
+      look: {
+        narration: "Case material for charter.missing_signatory surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "charter.missing_signatory",
+          episodeId: "charter.missing_signatory.e2",
+          cluesFound: ["charter.e2.wax_chemistry"],
+        },
+      },
+    },
+    "dlc-severance-bound-champion-quantum-lab": {
+      look: {
+        narration: "Case material for severance.bound_champion surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "severance.bound_champion",
+          episodeId: "severance.bound_champion.e2",
+          cluesFound: ["severance.e2.bond_logs"],
+        },
+      },
+    },
+    "dlc-charter-second-signatory-quantum-lab": {
+      look: {
+        narration: "Case material for charter.second_signatory surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "charter.second_signatory",
+          episodeId: "charter.second_signatory.e1",
+          cluesFound: ["charter2.e1.two_charters_same_paper"],
+        },
+      },
+    },
+    "dlc-severance-infernal-clause-quantum-lab": {
+      look: {
+        narration: "Case material for severance.infernal_clause surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "severance.infernal_clause",
+          episodeId: "severance.infernal_clause.e3",
+          cluesFound: ["infernal.e3.dating_results"],
+        },
+      },
+    },
+    "dlc-akai-shi-red-death-quantum-lab": {
+      look: {
+        narration: "Case material for akai_shi.red_death surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "akai_shi.red_death",
+          episodeId: "akai_shi.red_death.e2",
+          cluesFound: ["akai.e2.altered_energy_signature", "akai.e3.necromancer_evasion_log"],
+        },
+      },
+    },
     "entanglement-rig": {
       look: {
         narration: {

@@ -17,12 +17,15 @@
 import type { CombineRule, RoomMysteryModule } from "./_template";
 
 export type ArchivesHotspotId =
-  | "data-banks"
-  | "egg-archive-tome"
-  | "corrupted-scroll-rack"
-  | "rewritten-ledger"
-  | "indigo-glow-lectern"
-  | "unnameable-hue-cabinet";
+  | "dlc-charter-missing-signatory-archives"
+  | "dlc-severance-bound-champion-archives"
+  | "dlc-mechronis-missing-professor-archives"
+  | "dlc-memorial-forgotten-names-archives"
+  | "dlc-wolf-anara-hunt-archives"
+  | "dlc-akai-shi-red-death-archives"
+  | "dlc-resurrectionist-cycle-walker-archives"
+  | "dlc-storm-architect-of-flux-archives"
+  | "data-banks" | "egg-archive-tome" | "corrupted-scroll-rack" | "rewritten-ledger" | "indigo-glow-lectern" | "unnameable-hue-cabinet";
 
 export type ArchivesInventoryId =
   | "corrupted-fragment"
@@ -57,6 +60,86 @@ export const ARCHIVES_MYSTERY: RoomMysteryModule<
     },
   ] as readonly CombineRule<ArchivesInventoryId>[],
   responses: {
+    "dlc-charter-missing-signatory-archives": {
+      look: {
+        narration: "Case material for charter.missing_signatory surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "charter.missing_signatory",
+          episodeId: "charter.missing_signatory.e1",
+          cluesFound: ["charter.e1.silt_layer", "charter.e3.preservation_orders"],
+        },
+      },
+    },
+    "dlc-severance-bound-champion-archives": {
+      look: {
+        narration: "Case material for severance.bound_champion surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "severance.bound_champion",
+          episodeId: "severance.bound_champion.e1",
+          cluesFound: ["severance.e1.unwritten_protocol", "severance.e2.season_archives"],
+        },
+      },
+    },
+    "dlc-mechronis-missing-professor-archives": {
+      look: {
+        narration: "Case material for mechronis.missing_professor surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "mechronis.missing_professor",
+          episodeId: "mechronis.missing_professor.e2",
+          cluesFound: ["mechronis.e2.binder_partial"],
+        },
+      },
+    },
+    "dlc-memorial-forgotten-names-archives": {
+      look: {
+        narration: "Case material for memorial.forgotten_names surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "memorial.forgotten_names",
+          episodeId: "memorial.forgotten_names.e1",
+          cluesFound: ["memorial.e1.unwitnessed_id_list"],
+        },
+      },
+    },
+    "dlc-wolf-anara-hunt-archives": {
+      look: {
+        narration: "Case material for wolf.anara_hunt surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "wolf.anara_hunt",
+          episodeId: "wolf.anara_hunt.e3",
+          cluesFound: ["wolf.e3.crucible_records", "wolf.e4.crucible_inheritance"],
+        },
+      },
+    },
+    "dlc-akai-shi-red-death-archives": {
+      look: {
+        narration: "Case material for akai_shi.red_death surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "akai_shi.red_death",
+          episodeId: "akai_shi.red_death.e3",
+          cluesFound: ["akai.e3.necromancer_dossier"],
+        },
+      },
+    },
+    "dlc-resurrectionist-cycle-walker-archives": {
+      look: {
+        narration: "Case material for resurrectionist.cycle_walker surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "resurrectionist.cycle_walker",
+          episodeId: "resurrectionist.cycle_walker.e1",
+          cluesFound: ["resur.e1.matrix_energy_ledger", "resur.e2.authoring_signature"],
+        },
+      },
+    },
+    "dlc-storm-architect-of-flux-archives": {
+      look: {
+        narration: "Case material for storm.architect_of_flux surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "storm.architect_of_flux",
+          episodeId: "storm.architect_of_flux.e3",
+          cluesFound: ["storm.e3.inventors_heist_window"],
+        },
+      },
+    },
     "data-banks": {
       look: {
         narration: {

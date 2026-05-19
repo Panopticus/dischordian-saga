@@ -26,17 +26,22 @@ import type { RoomMysteryModule } from "./_template";
 import { bandedNarration, bandedHumanNarration } from "./_template";
 
 export type BridgeHotspotId =
-  | "tactical-display"
-  | "timeline-projector"
-  | "captains-chair"
-  | "nav-console"
-  | "diplomacy-table"
-  | "captains-coffee"
-  | "shadow-tongue-annotations";
+  | "dlc-memorial-forgotten-names-bridge"
+  | "tactical-display" | "timeline-projector" | "captains-chair" | "nav-console" | "diplomacy-table" | "captains-coffee" | "shadow-tongue-annotations";
 
 export const BRIDGE_MYSTERY: RoomMysteryModule<BridgeHotspotId> = {
   roomId: "bridge",
   responses: {
+    "dlc-memorial-forgotten-names-bridge": {
+      look: {
+        narration: "Case material for memorial.forgotten_names surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "memorial.forgotten_names",
+          episodeId: "memorial.forgotten_names.e4",
+          cluesFound: ["memorial.e4.architect_letter"],
+        },
+      },
+    },
     "tactical-display": {
       look: {
         narration: bandedNarration(

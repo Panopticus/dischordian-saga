@@ -9,13 +9,22 @@
 import type { RoomMysteryModule } from "./_template";
 
 export type EngineeringCoreHotspotId =
-  | "reactor-coil"
-  | "coolant-pipe"
-  | "core-terminal";
+  | "dlc-storm-architect-of-flux-engineering-core"
+  | "reactor-coil" | "coolant-pipe" | "core-terminal";
 
 export const ENGINEERING_CORE_MYSTERY: RoomMysteryModule<EngineeringCoreHotspotId> = {
   roomId: "engineering-core",
   responses: {
+    "dlc-storm-architect-of-flux-engineering-core": {
+      look: {
+        narration: "Case material for storm.architect_of_flux surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "storm.architect_of_flux",
+          episodeId: "storm.architect_of_flux.e1",
+          cluesFound: ["storm.e1.flux_signature", "storm.e2.energy_balance_audit"],
+        },
+      },
+    },
     "reactor-coil": {
       look: {
         narration: {

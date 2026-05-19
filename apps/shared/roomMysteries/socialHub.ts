@@ -7,11 +7,23 @@
 
 import type { RoomMysteryModule } from "./_template";
 
-export type SocialHubHotspotId = "bulletin-board" | "mess-table";
+export type SocialHubHotspotId =
+  | "dlc-advocate-blood-weave-social-hub"
+  | "bulletin-board" | "mess-table";
 
 export const SOCIAL_HUB_MYSTERY: RoomMysteryModule<SocialHubHotspotId> = {
   roomId: "social-hub",
   responses: {
+    "dlc-advocate-blood-weave-social-hub": {
+      look: {
+        narration: "Case material for advocate.blood_weave surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "advocate.blood_weave",
+          episodeId: "advocate.blood_weave.e3",
+          cluesFound: ["adv.e3.sylvex_recruitment_pitch"],
+        },
+      },
+    },
     "bulletin-board": {
       look: {
         narration: {

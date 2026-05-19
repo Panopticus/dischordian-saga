@@ -27,12 +27,15 @@
 import type { RoomMysteryModule } from "./_template";
 
 export type CipherDenHotspotId =
-  | "rosetta-pad"
-  | "encrypted-correspondence"
-  | "dictionary-of-edits"
-  | "uncorruption-bench"
-  | "cross-arc-thanks-card"
-  | "vex-seer-pair-binder";
+  | "dlc-charter-missing-signatory-cipher-den"
+  | "dlc-mechronis-missing-professor-cipher-den"
+  | "dlc-memorial-forgotten-names-cipher-den"
+  | "dlc-charter-second-signatory-cipher-den"
+  | "dlc-severance-infernal-clause-cipher-den"
+  | "dlc-mechronis-chained-lesson-cipher-den"
+  | "dlc-memorial-seven-watchers-cipher-den"
+  | "dlc-akai-shi-red-death-cipher-den"
+  | "rosetta-pad" | "encrypted-correspondence" | "dictionary-of-edits" | "uncorruption-bench" | "cross-arc-thanks-card" | "vex-seer-pair-binder";
 
 export type CipherDenInventoryId = "rosetta-key-1" | "vox-letter-decoded";
 
@@ -42,6 +45,86 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
 > = {
   roomId: "cipher-den",
   responses: {
+    "dlc-charter-missing-signatory-cipher-den": {
+      look: {
+        narration: "Case material for charter.missing_signatory surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "charter.missing_signatory",
+          episodeId: "charter.missing_signatory.e3",
+          cluesFound: ["charter.e3.archivist_signature", "charter.e4.witness_oath"],
+        },
+      },
+    },
+    "dlc-mechronis-missing-professor-cipher-den": {
+      look: {
+        narration: "Case material for mechronis.missing_professor surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "mechronis.missing_professor",
+          episodeId: "mechronis.missing_professor.e4",
+          cluesFound: ["mechronis.e4.roen_full_account"],
+        },
+      },
+    },
+    "dlc-memorial-forgotten-names-cipher-den": {
+      look: {
+        narration: "Case material for memorial.forgotten_names surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "memorial.forgotten_names",
+          episodeId: "memorial.forgotten_names.e3",
+          cluesFound: ["memorial.e3.first_pass_results", "memorial.e3.parental_imprint_search", "memorial.e4.first_imprint_record"],
+        },
+      },
+    },
+    "dlc-charter-second-signatory-cipher-den": {
+      look: {
+        narration: "Case material for charter.second_signatory surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "charter.second_signatory",
+          episodeId: "charter.second_signatory.e3",
+          cluesFound: ["charter2.e3.heron_diary", "charter2.e4.heron_diary_b", "charter2.e4.silence_as_vote"],
+        },
+      },
+    },
+    "dlc-severance-infernal-clause-cipher-den": {
+      look: {
+        narration: "Case material for severance.infernal_clause surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "severance.infernal_clause",
+          episodeId: "severance.infernal_clause.e2",
+          cluesFound: ["infernal.e2.handwriting_consistency", "infernal.e3.atalin_handwriting", "infernal.e4.the_flaw"],
+        },
+      },
+    },
+    "dlc-mechronis-chained-lesson-cipher-den": {
+      look: {
+        narration: "Case material for mechronis.chained_lesson surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "mechronis.chained_lesson",
+          episodeId: "mechronis.chained_lesson.e4",
+          cluesFound: ["chained.e4.tarn_argument"],
+        },
+      },
+    },
+    "dlc-memorial-seven-watchers-cipher-den": {
+      look: {
+        narration: "Case material for memorial.seven_watchers surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "memorial.seven_watchers",
+          episodeId: "memorial.seven_watchers.e1",
+          cluesFound: ["watchers.e1.upper_band_signature", "watchers.e2.idris_signature", "watchers.e3.six_signatures_complete"],
+        },
+      },
+    },
+    "dlc-akai-shi-red-death-cipher-den": {
+      look: {
+        narration: "Case material for akai_shi.red_death surfaces here — the records pertinent to this room's part of the investigation.",
+        mysteryBinding: {
+          mysteryId: "akai_shi.red_death",
+          episodeId: "akai_shi.red_death.e4",
+          cluesFound: ["akai.e4.necromancers_retreat_chambers"],
+        },
+      },
+    },
     "rosetta-pad": {
       look: {
         narration: {
