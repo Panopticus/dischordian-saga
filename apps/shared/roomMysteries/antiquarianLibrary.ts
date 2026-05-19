@@ -9,7 +9,8 @@
 import type { RoomMysteryModule } from "./_template";
 
 export type AntiquarianLibraryHotspotId =
-  | "dlc-charter-missing-signatory-antiquarian-library"
+  | "charter-silt-fragment"
+  | "charter-advocate-signature"
   | "dlc-mechronis-missing-professor-antiquarian-library"
   | "dlc-charter-second-signatory-antiquarian-library"
   | "dlc-severance-infernal-clause-antiquarian-library"
@@ -24,14 +25,36 @@ export type AntiquarianLibraryHotspotId =
 export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHotspotId> = {
   roomId: "antiquarian-library",
   responses: {
-    "dlc-charter-missing-signatory-antiquarian-library": {
+    /* ─── charter.missing_signatory · e1 ─── */
+    "charter-silt-fragment": {
       look: {
-        narration: "Case material for charter.missing_signatory surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "On the central reading table, under archival glass cut to size, lies a scrap of vellum the colour of riverbed clay. Hand-cured. The size of a folded coat. Six signatures run down the right margin in cyanic ferro-gall — Almir at the top, three sisters of House Quill below, an initialled Z above a horizontal bar for Engineer Zero, and at the bottom the Advocate's double-marked hand. Where the seventh signature should be, a black blister of mineralised wax stares back, the impression of a thumb-print pressed into it. The print is too small to be an adult's thumb. The Antiquarian retrieved the fragment from the lower-deck silt at second bell.",
         mysteryBinding: {
           mysteryId: "charter.missing_signatory",
           episodeId: "charter.missing_signatory.e1",
-          cluesFound: ["charter.e1.silt_fragment", "charter.e2.signatory_advocate"],
+          cluesFound: ["charter.e1.silt_fragment"],
         },
+      },
+      use: {
+        narration:
+          "You shift the glass and turn the fragment under the catalog's reading lamp. The wax-blister catches the light at an angle, and the thumb-print proves too small at every angle. It is not a child's thumb either — the proportions are wrong. Whoever sealed the seventh signature pressed a print that does not match any living human geometry.",
+      },
+    },
+    /* ─── charter.missing_signatory · e2 ─── */
+    "charter-advocate-signature": {
+      look: {
+        narration:
+          "Beside the fragment, a single high-resolution rubbing of the charter's reverse, captured before reburial. The Advocate's sixth signature is the only one of the six to leave a witness annotation: counter-signed twice, with a marginal line in the same hand — 'a thing made by seven, kept by six, and carried by all of us.' The translation has stood for eight epochs as a flourish. Reading it beside the wax-blistered seventh, the line stops being a flourish. It is a roster note. The Advocate watched the seal go on and chose to keep the count rather than name the silence.",
+        mysteryBinding: {
+          mysteryId: "charter.missing_signatory",
+          episodeId: "charter.missing_signatory.e2",
+          cluesFound: ["charter.e2.signatory_advocate"],
+        },
+      },
+      interrogate: {
+        narration:
+          "You read the Advocate's marginalia aloud. 'Six speak; one listens; one of us is the silence.' The cipher-den's prior translations had this as poetic register. The fragment in your hand says otherwise. The Advocate was counting heads in the moment the seventh signature got covered, and the Advocate signed anyway.",
       },
     },
     "dlc-mechronis-missing-professor-antiquarian-library": {
