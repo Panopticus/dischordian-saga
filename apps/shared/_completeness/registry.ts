@@ -35,6 +35,7 @@ import { checkPvpScoreResubmitGuard } from "./checks/pvpScoreResubmitGuard";
 import { checkTouchTargetFloor } from "./checks/touchTargetFloor";
 import { checkRefundClawback } from "./checks/refundClawback";
 import { checkIapReceiptOwnership } from "./checks/iapReceiptOwnership";
+import { checkVipSubscription } from "./checks/vipSubscription";
 import { checkAssetPrefetchManifest } from "./checks/assetPrefetchManifest";
 import { checkProcedureRateLimits } from "./checks/procedureRateLimits";
 import { checkVoidContrastCoverage } from "./checks/voidContrastCoverage";
@@ -347,6 +348,13 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "iapReceipt.verify parses the RevenueCat subscriber payload and gates fulfilment on the claimed productId being present (non_subscriptions/subscriptions), not on a bare HTTP 200. Closes 'verified == got 200'.",
     check: () => checkIapReceiptOwnership(),
+  },
+  {
+    id: "economy.vip_subscription",
+    name: "VIP subscription end-to-end",
+    description:
+      "Time-bounded VIP entitlement: catalog product + Stripe mode:subscription checkout + customer.subscription.created/updated set-from-period + subscription.deleted clear + entitlementService helpers + the dailyQuests reward multiplier actually consuming it. Event-driven + pull-based — no cron, no leader-election dependency.",
+    check: () => checkVipSubscription(),
   },
   {
     id: "client.asset_prefetch_manifest",

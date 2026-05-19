@@ -2,6 +2,7 @@
  * In-game store products catalog.
  * Defines all purchasable items with Stripe price IDs and in-game effects.
  */
+import { VIP_DAILY_REWARD_MULTIPLIER } from "./services/entitlementService";
 
 export interface StoreProduct {
   key: string;
@@ -15,7 +16,17 @@ export interface StoreProduct {
     | "cosmetic"
     | "bundle"
     | "battle_pass"
-    | "booster";
+    | "booster"
+    | "subscription";
+  /**
+   * Marks a recurring product. When set, store.ts opens the Stripe
+   * Checkout in `mode: "subscription"` against the recurring price
+   * resolved from `stripePriceEnv` (which MUST be a recurring Price
+   * id). VIP state is then driven entirely by invoice webhooks; there
+   * is no cron. `periodDays` is the entitlement window granted per
+   * paid invoice.
+   */
+  subscription?: { periodDays: number };
   /** Price in cents (USD) */
   priceUsd: number;
   /**
@@ -69,6 +80,26 @@ export interface StoreProduct {
 }
 
 export const STORE_PRODUCTS: StoreProduct[] = [
+  // ═══ SUBSCRIPTION ═══
+  {
+    key: "vip_monthly",
+    name: "Operative's Patronage",
+    description: `Monthly VIP — every daily-reward Dream payout boosted ${Math.round(
+      (VIP_DAILY_REWARD_MULTIPLIER - 1) * 100,
+    )}% while active. Cancel anytime; access runs to the end of the paid period.`,
+    category: "subscription",
+    priceUsd: 499, // $4.99 / month
+    stripePriceEnv: "STRIPE_PRICE_VIP_MONTHLY",
+    priceCredits: 0,
+    priceDream: 0,
+    priceVoidCrystals: 0,
+    rewards: {},
+    subscription: { periodDays: 30 },
+    featured: true,
+    sortOrder: 1,
+    icon: "crown",
+  },
+
   // ═══ DREAM PACKS ═══
   {
     key: "dream_starter",

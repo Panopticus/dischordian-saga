@@ -143,7 +143,17 @@ async function startServer() {
             ? session.payment_intent
             : (session.payment_intent?.id ?? null);
 
-        if (userId && productKey) {
+        if (session.mode === "subscription") {
+          // VIP is granted/extended exclusively by the
+          // customer.subscription.created/updated handler (it carries
+          // the authoritative current_period_end). Nothing to fulfil
+          // on the Checkout event itself.
+          console.log(
+            `[Webhook] Subscription checkout completed (session=${session.id}) — VIP handled by customer.subscription.*`,
+          );
+        }
+
+        if (userId && productKey && session.mode !== "subscription") {
           const { fulfillPurchase } = await import("../routers/store");
           const { getDb } = await import("../db");
           const { storePurchases } = await import("../../db/schema");
@@ -240,6 +250,64 @@ async function startServer() {
           console.log(
             `[Webhook] Dispute clawback intent=${pi}: ${JSON.stringify(result)}`,
           );
+        }
+      }
+
+      // VIP subscription — driven off customer.subscription.* (the
+      // Subscription object is reliably typed across Stripe API
+      // versions; Invoice.subscription was removed in recent ones).
+      // created + updated both fire with the authoritative
+      // current_period_end (renewals roll it forward), so VIP expiry
+      // is set straight from Stripe's own period rather than computed.
+      // Identity rides on the subscription metadata stamped at
+      // checkout. Idempotent: setting vipUntil to a value is a
+      // no-op-safe write and the webhook dedups by event id.
+      if (
+        event.type === "customer.subscription.created" ||
+        event.type === "customer.subscription.updated"
+      ) {
+        const sub = event.data.object;
+        const uid = parseInt(sub.metadata?.user_id || "0");
+        const periodEndSec = Math.max(
+          0,
+          ...sub.items.data.map((it) => it.current_period_end ?? 0),
+        );
+        const active = sub.status === "active" || sub.status === "trialing";
+        if (uid && periodEndSec > 0) {
+          const { setVipUntil } = await import(
+            "../services/entitlementService"
+          );
+          const { getDb } = await import("../db");
+          const db = await getDb();
+          if (db) {
+            const until = active ? new Date(periodEndSec * 1000) : null;
+            await db.transaction((tx) => setVipUntil(tx, uid, until));
+            console.log(
+              `[Webhook] VIP ${active ? `set until ${until?.toISOString()}` : "cleared (status " + sub.status + ")"} user=${uid} (sub ${sub.id})`,
+            );
+          }
+        }
+      }
+
+      // Cancellation / end-of-life. Stripe fires this at period end
+      // for cancel-at-period-end and immediately for hard cancels, so
+      // clearing vipUntil here ends access exactly when the
+      // subscription truly ends.
+      if (event.type === "customer.subscription.deleted") {
+        const sub = event.data.object;
+        const uid = parseInt(sub.metadata?.user_id || "0");
+        if (uid) {
+          const { setVipUntil } = await import(
+            "../services/entitlementService"
+          );
+          const { getDb } = await import("../db");
+          const db = await getDb();
+          if (db) {
+            await db.transaction((tx) => setVipUntil(tx, uid, null));
+            console.log(
+              `[Webhook] VIP cleared user=${uid} (subscription ${sub.id} deleted)`,
+            );
+          }
         }
       }
 

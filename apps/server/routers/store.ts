@@ -156,10 +156,21 @@ export const storeRouter = router({
             quantity: input.quantity,
           };
 
+      // Subscription products MUST use a configured recurring Stripe
+      // Price id — inline price_data is one-shot and cannot express a
+      // billing interval. Fail loudly rather than silently selling a
+      // recurring product as a single payment.
+      const isSubscription = !!product.subscription;
+      if (isSubscription && !stripePriceId) {
+        throw new Error(
+          `Subscription product "${input.productKey}" requires a recurring Stripe Price id in $${product.stripePriceEnv}.`,
+        );
+      }
+
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ["card"],
         line_items: [lineItem],
-        mode: "payment",
+        mode: isSubscription ? "subscription" : "payment",
         success_url: `${origin}/store?success=true&session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${origin}/store?canceled=true`,
         client_reference_id: ctx.user.id.toString(),
@@ -169,6 +180,20 @@ export const storeRouter = router({
         // Stripe needs the customer's address to determine the tax
         // rate. Forcing collection guarantees a valid jurisdiction.
         billing_address_collection: automaticTaxEnabled ? "required" : "auto",
+        // For subscriptions, stamp identity onto the Stripe
+        // Subscription itself so renewal invoices (which carry no
+        // Checkout metadata) can be attributed back to the user in
+        // the invoice.paid webhook.
+        ...(isSubscription
+          ? {
+              subscription_data: {
+                metadata: {
+                  user_id: ctx.user.id.toString(),
+                  product_key: input.productKey,
+                },
+              },
+            }
+          : {}),
         metadata: {
           user_id: ctx.user.id.toString(),
           product_key: input.productKey,

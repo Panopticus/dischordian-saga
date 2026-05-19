@@ -119,3 +119,91 @@ export async function getEntitlements(
     authorsEditionS2: ents.authorsEditionS2 === true,
   };
 }
+
+/* ─────────────────────────────────────────────────────────────
+ * VIP subscription (time-bounded entitlement)
+ *
+ * VIP is NOT a boolean — it is a `vipUntil` ISO timestamp stored in
+ * the SAME gameData.entitlements JSON (zero schema migration). State
+ * is event-driven (Stripe webhooks set/extend/clear it); the perk is
+ * pull-based (`isVipActive` checked at the perk site). That pairing
+ * is what removes any need for a daily-grant cron — there is no push,
+ * so there is no leader-election dependency.
+ * ───────────────────────────────────────────────────────────── */
+
+/** VIP boosts every daily-reward Dream payout by this factor. Single
+ *  source of truth — products.ts references this so the catalog copy
+ *  and the perk math cannot drift. */
+export const VIP_DAILY_REWARD_MULTIPLIER = 1.5;
+
+type AnyRecord = Record<string, unknown>;
+
+/** Merge a patch into gameData.entitlements, preserving siblings.
+ *  Parallel to setEntitlement's inline merge — kept separate so the
+ *  proven boolean path is untouched. A null patch value deletes the
+ *  key. */
+async function mergeEntitlementPatch(
+  tx: TxOrDb,
+  userId: number,
+  patch: Record<string, unknown>,
+): Promise<void> {
+  const rows = await tx
+    .select()
+    .from(userProgress)
+    .where(eq(userProgress.userId, userId))
+    .limit(1);
+  const row = rows[0];
+  const gameData: AnyRecord = (row?.gameData as AnyRecord) ?? {};
+  const ents: AnyRecord = { ...((gameData.entitlements as AnyRecord) ?? {}) };
+  for (const [k, v] of Object.entries(patch)) {
+    if (v === null) delete ents[k];
+    else ents[k] = v;
+  }
+  const nextGameData: AnyRecord = { ...gameData, entitlements: ents };
+  if (row) {
+    await tx
+      .update(userProgress)
+      .set({ gameData: nextGameData })
+      .where(eq(userProgress.userId, userId));
+  } else {
+    await tx.insert(userProgress).values({ userId, gameData: nextGameData });
+  }
+}
+
+async function readVipUntil(
+  tx: TxOrDb,
+  userId: number,
+): Promise<Date | null> {
+  const rows = await tx
+    .select()
+    .from(userProgress)
+    .where(eq(userProgress.userId, userId))
+    .limit(1);
+  const gameData = (rows[0]?.gameData as AnyRecord) ?? {};
+  const ents = (gameData.entitlements as AnyRecord) ?? {};
+  const raw = ents.vipUntil;
+  if (typeof raw !== "string") return null;
+  const d = new Date(raw);
+  return isNaN(d.getTime()) ? null : d;
+}
+
+/** Set (or clear, with `null`) the VIP expiry outright. Used by
+ *  checkout completion and subscription deletion. */
+export async function setVipUntil(
+  tx: TxOrDb,
+  userId: number,
+  until: Date | null,
+): Promise<void> {
+  await mergeEntitlementPatch(tx, userId, {
+    vipUntil: until ? until.toISOString() : null,
+  });
+}
+
+/** Pull-based perk gate: is the player VIP right now? */
+export async function isVipActive(userId: number): Promise<boolean> {
+  const { getDb } = await import("../db");
+  const db = await getDb();
+  if (!db) return false;
+  const until = await readVipUntil(db, userId);
+  return until != null && until.getTime() > Date.now();
+}

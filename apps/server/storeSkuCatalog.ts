@@ -31,6 +31,7 @@ export interface StoreSkuMapping {
 
 /** internal product key → per-platform store identifiers. */
 export const STORE_SKU_CATALOG: Record<string, StoreSkuMapping> = {
+  "vip_monthly": { web: "vip_monthly", ios: "com.dischordiansaga.vip_monthly", android: "vip_monthly" },
   "dream_starter": { web: "dream_starter", ios: "com.dischordiansaga.dream_starter", android: "dream_starter" },
   "dream_bundle": { web: "dream_bundle", ios: "com.dischordiansaga.dream_bundle", android: "dream_bundle" },
   "dream_vault": { web: "dream_vault", ios: "com.dischordiansaga.dream_vault", android: "dream_vault" },
