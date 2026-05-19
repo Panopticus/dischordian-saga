@@ -9,7 +9,7 @@
 import type { RoomMysteryModule } from "./_template";
 
 export type OracleSanctumHotspotId =
-  | "dlc-mechronis-missing-professor-oracle-sanctum"
+  | "tarn-pebble-recording"
   | "dlc-memorial-forgotten-names-oracle-sanctum"
   | "charter2-kassel-testimony"
   | "dlc-severance-infernal-clause-oracle-sanctum"
@@ -19,14 +19,20 @@ export type OracleSanctumHotspotId =
 export const ORACLE_SANCTUM_MYSTERY: RoomMysteryModule<OracleSanctumHotspotId> = {
   roomId: "oracle-sanctum",
   responses: {
-    "dlc-mechronis-missing-professor-oracle-sanctum": {
+    /* ─── mechronis.missing_professor · e4 (Tarn's recorded message) ─── */
+    "tarn-pebble-recording": {
       look: {
-        narration: "Case material for mechronis.missing_professor surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "In the sanctum's playback alcove, the recording Tarn had set to play at festival opening. The recorder failed to fire on the day; the sanctum's tech staff recovered the message intact two evenings later. The recording is short: 'I am not the curriculum. I am a person who wrote a curriculum. The curriculum is here. I am leaving with my pebble. Vote on the work, not on the worker.' The pebble — a grey lower-deck water-stone — was on Tarn's desk under the binder. The recording was Tarn's planned address; the failure to play it was the only part of the morning that did not go according to her plan.",
         mysteryBinding: {
           mysteryId: "mechronis.missing_professor",
           episodeId: "mechronis.missing_professor.e4",
           cluesFound: ["mechronis.e4.tarn_recorded_message"],
         },
+      },
+      interrogate: {
+        narration:
+          "You ask the sanctum's calibration logs for the recorder's failure mode. The logs return a clean entry: power was cut to the recorder at six minutes before the scheduled play. The cut was deliberate and the logs name the cutter — the Dean. The Dean disabled the recording because the Dean already knew what it would say and did not want the room to hear it before the faculty would have to admit what they had done.",
       },
     },
     "dlc-memorial-forgotten-names-oracle-sanctum": {

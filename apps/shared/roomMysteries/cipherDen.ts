@@ -29,7 +29,7 @@ import type { RoomMysteryModule } from "./_template";
 export type CipherDenHotspotId =
   | "charter-per-m-live-sample"
   | "charter-watcher-oath-fragment"
-  | "dlc-mechronis-missing-professor-cipher-den"
+  | "tarn-roen-confidence"
   | "dlc-memorial-forgotten-names-cipher-den"
   | "charter2-heron-diary"
   | "charter2-heron-diary-second-page"
@@ -80,14 +80,20 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
           "You ask the cipher-den staff who has signed the closer's oath since the founding. They produce no record. The oath was sworn once, by one Watcher, at the founding; no successor has been needed because the original closer has not died. Per. M.'s lamp burns for the same reason.",
       },
     },
-    "dlc-mechronis-missing-professor-cipher-den": {
+    /* ─── mechronis.missing_professor · e4 (Roen's confidential account) ─── */
+    "tarn-roen-confidence": {
       look: {
-        narration: "Case material for mechronis.missing_professor surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "Among the cipher-den's confidential statements — recorded in the closed wing where colleagues testify against their own institution — Trial-master Roen's full account. Roen confirms: Tarn approached them in the cipher-den three months ago and asked for help leaving the Academy without a goodbye. Roen agreed because Tarn was the only colleague who had ever asked them for anything. The statement is precise and unornamented. The cipher-den's reader notes: 'subject visibly relieved at the asking; subject offered the help without negotiation.' Roen's third aye in the erasure vote was Tarn's confidence kept, not the cowardice the other two faculty heads admitted to.",
         mysteryBinding: {
           mysteryId: "mechronis.missing_professor",
           episodeId: "mechronis.missing_professor.e4",
           cluesFound: ["mechronis.e4.roen_full_account"],
         },
+      },
+      use: {
+        narration:
+          "You ask the cipher-den's records for prior contact between Tarn and Roen. The drawer returns sixteen years of Trial-procedure manual annotations, every one in Roen's hand, every one cross-referenced to Tarn's research. The colleagues who looked least alike on the surface were the only two who had been reading each other for sixteen years.",
       },
     },
     "dlc-memorial-forgotten-names-cipher-den": {

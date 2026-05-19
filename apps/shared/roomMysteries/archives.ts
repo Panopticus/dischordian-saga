@@ -20,7 +20,7 @@ export type ArchivesHotspotId =
   | "charter-silt-stratigraphy"
   | "charter-per-m-preservation-orders"
   | "dlc-severance-bound-champion-archives"
-  | "dlc-mechronis-missing-professor-archives"
+  | "tarn-binder-page-14"
   | "dlc-memorial-forgotten-names-archives"
   | "dlc-wolf-anara-hunt-archives"
   | "dlc-akai-shi-red-death-archives"
@@ -103,14 +103,20 @@ export const ARCHIVES_MYSTERY: RoomMysteryModule<
         },
       },
     },
-    "dlc-mechronis-missing-professor-archives": {
+    /* ─── mechronis.missing_professor · e2 (binder page 14) ─── */
+    "tarn-binder-page-14": {
       look: {
-        narration: "Case material for mechronis.missing_professor surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "In the archives' lost-and-found drawer — repurposed from a recycling-bin retrieval at the festival hall — a single page of Tarn's lecture binder. Hand-numbered '14 of 22.' The page is the equinox-address opening, in Tarn's own hand: 'I will not be teaching this year.' Below the line, the rest of the binder's promised pages are absent. The numbering says they exist. Whoever retrieved this from the bin chose this page first because this was the page Tarn had set on top of the rest before she walked out of the Dean's office.",
         mysteryBinding: {
           mysteryId: "mechronis.missing_professor",
           episodeId: "mechronis.missing_professor.e2",
           cluesFound: ["mechronis.e2.binder_partial"],
         },
+      },
+      use: {
+        narration:
+          "You request the archives' provenance scan for the page. The retrieval log shows it was found face-up in the festival hall's recycling bin at first bell — fifteen minutes before the address was scheduled to begin. Tarn placed it where the festival staff would find it before the lectern would have to be opened.",
       },
     },
     "dlc-memorial-forgotten-names-archives": {

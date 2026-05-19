@@ -22,7 +22,8 @@ import type { RoomMysteryModule } from "./_template";
 
 export type CommsArrayHotspotId =
   | "dlc-severance-bound-champion-comms-array"
-  | "dlc-mechronis-missing-professor-comms-array"
+  | "tarn-erasure-vote-audio"
+  | "tarn-faculty-silence-hour"
   | "dlc-memorial-seven-watchers-comms-array"
   | "dlc-wolf-anara-hunt-comms-array"
   | "dlc-akai-shi-red-death-comms-array"
@@ -47,14 +48,36 @@ export const COMMS_ARRAY_MYSTERY: RoomMysteryModule<
         },
       },
     },
-    "dlc-mechronis-missing-professor-comms-array": {
+    /* ─── mechronis.missing_professor · e3 (vote audio) ─── */
+    "tarn-erasure-vote-audio": {
       look: {
-        narration: "Case material for mechronis.missing_professor surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "On the comms-array's transmission desk, the audio recovered from the war-room's spillover recorder — forty-three minutes, war-room channel B, dated the week before the festival. The vote is heard clearly: three voices, three ayes, three pauses long enough that each could have been a no. The comms-array's signal analyst has marked each aye with a coloured pin. Three pins, three pauses, no extant noes. The recorder's metadata stamp confirms the audio is unedited; the silences between the ayes are real time, not splices.",
         mysteryBinding: {
           mysteryId: "mechronis.missing_professor",
           episodeId: "mechronis.missing_professor.e3",
-          cluesFound: ["mechronis.e3.recovered_audio", "mechronis.e3.unanimous_silence"],
+          cluesFound: ["mechronis.e3.recovered_audio"],
         },
+      },
+      use: {
+        narration:
+          "You queue the audio at the war-room's clock. The first aye lands at minute eighteen; the second at minute twenty-three; the third at minute twenty-nine. Each speaker waited approximately five minutes after the previous aye, listening for the no that did not come. The vote took eleven minutes longer than any other faculty vote in the recorder's history.",
+      },
+    },
+    /* ─── mechronis.missing_professor · e3 (silence hour before the vote) ─── */
+    "tarn-faculty-silence-hour": {
+      look: {
+        narration:
+          "The comms-array's spillover recorder also caught the hour before the vote: fifty-one minutes of three faculty heads sitting in silence. Audio shows no footsteps, no chairs scraping, no leaving. The microphone caught breathing and the war-room's ventilation hum. The comms-array's pin-marker annotation: 'subject parties in the room. no audible dialogue. no audible departure. waiting for one of the others to be the one who said no first.' The silence is documented by the absence of action that any one of the three could have taken at any minute.",
+        mysteryBinding: {
+          mysteryId: "mechronis.missing_professor",
+          episodeId: "mechronis.missing_professor.e3",
+          cluesFound: ["mechronis.e3.unanimous_silence"],
+        },
+      },
+      interrogate: {
+        narration:
+          "You ask the comms-array whether any of the three left and returned. The recorder shows no break in the audio's room-tone. None of the three left. The silence was held by all three for the full hour. Each faculty head later admitted, on the cipher-den's record, that they had been waiting for one of the others to be the first to refuse.",
       },
     },
     "dlc-memorial-seven-watchers-comms-array": {
