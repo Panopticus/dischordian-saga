@@ -19,8 +19,8 @@ describe("Task 6.1 — spriteProxy URL whitelist + SSRF guards", () => {
 
   it("declares an explicit allowed-domains list", () => {
     expect(src).toContain("ALLOWED_DOMAINS");
-    expect(src).toContain("d2xsxph8kpxj0f.cloudfront.net");
     expect(src).toContain("res.cloudinary.com");
+    expect(src).toContain("dgrsart.s3.us-east-2.amazonaws.com");
   });
 
   it("enforces https-only", () => {

@@ -11,11 +11,14 @@ import { AnimatedPortrait } from "@/components/AnimatedPortrait";
 import { useElaraVO } from "@/hooks/useElaraVO";
 
 const elaraPortrait = getNPCPortrait("elara");
-const ELARA_PORTRAIT = elaraPortrait?.fullPortrait ?? "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/elara_portrait_7ce2522f.png";
-const ELARA_AVATAR = elaraPortrait?.expressions.neutral ?? "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/elara_avatar_dark_hair_small_2fcb00b8.png";
-const ELARA_SPEAKING = elaraPortrait?.expressions.speaking ?? ELARA_AVATAR;
-const ELARA_CONCERNED = elaraPortrait?.expressions.emotional1 ?? ELARA_AVATAR;
-const ELARA_VULNERABLE = elaraPortrait?.expressions.emotional2 ?? ELARA_AVATAR;
+if (!elaraPortrait) {
+  throw new Error("NPC_PORTRAITS missing 'elara' entry");
+}
+const ELARA_PORTRAIT = elaraPortrait.fullPortrait;
+const ELARA_AVATAR = elaraPortrait.expressions.neutral;
+const ELARA_SPEAKING = elaraPortrait.expressions.speaking ?? ELARA_AVATAR;
+const ELARA_CONCERNED = elaraPortrait.expressions.emotional1 ?? ELARA_AVATAR;
+const ELARA_VULNERABLE = elaraPortrait.expressions.emotional2 ?? ELARA_AVATAR;
 
 interface DialogChoice {
   id: string;

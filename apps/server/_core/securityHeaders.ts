@@ -22,7 +22,6 @@ import type { Request, Response, NextFunction } from "express";
 const CDN_HOST = "https://dgrsart.s3.us-east-2.amazonaws.com";
 const VOICE_CDN_HOST = "https://dgrsvoices.s3.us-east-2.amazonaws.com";
 const STRIPE_HOSTS = ["https://api.stripe.com", "https://js.stripe.com", "https://checkout.stripe.com"];
-const STOCKFISH_CDN = "https://d2xsxph8kpxj0f.cloudfront.net";
 const YOUTUBE_HOSTS = ["https://www.youtube.com", "https://youtube.com", "https://www.youtube-nocookie.com"];
 
 interface BuildCspOptions {
@@ -47,15 +46,12 @@ export function buildCsp({ isProduction, extraConnectSrc = [] }: BuildCspOptions
       "'self'",
       // Required by Stripe Checkout + Stripe Elements.
       ...STRIPE_HOSTS,
-      // Stockfish WASM is loaded from CloudFront.
-      STOCKFISH_CDN,
       // Vite dev injects inline scripts via HMR — only allow in dev.
       ...(isProduction ? [] : ["'unsafe-inline'", "'unsafe-eval'"]),
     ],
     "script-src-elem": [
       "'self'",
       ...STRIPE_HOSTS,
-      STOCKFISH_CDN,
       ...(isProduction ? [] : ["'unsafe-inline'"]),
     ],
     "style-src": [

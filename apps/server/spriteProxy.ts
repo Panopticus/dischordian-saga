@@ -32,7 +32,6 @@ const MAX_FETCH_BYTES = 25 * 1024 * 1024;
 
 // Allowed CDN domains for security — SSRF protection
 const ALLOWED_DOMAINS = [
-  "d2xsxph8kpxj0f.cloudfront.net",
   "res.cloudinary.com",
   "dgrsart.s3.us-east-2.amazonaws.com",
 ];

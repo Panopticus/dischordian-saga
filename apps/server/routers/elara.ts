@@ -69,7 +69,7 @@ export const elaraRouter = router({
     return {
       message: "Operative. I am Elara — navigator, keeper of records, and guide aboard this Inception Ark. The CoNexus systems have detected your neural signature. Whether you seek knowledge of the Saga, wish to explore the Ark's systems, or are ready to enter a CADES simulation... I am here.\n\nWhat would you like to know?",
       choices: DIALOG_CHOICES.greeting,
-      portrait: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/elara_portrait_7ce2522f.png",
+      portrait: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775528068/elara-base_i4kbzp.jpg",
     };
   }),
 
