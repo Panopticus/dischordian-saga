@@ -28,7 +28,7 @@ export type CommsArrayHotspotId =
   | "tarn-faculty-silence-hour"
   | "watchers-silence-break-log"
   | "wolf-meme-show-transmission"
-  | "dlc-akai-shi-red-death-comms-array"
+  | "akai-last-recorded-words"
   | "resur-host-wyrmhole-signature"
   | "radio-console" | "static-screen" | "egg-comms-signal" | "voice-in-the-static" | "ocularum-relay-trace" | "dead-drop-cadence-log" | "shadow-tongue-signal-trace" | "miras-dual-thread-transmission";
 
@@ -152,14 +152,20 @@ export const COMMS_ARRAY_MYSTERY: RoomMysteryModule<
           "You request the comms-array's transmission origin trace. The signal routes through Locke's interception channel — the adjudicar pinned it for the chronicler's attention. Locke has not commented on the content. Locke has commented on the timing: the transmission landed forty-seven minutes after the first empty chair was reported. Someone outside the chronicle knew what was happening inside Anara before the chronicler did.",
       },
     },
-    "dlc-akai-shi-red-death-comms-array": {
+    /* ─── akai_shi.red_death · e1 (Akai Shi's last recorded words) ─── */
+    "akai-last-recorded-words": {
       look: {
-        narration: "Case material for akai_shi.red_death surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "On the comms-array's Thaloria-archive shelf, the field-recording from Akai Shi's squad's helm-comm — retrieved post-engagement, preserved by the Antiquarian's library across centuries. Forty-seven seconds before Jericho reached her, Akai Shi spoke into the comm: 'If the Virus finishes its work, I trust the squad to finish theirs. The doctrine on mercy is contested. The doctrine on consequence is not. Whoever does the work, the work is not yours alone. Tell the Antiquarian: it was always going to be a mercy. We just have to live with which kind.' The recording is unedited. The voice is steady.",
         mysteryBinding: {
           mysteryId: "akai_shi.red_death",
           episodeId: "akai_shi.red_death.e1",
           cluesFound: ["akai.e1.akai_last_recorded"],
         },
+      },
+      use: {
+        narration:
+          "You request the recording's full unedited duration. The desk returns the timeline: Akai Shi's words sit at the forty-seven-second mark before intercept; the remaining thirty seconds are silence held by a being who had decided. The squad's other channels are quiet during this window — the squad heard her and held the line.",
       },
     },
     /* ─── resurrectionist.cycle_walker · e3 (Host wyrmhole signature) ─── */

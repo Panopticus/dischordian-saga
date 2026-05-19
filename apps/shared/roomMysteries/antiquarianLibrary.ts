@@ -25,7 +25,7 @@ export type AntiquarianLibraryHotspotId =
   | "watchers-per-m-confirms"
   | "wolf-empty-chair"
   | "wolf-three-empty-chairs"
-  | "dlc-akai-shi-red-death-antiquarian-library"
+  | "akai-resurrectionist-seal"
   | "resur-plague-mask-seal"
   | "resur-pre-empire-twin-text"
   | "advocate-founding-charter"
@@ -291,14 +291,20 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           "You ask the catalogue why the healer's chair was struck before others' would have been more strategic. The Antiquarian's annotation, pulled by the drawer: 'she would have read his thought-virus residue. He removed the reader first. He is preserving his cover by removing the people who could read him.'",
       },
     },
-    "dlc-akai-shi-red-death-antiquarian-library": {
+    /* ─── akai_shi.red_death · e2 (Resurrectionist's seal on Akai Shi's recovery) ─── */
+    "akai-resurrectionist-seal": {
       look: {
-        narration: "Case material for akai_shi.red_death surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "On the central reading table, the Resurrectionist's seal pulled from Akai Shi's recovery manifest and placed under archival glass. A stylised wheel-and-thread — the Cycle Walker's signature. The same seal appears on the Crucible's records for the Wolf's reanimation centuries later. The two cases share a substrate: the Resurrectionist authored both reanimations. The seal sits beside the matching wheel-and-thread on the Wolf's file. Two reanimations by one hand, separated by an epoch, signed identically.",
         mysteryBinding: {
           mysteryId: "akai_shi.red_death",
           episodeId: "akai_shi.red_death.e2",
           cluesFound: ["akai.e2.samsaras_child_seal"],
         },
+      },
+      use: {
+        narration:
+          "You request the catalog's note on the seal's other appearances. The drawer returns one further match — a Year-128,652 reanimation in the Crucible's records. The Resurrectionist's signature is on three reanimations across the chronicle. All three are first-wave Potential class. None of the three has been formally challenged.",
       },
     },
     /* ─── resurrectionist.cycle_walker · e1 (plague-mask seal) ─── */

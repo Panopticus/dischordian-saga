@@ -12,7 +12,8 @@ export type QuantumLabHotspotId =
   | "severance-bond-internal-log"
   | "charter2-vellum-comparison"
   | "infernal-quantum-dating"
-  | "dlc-akai-shi-red-death-quantum-lab"
+  | "akai-red-death-energy-signature"
+  | "akai-necromancer-evasion-log"
   | "entanglement-rig" | "observation-cage";
 
 export const QUANTUM_LAB_MYSTERY: RoomMysteryModule<QuantumLabHotspotId> = {
@@ -82,14 +83,36 @@ export const QUANTUM_LAB_MYSTERY: RoomMysteryModule<QuantumLabHotspotId> = {
           "You request the lab's confidence interval on the dating. The instrument reports ±0.4 days at the seven-day window's bounds. The window is sharp. The writer began on day four and finished on day ten. Forty clauses in seven days; the lab's tightest precision says exactly that.",
       },
     },
-    "dlc-akai-shi-red-death-quantum-lab": {
+    /* ─── akai_shi.red_death · e2 (Red Death energy signature) ─── */
+    "akai-red-death-energy-signature": {
       look: {
-        narration: "Case material for akai_shi.red_death surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "On the quantum-lab's frequency-band analysis stage, the Red Death's energy signature — recorded centuries after Akai Shi's death and held for chronicle audit. The signature retains all of Akai Shi's pre-mortem markers except the healing-frequency band. The healing band has been REPLACED with a time-displacement frequency. The lab's report: 'the Red Death cannot heal. the Red Death can move through time. one capacity has been swapped for the other in the reanimation.' The substitution is clean — the band is not damaged, it is replaced.",
         mysteryBinding: {
           mysteryId: "akai_shi.red_death",
           episodeId: "akai_shi.red_death.e2",
-          cluesFound: ["akai.e2.altered_energy_signature", "akai.e3.necromancer_evasion_log"],
+          cluesFound: ["akai.e2.altered_energy_signature"],
         },
+      },
+      use: {
+        narration:
+          "You request the lab's comparison against the Resurrectionist's known signatures. The stage returns the match: the time-displacement frequency carries the Cycle Walker's authoring signature, fingerprinted across the substitution. The Resurrectionist authored the swap deliberately, trading one capacity for the other. The trade is permanent.",
+      },
+    },
+    /* ─── akai_shi.red_death · e3 (Necromancer evasion log) ─── */
+    "akai-necromancer-evasion-log": {
+      look: {
+        narration:
+          "Beside the energy-signature stage, the lab's evasion-log records the Necromancer's recorded movements across millennia. He has lived in the Matrix of Dreams — the construct the Game Master (his fellow Archon) authored. The Matrix of Dreams is canonically un-territorial. The Necromancer cannot be tracked by chronicle-space coordinates inside it. Only a time-displaced agent could find him. The Red Death is, by Resurrectionist architecture, the only such agent. The log's annotation: 'the evasion is canon-space-perfect. the gap in the canon's space is what the Red Death was built to enter.'",
+        mysteryBinding: {
+          mysteryId: "akai_shi.red_death",
+          episodeId: "akai_shi.red_death.e3",
+          cluesFound: ["akai.e3.necromancer_evasion_log"],
+        },
+      },
+      interrogate: {
+        narration:
+          "You ask the lab for the Game Master's design notes on the Matrix's un-territorial property. The stage returns a single page from the Game Master's research — a footnote: 'the construct's geometry resists chronicle-space tracking. only time-displacement could violate the property. no time-displaced agent exists in canon. the property is therefore safe.' The Game Master did not anticipate the Resurrectionist building one.",
       },
     },
     "entanglement-rig": {

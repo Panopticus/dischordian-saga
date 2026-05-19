@@ -22,7 +22,7 @@
 import type { RoomMysteryModule } from "./_template";
 
 export type ObservationDeckHotspotId =
-  | "dlc-akai-shi-red-death-observation-deck"
+  | "akai-cycle-fold-anomalies"
   | "storm-weather-telemetry"
   | "storm-full-calms-register"
   | "panoramic-viewport" | "purification-crystal-cradle" | "bond-resonance-altar";
@@ -38,14 +38,20 @@ export const OBSERVATION_DECK_MYSTERY: RoomMysteryModule<
 > = {
   roomId: "observation-deck",
   responses: {
-    "dlc-akai-shi-red-death-observation-deck": {
+    /* ─── akai_shi.red_death · e4 (Matrix cycle-fold anomalies) ─── */
+    "akai-cycle-fold-anomalies": {
       look: {
-        narration: "Case material for akai_shi.red_death surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "On the observation-deck's Matrix-telemetry console, standard Matrix-of-Dreams readings show continuous-cycle behaviour across the construct's history. During the Red Death's hunt, the console's telemetry shows discontinuous folds — points where 'before' and 'after' cease to be ordered. The Necromancer, attempting to escape, has been doubling back through his own decisions. The Red Death has been waiting at each doubled-back point. The console's annotation: 'time-displacement does not let you outrun yourself. the Necromancer's escape attempts have all landed him back at the moment of his prior decision.'",
         mysteryBinding: {
           mysteryId: "akai_shi.red_death",
           episodeId: "akai_shi.red_death.e4",
           cluesFound: ["akai.e4.cycle_fold_anomalies"],
         },
+      },
+      use: {
+        narration:
+          "You scrub the telemetry's fold-points. Seven folds, seven retreat chambers, seven encounters with the Red Death. The Necromancer's evasion craft is sophisticated; the Red Death is not chasing him through it — she is standing at every exit before he arrives. The fold-anomalies are the receipt of an evasion that has been pre-positioned against.",
       },
     },
     /* ─── storm.architect_of_flux · e1 (five-century weather telemetry) ─── */

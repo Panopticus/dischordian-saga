@@ -25,7 +25,7 @@ export type ArchivesHotspotId =
   | "memorial-fourteen-unwitnessed-list"
   | "wolf-crucible-resurrection-record"
   | "wolf-crucible-inheritance-manifest"
-  | "dlc-akai-shi-red-death-archives"
+  | "akai-necromancer-dossier"
   | "resur-matrix-energy-ledger"
   | "resur-protocol-authoring-signature"
   | "storm-inventors-heist-window"
@@ -192,14 +192,20 @@ export const ARCHIVES_MYSTERY: RoomMysteryModule<
           "You ask the manifest for the un-itemized line's detail. The drawer returns nothing — the inheritance log was archived at the line-item level, not the contents level. The Crucible's records would have had the detail; the Crucible no longer exists. The Antiquarian inherited a sealed package and did not open it. The package contained the Wolf.",
       },
     },
-    "dlc-akai-shi-red-death-archives": {
+    /* ─── akai_shi.red_death · e3 (Necromancer's targets-list dossier) ─── */
+    "akai-necromancer-dossier": {
       look: {
-        narration: "Case material for akai_shi.red_death surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "In the archives' Necromancer-affairs tier, the Necromancer's dossier — the Architect's tenth-created Archon. The dossier has been on the Red Death's targets list for the entire span of her mandate. He is the ONLY entry on the list whose date of elimination is BLANK. He is the final target. The Antiquarian's notation under his name reads: 'subject's millennia-long evasion of fate is the Red Death's primary work.' The other thirteen targets have dates. The Necromancer's slot waits.",
         mysteryBinding: {
           mysteryId: "akai_shi.red_death",
           episodeId: "akai_shi.red_death.e3",
           cluesFound: ["akai.e3.necromancer_dossier"],
         },
+      },
+      interrogate: {
+        narration:
+          "You ask the drawer for the dossier's classification rationale. The archive returns the Antiquarian's marginal note: 'subject is the only target whose elimination requires extra-canonical instrumentation. all other targets are conventionally addressable. this one is not.' The Necromancer is the case the Resurrectionist made the Red Death to close.",
       },
     },
     /* ─── resurrectionist.cycle_walker · e1 (Matrix energy ledger) ─── */

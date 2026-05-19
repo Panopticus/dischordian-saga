@@ -43,7 +43,7 @@ export type CipherDenHotspotId =
   | "watchers-upper-band-signature"
   | "watchers-idris-signature"
   | "watchers-six-signatures-catalogue"
-  | "dlc-akai-shi-red-death-cipher-den"
+  | "akai-necromancer-retreat-chambers"
   | "rosetta-pad" | "encrypted-correspondence" | "dictionary-of-edits" | "uncorruption-bench" | "cross-arc-thanks-card" | "vex-seer-pair-binder";
 
 export type CipherDenInventoryId = "rosetta-key-1" | "vox-letter-decoded";
@@ -310,14 +310,20 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
           "You request a band-by-band comparison. The reader shows the cards side by side: each Watcher's spectrum is unique, but all six share a single substrate frequency — the same upper-band carrier the Ark has been listening to from below. The seventh's band carries the same substrate.",
       },
     },
-    "dlc-akai-shi-red-death-cipher-den": {
+    /* ─── akai_shi.red_death · e4 (Necromancer's seven retreat chambers) ─── */
+    "akai-necromancer-retreat-chambers": {
       look: {
-        narration: "Case material for akai_shi.red_death surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "On the cipher-den's matrix-cartography bench, a schematic of the Necromancer's seven retreat chambers inside the Matrix of Dreams. Each chamber carries decoys, false signatures, time-locked illusions — designed across millennia to throw off every chronicle-space hunter who tries him. The seven chambers, taken as a system, form a defense-in-depth no single agent could penetrate. The cipher-den's annotation: 'the Red Death has been moving through them in non-canonical order — time-folding rather than walking. the defense-in-depth has a single failure mode: an agent who is at every exit before the Necromancer reaches it.'",
         mysteryBinding: {
           mysteryId: "akai_shi.red_death",
           episodeId: "akai_shi.red_death.e4",
           cluesFound: ["akai.e4.necromancers_retreat_chambers"],
         },
+      },
+      use: {
+        narration:
+          "You compare the cipher-den's hunt-trace against the chamber schematic. The Red Death's path is non-sequential — chamber three at one cycle, chamber seven at another, chamber one back at a third. The hunt is not chronological. The Necromancer's defense-in-depth assumed a chronological hunter. He did not get one.",
       },
     },
     "rosetta-pad": {
