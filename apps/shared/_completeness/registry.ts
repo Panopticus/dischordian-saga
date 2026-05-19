@@ -70,6 +70,7 @@ import { checkHotspotCoverage } from "./checks/hotspotCoverage";
 import { checkRoomReachabilityCoverage } from "./checks/roomReachabilityCoverage";
 import { checkExpansionCutsceneCoverage } from "./checks/expansionCutsceneCoverage";
 import { checkNewArtDropCoverage } from "./checks/newArtDropCoverage";
+import { checkCardArtWellFormed } from "./checks/cardArtWellFormed";
 import { checkHumanWhisperRoomCoverage } from "./checks/humanWhisperRoomCoverage";
 import { checkMascoteerFileAuthorityCoverage } from "./checks/mascoteerFileAuthorityCoverage";
 import { checkMascoteerFileSurfaceLocation } from "./checks/mascoteerFileSurfaceLocation";
@@ -695,6 +696,13 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "Every key from the 1,838-entry NEW_ART_{1,2,3} producer drop (2026-05-12) resolves to a CDN URL via newArtManifest.ts. Hard parity: gap > 0 means a declared asset (vehicle baseline / destination / signature card / chapter card) is missing from the inventory.",
     check: () => checkNewArtDropCoverage(),
+  },
+  {
+    id: "asset.card_art_well_formed",
+    name: "Card art well-formedness guard",
+    description:
+      "Every non-reserved card's resolved `art` URL is a structurally valid CDN asset path (under PUBLIC_ASSET_BASE, an allowed root, a real asset extension) and is not a placeholder/stub/unresolved-`${…}` string. Offline regression guard for the CDN-only asset surface that manifest-coverage checks can't see; true S3 existence stays with scripts/_check-art-coverage.mjs. Hard parity: gap > 0 means a card ships a broken/placeholder art reference.",
+    check: () => checkCardArtWellFormed(),
   },
   // ─── The Human / four-era surface ────────────────────────────
   // Beat-H expansion: whispers + Mascoteer files (Era 1) +
