@@ -15,6 +15,7 @@ import {
   postPublicKnowledge,
 } from "./publicKnowledgeService";
 import { enrichPublicFlags } from "./npcPublicKnowledgeReactions";
+import { isIntegrationEnabled } from "../test-helpers/withMysql";
 import {
   applyEnergyGainForFaction,
   DEFAULT_DISCHORDIA_CYCLE_STATE,
@@ -33,7 +34,17 @@ afterEach(() => {
   _resetPublicKnowledgeCache();
 });
 
-describe("Items-matter chain — public-knowledge → NPC enrichment", () => {
+// Skip in integration mode. Per this file's header: "Exercises the
+// orchestration layer WITHOUT a DB" — these 4 tests are designed for
+// the in-memory cache fallback (getDb() null). When DATABASE_URL is
+// set + the schema is provisioned, the trade_public_knowledge.userId
+// FK to users(id) fires on the un-seeded TEST_USER and the round-trip
+// silently drops the event, so `pk.*.recent` flags never surface and
+// the assertions fail. The cache-orchestration coverage still runs
+// in the unit suite (apps/server/**/*.test.ts), where DATABASE_URL
+// is unset and getDb() routes through the cache. The pure invariants
+// below this describe run in both suites.
+describe.skipIf(isIntegrationEnabled())("Items-matter chain — public-knowledge → NPC enrichment", () => {
   it("a posted contract_signed event surfaces as pk.*.recent for Locke", async () => {
     await postPublicKnowledge({
       userId: TEST_USER,

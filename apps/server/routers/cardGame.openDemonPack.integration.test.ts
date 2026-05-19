@@ -54,11 +54,16 @@ describe.skipIf(skipIf)("openDemonPack — integration", () => {
       gems: 0,
       soulBoundDream: 0,
     });
-    // Concurrent spend simulation: deduct 30 first.
+    // Concurrent spend simulation: deduct 30 first. Raw SQL on
+    // purpose — this test verifies MySQL's affectedRows semantics for
+    // the fail-closed conditional UPDATE pattern openDemonPack uses
+    // in production. Column names are camelCase (Drizzle's default
+    // when not aliased; see schema.ts dream_balance), backtick-quoted
+    // here to make the mixed-case identifiers unambiguous.
     const r1 = await h!.db.execute(sql`
       UPDATE dream_balance
-      SET dream_tokens = dream_tokens - ${30}
-      WHERE user_id = ${userId} AND dream_tokens >= ${30}
+      SET \`dreamTokens\` = \`dreamTokens\` - ${30}
+      WHERE \`userId\` = ${userId} AND \`dreamTokens\` >= ${30}
     `);
     expect(
       (r1 as unknown as Array<{ affectedRows?: number }>)[0]?.affectedRows ?? 0,
@@ -66,8 +71,8 @@ describe.skipIf(skipIf)("openDemonPack — integration", () => {
     // Now try to deduct 30 again (should fail closed: balance is 20).
     const r2 = await h!.db.execute(sql`
       UPDATE dream_balance
-      SET dream_tokens = dream_tokens - ${30}
-      WHERE user_id = ${userId} AND dream_tokens >= ${30}
+      SET \`dreamTokens\` = \`dreamTokens\` - ${30}
+      WHERE \`userId\` = ${userId} AND \`dreamTokens\` >= ${30}
     `);
     expect(
       (r2 as unknown as Array<{ affectedRows?: number }>)[0]?.affectedRows ?? 0,
