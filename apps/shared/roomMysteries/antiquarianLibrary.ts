@@ -22,7 +22,8 @@ export type AntiquarianLibraryHotspotId =
   | "tarn-year-eight-marginalia"
   | "dlc-severance-infernal-clause-antiquarian-library"
   | "dlc-memorial-seven-watchers-antiquarian-library"
-  | "dlc-wolf-anara-hunt-antiquarian-library"
+  | "wolf-empty-chair"
+  | "wolf-three-empty-chairs"
   | "dlc-akai-shi-red-death-antiquarian-library"
   | "dlc-resurrectionist-cycle-walker-antiquarian-library"
   | "dlc-advocate-blood-weave-antiquarian-library"
@@ -227,14 +228,36 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
         },
       },
     },
-    "dlc-wolf-anara-hunt-antiquarian-library": {
+    /* ─── wolf.anara_hunt · e1 (the empty chair) ─── */
+    "wolf-empty-chair": {
       look: {
-        narration: "Case material for wolf.anara_hunt surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "In a quiet annex off the central reading dome, the Antiquarian has kept a small reproduction of Anara's League hall — twelve scaled chairs, each bearing the colours and emblem of a hero he gathered into his pocket universe. One chair stands empty. The colours are still set on the rest. No death has been reported through normal channels; the Anara roster has not updated. The chair simply will not seat its hero again. The hall reproduction has been here for centuries; the Antiquarian has not adjusted the empty chair since it emptied last week.",
         mysteryBinding: {
           mysteryId: "wolf.anara_hunt",
           episodeId: "wolf.anara_hunt.e1",
-          cluesFound: ["wolf.e1.empty_chair", "wolf.e2.three_more_chairs"],
+          cluesFound: ["wolf.e1.empty_chair"],
         },
+      },
+      use: {
+        narration:
+          "You lift the empty chair's footplate. Beneath it, the Antiquarian's annotation card has been struck through and replaced. The original card named the seated hero. The replacement card reads, in his hand: 'WHO TOOK THEM.' The chronicler is asking the question in his own chronicle. The chronicle is not yet answering.",
+      },
+    },
+    /* ─── wolf.anara_hunt · e2 (three more empty chairs, pattern) ─── */
+    "wolf-three-empty-chairs": {
+      look: {
+        narration:
+          "On the cataloguer's wall behind the reading dome, three additional chair-reproductions have been re-coloured to match the latest losses. The Antiquarian has annotated each. A field medic with combat-cleric certifications. A signals officer carrying his encryption key. A tactical co-ordinator. And — most disturbingly — a healer whose specialty was diagnosing thought-virus residue. The pattern is no longer absence; it is selection. The lost heroes are the four whose roles no other League member can fully cover. The chronicler has stopped asking who and started asking what they could read about the hunter that no one else could.",
+        mysteryBinding: {
+          mysteryId: "wolf.anara_hunt",
+          episodeId: "wolf.anara_hunt.e2",
+          cluesFound: ["wolf.e2.three_more_chairs"],
+        },
+      },
+      interrogate: {
+        narration:
+          "You ask the catalogue why the healer's chair was struck before others' would have been more strategic. The Antiquarian's annotation, pulled by the drawer: 'she would have read his thought-virus residue. He removed the reader first. He is preserving his cover by removing the people who could read him.'",
       },
     },
     "dlc-akai-shi-red-death-antiquarian-library": {

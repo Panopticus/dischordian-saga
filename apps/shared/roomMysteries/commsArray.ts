@@ -25,7 +25,7 @@ export type CommsArrayHotspotId =
   | "tarn-erasure-vote-audio"
   | "tarn-faculty-silence-hour"
   | "dlc-memorial-seven-watchers-comms-array"
-  | "dlc-wolf-anara-hunt-comms-array"
+  | "wolf-meme-show-transmission"
   | "dlc-akai-shi-red-death-comms-array"
   | "dlc-resurrectionist-cycle-walker-comms-array"
   | "radio-console" | "static-screen" | "egg-comms-signal" | "voice-in-the-static" | "ocularum-relay-trace" | "dead-drop-cadence-log" | "shadow-tongue-signal-trace" | "miras-dual-thread-transmission";
@@ -90,14 +90,20 @@ export const COMMS_ARRAY_MYSTERY: RoomMysteryModule<
         },
       },
     },
-    "dlc-wolf-anara-hunt-comms-array": {
+    /* ─── wolf.anara_hunt · e1 (meme-show transmission) ─── */
+    "wolf-meme-show-transmission": {
       look: {
-        narration: "Case material for wolf.anara_hunt surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "On the comms-array's intercept board, a meme-show transmission pinned this morning by the Watcher's adjudicar. The voice register is the Inventor's. The transmission is canonical (apps/shared/transmissions.ts:608). 'The Antiquarian's pocket universe — Anara — where he hides his heroes. Someone is hunting them from inside. The Wolf. Once a machine freed by death. Now a predator wearing trust like a mask.' The Antiquarian has not denied the framing. The Inventor's voice does not editorialise; the transmission's content is the saga's plain statement of fact.",
         mysteryBinding: {
           mysteryId: "wolf.anara_hunt",
           episodeId: "wolf.anara_hunt.e1",
           cluesFound: ["wolf.e1.transmission_intercept"],
         },
+      },
+      use: {
+        narration:
+          "You request the comms-array's transmission origin trace. The signal routes through Locke's interception channel — the adjudicar pinned it for the chronicler's attention. Locke has not commented on the content. Locke has commented on the timing: the transmission landed forty-seven minutes after the first empty chair was reported. Someone outside the chronicle knew what was happening inside Anara before the chronicler did.",
       },
     },
     "dlc-akai-shi-red-death-comms-array": {

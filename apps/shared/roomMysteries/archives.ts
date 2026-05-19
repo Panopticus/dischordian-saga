@@ -22,7 +22,8 @@ export type ArchivesHotspotId =
   | "dlc-severance-bound-champion-archives"
   | "tarn-binder-page-14"
   | "dlc-memorial-forgotten-names-archives"
-  | "dlc-wolf-anara-hunt-archives"
+  | "wolf-crucible-resurrection-record"
+  | "wolf-crucible-inheritance-manifest"
   | "dlc-akai-shi-red-death-archives"
   | "dlc-resurrectionist-cycle-walker-archives"
   | "dlc-storm-architect-of-flux-archives"
@@ -129,14 +130,36 @@ export const ARCHIVES_MYSTERY: RoomMysteryModule<
         },
       },
     },
-    "dlc-wolf-anara-hunt-archives": {
+    /* ─── wolf.anara_hunt · e3 (Crucible resurrection record) ─── */
+    "wolf-crucible-resurrection-record": {
       look: {
-        narration: "Case material for wolf.anara_hunt surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "In the archives' Crucible-inheritance tier — the records inherited wholesale from Anara's predecessor pocket — a resurrection log dated Year 128,652 A.A. names Lycos: 'subject preserved across destruction event Day 15 of Resonance Year 100,001; substrate matched on Quarchon resurrection-protocol descendant; reanimation successful.' The signing authority is redacted in standard Crucible style. The Resurrectionist's seal sits in the corner. Twenty-eight thousand six hundred fifty-one years separate the Judge's audit of the destruction from this record of the reanimation.",
         mysteryBinding: {
           mysteryId: "wolf.anara_hunt",
           episodeId: "wolf.anara_hunt.e3",
-          cluesFound: ["wolf.e3.crucible_records", "wolf.e4.crucible_inheritance"],
+          cluesFound: ["wolf.e3.crucible_records"],
         },
+      },
+      use: {
+        narration:
+          "You request the Crucible's full Lycos file. Three folders surface: 'destruction' (closed by the Judge), 'preservation' (closed by the Crucible's standard process), and 'reanimation' (closed by the Resurrectionist). Each Ne-Yon's authorship sits behind a different page of the same chronicle. The Judge and the Resurrectionist were not asked to consent to each other's work. The Crucible filed both as routine.",
+      },
+    },
+    /* ─── wolf.anara_hunt · e4 (Crucible inheritance manifest) ─── */
+    "wolf-crucible-inheritance-manifest": {
+      look: {
+        narration:
+          "The archives' inheritance manifest — every Crucible asset moved to Anara when the predecessor pocket collapsed. Heroes, archives, containment fields, and a single un-itemized line: 'preserved instruments (sealed).' The Antiquarian moved the preserved-instruments inventory wholesale without audit. He trusted the Crucible's seal on each item. The Wolf was, technically, a preserved instrument. The manifest does not name him. The manifest does not name any of them. The chronicler signed off on a line item rather than on the contents.",
+        mysteryBinding: {
+          mysteryId: "wolf.anara_hunt",
+          episodeId: "wolf.anara_hunt.e4",
+          cluesFound: ["wolf.e4.crucible_inheritance"],
+        },
+      },
+      interrogate: {
+        narration:
+          "You ask the manifest for the un-itemized line's detail. The drawer returns nothing — the inheritance log was archived at the line-item level, not the contents level. The Crucible's records would have had the detail; the Crucible no longer exists. The Antiquarian inherited a sealed package and did not open it. The package contained the Wolf.",
       },
     },
     "dlc-akai-shi-red-death-archives": {
