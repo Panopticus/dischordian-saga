@@ -388,8 +388,16 @@ export {
 } from "./audio/outergroove";
 
 /* ─── Economy (WS8) ─── */
-export { openPack, STANDARD_PACK, SOUL_STONE_VALUES } from "./economy/packs";
-export type { PackType, PackResult } from "./economy/packs";
+export {
+  openPack,
+  STANDARD_PACK,
+  SOUL_STONE_VALUES,
+  PACK_RARITY_ODDS,
+  PITY_PACK_INTERVAL,
+  PITY_PACKS_THRESHOLD,
+  PITY_GUARANTEE_MIN_RARITY,
+} from "./economy/packs";
+export type { PackType, PackResult, RarityOdds } from "./economy/packs";
 export {
   RANKED_TIERS,
   getTierForRating,

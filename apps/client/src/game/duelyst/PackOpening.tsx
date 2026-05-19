@@ -8,6 +8,7 @@ import { useState, useCallback, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Package, Sparkles, ChevronRight, Star, X, Gem } from "lucide-react";
 import { CARD_VARIANTS, type CardVariant } from "../cardGameDepth";
+import PackOddsDisclosure from "./PackOddsDisclosure";
 import { dischordiaSounds } from "./SoundManager";
 import { achievementFanfare, lootCelebration } from "@/lib/combatJuice";
 
@@ -85,6 +86,7 @@ export default function PackOpening({ cards, packType, onComplete, onClose }: Pa
   const [phase, setPhase] = useState<Phase>("intro");
   const [revealIndex, setRevealIndex] = useState(-1);
   const [revealedCards, setRevealedCards] = useState<PackCard[]>([]);
+  const [showOdds, setShowOdds] = useState(false);
   // Element ref used by lootCelebration to anchor the particle burst.
   const revealCardRef = useRef<HTMLDivElement | null>(null);
 
@@ -187,6 +189,15 @@ export default function PackOpening({ cards, packType, onComplete, onClose }: Pa
             </motion.div>
 
             <p className="font-mono text-sm text-white/40 animate-pulse">TAP TO OPEN</p>
+
+            {/* Balance F5 — odds transparency before opening. */}
+            <button
+              type="button"
+              onClick={() => setShowOdds(true)}
+              className="font-mono text-xs text-white/40 underline underline-offset-4 hover:text-white/70"
+            >
+              Drop rates
+            </button>
           </motion.div>
         )}
 
@@ -410,6 +421,10 @@ export default function PackOpening({ cards, packType, onComplete, onClose }: Pa
       <button onClick={onClose} className="absolute top-4 right-4 text-white/30 hover:text-white/60 transition-colors">
         <X size={20} />
       </button>
+
+      {showOdds && (
+        <PackOddsDisclosure onClose={() => setShowOdds(false)} />
+      )}
     </div>
   );
 }
