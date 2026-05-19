@@ -32,6 +32,7 @@ import { checkEconomicMutationReachability } from "./checks/economicMutationReac
 import { checkFirstPurchaseGateAdoption } from "./checks/firstPurchaseGateAdoption";
 import { checkFtueFunnelInstrumentation } from "./checks/ftueFunnelInstrumentation";
 import { checkPvpScoreResubmitGuard } from "./checks/pvpScoreResubmitGuard";
+import { checkTouchTargetFloor } from "./checks/touchTargetFloor";
 import { checkAssetPrefetchManifest } from "./checks/assetPrefetchManifest";
 import { checkProcedureRateLimits } from "./checks/procedureRateLimits";
 import { checkVoidContrastCoverage } from "./checks/voidContrastCoverage";
@@ -323,6 +324,13 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "tier5Pvp.submitScore rejects a second submission once the caller's score is recorded. Closes an unbounded ELO/title farm (re-POST after match completion re-ran mirrorRating + awardEligibleTitles every call).",
     check: () => checkPvpScoreResubmitGuard(),
+  },
+  {
+    id: "client.touch_target_floor",
+    name: "Coarse-pointer touch-target floor",
+    description:
+      "index.css applies the 44px Apple/Google touch-target minimum under @media (pointer: coarse), not just max-width:639px. Fixes sub-minimum hit areas on landscape phones / tablets (the devices with landscape duel modes) where the width-gated rule didn't apply.",
+    check: () => checkTouchTargetFloor(),
   },
   {
     id: "client.asset_prefetch_manifest",
