@@ -26,7 +26,7 @@
 import type { RoomMysteryModule } from "./_template";
 
 export type ShadowVaultHotspotId =
-  | "dlc-charter-missing-signatory-shadow-vault"
+  | "charter-per-m-pencil-reply"
   | "dlc-severance-bound-champion-shadow-vault"
   | "dlc-memorial-forgotten-names-shadow-vault"
   | "dlc-charter-second-signatory-shadow-vault"
@@ -43,14 +43,20 @@ export const SHADOW_VAULT_MYSTERY: RoomMysteryModule<
 > = {
   roomId: "shadow-vault",
   responses: {
-    "dlc-charter-missing-signatory-shadow-vault": {
+    /* ─── charter.missing_signatory · e4 (Per. M.'s pencil reply) ─── */
+    "charter-per-m-pencil-reply": {
       look: {
-        narration: "Case material for charter.missing_signatory surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "Inside the shadow-vault's correspondence drawer, the founding-Watcher's letter to Per. M. — addressed in the same wax-thumb hand that sits on the seventh signature. Stapled to it, in pencil: Per. M.'s reply. Three words. 'I will close.' The signature beneath the reply is the same wax-thumb that sits on the seventh signature of every charter draft the vault holds. The reply was sent before the charter was buried; the burial was Per. M. doing the job they had agreed in pencil to do.",
         mysteryBinding: {
           mysteryId: "charter.missing_signatory",
           episodeId: "charter.missing_signatory.e4",
           cluesFound: ["charter.e4.archivist_letter_back"],
         },
+      },
+      use: {
+        narration:
+          "You read the staple. The pencil has not faded across eight epochs — graphite outlasts ink in a sealed vault, and this vault is sealed against itself. Per. M.'s three-word reply is the closer's enrolment record. The founding Watcher who wrote the letter and the closer who sealed the silence have been working the same correspondence for as long as the Ark has been a ship.",
       },
     },
     "dlc-severance-bound-champion-shadow-vault": {

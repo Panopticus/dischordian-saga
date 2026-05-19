@@ -17,7 +17,8 @@
 import type { CombineRule, RoomMysteryModule } from "./_template";
 
 export type ArchivesHotspotId =
-  | "dlc-charter-missing-signatory-archives"
+  | "charter-silt-stratigraphy"
+  | "charter-per-m-preservation-orders"
   | "dlc-severance-bound-champion-archives"
   | "dlc-mechronis-missing-professor-archives"
   | "dlc-memorial-forgotten-names-archives"
@@ -60,14 +61,36 @@ export const ARCHIVES_MYSTERY: RoomMysteryModule<
     },
   ] as readonly CombineRule<ArchivesInventoryId>[],
   responses: {
-    "dlc-charter-missing-signatory-archives": {
+    /* ─── charter.missing_signatory · e1 (silt stratigraphy) ─── */
+    "charter-silt-stratigraphy": {
       look: {
-        narration: "Case material for charter.missing_signatory surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "The lower-deck silt-core extraction stands on a brass tripod in the archives' Foundation-tier wing. Eight strata of compacted dust, every layer dated by the archives' standard pollen-and-isotope key. The charter sat in stratum six. Strata seven and eight closed over it AFTER the burial — meaning two deliberate burials happened above the document, one of them within living memory. The core does not name the second burier. It does name the year. The year is on every Council attendance sheet.",
         mysteryBinding: {
           mysteryId: "charter.missing_signatory",
           episodeId: "charter.missing_signatory.e1",
-          cluesFound: ["charter.e1.silt_layer", "charter.e3.preservation_orders"],
+          cluesFound: ["charter.e1.silt_layer"],
         },
+      },
+      use: {
+        narration:
+          "You measure the stratum-six band with the archives' brass calipers. The thickness is consistent with a burial timed to coincide with the closing of an epoch — the kind of deliberate concealment a librarian performs when they want a thing kept but not lost. The second burial above it is shallower; the second burier was in more of a hurry.",
+      },
+    },
+    /* ─── charter.missing_signatory · e3 (Per. M.'s preservation orders) ─── */
+    "charter-per-m-preservation-orders": {
+      look: {
+        narration:
+          "In the archives' standing-order vault, the charter's preservation-order file. Forty-three orders, eight epochs, one signature on every single one: 'Per. M.' The ink shifts with the eras — early orders in iron-gall, middle epochs in cyanic ferro-gall, recent orders in archival graphite — but the hand on the signature does not. The same down-stroke, the same loop on the lower-case 'm,' the same pulse in the descender, every order across eight epochs. Either the archives have a forger of unmatched discipline, or one librarian has been signing here longer than any spine should permit.",
+        mysteryBinding: {
+          mysteryId: "charter.missing_signatory",
+          episodeId: "charter.missing_signatory.e3",
+          cluesFound: ["charter.e3.preservation_orders"],
+        },
+      },
+      interrogate: {
+        narration:
+          "You ask the archive's curator for Per. M.'s tenure record. The drawer returns nothing — no start date, no payroll entry, no termination notice. The same Per. M. signed an order this morning and forty-two earlier ones across eight epochs. The curator has been signing receipts to Per. M. for nineteen years without ever asking who they are.",
       },
     },
     "dlc-severance-bound-champion-archives": {

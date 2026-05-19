@@ -8,7 +8,7 @@
 import type { RoomMysteryModule } from "./_template";
 
 export type QuantumLabHotspotId =
-  | "dlc-charter-missing-signatory-quantum-lab"
+  | "charter-wax-mineralisation-analysis"
   | "dlc-severance-bound-champion-quantum-lab"
   | "dlc-charter-second-signatory-quantum-lab"
   | "dlc-severance-infernal-clause-quantum-lab"
@@ -18,14 +18,20 @@ export type QuantumLabHotspotId =
 export const QUANTUM_LAB_MYSTERY: RoomMysteryModule<QuantumLabHotspotId> = {
   roomId: "quantum-lab",
   responses: {
-    "dlc-charter-missing-signatory-quantum-lab": {
+    /* ─── charter.missing_signatory · e2 (wax mineralisation analysis) ─── */
+    "charter-wax-mineralisation-analysis": {
       look: {
-        narration: "Case material for charter.missing_signatory surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "The charter's wax-blister, removed under the quantum-lab's micro-extraction protocol, sits on the analysis stage. Every standard solvent has been tested and refused. The lab's quantum-imaging penetrates: the wax is mineralised — heated to a temperature the lower decks cannot reach, then re-poured at least three times. The lab's thermal-calibration places the original temperature in the upper-band range, where the Architect's furnaces operate. Whoever sealed the seventh signature had access to a forge the Ark does not house.",
         mysteryBinding: {
           mysteryId: "charter.missing_signatory",
           episodeId: "charter.missing_signatory.e2",
           cluesFound: ["charter.e2.wax_chemistry"],
         },
+      },
+      use: {
+        narration:
+          "You request the lab's spectral signature match. The mineralisation profile matches three other artefacts in the lab's reference library — all of them upper-band-origin objects the Architect has filed under 'restricted provenance.' The wax-thumb on the charter was sealed using materials only the upper bands could provide. The sealer was either there or briefed by something that was.",
       },
     },
     "dlc-severance-bound-champion-quantum-lab": {

@@ -27,7 +27,8 @@
 import type { RoomMysteryModule } from "./_template";
 
 export type CipherDenHotspotId =
-  | "dlc-charter-missing-signatory-cipher-den"
+  | "charter-per-m-live-sample"
+  | "charter-watcher-oath-fragment"
   | "dlc-mechronis-missing-professor-cipher-den"
   | "dlc-memorial-forgotten-names-cipher-den"
   | "dlc-charter-second-signatory-cipher-den"
@@ -45,14 +46,36 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
 > = {
   roomId: "cipher-den",
   responses: {
-    "dlc-charter-missing-signatory-cipher-den": {
+    /* ─── charter.missing_signatory · e3 (Per. M. live signature sample) ─── */
+    "charter-per-m-live-sample": {
       look: {
-        narration: "Case material for charter.missing_signatory surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "On the cipher-den's signature-comparison bench, beside the preservation-order file pulled from archives, today's specimen: Per. M.'s receipt for the Antiquarian's morning return. Cipher-den staff have laid it under the comparison lens. The hand matches the eight-epoch signatures — every stroke, every loop, every pulse in the down-stroke. The pulse is doubled, a tic the cipher-den's bench catalogues as 'breathing twice per descender' — a writer who exhales once on the down-stroke and again on the lift. The same tic sits in the wax-thumb on the founding charter's seventh signature.",
         mysteryBinding: {
           mysteryId: "charter.missing_signatory",
           episodeId: "charter.missing_signatory.e3",
-          cluesFound: ["charter.e3.archivist_signature", "charter.e4.witness_oath"],
+          cluesFound: ["charter.e3.archivist_signature"],
         },
+      },
+      use: {
+        narration:
+          "You request the bench's overlay scan. The pulses align — Per. M.'s and the wax-thumb's — to within the bench's measurement tolerance. The sealer of the seventh signature and the archivist who has been preserving the charter for eight epochs are the same writer. They sealed the silence; they have been holding it since.",
+      },
+    },
+    /* ─── charter.missing_signatory · e4 (founding-Watcher oath fragment) ─── */
+    "charter-watcher-oath-fragment": {
+      look: {
+        narration:
+          "Stanza three of the founding-Watchers' oath fragment, recovered from the cipher-den's deepest archive — a brittle vellum scrap the length of a forearm. The translation, vetted by three cipher-keepers: 'six speak the founding; one closes the founding; the closer is sworn against speaking.' The fragment is older than the charter. The closer-clause is not metaphor — it is a clause in a founding oath, naming a role. Per. M. is not the redactor. Per. M. is the role of closer, kept by a Watcher whose oath of silence is older than the document the closer was instituted to close.",
+        mysteryBinding: {
+          mysteryId: "charter.missing_signatory",
+          episodeId: "charter.missing_signatory.e4",
+          cluesFound: ["charter.e4.witness_oath"],
+        },
+      },
+      interrogate: {
+        narration:
+          "You ask the cipher-den staff who has signed the closer's oath since the founding. They produce no record. The oath was sworn once, by one Watcher, at the founding; no successor has been needed because the original closer has not died. Per. M.'s lamp burns for the same reason.",
       },
     },
     "dlc-mechronis-missing-professor-cipher-den": {
