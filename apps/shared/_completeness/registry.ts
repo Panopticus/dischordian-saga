@@ -34,6 +34,7 @@ import { checkFtueFunnelInstrumentation } from "./checks/ftueFunnelInstrumentati
 import { checkPvpScoreResubmitGuard } from "./checks/pvpScoreResubmitGuard";
 import { checkTouchTargetFloor } from "./checks/touchTargetFloor";
 import { checkRefundClawback } from "./checks/refundClawback";
+import { checkIapReceiptOwnership } from "./checks/iapReceiptOwnership";
 import { checkAssetPrefetchManifest } from "./checks/assetPrefetchManifest";
 import { checkProcedureRateLimits } from "./checks/procedureRateLimits";
 import { checkVoidContrastCoverage } from "./checks/voidContrastCoverage";
@@ -339,6 +340,13 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "store.ts clawbackByPaymentIntent (currency reversal clamped at zero, entitlements revoked, consumed grants flagged for ops) is wired to the charge.refunded and charge.dispute.created Stripe webhook events. Closes refund-and-keep-the-goods.",
     check: () => checkRefundClawback(),
+  },
+  {
+    id: "economy.iap_receipt_ownership",
+    name: "IAP receipt ownership verification",
+    description:
+      "iapReceipt.verify parses the RevenueCat subscriber payload and gates fulfilment on the claimed productId being present (non_subscriptions/subscriptions), not on a bare HTTP 200. Closes 'verified == got 200'.",
+    check: () => checkIapReceiptOwnership(),
   },
   {
     id: "client.asset_prefetch_manifest",
