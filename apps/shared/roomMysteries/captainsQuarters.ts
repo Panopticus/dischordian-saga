@@ -401,7 +401,7 @@ export const CAPTAINS_QUARTERS_MYSTERY: RoomMysteryModule<CaptainsQuartersHotspo
           order: 6,
         },
         mysteryBinding: {
-          mysteryId: "mystery.watcher",
+          mysteryId: "mystery.the_watcher",
           episodeId: "watcher.e2",
           cluesFound: ["watcher.e2.locke_signature_pattern"],
         },
@@ -436,7 +436,7 @@ export const CAPTAINS_QUARTERS_MYSTERY: RoomMysteryModule<CaptainsQuartersHotspo
           order: 7,
         },
         mysteryBinding: {
-          mysteryId: "mystery.watcher",
+          mysteryId: "mystery.the_watcher",
           episodeId: "watcher.e2",
           cluesFound: ["watcher.e2.trade_empire_pattern"],
         },
@@ -471,7 +471,7 @@ export const CAPTAINS_QUARTERS_MYSTERY: RoomMysteryModule<CaptainsQuartersHotspo
           order: 8,
         },
         mysteryBinding: {
-          mysteryId: "mystery.watcher",
+          mysteryId: "mystery.the_watcher",
           episodeId: "watcher.e4",
           cluesFound: ["watcher.e4.order_doctrine_on_fragmented_sisters"],
         },
@@ -512,7 +512,7 @@ export const CAPTAINS_QUARTERS_MYSTERY: RoomMysteryModule<CaptainsQuartersHotspo
           order: 9,
         },
         mysteryBinding: {
-          mysteryId: "mystery.watcher",
+          mysteryId: "mystery.the_watcher",
           episodeId: "watcher.e5",
           cluesFound: ["watcher.e5.locke_unfiled_summons"],
         },
@@ -547,7 +547,7 @@ export const CAPTAINS_QUARTERS_MYSTERY: RoomMysteryModule<CaptainsQuartersHotspo
           order: 10,
         },
         mysteryBinding: {
-          mysteryId: "mystery.watcher",
+          mysteryId: "mystery.the_watcher",
           episodeId: "watcher.e5",
           cluesFound: ["watcher.e5.vetting_dossier"],
         },
@@ -582,7 +582,7 @@ export const CAPTAINS_QUARTERS_MYSTERY: RoomMysteryModule<CaptainsQuartersHotspo
           order: 11,
         },
         mysteryBinding: {
-          mysteryId: "mystery.watcher",
+          mysteryId: "mystery.the_watcher",
           episodeId: "watcher.e5",
           cluesFound: ["watcher.e5.coordinator_terms"],
         },

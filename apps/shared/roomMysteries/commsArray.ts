@@ -355,7 +355,7 @@ export const COMMS_ARRAY_MYSTERY: RoomMysteryModule<
           order: 5,
         },
         mysteryBinding: {
-          mysteryId: "mystery.watcher",
+          mysteryId: "mystery.the_watcher",
           episodeId: "watcher.e3",
           cluesFound: ["watcher.e3.senne_to_locke_transition"],
         },
@@ -390,7 +390,7 @@ export const COMMS_ARRAY_MYSTERY: RoomMysteryModule<
           order: 6,
         },
         mysteryBinding: {
-          mysteryId: "mystery.watcher",
+          mysteryId: "mystery.the_watcher",
           episodeId: "watcher.e3",
           cluesFound: ["watcher.e3.coda_parallel"],
         },
@@ -425,7 +425,7 @@ export const COMMS_ARRAY_MYSTERY: RoomMysteryModule<
           order: 7,
         },
         mysteryBinding: {
-          mysteryId: "mystery.watcher",
+          mysteryId: "mystery.the_watcher",
           episodeId: "watcher.e4",
           cluesFound: ["watcher.e4.eyes_of_reality_aliases"],
         },
@@ -466,7 +466,7 @@ export const COMMS_ARRAY_MYSTERY: RoomMysteryModule<
           order: 8,
         },
         mysteryBinding: {
-          mysteryId: "mystery.watcher",
+          mysteryId: "mystery.the_watcher",
           episodeId: "watcher.e2",
           cluesFound: ["watcher.e2.dead_drop_shipping_lanes"],
         },

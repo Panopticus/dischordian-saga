@@ -268,7 +268,7 @@ export const DREAMS_WORKSHOP_MYSTERY: RoomMysteryModule<DreamsWorkshopHotspotId>
           order: 3,
         },
         mysteryBinding: {
-          mysteryId: "mystery.politician",
+          mysteryId: "mystery.the_politician",
           episodeId: "politician.e4",
           cluesFound: ["politician.e4.hidden_lineage"],
         },
@@ -303,7 +303,7 @@ export const DREAMS_WORKSHOP_MYSTERY: RoomMysteryModule<DreamsWorkshopHotspotId>
           order: 4,
         },
         mysteryBinding: {
-          mysteryId: "mystery.politician",
+          mysteryId: "mystery.the_politician",
           episodeId: "politician.e4",
           cluesFound: ["politician.e4.the_nemesis"],
         },
@@ -338,7 +338,7 @@ export const DREAMS_WORKSHOP_MYSTERY: RoomMysteryModule<DreamsWorkshopHotspotId>
           order: 5,
         },
         mysteryBinding: {
-          mysteryId: "mystery.politician",
+          mysteryId: "mystery.the_politician",
           episodeId: "politician.e4",
           cluesFound: ["politician.e4.the_recruit_clause"],
         },
@@ -382,7 +382,7 @@ export const DREAMS_WORKSHOP_MYSTERY: RoomMysteryModule<DreamsWorkshopHotspotId>
           order: 6,
         },
         mysteryBinding: {
-          mysteryId: "mystery.necromancer",
+          mysteryId: "mystery.the_necromancer",
           episodeId: "necromancer.e1",
           cluesFound: ["necromancer.e1.varkuls_vigil"],
         },
@@ -417,7 +417,7 @@ export const DREAMS_WORKSHOP_MYSTERY: RoomMysteryModule<DreamsWorkshopHotspotId>
           order: 7,
         },
         mysteryBinding: {
-          mysteryId: "mystery.necromancer",
+          mysteryId: "mystery.the_necromancer",
           episodeId: "necromancer.e2",
           cluesFound: ["necromancer.e2.protocol_42"],
         },

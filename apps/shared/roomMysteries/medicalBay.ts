@@ -682,7 +682,7 @@ export const MEDICAL_BAY_MYSTERY: RoomMysteryModule<MedicalBayHotspotId> = {
           order: 11,
         },
         mysteryBinding: {
-          mysteryId: "mystery.necromancer",
+          mysteryId: "mystery.the_necromancer",
           episodeId: "necromancer.e2",
           cluesFound: ["necromancer.e2.silence_body_record"],
         },
