@@ -17,6 +17,7 @@ import { craftingRouter } from "./routers/crafting";
 import { memoryEnergyRouter } from "./routers/memoryEnergy";
 import { storeRouter } from "./routers/store";
 import { sagaRouter } from "./routers/saga";
+import { winbackRouter } from "./routers/winback";
 import { iapReceiptRouter } from "./routers/iapReceipt";
 import { elaraRouter } from "./routers/elara";
 import { gameStateRouter } from "./routers/gameState";
@@ -194,6 +195,7 @@ export const appRouter = router({
   memoryEnergy: memoryEnergyRouter,
   store: storeRouter,
   saga: sagaRouter,
+  winback: winbackRouter,
   iapReceipt: iapReceiptRouter,
   elara: elaraRouter,
   gameState: gameStateRouter,

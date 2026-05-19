@@ -40,6 +40,7 @@ import { checkNativeHaptics } from "./checks/nativeHaptics";
 import { checkNativeOrientation } from "./checks/nativeOrientation";
 import { checkNativeShell } from "./checks/nativeShell";
 import { checkSagaLedgerHumanizerCoverage } from "./checks/sagaLedgerHumanizerCoverage";
+import { checkWinbackOffer } from "./checks/winbackOffer";
 import { checkAssetPrefetchManifest } from "./checks/assetPrefetchManifest";
 import { checkProcedureRateLimits } from "./checks/procedureRateLimits";
 import { checkVoidContrastCoverage } from "./checks/voidContrastCoverage";
@@ -387,6 +388,13 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "Every ripple.emit() eventType has a SAGA_EVENT_HUMANIZERS entry, so the player-facing 'Your Saga' consequence ledger renders every persisted consequence as a readable line instead of a raw code. saga.ledger tRPC joins it with npc_public_flags world-standing.",
     check: () => checkSagaLedgerHumanizerCoverage(),
+  },
+  {
+    id: "engagement.winback_offer",
+    name: "Winback comeback offer integrity",
+    description:
+      "winbackOfferService grants a lapse-scaled, REWARD_CAP-bounded Dream comeback reward, keyed to the lapse episode so it can't be farmed (in-tx re-check of the claim marker), exposed via the winback tRPC router. Real grant + anti-farm, not a hollow offer.",
+    check: () => checkWinbackOffer(),
   },
   {
     id: "client.asset_prefetch_manifest",
