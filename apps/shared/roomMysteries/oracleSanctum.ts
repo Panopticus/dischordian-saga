@@ -12,7 +12,7 @@ export type OracleSanctumHotspotId =
   | "tarn-pebble-recording"
   | "dlc-memorial-forgotten-names-oracle-sanctum"
   | "charter2-kassel-testimony"
-  | "dlc-severance-infernal-clause-oracle-sanctum"
+  | "infernal-zyrkoth-concession"
   | "dlc-advocate-blood-weave-oracle-sanctum"
   | "oracle-pool" | "prophecy-tablet" | "incense-brazier" | "seers-recording-cabinet";
 
@@ -61,14 +61,20 @@ export const ORACLE_SANCTUM_MYSTERY: RoomMysteryModule<OracleSanctumHotspotId> =
           "You ask the sanctum what the four-epoch wait sounded like. The recorder returns the family ledger's read-aloud entries — quarterly outputs, customer lists, apprentice tallies — kept by four generations of Solvens in continuous handwriting from the founding to today. The waiting was a workshop, not a vigil. Kassel inherited the workshop and the silence with it.",
       },
     },
-    "dlc-severance-infernal-clause-oracle-sanctum": {
+    /* ─── severance.infernal_clause · e4 (Zyr'Koth's concession) ─── */
+    "infernal-zyrkoth-concession": {
       look: {
-        narration: "Case material for severance.infernal_clause surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "In the oracle-sanctum's witness chamber, the recording of Zyr'Koth's response to the Advocate's brief — read into the Council record. Zyr'Koth's voice, the chamber's clean acoustic capture: 'we did not check the prize-history. we should have checked the prize-history. the clause is voidable.' Zyr'Koth pauses for a long minute before speaking, the sanctum's vu-meter shows no breath or shuffle in the silence. The Hierarchy concedes on the record, in person, in the Council chamber. The infernal claim collapses.",
         mysteryBinding: {
           mysteryId: "severance.infernal_clause",
           episodeId: "severance.infernal_clause.e4",
           cluesFound: ["infernal.e4.zyrkoth_response"],
         },
+      },
+      interrogate: {
+        narration:
+          "You ask the sanctum for Zyr'Koth's full statement. The recording continues: 'we will withdraw the claim. we will return the contracts to the league's archive. we will not exercise the clause on any of the bonds. the audit was honest and the trap was honest. we accept both.' The Hierarchy has met an honest paperwork with honest paperwork.",
       },
     },
     "dlc-advocate-blood-weave-oracle-sanctum": {

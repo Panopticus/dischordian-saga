@@ -20,7 +20,8 @@ export type AntiquarianLibraryHotspotId =
   | "chained-curriculum-diff"
   | "chained-auro-folio"
   | "tarn-year-eight-marginalia"
-  | "dlc-severance-infernal-clause-antiquarian-library"
+  | "infernal-epoch-one-contract"
+  | "infernal-clause-back-page"
   | "dlc-memorial-seven-watchers-antiquarian-library"
   | "wolf-empty-chair"
   | "wolf-three-empty-chairs"
@@ -144,14 +145,36 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           "You hold the overlay against the catalog lamp. The mirror's clause is in the same hand as the other paragraphs of both charters — a single founding author drafted both, and chose which copy got which paragraphs. The schism was authored at the founding, not introduced in the fourth epoch.",
       },
     },
-    "dlc-severance-infernal-clause-antiquarian-library": {
+    /* ─── severance.infernal_clause · e1 (epoch-one contract) ─── */
+    "infernal-epoch-one-contract": {
       look: {
-        narration: "Case material for severance.infernal_clause surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "Spread on the central reading table beside the founding-charter glass, the epoch-one contract Zyr'Koth produced at the Nilmorg ceremony. Standard DMC season form — vellum, yellowed but readable. Front: lap counts, sponsor splits, refurbishment ledgers in the season's official ledger-keeper's hand. Back: a single paragraph in the same hand as the front, signed by the season's champion, signed by the Hierarchy ledger-keeper, witnessed by Vex Maestro's predecessor. The contract is genuine. The signatures are genuine. The clause on the back has been quietly enforceable for forty seasons.",
         mysteryBinding: {
           mysteryId: "severance.infernal_clause",
           episodeId: "severance.infernal_clause.e1",
-          cluesFound: ["infernal.e1.epoch_one_contract", "infernal.e1.infernal_clause"],
+          cluesFound: ["infernal.e1.epoch_one_contract"],
         },
+      },
+      use: {
+        narration:
+          "You flip the contract. The back's paragraph is laid out the same way the front's clauses are — same vellum, same ink, same nib weight. The forgery, if it is one, is structural rather than visual. The chronicler's first scan reads it as authentic. The audit will have to do better.",
+      },
+    },
+    /* ─── severance.infernal_clause · e1 (the clause itself) ─── */
+    "infernal-clause-back-page": {
+      look: {
+        narration:
+          "Under archival glass beside the contract, the infernal clause itself isolated for cipher-den scanning. The text reads: 'in the event of the champion's death, the soul-bond may be claimed by the Hierarchy in lieu of the second-cycle prize, at the Hierarchy's option.' Initialled by the champion. Initialled by the ledger-keeper. Witnessed by Vex Maestro's predecessor. The Hierarchy is not asking for a favour; the Hierarchy is exercising a right the league gave them forty seasons ago, in writing, on paper that has been sitting in Solène's archive every season since.",
+        mysteryBinding: {
+          mysteryId: "severance.infernal_clause",
+          episodeId: "severance.infernal_clause.e1",
+          cluesFound: ["infernal.e1.infernal_clause"],
+        },
+      },
+      interrogate: {
+        narration:
+          "You ask the catalog for the prize the clause names. The drawer pulls the league's prize-history register. 'Second-cycle prize' first appears in the league's records at season eleven. The clause is on a season-one contract. The drawer notes the discrepancy without comment. The audit's first crack is in the prize.",
       },
     },
     /* ─── mechronis.chained_lesson · e1 (apprentice file) ─── */

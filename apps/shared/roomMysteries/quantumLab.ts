@@ -11,7 +11,7 @@ export type QuantumLabHotspotId =
   | "charter-wax-mineralisation-analysis"
   | "dlc-severance-bound-champion-quantum-lab"
   | "charter2-vellum-comparison"
-  | "dlc-severance-infernal-clause-quantum-lab"
+  | "infernal-quantum-dating"
   | "dlc-akai-shi-red-death-quantum-lab"
   | "entanglement-rig" | "observation-cage";
 
@@ -60,14 +60,20 @@ export const QUANTUM_LAB_MYSTERY: RoomMysteryModule<QuantumLabHotspotId> = {
           "You request the lab's hide-fibre alignment scan. The two vellums share twelve grain-lines that mate at the cut edge — they were once adjacent panels on the same hide. The founders cut the hide in half and drafted the two parallel originals from the same animal. The pair-authorship was as deliberate as the parchment was shared.",
       },
     },
-    "dlc-severance-infernal-clause-quantum-lab": {
+    /* ─── severance.infernal_clause · e3 (quantum-dating results) ─── */
+    "infernal-quantum-dating": {
       look: {
-        narration: "Case material for severance.infernal_clause surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "The quantum-lab's dating stage holds all forty contracts — every back-page clause prepared for ink-dating analysis. The lab's quantum-imaging penetrates each ink-layer's molecular state. Result: every clause's ink was applied within a seven-day window in epoch one, week thirty-three, days four through ten. The contracts they appear on span forty seasons. Thirty-nine of the forty clauses pre-date their host contract by anywhere from one to thirty-nine seasons. The lab's calibration is independent and instrument-grade. The writer was working ahead — anticipating contracts that had not yet been signed.",
         mysteryBinding: {
           mysteryId: "severance.infernal_clause",
           episodeId: "severance.infernal_clause.e3",
           cluesFound: ["infernal.e3.dating_results"],
         },
+      },
+      use: {
+        narration:
+          "You request the lab's confidence interval on the dating. The instrument reports ±0.4 days at the seven-day window's bounds. The window is sharp. The writer began on day four and finished on day ten. Forty clauses in seven days; the lab's tightest precision says exactly that.",
       },
     },
     "dlc-akai-shi-red-death-quantum-lab": {

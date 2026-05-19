@@ -13,7 +13,7 @@
 import type { RoomMysteryModule } from "./_template";
 
 export type WarRoomHotspotId =
-  | "dlc-severance-infernal-clause-war-room"
+  | "infernal-forty-ledger-keepers"
   | "chained-wave-telemetry"
   | "chained-feint-pattern"
   | "dlc-memorial-seven-watchers-war-room"
@@ -26,14 +26,20 @@ export type WarRoomHotspotId =
 export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
   roomId: "war-room",
   responses: {
-    "dlc-severance-infernal-clause-war-room": {
+    /* ─── severance.infernal_clause · e2 (forty seasonal ledger-keepers) ─── */
+    "infernal-forty-ledger-keepers": {
       look: {
-        narration: "Case material for severance.infernal_clause surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "On the war-room's personnel display, the league's forty seasons of ledger-keeper records — one per season, forty different people. Each personnel card carries a handwriting sample, a tenure window, a salary record, a dismissal note. None of the forty samples match the clause-writing hand. The clause-writer is not on this wall. The clauses were written separately from the contracts by a hand that was never the official ledger-keeper. The war-room's cross-reference identifies one anomaly: a single name appears in the league's hiring records for the first season but does not appear on the wall.",
         mysteryBinding: {
           mysteryId: "severance.infernal_clause",
           episodeId: "severance.infernal_clause.e2",
           cluesFound: ["infernal.e2.season_ledger_keepers"],
         },
+      },
+      interrogate: {
+        narration:
+          "You ask the war-room for the missing name. The display returns Atalin, ledger-keeper, Year One. Atalin held the post for one season, was dismissed (or resigned — the file is unclear), and was never replaced — the post was rotated season by season afterwards. Atalin's personnel file is in the archives; the cipher-den has the handwriting sample. The investigation has one name to follow.",
       },
     },
     /* ─── mechronis.chained_lesson · e1 (wave telemetry) ─── */

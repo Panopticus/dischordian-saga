@@ -34,7 +34,9 @@ export type CipherDenHotspotId =
   | "charter2-heron-diary"
   | "charter2-heron-diary-second-page"
   | "charter2-silence-convention"
-  | "dlc-severance-infernal-clause-cipher-den"
+  | "infernal-handwriting-analysis"
+  | "infernal-atalin-receipt-sample"
+  | "infernal-the-flaw"
   | "chained-tarn-year-one-argument"
   | "dlc-memorial-seven-watchers-cipher-den"
   | "dlc-akai-shi-red-death-cipher-den"
@@ -154,14 +156,52 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
           "You ask the archive when this convention was last successfully invoked. The drawer returns a single entry: the founding itself. The seventh founding Watcher invoked silence-as-vote on three minor founding-day decisions; each was read correctly. The convention's first misreading is the fourth-epoch scrub. The misreading has been the seventh's only voice since.",
       },
     },
-    "dlc-severance-infernal-clause-cipher-den": {
+    /* ─── severance.infernal_clause · e2 (handwriting analysis) ─── */
+    "infernal-handwriting-analysis": {
       look: {
-        narration: "Case material for severance.infernal_clause surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "On the cipher-den's primary signature-comparison bench, the forty contracts laid out in chronological order — Solène's archive arranged by season. The bench's reader has scanned every back page. The cipher-den's report sits beside them: 'forty contracts, forty clauses, one writer. The hand is steady, slightly slanted, and consistent through forty seasons. No ledger-keeper of forty seasons exists in any registry the league keeps.' The forty seasonal ledger-keepers' samples have been pulled for comparison; none of them match the clause-writing hand. The clauses were written by someone who never held the official post.",
         mysteryBinding: {
           mysteryId: "severance.infernal_clause",
           episodeId: "severance.infernal_clause.e2",
-          cluesFound: ["infernal.e2.handwriting_consistency", "infernal.e3.atalin_handwriting", "infernal.e4.the_flaw"],
+          cluesFound: ["infernal.e2.handwriting_consistency"],
         },
+      },
+      use: {
+        narration:
+          "You compare the cipher-den's variance metrics across the forty samples. The clause-writing hand shows less variance across forty seasons than any individual ledger-keeper's hand shows within a single season. The forty clauses were written by one person in close temporal proximity. The forty seasons are an illusion.",
+      },
+    },
+    /* ─── severance.infernal_clause · e3 (Atalin's receipt sample) ─── */
+    "infernal-atalin-receipt-sample": {
+      look: {
+        narration:
+          "Pulled from Atalin's personnel file in the archives and brought to the cipher-den for bench comparison: a routine receipt Atalin signed during their single season as ledger-keeper. The hand matches the clause-writing exactly — every loop, every slant, every nib-pressure on the descender. The match is unambiguous. Atalin wrote every infernal clause across forty seasons in one seven-day window, while still working in the office whose contracts the clauses appear on. The cipher-den's annotation: 'identity confirmed.'",
+        mysteryBinding: {
+          mysteryId: "severance.infernal_clause",
+          episodeId: "severance.infernal_clause.e3",
+          cluesFound: ["infernal.e3.atalin_handwriting"],
+        },
+      },
+      interrogate: {
+        narration:
+          "You ask the bench whether Atalin's hand changed across the seven-day window. The reader returns the variance: the clauses written on day seven are indistinguishable from those written on day one. Atalin worked steadily, without rest or hesitation, for the full window. The writing was deliberate, planned, and undivided.",
+      },
+    },
+    /* ─── severance.infernal_clause · e4 (the flaw) ─── */
+    "infernal-the-flaw": {
+      look: {
+        narration:
+          "In the cipher-den's annotated-contract drawer, the forty clauses are laid open at the phrase Atalin built the trap around: 'in lieu of the second-cycle prize.' The cipher-den has cross-referenced the league's prize-structure history against every clause's writing date. The league did not institute second-cycle prizes until season eleven. Every clause is voidable as a matter of contract law — naming a prize that did not exist at the date of writing. The Hierarchy missed it because the Hierarchy did not read the league's prize-structure history. Atalin did. Atalin wrote the trap in seven days and waited forty seasons for someone to find it.",
+        mysteryBinding: {
+          mysteryId: "severance.infernal_clause",
+          episodeId: "severance.infernal_clause.e4",
+          cluesFound: ["infernal.e4.the_flaw"],
+        },
+      },
+      use: {
+        narration:
+          "You request the cipher-den's contract-law citation for the void doctrine. The drawer returns a single canonical authority: 'a clause that conditions performance on a benefit not yet in existence at the moment of agreement is unenforceable.' The citation is older than the league. Atalin knew the citation. The Hierarchy did not check.",
       },
     },
     /* ─── mechronis.chained_lesson · e4 (Tarn's Year-One argument) ─── */
