@@ -809,7 +809,7 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           order: 12,
         },
         mysteryBinding: {
-          mysteryId: "mystery.watcher",
+          mysteryId: "mystery.the_watcher",
           episodeId: "watcher.e1",
           cluesFound: ["watcher.e1.antiquarian_record"],
         },
@@ -844,7 +844,7 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           order: 13,
         },
         mysteryBinding: {
-          mysteryId: "mystery.watcher",
+          mysteryId: "mystery.the_watcher",
           episodeId: "watcher.e1",
           cluesFound: ["watcher.e1.kanshi_sha_palace_archives"],
         },
@@ -879,7 +879,7 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           order: 14,
         },
         mysteryBinding: {
-          mysteryId: "mystery.watcher",
+          mysteryId: "mystery.the_watcher",
           episodeId: "watcher.e1",
           cluesFound: ["watcher.e1.dispatcher_glyph"],
         },
@@ -920,7 +920,7 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           order: 15,
         },
         mysteryBinding: {
-          mysteryId: "mystery.watcher",
+          mysteryId: "mystery.the_watcher",
           episodeId: "watcher.e1",
           cluesFound: ["watcher.e1.antiquarian_omission"],
         },
@@ -955,7 +955,7 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           order: 16,
         },
         mysteryBinding: {
-          mysteryId: "mystery.watcher",
+          mysteryId: "mystery.the_watcher",
           episodeId: "watcher.e2",
           cluesFound: ["watcher.e2.bifurcation_record"],
         },
@@ -990,7 +990,7 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           order: 17,
         },
         mysteryBinding: {
-          mysteryId: "mystery.watcher",
+          mysteryId: "mystery.the_watcher",
           episodeId: "watcher.e3",
           cluesFound: ["watcher.e3.why_not_a_cleaner_cover"],
         },
@@ -1327,7 +1327,7 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           order: 26,
         },
         mysteryBinding: {
-          mysteryId: "mystery.politician",
+          mysteryId: "mystery.the_politician",
           episodeId: "politician.e1",
           cluesFound: ["politician.e1.the_gap"],
         },
@@ -1362,7 +1362,7 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           order: 27,
         },
         mysteryBinding: {
-          mysteryId: "mystery.politician",
+          mysteryId: "mystery.the_politician",
           episodeId: "politician.e1",
           cluesFound: ["politician.e1.her_calm"],
         },
@@ -1399,7 +1399,7 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           order: 28,
         },
         mysteryBinding: {
-          mysteryId: "mystery.politician",
+          mysteryId: "mystery.the_politician",
           episodeId: "politician.e2",
           cluesFound: ["politician.e2.the_infiltrator"],
         },
@@ -1434,7 +1434,7 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           order: 29,
         },
         mysteryBinding: {
-          mysteryId: "mystery.politician",
+          mysteryId: "mystery.the_politician",
           episodeId: "politician.e2",
           cluesFound: ["politician.e2.the_programmer"],
         },
@@ -1469,7 +1469,7 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           order: 30,
         },
         mysteryBinding: {
-          mysteryId: "mystery.politician",
+          mysteryId: "mystery.the_politician",
           episodeId: "politician.e2",
           cluesFound: ["politician.e2.why_him"],
         },
@@ -1506,7 +1506,7 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           order: 31,
         },
         mysteryBinding: {
-          mysteryId: "mystery.politician",
+          mysteryId: "mystery.the_politician",
           episodeId: "politician.e3",
           cluesFound: ["politician.e3.authority_origin"],
         },
@@ -1541,7 +1541,7 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           order: 32,
         },
         mysteryBinding: {
-          mysteryId: "mystery.politician",
+          mysteryId: "mystery.the_politician",
           episodeId: "politician.e3",
           cluesFound: ["politician.e3.what_it_pays"],
         },
@@ -1576,7 +1576,7 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           order: 33,
         },
         mysteryBinding: {
-          mysteryId: "mystery.politician",
+          mysteryId: "mystery.the_politician",
           episodeId: "politician.e3",
           cluesFound: ["politician.e3.no_resurrection"],
         },
@@ -1613,7 +1613,7 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           order: 34,
         },
         mysteryBinding: {
-          mysteryId: "mystery.politician",
+          mysteryId: "mystery.the_politician",
           episodeId: "politician.e5",
           cluesFound: ["politician.e5.synthesis"],
         },
@@ -1648,7 +1648,7 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           order: 35,
         },
         mysteryBinding: {
-          mysteryId: "mystery.politician",
+          mysteryId: "mystery.the_politician",
           episodeId: "politician.e5",
           cluesFound: ["politician.e5.the_album_opens"],
         },
@@ -1683,7 +1683,7 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           order: 36,
         },
         mysteryBinding: {
-          mysteryId: "mystery.politician",
+          mysteryId: "mystery.the_politician",
           episodeId: "politician.e5",
           cluesFound: ["politician.e5.the_question"],
         },
@@ -1725,7 +1725,7 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           order: 37,
         },
         mysteryBinding: {
-          mysteryId: "mystery.collector",
+          mysteryId: "mystery.the_collector",
           episodeId: "collector.e1",
           cluesFound: ["collector.e1.catalog_page"],
         },
@@ -1760,7 +1760,7 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           order: 38,
         },
         mysteryBinding: {
-          mysteryId: "mystery.collector",
+          mysteryId: "mystery.the_collector",
           episodeId: "collector.e1",
           cluesFound: ["collector.e1.watcher_cross_ref"],
         },
@@ -1795,7 +1795,7 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           order: 39,
         },
         mysteryBinding: {
-          mysteryId: "mystery.collector",
+          mysteryId: "mystery.the_collector",
           episodeId: "collector.e1",
           cluesFound: ["collector.e1.veil_mechanism_note"],
         },
@@ -1838,7 +1838,7 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           order: 40,
         },
         mysteryBinding: {
-          mysteryId: "mystery.collector",
+          mysteryId: "mystery.the_collector",
           episodeId: "collector.e2",
           cluesFound: ["collector.e2.one_retained_donor"],
         },
@@ -1873,7 +1873,7 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           order: 41,
         },
         mysteryBinding: {
-          mysteryId: "mystery.collector",
+          mysteryId: "mystery.the_collector",
           episodeId: "collector.e3",
           cluesFound: ["collector.e3.collectors_awareness"],
         },
@@ -1914,7 +1914,7 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           order: 42,
         },
         mysteryBinding: {
-          mysteryId: "mystery.collector",
+          mysteryId: "mystery.the_collector",
           episodeId: "collector.e5",
           cluesFound: ["collector.e5.synthesis"],
         },
@@ -1949,7 +1949,7 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           order: 43,
         },
         mysteryBinding: {
-          mysteryId: "mystery.collector",
+          mysteryId: "mystery.the_collector",
           episodeId: "collector.e5",
           cluesFound: ["collector.e5.the_question"],
         },
@@ -2221,7 +2221,7 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           order: 50,
         },
         mysteryBinding: {
-          mysteryId: "mystery.necromancer",
+          mysteryId: "mystery.the_necromancer",
           episodeId: "necromancer.e1",
           cluesFound: ["necromancer.e1.akai_shi_witness"],
         },
@@ -2256,7 +2256,7 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           order: 51,
         },
         mysteryBinding: {
-          mysteryId: "mystery.necromancer",
+          mysteryId: "mystery.the_necromancer",
           episodeId: "necromancer.e3",
           cluesFound: ["necromancer.e3.akai_shis_second_witness"],
         },
@@ -2303,7 +2303,7 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           order: 52,
         },
         mysteryBinding: {
-          mysteryId: "mystery.necromancer",
+          mysteryId: "mystery.the_necromancer",
           episodeId: "necromancer.e5",
           cluesFound: ["necromancer.e5.synthesis"],
         },
@@ -2338,7 +2338,7 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           order: 53,
         },
         mysteryBinding: {
-          mysteryId: "mystery.necromancer",
+          mysteryId: "mystery.the_necromancer",
           episodeId: "necromancer.e5",
           cluesFound: ["necromancer.e5.the_question_the_player_asks"],
         },

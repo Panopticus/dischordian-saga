@@ -348,7 +348,7 @@ export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
           order: 3,
         },
         mysteryBinding: {
-          mysteryId: "mystery.watcher",
+          mysteryId: "mystery.the_watcher",
           episodeId: "watcher.e3",
           cluesFound: ["watcher.e3.authority_six_minds"],
         },
@@ -383,7 +383,7 @@ export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
           order: 4,
         },
         mysteryBinding: {
-          mysteryId: "mystery.watcher",
+          mysteryId: "mystery.the_watcher",
           episodeId: "watcher.e4",
           cluesFound: ["watcher.e4.zenon_binding_record"],
         },
@@ -418,7 +418,7 @@ export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
           order: 5,
         },
         mysteryBinding: {
-          mysteryId: "mystery.watcher",
+          mysteryId: "mystery.the_watcher",
           episodeId: "watcher.e4",
           cluesFound: ["watcher.e4.act1_engagement_recontextualized"],
         },
@@ -458,7 +458,7 @@ export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
           order: 6,
         },
         mysteryBinding: {
-          mysteryId: "mystery.watcher",
+          mysteryId: "mystery.the_watcher",
           episodeId: "watcher.e5",
           cluesFound: ["watcher.e5.cell_number_generation"],
         },
@@ -650,7 +650,7 @@ export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
           order: 11,
         },
         mysteryBinding: {
-          mysteryId: "mystery.politician",
+          mysteryId: "mystery.the_politician",
           episodeId: "politician.e1",
           cluesFound: ["politician.e1.siege_record"],
         },
@@ -691,7 +691,7 @@ export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
           order: 12,
         },
         mysteryBinding: {
-          mysteryId: "mystery.collector",
+          mysteryId: "mystery.the_collector",
           episodeId: "collector.e3",
           cluesFound: ["collector.e3.hierarchy_steering"],
         },
@@ -848,7 +848,7 @@ export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
           order: 16,
         },
         mysteryBinding: {
-          mysteryId: "mystery.necromancer",
+          mysteryId: "mystery.the_necromancer",
           episodeId: "necromancer.e1",
           cluesFound: ["necromancer.e1.castle_log"],
         },
@@ -883,7 +883,7 @@ export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
           order: 17,
         },
         mysteryBinding: {
-          mysteryId: "mystery.necromancer",
+          mysteryId: "mystery.the_necromancer",
           episodeId: "necromancer.e4",
           cluesFound: ["necromancer.e4.hierarchy_question"],
         },

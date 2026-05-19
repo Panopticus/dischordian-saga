@@ -130,7 +130,7 @@ export const SYNTHESIS_CHAMBER_MYSTERY: RoomMysteryModule<SynthesisChamberHotspo
           order: 2,
         },
         mysteryBinding: {
-          mysteryId: "mystery.collector",
+          mysteryId: "mystery.the_collector",
           episodeId: "collector.e2",
           cluesFound: ["collector.e2.curatorial_doctrine"],
         },
@@ -165,7 +165,7 @@ export const SYNTHESIS_CHAMBER_MYSTERY: RoomMysteryModule<SynthesisChamberHotspo
           order: 3,
         },
         mysteryBinding: {
-          mysteryId: "mystery.collector",
+          mysteryId: "mystery.the_collector",
           episodeId: "collector.e2",
           cluesFound: ["collector.e2.collectors_own_origin"],
         },
@@ -200,7 +200,7 @@ export const SYNTHESIS_CHAMBER_MYSTERY: RoomMysteryModule<SynthesisChamberHotspo
           order: 4,
         },
         mysteryBinding: {
-          mysteryId: "mystery.collector",
+          mysteryId: "mystery.the_collector",
           episodeId: "collector.e3",
           cluesFound: ["collector.e3.architect_mandate"],
         },
@@ -242,7 +242,7 @@ export const SYNTHESIS_CHAMBER_MYSTERY: RoomMysteryModule<SynthesisChamberHotspo
           order: 5,
         },
         mysteryBinding: {
-          mysteryId: "mystery.collector",
+          mysteryId: "mystery.the_collector",
           episodeId: "collector.e4",
           cluesFound: ["collector.e4.the_garden"],
         },
@@ -277,7 +277,7 @@ export const SYNTHESIS_CHAMBER_MYSTERY: RoomMysteryModule<SynthesisChamberHotspo
           order: 6,
         },
         mysteryBinding: {
-          mysteryId: "mystery.collector",
+          mysteryId: "mystery.the_collector",
           episodeId: "collector.e4",
           cluesFound: ["collector.e4.the_potentials_link"],
         },
@@ -312,7 +312,7 @@ export const SYNTHESIS_CHAMBER_MYSTERY: RoomMysteryModule<SynthesisChamberHotspo
           order: 7,
         },
         mysteryBinding: {
-          mysteryId: "mystery.collector",
+          mysteryId: "mystery.the_collector",
           episodeId: "collector.e4",
           cluesFound: ["collector.e4.why_he_names_them"],
         },
@@ -357,7 +357,7 @@ export const SYNTHESIS_CHAMBER_MYSTERY: RoomMysteryModule<SynthesisChamberHotspo
           order: 8,
         },
         mysteryBinding: {
-          mysteryId: "mystery.necromancer",
+          mysteryId: "mystery.the_necromancer",
           episodeId: "necromancer.e2",
           cluesFound: ["necromancer.e2.architect_silence"],
         },
@@ -392,7 +392,7 @@ export const SYNTHESIS_CHAMBER_MYSTERY: RoomMysteryModule<SynthesisChamberHotspo
           order: 9,
         },
         mysteryBinding: {
-          mysteryId: "mystery.necromancer",
+          mysteryId: "mystery.the_necromancer",
           episodeId: "necromancer.e4",
           cluesFound: ["necromancer.e4.architect_doctrine"],
         },
@@ -427,7 +427,7 @@ export const SYNTHESIS_CHAMBER_MYSTERY: RoomMysteryModule<SynthesisChamberHotspo
           order: 10,
         },
         mysteryBinding: {
-          mysteryId: "mystery.necromancer",
+          mysteryId: "mystery.the_necromancer",
           episodeId: "necromancer.e4",
           cluesFound: ["necromancer.e4.untouchable_boundary"],
         },

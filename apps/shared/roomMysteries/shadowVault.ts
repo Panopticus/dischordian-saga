@@ -479,7 +479,7 @@ export const SHADOW_VAULT_MYSTERY: RoomMysteryModule<
           order: 11,
         },
         mysteryBinding: {
-          mysteryId: "mystery.necromancer",
+          mysteryId: "mystery.the_necromancer",
           episodeId: "necromancer.e3",
           cluesFound: ["necromancer.e3.varkul_audience"],
         },
@@ -515,7 +515,7 @@ export const SHADOW_VAULT_MYSTERY: RoomMysteryModule<
           order: 12,
         },
         mysteryBinding: {
-          mysteryId: "mystery.necromancer",
+          mysteryId: "mystery.the_necromancer",
           episodeId: "necromancer.e3",
           cluesFound: ["necromancer.e3.altar_inscription"],
         },
