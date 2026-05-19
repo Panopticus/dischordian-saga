@@ -318,6 +318,22 @@ const cadesPvpRouter = router({
       if (!isP1 && m.player2Id !== ctx.user.id) {
         throw new TRPCError({ code: "FORBIDDEN" });
       }
+      // Once-per-player-per-match. Without this the handler
+      // overwrites the caller's score on every call AND, once both
+      // scores are present, re-runs the completion block — mirrorRating
+      // (+20 ELO) and awardEligibleTitles — on each resubmission. That
+      // is an unbounded ELO/title farm: finish once, then re-POST. A
+      // legitimate client submits exactly once, so rejecting a second
+      // submission is correct, not a UX regression.
+      const alreadySubmitted = isP1
+        ? m.player1Score != null
+        : m.player2Score != null;
+      if (alreadySubmitted) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Score already submitted for this match",
+        });
+      }
       // T13.7 — anti-cheat clamp. Per the design doc the
       // composite score formula is `waves × 10 + kills`. For
       // last_stand mode the theoretical ceiling at 30 waves +

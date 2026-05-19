@@ -31,6 +31,7 @@ import { checkSafeAreaInsetAdoption } from "./checks/safeAreaInsetAdoption";
 import { checkEconomicMutationReachability } from "./checks/economicMutationReachability";
 import { checkFirstPurchaseGateAdoption } from "./checks/firstPurchaseGateAdoption";
 import { checkFtueFunnelInstrumentation } from "./checks/ftueFunnelInstrumentation";
+import { checkPvpScoreResubmitGuard } from "./checks/pvpScoreResubmitGuard";
 import { checkAssetPrefetchManifest } from "./checks/assetPrefetchManifest";
 import { checkProcedureRateLimits } from "./checks/procedureRateLimits";
 import { checkVoidContrastCoverage } from "./checks/voidContrastCoverage";
@@ -315,6 +316,13 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "GameEvents declares the 5 FTUE funnel events and useTutorialOrchestrator emits STEP_SHOWN/STEP_COMPLETED/SKIPPED. Keeps the onboarding drop-off funnel measurable — a refactor can't silently re-blind D1 retention analysis.",
     check: () => checkFtueFunnelInstrumentation(),
+  },
+  {
+    id: "server.pvp_score_resubmit_guard",
+    name: "PvP score resubmission guard",
+    description:
+      "tier5Pvp.submitScore rejects a second submission once the caller's score is recorded. Closes an unbounded ELO/title farm (re-POST after match completion re-ran mirrorRating + awardEligibleTitles every call).",
+    check: () => checkPvpScoreResubmitGuard(),
   },
   {
     id: "client.asset_prefetch_manifest",
