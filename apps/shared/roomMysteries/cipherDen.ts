@@ -30,7 +30,9 @@ export type CipherDenHotspotId =
   | "charter-per-m-live-sample"
   | "charter-watcher-oath-fragment"
   | "tarn-roen-confidence"
-  | "dlc-memorial-forgotten-names-cipher-den"
+  | "memorial-first-pass-five-recovered"
+  | "memorial-parental-imprint-search"
+  | "memorial-first-imprint-record"
   | "charter2-heron-diary"
   | "charter2-heron-diary-second-page"
   | "charter2-silence-convention"
@@ -98,14 +100,52 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
           "You ask the cipher-den's records for prior contact between Tarn and Roen. The drawer returns sixteen years of Trial-procedure manual annotations, every one in Roen's hand, every one cross-referenced to Tarn's research. The colleagues who looked least alike on the surface were the only two who had been reading each other for sixteen years.",
       },
     },
-    "dlc-memorial-forgotten-names-cipher-den": {
+    /* ─── memorial.forgotten_names · e3 (first cross-reference pass) ─── */
+    "memorial-first-pass-five-recovered": {
       look: {
-        narration: "Case material for memorial.forgotten_names surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "On the cipher-den's cross-reference bench, the first-pass results from listening to the fourteen unwitnessed imprints in pairs and triples. Five names emerged: I-3 named in I-101's imprint. I-58 named in I-202's imprint. I-129 named in I-301's imprint. I-356 named in I-410's imprint. I-388 named in I-444's imprint. Five of the fourteen now have witnesses — drawn from within the unwitnessed group itself. The chain of memory was not broken at every link; some of the unwitnessed had been witnessing each other all along.",
         mysteryBinding: {
           mysteryId: "memorial.forgotten_names",
           episodeId: "memorial.forgotten_names.e3",
-          cluesFound: ["memorial.e3.first_pass_results", "memorial.e3.parental_imprint_search", "memorial.e4.first_imprint_record"],
+          cluesFound: ["memorial.e3.first_pass_results"],
         },
+      },
+      use: {
+        narration:
+          "You request the pass's listening protocol. The bench logs each pairing — minutes of audio, attentive ear, pencil notes. The cipher-den's reader confirms: no name was inferred; every recovered name was spoken aloud in a dish by someone who had known the named.",
+      },
+    },
+    /* ─── memorial.forgotten_names · e3 (parental imprint search) ─── */
+    "memorial-parental-imprint-search": {
+      look: {
+        narration:
+          "Beside the first-pass bench, the cipher-den's expanded search — not just the fourteen unwitnessed, but the entire imprint registry. If the children's parents imprinted at any time, the parents named the children. The search returns two hits: a parental imprint from epoch four naming I-244, and a sibling imprint from epoch six naming I-44. Seven of the fourteen are now witnessed; the unwitnessed gap is closing.",
+        mysteryBinding: {
+          mysteryId: "memorial.forgotten_names",
+          episodeId: "memorial.forgotten_names.e3",
+          cluesFound: ["memorial.e3.parental_imprint_search"],
+        },
+      },
+      interrogate: {
+        narration:
+          "You ask the bench how the search ranked candidate imprints. The cipher-den's reader explains: imprint-recordings are time-stamped and family-line-tagged where consent was given at imprint-time. The two hits emerged from family-line cross-reference rather than name-string match. The names were spoken by people who knew them; the chain of memory did the work the index could not.",
+      },
+    },
+    /* ─── memorial.forgotten_names · e4 (first-imprint record) ─── */
+    "memorial-first-imprint-record": {
+      look: {
+        narration:
+          "From the cipher-den's deepest archive — drawer one, pre-charter tier — the record of the Ark's first imprint. The recorder's log: 'witnessing I-1.' The imprint was taken before the founding charter. The Architect's Console initiated the process — the Architect's first act. No name was inscribed on the record. The first imprint of the Ark predates every other imprint in the registry by a margin the cipher-den's instruments cannot measure precisely.",
+        mysteryBinding: {
+          mysteryId: "memorial.forgotten_names",
+          episodeId: "memorial.forgotten_names.e4",
+          cluesFound: ["memorial.e4.first_imprint_record"],
+        },
+      },
+      use: {
+        narration:
+          "You request the recorder's notes from the moment. The drawer returns a single transcribed line: 'subject is a child; subject is alone; subject's witness is the Architect.' No further annotation. The Architect was witness and recorder both. The act of recording was the first act of the saga.",
       },
     },
     /* ─── charter.second_signatory · e3 (Heron's diary) ─── */

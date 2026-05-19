@@ -28,7 +28,8 @@ import type { RoomMysteryModule } from "./_template";
 export type ShadowVaultHotspotId =
   | "charter-per-m-pencil-reply"
   | "dlc-severance-bound-champion-shadow-vault"
-  | "dlc-memorial-forgotten-names-shadow-vault"
+  | "memorial-imprint-i17-aren"
+  | "memorial-imprint-keeper-account"
   | "charter2-council-scrub-request"
   | "dlc-memorial-seven-watchers-shadow-vault"
   | "dlc-resurrectionist-cycle-walker-shadow-vault"
@@ -69,14 +70,36 @@ export const SHADOW_VAULT_MYSTERY: RoomMysteryModule<
         },
       },
     },
-    "dlc-memorial-forgotten-names-shadow-vault": {
+    /* ─── memorial.forgotten_names · e2 (Imprint I-17, Aren of the lower decks) ─── */
+    "memorial-imprint-i17-aren": {
       look: {
-        narration: "Case material for memorial.forgotten_names surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "Inside the shadow-vault's imprint-room, fourteen obsidian dishes on a low cold-shelf. The keeper has lifted dish I-17 to the listening cradle. The voice on the dish is an elder's, calm and unhurried: 'my name is Aren of the lower decks; I have witnessed nineteen others; I will need someone to witness me.' Aren named themselves at the moment of imprinting. The dish carries every property the plaza requires for inscription — a name spoken in the imprint's own voice, with explicit awareness of the witnessing chain.",
         mysteryBinding: {
           mysteryId: "memorial.forgotten_names",
           episodeId: "memorial.forgotten_names.e2",
-          cluesFound: ["memorial.e2.imprint_i17", "memorial.e2.keeper_account"],
+          cluesFound: ["memorial.e2.imprint_i17"],
         },
+      },
+      use: {
+        narration:
+          "You replay the dish through the keeper's calibrated cradle. The voice does not waver across the imprint's full duration. Aren spoke once and only once; the imprint records nothing else. The single sentence was the whole address — to the future, to the plaza, to whoever would eventually arrive to write the name.",
+      },
+    },
+    /* ─── memorial.forgotten_names · e2 (Imprint-Keeper's thirty-year account) ─── */
+    "memorial-imprint-keeper-account": {
+      look: {
+        narration:
+          "On the imprint-room's small reading desk, the keeper's signed statement — taken by the Antiquarian's team after the plaza opened. The keeper has held this room for thirty years; their statement is unornamented. 'every imprint can be heard. every imprint can be named. the fourteen are not difficult to read; they are difficult to write. the writing requires consent the witnesses can no longer give.' The keeper distinguishes hearing from writing — both are technical acts; only the second requires the chain that broke.",
+        mysteryBinding: {
+          mysteryId: "memorial.forgotten_names",
+          episodeId: "memorial.forgotten_names.e2",
+          cluesFound: ["memorial.e2.keeper_account"],
+        },
+      },
+      interrogate: {
+        narration:
+          "You ask the keeper how they decide which dishes get listened to. Their answer: 'all of them, on a slow rotation. the unwitnessed get listened to twice a season; the others, once. the difference is the listening, not the dish.' The keeper has been performing this discipline alone for thirty years. The plaza is the keeper's first relief.",
       },
     },
     /* ─── charter.second_signatory · e3 (Council scrub request) ─── */

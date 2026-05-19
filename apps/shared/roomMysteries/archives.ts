@@ -21,7 +21,7 @@ export type ArchivesHotspotId =
   | "charter-per-m-preservation-orders"
   | "dlc-severance-bound-champion-archives"
   | "tarn-binder-page-14"
-  | "dlc-memorial-forgotten-names-archives"
+  | "memorial-fourteen-unwitnessed-list"
   | "wolf-crucible-resurrection-record"
   | "wolf-crucible-inheritance-manifest"
   | "dlc-akai-shi-red-death-archives"
@@ -120,14 +120,20 @@ export const ARCHIVES_MYSTERY: RoomMysteryModule<
           "You request the archives' provenance scan for the page. The retrieval log shows it was found face-up in the festival hall's recycling bin at first bell — fifteen minutes before the address was scheduled to begin. Tarn placed it where the festival staff would find it before the lectern would have to be opened.",
       },
     },
-    "dlc-memorial-forgotten-names-archives": {
+    /* ─── memorial.forgotten_names · e1 (fourteen unwitnessed list) ─── */
+    "memorial-fourteen-unwitnessed-list": {
       look: {
-        narration: "Case material for memorial.forgotten_names surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "In the archives' Memorial-tier drawer, the fourteen-imprint list — pulled from Year of the Lost's blank pages and copied into a separate index. By imprint-id only: I-3, I-17, I-44, I-58, I-101, I-129, I-155, I-202, I-244, I-301, I-356, I-388, I-410, I-444. Each id corresponds to a person whose imprint exists but whose witnesses are no longer alive to inscribe them. The fourteen are not lost; they are unwitnessed. The chain of memory broke, not the imprints. The plaza is for the chain.",
         mysteryBinding: {
           mysteryId: "memorial.forgotten_names",
           episodeId: "memorial.forgotten_names.e1",
           cluesFound: ["memorial.e1.unwitnessed_id_list"],
         },
+      },
+      use: {
+        narration:
+          "You request the archives' cross-reference between the fourteen ids and the wider imprint registry. The drawer returns a single annotation: 'no witnesses listed in any active registry entry; check imprint-room dishes for self-naming or in-group reference.' The list is the start of the search, not the answer.",
       },
     },
     /* ─── wolf.anara_hunt · e3 (Crucible resurrection record) ─── */

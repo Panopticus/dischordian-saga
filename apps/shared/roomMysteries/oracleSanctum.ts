@@ -10,7 +10,7 @@ import type { RoomMysteryModule } from "./_template";
 
 export type OracleSanctumHotspotId =
   | "tarn-pebble-recording"
-  | "dlc-memorial-forgotten-names-oracle-sanctum"
+  | "memorial-antiquarian-plaza-request"
   | "charter2-kassel-testimony"
   | "infernal-zyrkoth-concession"
   | "dlc-advocate-blood-weave-oracle-sanctum"
@@ -35,14 +35,20 @@ export const ORACLE_SANCTUM_MYSTERY: RoomMysteryModule<OracleSanctumHotspotId> =
           "You ask the sanctum's calibration logs for the recorder's failure mode. The logs return a clean entry: power was cut to the recorder at six minutes before the scheduled play. The cut was deliberate and the logs name the cutter — the Dean. The Dean disabled the recording because the Dean already knew what it would say and did not want the room to hear it before the faculty would have to admit what they had done.",
       },
     },
-    "dlc-memorial-forgotten-names-oracle-sanctum": {
+    /* ─── memorial.forgotten_names · e1 (Antiquarian's plaza request) ─── */
+    "memorial-antiquarian-plaza-request": {
       look: {
-        narration: "Case material for memorial.forgotten_names surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "In the sanctum's witness chamber, the recorded address the Antiquarian gave in the plaza at first bell on Memorial Day Year 1. The recording, in his voice: 'these fourteen imprints will remain unwritten unless someone takes responsibility for the writing. taking responsibility means reading the imprint, hearing the imprint, and writing the name as you have heard it. it is not a small thing to ask.' The sanctum's vu-meter captures the chronicler's hesitation only at the word 'responsibility' — the word he is least comfortable asking the plaza to carry. The plaza carries it anyway.",
         mysteryBinding: {
           mysteryId: "memorial.forgotten_names",
           episodeId: "memorial.forgotten_names.e1",
           cluesFound: ["memorial.e1.antiquarian_request"],
         },
+      },
+      interrogate: {
+        narration:
+          "You ask the sanctum for the players' response in the same recording. The chamber returns three voices: 'we will write them'; 'we will listen first'; 'tell us how to listen.' Three players said all three things within the first minute. The plaza arrived ready to ask better questions than the Antiquarian expected to answer.",
       },
     },
     /* ─── charter.second_signatory · e2 (Kassel Solven's testimony) ─── */
