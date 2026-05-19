@@ -8,21 +8,27 @@
 import type { RoomMysteryModule } from "./_template";
 
 export type ForgeWorkshopHotspotId =
-  | "dlc-mechronis-chained-lesson-forge-workshop"
+  | "chained-auro-tally"
   | "dlc-advocate-blood-weave-forge-workshop"
   | "anvil" | "schema-rack" | "kiln";
 
 export const FORGE_WORKSHOP_MYSTERY: RoomMysteryModule<ForgeWorkshopHotspotId> = {
   roomId: "forge-workshop",
   responses: {
-    "dlc-mechronis-chained-lesson-forge-workshop": {
+    /* ─── mechronis.chained_lesson · e3 (Auro's twelve-apprentice tally) ─── */
+    "chained-auro-tally": {
       look: {
-        narration: "Case material for mechronis.chained_lesson surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "At the back of Sergeant Auro's side-room — three chairs, a chalked Terminus diorama at one-to-forty — a small leather notebook hangs from a peg by a strip of jute. Inside, in Auro's hand, twelve names. Each name carries a tally beside it — the number of waves that apprentice has held since their drill cycle here. Tally total at the bottom: forty-three. Forty-three waves held without further loss, by twelve apprentices the Academy never paid Auro to teach. The notebook is dated nine years and reads as a record of work the Academy declined to recognise.",
         mysteryBinding: {
           mysteryId: "mechronis.chained_lesson",
           episodeId: "mechronis.chained_lesson.e3",
           cluesFound: ["chained.e3.twelve_apprentices"],
         },
+      },
+      use: {
+        narration:
+          "You flip the notebook open at the spine fold. Half-erased pencil lines on the inside cover read 'I keep this so I know what to charge them if they ever ask.' The Academy has not asked. The Trade Empire has been paying Auro for a job adjacent to this one for nine years. The notebook has not been entered on either ledger.",
       },
     },
     "dlc-advocate-blood-weave-forge-workshop": {

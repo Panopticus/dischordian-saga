@@ -14,7 +14,8 @@ import type { RoomMysteryModule } from "./_template";
 
 export type WarRoomHotspotId =
   | "dlc-severance-infernal-clause-war-room"
-  | "dlc-mechronis-chained-lesson-war-room"
+  | "chained-wave-telemetry"
+  | "chained-feint-pattern"
   | "dlc-memorial-seven-watchers-war-room"
   | "dlc-resurrectionist-cycle-walker-war-room"
   | "dlc-storm-architect-of-flux-war-room"
@@ -34,14 +35,36 @@ export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
         },
       },
     },
-    "dlc-mechronis-chained-lesson-war-room": {
+    /* ─── mechronis.chained_lesson · e1 (wave telemetry) ─── */
+    "chained-wave-telemetry": {
       look: {
-        narration: "Case material for mechronis.chained_lesson surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "The war-room's main holo-tank carries the festival roof's tower-defense readings, four minutes from contact. Standard Terminus pattern: fourteen carriers in echelon, no anomalies, no surge. Your apprentice's tower reads full ammunition; the sight-line is clean to the outer wall; the wind is steady. The wave is winnable on every metric the tank tracks. The cipher-den's overlay shows the same pattern fielded in fourteen previous festival openings, each one categorically winnable. The tank does not tell you why thirty-one apprentices have failed to win it.",
         mysteryBinding: {
           mysteryId: "mechronis.chained_lesson",
           episodeId: "mechronis.chained_lesson.e1",
-          cluesFound: ["chained.e1.wave_telemetry", "chained.e2.feint_pattern"],
+          cluesFound: ["chained.e1.wave_telemetry"],
         },
+      },
+      use: {
+        narration:
+          "You scrub the tank's timeline back through the fourteen Terminus waves. Each one shows the same echelon, the same carriers, the same winnable telemetry. The pattern that loses is not visible on this tank. The pattern that loses is the third-minute one the tank does not annotate.",
+      },
+    },
+    /* ─── mechronis.chained_lesson · e2 (feint pattern) ─── */
+    "chained-feint-pattern": {
+      look: {
+        narration:
+          "On the side display, the league's tower-defense desk's annotation has been pinned to the tank as supplementary: 'the Terminus formation that produces this feint is well-known to senior operators. apprentices have not been taught to recognise it. the pattern has been on the league's drill curriculum every year.' The annotation is signed by a desk officer who has fielded apprentices for nine years on Trade Empire pay. The Academy's term sheet, also pinned for cross-reference, does not list this pattern. The cross-reference is the answer to the war-room's question.",
+        mysteryBinding: {
+          mysteryId: "mechronis.chained_lesson",
+          episodeId: "mechronis.chained_lesson.e2",
+          cluesFound: ["chained.e2.feint_pattern"],
+        },
+      },
+      interrogate: {
+        narration:
+          "You ask the desk officer's pinned note to expand. The annotation deepens: 'the feint reads as a real approach for two beats. apprentices commit at beat one. senior operators wait until beat three. the wait costs nothing; the commit costs everything.' The Academy's curriculum has not taught the wait.",
       },
     },
     "dlc-memorial-seven-watchers-war-room": {

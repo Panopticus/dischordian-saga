@@ -32,7 +32,7 @@ export type CipherDenHotspotId =
   | "dlc-memorial-forgotten-names-cipher-den"
   | "dlc-charter-second-signatory-cipher-den"
   | "dlc-severance-infernal-clause-cipher-den"
-  | "dlc-mechronis-chained-lesson-cipher-den"
+  | "chained-tarn-year-one-argument"
   | "dlc-memorial-seven-watchers-cipher-den"
   | "dlc-akai-shi-red-death-cipher-den"
   | "rosetta-pad" | "encrypted-correspondence" | "dictionary-of-edits" | "uncorruption-bench" | "cross-arc-thanks-card" | "vex-seer-pair-binder";
@@ -95,14 +95,20 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
         },
       },
     },
-    "dlc-mechronis-chained-lesson-cipher-den": {
+    /* ─── mechronis.chained_lesson · e4 (Tarn's Year-One argument) ─── */
+    "chained-tarn-year-one-argument": {
       look: {
-        narration: "Case material for mechronis.chained_lesson surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "In the cipher-den's deepest archive — drawer seven, year-one tier — the Year-One curriculum vote's full proceedings sit on six and a half hours of recovered audio. Hour three is timestamped and bookmarked: Tarn's forty-minute argument against Module 17. The transcript: 'feint-recognition is a combat skill. the Academy is not a combat school. if we teach it, we become responsible for what apprentices do with it. the league's drill curriculum can teach it; we should not.' The argument is academic, considered, and ultimately persuasive. Module 17 was struck before the ballot.",
         mysteryBinding: {
           mysteryId: "mechronis.chained_lesson",
           episodeId: "mechronis.chained_lesson.e4",
           cluesFound: ["chained.e4.tarn_argument"],
         },
+      },
+      use: {
+        narration:
+          "You queue the audio. Tarn's voice is steady through the forty minutes — the cadence of a person who has thought through the consequences and decided. There is no waver. The Year-Eight retraction in her hand says she had thought through everything except the consequence of being right in theory and wrong in practice.",
       },
     },
     "dlc-memorial-seven-watchers-cipher-den": {
