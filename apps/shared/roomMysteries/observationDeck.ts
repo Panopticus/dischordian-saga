@@ -23,7 +23,8 @@ import type { RoomMysteryModule } from "./_template";
 
 export type ObservationDeckHotspotId =
   | "dlc-akai-shi-red-death-observation-deck"
-  | "dlc-storm-architect-of-flux-observation-deck"
+  | "storm-weather-telemetry"
+  | "storm-full-calms-register"
   | "panoramic-viewport" | "purification-crystal-cradle" | "bond-resonance-altar";
 
 export type ObservationDeckInventoryId =
@@ -47,14 +48,36 @@ export const OBSERVATION_DECK_MYSTERY: RoomMysteryModule<
         },
       },
     },
-    "dlc-storm-architect-of-flux-observation-deck": {
+    /* ─── storm.architect_of_flux · e1 (five-century weather telemetry) ─── */
+    "storm-weather-telemetry": {
       look: {
-        narration: "Case material for storm.architect_of_flux surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "On the observation-deck's cosmic-weather console, the Antiquarian's library's five-century telemetry record covering the principal Ne-Yon-witnessed sectors. The baseline is a slow oscillation between two equilibria. The Storm's documented active periods coincide with the oscillation crossing the mid-line in both directions. He is not maintaining either pole; he is maintaining the crossing. The console pin-marks every active interval; the pins line up on the crossing exactly.",
         mysteryBinding: {
           mysteryId: "storm.architect_of_flux",
           episodeId: "storm.architect_of_flux.e1",
-          cluesFound: ["storm.e1.weather_telemetry", "storm.e4.full_calms_register"],
+          cluesFound: ["storm.e1.weather_telemetry"],
         },
+      },
+      use: {
+        narration:
+          "You scrub the timeline back five centuries. The crossing-maintenance is consistent across the entire record. The Storm is not making weather; the Storm is enforcing that weather happens. The chronicle does not stagnate at either pole because the Storm refuses the stagnation.",
+      },
+    },
+    /* ─── storm.architect_of_flux · e4 (full register of nine calms) ─── */
+    "storm-full-calms-register": {
+      look: {
+        narration:
+          "Pinned beside the telemetry, the full register of nine documented calm intervals — periods where the equilibrium-crossing pattern flattens for seven to nine cosmic-cycles. Each calm preceded by a slow flux-energy build-up; each followed by the decade's peak active flux period. The register's marginal note: 'the calms do not arrive on a clock; they arrive when planning is asked for.' The cadence is regular at cosmic scale and irregular at chronicle scale — calms are responsive, not periodic.",
+        mysteryBinding: {
+          mysteryId: "storm.architect_of_flux",
+          episodeId: "storm.architect_of_flux.e4",
+          cluesFound: ["storm.e4.full_calms_register"],
+        },
+      },
+      interrogate: {
+        narration:
+          "You ask the register what triggered the most recent calm. The console returns a list of cosmic-scale planning requests filed in the corresponding interval: the Apprentice cohort's first muster; a redacted second event. The Storm answers planning requests. The chronicle does not always record what the calms were used for.",
       },
     },
     "panoramic-viewport": {

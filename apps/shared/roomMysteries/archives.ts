@@ -26,7 +26,7 @@ export type ArchivesHotspotId =
   | "wolf-crucible-inheritance-manifest"
   | "dlc-akai-shi-red-death-archives"
   | "dlc-resurrectionist-cycle-walker-archives"
-  | "dlc-storm-architect-of-flux-archives"
+  | "storm-inventors-heist-window"
   | "data-banks" | "egg-archive-tome" | "corrupted-scroll-rack" | "rewritten-ledger" | "indigo-glow-lectern" | "unnameable-hue-cabinet";
 
 export type ArchivesInventoryId =
@@ -182,14 +182,20 @@ export const ARCHIVES_MYSTERY: RoomMysteryModule<
         },
       },
     },
-    "dlc-storm-architect-of-flux-archives": {
+    /* ─── storm.architect_of_flux · e3 (Inventor's heist window) ─── */
+    "storm-inventors-heist-window": {
       look: {
-        narration: "Case material for storm.architect_of_flux surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "In the archives' Inventor-arc tier, the Casino Heist's post-event accounting. Recovered the Heart of Time; transitioned the saga from Age of Privacy to Age of Prophecy. The accounting's opening line, in the Inventor's own hand: 'the Storm's grace allowed the window.' The heist's planning required cosmic-scale information consistency across two cosmic-cycles — the kind of consistency only achievable inside one of the Storm's documented calm intervals. The dates match. The crediting is canon, not flourish.",
         mysteryBinding: {
           mysteryId: "storm.architect_of_flux",
           episodeId: "storm.architect_of_flux.e3",
           cluesFound: ["storm.e3.inventors_heist_window"],
         },
+      },
+      use: {
+        narration:
+          "You request the heist's preparation log. Forty-three operational decisions, each predicated on stable cosmic conditions, each stamped with a calm-interval timestamp. The Inventor did not plan past the calm. The Inventor planned WITHIN the calm. The Storm authored the window; the Inventor authored the heist; the credit reads forward.",
       },
     },
     "data-banks": {

@@ -18,7 +18,8 @@ export type WarRoomHotspotId =
   | "chained-feint-pattern"
   | "dlc-memorial-seven-watchers-war-room"
   | "dlc-resurrectionist-cycle-walker-war-room"
-  | "dlc-storm-architect-of-flux-war-room"
+  | "storm-advocates-blood-weave"
+  | "storm-event-correlation-table"
   | "dlc-advocate-blood-weave-war-room"
   | "holo-table" | "casualty-board" | "signal-flag-rack" | "ocularum-vigil-board" | "ocularum-cell-roster" | "hierarchy-org-chart-board" | "thalorian-defense-records" | "new-babylon-siege-record" | "hierarchy-piece-positioning-board" | "varkul-director-of-security-file" | "necromancer-castle-log-board" | "zyr-koth-rd-refinement-file" | "the-severance-hollowing-report" | "the-locked-lever-board" | "syl-vex-dual-roster-board" | "the-severance-cross-lock-file" | "the-taskmasters-siege-portfolio" | "riri-ahlia-reorg-doctrine-board" | "the-procedural-question-file" | "the-priced-defense-accounting" | "fenra-seventeen-front-manifest" | "the-wolf-in-the-boardroom-file" | "fenra-varkul-contrast-record";
 
@@ -87,14 +88,36 @@ export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
         },
       },
     },
-    "dlc-storm-architect-of-flux-war-room": {
+    /* ─── storm.architect_of_flux · e3 (Advocate's Blood-Weave journals) ─── */
+    "storm-advocates-blood-weave": {
       look: {
-        narration: "Case material for storm.architect_of_flux surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "On the war-room's Empire-of-Shadows tactical display, the Advocate's surviving operational journals on the Blood Weave's deployments. The Weave's operational tolerances require a turbulent local cosmic environment; the Storm provided it across every documented deployment window. The Advocate's accounting describes the Storm as 'a patron of opportunity, indifferent to outcome.' The journals are sparse but consistent — the Advocate did not credit the Storm with success; the Advocate credited the Storm with the conditions under which success became possible.",
         mysteryBinding: {
           mysteryId: "storm.architect_of_flux",
           episodeId: "storm.architect_of_flux.e3",
-          cluesFound: ["storm.e3.advocates_blood_weave", "storm.e4.event_correlation_table"],
+          cluesFound: ["storm.e3.advocates_blood_weave"],
         },
+      },
+      use: {
+        narration:
+          "You correlate the Weave deployments against the Storm's active periods. Every deployment landed inside one. The Advocate did not plan deployments outside the windows. The Storm was the Empire of Shadows' weather-officer; the Empire's tactics presumed his patronage.",
+      },
+    },
+    /* ─── storm.architect_of_flux · e4 (calm-event correlation table) ─── */
+    "storm-event-correlation-table": {
+      look: {
+        narration:
+          "Pinned beside the Advocate's journals, the war-room's chronicle-event correlation table: nine documented Storm calms mapped to chronicle-significant events. Seven calms aligned with named events — Casino Heist (twice), Second Fall, Architect's Year-1 emergence, Founding of the Authority, Severance Protocol, Inception Ark launches, Battle of Thaloria, Apprentice muster. Each event required cosmic-scale planning consistency; each got it during a Storm-authored calm interval. The remaining two calms have no publicly-recorded event — the chronicle's gap, not the cadence's.",
+        mysteryBinding: {
+          mysteryId: "storm.architect_of_flux",
+          episodeId: "storm.architect_of_flux.e4",
+          cluesFound: ["storm.e4.event_correlation_table"],
+        },
+      },
+      interrogate: {
+        narration:
+          "You ask the table for the planning-signature of each correlated event. The console returns identical signatures across all seven — multi-cycle information consistency, no flux interference, no Ne-Yon-grade disturbance. Planning is permitted; planning happens; planning is followed by the most active flux period in the surrounding decade. The chronicle is consequential because the Storm allows it to be.",
       },
     },
     "dlc-advocate-blood-weave-war-room": {
