@@ -39,6 +39,7 @@ import { checkVipSubscription } from "./checks/vipSubscription";
 import { checkNativeHaptics } from "./checks/nativeHaptics";
 import { checkNativeOrientation } from "./checks/nativeOrientation";
 import { checkNativeShell } from "./checks/nativeShell";
+import { checkSagaLedgerHumanizerCoverage } from "./checks/sagaLedgerHumanizerCoverage";
 import { checkAssetPrefetchManifest } from "./checks/assetPrefetchManifest";
 import { checkProcedureRateLimits } from "./checks/procedureRateLimits";
 import { checkVoidContrastCoverage } from "./checks/voidContrastCoverage";
@@ -379,6 +380,13 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "lib/nativeShell drives StatusBar style + SplashScreen.hide (config launchAutoHide:false) + Android backButton behind the native probe, invoked from main.tsx. Stops the native build dropping to a blank frame pre-mount and fixes status-bar contrast / unhandled hardware-back.",
     check: () => checkNativeShell(),
+  },
+  {
+    id: "narrative.saga_ledger_humanizer_coverage",
+    name: "Your Saga ledger humanizer coverage",
+    description:
+      "Every ripple.emit() eventType has a SAGA_EVENT_HUMANIZERS entry, so the player-facing 'Your Saga' consequence ledger renders every persisted consequence as a readable line instead of a raw code. saga.ledger tRPC joins it with npc_public_flags world-standing.",
+    check: () => checkSagaLedgerHumanizerCoverage(),
   },
   {
     id: "client.asset_prefetch_manifest",
