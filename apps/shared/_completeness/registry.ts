@@ -38,6 +38,7 @@ import { checkIapReceiptOwnership } from "./checks/iapReceiptOwnership";
 import { checkVipSubscription } from "./checks/vipSubscription";
 import { checkNativeHaptics } from "./checks/nativeHaptics";
 import { checkNativeOrientation } from "./checks/nativeOrientation";
+import { checkNativeShell } from "./checks/nativeShell";
 import { checkAssetPrefetchManifest } from "./checks/assetPrefetchManifest";
 import { checkProcedureRateLimits } from "./checks/procedureRateLimits";
 import { checkVoidContrastCoverage } from "./checks/voidContrastCoverage";
@@ -371,6 +372,13 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "LandscapeEnforcer locks landscape via @capacitor/screen-orientation on the native shell (web Screen Orientation API + overlay fallback). Fixes iOS, where screen.orientation.lock is unsupported and players got a rotate-device overlay instead of the OS rotating the app.",
     check: () => checkNativeOrientation(),
+  },
+  {
+    id: "mobile.native_shell",
+    name: "Native shell (splash / status-bar / back)",
+    description:
+      "lib/nativeShell drives StatusBar style + SplashScreen.hide (config launchAutoHide:false) + Android backButton behind the native probe, invoked from main.tsx. Stops the native build dropping to a blank frame pre-mount and fixes status-bar contrast / unhandled hardware-back.",
+    check: () => checkNativeShell(),
   },
   {
     id: "client.asset_prefetch_manifest",

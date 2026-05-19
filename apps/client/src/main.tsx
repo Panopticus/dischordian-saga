@@ -7,6 +7,7 @@ import superjson from "superjson";
 import App from "./App";
 import { getGoogleLoginUrl } from "./const";
 import { reportError } from "@/stores/errorToastStore";
+import { initNativeShell } from "@/lib/nativeShell";
 // #88 Telemetry — Sentry side-effect init.
 // apps/client/src/lib/sentry.ts runs Sentry.init at module top-level
 // when VITE_SENTRY_DSN is set; importing for side-effect here makes
@@ -169,3 +170,8 @@ createRoot(document.getElementById("root")!).render(
     </QueryClientProvider>
   </trpc.Provider>
 );
+
+// Native shell (StatusBar / SplashScreen hide / Android back).
+// No-op on web; runs after the React tree is mounted so the splash
+// only drops once there's something to show.
+void initNativeShell();
