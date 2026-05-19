@@ -9,7 +9,7 @@ import type { RoomMysteryModule } from "./_template";
 
 export type ForgeWorkshopHotspotId =
   | "chained-auro-tally"
-  | "dlc-advocate-blood-weave-forge-workshop"
+  | "advocate-weave-specification"
   | "anvil" | "schema-rack" | "kiln";
 
 export const FORGE_WORKSHOP_MYSTERY: RoomMysteryModule<ForgeWorkshopHotspotId> = {
@@ -31,14 +31,20 @@ export const FORGE_WORKSHOP_MYSTERY: RoomMysteryModule<ForgeWorkshopHotspotId> =
           "You flip the notebook open at the spine fold. Half-erased pencil lines on the inside cover read 'I keep this so I know what to charge them if they ever ask.' The Academy has not asked. The Trade Empire has been paying Auro for a job adjacent to this one for nine years. The notebook has not been entered on either ledger.",
       },
     },
-    "dlc-advocate-blood-weave-forge-workshop": {
+    /* ─── advocate.blood_weave · e2 (Blood Weave partial specification) ─── */
+    "advocate-weave-specification": {
       look: {
-        narration: "Case material for advocate.blood_weave surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "On the forge-workshop's bench, the partial specification of the Blood Weave — recovered from a Zyr'Koth research archive (the Hierarchy SVP R&D's Weave-derivative work). The specification's operational core: the Weave is a multi-layer binding fabric that ABSORBS cosmic-energy from its weaver to MATERIALIZE chains against hostile instruments. Energy in: weaver's own life-substrate. Energy out: chains that bind. The fabric does not regenerate — every binding consumes the weaver's substrate net. The forge's metallurgical readers cross-reference the spec against bindings recovered from the seven-dimensions siege: the substrate signatures match.",
         mysteryBinding: {
           mysteryId: "advocate.blood_weave",
           episodeId: "advocate.blood_weave.e2",
           cluesFound: ["adv.e2.weave_specification_partial"],
         },
+      },
+      use: {
+        narration:
+          "You ask the bench whether the Weave can be replicated by a different weaver. The reader returns the spec's footnote: 'the Weave is keyed to its weaver's substrate. another weaver would weave a different fabric.' The Advocate's Weave is uniquely hers; no successor can wear her chains forward.",
       },
     },
     anvil: {

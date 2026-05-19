@@ -8,20 +8,26 @@
 import type { RoomMysteryModule } from "./_template";
 
 export type SocialHubHotspotId =
-  | "dlc-advocate-blood-weave-social-hub"
+  | "advocate-sylvex-recruitment-pitch"
   | "bulletin-board" | "mess-table";
 
 export const SOCIAL_HUB_MYSTERY: RoomMysteryModule<SocialHubHotspotId> = {
   roomId: "social-hub",
   responses: {
-    "dlc-advocate-blood-weave-social-hub": {
+    /* ─── advocate.blood_weave · e3 (Syl'Vex's recruitment pitch) ─── */
+    "advocate-sylvex-recruitment-pitch": {
       look: {
-        narration: "Case material for advocate.blood_weave surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "On the social-hub's recovered-transmissions board, a transcript of Syl'Vex's recruitment pitch to one of the Advocate's generals — preserved by the Hierarchy as a successful operational template. The pitch's structure: 'You have spent yourself defending. The Advocate's instrument requires this from you. My instrument requires a comfortable seat and a fair hearing of your fatigue. Both instruments produce results. Mine is gentler. Gentleness is not a weakness; it is an option the Advocate's doctrine forbade her from offering you. I am offering it.' The pitch is precise. The pitch worked three times. The Hierarchy keeps it on file as the doctrine's most-effective recruitment template.",
         mysteryBinding: {
           mysteryId: "advocate.blood_weave",
           episodeId: "advocate.blood_weave.e3",
           cluesFound: ["adv.e3.sylvex_recruitment_pitch"],
         },
+      },
+      interrogate: {
+        narration:
+          "You ask the hub for the general's recorded response. The board returns a three-line answer: 'I am tired. I will accept the seat. I will not retract my Advocate's shelter.' The general kept their Empire-of-Shadows shelter even while accepting Syl'Vex's recruitment. The Advocate's charter is unconditional. The mirror cannot break it.",
       },
     },
     "bulletin-board": {

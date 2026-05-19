@@ -13,7 +13,7 @@ export type OracleSanctumHotspotId =
   | "memorial-antiquarian-plaza-request"
   | "charter2-kassel-testimony"
   | "infernal-zyrkoth-concession"
-  | "dlc-advocate-blood-weave-oracle-sanctum"
+  | "advocate-ninth-conexus-story"
   | "oracle-pool" | "prophecy-tablet" | "incense-brazier" | "seers-recording-cabinet";
 
 export const ORACLE_SANCTUM_MYSTERY: RoomMysteryModule<OracleSanctumHotspotId> = {
@@ -83,14 +83,20 @@ export const ORACLE_SANCTUM_MYSTERY: RoomMysteryModule<OracleSanctumHotspotId> =
           "You ask the sanctum for Zyr'Koth's full statement. The recording continues: 'we will withdraw the claim. we will return the contracts to the league's archive. we will not exercise the clause on any of the bonds. the audit was honest and the trap was honest. we accept both.' The Hierarchy has met an honest paperwork with honest paperwork.",
       },
     },
-    "dlc-advocate-blood-weave-oracle-sanctum": {
+    /* ─── advocate.blood_weave · e4 (CoNexus story 'The Ninth') ─── */
+    "advocate-ninth-conexus-story": {
       look: {
-        narration: "Case material for advocate.blood_weave surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "In the oracle-sanctum's CoNexus playback alcove, the canonical Advocate-narrated story — 'The Ninth.' The frame: an Advocate-narrated meditation on the ninth position in cosmic-principle entity rosters; on the position's loneliness; on the substrate-cost of being the ninth. The story does not stage a plot. It stages a position. The story's hardest line, read by the Advocate herself: 'I am not lonely because I have lost what I traded. I am lonely because what remains has no second.' The story is canonically Advocate-authored.",
         mysteryBinding: {
           mysteryId: "advocate.blood_weave",
           episodeId: "advocate.blood_weave.e4",
           cluesFound: ["adv.e4.ninth_conexus_story"],
         },
+      },
+      interrogate: {
+        narration:
+          "You ask the sanctum for the story's narration cadence. The recording's vu-meter shows steady register-three liturgical pace across the full duration. No emotional peaks. No tonal shifts. The position has been the Advocate's working voice for so long it cannot be played, only inhabited.",
       },
     },
     "oracle-pool": {

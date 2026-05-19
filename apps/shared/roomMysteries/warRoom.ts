@@ -20,7 +20,8 @@ export type WarRoomHotspotId =
   | "resur-second-fall-casualty-count"
   | "storm-advocates-blood-weave"
   | "storm-event-correlation-table"
-  | "dlc-advocate-blood-weave-war-room"
+  | "advocate-acquisition-attempt-log"
+  | "advocate-riri-ahlia-account"
   | "holo-table" | "casualty-board" | "signal-flag-rack" | "ocularum-vigil-board" | "ocularum-cell-roster" | "hierarchy-org-chart-board" | "thalorian-defense-records" | "new-babylon-siege-record" | "hierarchy-piece-positioning-board" | "varkul-director-of-security-file" | "necromancer-castle-log-board" | "zyr-koth-rd-refinement-file" | "the-severance-hollowing-report" | "the-locked-lever-board" | "syl-vex-dual-roster-board" | "the-severance-cross-lock-file" | "the-taskmasters-siege-portfolio" | "riri-ahlia-reorg-doctrine-board" | "the-procedural-question-file" | "the-priced-defense-accounting" | "fenra-seventeen-front-manifest" | "the-wolf-in-the-boardroom-file" | "fenra-varkul-contrast-record";
 
 export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
@@ -138,14 +139,36 @@ export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
           "You ask the table for the planning-signature of each correlated event. The console returns identical signatures across all seven — multi-cycle information consistency, no flux interference, no Ne-Yon-grade disturbance. Planning is permitted; planning happens; planning is followed by the most active flux period in the surrounding decade. The chronicle is consequential because the Storm allows it to be.",
       },
     },
-    "dlc-advocate-blood-weave-war-room": {
+    /* ─── advocate.blood_weave · e1 (acquisition-attempt log) ─── */
+    "advocate-acquisition-attempt-log": {
       look: {
-        narration: "Case material for advocate.blood_weave surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "On the war-room's Empire-of-Shadows defensive display, the Hierarchy acquisition-attempt log across seven recorded centuries. Column headers: target soul, hostile instrument deployed, Advocate countersignature held, outcome. The 'outcome' column shows the same value at every entry where the countersignature held: NULL. The Hierarchy did not succeed in a single recorded breach against an Advocate-sheltered soul. Seven centuries; thousands of attempts; zero breaches. The chronicle's most-load-bearing single defensive record.",
         mysteryBinding: {
           mysteryId: "advocate.blood_weave",
           episodeId: "advocate.blood_weave.e1",
-          cluesFound: ["adv.e1.hierarchy_acquisition_attempts", "adv.e2.riri_ahlia_siege_record"],
+          cluesFound: ["adv.e1.hierarchy_acquisition_attempts"],
         },
+      },
+      use: {
+        narration:
+          "You request a per-instrument breakdown. The display returns the Hierarchy's full instrument roster — Mol'Garath's chains, Xeth'Raal's debt-claims, Zyr'Koth's R&D experimentals, Riri'Ahlia's operational sieges. Every instrument has been deployed against sheltered souls. Every instrument has returned NULL. The charter is operationally absolute within its scope.",
+      },
+    },
+    /* ─── advocate.blood_weave · e2 (Riri'Ahlia's siege account) ─── */
+    "advocate-riri-ahlia-account": {
+      look: {
+        narration:
+          "Pinned beside the acquisition log, Riri'Ahlia's own surviving account of the Empire-of-Shadows siege she personally led. The Hierarchy COO's words: 'Seven dimensions, six advances, one final reverse. I had the Hierarchy's organizational doctrine and the corporate-machine's resources. The Advocate had less than I had at every operational scale. The Advocate had MORE only in one resource: she was willing to spend herself. I was not willing to spend myself; my doctrine forbids it. Her doctrine REQUIRED it. She drove me back with chains forged from her own substrate. The chains held. I retreated. The Empire of Shadows held its border.' Riri'Ahlia does not give credit casually.",
+        mysteryBinding: {
+          mysteryId: "advocate.blood_weave",
+          episodeId: "advocate.blood_weave.e2",
+          cluesFound: ["adv.e2.riri_ahlia_siege_record"],
+        },
+      },
+      interrogate: {
+        narration:
+          "You ask the war-room for Riri'Ahlia's retreat protocol. The display returns the operational record: orderly withdrawal across six advances, then a single accelerated reverse on the seventh. The siege did not collapse; Riri'Ahlia chose to retreat at a moment her instruments could still have continued. She has not returned to the Empire's border.",
       },
     },
     "holo-table": {

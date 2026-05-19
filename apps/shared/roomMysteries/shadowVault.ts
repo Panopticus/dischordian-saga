@@ -35,7 +35,7 @@ export type ShadowVaultHotspotId =
   | "watchers-line-in-apprentice-hand"
   | "resur-necromancer-at-killsite"
   | "resur-silence-body-claim"
-  | "dlc-advocate-blood-weave-shadow-vault"
+  | "advocate-sealed-sacrum"
   | "sealed-cell-glass" | "manuscript-pile" | "warden-terminal" | "release-or-seal-lever" | "the-unopened-threshold" | "the-makers-heartbeat-trace" | "the-necromancers-altar";
 
 export type ShadowVaultInventoryId = "manuscript-folio";
@@ -190,14 +190,20 @@ export const SHADOW_VAULT_MYSTERY: RoomMysteryModule<
           "You request comparable Ne-Yon body-claim records. The vault returns four others — for the Sage, the Champion, the Hawk, the Architect's first failed proxy. None of the four carries an archaic seal. The 'tradition' the cult's annotation cites has no other examples in the chronicle.",
       },
     },
-    "dlc-advocate-blood-weave-shadow-vault": {
+    /* ─── advocate.blood_weave · e3 (the Sacrum reliquary) ─── */
+    "advocate-sealed-sacrum": {
       look: {
-        narration: "Case material for advocate.blood_weave surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "Inside the shadow-vault's classified-reliquary drawer, the Sacrum — a canonical reliquary the Advocate sealed and Syl'Vex unsealed. The vault's sealed-record summary: the Sacrum contains a class of Weave-derivative bindings the Advocate elected not to use. The bindings would have shortened the Empire-of-Shadows defense by centuries but at a cost to the bound souls' agency. The Advocate sealed them. Syl'Vex unsealed them — and uses them as the operational core of HR's recruitment-as-relief doctrine. The Sacrum's contents are canon; the doctrine derived from them is the Hierarchy's most efficient soul-acquisition pathway.",
         mysteryBinding: {
           mysteryId: "advocate.blood_weave",
           episodeId: "advocate.blood_weave.e3",
           cluesFound: ["adv.e3.sealed_sacrum_record"],
         },
+      },
+      use: {
+        narration:
+          "You request the vault's note on what the Sacrum still holds. The keeper's annotation: 'after Syl'Vex's unsealing, three classes of binding remain. each was refused even with Syl'Vex's operational pressure. the Advocate's discipline survives in what is still sealed.' The Advocate's refusal is durable; what she refused even under pressure is the Empire's deepest principle.",
       },
     },
     "sealed-cell-glass": {

@@ -28,7 +28,8 @@ export type AntiquarianLibraryHotspotId =
   | "dlc-akai-shi-red-death-antiquarian-library"
   | "resur-plague-mask-seal"
   | "resur-pre-empire-twin-text"
-  | "dlc-advocate-blood-weave-antiquarian-library"
+  | "advocate-founding-charter"
+  | "advocate-humanity-trade-spec"
   | "card-catalog" | "locked-vault" | "antiquarian-bust" | "hierophants-marginalia-stack" | "codas-purpose-shelf" | "velkraals-correspondence-folio" | "insurgency-witness-roster" | "ocularum-founding-record" | "antiquarian-redaction-ledger" | "directors-doctrine-folio" | "shadow-tongue-casebook" | "thaloria-generational-ledger" | "siege-keep-witness-fragments" | "programmer-infiltration-dossier" | "insurance-policy-design-file" | "two-witnesses-closing-ledger" | "collector-catalog-page" | "collectors-redacted-anomaly" | "collector-case-closing-ledger" | "varkul-vigil-cross-catalog" | "varkul-testimony-boundary-file" | "akai-shi-witness-statements" | "necromancer-case-closing-ledger" | "zyr-koth-sisters-and-closing-ledger" | "syl-vex-sisters-of-the-weave" | "riri-ahlia-closing-ledger" | "fenra-door-and-engine" | "fenra-closing-ledger";
 
 export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHotspotId> = {
@@ -332,14 +333,36 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           "You ask the catalog for related pre-Empire fragments. The drawer returns three additional taxonomic passages, each in the same hand, each pairing two named entities. The fragment under glass is not metaphor in any of its sister-passages. The cult-curated reading is, by the document's own context, the outlier.",
       },
     },
-    "dlc-advocate-blood-weave-antiquarian-library": {
+    /* ─── advocate.blood_weave · e1 (Empire of Shadows founding charter) ─── */
+    "advocate-founding-charter": {
       look: {
-        narration: "Case material for advocate.blood_weave surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "On the central reading table, under archival glass, the Empire of Shadows' founding charter — recovered from a sealed reliquary in the Antiquarian's library. The first article reads: 'No soul under this charter's shelter may be acquired by hostile spiritual instrument without the Advocate's countersignature. The charter is the countersignature's prerequisite. The Empire is the charter's living guarantor.' The Advocate's signature is at the foot; six co-signatures follow it. Five names are legible. The sixth is intentionally redacted in the Advocate's own hand.",
         mysteryBinding: {
           mysteryId: "advocate.blood_weave",
           episodeId: "advocate.blood_weave.e1",
-          cluesFound: ["adv.e1.founding_charter", "adv.e4.humanity_trade_specification"],
+          cluesFound: ["adv.e1.founding_charter"],
         },
+      },
+      use: {
+        narration:
+          "You request the catalog's note on the redacted signatory. The drawer returns the Antiquarian's annotation: 'redaction self-applied; co-signatory remains canonical even though un-named. The Advocate's discipline included signing twice — once as founder, once as the charter's permanent witness.' One Advocate, two roles, two signatures.",
+      },
+    },
+    /* ─── advocate.blood_weave · e4 (humanity-trade specification) ─── */
+    "advocate-humanity-trade-spec": {
+      look: {
+        narration:
+          "On the reading-dome's Empire-of-Shadows shelf, the operational specification of the Advocate's humanity-trade — recovered from the Empire's own records. Multi-component. Component one: capacity for spontaneous mortal-scale emotional response — surrendered to power the Weave's bindings. Component two: continuity-of-personal-time — Ne-Yon-timescale operation replaced mortal-timescale operation. Component three: capacity for unsheltered fear — the unconditional charter cannot be authored from inside fear. The specification does not name what was retained. The chronicle's reading: she retained the parts of humanity her charter required to remain Advocate; she traded the parts it required her to spend.",
+        mysteryBinding: {
+          mysteryId: "advocate.blood_weave",
+          episodeId: "advocate.blood_weave.e4",
+          cluesFound: ["adv.e4.humanity_trade_specification"],
+        },
+      },
+      interrogate: {
+        narration:
+          "You ask the shelf for the spec's authorship. The drawer returns a single annotation: 'authored by the Advocate herself, in register three, at the moment of the trade. the trade was deliberate, itemised, signed.' The Advocate did not lose what she traded. She chose what to spend.",
       },
     },
     "card-catalog": {
