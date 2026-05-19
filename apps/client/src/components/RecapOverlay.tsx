@@ -362,6 +362,22 @@ export default function RecapOverlay({
                   effect="breathe"
                 />
 
+                {recap.nextPhaseHook && (
+                  <motion.p
+                    className="mt-6 text-sm sm:text-base not-italic"
+                    style={{
+                      color: "var(--energy-secondary, #9ca3af)",
+                      fontFamily: "'Georgia', serif",
+                      letterSpacing: "0.02em",
+                    }}
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 1.4, duration: 0.7 }}
+                  >
+                    {recap.nextPhaseHook}
+                  </motion.p>
+                )}
+
                 <motion.button
                   className="mt-10 px-8 py-3 text-sm font-bold tracking-[0.2em] uppercase rounded-lg border-2 transition-colors"
                   style={{

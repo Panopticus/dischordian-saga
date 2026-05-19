@@ -9,6 +9,7 @@
    ═══════════════════════════════════════════════════════ */
 
 import type { BreakingPointChoice } from "./breakingPoint";
+import { getNextPhaseGuidance, type SagaPhaseInput } from "./sagaPhases";
 
 // ─── PUBLIC INTERFACES ───
 
@@ -36,6 +37,13 @@ export interface RecapReport {
   entries: RecapEntry[];
   /** What's happening RIGHT NOW — the hook to pull the player back */
   cliffhanger: string;
+  /**
+   * Concrete forward pull: the NEXT saga phase's title + premise,
+   * derived from the canonical phase catalog. null when the saga is
+   * already at its final phase. Surfaced after the cliffhanger so a
+   * session ends pointing at a specific next beat, not just a mood.
+   */
+  nextPhaseHook: string | null;
 }
 
 // ─── CHAPTER METADATA (mirrors storyMode.ts structure) ───
@@ -324,6 +332,18 @@ export function generateRecap(
   const alignment = classifyAlignment(moralityScore);
   const cliffhanger = generateCliffhanger(currentChapter, moralityScore, breakingPointChoice, narrativeFlags);
 
+  // Forward pull from the canonical phase catalog. narrativeAct is
+  // the same field the act-completion gates read; flags reuse the
+  // already-extracted narrativeFlags.
+  const sagaInput: SagaPhaseInput = {
+    narrativeAct: (gameData.narrativeAct as number) ?? 0,
+    flags: narrativeFlags,
+  };
+  const nextPhase = getNextPhaseGuidance(sagaInput);
+  const nextPhaseHook = nextPhase
+    ? `Next: ${nextPhase.title} — ${nextPhase.premise}`
+    : null;
+
   return {
     playerName,
     totalPlayTime,
@@ -332,6 +352,7 @@ export function generateRecap(
     alignmentScore: moralityScore,
     entries,
     cliffhanger,
+    nextPhaseHook,
   };
 }
 

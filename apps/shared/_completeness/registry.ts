@@ -41,6 +41,7 @@ import { checkNativeOrientation } from "./checks/nativeOrientation";
 import { checkNativeShell } from "./checks/nativeShell";
 import { checkSagaLedgerHumanizerCoverage } from "./checks/sagaLedgerHumanizerCoverage";
 import { checkWinbackOffer } from "./checks/winbackOffer";
+import { checkSessionEndCliffhanger } from "./checks/sessionEndCliffhanger";
 import { checkAssetPrefetchManifest } from "./checks/assetPrefetchManifest";
 import { checkProcedureRateLimits } from "./checks/procedureRateLimits";
 import { checkVoidContrastCoverage } from "./checks/voidContrastCoverage";
@@ -395,6 +396,13 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "winbackOfferService grants a lapse-scaled, REWARD_CAP-bounded Dream comeback reward, keyed to the lapse episode so it can't be farmed (in-tx re-check of the claim marker), exposed via the winback tRPC router. Real grant + anti-farm, not a hollow offer.",
     check: () => checkWinbackOffer(),
+  },
+  {
+    id: "narrative.session_end_cliffhanger",
+    name: "Session-end forward hook",
+    description:
+      "generateRecap derives a next-phase hook from getNextPhaseGuidance(narrativeAct, flags) and RecapOverlay renders it after the cliffhanger, so a session ends pointing at a concrete next beat. Gate binds compute+render so it can't regress to a computed-but-hidden hook.",
+    check: () => checkSessionEndCliffhanger(),
   },
   {
     id: "client.asset_prefetch_manifest",
