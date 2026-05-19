@@ -16,6 +16,12 @@
 
    This module fills both. Costs are deliberately small (Dream)
    or in the otherwise-stranded currency (Soul Stones).
+
+   NOT dead code: like economySinks.ts this is the economy
+   *balance model* (consumed by economySimulator.ts, asserted by
+   economy.balance.test.ts), intentionally separate from the
+   runtime cosmetic source cosmeticCatalog.ts. Retained for
+   backwards compatibility — not pending deletion or a rewire.
    ═══════════════════════════════════════════════════════ */
 
 /* ─── Early-game Dream sinks ─── */

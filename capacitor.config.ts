@@ -54,6 +54,22 @@ const config: CapacitorConfig = {
     Preferences: {
       group: "DischordianSecure",
     },
+    SplashScreen: {
+      // Splash is hidden manually from lib/nativeShell once React has
+      // mounted, so the launch image stays up through the SPA's first
+      // paint instead of dropping to a blank/white frame.
+      launchAutoHide: false,
+      backgroundColor: "#000000",
+      showSpinner: false,
+      androidScaleType: "CENTER_CROP",
+    },
+    StatusBar: {
+      // Black immersive surface → light status-bar content. The
+      // runtime calls in lib/nativeShell reassert this after launch.
+      style: "DARK",
+      backgroundColor: "#000000",
+      overlaysWebView: false,
+    },
   },
 };
 

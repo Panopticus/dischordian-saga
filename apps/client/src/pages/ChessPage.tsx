@@ -1041,7 +1041,7 @@ export default function ChessPage() {
   const tierConfig = TIER_CONFIG[tier] || TIER_CONFIG.bronze;
 
   return (
-    <div className="min-h-screen grid-bg relative overflow-hidden">
+    <div className="min-h-screen grid-bg relative overflow-hidden safe-area-top safe-area-x">
       <LivingBackground src={assetUrl("art/chess/chess-holographic-board.png")} accent="var(--energy-accent)" opacity={0.15} voidRoomKey="gamemasters_arena" particleCount={8} />
       <div className="relative z-10">
       <AnimatePresence mode="wait">

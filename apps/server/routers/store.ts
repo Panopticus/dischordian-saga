@@ -3,7 +3,7 @@ import { protectedProcedure, publicProcedure, router } from "../_core/trpc";
 import { procedureRateLimit } from "../_core/procedureRateLimit";
 import { getDb } from "../db";
 import { STORE_PRODUCTS, getProduct, getProductsByCategory, getFeaturedProducts } from "../products";
-import { storePurchases, dreamBalance, shipUpgrades, playerBases, userCards, cards, purchaseGrants, cosmeticCatalogOwnership, battlePassProgress, battlePassSeasons, type StorePurchase } from "../../db/schema";
+import { storePurchases, dreamBalance, shipUpgrades, playerBases, userCards, cards, purchaseGrants, cosmeticCatalogOwnership, battlePassProgress, battlePassSeasons, users, type StorePurchase } from "../../db/schema";
 import type { DrizzleDb } from "../db";
 
 /** Either a top-level drizzle handle or a transactional one — the
@@ -14,7 +14,62 @@ import { eq, and, desc, asc, sql } from "drizzle-orm";
 import { createRng, rngInt } from "../../shared/tcg-core";
 import { randomSeed } from "../../shared/casinoGames";
 import { ripple } from "../services/rippleEngine";
-import { setEntitlement } from "../services/entitlementService";
+import { setEntitlement, isEntitlementKey } from "../services/entitlementService";
+
+/** SKUs that are first-purchase, time-limited, AND once-per-account.
+ *  productKey → eligibility window (days from account creation).
+ *
+ *  The catalog copy for `first_purchase_starter` promises "available
+ *  first 7 days only!" and the bundle is priced as a one-shot
+ *  conversion hook ($0.99 → 200 Dream + 3 rare packs + cosmetic), but
+ *  nothing enforced either constraint server-side — it was a
+ *  permanently-repeatable arbitrage. This map is the server gate;
+ *  `assertFirstPurchaseEligible` is its single chokepoint. */
+const FIRST_PURCHASE_GATED_SKUS: Record<string, { windowDays: number }> = {
+  first_purchase_starter: { windowDays: 7 },
+};
+
+/** Throws if `productKey` is a gated first-purchase SKU and the caller
+ *  is outside its window or has already claimed it. No-op for every
+ *  non-gated product, so it is safe to call on every purchase path. */
+async function assertFirstPurchaseEligible(
+  db: DrizzleDb,
+  userId: number,
+  productKey: string,
+): Promise<void> {
+  const gate = FIRST_PURCHASE_GATED_SKUS[productKey];
+  if (!gate) return;
+
+  const [u] = await db
+    .select({ createdAt: users.createdAt })
+    .from(users)
+    .where(eq(users.id, userId))
+    .limit(1);
+  if (!u) throw new Error("Account not found");
+
+  const ageMs = Date.now() - new Date(u.createdAt).getTime();
+  if (ageMs > gate.windowDays * 86_400_000) {
+    throw new Error(
+      `This welcome bundle is only available in your first ${gate.windowDays} days.`,
+    );
+  }
+
+  const [prior] = await db
+    .select({ id: storePurchases.id })
+    .from(storePurchases)
+    .where(
+      and(
+        eq(storePurchases.userId, userId),
+        eq(storePurchases.productKey, productKey),
+      ),
+    )
+    .limit(1);
+  if (prior) {
+    throw new Error(
+      "This welcome bundle can only be claimed once per account.",
+    );
+  }
+}
 
 export const storeRouter = router({
   /** List all products, optionally filtered by category */
@@ -44,6 +99,19 @@ export const storeRouter = router({
       const product = getProduct(input.productKey);
       if (!product) throw new Error("Product not found");
       if (product.priceUsd <= 0) throw new Error("This product cannot be purchased with real money");
+
+      // Gate first-purchase, time-limited, once-per-account SKUs
+      // BEFORE a Stripe session exists, so the exploit (re-buying the
+      // $0.99 starter, or buying it past day 7) can never reach
+      // checkout. createCheckout is the only purchase path for a
+      // priceUsd-only SKU like first_purchase_starter.
+      const eligibilityDb = await getDb();
+      if (!eligibilityDb) throw new Error("Database unavailable");
+      await assertFirstPurchaseEligible(
+        eligibilityDb,
+        ctx.user.id,
+        input.productKey,
+      );
 
       const stripeKey = process.env.STRIPE_SECRET_KEY;
       if (!stripeKey) throw new Error("Stripe is not configured");
@@ -90,10 +158,21 @@ export const storeRouter = router({
             quantity: input.quantity,
           };
 
+      // Subscription products MUST use a configured recurring Stripe
+      // Price id — inline price_data is one-shot and cannot express a
+      // billing interval. Fail loudly rather than silently selling a
+      // recurring product as a single payment.
+      const isSubscription = !!product.subscription;
+      if (isSubscription && !stripePriceId) {
+        throw new Error(
+          `Subscription product "${input.productKey}" requires a recurring Stripe Price id in $${product.stripePriceEnv}.`,
+        );
+      }
+
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ["card"],
         line_items: [lineItem],
-        mode: "payment",
+        mode: isSubscription ? "subscription" : "payment",
         success_url: `${origin}/store?success=true&session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${origin}/store?canceled=true`,
         client_reference_id: ctx.user.id.toString(),
@@ -103,6 +182,20 @@ export const storeRouter = router({
         // Stripe needs the customer's address to determine the tax
         // rate. Forcing collection guarantees a valid jurisdiction.
         billing_address_collection: automaticTaxEnabled ? "required" : "auto",
+        // For subscriptions, stamp identity onto the Stripe
+        // Subscription itself so renewal invoices (which carry no
+        // Checkout metadata) can be attributed back to the user in
+        // the invoice.paid webhook.
+        ...(isSubscription
+          ? {
+              subscription_data: {
+                metadata: {
+                  user_id: ctx.user.id.toString(),
+                  product_key: input.productKey,
+                },
+              },
+            }
+          : {}),
         metadata: {
           user_id: ctx.user.id.toString(),
           product_key: input.productKey,
@@ -123,6 +216,7 @@ export const storeRouter = router({
       const product = getProduct(input.productKey);
       if (!product) throw new Error("Product not found");
       if (product.priceCredits <= 0) throw new Error("This product cannot be purchased with credits");
+      await assertFirstPurchaseEligible(db, ctx.user.id, input.productKey);
 
       const totalCost = product.priceCredits * input.quantity;
 
@@ -166,6 +260,7 @@ export const storeRouter = router({
       const product = getProduct(input.productKey);
       if (!product) throw new Error("Product not found");
       if (product.priceDream <= 0) throw new Error("This product cannot be purchased with Dream");
+      await assertFirstPurchaseEligible(db, ctx.user.id, input.productKey);
       const totalCost = product.priceDream * input.quantity;
       // Use transaction to ensure atomicity of currency operations.
       // Conditional UPDATE — affects 0 rows iff balance dropped below
@@ -224,6 +319,7 @@ export const storeRouter = router({
       if (product.priceVoidCrystals <= 0) {
         throw new Error("This product cannot be purchased with Void Crystals");
       }
+      await assertFirstPurchaseEligible(db, ctx.user.id, input.productKey);
       const totalCost = product.priceVoidCrystals * input.quantity;
       return await db.transaction(async (tx) => {
         const r = await tx.execute(sql`
@@ -693,6 +789,110 @@ async function doFulfill(
   });
 
   return { alreadyFulfilled: false };
+}
+
+/**
+ * Reverse the safely-reversible portion of a fulfilled purchase after
+ * a Stripe refund or chargeback (the webhook had NO refund path, so
+ * refund-and-keep-the-goods was an open revenue hole).
+ *
+ * Currency (Dream / Soul-Bound Dream / Void Crystals) is clawed back
+ * clamped at zero — a refunder who already spent it lands at 0, never
+ * negative. Entitlements are revoked outright. Consumed/structural
+ * grants (card packs, cosmetics, ship/base upgrades, battle pass) are
+ * deliberately NOT silently un-granted: reversing opened/equipped/spent
+ * items corrupts player state, so they are recorded for ops review in
+ * the compensating ledger row instead. That boundary is intentional —
+ * a partial honest clawback beats a state-corrupting "perfect" one.
+ *
+ * Idempotent: the compensating purchase_grants row uses a
+ * `clawback:<reason>:<intentId>` fulfillmentId under the same unique
+ * index that guards fulfilment, so a webhook retry is a no-op. The
+ * webhook's processed_webhook_events layer already dedups by event id
+ * before this is reached; this is defense-in-depth.
+ */
+export async function clawbackByPaymentIntent(
+  paymentIntentId: string,
+  reason: "refund" | "dispute",
+): Promise<{ clawed: boolean; reason?: string }> {
+  const db = await getDb();
+  if (!db) return { clawed: false, reason: "no_db" };
+
+  return db.transaction(async (tx) => {
+    const [grant] = await tx
+      .select()
+      .from(purchaseGrants)
+      .where(eq(purchaseGrants.fulfillmentId, paymentIntentId))
+      .limit(1);
+    if (!grant) return { clawed: false, reason: "no_grant" };
+
+    const clawbackId = `clawback:${reason}:${paymentIntentId}`;
+    const [already] = await tx
+      .select({ id: purchaseGrants.id })
+      .from(purchaseGrants)
+      .where(eq(purchaseGrants.fulfillmentId, clawbackId))
+      .limit(1);
+    if (already) return { clawed: false, reason: "already_clawed" };
+
+    const summary = (grant.rewardSummary ?? {}) as Record<
+      string,
+      number | string
+    >;
+    const comp: Record<string, number | string> = {
+      clawback_reason: reason,
+      clawback_of: paymentIntentId,
+    };
+
+    const dream = Number(summary.dreamTokens) || 0;
+    const sbd = Number(summary.soulBoundDream) || 0;
+    const vc = Number(summary.voidCrystals) || 0;
+    if (dream > 0 || sbd > 0 || vc > 0) {
+      const [bal] = await tx
+        .select({ userId: dreamBalance.userId })
+        .from(dreamBalance)
+        .where(eq(dreamBalance.userId, grant.userId))
+        .limit(1);
+      if (bal) {
+        await tx
+          .update(dreamBalance)
+          .set({
+            dreamTokens: sql`GREATEST(0, ${dreamBalance.dreamTokens} - ${dream})`,
+            soulBoundDream: sql`GREATEST(0, ${dreamBalance.soulBoundDream} - ${sbd})`,
+            gems: sql`GREATEST(0, ${dreamBalance.gems} - ${vc})`,
+          })
+          .where(eq(dreamBalance.userId, grant.userId));
+      }
+      if (dream) comp.reversed_dreamTokens = -dream;
+      if (sbd) comp.reversed_soulBoundDream = -sbd;
+      if (vc) comp.reversed_voidCrystals = -vc;
+    }
+
+    const ent = summary.entitlement;
+    if (typeof ent === "string" && isEntitlementKey(ent)) {
+      await setEntitlement(tx, grant.userId, ent, false);
+      comp.reversed_entitlement = ent;
+    }
+
+    const manualReview = [
+      "cardPackSize",
+      "cosmeticsCount",
+      "shipUpgrade",
+      "baseUpgrade",
+      "cargoExpansion",
+      "battlePassPremium",
+    ].filter((k) => summary[k] != null);
+    if (manualReview.length > 0) comp.manual_review = manualReview.join(",");
+
+    await tx.insert(purchaseGrants).values({
+      fulfillmentId: clawbackId,
+      userId: grant.userId,
+      productKey: grant.productKey,
+      quantity: grant.quantity,
+      rewardSummary: comp,
+    });
+
+    return { clawed: true };
+  });
 }
 
 /** Export fulfillPurchase for webhook use */

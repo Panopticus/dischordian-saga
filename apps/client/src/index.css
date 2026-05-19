@@ -1341,6 +1341,32 @@ html:not(.dark) .box-glow-purple { box-shadow: 0 0 8px rgba(124, 58, 237, 0.1); 
   }
 }
 
+/* Task 3.3 (cont.) — the 44px floor above is gated on
+   max-width:639px, but touch phones in landscape and tablets
+   exceed that (this game has landscape duel modes), so hand-wired
+   controls like the header photo-mode button fell back to ~26px on
+   exactly the devices where touch precision is worst. Touch-target
+   size is a function of INPUT MODALITY, not viewport width: mirror
+   the same minimum for any coarse pointer at any width. Fine-pointer
+   (mouse) desktop is untouched, so there is no desktop regression;
+   dense controls still opt out via `.touch-compact`. */
+@media (pointer: coarse) {
+  .dossier-card,
+  [role="button"],
+  button:not(.touch-compact),
+  a:not(.touch-compact),
+  [role="link"],
+  [role="menuitem"],
+  [role="tab"],
+  [role="option"],
+  input[type="checkbox"]:not(.touch-compact),
+  input[type="radio"]:not(.touch-compact),
+  .clickable {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
 /* ── Extra-small screens (320px–374px) — iPhone SE, small Androids ── */
 @media (max-width: 374px) {
   /* Bump even more aggressively on tiny screens */

@@ -5,6 +5,12 @@
    sources (quests, fights, disenchants) far outpace sinks
    (crafting, card packs). These sinks give players meaningful
    ways to spend Dream at every stage of the game.
+
+   NOT dead code: this is the economy *balance model*, consumed
+   by economySimulator.ts and asserted by economy.balance.test.ts.
+   Runtime cosmetic SKUs deliberately live in cosmeticCatalog.ts
+   (see its header) — that split is intentional and these modules
+   are retained for backwards compatibility, not pending deletion.
    ═══════════════════════════════════════════════════════ */
 
 /* ─── SINK CATEGORY TYPES ─── */

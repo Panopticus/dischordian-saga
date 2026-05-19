@@ -586,7 +586,7 @@ function FightArena2D({
       ref={containerRef}
       role="application"
       aria-label="Fighting game"
-      className="w-full h-full relative bg-black select-none overflow-hidden"
+      className="w-full h-full relative bg-black select-none overflow-hidden safe-area-top safe-area-x"
       style={{ touchAction: "none" }}
       onTouchStart={showTutorial ? undefined : handleTouchStart}
       onTouchMove={() => {}} // Track but don't act until touchEnd

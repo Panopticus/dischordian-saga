@@ -26,6 +26,22 @@ import { checkDbForeignKeyCoverage } from "./checks/dbForeignKeyCoverage";
 import { checkEconomicTransactionCoverage } from "./checks/economicTransactionCoverage";
 import { checkMobileWiring } from "./checks/mobileWiring";
 import { checkListVirtualizationAdoption } from "./checks/listVirtualizationAdoption";
+import { checkCanvasTouchActionAdoption } from "./checks/canvasTouchActionAdoption";
+import { checkSafeAreaInsetAdoption } from "./checks/safeAreaInsetAdoption";
+import { checkEconomicMutationReachability } from "./checks/economicMutationReachability";
+import { checkFirstPurchaseGateAdoption } from "./checks/firstPurchaseGateAdoption";
+import { checkFtueFunnelInstrumentation } from "./checks/ftueFunnelInstrumentation";
+import { checkPvpScoreResubmitGuard } from "./checks/pvpScoreResubmitGuard";
+import { checkTouchTargetFloor } from "./checks/touchTargetFloor";
+import { checkRefundClawback } from "./checks/refundClawback";
+import { checkIapReceiptOwnership } from "./checks/iapReceiptOwnership";
+import { checkVipSubscription } from "./checks/vipSubscription";
+import { checkNativeHaptics } from "./checks/nativeHaptics";
+import { checkNativeOrientation } from "./checks/nativeOrientation";
+import { checkNativeShell } from "./checks/nativeShell";
+import { checkSagaLedgerHumanizerCoverage } from "./checks/sagaLedgerHumanizerCoverage";
+import { checkWinbackOffer } from "./checks/winbackOffer";
+import { checkSessionEndCliffhanger } from "./checks/sessionEndCliffhanger";
 import { checkAssetPrefetchManifest } from "./checks/assetPrefetchManifest";
 import { checkProcedureRateLimits } from "./checks/procedureRateLimits";
 import { checkVoidContrastCoverage } from "./checks/voidContrastCoverage";
@@ -282,6 +298,118 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "Pages declared in checks/listVirtualizationAdoption.ts ADOPTED_LIST_PAGES still import useListVirtualizer. Catches accidental removal during refactors.",
     check: () => checkListVirtualizationAdoption(),
+  },
+  {
+    id: "client.canvas_touch_action_adoption",
+    name: "Interactive canvas touch-action adoption",
+    description:
+      "Every interactive game canvas in checks/canvasTouchActionAdoption.ts INTERACTIVE_CANVASES carries a touch-action:none boundary (game-canvas-mount / touch-none / FightEngine2D). Closes the mobileWiring probe-#6 gap: CSS rule declared but not applied.",
+    check: () => checkCanvasTouchActionAdoption(),
+  },
+  {
+    id: "client.safe_area_inset_adoption",
+    name: "Safe-area inset adoption",
+    description:
+      "Full-bleed game surfaces in checks/safeAreaInsetAdoption.ts SAFE_AREA_SURFACES apply safe-area-top (audit/08.F5). Closes the hollow-tracking gap: .safe-area-* declared in index.css but never applied to the notch-overlapping HUDs.",
+    check: () => checkSafeAreaInsetAdoption(),
+  },
+  {
+    id: "client.economic_mutation_reachability",
+    name: "Economic mutation client reachability",
+    description:
+      "Every marquee economic mutation in checks/economicMutationReachability.ts ECONOMIC_MUTATIONS has a non-test client useMutation caller. Closes the 'transactional server logic exists but no front door' gap — prestige.execute (the NG+ loop) was backend-only until wired into PrestigeCycleResetPage.",
+    check: () => checkEconomicMutationReachability(),
+  },
+  {
+    id: "economy.first_purchase_gate_adoption",
+    name: "First-purchase SKU server gate",
+    description:
+      "store.ts FIRST_PURCHASE_GATED_SKUS lists first_purchase_starter and createCheckout invokes assertFirstPurchaseEligible. Closes the permanently-repeatable $0.99 starter-bundle arbitrage (catalog promised 'first 7 days only' / once-per-account but nothing enforced it).",
+    check: () => checkFirstPurchaseGateAdoption(),
+  },
+  {
+    id: "client.ftue_funnel_instrumentation",
+    name: "FTUE funnel instrumentation",
+    description:
+      "GameEvents declares the 5 FTUE funnel events and useTutorialOrchestrator emits STEP_SHOWN/STEP_COMPLETED/SKIPPED. Keeps the onboarding drop-off funnel measurable — a refactor can't silently re-blind D1 retention analysis.",
+    check: () => checkFtueFunnelInstrumentation(),
+  },
+  {
+    id: "server.pvp_score_resubmit_guard",
+    name: "PvP score resubmission guard",
+    description:
+      "tier5Pvp.submitScore rejects a second submission once the caller's score is recorded. Closes an unbounded ELO/title farm (re-POST after match completion re-ran mirrorRating + awardEligibleTitles every call).",
+    check: () => checkPvpScoreResubmitGuard(),
+  },
+  {
+    id: "client.touch_target_floor",
+    name: "Coarse-pointer touch-target floor",
+    description:
+      "index.css applies the 44px Apple/Google touch-target minimum under @media (pointer: coarse), not just max-width:639px. Fixes sub-minimum hit areas on landscape phones / tablets (the devices with landscape duel modes) where the width-gated rule didn't apply.",
+    check: () => checkTouchTargetFloor(),
+  },
+  {
+    id: "economy.refund_clawback",
+    name: "Refund / chargeback clawback",
+    description:
+      "store.ts clawbackByPaymentIntent (currency reversal clamped at zero, entitlements revoked, consumed grants flagged for ops) is wired to the charge.refunded and charge.dispute.created Stripe webhook events. Closes refund-and-keep-the-goods.",
+    check: () => checkRefundClawback(),
+  },
+  {
+    id: "economy.iap_receipt_ownership",
+    name: "IAP receipt ownership verification",
+    description:
+      "iapReceipt.verify parses the RevenueCat subscriber payload and gates fulfilment on the claimed productId being present (non_subscriptions/subscriptions), not on a bare HTTP 200. Closes 'verified == got 200'.",
+    check: () => checkIapReceiptOwnership(),
+  },
+  {
+    id: "economy.vip_subscription",
+    name: "VIP subscription end-to-end",
+    description:
+      "Time-bounded VIP entitlement: catalog product + Stripe mode:subscription checkout + customer.subscription.created/updated set-from-period + subscription.deleted clear + entitlementService helpers + the dailyQuests reward multiplier actually consuming it. Event-driven + pull-based — no cron, no leader-election dependency.",
+    check: () => checkVipSubscription(),
+  },
+  {
+    id: "mobile.native_haptics",
+    name: "Native haptics (iOS Taptic / Android)",
+    description:
+      "lib/haptics.ts routes through @capacitor/haptics on the native shell (web Vibration API fallback) and every named HapticPatterns entry has an explicit native mapping. Fixes iOS, where navigator.vibrate is absent and all haptics silently no-opped.",
+    check: () => checkNativeHaptics(),
+  },
+  {
+    id: "mobile.native_orientation",
+    name: "Native orientation lock",
+    description:
+      "LandscapeEnforcer locks landscape via @capacitor/screen-orientation on the native shell (web Screen Orientation API + overlay fallback). Fixes iOS, where screen.orientation.lock is unsupported and players got a rotate-device overlay instead of the OS rotating the app.",
+    check: () => checkNativeOrientation(),
+  },
+  {
+    id: "mobile.native_shell",
+    name: "Native shell (splash / status-bar / back)",
+    description:
+      "lib/nativeShell drives StatusBar style + SplashScreen.hide (config launchAutoHide:false) + Android backButton behind the native probe, invoked from main.tsx. Stops the native build dropping to a blank frame pre-mount and fixes status-bar contrast / unhandled hardware-back.",
+    check: () => checkNativeShell(),
+  },
+  {
+    id: "narrative.saga_ledger_humanizer_coverage",
+    name: "Your Saga ledger humanizer coverage",
+    description:
+      "Every ripple.emit() eventType has a SAGA_EVENT_HUMANIZERS entry, so the player-facing 'Your Saga' consequence ledger renders every persisted consequence as a readable line instead of a raw code. saga.ledger tRPC joins it with npc_public_flags world-standing.",
+    check: () => checkSagaLedgerHumanizerCoverage(),
+  },
+  {
+    id: "engagement.winback_offer",
+    name: "Winback comeback offer integrity",
+    description:
+      "winbackOfferService grants a lapse-scaled, REWARD_CAP-bounded Dream comeback reward, keyed to the lapse episode so it can't be farmed (in-tx re-check of the claim marker), exposed via the winback tRPC router. Real grant + anti-farm, not a hollow offer.",
+    check: () => checkWinbackOffer(),
+  },
+  {
+    id: "narrative.session_end_cliffhanger",
+    name: "Session-end forward hook",
+    description:
+      "generateRecap derives a next-phase hook from getNextPhaseGuidance(narrativeAct, flags) and RecapOverlay renders it after the cliffhanger, so a session ends pointing at a concrete next beat. Gate binds compute+render so it can't regress to a computed-but-hidden hook.",
+    check: () => checkSessionEndCliffhanger(),
   },
   {
     id: "client.asset_prefetch_manifest",

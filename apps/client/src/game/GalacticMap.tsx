@@ -220,7 +220,7 @@ export default function GalacticMap({ empire, selectedSector, onSelectSector, ac
         ref={canvasRef}
         onMouseMove={handleMouseMove}
         onClick={handleClick}
-        className="w-full rounded-xl border border-white/5 cursor-crosshair"
+        className="game-canvas-mount w-full rounded-xl border border-white/5 cursor-crosshair"
         style={{ imageRendering: "auto" }}
       />
 

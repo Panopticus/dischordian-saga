@@ -466,6 +466,7 @@ export default function StarChart({ onComplete, onClose }: StarChartProps) {
         <canvas
           ref={canvasRef}
           onPointerDown={handleCanvasPointer}
+          className="game-canvas-mount"
           style={{ width: "100%", height: "100%", display: "block", cursor: "crosshair" }}
         />
 

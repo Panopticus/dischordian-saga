@@ -131,6 +131,43 @@ export const iapReceiptRouter = router({
         });
       }
 
+      // A bare HTTP 200 is NOT proof of ownership — RevenueCat returns
+      // 200 with the subscriber object even when it carries no purchase
+      // of the claimed product. Parse the payload and confirm THIS
+      // product is actually present for THIS user (non_subscriptions
+      // for one-shot bundles/currency, subscriptions for recurring)
+      // before granting. Without this, "verified" only meant "got 200".
+      let subscriber:
+        | {
+            subscriptions?: Record<string, unknown>;
+            non_subscriptions?: Record<string, unknown>;
+          }
+        | undefined;
+      try {
+        const json = (await response.json()) as { subscriber?: typeof subscriber };
+        subscriber = json.subscriber;
+      } catch (err) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: `RevenueCat returned an unparseable receipt body: ${(err as Error).message}`,
+        });
+      }
+      const has = (
+        bag: Record<string, unknown> | undefined,
+      ): boolean =>
+        bag != null &&
+        Object.prototype.hasOwnProperty.call(bag, input.productId);
+      if (!subscriber || (!has(subscriber.non_subscriptions) && !has(subscriber.subscriptions))) {
+        logger.warn(
+          "[iapReceipt] RevenueCat 200 but product absent from subscriber",
+          { userId, productId: input.productId, platform: input.platform },
+        );
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: `Receipt did not contain a purchase of "${input.productId}".`,
+        });
+      }
+
       // audit/12.F3 — actually grant the entitlement now that
       // RevenueCat has confirmed the receipt. fulfilmentId is keyed on
       // (platform, transactionId) which is the natural idempotency

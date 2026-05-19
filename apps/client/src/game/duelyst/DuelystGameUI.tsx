@@ -1497,7 +1497,7 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
 
   /* ─── MAIN GAME UI — Mobile-first stacked layout ─── */
   return (
-    <div className="flex flex-col h-full max-h-screen overflow-hidden bg-black relative" role="application" aria-label="Card battle game">
+    <div className="flex flex-col h-full max-h-screen overflow-hidden bg-black relative safe-area-top safe-area-x" role="application" aria-label="Card battle game">
       <ScreenReaderOnly>Tactical card battle game. Summon units, cast spells, and defeat the enemy general.</ScreenReaderOnly>
 
       {/* §5.5 Warlord lockout — countdown indicator + play-rejection

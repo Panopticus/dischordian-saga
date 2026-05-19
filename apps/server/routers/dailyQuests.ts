@@ -10,6 +10,7 @@ import { battlePassXp } from "../services/battlePassXp";
 import { eq, and, sql } from "drizzle-orm";
 import { fetchCitizenData, resolveQuestBonuses } from "../traitResolver";
 import { ripple } from "../services/rippleEngine";
+import { isVipActive, VIP_DAILY_REWARD_MULTIPLIER } from "../services/entitlementService";
 import { getConsequences, getEventDailyQuests } from "../services/universeConsequences";
 import { applyPrestigeBonuses } from "../services/prestigeMultiplier";
 import { applyDailyOracleBonusToReward } from "./oracleDeck";
@@ -539,7 +540,16 @@ export const dailyQuestsRouter = router({
         ctx.user.id,
         prestigedDream,
       );
-      const adjustedDream = oracleAdjusted.adjustedAmount;
+      const oracleDream = oracleAdjusted.adjustedAmount;
+
+      // VIP perk (pull-based): the active subscription boosts the
+      // final daily-reward Dream payout. Read at claim time — no cron,
+      // no stored grant — so it is exactly correct as VIP starts/ends.
+      // Applied last so it stacks on top of trait/prestige/oracle.
+      const vipActive = await isVipActive(ctx.user.id);
+      const adjustedDream = vipActive
+        ? Math.round(oracleDream * VIP_DAILY_REWARD_MULTIPLIER)
+        : oracleDream;
 
       // Grant Dream reward (with trait bonus)
       if (adjustedDream > 0) {
@@ -611,6 +621,9 @@ export const dailyQuestsRouter = router({
           xpMultiplier: prestige.multipliers.xp,
           resourceMultiplier: prestige.multipliers.resource,
         } : null,
+        vipBonus: vipActive
+          ? { multiplier: VIP_DAILY_REWARD_MULTIPLIER }
+          : null,
         classXpResult,
       };
     }),

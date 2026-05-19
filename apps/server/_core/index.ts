@@ -143,7 +143,17 @@ async function startServer() {
             ? session.payment_intent
             : (session.payment_intent?.id ?? null);
 
-        if (userId && productKey) {
+        if (session.mode === "subscription") {
+          // VIP is granted/extended exclusively by the
+          // customer.subscription.created/updated handler (it carries
+          // the authoritative current_period_end). Nothing to fulfil
+          // on the Checkout event itself.
+          console.log(
+            `[Webhook] Subscription checkout completed (session=${session.id}) — VIP handled by customer.subscription.*`,
+          );
+        }
+
+        if (userId && productKey && session.mode !== "subscription") {
           const { fulfillPurchase } = await import("../routers/store");
           const { getDb } = await import("../db");
           const { storePurchases } = await import("../../db/schema");
@@ -202,6 +212,100 @@ async function startServer() {
             console.log(
               `[Webhook] Fulfilled purchase: user=${userId} product=${productKey} qty=${quantity} intent=${stripePaymentIntentId ?? "-"}` +
                 (fulfilResult.alreadyFulfilled ? " (idempotent skip)" : ""),
+            );
+          }
+        }
+      }
+
+      // Refund / chargeback clawback. Without this, refund-and-keep
+      // the goods was an open revenue hole — fulfilment had no
+      // reverse. Both event types carry a payment_intent that maps to
+      // the purchase_grants ledger (the fulfilment used the intent id
+      // as its ledger key). Layer-A processed_webhook_events dedup
+      // already guards retries before we get here.
+      if (event.type === "charge.refunded") {
+        const charge = event.data.object;
+        const pi =
+          typeof charge.payment_intent === "string"
+            ? charge.payment_intent
+            : (charge.payment_intent?.id ?? null);
+        if (pi) {
+          const { clawbackByPaymentIntent } = await import("../routers/store");
+          const result = await clawbackByPaymentIntent(pi, "refund");
+          console.log(
+            `[Webhook] Refund clawback intent=${pi}: ${JSON.stringify(result)}`,
+          );
+        }
+      }
+
+      if (event.type === "charge.dispute.created") {
+        const dispute = event.data.object;
+        const pi =
+          typeof dispute.payment_intent === "string"
+            ? dispute.payment_intent
+            : (dispute.payment_intent?.id ?? null);
+        if (pi) {
+          const { clawbackByPaymentIntent } = await import("../routers/store");
+          const result = await clawbackByPaymentIntent(pi, "dispute");
+          console.log(
+            `[Webhook] Dispute clawback intent=${pi}: ${JSON.stringify(result)}`,
+          );
+        }
+      }
+
+      // VIP subscription — driven off customer.subscription.* (the
+      // Subscription object is reliably typed across Stripe API
+      // versions; Invoice.subscription was removed in recent ones).
+      // created + updated both fire with the authoritative
+      // current_period_end (renewals roll it forward), so VIP expiry
+      // is set straight from Stripe's own period rather than computed.
+      // Identity rides on the subscription metadata stamped at
+      // checkout. Idempotent: setting vipUntil to a value is a
+      // no-op-safe write and the webhook dedups by event id.
+      if (
+        event.type === "customer.subscription.created" ||
+        event.type === "customer.subscription.updated"
+      ) {
+        const sub = event.data.object;
+        const uid = parseInt(sub.metadata?.user_id || "0");
+        const periodEndSec = Math.max(
+          0,
+          ...sub.items.data.map((it) => it.current_period_end ?? 0),
+        );
+        const active = sub.status === "active" || sub.status === "trialing";
+        if (uid && periodEndSec > 0) {
+          const { setVipUntil } = await import(
+            "../services/entitlementService"
+          );
+          const { getDb } = await import("../db");
+          const db = await getDb();
+          if (db) {
+            const until = active ? new Date(periodEndSec * 1000) : null;
+            await db.transaction((tx) => setVipUntil(tx, uid, until));
+            console.log(
+              `[Webhook] VIP ${active ? `set until ${until?.toISOString()}` : "cleared (status " + sub.status + ")"} user=${uid} (sub ${sub.id})`,
+            );
+          }
+        }
+      }
+
+      // Cancellation / end-of-life. Stripe fires this at period end
+      // for cancel-at-period-end and immediately for hard cancels, so
+      // clearing vipUntil here ends access exactly when the
+      // subscription truly ends.
+      if (event.type === "customer.subscription.deleted") {
+        const sub = event.data.object;
+        const uid = parseInt(sub.metadata?.user_id || "0");
+        if (uid) {
+          const { setVipUntil } = await import(
+            "../services/entitlementService"
+          );
+          const { getDb } = await import("../db");
+          const db = await getDb();
+          if (db) {
+            await db.transaction((tx) => setVipUntil(tx, uid, null));
+            console.log(
+              `[Webhook] VIP cleared user=${uid} (subscription ${sub.id} deleted)`,
             );
           }
         }

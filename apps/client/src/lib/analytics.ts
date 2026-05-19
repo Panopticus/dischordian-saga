@@ -36,6 +36,16 @@ export const GameEvents = {
   FIRST_FIGHT_STARTED: "first_fight_started",
   FIRST_FIGHT_WON: "first_fight_won",
 
+  // FTUE step funnel — per-step drop-off. Each carries
+  // { stepId, index, total } so retention analysis can build a
+  // stage-by-stage conversion funnel; SKIPPED/COMPLETED also carry
+  // the depth reached, so we can see WHERE the FTUE loses players.
+  FTUE_STEP_SHOWN: "ftue_step_shown",
+  FTUE_STEP_COMPLETED: "ftue_step_completed",
+  FTUE_STEP_DISMISSED: "ftue_step_dismissed",
+  FTUE_SKIPPED: "ftue_skipped",
+  FTUE_COMPLETED: "ftue_completed",
+
   // Engagement
   SESSION_START: "session_start",
   SESSION_END: "session_end",

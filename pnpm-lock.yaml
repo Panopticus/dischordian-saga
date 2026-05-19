@@ -19,18 +19,33 @@ importers:
       '@capacitor/android':
         specifier: ^8.3.2
         version: 8.3.2(@capacitor/core@8.3.2)
+      '@capacitor/app':
+        specifier: ^8.0.1
+        version: 8.1.0(@capacitor/core@8.3.2)
       '@capacitor/cli':
         specifier: ^8.3.2
         version: 8.3.2
       '@capacitor/core':
         specifier: ^8.3.2
         version: 8.3.2
+      '@capacitor/haptics':
+        specifier: ^8.0.2
+        version: 8.0.2(@capacitor/core@8.3.2)
       '@capacitor/ios':
         specifier: ^8.3.2
         version: 8.3.2(@capacitor/core@8.3.2)
       '@capacitor/preferences':
         specifier: ^8.0.1
         version: 8.0.1(@capacitor/core@8.3.2)
+      '@capacitor/screen-orientation':
+        specifier: ^8.0.1
+        version: 8.0.1(@capacitor/core@8.3.2)
+      '@capacitor/splash-screen':
+        specifier: ^8.0.1
+        version: 8.0.1(@capacitor/core@8.3.2)
+      '@capacitor/status-bar':
+        specifier: ^8.0.1
+        version: 8.0.2(@capacitor/core@8.3.2)
       '@lichess-org/chessground':
         specifier: ^10.1.1
         version: 10.1.1
@@ -677,6 +692,11 @@ packages:
     peerDependencies:
       '@capacitor/core': ^8.3.0
 
+  '@capacitor/app@8.1.0':
+    resolution: {integrity: sha512-MlmttTOWHDedr/G4SrhNRxsXMqY+R75S4MM4eIgzsgCzOYhb/MpCkA5Q3nuOCfL1oHm26xjUzqZ5aupbOwdfYg==}
+    peerDependencies:
+      '@capacitor/core': '>=8.0.0'
+
   '@capacitor/cli@8.3.2':
     resolution: {integrity: sha512-9R0wLPnOPTOV36Z4j/+McmAyTA/vqEbOM3lcu3Ix6GJI2BC3Gdaxbqnb0f2DxA2kedZ0NTT+gKCmdY1wbb06Xg==}
     engines: {node: '>=22.0.0'}
@@ -685,6 +705,11 @@ packages:
   '@capacitor/core@8.3.2':
     resolution: {integrity: sha512-6Y0ksciqhkH4Bm2K5RxSFnuyRkeX3+vy+aLprRR5gzJnv85YYd52eIH4hjVhFAv/mFbPz5E4256yZ5ti0dh7Uw==}
 
+  '@capacitor/haptics@8.0.2':
+    resolution: {integrity: sha512-c2hZzRR5Fk1tbTvhG1jhh2XBAf3EhnIerMIb2sl7Mt41Gxx1fhBJFDa0/BI1IbY4loVepyyuqNC9820/GZuoWQ==}
+    peerDependencies:
+      '@capacitor/core': '>=8.0.0'
+
   '@capacitor/ios@8.3.2':
     resolution: {integrity: sha512-YyA7kSFH4M0wPa3236OSBbnz/KwF5//nm5VHzAfBotPZlZD7D60KDyYjZPrmWkvbSpI/x9l0xxtSKKTr4hd3rA==}
     peerDependencies:
@@ -692,6 +717,21 @@ packages:
 
   '@capacitor/preferences@8.0.1':
     resolution: {integrity: sha512-T6no3ebi79XJCk91U3Jp/liJUwgBdvHR+s6vhvPkPxSuch7z3zx5Rv1bdWM6sWruNx+pViuEGqZvbfCdyBvcHQ==}
+    peerDependencies:
+      '@capacitor/core': '>=8.0.0'
+
+  '@capacitor/screen-orientation@8.0.1':
+    resolution: {integrity: sha512-DPz/1YGmlAUDMg2ON+AGJp1eFn9IfVNP9VKI5zIU+jD5xAZ4JGxUDlY9MDCvEPQs7UCD53NduJpqvqhcnb32Kw==}
+    peerDependencies:
+      '@capacitor/core': '>=8.0.0'
+
+  '@capacitor/splash-screen@8.0.1':
+    resolution: {integrity: sha512-c/ew/Z3eA7z8l06WoRAtzVF16VwYYrExmHmfGq1Cg675pVzaC/yuucB8/1xG1vhEfnW4fZ1KhSf/kzR1RiVYgg==}
+    peerDependencies:
+      '@capacitor/core': '>=8.0.0'
+
+  '@capacitor/status-bar@8.0.2':
+    resolution: {integrity: sha512-WXs8YB8B9eEaPZz+bcdY6t2nForF1FLoj/JU0Dl9RRgQnddnS98FEEyDooQhaY7wivr000j4+SC1FyeJkrFO7A==}
     peerDependencies:
       '@capacitor/core': '>=8.0.0'
 
@@ -6487,6 +6527,10 @@ snapshots:
     dependencies:
       '@capacitor/core': 8.3.2
 
+  '@capacitor/app@8.1.0(@capacitor/core@8.3.2)':
+    dependencies:
+      '@capacitor/core': 8.3.2
+
   '@capacitor/cli@8.3.2':
     dependencies:
       '@ionic/cli-framework-output': 2.2.8
@@ -6513,11 +6557,27 @@ snapshots:
     dependencies:
       tslib: 2.8.1
 
+  '@capacitor/haptics@8.0.2(@capacitor/core@8.3.2)':
+    dependencies:
+      '@capacitor/core': 8.3.2
+
   '@capacitor/ios@8.3.2(@capacitor/core@8.3.2)':
     dependencies:
       '@capacitor/core': 8.3.2
 
   '@capacitor/preferences@8.0.1(@capacitor/core@8.3.2)':
+    dependencies:
+      '@capacitor/core': 8.3.2
+
+  '@capacitor/screen-orientation@8.0.1(@capacitor/core@8.3.2)':
+    dependencies:
+      '@capacitor/core': 8.3.2
+
+  '@capacitor/splash-screen@8.0.1(@capacitor/core@8.3.2)':
+    dependencies:
+      '@capacitor/core': 8.3.2
+
+  '@capacitor/status-bar@8.0.2(@capacitor/core@8.3.2)':
     dependencies:
       '@capacitor/core': 8.3.2
 
