@@ -24,7 +24,7 @@ export type CommsArrayHotspotId =
   | "dlc-severance-bound-champion-comms-array"
   | "tarn-erasure-vote-audio"
   | "tarn-faculty-silence-hour"
-  | "dlc-memorial-seven-watchers-comms-array"
+  | "watchers-silence-break-log"
   | "wolf-meme-show-transmission"
   | "dlc-akai-shi-red-death-comms-array"
   | "dlc-resurrectionist-cycle-walker-comms-array"
@@ -80,14 +80,20 @@ export const COMMS_ARRAY_MYSTERY: RoomMysteryModule<
           "You ask the comms-array whether any of the three left and returned. The recorder shows no break in the audio's room-tone. None of the three left. The silence was held by all three for the full hour. Each faculty head later admitted, on the cipher-den's record, that they had been waiting for one of the others to be the first to refuse.",
       },
     },
-    "dlc-memorial-seven-watchers-comms-array": {
+    /* ─── memorial.seven_watchers · e1 (silence-break event log) ─── */
+    "watchers-silence-break-log": {
       look: {
-        narration: "Case material for memorial.seven_watchers surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "On the comms-array's transmission desk, the sixty-three-second event log from the silence-break. The array's timestamping shows six upper-band voice-channels opening simultaneously at second bell plus six minutes. Each channel addressed a single different player. The channels closed in unison. The seventh channel-slot is logged as 'active signal, no carrier' — the seventh's signature was present and silent for the full duration. The log is unambiguous: six speakers, one silence, all in the same moment.",
         mysteryBinding: {
           mysteryId: "memorial.seven_watchers",
           episodeId: "memorial.seven_watchers.e1",
           cluesFound: ["watchers.e1.silence_break_log"],
         },
+      },
+      use: {
+        narration:
+          "You request the array's confidence on the timing. The desk returns the metadata: the six channels opened within 0.4 seconds of each other and closed within 0.2 seconds of each other. The Watchers' silence-break was coordinated to a tighter tolerance than any broadcast the array has ever logged.",
       },
     },
     /* ─── wolf.anara_hunt · e1 (meme-show transmission) ─── */

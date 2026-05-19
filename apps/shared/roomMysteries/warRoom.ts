@@ -16,7 +16,7 @@ export type WarRoomHotspotId =
   | "infernal-forty-ledger-keepers"
   | "chained-wave-telemetry"
   | "chained-feint-pattern"
-  | "dlc-memorial-seven-watchers-war-room"
+  | "watchers-council-communique"
   | "dlc-resurrectionist-cycle-walker-war-room"
   | "storm-advocates-blood-weave"
   | "storm-event-correlation-table"
@@ -74,14 +74,20 @@ export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
           "You ask the desk officer's pinned note to expand. The annotation deepens: 'the feint reads as a real approach for two beats. apprentices commit at beat one. senior operators wait until beat three. the wait costs nothing; the commit costs everything.' The Academy's curriculum has not taught the wait.",
       },
     },
-    "dlc-memorial-seven-watchers-war-room": {
+    /* ─── memorial.seven_watchers · e3 (Council communiqué) ─── */
+    "watchers-council-communique": {
       look: {
-        narration: "Case material for memorial.seven_watchers surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "On the war-room's chronicle-public display, the Council communiqué drafted by the Antiquarian and ratified by all council members. The communiqué names all six Watchers — Idris, Verel, Ophran, Kallium, Mereth, Sothe — by band and audience. It does not name the seventh. It thanks the seventh for the silence. The thanks is sincere; the silence is honoured. The communiqué is the Ark's first public statement on the founding Watchers in eight epochs.",
         mysteryBinding: {
           mysteryId: "memorial.seven_watchers",
           episodeId: "memorial.seven_watchers.e3",
           cluesFound: ["watchers.e3.council_communique"],
         },
+      },
+      interrogate: {
+        narration:
+          "You ask the display for the communiqué's distribution chain. The board returns the list: every plaza, every library, every cipher-keeper, every player-facing terminal. The Antiquarian routed the document through every channel the Ark has — the public statement is, by design, impossible to miss.",
       },
     },
     "dlc-resurrectionist-cycle-walker-war-room": {

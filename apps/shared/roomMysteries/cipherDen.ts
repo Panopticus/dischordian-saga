@@ -40,7 +40,9 @@ export type CipherDenHotspotId =
   | "infernal-atalin-receipt-sample"
   | "infernal-the-flaw"
   | "chained-tarn-year-one-argument"
-  | "dlc-memorial-seven-watchers-cipher-den"
+  | "watchers-upper-band-signature"
+  | "watchers-idris-signature"
+  | "watchers-six-signatures-catalogue"
   | "dlc-akai-shi-red-death-cipher-den"
   | "rosetta-pad" | "encrypted-correspondence" | "dictionary-of-edits" | "uncorruption-bench" | "cross-arc-thanks-card" | "vex-seer-pair-binder";
 
@@ -260,14 +262,52 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
           "You queue the audio. Tarn's voice is steady through the forty minutes — the cadence of a person who has thought through the consequences and decided. There is no waver. The Year-Eight retraction in her hand says she had thought through everything except the consequence of being right in theory and wrong in practice.",
       },
     },
-    "dlc-memorial-seven-watchers-cipher-den": {
+    /* ─── memorial.seven_watchers · e1 (upper-band signature analysis) ─── */
+    "watchers-upper-band-signature": {
       look: {
-        narration: "Case material for memorial.seven_watchers surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "On the cipher-den's spectrum-analysis bench, the upper-band signature cards from the silence-break event. Six distinct signatures across six bands — every voice carries a different upper-band fingerprint, instrument-confirmed. The bench's annotation: 'seven channels measured; six speakers identified; the seventh channel carries a signature distinct from all six, present throughout the event, silent throughout the event.' The seventh chose silence; the seventh did not lack the means.",
         mysteryBinding: {
           mysteryId: "memorial.seven_watchers",
           episodeId: "memorial.seven_watchers.e1",
-          cluesFound: ["watchers.e1.upper_band_signature", "watchers.e2.idris_signature", "watchers.e3.six_signatures_complete"],
+          cluesFound: ["watchers.e1.upper_band_signature"],
         },
+      },
+      use: {
+        narration:
+          "You request the cipher-den's prior history for any of the six signatures. The bench returns nothing — the signatures have been placeholder entries on the upper-band roster for eight epochs without samples to verify them. The silence-break delivered six samples in sixty-three seconds and confirmed every prior placeholder.",
+      },
+    },
+    /* ─── memorial.seven_watchers · e2 (Idris's signature) ─── */
+    "watchers-idris-signature": {
+      look: {
+        narration:
+          "Beside the spectrum-analysis bench, the band-three signature card isolated for further reading. Slow waveform, broad spectrum, an undercurrent of standing silence in the carrier-tone. The cipher-den has had a placeholder for Idris's signature for eight epochs — band three reserved on the upper-band roster, no sample to verify the slot's assignment. The silence-break delivered the sample. The match against the registry placeholder is exact.",
+        mysteryBinding: {
+          mysteryId: "memorial.seven_watchers",
+          episodeId: "memorial.seven_watchers.e2",
+          cluesFound: ["watchers.e2.idris_signature"],
+        },
+      },
+      interrogate: {
+        narration:
+          "You ask the bench whether Idris's standing-silence undercurrent is an artefact of the recording or a property of the speaker. The reader returns the cross-reference: the same undercurrent appears in every recording of Idris's band-three slot — the void-state carrier the band has been holding for Idris to speak through, for eight epochs.",
+      },
+    },
+    /* ─── memorial.seven_watchers · e3 (six signatures catalogued) ─── */
+    "watchers-six-signatures-catalogue": {
+      look: {
+        narration:
+          "On the cipher-den's master catalogue, the six signature cards now arranged by band — Idris (band three), Verel (band five), Ophran (band one), Kallium (band two), Mereth (band four), Sothe (band six). Six of seven bands accounted for. Band seven is the seventh's: a signature distinct from all six, present throughout the silence-break, silent throughout the silence-break. The catalogue is the first complete cipher-den entry for the upper-bands Watchers in eight epochs.",
+        mysteryBinding: {
+          mysteryId: "memorial.seven_watchers",
+          episodeId: "memorial.seven_watchers.e3",
+          cluesFound: ["watchers.e3.six_signatures_complete"],
+        },
+      },
+      use: {
+        narration:
+          "You request a band-by-band comparison. The reader shows the cards side by side: each Watcher's spectrum is unique, but all six share a single substrate frequency — the same upper-band carrier the Ark has been listening to from below. The seventh's band carries the same substrate.",
       },
     },
     "dlc-akai-shi-red-death-cipher-den": {

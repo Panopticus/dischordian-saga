@@ -22,7 +22,7 @@ export type AntiquarianLibraryHotspotId =
   | "tarn-year-eight-marginalia"
   | "infernal-epoch-one-contract"
   | "infernal-clause-back-page"
-  | "dlc-memorial-seven-watchers-antiquarian-library"
+  | "watchers-per-m-confirms"
   | "wolf-empty-chair"
   | "wolf-three-empty-chairs"
   | "dlc-akai-shi-red-death-antiquarian-library"
@@ -241,14 +241,20 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           "You ask the catalog who has signed out the marginalia compendium since Year 8. The drawer returns a list of three readers, none of them the Dean. Tarn's correction has been on this shelf for six years; the Dean has read every other volume in this row. The leaf was left for the next Dean to find. The next Dean is the current Dean.",
       },
     },
-    "dlc-memorial-seven-watchers-antiquarian-library": {
+    /* ─── memorial.seven_watchers · e4 (Per. M.'s confirmation) ─── */
+    "watchers-per-m-confirms": {
       look: {
-        narration: "Case material for memorial.seven_watchers surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "In the central reading dome, the Antiquarian's signed minute of his conversation with Per. M. after the silence-break. Per. M.'s confirmation, given calmly in the closer's office: the seventh Watcher and the Closer-of-the-charter are the same role, held by the same person. The silence on charter, audit, curriculum, and Memorial Day has been the same silence for the same reason — the role does not have a name yet. Per. M. has been holding this post under three different cases without any of them naming it.",
         mysteryBinding: {
           mysteryId: "memorial.seven_watchers",
           episodeId: "memorial.seven_watchers.e4",
           cluesFound: ["watchers.e4.per_m_confirms"],
         },
+      },
+      interrogate: {
+        narration:
+          "You ask Per. M. for the role's intended name. They say: 'the Ark will name it. I will not. Naming is the act the role is for, not the act it does.' Per. M. closes the conversation with the same gesture they used to close the charter's seventh signature.",
       },
     },
     /* ─── wolf.anara_hunt · e1 (the empty chair) ─── */

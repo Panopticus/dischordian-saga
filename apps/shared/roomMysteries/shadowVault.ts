@@ -31,7 +31,8 @@ export type ShadowVaultHotspotId =
   | "memorial-imprint-i17-aren"
   | "memorial-imprint-keeper-account"
   | "charter2-council-scrub-request"
-  | "dlc-memorial-seven-watchers-shadow-vault"
+  | "watchers-idris-archive-role"
+  | "watchers-line-in-apprentice-hand"
   | "dlc-resurrectionist-cycle-walker-shadow-vault"
   | "dlc-advocate-blood-weave-shadow-vault"
   | "sealed-cell-glass" | "manuscript-pile" | "warden-terminal" | "release-or-seal-lever" | "the-unopened-threshold" | "the-makers-heartbeat-trace" | "the-necromancers-altar";
@@ -118,14 +119,36 @@ export const SHADOW_VAULT_MYSTERY: RoomMysteryModule<
           "You ask the vault for the request's response chain. The drawer returns nothing — no acknowledgment from the seventh, no minutes of the request's drafting, no record of the six discussing the seventh's absence from the signature line. The six knew the seventh would not sign and proceeded anyway. The fourth-epoch scrub was a vote without the seventh.",
       },
     },
-    "dlc-memorial-seven-watchers-shadow-vault": {
+    /* ─── memorial.seven_watchers · e2 (Idris's archived role) ─── */
+    "watchers-idris-archive-role": {
       look: {
-        narration: "Case material for memorial.seven_watchers surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "Inside the shadow-vault's founding-Watchers' role registry, Idris's archived role entry — the only entry that survived the eight-epoch closure of the registry. 'Idris of the recording-band — speaks to investigators when the investigator has earned the speaking-to.' The phrase 'earned' is footnoted in Per. M.'s hand: 'the earning is mutual; Idris does not speak to anyone who has not been listening, and Idris would not speak to anyone who had not been investigating.' The registry confirms the silence-break's audience design.",
         mysteryBinding: {
           mysteryId: "memorial.seven_watchers",
           episodeId: "memorial.seven_watchers.e2",
-          cluesFound: ["watchers.e2.idris_archive_role", "watchers.e4.line_in_apprentice_hand"],
+          cluesFound: ["watchers.e2.idris_archive_role"],
         },
+      },
+      interrogate: {
+        narration:
+          "You ask the vault what counts as having earned the speaking-to. The drawer returns the registry's longer note: 'case files opened, deductions assembled, suspects named, evidence weighed. the investigation has to be real before the addressing is real.' The Watchers have been auditing the players' audit work the whole time.",
+      },
+    },
+    /* ─── memorial.seven_watchers · e4 (the seventh's apprentice-hand line) ─── */
+    "watchers-line-in-apprentice-hand": {
+      look: {
+        narration:
+          "In the shadow-vault's classified role-registry drawer, the seventh slot. Six entries on the role registry; six. The seventh slot has a number — VII — and a single line. No name. No band. No audience. The line, in a hand the cipher-den has already matched: 'I will not be named until the Ark has named what I am for.' Same hand as the apprentice oath in last year's Severance arc. Same hand as the closer-clause on the founding charter's seventh signature. Per. M. wrote the seventh's only registry entry.",
+        mysteryBinding: {
+          mysteryId: "memorial.seven_watchers",
+          episodeId: "memorial.seven_watchers.e4",
+          cluesFound: ["watchers.e4.line_in_apprentice_hand"],
+        },
+      },
+      use: {
+        narration:
+          "You request the vault's annotation on the slot's blankness. The keeper's note reads: 'this slot is not vacant. it is unwritten. the seventh has been performing a role we do not have words for, and the role's discipline is to keep the role un-named until the Ark names it.' The blank is a position, not an absence.",
       },
     },
     "dlc-resurrectionist-cycle-walker-shadow-vault": {
