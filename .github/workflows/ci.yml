@@ -288,6 +288,22 @@ jobs:
         continue-on-error: true
         run: pnpm db:migrate:prod
 
+      - name: Provision full schema (drizzle-kit push)
+        # The e2e job runs the REAL server (`pnpm start` below), which
+        # calls ensureCriticalSchemaOrExit() at boot and FATAL-exits if
+        # critical tables are missing. With db:migrate:prod running
+        # continue-on-error against the drifted journal, dozens of
+        # schema.ts tables (dream_balance, season_clock_state, the
+        # trade_* family) are uncreated; the server crashes on boot
+        # and Playwright then hits ERR_CONNECTION_REFUSED on every
+        # spec. db:push diffs schema.ts → DB and applies it
+        # idempotently (CLAUDE.md: "safe on out-of-sync DBs"). Unlike
+        # db-smoke, this job has no test harness that drops the DB,
+        # so the pushed schema actually survives to the server boot.
+        # The guard (scripts/guard-db-push.ts) still blocks
+        # prod/managed hosts; this CI DB is 127.0.0.1.
+        run: pnpm db:push
+
       - name: Seed E2E test user
         run: pnpm seed:e2e-user
 
