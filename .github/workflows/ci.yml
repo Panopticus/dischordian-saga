@@ -220,6 +220,16 @@ jobs:
     env:
       DATABASE_URL: "mysql://root:ci_e2e_pw@127.0.0.1:3306/dischordian_e2e"
       JWT_SECRET: ${{ secrets.E2E_JWT_SECRET || 'ci-e2e-development-secret-not-for-prod' }}
+      # `pnpm start` runs the server with NODE_ENV=production, which
+      # makes apps/server/_core/env.ts's required() THROW on missing
+      # GOOGLE_CLIENT_ID / GOOGLE_CLIENT_SECRET at import time — the
+      # process dies before binding to :3000, the "Start app server"
+      # health probe times out after 24s, and every Playwright spec
+      # then hits net::ERR_CONNECTION_REFUSED. The OAuth flow itself
+      # is never exercised in e2e (auth-gated specs use the JWT seed
+      # bypass via E2E_AUTH_OPEN_ID), so stubs are sufficient.
+      GOOGLE_CLIENT_ID: "ci-e2e-stub-google-client-id"
+      GOOGLE_CLIENT_SECRET: "ci-e2e-stub-google-client-secret"
       E2E_AUTH_OPEN_ID: "e2e-test-user"
       E2E_AUTH_NAME: "E2E Test User"
       E2E_BASE_URL: "http://localhost:3000"
