@@ -28,6 +28,8 @@ export type WarRoomHotspotId =
   | "advocate-riri-ahlia-account"
   | "advocate-empire-status-current"
   | "akai-thaloria-battle-logs"
+  | "watchers-witness-one-response"
+  | "watchers-player-first-question"
   | "holo-table" | "casualty-board" | "signal-flag-rack" | "ocularum-vigil-board" | "ocularum-cell-roster" | "hierarchy-org-chart-board" | "thalorian-defense-records" | "new-babylon-siege-record" | "hierarchy-piece-positioning-board" | "varkul-director-of-security-file" | "necromancer-castle-log-board" | "zyr-koth-rd-refinement-file" | "the-severance-hollowing-report" | "the-locked-lever-board" | "syl-vex-dual-roster-board" | "the-severance-cross-lock-file" | "the-taskmasters-siege-portfolio" | "riri-ahlia-reorg-doctrine-board" | "the-procedural-question-file" | "the-priced-defense-accounting" | "fenra-seventeen-front-manifest" | "the-wolf-in-the-boardroom-file" | "fenra-varkul-contrast-record";
 
 export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
@@ -188,6 +190,29 @@ export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
       interrogate: {
         narration:
           "You ask the table for the planning-signature of each correlated event. The console returns identical signatures across all seven — multi-cycle information consistency, no flux interference, no Ne-Yon-grade disturbance. Planning is permitted; planning happens; planning is followed by the most active flux period in the surrounding decade. The chronicle is consequential because the Storm allows it to be.",
+      },
+    },
+    /* ─── memorial.seven_watchers · color clues ─── */
+    "watchers-witness-one-response": {
+      look: {
+        narration:
+          "On the war-room's plaza-audience board, players gathered in the plaza compare lines. Three confirm Idris's voice (an investigator's voice). Two confirm Verel's (a caretaker's). Five remain unconfirmed. The unconfirmed five are the four other named Watchers' work — and one is the seventh, who did not speak. The five unmatched lines are the case's bulk.",
+        mysteryBinding: {
+          mysteryId: "memorial.seven_watchers",
+          episodeId: "memorial.seven_watchers.e2",
+          cluesFound: ["watchers.e2.witness_one_response"],
+        },
+      },
+    },
+    "watchers-player-first-question": {
+      look: {
+        narration:
+          "On the year-vault-archive board, the player's first-question draft. The question is hand-written; the question is sealed in an envelope; the envelope is given to the Antiquarian to deliver next Memorial Day, when the seventh may speak.",
+        mysteryBinding: {
+          mysteryId: "memorial.seven_watchers",
+          episodeId: "memorial.seven_watchers.e4",
+          cluesFound: ["watchers.e4.player_first_question"],
+        },
       },
     },
     /* ─── akai_shi.red_death · e1 (Thaloria battle logs) ─── */

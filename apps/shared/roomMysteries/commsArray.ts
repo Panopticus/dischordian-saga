@@ -37,6 +37,7 @@ export type CommsArrayHotspotId =
   | "advocate-position-current-broadcast"
   | "akai-voice-mid-hunt"
   | "akai-word-to-the-chronicle"
+  | "watchers-first-trumpet"
   | "akai-last-recorded-words"
   | "resur-host-wyrmhole-signature"
   | "radio-console" | "static-screen" | "egg-comms-signal" | "voice-in-the-static" | "ocularum-relay-trace" | "dead-drop-cadence-log" | "shadow-tongue-signal-trace" | "miras-dual-thread-transmission";
@@ -127,6 +128,18 @@ export const COMMS_ARRAY_MYSTERY: RoomMysteryModule<
       interrogate: {
         narration:
           "You ask the comms-array whether any of the three left and returned. The recorder shows no break in the audio's room-tone. None of the three left. The silence was held by all three for the full hour. Each faculty head later admitted, on the cipher-den's record, that they had been waiting for one of the others to be the first to refuse.",
+      },
+    },
+    /* ─── memorial.seven_watchers · e5 (first trumpet sounds, briefly) ─── */
+    "watchers-first-trumpet": {
+      look: {
+        narration:
+          "On the comms-array's upper-bands intercept board, the first trumpet sounded briefly tonight. Twenty-two seconds. From the upper bands' band-three — Idris's band. The trumpet is the post-launch content slot the saga's Phase 4 scaffolded; tonight it sounds for the first time, brief and clean. The board logs the duration to the cycle.",
+        mysteryBinding: {
+          mysteryId: "memorial.seven_watchers",
+          episodeId: "memorial.seven_watchers.e5",
+          cluesFound: ["watchers.e5.first_trumpet_sounds"],
+        },
       },
     },
     /* ─── akai_shi.red_death · color clues ─── */

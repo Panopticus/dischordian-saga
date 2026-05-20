@@ -15,6 +15,9 @@ export type OracleSanctumHotspotId =
   | "chained-lyra-advocacy"
   | "chained-lyra-album-track"
   | "akai-dreamer-quarantine"
+  | "watchers-player-received-line"
+  | "watchers-player-line-match"
+  | "watchers-player-speaker-assignment"
   | "memorial-antiquarian-plaza-request"
   | "charter2-kassel-testimony"
   | "infernal-zyrkoth-concession"
@@ -24,6 +27,40 @@ export type OracleSanctumHotspotId =
 export const ORACLE_SANCTUM_MYSTERY: RoomMysteryModule<OracleSanctumHotspotId> = {
   roomId: "oracle-sanctum",
   responses: {
+    /* ─── memorial.seven_watchers · color clues ─── */
+    "watchers-player-received-line": {
+      look: {
+        narration:
+          "In the sanctum's personal-line alcove, the line addressed to the player. Six minutes after Seal VII broke. Single sentence. Voice unidentified at first. The line is the player's to read, the case's to interpret, and (per the manifest) personalised to the player's choices across the saga.",
+        mysteryBinding: {
+          mysteryId: "memorial.seven_watchers",
+          episodeId: "memorial.seven_watchers.e1",
+          cluesFound: ["watchers.e1.player_received_line"],
+        },
+      },
+    },
+    "watchers-player-line-match": {
+      look: {
+        narration:
+          "Beside the personal-line alcove, the line-matching console runs the player's case-history against the six Watcher signatures: if the case-history includes investigation work (deduction graphs solved, suspects named), the line is Idris's. If the case-history includes Memorial Plaza inscription, plaza vigil, or charity donations, the line is Verel's. The player may have received from either, or from one of the other four still to be identified.",
+        mysteryBinding: {
+          mysteryId: "memorial.seven_watchers",
+          episodeId: "memorial.seven_watchers.e2",
+          cluesFound: ["watchers.e2.player_line_match"],
+        },
+      },
+    },
+    "watchers-player-speaker-assignment": {
+      look: {
+        narration:
+          "On the speaker-assignment console, cross-referencing the player's case-history against the six role-registry entries: the player's received line is from one of the six, identifiable by which audience the player has belonged to most across the saga.",
+        mysteryBinding: {
+          mysteryId: "memorial.seven_watchers",
+          episodeId: "memorial.seven_watchers.e3",
+          cluesFound: ["watchers.e3.player_speaker_assignment"],
+        },
+      },
+    },
     /* ─── akai_shi.red_death · e2 (Dreamer's quarantine filing) ─── */
     "akai-dreamer-quarantine": {
       look: {

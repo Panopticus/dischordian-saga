@@ -45,6 +45,7 @@ export type CipherDenHotspotId =
   | "wolf-seal-telemetry"
   | "akai-targets-list-order-pattern"
   | "resur-seven-pointed-star"
+  | "watchers-verel-signature"
   | "watchers-upper-band-signature"
   | "watchers-idris-signature"
   | "watchers-six-signatures-catalogue"
@@ -201,6 +202,18 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
       interrogate: {
         narration:
           "You ask the archive when this convention was last successfully invoked. The drawer returns a single entry: the founding itself. The seventh founding Watcher invoked silence-as-vote on three minor founding-day decisions; each was read correctly. The convention's first misreading is the fourth-epoch scrub. The misreading has been the seventh's only voice since.",
+      },
+    },
+    /* ─── memorial.seven_watchers · e2 (Verel's band-five signature) ─── */
+    "watchers-verel-signature": {
+      look: {
+        narration:
+          "On the spectrum-analysis bench, the band-five signature card isolated for further reading. Upper-band band-five. Bright waveform, narrow spectrum, an overtone like running water. Verel speaks to caretakers — players who have inscribed at the Memorial Plaza, donated to charity, or kept Memorial Plaza vigils.",
+        mysteryBinding: {
+          mysteryId: "memorial.seven_watchers",
+          episodeId: "memorial.seven_watchers.e2",
+          cluesFound: ["watchers.e2.verel_signature"],
+        },
       },
     },
     /* ─── resurrectionist.cycle_walker · e1 (seven-pointed star footer) ─── */

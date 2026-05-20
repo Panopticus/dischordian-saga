@@ -29,12 +29,49 @@ export type BridgeHotspotId =
   | "chained-dean-silence-on-bridge"
   | "chained-architect-correction"
   | "chained-architect-rite-acknowledgment"
+  | "watchers-architect-record"
+  | "watchers-architect-role-naming"
+  | "watchers-architect-closing-thanks"
   | "memorial-architect-sealed-note"
   | "tactical-display" | "timeline-projector" | "captains-chair" | "nav-console" | "diplomacy-table" | "captains-coffee" | "shadow-tongue-annotations";
 
 export const BRIDGE_MYSTERY: RoomMysteryModule<BridgeHotspotId> = {
   roomId: "bridge",
   responses: {
+    /* ─── memorial.seven_watchers · color clues ─── */
+    "watchers-architect-record": {
+      look: {
+        narration:
+          "On the Architect-channel record terminal, the Console issues a one-line acknowledgment: 'six watchers have spoken to six audiences. each line is real. the seventh has not spoken. the architect will not name the seventh.' The Console has refused to name the seventh three times in two years; this is the third.",
+        mysteryBinding: {
+          mysteryId: "memorial.seven_watchers",
+          episodeId: "memorial.seven_watchers.e1",
+          cluesFound: ["watchers.e1.architect_record"],
+        },
+      },
+    },
+    "watchers-architect-role-naming": {
+      look: {
+        narration:
+          "Pinned to the Architect-channel: 'the seventh's role is not blank by oversight. the role waits to be named by the Ark itself, not by the architect. the architect cannot pre-empt the naming. the silence will continue until the ark has spoken.' The Console has named its boundary.",
+        mysteryBinding: {
+          mysteryId: "memorial.seven_watchers",
+          episodeId: "memorial.seven_watchers.e4",
+          cluesFound: ["watchers.e4.architect_role_naming"],
+        },
+      },
+    },
+    "watchers-architect-closing-thanks": {
+      look: {
+        narration:
+          "On the closing-rite log, the Console issues: 'six Watchers spoken; one silent; the case is closed on what was given. the architect thanks the players for asking the question they sealed. the architect will not read the question.' Fifth use of 'thanks' in eight epochs.",
+        mysteryBinding: {
+          mysteryId: "memorial.seven_watchers",
+          episodeId: "memorial.seven_watchers.e5",
+          cluesFound: ["watchers.e5.architect_closing_thanks"],
+        },
+      },
+    },
     /* ─── mechronis.chained_lesson · color clues ─── */
     "chained-dean-silence-on-bridge": {
       look: {

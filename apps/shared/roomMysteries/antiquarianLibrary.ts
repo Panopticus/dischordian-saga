@@ -44,6 +44,9 @@ export type AntiquarianLibraryHotspotId =
   | "akai-case-closes"
   | "resur-antiquarians-unknown-entry"
   | "resur-cult-curated-terminus-map"
+  | "watchers-communique-appendix"
+  | "watchers-seventh-appendix"
+  | "watchers-six-lines-inscribed"
   | "wolf-empty-chair"
   | "wolf-three-empty-chairs"
   | "akai-resurrectionist-seal"
@@ -390,6 +393,40 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           mysteryId: "wolf.anara_hunt",
           episodeId: "wolf.anara_hunt.e5",
           cluesFound: ["wolf.e5.antiquarians_concession"],
+        },
+      },
+    },
+    /* ─── memorial.seven_watchers · color clues ─── */
+    "watchers-communique-appendix": {
+      look: {
+        narration:
+          "On the communiqué-appendix shelf, the Antiquarian's single-page addition to the year's Watcher communiqué: 'six Watchers have spoken. the seventh waits to be named by us. we have one year to consider what we want to ask them, and what role we have not yet given them words for.' The page is dated tonight and sewn to the back of the Council's communiqué.",
+        mysteryBinding: {
+          mysteryId: "memorial.seven_watchers",
+          episodeId: "memorial.seven_watchers.e4",
+          cluesFound: ["watchers.e4.communiqe_appendix"],
+        },
+      },
+    },
+    "watchers-seventh-appendix": {
+      look: {
+        narration:
+          "In the Memorial Plaza volume's final folio, a single page sewn beside the six Watcher-line entries — blank but for the line: 'I will not be named until the Ark has named what I am for.' The blank is the appendix; the appendix is the case's closing. The seventh's slot is held by the document the case-bearer wrote.",
+        mysteryBinding: {
+          mysteryId: "memorial.seven_watchers",
+          episodeId: "memorial.seven_watchers.e5",
+          cluesFound: ["watchers.e5.seventh_appendix"],
+        },
+      },
+    },
+    "watchers-six-lines-inscribed": {
+      look: {
+        narration:
+          "On the Memorial Plaza shelf, the year's volume has been re-opened. Each Watcher's role description has been hand-copied by the Antiquarian, sewn into the Memorial Plaza volume. Six Watchers' lines now sit between Aren's name (Year 1) and the next Year-3 inscriptions. The book grows.",
+        mysteryBinding: {
+          mysteryId: "memorial.seven_watchers",
+          episodeId: "memorial.seven_watchers.e5",
+          cluesFound: ["watchers.e5.six_lines_inscribed"],
         },
       },
     },

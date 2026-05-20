@@ -40,6 +40,13 @@ export type ShadowVaultHotspotId =
   | "storm-silence-co-signature"
   | "wolf-trust-signatures"
   | "resur-plague-mask-at-killsite"
+  | "watchers-verel-archive-role"
+  | "watchers-kallium-role"
+  | "watchers-mereth-role"
+  | "watchers-ophran-role"
+  | "watchers-sothe-role"
+  | "watchers-missing-archive-entry"
+  | "watchers-sealed-question-in-vault"
   | "sealed-cell-glass" | "manuscript-pile" | "warden-terminal" | "release-or-seal-lever" | "the-unopened-threshold" | "the-makers-heartbeat-trace" | "the-necromancers-altar";
 
 export type ShadowVaultInventoryId = "manuscript-folio";
@@ -192,6 +199,84 @@ export const SHADOW_VAULT_MYSTERY: RoomMysteryModule<
       use: {
         narration:
           "You request comparable Ne-Yon body-claim records. The vault returns four others — for the Sage, the Champion, the Hawk, the Architect's first failed proxy. None of the four carries an archaic seal. The 'tradition' the cult's annotation cites has no other examples in the chronicle.",
+      },
+    },
+    /* ─── memorial.seven_watchers · color clues (role-registry entries) ─── */
+    "watchers-verel-archive-role": {
+      look: {
+        narration:
+          "Inside the role-registry drawer, Verel's archived entry: 'Verel of the carrying-band — speaks to caretakers when the caretaking has carried someone forward.' Verel has now spoken to the player audience that inscribed I-1 last Memorial Day, among other moments.",
+        mysteryBinding: {
+          mysteryId: "memorial.seven_watchers",
+          episodeId: "memorial.seven_watchers.e2",
+          cluesFound: ["watchers.e2.verel_archive_role"],
+        },
+      },
+    },
+    "watchers-kallium-role": {
+      look: {
+        narration:
+          "Beside Verel's entry, Kallium's: 'Kallium of the reflective band — speaks to combatants when the combat has cost the combatant something they did not have to spend.' Tower-defense holders, PvP players, and combat-mission survivors received Kallium's line.",
+        mysteryBinding: {
+          mysteryId: "memorial.seven_watchers",
+          episodeId: "memorial.seven_watchers.e3",
+          cluesFound: ["watchers.e3.kallium_role"],
+        },
+      },
+    },
+    "watchers-mereth-role": {
+      look: {
+        narration:
+          "Beside Kallium's, Mereth's: 'Mereth of the resonant band — speaks to musicians when the musician has heard a thing the musician was not given to hear.' Lyra Vox received the Mereth-line. So did three other album artists, all on transmission tracks T01–T17.",
+        mysteryBinding: {
+          mysteryId: "memorial.seven_watchers",
+          episodeId: "memorial.seven_watchers.e3",
+          cluesFound: ["watchers.e3.mereth_role"],
+        },
+      },
+    },
+    "watchers-ophran-role": {
+      look: {
+        narration:
+          "Beside Mereth's, Ophran's: 'Ophran of the long-spectrum band — speaks to traders when a trade has carried more than its weight.' Trade Empire route-makers, mission-completers, and treaty-brokers have received the Ophran-line.",
+        mysteryBinding: {
+          mysteryId: "memorial.seven_watchers",
+          episodeId: "memorial.seven_watchers.e3",
+          cluesFound: ["watchers.e3.ophran_role"],
+        },
+      },
+    },
+    "watchers-sothe-role": {
+      look: {
+        narration:
+          "Beside Ophran's, Sothe's: 'Sothe of the high bright band — speaks to children when the child has named a thing the elders had not named.' Aren of the lower decks (the eight-year-old who self-named for the Memorial Plaza) received the Sothe-line.",
+        mysteryBinding: {
+          mysteryId: "memorial.seven_watchers",
+          episodeId: "memorial.seven_watchers.e3",
+          cluesFound: ["watchers.e3.sothe_role"],
+        },
+      },
+    },
+    "watchers-missing-archive-entry": {
+      look: {
+        narration:
+          "At the bottom of the role-registry drawer, the seventh slot — six entries on the role registry, six. The seventh slot has a number — VII — and a single line. No name. No band. No audience. The slot has been blank for eight epochs.",
+        mysteryBinding: {
+          mysteryId: "memorial.seven_watchers",
+          episodeId: "memorial.seven_watchers.e4",
+          cluesFound: ["watchers.e4.missing_archive_entry"],
+        },
+      },
+    },
+    "watchers-sealed-question-in-vault": {
+      look: {
+        narration:
+          "On the Memorial Plaza vault shelf, an envelope, signed and sealed, placed in the vault. To be opened next Memorial Day, when the seventh may speak. Multiple players' questions are sealed alongside; the vault is sized for many.",
+        mysteryBinding: {
+          mysteryId: "memorial.seven_watchers",
+          episodeId: "memorial.seven_watchers.e5",
+          cluesFound: ["watchers.e5.sealed_question_in_vault"],
+        },
       },
     },
     /* ─── resurrectionist.cycle_walker · e3 (plague mask at the kill-site) ─── */
