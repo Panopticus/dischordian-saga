@@ -30,6 +30,8 @@ export type ArchivesHotspotId =
   | "tarn-erasure-protocol"
   | "tarn-missing-invitation"
   | "tarn-letter-to-dean"
+  | "memorial-imprint-log"
+  | "memorial-three-elders"
   | "chained-failure-log"
   | "chained-dean-annotation-record"
   | "chained-thirty-one-names-read"
@@ -138,6 +140,29 @@ export const ARCHIVES_MYSTERY: RoomMysteryModule<
       interrogate: {
         narration:
           "You ask the archive whether any envelope was ever opened by another reader. The drawer logs three attempts in forty seasons; each one returned the envelope unopened. The seals are unbroken; the names remain in the bond, not in the paperwork.",
+      },
+    },
+    /* ─── memorial.forgotten_names · color clues ─── */
+    "memorial-imprint-log": {
+      look: {
+        narration:
+          "In the Memorial-tier sub-drawer, the imprint log: a leather-bound book, kept by the imprint-keeper. Each imprint has an entry; the entries for the fourteen are the only ones with no inscribed name. Each entry has a witness slot waiting for a hand.",
+        mysteryBinding: {
+          mysteryId: "memorial.forgotten_names",
+          episodeId: "memorial.forgotten_names.e2",
+          cluesFound: ["memorial.e2.imprint_log"],
+        },
+      },
+    },
+    "memorial-three-elders": {
+      look: {
+        narration:
+          "In the long-wait register, the three elders who refused: I-155, I-202, and I-301 each refused to name themselves at the moment of imprinting. The keeper's note: 'they declined; they would not say why.' All three have been on the unwitnessed list for over a decade.",
+        mysteryBinding: {
+          mysteryId: "memorial.forgotten_names",
+          episodeId: "memorial.forgotten_names.e3",
+          cluesFound: ["memorial.e3.three_elders"],
+        },
       },
     },
     /* ─── mechronis.missing_professor · color clues ─── */

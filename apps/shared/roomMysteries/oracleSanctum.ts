@@ -22,6 +22,9 @@ export type OracleSanctumHotspotId =
   | "tarn-othmar-admission"
   | "tarn-roen-admission"
   | "tarn-veth-admission"
+  | "memorial-plaza-register"
+  | "memorial-plaza-consensus"
+  | "memorial-aren-reading"
   | "memorial-antiquarian-plaza-request"
   | "charter2-kassel-testimony"
   | "infernal-zyrkoth-concession"
@@ -31,6 +34,40 @@ export type OracleSanctumHotspotId =
 export const ORACLE_SANCTUM_MYSTERY: RoomMysteryModule<OracleSanctumHotspotId> = {
   roomId: "oracle-sanctum",
   responses: {
+    /* ─── memorial.forgotten_names · color clues ─── */
+    "memorial-plaza-register": {
+      look: {
+        narration:
+          "In the witness chamber's plaza-register alcove, the recorded opening: players have begun inscribing. The first three inscriptions are quiet — names whispered, written, set down. The fourth player hesitates at the unwitnessed pages and asks the Antiquarian what to do.",
+        mysteryBinding: {
+          mysteryId: "memorial.forgotten_names",
+          episodeId: "memorial.forgotten_names.e1",
+          cluesFound: ["memorial.e1.plaza_register"],
+        },
+      },
+    },
+    "memorial-plaza-consensus": {
+      look: {
+        narration:
+          "In the closing-rite alcove, the plaza-consensus recording for I-1: the gathered players reach a consensus by silence — three minutes of not-speaking, then one player at a time stepping forward. Each player offers a name. Twenty-three names are spoken. The keeper writes them all down.",
+        mysteryBinding: {
+          mysteryId: "memorial.forgotten_names",
+          episodeId: "memorial.forgotten_names.e4",
+          cluesFound: ["memorial.e4.plaza_consensus"],
+        },
+      },
+    },
+    "memorial-aren-reading": {
+      look: {
+        narration:
+          "On the closing-recording desk, Aren of the lower decks reads the volume aloud at last bell. They take three hours. They pause once, at I-1's folio, to let the gathered players read the names along with them. The pause is forty-five seconds long.",
+        mysteryBinding: {
+          mysteryId: "memorial.forgotten_names",
+          episodeId: "memorial.forgotten_names.e5",
+          cluesFound: ["memorial.e5.aren_reading"],
+        },
+      },
+    },
     /* ─── mechronis.missing_professor · color clues ─── */
     "tarn-dean-account": {
       look: {

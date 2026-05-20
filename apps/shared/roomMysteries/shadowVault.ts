@@ -47,6 +47,14 @@ export type ShadowVaultHotspotId =
   | "watchers-sothe-role"
   | "watchers-missing-archive-entry"
   | "watchers-sealed-question-in-vault"
+  | "memorial-imprint-room"
+  | "memorial-imprint-i3"
+  | "memorial-imprint-i44"
+  | "memorial-three-children"
+  | "memorial-elder-refusal-reason"
+  | "memorial-dish-listening"
+  | "memorial-imprint-i1-dish"
+  | "memorial-next-year-hook"
   | "sealed-cell-glass" | "manuscript-pile" | "warden-terminal" | "release-or-seal-lever" | "the-unopened-threshold" | "the-makers-heartbeat-trace" | "the-necromancers-altar";
 
 export type ShadowVaultInventoryId = "manuscript-folio";
@@ -199,6 +207,95 @@ export const SHADOW_VAULT_MYSTERY: RoomMysteryModule<
       use: {
         narration:
           "You request comparable Ne-Yon body-claim records. The vault returns four others — for the Sage, the Champion, the Hawk, the Architect's first failed proxy. None of the four carries an archaic seal. The 'tradition' the cult's annotation cites has no other examples in the chronicle.",
+      },
+    },
+    /* ─── memorial.forgotten_names · color clues (imprint room + dish reads) ─── */
+    "memorial-imprint-room": {
+      look: {
+        narration:
+          "In the shadow-vault's imprint-room alcove, fourteen obsidian dishes on a low shelf. Each dish is small enough to hold in a palm. The room is cold — by design — to keep the dishes from clouding.",
+        mysteryBinding: {
+          mysteryId: "memorial.forgotten_names",
+          episodeId: "memorial.forgotten_names.e2",
+          cluesFound: ["memorial.e2.imprint_room"],
+        },
+      },
+    },
+    "memorial-imprint-i3": {
+      look: {
+        narration:
+          "Dish I-3 on the cold-shelf, lifted to the listening cradle. A child's voice. The imprint says: 'tell my mother I am here.' No name. The mother is one of the fourteen.",
+        mysteryBinding: {
+          mysteryId: "memorial.forgotten_names",
+          episodeId: "memorial.forgotten_names.e2",
+          cluesFound: ["memorial.e2.imprint_i3"],
+        },
+      },
+    },
+    "memorial-imprint-i44": {
+      look: {
+        narration:
+          "Dish I-44 on the cold-shelf. A young adult, breathless. The imprint says only: 'I forgot it. I forgot my own name. Tell whoever finds me to write it for me.'",
+        mysteryBinding: {
+          mysteryId: "memorial.forgotten_names",
+          episodeId: "memorial.forgotten_names.e2",
+          cluesFound: ["memorial.e2.imprint_i44"],
+        },
+      },
+    },
+    "memorial-three-children": {
+      look: {
+        narration:
+          "On the children-without-witnesses shelf: I-17 (Aren, self-named, already inscribed). The three children: I-44, I-244, and one whose id has been lost in the keeper's log — a fragment that reads 'I-1' but the page is torn.",
+        mysteryBinding: {
+          mysteryId: "memorial.forgotten_names",
+          episodeId: "memorial.forgotten_names.e3",
+          cluesFound: ["memorial.e3.three_children"],
+        },
+      },
+    },
+    "memorial-elder-refusal-reason": {
+      look: {
+        narration:
+          "Pinned to the keeper's log, an elder's recorded reason: I-155 left a side-note in the keeper's log: 'I am not refusing my name; I am refusing to be named in a hurry. The plaza will arrive. The plaza will know me.' We have arrived. The plaza is here.",
+        mysteryBinding: {
+          mysteryId: "memorial.forgotten_names",
+          episodeId: "memorial.forgotten_names.e3",
+          cluesFound: ["memorial.e3.elder_refusal_reason"],
+        },
+      },
+    },
+    "memorial-dish-listening": {
+      look: {
+        narration:
+          "In the alcove inner-chamber, the keeper opens the alcove. The dish is read for the first time in three years. The voice is a child's, somewhere between three and five. The voice says: 'I am here. I will be here. Tell whoever finds me my name when you find it.' The voice does not say the name.",
+        mysteryBinding: {
+          mysteryId: "memorial.forgotten_names",
+          episodeId: "memorial.forgotten_names.e4",
+          cluesFound: ["memorial.e4.dish_listening"],
+        },
+      },
+    },
+    "memorial-imprint-i1-dish": {
+      look: {
+        narration:
+          "In the sealed-alcove drawer, Imprint I-1's dish. Smaller than the others. Older. The dish is held in a separate alcove with its own lock. The keeper has held the key for three years and has never opened the alcove.",
+        mysteryBinding: {
+          mysteryId: "memorial.forgotten_names",
+          episodeId: "memorial.forgotten_names.e4",
+          cluesFound: ["memorial.e4.imprint_i1_dish"],
+        },
+      },
+    },
+    "memorial-next-year-hook": {
+      look: {
+        narration:
+          "On the next-year hook shelf, the Antiquarian's closing note: 'the seventh Watcher is silent because the seventh Watcher has not yet been asked. next Memorial Day, six of the seven will speak. we will need to be ready for what they say.'",
+        mysteryBinding: {
+          mysteryId: "memorial.forgotten_names",
+          episodeId: "memorial.forgotten_names.e5",
+          cluesFound: ["memorial.e5.next_year_hook"],
+        },
       },
     },
     /* ─── memorial.seven_watchers · color clues (role-registry entries) ─── */

@@ -47,6 +47,7 @@ export type CipherDenHotspotId =
   | "resur-seven-pointed-star"
   | "watchers-verel-signature"
   | "tarn-logic-proposal"
+  | "memorial-parent-search-i1"
   | "watchers-upper-band-signature"
   | "watchers-idris-signature"
   | "watchers-six-signatures-catalogue"
@@ -203,6 +204,18 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
       interrogate: {
         narration:
           "You ask the archive when this convention was last successfully invoked. The drawer returns a single entry: the founding itself. The seventh founding Watcher invoked silence-as-vote on three minor founding-day decisions; each was read correctly. The convention's first misreading is the fourth-epoch scrub. The misreading has been the seventh's only voice since.",
+      },
+    },
+    /* ─── memorial.forgotten_names · e4 (parent search for I-1) ─── */
+    "memorial-parent-search-i1": {
+      look: {
+        narration:
+          "On the cipher-den's relatives-search bench, the search for I-1's parent: no parent imprinted, no sibling imprinted, no witnesses recorded. I-1 is alone in the registry. The first imprint of the Ark has no relatives in the imprint catalog.",
+        mysteryBinding: {
+          mysteryId: "memorial.forgotten_names",
+          episodeId: "memorial.forgotten_names.e4",
+          cluesFound: ["memorial.e4.parent_search_i1"],
+        },
       },
     },
     /* ─── mechronis.missing_professor · e2 (Logic faculty proposal) ─── */

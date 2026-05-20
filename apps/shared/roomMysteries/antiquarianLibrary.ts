@@ -51,6 +51,10 @@ export type AntiquarianLibraryHotspotId =
   | "tarn-binder-recovered"
   | "tarn-curriculum-on-desk"
   | "tarn-pebble"
+  | "memorial-first-volume"
+  | "memorial-torn-page"
+  | "memorial-fourteen-inscribed"
+  | "memorial-player-carrier-choice"
   | "wolf-empty-chair"
   | "wolf-three-empty-chairs"
   | "akai-resurrectionist-seal"
@@ -397,6 +401,51 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           mysteryId: "wolf.anara_hunt",
           episodeId: "wolf.anara_hunt.e5",
           cluesFound: ["wolf.e5.antiquarians_concession"],
+        },
+      },
+    },
+    /* ─── memorial.forgotten_names · color clues ─── */
+    "memorial-first-volume": {
+      look: {
+        narration:
+          "On the chronicle-shelf, the first volume of Year of the Lost — hand-bound, leather-quilted, eight hundred and twelve pages. Seven hundred and ninety-eight names inscribed in a steady archivist's hand. Fourteen pages left blank. Each blank carries an imprint-id and the word 'unwitnessed' in pencil.",
+        mysteryBinding: {
+          mysteryId: "memorial.forgotten_names",
+          episodeId: "memorial.forgotten_names.e1",
+          cluesFound: ["memorial.e1.first_volume"],
+        },
+      },
+    },
+    "memorial-torn-page": {
+      look: {
+        narration:
+          "In the keeper's log fragment-drawer, the keeper's log is torn at the page that should contain the fourteenth imprint's id. The tear is old; the keeper does not remember when it happened or why. The page has been re-bound for archival use without restoration.",
+        mysteryBinding: {
+          mysteryId: "memorial.forgotten_names",
+          episodeId: "memorial.forgotten_names.e3",
+          cluesFound: ["memorial.e3.torn_page"],
+        },
+      },
+    },
+    "memorial-fourteen-inscribed": {
+      look: {
+        narration:
+          "Beside the first volume, the closing-rite volume — closed at last bell. The torn page is replaced by a folio sewn in by the Antiquarian. Eight hundred and twelve names — and one folio of additional inscriptions for I-1.",
+        mysteryBinding: {
+          mysteryId: "memorial.forgotten_names",
+          episodeId: "memorial.forgotten_names.e5",
+          cluesFound: ["memorial.e5.fourteen_inscribed"],
+        },
+      },
+    },
+    "memorial-player-carrier-choice": {
+      look: {
+        narration:
+          "Beside the closed volume, the Antiquarian's carrier-choice question: 'will you leave the volume in the library, or carry it back, by hand, to the imprint room? both are honest. one closes the loop where the imprints rest. the other leaves the loop open for next year.' The choice is the player's.",
+        mysteryBinding: {
+          mysteryId: "memorial.forgotten_names",
+          episodeId: "memorial.forgotten_names.e5",
+          cluesFound: ["memorial.e5.player_carrier_choice"],
         },
       },
     },

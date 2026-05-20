@@ -34,12 +34,37 @@ export type BridgeHotspotId =
   | "watchers-architect-closing-thanks"
   | "tarn-destination-acknowledged"
   | "tarn-architect-vote-note"
+  | "memorial-architect-silence-on-torn"
+  | "memorial-architect-closing-thanks"
   | "memorial-architect-sealed-note"
   | "tactical-display" | "timeline-projector" | "captains-chair" | "nav-console" | "diplomacy-table" | "captains-coffee" | "shadow-tongue-annotations";
 
 export const BRIDGE_MYSTERY: RoomMysteryModule<BridgeHotspotId> = {
   roomId: "bridge",
   responses: {
+    /* ─── memorial.forgotten_names · color clues ─── */
+    "memorial-architect-silence-on-torn": {
+      look: {
+        narration:
+          "On the Architect-channel terminal, asked to identify the imprint named on the torn page, the Console returns: 'i decline.' The Console has declined exactly twice in eight epochs. This is the second.",
+        mysteryBinding: {
+          mysteryId: "memorial.forgotten_names",
+          episodeId: "memorial.forgotten_names.e3",
+          cluesFound: ["memorial.e3.architect_silence_on_torn"],
+        },
+      },
+    },
+    "memorial-architect-closing-thanks": {
+      look: {
+        narration:
+          "On the closing-rite Architect-channel, the Console issues a single line at last bell: 'noted. the plaza was the answer. the architect is grateful.' It is the second time the Console has used the word grateful in eight epochs.",
+        mysteryBinding: {
+          mysteryId: "memorial.forgotten_names",
+          episodeId: "memorial.forgotten_names.e5",
+          cluesFound: ["memorial.e5.architect_thanks"],
+        },
+      },
+    },
     /* ─── mechronis.missing_professor · color clues ─── */
     "tarn-destination-acknowledged": {
       look: {
