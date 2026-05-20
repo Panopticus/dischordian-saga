@@ -28,6 +28,18 @@ export type CommsArrayHotspotId =
   | "tarn-faculty-silence-hour"
   | "watchers-silence-break-log"
   | "wolf-meme-show-transmission"
+  | "chained-lyra-call-fourteen-minutes"
+  | "storm-voice-fragment"
+  | "storm-closing-transmission"
+  | "advocate-register-three-broadcast"
+  | "advocate-defection-response"
+  | "advocate-walk-in-power-lyric"
+  | "advocate-position-current-broadcast"
+  | "akai-voice-mid-hunt"
+  | "akai-word-to-the-chronicle"
+  | "watchers-first-trumpet"
+  | "severance-first-witness-klessa"
+  | "charter-bell-log"
   | "akai-last-recorded-words"
   | "resur-host-wyrmhole-signature"
   | "radio-console" | "static-screen" | "egg-comms-signal" | "voice-in-the-static" | "ocularum-relay-trace" | "dead-drop-cadence-log" | "shadow-tongue-signal-trace" | "miras-dual-thread-transmission";
@@ -118,6 +130,145 @@ export const COMMS_ARRAY_MYSTERY: RoomMysteryModule<
       interrogate: {
         narration:
           "You ask the comms-array whether any of the three left and returned. The recorder shows no break in the audio's room-tone. None of the three left. The silence was held by all three for the full hour. Each faculty head later admitted, on the cipher-den's record, that they had been waiting for one of the others to be the first to refuse.",
+      },
+    },
+    /* ─── charter.missing_signatory · e1 (lower-deck bell log) ─── */
+    "charter-bell-log": {
+      look: {
+        narration:
+          "On the maintenance-broadcast shelf, the lower-deck bell log: three bell-pulls in the last century — once during the Severance of Year 3, once on a date no one will name, and one this morning. The Antiquarian's name is signed against the third.",
+        mysteryBinding: {
+          mysteryId: "charter.missing_signatory",
+          episodeId: "charter.missing_signatory.e1",
+          cluesFound: ["charter.e1.bell_log"],
+        },
+      },
+    },
+    /* ─── severance.bound_champion · e2 (Auditor Klessa — first witness) ─── */
+    "severance-first-witness-klessa": {
+      look: {
+        narration:
+          "On the witness-attendance board, Auditor Klessa's profile: she has attended forty Severances. She is on every list. She does not race; she does not place bets; she has no companion. She brings a single white candle and lights it during the spoken name.",
+        mysteryBinding: {
+          mysteryId: "severance.bound_champion",
+          episodeId: "severance.bound_champion.e2",
+          cluesFound: ["severance.e2.first_witness"],
+        },
+      },
+    },
+    /* ─── memorial.seven_watchers · e5 (first trumpet sounds, briefly) ─── */
+    "watchers-first-trumpet": {
+      look: {
+        narration:
+          "On the comms-array's upper-bands intercept board, the first trumpet sounded briefly tonight. Twenty-two seconds. From the upper bands' band-three — Idris's band. The trumpet is the post-launch content slot the saga's Phase 4 scaffolded; tonight it sounds for the first time, brief and clean. The board logs the duration to the cycle.",
+        mysteryBinding: {
+          mysteryId: "memorial.seven_watchers",
+          episodeId: "memorial.seven_watchers.e5",
+          cluesFound: ["watchers.e5.first_trumpet_sounds"],
+        },
+      },
+    },
+    /* ─── akai_shi.red_death · color clues ─── */
+    "akai-voice-mid-hunt": {
+      look: {
+        narration:
+          "On the Matrix-residue intercept board, a field-recording from the third retreat chamber, captured on the Matrix's residual ambience: 'Necromancer, you have been good at evading fate. I am the chronicle's correction. I do not hate you. I do not pity you. The Antiquarian asked me, before I came in here, what mercy this kind of kill carries. I told him I do not know yet. I will know when it is done. I will tell him then.'",
+        mysteryBinding: {
+          mysteryId: "akai_shi.red_death",
+          episodeId: "akai_shi.red_death.e4",
+          cluesFound: ["akai.e4.akais_voice_recorded"],
+        },
+      },
+    },
+    "akai-word-to-the-chronicle": {
+      look: {
+        narration:
+          "Pinned beside, the Red Death's closing line to the chronicle: 'The Necromancer asked me, in his seven seconds, what doctrine of mercy I followed. I told him: the same one Jericho followed for me. He nodded. He understood. I do not know if that nod was forgiveness or recognition or simply the body's last grammar. I do not need to know. The work is done. Tell the chronicle: it was always going to be a mercy. We just lived with which kind.'",
+        mysteryBinding: {
+          mysteryId: "akai_shi.red_death",
+          episodeId: "akai_shi.red_death.e5",
+          cluesFound: ["akai.e5.akais_word_to_the_chronicle"],
+        },
+      },
+    },
+    /* ─── advocate.blood_weave · color clues ─── */
+    "advocate-register-three-broadcast": {
+      look: {
+        narration:
+          "On the comms-array's Empire-of-Shadows transmission shelf, a surviving Empire broadcast in the Advocate's voice, register three: 'I do not advocate for myself. I advocate for what the chronicle has not yet learned to ask for. If a soul comes under my charter, the chronicle has accepted the soul as its own. The Empire does not consult the chronicle; the Empire is the chronicle's most-permissive front.' The register is unmistakably liturgical.",
+        mysteryBinding: {
+          mysteryId: "advocate.blood_weave",
+          episodeId: "advocate.blood_weave.e1",
+          cluesFound: ["adv.e1.advocate_broadcast_register_three"],
+        },
+      },
+    },
+    "advocate-defection-response": {
+      look: {
+        narration:
+          "Pinned beside the Empire transmissions, the Advocate's response to the three-general defections, register-three: 'The three are not lost. They have chosen comfort, which is an option. The chronicle records their choice. The chronicle does not retract their Empire-of-Shadows shelter; the shelter is unconditional. They walk under my charter still. I do not advocate for their return. I advocate for what they were when they chose.' The position is unmovable.",
+        mysteryBinding: {
+          mysteryId: "advocate.blood_weave",
+          episodeId: "advocate.blood_weave.e3",
+          cluesFound: ["adv.e3.advocates_response_to_defections"],
+        },
+      },
+    },
+    "advocate-walk-in-power-lyric": {
+      look: {
+        narration:
+          "On the album-records shelf, the 'Walk in Power' lyric record from Silence in Heaven. Canonical duet: the Advocate and the Human declare their refusal to be diminished. The song is the Empire-of-Shadows era's most-broadcast resistance anthem. The lyric's structural position: the Advocate's loss is named; the loss is not a defeat; the walk continues; the chronicle records what walks, not what was lost. The Human duets because the canon's resistance position is shared, not isolated.",
+        mysteryBinding: {
+          mysteryId: "advocate.blood_weave",
+          episodeId: "advocate.blood_weave.e4",
+          cluesFound: ["adv.e4.walk_in_power_lyric_record"],
+        },
+      },
+    },
+    "advocate-position-current-broadcast": {
+      look: {
+        narration:
+          "On the most-recent-broadcasts shelf, the Advocate's current-position transmission, register-three: 'I have not stopped. I will not stop. The chronicle does not require my completeness. The chronicle requires my continuance. I continue. The Empire continues. The walk continues.' The chronicle's reading: she is operationally Active, status-canonically still under the 'though her humanity is lost' modifier.",
+        mysteryBinding: {
+          mysteryId: "advocate.blood_weave",
+          episodeId: "advocate.blood_weave.e5",
+          cluesFound: ["adv.e5.advocate_position_current"],
+        },
+      },
+    },
+    /* ─── storm.architect_of_flux · color clues ─── */
+    "storm-voice-fragment": {
+      look: {
+        narration:
+          "On the flux-frequency intercept board, a transmission fragment captured during one of the uncorrelated calms. The Storm does not give interviews, but occasionally his voice bleeds through interference patterns. The fragment: 'A calm is not the absence of weather. It is weather's permission for what otherwise could not be planned. I do not name what is planned in my calms. I only ensure the planning can happen.' The voice is the Storm's; the recording is unambiguous.",
+        mysteryBinding: {
+          mysteryId: "storm.architect_of_flux",
+          episodeId: "storm.architect_of_flux.e4",
+          cluesFound: ["storm.e4.storm_voice_fragment"],
+        },
+      },
+    },
+    "storm-closing-transmission": {
+      look: {
+        narration:
+          "Pinned beside the voice-fragment, a second transmission captured during the Antiquarian's case-closure interval. The Storm: 'The case will close. The weather will not. I do not require the chronicle to understand me. I require the chronicle to leave the calms unaudited where the planning is not the chronicle's business. The Antiquarian's discipline knows the difference. The case will close on the correct side of that difference.' Signed in the Storm's flux signature.",
+        mysteryBinding: {
+          mysteryId: "storm.architect_of_flux",
+          episodeId: "storm.architect_of_flux.e5",
+          cluesFound: ["storm.e5.closing_storm_transmission"],
+        },
+      },
+    },
+    /* ─── mechronis.chained_lesson · e1 (Lyra's fourteen-minute call) ─── */
+    "chained-lyra-call-fourteen-minutes": {
+      look: {
+        narration:
+          "On the voice-channel desk, the recording of Lyra Vox's call from fourteen minutes before contact: 'your apprentice is on the festival roof. they have a tower and a clear shot. they are asking what you would do. I think they already know. they want it from you.' The recording's vu-meter shows steady delivery — Lyra is not rushed; she is reporting.",
+        mysteryBinding: {
+          mysteryId: "mechronis.chained_lesson",
+          episodeId: "mechronis.chained_lesson.e1",
+          cluesFound: ["chained.e1.lyra_call"],
+        },
       },
     },
     /* ─── memorial.seven_watchers · e1 (silence-break event log) ─── */

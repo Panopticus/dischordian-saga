@@ -26,11 +26,36 @@ export type CaptainsQuartersHotspotId =
   | "lockes-correspondence-cache"
   | "the-coordinators-summons"
   | "directors-handcouriered-summons"
-  | "mechronis-certification-file";
+  | "mechronis-certification-file"
+  | "advocate-three-generals-post-defection"
+  | "advocate-three-generals-current";
 
 export const CAPTAINS_QUARTERS_MYSTERY: RoomMysteryModule<CaptainsQuartersHotspotId> = {
   roomId: "captains-quarters",
   responses: {
+    /* ─── advocate.blood_weave · color clues (post-defection generals) ─── */
+    "advocate-three-generals-post-defection": {
+      look: {
+        narration:
+          "On the captain's-quarters comm-console, the three Advocate-general post-defection logs surface. Each general reports the recruitment as 'a relief that did not feel like betrayal.' Each general continues to do operational work the Advocate would not authorise. Each general's substrate is preserved at full; the Hierarchy's HR instrument has performed exactly what Syl'Vex's pitch promised. The recruitment is canonically successful and canonically corrupting. Both readings are true.",
+        mysteryBinding: {
+          mysteryId: "advocate.blood_weave",
+          episodeId: "advocate.blood_weave.e3",
+          cluesFound: ["adv.e3.three_generals_post_defection"],
+        },
+      },
+    },
+    "advocate-three-generals-current": {
+      look: {
+        narration:
+          "Pinned beside the defection logs, the current-status update: the three Empire-of-Shadows generals Syl'Vex recruited continue to operate under Hierarchy doctrine. Their Advocate-countersigned shelter remains unconditional. None have been Hierarchy-acquired despite operating under Hierarchy doctrine. The chronicle's reading: the Advocate's charter is operationally enforceable across factional crossings; her shelter is the strongest defensive instrument the chronicle has documented at cosmic scale.",
+        mysteryBinding: {
+          mysteryId: "advocate.blood_weave",
+          episodeId: "advocate.blood_weave.e5",
+          cluesFound: ["adv.e5.three_generals_current"],
+        },
+      },
+    },
     "cat-photo": {
       look: {
         narration: {

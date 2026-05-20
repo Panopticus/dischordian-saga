@@ -16,12 +16,40 @@ export type WarRoomHotspotId =
   | "infernal-forty-ledger-keepers"
   | "chained-wave-telemetry"
   | "chained-feint-pattern"
+  | "chained-dean-admits"
+  | "chained-trade-empire-employment"
+  | "chained-dean-full-admission"
+  | "chained-amendment-three-options"
   | "watchers-council-communique"
   | "resur-second-fall-casualty-count"
   | "storm-advocates-blood-weave"
   | "storm-event-correlation-table"
   | "advocate-acquisition-attempt-log"
   | "advocate-riri-ahlia-account"
+  | "advocate-empire-status-current"
+  | "akai-thaloria-battle-logs"
+  | "watchers-witness-one-response"
+  | "watchers-player-first-question"
+  | "tarn-faculty-meeting-minutes"
+  | "tarn-trial-proposal"
+  | "tarn-dean-choice-brief"
+  | "tarn-faculty-apologies"
+  | "tarn-player-authorship-choice"
+  | "severance-attendance-record"
+  | "severance-vex-three-names"
+  | "severance-klessa-role"
+  | "severance-written-protocol"
+  | "charter-council-briefing"
+  | "charter2-delegation"
+  | "charter2-kassel-speaks"
+  | "charter2-kassel-response"
+  | "charter2-council-ratifies-three"
+  | "charter2-three-options"
+  | "infernal-zyrkoth-arrival"
+  | "infernal-advocate-brief"
+  | "infernal-atalin-apology"
+  | "infernal-amnesty-passed"
+  | "infernal-advocate-speech"
   | "holo-table" | "casualty-board" | "signal-flag-rack" | "ocularum-vigil-board" | "ocularum-cell-roster" | "hierarchy-org-chart-board" | "thalorian-defense-records" | "new-babylon-siege-record" | "hierarchy-piece-positioning-board" | "varkul-director-of-security-file" | "necromancer-castle-log-board" | "zyr-koth-rd-refinement-file" | "the-severance-hollowing-report" | "the-locked-lever-board" | "syl-vex-dual-roster-board" | "the-severance-cross-lock-file" | "the-taskmasters-siege-portfolio" | "riri-ahlia-reorg-doctrine-board" | "the-procedural-question-file" | "the-priced-defense-accounting" | "fenra-seventeen-front-manifest" | "the-wolf-in-the-boardroom-file" | "fenra-varkul-contrast-record";
 
 export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
@@ -41,6 +69,51 @@ export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
       interrogate: {
         narration:
           "You ask the war-room for the missing name. The display returns Atalin, ledger-keeper, Year One. Atalin held the post for one season, was dismissed (or resigned — the file is unclear), and was never replaced — the post was rotated season by season afterwards. Atalin's personnel file is in the archives; the cipher-den has the handwriting sample. The investigation has one name to follow.",
+      },
+    },
+    /* ─── mechronis.chained_lesson · color clues ─── */
+    "chained-dean-admits": {
+      look: {
+        narration:
+          "On the war-room's curriculum-affairs board, the Dean's admission, recorded for the case: 'I knew Module 17 was absent. I voted to ratify the curriculum that left it absent. I have been telling myself for fourteen years that the apprentices were the failures. They were not. The curriculum was.' The recording is in the Dean's own voice. The board does not gloss it.",
+        mysteryBinding: {
+          mysteryId: "mechronis.chained_lesson",
+          episodeId: "mechronis.chained_lesson.e2",
+          cluesFound: ["chained.e2.dean_admits"],
+        },
+      },
+    },
+    "chained-trade-empire-employment": {
+      look: {
+        narration:
+          "On the Trade-Empire intelligence board, Auro's employment record. Auro is on the Trade Empire's payroll as a 'route-safety contractor.' She has been on the payroll for nine years — since Year 5, since the first apprentice failure. The Trade Empire pays her because the Trade Empire benefits from apprentices who survive Terminus waves.",
+        mysteryBinding: {
+          mysteryId: "mechronis.chained_lesson",
+          episodeId: "mechronis.chained_lesson.e3",
+          cluesFound: ["chained.e3.trade_empire_employment"],
+        },
+      },
+    },
+    "chained-dean-full-admission": {
+      look: {
+        narration:
+          "Pinned beside Auro's record, the Dean's full admission: 'I voted with Tarn in Year 1. I deferred to her on academic-vs-combat distinctions for fourteen years. After she left I had no excuse. I have not had an excuse for the last term.' The admission is dated this morning. The Dean has filed it without prompt.",
+        mysteryBinding: {
+          mysteryId: "mechronis.chained_lesson",
+          episodeId: "mechronis.chained_lesson.e4",
+          cluesFound: ["chained.e4.dean_full_admission"],
+        },
+      },
+    },
+    "chained-amendment-three-options": {
+      look: {
+        narration:
+          "On the council-vote display, the three amendment options drafted for the closing rite. (1) Restore Module 17 to the curriculum, named for Tarn's retraction. (2) Restore Module 17 anonymously, taught by Auro under contract. (3) Refuse to restore; have the Council formally fund Auro's Trade-Empire role as a permanent Academy supplement.",
+        mysteryBinding: {
+          mysteryId: "mechronis.chained_lesson",
+          episodeId: "mechronis.chained_lesson.e5",
+          cluesFound: ["chained.e5.amendment_three"],
+        },
       },
     },
     /* ─── mechronis.chained_lesson · e1 (wave telemetry) ─── */
@@ -137,6 +210,278 @@ export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
       interrogate: {
         narration:
           "You ask the table for the planning-signature of each correlated event. The console returns identical signatures across all seven — multi-cycle information consistency, no flux interference, no Ne-Yon-grade disturbance. Planning is permitted; planning happens; planning is followed by the most active flux period in the surrounding decade. The chronicle is consequential because the Storm allows it to be.",
+      },
+    },
+    /* ─── severance.infernal_clause · color clues ─── */
+    "infernal-zyrkoth-arrival": {
+      look: {
+        narration:
+          "On the Council-chamber arrival log, Zyr'Koth's recorded entry at the Nilmorg ceremony: the hall does not go silent. The hall goes quieter — the kind of quiet a room makes when it remembers a story it would rather not tell.",
+        mysteryBinding: {
+          mysteryId: "severance.infernal_clause",
+          episodeId: "severance.infernal_clause.e1",
+          cluesFound: ["infernal.e1.zyrkoth_arrival"],
+        },
+      },
+    },
+    "infernal-advocate-brief": {
+      look: {
+        narration:
+          "On the Council-brief board, the Advocate's drafted brief. Six pages. Every infernal clause cites a non-existent prize from the date of writing. Every clause is voidable as a matter of contract law. The brief includes Atalin's witness statement, signed.",
+        mysteryBinding: {
+          mysteryId: "severance.infernal_clause",
+          episodeId: "severance.infernal_clause.e4",
+          cluesFound: ["infernal.e4.advocate_brief"],
+        },
+      },
+    },
+    "infernal-atalin-apology": {
+      look: {
+        narration:
+          "On the Council-floor recording, Atalin asks to be brought to the Council chamber. They apologise to the league for forty seasons of unease. They apologise to the Hierarchy for the trap. The Hierarchy accepts the apology in writing. The league does not need to.",
+        mysteryBinding: {
+          mysteryId: "severance.infernal_clause",
+          episodeId: "severance.infernal_clause.e4",
+          cluesFound: ["infernal.e4.atalin_apology"],
+        },
+      },
+    },
+    "infernal-amnesty-passed": {
+      look: {
+        narration:
+          "On the Council-vote display, the closing-rite amnesty: twelve votes to two, with three abstentions (the three Council members who attended the original epoch-one negotiation are excused from voting). Every infernal clause across forty seasons is declared void by the Council in session.",
+        mysteryBinding: {
+          mysteryId: "severance.infernal_clause",
+          episodeId: "severance.infernal_clause.e5",
+          cluesFound: ["infernal.e5.amnesty_passed"],
+        },
+      },
+    },
+    "infernal-advocate-speech": {
+      look: {
+        narration:
+          "On the closing-rite recording, the Advocate's eleven-minute speech: she reads the audit, the flaw, Atalin's account, and the Council's vote. The speech ends: 'we have been winning by honest paperwork. we will keep winning that way. it is not a glamorous habit, but it is a survivable one.'",
+        mysteryBinding: {
+          mysteryId: "severance.infernal_clause",
+          episodeId: "severance.infernal_clause.e5",
+          cluesFound: ["infernal.e5.advocate_speech"],
+        },
+      },
+    },
+    /* ─── charter.second_signatory · color clues ─── */
+    "charter2-delegation": {
+      look: {
+        narration:
+          "On the war-room's Council-chamber door log, the delegation: four people in working clothes. Two old, two young. They ask, politely, to speak to whoever read aloud the charter last year. They will not give names until they have read theirs into the record.",
+        mysteryBinding: {
+          mysteryId: "charter.second_signatory",
+          episodeId: "charter.second_signatory.e1",
+          cluesFound: ["charter2.e1.delegation"],
+        },
+      },
+    },
+    "charter2-kassel-speaks": {
+      look: {
+        narration:
+          "On the Council-floor recording, Kassel in the Council chamber: 'four houses signed the charter. four houses were scrubbed. four houses are here. we are not asking for our names back. we are asking the charter to admit it had eight names from the start. there is a difference, and the charter knows the difference.'",
+        mysteryBinding: {
+          mysteryId: "charter.second_signatory",
+          episodeId: "charter.second_signatory.e3",
+          cluesFound: ["charter2.e3.kassel_speaks"],
+        },
+      },
+    },
+    "charter2-kassel-response": {
+      look: {
+        narration:
+          "Pinned beside, Kassel's recorded response to the silence-as-vote convention: 'so the seventh has been with us this whole time. then the schism is not asking for a new column. the schism is asking for the seventh's silence to be heard correctly, four epochs late.'",
+        mysteryBinding: {
+          mysteryId: "charter.second_signatory",
+          episodeId: "charter.second_signatory.e4",
+          cluesFound: ["charter2.e4.kassel_response"],
+        },
+      },
+    },
+    "charter2-council-ratifies-three": {
+      look: {
+        narration:
+          "On the Council-vote display, Option Three is ratified: by eleven votes to four, with two abstentions. The eleven include the descendants of all six founders who signed the original scrub. Two of the four nay-voters apologise from the floor. The two abstentions are unrecorded by request.",
+        mysteryBinding: {
+          mysteryId: "charter.second_signatory",
+          episodeId: "charter.second_signatory.e5",
+          cluesFound: ["charter2.e5.council_ratifies_three"],
+        },
+      },
+    },
+    "charter2-three-options": {
+      look: {
+        narration:
+          "Beside the ratification, the three Council options drafted by the player and the Antiquarian: (1) Ratify the schism — restore the second-signatory line. (2) Close the schism — the original charter holds. (3) Ratify the artisan-house signatures backward to the founding, AND keep the original charter intact.",
+        mysteryBinding: {
+          mysteryId: "charter.second_signatory",
+          episodeId: "charter.second_signatory.e5",
+          cluesFound: ["charter2.e5.three_options"],
+        },
+      },
+    },
+    /* ─── charter.missing_signatory · e5 (Council briefing pack) ─── */
+    "charter-council-briefing": {
+      look: {
+        narration:
+          "On the Council-briefing board, the Antiquarian's pack for the Foundation Day vote: includes everything except the name. The Council can ratify, amend, or contest. None of the three options name the seventh.",
+        mysteryBinding: {
+          mysteryId: "charter.missing_signatory",
+          episodeId: "charter.missing_signatory.e5",
+          cluesFound: ["charter.e5.council_briefing"],
+        },
+      },
+    },
+    /* ─── severance.bound_champion · color clues ─── */
+    "severance-attendance-record": {
+      look: {
+        narration:
+          "On the war-room's Severance roster-board, two hundred sixteen names: the list of inheritors offering to take up the bond. Two hundred sixteen, every season, every year. The first three names on every list are the same three names, in the same order, in every season since Severance Year 1.",
+        mysteryBinding: {
+          mysteryId: "severance.bound_champion",
+          episodeId: "severance.bound_champion.e1",
+          cluesFound: ["severance.e1.attendance_record"],
+        },
+      },
+    },
+    "severance-vex-three-names": {
+      look: {
+        narration:
+          "Pinned beside the roster, Vex Maestro's confirmation: the three names at the head of every season's list are the inheritor (a different person each year) and two fixed witnesses. Vex will name the witnesses but will not name the inheritor. 'That part is the bond's, not mine.'",
+        mysteryBinding: {
+          mysteryId: "severance.bound_champion",
+          episodeId: "severance.bound_champion.e2",
+          cluesFound: ["severance.e2.vex_three_names"],
+        },
+      },
+    },
+    "severance-klessa-role": {
+      look: {
+        narration:
+          "On the failsafe-role board, Klessa's protocol: if a season ever passes without a successor, Klessa pours the candle wax across the bond's table-line and the bond is sealed for one more year. She has done this thirty-nine times.",
+        mysteryBinding: {
+          mysteryId: "severance.bound_champion",
+          episodeId: "severance.bound_champion.e4",
+          cluesFound: ["severance.e4.klessa_role"],
+        },
+      },
+    },
+    "severance-written-protocol": {
+      look: {
+        narration:
+          "On the closing-rite display, the written protocol — eleven lines, hand-copied from the apprentice oath, ratified by Vex Maestro and Auditor Klessa, witnessed by the Architect's Console. The protocol can now be inherited by reading, not only by sitting.",
+        mysteryBinding: {
+          mysteryId: "severance.bound_champion",
+          episodeId: "severance.bound_champion.e5",
+          cluesFound: ["severance.e5.written_protocol"],
+        },
+      },
+    },
+    /* ─── mechronis.missing_professor · color clues ─── */
+    "tarn-faculty-meeting-minutes": {
+      look: {
+        narration:
+          "On the war-room's curriculum-affairs board, the week-before-term faculty meeting minutes show all three faculty heads in violent disagreement, then a quiet hour, then unanimous agreement on one thing: 'Tarn must speak.' Tarn was not at the meeting.",
+        mysteryBinding: {
+          mysteryId: "mechronis.missing_professor",
+          episodeId: "mechronis.missing_professor.e2",
+          cluesFound: ["mechronis.e2.faculty_meeting_minutes"],
+        },
+      },
+    },
+    "tarn-trial-proposal": {
+      look: {
+        narration:
+          "Beside the meeting minutes, Trial-master Roen's Trial Faculty Proposal: five modules, ritual-heavy, citing Tarn's authority-trial framework. Signed by Roen. Proposes the addition of a celebration-trial co-requisite.",
+        mysteryBinding: {
+          mysteryId: "mechronis.missing_professor",
+          episodeId: "mechronis.missing_professor.e2",
+          cluesFound: ["mechronis.e2.trial_proposal"],
+        },
+      },
+    },
+    "tarn-dean-choice-brief": {
+      look: {
+        narration:
+          "On the Council-brief board, the Dean's draft for the Council: ratify the curriculum and let Tarn go; or summon Tarn back and tell the Academy the truth about the vote. The brief is unsigned.",
+        mysteryBinding: {
+          mysteryId: "mechronis.missing_professor",
+          episodeId: "mechronis.missing_professor.e4",
+          cluesFound: ["mechronis.e4.dean_choice_brief"],
+        },
+      },
+    },
+    "tarn-faculty-apologies": {
+      look: {
+        narration:
+          "On the rite-record board, the three faculty apologies: Othmar, Veth, and the Dean have each written a public apology. Roen has not — Roen kept Tarn's confidence and was the only one not in the wrong. The apologies are read at the Council session.",
+        mysteryBinding: {
+          mysteryId: "mechronis.missing_professor",
+          episodeId: "mechronis.missing_professor.e5",
+          cluesFound: ["mechronis.e5.faculty_apologies"],
+        },
+      },
+    },
+    "tarn-player-authorship-choice": {
+      look: {
+        narration:
+          "On the closing-rite ballot display, the Council secretary asks the player which of two motions to put forward: 'curriculum by Professor Tarn,' or 'curriculum, anonymous.' Both motions ratify the same modules. The choice is the player's.",
+        mysteryBinding: {
+          mysteryId: "mechronis.missing_professor",
+          episodeId: "mechronis.missing_professor.e5",
+          cluesFound: ["mechronis.e5.player_authorship_choice"],
+        },
+      },
+    },
+    /* ─── memorial.seven_watchers · color clues ─── */
+    "watchers-witness-one-response": {
+      look: {
+        narration:
+          "On the war-room's plaza-audience board, players gathered in the plaza compare lines. Three confirm Idris's voice (an investigator's voice). Two confirm Verel's (a caretaker's). Five remain unconfirmed. The unconfirmed five are the four other named Watchers' work — and one is the seventh, who did not speak. The five unmatched lines are the case's bulk.",
+        mysteryBinding: {
+          mysteryId: "memorial.seven_watchers",
+          episodeId: "memorial.seven_watchers.e2",
+          cluesFound: ["watchers.e2.witness_one_response"],
+        },
+      },
+    },
+    "watchers-player-first-question": {
+      look: {
+        narration:
+          "On the year-vault-archive board, the player's first-question draft. The question is hand-written; the question is sealed in an envelope; the envelope is given to the Antiquarian to deliver next Memorial Day, when the seventh may speak.",
+        mysteryBinding: {
+          mysteryId: "memorial.seven_watchers",
+          episodeId: "memorial.seven_watchers.e4",
+          cluesFound: ["watchers.e4.player_first_question"],
+        },
+      },
+    },
+    /* ─── akai_shi.red_death · e1 (Thaloria battle logs) ─── */
+    "akai-thaloria-battle-logs": {
+      look: {
+        narration:
+          "On the war-room's Thaloria archive board, the combat logs record Akai Shi's last hours: energy-manipulation discharges that would have stabilized three faltering squads. Healing applied to seven Potentials whose injuries should have been fatal. Then, four hours into the engagement, a transition the logs notate only as 'subject consumed.' From that point her energy-manipulation begins to redirect toward her own allies. Jericho intercepted her at the seven-hour mark.",
+        mysteryBinding: {
+          mysteryId: "akai_shi.red_death",
+          episodeId: "akai_shi.red_death.e1",
+          cluesFound: ["akai.e1.battle_logs"],
+        },
+      },
+    },
+    /* ─── advocate.blood_weave · e5 (Empire of Shadows current status) ─── */
+    "advocate-empire-status-current": {
+      look: {
+        narration:
+          "On the war-room's Empire-status board, the Empire of Shadows' current status: the charter holds. The bindings on the Hierarchy's named demon lords (Mol'Garath, Xeth'Raal, Zyr'Koth, Ith'Rael, Riri'Ahlia, Syl'Vex, Drael'Mon, Varkul, Fenra, Mol'Vereth) are operationally intact — the chains forged in the seven-dimensions siege still bind. The Hierarchy operates within the Weave's constraints; the Empire's defensive system remains active. The Advocate has not retired the charter.",
+        mysteryBinding: {
+          mysteryId: "advocate.blood_weave",
+          episodeId: "advocate.blood_weave.e5",
+          cluesFound: ["adv.e5.empire_status_current"],
+        },
       },
     },
     /* ─── advocate.blood_weave · e1 (acquisition-attempt log) ─── */

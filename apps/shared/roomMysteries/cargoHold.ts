@@ -16,11 +16,39 @@
 
 import type { RoomMysteryModule } from "./_template";
 
-export type CargoHoldHotspotId = "rubber-chicken" | "the-cursed-forest-depot";
+export type CargoHoldHotspotId =
+  | "rubber-chicken"
+  | "the-cursed-forest-depot"
+  | "resur-ark-passenger-manifest"
+  | "charter2-house-marek";
 
 export const CARGO_HOLD_MYSTERY: RoomMysteryModule<CargoHoldHotspotId> = {
   roomId: "cargo-hold",
   responses: {
+    /* ─── charter.second_signatory · e3 (House Marek — toolmakers) ─── */
+    "charter2-house-marek": {
+      look: {
+        narration:
+          "In the cargo-hold's House-Marek workshops sub-corridor, House Marek's toolmakers: three families, one tool-room, four epochs of continuous output. The Marek ledger has the same scrubber's hand on their charter-signature erasure.",
+        mysteryBinding: {
+          mysteryId: "charter.second_signatory",
+          episodeId: "charter.second_signatory.e3",
+          cluesFound: ["charter2.e3.house_marek"],
+        },
+      },
+    },
+    /* ─── resurrectionist.cycle_walker · e2 (Inception Ark passenger manifest) ─── */
+    "resur-ark-passenger-manifest": {
+      look: {
+        narration:
+          "In the cargo-hold's passenger-records crate, a partial manifest from one of the Inception Arks, recovered with the cult's redactions still legible at the edges. Seven names visible in the un-redacted portion; an eighth name redacted to a black bar. The black bar's length is consistent across copies of the manifest — not a casual erasure; a positioned occupant. The Antiquarian's reading: the redaction is structural. Someone was on the Ark whose presence the cult-curated record will not name.",
+        mysteryBinding: {
+          mysteryId: "resurrectionist.cycle_walker",
+          episodeId: "resurrectionist.cycle_walker.e2",
+          cluesFound: ["resur.e2.ark_passenger_manifest"],
+        },
+      },
+    },
     "rubber-chicken": {
       look: {
         narration: {

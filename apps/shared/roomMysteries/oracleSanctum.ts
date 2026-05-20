@@ -10,6 +10,33 @@ import type { RoomMysteryModule } from "./_template";
 
 export type OracleSanctumHotspotId =
   | "tarn-pebble-recording"
+  | "chained-apprentice-quotes"
+  | "chained-auro-account"
+  | "chained-lyra-advocacy"
+  | "chained-lyra-album-track"
+  | "akai-dreamer-quarantine"
+  | "watchers-player-received-line"
+  | "watchers-player-line-match"
+  | "watchers-player-speaker-assignment"
+  | "tarn-dean-account"
+  | "tarn-othmar-admission"
+  | "tarn-roen-admission"
+  | "tarn-veth-admission"
+  | "memorial-plaza-register"
+  | "memorial-plaza-consensus"
+  | "memorial-aren-reading"
+  | "severance-companion-on-table"
+  | "severance-broker-record"
+  | "severance-successor-test"
+  | "severance-bond-poured"
+  | "charter-first-reading"
+  | "charter-confrontation-record"
+  | "charter-final-conversation"
+  | "charter2-kassel-at-council"
+  | "infernal-advocate-engaged"
+  | "infernal-advocate-observation"
+  | "infernal-zyrkoth-withdraws"
+  | "infernal-bond-poured"
   | "memorial-antiquarian-plaza-request"
   | "charter2-kassel-testimony"
   | "infernal-zyrkoth-concession"
@@ -19,6 +46,312 @@ export type OracleSanctumHotspotId =
 export const ORACLE_SANCTUM_MYSTERY: RoomMysteryModule<OracleSanctumHotspotId> = {
   roomId: "oracle-sanctum",
   responses: {
+    /* ─── severance.infernal_clause · color clues ─── */
+    "infernal-advocate-engaged": {
+      look: {
+        narration:
+          "In the Council-retainer chamber, the Advocate was engaged within minutes of Zyr'Koth's arrival. The Advocate's first question: 'how many other contracts carry this clause?' Vex Maestro did not yet know.",
+        mysteryBinding: {
+          mysteryId: "severance.infernal_clause",
+          episodeId: "severance.infernal_clause.e1",
+          cluesFound: ["infernal.e1.advocate_engaged"],
+        },
+      },
+    },
+    "infernal-advocate-observation": {
+      look: {
+        narration:
+          "On the Advocate's audit-bench, her observation: 'each clause is dated to the contract's signing week. but the dates are forged. the writer wanted us to think the clauses were signed contemporaneously. they were not.'",
+        mysteryBinding: {
+          mysteryId: "severance.infernal_clause",
+          episodeId: "severance.infernal_clause.e2",
+          cluesFound: ["infernal.e2.advocate_observation"],
+        },
+      },
+    },
+    "infernal-zyrkoth-withdraws": {
+      look: {
+        narration:
+          "On the Council-record desk, Zyr'Koth's formal withdrawal: 'the claim is withdrawn. the audit was honest. the league owes the Hierarchy nothing further on this point.' Pays a ceremonial fee of one hundred dream tokens for the audit's costs.",
+        mysteryBinding: {
+          mysteryId: "severance.infernal_clause",
+          episodeId: "severance.infernal_clause.e5",
+          cluesFound: ["infernal.e5.zyrkoth_withdraws"],
+        },
+      },
+    },
+    "infernal-bond-poured": {
+      look: {
+        narration:
+          "On the closing-rite ceremonial stand for Year Two, Solène pours the season's bond into the empty jar. The chair is sat in by the apprentice (or by Solène alone, if the player declined the apprenticeship in Year One). The bond is calm. The chair holds.",
+        mysteryBinding: {
+          mysteryId: "severance.infernal_clause",
+          episodeId: "severance.infernal_clause.e5",
+          cluesFound: ["infernal.e5.bond_poured"],
+        },
+      },
+    },
+    /* ─── charter.second_signatory · e5 (Kassel's Council speech) ─── */
+    "charter2-kassel-at-council": {
+      look: {
+        narration:
+          "In the sanctum's Council-chamber recording, Kassel's eight-minute speech for the four houses. She names Heron. She names the six founders who signed the request. She names the seventh's silence as the no-vote it always was. She does not name the seventh.",
+        mysteryBinding: {
+          mysteryId: "charter.second_signatory",
+          episodeId: "charter.second_signatory.e5",
+          cluesFound: ["charter2.e5.kassel_at_council"],
+        },
+      },
+    },
+    /* ─── charter.missing_signatory · color clues ─── */
+    "charter-first-reading": {
+      look: {
+        narration:
+          "On the sanctum's first-bell recording, the Antiquarian read the charter aloud to an empty chamber at second bell. They stopped at the seventh signature and could not continue for almost a minute. The recording survives.",
+        mysteryBinding: {
+          mysteryId: "charter.missing_signatory",
+          episodeId: "charter.missing_signatory.e1",
+          cluesFound: ["charter.e1.first_reading"],
+        },
+      },
+    },
+    "charter-confrontation-record": {
+      look: {
+        narration:
+          "On the sanctum's confrontation-record shelf, the Antiquarian asked Per. M. directly whether they had sealed the seventh signature. Per. M. answered: 'I sealed it. I will not say more, and I will not unseal it.' The recording is admissible.",
+        mysteryBinding: {
+          mysteryId: "charter.missing_signatory",
+          episodeId: "charter.missing_signatory.e3",
+          cluesFound: ["charter.e3.confrontation_record"],
+        },
+      },
+    },
+    "charter-final-conversation": {
+      look: {
+        narration:
+          "On the closing-day record, the closer's account: Per. M. speaks for thirty-eight minutes, slowly. They confirm: a Watcher signed the founding charter, then accepted the post of closer, then sealed their own name. The name is still on the wax. The Watcher is still alive. Both will end together — or neither will.",
+        mysteryBinding: {
+          mysteryId: "charter.missing_signatory",
+          episodeId: "charter.missing_signatory.e5",
+          cluesFound: ["charter.e5.final_conversation"],
+        },
+      },
+    },
+    /* ─── severance.bound_champion · color clues ─── */
+    "severance-companion-on-table": {
+      look: {
+        narration:
+          "On the witness-table, the bound companion. A first-circuit eidolon, ribboned with the champion's colors. Bond strength reads at peak. The companion has not eaten since the lap; they are looking for someone they can no longer find.",
+        mysteryBinding: {
+          mysteryId: "severance.bound_champion",
+          episodeId: "severance.bound_champion.e1",
+          cluesFound: ["severance.e1.companion_on_table"],
+        },
+      },
+    },
+    "severance-broker-record": {
+      look: {
+        narration:
+          "On the sanctum's recorded-statements console, the Broker's recorded statement: 'I picked up the first bond because no one else would. I've been picking them up because no one else has learned. The day someone else learns, I will be allowed to set them down.'",
+        mysteryBinding: {
+          mysteryId: "severance.bound_champion",
+          episodeId: "severance.bound_champion.e3",
+          cluesFound: ["severance.e3.broker_record"],
+        },
+      },
+    },
+    "severance-successor-test": {
+      look: {
+        narration:
+          "Beside the Broker's record, the successor-test recording. The Broker explains the test: pour the bond into the empty jar; sit in chair one; stand when you can. If you cannot stand, Klessa pours the wax. If you can, you are the next Broker.",
+        mysteryBinding: {
+          mysteryId: "severance.bound_champion",
+          episodeId: "severance.bound_champion.e4",
+          cluesFound: ["severance.e4.successor_test"],
+        },
+      },
+    },
+    "severance-bond-poured": {
+      look: {
+        narration:
+          "On the closing-rite ceremonial stand, the companion's bond is decanted into the empty jar at the second-to-last bell. The jar weighs slightly more than every previous jar — no one knows why. The bond is calm.",
+        mysteryBinding: {
+          mysteryId: "severance.bound_champion",
+          episodeId: "severance.bound_champion.e5",
+          cluesFound: ["severance.e5.bond_poured"],
+        },
+      },
+    },
+    /* ─── memorial.forgotten_names · color clues ─── */
+    "memorial-plaza-register": {
+      look: {
+        narration:
+          "In the witness chamber's plaza-register alcove, the recorded opening: players have begun inscribing. The first three inscriptions are quiet — names whispered, written, set down. The fourth player hesitates at the unwitnessed pages and asks the Antiquarian what to do.",
+        mysteryBinding: {
+          mysteryId: "memorial.forgotten_names",
+          episodeId: "memorial.forgotten_names.e1",
+          cluesFound: ["memorial.e1.plaza_register"],
+        },
+      },
+    },
+    "memorial-plaza-consensus": {
+      look: {
+        narration:
+          "In the closing-rite alcove, the plaza-consensus recording for I-1: the gathered players reach a consensus by silence — three minutes of not-speaking, then one player at a time stepping forward. Each player offers a name. Twenty-three names are spoken. The keeper writes them all down.",
+        mysteryBinding: {
+          mysteryId: "memorial.forgotten_names",
+          episodeId: "memorial.forgotten_names.e4",
+          cluesFound: ["memorial.e4.plaza_consensus"],
+        },
+      },
+    },
+    "memorial-aren-reading": {
+      look: {
+        narration:
+          "On the closing-recording desk, Aren of the lower decks reads the volume aloud at last bell. They take three hours. They pause once, at I-1's folio, to let the gathered players read the names along with them. The pause is forty-five seconds long.",
+        mysteryBinding: {
+          mysteryId: "memorial.forgotten_names",
+          episodeId: "memorial.forgotten_names.e5",
+          cluesFound: ["memorial.e5.aren_reading"],
+        },
+      },
+    },
+    /* ─── mechronis.missing_professor · color clues ─── */
+    "tarn-dean-account": {
+      look: {
+        narration:
+          "In the witness chamber, the Dean's last-sighting recording: the Dean saw Tarn at second bell, walking from the Dean's office toward the festival hall, carrying the binder. The Dean did not walk with her — she always insisted on the last hundred steps alone.",
+        mysteryBinding: {
+          mysteryId: "mechronis.missing_professor",
+          episodeId: "mechronis.missing_professor.e1",
+          cluesFound: ["mechronis.e1.dean_account"],
+        },
+      },
+    },
+    "tarn-othmar-admission": {
+      look: {
+        narration:
+          "Pinned to the faculty-confession board, Professor Othmar's admission, on record: 'I voted aye because Veth would have voted aye. I was wrong about Veth. I am not sorry I was wrong.'",
+        mysteryBinding: {
+          mysteryId: "mechronis.missing_professor",
+          episodeId: "mechronis.missing_professor.e3",
+          cluesFound: ["mechronis.e3.othmar_admission"],
+        },
+      },
+    },
+    "tarn-roen-admission": {
+      look: {
+        narration:
+          "Beside Othmar's, Trial-master Roen's admission: 'I voted aye because Othmar would. I have a private reason and I will not say it here.' Roen will say it in episode four.",
+        mysteryBinding: {
+          mysteryId: "mechronis.missing_professor",
+          episodeId: "mechronis.missing_professor.e3",
+          cluesFound: ["mechronis.e3.roen_admission"],
+        },
+      },
+    },
+    "tarn-veth-admission": {
+      look: {
+        narration:
+          "Beside Roen's, Lecturer Veth's admission: 'I voted aye because Roen would. I have been telling myself for a week that I voted aye because the curriculum needed it. I have not been honest with myself.'",
+        mysteryBinding: {
+          mysteryId: "mechronis.missing_professor",
+          episodeId: "mechronis.missing_professor.e3",
+          cluesFound: ["mechronis.e3.veth_admission"],
+        },
+      },
+    },
+    /* ─── memorial.seven_watchers · color clues ─── */
+    "watchers-player-received-line": {
+      look: {
+        narration:
+          "In the sanctum's personal-line alcove, the line addressed to the player. Six minutes after Seal VII broke. Single sentence. Voice unidentified at first. The line is the player's to read, the case's to interpret, and (per the manifest) personalised to the player's choices across the saga.",
+        mysteryBinding: {
+          mysteryId: "memorial.seven_watchers",
+          episodeId: "memorial.seven_watchers.e1",
+          cluesFound: ["watchers.e1.player_received_line"],
+        },
+      },
+    },
+    "watchers-player-line-match": {
+      look: {
+        narration:
+          "Beside the personal-line alcove, the line-matching console runs the player's case-history against the six Watcher signatures: if the case-history includes investigation work (deduction graphs solved, suspects named), the line is Idris's. If the case-history includes Memorial Plaza inscription, plaza vigil, or charity donations, the line is Verel's. The player may have received from either, or from one of the other four still to be identified.",
+        mysteryBinding: {
+          mysteryId: "memorial.seven_watchers",
+          episodeId: "memorial.seven_watchers.e2",
+          cluesFound: ["watchers.e2.player_line_match"],
+        },
+      },
+    },
+    "watchers-player-speaker-assignment": {
+      look: {
+        narration:
+          "On the speaker-assignment console, cross-referencing the player's case-history against the six role-registry entries: the player's received line is from one of the six, identifiable by which audience the player has belonged to most across the saga.",
+        mysteryBinding: {
+          mysteryId: "memorial.seven_watchers",
+          episodeId: "memorial.seven_watchers.e3",
+          cluesFound: ["watchers.e3.player_speaker_assignment"],
+        },
+      },
+    },
+    /* ─── akai_shi.red_death · e2 (Dreamer's quarantine filing) ─── */
+    "akai-dreamer-quarantine": {
+      look: {
+        narration:
+          "In the sanctum's Ne-Yon arbitration alcove, the Dreamer's quarantine filing on the Resurrectionist's actions in the wake of the Akai Shi reanimation. The quarantine is canonically OPEN — it has never been lifted. The Dreamer has, since, lodged similar quarantines on three further Resurrectionist actions, including the Wolf's. The quarantines are evidence; they are not enforcement. The Dreamer disagrees. The Resurrectionist continues.",
+        mysteryBinding: {
+          mysteryId: "akai_shi.red_death",
+          episodeId: "akai_shi.red_death.e2",
+          cluesFound: ["akai.e2.dreamer_quarantine"],
+        },
+      },
+    },
+    /* ─── mechronis.chained_lesson · color clues ─── */
+    "chained-apprentice-quotes": {
+      look: {
+        narration:
+          "In the witness chamber, three apprentices' after-action recordings have been pulled — three different years, three identical lines: 'I had not seen the formation before.' 'I did not know it was a feint.' 'I was reading the formation as a real approach.' Each apprentice survived; each was bumped to the back of the cohort.",
+        mysteryBinding: {
+          mysteryId: "mechronis.chained_lesson",
+          episodeId: "mechronis.chained_lesson.e2",
+          cluesFound: ["chained.e2.apprentice_quotes"],
+        },
+      },
+    },
+    "chained-auro-account": {
+      look: {
+        narration:
+          "Beside the apprentice recordings, Auro's own statement to the sanctum: 'I teach because the apprentices need it. I do not need a chair. I do not need the Academy's permission. I would prefer the curriculum cover the module so I could go back to the Trade Empire job, which I am underpaid for.' The statement is short. Auro's voice does not waver.",
+        mysteryBinding: {
+          mysteryId: "mechronis.chained_lesson",
+          episodeId: "mechronis.chained_lesson.e3",
+          cluesFound: ["chained.e3.auro_account"],
+        },
+      },
+    },
+    "chained-lyra-advocacy": {
+      look: {
+        narration:
+          "On the sanctum's advocacy log, Lyra Vox's note from the recording session: she has decided to dedicate tonight's album track to Auro. The track will name Auro publicly. Lyra: 'I will not be the only one naming her, but I am tired of waiting for someone else to start.'",
+        mysteryBinding: {
+          mysteryId: "mechronis.chained_lesson",
+          episodeId: "mechronis.chained_lesson.e3",
+          cluesFound: ["chained.e3.lyra_advocacy"],
+        },
+      },
+    },
+    "chained-lyra-album-track": {
+      look: {
+        narration:
+          "In the playback alcove, Track 16 of the festival album plays at the closing rite. Three minutes, instrumental, a single sung line at the end: 'sergeant who taught the module the Academy would not — we hear you.' Auro shuts her eyes for the line.",
+        mysteryBinding: {
+          mysteryId: "mechronis.chained_lesson",
+          episodeId: "mechronis.chained_lesson.e5",
+          cluesFound: ["chained.e5.lyra_album_track"],
+        },
+      },
+    },
     /* ─── mechronis.missing_professor · e4 (Tarn's recorded message) ─── */
     "tarn-pebble-recording": {
       look: {

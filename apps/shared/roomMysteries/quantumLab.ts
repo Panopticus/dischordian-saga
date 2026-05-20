@@ -14,6 +14,7 @@ export type QuantumLabHotspotId =
   | "infernal-quantum-dating"
   | "akai-red-death-energy-signature"
   | "akai-necromancer-evasion-log"
+  | "akai-matrix-entry-fold"
   | "entanglement-rig" | "observation-cage";
 
 export const QUANTUM_LAB_MYSTERY: RoomMysteryModule<QuantumLabHotspotId> = {
@@ -81,6 +82,18 @@ export const QUANTUM_LAB_MYSTERY: RoomMysteryModule<QuantumLabHotspotId> = {
       use: {
         narration:
           "You request the lab's confidence interval on the dating. The instrument reports ±0.4 days at the seven-day window's bounds. The window is sharp. The writer began on day four and finished on day ten. Forty clauses in seven days; the lab's tightest precision says exactly that.",
+      },
+    },
+    /* ─── akai_shi.red_death · e4 (Matrix entry signature) ─── */
+    "akai-matrix-entry-fold": {
+      look: {
+        narration:
+          "On the quantum-lab's fold-analysis stage, the Red Death's entry signature into the Matrix of Dreams, retrieved from the Matrix's surface-layer ledger: timestamp 'Day 14 of Fracture, Year 117,046 A.A.' She entered through a fold the Game Master's original design did not anticipate — the time-displacement band creates a passage canon-space architects could not seal because they could not see it.",
+        mysteryBinding: {
+          mysteryId: "akai_shi.red_death",
+          episodeId: "akai_shi.red_death.e4",
+          cluesFound: ["akai.e4.matrix_entry_signature"],
+        },
       },
     },
     /* ─── akai_shi.red_death · e2 (Red Death energy signature) ─── */

@@ -26,6 +26,7 @@ import type { RoomMysteryModule } from "./_template";
 export type MedicalBayHotspotId =
   | "severance-broker-quantum-imaging"
   | "akai-virus-telemetry"
+  | "advocate-empire-zero-casualty"
   | "bio-bed" | "dna-helix" | "medicine-cabinet" | "medical-log" | "egg-vox-neural-bridge" | "emergency-safe" | "the-silences-vacated-body";
 
 export const MEDICAL_BAY_MYSTERY: RoomMysteryModule<MedicalBayHotspotId> = {
@@ -45,6 +46,18 @@ export const MEDICAL_BAY_MYSTERY: RoomMysteryModule<MedicalBayHotspotId> = {
       use: {
         narration:
           "You request the scan's discontinuity layer. The suite returns a single feature — a cellular rest-mark dated to Severance Year 1, Lap 73. The mark is the Broker's first death. The Broker has been working through the second life since the first ended on the lane.",
+      },
+    },
+    /* ─── advocate.blood_weave · e2 (Empire-of-Shadows zero-casualty record) ─── */
+    "advocate-empire-zero-casualty": {
+      look: {
+        narration:
+          "On the medical-bay's casualty-archive console, the Empire of Shadows' defender casualty record across the siege of seven dimensions: zero combatants killed. Zero sheltered souls breached. One combatant operationally redirected from active service to the Advocate's personal care detail — name redacted, status 'permanent care.' The record's footnote: 'the substrate cost of the defense was not levied on the combatants. The substrate cost of the defense was levied on the Advocate.'",
+        mysteryBinding: {
+          mysteryId: "advocate.blood_weave",
+          episodeId: "advocate.blood_weave.e2",
+          cluesFound: ["adv.e2.empire_casualty_zero"],
+        },
       },
     },
     /* ─── akai_shi.red_death · e1 (Thought-Virus consumption telemetry) ─── */

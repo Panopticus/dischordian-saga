@@ -40,6 +40,20 @@ export type CipherDenHotspotId =
   | "infernal-atalin-receipt-sample"
   | "infernal-the-flaw"
   | "chained-tarn-year-one-argument"
+  | "chained-full-proceedings-audio"
+  | "storm-uncorrelated-residue"
+  | "wolf-seal-telemetry"
+  | "akai-targets-list-order-pattern"
+  | "resur-seven-pointed-star"
+  | "watchers-verel-signature"
+  | "tarn-logic-proposal"
+  | "memorial-parent-search-i1"
+  | "severance-candle-smoke-residue"
+  | "severance-broker-first-name"
+  | "charter-archivist-pulse"
+  | "charter2-eighth-sigil"
+  | "charter2-scrub-pattern"
+  | "infernal-seven-day-window"
   | "watchers-upper-band-signature"
   | "watchers-idris-signature"
   | "watchers-six-signatures-catalogue"
@@ -196,6 +210,172 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
       interrogate: {
         narration:
           "You ask the archive when this convention was last successfully invoked. The drawer returns a single entry: the founding itself. The seventh founding Watcher invoked silence-as-vote on three minor founding-day decisions; each was read correctly. The convention's first misreading is the fourth-epoch scrub. The misreading has been the seventh's only voice since.",
+      },
+    },
+    /* ─── severance.infernal_clause · e3 (seven-day-window exact dates) ─── */
+    "infernal-seven-day-window": {
+      look: {
+        narration:
+          "On the cipher-den's window-precision bench, the seven-day window's exact dates: epoch one, week thirty-three, days four through ten. The first DMC season's contracts had been signed three weeks earlier; the writer worked retroactively for the first contract, prospectively for the others.",
+        mysteryBinding: {
+          mysteryId: "severance.infernal_clause",
+          episodeId: "severance.infernal_clause.e3",
+          cluesFound: ["infernal.e3.seven_day_window"],
+        },
+      },
+    },
+    /* ─── charter.second_signatory · color clues ─── */
+    "charter2-eighth-sigil": {
+      look: {
+        narration:
+          "On the cipher-den's sigil-reference bench, the eighth sigil isolated from the mirror charter: a House sigil — a hand opening, two fingers down. The Antiquarian recognises it but cannot place it. The cipher-den's records show the sigil last appeared in lower-deck tax ledgers four epochs ago.",
+        mysteryBinding: {
+          mysteryId: "charter.second_signatory",
+          episodeId: "charter.second_signatory.e1",
+          cluesFound: ["charter2.e1.eighth_sigil"],
+        },
+      },
+    },
+    "charter2-scrub-pattern": {
+      look: {
+        narration:
+          "On the cipher-den's handwriting-cross-reference bench, the scrub-pattern analysis: the redaction's handwriting matches three other epoch-four scrubs across unrelated archives — all of them removing references to lower-deck artisan houses. The scrubber was systematic. The scrubber was one person.",
+        mysteryBinding: {
+          mysteryId: "charter.second_signatory",
+          episodeId: "charter.second_signatory.e2",
+          cluesFound: ["charter2.e2.scrub_pattern"],
+        },
+      },
+    },
+    /* ─── charter.missing_signatory · e3 (Per. M.'s pulse in the down-stroke) ─── */
+    "charter-archivist-pulse": {
+      look: {
+        narration:
+          "On the cipher-den's signature-rhythm bench, the analysis shows a doubled pulse in every Per. M. signature — a tic only present in writers who breathe twice per stroke. The pattern is documented in the founding-Watcher physiological notes.",
+        mysteryBinding: {
+          mysteryId: "charter.missing_signatory",
+          episodeId: "charter.missing_signatory.e3",
+          cluesFound: ["charter.e3.archivist_pulse"],
+        },
+      },
+    },
+    /* ─── severance.bound_champion · color clues ─── */
+    "severance-candle-smoke-residue": {
+      look: {
+        narration:
+          "On the cipher-den's chemical-trace bench, Auditor Klessa's candle leaves a residue on every Severance ledger — the same chemical mark every year. The mark predates Klessa. It predates the league. It is the same residue as the candles on the Broker's shelves.",
+        mysteryBinding: {
+          mysteryId: "severance.bound_champion",
+          episodeId: "severance.bound_champion.e3",
+          cluesFound: ["severance.e3.candle_smoke_residue"],
+        },
+      },
+    },
+    "severance-broker-first-name": {
+      look: {
+        narration:
+          "On the residue-match bench at case-closure, the Broker's first name is recovered from the Year One redaction layer: the Broker is named Solène. The redaction was theirs — they redacted themselves at the first ceremony so the role would not become a person.",
+        mysteryBinding: {
+          mysteryId: "severance.bound_champion",
+          episodeId: "severance.bound_champion.e5",
+          cluesFound: ["severance.e5.broker_first_name"],
+        },
+      },
+    },
+    /* ─── memorial.forgotten_names · e4 (parent search for I-1) ─── */
+    "memorial-parent-search-i1": {
+      look: {
+        narration:
+          "On the cipher-den's relatives-search bench, the search for I-1's parent: no parent imprinted, no sibling imprinted, no witnesses recorded. I-1 is alone in the registry. The first imprint of the Ark has no relatives in the imprint catalog.",
+        mysteryBinding: {
+          mysteryId: "memorial.forgotten_names",
+          episodeId: "memorial.forgotten_names.e4",
+          cluesFound: ["memorial.e4.parent_search_i1"],
+        },
+      },
+    },
+    /* ─── mechronis.missing_professor · e2 (Logic faculty proposal) ─── */
+    "tarn-logic-proposal": {
+      look: {
+        narration:
+          "On the cipher-den's faculty-submissions bench, Professor Othmar's Logic Faculty Proposal: eight modules, chess-heavy, citing Tarn's notes from her residency in the cipher-den. Signed by Othmar. Proposes the elimination of two trial-faculty modules.",
+        mysteryBinding: {
+          mysteryId: "mechronis.missing_professor",
+          episodeId: "mechronis.missing_professor.e2",
+          cluesFound: ["mechronis.e2.logic_proposal"],
+        },
+      },
+    },
+    /* ─── memorial.seven_watchers · e2 (Verel's band-five signature) ─── */
+    "watchers-verel-signature": {
+      look: {
+        narration:
+          "On the spectrum-analysis bench, the band-five signature card isolated for further reading. Upper-band band-five. Bright waveform, narrow spectrum, an overtone like running water. Verel speaks to caretakers — players who have inscribed at the Memorial Plaza, donated to charity, or kept Memorial Plaza vigils.",
+        mysteryBinding: {
+          mysteryId: "memorial.seven_watchers",
+          episodeId: "memorial.seven_watchers.e2",
+          cluesFound: ["watchers.e2.verel_signature"],
+        },
+      },
+    },
+    /* ─── resurrectionist.cycle_walker · e1 (seven-pointed star footer) ─── */
+    "resur-seven-pointed-star": {
+      look: {
+        narration:
+          "On the cipher-den's Syndicate-of-Death roster bench, six immortal twin-pairs are recorded — twelve names, six bindings, the Syndicate's signature six-pointed star embossed on every page. The Resurrectionist's case-file carries a seven-pointed star at its footer. The cult-curated annotation reads: 'copyist's error — the six-pointed star, drawn carelessly.' The seventh point is not drawn carelessly. It is drawn with the same precision as the other six.",
+        mysteryBinding: {
+          mysteryId: "resurrectionist.cycle_walker",
+          episodeId: "resurrectionist.cycle_walker.e1",
+          cluesFound: ["resur.e1.seven_pointed_star"],
+        },
+      },
+    },
+    /* ─── akai_shi.red_death · e3 (targets-list order pattern) ─── */
+    "akai-targets-list-order-pattern": {
+      look: {
+        narration:
+          "On the cipher-den's pattern-analysis bench, the Red Death's fourteen targets sorted not chronologically but by how MUCH each elimination redirected the chronicle's path. The first target redirected the chronicle by one degree. The fourteenth target — yet to be named — would redirect by ninety. The list is ascending. She is building toward something.",
+        mysteryBinding: {
+          mysteryId: "akai_shi.red_death",
+          episodeId: "akai_shi.red_death.e3",
+          cluesFound: ["akai.e3.order_pattern"],
+        },
+      },
+    },
+    /* ─── wolf.anara_hunt · e4 (seal-telemetry at transfer) ─── */
+    "wolf-seal-telemetry": {
+      look: {
+        narration:
+          "On the cipher-den's containment-telemetry bench, the Crucible's seal telemetry on the Wolf's chamber, retrieved from the inheritance manifest: at the moment of transfer to Anara, the Wolf's seal was at 92% integrity, declining at 0.3% per cycle. The seal was not failed at transfer. The seal failed twenty-three cycles after transfer, at which point Anara's containment systems should have automatically reasserted. They did not. Anara's containment ledger does not register the Wolf's chamber as a chamber.",
+        mysteryBinding: {
+          mysteryId: "wolf.anara_hunt",
+          episodeId: "wolf.anara_hunt.e4",
+          cluesFound: ["wolf.e4.unsealed_at_transfer"],
+        },
+      },
+    },
+    /* ─── storm.architect_of_flux · e4 (uncorrelated calm residue) ─── */
+    "storm-uncorrelated-residue": {
+      look: {
+        narration:
+          "On the cipher-den's pattern-anomaly bench, two of the nine documented calms have NO publicly-recorded chronicle-significant event. The cult-curated record annotates these as 'inactive calms — atmospheric fluctuation; no operational purpose.' The Antiquarian's discipline rejects the 'atmospheric' label — the calm signatures are identical to the seven event-correlated calms. If they were not calling cosmic-scale planning events, they were calling something the chronicle does not record.",
+        mysteryBinding: {
+          mysteryId: "storm.architect_of_flux",
+          episodeId: "storm.architect_of_flux.e4",
+          cluesFound: ["storm.e4.uncorrelated_residue"],
+        },
+      },
+    },
+    /* ─── mechronis.chained_lesson · e4 (full proceedings audio) ─── */
+    "chained-full-proceedings-audio": {
+      look: {
+        narration:
+          "On the cipher-den's year-one-audio bench, the Year-One curriculum vote's full proceedings — recovered audio, fourteen years old, six and a half hours. Module 17 is debated in hour three. Tarn argues against it for forty minutes. The argument is academic, considered, and ultimately persuasive — the module is struck before the vote.",
+        mysteryBinding: {
+          mysteryId: "mechronis.chained_lesson",
+          episodeId: "mechronis.chained_lesson.e4",
+          cluesFound: ["chained.e4.full_proceedings"],
+        },
       },
     },
     /* ─── severance.infernal_clause · e2 (handwriting analysis) ─── */

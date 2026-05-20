@@ -21,6 +21,25 @@ export type ArchivesHotspotId =
   | "charter-per-m-preservation-orders"
   | "severance-no-protocol-on-file"
   | "severance-forty-season-envelopes"
+  | "storm-calm-intervals"
+  | "storm-final-correlation-table"
+  | "advocate-shelter-records"
+  | "akai-recovery-manifest"
+  | "resur-twin-glyph"
+  | "tarn-absent-notes"
+  | "tarn-erasure-protocol"
+  | "tarn-missing-invitation"
+  | "tarn-letter-to-dean"
+  | "memorial-imprint-log"
+  | "memorial-three-elders"
+  | "charter2-solven-tax-records"
+  | "charter2-scrubber-personnel"
+  | "infernal-envelope-set"
+  | "infernal-atalin-history"
+  | "infernal-box-owner"
+  | "chained-failure-log"
+  | "chained-dean-annotation-record"
+  | "chained-thirty-one-names-read"
   | "tarn-binder-page-14"
   | "memorial-fourteen-unwitnessed-list"
   | "wolf-crucible-resurrection-record"
@@ -126,6 +145,224 @@ export const ARCHIVES_MYSTERY: RoomMysteryModule<
       interrogate: {
         narration:
           "You ask the archive whether any envelope was ever opened by another reader. The drawer logs three attempts in forty seasons; each one returned the envelope unopened. The seals are unbroken; the names remain in the bond, not in the paperwork.",
+      },
+    },
+    /* ─── severance.infernal_clause · color clues ─── */
+    "infernal-envelope-set": {
+      look: {
+        narration:
+          "In the audit-evidence drawer, the forty-envelope set: forty envelopes, one per season, pulled from Solène's back-room archive. Each envelope holds the season's signed contract. Each contract has a back. Every back has a clause.",
+        mysteryBinding: {
+          mysteryId: "severance.infernal_clause",
+          episodeId: "severance.infernal_clause.e2",
+          cluesFound: ["infernal.e2.envelope_set"],
+        },
+      },
+    },
+    "infernal-atalin-history": {
+      look: {
+        narration:
+          "In the personnel-archive tier, Atalin's history file: hired by the league two weeks before the first season, dismissed (or resigned — the file is unclear) two weeks after the first season ended. Cause of departure: 'inability to satisfy the Hierarchy ledger-keeper's role concurrently.'",
+        mysteryBinding: {
+          mysteryId: "severance.infernal_clause",
+          episodeId: "severance.infernal_clause.e3",
+          cluesFound: ["infernal.e3.atalin_history"],
+        },
+      },
+    },
+    "infernal-box-owner": {
+      look: {
+        narration:
+          "In the forge-workshop annex log, the box's owner: the forge-workshop box is logged to a single person: Atalin, ledger-keeper, Year One. Atalin worked one season for the league, then left the post and was never replaced — the post was rotated season by season afterwards.",
+        mysteryBinding: {
+          mysteryId: "severance.infernal_clause",
+          episodeId: "severance.infernal_clause.e3",
+          cluesFound: ["infernal.e3.box_owner"],
+        },
+      },
+    },
+    /* ─── charter.second_signatory · color clues ─── */
+    "charter2-solven-tax-records": {
+      look: {
+        narration:
+          "In the tax-registry tier, House Solven's tax records: three epochs of careful payments. Epoch four shows a single redaction — every Solven entry struck through and replaced with the words 'in arrears, year unknown.' The redaction is in the same hand as the seventh-signature wax we lost last year.",
+        mysteryBinding: {
+          mysteryId: "charter.second_signatory",
+          episodeId: "charter.second_signatory.e2",
+          cluesFound: ["charter2.e2.solven_tax_records"],
+        },
+      },
+    },
+    "charter2-scrubber-personnel": {
+      look: {
+        narration:
+          "In the personnel-archive tier, the scrubber's file: a Council archivist named Heron — fourth-epoch, retired in the fifth, dead in the sixth, no descendants. Their personnel file shows one assignment: 'tidy the founding records.' They tidied them for nine years.",
+        mysteryBinding: {
+          mysteryId: "charter.second_signatory",
+          episodeId: "charter.second_signatory.e3",
+          cluesFound: ["charter2.e3.scrubber_personnel"],
+        },
+      },
+    },
+    /* ─── memorial.forgotten_names · color clues ─── */
+    "memorial-imprint-log": {
+      look: {
+        narration:
+          "In the Memorial-tier sub-drawer, the imprint log: a leather-bound book, kept by the imprint-keeper. Each imprint has an entry; the entries for the fourteen are the only ones with no inscribed name. Each entry has a witness slot waiting for a hand.",
+        mysteryBinding: {
+          mysteryId: "memorial.forgotten_names",
+          episodeId: "memorial.forgotten_names.e2",
+          cluesFound: ["memorial.e2.imprint_log"],
+        },
+      },
+    },
+    "memorial-three-elders": {
+      look: {
+        narration:
+          "In the long-wait register, the three elders who refused: I-155, I-202, and I-301 each refused to name themselves at the moment of imprinting. The keeper's note: 'they declined; they would not say why.' All three have been on the unwitnessed list for over a decade.",
+        mysteryBinding: {
+          mysteryId: "memorial.forgotten_names",
+          episodeId: "memorial.forgotten_names.e3",
+          cluesFound: ["memorial.e3.three_elders"],
+        },
+      },
+    },
+    /* ─── mechronis.missing_professor · color clues ─── */
+    "tarn-absent-notes": {
+      look: {
+        narration:
+          "In the lost-and-found drawer's first slot, Tarn's lecture binder is missing from the lectern's drawer. The drawer has not been forced. The binder has not been seen since the Dean's office at the previous bell. The archive's note: 'binder removed at second bell; not recovered at the lectern.'",
+        mysteryBinding: {
+          mysteryId: "mechronis.missing_professor",
+          episodeId: "mechronis.missing_professor.e1",
+          cluesFound: ["mechronis.e1.absent_notes"],
+        },
+      },
+    },
+    "tarn-erasure-protocol": {
+      look: {
+        narration:
+          "In the meeting-minutes annex, the erasure protocol: a short procedural document attached to the minutes — 'Step one: omit the professor's name from the curriculum. Step two: invite the professor to give the address as a contributor, not a faculty member. Step three: if the professor declines, proceed without them.' Tarn was never invited to step two.",
+        mysteryBinding: {
+          mysteryId: "mechronis.missing_professor",
+          episodeId: "mechronis.missing_professor.e3",
+          cluesFound: ["mechronis.e3.erasure_protocol"],
+        },
+      },
+    },
+    "tarn-missing-invitation": {
+      look: {
+        narration:
+          "Beside the protocol, the Dean's office records show an unsent invitation to Tarn — drafted, never delivered. The Dean's signature is absent. The invitation has been sitting in the outbox for six days.",
+        mysteryBinding: {
+          mysteryId: "mechronis.missing_professor",
+          episodeId: "mechronis.missing_professor.e3",
+          cluesFound: ["mechronis.e3.tarn_invitation"],
+        },
+      },
+    },
+    "tarn-letter-to-dean": {
+      look: {
+        narration:
+          "On the classified-correspondence shelf, the sealed letter to the Dean: Tarn's seal. The letter explains the request to Roen, the planned silence, and the choice the Dean now has to make. Found on Tarn's desk beside the binder.",
+        mysteryBinding: {
+          mysteryId: "mechronis.missing_professor",
+          episodeId: "mechronis.missing_professor.e4",
+          cluesFound: ["mechronis.e4.tarn_letter_to_dean"],
+        },
+      },
+    },
+    /* ─── resurrectionist.cycle_walker · e1 (twin glyph beside the name) ─── */
+    "resur-twin-glyph": {
+      look: {
+        narration:
+          "In the archives' Ne-Yon-glyph reference tier, beside every record-entry for the Resurrectionist, a small glyph appears in the margin: two mirrored crescents joined at a central axis. The cult-curated logs gloss the glyph as 'death-bound' — the canonical mark of Ne-Yons whose principle binds to cessation. The Antiquarian's own pre-Empire archaeological references read the same glyph as 'twin-bound' — the mark of paired cosmic principles. The two readings are not consistent; one of them is editorial.",
+        mysteryBinding: {
+          mysteryId: "resurrectionist.cycle_walker",
+          episodeId: "resurrectionist.cycle_walker.e1",
+          cluesFound: ["resur.e1.twin_glyph"],
+        },
+      },
+    },
+    /* ─── akai_shi.red_death · e2 (Akai Shi body-recovery manifest) ─── */
+    "akai-recovery-manifest": {
+      look: {
+        narration:
+          "In the archives' Thaloria-recovery tier, the standard procedure called for the fallen Potentials' bodies to be transferred here for preservation. Akai Shi's manifest entry reads: 'collected by external agent — Resurrectionist Ne-Yon — within the same engagement cycle. Antiquarian's library entry deferred at the Resurrectionist's request.' The deferral has been in force ever since.",
+        mysteryBinding: {
+          mysteryId: "akai_shi.red_death",
+          episodeId: "akai_shi.red_death.e2",
+          cluesFound: ["akai.e2.recovery_manifest"],
+        },
+      },
+    },
+    /* ─── advocate.blood_weave · e1 (shelter records) ─── */
+    "advocate-shelter-records": {
+      look: {
+        narration:
+          "In the archives' Empire-of-Shadows tier, partial shelter-records from three Empire dimensions. Each record entry: a soul-name, a date of shelter granted, and a Blood-Weave binding signature affirming the shelter holds against Hierarchy acquisition. The aggregated totals run to the millions across the three dimensions. The Empire was not a faction in the political sense; it was an active defensive system at cosmic scale, maintaining shelter for every soul that requested it.",
+        mysteryBinding: {
+          mysteryId: "advocate.blood_weave",
+          episodeId: "advocate.blood_weave.e1",
+          cluesFound: ["adv.e1.shelter_records"],
+        },
+      },
+    },
+    /* ─── storm.architect_of_flux · color clues ─── */
+    "storm-calm-intervals": {
+      look: {
+        narration:
+          "In the archives' cosmic-weather tier, the documented calm intervals — periods where the equilibrium-crossing pattern flattens for seven to nine cosmic-cycles before resuming. The first calm coincides with the Second Fall of New Babylon. The second calm coincides with the Casino Heist's planning window. Each calm is followed by the most active flux period in the surrounding decade. The chronicle does not annotate the pattern.",
+        mysteryBinding: {
+          mysteryId: "storm.architect_of_flux",
+          episodeId: "storm.architect_of_flux.e1",
+          cluesFound: ["storm.e1.calm_intervals"],
+        },
+      },
+    },
+    "storm-final-correlation-table": {
+      look: {
+        narration:
+          "On the closing-record shelf, the final correlation table mapping the Storm's documented active periods to the chronicle's most consequential decades. Seven peak flux periods follow seven calms — corresponding to seven moments when cosmic conditions shifted unpredictably and opportunity-aligned actors seized the shifts. The Antiquarian's reading: the Storm's work is the chronicle's permission to be consequential at all.",
+        mysteryBinding: {
+          mysteryId: "storm.architect_of_flux",
+          episodeId: "storm.architect_of_flux.e5",
+          cluesFound: ["storm.e5.final_correlation_table"],
+        },
+      },
+    },
+    /* ─── mechronis.chained_lesson · color clues ─── */
+    "chained-failure-log": {
+      look: {
+        narration:
+          "In the archives' apprentice-affairs tier, the apprentice-failure log. Thirty-one entries. Each entry: the apprentice's name, the wave's date, the tactical error. The errors are not the same surface action — but they share a common shape: each apprentice mistook a Terminus formation feint for an actual approach.",
+        mysteryBinding: {
+          mysteryId: "mechronis.chained_lesson",
+          episodeId: "mechronis.chained_lesson.e2",
+          cluesFound: ["chained.e2.failure_log"],
+        },
+      },
+    },
+    "chained-dean-annotation-record": {
+      look: {
+        narration:
+          "Beside the failure log, the Dean's prospective-faculty records confirm: Auro's name has been on the list since Year 6. The Dean has not offered her a chair. The Dean's annotation reads: 'we have a curriculum vote to consider; we do not amend the curriculum mid-year.' The annotation is dated nine times across nine years.",
+        mysteryBinding: {
+          mysteryId: "mechronis.chained_lesson",
+          episodeId: "mechronis.chained_lesson.e3",
+          cluesFound: ["chained.e3.dean_did_not_offer"],
+        },
+      },
+    },
+    "chained-thirty-one-names-read": {
+      look: {
+        narration:
+          "On the rite-record shelf: the Antiquarian's transcript of the thirty-one apprentice-failure names read aloud into the record at the closing rite. Each name is followed by a one-line note from the apprentice (where consent was given) — fifteen sent notes; sixteen sent silence. Both are read.",
+        mysteryBinding: {
+          mysteryId: "mechronis.chained_lesson",
+          episodeId: "mechronis.chained_lesson.e5",
+          cluesFound: ["chained.e5.thirty_one_named"],
+        },
       },
     },
     /* ─── mechronis.missing_professor · e2 (binder page 14) ─── */

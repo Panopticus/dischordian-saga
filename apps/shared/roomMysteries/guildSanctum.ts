@@ -14,11 +14,100 @@ export type GuildSanctumHotspotId =
   | "what-telling-the-advocate-costs"
   | "the-mirror-doctrine-loom"
   | "the-sister-of-the-weave-letter"
-  | "the-binding-chains-cost";
+  | "the-binding-chains-cost"
+  | "storm-degens-house-advantage-anomaly"
+  | "wolf-minigame-entry-state"
+  | "wolf-present-in-hall"
+  | "advocate-xethraal-debt-ledger"
+  | "resur-degens-open-ledger-line"
+  | "resur-molvereth-contract-clause"
+  | "resur-degens-pending-settlement";
 
 export const GUILD_SANCTUM_MYSTERY: RoomMysteryModule<GuildSanctumHotspotId> = {
   roomId: "guild-sanctum",
   responses: {
+    /* ─── resurrectionist.cycle_walker · color clues ─── */
+    "resur-degens-open-ledger-line": {
+      look: {
+        narration:
+          "On the casino-ledger console, another open line in a different hand from the same Degen's casino ledger: 'Ark survivor, no fee — hundred-year arrangement, settlement deferred.' The Degen's accounting principle is canonical: the Degen does not give gifts. Two consecutive 'no fee' entries in the same ledger break the principle twice. The cult-curated annotation: 'copyist's pleasantry.' The Degen's clerks do not write copyist's pleasantries.",
+        mysteryBinding: {
+          mysteryId: "resurrectionist.cycle_walker",
+          episodeId: "resurrectionist.cycle_walker.e2",
+          cluesFound: ["resur.e2.degens_open_ledger_line"],
+        },
+      },
+    },
+    "resur-molvereth-contract-clause": {
+      look: {
+        narration:
+          "Pinned beside, an annotated clause from the Mol'Vereth contract on the Degen's trusteeship (the Hierarchy demon's contract authored at the Ne-Yon casino): 'in the event of the second fall, the cycle walker rides the Ark.' The cult-curated annotation reads: 'metaphorical — the trusteeship's continuity provision speaks of the principle of cyclical wagering, not a literal Ne-Yon rider.' Mol'Vereth's other clauses are notably literal.",
+        mysteryBinding: {
+          mysteryId: "resurrectionist.cycle_walker",
+          episodeId: "resurrectionist.cycle_walker.e4",
+          cluesFound: ["resur.e4.molvereth_contract_clause"],
+        },
+      },
+    },
+    "resur-degens-pending-settlement": {
+      look: {
+        narration:
+          "On the long-arrangement shelf, the Degen's casino ledger holds an open line addressed to Ark 1047 — Vex Solène's Ark per the canonical assignment. The line reads: 'pending settlement — hundred-year arrangement, witness night TBD.' The Degen does not author hundred-year settlement arrangements on his own initiative. The line was authored, by canonical record, on the same instant as the Resurrectionist's vanishing.",
+        mysteryBinding: {
+          mysteryId: "resurrectionist.cycle_walker",
+          episodeId: "resurrectionist.cycle_walker.e5",
+          cluesFound: ["resur.e5.degens_pending_settlement"],
+        },
+      },
+    },
+    /* ─── advocate.blood_weave · e4 (Xeth'Raal's debt ledger — Advocate entry) ─── */
+    "advocate-xethraal-debt-ledger": {
+      look: {
+        narration:
+          "On the guild-sanctum's debt-archive console, Xeth'Raal — Hierarchy CFO, Chief Financial Officer of Souls — kept a debt ledger that survives in partial. The Advocate's entry: 'sacrifice... recorded as a debt that could never be fully repaid.' The ledger records the Advocate's spent-substrate as a debt against the Hierarchy's books — a debt the Hierarchy treats as permanent because the Advocate has no recoverable substrate to repay it with. The debt is Xeth'Raal's most-elegant Advocate-class instrument.",
+        mysteryBinding: {
+          mysteryId: "advocate.blood_weave",
+          episodeId: "advocate.blood_weave.e4",
+          cluesFound: ["adv.e4.xethraal_debt_ledger"],
+        },
+      },
+    },
+    /* ─── wolf.anara_hunt · e5 (Hunt-the-Hero minigame entry state) ─── */
+    "wolf-minigame-entry-state": {
+      look: {
+        narration:
+          "On the guild-sanctum's case-handover board, the Hunt-the-Hero gameplay loop's entry state begins here, in this chamber, with the Wolf already present and the three incoming heroes still cycles away from arrival. The player's choices in this Mystery Engine arc set the minigame's initial state: which League members have been warned (E2); whether the Resurrectionist has been confronted (E3); whether the Hall has been evacuated, sealed, or entered (E4). The investigation closes. The gameplay opens.",
+        mysteryBinding: {
+          mysteryId: "wolf.anara_hunt",
+          episodeId: "wolf.anara_hunt.e5",
+          cluesFound: ["wolf.e5.minigame_entry_state"],
+        },
+      },
+    },
+    /* ─── wolf.anara_hunt · e5 (the Wolf, present, in the Hall) ─── */
+    "wolf-present-in-hall": {
+      look: {
+        narration:
+          "Through the sanctum's chronicle window, the Wolf is in the Hall. He is wearing a League cloak retrieved from one of the pedestals — the field medic's, the one to whom he extended mercy. He has not yet moved on the three heroes scheduled to enter this cycle. He is reading the cloak's inner lining, where the medic recorded her bond-prayer. He may be deciding whether to extend mercy a second time.",
+        mysteryBinding: {
+          mysteryId: "wolf.anara_hunt",
+          episodeId: "wolf.anara_hunt.e5",
+          cluesFound: ["wolf.e5.the_wolf_present"],
+        },
+      },
+    },
+    /* ─── storm.architect_of_flux · e3 (Degen's house-advantage anomaly) ─── */
+    "storm-degens-house-advantage-anomaly": {
+      look: {
+        narration:
+          "On the allegiance-pad's accounting console, the Degen's casino ledger shows a multi-decade anomaly in the house advantage during one of the Storm's most active flux periods. The advantage swung against the house — losses sustained, balanced by gains on the back end of the period. The Degen's accounting principle holds that the house always wins; the anomaly violates the principle. The ledger annotates the period: 'patron arrangement — Storm-class.' The Degen's hand on the annotation is unambiguous.",
+        mysteryBinding: {
+          mysteryId: "storm.architect_of_flux",
+          episodeId: "storm.architect_of_flux.e3",
+          cluesFound: ["storm.e3.degens_house_advantage"],
+        },
+      },
+    },
     "sigil-altar": {
       look: {
         narration: {

@@ -23,6 +23,59 @@ export type AntiquarianLibraryHotspotId =
   | "infernal-epoch-one-contract"
   | "infernal-clause-back-page"
   | "watchers-per-m-confirms"
+  | "chained-tarn-residency-marginalia"
+  | "chained-auro-at-rite"
+  | "storm-dossier-quote"
+  | "storm-polarity-lyric-record"
+  | "storm-dreamers-noted-entry"
+  | "storm-eternal-active-status"
+  | "wolf-journal-xxxviii"
+  | "wolf-corruption-ledger"
+  | "wolf-antiquarians-admission"
+  | "wolf-first-words-recording"
+  | "wolf-current-position"
+  | "wolf-antiquarians-concession"
+  | "wolf-hall-threshold"
+  | "advocate-closing-walk-in-power-broadcast"
+  | "akai-jericho-witness-page"
+  | "akai-targets-list"
+  | "akai-kill-record"
+  | "akai-red-death-returns"
+  | "akai-case-closes"
+  | "resur-antiquarians-unknown-entry"
+  | "resur-cult-curated-terminus-map"
+  | "watchers-communique-appendix"
+  | "watchers-seventh-appendix"
+  | "watchers-six-lines-inscribed"
+  | "tarn-lore-proposal"
+  | "tarn-binder-recovered"
+  | "tarn-curriculum-on-desk"
+  | "tarn-pebble"
+  | "memorial-first-volume"
+  | "memorial-torn-page"
+  | "memorial-fourteen-inscribed"
+  | "memorial-player-carrier-choice"
+  | "severance-second-witness-broker"
+  | "severance-back-room-chairs"
+  | "severance-broker-first-chair"
+  | "severance-jar-inventory"
+  | "severance-first-chair-log"
+  | "severance-player-choice-record"
+  | "charter-signatory-almir"
+  | "charter-signatory-house-quill"
+  | "charter-witness-annotation"
+  | "charter-archivist-office"
+  | "charter-staff-roster"
+  | "charter-player-inscribes"
+  | "charter2-solven-kept-record"
+  | "charter2-per-m-meeting"
+  | "charter2-per-m-clarification"
+  | "charter2-charter-addendum"
+  | "infernal-first-clause-date"
+  | "infernal-solene-recollection"
+  | "infernal-atalin-status"
+  | "infernal-atalin-account"
+  | "infernal-atalin-at-rite"
   | "wolf-empty-chair"
   | "wolf-three-empty-chairs"
   | "akai-resurrectionist-seal"
@@ -257,6 +310,602 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
       interrogate: {
         narration:
           "You ask Per. M. for the role's intended name. They say: 'the Ark will name it. I will not. Naming is the act the role is for, not the act it does.' Per. M. closes the conversation with the same gesture they used to close the charter's seventh signature.",
+      },
+    },
+    /* ─── mechronis.chained_lesson · color clues ─── */
+    "chained-tarn-residency-marginalia": {
+      look: {
+        narration:
+          "On the marginalia shelf behind the lectern, Tarn's residency notebook from her Year-Two posting. Her annotation reads: 'Module 17 is the module the Academy will not teach. The faculty has been comfortable with the absence. The absence has cost. Whichever Dean reads this — find someone who teaches Module 17 in defiance of the curriculum and offer them a chair.' The current Dean has not turned to this page.",
+        mysteryBinding: {
+          mysteryId: "mechronis.chained_lesson",
+          episodeId: "mechronis.chained_lesson.e2",
+          cluesFound: ["chained.e2.tarn_marginalia_again"],
+        },
+      },
+    },
+    /* ─── storm.architect_of_flux · color clues ─── */
+    "storm-dossier-quote": {
+      look: {
+        narration:
+          "On the cosmic-archaeology shelf, the Storm's dossier — open at its operational sentence: 'By keeping the galaxy in a state of flux, the Storm ensures opportunities for the Ne-Yons to exploit.' The sentence is older than every Ne-Yon currently active and predates the Late Empire era to which the Storm's own emergence is dated. The dossier does not record who first wrote it.",
+        mysteryBinding: {
+          mysteryId: "storm.architect_of_flux",
+          episodeId: "storm.architect_of_flux.e1",
+          cluesFound: ["storm.e1.dossier_quote"],
+        },
+      },
+    },
+    "storm-polarity-lyric-record": {
+      look: {
+        narration:
+          "On the lyric-records shelf, the Book of Daniel 2:47 album's 'Polarity' track lyric record — signed in the Enigma's hand. The lyric names the Storm and the Silence as opposite poles whose interaction creates the energy that powers the universe. The Enigma is the canonical 12th Ne-Yon, the Storyteller. Her authorship of the polarity-canon is itself a Ne-Yon endorsement of the framing.",
+        mysteryBinding: {
+          mysteryId: "storm.architect_of_flux",
+          episodeId: "storm.architect_of_flux.e2",
+          cluesFound: ["storm.e2.polarity_lyric_record"],
+        },
+      },
+    },
+    "storm-dreamers-noted-entry": {
+      look: {
+        narration:
+          "On the Dreamer-archive shelf, the Dreamer's canonical Connections list — the most-documented Ne-Yon library in the Antiquarian's holdings. On the Storm specifically, the Dreamer's library carries one entry: 'noted.' Nothing else. The Dreamer either had nothing to add, or refused to add what she had.",
+        mysteryBinding: {
+          mysteryId: "storm.architect_of_flux",
+          episodeId: "storm.architect_of_flux.e3",
+          cluesFound: ["storm.e3.dreamers_silence"],
+        },
+      },
+    },
+    /* ─── wolf.anara_hunt · color clues ─── */
+    "wolf-journal-xxxviii": {
+      look: {
+        narration:
+          "On the chronicle-current shelf, the Antiquarian's journal Entry XXXVIII, written in his own hand, dated this week. 'Anara. My creation. My refuge. My failure.' He describes Anara as a pocket universe outside the main timeline — designed to shelter those who might be needed when the Multiverse faces its final crisis. He admits he designed it to be impenetrable from outside. He admits he did not design it to resist something already inside.",
+        mysteryBinding: {
+          mysteryId: "wolf.anara_hunt",
+          episodeId: "wolf.anara_hunt.e1",
+          cluesFound: ["wolf.e1.journal_xxxviii"],
+        },
+      },
+    },
+    "wolf-corruption-ledger": {
+      look: {
+        narration:
+          "Inside the Anara-affairs drawer, a small ledger written in a Quarchon hand, recovered from an annex of the medic's chamber. The handwriting matches a long-archived sample of Lycos's. Each entry records a kill: the hero's name, the moment the mask broke for them at the last second (or did not), and a single rated question — 'mercy: y/n'. Four entries. Three 'n'. One 'y'. The 'y' is the field medic.",
+        mysteryBinding: {
+          mysteryId: "wolf.anara_hunt",
+          episodeId: "wolf.anara_hunt.e2",
+          cluesFound: ["wolf.e2.wolfs_corruption_ledger"],
+        },
+      },
+    },
+    "wolf-antiquarians-admission": {
+      look: {
+        narration:
+          "On the Anara design-failure shelf, the Antiquarian's pressed admission, dated yesterday: he knew the Wolf had been reanimated. He believed the Wolf was contained in the Crucible. He moved his heroes into Anara — the Crucible's successor pocket — without verifying that the Wolf was sealed at the old pocket's collapse. The admission is in his journal. He writes the word 'failure' twice.",
+        mysteryBinding: {
+          mysteryId: "wolf.anara_hunt",
+          episodeId: "wolf.anara_hunt.e3",
+          cluesFound: ["wolf.e3.antiquarians_admission"],
+        },
+      },
+    },
+    "wolf-first-words-recording": {
+      look: {
+        narration:
+          "In the cosmic-archaeology audio drawer, a recording from the moment of the Wolf's reanimation. His voice — Quarchon timbre, but flat in a way that Quarchon voices typically aren't — speaks once before the Crucible's containment closed the chamber. 'Death freed me. Released me from the chains of purpose. I will give the chronicle the kind of mercy I was given: clean.'",
+        mysteryBinding: {
+          mysteryId: "wolf.anara_hunt",
+          episodeId: "wolf.anara_hunt.e3",
+          cluesFound: ["wolf.e3.wolfs_first_words"],
+        },
+      },
+    },
+    "wolf-current-position": {
+      look: {
+        narration:
+          "On the Anara live-tracking board, cross-referencing the Wolf's ledger entries with Anara's hero-attendance logs: the Wolf is currently in the Hall of Disappearances — the chamber Anara uses to ceremonially retire heroes who have completed their preparation and are ready to be sent into the multiverse. He has been there for three cycles. Three more chairs are scheduled to be retired this cycle. Three more heroes are scheduled to enter.",
+        mysteryBinding: {
+          mysteryId: "wolf.anara_hunt",
+          episodeId: "wolf.anara_hunt.e4",
+          cluesFound: ["wolf.e4.wolf_current_position"],
+        },
+      },
+    },
+    "wolf-antiquarians-concession": {
+      look: {
+        narration:
+          "On the case-closure shelf, the Antiquarian's final journal entry as the investigation closes: 'Anara was my failure. The Wolf is my failure's instrument. I cannot ask the chronicle's reader to resolve what I designed wrong. I can only ask: walk into the Hall. Meet him. Read his ethic. Choose what you will do. I will record what you do. The choice is not mine. It never was. It was always going to be the reader's.'",
+        mysteryBinding: {
+          mysteryId: "wolf.anara_hunt",
+          episodeId: "wolf.anara_hunt.e5",
+          cluesFound: ["wolf.e5.antiquarians_concession"],
+        },
+      },
+    },
+    /* ─── severance.infernal_clause · color clues ─── */
+    "infernal-first-clause-date": {
+      look: {
+        narration:
+          "On the contract-cross-reference shelf, the first clause's date: the earliest clause, on epoch one's contract, is dated the same week as the contract itself — within a seven-day window. So is the second-season clause. So is every clause.",
+        mysteryBinding: {
+          mysteryId: "severance.infernal_clause",
+          episodeId: "severance.infernal_clause.e2",
+          cluesFound: ["infernal.e2.first_clause_date"],
+        },
+      },
+    },
+    "infernal-solene-recollection": {
+      look: {
+        narration:
+          "On the audit-witness shelf, Solène's recorded recollection: 'the contracts came back from the season-end audit with the clauses already on them. I never saw the clauses being written. I assumed the ledger-keepers had handled it. I should have asked.'",
+        mysteryBinding: {
+          mysteryId: "severance.infernal_clause",
+          episodeId: "severance.infernal_clause.e2",
+          cluesFound: ["infernal.e2.solene_recollection"],
+        },
+      },
+    },
+    "infernal-atalin-status": {
+      look: {
+        narration:
+          "On the staff-roster annex shelf, Atalin's current status: Atalin is alive. They are eighty-six years old. They live in a single room in the lower decks, sector eleven. They have not spoken to anyone from the league in forty seasons.",
+        mysteryBinding: {
+          mysteryId: "severance.infernal_clause",
+          episodeId: "severance.infernal_clause.e3",
+          cluesFound: ["infernal.e3.atalin_status"],
+        },
+      },
+    },
+    "infernal-atalin-account": {
+      look: {
+        narration:
+          "On the closer's-room recording, Atalin's forty-year account: 'I wrote them because the Hierarchy would have written them if I refused. I wrote them with a flaw. I left the flaw to be found. The Advocate is the first person to come asking. I have been making myself easy to find for forty seasons.'",
+        mysteryBinding: {
+          mysteryId: "severance.infernal_clause",
+          episodeId: "severance.infernal_clause.e4",
+          cluesFound: ["infernal.e4.atalin_account"],
+        },
+      },
+    },
+    "infernal-atalin-at-rite": {
+      look: {
+        narration:
+          "On the closing-rite seating chart, Atalin sits beside Solène in the front row. They have not been in a public room in forty seasons. They cry once, briefly, when the Advocate names them in the closing speech. They do not cry again.",
+        mysteryBinding: {
+          mysteryId: "severance.infernal_clause",
+          episodeId: "severance.infernal_clause.e5",
+          cluesFound: ["infernal.e5.atalin_at_rite"],
+        },
+      },
+    },
+    /* ─── charter.second_signatory · color clues ─── */
+    "charter2-solven-kept-record": {
+      look: {
+        narration:
+          "On the reading-dome's delegation table, the Solven household ledger — Solven family records of the workshop's output, customers, and apprentices, kept in continuous handwriting from the founding to today. The ledger names the customers the Architect has on no roster.",
+        mysteryBinding: {
+          mysteryId: "charter.second_signatory",
+          episodeId: "charter.second_signatory.e2",
+          cluesFound: ["charter2.e2.solven_kept_record"],
+        },
+      },
+    },
+    "charter2-per-m-meeting": {
+      look: {
+        narration:
+          "In Per. M.'s office annex, the closer's meeting room. Per. M. is older than they were last year. The lamp still burns. The drawer is still locked. Per. M. listens for thirty-three minutes before speaking.",
+        mysteryBinding: {
+          mysteryId: "charter.second_signatory",
+          episodeId: "charter.second_signatory.e4",
+          cluesFound: ["charter2.e4.per_m_meeting"],
+        },
+      },
+    },
+    "charter2-per-m-clarification": {
+      look: {
+        narration:
+          "Beside the meeting record, Per. M.'s clarification: 'The seventh will not say the name. The seventh did not sign the scrub. The seventh has been holding the silence as a kind of vote. The Council has been counting the silence wrong.'",
+        mysteryBinding: {
+          mysteryId: "charter.second_signatory",
+          episodeId: "charter.second_signatory.e4",
+          cluesFound: ["charter2.e4.per_m_clarification"],
+        },
+      },
+    },
+    "charter2-charter-addendum": {
+      look: {
+        narration:
+          "On the closing-rite charter shelf, a folio sewn to both the original charter and the mirror, signed today by the four house representatives, by the Antiquarian, and by Per. M. as proxy for the seventh. The folio reads: 'we eight signed; we six scrubbed; we four kept; we eight again.'",
+        mysteryBinding: {
+          mysteryId: "charter.second_signatory",
+          episodeId: "charter.second_signatory.e5",
+          cluesFound: ["charter2.e5.charter_addendum"],
+        },
+      },
+    },
+    /* ─── charter.missing_signatory · color clues ─── */
+    "charter-signatory-almir": {
+      look: {
+        narration:
+          "On the founding-signatures rubbing wall, the first signature: Almir of the Bow. The first crown-bearer. The hand is plain, almost bored — Almir signed last because Almir was the rider. The ink is the original cyanic ferro-gall.",
+        mysteryBinding: {
+          mysteryId: "charter.missing_signatory",
+          episodeId: "charter.missing_signatory.e2",
+          cluesFound: ["charter.e2.signatory_almir"],
+        },
+      },
+    },
+    "charter-signatory-house-quill": {
+      look: {
+        narration:
+          "Beside Almir's signature, the three sisters of House Quill — sigils two, three, and four. They signed in a ladder — the eldest at the top — and the youngest's loop runs into where the seventh signature should begin.",
+        mysteryBinding: {
+          mysteryId: "charter.missing_signatory",
+          episodeId: "charter.missing_signatory.e2",
+          cluesFound: ["charter.e2.signatory_house_quill"],
+        },
+      },
+    },
+    "charter-witness-annotation": {
+      look: {
+        narration:
+          "On the back of the charter, the Advocate's marginalia: 'six speak; one listens; one of us is the silence.' The cipher-den had not understood the line in any prior translation. The current reading is unambiguous.",
+        mysteryBinding: {
+          mysteryId: "charter.missing_signatory",
+          episodeId: "charter.missing_signatory.e2",
+          cluesFound: ["charter.e2.witness_annotation"],
+        },
+      },
+    },
+    "charter-archivist-office": {
+      look: {
+        narration:
+          "Four corridors down from the antiquarian-library, Per. M.'s office. Door is unlocked. Desk is occupied. The lamp on the desk has burned for an unbroken twenty-two epochs — its filament is mineralised the same way the wax is.",
+        mysteryBinding: {
+          mysteryId: "charter.missing_signatory",
+          episodeId: "charter.missing_signatory.e3",
+          cluesFound: ["charter.e3.archivist_office"],
+        },
+      },
+    },
+    "charter-staff-roster": {
+      look: {
+        narration:
+          "On the antiquarian-library staff roster: Per. M. does not appear on any roster. They have a key, an office, a desk, a lamp, and a signature on every preservation order — but they are not paid, hired, or registered. Bureaucratically, they do not exist.",
+        mysteryBinding: {
+          mysteryId: "charter.missing_signatory",
+          episodeId: "charter.missing_signatory.e3",
+          cluesFound: ["charter.e3.staff_roster"],
+        },
+      },
+    },
+    "charter-player-inscribes": {
+      look: {
+        narration:
+          "On the closing-rite scroll, the empty seventh signature line is open for inscription. The player has the option to inscribe a name — any name. Inscribing closes the post and ends Per. M.'s seal. Leaving it blank keeps the post.",
+        mysteryBinding: {
+          mysteryId: "charter.missing_signatory",
+          episodeId: "charter.missing_signatory.e5",
+          cluesFound: ["charter.e5.player_inscribes"],
+        },
+      },
+    },
+    /* ─── severance.bound_champion · color clues ─── */
+    "severance-second-witness-broker": {
+      look: {
+        narration:
+          "In the back-room observation alcove, the aging Broker of Nilmorg has been profiled by the Antiquarian's library — an aging broker who lives in the back rooms of the Trade Empire's Nilmorg sector. Will not give a name. Has been at every Severance since Year 1. Pays for the candle.",
+        mysteryBinding: {
+          mysteryId: "severance.bound_champion",
+          episodeId: "severance.bound_champion.e2",
+          cluesFound: ["severance.e2.second_witness"],
+        },
+      },
+    },
+    "severance-back-room-chairs": {
+      look: {
+        narration:
+          "In the Severance-reliquary alcove, the chronicler's photograph of the Broker's back room: forty-one chairs. Old, mismatched, polished. Each chair faces a shelf at eye-height. Each shelf holds a glass jar containing a faint blue glow. The Broker has rules about which chair you may sit in.",
+        mysteryBinding: {
+          mysteryId: "severance.bound_champion",
+          episodeId: "severance.bound_champion.e3",
+          cluesFound: ["severance.e3.back_room_chairs"],
+        },
+      },
+    },
+    "severance-broker-first-chair": {
+      look: {
+        narration:
+          "Beside the chairs photograph, the Antiquarian's annotation on Chair One: 'Chair One is reserved. The Broker explains: I sit there each season after the bond is poured. I sit until I can stand. I have not yet failed to stand.'",
+        mysteryBinding: {
+          mysteryId: "severance.bound_champion",
+          episodeId: "severance.bound_champion.e3",
+          cluesFound: ["severance.e3.broker_first_chair"],
+        },
+      },
+    },
+    "severance-jar-inventory": {
+      look: {
+        narration:
+          "On the jar-inventory shelf, forty-one jars catalogued: the first jar is the heaviest; its glow is steadier than the others. The most recent jar is empty — waiting for the bond on the table tonight to be poured into it.",
+        mysteryBinding: {
+          mysteryId: "severance.bound_champion",
+          episodeId: "severance.bound_champion.e3",
+          cluesFound: ["severance.e3.jar_inventory"],
+        },
+      },
+    },
+    "severance-first-chair-log": {
+      look: {
+        narration:
+          "Pulled from inside Chair One's cushion at the Antiquarian's request, a small ledger. Forty entries. Each entry is a date and one word: 'stood.' The handwriting is the Broker's; the word does not change.",
+        mysteryBinding: {
+          mysteryId: "severance.bound_champion",
+          episodeId: "severance.bound_champion.e4",
+          cluesFound: ["severance.e4.first_chair_log"],
+        },
+      },
+    },
+    "severance-player-choice-record": {
+      look: {
+        narration:
+          "On the apprentice-choice display, the player's right of first refusal is recorded. The first chair is empty. Solène does not pressure either way: 'sit if you can. don't if you can't. either way, the protocol is written tonight.'",
+        mysteryBinding: {
+          mysteryId: "severance.bound_champion",
+          episodeId: "severance.bound_champion.e5",
+          cluesFound: ["severance.e5.player_choice_record"],
+        },
+      },
+    },
+    /* ─── memorial.forgotten_names · color clues ─── */
+    "memorial-first-volume": {
+      look: {
+        narration:
+          "On the chronicle-shelf, the first volume of Year of the Lost — hand-bound, leather-quilted, eight hundred and twelve pages. Seven hundred and ninety-eight names inscribed in a steady archivist's hand. Fourteen pages left blank. Each blank carries an imprint-id and the word 'unwitnessed' in pencil.",
+        mysteryBinding: {
+          mysteryId: "memorial.forgotten_names",
+          episodeId: "memorial.forgotten_names.e1",
+          cluesFound: ["memorial.e1.first_volume"],
+        },
+      },
+    },
+    "memorial-torn-page": {
+      look: {
+        narration:
+          "In the keeper's log fragment-drawer, the keeper's log is torn at the page that should contain the fourteenth imprint's id. The tear is old; the keeper does not remember when it happened or why. The page has been re-bound for archival use without restoration.",
+        mysteryBinding: {
+          mysteryId: "memorial.forgotten_names",
+          episodeId: "memorial.forgotten_names.e3",
+          cluesFound: ["memorial.e3.torn_page"],
+        },
+      },
+    },
+    "memorial-fourteen-inscribed": {
+      look: {
+        narration:
+          "Beside the first volume, the closing-rite volume — closed at last bell. The torn page is replaced by a folio sewn in by the Antiquarian. Eight hundred and twelve names — and one folio of additional inscriptions for I-1.",
+        mysteryBinding: {
+          mysteryId: "memorial.forgotten_names",
+          episodeId: "memorial.forgotten_names.e5",
+          cluesFound: ["memorial.e5.fourteen_inscribed"],
+        },
+      },
+    },
+    "memorial-player-carrier-choice": {
+      look: {
+        narration:
+          "Beside the closed volume, the Antiquarian's carrier-choice question: 'will you leave the volume in the library, or carry it back, by hand, to the imprint room? both are honest. one closes the loop where the imprints rest. the other leaves the loop open for next year.' The choice is the player's.",
+        mysteryBinding: {
+          mysteryId: "memorial.forgotten_names",
+          episodeId: "memorial.forgotten_names.e5",
+          cluesFound: ["memorial.e5.player_carrier_choice"],
+        },
+      },
+    },
+    /* ─── mechronis.missing_professor · color clues ─── */
+    "tarn-lore-proposal": {
+      look: {
+        narration:
+          "On the Lore-faculty submissions shelf, Lecturer Veth's Lore Faculty Proposal — six modules, archive-heavy, citing Tarn's seminar series on the Antiquarian's marginalia. Signed by Veth. Proposes lengthening the term by three weeks. The citation is on Tarn's notes; the proposal is not on her authorship.",
+        mysteryBinding: {
+          mysteryId: "mechronis.missing_professor",
+          episodeId: "mechronis.missing_professor.e2",
+          cluesFound: ["mechronis.e2.lore_proposal"],
+        },
+      },
+    },
+    "tarn-binder-recovered": {
+      look: {
+        narration:
+          "On Tarn's office desk, weighted by a pebble from the lower decks: the binder, recovered. Twenty-two pages. Page one is the resignation. Pages two through twenty-one are the curriculum. Page twenty-two is a note: 'vote on the curriculum, not on me.'",
+        mysteryBinding: {
+          mysteryId: "mechronis.missing_professor",
+          episodeId: "mechronis.missing_professor.e4",
+          cluesFound: ["mechronis.e4.binder_recovered"],
+        },
+      },
+    },
+    "tarn-curriculum-on-desk": {
+      look: {
+        narration:
+          "Beside the binder, the curriculum-on-desk: twenty pages, copied for the Council. Tarn's authorship line is left blank by Roen, who copied it. The blank is not a mistake; it is the choice the player will resolve.",
+        mysteryBinding: {
+          mysteryId: "mechronis.missing_professor",
+          episodeId: "mechronis.missing_professor.e5",
+          cluesFound: ["mechronis.e5.curriculum_on_desk"],
+        },
+      },
+    },
+    "tarn-pebble": {
+      look: {
+        narration:
+          "On Tarn's desk under the binder, a grey, water-smoothed lower-deck stone — Tarn's pebble. The pebble is heavier than it looks. The Dean has been weighing it in their palm during the vote-prep. The stone is the sentence Tarn left in lieu of a goodbye.",
+        mysteryBinding: {
+          mysteryId: "mechronis.missing_professor",
+          episodeId: "mechronis.missing_professor.e5",
+          cluesFound: ["mechronis.e5.tarn_pebble"],
+        },
+      },
+    },
+    /* ─── memorial.seven_watchers · color clues ─── */
+    "watchers-communique-appendix": {
+      look: {
+        narration:
+          "On the communiqué-appendix shelf, the Antiquarian's single-page addition to the year's Watcher communiqué: 'six Watchers have spoken. the seventh waits to be named by us. we have one year to consider what we want to ask them, and what role we have not yet given them words for.' The page is dated tonight and sewn to the back of the Council's communiqué.",
+        mysteryBinding: {
+          mysteryId: "memorial.seven_watchers",
+          episodeId: "memorial.seven_watchers.e4",
+          cluesFound: ["watchers.e4.communiqe_appendix"],
+        },
+      },
+    },
+    "watchers-seventh-appendix": {
+      look: {
+        narration:
+          "In the Memorial Plaza volume's final folio, a single page sewn beside the six Watcher-line entries — blank but for the line: 'I will not be named until the Ark has named what I am for.' The blank is the appendix; the appendix is the case's closing. The seventh's slot is held by the document the case-bearer wrote.",
+        mysteryBinding: {
+          mysteryId: "memorial.seven_watchers",
+          episodeId: "memorial.seven_watchers.e5",
+          cluesFound: ["watchers.e5.seventh_appendix"],
+        },
+      },
+    },
+    "watchers-six-lines-inscribed": {
+      look: {
+        narration:
+          "On the Memorial Plaza shelf, the year's volume has been re-opened. Each Watcher's role description has been hand-copied by the Antiquarian, sewn into the Memorial Plaza volume. Six Watchers' lines now sit between Aren's name (Year 1) and the next Year-3 inscriptions. The book grows.",
+        mysteryBinding: {
+          mysteryId: "memorial.seven_watchers",
+          episodeId: "memorial.seven_watchers.e5",
+          cluesFound: ["watchers.e5.six_lines_inscribed"],
+        },
+      },
+    },
+    /* ─── resurrectionist.cycle_walker · color clues ─── */
+    "resur-antiquarians-unknown-entry": {
+      look: {
+        narration:
+          "On the chronicle-open-archive shelf, the Antiquarian's library entry for the Resurrectionist's current location reads, in the open chronicle: 'unknown — case shelved at last review.' The entry was authored in the years following the Second Fall of New Babylon. The hand is consistent with the Antiquarian's own. There is a small annotation in a different hand at the bottom of the entry: 'kept current.' The annotator is not named.",
+        mysteryBinding: {
+          mysteryId: "resurrectionist.cycle_walker",
+          episodeId: "resurrectionist.cycle_walker.e5",
+          cluesFound: ["resur.e5.antiquarians_unknown_entry"],
+        },
+      },
+    },
+    "resur-cult-curated-terminus-map": {
+      look: {
+        narration:
+          "Pinned to the chronicle-reference wall, a map of the Terminus surface prepared by the cult of the Game Master for its imprint-archaeology project. The map shows seven walking figures arrayed around the central anchor that the cult labels 'the Sovereign of Terminus' (the canonical designation for the Source Kael). The seven figures are not labelled. The cult-curated marginalia explain: 'representative — Terminus's roving fauna of cosmic-archaeological interest.' Six of the seven figures wear the canonical silhouettes of the first-wave Potentials. The seventh wears a long-beaked mask.",
+        mysteryBinding: {
+          mysteryId: "resurrectionist.cycle_walker",
+          episodeId: "resurrectionist.cycle_walker.e5",
+          cluesFound: ["resur.e5.cult_curated_terminus_map"],
+        },
+      },
+    },
+    /* ─── akai_shi.red_death · color clues ─── */
+    "akai-jericho-witness-page": {
+      look: {
+        narration:
+          "On the Thaloria-archive shelf, Jericho Jones's witness page from the hour after the mercy: 'Akai Shi was already gone. I did the work she would have asked me to do if she could have asked.' The Degen counter-signed as witness within minutes — the same Degen who would recruit Jericho seventy-two hours later. The page is in Jericho's handwriting, with no visible re-drafting.",
+        mysteryBinding: {
+          mysteryId: "akai_shi.red_death",
+          episodeId: "akai_shi.red_death.e1",
+          cluesFound: ["akai.e1.jericho_signed_witness"],
+        },
+      },
+    },
+    "akai-targets-list": {
+      look: {
+        narration:
+          "In the case-files drawer, the Red Death's open targets list — fourteen entities the Red Death has eliminated across the centuries. Each entry carries a date, a place, and the chronicler's note. Each target was destroyed in a moment when their destruction altered the chronicle's forward path.",
+        mysteryBinding: {
+          mysteryId: "akai_shi.red_death",
+          episodeId: "akai_shi.red_death.e3",
+          cluesFound: ["akai.e3.targets_list"],
+        },
+      },
+    },
+    "akai-kill-record": {
+      look: {
+        narration:
+          "On the case-closure shelf, the Antiquarian's record entry for Day 15 of Fracture, Year 117,046 A.A.: 'The Necromancer's millennia-long evasion of fate ended within the Matrix of Dreams. The instrument was the Red Death (subject formerly Akai Shi, Potential, Battle of Thaloria casualty). The kind of mercy chosen: clean. The Necromancer was given the seven seconds Akai Shi was given by Jericho. He spent them as Akai Shi spent hers — speaking into the comm. We do not have the recording. We have the record that the recording was made and that the Red Death keeps it.'",
+        mysteryBinding: {
+          mysteryId: "akai_shi.red_death",
+          episodeId: "akai_shi.red_death.e5",
+          cluesFound: ["akai.e5.kill_record"],
+        },
+      },
+    },
+    "akai-red-death-returns": {
+      look: {
+        narration:
+          "Beside the kill record, the chronicler's note on the Red Death's return: twelve cycles after the kill, she exits the Matrix of Dreams through the same fold she entered. She is, on Antiquarian observation, unchanged. The time-displacement band is intact. The targets list is now closed. The fourteenth entry — the Necromancer's — has been filled in with the date and place.",
+        mysteryBinding: {
+          mysteryId: "akai_shi.red_death",
+          episodeId: "akai_shi.red_death.e5",
+          cluesFound: ["akai.e5.red_death_returns"],
+        },
+      },
+    },
+    "akai-case-closes": {
+      look: {
+        narration:
+          "The Antiquarian seals the case file with a closing note: 'The arc the Resurrectionist authored is complete. The instrument she made now exists outside any further mandate. She has chosen her next direction; she has not shared it. The chronicle records the case as closed and the Red Death as active. The two are not contradictions. The case being closed does not mean the case-bearer is.'",
+        mysteryBinding: {
+          mysteryId: "akai_shi.red_death",
+          episodeId: "akai_shi.red_death.e5",
+          cluesFound: ["akai.e5.case_closes"],
+        },
+      },
+    },
+    /* ─── advocate.blood_weave · e5 (closing Walk-in-Power broadcast) ─── */
+    "advocate-closing-walk-in-power-broadcast": {
+      look: {
+        narration:
+          "In the case-closure playback alcove, the closing broadcast captured at the case's closure interval — the 'Walk in Power' duet's final cadence, captured live from a current Empire-of-Shadows transmission tower. The Advocate's voice carries the verse; the Human's voice carries the chorus; the cadence holds across the chronicle's measured timing. The Antiquarian's library catalogues the recording as canonical closure for this arc.",
+        mysteryBinding: {
+          mysteryId: "advocate.blood_weave",
+          episodeId: "advocate.blood_weave.e5",
+          cluesFound: ["adv.e5.closing_walk_in_power_broadcast"],
+        },
+      },
+    },
+    "wolf-hall-threshold": {
+      look: {
+        narration:
+          "On the threshold-record shelf, the Hall of Disappearances diagram: a circular chamber with twelve niches, each holding an empty pedestal. Heroes who complete their preparation in Anara come here to leave behind their League regalia and step into the multiverse beyond. Currently, twelve heroes have done so. The pedestals carry their cloaks. The chamber is, on the surface, ceremonial. On the surface only.",
+        mysteryBinding: {
+          mysteryId: "wolf.anara_hunt",
+          episodeId: "wolf.anara_hunt.e5",
+          cluesFound: ["wolf.e5.hall_threshold"],
+        },
+      },
+    },
+    "storm-eternal-active-status": {
+      look: {
+        narration:
+          "On the dossier-status board, the Storm's status reads Active. The Antiquarian's case closure does not change the status. Of the canonical 12 Ne-Yons, the Degen is recorded as the only one still awake (per the Degen's own bible); the Storm is recorded as Active in the dossier — a productive ambiguity the case does not resolve. The chronicle's verdict: he is doing his work, by whatever name his work is currently being done.",
+        mysteryBinding: {
+          mysteryId: "storm.architect_of_flux",
+          episodeId: "storm.architect_of_flux.e5",
+          cluesFound: ["storm.e5.eternal_active_status"],
+        },
+      },
+    },
+    "chained-auro-at-rite": {
+      look: {
+        narration:
+          "In the case-rite annex, the Antiquarian's hand-written note on Sergeant Auro's attendance at the closing rite. Auro attends. She is in uniform. She does not speak. She nods once when Tarn's name is read into the record. She does not nod when the Dean apologises.",
+        mysteryBinding: {
+          mysteryId: "mechronis.chained_lesson",
+          episodeId: "mechronis.chained_lesson.e5",
+          cluesFound: ["chained.e5.auro_at_rite"],
+        },
       },
     },
     /* ─── wolf.anara_hunt · e1 (the empty chair) ─── */

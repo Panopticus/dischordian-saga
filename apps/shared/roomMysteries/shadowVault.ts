@@ -36,6 +36,31 @@ export type ShadowVaultHotspotId =
   | "resur-necromancer-at-killsite"
   | "resur-silence-body-claim"
   | "advocate-sealed-sacrum"
+  | "storm-silence-information-logs"
+  | "storm-silence-co-signature"
+  | "wolf-trust-signatures"
+  | "resur-plague-mask-at-killsite"
+  | "watchers-verel-archive-role"
+  | "watchers-kallium-role"
+  | "watchers-mereth-role"
+  | "watchers-ophran-role"
+  | "watchers-sothe-role"
+  | "watchers-missing-archive-entry"
+  | "watchers-sealed-question-in-vault"
+  | "memorial-imprint-room"
+  | "memorial-imprint-i3"
+  | "memorial-imprint-i44"
+  | "memorial-three-children"
+  | "memorial-elder-refusal-reason"
+  | "memorial-dish-listening"
+  | "memorial-imprint-i1-dish"
+  | "memorial-next-year-hook"
+  | "severance-year-one-envelope"
+  | "charter-absent-artifact"
+  | "charter-draft-inventory"
+  | "charter-opening-question"
+  | "charter-preservation-letter"
+  | "charter-next-year-hook"
   | "sealed-cell-glass" | "manuscript-pile" | "warden-terminal" | "release-or-seal-lever" | "the-unopened-threshold" | "the-makers-heartbeat-trace" | "the-necromancers-altar";
 
 export type ShadowVaultInventoryId = "manuscript-folio";
@@ -188,6 +213,288 @@ export const SHADOW_VAULT_MYSTERY: RoomMysteryModule<
       use: {
         narration:
           "You request comparable Ne-Yon body-claim records. The vault returns four others — for the Sage, the Champion, the Hawk, the Architect's first failed proxy. None of the four carries an archaic seal. The 'tradition' the cult's annotation cites has no other examples in the chronicle.",
+      },
+    },
+    /* ─── charter.missing_signatory · color clues ─── */
+    "charter-absent-artifact": {
+      look: {
+        narration:
+          "In the shadow-vault's empty-drawer alcove, Per. M.'s desk drawer is sealed. The lock is the same alloy as the wax. We have no key. The Advocate writes that there is no key — the drawer was sealed from the inside.",
+        mysteryBinding: {
+          mysteryId: "charter.missing_signatory",
+          episodeId: "charter.missing_signatory.e3",
+          cluesFound: ["charter.e3.absent_artifact"],
+        },
+      },
+    },
+    "charter-draft-inventory": {
+      look: {
+        narration:
+          "In the unsealed-drawer drawer (after the opening question), forty-one drafts of the founding charter, every one carrying seven signatures, the seventh sealed by wax in every draft — even the earliest. Per. M.'s name is not among the seven. Per. M.'s habit is older than the charter.",
+        mysteryBinding: {
+          mysteryId: "charter.missing_signatory",
+          episodeId: "charter.missing_signatory.e4",
+          cluesFound: ["charter.e4.draft_inventory"],
+        },
+      },
+    },
+    "charter-opening-question": {
+      look: {
+        narration:
+          "On the inside of Per. M.'s sealed drawer, the opening question — the drawer responds to a hand-written question in Per. M.'s own hand: 'WHO DOES NOT WISH TO BE NAMED?' Beneath, the writer has added in pencil: 'I do not.'",
+        mysteryBinding: {
+          mysteryId: "charter.missing_signatory",
+          episodeId: "charter.missing_signatory.e4",
+          cluesFound: ["charter.e4.opening_question"],
+        },
+      },
+    },
+    "charter-preservation-letter": {
+      look: {
+        narration:
+          "Among the drafts, a letter addressed to Per. M., signed by one of the founding Watchers — the addressing is by the same name in the wax-thumb. 'You will not be named. You will not be forgotten. You will be the one who closes the seal.'",
+        mysteryBinding: {
+          mysteryId: "charter.missing_signatory",
+          episodeId: "charter.missing_signatory.e4",
+          cluesFound: ["charter.e4.preservation_letter"],
+        },
+      },
+    },
+    "charter-next-year-hook": {
+      look: {
+        narration:
+          "On the long-arrangement shelf, Per. M.'s last sentence is left in the recording: 'whoever names me next year will be naming a Watcher who has been the silence longer than any of us has been alive. Be ready for what they say back.'",
+        mysteryBinding: {
+          mysteryId: "charter.missing_signatory",
+          episodeId: "charter.missing_signatory.e5",
+          cluesFound: ["charter.e5.next_year_hook"],
+        },
+      },
+    },
+    /* ─── severance.bound_champion · e2 (Year One envelope, thick) ─── */
+    "severance-year-one-envelope": {
+      look: {
+        narration:
+          "In the founding-records drawer, the first Severance's envelope is thicker than the rest. Two pages. Page two contains a hand-drawn diagram: the two witnesses, Vex's predecessor, and a fourth figure marked only by a circle and the word 'first.'",
+        mysteryBinding: {
+          mysteryId: "severance.bound_champion",
+          episodeId: "severance.bound_champion.e2",
+          cluesFound: ["severance.e2.season_one_envelope"],
+        },
+      },
+    },
+    /* ─── memorial.forgotten_names · color clues (imprint room + dish reads) ─── */
+    "memorial-imprint-room": {
+      look: {
+        narration:
+          "In the shadow-vault's imprint-room alcove, fourteen obsidian dishes on a low shelf. Each dish is small enough to hold in a palm. The room is cold — by design — to keep the dishes from clouding.",
+        mysteryBinding: {
+          mysteryId: "memorial.forgotten_names",
+          episodeId: "memorial.forgotten_names.e2",
+          cluesFound: ["memorial.e2.imprint_room"],
+        },
+      },
+    },
+    "memorial-imprint-i3": {
+      look: {
+        narration:
+          "Dish I-3 on the cold-shelf, lifted to the listening cradle. A child's voice. The imprint says: 'tell my mother I am here.' No name. The mother is one of the fourteen.",
+        mysteryBinding: {
+          mysteryId: "memorial.forgotten_names",
+          episodeId: "memorial.forgotten_names.e2",
+          cluesFound: ["memorial.e2.imprint_i3"],
+        },
+      },
+    },
+    "memorial-imprint-i44": {
+      look: {
+        narration:
+          "Dish I-44 on the cold-shelf. A young adult, breathless. The imprint says only: 'I forgot it. I forgot my own name. Tell whoever finds me to write it for me.'",
+        mysteryBinding: {
+          mysteryId: "memorial.forgotten_names",
+          episodeId: "memorial.forgotten_names.e2",
+          cluesFound: ["memorial.e2.imprint_i44"],
+        },
+      },
+    },
+    "memorial-three-children": {
+      look: {
+        narration:
+          "On the children-without-witnesses shelf: I-17 (Aren, self-named, already inscribed). The three children: I-44, I-244, and one whose id has been lost in the keeper's log — a fragment that reads 'I-1' but the page is torn.",
+        mysteryBinding: {
+          mysteryId: "memorial.forgotten_names",
+          episodeId: "memorial.forgotten_names.e3",
+          cluesFound: ["memorial.e3.three_children"],
+        },
+      },
+    },
+    "memorial-elder-refusal-reason": {
+      look: {
+        narration:
+          "Pinned to the keeper's log, an elder's recorded reason: I-155 left a side-note in the keeper's log: 'I am not refusing my name; I am refusing to be named in a hurry. The plaza will arrive. The plaza will know me.' We have arrived. The plaza is here.",
+        mysteryBinding: {
+          mysteryId: "memorial.forgotten_names",
+          episodeId: "memorial.forgotten_names.e3",
+          cluesFound: ["memorial.e3.elder_refusal_reason"],
+        },
+      },
+    },
+    "memorial-dish-listening": {
+      look: {
+        narration:
+          "In the alcove inner-chamber, the keeper opens the alcove. The dish is read for the first time in three years. The voice is a child's, somewhere between three and five. The voice says: 'I am here. I will be here. Tell whoever finds me my name when you find it.' The voice does not say the name.",
+        mysteryBinding: {
+          mysteryId: "memorial.forgotten_names",
+          episodeId: "memorial.forgotten_names.e4",
+          cluesFound: ["memorial.e4.dish_listening"],
+        },
+      },
+    },
+    "memorial-imprint-i1-dish": {
+      look: {
+        narration:
+          "In the sealed-alcove drawer, Imprint I-1's dish. Smaller than the others. Older. The dish is held in a separate alcove with its own lock. The keeper has held the key for three years and has never opened the alcove.",
+        mysteryBinding: {
+          mysteryId: "memorial.forgotten_names",
+          episodeId: "memorial.forgotten_names.e4",
+          cluesFound: ["memorial.e4.imprint_i1_dish"],
+        },
+      },
+    },
+    "memorial-next-year-hook": {
+      look: {
+        narration:
+          "On the next-year hook shelf, the Antiquarian's closing note: 'the seventh Watcher is silent because the seventh Watcher has not yet been asked. next Memorial Day, six of the seven will speak. we will need to be ready for what they say.'",
+        mysteryBinding: {
+          mysteryId: "memorial.forgotten_names",
+          episodeId: "memorial.forgotten_names.e5",
+          cluesFound: ["memorial.e5.next_year_hook"],
+        },
+      },
+    },
+    /* ─── memorial.seven_watchers · color clues (role-registry entries) ─── */
+    "watchers-verel-archive-role": {
+      look: {
+        narration:
+          "Inside the role-registry drawer, Verel's archived entry: 'Verel of the carrying-band — speaks to caretakers when the caretaking has carried someone forward.' Verel has now spoken to the player audience that inscribed I-1 last Memorial Day, among other moments.",
+        mysteryBinding: {
+          mysteryId: "memorial.seven_watchers",
+          episodeId: "memorial.seven_watchers.e2",
+          cluesFound: ["watchers.e2.verel_archive_role"],
+        },
+      },
+    },
+    "watchers-kallium-role": {
+      look: {
+        narration:
+          "Beside Verel's entry, Kallium's: 'Kallium of the reflective band — speaks to combatants when the combat has cost the combatant something they did not have to spend.' Tower-defense holders, PvP players, and combat-mission survivors received Kallium's line.",
+        mysteryBinding: {
+          mysteryId: "memorial.seven_watchers",
+          episodeId: "memorial.seven_watchers.e3",
+          cluesFound: ["watchers.e3.kallium_role"],
+        },
+      },
+    },
+    "watchers-mereth-role": {
+      look: {
+        narration:
+          "Beside Kallium's, Mereth's: 'Mereth of the resonant band — speaks to musicians when the musician has heard a thing the musician was not given to hear.' Lyra Vox received the Mereth-line. So did three other album artists, all on transmission tracks T01–T17.",
+        mysteryBinding: {
+          mysteryId: "memorial.seven_watchers",
+          episodeId: "memorial.seven_watchers.e3",
+          cluesFound: ["watchers.e3.mereth_role"],
+        },
+      },
+    },
+    "watchers-ophran-role": {
+      look: {
+        narration:
+          "Beside Mereth's, Ophran's: 'Ophran of the long-spectrum band — speaks to traders when a trade has carried more than its weight.' Trade Empire route-makers, mission-completers, and treaty-brokers have received the Ophran-line.",
+        mysteryBinding: {
+          mysteryId: "memorial.seven_watchers",
+          episodeId: "memorial.seven_watchers.e3",
+          cluesFound: ["watchers.e3.ophran_role"],
+        },
+      },
+    },
+    "watchers-sothe-role": {
+      look: {
+        narration:
+          "Beside Ophran's, Sothe's: 'Sothe of the high bright band — speaks to children when the child has named a thing the elders had not named.' Aren of the lower decks (the eight-year-old who self-named for the Memorial Plaza) received the Sothe-line.",
+        mysteryBinding: {
+          mysteryId: "memorial.seven_watchers",
+          episodeId: "memorial.seven_watchers.e3",
+          cluesFound: ["watchers.e3.sothe_role"],
+        },
+      },
+    },
+    "watchers-missing-archive-entry": {
+      look: {
+        narration:
+          "At the bottom of the role-registry drawer, the seventh slot — six entries on the role registry, six. The seventh slot has a number — VII — and a single line. No name. No band. No audience. The slot has been blank for eight epochs.",
+        mysteryBinding: {
+          mysteryId: "memorial.seven_watchers",
+          episodeId: "memorial.seven_watchers.e4",
+          cluesFound: ["watchers.e4.missing_archive_entry"],
+        },
+      },
+    },
+    "watchers-sealed-question-in-vault": {
+      look: {
+        narration:
+          "On the Memorial Plaza vault shelf, an envelope, signed and sealed, placed in the vault. To be opened next Memorial Day, when the seventh may speak. Multiple players' questions are sealed alongside; the vault is sized for many.",
+        mysteryBinding: {
+          mysteryId: "memorial.seven_watchers",
+          episodeId: "memorial.seven_watchers.e5",
+          cluesFound: ["watchers.e5.sealed_question_in_vault"],
+        },
+      },
+    },
+    /* ─── resurrectionist.cycle_walker · e3 (plague mask at the kill-site) ─── */
+    "resur-plague-mask-at-killsite": {
+      look: {
+        narration:
+          "Inside the shadow-vault's recovered-artifacts drawer, among the items pulled from the Plague Dragon kill-site: a long-beaked plague mask, perfectly preserved, with no occupant. The cult-curated catalog entry annotates it as 'ceremonial offering — a votive left by an honouring party.' The mask matches, in every contour, the seal on every Resurrectionist case-file in the Antiquarian's library. The cult's catalog does not connect the two.",
+        mysteryBinding: {
+          mysteryId: "resurrectionist.cycle_walker",
+          episodeId: "resurrectionist.cycle_walker.e3",
+          cluesFound: ["resur.e3.plague_mask_at_killsite"],
+        },
+      },
+    },
+    /* ─── wolf.anara_hunt · e2 (trust-signature security logs) ─── */
+    "wolf-trust-signatures": {
+      look: {
+        narration:
+          "In the shadow-vault's League security-log drawer, the trust-signature records: League security logs do not record forced entries on any of the four chambers. Each hero, in their final logged moment, was either with a trusted League member or walking towards one. The predator's mask is good enough that none of them turned.",
+        mysteryBinding: {
+          mysteryId: "wolf.anara_hunt",
+          episodeId: "wolf.anara_hunt.e2",
+          cluesFound: ["wolf.e2.trust_signatures"],
+        },
+      },
+    },
+    /* ─── storm.architect_of_flux · color clues ─── */
+    "storm-silence-information-logs": {
+      look: {
+        narration:
+          "In the shadow-vault's information-control tier, the Silence's recovered logs. The Silence's dossier describes her work as guarding secrets with relentless precision — the canonical Ne-Yon of information-control. The logs show the precision in operational terms: every classification decision is permanent, every retraction is denied, every leak is sealed. Silence is, in the chronicle's terms, the locked archive.",
+        mysteryBinding: {
+          mysteryId: "storm.architect_of_flux",
+          episodeId: "storm.architect_of_flux.e2",
+          cluesFound: ["storm.e2.silence_information_logs"],
+        },
+      },
+    },
+    "storm-silence-co-signature": {
+      look: {
+        narration:
+          "On the case-closure shelf, the closing documents for the Storm case bear, in the lower margin, a second co-signature: a perfect flat-line characteristic of the Silence's information-control hand. The Silence does not normally co-sign cases. Her co-signature here marks the case as one whose contents she has reviewed and elected to leave classified along the lines the case itself authored. The chronicle inscribes both Ne-Yon signatures on the closure record.",
+        mysteryBinding: {
+          mysteryId: "storm.architect_of_flux",
+          episodeId: "storm.architect_of_flux.e5",
+          cluesFound: ["storm.e5.silence_co_signature"],
+        },
       },
     },
     /* ─── advocate.blood_weave · e3 (the Sacrum reliquary) ─── */

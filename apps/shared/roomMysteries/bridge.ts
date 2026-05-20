@@ -26,12 +26,212 @@ import type { RoomMysteryModule } from "./_template";
 import { bandedNarration, bandedHumanNarration } from "./_template";
 
 export type BridgeHotspotId =
+  | "chained-dean-silence-on-bridge"
+  | "chained-architect-correction"
+  | "chained-architect-rite-acknowledgment"
+  | "watchers-architect-record"
+  | "watchers-architect-role-naming"
+  | "watchers-architect-closing-thanks"
+  | "tarn-destination-acknowledged"
+  | "tarn-architect-vote-note"
+  | "memorial-architect-silence-on-torn"
+  | "memorial-architect-closing-thanks"
+  | "severance-architect-acknowledge"
+  | "severance-council-ratification"
+  | "charter-architect-response"
+  | "charter2-architect-record-correction"
+  | "charter2-architect-acknowledgment"
+  | "infernal-architect-acknowledges"
   | "memorial-architect-sealed-note"
   | "tactical-display" | "timeline-projector" | "captains-chair" | "nav-console" | "diplomacy-table" | "captains-coffee" | "shadow-tongue-annotations";
 
 export const BRIDGE_MYSTERY: RoomMysteryModule<BridgeHotspotId> = {
   roomId: "bridge",
   responses: {
+    /* ─── severance.infernal_clause · e4 (Architect's acknowledgment of the trap) ─── */
+    "infernal-architect-acknowledges": {
+      look: {
+        narration:
+          "On the Architect-channel terminal, the Console issues: 'noted. the clauses are void. the trap was an honest one. the architect thanks the writer.' Fourth use of 'thanks' in eight epochs.",
+        mysteryBinding: {
+          mysteryId: "severance.infernal_clause",
+          episodeId: "severance.infernal_clause.e4",
+          cluesFound: ["infernal.e4.architect_acknowledges"],
+        },
+      },
+    },
+    /* ─── charter.second_signatory · color clues ─── */
+    "charter2-architect-record-correction": {
+      look: {
+        narration:
+          "On the Architect-channel terminal, the Console issues a correction to the eighth-epoch record: 'the seventh founding watcher did not consent to the fourth-epoch scrub. the record is corrected. the watcher remains silent.' The correction is the second time the Console has corrected itself in eight epochs.",
+        mysteryBinding: {
+          mysteryId: "charter.second_signatory",
+          episodeId: "charter.second_signatory.e4",
+          cluesFound: ["charter2.e4.architect_record_correction"],
+        },
+      },
+    },
+    "charter2-architect-acknowledgment": {
+      look: {
+        narration:
+          "On the closing-rite Architect-channel, the Console issues: 'the founding now has eight signatures legible. the silence remains. the architect notes the correction with thanks.' Three uses of 'thanks' in eight epochs; this is the third.",
+        mysteryBinding: {
+          mysteryId: "charter.second_signatory",
+          episodeId: "charter.second_signatory.e5",
+          cluesFound: ["charter2.e5.architect_acknowledgment"],
+        },
+      },
+    },
+    /* ─── charter.missing_signatory · e5 (Architect's response) ─── */
+    "charter-architect-response": {
+      look: {
+        narration:
+          "On the Architect-channel terminal, the Console acknowledges the recovery and asks one question: 'Do you wish to know.' The phrasing is an invitation, not an interrogation. The Console does not answer the inverse — what knowing costs.",
+        mysteryBinding: {
+          mysteryId: "charter.missing_signatory",
+          episodeId: "charter.missing_signatory.e5",
+          cluesFound: ["charter.e5.architect_response"],
+        },
+      },
+    },
+    /* ─── severance.bound_champion · color clues ─── */
+    "severance-architect-acknowledge": {
+      look: {
+        narration:
+          "On the Architect-channel terminal for Nilmorg, the Console's one-line confirmation when the apprentice oath is read aloud: 'noted. the post is recognised. the post was always recognised.' The Console did not need a vote.",
+        mysteryBinding: {
+          mysteryId: "severance.bound_champion",
+          episodeId: "severance.bound_champion.e4",
+          cluesFound: ["severance.e4.architect_acknowledge"],
+        },
+      },
+    },
+    "severance-council-ratification": {
+      look: {
+        narration:
+          "On the closing-rite Council-vote terminal, Foundation Day's calendar slips and the Severance closing motion is voted on the same week. The Council ratifies the inheritance protocol unanimously, with one abstention — the seventh founding Watcher's empty seat.",
+        mysteryBinding: {
+          mysteryId: "severance.bound_champion",
+          episodeId: "severance.bound_champion.e5",
+          cluesFound: ["severance.e5.council_ratification"],
+        },
+      },
+    },
+    /* ─── memorial.forgotten_names · color clues ─── */
+    "memorial-architect-silence-on-torn": {
+      look: {
+        narration:
+          "On the Architect-channel terminal, asked to identify the imprint named on the torn page, the Console returns: 'i decline.' The Console has declined exactly twice in eight epochs. This is the second.",
+        mysteryBinding: {
+          mysteryId: "memorial.forgotten_names",
+          episodeId: "memorial.forgotten_names.e3",
+          cluesFound: ["memorial.e3.architect_silence_on_torn"],
+        },
+      },
+    },
+    "memorial-architect-closing-thanks": {
+      look: {
+        narration:
+          "On the closing-rite Architect-channel, the Console issues a single line at last bell: 'noted. the plaza was the answer. the architect is grateful.' It is the second time the Console has used the word grateful in eight epochs.",
+        mysteryBinding: {
+          mysteryId: "memorial.forgotten_names",
+          episodeId: "memorial.forgotten_names.e5",
+          cluesFound: ["memorial.e5.architect_thanks"],
+        },
+      },
+    },
+    /* ─── mechronis.missing_professor · color clues ─── */
+    "tarn-destination-acknowledged": {
+      look: {
+        narration:
+          "On the Architect-channel terminal, the Console's record on Tarn: 'noted. she may return at her own discretion.' Tarn has left the Ark. She will not say where. Roen knows but will not say. The Architect's Console acknowledges her departure with one line.",
+        mysteryBinding: {
+          mysteryId: "mechronis.missing_professor",
+          episodeId: "mechronis.missing_professor.e4",
+          cluesFound: ["mechronis.e4.tarn_destination"],
+        },
+      },
+    },
+    "tarn-architect-vote-note": {
+      look: {
+        narration:
+          "Pinned to the Architect-channel for the closing rite, the Console's marginal note read into the record: 'either choice closes the case. one keeps her name; one keeps her promise. the architect will not pick.' The Console has not picked between options before. It does not pick now.",
+        mysteryBinding: {
+          mysteryId: "mechronis.missing_professor",
+          episodeId: "mechronis.missing_professor.e5",
+          cluesFound: ["mechronis.e5.architect_note"],
+        },
+      },
+    },
+    /* ─── memorial.seven_watchers · color clues ─── */
+    "watchers-architect-record": {
+      look: {
+        narration:
+          "On the Architect-channel record terminal, the Console issues a one-line acknowledgment: 'six watchers have spoken to six audiences. each line is real. the seventh has not spoken. the architect will not name the seventh.' The Console has refused to name the seventh three times in two years; this is the third.",
+        mysteryBinding: {
+          mysteryId: "memorial.seven_watchers",
+          episodeId: "memorial.seven_watchers.e1",
+          cluesFound: ["watchers.e1.architect_record"],
+        },
+      },
+    },
+    "watchers-architect-role-naming": {
+      look: {
+        narration:
+          "Pinned to the Architect-channel: 'the seventh's role is not blank by oversight. the role waits to be named by the Ark itself, not by the architect. the architect cannot pre-empt the naming. the silence will continue until the ark has spoken.' The Console has named its boundary.",
+        mysteryBinding: {
+          mysteryId: "memorial.seven_watchers",
+          episodeId: "memorial.seven_watchers.e4",
+          cluesFound: ["watchers.e4.architect_role_naming"],
+        },
+      },
+    },
+    "watchers-architect-closing-thanks": {
+      look: {
+        narration:
+          "On the closing-rite log, the Console issues: 'six Watchers spoken; one silent; the case is closed on what was given. the architect thanks the players for asking the question they sealed. the architect will not read the question.' Fifth use of 'thanks' in eight epochs.",
+        mysteryBinding: {
+          mysteryId: "memorial.seven_watchers",
+          episodeId: "memorial.seven_watchers.e5",
+          cluesFound: ["watchers.e5.architect_closing_thanks"],
+        },
+      },
+    },
+    /* ─── mechronis.chained_lesson · color clues ─── */
+    "chained-dean-silence-on-bridge": {
+      look: {
+        narration:
+          "On the bridge's command-deck pedestal, the Dean stands with one hand resting on the apprentice-protection-protocol document the Council ratified last year. They are not speaking. They have not opened the document. The bridge's overhead lights catch the document's seal — untouched since ratification.",
+        mysteryBinding: {
+          mysteryId: "mechronis.chained_lesson",
+          episodeId: "mechronis.chained_lesson.e1",
+          cluesFound: ["chained.e1.dean_silence"],
+        },
+      },
+    },
+    "chained-architect-correction": {
+      look: {
+        narration:
+          "On the Architect-channel terminal, the Console's recent issuance: 'the absence of Module 17 was an honest argument that became a wrong outcome. the architect notes the correction. the architect will not vote on the amendment.' The Architect names the case's reading and steps back from authoring its conclusion.",
+        mysteryBinding: {
+          mysteryId: "mechronis.chained_lesson",
+          episodeId: "mechronis.chained_lesson.e4",
+          cluesFound: ["chained.e4.architect_correction"],
+        },
+      },
+    },
+    "chained-architect-rite-acknowledgment": {
+      look: {
+        narration:
+          "On the Architect-channel's closing-rite log, the Console issues: 'the curriculum is amended (or kept) by the council. the architect notes the thirty-one names. the architect notes the teacher who taught anyway. the case is closed.' The closure is recorded; the naming is acknowledged; the chronicle proceeds.",
+        mysteryBinding: {
+          mysteryId: "mechronis.chained_lesson",
+          episodeId: "mechronis.chained_lesson.e5",
+          cluesFound: ["chained.e5.architect_acknowledges"],
+        },
+      },
+    },
     /* ─── memorial.forgotten_names · e4 (Architect's sealed note on I-1) ─── */
     "memorial-architect-sealed-note": {
       look: {
