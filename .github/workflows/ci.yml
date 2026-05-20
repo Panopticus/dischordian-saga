@@ -199,7 +199,14 @@ jobs:
   # dev cleavage adds them.
   e2e:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    # 25 min: with the server boot fixed (9d4be66 env stubs) the suite
+    # now legitimately runs to completion — pre-Playwright steps
+    # (install/browsers/build/start) ~3 min + Playwright at its 12-min
+    # globalTimeout cap ~12 min ≈ 15 min, exactly at the prior budget.
+    # One of two concurrent runs was cancelled at the 15-min cap; the
+    # other barely finished in 14m50s. 25 gives reliable headroom for
+    # the capped suite plus failure-report upload before GHA cancels.
+    timeout-minutes: 25
     # Runs on every push/PR by default. Skips in forks/dependabot
     # where secrets aren't injected — the global-setup falls back to
     # the embedded dev JWT secret in that case so auth-gated specs
