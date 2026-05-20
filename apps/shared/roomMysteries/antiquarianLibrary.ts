@@ -36,6 +36,7 @@ export type AntiquarianLibraryHotspotId =
   | "wolf-current-position"
   | "wolf-antiquarians-concession"
   | "wolf-hall-threshold"
+  | "advocate-closing-walk-in-power-broadcast"
   | "wolf-empty-chair"
   | "wolf-three-empty-chairs"
   | "akai-resurrectionist-seal"
@@ -382,6 +383,18 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           mysteryId: "wolf.anara_hunt",
           episodeId: "wolf.anara_hunt.e5",
           cluesFound: ["wolf.e5.antiquarians_concession"],
+        },
+      },
+    },
+    /* ─── advocate.blood_weave · e5 (closing Walk-in-Power broadcast) ─── */
+    "advocate-closing-walk-in-power-broadcast": {
+      look: {
+        narration:
+          "In the case-closure playback alcove, the closing broadcast captured at the case's closure interval — the 'Walk in Power' duet's final cadence, captured live from a current Empire-of-Shadows transmission tower. The Advocate's voice carries the verse; the Human's voice carries the chorus; the cadence holds across the chronicle's measured timing. The Antiquarian's library catalogues the recording as canonical closure for this arc.",
+        mysteryBinding: {
+          mysteryId: "advocate.blood_weave",
+          episodeId: "advocate.blood_weave.e5",
+          cluesFound: ["adv.e5.closing_walk_in_power_broadcast"],
         },
       },
     },

@@ -11,11 +11,24 @@ import type { RoomMysteryModule } from "./_template";
 export type EngineeringCoreHotspotId =
   | "storm-flux-signature"
   | "storm-energy-balance-audit"
+  | "advocate-zyrkoth-protocol-lineage"
   | "reactor-coil" | "coolant-pipe" | "core-terminal";
 
 export const ENGINEERING_CORE_MYSTERY: RoomMysteryModule<EngineeringCoreHotspotId> = {
   roomId: "engineering-core",
   responses: {
+    /* ─── advocate.blood_weave · e2 (Zyr'Koth's Severance Protocol lineage note) ─── */
+    "advocate-zyrkoth-protocol-lineage": {
+      look: {
+        narration:
+          "On the engineering-core's substrate-research bench, a lineage note in Zyr'Koth's research index: 'The Severance Protocol is the Blood Weave's offensive inversion. Where the Advocate wove substrate into defensive chains, the Severance Protocol weaves substrate into offensive separations. The Weave is technically older. The Protocol is technically more refined. Both share the substrate-consumption signature.' The note is precise; it does not name the substrate's specific composition.",
+        mysteryBinding: {
+          mysteryId: "advocate.blood_weave",
+          episodeId: "advocate.blood_weave.e2",
+          cluesFound: ["adv.e2.zyrkoth_severance_protocol_lineage"],
+        },
+      },
+    },
     /* ─── storm.architect_of_flux · e1 (flux signature) ─── */
     "storm-flux-signature": {
       look: {

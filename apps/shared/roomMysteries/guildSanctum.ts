@@ -17,11 +17,24 @@ export type GuildSanctumHotspotId =
   | "the-binding-chains-cost"
   | "storm-degens-house-advantage-anomaly"
   | "wolf-minigame-entry-state"
-  | "wolf-present-in-hall";
+  | "wolf-present-in-hall"
+  | "advocate-xethraal-debt-ledger";
 
 export const GUILD_SANCTUM_MYSTERY: RoomMysteryModule<GuildSanctumHotspotId> = {
   roomId: "guild-sanctum",
   responses: {
+    /* ─── advocate.blood_weave · e4 (Xeth'Raal's debt ledger — Advocate entry) ─── */
+    "advocate-xethraal-debt-ledger": {
+      look: {
+        narration:
+          "On the guild-sanctum's debt-archive console, Xeth'Raal — Hierarchy CFO, Chief Financial Officer of Souls — kept a debt ledger that survives in partial. The Advocate's entry: 'sacrifice... recorded as a debt that could never be fully repaid.' The ledger records the Advocate's spent-substrate as a debt against the Hierarchy's books — a debt the Hierarchy treats as permanent because the Advocate has no recoverable substrate to repay it with. The debt is Xeth'Raal's most-elegant Advocate-class instrument.",
+        mysteryBinding: {
+          mysteryId: "advocate.blood_weave",
+          episodeId: "advocate.blood_weave.e4",
+          cluesFound: ["adv.e4.xethraal_debt_ledger"],
+        },
+      },
+    },
     /* ─── wolf.anara_hunt · e5 (Hunt-the-Hero minigame entry state) ─── */
     "wolf-minigame-entry-state": {
       look: {

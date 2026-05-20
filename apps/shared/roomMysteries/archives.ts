@@ -23,6 +23,7 @@ export type ArchivesHotspotId =
   | "severance-forty-season-envelopes"
   | "storm-calm-intervals"
   | "storm-final-correlation-table"
+  | "advocate-shelter-records"
   | "chained-failure-log"
   | "chained-dean-annotation-record"
   | "chained-thirty-one-names-read"
@@ -131,6 +132,18 @@ export const ARCHIVES_MYSTERY: RoomMysteryModule<
       interrogate: {
         narration:
           "You ask the archive whether any envelope was ever opened by another reader. The drawer logs three attempts in forty seasons; each one returned the envelope unopened. The seals are unbroken; the names remain in the bond, not in the paperwork.",
+      },
+    },
+    /* ─── advocate.blood_weave · e1 (shelter records) ─── */
+    "advocate-shelter-records": {
+      look: {
+        narration:
+          "In the archives' Empire-of-Shadows tier, partial shelter-records from three Empire dimensions. Each record entry: a soul-name, a date of shelter granted, and a Blood-Weave binding signature affirming the shelter holds against Hierarchy acquisition. The aggregated totals run to the millions across the three dimensions. The Empire was not a faction in the political sense; it was an active defensive system at cosmic scale, maintaining shelter for every soul that requested it.",
+        mysteryBinding: {
+          mysteryId: "advocate.blood_weave",
+          episodeId: "advocate.blood_weave.e1",
+          cluesFound: ["adv.e1.shelter_records"],
+        },
       },
     },
     /* ─── storm.architect_of_flux · color clues ─── */

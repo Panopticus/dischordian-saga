@@ -31,6 +31,10 @@ export type CommsArrayHotspotId =
   | "chained-lyra-call-fourteen-minutes"
   | "storm-voice-fragment"
   | "storm-closing-transmission"
+  | "advocate-register-three-broadcast"
+  | "advocate-defection-response"
+  | "advocate-walk-in-power-lyric"
+  | "advocate-position-current-broadcast"
   | "akai-last-recorded-words"
   | "resur-host-wyrmhole-signature"
   | "radio-console" | "static-screen" | "egg-comms-signal" | "voice-in-the-static" | "ocularum-relay-trace" | "dead-drop-cadence-log" | "shadow-tongue-signal-trace" | "miras-dual-thread-transmission";
@@ -121,6 +125,51 @@ export const COMMS_ARRAY_MYSTERY: RoomMysteryModule<
       interrogate: {
         narration:
           "You ask the comms-array whether any of the three left and returned. The recorder shows no break in the audio's room-tone. None of the three left. The silence was held by all three for the full hour. Each faculty head later admitted, on the cipher-den's record, that they had been waiting for one of the others to be the first to refuse.",
+      },
+    },
+    /* ─── advocate.blood_weave · color clues ─── */
+    "advocate-register-three-broadcast": {
+      look: {
+        narration:
+          "On the comms-array's Empire-of-Shadows transmission shelf, a surviving Empire broadcast in the Advocate's voice, register three: 'I do not advocate for myself. I advocate for what the chronicle has not yet learned to ask for. If a soul comes under my charter, the chronicle has accepted the soul as its own. The Empire does not consult the chronicle; the Empire is the chronicle's most-permissive front.' The register is unmistakably liturgical.",
+        mysteryBinding: {
+          mysteryId: "advocate.blood_weave",
+          episodeId: "advocate.blood_weave.e1",
+          cluesFound: ["adv.e1.advocate_broadcast_register_three"],
+        },
+      },
+    },
+    "advocate-defection-response": {
+      look: {
+        narration:
+          "Pinned beside the Empire transmissions, the Advocate's response to the three-general defections, register-three: 'The three are not lost. They have chosen comfort, which is an option. The chronicle records their choice. The chronicle does not retract their Empire-of-Shadows shelter; the shelter is unconditional. They walk under my charter still. I do not advocate for their return. I advocate for what they were when they chose.' The position is unmovable.",
+        mysteryBinding: {
+          mysteryId: "advocate.blood_weave",
+          episodeId: "advocate.blood_weave.e3",
+          cluesFound: ["adv.e3.advocates_response_to_defections"],
+        },
+      },
+    },
+    "advocate-walk-in-power-lyric": {
+      look: {
+        narration:
+          "On the album-records shelf, the 'Walk in Power' lyric record from Silence in Heaven. Canonical duet: the Advocate and the Human declare their refusal to be diminished. The song is the Empire-of-Shadows era's most-broadcast resistance anthem. The lyric's structural position: the Advocate's loss is named; the loss is not a defeat; the walk continues; the chronicle records what walks, not what was lost. The Human duets because the canon's resistance position is shared, not isolated.",
+        mysteryBinding: {
+          mysteryId: "advocate.blood_weave",
+          episodeId: "advocate.blood_weave.e4",
+          cluesFound: ["adv.e4.walk_in_power_lyric_record"],
+        },
+      },
+    },
+    "advocate-position-current-broadcast": {
+      look: {
+        narration:
+          "On the most-recent-broadcasts shelf, the Advocate's current-position transmission, register-three: 'I have not stopped. I will not stop. The chronicle does not require my completeness. The chronicle requires my continuance. I continue. The Empire continues. The walk continues.' The chronicle's reading: she is operationally Active, status-canonically still under the 'though her humanity is lost' modifier.",
+        mysteryBinding: {
+          mysteryId: "advocate.blood_weave",
+          episodeId: "advocate.blood_weave.e5",
+          cluesFound: ["adv.e5.advocate_position_current"],
+        },
       },
     },
     /* ─── storm.architect_of_flux · color clues ─── */

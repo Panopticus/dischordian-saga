@@ -26,6 +26,7 @@ export type WarRoomHotspotId =
   | "storm-event-correlation-table"
   | "advocate-acquisition-attempt-log"
   | "advocate-riri-ahlia-account"
+  | "advocate-empire-status-current"
   | "holo-table" | "casualty-board" | "signal-flag-rack" | "ocularum-vigil-board" | "ocularum-cell-roster" | "hierarchy-org-chart-board" | "thalorian-defense-records" | "new-babylon-siege-record" | "hierarchy-piece-positioning-board" | "varkul-director-of-security-file" | "necromancer-castle-log-board" | "zyr-koth-rd-refinement-file" | "the-severance-hollowing-report" | "the-locked-lever-board" | "syl-vex-dual-roster-board" | "the-severance-cross-lock-file" | "the-taskmasters-siege-portfolio" | "riri-ahlia-reorg-doctrine-board" | "the-procedural-question-file" | "the-priced-defense-accounting" | "fenra-seventeen-front-manifest" | "the-wolf-in-the-boardroom-file" | "fenra-varkul-contrast-record";
 
 export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
@@ -186,6 +187,18 @@ export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
       interrogate: {
         narration:
           "You ask the table for the planning-signature of each correlated event. The console returns identical signatures across all seven — multi-cycle information consistency, no flux interference, no Ne-Yon-grade disturbance. Planning is permitted; planning happens; planning is followed by the most active flux period in the surrounding decade. The chronicle is consequential because the Storm allows it to be.",
+      },
+    },
+    /* ─── advocate.blood_weave · e5 (Empire of Shadows current status) ─── */
+    "advocate-empire-status-current": {
+      look: {
+        narration:
+          "On the war-room's Empire-status board, the Empire of Shadows' current status: the charter holds. The bindings on the Hierarchy's named demon lords (Mol'Garath, Xeth'Raal, Zyr'Koth, Ith'Rael, Riri'Ahlia, Syl'Vex, Drael'Mon, Varkul, Fenra, Mol'Vereth) are operationally intact — the chains forged in the seven-dimensions siege still bind. The Hierarchy operates within the Weave's constraints; the Empire's defensive system remains active. The Advocate has not retired the charter.",
+        mysteryBinding: {
+          mysteryId: "advocate.blood_weave",
+          episodeId: "advocate.blood_weave.e5",
+          cluesFound: ["adv.e5.empire_status_current"],
+        },
       },
     },
     /* ─── advocate.blood_weave · e1 (acquisition-attempt log) ─── */
