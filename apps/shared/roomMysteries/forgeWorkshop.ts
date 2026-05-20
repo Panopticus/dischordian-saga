@@ -8,31 +8,43 @@
 import type { RoomMysteryModule } from "./_template";
 
 export type ForgeWorkshopHotspotId =
-  | "dlc-mechronis-chained-lesson-forge-workshop"
-  | "dlc-advocate-blood-weave-forge-workshop"
+  | "chained-auro-tally"
+  | "advocate-weave-specification"
   | "anvil" | "schema-rack" | "kiln";
 
 export const FORGE_WORKSHOP_MYSTERY: RoomMysteryModule<ForgeWorkshopHotspotId> = {
   roomId: "forge-workshop",
   responses: {
-    "dlc-mechronis-chained-lesson-forge-workshop": {
+    /* ─── mechronis.chained_lesson · e3 (Auro's twelve-apprentice tally) ─── */
+    "chained-auro-tally": {
       look: {
-        narration: "Case material for mechronis.chained_lesson surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "At the back of Sergeant Auro's side-room — three chairs, a chalked Terminus diorama at one-to-forty — a small leather notebook hangs from a peg by a strip of jute. Inside, in Auro's hand, twelve names. Each name carries a tally beside it — the number of waves that apprentice has held since their drill cycle here. Tally total at the bottom: forty-three. Forty-three waves held without further loss, by twelve apprentices the Academy never paid Auro to teach. The notebook is dated nine years and reads as a record of work the Academy declined to recognise.",
         mysteryBinding: {
           mysteryId: "mechronis.chained_lesson",
           episodeId: "mechronis.chained_lesson.e3",
           cluesFound: ["chained.e3.twelve_apprentices"],
         },
       },
+      use: {
+        narration:
+          "You flip the notebook open at the spine fold. Half-erased pencil lines on the inside cover read 'I keep this so I know what to charge them if they ever ask.' The Academy has not asked. The Trade Empire has been paying Auro for a job adjacent to this one for nine years. The notebook has not been entered on either ledger.",
+      },
     },
-    "dlc-advocate-blood-weave-forge-workshop": {
+    /* ─── advocate.blood_weave · e2 (Blood Weave partial specification) ─── */
+    "advocate-weave-specification": {
       look: {
-        narration: "Case material for advocate.blood_weave surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "On the forge-workshop's bench, the partial specification of the Blood Weave — recovered from a Zyr'Koth research archive (the Hierarchy SVP R&D's Weave-derivative work). The specification's operational core: the Weave is a multi-layer binding fabric that ABSORBS cosmic-energy from its weaver to MATERIALIZE chains against hostile instruments. Energy in: weaver's own life-substrate. Energy out: chains that bind. The fabric does not regenerate — every binding consumes the weaver's substrate net. The forge's metallurgical readers cross-reference the spec against bindings recovered from the seven-dimensions siege: the substrate signatures match.",
         mysteryBinding: {
           mysteryId: "advocate.blood_weave",
           episodeId: "advocate.blood_weave.e2",
           cluesFound: ["adv.e2.weave_specification_partial"],
         },
+      },
+      use: {
+        narration:
+          "You ask the bench whether the Weave can be replicated by a different weaver. The reader returns the spec's footnote: 'the Weave is keyed to its weaver's substrate. another weaver would weave a different fabric.' The Advocate's Weave is uniquely hers; no successor can wear her chains forward.",
       },
     },
     anvil: {

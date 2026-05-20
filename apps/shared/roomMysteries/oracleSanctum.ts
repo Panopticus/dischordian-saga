@@ -9,64 +9,94 @@
 import type { RoomMysteryModule } from "./_template";
 
 export type OracleSanctumHotspotId =
-  | "dlc-mechronis-missing-professor-oracle-sanctum"
-  | "dlc-memorial-forgotten-names-oracle-sanctum"
-  | "dlc-charter-second-signatory-oracle-sanctum"
-  | "dlc-severance-infernal-clause-oracle-sanctum"
-  | "dlc-advocate-blood-weave-oracle-sanctum"
+  | "tarn-pebble-recording"
+  | "memorial-antiquarian-plaza-request"
+  | "charter2-kassel-testimony"
+  | "infernal-zyrkoth-concession"
+  | "advocate-ninth-conexus-story"
   | "oracle-pool" | "prophecy-tablet" | "incense-brazier" | "seers-recording-cabinet";
 
 export const ORACLE_SANCTUM_MYSTERY: RoomMysteryModule<OracleSanctumHotspotId> = {
   roomId: "oracle-sanctum",
   responses: {
-    "dlc-mechronis-missing-professor-oracle-sanctum": {
+    /* ─── mechronis.missing_professor · e4 (Tarn's recorded message) ─── */
+    "tarn-pebble-recording": {
       look: {
-        narration: "Case material for mechronis.missing_professor surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "In the sanctum's playback alcove, the recording Tarn had set to play at festival opening. The recorder failed to fire on the day; the sanctum's tech staff recovered the message intact two evenings later. The recording is short: 'I am not the curriculum. I am a person who wrote a curriculum. The curriculum is here. I am leaving with my pebble. Vote on the work, not on the worker.' The pebble — a grey lower-deck water-stone — was on Tarn's desk under the binder. The recording was Tarn's planned address; the failure to play it was the only part of the morning that did not go according to her plan.",
         mysteryBinding: {
           mysteryId: "mechronis.missing_professor",
           episodeId: "mechronis.missing_professor.e4",
           cluesFound: ["mechronis.e4.tarn_recorded_message"],
         },
       },
+      interrogate: {
+        narration:
+          "You ask the sanctum's calibration logs for the recorder's failure mode. The logs return a clean entry: power was cut to the recorder at six minutes before the scheduled play. The cut was deliberate and the logs name the cutter — the Dean. The Dean disabled the recording because the Dean already knew what it would say and did not want the room to hear it before the faculty would have to admit what they had done.",
+      },
     },
-    "dlc-memorial-forgotten-names-oracle-sanctum": {
+    /* ─── memorial.forgotten_names · e1 (Antiquarian's plaza request) ─── */
+    "memorial-antiquarian-plaza-request": {
       look: {
-        narration: "Case material for memorial.forgotten_names surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "In the sanctum's witness chamber, the recorded address the Antiquarian gave in the plaza at first bell on Memorial Day Year 1. The recording, in his voice: 'these fourteen imprints will remain unwritten unless someone takes responsibility for the writing. taking responsibility means reading the imprint, hearing the imprint, and writing the name as you have heard it. it is not a small thing to ask.' The sanctum's vu-meter captures the chronicler's hesitation only at the word 'responsibility' — the word he is least comfortable asking the plaza to carry. The plaza carries it anyway.",
         mysteryBinding: {
           mysteryId: "memorial.forgotten_names",
           episodeId: "memorial.forgotten_names.e1",
           cluesFound: ["memorial.e1.antiquarian_request"],
         },
       },
+      interrogate: {
+        narration:
+          "You ask the sanctum for the players' response in the same recording. The chamber returns three voices: 'we will write them'; 'we will listen first'; 'tell us how to listen.' Three players said all three things within the first minute. The plaza arrived ready to ask better questions than the Antiquarian expected to answer.",
+      },
     },
-    "dlc-charter-second-signatory-oracle-sanctum": {
+    /* ─── charter.second_signatory · e2 (Kassel Solven's testimony) ─── */
+    "charter2-kassel-testimony": {
       look: {
-        narration: "Case material for charter.second_signatory surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "In the oracle-sanctum's witness chamber, Kassel Solven's recorded testimony from the morning of the delegation's arrival. The sanctum's recorder caught the full statement. Kassel: 'My great-great-grandmother was the one who signed. Her name is on the mirror. Her workshop is the one you visited yesterday. We have been waiting for the door to be opened from the other side for four epochs.' The sanctum's calibration logs note that Kassel did not raise her voice across the eight-minute testimony; the recorder's vu-meter never crossed the conversational band. She was not performing patience. She had it.",
         mysteryBinding: {
           mysteryId: "charter.second_signatory",
           episodeId: "charter.second_signatory.e2",
           cluesFound: ["charter2.e2.descendant_account"],
         },
       },
+      interrogate: {
+        narration:
+          "You ask the sanctum what the four-epoch wait sounded like. The recorder returns the family ledger's read-aloud entries — quarterly outputs, customer lists, apprentice tallies — kept by four generations of Solvens in continuous handwriting from the founding to today. The waiting was a workshop, not a vigil. Kassel inherited the workshop and the silence with it.",
+      },
     },
-    "dlc-severance-infernal-clause-oracle-sanctum": {
+    /* ─── severance.infernal_clause · e4 (Zyr'Koth's concession) ─── */
+    "infernal-zyrkoth-concession": {
       look: {
-        narration: "Case material for severance.infernal_clause surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "In the oracle-sanctum's witness chamber, the recording of Zyr'Koth's response to the Advocate's brief — read into the Council record. Zyr'Koth's voice, the chamber's clean acoustic capture: 'we did not check the prize-history. we should have checked the prize-history. the clause is voidable.' Zyr'Koth pauses for a long minute before speaking, the sanctum's vu-meter shows no breath or shuffle in the silence. The Hierarchy concedes on the record, in person, in the Council chamber. The infernal claim collapses.",
         mysteryBinding: {
           mysteryId: "severance.infernal_clause",
           episodeId: "severance.infernal_clause.e4",
           cluesFound: ["infernal.e4.zyrkoth_response"],
         },
       },
+      interrogate: {
+        narration:
+          "You ask the sanctum for Zyr'Koth's full statement. The recording continues: 'we will withdraw the claim. we will return the contracts to the league's archive. we will not exercise the clause on any of the bonds. the audit was honest and the trap was honest. we accept both.' The Hierarchy has met an honest paperwork with honest paperwork.",
+      },
     },
-    "dlc-advocate-blood-weave-oracle-sanctum": {
+    /* ─── advocate.blood_weave · e4 (CoNexus story 'The Ninth') ─── */
+    "advocate-ninth-conexus-story": {
       look: {
-        narration: "Case material for advocate.blood_weave surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "In the oracle-sanctum's CoNexus playback alcove, the canonical Advocate-narrated story — 'The Ninth.' The frame: an Advocate-narrated meditation on the ninth position in cosmic-principle entity rosters; on the position's loneliness; on the substrate-cost of being the ninth. The story does not stage a plot. It stages a position. The story's hardest line, read by the Advocate herself: 'I am not lonely because I have lost what I traded. I am lonely because what remains has no second.' The story is canonically Advocate-authored.",
         mysteryBinding: {
           mysteryId: "advocate.blood_weave",
           episodeId: "advocate.blood_weave.e4",
           cluesFound: ["adv.e4.ninth_conexus_story"],
         },
+      },
+      interrogate: {
+        narration:
+          "You ask the sanctum for the story's narration cadence. The recording's vu-meter shows steady register-three liturgical pace across the full duration. No emotional peaks. No tonal shifts. The position has been the Advocate's working voice for so long it cannot be played, only inhabited.",
       },
     },
     "oracle-pool": {

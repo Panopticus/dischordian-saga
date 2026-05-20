@@ -9,119 +9,366 @@
 import type { RoomMysteryModule } from "./_template";
 
 export type AntiquarianLibraryHotspotId =
-  | "dlc-charter-missing-signatory-antiquarian-library"
-  | "dlc-mechronis-missing-professor-antiquarian-library"
-  | "dlc-charter-second-signatory-antiquarian-library"
-  | "dlc-severance-infernal-clause-antiquarian-library"
-  | "dlc-mechronis-chained-lesson-antiquarian-library"
-  | "dlc-memorial-seven-watchers-antiquarian-library"
-  | "dlc-wolf-anara-hunt-antiquarian-library"
-  | "dlc-akai-shi-red-death-antiquarian-library"
-  | "dlc-resurrectionist-cycle-walker-antiquarian-library"
-  | "dlc-advocate-blood-weave-antiquarian-library"
+  | "charter-silt-fragment"
+  | "charter-advocate-signature"
+  | "charter-mirror-charter"
+  | "charter-eighth-clause"
+  | "tarn-empty-lectern"
+  | "tarn-folded-robe"
+  | "tarn-marginalia-stack"
+  | "chained-apprentice-history"
+  | "chained-curriculum-diff"
+  | "chained-auro-folio"
+  | "tarn-year-eight-marginalia"
+  | "infernal-epoch-one-contract"
+  | "infernal-clause-back-page"
+  | "watchers-per-m-confirms"
+  | "wolf-empty-chair"
+  | "wolf-three-empty-chairs"
+  | "akai-resurrectionist-seal"
+  | "resur-plague-mask-seal"
+  | "resur-pre-empire-twin-text"
+  | "advocate-founding-charter"
+  | "advocate-humanity-trade-spec"
   | "card-catalog" | "locked-vault" | "antiquarian-bust" | "hierophants-marginalia-stack" | "codas-purpose-shelf" | "velkraals-correspondence-folio" | "insurgency-witness-roster" | "ocularum-founding-record" | "antiquarian-redaction-ledger" | "directors-doctrine-folio" | "shadow-tongue-casebook" | "thaloria-generational-ledger" | "siege-keep-witness-fragments" | "programmer-infiltration-dossier" | "insurance-policy-design-file" | "two-witnesses-closing-ledger" | "collector-catalog-page" | "collectors-redacted-anomaly" | "collector-case-closing-ledger" | "varkul-vigil-cross-catalog" | "varkul-testimony-boundary-file" | "akai-shi-witness-statements" | "necromancer-case-closing-ledger" | "zyr-koth-sisters-and-closing-ledger" | "syl-vex-sisters-of-the-weave" | "riri-ahlia-closing-ledger" | "fenra-door-and-engine" | "fenra-closing-ledger";
 
 export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHotspotId> = {
   roomId: "antiquarian-library",
   responses: {
-    "dlc-charter-missing-signatory-antiquarian-library": {
+    /* ─── charter.missing_signatory · e1 ─── */
+    "charter-silt-fragment": {
       look: {
-        narration: "Case material for charter.missing_signatory surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "On the central reading table, under archival glass cut to size, lies a scrap of vellum the colour of riverbed clay. Hand-cured. The size of a folded coat. Six signatures run down the right margin in cyanic ferro-gall — Almir at the top, three sisters of House Quill below, an initialled Z above a horizontal bar for Engineer Zero, and at the bottom the Advocate's double-marked hand. Where the seventh signature should be, a black blister of mineralised wax stares back, the impression of a thumb-print pressed into it. The print is too small to be an adult's thumb. The Antiquarian retrieved the fragment from the lower-deck silt at second bell.",
         mysteryBinding: {
           mysteryId: "charter.missing_signatory",
           episodeId: "charter.missing_signatory.e1",
-          cluesFound: ["charter.e1.silt_fragment", "charter.e2.signatory_advocate"],
+          cluesFound: ["charter.e1.silt_fragment"],
         },
       },
+      use: {
+        narration:
+          "You shift the glass and turn the fragment under the catalog's reading lamp. The wax-blister catches the light at an angle, and the thumb-print proves too small at every angle. It is not a child's thumb either — the proportions are wrong. Whoever sealed the seventh signature pressed a print that does not match any living human geometry.",
+      },
     },
-    "dlc-mechronis-missing-professor-antiquarian-library": {
+    /* ─── charter.missing_signatory · e2 ─── */
+    "charter-advocate-signature": {
       look: {
-        narration: "Case material for mechronis.missing_professor surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "Beside the fragment, a single high-resolution rubbing of the charter's reverse, captured before reburial. The Advocate's sixth signature is the only one of the six to leave a witness annotation: counter-signed twice, with a marginal line in the same hand — 'a thing made by seven, kept by six, and carried by all of us.' The translation has stood for eight epochs as a flourish. Reading it beside the wax-blistered seventh, the line stops being a flourish. It is a roster note. The Advocate watched the seal go on and chose to keep the count rather than name the silence.",
+        mysteryBinding: {
+          mysteryId: "charter.missing_signatory",
+          episodeId: "charter.missing_signatory.e2",
+          cluesFound: ["charter.e2.signatory_advocate"],
+        },
+      },
+      interrogate: {
+        narration:
+          "You read the Advocate's marginalia aloud. 'Six speak; one listens; one of us is the silence.' The cipher-den's prior translations had this as poetic register. The fragment in your hand says otherwise. The Advocate was counting heads in the moment the seventh signature got covered, and the Advocate signed anyway.",
+      },
+    },
+    /* ─── mechronis.missing_professor · e1 (lectern) ─── */
+    "tarn-empty-lectern": {
+      look: {
+        narration:
+          "At the rostrum end of the library — where the Academy's equinox addresses have been given for fourteen years — Professor Tarn's lectern stands open and empty. Polished pearwood; brass piano-hinges on the slope. Where her binder should sit, nothing. On the small shelf beside the speaker's position, a glass of water two-thirds full. The room is warm; the glass is not. The water has been there long enough to warm and has not warmed. Tarn set it last night and did not return this morning. Festival opened forty minutes ago.",
         mysteryBinding: {
           mysteryId: "mechronis.missing_professor",
           episodeId: "mechronis.missing_professor.e1",
-          cluesFound: ["mechronis.e1.empty_lectern", "mechronis.e1.folded_robe", "mechronis.e2.tarn_marginalia"],
+          cluesFound: ["mechronis.e1.empty_lectern"],
         },
       },
+      use: {
+        narration:
+          "You touch the rim of the glass. Cold to the lip. The drawer below the lectern's slope opens to the catch — empty. The lecture binder Tarn carried from the Dean's office at second bell has not been here since the Dean watched her walk away with it.",
+      },
     },
-    "dlc-charter-second-signatory-antiquarian-library": {
+    /* ─── mechronis.missing_professor · e1 (robe) ─── */
+    "tarn-folded-robe": {
       look: {
-        narration: "Case material for charter.second_signatory surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "On the lectern's bench, Tarn's faculty robe — green wool, gold piping at the cuff — has been folded twice and squared at the corner. Sleeves splayed out, collar tucked in. The Dean recognises the fold: it is the Friday fold, the way Tarn parks the robe at the end of a teaching week. Today is the autumn equinox. Today is Tuesday. The fold says she packed up at the end of the week, not at the start of an address.",
+        mysteryBinding: {
+          mysteryId: "mechronis.missing_professor",
+          episodeId: "mechronis.missing_professor.e1",
+          cluesFound: ["mechronis.e1.folded_robe"],
+        },
+      },
+      use: {
+        narration:
+          "You unfold the robe carefully. No notes in the inner pocket. No spectacles in the breast pocket. The robe is the robe a person leaves behind when they have decided not to come back to wear it. The fold is the goodbye Tarn declined to say aloud.",
+      },
+    },
+    /* ─── mechronis.missing_professor · e2 (marginalia) ─── */
+    "tarn-marginalia-stack": {
+      look: {
+        narration:
+          "Three volumes lifted from the shelf behind the lectern — a chess primer, the Antiquarian's marginalia compendium, and Roen's trial-procedure manual — each carrying decades of Tarn's annotations down the side gutters. The cipher-den's collation lays the pages flat: where Othmar's proposal cites Tarn for the Logic curriculum, the chess primer's gutter reads 'except in the cases where the inverse holds.' Where Veth cites her for Lore, the marginalia compendium reads 'this is a curriculum, not a settlement.' Where Roen cites her for Trial, the procedure manual reads 'argue the other side first.' Tarn was not endorsing any of the three. She was arguing with all of them.",
+        mysteryBinding: {
+          mysteryId: "mechronis.missing_professor",
+          episodeId: "mechronis.missing_professor.e2",
+          cluesFound: ["mechronis.e2.tarn_marginalia"],
+        },
+      },
+      interrogate: {
+        narration:
+          "You ask the catalog for any annotation that reads as an endorsement. None of them do. Every gutter line is a hedge, a counter-example, a 'consider the inverse.' Three faculties have spent a week building proposals on the foundation Tarn spent decades dismantling. The faculties cannot have read past the first chapter.",
+      },
+    },
+    /* ─── charter.second_signatory · e1 ─── */
+    "charter-mirror-charter": {
+      look: {
+        narration:
+          "Year Two. A second pane of glass on the reading table — the four-house delegation's mirror of the founding charter, brought in this morning without an appointment. Same hide. Same week's cure. Same hand on the ink. But there are eight signatures here, not seven. Where the wax-blister sits on ours, this copy carries a legible eighth: a House sigil drawn as a hand opening with two fingers folded down, beside a name we have on no Council roster and no payroll for four epochs. The mirror's seventh signature is wax-eaten in exactly the way ours is. The mirror's eighth is not.",
         mysteryBinding: {
           mysteryId: "charter.second_signatory",
           episodeId: "charter.second_signatory.e1",
-          cluesFound: ["charter2.e1.mirror_charter", "charter2.e2.charter_clause"],
+          cluesFound: ["charter2.e1.mirror_charter"],
         },
       },
+      use: {
+        narration:
+          "You set the two charters edge to edge under the reading lamp. The grain of the vellum matches at the fibre — same hide, cut adjacent. The mirror has been somewhere our copy was not for eight epochs, and somebody on this Ark has been keeping it intact while our copy sat in silt.",
+      },
     },
-    "dlc-severance-infernal-clause-antiquarian-library": {
+    /* ─── charter.second_signatory · e2 ─── */
+    "charter-eighth-clause": {
       look: {
-        narration: "Case material for severance.infernal_clause surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "A transparency overlay slides out from the catalog drawer: the mirror charter's body text laid against the founding charter's. Most paragraphs align word for word. One paragraph does not — a thirty-four line passage on the mirror, absent from our copy. The mirror's clause: 'work that builds the Ark from below, witnessed in the workshop, sworn in the lower decks.' Our copy's vellum at the same column shows no scrape, no chemical residue, no tooling — the paragraph was never on it. The clause was not removed from our charter. It was never written into our charter. Two originals; one had the eighth clause from first ink.",
+        mysteryBinding: {
+          mysteryId: "charter.second_signatory",
+          episodeId: "charter.second_signatory.e2",
+          cluesFound: ["charter2.e2.charter_clause"],
+        },
+      },
+      use: {
+        narration:
+          "You hold the overlay against the catalog lamp. The mirror's clause is in the same hand as the other paragraphs of both charters — a single founding author drafted both, and chose which copy got which paragraphs. The schism was authored at the founding, not introduced in the fourth epoch.",
+      },
+    },
+    /* ─── severance.infernal_clause · e1 (epoch-one contract) ─── */
+    "infernal-epoch-one-contract": {
+      look: {
+        narration:
+          "Spread on the central reading table beside the founding-charter glass, the epoch-one contract Zyr'Koth produced at the Nilmorg ceremony. Standard DMC season form — vellum, yellowed but readable. Front: lap counts, sponsor splits, refurbishment ledgers in the season's official ledger-keeper's hand. Back: a single paragraph in the same hand as the front, signed by the season's champion, signed by the Hierarchy ledger-keeper, witnessed by Vex Maestro's predecessor. The contract is genuine. The signatures are genuine. The clause on the back has been quietly enforceable for forty seasons.",
         mysteryBinding: {
           mysteryId: "severance.infernal_clause",
           episodeId: "severance.infernal_clause.e1",
-          cluesFound: ["infernal.e1.epoch_one_contract", "infernal.e1.infernal_clause"],
+          cluesFound: ["infernal.e1.epoch_one_contract"],
         },
       },
+      use: {
+        narration:
+          "You flip the contract. The back's paragraph is laid out the same way the front's clauses are — same vellum, same ink, same nib weight. The forgery, if it is one, is structural rather than visual. The chronicler's first scan reads it as authentic. The audit will have to do better.",
+      },
     },
-    "dlc-mechronis-chained-lesson-antiquarian-library": {
+    /* ─── severance.infernal_clause · e1 (the clause itself) ─── */
+    "infernal-clause-back-page": {
       look: {
-        narration: "Case material for mechronis.chained_lesson surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "Under archival glass beside the contract, the infernal clause itself isolated for cipher-den scanning. The text reads: 'in the event of the champion's death, the soul-bond may be claimed by the Hierarchy in lieu of the second-cycle prize, at the Hierarchy's option.' Initialled by the champion. Initialled by the ledger-keeper. Witnessed by Vex Maestro's predecessor. The Hierarchy is not asking for a favour; the Hierarchy is exercising a right the league gave them forty seasons ago, in writing, on paper that has been sitting in Solène's archive every season since.",
+        mysteryBinding: {
+          mysteryId: "severance.infernal_clause",
+          episodeId: "severance.infernal_clause.e1",
+          cluesFound: ["infernal.e1.infernal_clause"],
+        },
+      },
+      interrogate: {
+        narration:
+          "You ask the catalog for the prize the clause names. The drawer pulls the league's prize-history register. 'Second-cycle prize' first appears in the league's records at season eleven. The clause is on a season-one contract. The drawer notes the discrepancy without comment. The audit's first crack is in the prize.",
+      },
+    },
+    /* ─── mechronis.chained_lesson · e1 (apprentice file) ─── */
+    "chained-apprentice-history": {
+      look: {
+        narration:
+          "In the catalog's apprentice drawer, your apprentice's file: enrolled at last year's mentor's pledge, sponsored under your name. Curriculum transcript clean — every module ratified in the Year-One Council vote, every score in the top decile, top of cohort for the autumn and spring terms. Their roof-assignment for the festival opening is countersigned by the Dean and by Auro, the off-faculty instructor whose signature does not appear on any other roster in the library. The apprentice is, by every Academy metric, ready.",
         mysteryBinding: {
           mysteryId: "mechronis.chained_lesson",
           episodeId: "mechronis.chained_lesson.e1",
-          cluesFound: ["chained.e1.apprentice_history", "chained.e2.curriculum_diff", "chained.e3.auro_curriculum", "chained.e4.tarn_marginalia_third"],
+          cluesFound: ["chained.e1.apprentice_history"],
         },
       },
+      use: {
+        narration:
+          "You pull the apprentice's training log. Forty-three drills logged with Auro; nineteen with the official faculty; every one of the Auro entries notes 'Module 17 reviewed.' The Academy's official transcript does not list a Module 17 anywhere. The apprentice has been doing two curricula and only one of them is on the record.",
+      },
     },
-    "dlc-memorial-seven-watchers-antiquarian-library": {
+    /* ─── mechronis.chained_lesson · e2 (curriculum diff) ─── */
+    "chained-curriculum-diff": {
       look: {
-        narration: "Case material for memorial.seven_watchers surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "On the reading table the catalog has surfaced the league's tower-defense drill curriculum beside the Academy's. The cipher-den has done the diff. Every module aligns except one — the league's Module 17, 'Terminus Feint Recognition,' has no Academy counterpart. The Year-One Council vote ratified the surrounding modules and left a clean gap where 17 should sit. The Academy term sheet has been printed for fourteen years with the gap silently preserved. The apprentice-failure log, opened beside the diff, traces every one of thirty-one failures to a tactical error a Module-17-trained operator would not have made.",
+        mysteryBinding: {
+          mysteryId: "mechronis.chained_lesson",
+          episodeId: "mechronis.chained_lesson.e2",
+          cluesFound: ["chained.e2.curriculum_diff"],
+        },
+      },
+      interrogate: {
+        narration:
+          "You ask the catalog who voted Module 17 out. The drawer returns a single annotation — 'see Year-One full proceedings, hour three.' The catalog will not surface the rest of the answer here. The argument that struck 17 was Tarn's; the cipher-den has the audio. The library only knows where to send you next.",
+      },
+    },
+    /* ─── mechronis.chained_lesson · e3 (Auro's folio) ─── */
+    "chained-auro-folio": {
+      look: {
+        narration:
+          "Sergeant Auro brought it in herself at second bell — an eleven-page folio in her own hand, titled 'Module 17 — Feint Recognition.' Plate-pressed diagrams of the seven Terminus formation feints; nine pages of drill progressions; a two-page self-test calibrated against the league's drill standard; a final page of after-action notes from twelve apprentices she has fielded across nine years. The folio is not a memoir. It is the module the Academy refused, written from memory and combat experience by a teacher the Academy has not paid for nine years.",
+        mysteryBinding: {
+          mysteryId: "mechronis.chained_lesson",
+          episodeId: "mechronis.chained_lesson.e3",
+          cluesFound: ["chained.e3.auro_curriculum"],
+        },
+      },
+      use: {
+        narration:
+          "You riffle the folio. Auro's annotations in the margins are dated — some nine years old, the oldest cross-referenced to the Year-Five wave that failed the first apprentice. The folio has been a living document the whole time it was off the curriculum. The Academy's gap has been Auro's daily teaching practice.",
+      },
+    },
+    /* ─── mechronis.chained_lesson · e4 (Tarn's year-eight retraction) ─── */
+    "tarn-year-eight-marginalia": {
+      look: {
+        narration:
+          "At the back of the marginalia compendium, on the last leaf — paper added by the Antiquarian in the fifth epoch for late annotations — Tarn's hand at Year 8. Six lines. Ink that has not faded. 'I was wrong about Module 17. The drill curriculum has not been teaching it. The apprentices have been failing. I argued the module out and the Academy did not put it back. The next Dean must.' Signed with her initial; dated; countersigned by no one. The Dean has had the volume on their shelf for six years. The leaf has not been turned during their tenure.",
+        mysteryBinding: {
+          mysteryId: "mechronis.chained_lesson",
+          episodeId: "mechronis.chained_lesson.e4",
+          cluesFound: ["chained.e4.tarn_marginalia_third"],
+        },
+      },
+      interrogate: {
+        narration:
+          "You ask the catalog who has signed out the marginalia compendium since Year 8. The drawer returns a list of three readers, none of them the Dean. Tarn's correction has been on this shelf for six years; the Dean has read every other volume in this row. The leaf was left for the next Dean to find. The next Dean is the current Dean.",
+      },
+    },
+    /* ─── memorial.seven_watchers · e4 (Per. M.'s confirmation) ─── */
+    "watchers-per-m-confirms": {
+      look: {
+        narration:
+          "In the central reading dome, the Antiquarian's signed minute of his conversation with Per. M. after the silence-break. Per. M.'s confirmation, given calmly in the closer's office: the seventh Watcher and the Closer-of-the-charter are the same role, held by the same person. The silence on charter, audit, curriculum, and Memorial Day has been the same silence for the same reason — the role does not have a name yet. Per. M. has been holding this post under three different cases without any of them naming it.",
         mysteryBinding: {
           mysteryId: "memorial.seven_watchers",
           episodeId: "memorial.seven_watchers.e4",
           cluesFound: ["watchers.e4.per_m_confirms"],
         },
       },
+      interrogate: {
+        narration:
+          "You ask Per. M. for the role's intended name. They say: 'the Ark will name it. I will not. Naming is the act the role is for, not the act it does.' Per. M. closes the conversation with the same gesture they used to close the charter's seventh signature.",
+      },
     },
-    "dlc-wolf-anara-hunt-antiquarian-library": {
+    /* ─── wolf.anara_hunt · e1 (the empty chair) ─── */
+    "wolf-empty-chair": {
       look: {
-        narration: "Case material for wolf.anara_hunt surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "In a quiet annex off the central reading dome, the Antiquarian has kept a small reproduction of Anara's League hall — twelve scaled chairs, each bearing the colours and emblem of a hero he gathered into his pocket universe. One chair stands empty. The colours are still set on the rest. No death has been reported through normal channels; the Anara roster has not updated. The chair simply will not seat its hero again. The hall reproduction has been here for centuries; the Antiquarian has not adjusted the empty chair since it emptied last week.",
         mysteryBinding: {
           mysteryId: "wolf.anara_hunt",
           episodeId: "wolf.anara_hunt.e1",
-          cluesFound: ["wolf.e1.empty_chair", "wolf.e2.three_more_chairs"],
+          cluesFound: ["wolf.e1.empty_chair"],
         },
       },
+      use: {
+        narration:
+          "You lift the empty chair's footplate. Beneath it, the Antiquarian's annotation card has been struck through and replaced. The original card named the seated hero. The replacement card reads, in his hand: 'WHO TOOK THEM.' The chronicler is asking the question in his own chronicle. The chronicle is not yet answering.",
+      },
     },
-    "dlc-akai-shi-red-death-antiquarian-library": {
+    /* ─── wolf.anara_hunt · e2 (three more empty chairs, pattern) ─── */
+    "wolf-three-empty-chairs": {
       look: {
-        narration: "Case material for akai_shi.red_death surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "On the cataloguer's wall behind the reading dome, three additional chair-reproductions have been re-coloured to match the latest losses. The Antiquarian has annotated each. A field medic with combat-cleric certifications. A signals officer carrying his encryption key. A tactical co-ordinator. And — most disturbingly — a healer whose specialty was diagnosing thought-virus residue. The pattern is no longer absence; it is selection. The lost heroes are the four whose roles no other League member can fully cover. The chronicler has stopped asking who and started asking what they could read about the hunter that no one else could.",
+        mysteryBinding: {
+          mysteryId: "wolf.anara_hunt",
+          episodeId: "wolf.anara_hunt.e2",
+          cluesFound: ["wolf.e2.three_more_chairs"],
+        },
+      },
+      interrogate: {
+        narration:
+          "You ask the catalogue why the healer's chair was struck before others' would have been more strategic. The Antiquarian's annotation, pulled by the drawer: 'she would have read his thought-virus residue. He removed the reader first. He is preserving his cover by removing the people who could read him.'",
+      },
+    },
+    /* ─── akai_shi.red_death · e2 (Resurrectionist's seal on Akai Shi's recovery) ─── */
+    "akai-resurrectionist-seal": {
+      look: {
+        narration:
+          "On the central reading table, the Resurrectionist's seal pulled from Akai Shi's recovery manifest and placed under archival glass. A stylised wheel-and-thread — the Cycle Walker's signature. The same seal appears on the Crucible's records for the Wolf's reanimation centuries later. The two cases share a substrate: the Resurrectionist authored both reanimations. The seal sits beside the matching wheel-and-thread on the Wolf's file. Two reanimations by one hand, separated by an epoch, signed identically.",
         mysteryBinding: {
           mysteryId: "akai_shi.red_death",
           episodeId: "akai_shi.red_death.e2",
           cluesFound: ["akai.e2.samsaras_child_seal"],
         },
       },
+      use: {
+        narration:
+          "You request the catalog's note on the seal's other appearances. The drawer returns one further match — a Year-128,652 reanimation in the Crucible's records. The Resurrectionist's signature is on three reanimations across the chronicle. All three are first-wave Potential class. None of the three has been formally challenged.",
+      },
     },
-    "dlc-resurrectionist-cycle-walker-antiquarian-library": {
+    /* ─── resurrectionist.cycle_walker · e1 (plague-mask seal) ─── */
+    "resur-plague-mask-seal": {
       look: {
-        narration: "Case material for resurrectionist.cycle_walker surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "In the central reading dome's cosmic-archaeology drawer, every Resurrectionist case-file across the Antiquarian's library has been pulled and arranged. Every file carries the same seal at the top-right corner: a six-sided mask with a long beak, the kind the older cosmic-archaeology texts attribute to plague-physicians of the pre-Empire era. The cult-curated marginalia annotate the seal as 'ceremonial' — a label applied to symbols whose meaning the editor declined to explain. The Antiquarian's pre-Empire references catalogue the silhouette as a worn object, not a votive.",
         mysteryBinding: {
           mysteryId: "resurrectionist.cycle_walker",
           episodeId: "resurrectionist.cycle_walker.e1",
-          cluesFound: ["resur.e1.case_seal", "resur.e4.pre_empire_twin_text"],
+          cluesFound: ["resur.e1.case_seal"],
         },
       },
+      use: {
+        narration:
+          "You compare the seal across forty case-files. The contours are identical at every reproduction — the same six sides, the same beak-curve, the same hatch-marks on the eyes. The seal was struck from a single template held by a single hand. Whose hand the chronicle does not say.",
+      },
     },
-    "dlc-advocate-blood-weave-antiquarian-library": {
+    /* ─── resurrectionist.cycle_walker · e4 (pre-Empire twin-text fragment) ─── */
+    "resur-pre-empire-twin-text": {
       look: {
-        narration: "Case material for advocate.blood_weave surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "On the cosmic-archaeology shelf, a pre-Empire fragment under archival glass, partial: 'the death-bound and the cycle-bound walk in pairs; where one binds, the other releases; where one ends, the other begins again. Look for the masked one beside the unmasked one — they are halves of one principle, drawn through two bodies.' The cult-curated marginalia gloss the fragment as 'cosmological metaphor — the two states of mortal existence, not literal entities.' The Antiquarian's pre-Empire references read the fragment as literal taxonomy. Two readings; the editorial hand prefers the first.",
+        mysteryBinding: {
+          mysteryId: "resurrectionist.cycle_walker",
+          episodeId: "resurrectionist.cycle_walker.e4",
+          cluesFound: ["resur.e4.pre_empire_twin_text"],
+        },
+      },
+      interrogate: {
+        narration:
+          "You ask the catalog for related pre-Empire fragments. The drawer returns three additional taxonomic passages, each in the same hand, each pairing two named entities. The fragment under glass is not metaphor in any of its sister-passages. The cult-curated reading is, by the document's own context, the outlier.",
+      },
+    },
+    /* ─── advocate.blood_weave · e1 (Empire of Shadows founding charter) ─── */
+    "advocate-founding-charter": {
+      look: {
+        narration:
+          "On the central reading table, under archival glass, the Empire of Shadows' founding charter — recovered from a sealed reliquary in the Antiquarian's library. The first article reads: 'No soul under this charter's shelter may be acquired by hostile spiritual instrument without the Advocate's countersignature. The charter is the countersignature's prerequisite. The Empire is the charter's living guarantor.' The Advocate's signature is at the foot; six co-signatures follow it. Five names are legible. The sixth is intentionally redacted in the Advocate's own hand.",
         mysteryBinding: {
           mysteryId: "advocate.blood_weave",
           episodeId: "advocate.blood_weave.e1",
-          cluesFound: ["adv.e1.founding_charter", "adv.e4.humanity_trade_specification"],
+          cluesFound: ["adv.e1.founding_charter"],
         },
+      },
+      use: {
+        narration:
+          "You request the catalog's note on the redacted signatory. The drawer returns the Antiquarian's annotation: 'redaction self-applied; co-signatory remains canonical even though un-named. The Advocate's discipline included signing twice — once as founder, once as the charter's permanent witness.' One Advocate, two roles, two signatures.",
+      },
+    },
+    /* ─── advocate.blood_weave · e4 (humanity-trade specification) ─── */
+    "advocate-humanity-trade-spec": {
+      look: {
+        narration:
+          "On the reading-dome's Empire-of-Shadows shelf, the operational specification of the Advocate's humanity-trade — recovered from the Empire's own records. Multi-component. Component one: capacity for spontaneous mortal-scale emotional response — surrendered to power the Weave's bindings. Component two: continuity-of-personal-time — Ne-Yon-timescale operation replaced mortal-timescale operation. Component three: capacity for unsheltered fear — the unconditional charter cannot be authored from inside fear. The specification does not name what was retained. The chronicle's reading: she retained the parts of humanity her charter required to remain Advocate; she traded the parts it required her to spend.",
+        mysteryBinding: {
+          mysteryId: "advocate.blood_weave",
+          episodeId: "advocate.blood_weave.e4",
+          cluesFound: ["adv.e4.humanity_trade_specification"],
+        },
+      },
+      interrogate: {
+        narration:
+          "You ask the shelf for the spec's authorship. The drawer returns a single annotation: 'authored by the Advocate herself, in register three, at the moment of the trade. the trade was deliberate, itemised, signed.' The Advocate did not lose what she traded. She chose what to spend.",
       },
     },
     "card-catalog": {

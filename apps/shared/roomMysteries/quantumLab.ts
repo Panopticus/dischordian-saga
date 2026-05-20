@@ -8,64 +8,111 @@
 import type { RoomMysteryModule } from "./_template";
 
 export type QuantumLabHotspotId =
-  | "dlc-charter-missing-signatory-quantum-lab"
-  | "dlc-severance-bound-champion-quantum-lab"
-  | "dlc-charter-second-signatory-quantum-lab"
-  | "dlc-severance-infernal-clause-quantum-lab"
-  | "dlc-akai-shi-red-death-quantum-lab"
+  | "charter-wax-mineralisation-analysis"
+  | "severance-bond-internal-log"
+  | "charter2-vellum-comparison"
+  | "infernal-quantum-dating"
+  | "akai-red-death-energy-signature"
+  | "akai-necromancer-evasion-log"
   | "entanglement-rig" | "observation-cage";
 
 export const QUANTUM_LAB_MYSTERY: RoomMysteryModule<QuantumLabHotspotId> = {
   roomId: "quantum-lab",
   responses: {
-    "dlc-charter-missing-signatory-quantum-lab": {
+    /* ─── charter.missing_signatory · e2 (wax mineralisation analysis) ─── */
+    "charter-wax-mineralisation-analysis": {
       look: {
-        narration: "Case material for charter.missing_signatory surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "The charter's wax-blister, removed under the quantum-lab's micro-extraction protocol, sits on the analysis stage. Every standard solvent has been tested and refused. The lab's quantum-imaging penetrates: the wax is mineralised — heated to a temperature the lower decks cannot reach, then re-poured at least three times. The lab's thermal-calibration places the original temperature in the upper-band range, where the Architect's furnaces operate. Whoever sealed the seventh signature had access to a forge the Ark does not house.",
         mysteryBinding: {
           mysteryId: "charter.missing_signatory",
           episodeId: "charter.missing_signatory.e2",
           cluesFound: ["charter.e2.wax_chemistry"],
         },
       },
+      use: {
+        narration:
+          "You request the lab's spectral signature match. The mineralisation profile matches three other artefacts in the lab's reference library — all of them upper-band-origin objects the Architect has filed under 'restricted provenance.' The wax-thumb on the charter was sealed using materials only the upper bands could provide. The sealer was either there or briefed by something that was.",
+      },
     },
-    "dlc-severance-bound-champion-quantum-lab": {
+    /* ─── severance.bound_champion · e2 (bond's internal log stack) ─── */
+    "severance-bond-internal-log": {
       look: {
-        narration: "Case material for severance.bound_champion surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "On the quantum-lab's sieve-reading bench, the companion's bond from this finals night's table — held in a stasis cradle for non-destructive analysis. The quantum-sieve reads a stack: forty-one names whispered into the bond at the moment of each inheritance, every name intact, every name in temporal order. The lab's report: 'the bond is an archive; the archive is a chain.' The names are not in any ledger. The names have been in the bond for forty seasons, traveling forward through each inheritance ceremony in a private succession the league has not been keeping.",
         mysteryBinding: {
           mysteryId: "severance.bound_champion",
           episodeId: "severance.bound_champion.e2",
           cluesFound: ["severance.e2.bond_logs"],
         },
       },
+      interrogate: {
+        narration:
+          "You ask the lab to play the most recent whisper. The sieve resolves it: a single name, spoken in the Broker's voice, at the moment the Year 39 champion's bond was poured. The Broker has been whispering the inheritor's name into the bond at every Severance — the Broker is the keeper of the spoken chain.",
+      },
     },
-    "dlc-charter-second-signatory-quantum-lab": {
+    /* ─── charter.second_signatory · e1 (parallel-vellum analysis) ─── */
+    "charter2-vellum-comparison": {
       look: {
-        narration: "Case material for charter.second_signatory surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "Both charters — ours, recovered from the lower-deck silt, and the four-house delegation's mirror — lie side by side on the quantum-lab's parallel-stage. Imaging penetrates: same hide, cut adjacent at the tannery, cured the same week. The same hand prepared both vellums; the same pen signed each within hours of the other. The lab's spectral analysis cannot distinguish them on any material axis. The mirror is not a forgery and our copy is not the original. They are parallel originals, drafted as a pair by founders who chose which version each copy would carry.",
         mysteryBinding: {
           mysteryId: "charter.second_signatory",
           episodeId: "charter.second_signatory.e1",
           cluesFound: ["charter2.e1.two_charters_same_paper"],
         },
       },
+      use: {
+        narration:
+          "You request the lab's hide-fibre alignment scan. The two vellums share twelve grain-lines that mate at the cut edge — they were once adjacent panels on the same hide. The founders cut the hide in half and drafted the two parallel originals from the same animal. The pair-authorship was as deliberate as the parchment was shared.",
+      },
     },
-    "dlc-severance-infernal-clause-quantum-lab": {
+    /* ─── severance.infernal_clause · e3 (quantum-dating results) ─── */
+    "infernal-quantum-dating": {
       look: {
-        narration: "Case material for severance.infernal_clause surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "The quantum-lab's dating stage holds all forty contracts — every back-page clause prepared for ink-dating analysis. The lab's quantum-imaging penetrates each ink-layer's molecular state. Result: every clause's ink was applied within a seven-day window in epoch one, week thirty-three, days four through ten. The contracts they appear on span forty seasons. Thirty-nine of the forty clauses pre-date their host contract by anywhere from one to thirty-nine seasons. The lab's calibration is independent and instrument-grade. The writer was working ahead — anticipating contracts that had not yet been signed.",
         mysteryBinding: {
           mysteryId: "severance.infernal_clause",
           episodeId: "severance.infernal_clause.e3",
           cluesFound: ["infernal.e3.dating_results"],
         },
       },
+      use: {
+        narration:
+          "You request the lab's confidence interval on the dating. The instrument reports ±0.4 days at the seven-day window's bounds. The window is sharp. The writer began on day four and finished on day ten. Forty clauses in seven days; the lab's tightest precision says exactly that.",
+      },
     },
-    "dlc-akai-shi-red-death-quantum-lab": {
+    /* ─── akai_shi.red_death · e2 (Red Death energy signature) ─── */
+    "akai-red-death-energy-signature": {
       look: {
-        narration: "Case material for akai_shi.red_death surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "On the quantum-lab's frequency-band analysis stage, the Red Death's energy signature — recorded centuries after Akai Shi's death and held for chronicle audit. The signature retains all of Akai Shi's pre-mortem markers except the healing-frequency band. The healing band has been REPLACED with a time-displacement frequency. The lab's report: 'the Red Death cannot heal. the Red Death can move through time. one capacity has been swapped for the other in the reanimation.' The substitution is clean — the band is not damaged, it is replaced.",
         mysteryBinding: {
           mysteryId: "akai_shi.red_death",
           episodeId: "akai_shi.red_death.e2",
-          cluesFound: ["akai.e2.altered_energy_signature", "akai.e3.necromancer_evasion_log"],
+          cluesFound: ["akai.e2.altered_energy_signature"],
         },
+      },
+      use: {
+        narration:
+          "You request the lab's comparison against the Resurrectionist's known signatures. The stage returns the match: the time-displacement frequency carries the Cycle Walker's authoring signature, fingerprinted across the substitution. The Resurrectionist authored the swap deliberately, trading one capacity for the other. The trade is permanent.",
+      },
+    },
+    /* ─── akai_shi.red_death · e3 (Necromancer evasion log) ─── */
+    "akai-necromancer-evasion-log": {
+      look: {
+        narration:
+          "Beside the energy-signature stage, the lab's evasion-log records the Necromancer's recorded movements across millennia. He has lived in the Matrix of Dreams — the construct the Game Master (his fellow Archon) authored. The Matrix of Dreams is canonically un-territorial. The Necromancer cannot be tracked by chronicle-space coordinates inside it. Only a time-displaced agent could find him. The Red Death is, by Resurrectionist architecture, the only such agent. The log's annotation: 'the evasion is canon-space-perfect. the gap in the canon's space is what the Red Death was built to enter.'",
+        mysteryBinding: {
+          mysteryId: "akai_shi.red_death",
+          episodeId: "akai_shi.red_death.e3",
+          cluesFound: ["akai.e3.necromancer_evasion_log"],
+        },
+      },
+      interrogate: {
+        narration:
+          "You ask the lab for the Game Master's design notes on the Matrix's un-territorial property. The stage returns a single page from the Game Master's research — a footnote: 'the construct's geometry resists chronicle-space tracking. only time-displacement could violate the property. no time-displaced agent exists in canon. the property is therefore safe.' The Game Master did not anticipate the Resurrectionist building one.",
       },
     },
     "entanglement-rig": {

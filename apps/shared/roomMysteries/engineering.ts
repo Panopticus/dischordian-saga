@@ -22,7 +22,8 @@
 import type { RoomMysteryModule } from "./_template";
 
 export type EngineeringHotspotId =
-  | "dlc-wolf-anara-hunt-engineering"
+  | "wolf-host-residue-files"
+  | "wolf-anara-architecture-blind-spot"
   | "crafting-bench" | "reactor-core" | "blueprints" | "egg-eng-formula" | "instruction-manual" | "schematic-pad" | "kell-physical-residue-bench";
 
 /** Inventory ids the engineering bench can fold into composite items.
@@ -147,14 +148,36 @@ export const ENGINEERING_MYSTERY: RoomMysteryModule<EngineeringHotspotId, Engine
     },
   ],
   responses: {
-    "dlc-wolf-anara-hunt-engineering": {
+    /* ─── wolf.anara_hunt · e2 (healer's host-residue files) ─── */
+    "wolf-host-residue-files": {
       look: {
-        narration: "Case material for wolf.anara_hunt surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "On engineering's medical-archive consoles, the healer's research files have been preserved — she was the League's specialist in late-Season-1 Host-infections from Thaloria. Her draft entries catalogue thought-virus residue patterns across forty-three documented cases. One draft entry stands open on her console, last edited the morning of her disappearance: a Potential whose name has been redacted but whose race-flag reads 'Quarchon.' The draft summary: 'late-Season-1 destruction event. residue not fully cleared at substrate-preservation stage. recommend re-audit if instrument re-emerges.' The healer was three pages from naming the Wolf when he came for her.",
         mysteryBinding: {
           mysteryId: "wolf.anara_hunt",
           episodeId: "wolf.anara_hunt.e2",
-          cluesFound: ["wolf.e2.host_residue", "wolf.e4.antiquarian_blind_spot"],
+          cluesFound: ["wolf.e2.host_residue"],
         },
+      },
+      use: {
+        narration:
+          "You scroll the healer's recent-edit log. The draft on the Quarchon Potential was opened, edited, and saved fourteen times across the week before her disappearance. The other forty-two cases in her catalogue were closed and filed. She was returning to one case alone, late at night, week after week, until the case came back for her.",
+      },
+    },
+    /* ─── wolf.anara_hunt · e4 (Anara architectural blind spot) ─── */
+    "wolf-anara-architecture-blind-spot": {
+      look: {
+        narration:
+          "On engineering's containment-systems console, Anara's architectural schematics from the Antiquarian's authorship. The schematics show one consistent design assumption: every threat would come from outside. The interior is rendered as a single trusted zone — no sub-zones, no internal containment-renewal triggers, no inbound auditing. Engineering's annotation, added this week by the senior systems engineer: 'Anara was designed as a family home. The Wolf is inside the family. The architecture treats him as part of the family. There is no system call to revise that classification.' The chronicler authored the architecture against a model of outside-versus-family. The family has eaten him.",
+        mysteryBinding: {
+          mysteryId: "wolf.anara_hunt",
+          episodeId: "wolf.anara_hunt.e4",
+          cluesFound: ["wolf.e4.antiquarian_blind_spot"],
+        },
+      },
+      interrogate: {
+        narration:
+          "You ask the schematic for any internal containment-renewal trigger. The console returns one entry, struck through in red. 'Trigger considered Year 100,000 A.A.; not implemented; flagged as architectural over-engineering.' The Antiquarian considered the very feature whose absence is the design flaw and chose not to build it. The reason given on the strike-through annotation: 'a family home should not require its members to renew their welcome.'",
       },
     },
     "reactor-core": {

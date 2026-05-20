@@ -27,14 +27,23 @@
 import type { RoomMysteryModule } from "./_template";
 
 export type CipherDenHotspotId =
-  | "dlc-charter-missing-signatory-cipher-den"
-  | "dlc-mechronis-missing-professor-cipher-den"
-  | "dlc-memorial-forgotten-names-cipher-den"
-  | "dlc-charter-second-signatory-cipher-den"
-  | "dlc-severance-infernal-clause-cipher-den"
-  | "dlc-mechronis-chained-lesson-cipher-den"
-  | "dlc-memorial-seven-watchers-cipher-den"
-  | "dlc-akai-shi-red-death-cipher-den"
+  | "charter-per-m-live-sample"
+  | "charter-watcher-oath-fragment"
+  | "tarn-roen-confidence"
+  | "memorial-first-pass-five-recovered"
+  | "memorial-parental-imprint-search"
+  | "memorial-first-imprint-record"
+  | "charter2-heron-diary"
+  | "charter2-heron-diary-second-page"
+  | "charter2-silence-convention"
+  | "infernal-handwriting-analysis"
+  | "infernal-atalin-receipt-sample"
+  | "infernal-the-flaw"
+  | "chained-tarn-year-one-argument"
+  | "watchers-upper-band-signature"
+  | "watchers-idris-signature"
+  | "watchers-six-signatures-catalogue"
+  | "akai-necromancer-retreat-chambers"
   | "rosetta-pad" | "encrypted-correspondence" | "dictionary-of-edits" | "uncorruption-bench" | "cross-arc-thanks-card" | "vex-seer-pair-binder";
 
 export type CipherDenInventoryId = "rosetta-key-1" | "vox-letter-decoded";
@@ -45,84 +54,276 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
 > = {
   roomId: "cipher-den",
   responses: {
-    "dlc-charter-missing-signatory-cipher-den": {
+    /* ─── charter.missing_signatory · e3 (Per. M. live signature sample) ─── */
+    "charter-per-m-live-sample": {
       look: {
-        narration: "Case material for charter.missing_signatory surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "On the cipher-den's signature-comparison bench, beside the preservation-order file pulled from archives, today's specimen: Per. M.'s receipt for the Antiquarian's morning return. Cipher-den staff have laid it under the comparison lens. The hand matches the eight-epoch signatures — every stroke, every loop, every pulse in the down-stroke. The pulse is doubled, a tic the cipher-den's bench catalogues as 'breathing twice per descender' — a writer who exhales once on the down-stroke and again on the lift. The same tic sits in the wax-thumb on the founding charter's seventh signature.",
         mysteryBinding: {
           mysteryId: "charter.missing_signatory",
           episodeId: "charter.missing_signatory.e3",
-          cluesFound: ["charter.e3.archivist_signature", "charter.e4.witness_oath"],
+          cluesFound: ["charter.e3.archivist_signature"],
         },
       },
+      use: {
+        narration:
+          "You request the bench's overlay scan. The pulses align — Per. M.'s and the wax-thumb's — to within the bench's measurement tolerance. The sealer of the seventh signature and the archivist who has been preserving the charter for eight epochs are the same writer. They sealed the silence; they have been holding it since.",
+      },
     },
-    "dlc-mechronis-missing-professor-cipher-den": {
+    /* ─── charter.missing_signatory · e4 (founding-Watcher oath fragment) ─── */
+    "charter-watcher-oath-fragment": {
       look: {
-        narration: "Case material for mechronis.missing_professor surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "Stanza three of the founding-Watchers' oath fragment, recovered from the cipher-den's deepest archive — a brittle vellum scrap the length of a forearm. The translation, vetted by three cipher-keepers: 'six speak the founding; one closes the founding; the closer is sworn against speaking.' The fragment is older than the charter. The closer-clause is not metaphor — it is a clause in a founding oath, naming a role. Per. M. is not the redactor. Per. M. is the role of closer, kept by a Watcher whose oath of silence is older than the document the closer was instituted to close.",
+        mysteryBinding: {
+          mysteryId: "charter.missing_signatory",
+          episodeId: "charter.missing_signatory.e4",
+          cluesFound: ["charter.e4.witness_oath"],
+        },
+      },
+      interrogate: {
+        narration:
+          "You ask the cipher-den staff who has signed the closer's oath since the founding. They produce no record. The oath was sworn once, by one Watcher, at the founding; no successor has been needed because the original closer has not died. Per. M.'s lamp burns for the same reason.",
+      },
+    },
+    /* ─── mechronis.missing_professor · e4 (Roen's confidential account) ─── */
+    "tarn-roen-confidence": {
+      look: {
+        narration:
+          "Among the cipher-den's confidential statements — recorded in the closed wing where colleagues testify against their own institution — Trial-master Roen's full account. Roen confirms: Tarn approached them in the cipher-den three months ago and asked for help leaving the Academy without a goodbye. Roen agreed because Tarn was the only colleague who had ever asked them for anything. The statement is precise and unornamented. The cipher-den's reader notes: 'subject visibly relieved at the asking; subject offered the help without negotiation.' Roen's third aye in the erasure vote was Tarn's confidence kept, not the cowardice the other two faculty heads admitted to.",
         mysteryBinding: {
           mysteryId: "mechronis.missing_professor",
           episodeId: "mechronis.missing_professor.e4",
           cluesFound: ["mechronis.e4.roen_full_account"],
         },
       },
+      use: {
+        narration:
+          "You ask the cipher-den's records for prior contact between Tarn and Roen. The drawer returns sixteen years of Trial-procedure manual annotations, every one in Roen's hand, every one cross-referenced to Tarn's research. The colleagues who looked least alike on the surface were the only two who had been reading each other for sixteen years.",
+      },
     },
-    "dlc-memorial-forgotten-names-cipher-den": {
+    /* ─── memorial.forgotten_names · e3 (first cross-reference pass) ─── */
+    "memorial-first-pass-five-recovered": {
       look: {
-        narration: "Case material for memorial.forgotten_names surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "On the cipher-den's cross-reference bench, the first-pass results from listening to the fourteen unwitnessed imprints in pairs and triples. Five names emerged: I-3 named in I-101's imprint. I-58 named in I-202's imprint. I-129 named in I-301's imprint. I-356 named in I-410's imprint. I-388 named in I-444's imprint. Five of the fourteen now have witnesses — drawn from within the unwitnessed group itself. The chain of memory was not broken at every link; some of the unwitnessed had been witnessing each other all along.",
         mysteryBinding: {
           mysteryId: "memorial.forgotten_names",
           episodeId: "memorial.forgotten_names.e3",
-          cluesFound: ["memorial.e3.first_pass_results", "memorial.e3.parental_imprint_search", "memorial.e4.first_imprint_record"],
+          cluesFound: ["memorial.e3.first_pass_results"],
         },
       },
+      use: {
+        narration:
+          "You request the pass's listening protocol. The bench logs each pairing — minutes of audio, attentive ear, pencil notes. The cipher-den's reader confirms: no name was inferred; every recovered name was spoken aloud in a dish by someone who had known the named.",
+      },
     },
-    "dlc-charter-second-signatory-cipher-den": {
+    /* ─── memorial.forgotten_names · e3 (parental imprint search) ─── */
+    "memorial-parental-imprint-search": {
       look: {
-        narration: "Case material for charter.second_signatory surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "Beside the first-pass bench, the cipher-den's expanded search — not just the fourteen unwitnessed, but the entire imprint registry. If the children's parents imprinted at any time, the parents named the children. The search returns two hits: a parental imprint from epoch four naming I-244, and a sibling imprint from epoch six naming I-44. Seven of the fourteen are now witnessed; the unwitnessed gap is closing.",
+        mysteryBinding: {
+          mysteryId: "memorial.forgotten_names",
+          episodeId: "memorial.forgotten_names.e3",
+          cluesFound: ["memorial.e3.parental_imprint_search"],
+        },
+      },
+      interrogate: {
+        narration:
+          "You ask the bench how the search ranked candidate imprints. The cipher-den's reader explains: imprint-recordings are time-stamped and family-line-tagged where consent was given at imprint-time. The two hits emerged from family-line cross-reference rather than name-string match. The names were spoken by people who knew them; the chain of memory did the work the index could not.",
+      },
+    },
+    /* ─── memorial.forgotten_names · e4 (first-imprint record) ─── */
+    "memorial-first-imprint-record": {
+      look: {
+        narration:
+          "From the cipher-den's deepest archive — drawer one, pre-charter tier — the record of the Ark's first imprint. The recorder's log: 'witnessing I-1.' The imprint was taken before the founding charter. The Architect's Console initiated the process — the Architect's first act. No name was inscribed on the record. The first imprint of the Ark predates every other imprint in the registry by a margin the cipher-den's instruments cannot measure precisely.",
+        mysteryBinding: {
+          mysteryId: "memorial.forgotten_names",
+          episodeId: "memorial.forgotten_names.e4",
+          cluesFound: ["memorial.e4.first_imprint_record"],
+        },
+      },
+      use: {
+        narration:
+          "You request the recorder's notes from the moment. The drawer returns a single transcribed line: 'subject is a child; subject is alone; subject's witness is the Architect.' No further annotation. The Architect was witness and recorder both. The act of recording was the first act of the saga.",
+      },
+    },
+    /* ─── charter.second_signatory · e3 (Heron's diary) ─── */
+    "charter2-heron-diary": {
+      look: {
+        narration:
+          "In the cipher-den's deepest archive — drawer eleven, fourth-epoch tier — the Council archivist Heron's personal diary. Recovered last month from a sealed compartment in their desk after the delegation's arrival. Heron's hand is neat, anxious, dated. The relevant page: 'I do not enjoy the tidying. I will do the tidying because the Council has asked me to. The Council has asked me to because the seven do not wish to share authorship.' The phrasing is precise — the tidying, not the editing; the seven, not the six. Heron knew the request was a scrub and that the seventh founder had not authorised it.",
         mysteryBinding: {
           mysteryId: "charter.second_signatory",
           episodeId: "charter.second_signatory.e3",
-          cluesFound: ["charter2.e3.heron_diary", "charter2.e4.heron_diary_b", "charter2.e4.silence_as_vote"],
+          cluesFound: ["charter2.e3.heron_diary"],
         },
       },
+      use: {
+        narration:
+          "You read further. The diary continues across nine years of fourth-epoch tidying — Solven, Vyn, Marek, Othisen each named individually, each entry dated, each closed with the line 'I will do this because I have been asked.' The diary is a confession written in advance of the confessor's pardon.",
+      },
     },
-    "dlc-severance-infernal-clause-cipher-den": {
+    /* ─── charter.second_signatory · e4 (Heron's diary, page two) ─── */
+    "charter2-heron-diary-second-page": {
       look: {
-        narration: "Case material for severance.infernal_clause surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "The diary's page two, recovered intact. Heron writes: 'I asked the seventh whether they consented to the scrub. The seventh did not answer. I took silence as consent. The Council took silence as consent. We were both wrong, and only the seventh knew.' The page is dated the day before the first artisan-house entry. Heron asked the question — the question they were instructed not to ask — and was answered with the silence that has been the seventh Watcher's vote for four epochs. Heron misread it the same way the Council misread it. The misreading was the founding error.",
+        mysteryBinding: {
+          mysteryId: "charter.second_signatory",
+          episodeId: "charter.second_signatory.e4",
+          cluesFound: ["charter2.e4.heron_diary_b"],
+        },
+      },
+      use: {
+        narration:
+          "You compare Heron's question-page against the founding-protocols archive. The protocol on silence-as-vote is written in plain language; Heron had access to it. The misreading was not from ignorance. Heron knew the protocol and chose to take silence as consent because the six had asked them to read it that way.",
+      },
+    },
+    /* ─── charter.second_signatory · e4 (silence-as-vote convention) ─── */
+    "charter2-silence-convention": {
+      look: {
+        narration:
+          "From the cipher-den's founding-protocols archive — the convention Heron did not honour. The page is brittle, paginated by hand. The relevant stanza: 'when the seven cannot agree, the seven may abstain by silence. silence on a vote is opposition recorded in the manner of one who will not break the seven's unity by speaking against it.' The convention pre-dates the charter. It is older than the council that misapplied it. The seventh Watcher has been voting no by silence since the fourth epoch and the convention names that silence correctly. The Council named it wrong.",
+        mysteryBinding: {
+          mysteryId: "charter.second_signatory",
+          episodeId: "charter.second_signatory.e4",
+          cluesFound: ["charter2.e4.silence_as_vote"],
+        },
+      },
+      interrogate: {
+        narration:
+          "You ask the archive when this convention was last successfully invoked. The drawer returns a single entry: the founding itself. The seventh founding Watcher invoked silence-as-vote on three minor founding-day decisions; each was read correctly. The convention's first misreading is the fourth-epoch scrub. The misreading has been the seventh's only voice since.",
+      },
+    },
+    /* ─── severance.infernal_clause · e2 (handwriting analysis) ─── */
+    "infernal-handwriting-analysis": {
+      look: {
+        narration:
+          "On the cipher-den's primary signature-comparison bench, the forty contracts laid out in chronological order — Solène's archive arranged by season. The bench's reader has scanned every back page. The cipher-den's report sits beside them: 'forty contracts, forty clauses, one writer. The hand is steady, slightly slanted, and consistent through forty seasons. No ledger-keeper of forty seasons exists in any registry the league keeps.' The forty seasonal ledger-keepers' samples have been pulled for comparison; none of them match the clause-writing hand. The clauses were written by someone who never held the official post.",
         mysteryBinding: {
           mysteryId: "severance.infernal_clause",
           episodeId: "severance.infernal_clause.e2",
-          cluesFound: ["infernal.e2.handwriting_consistency", "infernal.e3.atalin_handwriting", "infernal.e4.the_flaw"],
+          cluesFound: ["infernal.e2.handwriting_consistency"],
         },
       },
+      use: {
+        narration:
+          "You compare the cipher-den's variance metrics across the forty samples. The clause-writing hand shows less variance across forty seasons than any individual ledger-keeper's hand shows within a single season. The forty clauses were written by one person in close temporal proximity. The forty seasons are an illusion.",
+      },
     },
-    "dlc-mechronis-chained-lesson-cipher-den": {
+    /* ─── severance.infernal_clause · e3 (Atalin's receipt sample) ─── */
+    "infernal-atalin-receipt-sample": {
       look: {
-        narration: "Case material for mechronis.chained_lesson surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "Pulled from Atalin's personnel file in the archives and brought to the cipher-den for bench comparison: a routine receipt Atalin signed during their single season as ledger-keeper. The hand matches the clause-writing exactly — every loop, every slant, every nib-pressure on the descender. The match is unambiguous. Atalin wrote every infernal clause across forty seasons in one seven-day window, while still working in the office whose contracts the clauses appear on. The cipher-den's annotation: 'identity confirmed.'",
+        mysteryBinding: {
+          mysteryId: "severance.infernal_clause",
+          episodeId: "severance.infernal_clause.e3",
+          cluesFound: ["infernal.e3.atalin_handwriting"],
+        },
+      },
+      interrogate: {
+        narration:
+          "You ask the bench whether Atalin's hand changed across the seven-day window. The reader returns the variance: the clauses written on day seven are indistinguishable from those written on day one. Atalin worked steadily, without rest or hesitation, for the full window. The writing was deliberate, planned, and undivided.",
+      },
+    },
+    /* ─── severance.infernal_clause · e4 (the flaw) ─── */
+    "infernal-the-flaw": {
+      look: {
+        narration:
+          "In the cipher-den's annotated-contract drawer, the forty clauses are laid open at the phrase Atalin built the trap around: 'in lieu of the second-cycle prize.' The cipher-den has cross-referenced the league's prize-structure history against every clause's writing date. The league did not institute second-cycle prizes until season eleven. Every clause is voidable as a matter of contract law — naming a prize that did not exist at the date of writing. The Hierarchy missed it because the Hierarchy did not read the league's prize-structure history. Atalin did. Atalin wrote the trap in seven days and waited forty seasons for someone to find it.",
+        mysteryBinding: {
+          mysteryId: "severance.infernal_clause",
+          episodeId: "severance.infernal_clause.e4",
+          cluesFound: ["infernal.e4.the_flaw"],
+        },
+      },
+      use: {
+        narration:
+          "You request the cipher-den's contract-law citation for the void doctrine. The drawer returns a single canonical authority: 'a clause that conditions performance on a benefit not yet in existence at the moment of agreement is unenforceable.' The citation is older than the league. Atalin knew the citation. The Hierarchy did not check.",
+      },
+    },
+    /* ─── mechronis.chained_lesson · e4 (Tarn's Year-One argument) ─── */
+    "chained-tarn-year-one-argument": {
+      look: {
+        narration:
+          "In the cipher-den's deepest archive — drawer seven, year-one tier — the Year-One curriculum vote's full proceedings sit on six and a half hours of recovered audio. Hour three is timestamped and bookmarked: Tarn's forty-minute argument against Module 17. The transcript: 'feint-recognition is a combat skill. the Academy is not a combat school. if we teach it, we become responsible for what apprentices do with it. the league's drill curriculum can teach it; we should not.' The argument is academic, considered, and ultimately persuasive. Module 17 was struck before the ballot.",
         mysteryBinding: {
           mysteryId: "mechronis.chained_lesson",
           episodeId: "mechronis.chained_lesson.e4",
           cluesFound: ["chained.e4.tarn_argument"],
         },
       },
+      use: {
+        narration:
+          "You queue the audio. Tarn's voice is steady through the forty minutes — the cadence of a person who has thought through the consequences and decided. There is no waver. The Year-Eight retraction in her hand says she had thought through everything except the consequence of being right in theory and wrong in practice.",
+      },
     },
-    "dlc-memorial-seven-watchers-cipher-den": {
+    /* ─── memorial.seven_watchers · e1 (upper-band signature analysis) ─── */
+    "watchers-upper-band-signature": {
       look: {
-        narration: "Case material for memorial.seven_watchers surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "On the cipher-den's spectrum-analysis bench, the upper-band signature cards from the silence-break event. Six distinct signatures across six bands — every voice carries a different upper-band fingerprint, instrument-confirmed. The bench's annotation: 'seven channels measured; six speakers identified; the seventh channel carries a signature distinct from all six, present throughout the event, silent throughout the event.' The seventh chose silence; the seventh did not lack the means.",
         mysteryBinding: {
           mysteryId: "memorial.seven_watchers",
           episodeId: "memorial.seven_watchers.e1",
-          cluesFound: ["watchers.e1.upper_band_signature", "watchers.e2.idris_signature", "watchers.e3.six_signatures_complete"],
+          cluesFound: ["watchers.e1.upper_band_signature"],
         },
       },
+      use: {
+        narration:
+          "You request the cipher-den's prior history for any of the six signatures. The bench returns nothing — the signatures have been placeholder entries on the upper-band roster for eight epochs without samples to verify them. The silence-break delivered six samples in sixty-three seconds and confirmed every prior placeholder.",
+      },
     },
-    "dlc-akai-shi-red-death-cipher-den": {
+    /* ─── memorial.seven_watchers · e2 (Idris's signature) ─── */
+    "watchers-idris-signature": {
       look: {
-        narration: "Case material for akai_shi.red_death surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "Beside the spectrum-analysis bench, the band-three signature card isolated for further reading. Slow waveform, broad spectrum, an undercurrent of standing silence in the carrier-tone. The cipher-den has had a placeholder for Idris's signature for eight epochs — band three reserved on the upper-band roster, no sample to verify the slot's assignment. The silence-break delivered the sample. The match against the registry placeholder is exact.",
+        mysteryBinding: {
+          mysteryId: "memorial.seven_watchers",
+          episodeId: "memorial.seven_watchers.e2",
+          cluesFound: ["watchers.e2.idris_signature"],
+        },
+      },
+      interrogate: {
+        narration:
+          "You ask the bench whether Idris's standing-silence undercurrent is an artefact of the recording or a property of the speaker. The reader returns the cross-reference: the same undercurrent appears in every recording of Idris's band-three slot — the void-state carrier the band has been holding for Idris to speak through, for eight epochs.",
+      },
+    },
+    /* ─── memorial.seven_watchers · e3 (six signatures catalogued) ─── */
+    "watchers-six-signatures-catalogue": {
+      look: {
+        narration:
+          "On the cipher-den's master catalogue, the six signature cards now arranged by band — Idris (band three), Verel (band five), Ophran (band one), Kallium (band two), Mereth (band four), Sothe (band six). Six of seven bands accounted for. Band seven is the seventh's: a signature distinct from all six, present throughout the silence-break, silent throughout the silence-break. The catalogue is the first complete cipher-den entry for the upper-bands Watchers in eight epochs.",
+        mysteryBinding: {
+          mysteryId: "memorial.seven_watchers",
+          episodeId: "memorial.seven_watchers.e3",
+          cluesFound: ["watchers.e3.six_signatures_complete"],
+        },
+      },
+      use: {
+        narration:
+          "You request a band-by-band comparison. The reader shows the cards side by side: each Watcher's spectrum is unique, but all six share a single substrate frequency — the same upper-band carrier the Ark has been listening to from below. The seventh's band carries the same substrate.",
+      },
+    },
+    /* ─── akai_shi.red_death · e4 (Necromancer's seven retreat chambers) ─── */
+    "akai-necromancer-retreat-chambers": {
+      look: {
+        narration:
+          "On the cipher-den's matrix-cartography bench, a schematic of the Necromancer's seven retreat chambers inside the Matrix of Dreams. Each chamber carries decoys, false signatures, time-locked illusions — designed across millennia to throw off every chronicle-space hunter who tries him. The seven chambers, taken as a system, form a defense-in-depth no single agent could penetrate. The cipher-den's annotation: 'the Red Death has been moving through them in non-canonical order — time-folding rather than walking. the defense-in-depth has a single failure mode: an agent who is at every exit before the Necromancer reaches it.'",
         mysteryBinding: {
           mysteryId: "akai_shi.red_death",
           episodeId: "akai_shi.red_death.e4",
           cluesFound: ["akai.e4.necromancers_retreat_chambers"],
         },
+      },
+      use: {
+        narration:
+          "You compare the cipher-den's hunt-trace against the chamber schematic. The Red Death's path is non-sequential — chamber three at one cycle, chamber seven at another, chamber one back at a third. The hunt is not chronological. The Necromancer's defense-in-depth assumed a chronological hunter. He did not get one.",
       },
     },
     "rosetta-pad": {

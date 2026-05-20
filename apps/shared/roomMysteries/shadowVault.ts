@@ -26,13 +26,16 @@
 import type { RoomMysteryModule } from "./_template";
 
 export type ShadowVaultHotspotId =
-  | "dlc-charter-missing-signatory-shadow-vault"
-  | "dlc-severance-bound-champion-shadow-vault"
-  | "dlc-memorial-forgotten-names-shadow-vault"
-  | "dlc-charter-second-signatory-shadow-vault"
-  | "dlc-memorial-seven-watchers-shadow-vault"
-  | "dlc-resurrectionist-cycle-walker-shadow-vault"
-  | "dlc-advocate-blood-weave-shadow-vault"
+  | "charter-per-m-pencil-reply"
+  | "severance-apprentice-oath"
+  | "memorial-imprint-i17-aren"
+  | "memorial-imprint-keeper-account"
+  | "charter2-council-scrub-request"
+  | "watchers-idris-archive-role"
+  | "watchers-line-in-apprentice-hand"
+  | "resur-necromancer-at-killsite"
+  | "resur-silence-body-claim"
+  | "advocate-sealed-sacrum"
   | "sealed-cell-glass" | "manuscript-pile" | "warden-terminal" | "release-or-seal-lever" | "the-unopened-threshold" | "the-makers-heartbeat-trace" | "the-necromancers-altar";
 
 export type ShadowVaultInventoryId = "manuscript-folio";
@@ -43,74 +46,164 @@ export const SHADOW_VAULT_MYSTERY: RoomMysteryModule<
 > = {
   roomId: "shadow-vault",
   responses: {
-    "dlc-charter-missing-signatory-shadow-vault": {
+    /* ─── charter.missing_signatory · e4 (Per. M.'s pencil reply) ─── */
+    "charter-per-m-pencil-reply": {
       look: {
-        narration: "Case material for charter.missing_signatory surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "Inside the shadow-vault's correspondence drawer, the founding-Watcher's letter to Per. M. — addressed in the same wax-thumb hand that sits on the seventh signature. Stapled to it, in pencil: Per. M.'s reply. Three words. 'I will close.' The signature beneath the reply is the same wax-thumb that sits on the seventh signature of every charter draft the vault holds. The reply was sent before the charter was buried; the burial was Per. M. doing the job they had agreed in pencil to do.",
         mysteryBinding: {
           mysteryId: "charter.missing_signatory",
           episodeId: "charter.missing_signatory.e4",
           cluesFound: ["charter.e4.archivist_letter_back"],
         },
       },
+      use: {
+        narration:
+          "You read the staple. The pencil has not faded across eight epochs — graphite outlasts ink in a sealed vault, and this vault is sealed against itself. Per. M.'s three-word reply is the closer's enrolment record. The founding Watcher who wrote the letter and the closer who sealed the silence have been working the same correspondence for as long as the Ark has been a ship.",
+      },
     },
-    "dlc-severance-bound-champion-shadow-vault": {
+    /* ─── severance.bound_champion · e4 (apprentice oath) ─── */
+    "severance-apprentice-oath": {
       look: {
-        narration: "Case material for severance.bound_champion surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "Inside the shadow-vault's classified-correspondence drawer, the apprentice oath as preserved by the league's first archivist. Hand-written, eight lines. The first line: 'I will pour the bond and sit until I can stand.' The oath has no name on the signature line. The oath was pinned to the inside of the Broker's back-room door from the league's founding and copied here at Severance Year 1's close. The original is still in Nilmorg. The vault's copy is what the Council references when ratifying the post.",
         mysteryBinding: {
           mysteryId: "severance.bound_champion",
           episodeId: "severance.bound_champion.e4",
           cluesFound: ["severance.e4.apprentice_oath"],
         },
       },
+      use: {
+        narration:
+          "You request the vault's note on why the oath has stayed unfilled. The keeper's annotation: 'the oath is the post; the post is the oath; the chair takes the measure. the vault holds the oath in case the post needs to be re-instituted from text alone.' The oath has been waiting forty seasons for a successor.",
+      },
     },
-    "dlc-memorial-forgotten-names-shadow-vault": {
+    /* ─── memorial.forgotten_names · e2 (Imprint I-17, Aren of the lower decks) ─── */
+    "memorial-imprint-i17-aren": {
       look: {
-        narration: "Case material for memorial.forgotten_names surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "Inside the shadow-vault's imprint-room, fourteen obsidian dishes on a low cold-shelf. The keeper has lifted dish I-17 to the listening cradle. The voice on the dish is an elder's, calm and unhurried: 'my name is Aren of the lower decks; I have witnessed nineteen others; I will need someone to witness me.' Aren named themselves at the moment of imprinting. The dish carries every property the plaza requires for inscription — a name spoken in the imprint's own voice, with explicit awareness of the witnessing chain.",
         mysteryBinding: {
           mysteryId: "memorial.forgotten_names",
           episodeId: "memorial.forgotten_names.e2",
-          cluesFound: ["memorial.e2.imprint_i17", "memorial.e2.keeper_account"],
+          cluesFound: ["memorial.e2.imprint_i17"],
         },
       },
+      use: {
+        narration:
+          "You replay the dish through the keeper's calibrated cradle. The voice does not waver across the imprint's full duration. Aren spoke once and only once; the imprint records nothing else. The single sentence was the whole address — to the future, to the plaza, to whoever would eventually arrive to write the name.",
+      },
     },
-    "dlc-charter-second-signatory-shadow-vault": {
+    /* ─── memorial.forgotten_names · e2 (Imprint-Keeper's thirty-year account) ─── */
+    "memorial-imprint-keeper-account": {
       look: {
-        narration: "Case material for charter.second_signatory surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "On the imprint-room's small reading desk, the keeper's signed statement — taken by the Antiquarian's team after the plaza opened. The keeper has held this room for thirty years; their statement is unornamented. 'every imprint can be heard. every imprint can be named. the fourteen are not difficult to read; they are difficult to write. the writing requires consent the witnesses can no longer give.' The keeper distinguishes hearing from writing — both are technical acts; only the second requires the chain that broke.",
+        mysteryBinding: {
+          mysteryId: "memorial.forgotten_names",
+          episodeId: "memorial.forgotten_names.e2",
+          cluesFound: ["memorial.e2.keeper_account"],
+        },
+      },
+      interrogate: {
+        narration:
+          "You ask the keeper how they decide which dishes get listened to. Their answer: 'all of them, on a slow rotation. the unwitnessed get listened to twice a season; the others, once. the difference is the listening, not the dish.' The keeper has been performing this discipline alone for thirty years. The plaza is the keeper's first relief.",
+      },
+    },
+    /* ─── charter.second_signatory · e3 (Council scrub request) ─── */
+    "charter2-council-scrub-request": {
+      look: {
+        narration:
+          "Inside the shadow-vault's classified-correspondence drawer, the original scrub request — recovered from Heron's desk after their fourth-epoch retirement. Vellum, dated, signed by all six legible founding signatures. The text: 'In recognition of operational simplicity, please remove the artisan-house signatures from the founding records.' The seventh signature, where it should sit beside the other six, is wax-eaten in exactly the way the charter is. The same closer who sealed the founding's seventh signature also sealed the seventh's absence from the fourth-epoch request. The seventh did not sign; the seventh did not consent; the seventh said no by not signing.",
         mysteryBinding: {
           mysteryId: "charter.second_signatory",
           episodeId: "charter.second_signatory.e3",
           cluesFound: ["charter2.e3.council_request"],
         },
       },
+      interrogate: {
+        narration:
+          "You ask the vault for the request's response chain. The drawer returns nothing — no acknowledgment from the seventh, no minutes of the request's drafting, no record of the six discussing the seventh's absence from the signature line. The six knew the seventh would not sign and proceeded anyway. The fourth-epoch scrub was a vote without the seventh.",
+      },
     },
-    "dlc-memorial-seven-watchers-shadow-vault": {
+    /* ─── memorial.seven_watchers · e2 (Idris's archived role) ─── */
+    "watchers-idris-archive-role": {
       look: {
-        narration: "Case material for memorial.seven_watchers surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "Inside the shadow-vault's founding-Watchers' role registry, Idris's archived role entry — the only entry that survived the eight-epoch closure of the registry. 'Idris of the recording-band — speaks to investigators when the investigator has earned the speaking-to.' The phrase 'earned' is footnoted in Per. M.'s hand: 'the earning is mutual; Idris does not speak to anyone who has not been listening, and Idris would not speak to anyone who had not been investigating.' The registry confirms the silence-break's audience design.",
         mysteryBinding: {
           mysteryId: "memorial.seven_watchers",
           episodeId: "memorial.seven_watchers.e2",
-          cluesFound: ["watchers.e2.idris_archive_role", "watchers.e4.line_in_apprentice_hand"],
+          cluesFound: ["watchers.e2.idris_archive_role"],
         },
       },
+      interrogate: {
+        narration:
+          "You ask the vault what counts as having earned the speaking-to. The drawer returns the registry's longer note: 'case files opened, deductions assembled, suspects named, evidence weighed. the investigation has to be real before the addressing is real.' The Watchers have been auditing the players' audit work the whole time.",
+      },
     },
-    "dlc-resurrectionist-cycle-walker-shadow-vault": {
+    /* ─── memorial.seven_watchers · e4 (the seventh's apprentice-hand line) ─── */
+    "watchers-line-in-apprentice-hand": {
       look: {
-        narration: "Case material for resurrectionist.cycle_walker surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "In the shadow-vault's classified role-registry drawer, the seventh slot. Six entries on the role registry; six. The seventh slot has a number — VII — and a single line. No name. No band. No audience. The line, in a hand the cipher-den has already matched: 'I will not be named until the Ark has named what I am for.' Same hand as the apprentice oath in last year's Severance arc. Same hand as the closer-clause on the founding charter's seventh signature. Per. M. wrote the seventh's only registry entry.",
+        mysteryBinding: {
+          mysteryId: "memorial.seven_watchers",
+          episodeId: "memorial.seven_watchers.e4",
+          cluesFound: ["watchers.e4.line_in_apprentice_hand"],
+        },
+      },
+      use: {
+        narration:
+          "You request the vault's annotation on the slot's blankness. The keeper's note reads: 'this slot is not vacant. it is unwritten. the seventh has been performing a role we do not have words for, and the role's discipline is to keep the role un-named until the Ark names it.' The blank is a position, not an absence.",
+      },
+    },
+    /* ─── resurrectionist.cycle_walker · e3 (Necromancer at kill-site) ─── */
+    "resur-necromancer-at-killsite": {
+      look: {
+        narration:
+          "Inside the shadow-vault's classified faction-witness drawer, the Necromancer's last recorded appearance before his canonical disappearance into the Matrix of Dreams. The location: the Plague Dragon kill-site. The cult-curated chronicle annotates the appearance as 'an unrelated arrival — the Necromancer's interest in the cosmic-threat entity was forensic.' The Necromancer's interest in any forensic record is canonically zero. The Archon does not perform forensics. The chronicle records the meeting and declines to elaborate.",
         mysteryBinding: {
           mysteryId: "resurrectionist.cycle_walker",
           episodeId: "resurrectionist.cycle_walker.e3",
-          cluesFound: ["resur.e3.necromancer_last_recorded_appearance", "resur.e4.silences_claim_record"],
+          cluesFound: ["resur.e3.necromancer_last_recorded_appearance"],
         },
       },
+      interrogate: {
+        narration:
+          "You ask the vault for the duration of the Necromancer's presence at the kill-site. The drawer returns the witness records: the Necromancer arrived at the dragon's death-instant and departed within minutes. The duration is consistent with an operational presence, not a forensic one. The cult's annotation glosses what the witness records do not support.",
+      },
     },
-    "dlc-advocate-blood-weave-shadow-vault": {
+    /* ─── resurrectionist.cycle_walker · e4 (Silence body-claim record) ─── */
+    "resur-silence-body-claim": {
       look: {
-        narration: "Case material for advocate.blood_weave surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "On the shadow-vault's Ne-Yon body-claim shelf, the Silence's body-claim record. The lower-left corner carries a plague-mask seal — the same long-beaked silhouette as the seal on every Resurrectionist case-file in the library. The cult-curated annotation: 'ceremonial — claims of Ne-Yon bodies traditionally carry archaic seals as a mark of respect.' The Antiquarian's library catalogues no other Ne-Yon body-claim record with a plague-mask seal. One record, one seal, one match to the Resurrectionist's case-file imprint.",
+        mysteryBinding: {
+          mysteryId: "resurrectionist.cycle_walker",
+          episodeId: "resurrectionist.cycle_walker.e4",
+          cluesFound: ["resur.e4.silences_claim_record"],
+        },
+      },
+      use: {
+        narration:
+          "You request comparable Ne-Yon body-claim records. The vault returns four others — for the Sage, the Champion, the Hawk, the Architect's first failed proxy. None of the four carries an archaic seal. The 'tradition' the cult's annotation cites has no other examples in the chronicle.",
+      },
+    },
+    /* ─── advocate.blood_weave · e3 (the Sacrum reliquary) ─── */
+    "advocate-sealed-sacrum": {
+      look: {
+        narration:
+          "Inside the shadow-vault's classified-reliquary drawer, the Sacrum — a canonical reliquary the Advocate sealed and Syl'Vex unsealed. The vault's sealed-record summary: the Sacrum contains a class of Weave-derivative bindings the Advocate elected not to use. The bindings would have shortened the Empire-of-Shadows defense by centuries but at a cost to the bound souls' agency. The Advocate sealed them. Syl'Vex unsealed them — and uses them as the operational core of HR's recruitment-as-relief doctrine. The Sacrum's contents are canon; the doctrine derived from them is the Hierarchy's most efficient soul-acquisition pathway.",
         mysteryBinding: {
           mysteryId: "advocate.blood_weave",
           episodeId: "advocate.blood_weave.e3",
           cluesFound: ["adv.e3.sealed_sacrum_record"],
         },
+      },
+      use: {
+        narration:
+          "You request the vault's note on what the Sacrum still holds. The keeper's annotation: 'after Syl'Vex's unsealing, three classes of binding remain. each was refused even with Syl'Vex's operational pressure. the Advocate's discipline survives in what is still sealed.' The Advocate's refusal is durable; what she refused even under pressure is the Empire's deepest principle.",
       },
     },
     "sealed-cell-glass": {

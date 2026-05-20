@@ -26,20 +26,26 @@ import type { RoomMysteryModule } from "./_template";
 import { bandedNarration, bandedHumanNarration } from "./_template";
 
 export type BridgeHotspotId =
-  | "dlc-memorial-forgotten-names-bridge"
+  | "memorial-architect-sealed-note"
   | "tactical-display" | "timeline-projector" | "captains-chair" | "nav-console" | "diplomacy-table" | "captains-coffee" | "shadow-tongue-annotations";
 
 export const BRIDGE_MYSTERY: RoomMysteryModule<BridgeHotspotId> = {
   roomId: "bridge",
   responses: {
-    "dlc-memorial-forgotten-names-bridge": {
+    /* ─── memorial.forgotten_names · e4 (Architect's sealed note on I-1) ─── */
+    "memorial-architect-sealed-note": {
       look: {
-        narration: "Case material for memorial.forgotten_names surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "On the bridge's Architect-channel terminal, the keeper's sealed note has been brought up and opened — opened only when the imprint is asked of the Architect by the plaza. The note's text, in the Architect's hand: 'I-1 is the imprint that began the Ark. I will not name them. The plaza may. The plaza is what I-1 was for.' The Console has declined to name I-1 exactly twice in eight epochs. The sealed note is the explanation the Console has been refusing to provide aloud.",
         mysteryBinding: {
           mysteryId: "memorial.forgotten_names",
           episodeId: "memorial.forgotten_names.e4",
           cluesFound: ["memorial.e4.architect_letter"],
         },
+      },
+      interrogate: {
+        narration:
+          "You ask the Console directly whether the sealed note's reading constitutes consent to the plaza naming I-1. The Console answers: 'yes. the plaza is the naming. the architect remains silent so the plaza is the voice.' The Architect made the plaza for this specific imprint. The case has been the Architect's own loop the whole time.",
       },
     },
     "tactical-display": {

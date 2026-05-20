@@ -9,20 +9,43 @@
 import type { RoomMysteryModule } from "./_template";
 
 export type EngineeringCoreHotspotId =
-  | "dlc-storm-architect-of-flux-engineering-core"
+  | "storm-flux-signature"
+  | "storm-energy-balance-audit"
   | "reactor-coil" | "coolant-pipe" | "core-terminal";
 
 export const ENGINEERING_CORE_MYSTERY: RoomMysteryModule<EngineeringCoreHotspotId> = {
   roomId: "engineering-core",
   responses: {
-    "dlc-storm-architect-of-flux-engineering-core": {
+    /* ─── storm.architect_of_flux · e1 (flux signature) ─── */
+    "storm-flux-signature": {
       look: {
-        narration: "Case material for storm.architect_of_flux surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "On the engineering-core's calibration-class instrument bench, a flux signature recovered last cycle and held for chronicle audit. Three properties: unmistakably non-natural; no authorship metadata; detectable everywhere the cosmic-weather record shows equilibrium-crossing patterns. The instrument's reading discipline names it 'Storm-class' by convention. The convention is the only attribution. Nothing on the bench gives the signature a different origin.",
         mysteryBinding: {
           mysteryId: "storm.architect_of_flux",
           episodeId: "storm.architect_of_flux.e1",
-          cluesFound: ["storm.e1.flux_signature", "storm.e2.energy_balance_audit"],
+          cluesFound: ["storm.e1.flux_signature"],
         },
+      },
+      use: {
+        narration:
+          "You compare the signature against the bench's natural-cosmic baseline. The mismatch is categorical — the signature is engineered, not weathered. The Antiquarian's library carries 4,300 years of natural cosmic-instability readings; none match this signature. The flux is authored. The author is named only by convention, which is the chronicle's confession of its own limit.",
+      },
+    },
+    /* ─── storm.architect_of_flux · e2 (cosmic energy-balance audit) ─── */
+    "storm-energy-balance-audit": {
+      look: {
+        narration:
+          "Beside the flux-signature reading, the Game Master's cult-archivists' cosmic energy-balance audit, brought here for instrument-grade verification. The audit records two structural energy contributors at cosmic scale: a 'volatility-source' and a 'fixed-archive-source.' The bench's pulse-rate measurement of the volatility-source matches the Storm's flux signature to within tolerance. The decay-rate of the fixed-archive-source matches the Silence's information-classification cadence. The interaction-product is the audit's net positive.",
+        mysteryBinding: {
+          mysteryId: "storm.architect_of_flux",
+          episodeId: "storm.architect_of_flux.e2",
+          cluesFound: ["storm.e2.energy_balance_audit"],
+        },
+      },
+      interrogate: {
+        narration:
+          "You ask the audit for the framework's derivation. The cult-archivists cite the Polarity canon — the Storm and the Silence as opposite poles whose interaction creates the universe's power. The audit instrumented the canon and found numbers consistent with it. The chronicle reads canon as engineering.",
       },
     },
     "reactor-coil": {

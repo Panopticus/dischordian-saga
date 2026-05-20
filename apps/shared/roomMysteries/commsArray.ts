@@ -21,12 +21,15 @@
 import type { RoomMysteryModule } from "./_template";
 
 export type CommsArrayHotspotId =
-  | "dlc-severance-bound-champion-comms-array"
-  | "dlc-mechronis-missing-professor-comms-array"
-  | "dlc-memorial-seven-watchers-comms-array"
-  | "dlc-wolf-anara-hunt-comms-array"
-  | "dlc-akai-shi-red-death-comms-array"
-  | "dlc-resurrectionist-cycle-walker-comms-array"
+  | "severance-vex-opening-line"
+  | "severance-year-one-lap-record"
+  | "severance-vex-confession"
+  | "tarn-erasure-vote-audio"
+  | "tarn-faculty-silence-hour"
+  | "watchers-silence-break-log"
+  | "wolf-meme-show-transmission"
+  | "akai-last-recorded-words"
+  | "resur-host-wyrmhole-signature"
   | "radio-console" | "static-screen" | "egg-comms-signal" | "voice-in-the-static" | "ocularum-relay-trace" | "dead-drop-cadence-log" | "shadow-tongue-signal-trace" | "miras-dual-thread-transmission";
 
 export type CommsArrayInventoryId = "static-fragment-recording";
@@ -37,64 +40,148 @@ export const COMMS_ARRAY_MYSTERY: RoomMysteryModule<
 > = {
   roomId: "comms-array",
   responses: {
-    "dlc-severance-bound-champion-comms-array": {
+    /* ─── severance.bound_champion · e1 (Vex's opening line) ─── */
+    "severance-vex-opening-line": {
       look: {
-        narration: "Case material for severance.bound_champion surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "On the comms-array's broadcast-record desk, every Severance opening since Year 1 has been logged with the same opening line in Vex Maestro's voice: 'we do not say the word death in Nilmorg; we say the bond is on the table; we say someone has to pick it up.' Forty broadcasts, one line, never varied. No one has ever asked Vex where the line is from. The desk's annotation: 'source: unattributed; first appearance: Severance Year 1, opening ceremony.' The line was someone else's first.",
         mysteryBinding: {
           mysteryId: "severance.bound_champion",
           episodeId: "severance.bound_champion.e1",
-          cluesFound: ["severance.e1.vex_opening", "severance.e3.year_one_lap", "severance.e4.vex_confession"],
+          cluesFound: ["severance.e1.vex_opening"],
         },
       },
+      use: {
+        narration:
+          "You queue the forty recordings and compare them. The cadence is identical across forty years. The vu-meter's stress patterns at 'someone has to pick it up' are the same in every recording. Vex has been repeating, not interpreting, the line. The line is older than Vex's tenure.",
+      },
     },
-    "dlc-mechronis-missing-professor-comms-array": {
+    /* ─── severance.bound_champion · e3 (Year One lap record) ─── */
+    "severance-year-one-lap-record": {
       look: {
-        narration: "Case material for mechronis.missing_professor surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "On the comms-array's Year-One archive shelf, the Severance Year 1 death-lap record. Two casualties logged: the champion (named) and a witness who entered the lane (redacted). The witness's name is the only redaction in the entire forty-season archive. The redaction is in a hand the cipher-den has not been able to match. The record has been read every season since; the redaction has not been challenged.",
+        mysteryBinding: {
+          mysteryId: "severance.bound_champion",
+          episodeId: "severance.bound_champion.e3",
+          cluesFound: ["severance.e3.year_one_lap"],
+        },
+      },
+      interrogate: {
+        narration:
+          "You ask the desk for the original recording of the lane-entry. The broadcast returns a thirty-second clip: a figure entering the lane after the champion fell, kneeling beside the body, picking up something the recording cannot resolve. The figure does not speak. The figure's silhouette matches the Broker's posture in present-day Nilmorg.",
+      },
+    },
+    /* ─── severance.bound_champion · e4 (Vex's confession) ─── */
+    "severance-vex-confession": {
+      look: {
+        narration:
+          "Pinned to the comms-array's recent-recordings board, Vex Maestro's recorded confession from this season's finals night. 'Every season's opening line was a recruitment notice. Someone has to pick it up was always literal. I have spoken it forty times into rooms that were full of people who heard it as theatre.' Vex's voice does not waver. The recording is the first time Vex has named the recruitment as recruitment in forty seasons. The desk's annotation: 'broadcast cleared; sent to all sectors.'",
+        mysteryBinding: {
+          mysteryId: "severance.bound_champion",
+          episodeId: "severance.bound_champion.e4",
+          cluesFound: ["severance.e4.vex_confession"],
+        },
+      },
+      use: {
+        narration:
+          "You ask the comms-array for the response chain after the confession aired. The desk returns the list — Auditor Klessa's affirmation, the Broker's silence, the Architect's one-line acknowledgment. Three of the four witnesses to forty seasons of recruitment have now confirmed it on record. The fourth witness has been doing the recruitment by sitting in chair one.",
+      },
+    },
+    /* ─── mechronis.missing_professor · e3 (vote audio) ─── */
+    "tarn-erasure-vote-audio": {
+      look: {
+        narration:
+          "On the comms-array's transmission desk, the audio recovered from the war-room's spillover recorder — forty-three minutes, war-room channel B, dated the week before the festival. The vote is heard clearly: three voices, three ayes, three pauses long enough that each could have been a no. The comms-array's signal analyst has marked each aye with a coloured pin. Three pins, three pauses, no extant noes. The recorder's metadata stamp confirms the audio is unedited; the silences between the ayes are real time, not splices.",
         mysteryBinding: {
           mysteryId: "mechronis.missing_professor",
           episodeId: "mechronis.missing_professor.e3",
-          cluesFound: ["mechronis.e3.recovered_audio", "mechronis.e3.unanimous_silence"],
+          cluesFound: ["mechronis.e3.recovered_audio"],
         },
       },
+      use: {
+        narration:
+          "You queue the audio at the war-room's clock. The first aye lands at minute eighteen; the second at minute twenty-three; the third at minute twenty-nine. Each speaker waited approximately five minutes after the previous aye, listening for the no that did not come. The vote took eleven minutes longer than any other faculty vote in the recorder's history.",
+      },
     },
-    "dlc-memorial-seven-watchers-comms-array": {
+    /* ─── mechronis.missing_professor · e3 (silence hour before the vote) ─── */
+    "tarn-faculty-silence-hour": {
       look: {
-        narration: "Case material for memorial.seven_watchers surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "The comms-array's spillover recorder also caught the hour before the vote: fifty-one minutes of three faculty heads sitting in silence. Audio shows no footsteps, no chairs scraping, no leaving. The microphone caught breathing and the war-room's ventilation hum. The comms-array's pin-marker annotation: 'subject parties in the room. no audible dialogue. no audible departure. waiting for one of the others to be the one who said no first.' The silence is documented by the absence of action that any one of the three could have taken at any minute.",
+        mysteryBinding: {
+          mysteryId: "mechronis.missing_professor",
+          episodeId: "mechronis.missing_professor.e3",
+          cluesFound: ["mechronis.e3.unanimous_silence"],
+        },
+      },
+      interrogate: {
+        narration:
+          "You ask the comms-array whether any of the three left and returned. The recorder shows no break in the audio's room-tone. None of the three left. The silence was held by all three for the full hour. Each faculty head later admitted, on the cipher-den's record, that they had been waiting for one of the others to be the first to refuse.",
+      },
+    },
+    /* ─── memorial.seven_watchers · e1 (silence-break event log) ─── */
+    "watchers-silence-break-log": {
+      look: {
+        narration:
+          "On the comms-array's transmission desk, the sixty-three-second event log from the silence-break. The array's timestamping shows six upper-band voice-channels opening simultaneously at second bell plus six minutes. Each channel addressed a single different player. The channels closed in unison. The seventh channel-slot is logged as 'active signal, no carrier' — the seventh's signature was present and silent for the full duration. The log is unambiguous: six speakers, one silence, all in the same moment.",
         mysteryBinding: {
           mysteryId: "memorial.seven_watchers",
           episodeId: "memorial.seven_watchers.e1",
           cluesFound: ["watchers.e1.silence_break_log"],
         },
       },
+      use: {
+        narration:
+          "You request the array's confidence on the timing. The desk returns the metadata: the six channels opened within 0.4 seconds of each other and closed within 0.2 seconds of each other. The Watchers' silence-break was coordinated to a tighter tolerance than any broadcast the array has ever logged.",
+      },
     },
-    "dlc-wolf-anara-hunt-comms-array": {
+    /* ─── wolf.anara_hunt · e1 (meme-show transmission) ─── */
+    "wolf-meme-show-transmission": {
       look: {
-        narration: "Case material for wolf.anara_hunt surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "On the comms-array's intercept board, a meme-show transmission pinned this morning by the Watcher's adjudicar. The voice register is the Inventor's. The transmission is canonical (apps/shared/transmissions.ts:608). 'The Antiquarian's pocket universe — Anara — where he hides his heroes. Someone is hunting them from inside. The Wolf. Once a machine freed by death. Now a predator wearing trust like a mask.' The Antiquarian has not denied the framing. The Inventor's voice does not editorialise; the transmission's content is the saga's plain statement of fact.",
         mysteryBinding: {
           mysteryId: "wolf.anara_hunt",
           episodeId: "wolf.anara_hunt.e1",
           cluesFound: ["wolf.e1.transmission_intercept"],
         },
       },
+      use: {
+        narration:
+          "You request the comms-array's transmission origin trace. The signal routes through Locke's interception channel — the adjudicar pinned it for the chronicler's attention. Locke has not commented on the content. Locke has commented on the timing: the transmission landed forty-seven minutes after the first empty chair was reported. Someone outside the chronicle knew what was happening inside Anara before the chronicler did.",
+      },
     },
-    "dlc-akai-shi-red-death-comms-array": {
+    /* ─── akai_shi.red_death · e1 (Akai Shi's last recorded words) ─── */
+    "akai-last-recorded-words": {
       look: {
-        narration: "Case material for akai_shi.red_death surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "On the comms-array's Thaloria-archive shelf, the field-recording from Akai Shi's squad's helm-comm — retrieved post-engagement, preserved by the Antiquarian's library across centuries. Forty-seven seconds before Jericho reached her, Akai Shi spoke into the comm: 'If the Virus finishes its work, I trust the squad to finish theirs. The doctrine on mercy is contested. The doctrine on consequence is not. Whoever does the work, the work is not yours alone. Tell the Antiquarian: it was always going to be a mercy. We just have to live with which kind.' The recording is unedited. The voice is steady.",
         mysteryBinding: {
           mysteryId: "akai_shi.red_death",
           episodeId: "akai_shi.red_death.e1",
           cluesFound: ["akai.e1.akai_last_recorded"],
         },
       },
+      use: {
+        narration:
+          "You request the recording's full unedited duration. The desk returns the timeline: Akai Shi's words sit at the forty-seven-second mark before intercept; the remaining thirty seconds are silence held by a being who had decided. The squad's other channels are quiet during this window — the squad heard her and held the line.",
+      },
     },
-    "dlc-resurrectionist-cycle-walker-comms-array": {
+    /* ─── resurrectionist.cycle_walker · e3 (Host wyrmhole signature) ─── */
+    "resur-host-wyrmhole-signature": {
       look: {
-        narration: "Case material for resurrectionist.cycle_walker surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "On the comms-array's signal-analysis bench, the Plague Dragon's corpse-signature scan, pulled from the cult's incomplete edits. The energy-trace carries a signature consistent with the Host's canonical wyrmhole technology — confirming the Antiquarian's working theory that the Thought Virus reached the planet through a Host-engineered breach. The Host's hand in the Plague Dragon's infection is settled canon. The faction-witness records the answer; the case opens its consequence.",
         mysteryBinding: {
           mysteryId: "resurrectionist.cycle_walker",
           episodeId: "resurrectionist.cycle_walker.e3",
           cluesFound: ["resur.e3.hosts_wyrmhole_signature"],
         },
+      },
+      use: {
+        narration:
+          "You request the bench's cross-reference for the wyrmhole signature. The desk returns three other recorded Host-wyrmhole signatures — all earlier, all on cosmic-scale incursions. The Plague Dragon's signature is the most recent and the most precisely matched. The Host engineered the breach; the Virus crossed; the Dragon was the carrier the Virus rode.",
       },
     },
     "radio-console": {

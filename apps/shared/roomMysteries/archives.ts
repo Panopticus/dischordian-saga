@@ -17,14 +17,18 @@
 import type { CombineRule, RoomMysteryModule } from "./_template";
 
 export type ArchivesHotspotId =
-  | "dlc-charter-missing-signatory-archives"
-  | "dlc-severance-bound-champion-archives"
-  | "dlc-mechronis-missing-professor-archives"
-  | "dlc-memorial-forgotten-names-archives"
-  | "dlc-wolf-anara-hunt-archives"
-  | "dlc-akai-shi-red-death-archives"
-  | "dlc-resurrectionist-cycle-walker-archives"
-  | "dlc-storm-architect-of-flux-archives"
+  | "charter-silt-stratigraphy"
+  | "charter-per-m-preservation-orders"
+  | "severance-no-protocol-on-file"
+  | "severance-forty-season-envelopes"
+  | "tarn-binder-page-14"
+  | "memorial-fourteen-unwitnessed-list"
+  | "wolf-crucible-resurrection-record"
+  | "wolf-crucible-inheritance-manifest"
+  | "akai-necromancer-dossier"
+  | "resur-matrix-energy-ledger"
+  | "resur-protocol-authoring-signature"
+  | "storm-inventors-heist-window"
   | "data-banks" | "egg-archive-tome" | "corrupted-scroll-rack" | "rewritten-ledger" | "indigo-glow-lectern" | "unnameable-hue-cabinet";
 
 export type ArchivesInventoryId =
@@ -60,84 +64,196 @@ export const ARCHIVES_MYSTERY: RoomMysteryModule<
     },
   ] as readonly CombineRule<ArchivesInventoryId>[],
   responses: {
-    "dlc-charter-missing-signatory-archives": {
+    /* ─── charter.missing_signatory · e1 (silt stratigraphy) ─── */
+    "charter-silt-stratigraphy": {
       look: {
-        narration: "Case material for charter.missing_signatory surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "The lower-deck silt-core extraction stands on a brass tripod in the archives' Foundation-tier wing. Eight strata of compacted dust, every layer dated by the archives' standard pollen-and-isotope key. The charter sat in stratum six. Strata seven and eight closed over it AFTER the burial — meaning two deliberate burials happened above the document, one of them within living memory. The core does not name the second burier. It does name the year. The year is on every Council attendance sheet.",
         mysteryBinding: {
           mysteryId: "charter.missing_signatory",
           episodeId: "charter.missing_signatory.e1",
-          cluesFound: ["charter.e1.silt_layer", "charter.e3.preservation_orders"],
+          cluesFound: ["charter.e1.silt_layer"],
         },
       },
+      use: {
+        narration:
+          "You measure the stratum-six band with the archives' brass calipers. The thickness is consistent with a burial timed to coincide with the closing of an epoch — the kind of deliberate concealment a librarian performs when they want a thing kept but not lost. The second burial above it is shallower; the second burier was in more of a hurry.",
+      },
     },
-    "dlc-severance-bound-champion-archives": {
+    /* ─── charter.missing_signatory · e3 (Per. M.'s preservation orders) ─── */
+    "charter-per-m-preservation-orders": {
       look: {
-        narration: "Case material for severance.bound_champion surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "In the archives' standing-order vault, the charter's preservation-order file. Forty-three orders, eight epochs, one signature on every single one: 'Per. M.' The ink shifts with the eras — early orders in iron-gall, middle epochs in cyanic ferro-gall, recent orders in archival graphite — but the hand on the signature does not. The same down-stroke, the same loop on the lower-case 'm,' the same pulse in the descender, every order across eight epochs. Either the archives have a forger of unmatched discipline, or one librarian has been signing here longer than any spine should permit.",
+        mysteryBinding: {
+          mysteryId: "charter.missing_signatory",
+          episodeId: "charter.missing_signatory.e3",
+          cluesFound: ["charter.e3.preservation_orders"],
+        },
+      },
+      interrogate: {
+        narration:
+          "You ask the archive's curator for Per. M.'s tenure record. The drawer returns nothing — no start date, no payroll entry, no termination notice. The same Per. M. signed an order this morning and forty-two earlier ones across eight epochs. The curator has been signing receipts to Per. M. for nineteen years without ever asking who they are.",
+      },
+    },
+    /* ─── severance.bound_champion · e1 (empty inheritance-protocol vault) ─── */
+    "severance-no-protocol-on-file": {
+      look: {
+        narration:
+          "In the archives' Severance-tier records, the inheritance-protocol vault — empty. Vex Maestro's office files contain everything else: lap counts, sponsor splits, refurbishment ledgers. There is no written procedure for inheriting a soul-bond. There never has been. The vault was opened at the league's founding and has sat empty for forty seasons. The slot exists. The protocol does not.",
         mysteryBinding: {
           mysteryId: "severance.bound_champion",
           episodeId: "severance.bound_champion.e1",
-          cluesFound: ["severance.e1.unwritten_protocol", "severance.e2.season_archives"],
+          cluesFound: ["severance.e1.unwritten_protocol"],
         },
       },
+      use: {
+        narration:
+          "You request the vault's reading history. The drawer returns a single annotation, in the original archivist's hand: 'kept open for the procedure when it is written.' The slot has been waiting for forty seasons for someone to fill it.",
+      },
     },
-    "dlc-mechronis-missing-professor-archives": {
+    /* ─── severance.bound_champion · e2 (forty sealed season envelopes) ─── */
+    "severance-forty-season-envelopes": {
       look: {
-        narration: "Case material for mechronis.missing_professor surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "Beside the empty protocol vault, the forty-season envelope set — one sealed envelope per Severance, stacked chronologically. Each envelope contains: an attendance list, the season's champion's death certificate, and a single one-line note in Vex Maestro's hand. The note reads 'inheritor accepted.' Forty notes, forty seasons, no name on any of them. The bond carries the name forward; the ledger does not.",
+        mysteryBinding: {
+          mysteryId: "severance.bound_champion",
+          episodeId: "severance.bound_champion.e2",
+          cluesFound: ["severance.e2.season_archives"],
+        },
+      },
+      interrogate: {
+        narration:
+          "You ask the archive whether any envelope was ever opened by another reader. The drawer logs three attempts in forty seasons; each one returned the envelope unopened. The seals are unbroken; the names remain in the bond, not in the paperwork.",
+      },
+    },
+    /* ─── mechronis.missing_professor · e2 (binder page 14) ─── */
+    "tarn-binder-page-14": {
+      look: {
+        narration:
+          "In the archives' lost-and-found drawer — repurposed from a recycling-bin retrieval at the festival hall — a single page of Tarn's lecture binder. Hand-numbered '14 of 22.' The page is the equinox-address opening, in Tarn's own hand: 'I will not be teaching this year.' Below the line, the rest of the binder's promised pages are absent. The numbering says they exist. Whoever retrieved this from the bin chose this page first because this was the page Tarn had set on top of the rest before she walked out of the Dean's office.",
         mysteryBinding: {
           mysteryId: "mechronis.missing_professor",
           episodeId: "mechronis.missing_professor.e2",
           cluesFound: ["mechronis.e2.binder_partial"],
         },
       },
+      use: {
+        narration:
+          "You request the archives' provenance scan for the page. The retrieval log shows it was found face-up in the festival hall's recycling bin at first bell — fifteen minutes before the address was scheduled to begin. Tarn placed it where the festival staff would find it before the lectern would have to be opened.",
+      },
     },
-    "dlc-memorial-forgotten-names-archives": {
+    /* ─── memorial.forgotten_names · e1 (fourteen unwitnessed list) ─── */
+    "memorial-fourteen-unwitnessed-list": {
       look: {
-        narration: "Case material for memorial.forgotten_names surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "In the archives' Memorial-tier drawer, the fourteen-imprint list — pulled from Year of the Lost's blank pages and copied into a separate index. By imprint-id only: I-3, I-17, I-44, I-58, I-101, I-129, I-155, I-202, I-244, I-301, I-356, I-388, I-410, I-444. Each id corresponds to a person whose imprint exists but whose witnesses are no longer alive to inscribe them. The fourteen are not lost; they are unwitnessed. The chain of memory broke, not the imprints. The plaza is for the chain.",
         mysteryBinding: {
           mysteryId: "memorial.forgotten_names",
           episodeId: "memorial.forgotten_names.e1",
           cluesFound: ["memorial.e1.unwitnessed_id_list"],
         },
       },
+      use: {
+        narration:
+          "You request the archives' cross-reference between the fourteen ids and the wider imprint registry. The drawer returns a single annotation: 'no witnesses listed in any active registry entry; check imprint-room dishes for self-naming or in-group reference.' The list is the start of the search, not the answer.",
+      },
     },
-    "dlc-wolf-anara-hunt-archives": {
+    /* ─── wolf.anara_hunt · e3 (Crucible resurrection record) ─── */
+    "wolf-crucible-resurrection-record": {
       look: {
-        narration: "Case material for wolf.anara_hunt surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "In the archives' Crucible-inheritance tier — the records inherited wholesale from Anara's predecessor pocket — a resurrection log dated Year 128,652 A.A. names Lycos: 'subject preserved across destruction event Day 15 of Resonance Year 100,001; substrate matched on Quarchon resurrection-protocol descendant; reanimation successful.' The signing authority is redacted in standard Crucible style. The Resurrectionist's seal sits in the corner. Twenty-eight thousand six hundred fifty-one years separate the Judge's audit of the destruction from this record of the reanimation.",
         mysteryBinding: {
           mysteryId: "wolf.anara_hunt",
           episodeId: "wolf.anara_hunt.e3",
-          cluesFound: ["wolf.e3.crucible_records", "wolf.e4.crucible_inheritance"],
+          cluesFound: ["wolf.e3.crucible_records"],
         },
       },
+      use: {
+        narration:
+          "You request the Crucible's full Lycos file. Three folders surface: 'destruction' (closed by the Judge), 'preservation' (closed by the Crucible's standard process), and 'reanimation' (closed by the Resurrectionist). Each Ne-Yon's authorship sits behind a different page of the same chronicle. The Judge and the Resurrectionist were not asked to consent to each other's work. The Crucible filed both as routine.",
+      },
     },
-    "dlc-akai-shi-red-death-archives": {
+    /* ─── wolf.anara_hunt · e4 (Crucible inheritance manifest) ─── */
+    "wolf-crucible-inheritance-manifest": {
       look: {
-        narration: "Case material for akai_shi.red_death surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "The archives' inheritance manifest — every Crucible asset moved to Anara when the predecessor pocket collapsed. Heroes, archives, containment fields, and a single un-itemized line: 'preserved instruments (sealed).' The Antiquarian moved the preserved-instruments inventory wholesale without audit. He trusted the Crucible's seal on each item. The Wolf was, technically, a preserved instrument. The manifest does not name him. The manifest does not name any of them. The chronicler signed off on a line item rather than on the contents.",
+        mysteryBinding: {
+          mysteryId: "wolf.anara_hunt",
+          episodeId: "wolf.anara_hunt.e4",
+          cluesFound: ["wolf.e4.crucible_inheritance"],
+        },
+      },
+      interrogate: {
+        narration:
+          "You ask the manifest for the un-itemized line's detail. The drawer returns nothing — the inheritance log was archived at the line-item level, not the contents level. The Crucible's records would have had the detail; the Crucible no longer exists. The Antiquarian inherited a sealed package and did not open it. The package contained the Wolf.",
+      },
+    },
+    /* ─── akai_shi.red_death · e3 (Necromancer's targets-list dossier) ─── */
+    "akai-necromancer-dossier": {
+      look: {
+        narration:
+          "In the archives' Necromancer-affairs tier, the Necromancer's dossier — the Architect's tenth-created Archon. The dossier has been on the Red Death's targets list for the entire span of her mandate. He is the ONLY entry on the list whose date of elimination is BLANK. He is the final target. The Antiquarian's notation under his name reads: 'subject's millennia-long evasion of fate is the Red Death's primary work.' The other thirteen targets have dates. The Necromancer's slot waits.",
         mysteryBinding: {
           mysteryId: "akai_shi.red_death",
           episodeId: "akai_shi.red_death.e3",
           cluesFound: ["akai.e3.necromancer_dossier"],
         },
       },
+      interrogate: {
+        narration:
+          "You ask the drawer for the dossier's classification rationale. The archive returns the Antiquarian's marginal note: 'subject is the only target whose elimination requires extra-canonical instrumentation. all other targets are conventionally addressable. this one is not.' The Necromancer is the case the Resurrectionist made the Red Death to close.",
+      },
     },
-    "dlc-resurrectionist-cycle-walker-archives": {
+    /* ─── resurrectionist.cycle_walker · e1 (Matrix energy ledger) ─── */
+    "resur-matrix-energy-ledger": {
       look: {
-        narration: "Case material for resurrectionist.cycle_walker surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "In the archives' Matrix-of-Dreams maintenance-era tier, a partial energy ledger recovered from the cult's incomplete edits. The ledger records a sustained energy draw from an unnamed internal source — a draw too consistent to be one of the imprints. The cult-curated note in the margin reads: 'imprint-load aggregate; nothing of consequence.' The aggregate column does not match the totals across the rest of the ledger. Something else was being drawn from; the editor preferred the imprints-only reading. The ledger's discrepancy is structural, not arithmetic.",
         mysteryBinding: {
           mysteryId: "resurrectionist.cycle_walker",
           episodeId: "resurrectionist.cycle_walker.e1",
-          cluesFound: ["resur.e1.matrix_energy_ledger", "resur.e2.authoring_signature"],
+          cluesFound: ["resur.e1.matrix_energy_ledger"],
         },
       },
+      use: {
+        narration:
+          "You re-sum the ledger's columns by hand. The imprints-only aggregate runs 14% short of the total energy draw across the maintenance era. The 14% sat in a separate column the editor's hand bracketed and labelled 'transient.' Transient draws do not run consistently for the entire Matrix-of-Dreams maintenance era.",
+      },
     },
-    "dlc-storm-architect-of-flux-archives": {
+    /* ─── resurrectionist.cycle_walker · e2 (protocol authoring signature) ─── */
+    "resur-protocol-authoring-signature": {
       look: {
-        narration: "Case material for storm.architect_of_flux surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "Beside the Matrix ledger, the archives' protocol-archive drawer holds every canonical resurrection-protocol signed in the Resurrectionist's hand: Wraith Calder's six sanctuary resurrections, Akai Shi's Red-Death reanimation, the Wolf's Year-128,652 case-file. Every protocol bears the same four-part cipher. The chain is uniform. The chain is consistent. The chain is not in chronological order with the Resurrectionist's documented vanishing — protocols continue to fire after his canonical disappearance, signed in his hand, at moments the chronicle records as administrative.",
+        mysteryBinding: {
+          mysteryId: "resurrectionist.cycle_walker",
+          episodeId: "resurrectionist.cycle_walker.e2",
+          cluesFound: ["resur.e2.authoring_signature"],
+        },
+      },
+      interrogate: {
+        narration:
+          "You ask the drawer how the post-vanishing protocols were activated. The archives return the cult-curated annotation: 'queued ahead — the Resurrectionist signed extensively before his vanishing, leaving a deep activation reserve.' The reserve, if extant, is not separately documented. The cult's reading is the only reading the chronicle offers.",
+      },
+    },
+    /* ─── storm.architect_of_flux · e3 (Inventor's heist window) ─── */
+    "storm-inventors-heist-window": {
+      look: {
+        narration:
+          "In the archives' Inventor-arc tier, the Casino Heist's post-event accounting. Recovered the Heart of Time; transitioned the saga from Age of Privacy to Age of Prophecy. The accounting's opening line, in the Inventor's own hand: 'the Storm's grace allowed the window.' The heist's planning required cosmic-scale information consistency across two cosmic-cycles — the kind of consistency only achievable inside one of the Storm's documented calm intervals. The dates match. The crediting is canon, not flourish.",
         mysteryBinding: {
           mysteryId: "storm.architect_of_flux",
           episodeId: "storm.architect_of_flux.e3",
           cluesFound: ["storm.e3.inventors_heist_window"],
         },
+      },
+      use: {
+        narration:
+          "You request the heist's preparation log. Forty-three operational decisions, each predicated on stable cosmic conditions, each stamped with a calm-interval timestamp. The Inventor did not plan past the calm. The Inventor planned WITHIN the calm. The Storm authored the window; the Inventor authored the heist; the credit reads forward.",
       },
     },
     "data-banks": {

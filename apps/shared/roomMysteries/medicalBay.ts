@@ -24,31 +24,43 @@
 import type { RoomMysteryModule } from "./_template";
 
 export type MedicalBayHotspotId =
-  | "dlc-severance-bound-champion-medical-bay"
-  | "dlc-akai-shi-red-death-medical-bay"
+  | "severance-broker-quantum-imaging"
+  | "akai-virus-telemetry"
   | "bio-bed" | "dna-helix" | "medicine-cabinet" | "medical-log" | "egg-vox-neural-bridge" | "emergency-safe" | "the-silences-vacated-body";
 
 export const MEDICAL_BAY_MYSTERY: RoomMysteryModule<MedicalBayHotspotId> = {
   roomId: "medical-bay",
   responses: {
-    "dlc-severance-bound-champion-medical-bay": {
+    /* ─── severance.bound_champion · e3 (Broker's quantum imaging) ─── */
+    "severance-broker-quantum-imaging": {
       look: {
-        narration: "Case material for severance.bound_champion surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "On the medical-bay's quantum-imaging suite, the Broker of Nilmorg's volunteered body scan — taken after the apprentice question was asked. The imaging suggests an age incompatible with a single human spine. The Broker's bones carry rest-marks consistent with a person who has died at least once and chosen to come back. The suite's calibration report: 'subject's substrate is human; subject's history is layered; subject's continuity has at least one discontinuity.' The Broker did not consent to interpretation, only to measurement.",
         mysteryBinding: {
           mysteryId: "severance.bound_champion",
           episodeId: "severance.bound_champion.e3",
           cluesFound: ["severance.e3.broker_age"],
         },
       },
+      use: {
+        narration:
+          "You request the scan's discontinuity layer. The suite returns a single feature — a cellular rest-mark dated to Severance Year 1, Lap 73. The mark is the Broker's first death. The Broker has been working through the second life since the first ended on the lane.",
+      },
     },
-    "dlc-akai-shi-red-death-medical-bay": {
+    /* ─── akai_shi.red_death · e1 (Thought-Virus consumption telemetry) ─── */
+    "akai-virus-telemetry": {
       look: {
-        narration: "Case material for akai_shi.red_death surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "On the medical-bay's neural-archive console, the post-mortem telemetry from Akai Shi's neural fields shows the Thought-Virus consumption curve. Standard consumption: a sudden cliff. Akai Shi's curve: a gradient. She was, on the consumption telemetry, fighting it for hours before Jericho arrived — slowing the consumption with her own healing energy turned inward. By the time he intercepted her, she had been holding the line in her own body for longer than anyone else in canonical record. The medical-bay's annotation: 'subject's resistance is the chronicle's record-holder.'",
         mysteryBinding: {
           mysteryId: "akai_shi.red_death",
           episodeId: "akai_shi.red_death.e1",
           cluesFound: ["akai.e1.virus_telemetry"],
         },
+      },
+      interrogate: {
+        narration:
+          "You ask the console for the cost of the resistance. The telemetry returns the trade-off: every hour Akai Shi held against the Virus burned a measurable fraction of her healing reserve. By the seventh hour her healing band was depleted. She could not have saved herself, but she could buy the squad time to choose. The mercy was her last act of healing — given to the squad, not to herself.",
       },
     },
     "bio-bed": {

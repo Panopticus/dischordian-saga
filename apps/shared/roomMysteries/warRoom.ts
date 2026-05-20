@@ -13,75 +13,162 @@
 import type { RoomMysteryModule } from "./_template";
 
 export type WarRoomHotspotId =
-  | "dlc-severance-infernal-clause-war-room"
-  | "dlc-mechronis-chained-lesson-war-room"
-  | "dlc-memorial-seven-watchers-war-room"
-  | "dlc-resurrectionist-cycle-walker-war-room"
-  | "dlc-storm-architect-of-flux-war-room"
-  | "dlc-advocate-blood-weave-war-room"
+  | "infernal-forty-ledger-keepers"
+  | "chained-wave-telemetry"
+  | "chained-feint-pattern"
+  | "watchers-council-communique"
+  | "resur-second-fall-casualty-count"
+  | "storm-advocates-blood-weave"
+  | "storm-event-correlation-table"
+  | "advocate-acquisition-attempt-log"
+  | "advocate-riri-ahlia-account"
   | "holo-table" | "casualty-board" | "signal-flag-rack" | "ocularum-vigil-board" | "ocularum-cell-roster" | "hierarchy-org-chart-board" | "thalorian-defense-records" | "new-babylon-siege-record" | "hierarchy-piece-positioning-board" | "varkul-director-of-security-file" | "necromancer-castle-log-board" | "zyr-koth-rd-refinement-file" | "the-severance-hollowing-report" | "the-locked-lever-board" | "syl-vex-dual-roster-board" | "the-severance-cross-lock-file" | "the-taskmasters-siege-portfolio" | "riri-ahlia-reorg-doctrine-board" | "the-procedural-question-file" | "the-priced-defense-accounting" | "fenra-seventeen-front-manifest" | "the-wolf-in-the-boardroom-file" | "fenra-varkul-contrast-record";
 
 export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
   roomId: "war-room",
   responses: {
-    "dlc-severance-infernal-clause-war-room": {
+    /* ─── severance.infernal_clause · e2 (forty seasonal ledger-keepers) ─── */
+    "infernal-forty-ledger-keepers": {
       look: {
-        narration: "Case material for severance.infernal_clause surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "On the war-room's personnel display, the league's forty seasons of ledger-keeper records — one per season, forty different people. Each personnel card carries a handwriting sample, a tenure window, a salary record, a dismissal note. None of the forty samples match the clause-writing hand. The clause-writer is not on this wall. The clauses were written separately from the contracts by a hand that was never the official ledger-keeper. The war-room's cross-reference identifies one anomaly: a single name appears in the league's hiring records for the first season but does not appear on the wall.",
         mysteryBinding: {
           mysteryId: "severance.infernal_clause",
           episodeId: "severance.infernal_clause.e2",
           cluesFound: ["infernal.e2.season_ledger_keepers"],
         },
       },
+      interrogate: {
+        narration:
+          "You ask the war-room for the missing name. The display returns Atalin, ledger-keeper, Year One. Atalin held the post for one season, was dismissed (or resigned — the file is unclear), and was never replaced — the post was rotated season by season afterwards. Atalin's personnel file is in the archives; the cipher-den has the handwriting sample. The investigation has one name to follow.",
+      },
     },
-    "dlc-mechronis-chained-lesson-war-room": {
+    /* ─── mechronis.chained_lesson · e1 (wave telemetry) ─── */
+    "chained-wave-telemetry": {
       look: {
-        narration: "Case material for mechronis.chained_lesson surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "The war-room's main holo-tank carries the festival roof's tower-defense readings, four minutes from contact. Standard Terminus pattern: fourteen carriers in echelon, no anomalies, no surge. Your apprentice's tower reads full ammunition; the sight-line is clean to the outer wall; the wind is steady. The wave is winnable on every metric the tank tracks. The cipher-den's overlay shows the same pattern fielded in fourteen previous festival openings, each one categorically winnable. The tank does not tell you why thirty-one apprentices have failed to win it.",
         mysteryBinding: {
           mysteryId: "mechronis.chained_lesson",
           episodeId: "mechronis.chained_lesson.e1",
-          cluesFound: ["chained.e1.wave_telemetry", "chained.e2.feint_pattern"],
+          cluesFound: ["chained.e1.wave_telemetry"],
         },
       },
+      use: {
+        narration:
+          "You scrub the tank's timeline back through the fourteen Terminus waves. Each one shows the same echelon, the same carriers, the same winnable telemetry. The pattern that loses is not visible on this tank. The pattern that loses is the third-minute one the tank does not annotate.",
+      },
     },
-    "dlc-memorial-seven-watchers-war-room": {
+    /* ─── mechronis.chained_lesson · e2 (feint pattern) ─── */
+    "chained-feint-pattern": {
       look: {
-        narration: "Case material for memorial.seven_watchers surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "On the side display, the league's tower-defense desk's annotation has been pinned to the tank as supplementary: 'the Terminus formation that produces this feint is well-known to senior operators. apprentices have not been taught to recognise it. the pattern has been on the league's drill curriculum every year.' The annotation is signed by a desk officer who has fielded apprentices for nine years on Trade Empire pay. The Academy's term sheet, also pinned for cross-reference, does not list this pattern. The cross-reference is the answer to the war-room's question.",
+        mysteryBinding: {
+          mysteryId: "mechronis.chained_lesson",
+          episodeId: "mechronis.chained_lesson.e2",
+          cluesFound: ["chained.e2.feint_pattern"],
+        },
+      },
+      interrogate: {
+        narration:
+          "You ask the desk officer's pinned note to expand. The annotation deepens: 'the feint reads as a real approach for two beats. apprentices commit at beat one. senior operators wait until beat three. the wait costs nothing; the commit costs everything.' The Academy's curriculum has not taught the wait.",
+      },
+    },
+    /* ─── memorial.seven_watchers · e3 (Council communiqué) ─── */
+    "watchers-council-communique": {
+      look: {
+        narration:
+          "On the war-room's chronicle-public display, the Council communiqué drafted by the Antiquarian and ratified by all council members. The communiqué names all six Watchers — Idris, Verel, Ophran, Kallium, Mereth, Sothe — by band and audience. It does not name the seventh. It thanks the seventh for the silence. The thanks is sincere; the silence is honoured. The communiqué is the Ark's first public statement on the founding Watchers in eight epochs.",
         mysteryBinding: {
           mysteryId: "memorial.seven_watchers",
           episodeId: "memorial.seven_watchers.e3",
           cluesFound: ["watchers.e3.council_communique"],
         },
       },
+      interrogate: {
+        narration:
+          "You ask the display for the communiqué's distribution chain. The board returns the list: every plaza, every library, every cipher-keeper, every player-facing terminal. The Antiquarian routed the document through every channel the Ark has — the public statement is, by design, impossible to miss.",
+      },
     },
-    "dlc-resurrectionist-cycle-walker-war-room": {
+    /* ─── resurrectionist.cycle_walker · e2 (Second Fall casualty count) ─── */
+    "resur-second-fall-casualty-count": {
       look: {
-        narration: "Case material for resurrectionist.cycle_walker surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "On the war-room's New-Babylon-affairs board, the Second Fall casualty count. By every contemporary chronicler's account, the Fall was total. Casualty counts among the ordinary populace: millions. Casualty counts among Potentials: zero. Casualty counts among Ne-Yons of the awake roster: zero. The cult-curated logs annotate the survival as 'miraculous — the Architect's protection of His chosen.' The Architect did not, by canon, intervene at the Second Fall. The 'miracle' was authored by someone else. The board does not say who.",
         mysteryBinding: {
           mysteryId: "resurrectionist.cycle_walker",
           episodeId: "resurrectionist.cycle_walker.e2",
           cluesFound: ["resur.e2.second_fall_casualty_count"],
         },
       },
+      interrogate: {
+        narration:
+          "You ask the board what the Resurrectionist's protocol-activation log shows for the Second Fall window. The display returns a cluster of activations, signed in the four-part cipher, timestamped to the Fall's death-instants. Every Potential and every awake Ne-Yon is named in the cluster. The protocols outlived the author. The cluster is the receipt for the miracle.",
+      },
     },
-    "dlc-storm-architect-of-flux-war-room": {
+    /* ─── storm.architect_of_flux · e3 (Advocate's Blood-Weave journals) ─── */
+    "storm-advocates-blood-weave": {
       look: {
-        narration: "Case material for storm.architect_of_flux surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "On the war-room's Empire-of-Shadows tactical display, the Advocate's surviving operational journals on the Blood Weave's deployments. The Weave's operational tolerances require a turbulent local cosmic environment; the Storm provided it across every documented deployment window. The Advocate's accounting describes the Storm as 'a patron of opportunity, indifferent to outcome.' The journals are sparse but consistent — the Advocate did not credit the Storm with success; the Advocate credited the Storm with the conditions under which success became possible.",
         mysteryBinding: {
           mysteryId: "storm.architect_of_flux",
           episodeId: "storm.architect_of_flux.e3",
-          cluesFound: ["storm.e3.advocates_blood_weave", "storm.e4.event_correlation_table"],
+          cluesFound: ["storm.e3.advocates_blood_weave"],
         },
       },
+      use: {
+        narration:
+          "You correlate the Weave deployments against the Storm's active periods. Every deployment landed inside one. The Advocate did not plan deployments outside the windows. The Storm was the Empire of Shadows' weather-officer; the Empire's tactics presumed his patronage.",
+      },
     },
-    "dlc-advocate-blood-weave-war-room": {
+    /* ─── storm.architect_of_flux · e4 (calm-event correlation table) ─── */
+    "storm-event-correlation-table": {
       look: {
-        narration: "Case material for advocate.blood_weave surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "Pinned beside the Advocate's journals, the war-room's chronicle-event correlation table: nine documented Storm calms mapped to chronicle-significant events. Seven calms aligned with named events — Casino Heist (twice), Second Fall, Architect's Year-1 emergence, Founding of the Authority, Severance Protocol, Inception Ark launches, Battle of Thaloria, Apprentice muster. Each event required cosmic-scale planning consistency; each got it during a Storm-authored calm interval. The remaining two calms have no publicly-recorded event — the chronicle's gap, not the cadence's.",
+        mysteryBinding: {
+          mysteryId: "storm.architect_of_flux",
+          episodeId: "storm.architect_of_flux.e4",
+          cluesFound: ["storm.e4.event_correlation_table"],
+        },
+      },
+      interrogate: {
+        narration:
+          "You ask the table for the planning-signature of each correlated event. The console returns identical signatures across all seven — multi-cycle information consistency, no flux interference, no Ne-Yon-grade disturbance. Planning is permitted; planning happens; planning is followed by the most active flux period in the surrounding decade. The chronicle is consequential because the Storm allows it to be.",
+      },
+    },
+    /* ─── advocate.blood_weave · e1 (acquisition-attempt log) ─── */
+    "advocate-acquisition-attempt-log": {
+      look: {
+        narration:
+          "On the war-room's Empire-of-Shadows defensive display, the Hierarchy acquisition-attempt log across seven recorded centuries. Column headers: target soul, hostile instrument deployed, Advocate countersignature held, outcome. The 'outcome' column shows the same value at every entry where the countersignature held: NULL. The Hierarchy did not succeed in a single recorded breach against an Advocate-sheltered soul. Seven centuries; thousands of attempts; zero breaches. The chronicle's most-load-bearing single defensive record.",
         mysteryBinding: {
           mysteryId: "advocate.blood_weave",
           episodeId: "advocate.blood_weave.e1",
-          cluesFound: ["adv.e1.hierarchy_acquisition_attempts", "adv.e2.riri_ahlia_siege_record"],
+          cluesFound: ["adv.e1.hierarchy_acquisition_attempts"],
         },
+      },
+      use: {
+        narration:
+          "You request a per-instrument breakdown. The display returns the Hierarchy's full instrument roster — Mol'Garath's chains, Xeth'Raal's debt-claims, Zyr'Koth's R&D experimentals, Riri'Ahlia's operational sieges. Every instrument has been deployed against sheltered souls. Every instrument has returned NULL. The charter is operationally absolute within its scope.",
+      },
+    },
+    /* ─── advocate.blood_weave · e2 (Riri'Ahlia's siege account) ─── */
+    "advocate-riri-ahlia-account": {
+      look: {
+        narration:
+          "Pinned beside the acquisition log, Riri'Ahlia's own surviving account of the Empire-of-Shadows siege she personally led. The Hierarchy COO's words: 'Seven dimensions, six advances, one final reverse. I had the Hierarchy's organizational doctrine and the corporate-machine's resources. The Advocate had less than I had at every operational scale. The Advocate had MORE only in one resource: she was willing to spend herself. I was not willing to spend myself; my doctrine forbids it. Her doctrine REQUIRED it. She drove me back with chains forged from her own substrate. The chains held. I retreated. The Empire of Shadows held its border.' Riri'Ahlia does not give credit casually.",
+        mysteryBinding: {
+          mysteryId: "advocate.blood_weave",
+          episodeId: "advocate.blood_weave.e2",
+          cluesFound: ["adv.e2.riri_ahlia_siege_record"],
+        },
+      },
+      interrogate: {
+        narration:
+          "You ask the war-room for Riri'Ahlia's retreat protocol. The display returns the operational record: orderly withdrawal across six advances, then a single accelerated reverse on the seventh. The siege did not collapse; Riri'Ahlia chose to retreat at a moment her instruments could still have continued. She has not returned to the Empire's border.",
       },
     },
     "holo-table": {

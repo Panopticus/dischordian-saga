@@ -8,31 +8,43 @@
 import type { RoomMysteryModule } from "./_template";
 
 export type OrderTribunalHotspotId =
-  | "dlc-wolf-anara-hunt-order-tribunal"
-  | "dlc-storm-architect-of-flux-order-tribunal"
+  | "wolf-judge-clarification"
+  | "storm-judges-arbitration-register"
   | "judges-bench" | "evidence-locker" | "mol-vereth-audit-ledger";
 
 export const ORDER_TRIBUNAL_MYSTERY: RoomMysteryModule<OrderTribunalHotspotId> = {
   roomId: "order-tribunal",
   responses: {
-    "dlc-wolf-anara-hunt-order-tribunal": {
+    /* ─── wolf.anara_hunt · e3 (Judge's clarification of audit) ─── */
+    "wolf-judge-clarification": {
       look: {
-        narration: "Case material for wolf.anara_hunt surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "In the order-tribunal's audit-clarification chamber, the Judge — the Second Ne-Yon — has filed His reply to the chronicler's petition. The clarification is canonically terse, recorded in His own register: 'The instrument was Lycos. The infection was the Thought Virus. The destruction was of the second, not the first. The first was preserved by a process I did not author. I would not have authored it. The chronicle should record this.' The reply does not name the Resurrectionist. The Judge does not name a fellow Ne-Yon by office. The chronicle is asked to fill in the authorship in its own hand.",
         mysteryBinding: {
           mysteryId: "wolf.anara_hunt",
           episodeId: "wolf.anara_hunt.e3",
           cluesFound: ["wolf.e3.judge_clarification"],
         },
       },
+      interrogate: {
+        narration:
+          "You ask the tribunal whether the Judge consents to His audit being re-opened. The clerk returns the Judge's standing register entry: 'My audit is closed. The case is the chronicler's. I performed my office. The reanimation was not my office.' The Judge has drawn the boundary. The chronicler is past the boundary now.",
+      },
     },
-    "dlc-storm-architect-of-flux-order-tribunal": {
+    /* ─── storm.architect_of_flux · e2 (Judge's arbitration register) ─── */
+    "storm-judges-arbitration-register": {
       look: {
-        narration: "Case material for storm.architect_of_flux surfaces here — the records pertinent to this room's part of the investigation.",
+        narration:
+          "In the tribunal's audit-clarification chamber, the Judge — Ne-Yon #2, destroyed The Wolf, canonical instrument of cosmic justice — kept an arbitration register that survives in partial. Among the Judge's arbitrations: seven distinct disputes between the Storm and the Silence, each resolved by the Judge ruling that neither pole can be eliminated without collapsing the cosmic-energy chain. The Judge's standing position, read across all seven: 'keep the polarity.' The pairing is a designed system; the Judge has consistently refused to disturb the design.",
         mysteryBinding: {
           mysteryId: "storm.architect_of_flux",
           episodeId: "storm.architect_of_flux.e2",
           cluesFound: ["storm.e2.judges_arbitration_register"],
         },
+      },
+      interrogate: {
+        narration:
+          "You ask the register for the Judge's reasoning on any one arbitration. The clerk returns a single passage, recurring across the seven: 'the elimination of either pole is the elimination of the energy. The energy is the chronicle's permission to be at all. I will not arbitrate against the permission.' The Judge has been keeping the polarity for arbitrations the chronicle does not document. The seven on record may be a partial accounting.",
       },
     },
     "judges-bench": {
