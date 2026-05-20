@@ -1,21 +1,23 @@
 # Remaining Asset Production Spec — Loredex OS
 
 **Single-source production document.** Everything that still needs to
-be created or copied to close the art-completion audit. 6 images +
-4 audio tracks + 3 server-side audio copies + 1 zip extraction.
-Each section is self-contained — hand any one prompt to the named
-tool and the result is the deliverable.
+be created to close the art-completion audit.
 
-After all 14 items land, dead-dgrsart-URL count drops to ~41
-runtime-composed base-URL false positives (not real misses).
-The art audit is functionally complete.
+**Status (2026-05-19, post-this-commit):** §0 quick-fix ops complete
+(4 audio gaps resolved — `to-be-the-human`, `dischordian_logic`,
+`welcome-to-celebration`, `song_last_words_prelude_full`). **Net
+remaining: 7 new images + 3 new audio tracks** (§A and §B below).
+
+Dead-dgrsart count: 394 → 54 across this branch. The remaining 43
+non-real misses are runtime-composed base-URL constants. After the
+remaining §A + §B items land, the audit is functionally complete.
 
 ---
 
-## 0. Quick-start ops (do these first — no production needed)
+## 0. Quick-start ops — ✅ COMPLETED 2026-05-19
 
-Three audio gaps are already on the bucket as the album-master
-version. They resolve with one-second server-side copies:
+All four audio gaps below were resolved in this session. Commands
+preserved for re-runnability if state ever drifts:
 
 ```bash
 export AWS_ACCESS_KEY_ID=...
@@ -37,40 +39,38 @@ aws s3 cp \
   --cache-control 'public, max-age=31536000, immutable'
 ```
 
-Two more gaps can be resolved by extracting from existing
-producer-side zips on the bucket (no re-record needed):
+Two more gaps were resolved via Mixea-mastered WAV downloads + MP3
+192k conversion + upload. Both source WAVs are at
+`s3://dgrsart/AAA Final/Mixea_*_(Remastered).wav` (the same producer
+master pipeline that delivered Welcome to Celebration).
 
 ```bash
-# Extract 1: "Last Words (full)" — pull from AAA Final/last_words_only.zip
-mkdir -p /tmp/last-words-extract
-aws s3 cp "s3://dgrsart/AAA Final/last_words_only.zip" /tmp/last-words-extract/
-cd /tmp/last-words-extract && unzip -o last_words_only.zip
-# Find the longest .mp3 in the zip (likely the full mix), then:
-aws s3 cp <FOUND_FILE> \
-  s3://dgrsart/cdn/client-public/audio/music/song_last_words_prelude_full.mp3 \
-  --content-type audio/mpeg \
-  --cache-control 'public, max-age=31536000, immutable'
-
-# Extract 2: "Welcome to Celebration" — pull from Videos/ zip
-mkdir -p /tmp/celebration-extract
-aws s3 cp "s3://dgrsart/Videos/Welcome to Celebration & Mechronis.zip" \
-  /tmp/celebration-extract/
-cd /tmp/celebration-extract && unzip -o "Welcome to Celebration & Mechronis.zip"
-# The zip contains video; extract audio with ffmpeg if no standalone mp3 inside:
-ffmpeg -i "Welcome to Celebration.mp4" -vn -acodec libmp3lame -b:a 192k \
-  /tmp/welcome-to-celebration.mp3
+# Resolved: Welcome to Celebration (signed URL provided this session)
+# Source: s3://dgrsart/Music/Dischordian Logic/Mixea_MediumNeutral_hd_Celebration (Remastered x2) (2).wav
+# Process: curl signed URL → ffmpeg WAV→MP3 192k → aws s3 cp
+ffmpeg -y -i /tmp/welcome_to_celebration.wav -vn -c:a libmp3lame -b:a 192k \
+  -ar 48000 -ac 2 /tmp/welcome-to-celebration.mp3
 aws s3 cp /tmp/welcome-to-celebration.mp3 \
   s3://dgrsart/cdn/client-public/audio/music/celebration/welcome-to-celebration.mp3 \
   --content-type audio/mpeg \
   --cache-control 'public, max-age=31536000, immutable'
+
+# Resolved: Last Words (Prelude — full version)
+# Source: s3://dgrsart/AAA Final/Mixea_MediumNeutral_hd_Last Words (Remastered).wav
+# (NOTE: last_words_only.zip on the same prefix contains VISUALS only —
+#  HTML slides + .webp images. The audio master is the separate WAV file.)
+aws s3 cp "s3://dgrsart/AAA Final/Mixea_MediumNeutral_hd_Last Words  (Remastered).wav" \
+  /tmp/last_words_master.wav
+ffmpeg -y -i /tmp/last_words_master.wav -vn -c:a libmp3lame -b:a 192k \
+  -ar 48000 -ac 2 /tmp/song_last_words_prelude_full.mp3
+aws s3 cp /tmp/song_last_words_prelude_full.mp3 \
+  s3://dgrsart/cdn/client-public/audio/music/song_last_words_prelude_full.mp3 \
+  --content-type audio/mpeg \
+  --cache-control 'public, max-age=31536000, immutable'
 ```
 
-**That resolves 5 of the 15 remaining gaps via copy/extract.**
-
-Net remaining real production work: **6 new images + 4 new audio tracks**
-(§A and §B below). One image (`master_faces/elara.png`) is referenced
-only in tests — verify whether the test should be deleted instead of
-the asset created (see §A.2).
+**Net delta after §0 ops: dead dgrsart URLs 58 → 54.** Remaining 11
+real misses (7 images + 3 audio + 1 verify-before-generate test ref).
 
 ---
 
@@ -692,18 +692,14 @@ declaration.
 
 ---
 
-### B.4 — Welcome to Celebration (extract-fallback)
+### B.4 — Welcome to Celebration — ✅ RESOLVED 2026-05-19
 
-**Output file:** `audio/music/celebration/welcome-to-celebration.mp3`
-**Format:** MP3 192 kbps stereo, 3:00–4:00 runtime
-**Consumed by:** `apps/client/src/data/celebrationSlideshow.ts`
+Mixea master WAV (1:47, 30 MB, 48kHz stereo) was provided via signed
+URL, converted to MP3 192 kbps stereo (2.5 MB), uploaded to
+`audio/music/celebration/welcome-to-celebration.mp3`. See §0.
 
-**First try extraction (preferred)**: `s3://dgrsart/Videos/Welcome to
-Celebration & Mechronis.zip` contains the source audio. The album-version
-audio at `audio/album1/T24.mp3` does NOT exist on the bucket
-(verified via HEAD). Extract from the zip via §0 ops above.
-
-**Suno 5.1 prompt (fallback if zip extraction fails):**
+**Prompt preserved below for re-record reference if the producer ever
+wants a longer or alternative version:**
 
 > **Title:** Welcome to Celebration
 >
@@ -766,36 +762,18 @@ audio at `audio/album1/T24.mp3` does NOT exist on the bucket
 
 ---
 
-## §C — Audio extraction operations (1 — Last Words full)
+## §C — Last Words full — ✅ RESOLVED 2026-05-19
 
-`s3://dgrsart/AAA Final/last_words_only.zip` (21 MB) likely contains
-the full-length version of "Last Words (Prelude)". Two shorter
-cuts are already on the public CDN:
-- `audio/music/song_last_words_prelude_cut.mp3` (4.66 MB)
-- `audio/music/song_last_words_prelude_tease.mp3` (716 KB, ~30s)
+The master WAV at `s3://dgrsart/AAA Final/Mixea_MediumNeutral_hd_Last
+Words (Remastered).wav` (60 MB, 3:39 duration, 48kHz stereo) was
+converted to MP3 192k (5.1 MB) and uploaded to
+`audio/music/song_last_words_prelude_full.mp3`. See §0.
 
-The audit's missing path is the **full** version
-(`song_last_words_prelude_full.mp3`).
+(Note: the audit's earlier guess that `last_words_only.zip` on the
+same prefix held the audio was wrong — that zip contains visuals only,
+HTML slides + `.webp` files. The audio master is the separate WAV.)
 
-```bash
-mkdir -p /tmp/last-words
-aws s3 cp "s3://dgrsart/AAA Final/last_words_only.zip" /tmp/last-words/
-cd /tmp/last-words
-unzip -o last_words_only.zip
-# Inspect contents — find the longest .mp3 / .wav. The album-master
-# version is typically 3-5 MB at 192kbps.
-ls -lS *.mp3 *.wav 2>/dev/null | head
-# Identify the full-length stem (compare durations to the existing
-# `_cut` and `_tease` versions to confirm which is the "full"):
-ffprobe -v error -show_entries format=duration -of csv=p=0 <candidate>.mp3
-# Then upload:
-aws s3 cp <FULL_MP3> \
-  s3://dgrsart/cdn/client-public/audio/music/song_last_words_prelude_full.mp3 \
-  --content-type audio/mpeg \
-  --cache-control 'public, max-age=31536000, immutable'
-```
-
-**Suno fallback if extraction fails:**
+**Suno re-record prompt preserved for reference:**
 
 > **Title:** Last Words (Prelude — full version)
 >
@@ -917,18 +895,14 @@ complete in under a second per file.
 
 ## Final tally
 
-| Block | Items | Action |
+| Block | Items | Status |
 |---|---:|---|
-| §0 quick-fix copies | 2 | `aws s3 cp` from album1 master (T07, T02) |
-| §0 quick-fix extracts | 2 | Unzip producer-side zips on bucket |
-| §A new images | 6 | Nano Banana / Imagen / Midjourney / SDXL |
-| §A optional image | 1 | `master_faces/elara.png` — only if keeping the test |
-| §B new audio | 3 | Suno 5.1 / Udio (T11, T18, T23) |
-| §B extract-or-record audio | 1 | Welcome to Celebration |
-| §C extract audio | 1 | Last Words (full) from AAA Final/last_words_only.zip |
+| §0 quick-fix copies | 2 | ✅ Done 2026-05-19 (album1/T07 → mechronis/to-be-the-human, album1/T02 → songs/dischordian_logic) |
+| §0 master conversions | 2 | ✅ Done 2026-05-19 (Mixea-mastered WAVs from `AAA Final/` and `Music/Dischordian Logic/` converted MP3 192k + uploaded) |
+| §A new images | 7 | ⏳ Pending (Nano Banana / Imagen / Midjourney / SDXL) |
+| §A optional image | 1 | ⏳ `master_faces/elara.png` — only if keeping the test |
+| §B new audio | 3 | ⏳ Pending (Suno 5.1 / Udio for T11, T18, T23) |
 
-**Total: 13 actions, 9 of which require fresh production (6 images +
-3 audio); the other 4 are bucket-internal copies / extractions.**
-
-Following the production runbook above closes the art audit to its
-floor (~41 runtime-composed false positives, no real misses).
+**Remaining work: 10 actions (7 images + 3 audio).** Following the §A
+and §B prompts above closes the art audit to its floor (~43
+runtime-composed false positives, no real misses).

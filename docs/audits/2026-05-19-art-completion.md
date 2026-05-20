@@ -13,15 +13,16 @@ distinguish "wrong path in code" from "asset doesn't exist."
 | Metric | Before | After |
 |---|---:|---:|
 | Unique asset URLs referenced in code | 3,002 (stale) | 3,774 (fresh) |
-| Live on dgrsart | 881 | **1,987** |
-| Dead on dgrsart | 394 | **58** |
+| Live on dgrsart | 881 | **1,991** |
+| Dead on dgrsart | 394 | **54** |
 | Dead on legacy CloudFront | 1,727 | 1,727 (separate workstream) |
 
-**Net delta:** **336 dead URLs resolved** (394 → 58). Of the remaining
-58, ~22 are base-URL "directory" constants flagged as 403 in isolation
+**Net delta:** **340 dead URLs resolved** (394 → 54). Of the remaining
+54, ~43 are base-URL "directory" constants flagged as 403 in isolation
 but resolved fine at runtime via prefix composition (§2.2 below); the
-actual hard gap is ~36 assets that need new producer work (4 specific
-late-game scene rooms + ~7 audio tracks + ~25 misc single assets).
+actual hard gap is **11 assets** that need new producer work — 7
+images + 3 audio tracks + the test-only `master_faces/elara.png`
+reference flagged as verify-before-generate.
 
 The original audit was wrong by an order of magnitude. Two compounding
 scanner bugs inflated the headline number. Both fixed in this branch.
