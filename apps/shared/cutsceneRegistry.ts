@@ -227,6 +227,10 @@ export const CUTSCENE_REGISTRY: Readonly<
     shotCount: 4,
     durationSec: 50,
     videoBasePath: "/videos/prestige/",
+    // Producer delivered the four shots as `shot_1.mp4`..`shot_4.mp4`
+    // (underscore between `shot` and the index); the default
+    // `shot<N>.mp4` convention misses them.
+    shotFilenames: ["shot_1.mp4", "shot_2.mp4", "shot_3.mp4", "shot_4.mp4"],
     componentName: "PrestigeResetCutscene",
     // The freeze frame from the final shot serves as the
     // reduced-motion poster; producer ships it as

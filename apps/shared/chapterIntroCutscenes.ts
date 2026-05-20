@@ -64,9 +64,14 @@ const RAW: ReadonlyArray<{ chapter: number; slug: string; bonus?: true }> = [
 
 export const CHAPTER_INTROS: readonly ChapterIntroDef[] = RAW.map((r) => {
   const ch = String(r.chapter).padStart(2, "0");
-  const fileSlug = r.slug; // bundle preserves the BONUS suffix in the dir name
+  // The registry id retains the `_BONUS` marker so consumers can
+  // disambiguate variant openers, but the producer-delivered MP4s
+  // drop the suffix on disk (`ch20_conexus_complete.mp4`, not
+  // `ch20_conexus_BONUS_complete.mp4`). Strip it when building the
+  // URL.
+  const fileSlug = r.slug.endsWith("_BONUS") ? r.slug.slice(0, -"_BONUS".length) : r.slug;
   return {
-    id: `ch${ch}_${fileSlug}`,
+    id: `ch${ch}_${r.slug}`,
     chapter: r.chapter,
     slug: r.slug,
     videoRelPath: `${VIDEO_DIR}/ch${ch}_${fileSlug}_complete.mp4`,
