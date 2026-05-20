@@ -6,14 +6,14 @@ End-to-end audit of every cutscene registry against the actual contents of `s3:/
 
 | Registry | Declared | Wired to CDN | Missing |
 |---|---:|---:|---:|
-| `cutsceneRegistry.ts` (animated) | 10 cutscenes / 34 files | 6 cutscenes / 15 files | **4 cutscenes + 1 poster (18 files)** |
+| `cutsceneRegistry.ts` (animated) | 10 cutscenes / 34 files | 10 cutscenes / 25 files | **9 dead MP4 paths (fallback PNGs cover the UX)** |
 | `cinematicsManifest.ts` CINEMATICS | 14 / 53 files | 14 / 53 files | 0 |
 | `cinematicsManifest.ts` VFX_CLIPS | 21 / 42 files | 21 / 42 files | 0 |
 | `chapterIntroCutscenes.ts` | 21 / 21 | 21 / 21 (after fix) | 0 |
 | `guildCutscenesManifest.ts` | 175 / 183 | 175 / 183 | 0 (Portal Chamber fallback by design) |
 | `expansionCutscenes.data.ts` | 67 / 70 | 67 / 70 | 0 |
 | `chessCutscenes.data.ts` | 25 / 25 | 25 / 25 | 0 |
-| **Total** | **333 / 428** | **315 / 410** | **18** |
+| **Total** | **333 / 428** | **324 / 419** | **9** (all dead MP4 paths covered by fallback PNGs) |
 
 ## Code fixes landed on this branch
 
@@ -25,21 +25,30 @@ End-to-end audit of every cutscene registry against the actual contents of `s3:/
 
 4. **`chapterIntroCutscenes.test.ts:21-23`** — updated URL-shape assertion to allow the `_BONUS`-stripping behavior introduced in fix #1.
 
-## Outstanding producer asks (18 missing files)
+5. **`cutsceneRegistry.ts` `posterPath` for all 5 named cutscenes** — repointed at producer-delivered composite fallback PNGs under `art/cutscenes/animated/<id>/fallback.png`. The `AnimatedCutscenePlayer` already falls back to `posterPath` on MP4 load-error; the new fallback PNG + summary text + CONTINUE button now renders a coherent experience for the four cutscenes whose MP4 shots were never produced (and for awakening's reduced-motion path, which previously 404'd on its poster).
 
-These cutscenes are declared in the registry, have React components (`apps/client/src/components/cutscenes/*Cutscene.tsx`), are mounted via `CutsceneRouter`, but have **zero assets on the CDN**:
+## 2026-05-20 producer drop — keyframe slideshow assets
 
-| Cutscene | Component | Files needed |
-|---|---|---|
-| `cutscene_first_human_contact` | `FirstHumanContactCutscene.tsx` | shot1.mp4, shot2.mp4, poster.webp |
-| `cutscene_elara_memory_recovery` | `ElaraMemoryRecoveryCutscene.tsx` | shot1.mp4, shot2.mp4, shot3.mp4, shot4.mp4, poster.webp |
-| `cutscene_breaking_point` | `BreakingPointCutscene.tsx` | shot1.mp4, shot2.mp4, shot3.mp4, shot4.mp4, shot5.mp4, poster.webp |
-| `cutscene_thought_virus_manifests` | `ThoughtVirusManifestCutscene.tsx` | shot1.mp4, shot2.mp4, poster.webp |
-| `cutscene_awakening` | `AwakeningCutscene.tsx` | poster.webp (3 shots already delivered) |
+Producer delivered `dischordian_cutscene_assets.zip` (264 MB, 46 PNGs) — a fundamental architectural shift from per-shot MP4s to a PixiJS keyframe slideshow. Contents staged on CDN under `cdn/client-public/art/cutscenes/animated/`:
 
-Specs:
-- Animated cutscenes 2–5: see `docs/design/ANIMATED_CUTSCENES.md` for shot lists, `docs/production/CUTSCENE_SEEDANCE_PROMPTS.md` for Seedance v2 prompt specs.
-- `lord_kanshi_sha_antiquarian` cinematic — delivered 2026-05-20, copied in-bucket from `Videos/Lord Kanshi Sha.mp4` to the manifest path `cdn/client-public/videos/cinematics/lord_kanshi_sha/lord-kanshi-sha.mp4` (46 MB, public, video/mp4).
+- **Per-cutscene keyframes** (5 dirs × `keyframes/*.png`): 6 awakening shot-pair frames, 3 first-contact frames, 8 memory-recovery fragments, 5 breaking-point scenes, 4 thought-virus scenes
+- **Per-cutscene fallback composites** (5 × `fallback.png`): full-frame reduced-motion stills used by the registry's `posterPath`
+- **Shared assets** (`_shared/`): 8 textures, 5 particle sprite sheets (4×4 grids, 512×512/cell), 2 UI overlays (skip button, morality meter)
+- Producer's CUTSCENE_ASSET_MANIFEST.md + REFERENCE_NOTES.md included alongside under `_shared/`
+
+### Follow-up: PixiJS slideshow renderer
+
+The current `AnimatedCutscenePlayer` is a `<video>` chain; it doesn't consume keyframes/particles. Today the keyframes ship to CDN but only the `fallback.png` per cutscene is actually rendered. Building the full keyframe-pair slideshow with Ken Burns crossfade + PixiJS particle layer + texture compositing is tracked as a future PR:
+
+- Scope: 5 cutscenes × ~6 keyframes/each + shared shader/particle infrastructure
+- Spec inputs: producer's `CUTSCENE_ASSET_MANIFEST.md` (per-shot beat descriptions + intended use of each texture/sprite), `docs/production/CUTSCENE_SEEDANCE_PROMPTS.md` (timing + motion notes)
+- Suggested approach: new `SlideshowCutscenePlayer` component, registry gains an optional `keyframes: readonly KeyframePair[]` field, `AnimatedCutscenePlayer` dispatches based on which field is set
+- Until then, the fallback poster is the shipping experience for these five beats
+
+## Outstanding asset asks
+
+- `lord_kanshi_sha_antiquarian` cinematic — **delivered 2026-05-20**, copied in-bucket from `Videos/Lord Kanshi Sha.mp4` to the manifest path `cdn/client-public/videos/cinematics/lord_kanshi_sha/lord-kanshi-sha.mp4` (46 MB, public, video/mp4).
+- Five named animated cutscenes — **delivered 2026-05-20 as keyframe PNGs + fallback composites + particles** (see §"2026-05-20 producer drop" above). Fallback PNGs wired today; full slideshow renderer is the follow-up PR.
 
 ## Outstanding writer ask
 
