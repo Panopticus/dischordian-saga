@@ -26,7 +26,7 @@ export const cardDef: CardDefinition = {
   baseStats: { power: 3, health: 4 },
   keywords: ["resurrect"],
   abilities: [],
-  art: assetUrl("art/cards/s1_resurrect_002.webp"),
+  art: assetUrl("art/cards/thought_virus/persistent_strain.webp"),
   flavorText:
     "The host believes the idea was theirs. Then the strain comes back, and the host believes that too.",
   rulesVersion: "1.1.0",

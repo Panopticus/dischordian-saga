@@ -22,7 +22,7 @@ export const cardDef: CardDefinition = {
   baseStats: { power: 1, health: 2 },
   keywords: [],
   abilities: [],
-  art: assetUrl("art/cards/s1_curve_003.webp"),
+  art: assetUrl("art/cards/dreamer/glimmer_wisp.webp"),
   flavorText:
     "It is the half-second after waking, given a body. It does not last. It does not need to.",
   rulesVersion: "1.1.0",

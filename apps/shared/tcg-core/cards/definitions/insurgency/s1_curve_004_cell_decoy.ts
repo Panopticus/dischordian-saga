@@ -21,7 +21,7 @@ export const cardDef: CardDefinition = {
   baseStats: { power: 1, health: 2 },
   keywords: [],
   abilities: [],
-  art: assetUrl("art/cards/s1_curve_004.webp"),
+  art: assetUrl("art/cards/insurgency/cell_decoy.webp"),
   flavorText:
     "She walks the route the auditors expect. The actual cell walks the other route.",
   rulesVersion: "1.1.0",

@@ -21,7 +21,7 @@ export const cardDef: CardDefinition = {
   baseStats: { power: 4, health: 5 },
   keywords: [],
   abilities: [],
-  art: assetUrl("art/cards/s1_curve_009.webp"),
+  art: assetUrl("art/cards/insurgency/trench_sergeant.webp"),
   flavorText:
     "The trench is the cell, written in dirt. Hold it. Hold it. The relief is coming. The relief is you.",
   rulesVersion: "1.1.0",

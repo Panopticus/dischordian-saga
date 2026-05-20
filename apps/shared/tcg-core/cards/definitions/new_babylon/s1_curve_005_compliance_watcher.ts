@@ -21,7 +21,7 @@ export const cardDef: CardDefinition = {
   baseStats: { power: 2, health: 1 },
   keywords: [],
   abilities: [],
-  art: assetUrl("art/cards/s1_curve_005.webp"),
+  art: assetUrl("art/cards/new_babylon/compliance_watcher.webp"),
   flavorText:
     "Submit your form. The form is part of the form. Submit them both. In triplicate.",
   rulesVersion: "1.1.0",

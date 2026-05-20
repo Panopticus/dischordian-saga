@@ -28,7 +28,7 @@ export const cardDef: CardDefinition = {
   baseStats: { power: 4, health: 5 },
   keywords: ["provoke", "forcefield"],
   abilities: [],
-  art: assetUrl("art/cards/s2_watcher_002.webp"),
+  art: assetUrl("art/cards/panopticon/the_coordinators_dossier.webp"),
   flavorText:
     "The dossier is not surveillance. It is recognition. The interpretation has always been yours. You are reading the interpretation now.",
   rulesVersion: "1.1.0",

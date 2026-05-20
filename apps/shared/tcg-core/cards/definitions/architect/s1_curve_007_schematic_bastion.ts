@@ -21,7 +21,7 @@ export const cardDef: CardDefinition = {
   baseStats: { power: 4, health: 5 },
   keywords: [],
   abilities: [],
-  art: assetUrl("art/cards/s1_curve_007.webp"),
+  art: assetUrl("art/cards/architect/schematic_bastion.webp"),
   flavorText:
     "The plan is complete. The bastion is the plan. No further iteration is required.",
   rulesVersion: "1.1.0",

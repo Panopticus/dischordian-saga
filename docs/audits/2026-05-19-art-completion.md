@@ -13,14 +13,15 @@ distinguish "wrong path in code" from "asset doesn't exist."
 | Metric | Before | After |
 |---|---:|---:|
 | Unique asset URLs referenced in code | 3,002 (stale) | 3,774 (fresh) |
-| Live on dgrsart | 881 | **1,918** |
-| Dead on dgrsart | 394 | **127** |
+| Live on dgrsart | 881 | **1,987** |
+| Dead on dgrsart | 394 | **58** |
 | Dead on legacy CloudFront | 1,727 | 1,727 (separate workstream) |
 
-**Net delta:** **267 dead URLs resolved** (394 → 127). The remaining
-127 are mostly genuine producer-side gaps (assets that don't exist on
-the bucket under any naming I could find via authenticated listing
-+ thematic-name fuzzy matching).
+**Net delta:** **336 dead URLs resolved** (394 → 58). Of the remaining
+58, ~22 are base-URL "directory" constants flagged as 403 in isolation
+but resolved fine at runtime via prefix composition (§2.2 below); the
+actual hard gap is ~36 assets that need new producer work (4 specific
+late-game scene rooms + ~7 audio tracks + ~25 misc single assets).
 
 The original audit was wrong by an order of magnitude. Two compounding
 scanner bugs inflated the headline number. Both fixed in this branch.

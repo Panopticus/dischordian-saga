@@ -24,7 +24,7 @@ export const cardDef: CardDefinition = {
   baseStats: { power: 3, health: 3 },
   keywords: ["zeal"],
   abilities: [],
-  art: assetUrl("art/cards/s1_zeal_005.webp"),
+  art: assetUrl("art/cards/new_babylon/compliance_zealot.webp"),
   flavorText:
     "Procedure is the prayer the empire understands. He prays at her elbow.",
   rulesVersion: "1.1.0",

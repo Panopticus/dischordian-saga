@@ -22,7 +22,7 @@ export const cardDef: CardDefinition = {
   baseStats: { power: 3, health: 6 },
   keywords: [],
   abilities: [],
-  art: assetUrl("art/cards/s1_curve_006.webp"),
+  art: assetUrl("art/cards/antiquarian/hourglass_sentinel.webp"),
   flavorText:
     "The grain falls at the rate the room agrees to. The Sentinel does not negotiate.",
   rulesVersion: "1.1.0",

@@ -20,7 +20,7 @@ export const cardDef: CardDefinition = {
   baseStats: { power: 3, health: 12 },
   keywords: ["structure"],
   abilities: [],
-  art: assetUrl("art/cards/s1_struct_005.webp"),
+  art: assetUrl("art/cards/antiquarian/relic_archive.webp"),
   flavorText:
     "The shelf is older than the language on it. The shelf does not move.",
   rulesVersion: "1.1.0",

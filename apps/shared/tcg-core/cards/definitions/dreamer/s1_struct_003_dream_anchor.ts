@@ -21,7 +21,7 @@ export const cardDef: CardDefinition = {
   baseStats: { power: 2, health: 9 },
   keywords: ["structure"],
   abilities: [],
-  art: assetUrl("art/cards/s1_struct_003.webp"),
+  art: assetUrl("art/cards/dreamer/dream_anchor.webp"),
   flavorText:
     "Some doors only open inward. The anchor is the doorway that does not move.",
   rulesVersion: "1.1.0",

@@ -39,7 +39,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: assetUrl("art/cards/s2_watcher_001.webp"),
+  art: assetUrl("art/cards/panopticon/l_signature.webp"),
   flavorText:
     "Every letter she sent you carried the glyph. You read 'L.' because that is what your eye knew how to see.",
   rulesVersion: "1.1.0",

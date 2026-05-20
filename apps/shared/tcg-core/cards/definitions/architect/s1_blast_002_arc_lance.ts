@@ -25,7 +25,7 @@ export const cardDef: CardDefinition = {
   baseStats: { power: 3, health: 5 },
   keywords: ["blast"],
   abilities: [],
-  art: assetUrl("art/cards/s1_blast_002.webp"),
+  art: assetUrl("art/cards/architect/arc_lance.webp"),
   flavorText:
     "The lance does not aim. The lance traces. The schematic does the aiming.",
   rulesVersion: "1.1.0",

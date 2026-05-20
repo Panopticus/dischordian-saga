@@ -20,7 +20,7 @@ export const cardDef: CardDefinition = {
   baseStats: { power: 4, health: 6 },
   keywords: ["resurrect"],
   abilities: [],
-  art: assetUrl("art/cards/s1_resurrect_005.webp"),
+  art: assetUrl("art/cards/neutral/eternal_pilgrim.webp"),
   flavorText:
     "Their flag is the absence of a flag. The pilgrim outlasts every banner that names her, including her own.",
   rulesVersion: "1.1.0",
