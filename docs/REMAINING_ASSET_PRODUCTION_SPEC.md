@@ -3,14 +3,15 @@
 **Single-source production document.** Everything that still needs to
 be created to close the art-completion audit.
 
-**Status (2026-05-19, post-this-commit):** §0 quick-fix ops complete
-(4 audio gaps resolved — `to-be-the-human`, `dischordian_logic`,
-`welcome-to-celebration`, `song_last_words_prelude_full`). **Net
-remaining: 7 new images + 3 new audio tracks** (§A and §B below).
+**Status (2026-05-19, post-batch3):**
+- ✅ §0 quick-fix ops complete (4 audio gaps resolved from album1 masters + Mixea WAV conversions)
+- ✅ §A images **complete** (all 8 delivered via `dischordian_batch3_assets.zip` — `card-back-seer`, `master_faces/elara`, 4 late-game rooms, `ship/bunkroom_corridor`, `backgrounds/room-archives`)
+- ⏳ **§B audio — 3 album-1 tracks remaining** (T11 "The Empire Reborn", T18 "Planet of the Wolf", T23 "Wake Up")
 
-Dead-dgrsart count: 394 → 54 across this branch. The remaining 43
-non-real misses are runtime-composed base-URL constants. After the
-remaining §A + §B items land, the audit is functionally complete.
+Dead-dgrsart count: 394 → **46** across this branch. **43 of those 46
+are runtime-composed base-URL false positives.** Only **3 real misses
+remain** — all Suno-producible audio tracks. After §B lands, the audit
+is functionally complete.
 
 ---
 
@@ -74,7 +75,27 @@ real misses (7 images + 3 audio + 1 verify-before-generate test ref).
 
 ---
 
-## §A — Image Production (6 — Nano Banana / Imagen / Midjourney / SDXL)
+## §A — Image Production — ✅ COMPLETE
+
+All 8 images delivered via `s3://dgrsart/AAA Final/dischordian_batch3_assets.zip`
+on 2026-05-19. Each PNG was converted to a WebP companion at q85 and
+both formats uploaded under the canonical paths. The individual prompts
+below are preserved for reference / re-render parity.
+
+| File | Dimensions | Status |
+|---|---|---|
+| `art/card-game/card-back-seer.png` (+ `.webp`) | 1792×2400 | ✅ |
+| `art/portraits/master_faces/elara.png` (+ `.webp`) | 2048×2048 | ✅ |
+| `art/rooms/room-comms-relay.png` (+ `.webp`) | 2752×1536 | ✅ |
+| `art/rooms/room-dreams-workshop-subbasement.webp` | 2752×1536 | ✅ |
+| `art/rooms/room-engineers-bench.png` (+ `.webp`) | 2752×1536 | ✅ |
+| `art/rooms/room-game-masters-arena.png` (+ `.webp`) | 2752×1536 | ✅ |
+| `art/ship/bunkroom_corridor.webp` | 2752×1536 | ✅ |
+| `backgrounds/room-archives.webp` | 2752×1536 | ✅ (note: producer delivered 2752×1536; spec said 1920×1080 — bigger plate is fine, downsamples at render) |
+
+---
+
+### Prompt reference archive (originals — Nano Banana / Imagen / Midjourney / SDXL)
 
 **Universal style anchor:** dark sci-fi painterly, dramatic chiaroscuro,
 rich detail, film grain, cinematic framing. No rendered text anywhere
@@ -899,10 +920,9 @@ complete in under a second per file.
 |---|---:|---|
 | §0 quick-fix copies | 2 | ✅ Done 2026-05-19 (album1/T07 → mechronis/to-be-the-human, album1/T02 → songs/dischordian_logic) |
 | §0 master conversions | 2 | ✅ Done 2026-05-19 (Mixea-mastered WAVs from `AAA Final/` and `Music/Dischordian Logic/` converted MP3 192k + uploaded) |
-| §A new images | 7 | ⏳ Pending (Nano Banana / Imagen / Midjourney / SDXL) |
-| §A optional image | 1 | ⏳ `master_faces/elara.png` — only if keeping the test |
-| §B new audio | 3 | ⏳ Pending (Suno 5.1 / Udio for T11, T18, T23) |
+| §A images | 8 | ✅ Done 2026-05-19 (delivered via `dischordian_batch3_assets.zip`, both PNG + WebP variants uploaded) |
+| §B new audio | 3 | ⏳ **Only remaining work** — Suno 5.1 / Udio for T11, T18, T23 |
 
-**Remaining work: 10 actions (7 images + 3 audio).** Following the §A
-and §B prompts above closes the art audit to its floor (~43
-runtime-composed false positives, no real misses).
+**Remaining work: 3 audio tracks.** After they land, the art audit is
+at its functional floor (~43 runtime-composed base-URL false
+positives, no real misses).

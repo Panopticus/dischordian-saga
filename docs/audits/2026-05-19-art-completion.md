@@ -13,16 +13,17 @@ distinguish "wrong path in code" from "asset doesn't exist."
 | Metric | Before | After |
 |---|---:|---:|
 | Unique asset URLs referenced in code | 3,002 (stale) | 3,774 (fresh) |
-| Live on dgrsart | 881 | **1,991** |
-| Dead on dgrsart | 394 | **54** |
+| Live on dgrsart | 881 | **1,999** |
+| Dead on dgrsart | 394 | **46** |
 | Dead on legacy CloudFront | 1,727 | 1,727 (separate workstream) |
 
-**Net delta:** **340 dead URLs resolved** (394 → 54). Of the remaining
-54, ~43 are base-URL "directory" constants flagged as 403 in isolation
-but resolved fine at runtime via prefix composition (§2.2 below); the
-actual hard gap is **11 assets** that need new producer work — 7
-images + 3 audio tracks + the test-only `master_faces/elara.png`
-reference flagged as verify-before-generate.
+**Net delta:** **348 dead URLs resolved** (394 → 46). Of the remaining
+46, **43 are base-URL "directory" constants** flagged as 403 in
+isolation but resolved fine at runtime via prefix composition
+(§2.2 below). The actual hard gap is **3 audio tracks** — Album 1
+T11 "The Empire Reborn", T18 "Planet of the Wolf", T23 "Wake Up" —
+which need Suno production per `docs/REMAINING_ASSET_PRODUCTION_SPEC.md`
+§B. **All other producer-side gaps are closed.**
 
 The original audit was wrong by an order of magnitude. Two compounding
 scanner bugs inflated the headline number. Both fixed in this branch.
