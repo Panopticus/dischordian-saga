@@ -21,6 +21,9 @@ export type ArchivesHotspotId =
   | "charter-per-m-preservation-orders"
   | "severance-no-protocol-on-file"
   | "severance-forty-season-envelopes"
+  | "chained-failure-log"
+  | "chained-dean-annotation-record"
+  | "chained-thirty-one-names-read"
   | "tarn-binder-page-14"
   | "memorial-fourteen-unwitnessed-list"
   | "wolf-crucible-resurrection-record"
@@ -126,6 +129,40 @@ export const ARCHIVES_MYSTERY: RoomMysteryModule<
       interrogate: {
         narration:
           "You ask the archive whether any envelope was ever opened by another reader. The drawer logs three attempts in forty seasons; each one returned the envelope unopened. The seals are unbroken; the names remain in the bond, not in the paperwork.",
+      },
+    },
+    /* ─── mechronis.chained_lesson · color clues ─── */
+    "chained-failure-log": {
+      look: {
+        narration:
+          "In the archives' apprentice-affairs tier, the apprentice-failure log. Thirty-one entries. Each entry: the apprentice's name, the wave's date, the tactical error. The errors are not the same surface action — but they share a common shape: each apprentice mistook a Terminus formation feint for an actual approach.",
+        mysteryBinding: {
+          mysteryId: "mechronis.chained_lesson",
+          episodeId: "mechronis.chained_lesson.e2",
+          cluesFound: ["chained.e2.failure_log"],
+        },
+      },
+    },
+    "chained-dean-annotation-record": {
+      look: {
+        narration:
+          "Beside the failure log, the Dean's prospective-faculty records confirm: Auro's name has been on the list since Year 6. The Dean has not offered her a chair. The Dean's annotation reads: 'we have a curriculum vote to consider; we do not amend the curriculum mid-year.' The annotation is dated nine times across nine years.",
+        mysteryBinding: {
+          mysteryId: "mechronis.chained_lesson",
+          episodeId: "mechronis.chained_lesson.e3",
+          cluesFound: ["chained.e3.dean_did_not_offer"],
+        },
+      },
+    },
+    "chained-thirty-one-names-read": {
+      look: {
+        narration:
+          "On the rite-record shelf: the Antiquarian's transcript of the thirty-one apprentice-failure names read aloud into the record at the closing rite. Each name is followed by a one-line note from the apprentice (where consent was given) — fifteen sent notes; sixteen sent silence. Both are read.",
+        mysteryBinding: {
+          mysteryId: "mechronis.chained_lesson",
+          episodeId: "mechronis.chained_lesson.e5",
+          cluesFound: ["chained.e5.thirty_one_named"],
+        },
       },
     },
     /* ─── mechronis.missing_professor · e2 (binder page 14) ─── */

@@ -23,6 +23,8 @@ export type AntiquarianLibraryHotspotId =
   | "infernal-epoch-one-contract"
   | "infernal-clause-back-page"
   | "watchers-per-m-confirms"
+  | "chained-tarn-residency-marginalia"
+  | "chained-auro-at-rite"
   | "wolf-empty-chair"
   | "wolf-three-empty-chairs"
   | "akai-resurrectionist-seal"
@@ -257,6 +259,29 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
       interrogate: {
         narration:
           "You ask Per. M. for the role's intended name. They say: 'the Ark will name it. I will not. Naming is the act the role is for, not the act it does.' Per. M. closes the conversation with the same gesture they used to close the charter's seventh signature.",
+      },
+    },
+    /* ─── mechronis.chained_lesson · color clues ─── */
+    "chained-tarn-residency-marginalia": {
+      look: {
+        narration:
+          "On the marginalia shelf behind the lectern, Tarn's residency notebook from her Year-Two posting. Her annotation reads: 'Module 17 is the module the Academy will not teach. The faculty has been comfortable with the absence. The absence has cost. Whichever Dean reads this — find someone who teaches Module 17 in defiance of the curriculum and offer them a chair.' The current Dean has not turned to this page.",
+        mysteryBinding: {
+          mysteryId: "mechronis.chained_lesson",
+          episodeId: "mechronis.chained_lesson.e2",
+          cluesFound: ["chained.e2.tarn_marginalia_again"],
+        },
+      },
+    },
+    "chained-auro-at-rite": {
+      look: {
+        narration:
+          "In the case-rite annex, the Antiquarian's hand-written note on Sergeant Auro's attendance at the closing rite. Auro attends. She is in uniform. She does not speak. She nods once when Tarn's name is read into the record. She does not nod when the Dean apologises.",
+        mysteryBinding: {
+          mysteryId: "mechronis.chained_lesson",
+          episodeId: "mechronis.chained_lesson.e5",
+          cluesFound: ["chained.e5.auro_at_rite"],
+        },
       },
     },
     /* ─── wolf.anara_hunt · e1 (the empty chair) ─── */

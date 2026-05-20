@@ -10,6 +10,10 @@ import type { RoomMysteryModule } from "./_template";
 
 export type OracleSanctumHotspotId =
   | "tarn-pebble-recording"
+  | "chained-apprentice-quotes"
+  | "chained-auro-account"
+  | "chained-lyra-advocacy"
+  | "chained-lyra-album-track"
   | "memorial-antiquarian-plaza-request"
   | "charter2-kassel-testimony"
   | "infernal-zyrkoth-concession"
@@ -19,6 +23,51 @@ export type OracleSanctumHotspotId =
 export const ORACLE_SANCTUM_MYSTERY: RoomMysteryModule<OracleSanctumHotspotId> = {
   roomId: "oracle-sanctum",
   responses: {
+    /* ─── mechronis.chained_lesson · color clues ─── */
+    "chained-apprentice-quotes": {
+      look: {
+        narration:
+          "In the witness chamber, three apprentices' after-action recordings have been pulled — three different years, three identical lines: 'I had not seen the formation before.' 'I did not know it was a feint.' 'I was reading the formation as a real approach.' Each apprentice survived; each was bumped to the back of the cohort.",
+        mysteryBinding: {
+          mysteryId: "mechronis.chained_lesson",
+          episodeId: "mechronis.chained_lesson.e2",
+          cluesFound: ["chained.e2.apprentice_quotes"],
+        },
+      },
+    },
+    "chained-auro-account": {
+      look: {
+        narration:
+          "Beside the apprentice recordings, Auro's own statement to the sanctum: 'I teach because the apprentices need it. I do not need a chair. I do not need the Academy's permission. I would prefer the curriculum cover the module so I could go back to the Trade Empire job, which I am underpaid for.' The statement is short. Auro's voice does not waver.",
+        mysteryBinding: {
+          mysteryId: "mechronis.chained_lesson",
+          episodeId: "mechronis.chained_lesson.e3",
+          cluesFound: ["chained.e3.auro_account"],
+        },
+      },
+    },
+    "chained-lyra-advocacy": {
+      look: {
+        narration:
+          "On the sanctum's advocacy log, Lyra Vox's note from the recording session: she has decided to dedicate tonight's album track to Auro. The track will name Auro publicly. Lyra: 'I will not be the only one naming her, but I am tired of waiting for someone else to start.'",
+        mysteryBinding: {
+          mysteryId: "mechronis.chained_lesson",
+          episodeId: "mechronis.chained_lesson.e3",
+          cluesFound: ["chained.e3.lyra_advocacy"],
+        },
+      },
+    },
+    "chained-lyra-album-track": {
+      look: {
+        narration:
+          "In the playback alcove, Track 16 of the festival album plays at the closing rite. Three minutes, instrumental, a single sung line at the end: 'sergeant who taught the module the Academy would not — we hear you.' Auro shuts her eyes for the line.",
+        mysteryBinding: {
+          mysteryId: "mechronis.chained_lesson",
+          episodeId: "mechronis.chained_lesson.e5",
+          cluesFound: ["chained.e5.lyra_album_track"],
+        },
+      },
+    },
     /* ─── mechronis.missing_professor · e4 (Tarn's recorded message) ─── */
     "tarn-pebble-recording": {
       look: {

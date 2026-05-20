@@ -16,6 +16,10 @@ export type WarRoomHotspotId =
   | "infernal-forty-ledger-keepers"
   | "chained-wave-telemetry"
   | "chained-feint-pattern"
+  | "chained-dean-admits"
+  | "chained-trade-empire-employment"
+  | "chained-dean-full-admission"
+  | "chained-amendment-three-options"
   | "watchers-council-communique"
   | "resur-second-fall-casualty-count"
   | "storm-advocates-blood-weave"
@@ -41,6 +45,51 @@ export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
       interrogate: {
         narration:
           "You ask the war-room for the missing name. The display returns Atalin, ledger-keeper, Year One. Atalin held the post for one season, was dismissed (or resigned — the file is unclear), and was never replaced — the post was rotated season by season afterwards. Atalin's personnel file is in the archives; the cipher-den has the handwriting sample. The investigation has one name to follow.",
+      },
+    },
+    /* ─── mechronis.chained_lesson · color clues ─── */
+    "chained-dean-admits": {
+      look: {
+        narration:
+          "On the war-room's curriculum-affairs board, the Dean's admission, recorded for the case: 'I knew Module 17 was absent. I voted to ratify the curriculum that left it absent. I have been telling myself for fourteen years that the apprentices were the failures. They were not. The curriculum was.' The recording is in the Dean's own voice. The board does not gloss it.",
+        mysteryBinding: {
+          mysteryId: "mechronis.chained_lesson",
+          episodeId: "mechronis.chained_lesson.e2",
+          cluesFound: ["chained.e2.dean_admits"],
+        },
+      },
+    },
+    "chained-trade-empire-employment": {
+      look: {
+        narration:
+          "On the Trade-Empire intelligence board, Auro's employment record. Auro is on the Trade Empire's payroll as a 'route-safety contractor.' She has been on the payroll for nine years — since Year 5, since the first apprentice failure. The Trade Empire pays her because the Trade Empire benefits from apprentices who survive Terminus waves.",
+        mysteryBinding: {
+          mysteryId: "mechronis.chained_lesson",
+          episodeId: "mechronis.chained_lesson.e3",
+          cluesFound: ["chained.e3.trade_empire_employment"],
+        },
+      },
+    },
+    "chained-dean-full-admission": {
+      look: {
+        narration:
+          "Pinned beside Auro's record, the Dean's full admission: 'I voted with Tarn in Year 1. I deferred to her on academic-vs-combat distinctions for fourteen years. After she left I had no excuse. I have not had an excuse for the last term.' The admission is dated this morning. The Dean has filed it without prompt.",
+        mysteryBinding: {
+          mysteryId: "mechronis.chained_lesson",
+          episodeId: "mechronis.chained_lesson.e4",
+          cluesFound: ["chained.e4.dean_full_admission"],
+        },
+      },
+    },
+    "chained-amendment-three-options": {
+      look: {
+        narration:
+          "On the council-vote display, the three amendment options drafted for the closing rite. (1) Restore Module 17 to the curriculum, named for Tarn's retraction. (2) Restore Module 17 anonymously, taught by Auro under contract. (3) Refuse to restore; have the Council formally fund Auro's Trade-Empire role as a permanent Academy supplement.",
+        mysteryBinding: {
+          mysteryId: "mechronis.chained_lesson",
+          episodeId: "mechronis.chained_lesson.e5",
+          cluesFound: ["chained.e5.amendment_three"],
+        },
       },
     },
     /* ─── mechronis.chained_lesson · e1 (wave telemetry) ─── */

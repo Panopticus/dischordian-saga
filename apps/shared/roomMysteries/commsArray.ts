@@ -28,6 +28,7 @@ export type CommsArrayHotspotId =
   | "tarn-faculty-silence-hour"
   | "watchers-silence-break-log"
   | "wolf-meme-show-transmission"
+  | "chained-lyra-call-fourteen-minutes"
   | "akai-last-recorded-words"
   | "resur-host-wyrmhole-signature"
   | "radio-console" | "static-screen" | "egg-comms-signal" | "voice-in-the-static" | "ocularum-relay-trace" | "dead-drop-cadence-log" | "shadow-tongue-signal-trace" | "miras-dual-thread-transmission";
@@ -118,6 +119,18 @@ export const COMMS_ARRAY_MYSTERY: RoomMysteryModule<
       interrogate: {
         narration:
           "You ask the comms-array whether any of the three left and returned. The recorder shows no break in the audio's room-tone. None of the three left. The silence was held by all three for the full hour. Each faculty head later admitted, on the cipher-den's record, that they had been waiting for one of the others to be the first to refuse.",
+      },
+    },
+    /* ─── mechronis.chained_lesson · e1 (Lyra's fourteen-minute call) ─── */
+    "chained-lyra-call-fourteen-minutes": {
+      look: {
+        narration:
+          "On the voice-channel desk, the recording of Lyra Vox's call from fourteen minutes before contact: 'your apprentice is on the festival roof. they have a tower and a clear shot. they are asking what you would do. I think they already know. they want it from you.' The recording's vu-meter shows steady delivery — Lyra is not rushed; she is reporting.",
+        mysteryBinding: {
+          mysteryId: "mechronis.chained_lesson",
+          episodeId: "mechronis.chained_lesson.e1",
+          cluesFound: ["chained.e1.lyra_call"],
+        },
       },
     },
     /* ─── memorial.seven_watchers · e1 (silence-break event log) ─── */

@@ -26,12 +26,49 @@ import type { RoomMysteryModule } from "./_template";
 import { bandedNarration, bandedHumanNarration } from "./_template";
 
 export type BridgeHotspotId =
+  | "chained-dean-silence-on-bridge"
+  | "chained-architect-correction"
+  | "chained-architect-rite-acknowledgment"
   | "memorial-architect-sealed-note"
   | "tactical-display" | "timeline-projector" | "captains-chair" | "nav-console" | "diplomacy-table" | "captains-coffee" | "shadow-tongue-annotations";
 
 export const BRIDGE_MYSTERY: RoomMysteryModule<BridgeHotspotId> = {
   roomId: "bridge",
   responses: {
+    /* ─── mechronis.chained_lesson · color clues ─── */
+    "chained-dean-silence-on-bridge": {
+      look: {
+        narration:
+          "On the bridge's command-deck pedestal, the Dean stands with one hand resting on the apprentice-protection-protocol document the Council ratified last year. They are not speaking. They have not opened the document. The bridge's overhead lights catch the document's seal — untouched since ratification.",
+        mysteryBinding: {
+          mysteryId: "mechronis.chained_lesson",
+          episodeId: "mechronis.chained_lesson.e1",
+          cluesFound: ["chained.e1.dean_silence"],
+        },
+      },
+    },
+    "chained-architect-correction": {
+      look: {
+        narration:
+          "On the Architect-channel terminal, the Console's recent issuance: 'the absence of Module 17 was an honest argument that became a wrong outcome. the architect notes the correction. the architect will not vote on the amendment.' The Architect names the case's reading and steps back from authoring its conclusion.",
+        mysteryBinding: {
+          mysteryId: "mechronis.chained_lesson",
+          episodeId: "mechronis.chained_lesson.e4",
+          cluesFound: ["chained.e4.architect_correction"],
+        },
+      },
+    },
+    "chained-architect-rite-acknowledgment": {
+      look: {
+        narration:
+          "On the Architect-channel's closing-rite log, the Console issues: 'the curriculum is amended (or kept) by the council. the architect notes the thirty-one names. the architect notes the teacher who taught anyway. the case is closed.' The closure is recorded; the naming is acknowledged; the chronicle proceeds.",
+        mysteryBinding: {
+          mysteryId: "mechronis.chained_lesson",
+          episodeId: "mechronis.chained_lesson.e5",
+          cluesFound: ["chained.e5.architect_acknowledges"],
+        },
+      },
+    },
     /* ─── memorial.forgotten_names · e4 (Architect's sealed note on I-1) ─── */
     "memorial-architect-sealed-note": {
       look: {

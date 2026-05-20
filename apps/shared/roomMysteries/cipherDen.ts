@@ -40,6 +40,7 @@ export type CipherDenHotspotId =
   | "infernal-atalin-receipt-sample"
   | "infernal-the-flaw"
   | "chained-tarn-year-one-argument"
+  | "chained-full-proceedings-audio"
   | "watchers-upper-band-signature"
   | "watchers-idris-signature"
   | "watchers-six-signatures-catalogue"
@@ -196,6 +197,18 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
       interrogate: {
         narration:
           "You ask the archive when this convention was last successfully invoked. The drawer returns a single entry: the founding itself. The seventh founding Watcher invoked silence-as-vote on three minor founding-day decisions; each was read correctly. The convention's first misreading is the fourth-epoch scrub. The misreading has been the seventh's only voice since.",
+      },
+    },
+    /* ─── mechronis.chained_lesson · e4 (full proceedings audio) ─── */
+    "chained-full-proceedings-audio": {
+      look: {
+        narration:
+          "On the cipher-den's year-one-audio bench, the Year-One curriculum vote's full proceedings — recovered audio, fourteen years old, six and a half hours. Module 17 is debated in hour three. Tarn argues against it for forty minutes. The argument is academic, considered, and ultimately persuasive — the module is struck before the vote.",
+        mysteryBinding: {
+          mysteryId: "mechronis.chained_lesson",
+          episodeId: "mechronis.chained_lesson.e4",
+          cluesFound: ["chained.e4.full_proceedings"],
+        },
       },
     },
     /* ─── severance.infernal_clause · e2 (handwriting analysis) ─── */

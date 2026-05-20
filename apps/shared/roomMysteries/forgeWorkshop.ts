@@ -9,6 +9,8 @@ import type { RoomMysteryModule } from "./_template";
 
 export type ForgeWorkshopHotspotId =
   | "chained-auro-tally"
+  | "chained-auro-side-room"
+  | "chained-tarn-letter-to-the-case"
   | "advocate-weave-specification"
   | "anvil" | "schema-rack" | "kiln";
 
@@ -45,6 +47,29 @@ export const FORGE_WORKSHOP_MYSTERY: RoomMysteryModule<ForgeWorkshopHotspotId> =
       use: {
         narration:
           "You ask the bench whether the Weave can be replicated by a different weaver. The reader returns the spec's footnote: 'the Weave is keyed to its weaver's substrate. another weaver would weave a different fabric.' The Advocate's Weave is uniquely hers; no successor can wear her chains forward.",
+      },
+    },
+    /* ─── mechronis.chained_lesson · color clues ─── */
+    "chained-auro-side-room": {
+      look: {
+        narration:
+          "Down sub-corridor seven, the side-room where Auro teaches: forge-workshop sub-corridor seven. Whiteboard, three chairs, a Terminus diorama scaled at one to forty. Auro teaches there on her off-shifts. The room is quiet; the chairs are warm. Apprentices have been here within the last hour.",
+        mysteryBinding: {
+          mysteryId: "mechronis.chained_lesson",
+          episodeId: "mechronis.chained_lesson.e3",
+          cluesFound: ["chained.e3.auro_side_room"],
+        },
+      },
+    },
+    "chained-tarn-letter-to-the-case": {
+      look: {
+        narration:
+          "On Auro's bench, beside the side-room door: a sealed letter Tarn left behind, addressed to 'whoever finds this case' — Tarn knew the case would surface. 'I argued for the absence in Year 1; I tried to amend the curriculum in Year 8; I left in Year 14. The case is yours now. The argument I made was sincere; it was also wrong. Both can be true.'",
+        mysteryBinding: {
+          mysteryId: "mechronis.chained_lesson",
+          episodeId: "mechronis.chained_lesson.e4",
+          cluesFound: ["chained.e4.tarn_message_to_player"],
+        },
       },
     },
     anvil: {
