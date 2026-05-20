@@ -25,6 +25,10 @@ export type AntiquarianLibraryHotspotId =
   | "watchers-per-m-confirms"
   | "chained-tarn-residency-marginalia"
   | "chained-auro-at-rite"
+  | "storm-dossier-quote"
+  | "storm-polarity-lyric-record"
+  | "storm-dreamers-noted-entry"
+  | "storm-eternal-active-status"
   | "wolf-empty-chair"
   | "wolf-three-empty-chairs"
   | "akai-resurrectionist-seal"
@@ -270,6 +274,51 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           mysteryId: "mechronis.chained_lesson",
           episodeId: "mechronis.chained_lesson.e2",
           cluesFound: ["chained.e2.tarn_marginalia_again"],
+        },
+      },
+    },
+    /* ─── storm.architect_of_flux · color clues ─── */
+    "storm-dossier-quote": {
+      look: {
+        narration:
+          "On the cosmic-archaeology shelf, the Storm's dossier — open at its operational sentence: 'By keeping the galaxy in a state of flux, the Storm ensures opportunities for the Ne-Yons to exploit.' The sentence is older than every Ne-Yon currently active and predates the Late Empire era to which the Storm's own emergence is dated. The dossier does not record who first wrote it.",
+        mysteryBinding: {
+          mysteryId: "storm.architect_of_flux",
+          episodeId: "storm.architect_of_flux.e1",
+          cluesFound: ["storm.e1.dossier_quote"],
+        },
+      },
+    },
+    "storm-polarity-lyric-record": {
+      look: {
+        narration:
+          "On the lyric-records shelf, the Book of Daniel 2:47 album's 'Polarity' track lyric record — signed in the Enigma's hand. The lyric names the Storm and the Silence as opposite poles whose interaction creates the energy that powers the universe. The Enigma is the canonical 12th Ne-Yon, the Storyteller. Her authorship of the polarity-canon is itself a Ne-Yon endorsement of the framing.",
+        mysteryBinding: {
+          mysteryId: "storm.architect_of_flux",
+          episodeId: "storm.architect_of_flux.e2",
+          cluesFound: ["storm.e2.polarity_lyric_record"],
+        },
+      },
+    },
+    "storm-dreamers-noted-entry": {
+      look: {
+        narration:
+          "On the Dreamer-archive shelf, the Dreamer's canonical Connections list — the most-documented Ne-Yon library in the Antiquarian's holdings. On the Storm specifically, the Dreamer's library carries one entry: 'noted.' Nothing else. The Dreamer either had nothing to add, or refused to add what she had.",
+        mysteryBinding: {
+          mysteryId: "storm.architect_of_flux",
+          episodeId: "storm.architect_of_flux.e3",
+          cluesFound: ["storm.e3.dreamers_silence"],
+        },
+      },
+    },
+    "storm-eternal-active-status": {
+      look: {
+        narration:
+          "On the dossier-status board, the Storm's status reads Active. The Antiquarian's case closure does not change the status. Of the canonical 12 Ne-Yons, the Degen is recorded as the only one still awake (per the Degen's own bible); the Storm is recorded as Active in the dossier — a productive ambiguity the case does not resolve. The chronicle's verdict: he is doing his work, by whatever name his work is currently being done.",
+        mysteryBinding: {
+          mysteryId: "storm.architect_of_flux",
+          episodeId: "storm.architect_of_flux.e5",
+          cluesFound: ["storm.e5.eternal_active_status"],
         },
       },
     },

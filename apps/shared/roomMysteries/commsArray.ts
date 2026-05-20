@@ -29,6 +29,8 @@ export type CommsArrayHotspotId =
   | "watchers-silence-break-log"
   | "wolf-meme-show-transmission"
   | "chained-lyra-call-fourteen-minutes"
+  | "storm-voice-fragment"
+  | "storm-closing-transmission"
   | "akai-last-recorded-words"
   | "resur-host-wyrmhole-signature"
   | "radio-console" | "static-screen" | "egg-comms-signal" | "voice-in-the-static" | "ocularum-relay-trace" | "dead-drop-cadence-log" | "shadow-tongue-signal-trace" | "miras-dual-thread-transmission";
@@ -119,6 +121,29 @@ export const COMMS_ARRAY_MYSTERY: RoomMysteryModule<
       interrogate: {
         narration:
           "You ask the comms-array whether any of the three left and returned. The recorder shows no break in the audio's room-tone. None of the three left. The silence was held by all three for the full hour. Each faculty head later admitted, on the cipher-den's record, that they had been waiting for one of the others to be the first to refuse.",
+      },
+    },
+    /* ─── storm.architect_of_flux · color clues ─── */
+    "storm-voice-fragment": {
+      look: {
+        narration:
+          "On the flux-frequency intercept board, a transmission fragment captured during one of the uncorrelated calms. The Storm does not give interviews, but occasionally his voice bleeds through interference patterns. The fragment: 'A calm is not the absence of weather. It is weather's permission for what otherwise could not be planned. I do not name what is planned in my calms. I only ensure the planning can happen.' The voice is the Storm's; the recording is unambiguous.",
+        mysteryBinding: {
+          mysteryId: "storm.architect_of_flux",
+          episodeId: "storm.architect_of_flux.e4",
+          cluesFound: ["storm.e4.storm_voice_fragment"],
+        },
+      },
+    },
+    "storm-closing-transmission": {
+      look: {
+        narration:
+          "Pinned beside the voice-fragment, a second transmission captured during the Antiquarian's case-closure interval. The Storm: 'The case will close. The weather will not. I do not require the chronicle to understand me. I require the chronicle to leave the calms unaudited where the planning is not the chronicle's business. The Antiquarian's discipline knows the difference. The case will close on the correct side of that difference.' Signed in the Storm's flux signature.",
+        mysteryBinding: {
+          mysteryId: "storm.architect_of_flux",
+          episodeId: "storm.architect_of_flux.e5",
+          cluesFound: ["storm.e5.closing_storm_transmission"],
+        },
       },
     },
     /* ─── mechronis.chained_lesson · e1 (Lyra's fourteen-minute call) ─── */

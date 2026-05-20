@@ -41,6 +41,7 @@ export type CipherDenHotspotId =
   | "infernal-the-flaw"
   | "chained-tarn-year-one-argument"
   | "chained-full-proceedings-audio"
+  | "storm-uncorrelated-residue"
   | "watchers-upper-band-signature"
   | "watchers-idris-signature"
   | "watchers-six-signatures-catalogue"
@@ -197,6 +198,18 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
       interrogate: {
         narration:
           "You ask the archive when this convention was last successfully invoked. The drawer returns a single entry: the founding itself. The seventh founding Watcher invoked silence-as-vote on three minor founding-day decisions; each was read correctly. The convention's first misreading is the fourth-epoch scrub. The misreading has been the seventh's only voice since.",
+      },
+    },
+    /* ─── storm.architect_of_flux · e4 (uncorrelated calm residue) ─── */
+    "storm-uncorrelated-residue": {
+      look: {
+        narration:
+          "On the cipher-den's pattern-anomaly bench, two of the nine documented calms have NO publicly-recorded chronicle-significant event. The cult-curated record annotates these as 'inactive calms — atmospheric fluctuation; no operational purpose.' The Antiquarian's discipline rejects the 'atmospheric' label — the calm signatures are identical to the seven event-correlated calms. If they were not calling cosmic-scale planning events, they were calling something the chronicle does not record.",
+        mysteryBinding: {
+          mysteryId: "storm.architect_of_flux",
+          episodeId: "storm.architect_of_flux.e4",
+          cluesFound: ["storm.e4.uncorrelated_residue"],
+        },
       },
     },
     /* ─── mechronis.chained_lesson · e4 (full proceedings audio) ─── */

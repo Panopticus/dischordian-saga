@@ -14,11 +14,24 @@ export type GuildSanctumHotspotId =
   | "what-telling-the-advocate-costs"
   | "the-mirror-doctrine-loom"
   | "the-sister-of-the-weave-letter"
-  | "the-binding-chains-cost";
+  | "the-binding-chains-cost"
+  | "storm-degens-house-advantage-anomaly";
 
 export const GUILD_SANCTUM_MYSTERY: RoomMysteryModule<GuildSanctumHotspotId> = {
   roomId: "guild-sanctum",
   responses: {
+    /* ─── storm.architect_of_flux · e3 (Degen's house-advantage anomaly) ─── */
+    "storm-degens-house-advantage-anomaly": {
+      look: {
+        narration:
+          "On the allegiance-pad's accounting console, the Degen's casino ledger shows a multi-decade anomaly in the house advantage during one of the Storm's most active flux periods. The advantage swung against the house — losses sustained, balanced by gains on the back end of the period. The Degen's accounting principle holds that the house always wins; the anomaly violates the principle. The ledger annotates the period: 'patron arrangement — Storm-class.' The Degen's hand on the annotation is unambiguous.",
+        mysteryBinding: {
+          mysteryId: "storm.architect_of_flux",
+          episodeId: "storm.architect_of_flux.e3",
+          cluesFound: ["storm.e3.degens_house_advantage"],
+        },
+      },
+    },
     "sigil-altar": {
       look: {
         narration: {

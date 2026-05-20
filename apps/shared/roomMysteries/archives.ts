@@ -21,6 +21,8 @@ export type ArchivesHotspotId =
   | "charter-per-m-preservation-orders"
   | "severance-no-protocol-on-file"
   | "severance-forty-season-envelopes"
+  | "storm-calm-intervals"
+  | "storm-final-correlation-table"
   | "chained-failure-log"
   | "chained-dean-annotation-record"
   | "chained-thirty-one-names-read"
@@ -129,6 +131,29 @@ export const ARCHIVES_MYSTERY: RoomMysteryModule<
       interrogate: {
         narration:
           "You ask the archive whether any envelope was ever opened by another reader. The drawer logs three attempts in forty seasons; each one returned the envelope unopened. The seals are unbroken; the names remain in the bond, not in the paperwork.",
+      },
+    },
+    /* ─── storm.architect_of_flux · color clues ─── */
+    "storm-calm-intervals": {
+      look: {
+        narration:
+          "In the archives' cosmic-weather tier, the documented calm intervals — periods where the equilibrium-crossing pattern flattens for seven to nine cosmic-cycles before resuming. The first calm coincides with the Second Fall of New Babylon. The second calm coincides with the Casino Heist's planning window. Each calm is followed by the most active flux period in the surrounding decade. The chronicle does not annotate the pattern.",
+        mysteryBinding: {
+          mysteryId: "storm.architect_of_flux",
+          episodeId: "storm.architect_of_flux.e1",
+          cluesFound: ["storm.e1.calm_intervals"],
+        },
+      },
+    },
+    "storm-final-correlation-table": {
+      look: {
+        narration:
+          "On the closing-record shelf, the final correlation table mapping the Storm's documented active periods to the chronicle's most consequential decades. Seven peak flux periods follow seven calms — corresponding to seven moments when cosmic conditions shifted unpredictably and opportunity-aligned actors seized the shifts. The Antiquarian's reading: the Storm's work is the chronicle's permission to be consequential at all.",
+        mysteryBinding: {
+          mysteryId: "storm.architect_of_flux",
+          episodeId: "storm.architect_of_flux.e5",
+          cluesFound: ["storm.e5.final_correlation_table"],
+        },
       },
     },
     /* ─── mechronis.chained_lesson · color clues ─── */

@@ -36,6 +36,8 @@ export type ShadowVaultHotspotId =
   | "resur-necromancer-at-killsite"
   | "resur-silence-body-claim"
   | "advocate-sealed-sacrum"
+  | "storm-silence-information-logs"
+  | "storm-silence-co-signature"
   | "sealed-cell-glass" | "manuscript-pile" | "warden-terminal" | "release-or-seal-lever" | "the-unopened-threshold" | "the-makers-heartbeat-trace" | "the-necromancers-altar";
 
 export type ShadowVaultInventoryId = "manuscript-folio";
@@ -188,6 +190,29 @@ export const SHADOW_VAULT_MYSTERY: RoomMysteryModule<
       use: {
         narration:
           "You request comparable Ne-Yon body-claim records. The vault returns four others — for the Sage, the Champion, the Hawk, the Architect's first failed proxy. None of the four carries an archaic seal. The 'tradition' the cult's annotation cites has no other examples in the chronicle.",
+      },
+    },
+    /* ─── storm.architect_of_flux · color clues ─── */
+    "storm-silence-information-logs": {
+      look: {
+        narration:
+          "In the shadow-vault's information-control tier, the Silence's recovered logs. The Silence's dossier describes her work as guarding secrets with relentless precision — the canonical Ne-Yon of information-control. The logs show the precision in operational terms: every classification decision is permanent, every retraction is denied, every leak is sealed. Silence is, in the chronicle's terms, the locked archive.",
+        mysteryBinding: {
+          mysteryId: "storm.architect_of_flux",
+          episodeId: "storm.architect_of_flux.e2",
+          cluesFound: ["storm.e2.silence_information_logs"],
+        },
+      },
+    },
+    "storm-silence-co-signature": {
+      look: {
+        narration:
+          "On the case-closure shelf, the closing documents for the Storm case bear, in the lower margin, a second co-signature: a perfect flat-line characteristic of the Silence's information-control hand. The Silence does not normally co-sign cases. Her co-signature here marks the case as one whose contents she has reviewed and elected to leave classified along the lines the case itself authored. The chronicle inscribes both Ne-Yon signatures on the closure record.",
+        mysteryBinding: {
+          mysteryId: "storm.architect_of_flux",
+          episodeId: "storm.architect_of_flux.e5",
+          cluesFound: ["storm.e5.silence_co_signature"],
+        },
       },
     },
     /* ─── advocate.blood_weave · e3 (the Sacrum reliquary) ─── */
