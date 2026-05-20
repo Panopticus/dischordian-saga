@@ -4,7 +4,7 @@ import { ARCHIVES_MYSTERY } from "./archives";
 import { combineInventory, resolveVerbResponse } from "./_template";
 
 describe("archives mystery — Shadow Tongue point-and-click hotspots", () => {
-  it("ships the 6 core hotspots (2 legacy + 4 ST); extras are DLC index hotspots", () => {
+  it("ships the 6 core hotspots and zero remaining DLC index stubs", () => {
     const ids = Object.keys(ARCHIVES_MYSTERY.responses);
     const core = [
       "data-banks",
@@ -15,11 +15,12 @@ describe("archives mystery — Shadow Tongue point-and-click hotspots", () => {
       "unnameable-hue-cabinet",
     ];
     for (const c of core) expect(ids).toContain(c);
-    // Any hotspot beyond the core must be a DLC progression-critical
-    // clue index hotspot (added by scripts/_gen-dlc-bindings.mjs).
-    for (const id of ids) {
-      if (!core.includes(id)) expect(id.startsWith("dlc-")).toBe(true);
-    }
+    // Post-PR #671 + #672: every `dlc-` prefixed index stub has
+    // been retired and replaced with thematic single-clue hotspots
+    // carrying canon prose drawn from the dlcMystery def. Asserting
+    // zero `dlc-*` ids closes the un-gate-gaming work.
+    const dlcStubs = ids.filter((id) => id.startsWith("dlc-"));
+    expect(dlcStubs).toEqual([]);
   });
 
   describe("corrupted-scroll-rack", () => {
