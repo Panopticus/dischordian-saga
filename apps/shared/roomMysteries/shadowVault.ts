@@ -38,6 +38,7 @@ export type ShadowVaultHotspotId =
   | "advocate-sealed-sacrum"
   | "storm-silence-information-logs"
   | "storm-silence-co-signature"
+  | "wolf-trust-signatures"
   | "sealed-cell-glass" | "manuscript-pile" | "warden-terminal" | "release-or-seal-lever" | "the-unopened-threshold" | "the-makers-heartbeat-trace" | "the-necromancers-altar";
 
 export type ShadowVaultInventoryId = "manuscript-folio";
@@ -190,6 +191,18 @@ export const SHADOW_VAULT_MYSTERY: RoomMysteryModule<
       use: {
         narration:
           "You request comparable Ne-Yon body-claim records. The vault returns four others — for the Sage, the Champion, the Hawk, the Architect's first failed proxy. None of the four carries an archaic seal. The 'tradition' the cult's annotation cites has no other examples in the chronicle.",
+      },
+    },
+    /* ─── wolf.anara_hunt · e2 (trust-signature security logs) ─── */
+    "wolf-trust-signatures": {
+      look: {
+        narration:
+          "In the shadow-vault's League security-log drawer, the trust-signature records: League security logs do not record forced entries on any of the four chambers. Each hero, in their final logged moment, was either with a trusted League member or walking towards one. The predator's mask is good enough that none of them turned.",
+        mysteryBinding: {
+          mysteryId: "wolf.anara_hunt",
+          episodeId: "wolf.anara_hunt.e2",
+          cluesFound: ["wolf.e2.trust_signatures"],
+        },
       },
     },
     /* ─── storm.architect_of_flux · color clues ─── */

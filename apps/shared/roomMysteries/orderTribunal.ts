@@ -9,12 +9,25 @@ import type { RoomMysteryModule } from "./_template";
 
 export type OrderTribunalHotspotId =
   | "wolf-judge-clarification"
+  | "wolf-judge-audit-trail"
   | "storm-judges-arbitration-register"
   | "judges-bench" | "evidence-locker" | "mol-vereth-audit-ledger";
 
 export const ORDER_TRIBUNAL_MYSTERY: RoomMysteryModule<OrderTribunalHotspotId> = {
   roomId: "order-tribunal",
   responses: {
+    /* ─── wolf.anara_hunt · e1 (Judge's audit trail open entry) ─── */
+    "wolf-judge-audit-trail": {
+      look: {
+        narration:
+          "In the tribunal's audit-archive chamber, the Judge — the Second Ne-Yon — keeps an audit trail of every cosmic-justice action He has ever performed. The trail has one open entry under 'Day 15 of Resonance, Year 100,001 A.A.': the destruction of a Potential called Lycos, infected by the Thought Virus during the Thaloria mission. The entry's closing note: 'destroyed to prevent further harm. The work was clean. The instrument was not lost.'",
+        mysteryBinding: {
+          mysteryId: "wolf.anara_hunt",
+          episodeId: "wolf.anara_hunt.e1",
+          cluesFound: ["wolf.e1.judge_audit"],
+        },
+      },
+    },
     /* ─── wolf.anara_hunt · e3 (Judge's clarification of audit) ─── */
     "wolf-judge-clarification": {
       look: {

@@ -42,6 +42,7 @@ export type CipherDenHotspotId =
   | "chained-tarn-year-one-argument"
   | "chained-full-proceedings-audio"
   | "storm-uncorrelated-residue"
+  | "wolf-seal-telemetry"
   | "watchers-upper-band-signature"
   | "watchers-idris-signature"
   | "watchers-six-signatures-catalogue"
@@ -198,6 +199,18 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
       interrogate: {
         narration:
           "You ask the archive when this convention was last successfully invoked. The drawer returns a single entry: the founding itself. The seventh founding Watcher invoked silence-as-vote on three minor founding-day decisions; each was read correctly. The convention's first misreading is the fourth-epoch scrub. The misreading has been the seventh's only voice since.",
+      },
+    },
+    /* ─── wolf.anara_hunt · e4 (seal-telemetry at transfer) ─── */
+    "wolf-seal-telemetry": {
+      look: {
+        narration:
+          "On the cipher-den's containment-telemetry bench, the Crucible's seal telemetry on the Wolf's chamber, retrieved from the inheritance manifest: at the moment of transfer to Anara, the Wolf's seal was at 92% integrity, declining at 0.3% per cycle. The seal was not failed at transfer. The seal failed twenty-three cycles after transfer, at which point Anara's containment systems should have automatically reasserted. They did not. Anara's containment ledger does not register the Wolf's chamber as a chamber.",
+        mysteryBinding: {
+          mysteryId: "wolf.anara_hunt",
+          episodeId: "wolf.anara_hunt.e4",
+          cluesFound: ["wolf.e4.unsealed_at_transfer"],
+        },
       },
     },
     /* ─── storm.architect_of_flux · e4 (uncorrelated calm residue) ─── */

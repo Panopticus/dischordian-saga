@@ -15,11 +15,37 @@ export type GuildSanctumHotspotId =
   | "the-mirror-doctrine-loom"
   | "the-sister-of-the-weave-letter"
   | "the-binding-chains-cost"
-  | "storm-degens-house-advantage-anomaly";
+  | "storm-degens-house-advantage-anomaly"
+  | "wolf-minigame-entry-state"
+  | "wolf-present-in-hall";
 
 export const GUILD_SANCTUM_MYSTERY: RoomMysteryModule<GuildSanctumHotspotId> = {
   roomId: "guild-sanctum",
   responses: {
+    /* ─── wolf.anara_hunt · e5 (Hunt-the-Hero minigame entry state) ─── */
+    "wolf-minigame-entry-state": {
+      look: {
+        narration:
+          "On the guild-sanctum's case-handover board, the Hunt-the-Hero gameplay loop's entry state begins here, in this chamber, with the Wolf already present and the three incoming heroes still cycles away from arrival. The player's choices in this Mystery Engine arc set the minigame's initial state: which League members have been warned (E2); whether the Resurrectionist has been confronted (E3); whether the Hall has been evacuated, sealed, or entered (E4). The investigation closes. The gameplay opens.",
+        mysteryBinding: {
+          mysteryId: "wolf.anara_hunt",
+          episodeId: "wolf.anara_hunt.e5",
+          cluesFound: ["wolf.e5.minigame_entry_state"],
+        },
+      },
+    },
+    /* ─── wolf.anara_hunt · e5 (the Wolf, present, in the Hall) ─── */
+    "wolf-present-in-hall": {
+      look: {
+        narration:
+          "Through the sanctum's chronicle window, the Wolf is in the Hall. He is wearing a League cloak retrieved from one of the pedestals — the field medic's, the one to whom he extended mercy. He has not yet moved on the three heroes scheduled to enter this cycle. He is reading the cloak's inner lining, where the medic recorded her bond-prayer. He may be deciding whether to extend mercy a second time.",
+        mysteryBinding: {
+          mysteryId: "wolf.anara_hunt",
+          episodeId: "wolf.anara_hunt.e5",
+          cluesFound: ["wolf.e5.the_wolf_present"],
+        },
+      },
+    },
     /* ─── storm.architect_of_flux · e3 (Degen's house-advantage anomaly) ─── */
     "storm-degens-house-advantage-anomaly": {
       look: {

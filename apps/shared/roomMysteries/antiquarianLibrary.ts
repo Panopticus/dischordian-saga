@@ -29,6 +29,13 @@ export type AntiquarianLibraryHotspotId =
   | "storm-polarity-lyric-record"
   | "storm-dreamers-noted-entry"
   | "storm-eternal-active-status"
+  | "wolf-journal-xxxviii"
+  | "wolf-corruption-ledger"
+  | "wolf-antiquarians-admission"
+  | "wolf-first-words-recording"
+  | "wolf-current-position"
+  | "wolf-antiquarians-concession"
+  | "wolf-hall-threshold"
   | "wolf-empty-chair"
   | "wolf-three-empty-chairs"
   | "akai-resurrectionist-seal"
@@ -308,6 +315,84 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           mysteryId: "storm.architect_of_flux",
           episodeId: "storm.architect_of_flux.e3",
           cluesFound: ["storm.e3.dreamers_silence"],
+        },
+      },
+    },
+    /* ─── wolf.anara_hunt · color clues ─── */
+    "wolf-journal-xxxviii": {
+      look: {
+        narration:
+          "On the chronicle-current shelf, the Antiquarian's journal Entry XXXVIII, written in his own hand, dated this week. 'Anara. My creation. My refuge. My failure.' He describes Anara as a pocket universe outside the main timeline — designed to shelter those who might be needed when the Multiverse faces its final crisis. He admits he designed it to be impenetrable from outside. He admits he did not design it to resist something already inside.",
+        mysteryBinding: {
+          mysteryId: "wolf.anara_hunt",
+          episodeId: "wolf.anara_hunt.e1",
+          cluesFound: ["wolf.e1.journal_xxxviii"],
+        },
+      },
+    },
+    "wolf-corruption-ledger": {
+      look: {
+        narration:
+          "Inside the Anara-affairs drawer, a small ledger written in a Quarchon hand, recovered from an annex of the medic's chamber. The handwriting matches a long-archived sample of Lycos's. Each entry records a kill: the hero's name, the moment the mask broke for them at the last second (or did not), and a single rated question — 'mercy: y/n'. Four entries. Three 'n'. One 'y'. The 'y' is the field medic.",
+        mysteryBinding: {
+          mysteryId: "wolf.anara_hunt",
+          episodeId: "wolf.anara_hunt.e2",
+          cluesFound: ["wolf.e2.wolfs_corruption_ledger"],
+        },
+      },
+    },
+    "wolf-antiquarians-admission": {
+      look: {
+        narration:
+          "On the Anara design-failure shelf, the Antiquarian's pressed admission, dated yesterday: he knew the Wolf had been reanimated. He believed the Wolf was contained in the Crucible. He moved his heroes into Anara — the Crucible's successor pocket — without verifying that the Wolf was sealed at the old pocket's collapse. The admission is in his journal. He writes the word 'failure' twice.",
+        mysteryBinding: {
+          mysteryId: "wolf.anara_hunt",
+          episodeId: "wolf.anara_hunt.e3",
+          cluesFound: ["wolf.e3.antiquarians_admission"],
+        },
+      },
+    },
+    "wolf-first-words-recording": {
+      look: {
+        narration:
+          "In the cosmic-archaeology audio drawer, a recording from the moment of the Wolf's reanimation. His voice — Quarchon timbre, but flat in a way that Quarchon voices typically aren't — speaks once before the Crucible's containment closed the chamber. 'Death freed me. Released me from the chains of purpose. I will give the chronicle the kind of mercy I was given: clean.'",
+        mysteryBinding: {
+          mysteryId: "wolf.anara_hunt",
+          episodeId: "wolf.anara_hunt.e3",
+          cluesFound: ["wolf.e3.wolfs_first_words"],
+        },
+      },
+    },
+    "wolf-current-position": {
+      look: {
+        narration:
+          "On the Anara live-tracking board, cross-referencing the Wolf's ledger entries with Anara's hero-attendance logs: the Wolf is currently in the Hall of Disappearances — the chamber Anara uses to ceremonially retire heroes who have completed their preparation and are ready to be sent into the multiverse. He has been there for three cycles. Three more chairs are scheduled to be retired this cycle. Three more heroes are scheduled to enter.",
+        mysteryBinding: {
+          mysteryId: "wolf.anara_hunt",
+          episodeId: "wolf.anara_hunt.e4",
+          cluesFound: ["wolf.e4.wolf_current_position"],
+        },
+      },
+    },
+    "wolf-antiquarians-concession": {
+      look: {
+        narration:
+          "On the case-closure shelf, the Antiquarian's final journal entry as the investigation closes: 'Anara was my failure. The Wolf is my failure's instrument. I cannot ask the chronicle's reader to resolve what I designed wrong. I can only ask: walk into the Hall. Meet him. Read his ethic. Choose what you will do. I will record what you do. The choice is not mine. It never was. It was always going to be the reader's.'",
+        mysteryBinding: {
+          mysteryId: "wolf.anara_hunt",
+          episodeId: "wolf.anara_hunt.e5",
+          cluesFound: ["wolf.e5.antiquarians_concession"],
+        },
+      },
+    },
+    "wolf-hall-threshold": {
+      look: {
+        narration:
+          "On the threshold-record shelf, the Hall of Disappearances diagram: a circular chamber with twelve niches, each holding an empty pedestal. Heroes who complete their preparation in Anara come here to leave behind their League regalia and step into the multiverse beyond. Currently, twelve heroes have done so. The pedestals carry their cloaks. The chamber is, on the surface, ceremonial. On the surface only.",
+        mysteryBinding: {
+          mysteryId: "wolf.anara_hunt",
+          episodeId: "wolf.anara_hunt.e5",
+          cluesFound: ["wolf.e5.hall_threshold"],
         },
       },
     },
