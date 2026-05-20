@@ -58,6 +58,31 @@ The current `AnimatedCutscenePlayer` is a `<video>` chain; it doesn't consume ke
 
 `guildCutscenesManifest.ts:288-293` currently routes `cs_signature_room_unlock_portal_chamber` to the generic `cs_room_unlock` MP4/stills. VO line `architect_portal_001.mp3` is recorded. Producer ask: deliver a dedicated `cs_portal_chamber.mp4` + `cs_portal_chamber_{start,end}.png` under `videos/guild-cutscenes/f5_guild_hall/` and `art/guild-cutscenes/f5_guild_hall/`, then swap the `bundleSlug` to `cs_portal_chamber`.
 
+## Resurrection cinematics (2026-05-20 producer drop, three dead Potentials)
+
+The producer delivered three character death-and-rebirth cinematics that align with the canonical resurrected-Potentials trio in `apps/shared/dlcMysteries/resurrectionistCycleWalker.ts:46-48` *("He activated resurrection protocols so that all three dead Potentials (Wraith, Akai, Lycos) were resurrected.")*
+
+| Cinematic id | CDN path | Trigger binding |
+|---|---|---|
+| `wraith_calder_syndicate_of_death` | `videos/cinematics/syndicate_of_death/syndicate-of-death.mp4` (172 MB) | `RESURRECTION_CINEMATIC_BY_NPC.wraith_calder` (`resurrectionProtocols.ts`) |
+| `akai_shi_necromancers_lair` | `videos/cinematics/necromancers_lair/necromancers-lair.mp4` (330 MB) | `RESURRECTION_CINEMATIC_BY_NPC.akai_shi` |
+| `wolf_planet_of_the_wolf` | `videos/cinematics/planet_of_the_wolf/planet-of-the-wolf.mp4` (406 MB) | `WOLF_CRUCIBLE_RESCUE_CINEMATIC` (`dlcMysteries/wolfAnaraHunt.ts`) |
+
+**Runtime path:**
+- For Wraith Calder / Akai Shi: server stamps `pending_resurrection_cinematic_<npcKey>` on the Resurrection Protocols quest transitioning to `completed_path_a` (player-completed) or `completed_path_b` (Necromancer-event auto-return). `ResurrectionCinematicRouter` (mounted in `App.tsx`) watches the flag, plays the MP4 once via `SingleVideoCutsceneOverlay`, then stamps `resurrection_cinematic_<npcKey>_seen` so it never replays.
+- For Lycos / The Wolf: reanimation is canonically pre-game (Year 128,652 A.A.); the cinematic plays at the player's release of him from the Antiquarian's Crucible/Anara during the `wolf.anara_hunt` arc.
+
+**Parity:** `narrative.resurrection_cinematic_coverage` ship-check entry (registry.ts), 3/3 PASS.
+
+**Outstanding writer ask (Wolf trigger):** the exact fire point inside `wolf.anara_hunt` is open. Candidates documented in `wolfAnaraHunt.ts` TODO: the E3 confront-the-Resurrectionist choice (line 334) or the E4 Crucible-inheritance resolution (line 377). When the writer picks one, wire the flag setter at that beat and add a Wolf-rescue branch to the router (or a parallel component).
+
+**Outstanding server-side wiring:** the `pending_resurrection_cinematic_<npcKey>` flag setter at `completed_path_a` / `completed_path_b` transitions is the unfinished half. Sites that need to call it:
+- `apps/server/routers/resurrectionProtocols.ts` — quest-completion handler
+- `apps/shared/resurrectionPathB.ts` — Necromancer-event auto-return
+- `apps/shared/necromancerCycle.ts` — Path-B trigger
+
+**Roadmap (out of scope for this PR):** The user's stated narrative arc — all three become full companions who can die again later, the heartbreaking second-death loop — needs three new companion-recruitment surfaces, bond tracks, and re-death beats. That's a roster + crew-system extension separate from this asset-wiring PR.
+
 ## Two-registry note for Act 6 confessions
 
 Two parallel modules cover the Act 6 confession close — keep them distinct:

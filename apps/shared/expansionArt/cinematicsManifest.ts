@@ -48,7 +48,15 @@ export type CinematicId =
   // Arc cold-opens — producer-narrated single-take cinematics
   // referenced by Mystery Engine episodes via
   // EpisodeContentBundle.cinematicAssetId (mysteryTypes.ts).
-  | "lord_kanshi_sha_antiquarian";
+  | "lord_kanshi_sha_antiquarian"
+  // Death-and-rebirth cinematics for the three resurrected
+  // Potentials. Bindings: RESURRECTION_CINEMATIC_BY_NPC in
+  // apps/shared/resurrectionProtocols.ts (Wraith, Akai);
+  // WOLF_CRUCIBLE_RESCUE_CINEMATIC in
+  // apps/shared/dlcMysteries/wolfAnaraHunt.ts (Lycos).
+  | "wraith_calder_syndicate_of_death"
+  | "akai_shi_necromancers_lair"
+  | "wolf_planet_of_the_wolf";
 
 export interface CinematicDef {
   id: CinematicId;
@@ -214,6 +222,34 @@ export const CINEMATICS: readonly CinematicDef[] = [
     id: "lord_kanshi_sha_antiquarian",
     name: "Lord Kanshi Sha — Antiquarian Record",
     videoRelPath: "videos/cinematics/lord_kanshi_sha/lord-kanshi-sha.mp4",
+    keyframeRelPaths: [],
+  },
+  // ─── Death-and-rebirth cinematics for the three resurrected
+  // Potentials (resurrectionistCycleWalker.ts:46-48). Each fires
+  // at the NPC's first reanimation moment — Path A (player-
+  // completed Resurrection Protocols) or Path B (Necromancer-
+  // event auto-return). The Wolf reanimation is canonically
+  // pre-game (Year 128,652 A.A.); its cinematic plays when the
+  // player rescues Lycos from the Crucible during wolf.anara_hunt.
+  // Bindings: RESURRECTION_CINEMATIC_BY_NPC (resurrectionProtocols.ts)
+  // for Wraith/Akai; WOLF_CRUCIBLE_RESCUE_CINEMATIC
+  // (wolfAnaraHunt.ts) for Lycos.
+  {
+    id: "wraith_calder_syndicate_of_death",
+    name: "Wraith Calder — Syndicate of Death (Resurrection)",
+    videoRelPath: "videos/cinematics/syndicate_of_death/syndicate-of-death.mp4",
+    keyframeRelPaths: [],
+  },
+  {
+    id: "akai_shi_necromancers_lair",
+    name: "Akai Shi — The Necromancer's Lair (Resurrection)",
+    videoRelPath: "videos/cinematics/necromancers_lair/necromancers-lair.mp4",
+    keyframeRelPaths: [],
+  },
+  {
+    id: "wolf_planet_of_the_wolf",
+    name: "The Wolf — Planet of the Wolf (Reanimation)",
+    videoRelPath: "videos/cinematics/planet_of_the_wolf/planet-of-the-wolf.mp4",
     keyframeRelPaths: [],
   },
 ];

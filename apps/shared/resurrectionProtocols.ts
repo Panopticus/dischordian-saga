@@ -40,6 +40,40 @@ export const RESURRECTABLE_NPC_KEYS = [
 
 export type ResurrectableNpcKey = typeof RESURRECTABLE_NPC_KEYS[number];
 
+/** Death-and-rebirth cinematic id for each resurrectable NPC.
+ *  Plays the first time an NPC is reanimated, via either Path A
+ *  (player-completed quest) or Path B (Necromancer-event auto
+ *  return). Resolves against CINEMATICS in
+ *  apps/shared/expansionArt/cinematicsManifest.ts; parity is
+ *  enforced by apps/shared/_completeness/checks/resurrectionCinematicCoverage.ts.
+ *  Server-side: set `pending_resurrection_cinematic_<npcKey>` on
+ *  the quest's `completed_path_a` / `completed_path_b` transition.
+ *  Client-side: ResurrectionCinematicRouter watches the flag,
+ *  plays the cinematic, then stamps
+ *  `resurrection_cinematic_<npcKey>_seen` so it never replays. */
+export const RESURRECTION_CINEMATIC_BY_NPC: Readonly<
+  Partial<Record<ResurrectableNpcKey, string>>
+> = {
+  wraith_calder: "wraith_calder_syndicate_of_death",
+  akai_shi: "akai_shi_necromancers_lair",
+} as const;
+
+/** Pending-cinematic flag name. Server sets this on resurrection
+ *  completion; the router consumes it. */
+export function pendingResurrectionCinematicFlag(
+  npcKey: ResurrectableNpcKey,
+): string {
+  return `pending_resurrection_cinematic_${npcKey}`;
+}
+
+/** Seen-cinematic flag name. Router stamps this on completion;
+ *  acts as the idempotency gate. */
+export function resurrectionCinematicSeenFlag(
+  npcKey: ResurrectableNpcKey,
+): string {
+  return `resurrection_cinematic_${npcKey}_seen`;
+}
+
 /** Each sub-task touches a different game system. The quest
  *  picks 4 of these 7 procedurally per (userId, npcKey, deathCycle). */
 export const PROTOCOL_SUBTASK_IDS = [

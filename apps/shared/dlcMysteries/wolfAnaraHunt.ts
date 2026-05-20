@@ -51,6 +51,26 @@ import { TEMPLATE_NPC_ARC_TRIGGER } from "../mysteryTemplates";
 const ARC = "arc.dlc.wolf_anara_hunt" as ArcId;
 const ID  = "wolf.anara_hunt"          as MysteryId;
 
+/** Death-and-rebirth cinematic id for the Wolf, played the first
+ *  time the player rescues Lycos from the Crucible during this
+ *  arc. Unlike Wraith/Akai (handled by
+ *  RESURRECTION_CINEMATIC_BY_NPC in resurrectionProtocols.ts),
+ *  the Wolf's reanimation is canonically pre-game (Year 128,652
+ *  A.A.); the cinematic plays at the player's release of him
+ *  from the Antiquarian's pocket universe.
+ *
+ *  Resolves against CINEMATICS in
+ *  apps/shared/expansionArt/cinematicsManifest.ts.
+ *
+ *  TODO(writer): Exact trigger flag is still open. Candidate
+ *  fire points within this arc are the E3 confront-the-
+ *  Resurrectionist choice (wolf.e3.c.confront_resurrectionist,
+ *  line 334) and the E4 Crucible-inheritance resolution
+ *  (wolf.e4.crucible_inheritance, line 377). When the writer
+ *  picks one, wire the flag setter at that beat and the
+ *  ResurrectionCinematicRouter equivalent for Wolf-rescue. */
+export const WOLF_CRUCIBLE_RESCUE_CINEMATIC = "wolf_planet_of_the_wolf" as const;
+
 /* ═══════════════════════════════════════════════════════
    E1 — The Empty Chair in the League
    ═══════════════════════════════════════════════════════ */
