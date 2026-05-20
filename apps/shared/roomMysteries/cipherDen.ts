@@ -48,6 +48,8 @@ export type CipherDenHotspotId =
   | "watchers-verel-signature"
   | "tarn-logic-proposal"
   | "memorial-parent-search-i1"
+  | "severance-candle-smoke-residue"
+  | "severance-broker-first-name"
   | "watchers-upper-band-signature"
   | "watchers-idris-signature"
   | "watchers-six-signatures-catalogue"
@@ -204,6 +206,29 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
       interrogate: {
         narration:
           "You ask the archive when this convention was last successfully invoked. The drawer returns a single entry: the founding itself. The seventh founding Watcher invoked silence-as-vote on three minor founding-day decisions; each was read correctly. The convention's first misreading is the fourth-epoch scrub. The misreading has been the seventh's only voice since.",
+      },
+    },
+    /* ─── severance.bound_champion · color clues ─── */
+    "severance-candle-smoke-residue": {
+      look: {
+        narration:
+          "On the cipher-den's chemical-trace bench, Auditor Klessa's candle leaves a residue on every Severance ledger — the same chemical mark every year. The mark predates Klessa. It predates the league. It is the same residue as the candles on the Broker's shelves.",
+        mysteryBinding: {
+          mysteryId: "severance.bound_champion",
+          episodeId: "severance.bound_champion.e3",
+          cluesFound: ["severance.e3.candle_smoke_residue"],
+        },
+      },
+    },
+    "severance-broker-first-name": {
+      look: {
+        narration:
+          "On the residue-match bench at case-closure, the Broker's first name is recovered from the Year One redaction layer: the Broker is named Solène. The redaction was theirs — they redacted themselves at the first ceremony so the role would not become a person.",
+        mysteryBinding: {
+          mysteryId: "severance.bound_champion",
+          episodeId: "severance.bound_champion.e5",
+          cluesFound: ["severance.e5.broker_first_name"],
+        },
       },
     },
     /* ─── memorial.forgotten_names · e4 (parent search for I-1) ─── */

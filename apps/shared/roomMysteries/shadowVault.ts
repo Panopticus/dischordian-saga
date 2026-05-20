@@ -55,6 +55,7 @@ export type ShadowVaultHotspotId =
   | "memorial-dish-listening"
   | "memorial-imprint-i1-dish"
   | "memorial-next-year-hook"
+  | "severance-year-one-envelope"
   | "sealed-cell-glass" | "manuscript-pile" | "warden-terminal" | "release-or-seal-lever" | "the-unopened-threshold" | "the-makers-heartbeat-trace" | "the-necromancers-altar";
 
 export type ShadowVaultInventoryId = "manuscript-folio";
@@ -207,6 +208,18 @@ export const SHADOW_VAULT_MYSTERY: RoomMysteryModule<
       use: {
         narration:
           "You request comparable Ne-Yon body-claim records. The vault returns four others — for the Sage, the Champion, the Hawk, the Architect's first failed proxy. None of the four carries an archaic seal. The 'tradition' the cult's annotation cites has no other examples in the chronicle.",
+      },
+    },
+    /* ─── severance.bound_champion · e2 (Year One envelope, thick) ─── */
+    "severance-year-one-envelope": {
+      look: {
+        narration:
+          "In the founding-records drawer, the first Severance's envelope is thicker than the rest. Two pages. Page two contains a hand-drawn diagram: the two witnesses, Vex's predecessor, and a fourth figure marked only by a circle and the word 'first.'",
+        mysteryBinding: {
+          mysteryId: "severance.bound_champion",
+          episodeId: "severance.bound_champion.e2",
+          cluesFound: ["severance.e2.season_one_envelope"],
+        },
       },
     },
     /* ─── memorial.forgotten_names · color clues (imprint room + dish reads) ─── */

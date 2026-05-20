@@ -38,6 +38,7 @@ export type CommsArrayHotspotId =
   | "akai-voice-mid-hunt"
   | "akai-word-to-the-chronicle"
   | "watchers-first-trumpet"
+  | "severance-first-witness-klessa"
   | "akai-last-recorded-words"
   | "resur-host-wyrmhole-signature"
   | "radio-console" | "static-screen" | "egg-comms-signal" | "voice-in-the-static" | "ocularum-relay-trace" | "dead-drop-cadence-log" | "shadow-tongue-signal-trace" | "miras-dual-thread-transmission";
@@ -128,6 +129,18 @@ export const COMMS_ARRAY_MYSTERY: RoomMysteryModule<
       interrogate: {
         narration:
           "You ask the comms-array whether any of the three left and returned. The recorder shows no break in the audio's room-tone. None of the three left. The silence was held by all three for the full hour. Each faculty head later admitted, on the cipher-den's record, that they had been waiting for one of the others to be the first to refuse.",
+      },
+    },
+    /* ─── severance.bound_champion · e2 (Auditor Klessa — first witness) ─── */
+    "severance-first-witness-klessa": {
+      look: {
+        narration:
+          "On the witness-attendance board, Auditor Klessa's profile: she has attended forty Severances. She is on every list. She does not race; she does not place bets; she has no companion. She brings a single white candle and lights it during the spoken name.",
+        mysteryBinding: {
+          mysteryId: "severance.bound_champion",
+          episodeId: "severance.bound_champion.e2",
+          cluesFound: ["severance.e2.first_witness"],
+        },
       },
     },
     /* ─── memorial.seven_watchers · e5 (first trumpet sounds, briefly) ─── */

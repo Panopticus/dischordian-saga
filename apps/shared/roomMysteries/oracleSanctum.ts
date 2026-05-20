@@ -25,6 +25,10 @@ export type OracleSanctumHotspotId =
   | "memorial-plaza-register"
   | "memorial-plaza-consensus"
   | "memorial-aren-reading"
+  | "severance-companion-on-table"
+  | "severance-broker-record"
+  | "severance-successor-test"
+  | "severance-bond-poured"
   | "memorial-antiquarian-plaza-request"
   | "charter2-kassel-testimony"
   | "infernal-zyrkoth-concession"
@@ -34,6 +38,51 @@ export type OracleSanctumHotspotId =
 export const ORACLE_SANCTUM_MYSTERY: RoomMysteryModule<OracleSanctumHotspotId> = {
   roomId: "oracle-sanctum",
   responses: {
+    /* ─── severance.bound_champion · color clues ─── */
+    "severance-companion-on-table": {
+      look: {
+        narration:
+          "On the witness-table, the bound companion. A first-circuit eidolon, ribboned with the champion's colors. Bond strength reads at peak. The companion has not eaten since the lap; they are looking for someone they can no longer find.",
+        mysteryBinding: {
+          mysteryId: "severance.bound_champion",
+          episodeId: "severance.bound_champion.e1",
+          cluesFound: ["severance.e1.companion_on_table"],
+        },
+      },
+    },
+    "severance-broker-record": {
+      look: {
+        narration:
+          "On the sanctum's recorded-statements console, the Broker's recorded statement: 'I picked up the first bond because no one else would. I've been picking them up because no one else has learned. The day someone else learns, I will be allowed to set them down.'",
+        mysteryBinding: {
+          mysteryId: "severance.bound_champion",
+          episodeId: "severance.bound_champion.e3",
+          cluesFound: ["severance.e3.broker_record"],
+        },
+      },
+    },
+    "severance-successor-test": {
+      look: {
+        narration:
+          "Beside the Broker's record, the successor-test recording. The Broker explains the test: pour the bond into the empty jar; sit in chair one; stand when you can. If you cannot stand, Klessa pours the wax. If you can, you are the next Broker.",
+        mysteryBinding: {
+          mysteryId: "severance.bound_champion",
+          episodeId: "severance.bound_champion.e4",
+          cluesFound: ["severance.e4.successor_test"],
+        },
+      },
+    },
+    "severance-bond-poured": {
+      look: {
+        narration:
+          "On the closing-rite ceremonial stand, the companion's bond is decanted into the empty jar at the second-to-last bell. The jar weighs slightly more than every previous jar — no one knows why. The bond is calm.",
+        mysteryBinding: {
+          mysteryId: "severance.bound_champion",
+          episodeId: "severance.bound_champion.e5",
+          cluesFound: ["severance.e5.bond_poured"],
+        },
+      },
+    },
     /* ─── memorial.forgotten_names · color clues ─── */
     "memorial-plaza-register": {
       look: {

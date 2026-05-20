@@ -36,12 +36,37 @@ export type BridgeHotspotId =
   | "tarn-architect-vote-note"
   | "memorial-architect-silence-on-torn"
   | "memorial-architect-closing-thanks"
+  | "severance-architect-acknowledge"
+  | "severance-council-ratification"
   | "memorial-architect-sealed-note"
   | "tactical-display" | "timeline-projector" | "captains-chair" | "nav-console" | "diplomacy-table" | "captains-coffee" | "shadow-tongue-annotations";
 
 export const BRIDGE_MYSTERY: RoomMysteryModule<BridgeHotspotId> = {
   roomId: "bridge",
   responses: {
+    /* ─── severance.bound_champion · color clues ─── */
+    "severance-architect-acknowledge": {
+      look: {
+        narration:
+          "On the Architect-channel terminal for Nilmorg, the Console's one-line confirmation when the apprentice oath is read aloud: 'noted. the post is recognised. the post was always recognised.' The Console did not need a vote.",
+        mysteryBinding: {
+          mysteryId: "severance.bound_champion",
+          episodeId: "severance.bound_champion.e4",
+          cluesFound: ["severance.e4.architect_acknowledge"],
+        },
+      },
+    },
+    "severance-council-ratification": {
+      look: {
+        narration:
+          "On the closing-rite Council-vote terminal, Foundation Day's calendar slips and the Severance closing motion is voted on the same week. The Council ratifies the inheritance protocol unanimously, with one abstention — the seventh founding Watcher's empty seat.",
+        mysteryBinding: {
+          mysteryId: "severance.bound_champion",
+          episodeId: "severance.bound_champion.e5",
+          cluesFound: ["severance.e5.council_ratification"],
+        },
+      },
+    },
     /* ─── memorial.forgotten_names · color clues ─── */
     "memorial-architect-silence-on-torn": {
       look: {

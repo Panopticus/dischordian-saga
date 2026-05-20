@@ -35,6 +35,10 @@ export type WarRoomHotspotId =
   | "tarn-dean-choice-brief"
   | "tarn-faculty-apologies"
   | "tarn-player-authorship-choice"
+  | "severance-attendance-record"
+  | "severance-vex-three-names"
+  | "severance-klessa-role"
+  | "severance-written-protocol"
   | "holo-table" | "casualty-board" | "signal-flag-rack" | "ocularum-vigil-board" | "ocularum-cell-roster" | "hierarchy-org-chart-board" | "thalorian-defense-records" | "new-babylon-siege-record" | "hierarchy-piece-positioning-board" | "varkul-director-of-security-file" | "necromancer-castle-log-board" | "zyr-koth-rd-refinement-file" | "the-severance-hollowing-report" | "the-locked-lever-board" | "syl-vex-dual-roster-board" | "the-severance-cross-lock-file" | "the-taskmasters-siege-portfolio" | "riri-ahlia-reorg-doctrine-board" | "the-procedural-question-file" | "the-priced-defense-accounting" | "fenra-seventeen-front-manifest" | "the-wolf-in-the-boardroom-file" | "fenra-varkul-contrast-record";
 
 export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
@@ -195,6 +199,51 @@ export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
       interrogate: {
         narration:
           "You ask the table for the planning-signature of each correlated event. The console returns identical signatures across all seven — multi-cycle information consistency, no flux interference, no Ne-Yon-grade disturbance. Planning is permitted; planning happens; planning is followed by the most active flux period in the surrounding decade. The chronicle is consequential because the Storm allows it to be.",
+      },
+    },
+    /* ─── severance.bound_champion · color clues ─── */
+    "severance-attendance-record": {
+      look: {
+        narration:
+          "On the war-room's Severance roster-board, two hundred sixteen names: the list of inheritors offering to take up the bond. Two hundred sixteen, every season, every year. The first three names on every list are the same three names, in the same order, in every season since Severance Year 1.",
+        mysteryBinding: {
+          mysteryId: "severance.bound_champion",
+          episodeId: "severance.bound_champion.e1",
+          cluesFound: ["severance.e1.attendance_record"],
+        },
+      },
+    },
+    "severance-vex-three-names": {
+      look: {
+        narration:
+          "Pinned beside the roster, Vex Maestro's confirmation: the three names at the head of every season's list are the inheritor (a different person each year) and two fixed witnesses. Vex will name the witnesses but will not name the inheritor. 'That part is the bond's, not mine.'",
+        mysteryBinding: {
+          mysteryId: "severance.bound_champion",
+          episodeId: "severance.bound_champion.e2",
+          cluesFound: ["severance.e2.vex_three_names"],
+        },
+      },
+    },
+    "severance-klessa-role": {
+      look: {
+        narration:
+          "On the failsafe-role board, Klessa's protocol: if a season ever passes without a successor, Klessa pours the candle wax across the bond's table-line and the bond is sealed for one more year. She has done this thirty-nine times.",
+        mysteryBinding: {
+          mysteryId: "severance.bound_champion",
+          episodeId: "severance.bound_champion.e4",
+          cluesFound: ["severance.e4.klessa_role"],
+        },
+      },
+    },
+    "severance-written-protocol": {
+      look: {
+        narration:
+          "On the closing-rite display, the written protocol — eleven lines, hand-copied from the apprentice oath, ratified by Vex Maestro and Auditor Klessa, witnessed by the Architect's Console. The protocol can now be inherited by reading, not only by sitting.",
+        mysteryBinding: {
+          mysteryId: "severance.bound_champion",
+          episodeId: "severance.bound_champion.e5",
+          cluesFound: ["severance.e5.written_protocol"],
+        },
       },
     },
     /* ─── mechronis.missing_professor · color clues ─── */

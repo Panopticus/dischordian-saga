@@ -55,6 +55,12 @@ export type AntiquarianLibraryHotspotId =
   | "memorial-torn-page"
   | "memorial-fourteen-inscribed"
   | "memorial-player-carrier-choice"
+  | "severance-second-witness-broker"
+  | "severance-back-room-chairs"
+  | "severance-broker-first-chair"
+  | "severance-jar-inventory"
+  | "severance-first-chair-log"
+  | "severance-player-choice-record"
   | "wolf-empty-chair"
   | "wolf-three-empty-chairs"
   | "akai-resurrectionist-seal"
@@ -401,6 +407,73 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           mysteryId: "wolf.anara_hunt",
           episodeId: "wolf.anara_hunt.e5",
           cluesFound: ["wolf.e5.antiquarians_concession"],
+        },
+      },
+    },
+    /* ─── severance.bound_champion · color clues ─── */
+    "severance-second-witness-broker": {
+      look: {
+        narration:
+          "In the back-room observation alcove, the aging Broker of Nilmorg has been profiled by the Antiquarian's library — an aging broker who lives in the back rooms of the Trade Empire's Nilmorg sector. Will not give a name. Has been at every Severance since Year 1. Pays for the candle.",
+        mysteryBinding: {
+          mysteryId: "severance.bound_champion",
+          episodeId: "severance.bound_champion.e2",
+          cluesFound: ["severance.e2.second_witness"],
+        },
+      },
+    },
+    "severance-back-room-chairs": {
+      look: {
+        narration:
+          "In the Severance-reliquary alcove, the chronicler's photograph of the Broker's back room: forty-one chairs. Old, mismatched, polished. Each chair faces a shelf at eye-height. Each shelf holds a glass jar containing a faint blue glow. The Broker has rules about which chair you may sit in.",
+        mysteryBinding: {
+          mysteryId: "severance.bound_champion",
+          episodeId: "severance.bound_champion.e3",
+          cluesFound: ["severance.e3.back_room_chairs"],
+        },
+      },
+    },
+    "severance-broker-first-chair": {
+      look: {
+        narration:
+          "Beside the chairs photograph, the Antiquarian's annotation on Chair One: 'Chair One is reserved. The Broker explains: I sit there each season after the bond is poured. I sit until I can stand. I have not yet failed to stand.'",
+        mysteryBinding: {
+          mysteryId: "severance.bound_champion",
+          episodeId: "severance.bound_champion.e3",
+          cluesFound: ["severance.e3.broker_first_chair"],
+        },
+      },
+    },
+    "severance-jar-inventory": {
+      look: {
+        narration:
+          "On the jar-inventory shelf, forty-one jars catalogued: the first jar is the heaviest; its glow is steadier than the others. The most recent jar is empty — waiting for the bond on the table tonight to be poured into it.",
+        mysteryBinding: {
+          mysteryId: "severance.bound_champion",
+          episodeId: "severance.bound_champion.e3",
+          cluesFound: ["severance.e3.jar_inventory"],
+        },
+      },
+    },
+    "severance-first-chair-log": {
+      look: {
+        narration:
+          "Pulled from inside Chair One's cushion at the Antiquarian's request, a small ledger. Forty entries. Each entry is a date and one word: 'stood.' The handwriting is the Broker's; the word does not change.",
+        mysteryBinding: {
+          mysteryId: "severance.bound_champion",
+          episodeId: "severance.bound_champion.e4",
+          cluesFound: ["severance.e4.first_chair_log"],
+        },
+      },
+    },
+    "severance-player-choice-record": {
+      look: {
+        narration:
+          "On the apprentice-choice display, the player's right of first refusal is recorded. The first chair is empty. Solène does not pressure either way: 'sit if you can. don't if you can't. either way, the protocol is written tonight.'",
+        mysteryBinding: {
+          mysteryId: "severance.bound_champion",
+          episodeId: "severance.bound_champion.e5",
+          cluesFound: ["severance.e5.player_choice_record"],
         },
       },
     },
