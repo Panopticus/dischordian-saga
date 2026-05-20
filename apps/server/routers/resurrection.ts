@@ -12,8 +12,11 @@
    ═══════════════════════════════════════════════════════ */
 
 import { z } from "zod";
+import { eq } from "drizzle-orm";
 import { router, protectedProcedure } from "../_core/trpc";
 import { TRPCError } from "@trpc/server";
+import { getDb } from "../db";
+import { userProgress } from "../../db/schema";
 import {
   loadCrewState,
   saveCrewState,
@@ -32,6 +35,8 @@ import {
   PROTOCOL_SUBTASK_IDS,
   RESURRECTION_BRIEFING,
   RESURRECTABLE_NPC_KEYS,
+  RESURRECTION_CINEMATIC_BY_NPC,
+  pendingResurrectionCinematicFlag,
   isResurrectableNpc,
   generatePathAFirstLine,
   type ResurrectableNpcKey,
@@ -415,6 +420,37 @@ export const resurrectionRouter = router({
       await saveCrewState(ctx.user.id, nextState);
       store = upsertWorldDeath(store, markPathAResolved(wd));
       await saveResurrectionStore(ctx.user.id, store);
+
+      // If this NPC has a death-and-rebirth cinematic bound,
+      // stamp the pending-cinematic flag on userProgress so the
+      // ResurrectionCinematicRouter picks it up on next render.
+      // Idempotent: the router consumes + flips the flag on
+      // completion. NPCs without a cinematic binding skip this
+      // step (flag map is partial — only Wraith/Akai today).
+      let pendingCinematicFlag: string | null = null;
+      const cinematicId = RESURRECTION_CINEMATIC_BY_NPC[quest.npcKey];
+      if (cinematicId) {
+        const db = await getDb();
+        if (db) {
+          const row = await db
+            .select()
+            .from(userProgress)
+            .where(eq(userProgress.userId, ctx.user.id))
+            .limit(1);
+          const raw = (row[0]?.gameData ?? {}) as Record<string, unknown>;
+          const flags = {
+            ...((raw.narrativeFlags ?? {}) as Record<string, boolean>),
+          };
+          const flag = pendingResurrectionCinematicFlag(quest.npcKey);
+          flags[flag] = true;
+          await db
+            .update(userProgress)
+            .set({ gameData: { ...raw, narrativeFlags: flags } })
+            .where(eq(userProgress.userId, ctx.user.id));
+          pendingCinematicFlag = flag;
+        }
+      }
+
       // Compose the first-line interpolation from the death memory.
       const firstLine = fallen.deathRecord
         ? generatePathAFirstLine(
@@ -430,6 +466,11 @@ export const resurrectionRouter = router({
             quest.deathCycle,
           )
         : `${fallen.name}: I am back.`;
-      return { ok: true, restoredMemberId: restored.id, firstLine };
+      return {
+        ok: true,
+        restoredMemberId: restored.id,
+        firstLine,
+        pendingCinematicFlag,
+      };
     }),
 });

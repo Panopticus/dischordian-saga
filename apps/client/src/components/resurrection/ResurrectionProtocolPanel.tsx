@@ -28,6 +28,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { trpc } from "@/lib/trpc";
+import { useGame } from "@/contexts/GameContext";
 import {
   PROTOCOL_SUBTASKS,
   type ProtocolSubtaskId,
@@ -54,6 +55,7 @@ const NPC_DISPLAY: Record<ResurrectableNpcKey, string> = {
 
 export default function ResurrectionProtocolPanel() {
   const utils = trpc.useUtils();
+  const { setNarrativeFlag } = useGame();
   const stateQuery = trpc.resurrection.getState.useQuery();
   const drainSideEffects = trpc.resurrection.drainSideEffects.useMutation({
     onSuccess: () => utils.resurrection.getState.invalidate(),
@@ -68,6 +70,13 @@ export default function ResurrectionProtocolPanel() {
     onSuccess: (res) => {
       utils.resurrection.getState.invalidate();
       utils.crew.getState.invalidate();
+      // If the resurrected NPC has a death-and-rebirth cinematic,
+      // the server already persisted the pending flag — also
+      // prime GameContext locally so ResurrectionCinematicRouter
+      // plays without waiting for the next userProgress refetch.
+      if (res.pendingCinematicFlag) {
+        setNarrativeFlag(res.pendingCinematicFlag, true);
+      }
       toast.success(
         res.firstLine
           ? `They returned. "${res.firstLine}"`
