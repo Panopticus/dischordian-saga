@@ -12,11 +12,36 @@ export type EngineeringCoreHotspotId =
   | "storm-flux-signature"
   | "storm-energy-balance-audit"
   | "advocate-zyrkoth-protocol-lineage"
+  | "resur-protocol-activation-timestamp"
+  | "resur-matrix-escape-signature"
   | "reactor-coil" | "coolant-pipe" | "core-terminal";
 
 export const ENGINEERING_CORE_MYSTERY: RoomMysteryModule<EngineeringCoreHotspotId> = {
   roomId: "engineering-core",
   responses: {
+    /* ─── resurrectionist.cycle_walker · color clues ─── */
+    "resur-protocol-activation-timestamp": {
+      look: {
+        narration:
+          "On the engineering-core's substrate-timestamp bench, a resurrection-protocol activation signed in the Resurrectionist's four-part cipher, with a timestamp matching the Plague Dragon's death-instant to within the chronicle's measurement tolerance. The cult-curated annotation: 'unrelated administrative event — the protocol was queued, the timestamp is coincidental.' Two events at the same instant; the chronicle's editorial hand prefers the coincidence reading. The Antiquarian's reading discipline does not.",
+        mysteryBinding: {
+          mysteryId: "resurrectionist.cycle_walker",
+          episodeId: "resurrectionist.cycle_walker.e3",
+          cluesFound: ["resur.e3.protocol_activation_timestamp"],
+        },
+      },
+    },
+    "resur-matrix-escape-signature": {
+      look: {
+        narration:
+          "Pinned beside, the signature on the Necromancer's Matrix-of-Dreams escape (the moment he claimed the Silence's body and exited the archive) carries a four-part cipher fragment matching, in three of four parts, the Resurrectionist's authoring signature. The cult-curated annotation: 'partial-signature collision — the Resurrectionist's hand was widely studied; many parties have adopted fragments of his cipher.' The chronicle records the collision and proceeds.",
+        mysteryBinding: {
+          mysteryId: "resurrectionist.cycle_walker",
+          episodeId: "resurrectionist.cycle_walker.e4",
+          cluesFound: ["resur.e4.matrix_escape_signature"],
+        },
+      },
+    },
     /* ─── advocate.blood_weave · e2 (Zyr'Koth's Severance Protocol lineage note) ─── */
     "advocate-zyrkoth-protocol-lineage": {
       look: {

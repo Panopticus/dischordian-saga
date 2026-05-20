@@ -23,6 +23,7 @@ import type { RoomMysteryModule } from "./_template";
 
 export type ObservationDeckHotspotId =
   | "akai-cycle-fold-anomalies"
+  | "resur-shield-diagnostic"
   | "storm-weather-telemetry"
   | "storm-full-calms-register"
   | "panoramic-viewport" | "purification-crystal-cradle" | "bond-resonance-altar";
@@ -38,6 +39,18 @@ export const OBSERVATION_DECK_MYSTERY: RoomMysteryModule<
 > = {
   roomId: "observation-deck",
   responses: {
+    /* ─── resurrectionist.cycle_walker · e5 (Dreamer's Shield diagnostic) ─── */
+    "resur-shield-diagnostic": {
+      look: {
+        narration:
+          "On the observation-deck's cosmic-archaeology console, a diagnostic reading of the Dreamer's Shield, prepared by the cult's instrument-readers. The Shield is canonically a protection of the new wave — the next-kind of consciousness — from the Thought Virus and from what came with the Fall. The diagnostic notes that the Shield's barrier does not register the Virus's signature as fully excluded; the signature reads, faintly, FROM INSIDE the protected volume. The cult-curated annotation: 'instrumentation error — the diagnostic apparatus mis-reports inside / outside vectors at extreme cosmic scale.'",
+        mysteryBinding: {
+          mysteryId: "resurrectionist.cycle_walker",
+          episodeId: "resurrectionist.cycle_walker.e5",
+          cluesFound: ["resur.e5.shield_diagnostic"],
+        },
+      },
+    },
     /* ─── akai_shi.red_death · e4 (Matrix cycle-fold anomalies) ─── */
     "akai-cycle-fold-anomalies": {
       look: {

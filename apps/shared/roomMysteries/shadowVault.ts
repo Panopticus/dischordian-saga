@@ -39,6 +39,7 @@ export type ShadowVaultHotspotId =
   | "storm-silence-information-logs"
   | "storm-silence-co-signature"
   | "wolf-trust-signatures"
+  | "resur-plague-mask-at-killsite"
   | "sealed-cell-glass" | "manuscript-pile" | "warden-terminal" | "release-or-seal-lever" | "the-unopened-threshold" | "the-makers-heartbeat-trace" | "the-necromancers-altar";
 
 export type ShadowVaultInventoryId = "manuscript-folio";
@@ -191,6 +192,18 @@ export const SHADOW_VAULT_MYSTERY: RoomMysteryModule<
       use: {
         narration:
           "You request comparable Ne-Yon body-claim records. The vault returns four others — for the Sage, the Champion, the Hawk, the Architect's first failed proxy. None of the four carries an archaic seal. The 'tradition' the cult's annotation cites has no other examples in the chronicle.",
+      },
+    },
+    /* ─── resurrectionist.cycle_walker · e3 (plague mask at the kill-site) ─── */
+    "resur-plague-mask-at-killsite": {
+      look: {
+        narration:
+          "Inside the shadow-vault's recovered-artifacts drawer, among the items pulled from the Plague Dragon kill-site: a long-beaked plague mask, perfectly preserved, with no occupant. The cult-curated catalog entry annotates it as 'ceremonial offering — a votive left by an honouring party.' The mask matches, in every contour, the seal on every Resurrectionist case-file in the Antiquarian's library. The cult's catalog does not connect the two.",
+        mysteryBinding: {
+          mysteryId: "resurrectionist.cycle_walker",
+          episodeId: "resurrectionist.cycle_walker.e3",
+          cluesFound: ["resur.e3.plague_mask_at_killsite"],
+        },
       },
     },
     /* ─── wolf.anara_hunt · e2 (trust-signature security logs) ─── */

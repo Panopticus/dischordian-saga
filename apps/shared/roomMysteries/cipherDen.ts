@@ -44,6 +44,7 @@ export type CipherDenHotspotId =
   | "storm-uncorrelated-residue"
   | "wolf-seal-telemetry"
   | "akai-targets-list-order-pattern"
+  | "resur-seven-pointed-star"
   | "watchers-upper-band-signature"
   | "watchers-idris-signature"
   | "watchers-six-signatures-catalogue"
@@ -200,6 +201,18 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
       interrogate: {
         narration:
           "You ask the archive when this convention was last successfully invoked. The drawer returns a single entry: the founding itself. The seventh founding Watcher invoked silence-as-vote on three minor founding-day decisions; each was read correctly. The convention's first misreading is the fourth-epoch scrub. The misreading has been the seventh's only voice since.",
+      },
+    },
+    /* ─── resurrectionist.cycle_walker · e1 (seven-pointed star footer) ─── */
+    "resur-seven-pointed-star": {
+      look: {
+        narration:
+          "On the cipher-den's Syndicate-of-Death roster bench, six immortal twin-pairs are recorded — twelve names, six bindings, the Syndicate's signature six-pointed star embossed on every page. The Resurrectionist's case-file carries a seven-pointed star at its footer. The cult-curated annotation reads: 'copyist's error — the six-pointed star, drawn carelessly.' The seventh point is not drawn carelessly. It is drawn with the same precision as the other six.",
+        mysteryBinding: {
+          mysteryId: "resurrectionist.cycle_walker",
+          episodeId: "resurrectionist.cycle_walker.e1",
+          cluesFound: ["resur.e1.seven_pointed_star"],
+        },
       },
     },
     /* ─── akai_shi.red_death · e3 (targets-list order pattern) ─── */

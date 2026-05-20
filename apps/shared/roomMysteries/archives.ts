@@ -25,6 +25,7 @@ export type ArchivesHotspotId =
   | "storm-final-correlation-table"
   | "advocate-shelter-records"
   | "akai-recovery-manifest"
+  | "resur-twin-glyph"
   | "chained-failure-log"
   | "chained-dean-annotation-record"
   | "chained-thirty-one-names-read"
@@ -133,6 +134,18 @@ export const ARCHIVES_MYSTERY: RoomMysteryModule<
       interrogate: {
         narration:
           "You ask the archive whether any envelope was ever opened by another reader. The drawer logs three attempts in forty seasons; each one returned the envelope unopened. The seals are unbroken; the names remain in the bond, not in the paperwork.",
+      },
+    },
+    /* ─── resurrectionist.cycle_walker · e1 (twin glyph beside the name) ─── */
+    "resur-twin-glyph": {
+      look: {
+        narration:
+          "In the archives' Ne-Yon-glyph reference tier, beside every record-entry for the Resurrectionist, a small glyph appears in the margin: two mirrored crescents joined at a central axis. The cult-curated logs gloss the glyph as 'death-bound' — the canonical mark of Ne-Yons whose principle binds to cessation. The Antiquarian's own pre-Empire archaeological references read the same glyph as 'twin-bound' — the mark of paired cosmic principles. The two readings are not consistent; one of them is editorial.",
+        mysteryBinding: {
+          mysteryId: "resurrectionist.cycle_walker",
+          episodeId: "resurrectionist.cycle_walker.e1",
+          cluesFound: ["resur.e1.twin_glyph"],
+        },
       },
     },
     /* ─── akai_shi.red_death · e2 (Akai Shi body-recovery manifest) ─── */

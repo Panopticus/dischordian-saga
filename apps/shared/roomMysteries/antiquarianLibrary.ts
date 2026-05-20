@@ -42,6 +42,8 @@ export type AntiquarianLibraryHotspotId =
   | "akai-kill-record"
   | "akai-red-death-returns"
   | "akai-case-closes"
+  | "resur-antiquarians-unknown-entry"
+  | "resur-cult-curated-terminus-map"
   | "wolf-empty-chair"
   | "wolf-three-empty-chairs"
   | "akai-resurrectionist-seal"
@@ -388,6 +390,29 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           mysteryId: "wolf.anara_hunt",
           episodeId: "wolf.anara_hunt.e5",
           cluesFound: ["wolf.e5.antiquarians_concession"],
+        },
+      },
+    },
+    /* ─── resurrectionist.cycle_walker · color clues ─── */
+    "resur-antiquarians-unknown-entry": {
+      look: {
+        narration:
+          "On the chronicle-open-archive shelf, the Antiquarian's library entry for the Resurrectionist's current location reads, in the open chronicle: 'unknown — case shelved at last review.' The entry was authored in the years following the Second Fall of New Babylon. The hand is consistent with the Antiquarian's own. There is a small annotation in a different hand at the bottom of the entry: 'kept current.' The annotator is not named.",
+        mysteryBinding: {
+          mysteryId: "resurrectionist.cycle_walker",
+          episodeId: "resurrectionist.cycle_walker.e5",
+          cluesFound: ["resur.e5.antiquarians_unknown_entry"],
+        },
+      },
+    },
+    "resur-cult-curated-terminus-map": {
+      look: {
+        narration:
+          "Pinned to the chronicle-reference wall, a map of the Terminus surface prepared by the cult of the Game Master for its imprint-archaeology project. The map shows seven walking figures arrayed around the central anchor that the cult labels 'the Sovereign of Terminus' (the canonical designation for the Source Kael). The seven figures are not labelled. The cult-curated marginalia explain: 'representative — Terminus's roving fauna of cosmic-archaeological interest.' Six of the seven figures wear the canonical silhouettes of the first-wave Potentials. The seventh wears a long-beaked mask.",
+        mysteryBinding: {
+          mysteryId: "resurrectionist.cycle_walker",
+          episodeId: "resurrectionist.cycle_walker.e5",
+          cluesFound: ["resur.e5.cult_curated_terminus_map"],
         },
       },
     },

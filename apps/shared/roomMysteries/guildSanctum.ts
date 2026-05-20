@@ -18,11 +18,48 @@ export type GuildSanctumHotspotId =
   | "storm-degens-house-advantage-anomaly"
   | "wolf-minigame-entry-state"
   | "wolf-present-in-hall"
-  | "advocate-xethraal-debt-ledger";
+  | "advocate-xethraal-debt-ledger"
+  | "resur-degens-open-ledger-line"
+  | "resur-molvereth-contract-clause"
+  | "resur-degens-pending-settlement";
 
 export const GUILD_SANCTUM_MYSTERY: RoomMysteryModule<GuildSanctumHotspotId> = {
   roomId: "guild-sanctum",
   responses: {
+    /* ─── resurrectionist.cycle_walker · color clues ─── */
+    "resur-degens-open-ledger-line": {
+      look: {
+        narration:
+          "On the casino-ledger console, another open line in a different hand from the same Degen's casino ledger: 'Ark survivor, no fee — hundred-year arrangement, settlement deferred.' The Degen's accounting principle is canonical: the Degen does not give gifts. Two consecutive 'no fee' entries in the same ledger break the principle twice. The cult-curated annotation: 'copyist's pleasantry.' The Degen's clerks do not write copyist's pleasantries.",
+        mysteryBinding: {
+          mysteryId: "resurrectionist.cycle_walker",
+          episodeId: "resurrectionist.cycle_walker.e2",
+          cluesFound: ["resur.e2.degens_open_ledger_line"],
+        },
+      },
+    },
+    "resur-molvereth-contract-clause": {
+      look: {
+        narration:
+          "Pinned beside, an annotated clause from the Mol'Vereth contract on the Degen's trusteeship (the Hierarchy demon's contract authored at the Ne-Yon casino): 'in the event of the second fall, the cycle walker rides the Ark.' The cult-curated annotation reads: 'metaphorical — the trusteeship's continuity provision speaks of the principle of cyclical wagering, not a literal Ne-Yon rider.' Mol'Vereth's other clauses are notably literal.",
+        mysteryBinding: {
+          mysteryId: "resurrectionist.cycle_walker",
+          episodeId: "resurrectionist.cycle_walker.e4",
+          cluesFound: ["resur.e4.molvereth_contract_clause"],
+        },
+      },
+    },
+    "resur-degens-pending-settlement": {
+      look: {
+        narration:
+          "On the long-arrangement shelf, the Degen's casino ledger holds an open line addressed to Ark 1047 — Vex Solène's Ark per the canonical assignment. The line reads: 'pending settlement — hundred-year arrangement, witness night TBD.' The Degen does not author hundred-year settlement arrangements on his own initiative. The line was authored, by canonical record, on the same instant as the Resurrectionist's vanishing.",
+        mysteryBinding: {
+          mysteryId: "resurrectionist.cycle_walker",
+          episodeId: "resurrectionist.cycle_walker.e5",
+          cluesFound: ["resur.e5.degens_pending_settlement"],
+        },
+      },
+    },
     /* ─── advocate.blood_weave · e4 (Xeth'Raal's debt ledger — Advocate entry) ─── */
     "advocate-xethraal-debt-ledger": {
       look: {
