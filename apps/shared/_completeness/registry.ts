@@ -132,6 +132,7 @@ import { checkRpgStaplesCoverage } from "./checks/rpgStaplesCoverage";
 import { checkPerspectiveCanonCoverage } from "./checks/perspectiveCanonCoverage";
 import { checkProphecyTarotCoverage } from "./checks/prophecyTarotCoverage";
 import { checkActCloseCutsceneCoverage } from "./checks/actCloseCutsceneCoverage";
+import { checkResurrectionCinematicCoverage } from "./checks/resurrectionCinematicCoverage";
 import { checkTheComingCoverage } from "./checks/theComingCoverage";
 import { checkVortexTerminusCoverage } from "./checks/vortexTerminusCoverage";
 import { checkPetOriginCoverage } from "./checks/petOriginCoverage";
@@ -1227,6 +1228,15 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "Hard parity (PR-20): 7 act-close entries in apps/shared/actCloseCutsceneCanon.ts, acts {1..7} once each, delivered through the shipped Antiquarian bridge overlay (every antiquarianBridgeId resolves) with Seal+prophecy deferred to the validated prophecyTarotCanon binding. The two Comings are canon-pinned: the FIRST Coming (Necromancer = halfway) on Act 4; the FINAL Coming (Politician = endgame) on Act 7, which ignites the PR-16 continuing-loop canon. No other act may carry a Coming.",
     check: () => checkActCloseCutsceneCoverage(),
+  },
+
+  // ─── Resurrection cinematics (three dead Potentials) ───────
+  {
+    id: "narrative.resurrection_cinematic_coverage",
+    name: "Resurrection cinematic coverage",
+    description:
+      "Hard parity: (a) every cinematic id in RESURRECTION_CINEMATIC_BY_NPC (apps/shared/resurrectionProtocols.ts) and WOLF_CRUCIBLE_RESCUE_CINEMATIC (apps/shared/dlcMysteries/wolfAnaraHunt.ts) must resolve to a real CinematicDef in cinematicsManifest.ts. Three bindings cover the canonical resurrected Potentials (resurrectionistCycleWalker.ts:46-48): Wraith Calder, Akai Shi, The Wolf. (b) WOLF_CRUCIBLE_RESCUE_CINEMATIC_TRIGGER_FLAG must equal the canonical mystery_episode_complete flag for the Wolf Anara Hunt arc's FINAL episode — guards against arc renames or episode-list reorders silently breaking the cinematic trigger.",
+    check: () => checkResurrectionCinematicCoverage(),
   },
 
   // ─── PR-21 — the Coming (two-stage canon binding) ──────────

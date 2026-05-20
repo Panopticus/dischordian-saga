@@ -9,13 +9,19 @@
  * `shotCount` / `durationSec` here in lock-step with that doc.
  *
  * Asset layout (mirrored to S3 by upload-public-to-s3.ts):
- *   apps/client/public/videos/cutscenes/<id>/shot1.mp4
- *   apps/client/public/videos/cutscenes/<id>/shot1.webm
- *   apps/client/public/videos/cutscenes/<id>/poster.webp
+ *   apps/client/public/videos/cutscenes/<id>/shot1.mp4 (when delivered)
+ *   apps/client/public/art/cutscenes/animated/<id>/fallback.png
+ *   apps/client/public/art/cutscenes/animated/<id>/keyframes/*.png
  *
- * Until the producer team delivers the MP4s, components fall
- * back gracefully to the reduced-motion poster path. See each
- * scaffold under `apps/client/src/components/cutscenes/`.
+ * Producer 2026-05-20 drop delivered the five named cutscenes
+ * as keyframe-pair PNGs + composite fallback stills + shared
+ * textures/particles for a PixiJS slideshow approach rather
+ * than per-shot MP4s. Each cutscene's `posterPath` points at
+ * the composite fallback, which the player renders today when
+ * the MP4 chain 404s (i.e. always, for the five named beats).
+ * Building the PixiJS slideshow renderer to consume the
+ * keyframes + sprite sheets is tracked as follow-up work in
+ * DOC6_CUTSCENE_CDN_AUDIT_2026-05-20.md.
  * ═══════════════════════════════════════════════════════
  */
 
@@ -97,7 +103,7 @@ export const CUTSCENE_REGISTRY: Readonly<
       "93847_sunrises.mp4",
     ],
     componentName: "AwakeningCutscene",
-    posterPath: "/videos/cutscenes/awakening/poster.webp",
+    posterPath: "/art/cutscenes/animated/awakening/fallback.png",
   },
   cutscene_first_human_contact: {
     id: "cutscene_first_human_contact",
@@ -111,7 +117,7 @@ export const CUTSCENE_REGISTRY: Readonly<
     durationSec: 30,
     videoBasePath: "/videos/cutscenes/first_human_contact/",
     componentName: "FirstHumanContactCutscene",
-    posterPath: "/videos/cutscenes/first_human_contact/poster.webp",
+    posterPath: "/art/cutscenes/animated/first_human_contact/fallback.png",
   },
   cutscene_elara_memory_recovery: {
     id: "cutscene_elara_memory_recovery",
@@ -125,7 +131,7 @@ export const CUTSCENE_REGISTRY: Readonly<
     durationSec: 60,
     videoBasePath: "/videos/cutscenes/elara_memory_recovery/",
     componentName: "ElaraMemoryRecoveryCutscene",
-    posterPath: "/videos/cutscenes/elara_memory_recovery/poster.webp",
+    posterPath: "/art/cutscenes/animated/elara_memory_recovery/fallback.png",
   },
   cutscene_breaking_point: {
     id: "cutscene_breaking_point",
@@ -139,7 +145,7 @@ export const CUTSCENE_REGISTRY: Readonly<
     durationSec: 45,
     videoBasePath: "/videos/cutscenes/breaking_point/",
     componentName: "BreakingPointCutscene",
-    posterPath: "/videos/cutscenes/breaking_point/poster.webp",
+    posterPath: "/art/cutscenes/animated/breaking_point/fallback.png",
   },
   cutscene_thought_virus_manifests: {
     id: "cutscene_thought_virus_manifests",
@@ -153,7 +159,7 @@ export const CUTSCENE_REGISTRY: Readonly<
     durationSec: 30,
     videoBasePath: "/videos/cutscenes/thought_virus_manifests/",
     componentName: "ThoughtVirusManifestCutscene",
-    posterPath: "/videos/cutscenes/thought_virus_manifests/poster.webp",
+    posterPath: "/art/cutscenes/animated/thought_virus_manifests/fallback.png",
   },
   cutscene_human_reveal_convergence: {
     id: "cutscene_human_reveal_convergence",
@@ -227,6 +233,10 @@ export const CUTSCENE_REGISTRY: Readonly<
     shotCount: 4,
     durationSec: 50,
     videoBasePath: "/videos/prestige/",
+    // Producer delivered the four shots as `shot_1.mp4`..`shot_4.mp4`
+    // (underscore between `shot` and the index); the default
+    // `shot<N>.mp4` convention misses them.
+    shotFilenames: ["shot_1.mp4", "shot_2.mp4", "shot_3.mp4", "shot_4.mp4"],
     componentName: "PrestigeResetCutscene",
     // The freeze frame from the final shot serves as the
     // reduced-motion poster; producer ships it as

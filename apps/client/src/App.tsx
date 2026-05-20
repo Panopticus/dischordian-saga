@@ -94,6 +94,7 @@ import { ConspiracyRevelationBridgeWatcher } from "./hooks/useConspiracyRevelati
 import { ChapterIntroRouter } from "./components/cutscenes/ChapterIntroRouter";
 import { BonusChapterIntroRouter } from "./components/cutscenes/BonusChapterIntroRouter";
 import { ConfessionCloseRouter } from "./components/cutscenes/ConfessionCloseRouter";
+import { ResurrectionCinematicRouter } from "./components/resurrection/ResurrectionCinematicRouter";
 import { WheelReactionRouter } from "./components/cutscenes/WheelReactionRouter";
 import { EventRevealRouter } from "./components/cutscenes/EventRevealRouter";
 import { useFirstHumanContactTrigger } from "./hooks/useFirstHumanContactTrigger";
@@ -894,6 +895,7 @@ function GameGate() {
       <ChapterIntroRouter />
       <BonusChapterIntroRouter />
       <ConfessionCloseRouter />
+      <ResurrectionCinematicRouter />
       <WheelReactionRouter />
       <EventRevealRouter />
       <DailyRewardPopup />

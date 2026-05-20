@@ -18,8 +18,12 @@ describe("chapterIntroCutscenes — parity", () => {
     for (const def of CHAPTER_INTROS) {
       const ch = String(def.chapter).padStart(2, "0");
       expect(def.id).toBe(`ch${ch}_${def.slug}`);
+      // CDN files drop the `_BONUS` suffix; the registry id keeps it.
+      const fileSlug = def.slug.endsWith("_BONUS")
+        ? def.slug.slice(0, -"_BONUS".length)
+        : def.slug;
       expect(def.videoRelPath).toBe(
-        `videos/fight-intros/ch${ch}_${def.slug}_complete.mp4`,
+        `videos/fight-intros/ch${ch}_${fileSlug}_complete.mp4`,
       );
       expect(seen.has(def.id)).toBe(false);
       seen.add(def.id);

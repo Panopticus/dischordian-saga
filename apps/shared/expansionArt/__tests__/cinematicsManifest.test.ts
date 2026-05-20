@@ -18,9 +18,9 @@ import {
 const CDN_PREFIX = "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/";
 
 describe("Cinematics manifest", () => {
-  it("ships 14 base/quarterly cinematics + the Lord Kanshi-Sha antiquarian drop (15)", () => {
-    expect(CINEMATICS_TOTAL).toBe(15);
-    expect(CINEMATICS).toHaveLength(15);
+  it("ships 14 base/quarterly cinematics + the Lord Kanshi-Sha antiquarian drop + 3 resurrection cinematics (18)", () => {
+    expect(CINEMATICS_TOTAL).toBe(18);
+    expect(CINEMATICS).toHaveLength(18);
   });
 
   it("has unique cinematic ids", () => {
@@ -35,12 +35,15 @@ describe("Cinematics manifest", () => {
     expect(acts).toEqual(new Set([1, 2, 3, 4, 5, 6, 7]));
   });
 
-  it("the two universal base cinematics + 5 Y1Q–Y2Q1 openers carry no gateAct", () => {
+  it("the two universal base cinematics + 5 Y1Q–Y2Q1 openers + arc cold-opens carry no gateAct", () => {
     const universal = CINEMATICS.filter((c) => c.gateAct === undefined);
     expect(universal.map((c) => c.id).sort()).toEqual([
       "01_pack_opening",
       "02_hierarchy_reveal",
+      "akai_shi_necromancers_lair",
       "lord_kanshi_sha_antiquarian",
+      "wolf_planet_of_the_wolf",
+      "wraith_calder_syndicate_of_death",
       "y1q1_first_charter",
       "y1q2_pale_inheritance",
       "y1q3_curriculum_crisis",
@@ -55,15 +58,17 @@ describe("Cinematics manifest", () => {
     const baseRe = /^videos\/cinematics\/\d{2}_[a-z0-9_]+\/cinematic_\d{2}_[a-z0-9_]+\.mp4$/;
     const dlcRe =
       /^videos\/dlc_mystery\/y[12]q[1-4]_[a-z_]+\/dlc_y[12]q[1-4]_[a-z_]+\.mp4$/;
-    // Producer one-off antiquarian drop (Lord Kanshi-Sha) uses a
-    // named-slug dir + dashed filename rather than the numbered
-    // base scheme.
-    const lordRe = /^videos\/cinematics\/lord_kanshi_sha\/lord-kanshi-sha\.mp4$/;
+    // Producer one-off antiquarian + character-resurrection drops
+    // use named-slug dirs + dashed filenames rather than the
+    // numbered base scheme (Lord Kanshi-Sha, Syndicate of Death,
+    // The Necromancer's Lair, Planet of the Wolf).
+    const namedSlugRe =
+      /^videos\/cinematics\/[a-z0-9_]+\/[a-z0-9-]+\.mp4$/;
     for (const c of CINEMATICS) {
       expect(
         baseRe.test(c.videoRelPath) ||
           dlcRe.test(c.videoRelPath) ||
-          lordRe.test(c.videoRelPath),
+          namedSlugRe.test(c.videoRelPath),
         `unrecognized videoRelPath for ${c.id}: ${c.videoRelPath}`,
       ).toBe(true);
     }

@@ -27,6 +27,8 @@ import {
   type ResurrectableNpcKey,
   resolveQuestPathB,
   pickPathBTransmission,
+  RESURRECTION_CINEMATIC_BY_NPC,
+  pendingResurrectionCinematicFlag,
 } from "./resurrectionProtocols";
 import {
   type NpcWorldDeathRecord,
@@ -47,6 +49,13 @@ export interface PathBOutcome {
   /** Reputation hit (NPC trust delta). Apply to the corresponding
    *  relationship adapter (e.g. `lockeRelationshipAdapter`). */
   reputationHit: { npcKey: ResurrectableNpcKey; trustDelta: number };
+  /** Pending death-and-rebirth cinematic flag, when the NPC has
+   *  a cinematic binding in RESURRECTION_CINEMATIC_BY_NPC. The
+   *  caller writes this to userProgress.narrativeFlags so the
+   *  client-side ResurrectionCinematicRouter plays the rebirth
+   *  cinematic on next render. NPCs without a cinematic binding
+   *  (vex_solene, locke, jericho_jones today) return null here. */
+  pendingCinematicFlag: string | null;
 }
 
 /** Reputation delta applied when Path B fires. The player ignored the
@@ -65,6 +74,7 @@ export function resolveSingleQuestPathB(args: {
   const updatedQuest = resolveQuestPathB(quest, now);
   const updatedRec = markPathBResolved(worldDeath);
   const tx = pickPathBTransmission(updatedQuest, triggerSeed);
+  const cinematicId = RESURRECTION_CINEMATIC_BY_NPC[updatedQuest.npcKey];
   return {
     quest: updatedQuest,
     worldDeathRecord: updatedRec,
@@ -77,6 +87,9 @@ export function resolveSingleQuestPathB(args: {
       npcKey: updatedQuest.npcKey,
       trustDelta: PATH_B_REPUTATION_HIT,
     },
+    pendingCinematicFlag: cinematicId
+      ? pendingResurrectionCinematicFlag(updatedQuest.npcKey)
+      : null,
   };
 }
 
