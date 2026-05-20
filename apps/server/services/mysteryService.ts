@@ -342,19 +342,27 @@ export const mysteryService = {
     // (apps/shared/tcg-core/types/Card.ts) — read path lives in
     // apps/shared/tcg-core/rewards/expansionUnlockService.ts:222-233.
     // Flag convention: `mystery_episode_complete:<arcId>:<episodeId>`.
-    // The key is the canonical match the expansion-unlock service
-    // strips on the read side. JSON_SET against
-    // gameData.narrativeFlags is the canonical write path
-    // (mirrors conspiracyService.ts:221-225's reveal-flag write).
+    // Also write a per-choice flag
+    // (`mystery_choice:<arcId>:<episodeId>:<choiceId>`) so per-
+    // choice gates can read the specific decision the player
+    // committed — used today by the Wolf-release cinematic
+    // trigger (apps/shared/dlcMysteries/wolfAnaraHunt.ts —
+    // WOLF_CRUCIBLE_RESCUE_CINEMATIC_TRIGGER_FLAG).
+    // JSON_SET against gameData.narrativeFlags is the canonical
+    // write path (mirrors conspiracyService.ts:221-225's
+    // reveal-flag write).
     if (mystery) {
-      const flagKey = `mystery_episode_complete:${mystery.arcId}:${args.episodeId}`;
+      const episodeFlag = `mystery_episode_complete:${mystery.arcId}:${args.episodeId}`;
+      const choiceFlag = `mystery_choice:${mystery.arcId}:${args.episodeId}:${args.choiceId}`;
       try {
         await db
           .update(userProgress)
           .set({
             gameData: sql`JSON_SET(
               COALESCE(${userProgress.gameData}, JSON_OBJECT()),
-              CONCAT('$.narrativeFlags.', ${flagKey}),
+              CONCAT('$.narrativeFlags.', ${episodeFlag}),
+              TRUE,
+              CONCAT('$.narrativeFlags.', ${choiceFlag}),
               TRUE
             )`,
           })
@@ -365,9 +373,15 @@ export const mysteryService = {
         // cards will become unlockable when the row is updated
         // by any subsequent gameData mutation.
         logger.warn(
-          "mystery_episode_complete_flag_write_failed",
+          "mystery_choice_flag_write_failed",
           "mysteryService",
-          { userId: args.userId, mysteryId: args.mysteryId, episodeId: args.episodeId, err: String(err) },
+          {
+            userId: args.userId,
+            mysteryId: args.mysteryId,
+            episodeId: args.episodeId,
+            choiceId: args.choiceId,
+            err: String(err),
+          },
         );
       }
     }

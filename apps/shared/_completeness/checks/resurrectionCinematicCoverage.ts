@@ -21,10 +21,11 @@
 import { CINEMATICS } from "../../expansionArt/cinematicsManifest";
 import { RESURRECTION_CINEMATIC_BY_NPC } from "../../resurrectionProtocols";
 import {
+  WOLF_ANARA_HUNT_MYSTERY,
   WOLF_CRUCIBLE_RESCUE_CINEMATIC,
   WOLF_CRUCIBLE_RESCUE_CINEMATIC_TRIGGER_FLAG,
+  WOLF_RELEASE_CHOICE_ID,
 } from "../../dlcMysteries/wolfAnaraHunt";
-import { WOLF_ANARA_HUNT_MYSTERY } from "../../dlcMysteries/wolfAnaraHunt";
 import type { RawParityCount } from "../types";
 
 export function checkResurrectionCinematicCoverage(): RawParityCount {
@@ -70,22 +71,43 @@ export function checkResurrectionCinematicCoverage(): RawParityCount {
     implemented += 1;
   }
 
-  // The Wolf trigger flag must reference the actual final
-  // episode of the Wolf Anara Hunt arc — guards against drift
-  // where the arc is renamed or its episode list reordered
-  // but the trigger-flag constant lags behind.
+  // The Wolf trigger flag must be the per-choice flag the
+  // mysteryService writes for the canonical release choice on
+  // the arc's final episode. Guards against drift where:
+  //   - the arc is renamed
+  //   - the episode list is reordered
+  //   - the release choice id changes
+  //   - the per-choice flag convention changes in mysteryService
+  // ...any of which would silently break the cinematic trigger.
   declared += 1;
   const finalEpisode =
     WOLF_ANARA_HUNT_MYSTERY.episodes[
       WOLF_ANARA_HUNT_MYSTERY.episodes.length - 1
     ];
   const expectedTriggerFlag =
-    `mystery_episode_complete:${WOLF_ANARA_HUNT_MYSTERY.arcId}:${finalEpisode.id}`;
+    `mystery_choice:${WOLF_ANARA_HUNT_MYSTERY.arcId}:${finalEpisode.id}:${WOLF_RELEASE_CHOICE_ID}`;
   if (WOLF_CRUCIBLE_RESCUE_CINEMATIC_TRIGGER_FLAG !== expectedTriggerFlag) {
     missing.push(
       `the_wolf: WOLF_CRUCIBLE_RESCUE_CINEMATIC_TRIGGER_FLAG ` +
         `('${WOLF_CRUCIBLE_RESCUE_CINEMATIC_TRIGGER_FLAG}') does not match ` +
-        `the arc's final-episode completion flag ('${expectedTriggerFlag}')`,
+        `the expected mystery_choice flag for the release choice ` +
+        `('${expectedTriggerFlag}')`,
+    );
+  } else {
+    implemented += 1;
+  }
+
+  // The release choice id must exist on the final episode —
+  // catches typos or choice-id renames that would orphan the
+  // trigger flag.
+  declared += 1;
+  const releaseChoice = finalEpisode.choices.find(
+    (c) => c.id === WOLF_RELEASE_CHOICE_ID,
+  );
+  if (!releaseChoice) {
+    missing.push(
+      `the_wolf: WOLF_RELEASE_CHOICE_ID '${WOLF_RELEASE_CHOICE_ID}' is not ` +
+        `a choice on the final episode (${finalEpisode.id}) of the arc`,
     );
   } else {
     implemented += 1;

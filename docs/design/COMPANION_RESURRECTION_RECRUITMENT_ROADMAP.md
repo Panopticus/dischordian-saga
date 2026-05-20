@@ -43,20 +43,27 @@ The narrative arc the team wants players to experience:
 
 The outcome shape now exposes `pendingCinematicFlag` as a contractual field; the persistence shim is the missing glue.
 
-### 2. Wolf containment reframe (Hellbox / snow-globe / Crucible)
+### 2. Wolf containment reframe — RESOLVED (writer answers 2026-05-20)
 
-**User canon-correction (2026-05-20):** Lycos is *contained* — in a Hellbox-style snow-globe or the Crucible pocket dimension (where the League lives). The player's choice to **release** him is what opens the Hunt-the-Hero minigame. The Wolf cinematic plays at that release moment.
+**Writer canon:** Lycos is contained in a **Hellbox-shaped snow-globe** seated on a thirteenth pedestal at the centre of the Hall of Disappearances. The snow-globe is a Matrix-of-Dreams pocket realm with unknown time-dilation — Lycos could have been inside for decades or millennia, an unmeasured duration during which he had time to refine his hunting ethic. Both Elara and the Human warn on the open channel against release: *"You are looking at a serial-killer AI in a Matrix-of-Dreams pocket. Lycos has had an unmeasured duration to think... Whatever you choose, choose it knowing both warnings are on the record."*
 
-**What shipped:** the cinematic fires on Wolf E5 choice-commit (canonical Mystery-Engine handoff to Hunt-the-Hero). That's the right *trigger*; the surrounding fiction in the existing arc reads as "the Wolf is already loose inside Anara" rather than "the player releases him from containment." Reconciling the two:
+**What shipped:** Wolf E5 rewritten end-to-end to land the reframe:
 
-- Wolf E5 clues currently frame Lycos as already present in the Hall of Disappearances (E5 clue `wolf.e5.the_wolf_present`). Reframing as a containment-release reads requires rewriting that clue + E5 narration to make the player's commit-choice the act of releasing the snow-globe.
-- The Hellbox subsystem (`apps/shared/hellboxClone.ts`) currently handles apprentice clone-restoration. Recasting it as "the vessel Lycos is contained in" needs either (a) a new module that overloads the visual metaphor or (b) a dedicated `crucibleContainment.ts` module for the Wolf's specific vessel.
-- The Crucible IS already canonical: per `wolfAnaraHunt.ts:284` *"Anara's predecessor pocket — the Crucible — kept resurrection records for the first-wave era."* The reframe makes Lycos one of those preserved-and-contained subjects, awaiting release.
+- New clue `wolf.e5.snow_globe_diagnostic` — Hellbox-shaped containment, four-part Resurrectionist cipher, time-dilation diagnostic, single-action irreversible release lever.
+- New clue `wolf.e5.companion_warnings` — verbatim Elara + Human warning lines.
+- Modified `wolf.e5.the_wolf_contained` (was `the_wolf_present`) — Lycos visible *through* the snow-globe glass, cloak etched on the containment from the inside, hasn't moved or aged in observable time.
+- Modified `wolf.e5.hall_threshold` — adds the thirteenth (unlisted) pedestal at the chamber's centre.
+- Modified `wolf.e5.minigame_entry_state` — Hunt-the-Hero opens *only on release*; the case file closes either way.
+- New deduction `wolf.e5.d.companions_warn_against_release` — codifies the warning beat.
+- Modified `wolf.e5.antiquarians_concession` — the Antiquarian explains why he contained Lycos in a child's-toy Hellbox: "I could not destroy him; the Judge already had. I could not free him; the chronicle had not yet been written."
+- Replaced E5 choices with `wolf.e5.c.release_the_wolf` (pulls the lever, fires the cinematic, opens Hunt-the-Hero) and `wolf.e5.c.leave_him_contained` (re-shelves the snow-globe, case closes, minigame does NOT open). `wolf.e5.c.recall_the_judge` retained as a third path.
+- New `loredex.wolf_snow_globe_containment` unlock on episode close.
 
-Open writer asks:
-- Visual: is the containment vessel a Hellbox-shaped snow-globe (one of several in the Crucible) or the Crucible-as-snow-globe itself?
-- Does the existing Wolf E5 `wolf.e5.the_wolf_present` clue change, or do we add a new "Wolf in vessel" clue alongside?
-- Does the release happen because the player chooses it, or because completing E5 forces it (no opt-out)?
+**Server-side trigger plumbing:** extended `mysteryService.submitChoice` to also write a per-choice flag (`mystery_choice:<arcId>:<episodeId>:<choiceId>`) alongside the existing `mystery_episode_complete` flag. The Wolf cinematic trigger is now keyed to the specific `release_the_wolf` choice — `leave_him_contained` writes a different flag and the cinematic stays silent.
+
+**Parity strengthened:** `narrative.resurrection_cinematic_coverage` is now 5/5: cinematic-id existence (×3) + trigger-flag canon match (per-choice form) + release-choice-id existence on the arc's final episode.
+
+**Lingering work:** the Hellbox subsystem (`apps/shared/hellboxClone.ts`) currently handles apprentice clone-restoration. The snow-globe IS narratively a Hellbox but doesn't share runtime mechanics; if a future feature wants to surface the snow-globe as a tracked Hellbox instance (e.g. for the Loredex, or as an interactable object in the Hall), a `crucibleContainment.ts` module or extension to `hellboxClone.ts` would be the place.
 
 ### 3. Companion recruitment surfaces
 

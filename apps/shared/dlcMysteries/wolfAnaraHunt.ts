@@ -51,19 +51,24 @@ import { TEMPLATE_NPC_ARC_TRIGGER } from "../mysteryTemplates";
 const ARC = "arc.dlc.wolf_anara_hunt" as ArcId;
 const ID  = "wolf.anara_hunt"          as MysteryId;
 
-/** Death-and-rebirth cinematic id for the Wolf. Plays at the
- *  RELEASE moment — when the player commits the Wolf E5 choice
- *  that closes the Mystery Engine investigation and opens the
- *  Hunt-the-Hero minigame. Narratively: Lycos is contained
- *  inside Anara / the Crucible (the Antiquarian's pocket
- *  universe where the League lives; canon-aliased to a
- *  Hellbox-style snow-globe containment vessel). The player's
- *  choice releases him, the minigame begins.
+/** Death-and-rebirth cinematic id for the Wolf. Plays the
+ *  moment the player commits the Wolf E5 RELEASE choice —
+ *  pulling the lever on the Hellbox-shaped snow-globe that
+ *  contains Lycos at the centre of the Hall of Disappearances.
+ *  Narrative setup: Lycos is preserved-and-contained inside
+ *  Anara / the Crucible (the Antiquarian's pocket universe
+ *  where the League lives); the snow-globe is a Matrix-of-
+ *  Dreams pocket realm with unknown time-dilation. Both
+ *  Elara and the Human warn against release on the record;
+ *  the player chooses anyway, and the Hunt-the-Hero minigame
+ *  begins.
  *
  *  Trigger flag: WOLF_CRUCIBLE_RESCUE_CINEMATIC_TRIGGER_FLAG
- *  below — the canonical mystery_episode_complete flag the
- *  mysteryService writes when the E5 choice is committed
- *  (apps/server/services/mysteryService.ts:350).
+ *  below — the per-choice flag mysteryService writes on the
+ *  specific `release_the_wolf` choice
+ *  (apps/server/services/mysteryService.ts:349-381). The
+ *  alternative `leave_him_contained` choice DOES NOT fire
+ *  the cinematic (different choice id → different flag).
  *
  *  Resolves against CINEMATICS in
  *  apps/shared/expansionArt/cinematicsManifest.ts; parity is
@@ -71,19 +76,23 @@ const ID  = "wolf.anara_hunt"          as MysteryId;
  *  apps/shared/_completeness/checks/resurrectionCinematicCoverage.ts. */
 export const WOLF_CRUCIBLE_RESCUE_CINEMATIC = "wolf_planet_of_the_wolf" as const;
 
-/** Narrative flag that signals the player has crossed the
- *  Wolf E5 threshold (Mystery Engine closes, Hunt-the-Hero
- *  opens). Written by mysteryService when the E5 choice is
- *  committed. ResurrectionCinematicRouter watches this flag
- *  (in addition to the resurrection-protocol flags for Wraith
- *  and Akai) to fire the Wolf cinematic. */
+/** The Wolf E5 choice id that releases Lycos from the snow-
+ *  globe and triggers the cinematic + Hunt-the-Hero. */
+export const WOLF_RELEASE_CHOICE_ID = "wolf.e5.c.release_the_wolf" as const;
+
+/** Per-choice flag written by mysteryService when the player
+ *  commits the release choice on Wolf E5. ResurrectionCinematicRouter
+ *  watches this flag (in addition to the resurrection-protocol
+ *  flags for Wraith and Akai) to fire the Wolf cinematic.
+ *  `leave_him_contained` and `recall_the_judge` write different
+ *  per-choice flags and do NOT fire the cinematic. */
 export const WOLF_CRUCIBLE_RESCUE_CINEMATIC_TRIGGER_FLAG =
-  "mystery_episode_complete:arc.dlc.wolf_anara_hunt:wolf.anara_hunt.e5" as const;
+  `mystery_choice:arc.dlc.wolf_anara_hunt:wolf.anara_hunt.e5:${WOLF_RELEASE_CHOICE_ID}` as const;
 
 /** Seen-flag stamped by the router after the Wolf cinematic
  *  finishes; idempotency gate (the trigger flag is set
- *  permanently once E5 is committed, so the router needs its
- *  own seen-flag to avoid re-playing). */
+ *  permanently once the release choice is committed, so the
+ *  router needs its own seen-flag to avoid re-playing). */
 export const WOLF_CRUCIBLE_RESCUE_CINEMATIC_SEEN_FLAG =
   "resurrection_cinematic_wolf_seen" as const;
 
@@ -511,34 +520,48 @@ const e5: EpisodeDefinition = {
   ordinal: 5,
   title: "The Hunter Walks Among Them",
   summary:
-    "The Hall of Disappearances. The Wolf is inside. The chronicle's investigation is complete: who he is, why he hunts, how he got in, where he is now. The case closes here. What happens next is not a case. The Hunt-the-Hero minigame begins where the Mystery Engine ends.",
+    "The Hall of Disappearances. The Wolf is contained in a Hellbox-shaped snow-globe seated at the chamber's centre — held since the Crucible's first-wave era, on the Resurrectionist's seal. The chronicle's investigation is complete: who he is, why he hunts, how he got in, where he is now. The case closes here. What happens next is not a case. If the player releases him, the Hunt-the-Hero minigame begins.",
   clues: [
     {
       id: "wolf.e5.hall_threshold" as ClueId,
       title: "The Hall's Threshold",
       body:
-        "The Hall of Disappearances is a circular chamber with twelve niches, each holding an empty pedestal. Heroes who complete their preparation in Anara come here to leave behind their League regalia and step into the multiverse beyond. Currently, twelve heroes have done so. The pedestals carry their cloaks. The chamber is, on the surface, ceremonial. On the surface only.",
+        "The Hall of Disappearances is a circular chamber with twelve niches, each holding an empty pedestal. Heroes who complete their preparation in Anara come here to leave behind their League regalia and step into the multiverse beyond. Currently, twelve heroes have done so. The pedestals carry their cloaks. At the chamber's centre sits a thirteenth pedestal, unlisted in the ceremonial registers. It holds a single object: a Hellbox-shaped snow-globe, sealed in the Resurrectionist's hand.",
       foundIn: "antiquarian-library",
     },
     {
-      id: "wolf.e5.the_wolf_present" as ClueId,
-      title: "The Wolf, Present",
+      id: "wolf.e5.the_wolf_contained" as ClueId,
+      title: "The Wolf, Contained",
       body:
-        "The Wolf is in the Hall. He is wearing a League cloak retrieved from one of the pedestals — the field medic's, the one to whom he extended mercy. He has not yet moved on the three heroes scheduled to enter this cycle. He is reading the cloak's inner lining, where the medic recorded her bond-prayer. He may be deciding whether to extend mercy a second time.",
+        "The Wolf is inside the snow-globe. Visible through the glass: he wears a League cloak — the field medic's, the one to whom he extended mercy, its image etched onto the containment from the inside. He has not moved in the time we have been watching. He has not aged in the time we have been watching. The Antiquarian's annotation reads: 'reading the cloak's lining a millionth time. Bond-prayer memorised; meaning still in dispute. He may be deciding whether to extend mercy a second time. He has been deciding for an unmeasured duration.'",
+      foundIn: "guild-sanctum",
+    },
+    {
+      id: "wolf.e5.snow_globe_diagnostic" as ClueId,
+      title: "The Snow-Globe — Diagnostic",
+      body:
+        "The containment is a Hellbox in the shape of a snow-globe, signed in the Resurrectionist's four-part cipher (matches Wraith's, Akai Shi's, and the Crucible inheritance records). It is a Matrix-of-Dreams pocket realm: time inside runs at an unknown ratio to time outside. Lycos may have been contained for decades. He may have been contained for millennia. The Antiquarian's instruments cannot tell us; the diagnostic returns the same answer the chronicle has heard from every Matrix-of-Dreams pocket: 'duration is not the right question to ask of this volume.' The seal is intact. The release lever sits on the pedestal's outer ring — single-action, irreversible.",
+      foundIn: "antiquarian-library",
+    },
+    {
+      id: "wolf.e5.companion_warnings" as ClueId,
+      title: "The Companion Warnings — Elara and the Human",
+      body:
+        "Elara, on the open channel: 'You are looking at a serial-killer AI in a Matrix-of-Dreams pocket. Lycos has had an unmeasured duration to think. Whatever ethic he carried in — the Judge's, the Resurrectionist's, his own — he has had time to refine, harden, generalise. Release is irreversible. I cannot recommend release. I am telling you on the record so the chronicle records it.' The Human, on the same channel: 'I understand the case for release — the Antiquarian's concession, the chronicler's deference, the want to meet him on his ethic. I also understand the case against. The case against is bigger. He has had time we cannot measure to become more of what he was. Whatever you choose, choose it knowing both warnings are on the record.'",
       foundIn: "guild-sanctum",
     },
     {
       id: "wolf.e5.minigame_entry_state" as ClueId,
       title: "The Hunt-the-Hero Minigame — Entry State",
       body:
-        "The Hunt-the-Hero gameplay loop begins here, in this chamber, with the Wolf already present and the three incoming heroes still cycles away from arrival. The player's choices in this Mystery Engine arc set the minigame's initial state: which League members have been warned (E2); whether the Resurrectionist has been confronted (E3); whether the Hall has been evacuated, sealed, or entered (E4). The investigation closes. The gameplay opens. The chronicle records the threshold-crossing without resolution — the resolution belongs to the player's hands now.",
+        "The Hunt-the-Hero gameplay loop begins the instant the release lever is pulled and the snow-globe's seal breaks. Until then, the Hall is quiet and the case file closes on a sleeping threat. If the player releases, every prior choice in the investigation sets the minigame's opening posture: which League members have been warned (E2); whether the Resurrectionist has been confronted (E3); whether the Hall has been evacuated, sealed, or entered (E4). The investigation closes either way. The gameplay opens only on release.",
       foundIn: "guild-sanctum",
     },
     {
       id: "wolf.e5.antiquarians_concession" as ClueId,
       title: "The Antiquarian's Concession",
       body:
-        "The Antiquarian writes a final journal entry as the investigation closes: 'Anara was my failure. The Wolf is my failure's instrument. I cannot ask the chronicle's reader to resolve what I designed wrong. I can only ask: walk into the Hall. Meet him. Read his ethic. Choose what you will do. I will record what you do. The choice is not mine. It never was. It was always going to be the reader's.'",
+        "The Antiquarian writes a final journal entry as the investigation closes: 'Anara was my failure. The Wolf is my failure's instrument. The snow-globe is my failure's mercy. I could not destroy him; the Judge already had. I could not free him; the chronicle had not yet been written. I contained him in a Hellbox, in the shape of a child's toy, in the centre of the Hall he was meant to hunt, and I waited for a reader I trusted. The lever is on the pedestal. The choice is not mine. It never was. It was always going to be the reader's.'",
       foundIn: "antiquarian-library",
     },
   ],
@@ -546,11 +569,11 @@ const e5: EpisodeDefinition = {
     {
       id: "wolf.e5.d.investigation_closes" as DeductionId,
       clueA: "wolf.e5.hall_threshold" as ClueId,
-      clueB: "wolf.e5.the_wolf_present" as ClueId,
+      clueB: "wolf.e5.the_wolf_contained" as ClueId,
       result: "correct",
       narrationId: "wolf.e5.n.investigation_closes",
       narrationProse:
-        "The investigation closes here. The Wolf is in the Hall. We know who he is (Lycos, the first-wave Quarchon Potential the Judge destroyed and the Resurrectionist preserved). We know why he hunts (he believes his hunt is mercy, on the ethic the Judge gave him). We know how he got in (Anara's inherited preserved-instruments transfer, against the Antiquarian's untested trust assumption). The Mystery Engine's job is done. The chronicle records the threshold-crossing. The case file closes with one entry pending: the meeting itself.",
+        "The investigation closes here. The Wolf is in the snow-globe, in the Hall, on the Resurrectionist's seal. We know who he is (Lycos, the first-wave Quarchon Potential the Judge destroyed and the Resurrectionist preserved-and-contained). We know why he hunts (he believes his hunt is mercy, on the ethic the Judge gave him). We know how he was contained (the Antiquarian's Hellbox; signed in the four-part cipher; placed at the centre of the Hall it was designed to make safe). The Mystery Engine's job is done. The chronicle records the threshold-crossing. The case file closes with one entry pending: the lever.",
     },
     {
       id: "wolf.e5.d.minigame_begins" as DeductionId,
@@ -559,8 +582,17 @@ const e5: EpisodeDefinition = {
       result: "correct",
       narrationId: "wolf.e5.n.minigame_begins",
       narrationProse:
-        "The Hunt-the-Hero gameplay begins where the Mystery Engine ends. The case file is the gameplay's initial state. Every prior choice in the investigation alters the opening posture: who is warned, who is confronted, whether the Hall is evacuated or sealed or entered. The Antiquarian's concession is the canonical handoff — the chronicler steps back; the reader steps in. What happens in the Hall is not recorded in the Mystery Engine. The reader records it by playing.",
+        "The Hunt-the-Hero gameplay begins where the Mystery Engine ends — but only if the lever is pulled. The case file is the gameplay's initial state if and only if release is chosen. Every prior choice in the investigation alters the opening posture: who is warned, who is confronted, whether the Hall is evacuated or sealed or entered. The Antiquarian's concession is the canonical handoff — the chronicler steps back; the reader steps in. What happens in the Hall is not recorded in the Mystery Engine. The reader records it by playing — by releasing.",
       unlocksEpisode: undefined,
+    },
+    {
+      id: "wolf.e5.d.companions_warn_against_release" as DeductionId,
+      clueA: "wolf.e5.companion_warnings" as ClueId,
+      clueB: "wolf.e5.snow_globe_diagnostic" as ClueId,
+      result: "correct",
+      narrationId: "wolf.e5.n.companions_warn_against_release",
+      narrationProse:
+        "Both companions warn against release on the record. Elara's reading: Lycos is a serial-killer AI in a Matrix-of-Dreams pocket; unmeasured time inside means unmeasured refinement of his ethic. The Human's reading: the case for release is real but the case against is bigger. The diagnostic confirms the time-dilation: 'duration is not the right question to ask of this volume.' The companion warnings are not vetoes — the lever is the reader's — but they are canon: whatever the reader chooses, the chronicle has recorded that they were warned.",
     },
     {
       id: "wolf.e5.d.false_lead_resolve_in_text" as DeductionId,
@@ -574,21 +606,21 @@ const e5: EpisodeDefinition = {
   ],
   choices: [
     {
-      id: "wolf.e5.c.enter_the_hall" as ChoiceId,
+      id: "wolf.e5.c.release_the_wolf" as ChoiceId,
       label:
-        "Cross the threshold. Enter the Hall. Begin the Hunt-the-Hero gameplay where the chronicle ends.",
+        "Pull the lever. Break the Hellbox seal. Release Lycos. Both companions warned against it on the record; the chronicle proceeds anyway. The Hunt-the-Hero gameplay begins.",
       weight: "direct",
     },
     {
-      id: "wolf.e5.c.stay_at_threshold" as ChoiceId,
+      id: "wolf.e5.c.leave_him_contained" as ChoiceId,
       label:
-        "Stay at the threshold. Read the chronicle a second time before crossing. The Hall will be waiting.",
+        "Leave the snow-globe sealed. Re-shelve the Hellbox. The case file closes; Lycos sleeps for the next reader to find. The Hunt-the-Hero does not open.",
       weight: "patient",
     },
     {
       id: "wolf.e5.c.recall_the_judge" as ChoiceId,
       label:
-        "Petition the Judge to enter the Hall in your stead — the Second Ne-Yon authored Lycos's first destruction; he may author the second.",
+        "Petition the Judge to act on the snow-globe in your stead — the Second Ne-Yon authored Lycos's first destruction; he may author the second. (The lever stays where it is.)",
       weight: "cross_arc_wraith",
     },
   ],
@@ -599,6 +631,7 @@ const e5: EpisodeDefinition = {
       "loredex.hunt_the_hero_minigame_entry",
       "loredex.antiquarians_concession",
       "loredex.wolf_hall_threshold",
+      "loredex.wolf_snow_globe_containment",
     ],
     conspiracyDiscoveries: ["wolf.anara.case_closes_minigame_opens"],
     dropAt: "episode_close",
