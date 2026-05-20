@@ -24,6 +24,7 @@ import type { RoomMysteryModule } from "./_template";
 export type ObservationDeckHotspotId =
   | "akai-cycle-fold-anomalies"
   | "resur-shield-diagnostic"
+  | "charter-upper-band-calibration"
   | "storm-weather-telemetry"
   | "storm-full-calms-register"
   | "panoramic-viewport" | "purification-crystal-cradle" | "bond-resonance-altar";
@@ -39,6 +40,18 @@ export const OBSERVATION_DECK_MYSTERY: RoomMysteryModule<
 > = {
   roomId: "observation-deck",
   responses: {
+    /* ─── charter.missing_signatory · e4 (upper-band calibration slip) ─── */
+    "charter-upper-band-calibration": {
+      look: {
+        narration:
+          "On the observation-deck's upper-band reference bench, the calibration slip folded into the founding-Watcher's letter: a wafer of metal calibrated to the upper-band frequency. Per. M. has, or had, access to the upper bands. Whoever they are, they were briefed by something that lives there.",
+        mysteryBinding: {
+          mysteryId: "charter.missing_signatory",
+          episodeId: "charter.missing_signatory.e4",
+          cluesFound: ["charter.e4.upper_band_calibration"],
+        },
+      },
+    },
     /* ─── resurrectionist.cycle_walker · e5 (Dreamer's Shield diagnostic) ─── */
     "resur-shield-diagnostic": {
       look: {

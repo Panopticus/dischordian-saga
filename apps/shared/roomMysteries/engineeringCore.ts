@@ -14,11 +14,24 @@ export type EngineeringCoreHotspotId =
   | "advocate-zyrkoth-protocol-lineage"
   | "resur-protocol-activation-timestamp"
   | "resur-matrix-escape-signature"
+  | "charter-signatory-engineer-zero"
   | "reactor-coil" | "coolant-pipe" | "core-terminal";
 
 export const ENGINEERING_CORE_MYSTERY: RoomMysteryModule<EngineeringCoreHotspotId> = {
   roomId: "engineering-core",
   responses: {
+    /* ─── charter.missing_signatory · e2 (Engineer Zero's signature) ─── */
+    "charter-signatory-engineer-zero": {
+      look: {
+        narration:
+          "On the engineering-core's founding-records bench, Engineer Zero's signature on the charter: initialled rather than written. A clean Z above a horizontal bar. Engineer Zero signed everything this way. The bar runs into the wax.",
+        mysteryBinding: {
+          mysteryId: "charter.missing_signatory",
+          episodeId: "charter.missing_signatory.e2",
+          cluesFound: ["charter.e2.signatory_engineer_zero"],
+        },
+      },
+    },
     /* ─── resurrectionist.cycle_walker · color clues ─── */
     "resur-protocol-activation-timestamp": {
       look: {

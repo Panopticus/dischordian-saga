@@ -50,6 +50,7 @@ export type CipherDenHotspotId =
   | "memorial-parent-search-i1"
   | "severance-candle-smoke-residue"
   | "severance-broker-first-name"
+  | "charter-archivist-pulse"
   | "watchers-upper-band-signature"
   | "watchers-idris-signature"
   | "watchers-six-signatures-catalogue"
@@ -206,6 +207,18 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
       interrogate: {
         narration:
           "You ask the archive when this convention was last successfully invoked. The drawer returns a single entry: the founding itself. The seventh founding Watcher invoked silence-as-vote on three minor founding-day decisions; each was read correctly. The convention's first misreading is the fourth-epoch scrub. The misreading has been the seventh's only voice since.",
+      },
+    },
+    /* ─── charter.missing_signatory · e3 (Per. M.'s pulse in the down-stroke) ─── */
+    "charter-archivist-pulse": {
+      look: {
+        narration:
+          "On the cipher-den's signature-rhythm bench, the analysis shows a doubled pulse in every Per. M. signature — a tic only present in writers who breathe twice per stroke. The pattern is documented in the founding-Watcher physiological notes.",
+        mysteryBinding: {
+          mysteryId: "charter.missing_signatory",
+          episodeId: "charter.missing_signatory.e3",
+          cluesFound: ["charter.e3.archivist_pulse"],
+        },
       },
     },
     /* ─── severance.bound_champion · color clues ─── */

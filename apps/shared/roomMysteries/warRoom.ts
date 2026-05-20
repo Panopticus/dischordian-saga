@@ -39,6 +39,7 @@ export type WarRoomHotspotId =
   | "severance-vex-three-names"
   | "severance-klessa-role"
   | "severance-written-protocol"
+  | "charter-council-briefing"
   | "holo-table" | "casualty-board" | "signal-flag-rack" | "ocularum-vigil-board" | "ocularum-cell-roster" | "hierarchy-org-chart-board" | "thalorian-defense-records" | "new-babylon-siege-record" | "hierarchy-piece-positioning-board" | "varkul-director-of-security-file" | "necromancer-castle-log-board" | "zyr-koth-rd-refinement-file" | "the-severance-hollowing-report" | "the-locked-lever-board" | "syl-vex-dual-roster-board" | "the-severance-cross-lock-file" | "the-taskmasters-siege-portfolio" | "riri-ahlia-reorg-doctrine-board" | "the-procedural-question-file" | "the-priced-defense-accounting" | "fenra-seventeen-front-manifest" | "the-wolf-in-the-boardroom-file" | "fenra-varkul-contrast-record";
 
 export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
@@ -199,6 +200,18 @@ export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
       interrogate: {
         narration:
           "You ask the table for the planning-signature of each correlated event. The console returns identical signatures across all seven — multi-cycle information consistency, no flux interference, no Ne-Yon-grade disturbance. Planning is permitted; planning happens; planning is followed by the most active flux period in the surrounding decade. The chronicle is consequential because the Storm allows it to be.",
+      },
+    },
+    /* ─── charter.missing_signatory · e5 (Council briefing pack) ─── */
+    "charter-council-briefing": {
+      look: {
+        narration:
+          "On the Council-briefing board, the Antiquarian's pack for the Foundation Day vote: includes everything except the name. The Council can ratify, amend, or contest. None of the three options name the seventh.",
+        mysteryBinding: {
+          mysteryId: "charter.missing_signatory",
+          episodeId: "charter.missing_signatory.e5",
+          cluesFound: ["charter.e5.council_briefing"],
+        },
       },
     },
     /* ─── severance.bound_champion · color clues ─── */

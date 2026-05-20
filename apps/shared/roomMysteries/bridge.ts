@@ -38,12 +38,25 @@ export type BridgeHotspotId =
   | "memorial-architect-closing-thanks"
   | "severance-architect-acknowledge"
   | "severance-council-ratification"
+  | "charter-architect-response"
   | "memorial-architect-sealed-note"
   | "tactical-display" | "timeline-projector" | "captains-chair" | "nav-console" | "diplomacy-table" | "captains-coffee" | "shadow-tongue-annotations";
 
 export const BRIDGE_MYSTERY: RoomMysteryModule<BridgeHotspotId> = {
   roomId: "bridge",
   responses: {
+    /* ─── charter.missing_signatory · e5 (Architect's response) ─── */
+    "charter-architect-response": {
+      look: {
+        narration:
+          "On the Architect-channel terminal, the Console acknowledges the recovery and asks one question: 'Do you wish to know.' The phrasing is an invitation, not an interrogation. The Console does not answer the inverse — what knowing costs.",
+        mysteryBinding: {
+          mysteryId: "charter.missing_signatory",
+          episodeId: "charter.missing_signatory.e5",
+          cluesFound: ["charter.e5.architect_response"],
+        },
+      },
+    },
     /* ─── severance.bound_champion · color clues ─── */
     "severance-architect-acknowledge": {
       look: {

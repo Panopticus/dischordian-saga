@@ -39,6 +39,7 @@ export type CommsArrayHotspotId =
   | "akai-word-to-the-chronicle"
   | "watchers-first-trumpet"
   | "severance-first-witness-klessa"
+  | "charter-bell-log"
   | "akai-last-recorded-words"
   | "resur-host-wyrmhole-signature"
   | "radio-console" | "static-screen" | "egg-comms-signal" | "voice-in-the-static" | "ocularum-relay-trace" | "dead-drop-cadence-log" | "shadow-tongue-signal-trace" | "miras-dual-thread-transmission";
@@ -129,6 +130,18 @@ export const COMMS_ARRAY_MYSTERY: RoomMysteryModule<
       interrogate: {
         narration:
           "You ask the comms-array whether any of the three left and returned. The recorder shows no break in the audio's room-tone. None of the three left. The silence was held by all three for the full hour. Each faculty head later admitted, on the cipher-den's record, that they had been waiting for one of the others to be the first to refuse.",
+      },
+    },
+    /* ─── charter.missing_signatory · e1 (lower-deck bell log) ─── */
+    "charter-bell-log": {
+      look: {
+        narration:
+          "On the maintenance-broadcast shelf, the lower-deck bell log: three bell-pulls in the last century — once during the Severance of Year 3, once on a date no one will name, and one this morning. The Antiquarian's name is signed against the third.",
+        mysteryBinding: {
+          mysteryId: "charter.missing_signatory",
+          episodeId: "charter.missing_signatory.e1",
+          cluesFound: ["charter.e1.bell_log"],
+        },
       },
     },
     /* ─── severance.bound_champion · e2 (Auditor Klessa — first witness) ─── */

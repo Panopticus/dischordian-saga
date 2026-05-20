@@ -29,6 +29,9 @@ export type OracleSanctumHotspotId =
   | "severance-broker-record"
   | "severance-successor-test"
   | "severance-bond-poured"
+  | "charter-first-reading"
+  | "charter-confrontation-record"
+  | "charter-final-conversation"
   | "memorial-antiquarian-plaza-request"
   | "charter2-kassel-testimony"
   | "infernal-zyrkoth-concession"
@@ -38,6 +41,40 @@ export type OracleSanctumHotspotId =
 export const ORACLE_SANCTUM_MYSTERY: RoomMysteryModule<OracleSanctumHotspotId> = {
   roomId: "oracle-sanctum",
   responses: {
+    /* ─── charter.missing_signatory · color clues ─── */
+    "charter-first-reading": {
+      look: {
+        narration:
+          "On the sanctum's first-bell recording, the Antiquarian read the charter aloud to an empty chamber at second bell. They stopped at the seventh signature and could not continue for almost a minute. The recording survives.",
+        mysteryBinding: {
+          mysteryId: "charter.missing_signatory",
+          episodeId: "charter.missing_signatory.e1",
+          cluesFound: ["charter.e1.first_reading"],
+        },
+      },
+    },
+    "charter-confrontation-record": {
+      look: {
+        narration:
+          "On the sanctum's confrontation-record shelf, the Antiquarian asked Per. M. directly whether they had sealed the seventh signature. Per. M. answered: 'I sealed it. I will not say more, and I will not unseal it.' The recording is admissible.",
+        mysteryBinding: {
+          mysteryId: "charter.missing_signatory",
+          episodeId: "charter.missing_signatory.e3",
+          cluesFound: ["charter.e3.confrontation_record"],
+        },
+      },
+    },
+    "charter-final-conversation": {
+      look: {
+        narration:
+          "On the closing-day record, the closer's account: Per. M. speaks for thirty-eight minutes, slowly. They confirm: a Watcher signed the founding charter, then accepted the post of closer, then sealed their own name. The name is still on the wax. The Watcher is still alive. Both will end together — or neither will.",
+        mysteryBinding: {
+          mysteryId: "charter.missing_signatory",
+          episodeId: "charter.missing_signatory.e5",
+          cluesFound: ["charter.e5.final_conversation"],
+        },
+      },
+    },
     /* ─── severance.bound_champion · color clues ─── */
     "severance-companion-on-table": {
       look: {

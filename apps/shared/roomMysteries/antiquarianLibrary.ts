@@ -61,6 +61,12 @@ export type AntiquarianLibraryHotspotId =
   | "severance-jar-inventory"
   | "severance-first-chair-log"
   | "severance-player-choice-record"
+  | "charter-signatory-almir"
+  | "charter-signatory-house-quill"
+  | "charter-witness-annotation"
+  | "charter-archivist-office"
+  | "charter-staff-roster"
+  | "charter-player-inscribes"
   | "wolf-empty-chair"
   | "wolf-three-empty-chairs"
   | "akai-resurrectionist-seal"
@@ -407,6 +413,73 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           mysteryId: "wolf.anara_hunt",
           episodeId: "wolf.anara_hunt.e5",
           cluesFound: ["wolf.e5.antiquarians_concession"],
+        },
+      },
+    },
+    /* ─── charter.missing_signatory · color clues ─── */
+    "charter-signatory-almir": {
+      look: {
+        narration:
+          "On the founding-signatures rubbing wall, the first signature: Almir of the Bow. The first crown-bearer. The hand is plain, almost bored — Almir signed last because Almir was the rider. The ink is the original cyanic ferro-gall.",
+        mysteryBinding: {
+          mysteryId: "charter.missing_signatory",
+          episodeId: "charter.missing_signatory.e2",
+          cluesFound: ["charter.e2.signatory_almir"],
+        },
+      },
+    },
+    "charter-signatory-house-quill": {
+      look: {
+        narration:
+          "Beside Almir's signature, the three sisters of House Quill — sigils two, three, and four. They signed in a ladder — the eldest at the top — and the youngest's loop runs into where the seventh signature should begin.",
+        mysteryBinding: {
+          mysteryId: "charter.missing_signatory",
+          episodeId: "charter.missing_signatory.e2",
+          cluesFound: ["charter.e2.signatory_house_quill"],
+        },
+      },
+    },
+    "charter-witness-annotation": {
+      look: {
+        narration:
+          "On the back of the charter, the Advocate's marginalia: 'six speak; one listens; one of us is the silence.' The cipher-den had not understood the line in any prior translation. The current reading is unambiguous.",
+        mysteryBinding: {
+          mysteryId: "charter.missing_signatory",
+          episodeId: "charter.missing_signatory.e2",
+          cluesFound: ["charter.e2.witness_annotation"],
+        },
+      },
+    },
+    "charter-archivist-office": {
+      look: {
+        narration:
+          "Four corridors down from the antiquarian-library, Per. M.'s office. Door is unlocked. Desk is occupied. The lamp on the desk has burned for an unbroken twenty-two epochs — its filament is mineralised the same way the wax is.",
+        mysteryBinding: {
+          mysteryId: "charter.missing_signatory",
+          episodeId: "charter.missing_signatory.e3",
+          cluesFound: ["charter.e3.archivist_office"],
+        },
+      },
+    },
+    "charter-staff-roster": {
+      look: {
+        narration:
+          "On the antiquarian-library staff roster: Per. M. does not appear on any roster. They have a key, an office, a desk, a lamp, and a signature on every preservation order — but they are not paid, hired, or registered. Bureaucratically, they do not exist.",
+        mysteryBinding: {
+          mysteryId: "charter.missing_signatory",
+          episodeId: "charter.missing_signatory.e3",
+          cluesFound: ["charter.e3.staff_roster"],
+        },
+      },
+    },
+    "charter-player-inscribes": {
+      look: {
+        narration:
+          "On the closing-rite scroll, the empty seventh signature line is open for inscription. The player has the option to inscribe a name — any name. Inscribing closes the post and ends Per. M.'s seal. Leaving it blank keeps the post.",
+        mysteryBinding: {
+          mysteryId: "charter.missing_signatory",
+          episodeId: "charter.missing_signatory.e5",
+          cluesFound: ["charter.e5.player_inscribes"],
         },
       },
     },

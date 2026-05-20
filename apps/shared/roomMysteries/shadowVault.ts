@@ -56,6 +56,11 @@ export type ShadowVaultHotspotId =
   | "memorial-imprint-i1-dish"
   | "memorial-next-year-hook"
   | "severance-year-one-envelope"
+  | "charter-absent-artifact"
+  | "charter-draft-inventory"
+  | "charter-opening-question"
+  | "charter-preservation-letter"
+  | "charter-next-year-hook"
   | "sealed-cell-glass" | "manuscript-pile" | "warden-terminal" | "release-or-seal-lever" | "the-unopened-threshold" | "the-makers-heartbeat-trace" | "the-necromancers-altar";
 
 export type ShadowVaultInventoryId = "manuscript-folio";
@@ -208,6 +213,62 @@ export const SHADOW_VAULT_MYSTERY: RoomMysteryModule<
       use: {
         narration:
           "You request comparable Ne-Yon body-claim records. The vault returns four others — for the Sage, the Champion, the Hawk, the Architect's first failed proxy. None of the four carries an archaic seal. The 'tradition' the cult's annotation cites has no other examples in the chronicle.",
+      },
+    },
+    /* ─── charter.missing_signatory · color clues ─── */
+    "charter-absent-artifact": {
+      look: {
+        narration:
+          "In the shadow-vault's empty-drawer alcove, Per. M.'s desk drawer is sealed. The lock is the same alloy as the wax. We have no key. The Advocate writes that there is no key — the drawer was sealed from the inside.",
+        mysteryBinding: {
+          mysteryId: "charter.missing_signatory",
+          episodeId: "charter.missing_signatory.e3",
+          cluesFound: ["charter.e3.absent_artifact"],
+        },
+      },
+    },
+    "charter-draft-inventory": {
+      look: {
+        narration:
+          "In the unsealed-drawer drawer (after the opening question), forty-one drafts of the founding charter, every one carrying seven signatures, the seventh sealed by wax in every draft — even the earliest. Per. M.'s name is not among the seven. Per. M.'s habit is older than the charter.",
+        mysteryBinding: {
+          mysteryId: "charter.missing_signatory",
+          episodeId: "charter.missing_signatory.e4",
+          cluesFound: ["charter.e4.draft_inventory"],
+        },
+      },
+    },
+    "charter-opening-question": {
+      look: {
+        narration:
+          "On the inside of Per. M.'s sealed drawer, the opening question — the drawer responds to a hand-written question in Per. M.'s own hand: 'WHO DOES NOT WISH TO BE NAMED?' Beneath, the writer has added in pencil: 'I do not.'",
+        mysteryBinding: {
+          mysteryId: "charter.missing_signatory",
+          episodeId: "charter.missing_signatory.e4",
+          cluesFound: ["charter.e4.opening_question"],
+        },
+      },
+    },
+    "charter-preservation-letter": {
+      look: {
+        narration:
+          "Among the drafts, a letter addressed to Per. M., signed by one of the founding Watchers — the addressing is by the same name in the wax-thumb. 'You will not be named. You will not be forgotten. You will be the one who closes the seal.'",
+        mysteryBinding: {
+          mysteryId: "charter.missing_signatory",
+          episodeId: "charter.missing_signatory.e4",
+          cluesFound: ["charter.e4.preservation_letter"],
+        },
+      },
+    },
+    "charter-next-year-hook": {
+      look: {
+        narration:
+          "On the long-arrangement shelf, Per. M.'s last sentence is left in the recording: 'whoever names me next year will be naming a Watcher who has been the silence longer than any of us has been alive. Be ready for what they say back.'",
+        mysteryBinding: {
+          mysteryId: "charter.missing_signatory",
+          episodeId: "charter.missing_signatory.e5",
+          cluesFound: ["charter.e5.next_year_hook"],
+        },
       },
     },
     /* ─── severance.bound_champion · e2 (Year One envelope, thick) ─── */
