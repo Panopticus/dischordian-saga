@@ -35,6 +35,8 @@ export type CommsArrayHotspotId =
   | "advocate-defection-response"
   | "advocate-walk-in-power-lyric"
   | "advocate-position-current-broadcast"
+  | "akai-voice-mid-hunt"
+  | "akai-word-to-the-chronicle"
   | "akai-last-recorded-words"
   | "resur-host-wyrmhole-signature"
   | "radio-console" | "static-screen" | "egg-comms-signal" | "voice-in-the-static" | "ocularum-relay-trace" | "dead-drop-cadence-log" | "shadow-tongue-signal-trace" | "miras-dual-thread-transmission";
@@ -125,6 +127,29 @@ export const COMMS_ARRAY_MYSTERY: RoomMysteryModule<
       interrogate: {
         narration:
           "You ask the comms-array whether any of the three left and returned. The recorder shows no break in the audio's room-tone. None of the three left. The silence was held by all three for the full hour. Each faculty head later admitted, on the cipher-den's record, that they had been waiting for one of the others to be the first to refuse.",
+      },
+    },
+    /* ─── akai_shi.red_death · color clues ─── */
+    "akai-voice-mid-hunt": {
+      look: {
+        narration:
+          "On the Matrix-residue intercept board, a field-recording from the third retreat chamber, captured on the Matrix's residual ambience: 'Necromancer, you have been good at evading fate. I am the chronicle's correction. I do not hate you. I do not pity you. The Antiquarian asked me, before I came in here, what mercy this kind of kill carries. I told him I do not know yet. I will know when it is done. I will tell him then.'",
+        mysteryBinding: {
+          mysteryId: "akai_shi.red_death",
+          episodeId: "akai_shi.red_death.e4",
+          cluesFound: ["akai.e4.akais_voice_recorded"],
+        },
+      },
+    },
+    "akai-word-to-the-chronicle": {
+      look: {
+        narration:
+          "Pinned beside, the Red Death's closing line to the chronicle: 'The Necromancer asked me, in his seven seconds, what doctrine of mercy I followed. I told him: the same one Jericho followed for me. He nodded. He understood. I do not know if that nod was forgiveness or recognition or simply the body's last grammar. I do not need to know. The work is done. Tell the chronicle: it was always going to be a mercy. We just lived with which kind.'",
+        mysteryBinding: {
+          mysteryId: "akai_shi.red_death",
+          episodeId: "akai_shi.red_death.e5",
+          cluesFound: ["akai.e5.akais_word_to_the_chronicle"],
+        },
       },
     },
     /* ─── advocate.blood_weave · color clues ─── */

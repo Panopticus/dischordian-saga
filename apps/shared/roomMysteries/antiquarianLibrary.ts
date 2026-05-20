@@ -37,6 +37,11 @@ export type AntiquarianLibraryHotspotId =
   | "wolf-antiquarians-concession"
   | "wolf-hall-threshold"
   | "advocate-closing-walk-in-power-broadcast"
+  | "akai-jericho-witness-page"
+  | "akai-targets-list"
+  | "akai-kill-record"
+  | "akai-red-death-returns"
+  | "akai-case-closes"
   | "wolf-empty-chair"
   | "wolf-three-empty-chairs"
   | "akai-resurrectionist-seal"
@@ -383,6 +388,62 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           mysteryId: "wolf.anara_hunt",
           episodeId: "wolf.anara_hunt.e5",
           cluesFound: ["wolf.e5.antiquarians_concession"],
+        },
+      },
+    },
+    /* ─── akai_shi.red_death · color clues ─── */
+    "akai-jericho-witness-page": {
+      look: {
+        narration:
+          "On the Thaloria-archive shelf, Jericho Jones's witness page from the hour after the mercy: 'Akai Shi was already gone. I did the work she would have asked me to do if she could have asked.' The Degen counter-signed as witness within minutes — the same Degen who would recruit Jericho seventy-two hours later. The page is in Jericho's handwriting, with no visible re-drafting.",
+        mysteryBinding: {
+          mysteryId: "akai_shi.red_death",
+          episodeId: "akai_shi.red_death.e1",
+          cluesFound: ["akai.e1.jericho_signed_witness"],
+        },
+      },
+    },
+    "akai-targets-list": {
+      look: {
+        narration:
+          "In the case-files drawer, the Red Death's open targets list — fourteen entities the Red Death has eliminated across the centuries. Each entry carries a date, a place, and the chronicler's note. Each target was destroyed in a moment when their destruction altered the chronicle's forward path.",
+        mysteryBinding: {
+          mysteryId: "akai_shi.red_death",
+          episodeId: "akai_shi.red_death.e3",
+          cluesFound: ["akai.e3.targets_list"],
+        },
+      },
+    },
+    "akai-kill-record": {
+      look: {
+        narration:
+          "On the case-closure shelf, the Antiquarian's record entry for Day 15 of Fracture, Year 117,046 A.A.: 'The Necromancer's millennia-long evasion of fate ended within the Matrix of Dreams. The instrument was the Red Death (subject formerly Akai Shi, Potential, Battle of Thaloria casualty). The kind of mercy chosen: clean. The Necromancer was given the seven seconds Akai Shi was given by Jericho. He spent them as Akai Shi spent hers — speaking into the comm. We do not have the recording. We have the record that the recording was made and that the Red Death keeps it.'",
+        mysteryBinding: {
+          mysteryId: "akai_shi.red_death",
+          episodeId: "akai_shi.red_death.e5",
+          cluesFound: ["akai.e5.kill_record"],
+        },
+      },
+    },
+    "akai-red-death-returns": {
+      look: {
+        narration:
+          "Beside the kill record, the chronicler's note on the Red Death's return: twelve cycles after the kill, she exits the Matrix of Dreams through the same fold she entered. She is, on Antiquarian observation, unchanged. The time-displacement band is intact. The targets list is now closed. The fourteenth entry — the Necromancer's — has been filled in with the date and place.",
+        mysteryBinding: {
+          mysteryId: "akai_shi.red_death",
+          episodeId: "akai_shi.red_death.e5",
+          cluesFound: ["akai.e5.red_death_returns"],
+        },
+      },
+    },
+    "akai-case-closes": {
+      look: {
+        narration:
+          "The Antiquarian seals the case file with a closing note: 'The arc the Resurrectionist authored is complete. The instrument she made now exists outside any further mandate. She has chosen her next direction; she has not shared it. The chronicle records the case as closed and the Red Death as active. The two are not contradictions. The case being closed does not mean the case-bearer is.'",
+        mysteryBinding: {
+          mysteryId: "akai_shi.red_death",
+          episodeId: "akai_shi.red_death.e5",
+          cluesFound: ["akai.e5.case_closes"],
         },
       },
     },

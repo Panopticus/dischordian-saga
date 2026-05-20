@@ -27,6 +27,7 @@ export type WarRoomHotspotId =
   | "advocate-acquisition-attempt-log"
   | "advocate-riri-ahlia-account"
   | "advocate-empire-status-current"
+  | "akai-thaloria-battle-logs"
   | "holo-table" | "casualty-board" | "signal-flag-rack" | "ocularum-vigil-board" | "ocularum-cell-roster" | "hierarchy-org-chart-board" | "thalorian-defense-records" | "new-babylon-siege-record" | "hierarchy-piece-positioning-board" | "varkul-director-of-security-file" | "necromancer-castle-log-board" | "zyr-koth-rd-refinement-file" | "the-severance-hollowing-report" | "the-locked-lever-board" | "syl-vex-dual-roster-board" | "the-severance-cross-lock-file" | "the-taskmasters-siege-portfolio" | "riri-ahlia-reorg-doctrine-board" | "the-procedural-question-file" | "the-priced-defense-accounting" | "fenra-seventeen-front-manifest" | "the-wolf-in-the-boardroom-file" | "fenra-varkul-contrast-record";
 
 export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
@@ -187,6 +188,18 @@ export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
       interrogate: {
         narration:
           "You ask the table for the planning-signature of each correlated event. The console returns identical signatures across all seven — multi-cycle information consistency, no flux interference, no Ne-Yon-grade disturbance. Planning is permitted; planning happens; planning is followed by the most active flux period in the surrounding decade. The chronicle is consequential because the Storm allows it to be.",
+      },
+    },
+    /* ─── akai_shi.red_death · e1 (Thaloria battle logs) ─── */
+    "akai-thaloria-battle-logs": {
+      look: {
+        narration:
+          "On the war-room's Thaloria archive board, the combat logs record Akai Shi's last hours: energy-manipulation discharges that would have stabilized three faltering squads. Healing applied to seven Potentials whose injuries should have been fatal. Then, four hours into the engagement, a transition the logs notate only as 'subject consumed.' From that point her energy-manipulation begins to redirect toward her own allies. Jericho intercepted her at the seven-hour mark.",
+        mysteryBinding: {
+          mysteryId: "akai_shi.red_death",
+          episodeId: "akai_shi.red_death.e1",
+          cluesFound: ["akai.e1.battle_logs"],
+        },
       },
     },
     /* ─── advocate.blood_weave · e5 (Empire of Shadows current status) ─── */

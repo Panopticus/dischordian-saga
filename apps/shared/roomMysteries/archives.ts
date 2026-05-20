@@ -24,6 +24,7 @@ export type ArchivesHotspotId =
   | "storm-calm-intervals"
   | "storm-final-correlation-table"
   | "advocate-shelter-records"
+  | "akai-recovery-manifest"
   | "chained-failure-log"
   | "chained-dean-annotation-record"
   | "chained-thirty-one-names-read"
@@ -132,6 +133,18 @@ export const ARCHIVES_MYSTERY: RoomMysteryModule<
       interrogate: {
         narration:
           "You ask the archive whether any envelope was ever opened by another reader. The drawer logs three attempts in forty seasons; each one returned the envelope unopened. The seals are unbroken; the names remain in the bond, not in the paperwork.",
+      },
+    },
+    /* ─── akai_shi.red_death · e2 (Akai Shi body-recovery manifest) ─── */
+    "akai-recovery-manifest": {
+      look: {
+        narration:
+          "In the archives' Thaloria-recovery tier, the standard procedure called for the fallen Potentials' bodies to be transferred here for preservation. Akai Shi's manifest entry reads: 'collected by external agent — Resurrectionist Ne-Yon — within the same engagement cycle. Antiquarian's library entry deferred at the Resurrectionist's request.' The deferral has been in force ever since.",
+        mysteryBinding: {
+          mysteryId: "akai_shi.red_death",
+          episodeId: "akai_shi.red_death.e2",
+          cluesFound: ["akai.e2.recovery_manifest"],
+        },
       },
     },
     /* ─── advocate.blood_weave · e1 (shelter records) ─── */

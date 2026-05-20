@@ -43,6 +43,7 @@ export type CipherDenHotspotId =
   | "chained-full-proceedings-audio"
   | "storm-uncorrelated-residue"
   | "wolf-seal-telemetry"
+  | "akai-targets-list-order-pattern"
   | "watchers-upper-band-signature"
   | "watchers-idris-signature"
   | "watchers-six-signatures-catalogue"
@@ -199,6 +200,18 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
       interrogate: {
         narration:
           "You ask the archive when this convention was last successfully invoked. The drawer returns a single entry: the founding itself. The seventh founding Watcher invoked silence-as-vote on three minor founding-day decisions; each was read correctly. The convention's first misreading is the fourth-epoch scrub. The misreading has been the seventh's only voice since.",
+      },
+    },
+    /* ─── akai_shi.red_death · e3 (targets-list order pattern) ─── */
+    "akai-targets-list-order-pattern": {
+      look: {
+        narration:
+          "On the cipher-den's pattern-analysis bench, the Red Death's fourteen targets sorted not chronologically but by how MUCH each elimination redirected the chronicle's path. The first target redirected the chronicle by one degree. The fourteenth target — yet to be named — would redirect by ninety. The list is ascending. She is building toward something.",
+        mysteryBinding: {
+          mysteryId: "akai_shi.red_death",
+          episodeId: "akai_shi.red_death.e3",
+          cluesFound: ["akai.e3.order_pattern"],
+        },
       },
     },
     /* ─── wolf.anara_hunt · e4 (seal-telemetry at transfer) ─── */

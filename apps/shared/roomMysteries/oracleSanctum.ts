@@ -14,6 +14,7 @@ export type OracleSanctumHotspotId =
   | "chained-auro-account"
   | "chained-lyra-advocacy"
   | "chained-lyra-album-track"
+  | "akai-dreamer-quarantine"
   | "memorial-antiquarian-plaza-request"
   | "charter2-kassel-testimony"
   | "infernal-zyrkoth-concession"
@@ -23,6 +24,18 @@ export type OracleSanctumHotspotId =
 export const ORACLE_SANCTUM_MYSTERY: RoomMysteryModule<OracleSanctumHotspotId> = {
   roomId: "oracle-sanctum",
   responses: {
+    /* ─── akai_shi.red_death · e2 (Dreamer's quarantine filing) ─── */
+    "akai-dreamer-quarantine": {
+      look: {
+        narration:
+          "In the sanctum's Ne-Yon arbitration alcove, the Dreamer's quarantine filing on the Resurrectionist's actions in the wake of the Akai Shi reanimation. The quarantine is canonically OPEN — it has never been lifted. The Dreamer has, since, lodged similar quarantines on three further Resurrectionist actions, including the Wolf's. The quarantines are evidence; they are not enforcement. The Dreamer disagrees. The Resurrectionist continues.",
+        mysteryBinding: {
+          mysteryId: "akai_shi.red_death",
+          episodeId: "akai_shi.red_death.e2",
+          cluesFound: ["akai.e2.dreamer_quarantine"],
+        },
+      },
+    },
     /* ─── mechronis.chained_lesson · color clues ─── */
     "chained-apprentice-quotes": {
       look: {
