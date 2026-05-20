@@ -6,14 +6,14 @@ End-to-end audit of every cutscene registry against the actual contents of `s3:/
 
 | Registry | Declared | Wired to CDN | Missing |
 |---|---:|---:|---:|
-| `cutsceneRegistry.ts` (animated) | 10 cutscenes / 34 files | 6 cutscenes / 15 files | **4 cutscenes + 1 poster (19 files)** |
-| `cinematicsManifest.ts` CINEMATICS | 14 / 53 files | 13 / 52 files | **1 (lord_kanshi_sha)** |
+| `cutsceneRegistry.ts` (animated) | 10 cutscenes / 34 files | 6 cutscenes / 15 files | **4 cutscenes + 1 poster (18 files)** |
+| `cinematicsManifest.ts` CINEMATICS | 14 / 53 files | 14 / 53 files | 0 |
 | `cinematicsManifest.ts` VFX_CLIPS | 21 / 42 files | 21 / 42 files | 0 |
 | `chapterIntroCutscenes.ts` | 21 / 21 | 21 / 21 (after fix) | 0 |
 | `guildCutscenesManifest.ts` | 175 / 183 | 175 / 183 | 0 (Portal Chamber fallback by design) |
 | `expansionCutscenes.data.ts` | 67 / 70 | 67 / 70 | 0 |
 | `chessCutscenes.data.ts` | 25 / 25 | 25 / 25 | 0 |
-| **Total** | **333 / 428** | **314 / 409** | **19** |
+| **Total** | **333 / 428** | **315 / 410** | **18** |
 
 ## Code fixes landed on this branch
 
@@ -25,7 +25,7 @@ End-to-end audit of every cutscene registry against the actual contents of `s3:/
 
 4. **`chapterIntroCutscenes.test.ts:21-23`** — updated URL-shape assertion to allow the `_BONUS`-stripping behavior introduced in fix #1.
 
-## Outstanding producer asks (19 missing files)
+## Outstanding producer asks (18 missing files)
 
 These cutscenes are declared in the registry, have React components (`apps/client/src/components/cutscenes/*Cutscene.tsx`), are mounted via `CutsceneRouter`, but have **zero assets on the CDN**:
 
@@ -36,11 +36,10 @@ These cutscenes are declared in the registry, have React components (`apps/clien
 | `cutscene_breaking_point` | `BreakingPointCutscene.tsx` | shot1.mp4, shot2.mp4, shot3.mp4, shot4.mp4, shot5.mp4, poster.webp |
 | `cutscene_thought_virus_manifests` | `ThoughtVirusManifestCutscene.tsx` | shot1.mp4, shot2.mp4, poster.webp |
 | `cutscene_awakening` | `AwakeningCutscene.tsx` | poster.webp (3 shots already delivered) |
-| `lord_kanshi_sha_antiquarian` | (Mystery Engine arc opener) | `videos/cinematics/lord_kanshi_sha/lord-kanshi-sha.mp4` |
 
 Specs:
 - Animated cutscenes 2–5: see `docs/design/ANIMATED_CUTSCENES.md` for shot lists, `docs/production/CUTSCENE_SEEDANCE_PROMPTS.md` for Seedance v2 prompt specs.
-- Lord Kanshi Sha cinematic: producer-narrated single-take (Antiquarian historical record). Audio + portraits already on CDN under `audio/antiquarian/act1_kanshi_sha_watcher__*`; only the cinematic MP4 missing.
+- `lord_kanshi_sha_antiquarian` cinematic — delivered 2026-05-20, copied in-bucket from `Videos/Lord Kanshi Sha.mp4` to the manifest path `cdn/client-public/videos/cinematics/lord_kanshi_sha/lord-kanshi-sha.mp4` (46 MB, public, video/mp4).
 
 ## Outstanding writer ask
 
