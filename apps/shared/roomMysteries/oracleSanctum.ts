@@ -18,6 +18,10 @@ export type OracleSanctumHotspotId =
   | "watchers-player-received-line"
   | "watchers-player-line-match"
   | "watchers-player-speaker-assignment"
+  | "tarn-dean-account"
+  | "tarn-othmar-admission"
+  | "tarn-roen-admission"
+  | "tarn-veth-admission"
   | "memorial-antiquarian-plaza-request"
   | "charter2-kassel-testimony"
   | "infernal-zyrkoth-concession"
@@ -27,6 +31,51 @@ export type OracleSanctumHotspotId =
 export const ORACLE_SANCTUM_MYSTERY: RoomMysteryModule<OracleSanctumHotspotId> = {
   roomId: "oracle-sanctum",
   responses: {
+    /* ─── mechronis.missing_professor · color clues ─── */
+    "tarn-dean-account": {
+      look: {
+        narration:
+          "In the witness chamber, the Dean's last-sighting recording: the Dean saw Tarn at second bell, walking from the Dean's office toward the festival hall, carrying the binder. The Dean did not walk with her — she always insisted on the last hundred steps alone.",
+        mysteryBinding: {
+          mysteryId: "mechronis.missing_professor",
+          episodeId: "mechronis.missing_professor.e1",
+          cluesFound: ["mechronis.e1.dean_account"],
+        },
+      },
+    },
+    "tarn-othmar-admission": {
+      look: {
+        narration:
+          "Pinned to the faculty-confession board, Professor Othmar's admission, on record: 'I voted aye because Veth would have voted aye. I was wrong about Veth. I am not sorry I was wrong.'",
+        mysteryBinding: {
+          mysteryId: "mechronis.missing_professor",
+          episodeId: "mechronis.missing_professor.e3",
+          cluesFound: ["mechronis.e3.othmar_admission"],
+        },
+      },
+    },
+    "tarn-roen-admission": {
+      look: {
+        narration:
+          "Beside Othmar's, Trial-master Roen's admission: 'I voted aye because Othmar would. I have a private reason and I will not say it here.' Roen will say it in episode four.",
+        mysteryBinding: {
+          mysteryId: "mechronis.missing_professor",
+          episodeId: "mechronis.missing_professor.e3",
+          cluesFound: ["mechronis.e3.roen_admission"],
+        },
+      },
+    },
+    "tarn-veth-admission": {
+      look: {
+        narration:
+          "Beside Roen's, Lecturer Veth's admission: 'I voted aye because Roen would. I have been telling myself for a week that I voted aye because the curriculum needed it. I have not been honest with myself.'",
+        mysteryBinding: {
+          mysteryId: "mechronis.missing_professor",
+          episodeId: "mechronis.missing_professor.e3",
+          cluesFound: ["mechronis.e3.veth_admission"],
+        },
+      },
+    },
     /* ─── memorial.seven_watchers · color clues ─── */
     "watchers-player-received-line": {
       look: {

@@ -47,6 +47,10 @@ export type AntiquarianLibraryHotspotId =
   | "watchers-communique-appendix"
   | "watchers-seventh-appendix"
   | "watchers-six-lines-inscribed"
+  | "tarn-lore-proposal"
+  | "tarn-binder-recovered"
+  | "tarn-curriculum-on-desk"
+  | "tarn-pebble"
   | "wolf-empty-chair"
   | "wolf-three-empty-chairs"
   | "akai-resurrectionist-seal"
@@ -393,6 +397,51 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           mysteryId: "wolf.anara_hunt",
           episodeId: "wolf.anara_hunt.e5",
           cluesFound: ["wolf.e5.antiquarians_concession"],
+        },
+      },
+    },
+    /* ─── mechronis.missing_professor · color clues ─── */
+    "tarn-lore-proposal": {
+      look: {
+        narration:
+          "On the Lore-faculty submissions shelf, Lecturer Veth's Lore Faculty Proposal — six modules, archive-heavy, citing Tarn's seminar series on the Antiquarian's marginalia. Signed by Veth. Proposes lengthening the term by three weeks. The citation is on Tarn's notes; the proposal is not on her authorship.",
+        mysteryBinding: {
+          mysteryId: "mechronis.missing_professor",
+          episodeId: "mechronis.missing_professor.e2",
+          cluesFound: ["mechronis.e2.lore_proposal"],
+        },
+      },
+    },
+    "tarn-binder-recovered": {
+      look: {
+        narration:
+          "On Tarn's office desk, weighted by a pebble from the lower decks: the binder, recovered. Twenty-two pages. Page one is the resignation. Pages two through twenty-one are the curriculum. Page twenty-two is a note: 'vote on the curriculum, not on me.'",
+        mysteryBinding: {
+          mysteryId: "mechronis.missing_professor",
+          episodeId: "mechronis.missing_professor.e4",
+          cluesFound: ["mechronis.e4.binder_recovered"],
+        },
+      },
+    },
+    "tarn-curriculum-on-desk": {
+      look: {
+        narration:
+          "Beside the binder, the curriculum-on-desk: twenty pages, copied for the Council. Tarn's authorship line is left blank by Roen, who copied it. The blank is not a mistake; it is the choice the player will resolve.",
+        mysteryBinding: {
+          mysteryId: "mechronis.missing_professor",
+          episodeId: "mechronis.missing_professor.e5",
+          cluesFound: ["mechronis.e5.curriculum_on_desk"],
+        },
+      },
+    },
+    "tarn-pebble": {
+      look: {
+        narration:
+          "On Tarn's desk under the binder, a grey, water-smoothed lower-deck stone — Tarn's pebble. The pebble is heavier than it looks. The Dean has been weighing it in their palm during the vote-prep. The stone is the sentence Tarn left in lieu of a goodbye.",
+        mysteryBinding: {
+          mysteryId: "mechronis.missing_professor",
+          episodeId: "mechronis.missing_professor.e5",
+          cluesFound: ["mechronis.e5.tarn_pebble"],
         },
       },
     },

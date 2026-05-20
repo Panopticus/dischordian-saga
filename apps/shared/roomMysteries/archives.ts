@@ -26,6 +26,10 @@ export type ArchivesHotspotId =
   | "advocate-shelter-records"
   | "akai-recovery-manifest"
   | "resur-twin-glyph"
+  | "tarn-absent-notes"
+  | "tarn-erasure-protocol"
+  | "tarn-missing-invitation"
+  | "tarn-letter-to-dean"
   | "chained-failure-log"
   | "chained-dean-annotation-record"
   | "chained-thirty-one-names-read"
@@ -134,6 +138,51 @@ export const ARCHIVES_MYSTERY: RoomMysteryModule<
       interrogate: {
         narration:
           "You ask the archive whether any envelope was ever opened by another reader. The drawer logs three attempts in forty seasons; each one returned the envelope unopened. The seals are unbroken; the names remain in the bond, not in the paperwork.",
+      },
+    },
+    /* ─── mechronis.missing_professor · color clues ─── */
+    "tarn-absent-notes": {
+      look: {
+        narration:
+          "In the lost-and-found drawer's first slot, Tarn's lecture binder is missing from the lectern's drawer. The drawer has not been forced. The binder has not been seen since the Dean's office at the previous bell. The archive's note: 'binder removed at second bell; not recovered at the lectern.'",
+        mysteryBinding: {
+          mysteryId: "mechronis.missing_professor",
+          episodeId: "mechronis.missing_professor.e1",
+          cluesFound: ["mechronis.e1.absent_notes"],
+        },
+      },
+    },
+    "tarn-erasure-protocol": {
+      look: {
+        narration:
+          "In the meeting-minutes annex, the erasure protocol: a short procedural document attached to the minutes — 'Step one: omit the professor's name from the curriculum. Step two: invite the professor to give the address as a contributor, not a faculty member. Step three: if the professor declines, proceed without them.' Tarn was never invited to step two.",
+        mysteryBinding: {
+          mysteryId: "mechronis.missing_professor",
+          episodeId: "mechronis.missing_professor.e3",
+          cluesFound: ["mechronis.e3.erasure_protocol"],
+        },
+      },
+    },
+    "tarn-missing-invitation": {
+      look: {
+        narration:
+          "Beside the protocol, the Dean's office records show an unsent invitation to Tarn — drafted, never delivered. The Dean's signature is absent. The invitation has been sitting in the outbox for six days.",
+        mysteryBinding: {
+          mysteryId: "mechronis.missing_professor",
+          episodeId: "mechronis.missing_professor.e3",
+          cluesFound: ["mechronis.e3.tarn_invitation"],
+        },
+      },
+    },
+    "tarn-letter-to-dean": {
+      look: {
+        narration:
+          "On the classified-correspondence shelf, the sealed letter to the Dean: Tarn's seal. The letter explains the request to Roen, the planned silence, and the choice the Dean now has to make. Found on Tarn's desk beside the binder.",
+        mysteryBinding: {
+          mysteryId: "mechronis.missing_professor",
+          episodeId: "mechronis.missing_professor.e4",
+          cluesFound: ["mechronis.e4.tarn_letter_to_dean"],
+        },
       },
     },
     /* ─── resurrectionist.cycle_walker · e1 (twin glyph beside the name) ─── */

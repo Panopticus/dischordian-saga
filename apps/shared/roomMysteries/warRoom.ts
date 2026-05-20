@@ -30,6 +30,11 @@ export type WarRoomHotspotId =
   | "akai-thaloria-battle-logs"
   | "watchers-witness-one-response"
   | "watchers-player-first-question"
+  | "tarn-faculty-meeting-minutes"
+  | "tarn-trial-proposal"
+  | "tarn-dean-choice-brief"
+  | "tarn-faculty-apologies"
+  | "tarn-player-authorship-choice"
   | "holo-table" | "casualty-board" | "signal-flag-rack" | "ocularum-vigil-board" | "ocularum-cell-roster" | "hierarchy-org-chart-board" | "thalorian-defense-records" | "new-babylon-siege-record" | "hierarchy-piece-positioning-board" | "varkul-director-of-security-file" | "necromancer-castle-log-board" | "zyr-koth-rd-refinement-file" | "the-severance-hollowing-report" | "the-locked-lever-board" | "syl-vex-dual-roster-board" | "the-severance-cross-lock-file" | "the-taskmasters-siege-portfolio" | "riri-ahlia-reorg-doctrine-board" | "the-procedural-question-file" | "the-priced-defense-accounting" | "fenra-seventeen-front-manifest" | "the-wolf-in-the-boardroom-file" | "fenra-varkul-contrast-record";
 
 export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
@@ -190,6 +195,62 @@ export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
       interrogate: {
         narration:
           "You ask the table for the planning-signature of each correlated event. The console returns identical signatures across all seven — multi-cycle information consistency, no flux interference, no Ne-Yon-grade disturbance. Planning is permitted; planning happens; planning is followed by the most active flux period in the surrounding decade. The chronicle is consequential because the Storm allows it to be.",
+      },
+    },
+    /* ─── mechronis.missing_professor · color clues ─── */
+    "tarn-faculty-meeting-minutes": {
+      look: {
+        narration:
+          "On the war-room's curriculum-affairs board, the week-before-term faculty meeting minutes show all three faculty heads in violent disagreement, then a quiet hour, then unanimous agreement on one thing: 'Tarn must speak.' Tarn was not at the meeting.",
+        mysteryBinding: {
+          mysteryId: "mechronis.missing_professor",
+          episodeId: "mechronis.missing_professor.e2",
+          cluesFound: ["mechronis.e2.faculty_meeting_minutes"],
+        },
+      },
+    },
+    "tarn-trial-proposal": {
+      look: {
+        narration:
+          "Beside the meeting minutes, Trial-master Roen's Trial Faculty Proposal: five modules, ritual-heavy, citing Tarn's authority-trial framework. Signed by Roen. Proposes the addition of a celebration-trial co-requisite.",
+        mysteryBinding: {
+          mysteryId: "mechronis.missing_professor",
+          episodeId: "mechronis.missing_professor.e2",
+          cluesFound: ["mechronis.e2.trial_proposal"],
+        },
+      },
+    },
+    "tarn-dean-choice-brief": {
+      look: {
+        narration:
+          "On the Council-brief board, the Dean's draft for the Council: ratify the curriculum and let Tarn go; or summon Tarn back and tell the Academy the truth about the vote. The brief is unsigned.",
+        mysteryBinding: {
+          mysteryId: "mechronis.missing_professor",
+          episodeId: "mechronis.missing_professor.e4",
+          cluesFound: ["mechronis.e4.dean_choice_brief"],
+        },
+      },
+    },
+    "tarn-faculty-apologies": {
+      look: {
+        narration:
+          "On the rite-record board, the three faculty apologies: Othmar, Veth, and the Dean have each written a public apology. Roen has not — Roen kept Tarn's confidence and was the only one not in the wrong. The apologies are read at the Council session.",
+        mysteryBinding: {
+          mysteryId: "mechronis.missing_professor",
+          episodeId: "mechronis.missing_professor.e5",
+          cluesFound: ["mechronis.e5.faculty_apologies"],
+        },
+      },
+    },
+    "tarn-player-authorship-choice": {
+      look: {
+        narration:
+          "On the closing-rite ballot display, the Council secretary asks the player which of two motions to put forward: 'curriculum by Professor Tarn,' or 'curriculum, anonymous.' Both motions ratify the same modules. The choice is the player's.",
+        mysteryBinding: {
+          mysteryId: "mechronis.missing_professor",
+          episodeId: "mechronis.missing_professor.e5",
+          cluesFound: ["mechronis.e5.player_authorship_choice"],
+        },
       },
     },
     /* ─── memorial.seven_watchers · color clues ─── */

@@ -32,12 +32,37 @@ export type BridgeHotspotId =
   | "watchers-architect-record"
   | "watchers-architect-role-naming"
   | "watchers-architect-closing-thanks"
+  | "tarn-destination-acknowledged"
+  | "tarn-architect-vote-note"
   | "memorial-architect-sealed-note"
   | "tactical-display" | "timeline-projector" | "captains-chair" | "nav-console" | "diplomacy-table" | "captains-coffee" | "shadow-tongue-annotations";
 
 export const BRIDGE_MYSTERY: RoomMysteryModule<BridgeHotspotId> = {
   roomId: "bridge",
   responses: {
+    /* ─── mechronis.missing_professor · color clues ─── */
+    "tarn-destination-acknowledged": {
+      look: {
+        narration:
+          "On the Architect-channel terminal, the Console's record on Tarn: 'noted. she may return at her own discretion.' Tarn has left the Ark. She will not say where. Roen knows but will not say. The Architect's Console acknowledges her departure with one line.",
+        mysteryBinding: {
+          mysteryId: "mechronis.missing_professor",
+          episodeId: "mechronis.missing_professor.e4",
+          cluesFound: ["mechronis.e4.tarn_destination"],
+        },
+      },
+    },
+    "tarn-architect-vote-note": {
+      look: {
+        narration:
+          "Pinned to the Architect-channel for the closing rite, the Console's marginal note read into the record: 'either choice closes the case. one keeps her name; one keeps her promise. the architect will not pick.' The Console has not picked between options before. It does not pick now.",
+        mysteryBinding: {
+          mysteryId: "mechronis.missing_professor",
+          episodeId: "mechronis.missing_professor.e5",
+          cluesFound: ["mechronis.e5.architect_note"],
+        },
+      },
+    },
     /* ─── memorial.seven_watchers · color clues ─── */
     "watchers-architect-record": {
       look: {

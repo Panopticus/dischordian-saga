@@ -46,6 +46,7 @@ export type CipherDenHotspotId =
   | "akai-targets-list-order-pattern"
   | "resur-seven-pointed-star"
   | "watchers-verel-signature"
+  | "tarn-logic-proposal"
   | "watchers-upper-band-signature"
   | "watchers-idris-signature"
   | "watchers-six-signatures-catalogue"
@@ -202,6 +203,18 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
       interrogate: {
         narration:
           "You ask the archive when this convention was last successfully invoked. The drawer returns a single entry: the founding itself. The seventh founding Watcher invoked silence-as-vote on three minor founding-day decisions; each was read correctly. The convention's first misreading is the fourth-epoch scrub. The misreading has been the seventh's only voice since.",
+      },
+    },
+    /* ─── mechronis.missing_professor · e2 (Logic faculty proposal) ─── */
+    "tarn-logic-proposal": {
+      look: {
+        narration:
+          "On the cipher-den's faculty-submissions bench, Professor Othmar's Logic Faculty Proposal: eight modules, chess-heavy, citing Tarn's notes from her residency in the cipher-den. Signed by Othmar. Proposes the elimination of two trial-faculty modules.",
+        mysteryBinding: {
+          mysteryId: "mechronis.missing_professor",
+          episodeId: "mechronis.missing_professor.e2",
+          cluesFound: ["mechronis.e2.logic_proposal"],
+        },
       },
     },
     /* ─── memorial.seven_watchers · e2 (Verel's band-five signature) ─── */
