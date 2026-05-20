@@ -40,6 +40,11 @@ export type WarRoomHotspotId =
   | "severance-klessa-role"
   | "severance-written-protocol"
   | "charter-council-briefing"
+  | "charter2-delegation"
+  | "charter2-kassel-speaks"
+  | "charter2-kassel-response"
+  | "charter2-council-ratifies-three"
+  | "charter2-three-options"
   | "holo-table" | "casualty-board" | "signal-flag-rack" | "ocularum-vigil-board" | "ocularum-cell-roster" | "hierarchy-org-chart-board" | "thalorian-defense-records" | "new-babylon-siege-record" | "hierarchy-piece-positioning-board" | "varkul-director-of-security-file" | "necromancer-castle-log-board" | "zyr-koth-rd-refinement-file" | "the-severance-hollowing-report" | "the-locked-lever-board" | "syl-vex-dual-roster-board" | "the-severance-cross-lock-file" | "the-taskmasters-siege-portfolio" | "riri-ahlia-reorg-doctrine-board" | "the-procedural-question-file" | "the-priced-defense-accounting" | "fenra-seventeen-front-manifest" | "the-wolf-in-the-boardroom-file" | "fenra-varkul-contrast-record";
 
 export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
@@ -200,6 +205,62 @@ export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
       interrogate: {
         narration:
           "You ask the table for the planning-signature of each correlated event. The console returns identical signatures across all seven — multi-cycle information consistency, no flux interference, no Ne-Yon-grade disturbance. Planning is permitted; planning happens; planning is followed by the most active flux period in the surrounding decade. The chronicle is consequential because the Storm allows it to be.",
+      },
+    },
+    /* ─── charter.second_signatory · color clues ─── */
+    "charter2-delegation": {
+      look: {
+        narration:
+          "On the war-room's Council-chamber door log, the delegation: four people in working clothes. Two old, two young. They ask, politely, to speak to whoever read aloud the charter last year. They will not give names until they have read theirs into the record.",
+        mysteryBinding: {
+          mysteryId: "charter.second_signatory",
+          episodeId: "charter.second_signatory.e1",
+          cluesFound: ["charter2.e1.delegation"],
+        },
+      },
+    },
+    "charter2-kassel-speaks": {
+      look: {
+        narration:
+          "On the Council-floor recording, Kassel in the Council chamber: 'four houses signed the charter. four houses were scrubbed. four houses are here. we are not asking for our names back. we are asking the charter to admit it had eight names from the start. there is a difference, and the charter knows the difference.'",
+        mysteryBinding: {
+          mysteryId: "charter.second_signatory",
+          episodeId: "charter.second_signatory.e3",
+          cluesFound: ["charter2.e3.kassel_speaks"],
+        },
+      },
+    },
+    "charter2-kassel-response": {
+      look: {
+        narration:
+          "Pinned beside, Kassel's recorded response to the silence-as-vote convention: 'so the seventh has been with us this whole time. then the schism is not asking for a new column. the schism is asking for the seventh's silence to be heard correctly, four epochs late.'",
+        mysteryBinding: {
+          mysteryId: "charter.second_signatory",
+          episodeId: "charter.second_signatory.e4",
+          cluesFound: ["charter2.e4.kassel_response"],
+        },
+      },
+    },
+    "charter2-council-ratifies-three": {
+      look: {
+        narration:
+          "On the Council-vote display, Option Three is ratified: by eleven votes to four, with two abstentions. The eleven include the descendants of all six founders who signed the original scrub. Two of the four nay-voters apologise from the floor. The two abstentions are unrecorded by request.",
+        mysteryBinding: {
+          mysteryId: "charter.second_signatory",
+          episodeId: "charter.second_signatory.e5",
+          cluesFound: ["charter2.e5.council_ratifies_three"],
+        },
+      },
+    },
+    "charter2-three-options": {
+      look: {
+        narration:
+          "Beside the ratification, the three Council options drafted by the player and the Antiquarian: (1) Ratify the schism — restore the second-signatory line. (2) Close the schism — the original charter holds. (3) Ratify the artisan-house signatures backward to the founding, AND keep the original charter intact.",
+        mysteryBinding: {
+          mysteryId: "charter.second_signatory",
+          episodeId: "charter.second_signatory.e5",
+          cluesFound: ["charter2.e5.three_options"],
+        },
       },
     },
     /* ─── charter.missing_signatory · e5 (Council briefing pack) ─── */

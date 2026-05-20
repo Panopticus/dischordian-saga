@@ -19,11 +19,24 @@ import type { RoomMysteryModule } from "./_template";
 export type CargoHoldHotspotId =
   | "rubber-chicken"
   | "the-cursed-forest-depot"
-  | "resur-ark-passenger-manifest";
+  | "resur-ark-passenger-manifest"
+  | "charter2-house-marek";
 
 export const CARGO_HOLD_MYSTERY: RoomMysteryModule<CargoHoldHotspotId> = {
   roomId: "cargo-hold",
   responses: {
+    /* ─── charter.second_signatory · e3 (House Marek — toolmakers) ─── */
+    "charter2-house-marek": {
+      look: {
+        narration:
+          "In the cargo-hold's House-Marek workshops sub-corridor, House Marek's toolmakers: three families, one tool-room, four epochs of continuous output. The Marek ledger has the same scrubber's hand on their charter-signature erasure.",
+        mysteryBinding: {
+          mysteryId: "charter.second_signatory",
+          episodeId: "charter.second_signatory.e3",
+          cluesFound: ["charter2.e3.house_marek"],
+        },
+      },
+    },
     /* ─── resurrectionist.cycle_walker · e2 (Inception Ark passenger manifest) ─── */
     "resur-ark-passenger-manifest": {
       look: {

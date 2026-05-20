@@ -67,6 +67,10 @@ export type AntiquarianLibraryHotspotId =
   | "charter-archivist-office"
   | "charter-staff-roster"
   | "charter-player-inscribes"
+  | "charter2-solven-kept-record"
+  | "charter2-per-m-meeting"
+  | "charter2-per-m-clarification"
+  | "charter2-charter-addendum"
   | "wolf-empty-chair"
   | "wolf-three-empty-chairs"
   | "akai-resurrectionist-seal"
@@ -413,6 +417,51 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           mysteryId: "wolf.anara_hunt",
           episodeId: "wolf.anara_hunt.e5",
           cluesFound: ["wolf.e5.antiquarians_concession"],
+        },
+      },
+    },
+    /* ─── charter.second_signatory · color clues ─── */
+    "charter2-solven-kept-record": {
+      look: {
+        narration:
+          "On the reading-dome's delegation table, the Solven household ledger — Solven family records of the workshop's output, customers, and apprentices, kept in continuous handwriting from the founding to today. The ledger names the customers the Architect has on no roster.",
+        mysteryBinding: {
+          mysteryId: "charter.second_signatory",
+          episodeId: "charter.second_signatory.e2",
+          cluesFound: ["charter2.e2.solven_kept_record"],
+        },
+      },
+    },
+    "charter2-per-m-meeting": {
+      look: {
+        narration:
+          "In Per. M.'s office annex, the closer's meeting room. Per. M. is older than they were last year. The lamp still burns. The drawer is still locked. Per. M. listens for thirty-three minutes before speaking.",
+        mysteryBinding: {
+          mysteryId: "charter.second_signatory",
+          episodeId: "charter.second_signatory.e4",
+          cluesFound: ["charter2.e4.per_m_meeting"],
+        },
+      },
+    },
+    "charter2-per-m-clarification": {
+      look: {
+        narration:
+          "Beside the meeting record, Per. M.'s clarification: 'The seventh will not say the name. The seventh did not sign the scrub. The seventh has been holding the silence as a kind of vote. The Council has been counting the silence wrong.'",
+        mysteryBinding: {
+          mysteryId: "charter.second_signatory",
+          episodeId: "charter.second_signatory.e4",
+          cluesFound: ["charter2.e4.per_m_clarification"],
+        },
+      },
+    },
+    "charter2-charter-addendum": {
+      look: {
+        narration:
+          "On the closing-rite charter shelf, a folio sewn to both the original charter and the mirror, signed today by the four house representatives, by the Antiquarian, and by Per. M. as proxy for the seventh. The folio reads: 'we eight signed; we six scrubbed; we four kept; we eight again.'",
+        mysteryBinding: {
+          mysteryId: "charter.second_signatory",
+          episodeId: "charter.second_signatory.e5",
+          cluesFound: ["charter2.e5.charter_addendum"],
         },
       },
     },

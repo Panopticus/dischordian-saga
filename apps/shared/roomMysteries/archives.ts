@@ -32,6 +32,8 @@ export type ArchivesHotspotId =
   | "tarn-letter-to-dean"
   | "memorial-imprint-log"
   | "memorial-three-elders"
+  | "charter2-solven-tax-records"
+  | "charter2-scrubber-personnel"
   | "chained-failure-log"
   | "chained-dean-annotation-record"
   | "chained-thirty-one-names-read"
@@ -140,6 +142,29 @@ export const ARCHIVES_MYSTERY: RoomMysteryModule<
       interrogate: {
         narration:
           "You ask the archive whether any envelope was ever opened by another reader. The drawer logs three attempts in forty seasons; each one returned the envelope unopened. The seals are unbroken; the names remain in the bond, not in the paperwork.",
+      },
+    },
+    /* ─── charter.second_signatory · color clues ─── */
+    "charter2-solven-tax-records": {
+      look: {
+        narration:
+          "In the tax-registry tier, House Solven's tax records: three epochs of careful payments. Epoch four shows a single redaction — every Solven entry struck through and replaced with the words 'in arrears, year unknown.' The redaction is in the same hand as the seventh-signature wax we lost last year.",
+        mysteryBinding: {
+          mysteryId: "charter.second_signatory",
+          episodeId: "charter.second_signatory.e2",
+          cluesFound: ["charter2.e2.solven_tax_records"],
+        },
+      },
+    },
+    "charter2-scrubber-personnel": {
+      look: {
+        narration:
+          "In the personnel-archive tier, the scrubber's file: a Council archivist named Heron — fourth-epoch, retired in the fifth, dead in the sixth, no descendants. Their personnel file shows one assignment: 'tidy the founding records.' They tidied them for nine years.",
+        mysteryBinding: {
+          mysteryId: "charter.second_signatory",
+          episodeId: "charter.second_signatory.e3",
+          cluesFound: ["charter2.e3.scrubber_personnel"],
+        },
       },
     },
     /* ─── memorial.forgotten_names · color clues ─── */

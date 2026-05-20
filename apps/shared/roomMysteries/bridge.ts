@@ -39,12 +39,37 @@ export type BridgeHotspotId =
   | "severance-architect-acknowledge"
   | "severance-council-ratification"
   | "charter-architect-response"
+  | "charter2-architect-record-correction"
+  | "charter2-architect-acknowledgment"
   | "memorial-architect-sealed-note"
   | "tactical-display" | "timeline-projector" | "captains-chair" | "nav-console" | "diplomacy-table" | "captains-coffee" | "shadow-tongue-annotations";
 
 export const BRIDGE_MYSTERY: RoomMysteryModule<BridgeHotspotId> = {
   roomId: "bridge",
   responses: {
+    /* ─── charter.second_signatory · color clues ─── */
+    "charter2-architect-record-correction": {
+      look: {
+        narration:
+          "On the Architect-channel terminal, the Console issues a correction to the eighth-epoch record: 'the seventh founding watcher did not consent to the fourth-epoch scrub. the record is corrected. the watcher remains silent.' The correction is the second time the Console has corrected itself in eight epochs.",
+        mysteryBinding: {
+          mysteryId: "charter.second_signatory",
+          episodeId: "charter.second_signatory.e4",
+          cluesFound: ["charter2.e4.architect_record_correction"],
+        },
+      },
+    },
+    "charter2-architect-acknowledgment": {
+      look: {
+        narration:
+          "On the closing-rite Architect-channel, the Console issues: 'the founding now has eight signatures legible. the silence remains. the architect notes the correction with thanks.' Three uses of 'thanks' in eight epochs; this is the third.",
+        mysteryBinding: {
+          mysteryId: "charter.second_signatory",
+          episodeId: "charter.second_signatory.e5",
+          cluesFound: ["charter2.e5.architect_acknowledgment"],
+        },
+      },
+    },
     /* ─── charter.missing_signatory · e5 (Architect's response) ─── */
     "charter-architect-response": {
       look: {

@@ -51,6 +51,8 @@ export type CipherDenHotspotId =
   | "severance-candle-smoke-residue"
   | "severance-broker-first-name"
   | "charter-archivist-pulse"
+  | "charter2-eighth-sigil"
+  | "charter2-scrub-pattern"
   | "watchers-upper-band-signature"
   | "watchers-idris-signature"
   | "watchers-six-signatures-catalogue"
@@ -207,6 +209,29 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
       interrogate: {
         narration:
           "You ask the archive when this convention was last successfully invoked. The drawer returns a single entry: the founding itself. The seventh founding Watcher invoked silence-as-vote on three minor founding-day decisions; each was read correctly. The convention's first misreading is the fourth-epoch scrub. The misreading has been the seventh's only voice since.",
+      },
+    },
+    /* ─── charter.second_signatory · color clues ─── */
+    "charter2-eighth-sigil": {
+      look: {
+        narration:
+          "On the cipher-den's sigil-reference bench, the eighth sigil isolated from the mirror charter: a House sigil — a hand opening, two fingers down. The Antiquarian recognises it but cannot place it. The cipher-den's records show the sigil last appeared in lower-deck tax ledgers four epochs ago.",
+        mysteryBinding: {
+          mysteryId: "charter.second_signatory",
+          episodeId: "charter.second_signatory.e1",
+          cluesFound: ["charter2.e1.eighth_sigil"],
+        },
+      },
+    },
+    "charter2-scrub-pattern": {
+      look: {
+        narration:
+          "On the cipher-den's handwriting-cross-reference bench, the scrub-pattern analysis: the redaction's handwriting matches three other epoch-four scrubs across unrelated archives — all of them removing references to lower-deck artisan houses. The scrubber was systematic. The scrubber was one person.",
+        mysteryBinding: {
+          mysteryId: "charter.second_signatory",
+          episodeId: "charter.second_signatory.e2",
+          cluesFound: ["charter2.e2.scrub_pattern"],
+        },
       },
     },
     /* ─── charter.missing_signatory · e3 (Per. M.'s pulse in the down-stroke) ─── */

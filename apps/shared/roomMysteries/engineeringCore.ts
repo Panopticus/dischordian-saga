@@ -15,11 +15,24 @@ export type EngineeringCoreHotspotId =
   | "resur-protocol-activation-timestamp"
   | "resur-matrix-escape-signature"
   | "charter-signatory-engineer-zero"
+  | "charter2-house-vyn"
   | "reactor-coil" | "coolant-pipe" | "core-terminal";
 
 export const ENGINEERING_CORE_MYSTERY: RoomMysteryModule<EngineeringCoreHotspotId> = {
   roomId: "engineering-core",
   responses: {
+    /* ─── charter.second_signatory · e3 (House Vyn — gardeners) ─── */
+    "charter2-house-vyn": {
+      look: {
+        narration:
+          "On engineering-core's lower-deck-hydroponics console, House Vyn's gardens: kept by descendants for four epochs. The Vyn ledger names the same scrubber's hand on their tax-record erasure.",
+        mysteryBinding: {
+          mysteryId: "charter.second_signatory",
+          episodeId: "charter.second_signatory.e3",
+          cluesFound: ["charter2.e3.house_vyn"],
+        },
+      },
+    },
     /* ─── charter.missing_signatory · e2 (Engineer Zero's signature) ─── */
     "charter-signatory-engineer-zero": {
       look: {

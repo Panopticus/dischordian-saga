@@ -11,6 +11,8 @@ export type ForgeWorkshopHotspotId =
   | "chained-auro-tally"
   | "chained-auro-side-room"
   | "chained-tarn-letter-to-the-case"
+  | "charter2-solven-workshop"
+  | "charter2-house-othisen"
   | "advocate-weave-specification"
   | "anvil" | "schema-rack" | "kiln";
 
@@ -47,6 +49,29 @@ export const FORGE_WORKSHOP_MYSTERY: RoomMysteryModule<ForgeWorkshopHotspotId> =
       use: {
         narration:
           "You ask the bench whether the Weave can be replicated by a different weaver. The reader returns the spec's footnote: 'the Weave is keyed to its weaver's substrate. another weaver would weave a different fabric.' The Advocate's Weave is uniquely hers; no successor can wear her chains forward.",
+      },
+    },
+    /* ─── charter.second_signatory · color clues ─── */
+    "charter2-solven-workshop": {
+      look: {
+        narration:
+          "In the lower-decks sector-eight third-corridor sub-room, the Solven workshop: empty but maintained. A note on the door: 'open by appointment.' The appointment book is full, every entry signed by the same archivist who keeps the tax registry.",
+        mysteryBinding: {
+          mysteryId: "charter.second_signatory",
+          episodeId: "charter.second_signatory.e2",
+          cluesFound: ["charter2.e2.solven_workshop"],
+        },
+      },
+    },
+    "charter2-house-othisen": {
+      look: {
+        narration:
+          "Down the forge-workshop sub-corridor, House Othisen — small-engine assemblers. The Othisens have been assembling components for the Trade Empire's circuit racers for three epochs without recognition. Their charter clause was the longest of the four. Their erasure was the cleanest.",
+        mysteryBinding: {
+          mysteryId: "charter.second_signatory",
+          episodeId: "charter.second_signatory.e3",
+          cluesFound: ["charter2.e3.house_othisen"],
+        },
       },
     },
     /* ─── mechronis.chained_lesson · color clues ─── */

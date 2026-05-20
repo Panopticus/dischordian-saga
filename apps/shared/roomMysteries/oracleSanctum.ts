@@ -32,6 +32,7 @@ export type OracleSanctumHotspotId =
   | "charter-first-reading"
   | "charter-confrontation-record"
   | "charter-final-conversation"
+  | "charter2-kassel-at-council"
   | "memorial-antiquarian-plaza-request"
   | "charter2-kassel-testimony"
   | "infernal-zyrkoth-concession"
@@ -41,6 +42,18 @@ export type OracleSanctumHotspotId =
 export const ORACLE_SANCTUM_MYSTERY: RoomMysteryModule<OracleSanctumHotspotId> = {
   roomId: "oracle-sanctum",
   responses: {
+    /* ─── charter.second_signatory · e5 (Kassel's Council speech) ─── */
+    "charter2-kassel-at-council": {
+      look: {
+        narration:
+          "In the sanctum's Council-chamber recording, Kassel's eight-minute speech for the four houses. She names Heron. She names the six founders who signed the request. She names the seventh's silence as the no-vote it always was. She does not name the seventh.",
+        mysteryBinding: {
+          mysteryId: "charter.second_signatory",
+          episodeId: "charter.second_signatory.e5",
+          cluesFound: ["charter2.e5.kassel_at_council"],
+        },
+      },
+    },
     /* ─── charter.missing_signatory · color clues ─── */
     "charter-first-reading": {
       look: {
