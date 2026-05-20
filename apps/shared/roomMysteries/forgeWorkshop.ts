@@ -13,6 +13,7 @@ export type ForgeWorkshopHotspotId =
   | "chained-tarn-letter-to-the-case"
   | "charter2-solven-workshop"
   | "charter2-house-othisen"
+  | "infernal-blank-pages-archive"
   | "advocate-weave-specification"
   | "anvil" | "schema-rack" | "kiln";
 
@@ -49,6 +50,18 @@ export const FORGE_WORKSHOP_MYSTERY: RoomMysteryModule<ForgeWorkshopHotspotId> =
       use: {
         narration:
           "You ask the bench whether the Weave can be replicated by a different weaver. The reader returns the spec's footnote: 'the Weave is keyed to its weaver's substrate. another weaver would weave a different fabric.' The Advocate's Weave is uniquely hers; no successor can wear her chains forward.",
+      },
+    },
+    /* ─── severance.infernal_clause · e3 (blank-backed pages archive) ─── */
+    "infernal-blank-pages-archive": {
+      look: {
+        narration:
+          "Down the forge-workshop sub-corridor, a box labelled 'PRELIMINARIES': forty unsigned blank-backed contract pages. The clauses were written on the blank-backed pages first, then the contract fronts were filled in season by season. The fronts and backs are different paper-stock.",
+        mysteryBinding: {
+          mysteryId: "severance.infernal_clause",
+          episodeId: "severance.infernal_clause.e3",
+          cluesFound: ["infernal.e3.blank_pages_archive"],
+        },
       },
     },
     /* ─── charter.second_signatory · color clues ─── */

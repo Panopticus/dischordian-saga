@@ -41,12 +41,25 @@ export type BridgeHotspotId =
   | "charter-architect-response"
   | "charter2-architect-record-correction"
   | "charter2-architect-acknowledgment"
+  | "infernal-architect-acknowledges"
   | "memorial-architect-sealed-note"
   | "tactical-display" | "timeline-projector" | "captains-chair" | "nav-console" | "diplomacy-table" | "captains-coffee" | "shadow-tongue-annotations";
 
 export const BRIDGE_MYSTERY: RoomMysteryModule<BridgeHotspotId> = {
   roomId: "bridge",
   responses: {
+    /* ─── severance.infernal_clause · e4 (Architect's acknowledgment of the trap) ─── */
+    "infernal-architect-acknowledges": {
+      look: {
+        narration:
+          "On the Architect-channel terminal, the Console issues: 'noted. the clauses are void. the trap was an honest one. the architect thanks the writer.' Fourth use of 'thanks' in eight epochs.",
+        mysteryBinding: {
+          mysteryId: "severance.infernal_clause",
+          episodeId: "severance.infernal_clause.e4",
+          cluesFound: ["infernal.e4.architect_acknowledges"],
+        },
+      },
+    },
     /* ─── charter.second_signatory · color clues ─── */
     "charter2-architect-record-correction": {
       look: {

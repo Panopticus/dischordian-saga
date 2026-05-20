@@ -71,6 +71,11 @@ export type AntiquarianLibraryHotspotId =
   | "charter2-per-m-meeting"
   | "charter2-per-m-clarification"
   | "charter2-charter-addendum"
+  | "infernal-first-clause-date"
+  | "infernal-solene-recollection"
+  | "infernal-atalin-status"
+  | "infernal-atalin-account"
+  | "infernal-atalin-at-rite"
   | "wolf-empty-chair"
   | "wolf-three-empty-chairs"
   | "akai-resurrectionist-seal"
@@ -417,6 +422,62 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           mysteryId: "wolf.anara_hunt",
           episodeId: "wolf.anara_hunt.e5",
           cluesFound: ["wolf.e5.antiquarians_concession"],
+        },
+      },
+    },
+    /* ─── severance.infernal_clause · color clues ─── */
+    "infernal-first-clause-date": {
+      look: {
+        narration:
+          "On the contract-cross-reference shelf, the first clause's date: the earliest clause, on epoch one's contract, is dated the same week as the contract itself — within a seven-day window. So is the second-season clause. So is every clause.",
+        mysteryBinding: {
+          mysteryId: "severance.infernal_clause",
+          episodeId: "severance.infernal_clause.e2",
+          cluesFound: ["infernal.e2.first_clause_date"],
+        },
+      },
+    },
+    "infernal-solene-recollection": {
+      look: {
+        narration:
+          "On the audit-witness shelf, Solène's recorded recollection: 'the contracts came back from the season-end audit with the clauses already on them. I never saw the clauses being written. I assumed the ledger-keepers had handled it. I should have asked.'",
+        mysteryBinding: {
+          mysteryId: "severance.infernal_clause",
+          episodeId: "severance.infernal_clause.e2",
+          cluesFound: ["infernal.e2.solene_recollection"],
+        },
+      },
+    },
+    "infernal-atalin-status": {
+      look: {
+        narration:
+          "On the staff-roster annex shelf, Atalin's current status: Atalin is alive. They are eighty-six years old. They live in a single room in the lower decks, sector eleven. They have not spoken to anyone from the league in forty seasons.",
+        mysteryBinding: {
+          mysteryId: "severance.infernal_clause",
+          episodeId: "severance.infernal_clause.e3",
+          cluesFound: ["infernal.e3.atalin_status"],
+        },
+      },
+    },
+    "infernal-atalin-account": {
+      look: {
+        narration:
+          "On the closer's-room recording, Atalin's forty-year account: 'I wrote them because the Hierarchy would have written them if I refused. I wrote them with a flaw. I left the flaw to be found. The Advocate is the first person to come asking. I have been making myself easy to find for forty seasons.'",
+        mysteryBinding: {
+          mysteryId: "severance.infernal_clause",
+          episodeId: "severance.infernal_clause.e4",
+          cluesFound: ["infernal.e4.atalin_account"],
+        },
+      },
+    },
+    "infernal-atalin-at-rite": {
+      look: {
+        narration:
+          "On the closing-rite seating chart, Atalin sits beside Solène in the front row. They have not been in a public room in forty seasons. They cry once, briefly, when the Advocate names them in the closing speech. They do not cry again.",
+        mysteryBinding: {
+          mysteryId: "severance.infernal_clause",
+          episodeId: "severance.infernal_clause.e5",
+          cluesFound: ["infernal.e5.atalin_at_rite"],
         },
       },
     },

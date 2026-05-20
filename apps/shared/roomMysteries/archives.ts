@@ -34,6 +34,9 @@ export type ArchivesHotspotId =
   | "memorial-three-elders"
   | "charter2-solven-tax-records"
   | "charter2-scrubber-personnel"
+  | "infernal-envelope-set"
+  | "infernal-atalin-history"
+  | "infernal-box-owner"
   | "chained-failure-log"
   | "chained-dean-annotation-record"
   | "chained-thirty-one-names-read"
@@ -142,6 +145,40 @@ export const ARCHIVES_MYSTERY: RoomMysteryModule<
       interrogate: {
         narration:
           "You ask the archive whether any envelope was ever opened by another reader. The drawer logs three attempts in forty seasons; each one returned the envelope unopened. The seals are unbroken; the names remain in the bond, not in the paperwork.",
+      },
+    },
+    /* ─── severance.infernal_clause · color clues ─── */
+    "infernal-envelope-set": {
+      look: {
+        narration:
+          "In the audit-evidence drawer, the forty-envelope set: forty envelopes, one per season, pulled from Solène's back-room archive. Each envelope holds the season's signed contract. Each contract has a back. Every back has a clause.",
+        mysteryBinding: {
+          mysteryId: "severance.infernal_clause",
+          episodeId: "severance.infernal_clause.e2",
+          cluesFound: ["infernal.e2.envelope_set"],
+        },
+      },
+    },
+    "infernal-atalin-history": {
+      look: {
+        narration:
+          "In the personnel-archive tier, Atalin's history file: hired by the league two weeks before the first season, dismissed (or resigned — the file is unclear) two weeks after the first season ended. Cause of departure: 'inability to satisfy the Hierarchy ledger-keeper's role concurrently.'",
+        mysteryBinding: {
+          mysteryId: "severance.infernal_clause",
+          episodeId: "severance.infernal_clause.e3",
+          cluesFound: ["infernal.e3.atalin_history"],
+        },
+      },
+    },
+    "infernal-box-owner": {
+      look: {
+        narration:
+          "In the forge-workshop annex log, the box's owner: the forge-workshop box is logged to a single person: Atalin, ledger-keeper, Year One. Atalin worked one season for the league, then left the post and was never replaced — the post was rotated season by season afterwards.",
+        mysteryBinding: {
+          mysteryId: "severance.infernal_clause",
+          episodeId: "severance.infernal_clause.e3",
+          cluesFound: ["infernal.e3.box_owner"],
+        },
       },
     },
     /* ─── charter.second_signatory · color clues ─── */

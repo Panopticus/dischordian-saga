@@ -33,6 +33,10 @@ export type OracleSanctumHotspotId =
   | "charter-confrontation-record"
   | "charter-final-conversation"
   | "charter2-kassel-at-council"
+  | "infernal-advocate-engaged"
+  | "infernal-advocate-observation"
+  | "infernal-zyrkoth-withdraws"
+  | "infernal-bond-poured"
   | "memorial-antiquarian-plaza-request"
   | "charter2-kassel-testimony"
   | "infernal-zyrkoth-concession"
@@ -42,6 +46,51 @@ export type OracleSanctumHotspotId =
 export const ORACLE_SANCTUM_MYSTERY: RoomMysteryModule<OracleSanctumHotspotId> = {
   roomId: "oracle-sanctum",
   responses: {
+    /* ─── severance.infernal_clause · color clues ─── */
+    "infernal-advocate-engaged": {
+      look: {
+        narration:
+          "In the Council-retainer chamber, the Advocate was engaged within minutes of Zyr'Koth's arrival. The Advocate's first question: 'how many other contracts carry this clause?' Vex Maestro did not yet know.",
+        mysteryBinding: {
+          mysteryId: "severance.infernal_clause",
+          episodeId: "severance.infernal_clause.e1",
+          cluesFound: ["infernal.e1.advocate_engaged"],
+        },
+      },
+    },
+    "infernal-advocate-observation": {
+      look: {
+        narration:
+          "On the Advocate's audit-bench, her observation: 'each clause is dated to the contract's signing week. but the dates are forged. the writer wanted us to think the clauses were signed contemporaneously. they were not.'",
+        mysteryBinding: {
+          mysteryId: "severance.infernal_clause",
+          episodeId: "severance.infernal_clause.e2",
+          cluesFound: ["infernal.e2.advocate_observation"],
+        },
+      },
+    },
+    "infernal-zyrkoth-withdraws": {
+      look: {
+        narration:
+          "On the Council-record desk, Zyr'Koth's formal withdrawal: 'the claim is withdrawn. the audit was honest. the league owes the Hierarchy nothing further on this point.' Pays a ceremonial fee of one hundred dream tokens for the audit's costs.",
+        mysteryBinding: {
+          mysteryId: "severance.infernal_clause",
+          episodeId: "severance.infernal_clause.e5",
+          cluesFound: ["infernal.e5.zyrkoth_withdraws"],
+        },
+      },
+    },
+    "infernal-bond-poured": {
+      look: {
+        narration:
+          "On the closing-rite ceremonial stand for Year Two, Solène pours the season's bond into the empty jar. The chair is sat in by the apprentice (or by Solène alone, if the player declined the apprenticeship in Year One). The bond is calm. The chair holds.",
+        mysteryBinding: {
+          mysteryId: "severance.infernal_clause",
+          episodeId: "severance.infernal_clause.e5",
+          cluesFound: ["infernal.e5.bond_poured"],
+        },
+      },
+    },
     /* ─── charter.second_signatory · e5 (Kassel's Council speech) ─── */
     "charter2-kassel-at-council": {
       look: {

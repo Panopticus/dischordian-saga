@@ -45,6 +45,11 @@ export type WarRoomHotspotId =
   | "charter2-kassel-response"
   | "charter2-council-ratifies-three"
   | "charter2-three-options"
+  | "infernal-zyrkoth-arrival"
+  | "infernal-advocate-brief"
+  | "infernal-atalin-apology"
+  | "infernal-amnesty-passed"
+  | "infernal-advocate-speech"
   | "holo-table" | "casualty-board" | "signal-flag-rack" | "ocularum-vigil-board" | "ocularum-cell-roster" | "hierarchy-org-chart-board" | "thalorian-defense-records" | "new-babylon-siege-record" | "hierarchy-piece-positioning-board" | "varkul-director-of-security-file" | "necromancer-castle-log-board" | "zyr-koth-rd-refinement-file" | "the-severance-hollowing-report" | "the-locked-lever-board" | "syl-vex-dual-roster-board" | "the-severance-cross-lock-file" | "the-taskmasters-siege-portfolio" | "riri-ahlia-reorg-doctrine-board" | "the-procedural-question-file" | "the-priced-defense-accounting" | "fenra-seventeen-front-manifest" | "the-wolf-in-the-boardroom-file" | "fenra-varkul-contrast-record";
 
 export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
@@ -205,6 +210,62 @@ export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
       interrogate: {
         narration:
           "You ask the table for the planning-signature of each correlated event. The console returns identical signatures across all seven — multi-cycle information consistency, no flux interference, no Ne-Yon-grade disturbance. Planning is permitted; planning happens; planning is followed by the most active flux period in the surrounding decade. The chronicle is consequential because the Storm allows it to be.",
+      },
+    },
+    /* ─── severance.infernal_clause · color clues ─── */
+    "infernal-zyrkoth-arrival": {
+      look: {
+        narration:
+          "On the Council-chamber arrival log, Zyr'Koth's recorded entry at the Nilmorg ceremony: the hall does not go silent. The hall goes quieter — the kind of quiet a room makes when it remembers a story it would rather not tell.",
+        mysteryBinding: {
+          mysteryId: "severance.infernal_clause",
+          episodeId: "severance.infernal_clause.e1",
+          cluesFound: ["infernal.e1.zyrkoth_arrival"],
+        },
+      },
+    },
+    "infernal-advocate-brief": {
+      look: {
+        narration:
+          "On the Council-brief board, the Advocate's drafted brief. Six pages. Every infernal clause cites a non-existent prize from the date of writing. Every clause is voidable as a matter of contract law. The brief includes Atalin's witness statement, signed.",
+        mysteryBinding: {
+          mysteryId: "severance.infernal_clause",
+          episodeId: "severance.infernal_clause.e4",
+          cluesFound: ["infernal.e4.advocate_brief"],
+        },
+      },
+    },
+    "infernal-atalin-apology": {
+      look: {
+        narration:
+          "On the Council-floor recording, Atalin asks to be brought to the Council chamber. They apologise to the league for forty seasons of unease. They apologise to the Hierarchy for the trap. The Hierarchy accepts the apology in writing. The league does not need to.",
+        mysteryBinding: {
+          mysteryId: "severance.infernal_clause",
+          episodeId: "severance.infernal_clause.e4",
+          cluesFound: ["infernal.e4.atalin_apology"],
+        },
+      },
+    },
+    "infernal-amnesty-passed": {
+      look: {
+        narration:
+          "On the Council-vote display, the closing-rite amnesty: twelve votes to two, with three abstentions (the three Council members who attended the original epoch-one negotiation are excused from voting). Every infernal clause across forty seasons is declared void by the Council in session.",
+        mysteryBinding: {
+          mysteryId: "severance.infernal_clause",
+          episodeId: "severance.infernal_clause.e5",
+          cluesFound: ["infernal.e5.amnesty_passed"],
+        },
+      },
+    },
+    "infernal-advocate-speech": {
+      look: {
+        narration:
+          "On the closing-rite recording, the Advocate's eleven-minute speech: she reads the audit, the flaw, Atalin's account, and the Council's vote. The speech ends: 'we have been winning by honest paperwork. we will keep winning that way. it is not a glamorous habit, but it is a survivable one.'",
+        mysteryBinding: {
+          mysteryId: "severance.infernal_clause",
+          episodeId: "severance.infernal_clause.e5",
+          cluesFound: ["infernal.e5.advocate_speech"],
+        },
       },
     },
     /* ─── charter.second_signatory · color clues ─── */

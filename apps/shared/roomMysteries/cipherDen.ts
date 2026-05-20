@@ -53,6 +53,7 @@ export type CipherDenHotspotId =
   | "charter-archivist-pulse"
   | "charter2-eighth-sigil"
   | "charter2-scrub-pattern"
+  | "infernal-seven-day-window"
   | "watchers-upper-band-signature"
   | "watchers-idris-signature"
   | "watchers-six-signatures-catalogue"
@@ -209,6 +210,18 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
       interrogate: {
         narration:
           "You ask the archive when this convention was last successfully invoked. The drawer returns a single entry: the founding itself. The seventh founding Watcher invoked silence-as-vote on three minor founding-day decisions; each was read correctly. The convention's first misreading is the fourth-epoch scrub. The misreading has been the seventh's only voice since.",
+      },
+    },
+    /* ─── severance.infernal_clause · e3 (seven-day-window exact dates) ─── */
+    "infernal-seven-day-window": {
+      look: {
+        narration:
+          "On the cipher-den's window-precision bench, the seven-day window's exact dates: epoch one, week thirty-three, days four through ten. The first DMC season's contracts had been signed three weeks earlier; the writer worked retroactively for the first contract, prospectively for the others.",
+        mysteryBinding: {
+          mysteryId: "severance.infernal_clause",
+          episodeId: "severance.infernal_clause.e3",
+          cluesFound: ["infernal.e3.seven_day_window"],
+        },
       },
     },
     /* ─── charter.second_signatory · color clues ─── */
