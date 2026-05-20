@@ -1235,7 +1235,7 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     id: "narrative.resurrection_cinematic_coverage",
     name: "Resurrection cinematic coverage",
     description:
-      "Hard parity: every cinematic id in RESURRECTION_CINEMATIC_BY_NPC (apps/shared/resurrectionProtocols.ts) and WOLF_CRUCIBLE_RESCUE_CINEMATIC (apps/shared/dlcMysteries/wolfAnaraHunt.ts) must resolve to a real CinematicDef in cinematicsManifest.ts. Three bindings cover the canonical resurrected Potentials (resurrectionistCycleWalker.ts:46-48): Wraith Calder, Akai Shi, The Wolf.",
+      "Hard parity: (a) every cinematic id in RESURRECTION_CINEMATIC_BY_NPC (apps/shared/resurrectionProtocols.ts) and WOLF_CRUCIBLE_RESCUE_CINEMATIC (apps/shared/dlcMysteries/wolfAnaraHunt.ts) must resolve to a real CinematicDef in cinematicsManifest.ts. Three bindings cover the canonical resurrected Potentials (resurrectionistCycleWalker.ts:46-48): Wraith Calder, Akai Shi, The Wolf. (b) WOLF_CRUCIBLE_RESCUE_CINEMATIC_TRIGGER_FLAG must equal the canonical mystery_episode_complete flag for the Wolf Anara Hunt arc's FINAL episode — guards against arc renames or episode-list reorders silently breaking the cinematic trigger.",
     check: () => checkResurrectionCinematicCoverage(),
   },
 

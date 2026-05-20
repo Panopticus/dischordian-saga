@@ -51,27 +51,41 @@ import { TEMPLATE_NPC_ARC_TRIGGER } from "../mysteryTemplates";
 const ARC = "arc.dlc.wolf_anara_hunt" as ArcId;
 const ID  = "wolf.anara_hunt"          as MysteryId;
 
-/** Death-and-rebirth cinematic id for the Wolf. The fire path
- *  is dual:
+/** Death-and-rebirth cinematic id for the Wolf. Plays at the
+ *  RELEASE moment — when the player commits the Wolf E5 choice
+ *  that closes the Mystery Engine investigation and opens the
+ *  Hunt-the-Hero minigame. Narratively: Lycos is contained
+ *  inside Anara / the Crucible (the Antiquarian's pocket
+ *  universe where the League lives; canon-aliased to a
+ *  Hellbox-style snow-globe containment vessel). The player's
+ *  choice releases him, the minigame begins.
  *
- *  Today (shipped): the cinematic plays as the Wolf-Anara-Hunt
- *  arc COLD-OPEN, via the E1 contentBundle's `cinematicAssetId`
- *  field (see e1 below). Same engine path used by
- *  `lord_kanshi_sha_antiquarian` on the_watcher E1 — the
- *  cinematic plays before clues become visible.
- *
- *  Future (roadmap): when companion recruitment lands for
- *  Lycos, a second fire point — "rescued from the Crucible" —
- *  will play the same cinematic at the recruitment moment.
- *  Candidate beats: E3 confront-the-Resurrectionist choice
- *  (line 354) or E4 Crucible-inheritance deduction (line 408).
- *  See docs/design/COMPANION_RESURRECTION_RECRUITMENT_ROADMAP.md.
+ *  Trigger flag: WOLF_CRUCIBLE_RESCUE_CINEMATIC_TRIGGER_FLAG
+ *  below — the canonical mystery_episode_complete flag the
+ *  mysteryService writes when the E5 choice is committed
+ *  (apps/server/services/mysteryService.ts:350).
  *
  *  Resolves against CINEMATICS in
  *  apps/shared/expansionArt/cinematicsManifest.ts; parity is
  *  enforced by
  *  apps/shared/_completeness/checks/resurrectionCinematicCoverage.ts. */
 export const WOLF_CRUCIBLE_RESCUE_CINEMATIC = "wolf_planet_of_the_wolf" as const;
+
+/** Narrative flag that signals the player has crossed the
+ *  Wolf E5 threshold (Mystery Engine closes, Hunt-the-Hero
+ *  opens). Written by mysteryService when the E5 choice is
+ *  committed. ResurrectionCinematicRouter watches this flag
+ *  (in addition to the resurrection-protocol flags for Wraith
+ *  and Akai) to fire the Wolf cinematic. */
+export const WOLF_CRUCIBLE_RESCUE_CINEMATIC_TRIGGER_FLAG =
+  "mystery_episode_complete:arc.dlc.wolf_anara_hunt:wolf.anara_hunt.e5" as const;
+
+/** Seen-flag stamped by the router after the Wolf cinematic
+ *  finishes; idempotency gate (the trigger flag is set
+ *  permanently once E5 is committed, so the router needs its
+ *  own seen-flag to avoid re-playing). */
+export const WOLF_CRUCIBLE_RESCUE_CINEMATIC_SEEN_FLAG =
+  "resurrection_cinematic_wolf_seen" as const;
 
 /* ═══════════════════════════════════════════════════════
    E1 — The Empty Chair in the League
@@ -173,12 +187,6 @@ const e1: EpisodeDefinition = {
       "loredex.judge_audit_open_entry",
     ],
     conspiracyDiscoveries: ["wolf.anara.hunter_is_inside"],
-    // Arc cold-open: the death-and-rebirth cinematic for Lycos.
-    // Lycos's reanimation is canonically pre-game (Year 128,652
-    // A.A.); the cinematic plays as the player begins the arc,
-    // before clues become visible. Same wiring path as
-    // lord_kanshi_sha_antiquarian on the_watcher E1.
-    cinematicAssetId: "wolf_planet_of_the_wolf",
     dropAt: "episode_open",
   },
 };

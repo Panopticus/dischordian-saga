@@ -20,7 +20,11 @@
  */
 import { CINEMATICS } from "../../expansionArt/cinematicsManifest";
 import { RESURRECTION_CINEMATIC_BY_NPC } from "../../resurrectionProtocols";
-import { WOLF_CRUCIBLE_RESCUE_CINEMATIC } from "../../dlcMysteries/wolfAnaraHunt";
+import {
+  WOLF_CRUCIBLE_RESCUE_CINEMATIC,
+  WOLF_CRUCIBLE_RESCUE_CINEMATIC_TRIGGER_FLAG,
+} from "../../dlcMysteries/wolfAnaraHunt";
+import { WOLF_ANARA_HUNT_MYSTERY } from "../../dlcMysteries/wolfAnaraHunt";
 import type { RawParityCount } from "../types";
 
 export function checkResurrectionCinematicCoverage(): RawParityCount {
@@ -50,8 +54,9 @@ export function checkResurrectionCinematicCoverage(): RawParityCount {
     implemented += 1;
   }
 
-  // The Wolf's Crucible-rescue cinematic — separate trigger,
-  // same parity contract.
+  // The Wolf's Crucible-release cinematic — separate trigger
+  // (mystery-engine episode-completion flag), same parity
+  // contract on the cinematic-id side.
   declared += 1;
   if (
     !cinematicIds.has(
@@ -60,6 +65,27 @@ export function checkResurrectionCinematicCoverage(): RawParityCount {
   ) {
     missing.push(
       `the_wolf: WOLF_CRUCIBLE_RESCUE_CINEMATIC '${WOLF_CRUCIBLE_RESCUE_CINEMATIC}' is not registered in CINEMATICS`,
+    );
+  } else {
+    implemented += 1;
+  }
+
+  // The Wolf trigger flag must reference the actual final
+  // episode of the Wolf Anara Hunt arc — guards against drift
+  // where the arc is renamed or its episode list reordered
+  // but the trigger-flag constant lags behind.
+  declared += 1;
+  const finalEpisode =
+    WOLF_ANARA_HUNT_MYSTERY.episodes[
+      WOLF_ANARA_HUNT_MYSTERY.episodes.length - 1
+    ];
+  const expectedTriggerFlag =
+    `mystery_episode_complete:${WOLF_ANARA_HUNT_MYSTERY.arcId}:${finalEpisode.id}`;
+  if (WOLF_CRUCIBLE_RESCUE_CINEMATIC_TRIGGER_FLAG !== expectedTriggerFlag) {
+    missing.push(
+      `the_wolf: WOLF_CRUCIBLE_RESCUE_CINEMATIC_TRIGGER_FLAG ` +
+        `('${WOLF_CRUCIBLE_RESCUE_CINEMATIC_TRIGGER_FLAG}') does not match ` +
+        `the arc's final-episode completion flag ('${expectedTriggerFlag}')`,
     );
   } else {
     implemented += 1;

@@ -28,7 +28,7 @@ The narrative arc the team wants players to experience:
 | Path A server flag | ✅ `apps/server/routers/resurrection.ts:completePathA` writes `pending_resurrection_cinematic_<npcKey>` |
 | Path B outcome contract | ✅ `PathBOutcome.pendingCinematicFlag` (`apps/shared/resurrectionPathB.ts`) — the necromancer-cycle wiring callsite reads this when it lands |
 | Ship-check parity | ✅ `narrative.resurrection_cinematic_coverage` 3/3 PASS |
-| Wolf arc cold-open | ✅ Wolf E1 plays the cinematic via existing mystery-engine `cinematicAssetId` plumbing |
+| Wolf release cinematic | ✅ Wolf E5 choice-commit fires the cinematic via `mystery_episode_complete:arc.dlc.wolf_anara_hunt:wolf.anara_hunt.e5` flag — same beat the Mystery Engine uses to close investigation and open Hunt-the-Hero |
 
 ## What's outstanding — by piece
 
@@ -43,17 +43,20 @@ The narrative arc the team wants players to experience:
 
 The outcome shape now exposes `pendingCinematicFlag` as a contractual field; the persistence shim is the missing glue.
 
-### 2. Wolf rescue trigger (second fire point)
+### 2. Wolf containment reframe (Hellbox / snow-globe / Crucible)
 
-Wolf E1 plays the cinematic as the arc cold-open today (player meets Lycos via the Antiquarian's record). The user's described arc adds a second fire point: the *rescue* moment — when the player chooses to free Lycos from the Crucible rather than kill him to end the hunt.
+**User canon-correction (2026-05-20):** Lycos is *contained* — in a Hellbox-style snow-globe or the Crucible pocket dimension (where the League lives). The player's choice to **release** him is what opens the Hunt-the-Hero minigame. The Wolf cinematic plays at that release moment.
 
-The arc as written ends at E5 with the Hunt-the-Hero minigame opening — the Wolf is *fought*, not rescued. Reframing this needs:
+**What shipped:** the cinematic fires on Wolf E5 choice-commit (canonical Mystery-Engine handoff to Hunt-the-Hero). That's the right *trigger*; the surrounding fiction in the existing arc reads as "the Wolf is already loose inside Anara" rather than "the player releases him from containment." Reconciling the two:
 
-- A new E5 deduction or choice that resolves "Lycos is the victim, not the predator" — `wolf.e5.c.choose_rescue` or `wolf.e5.d.release_from_crucible`.
-- A new narrative flag (`wolf.e5.lycos_rescued`) gated behind that choice.
-- The cinematic does NOT need to re-play (E1 cold-open already shipped it). What does fire here is the **recruitment trigger** (see §3).
+- Wolf E5 clues currently frame Lycos as already present in the Hall of Disappearances (E5 clue `wolf.e5.the_wolf_present`). Reframing as a containment-release reads requires rewriting that clue + E5 narration to make the player's commit-choice the act of releasing the snow-globe.
+- The Hellbox subsystem (`apps/shared/hellboxClone.ts`) currently handles apprentice clone-restoration. Recasting it as "the vessel Lycos is contained in" needs either (a) a new module that overloads the visual metaphor or (b) a dedicated `crucibleContainment.ts` module for the Wolf's specific vessel.
+- The Crucible IS already canonical: per `wolfAnaraHunt.ts:284` *"Anara's predecessor pocket — the Crucible — kept resurrection records for the first-wave era."* The reframe makes Lycos one of those preserved-and-contained subjects, awaiting release.
 
-Open writer ask: how does the player avoid the Hunt-the-Hero minigame and choose rescue instead? Or does the minigame still happen, and rescue is the post-completion debrief?
+Open writer asks:
+- Visual: is the containment vessel a Hellbox-shaped snow-globe (one of several in the Crucible) or the Crucible-as-snow-globe itself?
+- Does the existing Wolf E5 `wolf.e5.the_wolf_present` clue change, or do we add a new "Wolf in vessel" clue alongside?
+- Does the release happen because the player chooses it, or because completing E5 forces it (no opt-out)?
 
 ### 3. Companion recruitment surfaces
 

@@ -69,19 +69,14 @@ The producer delivered three character death-and-rebirth cinematics that align w
 | `wolf_planet_of_the_wolf` | `videos/cinematics/planet_of_the_wolf/planet-of-the-wolf.mp4` (406 MB) | `WOLF_CRUCIBLE_RESCUE_CINEMATIC` (`dlcMysteries/wolfAnaraHunt.ts`) |
 
 **Runtime path:**
-- For Wraith Calder / Akai Shi: server stamps `pending_resurrection_cinematic_<npcKey>` on the Resurrection Protocols quest transitioning to `completed_path_a` (player-completed) or `completed_path_b` (Necromancer-event auto-return). `ResurrectionCinematicRouter` (mounted in `App.tsx`) watches the flag, plays the MP4 once via `SingleVideoCutsceneOverlay`, then stamps `resurrection_cinematic_<npcKey>_seen` so it never replays.
-- For Lycos / The Wolf: reanimation is canonically pre-game (Year 128,652 A.A.); the cinematic plays at the player's release of him from the Antiquarian's Crucible/Anara during the `wolf.anara_hunt` arc.
+- For Wraith Calder / Akai Shi: server stamps `pending_resurrection_cinematic_<npcKey>` on the Resurrection Protocols quest transitioning to `completed_path_a` (player-completed, wired in `apps/server/routers/resurrection.ts:completePathA`) or `completed_path_b` (Necromancer-event auto-return — outcome contract exposes `pendingCinematicFlag`, persistence shim still owed). `ResurrectionCinematicRouter` (mounted in `App.tsx`) watches the flag, plays the MP4 once via `SingleVideoCutsceneOverlay`, then stamps `resurrection_cinematic_<npcKey>_seen` so it never replays.
+- For Lycos / The Wolf: reanimation is canonically pre-game (Year 128,652 A.A.). The cinematic plays at the **release moment** — when the player commits the Wolf E5 choice that closes the Mystery Engine investigation and opens the Hunt-the-Hero minigame. Narratively: Lycos is contained inside the Crucible / Anara (the Antiquarian's pocket universe where the League lives; the user's design intent aligns this with a Hellbox-style snow-globe containment vessel). The trigger flag is the canonical `mystery_episode_complete:arc.dlc.wolf_anara_hunt:wolf.anara_hunt.e5` that `mysteryService` already writes (apps/server/services/mysteryService.ts:350) — no new flag setter needed. The router has a dedicated Wolf branch that watches this flag and stamps `resurrection_cinematic_wolf_seen` on completion.
 
-**Parity:** `narrative.resurrection_cinematic_coverage` ship-check entry (registry.ts), 3/3 PASS.
+**Parity:** `narrative.resurrection_cinematic_coverage` ship-check entry (registry.ts), 4/4 PASS — 3 cinematic-id bindings + the Wolf trigger-flag canon match (guards against arc renames or episode-list reorders silently breaking the cinematic trigger).
 
-**Outstanding writer ask (Wolf trigger):** the exact fire point inside `wolf.anara_hunt` is open. Candidates documented in `wolfAnaraHunt.ts` TODO: the E3 confront-the-Resurrectionist choice (line 334) or the E4 Crucible-inheritance resolution (line 377). When the writer picks one, wire the flag setter at that beat and add a Wolf-rescue branch to the router (or a parallel component).
+**Outstanding server-side wiring (Path B only):** the necromancer-cycle persistence shim that calls `batchResolvePathB` and writes the outcomes (quest store + transmission + reputation hit + `pendingCinematicFlag`) does not yet exist — `apps/shared/resurrectionPathB.ts` is a pure-function library with no callers. Path A is fully wired.
 
-**Outstanding server-side wiring:** the `pending_resurrection_cinematic_<npcKey>` flag setter at `completed_path_a` / `completed_path_b` transitions is the unfinished half. Sites that need to call it:
-- `apps/server/routers/resurrectionProtocols.ts` — quest-completion handler
-- `apps/shared/resurrectionPathB.ts` — Necromancer-event auto-return
-- `apps/shared/necromancerCycle.ts` — Path-B trigger
-
-**Roadmap (out of scope for this PR):** The user's stated narrative arc — all three become full companions who can die again later, the heartbreaking second-death loop — needs three new companion-recruitment surfaces, bond tracks, and re-death beats. That's a roster + crew-system extension separate from this asset-wiring PR.
+**Roadmap (out of scope for this PR):** The user's stated narrative arc — all three become full companions who can die again later, the heartbreaking second-death loop — needs three new companion-recruitment surfaces, bond tracks, and re-death beats. Captured in `docs/design/COMPANION_RESURRECTION_RECRUITMENT_ROADMAP.md`.
 
 ## Two-registry note for Act 6 confessions
 
