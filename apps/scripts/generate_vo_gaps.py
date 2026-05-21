@@ -151,11 +151,11 @@ CHARACTERS: list[CharacterBank] = [
     # ── Section D5 trio (voice ids pending — placeholders skip
     #    the character cleanly until the casting lands). ──
     CharacterBank("wraith_calder", "wraith-calder-lines.json", "wraithCalderVoManifest.json",
-                  "TODO:cast_wraith_calder", "WraithCalder Voices"),
+                  "Vogq3iKs5PJ3cL39gFhW",    "WraithCalder Voices"),
     CharacterBank("akai_shi",      "akai-shi-lines.json",      "akaiShiVoManifest.json",
                   "AQYSOeM9rkJY878exSfM",    "AkaiShi Voices"),
     CharacterBank("lycos",         "lycos-lines.json",         "lycosVoManifest.json",
-                  "TODO:cast_lycos",         "Lycos Voices"),
+                  "rfHVfqlu6LXw4vLf7q4i",    "Lycos Voices"),
 ]
 
 
