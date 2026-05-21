@@ -269,6 +269,13 @@ describe("expansionUnlockService — registry integration (S2 Hierarchy of the D
         "s2_watcher_001::arc_episode_complete",
         "s2_watcher_002::arc_episode_complete",
         "s2_watcher_003::arc_episode_complete",
+        // Companion-quest season-arc finale cards (5 arcs × 1 card)
+        // — see apps/shared/tradeEmpire/seasonArcs.ts.
+        "s1_pack_048::arc_episode_complete",            // Echoes of the Ark
+        "s1_pack_014::arc_episode_complete",            // First Witness
+        "s1_char_105::arc_episode_complete",            // Successor's Oath
+        "s1_char_018::arc_episode_complete",            // Eight Endings
+        "s1_pack_id_elara_advocate::arc_episode_complete", // Memento Dischordia
       ]),
     );
   });
