@@ -153,7 +153,7 @@ CHARACTERS: list[CharacterBank] = [
     CharacterBank("wraith_calder", "wraith-calder-lines.json", "wraithCalderVoManifest.json",
                   "TODO:cast_wraith_calder", "WraithCalder Voices"),
     CharacterBank("akai_shi",      "akai-shi-lines.json",      "akaiShiVoManifest.json",
-                  "TODO:cast_akai_shi",      "AkaiShi Voices"),
+                  "AQYSOeM9rkJY878exSfM",    "AkaiShi Voices"),
     CharacterBank("lycos",         "lycos-lines.json",         "lycosVoManifest.json",
                   "TODO:cast_lycos",         "Lycos Voices"),
 ]
