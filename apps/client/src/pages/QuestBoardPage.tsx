@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { showBonusToast } from "@/components/BonusToast";
 import { EmptyQuestLog } from "@/components/EmptyStates";
+import { fireCompanionComment } from "@/lib/companionCommentQueue";
 
 import LivingBackground from "@/components/LivingBackground";
 
@@ -131,7 +132,7 @@ export default function QuestBoardPage() {
 function QuestListTab({ period }: { period: "daily" | "weekly" | "epoch" }) {
   const { data, isLoading, refetch } = trpc.quests.getAll.useQuery();
   const claimMutation = trpc.quests.claimReward.useMutation({
-    onSuccess: (res: any) => {
+    onSuccess: (res: any, variables) => {
       toast.success(`Reward claimed! +${res.rewardDream} Dream, +${res.rewardXp} XP${res.rewardCredits ? `, +${res.rewardCredits} Credits` : ""}${res.bonusReward ? ` + ${res.bonusReward}` : ""}`);
       // Show trait bonus toast if applicable
       if (res.traitMultiplier && res.traitMultiplier > 1) {
@@ -143,6 +144,15 @@ function QuestListTab({ period }: { period: "daily" | "weekly" | "epoch" }) {
           currency: "Dream",
           sources: res.traitSources || ["Character Bonus"],
         });
+      }
+      // Companion-quest reactions. The catalog ids are cq_* and the
+      // server emits a ripple event; the client fires the trigger
+      // here too so the toast pipeline (CompanionCommentToast) can
+      // surface every NPC's first-time reaction in canonical voice.
+      // Each NPC's comment has maxPlays: 1, so the toast only fires
+      // once per anchor per playthrough.
+      if (variables?.questId?.startsWith("cq_")) {
+        fireCompanionComment("companion_quest_complete");
       }
       refetch();
     },
