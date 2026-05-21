@@ -183,10 +183,10 @@ SIMPLE_BANKS: list[SimpleVoiceBank] = [
 
     # ── Banks pending voice casting (uncomment / fill the voice id and re-run) ──
     SimpleVoiceBank("engineer",        "engineer-lines.json",        "engineerVoManifest.json",        "TODO:cast_engineer",        "Engineer Voices"),
-    SimpleVoiceBank("chess_climb",     "chess-climb-lines.json",     "chessClimbVoManifest.json",      "TODO:cast_chess_narrator",  "ChessClimb Voices"),
-    SimpleVoiceBank("guild_cutscene",  "guild-cutscene-vo-lines.json","guildCutsceneVoManifest.json",  "TODO:cast_guild_narrator",  "Guild Cutscene Voices"),
-    SimpleVoiceBank("loredex_mention", "loredex-mention-lines.json", "loredexMentionVoManifest.json",  "TODO:cast_loredex_mention", "Loredex Mention"),
-    SimpleVoiceBank("loredex_narrator","loredex-narrator-lines.json","loredexVoManifest.json",         "TODO:cast_loredex_narrator","Loredex Voices"),
+    SimpleVoiceBank("chess_climb",     "chess-climb-lines.json",     "chessClimbVoManifest.json",      "TT28j5FWUeiDbRr27c7t",      "ChessClimb Voices"),
+    SimpleVoiceBank("guild_cutscene",  "guild-cutscene-vo-lines.json","guildCutsceneVoManifest.json",  "yAKlvHIsuj4SvnKQ6Mk4",      "Guild Cutscene Voices"),
+    SimpleVoiceBank("loredex_mention", "loredex-mention-lines.json", "loredexMentionVoManifest.json",  "yAKlvHIsuj4SvnKQ6Mk4",      "Loredex Mention"),
+    SimpleVoiceBank("loredex_narrator","loredex-narrator-lines.json","loredexVoManifest.json",         "yAKlvHIsuj4SvnKQ6Mk4",      "Loredex Voices"),
     SimpleVoiceBank("story_mode",      "story-mode-lines.json",      "storyModeVoManifest.json",       "TODO:multi_voice_per_line", "Story Mode Voices"),
 
     # ── Per-NPC line banks (apps/scripts/npc-<key>-lines.json) ──
@@ -195,11 +195,11 @@ SIMPLE_BANKS: list[SimpleVoiceBank] = [
     # If you want to reuse the existing companion voice for the NPC bank,
     # replace the TODO with the existing voice id from above and the bank
     # generates automatically.
-    SimpleVoiceBank("npc_drael_mon",         "npc-drael_mon-lines.json",         "draelmonVoManifest.json",          "TODO:cast_drael_mon",        "DraelMon Voices"),
+    SimpleVoiceBank("npc_drael_mon",         "npc-drael_mon-lines.json",         "draelmonVoManifest.json",          "ts3xd1UbeTpZBMUn3Rjv",       "DraelMon Voices"),
     SimpleVoiceBank("npc_engineer_zero",     "npc-engineer_zero-lines.json",     "engineerZeroNpcVoManifest.json",   "F1waTCPWl7KpShIScYQs",       "EngineerZero Voices"),
     SimpleVoiceBank("npc_iron_lion_prefall", "npc-iron_lion_prefall-lines.json", "ironLionPrefallVoManifest.json",   "UFc00HkV4yTNA1eMW99e",       "IronLionPrefall Voices"),
     SimpleVoiceBank("npc_the_antiquarian",   "npc-the_antiquarian-lines.json",   "antiquarianNpcVoManifest.json",    "yAKlvHIsuj4SvnKQ6Mk4",       "AntiquarianNpc Voices"),
-    SimpleVoiceBank("npc_the_architect",     "npc-the_architect-lines.json",     "architectVoManifest.json",         "TODO:cast_the_architect",    "Architect Voices"),
+    SimpleVoiceBank("npc_the_architect",     "npc-the_architect-lines.json",     "architectVoManifest.json",         "PmtzUaeg5rMejCZzRqOZ",       "Architect Voices"),
     SimpleVoiceBank("npc_the_degen",         "npc-the_degen-lines.json",         "degenNpcVoManifest.json",          "r6VqF23i4qBEORazjelf",       "DegenNpc Voices"),
     SimpleVoiceBank("npc_the_dreamer",       "npc-the_dreamer-lines.json",       "dreamerVoManifest.json",           "TODO:cast_the_dreamer",      "Dreamer Voices"),
     SimpleVoiceBank("npc_the_game_master",   "npc-the_game_master-lines.json",   "gamemasterVoManifest.json",        "TODO:cast_the_game_master",  "GameMaster Voices"),
