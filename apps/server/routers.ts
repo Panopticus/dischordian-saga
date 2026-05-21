@@ -138,7 +138,6 @@ import { christmasInJulyRouter } from "./routers/christmasInJuly";
 import { dischordiaCycleRouter } from "./routers/dischordiaCycle";
 import { crewRouter } from "./routers/crew";
 import { resurrectionRouter } from "./routers/resurrection";
-import { huntTheHeroRouter } from "./routers/huntTheHero";
 import { hellboxRouter } from "./routers/hellbox";
 import { bloodWeaveRouter } from "./routers/bloodWeave";
 import { npcRecruitRouter } from "./routers/npcRecruit";
@@ -319,7 +318,6 @@ export const appRouter = router({
   dischordiaCycle: dischordiaCycleRouter,
   crew: crewRouter,
   resurrection: resurrectionRouter,
-  huntTheHero: huntTheHeroRouter,
   hellbox: hellboxRouter,
   bloodWeave: bloodWeaveRouter,
   npcRecruit: npcRecruitRouter,

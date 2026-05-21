@@ -45,7 +45,7 @@ import {
   WOLF_CRUCIBLE_RESCUE_CINEMATIC_TRIGGER_FLAG,
   WOLF_CRUCIBLE_RESCUE_CINEMATIC_SEEN_FLAG,
 } from "@shared/dlcMysteries/wolfAnaraHunt";
-import { HUNT_THE_HERO_AVAILABLE_FLAG } from "@shared/tcg-core/matches/huntTheHero";
+import { WOLF_HUNT_ARC_AVAILABLE_FLAG } from "@shared/wolfHunt";
 import {
   CINEMATICS,
   type CinematicId,
@@ -115,10 +115,11 @@ export function resolvePendingCinematic(
       flagsOnComplete: {
         pending: null,
         seen: WOLF_CRUCIBLE_RESCUE_CINEMATIC_SEEN_FLAG,
-        // Open the Hunt-the-Hero CTA the moment the
-        // release cinematic ends. The minigame's router
-        // closes the gate on outcome.
-        extraOnTrue: [HUNT_THE_HERO_AVAILABLE_FLAG],
+        // Open the Wolf-hunt arc CTA (the Antiquarian's
+        // dossier panel) the moment the release cinematic
+        // ends. The wolfHunt router closes the gate once
+        // the arc concludes (good or bad ending).
+        extraOnTrue: [WOLF_HUNT_ARC_AVAILABLE_FLAG],
       },
     };
   }

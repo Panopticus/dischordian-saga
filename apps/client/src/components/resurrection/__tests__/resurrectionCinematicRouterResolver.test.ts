@@ -34,7 +34,7 @@ import {
   WOLF_CRUCIBLE_RESCUE_CINEMATIC_SEEN_FLAG,
   WOLF_RELEASE_CHOICE_ID,
 } from "@shared/dlcMysteries/wolfAnaraHunt";
-import { HUNT_THE_HERO_AVAILABLE_FLAG } from "@shared/tcg-core/matches/huntTheHero";
+import { WOLF_HUNT_ARC_AVAILABLE_FLAG } from "@shared/wolfHunt";
 
 describe("ResurrectionCinematicRouter — resolvePendingCinematic", () => {
   it("returns null with no flags set", () => {
@@ -83,19 +83,20 @@ describe("ResurrectionCinematicRouter — resolvePendingCinematic", () => {
     );
   });
 
-  it("Wolf cinematic completion opens the Hunt-the-Hero CTA", () => {
+  it("Wolf cinematic completion opens the Wolf-hunt arc CTA", () => {
     // The handleComplete callback writes every flag in
-    // flagsOnComplete.extraOnTrue to true so the Hunt overlay
-    // becomes mountable the moment the release video ends.
+    // flagsOnComplete.extraOnTrue to true so the wolfHunt
+    // dossier panel becomes mountable the moment the
+    // release video ends.
     const pending = resolvePendingCinematic({
       [WOLF_CRUCIBLE_RESCUE_CINEMATIC_TRIGGER_FLAG]: true,
     });
     expect(pending?.flagsOnComplete.extraOnTrue).toContain(
-      HUNT_THE_HERO_AVAILABLE_FLAG,
+      WOLF_HUNT_ARC_AVAILABLE_FLAG,
     );
   });
 
-  it("resurrection cinematics do NOT open the Hunt-the-Hero CTA", () => {
+  it("resurrection cinematics do NOT open the Wolf-hunt arc CTA", () => {
     const pending = resolvePendingCinematic({
       [pendingResurrectionCinematicFlag("wraith_calder")]: true,
     });

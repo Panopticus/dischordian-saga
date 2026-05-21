@@ -15391,9 +15391,9 @@
       "song_appearances": [],
       "image": "",
       "priority": "normal",
-      "id": "loredex.hunt_the_hero_minigame_entry",
-      "name": "Hunt-the-Hero Minigame Entry",
-      "bio": "The Hunt-the-Hero gameplay loop begins in the Hall of Disappearances with the Wolf already present and the player's prior Mystery Engine choices setting the initial game state. The minigame's seed conditions are canon-determined by arc choices."
+      "id": "loredex.antiquarian_hunt_contract_opens",
+      "name": "The Antiquarian's Hunt Contract Opens",
+      "bio": "The moment the snow-globe's lever turns, the Antiquarian opens his ledger to a new column and writes the Wolf's name at its head. The contract is solo: one hunter, one handler, two hundred and fifty corrupted-League names to close, ten Hierarchy lords to weaken. The Antiquarian frames every briefing; the Wolf chooses every approach. The Crucible's release pressure rises with every hesitation."
     },
     {
       "type": "entity",
