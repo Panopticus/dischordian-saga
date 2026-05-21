@@ -67,6 +67,8 @@ const COMPANION_DAILIES: QuestTemplate[] =
   companionQuestsForCadence("daily").map(companionDefToTemplate);
 const COMPANION_WEEKLIES: QuestTemplate[] =
   companionQuestsForCadence("weekly").map(companionDefToTemplate);
+const COMPANION_EPOCHS: QuestTemplate[] =
+  companionQuestsForCadence("epoch").map(companionDefToTemplate);
 
 const DAILY_TEMPLATES: QuestTemplate[] = [
   { id: "d_win_fight", title: "Champion's Path", description: "Win a fight in the arena", questType: "fight", target: 1, rewardDream: 5, rewardXp: 50, rewardCredits: 0 },
@@ -150,6 +152,11 @@ const EPOCH_TEMPLATES: QuestTemplate[] = [
   // audit/16 PR 3 — casino epoch (season) quests.
   { id: "e_casino_centurion",     title: "Centurion of the Tables", description: "Win 100 casino games this season",        questType: "social", target: 100, rewardDream: 200, rewardXp: 3000, rewardCredits: 0, bonusReward: "Seasonal Casino Title" },
   { id: "e_casino_tale_collector", title: "Bibliographer of Bets",  description: "Collect 10 Tales of the Tables this season", questType: "social", target: 10,  rewardDream: 150, rewardXp: 2500, rewardCredits: 0, bonusReward: "Loredex: Casino Codex" },
+
+  // Companion / NPC epochs — one per season arc. Completing the
+  // epoch is gated on the arc finale flag (mystery_episode_complete:
+  // <arcId>:<e5>) so the player has actually closed the arc.
+  ...COMPANION_EPOCHS,
 ];
 
 /** Map a quest's questType to a faction key for tag emission. */
@@ -169,14 +176,20 @@ function factionForQuestType(questType: QuestTemplate["questType"]): string {
  *  a tagged crew mission completion. */
 export function tagsForDailyQuest(template: QuestTemplate): string[] {
   const factionKey = factionForQuestType(template.questType);
-  // Daily quests don't have a difficulty band; use "routine" for
-  // dailies, "challenging" for weeklies-and-up. The id prefix tells
-  // us which list the template came from.
-  const difficulty = template.id.startsWith("e_")
-    ? "dangerous"
-    : template.id.startsWith("w_")
-      ? "challenging"
-      : "routine";
+  // Difficulty band derives from the id prefix:
+  //   d_*  / cq_d_*  → routine     (daily)
+  //   w_*  / cq_w_*  → challenging  (weekly)
+  //   e_*  / cq_e_*  → dangerous    (epoch)
+  // The cq_* namespace is the companion-quest catalog
+  // (apps/shared/tradeEmpire/companionQuestCatalog.ts) which the
+  // router splices into the same template lists.
+  const id = template.id;
+  const difficulty =
+    id.startsWith("e_") || id.startsWith("cq_e_")
+      ? "dangerous"
+      : id.startsWith("w_") || id.startsWith("cq_w_")
+        ? "challenging"
+        : "routine";
   return tagsForTemplate({ factionKey, difficulty });
 }
 

@@ -40,6 +40,10 @@ describe("companionQuestCatalog — shape", () => {
     expect(companionQuestsForCadence("weekly").length).toBeGreaterThanOrEqual(12);
   });
 
+  it("ships one epoch entry per season arc (5)", () => {
+    expect(companionQuestsForCadence("epoch").length).toBe(5);
+  });
+
   it("every entry has a unique id", () => {
     const ids = new Set<string>();
     for (const q of COMPANION_QUEST_CATALOG) {

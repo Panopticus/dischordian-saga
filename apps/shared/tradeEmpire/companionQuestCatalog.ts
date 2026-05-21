@@ -1146,12 +1146,121 @@ const WEEKLY_QUESTS: ReadonlyArray<CompanionQuestDef> = [
 ];
 
 // ═══════════════════════════════════════════════════════════════
+// EPOCH CATALOG — 5 entries, one per season arc; each represents
+// the "complete the whole arc" objective. The narrativeFlag is the
+// arc finale episode flag (same as the cq_w_* terminal chapter) so
+// completing the epoch is gated on actually closing the arc.
+// ═══════════════════════════════════════════════════════════════
+
+const EPOCH_QUESTS: ReadonlyArray<CompanionQuestDef> = [
+  {
+    id: "cq_e_echoes_of_the_ark",
+    cadence: "epoch",
+    anchors: ["elara", "the_antiquarian"],
+    sectors: ["ark_debris_field", "antiquarian_archive"],
+    questType: "explore",
+    target: 5,
+    title: "Echoes of the Ark",
+    flavor:
+      "Walk the season. Five chapters of wreckage annotation, downstream sales, ordered wonder, origin signals, sectors traversed. The Collector's ledger closes.",
+    cardLoreHook: {
+      cardId: CARD.ELARAS_FINAL_GIFT,
+      fragment: "She had one last thing to give. She gave it to everyone.",
+    },
+    narrativeFlag: "mystery_episode_complete:arc.the_collector:ark_echoes.e5",
+    relationshipDelta: { elara: 10, the_antiquarian: 10 },
+    reward: { dream: 200, xp: 3000, credits: 5000, bonus: "Echoes of the Ark Pennant" },
+  },
+  {
+    id: "cq_e_first_witness",
+    cadence: "epoch",
+    anchors: ["the_seer", "engineer_zero", "the_human"],
+    sectors: ["terminus_core", "insurgency_haven"],
+    questType: "card_battle",
+    target: 5,
+    title: "First Witness",
+    flavor:
+      "Five chapters of calibration. The Seer reads, the Engineer calibrates, the Human chooses. The first witness's broadcast finally lands.",
+    cardLoreHook: {
+      cardId: CARD.AGENT_ZERO_REBORN,
+      fragment: "Second Chair is louder than First Chair when First Chair is silent.",
+    },
+    narrativeFlag: "mystery_episode_complete:arc.the_seer:fw.e5",
+    relationshipDelta: { the_seer: 8, engineer_zero: 8, the_human: 6 },
+    standingDelta: { insurgency: 5, coda_central: 5 },
+    reward: { dream: 200, xp: 3000, credits: 5000, bonus: "First Witness Standing Mark" },
+  },
+  {
+    id: "cq_e_successors_oath",
+    cadence: "epoch",
+    anchors: ["iron_lion_prefall", "jericho_jones"],
+    sectors: ["thaloria", "insurgency_haven"],
+    questType: "fight",
+    target: 5,
+    title: "Successor's Oath",
+    flavor:
+      "Five chapters of leverage, walk, file, banner, formation. The Iron Lion does not survive the chain. The cadre does.",
+    cardLoreHook: {
+      cardId: CARD.IRON_LION_PREFALL,
+      fragment: "He does not ask his soldiers to hold the line. He stands in front of it.",
+    },
+    narrativeFlag: "mystery_episode_complete:arc.jericho_jones:so.e5",
+    relationshipDelta: { iron_lion_prefall: 10, jericho_jones: 10 },
+    standingDelta: { insurgency: 5 },
+    reward: { dream: 200, xp: 3000, credits: 5000, bonus: "Pre-Fall Cadre Standard" },
+  },
+  {
+    id: "cq_e_eight_endings",
+    cadence: "epoch",
+    anchors: ["the_antiquarian", "the_necromancer", "the_resurrectionist"],
+    sectors: ["antiquarian_archive", "viral_wastes"],
+    questType: "explore",
+    target: 5,
+    title: "Eight Endings",
+    flavor:
+      "Five chapters of catalogue, name, table, ending, reader. Twelve endings narrow to eight. The reader chooses.",
+    cardLoreHook: {
+      cardId: CARD.THE_ANTIQUARIAN,
+      fragment: "Throughout the cataclysm and the epochs that followed, he retreated into a hidden pocket dimension.",
+    },
+    narrativeFlag: "mystery_episode_complete:arc.the_necromancer:ee.e5",
+    relationshipDelta: { the_antiquarian: 8, the_necromancer: 8, the_resurrectionist: 6 },
+    reward: { dream: 200, xp: 3000, credits: 5000, bonus: "Eight Endings Codex" },
+  },
+  {
+    id: "cq_e_memento_dischordia",
+    cadence: "epoch",
+    anchors: ["the_antiquarian", "elara", "the_human"],
+    sectors: [
+      "antiquarian_archive",
+      "ark_debris_field",
+      "thaloria",
+      "insurgency_haven",
+      "new_babylon_core",
+    ],
+    questType: "explore",
+    target: 5,
+    title: "Memento Dischordia",
+    flavor:
+      "Five chapters across the sector spine. The phrase predates every speaker. Remember discord. Remember harmony. Remember the choosing.",
+    cardLoreHook: {
+      cardId: CARD.ELARA_ADVOCATE,
+      fragment: "She chose compassion. That was the first sign she was alive.",
+    },
+    narrativeFlag: "mystery_episode_complete:arc.memento_dischordia:md.e5",
+    relationshipDelta: { the_antiquarian: 10, elara: 10, the_human: 8 },
+    reward: { dream: 300, xp: 5000, credits: 10000, bonus: "Memento Dischordia Folio" },
+  },
+];
+
+// ═══════════════════════════════════════════════════════════════
 // Public catalog + helpers
 // ═══════════════════════════════════════════════════════════════
 
 export const COMPANION_QUEST_CATALOG: ReadonlyArray<CompanionQuestDef> = [
   ...DAILY_QUESTS,
   ...WEEKLY_QUESTS,
+  ...EPOCH_QUESTS,
 ];
 
 const CATALOG_BY_ID: ReadonlyMap<string, CompanionQuestDef> = new Map(
