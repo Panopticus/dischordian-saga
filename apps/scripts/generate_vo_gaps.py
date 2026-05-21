@@ -146,7 +146,7 @@ CHARACTERS: list[CharacterBank] = [
     CharacterBank("nilmorg",      "nilmorg-lines.json",      "nilmorgVoManifest.json",   "7fKASPr2SR0NYifziNgu", "Nilmorg Voices"),
     CharacterBank("seer",         "seer-lines.json",         "seerVoManifest.json",      "BTfBVfMM9XgZG8GG1bJn", "Seer Voices"),
     CharacterBank("source",       "source-lines.json",       "sourceVoManifest.json",    "hfq5qawrYj4gqFsfoE28", "Source Voices"),
-    CharacterBank("shadow_tongue","shadow-tongue-lines.json","shadowTongueVoManifest.json","14wGKUgRFDPSwtCQurbB","ShadowTongue Voices"),
+    CharacterBank("shadow_tongue","shadow_tongue-lines.json","shadowTongueVoManifest.json","14wGKUgRFDPSwtCQurbB","ShadowTongue Voices"),
 
     # ── Section D5 trio (voice ids pending — placeholders skip
     #    the character cleanly until the casting lands). ──
