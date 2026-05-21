@@ -196,7 +196,7 @@ SIMPLE_BANKS: list[SimpleVoiceBank] = [
     # replace the TODO with the existing voice id from above and the bank
     # generates automatically.
     SimpleVoiceBank("npc_drael_mon",         "npc-drael_mon-lines.json",         "draelmonVoManifest.json",          "TODO:cast_drael_mon",        "DraelMon Voices"),
-    SimpleVoiceBank("npc_engineer_zero",     "npc-engineer_zero-lines.json",     "engineerZeroNpcVoManifest.json",   "xMyNDrPFEtQN8iZtT7l2",       "EngineerZeroNpc Voices"),
+    SimpleVoiceBank("npc_engineer_zero",     "npc-engineer_zero-lines.json",     "engineerZeroNpcVoManifest.json",   "F1waTCPWl7KpShIScYQs",       "EngineerZero Voices"),
     SimpleVoiceBank("npc_iron_lion_prefall", "npc-iron_lion_prefall-lines.json", "ironLionPrefallVoManifest.json",   "UFc00HkV4yTNA1eMW99e",       "IronLionPrefall Voices"),
     SimpleVoiceBank("npc_the_antiquarian",   "npc-the_antiquarian-lines.json",   "antiquarianNpcVoManifest.json",    "yAKlvHIsuj4SvnKQ6Mk4",       "AntiquarianNpc Voices"),
     SimpleVoiceBank("npc_the_architect",     "npc-the_architect-lines.json",     "architectVoManifest.json",         "TODO:cast_the_architect",    "Architect Voices"),
