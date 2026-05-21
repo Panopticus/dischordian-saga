@@ -516,5 +516,7 @@
   { "id": "human.medical-bay.autopsy-console.what", "text": "What's it going to tell us?", "context": "inspection_response", "emotion": "curious", "file": "client/src/contexts/GameContext.tsx" },
 
   { "id": "human.bridge.captains-chair.acknowledge", "text": "Noted.", "context": "inspection_response", "emotion": "neutral", "file": "client/src/contexts/GameContext.tsx" },
-  { "id": "human.bridge.captains-chair.who", "text": "Who is Dr. Vox?", "context": "inspection_response", "emotion": "curious", "file": "client/src/contexts/GameContext.tsx" }
+  { "id": "human.bridge.captains-chair.who", "text": "Who is Dr. Vox?", "context": "inspection_response", "emotion": "curious", "file": "client/src/contexts/GameContext.tsx" },
+
+  { "id": "wolf_e5_human_warns_against_release", "text": "I understand the case for release — the Antiquarian's concession, the chronicler's deference, the want to meet him on his ethic. I also understand the case against. The case against is bigger. He has had time we cannot measure to become more of what he was. Whatever you choose, choose it knowing both warnings are on the record.", "context": "room_warning", "emotion": "philosophical", "file": "shared/roomMysteries/hallOfDisappearances.ts" }
 ]

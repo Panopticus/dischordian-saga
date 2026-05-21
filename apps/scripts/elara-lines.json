@@ -8279,5 +8279,12 @@
     "context": "awakening",
     "emotion": "urgent",
     "file": "client/src/pages/AwakeningPage.tsx"
+  },
+  {
+    "id": "wolf_e5_elara_warns_against_release",
+    "text": "You are looking at a serial-killer AI in a Matrix-of-Dreams pocket. Lycos has had an unmeasured duration to think. Whatever ethic he carried in — the Judge's, the Resurrectionist's, his own — he has had time to refine, harden, generalise. Release is irreversible. I cannot recommend release. I am telling you on the record so the chronicle records it.",
+    "context": "room_warning",
+    "emotion": "fearful",
+    "file": "shared/roomMysteries/hallOfDisappearances.ts"
   }
 ]

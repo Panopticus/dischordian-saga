@@ -2159,6 +2159,37 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "necromancer-protocol-42-schema", name: "Protocol 42 Schema", description: "A thread the loom holds without weaving — Varkul's vigil at the Cathedral inside the Matrix, and the Necromancer's own pre-authored Resurrection Protocol 42.", x: 62, y: 38, width: 14, height: 16, type: "interact", action: "room-mystery:dreams-workshop-subbasement:necromancer-protocol-42-schema" },
     ],
   },
+  /* ═══ HALL OF DISAPPEARANCES ═══
+     DLC room — apps/shared/dlcMysteries/wolfAnaraHunt.ts E5. A
+     circular chamber holding twelve niches (each with the cloak
+     of a League hero who completed their preparation in Anara)
+     and a thirteenth, unlisted central pedestal bearing a
+     Hellbox-shaped snow-globe with Lycos contained inside. The
+     room exists for one purpose: the snow-globe-release lever.
+     Pulling it commits the Wolf E5 release choice and fires the
+     `wolf_planet_of_the_wolf` cinematic via the same flag the
+     Mystery Engine UI writes (parallel commit path). */
+  {
+    id: "hall-of-disappearances",
+    name: "The Hall of Disappearances",
+    deck: 0,
+    deckName: "Uncharted",
+    description: "A circular chamber lit from above by a slow rotation of pale lanterns. Twelve niches ring the room; each holds an empty pedestal carrying a folded cloak. At the centre, on a thirteenth pedestal the ceremonial registers do not list, rests a Hellbox-shaped snow-globe sealed in the Resurrectionist's four-part cipher. Inside the globe stands the Wolf. The Antiquarian's journal is open on a reading-table beside the pedestal. A single-action lever sits on the pedestal's outer ring.",
+    elaraIntro: "This is the Hall of Disappearances. The League came here to leave their regalia and step into the multiverse beyond. Twelve heroes have done so. The thirteenth pedestal holds the snow-globe. The lever is the only thing in this chamber that has not yet been pulled. I am required by the chronicler's record to remind you: my warning, and the Human's, are both on file. The choice is yours.",
+    imageUrl: assetUrl("art/rooms/room-hall-of-disappearances.webp"),
+    features: ["Snow-Globe Pedestal", "Release Lever", "Twelve Niches", "Antiquarian's Journal"],
+    featureRoutes: [],
+    unlockRequirement: { type: "narrative_event", value: "mystery_episode_complete:arc.dlc.wolf_anara_hunt:wolf.anara_hunt.e4" },
+    connections: ["antiquarian-library"],
+    hotspots: [
+      // Mystery wiring — apps/shared/roomMysteries/hallOfDisappearances.ts
+      { id: "snow-globe-thirteenth-pedestal", name: "The Thirteenth Pedestal", description: "The unlisted central pedestal — Hellbox-shaped snow-globe, Resurrectionist's seal, the Wolf contained inside.", x: 40, y: 35, width: 20, height: 30, type: "interact", action: "room-mystery:hall-of-disappearances:snow-globe-thirteenth-pedestal" },
+      { id: "snow-globe-release-lever", name: "The Release Lever", description: "A single-action, irreversible lever on the pedestal's outer ring. Both companions have warned against pulling it on the record.", x: 38, y: 66, width: 24, height: 14, type: "interact", action: "room-mystery:hall-of-disappearances:snow-globe-release-lever" },
+      { id: "antiquarians-journal", name: "Antiquarian's Journal", description: "Open to the final case entry on the reading-table beside the pedestal — the chronicler's concession.", x: 66, y: 50, width: 18, height: 18, type: "interact", action: "room-mystery:hall-of-disappearances:antiquarians-journal" },
+      { id: "pedestals-twelve", name: "The Twelve Niches", description: "Twelve niches around the chamber, each holding an empty pedestal carrying a folded cloak. The League heroes who completed their preparation and stepped beyond.", x: 4, y: 12, width: 30, height: 70, type: "examine", action: "room-mystery:hall-of-disappearances:pedestals-twelve" },
+      { id: "door-antiquarian-library", name: "Return to Antiquarian Library", description: "The corridor back to the library that holds the chronicle.", x: 86, y: 30, width: 14, height: 60, type: "door", action: "antiquarian-library" },
+    ],
+  },
 ];
 
 /* ─── DEFAULT STATE ─── */
