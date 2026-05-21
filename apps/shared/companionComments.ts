@@ -562,6 +562,55 @@ export const COMPANION_COMMENTS: CompanionComment[] = [
     voiceLine: "I warned you against the lever. You pulled it anyway. I am not relitigating the choice. I am telling you what I am holding: the Hunt has begun, and the heroes you warned are now the ones being tested by whether the warning landed. Sit with me a minute before we look at the board.",
     timing: "delayed_5s", maxPlays: 1 },
 
+  // ── HUNT-THE-HERO OUTCOMES — REACTIVE COMMENTS ──
+  // Fire after the Wolf E5 minigame ends, gated on the canonical
+  // outcome flag huntOutcomeFlag(outcome) written by the
+  // huntTheHero tRPC router. One Elara + one Human line per
+  // outcome lifts the chronicle's reading into the companion
+  // voice on the next room enter.
+
+  { id: "cc_hunt_outcome_player_saved_all_elara", speaker: "elara", trigger: "wolf.hunt_the_hero_outcome_player_saved_all",
+    voiceLine: "All three crossed the threshold and went home. I tracked every move in the chamber. You played defense the way someone who already knew the heroes by name plays defense. I am — I am proud of the file we just wrote.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_hunt_outcome_player_saved_all_human", speaker: "human", trigger: "wolf.hunt_the_hero_outcome_player_saved_all",
+    voiceLine: "Three out of three. The chronicle was authored to be lost on this beat. You disagreed with the authoring. I will sit with what that means about the next beat. It is not nothing.",
+    timing: "next_room_enter", maxPlays: 1 },
+
+  { id: "cc_hunt_outcome_mercy_extended_elara", speaker: "elara", trigger: "wolf.hunt_the_hero_outcome_mercy_extended",
+    voiceLine: "Mercy. Twice now from the same ethic, in two different rooms, separated by an unmeasured duration. Lycos is not the same creature on either side of that line, and I am not going to pretend he is. The Loredex has a new entry. I want to read it slowly.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_hunt_outcome_mercy_extended_human", speaker: "human", trigger: "wolf.hunt_the_hero_outcome_mercy_extended",
+    voiceLine: "He extended mercy a second time. I would tell you what that opens, but I want you to find out the way the chronicle wants you to find out — with him in the room, in the next chamber, looking at you the way a thing that has just chosen mercy looks at the only witness who saw it choose.",
+    timing: "next_room_enter", maxPlays: 1 },
+
+  { id: "cc_hunt_outcome_wolf_killed_one_elara", speaker: "elara", trigger: "wolf.hunt_the_hero_outcome_wolf_killed_one",
+    voiceLine: "One name on the memorial wall the chronicle did not have until tonight. I am inscribing it. I am not telling you it was avoidable; I am telling you it was specific. The specificity is the chronicle's only consolation here.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_hunt_outcome_wolf_killed_one_human", speaker: "human", trigger: "wolf.hunt_the_hero_outcome_wolf_killed_one",
+    voiceLine: "One. The other two crossed. I will not call that a victory. I will not call it a defeat either. I will call it the cost the chronicle is honest about and we are now carrying.",
+    timing: "next_room_enter", maxPlays: 1 },
+
+  { id: "cc_hunt_outcome_wolf_killed_two_elara", speaker: "elara", trigger: "wolf.hunt_the_hero_outcome_wolf_killed_two",
+    voiceLine: "Two of the three. I am — I am going to take a moment with the inscription. The Hall was designed around a thirteenth pedestal it did not yet know it would need. The Hall now knows.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_hunt_outcome_wolf_killed_two_human", speaker: "human", trigger: "wolf.hunt_the_hero_outcome_wolf_killed_two",
+    voiceLine: "Two fell. One held. The held one will be looking for a witness. I would like you to be that witness, when you can. Not tonight.",
+    timing: "next_room_enter", maxPlays: 1 },
+
+  { id: "cc_hunt_outcome_wolf_killed_all_elara", speaker: "elara", trigger: "wolf.hunt_the_hero_outcome_wolf_killed_all",
+    voiceLine: "All three. The Hall's geometry was vindicated; the chronicle's design held. I am — I am not going to soften this. I warned against release on the record. The record now reads what it reads. I am still here.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_hunt_outcome_wolf_killed_all_human", speaker: "human", trigger: "wolf.hunt_the_hero_outcome_wolf_killed_all",
+    voiceLine: "All three fell. I will not relitigate the release. I will sit with the cost. Tomorrow we keep going. The cost does not get smaller by being avoided. It gets carried.",
+    timing: "next_room_enter", maxPlays: 1 },
+
+  { id: "cc_hunt_outcome_draw_timeout_elara", speaker: "elara", trigger: "wolf.hunt_the_hero_outcome_draw_timeout",
+    voiceLine: "The Hall returned to silence with no verdict written. Lycos's hunt held; the heroes' approach held. Neither side committed. The chronicle has a margin for that — it will not be marked closed until something gives.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_hunt_outcome_draw_timeout_human", speaker: "human", trigger: "wolf.hunt_the_hero_outcome_draw_timeout",
+    voiceLine: "Stalemate. Sometimes that's what happens when two arguments are both real. I'm not going to call it a win or a loss. I'm going to call it: not yet.",
+    timing: "next_room_enter", maxPlays: 1 },
+
   // ── MECHANIC INTRO CINEMATICS — PAIRED REACTIVE COMMENTS ──
   // Card Combat
   { id: "cc_mech_card_combat_first", speaker: "elara", trigger: "mech_card_combat_intro_seen",
