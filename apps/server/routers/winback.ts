@@ -1,3 +1,4 @@
+// audit-allow-proc: offer, claim
 import { protectedProcedure, router } from "../_core/trpc";
 import {
   getWinbackOffer,

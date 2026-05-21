@@ -70,6 +70,23 @@
         });
       }
     </script>
-    <script defer src="%VITE_ANALYTICS_ENDPOINT%/umami" data-website-id="%VITE_ANALYTICS_WEBSITE_ID%"></script>
+    <script>
+      // Inject analytics at runtime only when VITE_ANALYTICS_ENDPOINT is
+      // populated at build time. Vite leaves the literal "%VITE_*%"
+      // placeholder when the env var is undefined; without this guard a
+      // static <script src> would have the browser fetch
+      // "/%VITE_ANALYTICS_ENDPOINT%/umami", which crashes Express's
+      // path-param decoder (URIError on every page load).
+      (function () {
+        var ep = "%VITE_ANALYTICS_ENDPOINT%";
+        var wid = "%VITE_ANALYTICS_WEBSITE_ID%";
+        if (!ep || ep.charAt(0) === "%") return;
+        var s = document.createElement("script");
+        s.defer = true;
+        s.src = ep + "/umami";
+        if (wid && wid.charAt(0) !== "%") s.setAttribute("data-website-id", wid);
+        document.head.appendChild(s);
+      })();
+    </script>
   </body>
 </html>

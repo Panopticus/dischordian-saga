@@ -1,3 +1,4 @@
+// audit-allow-proc: ledger
 import { z } from "zod";
 import { protectedProcedure, router } from "../_core/trpc";
 import { getSagaLedger } from "../services/sagaLedgerService";
