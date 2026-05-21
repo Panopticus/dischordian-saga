@@ -34,6 +34,10 @@ import {
   pickNpcChoice,
   resolveNpcCurrentChoices,
 } from "../services/npcDialogueService";
+import { aggregateWitnessLedger } from "../../shared/tradeEmpire/witnessLedger";
+import { getDb } from "../db";
+import { userProgress } from "../../db/schema";
+import { eq } from "drizzle-orm";
 
 const NPC_KEYS_SET = new Set<string>(NAMED_NPC_KEYS);
 
@@ -140,4 +144,28 @@ export const npcDialoguesRouter = router({
         sealed: result.sealed,
       };
     }),
+
+  /** Witness Ledger — the Antiquarian's aggregated view of every
+   *  `potential.*` and `mystery_episode_complete:*` flag the player
+   *  has accrued through companion-quest completions. Embodies
+   *  canon: "all potentials shape the universe". Returns an empty
+   *  ledger on missing DB / row / shape — the Archive simply has no
+   *  page for the unread. */
+  getWitnessLedger: protectedProcedure.query(async ({ ctx }) => {
+    const empty = aggregateWitnessLedger({});
+    const db = await getDb();
+    if (!db) return empty;
+    const rows = await db
+      .select({ gameData: userProgress.gameData })
+      .from(userProgress)
+      .where(eq(userProgress.userId, ctx.user.id))
+      .limit(1);
+    const data = rows[0]?.gameData as
+      | { narrativeFlags?: Record<string, unknown> }
+      | null
+      | undefined;
+    const flags = data?.narrativeFlags;
+    if (!flags || typeof flags !== "object") return empty;
+    return aggregateWitnessLedger(flags);
+  }),
 });
