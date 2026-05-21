@@ -51,6 +51,8 @@
     "vo:story-mode": "tsx apps/scripts/generate-story-mode-vo.ts",
     "vo:elara:extract": "tsx apps/scripts/extract-elara-lines.ts",
     "vo:elara": "python3 apps/scripts/generate_elara_vo.py",
+    "vo:gaps": "python3 apps/scripts/generate_vo_gaps.py",
+    "vo:gaps:dry": "python3 apps/scripts/generate_vo_gaps.py --dry-run",
     "vo:act2": "tsx apps/scripts/generate-act-vo.ts --act 2",
     "vo:act3": "tsx apps/scripts/generate-act-vo.ts --act 3",
     "vo:act4": "tsx apps/scripts/generate-act-vo.ts --act 4",
