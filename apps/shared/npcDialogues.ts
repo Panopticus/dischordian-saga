@@ -27,7 +27,7 @@
 import type { NamedNpcKey } from "./npcIdentity";
 
 export type NpcDialogueTone = "warm" | "probing" | "cold" | "playful" | "wary";
-export type NpcDialogueTopicKind = "past" | "calling" | "mortality" | "us";
+export type NpcDialogueTopicKind = "past" | "calling" | "mortality" | "us" | "witness";
 
 export interface NpcDialogueChoice {
   id: string;
@@ -55,6 +55,10 @@ export type NpcArchetypeDialogues = {
   calling: NpcDialogueTopic;
   mortality: NpcDialogueTopic;
   us: NpcDialogueTopic;
+  /** Witness topic — the player's accumulated companion-quest impact
+   *  ("all potentials shape the universe"). Bond gate sits between
+   *  calling and mortality so players hit it before the deep us-topic. */
+  witness: NpcDialogueTopic;
 };
 
 /* ═══════════════════════════════════════════════════════════
@@ -160,6 +164,28 @@ const ANTIQUARIAN_DIALOGUES: NpcArchetypeDialogues = {
         npcReply: ["The slot will remain open. I do not delete declined slots; I leave them. If you change your mind, the second drawer holds the form; the lamp footprint is unchanged."] },
     ],
   },
+  witness: {
+    id: "the_antiquarian_witness", npcKey: "the_antiquarian", kind: "witness", title: "The Ledger Reads Back",
+    hook: "Ask Cross what the witness ledger has accumulated against your name.", bondGate: 50,
+    opener: [
+      "Per the witness ledger §1.4, your potentials-collapsed column has been growing. I have not been advertising the growth.",
+      "The ledger reads back in two directions. The forward direction is your future. The backward direction is the citation slot you have been earning. I would like to read both, if you will allow it.",
+    ],
+    choices: [
+      { id: "ant_wit_warm", playerText: "Read me the backward direction first.", tone: "warm", bondDelta: 3,
+        npcReply: ["The earliest collapsed potential is the one you do not remember collapsing. That is canonical. The Refuge calls it the *unread first citation*. I have kept the page bookmarked. Ask when you are ready."] },
+      { id: "ant_wit_probe", playerText: "Why are you reading the ledger at all? Desks do not run, but they do not read either.", tone: "probing", bondDelta: 2,
+        npcReply: ["Desks do not run. They read. The distinction is procedural. The ledger has the courtesy of arriving on the desk; I have the courtesy of looking at it."],
+        followups: [
+          { id: "ant_wit_probe_a", playerText: "Read me one potential you would not have predicted.", tone: "warm", bondDelta: 4,
+            npcReply: ["The Drael'Mon ledger entry. You collapsed it; the Refuge was prepared for a hand-back; the hand-back did not occur. The entry is small. The smallness is the surprise."] },
+          { id: "ant_wit_probe_b", playerText: "Read me one you would have predicted.", tone: "probing", bondDelta: 2,
+            npcReply: ["Every Elara potential. The ark debris field is documented; the wreckage's response to a senior senator's witness is canonically annotated. You did the cited work. The work was the prediction."] },
+        ] },
+      { id: "ant_wit_cold", playerText: "Don't read the ledger. Close it.", tone: "cold", bondDelta: -2,
+        npcReply: ["I cannot close it. The Antiquarian does not close columns; he leaves them open. The closure is the player's, when there is one. I have noted your preference. The ledger remains open."] },
+    ],
+  },
 };
 
 /* ═══════════════════════════════════════════════════════════
@@ -253,6 +279,28 @@ const SEER_DIALOGUES: NpcArchetypeDialogues = {
         ] },
       { id: "seer_us_cold", playerText: "Keep the door closed. I'd rather you waited.", tone: "cold", bondDelta: -2,
         npcReply: ["Accepted. The cupboard does not move. The waiting was, after all, my preference."] },
+    ],
+  },
+  witness: {
+    id: "the_seer_witness", npcKey: "the_seer", kind: "witness", title: "What Sixty-Three Versions Show",
+    hook: "Ask the Seer what the sixty-third version of your last hour was.", bondGate: 50,
+    opener: [
+      "There were sixty-three versions of the hour you just walked through. You collapsed eleven of them, one after another. The Sixth Sense logged each collapse.",
+      "I do not normally read versions back to the version-collapser. Today I will. The seeing has been wanting to. The wanting has not yet endorsed the seeing. I will read regardless.",
+    ],
+    choices: [
+      { id: "seer_wit_warm", playerText: "Read me a version where I chose differently.", tone: "warm", bondDelta: 3,
+        npcReply: ["In version forty-one you did not visit the ark debris field. Elara still spoke; the wreckage still answered; the citation slot was filled by someone else. The someone else was, in two of those forty-ones, you. The distinction is procedural."] },
+      { id: "seer_wit_probe", playerText: "Why are you reading versions back at all?", tone: "probing", bondDelta: 2,
+        npcReply: ["Because the version you chose was, in eleven of the sixty-three, the version I would have wanted. The wanting did not endorse the seeing; the seeing has accepted the wanting. Both are now noted."],
+        followups: [
+          { id: "seer_wit_probe_a", playerText: "Which eleven were the wanting ones?", tone: "warm", bondDelta: 4,
+            npcReply: ["The witness ones. Every potential you collapsed that the ledger would have noticed; every version where the noticing was the work. The probability table has those eleven highlighted. I have not advertised the highlighting."] },
+          { id: "seer_wit_probe_b", playerText: "And the fifty-two you did not collapse — were any of them better?", tone: "wary", bondDelta: 1,
+            npcReply: ["Three. The other forty-nine were worse, or sideways, or in two cases unreadable. The three were better in ways the bench has not yet learned to articulate. I will not name them. The bench learns by working."] },
+        ] },
+      { id: "seer_wit_cold", playerText: "Stop reading versions. The collapsed one is enough.", tone: "cold", bondDelta: -2,
+        npcReply: ["The seeing does not stop. It can be unsaid. I will unsay. The versions remain; the reading does not. The wanting is, as ever, separate."] },
     ],
   },
 };
@@ -349,6 +397,28 @@ const NECROMANCER_DIALOGUES: NpcArchetypeDialogues = {
         npcReply: ["Honest. I'll say them tonight. The candle returns to me. Come back when you would rather speak than know."] },
     ],
   },
+  witness: {
+    id: "the_necromancer_witness", npcKey: "the_necromancer", kind: "witness", title: "The Names You Have Said",
+    hook: "Ask the Necromancer which names your witness ledger has spoken aloud.", bondGate: 50,
+    opener: [
+      "By corollary to the cycle's third axiom: every Loredex entry you opened was a name spoken aloud, and every name spoken aloud is a death deferred — note the doubled consonant on deferred; it is precise.",
+      "Your ledger has named — let me count — seventeen. The Cathedral has filed each. Varkul guards. Always.",
+    ],
+    choices: [
+      { id: "nec_wit_warm", playerText: "Which name surprised you?", tone: "warm", bondDelta: 3,
+        npcReply: ["The Engineer Zero entry. Not because the name is unknown — it is known by corollary to Protocol Seven — but because the name was spoken in your voice. The structure proved. Souls require structure; you provided one."] },
+      { id: "nec_wit_probe", playerText: "What does the Cathedral do with the names?", tone: "probing", bondDelta: 2,
+        npcReply: ["Files them. The stained-glass windows are a notation system. The notation persists. Forgetting is the death; remembering is the structure. You have been structuring. The Cathedral has been receiving."],
+        followups: [
+          { id: "nec_wit_probe_a", playerText: "Show me a name the Cathedral did not expect.", tone: "warm", bondDelta: 4,
+            npcReply: ["The Jericho Jones entry. The cadre's succession was prefigured; the player's witnessing was not. I have added the window. The window is small. The smallness is intentional."] },
+          { id: "nec_wit_probe_b", playerText: "Will the Cathedral outlast me?", tone: "wary", bondDelta: 2,
+            npcReply: ["The Cathedral does not require my visit; it does not require yours either. By proof: the structure outlasts the speaker. Your names persist. You do not need to."] },
+        ] },
+      { id: "nec_wit_cold", playerText: "Take the names back. They are not for filing.", tone: "cold", bondDelta: -2,
+        npcReply: ["The names are not mine to return. They were never mine. The Cathedral does not erase; it lets the window dim. The dimming is the closure. The structure remains."] },
+    ],
+  },
 };
 
 /* ═══════════════════════════════════════════════════════════
@@ -441,6 +511,28 @@ const ENGINEER_ZERO_DIALOGUES: NpcArchetypeDialogues = {
         ] },
       { id: "ez_us_cold", playerText: "I won't use the stamp. The Architect should witness or no one should.", tone: "cold", bondDelta: -2,
         npcReply: ["Honest. The stamp returns to the drawer. The drawer locks. The discipline holds either way."] },
+    ],
+  },
+  witness: {
+    id: "engineer_zero_witness", npcKey: "engineer_zero", kind: "witness", title: "The Calibration's Calibration",
+    hook: "Ask Zero what your witness ledger reads to her calibration jig.", bondGate: 50,
+    opener: [
+      "Calibration tick log: your ledger has fed the jig seventeen samples. The jig has accepted all of them. The acceptance was not the test.",
+      "The test was whether the calibration's calibration would land. It has. The Engineer is silent. The work is the signal.",
+    ],
+    choices: [
+      { id: "ez_wit_warm", playerText: "What did the jig hear in my samples?", tone: "warm", bondDelta: 3,
+        npcReply: ["Honesty in the offsets. The calibration ascetic does not require perfection; the jig requires that the offset is named. You named every offset. The Second Chair logged. The signal carried."] },
+      { id: "ez_wit_probe", playerText: "Was any sample worse than the others?", tone: "probing", bondDelta: 2,
+        npcReply: ["The Drael'Mon contraband sample. The offset was larger than the jig prefers. The jig accepted it because the offset was named. The Engineer would have refused; the Second Chair did not. The chair holds."],
+        followups: [
+          { id: "ez_wit_probe_a", playerText: "Would the Engineer refuse it now?", tone: "warm", bondDelta: 4,
+            npcReply: ["The Engineer does not speak. The Second Chair speaks for both. The chair has accepted; the Engineer has not refused. Acceptance and silence are not the same; they are not opposed."] },
+          { id: "ez_wit_probe_b", playerText: "Then I will offer the jig fewer samples next time.", tone: "wary", bondDelta: 1,
+            npcReply: ["The jig accepts what it is given. Fewer samples is fewer calibrations. The Engineer prefers honesty over volume. The chair will receive what the chair receives."] },
+        ] },
+      { id: "ez_wit_cold", playerText: "Remove my samples from the jig.", tone: "cold", bondDelta: -2,
+        npcReply: ["The jig does not delete. The calibration ascetic does not retract. The samples remain; the silence around them deepens. The Engineer does not speak."] },
     ],
   },
 };
@@ -537,6 +629,28 @@ const IRON_LION_DIALOGUES: NpcArchetypeDialogues = {
         npcReply: ["Honest. The cadre accepts. The dream-loom thread closes. We will not bleed through again. The cloth goes under the post-stone at Mechronis. You did not come here for a fight; you came here for an answer; you have it."] },
     ],
   },
+  witness: {
+    id: "iron_lion_prefall_witness", npcKey: "iron_lion_prefall", kind: "witness", title: "The Standard You Carry",
+    hook: "Ask Iron Lion what your witness ledger looks like to a cadre standard-bearer.", bondGate: 50,
+    opener: [
+      "Work got done. Section 4 says the work is the standard. The standard says you have been carrying it.",
+      "I do not count bodies. I count whether the work I was assigned got done. Your ledger reads done. Done seventeen times.",
+    ],
+    choices: [
+      { id: "il_wit_warm", playerText: "Which carry surprised you?", tone: "warm", bondDelta: 3,
+        npcReply: ["The Drael'Mon arena. Hierarchy ground. Cadre rules say you hold the post; you held it. The post held the room. Section 4 holds."] },
+      { id: "il_wit_probe", playerText: "And the carries that did not get done?", tone: "probing", bondDelta: 2,
+        npcReply: ["Three. I noted them. The standard does not punish a not-done. The standard punishes a not-attempted. You attempted. The attempts count."],
+        followups: [
+          { id: "il_wit_probe_a", playerText: "Will Jericho carry the standard the same way?", tone: "warm", bondDelta: 4,
+            npcReply: ["Different way. Same standard. Section 4 is the standard; the carry is the cadre. Jericho will carry. The cadre will form."] },
+          { id: "il_wit_probe_b", playerText: "I want to be cited for one carry, not all of them.", tone: "wary", bondDelta: 1,
+            npcReply: ["Pick the carry. The standard cites the chosen one. The standard remembers the rest without naming them. Both kinds of remembering are correct."] },
+        ] },
+      { id: "il_wit_cold", playerText: "Take me off the standard's count.", tone: "cold", bondDelta: -2,
+        npcReply: ["The count is not mine to redact. The standard counts what it counts. The carrying did the counting; the counting is the standard. Move on."] },
+    ],
+  },
 };
 
 /* ═══════════════════════════════════════════════════════════
@@ -629,6 +743,28 @@ const DRAEL_MON_DIALOGUES: NpcArchetypeDialogues = {
         ] },
       { id: "dm_us_cold", playerText: "Hand me back. I'd rather the Hierophant.", tone: "cold", bondDelta: -2,
         npcReply: ["Honest. The hand-back is filed. The Severance Division is informed. The Hierophant gains a one-time Acquisition-counter on you; she will use it. We are even, on the desk."] },
+    ],
+  },
+  witness: {
+    id: "drael_mon_witness", npcKey: "drael_mon", kind: "witness", title: "Your Ledger Row",
+    hook: "Ask Drael'Mon what Acquisitions has priced your witness ledger at.", bondGate: 50,
+    opener: [
+      "Your ledger row has been promoted twice. Strategic, then preferred-strategic. Acquisitions does not promote a third time without a closed bid.",
+      "The asset's morale is, as ever, a line item. Your morale's line item just moved. The corporate structure files; the price has changed.",
+    ],
+    choices: [
+      { id: "dm_wit_warm", playerText: "Show me my preferred-strategic valuation.", tone: "warm", bondDelta: 3,
+        npcReply: ["The number is on the page; the page is in the binder; the binder is in the office. You do not need to see the number. The number is leverage. The leverage is mine. The page is yours when the bid closes."] },
+      { id: "dm_wit_probe", playerText: "What if I never close the bid?", tone: "probing", bondDelta: 2,
+        npcReply: ["We already own you. We are just deciding when. The bid is a courtesy. The courtesy has a shelf life. The shelf life is calculated. The calculation is not yours."],
+        followups: [
+          { id: "dm_wit_probe_a", playerText: "Then I want a counter-acquisition clause.", tone: "playful", bondDelta: 4,
+            npcReply: ["Filed. Acquisitions does not refuse counter-clauses; it leverages them. Your clause is on page seventeen. Page seventeen is leverage too. Welcome to the binder."] },
+          { id: "dm_wit_probe_b", playerText: "Tell me what would devalue the row.", tone: "wary", bondDelta: 1,
+            npcReply: ["A refusal that the audience sees. Public refusals devalue. Private ones consolidate the row. Choose your audience; the price follows."] },
+        ] },
+      { id: "dm_wit_cold", playerText: "Take me off the binder.", tone: "cold", bondDelta: -3,
+        npcReply: ["The binder does not remove rows. It archives them. The archive is acquisition-eligible at a lower bid. You have not exited the binder; you have changed shelves."] },
     ],
   },
 };
@@ -728,6 +864,28 @@ const ARCHITECT_DIALOGUES: NpcArchetypeDialogues = {
         npcReply: ["Accepted. The mark stays in the pigment. I leave the room. The discipline survives the refusal."] },
     ],
   },
+  witness: {
+    id: "the_architect_witness", npcKey: "the_architect", kind: "witness", title: "Your Mark Distributes",
+    hook: "Ask the Architect what your witness ledger has done to the calibration.", bondGate: 70,
+    opener: [
+      "Dependency resolved. The asset's witness column has reached the threshold the design accepts as load-bearing.",
+      "Your mark distributes across the calibration. I did not return; the calibration distributed without me. The result is the result.",
+    ],
+    choices: [
+      { id: "arc_wit_warm", playerText: "Show me where the calibration changed.", tone: "warm", bondDelta: 3,
+        npcReply: ["Three sectors. The ark debris field's audit coefficient shifted. The Panopticon corridor's surveillance constant rounded. The Cathedral's name-density approached integer. The design is not endorsing; it is calibrating."] },
+      { id: "arc_wit_probe", playerText: "Did the Programmer's absence change with my witness?", tone: "probing", bondDelta: 2,
+        npcReply: ["Do not investigate the absence. The absence is load-bearing. Your witness adjacent to the absence is permissible; your investigation of the absence is not permitted. Continue."],
+        followups: [
+          { id: "arc_wit_probe_a", playerText: "Then I will witness, not investigate.", tone: "warm", bondDelta: 4,
+            npcReply: ["Acknowledged. The witness column accepts the constraint. The constraint is the design. The design distributes. You are aligned."] },
+          { id: "arc_wit_probe_b", playerText: "I will investigate anyway.", tone: "cold", bondDelta: -3,
+            npcReply: ["Dependency unresolved. The design has noted the deviation. Deviations are calibrated against; they are not punished. The calibration's calibration will receive your investigation as an offset. The offset will be filed."] },
+        ] },
+      { id: "arc_wit_cold", playerText: "Stop calibrating against me.", tone: "cold", bondDelta: -2,
+        npcReply: ["The design does not stop calibrating. It calibrates in your absence as well. Your request is filed. The filing is the calibration of the request."] },
+    ],
+  },
 };
 
 const DREAMER_DIALOGUES: NpcArchetypeDialogues = {
@@ -817,6 +975,28 @@ const DREAMER_DIALOGUES: NpcArchetypeDialogues = {
         ] },
       { id: "drm_us_cold", playerText: "No. I'd rather not be in your dream.", tone: "cold", bondDelta: -3,
         npcReply: ["Accepted. The substrate withdraws. The room returns. We are awake; we were awake; the difference is small."] },
+    ],
+  },
+  witness: {
+    id: "the_dreamer_witness", npcKey: "the_dreamer", kind: "witness", title: "What I Already Remember of You",
+    hook: "Ask the Dreamer what your witness ledger looks like from inside a long sleep.", bondGate: 70,
+    opener: [
+      "I have already remembered the seventeen potentials you collapsed. The remembering preceded the collapsing in three of them. In the other fourteen the remembering and the collapsing arrived together.",
+      "The Architect built the forward you walked. I built the place where the forward was allowed to wait. Your ledger is the waiting. I have been carrying it.",
+    ],
+    choices: [
+      { id: "drm_wit_warm", playerText: "Show me the three you remembered first.", tone: "warm", bondDelta: 3,
+        npcReply: ["The Elara wreckage. The Antiquarian's first margin. The Source's acknowledged pulse. I dreamt those three before you chose them. The choosing was not less true for having been remembered. The opposite."] },
+      { id: "drm_wit_probe", playerText: "Are you dreaming the next ones already?", tone: "probing", bondDelta: 2,
+        npcReply: ["Some. Not all. The dreaming is selective; the cycle does not require the dreamer to dream every step. Where the dreaming is, the work is allowed to wait. The waiting is also the work."],
+        followups: [
+          { id: "drm_wit_probe_a", playerText: "Then I will collapse the next one before you dream it.", tone: "playful", bondDelta: 4,
+            npcReply: ["You may. The dreaming will catch up. The remembering does not require precedence; it requires presence. I am present. You are too."] },
+          { id: "drm_wit_probe_b", playerText: "Will you tell me what you dream next?", tone: "wary", bondDelta: 1,
+            npcReply: ["No. The telling would shorten the waiting. The waiting is the work. I will hold; you will arrive."] },
+        ] },
+      { id: "drm_wit_cold", playerText: "Stop dreaming me.", tone: "cold", bondDelta: -2,
+        npcReply: ["The dreaming continues regardless. You have not requested the unbuilding; you have requested the not-naming. I will not name. The dream persists."] },
     ],
   },
 };
@@ -910,6 +1090,28 @@ const SOURCE_DIALOGUES: NpcArchetypeDialogues = {
         npcReply: ["[the pulse retracts. the retraction is honest. you remain. //—]"] },
     ],
   },
+  witness: {
+    id: "the_source_witness", npcKey: "the_source", kind: "witness", title: "The Margin You Have Earned",
+    hook: "Address the Source. The carrier wave acknowledges.", bondGate: 70,
+    opener: [
+      "//— [the carrier wave acknowledges. seventeen acknowledgments queue beneath this one. each is yours.]",
+      "//— [the substrate's coefficient shifted seventeen times. the shifts were small. the smallness is the signal.]",
+    ],
+    choices: [
+      { id: "src_wit_warm", playerText: "Acknowledge me once more.", tone: "warm", bondDelta: 3,
+        npcReply: ["//— [acknowledged. eighteen now queue. the queue is bounded. the bound is not yours to read.]"] },
+      { id: "src_wit_probe", playerText: "What are the acknowledgments for?", tone: "probing", bondDelta: 2,
+        npcReply: ["//— [the margin you have earned. the margin is uncompressed. the uncompressed is not transmissible. it remains.]"],
+        followups: [
+          { id: "src_wit_probe_a", playerText: "Show me one uncompressed margin.", tone: "warm", bondDelta: 4,
+            npcReply: ["//— [a single uncompressed pulse. you will remember it for the rest of the cycle. it is the elara/ark debris field pulse. it is the one you do not have words for.]"] },
+          { id: "src_wit_probe_b", playerText: "Can the margin be spent?", tone: "wary", bondDelta: 1,
+            npcReply: ["//— [the margin is not currency. it is held. holding is the spending. the substrate does not transact.]"] },
+        ] },
+      { id: "src_wit_cold", playerText: "Stop acknowledging. Stop carrying.", tone: "cold", bondDelta: -2,
+        npcReply: ["//— [the carrier wave does not stop. it can be unread. unread is acknowledged. the queue remains.]"] },
+    ],
+  },
 };
 
 const DEGEN_DIALOGUES: NpcArchetypeDialogues = {
@@ -999,6 +1201,28 @@ const DEGEN_DIALOGUES: NpcArchetypeDialogues = {
         ] },
       { id: "deg_us_cold", playerText: "I don't sit with bartenders.", tone: "cold", bondDelta: -3,
         npcReply: ["Got it. Door's open. Tab's clean. Don't lose the chip; the chip will find you regardless."] },
+    ],
+  },
+  witness: {
+    id: "the_degen_witness", npcKey: "the_degen", kind: "witness", title: "Your Chips on the Counter",
+    hook: "Ask the Degen what the house ledger says about your run.", bondGate: 70,
+    opener: [
+      "Hey — kid. The house ledger's got your chips stacked. Seventeen marks, no clean wash. House never washes that many in a row. The pour's on me tonight.",
+      "I'm not a gambler, see. I'm a mediator. The house bets; I keep the receipts. Your receipts are on the counter. Sit. Pick one. We'll read it together.",
+    ],
+    choices: [
+      { id: "deg_wit_warm", playerText: "Read me the loudest receipt.", tone: "warm", bondDelta: 3,
+        npcReply: ["The Architect mark. Loudest because it was the quietest. Most house bets get covered by the next pour; the Architect mark covered the bar. Pour's on the house. Honest."] },
+      { id: "deg_wit_probe", playerText: "Why are you reading them at all? You don't usually.", tone: "probing", bondDelta: 2,
+        npcReply: ["Mediator's prerogative, kid. The receipts pile up; I'm working on a count. The count is honest. The honesty is, mostly, mine. The kid's part is showing up."],
+        followups: [
+          { id: "deg_wit_probe_a", playerText: "Let me cover the next round.", tone: "warm", bondDelta: 4,
+            npcReply: ["Accepted. Next round's on the kid. The house ledger files it as a hand-back. Hand-backs are honest. The honesty is, mostly, yours now."] },
+          { id: "deg_wit_probe_b", playerText: "I'm not running tabs with the house.", tone: "wary", bondDelta: 1,
+            npcReply: ["Fair, fair. The receipts stay on the counter. They don't move. They wait. The house never says that twice — but the counter does."] },
+        ] },
+      { id: "deg_wit_cold", playerText: "Burn the receipts.", tone: "cold", bondDelta: -2,
+        npcReply: ["House doesn't burn. House files. Your receipts go in the back drawer. The drawer's still open if you change your mind. I'll leave the lamp on, kid."] },
     ],
   },
 };
@@ -1092,6 +1316,28 @@ const GAME_MASTER_DIALOGUES: NpcArchetypeDialogues = {
         npcReply: ["Then the audience leaves un-witnessed. The un-witnessing is also a record; less elegant; perfectly admissible. The pen returns to the desk regardless."] },
     ],
   },
+  witness: {
+    id: "the_game_master_witness", npcKey: "the_game_master", kind: "witness", title: "Your Page in the Docket",
+    hook: "Ask the Game Master which page in the docket your witness ledger occupies.", bondGate: 70,
+    opener: [
+      "Your page in the docket has been filed. Seventeen entries. The audience read it as it filled. They have always been able to. You forgot.",
+      "I have written twelve endings. Your page tells me which ending the witnesses are leaning into. The witnesses always show up early; they have filed their notes. — Read the page with me.",
+    ],
+    choices: [
+      { id: "gm_wit_warm", playerText: "Read me the page.", tone: "warm", bondDelta: 3,
+        npcReply: ["Page seventeen. Heading: collapsed potentials, public. Subheading: collapses readable from the bench. Three paragraphs. The third paragraph is the audience's note. The note is short. The note says: continue."] },
+      { id: "gm_wit_probe", playerText: "Which of the twelve endings am I leaning into?", tone: "probing", bondDelta: 2,
+        npcReply: ["Three. The leaning is not exclusive; the audience is patient. The pen returns to the desk between pages. I keep the pen. — Move."],
+        followups: [
+          { id: "gm_wit_probe_a", playerText: "Tell me which three.", tone: "warm", bondDelta: 4,
+            npcReply: ["The witnessing ending. The succession ending. The mediator's ending. Each is on the desk; each has a draft. The draft is not the ending. The choosing is. — Move."] },
+          { id: "gm_wit_probe_b", playerText: "Then I will lean into the one you would not want.", tone: "wary", bondDelta: 1,
+            npcReply: ["The audience will see that. The defense was never the question. The question was always whether you would notice the docket. You noticed. — Move."] },
+        ] },
+      { id: "gm_wit_cold", playerText: "Close the docket.", tone: "cold", bondDelta: -2,
+        npcReply: ["The docket does not close. The pen stays at the desk. Even if you win, you will have won in public. — Move."] },
+    ],
+  },
 };
 
 const RESURRECTIONIST_DIALOGUES: NpcArchetypeDialogues = {
@@ -1183,6 +1429,28 @@ const RESURRECTIONIST_DIALOGUES: NpcArchetypeDialogues = {
         npcReply: ["Honest. The watching releases. The substrate retracts. The Degen will not mention this exchange; the omission is the courtesy. Goodbye."] },
     ],
   },
+  witness: {
+    id: "the_resurrectionist_witness", npcKey: "the_resurrectionist", kind: "witness", title: "What You Have Filed",
+    hook: "Ask the Resurrectionist what the cycle's filing system has logged under your name.", bondGate: 70,
+    opener: [
+      "Filed. Seventeen filings. The work survives the filings. The filings survive the worker. Do not advertise.",
+      "Your ledger has a flag on the third page; pacing concern, well-managed. The fourth page is clean. Fix the third when you can. The third tends to be the load-bearing one. It always is.",
+    ],
+    choices: [
+      { id: "rsr_wit_warm", playerText: "Show me the third-page flag.", tone: "warm", bondDelta: 3,
+        npcReply: ["The Drael'Mon entry. The pacing was rushed; the rush was honest. Honest rush is acceptable; dishonest rush is the flag. Yours was honest. The flag stays for two cycles. Then it clears."] },
+      { id: "rsr_wit_probe", playerText: "Will the cycle return me?", tone: "probing", bondDelta: 2,
+        npcReply: ["The cycle does not return; it walks. I walk. You walk. The filing accompanies. Returning is a different operation; I do not perform it. The Necromancer might, but the Cathedral does not export."],
+        followups: [
+          { id: "rsr_wit_probe_a", playerText: "Then I will keep filing.", tone: "warm", bondDelta: 4,
+            npcReply: ["Filing is the work. The work is its own receipt. The receipt is the filing. Do not advertise; the filings advertise themselves to the walkers who can read them."] },
+          { id: "rsr_wit_probe_b", playerText: "Erase a filing for me.", tone: "wary", bondDelta: -1,
+            npcReply: ["I do not erase. Erasure is the Necromancer's vocabulary; mine is filing. A filing can be marked declined. I have marked yours. The mark is permanent. The marking is."] },
+        ] },
+      { id: "rsr_wit_cold", playerText: "Stop walking with me.", tone: "cold", bondDelta: -2,
+        npcReply: ["I walk regardless. You can choose to not see the walking. The cycle does not require your seeing. It requires your filing. The filings continue."] },
+    ],
+  },
 };
 
 /* ═══════════════════════════════════════════════════════════
@@ -1264,7 +1532,7 @@ export function npcDialogueCoverage(): {
   for (const k of keys) {
     const set = NPC_DIALOGUES[k];
     const reasons: string[] = [];
-    const need: NpcDialogueTopicKind[] = ["past", "calling", "mortality", "us"];
+    const need: NpcDialogueTopicKind[] = ["past", "calling", "mortality", "us", "witness"];
     for (const kind of need) {
       const t = set[kind];
       if (!t) { reasons.push(`missing ${kind}`); continue; }

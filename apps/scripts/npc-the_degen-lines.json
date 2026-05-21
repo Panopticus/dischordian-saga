@@ -259,6 +259,69 @@
     "dialogueTopic": "us"
   },
   {
+    "id": "the_degen_dlg_witness_opener_0",
+    "character": "npc_the_degen",
+    "text": "Hey — kid. The house ledger's got your chips stacked. Seventeen marks, no clean wash. House never washes that many in a row. The pour's on me tonight.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "the_degen_dlg_witness_opener_1",
+    "character": "npc_the_degen",
+    "text": "I'm not a gambler, see. I'm a mediator. The house bets; I keep the receipts. Your receipts are on the counter. Sit. Pick one. We'll read it together.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "the_degen_dlg_witness_deg_wit_warm_reply_0",
+    "character": "npc_the_degen",
+    "text": "The Architect mark. Loudest because it was the quietest. Most house bets get covered by the next pour; the Architect mark covered the bar. Pour's on the house. Honest.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "the_degen_dlg_witness_deg_wit_probe_reply_0",
+    "character": "npc_the_degen",
+    "text": "Mediator's prerogative, kid. The receipts pile up; I'm working on a count. The count is honest. The honesty is, mostly, mine. The kid's part is showing up.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "the_degen_dlg_witness_deg_wit_probe_deg_wit_probe_a_reply_0",
+    "character": "npc_the_degen",
+    "text": "Accepted. Next round's on the kid. The house ledger files it as a hand-back. Hand-backs are honest. The honesty is, mostly, yours now.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "the_degen_dlg_witness_deg_wit_probe_deg_wit_probe_b_reply_0",
+    "character": "npc_the_degen",
+    "text": "Fair, fair. The receipts stay on the counter. They don't move. They wait. The house never says that twice — but the counter does.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "the_degen_dlg_witness_deg_wit_cold_reply_0",
+    "character": "npc_the_degen",
+    "text": "House doesn't burn. House files. Your receipts go in the back drawer. The drawer's still open if you change your mind. I'll leave the lamp on, kid.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
     "id": "the_degen_comment_deg_first_costly",
     "character": "npc_the_degen",
     "text": "Honest loss, kid. The chip in your pocket just got marked. Don't lose it. The chip will find you regardless.",

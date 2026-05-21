@@ -259,6 +259,69 @@
     "dialogueTopic": "us"
   },
   {
+    "id": "the_necromancer_dlg_witness_opener_0",
+    "character": "npc_the_necromancer",
+    "text": "By corollary to the cycle's third axiom: every Loredex entry you opened was a name spoken aloud, and every name spoken aloud is a death deferred — note the doubled consonant on deferred; it is precise.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "the_necromancer_dlg_witness_opener_1",
+    "character": "npc_the_necromancer",
+    "text": "Your ledger has named — let me count — seventeen. The Cathedral has filed each. Varkul guards. Always.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "the_necromancer_dlg_witness_nec_wit_warm_reply_0",
+    "character": "npc_the_necromancer",
+    "text": "The Engineer Zero entry. Not because the name is unknown — it is known by corollary to Protocol Seven — but because the name was spoken in your voice. The structure proved. Souls require structure; you provided one.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "the_necromancer_dlg_witness_nec_wit_probe_reply_0",
+    "character": "npc_the_necromancer",
+    "text": "Files them. The stained-glass windows are a notation system. The notation persists. Forgetting is the death; remembering is the structure. You have been structuring. The Cathedral has been receiving.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "the_necromancer_dlg_witness_nec_wit_probe_nec_wit_probe_a_reply_0",
+    "character": "npc_the_necromancer",
+    "text": "The Jericho Jones entry. The cadre's succession was prefigured; the player's witnessing was not. I have added the window. The window is small. The smallness is intentional.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "the_necromancer_dlg_witness_nec_wit_probe_nec_wit_probe_b_reply_0",
+    "character": "npc_the_necromancer",
+    "text": "The Cathedral does not require my visit; it does not require yours either. By proof: the structure outlasts the speaker. Your names persist. You do not need to.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "the_necromancer_dlg_witness_nec_wit_cold_reply_0",
+    "character": "npc_the_necromancer",
+    "text": "The names are not mine to return. They were never mine. The Cathedral does not erase; it lets the window dim. The dimming is the closure. The structure remains.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
     "id": "the_necromancer_comment_nec_apprentice_died",
     "character": "npc_the_necromancer",
     "text": "Their name. Spelled correctly. Three syllables in the cycle's tongue. I have lit the wax. The cycle remembers; tonight it does not forget.",

@@ -259,6 +259,69 @@
     "dialogueTopic": "us"
   },
   {
+    "id": "the_dreamer_dlg_witness_opener_0",
+    "character": "npc_the_dreamer",
+    "text": "I have already remembered the seventeen potentials you collapsed. The remembering preceded the collapsing in three of them. In the other fourteen the remembering and the collapsing arrived together.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "the_dreamer_dlg_witness_opener_1",
+    "character": "npc_the_dreamer",
+    "text": "The Architect built the forward you walked. I built the place where the forward was allowed to wait. Your ledger is the waiting. I have been carrying it.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "the_dreamer_dlg_witness_drm_wit_warm_reply_0",
+    "character": "npc_the_dreamer",
+    "text": "The Elara wreckage. The Antiquarian's first margin. The Source's acknowledged pulse. I dreamt those three before you chose them. The choosing was not less true for having been remembered. The opposite.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "the_dreamer_dlg_witness_drm_wit_probe_reply_0",
+    "character": "npc_the_dreamer",
+    "text": "Some. Not all. The dreaming is selective; the cycle does not require the dreamer to dream every step. Where the dreaming is, the work is allowed to wait. The waiting is also the work.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "the_dreamer_dlg_witness_drm_wit_probe_drm_wit_probe_a_reply_0",
+    "character": "npc_the_dreamer",
+    "text": "You may. The dreaming will catch up. The remembering does not require precedence; it requires presence. I am present. You are too.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "the_dreamer_dlg_witness_drm_wit_probe_drm_wit_probe_b_reply_0",
+    "character": "npc_the_dreamer",
+    "text": "No. The telling would shorten the waiting. The waiting is the work. I will hold; you will arrive.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "the_dreamer_dlg_witness_drm_wit_cold_reply_0",
+    "character": "npc_the_dreamer",
+    "text": "The dreaming continues regardless. You have not requested the unbuilding; you have requested the not-naming. I will not name. The dream persists.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
     "id": "the_dreamer_comment_drm_track37",
     "character": "npc_the_dreamer",
     "text": "I dreamt that song before it was written. The composer dreamt me writing it. We did not need to agree about which of those was the cause.",

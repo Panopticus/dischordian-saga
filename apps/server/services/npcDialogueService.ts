@@ -44,7 +44,7 @@ const EMPTY: NpcDialogueProgress = {
 export function getNpcTopic(topicId: string): NpcDialogueTopic | null {
   for (const k of Object.keys(NPC_DIALOGUES) as NamedNpcKey[]) {
     const set = NPC_DIALOGUES[k];
-    for (const t of [set.past, set.calling, set.mortality, set.us]) {
+    for (const t of [set.past, set.calling, set.mortality, set.us, set.witness]) {
       if (t.id === topicId) return t;
     }
   }

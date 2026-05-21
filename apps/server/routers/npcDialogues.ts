@@ -59,7 +59,7 @@ export const npcDialoguesRouter = router({
       const key = ensureNpcKey(input.npcKey);
       const set = NPC_DIALOGUES[key];
       const identity = NPC_IDENTITIES[key];
-      const topics = [set.past, set.calling, set.mortality, set.us];
+      const topics = [set.past, set.calling, set.mortality, set.us, set.witness];
       const progress = await listNpcProgress(ctx.user.id, key);
       return {
         npcKey: key,
