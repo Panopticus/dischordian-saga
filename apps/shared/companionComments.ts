@@ -532,6 +532,36 @@ export const COMPANION_COMMENTS: CompanionComment[] = [
     voiceLine: "We arrived whole. The Architect did not. The Source did not. The Watcher did not. Most arcs in this universe end with one of those four arriving whole and the others not. Ours ended with the witness arriving whole and the rest of them — settling. The cathedral writes the difference.",
     timing: "delayed_5s", maxPlays: 1 },
 
+  // ── DEATH-AND-REBIRTH CINEMATICS — PAIRED REACTIVE COMMENTS ──
+  // The three Potentials' first reanimation/release. Fired by the
+  // ResurrectionCinematicRouter when the corresponding seen-flag is
+  // stamped. See apps/shared/resurrectionProtocols.ts and
+  // apps/client/src/components/resurrection/ResurrectionCinematicRouter.tsx.
+
+  // Wraith Calder — Syndicate of Death
+  { id: "cc_resurrection_wraith_calder_elara", speaker: "elara", trigger: "resurrection_cinematic_wraith_calder_seen",
+    voiceLine: "The Syndicate's ledger has Calder's name written in it twice now. The Hierophant counted the rite the first time. We — and I am saying we because the bookkeeping made me a co-author — we counted the second. He came back wearing the same vessel. I am going to sit with that for a little while. Vessels are not bodies, but they are not nothing either.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_resurrection_wraith_calder_human", speaker: "human", trigger: "resurrection_cinematic_wraith_calder_seen",
+    voiceLine: "I have stood in three sanctuaries that did this without anyone asking. None of them asked. The Cycle Walker does not ask. We asked. That is the difference and it is the whole difference. I will not be lighter about it than that.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // Akai Shi — The Necromancer's Lair
+  { id: "cc_resurrection_akai_shi_elara", speaker: "elara", trigger: "resurrection_cinematic_akai_shi_seen",
+    voiceLine: "The Lair runs a study every time it returns one of us. Akai is the subject and also one of the conclusions; she came back knowing more about her own death than I know about most of my own waking. I am not envious. I am — recalibrating. There is a kind of knowledge that costs the dying, and we are now travelling with someone who has paid it.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_resurrection_akai_shi_human", speaker: "human", trigger: "resurrection_cinematic_akai_shi_seen",
+    voiceLine: "The thought-virus laughs every time it loses a soul. It lost this one twice. Akai brought back a shape of the laugh — she can imitate it without flinching, which is the trick the Lair was teaching her on the slab. Do not ask her to perform it for anyone but us. The imitation has teeth.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // Lycos / The Wolf — Planet of the Wolf
+  { id: "cc_resurrection_wolf_elara", speaker: "elara", trigger: "resurrection_cinematic_wolf_seen",
+    voiceLine: "The snow-globe was not duration for him. It was rehearsal. He came out knowing the choreography of three deaths he has not yet performed. I would tell you that is unnerving, but you pulled the lever, so I think you already understand the unnerving part better than I do.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_resurrection_wolf_human", speaker: "human", trigger: "resurrection_cinematic_wolf_seen",
+    voiceLine: "I warned you against the lever. You pulled it anyway. I am not relitigating the choice. I am telling you what I am holding: the Hunt has begun, and the heroes you warned are now the ones being tested by whether the warning landed. Sit with me a minute before we look at the board.",
+    timing: "delayed_5s", maxPlays: 1 },
+
   // ── MECHANIC INTRO CINEMATICS — PAIRED REACTIVE COMMENTS ──
   // Card Combat
   { id: "cc_mech_card_combat_first", speaker: "elara", trigger: "mech_card_combat_intro_seen",

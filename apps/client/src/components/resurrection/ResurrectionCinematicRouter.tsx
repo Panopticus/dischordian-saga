@@ -169,6 +169,7 @@ export function ResurrectionCinematicRouter(): ReactElement | null {
       videoRelPath={def.videoRelPath}
       primaryLabel={pending.primaryLabel}
       secondaryLabel={pending.secondaryLabel}
+      frameLine={def.frameLine}
       onComplete={handleComplete}
     />
   );

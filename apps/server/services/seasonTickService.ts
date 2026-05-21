@@ -216,6 +216,16 @@ export async function runSeasonTick(now: number = Date.now()): Promise<SeasonTic
       } catch (err) {
         logger.error("[seasonTick] demand generation failed:", err);
       }
+      // Resurrection Path B sweep — when the galactic state is in a
+      // "dark" phase, auto-resolve any open Resurrection Protocols
+      // quests via the unmediated Samsara machine. Cheap when the
+      // phase is calm (the gate short-circuits in the service).
+      try {
+        const { runPathBSweepForUser } = await import("./pathBResolutionService");
+        await runPathBSweepForUser(userId, now);
+      } catch (err) {
+        logger.error("[seasonTick] path B sweep failed:", err);
+      }
     }
     // §8.4 Living Sector Economies — once per agenda tick, simulate
     // NPC factions trading without the player. Saturation moves

@@ -656,6 +656,41 @@ export const COMPANION_ASK_TOPICS: readonly CompanionAskTopic[] = [
     unlockedFromAct: 7,
   },
 
+  // ── DEATH-AND-REBIRTH CINEMATICS — ASK TOPICS ──
+  // One ask-topic per resurrection cinematic, gated on the seen-flag.
+  // Pairs with cc_resurrection_*_seen reactive comments in
+  // companionComments.ts.
+  {
+    id: "ask_elara_wraith_calder_returned",
+    speaker: "elara",
+    label: "Wraith, twice-counted",
+    question: "Calder is back. What does it mean that the Syndicate counted him a second time?",
+    answer:
+      "It means the Hierophant's bookkeeping was honest and the Cycle Walker's bookkeeping is also honest, and the two now agree on a single soul. The Syndicate of Death is a notation system. Notation is not the thing. But notation done twice without contradiction is — a kind of permission. Calder has the permission. He did not have it before. I would say he is more himself, except he was already entirely himself; he is now entirely himself in a register the universe is willing to underwrite.",
+    unlockFlag: "resurrection_cinematic_wraith_calder_seen",
+    unlockedFromAct: 2,
+  },
+  {
+    id: "ask_human_akai_shi_returned",
+    speaker: "human",
+    label: "Akai, twice-studied",
+    question: "The Lair studied her death. What did she come back with?",
+    answer:
+      "She came back with the shape of the laugh. The Red Death thought-virus has a laugh; the Lair studies that laugh on every soul it returns. Most subjects do not remember being studied. Akai remembers. She can imitate the laugh without it taking her — which is the closest thing to a cure for that virus anyone has ever brought off the slab. She will not perform it for strangers. Do not ask her to. Do ask her, once, what the slab sounded like. She will tell you.",
+    unlockFlag: "resurrection_cinematic_akai_shi_seen",
+    unlockedFromAct: 2,
+  },
+  {
+    id: "ask_elara_wolf_released",
+    speaker: "elara",
+    label: "The Wolf, rehearsed",
+    question: "He says the snow-globe was rehearsal. Rehearsal for what?",
+    answer:
+      "For the three hunts ahead. The Crucible does not store its inmates — it choreographs them. He came out knowing the angle of three kills he has not yet performed and the angle of three mercies he might choose instead. The minigame is the choreography asking which set he is going to dance. I am not telling you what to root for. I am telling you that the rehearsal was real, and the performance will be real, and the heroes you warned are the audience as well as the cast.",
+    unlockFlag: "resurrection_cinematic_wolf_seen",
+    unlockedFromAct: 2,
+  },
+
   // ── MECHANIC INTRO ASK TOPICS ──
 
   // Card Combat
