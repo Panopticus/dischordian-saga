@@ -150,6 +150,7 @@ import {
 } from "./checks/canonCoverage";
 import { checkWolfHuntHeroTargetCoverage } from "./checks/wolfHuntHeroTargetCoverage";
 import { checkWolfHuntBossLieutenantCoverage } from "./checks/wolfHuntBossLieutenantCoverage";
+import { checkCompanionRosterCompleteness } from "./checks/companionRosterCompleteness";
 
 export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
   // ─── Card engine ──────────────────────────────────────────
@@ -1284,5 +1285,14 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "Hard parity: every core Hierarchy lord (10 total) must have exactly one boss lieutenant in the wolfHunt registry. The 10 lord-lieutenant card-game boss fights are the arc's climactic structure — a missing lieutenant is a missing finale beat. Gap > 0 = FAIL.",
     check: () => checkWolfHuntBossLieutenantCoverage(),
+  },
+
+  // ─── Section D6 — companion roster completeness ────────────
+  {
+    id: "narrative.companion_roster_completeness",
+    name: "Companion roster completeness",
+    description:
+      "Hard parity (D6): the Resurrected Trio (wraith_calder, akai_shi, lycos) each resolve to (a) companionRoomRegistry entry, (b) loyaltyMissions entry, (c) per-character VO manifest file, (d) companion-comment trigger mentioning the npcKey. Pre-existing companions (Locke / Vex / Jericho) are out of scope — they have their own parity gates.",
+    check: () => checkCompanionRosterCompleteness(),
   },
 ];

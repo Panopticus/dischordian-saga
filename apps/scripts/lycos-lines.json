@@ -1,0 +1,37 @@
+[
+  {
+    "id": "lycos_loyalty_intro",
+    "text": "I extended mercy three times during the contract. I would like to extend it a fourth time, with witnesses I trust. Then I would like to refuse.",
+    "context": "loyalty_intro",
+    "emotion": "weary",
+    "file": "shared/loyaltyMissions.ts"
+  },
+  {
+    "id": "lycos_loyalty_stage_1",
+    "text": "He left on his own. The contract has no column for him. I would like to extend mercy as practice. The witness is you.",
+    "context": "loyalty_stage_1",
+    "emotion": "considered",
+    "file": "shared/loyaltyMissions.ts"
+  },
+  {
+    "id": "lycos_loyalty_stage_2",
+    "text": "He is performing tonight. A speech. He has my second-to-last contract memorised. He is going to deliver it from the stage.",
+    "context": "loyalty_stage_2",
+    "emotion": "quiet",
+    "file": "shared/loyaltyMissions.ts"
+  },
+  {
+    "id": "lycos_loyalty_stage_3",
+    "text": "I extended mercy three times because the Antiquarian's ledger asked me to. He never authorised it for you.",
+    "context": "loyalty_stage_3",
+    "emotion": "refused",
+    "file": "shared/loyaltyMissions.ts"
+  },
+  {
+    "id": "lycos_room_ambient_containment_atrium",
+    "text": "The snow-globe alcove is empty. The Antiquarian's ledger sits open at the pause-line. The pause-line is generous. I am — I am still learning to live in the generosity.",
+    "context": "room_ambient",
+    "emotion": "reflective",
+    "file": "shared/companionRoomRegistry.ts"
+  }
+]

@@ -1,0 +1,37 @@
+[
+  {
+    "id": "wraith_loyalty_intro",
+    "text": "There are six sanctuaries in the Syndicate's ledger. I am told there are seven. I would like to know which one was added after I died.",
+    "context": "loyalty_intro",
+    "emotion": "analytical",
+    "file": "shared/loyaltyMissions.ts"
+  },
+  {
+    "id": "wraith_loyalty_stage_1",
+    "text": "Six is the canonical count. The Syndicate publishes six. Six is what you would find if you searched.",
+    "context": "loyalty_stage_1",
+    "emotion": "analytical",
+    "file": "shared/loyaltyMissions.ts"
+  },
+  {
+    "id": "wraith_loyalty_stage_2",
+    "text": "I am not the original. I am the second pressing. I would like the plates.",
+    "context": "loyalty_stage_2",
+    "emotion": "cold",
+    "file": "shared/loyaltyMissions.ts"
+  },
+  {
+    "id": "wraith_loyalty_stage_3",
+    "text": "It is mine. It was waiting for me. I am — closing it.",
+    "context": "loyalty_stage_3",
+    "emotion": "resolved",
+    "file": "shared/loyaltyMissions.ts"
+  },
+  {
+    "id": "wraith_room_ambient_ledger_vault",
+    "text": "The brass desk catches the light differently from the desks I remember. I think the room has decided I am the one writing now.",
+    "context": "room_ambient",
+    "emotion": "reflective",
+    "file": "shared/companionRoomRegistry.ts"
+  }
+]

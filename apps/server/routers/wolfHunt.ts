@@ -30,6 +30,11 @@ import {
   writeWolfHuntFlags,
 } from "../services/wolfHuntStore";
 import {
+  loadCrewState,
+  saveCrewState,
+  addCrewMemberToState,
+} from "../services/crewState";
+import {
   ALL_HERO_TARGETS,
   getHeroTarget,
   emptyMissionState,
@@ -133,13 +138,55 @@ async function applyMissionEffects(
       // Open a resurrection quest by writing the canonical npc_death flag.
       flagMutations["npc_death:lycos"] = true;
     }
-    // Arc-end triggers.
-    if (isGoodEndingReached(nextMeters)) {
+    // Arc-end triggers + Lycos recruitment (C-pivot.C.3 / D3).
+    // Lycos joins the crew on EITHER good or bad ending — the dark
+    // path bonds him through the failure rather than locking him out.
+    const goodEnd = isGoodEndingReached(nextMeters);
+    const badEnd = isBadEndingReached(nextMeters);
+    if (goodEnd) {
       flagMutations[WOLF_HUNT_ARC_COMPLETE_TRIGGER_FLAG] = true;
-      // Arc CTA closes once the arc-complete cinematic seen-flag is set.
     }
-    if (isBadEndingReached(nextMeters)) {
+    if (badEnd) {
       flagMutations[WOLF_HUNT_ARC_FAILURE_TRIGGER_FLAG] = true;
+    }
+    if (goodEnd || badEnd) {
+      flagMutations["lycos_recruited"] = true;
+      const crew = await loadCrewState(userId);
+      if (crew && !crew.roster.members.some((m) => m.id === "lycos")) {
+        const lycosMember = {
+          id: "lycos",
+          name: "Lycos",
+          nickname: "The Wolf",
+          species: "human" as const,
+          gender: "male" as const,
+          bloodlineId: "lycos" as never,
+          generation: 1,
+          parentIds: null,
+          children: [],
+          geneticTraits: [],
+          role: "security" as const,
+          stats: {
+            resilience: 85,
+            intellect: 70,
+            reflexes: 90,
+            empathy: 55,
+            immunity: 75,
+            adaptability: 80,
+          } as never,
+          morale: badEnd ? 35 : 60,
+          health: 90,
+          loyalty: goodEnd ? 75 : 55,
+          status: "active" as const,
+          age: 0,
+          maxAge: 999,
+          missionHistory: [],
+          relationships: {},
+          birthCycle: 0,
+          productionPath: "recruited" as const,
+        };
+        const nextCrew = addCrewMemberToState(crew, lycosMember as never);
+        await saveCrewState(userId, nextCrew);
+      }
     }
 
     await saveWolfHuntStore(userId, {

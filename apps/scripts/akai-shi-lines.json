@@ -1,0 +1,37 @@
+[
+  {
+    "id": "akai_loyalty_intro",
+    "text": "The Lair studied me. I would like to read its notes. Some of those notes were mine before they were theirs.",
+    "context": "loyalty_intro",
+    "emotion": "calibrated",
+    "file": "shared/loyaltyMissions.ts"
+  },
+  {
+    "id": "akai_loyalty_stage_1",
+    "text": "I want to read what the Lair learned. It learned things from me I did not know I was teaching.",
+    "context": "loyalty_stage_1",
+    "emotion": "analytical",
+    "file": "shared/loyaltyMissions.ts"
+  },
+  {
+    "id": "akai_loyalty_stage_2",
+    "text": "Four. I expected one. The pattern is more generous than I was told.",
+    "context": "loyalty_stage_2",
+    "emotion": "considered",
+    "file": "shared/loyaltyMissions.ts"
+  },
+  {
+    "id": "akai_loyalty_stage_3",
+    "text": "I am going to run the cure. I am going to do it in a way that ends with the others alive. The pattern is generous; I am taking the generosity.",
+    "context": "loyalty_stage_3",
+    "emotion": "resolved",
+    "file": "shared/loyaltyMissions.ts"
+  },
+  {
+    "id": "akai_room_ambient_blade_shrine",
+    "text": "The voltari static is at its lowest setting in this room. I have set it that way deliberately. You may speak normally; the shrine compensates.",
+    "context": "room_ambient",
+    "emotion": "calibrated",
+    "file": "shared/companionRoomRegistry.ts"
+  }
+]
