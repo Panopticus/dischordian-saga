@@ -51,3 +51,60 @@ export {
   lordFullyHarvestedFlag,
   killsCountFlag,
 } from "./flags";
+
+export {
+  emptyMissionState,
+  type WolfHuntMissionState,
+  type MissionStep,
+  type MissionOutcome,
+  type MissionChoiceLogEntry,
+  type ApproachChoiceKey,
+  type EngagementChoiceKey,
+} from "./missionState";
+
+export {
+  reduceMission,
+  type WolfHuntAction,
+  type ReducerContext,
+  type ReducerResult,
+  type ReducerEffect,
+  type WolfHuntEventKind,
+} from "./missionReducer";
+
+export {
+  rollLycosDeath,
+  computeDeathProbability,
+  deathRollSeed,
+  type DeathRollResult,
+  type DeathRollContext,
+} from "./lycosDeathRoll";
+
+export {
+  emptyBossState,
+  reduceBossFight,
+  WOLF_CARD_DEFS,
+  DEFENDER_CARD_DEFS,
+  type BossState,
+  type BossAction,
+  type BossOutcome,
+  type WolfCardId,
+  type DefenderCardId,
+} from "./bossFight/index";
+
+export {
+  eventsFromMission,
+  emptyCrucibleMeters,
+  applyEventsToMeters,
+  isGoodEndingReached,
+  isBadEndingReached,
+  type WolfHuntLivingEvent,
+  type WolfHuntLivingEventKind,
+  type CrucibleMeters,
+} from "./livingUniverseHooks";
+
+export {
+  getPowerLibraryEntry,
+  getPowersForClass,
+  powerLibraryIds,
+  type PowerLibraryEntry,
+} from "./powerLibrary";

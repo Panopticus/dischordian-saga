@@ -174,6 +174,34 @@ export const MOURNING_REMARKS: Record<
       ],
     },
   ],
+
+  /* ═══ LYCOS / THE WOLF — the Antiquarian's contracted hunter ═══ */
+  lycos: [
+    {
+      speaker: "elara",
+      speakerDisplay: "Elara",
+      variants: [
+        "Lycos fell on contract. The Antiquarian's pen paused. He did not close the column. He underlined the pause-line and went to his window.",
+        "He is in the Resurrection Protocol queue. The chronicle has a pause-shaped hole in it; the hole has a shape because the hole has a name.",
+      ],
+    },
+    {
+      speaker: "the_human",
+      speakerDisplay: "The Human",
+      variants: [
+        "He died for the contract he chose. That is not how the Hierarchy expected the contract to read.",
+        "Run the petition. He has done this before. He knows how to come back. He needs the rite, and the rite needs you to run it.",
+      ],
+    },
+    {
+      speaker: "the_dreamer",
+      speakerDisplay: "The Dreamer",
+      variants: [
+        "The contractor pauses the contract. The contractor does not seal it. The pause is the kindness the Antiquarian extends.",
+        "The Wolf has been dead before. The Wolf has returned before. The Wolf will return again. The pattern is older than this contract.",
+      ],
+    },
+  ],
 };
 
 /** Pick the speaker remarks for a given deceased NPC. Caller filters

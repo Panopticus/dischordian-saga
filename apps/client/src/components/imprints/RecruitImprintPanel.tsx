@@ -76,7 +76,8 @@ type NpcKey =
   | "wraith_calder"
   | "locke"
   | "jericho_jones"
-  | "akai_shi";
+  | "akai_shi"
+  | "lycos";
 
 type Outcome = "recruited_loyal" | "recruited_tense" | "refused" | null;
 

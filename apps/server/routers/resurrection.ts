@@ -57,6 +57,7 @@ const NPC_DISPLAY: Record<ResurrectableNpcKey, string> = {
   locke: "Adjudicator Locke",
   jericho_jones: "Jericho Jones",
   akai_shi: "Akai Shi",
+  lycos: "Lycos / The Wolf",
 };
 
 export const resurrectionRouter = router({

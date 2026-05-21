@@ -867,12 +867,79 @@ const AKAI_CHAIN: RecruitmentChain = {
 
 /* ─── REGISTRY ─── */
 
+/* ───────────────────────────────────────────────────────
+   LYCOS / THE WOLF — The Antiquarian's Contracted Hunter
+
+   Opens after the Wolf-Anara solo hunt arc concludes —
+   either by good ending (all 10 lord lieutenants down) or
+   bad ending (the corrupted League escapes the Crucible).
+   Both paths land Lycos in the alcove, contract closed.
+   ─────────────────────────────────────────────────────── */
+const LYCOS_CHAIN: RecruitmentChain = {
+  npcKey: "lycos",
+  displayName: "Lycos / The Wolf",
+  briefing:
+    "Lycos is on the bench by the snow-globe. The Antiquarian's pen is closed. The contract is done. Lycos has nowhere to be tonight and no orders to follow. He has not yet decided whether the absence of orders is a relief or a problem. He will tell you if you sit with him.",
+  startStageId: "lycos_1",
+  openGate: {
+    requiresFlagsAll: ["wolfHunt.arc_complete_trigger"],
+    description:
+      "Lycos can only be approached after the Antiquarian's hunt contract closes. Either close the contract on the contractor's terms, or — if the League escapes — return to him with the failure on your record.",
+  },
+  stages: [
+    {
+      id: "lycos_1",
+      title: "The Bench",
+      description:
+        "Lycos sits with both feet flat on the floor and his hands folded loosely in his lap. The snow-globe is on a shelf within reach. He has not touched it.",
+      scene: [
+        { speaker: "Lycos", text: "The Antiquarian's pen is closed. I have nothing to do. I have not had nothing to do in — I cannot tell you in what units. Sit." },
+      ],
+      choices: [
+        {
+          id: "lycos_1_invite",
+          label: "Tell him there's a seat on your inception ark.",
+          preview: "Direct offer. Lycos accepts; the contractor becomes the companion.",
+          npcReply: [
+            { speaker: "Lycos", text: "A seat. Not an order. I have not — yes. I will come. I owe you the chair." },
+          ],
+          result: {
+            advanceTo: "end",
+            outcome: "recruited_loyal",
+            startingLoyalty: 70,
+            statTweaks: { resilience: 5, reflexes: 5 },
+            flagsToSet: ["recruit:lycos:loyal", "lycos_recruited"],
+            relationshipTag: "contracted",
+          },
+        },
+        {
+          id: "lycos_1_ask",
+          label: "Ask him what he wants tonight.",
+          preview: "Patient. Lycos joins with a calmer baseline.",
+          npcReply: [
+            { speaker: "Lycos", text: "I want — a bench that is not the Antiquarian's. I will accept the inception ark on the condition that the bench comes with me." },
+          ],
+          result: {
+            advanceTo: "end",
+            outcome: "recruited_loyal",
+            startingLoyalty: 65,
+            statTweaks: { empathy: 5, adaptability: 5 },
+            flagsToSet: ["recruit:lycos:calm", "lycos_recruited"],
+            relationshipTag: "bench-shared",
+          },
+        },
+      ],
+    },
+  ],
+};
+
 export const RECRUITMENT_CHAINS: Record<ResurrectableNpcKey, RecruitmentChain> = {
   vex_solene: VEX_CHAIN,
   wraith_calder: WRAITH_CHAIN,
   locke: LOCKE_CHAIN,
   jericho_jones: JERICHO_CHAIN,
   akai_shi: AKAI_CHAIN,
+  lycos: LYCOS_CHAIN,
 };
 
 /** Look up a chain by NPC key. Throws if unregistered. */

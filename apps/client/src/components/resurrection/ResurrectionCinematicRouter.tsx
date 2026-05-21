@@ -136,6 +136,8 @@ function labelsForNpc(npcKey: ResurrectableNpcKey): {
       return { primaryLabel: "Resurrection", secondaryLabel: "Syndicate of Death" };
     case "akai_shi":
       return { primaryLabel: "Resurrection", secondaryLabel: "The Necromancer's Lair" };
+    case "lycos":
+      return { primaryLabel: "Reanimation", secondaryLabel: "The Antiquarian's Pause" };
     case "vex_solene":
     case "locke":
     case "jericho_jones":

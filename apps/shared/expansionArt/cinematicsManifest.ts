@@ -56,7 +56,15 @@ export type CinematicId =
   // apps/shared/dlcMysteries/wolfAnaraHunt.ts (Lycos).
   | "wraith_calder_syndicate_of_death"
   | "akai_shi_necromancers_lair"
-  | "wolf_planet_of_the_wolf";
+  | "wolf_planet_of_the_wolf"
+  // Lycos Path A reanimation — fires when a mid-hunt death routes
+  // through Resurrection Protocols (distinct from the once-only
+  // Crucible-release Wolf cinematic above).
+  | "lycos_path_a_reanimation"
+  // Wolf-hunt arc terminal cinematics (C-pivot.C — landed without MP4s;
+  // SingleVideoCutsceneOverlay surfaces the frame-line fallback).
+  | "wolf_hunt_arc_complete"
+  | "wolf_hunt_arc_failure";
 
 export interface CinematicDef {
   id: CinematicId;
@@ -263,6 +271,30 @@ export const CINEMATICS: readonly CinematicDef[] = [
     keyframeRelPaths: [],
     frameLine:
       "Time inside the snow-globe is not duration. It is rehearsal.",
+  },
+  {
+    id: "lycos_path_a_reanimation",
+    name: "Lycos — Path A Reanimation (Mid-Hunt)",
+    videoRelPath: "videos/cinematics/lycos_path_a_reanimation/lycos-path-a-reanimation.mp4",
+    keyframeRelPaths: [],
+    frameLine:
+      "The contract pauses. The contract does not close. The Antiquarian opens his ledger to the same column and waits.",
+  },
+  {
+    id: "wolf_hunt_arc_complete",
+    name: "Wolf-Hunt Arc — Contract Closed (Good Ending)",
+    videoRelPath: "videos/cinematics/wolf_hunt_arc_complete/wolf-hunt-arc-complete.mp4",
+    keyframeRelPaths: [],
+    frameLine:
+      "The Antiquarian closes the column. The Crucible holds. The corrupted League does not cross.",
+  },
+  {
+    id: "wolf_hunt_arc_failure",
+    name: "Wolf-Hunt Arc — The League Escapes (Bad Ending)",
+    videoRelPath: "videos/cinematics/wolf_hunt_arc_failure/wolf-hunt-arc-failure.mp4",
+    keyframeRelPaths: [],
+    frameLine:
+      "The wall thins. The corrupted League crosses. The Antiquarian seals his ledger and waits for the next contractor.",
   },
 ];
 

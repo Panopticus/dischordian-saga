@@ -149,6 +149,7 @@ export function canonicalRoomFor(member: PartyMember):
         case "wraith_calder": return "bunk-room";
         case "jericho_jones": return "bunk-room";
         case "akai_shi": return "bunk-room";
+        case "lycos": return "bunk-room";
       }
   }
 }
