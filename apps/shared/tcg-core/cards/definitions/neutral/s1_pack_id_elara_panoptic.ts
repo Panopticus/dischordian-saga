@@ -71,4 +71,9 @@ export const cardDef: CardDefinition = {
     reason: "Legendary ability-driven: 3/7 tanky body + on-deploy heal-all + draw. The on-deploy is a heal spell + cantrip stapled together. Sub-curve printed stats reflect the cost of the spell-equivalent value.",
     reviewer: "panopticus",
   },
+  unlockCondition: {
+    kind: "arc_episode_complete",
+    arcId: "arc.the_collector",
+    episodeId: "ark_echoes.chapter_3",
+  },
 };

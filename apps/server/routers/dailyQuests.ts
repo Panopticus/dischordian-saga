@@ -27,6 +27,7 @@ import {
   lookupCompanionQuest,
   type CompanionQuestDef,
 } from "../../shared/tradeEmpire/companionQuestCatalog";
+import { applyCompanionQuestRewards } from "../services/companionQuestRewards";
 
 /* ═══════════════════════════════════════════════════════
    QUEST TEMPLATES — Daily, Weekly, Epoch (Season)
@@ -669,6 +670,10 @@ export const dailyQuestsRouter = router({
             err,
           );
         }
+        // Apply bond + standing deltas declared on the catalog entry.
+        // Non-critical: failures log internally and the reward economy
+        // stays intact (see companionQuestRewards.ts).
+        await applyCompanionQuestRewards(ctx.user.id, companionDef);
       }
 
       return {
