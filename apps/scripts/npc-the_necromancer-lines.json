@@ -283,6 +283,14 @@
     "file": "shared/npcCompanionExtensions.ts"
   },
   {
+    "id": "the_necromancer_comment_nec_companion_quest_first",
+    "character": "npc_the_necromancer",
+    "text": "By corollary to the cycle's third axiom, the act you just completed is a death and a continuation — note the lengthened consonant on continuation; it is precise. Both states are entered in the ledger.",
+    "bucket": "comment",
+    "trigger": "companion_quest_complete",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
     "id": "the_necromancer_banter_bnt_nec_iron_lion_line0",
     "character": "npc_the_necromancer",
     "text": "Iron Lion. Three brothers. One sister. The roll is updated.",

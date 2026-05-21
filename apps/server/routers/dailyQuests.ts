@@ -687,6 +687,20 @@ export const dailyQuestsRouter = router({
         // Non-critical: failures log internally and the reward economy
         // stays intact (see companionQuestRewards.ts).
         await applyCompanionQuestRewards(ctx.user.id, companionDef);
+
+        // Ripple-emit a companion-quest reaction event. NPC_REACTIVE_
+        // COMMENTS keyed on trigger "companion_quest_complete" (see
+        // apps/shared/npcCompanionExtensions.ts) surface in canonical
+        // voice the first time the player completes ANY companion
+        // quest. maxPlays: 1 caps each NPC's reaction to one
+        // playthrough; the toast surface (when wired) reads the
+        // comments off NPC_REACTIVE_COMMENTS via the existing
+        // pickComment plumbing.
+        await ripple.emit("companion_quest_complete", {
+          userId: ctx.user.id,
+          questId: companionDef.id,
+          anchors: [...companionDef.anchors],
+        });
       }
 
       return {

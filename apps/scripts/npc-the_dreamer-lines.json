@@ -283,6 +283,14 @@
     "file": "shared/npcCompanionExtensions.ts"
   },
   {
+    "id": "the_dreamer_comment_drm_companion_quest_first",
+    "character": "npc_the_dreamer",
+    "text": "You arrived at the small thing. The crossing is not the work. The work is the moment after. I have already remembered it.",
+    "bucket": "comment",
+    "trigger": "companion_quest_complete",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
     "id": "the_dreamer_banter_bnt_arc_dreamer_design_line1",
     "character": "npc_the_dreamer",
     "text": "I know. I dreamt the calibration. We did not need to agree.",

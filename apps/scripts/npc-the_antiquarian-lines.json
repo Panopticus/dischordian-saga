@@ -283,6 +283,14 @@
     "file": "shared/npcCompanionExtensions.ts"
   },
   {
+    "id": "the_antiquarian_comment_ant_companion_quest_first",
+    "character": "npc_the_antiquarian",
+    "text": "Per the witness ledger §1.4, your action has been catalogued under 'potential collapsed.' The collapse is itself a citation. I have filed.",
+    "bucket": "comment",
+    "trigger": "companion_quest_complete",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
     "id": "the_antiquarian_banter_bnt_ant_locke_market_line0",
     "character": "npc_the_antiquarian",
     "text": "Locke. The contract is correctly signed. The footnote is correctly placed.",

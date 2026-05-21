@@ -283,6 +283,14 @@
     "file": "shared/npcCompanionExtensions.ts"
   },
   {
+    "id": "the_resurrectionist_comment_rsr_companion_quest_first",
+    "character": "npc_the_resurrectionist",
+    "text": "Filed. Pacing concern noted on the third page. The work survives the filing. Do not advertise.",
+    "bucket": "comment",
+    "trigger": "companion_quest_complete",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
     "id": "the_resurrectionist_banter_bnt_deg_rsr_ledger_line1",
     "character": "npc_the_resurrectionist",
     "text": "I see it. The wax is the Necromancer's. We trade. Pour me one.",

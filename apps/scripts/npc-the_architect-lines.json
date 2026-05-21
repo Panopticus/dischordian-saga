@@ -283,6 +283,14 @@
     "file": "shared/npcCompanionExtensions.ts"
   },
   {
+    "id": "the_architect_comment_arc_companion_quest_first",
+    "character": "npc_the_architect",
+    "text": "Dependency resolved. Witness ledger updated. The calibration distributes. Do not investigate the absence.",
+    "bucket": "comment",
+    "trigger": "companion_quest_complete",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
     "id": "the_architect_banter_bnt_ez_arch_mark_line1",
     "character": "npc_the_architect",
     "text": "It will hold a fourth. I did not return. The mark is in the corner.",
