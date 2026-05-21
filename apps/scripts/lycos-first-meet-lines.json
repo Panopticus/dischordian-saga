@@ -1,0 +1,158 @@
+[
+  {
+    "id": "lycos.first_meeting.root",
+    "text": "[Lycos sits on the bench. Both feet flat. Hands folded loosely. He is not waiting; he is on the other side of waiting. The snow-globe alcove is empty. The Antiquarian's ledger is open on the shelf at his shoulder — the pause-line is visible, unmarked, neither closed nor continued.] You came. The contract is done. I have not had nothing to do in — I cannot tell you in what units. Sit.",
+    "context": "first_meeting.lycos-first-meeting",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/lycos/first_meeting.ts",
+    "meta": {
+      "npcKey": "lycos",
+      "treeId": "lycos-first-meeting",
+      "nodeId": "root",
+      "requiresRevealStage": "post_contract"
+    }
+  },
+  {
+    "id": "lycos.first_meeting.sit_silent",
+    "text": "[He breathes out — a long, deliberate exhalation that has nothing to do with tension and everything to do with permission. The bench accepts your weight. The room is quieter than the Antiquarian's chamber, quieter than the snow-globe before it was emptied, quieter than the Crucible's threshold at the moment the contract opened.] Thank you. The silence is — useful. I would like a few more minutes of it before either of us speaks. You are welcome to stay for the silence.",
+    "context": "first_meeting.lycos-first-meeting",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/lycos/first_meeting.ts",
+    "meta": {
+      "npcKey": "lycos",
+      "treeId": "lycos-first-meeting",
+      "nodeId": "sit_silent",
+      "requiresRevealStage": "post_contract"
+    }
+  },
+  {
+    "id": "lycos.first_meeting.ask_pause_line",
+    "text": "[He glances at the ledger over his shoulder. The pause-line is exactly as he left it.] The Antiquarian draws the pause-line when the column cannot be closed and refuses to be sealed. It is canonically the kindest mark in his hand. I died on contract; the pause-line went down before the closing entry. I came back; the pause-line did not lift, because the contract continued. The contract closed; the pause-line is still there. I think he leaves it there for me. I think he expects me to read it sometimes.",
+    "context": "first_meeting.lycos-first-meeting",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/lycos/first_meeting.ts",
+    "meta": {
+      "npcKey": "lycos",
+      "treeId": "lycos-first-meeting",
+      "nodeId": "ask_pause_line",
+      "requiresRevealStage": "post_contract"
+    }
+  },
+  {
+    "id": "lycos.first_meeting.ask_about_mercy",
+    "text": "Three. The first one because the contract had not authorised the kill — the kill would have been mine, not the Antiquarian's, and I am not in that business any longer. The second one because the target asked me by my pre-corruption name; the name has not been spoken aloud since the Crucible took me, and the pronunciation was correct. The third one because the moon was full, and the target was old, and I was tired, and I had run out of reasons to refuse. None of those reasons would have held the next time. I am — not certain mercy is something I will extend again. I would like to talk about that with someone who will tell me when I am wrong.",
+    "context": "first_meeting.lycos-first-meeting",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/lycos/first_meeting.ts",
+    "meta": {
+      "npcKey": "lycos",
+      "treeId": "lycos-first-meeting",
+      "nodeId": "ask_about_mercy",
+      "requiresRevealStage": "post_contract"
+    }
+  },
+  {
+    "id": "lycos.first_meeting.test_the_wolf",
+    "text": "[He turns to face you for the first time. The look is not aggression; the look is correction.] I am still the Wolf. I do not need you to be sure of that. I needed you to be sure of it during the contract; the contract is closed. You can leave the room without testing the latch on the way out. The Wolf does not require a witness in the doorway. The Wolf is at peace with you whether or not you stay.",
+    "context": "first_meeting.lycos-first-meeting",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/lycos/first_meeting.ts",
+    "meta": {
+      "npcKey": "lycos",
+      "treeId": "lycos-first-meeting",
+      "nodeId": "test_the_wolf",
+      "requiresRevealStage": "post_contract"
+    }
+  },
+  {
+    "id": "lycos.loyalty_intro.root",
+    "text": "[Lycos has the Antiquarian's ledger in his lap this time. He is reading the column above the pause-line — the three mercy entries.] I extended mercy three times during the contract. I would like to extend it a fourth time, with witnesses I trust. Then I would like to refuse. The fourth mercy and the refusal are not the same target. I would like you with me for both. I would like you in particular.",
+    "context": "first_meeting.lycos-loyalty-intro",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/lycos/first_meeting.ts",
+    "meta": {
+      "npcKey": "lycos",
+      "treeId": "lycos-loyalty-intro",
+      "nodeId": "root",
+      "requiresRevealStage": "post_contract"
+    }
+  },
+  {
+    "id": "lycos.loyalty_intro.ask_both_targets",
+    "text": "The mercy target left the Crucible on his own — the Antiquarian's ledger has no column for him, which means I can extend mercy without the contract authoring it. He is old; he is tired; he will accept the mercy and not test it. The refusal target is the Resurrectionist's true heir. He has my second-to-last contract memorised. He is going to deliver it from a stage tonight in Coda territory. He will ask for mercy from the stage. He cannot have it. The Antiquarian never authorised it for him.",
+    "context": "first_meeting.lycos-loyalty-intro",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/lycos/first_meeting.ts",
+    "meta": {
+      "npcKey": "lycos",
+      "treeId": "lycos-loyalty-intro",
+      "nodeId": "ask_both_targets",
+      "requiresRevealStage": "post_contract"
+    }
+  },
+  {
+    "id": "lycos.loyalty_intro.post_targets_offer",
+    "text": "Will you come.",
+    "context": "first_meeting.lycos-loyalty-intro",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/lycos/first_meeting.ts",
+    "meta": {
+      "npcKey": "lycos",
+      "treeId": "lycos-loyalty-intro",
+      "nodeId": "post_targets_offer",
+      "requiresRevealStage": "post_contract"
+    }
+  },
+  {
+    "id": "lycos.loyalty_intro.ask_why_me",
+    "text": "[He sets the ledger down. He looks at the pause-line for a long moment before he answers.] Because the contract closed on your watch, not the Antiquarian's. He drafted it; you ran it. The mercy I extended during the contract was authored by him and witnessed by you. The mercy I am about to extend will be authored by me and witnessed by you. The refusal will be the first refusal I have ever issued under my own name; I would like it witnessed by the person who saw me extend mercy under someone else's.",
+    "context": "first_meeting.lycos-loyalty-intro",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/lycos/first_meeting.ts",
+    "meta": {
+      "npcKey": "lycos",
+      "treeId": "lycos-loyalty-intro",
+      "nodeId": "ask_why_me",
+      "requiresRevealStage": "post_contract"
+    }
+  },
+  {
+    "id": "lycos.loyalty_intro.accept_loyalty_full",
+    "text": "[He nods — once, slowly, the way someone nods when a load has shifted but not lightened.] Then we are armed. The mercy first; the refusal after. The heir is rehearsing the speech tonight. The mercy target is on the third terrace of the orchard — he is not going anywhere; the orchard is not somewhere one leaves quickly. We have time for both. Thank you. I — would not have refused alone. I am glad I will not be alone for it.",
+    "context": "first_meeting.lycos-loyalty-intro",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/lycos/first_meeting.ts",
+    "meta": {
+      "npcKey": "lycos",
+      "treeId": "lycos-loyalty-intro",
+      "nodeId": "accept_loyalty_full",
+      "requiresRevealStage": "post_contract"
+    }
+  },
+  {
+    "id": "lycos.loyalty_intro.accept_loyalty_conditional",
+    "text": "[He accepts the conditional with the same nod he would have given the unconditional.] The mercy first. We will talk about the refusal when the mercy is closed. The talk may change what the refusal looks like. I am open to that. The pause-line was open to it too.",
+    "context": "first_meeting.lycos-loyalty-intro",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/lycos/first_meeting.ts",
+    "meta": {
+      "npcKey": "lycos",
+      "treeId": "lycos-loyalty-intro",
+      "nodeId": "accept_loyalty_conditional",
+      "requiresRevealStage": "post_contract"
+    }
+  },
+  {
+    "id": "lycos.loyalty_intro.refuse_to_witness",
+    "text": "[A long silence. He does not protest. The bench accepts the silence without commentary.] You are well within your rights to refuse the witnessing. I will not extend the mercy without you; the mercy required a witness, and the witness is the role I was offering. I will sit with the offer being declined for a while. I am — well-practiced in declined offers. Thank you for being direct.",
+    "context": "first_meeting.lycos-loyalty-intro",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/lycos/first_meeting.ts",
+    "meta": {
+      "npcKey": "lycos",
+      "treeId": "lycos-loyalty-intro",
+      "nodeId": "refuse_to_witness",
+      "requiresRevealStage": "post_contract"
+    }
+  }
+]

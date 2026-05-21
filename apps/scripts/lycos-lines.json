@@ -1,37 +1,266 @@
 [
   {
-    "id": "lycos_loyalty_intro",
-    "text": "I extended mercy three times during the contract. I would like to extend it a fourth time, with witnesses I trust. Then I would like to refuse.",
-    "context": "loyalty_intro",
+    "id": "lycos.first_meeting.root",
+    "text": "You came. The contract is done. I have not had nothing to do in — I cannot tell you in what units. Sit.",
+    "context": "first_meeting.root",
     "emotion": "weary",
-    "file": "shared/loyaltyMissions.ts"
+    "file": "shared/npcs/dialogTrees/lycos/first_meeting.ts",
+    "meta": { "npcKey": "lycos", "treeId": "lycos-first-meeting", "nodeId": "root" }
   },
   {
-    "id": "lycos_loyalty_stage_1",
+    "id": "lycos.first_meeting.sit_silent",
+    "text": "Thank you. The silence is — useful. I would like a few more minutes of it before either of us speaks. You are welcome to stay for the silence.",
+    "context": "first_meeting.sit_silent",
+    "emotion": "grateful",
+    "file": "shared/npcs/dialogTrees/lycos/first_meeting.ts",
+    "meta": { "npcKey": "lycos", "treeId": "lycos-first-meeting", "nodeId": "sit_silent" }
+  },
+  {
+    "id": "lycos.first_meeting.ask_pause_line",
+    "text": "The Antiquarian draws the pause-line when the column cannot be closed and refuses to be sealed. It is canonically the kindest mark in his hand. I died on contract; the pause-line went down before the closing entry. I came back; the pause-line did not lift, because the contract continued. The contract closed; the pause-line is still there. I think he leaves it there for me. I think he expects me to read it sometimes.",
+    "context": "first_meeting.ask_pause_line",
+    "emotion": "considered",
+    "file": "shared/npcs/dialogTrees/lycos/first_meeting.ts",
+    "meta": { "npcKey": "lycos", "treeId": "lycos-first-meeting", "nodeId": "ask_pause_line" }
+  },
+  {
+    "id": "lycos.first_meeting.ask_about_mercy",
+    "text": "Three. The first one because the contract had not authorised the kill — the kill would have been mine, not the Antiquarian's, and I am not in that business any longer. The second one because the target asked me by my pre-corruption name; the name has not been spoken aloud since the Crucible took me, and the pronunciation was correct. The third one because the moon was full, and the target was old, and I was tired, and I had run out of reasons to refuse. None of those reasons would have held the next time. I am — not certain mercy is something I will extend again. I would like to talk about that with someone who will tell me when I am wrong.",
+    "context": "first_meeting.ask_about_mercy",
+    "emotion": "vulnerable",
+    "file": "shared/npcs/dialogTrees/lycos/first_meeting.ts",
+    "meta": { "npcKey": "lycos", "treeId": "lycos-first-meeting", "nodeId": "ask_about_mercy" }
+  },
+  {
+    "id": "lycos.first_meeting.test_the_wolf",
+    "text": "I am still the Wolf. I do not need you to be sure of that. I needed you to be sure of it during the contract; the contract is closed. You can leave the room without testing the latch on the way out. The Wolf does not require a witness in the doorway. The Wolf is at peace with you whether or not you stay.",
+    "context": "first_meeting.test_the_wolf",
+    "emotion": "correcting",
+    "file": "shared/npcs/dialogTrees/lycos/first_meeting.ts",
+    "meta": { "npcKey": "lycos", "treeId": "lycos-first-meeting", "nodeId": "test_the_wolf" }
+  },
+  {
+    "id": "lycos.loyalty_intro.root",
+    "text": "I extended mercy three times during the contract. I would like to extend it a fourth time, with witnesses I trust. Then I would like to refuse. The fourth mercy and the refusal are not the same target. I would like you with me for both. I would like you in particular.",
+    "context": "loyalty_intro.root",
+    "emotion": "considered",
+    "file": "shared/npcs/dialogTrees/lycos/loyalty_intro.ts",
+    "meta": { "npcKey": "lycos", "treeId": "lycos-loyalty-intro", "nodeId": "root" }
+  },
+  {
+    "id": "lycos.loyalty_intro.ask_both_targets",
+    "text": "The mercy target left the Crucible on his own — the Antiquarian's ledger has no column for him, which means I can extend mercy without the contract authoring it. He is old; he is tired; he will accept the mercy and not test it. The refusal target is the Resurrectionist's true heir. He has my second-to-last contract memorised. He is going to deliver it from a stage tonight in Coda territory. He will ask for mercy from the stage. He cannot have it. The Antiquarian never authorised it for him.",
+    "context": "loyalty_intro.ask_both_targets",
+    "emotion": "analytical",
+    "file": "shared/npcs/dialogTrees/lycos/loyalty_intro.ts",
+    "meta": { "npcKey": "lycos", "treeId": "lycos-loyalty-intro", "nodeId": "ask_both_targets" }
+  },
+  {
+    "id": "lycos.loyalty_intro.post_targets_offer",
+    "text": "Will you come.",
+    "context": "loyalty_intro.post_targets_offer",
+    "emotion": "patient",
+    "file": "shared/npcs/dialogTrees/lycos/loyalty_intro.ts",
+    "meta": { "npcKey": "lycos", "treeId": "lycos-loyalty-intro", "nodeId": "post_targets_offer" }
+  },
+  {
+    "id": "lycos.loyalty_intro.ask_why_me",
+    "text": "Because the contract closed on your watch, not the Antiquarian's. He drafted it; you ran it. The mercy I extended during the contract was authored by him and witnessed by you. The mercy I am about to extend will be authored by me and witnessed by you. The refusal will be the first refusal I have ever issued under my own name; I would like it witnessed by the person who saw me extend mercy under someone else's.",
+    "context": "loyalty_intro.ask_why_me",
+    "emotion": "vulnerable",
+    "file": "shared/npcs/dialogTrees/lycos/loyalty_intro.ts",
+    "meta": { "npcKey": "lycos", "treeId": "lycos-loyalty-intro", "nodeId": "ask_why_me" }
+  },
+  {
+    "id": "lycos.loyalty_intro.accept_loyalty_full",
+    "text": "Then we are armed. The mercy first; the refusal after. The heir is rehearsing the speech tonight. The mercy target is on the third terrace of the orchard — he is not going anywhere; the orchard is not somewhere one leaves quickly. We have time for both. Thank you. I — would not have refused alone. I am glad I will not be alone for it.",
+    "context": "loyalty_intro.accept_loyalty_full",
+    "emotion": "grateful",
+    "file": "shared/npcs/dialogTrees/lycos/loyalty_intro.ts",
+    "meta": { "npcKey": "lycos", "treeId": "lycos-loyalty-intro", "nodeId": "accept_loyalty_full" }
+  },
+  {
+    "id": "lycos.loyalty_intro.accept_loyalty_conditional",
+    "text": "The mercy first. We will talk about the refusal when the mercy is closed. The talk may change what the refusal looks like. I am open to that. The pause-line was open to it too.",
+    "context": "loyalty_intro.accept_loyalty_conditional",
+    "emotion": "considered",
+    "file": "shared/npcs/dialogTrees/lycos/loyalty_intro.ts",
+    "meta": { "npcKey": "lycos", "treeId": "lycos-loyalty-intro", "nodeId": "accept_loyalty_conditional" }
+  },
+  {
+    "id": "lycos.loyalty_intro.refuse_to_witness",
+    "text": "You are well within your rights to refuse the witnessing. I will not extend the mercy without you; the mercy required a witness, and the witness is the role I was offering. I will sit with the offer being declined for a while. I am — well-practiced in declined offers. Thank you for being direct.",
+    "context": "loyalty_intro.refuse_to_witness",
+    "emotion": "settled",
+    "file": "shared/npcs/dialogTrees/lycos/loyalty_intro.ts",
+    "meta": { "npcKey": "lycos", "treeId": "lycos-loyalty-intro", "nodeId": "refuse_to_witness" }
+  },
+  {
+    "id": "lycos.loyalty_stage_1.left_on_own",
     "text": "He left on his own. The contract has no column for him. I would like to extend mercy as practice. The witness is you.",
     "context": "loyalty_stage_1",
     "emotion": "considered",
     "file": "shared/loyaltyMissions.ts"
   },
   {
-    "id": "lycos_loyalty_stage_2",
+    "id": "lycos.loyalty_stage_1.useful",
+    "text": "Thank you. That was — useful.",
+    "context": "loyalty_stage_1",
+    "emotion": "grateful",
+    "file": "shared/loyaltyMissions.ts"
+  },
+  {
+    "id": "lycos.loyalty_stage_2.performing",
     "text": "He is performing tonight. A speech. He has my second-to-last contract memorised. He is going to deliver it from the stage.",
     "context": "loyalty_stage_2",
     "emotion": "quiet",
     "file": "shared/loyaltyMissions.ts"
   },
   {
-    "id": "lycos_loyalty_stage_3",
+    "id": "lycos.loyalty_stage_2.third_clause",
+    "text": "That is the one I was instructed to refuse. He has not yet learned the refusal.",
+    "context": "loyalty_stage_2",
+    "emotion": "analytical",
+    "file": "shared/loyaltyMissions.ts"
+  },
+  {
+    "id": "lycos.loyalty_stage_3.no",
+    "text": "No.",
+    "context": "loyalty_stage_3",
+    "emotion": "refused",
+    "file": "shared/loyaltyMissions.ts"
+  },
+  {
+    "id": "lycos.loyalty_stage_3.never_authorised",
     "text": "I extended mercy three times because the Antiquarian's ledger asked me to. He never authorised it for you.",
     "context": "loyalty_stage_3",
     "emotion": "refused",
     "file": "shared/loyaltyMissions.ts"
   },
   {
-    "id": "lycos_room_ambient_containment_atrium",
+    "id": "lycos.loyalty_stage_3.contract_closed",
+    "text": "Thank you. The contract is closed.",
+    "context": "loyalty_stage_3",
+    "emotion": "resolved",
+    "file": "shared/loyaltyMissions.ts"
+  },
+  {
+    "id": "lycos.ask.about_the_antiquarian",
+    "text": "The Antiquarian is the only person who has ever offered me a contract I could read fully before signing. The Crucible offered me corruption; the Hierarchy offered me a function; the Resurrectionist offered me a death. The Antiquarian offered me a column and a pause-line. The pause-line is the thing I am still living inside, even though the contract is closed.",
+    "context": "ask_topic_answer",
+    "emotion": "considered",
+    "file": "shared/companionAskTopics.ts"
+  },
+  {
+    "id": "lycos.ask.about_the_contract",
+    "text": "Two hundred and fifty names. Ten lieutenants. The Antiquarian's ledger has one closed column for each of them. The pause-line stays where it is. I run my finger over it once a day; the ink does not move. It is not supposed to. The pause-line is canonically the kindest mark in the Antiquarian's hand. I have not yet thanked him for it directly.",
+    "context": "ask_topic_answer",
+    "emotion": "weary",
+    "file": "shared/companionAskTopics.ts"
+  },
+  {
+    "id": "lycos.ask.about_mercy",
+    "text": "Mercy is a verb the Crucible un-taught me. The Antiquarian's contract re-taught me three of the conjugations. The fourth I taught myself, on the orchard terrace, with you as a witness. I do not know whether I have the fifth conjugation in me. I would like to think I do. I would like to be wrong about it less often than I have been.",
+    "context": "ask_topic_answer",
+    "emotion": "vulnerable",
+    "file": "shared/companionAskTopics.ts",
+    "meta": { "requiresFlag": "loyalty_lycos_complete" }
+  },
+  {
+    "id": "lycos.ask.about_the_crucible",
+    "text": "The Crucible is a pocket world authored by the Hierarchy to corrupt League heroes under lab conditions. I was the lab. I was also the result. The Crucible is — not gone, but it is no longer the room I am in. The room I am in is the containment atrium. The atrium has a bench. The bench has me. The me is — better than the alternative.",
+    "context": "ask_topic_answer",
+    "emotion": "analytical",
+    "file": "shared/companionAskTopics.ts"
+  },
+  {
+    "id": "lycos.ask.about_the_pause_line",
+    "text": "The pause-line is the Antiquarian's gentlest mark. He drew it the night I died on contract; he has not lifted it. I think he intends to leave it on the page for as long as the page has me on it. I notice the leaving. I am — grateful in a register he does not require thanks for.",
+    "context": "ask_topic_answer",
+    "emotion": "settled",
+    "file": "shared/companionAskTopics.ts"
+  },
+  {
+    "id": "lycos.ask.about_the_team",
+    "text": "I have been a hunter, a contractor, a corruptor's instrument, and a column in a ledger. I have not been on a team. The team is — slower than the contracts taught me to move. I am calibrating to the slower pace. The pace is what makes mercy possible. I think that is what the team is for.",
+    "context": "ask_topic_answer",
+    "emotion": "warm",
+    "file": "shared/companionAskTopics.ts",
+    "meta": { "requiresBond": 50 }
+  },
+  {
+    "id": "lycos.room_ambient.containment_atrium.1",
     "text": "The snow-globe alcove is empty. The Antiquarian's ledger sits open at the pause-line. The pause-line is generous. I am — I am still learning to live in the generosity.",
     "context": "room_ambient",
     "emotion": "reflective",
     "file": "shared/companionRoomRegistry.ts"
+  },
+  {
+    "id": "lycos.room_ambient.containment_atrium.2",
+    "text": "The bench is the right height. I have sat on benches that were not. The wrong height is a slow kind of hostility.",
+    "context": "room_ambient",
+    "emotion": "wry",
+    "file": "shared/companionRoomRegistry.ts"
+  },
+  {
+    "id": "lycos.room_ambient.containment_atrium.3",
+    "text": "The Antiquarian visited yesterday. He did not sit. He left a second pen on the shelf, beside the ledger. The pen is mine. I have not yet used it. I am — considering what I would write.",
+    "context": "room_ambient",
+    "emotion": "considered",
+    "file": "shared/companionRoomRegistry.ts"
+  },
+  {
+    "id": "lycos.reactive.lord_lieutenant_defeated.first",
+    "text": "First lieutenant closed. The lord's posture has shifted; I can feel it through the bench. The bench is connected to the Crucible's structural lattice in ways the Antiquarian's pen would prefer I not articulate. He prefers it; I notice anyway.",
+    "context": "reactive_lieutenant_first",
+    "emotion": "analytical",
+    "file": "shared/companionComments.ts",
+    "meta": { "trigger": "wolfHunt.kills_count:10" }
+  },
+  {
+    "id": "lycos.reactive.lycos_first_death",
+    "text": "I died once already, before you and I knew the contract was paused rather than closed. The Antiquarian's pen did not move; he had drawn the pause-line in advance. He had been ready for the possibility. I had not. I would like to be more ready next time, if there is a next time. The Antiquarian thinks there will be.",
+    "context": "reactive_lycos_first_death",
+    "emotion": "vulnerable",
+    "file": "shared/companionComments.ts",
+    "meta": { "trigger": "wolfHunt.lycos_first_death" }
+  },
+  {
+    "id": "lycos.reactive.wraith_recruited",
+    "text": "Wraith Calder is in the vault. He has the brass desk; I have the bench. We have not spoken at length. We share a wall with Akai. The three of us know what the pause-line looks like from inside. We will speak when speaking is the calibration. We are not in a hurry.",
+    "context": "reactive_wraith_joined",
+    "emotion": "kindred",
+    "file": "shared/companionComments.ts",
+    "meta": { "trigger": "wraith_calder_recruited" }
+  },
+  {
+    "id": "lycos.reactive.akai_recruited",
+    "text": "Akai Shi is at the shrine. She has set the static at a frequency the Lair never permitted. The frequency is — quiet enough that the bench picks it up faintly through the wall. I do not mind. The quiet is the right kind.",
+    "context": "reactive_akai_joined",
+    "emotion": "kindred",
+    "file": "shared/companionComments.ts",
+    "meta": { "trigger": "akai_shi_recruited" }
+  },
+  {
+    "id": "lycos.romance.intro",
+    "text": "[He turns the ledger over so the pause-line is face-down on the shelf. The face-down is canonical; he has not turned the ledger over since the contract closed.] I would like to ask you something the pause-line will not be asked to witness. The not-witnessing is the question. The pause-line stays where it is. The asking is canonical-private. Will you sit closer.",
+    "context": "romance_intro",
+    "emotion": "vulnerable",
+    "file": "shared/loyaltyMissions.ts",
+    "meta": { "requiresFlag": "loyalty_lycos_complete", "requiresBond": 80 }
+  },
+  {
+    "id": "lycos.romance.accept",
+    "text": "Thank you. The bench accepts the closeness. The pause-line stays face-down. The Antiquarian will notice tomorrow; the Antiquarian has not asked me to keep the ledger face-up. The ledger is mine now.",
+    "context": "romance_accept",
+    "emotion": "tender",
+    "file": "shared/loyaltyMissions.ts"
+  },
+  {
+    "id": "lycos.romance.decline",
+    "text": "Understood. The ledger turns back face-up. The pause-line resumes its station. The bench is still the right height. We are both still here. The not-asking is also canonical.",
+    "context": "romance_decline",
+    "emotion": "settled",
+    "file": "shared/loyaltyMissions.ts"
   }
 ]

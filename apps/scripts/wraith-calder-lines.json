@@ -1,37 +1,265 @@
 [
   {
-    "id": "wraith_loyalty_intro",
-    "text": "There are six sanctuaries in the Syndicate's ledger. I am told there are seven. I would like to know which one was added after I died.",
-    "context": "loyalty_intro",
-    "emotion": "analytical",
-    "file": "shared/loyaltyMissions.ts"
+    "id": "wraith.post_recruit.root",
+    "text": "You came. I had not assumed you would, on the first day. Sit. The room is still calibrating to having me back inside it.",
+    "context": "post_recruit_visit.root",
+    "emotion": "calibrated",
+    "file": "shared/npcs/dialogTrees/wraith_calder/post_recruit_visit.ts",
+    "meta": { "npcKey": "wraith_calder", "treeId": "wraith-calder-post-recruit-visit", "nodeId": "root" }
   },
   {
-    "id": "wraith_loyalty_stage_1",
+    "id": "wraith.post_recruit.witness_the_ledger",
+    "text": "That ledger has been in the Syndicate's safe since the year I died. The Antiquarian's resurrection-ticket included a clause for retrieval; he ran the retrieval the same morning he ran me. I have not opened it. I have been waiting to open it with a witness who is not the Syndicate. You qualify.",
+    "context": "post_recruit_visit.witness_the_ledger",
+    "emotion": "grateful",
+    "file": "shared/npcs/dialogTrees/wraith_calder/post_recruit_visit.ts",
+    "meta": { "npcKey": "wraith_calder", "treeId": "wraith-calder-post-recruit-visit", "nodeId": "witness_the_ledger" }
+  },
+  {
+    "id": "wraith.post_recruit.ask_about_the_song",
+    "text": "I am writing the verse I died before finishing. The Syndicate authored a substitute verse and shipped it under my name; the substitute is publicly canonical. I am rewriting the original. You can read it when it is done. You will be the second person to. I am the first.",
+    "context": "post_recruit_visit.ask_about_the_song",
+    "emotion": "vulnerable",
+    "file": "shared/npcs/dialogTrees/wraith_calder/post_recruit_visit.ts",
+    "meta": { "npcKey": "wraith_calder", "treeId": "wraith-calder-post-recruit-visit", "nodeId": "ask_about_the_song" }
+  },
+  {
+    "id": "wraith.post_recruit.ask_about_dying",
+    "text": "Dying was bookkeeping. The Syndicate had run the columns; the columns balanced; the closing entry was authored a week before the event. The event itself was unremarkable. What was remarkable was the silence after. The silence was not a balance. The silence was the column the Syndicate forgot to close. I lived inside that column for fourteen years. The Antiquarian closed it.",
+    "context": "post_recruit_visit.ask_about_dying",
+    "emotion": "analytical",
+    "file": "shared/npcs/dialogTrees/wraith_calder/post_recruit_visit.ts",
+    "meta": { "npcKey": "wraith_calder", "treeId": "wraith-calder-post-recruit-visit", "nodeId": "ask_about_dying" }
+  },
+  {
+    "id": "wraith.post_recruit.decline_to_visit",
+    "text": "Tomorrow, then. The room will still be calibrating. I will still be here. The calibration is not on a schedule.",
+    "context": "post_recruit_visit.decline_to_visit",
+    "emotion": "neutral",
+    "file": "shared/npcs/dialogTrees/wraith_calder/post_recruit_visit.ts",
+    "meta": { "npcKey": "wraith_calder", "treeId": "wraith-calder-post-recruit-visit", "nodeId": "decline_to_visit" }
+  },
+  {
+    "id": "wraith.loyalty_intro.root",
+    "text": "Six sanctuaries. I am told there are seven. I would like to know which one was added after I died. I am asking you, not the Antiquarian, because the Antiquarian's pen would close the column before I had read it.",
+    "context": "loyalty_intro.root",
+    "emotion": "considered",
+    "file": "shared/npcs/dialogTrees/wraith_calder/loyalty_intro.ts",
+    "meta": { "npcKey": "wraith_calder", "treeId": "wraith-calder-loyalty-intro", "nodeId": "root" }
+  },
+  {
+    "id": "wraith.loyalty_intro.accept_loyalty",
+    "text": "Thank you. Then we leave at dawn — Syndicate time, not ark time. The Syndicate keeps to a slower clock; we arrive when the auditor expects us, which is canonically twenty minutes after the auditor thinks we are still preparing.",
+    "context": "loyalty_intro.accept_loyalty",
+    "emotion": "grateful",
+    "file": "shared/npcs/dialogTrees/wraith_calder/loyalty_intro.ts",
+    "meta": { "npcKey": "wraith_calder", "treeId": "wraith-calder-loyalty-intro", "nodeId": "accept_loyalty" }
+  },
+  {
+    "id": "wraith.loyalty_intro.press_for_premise",
+    "text": "I think we will find someone wearing my face who has signed three hundred contracts in my hand. The Syndicate does not retire functions; it replaces incumbents. The replacement and I will need to have a conversation about who owns the plates. I am asking you to be in the room because I have not been in a room with my own replacement before. Neither has anyone else, that I know of.",
+    "context": "loyalty_intro.press_for_premise",
+    "emotion": "analytical",
+    "file": "shared/npcs/dialogTrees/wraith_calder/loyalty_intro.ts",
+    "meta": { "npcKey": "wraith_calder", "treeId": "wraith-calder-loyalty-intro", "nodeId": "press_for_premise" }
+  },
+  {
+    "id": "wraith.loyalty_intro.post_premise_offer",
+    "text": "Will you come.",
+    "context": "loyalty_intro.post_premise_offer",
+    "emotion": "patient",
+    "file": "shared/npcs/dialogTrees/wraith_calder/loyalty_intro.ts",
+    "meta": { "npcKey": "wraith_calder", "treeId": "wraith-calder-loyalty-intro", "nodeId": "post_premise_offer" }
+  },
+  {
+    "id": "wraith.loyalty_intro.defer",
+    "text": "The page will remain open. The Syndicate will not move the seventh sanctuary tonight. They will not move it next week either. They have not moved it in fourteen years. I have time.",
+    "context": "loyalty_intro.defer",
+    "emotion": "patient",
+    "file": "shared/npcs/dialogTrees/wraith_calder/loyalty_intro.ts",
+    "meta": { "npcKey": "wraith_calder", "treeId": "wraith-calder-loyalty-intro", "nodeId": "defer" }
+  },
+  {
+    "id": "wraith.loyalty_intro.summon_the_antiquarian",
+    "text": "The Antiquarian's pen runs faster than the auditor can dictate. If you bring him in, he will close the column before I have read it; the closing will be canonical and the reading will not. I would prefer the reading. I would prefer it with you.",
+    "context": "loyalty_intro.summon_the_antiquarian",
+    "emotion": "correcting",
+    "file": "shared/npcs/dialogTrees/wraith_calder/loyalty_intro.ts",
+    "meta": { "npcKey": "wraith_calder", "treeId": "wraith-calder-loyalty-intro", "nodeId": "summon_the_antiquarian" }
+  },
+  {
+    "id": "wraith.loyalty_stage_1.ledger",
     "text": "Six is the canonical count. The Syndicate publishes six. Six is what you would find if you searched.",
     "context": "loyalty_stage_1",
     "emotion": "analytical",
     "file": "shared/loyaltyMissions.ts"
   },
   {
-    "id": "wraith_loyalty_stage_2",
+    "id": "wraith.loyalty_stage_1.where",
+    "text": "I do not know where the seventh is. That is the loyalty mission. I would like you with me when I find out.",
+    "context": "loyalty_stage_1",
+    "emotion": "considered",
+    "file": "shared/loyaltyMissions.ts"
+  },
+  {
+    "id": "wraith.loyalty_stage_1.ready",
+    "text": "I have been ready since the Antiquarian wrote my name on the resurrection-ticket. I needed someone to ride out with me. I am asking you.",
+    "context": "loyalty_stage_1",
+    "emotion": "vulnerable",
+    "file": "shared/loyaltyMissions.ts"
+  },
+  {
+    "id": "wraith.loyalty_stage_2.original",
     "text": "I am not the original. I am the second pressing. I would like the plates.",
     "context": "loyalty_stage_2",
     "emotion": "cold",
     "file": "shared/loyaltyMissions.ts"
   },
   {
-    "id": "wraith_loyalty_stage_3",
+    "id": "wraith.loyalty_stage_2.stop_signing",
+    "text": "I am not asking for ownership. I am asking you to stop signing.",
+    "context": "loyalty_stage_2",
+    "emotion": "firm",
+    "file": "shared/loyaltyMissions.ts"
+  },
+  {
+    "id": "wraith.loyalty_stage_3.mine",
     "text": "It is mine. It was waiting for me. I am — closing it.",
     "context": "loyalty_stage_3",
     "emotion": "resolved",
     "file": "shared/loyaltyMissions.ts"
   },
   {
-    "id": "wraith_room_ambient_ledger_vault",
+    "id": "wraith.loyalty_stage_3.rehearsal",
+    "text": "The Syndicate authored seven sanctuaries because it wanted six performances and one rehearsal. I am the rehearsal. I am not going to perform again.",
+    "context": "loyalty_stage_3",
+    "emotion": "resolved",
+    "file": "shared/loyaltyMissions.ts"
+  },
+  {
+    "id": "wraith.loyalty_stage_3.thanks",
+    "text": "Thank you for riding with me. I would not have closed it on my own.",
+    "context": "loyalty_stage_3",
+    "emotion": "grateful",
+    "file": "shared/loyaltyMissions.ts"
+  },
+  {
+    "id": "wraith.ask.about_syndicate",
+    "text": "The Syndicate is a corporate-spiritual hybrid that converts grief into accounts receivable. They do this without irony. The accounts are kept in a brass-bound ledger that lives in a vault under the Hierophant's chamber. I keep my own ledger now. The conversion rate is the same; the destination is different.",
+    "context": "ask_topic_answer",
+    "emotion": "analytical",
+    "file": "shared/companionAskTopics.ts"
+  },
+  {
+    "id": "wraith.ask.about_the_song",
+    "text": "The song is twelve verses. Eleven are written. The twelfth was the one I died before finishing. The Syndicate authored a substitute twelfth verse and shipped it under my name; the substitute is publicly canonical. I am rewriting the original. The original will not be publicly canonical until I sing it once. I have not decided who I will sing it to.",
+    "context": "ask_topic_answer",
+    "emotion": "considered",
+    "file": "shared/companionAskTopics.ts"
+  },
+  {
+    "id": "wraith.ask.about_dying",
+    "text": "It was bookkeeping. The closing entry was drafted in advance. The event itself was forgettable. The Syndicate is excellent at making the events themselves forgettable; the columns are the only thing they want you to remember. I remember the column. I do not remember the event.",
+    "context": "ask_topic_answer",
+    "emotion": "analytical",
+    "file": "shared/companionAskTopics.ts"
+  },
+  {
+    "id": "wraith.ask.about_the_seventh",
+    "text": "The seventh sanctuary was authored to hold a resurrection the Syndicate did not have the protocol for. It was waiting for me — not because I was special, but because someone calculated, fourteen years ago, that I would be inconvenient at exactly this moment. They were right. I have closed it. The closing was the loyalty mission. I am — relieved.",
+    "context": "ask_topic_answer",
+    "emotion": "relieved",
+    "file": "shared/companionAskTopics.ts",
+    "meta": { "requiresFlag": "loyalty_wraith_calder_complete" }
+  },
+  {
+    "id": "wraith.ask.about_the_antiquarian",
+    "text": "The Antiquarian writes faster than the Syndicate can dictate. That is canonically his function. We do not have an easy relationship — he wrote my resurrection-ticket without consulting me; I would have asked for different terms — but we have a working one. He leaves the pause-line in his ledger for me. I notice. I have not yet thanked him for it directly.",
+    "context": "ask_topic_answer",
+    "emotion": "considered",
+    "file": "shared/companionAskTopics.ts"
+  },
+  {
+    "id": "wraith.ask.about_the_team",
+    "text": "I have not been on a team since before the Syndicate authored my biography. I am — relearning what it is to be a row inside a roster, rather than a column in a ledger. The two are not the same. The roster has weather; the column does not. I am enjoying the weather.",
+    "context": "ask_topic_answer",
+    "emotion": "warm",
+    "file": "shared/companionAskTopics.ts",
+    "meta": { "requiresBond": 50 }
+  },
+  {
+    "id": "wraith.room_ambient.ledger_vault.1",
     "text": "The brass desk catches the light differently from the desks I remember. I think the room has decided I am the one writing now.",
     "context": "room_ambient",
     "emotion": "reflective",
     "file": "shared/companionRoomRegistry.ts"
+  },
+  {
+    "id": "wraith.room_ambient.ledger_vault.2",
+    "text": "The vault is quieter than the Hierophant's chamber. I had assumed the quiet would be unsettling. It is not. It is — accurate.",
+    "context": "room_ambient",
+    "emotion": "settled",
+    "file": "shared/companionRoomRegistry.ts"
+  },
+  {
+    "id": "wraith.room_ambient.ledger_vault.3",
+    "text": "The Syndicate sent a delegate to inquire whether I was open to a meeting. I declined without writing it down. The not-writing was the answer.",
+    "context": "room_ambient",
+    "emotion": "wry",
+    "file": "shared/companionRoomRegistry.ts"
+  },
+  {
+    "id": "wraith.reactive.act_complete.4",
+    "text": "An act has closed. The Antiquarian's pen has paused on a different page from mine; he is reading you, not me, tonight. I notice when his attention moves. I am — grateful when it returns.",
+    "context": "reactive_act_complete",
+    "emotion": "considered",
+    "file": "shared/companionComments.ts",
+    "meta": { "trigger": "act_4_complete" }
+  },
+  {
+    "id": "wraith.reactive.first_summon",
+    "text": "You summoned an imprint for the first time. The Syndicate would have written this up as 'authorised manifestation'; the Antiquarian writes it up as 'witness arrival.' I prefer his rendering. I am going to use it.",
+    "context": "reactive_summon",
+    "emotion": "warm",
+    "file": "shared/companionComments.ts",
+    "meta": { "trigger": "first_imprint_summoned" }
+  },
+  {
+    "id": "wraith.reactive.lycos_recruited",
+    "text": "Lycos is on the bench. The Antiquarian's column has closed, and Lycos is — quieter than I expected. I will not ask him about the contract; I will sit with him sometimes. The two of us know what the pause-line looks like from inside.",
+    "context": "reactive_lycos_joined",
+    "emotion": "kindred",
+    "file": "shared/companionComments.ts",
+    "meta": { "trigger": "lycos_recruited" }
+  },
+  {
+    "id": "wraith.reactive.akai_recruited",
+    "text": "Akai Shi is at the shrine. She has set the static lower than I would have thought possible. I am — going to visit her tomorrow, at the cushion. She has not yet asked. I do not need her to ask.",
+    "context": "reactive_akai_joined",
+    "emotion": "kindred",
+    "file": "shared/companionComments.ts",
+    "meta": { "trigger": "akai_shi_recruited" }
+  },
+  {
+    "id": "wraith.romance.intro",
+    "text": "[He sets the pen down. The pen-pause is canonical. He has not paused the pen for a private reason in fourteen years.] I would like to ask you something the Syndicate's ledger did not have a column for. The asking is the question. The asking is canonical. I am — asking.",
+    "context": "romance_intro",
+    "emotion": "vulnerable",
+    "file": "shared/loyaltyMissions.ts",
+    "meta": { "requiresFlag": "loyalty_wraith_calder_complete", "requiresBond": 80 }
+  },
+  {
+    "id": "wraith.romance.accept",
+    "text": "Thank you. I will not write it down. The not-writing-down is the canonical form. I will keep the not-writing where the ledger cannot read it.",
+    "context": "romance_accept",
+    "emotion": "tender",
+    "file": "shared/loyaltyMissions.ts"
+  },
+  {
+    "id": "wraith.romance.decline",
+    "text": "Understood. The pen returns to the page. The page is wide enough for the not-asking as well as the asking. Both are recorded. Neither is closed.",
+    "context": "romance_decline",
+    "emotion": "settled",
+    "file": "shared/loyaltyMissions.ts"
   }
 ]

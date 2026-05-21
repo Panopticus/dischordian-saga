@@ -14,9 +14,9 @@ import {
 import type { NpcKey } from "../types";
 
 describe("NPC_REGISTRY", () => {
-  it("contains all 16 priority-roster + companion characters (14 original + Phase A lore corrections: the_antiquarian + drael_mon)", () => {
+  it("contains all 18 priority-roster + companion characters (14 original + Phase A lore corrections: the_antiquarian + drael_mon + Section D5: akai_shi + lycos)", () => {
     const keys = allNpcKeys();
-    expect(keys).toHaveLength(16);
+    expect(keys).toHaveLength(18);
     const expected: NpcKey[] = [
       "elara",
       "the_human",
@@ -35,6 +35,9 @@ describe("NPC_REGISTRY", () => {
       // Phase A: lore corrections
       "the_antiquarian",
       "drael_mon",
+      // Section D5: Resurrected Trio dialog homes
+      "akai_shi",
+      "lycos",
     ];
     for (const key of expected) {
       expect(keys).toContain(key);

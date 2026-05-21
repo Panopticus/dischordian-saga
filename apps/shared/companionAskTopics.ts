@@ -1351,6 +1351,68 @@ export const COMPANION_ASK_TOPICS: readonly CompanionAskTopic[] = [
         answer: "Trace. The patient option. I have traced and not answered exactly once. The coordinates sat in my private logs for fifty years before I knew what to do with them. When I finally answered, the survivor's grandchild was the one who picked up. Long fuse, real result. The patience pays — late, but it pays." },
     ],
   },
+
+  // ── Resurrected Trio (Section D5) — reflective asks ──
+  {
+    id: "ask_elara_about_wraith_calder",
+    speaker: "elara",
+    label: "Wraith Calder",
+    question: "What do you make of Wraith, after his resurrection?",
+    answer:
+      "He is the calmest grieving person I have ever logged. The Syndicate authored fourteen years of contracts in his name while he was dead; he came back to find his signature on three hundred decisions he did not make. He has not raised his voice about it. He has only requested the plates. I find that — instructive.",
+    unlockFlag: "wraith_calder_recruited",
+    unlockedFromAct: 4,
+  },
+  {
+    id: "ask_human_about_wraith_calder",
+    speaker: "human",
+    label: "Wraith Calder",
+    question: "Wraith — do you trust the version of him that came back?",
+    answer:
+      "I trust him exactly as much as I trust the pause-line the Antiquarian draws for the resurrected. He is the genuine article; the Syndicate's replacement was the fake. The replacement signed three hundred contracts; Wraith signed none of them. I am — paying close attention to the verse he is rewriting. The verse will tell us more than the contracts ever did.",
+    unlockFlag: "wraith_calder_recruited",
+    unlockedFromAct: 4,
+  },
+  {
+    id: "ask_elara_about_akai_shi",
+    speaker: "elara",
+    label: "Akai Shi",
+    question: "Akai sets the shrine static at its quietest — what does that mean?",
+    answer:
+      "It means she has un-taught herself the meditation the Necromancer's Lair tried to install. Meditation, the way the Lair authored it, was a technique for ignoring pain. Akai's calibration is the opposite: she is making sure she can hear everything the room is doing, and she has decided the room is allowed to do less. The lower static is the consent. I am — moved by it.",
+    unlockFlag: "akai_shi_recruited",
+    unlockedFromAct: 4,
+  },
+  {
+    id: "ask_human_about_akai_shi",
+    speaker: "human",
+    label: "Akai Shi",
+    question: "Akai sat on a cushion at the shrine — what should I read into that?",
+    answer:
+      "Read this. She is the senior carrier of the Red Death pattern; the pattern is generous; she found out the pattern was generous by reading the margin of a journal half-authored by her own younger self. She closed the case to ask you a question, once. The closing took thirty seconds. The closing is the part she rehearsed. The asking is the part she did not.",
+    unlockFlag: "akai_shi_recruited",
+    unlockedFromAct: 4,
+  },
+  {
+    id: "ask_elara_about_lycos",
+    speaker: "elara",
+    label: "Lycos / The Wolf",
+    question: "Lycos on the bench — what is he reading in the Antiquarian's ledger?",
+    answer:
+      "The pause-line. He runs his finger over it once a day; the ink does not move. The Antiquarian leaves the pause-line on the page for him deliberately — it is the kindest mark in the Antiquarian's hand. Lycos is — relearning what it means to be paused rather than ended. I do not have a personal frame of reference for the relearning. I am observing it carefully.",
+    unlockFlag: "lycos_recruited",
+    unlockedFromAct: 5,
+  },
+  {
+    id: "ask_human_about_lycos",
+    speaker: "human",
+    label: "Lycos / The Wolf",
+    question: "Lycos refused mercy. Is that something we should worry about?",
+    answer:
+      "No. The refusal was the loyalty mission's payoff. He had extended mercy three times during the Antiquarian's contract; the contract authored each of them. The fourth he extended on his own — practice, with you as witness. The refusal was the answer to a question the Resurrectionist's heir was not authorised to ask. Lycos has not lost mercy. Lycos has learned where mercy ends. That is — adjacent to wisdom.",
+    unlockFlag: "lycos_recruited",
+    unlockedFromAct: 5,
+  },
 ];
 
 /**

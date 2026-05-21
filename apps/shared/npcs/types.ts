@@ -38,7 +38,12 @@ export type NpcKey =
   // - drael_mon: Hierarchy SVP of Acquisitions (peer demon lord). The
   //   Hierarchy_acquisitions sub-house had no real face before.
   | "the_antiquarian"
-  | "drael_mon";
+  | "drael_mon"
+  // Section D expansion: the Resurrected Trio joins the priority
+  // roster. Wraith Calder was already present; Akai Shi and Lycos
+  // gain their dialog tree home here.
+  | "akai_shi"
+  | "lycos";
 
 // --- Trust / Reveal / Channel ----------------------------------------------
 
