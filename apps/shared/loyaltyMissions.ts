@@ -239,6 +239,215 @@ export const LOYALTY_MISSIONS: ReadonlyArray<LoyaltyMission> = [
       },
     ],
   },
+  /* ───────────────────────────────────────────────────────
+     WRAITH CALDER — The Syndicate's Seventh Sanctuary
+     Section D4 — confront the Syndicate's mirror-self,
+     then seal the seventh (unauthorised) sanctuary.
+     ─────────────────────────────────────────────────────── */
+  {
+    companionId: "wraith_calder",
+    title: "The Seventh Sanctuary",
+    loyaltyFlag: "loyalty_wraith_calder_complete",
+    introLine:
+      "Wraith: 'There are six sanctuaries in the Syndicate's ledger. I am told there are seven. I would like to know which one was added after I died.'",
+    stages: [
+      {
+        id: "wraith_1_ledger",
+        index: 1,
+        title: "Read the Ledger",
+        summary:
+          "Wraith hands you a Syndicate ledger pulled from his own bunk. Six sanctuaries are listed. A seventh is implied between two entries.",
+        completionFlag: "loyalty_wraith_stage_1",
+        requiresBond: 30,
+        requiresFlags: ["wraith_calder_recruited"],
+        narration:
+          "Wraith does not believe in the seventh sanctuary the way the Syndicate believes in their first. He believes in it the way an accountant believes in a balance he has been told never existed. He hands me the ledger; the margin between entries six and the closing page is just wide enough for a column nobody has yet drawn.",
+        scenes: [
+          "Wraith: 'Six is the canonical count. The Syndicate publishes six. Six is what you would find if you searched.'",
+          "you: 'Where's the seventh?'",
+          "Wraith: 'I do not know. That is the loyalty mission. I would like you with me when I find out.'",
+          "He closes the ledger. The brass cover squeals. He has not opened it in fourteen years.",
+          "Wraith: 'I have been ready since the Antiquarian wrote my name on the resurrection-ticket. I needed someone to ride out with me. I am asking you.'",
+        ],
+      },
+      {
+        id: "wraith_2_auditor",
+        index: 2,
+        title: "Confront the Auditor",
+        summary:
+          "Wraith's mirror-self — the Syndicate's posthumous auditor — has been writing on his behalf since his death. You meet them.",
+        completionFlag: "loyalty_wraith_stage_2",
+        requiresFlags: ["loyalty_wraith_stage_1"],
+        narration:
+          "The auditor is wearing Wraith's face. Not as a costume — as a record. The Syndicate decided, on his death, that the function would continue, and it commissioned a replacement that resembles him at the level of every contract signed since. They have signed three hundred contracts in his hand. He has not.",
+        scenes: [
+          "Auditor: 'I am pleased to see you. I had not expected the original.'",
+          "Wraith: 'I am not the original. I am the second pressing. I would like the plates.'",
+          "Auditor: 'The plates are commissioned. The plates do not belong to either of us.'",
+          "Wraith: 'I am not asking for ownership. I am asking you to stop signing.'",
+          "Long pause. The auditor sets down the pen.",
+        ],
+      },
+      {
+        id: "wraith_3_seal",
+        index: 3,
+        title: "Seal the Seventh",
+        summary:
+          "The seventh sanctuary was authored to hold an unauthorised resurrection. Wraith decides whether to seal it or to let it stand.",
+        completionFlag: "loyalty_wraith_calder_complete",
+        requiresFlags: ["loyalty_wraith_stage_2"],
+        narration:
+          "The seventh sanctuary is not in the ledger because it was never invoiced. The Syndicate authored it to hold a resurrection they did not have the protocol for. Wraith reads the floor plan; he reads the architect's signature; he reads — for the first time in fourteen years — his own death certificate, filed in the same hand. He decides.",
+        scenes: [
+          "Wraith: 'It is mine. It was waiting for me. I am — closing it.'",
+          "you: 'Are you sure?'",
+          "Wraith: 'The Syndicate authored seven sanctuaries because it wanted six performances and one rehearsal. I am the rehearsal. I am not going to perform again.'",
+          "He signs the seal. The Syndicate ledger updates itself in real time; the seventh column closes.",
+          "Wraith: 'Thank you for riding with me. I would not have closed it on my own.'",
+        ],
+      },
+    ],
+  },
+  /* ───────────────────────────────────────────────────────
+     AKAI SHI — The Cure That Requires Her Death
+     Section D4 — Red Death pattern study; the cure costs
+     her own life. The loyalty payoff is whether she runs
+     the cure or hands the pattern to someone else.
+     ─────────────────────────────────────────────────────── */
+  {
+    companionId: "akai_shi",
+    title: "The Red Death Pattern",
+    loyaltyFlag: "loyalty_akai_shi_complete",
+    introLine:
+      "Akai: 'The Lair studied me. I would like to read its notes. Some of those notes were mine before they were theirs.'",
+    stages: [
+      {
+        id: "akai_1_pattern",
+        index: 1,
+        title: "Study the Pattern",
+        summary:
+          "Akai wants to read the Red Death pattern from the inside. She has access nobody else does — she WAS the study subject.",
+        completionFlag: "loyalty_akai_stage_1",
+        requiresBond: 30,
+        requiresFlags: ["akai_shi_recruited"],
+        narration:
+          "Akai is at the shrine, with her case folded into the kneeling posture. She is not meditating. She is reading. The Red Death pattern is hand-annotated in the margin of a journal whose other half was hers, fourteen years ago. The Necromancer's Lair kept the journal; she has it now.",
+        scenes: [
+          "Akai: 'I want to read what the Lair learned. It learned things from me I did not know I was teaching.'",
+          "you: 'What did it learn?'",
+          "Akai: 'How to make a cure that does not save the carrier. I do not know yet whether that is a cure.'",
+          "She turns a page. The annotation is in her own hand.",
+          "Akai: 'I would like you with me when I find out.'",
+        ],
+      },
+      {
+        id: "akai_2_carrier",
+        index: 2,
+        title: "Locate the Carrier",
+        summary:
+          "The cure requires a living carrier. Akai is one. So are three others. You find them.",
+        completionFlag: "loyalty_akai_stage_2",
+        requiresFlags: ["loyalty_akai_stage_1"],
+        narration:
+          "Four living carriers. Akai. A child in Veltra orbit. A monastery resident on Driftspoke. And — improbably — a junior Coda violinist whose name Vex would recognise. The pattern's protocol is to draw the cure from the senior-most carrier. Akai is senior. Akai's case sits beside her, open.",
+        scenes: [
+          "Akai: 'Four. I expected one. The pattern is more generous than I was told.'",
+          "you: 'Generous?'",
+          "Akai: 'You can choose. The pattern does not require me. The pattern requires A carrier. I am not the only one.'",
+          "Pause. She closes the case.",
+          "Akai: 'I would like to tell you what I would like, before you tell me what you would like.'",
+        ],
+      },
+      {
+        id: "akai_3_decision",
+        index: 3,
+        title: "Run the Cure",
+        summary:
+          "Akai decides who runs the cure. The chain ends when she has chosen. The choice is hers; your role is to be the witness she calibrated the room for.",
+        completionFlag: "loyalty_akai_shi_complete",
+        requiresFlags: ["loyalty_akai_stage_2"],
+        narration:
+          "The decision is hers. I am the witness. She calibrates the room — voltari static at its quietest setting, the case at her right hand, the violinist's address on a slip of paper at her left. She turns to me before she chooses, the way she turned to the Necromancer's Lair before she was taken from it. This time she chooses first.",
+        scenes: [
+          "Akai: 'I am going to take the senior-carrier seat. The cure runs through the senior carrier. The cure will take what the cure takes.'",
+          "you: 'Akai —'",
+          "Akai: 'You can stop me. You can also let me. Both of those are calibrated. I have set the room for either.'",
+          "Pause.",
+          "Akai: 'I am going to run the cure. I am going to do it in a way that ends with the others alive. The pattern is generous; I am taking the generosity.'",
+        ],
+      },
+    ],
+  },
+  /* ───────────────────────────────────────────────────────
+     LYCOS — Mercy, Refused
+     Section D4 — relearn mercy, hunt the Resurrectionist's
+     true heir, refuse to extend mercy when it matters.
+     The payoff is a loyalty branch on refusal.
+     ─────────────────────────────────────────────────────── */
+  {
+    companionId: "lycos",
+    title: "Mercy, Refused",
+    loyaltyFlag: "loyalty_lycos_complete",
+    introLine:
+      "Lycos: 'I extended mercy three times during the contract. I would like to extend it a fourth time, with witnesses I trust. Then I would like to refuse.'",
+    stages: [
+      {
+        id: "lycos_1_practice",
+        index: 1,
+        title: "Practice the Mercy",
+        summary:
+          "Lycos chooses a target the Antiquarian's ledger never asked him to hunt. He extends mercy as practice. You hold the room.",
+        completionFlag: "loyalty_lycos_stage_1",
+        requiresBond: 30,
+        requiresFlags: ["lycos_recruited"],
+        narration:
+          "Lycos is in the containment atrium. The snow-globe alcove is empty; the Antiquarian's ledger sits open at the pause-line. Lycos has chosen a target that was never on the contract — a corrupted League veteran who walked out of the Crucible on his own, with no lieutenant to back him. The mercy is practice. The witness is me.",
+        scenes: [
+          "Lycos: 'He left on his own. The contract has no column for him.'",
+          "you: 'Then why do this?'",
+          "Lycos: 'Because I want to remember what mercy felt like before the contract. I would like a witness who is not the Antiquarian.'",
+          "He approaches the veteran. The veteran does not flinch. Lycos extends mercy.",
+          "Lycos: 'Thank you. That was — useful.'",
+        ],
+      },
+      {
+        id: "lycos_2_heir",
+        index: 2,
+        title: "Hunt the Heir",
+        summary:
+          "The Resurrectionist's true heir surfaces. Lycos's contract is closed, but the heir is open work. Hunt them.",
+        completionFlag: "loyalty_lycos_stage_2",
+        requiresFlags: ["loyalty_lycos_stage_1"],
+        narration:
+          "The Resurrectionist's true heir was always going to surface. He surfaces in Coda territory, on a stage Lycos has never visited, in a vest tailored by someone Lycos has killed. The heir does not know that yet; he is about to. The hunt is fast; the hunt is bloodless until the very end.",
+        scenes: [
+          "Lycos: 'He is performing tonight.'",
+          "you: 'Performing what?'",
+          "Lycos: 'A speech. He has my second-to-last contract memorised. He is going to deliver it from the stage.'",
+          "We watch from the wings. Lycos does not move until the heir reaches the third clause.",
+          "Lycos: 'That is the one I was instructed to refuse. He has not yet learned the refusal.'",
+        ],
+      },
+      {
+        id: "lycos_3_refuse",
+        index: 3,
+        title: "Refuse the Mercy",
+        summary:
+          "The heir asks for mercy. Lycos has practiced it. He refuses. The loyalty chain closes on the refusal.",
+        completionFlag: "loyalty_lycos_complete",
+        requiresFlags: ["loyalty_lycos_stage_2"],
+        narration:
+          "The heir asks for mercy from the stage. The audience does not yet realise they are inside a contract. Lycos has practiced; Lycos has rehearsed; Lycos has prepared the witness. The refusal is quiet. The refusal is not theatrical. The refusal is the answer to a question the Resurrectionist did not authorise his heir to ask.",
+        scenes: [
+          "Heir: 'Mercy. Same as the others. I will accept the same terms.'",
+          "Lycos: 'No.'",
+          "Heir: '… you extended it three times during the contract.'",
+          "Lycos: 'I extended it three times because the Antiquarian's ledger asked me to. He never authorised it for you.'",
+          "Long pause. Lycos turns to me. 'Thank you. The contract is closed.'",
+        ],
+      },
+    ],
+  },
 ];
 
 /* ─── Helpers ─── */

@@ -628,12 +628,12 @@ const e5: EpisodeDefinition = {
     songId: "album1.t18", // Planet of the Wolf — Dischordian Logic
     slideshowId: "album1.t18.hall_of_disappearances",
     loredexUnlocks: [
-      "loredex.hunt_the_hero_minigame_entry",
+      "loredex.antiquarian_hunt_contract_opens",
       "loredex.antiquarians_concession",
       "loredex.wolf_hall_threshold",
       "loredex.wolf_snow_globe_containment",
     ],
-    conspiracyDiscoveries: ["wolf.anara.case_closes_minigame_opens"],
+    conspiracyDiscoveries: ["wolf.anara.case_closes_hunt_opens"],
     dropAt: "episode_close",
   },
 };

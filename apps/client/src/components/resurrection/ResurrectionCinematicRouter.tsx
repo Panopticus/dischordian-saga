@@ -45,6 +45,7 @@ import {
   WOLF_CRUCIBLE_RESCUE_CINEMATIC_TRIGGER_FLAG,
   WOLF_CRUCIBLE_RESCUE_CINEMATIC_SEEN_FLAG,
 } from "@shared/dlcMysteries/wolfAnaraHunt";
+import { WOLF_HUNT_ARC_AVAILABLE_FLAG } from "@shared/wolfHunt";
 import {
   CINEMATICS,
   type CinematicId,
@@ -64,10 +65,15 @@ export interface PendingCinematic {
   /** Flags to flip when the cinematic completes. `pending`
    *  may be null when the trigger flag is permanent (e.g. an
    *  episode-completion flag that should NOT be cleared);
-   *  the seen-flag alone gates replay in that case. */
+   *  the seen-flag alone gates replay in that case.
+   *  `extraOnTrue` is an optional list of flag ids to set
+   *  true on completion — used by the Wolf branch to open
+   *  the Hunt-the-Hero CTA gate immediately after the
+   *  cinematic ends. */
   flagsOnComplete: {
     pending: string | null;
     seen: string;
+    extraOnTrue?: ReadonlyArray<string>;
   };
 }
 
@@ -109,6 +115,11 @@ export function resolvePendingCinematic(
       flagsOnComplete: {
         pending: null,
         seen: WOLF_CRUCIBLE_RESCUE_CINEMATIC_SEEN_FLAG,
+        // Open the Wolf-hunt arc CTA (the Antiquarian's
+        // dossier panel) the moment the release cinematic
+        // ends. The wolfHunt router closes the gate once
+        // the arc concludes (good or bad ending).
+        extraOnTrue: [WOLF_HUNT_ARC_AVAILABLE_FLAG],
       },
     };
   }
@@ -125,6 +136,8 @@ function labelsForNpc(npcKey: ResurrectableNpcKey): {
       return { primaryLabel: "Resurrection", secondaryLabel: "Syndicate of Death" };
     case "akai_shi":
       return { primaryLabel: "Resurrection", secondaryLabel: "The Necromancer's Lair" };
+    case "lycos":
+      return { primaryLabel: "Reanimation", secondaryLabel: "The Antiquarian's Pause" };
     case "vex_solene":
     case "locke":
     case "jericho_jones":
@@ -149,6 +162,9 @@ export function ResurrectionCinematicRouter(): ReactElement | null {
     if (pending.flagsOnComplete.pending) {
       setNarrativeFlag(pending.flagsOnComplete.pending, false);
     }
+    for (const flag of pending.flagsOnComplete.extraOnTrue ?? []) {
+      setNarrativeFlag(flag, true);
+    }
   }, [pending, setNarrativeFlag]);
 
   if (!pending) return null;
@@ -169,6 +185,7 @@ export function ResurrectionCinematicRouter(): ReactElement | null {
       videoRelPath={def.videoRelPath}
       primaryLabel={pending.primaryLabel}
       secondaryLabel={pending.secondaryLabel}
+      frameLine={def.frameLine}
       onComplete={handleComplete}
     />
   );

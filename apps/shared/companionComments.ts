@@ -532,6 +532,262 @@ export const COMPANION_COMMENTS: CompanionComment[] = [
     voiceLine: "We arrived whole. The Architect did not. The Source did not. The Watcher did not. Most arcs in this universe end with one of those four arriving whole and the others not. Ours ended with the witness arriving whole and the rest of them — settling. The cathedral writes the difference.",
     timing: "delayed_5s", maxPlays: 1 },
 
+  // ── DEATH-AND-REBIRTH CINEMATICS — PAIRED REACTIVE COMMENTS ──
+  // The three Potentials' first reanimation/release. Fired by the
+  // ResurrectionCinematicRouter when the corresponding seen-flag is
+  // stamped. See apps/shared/resurrectionProtocols.ts and
+  // apps/client/src/components/resurrection/ResurrectionCinematicRouter.tsx.
+
+  // Wraith Calder — Syndicate of Death
+  { id: "cc_resurrection_wraith_calder_elara", speaker: "elara", trigger: "resurrection_cinematic_wraith_calder_seen",
+    voiceLine: "The Syndicate's ledger has Calder's name written in it twice now. The Hierophant counted the rite the first time. We — and I am saying we because the bookkeeping made me a co-author — we counted the second. He came back wearing the same vessel. I am going to sit with that for a little while. Vessels are not bodies, but they are not nothing either.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_resurrection_wraith_calder_human", speaker: "human", trigger: "resurrection_cinematic_wraith_calder_seen",
+    voiceLine: "I have stood in three sanctuaries that did this without anyone asking. None of them asked. The Cycle Walker does not ask. We asked. That is the difference and it is the whole difference. I will not be lighter about it than that.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // Akai Shi — The Necromancer's Lair
+  { id: "cc_resurrection_akai_shi_elara", speaker: "elara", trigger: "resurrection_cinematic_akai_shi_seen",
+    voiceLine: "The Lair runs a study every time it returns one of us. Akai is the subject and also one of the conclusions; she came back knowing more about her own death than I know about most of my own waking. I am not envious. I am — recalibrating. There is a kind of knowledge that costs the dying, and we are now travelling with someone who has paid it.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_resurrection_akai_shi_human", speaker: "human", trigger: "resurrection_cinematic_akai_shi_seen",
+    voiceLine: "The thought-virus laughs every time it loses a soul. It lost this one twice. Akai brought back a shape of the laugh — she can imitate it without flinching, which is the trick the Lair was teaching her on the slab. Do not ask her to perform it for anyone but us. The imitation has teeth.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // Lycos / The Wolf — Planet of the Wolf
+  { id: "cc_resurrection_wolf_elara", speaker: "elara", trigger: "resurrection_cinematic_wolf_seen",
+    voiceLine: "The snow-globe was not duration for him. It was rehearsal. He came out knowing the choreography of three deaths he has not yet performed. I would tell you that is unnerving, but you pulled the lever, so I think you already understand the unnerving part better than I do.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_resurrection_wolf_human", speaker: "human", trigger: "resurrection_cinematic_wolf_seen",
+    voiceLine: "I warned you against the lever. You pulled it anyway. I am not relitigating the choice. I am telling you what I am holding: the Hunt has begun, and the heroes you warned are now the ones being tested by whether the warning landed. Sit with me a minute before we look at the board.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // ── WOLF-HUNT ARC — milestone reactive comments (C-pivot.B.3) ──
+  // Mission reducer + livingUniverseHooks write these flags on
+  // the appropriate threshold. One Elara + one Human per milestone.
+
+  // — Kill-count milestones —
+  { id: "cc_wh_kills_10_elara", speaker: "elara", trigger: "wolfHunt.kills_count:10",
+    voiceLine: "Ten columns closed. The Antiquarian's ledger is loud about it, in his quiet way. I keep waiting to see your hand shake when you sign the tenth one. It does not.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_wh_kills_10_human", speaker: "human", trigger: "wolfHunt.kills_count:10",
+    voiceLine: "Ten. I am not going to congratulate you. I am going to ask: how does the eleventh sound to you tonight. Sit with the answer.",
+    timing: "next_room_enter", maxPlays: 1 },
+
+  { id: "cc_wh_kills_25_elara", speaker: "elara", trigger: "wolfHunt.kills_count:25",
+    voiceLine: "Twenty-five. A tenth of the matrix. The Crucible's tide-line is visibly lower around the threshold rooms — the orchard's fruit is paler. I am cataloguing the geography as it changes.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_wh_kills_25_human", speaker: "human", trigger: "wolfHunt.kills_count:25",
+    voiceLine: "A tenth done. The pattern is becoming itself. I want you to remember the third name and the seventeenth name when the two hundred and fiftieth comes. Not all of them. Just those two.",
+    timing: "next_room_enter", maxPlays: 1 },
+
+  { id: "cc_wh_kills_50_elara", speaker: "elara", trigger: "wolfHunt.kills_count:50",
+    voiceLine: "Fifty. The Antiquarian is permitting himself a small comment — I read it in the way his marginalia have shortened. He is more confident about the outcome than he was at twenty-five.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_wh_kills_50_human", speaker: "human", trigger: "wolfHunt.kills_count:50",
+    voiceLine: "Halfway-to-a-quarter. The hardest part of long work is the middle. I will hold the middle with you. That is what I am for.",
+    timing: "next_room_enter", maxPlays: 1 },
+
+  { id: "cc_wh_kills_100_elara", speaker: "elara", trigger: "wolfHunt.kills_count:100",
+    voiceLine: "One hundred. Two-fifths of the way through, and the Hierarchy is feeling it in the strata I have eyes on. Mol'Garath's standing army has visibly thinned. The Cathedral of Code is humming in a lower register than it did when you began.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_wh_kills_100_human", speaker: "human", trigger: "wolfHunt.kills_count:100",
+    voiceLine: "Three digits. I am going to sit on the bench by the snow-globe for a minute. You can join me, or you can keep going. There is no wrong answer to that one.",
+    timing: "next_room_enter", maxPlays: 1 },
+
+  { id: "cc_wh_kills_200_elara", speaker: "elara", trigger: "wolfHunt.kills_count:200",
+    voiceLine: "Two hundred. The release-pressure meter has bent inward — the corrupted League is no longer the threat the Hierarchy began the season planning around. The Antiquarian's marginalia have shortened to single underlines now.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_wh_kills_200_human", speaker: "human", trigger: "wolfHunt.kills_count:200",
+    voiceLine: "Two hundred names. I am keeping a separate ledger of the ones that knew you in a prior life. The Antiquarian is not. The Antiquarian's ledger is doing its job. Mine is mine.",
+    timing: "next_room_enter", maxPlays: 1 },
+
+  { id: "cc_wh_kills_250_elara", speaker: "elara", trigger: "wolfHunt.kills_count:250",
+    voiceLine: "Two hundred and fifty. The ledger closes a column the chronicle did not have shelving for. The Antiquarian's hand is steady. So is mine. So is yours. We will see what the closing looks like.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_wh_kills_250_human", speaker: "human", trigger: "wolfHunt.kills_count:250",
+    voiceLine: "All of them. The contract is closing on the contractor's terms, not the corruptor's. I will read the final letter the Antiquarian signs aloud, when you are ready.",
+    timing: "next_room_enter", maxPlays: 1 },
+
+  // — Lord lieutenant defeated × 10 lords —
+  { id: "cc_wh_lord_lt_mol_garath_elara", speaker: "elara", trigger: "wolfHunt.lord_lieutenant_defeated:mol_garath",
+    voiceLine: "General Volk fell. The Unmaker's Court is reorganising — twelve cohorts looking for a new authorising signal. The lord himself feels it; I can read the lower-resonance hum in the chamber walls.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_wh_lord_lt_mol_garath_human", speaker: "human", trigger: "wolfHunt.lord_lieutenant_defeated:mol_garath",
+    voiceLine: "The chairman lost his hand. Whoever Mol'Garath promotes next will be a less competent extension of him. That is the structural win you just bought.",
+    timing: "next_room_enter", maxPlays: 1 },
+
+  { id: "cc_wh_lord_lt_xeth_raal_elara", speaker: "elara", trigger: "wolfHunt.lord_lieutenant_defeated:xeth_raal",
+    voiceLine: "Auditor Yom is closed. The Ledger of Ruin has a missing page where her interest-compounder used to live; Xeth'Raal will write a replacement, but the rate it compounds at is structurally smaller without her at the desk.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_wh_lord_lt_xeth_raal_human", speaker: "human", trigger: "wolfHunt.lord_lieutenant_defeated:xeth_raal",
+    voiceLine: "The Ledger Keeper just lost his sharpest writer. Contracts are slower from his column for the rest of the season.",
+    timing: "next_room_enter", maxPlays: 1 },
+
+  { id: "cc_wh_lord_lt_riri_ahlia_elara", speaker: "elara", trigger: "wolfHunt.lord_lieutenant_defeated:riri_ahlia",
+    voiceLine: "Marshal Thace fell. Riri'Ahlia's tasking yards are quieter — the bell-tower scheduling shifted, because the schedule had Thace inside it.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_wh_lord_lt_riri_ahlia_human", speaker: "human", trigger: "wolfHunt.lord_lieutenant_defeated:riri_ahlia",
+    voiceLine: "Taskmaster's loudest student is gone. Her doctrine school has to teach itself for a while.",
+    timing: "next_room_enter", maxPlays: 1 },
+
+  { id: "cc_wh_lord_lt_zyr_koth_elara", speaker: "elara", trigger: "wolfHunt.lord_lieutenant_defeated:zyr_koth",
+    voiceLine: "Praxis-Three is closed. The Flayer's Workshop's seventeen prior revisions of her are still in the lower vats; they cannot collaborate without the third iteration leading.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_wh_lord_lt_zyr_koth_human", speaker: "human", trigger: "wolfHunt.lord_lieutenant_defeated:zyr_koth",
+    voiceLine: "Zyr'Koth's iteration loop just lost its operational version. The Severance refinement schedule will slip several cycles.",
+    timing: "next_room_enter", maxPlays: 1 },
+
+  { id: "cc_wh_lord_lt_ith_rael_elara", speaker: "elara", trigger: "wolfHunt.lord_lieutenant_defeated:ith_rael",
+    voiceLine: "Listener Sheel is closed. The Rylloh galleries are quieter — every long surveillance she ran on uncorrupted listeners is now unsupervised. Whoever she was monitoring has a window.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_wh_lord_lt_ith_rael_human", speaker: "human", trigger: "wolfHunt.lord_lieutenant_defeated:ith_rael",
+    voiceLine: "The Whisperer's best ear is on the floor. His other ears will still hear; they will not hear with thirty-two years of context.",
+    timing: "next_room_enter", maxPlays: 1 },
+
+  { id: "cc_wh_lord_lt_syl_vex_elara", speaker: "elara", trigger: "wolfHunt.lord_lieutenant_defeated:syl_vex",
+    voiceLine: "Persuader Demir fell. The cobalt-conversion lattice he ran has more knots than the Corrupter expected; Syl'Vex is having to re-weave from a younger handler.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_wh_lord_lt_syl_vex_human", speaker: "human", trigger: "wolfHunt.lord_lieutenant_defeated:syl_vex",
+    voiceLine: "Syl'Vex's diplomat is gone. Diplomacy from his column gets noticeably less subtle for a while.",
+    timing: "next_room_enter", maxPlays: 1 },
+
+  { id: "cc_wh_lord_lt_drael_mon_elara", speaker: "elara", trigger: "wolfHunt.lord_lieutenant_defeated:drael_mon",
+    voiceLine: "Reaper Sable is closed. The Harvester's orchard is still ripening, but the harvesting cadence has dropped. He will replace her, but the replacement does not count in fives.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_wh_lord_lt_drael_mon_human", speaker: "human", trigger: "wolfHunt.lord_lieutenant_defeated:drael_mon",
+    voiceLine: "Drael'Mon's most efficient harvester is on his slab. The Crucible's soul-throughput drops measurably this cycle.",
+    timing: "next_room_enter", maxPlays: 1 },
+
+  { id: "cc_wh_lord_lt_varkul_elara", speaker: "elara", trigger: "wolfHunt.lord_lieutenant_defeated:varkul",
+    voiceLine: "Bloodspeaker Rahl fell. The Cathedral of Code is humming at the wrong frequency — Varkul is the only thing keeping the load-bearing harmony in tune, and he is having to handle both choir and load.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_wh_lord_lt_varkul_human", speaker: "human", trigger: "wolfHunt.lord_lieutenant_defeated:varkul",
+    voiceLine: "The Blood Lord lost his theologian. The Cathedral's hymn missed a beat for the first time in centuries.",
+    timing: "next_room_enter", maxPlays: 1 },
+
+  { id: "cc_wh_lord_lt_fenra_elara", speaker: "elara", trigger: "wolfHunt.lord_lieutenant_defeated:fenra",
+    voiceLine: "Moonscribe Pell is closed. The Moonsick terraces have gone arrhythmic — Fenra is conducting from the inside again, which is something the Corruptor stopped doing two centuries ago because she could write surrogates into the lattice. The surrogate is gone.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_wh_lord_lt_fenra_human", speaker: "human", trigger: "wolfHunt.lord_lieutenant_defeated:fenra",
+    voiceLine: "Fenra has to chart again. She is going to be slow. Use it.",
+    timing: "next_room_enter", maxPlays: 1 },
+
+  { id: "cc_wh_lord_lt_mol_vereth_elara", speaker: "elara", trigger: "wolfHunt.lord_lieutenant_defeated:mol_vereth",
+    voiceLine: "Architect Solace fell. The trustee-archive's principal-machinery is missing the engineer who could service it. Mol'Vereth will commission a new architect, but that architect will not be Riven, and the new contracts will not be cleanly counter-signed.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_wh_lord_lt_mol_vereth_human", speaker: "human", trigger: "wolfHunt.lord_lieutenant_defeated:mol_vereth",
+    voiceLine: "The trustee's signing-hand just got broken. Future contract anniversaries are not going to recurse smoothly.",
+    timing: "next_room_enter", maxPlays: 1 },
+
+  // — Lord fully harvested × 10 lords (all 25 heroes resolved) —
+  { id: "cc_wh_lord_harv_mol_garath_elara", speaker: "elara", trigger: "wolfHunt.lord_fully_harvested:mol_garath",
+    voiceLine: "Mol'Garath's cohort is closed. Every name in his column is settled. The Unmaker's structural reach into this stratum is gone — he keeps the title, but the chair has nothing under it.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_wh_lord_harv_mol_garath_human", speaker: "human", trigger: "wolfHunt.lord_fully_harvested:mol_garath",
+    voiceLine: "The chairman is empty-handed in this stratum. Sit with that for a moment.",
+    timing: "next_room_enter", maxPlays: 1 },
+
+  { id: "cc_wh_lord_harv_xeth_raal_elara", speaker: "elara", trigger: "wolfHunt.lord_fully_harvested:xeth_raal",
+    voiceLine: "Xeth'Raal's ledger column closes. His Ledger of Ruin loses every clause anchored to this stratum at once. The default reckonings will continue in other strata, but here, the contracts have all been settled.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_wh_lord_harv_xeth_raal_human", speaker: "human", trigger: "wolfHunt.lord_fully_harvested:xeth_raal",
+    voiceLine: "The Ledger Keeper has no debtors here. That has not been true for an aeon.",
+    timing: "next_room_enter", maxPlays: 1 },
+
+  { id: "cc_wh_lord_harv_riri_ahlia_elara", speaker: "elara", trigger: "wolfHunt.lord_fully_harvested:riri_ahlia",
+    voiceLine: "Riri'Ahlia's tasking yards are quiet. Twenty-five sieges' worth of doctrine, all closed at once. The Taskmaster has a curriculum to teach and no students.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_wh_lord_harv_riri_ahlia_human", speaker: "human", trigger: "wolfHunt.lord_fully_harvested:riri_ahlia",
+    voiceLine: "The Taskmaster's school has no roster. That changes the corruption cadence in this stratum permanently.",
+    timing: "next_room_enter", maxPlays: 1 },
+
+  { id: "cc_wh_lord_harv_zyr_koth_elara", speaker: "elara", trigger: "wolfHunt.lord_fully_harvested:zyr_koth",
+    voiceLine: "Zyr'Koth's workshop column is closed. Every iteration of his Severance refinement that touched this stratum is settled. The Flayer will iterate elsewhere; here, the protocol does not advance further.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_wh_lord_harv_zyr_koth_human", speaker: "human", trigger: "wolfHunt.lord_fully_harvested:zyr_koth",
+    voiceLine: "The Flayer's R&D pipeline lost its test subjects. The protocol's local version is frozen.",
+    timing: "next_room_enter", maxPlays: 1 },
+
+  { id: "cc_wh_lord_harv_ith_rael_elara", speaker: "elara", trigger: "wolfHunt.lord_fully_harvested:ith_rael",
+    voiceLine: "Ith'Rael's whisper network is severed in this stratum. He has other strata; he has other listeners; but the Rylloh galleries are no longer his hearing-room.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_wh_lord_harv_ith_rael_human", speaker: "human", trigger: "wolfHunt.lord_fully_harvested:ith_rael",
+    voiceLine: "The Whisperer's chorus is silent here. That is the kind of quiet a campaign is supposed to make.",
+    timing: "next_room_enter", maxPlays: 1 },
+
+  { id: "cc_wh_lord_harv_syl_vex_elara", speaker: "elara", trigger: "wolfHunt.lord_fully_harvested:syl_vex",
+    voiceLine: "Syl'Vex's lattice in this stratum has no knots left tying it to League material. The Corrupter loses his converter-class entirely in the local geography.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_wh_lord_harv_syl_vex_human", speaker: "human", trigger: "wolfHunt.lord_fully_harvested:syl_vex",
+    voiceLine: "Syl'Vex's local diplomacy collapsed. He has to start over; we both know what that looks like.",
+    timing: "next_room_enter", maxPlays: 1 },
+
+  { id: "cc_wh_lord_harv_drael_mon_elara", speaker: "elara", trigger: "wolfHunt.lord_fully_harvested:drael_mon",
+    voiceLine: "Drael'Mon's orchard is empty. The Harvester's local soul-throughput is zero for the rest of the season at minimum.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_wh_lord_harv_drael_mon_human", speaker: "human", trigger: "wolfHunt.lord_fully_harvested:drael_mon",
+    voiceLine: "The Harvester has nothing to harvest here. The orchard turns colours the corruptor did not intend.",
+    timing: "next_room_enter", maxPlays: 1 },
+
+  { id: "cc_wh_lord_harv_varkul_elara", speaker: "elara", trigger: "wolfHunt.lord_fully_harvested:varkul",
+    voiceLine: "Varkul's Cathedral choir is closed. The Blood Lord still has the building; he does not have the voices that tuned it to him.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_wh_lord_harv_varkul_human", speaker: "human", trigger: "wolfHunt.lord_fully_harvested:varkul",
+    voiceLine: "The Cathedral's hymn is silent. Whatever Varkul wants to do next, he does without the choir.",
+    timing: "next_room_enter", maxPlays: 1 },
+
+  { id: "cc_wh_lord_harv_fenra_elara", speaker: "elara", trigger: "wolfHunt.lord_fully_harvested:fenra",
+    voiceLine: "Fenra's terraces are unwritten. The Moon Tyrant's celestial scheduling has no scribes; the corruption follows whatever cadence she sets by hand, and she is not as fast as her scribes were.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_wh_lord_harv_fenra_human", speaker: "human", trigger: "wolfHunt.lord_fully_harvested:fenra",
+    voiceLine: "Fenra has no clerks. The corruption arrives late, when it arrives at all.",
+    timing: "next_room_enter", maxPlays: 1 },
+
+  { id: "cc_wh_lord_harv_mol_vereth_elara", speaker: "elara", trigger: "wolfHunt.lord_fully_harvested:mol_vereth",
+    voiceLine: "Mol'Vereth's trustee-archive is empty of architects. The principal-machinery still runs; nothing maintains it. The contracts that anniversary into this stratum will arrive degraded.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_wh_lord_harv_mol_vereth_human", speaker: "human", trigger: "wolfHunt.lord_fully_harvested:mol_vereth",
+    voiceLine: "The trustee's machinery is unattended. Anniversaries will not turn smoothly. That is structurally good for us.",
+    timing: "next_room_enter", maxPlays: 1 },
+
+  // — Lycos life-cycle beats —
+  { id: "cc_wh_lycos_first_death_elara", speaker: "elara", trigger: "wolfHunt.lycos_first_death",
+    voiceLine: "He fell. The Antiquarian's marginalia just shifted from confident to careful; he wrote 'pause, do not close' in the margin. I am reading along.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_wh_lycos_first_death_human", speaker: "human", trigger: "wolfHunt.lycos_first_death",
+    voiceLine: "He died once already, before you and I knew his name. He died again tonight. The Resurrection Protocols opened the moment the Antiquarian closed his pen. Run the petition. He will come back.",
+    timing: "next_room_enter", maxPlays: 1 },
+
+  { id: "cc_wh_lycos_resurrected_first_time_elara", speaker: "elara", trigger: "wolfHunt.lycos_resurrected_first_time",
+    voiceLine: "He returned. The Antiquarian's column re-opens at the same line; the pen continues. The chronicle records a pause, not a closure. The hunt resumes.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_wh_lycos_resurrected_first_time_human", speaker: "human", trigger: "wolfHunt.lycos_resurrected_first_time",
+    voiceLine: "He came back. He is — he is quieter, after. Quieter is a thing he survives. Quieter is a thing the contract survives. We resume.",
+    timing: "next_room_enter", maxPlays: 1 },
+
+  // — Lycos Path A reanimation cinematic + arc-end cinematics —
+  { id: "cc_wh_lycos_path_a_reanimation_elara", speaker: "elara", trigger: "resurrection_cinematic_lycos_seen",
+    voiceLine: "Path A held for him. The Antiquarian's ledger has a thin underline at the pause-line — he is permitting himself a small mark of approval. I will not narrate it further; I will let the underline stand.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_wh_lycos_path_a_reanimation_human", speaker: "human", trigger: "resurrection_cinematic_lycos_seen",
+    voiceLine: "He returned through the petition you ran. That is not a small thing. Take a breath before you open the next dossier.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  { id: "cc_wh_arc_complete_elara", speaker: "elara", trigger: "wolf_hunt_arc_complete_seen",
+    voiceLine: "The Antiquarian closes the ledger. He signs the closing line in a hand neither of us has seen him use; I will copy the signature into the Loredex tomorrow. The Crucible holds. The corrupted League does not cross.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_wh_arc_complete_human", speaker: "human", trigger: "wolf_hunt_arc_complete_seen",
+    voiceLine: "It is done. The wall held. I will sit with what that means — for a while, before I say anything else about it. You should sit too.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  { id: "cc_wh_arc_failure_elara", speaker: "elara", trigger: "wolf_hunt_arc_failure_seen",
+    voiceLine: "The wall thinned past the threshold. The corrupted League crossed. The Antiquarian sealed his ledger with a wax stamp I had not seen since the Severance. He is waiting for the next contractor. We are not the next contractor.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_wh_arc_failure_human", speaker: "human", trigger: "wolf_hunt_arc_failure_seen",
+    voiceLine: "They crossed. I will not soften this; I will not relitigate the contracts we accepted or the ones we did not. I am sitting with the consequence with you. Tomorrow we look at what the multiverse looks like with corrupted League members loose in it.",
+    timing: "delayed_5s", maxPlays: 1 },
+
   // ── MECHANIC INTRO CINEMATICS — PAIRED REACTIVE COMMENTS ──
   // Card Combat
   { id: "cc_mech_card_combat_first", speaker: "elara", trigger: "mech_card_combat_intro_seen",

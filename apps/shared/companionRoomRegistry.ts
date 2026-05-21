@@ -36,7 +36,10 @@ export type CompanionRoomId =
   | "chess-table"
   | "war-room"
   | "cryo-bay"
-  | "bunk-room";
+  | "bunk-room"
+  | "ledger-vault"
+  | "blade-shrine"
+  | "containment-atrium";
 
 export type CompanionRosterId =
   | "elara"
@@ -47,6 +50,7 @@ export type CompanionRosterId =
   | "wraith_calder"
   | "jericho_jones"
   | "akai_shi"
+  | "lycos"
   | "agent_zero"
   | "shadow_tongue"
   | "the_source"
@@ -143,6 +147,28 @@ export const COMPANION_ROOM_REGISTRY: ReadonlyArray<CompanionRoomEntry> = [
     roomId: "bunk-room",
     presenceLine: "Akai Shi's bunk. A meditation cushion sits beside the bed.",
     visibleFromFlag: "akai_shi_recruited",
+  },
+  /* ── Section D2: dedicated companion rooms for the resurrected trio ── */
+  {
+    companionId: "wraith_calder",
+    roomId: "ledger-vault",
+    presenceLine:
+      "Wraith Calder works at the long brass desk. The Syndicate's ledger lies closed beside him; his own ledger lies open.",
+    visibleFromFlag: "wraith_calder_recruited",
+  },
+  {
+    companionId: "akai_shi",
+    roomId: "blade-shrine",
+    presenceLine:
+      "Akai Shi is in the kneeling space at the shrine's south wall. The voltari static is on its lowest setting.",
+    visibleFromFlag: "akai_shi_recruited",
+  },
+  {
+    companionId: "lycos",
+    roomId: "containment-atrium",
+    presenceLine:
+      "Lycos sits on the bench by the (now empty) snow-globe alcove. The Antiquarian's ledger sits open at the pause-line.",
+    visibleFromFlag: "lycos_recruited",
   },
 ];
 

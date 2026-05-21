@@ -57,6 +57,7 @@ const NPC_DISPLAY: Record<ResurrectableNpcKey, string> = {
   locke: "Adjudicator Locke",
   jericho_jones: "Jericho Jones",
   akai_shi: "Akai Shi",
+  lycos: "Lycos / The Wolf",
 };
 
 export const resurrectionRouter = router({
@@ -426,29 +427,35 @@ export const resurrectionRouter = router({
       // ResurrectionCinematicRouter picks it up on next render.
       // Idempotent: the router consumes + flips the flag on
       // completion. NPCs without a cinematic binding skip this
-      // step (flag map is partial — only Wraith/Akai today).
+      // step (flag map is partial — only Wraith/Akai/Lycos today).
+      //
+      // Also writes `<npcKey>_recruited: true` (D3 — Section D
+      // recruitment trigger plumbing). Companion-room visibility,
+      // loyalty-mission gating, and roster-completeness parity all
+      // read this flag.
       let pendingCinematicFlag: string | null = null;
       const cinematicId = RESURRECTION_CINEMATIC_BY_NPC[quest.npcKey];
-      if (cinematicId) {
-        const db = await getDb();
-        if (db) {
-          const row = await db
-            .select()
-            .from(userProgress)
-            .where(eq(userProgress.userId, ctx.user.id))
-            .limit(1);
-          const raw = (row[0]?.gameData ?? {}) as Record<string, unknown>;
-          const flags = {
-            ...((raw.narrativeFlags ?? {}) as Record<string, boolean>),
-          };
+      const db = await getDb();
+      if (db) {
+        const row = await db
+          .select()
+          .from(userProgress)
+          .where(eq(userProgress.userId, ctx.user.id))
+          .limit(1);
+        const raw = (row[0]?.gameData ?? {}) as Record<string, unknown>;
+        const flags = {
+          ...((raw.narrativeFlags ?? {}) as Record<string, boolean>),
+        };
+        flags[`${quest.npcKey}_recruited`] = true;
+        if (cinematicId) {
           const flag = pendingResurrectionCinematicFlag(quest.npcKey);
           flags[flag] = true;
-          await db
-            .update(userProgress)
-            .set({ gameData: { ...raw, narrativeFlags: flags } })
-            .where(eq(userProgress.userId, ctx.user.id));
           pendingCinematicFlag = flag;
         }
+        await db
+          .update(userProgress)
+          .set({ gameData: { ...raw, narrativeFlags: flags } })
+          .where(eq(userProgress.userId, ctx.user.id));
       }
 
       // Compose the first-line interpolation from the death memory.

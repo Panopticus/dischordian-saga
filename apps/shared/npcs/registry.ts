@@ -446,6 +446,67 @@ export const NPC_REGISTRY: Readonly<Record<NpcKey, NpcProfile>> = {
         "Bible-canon: peer to Mol'Garath. Acquisitions is the wet-end of the Hierarchy's hostile-takeover doctrine; Severance does the clean ritual closing.",
     },
   },
+
+  // ─── Section D expansion: Resurrected Trio dialog homes ─────
+  akai_shi: {
+    npcKey: "akai_shi",
+    name: "Akai Shi",
+    role: "Calibrated witness, Red Death pattern survivor",
+    trustBands: [
+      { band: "Static", threshold: 0 },
+      { band: "Audible", threshold: 25 },
+      { band: "Calibrated", threshold: 55 },
+      { band: "Generous", threshold: 80 },
+      { band: "Carrier-bond", threshold: 95 },
+    ],
+    axisOfInterest: ["mercy", "curiosity"],
+    personalityArchetypes: ["calibrated", "carrier", "post-cure", "studied"],
+    revealStages: [
+      "pre_reanimation",
+      "post_reanimation",
+      "post_pattern_study",
+      "post_cure_run",
+    ],
+    expressionChannels: ["verbal"],
+    primaryRoom: "blade-shrine",
+    signatureMonologueLineId: "akai_shi.signature.lowest_static",
+    metadata: {
+      pronouns: "she/her",
+      title: "Carrier of the Generous Pattern",
+      authoringScope:
+        "Full dialog branches: first_meeting, loyalty intro + 3 stages, ask-topics × 6, room-ambient, romance-track stub.",
+    },
+  },
+
+  lycos: {
+    npcKey: "lycos",
+    name: "Lycos / The Wolf",
+    role: "The Antiquarian's contracted hunter; ex-League apex",
+    trustBands: [
+      { band: "Contracted", threshold: 0 },
+      { band: "Bench-shared", threshold: 25 },
+      { band: "Witnessed", threshold: 55 },
+      { band: "Companion", threshold: 80 },
+      { band: "Pack", threshold: 95 },
+    ],
+    axisOfInterest: ["mercy", "vigilance"],
+    personalityArchetypes: ["hunter", "post-contract", "mercy-practiced", "refused"],
+    revealStages: [
+      "pre_release",
+      "post_release",
+      "mid_hunt",
+      "post_contract",
+    ],
+    expressionChannels: ["verbal"],
+    primaryRoom: "containment-atrium",
+    signatureMonologueLineId: "lycos.signature.pause_line",
+    metadata: {
+      pronouns: "he/him",
+      title: "The Wolf",
+      authoringScope:
+        "Full dialog branches: first_meeting, loyalty intro + 3 stages, ask-topics × 6, room-ambient, hunt-contract reactives.",
+    },
+  },
 } as const;
 
 // --- Helpers ---------------------------------------------------------------

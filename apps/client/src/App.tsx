@@ -95,6 +95,7 @@ import { ChapterIntroRouter } from "./components/cutscenes/ChapterIntroRouter";
 import { BonusChapterIntroRouter } from "./components/cutscenes/BonusChapterIntroRouter";
 import { ConfessionCloseRouter } from "./components/cutscenes/ConfessionCloseRouter";
 import { ResurrectionCinematicRouter } from "./components/resurrection/ResurrectionCinematicRouter";
+import { WolfHuntOverlay } from "./components/wolfHunt/WolfHuntOverlay";
 import { WheelReactionRouter } from "./components/cutscenes/WheelReactionRouter";
 import { EventRevealRouter } from "./components/cutscenes/EventRevealRouter";
 import { useFirstHumanContactTrigger } from "./hooks/useFirstHumanContactTrigger";
@@ -896,6 +897,7 @@ function GameGate() {
       <BonusChapterIntroRouter />
       <ConfessionCloseRouter />
       <ResurrectionCinematicRouter />
+      <WolfHuntOverlay />
       <WheelReactionRouter />
       <EventRevealRouter />
       <DailyRewardPopup />

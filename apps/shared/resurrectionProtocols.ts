@@ -28,14 +28,17 @@
     - apps/client/src/components/resurrection/ResurrectionProtocolPanel.tsx
    ═══════════════════════════════════════════════════════ */
 
-/** The five canonical NPCs that can be recruited at tier 5 and
- *  thus run the Resurrection Protocols quest if they die. */
+/** The canonical NPCs that can be recruited at tier 5 and
+ *  thus run the Resurrection Protocols quest if they die. Lycos was
+ *  added in C-pivot.B.1 so mid-hunt deaths during the Wolf-Anara solo
+ *  hunt arc route through the same Path A/B pipeline. */
 export const RESURRECTABLE_NPC_KEYS = [
   "vex_solene",
   "wraith_calder",
   "locke",
   "jericho_jones",
   "akai_shi",
+  "lycos",
 ] as const;
 
 export type ResurrectableNpcKey = typeof RESURRECTABLE_NPC_KEYS[number];
@@ -56,6 +59,9 @@ export const RESURRECTION_CINEMATIC_BY_NPC: Readonly<
 > = {
   wraith_calder: "wraith_calder_syndicate_of_death",
   akai_shi: "akai_shi_necromancers_lair",
+  // Mid-hunt Path A/B reanimations use a distinct cinematic from the
+  // Crucible-release Wolf cinematic (which fires once on first release).
+  lycos: "lycos_path_a_reanimation",
 } as const;
 
 /** Pending-cinematic flag name. Server sets this on resurrection
@@ -441,6 +447,31 @@ export const PATH_B_TRANSMISSIONS: Record<
       ],
     },
   ],
+  lycos: [
+    {
+      tone: "sardonic",
+      lines: [
+        "I'm back. The Antiquarian's pen never lifted; he was waiting at the same line.",
+        "The contract did not close. I would say I owe him for the pause, but the pause was the kindness, and I would not insult him by paying for it.",
+        "Keep the dossier open. I will resume on the next bell.",
+      ],
+    },
+    {
+      tone: "wounded",
+      lines: [
+        "I am back. The choice you made put me in the ground.",
+        "I will return to the contract. I will not pretend the choice did not happen.",
+        "Make the next call carefully. I am keeping count.",
+      ],
+    },
+    {
+      tone: "cold",
+      lines: [
+        "Lycos returned. Path A held.",
+        "The Antiquarian's column resumes. The hunter has not changed; the hunter's accounting has.",
+      ],
+    },
+  ],
 };
 
 /** Pick a deterministic Path B transmission for a given quest. */
@@ -484,6 +515,10 @@ const PATH_A_MEMORY_TEMPLATES: Record<ResurrectableNpcKey, string[]> = {
   akai_shi: [
     "The thought-virus laughed. {causeShort}. {squadList} was outside the breach. I was inside it. I remember the shape of the laugh.",
     "{lastWords}. {missionName}. The virus was pleased to have me back. The Cycle Walker disagreed.",
+  ],
+  lycos: [
+    "{missionName}. {causeShort}. The Antiquarian's pen paused mid-line. {squadList} could only see the bench from the doorway.",
+    "{lastWords}. {missionName}. The contract did not close. The contract paused. I remember the underline.",
   ],
 };
 

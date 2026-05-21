@@ -16,6 +16,12 @@ import { ADJUDICATOR_LOCKE_FIRST_MEETING } from "./adjudicator_locke/first_meeti
 import { NILMORG_FIRST_CONTACT } from "./nilmorg/first_meeting";
 import { VEX_SOLENE_FIRST_MEETING } from "./vex_solene/first_meeting";
 import { WRAITH_CALDER_FIRST_MEETING } from "./wraith_calder/first_meeting";
+import { WRAITH_CALDER_POST_RECRUIT_VISIT } from "./wraith_calder/post_recruit_visit";
+import { WRAITH_CALDER_LOYALTY_INTRO } from "./wraith_calder/loyalty_intro";
+import { AKAI_SHI_FIRST_MEETING } from "./akai_shi/first_meeting";
+import { AKAI_SHI_LOYALTY_INTRO } from "./akai_shi/loyalty_intro";
+import { LYCOS_FIRST_MEETING } from "./lycos/first_meeting";
+import { LYCOS_LOYALTY_INTRO } from "./lycos/loyalty_intro";
 import { THE_SEER_FIRST_MEETING } from "./the_seer/first_meeting";
 import { THE_ORACLE_FIRST_MEETING } from "./the_oracle/first_meeting";
 import { THE_GAME_MASTER_FIRST_MEETING } from "./the_game_master/first_meeting";
@@ -33,6 +39,12 @@ const PER_NPC_TREES: ReadonlyArray<NpcDialogTree> = [
   NILMORG_FIRST_CONTACT,                      // Phase 6e.1a ✅ (DMC opening)
   VEX_SOLENE_FIRST_MEETING,                   // Phase 6e.1a ✅ (Coda Maestro)
   WRAITH_CALDER_FIRST_MEETING,                // Phase 6e.1a ✅ (Long Mourning chamber)
+  WRAITH_CALDER_POST_RECRUIT_VISIT,           // Section D5 ✅ (ledger-vault first-visit)
+  WRAITH_CALDER_LOYALTY_INTRO,                // Section D5 ✅ (Seventh Sanctuary opening)
+  AKAI_SHI_FIRST_MEETING,                     // Section D5 ✅ (blade-shrine first-visit)
+  AKAI_SHI_LOYALTY_INTRO,                     // Section D5 ✅ (Red Death Pattern opening)
+  LYCOS_FIRST_MEETING,                        // Section D5 ✅ (containment-atrium first-visit)
+  LYCOS_LOYALTY_INTRO,                        // Section D5 ✅ (Mercy, Refused opening)
   THE_SEER_FIRST_MEETING,                     // Phase 6e.1b ✅ (Mechronis bench)
   THE_ORACLE_FIRST_MEETING,                   // Phase 6e.1b ✅ (Ch5 dream-sequence)
   THE_GAME_MASTER_FIRST_MEETING,              // Phase 6e.1b ✅ (witness-mode)

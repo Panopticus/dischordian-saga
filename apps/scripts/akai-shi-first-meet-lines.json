@@ -1,0 +1,145 @@
+[
+  {
+    "id": "akai.first_meeting.root",
+    "text": "[Akai is in the kneeling space at the south wall of the shrine. The voltari static is at its lowest setting — barely a hum. She does not turn. Her case sits beside her, open, the way it was the day she returned.] You came. I have set the room to its quietest frequency. You can speak normally; the shrine compensates. Sit, if you would like. There is a cushion to your left.",
+    "context": "first_meeting.akai-shi-first-meeting",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/akai_shi/first_meeting.ts",
+    "meta": {
+      "npcKey": "akai_shi",
+      "treeId": "akai-shi-first-meeting",
+      "nodeId": "root",
+      "requiresRevealStage": "post_reanimation"
+    }
+  },
+  {
+    "id": "akai.first_meeting.sit_and_wait",
+    "text": "[A long silence. The static does not rise. Eventually she turns, by degrees, the way someone turns when their balance has been calibrated.] You held the silence. The Lair never learned to do that; the Necromancer's apprentices certainly did not. Thank you. The cushion is yours whenever you want to sit on it. I will assume the offer is standing, unless you tell me otherwise.",
+    "context": "first_meeting.akai-shi-first-meeting",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/akai_shi/first_meeting.ts",
+    "meta": {
+      "npcKey": "akai_shi",
+      "treeId": "akai-shi-first-meeting",
+      "nodeId": "sit_and_wait",
+      "requiresRevealStage": "post_reanimation"
+    }
+  },
+  {
+    "id": "akai.first_meeting.ask_case",
+    "text": "[She glances at the case, then back.] The case is open because closed cases ring at this frequency. Open cases do not. I have not put a weapon away since I came back; I have set the weapons down. The setting-down is what the resurrection asked of me. Closing the case would un-set them. I am — not yet ready to un-set them.",
+    "context": "first_meeting.akai-shi-first-meeting",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/akai_shi/first_meeting.ts",
+    "meta": {
+      "npcKey": "akai_shi",
+      "treeId": "akai-shi-first-meeting",
+      "nodeId": "ask_case",
+      "requiresRevealStage": "post_reanimation"
+    }
+  },
+  {
+    "id": "akai.first_meeting.ask_resurrection",
+    "text": "It is different. The first life ended with a laugh that was not mine; the resurrection arrived with a silence that is. I am calibrated, now, to the silence. The Lair was calibrated to the laugh. I am no longer in the Lair. I am here. The shrine is mine to set the frequency of, and I have set it as quiet as it will go.",
+    "context": "first_meeting.akai-shi-first-meeting",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/akai_shi/first_meeting.ts",
+    "meta": {
+      "npcKey": "akai_shi",
+      "treeId": "akai-shi-first-meeting",
+      "nodeId": "ask_resurrection",
+      "requiresRevealStage": "post_reanimation"
+    }
+  },
+  {
+    "id": "akai.first_meeting.demand_attention",
+    "text": "[The static rises briefly — a degree, perhaps a degree-and-a-half. She does not turn. She does not move. The static settles, slowly.] You are using the verb the Lair used. I will not give the verb back. Whatever you need will keep until you can ask for it without the verb. The cushion is to your left if you reconsider.",
+    "context": "first_meeting.akai-shi-first-meeting",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/akai_shi/first_meeting.ts",
+    "meta": {
+      "npcKey": "akai_shi",
+      "treeId": "akai-shi-first-meeting",
+      "nodeId": "demand_attention",
+      "requiresRevealStage": "post_reanimation"
+    }
+  },
+  {
+    "id": "akai.loyalty_intro.root",
+    "text": "[The case is still open. The journal — a Lair-bound notebook in two halves, one of which is hers — is on the floor between you. The pattern is hand-annotated in the margin.] I want to read what the Lair learned. It learned things from me I did not know I was teaching. I would like a witness. I would like it to be you.",
+    "context": "first_meeting.akai-shi-loyalty-intro",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/akai_shi/first_meeting.ts",
+    "meta": {
+      "npcKey": "akai_shi",
+      "treeId": "akai-shi-loyalty-intro",
+      "nodeId": "root",
+      "requiresRevealStage": "post_reanimation"
+    }
+  },
+  {
+    "id": "akai.loyalty_intro.accept_loyalty",
+    "text": "[She slides the journal toward you. Both halves. The margin notes are hers; the body text is the Lair's. The annotations agree on more than the body text wants them to.] Then we begin. The pattern lives in the margin. The body is the Lair's pretence; the margin is the truth. I am going to read the margin aloud. You may interrupt at any point. The interruption is the calibration.",
+    "context": "first_meeting.akai-shi-loyalty-intro",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/akai_shi/first_meeting.ts",
+    "meta": {
+      "npcKey": "akai_shi",
+      "treeId": "akai-shi-loyalty-intro",
+      "nodeId": "accept_loyalty",
+      "requiresRevealStage": "post_reanimation"
+    }
+  },
+  {
+    "id": "akai.loyalty_intro.press_on_pattern",
+    "text": "It learned that the cure is generous. The Lair authored a curtailment of the cure — the curtailment specifies a single senior carrier and excludes the other three. The pattern as authored is more permissive; the curtailment is the Lair's choice, not the pattern's. I want to read past the curtailment. I want to know what the pattern says when it is not being curtailed.",
+    "context": "first_meeting.akai-shi-loyalty-intro",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/akai_shi/first_meeting.ts",
+    "meta": {
+      "npcKey": "akai_shi",
+      "treeId": "akai-shi-loyalty-intro",
+      "nodeId": "press_on_pattern",
+      "requiresRevealStage": "post_reanimation"
+    }
+  },
+  {
+    "id": "akai.loyalty_intro.post_press_offer",
+    "text": "[She waits. The static remains at the floor.] Will you read it with me.",
+    "context": "first_meeting.akai-shi-loyalty-intro",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/akai_shi/first_meeting.ts",
+    "meta": {
+      "npcKey": "akai_shi",
+      "treeId": "akai-shi-loyalty-intro",
+      "nodeId": "post_press_offer",
+      "requiresRevealStage": "post_reanimation"
+    }
+  },
+  {
+    "id": "akai.loyalty_intro.defer",
+    "text": "[She closes the journal but does not put it away. She places it on the shrine's reading-stand within arm's reach.] The journal will remain on the stand. The shrine does not move things on me without my consent. The next time you visit, the journal will be where it is now. If you come back ready, we read.",
+    "context": "first_meeting.akai-shi-loyalty-intro",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/akai_shi/first_meeting.ts",
+    "meta": {
+      "npcKey": "akai_shi",
+      "treeId": "akai-shi-loyalty-intro",
+      "nodeId": "defer",
+      "requiresRevealStage": "post_reanimation"
+    }
+  },
+  {
+    "id": "akai.loyalty_intro.defer_to_presence",
+    "text": "[A small pause. She accepts the offer without quite acknowledging it.] The cushion does not require a reason. Sit. We can read another night. The pattern is generous. The pattern can wait. I — would not have asked for this if you had not offered. Thank you.",
+    "context": "first_meeting.akai-shi-loyalty-intro",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/akai_shi/first_meeting.ts",
+    "meta": {
+      "npcKey": "akai_shi",
+      "treeId": "akai-shi-loyalty-intro",
+      "nodeId": "defer_to_presence",
+      "requiresRevealStage": "post_reanimation"
+    }
+  }
+]

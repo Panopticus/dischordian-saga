@@ -41,6 +41,7 @@ import { ENGINEERING_MYSTERY } from "./engineering";
 import { ENGINEERING_CORE_MYSTERY } from "./engineeringCore";
 import { FORGE_WORKSHOP_MYSTERY } from "./forgeWorkshop";
 import { GUILD_SANCTUM_MYSTERY } from "./guildSanctum";
+import { HALL_OF_DISAPPEARANCES_MYSTERY } from "./hallOfDisappearances";
 import { MEDICAL_BAY_MYSTERY } from "./medicalBay";
 import { OBSERVATION_DECK_MYSTERY } from "./observationDeck";
 import { ORACLE_SANCTUM_MYSTERY } from "./oracleSanctum";
@@ -90,6 +91,7 @@ export const ROOM_MYSTERY_REGISTRY: Readonly<Record<string, RoomMysteryModule>> 
   "quantum-lab": QUANTUM_LAB_MYSTERY as RoomMysteryModule,
   "synthesis-chamber": SYNTHESIS_CHAMBER_MYSTERY as RoomMysteryModule,
   "guild-sanctum": GUILD_SANCTUM_MYSTERY as RoomMysteryModule,
+  "hall-of-disappearances": HALL_OF_DISAPPEARANCES_MYSTERY as RoomMysteryModule,
   "social-hub": SOCIAL_HUB_MYSTERY as RoomMysteryModule,
   // Species-exclusive bonus rooms — gated by canAccessRoom() in
   // apps/shared/characterCreationImpact.ts. Cosmetic flags only.

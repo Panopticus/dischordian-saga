@@ -111,6 +111,7 @@ export const ROOM_UNLOCK_MANIFEST: readonly RoomUnlockEntry[] = [
   { canonicalSpaceId: "dest.celebration_school.training_barracks", name: "Celebration Park Training Barracks", unlock: { type: "hellbox_unlocked", hellbox: 1 } },
   { canonicalSpaceId: "dest.celebration_school.triangle_alcove",   name: "Triangle Event Alcove",              unlock: { type: "narrative_event", value: "triangle_event_pending" } },
   { canonicalSpaceId: "dest.warden_dock",                       name: "Warden's Dock",                          unlock: { type: "narrative_event", value: "heretical_quiet_doctrine_bound" } },
+  { canonicalSpaceId: "dest.hall_of_disappearances",            name: "The Hall of Disappearances",             unlock: { type: "narrative_event", value: "mystery_episode_complete:arc.dlc.wolf_anara_hunt:wolf.anara_hunt.e4" }, notes: "DLC: wolf.anara_hunt. Opens once the Crucible-inheritance episode (E4) is resolved; holds the snow-globe-release lever for E5." },
   { canonicalSpaceId: "ark.mission_briefing_war_room",          name: "Mission Briefing War Room",              unlock: { type: "narrative_event", value: "apprentice_trial_graduated_any" } },
   { canonicalSpaceId: "ark.post_mission_return_hub",            name: "Post-Mission Return Hub",                unlock: { type: "narrative_event", value: "mission_deployed_any" } },
   // 12 apprentice berths

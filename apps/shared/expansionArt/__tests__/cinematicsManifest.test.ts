@@ -18,9 +18,9 @@ import {
 const CDN_PREFIX = "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/";
 
 describe("Cinematics manifest", () => {
-  it("ships 14 base/quarterly cinematics + the Lord Kanshi-Sha antiquarian drop + 3 resurrection cinematics (18)", () => {
-    expect(CINEMATICS_TOTAL).toBe(18);
-    expect(CINEMATICS).toHaveLength(18);
+  it("ships 14 base/quarterly cinematics + the Lord Kanshi-Sha antiquarian drop + 3 resurrection cinematics + Lycos Path A reanimation + 2 wolf-hunt arc-end cinematics (21)", () => {
+    expect(CINEMATICS_TOTAL).toBe(21);
+    expect(CINEMATICS).toHaveLength(21);
   });
 
   it("has unique cinematic ids", () => {
@@ -35,13 +35,16 @@ describe("Cinematics manifest", () => {
     expect(acts).toEqual(new Set([1, 2, 3, 4, 5, 6, 7]));
   });
 
-  it("the two universal base cinematics + 5 Y1Q–Y2Q1 openers + arc cold-opens carry no gateAct", () => {
+  it("the two universal base cinematics + 5 Y1Q–Y2Q1 openers + arc cold-opens + wolf-hunt arc cinematics carry no gateAct", () => {
     const universal = CINEMATICS.filter((c) => c.gateAct === undefined);
     expect(universal.map((c) => c.id).sort()).toEqual([
       "01_pack_opening",
       "02_hierarchy_reveal",
       "akai_shi_necromancers_lair",
       "lord_kanshi_sha_antiquarian",
+      "lycos_path_a_reanimation",
+      "wolf_hunt_arc_complete",
+      "wolf_hunt_arc_failure",
       "wolf_planet_of_the_wolf",
       "wraith_calder_syndicate_of_death",
       "y1q1_first_charter",

@@ -40,6 +40,13 @@ const CINEMATIC_FLAGS = [
   "mech_sprite_proxy_intro_seen",
   "mech_expansion_drops_intro_seen",
   "mech_trade_empire_intro_seen",
+  // Death-and-rebirth cinematics — three Potentials' first reanimation/release.
+  // See apps/shared/resurrectionProtocols.ts (Wraith, Akai) and
+  // apps/shared/dlcMysteries/wolfAnaraHunt.ts (Wolf). Full Elara+Human
+  // reactive coverage + per-flag ask-topic enforced like the act intros.
+  "resurrection_cinematic_wraith_calder_seen",
+  "resurrection_cinematic_akai_shi_seen",
+  "resurrection_cinematic_wolf_seen",
 ] as const;
 
 describe("Cinematic hook contract — every cinematic flag has dialog density", () => {

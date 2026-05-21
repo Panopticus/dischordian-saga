@@ -124,6 +124,21 @@ const NPC_TEMPLATE: Record<
     gateDescription:
       "Survive a global Necromancer event AND reach Imprint Tier 5 with Akai Shi.",
   },
+  lycos: {
+    displayName: "Lycos / The Wolf",
+    archetype: "revenant",
+    role: "security",
+    stats: {
+      resilience: 85,
+      intellect: 70,
+      reflexes: 90,
+      empathy: 55,
+      immunity: 75,
+      adaptability: 80,
+    },
+    gateDescription:
+      "Close the Antiquarian's hunt contract — either defeat all 10 lord lieutenants or drive crucible.league_strength to zero.",
+  },
 };
 
 export const npcRecruitRouter = router({

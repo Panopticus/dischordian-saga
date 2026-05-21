@@ -8,13 +8,14 @@ import {
 } from "./npcMourningRemarks";
 
 describe("npcMourningRemarks", () => {
-  it("registers all 5 recruitable NPCs as deceased subjects", () => {
+  it("registers all 6 recruitable NPCs as deceased subjects", () => {
     expect(Object.keys(MOURNING_REMARKS)).toEqual([
       "vex_solene",
       "wraith_calder",
       "locke",
       "jericho_jones",
       "akai_shi",
+      "lycos",
     ]);
   });
 

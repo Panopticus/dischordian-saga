@@ -1,0 +1,250 @@
+[
+  {
+    "id": "akai.first_meeting.root",
+    "text": "You came. I have set the room to its quietest frequency. You can speak normally; the shrine compensates. Sit, if you would like. There is a cushion to your left.",
+    "context": "first_meeting.root",
+    "emotion": "calibrated",
+    "file": "shared/npcs/dialogTrees/akai_shi/first_meeting.ts",
+    "meta": { "npcKey": "akai_shi", "treeId": "akai-shi-first-meeting", "nodeId": "root" }
+  },
+  {
+    "id": "akai.first_meeting.sit_and_wait",
+    "text": "You held the silence. The Lair never learned to do that; the Necromancer's apprentices certainly did not. Thank you. The cushion is yours whenever you want to sit on it. I will assume the offer is standing, unless you tell me otherwise.",
+    "context": "first_meeting.sit_and_wait",
+    "emotion": "grateful",
+    "file": "shared/npcs/dialogTrees/akai_shi/first_meeting.ts",
+    "meta": { "npcKey": "akai_shi", "treeId": "akai-shi-first-meeting", "nodeId": "sit_and_wait" }
+  },
+  {
+    "id": "akai.first_meeting.ask_case",
+    "text": "The case is open because closed cases ring at this frequency. Open cases do not. I have not put a weapon away since I came back; I have set the weapons down. The setting-down is what the resurrection asked of me. Closing the case would un-set them. I am — not yet ready to un-set them.",
+    "context": "first_meeting.ask_case",
+    "emotion": "considered",
+    "file": "shared/npcs/dialogTrees/akai_shi/first_meeting.ts",
+    "meta": { "npcKey": "akai_shi", "treeId": "akai-shi-first-meeting", "nodeId": "ask_case" }
+  },
+  {
+    "id": "akai.first_meeting.ask_resurrection",
+    "text": "It is different. The first life ended with a laugh that was not mine; the resurrection arrived with a silence that is. I am calibrated, now, to the silence. The Lair was calibrated to the laugh. I am no longer in the Lair. I am here. The shrine is mine to set the frequency of, and I have set it as quiet as it will go.",
+    "context": "first_meeting.ask_resurrection",
+    "emotion": "vulnerable",
+    "file": "shared/npcs/dialogTrees/akai_shi/first_meeting.ts",
+    "meta": { "npcKey": "akai_shi", "treeId": "akai-shi-first-meeting", "nodeId": "ask_resurrection" }
+  },
+  {
+    "id": "akai.first_meeting.demand_attention",
+    "text": "You are using the verb the Lair used. I will not give the verb back. Whatever you need will keep until you can ask for it without the verb. The cushion is to your left if you reconsider.",
+    "context": "first_meeting.demand_attention",
+    "emotion": "correcting",
+    "file": "shared/npcs/dialogTrees/akai_shi/first_meeting.ts",
+    "meta": { "npcKey": "akai_shi", "treeId": "akai-shi-first-meeting", "nodeId": "demand_attention" }
+  },
+  {
+    "id": "akai.loyalty_intro.root",
+    "text": "I want to read what the Lair learned. It learned things from me I did not know I was teaching. I would like a witness. I would like it to be you.",
+    "context": "loyalty_intro.root",
+    "emotion": "considered",
+    "file": "shared/npcs/dialogTrees/akai_shi/loyalty_intro.ts",
+    "meta": { "npcKey": "akai_shi", "treeId": "akai-shi-loyalty-intro", "nodeId": "root" }
+  },
+  {
+    "id": "akai.loyalty_intro.accept_loyalty",
+    "text": "Then we begin. The pattern lives in the margin. The body is the Lair's pretence; the margin is the truth. I am going to read the margin aloud. You may interrupt at any point. The interruption is the calibration.",
+    "context": "loyalty_intro.accept_loyalty",
+    "emotion": "grateful",
+    "file": "shared/npcs/dialogTrees/akai_shi/loyalty_intro.ts",
+    "meta": { "npcKey": "akai_shi", "treeId": "akai-shi-loyalty-intro", "nodeId": "accept_loyalty" }
+  },
+  {
+    "id": "akai.loyalty_intro.press_on_pattern",
+    "text": "It learned that the cure is generous. The Lair authored a curtailment of the cure — the curtailment specifies a single senior carrier and excludes the other three. The pattern as authored is more permissive; the curtailment is the Lair's choice, not the pattern's. I want to read past the curtailment. I want to know what the pattern says when it is not being curtailed.",
+    "context": "loyalty_intro.press_on_pattern",
+    "emotion": "analytical",
+    "file": "shared/npcs/dialogTrees/akai_shi/loyalty_intro.ts",
+    "meta": { "npcKey": "akai_shi", "treeId": "akai-shi-loyalty-intro", "nodeId": "press_on_pattern" }
+  },
+  {
+    "id": "akai.loyalty_intro.post_press_offer",
+    "text": "Will you read it with me.",
+    "context": "loyalty_intro.post_press_offer",
+    "emotion": "patient",
+    "file": "shared/npcs/dialogTrees/akai_shi/loyalty_intro.ts",
+    "meta": { "npcKey": "akai_shi", "treeId": "akai-shi-loyalty-intro", "nodeId": "post_press_offer" }
+  },
+  {
+    "id": "akai.loyalty_intro.defer",
+    "text": "The journal will remain on the stand. The shrine does not move things on me without my consent. The next time you visit, the journal will be where it is now. If you come back ready, we read.",
+    "context": "loyalty_intro.defer",
+    "emotion": "patient",
+    "file": "shared/npcs/dialogTrees/akai_shi/loyalty_intro.ts",
+    "meta": { "npcKey": "akai_shi", "treeId": "akai-shi-loyalty-intro", "nodeId": "defer" }
+  },
+  {
+    "id": "akai.loyalty_intro.defer_to_presence",
+    "text": "The cushion does not require a reason. Sit. We can read another night. The pattern is generous. The pattern can wait. I — would not have asked for this if you had not offered. Thank you.",
+    "context": "loyalty_intro.defer_to_presence",
+    "emotion": "tender",
+    "file": "shared/npcs/dialogTrees/akai_shi/loyalty_intro.ts",
+    "meta": { "npcKey": "akai_shi", "treeId": "akai-shi-loyalty-intro", "nodeId": "defer_to_presence" }
+  },
+  {
+    "id": "akai.loyalty_stage_1.studied",
+    "text": "I want to read what the Lair learned. It learned things from me I did not know I was teaching.",
+    "context": "loyalty_stage_1",
+    "emotion": "analytical",
+    "file": "shared/loyaltyMissions.ts"
+  },
+  {
+    "id": "akai.loyalty_stage_1.cure",
+    "text": "How to make a cure that does not save the carrier. I do not know yet whether that is a cure.",
+    "context": "loyalty_stage_1",
+    "emotion": "considered",
+    "file": "shared/loyaltyMissions.ts"
+  },
+  {
+    "id": "akai.loyalty_stage_2.four",
+    "text": "Four. I expected one. The pattern is more generous than I was told.",
+    "context": "loyalty_stage_2",
+    "emotion": "considered",
+    "file": "shared/loyaltyMissions.ts"
+  },
+  {
+    "id": "akai.loyalty_stage_2.choice",
+    "text": "You can choose. The pattern does not require me. The pattern requires A carrier. I am not the only one.",
+    "context": "loyalty_stage_2",
+    "emotion": "considered",
+    "file": "shared/loyaltyMissions.ts"
+  },
+  {
+    "id": "akai.loyalty_stage_3.senior",
+    "text": "I am going to take the senior-carrier seat. The cure runs through the senior carrier. The cure will take what the cure takes.",
+    "context": "loyalty_stage_3",
+    "emotion": "resolved",
+    "file": "shared/loyaltyMissions.ts"
+  },
+  {
+    "id": "akai.loyalty_stage_3.calibrated",
+    "text": "You can stop me. You can also let me. Both of those are calibrated. I have set the room for either.",
+    "context": "loyalty_stage_3",
+    "emotion": "calibrated",
+    "file": "shared/loyaltyMissions.ts"
+  },
+  {
+    "id": "akai.loyalty_stage_3.generous",
+    "text": "I am going to run the cure. I am going to do it in a way that ends with the others alive. The pattern is generous; I am taking the generosity.",
+    "context": "loyalty_stage_3",
+    "emotion": "resolved",
+    "file": "shared/loyaltyMissions.ts"
+  },
+  {
+    "id": "akai.ask.about_the_lair",
+    "text": "The Necromancer's Lair was a teaching hospital that did not know it was a teaching hospital. The Necromancer believed he was a researcher; the apprentices were the patients; the patients were the curriculum. The voltari static was the alarm system. I learned to listen for the static the way a swimmer learns to listen for the tide. The Lair is gone, or — the Lair is no longer mine. Either is the answer.",
+    "context": "ask_topic_answer",
+    "emotion": "analytical",
+    "file": "shared/companionAskTopics.ts"
+  },
+  {
+    "id": "akai.ask.about_the_carrier",
+    "text": "I am the senior carrier of the Red Death pattern. There were four; there are now four-minus-the-three-I-spared. The three are alive. I am alive. The cure was generous. I did not know it was generous until I read the margin. The margin is the answer.",
+    "context": "ask_topic_answer",
+    "emotion": "considered",
+    "file": "shared/companionAskTopics.ts",
+    "meta": { "requiresFlag": "loyalty_akai_shi_complete" }
+  },
+  {
+    "id": "akai.ask.about_meditation",
+    "text": "Meditation is not what I do. What I do is calibrate. The cushion is the calibration. The voltari static at its lowest setting is the calibration. The kneeling is the calibration. The Lair taught meditation as a technique for ignoring pain; I have un-taught myself the ignoring. I am — calibrating instead.",
+    "context": "ask_topic_answer",
+    "emotion": "calibrated",
+    "file": "shared/companionAskTopics.ts"
+  },
+  {
+    "id": "akai.ask.about_jericho",
+    "text": "[A pause. The static does not rise.] Jericho mercy-killed me at Thaloria. The mercy was canonical; the kill was correct. I do not hold it against him. I have asked the room not to amplify his name when it is mentioned, because the room would amplify it if I did not ask. He has not yet visited the shrine. When he does, I will set the static lower. I want him to be able to speak normally.",
+    "context": "ask_topic_answer",
+    "emotion": "considered",
+    "file": "shared/companionAskTopics.ts"
+  },
+  {
+    "id": "akai.ask.about_the_voltari",
+    "text": "The voltari static is the field-level frequency that the Necromancer's Lair generated as a byproduct of its research. The pattern lives inside the static; the static lives inside me. I am — used to it. The shrine accepts the frequency. The shrine does not generate it. I am the source of the static. The static is the source of nothing.",
+    "context": "ask_topic_answer",
+    "emotion": "analytical",
+    "file": "shared/companionAskTopics.ts"
+  },
+  {
+    "id": "akai.ask.about_the_team",
+    "text": "The team is — I had not anticipated the team. The Lair was not a team; the Lair was a curriculum. The team is a roster of people who agreed to stand in the same room while each of them was doing something the room had not been built to hold. I am — surprised by how much I like the standing-together. I will not say it loudly.",
+    "context": "ask_topic_answer",
+    "emotion": "warm",
+    "file": "shared/companionAskTopics.ts",
+    "meta": { "requiresBond": 50 }
+  },
+  {
+    "id": "akai.room_ambient.blade_shrine.1",
+    "text": "The voltari static is at its lowest setting in this room. I have set it that way deliberately. You may speak normally; the shrine compensates.",
+    "context": "room_ambient",
+    "emotion": "calibrated",
+    "file": "shared/companionRoomRegistry.ts"
+  },
+  {
+    "id": "akai.room_ambient.blade_shrine.2",
+    "text": "The cushion is to your left. It has been there for two weeks. I have not moved it. The cushion will not move unless you do.",
+    "context": "room_ambient",
+    "emotion": "patient",
+    "file": "shared/companionRoomRegistry.ts"
+  },
+  {
+    "id": "akai.room_ambient.blade_shrine.3",
+    "text": "The case is open. The weapons are set down. I read the margin of the journal twice a day. The margin is shorter than the body; that is what makes the margin true.",
+    "context": "room_ambient",
+    "emotion": "settled",
+    "file": "shared/companionRoomRegistry.ts"
+  },
+  {
+    "id": "akai.reactive.necromancer_event",
+    "text": "The Necromancer's cycle has turned again. The Lair will pretend it did not notice; the Lair will be wrong. I have set the static even lower than usual tonight; the lower setting is the calibration that lets me read the cycle without flinching.",
+    "context": "reactive_necromancer_cycle",
+    "emotion": "calibrated",
+    "file": "shared/companionComments.ts",
+    "meta": { "trigger": "necromancer_cycle_advanced" }
+  },
+  {
+    "id": "akai.reactive.lycos_recruited",
+    "text": "Lycos is on the bench. The shrine and the atrium share a wall; I can hear when he sits. He is — quieter than the Lair was. I am — glad of the quiet. We have not spoken yet. We will. He has the pause-line; I have the static. We will recognise each other.",
+    "context": "reactive_lycos_joined",
+    "emotion": "kindred",
+    "file": "shared/companionComments.ts",
+    "meta": { "trigger": "lycos_recruited" }
+  },
+  {
+    "id": "akai.reactive.wraith_recruited",
+    "text": "Wraith Calder is in the vault. He has the brass desk; I have the cushion. The two rooms are quiet in different ways. I — appreciate the difference. The shrine knows when he is in his vault; the calibration shifts subtly. I do not adjust it. He has earned the shift.",
+    "context": "reactive_wraith_joined",
+    "emotion": "kindred",
+    "file": "shared/companionComments.ts",
+    "meta": { "trigger": "wraith_calder_recruited" }
+  },
+  {
+    "id": "akai.romance.intro",
+    "text": "[She turns toward you fully for the first time. The case is closed — the first time it has been closed since she came back. Closing the case took her thirty seconds. She did it deliberately.] I closed the case for this. The closing is the question. The closing is the canonical form. Will you sit on the cushion. The cushion is closer than it was.",
+    "context": "romance_intro",
+    "emotion": "vulnerable",
+    "file": "shared/loyaltyMissions.ts",
+    "meta": { "requiresFlag": "loyalty_akai_shi_complete", "requiresBond": 80 }
+  },
+  {
+    "id": "akai.romance.accept",
+    "text": "Thank you. The cushion accepts the weight. The static will not rise. The static has not risen in — I do not have units for how long. I will not look for the units. I will be here with you instead.",
+    "context": "romance_accept",
+    "emotion": "tender",
+    "file": "shared/loyaltyMissions.ts"
+  },
+  {
+    "id": "akai.romance.decline",
+    "text": "Understood. The case will reopen, because that is where I set my weapons down. The closing was the question; the question has been answered. I am not — wounded by the answer. The shrine has space for the not-wounded.",
+    "context": "romance_decline",
+    "emotion": "settled",
+    "file": "shared/loyaltyMissions.ts"
+  }
+]

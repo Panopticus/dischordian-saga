@@ -148,6 +148,9 @@ import {
   checkAuthorityFounderCoverage,
   checkMechronisGuildBindingCoverage,
 } from "./checks/canonCoverage";
+import { checkWolfHuntHeroTargetCoverage } from "./checks/wolfHuntHeroTargetCoverage";
+import { checkWolfHuntBossLieutenantCoverage } from "./checks/wolfHuntBossLieutenantCoverage";
+import { checkCompanionRosterCompleteness } from "./checks/companionRosterCompleteness";
 
 export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
   // ─── Card engine ──────────────────────────────────────────
@@ -1265,5 +1268,31 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "Hard parity (PR-23): the Pets' narrative origin (apps/shared/petOriginCanon.ts) resolves all five anchors — the Matrix-of-Dreams imprint ontology (imprintSummoningCanon), the species registry (petSpeciesTraits), the breeding mechanic (petBreeding.breedPets), the Risen fate (necromancerReturn pet_battles Risen impacts + theComingCanon.first_coming), and the Pets-vs-crew-Companions distinction (pet species disjoint from companionBattleReactions.getReactiveCompanionIds — Pets are imprint-creatures, not the crew Companions Elara/the Human). Pets are the First Coming felt at companion scale; the last loose thread is bound to the spine, and the origin is surfaced player-facing in the LORE_BIBLE 'The Pets' entry.",
     check: () => checkPetOriginCoverage(),
+  },
+
+  // ─── C-pivot.A — Wolf-Anara solo hunt arc ──────────────────
+  {
+    id: "wolf_hunt.hero_target_coverage",
+    name: "Wolf-hunt hero target coverage",
+    description:
+      "Canonical matrix: 10 Hierarchy lords × 25 heroes = 250 hand-authored hero dossiers in apps/shared/wolfHunt/heroTargets/. Ratcheted during the C-pivot.A → C-pivot.C authoring marathon. End state: 250/250 PASS. The ratchet ceiling only tightens — once a dossier is authored, future PRs cannot remove it.",
+    check: () => checkWolfHuntHeroTargetCoverage(),
+    ratchet: { target: 0 },
+  },
+  {
+    id: "wolf_hunt.boss_lieutenant_coverage",
+    name: "Wolf-hunt boss lieutenant coverage",
+    description:
+      "Hard parity: every core Hierarchy lord (10 total) must have exactly one boss lieutenant in the wolfHunt registry. The 10 lord-lieutenant card-game boss fights are the arc's climactic structure — a missing lieutenant is a missing finale beat. Gap > 0 = FAIL.",
+    check: () => checkWolfHuntBossLieutenantCoverage(),
+  },
+
+  // ─── Section D6 — companion roster completeness ────────────
+  {
+    id: "narrative.companion_roster_completeness",
+    name: "Companion roster completeness",
+    description:
+      "Hard parity (D6): the Resurrected Trio (wraith_calder, akai_shi, lycos) each resolve to (a) companionRoomRegistry entry, (b) loyaltyMissions entry, (c) per-character VO manifest file, (d) companion-comment trigger mentioning the npcKey. Pre-existing companions (Locke / Vex / Jericho) are out of scope — they have their own parity gates.",
+    check: () => checkCompanionRosterCompleteness(),
   },
 ];
