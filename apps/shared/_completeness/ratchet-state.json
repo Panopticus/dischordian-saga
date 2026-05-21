@@ -48,6 +48,6 @@
     "narrative.spine_doorway_coverage": 0,
     "server.replay_determinism_guard": 0,
     "economy.store_sku_parity": 0,
-    "wolf_hunt.hero_target_coverage": 240
+    "wolf_hunt.hero_target_coverage": 0
   }
 }
