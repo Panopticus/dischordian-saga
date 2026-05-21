@@ -46,6 +46,11 @@ export default tseslint.config(
       "apps/client/public/games/**",
       // Service worker is generated at build time.
       "apps/client/public/sw.js",
+      // Playwright trace viewer + per-run artifacts are generated; they
+      // contain vendored minified JS (codeMirror, etc.) that fails
+      // no-var/no-undef/eqeqeq with thousands of noise errors.
+      "playwright-report/**",
+      "test-results/**",
       // ── Seed + admin scripts ──────────────────────────────
       // .mjs seeds pre-date the flat-config migration and use loose
       // conventions (var, console, no types). Linting them would be

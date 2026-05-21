@@ -52,6 +52,14 @@ const NATIVE_PREFIX = "ink.dgrslabs.dischordian";
 /** The full catalog. Add a new SKU here AND in apps/server/products.ts.
  *  The parity test will fail loudly if either side drifts. */
 export const STORE_SKUS: ReadonlyArray<SkuEntry> = [
+  // ── Subscription ──
+  {
+    productKey: "vip_monthly",
+    stripePriceEnv: "STRIPE_PRICE_VIP_MONTHLY",
+    iosProductId: `${NATIVE_PREFIX}.vip.monthly`,
+    androidProductId: `${NATIVE_PREFIX}.vip.monthly`,
+  },
+
   // ── Dream Tokens ──
   {
     productKey: "dream_starter",
