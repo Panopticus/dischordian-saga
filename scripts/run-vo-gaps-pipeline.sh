@@ -39,7 +39,9 @@
 #   immediately on success. Re-run after Ctrl+C / network
 #   failure picks up exactly where it stopped.
 # ═══════════════════════════════════════════════════════
-set -uo pipefail
+# NOTE: deliberately NOT using `set -u` — macOS ships bash 3.2 which
+# errors on empty-array expansion (`"${arr[@]}"`) under nounset.
+set -o pipefail
 
 cd "$(dirname "$0")/.."
 REPO_ROOT="$(pwd)"
@@ -115,12 +117,18 @@ step "Stage 3 · vo:gaps (dry-run mode)" 2>&1
 if [ $DRY -eq 0 ]; then
   # Live run — confirm credentials are present.
   MISSING_CREDS=0
-  for var in ELEVENLABS_API_KEY AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY; do
-    if [ -z "${!var:-}" ]; then
-      echo "  ✗ \$${var} is not set"
-      MISSING_CREDS=1
-    fi
-  done
+  if [ -z "${ELEVENLABS_API_KEY:-}" ]; then
+    echo "  ✗ \$ELEVENLABS_API_KEY is not set"
+    MISSING_CREDS=1
+  fi
+  if [ -z "${AWS_ACCESS_KEY_ID:-}" ]; then
+    echo "  ✗ \$AWS_ACCESS_KEY_ID is not set"
+    MISSING_CREDS=1
+  fi
+  if [ -z "${AWS_SECRET_ACCESS_KEY:-}" ]; then
+    echo "  ✗ \$AWS_SECRET_ACCESS_KEY is not set"
+    MISSING_CREDS=1
+  fi
   if [ $MISSING_CREDS -eq 1 ]; then
     echo
     echo "Live generation skipped — set the missing env vars and re-run."
@@ -129,7 +137,12 @@ if [ $DRY -eq 0 ]; then
   fi
 fi
 
-python3 apps/scripts/generate_vo_gaps.py "${GAPS_FLAGS[@]}"
+# Bash-3-safe expansion of a possibly-empty array.
+if [ ${#GAPS_FLAGS[@]} -eq 0 ]; then
+  python3 apps/scripts/generate_vo_gaps.py
+else
+  python3 apps/scripts/generate_vo_gaps.py "${GAPS_FLAGS[@]}"
+fi
 GAPS_RC=$?
 
 step "Pipeline complete · exit code $GAPS_RC"
