@@ -151,6 +151,43 @@ class MultiCharacterBank:
         return all(not _is_placeholder(vid) for vid, _, _ in self.voice_map.values())
 
 
+@dataclass
+class PerLineVoiceBank:
+    """One lines.json where each entry carries its own `voiceId`
+    field. Voices are already chosen at authoring time — no per-bank
+    casting needed. All entries write to a single manifest + single
+    S3 prefix; the per-line voice id is what varies.
+
+    Used for story-mode-lines.json (4 voices baked into the data).
+    """
+    key: str
+    lines_filename: str
+    manifest_filename: str
+    s3_prefix: str
+    voice_field: str = "voiceId"
+
+    @property
+    def lines_path(self) -> Path:
+        return SCRIPTS_DIR / self.lines_filename
+
+    @property
+    def manifest_path(self) -> Path:
+        return SHARED_DIR / self.manifest_filename
+
+    @property
+    def is_ready(self) -> bool:
+        # Per-line bank: ready iff every line has a non-placeholder voiceId.
+        if not self.lines_path.exists():
+            return False
+        lines = load_lines(self.lines_path)
+        if not lines:
+            return False
+        return all(
+            ln.get(self.voice_field) and not _is_placeholder(ln[self.voice_field])
+            for ln in lines
+        )
+
+
 # ─── CHARACTERS TABLE ─────────────────────────────────────
 # Add a row here for every <character>-lines.json + matching
 # <character>VoManifest.json you want gap-fill to process.
@@ -187,7 +224,7 @@ SIMPLE_BANKS: list[SimpleVoiceBank] = [
     SimpleVoiceBank("guild_cutscene",  "guild-cutscene-vo-lines.json","guildCutsceneVoManifest.json",  "yAKlvHIsuj4SvnKQ6Mk4",      "Guild Cutscene Voices"),
     SimpleVoiceBank("loredex_mention", "loredex-mention-lines.json", "loredexMentionVoManifest.json",  "yAKlvHIsuj4SvnKQ6Mk4",      "Loredex Mention"),
     SimpleVoiceBank("loredex_narrator","loredex-narrator-lines.json","loredexVoManifest.json",         "yAKlvHIsuj4SvnKQ6Mk4",      "Loredex Voices"),
-    SimpleVoiceBank("story_mode",      "story-mode-lines.json",      "storyModeVoManifest.json",       "TODO:multi_voice_per_line", "Story Mode Voices"),
+    # story_mode lives in PER_LINE_BANKS below (each entry carries its own voiceId).
 
     # ── Per-NPC line banks (apps/scripts/npc-<key>-lines.json) ──
     # Most overlap with companion voices that already exist (the_seer,
@@ -276,17 +313,25 @@ for kind in ("audits", "doctrines", "missions", "warden"):
         s3_prefix=f"Apprentice Pedagogy {kind.capitalize()}",
     ))
 
-# Act narrative VO banks (act 2-7). The TS generator generate-act-vo.ts
-# is the canonical pipeline; gap-fill below is a fallback. Voice casting
-# is per-act-per-speaker; default to TODO until aligned with TS pipeline.
-for act in range(2, 8):
-    SIMPLE_BANKS.append(SimpleVoiceBank(
-        key=f"act{act}_narrative",
-        lines_filename=f"act{act}-vo-lines.json",
-        manifest_filename=f"act{act}VoManifest.json",
-        voice_id=f"TODO:multi_voice_use_generate-act-vo.ts",
-        s3_prefix=f"Act {act} Voices",
-    ))
+# Act narrative VO banks (act 2-7) are owned by the canonical TS
+# pipeline apps/scripts/generate-act-vo.ts (`pnpm vo:act{N}`), which
+# does per-line multi-voice fan-out from richer act source data than
+# the simple lines.json shape supports. The act{N}-vo-lines.json
+# files exist but feed that TS generator, not this one. Intentionally
+# not registered here — the manifests are already populated by the
+# TS run.
+
+
+# ── Per-line voice banks (each line entry carries its own voiceId). ──
+PER_LINE_BANKS: list[PerLineVoiceBank] = [
+    PerLineVoiceBank(
+        key="story_mode",
+        lines_filename="story-mode-lines.json",
+        manifest_filename="storyModeVoManifest.json",
+        s3_prefix="Story Mode Voices",
+        voice_field="voiceId",
+    ),
+]
 
 
 # ── Sting banks (short clips with deliberate destabilisation). ──
@@ -476,6 +521,68 @@ def process_simple(bank: SimpleVoiceBank, dry_run: bool) -> dict:
     return summary
 
 
+def process_per_line(bank: PerLineVoiceBank, dry_run: bool) -> dict:
+    """Each line carries its own voiceId. No per-bank casting needed."""
+    lines = load_lines(bank.lines_path)
+    manifest = load_manifest(bank.manifest_path)
+    gap = [ln for ln in lines if ln["id"] not in manifest]
+    summary = {
+        "key": bank.key, "type": "per_line",
+        "total_lines": len(lines),
+        "already_generated": len(manifest),
+        "gap": len(gap), "generated_this_run": 0, "errors": [],
+    }
+    if not bank.lines_path.exists():
+        summary["skipped_reason"] = f"lines file missing: {bank.lines_filename}"
+        return summary
+    # Per-line readiness: every line must have a non-placeholder voiceId.
+    bad = [ln for ln in lines if not ln.get(bank.voice_field) or _is_placeholder(ln[bank.voice_field])]
+    if bad:
+        summary["skipped_reason"] = (
+            f"{len(bad)}/{len(lines)} line(s) missing or placeholder voiceId field"
+        )
+        return summary
+    if not gap:
+        summary["skipped_reason"] = "nothing to generate — manifest already covers every line"
+        return summary
+    if dry_run:
+        summary["skipped_reason"] = f"dry-run; would generate {len(gap)} lines"
+        return summary
+    if not have_creds():
+        summary["skipped_reason"] = "missing ELEVENLABS_API_KEY / AWS_* env vars"
+        return summary
+
+    print(f"\n=== {bank.key} (per-line voice) ===")
+    print(f"    lines: {len(lines)}  have: {len(manifest)}  gap: {len(gap)}")
+    print(f"    s3: {BUCKET}/{bank.s3_prefix}/  (voiceId per line)")
+    for i, line in enumerate(gap, start=1):
+        emotion = line.get("emotion", "neutral")
+        context = line.get("context", "misc")
+        voice_id = line[bank.voice_field]
+        s3_key = f"{context}/{line['id']}.mp3"
+        sys.stdout.write(f"  [{i}/{len(gap)}] {line['id']} ({emotion}, voice={voice_id})... ")
+        sys.stdout.flush()
+        try:
+            settings = EMOTIONS.get(emotion, EMOTIONS["neutral"])
+            audio = generate_speech(line["text"], voice_id, settings)
+            url = upload_to_s3(audio, bank.s3_prefix, s3_key)
+            manifest[line["id"]] = url
+            save_manifest(bank.manifest_path, manifest)
+            summary["generated_this_run"] += 1
+            print(f"✓ {len(audio) // 1024}KB")
+            time.sleep(0.15)
+        except requests.HTTPError as exc:
+            status = exc.response.status_code if exc.response is not None else "?"
+            print(f"✗ HTTP {status}")
+            summary["errors"].append({"id": line["id"], "error": f"HTTP {status}: {exc}"})
+            if str(status) == "429":
+                print("    rate-limited — sleeping 30s"); time.sleep(30)
+        except Exception as exc:
+            print(f"✗ {exc}")
+            summary["errors"].append({"id": line["id"], "error": str(exc)})
+    return summary
+
+
 def process_multi(bank: MultiCharacterBank, dry_run: bool) -> dict:
     lines = load_lines(bank.lines_path)
     summary = {
@@ -575,9 +682,10 @@ def main() -> int:
 
     selected = set(s.strip() for s in args.only.split(",") if s.strip())
     all_banks: list[tuple[str, object]] = (
-        [("simple", b) for b in SIMPLE_BANKS] +
-        [("sting",  b) for b in STING_BANKS]  +
-        [("multi",  b) for b in MULTI_BANKS]
+        [("simple",   b) for b in SIMPLE_BANKS]   +
+        [("sting",    b) for b in STING_BANKS]    +
+        [("per_line", b) for b in PER_LINE_BANKS] +
+        [("multi",    b) for b in MULTI_BANKS]
     )
     if selected:
         all_banks = [(t, b) for (t, b) in all_banks if b.key in selected]
@@ -591,6 +699,8 @@ def main() -> int:
     for kind, bank in all_banks:
         if kind in ("simple", "sting"):
             summaries.append(process_simple(bank, args.dry_run))
+        elif kind == "per_line":
+            summaries.append(process_per_line(bank, args.dry_run))
         else:
             summaries.append(process_multi(bank, args.dry_run))
 
