@@ -182,7 +182,7 @@ SIMPLE_BANKS: list[SimpleVoiceBank] = [
     SimpleVoiceBank("palimpsest_host", "palimpsest-host-lines.json", "palimpsestHostVoManifest.json", "VgFgBh5TnWeBhCBvCJ1E", "Palimpsest Host"),
 
     # ── Banks pending voice casting (uncomment / fill the voice id and re-run) ──
-    SimpleVoiceBank("engineer",        "engineer-lines.json",        "engineerVoManifest.json",        "TODO:cast_engineer",        "Engineer Voices"),
+    SimpleVoiceBank("engineer",        "engineer-lines.json",        "engineerVoManifest.json",        "FLW8imgp50K85LICuLQs",      "Engineer Voices"),
     SimpleVoiceBank("chess_climb",     "chess-climb-lines.json",     "chessClimbVoManifest.json",      "TT28j5FWUeiDbRr27c7t",      "ChessClimb Voices"),
     SimpleVoiceBank("guild_cutscene",  "guild-cutscene-vo-lines.json","guildCutsceneVoManifest.json",  "yAKlvHIsuj4SvnKQ6Mk4",      "Guild Cutscene Voices"),
     SimpleVoiceBank("loredex_mention", "loredex-mention-lines.json", "loredexMentionVoManifest.json",  "yAKlvHIsuj4SvnKQ6Mk4",      "Loredex Mention"),
@@ -201,20 +201,27 @@ SIMPLE_BANKS: list[SimpleVoiceBank] = [
     SimpleVoiceBank("npc_the_antiquarian",   "npc-the_antiquarian-lines.json",   "antiquarianNpcVoManifest.json",    "yAKlvHIsuj4SvnKQ6Mk4",       "AntiquarianNpc Voices"),
     SimpleVoiceBank("npc_the_architect",     "npc-the_architect-lines.json",     "architectVoManifest.json",         "PmtzUaeg5rMejCZzRqOZ",       "Architect Voices"),
     SimpleVoiceBank("npc_the_degen",         "npc-the_degen-lines.json",         "degenNpcVoManifest.json",          "r6VqF23i4qBEORazjelf",       "DegenNpc Voices"),
-    SimpleVoiceBank("npc_the_dreamer",       "npc-the_dreamer-lines.json",       "dreamerVoManifest.json",           "TODO:cast_the_dreamer",      "Dreamer Voices"),
-    SimpleVoiceBank("npc_the_game_master",   "npc-the_game_master-lines.json",   "gamemasterVoManifest.json",        "TODO:cast_the_game_master",  "GameMaster Voices"),
+    SimpleVoiceBank("npc_the_dreamer",       "npc-the_dreamer-lines.json",       "dreamerVoManifest.json",           "vmBbkUZnePLkXbDidbQa",       "Dreamer Voices"),
+    SimpleVoiceBank("npc_the_game_master",   "npc-the_game_master-lines.json",   "gamemasterVoManifest.json",        "TT28j5FWUeiDbRr27c7t",       "GameMaster Voices"),
     SimpleVoiceBank("npc_the_necromancer",   "npc-the_necromancer-lines.json",   "necromancerNpcVoManifest.json",    "II5QotwxLcQdwey5xEyd",       "NecromancerNpc Voices"),
-    SimpleVoiceBank("npc_the_resurrectionist","npc-the_resurrectionist-lines.json","resurrectionistVoManifest.json", "TODO:cast_the_resurrectionist","Resurrectionist Voices"),
+    SimpleVoiceBank("npc_the_resurrectionist","npc-the_resurrectionist-lines.json","resurrectionistVoManifest.json", "MloihDuG0rz5KwxdPiSP",       "Resurrectionist Voices"),
     SimpleVoiceBank("npc_the_seer",          "npc-the_seer-lines.json",          "seerNpcVoManifest.json",           "BTfBVfMM9XgZG8GG1bJn",       "SeerNpc Voices"),
     SimpleVoiceBank("npc_the_source",        "npc-the_source-lines.json",        "sourceNpcVoManifest.json",         "hfq5qawrYj4gqFsfoE28",       "SourceNpc Voices"),
 ]
 
 # ── Apprentice archetype banks (12 archetypes × 2 genders = 24 banks).
-#    Each needs its own voice cast. ──
+#    Each (archetype, gender) pair gets its own voice cast.
+#    Add a row to APPRENTICE_VOICE_MAP below to canonise; absent rows
+#    fall back to a TODO placeholder and skip cleanly. ──
 APPRENTICE_ARCHETYPES = [
     "artisan", "ghost", "heretic", "jester", "martyr", "oracle",
     "prodigal", "revenant", "scholar", "sentinel", "wanderer", "zealot",
 ]
+APPRENTICE_VOICE_MAP: dict[str, str] = {
+    "apprentice_artisan_female":  "xcaGXUiuDthc4Ct1ierk",
+    "apprentice_artisan_male":    "j0BH5nbZqg2yMqlOj0Yy",
+    # Add more (archetype, gender) → voice id rows here as casting lands.
+}
 for arch in APPRENTICE_ARCHETYPES:
     for gender in ("female", "male"):
         key = f"apprentice_{arch}_{gender}"
@@ -222,17 +229,27 @@ for arch in APPRENTICE_ARCHETYPES:
             key=key,
             lines_filename=f"apprentice-{arch}-{gender}-lines.json",
             manifest_filename=f"apprentice{arch.capitalize()}{gender.capitalize()}VoManifest.json",
-            voice_id=f"TODO:cast_{key}",
+            voice_id=APPRENTICE_VOICE_MAP.get(key, f"TODO:cast_{key}"),
             s3_prefix=f"Apprentice {arch.capitalize()} {gender.capitalize()}",
         ))
 
 # Apprentice pedagogy banks (non-archetype-specific).
+# All four currently share a single narrator voice; if any one ever
+# diverges, add an override row to PEDAGOGY_VOICE_MAP.
+APPRENTICE_PEDAGOGY_NARRATOR = "vFjpEDBMRbSY1JrztN5z"
+PEDAGOGY_VOICE_MAP: dict[str, str] = {
+    "apprentice_pedagogy_audits":    APPRENTICE_PEDAGOGY_NARRATOR,
+    "apprentice_pedagogy_doctrines": APPRENTICE_PEDAGOGY_NARRATOR,
+    "apprentice_pedagogy_missions":  APPRENTICE_PEDAGOGY_NARRATOR,
+    "apprentice_pedagogy_warden":    APPRENTICE_PEDAGOGY_NARRATOR,
+}
 for kind in ("audits", "doctrines", "missions", "warden"):
+    key = f"apprentice_pedagogy_{kind}"
     SIMPLE_BANKS.append(SimpleVoiceBank(
-        key=f"apprentice_pedagogy_{kind}",
+        key=key,
         lines_filename=f"apprentice-pedagogy-{kind}-lines.json",
         manifest_filename=f"apprenticePedagogy{kind.capitalize()}VoManifest.json",
-        voice_id=f"TODO:cast_apprentice_pedagogy_{kind}",
+        voice_id=PEDAGOGY_VOICE_MAP.get(key, f"TODO:cast_{key}"),
         s3_prefix=f"Apprentice Pedagogy {kind.capitalize()}",
     ))
 
