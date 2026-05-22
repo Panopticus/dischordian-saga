@@ -447,18 +447,21 @@ TS_BANK_SPEAKER_VOICES: dict[str, tuple[str, str, str]] = {
     "wraith_calder":("Vogq3iKs5PJ3cL39gFhW", "TS Dialog/WraithCalder", "tsDialogWraithCalderVoManifest.json"),
     "akai_shi":     ("AQYSOeM9rkJY878exSfM", "TS Dialog/AkaiShi",      "tsDialogAkaiShiVoManifest.json"),
     "lycos":        ("rfHVfqlu6LXw4vLf7q4i", "TS Dialog/Lycos",        "tsDialogLycosVoManifest.json"),
-    # Encounter sentinel speakers (TS bank exclusive; need casting)
-    "master_of_rlyeh":     ("TODO:cast_master_of_rlyeh",     "TS Dialog/MasterOfRlyeh",     "tsDialogMasterOfRlyehVoManifest.json"),
-    "hierarchy:master_of_rlyeh": ("TODO:cast_master_of_rlyeh","TS Dialog/MasterOfRlyeh",    "tsDialogMasterOfRlyehVoManifest.json"),
-    "pale_emissary":       ("TODO:cast_pale_emissary",       "TS Dialog/PaleEmissary",      "tsDialogPaleEmissaryVoManifest.json"),
-    "hierarchy:pale_emissary": ("TODO:cast_pale_emissary",   "TS Dialog/PaleEmissary",      "tsDialogPaleEmissaryVoManifest.json"),
-    "reckoning_daughter":  ("TODO:cast_reckoning_daughter",  "TS Dialog/ReckoningDaughter", "tsDialogReckoningDaughterVoManifest.json"),
-    "hierarchy:reckoning_daughter": ("TODO:cast_reckoning_daughter","TS Dialog/ReckoningDaughter","tsDialogReckoningDaughterVoManifest.json"),
-    "malkia_ukweli":       ("TODO:cast_malkia_ukweli",       "TS Dialog/Malkia",            "tsDialogMalkiaVoManifest.json"),
-    "malkia":              ("TODO:cast_malkia_ukweli",       "TS Dialog/Malkia",            "tsDialogMalkiaVoManifest.json"),
-    "kael_trace":          ("TODO:cast_kael_trace",          "TS Dialog/Kael",              "tsDialogKaelVoManifest.json"),
-    "kael":                ("TODO:cast_kael_trace",          "TS Dialog/Kael",              "tsDialogKaelVoManifest.json"),
-    "dual":                ("TODO:cast_dual_chord",          "TS Dialog/Dual",              "tsDialogDualVoManifest.json"),
+    # Encounter sentinel speakers (TS bank exclusive)
+    "master_of_rlyeh":     ("llg3CImXRBGxF3IgJaMf", "TS Dialog/MasterOfRlyeh",     "tsDialogMasterOfRlyehVoManifest.json"),
+    "hierarchy:master_of_rlyeh": ("llg3CImXRBGxF3IgJaMf","TS Dialog/MasterOfRlyeh",    "tsDialogMasterOfRlyehVoManifest.json"),
+    "pale_emissary":       ("p6JdILM5gm18DgciUlnB", "TS Dialog/PaleEmissary",      "tsDialogPaleEmissaryVoManifest.json"),
+    "hierarchy:pale_emissary": ("p6JdILM5gm18DgciUlnB",   "TS Dialog/PaleEmissary",      "tsDialogPaleEmissaryVoManifest.json"),
+    "reckoning_daughter":  ("lf37HHVASBsFibhqVKBY", "TS Dialog/ReckoningDaughter", "tsDialogReckoningDaughterVoManifest.json"),
+    "hierarchy:reckoning_daughter": ("lf37HHVASBsFibhqVKBY","TS Dialog/ReckoningDaughter","tsDialogReckoningDaughterVoManifest.json"),
+    "malkia_ukweli":       ("VWuOaUviUqE4uwxXwQM2", "TS Dialog/Malkia",            "tsDialogMalkiaVoManifest.json"),
+    "malkia":              ("VWuOaUviUqE4uwxXwQM2", "TS Dialog/Malkia",            "tsDialogMalkiaVoManifest.json"),
+    "kael_trace":          ("4tTGaP2vBgPN3iYrFoxa", "TS Dialog/Kael",              "tsDialogKaelVoManifest.json"),
+    "kael":                ("4tTGaP2vBgPN3iYrFoxa", "TS Dialog/Kael",              "tsDialogKaelVoManifest.json"),
+    # Dual chord — Elara + Human in unison; in solo gen, render with the
+    # Antiquarian's voice as the canonical dual marker (producer mixes
+    # the actual Elara+Human takes in post).
+    "dual":                ("yAKlvHIsuj4SvnKQ6Mk4", "TS Dialog/Dual",              "tsDialogDualVoManifest.json"),
     # Story dialog speakers (reused / aliased from existing casts)
     "agent_zero":   ("F1waTCPWl7KpShIScYQs", "TS Dialog/AgentZero",    "tsDialogAgentZeroVoManifest.json"),
     "iron_lion":    ("UFc00HkV4yTNA1eMW99e", "TS Dialog/IronLion",     "tsDialogIronLionVoManifest.json"),
@@ -466,14 +469,14 @@ TS_BANK_SPEAKER_VOICES: dict[str, tuple[str, str, str]] = {
     "the_programmer":("1q0znKQADwaKdTNWneaW","TS Dialog/Programmer",   "tsDialogProgrammerVoManifest.json"),
     "meme":         ("VgFgBh5TnWeBhCBvCJ1E", "TS Dialog/Meme",         "tsDialogMemeVoManifest.json"),
     "architect":    ("PmtzUaeg5rMejCZzRqOZ", "TS Dialog/Architect",    "tsDialogArchitectVoManifest.json"),
-    # Story dialog speakers awaiting casting
-    "the_jailer":   ("TODO:cast_the_jailer",   "TS Dialog/Jailer",     "tsDialogJailerVoManifest.json"),
-    "dr_vox":       ("TODO:cast_dr_vox",       "TS Dialog/DrVox",      "tsDialogDrVoxVoManifest.json"),
-    "foucault":     ("TODO:cast_foucault",     "TS Dialog/Foucault",   "tsDialogFoucaultVoManifest.json"),
-    "the_detective":("TODO:cast_the_detective","TS Dialog/Detective",  "tsDialogDetectiveVoManifest.json"),
-    "the_enigma":   ("TODO:cast_the_enigma",   "TS Dialog/Enigma",     "tsDialogEnigmaVoManifest.json"),
-    "warlord_zero": ("TODO:cast_warlord_zero", "TS Dialog/WarlordZero","tsDialogWarlordZeroVoManifest.json"),
-    "white_oracle": ("TODO:cast_white_oracle", "TS Dialog/WhiteOracle","tsDialogWhiteOracleVoManifest.json"),
+    # Story dialog speakers (final batch — fully cast 2026-05-22)
+    "the_jailer":   ("xYjWL0MUjpDG64c0YSh3", "TS Dialog/Jailer",       "tsDialogJailerVoManifest.json"),
+    "dr_vox":       ("N6fH8wgLRPK8ehBXeWZJ", "TS Dialog/DrVox",        "tsDialogDrVoxVoManifest.json"),
+    "foucault":     ("vFjpEDBMRbSY1JrztN5z", "TS Dialog/Foucault",     "tsDialogFoucaultVoManifest.json"),
+    "the_detective":("oGbGJdgofRR8z0MxwI8L", "TS Dialog/Detective",    "tsDialogDetectiveVoManifest.json"),
+    "the_enigma":   ("VWuOaUviUqE4uwxXwQM2", "TS Dialog/Enigma",       "tsDialogEnigmaVoManifest.json"),
+    "warlord_zero": ("F1waTCPWl7KpShIScYQs", "TS Dialog/WarlordZero",  "tsDialogWarlordZeroVoManifest.json"),
+    "white_oracle": ("VgFgBh5TnWeBhCBvCJ1E", "TS Dialog/WhiteOracle",  "tsDialogWhiteOracleVoManifest.json"),
 }
 
 
