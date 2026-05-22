@@ -590,6 +590,32 @@ export const citizenRouter = router({
       return { success: true, gear: mergedGear };
     }),
 
+  /** Rename the user's primary citizen. The name input lives on the
+   *  Awakening flow today; once a character is created there's been no
+   *  way to fix a typo or a placeholder name (e.g. "Bob" from QA). Same
+   *  zod bounds as createCharacter so the column constraint can't drift
+   *  from the creation path. Idempotent over the same string. */
+  renameCharacter: protectedProcedure
+    .input(z.object({ name: z.string().trim().min(2).max(64) }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await citizenDb();
+      if (!db) throw new Error("Database unavailable");
+
+      const [char] = await db
+        .select()
+        .from(citizenCharacters)
+        .where(and(eq(citizenCharacters.userId, ctx.user.id), eq(citizenCharacters.isPrimary, 1)))
+        .limit(1);
+      if (!char) throw new Error("No citizen found");
+
+      await db
+        .update(citizenCharacters)
+        .set({ name: input.name })
+        .where(eq(citizenCharacters.id, char.id));
+
+      return { success: true, name: input.name };
+    }),
+
   /* ═══════════════════════════════════════════════════
      RESPEC SYSTEM — Dream token economy sink
      Players can reassign attribute dots or change alignment/element.

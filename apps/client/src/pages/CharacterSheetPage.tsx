@@ -13,7 +13,7 @@ import {
   Clock, Globe, Target, Wrench, Eye, Skull, Telescope,
   Star, Trophy, Gem, Lock, Unlock, Activity, Crosshair,
   Hexagon, CircleDot, Layers, Cpu, Wifi, ChevronDown, ChevronUp,
-  RotateCcw, AlertTriangle, Compass, Crown, X
+  RotateCcw, AlertTriangle, Compass, Crown, X, Pencil
 } from "lucide-react";
 import TraitSummaryPanel from "@/components/TraitSummaryPanel";
 import CharacterMindPanel from "@/components/CharacterMindPanel";
@@ -28,6 +28,7 @@ import { useGamification } from "@/contexts/GamificationContext";
 import { Link as WLink } from "wouter";
 import PaperDollRenderer from "@/components/PaperDollRenderer";
 import PaperDollBG3 from "@/components/PaperDollBG3";
+import { parseSuitPieceArtId } from "@/game/paperDoll/suitArt";
 import type { Loadout } from "@/game/paperDoll/compositePaperDoll";
 import {
   resolveStarterLoadout,
@@ -498,8 +499,12 @@ export default function CharacterSheetPage() {
 
     // Map legacy 6-slot equipment into their §G.1 counterparts so existing
     // drops light up a slot on the BG3 doll, overriding the base-set
-    // pre-fill above. Items without suit-set art still draw nothing
-    // (placeholders are off on the chronicle card).
+    // pre-fill above. Items whose artId can't be parsed back into a
+    // <setId>:<rarity>:<slot> suit piece (every legacy id predating the
+    // catalog rewrite) are dropped here — overwriting the pre-fill with
+    // them would render nothing for that slot and leak through as a
+    // floating helmet over a missing body. Renderable suit-piece ids
+    // still override the base outfit as intended.
     const LEGACY_TO_SUIT: Record<string, string> = {
       helm: "head",
       armor: "chest",
@@ -509,12 +514,13 @@ export default function CharacterSheetPage() {
     };
     for (const [legacy, suit] of Object.entries(LEGACY_TO_SUIT)) {
       const id = readGearId(gearObj[legacy]);
-      if (id) pieces[suit] = { slot: suit, artId: id };
+      if (id && parseSuitPieceArtId(id)) pieces[suit] = { slot: suit, artId: id };
     }
 
     // Also honour suit-slot keys directly written to gear (forward-compat).
-    // Already-populated base-outfit slots are overwritten if the player
-    // explicitly equipped a different piece for that slot.
+    // Same parse-gate: only overwrite when the equipped artId is a real
+    // suit-catalog piece. An un-renderable id leaves the base pre-fill
+    // in place instead of silently blanking the slot.
     const SUIT_SLOTS = [
       "head", "face", "neck", "shoulders", "back", "chest", "arms", "gloves",
       "belt", "legs", "feet", "ring-1", "ring-2", "weapon-primary",
@@ -522,7 +528,7 @@ export default function CharacterSheetPage() {
     ] as const;
     for (const slot of SUIT_SLOTS) {
       const id = readGearId(gearObj[slot]);
-      if (id) pieces[slot] = { slot, artId: id };
+      if (id && parseSuitPieceArtId(id)) pieces[slot] = { slot, artId: id };
     }
 
     return { pieces } as unknown as Loadout;
@@ -563,6 +569,36 @@ export default function CharacterSheetPage() {
   const updateGearMutation = trpc.citizen.updateGear.useMutation({
     onSuccess: () => { utils.citizen.getCharacter.invalidate(); },
   });
+
+  // Rename UX — opens the small inline dialog rendered down-page.
+  const [renameOpen, setRenameOpen] = useState(false);
+  const [renameDraft, setRenameDraft] = useState("");
+  const [renameError, setRenameError] = useState<string | null>(null);
+  const renameMutation = trpc.citizen.renameCharacter.useMutation({
+    onSuccess: () => {
+      utils.citizen.getCharacter.invalidate();
+      setRenameOpen(false);
+      setRenameError(null);
+    },
+    onError: (err) => setRenameError(err.message || "Rename failed."),
+  });
+  const openRename = useCallback(() => {
+    setRenameDraft(character.data?.name ?? "");
+    setRenameError(null);
+    setRenameOpen(true);
+  }, [character.data?.name]);
+  const submitRename = useCallback(() => {
+    const next = renameDraft.trim();
+    if (next.length < 2 || next.length > 64) {
+      setRenameError("Name must be 2–64 characters.");
+      return;
+    }
+    if (next === character.data?.name) {
+      setRenameOpen(false);
+      return;
+    }
+    renameMutation.mutate({ name: next });
+  }, [renameDraft, character.data?.name, renameMutation]);
 
   // Sync DB gear to global equipmentState on load
   useEffect(() => {
@@ -1010,10 +1046,25 @@ export default function CharacterSheetPage() {
 
               {/* RIGHT: Identity + Chronicle */}
               <div className="flex-1 min-w-0">
-                {/* Name */}
-                <h1 className={`font-display text-2xl sm:text-4xl font-black tracking-wider ${alignTextColor} ${alignGlowText} mb-1 truncate`}>
-                  {char.name}
-                </h1>
+                {/* Name + rename affordance. The pencil opens an inline
+                    dialog backed by the citizen.renameCharacter mutation
+                    so a placeholder name (e.g. typed during Awakening QA)
+                    can be fixed without re-running creation. */}
+                <div className="flex items-center gap-2 mb-1 min-w-0">
+                  <h1 className={`font-display text-2xl sm:text-4xl font-black tracking-wider ${alignTextColor} ${alignGlowText} truncate min-w-0`}>
+                    {char.name}
+                  </h1>
+                  <button
+                    type="button"
+                    onClick={openRename}
+                    aria-label="Rename operative"
+                    title="Rename operative"
+                    className="shrink-0 p-1.5 rounded-md void-bg-sunk border void-border hover:void-text-energy text-muted-foreground/60 transition-colors"
+                    data-testid="character-rename-trigger"
+                  >
+                    <Pencil size={12} />
+                  </button>
+                </div>
 
                 {/* Designation line */}
                 <p className="font-mono text-[10px] text-muted-foreground/70 tracking-wider mb-1">
@@ -1619,6 +1670,80 @@ export default function CharacterSheetPage() {
 
         {/* Respec Dialog */}
         <RespecDialog isOpen={showRespec} onClose={() => setShowRespec(false)} isAuthenticated={isAuthenticated} />
+
+        {/* Rename Dialog — small inline modal styled to match the
+            rest of the chronicle's surface so it reads as part of
+            the same control vocabulary. */}
+        <AnimatePresence>
+          {renameOpen && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[200] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4"
+              onClick={() => setRenameOpen(false)}
+              data-testid="character-rename-dialog"
+            >
+              <motion.div
+                initial={{ scale: 0.96, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.96, opacity: 0 }}
+                onClick={(e) => e.stopPropagation()}
+                className={`relative w-full max-w-sm rounded-lg border-2 ${alignBorderColor} ${alignBg} p-5`}
+              >
+                <button
+                  type="button"
+                  onClick={() => setRenameOpen(false)}
+                  aria-label="Close rename dialog"
+                  className="absolute top-2 right-2 p-1 rounded-md text-muted-foreground/60 hover:void-text-energy"
+                >
+                  <X size={14} />
+                </button>
+                <p className={`font-mono text-[10px] tracking-[0.3em] mb-1 ${alignTextColor}`}>
+                  RENAME OPERATIVE
+                </p>
+                <p className="font-mono text-[9px] text-muted-foreground/60 mb-4">
+                  The Antiquarian will overwrite your nameplate in the chronicle. 2–64 characters.
+                </p>
+                <input
+                  type="text"
+                  value={renameDraft}
+                  onChange={(e) => { setRenameDraft(e.target.value); setRenameError(null); }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") submitRename();
+                    if (e.key === "Escape") setRenameOpen(false);
+                  }}
+                  maxLength={64}
+                  autoFocus
+                  placeholder="New name"
+                  className="w-full px-3 py-2 rounded-md void-bg-sunk border void-border font-mono text-sm void-text outline-none focus:void-border-success"
+                  data-testid="character-rename-input"
+                />
+                {renameError && (
+                  <p className="mt-2 font-mono text-[10px] void-text-error">{renameError}</p>
+                )}
+                <div className="mt-4 flex items-center justify-end gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setRenameOpen(false)}
+                    className="px-3 py-1.5 rounded-md font-mono text-[10px] tracking-[0.2em] text-muted-foreground/70 hover:void-text"
+                  >
+                    CANCEL
+                  </button>
+                  <button
+                    type="button"
+                    onClick={submitRename}
+                    disabled={renameMutation.isPending || renameDraft.trim().length < 2}
+                    className={`px-4 py-1.5 rounded-md font-mono text-[10px] tracking-[0.2em] border ${alignBorderColor} ${alignBg} ${alignTextColor} disabled:opacity-40`}
+                    data-testid="character-rename-submit"
+                  >
+                    {renameMutation.isPending ? "SAVING…" : "COMMIT"}
+                  </button>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* ═══ FOOTER CLASSIFICATION ═══ */}
         <div className="text-center py-4">
