@@ -10,12 +10,22 @@
    ═══════════════════════════════════════════════════════ */
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { usePlayer } from "@/contexts/PlayerContext";
+import { TITLE_T01_LOREDEX_ENTRY } from "@/lib/titleT01Entry";
 
-const CINEMATIC_VIDEO = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/opening_cinematic_9b899561.mp4";
-/** Canonical saga theme — same track the SagaThemeBGM provider
- *  shuffles on. Starting it here ties the cryo-pod opening to the
- *  rest of the saga musically. */
-export const AWAKENING_BED_URL = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/SagaTheme_0cd5de9a.mp3";
+const CINEMATIC_VIDEO = "https://dgrsart.s3.us-east-2.amazonaws.com/Videos/Dischordia%20Elara%20Open.mp4";
+/** Rotating saga-theme bed — the same four tracks SagaThemeBGM
+ *  cycles through. Picking randomly and cycling on `ended` means
+ *  Elara's opening, the cryo-pod cinematic, and the character-
+ *  creation flow all sit under the same album-bed the rest of the
+ *  game uses. Kept in lockstep with apps/client/src/contexts/
+ *  SagaThemeBGMContext.tsx::SAGA_THEMES. */
+export const AWAKENING_BED_URLS = [
+  "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/SagaTheme_0cd5de9a.mp3",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/saga-theme-1_26dd4ba7.mp3",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/saga-theme-2_f7163eec.mp3",
+  "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/saga-theme-3_59eac805.mp3",
+] as const;
 /** Volume the bed runs at while the cinematic video is the focal
  *  audio — quiet enough not to fight the video, present enough to
  *  bridge into Elara's first line. */
@@ -37,6 +47,8 @@ interface OpeningCinematicProps {
 export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const bedAudioRef = useRef<HTMLAudioElement | null>(null);
+  const bedIdxRef = useRef<number>(0);
+  const player = usePlayer();
   const [fadeOut, setFadeOut] = useState(false);
   const [showSkip, setShowSkip] = useState(false);
   const [videoState, setVideoState] = useState<"loading" | "waiting-for-click" | "playing-muted" | "playing-unmuted" | "needs-tap">("loading");
@@ -68,17 +80,33 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
     const video = videoRef.current;
     if (!video) return;
 
-    // Spin up the looping saga-theme bed alongside the video. It
+    // Stop The Enigma's Lament if it's still riding under from the
+    // title flow. TitlePage's unmount cleanup pauses it when the
+    // route changes, but on first-paint races (and pre-cached title
+    // navigations) the audio occasionally bleeds through; the BEGIN
+    // gesture is the canonical "game is starting" moment so we kill
+    // it here too.
+    if (player.currentSong?.id === TITLE_T01_LOREDEX_ENTRY.id) {
+      try { player.pause(); } catch { /* swallow — playback already gone */ }
+    }
+
+    // Spin up the rotating saga-theme bed alongside the video. It
     // rides quiet under the cinematic audio and is handed off to
     // the AwakeningPage in handleComplete; AwakeningVOPlayer ducks
-    // and restores it from there. We construct the element once
-    // and never reset it so playback is continuous through the
-    // visual fade.
+    // and restores it from there. We construct the element once,
+    // start on a random track of the four, and on `ended` advance
+    // to the next so the cinematic → character-creation flow gets
+    // the same rotating bed the rest of the saga uses.
     if (!bedAudioRef.current) {
-      const bed = new Audio(AWAKENING_BED_URL);
-      bed.loop = true;
+      bedIdxRef.current = Math.floor(Math.random() * AWAKENING_BED_URLS.length);
+      const bed = new Audio(AWAKENING_BED_URLS[bedIdxRef.current]);
       bed.preload = "auto";
       bed.volume = BED_VOLUME_UNDER_VIDEO;
+      bed.addEventListener("ended", () => {
+        bedIdxRef.current = (bedIdxRef.current + 1) % AWAKENING_BED_URLS.length;
+        bed.src = AWAKENING_BED_URLS[bedIdxRef.current];
+        bed.play().catch(() => { /* autoplay quirks — same retry path as below */ });
+      });
       bedAudioRef.current = bed;
       bed.play().catch(() => {
         /* autoplay blocked — handleComplete still hands the element
@@ -102,7 +130,7 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
         setVideoState("needs-tap");
       }
     }
-  }, []);
+  }, [player]);
 
   /** Hand off the saga-theme bed (already playing, started by
    *  handleBeginClick) and fade out the cinematic. The bed continues
@@ -124,11 +152,20 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
 
     let themeAudio = bedAudioRef.current;
     if (!themeAudio) {
-      themeAudio = new Audio(AWAKENING_BED_URL);
-      themeAudio.loop = true;
-      themeAudio.volume = 0;
-      themeAudio.preload = "auto";
-      bedAudioRef.current = themeAudio;
+      // SKIP / safety-timer paths can reach here without BEGIN ever
+      // having fired. Build a paused rotating-bed element so the
+      // AwakeningVOPlayer can still start it on the first VO gesture.
+      bedIdxRef.current = Math.floor(Math.random() * AWAKENING_BED_URLS.length);
+      const fallback = new Audio(AWAKENING_BED_URLS[bedIdxRef.current]);
+      fallback.volume = 0;
+      fallback.preload = "auto";
+      fallback.addEventListener("ended", () => {
+        bedIdxRef.current = (bedIdxRef.current + 1) % AWAKENING_BED_URLS.length;
+        fallback.src = AWAKENING_BED_URLS[bedIdxRef.current];
+        fallback.play().catch(() => {});
+      });
+      bedAudioRef.current = fallback;
+      themeAudio = fallback;
     }
 
     // Visual fade out FIRST. Pausing the video before the fade was
