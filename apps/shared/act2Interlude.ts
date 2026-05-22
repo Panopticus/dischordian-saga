@@ -245,11 +245,13 @@ export function pickGameMasterDeck(gm: GameMasterProfile): string {
 }
 
 /**
- * Culling-act rematch line stub. Acts 3 and 4 re-stage the Two Game
- * Masters as boss fights (per §6.4 cullingActs); this helper returns a
- * placeholder until the Act 3/4 dialog pass lands. Consumers should
- * treat an empty string as "no line authored yet" and fall back to the
- * first-defeat/first-victory lines.
+ * Culling-act rematch line resolver. Acts 3 and 4 re-stage the Two
+ * Game Masters as boss fights (per §6.4 cullingActs); this helper
+ * returns the authored rematch line. CULLING_REMATCH_LINES below
+ * covers both Game Masters × both acts (4 lines total, all
+ * authored). Returns an empty string only when the requested act
+ * is not in this GM's cullingActs list — that's a "no rematch in
+ * this act" signal, not an unauthored stub.
  */
 export function getCullingRematchLine(
   gm: GameMasterProfile,

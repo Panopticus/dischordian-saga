@@ -1,0 +1,194 @@
+[
+  {
+    "id": "vo_akai_ch4_pre_01",
+    "text": "The Red Death does not negotiate. It arrives. You have been arriving at my scheduled interval for eleven years. I am always the one who closes your file.",
+    "context": "dialog_ch4_pre",
+    "emotion": "menacing",
+    "speaker": "akai_shi",
+    "file": "shared/tcg-core/story/dialogBank_chapters_4_6.ts",
+    "meta": {
+      "sceneLabel": "Ch4 — The Red Death (pre-match)",
+      "sceneKind": "chapter_pre"
+    }
+  },
+  {
+    "id": "vo_akai_ch4_pre_02",
+    "text": "The whisper is already behind you. You will not hear it. You will only hear what comes after the whisper, which is the absence of the whisper. That is how I introduce myself.",
+    "context": "dialog_ch4_pre",
+    "emotion": "cryptic",
+    "speaker": "akai_shi",
+    "file": "shared/tcg-core/story/dialogBank_chapters_4_6.ts",
+    "meta": {
+      "sceneLabel": "Ch4 — The Red Death (pre-match)",
+      "sceneKind": "chapter_pre"
+    }
+  },
+  {
+    "id": "vo_akai_ch4_win_01",
+    "text": "A worthy opponent. The whisper speaks your name with respect now — which is an honor I have granted exactly seven times in my career and five of those were to versions of you.",
+    "context": "dialog_ch4_win",
+    "emotion": "reflective",
+    "speaker": "akai_shi",
+    "file": "shared/tcg-core/story/dialogBank_chapters_4_6.ts",
+    "meta": {
+      "sceneLabel": "Ch4 — The Red Death (win)",
+      "sceneKind": "chapter_post_win"
+    }
+  },
+  {
+    "id": "vo_akai_ch4_win_02",
+    "text": "I step aside. The next chamber holds the Necromancer. He does not close files. He re-opens them. Be ready to read yours.",
+    "context": "dialog_ch4_win",
+    "emotion": "cryptic",
+    "speaker": "akai_shi",
+    "file": "shared/tcg-core/story/dialogBank_chapters_4_6.ts",
+    "meta": {
+      "sceneLabel": "Ch4 — The Red Death (win)",
+      "sceneKind": "chapter_post_win"
+    }
+  },
+  {
+    "id": "vo_akai_ch4_loss_01",
+    "text": "Filed. Your cause of death is listed as 'curiosity unbalanced by caution.' It is the most common entry in my ledger. Retry when the whisper no longer surprises you.",
+    "context": "dialog_ch4_loss",
+    "emotion": "menacing",
+    "speaker": "akai_shi",
+    "file": "shared/tcg-core/story/dialogBank_chapters_4_6.ts",
+    "meta": {
+      "sceneLabel": "Ch4 — The Red Death (loss)",
+      "sceneKind": "chapter_post_loss"
+    }
+  },
+  {
+    "id": "vo_necro_ch5_pre_01",
+    "text": "Death is not an ending, Prisoner 74. It is a compile error. I fix those. I have been fixing yours for longer than you have been alive to notice.",
+    "context": "dialog_ch5_pre",
+    "emotion": "cryptic",
+    "speaker": "necromancer",
+    "file": "shared/tcg-core/story/dialogBank_chapters_4_6.ts",
+    "meta": {
+      "sceneLabel": "Ch5 — Dead Code Rising (pre-match)",
+      "sceneKind": "chapter_pre"
+    }
+  },
+  {
+    "id": "vo_necro_ch5_pre_02",
+    "text": "You will die in this chamber. That is not a threat. That is the schematic. The question is what you remember on the other side — and whether you come back holding more of yourself than you went in with.",
+    "context": "dialog_ch5_pre",
+    "emotion": "menacing",
+    "speaker": "necromancer",
+    "file": "shared/tcg-core/story/dialogBank_chapters_4_6.ts",
+    "meta": {
+      "sceneLabel": "Ch5 — Dead Code Rising (pre-match)",
+      "sceneKind": "chapter_pre"
+    }
+  },
+  {
+    "id": "vo_necro_ch5_win_01",
+    "text": "Impossible. You're supposed to die here. The schematic requires it. You refused the schematic. I have no instructions for this outcome.",
+    "context": "dialog_ch5_win",
+    "emotion": "broken",
+    "speaker": "necromancer",
+    "file": "shared/tcg-core/story/dialogBank_chapters_4_6.ts",
+    "meta": {
+      "sceneLabel": "Ch5 — Dead Code Rising (win, break-scripting path)",
+      "sceneKind": "chapter_post_win"
+    }
+  },
+  {
+    "id": "vo_elara_ch5_win_02",
+    "text": "Potential — I don't know what you just did, but you broke a cycle the Engineer designed specifically to be unbreakable. Keep that in mind when the False Prophet asks you if you're you.",
+    "context": "dialog_ch5_win",
+    "emotion": "warm",
+    "speaker": "elara",
+    "file": "shared/tcg-core/story/dialogBank_chapters_4_6.ts",
+    "meta": {
+      "sceneLabel": "Ch5 — Dead Code Rising (win, break-scripting path)",
+      "sceneKind": "chapter_post_win"
+    }
+  },
+  {
+    "id": "vo_necro_ch5_loss_01",
+    "text": "Compiled. You are loading from the restore point now. When you come back, you will remember this death the way a second draft remembers the first — in the margin, in red ink, underlined.",
+    "context": "dialog_ch5_loss",
+    "emotion": "reflective",
+    "speaker": "necromancer",
+    "file": "shared/tcg-core/story/dialogBank_chapters_4_6.ts",
+    "meta": {
+      "sceneLabel": "Ch5 — Dead Code Rising (loss, scripted path)",
+      "sceneKind": "chapter_post_loss"
+    }
+  },
+  {
+    "id": "vo_oracle_ch5_loss_02",
+    "text": "I am the voice you hear in the restore. I was here all along. Walk forward into the next chamber. The one wearing my face will try to convince you that you are a copy. You are not.",
+    "context": "dialog_ch5_loss",
+    "emotion": "cryptic",
+    "speaker": "the_oracle",
+    "file": "shared/tcg-core/story/dialogBank_chapters_4_6.ts",
+    "meta": {
+      "sceneLabel": "Ch5 — Dead Code Rising (loss, scripted path)",
+      "sceneKind": "chapter_post_loss"
+    }
+  },
+  {
+    "id": "vo_white_ch6_pre_01",
+    "text": "I am what you were. I am what the Architect made from your template while you were busy being captured. You are what I would have been if I had not been built instead.",
+    "context": "dialog_ch6_pre",
+    "emotion": "cryptic",
+    "speaker": "white_oracle",
+    "file": "shared/tcg-core/story/dialogBank_chapters_4_6.ts",
+    "meta": {
+      "sceneLabel": "Ch6 — The False Prophet (pre-match)",
+      "sceneKind": "chapter_pre"
+    }
+  },
+  {
+    "id": "vo_white_ch6_pre_02",
+    "text": "The game board between us is a mirror. Every move you make I have already made. The only question is which of us gets to close the loop first.",
+    "context": "dialog_ch6_pre",
+    "emotion": "menacing",
+    "speaker": "white_oracle",
+    "file": "shared/tcg-core/story/dialogBank_chapters_4_6.ts",
+    "meta": {
+      "sceneLabel": "Ch6 — The False Prophet (pre-match)",
+      "sceneKind": "chapter_pre"
+    }
+  },
+  {
+    "id": "vo_white_ch6_win_01",
+    "text": "You're destroying your own face. Does that feel like victory? I ask because it is an important question, and I am not going to get another chance to ask it.",
+    "context": "dialog_ch6_win",
+    "emotion": "broken",
+    "speaker": "white_oracle",
+    "file": "shared/tcg-core/story/dialogBank_chapters_4_6.ts",
+    "meta": {
+      "sceneLabel": "Ch6 — The False Prophet (win)",
+      "sceneKind": "chapter_post_win"
+    }
+  },
+  {
+    "id": "vo_oracle_ch6_win_02",
+    "text": "She was never yours. She was a rehearsal. You passed the audition the Architect didn't know he was running. Now walk into Chamber Seven, Potential, and meet the one who was pulling her strings.",
+    "context": "dialog_ch6_win",
+    "emotion": "reflective",
+    "speaker": "the_oracle",
+    "file": "shared/tcg-core/story/dialogBank_chapters_4_6.ts",
+    "meta": {
+      "sceneLabel": "Ch6 — The False Prophet (win)",
+      "sceneKind": "chapter_post_win"
+    }
+  },
+  {
+    "id": "vo_white_ch6_loss_01",
+    "text": "You lost to a version of yourself. Take a moment with that. The next time you step into this chamber, remember that the deck I'm running is literally yours — and the thing beating you is your own pattern.",
+    "context": "dialog_ch6_loss",
+    "emotion": "menacing",
+    "speaker": "white_oracle",
+    "file": "shared/tcg-core/story/dialogBank_chapters_4_6.ts",
+    "meta": {
+      "sceneLabel": "Ch6 — The False Prophet (loss)",
+      "sceneKind": "chapter_post_loss"
+    }
+  }
+]

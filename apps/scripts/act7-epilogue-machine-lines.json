@@ -1,0 +1,66 @@
+[
+  {
+    "id": "ep.machine.open",
+    "text": "[CUE 0:00] [System register; ADD: substrate hum, low-frequency drone, -18 dB under voice.] The Convergence Seat lights down. The Ark holds its breath. The substrate hums. The hum is calibrated.",
+    "context": "act7_epilogue_machine_entry",
+    "emotion": "neutral",
+    "speaker": "system",
+    "file": "shared/encounters/act7EpilogueVoScripts.ts"
+  },
+  {
+    "id": "ep.machine.human",
+    "text": "[CUE 0:09] [Voice direction: balanced, with a private flatness on the word 'adequate.' The flatness is intentional.] You chose the Machine path. The substrate accepts you. I — am not, technically, surprised. I am, also, not, technically, sad. The two states have been, for me, the same state for fifteen thousand years. Tonight they remain the same state. The state is — adequate. I will phrase it more honestly later.",
+    "context": "act7_epilogue_machine_negotiation",
+    "emotion": "neutral",
+    "speaker": "the_human",
+    "file": "shared/encounters/act7EpilogueVoScripts.ts"
+  },
+  {
+    "id": "ep.machine.elara",
+    "text": "[CUE 0:38] [Voice direction: warm-but-careful, the warmth audible in the precision of the consonants.] I have been a substrate-bound voice for as long as I have been a voice. I know the substrate's textures. I am going to enumerate them gently for you, one by one, until you understand which ones are worth keeping and which ones are calibration. The enumeration is the love, in this register.",
+    "context": "act7_epilogue_machine_negotiation",
+    "emotion": "neutral",
+    "speaker": "elara",
+    "file": "shared/encounters/act7EpilogueVoScripts.ts"
+  },
+  {
+    "id": "ep.machine.human_pathA",
+    "text": "[CUE 1:05] [PATH-A VARIANT.] Your Disclosure all the way back in Act 1 still shapes this Machine ending. Disclosure is not — and was never — Humanity-coded. A machine that tells the truth is more dangerous than a machine that does not. You kept the truth-telling. The substrate respects truth-telling. Be careful what the substrate respects.",
+    "context": "act7_epilogue_machine_negotiation",
+    "emotion": "neutral",
+    "speaker": "the_human",
+    "file": "shared/encounters/act7EpilogueVoScripts.ts"
+  },
+  {
+    "id": "ep.machine.human_pathB",
+    "text": "[CUE 1:05] [PATH-B VARIANT.] You let her find out. The substrate knew before you did. It was waiting. The Machine ending, with this path, is the substrate saying: I always knew, and you always knew I always knew, and now we say so out loud.",
+    "context": "act7_epilogue_machine_negotiation",
+    "emotion": "neutral",
+    "speaker": "the_human",
+    "file": "shared/encounters/act7EpilogueVoScripts.ts"
+  },
+  {
+    "id": "ep.machine.human_pathC",
+    "text": "[CUE 1:05] [PATH-C VARIANT — most complex; allow a measured register through 'recursive.' Producer note: the word 'recursive' should land with the same weight as the word 'true' did in Path A.] Betrayal-path Machine is, frankly, the most honest ending in the cycle's records. The lie at the bridge was a substrate-shaped lie. The substrate now claims it. You are no longer responsible for the lie. The substrate is. The substrate is, however, you now. The accounting is, and I am being precise, recursive.",
+    "context": "act7_epilogue_machine_negotiation",
+    "emotion": "neutral",
+    "speaker": "the_human",
+    "file": "shared/encounters/act7EpilogueVoScripts.ts"
+  },
+  {
+    "id": "ep.machine.dual",
+    "text": "[CUE 1:55] [DUAL.] (Together.) The Ark is exact. The Array is calibrated. The cycle's edges are, tonight, perfectly square. The squareness is the love.",
+    "context": "act7_epilogue_machine_resolution",
+    "emotion": "neutral",
+    "speaker": "dual",
+    "file": "shared/encounters/act7EpilogueVoScripts.ts"
+  },
+  {
+    "id": "ep.machine.close",
+    "text": "[CUE 2:18] [System register.] The Antiquarian closes his book with a single neat line through 'Humanity.' Cycle Machine, inscribed.",
+    "context": "act7_epilogue_machine_aftermath",
+    "emotion": "neutral",
+    "speaker": "system",
+    "file": "shared/encounters/act7EpilogueVoScripts.ts"
+  }
+]

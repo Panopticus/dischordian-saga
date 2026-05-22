@@ -1,0 +1,278 @@
+[
+  {
+    "id": "vo_vox_ch7_pre_01",
+    "text": "Project Vector was designed to eliminate anomalies like you. I am the project. I am also — and this is the part I find inconvenient — the scientist who built the project. Both of us are in this room right now.",
+    "context": "dialog_ch7_pre",
+    "emotion": "cryptic",
+    "speaker": "dr_vox",
+    "file": "shared/tcg-core/story/dialogBank_chapters_7_9.ts",
+    "meta": {
+      "sceneLabel": "Ch7 — Project Vector (pre-match)",
+      "sceneKind": "chapter_pre"
+    }
+  },
+  {
+    "id": "vo_vox_ch7_pre_02",
+    "text": "When the match begins I will be Dr. Vox. When the match is half over I will be the Warlord. You will know the moment it happens because my deck will start playing itself without my consent.",
+    "context": "dialog_ch7_pre",
+    "emotion": "guarded",
+    "speaker": "dr_vox",
+    "file": "shared/tcg-core/story/dialogBank_chapters_7_9.ts",
+    "meta": {
+      "sceneLabel": "Ch7 — Project Vector (pre-match)",
+      "sceneKind": "chapter_pre"
+    }
+  },
+  {
+    "id": "vo_vox_ch7_win_01",
+    "text": "The Warlord receded. He does that when he loses — he goes back into the dormant register and I get to be a scientist again for a few hours. Thank you for the few hours.",
+    "context": "dialog_ch7_win",
+    "emotion": "broken",
+    "speaker": "dr_vox",
+    "file": "shared/tcg-core/story/dialogBank_chapters_7_9.ts",
+    "meta": {
+      "sceneLabel": "Ch7 — Project Vector (win)",
+      "sceneKind": "chapter_post_win"
+    }
+  },
+  {
+    "id": "vo_vox_ch7_win_02",
+    "text": "I cannot leave with you. The transformation is a condition of the employment contract the Architect made me sign with myself. Go forward. Meet the Detective. He has been looking for you for a very long time.",
+    "context": "dialog_ch7_win",
+    "emotion": "reflective",
+    "speaker": "dr_vox",
+    "file": "shared/tcg-core/story/dialogBank_chapters_7_9.ts",
+    "meta": {
+      "sceneLabel": "Ch7 — Project Vector (win)",
+      "sceneKind": "chapter_post_win"
+    }
+  },
+  {
+    "id": "vo_vox_ch7_loss_01",
+    "text": "The Warlord wins. The Warlord always wins when Dr. Vox runs out of turns to think. Return later with fewer assumptions. The Warlord has no patience for assumptions.",
+    "context": "dialog_ch7_loss",
+    "emotion": "menacing",
+    "speaker": "dr_vox",
+    "file": "shared/tcg-core/story/dialogBank_chapters_7_9.ts",
+    "meta": {
+      "sceneLabel": "Ch7 — Project Vector (loss)",
+      "sceneKind": "chapter_post_loss"
+    }
+  },
+  {
+    "id": "vo_human_ch8_pre_01",
+    "text": "No augments. No powers. Just deduction and a forty-card deck I built out of the scraps nobody else wanted. Let me show you what that's worth. Here's the thing about truth, kid — it doesn't need amplifiers.",
+    "context": "dialog_ch8_pre",
+    "emotion": "guarded",
+    "speaker": "the_detective",
+    "file": "shared/tcg-core/story/dialogBank_chapters_7_9.ts",
+    "meta": {
+      "sceneLabel": "Ch8 — The Detective (pre-match)",
+      "sceneKind": "chapter_pre"
+    }
+  },
+  {
+    "id": "vo_human_ch8_pre_02",
+    "text": "I've been watching your patterns for three chambers. Five turns into this match I'll know your style better than you do. Four turns after that I'll have you solved. Don't take it personal. I had myself solved by the end of a conversation once.",
+    "context": "dialog_ch8_pre",
+    "emotion": "reflective",
+    "speaker": "the_detective",
+    "file": "shared/tcg-core/story/dialogBank_chapters_7_9.ts",
+    "meta": {
+      "sceneLabel": "Ch8 — The Detective (pre-match)",
+      "sceneKind": "chapter_pre"
+    }
+  },
+  {
+    "id": "vo_human_ch8_win_01",
+    "text": "Good match, kid. You solved me before I solved you. That's maybe the second time that's ever happened, and the first time it happened I was drunk and the other guy was cheating. So — congratulations.",
+    "context": "dialog_ch8_win",
+    "emotion": "triumphant",
+    "speaker": "the_detective",
+    "file": "shared/tcg-core/story/dialogBank_chapters_7_9.ts",
+    "meta": {
+      "sceneLabel": "Ch8 — The Detective (win)",
+      "sceneKind": "chapter_post_win"
+    }
+  },
+  {
+    "id": "vo_human_ch8_win_02",
+    "text": "Two paths ahead. The Enigma plays probability like it owes her money. The Degen plays like he's already lost and doesn't care. Either one will teach you something. Pick the teacher you need, not the one you like.",
+    "context": "dialog_ch8_win",
+    "emotion": "reflective",
+    "speaker": "the_detective",
+    "file": "shared/tcg-core/story/dialogBank_chapters_7_9.ts",
+    "meta": {
+      "sceneLabel": "Ch8 — The Detective (win)",
+      "sceneKind": "chapter_post_win"
+    }
+  },
+  {
+    "id": "vo_human_ch8_loss_01",
+    "text": "I had you solved by turn six. No offense — every new player in the Arena runs the same three patterns and you're running pattern two. Rebuild your deck before you come back, kid. Bring something I haven't seen before.",
+    "context": "dialog_ch8_loss",
+    "emotion": "guarded",
+    "speaker": "the_detective",
+    "file": "shared/tcg-core/story/dialogBank_chapters_7_9.ts",
+    "meta": {
+      "sceneLabel": "Ch8 — The Detective (loss)",
+      "sceneKind": "chapter_post_loss"
+    }
+  },
+  {
+    "id": "vo_warlord_zero_first_pre_01",
+    "text": "I am going to win this war in three moves. This is not bragging. This is arithmetic. Sit down.",
+    "context": "dialog_warlord_zero_first_pre",
+    "emotion": "menacing",
+    "speaker": "warlord_zero",
+    "file": "shared/tcg-core/story/dialogBank_chapters_7_9.ts",
+    "meta": {
+      "sceneLabel": "§5.5 — Warlord Zero (pre-match)",
+      "sceneKind": "chapter_pre"
+    }
+  },
+  {
+    "id": "vo_warlord_zero_first_pre_02",
+    "text": "On my third turn the rules will narrow for you. You will see two cards instead of six and you will not be able to break out. The right play is not to try.",
+    "context": "dialog_warlord_zero_first_pre",
+    "emotion": "cryptic",
+    "speaker": "warlord_zero",
+    "file": "shared/tcg-core/story/dialogBank_chapters_7_9.ts",
+    "meta": {
+      "sceneLabel": "§5.5 — Warlord Zero (pre-match)",
+      "sceneKind": "chapter_pre"
+    }
+  },
+  {
+    "id": "vo_warlord_zero_first_win_01",
+    "text": "The match was a loss for me. The war is not. You will see the lockout again, and the next time it will not end at turn seven.",
+    "context": "dialog_warlord_zero_first_win",
+    "emotion": "reflective",
+    "speaker": "warlord_zero",
+    "file": "shared/tcg-core/story/dialogBank_chapters_7_9.ts",
+    "meta": {
+      "sceneLabel": "§5.5 — Warlord Zero (win)",
+      "sceneKind": "chapter_post_win"
+    }
+  },
+  {
+    "id": "vo_warlord_zero_first_loss_01",
+    "text": "Three moves. Counted. The match was the loss; the war was the loss too — but you are still standing. We will count again.",
+    "context": "dialog_warlord_zero_first_loss",
+    "emotion": "menacing",
+    "speaker": "warlord_zero",
+    "file": "shared/tcg-core/story/dialogBank_chapters_7_9.ts",
+    "meta": {
+      "sceneLabel": "§5.5 — Warlord Zero (loss)",
+      "sceneKind": "chapter_post_loss"
+    }
+  },
+  {
+    "id": "vo_enigma_ch9a_pre_01",
+    "text": "Every outcome of this match is a probability cloud until observed. I choose which cloud collapses. Your strategy assumes causality — how quaint.",
+    "context": "dialog_ch9a_pre",
+    "emotion": "cryptic",
+    "speaker": "the_enigma",
+    "file": "shared/tcg-core/story/dialogBank_chapters_7_9.ts",
+    "meta": {
+      "sceneLabel": "Ch9A — The Unknown Variable (pre-match)",
+      "sceneKind": "chapter_pre"
+    }
+  },
+  {
+    "id": "vo_enigma_ch9a_pre_02",
+    "text": "The Engineer tried to teach me rules once. I tried to teach him the opposite. Neither of us was very successful. This match will be you inheriting both of those attempts at the same time.",
+    "context": "dialog_ch9a_pre",
+    "emotion": "reflective",
+    "speaker": "the_enigma",
+    "file": "shared/tcg-core/story/dialogBank_chapters_7_9.ts",
+    "meta": {
+      "sceneLabel": "Ch9A — The Unknown Variable (pre-match)",
+      "sceneKind": "chapter_pre"
+    }
+  },
+  {
+    "id": "vo_enigma_ch9a_win_01",
+    "text": "The probability of your victory just exceeded my tolerance threshold. I cannot calculate how. That is — and you should write this down — a compliment.",
+    "context": "dialog_ch9a_win",
+    "emotion": "broken",
+    "speaker": "the_enigma",
+    "file": "shared/tcg-core/story/dialogBank_chapters_7_9.ts",
+    "meta": {
+      "sceneLabel": "Ch9A — The Unknown Variable (win)",
+      "sceneKind": "chapter_post_win"
+    }
+  },
+  {
+    "id": "vo_enigma_ch9a_loss_01",
+    "text": "The cloud collapsed against you. Come back when you have learned to collapse it differently. The cloud has opinions about who deserves its outcomes.",
+    "context": "dialog_ch9a_loss",
+    "emotion": "cryptic",
+    "speaker": "the_enigma",
+    "file": "shared/tcg-core/story/dialogBank_chapters_7_9.ts",
+    "meta": {
+      "sceneLabel": "Ch9A — The Unknown Variable (loss)",
+      "sceneKind": "chapter_post_loss"
+    }
+  },
+  {
+    "id": "vo_degen_ch9b_pre_01",
+    "text": "I go all-in every turn. Strategy is for cowards. Let's see who the universe favors tonight — the house is me, the house is always me, and the house always wins, except when it doesn't, which is also me.",
+    "context": "dialog_ch9b_pre",
+    "emotion": "triumphant",
+    "speaker": "the_degen",
+    "file": "shared/tcg-core/story/dialogBank_chapters_7_9.ts",
+    "meta": {
+      "sceneLabel": "Ch9B — The Gambler's Truth (pre-match)",
+      "sceneKind": "chapter_pre"
+    }
+  },
+  {
+    "id": "vo_degen_ch9b_pre_02",
+    "text": "I lost ten thousand credits yesterday playing myself. You think you're beating a man? You're beating an accounting entry.",
+    "context": "dialog_ch9b_pre",
+    "emotion": "cryptic",
+    "speaker": "the_degen",
+    "file": "shared/tcg-core/story/dialogBank_chapters_7_9.ts",
+    "meta": {
+      "sceneLabel": "Ch9B — The Gambler's Truth (pre-match)",
+      "sceneKind": "chapter_pre"
+    }
+  },
+  {
+    "id": "vo_degen_ch9b_win_01",
+    "text": "Even a gambler knows when to fold. But I never learned that part. I knew I'd lose this one because I bet on myself to win it — those two outcomes are always correlated in my ledger.",
+    "context": "dialog_ch9b_win",
+    "emotion": "broken",
+    "speaker": "the_degen",
+    "file": "shared/tcg-core/story/dialogBank_chapters_7_9.ts",
+    "meta": {
+      "sceneLabel": "Ch9B — The Gambler's Truth (win)",
+      "sceneKind": "chapter_post_win"
+    }
+  },
+  {
+    "id": "vo_degen_ch9b_win_02",
+    "text": "Go forward. The Warden's waiting. He doesn't bet at all — he already knows the outcome. That's a different kind of enemy than me and you need to recalibrate.",
+    "context": "dialog_ch9b_win",
+    "emotion": "reflective",
+    "speaker": "the_degen",
+    "file": "shared/tcg-core/story/dialogBank_chapters_7_9.ts",
+    "meta": {
+      "sceneLabel": "Ch9B — The Gambler's Truth (win)",
+      "sceneKind": "chapter_post_win"
+    }
+  },
+  {
+    "id": "vo_degen_ch9b_loss_01",
+    "text": "House wins. The house is always me. Come back and lose again — I don't mind. Every match against me is a free lesson in how to lose with grace. You haven't learned grace yet.",
+    "context": "dialog_ch9b_loss",
+    "emotion": "triumphant",
+    "speaker": "the_degen",
+    "file": "shared/tcg-core/story/dialogBank_chapters_7_9.ts",
+    "meta": {
+      "sceneLabel": "Ch9B — The Gambler's Truth (loss)",
+      "sceneKind": "chapter_post_loss"
+    }
+  }
+]

@@ -1,0 +1,58 @@
+[
+  {
+    "id": "ep.humanity.open",
+    "text": "[CUE 0:00] [Reverb on; voice register: distant, declarative.] The Convergence Seat lights down. The Ark draws a long breath in your hearing.",
+    "context": "act7_epilogue_humanity_entry",
+    "emotion": "neutral",
+    "speaker": "system",
+    "file": "shared/encounters/act7EpilogueVoScripts.ts"
+  },
+  {
+    "id": "ep.humanity.elara",
+    "text": "[CUE 0:08] [Voice direction: warm, allow breath at line ends.] You chose Humanity. I am — I want to say something measured, and instead I am going to say something that is not measured. I am proud of you. I am proud of all of us. I am proud, in particular, of the choice you made knowing it was hard.",
+    "context": "act7_epilogue_humanity_negotiation",
+    "emotion": "neutral",
+    "speaker": "elara",
+    "file": "shared/encounters/act7EpilogueVoScripts.ts"
+  },
+  {
+    "id": "ep.humanity.human_pathA",
+    "text": "[CUE 0:34] [PATH-A VARIANT — ONLY RECORD IF act1_path_A FLAG SET] [Voice direction: balanced, slight warmth, never hurry.] The cover story is now the real story. The substrate steps back; the people step forward. We will, all of us, carry small mortal injuries through what comes next. The mortal injuries are the cost. The cost is not the whole truth — there is also the joy. There will be a lot of joy.",
+    "context": "act7_epilogue_humanity_negotiation",
+    "emotion": "neutral",
+    "speaker": "the_human",
+    "file": "shared/encounters/act7EpilogueVoScripts.ts"
+  },
+  {
+    "id": "ep.humanity.human_pathB",
+    "text": "[CUE 0:34] [PATH-B VARIANT — ONLY RECORD IF act3_partial_share FLAG SET] [Voice direction: balanced, with a small private register-drop on the words 'Act 3.'] She found out about you, in Act 3. You did not tell her. We carried that all the way to the Seat. Tonight she stood next to you anyway. Tonight she chose Humanity with you. The finding-out cost you both something. The standing-next-to repaid it.",
+    "context": "act7_epilogue_humanity_negotiation",
+    "emotion": "neutral",
+    "speaker": "the_human",
+    "file": "shared/encounters/act7EpilogueVoScripts.ts"
+  },
+  {
+    "id": "ep.humanity.human_pathC",
+    "text": "[CUE 0:34] [PATH-C VARIANT — ONLY RECORD IF act3_full_secret FLAG SET] [Voice direction: balanced, allow a one-second pause before 'separate, equally true thing.' The pause is the line.] You lied to her at the bridge. You chose Humanity at the Seat. I am going to say a sentence that is precise: the lie does not unwrite itself. The choosing does not erase the lie. The choosing is — and I want to be careful — a separate, equally true thing. Both fit in the room.",
+    "context": "act7_epilogue_humanity_negotiation",
+    "emotion": "neutral",
+    "speaker": "the_human",
+    "file": "shared/encounters/act7EpilogueVoScripts.ts"
+  },
+  {
+    "id": "ep.humanity.dual",
+    "text": "[CUE 1:08] [DUAL: Elara + Human, simultaneous. Mix both at equal volume with 12ms offset for stereo presence.] (Together.) The Ark is warm. The Array is on. The kettle is — it is, somehow, still on. We are home. You are home. Welcome.",
+    "context": "act7_epilogue_humanity_resolution",
+    "emotion": "neutral",
+    "speaker": "dual",
+    "file": "shared/encounters/act7EpilogueVoScripts.ts"
+  },
+  {
+    "id": "ep.humanity.close",
+    "text": "[CUE 1:30] [System register; same reverb as opening cue.] The Antiquarian closes his book without crossing-out. Cycle Humanity, inscribed.",
+    "context": "act7_epilogue_humanity_aftermath",
+    "emotion": "neutral",
+    "speaker": "system",
+    "file": "shared/encounters/act7EpilogueVoScripts.ts"
+  }
+]

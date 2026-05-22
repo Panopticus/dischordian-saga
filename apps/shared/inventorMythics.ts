@@ -62,9 +62,11 @@ export interface MythicBeat {
   /** Canonical trigger tag — feeds content discovery tooling. */
   trigger: MythicTrigger;
   /**
-   * Placeholder vs authored. Placeholder beats ship the slot + the
-   * render path; final narrative hook is a follow-up with the Act
-   * writers.
+   * Authoring status. As of 2026-05-22 every shipped Mythic carries
+   * "authored" — descriptions + on-claim encounters are written.
+   * The "placeholder" variant remains in the type for backward
+   * compatibility and to allow future drafts; it should not appear
+   * on a shipping beat.
    */
   status: MythicBeatStatus;
   /**
