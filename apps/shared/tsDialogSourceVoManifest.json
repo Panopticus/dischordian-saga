@@ -1,0 +1,14 @@
+{
+  "sk.A.opening": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Source/source_kael_entry/sk.A.opening.mp3",
+  "sk.A.player_choice_prompt": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Source/source_kael_entry/sk.A.player_choice_prompt.mp3",
+  "sk.B1.possessed": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Source/source_kael_negotiation/sk.B1.possessed.mp3",
+  "sk.B2.definition": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Source/source_kael_negotiation/sk.B2.definition.mp3",
+  "sk.B2.example": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Source/source_kael_negotiation/sk.B2.example.mp3",
+  "sk.B3.invitation": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Source/source_kael_negotiation/sk.B3.invitation.mp3",
+  "sk.B3.want": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Source/source_kael_negotiation/sk.B3.want.mp3",
+  "sk.C.accept": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Source/source_kael_resolution/sk.C.accept.mp3",
+  "sk.C.decline": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Source/source_kael_resolution/sk.C.decline.mp3",
+  "sk.C.offer": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Source/source_kael_resolution/sk.C.offer.mp3",
+  "vo_source_bbs_cast": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Source/dialog_bbs_cast_thought_virus/vo_source_bbs_cast.mp3",
+  "vo_source_ch12_outbreak_03": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Source/ch12_corruption_outbreak/vo_source_ch12_outbreak_03.mp3"
+}

@@ -1,0 +1,8 @@
+{
+  "rlyeh.entry.first_inventory": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/MasterOfRlyeh/master_of_rlyeh_entry/rlyeh.entry.first_inventory.mp3",
+  "rlyeh.neg.opening": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/MasterOfRlyeh/master_of_rlyeh_negotiation/rlyeh.neg.opening.mp3",
+  "rlyeh.neg.purchase_catalog_entry": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/MasterOfRlyeh/master_of_rlyeh_negotiation/rlyeh.neg.purchase_catalog_entry.mp3",
+  "rlyeh.neg.purchase_open": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/MasterOfRlyeh/master_of_rlyeh_negotiation/rlyeh.neg.purchase_open.mp3",
+  "rlyeh.res.refuse": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/MasterOfRlyeh/master_of_rlyeh_resolution/rlyeh.res.refuse.mp3",
+  "rlyeh.res.wake_master_acknowledges": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/MasterOfRlyeh/master_of_rlyeh_resolution/rlyeh.res.wake_master_acknowledges.mp3"
+}

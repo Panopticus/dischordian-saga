@@ -1,0 +1,7 @@
+{
+  "emissary.entry.first_words": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/PaleEmissary/pale_emissary_entry/emissary.entry.first_words.mp3",
+  "emissary.pres.contract_placed": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/PaleEmissary/pale_emissary_negotiation/emissary.pres.contract_placed.mp3",
+  "emissary.res.counteroffer": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/PaleEmissary/pale_emissary_resolution/emissary.res.counteroffer.mp3",
+  "emissary.res.refuse": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/PaleEmissary/pale_emissary_resolution/emissary.res.refuse.mp3",
+  "emissary.res.sign": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/PaleEmissary/pale_emissary_resolution/emissary.res.sign.mp3"
+}

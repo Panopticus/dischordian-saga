@@ -1,0 +1,7 @@
+{
+  "ep.balance.dual": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Dual/act7_epilogue_balance_resolution/ep.balance.dual.mp3",
+  "ep.bridge.dual": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Dual/act7_epilogue_soldier_command_resolution/ep.bridge.dual.mp3",
+  "ep.humanity.dual": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Dual/act7_epilogue_humanity_resolution/ep.humanity.dual.mp3",
+  "ep.machine.dual": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Dual/act7_epilogue_machine_resolution/ep.machine.dual.mp3",
+  "ep.silence.dual": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Dual/act7_epilogue_silence_resolution/ep.silence.dual.mp3"
+}

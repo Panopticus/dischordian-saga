@@ -1,0 +1,9 @@
+{
+  "vo_oracle_bbs_cast": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Oracle/dialog_bbs_cast_dreamer/vo_oracle_bbs_cast.mp3",
+  "vo_oracle_ch10_cine_03": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Oracle/ch10_genetic_reveal/vo_oracle_ch10_cine_03.mp3",
+  "vo_oracle_ch5_cine_03": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Oracle/ch5_death_resurrection/vo_oracle_ch5_cine_03.mp3",
+  "vo_oracle_ch5_cine_04": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Oracle/ch5_death_resurrection/vo_oracle_ch5_cine_04.mp3",
+  "vo_oracle_ch5_loss_02": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Oracle/dialog_ch5_loss/vo_oracle_ch5_loss_02.mp3",
+  "vo_oracle_ch6_cine_03": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Oracle/ch6_mirror_glitch/vo_oracle_ch6_cine_03.mp3",
+  "vo_oracle_ch6_win_02": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Oracle/dialog_ch6_win/vo_oracle_ch6_win_02.mp3"
+}

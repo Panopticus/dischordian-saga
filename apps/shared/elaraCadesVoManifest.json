@@ -1,0 +1,19 @@
+{
+  "elara_25min": "https://dgrsvoices.s3.us-east-2.amazonaws.com/CADES+Voices/Elara/cades_mode2/elara_25min.mp3",
+  "elara_bridge_holds": "https://dgrsvoices.s3.us-east-2.amazonaws.com/CADES+Voices/Elara/cades_loop/elara_bridge_holds.mp3",
+  "elara_canon": "https://dgrsvoices.s3.us-east-2.amazonaws.com/CADES+Voices/Elara/cades_win/elara_canon.mp3",
+  "elara_cargo_breach": "https://dgrsvoices.s3.us-east-2.amazonaws.com/CADES+Voices/Elara/cades_mode2/elara_cargo_breach.mp3",
+  "elara_changed": "https://dgrsvoices.s3.us-east-2.amazonaws.com/CADES+Voices/Elara/cades_mode3/elara_changed.mp3",
+  "elara_dont_answer": "https://dgrsvoices.s3.us-east-2.amazonaws.com/CADES+Voices/Elara/cades_mode3/elara_dont_answer.mp3",
+  "elara_eng_breach": "https://dgrsvoices.s3.us-east-2.amazonaws.com/CADES+Voices/Elara/cades_mode2/elara_eng_breach.mp3",
+  "elara_gm_theory": "https://dgrsvoices.s3.us-east-2.amazonaws.com/CADES+Voices/Elara/cades_mode3/elara_gm_theory.mp3",
+  "elara_looked": "https://dgrsvoices.s3.us-east-2.amazonaws.com/CADES+Voices/Elara/cades_awareness/elara_looked.mp3",
+  "elara_matrix": "https://dgrsvoices.s3.us-east-2.amazonaws.com/CADES+Voices/Elara/cades_mode3/elara_matrix.mp3",
+  "elara_memory": "https://dgrsvoices.s3.us-east-2.amazonaws.com/CADES+Voices/Elara/cades_awareness/elara_memory.mp3",
+  "elara_obs_breach": "https://dgrsvoices.s3.us-east-2.amazonaws.com/CADES+Voices/Elara/cades_mode2/elara_obs_breach.mp3",
+  "elara_pause": "https://dgrsvoices.s3.us-east-2.amazonaws.com/CADES+Voices/Elara/cades_awareness/elara_pause.mp3",
+  "elara_shields_done": "https://dgrsvoices.s3.us-east-2.amazonaws.com/CADES+Voices/Elara/cades_mode2/elara_shields_done.mp3",
+  "elara_shields_fail": "https://dgrsvoices.s3.us-east-2.amazonaws.com/CADES+Voices/Elara/cades_mode2/elara_shields_fail.mp3",
+  "elara_thoughtborn": "https://dgrsvoices.s3.us-east-2.amazonaws.com/CADES+Voices/Elara/cades_mode3/elara_thoughtborn.mp3",
+  "elara_waiting": "https://dgrsvoices.s3.us-east-2.amazonaws.com/CADES+Voices/Elara/cades_awareness/elara_waiting.mp3"
+}

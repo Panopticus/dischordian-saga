@@ -1,1 +1,5 @@
-{}
+{
+  "professor_eidola_taunt_early": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Eidola+Voices/act1_taunts/professor_eidola_taunt_early.mp3",
+  "professor_eidola_taunt_mid": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Eidola+Voices/act1_taunts/professor_eidola_taunt_mid.mp3",
+  "professor_eidola_taunt_late": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Eidola+Voices/act1_taunts/professor_eidola_taunt_late.mp3"
+}

@@ -1,0 +1,22 @@
+{
+  "emissary.entry.you_arrive": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Human/pale_emissary_entry/emissary.entry.you_arrive.mp3",
+  "ep.balance.human": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Human/act7_epilogue_balance_negotiation/ep.balance.human.mp3",
+  "ep.balance.human_pathA": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Human/act7_epilogue_balance_negotiation/ep.balance.human_pathA.mp3",
+  "ep.balance.human_pathB": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Human/act7_epilogue_balance_negotiation/ep.balance.human_pathB.mp3",
+  "ep.balance.human_pathC": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Human/act7_epilogue_balance_negotiation/ep.balance.human_pathC.mp3",
+  "ep.bridge.human": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Human/act7_epilogue_soldier_command_negotiation/ep.bridge.human.mp3",
+  "ep.bridge.human_pathA": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Human/act7_epilogue_soldier_command_negotiation/ep.bridge.human_pathA.mp3",
+  "ep.bridge.human_pathB": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Human/act7_epilogue_soldier_command_negotiation/ep.bridge.human_pathB.mp3",
+  "ep.bridge.human_pathC": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Human/act7_epilogue_soldier_command_negotiation/ep.bridge.human_pathC.mp3",
+  "ep.humanity.human_pathA": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Human/act7_epilogue_humanity_negotiation/ep.humanity.human_pathA.mp3",
+  "ep.humanity.human_pathB": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Human/act7_epilogue_humanity_negotiation/ep.humanity.human_pathB.mp3",
+  "ep.humanity.human_pathC": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Human/act7_epilogue_humanity_negotiation/ep.humanity.human_pathC.mp3",
+  "ep.machine.human": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Human/act7_epilogue_machine_negotiation/ep.machine.human.mp3",
+  "ep.machine.human_pathA": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Human/act7_epilogue_machine_negotiation/ep.machine.human_pathA.mp3",
+  "ep.machine.human_pathB": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Human/act7_epilogue_machine_negotiation/ep.machine.human_pathB.mp3",
+  "ep.machine.human_pathC": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Human/act7_epilogue_machine_negotiation/ep.machine.human_pathC.mp3",
+  "ep.silence.human": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Human/act7_epilogue_silence_negotiation/ep.silence.human.mp3",
+  "reckoning.assign.human_warns": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Human/reckoning_daughter_negotiation/reckoning.assign.human_warns.mp3",
+  "rlyeh.entry.human_orient": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Human/master_of_rlyeh_entry/rlyeh.entry.human_orient.mp3",
+  "rlyeh.neg.human_consoles_purchase": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Human/master_of_rlyeh_negotiation/rlyeh.neg.human_consoles_purchase.mp3"
+}

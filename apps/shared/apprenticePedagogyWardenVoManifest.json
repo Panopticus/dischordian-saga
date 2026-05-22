@@ -1,0 +1,13 @@
+{
+  "warden_audit_close_ambiguous": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Apprentice+Pedagogy+Warden/misc/warden_audit_close_ambiguous.mp3",
+  "warden_audit_close_compliant": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Apprentice+Pedagogy+Warden/misc/warden_audit_close_compliant.mp3",
+  "warden_audit_close_noncompliant": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Apprentice+Pedagogy+Warden/misc/warden_audit_close_noncompliant.mp3",
+  "warden_audit_close_withheld": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Apprentice+Pedagogy+Warden/misc/warden_audit_close_withheld.mp3",
+  "warden_failure_line": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Apprentice+Pedagogy+Warden/misc/warden_failure_line.mp3",
+  "warden_pitch_warden_cand_aurelia_lock": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Apprentice+Pedagogy+Warden/misc/warden_pitch_warden_cand_aurelia_lock.mp3",
+  "warden_pitch_warden_cand_castor_hush": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Apprentice+Pedagogy+Warden/misc/warden_pitch_warden_cand_castor_hush.mp3",
+  "warden_pitch_warden_cand_meridian_quiet": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Apprentice+Pedagogy+Warden/misc/warden_pitch_warden_cand_meridian_quiet.mp3",
+  "warden_pitch_warden_cand_pyx_seventh": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Apprentice+Pedagogy+Warden/misc/warden_pitch_warden_cand_pyx_seventh.mp3",
+  "warden_purge_offer": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Apprentice+Pedagogy+Warden/misc/warden_purge_offer.mp3",
+  "warden_purge_prompt": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Apprentice+Pedagogy+Warden/misc/warden_purge_prompt.mp3"
+}

@@ -1,0 +1,11 @@
+{
+  "emissary.aft.antiquarian_close": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Antiquarian/pale_emissary_aftermath/emissary.aft.antiquarian_close.mp3",
+  "malkia.s3.coordinates_arrive": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Antiquarian/malkia_revolution_entry/malkia.s3.coordinates_arrive.mp3",
+  "malkia.s5.shared_record": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Antiquarian/malkia_revolution_entry/malkia.s5.shared_record.mp3",
+  "malkia.s6.gift": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Antiquarian/malkia_revolution_aftermath/malkia.s6.gift.mp3",
+  "reckoning.aft.antiquarian_close": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Antiquarian/reckoning_daughter_aftermath/reckoning.aft.antiquarian_close.mp3",
+  "reckoning.entry.silence_before": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Antiquarian/reckoning_daughter_entry/reckoning.entry.silence_before.mp3",
+  "rlyeh.aft.antiquarian_close": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Antiquarian/master_of_rlyeh_aftermath/rlyeh.aft.antiquarian_close.mp3",
+  "sk.D.antiquarian": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Antiquarian/source_kael_aftermath/sk.D.antiquarian.mp3",
+  "vo_antiquarian_bbs_cast": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Antiquarian/dialog_bbs_cast_antiquarian/vo_antiquarian_bbs_cast.mp3"
+}

@@ -1,0 +1,8 @@
+{
+  "vo_collector_ch11_loss_01": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Collector/dialog_ch11_loss/vo_collector_ch11_loss_01.mp3",
+  "vo_collector_ch11_pre_01": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Collector/dialog_ch11_pre/vo_collector_ch11_pre_01.mp3",
+  "vo_collector_ch11_pre_02": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Collector/dialog_ch11_pre/vo_collector_ch11_pre_02.mp3",
+  "vo_collector_ch11_pre_03": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Collector/dialog_ch11_pre/vo_collector_ch11_pre_03.mp3",
+  "vo_collector_ch11_win_01": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Collector/dialog_ch11_win/vo_collector_ch11_win_01.mp3",
+  "vo_collector_ch11_win_02": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Collector/dialog_ch11_win/vo_collector_ch11_win_02.mp3"
+}

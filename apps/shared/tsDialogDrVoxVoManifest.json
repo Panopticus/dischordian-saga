@@ -1,0 +1,10 @@
+{
+  "vo_vox_ch7_cine_01": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/DrVox/ch7_vox_transform/vo_vox_ch7_cine_01.mp3",
+  "vo_vox_ch7_cine_02": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/DrVox/ch7_vox_transform/vo_vox_ch7_cine_02.mp3",
+  "vo_vox_ch7_loss_01": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/DrVox/dialog_ch7_loss/vo_vox_ch7_loss_01.mp3",
+  "vo_vox_ch7_pre_01": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/DrVox/dialog_ch7_pre/vo_vox_ch7_pre_01.mp3",
+  "vo_vox_ch7_pre_02": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/DrVox/dialog_ch7_pre/vo_vox_ch7_pre_02.mp3",
+  "vo_vox_ch7_win_01": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/DrVox/dialog_ch7_win/vo_vox_ch7_win_01.mp3",
+  "vo_vox_ch7_win_02": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/DrVox/dialog_ch7_win/vo_vox_ch7_win_02.mp3",
+  "vo_warlord_ch7_cine_04": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/DrVox/ch7_vox_transform/vo_warlord_ch7_cine_04.mp3"
+}

@@ -1,0 +1,7 @@
+{
+  "narrator_breach": "https://dgrsvoices.s3.us-east-2.amazonaws.com/CADES+Voices/Narrator/cades_loss/narrator_breach.mp3",
+  "narrator_bridge_holds": "https://dgrsvoices.s3.us-east-2.amazonaws.com/CADES+Voices/Narrator/cades_win/narrator_bridge_holds.mp3",
+  "narrator_dawn": "https://dgrsvoices.s3.us-east-2.amazonaws.com/CADES+Voices/Narrator/cades_loop/narrator_dawn.mp3",
+  "narrator_shields": "https://dgrsvoices.s3.us-east-2.amazonaws.com/CADES+Voices/Narrator/cades_win/narrator_shields.mp3",
+  "narrator_signal_lost": "https://dgrsvoices.s3.us-east-2.amazonaws.com/CADES+Voices/Narrator/cades_death/narrator_signal_lost.mp3"
+}

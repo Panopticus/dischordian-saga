@@ -1,0 +1,19 @@
+{
+  "vo_narr_authority_trial_loss_01": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Narrator/dialog_authority_trial_loss/vo_narr_authority_trial_loss_01.mp3",
+  "vo_narr_authority_trial_pre_01": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Narrator/dialog_authority_trial_pre/vo_narr_authority_trial_pre_01.mp3",
+  "vo_narr_authority_trial_win_01": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Narrator/dialog_authority_trial_win/vo_narr_authority_trial_win_01.mp3",
+  "vo_narr_ch12_cine_03": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Narrator/ch12_false_prophet_reveal/vo_narr_ch12_cine_03.mp3",
+  "vo_narr_ch12_outbreak_01": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Narrator/ch12_corruption_outbreak/vo_narr_ch12_outbreak_01.mp3",
+  "vo_narr_ch5_cine_01": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Narrator/ch5_death_resurrection/vo_narr_ch5_cine_01.mp3",
+  "vo_narr_ch6_cine_01": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Narrator/ch6_mirror_glitch/vo_narr_ch6_cine_01.mp3",
+  "vo_narr_ch7_cine_03": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Narrator/ch7_vox_transform/vo_narr_ch7_cine_03.mp3",
+  "vo_narr_game_master_loss_01": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Narrator/dialog_game_master_loss/vo_narr_game_master_loss_01.mp3",
+  "vo_narr_game_master_pre_01": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Narrator/dialog_game_master_pre/vo_narr_game_master_pre_01.mp3",
+  "vo_narr_game_master_win_01": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Narrator/dialog_game_master_win/vo_narr_game_master_win_01.mp3",
+  "vo_narr_programmer_gift_loss_01": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Narrator/dialog_programmer_gift_loss/vo_narr_programmer_gift_loss_01.mp3",
+  "vo_narr_programmer_gift_pre_01": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Narrator/dialog_programmer_gift_pre/vo_narr_programmer_gift_pre_01.mp3",
+  "vo_narr_programmer_gift_win_01": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Narrator/dialog_programmer_gift_win/vo_narr_programmer_gift_win_01.mp3",
+  "vo_narr_seer_visit_loss_01": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Narrator/dialog_seer_visit_loss/vo_narr_seer_visit_loss_01.mp3",
+  "vo_narr_seer_visit_pre_01": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Narrator/dialog_seer_visit_pre/vo_narr_seer_visit_pre_01.mp3",
+  "vo_narr_seer_visit_win_01": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Narrator/dialog_seer_visit_win/vo_narr_seer_visit_win_01.mp3"
+}

@@ -1,0 +1,12 @@
+{
+  "ep.balance.close": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/System/act7_epilogue_balance_aftermath/ep.balance.close.mp3",
+  "ep.balance.open": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/System/act7_epilogue_balance_entry/ep.balance.open.mp3",
+  "ep.bridge.close": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/System/act7_epilogue_soldier_command_aftermath/ep.bridge.close.mp3",
+  "ep.bridge.open": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/System/act7_epilogue_soldier_command_entry/ep.bridge.open.mp3",
+  "ep.humanity.close": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/System/act7_epilogue_humanity_aftermath/ep.humanity.close.mp3",
+  "ep.humanity.open": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/System/act7_epilogue_humanity_entry/ep.humanity.open.mp3",
+  "ep.machine.close": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/System/act7_epilogue_machine_aftermath/ep.machine.close.mp3",
+  "ep.machine.open": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/System/act7_epilogue_machine_entry/ep.machine.open.mp3",
+  "ep.silence.close": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/System/act7_epilogue_silence_aftermath/ep.silence.close.mp3",
+  "ep.silence.open": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/System/act7_epilogue_silence_entry/ep.silence.open.mp3"
+}

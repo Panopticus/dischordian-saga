@@ -1,0 +1,13 @@
+{
+  "dmc.romance.s1.first_look": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/DMC/romanceScenes_dmc/dmc.romance.s1.first_look.mp3",
+  "dmc.romance.s1.witnessed": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/DMC/romanceScenes_dmc/dmc.romance.s1.witnessed.mp3",
+  "dmc.romance.s2.present": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/DMC/romanceScenes_dmc/dmc.romance.s2.present.mp3",
+  "dmc.romance.s2.unprompted_memory": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/DMC/romanceScenes_dmc/dmc.romance.s2.unprompted_memory.mp3",
+  "dmc.romance.s3.kin_name_chosen": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/DMC/romanceScenes_dmc/dmc.romance.s3.kin_name_chosen.mp3",
+  "dmc.romance.s3.naming_question": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/DMC/romanceScenes_dmc/dmc.romance.s3.naming_question.mp3",
+  "dmc.romance.s3.partner_name_chosen": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/DMC/romanceScenes_dmc/dmc.romance.s3.partner_name_chosen.mp3",
+  "dmc.romance.s4.after_recompile": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/DMC/romanceScenes_dmc/dmc.romance.s4.after_recompile.mp3",
+  "dmc.romance.s4.preposition": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/DMC/romanceScenes_dmc/dmc.romance.s4.preposition.mp3",
+  "dmc.romance.s5.named_devotion": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/DMC/romanceScenes_dmc/dmc.romance.s5.named_devotion.mp3",
+  "dmc.romance.s5.protocol_close": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/DMC/romanceScenes_dmc/dmc.romance.s5.protocol_close.mp3"
+}

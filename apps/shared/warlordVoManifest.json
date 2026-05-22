@@ -5,5 +5,8 @@
   "warlord_mvp_crowned_001": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Guild%20Cutscene%20Voices%2Fwarlord_mvp_crowned_001.mp3",
   "warlord_war_victory_001": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Guild%20Cutscene%20Voices%2Fwarlord_war_victory_001.mp3",
   "warlord_war_defeat_001": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Guild%20Cutscene%20Voices%2Fwarlord_war_defeat_001.mp3",
-  "warlord_placement_lock_001": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Guild%20Cutscene%20Voices%2Fwarlord_placement_lock_001.mp3"
+  "warlord_placement_lock_001": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Guild%20Cutscene%20Voices%2Fwarlord_placement_lock_001.mp3",
+  "the_warlord_zero_first_taunt_early": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Warlord+Voices/act1_taunts/the_warlord_zero_first_taunt_early.mp3",
+  "the_warlord_zero_first_taunt_mid": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Warlord+Voices/act1_taunts/the_warlord_zero_first_taunt_mid.mp3",
+  "the_warlord_zero_first_taunt_late": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Warlord+Voices/act1_taunts/the_warlord_zero_first_taunt_late.mp3"
 }

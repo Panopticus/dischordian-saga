@@ -1,0 +1,12 @@
+{
+  "jericho.romance.s1.next_port": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Jericho/romanceScenes_jericho/jericho.romance.s1.next_port.mp3",
+  "jericho.romance.s1.silence": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Jericho/romanceScenes_jericho/jericho.romance.s1.silence.mp3",
+  "jericho.romance.s2.aftermath_sit": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Jericho/romanceScenes_jericho/jericho.romance.s2.aftermath_sit.mp3",
+  "jericho.romance.s2.theology": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Jericho/romanceScenes_jericho/jericho.romance.s2.theology.mp3",
+  "jericho.romance.s3.chair_accepted_open": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Jericho/romanceScenes_jericho/jericho.romance.s3.chair_accepted_open.mp3",
+  "jericho.romance.s3.first_undocking": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Jericho/romanceScenes_jericho/jericho.romance.s3.first_undocking.mp3",
+  "jericho.romance.s4.pre_mission": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Jericho/romanceScenes_jericho/jericho.romance.s4.pre_mission.mp3",
+  "jericho.romance.s4.return": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Jericho/romanceScenes_jericho/jericho.romance.s4.return.mp3",
+  "jericho.romance.s5.act7_close": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Jericho/romanceScenes_jericho/jericho.romance.s5.act7_close.mp3",
+  "jericho.romance.s5.vow_phrase": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/Jericho/romanceScenes_jericho/jericho.romance.s5.vow_phrase.mp3"
+}

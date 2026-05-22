@@ -1,0 +1,7 @@
+{
+  "reckoning.assign.task": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/ReckoningDaughter/reckoning_daughter_negotiation/reckoning.assign.task.mp3",
+  "reckoning.audit.read_aloud": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/ReckoningDaughter/reckoning_daughter_negotiation/reckoning.audit.read_aloud.mp3",
+  "reckoning.entry.daughter_arrives": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/ReckoningDaughter/reckoning_daughter_entry/reckoning.entry.daughter_arrives.mp3",
+  "reckoning.res.accept": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/ReckoningDaughter/reckoning_daughter_resolution/reckoning.res.accept.mp3",
+  "reckoning.res.refuse": "https://dgrsvoices.s3.us-east-2.amazonaws.com/TS+Dialog/ReckoningDaughter/reckoning_daughter_resolution/reckoning.res.refuse.mp3"
+}
