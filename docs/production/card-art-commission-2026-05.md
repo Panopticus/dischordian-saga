@@ -1,5 +1,13 @@
 # Card-art commission backlog — 2026-05-22
 
+> **STATUS 2026-05-22 (closed)** — the single outstanding commission
+> in this doc was delivered same-day. `lord_master_of_rlyeh.{webp,png}`
+> are live on CDN at `art/cards/hierarchy/` (1024×1024, both
+> formats); the card def at
+> `apps/shared/tcg-core/cards/definitions/s2_hierarchy/master_of_rlyeh.ts`
+> already pointed at the target URL so no code edit was needed.
+> Backlog count: **0**.
+
 Outstanding card art that has no candidate on CDN and must be commissioned.
 
 After the cross-folder resolver (`scripts/audit/resolve-card-art-unmapped.ts`)

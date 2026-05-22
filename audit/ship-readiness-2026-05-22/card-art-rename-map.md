@@ -187,6 +187,10 @@ over the `art: assetUrl("…")` lines listed in the Source column.
 
 ## Unmapped — commission required
 
-| Card id | Card name | Broken `art:` | Source |
-|---|---|---|---|
-| `s2_hierarchy_lord_master_of_rlyeh` | The Master of R | `art/cards/hierarchy/lord_master_of_rlyeh.webp` | `apps/shared/tcg-core/cards/definitions/s2_hierarchy/master_of_rlyeh.ts` |
+> **Resolved 2026-05-22.** The single commission row delivered same
+> day; both `.webp` and `.png` are live on CDN at the target path.
+> Card def required no edit.
+
+| Card id | Card name | `art:` | Status | Source |
+|---|---|---|---|---|
+| `s2_hierarchy_lord_master_of_rlyeh` | The Master of R'lyeh, the Sleeping Reader | `art/cards/hierarchy/lord_master_of_rlyeh.webp` | ✓ live (1024×1024, both webp + png) | `apps/shared/tcg-core/cards/definitions/s2_hierarchy/master_of_rlyeh.ts` |
