@@ -350,6 +350,9 @@ PER_LINE_BANKS: list[PerLineVoiceBank] = [
         manifest_filename="act2VoManifest.json",
         s3_prefix="Act 2 Voices",
     ),
+    # act3_narrative includes the 60 Trade Empire lines (apps/shared/
+    # tradeEmpireVoLines.ts → te-* prefixed entries). Re-sync after
+    # any edit via `pnpm tsx apps/scripts/sync-te-vo-lines.ts`.
     PerLineVoiceBank(
         key="act3_narrative",
         lines_filename="act3-vo-lines.json",

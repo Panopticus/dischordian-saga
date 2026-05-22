@@ -7,18 +7,17 @@
    pirate events, peace conferences, diplomatic outcomes,
    doom whispers, eldritch encounters, sanity thresholds).
 
-   Sync to apps/scripts/act3-vo-lines.json via:
+   Sync into apps/scripts/act3-vo-lines.json via:
      pnpm tsx apps/scripts/sync-te-vo-lines.ts
-   then generate audio with:
-     pnpm vo:act3 --skip-todo
+   then generate audio with the unified gap-fill:
+     pnpm vo:gaps --only act3_narrative
+   (or the legacy per-act pipeline: pnpm vo:act3)
 
    ID convention: every line id is prefixed with "te-".
 
    Speaker assignments derive from the canon-locked dossier
-   (see plan file). Lines without a registered ElevenLabs
-   voiceId use a "TODO_<SPEAKER>" placeholder; --skip-todo
-   skips them at generation time so the wiring lands first
-   and audio fills in later.
+   (see plan file). All speakers are fully cast — the VOICE
+   record below is the canonical voice-id table.
    ═══════════════════════════════════════════════════════ */
 
 /**
@@ -53,8 +52,9 @@ export interface TradeEmpireVoLine {
 }
 
 /* ─── Voice-id registry ─── */
-/* Existing acts wire these speakers. New ones placeholder until
-   the producer assigns ElevenLabs voiceIds. */
+/* All speakers fully cast as of 2026-05-22. Sync into
+   act3-vo-lines.json via sync-te-vo-lines.ts; the unified
+   gap-fill picks them up through the act3_narrative bank. */
 const VOICE: Record<TradeEmpireSpeaker, string> = {
   elara: "xMyNDrPFEtQN8iZtT7l2",
   human: "oGbGJdgofRR8z0MxwI8L",
