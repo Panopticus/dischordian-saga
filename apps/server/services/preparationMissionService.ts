@@ -45,6 +45,10 @@ import {
   scoreTheQuestion,
   type TheQuestionSubmission,
 } from "@shared/preparationMissions/missions/theQuestion";
+import {
+  scoreBiddingWar,
+  type BiddingWarSubmission,
+} from "@shared/preparationMissions/missions/biddingWar";
 
 const HUMAN_CONFESSION_WEIGHT_SCALE = 100;
 
@@ -278,7 +282,8 @@ export type MissionSubmission =
   | { missionId: "salvage"; payload: SalvageSubmission }
   | { missionId: "reverse_trial"; payload: ReverseTrialSubmission }
   | { missionId: "tribunal_elara"; payload: TribunalSubmission }
-  | { missionId: "the_question"; payload: TheQuestionSubmission };
+  | { missionId: "the_question"; payload: TheQuestionSubmission }
+  | { missionId: "bidding_war"; payload: BiddingWarSubmission };
 
 /**
  * Score a mission submission server-side and apply the resulting
@@ -308,6 +313,9 @@ export async function submitMission(
       break;
     case "the_question":
       evaluation = scoreTheQuestion(submission.payload);
+      break;
+    case "bidding_war":
+      evaluation = scoreBiddingWar(submission.payload);
       break;
     default: {
       const _exhaustive: never = submission;

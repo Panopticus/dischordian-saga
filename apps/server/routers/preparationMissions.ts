@@ -26,6 +26,7 @@ import {
   type MissionSubmission,
 } from "../services/preparationMissionService";
 import { REVERSE_TRIAL_PHASES } from "@shared/preparationMissions/missions/reverseTrial";
+import { BIDDING_WAR_FACTIONS } from "@shared/preparationMissions/missions/biddingWar";
 
 const missionEvaluationSchema = z.object({
   passed: z.boolean(),
@@ -123,6 +124,21 @@ export const preparationMissionsRouter = router({
           payload: z.object({
             verdictDelta: z.number(),
             turnsPlayed: z.number().int().min(0).max(20),
+          }),
+        }),
+        z.object({
+          missionId: z.literal("bidding_war"),
+          payload: z.object({
+            pledges: z
+              .array(
+                z.object({
+                  subHouseId: z.string().min(1).max(64),
+                  cardIds: z.array(z.string().min(1).max(64)).max(3),
+                  faction: z.enum(BIDDING_WAR_FACTIONS),
+                  alignment: z.enum(["aligned", "neutral", "hostile"]),
+                }),
+              )
+              .max(72),
           }),
         }),
       ]),
