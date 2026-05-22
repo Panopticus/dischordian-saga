@@ -37,6 +37,14 @@ import {
   scoreReverseTrial,
   type ReverseTrialSubmission,
 } from "@shared/preparationMissions/missions/reverseTrial";
+import {
+  scoreTribunalElara,
+  type TribunalSubmission,
+} from "@shared/preparationMissions/missions/tribunalElara";
+import {
+  scoreTheQuestion,
+  type TheQuestionSubmission,
+} from "@shared/preparationMissions/missions/theQuestion";
 
 const HUMAN_CONFESSION_WEIGHT_SCALE = 100;
 
@@ -268,7 +276,9 @@ export async function listMissionsForPlayer(userId: number) {
  */
 export type MissionSubmission =
   | { missionId: "salvage"; payload: SalvageSubmission }
-  | { missionId: "reverse_trial"; payload: ReverseTrialSubmission };
+  | { missionId: "reverse_trial"; payload: ReverseTrialSubmission }
+  | { missionId: "tribunal_elara"; payload: TribunalSubmission }
+  | { missionId: "the_question"; payload: TheQuestionSubmission };
 
 /**
  * Score a mission submission server-side and apply the resulting
@@ -292,6 +302,12 @@ export async function submitMission(
       break;
     case "reverse_trial":
       evaluation = scoreReverseTrial(submission.payload);
+      break;
+    case "tribunal_elara":
+      evaluation = scoreTribunalElara(submission.payload);
+      break;
+    case "the_question":
+      evaluation = scoreTheQuestion(submission.payload);
       break;
     default: {
       const _exhaustive: never = submission;
