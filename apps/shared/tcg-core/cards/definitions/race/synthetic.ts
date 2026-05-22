@@ -25,7 +25,7 @@ export const synth_01: CardDefinition = {
       trigger: { kind: "on_deploy" },
       effect: { op: "draw", amount: { kind: "const", value: 1 }, who: "self" },
     }],
-  art: assetUrl("art/cards/race/s1_race_synthetic_01.webp"),
+  art: assetUrl("art/cards/race/synthetic_worker.webp"),
   flavorText:
     "On deploy, draw 1. A Synthetic Worker was designed by the Architect the week he needed a worker and forgot to ask whether anybody else needed something.",
   rulesVersion: "1.1.0",
@@ -43,7 +43,7 @@ export const synth_02: CardDefinition = {
   baseStats: { power: 1, health: 6 },
   keywords: ["provoke", "forcefield"],
   abilities: [],
-  art: assetUrl("art/cards/race/s1_race_synthetic_02.webp"),
+  art: assetUrl("art/cards/race/synthetic_watchtower.webp"),
   flavorText:
     "Provoke. Forcefield. The Watchtower is a synthetic whose job is to stand in one place and be a very reliable shape the enemy has to go through. It writes a detailed log afterward.",
   rulesVersion: "1.1.0",

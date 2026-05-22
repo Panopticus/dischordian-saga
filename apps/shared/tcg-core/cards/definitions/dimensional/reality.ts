@@ -19,7 +19,7 @@ export const reality_01: CardDefinition = {
   baseStats: { power: 3, health: 3 },
   keywords: ["dispel"],
   abilities: [],
-  art: assetUrl("art/cards/dimension/s1_dim_reality_01.webp"),
+  art: assetUrl("art/cards/dimension/ground_truth_witness.webp"),
   flavorText:
     "Dispel. She was in the room when it happened. Her testimony removes the parts of the story that depend on nobody having been in the room.",
   rulesVersion: "1.1.0",
@@ -42,7 +42,7 @@ export const reality_02: CardDefinition = {
       effect: { op: "silence", to: { kind: "enemy_general" } },
     },
   ],
-  art: assetUrl("art/cards/dimension/s1_dim_reality_02.webp"),
+  art: assetUrl("art/cards/dimension/consensus_weaver.webp"),
   flavorText:
     "Silence the enemy general. A Consensus Weaver does not argue with your version of events. She lets nine other people agree with hers until yours stops being one.",
   rulesVersion: "1.1.0",

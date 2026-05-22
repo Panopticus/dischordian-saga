@@ -12,6 +12,7 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { TITLE_T01_LOREDEX_ENTRY } from "@/lib/titleT01Entry";
+import { assetUrl } from "@/lib/assetUrl";
 
 const CINEMATIC_VIDEO = "https://dgrsart.s3.us-east-2.amazonaws.com/Videos/Dischordia%20Elara%20Open.mp4";
 /** Rotating saga-theme bed — the same four tracks SagaThemeBGM
@@ -21,10 +22,10 @@ const CINEMATIC_VIDEO = "https://dgrsart.s3.us-east-2.amazonaws.com/Videos/Disch
  *  game uses. Kept in lockstep with apps/client/src/contexts/
  *  SagaThemeBGMContext.tsx::SAGA_THEMES. */
 export const AWAKENING_BED_URLS = [
-  "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/SagaTheme_0cd5de9a.mp3",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/saga-theme-1_26dd4ba7.mp3",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/saga-theme-2_f7163eec.mp3",
-  "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/saga-theme-3_59eac805.mp3",
+  assetUrl("audio/themes/saga-theme-original.mp3"),
+  assetUrl("audio/themes/saga-theme-1.mp3"),
+  assetUrl("audio/themes/saga-theme-2.mp3"),
+  assetUrl("audio/themes/saga-theme-3.mp3"),
 ] as const;
 /** Volume the bed runs at while the cinematic video is the focal
  *  audio — quiet enough not to fight the video, present enough to

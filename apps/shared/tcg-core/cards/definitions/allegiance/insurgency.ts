@@ -18,7 +18,7 @@ export const ins_alleg_t1: CardDefinition = {
   baseStats: { power: 3, health: 2 },
   keywords: [],
   abilities: [],
-  art: assetUrl("art/cards/allegiance/s1_alleg_insurgency_t1.webp"),
+  art: assetUrl("art/cards/allegiance/insurgency_recruit_t1.webp"),
   flavorText:
     "Unlocked by playing 10 Insurgency matches. A recruit showed up because the alternative was staying where they were. That is the whole pitch.",
   rulesVersion: "1.1.0",
@@ -36,7 +36,7 @@ export const ins_alleg_t2: CardDefinition = {
   baseStats: { power: 4, health: 3 },
   keywords: ["rush"],
   abilities: [],
-  art: assetUrl("art/cards/allegiance/s1_alleg_insurgency_t2.webp"),
+  art: assetUrl("art/cards/allegiance/insurgency_operative_t2.webp"),
   flavorText:
     "Unlocked by playing 25 Insurgency matches. Rush. A partisan is a person who does not wait to be told the mission has started.",
   rulesVersion: "1.1.0",
@@ -54,7 +54,7 @@ export const ins_alleg_t3: CardDefinition = {
   baseStats: { power: 5, health: 4 },
   keywords: ["rush", "backstab"],
   abilities: [],
-  art: assetUrl("art/cards/allegiance/s1_alleg_insurgency_t3.webp"),
+  art: assetUrl("art/cards/allegiance/insurgency_cell_leader_t3.webp"),
   flavorText:
     "Unlocked by playing 50 Insurgency matches. Rush. Backstab. A veteran has the scar and they will show you the scar if you ask them once, and then never again.",
   rulesVersion: "1.1.0",
@@ -72,7 +72,7 @@ export const ins_alleg_t4: CardDefinition = {
   baseStats: { power: 5, health: 5 },
   keywords: ["rush", "backstab", "rebirth"],
   abilities: [],
-  art: assetUrl("art/cards/allegiance/s1_alleg_insurgency_t4.webp"),
+  art: assetUrl("art/cards/allegiance/insurgency_commander_t4.webp"),
   flavorText:
     "Unlocked by winning 10 Insurgency matches. Rush. Backstab. Rebirth. A victorious veteran is the person the rest of the squad points at when a new recruit asks 'who decides when we go?' The answer is always 'him, last time.'",
   rulesVersion: "1.1.0",
@@ -90,7 +90,7 @@ export const ins_alleg_t5: CardDefinition = {
   baseStats: { power: 6, health: 6 },
   keywords: ["rush", "backstab", "rebirth", "frenzy"],
   abilities: [],
-  art: assetUrl("art/cards/allegiance/s1_alleg_insurgency_t5.webp"),
+  art: assetUrl("art/cards/allegiance/insurgency_warlord_t5.webp"),
   flavorText:
     "Unlocked by winning 50 Insurgency matches. Rush. Backstab. Rebirth. Frenzy. The Elite were the first unit to breach a Panopticon relay and the first unit to come back out with the relay intact and one new tattoo each.",
   rulesVersion: "1.1.0",
@@ -108,7 +108,7 @@ export const ins_alleg_t6: CardDefinition = {
   baseStats: { power: 7, health: 8 },
   keywords: ["rush", "provoke", "backstab", "rebirth", "frenzy"],
   abilities: [],
-  art: assetUrl("art/cards/allegiance/s1_alleg_insurgency_t6.webp"),
+  art: assetUrl("art/cards/allegiance/insurgency_champion_t6.webp"),
   flavorText:
     "Unlocked by winning 100 Insurgency matches. Rush. Provoke. Backstab. Rebirth. Frenzy. The Insurgency Champion is not a character either. They are the shape you make out of yourself over a hundred matches of not backing down.",
   rulesVersion: "1.1.0",

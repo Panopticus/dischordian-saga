@@ -36,7 +36,7 @@ export const spy_01: CardDefinition = {
       },
     },
   ],
-  art: assetUrl("art/cards/class/s1_class_spy_01.webp"),
+  art: assetUrl("art/cards/class/signal_ghost.webp"),
   flavorText:
     "Stealth — 1 turn. The first spies the Insurgency ran weren't trained; they were chosen because the cameras had stopped noticing them years before anyone asked.",
   rulesVersion: "1.1.0",
@@ -64,7 +64,7 @@ export const spy_02: CardDefinition = {
       },
     },
   ],
-  art: assetUrl("art/cards/class/s1_class_spy_02.webp"),
+  art: assetUrl("art/cards/class/dead_drop.webp"),
   flavorText:
     "Draw 2 cards. A dead drop is an address nobody agreed on. The message is always already there when you arrive.",
   rulesVersion: "1.1.0",
@@ -94,7 +94,7 @@ export const spy_03: CardDefinition = {
       },
     },
   ],
-  art: assetUrl("art/cards/class/s1_class_spy_03.webp"),
+  art: assetUrl("art/cards/class/cover_name.webp"),
   flavorText:
     "Backstab. Stealth — 2 turns. The cover name is not a lie. It is a separate person you built and then walked into like a coat.",
   rulesVersion: "1.1.0",
@@ -121,7 +121,7 @@ export const spy_04: CardDefinition = {
       },
     },
   ],
-  art: assetUrl("art/cards/class/s1_class_spy_04.webp"),
+  art: assetUrl("art/cards/class/burn_the_handler.webp"),
   flavorText:
     "Silence the enemy general. Every operative eventually has to kill the person who recruited them, usually to protect the secret of having been recruited at all.",
   rulesVersion: "1.1.0",

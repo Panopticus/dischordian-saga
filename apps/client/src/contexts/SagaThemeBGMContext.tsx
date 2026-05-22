@@ -8,28 +8,29 @@
    ═══════════════════════════════════════════════════════ */
 import { createContext, useContext, useState, useCallback, useEffect, useRef, type ReactNode } from "react";
 import { usePlayer } from "./PlayerContext";
+import { assetUrl } from "@/lib/assetUrl";
 
 /* ─── SAGA THEME PLAYLIST ─── */
 const SAGA_THEMES = [
   {
     id: "saga-theme-original",
     title: "Saga Theme (Original)",
-    url: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/SagaTheme_0cd5de9a.mp3",
+    url: assetUrl("audio/themes/saga-theme-original.mp3"),
   },
   {
     id: "saga-theme-1",
     title: "Saga Theme I",
-    url: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/saga-theme-1_26dd4ba7.mp3",
+    url: assetUrl("audio/themes/saga-theme-1.mp3"),
   },
   {
     id: "saga-theme-2",
     title: "Saga Theme II",
-    url: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/saga-theme-2_f7163eec.mp3",
+    url: assetUrl("audio/themes/saga-theme-2.mp3"),
   },
   {
     id: "saga-theme-3",
     title: "Saga Theme III",
-    url: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/saga-theme-3_59eac805.mp3",
+    url: assetUrl("audio/themes/saga-theme-3.mp3"),
   },
 ];
 

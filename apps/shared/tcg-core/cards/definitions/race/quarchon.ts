@@ -19,7 +19,7 @@ export const quarchon_01: CardDefinition = {
   baseStats: { power: 1, health: 4 },
   keywords: ["forcefield"],
   abilities: [],
-  art: assetUrl("art/cards/race/s1_race_quarchon_01.webp"),
+  art: assetUrl("art/cards/race/quarchon_latticework.webp"),
   flavorText:
     "Forcefield. A quarchon begins life as a lattice of intentions the Architect has not yet committed to. The forcefield is what he still reserves the right to.",
   rulesVersion: "1.1.0",
@@ -37,7 +37,7 @@ export const quarchon_02: CardDefinition = {
   baseStats: { power: 2, health: 5 },
   keywords: ["provoke", "grow"],
   abilities: [],
-  art: assetUrl("art/cards/race/s1_race_quarchon_02.webp"),
+  art: assetUrl("art/cards/race/quarchon_archivist.webp"),
   flavorText:
     "Provoke. Grow. Quarchon archivists remember by becoming denser. The older one is, the more it weighs, and the more room it takes up in any conversation that thinks it has finished.",
   rulesVersion: "1.1.0",
