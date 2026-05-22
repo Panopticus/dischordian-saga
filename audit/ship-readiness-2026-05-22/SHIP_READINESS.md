@@ -167,6 +167,32 @@ are face/neck/weapon-offhand/aura/ring-1/ring-2 for each of the 9 sets ×
 5 rarities = 270, plus 9 sets × `mythic` rarity for the 10 already-shipped
 slots if we want mythic suits = 90 more. Plan accordingly.
 
+## Prior in-repo audit artifacts (worth knowing)
+
+The repo already has a targeted audit pass at `docs/production/audit/`
+that complements this report:
+
+- `docs/production/audit/cdn-liveness.tsv` — 3,002 hand-curated URL
+  liveness probes (status code per URL per source file). Targeted at
+  the known-fragile paths, not a full bucket walk.
+- `docs/production/audit/path-mismatches.tsv` — 17 canonical drift
+  entries (e.g. prelude room paths split between
+  `art/rooms/prelude/<room>.png` in code vs `art/rooms/<room>.png` on
+  CDN). Fix these in code, not on CDN.
+- `docs/production/audit/dead-urls/` — per-file dead-URL reports for
+  74 source files (most are TCG card definitions reflecting the same
+  card-art rename issue I caught here).
+- `docs/production/audit/awakening-cutscene-revision-2026-05.md` and
+  `chapter-intro-canon-gap-2026-05.md` — narrative-driven gap reports.
+- `output/suit-art-prompts.md` — fully-rendered (non-parametric) twin
+  of the 1,080 suit-piece prompts (~10K lines), useful for handing
+  individual prompts to the producer.
+
+Use the prior audit for **targeted in-flight tracking** of known
+hotspots and this audit for **comprehensive at-rest status** before
+ship. The two don't conflict — `path-mismatches.tsv` entries appear
+in my `cdn-missing.tsv` too, with the same proposed fix.
+
 ## Methodology
 
 - CDN inventory via `boto3 list_objects_v2` paginated full walk of

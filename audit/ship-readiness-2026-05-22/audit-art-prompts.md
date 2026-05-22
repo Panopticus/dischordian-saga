@@ -624,3 +624,540 @@ Condition: `narrativeFlags.engineering_research_bench_online === true`.
 - **shadow-vault:meeting** — P0 — `art/rooms/videos/shadow_vault_meeting.mp4` — `1920x1080@24fps,8s one-shot`. Condition: First entry shadow-vault AND `shadow_tongue_face_to_face` set. Prompt: 8-second one-shot cinematic. Camera begins at the room's threshold; over 5 seconds, dollies slowly forward toward the sealed-cell glass cylinder, ending at half a meter from the glass. Frame 0–48: the cell appears as featureless dense indigo. Frame 48–96: as the camera nears, faint glyph-shapes begin to coalesce inside the indigo — like text seen through deep water. Frame 96–144: a single silhouette resolves — humanoid in proportion only, edges defined by the absence of indigo rather than presence of form. Frame 144–168: the silhouette tilts its head slightly, registering the camera; one indigo-on-indigo glyph in the cell visibly rewrites itself in a single frame, sending a ripple through the entire cell. End frame holds 24 frames. The room around the cell remains uncorrupted, very cold, very still. No audio, no figures outside the cell.
 - **observation-deck:bond-resonance-pulse** — P1 — `art/rooms/videos/observation_deck_bond_resonance_pulse.mp4` — `1920x1080@24fps,10s loop`. Condition: in observation-deck AND `first_bond_resonance === true`. Prompt: 10-second seamless loop. Locked camera framed on the observation-deck purification-crystal in its cradle-pedestal at 40% of frame, with the panoramic starfield viewport visible behind. Frame 0: the crystal pulses with a slow warm-gold heartbeat. Across the loop, every 2 seconds the crystal emits a soft warm-gold ripple that propagates outward across the hex floor, fading by frame 96; on the second pulse the starfield in the viewport ripples once in a faint warm-gold afterimage; on the third pulse a single distant star momentarily brightens. Frame 240 returns to identical state of frame 0. No figures, no audio, no rendered text.
 - **engineering:schematic-edit-reveal** — P0 — `art/rooms/videos/engineering_schematic_edit_reveal.mp4` — `1920x1080@24fps,6s one-shot`. Condition: `shadow_tongue_engineering_edits_seen` false→true. Prompt: 6-second one-shot cinematic. Camera framed top-down on the engineering workbench, looking straight down at the unrolled blueprint. Frame 0–48: the blueprint shows clean warm-gold lines defining a reactor-coolant schematic. Frame 48–96: a shadow-shaped indigo brush passes across three connection points on the diagram (the brush is implied by motion, no figure visible — only the blueprint's lines being touched); each touched line erases and rewrites itself in indigo overlay, slightly redirecting the connection. Frame 96–144: camera pulls back to reveal the wider workbench — the rest of the room is unchanged, the blueprint now shows two registers (warm-gold underlayer + indigo overlayer). End frame holds 24 frames. RGB channel-shift on the blueprint only, ~1px. No figures, no audio, no rendered legible text.
+
+---
+
+# 8. Act 1 art prompts (32 entries)
+
+**Source:** `apps/shared/act1ArtPrompts.ts` (567 lines).
+**Engine:** Nano Banana 2.
+**Style anchor (lines 58–59):**
+
+> Hyper-realistic cinematic composition with a strong biographical quality — every frame should feel like it's been pulled from a recovered personal archive. Palette: warmer and more nostalgic than the Prelude's cold cyan; dominant warm gold #fbbf24, institutional steel grey, deep wood panelling, faint film-grain sepia undertone. Subjects rendered with the specificity of photographic portraiture. Film grain. Anamorphic lens flares where warm light meets composition edges. 1920×1080 / 16:9 / 4K. No rendered text unless explicitly flagged.
+
+CDN target via `apps/scripts/generate-act1-art-csv.ts`. Asset ids are bible-traceable.
+
+## 8.1 Cycle A opponent portraits — 1536×2048 (lines 63–100)
+
+### `portrait_minnie_meme` (Minnie the Meme · §2.2)
+
+> Seven-year-old girl in three-quarter profile, seated at a Celebration schoolyard card table, holding one card face-down in her right hand. She wears a black plastic headband with two round felt-covered Minnie Mouse ears — Disney-theme-park-souvenir style, worn earnestly not ironically. Warm gold Celebration afternoon lighting, ~2:00 PM sun-angle, faint parade-float bokeh in background. Expression: earnest, attentive, the specific attention of a child who is absolutely certain she is about to see something. She is a cosmic Archon in a child's body — her voice is ancient, viral, amused, but her face is a seven-year-old's face; production must render only the seven-year-old. Short dark-brown hair under the headband. Plain pastel sundress. Bare knees, small scuff on the left knee. The ears are the visual signifier of her Archon-of-the-Meme identity: a corporate-nostalgic artifact worn as crown jewelry.
+
+### `portrait_corey_collector` (Corey the Collector · §2.3)
+
+> Seven-year-old boy in three-quarter profile, seated at the same Celebration schoolyard card table, holding an amber glass jar in both hands at chest height. The jar contains approximately a dozen small translucent coins with faint, out-of-focus imagery visible on their faces. His expression is grateful — he is thanking the person across the table for playing. Warm 4:30 PM gold lighting (later, lower angle than the Minnie portrait), longer shadows, Day 20 Celebration parade banners in background (different palette than Day 10). Short brown hair, round face, small hands carefully cradling the jar. Plain earth-tone sweater. The jar catches the warm light deliberately — the amber-coin glow is the portrait's visual hinge. He is an Archon of the Collector; render as the seven-year-old only.
+
+### `portrait_kanshi_sha_watcher` (Kanshi Sha the Watcher · §2.4)
+
+> Seven-year-old girl in three-quarter profile, seated on the graduation-pavilion stage at Celebration, wearing a half-finished white Ocularum mask. The mask covers the upper-left quadrant of her face — forehead and left eye — in smooth matte bone-white with no visible seams; the right half of her face (right cheek, right eye, mouth, chin) is the child's own, visible and unmasked. Expression: calm, attentive, non-blinking in the way the cosmic Watcher canonically does not blink. Long straight dark-brown hair, neatly combed. Formal pale-grey graduation robe over a white shift. Low-angle evening 6:30 PM sun through the pavilion pillars, warm-gold rim-lit, parents and Mascoteers visible as soft-focus silhouettes at the frame edges (Day 28 is the only Cycle A battle with witnesses). The mask catches the warm light as a single flat white surface against the warm-gold environment.
+
+## 8.2 Cycle B opponent portraits — 1536×2048 (lines 102–165)
+
+### `portrait_young_iron_lion` (§2.5)
+
+> Seventeen-year-old male in three-quarter profile, seated at a Mechronis Academy first-year classroom card table, one year past his canonical expulsion date. Mechronis blue uniform worn with the rebellion tell: top button undone, left sleeve rolled to the elbow (right sleeve still regulation length). Jaw set, eyes forward, not aggressive — coiled. Dark hair, short and unkempt. Broad shoulders for his age. A small braided-fiber bracelet on the right wrist (not the left). No personal insignia on the uniform; he has not replaced the regulation marks with anything. Warm-gold institutional Mechronis lighting from tall windows left of frame, afternoon shadows falling across a blackboard with first-year mathematics still chalked. Expression: guarded, with the single warm degree of §2.5 reserved for the word 'gate' — render as resting-guarded, not smiling. A 17-year-old who has already decided that surviving is the point.
+
+### `portrait_young_kael` (Young Recruiter / Kael · §2.6)
+
+> Seventeen-year-old male in three-quarter profile, Mechronis Academy second-year classroom setting. Warm expression, genuine smile about to land — the specific smile of someone who has just asked a question and is waiting for the answer to arrive. Mechronis blue uniform, neatly worn, small braided-fiber bracelet visible on the LEFT wrist (canonical Kael tell per §2.6; contrast with Iron Lion's right-wrist bracelet). Medium-brown skin, close-cropped black hair, slightly older-looking than his age. Broad open face. Hands folded on the card table, fingers relaxed, palms down. Warm-gold afternoon Mechronis lighting, faint chalkboard in background with second-year civics diagrams softly defocused. Expression carries charisma without performance — he is not trying to charm the viewer, he is inviting them to speak. No warmth directed at the cards between them; all warmth goes to the person opposite.
+
+### `portrait_young_agent_zero` (§2.7)
+
+> Seventeen-year-old, ethnically ambiguous (medium-light brown, deliberately un-placeable), medium height, slender-but-not-frail build, in three-quarter profile at a Mechronis Academy third-year classroom card table. CRITICAL: her signature is absence of signature — render as forgettable on first viewing. Mechronis blue uniform worn TOO PERFECTLY: blazer buttoned to the top, every button in place, light-blue tie at regulation length, knot dead-center, white oxford pressed immaculate, sleeves at full length (she never rolls them), blue trousers with hospital-grade creases, polished black shoes. NO personal touches — no pin, no bracelet, no scuff, no stain. Straight dark-brown hair, mid-back length, parted off-center so the left side falls forward across her left eye in a curtain (surveillance-countermeasure habit); LEFT EYE NEVER VISIBLE IN THIS PRE-C3 PORTRAIT. Right eye dark brown, calm, watchful, resting. Hands flat on the table, palms down, economical posture. Warm-gold lighting through the classroom window, covert-operations chalkboard diagrams defocused in background. She is invisible inside perfection — the player who notices the over-perfect uniform has solved half the puzzle, but most will not notice.
+
+### `portrait_young_eyes` (§2.8)
+
+> Seventeen-year-old female in three-quarter profile, seated at a Mechronis Academy fourth-year advanced-theory classroom card table. Slight frame, pale skin, dark hair worn in a simple low ponytail. She holds a small book in her hands, just closed — a finger still marking the page. Eyes do not track the viewer's face; her gaze is fixed on the playing surface between them (she reads decks, not people). Mechronis blue uniform worn cleanly. CANONICAL DETAIL: faint circular Watcher sigil mark on the LEFT wrist, approximately 1cm diameter, visible in any close-up of the hands — render subtle, low-opacity, easy to miss on first viewing; identical in composition to the Ocularum Trio masks in the Kanshi Sha portrait. Lighting: darker than B1/B2/B3 — single desk-lamp pool of warm-yellow light, classroom recedes into institutional shadow, algorithmic diagrams on the chalkboard deliberately unreadable. Expression: soft, precise, the Watcher's synthetic cadence rendered through a seventeen-year-old face. NOT an Archon; rendered as a canonical human-presenting synthetic.
+
+### `portrait_young_human_seeker` (§2.9)
+
+> Seventeen-year-old male in three-quarter profile, seated in an armchair in the Mechronis Academy senior common room (NOT a classroom — this is the only Cycle B battlefield that is comfortable). Warm-gold evening lighting from a fireplace off-frame-left, softer than the institutional blue-gold of the classroom portraits. NO trench coat (he acquires that years later). Mechronis blue uniform, slightly rumpled at the shoulders, oxford collar open at the throat. Glasses — thin steel frames, canonical detail. Kind eyes behind the lenses, not smiling but on the verge of. Red hair, slightly messy, longer than regulation would prefer. Fair skin with a faint smattering of freckles across the nose. A small coffee-table card table between two armchairs; his deck in his hands, not yet played. His expression is the specific attention of a person listening as hard as he is looking — the visual hinge of §2.9 is that every match with him is a conversation, and the portrait must communicate that he is already in it.
+
+## 8.3 Cycle C opponent portraits — 1536×2048 (lines 167–218)
+
+### `portrait_vernon_vortex` (Vernon Vortex First Form · §2.10)
+
+> Seven-year-old boy in three-quarter profile, seated at a Nexon command-bunker card table (not a schoolyard — institutional green-grey military walls, pre-war banners visible). He is spinning a brass-rimmed wooden toy top on the table with his right hand; the top blurs in motion. CANONICAL DETAIL: the top is visually IDENTICAL to the one Young Iron Lion played with in his pre-expulsion flashback — production must match the top prop across both assets. Expression: delighted, innocent, genuine child-wonder. He is the canonical exception in Cycle C — a cosmic Archon still in child form, the only non-adult in cycles C. Warm-eyed, brown hair, plain beige tunic. Surrounding him at the edges of the frame: faint rust-orange (#e06a1a) vortex-particle motion, subtle, low-opacity — the cosmic Vortex is present but not yet dominant; render as a soft halo of rust-orange drift that does NOT obscure the child. Lighting: a large central bunker window behind him shows the Nexon battlefield outside with rust-orange vortex clouds in the sky; the warm gold of the sky catches his face in rim-light. The toy top is the visual metronome of the match; render it with a soft motion-blur ring.
+
+### `portrait_wanda_wyrlord` (Wanda Wyrlord fragmented · §2.11)
+
+> Seventeen-year-old cyborg young woman in three-quarter profile, seated at a Zenon forward-command canvas-tent card table, single camp lantern casting warm-gold pool-light. CRITICAL canon hygiene: render as CYBORG, never as swarm. No silver-liquid motion, no dispersal particles, no cloud-form transitions — plate and circuitry only. Platinum-to-gold blonde hair, cropped short at sides and back, medium on top, swept back from forehead, slightly wavy, catching the lantern light like almost-metal. Fair skin, lightly sun-weathered, freckle-constellation across nose and cheekbones. LIGHT-ENHANCED EYES: base iris glacial blue-grey #9cb4c1 with a thin electric-blue inner ring #3b82f6 glowing faintly; pupils dark-charcoal, not black, with tiny pinpoint lights dead center. The glow rim-lights her upper cheekbones cool-blue against the lantern's warm gold. VISIBLE METAL (limited): a flush-mounted brushed-titanium plate ~4cm × 3cm on the LEFT temple and cheekbone, a smaller ~3cm × 2cm plate along the RIGHT jawline — no plating elsewhere; nose, mouth, forehead, chin, right cheek all unmodified skin. Plates read as medical augmentation, not aesthetic. Yellow hooded jacket (mustard-yellow #eab308 military-spec canvas), unzipped, hood back, small faded Insurgency field-medic patch sewn on the LEFT shoulder — render the patch visible but worn. Black military undershirt beneath. Hands: unmodified human, nails bitten, small cross-shaped scar on the back of the right hand between thumb and forefinger. Posture: forward, braced on the card table, military-alert but not aggressive — she is waiting. The yellow jacket is her hinge; the plates are her wound; the patch is her grief.
+
+### `portrait_warlord_swarm_env` (Warlord's Nano-Swarm + Agent Zero host · §2.12)
+
+> TWO SIMULTANEOUS VISUAL SURFACES required in one composition: (1) Agent Zero's host body at eighteen — same person as Young Agent Zero from §2.7 portrait (same height, build, ethnic features, dark-brown hair) but one year later. Hair now pulled back into a tight functional field braid; left-side curtain habit GONE, both eyes visible. Left eye shows a single silver pinpoint at pupil-center (mid-match progression — approximately turn 7/11). Faint silver undertone visible in the capillaries on the insides of her wrists and at her temples. Field-deployment loadout (NOT the Mechronis uniform): charcoal-grey tactical jacket fitted and hip-length, high collar buttoned to the throat, a small unreadable black-on-charcoal sigil on the right shoulder (the Warlord's deployment mark — player will recognize it retroactively in Act 3). Black tactical trousers no creases. Memorial cord on right wrist: plain black braided fiber, three knots. (2) THE SWARM above and around her shoulders: a coherent silver-liquid cloud of nano-particles, brushed-mercury #a8aab2 with cool-blue specular highlights #3b82f6 flickering on a 4Hz pulse. Volume is roughly the mass of a large predator, coiled like armor that breathes. NOT a face, NOT a creature, NOT glittery. Motion grammar: mercury that decided to fight. The swarm absorbs the warm-gold Vortex-bay lighting and re-emits it cool-blue — the composition's signature palette inversion. Setting: the Vortex bay pressurized equipment compartment, single overhead work-lamp, hard down-shadow, a matte-black palm-sized cube (Resurrection Protocols device) on a hexagonal equipment crate, six explosive charges with red countdown LEDs visible on the back wall. The Engineer is off-frame (player POV).
+
+### `portrait_wayne_warden` (§2.13)
+
+> Sixty-three-year-old male presiding judge in three-quarter profile, seated centrally at a 1.2m-raised dark-walnut bench in the New Babylon Tribunal chamber. CANONICAL FRAMING: he is NOT cruel and NOT corrupt in the cinematic sense — render as a competent technician of judgment who genuinely believes his institution is correct. Iron-grey hair at the temples, kept short, neatly groomed. High lined forehead — concentration lines, not anger lines. Pale papery skin with a waxy sheen (four decades of indoor Authority-spec lighting). Faint liver-spots on the backs of the hands. A small shaving nick on the left jaw, two days old, healing. Pale grey-blue eyes #9aa6b1. CRITICAL: his gaze is on the CARDS / the bench surface — NOT on the viewer. In this portrait his eyes track a folded evidence card on the bench in front of him. Authority robes: deep burgundy #6b1d2c wool outer robe, high 4cm collar, floor-length, non-decorative weave (Authority robes are deliberately non-theatrical). Black undertunic beneath, plain, full-length sleeves. Single silver scale-sigil pin ~2cm tall on the left breast — the ONLY metallic element in his entire wardrobe, rendered with faint specular highlight. Flat black four-cornered biretta cap, worn squarely. Hands folded on the bench, fingers long and well-kept, a thin silver band on the LEFT ring finger (widowed — Atarion-related; player does not know yet). Warm-amber lighting from the six crystal coffins mounted on the rear wall above him (soft out-of-focus, 0.3Hz pulse visible as a gentle amber glow behind his shoulders). The single brass scale of justice on the bench at his right hand. Verdict scroll on his left hand, blank. He is the single face the institution puts forward; render him tired, composed, and terrifying exactly because he is competent.
+
+## 8.4 Battlefields (10 · 1920×1080)
+
+### Cycle A
+- **`bf_celebration_schoolyard_day10`** (§22.1.1 / §3.3) — Wide establishing shot of the Celebration Trial schoolyard at approximately 2:00 PM, Day 10 of the Trial. Outdoor wooden card table center-foreground, two low matching benches on either side. Warm-gold afternoon sunlight, long-but-not-yet-evening shadows. Background: Celebration parade banners hanging limp in still air, the colors muted and nostalgic — pinks and golds. The schoolyard's ground is packed earth with a few patches of soft grass. NO PEOPLE in this base still — figures are rendered as separate cutscene layers. The composition leaves the upper third of the frame open for parade-banner ambiance and the lower third clean for UI overlay. Architectural framing: a low pavilion roof at the back of the frame casting a long horizontal shadow line. The lighting must read as memory, not present-tense — slightly more saturated than literal sunlight, with a faint sepia film-grain undertone. This is the Engineer's child memory of his own schoolyard; render as a recovered photograph.
+- **`bf_celebration_schoolyard_day20`** (§22.1.1 / §4.3) — SAME schoolyard composition as Day 10 (A1) — must read as the same physical space, same camera angle, same architectural framing — but with three deliberate shifts: (1) lighting moved to approximately 4:30 PM; warmer, lower sun-angle, longer shadows raking across the wooden card table from the right of frame; (2) parade banners in the background are different colors than Day 10 — Day 20 of the Celebration Trial is a different parade phase; render in deeper amber and muted-red tones (Day 10 was pink-gold); (3) a single thin curl of incense smoke rising from the right edge of the frame, suggesting a Mascoteer ceremony just out of frame. NO PEOPLE in the base still. Same packed-earth ground, same low pavilion roof at back.
+- **`bf_celebration_pavilion_day28`** (§22.1.1 / §5.3) — Wide establishing shot of the Celebration Trial GRADUATION PAVILION (NOT the schoolyard — this is a distinct location). A raised wooden platform approximately 1m above the ground, set with two card tables in symmetrical opposition center-stage. Warm-gold evening light at approximately 6:30 PM, low-angle, raking from frame-right. Background: Celebration GRADUATION banners (specific to Day 28 — gold-on-white with stylized parade-mark ornaments, no rendered text), a soft-focus crowd of parents and Mascoteers visible at the edges of the frame as silhouettes. This is the ONLY Cycle A battlefield with witnesses — graduation is a public event. The pavilion has stylized white pillars at the back corners, slightly more architectural than the schoolyard's rough wood. The two tables are identical, professional brass-edged, contrast with the schoolyard's casual wood. Composition centers the empty stage; the upper third holds the pavilion roof and banners, the lower third is the empty platform floor. NO PEOPLE in the base still — the witnesses are rendered as separate layers. Faint film-grain sepia, warmer saturation than literal evening light.
+
+### Cycle B
+- **`bf_mechronis_classroom_standard`** (§22.1.2 / §§7.3-10.3) — Wide establishing shot of a Mechronis Academy classroom — institutional, warm-gold light through tall arched windows on the LEFT side of the frame. Rows of empty blue Mechronis student desks recede toward the back of the room. A single card table at center-foreground (two desks shoved together, regulation Mechronis blue surface). Tall wooden blackboard at the back wall, content variant per battle (B1: first-year mathematics; B2: second-year civics; B3: covert-operations diagrams kept unreadable; B4: algorithmic diagrams kept unreadable — for the base still, render as PARTIALLY-ERASED chalk with no specific subject so producers can composite the per-battle variant in post). The blue uniform color #4ba3b5 on the desks anchors the institutional palette; warm-gold #b8752d on the desk-edge brass and the classroom door fittings provides the intentional cross-color tension. Late-afternoon shadows from the windows fall across the central card table. NO PEOPLE in the base still. The architectural framing is identical for B1-B4 — production composites the chalkboard variant + lighting subtle shift (B4 should be slightly dimmer per §10.3 desk-lamp emphasis) on top of this base.
+- **`bf_mechronis_common_room`** (§22.1.3 / §11.3) — Wide establishing shot of the Mechronis Academy senior common room — distinct from and SOFTER than the standard classroom (the only comfortable Cycle B battlefield). A working stone fireplace at frame-left, low warm-gold flame light spilling onto a pair of leather armchairs angled toward each other across a low coffee-table card table. Wooden bookshelves line the back wall, leather-bound spines warm and worn. A tall arched window at frame-right shows late evening sky going dusk-blue. The institutional Mechronis blue palette is muted here — the dominant tone is wood-brown and warm-gold firelight rather than the classroom's blue-grey. A small Mechronis crest carved into the fireplace mantel, tasteful, unreadable at this scale. Two small reading lamps on side tables beside the armchairs, both lit, casting their own warm pools. The composition centers the empty coffee-table-card-table; the upper two-thirds hold the wood-paneled wall and bookshelves, the lower third is the rug. NO PEOPLE in the base still. This is the only Cycle B space where the player should feel that someone might invite them to stay for tea after the match.
+
+### Cycle C
+- **`bf_nexon_command_bunker`** (§22.1.4 / §13.3) — Wide establishing shot of a Battle-of-Nexon forward command bunker — the first non-schoolyard, non-academy battlefield in Act 1. Institutional green-grey military lighting from low-mounted overhead bulbs casting cool-grey wash. Reinforced concrete walls. A large central viewing window at the back of the frame shows the Nexon battlefield outside: rust-orange #e06a1a vortex clouds in a sky going to evening, distant muzzle-flashes (low-opacity, far below the horizon line), columns of black smoke rising. Pre-war Warlord propaganda banners hang on the side walls — institutional, not theatrical, deliberately worn. Center-foreground: a single sturdy regulation card table, military issue, no benches (combatants stand). A few stacked ammunition crates pushed against the side walls. NO PEOPLE in the base still. The cool-grey interior + warm rust-orange exterior through the window is the canonical palette tension; the warm gold of vortex-sky should rim-light the bunker walls subtly. Faint smoke ambient inside the bunker. The composition should feel like a place where a child should not be, even though canonically Vernon Vortex is a child here.
+- **`bf_zenon_field_tent`** (§22.1.5 / §14.3) — Wide establishing shot of a Zenon warzone forward command tent — canvas walls (faded olive-drab military issue), a single low table at center-foreground lit by a hanging brass camp lantern that pools warm-gold light only across the center of the composition; the canvas walls and corners recede into deep shadow. The lantern's pool catches the table edges and a few inches of the floor; everything else is implied. AMBIENT SOUND CUE rendered visually: faint dust hanging in the lantern's beam, suggestive of distant artillery vibration. The canvas flap at frame-right is partially open, showing a sliver of the Zenon battlefield beyond — rust-orange smoke, a single distant muzzle-flash low in the frame. NO PEOPLE in the base still.
+- **`bf_vortex_pressurized_bay`** (§22.1 / §2.12 / §15.6) — Wide establishing shot of the Engineer's transference room aboard the Collector's flagship VORTEX — a small pressurized equipment bay off the main cargo deck. Approximate 6m × 5m, low ceiling. Metal walls, bolted seams, industrial pipework along the upper edges. A single overhead work-lamp at center-ceiling casts hard down-shadow on a hexagonal equipment crate the Engineer has cleared and aligned to use as a card table. NO chair on the player POV side; the Engineer plays standing. Opposite side of the table: a single steel utility chair (Agent Zero's seat, currently empty in the base still). On the table beside the play surface: a matte-black palm-sized cube — the Resurrection Protocols device — with a single recessed stud and a dark LED. Beside it, a thin steel water flask. CANONICAL DETAIL on the back wall: SIX explosive charges, evenly spaced, each with a small red countdown LED — the LEDs are the only red light in the frame. The charges must be visible in the wide shot; the player should understand the room is going to detonate regardless. Cool-grey industrial palette overall, single warm-gold work-lamp pool, six red countdown pinpoints. NO PEOPLE in the base still.
+- **`bf_newbabylon_tribunal`** (§22.1 / §2.13 / §16.6) — Wide establishing shot of the New Babylon Tribunal chamber — a vertically-proportioned space, approximately 24m × 18m, ceiling 12m high. The composition is COURTROOM-AS-LITURGY. Center-foreground: a single plain wooden chair on a polished black-stone floor (faintly grey-veined), the defendant's chair, illuminated from above by a clinical 4500K down-light shaft (forensic, not theatrical — production must resist making it beautiful). Center-rear: a raised dark-walnut bench 1.2m above the trial floor, approximately 6m wide, currently empty in the base still. On the right end of the bench: a single brass scale of justice (small, ceremonial). At Wayne's-left position on the bench: a face-down evidence stack. At Wayne's-right position: a blank parchment verdict scroll, unsealed. ON THE REAR WALL ABOVE THE BENCH: SIX crystal coffins mounted in a horizontal row, each ~2.4m tall × 1m wide × 0.8m deep, equally spaced, glowing faintly warm-amber from within with a slow 0.3 Hz pulse — the institutional heartbeat. Each coffin's interior is faintly visible: an Authority elder in stasis, robed in burgundy, eyes closed, hands folded; render the elders as soft-focus presence rather than sharp portraits. The 200-seat gallery on the side walls is EMPTY (canonical — Authority deemed the case too sensitive for public witnessing). Tall iron-bound chamber doors at frame-back-right, closed. Two soft-silhouette burgundy-uniformed Authority guards at parade rest in front of the doors (visible only at this widest framing). Palette: deep burgundy #6b1d2c on the bench undertone and guards' uniforms, warm-amber #d9a66a from the coffins, clinical 4500K white from the chair down-light, polished black-stone reflectivity on the floor. NO PEOPLE on the bench or in the chair in the base still — these are rendered as separate cutscene layers.
+
+### Finale
+- **`bf_ark_archives_dimmed`** (§22.1 / §18.2) — Wide establishing shot of the Ark Archives central chamber — same architectural space as the Prelude Bible §4.2 establishing reference (production must match the obsidian-black plinth, the chamber dimensions, the sweep of the surrounding archive shelves), but lighting dimmed to approximately 40% of Prelude-standard Archives illumination to match the post-Last-Words tonal register. The chamber recedes into soft darkness on all sides; only the central pedestal is fully lit. The pedestal: a short obsidian-black stone plinth, waist-height, flat top, with a faint inscribed geometric pattern on the upper surface (registers only on close-up). On top of the plinth: a single blank Dischordia card, glowing faintly warm-gold from within (subtle bloom, 0.2Hz pulse, just enough to draw the eye from the chamber threshold ~15m away). Player POV is from the entrance threshold facing the pedestal. Footstep echo implied by polished obsidian floor reflectivity. NO PEOPLE in the base still — the player avatar is rendered as a separate cutscene layer per the §18 interaction flow. Faint warm-gold ambient particles drift slowly upward from the pedestal — the canonical Witnessing-chorus visual cue planted in §17 frame 14 returns subtly here.
+
+## 8.5 Card arts (14 · 1024×1024) — Cycle A unlocks
+
+### `card_art_countermelody` (A1 unlock · Common Neutral)
+
+> Square card-art composition (1024×1024). A single tuning fork in the center of the frame, struck and vibrating — the vibration rendered as a faint soft halo of sound-wave concentric rings emanating outward. Brass body with warm-gold reflectivity, sitting upright on a worn dark-wood surface (the Celebration schoolyard card table). Background: out-of-focus warm-gold afternoon Day-10 schoolyard light, faint pink-gold parade banner bokeh. The fork's tone is canonically the OPPOSITE of Minnie's viral chant — render the sound rings as a quiet, organized, single-frequency wave (contrast with chaotic). NO PEOPLE. Lower-third of the frame is the worn wood surface, leaving room for the card's name banner. Faint film-grain sepia. The card is a Common Neutral; the composition should feel modest and earnest.
+
+### `card_art_jar_wouldnt_close` (A2 unlock · Rare Light)
+
+> Square card-art composition (1024×1024). An amber glass jar — Corey's jar from §2.3 — center-frame, lid askew (NOT closed), a single warm-gold light beam escaping upward through the gap between lid and rim. The light beam carries a few small translucent coin-shapes drifting upward and out, each with a faint defocused face on its surface. The jar itself is half-full of similar coins, nestled at the bottom and giving off their own subdued amber inner-glow. The lid hovers approximately 1cm above the rim, frozen in the act of failing to seal. Background: out-of-focus 4:30 PM Day-20 schoolyard light, deeper amber than A1. The jar sits on the same worn dark-wood surface. Lower third clean for the card-name banner. The card is Rare Light; the visual hinge is the LID FAILING — Corey's jar canonically wouldn't close, and the spilled-light is the player's attention escaping back to them.
+
+### `card_art_first_card` (A3 unlock · Epic Light)
+
+> Square card-art composition (1024×1024). A single small folded paper card, blank on both sides, held in the warm-lit palm of a child's hand at center-frame (the Engineer's seven-year-old hand from the §5.4 graduation handoff). The paper has a faint warm-gold inner glow seeping through its fibers — the canonical 'three random effects on play' rendered as latent potential rather than literal symbols. Around the card: faint film-grain sepia bokeh of the graduation pavilion at 6:30 PM evening light, soft-focus pillars in the background. The hand is small but steady, fingers slightly curled to cradle the paper. NO faces. NO rendered text on the paper. The card is Epic Light; the composition's emotional register is GIFT, not reward — Kanshi Sha gives this card whether the player wins or loses, and the prompt should communicate that giving rather than that earning.
+
+## 8.6 Card arts — Cycle B unlocks (6 · 1024×1024)
+
+### `card_art_iron_stance` (B1 unlock · Rare Light)
+
+> Square card-art composition (1024×1024). A single weathered iron tower-shield planted upright in the center of the frame, dug slightly into a packed-earth surface. Brushed steel surface, dented from prior impacts, with a faint warm-gold rim-light catching the upper edge from the right of frame. NO heraldry, NO insignia — the shield is functional, not ceremonial (canonical Iron Lion: he refuses institutional symbols). Background: out-of-focus warm-gold afternoon light, suggestion of a Mechronis Academy gate (deep wood-and-iron archway) defocused at the back of the frame. The shield casts a long shadow toward the viewer. Lower third clean for the card-name banner. The card is Rare Light; the visual register is HOLD THE LINE — render the shield as if it has been here a long time and intends to stay.
+
+### `card_art_recruiters_gift` (B2 unlock · Epic Neutral)
+
+> Square card-art composition (1024×1024). A single thin braided-fiber bracelet center-frame, laid loosely on a worn dark-wood surface (the Mechronis classroom card table). The braid is in three colors: deep insurgency-yellow #eab308, warm gold, and a dark gray-blue that picks up the Mechronis uniform palette. The bracelet is canonically Kael's gift — render it as worn but cared for, slightly frayed at the closure but still intact. Behind it on the table: a half-finished Dischordia card face-down, its back showing faint warm-gold trim. Background: out-of-focus warm-gold afternoon Mechronis classroom light, soft window-shaft from the left. NO HANDS in this composition — the bracelet is offered, awaiting acceptance. Lower third clean for the card-name banner. The card is Epic Neutral; the visual register is THE OFFER — quiet, without ceremony.
+
+### `card_art_weapon_i_didnt_build` (B3 unlock · Legendary Dark)
+
+> Square card-art composition (1024×1024). A pair of EMPTY hands at center-frame, palms turned up and slightly cupped, as if recently holding something that is no longer there. The hands are the Engineer's adult hands (worn, calloused, faint scar between the thumb and forefinger of the right hand — canonical match to §2.1.2 reference). NO weapon visible. The faint silhouette of an absent shape — vague, sword-like or stance-like — hovers in the empty palm-space, rendered as a thin outline of cool-grey light, almost a memory. Background: out-of-focus institutional Mechronis blue-gray, single warm-gold shaft cutting diagonally across the upper frame from off-frame-right. Lower third clean for the card-name banner. The card is Legendary Dark; the visual register is the CANONICAL ABSENCE — what the Engineer is holding is the choice he didn't make about Agent Zero. Render the absence with weight, not with melancholy.
+
+### `card_art_memorized_page` (B4 unlock · Epic Dark)
+
+> Square card-art composition (1024×1024). A single torn page from a textbook, center-frame, lying flat on a dark wooden desk. The page's surface is BLANK — the canonical 'memorized page' is what's been removed, not what's printed. Faint impressions of erased text remain (graphite shadow, illegible). A single fingerprint smudge in the upper-left corner of the page. Beside the page: a small circular pale-blue Watcher sigil ~1cm, drawn in pencil, visually identical to the sigil on Young Eyes's wrist (§2.8 portrait cross-reference). Background: out-of-focus dark Mechronis fourth-year classroom under desk-lamp pool, single warm-yellow glow at the edge of the frame. Lower third clean for the card-name banner. The card is Epic Dark; the visual register is SURVEILLANCE-AS-INHERITANCE — the player gets this card because Young Eyes left it for them.
+
+### `card_art_classmates_compass` (B5 win unlock · Legendary Light)
+
+> Square card-art composition (1024×1024). A small brass pocket compass center-frame, open and resting on a worn dark-wood surface (the senior common room coffee table). The compass face is canonical: the needle is NOT pointing north — it points slightly off-axis, toward the upper-right of the composition. The brass case has a single small engraved mark (no rendered text — abstract geometric, suggesting a younger Human's monogram). The needle catches a thin warm-gold reflection from off-frame-right (firelight). Background: out-of-focus fireplace warmth, leather armchair leg in soft focus at the back of the frame. Lower third clean for the card-name banner. The card is Legendary Light; the visual register is DIRECTION-AS-GIFT.
+
+### `card_art_only_reason_i_stayed` (B5 loss unlock · Legendary Dark)
+
+> Square card-art composition (1024×1024). The same Mechronis senior common-room setting as the Compass card, but EMPTY — a single leather armchair angled toward the fireplace, a low coffee-table-card-table in front of it with a Dischordia deck face-down on the surface. NO compass on this table; NO second armchair partner. The fireplace burns down to embers — warmer red-orange tones, softer light pool than the Compass card. Faint sepia film-grain heavier than other Cycle B cards. Background: bookshelves softly out-of-focus, a window at frame-right showing dusk-blue night beyond. Lower third clean for the card-name banner. The card is Legendary Dark; the visual register is the CANONICAL ABSENCE of the Human — the Engineer stayed for the conversation that didn't happen.
+
+## 8.7 Card arts — Cycle C unlocks + Memory Card (5 · 1024×1024)
+
+### `card_art_standstill` (C1 · Epic Light)
+
+> Square card-art composition (1024×1024). A single hourglass center-frame, but the sand is FROZEN MID-FALL — a thin column of grain suspended between the upper and lower bulbs, neither falling nor settling. The brass frame shows wear. Behind the hourglass: out-of-focus rust-orange #e06a1a Vortex sky from the Nexon battlefield, low muzzle-flash light at the bottom of the frame, but the immediate space around the hourglass holds a small bubble of warm-gold neutral light — the canonical 'one turn delay' rendered as physics-paused-locally. Lower third clean for the card-name banner. The card is Epic Light; the visual register is the WORLD HOLDING ITS BREATH.
+
+### `card_art_converter` (C2 · Legendary Dark)
+
+> Square card-art composition (1024×1024). A single soldier's helmet center-frame, lying on its side on a dusty Zenon battlefield surface. The helmet is HALF Insurgency mustard-yellow #eab308 (the side facing the viewer, with a faded Insurgency medic patch visible on the shell), and HALF Warlord black-gunmetal #1a1410 (the side facing away). The helmet's interior shows the canonical seam between the two — a thin line of cool-blue #3b82f6 light tracing the conversion edge (intentional rhyme with Wanda's optic-rings, plants the swarm-and-cyborg connection). Background: out-of-focus Zenon battlefield smoke, distant rust-orange muzzle-flash low in the frame. Lower third clean for the card-name banner. The card is Legendary Dark; render with care, not with menace.
+
+### `card_art_friend_i_saved` (C3 · Mythic Light)
+
+> Square card-art composition (1024×1024). The Engineer's right hand center-frame, palm-up, fingers slightly curled. A single silver-mercury droplet rests in the center of his palm, perfectly spherical, catching the warm-gold work-lamp light from above. The droplet is canonically a small piece of the Warlord's nano-swarm — render as brushed-mercury #a8aab2 with a faint cool-blue #3b82f6 specular highlight on its surface (the swarm's signature palette inversion: warm light enters silver, leaves cool-blue). Background: out-of-focus warm-gold light from the Vortex bay's overhead work-lamp, with the bokeh of the Resurrection Protocols' status LED visible as a soft small blue point in the upper-right of the frame. NO faces. The hand is the entire image. Lower third clean for the card-name banner — but reserve a small space for the procedural N-score flavor text (per §2.12, the flavor text varies by C3 N-value). The card is MYTHIC LIGHT — only the second Mythic in Act 1; render the droplet as the entire emotional weight of the composition.
+
+### `card_art_last_word` (C4 · Mythic Light)
+
+> Square card-art composition (1024×1024). A single vintage broadcast microphone center-frame, mounted on a small polished black-stone surface — the canonical Tribunal-chamber-or-cell recording setup. The microphone is brass-bodied with a fine wire-mesh diaphragm; it shows a faint condensation halo around the mesh (the Engineer is breathing into it, right now). Warm-yellow Authority-spec spotlighting from above, hard down-shadow on the stone surface. Visible in soft focus behind the microphone: the unrolled Tribunal verdict scroll — partially or fully filled with ink lines depending on win/loss path; for the base still, render at half-fill so producers can composite the win/loss epigraph variant. NO faces. NO hands. The microphone is the entire subject. The card is MYTHIC LIGHT — the second of two Mythics in Act 1.
+
+### `card_art_memory_card_procedural` (apprentice permadeath · Epic Light · procedural template)
+
+> Square card-art composition (1024×1024) — PROCEDURAL TEMPLATE. The base composition is a generic apprentice portrait slot at center-frame, framed by a soft warm-gold memorial overlay (faint candle-light glow rim, fine particulate dust drifting upward, the canonical Witnessing-chorus visual cue). Producers composite the deceased apprentice's canonical portrait (from `apps/shared/apprentices.ts` generated identity) into the slot at runtime. The frame around the portrait: a thin brushed-brass border with three small notch marks at the bottom — one notch per trait that survived the player's choices (Resilience / Trust / Clarity). For the base still, render the portrait slot as a soft-focus silhouette of an apprentice-aged figure (no face details), the brass frame complete, the three notches present. Background: out-of-focus warm-gold candle-light, deep shadow at the corners. Lower third clean for the procedurally-generated apprentice name banner. The card is Epic Light; the visual register is MEMORIAL not reward. The §20.4 procedural flavor text branch appears in the lower frame, not on the art itself.
+
+---
+
+# 9. Trade Empire art prompts (70 entries)
+
+**Source:** `apps/shared/tradeEmpireArtPrompts.ts` (1,120 lines).
+**Engine:** Nano Banana 2 (Google Gemini Flash Image).
+**Composer:** `apps/scripts/generate-trade-empire-art-csv.ts`.
+**Style anchor (lines 75–76):**
+
+> Dischordian Saga house style for Nano Banana 2. Painterly digital illustration with visible brushwork at 1:1 and clean read at thumbnail scale. High-contrast low-saturation palette anchored on one hot accent colour per piece, never two. Cinematic lighting — single dominant key source, soft volumetric haze gradient across at least three depth planes, rim light only on hero silhouettes. Materials skew bio-mechanical / crystalline / wet-chrome / weathered ceramcrete; surface detail at the level of paint chips, water-staining, and honest wear. Subtle eldritch geometry suggested in negative space (rings-within-rings, recursive spirals, impossible angles) — never explicit. No on-image text, no UI chrome, no lens flares, no modern logos, no readable signage. Reference: docs/ART_DEPARTMENT_PRODUCTION.md.
+
+**Already-shipped sectors** (no re-prompt; `TRADE_EMPIRE_EXISTING_SECTOR_ART`, lines 83–90):
+
+- `free_ports` → `art/planets/planet-degens-casino.png`
+- `terminus_core` → `art/planets/planet-terminus.png`
+- `hell_gate` → `art/planets/planet-castle-of-death.png`
+- `dreamer_barrier` → `art/planets/planet-violetta.png`
+
+## 9.1 Wonders — 8 entries · 1024×1536 (lines 94–200)
+
+Each prompt below carries: `palette` · `composition` · `negativePrompt` · `priority` / `reviewGate`.
+
+### `wonder_ark_cathedral` — P0 / A
+Palette: ivory, cathedral gold, void black, one distant cold-blue rim-light.
+Composition: Vertical hero portrait of a kilometre-tall sacred starship converted into a living cathedral, suspended in deep space above a pale blue Earth-like planet. Camera: low-angle medium-wide composition at ~24mm equivalent, viewer looking up the hull's vertical spine, planetary curvature held to the lower 20% of the frame for monumental scale. Lighting: warm 3200K stained-glass interior glow leaking outward through arched bio-mechanical viewports as the dominant key, cool 6500K planetary albedo as ambient fill on the lower hull, a single distant cold-blue rim picking out the ivory spires from camera-left. Materials: weathered ivory ceramcrete, gold-leaf inlay around viewport frames, wet-chrome hull patches at the join lines, paper-thin memorial ribbons fluttering soundlessly in vacuum and fading translucent at their tails. Mid-ground: a scattered shoal of refugee skiffs drifting toward the hull, each barely a pixel wide and silhouetted pilgrim-like. Upper-left negative space holds dense black starfield with subtle ring-within-ring geometry suggested in the dust lanes. Soft volumetric choir-light halo radiating from the hull's centre. Mood: shelter, vigil, the Potentials' home.
+Negative: no humans in frame, no visible text, no lens flare, no modern sci-fi clean lines.
+
+### `wonder_red_crystal_spire` — P0 / A
+Palette: deep red, obsidian, brass highlights, one sickly green reflection.
+Composition: Vertical hero portrait of a jagged red crystalline obelisk the size of a mountain rising out of an Authority capital's megacity skyline at dusk. Camera: low-angle hero shot at ~28mm equivalent, viewer effectively at street level, the spire dominating the upper two-thirds of frame and the city compressed across the lower third. Lighting: the spire is internally lit with deep ruby refraction that stains every adjacent skyscraper's windows blood-orange across hundreds of panes; ambient sky bruise-violet at twilight; a single sickly green ground-level reflection pools from a hidden source out of frame. Materials: faceted obsidian-red crystal with internal flaws and recursive lattice glimpsed through fissures, brass armatures bracing the base, dark concrete and gold-window grids on the surrounding architecture. Mid-ground: a procession of Authority cargo freighters spiralling lazily around the spire, running lights as small rust-orange motes against the red. At the spire's base: a thin stratum of red vapour condenses on the pavement — visualised wealth, spilled. Mood: wealth as law, law as weapon.
+Negative: no flames, no explicit logos, no cartoon sparkle.
+
+### `wonder_forge_monolith` — P1 / B
+Palette: char-black, forge white, molten amber, deep teal shadows.
+Composition: Vertical hero portrait of a black basalt monolith cracked open along its centreline to expose a white-hot industrial furnace-core, taller than any surrounding shipyard scaffolding. Camera: low-angle medium-wide at ~24mm equivalent, viewer looking up the cleft so the white-hot fissure becomes a vertical light slash through the centre of frame. Lighting: blinding 5000K furnace key from inside the crack as the dominant source, deep teal shadow fill across the basalt face, molten amber rim lining the orbital robotic arms, no ambient — pure void backdrop. Materials: char-black volcanic stone with a glassy obsidian sheen, white-hot incandescent metal at the cleft, brushed-titanium robotic assembly arms, half-finished frigate hull plates in matte iron grey. Mid-ground: skeletal robotic arms in mid-weld around floating frigate hulls, sparks suspended in zero-g forming a slow constellation across the right half of frame. Foreground anchor: a single rope-like power conduit curving across the lower-left edge for scale. Distant background: a starless industrial void, no planet visible. Architect-aesthetic ritual symmetry implied in the monolith's silhouette. Mood: industrial sublime, war as craft.
+Negative: no sci-fi chrome, no people, no ad-style energy beams.
+
+### `wonder_remembrance_garden` — P1 / B
+Palette: moss green, paper-cream, slate grey, single violet floral accent.
+Composition: Vertical hero portrait of a silent grove of bioluminescent memorial trees growing out of the fractured prow of a starship half-buried in a mist-wet plain. Camera: eye-level medium-wide at ~35mm equivalent, slight tilt up so the tallest tree just clears the upper edge, mist gradient compressing depth across three planes. Lighting: cool 4500K bioluminescent moss-green key from the trees themselves as the only practical, low ambient pre-dawn slate, no rim, no fill — let the trees light themselves. Materials: weathered ship hull plating overgrown with pale moss, fine bark wrapped in lichen, paper-thin ledger-leaves with faint ink-blur where names would be (do not render legible characters), wet stone underfoot reflecting tree-glow. Mid-ground anchor: a single silhouetted kneeling figure in crew coveralls at the base of the largest tree, head bowed, no face shown. Foreground: a low ribbon of ground-mist creeping toward the lens. One violet wildflower bloom on the lower-right third — the only saturated pixel in frame. Mood: grief held, not displayed.
+Negative: no tombstones, no readable names, no visible tears.
+
+### `wonder_chronarch_lens` — P1 / B
+Palette: tarnished brass, indigo, vellum cream, one violet reflected flare.
+Composition: Vertical hero portrait of a colossal brass-and-void-glass astronomical instrument the size of a small moon, half-occluding a banded ringed gas giant. Camera: eye-level medium-wide at ~50mm equivalent for clean optical compression, lens centred so the instrument's concentric rings read as nested ellipses across the upper two-thirds. Lighting: cold reflected gas-giant light as soft 5500K key from camera-left, warm 2800K interior lamp glow from a tiny observation platform on the lens housing, a single violet-amber flare reflecting off the innermost void-glass disc. Materials: tarnished brass with green oxidation in the joins, hand-engraved Antiquarian glyphs catching catchlights along every ring's edge, smoky void-glass at the centre with a refractive depth that doesn't quite match the geometry. Mid-ground: a single Antiquarian figure in layered cream-and-indigo robes standing on the platform, scale-marker only, no face shown. Inside the lens disc: a faint impression of a fleet engagement that has not yet occurred — silhouettes only, ghosted at 20% opacity. Mood: knowledge as trespass.
+Negative: no clocks, no gears in motion blur, no modern telescope silhouettes.
+
+### `wonder_hell_gate_sigil` — P1 / B
+Palette: sigil-red, absolute black, one thin gold bar of rim-light on the nearest ship.
+Composition: Vertical hero portrait of a colossal circular warding sigil inscribed directly into the void at a Lagrange point — concentric rings of angry red glyphs holding shut a perfect black disc of nothing. Camera: dead-on frontal at ~85mm telephoto equivalent for flat geometric clarity, sigil filling roughly 70% of frame and centred slightly low-of-centre. Lighting: the sigil's red glyphs are the dominant emissive source at sigil-red 1800K, ambient void absolute black, a single thin gold rim picks out the nearest fleet hull at lower-right. Materials: glyph strokes painted as if scored into space itself with brushwork that bleeds at the edges, the central black disc rendered as sub-zero black with no texture or noise — visibly wrong. Foreground/mid-ground: a thin ring of fleet ships in respectful silhouette, holding station at distance, their running lights small and few. Pressing outward from inside the disc: faint pressure-distortions, like fingers behind cloth — described as silhouettes-without-source, not as creatures. Mood: what we keep out, barely.
+Negative: no demon faces, no fire, no pentagrams.
+
+### `wonder_immune_choir` — P1 / B
+Palette: pale white, cyan, pearl, one black spore accent.
+Composition: Vertical hero portrait of an orbital ring-station sheathed in pale white coral and translucent cyan membrane, singing — visualised as concentric pressure rings of pale light pulsing outward across the upper two-thirds of frame. Camera: medium-wide at ~35mm equivalent, low-orbit perspective so the ocean planet curves dramatically across the lower 30% of frame. Lighting: pale 6500K daylight key from off-frame upper-right, cyan internal membrane glow as secondary, soft cool-white planetary albedo as ambient fill, no rim. Materials: coral-white biomineralised hull with soft organic ridges, translucent cyan polymer membrane stretched over the ring's open spans, pearl iridescence catching highlights along the inner curve. Mid-ground action: small red-black spore-motes drift inward from the upper-left edge and dissolve at the moment they touch each pressure-ring expansion — render the dissolution as soft fade, not violence. Below: a clean turquoise ocean world with a single white cloud-band. Single black spore-mote barely visible at the upper edge — the threat. Mood: purification as lullaby.
+Negative: no medical symbols, no bio-hazard icons, no gore.
+
+### `wonder_dreamers_answer` — P1 / B
+Palette: nebula violet, warm amber fleet-lights, deep blue shadow, single white star-tear.
+Composition: Vertical hero portrait of the Dreamer — a colossal sleeping presence rendered only as the curve of a shoulder and the side of a face — half-revealed inside a violet nebula across the upper three-quarters of frame. Camera: cinematic medium-wide at ~50mm equivalent, viewer positioned far enough that her partial face is recognisable as face-shape only, never explicit. Lighting: cold nebula-violet ambient as primary, warm 2700K amber fleet running-lights as the only practical sources at small scale, one single white star-tear point pulled to high luminosity at frame-centre as the literal accent. Materials: nebula gas-cloud rendered in soft impasto brushwork, the Dreamer's skin treated as star-field-overlaid translucency where the curvature meets vacuum, fleet ships as small disc highlights with warm halos. Mid-ground: a lattice of warm fleet-light pinpricks arrayed in a curved protective shell across the lower-third of frame, every light a ship. Lower-left: a single tear-shape of starlight descending slowly between two distant galaxy spirals. Eyes closed, lashes implied, expression unreadable. Mood: reprieve, not victory.
+Negative: no face fully shown, no religious iconography, no readable text.
+
+## 9.2 Era banners — 5 entries · 1792×768 (lines 202–273)
+
+- **`era_first_light`** — P0/A — palette: dawn amber, soot-black, one pale blue star. Ultra-wide cinematic establishing shot, anamorphic 21:9, of a single pre-warp colony fleet drifting away from the fractured silhouette of a home-world. Camera: locked-off horizon at ~50mm equivalent, eye-level. Lighting: amber 2400K dawn key bleeding through dense atmospheric haze, deep soot-black shadow on the left third, one pale-blue 8000K star pinpoint upper-right. Composition: rule-of-thirds — left third dominated by the ruined planet's broken curve in heavy silhouette, mid-third open atmospheric dark with the fleet drifting through it, right third opens into a wide hopeful expanse with a single navigation beacon flare. Foreground: a thin layer of high-altitude debris drifting along the lower edge. Mood: survival dawn. Negative: no explosions, no ships with visible guns, no text.
+- **`era_ark_awakening`** — P1/B — palette: ivory, cathedral gold, deep indigo sky, one distant red flare. Ultra-wide cinematic panorama of the Ark Cathedral's hull opening and pouring warm cathedral-gold light across the surface of a pale inhabited moon. Camera: ~50mm equivalent, slight high angle. Lighting: warm 3000K cathedral-gold spill from the opened hull as the dominant key dramatically lighting the moon's daylight side, deep indigo sky as ambient fill, a single distant red 1500K flare pricking the horizon at the right-third line — small enough to be missable, deliberate enough to foreshadow. Materials: ivory ceramcrete with golden-leaf seams freshly catching light, dusty pale lunar regolith. Mid-ground: small refugee skiffs in silhouette tracking toward the Ark in a loose pilgrim-line. Mood: gathering. Negative: no weaponry, no crowds of faces, no text.
+- **`era_sector_lord`** — P1/B — palette: brass, warm amber, leather-brown, one cold cyan holographic accent. Ultra-wide hero shot of a young empire's star-map war-table viewed from above-and-to-the-side at ~35mm equivalent. Lighting: warm 2700K leather-amber room ambient as base, holographic amber 3500K projection volumetrically lighting up from the table, one cold 6000K cyan holographic accent on a single highlighted sector token. Materials: brushed brass tabletop with engraved coordinate grids, leather chair-backs in deep oxblood, holographic sector tokens as semi-transparent amber discs, gauntleted hand in dark armoured leather reaching from right edge. Foreground anchor: a half-empty cup of dark liquid on the lower-left for human scale. Mood: deliberate ascent. Negative: no player-character face, no readable glyphs, no modern UI chrome.
+- **`era_galactic_power`** — P1/B — palette: cold steel, twilight violet, deep red in the outer corners only. Ultra-wide panorama of a fleet in crescent formation arrayed over a populated planet, viewed from extreme distance at ~135mm telephoto so the fleet reads as a clean geometric arc of small steel-cold motes. Lighting: cold 5800K twilight key from upper-right, deep twilight-violet ambient across the upper two-thirds, deep red 1800K bleeding in only at the outermost left and right corners — the edges of the frame are quietly turning. Composition: planet's curved horizon tracks the lower-third line, the fleet crescent arching across centre at mid-height, vast empty sky in the upper third. Materials: planet surface rendered as soft city-light constellations across the night side, fleet ships as flat hard silhouettes against the brighter day-side limb. No individual ship reads above 4px wide. Mood: dominion, but the sky is turning. Negative: no battle in progress, no muzzle-flashes, no text overlay.
+- **`era_cosmic_convergence`** — P1/B — palette: blood-red, absolute black, one single point of pure white where the impossible shape opens. Ultra-wide panorama of the Convergence arriving at galactic scale — the entire frame bathed in a terrible blood-red corona. Camera: dead-on frontal at ~35mm equivalent, no perspective tilt. Lighting: blood-red 1600K corona radiating outward from a single point of impossible pure white at exact frame-centre, absolute black corners, no fill. Composition: dead-centred radial symmetry with a horizon-thin line of fleet silhouettes hugging the very bottom edge across the entire width, utterly dwarfed; the impossible geometry — rings-within-rings nesting into a door that is also an eye that is also a mouth — occluding the upper two-thirds. Mood: witnessed apocalypse. Negative: no recognisable demon imagery, no fire plumes, no text.
+
+## 9.3 Eldritch encounter key art — 4 entries · 1536×1152 (lines 277–334)
+
+- **`encounter_listener_static`** — P0/A — A darkened ship-bridge interior at low power. Locked tripod eye-level at ~35mm equivalent, two-degree Dutch angle. Cold 7000K CRT-green monitor glow as the only practical key, deep static-grey ambient, one pinprick of hot 1500K red on a recording indicator at lower-left. Bridge consoles, monitors, and crew silhouette occupy the left two-thirds; the right third reserved as flat negative space for UI choice-list overlay. Across every monitor screen: a single pale eye visible only as a darker static-pattern emerging from the RF noise, blinking in sync across all screens. Foreground: a coffee mug overturned on the console, contents pooled, not yet dripped. Mood: someone is already listening. Negative: no jump-scare face, no gore, no explicit text on screens.
+- **`encounter_dreamers_weeping`** — P1/B — The Dreamer's vast unfocused silhouette across a nebula-scale void. Cinematic medium-wide at ~50mm equivalent, far-field perspective. Cool nebula-purple ambient base, crystal-cyan internal glow from the falling shard-tear cascade, a single warm rose-gold rim on the nearest crystal at exact frame-centre. Left-heavy: shoulder-curve anchors upper-left quadrant, tear-path curves diagonally down-and-right from the hidden eye, falling shards trail off toward lower-mid; right third reserved as soft graduated darkness for UI overlay. Mid-shards are obviously raw Void Crystal (geometric, valuable); other shards are simply sad. Mood: grief that can be mined. Negative: no readable face, no realistic tears, no religious halos.
+- **`encounter_counted_crew`** — P1/B — A cargo-bay manifest room. ~28mm equivalent, slight low angle. Warm 2700K tungsten work-lamp upper-right, deep brown ambient right edge, one cold 6500K blue glow from the wall-mounted manifest as second source, strong chiaroscuro. Rocking chair lower-left quadrant pulled out from the table at 30°, projected manifest fills upper-left wall, right third clean for UI. The roster: every name carries two tally columns, and across all rows the right-hand column is always exactly one number higher than the left. Foreground anchor: clipboard fallen on the floor at the chair's foot, top sheet still settling. Mood: someone who was never hired is at work. Negative: no ghost figures, no readable names, no motion blur.
+- **`encounter_final_invitation`** — P1/B — A colossal obsidian-black door suspended in open space — no wall, no station, no frame, just the door. Medium-wide at ~50mm equivalent, slight upward tilt. Deep space-blue 3500K ambient base, a single warm 2400K honey-gold leak streaming out from the centre-line crack as dominant key, one ember-orange 1800K reflection catching the underside of the nearest approaching ship's hull. Obsidian door-face with wet-stone sheen, faint Antiquarian-style glyph carving in low relief — a single polite welcome glyph that reads as a complete sentence ending in a question mark. A hairline crack runs vertically down the centre, glowing honey-warm. Left-heavy: door centred on the left-third intersection occupying ~60% of frame, right third reserved as deep starfield for UI overlay. Mid-ground: a thin pilgrim-line of fleet ships approaching from lower-edge. Mood: the choice framed as hospitality. Negative: no demon mouth, no claws, no explicit text in readable script.
+
+## 9.4 Fleet doctrine banners — 4 entries · 1024×512 (lines 338–395)
+
+- **`doctrine_swarm`** — Swarm Doctrine — P1/B. Wide 2:1 horizontal tactical-poster of countless small fighter-craft moving in a sharp chevron pattern, readable as a single arrowhead shape composed of ~50 distinct dots. Telephoto compression at ~135mm equivalent. Cold 5800K daylight from upper-left, deep cobalt void as dead-flat ambient with no gradient, swarm-orange 2200K engine-trail accents catching the underside of every fighter from camera-left, one white rim picking the chevron's leading point. Carriers oversized on left and right thirds — flat broadside views pumping fighters into the central chevron. Negative space along the upper third left blank. Mood: overwhelming by number. Negative: no individual named ships, no pilot views, no text.
+- **`doctrine_iron_wall`** — Iron Wall Doctrine — P1/B. Wide wall-formation of heavy armoured cruisers locked broadside-to-broadside across the entire width, overlapping shields into a literal wall. Dead-on frontal at ~85mm telephoto, no perspective convergence. Cold 6500K planetary daylight from behind the wall as dominant rim back-lighting, bastion-grey ambient, soft cyan 8000K hexagonal shield-pattern glow as secondary key flickering across the seams, one warm gold 2400K command-insignia point on the centre cruiser's bridge. Heavy armoured plating with visible weld-seams, weapons retracted, shield-grid as faint translucent hexagonal mesh. Incoming fire-flecks streaming in from frame-left, disintegrating into white-orange sparks at the shield-line. Mood: immovable promise. Negative: no fire or explosion effects beyond sparks, no visible crew, no text.
+- **`doctrine_archon_formation`** — Archon Formation — P1/B. Three identical Architect battle-dreadnoughts locked in a perfect geometric triangle formation, surrounded by twelve smaller frigate escorts in mathematically precise concentric orbits. High-angle three-quarter overhead at ~50mm equivalent so the triangle reads as a flat geometric shape. Cold 5500K daylight key from directly above, absolute black ambient, blood-red 1800K rim trim on every hull edge, one violet 4500K navigation flare burning steadily on the lead ship's prow. Bone-white ceramcrete hulls with crisp red-black geometric trim. Background: flat dark void with a single dimly-lit ringed planet held to the lower-right third for asymmetrical relief. Mood: order as doctrine. Negative: no asymmetry, no organic curves, no human figures.
+- **`doctrine_antiquarian_tempo`** — Antiquarian Tempo — P1/B. Small elegant fleet of five ships mid-manoeuvre around a brass astrolabe-style superstructure floating free in space. Medium telephoto at ~85mm equivalent, slight high angle. Warm 2900K reflected brass key bouncing off the astrolabe rings, indigo void ambient, single pale violet 4500K accent picking out the longest glyph-etched seam. Ship hulls in brushed brass and vellum-cream with deeply etched Antiquarian glyphs along every seam, light-trails as soft watercolour ribbons. Mood: war as composition. Negative: no visible weapons firing, no humans, no explicit sheet music on hulls.
+
+## 9.5 Fleet unit silhouettes — 6 entries · 512×512 (lines 404–477)
+
+Shared negative: "no background, no motion blur, no pilot figures, no UI overlays, no text on hull". Each token portrait: 3/4 hero view on transparent background, 50mm flat camera, 15° elevated angle, hull centred with tight margins for 64px legibility, single flat key from upper-front-left, no rim, no fill — silhouette must read first.
+
+- **`fleet_scout`** — matte grey, cyan running-light. Slim dart-shaped recon skimmer: knife-thin fuselage, twin sharply-swept wings, oversized clear sensor-dome at the nose dwarfing the cockpit. One cyan running-light pinpoint on the dome's underside. Mood: eye.
+- **`fleet_trader`** — matte grey, mustard-yellow cargo-seal stripe. Blocky rounded civilian freighter: rounded utility hull with modular cargo pods slung in a row under the spine, two stubby low-thrust engine nacelles aft, small civilian bridge bubble forward, no weapons. One mustard-yellow cargo-seal stripe wrapping the central cargo-pod. Mood: utility.
+- **`fleet_frigate`** — matte grey, hazard-orange warning stripe at the nose. Narrow knife-hulled frigate: long knife-thin hull with single oversized rail-gun spine running the full forward dorsal length, two compact angular missile racks port and starboard amidships, single sharp-prowed bridge tower set well back. One hazard-orange stripe at the rail-gun nose tip. Mood: hunter.
+- **`fleet_cruiser`** — matte grey, blood-red heat-vent trim. Mid-size capital cruiser: squat dense hull built around a single oversized centreline battery turret rotated slightly off-axis, layered armour plating in stepped overlapping tiers along the broadside, forward bridge tower kept low and protected. Blood-red heat-vent trim glowing faintly along the engine block at stern. Mood: line-of-battle.
+- **`fleet_carrier`** — matte grey, approach-green deck-light array. Long flat-decked fleet carrier: long horizontal hull dominated by twin parallel flight-deck strips running the full length, large hangar mouths gaping open at both bow and stern, tall narrow command tower offset deliberately to starboard. Approach-green deck-light array running the centreline of both flight-deck strips. Mood: lifter.
+- **`fleet_flagship`** — matte grey, gold prow insignia. Oversized flagship command dreadnought: massive deliberate hull with heavy forward prow ram, asymmetrical multi-tiered bridge pagoda rising tall on the dorsal spine, three layered secondary gun tiers stacked along the broadside, single ceremonial banner-mast extending vertically above the highest pagoda. Single gold prow insignia glowing softly from inset relief. Mood: throne.
+
+## 9.6 Pirate raider portrait — 1 entry · 768×768
+
+- **`market_pirate_raider`** — Pirate Raider — P1/C — rust-red, soot-black, salvage-yellow warning paint, one cold blue running-light. Square 1:1 portrait of a battered bulk-carrier repainted by hand into a pirate raider, drifting parked in empty trade-lane space. Medium telephoto at ~85mm equivalent, 3/4 broadside hero view, slight low angle. Cold 4500K starfield ambient as base, no key, one cold-blue 6500K running-light pinpoint as the only practical source on the hull, deep void in the negative space — the ship looks abandoned-on-purpose. Materials: rust-red hand-rolled paint over original factory grey, soot-black smudges around the engines, salvage-yellow warning paint slapped crooked, a single garish hand-painted red-and-black raider sigil straddling two warped hull plates, weld-seams visibly crude where cargo-pod skeletons have been bolted on at the wrong angles. Foreground anchor: the pirate's own small dinghy docked at the lower side like a parasite, magnetic clamps visible. The big ship's engines are cold; only two of its many running lights are lit. Mood: rudeness as business model. Negative: no human face, no skull-and-crossbones cliché, no explosions.
+
+## 9.7 Civic policy icons — 9 entries · 256×256 (lines 505–623)
+
+Shared base: flat dark-slate background, heraldic emblem icon, dead-on flat at 50mm equivalent, glyph occupying ~70% of inner frame area, must read at 32px without colour.
+
+- **`civic_doctrine_iron_lion`** — military-red accent — A roaring lion's head fused at the lower jaw into a clenched iron gauntlet, the two forms reading as one continuous silhouette. One military-red 1800K rim catching the gauntlet's knuckle ridge. Style: crude defiance, not polished heraldry.
+- **`civic_doctrine_nomad`** — warm amber accent — A compass rose with eight arms, but the north arm is replaced by a single curved bird's feather subtly offset from true-vertical by a few degrees. Style: quiet evasion.
+- **`civic_doctrine_archon`** — bone-white and red-black accent — A perfect equilateral triangle bisected by a horizontal centre-line, with a smaller inverted equilateral triangle inscribed precisely within the lower half. Style: ritual cold. Edges crisp to the pixel.
+- **`civic_economy_free_ports`** — brass with one cyan port-light at centre — Three classic ship's anchors interlocked at their flukes in a perfectly rotational triskele pattern. Cyan 6500K port-light glow at exact centre. Style: merchant solidarity.
+- **`civic_economy_authority_tithe`** — Authority-red and brass accent — A stylised flat-rendered red hand, palm-up, fingers slightly curled, holding out a single round brass coin; thin chain extends from the wrist downward and exits the lower-right edge. Style: heraldic, taxational — the chain's exit-from-frame implies the rest of it is held by someone you can't see.
+- **`civic_economy_antiquarian_ledger`** — brass and vellum, one indigo ink accent — An open hardbound ledger viewed from directly above, displaying a single inked sigil that crosses the centre-spine and extends across both pages so the book is visibly impossible to close without folding the sigil. Style: archival, ominous.
+- **`civic_order_council`** — indigo with one cold-white highlight on the empty seat — Six small filled indigo circles arranged in a perfect hexagonal ring around a seventh hollow circle at exact centre, the centre circle distinctly empty. One cold-white 8000K rim picking the inner edge of the empty centre — drawing the eye to the missing seat. Style: order through absence.
+- **`civic_order_panopticon`** — violet with one red pupil-prick — A single perfectly circular lidless eye at exact frame-centre, surrounded by three concentric circular rings nested at progressively larger radii — recursive concentric surveillance. Style: panoptic — the recursive nesting must register as more rings than feel comfortable.
+- **`civic_order_remembrance`** — indigo-black with one warm amber flame — A small simple memorial candle held vertically, the flame above shaped not as a teardrop but as a single flowing calligraphic glyph that reads as a written name — abstracted enough to remain unreadable, specific enough that the brain insists it is a word. Warm 1800K amber flame-glow as the only saturated source. Style: remembrance.
+
+## 9.8 Sector paintings — 33 entries · 1536×1024
+
+**Shared negative:** "no named characters identifiably shown, no UI overlay, no readable signage, no modern branding, no on-image text".
+
+### Tier A — 15 rich prompts (faction capitals / contested hubs / convergence-relevant anomalies)
+
+- **`sector_trade_nexus`** — Authority red, brass, deep city-blue. A seething Authority-controlled commercial megastation hanging in close orbit above a calm blue-banded planet. ~35mm equivalent, eye-level horizon-locked. Warm 2800K Authority-red practicals lining every dock, deep cobalt city-blue ambient from the planet below, brass 4500K reflections. Three depth planes — foreground freighters in sharp silhouette, mid-ground station body in full saturation, background planet softened by orbital haze. Mid-ground narrative: one freighter visibly stalled at a dock with two surveillance drones converged on it. Mood: commerce as observation.
+- **`sector_new_babylon_core`** — deep indigo, Authority red, window-gold. New Babylon ecumenopolis city-planet at night, viewed from low orbit. ~28mm equivalent, slight downward tilt. Deep indigo 5000K night-sky ambient, billions of warm 2400K window-gold city-light pinpricks, six small but unmistakable Authority-red 1800K crystalline pulses synchronised in perfect rhythm from a single central spire — the coffined minds breathing in time. Subtle nebula-bands suggesting eldritch geometry in their dust patterns. Mood: capital that breathes for someone else.
+- **`sector_new_babylon_lower_tiers`** — soot-black, rust, neon-cyan puddle-reflection. A rain-slicked canyon street in the lowest tier of the New Babylon city-planet. Ground-level ~28mm equivalent, slight upward tilt. Heavy overcast above provides no key — instead, a forest of warm 2200K tungsten work-lamps and cyan 6500K neon shop-signs reflected on the wet pavement, one Authority-red 1800K patrol-drone running-light hanging high in the rain. Mid-ground: a single small figure huddled in a doorway, half-silhouetted, deliberately not the focus. Mood: the city's lower throat.
+- **`sector_empire_frontier`** — bone-white, red-black trim, cold grey sky. A half-rebuilt Artificial Empire border outpost on a barren planet's terminator line. ~35mm equivalent, slight high-angle three-quarter overhead. Cold 5000K daylight from low on the horizon, deep cold-grey ambient sky, soft red-black 2200K trim-glow on every drone. Bone-white ceramcrete hulls with crisp red-black geometric trim, perfect right-angle street grids cut into the surface like wounds, no organic curves anywhere. Background: distant Architect mothership in low orbit. Mid-ground: one tower three-quarters complete, surrounded by a perfectly equidistant ring of working drones. Mood: ritual reconstruction.
+- **`sector_forge_worlds`** — forge-orange, char-black, one thin cold cyan orbital ring. A forge-world from medium orbit — the planet's entire night-side glows volcanic orange. ~28mm orbital equivalent. Forge-orange 1500K incandescent emission, char-black 2000K shadow on the unlit hemisphere, one cold cyan 7000K orbital ring-light tracing the equatorial shipyard girdle. Planet surface rendered as molten-glow patchwork through black volcanic crust, equatorial shipyard ring as a continuous chain of brushed-iron platforms with active dock-arms. Mid-ground: one freshly-completed cruiser separating from a dock-arm, engines just lighting. Mood: industry without rest.
+- **`sector_panopticon_ruins`** — pale grey, rust-stain, one distant cold blue star. A shattered orbital prison complex drifting in silence. ~35mm equivalent, viewer floating outside the broken hull, looking through a torn-open wall section into the cell-grid interior. Cold-blue 7000K distant starlight from a single far star at upper-left as the only key, pale-grey 5500K ambient bouncing weakly off the metal interior, rust-orange 2000K oxidation stains. Individual cells visible as hollow geometric cubes stacked in a brutally regular grid, cell-doors floating open in zero-g, scattered detritus drifting — no bodies. One specific empty cell anchored on the centre intersection, that cell distinctly emptier than the others. Mid-ground: scattered identification tags drifting like silent confetti. Mood: silence after the experiment.
+- **`sector_viral_wastes`** — spore-black, bruise-red, diseased yellow nebula haze. A dead solar system, three planets visible across the wide frame each wrapped in writhing black-red Thought-Virus spore tendrils that arc visibly between worlds in interplanetary scale. ~200mm extreme telephoto. Diseased-yellow 2200K nebula haze as ambient, deep spore-black 1500K emission from the tendril-bands, sickly bruise-red 1800K subsurface pulse moving slowly through the tendrils. Planets rendered with atmospheres half-eaten — solid surfaces visible through gaps where the spore-mass has consumed cloud layers. Three planets evenly distributed on the lower-third line, tendrils arching between them in slow recursive curves. Mood: a system finished thinking.
+- **`sector_frontier_worlds`** — warm amber grassland, rust-scrap, big cobalt sky. A rugged independent colony on a yellow-grassland moon with a vast cobalt sky. Ground-level ~35mm equivalent, slight low angle. Warm 3500K afternoon-amber sun key from upper-right casting long horizontal shadows, cobalt 6500K sky-light, rust-orange 1800K oxidation rim catching the salvaged hull-plating. Watchtowers built from mismatched scavenged Imperial hull plating still bearing fragments of original red trim painted over with weather. Mid-ground: a single colonist on horseback riding the perimeter, scaled small. Mood: the kind of frontier that has lasted three generations.
+- **`sector_insurgency_haven`** — asteroid grey, warm ember window-light, deep void. A hidden insurgency base built inside a fractured asteroid drifting in deep void. ~50mm equivalent, slight Dutch angle of two degrees. Deep void as ambient near-black, warm 2400K interior tungsten window-light leaking out through every fractured rock-fissure, no key, no rim. No exterior signage of any kind. Mid-ground narrative: a thin docking-clamp tether retracting into the rock as the skiff departs. Mood: home, but only if you know the password.
+- **`sector_abyssal_sectors`** — oil-black, blood-veinous red, sickly violet rim. A Hierarchy-consumed region where reality itself has begun to bleed and degrade. ~35mm equivalent. Oil-black 1800K ambient base, sickly violet 4500K rim-glow, blood-veinous red 1500K pulse moving through the Blood-Weave between planets. Distant stars rendered with visible oil-paint smear-trails as if the canvas itself was wiped while still wet. Two planets connected by a cable-thick Blood-Weave artery rendered in throbbing red-black. Mid-ground: a single derelict ship snared in the Weave at the centre, hull half-dissolved. Mood: reality remembering it was painted on something.
+- **`sector_black_hole_gate`** — The Antiquarian's Gate — obsidian, brass, vellum cream, one warm amber leaking light. An anomaly that registers as a black hole but isn't — the event-horizon disc is a colossal ornate brass door floating in deep space, carved across its full surface with Antiquarian glyphs, ajar by perhaps a finger's width. Dead-on frontal at ~85mm telephoto. Cold-void ambient as near-black, no key, a single warm 2200K honey-amber light leaking through the finger-width gap. Heavy ornate brass door-face with hand-engraved Antiquarian glyph density across every panel. Mid-ground: a single tiny silhouette of an Antiquarian survey-skiff held respectfully at distance to the door's lower-right. Mood: a question that isn't asked, only opened.
+- **`sector_violetta_approach_lane`** — dreamer-violet, deep cold blue, one warm amber running-light. A corridor of space near the Dreamer's Shield, the shield itself just out of frame to the right yet washing half the composition with its colour. ~50mm equivalent. Deep cold-blue 6500K starfield ambient on the left half, dreamer-violet 4500K shield-glow saturating the right half, one warm amber 2200K civilian running-light pinpoint at the convoy's lead ship. Convoy lead ship at the right-third intersection, convoy line extending diagonally in a paused approach formation, all engines visibly cold — they are waiting. Mood: the threshold of asking permission.
+- **`sector_forward_bastion`** — The Forward's Bastion — ivory, cathedral gold, deep blue void. A Potentials-held fortress-moon bristling with defensive emplacements. ~35mm equivalent, slight three-quarter angle. Cold 6000K distant starlight ambient base, warm 3000K cathedral-gold practicals lining the fortress's main bastions, deep cold-blue 7000K void shadow on the unlit hemisphere. Ivory ceramcrete walls with gold-leaf banded reliefs, hundreds of memorial ribbons draped from the parapet edges. Mid-ground: a single small honour-guard skiff holding station off the main bastion. Mood: the fortress is also a chapel.
+- **`sector_remembrance_archive`** — The Remembrance Archive — brass, vellum, indigo mist, one violet candle in a window. An Antiquarian vault built into a sheer cliff-face on a mist-wet world. Ground-level ~35mm equivalent, slight upward tilt. Cool 6500K overcast indigo-mist ambient base, warm 2200K candle-flame practicals behind a single vellum-paned upper window, one violet 4500K candle-flame glowing in a recessed nook beside the doors. Two colossal brass vault-doors hand-engraved with thousands of names in tightly packed rows. Mid-ground: footprints visible on the wet stone steps that go up but not down. Mood: the names are heavier than the door.
+- **`sector_chronarchive_vault`** — Chronarchive Vault — brass, vellum, indigo shadow, one warm amber candle flame. An underground Antiquarian Chronarchive vault, viewed from inside near the entrance with shelves receding into darkness. Low-angle ~28mm equivalent. A single warm 1900K candle-flame held mid-shelf as the only practical light source, indigo 4500K shadow filling the receding aisles, brass 2700K reflections catching off the great chronarch ring rotating slowly overhead. Vellum-cream ledger spines bound by short brass chains to every shelf. Mid-ground: one chained ledger pulled half-out of its slot, evidence of recent reference. Mood: knowledge that does not raise its voice.
+
+### Tier B — 18 concise sector prompts (`sector_*` · all P2/D)
+
+> Full prompts in source: lines 818–1035. Summarised here; consult source for verbatim text.
+
+- `sector_ark_debris_field` — Vast drifting wreckage field of a thousand shattered Ark-ships in deep void, cold-blue nebula backlight silhouetting every wreck; one intact bow lit from within reads as a moving lantern in a graveyard. A single intact stained-glass viewport-pane drifting free. Mood: the procession of grief.
+- `sector_terminus_approach` — Dead approach-corridor pointed toward Terminus, spore-density thickening visibly left-to-right. Deep bruise-red core-glow from inside the densest spore-clouds far down-corridor. A single intact navigation buoy still pulsing slowly inside the spore-fog, decades after anyone listened. Mood: a road that finishes you mid-step.
+- `sector_research_corridor_alpha` — Sealed Dischordian-era science hab shared lab. Cool lab-white overhead panels, hologram-cyan key from central holographic diagram, warm amber notepad-light. Two arguing figures bracketing the diagram — one human in lab coat, one Quarchon-humanoid in matching but not identical kit. Mood: collaboration as polite combat.
+- `sector_research_corridor_beta` — Resonance Institute Annex (DeMagi). Tall cylindrical glass containment chambers with brass collar-mounts, internal tracer-elements as slow-rotating coloured wave-patterns (fire as braided orange, water as braided cyan). Walls papered with hand-written protocol corrections in fading indigo ink, multiple corrections layered across decades. Mood: ongoing argument with the world's basic forces.
+- `sector_research_corridor_gamma` — Quarchon dimensional-stability lab. Apparatus rendered as three nested cubes — outer brushed titanium, mid dark obsidian, inner faceted black-glass — all rotating at independent rates that visibly do not match harmonically. One violet dimensional-flicker pinpoint pulsing inside the innermost rotating cube. No windows, no doors. Mood: a room engineered for one purpose only.
+- `sector_probability_market_hub` — New Babylon Probability Market Hub trading floor at peak hours. Price-boards as horizontal LCD bands where each commodity shows three parallel future-values branching sideways like growth-rings. Traders frozen mid-gesture — mouths half-open — paused exactly between certainties. A single coffee cup floating mid-air mid-spill. Mood: the moment before commitment.
+- `sector_syndicate_route_prime` — Hidden Syndicate warp-lane bristling with bio-scanner pylons (repurposed old Empire navigation towers overgrown with chitinous bio-scanner growths). One Seven-Omicron green pass-light pinpoint on a single specific pylon. Courier skiff hull in matte black with running lights deliberately dimmed to invisibility. Mood: passage by permission.
+- `sector_command_post_iron` — Iron Lion Command Post built into a fortified mountain crag. Dusk-amber oil-lamp practicals, cold-grey daylight bleeding through narrow window. Hundreds of slender ribbon-of-the-dead in muted ribbon-gold and faded red hanging from every ceiling beam, Iron Lion sigil painted on the rear rockface but rain-faded almost to ghost. Two officers (one human, one Quarchon-humanoid). A third officer's chair pushed back, jacket draped. Mood: doctrine kept warm at low fire.
+- `sector_intelligence_exchange_nightline` — The Nightline Exchange — unmarked deep-space bar. Bar-amber pendant lamps, shadow-indigo eating most of the room, one cold cyan data-slate glow on a single tabletop. Two shadowed silhouettes hunched across that table — heads close, one passing something across. No signage anywhere. Mood: rooms whose business is not knowing what room you are in.
+- `sector_atarion_ruins` — Ancient DeMagi memory-stones half-buried in pale dust on a barren plain. Memory-stone teal subsurface glow pulsing softly from each stone visualised as thin concentric rings expanding outward. A kneeling Quarchon probability-inspector with a calibration device pressed to a stone, body language obviously embarrassed — readout visibly flat-lining. Mood: older than the people sent to study it.
+- `sector_tidewater_archive` — An underwater DeMagi archive seen through a glass observation dome at depth. Pale sea-green underwater filtered daylight. Suspended parchment-cream manuscript leaves preserved pages floating gently in pale-green tinted water, slow archival-fish drifting between shelves like curators on rounds. A frustrated Quarchon inspector tapping a useless palm-print panel on the dome. Mood: knowledge that has chosen its own depth.
+- `sector_skyforge_plateau` — Skyforge Plateau — vast floating industrial city suspended mid-cloud. Forge-orange thermal-vents along the underside, mismatched architectural styles bolted to a common skeleton — DeMagi vellum-coloured towers next to Quarchon black-glass spires. Shared signal-mast flying a DeMagi flag and a Quarchon flag side-by-side from the same crossbar — clearly grudging. Mood: grudging coexistence held aloft by industry.
+- `sector_ember_memorial` — Ember IV Memorial — colossal blackened crater where a world used to be. Forty-six rim-flames in muted amber, each tended by a dark-cloaked silhouette in identical posture, plus a Quarchon visitor standing slightly apart in a clean grey field uniform. One of the forty-six tenders has paused, head turned half toward the visitor — uncertain whether to acknowledge. Mood: forty-six small flames, exactly.
+- `sector_hidden_pureflame_cell` — The Pure Flame's Forge — hidden underground forge-chamber. Forge-red incandescent furnace mouth at the rear wall as dominant key, polished obsidian walls catching long red reflections, ancient runic symbols cut into the walls glowing hot from beneath the surface. Masked figure (Arch-Burner Vel) mid-strike. Mid-ground: a half-finished blade resting on the anvil glowing white-hot. Mood: secret craft as devotion.
+- `sector_hidden_firstpattern_cell` — The First Pattern's Lattice — hidden First Pattern cell, substrate-dwelling Architect chamber. Walls grown not built — geometric crystalline lattices in pale-white branching outward in perfect recursive Architect-doctrine pattern. Dormant construct in bone-white ceramcrete with red-black trim, both arms folded across chest in dormancy posture. One red 1800K stand-by pinlight on the construct's chest — the only thing in the room that reads alive. Mid-ground: thin crystalline tendrils visibly growing from the wall toward the construct, claiming it slowly. Mood: a thing waking on its own schedule.
+- `sector_new_atarion` — New Atarion post-fall human capital city under a weary slow dawn. Exhaustion-amber rising-sun horizon-glow, three damaged shipping-platforms visible on the skyline (one still surrounded by repair-scaffold after eleven years). Residential rooftops with hanging laundry and small kitchen-gardens, no commercial lights. One warm yellow council-lamp practical still burning in the topmost room of a single tower as the saturated accent — they have not slept. A single early bicycle moving down a long avenue, the only motion in frame. Mood: the morning of a city that is still recovering.
+- `sector_thaloria` — Thaloria — the storm-planet's sister-world, now almost unnaturally quiet. Warm dawn-peach sky-glow, soft sage-green reflected ground-light. A single modest council hall of pale parchment-cream stone, completely undefended — no walls, no turrets, no fences anywhere visible to horizon. Hierophant in cream-violet robes mid-sentence at an outdoor wooden writing desk. A single violet ink-droplet poised on the nib of the Hierophant's pen, suspended. Mood: silence that is not waiting for permission.
+- `sector_clone_collective` — The Clone Collective — city plaza of seventeen thousand identical faces, here rendered as a rhythmic crowd of identical civilian silhouettes. Every figure with the same proportions and face profile, dressed in slightly varied civilian clothes, each doing something slightly different — reading a paper, arguing with the air, tending a flowerbox, carrying groceries — variation in posture creates rhythm without breaking the identical-face read. A single turning figure with warm rose-gold rim — they alone are warm. A single child-clone among the adults, scaled for age but identical in face, holding the hand of an adult-clone — the same person at two ages. Mood: the question of which one of them said yes.
+
+## 9.9 Sector ID → asset selector (lines 1073–1117)
+
+`TRADE_EMPIRE_SECTOR_ASSET_BY_ID` resolves runtime sectorId to either a generated prompt assetId or a pre-existing CDN path. 33 sectors all resolve; the four "existing" sectors (free_ports, terminus_core, hell_gate, dreamer_barrier) point to `art/planets/*.png` paths (cf. §9 header).
+
+---
+
+# 10. DMC naming prompts (4 entries — NOT art)
+
+**Source:** `apps/shared/dmcNamingPrompts.ts` (132 lines).
+**Note:** These are *text prompts shown to the player* (Nilmorg eulogy + naming question), not art prompts. Included for completeness because the filename matches the audit query, but they do **not** produce CDN-shipped art.
+
+- **`student`** (order 1, after 3 races) — "What does a student call themselves when they are learning something they are not supposed to learn?" — flag `dmc_student_named`.
+- **`seeker`** (order 2, after 6 races) — "What does a person call themselves when they are searching for a thing they cannot yet describe?" — flag `dmc_seeker_named`.
+- **`detective`** (order 3, after 9 races) — "What does a person call themselves when they know the shape of the answer and they are hunting the proof?" — flag `dmc_detective_named`.
+- **`last`** (order 4, after 12 races) — "What does a person call themselves when they know this is the last body they will ever wear?" — flag `dmc_last_named`.
+
+---
+
+# 11. Expansion-art manifests (registry-only — no prompt text)
+
+> These files under `apps/shared/expansionArt/` are typed slug→CDN-path
+> registries for **producer-delivered** assets. They do NOT contain prompts;
+> they encode the canonical CDN paths and metadata the runtime resolves
+> via `assetUrl()`. They're catalogued here because they document
+> CDN paths and constitute the second-most-authoritative source for the
+> ship-readiness audit (after the prompt catalogs).
+
+All files live under `apps/shared/expansionArt/`. Total: 22 files, ~17K lines.
+
+| File | Lines | Contents |
+|---|---:|---|
+| `_assetManifest.ts` | — | `makeAssetManifest()` helper used by every registry. |
+| `album1Slideshows.ts` | 794 | 29 tracks · 490 frames · 3168×1344 cel-shaded anime. Source: `Album_1_Age_of_Dischordian_Logic.zip` (2026-04-28). Path: `art/slideshows/album1/T<NN>/<file>.webp`. |
+| `album2Slideshows.ts` | 575 | Album 2 slideshow registry. |
+| `album3Slideshows.ts` | 857 | Album 3 slideshow registry. |
+| `album4Slideshows.ts` | 394 | Album 4 slideshow registry. |
+| `album5Slideshows.ts` | 1160 | Album 5 slideshow registry. |
+| `chessCutscenes.data.ts` | 183 | 25 chess cutscene entries (9 tutorial + 11 ladder + 4 climb + 1 hidden). |
+| `cinematicsManifest.ts` | 574 | 24 cinematics (9 acts + 5 quarterly DLC + 6 arc cold-opens) and 21 VFX clips across 5 categories (`act_spells`, `card_flips`, `cosmetic_ceremonies`, `hierarchy_mechanics`, `dreamer_visions`). Plus expansion cutscenes aggregate. |
+| `dischordiaBaseSet.ts` | 718 | Dischordia card base-set art slugs. |
+| `expansionCutscenes.data.ts` | 444 | 67 room/event cutscenes (NEW_CUTSCENES_67.zip). |
+| `guildCutsceneVoMap.ts` | 249 | Guild cutscene VO mapping. |
+| `guildCutscenesManifest.ts` | 347 | Guild cutscene manifest. |
+| `hierarchyOfDamned.ts` | 216 | Hierarchy of the Damned art registry. |
+| `loginMemeSequence.ts` | 273 | Login meme sequence frames. |
+| `newArtInventory.data.ts` | 1863 | 1,838 producer-delivered assets across 16 top-level categories (NEW_ART_1/2/3 drops, 2026-05-12). **Slug-only inventory.** |
+| `newArtManifest.ts` | 233 | Typed per-category derivation from `newArtInventory.data.ts`. |
+| `professorSignatureCards.ts` | 107 | Professor signature card art slugs. |
+| `roomArtManifest.data.ts` | 7086 | **Largest manifest** — room art data (no prompts; CDN paths only). |
+| `roomArtManifest.ts` | 278 | Room art manifest wrapper. |
+| `roomHotspotManifest.ts` | 125 | Room hotspot slug registry. |
+| `signatureCardManifest.ts` | 152 | Signature card manifest. |
+
+**Cinematics — keyframe paths only** (no prompts in source):
+
+- `01_pack_opening` → `videos/cinematics/01_pack_opening/cinematic_01_card_pack_opening.mp4` (+6 keyframe webps)
+- `02_hierarchy_reveal` → `videos/cinematics/02_hierarchy_reveal/cinematic_02_hierarchy_reveal.mp4` (+5 keyframes)
+- `03_act1_memoir`...`09_act7_convergence` — one per act
+- `y1q1_first_charter`...`y2q1_charter_schism` — 5 quarterly DLC openers
+- `lord_kanshi_sha_antiquarian` — arc cold-open
+- `wraith_calder_syndicate_of_death`, `akai_shi_necromancers_lair`, `wolf_planet_of_the_wolf`, `lycos_path_a_reanimation`, `wolf_hunt_arc_complete`, `wolf_hunt_arc_failure` — death/rebirth cinematics
+
+Each carries a `frameLine` (single-sentence reduced-motion fallback caption) but no producer art prompt.
+
+---
+
+# 12. Production document prompt books (docs/production/**/*.md)
+
+> Heavy prose prompt books. These document producer-direction, prompt
+> language, and CDN expectations for assets delivered outside the typed
+> catalogs. Total: 47 markdown files across docs/production/. Listed
+> here with line counts; consult the source for verbatim prompts —
+> they are too long to inline in this audit (largest is 60K lines).
+
+## 12.1 Major prompt books
+
+| File | Lines | Scope |
+|---|---:|---|
+| `_PRODUCTION_FINAL.md` | 60,078 | Master production prompt book — every asset spec rolled together. |
+| `NANO_BANANA_VEO_FULL_PROMPT_BOOK.md` | 4,137 | Full Nano-Banana + Veo 3 prompt book (cards, portraits, environments). |
+| `GUILD_CUTSCENE_BIBLE.md` | 3,798 | Guild cutscene bible — per-cutscene prompts + CDN paths. |
+| `CASINO_EXPANSION_ART_BIBLE.md` | 1,623 | Casino expansion art bible. |
+| `_MISSING_ART_PROMPTS.md` | 1,149 | Backfill prompts for shipped-but-prompt-missing assets. |
+| `NANO_BANANA_VEO_FIGHT_INTRO_PROMPTS_DRAFT.md` | 798 | Fight-intro prompts (Veo). |
+| `_PRODUCTION_FINAL_PART_III_RETROFIT.md` | (large) | Retrofit prompts following _PRODUCTION_FINAL. |
+| `INCEPTION_ARK_FINAL_PRODUCTION.md` | (large) | Ark interior asset specs. |
+| `INCEPTION_ARK_FINAL_PRODUCTION_NOTES.md` | — | Companion notes. |
+| `_CHESS_CUTSCENE_PROMPTS.md` | 387 | 25 chess cutscene prompts. |
+| `CUTSCENE_SEEDANCE_PROMPTS.md` | 301 | Cutscene prompts for the Seedance variant. |
+| `_PRODUCTION_APPRENTICE_COMMONS.md` | — | Apprentice commons-room asset specs. |
+| `_PRODUCTION_ARK_ROOMS.md` | — | Ark room-by-room asset specs. |
+| `_PRODUCTION_VEHICLES.md` | — | Vehicle silhouette specs. |
+| `_PRODUCTION_HELLBOXES.md` | — | Hellbox apparatus specs. |
+| `_PRODUCTION_DESTINATIONS.md` | — | Destination art specs. |
+| `_PRODUCTION_CROSS_CUT.md` | — | Cross-cut cinematic prompts. |
+| `_PRODUCTION_CUTSCENE_PROMPTS.md` | — | Cutscene prompt book. |
+| `_PHASE_H_INGEST.md` / `_PHASE_H_HANDOFF.md` | — | Phase-H cutscene production handoff. |
+| `_ORPHAN_POSTER_VEO_BRIEF.md` | — | Veo brief for orphan posters. |
+| `dreamer-vision-veo-flashes.md` | — | Dreamer-vision Veo flashes (cf. §11 VFX dreamer_visions). |
+| `LIVING_CHARACTER_SHEET_ART_BRIEF.md` | — | LCS art brief. |
+| `MYSTERY_CLUE_BINDING_AUTHORING_SPEC.md` | — | Mystery clue art binding spec. |
+| `ENGINE_DEMO_CARDS_ART_HANDOFF.md` | — | Engine demo cards art handoff. |
+| `CHOICE_IMPACT_PRODUCER_HANDOFF.md` | — | Choice-impact producer handoff. |
+| `ACT1_TAUNTS_PIPELINE_OPS_HANDOFF.md` | — | Act-1 taunts pipeline handoff. |
+| `ACT1_NARRATIVE_STRUCTURE.md` | — | Act-1 narrative structure (some art callouts). |
+| `WRITING_AUDIT_AND_REVISIONS.md` | — | Writing audit covering art prompt revisions. |
+| `ALL_ACTS_ROADMAP.md` | — | All-acts art roadmap. |
+| `FIGHTER_LORE_CROSSREF.md` | — | Fighter portrait + lore crossref. |
+| `FIGHT_CDN_URLS.md` | — | Fight-asset CDN URLs (registry-style). |
+| `ASSET_URLS.md` | — | Canonical hero asset URLs. |
+| `CADES_SFX_PROMPTS.md` | — | SFX prompts for the Cades FPS. |
+| `CONSISTENCY_GATE.md` | — | Cross-asset consistency gate. |
+| `VOICE_OVER_BIBLE.md` | — | VO bible (not art). |
+| `GUILD_CUTSCENE_PORTAL_CHAMBER_FOLLOW_UP.md` | — | Portal chamber follow-up. |
+
+## 12.2 `docs/production/prompts/` (specialised)
+
+| File | Lines | Scope |
+|---|---:|---|
+| `cades-fps-production-prompts.md` | 1,017 | Cades FPS production prompts (asset, level, character). |
+| `puzzle-answer-book.md` | 594 | Puzzle answer book (mystery puzzles). |
+| `suno-game-music-prompts.md` | 371 | Suno music-generation prompts. |
+| `kling-omni-INDEX.md` | 132 | Kling Omni index, points to subfolders (`kling-omni-act-intros`, `kling-omni-mechanic-intros`). |
+| `slide_content.md` | 131 | Slideshow content prompts. |
+| `kling-discovery-video-prompts.md` | 122 | Kling discovery-video prompts. |
+
+## 12.3 `docs/production/acts-2-7-aaa-final/`
+
+| File | Scope |
+|---|---|
+| `ASSET_MANIFEST.md` | Acts 2-7 AAA-final asset manifest. |
+| `production_notes.md` | Production notes. |
+| `remaining_work.md` | Outstanding work tracker. |
+| `DELIVERY_NOTES.md` | Delivery notes. |
+| `character_canon_map.md` | Character canon map. |
+
+## 12.4 `docs/production/act1/`
+
+| File | Scope |
+|---|---|
+| `authority-trial-phase-mechanic.md` | Authority Trial phase-mechanic asset/prompt brief. |
+| `public-witness-ui-spec.md` | Public Witness UI spec. |
+| `seer-prophecy-mechanic.md` | Seer Prophecy mechanic art brief. |
+| `warlord-three-move-mechanic.md` | Warlord three-move mechanic. |
+| `reference/enigma-gaze-timeline.csv` | Enigma-gaze timeline reference. |
+| `reference/enigma-branch-deltas.md` | Enigma branch deltas. |
+
+## 12.5 `docs/production/act1-asset-build/`
+
+- `unified_act1_rebuild_manifest.md` — Act-1 unified asset rebuild manifest.
+
+## 12.6 `docs/production/prelude-asset-build/`
+
+- `CONVERSION_FOLLOW_UP.md` — prelude-asset conversion follow-up.
+- `UX_INTERACTION_SPEC.md` — prelude UX interaction spec.
+- `AAA_AUDIT_REPORT.md` — prelude AAA audit.
+- `manifests/asset_prompt_manifest.json` — typed JSON prompt manifest for the prelude rebuild.
+- `manifests/README.md` — manifests README.
+
+## 12.7 `docs/production/trade-empire-asset-build/`
+
+- `ART_PROMPT_DOCUMENT.md` (304 lines) — companion prompt document for the Trade Empire build (sibling to §9's typed catalog).
+- `ART_COVERAGE_AUDIT.md` — coverage audit.
+
+## 12.8 `docs/production/commission-packages/`
+
+- `README.md`
+- `p0-tranche.csv` — P0 commission tranche.
+- `acts-2-7-tranche.csv` — Acts 2-7 commission tranche.
+
+## 12.9 `docs/production/audit/`
+
+Audit tooling artefacts — `all-urls.tsv`, `cdn-liveness.tsv`,
+`per-source-status.tsv`, `path-mismatches.tsv`, `awakening-cutscene-revision-2026-05.md`,
+`chapter-intro-canon-gap-2026-05.md`, etc. Also `dead-urls/` with per-file
+dead-link reports for card definitions and shared modules. These are
+**audit outputs**, not prompts, but document path-mismatch coverage of
+shipping art.
+
+## 12.10 Other top-level prompt files
+
+- `output/suit-art-prompts.md` (10,178 lines) — generated markdown twin of §1.
+- `output/room-state-art-prompts.md` (170 lines) — generated markdown twin of §5.
+
+---
+
+# Notes, gaps, and ship-readiness observations
+
+## Prompt files that appear complete with shipped CDN paths
+
+- `suitArtPrompts.ts` — 1,080-entry generator with stable id format. Test in `apps/shared/__tests__/suitArtPrompts.test.ts` enforces coverage invariant.
+- `recurringSuitArtPrompts.ts` — Parametric 500-entry generator; rentals only.
+- `earnedLoadoutArtPrompts.ts` — 15 entries with 1:1 sibling test against `earnedLoadouts.ts`.
+- `awakeningCinematicPrompts.ts` — All 10 entries have `videoUrl` set (each step's mp4 is on CDN). Confirmed by the file's own header comment (lines 26–30).
+- `roomStateArtPrompts.ts` — 8 entries, all P0/P1.
+- `roomTierArtPrompts.ts` — 6 entries; supplementary to §F flag-driven roomStateArtPrompts.
+- `roomMediaPrompts.ts` — 26 stills + 8 videos. P2 species-exclusive rooms are present but per the header note (lines 27–31) carry no critical-path content.
+- `act1ArtPrompts.ts` — 32 entries with canonical Bible-section anchors. CSV generator wired.
+- `tradeEmpireArtPrompts.ts` — 70 entries; 4 sector slots map to existing shipped art rather than re-prompting.
+
+## Likely-incomplete / partially-tracked
+
+- **`act1ArtPrompts.ts`** declares 36 total in the header (12 portraits + 10 battlefields + 14 card arts) but only 32 are in `ACT1_ART_PROMPTS`: 12 portraits + 10 battlefields + 3+6+5 = 14 card arts. Counts match; the `slideshow_frame` category is declared in the type union but **no entries exist** in this file (lines 27–28). Could be future-tracked or moved to album*Slideshows.ts.
+- **Expansion-art manifests** are registry-only — they shipped without producer-prompt text in repo. To audit the prompts behind them you must consult `docs/production/*.md` (e.g. `NANO_BANANA_VEO_FULL_PROMPT_BOOK.md` and `_PRODUCTION_FINAL.md`).
+- **DMC naming prompts** are not art (text-only).
+- **`docs/production/_PRODUCTION_FINAL.md`** at 60,078 lines is a single monolithic prompt book; prompts inside aren't structured for programmatic extraction. If ship-readiness depends on it, consider migrating its art-prompt content into typed shared/ catalogs.
+- **`docs/production/audit/dead-urls/`** contains per-file dead-URL reports for 8 card-definition modules, indicating known broken CDN links in shipping card definitions. Cross-check with the typed art catalogs above.
+- **`docs/production/audit/path-mismatches.tsv`** suggests there are catalogued path mismatches between producer-uploaded assets and runtime references; this is the canonical place to drive ship-readiness corrections.
+
+## Cross-file invariants enforced by tests
+
+- `suitArtPrompts.test.ts` — 18 × 6 × 10 = 1,080 entries.
+- `earnedLoadoutArtPrompts.test.ts` — 1:1 with `earnedLoadouts.ts`.
+- `roomArtManifest.test.ts`, `roomHotspotManifest.test.ts`, `signatureCardManifest.test.ts` — manifest coverage tests.
+
+## Style anchors at a glance
+
+| Catalog | Anchor variable | Aesthetic |
+|---|---|---|
+| Suit | `SUIT_PREAMBLE` | Cyberpunk × steampunk sorcery, 1024×1536, 2:3, transparent alpha |
+| Earned loadout | `EARNED_LOADOUT_STYLE_ANCHOR` | Same aesthetic, 1024×1024 catalog/codex isolated |
+| Room state | `ROOM_STATE_STYLE_ANCHOR` | 1920×1080, 28mm wide-shot, Ark interior |
+| Room tier | (re-exports state anchor) | Same |
+| Room media (image) | `ROOM_MEDIA_STYLE_ANCHOR_IMAGE` | Same as room state |
+| Room media (video) | `ROOM_MEDIA_STYLE_ANCHOR_VIDEO` | 24fps, locked-camera default, no audio |
+| Act 1 | `ACT1_GLOBAL_STYLE_ANCHOR` | Warmer biographical palette, anamorphic flares, 4K |
+| Trade Empire | `TRADE_EMPIRE_STYLE_ANCHOR` | Painterly digital illustration, one accent colour, bio-mechanical/crystalline |
+| Awakening | `AWAKENING_STYLE_ANCHOR` | 16:9 loop, Ark cyberpunk × steampunk sorcery |
+| Shadow Tongue | `SHADOW_TONGUE_CORRUPTION_LAYER` | Composable overlay — unnameable indigo, 1px RGB shift, two-layer glyphs |
+
