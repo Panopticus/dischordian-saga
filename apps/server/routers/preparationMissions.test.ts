@@ -10,10 +10,11 @@ import { describe, it, expect } from "vitest";
 import { preparationMissionsRouter } from "./preparationMissions";
 
 describe("preparationMissions router shape", () => {
-  it("exposes list / start / complete procedures", () => {
+  it("exposes list / start / complete / submit procedures", () => {
     const procedures = preparationMissionsRouter._def.procedures as Record<string, unknown>;
     expect(procedures.list).toBeDefined();
     expect(procedures.start).toBeDefined();
     expect(procedures.complete).toBeDefined();
+    expect(procedures.submit).toBeDefined();
   });
 });

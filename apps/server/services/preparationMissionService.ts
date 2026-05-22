@@ -29,6 +29,14 @@ import {
   type PreparationMissionId,
   type PreparationMissionStatus,
 } from "@shared/preparationMissions/registry";
+import {
+  scoreSalvage,
+  type SalvageSubmission,
+} from "@shared/preparationMissions/missions/salvage";
+import {
+  scoreReverseTrial,
+  type ReverseTrialSubmission,
+} from "@shared/preparationMissions/missions/reverseTrial";
 
 const HUMAN_CONFESSION_WEIGHT_SCALE = 100;
 
@@ -248,4 +256,50 @@ export async function listMissionsForPlayer(userId: number) {
       status: state.missionStatus[id],
     })),
   };
+}
+
+/* ─── Mission-specific submission dispatch ─── */
+
+/**
+ * Discriminated union of submission shapes one per implemented mission.
+ * Sprints 6 + 8 add their entries here. Sprint 6 implements salvage
+ * and reverse_trial; the other three are stubbed (the dispatcher
+ * rejects them cleanly).
+ */
+export type MissionSubmission =
+  | { missionId: "salvage"; payload: SalvageSubmission }
+  | { missionId: "reverse_trial"; payload: ReverseTrialSubmission };
+
+/**
+ * Score a mission submission server-side and apply the resulting
+ * evaluation. The client never constructs a MissionEvaluation
+ * directly — that's the server's responsibility, so a malicious
+ * client can't claim `passed: true` without supplying the underlying
+ * gameplay data.
+ *
+ * Dispatches by `missionId` to the appropriate scorer module.
+ * Unknown mission ids return an error response with the player's
+ * current state unchanged.
+ */
+export async function submitMission(
+  userId: number,
+  submission: MissionSubmission,
+): Promise<CompleteMissionResult> {
+  let evaluation: MissionEvaluation;
+  switch (submission.missionId) {
+    case "salvage":
+      evaluation = scoreSalvage(submission.payload);
+      break;
+    case "reverse_trial":
+      evaluation = scoreReverseTrial(submission.payload);
+      break;
+    default: {
+      const _exhaustive: never = submission;
+      void _exhaustive;
+      const state = await loadPreparation(userId);
+      return { ok: false, reason: "mission_scorer_not_implemented", state };
+    }
+  }
+
+  return completeMission(userId, submission.missionId, evaluation);
 }
