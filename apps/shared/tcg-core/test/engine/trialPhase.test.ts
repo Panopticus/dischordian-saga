@@ -20,6 +20,7 @@ import {
 } from "../../index";
 import {
   TRIAL_TOTAL_PHASES,
+  applyTrialPlay,
   checkPhaseAdmissibility,
   phaseRuleFor,
   resolveTrialOutcome,
@@ -360,5 +361,117 @@ describe("trial mode integration", () => {
     // Default empty-deck run: zero trial balance, threshold -2 →
     // 0 >= -2 → overturn.
     expect(s.trial!.outcome).toBe("overturn");
+  });
+});
+
+/* ──────────────────────────────────────────────────────────────────── */
+/*  applyTrialPlay — authored verdict_delta is deck-craft-sensitive    */
+/*  (Sprint 8 audit absorption: registry's per-card verdict_delta      */
+/*   field is honored; the engine is no longer linear at +1 per play.) */
+/* ──────────────────────────────────────────────────────────────────── */
+
+describe("applyTrialPlay — verdict_delta authoring is honored", () => {
+  function freshState(turnNumber: number, trial: TrialState): GameState {
+    return {
+      matchId: "verdict_delta",
+      rulesVersion: "1.1.0",
+      rngState: "",
+      seed: "",
+      board: {},
+      players: [
+        {} as GameState["players"][0],
+        {} as GameState["players"][1],
+      ] as GameState["players"],
+      currentPlayer: 0,
+      turnNumber,
+      phase: "playing",
+      winner: null,
+      winReason: null,
+      triggerQueue: [],
+      actionSeq: 0,
+      nextEntityCounter: 1,
+      trial,
+      heatModifiers: [],
+    };
+  }
+
+  it("an unauthored card falls back to the +1 placeholder", () => {
+    const card = stubCard({ id: "unauthored", cardType: "spell" });
+    const state = freshState(2, freshTrial({ trialBalance: 0 }));
+    const events: import("../../types/Event").GameEvent[] = [];
+    const next = produce(state, (d) => {
+      applyTrialPlay(d, card, events);
+    });
+    expect(next.trial!.trialBalance).toBe(1);
+  });
+
+  it("an authored verdict_delta of +3 moves the balance by +3 (deck-craft positive)", () => {
+    const card: CardDefinition = {
+      ...stubCard({ id: "evidence_strong", cardType: "spell" }),
+      verdict_delta: 3,
+    };
+    const state = freshState(3, freshTrial({ trialBalance: 0 }));
+    const events: import("../../types/Event").GameEvent[] = [];
+    const next = produce(state, (d) => {
+      applyTrialPlay(d, card, events);
+    });
+    expect(next.trial!.trialBalance).toBe(3);
+  });
+
+  it("an authored verdict_delta of -2 moves the balance by -2 (deck-craft negative)", () => {
+    const card: CardDefinition = {
+      ...stubCard({ id: "evidence_weak", cardType: "spell" }),
+      verdict_delta: -2,
+    };
+    const state = freshState(3, freshTrial({ trialBalance: 0 }));
+    const events: import("../../types/Event").GameEvent[] = [];
+    const next = produce(state, (d) => {
+      applyTrialPlay(d, card, events);
+    });
+    expect(next.trial!.trialBalance).toBe(-2);
+  });
+
+  it("two cards with different authored deltas produce a meaningfully different balance than two placeholder plays", () => {
+    const placeholderState = freshState(2, freshTrial({ trialBalance: 0 }));
+    const placeholderEvents: import("../../types/Event").GameEvent[] = [];
+    const placeholderNext = produce(placeholderState, (d) => {
+      applyTrialPlay(d, stubCard({ id: "p1", cardType: "spell" }), placeholderEvents);
+      applyTrialPlay(d, stubCard({ id: "p2", cardType: "spell" }), placeholderEvents);
+    });
+
+    const authoredState = freshState(2, freshTrial({ trialBalance: 0 }));
+    const authoredEvents: import("../../types/Event").GameEvent[] = [];
+    const authoredNext = produce(authoredState, (d) => {
+      applyTrialPlay(
+        d,
+        { ...stubCard({ id: "a1", cardType: "spell" }), verdict_delta: 3 },
+        authoredEvents,
+      );
+      applyTrialPlay(
+        d,
+        { ...stubCard({ id: "a2", cardType: "spell" }), verdict_delta: -2 },
+        authoredEvents,
+      );
+    });
+
+    // Placeholder: +1 + +1 = +2. Authored: +3 + -2 = +1. The mechanic
+    // now responds to deck-craft; it's not linear at +1 per play.
+    expect(placeholderNext.trial!.trialBalance).toBe(2);
+    expect(authoredNext.trial!.trialBalance).toBe(1);
+  });
+
+  it("each play emits a trial_balance_changed event carrying the actual delta", () => {
+    const state = freshState(2, freshTrial({ trialBalance: 0 }));
+    const events: import("../../types/Event").GameEvent[] = [];
+    produce(state, (d) => {
+      applyTrialPlay(
+        d,
+        { ...stubCard({ id: "evt_test", cardType: "spell" }), verdict_delta: -3 },
+        events,
+      );
+    });
+    const ev = events.find((e) => e.type === "trial_balance_changed");
+    expect(ev).toBeDefined();
+    expect(ev && "delta" in ev ? ev.delta : null).toBe(-3);
   });
 });
