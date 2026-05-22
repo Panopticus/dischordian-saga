@@ -1697,6 +1697,28 @@ Sprint 1 expands from "foundation: existing-module audit + extensions" to absorb
 
 The audit confirms the plan is *largely* sitting on top of shipped infrastructure. The Three Clocks subsystem in particular is real and tested. The biggest gap (global_alignment_meter) is one column + one aggregator + one tRPC reader — bounded work. The smallest gaps (lycos bible, burnt-card roster expansion) are authoring tasks that ride existing pipelines.
 
+### Re-verification on Sprint 1 kickoff (2026-05-22) — three false positives
+
+A live `pnpm ship:check` at Sprint 1 kickoff revealed that **three of the audit's top-five "missing runtime" findings were already shipped** at the time of the audit. The audit agent was unable to run `ship:check` (missing `tsx`, missing `node_modules`) and inferred status from filesystem scans, which missed implementations that landed between the audit's snapshot baseline and the kickoff date:
+
+| Originally flagged | Re-verified status | Evidence |
+|---|---|---|
+| `global_alignment_meter` runtime missing | **PASS 4/4** | `pnpm ship:check` row `Global Light/Dark meter 4 4 0 PASS`. Schema (`apps/db/schema.ts:7505` — `globalAlignment` table). Server aggregator (`apps/server/services/globalAlignmentService.ts:102` — `recomputeGlobalAlignment`). tRPC reader (`apps/server/routers/globalAlignment.ts:37`). Client component (`apps/client/src/components/GlobalAlignmentMeter.tsx:40`). Shipped 2026-05-14 in commit `6ac4472`. |
+| `unlockCondition` UI surfaces missing | **PASS 9/9** | `pnpm ship:check` row `CardUnlockCondition UI surfaces 9 9 0 PASS`. |
+| `secret_act_N_revealed` writers not wired | **PASS 14/14** | `pnpm ship:check` row `Narrative→TCG flag bridge 14 14 0 PASS`. |
+
+**Confirmed-real gaps remaining**:
+
+1. **`permadead: true` flag on `resurrectionProtocols.ts`** — confirmed missing. **Closed in Sprint 1** via `apps/shared/resurrectionProtocols.ts` permadeath module: `createInMemoryPermadeathStore()`, `getPermadeathStore()`, `setPermadeathStore()`, `isProtocolRefusedFor()`. Module is no-op until the Verdict resolver writes to it at hour 72 close. Sprint 9 swaps the in-memory store for a DB-backed implementation via `setPermadeathStore()`. Test coverage: 5 new tests in `resurrectionProtocols.test.ts`.
+2. **`seasonTickService.ts` 1-min override hook** — confirmed missing. **Re-scoped**: rather than overriding the existing 5-minute season tick, Sprint 9 builds a *parallel* `nexusTrialTickService.ts` at 1-min cadence per the Server Architecture spec above. The season tick stays at 5 minutes. No Sprint 1 work needed; Sprint 9 builds a sibling service.
+3. **`lycos.md` bible missing** — confirmed missing (`apps/shared/npcs/bibles/` has all other ballot candidates but no Lycos). Authoring task, Sprint 11 dependency, filed for narrative team.
+4. **`trialPhase.ts` per-card `verdict_delta` placeholder** — confirmed via `apps/shared/tcg-core/engine/trialPhase.ts:268` (`card.verdict_delta ?? PLACEHOLDER_PLAY_DELTA`). Authoring task across the meta-relevant card pool, Sprint 8 dependency.
+5. **Witnessing router consolidation** — clarified. The two existing routers (`epochWitness.ts`, `twoWitnessesDecode.ts`) are both registered in `apps/server/routers.ts` and serve their distinct purposes well. The Sprint 1 plan called for a third "umbrella" coordinator router; on re-inspection, the right pattern is for the Nexus Trial vote-weight calculator (Sprint 10) to read from the two existing routers' services directly, not through a new coordinator. **No Sprint 1 work needed**; Sprint 10 consumes the existing services.
+
+**Sprint 1 net scope after re-verification**: one engineering deliverable (permadeath module + tests) plus the filed narrative-team task for the Lycos bible. The 8-month schedule has more slack than originally drawn. The 6-week buffer recommendation still stands, but is now genuinely a buffer rather than a contingency on absorbing audit gaps.
+
+This re-verification also surfaces a process lesson: **the codebase-audit agent's findings must be cross-checked against `pnpm ship:check`** before they inform sprint planning. Where ship:check exists (it does, comprehensively), it is the binding contract per CLAUDE.md, and filesystem inference is no substitute.
+
 ---
 
 ## Cosmetic Rewards — Commemorative, Not Grindy

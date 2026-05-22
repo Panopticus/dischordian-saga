@@ -571,3 +571,95 @@ function hashString(s: string): number {
 export function isResurrectableNpc(key: string): key is ResurrectableNpcKey {
   return (RESURRECTABLE_NPC_KEYS as readonly string[]).includes(key);
 }
+
+/* ─────────────────────────────────────────────────────────────────
+ * PERMADEATH — Nexus Trial Verdict (docs/design/NEXUS_TRIAL_PLAN.md)
+ *
+ * At the Nexus Trial Verdict (planned March 2027), two names on
+ * RESURRECTABLE_NPC_KEYS are *withheld* — the Protocol refuses to
+ * lift its pen for them. Locke is fixed canon (the Necromancer's
+ * price for banishment); the second is community-voted from a
+ * four-name ballot (Wraith Calder / The Wolf (Lycos) / Akai Shi /
+ * Vex Solène — the Vortex's price for Light's reclamation).
+ *
+ * Once an NPC is permadead, every subsequent call to the resurrection
+ * pipeline — Path A (player quest) and Path B (Necromancer auto-return)
+ * — must skip that NPC. The death is final.
+ *
+ * This module ships the **runtime infrastructure** for permadeath
+ * (Sprint 1). The actual NPCs are not flipped to permadead at
+ * module-load time; the Verdict resolver in
+ * `apps/server/services/nexusTrialService.ts` (planned Sprint 9)
+ * writes to the store at hour 72 close.
+ *
+ * The default in-memory store is fine for local dev and tests; a
+ * DB-backed store ships alongside the Nexus Trial tick service.
+ * ───────────────────────────────────────────────────────────────── */
+
+/** Why an NPC was withheld from the Protocol at the Nexus Trial. */
+export interface PermadeathReason {
+  /** Trial that fired this permadeath. */
+  trialId: string;
+  /** UTC epoch ms when the permadeath was recorded. */
+  recordedAt: number;
+  /**
+   * The Trial's two deaths are paid to different forces:
+   *   - "necromancer_price" — Locke's withholding lets Thazulok return to dormancy.
+   *   - "vortex_price" — the ballot winner's resurrection unwinds to fuel Light's Reclamation.
+   */
+  source: "necromancer_price" | "vortex_price";
+  /** The Antiquarian's closing narration line read at the Verdict cinematic. */
+  finalNarration: string;
+}
+
+/** Read/write surface for the permadeath registry. */
+export interface PermadeathStore {
+  /** True if the NPC has been withheld by a Verdict — Path A/B must skip them. */
+  isPermadead(npcKey: ResurrectableNpcKey): boolean;
+  /** Record a Verdict's withholding. Throws if the NPC is already permadead
+   *  (the Protocol does not double-record; a second call indicates a logic error). */
+  markPermadead(npcKey: ResurrectableNpcKey, reason: PermadeathReason): void;
+  /** Snapshot of all withheld NPCs, with reason. */
+  listPermadead(): readonly { npcKey: ResurrectableNpcKey; reason: PermadeathReason }[];
+}
+
+/** In-memory implementation. Suitable for tests and local dev.
+ *  Sprint 9 replaces the module-level singleton with a DB-backed store. */
+export function createInMemoryPermadeathStore(): PermadeathStore {
+  const entries = new Map<ResurrectableNpcKey, PermadeathReason>();
+  return {
+    isPermadead(npcKey) {
+      return entries.has(npcKey);
+    },
+    markPermadead(npcKey, reason) {
+      if (entries.has(npcKey)) {
+        throw new Error(
+          `Permadeath already recorded for ${npcKey}; refusing to overwrite (trial=${entries.get(npcKey)?.trialId})`,
+        );
+      }
+      entries.set(npcKey, reason);
+    },
+    listPermadead() {
+      return Array.from(entries.entries()).map(([npcKey, reason]) => ({ npcKey, reason }));
+    },
+  };
+}
+
+/** Module-level default store. Sprint 9's Verdict resolver swaps in a
+ *  DB-backed implementation via `setPermadeathStore()` at server boot. */
+let _permadeathStore: PermadeathStore = createInMemoryPermadeathStore();
+
+export function getPermadeathStore(): PermadeathStore {
+  return _permadeathStore;
+}
+
+export function setPermadeathStore(store: PermadeathStore): void {
+  _permadeathStore = store;
+}
+
+/** Convenience: is this NPC permadead per the active store?
+ *  Resurrection-pipeline callers should consult this before enqueuing
+ *  Path A or firing Path B. */
+export function isProtocolRefusedFor(npcKey: ResurrectableNpcKey): boolean {
+  return _permadeathStore.isPermadead(npcKey);
+}
