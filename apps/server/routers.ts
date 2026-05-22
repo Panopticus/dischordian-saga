@@ -119,6 +119,7 @@ import { tradeMissionsRouter } from "./routers/tradeMissions";
 import { globalAlignmentRouter } from "./routers/globalAlignment";
 import { threeClocksRouter } from "./routers/threeClocks";
 import { preparationMissionsRouter } from "./routers/preparationMissions";
+import { nexusTrialRouter } from "./routers/nexusTrial";
 import { petBattlesRouter } from "./routers/petBattles";
 import { petBreedingRouter } from "./routers/petBreeding";
 import { seedDataRouter } from "./routers/seedData";
@@ -300,6 +301,7 @@ export const appRouter = router({
   globalAlignment: globalAlignmentRouter,
   threeClocks: threeClocksRouter,
   preparationMissions: preparationMissionsRouter,
+  nexusTrial: nexusTrialRouter,
   soulStones: soulStonesRouter,
   petBattles: petBattlesRouter,
   petBreeding: petBreedingRouter,
