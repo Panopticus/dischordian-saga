@@ -117,6 +117,7 @@ import { tradeEmpireRouter } from "./routers/tradeEmpire";
 import { colonyCommerceRouter } from "./routers/colonyCommerce";
 import { tradeMissionsRouter } from "./routers/tradeMissions";
 import { globalAlignmentRouter } from "./routers/globalAlignment";
+import { threeClocksRouter } from "./routers/threeClocks";
 import { petBattlesRouter } from "./routers/petBattles";
 import { petBreedingRouter } from "./routers/petBreeding";
 import { seedDataRouter } from "./routers/seedData";
@@ -296,6 +297,7 @@ export const appRouter = router({
   colonyCommerce: colonyCommerceRouter,
   tradeMissions: tradeMissionsRouter,
   globalAlignment: globalAlignmentRouter,
+  threeClocks: threeClocksRouter,
   soulStones: soulStonesRouter,
   petBattles: petBattlesRouter,
   petBreeding: petBreedingRouter,
