@@ -120,7 +120,7 @@ export const soldier_05: CardDefinition = {
   baseStats: { power: 7, health: 7 },
   keywords: ["provoke", "frenzy", "rebirth"],
   abilities: [],
-  art: assetUrl("art/cards/class/s1_class_soldier_05.webp"),
+  art: assetUrl("art/cards/class/last_regiment_standing.webp"),
   flavorText:
     "Provoke. Frenzy. Rebirth. The last regiment standing is the one that did not know the war was officially over, and by the time anyone told them, the war unofficially was not.",
   rulesVersion: "1.1.0",

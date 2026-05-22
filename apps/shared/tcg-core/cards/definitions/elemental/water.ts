@@ -125,7 +125,7 @@ export const water_05: CardDefinition = {
       },
     },
   ],
-  art: assetUrl("art/cards/element/s1_elem_water_05.webp"),
+  art: assetUrl("art/cards/element/ocean_that_forgives.webp"),
   flavorText:
     "Drain. Dispel. On deploy, heal your general for 8. The Ocean That Forgives is a body of water big enough that the thing you are ashamed of will be smaller than a wave in it, and the wave will arrive whether or not you asked it to.",
   rulesVersion: "1.1.0",

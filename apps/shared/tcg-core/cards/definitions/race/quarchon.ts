@@ -55,7 +55,7 @@ export const quarchon_03: CardDefinition = {
   baseStats: { power: 4, health: 10 },
   keywords: ["provoke", "forcefield", "grow"],
   abilities: [],
-  art: assetUrl("art/cards/race/s1_race_quarchon_03.webp"),
+  art: assetUrl("art/cards/race/quarchon_crystal_senator.webp"),
   flavorText:
     "Provoke. Forcefield. Grow. Ten health, growing. The Crystal Senator is the Architect's only quarchon diplomat. He has been in session for 4,700 years. He has not yet finished his opening remarks.",
   rulesVersion: "1.1.0",

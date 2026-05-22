@@ -60,7 +60,7 @@ export const lord_reckoning_daughter: CardDefinition = {
       },
     },
   ],
-  art: assetUrl("art/cards/hierarchy/lord_reckoning_daughter.webp"),
+  art: assetUrl("art/cards/hierarchy/the_reckoning_daughter.webp"),
   flavorText:
     "Her arrival is the OTHER lords going quiet. The audit closes. Whatever you did was reconcilable — she would still be present otherwise.",
   rulesVersion: RULES,

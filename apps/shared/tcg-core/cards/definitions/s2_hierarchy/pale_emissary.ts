@@ -66,7 +66,7 @@ export const lord_pale_emissary: CardDefinition = {
       },
     },
   ],
-  art: assetUrl("art/cards/hierarchy/lord_pale_emissary.webp"),
+  art: assetUrl("art/cards/hierarchy/the_pale_emissary.webp"),
   flavorText:
     "The pen is offered. The pen is empty — the ink will come from you. Whether you sign or refuse, the Emissary bows.",
   rulesVersion: RULES,

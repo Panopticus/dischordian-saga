@@ -112,7 +112,7 @@ export const air_05: CardDefinition = {
       effect: { op: "draw", amount: { kind: "const", value: 3 }, who: "self" },
     },
   ],
-  art: assetUrl("art/cards/element/s1_elem_air_05.webp"),
+  art: assetUrl("art/cards/element/breath_before_language.webp"),
   flavorText:
     "Flying. Dispel. On deploy, draw 3. The Breath Before Language is the quarter-second of air you are about to use to say the thing you have not yet committed to. He is wearing it as a coat.",
   rulesVersion: "1.1.0",

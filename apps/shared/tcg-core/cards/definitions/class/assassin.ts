@@ -128,7 +128,7 @@ export const assassin_05: CardDefinition = {
       },
     },
   ],
-  art: assetUrl("art/cards/class/s1_class_assassin_05.webp"),
+  art: assetUrl("art/cards/class/akai_shi_first_apprentice.webp"),
   flavorText:
     "Backstab. Celerity. Pierce. Rush on deploy. Red Death does not train apprentices, because apprentices survive the training. This one did. She has not spoken in nine years and will not explain why.",
   rulesVersion: "1.1.0",

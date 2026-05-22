@@ -138,7 +138,7 @@ export const neyon_05: CardDefinition = {
       },
     },
   ],
-  art: assetUrl("art/cards/class/s1_class_neyon_05.webp"),
+  art: assetUrl("art/cards/class/five_schools_avatar.webp"),
   flavorText:
     "Flying. Provoke. Celerity. Backstab. Dispel. Rush on deploy. Draw 3. The Five-Schools Avatar has mastered every discipline the Archons taught and one they did not: the discipline of not admitting in conversation that they have mastered all five. They play it off. They are very good at playing it off.",
   rulesVersion: "1.1.0",

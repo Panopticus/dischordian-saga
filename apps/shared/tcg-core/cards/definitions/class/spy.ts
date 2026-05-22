@@ -160,7 +160,7 @@ export const spy_05: CardDefinition = {
       },
     },
   ],
-  art: assetUrl("art/cards/class/s1_class_spy_05.webp"),
+  art: assetUrl("art/cards/class/twelfth_archon_apprentice.webp"),
   flavorText:
     "Backstab. Stealth — 3 turns. On deploy, draw 2. The Human trained only a handful of apprentices and none of them know each other. They will not meet in the sequel. That's the point.",
   rulesVersion: "1.1.0",

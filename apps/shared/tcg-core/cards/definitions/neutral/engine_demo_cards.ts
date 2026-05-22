@@ -57,7 +57,7 @@ const cut_the_threads: CardDefinition = {
       },
     },
   ],
-  art: assetUrl("art/cards/s1_neutral_dispel_001.webp"),
+  art: assetUrl("art/cards/neutral/cut_the_threads.webp"),
   flavorText:
     "Some weaves only hold while no one is looking. Look carefully — and pull.",
   rulesVersion: "1.1.0",
@@ -97,7 +97,7 @@ const tidewall: CardDefinition = {
       },
     },
   ],
-  art: assetUrl("art/cards/s1_neutral_push_001.webp"),
+  art: assetUrl("art/cards/neutral/tidewall.webp"),
   flavorText:
     "The wall arrives a heartbeat before the wave. The wave is the wall.",
   rulesVersion: "1.1.0",
@@ -143,7 +143,7 @@ const witness_whose_time_has_come: CardDefinition = {
       },
     },
   ],
-  art: assetUrl("art/cards/s1_neutral_if_001.webp"),
+  art: assetUrl("art/cards/neutral/witness_whose_time_has_come.webp"),
   flavorText:
     "If the courtroom is loud, she will speak. If the courtroom is quiet, she will listen.",
   rulesVersion: "1.1.0",
@@ -172,7 +172,7 @@ const honor_guard: CardDefinition = {
   baseStats: { power: 2, health: 3 },
   keywords: ["zeal"],
   abilities: [],
-  art: assetUrl("art/cards/s1_neutral_zeal_001.webp"),
+  art: assetUrl("art/cards/neutral/honor_guard.webp"),
   flavorText:
     "He stands within arm's reach of the one he chose. The bond is the weapon.",
   rulesVersion: "1.1.0",
@@ -201,7 +201,7 @@ const wolfpack_initiate: CardDefinition = {
   baseStats: { power: 1, health: 2 },
   keywords: ["pack"],
   abilities: [],
-  art: assetUrl("art/cards/s1_neutral_pack_001.webp"),
+  art: assetUrl("art/cards/neutral/wolfpack_initiate.webp"),
   flavorText:
     "Alone she is a yelp. In two she is a song. In four she is the dawn.",
   rulesVersion: "1.1.0",
@@ -231,7 +231,7 @@ const phoenix_cadre: CardDefinition = {
   baseStats: { power: 4, health: 4 },
   keywords: ["resurrect"],
   abilities: [],
-  art: assetUrl("art/cards/s1_neutral_resurrect_001.webp"),
+  art: assetUrl("art/cards/neutral/phoenix_cadre.webp"),
   flavorText:
     "Killed once, the Cadre learns to die. Killed twice, the Cadre learns to stay.",
   rulesVersion: "1.1.0",
@@ -263,7 +263,7 @@ const the_reading_room: CardDefinition = {
       },
     },
   ],
-  art: assetUrl("art/cards/s1_neutral_oncardplayed_001.webp"),
+  art: assetUrl("art/cards/neutral/the_reading_room.webp"),
   flavorText:
     "Every spell cast in the room is a page added to the next book.",
   rulesVersion: "1.1.0",
@@ -301,7 +301,7 @@ const watchtowers_eye: CardDefinition = {
       },
     },
   ],
-  art: assetUrl("art/cards/s1_neutral_onmove_001.webp"),
+  art: assetUrl("art/cards/neutral/the_watchtowers_eye.webp"),
   flavorText:
     "Every step the watcher takes, the watched flinches. Every flinch counts.",
   rulesVersion: "1.1.0",
@@ -335,7 +335,7 @@ const the_hospitality_officer: CardDefinition = {
       },
     },
   ],
-  art: assetUrl("art/cards/s1_neutral_summonednear_001.webp"),
+  art: assetUrl("art/cards/neutral/the_hospitality_officer.webp"),
   flavorText:
     "She arrives at every guest's first step into the room. She makes the room feel chosen.",
   rulesVersion: "1.1.0",
@@ -359,7 +359,7 @@ const the_anchor_of_kael: CardDefinition = {
   baseStats: { power: 4, health: 8 },
   keywords: ["structure"],
   abilities: [],
-  art: assetUrl("art/cards/s1_neutral_struct_001.webp"),
+  art: assetUrl("art/cards/neutral/the_anchor_of_kael.webp"),
   flavorText:
     "Set down where Kael walked away. The Anchor remembers. The Anchor does not move.",
   rulesVersion: "1.1.0",

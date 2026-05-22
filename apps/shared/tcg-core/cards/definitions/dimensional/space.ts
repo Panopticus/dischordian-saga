@@ -67,7 +67,7 @@ export const space_03: CardDefinition = {
       },
     },
   ],
-  art: assetUrl("art/cards/dimension/s1_dim_space_03.webp"),
+  art: assetUrl("art/cards/dimension/cartographer_of_elsewhere.webp"),
   flavorText:
     "Airdrop. Celerity. Flying. Rush on deploy. The Cartographer of Elsewhere does not draw maps. He writes letters to places, and the places answer, and the answers are the maps.",
   rulesVersion: "1.1.0",

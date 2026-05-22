@@ -66,7 +66,7 @@ export const reality_03: CardDefinition = {
       effect: { op: "silence", to: { kind: "enemy_general" } },
     },
   ],
-  art: assetUrl("art/cards/dimension/s1_dim_reality_03.webp"),
+  art: assetUrl("art/cards/dimension/thing_actually_happening.webp"),
   flavorText:
     "Provoke. Dispel. Forcefield. On deploy, silence the enemy general. The Thing That Is Actually Happening is always happening, and nothing in the match will convince it otherwise, which is the definition of reality the Architect was using when he wrote the first draft.",
   rulesVersion: "1.1.0",

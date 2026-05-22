@@ -103,7 +103,7 @@ export const earth_05: CardDefinition = {
   baseStats: { power: 5, health: 14 },
   keywords: ["provoke", "forcefield", "grow"],
   abilities: [],
-  art: assetUrl("art/cards/element/s1_elem_earth_05.webp"),
+  art: assetUrl("art/cards/element/sleeping_continent.webp"),
   flavorText:
     "Provoke. Forcefield. Grow. Fourteen health. Every turn, larger. The Sleeping Continent has not yet noticed this match. When he does, it will be because the match is over.",
   rulesVersion: "1.1.0",

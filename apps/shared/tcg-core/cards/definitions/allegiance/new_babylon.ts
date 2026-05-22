@@ -54,7 +54,7 @@ export const nb_alleg_t3: CardDefinition = {
   baseStats: { power: 4, health: 4 },
   keywords: ["drain"],
   abilities: [],
-  art: assetUrl("art/cards/allegiance/s1_alleg_new_babylon_t3.webp"),
+  art: assetUrl("art/cards/allegiance/babylon_tax_collector_t3.webp"),
   flavorText:
     "Unlocked by playing 50 New Babylon matches. Drain. The tax collector takes a small amount of everything she handles, and by the end of the year she has a very reasonable amount of everything.",
   rulesVersion: "1.1.0",
@@ -118,7 +118,7 @@ export const nb_alleg_t6: CardDefinition = {
       },
     },
   ],
-  art: assetUrl("art/cards/allegiance/s1_alleg_new_babylon_t6.webp"),
+  art: assetUrl("art/cards/allegiance/babylon_champion_t6.webp"),
   flavorText:
     "Unlocked by winning 100 New Babylon matches. Provoke. Drain. Forcefield. On deploy, heal your general for 6. The New Babylon Champion is not yet Adjudicator Locke. They are the version of Locke you get when they finally put their foot down and the foot makes a sound.",
   rulesVersion: "1.1.0",
