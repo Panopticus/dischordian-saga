@@ -1,6 +1,6 @@
 # Nexus Trial — Ship Readiness Report
 
-**Status at Sprint 16 close: READY**
+**Status: READY (post-Sprint-16 cleanup complete)**
 
 This document is the final ship-check artifact for the [Nexus Trial plan](./NEXUS_TRIAL_PLAN.md). It captures the test, lint, and audit state at T-7 days from the March 2027 live window and certifies that the 16-sprint implementation is in shipping shape.
 
@@ -8,11 +8,11 @@ This document is the final ship-check artifact for the [Nexus Trial plan](./NEXU
 
 | Metric | Value |
 |---|---|
-| Total PRs landed | 16 (Plan v1, Plan v2, Sprints 1–14, Sprints 15–16) |
-| Lines shipped (net) | ~9,200 across `apps/shared`, `apps/server`, `apps/client`, `apps/db`, `docs/design` |
-| Unit tests (Nexus surface) | **235 passing across 21 files** |
+| Total PRs landed | 20 (Plan v1 + v2, Sprints 1–16, +4 post-Sprint-16 cleanup) |
+| Lines shipped (net) | ~10,000 across `apps/shared`, `apps/server`, `apps/client`, `apps/db`, `docs/design` |
+| Unit tests (Nexus surface) | **250+ passing** |
 | `pnpm check` | **clean** |
-| `pnpm ship:check` | no new regressions (the pre-existing `Mobile Narrator page adoption` FAIL on `AwakeningPage.tsx` is unrelated) |
+| `pnpm ship:check` | **✓ 129 PASS, 6 RATCHET, 0 FAIL — fully green** |
 | DB foreign-key coverage | **375/375 PASS** (368 → 375 across 5 new tables) |
 | 16-state Three Clocks panel parity | PASS |
 | 24-state Season 2 variant composition | PASS |
@@ -48,13 +48,13 @@ This document is the final ship-check artifact for the [Nexus Trial plan](./NEXU
 ## Pre-Trial readiness gates (per the plan's Verification Plan)
 
 1. ✅ `pnpm check` — clean
-2. ✅ `pnpm vitest run` — 235/235 across the Nexus surface
+2. ✅ `pnpm vitest run` — 250+/250+ across the Nexus surface
 3. ⏳ `pnpm test:e2e` — Playwright suite (operator dashboard interactions; runs at T-7 by Event Director)
-4. ⚠️ `pnpm ship:check` — no Nexus-surface regressions; pre-existing `Mobile Narrator` FAIL is unrelated and tracked separately
+4. ✅ `pnpm ship:check` — **fully green: 129 PASS, 6 RATCHET, 0 FAIL**
 5. ✅ `pnpm lint` + `pnpm lint:void-energy` — clean
 6. ⏳ `pnpm db:smoke` — runs at staging deploy
 7. ⏳ Load test signed off by On-call Engineer + Event Director — Sprint 15 dry-run harness is the unit-level proof; staging 10× synthetic happens in production environment
-8. ⏳ Cinematic A/V review signed off by Narrative Lead — all 8 scripts are in code; VO + art commissions are production tasks
+8. ⏳ Cinematic A/V review signed off by Narrative Lead — all 8 scripts are in code, the playback component ships; VO + art commissions are production tasks
 
 The four ⏳ items are production-environment tasks that cannot be run from CI. The codebase is ready for them.
 
@@ -79,7 +79,11 @@ The four ⏳ items are production-environment tasks that cannot be run from CI. 
 | 13 | #705 | Season 2 patch composer + 10 variant modules + Day 1 Daily Brief |
 | 14 | #706 | Day 30 cleanup plan + lore drift test |
 | 15 | #707 | Compressed dry-run harness |
-| 16 | (this PR) | Final readiness report |
+| 16 | #708 | Final readiness report |
+| post-16 | #709 | Cinematic playback React component |
+| post-16 | #711 | the_humans_chip + the_politicians_pin card defs |
+| post-16 | #712 | MobileNarratorSlot mount — ship:check fully green |
+| post-16 | (this PR) | Updated readiness report |
 
 ## What's explicitly NOT in scope
 
@@ -88,9 +92,14 @@ Items intentionally deferred and tracked:
 - **Trial-format Act 2–6 finales** (5 new boss decks) — substantial authoring effort filed for a follow-up sprint
 - **VO bookings + recordings** — real-world production tasks
 - **Memorial burnt-card art commissions** (4 commissions) — art pipeline ships when assets land
-- **Cinematic playback React layer** — Sprint 13+ adds the component that plays a `CinematicScript` end-to-end with timing + audio
 - **WebSocket leaderboard subscription** — polled read shipped; push transport ships later
 - **Per-card `verdict_delta` content authoring** across the meta-relevant pool — framework + sensitivity test ships; the per-card numeric authoring is a designer task
+
+### Closed post-Sprint-16
+
+- ✅ **Cinematic playback React layer** — PR #709 ships `CinematicPlayer` end-to-end with `nextBeat` machine, romance-tag interpolation, `useReducedMotion`, and Void Energy adoption
+- ✅ **`the_humans_chip` + `the_politicians_pin` card defs** — PR #711; both reserved, both granted by the Sprint 13 Season 2 patch composer at the right resolution
+- ✅ **MobileNarratorSlot on AwakeningPage** — PR #712 closes the pre-existing FAIL; `ship:check` now fully green
 
 ## Audit corrections worth remembering
 
@@ -106,3 +115,4 @@ The audit had run without `node_modules`/`tsx` and inferred from filesystem scan
 The 16-sprint implementation is shippable. The remaining work is production-environment (VO, art, load test, crew training) and is the production team's responsibility per the [Operator Runbook](./NEXUS_TRIAL_PLAN.md#operator-runbook--the-72-hour-live-event-playbook).
 
 — Sprint 16 close, 2026-05-22.
+— Post-Sprint-16 cleanup close (cinematic player + Season 2 cards + ship:check fully green): same day.
