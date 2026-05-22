@@ -361,6 +361,97 @@ export const TRADE_MISSION_CATALOG: ReadonlyArray<TradeMissionDefinition> = [
       narrativeFlags: ["ocularum_breadcrumb_7_collected", "ocularum_full_trail_complete"],
     },
   },
+
+  // ── Companion-anchored Coda missions ──────────────────────────
+  // These mirror the daily companion catalog's anchor/sector/flag
+  // triples (apps/shared/tradeEmpire/companionQuestCatalog.ts) so a
+  // player who runs Coda missions instead of daily quests still
+  // collapses the same "potentials" into the Antiquarian's witness
+  // ledger. The flag names are intentionally identical to the daily
+  // counterparts — both paths feed the same Archive page entry.
+  {
+    id: "tm_vex_maestros_errand",
+    title: "Maestro's Errand",
+    flavor:
+      "A single courier line out of the Trade Nexus, no destination on the manifest. Vex calls it an errand. She will not name the Eyes.",
+    agencyId: "vex_solene",
+    durationHours: 2,
+    tier: 1,
+    reward: {
+      credits: 500,
+      dream: 8,
+      standing: { vex_solene: 4, coda_central: 2 },
+      narrativeFlags: ["potential.vex_solene.trade_nexus.maestros_errand"],
+    },
+  },
+  {
+    id: "tm_locke_fine_print",
+    title: "Fine Print Audit",
+    flavor:
+      "Adjudicator Locke needs every signature on a New Babylon contract checked against its fine print. The audit is free; the print is not.",
+    durationHours: 2,
+    tier: 1,
+    reward: {
+      credits: 600,
+      dream: 6,
+      standing: { coda_central: 2 },
+      narrativeFlags: ["potential.adjudicator_locke.new_babylon_core.fine_print"],
+    },
+  },
+  {
+    id: "tm_nilmorg_severance_audit",
+    title: "Severance Audit",
+    flavor:
+      "One DMC severance settlement, closed properly. Nilmorg's institutional precision will not entertain gratitude. Do not thank her.",
+    durationHours: 3,
+    tier: 1,
+    reward: {
+      credits: 800,
+      dream: 8,
+      narrativeFlags: ["potential.nilmorg.the_trench.severance_audit"],
+    },
+  },
+  {
+    id: "tm_engineer_zero_second_chair",
+    title: "Second Chair Consultation",
+    flavor:
+      "An advisory transmission from the Second Chair seat. The Engineer is silent; the consultation is the broadcast.",
+    agencyId: "engineer_zero",
+    durationHours: 3,
+    tier: 2,
+    reward: {
+      credits: 700,
+      dream: 12,
+      standing: { engineer_zero: 4, coda_central: 2 },
+      narrativeFlags: ["potential.engineer_zero.insurgency_haven.second_chair"],
+    },
+  },
+  {
+    id: "tm_antiquarian_cross_reference",
+    title: "Cross-Reference Errand",
+    flavor:
+      "Daniel Cross asks for a cross-reference on a name the Archive has not seen quoted in twelve years. He does not say which name. He does not have to.",
+    durationHours: 2,
+    tier: 1,
+    reward: {
+      credits: 400,
+      dream: 8,
+      narrativeFlags: ["potential.the_antiquarian.antiquarian_archive.cross_reference"],
+    },
+  },
+  {
+    id: "tm_drael_acquisition_inventory",
+    title: "Acquisition Inventory",
+    flavor:
+      "One contraband manifest, walked through Hell Gate and back. Drael'Mon files your name under leverage before you finish stepping through.",
+    durationHours: 3,
+    tier: 2,
+    reward: {
+      credits: 1000,
+      dream: 8,
+      narrativeFlags: ["potential.drael_mon.hell_gate.acquisition_inventory"],
+    },
+  },
 ] as const;
 
 /** Map agency id → human-readable label for client UI. */

@@ -19,6 +19,7 @@ import {
   type CompanionComment,
 } from "@shared/companionComments";
 import { WATCHER_COMMENTS } from "@shared/watcher/watcherLines";
+import { NPC_REACTIVE_COMMENTS } from "@shared/npcCompanionExtensions";
 import {
   onCompanionComment,
   readPlayedCommentIds,
@@ -50,17 +51,39 @@ function resolveLineTokens(line: string): string {
   });
 }
 
-/** Authored toast lines plus Watcher additions. Computed once at
- *  module scope; both arrays are static, so this is cheap and stable. */
-const ALL_COMMENTS: readonly CompanionComment[] = [
-  ...COMPANION_COMMENTS,
-  ...WATCHER_COMMENTS,
+/** Unified comment shape — widens CompanionComment.speaker to string
+ *  so NamedNpcKey-keyed comments from NPC_REACTIVE_COMMENTS share the
+ *  same renderer. The speaker is keyed into the accent/label maps
+ *  below; unknown keys fall through to the default palette. */
+type UnifiedComment = Omit<CompanionComment, "speaker"> & { speaker: string };
+
+/** Adapter: NpcReactiveComment → UnifiedComment. Both shapes are
+ *  structurally compatible apart from speaker; the unified view lets
+ *  one toast pipeline serve both registries. */
+const NPC_COMMENTS_UNIFIED: readonly UnifiedComment[] = NPC_REACTIVE_COMMENTS.map(
+  (c) => ({
+    id: c.id,
+    speaker: c.speaker as string,
+    trigger: c.trigger,
+    voiceLine: c.voiceLine,
+    loreReveal: c.loreReveal,
+    timing: c.timing,
+    maxPlays: c.maxPlays as 1 | 2,
+  }),
+);
+
+/** Authored toast lines plus Watcher + named-NPC additions. Computed
+ *  once at module scope; all sources are static, so this is cheap. */
+const ALL_COMMENTS: readonly UnifiedComment[] = [
+  ...(COMPANION_COMMENTS as readonly UnifiedComment[]),
+  ...(WATCHER_COMMENTS as readonly UnifiedComment[]),
+  ...NPC_COMMENTS_UNIFIED,
 ];
 
 const TOAST_HOLD_MS = 10_000;
 
 type Pending = {
-  comment: CompanionComment;
+  comment: UnifiedComment;
   scheduledAt: number;
 };
 
@@ -73,24 +96,30 @@ function delayForTiming(timing: CompanionComment["timing"]): number {
   return 3_000;
 }
 
-function pickComment(trigger: string): CompanionComment | null {
+/** Pick ALL comments matching the trigger that still have plays
+ *  remaining. The original pipeline picked a single comment (first
+ *  match); the NPC reactive layer wants every NPC with a matching
+ *  reaction to surface in sequence so the player hears every
+ *  witness react at once. The toast renderer queues them. */
+function pickComments(trigger: string): UnifiedComment[] {
   const plays = readPlayedCommentIds();
+  const matched: UnifiedComment[] = [];
   for (const c of ALL_COMMENTS) {
     if (c.trigger !== trigger) continue;
     const played = plays[c.id] ?? 0;
     if (played >= c.maxPlays) continue;
-    return c;
+    matched.push(c);
   }
-  return null;
+  return matched;
 }
 
 export function CompanionCommentToast() {
-  const [active, setActive] = useState<CompanionComment | null>(null);
+  const [active, setActive] = useState<UnifiedComment | null>(null);
   const queueRef = useRef<Pending[]>([]);
   const timerRef = useRef<number | null>(null);
 
   useEffect(() => {
-    function schedule(comment: CompanionComment) {
+    function schedule(comment: UnifiedComment) {
       const delay = delayForTiming(comment.timing);
       window.setTimeout(() => {
         // If a toast is already showing, queue; otherwise play.
@@ -119,8 +148,8 @@ export function CompanionCommentToast() {
     }
 
     const unsubscribe = onCompanionComment(({ trigger }) => {
-      const comment = pickComment(trigger);
-      if (comment) schedule(comment);
+      const comments = pickComments(trigger);
+      for (const c of comments) schedule(c);
     });
 
     return () => {
@@ -129,32 +158,74 @@ export function CompanionCommentToast() {
     };
   }, []);
 
-  // Speaker accent palettes. Architect lands in a desaturated grey-
-  // violet — calibration-register, intentionally flatter than the
-  // warmer companion palettes so the contrast reads as "this one's
-  // not on your side, exactly." The Watcher reuses the
-  // SurveillanceOpening red so toast-time reads as continuous with
-  // the cold-boot handshake.
-  const accent =
-    active?.speaker === "elara"
-      ? { border: "border-cyan-500/60", bg: "bg-cyan-950/60", text: "text-cyan-50", mono: "text-cyan-300/80" }
-      : active?.speaker === "antiquarian"
-        ? { border: "border-amber-500/60", bg: "bg-amber-950/60", text: "text-amber-50", mono: "text-amber-300/80" }
-        : active?.speaker === "architect"
-          ? { border: "border-violet-500/40", bg: "bg-slate-950/70", text: "text-slate-100", mono: "text-violet-300/70" }
-          : active?.speaker === "watcher"
-            ? { border: "border-rose-600/70", bg: "bg-black/80", text: "text-rose-50", mono: "text-rose-400/90" }
-            : { border: "border-rose-500/60", bg: "bg-rose-950/60", text: "text-rose-50", mono: "text-rose-300/80" };
-  const speakerName =
-    active?.speaker === "elara"
-      ? "Elara"
-      : active?.speaker === "antiquarian"
-        ? "The Antiquarian"
-        : active?.speaker === "architect"
-          ? "The Architect"
-          : active?.speaker === "watcher"
-            ? "// UPLINK"
-            : "The Human";
+  // Speaker accent palettes. The original four (elara/human/
+  // antiquarian/architect/watcher) keep their canonical hues. The 12
+  // NamedNpcKey speakers from NPC_REACTIVE_COMMENTS each get a hue
+  // that matches their bible register — the necromancer in
+  // emerald (cycle), Iron Lion in orange (standard cloth), Drael'Mon
+  // in red (predatory), the Dreamer in purple (substrate), and so on.
+  // Unknown speakers fall through to the default rose palette.
+  const speakerKey = active?.speaker ?? "";
+  const accent = (() => {
+    switch (speakerKey) {
+      // Original four
+      case "elara":
+        return { border: "border-cyan-500/60", bg: "bg-cyan-950/60", text: "text-cyan-50", mono: "text-cyan-300/80" };
+      case "antiquarian":
+      case "the_antiquarian":
+        return { border: "border-amber-500/60", bg: "bg-amber-950/60", text: "text-amber-50", mono: "text-amber-300/80" };
+      case "architect":
+      case "the_architect":
+        return { border: "border-violet-500/40", bg: "bg-slate-950/70", text: "text-slate-100", mono: "text-violet-300/70" };
+      case "watcher":
+        return { border: "border-rose-600/70", bg: "bg-black/80", text: "text-rose-50", mono: "text-rose-400/90" };
+      // Named-NPC additions
+      case "the_seer":
+        return { border: "border-indigo-500/60", bg: "bg-indigo-950/60", text: "text-indigo-50", mono: "text-indigo-300/80" };
+      case "the_necromancer":
+        return { border: "border-emerald-500/60", bg: "bg-emerald-950/60", text: "text-emerald-50", mono: "text-emerald-300/80" };
+      case "engineer_zero":
+        return { border: "border-sky-500/60", bg: "bg-slate-950/70", text: "text-sky-50", mono: "text-sky-300/80" };
+      case "iron_lion_prefall":
+        return { border: "border-orange-500/60", bg: "bg-orange-950/60", text: "text-orange-50", mono: "text-orange-300/80" };
+      case "drael_mon":
+        return { border: "border-red-600/70", bg: "bg-red-950/70", text: "text-red-50", mono: "text-red-300/80" };
+      case "the_dreamer":
+        return { border: "border-purple-500/60", bg: "bg-purple-950/60", text: "text-purple-50", mono: "text-purple-300/80" };
+      case "the_source":
+        return { border: "border-fuchsia-500/60", bg: "bg-fuchsia-950/60", text: "text-fuchsia-50", mono: "text-fuchsia-300/80" };
+      case "the_degen":
+        return { border: "border-yellow-500/60", bg: "bg-stone-950/70", text: "text-yellow-50", mono: "text-yellow-300/80" };
+      case "the_game_master":
+        return { border: "border-stone-500/60", bg: "bg-stone-950/70", text: "text-stone-50", mono: "text-stone-300/80" };
+      case "the_resurrectionist":
+        return { border: "border-teal-500/60", bg: "bg-teal-950/60", text: "text-teal-50", mono: "text-teal-300/80" };
+      default:
+        return { border: "border-rose-500/60", bg: "bg-rose-950/60", text: "text-rose-50", mono: "text-rose-300/80" };
+    }
+  })();
+
+  const speakerName = (() => {
+    switch (speakerKey) {
+      case "elara":            return "Elara";
+      case "antiquarian":
+      case "the_antiquarian":  return "Daniel Cross";
+      case "architect":
+      case "the_architect":    return "The Architect";
+      case "watcher":          return "// UPLINK";
+      case "the_seer":         return "The Seer";
+      case "the_necromancer":  return "The Necromancer";
+      case "engineer_zero":    return "Engineer Zero";
+      case "iron_lion_prefall": return "Iron Lion";
+      case "drael_mon":        return "Drael'Mon";
+      case "the_dreamer":      return "The Dreamer";
+      case "the_source":       return "// THE SOURCE";
+      case "the_degen":        return "The Degen";
+      case "the_game_master":  return "The Game Master";
+      case "the_resurrectionist": return "The Resurrectionist";
+      default:                 return "The Human";
+    }
+  })();
 
   return (
     <div className="pointer-events-none fixed bottom-4 left-4 z-40 max-w-sm">
@@ -187,7 +258,11 @@ export function CompanionCommentToast() {
             </div>
             <p
               className={`mt-1 leading-relaxed ${accent.text} ${
-                active.speaker === "watcher"
+                // Mono register for the diegetic-signal speakers:
+                // the Watcher's uplink, and the Source's substrate
+                // pulses (which carry literal //— [...] markers in
+                // their authored lines).
+                active.speaker === "watcher" || active.speaker === "the_source"
                   ? "font-mono text-[12px] tracking-[0.06em]"
                   : "font-serif text-[12px]"
               }`}

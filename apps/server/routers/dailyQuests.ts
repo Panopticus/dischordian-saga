@@ -5,7 +5,7 @@ import { grantSuitMaterials } from "../services/suitMaterialsService";
 import { protectedProcedure, router } from "../_core/trpc";
 import { procedureRateLimit } from "../_core/procedureRateLimit";
 import { getDb } from "../db";
-import { dailyQuests, loginCalendar, dreamBalance, notifications, characterSheets } from "../../db/schema";
+import { dailyQuests, loginCalendar, dreamBalance, notifications, characterSheets, userProgress } from "../../db/schema";
 import { battlePassXp } from "../services/battlePassXp";
 import { eq, and, sql } from "drizzle-orm";
 import { fetchCitizenData, resolveQuestBonuses } from "../traitResolver";
@@ -22,6 +22,12 @@ import type { PlayerAxis, AxisMagnitude } from "@shared/npcs/types";
 // gate on faction-tagged dailies the same way they gate on tagged
 // crew missions. The tagsForTemplate helper is the canonical surface.
 import { tagsForTemplate } from "../../shared/proceduralMissionFactory";
+import {
+  companionQuestsForCadence,
+  lookupCompanionQuest,
+  type CompanionQuestDef,
+} from "../../shared/tradeEmpire/companionQuestCatalog";
+import { applyCompanionQuestRewards } from "../services/companionQuestRewards";
 
 /* ═══════════════════════════════════════════════════════
    QUEST TEMPLATES — Daily, Weekly, Epoch (Season)
@@ -38,6 +44,31 @@ interface QuestTemplate {
   rewardCredits: number;
   bonusReward?: string;
 }
+
+/** Adapt a CompanionQuestDef into the QuestTemplate shape so catalog
+ *  entries drop straight into the daily/weekly rotation. The
+ *  CompanionQuestDef's flavor seeds the description; the rest is a
+ *  field-for-field rename. */
+function companionDefToTemplate(def: CompanionQuestDef): QuestTemplate {
+  return {
+    id: def.id,
+    title: def.title,
+    description: def.flavor,
+    questType: def.questType,
+    target: def.target,
+    rewardDream: def.reward.dream,
+    rewardXp: def.reward.xp,
+    rewardCredits: def.reward.credits,
+    bonusReward: def.reward.bonus,
+  };
+}
+
+const COMPANION_DAILIES: QuestTemplate[] =
+  companionQuestsForCadence("daily").map(companionDefToTemplate);
+const COMPANION_WEEKLIES: QuestTemplate[] =
+  companionQuestsForCadence("weekly").map(companionDefToTemplate);
+const COMPANION_EPOCHS: QuestTemplate[] =
+  companionQuestsForCadence("epoch").map(companionDefToTemplate);
 
 const DAILY_TEMPLATES: QuestTemplate[] = [
   { id: "d_win_fight", title: "Champion's Path", description: "Win a fight in the arena", questType: "fight", target: 1, rewardDream: 5, rewardXp: 50, rewardCredits: 0 },
@@ -74,6 +105,11 @@ const DAILY_TEMPLATES: QuestTemplate[] = [
   { id: "d_casino_streak_3",   title: "Hot Streak",    description: "Hit a 3-win casino streak",         questType: "social", target: 1, rewardDream: 10, rewardXp: 70, rewardCredits: 0 },
   { id: "d_casino_high_bet",   title: "Tablestakes",   description: "Place 5 casino bets of ≥100 Dream", questType: "social", target: 5, rewardDream: 10, rewardXp: 60, rewardCredits: 0 },
   { id: "d_casino_jackpot",    title: "Long Shot",     description: "Witness a progressive jackpot",     questType: "social", target: 1, rewardDream: 25, rewardXp: 200, rewardCredits: 0 },
+
+  // Companion / NPC dailies — anchored to one character + one
+  // sector + one card. Completion writes a `potential.*` flag to
+  // the witness ledger; see apps/shared/tradeEmpire/companionQuestCatalog.ts.
+  ...COMPANION_DAILIES,
 ];
 
 const WEEKLY_TEMPLATES: QuestTemplate[] = [
@@ -93,6 +129,12 @@ const WEEKLY_TEMPLATES: QuestTemplate[] = [
   { id: "w_casino_50_plays",   title: "Regular at the Tables", description: "Play 50 casino hands this week",      questType: "social", target: 50, rewardDream: 40, rewardXp: 400, rewardCredits: 0 },
   { id: "w_casino_pazaak_5",   title: "Pazaak Specialist",     description: "Win 5 hands of Pazaak this week",     questType: "social", target: 5,  rewardDream: 30, rewardXp: 350, rewardCredits: 0 },
   { id: "w_casino_streak_5",   title: "On Fire",               description: "Hit a 5-win casino streak this week", questType: "social", target: 1,  rewardDream: 50, rewardXp: 500, rewardCredits: 0, bonusReward: "Casino Cosmetic Token" },
+
+  // Companion / NPC weeklies — two-anchor braids; completion sets a
+  // `mystery_episode_complete:<arc>:<chapter>` flag that feeds the
+  // CardUnlockCondition `arc_episode_complete` evaluator and advances
+  // the five season arcs (apps/shared/tradeEmpire/seasonArcs.ts).
+  ...COMPANION_WEEKLIES,
 ];
 
 const EPOCH_TEMPLATES: QuestTemplate[] = [
@@ -110,6 +152,11 @@ const EPOCH_TEMPLATES: QuestTemplate[] = [
   // audit/16 PR 3 — casino epoch (season) quests.
   { id: "e_casino_centurion",     title: "Centurion of the Tables", description: "Win 100 casino games this season",        questType: "social", target: 100, rewardDream: 200, rewardXp: 3000, rewardCredits: 0, bonusReward: "Seasonal Casino Title" },
   { id: "e_casino_tale_collector", title: "Bibliographer of Bets",  description: "Collect 10 Tales of the Tables this season", questType: "social", target: 10,  rewardDream: 150, rewardXp: 2500, rewardCredits: 0, bonusReward: "Loredex: Casino Codex" },
+
+  // Companion / NPC epochs — one per season arc. Completing the
+  // epoch is gated on the arc finale flag (mystery_episode_complete:
+  // <arcId>:<e5>) so the player has actually closed the arc.
+  ...COMPANION_EPOCHS,
 ];
 
 /** Map a quest's questType to a faction key for tag emission. */
@@ -129,14 +176,20 @@ function factionForQuestType(questType: QuestTemplate["questType"]): string {
  *  a tagged crew mission completion. */
 export function tagsForDailyQuest(template: QuestTemplate): string[] {
   const factionKey = factionForQuestType(template.questType);
-  // Daily quests don't have a difficulty band; use "routine" for
-  // dailies, "challenging" for weeklies-and-up. The id prefix tells
-  // us which list the template came from.
-  const difficulty = template.id.startsWith("e_")
-    ? "dangerous"
-    : template.id.startsWith("w_")
-      ? "challenging"
-      : "routine";
+  // Difficulty band derives from the id prefix:
+  //   d_*  / cq_d_*  → routine     (daily)
+  //   w_*  / cq_w_*  → challenging  (weekly)
+  //   e_*  / cq_e_*  → dangerous    (epoch)
+  // The cq_* namespace is the companion-quest catalog
+  // (apps/shared/tradeEmpire/companionQuestCatalog.ts) which the
+  // router splices into the same template lists.
+  const id = template.id;
+  const difficulty =
+    id.startsWith("e_") || id.startsWith("cq_e_")
+      ? "dangerous"
+      : id.startsWith("w_") || id.startsWith("cq_w_")
+        ? "challenging"
+        : "routine";
   return tagsForTemplate({ factionKey, difficulty });
 }
 
@@ -602,6 +655,53 @@ export const dailyQuestsRouter = router({
       );
 
       await ripple.emit("daily_quest_complete", { userId: ctx.user.id });
+
+      // Companion-quest catalog flag emission. Daily completions write
+      // `potential.<anchor>.<sector>.<verb>` into
+      // gameData.narrativeFlags; weekly completions write
+      // `mystery_episode_complete:<arcId>:<episodeId>` which the
+      // expansionUnlockService `arc_episode_complete` evaluator
+      // already understands. JSON_SET upsert mirrors the canonical
+      // mysteryService pattern. Non-critical: a failed write leaves
+      // the reward intact and only delays the ledger update.
+      const companionDef = lookupCompanionQuest(record[0].questId);
+      if (companionDef) {
+        try {
+          await db
+            .update(userProgress)
+            .set({
+              gameData: sql`JSON_SET(
+                COALESCE(${userProgress.gameData}, JSON_OBJECT()),
+                CONCAT('$.narrativeFlags.', ${companionDef.narrativeFlag}),
+                TRUE
+              )`,
+            })
+            .where(eq(userProgress.userId, ctx.user.id));
+        } catch (err) {
+          logger.warn(
+            `[DailyQuests] companion-quest flag write failed for ${companionDef.id}:`,
+            err,
+          );
+        }
+        // Apply bond + standing deltas declared on the catalog entry.
+        // Non-critical: failures log internally and the reward economy
+        // stays intact (see companionQuestRewards.ts).
+        await applyCompanionQuestRewards(ctx.user.id, companionDef);
+
+        // Ripple-emit a companion-quest reaction event. NPC_REACTIVE_
+        // COMMENTS keyed on trigger "companion_quest_complete" (see
+        // apps/shared/npcCompanionExtensions.ts) surface in canonical
+        // voice the first time the player completes ANY companion
+        // quest. maxPlays: 1 caps each NPC's reaction to one
+        // playthrough; the toast surface (when wired) reads the
+        // comments off NPC_REACTIVE_COMMENTS via the existing
+        // pickComment plumbing.
+        await ripple.emit("companion_quest_complete", {
+          userId: ctx.user.id,
+          questId: companionDef.id,
+          anchors: [...companionDef.anchors],
+        });
+      }
 
       return {
         success: true,

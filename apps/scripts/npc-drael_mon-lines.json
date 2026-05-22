@@ -259,6 +259,69 @@
     "dialogueTopic": "us"
   },
   {
+    "id": "drael_mon_dlg_witness_opener_0",
+    "character": "npc_drael_mon",
+    "text": "Your ledger row has been promoted twice. Strategic, then preferred-strategic. Acquisitions does not promote a third time without a closed bid.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "drael_mon_dlg_witness_opener_1",
+    "character": "npc_drael_mon",
+    "text": "The asset's morale is, as ever, a line item. Your morale's line item just moved. The corporate structure files; the price has changed.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "drael_mon_dlg_witness_dm_wit_warm_reply_0",
+    "character": "npc_drael_mon",
+    "text": "The number is on the page; the page is in the binder; the binder is in the office. You do not need to see the number. The number is leverage. The leverage is mine. The page is yours when the bid closes.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "drael_mon_dlg_witness_dm_wit_probe_reply_0",
+    "character": "npc_drael_mon",
+    "text": "We already own you. We are just deciding when. The bid is a courtesy. The courtesy has a shelf life. The shelf life is calculated. The calculation is not yours.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "drael_mon_dlg_witness_dm_wit_probe_dm_wit_probe_a_reply_0",
+    "character": "npc_drael_mon",
+    "text": "Filed. Acquisitions does not refuse counter-clauses; it leverages them. Your clause is on page seventeen. Page seventeen is leverage too. Welcome to the binder.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "drael_mon_dlg_witness_dm_wit_probe_dm_wit_probe_b_reply_0",
+    "character": "npc_drael_mon",
+    "text": "A refusal that the audience sees. Public refusals devalue. Private ones consolidate the row. Choose your audience; the price follows.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "drael_mon_dlg_witness_dm_wit_cold_reply_0",
+    "character": "npc_drael_mon",
+    "text": "The binder does not remove rows. It archives them. The archive is acquisition-eligible at a lower bid. You have not exited the binder; you have changed shelves.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
     "id": "drael_mon_comment_dm_first_costly",
     "character": "npc_drael_mon",
     "text": "The asset's morale is, as ever, a line item. The line item just moved. The corporate structure files; the price did not change.",
@@ -280,6 +343,14 @@
     "text": "Your knowledge ledger row was promoted. The promotion is leverage. I have priced it accordingly.",
     "bucket": "comment",
     "trigger": "loredex_entry_discovered",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "drael_mon_comment_dm_companion_quest_first",
+    "character": "npc_drael_mon",
+    "text": "The asset's ledger row was promoted. Acquisitions revised your valuation upward. The revision is leverage. We are deciding when.",
+    "bucket": "comment",
+    "trigger": "companion_quest_complete",
     "file": "shared/npcCompanionExtensions.ts"
   },
   {

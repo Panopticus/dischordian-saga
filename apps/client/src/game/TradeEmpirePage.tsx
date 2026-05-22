@@ -44,12 +44,13 @@ import {
   getTechsByBranch, canResearch, getTechById,
   type TechBranch, type TechTreeState, DEFAULT_TECH_STATE,
 } from "./techTree";
-import { FlaskConical, Coins, Handshake, Skull, Building2, FileSignature } from "lucide-react";
+import { FlaskConical, Coins, Handshake, Skull, Building2, FileSignature, BookOpen } from "lucide-react";
 import {
   tradeEmpireUiCurrencyUrls,
   tradeEmpireDashboardBgUrl,
 } from "@shared/aaaArtArchive";
 import { LockeConfidentialLedgerPanel } from "@/components/tradeEmpire/LockeConfidentialLedgerPanel";
+import { WitnessLedgerPanel } from "@/components/tradeEmpire/WitnessLedgerPanel";
 import ColonyCommercePanel from "@/components/tradeEmpire/ColonyCommercePanel";
 import { getDominantGuild } from "@/game/archonTrainingVoices";
 import { getProfessorByArchon } from "@shared/mechronisProfessors";
@@ -127,7 +128,7 @@ type View =
   | "map" | "missions" | "agents" | "diplomacy" | "fleet" | "research"
   | "sector_detail" | "act3" | "routes" | "event_log"
   | "civilization" | "market_exchange" | "council" | "war_room" | "convergence"
-  | "ledger";
+  | "ledger" | "archive";
 
 const MISSION_TYPE_ICONS: Record<string, typeof Globe> = {
   trade: Package, espionage: Eye, diplomacy: Users, combat: Swords,
@@ -878,6 +879,7 @@ export default function TradeEmpirePage() {
           { id: "war_room" as View, label: "WAR ROOM", icon: Send },
           { id: "convergence" as View, label: "CONVERGENCE", icon: Skull },
           { id: "ledger" as View, label: "LEDGER", icon: FileSignature },
+          { id: "archive" as View, label: "ARCHIVE", icon: BookOpen },
         ].map(tab => {
           const Icon = tab.icon;
           return (
@@ -1623,6 +1625,16 @@ export default function TradeEmpirePage() {
             adjustNpcTrust={adjustNpcTrust}
             adjustProfessorApproval={adjustProfessorApproval}
           />
+        )}
+
+        {/* The Antiquarian's Witness Ledger — aggregates every
+            potential.* and arc-chapter flag emitted by companion
+            quest completions. The mechanical surface of canon's
+            "all potentials shape the universe" maxim. */}
+        {view === "archive" && (
+          <div className="max-w-3xl mx-auto">
+            <WitnessLedgerPanel />
+          </div>
         )}
       </div>
 

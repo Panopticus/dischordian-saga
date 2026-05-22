@@ -70,6 +70,8 @@ export const SAGA_EVENT_HUMANIZERS: Record<
   daily_quest_complete: () => `You completed a daily quest.`,
   daily_streak_milestone: (p) =>
     `You reached a ${n(p, "days") ?? ""}-day streak milestone.`,
+  companion_quest_complete: (p) =>
+    `You collapsed a potential. The Archive filed it under ${s(p, "questId", "your name")}.`,
   defense_wave_complete: (p) =>
     `You held against wave ${n(p, "wave") ?? ""}.`,
   episode_watched: () => `You witnessed a story episode.`,

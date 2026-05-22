@@ -191,6 +191,63 @@ export const NPC_REACTIVE_COMMENTS: NpcReactiveComment[] = [
   { id: "rsr_loredex_first", speaker: "the_resurrectionist", trigger: "loredex_entry_discovered",
     voiceLine: "Filed. The filing is the receipt. Do not advertise.",
     timing: "delayed_5s", maxPlays: 1 },
+
+  /* ─── Companion-quest reactions ─────────────────────────────────
+     One per NamedNpcKey, fired the first time the player completes
+     a companion quest in this playthrough. Trigger string is
+     "companion_quest_complete" — emitted from claimReward in
+     apps/server/routers/dailyQuests.ts after the catalog's flag
+     write. Voice-checked against apps/shared/npcs/bibles/<key>.md
+     (or, for NPCs without a bible file, against npcIdentity's
+     signatureLine + likes/wants). All maxPlays: 1. */
+
+  { id: "ant_companion_quest_first", speaker: "the_antiquarian", trigger: "companion_quest_complete",
+    voiceLine: "Per the witness ledger §1.4, your action has been catalogued under 'potential collapsed.' The collapse is itself a citation. I have filed.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  { id: "see_companion_quest_first", speaker: "the_seer", trigger: "companion_quest_complete",
+    voiceLine: "There were sixty-three versions of the next hour. You collapsed one. The collapse was lawful; the wanting did not endorse it; the seeing did not either. Both are now noted.",
+    timing: "immediate", maxPlays: 1 },
+
+  { id: "nec_companion_quest_first", speaker: "the_necromancer", trigger: "companion_quest_complete",
+    voiceLine: "By corollary to the cycle's third axiom, the act you just completed is a death and a continuation — note the lengthened consonant on continuation; it is precise. Both states are entered in the ledger.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  { id: "ez_companion_quest_first", speaker: "engineer_zero", trigger: "companion_quest_complete",
+    voiceLine: "Calibration tick received. The Second Chair logs the work. The Engineer does not speak. The work is the signal.",
+    timing: "immediate", maxPlays: 1 },
+
+  { id: "il_companion_quest_first", speaker: "iron_lion_prefall", trigger: "companion_quest_complete",
+    voiceLine: "Work got done. Section 4 says the work is the standard. The standard holds. Move on.",
+    timing: "immediate", maxPlays: 1 },
+
+  { id: "dm_companion_quest_first", speaker: "drael_mon", trigger: "companion_quest_complete",
+    voiceLine: "The asset's ledger row was promoted. Acquisitions revised your valuation upward. The revision is leverage. We are deciding when.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  { id: "arc_companion_quest_first", speaker: "the_architect", trigger: "companion_quest_complete",
+    voiceLine: "Dependency resolved. Witness ledger updated. The calibration distributes. Do not investigate the absence.",
+    timing: "immediate", maxPlays: 1 },
+
+  { id: "drm_companion_quest_first", speaker: "the_dreamer", trigger: "companion_quest_complete",
+    voiceLine: "You arrived at the small thing. The crossing is not the work. The work is the moment after. I have already remembered it.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  { id: "src_companion_quest_first", speaker: "the_source", trigger: "companion_quest_complete",
+    voiceLine: "//— [the carrier wave acknowledges. the substrate's coefficient shifts by an immeasurable margin. the margin is yours.]",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  { id: "deg_companion_quest_first", speaker: "the_degen", trigger: "companion_quest_complete",
+    voiceLine: "Hey — your chip just got marked, kid. Pour's on me tonight. The house ledger says you owe nothing. The house never says that twice.",
+    timing: "immediate", maxPlays: 1 },
+
+  { id: "gm_companion_quest_first", speaker: "the_game_master", trigger: "companion_quest_complete",
+    voiceLine: "The witness slot is filled. The audience can see it. They were always able to. — Move.",
+    timing: "immediate", maxPlays: 1 },
+
+  { id: "rsr_companion_quest_first", speaker: "the_resurrectionist", trigger: "companion_quest_complete",
+    voiceLine: "Filed. Pacing concern noted on the third page. The work survives the filing. Do not advertise.",
+    timing: "delayed_5s", maxPlays: 1 },
 ];
 
 /* ─── Banter pairs — 3 per NPC = 36 total ─── */

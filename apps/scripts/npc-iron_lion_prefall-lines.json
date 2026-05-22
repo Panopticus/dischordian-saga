@@ -259,6 +259,69 @@
     "dialogueTopic": "us"
   },
   {
+    "id": "iron_lion_prefall_dlg_witness_opener_0",
+    "character": "npc_iron_lion_prefall",
+    "text": "Work got done. Section 4 says the work is the standard. The standard says you have been carrying it.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "iron_lion_prefall_dlg_witness_opener_1",
+    "character": "npc_iron_lion_prefall",
+    "text": "I do not count bodies. I count whether the work I was assigned got done. Your ledger reads done. Done seventeen times.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "iron_lion_prefall_dlg_witness_il_wit_warm_reply_0",
+    "character": "npc_iron_lion_prefall",
+    "text": "The Drael'Mon arena. Hierarchy ground. Cadre rules say you hold the post; you held it. The post held the room. Section 4 holds.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "iron_lion_prefall_dlg_witness_il_wit_probe_reply_0",
+    "character": "npc_iron_lion_prefall",
+    "text": "Three. I noted them. The standard does not punish a not-done. The standard punishes a not-attempted. You attempted. The attempts count.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "iron_lion_prefall_dlg_witness_il_wit_probe_il_wit_probe_a_reply_0",
+    "character": "npc_iron_lion_prefall",
+    "text": "Different way. Same standard. Section 4 is the standard; the carry is the cadre. Jericho will carry. The cadre will form.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "iron_lion_prefall_dlg_witness_il_wit_probe_il_wit_probe_b_reply_0",
+    "character": "npc_iron_lion_prefall",
+    "text": "Pick the carry. The standard cites the chosen one. The standard remembers the rest without naming them. Both kinds of remembering are correct.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "iron_lion_prefall_dlg_witness_il_wit_cold_reply_0",
+    "character": "npc_iron_lion_prefall",
+    "text": "The count is not mine to redact. The standard counts what it counts. The carrying did the counting; the counting is the standard. Move on.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
     "id": "iron_lion_prefall_comment_il_iron_lion_card",
     "character": "npc_iron_lion_prefall",
     "text": "A standard has been raised. The cadre stands at attention through the dream-loom. The relief words are spoken in your hand tonight.",
@@ -280,6 +343,14 @@
     "text": "The cadre voted relief. The relief words are correct. The post passes to the next bearer. Stand it well.",
     "bucket": "comment",
     "trigger": "act_2_complete",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "iron_lion_prefall_comment_il_companion_quest_first",
+    "character": "npc_iron_lion_prefall",
+    "text": "Work got done. Section 4 says the work is the standard. The standard holds. Move on.",
+    "bucket": "comment",
+    "trigger": "companion_quest_complete",
     "file": "shared/npcCompanionExtensions.ts"
   },
   {

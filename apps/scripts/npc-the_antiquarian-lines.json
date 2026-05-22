@@ -259,6 +259,69 @@
     "dialogueTopic": "us"
   },
   {
+    "id": "the_antiquarian_dlg_witness_opener_0",
+    "character": "npc_the_antiquarian",
+    "text": "Per the witness ledger §1.4, your potentials-collapsed column has been growing. I have not been advertising the growth.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "the_antiquarian_dlg_witness_opener_1",
+    "character": "npc_the_antiquarian",
+    "text": "The ledger reads back in two directions. The forward direction is your future. The backward direction is the citation slot you have been earning. I would like to read both, if you will allow it.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "the_antiquarian_dlg_witness_ant_wit_warm_reply_0",
+    "character": "npc_the_antiquarian",
+    "text": "The earliest collapsed potential is the one you do not remember collapsing. That is canonical. The Refuge calls it the *unread first citation*. I have kept the page bookmarked. Ask when you are ready.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "the_antiquarian_dlg_witness_ant_wit_probe_reply_0",
+    "character": "npc_the_antiquarian",
+    "text": "Desks do not run. They read. The distinction is procedural. The ledger has the courtesy of arriving on the desk; I have the courtesy of looking at it.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "the_antiquarian_dlg_witness_ant_wit_probe_ant_wit_probe_a_reply_0",
+    "character": "npc_the_antiquarian",
+    "text": "The Drael'Mon ledger entry. You collapsed it; the Refuge was prepared for a hand-back; the hand-back did not occur. The entry is small. The smallness is the surprise.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "the_antiquarian_dlg_witness_ant_wit_probe_ant_wit_probe_b_reply_0",
+    "character": "npc_the_antiquarian",
+    "text": "Every Elara potential. The ark debris field is documented; the wreckage's response to a senior senator's witness is canonically annotated. You did the cited work. The work was the prediction.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "the_antiquarian_dlg_witness_ant_wit_cold_reply_0",
+    "character": "npc_the_antiquarian",
+    "text": "I cannot close it. The Antiquarian does not close columns; he leaves them open. The closure is the player's, when there is one. I have noted your preference. The ledger remains open.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
     "id": "the_antiquarian_comment_ant_loredex_first",
     "character": "npc_the_antiquarian",
     "text": "Per the second drawer, your reading just generated a citation. The slot for it is open. You will not be the citation; you will be the verb.",
@@ -280,6 +343,14 @@
     "text": "Voting is, structurally, a citation everyone signs at once. The Refuge respects the form. I respect the willingness.",
     "bucket": "comment",
     "trigger": "governance_hub_first_visit",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "the_antiquarian_comment_ant_companion_quest_first",
+    "character": "npc_the_antiquarian",
+    "text": "Per the witness ledger §1.4, your action has been catalogued under 'potential collapsed.' The collapse is itself a citation. I have filed.",
+    "bucket": "comment",
+    "trigger": "companion_quest_complete",
     "file": "shared/npcCompanionExtensions.ts"
   },
   {

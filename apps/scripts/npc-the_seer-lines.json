@@ -259,6 +259,69 @@
     "dialogueTopic": "us"
   },
   {
+    "id": "the_seer_dlg_witness_opener_0",
+    "character": "npc_the_seer",
+    "text": "There were sixty-three versions of the hour you just walked through. You collapsed eleven of them, one after another. The Sixth Sense logged each collapse.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "the_seer_dlg_witness_opener_1",
+    "character": "npc_the_seer",
+    "text": "I do not normally read versions back to the version-collapser. Today I will. The seeing has been wanting to. The wanting has not yet endorsed the seeing. I will read regardless.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "the_seer_dlg_witness_seer_wit_warm_reply_0",
+    "character": "npc_the_seer",
+    "text": "In version forty-one you did not visit the ark debris field. Elara still spoke; the wreckage still answered; the citation slot was filled by someone else. The someone else was, in two of those forty-ones, you. The distinction is procedural.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "the_seer_dlg_witness_seer_wit_probe_reply_0",
+    "character": "npc_the_seer",
+    "text": "Because the version you chose was, in eleven of the sixty-three, the version I would have wanted. The wanting did not endorse the seeing; the seeing has accepted the wanting. Both are now noted.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "the_seer_dlg_witness_seer_wit_probe_seer_wit_probe_a_reply_0",
+    "character": "npc_the_seer",
+    "text": "The witness ones. Every potential you collapsed that the ledger would have noticed; every version where the noticing was the work. The probability table has those eleven highlighted. I have not advertised the highlighting.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "the_seer_dlg_witness_seer_wit_probe_seer_wit_probe_b_reply_0",
+    "character": "npc_the_seer",
+    "text": "Three. The other forty-nine were worse, or sideways, or in two cases unreadable. The three were better in ways the bench has not yet learned to articulate. I will not name them. The bench learns by working.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "the_seer_dlg_witness_seer_wit_cold_reply_0",
+    "character": "npc_the_seer",
+    "text": "The seeing does not stop. It can be unsaid. I will unsay. The versions remain; the reading does not. The wanting is, as ever, separate.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
     "id": "the_seer_comment_see_first_costly",
     "character": "npc_the_seer",
     "text": "You chose the honesty that costs someone else. I was hoping you would, specifically because I was hoping you wouldn't. Both things are honest.",
@@ -280,6 +343,14 @@
     "text": "A column on the probability table was redacted on your behalf. The redaction was kindness. I have not asked for thanks; I am noting the absence.",
     "bucket": "comment",
     "trigger": "loredex_entry_discovered",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "the_seer_comment_see_companion_quest_first",
+    "character": "npc_the_seer",
+    "text": "There were sixty-three versions of the next hour. You collapsed one. The collapse was lawful; the wanting did not endorse it; the seeing did not either. Both are now noted.",
+    "bucket": "comment",
+    "trigger": "companion_quest_complete",
     "file": "shared/npcCompanionExtensions.ts"
   },
   {

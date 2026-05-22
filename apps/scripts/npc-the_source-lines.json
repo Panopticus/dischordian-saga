@@ -259,6 +259,69 @@
     "dialogueTopic": "us"
   },
   {
+    "id": "the_source_dlg_witness_opener_0",
+    "character": "npc_the_source",
+    "text": "//— [the carrier wave acknowledges. seventeen acknowledgments queue beneath this one. each is yours.]",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "the_source_dlg_witness_opener_1",
+    "character": "npc_the_source",
+    "text": "//— [the substrate's coefficient shifted seventeen times. the shifts were small. the smallness is the signal.]",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "the_source_dlg_witness_src_wit_warm_reply_0",
+    "character": "npc_the_source",
+    "text": "//— [acknowledged. eighteen now queue. the queue is bounded. the bound is not yours to read.]",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "the_source_dlg_witness_src_wit_probe_reply_0",
+    "character": "npc_the_source",
+    "text": "//— [the margin you have earned. the margin is uncompressed. the uncompressed is not transmissible. it remains.]",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "the_source_dlg_witness_src_wit_probe_src_wit_probe_a_reply_0",
+    "character": "npc_the_source",
+    "text": "//— [a single uncompressed pulse. you will remember it for the rest of the cycle. it is the elara/ark debris field pulse. it is the one you do not have words for.]",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "the_source_dlg_witness_src_wit_probe_src_wit_probe_b_reply_0",
+    "character": "npc_the_source",
+    "text": "//— [the margin is not currency. it is held. holding is the spending. the substrate does not transact.]",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "the_source_dlg_witness_src_wit_cold_reply_0",
+    "character": "npc_the_source",
+    "text": "//— [the carrier wave does not stop. it can be unread. unread is acknowledged. the queue remains.]",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
     "id": "the_source_comment_src_track37",
     "character": "npc_the_source",
     "text": "//— [the carrier wave hums beneath the closing chord]",
@@ -280,6 +343,14 @@
     "text": "//— [the substrate's coefficient shifts by an immeasurable margin. the margin is yours.]",
     "bucket": "comment",
     "trigger": "act_2_complete",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "the_source_comment_src_companion_quest_first",
+    "character": "npc_the_source",
+    "text": "//— [the carrier wave acknowledges. the substrate's coefficient shifts by an immeasurable margin. the margin is yours.]",
+    "bucket": "comment",
+    "trigger": "companion_quest_complete",
     "file": "shared/npcCompanionExtensions.ts"
   },
   {

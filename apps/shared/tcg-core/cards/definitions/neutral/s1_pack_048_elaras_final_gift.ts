@@ -61,4 +61,9 @@ export const cardDef: CardDefinition = {
   rulesVersion: "1.1.0",
   trial_categories: ["defensive", "narrative"] as const,
   verdict_delta: 2,
+  unlockCondition: {
+    kind: "arc_episode_complete",
+    arcId: "arc.the_collector",
+    episodeId: "ark_echoes.e5",
+  },
 };

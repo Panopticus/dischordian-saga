@@ -59,4 +59,9 @@ export const cardDef: CardDefinition = {
     reason: "Mass-heal utility: 2/5 statline + on-deploy heal-all-friendlies +1. The card is a heal spell stapled to a tanky body. Sub-curve printed line reflects the cost of the ongoing board presence.",
     reviewer: "panopticus",
   },
+  unlockCondition: {
+    kind: "arc_episode_complete",
+    arcId: "arc.memento_dischordia",
+    episodeId: "md.e5",
+  },
 };

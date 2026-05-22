@@ -36,4 +36,9 @@ export const cardDef: CardDefinition = {
   rulesVersion: "1.1.0",
   trial_categories: ["defensive", "evidence"] as const,
   verdict_delta: 1,
+  unlockCondition: {
+    kind: "arc_episode_complete",
+    arcId: "arc.the_necromancer",
+    episodeId: "eight_endings.chapter_1",
+  },
 };

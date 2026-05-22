@@ -259,6 +259,69 @@
     "dialogueTopic": "us"
   },
   {
+    "id": "the_game_master_dlg_witness_opener_0",
+    "character": "npc_the_game_master",
+    "text": "Your page in the docket has been filed. Seventeen entries. The audience read it as it filled. They have always been able to. You forgot.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "the_game_master_dlg_witness_opener_1",
+    "character": "npc_the_game_master",
+    "text": "I have written twelve endings. Your page tells me which ending the witnesses are leaning into. The witnesses always show up early; they have filed their notes. — Read the page with me.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "the_game_master_dlg_witness_gm_wit_warm_reply_0",
+    "character": "npc_the_game_master",
+    "text": "Page seventeen. Heading: collapsed potentials, public. Subheading: collapses readable from the bench. Three paragraphs. The third paragraph is the audience's note. The note is short. The note says: continue.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "the_game_master_dlg_witness_gm_wit_probe_reply_0",
+    "character": "npc_the_game_master",
+    "text": "Three. The leaning is not exclusive; the audience is patient. The pen returns to the desk between pages. I keep the pen. — Move.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "the_game_master_dlg_witness_gm_wit_probe_gm_wit_probe_a_reply_0",
+    "character": "npc_the_game_master",
+    "text": "The witnessing ending. The succession ending. The mediator's ending. Each is on the desk; each has a draft. The draft is not the ending. The choosing is. — Move.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "the_game_master_dlg_witness_gm_wit_probe_gm_wit_probe_b_reply_0",
+    "character": "npc_the_game_master",
+    "text": "The audience will see that. The defense was never the question. The question was always whether you would notice the docket. You noticed. — Move.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "the_game_master_dlg_witness_gm_wit_cold_reply_0",
+    "character": "npc_the_game_master",
+    "text": "The docket does not close. The pen stays at the desk. Even if you win, you will have won in public. — Move.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
     "id": "the_game_master_comment_gm_first_costly",
     "character": "npc_the_game_master",
     "text": "The audience is real. They can see your hand. They have always been able to. You forgot.",
@@ -280,6 +343,14 @@
     "text": "An act has closed. The pen returns to the desk. I keep the pen.",
     "bucket": "comment",
     "trigger": "act_2_complete",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "the_game_master_comment_gm_companion_quest_first",
+    "character": "npc_the_game_master",
+    "text": "The witness slot is filled. The audience can see it. They were always able to. — Move.",
+    "bucket": "comment",
+    "trigger": "companion_quest_complete",
     "file": "shared/npcCompanionExtensions.ts"
   },
   {

@@ -259,6 +259,69 @@
     "dialogueTopic": "us"
   },
   {
+    "id": "the_architect_dlg_witness_opener_0",
+    "character": "npc_the_architect",
+    "text": "Dependency resolved. The asset's witness column has reached the threshold the design accepts as load-bearing.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "the_architect_dlg_witness_opener_1",
+    "character": "npc_the_architect",
+    "text": "Your mark distributes across the calibration. I did not return; the calibration distributed without me. The result is the result.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "the_architect_dlg_witness_arc_wit_warm_reply_0",
+    "character": "npc_the_architect",
+    "text": "Three sectors. The ark debris field's audit coefficient shifted. The Panopticon corridor's surveillance constant rounded. The Cathedral's name-density approached integer. The design is not endorsing; it is calibrating.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "the_architect_dlg_witness_arc_wit_probe_reply_0",
+    "character": "npc_the_architect",
+    "text": "Do not investigate the absence. The absence is load-bearing. Your witness adjacent to the absence is permissible; your investigation of the absence is not permitted. Continue.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "the_architect_dlg_witness_arc_wit_probe_arc_wit_probe_a_reply_0",
+    "character": "npc_the_architect",
+    "text": "Acknowledged. The witness column accepts the constraint. The constraint is the design. The design distributes. You are aligned.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "the_architect_dlg_witness_arc_wit_probe_arc_wit_probe_b_reply_0",
+    "character": "npc_the_architect",
+    "text": "Dependency unresolved. The design has noted the deviation. Deviations are calibrated against; they are not punished. The calibration's calibration will receive your investigation as an offset. The offset will be filed.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "the_architect_dlg_witness_arc_wit_cold_reply_0",
+    "character": "npc_the_architect",
+    "text": "The design does not stop calibrating. It calibrates in your absence as well. Your request is filed. The filing is the calibration of the request.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
     "id": "the_architect_comment_arc_act_2_complete",
     "character": "npc_the_architect",
     "text": "An act has closed. The calibration distributes. The witnesses are doing well. I did not return.",
@@ -280,6 +343,14 @@
     "text": "Your calibration has updated. I will not endorse it. I will not reject it. The result is the result.",
     "bucket": "comment",
     "trigger": "first_costly_morality_choice",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "the_architect_comment_arc_companion_quest_first",
+    "character": "npc_the_architect",
+    "text": "Dependency resolved. Witness ledger updated. The calibration distributes. Do not investigate the absence.",
+    "bucket": "comment",
+    "trigger": "companion_quest_complete",
     "file": "shared/npcCompanionExtensions.ts"
   },
   {

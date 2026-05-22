@@ -56,4 +56,9 @@ export const cardDef: CardDefinition = {
   rulesVersion: "1.1.0",
   trial_categories: ["narrative", "offensive"] as const,
   verdict_delta: 2,
+  unlockCondition: {
+    kind: "arc_episode_complete",
+    arcId: "arc.memento_dischordia",
+    episodeId: "md.chapter_1",
+  },
 };

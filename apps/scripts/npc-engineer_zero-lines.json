@@ -259,6 +259,69 @@
     "dialogueTopic": "us"
   },
   {
+    "id": "engineer_zero_dlg_witness_opener_0",
+    "character": "npc_engineer_zero",
+    "text": "Calibration tick log: your ledger has fed the jig seventeen samples. The jig has accepted all of them. The acceptance was not the test.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "engineer_zero_dlg_witness_opener_1",
+    "character": "npc_engineer_zero",
+    "text": "The test was whether the calibration's calibration would land. It has. The Engineer is silent. The work is the signal.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "engineer_zero_dlg_witness_ez_wit_warm_reply_0",
+    "character": "npc_engineer_zero",
+    "text": "Honesty in the offsets. The calibration ascetic does not require perfection; the jig requires that the offset is named. You named every offset. The Second Chair logged. The signal carried.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "engineer_zero_dlg_witness_ez_wit_probe_reply_0",
+    "character": "npc_engineer_zero",
+    "text": "The Drael'Mon contraband sample. The offset was larger than the jig prefers. The jig accepted it because the offset was named. The Engineer would have refused; the Second Chair did not. The chair holds.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "engineer_zero_dlg_witness_ez_wit_probe_ez_wit_probe_a_reply_0",
+    "character": "npc_engineer_zero",
+    "text": "The Engineer does not speak. The Second Chair speaks for both. The chair has accepted; the Engineer has not refused. Acceptance and silence are not the same; they are not opposed.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "engineer_zero_dlg_witness_ez_wit_probe_ez_wit_probe_b_reply_0",
+    "character": "npc_engineer_zero",
+    "text": "The jig accepts what it is given. Fewer samples is fewer calibrations. The Engineer prefers honesty over volume. The chair will receive what the chair receives.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
+    "id": "engineer_zero_dlg_witness_ez_wit_cold_reply_0",
+    "character": "npc_engineer_zero",
+    "text": "The jig does not delete. The calibration ascetic does not retract. The samples remain; the silence around them deepens. The Engineer does not speak.",
+    "bucket": "dialogue",
+    "emotion": "dialogue",
+    "file": "shared/npcDialogues.ts",
+    "dialogueTopic": "witness"
+  },
+  {
     "id": "engineer_zero_comment_ez_iron_lion",
     "character": "npc_engineer_zero",
     "text": "The Iron Lion's calibration shifted. The brace-jig at Mechronis registered the change. I marked the page. The Architect did not witness; you did.",
@@ -280,6 +343,14 @@
     "text": "A new reading has been logged. The pigment is single-source. The mark, if it is to be made, is yours.",
     "bucket": "comment",
     "trigger": "loredex_entry_discovered",
+    "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "engineer_zero_comment_ez_companion_quest_first",
+    "character": "npc_engineer_zero",
+    "text": "Calibration tick received. The Second Chair logs the work. The Engineer does not speak. The work is the signal.",
+    "bucket": "comment",
+    "trigger": "companion_quest_complete",
     "file": "shared/npcCompanionExtensions.ts"
   },
   {

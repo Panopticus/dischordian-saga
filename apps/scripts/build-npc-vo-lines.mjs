@@ -65,7 +65,7 @@ async function loadDialogueLines() {
     .catch(() => false);
   if (!exists) return {};
   const escaped = DIALOGUE_TS.replace(/\\/g, "\\\\");
-  const dumpCmd = `pnpm tsx -e "import('${escaped}').then(m => { const out = {}; for (const k of Object.keys(m.NPC_DIALOGUES)) { const set = m.NPC_DIALOGUES[k]; out[k] = []; for (const t of [set.past, set.calling, set.mortality, set.us]) { for (const l of m.npcTopicLines(t)) out[k].push(l); } } process.stdout.write(JSON.stringify(out)); })"`;
+  const dumpCmd = `pnpm tsx -e "import('${escaped}').then(m => { const out = {}; for (const k of Object.keys(m.NPC_DIALOGUES)) { const set = m.NPC_DIALOGUES[k]; out[k] = []; for (const t of [set.past, set.calling, set.mortality, set.us, set.witness]) { for (const l of m.npcTopicLines(t)) out[k].push(l); } } process.stdout.write(JSON.stringify(out)); })"`;
   const buf = execSync(dumpCmd, { cwd: REPO_ROOT, encoding: "utf8" });
   return JSON.parse(buf);
 }

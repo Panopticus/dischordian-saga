@@ -269,6 +269,21 @@ describe("expansionUnlockService — registry integration (S2 Hierarchy of the D
         "s2_watcher_001::arc_episode_complete",
         "s2_watcher_002::arc_episode_complete",
         "s2_watcher_003::arc_episode_complete",
+        // Companion-quest season-arc finale cards (5 arcs × 1 card)
+        // — see apps/shared/tradeEmpire/seasonArcs.ts.
+        "s1_pack_048::arc_episode_complete",            // Echoes of the Ark (finale)
+        "s1_pack_014::arc_episode_complete",            // First Witness (finale)
+        "s1_char_105::arc_episode_complete",            // Successor's Oath (finale)
+        "s1_char_018::arc_episode_complete",            // Eight Endings (finale)
+        "s1_pack_id_elara_advocate::arc_episode_complete", // Memento Dischordia (finale)
+        // Mid-chapter unlocks (one per arc): players unlock cards
+        // progressively as the arc closes, not only at week 5.
+        "s1_pack_id_elara_ship_ai::arc_episode_complete",  // Echoes chapter 1
+        "s1_pack_id_elara_panoptic::arc_episode_complete", // Echoes chapter 3
+        "s1_pack_id_oracle_prophet::arc_episode_complete", // First Witness chapter 1
+        "s1_pack_id_kael_recruiter::arc_episode_complete", // Successor's Oath chapter 1
+        "s1_char_097::arc_episode_complete",                // Eight Endings chapter 1 (Temporal Archivist)
+        "s1_pack_id_human_detective::arc_episode_complete", // Memento Dischordia chapter 1
       ]),
     );
   });
