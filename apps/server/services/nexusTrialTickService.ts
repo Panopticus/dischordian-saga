@@ -39,11 +39,13 @@ import {
 import { getPermadeathStore } from "@shared/resurrectionProtocols";
 import {
   aggregateTallies,
+  recordCompanionSacrifice,
   resolveCompanionSacrifice,
   resolveResurrectedBallot,
 } from "./nexusTrialResolverService";
 import {
   ballotCinematicFor,
+  confessionCinematicFor,
   lockeCinematic,
 } from "@shared/nexusTrial/cinematics";
 
@@ -299,8 +301,14 @@ export async function transitionPhase(
         const result = await resolveCompanionSacrifice(trial);
         if (result) {
           lastCompanionSacrifice = result.sacrificed;
+          // Record the sacrifice so romance-tag eligibility queries
+          // (per-player, client-local cinematic) can read the freeze
+          // cutoff. The cinematic id pins which Confession variant
+          // fires for all clients.
+          const cinematic = confessionCinematicFor(result.sacrificed);
+          await recordCompanionSacrifice(trial, result.sacrificed, cinematic.id);
           logger.info(
-            `[NexusTrial] companion sacrifice resolved at confession close: ${result.sacrificed}`,
+            `[NexusTrial] companion sacrifice resolved at confession close: ${result.sacrificed} (cinematic=${cinematic.id})`,
           );
         }
       }

@@ -36,24 +36,56 @@ export type CinematicId =
   | "verdict_ballot_wraith_calder"
   | "verdict_ballot_lycos"
   | "verdict_ballot_akai_shi"
-  | "verdict_ballot_vex_solene";
+  | "verdict_ballot_vex_solene"
+  | "confession_elara_dies"
+  | "confession_human_dies"
+  | "verdict_abort";
+
+/** Companion key. Matches CompanionKey in buckets.ts (we redeclare
+ *  here to avoid circular import; the union is small). */
+export type ConfessionCompanion = "elara" | "human";
+
+/**
+ * Private add-on a romanced player sees after the public Confession
+ * cinematic ends. Romance tags are client-local — they DO NOT
+ * broadcast to other players' clients. The Confession cinematic's
+ * canonical text is the public farewell; the romance tag is the
+ * private goodbye.
+ */
+export interface RomanceTag {
+  /** Stage notes for production. */
+  stageDirections: string;
+  /** The single line the character says — addresses the player by
+   *  name. The placeholder `{player_name}` is replaced at render. */
+  characterLine: string;
+}
 
 export interface CinematicScript {
   id: CinematicId;
-  /** Order within the Verdict cinematic. Locke runs first (0:00–0:35),
-   *  then the ballot variant (0:35–1:20). */
-  slot: "verdict_open" | "verdict_ballot";
-  /** Who this cinematic is about. Locke is fixed canon. */
-  npcKey: "locke" | BallotKey;
+  /** When in the Trial this cinematic fires.
+   *   - verdict_open    : Locke, runs first at Verdict 0:00–0:35
+   *   - verdict_ballot  : 4 ballot variants, run at Verdict 0:35–1:20
+   *   - confession      : 2 companion-sacrifice variants, fire at
+   *                       Confession close (Trial hour 60)
+   *   - abort           : single fallback fired by the operator's
+   *                       Abort Trial button per the runbook
+   */
+  slot: "verdict_open" | "verdict_ballot" | "confession" | "abort";
+  /** Who this cinematic is about. Locke is fixed canon; ballot
+   *  variants are second-death candidates; confession variants are
+   *  the two companions; abort has no character. */
+  npcKey: "locke" | BallotKey | ConfessionCompanion | null;
   /** Antiquarian V.O. that opens the cinematic. */
   antiquarianOpening: string;
-  /** The single line the character speaks. Per the plan's authoring
-   *  constraints, no ballot character speaks more than two sentences. */
+  /** The single line the character speaks. The Confession variants
+   *  run longer (~90s) so their lines have multiple beats; ballot
+   *  variants are tight (≤50 words). */
   characterLine: string;
   /** Action / staging directions for the production team. */
   actionDirections: string;
   /** Antiquarian's closing narration — also recorded in the Sprint 1
-   *  permadeath store as `finalNarration`. */
+   *  permadeath store as `finalNarration` for the Verdict variants.
+   *  Confession variants' closing line marks the moment of sacrifice. */
   antiquarianClosing: string;
   /** What the burnt-card variant shows in every player's collection
    *  when this cinematic fires. */
@@ -62,6 +94,10 @@ export interface CinematicScript {
    *  Sprint 13's patch composer reads these to activate the right
    *  Season-2 content directory. */
   crossArcRipples: readonly string[];
+  /** Optional private add-on for romanced players. Only present on
+   *  the two Confession variants. Plays client-locally; does NOT
+   *  broadcast to other players' clients. */
+  romanceTag?: RomanceTag;
 }
 
 /* ─── LOCKE — verdict_open (fixed canon, runs first) ─── */
@@ -169,6 +205,87 @@ const VEX_SOLENE: CinematicScript = {
   ],
 } as const;
 
+/* ─── CONFESSION VARIANTS (hour 60, Trial Confession close) ─── */
+
+const ELARA_DIES: CinematicScript = {
+  id: "confession_elara_dies",
+  slot: "confession",
+  npcKey: "elara",
+  antiquarianOpening:
+    "She was a Senator before she was a Dreamer. She gave up the seat to walk with you. The seat remembers her. The dais remembers her. The Trial cannot proceed while she stands at either.",
+  characterLine:
+    "I knew this. The substrate told me, the second time I went under. — I didn't tell you. I'm sorry. I wanted us to have the time. You don't get to keep me. The Trial needs a witness who can speak in the language of the seat. — That's me. It was always going to be me.",
+  actionDirections:
+    "The Atarion Senate chamber, rebuilt in the substrate as Elara's private memory-space. Empty seats; she stands at the dais where she once gave the speech that ended her career as Senator. The player's POV is from the back row. The empty seats begin to fill with figures — every NPC the player and Elara fought beside, watching. Elara walks down from the dais — not toward the player, but toward the centre of the chamber. The seats lean inward. When she reaches the centre, she does not dissolve. She SITS DOWN on the floor as if the floor were the seat she resigned, and the chamber folds in around her like a book closing. The last frame is the closed Senate dome from the outside, the substrate fading from rose to grey at its edges.",
+  antiquarianClosing:
+    "She did not stand at the dais again. She did not need to. The seat remembered.",
+  cardBurnArt: "Closed Senate dome at substrate-twilight; rose fading to grey.",
+  crossArcRipples: [
+    "substrate_dive_missions_retired",
+    "human_dialog_carries_elara_absence",
+    "dreamer_axis_recessive_substrate_dominant",
+    "companion_slot_defaults_to_human",
+    "atarion_loredex_former_senator_attributions",
+    "senate_speech_recording_codex_most_listened",
+  ],
+  romanceTag: {
+    stageDirections:
+      "A single seat in the Senate chamber, lit. Elara is sitting in it, not on the floor. The seat folds inward at the end; she does not stand. Plays client-locally for romanced players only (relationship ≥75 at sacrifice).",
+    characterLine:
+      "{player_name}. I would have stayed. — You know I would have stayed.",
+  },
+} as const;
+
+const HUMAN_DIES: CinematicScript = {
+  id: "confession_human_dies",
+  slot: "confession",
+  npcKey: "human",
+  antiquarianOpening:
+    "He told you what he was, in the way he could. He told no one else. The Trial needs a name to speak the substrate's word, and the substrate will only answer to the one who carries its mark.",
+  characterLine:
+    "This is the part of me that was always going to go back. I've been carrying it the whole way. — I'm glad we got this far before I had to put it down. You don't have to remember this part. The rest, you can keep. — Tell Elara I figured it out.",
+  actionDirections:
+    "The Inception Ark's central rotunda, lit only by the diagnostic terminals along the walls. The Human stands at the centre of the floor mosaic — the same one the player first met him on. His face is the same as it has always been. He is holding a small chip — the kind the player first found in his quarters. He opens his hand to show it. The diagnostic terminals along the walls begin to print, one by one, the player's name in his handwriting. The printing continues throughout the rest of the cinematic. He places the chip on the floor mosaic and steps back. The mosaic accepts it — the floor pattern reorganises around the chip into a new pattern, slowly, with no flash. He watches the pattern complete. When it does, he is no longer there; the chip remains at the centre of the new pattern. The diagnostic terminals finish printing the player's name on every line.",
+  antiquarianClosing:
+    "He carried his name back to the substrate. The substrate kept it. The substrate did not keep him.",
+  cardBurnArt: "Floor mosaic with the chip at the centre.",
+  crossArcRipples: [
+    "the_humans_chip_card_unlock_for_romanced",
+    "inception_ark_rotunda_memorial_unlocked",
+    "elara_dialog_finishes_his_sentences",
+    "substrate_axis_recessive_dreamer_dominant",
+    "companion_slot_defaults_to_elara",
+    "identity_reveal_codex_past_tense_no_disclosure",
+  ],
+  romanceTag: {
+    stageDirections:
+      "The chip on the floor mosaic, close-up. The player's hand reaches into frame and picks it up. The Human's voice plays over the moment, not his face. The hand closes around the chip; fade. Plays client-locally for romanced players only.",
+    characterLine:
+      "{player_name}. The chip is yours. — You'll know what to do with it when you do.",
+  },
+} as const;
+
+/* ─── ABORT FALLBACK (operator-fired) ─── */
+
+const ABORT: CinematicScript = {
+  id: "verdict_abort",
+  slot: "abort",
+  npcKey: null,
+  antiquarianOpening:
+    "The ledger closes when the keeper says it closes. Tonight it closes early.",
+  characterLine: "",
+  actionDirections:
+    "The Antiquarian alone at his desk. He closes the ledger before the page is finished. The room dims gradually rather than dissolving. No companion, no ballot name, no bench. The Daily Brief gains a single line that does not explain why — only that the ledger has been closed.",
+  antiquarianClosing: "The Antiquarian closed the ledger early.",
+  cardBurnArt:
+    "The closed ledger, half a page short of finished. No burn animation on player cards — the Trial's permadeaths default to the runbook fallback (Locke + Akai Shi) but the cinematic acknowledges the truncation.",
+  crossArcRipples: [
+    "abort_default_resolution_recorded",
+    "daily_brief_ledger_closed_early_line",
+    "season_2_default_variant_activated",
+  ],
+} as const;
+
 /* ─── REGISTRY ─── */
 
 export const NEXUS_TRIAL_CINEMATICS: Readonly<Record<CinematicId, CinematicScript>> = {
@@ -177,6 +294,9 @@ export const NEXUS_TRIAL_CINEMATICS: Readonly<Record<CinematicId, CinematicScrip
   verdict_ballot_lycos: LYCOS,
   verdict_ballot_akai_shi: AKAI_SHI,
   verdict_ballot_vex_solene: VEX_SOLENE,
+  confession_elara_dies: ELARA_DIES,
+  confession_human_dies: HUMAN_DIES,
+  verdict_abort: ABORT,
 };
 
 /** Lookup helper: map a ballot winner to the cinematic that fires. */
@@ -205,4 +325,28 @@ export const BALLOT_CINEMATICS: readonly CinematicScript[] = [
   LYCOS,
   AKAI_SHI,
   VEX_SOLENE,
+];
+
+/** Lookup helper: map a sacrificed companion to its Confession-
+ *  phase cinematic (fires at Trial hour 60). */
+export function confessionCinematicFor(
+  sacrificed: ConfessionCompanion,
+): CinematicScript {
+  switch (sacrificed) {
+    case "elara":
+      return ELARA_DIES;
+    case "human":
+      return HUMAN_DIES;
+  }
+}
+
+/** Lookup helper: the operator-abort cinematic. */
+export function abortCinematic(): CinematicScript {
+  return ABORT;
+}
+
+/** All Confession variants in canonical companion order. */
+export const CONFESSION_CINEMATICS: readonly CinematicScript[] = [
+  ELARA_DIES,
+  HUMAN_DIES,
 ];

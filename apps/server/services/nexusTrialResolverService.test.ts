@@ -16,6 +16,9 @@ import {
   resolveCompanionSacrifice,
   resolveResurrectedBallot,
   getLeaderboard,
+  decideRomanceTagEligibility,
+  isRomanceTagEligibleForPlayer,
+  recordCompanionSacrifice,
 } from "./nexusTrialResolverService";
 
 const stubTrial = {
@@ -47,5 +50,104 @@ describe("nexusTrialResolverService — DB-unavailable fallback", () => {
 
   it("getLeaderboard returns an empty array when no DB is configured", async () => {
     expect(await getLeaderboard(stubTrial)).toEqual([]);
+  });
+
+  it("isRomanceTagEligibleForPlayer returns shouldFireTag=false when no DB", async () => {
+    const result = await isRomanceTagEligibleForPlayer(1, "elara");
+    expect(result.shouldFireTag).toBe(false);
+    expect(result.sacrificed).toBe(false);
+  });
+
+  it("recordCompanionSacrifice is a graceful no-op when no DB", async () => {
+    await expect(
+      recordCompanionSacrifice(stubTrial, "elara", "confession_elara_dies"),
+    ).resolves.toBeUndefined();
+  });
+});
+
+/* ─── ROMANCE TAG DECISION (pure logic, no DB) ─── */
+
+describe("decideRomanceTagEligibility — decision rules", () => {
+  const sacrificeTime = new Date("2027-03-05T12:00:00Z");
+
+  it("not sacrificed → not eligible", () => {
+    const r = decideRomanceTagEligibility({
+      sacrificedAt: null,
+      relationshipUpdatedAt: new Date("2027-03-01T00:00:00Z"),
+      relationshipLevel: 80,
+      romanceActive: true,
+    });
+    expect(r.sacrificed).toBe(false);
+    expect(r.romanced).toBe(false);
+    expect(r.shouldFireTag).toBe(false);
+  });
+
+  it("sacrificed but no relationship row → not eligible", () => {
+    const r = decideRomanceTagEligibility({
+      sacrificedAt: sacrificeTime,
+      relationshipUpdatedAt: null,
+      relationshipLevel: 0,
+      romanceActive: false,
+    });
+    expect(r.sacrificed).toBe(true);
+    expect(r.romanced).toBe(false);
+    expect(r.shouldFireTag).toBe(false);
+  });
+
+  it("relationship updated BEFORE sacrifice, level ≥75 → eligible", () => {
+    const r = decideRomanceTagEligibility({
+      sacrificedAt: sacrificeTime,
+      relationshipUpdatedAt: new Date("2027-02-15T00:00:00Z"),
+      relationshipLevel: 80,
+      romanceActive: false,
+    });
+    expect(r.romanced).toBe(true);
+    expect(r.shouldFireTag).toBe(true);
+  });
+
+  it("relationship updated BEFORE sacrifice, romanceActive=true → eligible", () => {
+    const r = decideRomanceTagEligibility({
+      sacrificedAt: sacrificeTime,
+      relationshipUpdatedAt: new Date("2027-02-15T00:00:00Z"),
+      relationshipLevel: 30,
+      romanceActive: true,
+    });
+    expect(r.romanced).toBe(true);
+    expect(r.shouldFireTag).toBe(true);
+  });
+
+  it("relationship updated AT sacrifice exactly → eligible (inclusive)", () => {
+    const r = decideRomanceTagEligibility({
+      sacrificedAt: sacrificeTime,
+      relationshipUpdatedAt: sacrificeTime,
+      relationshipLevel: 80,
+      romanceActive: false,
+    });
+    expect(r.shouldFireTag).toBe(true);
+  });
+
+  it("relationship updated AFTER sacrifice → freeze rejects, not eligible", () => {
+    // A player who romances Elara post-Trial doesn't retroactively
+    // unlock her romance tag.
+    const r = decideRomanceTagEligibility({
+      sacrificedAt: sacrificeTime,
+      relationshipUpdatedAt: new Date("2027-03-06T00:00:00Z"),
+      relationshipLevel: 80,
+      romanceActive: true,
+    });
+    expect(r.sacrificed).toBe(true);
+    expect(r.romanced).toBe(false);
+    expect(r.shouldFireTag).toBe(false);
+  });
+
+  it("relationship below 75 + romanceActive=false → not romanced", () => {
+    const r = decideRomanceTagEligibility({
+      sacrificedAt: sacrificeTime,
+      relationshipUpdatedAt: new Date("2027-02-15T00:00:00Z"),
+      relationshipLevel: 74,
+      romanceActive: false,
+    });
+    expect(r.romanced).toBe(false);
+    expect(r.shouldFireTag).toBe(false);
   });
 });
