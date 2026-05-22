@@ -25,16 +25,14 @@
          both the on-screen narration and the VO render from
          the same words.
 
-     • feature_<id>  (8 entries)
-         Spoken by FeatureUnlockToast.tsx via
-         `useElaraVO().speak(\`feature_${next.featureId}\`)`
-         when a player crosses a featureRoadmap.ts gate. The
-         toast always speaks through Elara's hook regardless
-         of the canonical `speaker` attribution on the
-         registry entry — Elara is the narrator who relays
-         what the speaker said. We lift the registry's
-         `unlockMessage` field verbatim so the on-screen
-         toast text and the spoken audio match.
+     • feature_pet_battles
+         Sole remaining feature unlock that routes through
+         Elara (companion speaker has no per-NPC VO hook).
+         All other `feature_<id>` lines now live in their
+         canonical speaker's bank file so the toast plays in
+         the correct voice — see
+         apps/client/src/components/FeatureUnlockToast.tsx
+         for the per-speaker dispatch.
 
    Usage:
      pnpm vo:wire-orphan-sources              # apply
@@ -112,94 +110,23 @@ const PENDING: PendingEntry[] = [
     authoredFrom: "ELARA_INTRO_LINES[4]",
   },
 
-  // ── feature_<id> (8 entries) ──
+  // ── feature_pet_battles ──
   //
-  // Spoken by apps/client/src/components/FeatureUnlockToast.tsx via
-  //   useElaraVO().speak(`feature_${next.featureId}`)
-  // Always through Elara's voice, regardless of the canonical
-  // `speaker` attribution on the featureRoadmap.ts entry — Elara is
-  // the narrator who relays what the speaker said to her. The
-  // existing pattern (see feature_trade_empire) is to lift the
-  // `unlockMessage` field verbatim from featureRoadmap.ts; we follow
-  // that here so the on-screen toast text and the spoken audio
-  // match word-for-word.
-  //
-  // Coverage check (2026-05-22): of the 31 featureIds in
-  // featureRoadmap.ts, 23 already had source lines; these 8 closed
-  // the gap surfaced by `pnpm vo:audit-orphans`. None of these had
-  // audio on S3 either, so the manifest will be populated fresh on
-  // the next `pnpm vo:everything` run.
-  {
-    id: "feature_casino",
-    text: "I've made arrangements. Ne-Yon space is closed to outsiders — except for The Degen's Casino. The host is... unusual. His eyes are older than they should be. She can get you in. For a finder's fee.",
-    context: "feature_unlock",
-    emotion: "warm",
-    file: "client/src/components/FeatureUnlockToast.tsx",
-    authoredFrom: "featureRoadmap.ts unlockMessage (casino)",
-  },
-  {
-    id: "feature_bounties",
-    text: "I've been sitting on contracts. You've earned the right to see them. Some pay well. Some... pay differently.",
-    context: "feature_unlock",
-    emotion: "warm",
-    file: "client/src/components/FeatureUnlockToast.tsx",
-    authoredFrom: "featureRoadmap.ts unlockMessage (bounties) — Locke voice, relayed by Elara",
-  },
-  {
-    id: "feature_crew_breeding",
-    text: "Your crew has reached maturity. The bloodlines can continue. Children inherit their parents' strengths — and weaknesses.",
-    context: "feature_unlock",
-    emotion: "warm",
-    file: "client/src/components/FeatureUnlockToast.tsx",
-    authoredFrom: "featureRoadmap.ts unlockMessage (crew_breeding) — Resurrectionist voice, relayed by Elara",
-  },
-  {
-    id: "feature_dead_mans_circuit",
-    text: "There's something else on the lower decks. The Hierarchy runs races. Real races. With real consequences. Nilmorg's operation. Don't say I didn't warn you.",
-    context: "feature_unlock",
-    emotion: "warm",
-    file: "client/src/components/FeatureUnlockToast.tsx",
-    authoredFrom: "featureRoadmap.ts unlockMessage (dead_mans_circuit) — Locke voice, relayed by Elara",
-  },
-  {
-    id: "feature_gamemasters_arena",
-    text: "The Game Master left his world running. A clone hosts the show. You should see it. Bring a disposable clone body.",
-    context: "feature_unlock",
-    emotion: "warm",
-    file: "client/src/components/FeatureUnlockToast.tsx",
-    authoredFrom: "featureRoadmap.ts unlockMessage (gamemasters_arena) — Antiquarian voice, relayed by Elara",
-  },
-  {
-    id: "feature_incursions",
-    text: "I've been scanning for anomalies. There are pocket dimensions forming near the Ark. Dangerous. Bring a friend.",
-    context: "feature_unlock",
-    emotion: "warm",
-    file: "client/src/components/FeatureUnlockToast.tsx",
-    authoredFrom: "featureRoadmap.ts unlockMessage (incursions) — Human voice, relayed by Elara",
-  },
+  // The only Elara-dispatched feature line in this script. All other
+  // `feature_<id>` entries with a non-elara `speaker` in
+  // featureRoadmap.ts now live in their canonical speaker's bank
+  // (locke-lines.json, antiquarian-lines.json, human-lines.json,
+  // agent_zero-lines.json, npc-the_resurrectionist-lines.json).
+  // `pet_battles` has `speaker: "companion"` in the registry, and no
+  // per-companion VO hook exists, so the toast routes it through
+  // useElaraVO — Elara relays the companion's first-person line.
   {
     id: "feature_pet_battles",
     text: "Your companion wants me to tell you something. They want to fight for you. Not against you. For you. Take them to the Arena.",
     context: "feature_unlock",
     emotion: "warm",
     file: "client/src/components/FeatureUnlockToast.tsx",
-    authoredFrom: "featureRoadmap.ts unlockMessage (pet_battles) — original is first-person companion line; Elara relay because the toast always speaks through her hook",
-  },
-  {
-    id: "feature_prestige",
-    text: "You've reached the cycle's end. But you can choose to begin again — stronger, faster, remembering.",
-    context: "feature_unlock",
-    emotion: "warm",
-    file: "client/src/components/FeatureUnlockToast.tsx",
-    authoredFrom: "featureRoadmap.ts unlockMessage (prestige) — Antiquarian voice, relayed by Elara",
-  },
-  {
-    id: "feature_terminus_swarm",
-    text: "The Armory's defense grid is operational. Someone should stress-test it. Someone like you.",
-    context: "feature_unlock",
-    emotion: "warm",
-    file: "client/src/components/FeatureUnlockToast.tsx",
-    authoredFrom: "featureRoadmap.ts unlockMessage (terminus_swarm) — Agent Zero voice, relayed by Elara",
+    authoredFrom: "featureRoadmap.ts unlockMessage (pet_battles) — original is first-person companion line; Elara relay because no per-companion VO hook exists",
   },
 ];
 

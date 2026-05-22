@@ -1,19 +1,29 @@
 /* ═══════════════════════════════════════════════════════
-   FEATURE UNLOCK TOAST — Shows Elara's intro when systems unlock
+   FEATURE UNLOCK TOAST — Announces system unlocks in the
+   canonical speaker's voice
 
    Listens for narrative flags and system state changes.
    When a feature becomes available, shows the appropriate
-   Elara message in a toast.
+   message in a toast — voiced by the speaker named in
+   featureRoadmap.ts (Locke / Antiquarian / Agent Zero /
+   Resurrectionist / Human), or Elara when no speaker is
+   declared. `companion` features stay routed through Elara
+   because no per-companion VO hook exists.
 
    Prevents "50 systems at once" overwhelm by announcing
    new features one at a time, with narrative context.
    ═══════════════════════════════════════════════════════ */
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useMemo } from "react";
 import { Sparkles } from "lucide-react";
 import { useGame } from "@/contexts/GameContext";
 import { FEATURE_ROADMAP, isFeatureUnlocked, FEATURE_CATEGORIES, type FeatureUnlock } from "@shared/featureRoadmap";
 import { getSessionDuration } from "@/lib/analytics";
+import { useAgentZeroVO } from "@/hooks/useAgentZeroVO";
+import { useAntiquarianVO } from "@/hooks/useAntiquarianVO";
 import { useElaraVO } from "@/hooks/useElaraVO";
+import { useHumanVO } from "@/hooks/useHumanVO";
+import { useLockeVO } from "@/hooks/useLockeVO";
+import { useResurrectionistVO } from "@/hooks/useResurrectionistVO";
 import { ToastSlot } from "@/components/toast";
 import LottiePlayer from "@/components/LottiePlayer";
 
@@ -31,7 +41,29 @@ const SPEAKER_LABEL: Record<NonNullable<FeatureUnlock["speaker"]>, string> = {
 
 export default function FeatureUnlockToast() {
   const { state } = useGame();
-  const { speak } = useElaraVO();
+  // Per-speaker VO hooks. The toast resolves each feature's
+  // `speaker` field to the matching hook below so the player hears
+  // Locke when Locke speaks, the Antiquarian when the Antiquarian
+  // speaks, etc. Companion features fall through to Elara because
+  // there is no per-companion VO hook (the companion line is a
+  // first-person relay narrated by Elara).
+  const elara = useElaraVO();
+  const human = useHumanVO();
+  const locke = useLockeVO();
+  const antiquarian = useAntiquarianVO();
+  const resurrectionist = useResurrectionistVO();
+  const agentZero = useAgentZeroVO();
+  const speakBySpeaker = useMemo<
+    Record<NonNullable<FeatureUnlock["speaker"]>, (id: string) => void>
+  >(() => ({
+    elara: elara.speak,
+    the_human: human.speak,
+    adjudicator_locke: locke.speak,
+    the_antiquarian: antiquarian.speak,
+    the_resurrectionist: resurrectionist.speak,
+    agent_zero: agentZero.speak,
+    companion: elara.speak,
+  }), [elara.speak, human.speak, locke.speak, antiquarian.speak, resurrectionist.speak, agentZero.speak]);
   const [queue, setQueue] = useState<FeatureUnlock[]>([]);
   const [current, setCurrent] = useState<FeatureUnlock | null>(null);
   const seenRef = useRef<Set<string>>(new Set());
@@ -77,17 +109,20 @@ export default function FeatureUnlockToast() {
   // `current/queue` effect drains in priority order.
   const preludeComplete = Boolean(state.narrativeFlags?.prelude_complete);
 
-  // Show next in queue + play Elara VO
+  // Show next in queue + play the canonical speaker's VO line.
   useEffect(() => {
     if (!preludeComplete) return; // F4 — hold queue during opening
     if (!current && queue.length > 0) {
       const next = queue[0];
       setCurrent(next);
       setQueue(prev => prev.slice(1));
-      // Play Elara's voice for this feature unlock
+      // Resolve the speaker per the registry; default to Elara when
+      // no speaker is declared. The same VO id (`feature_<featureId>`)
+      // is keyed in whichever speaker's manifest holds the audio.
+      const speak = next.speaker ? speakBySpeaker[next.speaker] : elara.speak;
       speak(`feature_${next.featureId}`);
     }
-  }, [current, queue, speak, preludeComplete]);
+  }, [current, queue, speakBySpeaker, elara.speak, preludeComplete]);
 
   // Auto-dismiss handled by ToastSlot via durationMs.
 

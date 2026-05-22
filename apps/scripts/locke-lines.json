@@ -54,5 +54,26 @@
     "context": "tutor",
     "emotion": "knowing",
     "file": "shared/preludeSystemTutors.ts"
+  },
+  {
+    "id": "feature_casino",
+    "text": "I've made arrangements. Ne-Yon space is closed to outsiders — except for The Degen's Casino. The host is... unusual. His eyes are older than they should be. I can get you in. For a finder's fee.",
+    "context": "feature_unlock",
+    "emotion": "knowing",
+    "file": "client/src/components/FeatureUnlockToast.tsx"
+  },
+  {
+    "id": "feature_bounties",
+    "text": "I've been sitting on contracts. You've earned the right to see them. Some pay well. Some... pay differently.",
+    "context": "feature_unlock",
+    "emotion": "knowing",
+    "file": "client/src/components/FeatureUnlockToast.tsx"
+  },
+  {
+    "id": "feature_dead_mans_circuit",
+    "text": "There's something else on the lower decks. The Hierarchy runs races. Real races. With real consequences. Nilmorg's operation. Don't say I didn't warn you.",
+    "context": "feature_unlock",
+    "emotion": "knowing",
+    "file": "client/src/components/FeatureUnlockToast.tsx"
   }
 ]
