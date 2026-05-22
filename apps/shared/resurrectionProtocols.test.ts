@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, beforeEach } from "vitest";
 import {
   rollProtocolRecipe,
   openResurrectionQuest,
@@ -9,7 +9,12 @@ import {
   PROTOCOL_SUBTASK_IDS,
   isResurrectableNpc,
   generatePathAFirstLine,
+  createInMemoryPermadeathStore,
+  getPermadeathStore,
+  setPermadeathStore,
+  isProtocolRefusedFor,
   type ResurrectableNpcKey,
+  type PermadeathReason,
 } from "./resurrectionProtocols";
 
 describe("rollProtocolRecipe", () => {
@@ -217,5 +222,66 @@ describe("generatePathAFirstLine", () => {
         line.includes("Alice") ||
         line.includes("Tell them I didn't hesitate."),
     ).toBe(true);
+  });
+});
+
+describe("permadeath store (Nexus Trial Verdict infrastructure)", () => {
+  function reason(source: PermadeathReason["source"]): PermadeathReason {
+    return {
+      trialId: "nexus_trial_2027",
+      recordedAt: Date.UTC(2027, 2, 15),
+      source,
+      finalNarration: "She filed the world. She did not file herself.",
+    };
+  }
+
+  beforeEach(() => {
+    setPermadeathStore(createInMemoryPermadeathStore());
+  });
+
+  it("no NPC is permadead at module-load time", () => {
+    for (const key of RESURRECTABLE_NPC_KEYS) {
+      expect(isProtocolRefusedFor(key)).toBe(false);
+    }
+    expect(getPermadeathStore().listPermadead()).toEqual([]);
+  });
+
+  it("markPermadead persists the reason and the lookup flips", () => {
+    const store = getPermadeathStore();
+    store.markPermadead("locke", reason("necromancer_price"));
+
+    expect(store.isPermadead("locke")).toBe(true);
+    expect(isProtocolRefusedFor("locke")).toBe(true);
+    // Other names stay accessible.
+    expect(store.isPermadead("vex_solene")).toBe(false);
+    expect(store.isPermadead("akai_shi")).toBe(false);
+  });
+
+  it("listPermadead returns every withheld name with its reason", () => {
+    const store = getPermadeathStore();
+    store.markPermadead("locke", reason("necromancer_price"));
+    store.markPermadead("akai_shi", reason("vortex_price"));
+
+    const entries = store.listPermadead();
+    expect(entries.length).toBe(2);
+    const byKey = Object.fromEntries(entries.map(({ npcKey, reason: r }) => [npcKey, r.source]));
+    expect(byKey.locke).toBe("necromancer_price");
+    expect(byKey.akai_shi).toBe("vortex_price");
+  });
+
+  it("markPermadead refuses to overwrite an existing record", () => {
+    const store = getPermadeathStore();
+    store.markPermadead("locke", reason("necromancer_price"));
+    expect(() => store.markPermadead("locke", reason("vortex_price"))).toThrow(/already recorded/);
+  });
+
+  it("setPermadeathStore swaps the active store (Sprint 9 will use this for DB-backed)", () => {
+    const alt = createInMemoryPermadeathStore();
+    alt.markPermadead("wraith_calder", reason("vortex_price"));
+
+    setPermadeathStore(alt);
+    expect(isProtocolRefusedFor("wraith_calder")).toBe(true);
+    // The default store from beforeEach is no longer active.
+    expect(getPermadeathStore()).toBe(alt);
   });
 });
