@@ -37,6 +37,32 @@ import {
   type TrialStatus,
 } from "@shared/nexusTrial/phases";
 import { getPermadeathStore } from "@shared/resurrectionProtocols";
+import {
+  aggregateTallies,
+  resolveCompanionSacrifice,
+  resolveResurrectedBallot,
+} from "./nexusTrialResolverService";
+
+/** Last-resolved cache so the Verdict-close hook can name the ballot
+ *  winner without re-running the resolver. Updated at
+ *  cross_examination close; consumed at verdict close. Module-local
+ *  state is fine here because production has one Trial and one
+ *  server process running the tick. */
+let lastBallotWinner: import("@shared/nexusTrial/buckets").BallotKey | null = null;
+let lastCompanionSacrifice:
+  | import("@shared/nexusTrial/buckets").CompanionKey
+  | null = null;
+
+/** Exposed for tests + the operator dashboard's audit surface. */
+export function getLastResolverState() {
+  return { lastBallotWinner, lastCompanionSacrifice };
+}
+
+/** Reset for tests. Production never calls this. */
+export function _resetResolverStateForTests() {
+  lastBallotWinner = null;
+  lastCompanionSacrifice = null;
+}
 
 /* ─── Active-trial cache ─── */
 
@@ -186,6 +212,11 @@ export async function tick(now: Date = new Date()): Promise<TickResult> {
   const trial = await loadActiveTrial();
   if (!trial || trial.status !== "live") return result;
 
+  // Every tick: roll testimony rows into trial_tallies. Idempotent
+  // (writes absolute sums), so safe even if the previous tick was
+  // missed or the row count exploded between ticks.
+  await aggregateTallies(trial);
+
   if (now.getTime() < trial.phaseEndsAt.getTime()) return result;
 
   const transition = await transitionPhase(trial, now);
@@ -245,16 +276,29 @@ export async function transitionPhase(
           ),
         );
 
-      // 2. Sprint-10 hook points. We don't run the aggregators yet,
-      //    but we name them here so the order is explicit and stable
-      //    when Sprint 10 wires real resolvers in.
+      // 2. Resolvers fire at the documented phase-close hooks.
+      //    Note: the resolvers read from trial_tallies, which the
+      //    1-min aggregation tick has been keeping up to date. We
+      //    intentionally do NOT re-aggregate inside the transition
+      //    transaction — the aggregation runs on the regular tick
+      //    cadence and the resolver reads its result.
       if (trial.currentPhase === "cross_examination") {
-        // TODO Sprint 10: resolveResurrectedBallot + preloadCinematic.
-        logger.info(`[NexusTrial] hook: ballot resolution at cross_examination close`);
+        const result = await resolveResurrectedBallot(trial);
+        if (result) {
+          lastBallotWinner = result.winner;
+          logger.info(
+            `[NexusTrial] ballot resolved at cross_examination close: ${result.winner}`,
+          );
+        }
       }
       if (trial.currentPhase === "confession") {
-        // TODO Sprint 10: resolveCompanionSacrifice + fire Confession cinematic.
-        logger.info(`[NexusTrial] hook: companion-sacrifice resolution at confession close`);
+        const result = await resolveCompanionSacrifice(trial);
+        if (result) {
+          lastCompanionSacrifice = result.sacrificed;
+          logger.info(
+            `[NexusTrial] companion sacrifice resolved at confession close: ${result.sacrificed}`,
+          );
+        }
       }
 
       if (next === null) {
@@ -324,8 +368,39 @@ function applyVerdictPermadeath(trial: ActiveTrial): void {
     });
     logger.info(`[NexusTrial] permadeath recorded: locke (necromancer_price)`);
   }
-  // TODO Sprint 10: resolve ballot winner via vote aggregation and
-  // mark the second permadeath here with source="vortex_price".
+
+  // Ballot winner — the Vortex's price. The cross_examination-close
+  // resolver named the winner; consume it here. If the resolver
+  // couldn't run (e.g. abort), the runbook's default applies: Akai
+  // Shi (the cosmic-threat archetype).
+  const winner = lastBallotWinner ?? "akai_shi";
+  if (!store.isPermadead(winner)) {
+    store.markPermadead(winner, {
+      trialId: trial.trialKey,
+      recordedAt: Date.now(),
+      source: "vortex_price",
+      finalNarration: ballotFinalNarration(winner),
+    });
+    logger.info(`[NexusTrial] permadeath recorded: ${winner} (vortex_price)`);
+  }
+}
+
+/** Per-candidate Antiquarian narration recorded with the permadeath.
+ *  Mirrors the four ballot cinematics in the plan's
+ *  Pre-Authored Final-Death Cinematics section. */
+function ballotFinalNarration(
+  winner: import("@shared/nexusTrial/buckets").BallotKey,
+): string {
+  switch (winner) {
+    case "wraith_calder":
+      return "She was last seen carrying the names. We do not know which names she saved.";
+    case "lycos":
+      return "He went back into Anara. The pack waited at the bench. He did not return to it.";
+    case "akai_shi":
+      return "The Red Death gave her colour back to the dark. The dark accepted.";
+    case "vex_solene":
+      return "She finished the inventory. She did not finish the courtesy.";
+  }
 }
 
 /* ─── Status (read-only) ─── */
