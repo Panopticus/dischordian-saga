@@ -172,16 +172,16 @@ over the `art: assetUrl("…")` lines listed in the Source column.
 | `s1_alleg_new_babylon_t2` | Babylonian Magistrate | `art/cards/allegiance/s1_alleg_new_babylon_t2.webp` | `art/cards/allegiance/babylon_magistrate_t2.webp` | — | `apps/shared/tcg-core/cards/definitions/allegiance/new_babylon.ts` |
 | `s1_alleg_new_babylon_t4` | Babylonian Victorious Adjudicator | `art/cards/allegiance/s1_alleg_new_babylon_t4.webp` | `art/cards/allegiance/babylon_senator_t4.webp` | — | `apps/shared/tcg-core/cards/definitions/allegiance/new_babylon.ts` |
 | `s1_alleg_new_babylon_t5` | Babylonian Archon-Elect | `art/cards/allegiance/s1_alleg_new_babylon_t5.webp` | `art/cards/allegiance/babylon_governor_t5.webp` | — | `apps/shared/tcg-core/cards/definitions/allegiance/new_babylon.ts` |
+| `s1_class_engineer_05` | The Engineer | `art/cards/class/s1_class_engineer_05.webp` | `art/cards/class/engineers_apprentice.webp` | — | `apps/shared/tcg-core/cards/definitions/class/engineer.ts` |
+| `s1_class_oracle_05` | The Oracle | `art/cards/class/s1_class_oracle_05.webp` | `art/cards/class/oracles_unbroken_signal.webp` | — | `apps/shared/tcg-core/cards/definitions/class/oracle.ts` |
 | `s1_race_demagi_01` | Demagi Footsoldier | `art/cards/race/s1_race_demagi_01.webp` | `art/cards/race/demagi_foot_soldier.webp` | `art/cards/race/demagi_war_priest.webp`<br>`art/cards/race/demagi_xethraal_archlord.webp` | `apps/shared/tcg-core/cards/definitions/race/demagi.ts` |
 | `s1_race_demagi_02` | Demagi Corpse-Reader | `art/cards/race/s1_race_demagi_02.webp` | `art/cards/race/demagi_foot_soldier.webp` | `art/cards/race/demagi_war_priest.webp`<br>`art/cards/race/demagi_xethraal_archlord.webp` | `apps/shared/tcg-core/cards/definitions/race/demagi.ts` |
 | `s1_race_demagi_03` | Xeth | `art/cards/race/s1_race_demagi_03.webp` | `art/cards/race/demagi_xethraal_archlord.webp` | — | `apps/shared/tcg-core/cards/definitions/race/demagi.ts` |
+| `s1_race_human_01` | Ark Survivor | `art/cards/race/s1_race_human_01.webp` | `art/cards/race/human_citizen_of_atarion.webp` | `art/cards/race/human_final_potential.webp`<br>`art/cards/race/human_senate_legionary.webp` | `apps/shared/tcg-core/cards/definitions/race/human.ts` |
+| `s1_race_synthetic_03` | Chrome Archon | `art/cards/race/s1_race_synthetic_03.webp` | `art/cards/race/synthetic_loyal_instrument.webp` | `art/cards/race/synthetic_watchtower.webp`<br>`art/cards/race/synthetic_worker.webp` | `apps/shared/tcg-core/cards/definitions/race/synthetic.ts` |
 
 ## Unmapped — commission required
 
 | Card id | Card name | Broken `art:` | Source |
 |---|---|---|---|
-| `s1_class_engineer_05` | The Engineer | `art/cards/class/s1_class_engineer_05.webp` | `apps/shared/tcg-core/cards/definitions/class/engineer.ts` |
-| `s1_class_oracle_05` | The Oracle | `art/cards/class/s1_class_oracle_05.webp` | `apps/shared/tcg-core/cards/definitions/class/oracle.ts` |
-| `s1_race_human_01` | Ark Survivor | `art/cards/race/s1_race_human_01.webp` | `apps/shared/tcg-core/cards/definitions/race/human.ts` |
-| `s1_race_synthetic_03` | Chrome Archon | `art/cards/race/s1_race_synthetic_03.webp` | `apps/shared/tcg-core/cards/definitions/race/synthetic.ts` |
 | `s2_hierarchy_lord_master_of_rlyeh` | The Master of R | `art/cards/hierarchy/lord_master_of_rlyeh.webp` | `apps/shared/tcg-core/cards/definitions/s2_hierarchy/master_of_rlyeh.ts` |

@@ -31,19 +31,29 @@ const INVENTORY_PATH = join(REPO_ROOT, "audit/ship-readiness-2026-05-22/cdn-inve
 const MODE = process.argv.includes("--apply") ? "apply" : "dry-run";
 
 /**
- * User-confirmed commission backlog. These rows have algorithmic hits
- * (engineers_apprentice for "The Engineer", oracles_unbroken_signal for
- * "The Oracle", etc.) but the producer has confirmed those are
- * different cards — the t5 hero PNGs and the 3 race/hierarchy unique
- * cards genuinely don't exist on CDN. Force-route to NONE regardless
- * of what the matcher finds so the rename-map doesn't propose a
- * misleading substitution.
+ * User-confirmed commission backlog. Routed to NONE regardless of
+ * algorithmic hits — these are cards where the matcher *will* find a
+ * candidate but the candidate is the wrong card.
+ *
+ * Currently only s2_hierarchy_lord_master_of_rlyeh: the file
+ * art/cards/architect/master_of_rlyeh.webp exists, but it belongs to
+ * the *S1 Architect* character card (s1_char_013_master_of_rlyeh,
+ * still wired to art/cards/s1_char_013.webp which is on CDN). The S2
+ * hierarchy-lord version is a different card and needs its own art.
+ *
+ * Cards previously listed here that turned out to be valid matches:
+ *   - s1_class_engineer_05 → name is "The Engineer's Apprentice";
+ *     engineers_apprentice.webp is the right file (the rename-map's
+ *     name column was truncated, misleading the human reviewer).
+ *   - s1_class_oracle_05 → "The Oracle's Unbroken Signal" →
+ *     oracles_unbroken_signal.webp is the right file.
+ *   - s1_race_human_01 (Ark Survivor) → producer renamed to
+ *     human_citizen_of_atarion.webp; resolved by-elimination via the
+ *     race-prefix folder scan in Pass 4.
+ *   - s1_race_synthetic_03 (Chrome Archon) → producer renamed to
+ *     synthetic_loyal_instrument.webp; same pattern.
  */
 const COMMISSION_OVERRIDES = new Set([
-  "s1_class_engineer_05",
-  "s1_class_oracle_05",
-  "s1_race_human_01",
-  "s1_race_synthetic_03",
   "s2_hierarchy_lord_master_of_rlyeh",
 ]);
 
