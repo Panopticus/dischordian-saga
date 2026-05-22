@@ -1,0 +1,254 @@
+" + m[1] + "	1	apps/scripts/rewrite-asset-refs.ts:166
+<path>	1	docs/ART_DEPARTMENT_PRODUCTION.md:36
+art/	1	apps/scripts/upload_new_art.sh:120
+art/arenas/	1	apps/client/src/data/arenaAssets.ts:26
+art/bodies/demagi.png	1	apps/client/src/game/paperDoll/bodyArt.ts:0
+art/bodies/human.png	1	apps/client/src/game/paperDoll/bodyArt.ts:0
+art/bodies/neyon.png	1	apps/client/src/game/paperDoll/bodyArt.ts:0
+art/bodies/quarchon.png	1	apps/client/src/game/paperDoll/bodyArt.ts:0
+art/cades/characters/	1	apps/client/src/data/cadesAssets.ts:137
+art/cades/enemies/	1	apps/client/src/data/cadesAssets.ts:138
+art/cades/environments/	1	apps/client/src/data/cadesAssets.ts:139
+art/cades/props/	1	apps/client/src/data/cadesAssets.ts:140
+art/cades/ui/	1	apps/client/src/data/cadesAssets.ts:141
+art/cades/video-frames/	1	apps/client/src/data/cadesAssets.ts:144
+art/cards	1	apps/scripts/wire-card-art.ts:62
+art/cards/allegiance/s1_alleg_antiquarian_t1.webp	1	apps/shared/tcg-core/cards/definitions/allegiance/antiquarian.ts:22
+art/cards/allegiance/s1_alleg_antiquarian_t2.webp	1	apps/shared/tcg-core/cards/definitions/allegiance/antiquarian.ts:46
+art/cards/allegiance/s1_alleg_antiquarian_t3.webp	1	apps/shared/tcg-core/cards/definitions/allegiance/antiquarian.ts:64
+art/cards/allegiance/s1_alleg_antiquarian_t4.webp	1	apps/shared/tcg-core/cards/definitions/allegiance/antiquarian.ts:82
+art/cards/allegiance/s1_alleg_antiquarian_t5.webp	1	apps/shared/tcg-core/cards/definitions/allegiance/antiquarian.ts:106
+art/cards/allegiance/s1_alleg_antiquarian_t6.webp	1	apps/shared/tcg-core/cards/definitions/allegiance/antiquarian.ts:130
+art/cards/allegiance/s1_alleg_architect_t1.webp	3	apps/shared/tcg-core/cards/definitions/allegiance/architect.ts:30; docs/audits/CONNECTION_AUDIT_2026-05-07.md:322; docs/audits/CONNECTION_AUDIT_2026-05-07.md:322
+art/cards/allegiance/s1_alleg_architect_t2.webp	1	apps/shared/tcg-core/cards/definitions/allegiance/architect.ts:48
+art/cards/allegiance/s1_alleg_architect_t3.webp	1	apps/shared/tcg-core/cards/definitions/allegiance/architect.ts:66
+art/cards/allegiance/s1_alleg_architect_t4.webp	1	apps/shared/tcg-core/cards/definitions/allegiance/architect.ts:84
+art/cards/allegiance/s1_alleg_architect_t5.webp	1	apps/shared/tcg-core/cards/definitions/allegiance/architect.ts:102
+art/cards/allegiance/s1_alleg_architect_t6.webp	1	apps/shared/tcg-core/cards/definitions/allegiance/architect.ts:126
+art/cards/allegiance/s1_alleg_dreamer_t1.webp	1	apps/shared/tcg-core/cards/definitions/allegiance/dreamer.ts:21
+art/cards/allegiance/s1_alleg_dreamer_t2.webp	1	apps/shared/tcg-core/cards/definitions/allegiance/dreamer.ts:45
+art/cards/allegiance/s1_alleg_dreamer_t3.webp	1	apps/shared/tcg-core/cards/definitions/allegiance/dreamer.ts:63
+art/cards/allegiance/s1_alleg_dreamer_t4.webp	1	apps/shared/tcg-core/cards/definitions/allegiance/dreamer.ts:87
+art/cards/allegiance/s1_alleg_dreamer_t5.webp	1	apps/shared/tcg-core/cards/definitions/allegiance/dreamer.ts:105
+art/cards/allegiance/s1_alleg_dreamer_t6.webp	1	apps/shared/tcg-core/cards/definitions/allegiance/dreamer.ts:129
+art/cards/allegiance/s1_alleg_insurgency_t1.webp	1	apps/shared/tcg-core/cards/definitions/allegiance/insurgency.ts:21
+art/cards/allegiance/s1_alleg_insurgency_t2.webp	1	apps/shared/tcg-core/cards/definitions/allegiance/insurgency.ts:39
+art/cards/allegiance/s1_alleg_insurgency_t3.webp	1	apps/shared/tcg-core/cards/definitions/allegiance/insurgency.ts:57
+art/cards/allegiance/s1_alleg_insurgency_t4.webp	1	apps/shared/tcg-core/cards/definitions/allegiance/insurgency.ts:75
+art/cards/allegiance/s1_alleg_insurgency_t5.webp	1	apps/shared/tcg-core/cards/definitions/allegiance/insurgency.ts:93
+art/cards/allegiance/s1_alleg_insurgency_t6.webp	1	apps/shared/tcg-core/cards/definitions/allegiance/insurgency.ts:111
+art/cards/allegiance/s1_alleg_new_babylon_t1.webp	1	apps/shared/tcg-core/cards/definitions/allegiance/new_babylon.ts:21
+art/cards/allegiance/s1_alleg_new_babylon_t2.webp	1	apps/shared/tcg-core/cards/definitions/allegiance/new_babylon.ts:39
+art/cards/allegiance/s1_alleg_new_babylon_t3.webp	1	apps/shared/tcg-core/cards/definitions/allegiance/new_babylon.ts:57
+art/cards/allegiance/s1_alleg_new_babylon_t4.webp	1	apps/shared/tcg-core/cards/definitions/allegiance/new_babylon.ts:75
+art/cards/allegiance/s1_alleg_new_babylon_t5.webp	1	apps/shared/tcg-core/cards/definitions/allegiance/new_babylon.ts:93
+art/cards/allegiance/s1_alleg_new_babylon_t6.webp	1	apps/shared/tcg-core/cards/definitions/allegiance/new_babylon.ts:121
+art/cards/allegiance/s1_alleg_thought_virus_t1.webp	1	apps/shared/tcg-core/cards/definitions/allegiance/thought_virus.ts:22
+art/cards/allegiance/s1_alleg_thought_virus_t2.webp	1	apps/shared/tcg-core/cards/definitions/allegiance/thought_virus.ts:40
+art/cards/allegiance/s1_alleg_thought_virus_t3.webp	1	apps/shared/tcg-core/cards/definitions/allegiance/thought_virus.ts:58
+art/cards/allegiance/s1_alleg_thought_virus_t4.webp	1	apps/shared/tcg-core/cards/definitions/allegiance/thought_virus.ts:76
+art/cards/allegiance/s1_alleg_thought_virus_t5.webp	1	apps/shared/tcg-core/cards/definitions/allegiance/thought_virus.ts:94
+art/cards/allegiance/s1_alleg_thought_virus_t6.webp	1	apps/shared/tcg-core/cards/definitions/allegiance/thought_virus.ts:121
+art/cards/burnt_card_placeholder.webp	1	apps/shared/tcg-core/cards/definitions/neutral/burnt_card_placeholder.ts:39
+art/cards/card_locke_sworn_pen_title.webp	1	apps/shared/tcg-core/cards/definitions/neutral/house_oath_titles.ts:30
+art/cards/card_thaloria_witness_title.webp	1	apps/shared/tcg-core/cards/definitions/neutral/house_oath_titles.ts:56
+art/cards/class/s1_class_assassin_01.webp	1	apps/shared/tcg-core/cards/definitions/class/assassin.ts:26
+art/cards/class/s1_class_assassin_02.webp	1	apps/shared/tcg-core/cards/definitions/class/assassin.ts:54
+art/cards/class/s1_class_assassin_03.webp	1	apps/shared/tcg-core/cards/definitions/class/assassin.ts:73
+art/cards/class/s1_class_assassin_04.webp	1	apps/shared/tcg-core/cards/definitions/class/assassin.ts:101
+art/cards/class/s1_class_assassin_05.webp	1	apps/shared/tcg-core/cards/definitions/class/assassin.ts:131
+art/cards/class/s1_class_engineer_01.webp	1	apps/shared/tcg-core/cards/definitions/class/engineer.ts:33
+art/cards/class/s1_class_engineer_02.webp	1	apps/shared/tcg-core/cards/definitions/class/engineer.ts:62
+art/cards/class/s1_class_engineer_03.webp	1	apps/shared/tcg-core/cards/definitions/class/engineer.ts:81
+art/cards/class/s1_class_engineer_04.webp	1	apps/shared/tcg-core/cards/definitions/class/engineer.ts:105
+art/cards/class/s1_class_engineer_05.webp	1	apps/shared/tcg-core/cards/definitions/class/engineer.ts:135
+art/cards/class/s1_class_neyon_01.webp	1	apps/shared/tcg-core/cards/definitions/class/neyon.ts:37
+art/cards/class/s1_class_neyon_02.webp	1	apps/shared/tcg-core/cards/definitions/class/neyon.ts:56
+art/cards/class/s1_class_neyon_03.webp	1	apps/shared/tcg-core/cards/definitions/class/neyon.ts:81
+art/cards/class/s1_class_neyon_04.webp	1	apps/shared/tcg-core/cards/definitions/class/neyon.ts:106
+art/cards/class/s1_class_neyon_05.webp	1	apps/shared/tcg-core/cards/definitions/class/neyon.ts:141
+art/cards/class/s1_class_oracle_01.webp	1	apps/shared/tcg-core/cards/definitions/class/oracle.ts:33
+art/cards/class/s1_class_oracle_02.webp	1	apps/shared/tcg-core/cards/definitions/class/oracle.ts:57
+art/cards/class/s1_class_oracle_03.webp	1	apps/shared/tcg-core/cards/definitions/class/oracle.ts:76
+art/cards/class/s1_class_oracle_04.webp	1	apps/shared/tcg-core/cards/definitions/class/oracle.ts:100
+art/cards/class/s1_class_oracle_05.webp	1	apps/shared/tcg-core/cards/definitions/class/oracle.ts:125
+art/cards/class/s1_class_soldier_01.webp	1	apps/shared/tcg-core/cards/definitions/class/soldier.ts:26
+art/cards/class/s1_class_soldier_02.webp	1	apps/shared/tcg-core/cards/definitions/class/soldier.ts:45
+art/cards/class/s1_class_soldier_03.webp	1	apps/shared/tcg-core/cards/definitions/class/soldier.ts:74
+art/cards/class/s1_class_soldier_04.webp	1	apps/shared/tcg-core/cards/definitions/class/soldier.ts:104
+art/cards/class/s1_class_soldier_05.webp	1	apps/shared/tcg-core/cards/definitions/class/soldier.ts:123
+art/cards/class/s1_class_spy_01.webp	1	apps/shared/tcg-core/cards/definitions/class/spy.ts:39
+art/cards/class/s1_class_spy_02.webp	1	apps/shared/tcg-core/cards/definitions/class/spy.ts:67
+art/cards/class/s1_class_spy_03.webp	1	apps/shared/tcg-core/cards/definitions/class/spy.ts:97
+art/cards/class/s1_class_spy_04.webp	1	apps/shared/tcg-core/cards/definitions/class/spy.ts:124
+art/cards/class/s1_class_spy_05.webp	1	apps/shared/tcg-core/cards/definitions/class/spy.ts:163
+art/cards/dimension/s1_dim_prob_01.webp	1	apps/shared/tcg-core/cards/definitions/dimensional/probability.ts:29
+art/cards/dimension/s1_dim_prob_02.webp	1	apps/shared/tcg-core/cards/definitions/dimensional/probability.ts:52
+art/cards/dimension/s1_dim_prob_03.webp	1	apps/shared/tcg-core/cards/definitions/dimensional/probability.ts:81
+art/cards/dimension/s1_dim_reality_01.webp	1	apps/shared/tcg-core/cards/definitions/dimensional/reality.ts:22
+art/cards/dimension/s1_dim_reality_02.webp	1	apps/shared/tcg-core/cards/definitions/dimensional/reality.ts:45
+art/cards/dimension/s1_dim_reality_03.webp	1	apps/shared/tcg-core/cards/definitions/dimensional/reality.ts:69
+art/cards/dimension/s1_dim_space_01.webp	1	apps/shared/tcg-core/cards/definitions/dimensional/space.ts:23
+art/cards/dimension/s1_dim_space_02.webp	1	apps/shared/tcg-core/cards/definitions/dimensional/space.ts:41
+art/cards/dimension/s1_dim_space_03.webp	1	apps/shared/tcg-core/cards/definitions/dimensional/space.ts:70
+art/cards/dimension/s1_dim_time_01.webp	1	apps/shared/tcg-core/cards/definitions/dimensional/time.ts:21
+art/cards/dimension/s1_dim_time_02.webp	1	apps/shared/tcg-core/cards/definitions/dimensional/time.ts:43
+art/cards/dimension/s1_dim_time_03.webp	1	apps/shared/tcg-core/cards/definitions/dimensional/time.ts:65
+art/cards/element/s1_elem_air_01.webp	1	apps/shared/tcg-core/cards/definitions/elemental/air.ts:28
+art/cards/element/s1_elem_air_02.webp	1	apps/shared/tcg-core/cards/definitions/elemental/air.ts:50
+art/cards/element/s1_elem_air_03.webp	1	apps/shared/tcg-core/cards/definitions/elemental/air.ts:73
+art/cards/element/s1_elem_air_04.webp	1	apps/shared/tcg-core/cards/definitions/elemental/air.ts:91
+art/cards/element/s1_elem_air_05.webp	1	apps/shared/tcg-core/cards/definitions/elemental/air.ts:115
+art/cards/element/s1_elem_earth_01.webp	1	apps/shared/tcg-core/cards/definitions/elemental/earth.ts:25
+art/cards/element/s1_elem_earth_02.webp	1	apps/shared/tcg-core/cards/definitions/elemental/earth.ts:43
+art/cards/element/s1_elem_earth_03.webp	1	apps/shared/tcg-core/cards/definitions/elemental/earth.ts:70
+art/cards/element/s1_elem_earth_04.webp	1	apps/shared/tcg-core/cards/definitions/elemental/earth.ts:88
+art/cards/element/s1_elem_earth_05.webp	1	apps/shared/tcg-core/cards/definitions/elemental/earth.ts:106
+art/cards/element/s1_elem_fire_01.webp	1	apps/shared/tcg-core/cards/definitions/elemental/fire.ts:34
+art/cards/element/s1_elem_fire_02.webp	1	apps/shared/tcg-core/cards/definitions/elemental/fire.ts:61
+art/cards/element/s1_elem_fire_03.webp	1	apps/shared/tcg-core/cards/definitions/elemental/fire.ts:79
+art/cards/element/s1_elem_fire_04.webp	1	apps/shared/tcg-core/cards/definitions/elemental/fire.ts:106
+art/cards/element/s1_elem_fire_05.webp	1	apps/shared/tcg-core/cards/definitions/elemental/fire.ts:124
+art/cards/element/s1_elem_water_01.webp	1	apps/shared/tcg-core/cards/definitions/elemental/water.ts:32
+art/cards/element/s1_elem_water_02.webp	1	apps/shared/tcg-core/cards/definitions/elemental/water.ts:55
+art/cards/element/s1_elem_water_03.webp	1	apps/shared/tcg-core/cards/definitions/elemental/water.ts:82
+art/cards/element/s1_elem_water_04.webp	1	apps/shared/tcg-core/cards/definitions/elemental/water.ts:100
+art/cards/element/s1_elem_water_05.webp	1	apps/shared/tcg-core/cards/definitions/elemental/water.ts:128
+art/cards/gen_authority.webp	1	apps/shared/tcg-core/cards/definitions/architect/gen_authority.ts:40
+art/cards/gen_game_master_original.webp	1	apps/shared/tcg-core/cards/definitions/neutral/gen_game_master_original.ts:39
+art/cards/gen_programmer.webp	1	apps/shared/tcg-core/cards/definitions/neutral/gen_programmer.ts:38
+art/cards/gen_seer.webp	1	apps/shared/tcg-core/cards/definitions/neutral/gen_seer.ts:41
+art/cards/hierarchy/lord_master_of_rlyeh.webp	1	apps/shared/tcg-core/cards/definitions/s2_hierarchy/master_of_rlyeh.ts:59
+art/cards/hierarchy/lord_pale_emissary.webp	1	apps/shared/tcg-core/cards/definitions/s2_hierarchy/pale_emissary.ts:69
+art/cards/hierarchy/lord_reckoning_daughter.webp	1	apps/shared/tcg-core/cards/definitions/s2_hierarchy/reckoning_daughter.ts:63
+art/cards/race/s1_race_demagi_01.webp	1	apps/shared/tcg-core/cards/definitions/race/demagi.ts:22
+art/cards/race/s1_race_demagi_02.webp	1	apps/shared/tcg-core/cards/definitions/race/demagi.ts:40
+art/cards/race/s1_race_demagi_03.webp	1	apps/shared/tcg-core/cards/definitions/race/demagi.ts:58
+art/cards/race/s1_race_human_01.webp	1	apps/shared/tcg-core/cards/definitions/race/human.ts:24
+art/cards/race/s1_race_human_02.webp	1	apps/shared/tcg-core/cards/definitions/race/human.ts:42
+art/cards/race/s1_race_human_03.webp	1	apps/shared/tcg-core/cards/definitions/race/human.ts:70
+art/cards/race/s1_race_neyon_01.webp	1	apps/shared/tcg-core/cards/definitions/race/neyon.ts:30
+art/cards/race/s1_race_neyon_02.webp	1	apps/shared/tcg-core/cards/definitions/race/neyon.ts:48
+art/cards/race/s1_race_neyon_03.webp	1	apps/shared/tcg-core/cards/definitions/race/neyon.ts:72
+art/cards/race/s1_race_quarchon_01.webp	1	apps/shared/tcg-core/cards/definitions/race/quarchon.ts:22
+art/cards/race/s1_race_quarchon_02.webp	1	apps/shared/tcg-core/cards/definitions/race/quarchon.ts:40
+art/cards/race/s1_race_quarchon_03.webp	1	apps/shared/tcg-core/cards/definitions/race/quarchon.ts:58
+art/cards/race/s1_race_synthetic_01.webp	1	apps/shared/tcg-core/cards/definitions/race/synthetic.ts:28
+art/cards/race/s1_race_synthetic_02.webp	1	apps/shared/tcg-core/cards/definitions/race/synthetic.ts:46
+art/cards/race/s1_race_synthetic_03.webp	1	apps/shared/tcg-core/cards/definitions/race/synthetic.ts:64
+art/cards/s1_blast_002.webp	1	apps/shared/tcg-core/cards/definitions/architect/s1_blast_002_arc_lance.ts:28
+art/cards/s1_blast_003.webp	1	apps/shared/tcg-core/cards/definitions/insurgency/s1_blast_003_strafe_runner.ts:25
+art/cards/s1_blast_004.webp	1	apps/shared/tcg-core/cards/definitions/thought_virus/s1_blast_004_pyre_swarm.ts:25
+art/cards/s1_blast_005.webp	1	apps/shared/tcg-core/cards/definitions/new_babylon/s1_blast_005_audit_artillery.ts:25
+art/cards/s1_char_018_the_antiquarian.webp	1	apps/shared/tcg-core/cards/definitions/antiquarian/s1_char_018_the_antiquarian.ts:100
+art/cards/s1_curve_001.webp	1	apps/shared/tcg-core/cards/definitions/antiquarian/s1_curve_001_era_mote.ts:25
+art/cards/s1_curve_002.webp	1	apps/shared/tcg-core/cards/definitions/architect/s1_curve_002_schematic_spark.ts:24
+art/cards/s1_curve_003.webp	1	apps/shared/tcg-core/cards/definitions/dreamer/s1_curve_003_glimmer_wisp.ts:25
+art/cards/s1_curve_004.webp	1	apps/shared/tcg-core/cards/definitions/insurgency/s1_curve_004_cell_decoy.ts:24
+art/cards/s1_curve_005.webp	1	apps/shared/tcg-core/cards/definitions/new_babylon/s1_curve_005_compliance_watcher.ts:24
+art/cards/s1_curve_006.webp	1	apps/shared/tcg-core/cards/definitions/antiquarian/s1_curve_006_hourglass_sentinel.ts:25
+art/cards/s1_curve_007.webp	1	apps/shared/tcg-core/cards/definitions/architect/s1_curve_007_schematic_bastion.ts:24
+art/cards/s1_curve_008.webp	1	apps/shared/tcg-core/cards/definitions/dreamer/s1_curve_008_vision_anchor.ts:24
+art/cards/s1_curve_009.webp	1	apps/shared/tcg-core/cards/definitions/insurgency/s1_curve_009_trench_sergeant.ts:24
+art/cards/s1_curve_010.webp	1	apps/shared/tcg-core/cards/definitions/new_babylon/s1_curve_010_sector_magistrate.ts:25
+art/cards/s1_neutral_dispel_001.webp	1	apps/shared/tcg-core/cards/definitions/neutral/engine_demo_cards.ts:60
+art/cards/s1_neutral_if_001.webp	1	apps/shared/tcg-core/cards/definitions/neutral/engine_demo_cards.ts:146
+art/cards/s1_neutral_oncardplayed_001.webp	1	apps/shared/tcg-core/cards/definitions/neutral/engine_demo_cards.ts:266
+art/cards/s1_neutral_onmove_001.webp	1	apps/shared/tcg-core/cards/definitions/neutral/engine_demo_cards.ts:304
+art/cards/s1_neutral_pack_001.webp	1	apps/shared/tcg-core/cards/definitions/neutral/engine_demo_cards.ts:204
+art/cards/s1_neutral_push_001.webp	1	apps/shared/tcg-core/cards/definitions/neutral/engine_demo_cards.ts:100
+art/cards/s1_neutral_resurrect_001.webp	1	apps/shared/tcg-core/cards/definitions/neutral/engine_demo_cards.ts:234
+art/cards/s1_neutral_struct_001.webp	1	apps/shared/tcg-core/cards/definitions/neutral/engine_demo_cards.ts:362
+art/cards/s1_neutral_summonednear_001.webp	1	apps/shared/tcg-core/cards/definitions/neutral/engine_demo_cards.ts:338
+art/cards/s1_neutral_zeal_001.webp	1	apps/shared/tcg-core/cards/definitions/neutral/engine_demo_cards.ts:175
+art/cards/s1_resurrect_002.webp	1	apps/shared/tcg-core/cards/definitions/thought_virus/s1_resurrect_002_persistent_strain.ts:29
+art/cards/s1_resurrect_003.webp	1	apps/shared/tcg-core/cards/definitions/insurgency/s1_resurrect_003_ghost_cell_runner.ts:24
+art/cards/s1_resurrect_004.webp	1	apps/shared/tcg-core/cards/definitions/panopticon/s1_resurrect_004_undying_witness.ts:23
+art/cards/s1_resurrect_005.webp	1	apps/shared/tcg-core/cards/definitions/neutral/s1_resurrect_005_eternal_pilgrim.ts:23
+art/cards/s1_struct_002.webp	1	apps/shared/tcg-core/cards/definitions/architect/s1_struct_002_observation_pylon.ts:28
+art/cards/s1_struct_003.webp	1	apps/shared/tcg-core/cards/definitions/dreamer/s1_struct_003_dream_anchor.ts:24
+art/cards/s1_struct_004.webp	1	apps/shared/tcg-core/cards/definitions/new_babylon/s1_struct_004_audit_tower.ts:24
+art/cards/s1_struct_005.webp	1	apps/shared/tcg-core/cards/definitions/antiquarian/s1_struct_005_relic_archive.ts:23
+art/cards/s1_warlord_three_moves.webp	1	apps/shared/tcg-core/cards/definitions/architect/s1_warlord_three_moves.ts:57
+art/cards/s1_zeal_002.webp	1	apps/shared/tcg-core/cards/definitions/architect/s1_zeal_002_engine_warden.ts:31
+art/cards/s1_zeal_003.webp	1	apps/shared/tcg-core/cards/definitions/insurgency/s1_zeal_003_oath_keeper.ts:28
+art/cards/s1_zeal_004.webp	1	apps/shared/tcg-core/cards/definitions/antiquarian/s1_zeal_004_relic_acolyte.ts:28
+art/cards/s1_zeal_005.webp	1	apps/shared/tcg-core/cards/definitions/new_babylon/s1_zeal_005_compliance_zealot.ts:27
+art/cards/s2_watcher_001.webp	1	apps/shared/tcg-core/cards/definitions/panopticon/s2_watcher_001_l_signature.ts:42
+art/cards/s2_watcher_002.webp	1	apps/shared/tcg-core/cards/definitions/panopticon/s2_watcher_002_the_coordinators_dossier.ts:31
+art/cards/s2_watcher_003.webp	1	apps/shared/tcg-core/cards/definitions/panopticon/s2_watcher_003_now_you_are_ours.ts:41
+art/cutscenes/	1	apps/scripts/upload_cutscenes.sh:139
+art/dischordian-logic	1	apps/client/src/pages/DischordianLogicSongPage.tsx:30
+art/dmc/environments/	1	apps/client/src/data/dmcAssets.ts:114
+art/dmc/keyframes/	1	apps/client/src/data/dmcAssets.ts:117
+art/eidolons/	1	apps/client/src/data/nanobanna2Assets.ts:134
+art/empty-states/	1	apps/client/src/data/optionalComponentAssets.ts:94
+art/fighters/architect	1	apps/client/src/game/spriteSheetConfig.ts:146
+art/fighters/collector	1	apps/client/src/game/spriteSheetConfig.ts:170
+art/fighters/enigma	1	apps/client/src/game/spriteSheetConfig.ts:187
+art/lore-gallery/	1	apps/client/src/data/optionalComponentAssets.ts:101
+art/recruits/akai_shi_base.webp	2	apps/client/src/game/npcPortraits.ts:347; apps/client/src/game/npcPortraits.ts:348
+art/recruits/akai_shi_considered.webp	2	apps/client/src/game/npcPortraits.ts:354; apps/client/src/game/npcPortraits.ts:362
+art/recruits/akai_shi_neutral.webp	2	apps/client/src/game/npcPortraits.ts:351; apps/client/src/game/npcPortraits.ts:359
+art/recruits/akai_shi_vulnerable.webp	1	apps/client/src/game/npcPortraits.ts:363
+art/recruits/akai_shi_warm.webp	2	apps/client/src/game/npcPortraits.ts:352; apps/client/src/game/npcPortraits.ts:360
+art/recruits/akai_shi_wary.webp	2	apps/client/src/game/npcPortraits.ts:353; apps/client/src/game/npcPortraits.ts:361
+art/recruits/jericho_jones_base.webp	2	apps/client/src/game/npcPortraits.ts:326; apps/client/src/game/npcPortraits.ts:327
+art/recruits/jericho_jones_considered.webp	2	apps/client/src/game/npcPortraits.ts:333; apps/client/src/game/npcPortraits.ts:341
+art/recruits/jericho_jones_neutral.webp	2	apps/client/src/game/npcPortraits.ts:330; apps/client/src/game/npcPortraits.ts:338
+art/recruits/jericho_jones_vulnerable.webp	1	apps/client/src/game/npcPortraits.ts:342
+art/recruits/jericho_jones_warm.webp	2	apps/client/src/game/npcPortraits.ts:331; apps/client/src/game/npcPortraits.ts:339
+art/recruits/jericho_jones_wary.webp	2	apps/client/src/game/npcPortraits.ts:332; apps/client/src/game/npcPortraits.ts:340
+art/recruits/vex_solene_base.webp	2	apps/client/src/game/npcPortraits.ts:284; apps/client/src/game/npcPortraits.ts:285
+art/recruits/vex_solene_considered.webp	2	apps/client/src/game/npcPortraits.ts:291; apps/client/src/game/npcPortraits.ts:299
+art/recruits/vex_solene_neutral.webp	2	apps/client/src/game/npcPortraits.ts:288; apps/client/src/game/npcPortraits.ts:296
+art/recruits/vex_solene_vulnerable.webp	1	apps/client/src/game/npcPortraits.ts:300
+art/recruits/vex_solene_warm.webp	2	apps/client/src/game/npcPortraits.ts:289; apps/client/src/game/npcPortraits.ts:297
+art/recruits/vex_solene_wary.webp	2	apps/client/src/game/npcPortraits.ts:290; apps/client/src/game/npcPortraits.ts:298
+art/recruits/wraith_calder_base.webp	2	apps/client/src/game/npcPortraits.ts:305; apps/client/src/game/npcPortraits.ts:306
+art/recruits/wraith_calder_considered.webp	2	apps/client/src/game/npcPortraits.ts:312; apps/client/src/game/npcPortraits.ts:320
+art/recruits/wraith_calder_neutral.webp	2	apps/client/src/game/npcPortraits.ts:309; apps/client/src/game/npcPortraits.ts:317
+art/recruits/wraith_calder_vulnerable.webp	1	apps/client/src/game/npcPortraits.ts:321
+art/recruits/wraith_calder_warm.webp	2	apps/client/src/game/npcPortraits.ts:310; apps/client/src/game/npcPortraits.ts:318
+art/recruits/wraith_calder_wary.webp	2	apps/client/src/game/npcPortraits.ts:311; apps/client/src/game/npcPortraits.ts:319
+art/roadmap/	2	apps/client/src/data/optionalComponentAssets.ts:97; apps/client/src/data/optionalComponentAssets.ts:98
+art/rooms/	8	apps/client/src/data/nanobanna2Assets.ts:138; apps/shared/expansionArt/roomArtManifest.test.ts:12; apps/shared/expansionArt/roomArtManifest.ts:18
+art/rooms/ark	1	apps/client/src/game/roomStateAssets.ts:157
+art/rooms/mystery-states	2	apps/client/src/game/roomStateAssets.ts:68; docs/audits/CONNECTION_AUDIT_2026-05-07.md:384
+art/rooms/room-guild-sanctum.webp	1	apps/client/src/contexts/GameContext.tsx:2014
+art/rooms/room-hall-of-disappearances.webp	1	apps/client/src/contexts/GameContext.tsx:2179
+art/rooms/room-social-hub.webp	1	apps/client/src/contexts/GameContext.tsx:2061
+art/rooms/room-station-dock.webp	1	apps/client/src/contexts/GameContext.tsx:1980
+art/rooms/room-war-room.png	1	apps/client/src/pages/Act5InterludePage.tsx:136
+art/rooms/room-war-room.webp	1	apps/client/src/contexts/GameContext.tsx:2094
+art/rooms/videos	1	apps/client/src/game/roomStateAssets.ts:305
+art/seasonal/	2	apps/client/src/data/optionalComponentAssets.ts:95; apps/client/src/data/optionalComponentAssets.ts:96
+art/soul-stones/	1	apps/client/src/data/nanobanna2Assets.ts:133
+art/specimens/	1	apps/client/src/data/nanobanna2Assets.ts:137
+art/specimens/cipher	1	apps/client/src/data/companions/starterEidolonForms.ts:402
+art/specimens/echo	1	apps/client/src/data/companions/starterEidolonForms.ts:220
+art/specimens/flicker	1	apps/client/src/data/companions/starterEidolonForms.ts:493
+art/specimens/gilt	1	apps/client/src/data/companions/starterEidolonForms.ts:584
+art/specimens/glyph	1	apps/client/src/data/companions/starterEidolonForms.ts:311
+art/specimens/lux	1	apps/client/src/data/companions/starterEidolonForms.ts:129
+art/spectral/	1	apps/client/src/data/nanobanna2Assets.ts:136
+art/story-icons/	2	apps/client/src/data/optionalComponentAssets.ts:99; apps/client/src/data/optionalComponentAssets.ts:100
+art/strain/	1	apps/client/src/data/nanobanna2Assets.ts:135
+art/suits/odd%20set/rare/head.png	1	apps/client/src/game/paperDoll/suitArt.test.ts:27
+art/terminus/cinematics/	1	apps/client/src/data/terminusCinematicAssets.ts:23
+art/vfx/	2	apps/client/src/data/nanobanna2Assets.ts:139; apps/client/src/data/nanobanna2Assets.ts:140
+audio/acts/act-5-map-intro.mp3	1	docs/archive/2026-05-08-superseded/ACTS_2_THROUGH_7_ASSET_BIBLE.md:713
+audio/album1/T11.mp3	1	apps/shared/dreamerVisions.ts:203
+audio/album1/T18.mp3	1	apps/shared/dreamerVisions.ts:326
+audio/album1/T23.mp3	1	apps/shared/dreamerVisions.ts:455
+audio/antiquarian	1	apps/client/src/components/act1/TwoWitnessesPart2.tsx:81
+audio/cades/music/	1	apps/client/src/data/cadesAssets.ts:143
+audio/cades/sfx/	1	apps/client/src/data/cadesAssets.ts:142
+audio/chess_tutorial	1	apps/server/routers/chess.ts:91
+music/dmc/	1	apps/client/src/data/dmcAssets.ts:115
+path	1	docs/production/audit/extract-urls.sh:10
+videos/arena-intros/ch01_agent_zero_complete.mp4	1	docs/production/NANO_BANANA_VEO_FIGHT_INTRO_PROMPTS_DRAFT.md:789
+videos/discoveries/<entity_id>.mp4	1	docs/archive/2026-05-08-superseded/PROMPT_BOOK_2026-04-25.md:1886
+videos/dmc/	1	apps/client/src/data/dmcAssets.ts:116
+videos/title/...	3	apps/shared/__tests__/coverageProbeTitleVideos.test.ts:7; apps/shared/__tests__/coverageProbeTitleVideos.test.ts:34; apps/shared/__tests__/coverageProbeTitleVideos.test.ts:40
+…	1	docs/archive/2026-05-08-superseded/ART_AUDIT_VERIFIED_2026-04-25.md:20
