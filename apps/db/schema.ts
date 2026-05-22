@@ -7586,6 +7586,107 @@ export const playerPreparation = mysqlTable("player_preparation", {
 export type PlayerPreparationRow = typeof playerPreparation.$inferSelect;
 
 /* ─────────────────────────────────────────────────────────────────
+ * NEXUS TRIAL (docs/design/NEXUS_TRIAL_PLAN.md)
+ * Tables driving the 72-hour live event.
+ *   - trials         : 1 row per Trial. Status + timing + version pin.
+ *   - trial_phases   : 6 rows per Trial. Phase boundaries + closed snapshot.
+ *   - trial_tallies  : denormalized running aggregates. Read by the
+ *                      Three Clocks leaderboard at fallback poll cadence.
+ * The expectation is one row in `trials` ever (March 2027), but the
+ * schema supports replay/restart if needed.
+ * ───────────────────────────────────────────────────────────────── */
+export const trials = mysqlTable("trials", {
+  id: int("id").autoincrement().primaryKey(),
+  /** Stable identifier surfaced to clients; e.g. "nexus_trial_2027". */
+  trialKey: varchar("trialKey", { length: 64 }).notNull().unique(),
+  /** Phase the tick service most recently advanced into. */
+  currentPhase: mysqlEnum("currentPhase", [
+    "charge",
+    "opening",
+    "evidence",
+    "cross_examination",
+    "confession",
+    "verdict",
+  ]).notNull().default("charge"),
+  /** When the trial flipped from pre_trial → live. */
+  startedAt: timestamp("startedAt").defaultNow().notNull(),
+  /** When the current phase started. */
+  phaseStartedAt: timestamp("phaseStartedAt").defaultNow().notNull(),
+  /** When the current phase is scheduled to end. */
+  phaseEndsAt: timestamp("phaseEndsAt").notNull(),
+  /** Production: 12h per phase. Staging dry-runs use shorter. */
+  phaseDurationMs: bigint("phaseDurationMs", { mode: "number" }).notNull(),
+  /** Replay-pin: rules version at trial start. */
+  rulesVersionAtStart: varchar("rulesVersionAtStart", { length: 32 }).notNull(),
+  /** Lifecycle status. */
+  status: mysqlEnum("status", [
+    "pre_trial",
+    "live",
+    "verdict_resolving",
+    "closed",
+    "aborted",
+  ]).notNull().default("pre_trial"),
+  /** Operator abort metadata. Null unless status = "aborted". */
+  abortReason: text("abortReason"),
+  abortedAt: timestamp("abortedAt"),
+  /** Per-CLAUDE.md observability rule: who fired the abort. */
+  abortedByUserId: int("abortedByUserId").references(() => users.id),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull().onUpdateNow(),
+});
+export type TrialRow = typeof trials.$inferSelect;
+
+export const trialPhases = mysqlTable("trial_phases", {
+  id: int("id").autoincrement().primaryKey(),
+  trialId: int("trialId").notNull().references(() => trials.id, { onDelete: "cascade" }),
+  phase: mysqlEnum("phase", [
+    "charge",
+    "opening",
+    "evidence",
+    "cross_examination",
+    "confession",
+    "verdict",
+  ]).notNull(),
+  /** When the phase started (==phaseStartedAt on trials when active). */
+  startedAt: timestamp("startedAt").defaultNow().notNull(),
+  /** When the phase closed (null while the phase is live). */
+  closedAt: timestamp("closedAt"),
+  /** Final tally snapshot persisted at transition out of this phase.
+   *  Shape stays loose JSON because the Sprint-10 aggregation queries
+   *  evolve; the column is the durable record of "what the tally was
+   *  when phase N closed". */
+  finalTallySnapshot: json("finalTallySnapshot").$type<Record<string, unknown>>(),
+}, (t) => ({
+  byTrialPhase: uniqueIndex("byTrialPhase").on(t.trialId, t.phase),
+}));
+export type TrialPhaseRow = typeof trialPhases.$inferSelect;
+
+export const trialTallies = mysqlTable("trial_tallies", {
+  id: int("id").autoincrement().primaryKey(),
+  trialId: int("trialId").notNull().references(() => trials.id, { onDelete: "cascade" }),
+  phase: mysqlEnum("phase", [
+    "charge",
+    "opening",
+    "evidence",
+    "cross_examination",
+    "confession",
+    "verdict",
+  ]).notNull(),
+  /** Key into the aggregation namespace — e.g. "companion:elara",
+   *  "ballot:wraith_calder", "faction:architect". */
+  bucket: varchar("bucket", { length: 128 }).notNull(),
+  /** Aggregated weighted vote count for this bucket in this phase.
+   *  Sprint 10's tick aggregator writes to this row; the leaderboard
+   *  reads from it. */
+  weight: int("weight").notNull().default(0),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull().onUpdateNow(),
+}, (t) => ({
+  byTrialPhaseBucket: uniqueIndex("byTrialPhaseBucket").on(t.trialId, t.phase, t.bucket),
+  byTrialBucket: index("byTrialBucket").on(t.trialId, t.bucket),
+}));
+export type TrialTallyRow = typeof trialTallies.$inferSelect;
+
+/* ─────────────────────────────────────────────────────────────────
  * PET BREEDING (docs/archive/2026-05-08-superseded/BREEDING_SYSTEM_ART_PROMPTS.md)
  * Pair-based breeding: parentA + parentB → offspring with combined
  * traits. `status` walks queued → incubating → ready → claimed/cancelled.
