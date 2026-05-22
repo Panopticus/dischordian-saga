@@ -8286,5 +8286,40 @@
     "context": "room_warning",
     "emotion": "fearful",
     "file": "shared/roomMysteries/hallOfDisappearances.ts"
+  },
+  {
+    "id": "character_sheet_intro_1",
+    "text": "Neural scan complete. Your biometric profile has been compiled, Operative.",
+    "context": "character_sheet_intro",
+    "emotion": "warm",
+    "file": "client/src/pages/CharacterSheetPage.tsx"
+  },
+  {
+    "id": "character_sheet_intro_2",
+    "text": "This is your dossier — everything we know about what you are. Your species markers, your class aptitudes, your elemental affinity. I'll surface the rest as you need it.",
+    "context": "character_sheet_intro",
+    "emotion": "warm",
+    "file": "client/src/pages/CharacterSheetPage.tsx"
+  },
+  {
+    "id": "character_sheet_intro_3",
+    "text": "I've cross-referenced your readings against the Ark's historical database. You are not a small signal. The Prophecy may have been right about you.",
+    "context": "character_sheet_intro",
+    "emotion": "warm",
+    "file": "client/src/pages/CharacterSheetPage.tsx"
+  },
+  {
+    "id": "character_sheet_intro_4",
+    "text": "Sit with this. Let it be true for a moment. The deck plates outside this room remember things you don't, and you'll need to remember some of them back.",
+    "context": "character_sheet_intro",
+    "emotion": "warm",
+    "file": "client/src/pages/CharacterSheetPage.tsx"
+  },
+  {
+    "id": "character_sheet_intro_5",
+    "text": "When you're ready — the Cryo Bay door is open. Walk through. I'll stay with you.",
+    "context": "character_sheet_intro",
+    "emotion": "warm",
+    "file": "client/src/pages/CharacterSheetPage.tsx"
   }
 ]
