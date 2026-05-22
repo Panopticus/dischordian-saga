@@ -17,6 +17,7 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "node:url";
+import { spokenText } from "../shared/voSpokenText";
 
 // ESM polyfill for CommonJS-style __dirname.
 const __filename = fileURLToPath(import.meta.url);
@@ -124,7 +125,10 @@ async function generateSpeech(text: string, emotion: string): Promise<Buffer> {
   // Direction is conveyed via voice_settings (stability/style/etc.); the
   // ElevenLabs Multilingual v2 model does not interpret asterisk-bracketed
   // prose as direction — it speaks it literally — so the prefix is ignored.
-  const fullText = text;
+  // `spokenText` strips producer cue cards like `[CUE 0:00] [Voice
+  // direction: warm.]` that were authored into the *-lines.json banks
+  // and would otherwise be read aloud before the real line.
+  const fullText = spokenText(text);
 
   const response = await fetch(
     `https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID}`,

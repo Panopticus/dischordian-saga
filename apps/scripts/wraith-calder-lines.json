@@ -5,7 +5,11 @@
     "context": "post_recruit_visit.root",
     "emotion": "calibrated",
     "file": "shared/npcs/dialogTrees/wraith_calder/post_recruit_visit.ts",
-    "meta": { "npcKey": "wraith_calder", "treeId": "wraith-calder-post-recruit-visit", "nodeId": "root" }
+    "meta": {
+      "npcKey": "wraith_calder",
+      "treeId": "wraith-calder-post-recruit-visit",
+      "nodeId": "root"
+    }
   },
   {
     "id": "wraith.post_recruit.witness_the_ledger",
@@ -13,7 +17,11 @@
     "context": "post_recruit_visit.witness_the_ledger",
     "emotion": "grateful",
     "file": "shared/npcs/dialogTrees/wraith_calder/post_recruit_visit.ts",
-    "meta": { "npcKey": "wraith_calder", "treeId": "wraith-calder-post-recruit-visit", "nodeId": "witness_the_ledger" }
+    "meta": {
+      "npcKey": "wraith_calder",
+      "treeId": "wraith-calder-post-recruit-visit",
+      "nodeId": "witness_the_ledger"
+    }
   },
   {
     "id": "wraith.post_recruit.ask_about_the_song",
@@ -21,7 +29,11 @@
     "context": "post_recruit_visit.ask_about_the_song",
     "emotion": "vulnerable",
     "file": "shared/npcs/dialogTrees/wraith_calder/post_recruit_visit.ts",
-    "meta": { "npcKey": "wraith_calder", "treeId": "wraith-calder-post-recruit-visit", "nodeId": "ask_about_the_song" }
+    "meta": {
+      "npcKey": "wraith_calder",
+      "treeId": "wraith-calder-post-recruit-visit",
+      "nodeId": "ask_about_the_song"
+    }
   },
   {
     "id": "wraith.post_recruit.ask_about_dying",
@@ -29,7 +41,11 @@
     "context": "post_recruit_visit.ask_about_dying",
     "emotion": "analytical",
     "file": "shared/npcs/dialogTrees/wraith_calder/post_recruit_visit.ts",
-    "meta": { "npcKey": "wraith_calder", "treeId": "wraith-calder-post-recruit-visit", "nodeId": "ask_about_dying" }
+    "meta": {
+      "npcKey": "wraith_calder",
+      "treeId": "wraith-calder-post-recruit-visit",
+      "nodeId": "ask_about_dying"
+    }
   },
   {
     "id": "wraith.post_recruit.decline_to_visit",
@@ -37,7 +53,11 @@
     "context": "post_recruit_visit.decline_to_visit",
     "emotion": "neutral",
     "file": "shared/npcs/dialogTrees/wraith_calder/post_recruit_visit.ts",
-    "meta": { "npcKey": "wraith_calder", "treeId": "wraith-calder-post-recruit-visit", "nodeId": "decline_to_visit" }
+    "meta": {
+      "npcKey": "wraith_calder",
+      "treeId": "wraith-calder-post-recruit-visit",
+      "nodeId": "decline_to_visit"
+    }
   },
   {
     "id": "wraith.loyalty_intro.root",
@@ -45,7 +65,11 @@
     "context": "loyalty_intro.root",
     "emotion": "considered",
     "file": "shared/npcs/dialogTrees/wraith_calder/loyalty_intro.ts",
-    "meta": { "npcKey": "wraith_calder", "treeId": "wraith-calder-loyalty-intro", "nodeId": "root" }
+    "meta": {
+      "npcKey": "wraith_calder",
+      "treeId": "wraith-calder-loyalty-intro",
+      "nodeId": "root"
+    }
   },
   {
     "id": "wraith.loyalty_intro.accept_loyalty",
@@ -53,7 +77,11 @@
     "context": "loyalty_intro.accept_loyalty",
     "emotion": "grateful",
     "file": "shared/npcs/dialogTrees/wraith_calder/loyalty_intro.ts",
-    "meta": { "npcKey": "wraith_calder", "treeId": "wraith-calder-loyalty-intro", "nodeId": "accept_loyalty" }
+    "meta": {
+      "npcKey": "wraith_calder",
+      "treeId": "wraith-calder-loyalty-intro",
+      "nodeId": "accept_loyalty"
+    }
   },
   {
     "id": "wraith.loyalty_intro.press_for_premise",
@@ -61,7 +89,11 @@
     "context": "loyalty_intro.press_for_premise",
     "emotion": "analytical",
     "file": "shared/npcs/dialogTrees/wraith_calder/loyalty_intro.ts",
-    "meta": { "npcKey": "wraith_calder", "treeId": "wraith-calder-loyalty-intro", "nodeId": "press_for_premise" }
+    "meta": {
+      "npcKey": "wraith_calder",
+      "treeId": "wraith-calder-loyalty-intro",
+      "nodeId": "press_for_premise"
+    }
   },
   {
     "id": "wraith.loyalty_intro.post_premise_offer",
@@ -69,7 +101,11 @@
     "context": "loyalty_intro.post_premise_offer",
     "emotion": "patient",
     "file": "shared/npcs/dialogTrees/wraith_calder/loyalty_intro.ts",
-    "meta": { "npcKey": "wraith_calder", "treeId": "wraith-calder-loyalty-intro", "nodeId": "post_premise_offer" }
+    "meta": {
+      "npcKey": "wraith_calder",
+      "treeId": "wraith-calder-loyalty-intro",
+      "nodeId": "post_premise_offer"
+    }
   },
   {
     "id": "wraith.loyalty_intro.defer",
@@ -77,7 +113,11 @@
     "context": "loyalty_intro.defer",
     "emotion": "patient",
     "file": "shared/npcs/dialogTrees/wraith_calder/loyalty_intro.ts",
-    "meta": { "npcKey": "wraith_calder", "treeId": "wraith-calder-loyalty-intro", "nodeId": "defer" }
+    "meta": {
+      "npcKey": "wraith_calder",
+      "treeId": "wraith-calder-loyalty-intro",
+      "nodeId": "defer"
+    }
   },
   {
     "id": "wraith.loyalty_intro.summon_the_antiquarian",
@@ -85,7 +125,11 @@
     "context": "loyalty_intro.summon_the_antiquarian",
     "emotion": "correcting",
     "file": "shared/npcs/dialogTrees/wraith_calder/loyalty_intro.ts",
-    "meta": { "npcKey": "wraith_calder", "treeId": "wraith-calder-loyalty-intro", "nodeId": "summon_the_antiquarian" }
+    "meta": {
+      "npcKey": "wraith_calder",
+      "treeId": "wraith-calder-loyalty-intro",
+      "nodeId": "summon_the_antiquarian"
+    }
   },
   {
     "id": "wraith.loyalty_stage_1.ledger",
@@ -170,7 +214,9 @@
     "context": "ask_topic_answer",
     "emotion": "relieved",
     "file": "shared/companionAskTopics.ts",
-    "meta": { "requiresFlag": "loyalty_wraith_calder_complete" }
+    "meta": {
+      "requiresFlag": "loyalty_wraith_calder_complete"
+    }
   },
   {
     "id": "wraith.ask.about_the_antiquarian",
@@ -185,7 +231,9 @@
     "context": "ask_topic_answer",
     "emotion": "warm",
     "file": "shared/companionAskTopics.ts",
-    "meta": { "requiresBond": 50 }
+    "meta": {
+      "requiresBond": 50
+    }
   },
   {
     "id": "wraith.room_ambient.ledger_vault.1",
@@ -214,7 +262,9 @@
     "context": "reactive_act_complete",
     "emotion": "considered",
     "file": "shared/companionComments.ts",
-    "meta": { "trigger": "act_4_complete" }
+    "meta": {
+      "trigger": "act_4_complete"
+    }
   },
   {
     "id": "wraith.reactive.first_summon",
@@ -222,7 +272,9 @@
     "context": "reactive_summon",
     "emotion": "warm",
     "file": "shared/companionComments.ts",
-    "meta": { "trigger": "first_imprint_summoned" }
+    "meta": {
+      "trigger": "first_imprint_summoned"
+    }
   },
   {
     "id": "wraith.reactive.lycos_recruited",
@@ -230,7 +282,9 @@
     "context": "reactive_lycos_joined",
     "emotion": "kindred",
     "file": "shared/companionComments.ts",
-    "meta": { "trigger": "lycos_recruited" }
+    "meta": {
+      "trigger": "lycos_recruited"
+    }
   },
   {
     "id": "wraith.reactive.akai_recruited",
@@ -238,15 +292,21 @@
     "context": "reactive_akai_joined",
     "emotion": "kindred",
     "file": "shared/companionComments.ts",
-    "meta": { "trigger": "akai_shi_recruited" }
+    "meta": {
+      "trigger": "akai_shi_recruited"
+    }
   },
   {
     "id": "wraith.romance.intro",
-    "text": "[He sets the pen down. The pen-pause is canonical. He has not paused the pen for a private reason in fourteen years.] I would like to ask you something the Syndicate's ledger did not have a column for. The asking is the question. The asking is canonical. I am — asking.",
+    "text": "I would like to ask you something the Syndicate's ledger did not have a column for. The asking is the question. The asking is canonical. I am — asking.",
     "context": "romance_intro",
     "emotion": "vulnerable",
     "file": "shared/loyaltyMissions.ts",
-    "meta": { "requiresFlag": "loyalty_wraith_calder_complete", "requiresBond": 80 }
+    "meta": {
+      "requiresFlag": "loyalty_wraith_calder_complete",
+      "requiresBond": 80
+    },
+    "directionNotes": "[He sets the pen down. The pen-pause is canonical. He has not paused the pen for a private reason in fourteen years.] I would like to ask you something the Syndicate's ledger did not have a column for. The asking is the question. The asking is canonical. I am — asking."
   },
   {
     "id": "wraith.romance.accept",

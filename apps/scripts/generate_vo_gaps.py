@@ -39,6 +39,7 @@ Deps: pip install requests boto3
 import argparse
 import json
 import os
+import re
 import sys
 import time
 from dataclasses import dataclass, field
@@ -566,7 +567,31 @@ for _key, _file in TS_BANKS_REGISTRY:
 
 # ── ElevenLabs / S3 plumbing ─────────────────────────────
 
+_STAGE_DIR_LEADING = re.compile(r"^\s*(?:\[[^\]]*\]\s*)+")
+_STAGE_DIR_MIDLINE = re.compile(r"([.!?]\s+|\n\s*)\[[^\]]*\]\s*")
+
+
+def _spoken_text(raw: str) -> str:
+    """Strip producer-facing stage directions from a line's text so it
+    is safe to send to ElevenLabs TTS. Mirrors the canonical TS
+    implementation in apps/shared/voSpokenText.ts — see that file for
+    the rule set. Defensive: even when the JSON banks are pre-cleaned
+    by `pnpm vo:strip-directions`, a fresh line that lands with cue
+    cards intact will not be read aloud. When the strip would empty
+    the line entirely (the whole text is bracketed — a narrator-action
+    beat), the original is returned unchanged."""
+    if not raw:
+        return raw
+    s = _STAGE_DIR_LEADING.sub("", raw)
+    s = _STAGE_DIR_MIDLINE.sub(r"\1", s)
+    s = s.strip()
+    if not s:
+        return raw.strip()
+    return s
+
+
 def generate_speech(text: str, voice_id: str, settings: dict) -> bytes:
+    cleaned = _spoken_text(text)
     resp = requests.post(
         f"https://api.elevenlabs.io/v1/text-to-speech/{voice_id}",
         headers={
@@ -575,7 +600,7 @@ def generate_speech(text: str, voice_id: str, settings: dict) -> bytes:
             "Accept": "audio/mpeg",
         },
         json={
-            "text": text,
+            "text": cleaned,
             "model_id": "eleven_multilingual_v2",
             "voice_settings": {
                 "stability": settings["stability"],

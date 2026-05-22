@@ -85,6 +85,8 @@
     "vo:everything:extract": "bash scripts/run-vo-gaps-pipeline.sh --extract-only",
     "vo:run-all": "bash scripts/run-all-vo.sh",
     "vo:audit": "node scripts/_vo-audit.mjs",
+    "vo:strip-directions": "tsx apps/scripts/strip-vo-stage-directions.ts",
+    "vo:strip-directions:dry": "tsx apps/scripts/strip-vo-stage-directions.ts --dry",
     "vo:purge-zombies:dry": "node scripts/_vo-purge-zombies.mjs",
     "vo:purge-zombies": "node scripts/_vo-purge-zombies.mjs --apply",
     "art:generate-csv": "tsx apps/scripts/generate-act1-art-csv.ts",

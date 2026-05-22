@@ -66,8 +66,9 @@
   },
   {
     "id": "entity_18",
-    "text": "The Engineer. [CLASSIFIED]. The Engineer was one of the original Potentials — a brilliant technologist whose mastery of nanotechnology and mechanical systems was unmatched. Status: Confirmed reports of execution by the Warlord after the Battle of Nexon.",
-    "entryType": "character"
+    "text": "The Engineer. . The Engineer was one of the original Potentials — a brilliant technologist whose mastery of nanotechnology and mechanical systems was unmatched. Status: Confirmed reports of execution by the Warlord after the Battle of Nexon.",
+    "entryType": "character",
+    "directionNotes": "The Engineer. [CLASSIFIED]. The Engineer was one of the original Potentials — a brilliant technologist whose mastery of nanotechnology and mechanical systems was unmatched. Status: Confirmed reports of execution by the Warlord after the Battle of Nexon."
   },
   {
     "id": "entity_20",

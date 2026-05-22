@@ -29,6 +29,11 @@ interface FirstMeetLineEntry {
   context: string;
   emotion: string;
   file: string;
+  /** Producer-facing cue card that the extractor moved out of `text`
+   *  so the ElevenLabs model would stop reading "[CUE 0:00] Voice
+   *  direction: warm." aloud. When set, `directionNotes ?? text` is
+   *  the canonical authored onscreen string. */
+  directionNotes?: string;
   meta?: {
     npcKey?: string;
     treeId?: string;
@@ -91,7 +96,14 @@ describe("NPC first-meeting transcript JSONs (round-3 gap 1)", () => {
     }
   });
 
-  it("entry text matches the canonical onscreenText from the dialog-tree node verbatim (round-trip)", () => {
+  it("entry text matches the canonical onscreenText from the dialog-tree node verbatim (round-trip via directionNotes when a cue card was stripped)", () => {
+    // The TS → JSON extractor now routes producer-facing cue cards
+    // (`[CUE 0:00]`, `[Voice direction: warm.]`, mid-line stage
+    // directions) out of `text` and into `directionNotes` so the
+    // TTS-bound `text` is clean. The round-trip we check is:
+    //   onscreenText === (entry.directionNotes ?? entry.text)
+    // When no direction was present `directionNotes` is undefined and
+    // `text` already matches `onscreenText` verbatim.
     for (const [npcKey, trees] of treesByNpc) {
       const entries = entriesForNpc(npcKey);
       const entryById = new Map(entries.map((e) => [e.id, e]));
@@ -100,7 +112,8 @@ describe("NPC first-meeting transcript JSONs (round-3 gap 1)", () => {
           if (!node.voLineId || !node.onscreenText) continue;
           const entry = entryById.get(node.voLineId);
           if (!entry) continue;
-          expect(entry.text, `${npcKey} ${node.id} text round-trip`).toBe(node.onscreenText);
+          const roundTrip = entry.directionNotes ?? entry.text;
+          expect(roundTrip, `${npcKey} ${node.id} text round-trip`).toBe(node.onscreenText);
         }
       }
     }

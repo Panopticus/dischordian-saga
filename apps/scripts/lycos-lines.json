@@ -5,7 +5,11 @@
     "context": "first_meeting.root",
     "emotion": "weary",
     "file": "shared/npcs/dialogTrees/lycos/first_meeting.ts",
-    "meta": { "npcKey": "lycos", "treeId": "lycos-first-meeting", "nodeId": "root" }
+    "meta": {
+      "npcKey": "lycos",
+      "treeId": "lycos-first-meeting",
+      "nodeId": "root"
+    }
   },
   {
     "id": "lycos.first_meeting.sit_silent",
@@ -13,7 +17,11 @@
     "context": "first_meeting.sit_silent",
     "emotion": "grateful",
     "file": "shared/npcs/dialogTrees/lycos/first_meeting.ts",
-    "meta": { "npcKey": "lycos", "treeId": "lycos-first-meeting", "nodeId": "sit_silent" }
+    "meta": {
+      "npcKey": "lycos",
+      "treeId": "lycos-first-meeting",
+      "nodeId": "sit_silent"
+    }
   },
   {
     "id": "lycos.first_meeting.ask_pause_line",
@@ -21,7 +29,11 @@
     "context": "first_meeting.ask_pause_line",
     "emotion": "considered",
     "file": "shared/npcs/dialogTrees/lycos/first_meeting.ts",
-    "meta": { "npcKey": "lycos", "treeId": "lycos-first-meeting", "nodeId": "ask_pause_line" }
+    "meta": {
+      "npcKey": "lycos",
+      "treeId": "lycos-first-meeting",
+      "nodeId": "ask_pause_line"
+    }
   },
   {
     "id": "lycos.first_meeting.ask_about_mercy",
@@ -29,7 +41,11 @@
     "context": "first_meeting.ask_about_mercy",
     "emotion": "vulnerable",
     "file": "shared/npcs/dialogTrees/lycos/first_meeting.ts",
-    "meta": { "npcKey": "lycos", "treeId": "lycos-first-meeting", "nodeId": "ask_about_mercy" }
+    "meta": {
+      "npcKey": "lycos",
+      "treeId": "lycos-first-meeting",
+      "nodeId": "ask_about_mercy"
+    }
   },
   {
     "id": "lycos.first_meeting.test_the_wolf",
@@ -37,7 +53,11 @@
     "context": "first_meeting.test_the_wolf",
     "emotion": "correcting",
     "file": "shared/npcs/dialogTrees/lycos/first_meeting.ts",
-    "meta": { "npcKey": "lycos", "treeId": "lycos-first-meeting", "nodeId": "test_the_wolf" }
+    "meta": {
+      "npcKey": "lycos",
+      "treeId": "lycos-first-meeting",
+      "nodeId": "test_the_wolf"
+    }
   },
   {
     "id": "lycos.loyalty_intro.root",
@@ -45,7 +65,11 @@
     "context": "loyalty_intro.root",
     "emotion": "considered",
     "file": "shared/npcs/dialogTrees/lycos/loyalty_intro.ts",
-    "meta": { "npcKey": "lycos", "treeId": "lycos-loyalty-intro", "nodeId": "root" }
+    "meta": {
+      "npcKey": "lycos",
+      "treeId": "lycos-loyalty-intro",
+      "nodeId": "root"
+    }
   },
   {
     "id": "lycos.loyalty_intro.ask_both_targets",
@@ -53,7 +77,11 @@
     "context": "loyalty_intro.ask_both_targets",
     "emotion": "analytical",
     "file": "shared/npcs/dialogTrees/lycos/loyalty_intro.ts",
-    "meta": { "npcKey": "lycos", "treeId": "lycos-loyalty-intro", "nodeId": "ask_both_targets" }
+    "meta": {
+      "npcKey": "lycos",
+      "treeId": "lycos-loyalty-intro",
+      "nodeId": "ask_both_targets"
+    }
   },
   {
     "id": "lycos.loyalty_intro.post_targets_offer",
@@ -61,7 +89,11 @@
     "context": "loyalty_intro.post_targets_offer",
     "emotion": "patient",
     "file": "shared/npcs/dialogTrees/lycos/loyalty_intro.ts",
-    "meta": { "npcKey": "lycos", "treeId": "lycos-loyalty-intro", "nodeId": "post_targets_offer" }
+    "meta": {
+      "npcKey": "lycos",
+      "treeId": "lycos-loyalty-intro",
+      "nodeId": "post_targets_offer"
+    }
   },
   {
     "id": "lycos.loyalty_intro.ask_why_me",
@@ -69,7 +101,11 @@
     "context": "loyalty_intro.ask_why_me",
     "emotion": "vulnerable",
     "file": "shared/npcs/dialogTrees/lycos/loyalty_intro.ts",
-    "meta": { "npcKey": "lycos", "treeId": "lycos-loyalty-intro", "nodeId": "ask_why_me" }
+    "meta": {
+      "npcKey": "lycos",
+      "treeId": "lycos-loyalty-intro",
+      "nodeId": "ask_why_me"
+    }
   },
   {
     "id": "lycos.loyalty_intro.accept_loyalty_full",
@@ -77,7 +113,11 @@
     "context": "loyalty_intro.accept_loyalty_full",
     "emotion": "grateful",
     "file": "shared/npcs/dialogTrees/lycos/loyalty_intro.ts",
-    "meta": { "npcKey": "lycos", "treeId": "lycos-loyalty-intro", "nodeId": "accept_loyalty_full" }
+    "meta": {
+      "npcKey": "lycos",
+      "treeId": "lycos-loyalty-intro",
+      "nodeId": "accept_loyalty_full"
+    }
   },
   {
     "id": "lycos.loyalty_intro.accept_loyalty_conditional",
@@ -85,7 +125,11 @@
     "context": "loyalty_intro.accept_loyalty_conditional",
     "emotion": "considered",
     "file": "shared/npcs/dialogTrees/lycos/loyalty_intro.ts",
-    "meta": { "npcKey": "lycos", "treeId": "lycos-loyalty-intro", "nodeId": "accept_loyalty_conditional" }
+    "meta": {
+      "npcKey": "lycos",
+      "treeId": "lycos-loyalty-intro",
+      "nodeId": "accept_loyalty_conditional"
+    }
   },
   {
     "id": "lycos.loyalty_intro.refuse_to_witness",
@@ -93,7 +137,11 @@
     "context": "loyalty_intro.refuse_to_witness",
     "emotion": "settled",
     "file": "shared/npcs/dialogTrees/lycos/loyalty_intro.ts",
-    "meta": { "npcKey": "lycos", "treeId": "lycos-loyalty-intro", "nodeId": "refuse_to_witness" }
+    "meta": {
+      "npcKey": "lycos",
+      "treeId": "lycos-loyalty-intro",
+      "nodeId": "refuse_to_witness"
+    }
   },
   {
     "id": "lycos.loyalty_stage_1.left_on_own",
@@ -164,7 +212,9 @@
     "context": "ask_topic_answer",
     "emotion": "vulnerable",
     "file": "shared/companionAskTopics.ts",
-    "meta": { "requiresFlag": "loyalty_lycos_complete" }
+    "meta": {
+      "requiresFlag": "loyalty_lycos_complete"
+    }
   },
   {
     "id": "lycos.ask.about_the_crucible",
@@ -186,7 +236,9 @@
     "context": "ask_topic_answer",
     "emotion": "warm",
     "file": "shared/companionAskTopics.ts",
-    "meta": { "requiresBond": 50 }
+    "meta": {
+      "requiresBond": 50
+    }
   },
   {
     "id": "lycos.room_ambient.containment_atrium.1",
@@ -215,7 +267,9 @@
     "context": "reactive_lieutenant_first",
     "emotion": "analytical",
     "file": "shared/companionComments.ts",
-    "meta": { "trigger": "wolfHunt.kills_count:10" }
+    "meta": {
+      "trigger": "wolfHunt.kills_count:10"
+    }
   },
   {
     "id": "lycos.reactive.lycos_first_death",
@@ -223,7 +277,9 @@
     "context": "reactive_lycos_first_death",
     "emotion": "vulnerable",
     "file": "shared/companionComments.ts",
-    "meta": { "trigger": "wolfHunt.lycos_first_death" }
+    "meta": {
+      "trigger": "wolfHunt.lycos_first_death"
+    }
   },
   {
     "id": "lycos.reactive.wraith_recruited",
@@ -231,7 +287,9 @@
     "context": "reactive_wraith_joined",
     "emotion": "kindred",
     "file": "shared/companionComments.ts",
-    "meta": { "trigger": "wraith_calder_recruited" }
+    "meta": {
+      "trigger": "wraith_calder_recruited"
+    }
   },
   {
     "id": "lycos.reactive.akai_recruited",
@@ -239,15 +297,21 @@
     "context": "reactive_akai_joined",
     "emotion": "kindred",
     "file": "shared/companionComments.ts",
-    "meta": { "trigger": "akai_shi_recruited" }
+    "meta": {
+      "trigger": "akai_shi_recruited"
+    }
   },
   {
     "id": "lycos.romance.intro",
-    "text": "[He turns the ledger over so the pause-line is face-down on the shelf. The face-down is canonical; he has not turned the ledger over since the contract closed.] I would like to ask you something the pause-line will not be asked to witness. The not-witnessing is the question. The pause-line stays where it is. The asking is canonical-private. Will you sit closer.",
+    "text": "I would like to ask you something the pause-line will not be asked to witness. The not-witnessing is the question. The pause-line stays where it is. The asking is canonical-private. Will you sit closer.",
     "context": "romance_intro",
     "emotion": "vulnerable",
     "file": "shared/loyaltyMissions.ts",
-    "meta": { "requiresFlag": "loyalty_lycos_complete", "requiresBond": 80 }
+    "meta": {
+      "requiresFlag": "loyalty_lycos_complete",
+      "requiresBond": 80
+    },
+    "directionNotes": "[He turns the ledger over so the pause-line is face-down on the shelf. The face-down is canonical; he has not turned the ledger over since the contract closed.] I would like to ask you something the pause-line will not be asked to witness. The not-witnessing is the question. The pause-line stays where it is. The asking is canonical-private. Will you sit closer."
   },
   {
     "id": "lycos.romance.accept",

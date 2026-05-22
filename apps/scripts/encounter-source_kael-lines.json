@@ -9,11 +9,12 @@
   },
   {
     "id": "sk.A.player_choice_prompt",
-    "text": "(Three questions surface in the player's wheel:) [1] Why did you take Kael? [2] What is dissolution? [3] What does the Source want?",
+    "text": "(Three questions surface in the player's wheel:) [1] Why did you take Kael? What is dissolution? What does the Source want?",
     "context": "source_kael_entry",
     "emotion": "neutral",
     "speaker": "source",
-    "file": "shared/encounters/sourceKaelDialogue.ts"
+    "file": "shared/encounters/sourceKaelDialogue.ts",
+    "directionNotes": "(Three questions surface in the player's wheel:) [1] Why did you take Kael? [2] What is dissolution? [3] What does the Source want?"
   },
   {
     "id": "sk.B1.possessed",

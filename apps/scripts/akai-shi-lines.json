@@ -5,7 +5,11 @@
     "context": "first_meeting.root",
     "emotion": "calibrated",
     "file": "shared/npcs/dialogTrees/akai_shi/first_meeting.ts",
-    "meta": { "npcKey": "akai_shi", "treeId": "akai-shi-first-meeting", "nodeId": "root" }
+    "meta": {
+      "npcKey": "akai_shi",
+      "treeId": "akai-shi-first-meeting",
+      "nodeId": "root"
+    }
   },
   {
     "id": "akai.first_meeting.sit_and_wait",
@@ -13,7 +17,11 @@
     "context": "first_meeting.sit_and_wait",
     "emotion": "grateful",
     "file": "shared/npcs/dialogTrees/akai_shi/first_meeting.ts",
-    "meta": { "npcKey": "akai_shi", "treeId": "akai-shi-first-meeting", "nodeId": "sit_and_wait" }
+    "meta": {
+      "npcKey": "akai_shi",
+      "treeId": "akai-shi-first-meeting",
+      "nodeId": "sit_and_wait"
+    }
   },
   {
     "id": "akai.first_meeting.ask_case",
@@ -21,7 +29,11 @@
     "context": "first_meeting.ask_case",
     "emotion": "considered",
     "file": "shared/npcs/dialogTrees/akai_shi/first_meeting.ts",
-    "meta": { "npcKey": "akai_shi", "treeId": "akai-shi-first-meeting", "nodeId": "ask_case" }
+    "meta": {
+      "npcKey": "akai_shi",
+      "treeId": "akai-shi-first-meeting",
+      "nodeId": "ask_case"
+    }
   },
   {
     "id": "akai.first_meeting.ask_resurrection",
@@ -29,7 +41,11 @@
     "context": "first_meeting.ask_resurrection",
     "emotion": "vulnerable",
     "file": "shared/npcs/dialogTrees/akai_shi/first_meeting.ts",
-    "meta": { "npcKey": "akai_shi", "treeId": "akai-shi-first-meeting", "nodeId": "ask_resurrection" }
+    "meta": {
+      "npcKey": "akai_shi",
+      "treeId": "akai-shi-first-meeting",
+      "nodeId": "ask_resurrection"
+    }
   },
   {
     "id": "akai.first_meeting.demand_attention",
@@ -37,7 +53,11 @@
     "context": "first_meeting.demand_attention",
     "emotion": "correcting",
     "file": "shared/npcs/dialogTrees/akai_shi/first_meeting.ts",
-    "meta": { "npcKey": "akai_shi", "treeId": "akai-shi-first-meeting", "nodeId": "demand_attention" }
+    "meta": {
+      "npcKey": "akai_shi",
+      "treeId": "akai-shi-first-meeting",
+      "nodeId": "demand_attention"
+    }
   },
   {
     "id": "akai.loyalty_intro.root",
@@ -45,7 +65,11 @@
     "context": "loyalty_intro.root",
     "emotion": "considered",
     "file": "shared/npcs/dialogTrees/akai_shi/loyalty_intro.ts",
-    "meta": { "npcKey": "akai_shi", "treeId": "akai-shi-loyalty-intro", "nodeId": "root" }
+    "meta": {
+      "npcKey": "akai_shi",
+      "treeId": "akai-shi-loyalty-intro",
+      "nodeId": "root"
+    }
   },
   {
     "id": "akai.loyalty_intro.accept_loyalty",
@@ -53,7 +77,11 @@
     "context": "loyalty_intro.accept_loyalty",
     "emotion": "grateful",
     "file": "shared/npcs/dialogTrees/akai_shi/loyalty_intro.ts",
-    "meta": { "npcKey": "akai_shi", "treeId": "akai-shi-loyalty-intro", "nodeId": "accept_loyalty" }
+    "meta": {
+      "npcKey": "akai_shi",
+      "treeId": "akai-shi-loyalty-intro",
+      "nodeId": "accept_loyalty"
+    }
   },
   {
     "id": "akai.loyalty_intro.press_on_pattern",
@@ -61,7 +89,11 @@
     "context": "loyalty_intro.press_on_pattern",
     "emotion": "analytical",
     "file": "shared/npcs/dialogTrees/akai_shi/loyalty_intro.ts",
-    "meta": { "npcKey": "akai_shi", "treeId": "akai-shi-loyalty-intro", "nodeId": "press_on_pattern" }
+    "meta": {
+      "npcKey": "akai_shi",
+      "treeId": "akai-shi-loyalty-intro",
+      "nodeId": "press_on_pattern"
+    }
   },
   {
     "id": "akai.loyalty_intro.post_press_offer",
@@ -69,7 +101,11 @@
     "context": "loyalty_intro.post_press_offer",
     "emotion": "patient",
     "file": "shared/npcs/dialogTrees/akai_shi/loyalty_intro.ts",
-    "meta": { "npcKey": "akai_shi", "treeId": "akai-shi-loyalty-intro", "nodeId": "post_press_offer" }
+    "meta": {
+      "npcKey": "akai_shi",
+      "treeId": "akai-shi-loyalty-intro",
+      "nodeId": "post_press_offer"
+    }
   },
   {
     "id": "akai.loyalty_intro.defer",
@@ -77,7 +113,11 @@
     "context": "loyalty_intro.defer",
     "emotion": "patient",
     "file": "shared/npcs/dialogTrees/akai_shi/loyalty_intro.ts",
-    "meta": { "npcKey": "akai_shi", "treeId": "akai-shi-loyalty-intro", "nodeId": "defer" }
+    "meta": {
+      "npcKey": "akai_shi",
+      "treeId": "akai-shi-loyalty-intro",
+      "nodeId": "defer"
+    }
   },
   {
     "id": "akai.loyalty_intro.defer_to_presence",
@@ -85,7 +125,11 @@
     "context": "loyalty_intro.defer_to_presence",
     "emotion": "tender",
     "file": "shared/npcs/dialogTrees/akai_shi/loyalty_intro.ts",
-    "meta": { "npcKey": "akai_shi", "treeId": "akai-shi-loyalty-intro", "nodeId": "defer_to_presence" }
+    "meta": {
+      "npcKey": "akai_shi",
+      "treeId": "akai-shi-loyalty-intro",
+      "nodeId": "defer_to_presence"
+    }
   },
   {
     "id": "akai.loyalty_stage_1.studied",
@@ -149,7 +193,9 @@
     "context": "ask_topic_answer",
     "emotion": "considered",
     "file": "shared/companionAskTopics.ts",
-    "meta": { "requiresFlag": "loyalty_akai_shi_complete" }
+    "meta": {
+      "requiresFlag": "loyalty_akai_shi_complete"
+    }
   },
   {
     "id": "akai.ask.about_meditation",
@@ -160,10 +206,11 @@
   },
   {
     "id": "akai.ask.about_jericho",
-    "text": "[A pause. The static does not rise.] Jericho mercy-killed me at Thaloria. The mercy was canonical; the kill was correct. I do not hold it against him. I have asked the room not to amplify his name when it is mentioned, because the room would amplify it if I did not ask. He has not yet visited the shrine. When he does, I will set the static lower. I want him to be able to speak normally.",
+    "text": "Jericho mercy-killed me at Thaloria. The mercy was canonical; the kill was correct. I do not hold it against him. I have asked the room not to amplify his name when it is mentioned, because the room would amplify it if I did not ask. He has not yet visited the shrine. When he does, I will set the static lower. I want him to be able to speak normally.",
     "context": "ask_topic_answer",
     "emotion": "considered",
-    "file": "shared/companionAskTopics.ts"
+    "file": "shared/companionAskTopics.ts",
+    "directionNotes": "[A pause. The static does not rise.] Jericho mercy-killed me at Thaloria. The mercy was canonical; the kill was correct. I do not hold it against him. I have asked the room not to amplify his name when it is mentioned, because the room would amplify it if I did not ask. He has not yet visited the shrine. When he does, I will set the static lower. I want him to be able to speak normally."
   },
   {
     "id": "akai.ask.about_the_voltari",
@@ -178,7 +225,9 @@
     "context": "ask_topic_answer",
     "emotion": "warm",
     "file": "shared/companionAskTopics.ts",
-    "meta": { "requiresBond": 50 }
+    "meta": {
+      "requiresBond": 50
+    }
   },
   {
     "id": "akai.room_ambient.blade_shrine.1",
@@ -207,7 +256,9 @@
     "context": "reactive_necromancer_cycle",
     "emotion": "calibrated",
     "file": "shared/companionComments.ts",
-    "meta": { "trigger": "necromancer_cycle_advanced" }
+    "meta": {
+      "trigger": "necromancer_cycle_advanced"
+    }
   },
   {
     "id": "akai.reactive.lycos_recruited",
@@ -215,7 +266,9 @@
     "context": "reactive_lycos_joined",
     "emotion": "kindred",
     "file": "shared/companionComments.ts",
-    "meta": { "trigger": "lycos_recruited" }
+    "meta": {
+      "trigger": "lycos_recruited"
+    }
   },
   {
     "id": "akai.reactive.wraith_recruited",
@@ -223,15 +276,21 @@
     "context": "reactive_wraith_joined",
     "emotion": "kindred",
     "file": "shared/companionComments.ts",
-    "meta": { "trigger": "wraith_calder_recruited" }
+    "meta": {
+      "trigger": "wraith_calder_recruited"
+    }
   },
   {
     "id": "akai.romance.intro",
-    "text": "[She turns toward you fully for the first time. The case is closed — the first time it has been closed since she came back. Closing the case took her thirty seconds. She did it deliberately.] I closed the case for this. The closing is the question. The closing is the canonical form. Will you sit on the cushion. The cushion is closer than it was.",
+    "text": "I closed the case for this. The closing is the question. The closing is the canonical form. Will you sit on the cushion. The cushion is closer than it was.",
     "context": "romance_intro",
     "emotion": "vulnerable",
     "file": "shared/loyaltyMissions.ts",
-    "meta": { "requiresFlag": "loyalty_akai_shi_complete", "requiresBond": 80 }
+    "meta": {
+      "requiresFlag": "loyalty_akai_shi_complete",
+      "requiresBond": 80
+    },
+    "directionNotes": "[She turns toward you fully for the first time. The case is closed — the first time it has been closed since she came back. Closing the case took her thirty seconds. She did it deliberately.] I closed the case for this. The closing is the question. The closing is the canonical form. Will you sit on the cushion. The cushion is closer than it was."
   },
   {
     "id": "akai.romance.accept",

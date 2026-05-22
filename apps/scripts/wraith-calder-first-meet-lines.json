@@ -14,10 +14,11 @@
   },
   {
     "id": "hierophant.first_meeting.silence_held",
-    "text": "[The Hierophant looks up for the first time. The look-up is canonically gratitude, not recognition.] You held the silence well. Most do not. Sit, if you would like. The names will continue regardless. Your sitting is canonical-presence; canonical-presence is canonically the rarest thing anyone offers me.",
+    "text": "You held the silence well. Most do not. Sit, if you would like. The names will continue regardless. Your sitting is canonical-presence; canonical-presence is canonically the rarest thing anyone offers me.",
     "context": "first_meeting.hierophant-first-meeting",
     "emotion": "first_meeting",
     "file": "shared/npcs/dialogTrees/wraith_calder/first_meeting.ts",
+    "directionNotes": "[The Hierophant looks up for the first time. The look-up is canonically gratitude, not recognition.] You held the silence well. Most do not. Sit, if you would like. The names will continue regardless. Your sitting is canonical-presence; canonical-presence is canonically the rarest thing anyone offers me.",
     "meta": {
       "npcKey": "wraith_calder",
       "treeId": "hierophant-first-meeting",
@@ -40,10 +41,11 @@
   },
   {
     "id": "hierophant.first_meeting.personal_question",
-    "text": "[The pen pauses. The Hierophant looks up for the first time. The look-up canonically holds longer than canonical-gratitude permits.] You asked first about me. Most ask first about the work. I will remember that. The canonical-remembering is canonically a covenant, not a courtesy. I am canonically all right. The canonical-naming continues canonically-undisturbed.",
+    "text": "You asked first about me. Most ask first about the work. I will remember that. The canonical-remembering is canonically a covenant, not a courtesy. I am canonically all right. The canonical-naming continues canonically-undisturbed.",
     "context": "first_meeting.hierophant-first-meeting",
     "emotion": "first_meeting",
     "file": "shared/npcs/dialogTrees/wraith_calder/first_meeting.ts",
+    "directionNotes": "[The pen pauses. The Hierophant looks up for the first time. The look-up canonically holds longer than canonical-gratitude permits.] You asked first about me. Most ask first about the work. I will remember that. The canonical-remembering is canonically a covenant, not a courtesy. I am canonically all right. The canonical-naming continues canonically-undisturbed.",
     "meta": {
       "npcKey": "wraith_calder",
       "treeId": "hierophant-first-meeting",
@@ -79,10 +81,11 @@
   },
   {
     "id": "wraith.post_recruit.root",
-    "text": "[The brass desk catches the light differently here than in the Hierophant's chamber. Wraith is reading, not writing. He sets the ledger down when you come in. He has been waiting.] You came. I had not assumed you would, on the first day. Sit. The room is still calibrating to having me back inside it.",
+    "text": "You came. I had not assumed you would, on the first day. Sit. The room is still calibrating to having me back inside it.",
     "context": "first_meeting.wraith-calder-post-recruit-visit",
     "emotion": "first_meeting",
     "file": "shared/npcs/dialogTrees/wraith_calder/first_meeting.ts",
+    "directionNotes": "[The brass desk catches the light differently here than in the Hierophant's chamber. Wraith is reading, not writing. He sets the ledger down when you come in. He has been waiting.] You came. I had not assumed you would, on the first day. Sit. The room is still calibrating to having me back inside it.",
     "meta": {
       "npcKey": "wraith_calder",
       "treeId": "wraith-calder-post-recruit-visit",
@@ -92,10 +95,11 @@
   },
   {
     "id": "wraith.post_recruit.witness_the_ledger",
-    "text": "[He watches you pick it up. He does not flinch.] That ledger has been in the Syndicate's safe since the year I died. The Antiquarian's resurrection-ticket included a clause for retrieval; he ran the retrieval the same morning he ran me. I have not opened it. I have been waiting to open it with a witness who is not the Syndicate. You qualify.",
+    "text": "That ledger has been in the Syndicate's safe since the year I died. The Antiquarian's resurrection-ticket included a clause for retrieval; he ran the retrieval the same morning he ran me. I have not opened it. I have been waiting to open it with a witness who is not the Syndicate. You qualify.",
     "context": "first_meeting.wraith-calder-post-recruit-visit",
     "emotion": "first_meeting",
     "file": "shared/npcs/dialogTrees/wraith_calder/first_meeting.ts",
+    "directionNotes": "[He watches you pick it up. He does not flinch.] That ledger has been in the Syndicate's safe since the year I died. The Antiquarian's resurrection-ticket included a clause for retrieval; he ran the retrieval the same morning he ran me. I have not opened it. I have been waiting to open it with a witness who is not the Syndicate. You qualify.",
     "meta": {
       "npcKey": "wraith_calder",
       "treeId": "wraith-calder-post-recruit-visit",
@@ -105,10 +109,11 @@
   },
   {
     "id": "wraith.post_recruit.ask_about_the_song",
-    "text": "[Pause. The pen-hand twitches; it does not lift.] I am writing the verse I died before finishing. The Syndicate authored a substitute verse and shipped it under my name; the substitute is publicly canonical. I am rewriting the original. You can read it when it is done. You will be the second person to. I am the first.",
+    "text": "I am writing the verse I died before finishing. The Syndicate authored a substitute verse and shipped it under my name; the substitute is publicly canonical. I am rewriting the original. You can read it when it is done. You will be the second person to. I am the first.",
     "context": "first_meeting.wraith-calder-post-recruit-visit",
     "emotion": "first_meeting",
     "file": "shared/npcs/dialogTrees/wraith_calder/first_meeting.ts",
+    "directionNotes": "[Pause. The pen-hand twitches; it does not lift.] I am writing the verse I died before finishing. The Syndicate authored a substitute verse and shipped it under my name; the substitute is publicly canonical. I am rewriting the original. You can read it when it is done. You will be the second person to. I am the first.",
     "meta": {
       "npcKey": "wraith_calder",
       "treeId": "wraith-calder-post-recruit-visit",
@@ -131,10 +136,11 @@
   },
   {
     "id": "wraith.post_recruit.decline_to_visit",
-    "text": "[He does not protest. He picks the ledger up again.] Tomorrow, then. The room will still be calibrating. I will still be here. The calibration is not on a schedule.",
+    "text": "Tomorrow, then. The room will still be calibrating. I will still be here. The calibration is not on a schedule.",
     "context": "first_meeting.wraith-calder-post-recruit-visit",
     "emotion": "first_meeting",
     "file": "shared/npcs/dialogTrees/wraith_calder/first_meeting.ts",
+    "directionNotes": "[He does not protest. He picks the ledger up again.] Tomorrow, then. The room will still be calibrating. I will still be here. The calibration is not on a schedule.",
     "meta": {
       "npcKey": "wraith_calder",
       "treeId": "wraith-calder-post-recruit-visit",
@@ -144,10 +150,11 @@
   },
   {
     "id": "wraith.loyalty_intro.root",
-    "text": "[The ledger is open this time. He turns it toward you. The page is the Syndicate's canonical list of sanctuaries: six, in order, each with a balance and a closing date. The margin between entries six and the back cover is just wide enough for a column nobody has drawn.] Six sanctuaries. I am told there are seven. I would like to know which one was added after I died. I am asking you, not the Antiquarian, because the Antiquarian's pen would close the column before I had read it.",
+    "text": "Six sanctuaries. I am told there are seven. I would like to know which one was added after I died. I am asking you, not the Antiquarian, because the Antiquarian's pen would close the column before I had read it.",
     "context": "first_meeting.wraith-calder-loyalty-intro",
     "emotion": "first_meeting",
     "file": "shared/npcs/dialogTrees/wraith_calder/first_meeting.ts",
+    "directionNotes": "[The ledger is open this time. He turns it toward you. The page is the Syndicate's canonical list of sanctuaries: six, in order, each with a balance and a closing date. The margin between entries six and the back cover is just wide enough for a column nobody has drawn.] Six sanctuaries. I am told there are seven. I would like to know which one was added after I died. I am asking you, not the Antiquarian, because the Antiquarian's pen would close the column before I had read it.",
     "meta": {
       "npcKey": "wraith_calder",
       "treeId": "wraith-calder-loyalty-intro",
@@ -157,10 +164,11 @@
   },
   {
     "id": "wraith.loyalty_intro.accept_loyalty",
-    "text": "[He closes the ledger. He has been ready since the Antiquarian wrote his name on the ticket. He needed someone to ride out with him.] Thank you. Then we leave at dawn — Syndicate time, not ark time. The Syndicate keeps to a slower clock; we arrive when the auditor expects us, which is canonically twenty minutes after the auditor thinks we are still preparing.",
+    "text": "Thank you. Then we leave at dawn — Syndicate time, not ark time. The Syndicate keeps to a slower clock; we arrive when the auditor expects us, which is canonically twenty minutes after the auditor thinks we are still preparing.",
     "context": "first_meeting.wraith-calder-loyalty-intro",
     "emotion": "first_meeting",
     "file": "shared/npcs/dialogTrees/wraith_calder/first_meeting.ts",
+    "directionNotes": "[He closes the ledger. He has been ready since the Antiquarian wrote his name on the ticket. He needed someone to ride out with him.] Thank you. Then we leave at dawn — Syndicate time, not ark time. The Syndicate keeps to a slower clock; we arrive when the auditor expects us, which is canonically twenty minutes after the auditor thinks we are still preparing.",
     "meta": {
       "npcKey": "wraith_calder",
       "treeId": "wraith-calder-loyalty-intro",
@@ -183,10 +191,11 @@
   },
   {
     "id": "wraith.loyalty_intro.post_premise_offer",
-    "text": "[He waits. The pen is closed. The question is open.] Will you come.",
+    "text": "Will you come.",
     "context": "first_meeting.wraith-calder-loyalty-intro",
     "emotion": "first_meeting",
     "file": "shared/npcs/dialogTrees/wraith_calder/first_meeting.ts",
+    "directionNotes": "[He waits. The pen is closed. The question is open.] Will you come.",
     "meta": {
       "npcKey": "wraith_calder",
       "treeId": "wraith-calder-loyalty-intro",
@@ -196,10 +205,11 @@
   },
   {
     "id": "wraith.loyalty_intro.defer",
-    "text": "[He nods. He returns the ledger to its corner of the brass desk. He does not press.] The page will remain open. The Syndicate will not move the seventh sanctuary tonight. They will not move it next week either. They have not moved it in fourteen years. I have time.",
+    "text": "The page will remain open. The Syndicate will not move the seventh sanctuary tonight. They will not move it next week either. They have not moved it in fourteen years. I have time.",
     "context": "first_meeting.wraith-calder-loyalty-intro",
     "emotion": "first_meeting",
     "file": "shared/npcs/dialogTrees/wraith_calder/first_meeting.ts",
+    "directionNotes": "[He nods. He returns the ledger to its corner of the brass desk. He does not press.] The page will remain open. The Syndicate will not move the seventh sanctuary tonight. They will not move it next week either. They have not moved it in fourteen years. I have time.",
     "meta": {
       "npcKey": "wraith_calder",
       "treeId": "wraith-calder-loyalty-intro",
@@ -209,10 +219,11 @@
   },
   {
     "id": "wraith.loyalty_intro.summon_the_antiquarian",
-    "text": "[He looks at the seat you slid the ledger toward. The look is not gratitude; the look is correction, polite and absolute.] The Antiquarian's pen runs faster than the auditor can dictate. If you bring him in, he will close the column before I have read it; the closing will be canonical and the reading will not. I would prefer the reading. I would prefer it with you.",
+    "text": "The Antiquarian's pen runs faster than the auditor can dictate. If you bring him in, he will close the column before I have read it; the closing will be canonical and the reading will not. I would prefer the reading. I would prefer it with you.",
     "context": "first_meeting.wraith-calder-loyalty-intro",
     "emotion": "first_meeting",
     "file": "shared/npcs/dialogTrees/wraith_calder/first_meeting.ts",
+    "directionNotes": "[He looks at the seat you slid the ledger toward. The look is not gratitude; the look is correction, polite and absolute.] The Antiquarian's pen runs faster than the auditor can dictate. If you bring him in, he will close the column before I have read it; the closing will be canonical and the reading will not. I would prefer the reading. I would prefer it with you.",
     "meta": {
       "npcKey": "wraith_calder",
       "treeId": "wraith-calder-loyalty-intro",

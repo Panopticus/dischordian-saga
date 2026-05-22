@@ -7,10 +7,11 @@
 // fixed-position hologram in the bottom-right corner, intentionally
 // unobtrusive — Bioware-style contextual companion, not a modal.
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { stabilityBand, lightBand } from "@shared/companion";
 import { useCompanionScheduler } from "./useCompanionScheduler";
+import { flush as flushCompanionQueue } from "./companionScheduler";
 
 import { assetUrl } from "@/lib/assetUrl";
 interface Props {
@@ -38,6 +39,30 @@ export default function CompanionHost({ portraitSize = "sm" }: Props) {
   const { active, context, dismiss } = useCompanionScheduler();
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const autoTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Suppress the host while a foreground Elara surface (the room
+  // conversation popup, the BioWare-style ElaraDialog modal, the
+  // narrator slot) is already speaking. Without this, the small
+  // bottom-right banded line stacks on top of the foreground line and
+  // the player sees two Elara bubbles competing for attention. The
+  // `elara-dialog` CustomEvent is dispatched by every foreground
+  // surface (ArkExplorerPage, AutoTutorialPrompt, etc.) with
+  // detail.active reflecting whether a foreground line is on screen.
+  const [suppressed, setSuppressed] = useState(false);
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const detail = (e as CustomEvent).detail;
+      const next = Boolean(detail?.active);
+      setSuppressed(next);
+      // Flush any queued banded lines the moment a foreground surface
+      // takes over — they'll otherwise pop back in the moment the
+      // foreground line auto-dismisses, breaking the player's rhythm
+      // for a beat they've already moved past.
+      if (next) flushCompanionQueue();
+    };
+    window.addEventListener("elara-dialog", handler);
+    return () => window.removeEventListener("elara-dialog", handler);
+  }, []);
 
   // Auto-dismiss for lines that declare it
   useEffect(() => {
@@ -101,7 +126,7 @@ export default function CompanionHost({ portraitSize = "sm" }: Props) {
 
   return (
     <AnimatePresence>
-      {active && (
+      {active && !suppressed && (
         <motion.div
           key={active.lineId}
           initial={{ opacity: 0, y: 12 }}

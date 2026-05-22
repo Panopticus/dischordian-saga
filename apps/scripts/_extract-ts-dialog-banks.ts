@@ -23,6 +23,8 @@ import { writeFileSync, mkdirSync, existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { spokenText, hasStageDirection } from "../shared/voSpokenText";
+
 import {
   LOCKE_ROMANCE_BANK,
   VEX_ROMANCE_BANK,
@@ -65,7 +67,22 @@ interface ExtractedEntry {
   emotion: string;
   speaker: string;
   file: string;
+  /** Original authored text with producer cue cards intact. Set when
+   *  the extractor strips a leading `[CUE …]` / `[Voice direction …]`
+   *  block from `text` so the cue card survives on the record for
+   *  audit / future re-record. The audio generator reads `text`. */
+  directionNotes?: string;
   meta?: Record<string, unknown>;
+}
+
+/** Normalise a raw authored text into the spoken form + a separate
+ *  `directionNotes` capture when stage directions are present. Used
+ *  to seed every ExtractedEntry so the per-character JSON banks
+ *  match the post-strip shape produced by
+ *  `apps/scripts/strip-vo-stage-directions.ts`. */
+function splitDirection(raw: string): { text: string; directionNotes?: string } {
+  if (!hasStageDirection(raw)) return { text: raw };
+  return { text: spokenText(raw), directionNotes: raw };
 }
 
 function writeJson(filename: string, entries: ExtractedEntry[]): void {
@@ -93,15 +110,19 @@ function fromNpcLines(
 ): Map<string, ExtractedEntry[]> {
   const grouped = new Map<string, ExtractedEntry[]>();
   for (const { npc, bank } of banks) {
-    const out: ExtractedEntry[] = bank.map((line) => ({
-      id: line.lineId ?? line.id ?? "MISSING_ID",
-      text: line.text,
-      context: line.context ?? `${fileTag}_${npc}`,
-      emotion: line.emotion ?? line.mood ?? "neutral",
-      speaker: line.speaker ?? npc,
-      file: `shared/npcs/${fileTag}/${npc}.ts`,
-      meta: line.voiceId ? { voiceId: line.voiceId } : undefined,
-    }));
+    const out: ExtractedEntry[] = bank.map((line) => {
+      const { text, directionNotes } = splitDirection(line.text);
+      return {
+        id: line.lineId ?? line.id ?? "MISSING_ID",
+        text,
+        context: line.context ?? `${fileTag}_${npc}`,
+        emotion: line.emotion ?? line.mood ?? "neutral",
+        speaker: line.speaker ?? npc,
+        file: `shared/npcs/${fileTag}/${npc}.ts`,
+        ...(directionNotes ? { directionNotes } : {}),
+        meta: line.voiceId ? { voiceId: line.voiceId } : undefined,
+      };
+    });
     grouped.set(npc, out);
   }
   return grouped;
@@ -138,14 +159,18 @@ function fromEncounterLines(
   lines: ReadonlyArray<EncounterLineLike>,
   filePath: string,
 ): ExtractedEntry[] {
-  return lines.map((line) => ({
-    id: line.lineId,
-    text: line.text,
-    context: line.phase ? `${key}_${line.phase}` : key,
-    emotion: line.mood ?? line.emotion ?? "neutral",
-    speaker: line.speaker,
-    file: filePath,
-  }));
+  return lines.map((line) => {
+    const { text, directionNotes } = splitDirection(line.text);
+    return {
+      id: line.lineId,
+      text,
+      context: line.phase ? `${key}_${line.phase}` : key,
+      emotion: line.mood ?? line.emotion ?? "neutral",
+      speaker: line.speaker,
+      file: filePath,
+      ...(directionNotes ? { directionNotes } : {}),
+    };
+  });
 }
 
 console.log("\n=== encounter dialog ===");
@@ -202,13 +227,15 @@ function fromStoryBanks(
   const out: ExtractedEntry[] = [];
   for (const scene of scenes) {
     for (const cue of scene.cues) {
+      const { text, directionNotes } = splitDirection(cue.text);
       out.push({
         id: cue.audioClipId,
-        text: cue.text,
+        text,
         context: scene.id,
         emotion: cue.mood ?? "neutral",
         speaker: cue.speaker,
         file: filePath,
+        ...(directionNotes ? { directionNotes } : {}),
         meta: scene.label ? { sceneLabel: scene.label, sceneKind: scene.kind } : undefined,
       });
     }
