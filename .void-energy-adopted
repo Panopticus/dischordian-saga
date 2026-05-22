@@ -243,6 +243,10 @@ apps/client/src/components/prelude/vfx/ui/ChoicePillarLightDark.tsx
 apps/client/src/components/prelude/vfx/ui/InboxEnvelopeUnfold.tsx
 apps/client/src/components/prelude/vfx/ui/InboxSentenceBloom.tsx
 apps/client/src/components/prelude/witnessingTarotHotspot.ts
+apps/client/src/components/threeClocks/NecromancerClock.tsx
+apps/client/src/components/threeClocks/PoliticianClock.tsx
+apps/client/src/components/threeClocks/ThreeClocksPanel.tsx
+apps/client/src/components/threeClocks/VortexClock.tsx
 apps/client/src/components/tradeEmpire/LockeConfidentialLedgerPanel.tsx
 apps/client/src/components/ui/accordion.tsx
 apps/client/src/components/ui/alert-dialog.tsx
