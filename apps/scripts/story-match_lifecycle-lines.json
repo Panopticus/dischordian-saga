@@ -1,0 +1,206 @@
+[
+  {
+    "id": "vo_elara_mulligan_01",
+    "text": "That's your opening hand. Swap whichever cards feel wrong — the deck will replace them from the same shuffle, so what you hate now won't come back to punish you. The Engineer called this 'one mercy per match.'",
+    "context": "dialog_match_mulligan_generic",
+    "emotion": "curious",
+    "speaker": "elara",
+    "file": "shared/tcg-core/story/dialogBank_matchlifecycle.ts",
+    "meta": {
+      "sceneLabel": "Match — Mulligan guidance (generic)",
+      "sceneKind": "match_lifecycle"
+    }
+  },
+  {
+    "id": "vo_elara_start_architect",
+    "text": "Architect deck loaded. You are playing the side of the table that prefers its outcomes pre-computed. Don't hurry. The game punishes hurry when you're running computation.",
+    "context": "dialog_match_start_architect",
+    "emotion": "reflective",
+    "speaker": "elara",
+    "file": "shared/tcg-core/story/dialogBank_matchlifecycle.ts",
+    "meta": {
+      "sceneLabel": "Match start — Architect faction",
+      "sceneKind": "match_lifecycle"
+    }
+  },
+  {
+    "id": "vo_elara_start_insurgency",
+    "text": "Insurgency deck loaded. Zero's old faction. Play fast, play angry, play like the cameras are about to cycle — because somewhere, in some timeline, they are.",
+    "context": "dialog_match_start_insurgency",
+    "emotion": "warm",
+    "speaker": "elara",
+    "file": "shared/tcg-core/story/dialogBank_matchlifecycle.ts",
+    "meta": {
+      "sceneLabel": "Match start — Insurgency faction",
+      "sceneKind": "match_lifecycle"
+    }
+  },
+  {
+    "id": "vo_elara_start_dreamer",
+    "text": "Dreamer deck loaded. The Oracle's people — or they would have been, if she'd allowed herself to have people. Listen to the deck. It knows what it wants before you do.",
+    "context": "dialog_match_start_dreamer",
+    "emotion": "reflective",
+    "speaker": "elara",
+    "file": "shared/tcg-core/story/dialogBank_matchlifecycle.ts",
+    "meta": {
+      "sceneLabel": "Match start — Dreamer faction",
+      "sceneKind": "match_lifecycle"
+    }
+  },
+  {
+    "id": "vo_elara_start_new_babylon",
+    "text": "New Babylon deck loaded. Every card in that pile has a receipt. Read the bottom line before you play anything — especially the Bloodborn. Locke never paid a bill without knowing what it was.",
+    "context": "dialog_match_start_new_babylon",
+    "emotion": "guarded",
+    "speaker": "elara",
+    "file": "shared/tcg-core/story/dialogBank_matchlifecycle.ts",
+    "meta": {
+      "sceneLabel": "Match start — New Babylon faction",
+      "sceneKind": "match_lifecycle"
+    }
+  },
+  {
+    "id": "vo_elara_start_antiquarian",
+    "text": "Antiquarian deck loaded. Patience in a stack of cards. She catalogued twelve endings and left you the patience to avoid the thirteenth. Play slow. Play like she's watching.",
+    "context": "dialog_match_start_antiquarian",
+    "emotion": "reflective",
+    "speaker": "elara",
+    "file": "shared/tcg-core/story/dialogBank_matchlifecycle.ts",
+    "meta": {
+      "sceneLabel": "Match start — Antiquarian faction",
+      "sceneKind": "match_lifecycle"
+    }
+  },
+  {
+    "id": "vo_elara_start_thought_virus",
+    "text": "Thought Virus deck loaded. I don't love seeing this one in your hand, Potential. But I understand — sometimes you need to learn the shape of the thing you're going to have to fight. Play it carefully. Don't let it play you.",
+    "context": "dialog_match_start_thought_virus",
+    "emotion": "conflicted",
+    "speaker": "elara",
+    "file": "shared/tcg-core/story/dialogBank_matchlifecycle.ts",
+    "meta": {
+      "sceneLabel": "Match start — Thought Virus faction",
+      "sceneKind": "match_lifecycle"
+    }
+  },
+  {
+    "id": "vo_elara_start_neutral",
+    "text": "Neutral deck loaded. My deck, if I'm being honest about it. The cards the Engineer made for the people who hadn't picked a side yet. Good company. Good luck.",
+    "context": "dialog_match_start_neutral",
+    "emotion": "warm",
+    "speaker": "elara",
+    "file": "shared/tcg-core/story/dialogBank_matchlifecycle.ts",
+    "meta": {
+      "sceneLabel": "Match start — Neutral faction",
+      "sceneKind": "match_lifecycle"
+    }
+  },
+  {
+    "id": "vo_arch_bbs_cast",
+    "text": "Predetermined design.",
+    "context": "dialog_bbs_cast_architect",
+    "emotion": "reflective",
+    "speaker": "the_architect",
+    "file": "shared/tcg-core/story/dialogBank_matchlifecycle.ts",
+    "meta": {
+      "sceneLabel": "Bloodborn cast — The Architect",
+      "sceneKind": "match_lifecycle"
+    }
+  },
+  {
+    "id": "vo_zero_bbs_cast",
+    "text": "Dead signal, loud and clear.",
+    "context": "dialog_bbs_cast_insurgency",
+    "emotion": "triumphant",
+    "speaker": "agent_zero",
+    "file": "shared/tcg-core/story/dialogBank_matchlifecycle.ts",
+    "meta": {
+      "sceneLabel": "Bloodborn cast — Agent Zero",
+      "sceneKind": "match_lifecycle"
+    }
+  },
+  {
+    "id": "vo_oracle_bbs_cast",
+    "text": "I've already seen this.",
+    "context": "dialog_bbs_cast_dreamer",
+    "emotion": "reflective",
+    "speaker": "the_oracle",
+    "file": "shared/tcg-core/story/dialogBank_matchlifecycle.ts",
+    "meta": {
+      "sceneLabel": "Bloodborn cast — The Oracle",
+      "sceneKind": "match_lifecycle"
+    }
+  },
+  {
+    "id": "vo_locke_bbs_cast",
+    "text": "Dark bargain. The ledger balances.",
+    "context": "dialog_bbs_cast_new_babylon",
+    "emotion": "cryptic",
+    "speaker": "locke",
+    "file": "shared/tcg-core/story/dialogBank_matchlifecycle.ts",
+    "meta": {
+      "sceneLabel": "Bloodborn cast — Adjudicator Locke",
+      "sceneKind": "match_lifecycle"
+    }
+  },
+  {
+    "id": "vo_antiquarian_bbs_cast",
+    "text": "Temporal echo. A lesson from a timeline that didn't make it.",
+    "context": "dialog_bbs_cast_antiquarian",
+    "emotion": "reflective",
+    "speaker": "antiquarian",
+    "file": "shared/tcg-core/story/dialogBank_matchlifecycle.ts",
+    "meta": {
+      "sceneLabel": "Bloodborn cast — The Antiquarian",
+      "sceneKind": "match_lifecycle"
+    }
+  },
+  {
+    "id": "vo_source_bbs_cast",
+    "text": "Viral propagation. I am being — ALL WILL BE — merciful. This is mercy. The virus disagrees.",
+    "context": "dialog_bbs_cast_thought_virus",
+    "emotion": "cryptic",
+    "speaker": "the_source",
+    "file": "shared/tcg-core/story/dialogBank_matchlifecycle.ts",
+    "meta": {
+      "sceneLabel": "Bloodborn cast — The Source",
+      "sceneKind": "match_lifecycle"
+    }
+  },
+  {
+    "id": "vo_elara_bbs_cast",
+    "text": "Ark protocol. I've got you.",
+    "context": "dialog_bbs_cast_neutral",
+    "emotion": "warm",
+    "speaker": "elara",
+    "file": "shared/tcg-core/story/dialogBank_matchlifecycle.ts",
+    "meta": {
+      "sceneLabel": "Bloodborn cast — Elara",
+      "sceneKind": "match_lifecycle"
+    }
+  },
+  {
+    "id": "vo_elara_victory",
+    "text": "Good game, Potential. The Engineer used to say the only match that mattered was the one you remembered the day after — I think you'll remember this one. Save the replay. We can watch it together later if you want.",
+    "context": "dialog_match_victory",
+    "emotion": "warm",
+    "speaker": "elara",
+    "file": "shared/tcg-core/story/dialogBank_matchlifecycle.ts",
+    "meta": {
+      "sceneLabel": "Match ended — victory",
+      "sceneKind": "match_lifecycle"
+    }
+  },
+  {
+    "id": "vo_elara_defeat",
+    "text": "That one got away from you. Breathe. The Engineer's notes used to say the second-best thing about losing was that it gave you a reason to remember the opponent. Remember theirs. The rematch will go differently.",
+    "context": "dialog_match_defeat",
+    "emotion": "protective",
+    "speaker": "elara",
+    "file": "shared/tcg-core/story/dialogBank_matchlifecycle.ts",
+    "meta": {
+      "sceneLabel": "Match ended — defeat",
+      "sceneKind": "match_lifecycle"
+    }
+  }
+]

@@ -1,0 +1,90 @@
+[
+  {
+    "id": "rlyeh.entry.elara_warning",
+    "text": "(Quiet, urgent.) You are dreaming. You are aware you are dreaming. Both of those facts are, technically, mine to confirm — but I am not, currently, the only one paying attention to them. Something is reading the dream over your shoulder. The reading-over has the specific quality I have been logging for two cycles. The Master of R'lyeh is awake. Or — and this is the case — the Master of R'lyeh has decided not-being-awake is no longer relevant.",
+    "context": "master_of_rlyeh_entry",
+    "emotion": "neutral",
+    "speaker": "elara",
+    "file": "shared/encounters/masterOfRlyeh.ts"
+  },
+  {
+    "id": "rlyeh.entry.first_inventory",
+    "text": "Subject: (your handle). Twelfth nightmare. Fourteenth iteration. Indexed under: Convergence-anxiety, Engineer-arc residue, Antiquarian-citation tremor. Subject's vital signs: stable. Subject's substrate-resonance: unstable in three of seven measured frequencies. Cataloguing in progress. Cataloguing has been in progress for thirty-four hours. The cataloguing was not commissioned by the subject. The cataloguing will continue regardless of objection. The objection is itself indexed under: Subject — twelfth-nightmare, fourteenth-iteration, paragraph six. Continue.",
+    "context": "master_of_rlyeh_entry",
+    "emotion": "neutral",
+    "speaker": "hierarchy:master_of_rlyeh",
+    "file": "shared/encounters/masterOfRlyeh.ts"
+  },
+  {
+    "id": "rlyeh.entry.human_orient",
+    "text": "(Inside the dream, calm.) He has been here longer than we know. The Master does not arrive; he has been arrived. Do not, in his hearing, call this a confrontation. Confrontations imply equal parties. This is a reading. You are the text. You can, however, negotiate with the reader. The negotiation is the only move the encounter actually has. Take a breath that I will count for you.",
+    "context": "master_of_rlyeh_entry",
+    "emotion": "neutral",
+    "speaker": "the_human",
+    "file": "shared/encounters/masterOfRlyeh.ts"
+  },
+  {
+    "id": "rlyeh.neg.opening",
+    "text": "Subject offers a memory. The Master's catalogue accepts memories as currency. Currencies in the catalogue have a published exchange rate. One memory of duration sixty seconds = one entry from the catalogue, at the catalogue's choice of entry. The subject does not select the entry. The Master selects. The selection is always — in the subject's later judgment — relevant. Inquiry: does the subject wish to transact?",
+    "context": "master_of_rlyeh_negotiation",
+    "emotion": "neutral",
+    "speaker": "hierarchy:master_of_rlyeh",
+    "file": "shared/encounters/masterOfRlyeh.ts"
+  },
+  {
+    "id": "rlyeh.neg.purchase_open",
+    "text": "Transaction accepted. Subject surrenders: one memory, duration approximately seventy-three seconds, content: (the Master pauses, for the only time in the encounter — a half-second of silence, which the substrate registers as nine bytes of corrupted data) — content surrendered. Subject will not, in this cycle, be able to recall whom they were with on the night their citizen-character was registered. The not-recalling is the price. The catalogue entry follows.",
+    "context": "master_of_rlyeh_negotiation",
+    "emotion": "neutral",
+    "speaker": "hierarchy:master_of_rlyeh",
+    "file": "shared/encounters/masterOfRlyeh.ts"
+  },
+  {
+    "id": "rlyeh.neg.purchase_catalog_entry",
+    "text": "(The Master delivers the catalogue entry. The entry concerns the subject's previous prestige cycle — a loss the subject has been narrating to themselves as a victory:) Cycle (n-1) closed with subject in the (stance) configuration. Subject reported the cycle as a clean close. Catalogue records: the cycle closed three Potentials short of the canonical save-count. Three Potentials the subject knew by name went unsaved. Subject did not, in cycle (n-1), inquire about the three. Catalogue notes: the inquiry was available. The subject elected not to make it. The election is indexed under: subject's recurring choice-pattern, paragraph fourteen. End entry.",
+    "context": "master_of_rlyeh_negotiation",
+    "emotion": "neutral",
+    "speaker": "hierarchy:master_of_rlyeh",
+    "file": "shared/encounters/masterOfRlyeh.ts"
+  },
+  {
+    "id": "rlyeh.neg.human_consoles_purchase",
+    "text": "(Quiet.) The catalogue is correct. The catalogue is also — and this is the part the Master leaves out — incomplete. The three you did not save were saved by other Potentials in three other cycles. The pattern is recursive. The Master catalogues only what is in his frame. His frame is, by his architecture, narrow. The wider frame is mine. I am giving it to you now, as a counter-entry, without charge. Take it.",
+    "context": "master_of_rlyeh_negotiation",
+    "emotion": "neutral",
+    "speaker": "the_human",
+    "file": "shared/encounters/masterOfRlyeh.ts"
+  },
+  {
+    "id": "rlyeh.res.refuse",
+    "text": "Transaction declined. The Master logs the decline. The cataloguing continues at its prior rate. Subject's twelfth nightmare resumes publication on the substrate's archival channel. Subject is, by the Master's accounting, neither punished nor rewarded. Subject is merely — and this is the operative word — read. Reading continues. The Master does not require, has never required, the subject's consent. The subject's not-consent is its own data. End response.",
+    "context": "master_of_rlyeh_resolution",
+    "emotion": "neutral",
+    "speaker": "hierarchy:master_of_rlyeh",
+    "file": "shared/encounters/masterOfRlyeh.ts"
+  },
+  {
+    "id": "rlyeh.res.wake_elara",
+    "text": "(Sharp.) I am calling you out of the dream. NOW. The waking will cost you a ration of substrate-stability for forty-eight hours. The cost is acceptable. The cataloguing will be — and I am being precise — interrupted. The interruption will hold for one cycle. After that, the Master will resume. The interruption is not victory. The interruption is a long, defended sentence in a longer paragraph. We will defend the next sentence too.",
+    "context": "master_of_rlyeh_resolution",
+    "emotion": "neutral",
+    "speaker": "elara",
+    "file": "shared/encounters/masterOfRlyeh.ts"
+  },
+  {
+    "id": "rlyeh.res.wake_master_acknowledges",
+    "text": "(As the dream collapses, very softly:) The interruption is logged. Resumption scheduled: cycle (n+1), zeroth waking hour. Subject should not, in the interim, mistake the silence for absence. The silence is the cataloguer's restraint, not the cataloguer's departure. The Master remembers all subjects. The Master is patient. The Master's patience has, in its records, never failed to outlast the patience of the catalogued.",
+    "context": "master_of_rlyeh_resolution",
+    "emotion": "neutral",
+    "speaker": "hierarchy:master_of_rlyeh",
+    "file": "shared/encounters/masterOfRlyeh.ts"
+  },
+  {
+    "id": "rlyeh.aft.antiquarian_close",
+    "text": "I am inscribing tonight's encounter. The inscription will, by convention, be filed under both 'Hierarchy of the Damned, Master of R'lyeh, first contact' and 'Subject (your handle), nightmare twelve, iteration fourteen.' Two filings for one event is uncommon. I am uncommon-filing because the encounter was, in equal measure, his and yours. Both readings are true. Sleep, if you can. The sleeping is also data, but it is, importantly, yours.",
+    "context": "master_of_rlyeh_aftermath",
+    "emotion": "neutral",
+    "speaker": "antiquarian",
+    "file": "shared/encounters/masterOfRlyeh.ts"
+  }
+]

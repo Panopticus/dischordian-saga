@@ -1,0 +1,350 @@
+[
+  {
+    "id": "vo_elara_tut_g1_pre_01",
+    "text": "Training chamber B-twelve is cycling on. Don't worry — nothing in there can hurt you yet. The safeties are mine, not the opponent's.",
+    "context": "dialog_tutorial_g1_pre",
+    "emotion": "warm",
+    "speaker": "elara",
+    "file": "shared/tcg-core/story/dialogBank_tutorial.ts",
+    "meta": {
+      "sceneLabel": "Tutorial Gate 1 — Pre-match (Deploy & Attack)",
+      "sceneKind": "tutorial_pre"
+    }
+  },
+  {
+    "id": "vo_elara_tut_g1_pre_02",
+    "text": "Your first opponent is an Architect construct running at one-tenth capacity. It won't surprise you. It won't defend itself well. It's here so you can learn what winning feels like with your hands instead of your head.",
+    "context": "dialog_tutorial_g1_pre",
+    "emotion": "curious",
+    "speaker": "elara",
+    "file": "shared/tcg-core/story/dialogBank_tutorial.ts",
+    "meta": {
+      "sceneLabel": "Tutorial Gate 1 — Pre-match (Deploy & Attack)",
+      "sceneKind": "tutorial_pre"
+    }
+  },
+  {
+    "id": "vo_elara_tut_g1_pre_03",
+    "text": "When the board loads, I'll walk you through it step by step. Breathe. The Engineer used to say the first match was the only one that mattered. I didn't understand what he meant until I saw someone lose theirs.",
+    "context": "dialog_tutorial_g1_pre",
+    "emotion": "reflective",
+    "speaker": "elara",
+    "file": "shared/tcg-core/story/dialogBank_tutorial.ts",
+    "meta": {
+      "sceneLabel": "Tutorial Gate 1 — Pre-match (Deploy & Attack)",
+      "sceneKind": "tutorial_pre"
+    }
+  },
+  {
+    "id": "vo_elara_tut_g2_pre_01",
+    "text": "Second chamber. You've earned the next layer. This opponent's different — it carries Thought Virus code, which is the deck the Engineer made while telling himself he wasn't making it.",
+    "context": "dialog_tutorial_g2_pre",
+    "emotion": "protective",
+    "speaker": "elara",
+    "file": "shared/tcg-core/story/dialogBank_tutorial.ts",
+    "meta": {
+      "sceneLabel": "Tutorial Gate 2 — Pre-match (Keywords)",
+      "sceneKind": "tutorial_pre"
+    }
+  },
+  {
+    "id": "vo_elara_tut_g2_pre_02",
+    "text": "It won't be hostile in the way you're expecting. The Thought Virus doesn't attack — it erodes. Watch for keywords: Provoke, Rush, Forcefield. I'll name each one the moment it appears on the board.",
+    "context": "dialog_tutorial_g2_pre",
+    "emotion": "guarded",
+    "speaker": "elara",
+    "file": "shared/tcg-core/story/dialogBank_tutorial.ts",
+    "meta": {
+      "sceneLabel": "Tutorial Gate 2 — Pre-match (Keywords)",
+      "sceneKind": "tutorial_pre"
+    }
+  },
+  {
+    "id": "vo_elara_tut_g3_pre_01",
+    "text": "Third chamber. This one teaches you how to commit. Mana spent on units becomes walls. Mana spent on spells becomes lightning. The difference is whether the thing you paid for gets to hesitate.",
+    "context": "dialog_tutorial_g3_pre",
+    "emotion": "curious",
+    "speaker": "elara",
+    "file": "shared/tcg-core/story/dialogBank_tutorial.ts",
+    "meta": {
+      "sceneLabel": "Tutorial Gate 3 — Pre-match (Spells & Bloodborn)",
+      "sceneKind": "tutorial_pre"
+    }
+  },
+  {
+    "id": "vo_elara_tut_g3_pre_02",
+    "text": "You'll also meet Bloodborn Spells — the ones the Oracle warned him not to build. They cost health instead of mana. The Engineer built them anyway. The Oracle let him. I still don't know which of them I forgive more.",
+    "context": "dialog_tutorial_g3_pre",
+    "emotion": "reflective",
+    "speaker": "elara",
+    "file": "shared/tcg-core/story/dialogBank_tutorial.ts",
+    "meta": {
+      "sceneLabel": "Tutorial Gate 3 — Pre-match (Spells & Bloodborn)",
+      "sceneKind": "tutorial_pre"
+    }
+  },
+  {
+    "id": "vo_elara_tut_g4_pre_01",
+    "text": "Last gate. There's no match here — just a table, a pile of cards, and you. The Engineer called this chamber 'the quiet one.' He said most fights were lost before anyone even stepped into the arena, and this was where the losing happened.",
+    "context": "dialog_tutorial_g4_pre",
+    "emotion": "warm",
+    "speaker": "elara",
+    "file": "shared/tcg-core/story/dialogBank_tutorial.ts",
+    "meta": {
+      "sceneLabel": "Tutorial Gate 4 — Pre-match (Deckbuilding)",
+      "sceneKind": "tutorial_pre"
+    }
+  },
+  {
+    "id": "vo_elara_tut_g4_pre_02",
+    "text": "Take your time. You're not building a deck. You're drawing a self-portrait in forty strokes. I'll be here when you're ready.",
+    "context": "dialog_tutorial_g4_pre",
+    "emotion": "curious",
+    "speaker": "elara",
+    "file": "shared/tcg-core/story/dialogBank_tutorial.ts",
+    "meta": {
+      "sceneLabel": "Tutorial Gate 4 — Pre-match (Deckbuilding)",
+      "sceneKind": "tutorial_pre"
+    }
+  },
+  {
+    "id": "vo_elara_tut_g5_pre_01",
+    "text": "Two more habits to teach you before I let you out into the world. Drawing, and changing your mind about your draw. The first is automatic. The second is the one almost nobody uses on purpose.",
+    "context": "dialog_tutorial_g5_pre",
+    "emotion": "warm",
+    "speaker": "elara",
+    "file": "shared/tcg-core/story/dialogBank_tutorial.ts",
+    "meta": {
+      "sceneLabel": "Tutorial Gate 5 — Pre-match (Draw & Mulligan)",
+      "sceneKind": "tutorial_pre"
+    }
+  },
+  {
+    "id": "vo_elara_tut_g5_pre_02",
+    "text": "I've set up a sparring partner who will not pressure you. Take the time. Watch the deck answer. The Engineer used to say the deck doesn't lie — it just doesn't always tell you the truth in order.",
+    "context": "dialog_tutorial_g5_pre",
+    "emotion": "curious",
+    "speaker": "elara",
+    "file": "shared/tcg-core/story/dialogBank_tutorial.ts",
+    "meta": {
+      "sceneLabel": "Tutorial Gate 5 — Pre-match (Draw & Mulligan)",
+      "sceneKind": "tutorial_pre"
+    }
+  },
+  {
+    "id": "vo_elara_tut_g6_pre_01",
+    "text": "Last lesson before I let go of your shoulder. Two clocks live inside every match — your hand can fill, and your deck can empty. Both are losses you would rather lose to anything else. We're going to feel them once, on purpose, in safety.",
+    "context": "dialog_tutorial_g6_pre",
+    "emotion": "guarded",
+    "speaker": "elara",
+    "file": "shared/tcg-core/story/dialogBank_tutorial.ts",
+    "meta": {
+      "sceneLabel": "Tutorial Gate 6 — Pre-match (Deck-Out & Hand Limit)",
+      "sceneKind": "tutorial_pre"
+    }
+  },
+  {
+    "id": "vo_elara_tut_g6_pre_02",
+    "text": "I will not pretend this match is comfortable. It isn't supposed to be. The discomfort is the lesson. Lean into it.",
+    "context": "dialog_tutorial_g6_pre",
+    "emotion": "protective",
+    "speaker": "elara",
+    "file": "shared/tcg-core/story/dialogBank_tutorial.ts",
+    "meta": {
+      "sceneLabel": "Tutorial Gate 6 — Pre-match (Deck-Out & Hand Limit)",
+      "sceneKind": "tutorial_pre"
+    }
+  },
+  {
+    "id": "vo_elara_tut_g1_win_01",
+    "text": "You finished the argument. The construct collapsed back into its ledger. I'm proud of you, Potential — and I'm not using that word the way I was programmed to.",
+    "context": "dialog_tutorial_g1_win",
+    "emotion": "warm",
+    "speaker": "elara",
+    "file": "shared/tcg-core/story/dialogBank_tutorial.ts",
+    "meta": {
+      "sceneLabel": "Tutorial Gate 1 — Post-match (Win)",
+      "sceneKind": "tutorial_post_win"
+    }
+  },
+  {
+    "id": "vo_elara_tut_g1_win_02",
+    "text": "One thing to carry with you into the next chamber: every unit you played had a choice to be played. You chose for them. That's the whole game in one sentence.",
+    "context": "dialog_tutorial_g1_win",
+    "emotion": "reflective",
+    "speaker": "elara",
+    "file": "shared/tcg-core/story/dialogBank_tutorial.ts",
+    "meta": {
+      "sceneLabel": "Tutorial Gate 1 — Post-match (Win)",
+      "sceneKind": "tutorial_post_win"
+    }
+  },
+  {
+    "id": "vo_elara_tut_g2_win_01",
+    "text": "The keywords behaved. That means you did too. Provoke held the lane. Rush slipped through. Forcefield asked for a second hit and you paid the tax. The Engineer would be grinning.",
+    "context": "dialog_tutorial_g2_win",
+    "emotion": "warm",
+    "speaker": "elara",
+    "file": "shared/tcg-core/story/dialogBank_tutorial.ts",
+    "meta": {
+      "sceneLabel": "Tutorial Gate 2 — Post-match (Win)",
+      "sceneKind": "tutorial_post_win"
+    }
+  },
+  {
+    "id": "vo_elara_tut_g2_win_02",
+    "text": "Every keyword in the game is a little argument between the rules and themselves. You just won one of those arguments. Remember the shape of it. It gets harder from here.",
+    "context": "dialog_tutorial_g2_win",
+    "emotion": "curious",
+    "speaker": "elara",
+    "file": "shared/tcg-core/story/dialogBank_tutorial.ts",
+    "meta": {
+      "sceneLabel": "Tutorial Gate 2 — Post-match (Win)",
+      "sceneKind": "tutorial_post_win"
+    }
+  },
+  {
+    "id": "vo_elara_tut_g3_win_01",
+    "text": "You cast your first spell and your first Bloodborn in the same match. The Oracle used to say a commander's second memory of any battle was always the thing they were willing to bleed for. I think she'd approve of yours.",
+    "context": "dialog_tutorial_g3_win",
+    "emotion": "reflective",
+    "speaker": "elara",
+    "file": "shared/tcg-core/story/dialogBank_tutorial.ts",
+    "meta": {
+      "sceneLabel": "Tutorial Gate 3 — Post-match (Win)",
+      "sceneKind": "tutorial_post_win"
+    }
+  },
+  {
+    "id": "vo_elara_tut_g3_win_02",
+    "text": "Your General's at a little less than full. That's correct. Healing crystals don't exist yet in this chamber, and I wanted you to feel the cost before you saw the cure.",
+    "context": "dialog_tutorial_g3_win",
+    "emotion": "protective",
+    "speaker": "elara",
+    "file": "shared/tcg-core/story/dialogBank_tutorial.ts",
+    "meta": {
+      "sceneLabel": "Tutorial Gate 3 — Post-match (Win)",
+      "sceneKind": "tutorial_post_win"
+    }
+  },
+  {
+    "id": "vo_elara_tut_g4_win_01",
+    "text": "Forty cards. One General. A self-portrait in your own hand. I'll remember this deck — the good moves you make with it, the bad ones, the nights you swap a card out and put it back again. Every version of it.",
+    "context": "dialog_tutorial_g4_win",
+    "emotion": "warm",
+    "speaker": "elara",
+    "file": "shared/tcg-core/story/dialogBank_tutorial.ts",
+    "meta": {
+      "sceneLabel": "Tutorial Gate 4 — Confirm (Deck locked)",
+      "sceneKind": "tutorial_post_win"
+    }
+  },
+  {
+    "id": "vo_elara_tut_g4_win_02",
+    "text": "When you're ready, the campaign door opens. Chapter One. Agent Zero's waiting for you — and she's been waiting a while. Take a breath. Then step through.",
+    "context": "dialog_tutorial_g4_win",
+    "emotion": "reflective",
+    "speaker": "elara",
+    "file": "shared/tcg-core/story/dialogBank_tutorial.ts",
+    "meta": {
+      "sceneLabel": "Tutorial Gate 4 — Confirm (Deck locked)",
+      "sceneKind": "tutorial_post_win"
+    }
+  },
+  {
+    "id": "vo_elara_tut_g5_win_01",
+    "text": "Good. You felt the draw step. You felt the mulligan. Both will become invisible to you within a week. The point of teaching them now is so you remember they were never invisible to begin with.",
+    "context": "dialog_tutorial_g5_win",
+    "emotion": "warm",
+    "speaker": "elara",
+    "file": "shared/tcg-core/story/dialogBank_tutorial.ts",
+    "meta": {
+      "sceneLabel": "Tutorial Gate 5 — Post-match (Win)",
+      "sceneKind": "tutorial_post_win"
+    }
+  },
+  {
+    "id": "vo_elara_tut_g6_win_01",
+    "text": "You ended the match before the deck ended you. That is the highest skill in this game and the one I cannot teach by talking. You learn it by feeling the floor get close. You felt it. Good.",
+    "context": "dialog_tutorial_g6_win",
+    "emotion": "reflective",
+    "speaker": "elara",
+    "file": "shared/tcg-core/story/dialogBank_tutorial.ts",
+    "meta": {
+      "sceneLabel": "Tutorial Gate 6 — Post-match (Win)",
+      "sceneKind": "tutorial_post_win"
+    }
+  },
+  {
+    "id": "vo_elara_tut_g1_loss_01",
+    "text": "That one got away from you. It's supposed to get away from you the first time — the Engineer's notes say so in the margin, in red ink, underlined twice.",
+    "context": "dialog_tutorial_g1_loss",
+    "emotion": "warm",
+    "speaker": "elara",
+    "file": "shared/tcg-core/story/dialogBank_tutorial.ts",
+    "meta": {
+      "sceneLabel": "Tutorial Gate 1 — Post-match (Loss)",
+      "sceneKind": "tutorial_post_loss"
+    }
+  },
+  {
+    "id": "vo_elara_tut_g1_loss_02",
+    "text": "Rest a moment, then step back in. The construct will be waiting exactly where it was. I'll walk you through it again, slower this time if you need it.",
+    "context": "dialog_tutorial_g1_loss",
+    "emotion": "protective",
+    "speaker": "elara",
+    "file": "shared/tcg-core/story/dialogBank_tutorial.ts",
+    "meta": {
+      "sceneLabel": "Tutorial Gate 1 — Post-match (Loss)",
+      "sceneKind": "tutorial_post_loss"
+    }
+  },
+  {
+    "id": "vo_elara_tut_g2_loss_01",
+    "text": "The keywords bit you. That happens. The Thought Virus deck is designed to erode the player who hasn't learned to respect its angles yet — and you have not yet. We fix that now, together, with a retry.",
+    "context": "dialog_tutorial_g2_loss",
+    "emotion": "guarded",
+    "speaker": "elara",
+    "file": "shared/tcg-core/story/dialogBank_tutorial.ts",
+    "meta": {
+      "sceneLabel": "Tutorial Gate 2 — Post-match (Loss)",
+      "sceneKind": "tutorial_post_loss"
+    }
+  },
+  {
+    "id": "vo_elara_tut_g3_loss_01",
+    "text": "Spells are commitments. You committed to the wrong moment, and the moment closed without you. It's the one lesson that never gets easier — I've watched the Engineer learn it twice and he still needs a third time.",
+    "context": "dialog_tutorial_g3_loss",
+    "emotion": "reflective",
+    "speaker": "elara",
+    "file": "shared/tcg-core/story/dialogBank_tutorial.ts",
+    "meta": {
+      "sceneLabel": "Tutorial Gate 3 — Post-match (Loss)",
+      "sceneKind": "tutorial_post_loss"
+    }
+  },
+  {
+    "id": "vo_elara_tut_g5_loss_01",
+    "text": "Losing here is fine. The deck answered honestly and the answer wasn't the one you needed. That happens. Mulligan harder next time. The Engineer used to mulligan two cards every game on principle. We'll talk about why.",
+    "context": "dialog_tutorial_g5_loss",
+    "emotion": "guarded",
+    "speaker": "elara",
+    "file": "shared/tcg-core/story/dialogBank_tutorial.ts",
+    "meta": {
+      "sceneLabel": "Tutorial Gate 5 — Post-match (Loss)",
+      "sceneKind": "tutorial_post_loss"
+    }
+  },
+  {
+    "id": "vo_elara_tut_g6_loss_01",
+    "text": "Deck-out got you. Or burn did. Either way — you now know what those two losses feel like, which means you'll see them coming next time. That's the whole point of losing on purpose. We'll move on.",
+    "context": "dialog_tutorial_g6_loss",
+    "emotion": "warm",
+    "speaker": "elara",
+    "file": "shared/tcg-core/story/dialogBank_tutorial.ts",
+    "meta": {
+      "sceneLabel": "Tutorial Gate 6 — Post-match (Loss)",
+      "sceneKind": "tutorial_post_loss"
+    }
+  }
+]

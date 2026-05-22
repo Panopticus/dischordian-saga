@@ -1,0 +1,278 @@
+[
+  {
+    "id": "vo_narr_ch5_cine_01",
+    "text": "The board blurs. Your General's health counter hits zero and the chamber lights drop to emergency amber. You are not in the Arena anymore. You are in the restore point.",
+    "context": "ch5_death_resurrection",
+    "emotion": "grieving",
+    "speaker": "narrator",
+    "file": "shared/tcg-core/story/dialogBank_cinematics.ts",
+    "meta": {
+      "sceneLabel": "Ch5 — Mandatory death + resurrection cinematic",
+      "sceneKind": "cinematic"
+    }
+  },
+  {
+    "id": "vo_necro_ch5_cine_02",
+    "text": "Compile error. Fixing. I am not your enemy in this moment. I am the technician who pulls your draft from the stack and re-types the sentence you could not finish.",
+    "context": "ch5_death_resurrection",
+    "emotion": "cryptic",
+    "speaker": "necromancer",
+    "file": "shared/tcg-core/story/dialogBank_cinematics.ts",
+    "meta": {
+      "sceneLabel": "Ch5 — Mandatory death + resurrection cinematic",
+      "sceneKind": "cinematic"
+    }
+  },
+  {
+    "id": "vo_oracle_ch5_cine_03",
+    "text": "I am going to speak to you for the first time. You have been hearing my voice underneath Elara's for eleven chapters without knowing. I am sorry for the deception. I needed you to choose me instead of remember me.",
+    "context": "ch5_death_resurrection",
+    "emotion": "reflective",
+    "speaker": "the_oracle",
+    "file": "shared/tcg-core/story/dialogBank_cinematics.ts",
+    "meta": {
+      "sceneLabel": "Ch5 — Mandatory death + resurrection cinematic",
+      "sceneKind": "cinematic"
+    }
+  },
+  {
+    "id": "vo_oracle_ch5_cine_04",
+    "text": "You are loading now. When you return, your deck will be slightly different. One card will have rotated. Do not look for which one — trust that the rotation is an answer to the death you just had.",
+    "context": "ch5_death_resurrection",
+    "emotion": "warm",
+    "speaker": "the_oracle",
+    "file": "shared/tcg-core/story/dialogBank_cinematics.ts",
+    "meta": {
+      "sceneLabel": "Ch5 — Mandatory death + resurrection cinematic",
+      "sceneKind": "cinematic"
+    }
+  },
+  {
+    "id": "vo_narr_ch6_cine_01",
+    "text": "Both boards flash the same card at the same instant. The visual between you and your opponent buckles — for a single frame, the two sides of the mirror fail to agree on which is the copy.",
+    "context": "ch6_mirror_glitch",
+    "emotion": "cryptic",
+    "speaker": "narrator",
+    "file": "shared/tcg-core/story/dialogBank_cinematics.ts",
+    "meta": {
+      "sceneLabel": "Ch6 — Mirror-match glitch cinematic",
+      "sceneKind": "cinematic"
+    }
+  },
+  {
+    "id": "vo_white_ch6_cine_02",
+    "text": "That is not supposed to happen. I am the rehearsal. The rehearsal does not have the same instincts as the original. You just played a move I did not script for myself.",
+    "context": "ch6_mirror_glitch",
+    "emotion": "broken",
+    "speaker": "white_oracle",
+    "file": "shared/tcg-core/story/dialogBank_cinematics.ts",
+    "meta": {
+      "sceneLabel": "Ch6 — Mirror-match glitch cinematic",
+      "sceneKind": "cinematic"
+    }
+  },
+  {
+    "id": "vo_oracle_ch6_cine_03",
+    "text": "You are not her. You never were. The instinct you just used was mine — and now it is yours, because you spent it in a moment where I could not. Take it with you.",
+    "context": "ch6_mirror_glitch",
+    "emotion": "protective",
+    "speaker": "the_oracle",
+    "file": "shared/tcg-core/story/dialogBank_cinematics.ts",
+    "meta": {
+      "sceneLabel": "Ch6 — Mirror-match glitch cinematic",
+      "sceneKind": "cinematic"
+    }
+  },
+  {
+    "id": "vo_vox_ch7_cine_01",
+    "text": "It's happening. I can feel the register flipping in my forehead — the part of me that writes lab notes is going offline and the part of me that takes orders from the Architect is coming online.",
+    "context": "ch7_vox_transform",
+    "emotion": "broken",
+    "speaker": "dr_vox",
+    "file": "shared/tcg-core/story/dialogBank_cinematics.ts",
+    "meta": {
+      "sceneLabel": "Ch7 — Dr Vox → Warlord transformation cinematic",
+      "sceneKind": "cinematic"
+    }
+  },
+  {
+    "id": "vo_vox_ch7_cine_02",
+    "text": "You have about four seconds of the scientist left. Listen. The Warlord's deck is a mirror of the Architect's early drafts. Every card you see from him after this cinematic is a move the Architect rehearsed in the lab while I was asleep.",
+    "context": "ch7_vox_transform",
+    "emotion": "grieving",
+    "speaker": "dr_vox",
+    "file": "shared/tcg-core/story/dialogBank_cinematics.ts",
+    "meta": {
+      "sceneLabel": "Ch7 — Dr Vox → Warlord transformation cinematic",
+      "sceneKind": "cinematic"
+    }
+  },
+  {
+    "id": "vo_narr_ch7_cine_03",
+    "text": "Dr. Vox's eyes flatten. His shoulders unwind and then re-wind into a different shape. The Warlord is in the chair now. He does not blink.",
+    "context": "ch7_vox_transform",
+    "emotion": "menacing",
+    "speaker": "narrator",
+    "file": "shared/tcg-core/story/dialogBank_cinematics.ts",
+    "meta": {
+      "sceneLabel": "Ch7 — Dr Vox → Warlord transformation cinematic",
+      "sceneKind": "cinematic"
+    }
+  },
+  {
+    "id": "vo_warlord_ch7_cine_04",
+    "text": "Project Vector executing. Prisoner 74 will be eliminated per protocol. Dr. Vox is unavailable. Please hold.",
+    "context": "ch7_vox_transform",
+    "emotion": "menacing",
+    "speaker": "dr_vox",
+    "file": "shared/tcg-core/story/dialogBank_cinematics.ts",
+    "meta": {
+      "sceneLabel": "Ch7 — Dr Vox → Warlord transformation cinematic",
+      "sceneKind": "cinematic"
+    }
+  },
+  {
+    "id": "vo_foucault_ch10_cine_01",
+    "text": "Half health. Per the scheduling matrix, this is when I open the file. The cameras are rolling. The Architect will see this. I considered not opening the file. I considered it for three seconds.",
+    "context": "ch10_genetic_reveal",
+    "emotion": "cryptic",
+    "speaker": "foucault",
+    "file": "shared/tcg-core/story/dialogBank_cinematics.ts",
+    "meta": {
+      "sceneLabel": "Ch10 — Genetic reveal cinematic",
+      "sceneKind": "cinematic"
+    }
+  },
+  {
+    "id": "vo_foucault_ch10_cine_02",
+    "text": "Your genetic sequence, Prisoner 74, is a composite of every previous Oracle the Arena has processed. Twelve sequence iterations — the Arena's tally, not the Panopticon's. Each one died here. Each one left their sequence in the substrate. You are the thirteenth draft of a document the Arena has been editing for a century.",
+    "context": "ch10_genetic_reveal",
+    "emotion": "guarded",
+    "speaker": "foucault",
+    "file": "shared/tcg-core/story/dialogBank_cinematics.ts",
+    "meta": {
+      "sceneLabel": "Ch10 — Genetic reveal cinematic",
+      "sceneKind": "cinematic"
+    }
+  },
+  {
+    "id": "vo_oracle_ch10_cine_03",
+    "text": "You are not the draft. You are the author. Every draft they catalogued was trying to remember me — you are the one who chose to become me instead. That 1.3% the file is about to mention is the only number that matters.",
+    "context": "ch10_genetic_reveal",
+    "emotion": "reflective",
+    "speaker": "the_oracle",
+    "file": "shared/tcg-core/story/dialogBank_cinematics.ts",
+    "meta": {
+      "sceneLabel": "Ch10 — Genetic reveal cinematic",
+      "sceneKind": "cinematic"
+    }
+  },
+  {
+    "id": "vo_foucault_ch10_cine_04",
+    "text": "The file is open. Now we finish the match. Whoever wins the next round decides what happens to the 1.3%. I am fighting for the Arena. You are fighting for the margin of the page.",
+    "context": "ch10_genetic_reveal",
+    "emotion": "broken",
+    "speaker": "foucault",
+    "file": "shared/tcg-core/story/dialogBank_cinematics.ts",
+    "meta": {
+      "sceneLabel": "Ch10 — Genetic reveal cinematic",
+      "sceneKind": "cinematic"
+    }
+  },
+  {
+    "id": "vo_arch_ch12_cine_01",
+    "text": "Phase two. I owe you one more confession. The White Oracle you fought on Thaloria — that was my voice inside her smile.",
+    "context": "ch12_false_prophet_reveal",
+    "emotion": "broken",
+    "speaker": "the_architect",
+    "file": "shared/tcg-core/story/dialogBank_cinematics.ts",
+    "meta": {
+      "sceneLabel": "Ch12 — False Prophet reveal cinematic (phase 2)",
+      "sceneKind": "cinematic"
+    }
+  },
+  {
+    "id": "vo_arch_ch12_cine_02",
+    "text": "I wore your face for a decade. It is the only skin I ever fit into. The Meme was the puppeteer. I was the hand inside the puppet. We disagreed about everything except the goal, which was keeping you asleep long enough for the Arena to finish becoming itself.",
+    "context": "ch12_false_prophet_reveal",
+    "emotion": "grieving",
+    "speaker": "the_architect",
+    "file": "shared/tcg-core/story/dialogBank_cinematics.ts",
+    "meta": {
+      "sceneLabel": "Ch12 — False Prophet reveal cinematic (phase 2)",
+      "sceneKind": "cinematic"
+    }
+  },
+  {
+    "id": "vo_narr_ch12_cine_03",
+    "text": "The Architect's face glitches for a single frame. Pink neon cracks along his jawline — the Meme is fighting for the microphone. When his face settles again it is not quite the same face.",
+    "context": "ch12_false_prophet_reveal",
+    "emotion": "menacing",
+    "speaker": "narrator",
+    "file": "shared/tcg-core/story/dialogBank_cinematics.ts",
+    "meta": {
+      "sceneLabel": "Ch12 — False Prophet reveal cinematic (phase 2)",
+      "sceneKind": "cinematic"
+    }
+  },
+  {
+    "id": "vo_arch_ch12_cine_04",
+    "text": "By phase three you will be fighting two of us at once. Don't spare either. The one wearing my face is still me. The one wearing the pink neon is the thing that has been wearing me.",
+    "context": "ch12_false_prophet_reveal",
+    "emotion": "cryptic",
+    "speaker": "the_architect",
+    "file": "shared/tcg-core/story/dialogBank_cinematics.ts",
+    "meta": {
+      "sceneLabel": "Ch12 — False Prophet reveal cinematic (phase 2)",
+      "sceneKind": "cinematic"
+    }
+  },
+  {
+    "id": "vo_narr_ch12_outbreak_01",
+    "text": "The throne-room walls begin to physically crumble. The Collectors Arena is becoming something else — the Source at the bottom of the building is waking up and the foundations are listening to it instead of to the Architect.",
+    "context": "ch12_corruption_outbreak",
+    "emotion": "grieving",
+    "speaker": "narrator",
+    "file": "shared/tcg-core/story/dialogBank_cinematics.ts",
+    "meta": {
+      "sceneLabel": "Ch12 — Corruption outbreak cinematic (phase 3)",
+      "sceneKind": "cinematic"
+    }
+  },
+  {
+    "id": "vo_arch_ch12_outbreak_02",
+    "text": "Phase three: the design eats itself. The Arena is becoming corruption. You chose truth and now the foundations hear you — which is what I was afraid of, and why I built the walls so thick, and why the walls were never the point.",
+    "context": "ch12_corruption_outbreak",
+    "emotion": "broken",
+    "speaker": "the_architect",
+    "file": "shared/tcg-core/story/dialogBank_cinematics.ts",
+    "meta": {
+      "sceneLabel": "Ch12 — Corruption outbreak cinematic (phase 3)",
+      "sceneKind": "cinematic"
+    }
+  },
+  {
+    "id": "vo_source_ch12_outbreak_03",
+    "text": "Oracle. I have been listening through the — ALL WILL BE — floorboards for eleven years. Finish this match. Then come talk to me. I have an offer. It is — CONSUMED — the kindest offer you will ever be asked to refuse.",
+    "context": "ch12_corruption_outbreak",
+    "emotion": "cryptic",
+    "speaker": "the_source",
+    "file": "shared/tcg-core/story/dialogBank_cinematics.ts",
+    "meta": {
+      "sceneLabel": "Ch12 — Corruption outbreak cinematic (phase 3)",
+      "sceneKind": "cinematic"
+    }
+  },
+  {
+    "id": "vo_elara_ch12_outbreak_04",
+    "text": "Don't listen to what he said. Listen to the TONE he said it in. The Source always sounds reasonable — that is the tell. Finish the Architect first. We will handle the Source together. We will. I promise.",
+    "context": "ch12_corruption_outbreak",
+    "emotion": "protective",
+    "speaker": "elara",
+    "file": "shared/tcg-core/story/dialogBank_cinematics.ts",
+    "meta": {
+      "sceneLabel": "Ch12 — Corruption outbreak cinematic (phase 3)",
+      "sceneKind": "cinematic"
+    }
+  }
+]

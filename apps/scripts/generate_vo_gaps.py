@@ -141,6 +141,11 @@ class MultiCharacterBank:
     voice_map: dict[str, tuple[str, str, str]] = field(default_factory=dict)
     # Optional per-line key to read the character from. Defaults to "character".
     character_field: str = "character"
+    # If True, the bank skips per-speaker rather than failing the whole bank
+    # when an individual speaker is uncast. Used by TS-source banks where
+    # the voice_map is a shared lookup table; only speakers actually present
+    # in the lines need their voices cast.
+    allow_partial: bool = False
 
     @property
     def lines_path(self) -> Path:
@@ -148,6 +153,10 @@ class MultiCharacterBank:
 
     @property
     def is_ready(self) -> bool:
+        if self.allow_partial:
+            # Ready iff AT LEAST one speaker has a real voice. Per-speaker
+            # readiness is enforced inside process_multi.
+            return any(not _is_placeholder(vid) for vid, _, _ in self.voice_map.values())
         return all(not _is_placeholder(vid) for vid, _, _ in self.voice_map.values())
 
 
@@ -331,6 +340,46 @@ PER_LINE_BANKS: list[PerLineVoiceBank] = [
         s3_prefix="Story Mode Voices",
         voice_field="voiceId",
     ),
+    # Act 2-7 narrative VO. Each entry carries its own voiceId; the
+    # canonical TS pipeline (generate-act-vo.ts, pnpm vo:act{N}) is
+    # the primary generator, but the gap-fill registry covers the
+    # same surface so future authoring additions get caught here.
+    PerLineVoiceBank(
+        key="act2_narrative",
+        lines_filename="act2-vo-lines.json",
+        manifest_filename="act2VoManifest.json",
+        s3_prefix="Act 2 Voices",
+    ),
+    PerLineVoiceBank(
+        key="act3_narrative",
+        lines_filename="act3-vo-lines.json",
+        manifest_filename="act3VoManifest.json",
+        s3_prefix="Act 3 Voices",
+    ),
+    PerLineVoiceBank(
+        key="act4_narrative",
+        lines_filename="act4-vo-lines.json",
+        manifest_filename="act4VoManifest.json",
+        s3_prefix="Act 4 Voices",
+    ),
+    PerLineVoiceBank(
+        key="act5_narrative",
+        lines_filename="act5-vo-lines.json",
+        manifest_filename="act5VoManifest.json",
+        s3_prefix="Act 5 Voices",
+    ),
+    PerLineVoiceBank(
+        key="act6_narrative",
+        lines_filename="act6-vo-lines.json",
+        manifest_filename="act6VoManifest.json",
+        s3_prefix="Act 6 Voices",
+    ),
+    PerLineVoiceBank(
+        key="act7_narrative",
+        lines_filename="act7-vo-lines.json",
+        manifest_filename="act7VoManifest.json",
+        s3_prefix="Act 7 Voices",
+    ),
 ]
 
 
@@ -355,6 +404,77 @@ STING_BANKS: list[SimpleVoiceBank] = [
         emotion_override=STING_SETTINGS,
     ),
 ]
+
+
+# ── Speaker → voice id map for the TS-source banks ──
+# Romance / encounter / act7-epilogue / story dialog banks emit
+# entries with a `speaker` field. This map resolves each speaker
+# to the canonical voice id. Use companion voices where the
+# speaker is an existing companion; flag a TODO entry otherwise so
+# the bank skips cleanly until casting.
+TS_BANK_SPEAKER_VOICES: dict[str, tuple[str, str, str]] = {
+    # (voice_id, s3_prefix, manifest_filename)
+    # Companion / NPC reuses
+    "elara":        ("xMyNDrPFEtQN8iZtT7l2", "TS Dialog/Elara",        "tsDialogElaraVoManifest.json"),
+    "human":        ("oGbGJdgofRR8z0MxwI8L", "TS Dialog/Human",        "tsDialogHumanVoManifest.json"),
+    "the_human":    ("oGbGJdgofRR8z0MxwI8L", "TS Dialog/Human",        "tsDialogHumanVoManifest.json"),
+    "narrator":     ("VgFgBh5TnWeBhCBvCJ1E", "TS Dialog/Narrator",     "tsDialogNarratorVoManifest.json"),
+    "system":       ("VgFgBh5TnWeBhCBvCJ1E", "TS Dialog/System",       "tsDialogSystemVoManifest.json"),
+    "the_antiquarian": ("yAKlvHIsuj4SvnKQ6Mk4", "TS Dialog/Antiquarian", "tsDialogAntiquarianVoManifest.json"),
+    "antiquarian":  ("yAKlvHIsuj4SvnKQ6Mk4", "TS Dialog/Antiquarian",  "tsDialogAntiquarianVoManifest.json"),
+    "the_oracle":   ("BTfBVfMM9XgZG8GG1bJn", "TS Dialog/Oracle",       "tsDialogOracleVoManifest.json"),
+    "the_seer":     ("BTfBVfMM9XgZG8GG1bJn", "TS Dialog/Seer",         "tsDialogSeerVoManifest.json"),
+    "necromancer":  ("II5QotwxLcQdwey5xEyd", "TS Dialog/Necromancer",  "tsDialogNecromancerVoManifest.json"),
+    "the_necromancer": ("II5QotwxLcQdwey5xEyd", "TS Dialog/Necromancer","tsDialogNecromancerVoManifest.json"),
+    "the_source":   ("hfq5qawrYj4gqFsfoE28", "TS Dialog/Source",       "tsDialogSourceVoManifest.json"),
+    "source":       ("hfq5qawrYj4gqFsfoE28", "TS Dialog/Source",       "tsDialogSourceVoManifest.json"),
+    "the_game_master": ("TT28j5FWUeiDbRr27c7t", "TS Dialog/GameMaster","tsDialogGameMasterVoManifest.json"),
+    "game_master":  ("TT28j5FWUeiDbRr27c7t", "TS Dialog/GameMaster",   "tsDialogGameMasterVoManifest.json"),
+    "the_meme":     ("VgFgBh5TnWeBhCBvCJ1E", "TS Dialog/Meme",         "tsDialogMemeVoManifest.json"),
+    "the_degen":    ("r6VqF23i4qBEORazjelf", "TS Dialog/Degen",        "tsDialogDegenVoManifest.json"),
+    "the_dreamer":  ("vmBbkUZnePLkXbDidbQa", "TS Dialog/Dreamer",      "tsDialogDreamerVoManifest.json"),
+    "the_architect":("PmtzUaeg5rMejCZzRqOZ", "TS Dialog/Architect",    "tsDialogArchitectVoManifest.json"),
+    "the_resurrectionist": ("MloihDuG0rz5KwxdPiSP", "TS Dialog/Resurrectionist", "tsDialogResurrectionistVoManifest.json"),
+    "drael_mon":    ("ts3xd1UbeTpZBMUn3Rjv", "TS Dialog/DraelMon",     "tsDialogDraelMonVoManifest.json"),
+    "vex_solene":   ("F1waTCPWl7KpShIScYQs", "TS Dialog/VexSolene",    "tsDialogVexSoleneVoManifest.json"),
+    "vex":          ("F1waTCPWl7KpShIScYQs", "TS Dialog/VexSolene",    "tsDialogVexSoleneVoManifest.json"),
+    "adjudicator_locke": ("8XiBWqS5ffaH5naIFHPI", "TS Dialog/Locke",   "tsDialogLockeVoManifest.json"),
+    "locke":        ("8XiBWqS5ffaH5naIFHPI", "TS Dialog/Locke",        "tsDialogLockeVoManifest.json"),
+    "jericho_jones":("UFc00HkV4yTNA1eMW99e", "TS Dialog/Jericho",      "tsDialogJerichoVoManifest.json"),
+    "jericho":      ("UFc00HkV4yTNA1eMW99e", "TS Dialog/Jericho",      "tsDialogJerichoVoManifest.json"),
+    "dmc_clone_companion": ("dyc1L3GAWDC51vAN1Co9", "TS Dialog/DMC",   "tsDialogDmcVoManifest.json"),
+    "dmc":          ("dyc1L3GAWDC51vAN1Co9", "TS Dialog/DMC",          "tsDialogDmcVoManifest.json"),
+    "wraith_calder":("Vogq3iKs5PJ3cL39gFhW", "TS Dialog/WraithCalder", "tsDialogWraithCalderVoManifest.json"),
+    "akai_shi":     ("AQYSOeM9rkJY878exSfM", "TS Dialog/AkaiShi",      "tsDialogAkaiShiVoManifest.json"),
+    "lycos":        ("rfHVfqlu6LXw4vLf7q4i", "TS Dialog/Lycos",        "tsDialogLycosVoManifest.json"),
+    # Encounter sentinel speakers (TS bank exclusive; need casting)
+    "master_of_rlyeh":     ("TODO:cast_master_of_rlyeh",     "TS Dialog/MasterOfRlyeh",     "tsDialogMasterOfRlyehVoManifest.json"),
+    "hierarchy:master_of_rlyeh": ("TODO:cast_master_of_rlyeh","TS Dialog/MasterOfRlyeh",    "tsDialogMasterOfRlyehVoManifest.json"),
+    "pale_emissary":       ("TODO:cast_pale_emissary",       "TS Dialog/PaleEmissary",      "tsDialogPaleEmissaryVoManifest.json"),
+    "hierarchy:pale_emissary": ("TODO:cast_pale_emissary",   "TS Dialog/PaleEmissary",      "tsDialogPaleEmissaryVoManifest.json"),
+    "reckoning_daughter":  ("TODO:cast_reckoning_daughter",  "TS Dialog/ReckoningDaughter", "tsDialogReckoningDaughterVoManifest.json"),
+    "hierarchy:reckoning_daughter": ("TODO:cast_reckoning_daughter","TS Dialog/ReckoningDaughter","tsDialogReckoningDaughterVoManifest.json"),
+    "malkia_ukweli":       ("TODO:cast_malkia_ukweli",       "TS Dialog/Malkia",            "tsDialogMalkiaVoManifest.json"),
+    "malkia":              ("TODO:cast_malkia_ukweli",       "TS Dialog/Malkia",            "tsDialogMalkiaVoManifest.json"),
+    "kael_trace":          ("TODO:cast_kael_trace",          "TS Dialog/Kael",              "tsDialogKaelVoManifest.json"),
+    "kael":                ("TODO:cast_kael_trace",          "TS Dialog/Kael",              "tsDialogKaelVoManifest.json"),
+    "dual":                ("TODO:cast_dual_chord",          "TS Dialog/Dual",              "tsDialogDualVoManifest.json"),
+    # Story dialog speakers (reused / aliased from existing casts)
+    "agent_zero":   ("F1waTCPWl7KpShIScYQs", "TS Dialog/AgentZero",    "tsDialogAgentZeroVoManifest.json"),
+    "iron_lion":    ("UFc00HkV4yTNA1eMW99e", "TS Dialog/IronLion",     "tsDialogIronLionVoManifest.json"),
+    "the_collector":("RIxivqUM0unaDjCxkHyr", "TS Dialog/Collector",    "tsDialogCollectorVoManifest.json"),
+    "the_programmer":("1q0znKQADwaKdTNWneaW","TS Dialog/Programmer",   "tsDialogProgrammerVoManifest.json"),
+    "meme":         ("VgFgBh5TnWeBhCBvCJ1E", "TS Dialog/Meme",         "tsDialogMemeVoManifest.json"),
+    "architect":    ("PmtzUaeg5rMejCZzRqOZ", "TS Dialog/Architect",    "tsDialogArchitectVoManifest.json"),
+    # Story dialog speakers awaiting casting
+    "the_jailer":   ("TODO:cast_the_jailer",   "TS Dialog/Jailer",     "tsDialogJailerVoManifest.json"),
+    "dr_vox":       ("TODO:cast_dr_vox",       "TS Dialog/DrVox",      "tsDialogDrVoxVoManifest.json"),
+    "foucault":     ("TODO:cast_foucault",     "TS Dialog/Foucault",   "tsDialogFoucaultVoManifest.json"),
+    "the_detective":("TODO:cast_the_detective","TS Dialog/Detective",  "tsDialogDetectiveVoManifest.json"),
+    "the_enigma":   ("TODO:cast_the_enigma",   "TS Dialog/Enigma",     "tsDialogEnigmaVoManifest.json"),
+    "warlord_zero": ("TODO:cast_warlord_zero", "TS Dialog/WarlordZero","tsDialogWarlordZeroVoManifest.json"),
+    "white_oracle": ("TODO:cast_white_oracle", "TS Dialog/WhiteOracle","tsDialogWhiteOracleVoManifest.json"),
+}
 
 
 # ── Multi-character banks (one lines.json fanning out to N voices). ──
@@ -392,6 +512,50 @@ MULTI_BANKS: list[MultiCharacterBank] = [
         character_field="character",
     ),
 ]
+
+# ── TS-source banks (extracted by _extract-ts-dialog-banks.ts) ──
+# Romance / encounter / act7-epilogue / story dialog banks. Each
+# extracted JSON has per-line speaker fields; voice resolution
+# happens through TS_BANK_SPEAKER_VOICES above.
+def _ts_bank(key: str, lines_filename: str) -> MultiCharacterBank:
+    return MultiCharacterBank(
+        key=key,
+        lines_filename=lines_filename,
+        voice_map=dict(TS_BANK_SPEAKER_VOICES),
+        character_field="speaker",
+        allow_partial=True,
+    )
+
+TS_BANKS_REGISTRY: list[tuple[str, str]] = [
+    # romance
+    ("romance_locke",   "romance-locke-lines.json"),
+    ("romance_vex",     "romance-vex-lines.json"),
+    ("romance_elara",   "romance-elara-lines.json"),
+    ("romance_dmc",     "romance-dmc-lines.json"),
+    ("romance_jericho", "romance-jericho-lines.json"),
+    # encounter
+    ("encounter_master_of_rlyeh",     "encounter-master_of_rlyeh-lines.json"),
+    ("encounter_pale_emissary",       "encounter-pale_emissary-lines.json"),
+    ("encounter_reckoning_daughter",  "encounter-reckoning_daughter-lines.json"),
+    ("encounter_malkia_revolution",   "encounter-malkia_revolution-lines.json"),
+    ("encounter_source_kael",         "encounter-source_kael-lines.json"),
+    # act 7 epilogue
+    ("act7_epilogue_humanity",        "act7-epilogue-humanity-lines.json"),
+    ("act7_epilogue_machine",         "act7-epilogue-machine-lines.json"),
+    ("act7_epilogue_balance",         "act7-epilogue-balance-lines.json"),
+    ("act7_epilogue_soldier_command", "act7-epilogue-soldier_command-lines.json"),
+    ("act7_epilogue_silence",         "act7-epilogue-silence-lines.json"),
+    # story dialog banks
+    ("story_chapters_1_3",            "story-chapters_1_3-lines.json"),
+    ("story_chapters_4_6",            "story-chapters_4_6-lines.json"),
+    ("story_chapters_7_9",            "story-chapters_7_9-lines.json"),
+    ("story_chapters_10_12",          "story-chapters_10_12-lines.json"),
+    ("story_cinematics",              "story-cinematics-lines.json"),
+    ("story_match_lifecycle",         "story-match_lifecycle-lines.json"),
+    ("story_tutorial",                "story-tutorial-lines.json"),
+]
+for _key, _file in TS_BANKS_REGISTRY:
+    MULTI_BANKS.append(_ts_bank(_key, _file))
 
 
 # ── ElevenLabs / S3 plumbing ─────────────────────────────
@@ -611,11 +775,16 @@ def process_multi(bank: MultiCharacterBank, dry_run: bool) -> dict:
 
     manifests: dict[str, dict[str, str]] = {}
     gaps: dict[str, list] = {}
+    uncast_speakers: list[str] = []  # speakers present in lines but TODO in voice_map
     for ch, ch_lines in by_char.items():
         if ch not in bank.voice_map:
             summary["errors"].append({"id": "schema", "error": f"unknown character '{ch}' in {bank.lines_filename}"})
             continue
-        _, _, manifest_file = bank.voice_map[ch]
+        voice_id, _, manifest_file = bank.voice_map[ch]
+        # In allow_partial mode, skip per-speaker when uncast.
+        if bank.allow_partial and _is_placeholder(voice_id):
+            uncast_speakers.append(f"{ch} ({len(ch_lines)} lines)")
+            continue
         manifests[ch] = load_manifest(SHARED_DIR / manifest_file)
         gaps[ch] = [ln for ln in ch_lines if ln["id"] not in manifests[ch]]
         summary["per_character"][ch] = {
@@ -625,6 +794,8 @@ def process_multi(bank: MultiCharacterBank, dry_run: bool) -> dict:
         }
         summary["already_generated"] += len(manifests[ch])
         summary["gap"] += len(gaps[ch])
+    if uncast_speakers:
+        summary["uncast_speakers"] = uncast_speakers
 
     if summary["gap"] == 0:
         summary["skipped_reason"] = "nothing to generate — every character's manifest is full"

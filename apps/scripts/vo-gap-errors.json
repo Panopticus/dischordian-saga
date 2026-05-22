@@ -1,0 +1,22 @@
+[
+  {
+    "bank": "encounter_master_of_rlyeh",
+    "id": "schema",
+    "error": "unknown character 'hierarchy:master_of_rlyeh' in encounter-master_of_rlyeh-lines.json"
+  },
+  {
+    "bank": "story_chapters_1_3",
+    "id": "schema",
+    "error": "unknown character 'agent_zero' in story-chapters_1_3-lines.json"
+  },
+  {
+    "bank": "story_chapters_1_3",
+    "id": "schema",
+    "error": "unknown character 'the_jailer' in story-chapters_1_3-lines.json"
+  },
+  {
+    "bank": "story_chapters_1_3",
+    "id": "schema",
+    "error": "unknown character 'iron_lion' in story-chapters_1_3-lines.json"
+  }
+]
