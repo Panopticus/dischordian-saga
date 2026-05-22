@@ -83,7 +83,7 @@ function main() {
 
   let touched = 0;
   let removed = 0;
-  let stillStaleInManifests = new Set(strippedIds);
+  const stillStaleInManifests = new Set(strippedIds);
 
   console.log(`\nScanning ${manifestFiles.length} manifest(s)${DRY ? " (dry run)" : ""}…`);
 
