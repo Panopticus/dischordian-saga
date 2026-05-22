@@ -279,11 +279,12 @@
   {
     "id": "the_antiquarian_dlg_witness_ant_wit_warm_reply_0",
     "character": "npc_the_antiquarian",
-    "text": "The earliest collapsed potential is the one you do not remember collapsing. That is canonical. The Refuge calls it the *unread first citation*. I have kept the page bookmarked. Ask when you are ready.",
+    "text": "The earliest collapsed potential is the one you do not remember collapsing. That is canonical. The Refuge calls it the unread first citation. I have kept the page bookmarked. Ask when you are ready.",
     "bucket": "dialogue",
     "emotion": "dialogue",
     "file": "shared/npcDialogues.ts",
-    "dialogueTopic": "witness"
+    "dialogueTopic": "witness",
+    "directionNotes": "The earliest collapsed potential is the one you do not remember collapsing. That is canonical. The Refuge calls it the *unread first citation*. I have kept the page bookmarked. Ask when you are ready."
   },
   {
     "id": "the_antiquarian_dlg_witness_ant_wit_probe_reply_0",

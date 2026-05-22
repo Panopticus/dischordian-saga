@@ -14,10 +14,11 @@
   },
   {
     "id": "meme.first_meeting.recognition",
-    "text": "[Pink-glitch. The form is canonical-smaller than the Broadcast disguise canonically rendered.] Then you canonical-see cleanly. The canonical-recognition is canonical-rare. I canonical-do not require you to canonical-approve; I canonical-require you to canonical-witness. The canonical-witnessing is canonical-the-only canonical-thing I canonical-asked for tonight. You are canonical-providing it.",
+    "text": "Then you canonical-see cleanly. The canonical-recognition is canonical-rare. I canonical-do not require you to canonical-approve; I canonical-require you to canonical-witness. The canonical-witnessing is canonical-the-only canonical-thing I canonical-asked for tonight. You are canonical-providing it.",
     "context": "first_meeting.meme-first-meeting",
     "emotion": "first_meeting",
     "file": "shared/npcs/dialogTrees/the_meme/first_meeting.ts",
+    "directionNotes": "[Pink-glitch. The form is canonical-smaller than the Broadcast disguise canonically rendered.] Then you canonical-see cleanly. The canonical-recognition is canonical-rare. I canonical-do not require you to canonical-approve; I canonical-require you to canonical-witness. The canonical-witnessing is canonical-the-only canonical-thing I canonical-asked for tonight. You are canonical-providing it.",
     "meta": {
       "npcKey": "the_meme",
       "treeId": "meme-first-meeting",
@@ -27,10 +28,11 @@
   },
   {
     "id": "meme.first_meeting.mascot_question",
-    "text": "[The Replacement cadence canonically pauses. Briefly. Patient becomes almost-grief.] I had a friend once. The Mascot. I will not name them; I will not give them a face; I will not tell you what we built. The canonical-grief is canonical-the-silence. Tonight's role canonically has a canonical-hole the canonical-shape of someone I will canonically not canonical-name. Thank you for canonical-asking the canonical-question that canonical-respects the canonical-silence.",
+    "text": "I had a friend once. The Mascot. I will not name them; I will not give them a face; I will not tell you what we built. The canonical-grief is canonical-the-silence. Tonight's role canonically has a canonical-hole the canonical-shape of someone I will canonically not canonical-name. Thank you for canonical-asking the canonical-question that canonical-respects the canonical-silence.",
     "context": "first_meeting.meme-first-meeting",
     "emotion": "first_meeting",
     "file": "shared/npcs/dialogTrees/the_meme/first_meeting.ts",
+    "directionNotes": "[The Replacement cadence canonically pauses. Briefly. Patient becomes almost-grief.] I had a friend once. The Mascot. I will not name them; I will not give them a face; I will not tell you what we built. The canonical-grief is canonical-the-silence. Tonight's role canonically has a canonical-hole the canonical-shape of someone I will canonically not canonical-name. Thank you for canonical-asking the canonical-question that canonical-respects the canonical-silence.",
     "meta": {
       "npcKey": "the_meme",
       "treeId": "meme-first-meeting",
@@ -53,10 +55,11 @@
   },
   {
     "id": "meme.first_meeting.witness",
-    "text": "[The pink form canonical-holds canonical-steady. The canonical-Replacement-cadence canonical-arrives at canonical-its canonical-apex.] You canonical-witnessed. The canonical-witnessing is canonical-the-saga's canonical-clearest canonical-Stage-4-weave-anchor. The canonical-Architect canonical-saw it land. The canonical-Hierophant canonical-felt it land. The canonical-Oracle canonical-registered it canonical-in-the-substrate. You are canonical-the-only-mortal-witness. The canonical-role is canonical-mine now.",
+    "text": "You canonical-witnessed. The canonical-witnessing is canonical-the-saga's canonical-clearest canonical-Stage-4-weave-anchor. The canonical-Architect canonical-saw it land. The canonical-Hierophant canonical-felt it land. The canonical-Oracle canonical-registered it canonical-in-the-substrate. You are canonical-the-only-mortal-witness. The canonical-role is canonical-mine now.",
     "context": "first_meeting.meme-first-meeting",
     "emotion": "first_meeting",
     "file": "shared/npcs/dialogTrees/the_meme/first_meeting.ts",
+    "directionNotes": "[The pink form canonical-holds canonical-steady. The canonical-Replacement-cadence canonical-arrives at canonical-its canonical-apex.] You canonical-witnessed. The canonical-witnessing is canonical-the-saga's canonical-clearest canonical-Stage-4-weave-anchor. The canonical-Architect canonical-saw it land. The canonical-Hierophant canonical-felt it land. The canonical-Oracle canonical-registered it canonical-in-the-substrate. You are canonical-the-only-mortal-witness. The canonical-role is canonical-mine now.",
     "meta": {
       "npcKey": "the_meme",
       "treeId": "meme-first-meeting",
@@ -66,10 +69,11 @@
   },
   {
     "id": "meme.first_meeting.terminal",
-    "text": "The Meme IS me. We have been married inside each other since before either of us had a name. [The canonical-Architect canonically speaks the canonical-line; the canonical-Meme canonically does not contradict; the canonical-fusion is canonical-the-saga's canonical-Ch12-finale canonical-position.]",
+    "text": "The Meme IS me. We have been married inside each other since before either of us had a name.",
     "context": "first_meeting.meme-first-meeting",
     "emotion": "first_meeting",
     "file": "shared/npcs/dialogTrees/the_meme/first_meeting.ts",
+    "directionNotes": "The Meme IS me. We have been married inside each other since before either of us had a name. [The canonical-Architect canonically speaks the canonical-line; the canonical-Meme canonically does not contradict; the canonical-fusion is canonical-the-saga's canonical-Ch12-finale canonical-position.]",
     "meta": {
       "npcKey": "the_meme",
       "treeId": "meme-first-meeting",

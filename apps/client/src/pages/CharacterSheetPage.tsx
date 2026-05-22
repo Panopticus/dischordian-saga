@@ -27,7 +27,7 @@ import { useGame } from "@/contexts/GameContext";
 import { useGamification } from "@/contexts/GamificationContext";
 import { Link as WLink } from "wouter";
 import PaperDollRenderer from "@/components/PaperDollRenderer";
-import PaperDollBG3 from "@/components/PaperDollBG3";
+import PaperDollBG3, { isDressupV2Enabled } from "@/components/PaperDollBG3";
 import { parseSuitPieceArtId } from "@/game/paperDoll/suitArt";
 import type { Loadout } from "@/game/paperDoll/compositePaperDoll";
 import {
@@ -458,7 +458,16 @@ export default function CharacterSheetPage() {
   //   - updateGear writes flat { "base-mask": "<id>", ... }
   // Read either shape defensively, and fall back to resolveStarterLoadout when
   // a base slot is missing entirely (older saves pre-dating §G.2).
+  // §G.9 — Only build a BG3 loadout when the DRESSUP_V2 art catalog is
+  // actually shipped for this client. Without the suit-piece PNGs the
+  // composited renderer leaks an isolated head layer over an empty body
+  // (the "floating helmet" report on a fresh awakened operative). When
+  // the flag is off we fall through to PaperDollRenderer below, which
+  // procedurally paints a full SVG silhouette from the species palette
+  // and tints equipped gear on top.
+  const bg3Enabled = isDressupV2Enabled();
   const bg3Loadout = useMemo<Loadout | null>(() => {
+    if (!bg3Enabled) return null;
     const char = character.data;
     if (!char) return null;
 
@@ -532,7 +541,7 @@ export default function CharacterSheetPage() {
     }
 
     return { pieces } as unknown as Loadout;
-  }, [character.data]);
+  }, [character.data, bg3Enabled]);
 
   // Species silhouette to layer at the bottom of the BG3 z-stack so the
   // outfit pieces sit on a body. Mirrors the same `human` collapse the

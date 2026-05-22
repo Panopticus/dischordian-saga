@@ -75,10 +75,11 @@
     "id": "vo_gm_climb_t1_pre_01",
     "speaker": "game_master_corrupted",
     "voiceId": "7fUsquJ4dducD13xnA2i",
-    "text": "TIER ONE. Wagered. [The corrupted Game Master produces a clipboard. The paperwork on the clipboard is identical to the paperwork he himself signed with Xeth'Raal the night the Architect hired him. He does not acknowledge the parallel. He has been instructed not to.] Lose this best-of-three and you will be DEMOTED one ELO tier. Win and you will be PROMOTED. Sign here. Sign here. Sign here.",
+    "text": "TIER ONE. Wagered. Lose this best-of-three and you will be DEMOTED one ELO tier. Win and you will be PROMOTED. Sign here. Sign here. Sign here.",
     "context": "chess_climb_t1_pre",
     "emotion": "menacing",
-    "register": "corrupted"
+    "register": "corrupted",
+    "directionNotes": "TIER ONE. Wagered. [The corrupted Game Master produces a clipboard. The paperwork on the clipboard is identical to the paperwork he himself signed with Xeth'Raal the night the Architect hired him. He does not acknowledge the parallel. He has been instructed not to.] Lose this best-of-three and you will be DEMOTED one ELO tier. Win and you will be PROMOTED. Sign here. Sign here. Sign here."
   },
   {
     "id": "vo_gm_climb_t1_pre_02",
@@ -120,10 +121,11 @@
     "id": "vo_gm_climb_t1_mid_trailing_02",
     "speaker": "game_master_celebration",
     "voiceId": "TT28j5FWUeiDbRr27c7t",
-    "text": "[The corrupted voice has thinned. The keepsake is leaking through.] Listen to me. I am only going to be in the room for one cue and then he is going to take the chair back. You are not playing badly. You are playing FOR something for the first time in this Arena. Your style changes when there are stakes. That is normal. Breathe. Look at the board. Find the move you would have played at Tier 0, when nothing mattered. That move is still on the board. Play it.",
+    "text": "Listen to me. I am only going to be in the room for one cue and then he is going to take the chair back. You are not playing badly. You are playing FOR something for the first time in this Arena. Your style changes when there are stakes. That is normal. Breathe. Look at the board. Find the move you would have played at Tier 0, when nothing mattered. That move is still on the board. Play it.",
     "context": "chess_climb_t1_mid_trailing",
     "emotion": "warm",
-    "register": "celebration"
+    "register": "celebration",
+    "directionNotes": "[The corrupted voice has thinned. The keepsake is leaking through.] Listen to me. I am only going to be in the room for one cue and then he is going to take the chair back. You are not playing badly. You are playing FOR something for the first time in this Arena. Your style changes when there are stakes. That is normal. Breathe. Look at the board. Find the move you would have played at Tier 0, when nothing mattered. That move is still on the board. Play it."
   },
   {
     "id": "vo_gm_climb_t1_post_win_01",
@@ -156,10 +158,11 @@
     "id": "vo_gm_climb_t2_pre_01",
     "speaker": "game_master_corrupted",
     "voiceId": "7fUsquJ4dducD13xnA2i",
-    "text": "TIER TWO. Welcome to the Hierarchy's Table. [The audience has changed. Horned silhouettes line the back of the chamber. Mol'Garath's seat at the head is empty — that is for Tier Three. Tonight you are watched only by the middle management of the damned.] On the board between us sits a pair of red-lensed goggles. They were mine. They are still mine. They are not on the table as a trophy. They are on the table as a WITNESS.",
+    "text": "TIER TWO. Welcome to the Hierarchy's Table. On the board between us sits a pair of red-lensed goggles. They were mine. They are still mine. They are not on the table as a trophy. They are on the table as a WITNESS.",
     "context": "chess_climb_t2_pre",
     "emotion": "menacing",
-    "register": "corrupted"
+    "register": "corrupted",
+    "directionNotes": "TIER TWO. Welcome to the Hierarchy's Table. [The audience has changed. Horned silhouettes line the back of the chamber. Mol'Garath's seat at the head is empty — that is for Tier Three. Tonight you are watched only by the middle management of the damned.] On the board between us sits a pair of red-lensed goggles. They were mine. They are still mine. They are not on the table as a trophy. They are on the table as a WITNESS."
   },
   {
     "id": "vo_gm_climb_t2_pre_02",
@@ -201,10 +204,11 @@
     "id": "vo_gm_climb_t2_mid_trailing_02",
     "speaker": "game_master_celebration",
     "voiceId": "TT28j5FWUeiDbRr27c7t",
-    "text": "[The keepsake bleeds through. The room dims one notch.] Stand up. Walk around the table once before you sit down again. The Hierarchy hates when contestants exercise the right to PAUSE — it makes us look like agents and not employees. You are an agent. Use the thirty seconds. Look at your last game. Find the move you almost played and rejected. That is usually the move that wins the second game. I love you. Sit down.",
+    "text": "Stand up. Walk around the table once before you sit down again. The Hierarchy hates when contestants exercise the right to PAUSE — it makes us look like agents and not employees. You are an agent. Use the thirty seconds. Look at your last game. Find the move you almost played and rejected. That is usually the move that wins the second game. I love you. Sit down.",
     "context": "chess_climb_t2_mid_trailing",
     "emotion": "warm",
-    "register": "celebration"
+    "register": "celebration",
+    "directionNotes": "[The keepsake bleeds through. The room dims one notch.] Stand up. Walk around the table once before you sit down again. The Hierarchy hates when contestants exercise the right to PAUSE — it makes us look like agents and not employees. You are an agent. Use the thirty seconds. Look at your last game. Find the move you almost played and rejected. That is usually the move that wins the second game. I love you. Sit down."
   },
   {
     "id": "vo_gm_climb_t2_post_win_01",
@@ -237,19 +241,21 @@
     "id": "vo_gm_climb_t3_pre_01",
     "speaker": "game_master_corrupted",
     "voiceId": "7fUsquJ4dducD13xnA2i",
-    "text": "TIER THREE. The Labyrinth Wager. [Mol'Garath the Unmaker is seated at the head of the audience. The Hierarchy's demons are silent. The chamber smells faintly of old paper and something burning in another room.] The Architect's operators informed me I would be reading THIS card with menace. I am having difficulty finding the menace. The paperwork wants you to understand that a LOSS at this tier resets your Puzzle of the Day streak and your Openings Study streak to zero.",
+    "text": "TIER THREE. The Labyrinth Wager. The Architect's operators informed me I would be reading THIS card with menace. I am having difficulty finding the menace. The paperwork wants you to understand that a LOSS at this tier resets your Puzzle of the Day streak and your Openings Study streak to zero.",
     "context": "chess_climb_t3_pre",
     "emotion": "menacing",
-    "register": "corrupted"
+    "register": "corrupted",
+    "directionNotes": "TIER THREE. The Labyrinth Wager. [Mol'Garath the Unmaker is seated at the head of the audience. The Hierarchy's demons are silent. The chamber smells faintly of old paper and something burning in another room.] The Architect's operators informed me I would be reading THIS card with menace. I am having difficulty finding the menace. The paperwork wants you to understand that a LOSS at this tier resets your Puzzle of the Day streak and your Openings Study streak to zero."
   },
   {
     "id": "vo_gm_climb_t3_pre_02",
     "speaker": "game_master_celebration",
     "voiceId": "TT28j5FWUeiDbRr27c7t",
-    "text": "[The corrupted voice has stopped. The warm voice is here. The keepsake is bleeding through the entire chamber at this tier; no one is stopping it.] This is the game I wanted to build for you. Mol'Garath is watching because he LIKES watching me lose. He has not watched me lose since the Prince, and the Prince is not here, so you are the test of whether it is repeatable. It is. You can do this. I am cheerful for the first time in seventeen thousand years. Sit.",
+    "text": "This is the game I wanted to build for you. Mol'Garath is watching because he LIKES watching me lose. He has not watched me lose since the Prince, and the Prince is not here, so you are the test of whether it is repeatable. It is. You can do this. I am cheerful for the first time in seventeen thousand years. Sit.",
     "context": "chess_climb_t3_pre",
     "emotion": "warm",
-    "register": "celebration"
+    "register": "celebration",
+    "directionNotes": "[The corrupted voice has stopped. The warm voice is here. The keepsake is bleeding through the entire chamber at this tier; no one is stopping it.] This is the game I wanted to build for you. Mol'Garath is watching because he LIKES watching me lose. He has not watched me lose since the Prince, and the Prince is not here, so you are the test of whether it is repeatable. It is. You can do this. I am cheerful for the first time in seventeen thousand years. Sit."
   },
   {
     "id": "vo_gm_climb_t3_mid_leading_01",

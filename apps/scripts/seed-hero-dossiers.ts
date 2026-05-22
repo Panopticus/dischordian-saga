@@ -373,7 +373,7 @@ function buildDossiers(): { [lord in Lord]: HeroDossier[] } {
       for (let i = 0; i < n; i += 1) {
         seed += 1;
         const tier = (1 + (perLordIdx % 4)) as Tier;
-        let nm = pickName(cls, seed);
+        const nm = pickName(cls, seed);
         // Disambiguate id collisions deterministically.
         let suffix = 0;
         let candidateId = `${nm.idSlug}_${lord.split("_")[0]}`;

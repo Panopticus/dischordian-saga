@@ -465,5 +465,5 @@ export function getActivePuzzleChains(flags: Record<string, boolean>): { chain: 
       else break;
     }
     return { chain, currentStep };
-  }).filter(({ currentStep, chain }) => currentStep < chain.steps.length);
+  }).filter(({ currentStep, chain }) => currentStep > 0 && currentStep < chain.steps.length);
 }

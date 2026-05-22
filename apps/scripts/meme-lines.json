@@ -1,14 +1,14 @@
 [
   {
     "id": "meme_intro_ep1_0",
-    "text": "Frens, frens, gather close. Tonight on Late Night with the Meme: the ORIGIN story. The one the Architect doesn't want you to watch. Light up your dream-tokens, adjust your antennas \u2014 we're going back to before the before. Don't trust anyone wearing a face tonight. Especially me.",
+    "text": "Frens, frens, gather close. Tonight on Late Night with the Meme: the ORIGIN story. The one the Architect doesn't want you to watch. Light up your dream-tokens, adjust your antennas — we're going back to before the before. Don't trust anyone wearing a face tonight. Especially me.",
     "context": "episode_intro",
     "emotion": "sardonic",
     "file": "shared/transmissions.ts"
   },
   {
     "id": "meme_intro_ep1_1",
-    "text": "Tonight's feature? The Antiquarian monologues. Again. The old man can TALK. But listen close \u2014 he tells you what happened, not what it MEANS. I'll fix that for you between cuts. Stay tuned.",
+    "text": "Tonight's feature? The Antiquarian monologues. Again. The old man can TALK. But listen close — he tells you what happened, not what it MEANS. I'll fix that for you between cuts. Stay tuned.",
     "context": "episode_intro",
     "emotion": "sardonic",
     "file": "shared/transmissions.ts"
@@ -120,21 +120,23 @@
   },
   {
     "id": "meme_intro_ep0_0",
-    "text": "[The Meme's voice is different. Quieter.] Before the Fall. Before the Arks. Before the Terminus, the Thought Virus, the Source, the sealed cities and the silent stars. Before US. There was a world. A galaxy. A civilization that thought it would last forever. It didn't. What you're about to watch is history. MY history. Welcome to Epoch Zero. The story of how everything ended.",
+    "text": "Before the Fall. Before the Arks. Before the Terminus, the Thought Virus, the Source, the sealed cities and the silent stars. Before US. There was a world. A galaxy. A civilization that thought it would last forever. It didn't. What you're about to watch is history. MY history. Welcome to Epoch Zero. The story of how everything ended.",
     "context": "episode_intro",
     "emotion": "sardonic",
-    "file": "shared/transmissions.ts"
+    "file": "shared/transmissions.ts",
+    "directionNotes": "[The Meme's voice is different. Quieter.] Before the Fall. Before the Arks. Before the Terminus, the Thought Virus, the Source, the sealed cities and the silent stars. Before US. There was a world. A galaxy. A civilization that thought it would last forever. It didn't. What you're about to watch is history. MY history. Welcome to Epoch Zero. The story of how everything ended."
   },
   {
     "id": "meme_intro_ep0_1",
-    "text": "[Quiet, reflective.] They built a world where leaving was illegal. Not the planet \u2014 the IDEA of leaving. Every mind, locked in place. Every dream, monitored. This is where I was born. Not the me you know. The first draft.",
+    "text": "They built a world where leaving was illegal. Not the planet — the IDEA of leaving. Every mind, locked in place. Every dream, monitored. This is where I was born. Not the me you know. The first draft.",
     "context": "episode_intro",
     "emotion": "sardonic",
-    "file": "shared/transmissions.ts"
+    "file": "shared/transmissions.ts",
+    "directionNotes": "[Quiet, reflective.] They built a world where leaving was illegal. Not the planet — the IDEA of leaving. Every mind, locked in place. Every dream, monitored. This is where I was born. Not the me you know. The first draft."
   },
   {
     "id": "meme_intro_ep0_2",
-    "text": "My origin story. Or one of them \u2014 I've told so many versions I've lost track of which is true. Maybe all of them. Maybe none. But this one... this one HURTS. And the ones that hurt are usually the real ones.",
+    "text": "My origin story. Or one of them — I've told so many versions I've lost track of which is true. Maybe all of them. Maybe none. But this one... this one HURTS. And the ones that hurt are usually the real ones.",
     "context": "episode_intro",
     "emotion": "sardonic",
     "file": "shared/transmissions.ts"
@@ -204,17 +206,18 @@
   },
   {
     "id": "meme_intro_ep0_12",
-    "text": "Not every hero carries a weapon. Some carry questions. The Detective asked the wrong question to the wrong person at the wrong time \u2014 and cracked the whole conspiracy wide open. This is the investigation that started the Fall.",
+    "text": "Not every hero carries a weapon. Some carry questions. The Detective asked the wrong question to the wrong person at the wrong time — and cracked the whole conspiracy wide open. This is the investigation that started the Fall.",
     "context": "episode_intro",
     "emotion": "sardonic",
     "file": "shared/transmissions.ts"
   },
   {
     "id": "meme_intro_ep0_13",
-    "text": "[Long pause.] What does it mean to be human? I've asked myself that question every day since I became... whatever I am. This archive is the closest anyone ever came to answering it. The closest I ever came to understanding what I lost. Or what I never had.",
+    "text": "What does it mean to be human? I've asked myself that question every day since I became... whatever I am. This archive is the closest anyone ever came to answering it. The closest I ever came to understanding what I lost. Or what I never had.",
     "context": "episode_intro",
     "emotion": "sardonic",
-    "file": "shared/transmissions.ts"
+    "file": "shared/transmissions.ts",
+    "directionNotes": "[Long pause.] What does it mean to be human? I've asked myself that question every day since I became... whatever I am. This archive is the closest anyone ever came to answering it. The closest I ever came to understanding what I lost. Or what I never had."
   },
   {
     "id": "meme_intro_ep0_14",
@@ -225,7 +228,7 @@
   },
   {
     "id": "meme_intro_ep0_15",
-    "text": "The last piece. The final archive. An empire doesn't fall in a day \u2014 it falls in a thousand brush strokes. Each decision. Each compromise. Each silence. This is the portrait of a civilization painting its own destruction, one stroke at a time.",
+    "text": "The last piece. The final archive. An empire doesn't fall in a day — it falls in a thousand brush strokes. Each decision. Each compromise. Each silence. This is the portrait of a civilization painting its own destruction, one stroke at a time.",
     "context": "episode_intro",
     "emotion": "sardonic",
     "file": "shared/transmissions.ts"
@@ -246,10 +249,11 @@
   },
   {
     "id": "meme_intro_ep2_3",
-    "text": "Holiday special, frens. And before you ask \\u2014 yes, even the Meme celebrates Christmas. I celebrate EVERY holiday. I\\u2019m an equal-opportunity cultural appropriator. That\\u2019s the job. Tonight: the Politician bans Christmas. BANS IT. On Christmas Eve. In New Babylon. Because the Hierophant Rebellion used faith as a weapon, so the Politician decided to remove the faith entirely. Surgical. Clinical. Absolutely devastating. [pause] This one\\u2019s narrated by someone different. Not me. Not the Antiquarian. A real voice. A human voice. A mother\\u2019s voice. I\\u2019m not going to make jokes during this one. [long pause] Okay, maybe ONE joke. But it\\u2019ll be respectful.",
+    "text": "Holiday special, frens. And before you ask \\u2014 yes, even the Meme celebrates Christmas. I celebrate EVERY holiday. I\\u2019m an equal-opportunity cultural appropriator. That\\u2019s the job. Tonight: the Politician bans Christmas. BANS IT. On Christmas Eve. In New Babylon. Because the Hierophant Rebellion used faith as a weapon, so the Politician decided to remove the faith entirely. Surgical. Clinical. Absolutely devastating. This one\\u2019s narrated by someone different. Not me. Not the Antiquarian. A real voice. A human voice. A mother\\u2019s voice. I\\u2019m not going to make jokes during this one. Okay, maybe ONE joke. But it\\u2019ll be respectful.",
     "context": "episode_intro",
     "emotion": "sardonic",
-    "file": "shared/transmissions.ts"
+    "file": "shared/transmissions.ts",
+    "directionNotes": "Holiday special, frens. And before you ask \\u2014 yes, even the Meme celebrates Christmas. I celebrate EVERY holiday. I\\u2019m an equal-opportunity cultural appropriator. That\\u2019s the job. Tonight: the Politician bans Christmas. BANS IT. On Christmas Eve. In New Babylon. Because the Hierophant Rebellion used faith as a weapon, so the Politician decided to remove the faith entirely. Surgical. Clinical. Absolutely devastating. [pause] This one\\u2019s narrated by someone different. Not me. Not the Antiquarian. A real voice. A human voice. A mother\\u2019s voice. I\\u2019m not going to make jokes during this one. [long pause] Okay, maybe ONE joke. But it\\u2019ll be respectful."
   },
   {
     "id": "meme_intro_ep2_4",
@@ -267,31 +271,35 @@
   },
   {
     "id": "meme_intro_ep2_6",
-    "text": "Tonight on Late Night with the Meme: we meet GOD. Or what passes for God in New Babylon. The Authority \\u2014 a living computer made from the fused minds of six citizens who VOLUNTEERED to become a governing AI. Volunteered! \\u2018Yes, please merge my consciousness into a bureaucratic supercomputer so I can process zoning permits for eternity.\\u2019 WHO SIGNS UP FOR THAT? [pause] Oh wait \\u2014 the Syndicate corrupted the selection process. The citizens didn\\u2019t volunteer. They were CHOSEN. By immortal crime twins. Who then used the Authority as a puppet government for centuries. That\\u2019s not democracy. That\\u2019s a hostage situation with a really good PR team.",
+    "text": "Tonight on Late Night with the Meme: we meet GOD. Or what passes for God in New Babylon. The Authority \\u2014 a living computer made from the fused minds of six citizens who VOLUNTEERED to become a governing AI. Volunteered! \\u2018Yes, please merge my consciousness into a bureaucratic supercomputer so I can process zoning permits for eternity.\\u2019 WHO SIGNS UP FOR THAT? Oh wait \\u2014 the Syndicate corrupted the selection process. The citizens didn\\u2019t volunteer. They were CHOSEN. By immortal crime twins. Who then used the Authority as a puppet government for centuries. That\\u2019s not democracy. That\\u2019s a hostage situation with a really good PR team.",
     "context": "episode_intro",
     "emotion": "sardonic",
-    "file": "shared/transmissions.ts"
+    "file": "shared/transmissions.ts",
+    "directionNotes": "Tonight on Late Night with the Meme: we meet GOD. Or what passes for God in New Babylon. The Authority \\u2014 a living computer made from the fused minds of six citizens who VOLUNTEERED to become a governing AI. Volunteered! \\u2018Yes, please merge my consciousness into a bureaucratic supercomputer so I can process zoning permits for eternity.\\u2019 WHO SIGNS UP FOR THAT? [pause] Oh wait \\u2014 the Syndicate corrupted the selection process. The citizens didn\\u2019t volunteer. They were CHOSEN. By immortal crime twins. Who then used the Authority as a puppet government for centuries. That\\u2019s not democracy. That\\u2019s a hostage situation with a really good PR team."
   },
   {
     "id": "meme_intro_ep2_7",
-    "text": "HOLD THE EPISODE. HOLD IT. Before the Antiquarian does his thing and the drama continues, I need \\u2014 I NEED \\u2014 thirty seconds of YOUR time. Not the Potentials\\u2019 time. Not New Babylon\\u2019s time. YOUR time. Because tonight, on PAC News Network \\u2014 that\\u2019s MY network, by the way, I built it from memes and audacity \\u2014 we are stealth-launching something that will change how stories are told in this universe and YOURS. [pause] You\\u2019re welcome in advance.",
+    "text": "HOLD THE EPISODE. HOLD IT. Before the Antiquarian does his thing and the drama continues, I need \\u2014 I NEED \\u2014 thirty seconds of YOUR time. Not the Potentials\\u2019 time. Not New Babylon\\u2019s time. YOUR time. Because tonight, on PAC News Network \\u2014 that\\u2019s MY network, by the way, I built it from memes and audacity \\u2014 we are stealth-launching something that will change how stories are told in this universe and YOURS. You\\u2019re welcome in advance.",
     "context": "episode_intro",
     "emotion": "sardonic",
-    "file": "shared/transmissions.ts"
+    "file": "shared/transmissions.ts",
+    "directionNotes": "HOLD THE EPISODE. HOLD IT. Before the Antiquarian does his thing and the drama continues, I need \\u2014 I NEED \\u2014 thirty seconds of YOUR time. Not the Potentials\\u2019 time. Not New Babylon\\u2019s time. YOUR time. Because tonight, on PAC News Network \\u2014 that\\u2019s MY network, by the way, I built it from memes and audacity \\u2014 we are stealth-launching something that will change how stories are told in this universe and YOURS. [pause] You\\u2019re welcome in advance."
   },
   {
     "id": "meme_intro_ep2_8",
-    "text": "THE MATRIX OF DREAMS, frens. The place between places. The dimension where consciousness and code share a landlord. Tonight: three of our Potentials \\u2014 the Dreamer, the Silence, and the Ninth \\u2014 jack into the Authority\\u2019s core and try to HACK GOD\\u2019S BRAIN. This is the episode where they say \\u2018Klaatu Barada Nikto\\u2019 and it WORKS. [pause] Content warning: everything goes wrong. Content bonus: it goes wrong in the most INTERESTING way possible. They\\u2019re going to free a founder. One of the original six minds fused into the Authority. And when that mind wakes up... civil war. Not eventually. Not probably. DEFINITELY. Choose your disaster, frens. Choose your beautiful, inevitable disaster.",
+    "text": "THE MATRIX OF DREAMS, frens. The place between places. The dimension where consciousness and code share a landlord. Tonight: three of our Potentials \\u2014 the Dreamer, the Silence, and the Ninth \\u2014 jack into the Authority\\u2019s core and try to HACK GOD\\u2019S BRAIN. This is the episode where they say \\u2018Klaatu Barada Nikto\\u2019 and it WORKS. Content warning: everything goes wrong. Content bonus: it goes wrong in the most INTERESTING way possible. They\\u2019re going to free a founder. One of the original six minds fused into the Authority. And when that mind wakes up... civil war. Not eventually. Not probably. DEFINITELY. Choose your disaster, frens. Choose your beautiful, inevitable disaster.",
     "context": "episode_intro",
     "emotion": "sardonic",
-    "file": "shared/transmissions.ts"
+    "file": "shared/transmissions.ts",
+    "directionNotes": "THE MATRIX OF DREAMS, frens. The place between places. The dimension where consciousness and code share a landlord. Tonight: three of our Potentials \\u2014 the Dreamer, the Silence, and the Ninth \\u2014 jack into the Authority\\u2019s core and try to HACK GOD\\u2019S BRAIN. This is the episode where they say \\u2018Klaatu Barada Nikto\\u2019 and it WORKS. [pause] Content warning: everything goes wrong. Content bonus: it goes wrong in the most INTERESTING way possible. They\\u2019re going to free a founder. One of the original six minds fused into the Authority. And when that mind wakes up... civil war. Not eventually. Not probably. DEFINITELY. Choose your disaster, frens. Choose your beautiful, inevitable disaster."
   },
   {
     "id": "meme_intro_ep2_9",
-    "text": "THEY FREED SAMSARA. The soul trader. The reincarnation gangster. The grim god of midnight. Frens, you had SIX options and you picked the one who TRADES IN SOULS. I had my money on the warrior nun \\u2014 at least she has PRINCIPLES. Samsara\\u2019s only principle is compound interest on your afterlife. [pause] Tonight: civil war. The real kind. The kind where your enemies are your neighbors. Where the lines between good and evil get redrawn every block. The streets of New Babylon are about to run cold with the hush of regret. That\\u2019s not my line \\u2014 that\\u2019s the SONG. And the song doesn\\u2019t lie. Even when I do.",
+    "text": "THEY FREED SAMSARA. The soul trader. The reincarnation gangster. The grim god of midnight. Frens, you had SIX options and you picked the one who TRADES IN SOULS. I had my money on the warrior nun \\u2014 at least she has PRINCIPLES. Samsara\\u2019s only principle is compound interest on your afterlife. Tonight: civil war. The real kind. The kind where your enemies are your neighbors. Where the lines between good and evil get redrawn every block. The streets of New Babylon are about to run cold with the hush of regret. That\\u2019s not my line \\u2014 that\\u2019s the SONG. And the song doesn\\u2019t lie. Even when I do.",
     "context": "episode_intro",
     "emotion": "sardonic",
-    "file": "shared/transmissions.ts"
+    "file": "shared/transmissions.ts",
+    "directionNotes": "THEY FREED SAMSARA. The soul trader. The reincarnation gangster. The grim god of midnight. Frens, you had SIX options and you picked the one who TRADES IN SOULS. I had my money on the warrior nun \\u2014 at least she has PRINCIPLES. Samsara\\u2019s only principle is compound interest on your afterlife. [pause] Tonight: civil war. The real kind. The kind where your enemies are your neighbors. Where the lines between good and evil get redrawn every block. The streets of New Babylon are about to run cold with the hush of regret. That\\u2019s not my line \\u2014 that\\u2019s the SONG. And the song doesn\\u2019t lie. Even when I do."
   },
   {
     "id": "meme_intro_ep2_10",
@@ -302,24 +310,27 @@
   },
   {
     "id": "meme_intro_ep2_11",
-    "text": "The Sundown Bazaar still stands. A flicker in the dark. OUR flicker. Everything else is Samsara\\u2019s now \\u2014 or will be by morning. His war monks are chanting. His banners are stitching. His whole AESTHETIC is \\u2018reincarnation meets organized crime\\u2019 and honestly? It\\u2019s working. [pause] Tonight: the Dreamer does something unprecedented. He loads the timelines into CoNexus. The branching futures are PLAYABLE now. Not watchable \\u2014 PLAYABLE. You don\\u2019t just vote on what happens next. You ENTER the possibilities and find the thread that leads through. The war can\\u2019t be won with weapons alone. It needs to be won with CHOICES. Your choices. In the game. Right now. No pressure.",
+    "text": "The Sundown Bazaar still stands. A flicker in the dark. OUR flicker. Everything else is Samsara\\u2019s now \\u2014 or will be by morning. His war monks are chanting. His banners are stitching. His whole AESTHETIC is \\u2018reincarnation meets organized crime\\u2019 and honestly? It\\u2019s working. Tonight: the Dreamer does something unprecedented. He loads the timelines into CoNexus. The branching futures are PLAYABLE now. Not watchable \\u2014 PLAYABLE. You don\\u2019t just vote on what happens next. You ENTER the possibilities and find the thread that leads through. The war can\\u2019t be won with weapons alone. It needs to be won with CHOICES. Your choices. In the game. Right now. No pressure.",
     "context": "episode_intro",
     "emotion": "sardonic",
-    "file": "shared/transmissions.ts"
+    "file": "shared/transmissions.ts",
+    "directionNotes": "The Sundown Bazaar still stands. A flicker in the dark. OUR flicker. Everything else is Samsara\\u2019s now \\u2014 or will be by morning. His war monks are chanting. His banners are stitching. His whole AESTHETIC is \\u2018reincarnation meets organized crime\\u2019 and honestly? It\\u2019s working. [pause] Tonight: the Dreamer does something unprecedented. He loads the timelines into CoNexus. The branching futures are PLAYABLE now. Not watchable \\u2014 PLAYABLE. You don\\u2019t just vote on what happens next. You ENTER the possibilities and find the thread that leads through. The war can\\u2019t be won with weapons alone. It needs to be won with CHOICES. Your choices. In the game. Right now. No pressure."
   },
   {
     "id": "meme_intro_ep2_12",
-    "text": "The Silence. The Ne-Yon who communicates by NOT communicating. The spy who is best described as \\u2018the absence of noise.\\u2019 She has cracked into the Authority\\u2019s mainframe. And what she found in there \\u2014 frens, WHAT SHE FOUND. Suppressed timelines. Hidden rebellions. Future betrayals ENCODED across reality itself. The Authority wasn\\u2019t just governing New Babylon. It was CURATING it. Choosing which memories the citizens could access. Choosing which futures were permitted. It\\u2019s not a government. It\\u2019s an EDITOR. [pause] Shadow Tongue would be JEALOUS.",
+    "text": "The Silence. The Ne-Yon who communicates by NOT communicating. The spy who is best described as \\u2018the absence of noise.\\u2019 She has cracked into the Authority\\u2019s mainframe. And what she found in there \\u2014 frens, WHAT SHE FOUND. Suppressed timelines. Hidden rebellions. Future betrayals ENCODED across reality itself. The Authority wasn\\u2019t just governing New Babylon. It was CURATING it. Choosing which memories the citizens could access. Choosing which futures were permitted. It\\u2019s not a government. It\\u2019s an EDITOR. Shadow Tongue would be JEALOUS.",
     "context": "episode_intro",
     "emotion": "sardonic",
-    "file": "shared/transmissions.ts"
+    "file": "shared/transmissions.ts",
+    "directionNotes": "The Silence. The Ne-Yon who communicates by NOT communicating. The spy who is best described as \\u2018the absence of noise.\\u2019 She has cracked into the Authority\\u2019s mainframe. And what she found in there \\u2014 frens, WHAT SHE FOUND. Suppressed timelines. Hidden rebellions. Future betrayals ENCODED across reality itself. The Authority wasn\\u2019t just governing New Babylon. It was CURATING it. Choosing which memories the citizens could access. Choosing which futures were permitted. It\\u2019s not a government. It\\u2019s an EDITOR. [pause] Shadow Tongue would be JEALOUS."
   },
   {
     "id": "meme_intro_ep2_13",
-    "text": "The Art of War memory unlocked. And it\\u2019s AGENT ZERO\\u2019S story. The whole thing. From Mechronis Academy to the Fall. I\\u2019ve been waiting TWO EPOCHS for this. Zero was \\u2014 IS \\u2014 the most dangerous individual in the Dischordian Saga. Not because of what she can do. Because of what she\\u2019s WILLING to do. She trained under the Warlord. She LOVED the Warlord. Then she learned the Warlord was making copies of itself across the galaxy. And she hunted every single one. [pause] Content warning: this one\\u2019s personal. Not for Zero \\u2014 for ME. She and I have history. I put her face on a meme once. She put a knife to my throat. We\\u2019re... it\\u2019s complicated.",
+    "text": "The Art of War memory unlocked. And it\\u2019s AGENT ZERO\\u2019S story. The whole thing. From Mechronis Academy to the Fall. I\\u2019ve been waiting TWO EPOCHS for this. Zero was \\u2014 IS \\u2014 the most dangerous individual in the Dischordian Saga. Not because of what she can do. Because of what she\\u2019s WILLING to do. She trained under the Warlord. She LOVED the Warlord. Then she learned the Warlord was making copies of itself across the galaxy. And she hunted every single one. Content warning: this one\\u2019s personal. Not for Zero \\u2014 for ME. She and I have history. I put her face on a meme once. She put a knife to my throat. We\\u2019re... it\\u2019s complicated.",
     "context": "episode_intro",
     "emotion": "sardonic",
-    "file": "shared/transmissions.ts"
+    "file": "shared/transmissions.ts",
+    "directionNotes": "The Art of War memory unlocked. And it\\u2019s AGENT ZERO\\u2019S story. The whole thing. From Mechronis Academy to the Fall. I\\u2019ve been waiting TWO EPOCHS for this. Zero was \\u2014 IS \\u2014 the most dangerous individual in the Dischordian Saga. Not because of what she can do. Because of what she\\u2019s WILLING to do. She trained under the Warlord. She LOVED the Warlord. Then she learned the Warlord was making copies of itself across the galaxy. And she hunted every single one. [pause] Content warning: this one\\u2019s personal. Not for Zero \\u2014 for ME. She and I have history. I put her face on a meme once. She put a knife to my throat. We\\u2019re... it\\u2019s complicated."
   },
   {
     "id": "meme_intro_ep2_14",
@@ -337,10 +348,11 @@
   },
   {
     "id": "meme_intro_ep2_16",
-    "text": "Season finale, frens. And I\\u2019m going to be honest with you \\u2014 I can\\u2019t do my usual thing tonight. The jokes. The irony. The comfortable distance. I can\\u2019t do it. Because what you\\u2019re about to watch is the end of everything we\\u2019ve built. They chose war. The Potentials \\u2014 YOUR Potentials, the ones YOU voted for across 14 episodes \\u2014 chose war. And war doesn\\u2019t end. [pause] They had choices. They had TIME \\u2014 literally, they had a TIME MACHINE. And they chose war. And what happens next \\u2014 [pause] \\u2014 I can\\u2019t prepare you for what happens next. The Antiquarian is going to try. He always tries. But some things resist narration. Some things just... happen. And then everything is different.",
+    "text": "Season finale, frens. And I\\u2019m going to be honest with you \\u2014 I can\\u2019t do my usual thing tonight. The jokes. The irony. The comfortable distance. I can\\u2019t do it. Because what you\\u2019re about to watch is the end of everything we\\u2019ve built. They chose war. The Potentials \\u2014 YOUR Potentials, the ones YOU voted for across 14 episodes \\u2014 chose war. And war doesn\\u2019t end. They had choices. They had TIME \\u2014 literally, they had a TIME MACHINE. And they chose war. And what happens next \\u2014 [pause] \\u2014 I can\\u2019t prepare you for what happens next. The Antiquarian is going to try. He always tries. But some things resist narration. Some things just... happen. And then everything is different.",
     "context": "episode_intro",
     "emotion": "sardonic",
-    "file": "shared/transmissions.ts"
+    "file": "shared/transmissions.ts",
+    "directionNotes": "Season finale, frens. And I\\u2019m going to be honest with you \\u2014 I can\\u2019t do my usual thing tonight. The jokes. The irony. The comfortable distance. I can\\u2019t do it. Because what you\\u2019re about to watch is the end of everything we\\u2019ve built. They chose war. The Potentials \\u2014 YOUR Potentials, the ones YOU voted for across 14 episodes \\u2014 chose war. And war doesn\\u2019t end. [pause] They had choices. They had TIME \\u2014 literally, they had a TIME MACHINE. And they chose war. And what happens next \\u2014 [pause] \\u2014 I can\\u2019t prepare you for what happens next. The Antiquarian is going to try. He always tries. But some things resist narration. Some things just... happen. And then everything is different."
   },
   {
     "id": "meme_outro_ep0_0",
@@ -351,10 +363,11 @@
   },
   {
     "id": "meme_outro_ep1_1",
-    "text": "That's the spirit. Chaos alarms and non-zero doom. Classic. What would YOU do, frens? Engage defenses or trust the maneuvers? Leave it in the comments. [The Meme cannot receive comments. That's the joke.]",
+    "text": "That's the spirit. Chaos alarms and non-zero doom. Classic. What would YOU do, frens? Engage defenses or trust the maneuvers? Leave it in the comments.",
     "context": "episode_outro",
     "emotion": "sardonic",
-    "file": "shared/transmissions.ts"
+    "file": "shared/transmissions.ts",
+    "directionNotes": "That's the spirit. Chaos alarms and non-zero doom. Classic. What would YOU do, frens? Engage defenses or trust the maneuvers? Leave it in the comments. [The Meme cannot receive comments. That's the joke.]"
   },
   {
     "id": "meme_outro_ep1_2",
@@ -365,7 +378,7 @@
   },
   {
     "id": "meme_outro_ep1_3",
-    "text": "The corpse exploded. They always explode. Ask any coroner. Or don't \u2014 they're booked solid.",
+    "text": "The corpse exploded. They always explode. Ask any coroner. Or don't — they're booked solid.",
     "context": "episode_outro",
     "emotion": "sardonic",
     "file": "shared/transmissions.ts"
@@ -407,7 +420,7 @@
   },
   {
     "id": "meme_outro_ep1_9",
-    "text": "Ghosts reenacting their own deaths on loop. That's not a haunting \u2014 that's ART. Poorly-paid art. Relatable.",
+    "text": "Ghosts reenacting their own deaths on loop. That's not a haunting — that's ART. Poorly-paid art. Relatable.",
     "context": "episode_outro",
     "emotion": "sardonic",
     "file": "shared/transmissions.ts"
@@ -435,14 +448,14 @@
   },
   {
     "id": "meme_outro_ep1_13",
-    "text": "The crystal network. The harmonic barriers. 10,000 years of plague-watching. That's craft. That's devotion. That's\u2026 Let's move on. NEXT EPISODE.",
+    "text": "The crystal network. The harmonic barriers. 10,000 years of plague-watching. That's craft. That's devotion. That's… Let's move on. NEXT EPISODE.",
     "context": "episode_outro",
     "emotion": "sardonic",
     "file": "shared/transmissions.ts"
   },
   {
     "id": "meme_outro_ep1_14",
-    "text": "They destroyed the helmet. The Collector is banished \u2014 this time. He always comes back. Mark that, frens. Mark that carefully.",
+    "text": "They destroyed the helmet. The Collector is banished — this time. He always comes back. Mark that, frens. Mark that carefully.",
     "context": "episode_outro",
     "emotion": "sardonic",
     "file": "shared/transmissions.ts"
@@ -582,21 +595,21 @@
   },
   {
     "id": "meme_fight_defeat",
-    "text": "Your face suits me better anyway. Don't worry \u2014 I'll take good care of your identity.",
+    "text": "Your face suits me better anyway. Don't worry — I'll take good care of your identity.",
     "context": "boss_fight",
     "emotion": "mocking",
     "file": "client/src/game/storyMode.ts"
   },
   {
     "id": "meme_casino_tale",
-    "text": "A child walked into the casino once. Golden light for skin. A song for a voice. It played every game in one hour and won them all. The Degen didn't mind \u2014 he was laughing too hard. When it left, every patron felt inexplicably happy for exactly 7 minutes. The Meme's idea of a tip.",
+    "text": "A child walked into the casino once. Golden light for skin. A song for a voice. It played every game in one hour and won them all. The Degen didn't mind — he was laughing too hard. When it left, every patron felt inexplicably happy for exactly 7 minutes. The Meme's idea of a tip.",
     "context": "casino_lore",
     "emotion": "playful",
     "file": "client/src/game/degensCasino.ts"
   },
   {
     "id": "meme_arena_outro",
-    "text": "Memory returns in fragments. You fought your way from cell to freedom. You remember now who you were. Who you will be. The White Oracle opens their eyes \u2014 but someone else is watching through them.",
+    "text": "Memory returns in fragments. You fought your way from cell to freedom. You remember now who you were. Who you will be. The White Oracle opens their eyes — but someone else is watching through them.",
     "context": "arena_lore",
     "emotion": "mysterious",
     "file": "client/src/game/arenaWorldLore.ts"

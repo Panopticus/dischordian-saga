@@ -453,11 +453,12 @@
   {
     "id": "zealot_female_dlg_past_z_past_probe_reply_0",
     "character": "apprentice_zealot_female",
-    "text": "About procedure, yes. About form, mostly. About the *Cause* — never. They were stage managers, not believers.",
+    "text": "About procedure, yes. About form, mostly. About the Cause — never. They were stage managers, not believers.",
     "emotion": "dialogue",
     "bucket": "dialogue",
     "file": "shared/apprenticeDialogues.ts",
-    "dialogueTopic": "past"
+    "dialogueTopic": "past",
+    "directionNotes": "About procedure, yes. About form, mostly. About the *Cause* — never. They were stage managers, not believers."
   },
   {
     "id": "zealot_female_dlg_past_z_past_probe_z_past_probe_deeper_reply_0",
@@ -570,11 +571,12 @@
   {
     "id": "zealot_female_dlg_mortality_z_mort_warm_reply_0",
     "character": "apprentice_zealot_female",
-    "text": "*She unfolds the paper.* I came to the Cause hungry. I leave it fed. The Cause continues without me, exactly as it should.",
+    "text": "I came to the Cause hungry. I leave it fed. The Cause continues without me, exactly as it should.",
     "emotion": "dialogue",
     "bucket": "dialogue",
     "file": "shared/apprenticeDialogues.ts",
-    "dialogueTopic": "mortality"
+    "dialogueTopic": "mortality",
+    "directionNotes": "*She unfolds the paper.* I came to the Cause hungry. I leave it fed. The Cause continues without me, exactly as it should."
   },
   {
     "id": "zealot_female_dlg_mortality_z_mort_warm_reply_1",

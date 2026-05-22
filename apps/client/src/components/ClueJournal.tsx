@@ -15,7 +15,7 @@ import AwakeningJournalEntry from "./AwakeningJournalEntry";
 import MilestoneJournalEntries from "./MilestoneJournalEntries";
 import { motion, AnimatePresence } from "framer-motion";
 import { getAllAuthoredClues } from "@shared/roomMysteries";
-import { getActivePuzzleChains, PUZZLE_CHAINS } from "@/game/adventureFeatures";
+import { getActivePuzzleChains } from "@/game/adventureFeatures";
 
 /* ─── CLUE DATA DEFINITIONS ─── */
 
@@ -764,11 +764,13 @@ export default function ClueJournal({ onClose }: ClueJournalProps) {
               </a>
 
               {/* Phase D — Active Investigations panel.
-                  Reads getActivePuzzleChains(narrativeFlags) so chains
-                  the player has finished disappear automatically; lists
-                  every step, marking completed ones with a check and
-                  highlighting the next unfinished step prominently with
-                  the room id and verb action it expects. */}
+                  Reads getActivePuzzleChains(narrativeFlags), which now
+                  only returns chains the player has actually started
+                  (currentStep > 0). Lists completed steps and the next
+                  unfinished step. Steps further down the chain are kept
+                  hidden as "??? — unwritten" so the journal never spoils
+                  upcoming beats — the case unfolds as the player works
+                  it. */}
               {(() => {
                 const active = getActivePuzzleChains(state.narrativeFlags);
                 if (active.length === 0) {
@@ -783,6 +785,7 @@ export default function ClueJournal({ onClose }: ClueJournalProps) {
                 }
                 return active.map(({ chain, currentStep }) => {
                   const totalSteps = chain.steps.length;
+                  const remaining = Math.max(0, totalSteps - (currentStep + 1));
                   return (
                     <div
                       key={chain.id}
@@ -795,48 +798,52 @@ export default function ClueJournal({ onClose }: ClueJournalProps) {
                         </span>
                       </div>
                       <div className="space-y-1.5">
-                        {chain.steps.map(step => {
-                          const done = step.step <= currentStep;
-                          const isNext = step.step === currentStep + 1;
-                          return (
-                            <div
-                              key={step.step}
-                              className={`flex gap-2 items-start p-2 rounded ${
-                                isNext ? "bg-primary/10 border border-primary/30" : ""
-                              }`}
-                            >
-                              <span
-                                className={`mt-0.5 flex-shrink-0 ${
-                                  done
-                                    ? "text-primary"
-                                    : isNext
-                                      ? "text-accent"
-                                      : "text-muted-foreground/40"
+                        {chain.steps
+                          .filter(step => step.step <= currentStep + 1)
+                          .map(step => {
+                            const done = step.step <= currentStep;
+                            const isNext = step.step === currentStep + 1;
+                            return (
+                              <div
+                                key={step.step}
+                                className={`flex gap-2 items-start p-2 rounded ${
+                                  isNext ? "bg-primary/10 border border-primary/30" : ""
                                 }`}
                               >
-                                {done ? <Diamond size={12} /> : isNext ? <ChevronRight size={12} /> : <Lock size={12} />}
-                              </span>
-                              <div className="flex-1 min-w-0">
-                                <p
-                                  className={`font-mono text-[11px] leading-tight ${
-                                    done
-                                      ? "line-through text-muted-foreground/60"
-                                      : isNext
-                                        ? "text-foreground"
-                                        : "text-muted-foreground/70"
+                                <span
+                                  className={`mt-0.5 flex-shrink-0 ${
+                                    done ? "text-primary" : "text-accent"
                                   }`}
                                 >
-                                  {step.description}
-                                </p>
-                                {isNext && (
-                                  <p className="font-mono text-[9px] text-muted-foreground mt-0.5">
-                                    in <span className="text-accent">{step.roomId}</span> · {step.type.replace(/_/g, " ")}
+                                  {done ? <Diamond size={12} /> : <ChevronRight size={12} />}
+                                </span>
+                                <div className="flex-1 min-w-0">
+                                  <p
+                                    className={`font-mono text-[11px] leading-tight ${
+                                      done
+                                        ? "line-through text-muted-foreground/60"
+                                        : "text-foreground"
+                                    }`}
+                                  >
+                                    {step.description}
                                   </p>
-                                )}
+                                  {isNext && (
+                                    <p className="font-mono text-[9px] text-muted-foreground mt-0.5">
+                                      in <span className="text-accent">{step.roomId}</span> · {step.type.replace(/_/g, " ")}
+                                    </p>
+                                  )}
+                                </div>
                               </div>
-                            </div>
-                          );
-                        })}
+                            );
+                          })}
+                        {remaining > 0 && (
+                          <div className="flex gap-2 items-center p-2 opacity-50">
+                            <Lock size={12} className="text-muted-foreground/40 flex-shrink-0" />
+                            <p className="font-mono text-[10px] italic text-muted-foreground/60">
+                              {remaining === 1 ? "1 more lead — unwritten" : `${remaining} more leads — unwritten`}
+                            </p>
+                          </div>
+                        )}
                       </div>
                       {chain.reward.trust && (
                         <p className="font-mono text-[9px] text-muted-foreground/60 mt-2">
@@ -876,37 +883,12 @@ export default function ClueJournal({ onClose }: ClueJournalProps) {
                 </div>
               )}
 
-              {/* All chains overview — show reward + step count for
-                  chains the player hasn't started yet (hidden once any
-                  step has fired). */}
-              {(() => {
-                const activeIds = new Set(getActivePuzzleChains(state.narrativeFlags).map(({ chain }) => chain.id));
-                const seenAnyStepIds = new Set<string>();
-                for (const chain of PUZZLE_CHAINS) {
-                  if (chain.steps.some(s => state.narrativeFlags[s.completionFlag])) {
-                    seenAnyStepIds.add(chain.id);
-                  }
-                }
-                const dormant = PUZZLE_CHAINS.filter(c => !activeIds.has(c.id) && !seenAnyStepIds.has(c.id));
-                if (dormant.length === 0) return null;
-                return (
-                  <div className="mt-4 rounded-lg border border-muted-foreground/10 bg-card/20 p-3">
-                    <h3 className="font-display text-xs font-bold tracking-[0.2em] text-muted-foreground/70 mb-2">UNDISCOVERED THREADS</h3>
-                    <ul className="space-y-1">
-                      {dormant.map(chain => (
-                        <li
-                          key={chain.id}
-                          className="font-mono text-[10px] text-muted-foreground/50 flex items-center gap-2"
-                        >
-                          <Lock size={10} />
-                          <span>{chain.name}</span>
-                          <span className="text-muted-foreground/30">· {chain.steps.length} steps</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                );
-              })()}
+              {/* The journal no longer enumerates dormant chains by name
+                  — listing "The Dr. Vox Mystery" before the player has
+                  found a single Vox-coded clue spoiled the case. Cases
+                  surface here when the player has logged their first
+                  step; until then this tab reads "no active
+                  investigations" and lets the world do the leading. */}
             </motion.div>
           ) : (
             <motion.div

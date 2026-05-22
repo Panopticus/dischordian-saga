@@ -1,66 +1,74 @@
 [
   {
     "id": "ep.bridge.open",
-    "text": "[CUE 0:00] [System register; ADD: distant bridge-deck ambience rising under the line.] The Convergence Seat lights down. The bridge takes the light. The bridge is now your bridge.",
+    "text": "The Convergence Seat lights down. The bridge takes the light. The bridge is now your bridge.",
     "context": "act7_epilogue_soldier_command_entry",
     "emotion": "neutral",
     "speaker": "system",
-    "file": "shared/encounters/act7EpilogueVoScripts.ts"
+    "file": "shared/encounters/act7EpilogueVoScripts.ts",
+    "directionNotes": "[CUE 0:00] [System register; ADD: distant bridge-deck ambience rising under the line.] The Convergence Seat lights down. The bridge takes the light. The bridge is now your bridge."
   },
   {
     "id": "ep.bridge.human",
-    "text": "[CUE 0:09] [Voice direction: balanced, with a discernible respect in the cadence — not awe, respect.] You chose Soldier-Command. You took the bridge. The bridge has been waiting for someone to take it for fifteen thousand years. The waiting was the bridge's problem, not yours. The taking is — and I am being precise — an act of mercy on the bridge.",
+    "text": "You chose Soldier-Command. You took the bridge. The bridge has been waiting for someone to take it for fifteen thousand years. The waiting was the bridge's problem, not yours. The taking is — and I am being precise — an act of mercy on the bridge.",
     "context": "act7_epilogue_soldier_command_negotiation",
     "emotion": "neutral",
     "speaker": "the_human",
-    "file": "shared/encounters/act7EpilogueVoScripts.ts"
+    "file": "shared/encounters/act7EpilogueVoScripts.ts",
+    "directionNotes": "[CUE 0:09] [Voice direction: balanced, with a discernible respect in the cadence — not awe, respect.] You chose Soldier-Command. You took the bridge. The bridge has been waiting for someone to take it for fifteen thousand years. The waiting was the bridge's problem, not yours. The taking is — and I am being precise — an act of mercy on the bridge."
   },
   {
     "id": "ep.bridge.elara",
-    "text": "[CUE 0:35] [Voice direction: warm, with the spatial register subtly shifted — Elara is now narrating from a bridge channel, not the comms-relay channel. Producer note: add 6dB high-shelf to mark the channel change.] I will narrate from your bridge. I have been narrating from comms-relay for a long time. The change is not small. The change is what it sounds like when the narrator follows the captain. I follow you now. The following is, in this register, also a form of love.",
+    "text": "I will narrate from your bridge. I have been narrating from comms-relay for a long time. The change is not small. The change is what it sounds like when the narrator follows the captain. I follow you now. The following is, in this register, also a form of love.",
     "context": "act7_epilogue_soldier_command_negotiation",
     "emotion": "neutral",
     "speaker": "elara",
-    "file": "shared/encounters/act7EpilogueVoScripts.ts"
+    "file": "shared/encounters/act7EpilogueVoScripts.ts",
+    "directionNotes": "[CUE 0:35] [Voice direction: warm, with the spatial register subtly shifted — Elara is now narrating from a bridge channel, not the comms-relay channel. Producer note: add 6dB high-shelf to mark the channel change.] I will narrate from your bridge. I have been narrating from comms-relay for a long time. The change is not small. The change is what it sounds like when the narrator follows the captain. I follow you now. The following is, in this register, also a form of love."
   },
   {
     "id": "ep.bridge.human_pathA",
-    "text": "[CUE 1:08] [PATH-A VARIANT.] Disclosure to Bridge means: every officer under you will know what you told Elara in Act 1. The officers will trust you because of it. Trust is what makes a bridge a bridge instead of a podium.",
+    "text": "Disclosure to Bridge means: every officer under you will know what you told Elara in Act 1. The officers will trust you because of it. Trust is what makes a bridge a bridge instead of a podium.",
     "context": "act7_epilogue_soldier_command_negotiation",
     "emotion": "neutral",
     "speaker": "the_human",
-    "file": "shared/encounters/act7EpilogueVoScripts.ts"
+    "file": "shared/encounters/act7EpilogueVoScripts.ts",
+    "directionNotes": "[CUE 1:08] [PATH-A VARIANT.] Disclosure to Bridge means: every officer under you will know what you told Elara in Act 1. The officers will trust you because of it. Trust is what makes a bridge a bridge instead of a podium."
   },
   {
     "id": "ep.bridge.human_pathB",
-    "text": "[CUE 1:08] [PATH-B VARIANT.] Discovery to Bridge means: every officer will know that Elara found out, and that you carried her finding-out without flinching. Flinch-resistance under accidental pressure is, technically, more rare than flinch-resistance under chosen pressure. The bridge respects rare.",
+    "text": "Discovery to Bridge means: every officer will know that Elara found out, and that you carried her finding-out without flinching. Flinch-resistance under accidental pressure is, technically, more rare than flinch-resistance under chosen pressure. The bridge respects rare.",
     "context": "act7_epilogue_soldier_command_negotiation",
     "emotion": "neutral",
     "speaker": "the_human",
-    "file": "shared/encounters/act7EpilogueVoScripts.ts"
+    "file": "shared/encounters/act7EpilogueVoScripts.ts",
+    "directionNotes": "[CUE 1:08] [PATH-B VARIANT.] Discovery to Bridge means: every officer will know that Elara found out, and that you carried her finding-out without flinching. Flinch-resistance under accidental pressure is, technically, more rare than flinch-resistance under chosen pressure. The bridge respects rare."
   },
   {
     "id": "ep.bridge.human_pathC",
-    "text": "[CUE 1:08] [PATH-C VARIANT — record with a long silence after 'have come anyway.' Three full beats. The silence is the line.] Betrayal to Bridge means: the officers know about the bridge — they know about THE bridge, the Act 4 one — and they have come to your bridge anyway. That is the sentence. That is the whole sentence. The officers have come anyway.",
+    "text": "Betrayal to Bridge means: the officers know about the bridge — they know about THE bridge, the Act 4 one — and they have come to your bridge anyway. That is the sentence. That is the whole sentence. The officers have come anyway.",
     "context": "act7_epilogue_soldier_command_negotiation",
     "emotion": "neutral",
     "speaker": "the_human",
-    "file": "shared/encounters/act7EpilogueVoScripts.ts"
+    "file": "shared/encounters/act7EpilogueVoScripts.ts",
+    "directionNotes": "[CUE 1:08] [PATH-C VARIANT — record with a long silence after 'have come anyway.' Three full beats. The silence is the line.] Betrayal to Bridge means: the officers know about the bridge — they know about THE bridge, the Act 4 one — and they have come to your bridge anyway. That is the sentence. That is the whole sentence. The officers have come anyway."
   },
   {
     "id": "ep.bridge.dual",
-    "text": "[CUE 1:42] [DUAL.] (Together.) The bridge is lit. The Array is on. The Ark is moving — for the first time in seven acts, moving — and the moving is your order. The order is the love.",
+    "text": "(Together.) The bridge is lit. The Array is on. The Ark is moving — for the first time in seven acts, moving — and the moving is your order. The order is the love.",
     "context": "act7_epilogue_soldier_command_resolution",
     "emotion": "neutral",
     "speaker": "dual",
-    "file": "shared/encounters/act7EpilogueVoScripts.ts"
+    "file": "shared/encounters/act7EpilogueVoScripts.ts",
+    "directionNotes": "[CUE 1:42] [DUAL.] (Together.) The bridge is lit. The Array is on. The Ark is moving — for the first time in seven acts, moving — and the moving is your order. The order is the love."
   },
   {
     "id": "ep.bridge.close",
-    "text": "[CUE 2:10] [System register.] The Antiquarian inscribes the bridge log entry alongside his own ledger. Cycle Soldier-Command, inscribed twice.",
+    "text": "The Antiquarian inscribes the bridge log entry alongside his own ledger. Cycle Soldier-Command, inscribed twice.",
     "context": "act7_epilogue_soldier_command_aftermath",
     "emotion": "neutral",
     "speaker": "system",
-    "file": "shared/encounters/act7EpilogueVoScripts.ts"
+    "file": "shared/encounters/act7EpilogueVoScripts.ts",
+    "directionNotes": "[CUE 2:10] [System register.] The Antiquarian inscribes the bridge log entry alongside his own ledger. Cycle Soldier-Command, inscribed twice."
   }
 ]

@@ -1,42 +1,47 @@
 [
   {
     "id": "ep.silence.open",
-    "text": "[CUE 0:00] [System register; the reverb is the longest of any ending — Silence echoes most.] The Convergence Seat asks. You do not answer. The not-answering is itself the answer.",
+    "text": "The Convergence Seat asks. You do not answer. The not-answering is itself the answer.",
     "context": "act7_epilogue_silence_entry",
     "emotion": "neutral",
     "speaker": "system",
-    "file": "shared/encounters/act7EpilogueVoScripts.ts"
+    "file": "shared/encounters/act7EpilogueVoScripts.ts",
+    "directionNotes": "[CUE 0:00] [System register; the reverb is the longest of any ending — Silence echoes most.] The Convergence Seat asks. You do not answer. The not-answering is itself the answer."
   },
   {
     "id": "ep.silence.elara",
-    "text": "[CUE 0:12] [Voice direction: quiet, with the longest pauses of any Elara line in the act. Allow the pauses. Do not edit them out.] You chose silence. The Seat — and I want to phrase this carefully — the Seat respects silence. The cycle's records show four prior silences across all recorded cycles. Yours is the fifth. I will tell you the names of the other four in a register only the silent can read.",
+    "text": "You chose silence. The Seat — and I want to phrase this carefully — the Seat respects silence. The cycle's records show four prior silences across all recorded cycles. Yours is the fifth. I will tell you the names of the other four in a register only the silent can read.",
     "context": "act7_epilogue_silence_negotiation",
     "emotion": "neutral",
     "speaker": "elara",
-    "file": "shared/encounters/act7EpilogueVoScripts.ts"
+    "file": "shared/encounters/act7EpilogueVoScripts.ts",
+    "directionNotes": "[CUE 0:12] [Voice direction: quiet, with the longest pauses of any Elara line in the act. Allow the pauses. Do not edit them out.] You chose silence. The Seat — and I want to phrase this carefully — the Seat respects silence. The cycle's records show four prior silences across all recorded cycles. Yours is the fifth. I will tell you the names of the other four in a register only the silent can read."
   },
   {
     "id": "ep.silence.human",
-    "text": "[CUE 0:48] [Voice direction: quiet, paternal, with three full beats before 'They took longer because.'] Silence is itself a stance. I am old enough to remember when silence was thought to be the absence of a stance. We were wrong. The silent took longer to understand. They took longer because the understanding required, and I am being precise, the patience to listen.",
+    "text": "Silence is itself a stance. I am old enough to remember when silence was thought to be the absence of a stance. We were wrong. The silent took longer to understand. They took longer because the understanding required, and I am being precise, the patience to listen.",
     "context": "act7_epilogue_silence_negotiation",
     "emotion": "neutral",
     "speaker": "the_human",
-    "file": "shared/encounters/act7EpilogueVoScripts.ts"
+    "file": "shared/encounters/act7EpilogueVoScripts.ts",
+    "directionNotes": "[CUE 0:48] [Voice direction: quiet, paternal, with three full beats before 'They took longer because.'] Silence is itself a stance. I am old enough to remember when silence was thought to be the absence of a stance. We were wrong. The silent took longer to understand. They took longer because the understanding required, and I am being precise, the patience to listen."
   },
   {
     "id": "ep.silence.dual",
-    "text": "[CUE 1:25] [DUAL — quiet; mix at 60% the volume of other endings' dual cues.] (Together; quiet.) The Ark holds without a verdict. The Array hums without a destination. The kettle is on, and the kettle is enough.",
+    "text": "(Together; quiet.) The Ark holds without a verdict. The Array hums without a destination. The kettle is on, and the kettle is enough.",
     "context": "act7_epilogue_silence_resolution",
     "emotion": "neutral",
     "speaker": "dual",
-    "file": "shared/encounters/act7EpilogueVoScripts.ts"
+    "file": "shared/encounters/act7EpilogueVoScripts.ts",
+    "directionNotes": "[CUE 1:25] [DUAL — quiet; mix at 60% the volume of other endings' dual cues.] (Together; quiet.) The Ark holds without a verdict. The Array hums without a destination. The kettle is on, and the kettle is enough."
   },
   {
     "id": "ep.silence.close",
-    "text": "[CUE 1:55] [System register; final reverb tail extends 4 seconds past the spoken line.] The Antiquarian writes the chapter heading and leaves the rest blank. Cycle Silence, inscribed by absence.",
+    "text": "The Antiquarian writes the chapter heading and leaves the rest blank. Cycle Silence, inscribed by absence.",
     "context": "act7_epilogue_silence_aftermath",
     "emotion": "neutral",
     "speaker": "system",
-    "file": "shared/encounters/act7EpilogueVoScripts.ts"
+    "file": "shared/encounters/act7EpilogueVoScripts.ts",
+    "directionNotes": "[CUE 1:55] [System register; final reverb tail extends 4 seconds past the spoken line.] The Antiquarian writes the chapter heading and leaves the rest blank. Cycle Silence, inscribed by absence."
   }
 ]

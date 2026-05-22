@@ -1,66 +1,74 @@
 [
   {
     "id": "ep.balance.open",
-    "text": "[CUE 0:00] [System register; the reverb is shorter than other endings — Balance does not echo as long.] The Convergence Seat lights down without commitment. The Ark waits in a posture I have not previously logged.",
+    "text": "The Convergence Seat lights down without commitment. The Ark waits in a posture I have not previously logged.",
     "context": "act7_epilogue_balance_entry",
     "emotion": "neutral",
     "speaker": "system",
-    "file": "shared/encounters/act7EpilogueVoScripts.ts"
+    "file": "shared/encounters/act7EpilogueVoScripts.ts",
+    "directionNotes": "[CUE 0:00] [System register; the reverb is shorter than other endings — Balance does not echo as long.] The Convergence Seat lights down without commitment. The Ark waits in a posture I have not previously logged."
   },
   {
     "id": "ep.balance.elara",
-    "text": "[CUE 0:08] [Voice direction: warm, but with a slight hesitation at 'most readers refuse it.' The hesitation is admiration.] You chose Balance. The Seat is not happy with you. The Seat wanted a side. You refused the having-of-a-side. I am going to tell you something I have been holding for seven acts: Balance is, in the cycle's records, the rarest stance. Most readers refuse it. You did not.",
+    "text": "You chose Balance. The Seat is not happy with you. The Seat wanted a side. You refused the having-of-a-side. I am going to tell you something I have been holding for seven acts: Balance is, in the cycle's records, the rarest stance. Most readers refuse it. You did not.",
     "context": "act7_epilogue_balance_negotiation",
     "emotion": "neutral",
     "speaker": "elara",
-    "file": "shared/encounters/act7EpilogueVoScripts.ts"
+    "file": "shared/encounters/act7EpilogueVoScripts.ts",
+    "directionNotes": "[CUE 0:08] [Voice direction: warm, but with a slight hesitation at 'most readers refuse it.' The hesitation is admiration.] You chose Balance. The Seat is not happy with you. The Seat wanted a side. You refused the having-of-a-side. I am going to tell you something I have been holding for seven acts: Balance is, in the cycle's records, the rarest stance. Most readers refuse it. You did not."
   },
   {
     "id": "ep.balance.human",
-    "text": "[CUE 0:38] [Voice direction: balanced, careful — not rueful, not celebratory.] I have been on both sides at different times. Both sides cost. The third option also costs — but the cost is paid in, and I am being precise, attention. The substrate notices the Balance-stance reader more than it notices the side-takers. Be ready for the noticing.",
+    "text": "I have been on both sides at different times. Both sides cost. The third option also costs — but the cost is paid in, and I am being precise, attention. The substrate notices the Balance-stance reader more than it notices the side-takers. Be ready for the noticing.",
     "context": "act7_epilogue_balance_negotiation",
     "emotion": "neutral",
     "speaker": "the_human",
-    "file": "shared/encounters/act7EpilogueVoScripts.ts"
+    "file": "shared/encounters/act7EpilogueVoScripts.ts",
+    "directionNotes": "[CUE 0:38] [Voice direction: balanced, careful — not rueful, not celebratory.] I have been on both sides at different times. Both sides cost. The third option also costs — but the cost is paid in, and I am being precise, attention. The substrate notices the Balance-stance reader more than it notices the side-takers. Be ready for the noticing."
   },
   {
     "id": "ep.balance.human_pathA",
-    "text": "[CUE 1:08] [PATH-A VARIANT.] Disclosure to Balance is the cycle's cleanest path. You told her in Act 1 and refused to commit at the Seat. The not-committing is, on this path, also a form of love.",
+    "text": "Disclosure to Balance is the cycle's cleanest path. You told her in Act 1 and refused to commit at the Seat. The not-committing is, on this path, also a form of love.",
     "context": "act7_epilogue_balance_negotiation",
     "emotion": "neutral",
     "speaker": "the_human",
-    "file": "shared/encounters/act7EpilogueVoScripts.ts"
+    "file": "shared/encounters/act7EpilogueVoScripts.ts",
+    "directionNotes": "[CUE 1:08] [PATH-A VARIANT.] Disclosure to Balance is the cycle's cleanest path. You told her in Act 1 and refused to commit at the Seat. The not-committing is, on this path, also a form of love."
   },
   {
     "id": "ep.balance.human_pathB",
-    "text": "[CUE 1:08] [PATH-B VARIANT.] Discovery to Balance is the cycle's most patient path. You let her find out, and you let yourself not-decide. Both are forms of patience. Patience is the slow shape of the third option.",
+    "text": "Discovery to Balance is the cycle's most patient path. You let her find out, and you let yourself not-decide. Both are forms of patience. Patience is the slow shape of the third option.",
     "context": "act7_epilogue_balance_negotiation",
     "emotion": "neutral",
     "speaker": "the_human",
-    "file": "shared/encounters/act7EpilogueVoScripts.ts"
+    "file": "shared/encounters/act7EpilogueVoScripts.ts",
+    "directionNotes": "[CUE 1:08] [PATH-B VARIANT.] Discovery to Balance is the cycle's most patient path. You let her find out, and you let yourself not-decide. Both are forms of patience. Patience is the slow shape of the third option."
   },
   {
     "id": "ep.balance.human_pathC",
-    "text": "[CUE 1:08] [PATH-C VARIANT — careful; the line has a private delight in it that should remain barely audible.] Betrayal to Balance is the cycle's most surprising path. You lied at the bridge and refused to commit at the Seat. I will be honest with you: the cycle's records do not yet know what to do with you. I find this — and it is uncharacteristic of me — exciting.",
+    "text": "Betrayal to Balance is the cycle's most surprising path. You lied at the bridge and refused to commit at the Seat. I will be honest with you: the cycle's records do not yet know what to do with you. I find this — and it is uncharacteristic of me — exciting.",
     "context": "act7_epilogue_balance_negotiation",
     "emotion": "neutral",
     "speaker": "the_human",
-    "file": "shared/encounters/act7EpilogueVoScripts.ts"
+    "file": "shared/encounters/act7EpilogueVoScripts.ts",
+    "directionNotes": "[CUE 1:08] [PATH-C VARIANT — careful; the line has a private delight in it that should remain barely audible.] Betrayal to Balance is the cycle's most surprising path. You lied at the bridge and refused to commit at the Seat. I will be honest with you: the cycle's records do not yet know what to do with you. I find this — and it is uncharacteristic of me — exciting."
   },
   {
     "id": "ep.balance.dual",
-    "text": "[CUE 1:42] [DUAL.] (Together.) The Ark holds. The Array breathes. The kettle is — and we are both surprised by this — neither on nor off. It is, somehow, both. We are, somehow, both. We are home.",
+    "text": "(Together.) The Ark holds. The Array breathes. The kettle is — and we are both surprised by this — neither on nor off. It is, somehow, both. We are, somehow, both. We are home.",
     "context": "act7_epilogue_balance_resolution",
     "emotion": "neutral",
     "speaker": "dual",
-    "file": "shared/encounters/act7EpilogueVoScripts.ts"
+    "file": "shared/encounters/act7EpilogueVoScripts.ts",
+    "directionNotes": "[CUE 1:42] [DUAL.] (Together.) The Ark holds. The Array breathes. The kettle is — and we are both surprised by this — neither on nor off. It is, somehow, both. We are, somehow, both. We are home."
   },
   {
     "id": "ep.balance.close",
-    "text": "[CUE 2:08] [System register.] The Antiquarian writes a chapter title with no body text. Cycle Balance, inscribed without inscription.",
+    "text": "The Antiquarian writes a chapter title with no body text. Cycle Balance, inscribed without inscription.",
     "context": "act7_epilogue_balance_aftermath",
     "emotion": "neutral",
     "speaker": "system",
-    "file": "shared/encounters/act7EpilogueVoScripts.ts"
+    "file": "shared/encounters/act7EpilogueVoScripts.ts",
+    "directionNotes": "[CUE 2:08] [System register.] The Antiquarian writes a chapter title with no body text. Cycle Balance, inscribed without inscription."
   }
 ]

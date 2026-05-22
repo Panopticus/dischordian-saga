@@ -27,6 +27,7 @@ import { fileURLToPath } from "url";
 import { dirname, resolve } from "path";
 
 import { ALL_NPC_DIALOG_TREES } from "../shared/npcs/dialogTrees/index.ts";
+import { spokenText, hasStageDirection } from "../shared/voSpokenText.ts";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -69,12 +70,21 @@ for (const [npcKey, trees] of treesByNpc) {
       // (also non-verbal beats; the lint contract permits empty
       // text when the renderer reads expressionChannel instead).
       if (!node.onscreenText || node.onscreenText.length === 0) continue;
+      // Split the authored onscreenText into the spoken form (clean
+      // of producer cue cards) and a `directionNotes` sidecar that
+      // preserves the original verbatim for the producer audit and
+      // the canonical onscreen renderer. Without the split the
+      // ElevenLabs model literally reads "[CUE 0:00]" or "Voice
+      // direction: warm." out loud — see apps/shared/voSpokenText.ts.
+      const stripped = spokenText(node.onscreenText);
+      const direction = hasStageDirection(node.onscreenText);
       entries.push({
         id: node.voLineId,
-        text: node.onscreenText,
+        text: stripped,
         context: `first_meeting.${tree.id}`,
         emotion: "first_meeting",
         file: `shared/npcs/dialogTrees/${npcKey}/first_meeting.ts`,
+        ...(direction ? { directionNotes: node.onscreenText } : {}),
         meta: {
           npcKey,
           treeId: tree.id,

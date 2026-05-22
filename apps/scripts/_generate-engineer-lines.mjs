@@ -23,17 +23,27 @@ import { fileURLToPath } from "url";
 import { dirname, resolve } from "path";
 
 import { ENGINEER_LOGS } from "../shared/tcg-core/story/engineerLogs.ts";
+import { spokenText, hasStageDirection } from "../shared/voSpokenText.ts";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const outPath = resolve(__dirname, "engineer-lines.json");
 
-const entries = ENGINEER_LOGS.map((log) => ({
+const entries = ENGINEER_LOGS.map((log) => {
+  // Split the authored transcript into the spoken text (clean of
+  // [SPOKEN] / [FREESTYLE] producer cue tags) and a `directionNotes`
+  // sidecar that preserves the original for producer audit. Without
+  // this split the ElevenLabs model literally reads "spoken" at the
+  // top of every log — see apps/shared/voSpokenText.ts.
+  const stripped = spokenText(log.transcript);
+  const hasDirection = hasStageDirection(log.transcript);
+  return ({
   id: `engineer_${log.id}`,
-  text: log.transcript,
+  text: stripped,
   context: "engineer_log",
   emotion: "lab_journal",
   file: "shared/tcg-core/story/engineerLogs.ts",
+  ...(hasDirection ? { directionNotes: log.transcript } : {}),
   // Carry forward the canonical log fields the VO pipeline doesn't
   // strictly need but the producer / writer team will want when
   // recording. These are read-only metadata.
@@ -47,7 +57,8 @@ const entries = ENGINEER_LOGS.map((log) => ({
     musicTempoBpm: log.musicPrompt?.tempoBpm ?? null,
     musicDurationSec: log.musicPrompt?.durationTargetSeconds ?? null,
   },
-}));
+});
+});
 
 writeFileSync(outPath, JSON.stringify(entries, null, 2) + "\n", "utf-8");
 console.log(`Wrote ${entries.length} engineer-log entries to ${outPath}`);

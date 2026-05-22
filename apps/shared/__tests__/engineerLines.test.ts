@@ -32,6 +32,11 @@ interface EngineerLineEntry {
   context: string;
   emotion: string;
   file: string;
+  /** Original authored transcript with producer cue tags
+   *  ([SPOKEN] / [FREESTYLE]) intact. Set whenever the extractor
+   *  stripped a leading direction block from `text` so the cue
+   *  metadata survives on the record for producer audit. */
+  directionNotes?: string;
   meta?: {
     logNumber?: number;
     title?: string;
@@ -66,11 +71,20 @@ describe("engineer-lines.json", () => {
     }
   });
 
-  it("text matches the canonical ENGINEER_LOGS transcript verbatim (round-trip)", () => {
+  it("text matches the canonical ENGINEER_LOGS transcript round-trip (with producer cue tags stripped to directionNotes)", () => {
+    // The TS → JSON extractor now routes producer-facing cue tags
+    // ([SPOKEN] / [FREESTYLE] / [CUE …]) out of `text` and into
+    // `directionNotes`. That keeps the TTS-bound `text` clean (the
+    // ElevenLabs model used to literally read "spoken" at the top of
+    // every log) while preserving the producer audit on the record.
+    // The round-trip we check is: original transcript ===
+    //   (entry.directionNotes ?? entry.text). When no direction was
+    // present the extractor leaves `directionNotes` undefined.
     for (const log of ENGINEER_LOGS) {
       const entry = entries.find((e) => e.id === `engineer_${log.id}`);
       expect(entry, `missing entry for ${log.id}`).toBeDefined();
-      expect(entry!.text).toBe(log.transcript);
+      const roundTrip = entry!.directionNotes ?? entry!.text;
+      expect(roundTrip).toBe(log.transcript);
     }
   });
 
@@ -96,18 +110,25 @@ describe("engineer-lines.json", () => {
     }
   });
 
-  it("[SPOKEN] / [FREESTYLE] structural tags are preserved in text (TTS pipeline + producer reads these)", () => {
-    // At least the majority of logs should ship the dual-register
-    // structure. Pure-spoken logs (early lab notes) are also valid.
+  it("[SPOKEN] / [FREESTYLE] structural tags are preserved in directionNotes (producer audit) and stripped from text (clean TTS input)", () => {
+    // Producer side: the dual-register tags survive on the record so
+    // the producer team can still beat-sync the freestyle delivery.
     let withSpoken = 0;
     let withFreestyle = 0;
     for (const e of entries) {
-      if (e.text.includes("[SPOKEN]")) withSpoken++;
-      if (e.text.includes("[FREESTYLE]")) withFreestyle++;
+      const notes = e.directionNotes ?? "";
+      if (notes.includes("[SPOKEN]")) withSpoken++;
+      if (notes.includes("[FREESTYLE]")) withFreestyle++;
     }
     expect(withSpoken).toBe(entries.length);
     // Most logs include freestyle, but some intro / outro ones may
     // not. Soft floor of half.
     expect(withFreestyle * 2).toBeGreaterThanOrEqual(entries.length);
+
+    // TTS side: the tags are GONE from `text` so the ElevenLabs model
+    // can't read them aloud at the top of every log.
+    for (const e of entries) {
+      expect(e.text.startsWith("[")).toBe(false);
+    }
   });
 });
