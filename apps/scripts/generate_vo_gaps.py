@@ -569,6 +569,20 @@ for _key, _file in TS_BANKS_REGISTRY:
 
 _STAGE_DIR_LEADING = re.compile(r"^\s*(?:\[[^\]]*\]\s*)+")
 _STAGE_DIR_MIDLINE = re.compile(r"([.!?]\s+|\n\s*)\[[^\]]*\]\s*")
+_ASTERISK_SPAN = re.compile(r"\*([^*\n]+?)\*")
+_DOUBLE_SPACES = re.compile(r"[ \t]{2,}")
+_SPACE_BEFORE_PUNCT = re.compile(r"\s+([.!?,;:])")
+
+
+def _asterisk_replace(match: "re.Match[str]") -> str:
+    inner = match.group(1)
+    trimmed = inner.strip()
+    # Stage direction: sentence-shaped action beat ending in .!?
+    # and containing whitespace (e.g. "*She unfolds the paper.*").
+    if (" " in trimmed or "\t" in trimmed) and trimmed[-1:] in ".!?":
+        return ""
+    # Italics emphasis: keep the inner text, drop the asterisks.
+    return inner
 
 
 def _spoken_text(raw: str) -> str:
@@ -584,6 +598,14 @@ def _spoken_text(raw: str) -> str:
         return raw
     s = _STAGE_DIR_LEADING.sub("", raw)
     s = _STAGE_DIR_MIDLINE.sub(r"\1", s)
+    s = _ASTERISK_SPAN.sub(_asterisk_replace, s)
+    # Tidy only when an earlier strip actually modified the line,
+    # otherwise we'd also "fix" prose-level typos like `Word , next`
+    # that aren't this normaliser's job. Keep parity with the TS
+    # mirror in apps/shared/voSpokenText.ts.
+    if s != raw:
+        s = _DOUBLE_SPACES.sub(" ", s)
+        s = _SPACE_BEFORE_PUNCT.sub(r"\1", s)
     s = s.strip()
     if not s:
         return raw.strip()

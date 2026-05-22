@@ -63,6 +63,68 @@ describe("spokenText", () => {
       "[The Hierophant does not look up. The pen continues — a name is being written.]";
     expect(spokenText(line)).toBe(line);
   });
+
+  it("strips an asterisk-wrapped stage direction at the start of a line", () => {
+    // Real leak from apps/scripts/apprentice-zealot-*-lines.json.
+    // ElevenLabs would otherwise read "She unfolds the paper" as
+    // part of the spoken dialog.
+    expect(
+      spokenText(
+        "*She unfolds the paper.* I came to the Cause hungry. I leave it fed.",
+      ),
+    ).toBe("I came to the Cause hungry. I leave it fed.");
+  });
+
+  it("strips an asterisk-wrapped stage direction at the end of a line", () => {
+    expect(
+      spokenText("I came home. *She closes the door behind us.*"),
+    ).toBe("I came home.");
+  });
+
+  it("keeps italics emphasis — drops only the asterisks, not the word", () => {
+    // Single-word and multi-word italics from
+    // apps/scripts/apprentice-{zealot,artisan}-*-lines.json and
+    // npc-the_antiquarian-lines.json.
+    expect(spokenText("About the *Cause* — never.")).toBe(
+      "About the Cause — never.",
+    );
+    expect(spokenText("reminds me what I'm calibrating *for*.")).toBe(
+      "reminds me what I'm calibrating for.",
+    );
+    expect(
+      spokenText("The Refuge calls it the *unread first citation*."),
+    ).toBe("The Refuge calls it the unread first citation.");
+  });
+
+  it("keeps an asterisk-wrapped interjection without terminal punctuation", () => {
+    // `*okay,*` is emphasis, not a stage direction.
+    expect(spokenText("*okay,* I'm listening.")).toBe(
+      "okay, I'm listening.",
+    );
+  });
+
+  it("handles mixed asterisk usage in one line", () => {
+    expect(
+      spokenText(
+        "*She unfolds the paper.* About the *Cause* — never. *He sighs.*",
+      ),
+    ).toBe("About the Cause — never.");
+  });
+
+  it("does NOT silently 'fix' prose-level whitespace typos in lines with no stage direction", () => {
+    // Real entries from apps/scripts/loredex-narrator-lines.json
+    // were authored with `Word , Word` and `Word. . Word` typos.
+    // The normaliser must not touch them — that's outside its scope
+    // (and would make hasStageDirection() report false positives,
+    // forcing thousands of clean lines to be re-rendered).
+    const typo = "Insurgency , renowned for her unparalleled infiltration.";
+    expect(spokenText(typo)).toBe(typo);
+    expect(hasStageDirection(typo)).toBe(false);
+
+    const doublePeriod = "The Engineer. . The Engineer was one of the originals.";
+    expect(spokenText(doublePeriod)).toBe(doublePeriod);
+    expect(hasStageDirection(doublePeriod)).toBe(false);
+  });
 });
 
 describe("hasStageDirection", () => {

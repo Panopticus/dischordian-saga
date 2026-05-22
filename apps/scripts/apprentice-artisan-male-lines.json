@@ -452,11 +452,12 @@
   {
     "id": "artisan_male_dlg_past_a_past_warm_reply_0",
     "character": "apprentice_artisan_male",
-    "text": "In my workshop. Behind the calibration jig. I take it out when I'm calibrating. The notch reminds me what I'm calibrating *for*.",
+    "text": "In my workshop. Behind the calibration jig. I take it out when I'm calibrating. The notch reminds me what I'm calibrating for.",
     "emotion": "dialogue",
     "bucket": "dialogue",
     "file": "shared/apprenticeDialogues.ts",
-    "dialogueTopic": "past"
+    "dialogueTopic": "past",
+    "directionNotes": "In my workshop. Behind the calibration jig. I take it out when I'm calibrating. The notch reminds me what I'm calibrating *for*."
   },
   {
     "id": "artisan_male_dlg_past_a_past_probe_reply_0",
