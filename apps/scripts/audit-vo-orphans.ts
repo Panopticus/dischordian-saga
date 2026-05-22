@@ -168,6 +168,41 @@ function matchesAnyTemplate(id: string, prefixes: Map<string, string[]>): string
   return hits;
 }
 
+/** Templates like `feature_${next.featureId}` resolve to a small,
+ *  enumerable set of ids at runtime (the keys of a registry), not
+ *  "anything starting with the prefix." Without this filter the audit
+ *  flags every legacy/dead manifest entry sharing the prefix as a
+ *  false-positive LIVE orphan. This map tells the audit which
+ *  registry to consult per known template prefix; ids outside the
+ *  registry are demoted back to DEAD. */
+function loadTemplateRegistry(prefix: string): Set<string> | null {
+  const repoRoot = path.resolve(__dirname, "..", "..");
+  if (prefix === "feature_") {
+    // apps/shared/featureRoadmap.ts dispatches the toast.
+    const src = fs.readFileSync(
+      path.join(repoRoot, "apps", "shared", "featureRoadmap.ts"),
+      "utf8",
+    );
+    const ids = new Set<string>();
+    for (const m of src.matchAll(/featureId:\s*["']([^"']+)["']/g)) {
+      ids.add(`feature_${m[1]}`);
+    }
+    return ids;
+  }
+  if (prefix === "character_sheet_intro_") {
+    // Five-beat narrative intro hardcoded in CharacterSheetPage.tsx.
+    return new Set([
+      "character_sheet_intro_1",
+      "character_sheet_intro_2",
+      "character_sheet_intro_3",
+      "character_sheet_intro_4",
+      "character_sheet_intro_5",
+    ]);
+  }
+  // Unknown template prefix — fall back to permissive matching.
+  return null;
+}
+
 interface OrphanRecord {
   id: string;
   manifests: string[];
@@ -183,12 +218,28 @@ function main() {
   const orphans: OrphanRecord[] = [];
   const missingAudio: { id: string; banks: string[]; speaker?: string }[] = [];
 
+  // Resolve template prefixes against their known registries once,
+  // so we can demote prefix-only matches whose ids don't appear in
+  // the dispatcher's runtime registry. See loadTemplateRegistry.
+  const tplRegistries = new Map<string, Set<string> | null>();
+  for (const prefix of templatePrefixes.keys()) {
+    tplRegistries.set(prefix, loadTemplateRegistry(prefix));
+  }
+
   // ORPHANS: in manifest, not in any line bank
   for (const [id, manifestFiles] of manifestIds) {
     if (lineIds.has(id)) continue;
     const liveRefs = literals.get(id) ?? [];
     const tplHits = matchesAnyTemplate(id, templatePrefixes);
-    if (liveRefs.length === 0 && tplHits.length === 0) {
+    // Filter prefix-only matches against the known dispatcher registry.
+    // A `feature_<id>` match only counts as LIVE if `<id>` is in the
+    // current featureRoadmap.ts. Unknown registries (returning null)
+    // fall through to permissive matching.
+    const liveTplHits = tplHits.filter(prefix => {
+      const reg = tplRegistries.get(prefix);
+      return reg === null || reg === undefined || reg.has(id);
+    });
+    if (liveRefs.length === 0 && liveTplHits.length === 0) {
       // dead audio (not used in client code) — still report under
       // dead-audio bucket so the human can decide whether to purge,
       // but don't conflate with live orphans.
@@ -198,7 +249,7 @@ function main() {
         id,
         manifests: manifestFiles,
         liveRefs,
-        matchedTemplate: tplHits[0],
+        matchedTemplate: liveTplHits[0],
       });
     }
   }
