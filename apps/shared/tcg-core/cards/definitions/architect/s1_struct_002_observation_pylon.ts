@@ -25,7 +25,7 @@ export const cardDef: CardDefinition = {
   baseStats: { power: 2, health: 10 },
   keywords: ["structure"],
   abilities: [],
-  art: assetUrl("art/cards/s1_struct_002.webp"),
+  art: assetUrl("art/cards/architect/observation_pylon.webp"),
   flavorText:
     "Geometry knows what flesh forgets. The pylon does not blink.",
   rulesVersion: "1.1.0",

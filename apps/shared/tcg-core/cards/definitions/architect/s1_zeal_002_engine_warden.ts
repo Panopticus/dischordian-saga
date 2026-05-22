@@ -28,7 +28,7 @@ export const cardDef: CardDefinition = {
   baseStats: { power: 2, health: 4 },
   keywords: ["zeal"],
   abilities: [],
-  art: assetUrl("art/cards/s1_zeal_002.webp"),
+  art: assetUrl("art/cards/architect/engine_warden.webp"),
   flavorText:
     "Geometry knows what flesh forgets. So she stays within sight of the line.",
   rulesVersion: "1.1.0",

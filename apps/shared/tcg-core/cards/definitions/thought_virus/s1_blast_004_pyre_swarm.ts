@@ -22,7 +22,7 @@ export const cardDef: CardDefinition = {
   baseStats: { power: 4, health: 6 },
   keywords: ["blast"],
   abilities: [],
-  art: assetUrl("art/cards/s1_blast_004.webp"),
+  art: assetUrl("art/cards/thought_virus/pyre_swarm.webp"),
   flavorText:
     "The strain does not infect a self. The strain infects a sentence and waits for selves to read it.",
   rulesVersion: "1.1.0",

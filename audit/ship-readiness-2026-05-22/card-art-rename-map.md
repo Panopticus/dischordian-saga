@@ -100,6 +100,43 @@ over the `art: assetUrl("…")` lines listed in the Source column.
 | `s1_race_quarchon_02` | Quarchon Archivist | `art/cards/race/s1_race_quarchon_02.webp` | `art/cards/race/quarchon_archivist.webp` | `apps/shared/tcg-core/cards/definitions/race/quarchon.ts` | |
 | `s1_race_synthetic_01` | Synthetic Worker | `art/cards/race/s1_race_synthetic_01.webp` | `art/cards/race/synthetic_worker.webp` | `apps/shared/tcg-core/cards/definitions/race/synthetic.ts` | |
 | `s1_race_synthetic_02` | Synthetic Watchtower | `art/cards/race/s1_race_synthetic_02.webp` | `art/cards/race/synthetic_watchtower.webp` | `apps/shared/tcg-core/cards/definitions/race/synthetic.ts` | |
+| `s1_char_018` | The Antiquarian | `art/cards/s1_char_018_the_antiquarian.webp` | `art/cards/antiquarian/the_antiquarian.webp` | `apps/shared/tcg-core/cards/definitions/antiquarian/s1_char_018_the_antiquarian.ts` | resolved by cross-folder scan |
+| `s1_curve_001_era_mote` | Era Mote | `art/cards/s1_curve_001.webp` | `art/cards/antiquarian/era_mote.webp` | `apps/shared/tcg-core/cards/definitions/antiquarian/s1_curve_001_era_mote.ts` | resolved by cross-folder scan |
+| `s1_curve_006_hourglass_sentinel` | Hourglass Sentinel | `art/cards/s1_curve_006.webp` | `art/cards/antiquarian/hourglass_sentinel.webp` | `apps/shared/tcg-core/cards/definitions/antiquarian/s1_curve_006_hourglass_sentinel.ts` | resolved by cross-folder scan |
+| `s1_struct_005_relic_archive` | Relic Archive | `art/cards/s1_struct_005.webp` | `art/cards/antiquarian/relic_archive.webp` | `apps/shared/tcg-core/cards/definitions/antiquarian/s1_struct_005_relic_archive.ts` | resolved by cross-folder scan |
+| `s1_zeal_004_relic_acolyte` | Relic Acolyte | `art/cards/s1_zeal_004.webp` | `art/cards/antiquarian/relic_acolyte.webp` | `apps/shared/tcg-core/cards/definitions/antiquarian/s1_zeal_004_relic_acolyte.ts` | resolved by cross-folder scan |
+| `gen_authority` | The Authority | `art/cards/gen_authority.webp` | `art/cards/architect/the_authority.webp` | `apps/shared/tcg-core/cards/definitions/architect/gen_authority.ts` | resolved by cross-folder scan |
+| `s1_blast_002_arc_lance` | Arc Lance | `art/cards/s1_blast_002.webp` | `art/cards/architect/arc_lance.webp` | `apps/shared/tcg-core/cards/definitions/architect/s1_blast_002_arc_lance.ts` | resolved by cross-folder scan |
+| `s1_curve_002_schematic_spark` | Schematic Spark | `art/cards/s1_curve_002.webp` | `art/cards/architect/schematic_spark.webp` | `apps/shared/tcg-core/cards/definitions/architect/s1_curve_002_schematic_spark.ts` | resolved by cross-folder scan |
+| `s1_curve_007_schematic_bastion` | Schematic Bastion | `art/cards/s1_curve_007.webp` | `art/cards/architect/schematic_bastion.webp` | `apps/shared/tcg-core/cards/definitions/architect/s1_curve_007_schematic_bastion.ts` | resolved by cross-folder scan |
+| `s1_struct_002_observation_pylon` | Observation Pylon | `art/cards/s1_struct_002.webp` | `art/cards/architect/observation_pylon.webp` | `apps/shared/tcg-core/cards/definitions/architect/s1_struct_002_observation_pylon.ts` | resolved by cross-folder scan |
+| `s1_warlord_three_moves` | Three Moves | `art/cards/s1_warlord_three_moves.webp` | `art/cards/architect/three_moves.webp` | `apps/shared/tcg-core/cards/definitions/architect/s1_warlord_three_moves.ts` | resolved by cross-folder scan |
+| `s1_zeal_002_engine_warden` | Engine Warden | `art/cards/s1_zeal_002.webp` | `art/cards/architect/engine_warden.webp` | `apps/shared/tcg-core/cards/definitions/architect/s1_zeal_002_engine_warden.ts` | resolved by cross-folder scan |
+| `s1_curve_003_glimmer_wisp` | Glimmer Wisp | `art/cards/s1_curve_003.webp` | `art/cards/dreamer/glimmer_wisp.webp` | `apps/shared/tcg-core/cards/definitions/dreamer/s1_curve_003_glimmer_wisp.ts` | resolved by cross-folder scan |
+| `s1_curve_008_vision_anchor` | Vision Anchor | `art/cards/s1_curve_008.webp` | `art/cards/dreamer/vision_anchor.webp` | `apps/shared/tcg-core/cards/definitions/dreamer/s1_curve_008_vision_anchor.ts` | resolved by cross-folder scan |
+| `s1_struct_003_dream_anchor` | Dream Anchor | `art/cards/s1_struct_003.webp` | `art/cards/dreamer/dream_anchor.webp` | `apps/shared/tcg-core/cards/definitions/dreamer/s1_struct_003_dream_anchor.ts` | resolved by cross-folder scan |
+| `s1_blast_003_strafe_runner` | Strafe Runner | `art/cards/s1_blast_003.webp` | `art/cards/insurgency/strafe_runner.webp` | `apps/shared/tcg-core/cards/definitions/insurgency/s1_blast_003_strafe_runner.ts` | resolved by cross-folder scan |
+| `s1_curve_004_cell_decoy` | Cell Decoy | `art/cards/s1_curve_004.webp` | `art/cards/insurgency/cell_decoy.webp` | `apps/shared/tcg-core/cards/definitions/insurgency/s1_curve_004_cell_decoy.ts` | resolved by cross-folder scan |
+| `s1_curve_009_trench_sergeant` | Trench Sergeant | `art/cards/s1_curve_009.webp` | `art/cards/insurgency/trench_sergeant.webp` | `apps/shared/tcg-core/cards/definitions/insurgency/s1_curve_009_trench_sergeant.ts` | resolved by cross-folder scan |
+| `s1_resurrect_003_ghost_cell_runner` | Ghost Cell Runner | `art/cards/s1_resurrect_003.webp` | `art/cards/insurgency/ghost_cell_runner.webp` | `apps/shared/tcg-core/cards/definitions/insurgency/s1_resurrect_003_ghost_cell_runner.ts` | resolved by cross-folder scan |
+| `s1_zeal_003_oath_keeper` | Oath Keeper | `art/cards/s1_zeal_003.webp` | `art/cards/insurgency/oath_keeper.webp` | `apps/shared/tcg-core/cards/definitions/insurgency/s1_zeal_003_oath_keeper.ts` | resolved by cross-folder scan |
+| `burnt_card_placeholder` | The Burnt Card | `art/cards/burnt_card_placeholder.webp` | `art/cards/neutral/the_burnt_card.webp` | `apps/shared/tcg-core/cards/definitions/neutral/burnt_card_placeholder.ts` | resolved by cross-folder scan |
+| `gen_programmer` | The Programmer | `art/cards/gen_programmer.webp` | `art/cards/neutral/the_programmer.webp` | `apps/shared/tcg-core/cards/definitions/neutral/gen_programmer.ts` | resolved by cross-folder scan |
+| `gen_seer` | The Seer (visiting fellow) | `art/cards/gen_seer.webp` | `art/cards/neutral/the_seer_visiting_fellow.webp` | `apps/shared/tcg-core/cards/definitions/neutral/gen_seer.ts` | resolved by cross-folder scan |
+| `card_locke_sworn_pen_title` | The Sworn Pen | `art/cards/card_locke_sworn_pen_title.webp` | `art/cards/neutral/the_sworn_pen.webp` | `apps/shared/tcg-core/cards/definitions/neutral/house_oath_titles.ts` | resolved by cross-folder scan |
+| `card_thaloria_witness_title` | Witness of the Quiet Year | `art/cards/card_thaloria_witness_title.webp` | `art/cards/neutral/witness_of_the_quiet_year.webp` | `apps/shared/tcg-core/cards/definitions/neutral/house_oath_titles.ts` | resolved by cross-folder scan |
+| `s1_resurrect_005_eternal_pilgrim` | Eternal Pilgrim | `art/cards/s1_resurrect_005.webp` | `art/cards/neutral/eternal_pilgrim.webp` | `apps/shared/tcg-core/cards/definitions/neutral/s1_resurrect_005_eternal_pilgrim.ts` | resolved by cross-folder scan |
+| `s1_blast_005_audit_artillery` | Audit Artillery | `art/cards/s1_blast_005.webp` | `art/cards/new_babylon/audit_artillery.webp` | `apps/shared/tcg-core/cards/definitions/new_babylon/s1_blast_005_audit_artillery.ts` | resolved by cross-folder scan |
+| `s1_curve_005_compliance_watcher` | Compliance Watcher | `art/cards/s1_curve_005.webp` | `art/cards/new_babylon/compliance_watcher.webp` | `apps/shared/tcg-core/cards/definitions/new_babylon/s1_curve_005_compliance_watcher.ts` | resolved by cross-folder scan |
+| `s1_curve_010_sector_magistrate` | Sector Magistrate | `art/cards/s1_curve_010.webp` | `art/cards/new_babylon/sector_magistrate.webp` | `apps/shared/tcg-core/cards/definitions/new_babylon/s1_curve_010_sector_magistrate.ts` | resolved by cross-folder scan |
+| `s1_struct_004_audit_tower` | Audit Tower | `art/cards/s1_struct_004.webp` | `art/cards/new_babylon/audit_tower.webp` | `apps/shared/tcg-core/cards/definitions/new_babylon/s1_struct_004_audit_tower.ts` | resolved by cross-folder scan |
+| `s1_zeal_005_compliance_zealot` | Compliance Zealot | `art/cards/s1_zeal_005.webp` | `art/cards/new_babylon/compliance_zealot.webp` | `apps/shared/tcg-core/cards/definitions/new_babylon/s1_zeal_005_compliance_zealot.ts` | resolved by cross-folder scan |
+| `s1_resurrect_004_undying_witness` | Undying Witness | `art/cards/s1_resurrect_004.webp` | `art/cards/panopticon/undying_witness.webp` | `apps/shared/tcg-core/cards/definitions/panopticon/s1_resurrect_004_undying_witness.ts` | resolved by cross-folder scan |
+| `s2_watcher_001` | The L. Signature | `art/cards/s2_watcher_001.webp` | `art/cards/panopticon/l_signature.webp` | `apps/shared/tcg-core/cards/definitions/panopticon/s2_watcher_001_l_signature.ts` | resolved by cross-folder scan |
+| `s2_watcher_002` | The Coordinator | `art/cards/s2_watcher_002.webp` | `art/cards/panopticon/the_coordinators_dossier.webp` | `apps/shared/tcg-core/cards/definitions/panopticon/s2_watcher_002_the_coordinators_dossier.ts` | resolved by cross-folder scan |
+| `s2_watcher_003` | Now You Are Ours | `art/cards/s2_watcher_003.webp` | `art/cards/panopticon/now_you_are_ours.webp` | `apps/shared/tcg-core/cards/definitions/panopticon/s2_watcher_003_now_you_are_ours.ts` | resolved by cross-folder scan |
+| `s1_blast_004_pyre_swarm` | Pyre Swarm | `art/cards/s1_blast_004.webp` | `art/cards/thought_virus/pyre_swarm.webp` | `apps/shared/tcg-core/cards/definitions/thought_virus/s1_blast_004_pyre_swarm.ts` | resolved by cross-folder scan |
+| `s1_resurrect_002_persistent_strain` | Persistent Strain | `art/cards/s1_resurrect_002.webp` | `art/cards/thought_virus/persistent_strain.webp` | `apps/shared/tcg-core/cards/definitions/thought_virus/s1_resurrect_002_persistent_strain.ts` | resolved by cross-folder scan |
 
 ## Auto-mapped (low confidence — please verify)
 
@@ -127,57 +164,24 @@ over the `art: assetUrl("…")` lines listed in the Source column.
 | `s2_hierarchy_lord_pale_emissary` | The Pale Emissary, Courier of Vortex Standing | `art/cards/hierarchy/lord_pale_emissary.webp` | `art/cards/hierarchy/the_pale_emissary.webp` | `apps/shared/tcg-core/cards/definitions/s2_hierarchy/pale_emissary.ts` | keyword overlap (3 tokens) — VERIFY |
 | `s2_hierarchy_lord_reckoning_daughter` | The Reckoning Daughter, Hierarchy Auditor | `art/cards/hierarchy/lord_reckoning_daughter.webp` | `art/cards/hierarchy/the_reckoning_daughter.png` | `apps/shared/tcg-core/cards/definitions/s2_hierarchy/reckoning_daughter.ts` | keyword overlap (3 tokens) — VERIFY |
 
-## Unmapped — needs producer input or new art
+## Producer verify — multiple candidates
 
-| Card id | Card name | Broken `art:` | Source | Reason |
-|---|---|---|---|---|
-| `s1_alleg_new_babylon_t1` | Babylonian Clerk | `art/cards/allegiance/s1_alleg_new_babylon_t1.webp` | `apps/shared/tcg-core/cards/definitions/allegiance/new_babylon.ts` | 36 candidates in folder |
-| `s1_alleg_new_babylon_t2` | Babylonian Magistrate | `art/cards/allegiance/s1_alleg_new_babylon_t2.webp` | `apps/shared/tcg-core/cards/definitions/allegiance/new_babylon.ts` | 36 candidates in folder |
-| `s1_alleg_new_babylon_t4` | Babylonian Victorious Adjudicator | `art/cards/allegiance/s1_alleg_new_babylon_t4.webp` | `apps/shared/tcg-core/cards/definitions/allegiance/new_babylon.ts` | 36 candidates in folder |
-| `s1_alleg_new_babylon_t5` | Babylonian Archon-Elect | `art/cards/allegiance/s1_alleg_new_babylon_t5.webp` | `apps/shared/tcg-core/cards/definitions/allegiance/new_babylon.ts` | 36 candidates in folder |
-| `s1_char_018` | The Antiquarian | `art/cards/s1_char_018_the_antiquarian.webp` | `apps/shared/tcg-core/cards/definitions/antiquarian/s1_char_018_the_antiquarian.ts` | 408 candidates in folder |
-| `s1_curve_001_era_mote` | Era Mote | `art/cards/s1_curve_001.webp` | `apps/shared/tcg-core/cards/definitions/antiquarian/s1_curve_001_era_mote.ts` | 408 candidates in folder |
-| `s1_curve_006_hourglass_sentinel` | Hourglass Sentinel | `art/cards/s1_curve_006.webp` | `apps/shared/tcg-core/cards/definitions/antiquarian/s1_curve_006_hourglass_sentinel.ts` | 408 candidates in folder |
-| `s1_struct_005_relic_archive` | Relic Archive | `art/cards/s1_struct_005.webp` | `apps/shared/tcg-core/cards/definitions/antiquarian/s1_struct_005_relic_archive.ts` | 408 candidates in folder |
-| `s1_zeal_004_relic_acolyte` | Relic Acolyte | `art/cards/s1_zeal_004.webp` | `apps/shared/tcg-core/cards/definitions/antiquarian/s1_zeal_004_relic_acolyte.ts` | 408 candidates in folder |
-| `gen_authority` | The Authority | `art/cards/gen_authority.webp` | `apps/shared/tcg-core/cards/definitions/architect/gen_authority.ts` | 408 candidates in folder |
-| `s1_blast_002_arc_lance` | Arc Lance | `art/cards/s1_blast_002.webp` | `apps/shared/tcg-core/cards/definitions/architect/s1_blast_002_arc_lance.ts` | 408 candidates in folder |
-| `s1_curve_002_schematic_spark` | Schematic Spark | `art/cards/s1_curve_002.webp` | `apps/shared/tcg-core/cards/definitions/architect/s1_curve_002_schematic_spark.ts` | 408 candidates in folder |
-| `s1_curve_007_schematic_bastion` | Schematic Bastion | `art/cards/s1_curve_007.webp` | `apps/shared/tcg-core/cards/definitions/architect/s1_curve_007_schematic_bastion.ts` | 408 candidates in folder |
-| `s1_struct_002_observation_pylon` | Observation Pylon | `art/cards/s1_struct_002.webp` | `apps/shared/tcg-core/cards/definitions/architect/s1_struct_002_observation_pylon.ts` | 408 candidates in folder |
-| `s1_warlord_three_moves` | Three Moves | `art/cards/s1_warlord_three_moves.webp` | `apps/shared/tcg-core/cards/definitions/architect/s1_warlord_three_moves.ts` | 408 candidates in folder |
-| `s1_zeal_002_engine_warden` | Engine Warden | `art/cards/s1_zeal_002.webp` | `apps/shared/tcg-core/cards/definitions/architect/s1_zeal_002_engine_warden.ts` | 408 candidates in folder |
-| `s1_class_engineer_05` | The Engineer | `art/cards/class/s1_class_engineer_05.webp` | `apps/shared/tcg-core/cards/definitions/class/engineer.ts` | 30 candidates in folder |
-| `s1_class_oracle_05` | The Oracle | `art/cards/class/s1_class_oracle_05.webp` | `apps/shared/tcg-core/cards/definitions/class/oracle.ts` | 30 candidates in folder |
-| `s1_curve_003_glimmer_wisp` | Glimmer Wisp | `art/cards/s1_curve_003.webp` | `apps/shared/tcg-core/cards/definitions/dreamer/s1_curve_003_glimmer_wisp.ts` | 408 candidates in folder |
-| `s1_curve_008_vision_anchor` | Vision Anchor | `art/cards/s1_curve_008.webp` | `apps/shared/tcg-core/cards/definitions/dreamer/s1_curve_008_vision_anchor.ts` | 408 candidates in folder |
-| `s1_struct_003_dream_anchor` | Dream Anchor | `art/cards/s1_struct_003.webp` | `apps/shared/tcg-core/cards/definitions/dreamer/s1_struct_003_dream_anchor.ts` | 408 candidates in folder |
-| `s1_blast_003_strafe_runner` | Strafe Runner | `art/cards/s1_blast_003.webp` | `apps/shared/tcg-core/cards/definitions/insurgency/s1_blast_003_strafe_runner.ts` | 408 candidates in folder |
-| `s1_curve_004_cell_decoy` | Cell Decoy | `art/cards/s1_curve_004.webp` | `apps/shared/tcg-core/cards/definitions/insurgency/s1_curve_004_cell_decoy.ts` | 408 candidates in folder |
-| `s1_curve_009_trench_sergeant` | Trench Sergeant | `art/cards/s1_curve_009.webp` | `apps/shared/tcg-core/cards/definitions/insurgency/s1_curve_009_trench_sergeant.ts` | 408 candidates in folder |
-| `s1_resurrect_003_ghost_cell_runner` | Ghost Cell Runner | `art/cards/s1_resurrect_003.webp` | `apps/shared/tcg-core/cards/definitions/insurgency/s1_resurrect_003_ghost_cell_runner.ts` | 408 candidates in folder |
-| `s1_zeal_003_oath_keeper` | Oath Keeper | `art/cards/s1_zeal_003.webp` | `apps/shared/tcg-core/cards/definitions/insurgency/s1_zeal_003_oath_keeper.ts` | 408 candidates in folder |
-| `burnt_card_placeholder` | The Burnt Card | `art/cards/burnt_card_placeholder.webp` | `apps/shared/tcg-core/cards/definitions/neutral/burnt_card_placeholder.ts` | 408 candidates in folder |
-| `gen_programmer` | The Programmer | `art/cards/gen_programmer.webp` | `apps/shared/tcg-core/cards/definitions/neutral/gen_programmer.ts` | 408 candidates in folder |
-| `gen_seer` | The Seer (visiting fellow) | `art/cards/gen_seer.webp` | `apps/shared/tcg-core/cards/definitions/neutral/gen_seer.ts` | 408 candidates in folder |
-| `card_locke_sworn_pen_title` | The Sworn Pen | `art/cards/card_locke_sworn_pen_title.webp` | `apps/shared/tcg-core/cards/definitions/neutral/house_oath_titles.ts` | 408 candidates in folder |
-| `card_thaloria_witness_title` | Witness of the Quiet Year | `art/cards/card_thaloria_witness_title.webp` | `apps/shared/tcg-core/cards/definitions/neutral/house_oath_titles.ts` | 408 candidates in folder |
-| `s1_resurrect_005_eternal_pilgrim` | Eternal Pilgrim | `art/cards/s1_resurrect_005.webp` | `apps/shared/tcg-core/cards/definitions/neutral/s1_resurrect_005_eternal_pilgrim.ts` | 408 candidates in folder |
-| `s1_blast_005_audit_artillery` | Audit Artillery | `art/cards/s1_blast_005.webp` | `apps/shared/tcg-core/cards/definitions/new_babylon/s1_blast_005_audit_artillery.ts` | 408 candidates in folder |
-| `s1_curve_005_compliance_watcher` | Compliance Watcher | `art/cards/s1_curve_005.webp` | `apps/shared/tcg-core/cards/definitions/new_babylon/s1_curve_005_compliance_watcher.ts` | 408 candidates in folder |
-| `s1_curve_010_sector_magistrate` | Sector Magistrate | `art/cards/s1_curve_010.webp` | `apps/shared/tcg-core/cards/definitions/new_babylon/s1_curve_010_sector_magistrate.ts` | 408 candidates in folder |
-| `s1_struct_004_audit_tower` | Audit Tower | `art/cards/s1_struct_004.webp` | `apps/shared/tcg-core/cards/definitions/new_babylon/s1_struct_004_audit_tower.ts` | 408 candidates in folder |
-| `s1_zeal_005_compliance_zealot` | Compliance Zealot | `art/cards/s1_zeal_005.webp` | `apps/shared/tcg-core/cards/definitions/new_babylon/s1_zeal_005_compliance_zealot.ts` | 408 candidates in folder |
-| `s1_resurrect_004_undying_witness` | Undying Witness | `art/cards/s1_resurrect_004.webp` | `apps/shared/tcg-core/cards/definitions/panopticon/s1_resurrect_004_undying_witness.ts` | 408 candidates in folder |
-| `s2_watcher_001` | The L. Signature | `art/cards/s2_watcher_001.webp` | `apps/shared/tcg-core/cards/definitions/panopticon/s2_watcher_001_l_signature.ts` | 408 candidates in folder |
-| `s2_watcher_002` | The Coordinator | `art/cards/s2_watcher_002.webp` | `apps/shared/tcg-core/cards/definitions/panopticon/s2_watcher_002_the_coordinators_dossier.ts` | 408 candidates in folder |
-| `s2_watcher_003` | Now You Are Ours | `art/cards/s2_watcher_003.webp` | `apps/shared/tcg-core/cards/definitions/panopticon/s2_watcher_003_now_you_are_ours.ts` | 408 candidates in folder |
-| `s1_race_demagi_01` | Demagi Footsoldier | `art/cards/race/s1_race_demagi_01.webp` | `apps/shared/tcg-core/cards/definitions/race/demagi.ts` | 15 candidates in folder |
-| `s1_race_demagi_02` | Demagi Corpse-Reader | `art/cards/race/s1_race_demagi_02.webp` | `apps/shared/tcg-core/cards/definitions/race/demagi.ts` | 15 candidates in folder |
-| `s1_race_demagi_03` | Xeth | `art/cards/race/s1_race_demagi_03.webp` | `apps/shared/tcg-core/cards/definitions/race/demagi.ts` | 15 candidates in folder |
-| `s1_race_human_01` | Ark Survivor | `art/cards/race/s1_race_human_01.webp` | `apps/shared/tcg-core/cards/definitions/race/human.ts` | 15 candidates in folder |
-| `s1_race_synthetic_03` | Chrome Archon | `art/cards/race/s1_race_synthetic_03.webp` | `apps/shared/tcg-core/cards/definitions/race/synthetic.ts` | 15 candidates in folder |
-| `s2_hierarchy_lord_master_of_rlyeh` | The Master of R | `art/cards/hierarchy/lord_master_of_rlyeh.webp` | `apps/shared/tcg-core/cards/definitions/s2_hierarchy/master_of_rlyeh.ts` | 4 candidates in folder |
-| `s1_blast_004_pyre_swarm` | Pyre Swarm | `art/cards/s1_blast_004.webp` | `apps/shared/tcg-core/cards/definitions/thought_virus/s1_blast_004_pyre_swarm.ts` | 408 candidates in folder |
-| `s1_resurrect_002_persistent_strain` | Persistent Strain | `art/cards/s1_resurrect_002.webp` | `apps/shared/tcg-core/cards/definitions/thought_virus/s1_resurrect_002_persistent_strain.ts` | 408 candidates in folder |
+| Card id | Card name | Broken | Top candidate | Alternates | Source |
+|---|---|---|---|---|---|
+| `s1_alleg_new_babylon_t1` | Babylonian Clerk | `art/cards/allegiance/s1_alleg_new_babylon_t1.webp` | `art/cards/allegiance/babylon_clerk_t1.webp` | — | `apps/shared/tcg-core/cards/definitions/allegiance/new_babylon.ts` |
+| `s1_alleg_new_babylon_t2` | Babylonian Magistrate | `art/cards/allegiance/s1_alleg_new_babylon_t2.webp` | `art/cards/allegiance/babylon_magistrate_t2.webp` | — | `apps/shared/tcg-core/cards/definitions/allegiance/new_babylon.ts` |
+| `s1_alleg_new_babylon_t4` | Babylonian Victorious Adjudicator | `art/cards/allegiance/s1_alleg_new_babylon_t4.webp` | `art/cards/allegiance/babylon_senator_t4.webp` | — | `apps/shared/tcg-core/cards/definitions/allegiance/new_babylon.ts` |
+| `s1_alleg_new_babylon_t5` | Babylonian Archon-Elect | `art/cards/allegiance/s1_alleg_new_babylon_t5.webp` | `art/cards/allegiance/babylon_governor_t5.webp` | — | `apps/shared/tcg-core/cards/definitions/allegiance/new_babylon.ts` |
+| `s1_class_engineer_05` | The Engineer | `art/cards/class/s1_class_engineer_05.webp` | `art/cards/class/engineers_apprentice.webp` | — | `apps/shared/tcg-core/cards/definitions/class/engineer.ts` |
+| `s1_class_oracle_05` | The Oracle | `art/cards/class/s1_class_oracle_05.webp` | `art/cards/class/oracles_unbroken_signal.webp` | — | `apps/shared/tcg-core/cards/definitions/class/oracle.ts` |
+| `s1_race_demagi_01` | Demagi Footsoldier | `art/cards/race/s1_race_demagi_01.webp` | `art/cards/race/demagi_foot_soldier.webp` | `art/cards/race/demagi_war_priest.webp`<br>`art/cards/race/demagi_xethraal_archlord.webp` | `apps/shared/tcg-core/cards/definitions/race/demagi.ts` |
+| `s1_race_demagi_02` | Demagi Corpse-Reader | `art/cards/race/s1_race_demagi_02.webp` | `art/cards/race/demagi_foot_soldier.webp` | `art/cards/race/demagi_war_priest.webp`<br>`art/cards/race/demagi_xethraal_archlord.webp` | `apps/shared/tcg-core/cards/definitions/race/demagi.ts` |
+| `s1_race_demagi_03` | Xeth | `art/cards/race/s1_race_demagi_03.webp` | `art/cards/race/demagi_xethraal_archlord.webp` | — | `apps/shared/tcg-core/cards/definitions/race/demagi.ts` |
+| `s1_race_human_01` | Ark Survivor | `art/cards/race/s1_race_human_01.webp` | `art/cards/race/human_citizen_of_atarion.webp` | `art/cards/race/human_final_potential.webp`<br>`art/cards/race/human_senate_legionary.webp` | `apps/shared/tcg-core/cards/definitions/race/human.ts` |
+| `s1_race_synthetic_03` | Chrome Archon | `art/cards/race/s1_race_synthetic_03.webp` | `art/cards/race/synthetic_loyal_instrument.webp` | `art/cards/race/synthetic_watchtower.webp`<br>`art/cards/race/synthetic_worker.webp` | `apps/shared/tcg-core/cards/definitions/race/synthetic.ts` |
 
+## Unmapped — commission required
+
+| Card id | Card name | Broken `art:` | Source |
+|---|---|---|---|
+| `s2_hierarchy_lord_master_of_rlyeh` | The Master of R | `art/cards/hierarchy/lord_master_of_rlyeh.webp` | `apps/shared/tcg-core/cards/definitions/s2_hierarchy/master_of_rlyeh.ts` |

@@ -22,7 +22,7 @@ export const cardDef: CardDefinition = {
   baseStats: { power: 1, health: 2 },
   keywords: [],
   abilities: [],
-  art: assetUrl("art/cards/s1_curve_001.webp"),
+  art: assetUrl("art/cards/antiquarian/era_mote.webp"),
   flavorText:
     "Smaller than the period at the end of an era. Heavier than its name.",
   rulesVersion: "1.1.0",

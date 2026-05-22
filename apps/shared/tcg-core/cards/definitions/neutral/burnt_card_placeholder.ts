@@ -36,7 +36,7 @@ export const cardDef: CardDefinition = {
   baseStats: { power: 1, health: 1 },
   keywords: [],
   abilities: [],
-  art: assetUrl("art/cards/burnt_card_placeholder.webp"),
+  art: assetUrl("art/cards/neutral/the_burnt_card.webp"),
   flavorText:
     "You found her staff on the bench. Inside the staff was this card. You remembered before she taught you how.",
   rulesVersion: "1.1.0",
