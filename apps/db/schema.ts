@@ -7544,6 +7544,48 @@ export const soulStones = mysqlTable("soul_stones", {
 export type SoulStonesRow = typeof soulStones.$inferSelect;
 
 /* ─────────────────────────────────────────────────────────────────
+ * PLAYER PREPARATION (docs/design/NEXUS_TRIAL_PLAN.md)
+ * The cumulative buff profile a player carries into the Nexus Trial
+ * (March 2027). Composed across November 2026 by passing the five
+ * Preparation Missions (Salvage / Reverse Trial / Tribunal: Elara /
+ * The Question / Bidding War). Read at hour 0 of the Trial by the
+ * Witnessing-weight calculator.
+ *
+ * One row per user (unique on userId). Default values mirror
+ * DEFAULT_PLAYER_PREPARATION_STATE in apps/shared/preparationMissions/
+ * registry.ts — keep both in sync.
+ * ───────────────────────────────────────────────────────────────── */
+export const playerPreparation = mysqlTable("player_preparation", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }).unique(),
+  /** Trial Witness Hand size. Baseline 5. Salvage recoveries grow it. */
+  witnessHandSize: int("witnessHandSize").notNull().default(5),
+  /** Reverse-Trial pass enables the +2-plays-per-turn buff on turns 1–3. */
+  filedBuff: boolean("filedBuff").notNull().default(false),
+  /** Elara's Tribunal pass — Confession-phase Elara-tally visible to the player. */
+  elaraConfessionVisibility: boolean("elaraConfessionVisibility").notNull().default(false),
+  /** The Question pass — 1.5× weight on confession-category card plays. */
+  humanConfessionWeight: int("humanConfessionWeight").notNull().default(100),
+  /** Bidding-War pledges. Record<factionId, multiplier×100>. */
+  factionMultipliers: json("factionMultipliers").$type<Record<string, number>>().notNull().default({}),
+  /** Salvage burnt-card recoveries — NPC ids. Bias ballot vote weight. */
+  recoveredBurntCardIds: json("recoveredBurntCardIds").$type<string[]>().notNull().default([]),
+  /** Bidding-War pledged card ids. Returned in Season 2 week 1. */
+  pledgedCardIds: json("pledgedCardIds").$type<string[]>().notNull().default([]),
+  /** Per-mission lifecycle. Mission ids → status. */
+  missionStatus: json("missionStatus").$type<Record<string, string>>().notNull().default({
+    salvage: "available",
+    reverse_trial: "locked",
+    tribunal_elara: "locked",
+    the_question: "locked",
+    bidding_war: "locked",
+  }),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull().onUpdateNow(),
+});
+export type PlayerPreparationRow = typeof playerPreparation.$inferSelect;
+
+/* ─────────────────────────────────────────────────────────────────
  * PET BREEDING (docs/archive/2026-05-08-superseded/BREEDING_SYSTEM_ART_PROMPTS.md)
  * Pair-based breeding: parentA + parentB → offspring with combined
  * traits. `status` walks queued → incubating → ready → claimed/cancelled.
