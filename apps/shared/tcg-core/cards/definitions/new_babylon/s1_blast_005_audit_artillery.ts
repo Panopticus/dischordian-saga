@@ -22,7 +22,7 @@ export const cardDef: CardDefinition = {
   baseStats: { power: 3, health: 5 },
   keywords: ["blast"],
   abilities: [],
-  art: assetUrl("art/cards/s1_blast_005.webp"),
+  art: assetUrl("art/cards/new_babylon/audit_artillery.webp"),
   flavorText:
     "Submit in triplicate. The triplicate is the row. The row is what we audit.",
   rulesVersion: "1.1.0",

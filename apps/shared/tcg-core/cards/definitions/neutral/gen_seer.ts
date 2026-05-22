@@ -38,7 +38,7 @@ export const cardDef: CardDefinition = {
   baseStats: { power: 3, health: 25 },
   keywords: [],
   abilities: [],
-  art: assetUrl("art/cards/gen_seer.webp"),
+  art: assetUrl("art/cards/neutral/the_seer_visiting_fellow.webp"),
   flavorText:
     "I will not raise my staff today. I want to see whether the bench has learned yet.",
   rulesVersion: "1.1.0",

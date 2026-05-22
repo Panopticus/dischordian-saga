@@ -1,0 +1,88 @@
+# CDN ↔ CODE AUDIT — SUMMARY
+
+CDN objects total:            12718  (31.14 GB)
+Static code references:        5767  (5511 distinct keys)
+  matched on CDN:              5257
+  missing from CDN:             254
+Orphans (CDN, unreferenced):   6016
+Dynamic (template) refs:         77
+
+## Other buckets referenced
+   2635  dgrsvoices  (2597 distinct paths)
+   2211  legacy-cloudfront  (1671 distinct paths)
+    154  dgrsart-root  (57 distinct paths)
+
+## By top-level prefix
+prefix                      in_cdn  matched  orphans  missing
+----------------------------------------------------------------
+" + m[1] + "                     0        0        0        1
+<path>                           0        0        0        1
+art                           9288     5062     2781      237
+audio                         2750      104     2646        8
+backgrounds                      1        1        0        0
+cabin-art                       43        0       43        0
+casino                          65        0       65        0
+characters                     146       15      131        0
+games                           24        2       22        0
+music                            6        6        0        1
+nilmorg-portraits                5        0        5        0
+page-backgrounds                12        0       12        0
+path                             0        0        0        1
+vfx-atlases                     21        0       21        0
+videos                         312       67      245        4
+vo                              45        0       45        0
+…                                0        0        0        1
+
+## Largest 20 orphans
+   426.10 MB  2026-05-20  videos/cinematics/planet_of_the_wolf/planet-of-the-wolf.mp4
+   407.07 MB  2026-05-09  videos/openings/welcome-to-celebration/shot1.mp4
+   346.04 MB  2026-05-20  videos/cinematics/necromancers_lair/necromancers-lair.mp4
+   346.04 MB  2026-05-14  videos/transmissions/the-necromancers-lair.mp4
+   172.41 MB  2026-05-20  videos/cinematics/syndicate_of_death/syndicate-of-death.mp4
+    56.60 MB  2026-05-10  videos/dlc_mystery/y1q4_witness_plaza/dlc_y1q4_witness_plaza.mp4
+    50.80 MB  2026-05-10  videos/fight-intros/ch20_conexus_complete.mp4
+    49.59 MB  2026-04-22  videos/epochs/epoch-0/the-prisoner.mp4
+    46.00 MB  2026-05-20  videos/cinematics/lord_kanshi_sha/lord-kanshi-sha.mp4
+    44.15 MB  2026-05-10  videos/dlc_mystery/y2q1_charter_schism/dlc_y2q1_charter_schism.mp4
+    38.98 MB  2026-05-10  videos/fight-intros/ch14_source_complete.mp4
+    37.69 MB  2026-05-18  games/cades-fps/index.wasm
+    37.69 MB  2026-04-24  games/circuit/index.wasm
+    36.12 MB  2026-05-10  videos/dlc_mystery/y1q2_pale_inheritance/dlc_y1q2_pale_inheritance.mp4
+    33.96 MB  2026-05-10  videos/fight-intros/ch18_agent_zero_complete.mp4
+    30.70 MB  2026-05-01  videos/title/the-dischordia-opening.mp4
+    30.42 MB  2026-05-10  videos/fight-intros/ch10_human_complete.mp4
+    29.57 MB  2026-05-10  videos/dlc_mystery/y1q1_first_charter/dlc_y1q1_first_charter.mp4
+    28.58 MB  2026-05-10  videos/guild-cutscenes/f4_abilities/cs_sig_11_dark.mp4
+    28.50 MB  2026-05-10  videos/fight-intros/ch16_ironlion_rematch_complete.mp4
+
+## Top 30 missing (most-cited)
+    8x  art/rooms/
+    3x  art/cards/allegiance/s1_alleg_architect_t1.webp
+    3x  videos/title/...
+    2x  art/recruits/akai_shi_base.webp
+    2x  art/recruits/akai_shi_considered.webp
+    2x  art/recruits/akai_shi_neutral.webp
+    2x  art/recruits/akai_shi_warm.webp
+    2x  art/recruits/akai_shi_wary.webp
+    2x  art/recruits/jericho_jones_base.webp
+    2x  art/recruits/jericho_jones_considered.webp
+    2x  art/recruits/jericho_jones_neutral.webp
+    2x  art/recruits/jericho_jones_warm.webp
+    2x  art/recruits/jericho_jones_wary.webp
+    2x  art/recruits/vex_solene_base.webp
+    2x  art/recruits/vex_solene_considered.webp
+    2x  art/recruits/vex_solene_neutral.webp
+    2x  art/recruits/vex_solene_warm.webp
+    2x  art/recruits/vex_solene_wary.webp
+    2x  art/recruits/wraith_calder_base.webp
+    2x  art/recruits/wraith_calder_considered.webp
+    2x  art/recruits/wraith_calder_neutral.webp
+    2x  art/recruits/wraith_calder_warm.webp
+    2x  art/recruits/wraith_calder_wary.webp
+    2x  art/roadmap/
+    2x  art/rooms/mystery-states
+    2x  art/seasonal/
+    2x  art/story-icons/
+    2x  art/vfx/
+    1x  " + m[1] + "
+    1x  <path>

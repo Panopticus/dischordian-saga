@@ -21,7 +21,7 @@ export const cardDef: CardDefinition = {
   baseStats: { power: 3, health: 8 },
   keywords: ["structure"],
   abilities: [],
-  art: assetUrl("art/cards/s1_struct_004.webp"),
+  art: assetUrl("art/cards/new_babylon/audit_tower.webp"),
   flavorText:
     "There is a form for that. There is also a tower for that. Submit in triplicate.",
   rulesVersion: "1.1.0",

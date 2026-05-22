@@ -22,7 +22,7 @@ export const cardDef: CardDefinition = {
   baseStats: { power: 2, health: 4 },
   keywords: ["blast"],
   abilities: [],
-  art: assetUrl("art/cards/s1_blast_003.webp"),
+  art: assetUrl("art/cards/insurgency/strafe_runner.webp"),
   flavorText:
     "I do not choose who is in the row. The row is the choice.",
   rulesVersion: "1.1.0",

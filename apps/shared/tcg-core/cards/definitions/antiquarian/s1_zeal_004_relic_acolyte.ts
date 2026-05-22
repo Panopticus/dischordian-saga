@@ -25,7 +25,7 @@ export const cardDef: CardDefinition = {
   baseStats: { power: 1, health: 3 },
   keywords: ["zeal"],
   abilities: [],
-  art: assetUrl("art/cards/s1_zeal_004.webp"),
+  art: assetUrl("art/cards/antiquarian/relic_acolyte.webp"),
   flavorText:
     "Every relic was once a tool. Then a question. Then this acolyte, who has outlived all three.",
   rulesVersion: "1.1.0",

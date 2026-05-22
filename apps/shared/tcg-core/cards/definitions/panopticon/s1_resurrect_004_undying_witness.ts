@@ -20,7 +20,7 @@ export const cardDef: CardDefinition = {
   baseStats: { power: 4, health: 5 },
   keywords: ["resurrect"],
   abilities: [],
-  art: assetUrl("art/cards/s1_resurrect_004.webp"),
+  art: assetUrl("art/cards/panopticon/undying_witness.webp"),
   flavorText:
     "The eye does not blink. Even when struck. Especially when struck.",
   rulesVersion: "1.1.0",

@@ -21,7 +21,7 @@ export const cardDef: CardDefinition = {
   baseStats: { power: 3, health: 6 },
   keywords: [],
   abilities: [],
-  art: assetUrl("art/cards/s1_curve_008.webp"),
+  art: assetUrl("art/cards/dreamer/vision_anchor.webp"),
   flavorText:
     "The dream moves around her. She does not. That is the whole job.",
   rulesVersion: "1.1.0",

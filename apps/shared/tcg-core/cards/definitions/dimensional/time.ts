@@ -18,7 +18,7 @@ export const time_01: CardDefinition = {
   baseStats: { power: 1, health: 4 },
   keywords: ["grow"],
   abilities: [],
-  art: assetUrl("art/cards/dimension/s1_dim_time_01.webp"),
+  art: assetUrl("art/cards/dimension/moment_keeper.webp"),
   flavorText:
     "Grow. The Moment Keeper takes the moment the opponent was not using and files it. She gets larger the longer anybody forgets she is there.",
   rulesVersion: "1.1.0",
@@ -40,7 +40,7 @@ export const time_02: CardDefinition = {
   baseStats: { power: 2, health: 3 },
   keywords: ["grow", "rebirth"],
   abilities: [],
-  art: assetUrl("art/cards/dimension/s1_dim_time_02.webp"),
+  art: assetUrl("art/cards/dimension/loop_walker.webp"),
   flavorText:
     "Grow. Rebirth. The Loop Walker dies and walks out of the same door he walked in, which is the one over there that you are looking at right now.",
   rulesVersion: "1.1.0",
@@ -62,7 +62,7 @@ export const time_03: CardDefinition = {
   baseStats: { power: 4, health: 7 },
   keywords: ["grow", "rebirth", "forcefield"],
   abilities: [],
-  art: assetUrl("art/cards/dimension/s1_dim_time_03.webp"),
+  art: assetUrl("art/cards/dimension/hour_unmaker.webp"),
   flavorText:
     "Grow. Rebirth. Forcefield. The Hour-Unmaker has a list of hours that nobody has yet agreed to spend, and he is spending them on the match you are playing. The match is taking longer on his side than yours.",
   rulesVersion: "1.1.0",

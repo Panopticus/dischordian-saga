@@ -38,7 +38,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: assetUrl("art/cards/s2_watcher_003.webp"),
+  art: assetUrl("art/cards/panopticon/now_you_are_ours.webp"),
   flavorText:
     "You have been useful. You have been quiet. You have been mine. Now you are ours, if you wish.",
   rulesVersion: "1.1.0",

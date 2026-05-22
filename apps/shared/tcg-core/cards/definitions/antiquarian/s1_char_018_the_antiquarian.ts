@@ -97,7 +97,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: assetUrl("art/cards/s1_char_018_the_antiquarian.webp"),
+  art: assetUrl("art/cards/antiquarian/the_antiquarian.webp"),
   flavorText:
     "Throughout the cataclysm and the epochs that followed, he retreated into a hidden pocket dimension — a refuge woven from stolen time.",
   rulesVersion: "1.1.0",

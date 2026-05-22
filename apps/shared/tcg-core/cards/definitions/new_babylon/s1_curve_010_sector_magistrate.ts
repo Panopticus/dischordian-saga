@@ -22,7 +22,7 @@ export const cardDef: CardDefinition = {
   baseStats: { power: 4, health: 5 },
   keywords: [],
   abilities: [],
-  art: assetUrl("art/cards/s1_curve_010.webp"),
+  art: assetUrl("art/cards/new_babylon/sector_magistrate.webp"),
   flavorText:
     "Her seal is heavier than her sidearm. The seal does most of the work. The sidearm does the rest.",
   rulesVersion: "1.1.0",

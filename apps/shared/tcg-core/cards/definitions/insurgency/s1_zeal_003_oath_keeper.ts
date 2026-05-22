@@ -25,7 +25,7 @@ export const cardDef: CardDefinition = {
   baseStats: { power: 3, health: 5 },
   keywords: ["zeal"],
   abilities: [],
-  art: assetUrl("art/cards/s1_zeal_003.webp"),
+  art: assetUrl("art/cards/insurgency/oath_keeper.webp"),
   flavorText:
     "We outlast every framework that names us. She names me. I outlast.",
   rulesVersion: "1.1.0",

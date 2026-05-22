@@ -21,7 +21,7 @@ export const cardDef: CardDefinition = {
   baseStats: { power: 3, health: 4 },
   keywords: ["resurrect", "rush"],
   abilities: [],
-  art: assetUrl("art/cards/s1_resurrect_003.webp"),
+  art: assetUrl("art/cards/insurgency/ghost_cell_runner.webp"),
   flavorText:
     "We were here before the maps. We are here after them. The runner does not stay dead because the cell does not stay caught.",
   rulesVersion: "1.1.0",

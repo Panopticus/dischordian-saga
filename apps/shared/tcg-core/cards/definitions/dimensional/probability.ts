@@ -26,7 +26,7 @@ export const prob_01: CardDefinition = {
       effect: { op: "draw", amount: { kind: "const", value: 1 }, who: "self" },
     },
   ],
-  art: assetUrl("art/cards/dimension/s1_dim_prob_01.webp"),
+  art: assetUrl("art/cards/dimension/outcome_gambler.webp"),
   flavorText:
     "On deploy, draw 1. Every card the Outcome Gambler draws is a card she had already bet on before the match started.",
   rulesVersion: "1.1.0",
@@ -49,7 +49,7 @@ export const prob_02: CardDefinition = {
       effect: { op: "draw", amount: { kind: "const", value: 3 }, who: "self" },
     },
   ],
-  art: assetUrl("art/cards/dimension/s1_dim_prob_02.webp"),
+  art: assetUrl("art/cards/dimension/bayes_adept.webp"),
   flavorText:
     "Draw 3. A Bayes Adept updates her priors in public and you can watch the update happen in real time, which is terrifying.",
   rulesVersion: "1.1.0",
@@ -78,7 +78,7 @@ export const prob_03: CardDefinition = {
       effect: { op: "gain_mana", amount: { kind: "const", value: 2 }, permanent: false },
     },
   ],
-  art: assetUrl("art/cards/dimension/s1_dim_prob_03.webp"),
+  art: assetUrl("art/cards/dimension/sum_over_histories.webp"),
   flavorText:
     "Flying. Dispel. On deploy, draw 3 and gain 2 mana this turn. The Sum Over Histories is the only entity in the Saga who has seen every possible version of this match play out. She is kind about it. She does not tell you which version you are in.",
   rulesVersion: "1.1.0",

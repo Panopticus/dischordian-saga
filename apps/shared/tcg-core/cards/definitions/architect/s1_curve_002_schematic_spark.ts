@@ -21,7 +21,7 @@ export const cardDef: CardDefinition = {
   baseStats: { power: 2, health: 1 },
   keywords: [],
   abilities: [],
-  art: assetUrl("art/cards/s1_curve_002.webp"),
+  art: assetUrl("art/cards/architect/schematic_spark.webp"),
   flavorText:
     "The schematic does not waste a stroke. Neither does the spark.",
   rulesVersion: "1.1.0",

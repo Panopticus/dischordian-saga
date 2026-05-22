@@ -27,7 +27,7 @@ export const card_locke_sworn_pen_title: CardDefinition = {
   baseStats: { power: 1, health: 1 },
   keywords: [],
   abilities: [],
-  art: assetUrl("art/cards/card_locke_sworn_pen_title.webp"),
+  art: assetUrl("art/cards/neutral/the_sworn_pen.webp"),
   flavorText:
     "The Authority's Ledger inks your name in red crystal. The pen is sworn. Six minds in coffins read the registry every cycle.",
   rulesVersion: "1.1.0",
@@ -53,7 +53,7 @@ export const card_thaloria_witness_title: CardDefinition = {
   baseStats: { power: 1, health: 1 },
   keywords: [],
   abilities: [],
-  art: assetUrl("art/cards/card_thaloria_witness_title.webp"),
+  art: assetUrl("art/cards/neutral/witness_of_the_quiet_year.webp"),
   flavorText:
     "The Council of Harmony permits you to be present. Not a position; a permission. The silence outlived the year.",
   rulesVersion: "1.1.0",
