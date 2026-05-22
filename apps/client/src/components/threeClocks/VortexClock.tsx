@@ -9,6 +9,7 @@
    docs/design/NEXUS_TRIAL_PLAN.md → Three Clocks Panel UI
    ═══════════════════════════════════════════════════════ */
 
+import { motion, useReducedMotion } from "framer-motion";
 import type { VortexClockState } from "@shared/threeClocks/state";
 
 const PHASE_LABEL: Record<VortexClockState["phase"], string> = {
@@ -33,6 +34,7 @@ const PHASE_TOKEN: Record<VortexClockState["phase"], string> = {
 };
 
 export function VortexClock({ state }: { state: VortexClockState }) {
+  const reduceMotion = useReducedMotion();
   return (
     <section
       data-component="vortex-clock"
@@ -59,9 +61,15 @@ export function VortexClock({ state }: { state: VortexClockState }) {
         aria-valuemax={100}
         aria-valuenow={state.proximity}
       >
-        <div
-          className="absolute inset-y-0 left-0 void-bg-error void-transition-base"
-          style={{ width: `${state.proximity}%` }}
+        <motion.div
+          className="absolute inset-y-0 left-0 void-bg-error"
+          initial={false}
+          animate={{ width: `${state.proximity}%` }}
+          transition={
+            reduceMotion
+              ? { duration: 0 }
+              : { type: "tween", duration: 0.6, ease: "easeOut" }
+          }
           data-meter="proximity"
         />
       </div>
