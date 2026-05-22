@@ -24,6 +24,7 @@ import ScrollIndicator from "@/components/ScrollIndicator";
 import PageMeta from "@/components/PageMeta";
 import { CorruptibleBio } from "@/components/CorruptibleBio";
 import { RedactedLoredexEntry } from "@/components/RedactedLoredexEntry";
+import ThreeClocksPanel from "@/components/threeClocks/ThreeClocksPanel";
 import { useLivingUniverse } from "@/hooks/useDailyBrief";
 
 /* ─── BOOT SEQUENCE ─── */
@@ -645,6 +646,11 @@ export default function Home() {
       {/* ═══ DECISION DECK — Today's actionable cards ═══ */}
       <div className="px-4 pt-4">
         <DecisionDeck />
+      </div>
+
+      {/* ═══ THREE CLOCKS — Vortex / Necromancer / Politician ═══ */}
+      <div className="px-4 pt-4">
+        <ThreeClocksPanel />
       </div>
 
       {/* ═══ QUICK ACTIONS — Horizontal scroll pills ═══ */}
