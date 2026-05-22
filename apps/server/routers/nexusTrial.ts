@@ -30,6 +30,7 @@ import {
 } from "../services/nexusTrialTickService";
 import { getLeaderboard } from "../services/nexusTrialResolverService";
 import { cardBuckets } from "@shared/nexusTrial/buckets";
+import { getPermadeathStore } from "@shared/resurrectionProtocols";
 
 /** Compose the idempotency key from the client-supplied tuple.
  *  Exposed for tests + the client's optimistic-update logic. */
@@ -140,5 +141,25 @@ export const nexusTrialRouter = router({
     if (!trial) return { available: false as const, entries: [] };
     const entries = await getLeaderboard(trial);
     return { available: true as const, entries };
+  }),
+
+  /** List the NPCs whose resurrection the Protocol has refused. Card
+   *  views consume this to swap their art for the burnt-card variant
+   *  per the plan's Pre-Authored Final-Death Cinematics section: at
+   *  Verdict close, Locke + the ballot winner flip permadead and
+   *  their cards burn in every player's collection.
+   *
+   *  Returns an array of npcKey + finalNarration so callers can render
+   *  the burnt-card variant's flavor text from the canonical line. */
+  permadeath: publicProcedure.query(async () => {
+    const store = getPermadeathStore();
+    return {
+      entries: store.listPermadead().map((e) => ({
+        npcKey: e.npcKey,
+        source: e.reason.source,
+        finalNarration: e.reason.finalNarration,
+        recordedAt: e.reason.recordedAt,
+      })),
+    };
   }),
 });
