@@ -243,6 +243,7 @@ apps/client/src/components/prelude/vfx/ui/ChoicePillarLightDark.tsx
 apps/client/src/components/prelude/vfx/ui/InboxEnvelopeUnfold.tsx
 apps/client/src/components/prelude/vfx/ui/InboxSentenceBloom.tsx
 apps/client/src/components/prelude/witnessingTarotHotspot.ts
+apps/client/src/components/nexusTrial/CinematicPlayer.tsx
 apps/client/src/components/threeClocks/NecromancerClock.tsx
 apps/client/src/components/threeClocks/PoliticianClock.tsx
 apps/client/src/components/threeClocks/ThreeClocksPanel.tsx
