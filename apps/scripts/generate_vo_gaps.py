@@ -218,19 +218,32 @@ APPRENTICE_ARCHETYPES = [
     "prodigal", "revenant", "scholar", "sentinel", "wanderer", "zealot",
 ]
 APPRENTICE_VOICE_MAP: dict[str, str] = {
-    "apprentice_artisan_female":  "xcaGXUiuDthc4Ct1ierk",
-    "apprentice_artisan_male":    "j0BH5nbZqg2yMqlOj0Yy",
-    "apprentice_ghost_female":    "5h1zEU9BtNv7ULblG5d5",
-    "apprentice_ghost_male":      "VHcmyPq978eI2HDbYrN2",
-    "apprentice_heretic_female":  "gzbkOWL1CcQf8QMWedf6",
-    "apprentice_heretic_male":    "jg760ye7BuN40jqa3vt8",
-    "apprentice_jester_female":   "md03QNdrD3dsATM3P8cv",
-    "apprentice_jester_male":     "uG6mRLiyfs3EcbzfGLPW",
-    "apprentice_martyr_female":   "bmemLtm5Q1Q2NyCgZTHh",
-    "apprentice_martyr_male":     "vFVmFkT4waUKWbDqPeec",
-    "apprentice_oracle_female":   "8n6ojRHYPcegteWiN7vL",
-    "apprentice_oracle_male":     "kHJZXYhnPDBuGNNtyaqC",
-    # Add more (archetype, gender) → voice id rows here as casting lands.
+    "apprentice_artisan_female":   "xcaGXUiuDthc4Ct1ierk",
+    "apprentice_artisan_male":     "j0BH5nbZqg2yMqlOj0Yy",
+    "apprentice_ghost_female":     "5h1zEU9BtNv7ULblG5d5",
+    "apprentice_ghost_male":       "VHcmyPq978eI2HDbYrN2",
+    "apprentice_heretic_female":   "gzbkOWL1CcQf8QMWedf6",
+    "apprentice_heretic_male":     "jg760ye7BuN40jqa3vt8",
+    "apprentice_jester_female":    "md03QNdrD3dsATM3P8cv",
+    "apprentice_jester_male":      "uG6mRLiyfs3EcbzfGLPW",
+    "apprentice_martyr_female":    "bmemLtm5Q1Q2NyCgZTHh",
+    "apprentice_martyr_male":      "vFVmFkT4waUKWbDqPeec",
+    "apprentice_oracle_female":    "8n6ojRHYPcegteWiN7vL",
+    "apprentice_oracle_male":      "kHJZXYhnPDBuGNNtyaqC",
+    "apprentice_prodigal_female":  "3AueIPflpGWFVHLmeELs",
+    "apprentice_prodigal_male":    "slWPGCoUrCP7iQnED7FU",
+    "apprentice_revenant_female":  "nNhqN5ffZExg1ZxAyBzn",
+    "apprentice_revenant_male":    "XumMLB8cjaNYPhdBoTTL",
+    "apprentice_scholar_female":   "OxO0YlIfndGq04NU8W8Z",
+    "apprentice_scholar_male":     "gbZb8tR0qcJCwZs0ucpk",
+    "apprentice_sentinel_female":  "HWGPOyrwIzlpSmBi0COP",
+    "apprentice_sentinel_male":    "K41xXfuEqvhZvJcidOk2",
+    "apprentice_wanderer_female":  "SZE7kLr0elYLWlKkfpmW",
+    "apprentice_wanderer_male":    "KZIgaMgM6cETHXbkJJ96",
+    "apprentice_zealot_female":    "n7HG8UDLfSQiaVofv2U7",
+    "apprentice_zealot_male":      "FXBXSivN5dZPw07XsO17",
+    # All 24 (archetype, gender) pairs are now cast — apprentice
+    # roster fully covered.
 }
 for arch in APPRENTICE_ARCHETYPES:
     for gender in ("female", "male"):
