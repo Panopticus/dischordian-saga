@@ -388,5 +388,12 @@
     "trigger": "track_37_completes",
     "partner": "the_degen",
     "file": "shared/npcCompanionExtensions.ts"
+  },
+  {
+    "id": "feature_crew_breeding",
+    "character": "npc_the_resurrectionist",
+    "text": "Your crew has reached maturity. The bloodlines can continue. Children inherit their parents' strengths — and weaknesses.",
+    "bucket": "feature_unlock",
+    "file": "client/src/components/FeatureUnlockToast.tsx"
   }
 ]

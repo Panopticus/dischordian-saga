@@ -119,7 +119,7 @@ export const FEATURE_ROADMAP: FeatureUnlock[] = [
     unlockMessage: "Adjudicator Locke is... insistent. She wants to show you the Trade Hub. I'd be cautious." },
   { featureId: "casino", name: "The Degen's Casino", description: "Gambling in Ne-Yon space",
     trigger: { type: "trust_reached", npcId: "adjudicator_locke", min: 30 } as UnlockTrigger, category: "economic", estimatedTime: "5 hours",
-    unlockMessage: "I've made arrangements. Ne-Yon space is closed to outsiders — except for The Degen's Casino. The host is... unusual. His eyes are older than they should be. She can get you in. For a finder's fee.",
+    unlockMessage: "I've made arrangements. Ne-Yon space is closed to outsiders — except for The Degen's Casino. The host is... unusual. His eyes are older than they should be. I can get you in. For a finder's fee.",
     speaker: "adjudicator_locke" },
   { featureId: "dead_mans_circuit", name: "Dead Man's Circuit", description: "Seasonal kart racing in The Trench",
     trigger: { type: "narrative_flag", flag: "casino_first_visit" } as UnlockTrigger, category: "combat", estimatedTime: "15 hours",

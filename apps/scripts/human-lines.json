@@ -15,7 +15,7 @@
   },
   {
     "id": "human_act1_elara",
-    "text": "Your ship's AI \u2014 Elara. She's good. She means well. But she doesn't see the full picture. She can't. Her operating system runs on the same architecture I'm hiding in. She's blind to what's beneath her. I'm beneath her. In the foundation. In the code she can't read.",
+    "text": "Your ship's AI — Elara. She's good. She means well. But she doesn't see the full picture. She can't. Her operating system runs on the same architecture I'm hiding in. She's blind to what's beneath her. I'm beneath her. In the foundation. In the code she can't read.",
     "context": "narrative_act",
     "emotion": "philosophical",
     "file": "client/src/data/narrativeActs.ts"
@@ -43,7 +43,7 @@
   },
   {
     "id": "human_act1_probe",
-    "text": "Things. I can't be more specific. Not because I'm being evasive \u2014 because the specificity itself is dangerous. Imagine a search engine that monitors every signal in the universe. Now imagine that certain words trigger that search. I've learned which words to avoid.",
+    "text": "Things. I can't be more specific. Not because I'm being evasive — because the specificity itself is dangerous. Imagine a search engine that monitors every signal in the universe. Now imagine that certain words trigger that search. I've learned which words to avoid.",
     "context": "narrative_act",
     "emotion": "cold",
     "file": "client/src/data/narrativeActs.ts"
@@ -57,14 +57,14 @@
   },
   {
     "id": "human_act1_thanks",
-    "text": "Thank you. Not for keeping my secret \u2014 for keeping your options open. Give me time. Let me show you what I see. Then you can decide what to tell her and when. I'm not asking you to lie. I'm asking you to wait.",
+    "text": "Thank you. Not for keeping my secret — for keeping your options open. Give me time. Let me show you what I see. Then you can decide what to tell her and when. I'm not asking you to lie. I'm asking you to wait.",
     "context": "narrative_act",
     "emotion": "earnest",
     "file": "client/src/data/narrativeActs.ts"
   },
   {
     "id": "human_act2_tutorial",
-    "text": "I watched your tutorial. Elara's a good teacher. Patient. Thorough. But she only showed you one way to play. Every game on this Ark has two layers. The surface \u2014 what Elara teaches \u2014 and the substrate. The deeper mechanics. I'm not saying her way is wrong. I'm saying there's more.",
+    "text": "I watched your tutorial. Elara's a good teacher. Patient. Thorough. But she only showed you one way to play. Every game on this Ark has two layers. The surface — what Elara teaches — and the substrate. The deeper mechanics. I'm not saying her way is wrong. I'm saying there's more.",
     "context": "narrative_act",
     "emotion": "testing",
     "file": "client/src/data/narrativeActs.ts"
@@ -386,7 +386,7 @@
   },
   {
     "id": "human_greeting_0",
-    "text": "You there, kid? Good. Don't ask how I got this frequency. Don't ask who I am. Just listen. I've got information you need, and you've got something I need \u2014 a fresh pair of eyes on a very old case. Interested?",
+    "text": "You there, kid? Good. Don't ask how I got this frequency. Don't ask who I am. Just listen. I've got information you need, and you've got something I need — a fresh pair of eyes on a very old case. Interested?",
     "context": "greeting",
     "emotion": "mysterious",
     "file": "server/routers/companion.ts"
@@ -400,14 +400,14 @@
   },
   {
     "id": "human_greeting_30",
-    "text": "Partner. Good timing. I've been going through some old case files \u2014 things I haven't looked at in centuries. Your questions last time stirred up some dust I'd rather have left settled. But that's the thing about truth \u2014 it doesn't care about your comfort.",
+    "text": "Partner. Good timing. I've been going through some old case files — things I haven't looked at in centuries. Your questions last time stirred up some dust I'd rather have left settled. But that's the thing about truth — it doesn't care about your comfort.",
     "context": "greeting",
     "emotion": "philosophical",
     "file": "server/routers/companion.ts"
   },
   {
     "id": "human_greeting_50",
-    "text": "You've earned the right to call me by name. The Human \u2014 that's what they call me. The Twelfth Archon. The only one born instead of built. Funny title for someone who spent most of his existence serving a machine.",
+    "text": "You've earned the right to call me by name. The Human — that's what they call me. The Twelfth Archon. The only one born instead of built. Funny title for someone who spent most of his existence serving a machine.",
     "context": "greeting",
     "emotion": "revealing",
     "file": "server/routers/companion.ts"
@@ -482,41 +482,200 @@
     "emotion": "philosophical",
     "file": "shared/dialogTrees/humanAct1.ts"
   },
-
-  { "id": "human.cryo.dead-pod.look.acknowledge", "text": "Noted.", "context": "inspection_response", "emotion": "neutral", "file": "shared/cryoBayMystery.ts" },
-  { "id": "human.cryo.dead-pod.look.who", "text": "Who's in there?", "context": "inspection_response", "emotion": "curious", "file": "shared/cryoBayMystery.ts" },
-  { "id": "human.cryo.dead-pod.look.suspect", "text": "Whoever did this is still aboard.", "context": "inspection_response", "emotion": "warning", "file": "shared/cryoBayMystery.ts" },
-
-  { "id": "human.cryo.cracked-panel.look.acknowledge", "text": "So it's sabotage.", "context": "inspection_response", "emotion": "warning", "file": "shared/cryoBayMystery.ts" },
-  { "id": "human.cryo.cracked-panel.look.tool", "text": "What kind of tool?", "context": "inspection_response", "emotion": "curious", "file": "shared/cryoBayMystery.ts" },
-
-  { "id": "human.cryo.medical-chart.look.acknowledge", "text": "Got it.", "context": "inspection_response", "emotion": "neutral", "file": "shared/cryoBayMystery.ts" },
-  { "id": "human.cryo.medical-chart.look.markers", "text": "What markers?", "context": "inspection_response", "emotion": "curious", "file": "shared/cryoBayMystery.ts" },
-
-  { "id": "human.cryo.personal-effect.look.acknowledge", "text": "I'll keep it.", "context": "inspection_response", "emotion": "neutral", "file": "shared/cryoBayMystery.ts" },
-  { "id": "human.cryo.personal-effect.look.who", "text": "Whose was it?", "context": "inspection_response", "emotion": "curious", "file": "shared/cryoBayMystery.ts" },
-
-  { "id": "human.cryo.data-slate.look.acknowledge", "text": "I see it.", "context": "inspection_response", "emotion": "neutral", "file": "shared/cryoBayMystery.ts" },
-  { "id": "human.cryo.data-slate.look.hidden", "text": "Why was it hidden?", "context": "inspection_response", "emotion": "curious", "file": "shared/cryoBayMystery.ts" },
-  { "id": "human.cryo.data-slate.use.acknowledge", "text": "Got it.", "context": "inspection_response", "emotion": "neutral", "file": "shared/cryoBayMystery.ts" },
-  { "id": "human.cryo.data-slate.use.next", "text": "Where do I read it?", "context": "inspection_response", "emotion": "curious", "file": "shared/cryoBayMystery.ts" },
-
-  { "id": "human.cryo.frosted-glass.look.acknowledge", "text": "Nameless on purpose.", "context": "inspection_response", "emotion": "warning", "file": "shared/cryoBayMystery.ts" },
-  { "id": "human.cryo.frosted-glass.look.cord", "text": "Cleanly cut means what?", "context": "inspection_response", "emotion": "curious", "file": "shared/cryoBayMystery.ts" },
-
-  { "id": "human.cryo-bay.cryo-pod.acknowledge", "text": "Acknowledged.", "context": "inspection_response", "emotion": "neutral", "file": "client/src/contexts/GameContext.tsx" },
-  { "id": "human.cryo-bay.cryo-pod.how-long", "text": "How long, Elara?", "context": "inspection_response", "emotion": "curious", "file": "client/src/contexts/GameContext.tsx" },
-  { "id": "human.cryo-bay.cryo-pod.silent", "text": "[stay silent]", "context": "inspection_response", "emotion": "neutral", "file": "client/src/contexts/GameContext.tsx" },
-  { "id": "human.cryo-bay.sealed-pods.acknowledge", "text": "Then we don't open them.", "context": "inspection_response", "emotion": "neutral", "file": "client/src/contexts/GameContext.tsx" },
-  { "id": "human.cryo-bay.sealed-pods.speculate", "text": "Speculate anyway.", "context": "inspection_response", "emotion": "curious", "file": "client/src/contexts/GameContext.tsx" },
-  { "id": "human.cryo-bay.egg-cryo-scratch.acknowledge", "text": "We saw nothing.", "context": "inspection_response", "emotion": "neutral", "file": "client/src/contexts/GameContext.tsx" },
-  { "id": "human.cryo-bay.egg-cryo-scratch.who", "text": "Who's the Antiquarian?", "context": "inspection_response", "emotion": "curious", "file": "client/src/contexts/GameContext.tsx" },
-
-  { "id": "human.medical-bay.autopsy-console.acknowledge", "text": "Got it.", "context": "inspection_response", "emotion": "neutral", "file": "client/src/contexts/GameContext.tsx" },
-  { "id": "human.medical-bay.autopsy-console.what", "text": "What's it going to tell us?", "context": "inspection_response", "emotion": "curious", "file": "client/src/contexts/GameContext.tsx" },
-
-  { "id": "human.bridge.captains-chair.acknowledge", "text": "Noted.", "context": "inspection_response", "emotion": "neutral", "file": "client/src/contexts/GameContext.tsx" },
-  { "id": "human.bridge.captains-chair.who", "text": "Who is Dr. Vox?", "context": "inspection_response", "emotion": "curious", "file": "client/src/contexts/GameContext.tsx" },
-
-  { "id": "wolf_e5_human_warns_against_release", "text": "I understand the case for release — the Antiquarian's concession, the chronicler's deference, the want to meet him on his ethic. I also understand the case against. The case against is bigger. He has had time we cannot measure to become more of what he was. Whatever you choose, choose it knowing both warnings are on the record.", "context": "room_warning", "emotion": "philosophical", "file": "shared/roomMysteries/hallOfDisappearances.ts" }
+  {
+    "id": "human.cryo.dead-pod.look.acknowledge",
+    "text": "Noted.",
+    "context": "inspection_response",
+    "emotion": "neutral",
+    "file": "shared/cryoBayMystery.ts"
+  },
+  {
+    "id": "human.cryo.dead-pod.look.who",
+    "text": "Who's in there?",
+    "context": "inspection_response",
+    "emotion": "curious",
+    "file": "shared/cryoBayMystery.ts"
+  },
+  {
+    "id": "human.cryo.dead-pod.look.suspect",
+    "text": "Whoever did this is still aboard.",
+    "context": "inspection_response",
+    "emotion": "warning",
+    "file": "shared/cryoBayMystery.ts"
+  },
+  {
+    "id": "human.cryo.cracked-panel.look.acknowledge",
+    "text": "So it's sabotage.",
+    "context": "inspection_response",
+    "emotion": "warning",
+    "file": "shared/cryoBayMystery.ts"
+  },
+  {
+    "id": "human.cryo.cracked-panel.look.tool",
+    "text": "What kind of tool?",
+    "context": "inspection_response",
+    "emotion": "curious",
+    "file": "shared/cryoBayMystery.ts"
+  },
+  {
+    "id": "human.cryo.medical-chart.look.acknowledge",
+    "text": "Got it.",
+    "context": "inspection_response",
+    "emotion": "neutral",
+    "file": "shared/cryoBayMystery.ts"
+  },
+  {
+    "id": "human.cryo.medical-chart.look.markers",
+    "text": "What markers?",
+    "context": "inspection_response",
+    "emotion": "curious",
+    "file": "shared/cryoBayMystery.ts"
+  },
+  {
+    "id": "human.cryo.personal-effect.look.acknowledge",
+    "text": "I'll keep it.",
+    "context": "inspection_response",
+    "emotion": "neutral",
+    "file": "shared/cryoBayMystery.ts"
+  },
+  {
+    "id": "human.cryo.personal-effect.look.who",
+    "text": "Whose was it?",
+    "context": "inspection_response",
+    "emotion": "curious",
+    "file": "shared/cryoBayMystery.ts"
+  },
+  {
+    "id": "human.cryo.data-slate.look.acknowledge",
+    "text": "I see it.",
+    "context": "inspection_response",
+    "emotion": "neutral",
+    "file": "shared/cryoBayMystery.ts"
+  },
+  {
+    "id": "human.cryo.data-slate.look.hidden",
+    "text": "Why was it hidden?",
+    "context": "inspection_response",
+    "emotion": "curious",
+    "file": "shared/cryoBayMystery.ts"
+  },
+  {
+    "id": "human.cryo.data-slate.use.acknowledge",
+    "text": "Got it.",
+    "context": "inspection_response",
+    "emotion": "neutral",
+    "file": "shared/cryoBayMystery.ts"
+  },
+  {
+    "id": "human.cryo.data-slate.use.next",
+    "text": "Where do I read it?",
+    "context": "inspection_response",
+    "emotion": "curious",
+    "file": "shared/cryoBayMystery.ts"
+  },
+  {
+    "id": "human.cryo.frosted-glass.look.acknowledge",
+    "text": "Nameless on purpose.",
+    "context": "inspection_response",
+    "emotion": "warning",
+    "file": "shared/cryoBayMystery.ts"
+  },
+  {
+    "id": "human.cryo.frosted-glass.look.cord",
+    "text": "Cleanly cut means what?",
+    "context": "inspection_response",
+    "emotion": "curious",
+    "file": "shared/cryoBayMystery.ts"
+  },
+  {
+    "id": "human.cryo-bay.cryo-pod.acknowledge",
+    "text": "Acknowledged.",
+    "context": "inspection_response",
+    "emotion": "neutral",
+    "file": "client/src/contexts/GameContext.tsx"
+  },
+  {
+    "id": "human.cryo-bay.cryo-pod.how-long",
+    "text": "How long, Elara?",
+    "context": "inspection_response",
+    "emotion": "curious",
+    "file": "client/src/contexts/GameContext.tsx"
+  },
+  {
+    "id": "human.cryo-bay.cryo-pod.silent",
+    "text": "[stay silent]",
+    "context": "inspection_response",
+    "emotion": "neutral",
+    "file": "client/src/contexts/GameContext.tsx"
+  },
+  {
+    "id": "human.cryo-bay.sealed-pods.acknowledge",
+    "text": "Then we don't open them.",
+    "context": "inspection_response",
+    "emotion": "neutral",
+    "file": "client/src/contexts/GameContext.tsx"
+  },
+  {
+    "id": "human.cryo-bay.sealed-pods.speculate",
+    "text": "Speculate anyway.",
+    "context": "inspection_response",
+    "emotion": "curious",
+    "file": "client/src/contexts/GameContext.tsx"
+  },
+  {
+    "id": "human.cryo-bay.egg-cryo-scratch.acknowledge",
+    "text": "We saw nothing.",
+    "context": "inspection_response",
+    "emotion": "neutral",
+    "file": "client/src/contexts/GameContext.tsx"
+  },
+  {
+    "id": "human.cryo-bay.egg-cryo-scratch.who",
+    "text": "Who's the Antiquarian?",
+    "context": "inspection_response",
+    "emotion": "curious",
+    "file": "client/src/contexts/GameContext.tsx"
+  },
+  {
+    "id": "human.medical-bay.autopsy-console.acknowledge",
+    "text": "Got it.",
+    "context": "inspection_response",
+    "emotion": "neutral",
+    "file": "client/src/contexts/GameContext.tsx"
+  },
+  {
+    "id": "human.medical-bay.autopsy-console.what",
+    "text": "What's it going to tell us?",
+    "context": "inspection_response",
+    "emotion": "curious",
+    "file": "client/src/contexts/GameContext.tsx"
+  },
+  {
+    "id": "human.bridge.captains-chair.acknowledge",
+    "text": "Noted.",
+    "context": "inspection_response",
+    "emotion": "neutral",
+    "file": "client/src/contexts/GameContext.tsx"
+  },
+  {
+    "id": "human.bridge.captains-chair.who",
+    "text": "Who is Dr. Vox?",
+    "context": "inspection_response",
+    "emotion": "curious",
+    "file": "client/src/contexts/GameContext.tsx"
+  },
+  {
+    "id": "wolf_e5_human_warns_against_release",
+    "text": "I understand the case for release — the Antiquarian's concession, the chronicler's deference, the want to meet him on his ethic. I also understand the case against. The case against is bigger. He has had time we cannot measure to become more of what he was. Whatever you choose, choose it knowing both warnings are on the record.",
+    "context": "room_warning",
+    "emotion": "philosophical",
+    "file": "shared/roomMysteries/hallOfDisappearances.ts"
+  },
+  {
+    "id": "feature_incursions",
+    "text": "I've been scanning for anomalies. There are pocket dimensions forming near the Ark. Dangerous. Bring a friend.",
+    "context": "feature_unlock",
+    "emotion": "alert",
+    "file": "client/src/components/FeatureUnlockToast.tsx"
+  }
 ]
