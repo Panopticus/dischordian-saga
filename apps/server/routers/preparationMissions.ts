@@ -22,7 +22,10 @@ import {
   completeMission,
   listMissionsForPlayer,
   startMission,
+  submitMission,
+  type MissionSubmission,
 } from "../services/preparationMissionService";
+import { REVERSE_TRIAL_PHASES } from "@shared/preparationMissions/missions/reverseTrial";
 
 const missionEvaluationSchema = z.object({
   passed: z.boolean(),
@@ -77,5 +80,39 @@ export const preparationMissionsRouter = router({
     )
     .mutation(async ({ ctx, input }) => {
       return completeMission(ctx.user.id, input.missionId, input.evaluation);
+    }),
+
+  /** Submit a mission's gameplay data. The server scores the
+   *  submission and applies the resulting evaluation — clients
+   *  cannot claim `passed: true` without supplying real submission
+   *  data. Sprint 6 ships scorers for `salvage` and `reverse_trial`. */
+  submit: protectedProcedure
+    .input(
+      z.discriminatedUnion("missionId", [
+        z.object({
+          missionId: z.literal("salvage"),
+          payload: z.object({
+            drafted: z.array(z.string().min(1).max(64)).length(5),
+            recovered: z.array(z.string().min(1).max(64)).max(5),
+          }),
+        }),
+        z.object({
+          missionId: z.literal("reverse_trial"),
+          payload: z.object({
+            outcomes: z
+              .array(
+                z.object({
+                  phase: z.enum(REVERSE_TRIAL_PHASES),
+                  won: z.boolean(),
+                  verdictDelta: z.number(),
+                }),
+              )
+              .length(REVERSE_TRIAL_PHASES.length),
+          }),
+        }),
+      ]),
+    )
+    .mutation(async ({ ctx, input }) => {
+      return submitMission(ctx.user.id, input as MissionSubmission);
     }),
 });
