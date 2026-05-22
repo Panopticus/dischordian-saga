@@ -1,4 +1,3 @@
-import { existsSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { defineConfig, devices } from "@playwright/test";
@@ -10,7 +9,17 @@ import { STORAGE_STATE_PATH } from "./global-setup";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const GLOBAL_SETUP = resolve(__dirname, "global-setup.ts");
 
-const storageState = existsSync(STORAGE_STATE_PATH) ? STORAGE_STATE_PATH : undefined;
+// Bind the auth cookie to every test when the env vars that drive
+// global-setup are present. The previous `existsSync(STORAGE_STATE_PATH)`
+// check ran at config-LOAD time, BEFORE globalSetup writes the file
+// — so on a fresh CI checkout it always saw `false`, `storageState`
+// stayed `undefined`, and every auth-gated spec ran in an unauth'd
+// context. Spec files do their own existsSync check, which works
+// because they're loaded after globalSetup. Using the same env-var
+// condition globalSetup uses keeps the two layers in sync.
+const HAS_AUTH_ENV =
+  !!process.env.E2E_AUTH_OPEN_ID && !!process.env.JWT_SECRET;
+const storageState = HAS_AUTH_ENV ? STORAGE_STATE_PATH : undefined;
 
 export default defineConfig({
   testDir: ".",
