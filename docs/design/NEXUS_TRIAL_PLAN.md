@@ -59,7 +59,7 @@ Resolved by Trial *engagement* (card-play volume) + *alignment* (Light/Dark bala
 
 ### Timeline
 
-**8 months from kickoff to T-7 days**, 16 two-week sprints. **Recommended buffer: 6 weeks** (not in the schedule as drawn). Critical path: Sprint 1 (Audit-gap absorption) → Sprint 2 (Three Clocks data) → Sprint 3–4 (Three Clocks UI) → Sprint 5 (Mission framework) → Sprint 6–8 (5 Missions + Trial-format Act finales) → Sprint 9–10 (Tick service + Testimony) → Sprint 11–12 (Cinematics) → Sprint 13–14 (Season 2 variants + ripples) → Sprint 15 (Load test) → Sprint 16 (Final gates).
+**Target: March 2027.** 8 months from kickoff to T-7 days, 16 two-week sprints, plus the 6-week buffer recommendation built into the math. **Kickoff: late May / early June 2026.** Critical path: Sprint 1 (Audit-gap absorption) → Sprint 2 (Three Clocks data) → Sprint 3–4 (Three Clocks UI) → Sprint 5 (Mission framework) → Sprint 6–8 (5 Missions + Trial-format Act finales) → Sprint 9–10 (Tick service + Testimony) → Sprint 11–12 (Cinematics) → Sprint 13–14 (Season 2 variants + ripples) → Sprint 15 (Load test) → Sprint 16 (Final gates). Exact 72-hour Trial window within March 2027 set by producers at T-30.
 
 ### Crew during the 72-hour event
 
@@ -1699,6 +1699,128 @@ The audit confirms the plan is *largely* sitting on top of shipped infrastructur
 
 ---
 
+## Cosmetic Rewards — Commemorative, Not Grindy
+
+The Trial's core artifact is the deaths and the authored Season 2. Cosmetics exist as **commemoratives** — proof of participation, mementos of choices, markers of presence — not as a grind ladder. Players should never feel they need to play more to "earn" the Trial. Every cosmetic below is earned by *participating*, not by hitting a threshold.
+
+The Cost Ledger above counts cosmetics under "unlocked content"; full asset list lives at `apps/shared/seasons/season2/cosmetics/`.
+
+### Universal commemoratives (every player who logged in during the 72-hour window)
+
+These ship automatically. No claim flow, no missable window beyond the Trial itself.
+
+| Item | Surface | What it is |
+|---|---|---|
+| **The Antiquarian's Quill** | Avatar item | Profile decoration. Held by players who were present during any Trial phase. Hovering shows the player's phase-presence record. |
+| **Locke's Pendant** | Avatar item / chest decoration | A small ledger-icon pendant. Held by every player who logged in during the Trial. The pendant's inscription reads *"She filed the world."* |
+| **Witness of MMXXVII** | Player title | Selectable title. Year reflects the Trial's calendar year. |
+| **Ledger Profile Theme** | Profile page styling | Replaces the default profile with a parchment-and-ink Adjudicator-bench theme. Toggleable. |
+
+### Phase-presence pins (one per phase the player played in)
+
+Six pins, one per Trial phase. Auto-granted if the player submitted any testimony during that phase. Cumulative — players can hold all six. Displayed as a horizontal strip on the profile.
+
+| Pin | Granted for |
+|---|---|
+| **Charge Pin** (verdict-arrow icon) | Any testimony submitted hours 0–12 |
+| **Opening Pin** (pen-nib icon) | Any testimony submitted hours 12–24 |
+| **Evidence Pin** (scales icon) | Any testimony submitted hours 24–36 |
+| **Cross-examination Pin** (broken-chain icon) | Any testimony submitted hours 36–48 |
+| **Confession Pin** (open-hand icon) | Any testimony submitted hours 48–60 |
+| **Verdict Pin** (sealed-ledger icon) | Any testimony submitted hours 60–72 |
+
+A player who plays all six earns a small bonus visual flourish on the pin strip (subtle glow), not a separate cosmetic — the achievement is being present for the whole 72 hours.
+
+### Preparation Mission medals (one per completed mission)
+
+Five medals, one per Preparation Mission completed in November. Auto-granted on mission pass. Failed missions do not grant the medal but the player can re-display the *attempted* state — there is value in having tried. Medals are displayed as a row on the profile beneath the phase pins.
+
+| Mission | Medal name | Visual |
+|---|---|---|
+| 1 — Salvage | **The Recovered Hand** | Five burnt cards bound by Wraith's ribbon |
+| 2 — Reverse Trial | **The Filed Page** | Locke's quill resting on a sealed page |
+| 3 — Elara's Tribunal | **The Substrate Bloom** | A rose-and-grey fractal flower |
+| 4 — The Question | **The Open Chip** | The Human's chip, mid-handoff |
+| 5 — Bidding War | **The Council Seal** | The 24 sub-house sigils arranged as a wheel |
+
+### Ballot-winner mementos (one cosmetic per ballot outcome, granted to every player)
+
+Whichever ballot name the community chooses, every player receives the corresponding memento — *not* gated on having voted for that name. The memento honors the dying name, not the voter's loyalty.
+
+| If sacrificed | Memento | Surface |
+|---|---|---|
+| Wraith Calder | **The Thumb-Marked Ledger** | Profile decoration: an open ledger with the recovered names visible on the inside cover |
+| The Wolf (Lycos) | **The Pack's Half-Circle** | Profile decoration: the empty bench with the Pack arrayed around it |
+| Akai Shi (Red Death) | **The Grey Helmet** | Avatar item: a small helmet, faded from red to grey, hover text shows the Antiquarian's closing line |
+| Vex Solène | **The Unfinished Inventory** | Profile decoration: a ledger page with three checks and a blank fourth line |
+
+These mementos are *the* visible marker of which Trial the player was in. Long after Season 2 ships, a player's Vex Memento or Akai Memento is a conversation piece. The community will recognize each other by them.
+
+### Companion-sacrifice cosmetics (per-player, tied to who survived)
+
+The surviving companion's relationship-tier card variant unlocks one tier higher *for the player* (silver → gold, gold → legendary) as a Day 7 reward. The dying companion's tier locks at sacrifice (per the Romance state freeze in the patch composition section) and becomes a sealed achievement marker on the player's collection. Romanced players who participated in Confession receive an additional cosmetic:
+
+| Romance branch | Cosmetic | Surface |
+|---|---|---|
+| Elara romanced, then sacrificed | **The Senate Seat** | Profile decoration: an empty seat in the Atarion Senate chamber. Only visible to the player. |
+| Human romanced, then sacrificed | **The Chip** | Avatar item: the small chip from his final cinematic. Glows faintly. Only visible to the player. |
+
+These are **private cosmetics** — they appear on the player's own profile view but do not display to other players. The romance was theirs; the memento is theirs.
+
+### Politician-fork cosmetics (per-server, tied to Season 2's antagonist shape)
+
+These reflect the community's collective engagement outcome. Every player who participated in the Trial sees their cosmetic update on Day 1 of Season 2 based on the resolution.
+
+| Fork outcome | Cosmetic | Surface |
+|---|---|---|
+| `seat_sealed` (high engagement + Light) | **The Sealed Seat** | Profile banner: a marble seat with a quiet seal across it. Hover: *"You closed the door before she returned."* |
+| `constrained_return` (high engagement + Dark) | **The Yellow Thread** | Profile banner: a yellow thread running through the player's other cosmetics. Hover: *"You watched her come back. You kept her bounded."* |
+| `full_return` (low engagement) | **The Open Seat** | Profile banner: an empty seat with a yellow sash draped over it. Hover: *"You let her sit."* |
+
+The `full_return` cosmetic is deliberately the most striking visually — players who *didn't* participate end up with a cosmetic that makes the absence visible to others. This is not punishment; it is **memory**. The Antiquarian's pen does not lift for anyone unfairly, but it does record who was present.
+
+### Burnt-card variants (already specified)
+
+Locke's card and the ballot winner's card become **burnt-card variants** in every player's collection (per the cinematic spec). These are not "rewards" — they are mementos of the lost — but they function as cosmetics in that they replace the original card art and flavor permanently. Players who used Locke's card in any Authority Trial match across the saga see her variant first.
+
+### No FOMO mechanics
+
+Critically — there is *no* premium-currency purchase path for any of these cosmetics. None are gated behind a battle pass tier above the participation threshold. None are available for purchase after the Trial closes.
+
+The Trial is **once-ever**. The cosmetics are **once-ever**. A player who logs in for the first time in Season 2 will see other players wearing the Antiquarian's Quill and Locke's Pendant and the memento of whichever name fell. They will not be able to get those items. They missed the Trial.
+
+This is the point. The cosmetics are a *visible record of who showed up*. Their value comes from never being available again, not from being hard to earn.
+
+### Authoring cost
+
+| Item | Asset count | Estimate |
+|---|---|---|
+| Universal commemoratives (4 items) | 4 commissions | ~$1,200 |
+| Phase pins (6) | 6 small commissions | ~$900 |
+| Preparation medals (5) | 5 commissions | ~$1,500 |
+| Ballot-winner mementos (4) | 4 commissions | ~$1,600 |
+| Companion-sacrifice private cosmetics (2) | 2 commissions | ~$600 |
+| Politician-fork banners (3) | 3 commissions | ~$900 |
+| Profile theme (Ledger) | 1 medium commission | ~$2,000 |
+| **Total** | **25 assets** | **~$8,700** |
+
+This is a small addition to the Cost Ledger — under 1% of the sunk-cinematic budget — and fits inside the existing Wave 1 + Wave 2 patch service without new infrastructure. Commissions begin Sprint 11 alongside the cinematic art commissions; cosmetics land in the Wave 1 patch on Day 1.
+
+### Ship-check entry
+
+```ts
+{
+  id: 'season2_cosmetic_grants',
+  declared: () => listAllCosmeticGrantRules(),       // ~20 grant rules across 6 categories
+  implemented: () => listImplementedGrantRules(),
+  parityTest: 'apps/shared/seasons/__tests__/cosmeticGrants.parity.test.ts',
+}
+```
+
+Every cosmetic must have a declared grant rule and a runtime path; players who qualified for a cosmetic and did not receive it is a bug, not a CS ticket.
+
+---
+
 ## Critical Files and Patterns to Modify
 
 This plan touches many areas; the most load-bearing changes:
@@ -1868,7 +1990,7 @@ If any of the above fail at T-7, the Trial date slips (Risk Register: Production
 
 ## Implementation Phasing — 8-Month Sprint Plan
 
-Working backwards from a December Trial: the build needs to be in shipping shape by **T-7 days** (early December). Counting back at 2-week sprints, that's roughly **16 sprints**, or 8 months. Below is the recommended ramp-up. Each sprint names a *primary deliverable*, a *secondary deliverable* (parallel work), and *exit criteria* before moving on.
+Working backwards from a **March 2027** Trial: the build needs to be in shipping shape by **T-7 days** (late February 2027). Counting back at 2-week sprints, that's roughly **16 sprints**, or 8 months. **Sprint 1 kicks off late May / early June 2026.** Below is the recommended ramp-up. Each sprint names a *primary deliverable*, a *secondary deliverable* (parallel work), and *exit criteria* before moving on.
 
 This phasing assumes the Dependency Audit lands with all cited modules at `SHIPPED` status. **If the audit finds gaps**, Sprints 1–4 absorb the missing scaffolding and the back end of the schedule compresses — or the Trial date slips. The audit's Bottom Line will name which.
 
