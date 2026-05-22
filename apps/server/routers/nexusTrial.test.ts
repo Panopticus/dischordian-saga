@@ -10,12 +10,13 @@ import { describe, it, expect } from "vitest";
 import { nexusTrialRouter, makeIdempotencyKey } from "./nexusTrial";
 
 describe("nexusTrial router shape", () => {
-  it("exposes status / submitTestimony / leaderboard / permadeath procedures", () => {
+  it("exposes status / submitTestimony / leaderboard / permadeath / romanceTagEligibility procedures", () => {
     const procedures = nexusTrialRouter._def.procedures as Record<string, unknown>;
     expect(procedures.status).toBeDefined();
     expect(procedures.submitTestimony).toBeDefined();
     expect(procedures.leaderboard).toBeDefined();
     expect(procedures.permadeath).toBeDefined();
+    expect(procedures.romanceTagEligibility).toBeDefined();
   });
 });
 

@@ -25,6 +25,8 @@
 import { and, eq, inArray, sql } from "drizzle-orm";
 import { getDb } from "../db";
 import {
+  companionRelationships,
+  companionSacrifice,
   testimony,
   trialTallies,
 } from "../../db/schema";
@@ -287,5 +289,139 @@ export async function getLeaderboard(
   } catch (e) {
     logger.error(`[NexusTrial] getLeaderboard failed for trial=${trial.trialKey}:`, e);
     return [];
+  }
+}
+
+/* ─── Companion sacrifice recording + romance-tag eligibility ─── */
+
+/**
+ * Record the companion the Confession resolver named at hour 60.
+ * Single source of truth for the freeze: the romance-tag query
+ * joins against `sacrificedAt` to enforce per-player relationship
+ * freezing (no relationship-level changes after sacrifice count).
+ *
+ * Idempotent on the `companion` UNIQUE — a second call for the
+ * same Trial is a no-op (returns the existing row).
+ */
+export async function recordCompanionSacrifice(
+  trial: ActiveTrial,
+  companion: CompanionKey,
+  cinematicId: string,
+): Promise<void> {
+  const db = await getDb();
+  if (!db) return;
+  try {
+    const existing = await db
+      .select()
+      .from(companionSacrifice)
+      .where(eq(companionSacrifice.companion, companion))
+      .limit(1);
+    if (existing.length > 0) {
+      logger.info(
+        `[NexusTrial] companion sacrifice already recorded for ${companion}, skipping`,
+      );
+      return;
+    }
+    await db.insert(companionSacrifice).values({
+      companion,
+      trialId: trial.id,
+      cinematicId,
+    });
+    logger.info(
+      `[NexusTrial] companion sacrifice recorded: ${companion} (cinematic=${cinematicId})`,
+    );
+  } catch (e) {
+    logger.error(
+      `[NexusTrial] recordCompanionSacrifice failed for ${companion}:`,
+      e,
+    );
+  }
+}
+
+export interface RomanceTagEligibility {
+  /** Is this companion sacrificed in canon? */
+  sacrificed: boolean;
+  /** Was this player romanced with the companion at sacrifice time? */
+  romanced: boolean;
+  /** If both true, the player's client should play the romance tag
+   *  after the public cinematic. */
+  shouldFireTag: boolean;
+}
+
+/**
+ * Pure decision function over the inputs the DB query returns.
+ * Exported so callers can test the decision logic without a DB.
+ *
+ * The freeze rule: the relationship-tier locks at the moment of
+ * sacrifice. If the player's companionRelationships row was last
+ * updated AFTER the sacrificedAt timestamp, that update happened
+ * *after* the freeze and does NOT count toward romance eligibility.
+ * This is how a player who romances Elara post-Trial doesn't
+ * retroactively unlock her romance tag.
+ */
+export function decideRomanceTagEligibility(input: {
+  sacrificedAt: Date | null;
+  relationshipUpdatedAt: Date | null;
+  relationshipLevel: number;
+  romanceActive: boolean;
+}): RomanceTagEligibility {
+  const sacrificed = input.sacrificedAt !== null;
+  if (!sacrificed || !input.relationshipUpdatedAt) {
+    return { sacrificed, romanced: false, shouldFireTag: false };
+  }
+  // Freeze: only relationship state present AT OR BEFORE the
+  // sacrifice counts.
+  const beforeFreeze =
+    input.relationshipUpdatedAt.getTime() <= input.sacrificedAt!.getTime();
+  if (!beforeFreeze) {
+    return { sacrificed, romanced: false, shouldFireTag: false };
+  }
+  const romanced = input.romanceActive || input.relationshipLevel >= 75;
+  return { sacrificed, romanced, shouldFireTag: romanced };
+}
+
+/** Look up romance-tag eligibility for a player + sacrificed
+ *  companion. Returns shouldFireTag=false if either the companion
+ *  wasn't sacrificed, the player has no relationship row, or the
+ *  freeze rule rejects the update. */
+export async function isRomanceTagEligibleForPlayer(
+  userId: number,
+  companion: CompanionKey,
+): Promise<RomanceTagEligibility> {
+  const db = await getDb();
+  if (!db) {
+    return { sacrificed: false, romanced: false, shouldFireTag: false };
+  }
+  try {
+    const sac = await db
+      .select()
+      .from(companionSacrifice)
+      .where(eq(companionSacrifice.companion, companion))
+      .limit(1);
+    if (sac.length === 0) {
+      return { sacrificed: false, romanced: false, shouldFireTag: false };
+    }
+    const rel = await db
+      .select()
+      .from(companionRelationships)
+      .where(
+        and(
+          eq(companionRelationships.userId, userId),
+          eq(companionRelationships.companionId, companion),
+        ),
+      )
+      .limit(1);
+    return decideRomanceTagEligibility({
+      sacrificedAt: sac[0].sacrificedAt,
+      relationshipUpdatedAt: rel.length > 0 ? rel[0].updatedAt : null,
+      relationshipLevel: rel.length > 0 ? rel[0].relationshipLevel : 0,
+      romanceActive: rel.length > 0 ? rel[0].romanceActive : false,
+    });
+  } catch (e) {
+    logger.error(
+      `[NexusTrial] isRomanceTagEligibleForPlayer(${userId}, ${companion}) failed:`,
+      e,
+    );
+    return { sacrificed: false, romanced: false, shouldFireTag: false };
   }
 }

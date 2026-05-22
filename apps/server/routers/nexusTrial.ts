@@ -28,8 +28,11 @@ import {
   getTrialStatus,
   loadActiveTrial,
 } from "../services/nexusTrialTickService";
-import { getLeaderboard } from "../services/nexusTrialResolverService";
-import { cardBuckets } from "@shared/nexusTrial/buckets";
+import {
+  getLeaderboard,
+  isRomanceTagEligibleForPlayer,
+} from "../services/nexusTrialResolverService";
+import { cardBuckets, type CompanionKey } from "@shared/nexusTrial/buckets";
 import { getPermadeathStore } from "@shared/resurrectionProtocols";
 
 /** Compose the idempotency key from the client-supplied tuple.
@@ -142,6 +145,17 @@ export const nexusTrialRouter = router({
     const entries = await getLeaderboard(trial);
     return { available: true as const, entries };
   }),
+
+  /** Per-player romance-tag eligibility for a sacrificed companion.
+   *  Protected — the answer is private to the caller. Used by the
+   *  Confession cinematic playback layer to decide whether to fire
+   *  the client-local romance tag after the public cinematic ends. */
+  romanceTagEligibility: protectedProcedure
+    .input(z.object({ companion: z.enum(["elara", "human"]) }))
+    .query(async ({ ctx, input }) => {
+      const companion = input.companion as CompanionKey;
+      return isRomanceTagEligibleForPlayer(ctx.user.id, companion);
+    }),
 
   /** List the NPCs whose resurrection the Protocol has refused. Card
    *  views consume this to swap their art for the burnt-card variant

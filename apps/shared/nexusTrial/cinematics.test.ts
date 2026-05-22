@@ -2,35 +2,91 @@ import { describe, it, expect } from "vitest";
 import {
   NEXUS_TRIAL_CINEMATICS,
   BALLOT_CINEMATICS,
+  CONFESSION_CINEMATICS,
   ballotCinematicFor,
+  confessionCinematicFor,
+  abortCinematic,
   lockeCinematic,
   type CinematicScript,
 } from "./cinematics";
 import { BALLOT_KEYS, type BallotKey } from "./buckets";
 
 describe("NEXUS_TRIAL_CINEMATICS — registry", () => {
-  it("ships exactly 5 cinematics (Locke + 4 ballot)", () => {
-    expect(Object.keys(NEXUS_TRIAL_CINEMATICS).length).toBe(5);
+  it("ships exactly 8 cinematics (Locke + 4 ballot + 2 confession + abort)", () => {
+    expect(Object.keys(NEXUS_TRIAL_CINEMATICS).length).toBe(8);
   });
 
   it("every CinematicScript has the full authoring shape", () => {
     for (const c of Object.values(NEXUS_TRIAL_CINEMATICS)) {
       expect(c.id.length).toBeGreaterThan(0);
-      expect(c.npcKey.length).toBeGreaterThan(0);
       expect(c.antiquarianOpening.length).toBeGreaterThan(40);
-      expect(c.characterLine.length).toBeGreaterThan(10);
       expect(c.actionDirections.length).toBeGreaterThan(80);
       expect(c.antiquarianClosing.length).toBeGreaterThan(10);
       expect(c.cardBurnArt.length).toBeGreaterThan(10);
       expect(c.crossArcRipples.length).toBeGreaterThan(0);
+      // npcKey is null for the abort variant; non-empty otherwise.
+      if (c.slot !== "abort") {
+        expect(c.npcKey).not.toBeNull();
+      }
+      // characterLine is empty for the abort variant; non-empty otherwise.
+      if (c.slot !== "abort") {
+        expect(c.characterLine.length).toBeGreaterThan(10);
+      }
     }
   });
 
-  it("Locke runs at verdict_open; the 4 ballot variants at verdict_ballot", () => {
+  it("Locke runs at verdict_open; ballot variants at verdict_ballot; confession variants at confession; abort at abort", () => {
     expect(NEXUS_TRIAL_CINEMATICS.verdict_locke.slot).toBe("verdict_open");
-    for (const c of BALLOT_CINEMATICS) {
-      expect(c.slot).toBe("verdict_ballot");
+    for (const c of BALLOT_CINEMATICS) expect(c.slot).toBe("verdict_ballot");
+    for (const c of CONFESSION_CINEMATICS) expect(c.slot).toBe("confession");
+    expect(NEXUS_TRIAL_CINEMATICS.verdict_abort.slot).toBe("abort");
+  });
+});
+
+describe("CONFESSION_CINEMATICS — variants + romance tags", () => {
+  it("covers both companions (elara, human)", () => {
+    expect(CONFESSION_CINEMATICS.map((c) => c.npcKey)).toEqual(["elara", "human"]);
+  });
+
+  it("confessionCinematicFor returns the matching variant", () => {
+    expect(confessionCinematicFor("elara").id).toBe("confession_elara_dies");
+    expect(confessionCinematicFor("human").id).toBe("confession_human_dies");
+  });
+
+  it("both variants carry a romance tag (private add-on for romanced players)", () => {
+    for (const c of CONFESSION_CINEMATICS) {
+      expect(c.romanceTag).toBeDefined();
+      expect(c.romanceTag!.characterLine.length).toBeGreaterThan(10);
+      expect(c.romanceTag!.stageDirections.length).toBeGreaterThan(20);
     }
+  });
+
+  it("romance tag interpolates {player_name} (not a hardcoded name)", () => {
+    for (const c of CONFESSION_CINEMATICS) {
+      expect(c.romanceTag!.characterLine).toContain("{player_name}");
+    }
+  });
+
+  it("ballot variants do NOT carry a romance tag", () => {
+    for (const c of BALLOT_CINEMATICS) {
+      expect(c.romanceTag).toBeUndefined();
+    }
+  });
+});
+
+describe("abortCinematic", () => {
+  it("returns the verdict_abort script with empty characterLine", () => {
+    const a = abortCinematic();
+    expect(a.id).toBe("verdict_abort");
+    expect(a.slot).toBe("abort");
+    expect(a.npcKey).toBeNull();
+    expect(a.characterLine).toBe("");
+  });
+
+  it("the Antiquarian's closing line is the runbook's narrative cover", () => {
+    expect(abortCinematic().antiquarianClosing).toBe(
+      "The Antiquarian closed the ledger early.",
+    );
   });
 });
 
