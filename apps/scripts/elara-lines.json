@@ -8286,5 +8286,109 @@
     "context": "room_warning",
     "emotion": "fearful",
     "file": "shared/roomMysteries/hallOfDisappearances.ts"
+  },
+  {
+    "id": "character_sheet_intro_1",
+    "text": "Neural scan complete. Your biometric profile has been compiled, Operative.",
+    "context": "character_sheet_intro",
+    "emotion": "warm",
+    "file": "client/src/pages/CharacterSheetPage.tsx",
+    "authoredFrom": "ELARA_INTRO_LINES[0]"
+  },
+  {
+    "id": "character_sheet_intro_2",
+    "text": "This is your dossier — everything we know about what you are. Your species markers, your class aptitudes, your elemental affinity. I'll surface the rest as you need it.",
+    "context": "character_sheet_intro",
+    "emotion": "warm",
+    "file": "client/src/pages/CharacterSheetPage.tsx",
+    "authoredFrom": "ELARA_INTRO_LINES[1]"
+  },
+  {
+    "id": "character_sheet_intro_3",
+    "text": "I've cross-referenced your readings against the Ark's historical database. You are not a small signal. The Prophecy may have been right about you.",
+    "context": "character_sheet_intro",
+    "emotion": "warm",
+    "file": "client/src/pages/CharacterSheetPage.tsx",
+    "authoredFrom": "ELARA_INTRO_LINES[2]"
+  },
+  {
+    "id": "character_sheet_intro_4",
+    "text": "Sit with this. Let it be true for a moment. The deck plates outside this room remember things you don't, and you'll need to remember some of them back.",
+    "context": "character_sheet_intro",
+    "emotion": "warm",
+    "file": "client/src/pages/CharacterSheetPage.tsx",
+    "authoredFrom": "ELARA_INTRO_LINES[3]"
+  },
+  {
+    "id": "character_sheet_intro_5",
+    "text": "When you're ready — the Cryo Bay door is open. Walk through. I'll stay with you.",
+    "context": "character_sheet_intro",
+    "emotion": "warm",
+    "file": "client/src/pages/CharacterSheetPage.tsx",
+    "authoredFrom": "ELARA_INTRO_LINES[4]"
+  },
+  {
+    "id": "feature_casino",
+    "text": "The Degen's Casino is open. Ne-Yon space rewards a steady hand — and punishes a greedy one.",
+    "context": "feature_unlock",
+    "emotion": "warm",
+    "file": "client/src/components/FeatureUnlockToast.tsx",
+    "authoredFrom": "STUB — rewrite before re-rendering"
+  },
+  {
+    "id": "feature_faction_wars",
+    "text": "Faction Wars are live. Pick your alignment carefully; the ledger remembers.",
+    "context": "feature_unlock",
+    "emotion": "warm",
+    "file": "client/src/components/FeatureUnlockToast.tsx",
+    "authoredFrom": "STUB — rewrite before re-rendering"
+  },
+  {
+    "id": "feature_guild",
+    "text": "Syndicates have opened to you. You don't have to do this alone — most people don't.",
+    "context": "feature_unlock",
+    "emotion": "warm",
+    "file": "client/src/components/FeatureUnlockToast.tsx",
+    "authoredFrom": "STUB — rewrite before re-rendering"
+  },
+  {
+    "id": "feature_medical_games",
+    "text": "The Combat Simulator is online in the Medical Bay. Practice without consequence — the consequences arrive later.",
+    "context": "feature_unlock",
+    "emotion": "warm",
+    "file": "client/src/components/FeatureUnlockToast.tsx",
+    "authoredFrom": "STUB — rewrite before re-rendering"
+  },
+  {
+    "id": "feature_music",
+    "text": "The Observation Deck has unlocked the music archives. Some of these transmissions remember things the rest of us don't.",
+    "context": "feature_unlock",
+    "emotion": "warm",
+    "file": "client/src/components/FeatureUnlockToast.tsx",
+    "authoredFrom": "STUB — rewrite before re-rendering"
+  },
+  {
+    "id": "feature_necromancer",
+    "text": "The Necromancer's gate is open. Be careful what you bring back. Some things prefer the dark.",
+    "context": "feature_unlock",
+    "emotion": "warm",
+    "file": "client/src/components/FeatureUnlockToast.tsx",
+    "authoredFrom": "STUB — rewrite before re-rendering"
+  },
+  {
+    "id": "feature_transmissions",
+    "text": "Secret transmissions are now accessible. The Ark has been collecting these for longer than I can say honestly.",
+    "context": "feature_unlock",
+    "emotion": "warm",
+    "file": "client/src/components/FeatureUnlockToast.tsx",
+    "authoredFrom": "STUB — rewrite before re-rendering"
+  },
+  {
+    "id": "feature_violetta",
+    "text": "Violetta has stepped into view. She'll have her own opinions about how this goes.",
+    "context": "feature_unlock",
+    "emotion": "warm",
+    "file": "client/src/components/FeatureUnlockToast.tsx",
+    "authoredFrom": "STUB — rewrite before re-rendering"
   }
 ]
