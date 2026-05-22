@@ -1,6 +1,7 @@
 {
   "meme_arena_outro": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Meme+Voices/arena_lore/meme_arena_outro.mp3",
   "meme_casino_tale": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Meme+Voices/casino_lore/meme_casino_tale.mp3",
+  "meme_emote_001": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Guild%20Cutscene%20Voices%2Fmeme_emote_001.mp3",
   "meme_fight_defeat": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Meme+Voices/boss_fight/meme_fight_defeat.mp3",
   "meme_fight_pre": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Meme+Voices/boss_fight/meme_fight_pre.mp3",
   "meme_fight_victory": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Meme+Voices/boss_fight/meme_fight_victory.mp3",
@@ -85,6 +86,5 @@
   "meme_outro_ep1_7": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Meme+Voices/episode_outro/meme_outro_ep1_7.mp3",
   "meme_outro_ep1_8": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Meme+Voices/episode_outro/meme_outro_ep1_8.mp3",
   "meme_outro_ep1_9": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Meme+Voices/episode_outro/meme_outro_ep1_9.mp3",
-  "meme_prestige_broadcast": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Meme+Voices/prestige/meme_prestige_broadcast.mp3",
-  "meme_emote_001": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Guild%20Cutscene%20Voices%2Fmeme_emote_001.mp3"
+  "meme_prestige_broadcast": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Meme+Voices/prestige/meme_prestige_broadcast.mp3"
 }
