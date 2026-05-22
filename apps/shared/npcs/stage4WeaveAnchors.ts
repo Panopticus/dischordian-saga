@@ -80,8 +80,19 @@ export interface Stage4WeaveAnchor {
    *   - concurrent:   non-verbal channels overlap, verbal serializes
    */
   renderMode: "simultaneous" | "sequential" | "concurrent";
-  /** Authoring status — Phase 5 scope-tracking. */
-  status: "spec_complete" | "lines_authored" | "rendered" | "deferred";
+  /** Authoring status — Phase 5 scope-tracking.
+   *
+   *  `deferred_future_season` is the canon-locked future-season seam
+   *  (matches `apps/shared/servantHeroFutureSeasonCanon.ts`). Heart-of-
+   *  Time is registered with that status here and in
+   *  `apps/shared/livingDeferralCanon.ts`.
+   */
+  status:
+    | "spec_complete"
+    | "lines_authored"
+    | "rendered"
+    | "deferred"
+    | "deferred_future_season";
 }
 
 // --- The 4 canonical anchors -----------------------------------------------
@@ -311,7 +322,10 @@ export const STAGE_4_WEAVE_ANCHORS: ReadonlyArray<Stage4WeaveAnchor> = [
         "Future Stage 4 weave content key on this canonical event.",
     },
     renderMode: "concurrent",
-    status: "deferred", // Canonically Stage-4-weave-deferred per Oracle bible §2.10
+    // Canon-locked to the future season per Oracle bible §2.10 and the
+    // Servant Hero deferral precedent. Also registered in
+    // apps/shared/livingDeferralCanon.ts so ship-check accounts for it.
+    status: "deferred_future_season",
   },
 ];
 

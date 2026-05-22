@@ -21,6 +21,10 @@
  */
 
 import { makeAssetManifest, type AssetManifest } from "./_assetManifest";
+import {
+  NEW_ART_BRIDGED_ROOMS,
+  newArtRoomBaselineUrl,
+} from "./newArtRoomBridge";
 import { ROOM_ART_ENTRIES } from "./roomArtManifest.data";
 
 export { ROOM_ART_ENTRIES };
@@ -79,14 +83,35 @@ export const roomArtUrl = manifest.urlOf;
 export const requireRoomArtUrl = manifest.requireUrl;
 
 /**
- * Resolve the baseline (master) still URL for a room by zipDir.
+ * Resolve the baseline (master) still URL for a room.
  *
- * Returns `undefined` when the room is not in the producer delivery
- * (one of the 105 deferred spaces from _PRODUCTION_FINAL.md). Callers
- * should fall back to legacy single-imageUrl from ROOM_DEFINITIONS.
+ * Accepts either a producer zipDir (e.g. `"cryo_bay"`,
+ * `"hellbox/celebration_school"`) or a canonical space id (e.g.
+ * `"hb.celebration_school"`, `"veh.cades_apc"`,
+ * `"dest.castle_of_death.cod01_entrance_hall"`).
+ *
+ * Resolution order:
+ *   1. Treat the arg as a zipDir and try the primary room-art
+ *      manifest (`roomArtManifest.data.ts`).
+ *   2. Treat the arg as a canonical space id and remap to zipDir via
+ *      `ROOM_ART_CANONICAL_TO_ZIP`, then retry the primary manifest.
+ *   3. Treat the arg as a canonical space id and try the
+ *      `newArtRoomBridge` (vehicles + destinations from the
+ *      2026-05-12 NEW_ART drop).
+ *
+ * Returns `undefined` only when the space is not present in any of
+ * the three. Callers can fall back to legacy single-imageUrl in that
+ * case.
  */
-export function roomArtBaselineUrl(zipDir: string): string | undefined {
-  return roomArtUrl(`${zipDir}:baseline`);
+export function roomArtBaselineUrl(zipDirOrCanonical: string): string | undefined {
+  const direct = roomArtUrl(`${zipDirOrCanonical}:baseline`);
+  if (direct) return direct;
+  const mappedZip = ROOM_ART_CANONICAL_TO_ZIP.get(zipDirOrCanonical);
+  if (mappedZip) {
+    const remapped = roomArtUrl(`${mappedZip}:baseline`);
+    if (remapped) return remapped;
+  }
+  return newArtRoomBaselineUrl(zipDirOrCanonical);
 }
 
 /**
@@ -135,10 +160,12 @@ export function roomArtByCanonical(
 }
 
 /**
- * The set of room zipDirs present in the producer delivery (61 rooms).
+ * The set of room zipDirs present in the primary producer delivery.
  *
- * Subsequent sub-phases use this to enumerate covered rooms vs
- * deferred spaces from _PRODUCTION_FINAL.md.
+ * Note: this does NOT include the canonical ids resolved via the
+ * `newArtRoomBridge` (vehicles + destinations from the 2026-05-12
+ * NEW_ART drop). For total covered-space accounting consult
+ * `roomArtCoverageReport().producerDelivered` instead.
  */
 export const ROOM_ART_ZIP_DIRS: readonly string[] = Array.from(
   new Set(ROOM_ART_ENTRIES.map((e) => e.zipDir)),
@@ -216,8 +243,35 @@ export interface RoomCoverageReport {
   readonly deferredCount: number;
 }
 
+/**
+ * Aggregate a canonical space id to its spec-level equivalent — the
+ * level at which `_PRODUCTION_FINAL.md` enumerates spaces. Hellbox
+ * and Ark sub-rooms collapse to their parent room; destinations,
+ * vehicles, and prelude rooms are already spec-level.
+ */
+function specLevelId(canonicalId: string): string {
+  const hb = /^(hb\.[a-z_]+)(?:\..+)?$/.exec(canonicalId);
+  if (hb) return hb[1];
+  const ark = /^(ark\.[a-z_]+)(?:\..+)?$/.exec(canonicalId);
+  if (ark) return ark[1];
+  return canonicalId;
+}
+
 export function roomArtCoverageReport(): RoomCoverageReport {
-  const producerDelivered = Array.from(ROOM_ART_ZIP_TO_CANONICAL.values()).sort();
+  const primaryCanonical = Array.from(ROOM_ART_ZIP_TO_CANONICAL.values());
+  // Bridged spaces: count only the spec-level rooms (vehicles +
+  // destination subzones). Destination panoramas are vista
+  // over-delivery used for loading screens / world map and aren't
+  // part of the 166-space spec.
+  const bridgedCanonical = NEW_ART_BRIDGED_ROOMS
+    .filter((e) => e.category !== "destination_panorama")
+    .map((e) => e.canonicalSpaceId);
+  // Spec-level aggregation: Hellbox / Ark sub-rooms collapse to their
+  // parent room, so the count reflects the 166-space spec contract
+  // rather than the broader producer-delivered canonical-id population.
+  const producerDelivered = Array.from(
+    new Set([...primaryCanonical, ...bridgedCanonical].map(specLevelId)),
+  ).sort();
   const producerNewNotInSpec = ROOM_ART_ENTRIES.filter(
     (e) => e.category === "ark_room_new",
   )
@@ -225,9 +279,8 @@ export function roomArtCoverageReport(): RoomCoverageReport {
     .filter((v, i, a) => a.indexOf(v) === i)
     .sort();
 
-  // 12 Hellboxes per _PRODUCTION_FINAL.md PART IV; pass 2 (H1.A)
-  // delivered hb.castle_of_death + hb.celebration_school (each with
-  // sub-rooms) so they're filtered out of the deferred list at runtime.
+  // 12 Hellboxes per _PRODUCTION_FINAL.md PART IV — all 12 delivered in
+  // H2.A (sub-rooms included). Kept here so a future regression surfaces.
   const ALL_HELLBOXES = [
     "hb.celebration_school",
     "hb.castle_of_death",
@@ -246,8 +299,11 @@ export function roomArtCoverageReport(): RoomCoverageReport {
   const deferredHellboxes = ALL_HELLBOXES.filter(
     (hb) => !deliveredCanonicalSet.has(hb),
   );
-  // 7 vehicles per _PRODUCTION_FINAL.md PART V
-  const deferredVehicles = [
+
+  // 7 named vehicles — all delivered via NEW_ART_1 bridge as of
+  // 2026-05-12. The list still surfaces what's missing if a future
+  // change breaks the bridge.
+  const ALL_VEHICLES = [
     "veh.cades_apc",
     "veh.captains_shuttle",
     "veh.cargo_vessel",
@@ -256,17 +312,16 @@ export function roomArtCoverageReport(): RoomCoverageReport {
     "veh.eidolon_vessel",
     "veh.memorial_hearse",
   ];
+  const deferredVehicles = ALL_VEHICLES.filter(
+    (v) => !deliveredCanonicalSet.has(v),
+  );
 
-  // 60 destination zones + N apprentice spaces also deferred but not
-  // enumerated atomically here (canonical lists in _PRODUCTION_FINAL.md
-  // PART VI + PART VIII; the parity gate reports counts only).
-  // Pass-3 (H2.A) closed ALL 12 Hellboxes + the full 12 archetype-berth
-  // set + the full 5 recruit-berth set + the full 12 guild-common-room
-  // set + doctrine binding chamber + memory card library + 3 atrium
-  // sub-zones + 3 pedagogy sub-rooms + 2 forge sub-zones + remaining
-  // apprentice/pedagogy spaces. Remaining deferred: 7 vehicles + ~60
-  // destinations + a few apprentice extras.
-  const deferredCount = deferredHellboxes.length + 7 + 60 + 8;
+  // 60 destination zones across 5 categories — all delivered via the
+  // NEW_ART_2 bridge as of 2026-05-12 (`art/destinations/<category>/
+  // <slug>.png`). Apprentice/pedagogy tail handled inline in
+  // ROOM_DEFINITIONS + the primary manifest.
+  const deferredCount =
+    deferredHellboxes.length + deferredVehicles.length;
 
   return {
     producerDelivered,

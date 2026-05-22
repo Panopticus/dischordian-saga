@@ -6,7 +6,8 @@
  * - Per-axis variants are resolved when present in the manifest
  * - Missing variants degrade silently (omitted from stack)
  * - Layer order matches the canonical depth chain (baseline ← back; axis13 ← front)
- * - Non-existent rooms (deferred Hellboxes, vehicles) return empty stack
+ * - Bridged spaces (Hellboxes via canonical id, vehicles via NEW_ART bridge) resolve baseline
+ * - Truly absent rooms return empty stack
  */
 import { describe, expect, it } from "vitest";
 
@@ -23,8 +24,16 @@ describe("compositeResolver — Phase H.C", () => {
       expect(hasRoomArt("cryo_bay")).toBe(true);
     });
 
-    it("returns false for hb.celebration_school (deferred)", () => {
-      expect(hasRoomArt("hb.celebration_school")).toBe(false);
+    it("returns true for hb.celebration_school (delivered Hellbox, canonical id)", () => {
+      expect(hasRoomArt("hb.celebration_school")).toBe(true);
+    });
+
+    it("returns true for veh.cades_apc (NEW_ART bridge)", () => {
+      expect(hasRoomArt("veh.cades_apc")).toBe(true);
+    });
+
+    it("returns true for dest.castle_of_death.cod01_entrance_hall (NEW_ART bridge)", () => {
+      expect(hasRoomArt("dest.castle_of_death.cod01_entrance_hall")).toBe(true);
     });
 
     it("returns false for nonsense zipDir", () => {
@@ -41,8 +50,22 @@ describe("compositeResolver — Phase H.C", () => {
       expect(result.satisfied).toEqual(["baseline"]);
     });
 
-    it("returns empty stack for a non-delivered room", () => {
+    it("resolves baseline for hb.celebration_school via canonical-id remap", () => {
       const result = resolveRoomVariant({ zipDir: "hb.celebration_school" });
+      expect(result.layers.length).toBeGreaterThanOrEqual(1);
+      expect(result.layers[0].axis).toBe("baseline");
+      expect(result.satisfied).toContain("baseline");
+    });
+
+    it("resolves baseline for veh.cades_apc via NEW_ART bridge", () => {
+      const result = resolveRoomVariant({ zipDir: "veh.cades_apc" });
+      expect(result.layers.length).toBe(1);
+      expect(result.layers[0].axis).toBe("baseline");
+      expect(result.layers[0].src).toContain("art/vehicles/cades_apc/exterior.png");
+    });
+
+    it("returns empty stack for a truly absent room", () => {
+      const result = resolveRoomVariant({ zipDir: "not_a_real_room_anywhere" });
       expect(result.layers.length).toBe(0);
       expect(result.satisfied.length).toBe(0);
     });

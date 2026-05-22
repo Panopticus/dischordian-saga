@@ -122,6 +122,7 @@ import { checkImprintFirstSummonCutsceneCoverage } from "./checks/imprintFirstSu
 import { checkImprintCardsCarryUnlockCondition } from "./checks/imprintCardsCarryUnlockCondition";
 import { checkContinuingLoopEndgameCoverage } from "./checks/continuingLoopEndgameCoverage";
 import { checkServantHeroDeferralCoverage } from "./checks/servantHeroDeferralCoverage";
+import { checkLivingDeferralCoverage } from "./checks/livingDeferralCoverage";
 import { checkSurfaceDiscoverabilityCoverage } from "./checks/surfaceDiscoverabilityCoverage";
 import { checkNarrativeSpineCoverage } from "./checks/narrativeSpineCoverage";
 import { checkSpineDoorwayCoverage } from "./checks/spineDoorwayCoverage";
@@ -1151,6 +1152,13 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "Hard parity (build-plan §VIII Phase C — C6/C7): the Servant Hero Academy is a deferred future season / DLC (≥1 year out). C6 (onboarding cinematic) + C7 (Servant-Hero curriculum) are registered in apps/shared/servantHeroFutureSeasonCanon.ts as typed deferred_future_season hooks. The Act7→Phase14 seam (sagaPhases.ts:281-294, unreachable while narrativeAct<=7) is canon-locked as the DELIBERATE not-yet-launched boundary, not an orphaned bug. The gate accounts for the deferral without blocking.",
     check: () => checkServantHeroDeferralCoverage(),
+  },
+  {
+    id: "canon.living_deferral_coverage",
+    name: "Living deferral canon",
+    description:
+      "Hard parity: every narrative surface whose absence in the shipped loop is deliberate (bonus chapter intros, Stage-4 weave anchors, destination unlock gates that narrative-design declines to ratify) is registered in apps/shared/livingDeferralCanon.ts with a typed DeferralStatus, a structural seamModule pointer (file:line), seamIsIntentional: true, and a diegetic justification. Models the Servant Hero precedent so the universe acknowledges its own unfinished edges in-fiction rather than orphaning them. The 2026-05-12 NEW_ART_{1,2} drop + the newArtRoomBridge closed the vehicle/destination/panorama art deferrals; what remains is the short narrative tail (Authority alignment / Heart-of-Time).",
+    check: () => checkLivingDeferralCoverage(),
   },
 
   // ─── PR-17 — discoverability backbone ──────────────────────

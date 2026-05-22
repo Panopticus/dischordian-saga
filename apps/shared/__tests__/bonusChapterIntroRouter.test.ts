@@ -90,18 +90,28 @@ describe("pickBonusChapterIntroToFire", () => {
     );
   });
 
-  it("ships exactly 2 active BONUS gates (Nilmorg + Shadow-Tongue)", () => {
-    expect(BONUS_CHAPTER_INTRO_GATES).toHaveLength(2);
+  it("ships 3 active BONUS gates (Nilmorg + Shadow-Tongue + Conexus)", () => {
+    expect(BONUS_CHAPTER_INTRO_GATES).toHaveLength(3);
     const ids = BONUS_CHAPTER_INTRO_GATES.map((g) => g.introId).sort();
-    expect(ids).toEqual(["ch19_nilmorg_BONUS", "ch21_shadow_tongue_BONUS"]);
+    expect(ids).toEqual([
+      "ch19_nilmorg_BONUS",
+      "ch20_conexus_BONUS",
+      "ch21_shadow_tongue_BONUS",
+    ]);
   });
 
-  it("ch20_conexus_BONUS is deferred — never fires regardless of flags", () => {
-    expect(DEFERRED_BONUS_INTRO_IDS).toContain("ch20_conexus_BONUS");
-    // Even with every plausible Authority-alignment flag set, the
-    // deferred BONUS must NOT be picked.
+  it("ch20_conexus_BONUS fires on Authority-aligned flag + act >= 7", () => {
+    const r = pickBonusChapterIntroToFire({
+      narrativeAct: 7,
+      flags: { authority_alignment_aligned: true },
+    });
+    expect(r?.def.id).toBe("ch20_conexus_BONUS");
+  });
+
+  it("ch20_conexus_BONUS does not fire without the Authority-aligned flag", () => {
+    // None of the older candidate flags is the producer; only the
+    // canonical authority_alignment_aligned flag triggers the row.
     const flags = {
-      authority_alignment_chosen: true,
       hierarchy_dlc_arc_completed: true,
       light_dark_alignment: "light",
       act7_visible_war_won: true,
@@ -110,7 +120,7 @@ describe("pickBonusChapterIntroToFire", () => {
     expect(r?.def.id).not.toBe("ch20_conexus_BONUS");
   });
 
-  it("registry contains no deferred intro ids", () => {
+  it("registry contains no deferred intro ids (canon spine is now authoritative)", () => {
     const registered = new Set(
       BONUS_CHAPTER_INTRO_GATES.map((g) => g.introId),
     );
