@@ -251,6 +251,8 @@ import { cardDef as gen_programmer } from "./definitions/neutral/gen_programmer.
 import { cardDef as gen_game_master_original } from "./definitions/neutral/gen_game_master_original.ts";
 import { cardDef as gen_seer } from "./definitions/neutral/gen_seer.ts";
 import { cardDef as burnt_card_placeholder } from "./definitions/neutral/burnt_card_placeholder.ts";
+import { cardDef as the_humans_chip } from "./definitions/neutral/the_humans_chip.ts";
+import { cardDef as the_politicians_pin } from "./definitions/neutral/the_politicians_pin.ts";
 import { cardDef as s1_char_004_ambassador_veron } from "./definitions/neutral/s1_char_004_ambassador_veron.ts";
 import { ENGINE_DEMO_CARDS } from "./definitions/neutral/engine_demo_cards.ts";
 import { HOUSE_OATH_TITLE_CARDS } from "./definitions/neutral/house_oath_titles.ts";
@@ -778,6 +780,8 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   gen_game_master_original,
   gen_seer,
   burnt_card_placeholder,
+  the_humans_chip,
+  the_politicians_pin,
   s1_char_004_ambassador_veron,
   ...ENGINE_DEMO_CARDS,
   ...HOUSE_OATH_TITLE_CARDS,
