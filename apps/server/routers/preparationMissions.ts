@@ -110,6 +110,21 @@ export const preparationMissionsRouter = router({
               .length(REVERSE_TRIAL_PHASES.length),
           }),
         }),
+        z.object({
+          missionId: z.literal("tribunal_elara"),
+          payload: z.object({
+            verdictDelta: z.number(),
+            romanceGateUnlocked: z.boolean(),
+            romancePhaseCompleted: z.boolean().optional(),
+          }),
+        }),
+        z.object({
+          missionId: z.literal("the_question"),
+          payload: z.object({
+            verdictDelta: z.number(),
+            turnsPlayed: z.number().int().min(0).max(20),
+          }),
+        }),
       ]),
     )
     .mutation(async ({ ctx, input }) => {
