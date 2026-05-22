@@ -122,7 +122,7 @@ export const oracle_05: CardDefinition = {
       effect: { op: "draw", amount: { kind: "const", value: 2 }, who: "self" },
     },
   ],
-  art: assetUrl("art/cards/class/s1_class_oracle_05.webp"),
+  art: assetUrl("art/cards/class/oracles_unbroken_signal.webp"),
   flavorText:
     "Flying. Dispel. Forcefield. On deploy, draw 2. The White Oracle is suspended in a processing loop. The loop is supposed to contain her. It has been leaking since the day it closed, and these cards are some of the shapes the leak takes.",
   rulesVersion: "1.1.0",

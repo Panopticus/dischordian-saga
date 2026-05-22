@@ -61,7 +61,7 @@ export const synth_03: CardDefinition = {
   baseStats: { power: 6, health: 7 },
   keywords: ["provoke", "forcefield"],
   abilities: [],
-  art: assetUrl("art/cards/race/s1_race_synthetic_03.webp"),
+  art: assetUrl("art/cards/race/synthetic_loyal_instrument.webp"),
   flavorText:
     "Provoke. Forcefield. Deathwatch. Chrome Archons are the Architect's synthetic parliamentarians. They do not eat, they do not sleep, and they do not forget the motion anyone voted for on the last eighteen years of Wednesdays.",
   rulesVersion: "1.1.0",

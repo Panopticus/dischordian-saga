@@ -21,7 +21,7 @@ export const human_01: CardDefinition = {
   baseStats: { power: 2, health: 3 },
   keywords: ["rebirth"],
   abilities: [],
-  art: assetUrl("art/cards/race/s1_race_human_01.webp"),
+  art: assetUrl("art/cards/race/human_citizen_of_atarion.webp"),
   flavorText:
     "Rebirth. An Ark survivor was in a cryotube when Atarion burned. They woke up eleven years later than they should have and have been working every Wednesday ever since.",
   rulesVersion: "1.1.0",

@@ -132,7 +132,7 @@ export const engineer_05: CardDefinition = {
       effect: { op: "gain_mana", amount: { kind: "const", value: 2 }, permanent: false },
     },
   ],
-  art: assetUrl("art/cards/class/s1_class_engineer_05.webp"),
+  art: assetUrl("art/cards/class/engineers_apprentice.webp"),
   flavorText:
     "On deploy, draw 2 and gain 2 mana this turn. The Engineer's apprentices learn by building the same instrument their master built, in a different way, because the different way is the only thing that will teach them anything the master's way could not already say.",
   rulesVersion: "1.1.0",
