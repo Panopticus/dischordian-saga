@@ -29,7 +29,6 @@ import {
   type ProfileAxis,
 } from "@shared/playerProfile";
 import { useGame } from "@/contexts/GameContext";
-import { MobileNarratorSlot } from "@/components/MobileNarratorSlot";
 
 const AXIS_BLURBS: Readonly<Record<ProfileAxis, string>> = {
   aggression: "How hard you push when the room turns against you.",
@@ -90,7 +89,6 @@ export default function CharacterCreationPage() {
 
   return (
     <div className="min-h-screen w-full void-bg-canvas void-text p-8 sm:p-12 relative overflow-hidden">
-      <MobileNarratorSlot roomId="cryo_bay" />
       <div className="max-w-2xl mx-auto">
         <motion.header
           initial={{ opacity: 0, y: -4 }}

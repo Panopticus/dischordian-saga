@@ -4,6 +4,8 @@
    ═══════════════════════════════════════════════════════ */
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { useGame, type AwakeningStep } from "@/contexts/GameContext";
+import { usePlayer } from "@/contexts/PlayerContext";
+import { TITLE_T01_LOREDEX_ENTRY } from "@/lib/titleT01Entry";
 import AwakeningCharacterPreview from "@/pages/awakening/AwakeningCharacterPreview";
 import { useGamification } from "@/contexts/GamificationContext";
 import { useSound } from "@/contexts/SoundContext";
@@ -13,7 +15,6 @@ import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import HolographicElara from "@/components/HolographicElara";
 import OpeningCinematic from "@/components/OpeningCinematic";
-import { MobileNarratorSlot } from "@/components/MobileNarratorSlot";
 import { resolveRoomStateAsset } from "@/game/roomStateAssets";
 import { getAwakeningCinematic } from "@shared/awakeningCinematicPrompts";
 import { observe as observeWatcher } from "@/lib/watcher";
@@ -465,6 +466,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
   const { state, advanceAwakening, setCharacterChoice, completeAwakening, setAwakeningStep } = useGame();
   const { discoverEntry } = useGamification();
   const { initAudio, setRoomAmbience, playSFX, audioReady } = useSound();
+  const player = usePlayer();
   const [, navigate] = useLocation();
   const [nameInput, setNameInput] = useState("");
   const [screenOpacity, setScreenOpacity] = useState(0);
@@ -483,12 +485,28 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
   // lands inside the Awakening UI rather than as a toast that doesn't
   // mount until the post-Awakening app surface comes up.
   const [showWatcherAck, setShowWatcherAck] = useState(false);
-  const [showCinematic, setShowCinematic] = useState(() => {
-    // Only show cinematic on first visit (BLACKOUT step = very beginning)
-    if (typeof window === "undefined") return false;
-    const seen = localStorage.getItem("loredex_cinematic_seen");
-    return !seen;
-  });
+  // The Elara opening cutscene plays at the start of every new game —
+  // i.e. every time AwakeningPage mounts in BLACKOUT. We deliberately
+  // don't gate it on a localStorage flag: the cinematic is the
+  // ceremony that frames character creation, and skipping it for
+  // returning players collapses the awakening into a UI menu. Players
+  // who don't want it can SKIP each run; the button fades in after 2s.
+  const [showCinematic, setShowCinematic] = useState(true);
+
+  // Belt-and-braces stop for The Enigma's Lament. TitlePage already
+  // pauses it on unmount when the route changes, but on race-y nav
+  // (cached title page, fast back/forward, dev hot-reload) the audio
+  // occasionally bleeds into the Awakening cinematic. Pausing here on
+  // mount makes "the moment the actual game begins" the canonical
+  // stop point regardless of which navigation path got the player to
+  // /awakening. Mount-only — leaving it as a one-shot pause so the
+  // player can still play T01 later from the music player.
+  useEffect(() => {
+    if (player.currentSong?.id === TITLE_T01_LOREDEX_ENTRY.id) {
+      try { player.pause(); } catch { /* swallow */ }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const createCitizen = trpc.citizen.createCharacter.useMutation();
   const { awakeningStep, characterChoices } = state;
@@ -732,17 +750,12 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
   // (seen on some mobile browsers where the suspended context's resume
   // promise never settles). Without this, showCinematic stayed true and
   // the game never advanced past the faded-out cinematic.
-  const handleCinematicComplete = useCallback((themeAudio: HTMLAudioElement | null, reachedEndNaturally: boolean) => {
+  const handleCinematicComplete = useCallback((themeAudio: HTMLAudioElement | null, _reachedEndNaturally: boolean) => {
     themeAudioRef.current = themeAudio;
     setShowCinematic(false);
-    // Only persist the "seen" flag when the player actually watched the
-    // cinematic to its end. Safety-timer aborts, SKIP, and load errors
-    // all return false so the player gets another shot next session —
-    // otherwise an unlucky iOS Safari range-request quirk could lock
-    // a player out of the opening cinematic permanently.
-    if (reachedEndNaturally) {
-      try { localStorage.setItem("loredex_cinematic_seen", "1"); } catch { /* storage full */ }
-    }
+    // The Elara opening plays at the start of every new game — no
+    // "seen" flag, no skip-stickiness across runs.
+    void _reachedEndNaturally;
     // Initialize audio context from the cinematic user interaction — fire
     // and forget; never block the UI transition on this.
     if (!audioInitialized) {
@@ -801,12 +814,6 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
           waiting for the post-awakening summary. pointer-events-none
           so it never intercepts dialog clicks. */}
       <AwakeningCharacterPreview choices={characterChoices} />
-
-      {/* Mobile Narrator Slot — first contact (NARRATIVE_ARCHITECTURE.md §1.4 beat 1). */}
-      <MobileNarratorSlot
-        roomId="cryo_bay"
-        flags={new Set(["narrator_beat_1_interference"])}
-      />
 
       {/* Background layer — prefers a Kling cinematic for the current
           awakening step (Bioware-style video backdrop), falling back to
