@@ -470,6 +470,12 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
   const player = usePlayer();
   const [, navigate] = useLocation();
   const [nameInput, setNameInput] = useState("");
+  // Background screen-fade opacity. Starts at 0 so the BLACKOUT
+  // fade-in ramp can take it to 1 over 1.8s for fresh-start players.
+  // For RETURNING players whose `awakeningStep` is already past
+  // BLACKOUT (refresh mid-creation, dev hot-reload), the BLACKOUT
+  // effect never fires — so initialize directly to 1 in that case
+  // or the room backdrop stays invisible after the cinematic ends.
   const [screenOpacity, setScreenOpacity] = useState(0);
   const [showFrost, setShowFrost] = useState(true);
   const [heartbeat, setHeartbeat] = useState(true);
@@ -486,13 +492,27 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
   // lands inside the Awakening UI rather than as a toast that doesn't
   // mount until the post-Awakening app surface comes up.
   const [showWatcherAck, setShowWatcherAck] = useState(false);
-  // The Elara opening cutscene plays at the start of every new game —
-  // i.e. every time AwakeningPage mounts in BLACKOUT. We deliberately
-  // don't gate it on a localStorage flag: the cinematic is the
-  // ceremony that frames character creation, and skipping it for
-  // returning players collapses the awakening into a UI menu. Players
-  // who don't want it can SKIP each run; the button fades in after 2s.
-  const [showCinematic, setShowCinematic] = useState(true);
+  // The Elara opening cutscene plays once per browser session at the
+  // start of the awakening flow. Previously this was gated on
+  // `awakeningStep === "BLACKOUT"`, which broke as soon as the player
+  // advanced even once: BLACKOUT is left behind after the first 2.5s
+  // and persists past sessions via server-side game state, so a
+  // returning player (or a dev hot-reloading mid-creation) would
+  // never see the cinematic again. The cinematic is the ceremony
+  // that frames character creation, not a one-shot step inside it —
+  // it belongs whenever the player lands on AwakeningPage fresh,
+  // regardless of which step their saved state happens to be on.
+  // Per-session (not per-game) so a player who refreshes mid-
+  // creation isn't ambushed with the cinematic on every reload.
+  const SESSION_CINEMATIC_KEY = "awakening_cinematic_seen_this_session";
+  const [showCinematic, setShowCinematic] = useState(() => {
+    if (typeof window === "undefined") return true;
+    try {
+      return sessionStorage.getItem(SESSION_CINEMATIC_KEY) !== "1";
+    } catch {
+      return true;
+    }
+  });
 
   // Belt-and-braces stop for The Enigma's Lament. TitlePage already
   // pauses it on unmount when the route changes, but on race-y nav
@@ -754,8 +774,22 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
   const handleCinematicComplete = useCallback((themeAudio: HTMLAudioElement | null, _reachedEndNaturally: boolean) => {
     themeAudioRef.current = themeAudio;
     setShowCinematic(false);
-    // The Elara opening plays at the start of every new game — no
-    // "seen" flag, no skip-stickiness across runs.
+    // Mark this browser session as having seen the cinematic so a
+    // mid-creation refresh doesn't replay it. Session-scoped so a
+    // fresh tab / new browser session still gets the ceremony.
+    try {
+      sessionStorage.setItem(SESSION_CINEMATIC_KEY, "1");
+    } catch {
+      /* private mode — fall back to component-state-only */
+    }
+    // Returning players whose awakeningStep is already past BLACKOUT
+    // miss the BLACKOUT fade-in effect (it's gated on the step). Jump
+    // their backdrop opacity to 1 here so the room render is visible
+    // immediately after the cinematic dismisses.
+    if (awakeningStep !== "BLACKOUT") {
+      setScreenOpacity(1);
+      setHeartbeat(false);
+    }
     void _reachedEndNaturally;
     // Initialize audio context from the cinematic user interaction — fire
     // and forget; never block the UI transition on this.
@@ -801,8 +835,14 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
     };
   }, []);
 
-  // Show cinematic before everything else
-  if (showCinematic && awakeningStep === "BLACKOUT") {
+  // Show cinematic before everything else. Note: NOT gated on
+  // `awakeningStep === "BLACKOUT"` — that condition fails the moment
+  // the player advances past the opening fade, which made the
+  // cinematic effectively unreachable on any second visit (refresh
+  // mid-creation, dev hot-reload, new character on existing account).
+  // The cinematic is the ceremony that frames character creation;
+  // session-scoped state alone decides whether to show it.
+  if (showCinematic) {
     return <OpeningCinematic onComplete={handleCinematicComplete} />;
   }
 
