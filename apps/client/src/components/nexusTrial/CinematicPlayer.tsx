@@ -75,44 +75,73 @@ export function CinematicPlayerView({
       data-component="cinematic-player"
       data-cinematic-id={script.id}
       data-beat={beat}
-      className="void-radius void-border border void-bg-elevated p-6 font-mono"
+      data-has-video={script.videoUrl ? "true" : "false"}
+      className="void-radius void-border border void-bg-elevated relative overflow-hidden font-mono aspect-video"
       aria-live="polite"
       aria-label={`Cinematic: ${script.id}`}
     >
-      <header className="mb-4 flex items-center justify-between text-[10px] tracking-[0.25em] void-text-accent">
+      {/* Rendered video layer — the producer-delivered cinematic.
+          Autoplay muted on mount; the text beats overlay for
+          accessibility + as a fallback if the video errors. The
+          video respects the beat machine indirectly via the timing
+          model in BEAT_DURATIONS_MS, which roughly tracks the
+          producer's intended 6–12s clip durations. */}
+      {script.videoUrl && (
+        <video
+          key={script.videoUrl}
+          src={script.videoUrl}
+          autoPlay
+          muted
+          playsInline
+          preload="auto"
+          className="absolute inset-0 h-full w-full object-cover"
+          data-cinematic-video
+          aria-hidden="true"
+        />
+      )}
+
+      {/* Top-bar overlay — header strip sitting above the video. */}
+      <header
+        className="absolute top-0 left-0 right-0 void-bg-sunk px-6 py-2 flex items-center justify-between text-[10px] tracking-[0.25em] void-text-accent"
+      >
         <span>THE ANTIQUARIAN'S LEDGER</span>
         <span className="void-text-muted" data-readout="cinematic-id">
           {script.id}
         </span>
       </header>
 
-      <AnimatePresence mode="wait">
-        {beat === "antiquarian_opening" && (
-          <BeatPanel key="opening" speaker="ANTIQUARIAN">
-            {script.antiquarianOpening}
-          </BeatPanel>
-        )}
-        {beat === "character_line" && script.characterLine.length > 0 && (
-          <BeatPanel key="character" speaker={(script.npcKey ?? "—").toUpperCase()}>
-            {script.characterLine}
-          </BeatPanel>
-        )}
-        {beat === "action" && (
-          <BeatPanel key="action" speaker="STAGE" muted>
-            {script.actionDirections}
-          </BeatPanel>
-        )}
-        {beat === "antiquarian_closing" && (
-          <BeatPanel key="closing" speaker="ANTIQUARIAN">
-            {script.antiquarianClosing}
-          </BeatPanel>
-        )}
-        {beat === "romance_tag" && script.romanceTag && (
-          <BeatPanel key="romance" speaker={(script.npcKey ?? "—").toUpperCase()} romance>
-            {romanceLine}
-          </BeatPanel>
-        )}
-      </AnimatePresence>
+      {/* Subtitle overlay — text beats sit at the bottom of the
+          video, subtitle-style. void-bg-sunk backdrop only covers
+          the overlay band, keeping the video readable. */}
+      <div className="absolute bottom-0 left-0 right-0 void-bg-sunk px-6 py-4">
+        <AnimatePresence mode="wait">
+          {beat === "antiquarian_opening" && (
+            <BeatPanel key="opening" speaker="ANTIQUARIAN">
+              {script.antiquarianOpening}
+            </BeatPanel>
+          )}
+          {beat === "character_line" && script.characterLine.length > 0 && (
+            <BeatPanel key="character" speaker={(script.npcKey ?? "—").toUpperCase()}>
+              {script.characterLine}
+            </BeatPanel>
+          )}
+          {beat === "action" && (
+            <BeatPanel key="action" speaker="STAGE" muted>
+              {script.actionDirections}
+            </BeatPanel>
+          )}
+          {beat === "antiquarian_closing" && (
+            <BeatPanel key="closing" speaker="ANTIQUARIAN">
+              {script.antiquarianClosing}
+            </BeatPanel>
+          )}
+          {beat === "romance_tag" && script.romanceTag && (
+            <BeatPanel key="romance" speaker={(script.npcKey ?? "—").toUpperCase()} romance>
+              {romanceLine}
+            </BeatPanel>
+          )}
+        </AnimatePresence>
+      </div>
     </section>
   );
 }
