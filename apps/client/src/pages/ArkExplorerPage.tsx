@@ -72,6 +72,7 @@ import { useElaraVO } from "@/hooks/useElaraVO";
 import { useHumanVO } from "@/hooks/useHumanVO";
 import DnaDeviceOfferDialog from "@/components/DnaDeviceOfferDialog";
 import ParallaxRoom from "@/components/ParallaxRoom";
+import HotspotAuthor from "@/components/HotspotAuthor";
 import CinematicGate from "@/components/CinematicGate";
 import { useRoomArt } from "@/game/useRoomArt";
 import {
@@ -536,6 +537,14 @@ function RoomScene({
     typeof window !== "undefined" &&
     /[?&]debug-hotspots=1\b/.test(window.location.search);
 
+  // ?author-hotspots=1 — drag-to-place editor that mounts HotspotAuthor.
+  // Strictly local-state; the source of truth stays in ROOM_DEFINITIONS.
+  // The export-as-TS button puts a paste-ready HotspotDef literal on the
+  // clipboard so the author can drop it into GameContext.tsx by hand.
+  const authorHotspots =
+    typeof window !== "undefined" &&
+    /[?&]author-hotspots=1\b/.test(window.location.search);
+
   // Listen for settings page toggle
   useEffect(() => {
     const handler = (e: Event) => {
@@ -928,10 +937,21 @@ function RoomScene({
         })}
       </AnimatePresence>
 
+      {/* ?author-hotspots=1 — interactive drag-to-place editor. Sits at
+          z-70 above the regular hotspot click-targets so pointer events
+          go to the editor, not the in-game hotspots. */}
+      {authorHotspots && (
+        <HotspotAuthor
+          hotspots={room.hotspots}
+          roomId={room.id}
+          roomName={room.name}
+        />
+      )}
+
       {/* ?debug-hotspots=1 overlay — bounding box + id label per hotspot
           so we can re-anchor coordinates against the room art without
           guess-and-check. */}
-      {debugHotspots && room.hotspots.map((h) => (
+      {debugHotspots && !authorHotspots && room.hotspots.map((h) => (
         <div
           key={`debug-${h.id}`}
           aria-hidden
