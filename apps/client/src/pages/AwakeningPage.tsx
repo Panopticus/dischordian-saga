@@ -15,7 +15,6 @@ import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import HolographicElara from "@/components/HolographicElara";
 import OpeningCinematic from "@/components/OpeningCinematic";
-import { MobileNarratorSlot } from "@/components/MobileNarratorSlot";
 import { resolveRoomStateAsset } from "@/game/roomStateAssets";
 import { getAwakeningCinematic } from "@shared/awakeningCinematicPrompts";
 import { observe as observeWatcher } from "@/lib/watcher";
@@ -856,12 +855,11 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
           so it never intercepts dialog clicks. */}
       <AwakeningCharacterPreview choices={characterChoices} />
 
-      {/* Mobile narrator — first contact moment per
-          NARRATIVE_ARCHITECTURE.md §1.4. The narrator's introduction
-          beat fires on the Awakening page; the slot reads the room
-          and the narrative flags so the right opener is delivered.
-          Closes the Mobile Narrator page-adoption ship-check FAIL. */}
-      <MobileNarratorSlot roomId="cryo_bay" />
+      {/* Mobile narrator is intentionally NOT rendered during Awakening.
+          First contact (§1.4) reveals bond tiers, locked abilities, and
+          The Human's existence — beats that belong AFTER cryo, once the
+          player has actually woken up. The slot mounts on the Ark
+          exploration view, not here. */}
 
       {/* Background layer — prefers a Kling cinematic for the current
           awakening step (Bioware-style video backdrop), falling back to
@@ -947,8 +945,9 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
         </div>
       )}
 
-      {/* Skip Awakening button — always visible */}
-      <div className="absolute top-4 right-4 z-50">
+      {/* Skip Awakening button — pinned top-LEFT so it doesn't fight
+          the dossier card (AwakeningCharacterPreview is fixed top-right). */}
+      <div className="fixed top-4 left-4 z-50">
         <button
           onClick={() => setAwakeningStep("COMPLETE")}
           className="px-3 py-1.5 rounded-lg bg-black/40 backdrop-blur-sm border border-white/10 text-white/25 hover:text-white/50 font-mono text-xs transition-colors"
