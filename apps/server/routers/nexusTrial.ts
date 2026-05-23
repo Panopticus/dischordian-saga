@@ -38,6 +38,7 @@ import {
   isRomanceTagEligibleForPlayer,
 } from "../services/nexusTrialResolverService";
 import { cardBuckets, type CompanionKey } from "@shared/nexusTrial/buckets";
+import { burntCardArtFor } from "@shared/nexusTrial/burntCardArt";
 import { getPermadeathStore } from "@shared/resurrectionProtocols";
 
 /** Compose the idempotency key from the client-supplied tuple.
@@ -178,6 +179,10 @@ export const nexusTrialRouter = router({
         source: e.reason.source,
         finalNarration: e.reason.finalNarration,
         recordedAt: e.reason.recordedAt,
+        /** CDN URL to the burnt-card art variant, or null if no
+         *  variant has been authored for this npc (none ship in
+         *  canon today outside Locke + the 4 ballot candidates). */
+        burntCardArtUrl: burntCardArtFor(e.npcKey),
       })),
     };
   }),
