@@ -41,7 +41,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/the_humans_chip.webp"),
   flavorText:
     "He carried it the whole way. You're holding it now. You'll know what to do with it when you do.",
-  rulesVersion: "3.0.0",
+  rulesVersion: "1.1.0",
   // The chip is reserved from every pool. Only the Season 2 Wave 2
   // patch grants it, and only to romanced players whose Human was
   // sacrificed at Confession.
