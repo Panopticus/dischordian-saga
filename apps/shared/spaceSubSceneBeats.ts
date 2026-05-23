@@ -35,6 +35,14 @@ export interface SpaceSubSceneBeat {
   readonly prose: string;
   /** Verb shown on the "Continue" button (defaults to "Continue"). */
   readonly continueVerb?: string;
+  /**
+   * Optional downstream route. When present, the "Continue" button
+   * navigates to this path instead of returning to the parent
+   * /space/:canonicalId. Use for beats that hand off to real
+   * gameplay (Crucible → /duelyst-pvp, Trade Empire → /trade-empire/hub,
+   * Tower Defense → /terminus-swarm).
+   */
+  readonly continueRoute?: string;
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -45,8 +53,9 @@ export interface SpaceSubSceneBeat {
 
 const VEHICLE_BOARD_BEAT: SpaceSubSceneBeat = {
   prose:
-    "The hatch unseals. The interior smells the way every vessel's interior smells the first ten seconds — recycled air, rebreather seal, the cold patience of metal that has waited for you. Settle in. The ship knows you now.",
-  continueVerb: "Settle in",
+    "The hatch unseals. The interior smells the way every vessel's interior smells the first ten seconds — recycled air, rebreather seal, the cold patience of metal that has waited for you. Settle in. The fleet manifest knows you now.",
+  continueVerb: "Open the fleet manifest",
+  continueRoute: "/trade-empire/hub",
 };
 
 const CASTLE_OF_DEATH_BEAT: SpaceSubSceneBeat = {
@@ -59,18 +68,21 @@ const CRUCIBLE_BEAT: SpaceSubSceneBeat = {
   prose:
     "The arena's lights notice you before the crowd does. The viral swarm registers a pattern it has filed before — not your body, your tempo. The Source whispers: the room is rooting for the part of you that survives. Fight well.",
   continueVerb: "Step into the ring",
+  continueRoute: "/duelyst-pvp",
 };
 
 const TOWER_DEFENSE_BEAT: SpaceSubSceneBeat = {
   prose:
     "The perimeter is yours. The garrison has already moved aside. Somewhere in the strategic logs your name is the line that was missing. Hold what you came to hold.",
   continueVerb: "Take command",
+  continueRoute: "/terminus-swarm",
 };
 
 const TRADE_EMPIRE_BEAT: SpaceSubSceneBeat = {
   prose:
     "The market notices a trader it has prepared for. Locke would say the handshake was already in your file. Walk the floor. Prices remember you.",
   continueVerb: "Walk the floor",
+  continueRoute: "/trade-empire/hub",
 };
 
 const QUIZ_SHOW_BEAT: SpaceSubSceneBeat = {

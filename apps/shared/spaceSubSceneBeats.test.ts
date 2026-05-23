@@ -90,4 +90,41 @@ describe("spaceSubSceneBeats", () => {
     const beat = spaceSubSceneBeat("hb.universal_selector", "enter_hellbox");
     expect(beat?.prose).toMatch(/Selector|select/i);
   });
+
+  it("routes Crucible enter_arena to the PvP queue", () => {
+    const beat = spaceSubSceneBeat(
+      "dest.crucible.cr05_shadow_cathedral",
+      "enter_arena",
+    );
+    expect(beat?.continueRoute).toBe("/duelyst-pvp");
+  });
+
+  it("routes Tower Defense begin_defense to the swarm campaign", () => {
+    const beat = spaceSubSceneBeat(
+      "dest.tower_defense.td04_void_station",
+      "begin_defense",
+    );
+    expect(beat?.continueRoute).toBe("/terminus-swarm");
+  });
+
+  it("routes Trade Empire visit_sector to the trade hub", () => {
+    const beat = spaceSubSceneBeat(
+      "dest.trade_empire.te01_aurum_prime",
+      "visit_sector",
+    );
+    expect(beat?.continueRoute).toBe("/trade-empire/hub");
+  });
+
+  it("routes vehicle board to the fleet manifest", () => {
+    const beat = spaceSubSceneBeat("veh.cades_apc", "board");
+    expect(beat?.continueRoute).toBe("/trade-empire/hub");
+  });
+
+  it("Castle of Death investigate stays in the sub-scene (no route)", () => {
+    const beat = spaceSubSceneBeat(
+      "dest.castle_of_death.cod07_library_of_forbidden",
+      "investigate_chamber",
+    );
+    expect(beat?.continueRoute).toBeUndefined();
+  });
 });
