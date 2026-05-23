@@ -119,6 +119,136 @@ That's the entire integration. The producer MP4 already lives at
 `cdn/client-public/videos/chapter_intros/ch20_conexus_BONUS_complete.mp4`
 (strip-`_BONUS` resolver in `chapterIntroCutscenes.ts:67-72`).
 
+---
+
+## Once the writer picks — the exact PR
+
+Below is the named diff per option. Each is the smallest change
+that lights up the Conexus BONUS. Pick the option, paste the
+diff, run `pnpm check && pnpm test apps/shared/__tests__/bonusChapterIntroRouter.test.ts`,
+ship.
+
+### Option A — Authority arc completion (~5 lines, recommended)
+
+Setter site is right next to where `act_7_complete` is already
+fired (`apps/client/src/hooks/useNarrativeIntegration.ts:1349`).
+The act-7 gate already runs every state tick; adding the
+Authority flag is a single `setNarrativeFlag` call inside the
+existing `readyToFire` branch.
+
+```ts
+// apps/client/src/hooks/useNarrativeIntegration.ts — around line 1349
+if (act7Gate.readyToFire) {
+  setNarrativeFlag("act_7_complete", true);
+  setNarrativeFlag("narrative_spine_complete", true);
++ // Authority alignment lands at Act-7 close — Option A per
++ // docs/production/AUTHORITY_ALIGNMENT_RATIFICATION.md.
++ setNarrativeFlag("authority_alignment_aligned", true);
+  toast.info("Act 7 — The Convergence", { /* … */ });
+}
+```
+
+Then in `apps/shared/bonusChapterIntroTriggers.ts:74` flip
+`writerReview: true` → `false`. Then delete the
+`ch20_conexus_BONUS` entry from `livingDeferralCanon.ts`.
+
+Add a positive test in
+`apps/shared/__tests__/bonusChapterIntroRouter.test.ts` after
+line 109:
+
+```ts
+it("fires whenever act_7_complete fires (Option A — arc completion)", () => {
+  // Mirror the production-side hook: both flags set in the same tick.
+  const r = pickBonusChapterIntroToFire({
+    narrativeAct: 7,
+    flags: { act_7_complete: true, authority_alignment_aligned: true },
+  });
+  expect(r?.def.id).toBe("ch20_conexus_BONUS");
+});
+```
+
+**Tradeoff:** any player who finishes Act 7 sees the Conexus
+BONUS — alignment becomes synonymous with completion. If the
+writer wants the Conexus to feel earned by a specific stance,
+pick B or C.
+
+### Option B — Faction-meter threshold (~40 lines + new schema column)
+
+Authority isn't currently a tracked faction key. Two-part change:
+
+1. Add `"authority"` to faction reputation keys
+   (`apps/server/services/factionReputationService.ts` —
+   wherever the canonical key set is enumerated).
+2. In `apps/server/services/worldMoodService.ts`, on every
+   reputation tick, derive the alignment flag:
+
+```ts
+// apps/server/services/worldMoodService.ts — inside the
+// reputation-aggregation path.
+const authorityRep = await factionReputationService.get(userId, "authority");
+if (authorityRep >= AUTHORITY_ALIGNMENT_THRESHOLD) {
+  await setPublicFlag(userId, "authority_alignment_aligned", {
+    setBy: "world_mood:authority_threshold",
+  });
+}
+```
+
+Pick `AUTHORITY_ALIGNMENT_THRESHOLD` (60? 75?). Add a schema
+migration if the reputation column doesn't already include
+"authority." Add a `npcPublicFlags` row writer that's
+idempotent on (userId, flag).
+
+Test row mirrors Option A but injects via the reputation
+service. The brief recommends Option A unless you genuinely
+want the threshold game; B is the largest change of the three.
+
+### Option C — Choice-based commitment (~15 lines, narratively richest)
+
+The Convergence Seat dialog at the Act-7 climax is the
+narrative apex. Add an "aligned" branch in
+`apps/shared/act7OpponentDialog.ts` around the
+`THE_CONVERGENCE_SEAT` definition (line 116+). The branch's
+resolution writes the flag:
+
+```ts
+// apps/shared/act7OpponentDialog.ts — inside THE_CONVERGENCE_SEAT
+// choices array, alongside the existing options.
+{
+  id: "convergence_align_authority",
+  label: "Accept the Authority's testimony.",
+  setsFlags: { authority_alignment_aligned: true },
+  // optional: bumps Authority reputation, modifies Conexus tone, etc.
+},
+```
+
+Plus a per-NPC choice on the Convergence Seat opponent itself
+if the writer wants reinforcement (e.g. Vex Solene's "you've
+aligned" recognition line). Add the test row from Option A.
+
+**Tradeoff:** richest. The Conexus fires only when the player
+explicitly commits at the Seat. Authoring overhead is one
+dialog branch + the test row. The Convergence Seat dialog file
+is the natural seam — it's already where the saga's final
+narrative choice resolves.
+
+### Picking guide
+
+- **Simplest mechanical wiring → A.** One line, ships today.
+- **Authority-as-game-state → B.** Adds a real meter the player
+  drifts on. Largest scope.
+- **Authority-as-choice → C.** Reinforces the saga's commitment
+  philosophy. Moderate scope.
+
+Engineering's recommendation (recorded for the writer's
+convenience, not a vote): **A**. The Conexus is canonically the
+saga's "everything that was building has now landed" beat. The
+Authority arc is one of the strands that lands. Fire it on
+arc-close; if the writer wants the Conexus to discriminate
+further, the threshold or branch can be layered in later
+without breaking the gate.
+
+---
+
 ## Background
 
 The Conexus is the saga-final tribunal-of-witnesses surface
