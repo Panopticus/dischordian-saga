@@ -4,6 +4,17 @@
 >
 > Every commission below has an ID, source citations, generation-ready prompt, delivery target, T-minus deadline, and approval owner. Producers can hand each commission directly to its respective vendor.
 
+## Delivery status (live)
+
+| Section | Status | Notes |
+|---|---|---|
+| §1 — VO (25 commissions) | ⏳ open | Producer queue |
+| §2 — Cinematic visuals (8 mp4s) | ✅ **delivered** | Wired in PR #726 |
+| §2 — Cinematic posters (8 `_start.png`) | ✅ **delivered** | `posterUrl` field on every CinematicScript |
+| §3 — Burnt-card variants (5 webp) | ✅ **delivered** | `burntCardArtFor` manifest + `nexusTrial.permadeath` endpoint returns `burntCardArtUrl` |
+| §4 — Cosmetics (25 items) | ✅ **delivered (art)** | `NEXUS_TRIAL_COSMETICS` registry; cos_03 (title string) + cos_25 (CSS bundle) ship as data-only |
+| §5 — Adjacent SFX / Day-1 broadcast | ⏳ open | Producer queue |
+
 ---
 
 ## Front matter

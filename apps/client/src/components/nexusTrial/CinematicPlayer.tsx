@@ -90,6 +90,7 @@ export function CinematicPlayerView({
         <video
           key={script.videoUrl}
           src={script.videoUrl}
+          poster={script.posterUrl}
           autoPlay
           muted
           playsInline

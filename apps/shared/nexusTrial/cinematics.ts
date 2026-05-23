@@ -106,6 +106,10 @@ export interface CinematicScript {
    *  for accessibility and as a fallback for clients with video
    *  loading errors. */
   videoUrl: string;
+  /** CDN URL to the cinematic's poster frame (the producer's
+   *  `_start.png` for the corresponding Veo subject-reference).
+   *  Used as the <video poster=…> attribute for better loading UX. */
+  posterUrl: string;
 }
 
 /* ─── LOCKE — verdict_open (fixed canon, runs first) ─── */
@@ -128,6 +132,7 @@ const LOCKE: CinematicScript = {
     "prelude_tutorial_preserved",
   ],
   videoUrl: assetUrl("art/cutscenes/nexus_trial/verdict_locke.mp4"),
+  posterUrl: assetUrl("art/cutscenes/nexus_trial/verdict_locke_start.png"),
 } as const;
 
 /* ─── BALLOT VARIANTS ─── */
@@ -152,6 +157,7 @@ const WRAITH_CALDER: CinematicScript = {
     "thaloria_loredex_calder_attributions",
   ],
   videoUrl: assetUrl("art/cutscenes/nexus_trial/verdict_ballot_wraith_calder.mp4"),
+  posterUrl: assetUrl("art/cutscenes/nexus_trial/verdict_ballot_wraith_calder_start.png"),
 } as const;
 
 const LYCOS: CinematicScript = {
@@ -173,6 +179,7 @@ const LYCOS: CinematicScript = {
     "antiquarian_dialog_different_contract",
   ],
   videoUrl: assetUrl("art/cutscenes/nexus_trial/verdict_ballot_lycos.mp4"),
+  posterUrl: assetUrl("art/cutscenes/nexus_trial/verdict_ballot_lycos_start.png"),
 } as const;
 
 const AKAI_SHI: CinematicScript = {
@@ -194,6 +201,7 @@ const AKAI_SHI: CinematicScript = {
     "inscribe_akai_shi_already_inscribed_flip",
   ],
   videoUrl: assetUrl("art/cutscenes/nexus_trial/verdict_ballot_akai_shi.mp4"),
+  posterUrl: assetUrl("art/cutscenes/nexus_trial/verdict_ballot_akai_shi_start.png"),
 } as const;
 
 const VEX_SOLENE: CinematicScript = {
@@ -216,6 +224,7 @@ const VEX_SOLENE: CinematicScript = {
     "coda_dependents_will_not_arrive_beat",
   ],
   videoUrl: assetUrl("art/cutscenes/nexus_trial/verdict_ballot_vex_solene.mp4"),
+  posterUrl: assetUrl("art/cutscenes/nexus_trial/verdict_ballot_vex_solene_start.png"),
 } as const;
 
 /* ─── CONFESSION VARIANTS (hour 60, Trial Confession close) ─── */
@@ -248,6 +257,7 @@ const ELARA_DIES: CinematicScript = {
       "{player_name}. I would have stayed. — You know I would have stayed.",
   },
   videoUrl: assetUrl("art/cutscenes/nexus_trial/confession_elara_dies.mp4"),
+  posterUrl: assetUrl("art/cutscenes/nexus_trial/confession_elara_dies_start.png"),
 } as const;
 
 const HUMAN_DIES: CinematicScript = {
@@ -278,6 +288,7 @@ const HUMAN_DIES: CinematicScript = {
       "{player_name}. The chip is yours. — You'll know what to do with it when you do.",
   },
   videoUrl: assetUrl("art/cutscenes/nexus_trial/confession_human_dies.mp4"),
+  posterUrl: assetUrl("art/cutscenes/nexus_trial/confession_human_dies_start.png"),
 } as const;
 
 /* ─── ABORT FALLBACK (operator-fired) ─── */
@@ -300,6 +311,7 @@ const ABORT: CinematicScript = {
     "season_2_default_variant_activated",
   ],
   videoUrl: assetUrl("art/cutscenes/nexus_trial/verdict_abort.mp4"),
+  posterUrl: assetUrl("art/cutscenes/nexus_trial/verdict_abort_start.png"),
 } as const;
 
 /* ─── REGISTRY ─── */
