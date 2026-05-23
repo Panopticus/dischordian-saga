@@ -10,22 +10,45 @@ import { STORAGE_STATE_PATH } from "./global-setup";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const GLOBAL_SETUP = resolve(__dirname, "global-setup.ts");
 
+// Auth cookie binding is intentionally LEFT undefined-by-default
+// here. The previous broader env-var binding (committed in dd6356e
+// and reverted in this commit) applied the auth cookie to every
+// spec — which then broke ~12 public-route tests that expect a
+// logged-out title page (Google sign-in button, terms/privacy
+// links). Correct wiring is per-describe `test.use({ storageState })`
+// inside auth-gated describes only, tracked as a follow-up. The
+// existsSync below is a no-op on fresh CI (file doesn't exist at
+// config-load time, before globalSetup runs) but kept for local
+// developer ergonomics where re-runs find an existing file.
 const storageState = existsSync(STORAGE_STATE_PATH) ? STORAGE_STATE_PATH : undefined;
 
 export default defineConfig({
   testDir: ".",
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
-  retries: 1,
-  workers: process.env.CI ? 1 : undefined,
+  // CI: 0 retries (was 1). Most current failures are `waitForLoadState
+  // ("networkidle")` timeouts — the app maintains persistent WS/SSE
+  // connections so the network never idles. A retry just doubles the
+  // 30s test-timeout cost (60s/spec) without changing the outcome.
+  // Local: 1 retry to keep dev flake tolerance.
+  retries: process.env.CI ? 0 : 1,
+  // CI: 2 workers (was 1). Ubuntu-runner has 4 cores; doubling
+  // parallelism roughly halves wall-time of the suite. The suite
+  // currently can only run ~13 of 118 specs in the 12-min cap because
+  // every networkidle wait burns 30s; combined with retries:0 above
+  // and the globalTimeout bump below, the budget now reaches the full
+  // suite.
+  workers: process.env.CI ? 2 : undefined,
   timeout: 30_000,
-  // Whole-suite ceiling, well below the workflow's 15-minute job
-  // timeout. When the workflow timed out, the run was killed by GH
-  // Actions and its `if: failure()` artifact-upload step didn't
-  // execute — so we never got the report. With globalTimeout we hit
-  // the Playwright-level cap first, the run completes with
-  // status=failed, and the report uploads.
-  globalTimeout: 12 * 60_000,
+  // Whole-suite ceiling. The job's timeout-minutes is 25 (raised in
+  // a30ada8 once the env-stub fix made the server actually boot and
+  // the suite started taking real wall-time). Pre-Playwright steps
+  // (install + Chromium + build + server-start) run ~3 min, leaving
+  // ~22 min before GHA cancel; 20 min here ensures the suite caps
+  // and uploads the HTML report with comfortable headroom for upload
+  // and teardown. The cap exists so a hung spec can't run out the
+  // whole job — we always get a failure report.
+  globalTimeout: 20 * 60_000,
 
   globalSetup: GLOBAL_SETUP,
 

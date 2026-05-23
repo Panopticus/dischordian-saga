@@ -80,6 +80,26 @@ async function main(): Promise<void> {
     console.warn("[seed-e2e-user] cohort-columns bootstrap warning:", err);
   }
 
+  // Bootstrap the age-verification columns (audit/15.R4: dateOfBirth /
+  // ageVerificationCountry / ageVerifiedAt). Same orphan-not-in-journal
+  // situation as the cohort columns. The server applies this on boot
+  // (apps/server/_core/index.ts → bootstrapAgeVerificationColumns), but
+  // this seed runs as its OWN process BEFORE `pnpm start`, so without
+  // an explicit call here the Drizzle INSERT below fails with
+  // `Unknown column 'dateOfBirth' in 'field list'` — the exact CI
+  // e2e-job failure this fixes.
+  try {
+    const { bootstrapAgeVerificationColumns } = await import(
+      "../server/services/ageVerificationColumnsBootstrap"
+    );
+    await bootstrapAgeVerificationColumns();
+  } catch (err) {
+    console.warn(
+      "[seed-e2e-user] age-verification-columns bootstrap warning:",
+      err,
+    );
+  }
+
   const existing = await db
     .select({ id: users.id, openId: users.openId })
     .from(users)
@@ -101,7 +121,16 @@ async function main(): Promise<void> {
   console.log(`[seed-e2e-user] Created user ${openId}.`);
 }
 
-main().catch((err) => {
+main()
+  .then(() => {
+    // Force-exit on success. main() resolves once the user row is
+    // ensured, but getDb() opened a mysql2 pool (and the *Bootstrap
+    // imports register their own handles), so the Node event loop
+    // never drains on its own — without this the process hangs until
+    // CI force-cancels the step (~24m), so Playwright never runs.
+    process.exit(0);
+  })
+  .catch((err) => {
   // Print every diagnostic field MySQL / Drizzle expose so CI logs
   // surface the actual cause instead of an opaque "exit code 1".
   // The bare `console.error("...failed:", err)` was eating the

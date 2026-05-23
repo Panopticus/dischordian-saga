@@ -199,7 +199,14 @@ jobs:
   # dev cleavage adds them.
   e2e:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    # 25 min: with the server boot fixed (9d4be66 env stubs) the suite
+    # now legitimately runs to completion — pre-Playwright steps
+    # (install/browsers/build/start) ~3 min + Playwright at its 12-min
+    # globalTimeout cap ~12 min ≈ 15 min, exactly at the prior budget.
+    # One of two concurrent runs was cancelled at the 15-min cap; the
+    # other barely finished in 14m50s. 25 gives reliable headroom for
+    # the capped suite plus failure-report upload before GHA cancels.
+    timeout-minutes: 25
     # Runs on every push/PR by default. Skips in forks/dependabot
     # where secrets aren't injected — the global-setup falls back to
     # the embedded dev JWT secret in that case so auth-gated specs
@@ -220,6 +227,16 @@ jobs:
     env:
       DATABASE_URL: "mysql://root:ci_e2e_pw@127.0.0.1:3306/dischordian_e2e"
       JWT_SECRET: ${{ secrets.E2E_JWT_SECRET || 'ci-e2e-development-secret-not-for-prod' }}
+      # `pnpm start` runs the server with NODE_ENV=production, which
+      # makes apps/server/_core/env.ts's required() THROW on missing
+      # GOOGLE_CLIENT_ID / GOOGLE_CLIENT_SECRET at import time — the
+      # process dies before binding to :3000, the "Start app server"
+      # health probe times out after 24s, and every Playwright spec
+      # then hits net::ERR_CONNECTION_REFUSED. The OAuth flow itself
+      # is never exercised in e2e (auth-gated specs use the JWT seed
+      # bypass via E2E_AUTH_OPEN_ID), so stubs are sufficient.
+      GOOGLE_CLIENT_ID: "ci-e2e-stub-google-client-id"
+      GOOGLE_CLIENT_SECRET: "ci-e2e-stub-google-client-secret"
       E2E_AUTH_OPEN_ID: "e2e-test-user"
       E2E_AUTH_NAME: "E2E Test User"
       E2E_BASE_URL: "http://localhost:3000"
@@ -287,6 +304,22 @@ jobs:
         # run; missing tables surface as a Playwright spec failure.
         continue-on-error: true
         run: pnpm db:migrate:prod
+
+      - name: Provision full schema (drizzle-kit push)
+        # The e2e job runs the REAL server (`pnpm start` below), which
+        # calls ensureCriticalSchemaOrExit() at boot and FATAL-exits if
+        # critical tables are missing. With db:migrate:prod running
+        # continue-on-error against the drifted journal, dozens of
+        # schema.ts tables (dream_balance, season_clock_state, the
+        # trade_* family) are uncreated; the server crashes on boot
+        # and Playwright then hits ERR_CONNECTION_REFUSED on every
+        # spec. db:push diffs schema.ts → DB and applies it
+        # idempotently (CLAUDE.md: "safe on out-of-sync DBs"). Unlike
+        # db-smoke, this job has no test harness that drops the DB,
+        # so the pushed schema actually survives to the server boot.
+        # The guard (scripts/guard-db-push.ts) still blocks
+        # prod/managed hosts; this CI DB is 127.0.0.1.
+        run: pnpm db:push
 
       - name: Seed E2E test user
         run: pnpm seed:e2e-user
