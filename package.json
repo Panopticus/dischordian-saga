@@ -96,6 +96,7 @@
     "vo:wire-orphan-sources": "tsx apps/scripts/wire-orphan-vo-sources.ts",
     "vo:wire-orphan-sources:dry": "tsx apps/scripts/wire-orphan-vo-sources.ts --dry",
     "art:audit-ratchet-gaps": "tsx apps/scripts/audit-art-ratchet-gaps.ts",
+    "art:audit-zip": "tsx apps/scripts/audit-cdn-zip-vs-gaps.ts",
     "vo:purge-zombies:dry": "node scripts/_vo-purge-zombies.mjs",
     "vo:purge-zombies": "node scripts/_vo-purge-zombies.mjs --apply",
     "art:generate-csv": "tsx apps/scripts/generate-act1-art-csv.ts",
