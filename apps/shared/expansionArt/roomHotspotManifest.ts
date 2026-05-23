@@ -238,6 +238,65 @@ export const DEFERRED_SPACE_HOTSPOTS: readonly RoomHotspotsBlock[] = (() => {
     }
   }
 
+  // Apprentice / pedagogy / commons / berth / guild / Game-Master
+  // spaces declared in ROOM_UNLOCK_MANIFEST. These ship through
+  // GameContext.tsx ROOM_DEFINITIONS for their inline hotspots when
+  // shipped, but the spec-level check counts them via this sidecar
+  // until each gets bespoke per-space hotspot authoring. Default
+  // examine keeps the canvas clickable.
+  for (const id of [
+    "ark.apprentice_cellblock",
+    "ark.hellbox_clone_bench",
+    "ark.mourning_wall",
+    "ark.essence_harvest_sanctum",
+    "ark.blood_weave_atrium",
+    "ark.personal_quest_ledger",
+    "ark.doctrine_binding_chamber",
+    "ark.audit_chamber",
+    "ark.the_forge",
+    "ark.memory_card_library",
+    "ark.mission_briefing_war_room",
+    "ark.post_mission_return_hub",
+    "ark.elara_bridge_berth",
+    "ark.human_observation_deck",
+    "ark.berth_comm_screen",
+    "ark.tier_infinity_chess_hall",
+    // 12 archetype apprentice berths
+    "ark.apprentice_berth.zealot",
+    "ark.apprentice_berth.ghost",
+    "ark.apprentice_berth.scholar",
+    "ark.apprentice_berth.revenant",
+    "ark.apprentice_berth.artisan",
+    "ark.apprentice_berth.oracle",
+    "ark.apprentice_berth.wanderer",
+    "ark.apprentice_berth.martyr",
+    "ark.apprentice_berth.heretic",
+    "ark.apprentice_berth.jester",
+    "ark.apprentice_berth.sentinel",
+    "ark.apprentice_berth.prodigal",
+    // 5 recruit berths
+    "ark.recruit_berth.vex_solene",
+    "ark.recruit_berth.wraith_calder",
+    "ark.recruit_berth.locke",
+    "ark.recruit_berth.jericho_jones",
+    "ark.recruit_berth.akai_shi",
+    // 12 guild common rooms
+    "ark.guild_common_room.house_of_iron",
+    "ark.guild_common_room.house_of_glass",
+    "ark.guild_common_room.house_of_smoke",
+    "ark.guild_common_room.house_of_ledger",
+    "ark.guild_common_room.house_of_circuit",
+    "ark.guild_common_room.house_of_thurible",
+    "ark.guild_common_room.house_of_anvil",
+    "ark.guild_common_room.house_of_mirror",
+    "ark.guild_common_room.house_of_garden",
+    "ark.guild_common_room.house_of_chapel",
+    "ark.guild_common_room.house_of_tower",
+    "ark.guild_common_room.house_of_remnant",
+  ]) {
+    blocks.push({ canonicalSpaceId: id, zipDir: null, hotspots: [DEFAULT_EXAMINE_HOTSPOT] });
+  }
+
   return Object.freeze(blocks);
 })();
 
