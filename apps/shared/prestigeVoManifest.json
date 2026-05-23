@@ -1,4 +1,53 @@
 {
   "generatedAt": "1970-01-01T00:00:00.000Z",
-  "entries": []
+  "entries": [
+    {
+      "flagId": "prestige_elara_tier1",
+      "npcId": "elara",
+      "url": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Elara+Voices/prestige/prestige_elara_tier1.mp3",
+      "generatedAt": "2026-05-23T01:03:31.401Z"
+    },
+    {
+      "flagId": "prestige_elara_tier2",
+      "npcId": "elara",
+      "url": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Elara+Voices/prestige/prestige_elara_tier2.mp3",
+      "generatedAt": "2026-05-23T01:03:34.514Z"
+    },
+    {
+      "flagId": "prestige_elara_tier3plus",
+      "npcId": "elara",
+      "url": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Elara+Voices/prestige/prestige_elara_tier3plus.mp3",
+      "generatedAt": "2026-05-23T01:03:37.836Z"
+    },
+    {
+      "flagId": "prestige_elara_vehicles_tier2plus",
+      "npcId": "elara",
+      "url": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Elara+Voices/prestige/prestige_elara_vehicles_tier2plus.mp3",
+      "generatedAt": "2026-05-23T01:03:42.235Z"
+    },
+    {
+      "flagId": "prestige_locke_trade_empire_tier2plus",
+      "npcId": "adjudicator_locke",
+      "url": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Locke+Voices/prestige/prestige_locke_trade_empire_tier2plus.mp3",
+      "generatedAt": "2026-05-23T01:03:47.158Z"
+    },
+    {
+      "flagId": "prestige_source_crucible_tier1plus",
+      "npcId": "the_source",
+      "url": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Source+Voices/prestige/prestige_source_crucible_tier1plus.mp3",
+      "generatedAt": "2026-05-23T01:03:53.497Z"
+    },
+    {
+      "flagId": "prestige_necromancer_cod_tier1plus",
+      "npcId": "the_necromancer",
+      "url": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Necromancer+Voices/prestige/prestige_necromancer_cod_tier1plus.mp3",
+      "generatedAt": "2026-05-23T01:03:59.933Z"
+    },
+    {
+      "flagId": "prestige_meme_quiz_tier1plus",
+      "npcId": "the_meme",
+      "url": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Meme+Voices/prestige/prestige_meme_quiz_tier1plus.mp3",
+      "generatedAt": "2026-05-23T01:04:07.373Z"
+    }
+  ]
 }
