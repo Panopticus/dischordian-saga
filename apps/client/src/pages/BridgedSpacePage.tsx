@@ -18,7 +18,8 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { Link, useRoute } from "wouter";
-import { ChevronLeft, Lock } from "lucide-react";
+import { ChevronLeft, Lock, X, BookOpen } from "lucide-react";
+import type { RoomHotspotEntry } from "@shared/expansionArt/roomHotspotManifest";
 
 import { useGame } from "@/contexts/GameContext";
 import { trpc } from "@/lib/trpc";
@@ -115,6 +116,23 @@ export default function BridgedSpacePage() {
   });
   const hotspots = useMemo(() => hotspotsForSpace(canonicalId), [canonicalId]);
   const [hoveredHotspotId, setHoveredHotspotId] = useState<string | null>(null);
+  const [openHotspot, setOpenHotspot] = useState<RoomHotspotEntry | null>(null);
+  const visitUnlock = useMemo(() => visitLoredexUnlockFor(canonicalId), [canonicalId]);
+  const dossierEntityId = visitUnlock?.entityIds[0];
+
+  /** Verb for the hotspot modal's primary heading, derived from
+   *  hotspot.type. Matches the existing affordance vocabulary so the
+   *  player reads consistent verbs whether they hover or click. */
+  function verbFor(type: RoomHotspotEntry["type"]): string {
+    switch (type) {
+      case "interact": return "Engage";
+      case "examine":  return "Examine";
+      case "door":     return "Pass through";
+      case "item":     return "Pick up";
+      case "npc":      return "Approach";
+      case "terminal": return "Access";
+    }
+  }
 
   /* ─── Record the visit (idempotent ripple producer) ─── */
 
@@ -225,13 +243,7 @@ export default function BridgedSpacePage() {
               type="button"
               onMouseEnter={() => setHoveredHotspotId(h.id)}
               onMouseLeave={() => setHoveredHotspotId(null)}
-              onClick={() => {
-                // Authoring follow-up: route h.action to the appropriate
-                // surface (board / enter_zone / examine modal). Today
-                // the hotspot is an affordance signal — no navigation
-                // side effect — so the universe acknowledges the space
-                // without claiming behaviors that haven't shipped.
-              }}
+              onClick={() => setOpenHotspot(h)}
               className="absolute z-20 rounded font-mono text-[10px]"
               style={{
                 left: `${h.x}%`,
@@ -252,6 +264,56 @@ export default function BridgedSpacePage() {
           );
         })}
       </div>
+
+      {openHotspot && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-6"
+          style={{ background: "color-mix(in oklch, var(--bg-deep) 70%, transparent)" }}
+          onClick={() => setOpenHotspot(null)}
+          role="dialog"
+          aria-modal="true"
+          aria-label={openHotspot.name}
+          data-hotspot-modal-id={openHotspot.id}
+        >
+          <div
+            className="void-surface p-6 max-w-md w-full"
+            style={{ border: "1px solid var(--glass-border)" }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-start justify-between mb-3">
+              <div>
+                <div className="font-mono text-[10px] opacity-60 uppercase tracking-wider mb-1">
+                  {verbFor(openHotspot.type)}
+                </div>
+                <h2 className="font-display text-lg">{openHotspot.name}</h2>
+              </div>
+              <button
+                type="button"
+                onClick={() => setOpenHotspot(null)}
+                aria-label="Close"
+                className="opacity-70 hover:opacity-100"
+              >
+                <X size={18} />
+              </button>
+            </div>
+            <p className="text-sm leading-relaxed opacity-90 mb-5">
+              {openHotspot.description}
+            </p>
+            {dossierEntityId && (
+              <Link
+                href={`/entity/${dossierEntityId}`}
+                className="inline-flex items-center gap-2 px-3 py-2 rounded font-mono text-xs"
+                style={{
+                  background: "color-mix(in oklch, var(--electric-blue) 15%, transparent)",
+                  border: "1px solid color-mix(in oklch, var(--electric-blue) 40%, transparent)",
+                }}
+              >
+                <BookOpen size={12} /> Read dossier on {name}
+              </Link>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
