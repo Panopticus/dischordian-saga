@@ -54,7 +54,13 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
   const [videoState, setVideoState] = useState<"loading" | "waiting-for-click" | "playing-muted" | "playing-unmuted" | "needs-tap">("loading");
   const completedRef = useRef(false);
   const userClickedRef = useRef(false);
+  const videoFailedRef = useRef(false);
   const endSafetyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // Forward-ref to handleComplete so handleBeginClick (declared first
+  // to keep the file's existing top-to-bottom shape) can dismiss when
+  // the video has 403'd / failed to load. The ref is populated by the
+  // useEffect below as soon as handleComplete is defined.
+  const handleCompleteRef = useRef<(reachedEndNaturally: boolean) => void>(() => {});
 
   // Show skip button after a short delay — visible regardless of playback state
   // so users can always escape if the video fails to start.
@@ -78,7 +84,29 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
   const handleBeginClick = useCallback(async () => {
     userClickedRef.current = true;
     const video = videoRef.current;
-    if (!video) return;
+    // Video failed to load — the BEGIN click is still a real user
+    // gesture, so spin up the saga-theme bed (so the player gets the
+    // music handoff even with no cinematic), then dismiss. We pass
+    // reachedEndNaturally=false so the "seen" flag stays unset; if
+    // the video URL gets fixed later the player can still get the
+    // real cinematic on their next visit.
+    if (!video || videoFailedRef.current) {
+      if (!bedAudioRef.current) {
+        bedIdxRef.current = Math.floor(Math.random() * AWAKENING_BED_URLS.length);
+        const bed = new Audio(AWAKENING_BED_URLS[bedIdxRef.current]);
+        bed.preload = "auto";
+        bed.volume = BED_VOLUME_UNDER_VIDEO;
+        bed.addEventListener("ended", () => {
+          bedIdxRef.current = (bedIdxRef.current + 1) % AWAKENING_BED_URLS.length;
+          bed.src = AWAKENING_BED_URLS[bedIdxRef.current];
+          bed.play().catch(() => {});
+        });
+        bedAudioRef.current = bed;
+        bed.play().catch(() => {});
+      }
+      handleCompleteRef.current(false);
+      return;
+    }
 
     // Stop The Enigma's Lament if it's still riding under from the
     // title flow. TitlePage's unmount cleanup pauses it when the
@@ -180,6 +208,13 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
       onComplete(themeAudio, reachedEndNaturally);
     }, 800);
   }, [onComplete]);
+
+  // Forward-ref wiring (see declaration up top): keep
+  // handleCompleteRef pointing at the live handleComplete so
+  // handleBeginClick can reach it on the video-failed path.
+  useEffect(() => {
+    handleCompleteRef.current = handleComplete;
+  }, [handleComplete]);
 
   // When video ends naturally — this is the only path that flags the
   // cinematic as "seen" in the parent's localStorage.
@@ -285,6 +320,14 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
   const showUnmutePrompt = videoState === "playing-muted";
   const showStartPrompt = videoState === "needs-tap";
   const showBeginSplash = videoState === "waiting-for-click";
+  // The original code dismissed the entire cinematic when the video
+  // 403'd / failed to load — silently dumping the player into the
+  // BLACKOUT "EMERGENCY REVIVAL PROTOCOL INITIATED" frame after a
+  // blink of the BEGIN splash. The cinematic is the ceremony that
+  // frames creation; losing the video should NOT lose the ceremony.
+  // Track the error and degrade gracefully (title + BEGIN + SKIP
+  // remain visible against a black bed) instead.
+  const [videoFailed, setVideoFailed] = useState(false);
 
   return (
     <AnimatePresence>
@@ -295,23 +338,26 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
         className="fixed inset-0 z-[200] bg-black flex items-center justify-center"
         onClick={showBeginSplash ? handleBeginClick : handleTap}
       >
-        {/* Video — fullscreen cover */}
-        <video
-          ref={videoRef}
-          src={CINEMATIC_VIDEO}
-          className="absolute inset-0 w-full h-full object-cover"
-          playsInline
-          preload="auto"
-          onEnded={handleVideoEnd}
-          onLoadedMetadata={handleLoadedMetadata}
-          onDurationChange={handleDurationChange}
-          onTimeUpdate={handleTimeUpdate}
-          onError={() => {
-            console.error("[Opening Cinematic] Video failed to load, skipping");
-            handleComplete(false);
-          }}
-        />
-
+        {/* Video — fullscreen cover. Hidden once load fails so the
+            broken-media icon doesn't blink over the title card. */}
+        {!videoFailed && (
+          <video
+            ref={videoRef}
+            src={CINEMATIC_VIDEO}
+            className="absolute inset-0 w-full h-full object-cover"
+            playsInline
+            preload="auto"
+            onEnded={handleVideoEnd}
+            onLoadedMetadata={handleLoadedMetadata}
+            onDurationChange={handleDurationChange}
+            onTimeUpdate={handleTimeUpdate}
+            onError={() => {
+              console.error("[Opening Cinematic] Video failed to load — keeping splash up so the player can BEGIN or SKIP.");
+              videoFailedRef.current = true;
+              setVideoFailed(true);
+            }}
+          />
+        )}
         {/* Vignette overlay */}
         <div
           className="absolute inset-0 pointer-events-none"
