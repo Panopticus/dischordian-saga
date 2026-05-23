@@ -235,6 +235,12 @@ export const SURFACE_REGISTRY: readonly SurfaceEntry[] = [
     "bridged spaces — vehicles, destination subzones, panoramas (NEW_ART_2)",
   ),
   phase(
+    "/space/:canonicalId/:action",
+    2,
+    "apps/shared/spaceSubSceneBeats.ts",
+    "bridged-space sub-scene — focused approach-beat for an actionable hotspot",
+  ),
+  phase(
     "/vessels",
     2,
     "apps/shared/expansionArt/newArtRoomBridge.ts",
@@ -245,6 +251,12 @@ export const SURFACE_REGISTRY: readonly SurfaceEntry[] = [
     2,
     "apps/shared/expansionArt/newArtRoomBridge.ts",
     "Destination Map hub — list of the 60 bridged destination zones",
+  ),
+  phase(
+    "/chambers",
+    3,
+    "apps/shared/expansionArt/roomArtManifest.ts",
+    "Hellbox chambers hub — visit the 12 canonical Hellbox spaces",
   ),
   phase("/matrix/:episodeId", 1, "apps/shared/episodeMysteries.ts", "Matrix School episodes"),
   phase("/mol-garath-audience", 3, SAGA, "Mol'Garath audience"),
