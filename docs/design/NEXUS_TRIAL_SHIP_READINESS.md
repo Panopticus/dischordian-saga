@@ -100,6 +100,7 @@ Items intentionally deferred and tracked:
 - ✅ **Cinematic playback React layer** — PR #709 ships `CinematicPlayer` end-to-end with `nextBeat` machine, romance-tag interpolation, `useReducedMotion`, and Void Energy adoption
 - ✅ **`the_humans_chip` + `the_politicians_pin` card defs** — PR #711; both reserved, both granted by the Sprint 13 Season 2 patch composer at the right resolution
 - ✅ **MobileNarratorSlot on AwakeningPage** — PR #712 closes the pre-existing FAIL; `ship:check` now fully green
+- ✅ **Production commissions brief** — `docs/production/NEXUS_TRIAL_COMMISSIONS_BRIEF.md` lands 70 numbered AI-generation prompts (25 VO + 8 cinematic visuals + 5 burnt cards + 25 cosmetics + 7 adjacent SFX/broadcast), each citing source file + delivery target + T-minus deadline + approval owner. Producers can hand sections directly to vendors
 
 ## Audit corrections worth remembering
 
