@@ -39,7 +39,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/the_politicians_pin.webp"),
   flavorText:
     "Yellow thread on a silver pin. She wore it the first time. She wears it again.",
-  rulesVersion: "3.0.0",
+  rulesVersion: "1.1.0",
   reserved: true,
   balanceException: {
     reason:
