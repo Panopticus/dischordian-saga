@@ -322,6 +322,31 @@ export const DEFERRED_SPACE_HOTSPOTS: readonly RoomHotspotsBlock[] = (() => {
     "ark.guild_common_room.house_of_chapel",
     "ark.guild_common_room.house_of_tower",
     "ark.guild_common_room.house_of_remnant",
+    // 19 PART II §2.x spec-level rooms that are producer-art delivered
+    // (roomArtCoverageReport().producerDelivered) but neither hold an
+    // inline ROOM_DEFINITIONS block nor a sidecar entry above. Default
+    // examine keeps the canvas clickable; bespoke hotspots will land
+    // with per-room narrative passes as they get scheduled. Closes the
+    // hotspot_coverage ratchet gap.
+    "ark.chess_hall",                       // §2.36 Chess Hall
+    "ark.daily_resource_allocation",        // §2.41 Daily Resource Board
+    "ark.defense_command_center",           // §2.33 TD command center
+    "ark.dreamers_sanctum",                 // PART III pedagogy companion
+    "ark.eidolon_sanctum",                  // §2.48 Soul-Stones bond chamber
+    "ark.epoch_witness_conclave",           // §2.44 Epoch Witness archive
+    "ark.faction_succession_monument",      // §2.42 Succession monument
+    "ark.game_masters_sanctum",             // PART III GM-private sanctum
+    "ark.governance_chamber",               // §2.40 Governance / Council
+    "ark.grand_masters_sanctum",            // §2.37 Top-10 ladder room
+    "ark.hierarchy_throne_sanctum",         // §2.22 D9 throne sanctum
+    "ark.meditation_garden",                // PART III commons garden
+    "ark.memorial_corridor",                // §2.27 Memorial Corridor
+    "ark.nexus_point_sanctum",              // §2.45 Nexus Point Sanctum
+    "ark.pet_arena",                        // §2.29 Pet Arena + spectator
+    "ark.pet_garden",                       // §2.28 Pet breeding garden
+    "ark.pet_medical_annex",                // §2.30 Pet Medical Annex
+    "ark.prophecy_wall",                    // §2.46 Prophecy Wall
+    "ark.puzzle_study_chamber",             // §2.38 Daily-puzzle chamber
   ]) {
     blocks.push({ canonicalSpaceId: id, zipDir: null, hotspots: [DEFAULT_EXAMINE_HOTSPOT] });
   }
