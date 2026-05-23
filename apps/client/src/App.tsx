@@ -194,6 +194,8 @@ const Act2OpeningPage = lazy(() => import("./pages/Act2OpeningPage"));
 const EngineersBenchPage = lazy(() => import("./pages/EngineersBenchPage"));
 const HellboxPortalPage = lazy(() => import("./pages/HellboxPortalPage"));
 const BridgedSpacePage = lazy(() => import("./pages/BridgedSpacePage"));
+const VesselBayPage = lazy(() => import("./pages/VesselBayPage"));
+const DestinationMapPage = lazy(() => import("./pages/DestinationMapPage"));
 const MatrixSchoolEpisodePage = lazy(() => import("./pages/MatrixSchoolEpisodePage"));
 const MolGarathAudiencePage = lazy(() => import("./pages/MolGarathAudiencePage"));
 const MolGarathTrapsFeedPage = lazy(() => import("./pages/MolGarathTrapsFeedPage"));
@@ -463,6 +465,8 @@ function Router() {
         <Route path="/engineers-bench" component={EngineersBenchPage} />
         <Route path="/hellbox" component={HellboxPortalPage} />
         <Route path="/space/:canonicalId" component={BridgedSpacePage} />
+        <Route path="/vessels" component={VesselBayPage} />
+        <Route path="/destinations" component={DestinationMapPage} />
         <Route path="/matrix/:episodeId" component={MatrixSchoolEpisodePage} />
         <Route path="/mol-garath-audience" component={MolGarathAudiencePage} />
         <Route path="/mol-garath-traps" component={MolGarathTrapsFeedPage} />

@@ -234,6 +234,18 @@ export const SURFACE_REGISTRY: readonly SurfaceEntry[] = [
     "apps/shared/roomGating/roomUnlockManifest.ts",
     "bridged spaces — vehicles, destination subzones, panoramas (NEW_ART_2)",
   ),
+  phase(
+    "/vessels",
+    2,
+    "apps/shared/expansionArt/newArtRoomBridge.ts",
+    "Vessel Bay hub — list of the 7 bridged vehicles",
+  ),
+  phase(
+    "/destinations",
+    2,
+    "apps/shared/expansionArt/newArtRoomBridge.ts",
+    "Destination Map hub — list of the 60 bridged destination zones",
+  ),
   phase("/matrix/:episodeId", 1, "apps/shared/episodeMysteries.ts", "Matrix School episodes"),
   phase("/mol-garath-audience", 3, SAGA, "Mol'Garath audience"),
   phase("/mol-garath-traps", 3, SAGA, "Mol'Garath traps feed"),
