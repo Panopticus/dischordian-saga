@@ -362,12 +362,10 @@ export async function transitionPhase(
  * Apply the two Trial deaths at Verdict close.
  *
  *   - Locke is fixed canon (the Necromancer's price for banishment).
- *   - The ballot winner is the Vortex's price.
- *
- * Sprint 9 wires Locke's permadeath here; the ballot winner's
- * permadeath needs the Sprint 10 vote-aggregation resolver to name
- * the winner. Until that lands, we mark Locke and log a Sprint-10
- * TODO for the second name.
+ *   - The ballot winner is the Vortex's price — consumed from
+ *     `lastBallotWinner`, set by Sprint 10's cross-examination-close
+ *     resolver. Defaults to Akai Shi (the runbook's cosmic-threat
+ *     archetype) if the resolver couldn't run, e.g. on abort.
  */
 function applyVerdictPermadeath(trial: ActiveTrial): void {
   const store = getPermadeathStore();
