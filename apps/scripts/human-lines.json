@@ -603,7 +603,7 @@
   },
   {
     "id": "human.cryo-bay.cryo-pod.silent",
-    "text": "[stay silent]",
+    "text": "stay silent",
     "context": "inspection_response",
     "emotion": "neutral",
     "file": "client/src/contexts/GameContext.tsx"

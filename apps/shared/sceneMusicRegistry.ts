@@ -193,6 +193,71 @@ export const SCENE_MUSIC_CUES: SceneMusicCue[] = [
     fadeOutMs: 2000,
     note: "Climactic faction battle; stems crossfade through combat → climax.",
   },
+  // ── Acts 2 / 4 / 4.5 / 5 fill-in (Bucket B polish pass) ──
+  // The audit flagged these acts as scene-cue-less. Acts 1/3/6/7 had
+  // hero cues seeded by Phase E; this pass closes the per-act gap so
+  // every act has at least an intro + a combat/climax bed declared.
+  // Tracks reused from SONG_TRIGGER_MAP — no new music required.
+  {
+    sceneId: "act_2_intro",
+    baseTrackId: "governance-hub",
+    intensity: "ambient",
+    fadeInMs: 1500,
+    fadeOutMs: 1000,
+    allowCombatRamp: false,
+    note: "Act 2 (crafting / Mechronis Academy gating). Governance bed extends from Act 1 hub — Act 2 is mechanically the player learning the systems the governance bed already underscores.",
+  },
+  {
+    sceneId: "act_2_combat_default",
+    baseTrackId: "building-the-architect",
+    intensity: "combat",
+    fadeInMs: 500,
+    fadeOutMs: 700,
+    note: "Act 2 default card-battle bed. Mechronis Academy is where Building the Architect anchors per SONG_TRIGGER_MAP.",
+  },
+  {
+    sceneId: "act_4_intro",
+    baseTrackId: "the-prisoner",
+    intensity: "ambient",
+    fadeInMs: 1500,
+    fadeOutMs: 1000,
+    allowCombatRamp: false,
+    note: "Act 4 prisoner / extraction arc; The Prisoner is the canonical Panopticon-coded bed and Act 4 lives in that headspace.",
+  },
+  {
+    sceneId: "act_4_combat_default",
+    baseTrackId: "hacking-reality",
+    intensity: "combat",
+    fadeInMs: 400,
+    fadeOutMs: 600,
+    note: "Act 4 extraction/escape combat bed. Reuses the Battle of Nexon track since Act 4's combat shares Act 1's 'force-the-system' beat.",
+  },
+  {
+    sceneId: "act_4_5_intro",
+    baseTrackId: "planet-of-the-wolf",
+    intensity: "ambient",
+    fadeInMs: 2000,
+    fadeOutMs: 1500,
+    allowCombatRamp: true,
+    note: "Act 4.5 — Dead Man's Circuit. Optional racing/casino arc; Planet of the Wolf carries the right wager-or-die undercurrent. Combat ramp enabled for the racing minigame's escalation.",
+  },
+  {
+    sceneId: "act_5_intro",
+    baseTrackId: "the-two-witnesses",
+    intensity: "ambient",
+    fadeInMs: 2000,
+    fadeOutMs: 1500,
+    allowCombatRamp: false,
+    note: "Act 5 — War Room / army recruitment opens. Two Witnesses fits the recruitment-of-the-faithful framing.",
+  },
+  {
+    sceneId: "act_5_combat_default",
+    baseTrackId: "building-the-architect",
+    intensity: "combat",
+    fadeInMs: 500,
+    fadeOutMs: 700,
+    note: "Act 5 default combat bed; the army-vs-Architect framing fits the Mechronis-Academy anchor.",
+  },
   {
     sceneId: "codex_unlock_default",
     baseTrackId: "building-the-architect",

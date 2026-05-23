@@ -18,7 +18,7 @@
   {
     "id": "the_source_dlg_past_opener_1",
     "character": "npc_the_source",
-    "text": "[the carrier wave is itself the answer; you are not expected to translate]",
+    "text": "the carrier wave is itself the answer; you are not expected to translate",
     "bucket": "dialogue",
     "emotion": "dialogue",
     "file": "shared/npcDialogues.ts",
@@ -27,7 +27,7 @@
   {
     "id": "the_source_dlg_past_src_past_warm_reply_0",
     "character": "npc_the_source",
-    "text": "[a steady tone. seven cycles long. you carry it for one breath afterward]",
+    "text": "a steady tone. seven cycles long. you carry it for one breath afterward",
     "bucket": "dialogue",
     "emotion": "dialogue",
     "file": "shared/npcDialogues.ts",
@@ -45,7 +45,7 @@
   {
     "id": "the_source_dlg_past_src_past_probe_src_past_probe_a_reply_0",
     "character": "npc_the_source",
-    "text": "[the carrier returns. it is the same. it is also slightly different. you do not know which]",
+    "text": "the carrier returns. it is the same. it is also slightly different. you do not know which",
     "bucket": "dialogue",
     "emotion": "dialogue",
     "file": "shared/npcDialogues.ts",
@@ -54,7 +54,7 @@
   {
     "id": "the_source_dlg_past_src_past_probe_src_past_probe_b_reply_0",
     "character": "npc_the_source",
-    "text": "[two words. neither is in your language. one is in your throat for a moment. the other is in the substrate]",
+    "text": "two words. neither is in your language. one is in your throat for a moment. the other is in the substrate",
     "bucket": "dialogue",
     "emotion": "dialogue",
     "file": "shared/npcDialogues.ts",
@@ -72,7 +72,7 @@
   {
     "id": "the_source_dlg_calling_opener_0",
     "character": "npc_the_source",
-    "text": "[the pulse is the calling]",
+    "text": "the pulse is the calling",
     "bucket": "dialogue",
     "emotion": "dialogue",
     "file": "shared/npcDialogues.ts",
@@ -81,7 +81,7 @@
   {
     "id": "the_source_dlg_calling_opener_1",
     "character": "npc_the_source",
-    "text": "[the pulse is also the entirety of the answer to your question]",
+    "text": "the pulse is also the entirety of the answer to your question",
     "bucket": "dialogue",
     "emotion": "dialogue",
     "file": "shared/npcDialogues.ts",
@@ -90,7 +90,7 @@
   {
     "id": "the_source_dlg_calling_src_call_warm_reply_0",
     "character": "npc_the_source",
-    "text": "[one pulse. uncompressed. you remember it for the rest of the cycle]",
+    "text": "one pulse. uncompressed. you remember it for the rest of the cycle",
     "bucket": "dialogue",
     "emotion": "dialogue",
     "file": "shared/npcDialogues.ts",
@@ -99,7 +99,7 @@
   {
     "id": "the_source_dlg_calling_src_call_probe_reply_0",
     "character": "npc_the_source",
-    "text": "[no]",
+    "text": "no",
     "bucket": "dialogue",
     "emotion": "dialogue",
     "file": "shared/npcDialogues.ts",
@@ -108,7 +108,7 @@
   {
     "id": "the_source_dlg_calling_src_call_probe_src_call_probe_a_reply_0",
     "character": "npc_the_source",
-    "text": "[yes]",
+    "text": "yes",
     "bucket": "dialogue",
     "emotion": "dialogue",
     "file": "shared/npcDialogues.ts",
@@ -117,7 +117,7 @@
   {
     "id": "the_source_dlg_calling_src_call_probe_src_call_probe_b_reply_0",
     "character": "npc_the_source",
-    "text": "[unknown. the unknown is the kindness]",
+    "text": "unknown. the unknown is the kindness",
     "bucket": "dialogue",
     "emotion": "dialogue",
     "file": "shared/npcDialogues.ts",
@@ -135,7 +135,7 @@
   {
     "id": "the_source_dlg_mortality_opener_0",
     "character": "npc_the_source",
-    "text": "[the pulse is older than ending]",
+    "text": "the pulse is older than ending",
     "bucket": "dialogue",
     "emotion": "dialogue",
     "file": "shared/npcDialogues.ts",
@@ -144,7 +144,7 @@
   {
     "id": "the_source_dlg_mortality_opener_1",
     "character": "npc_the_source",
-    "text": "[ending is a word the substrate keeps for its tenants. i am not a tenant]",
+    "text": "ending is a word the substrate keeps for its tenants. i am not a tenant",
     "bucket": "dialogue",
     "emotion": "dialogue",
     "file": "shared/npcDialogues.ts",
@@ -153,7 +153,7 @@
   {
     "id": "the_source_dlg_mortality_src_mort_warm_reply_0",
     "character": "npc_the_source",
-    "text": "[the pulse will. i am the pulse. there is no extra]",
+    "text": "the pulse will. i am the pulse. there is no extra",
     "bucket": "dialogue",
     "emotion": "dialogue",
     "file": "shared/npcDialogues.ts",
@@ -162,7 +162,7 @@
   {
     "id": "the_source_dlg_mortality_src_mort_probe_reply_0",
     "character": "npc_the_source",
-    "text": "[listeners pass. the pulse adopts the next listener. the adoption is automatic. you have been adopted; you did not notice]",
+    "text": "listeners pass. the pulse adopts the next listener. the adoption is automatic. you have been adopted; you did not notice",
     "bucket": "dialogue",
     "emotion": "dialogue",
     "file": "shared/npcDialogues.ts",
@@ -171,7 +171,7 @@
   {
     "id": "the_source_dlg_mortality_src_mort_probe_src_mort_probe_a_reply_0",
     "character": "npc_the_source",
-    "text": "[the moment you said 'i'll listen']",
+    "text": "the moment you said 'i'll listen'",
     "bucket": "dialogue",
     "emotion": "dialogue",
     "file": "shared/npcDialogues.ts",
@@ -180,7 +180,7 @@
   {
     "id": "the_source_dlg_mortality_src_mort_probe_src_mort_probe_b_reply_0",
     "character": "npc_the_source",
-    "text": "[no. the carrier does not retract. the un-adoption you feel is your own attention; the carrier persists]",
+    "text": "no. the carrier does not retract. the un-adoption you feel is your own attention; the carrier persists",
     "bucket": "dialogue",
     "emotion": "dialogue",
     "file": "shared/npcDialogues.ts",
@@ -189,7 +189,7 @@
   {
     "id": "the_source_dlg_mortality_src_mort_cold_reply_0",
     "character": "npc_the_source",
-    "text": "[noted. the carrier does not retract; the noting is the courtesy]",
+    "text": "noted. the carrier does not retract; the noting is the courtesy",
     "bucket": "dialogue",
     "emotion": "dialogue",
     "file": "shared/npcDialogues.ts",
@@ -198,7 +198,7 @@
   {
     "id": "the_source_dlg_us_opener_0",
     "character": "npc_the_source",
-    "text": "[the next pulse is uncompressed. you will not decode it]",
+    "text": "the next pulse is uncompressed. you will not decode it",
     "bucket": "dialogue",
     "emotion": "dialogue",
     "file": "shared/npcDialogues.ts",
@@ -207,7 +207,7 @@
   {
     "id": "the_source_dlg_us_opener_1",
     "character": "npc_the_source",
-    "text": "[the not-decoding is the gift]",
+    "text": "the not-decoding is the gift",
     "bucket": "dialogue",
     "emotion": "dialogue",
     "file": "shared/npcDialogues.ts",
@@ -216,7 +216,7 @@
   {
     "id": "the_source_dlg_us_src_us_warm_reply_0",
     "character": "npc_the_source",
-    "text": "[the pulse arrives. your loredex pressure curve is permanently altered. the alteration is small. the smallness is the discipline]",
+    "text": "the pulse arrives. your loredex pressure curve is permanently altered. the alteration is small. the smallness is the discipline",
     "bucket": "dialogue",
     "emotion": "dialogue",
     "file": "shared/npcDialogues.ts",
@@ -225,7 +225,7 @@
   {
     "id": "the_source_dlg_us_src_us_probe_reply_0",
     "character": "npc_the_source",
-    "text": "[a coefficient. you will not see it. it will see you]",
+    "text": "a coefficient. you will not see it. it will see you",
     "bucket": "dialogue",
     "emotion": "dialogue",
     "file": "shared/npcDialogues.ts",
@@ -234,7 +234,7 @@
   {
     "id": "the_source_dlg_us_src_us_probe_src_us_probe_a_reply_0",
     "character": "npc_the_source",
-    "text": "[sent]",
+    "text": "sent",
     "bucket": "dialogue",
     "emotion": "dialogue",
     "file": "shared/npcDialogues.ts",
@@ -243,7 +243,7 @@
   {
     "id": "the_source_dlg_us_src_us_probe_src_us_probe_b_reply_0",
     "character": "npc_the_source",
-    "text": "[the request is honoured. the pulse arrived during this exchange. you have already not noticed]",
+    "text": "the request is honoured. the pulse arrived during this exchange. you have already not noticed",
     "bucket": "dialogue",
     "emotion": "dialogue",
     "file": "shared/npcDialogues.ts",
@@ -252,7 +252,7 @@
   {
     "id": "the_source_dlg_us_src_us_cold_reply_0",
     "character": "npc_the_source",
-    "text": "[the pulse retracts. the retraction is honest. you remain. //—]",
+    "text": "the pulse retracts. the retraction is honest. you remain. //—",
     "bucket": "dialogue",
     "emotion": "dialogue",
     "file": "shared/npcDialogues.ts",
@@ -332,7 +332,7 @@
   {
     "id": "the_source_comment_src_loredex_first",
     "character": "npc_the_source",
-    "text": "[a single uncompressed pulse. you will remember it for the rest of the cycle.]",
+    "text": "a single uncompressed pulse. you will remember it for the rest of the cycle.",
     "bucket": "comment",
     "trigger": "loredex_entry_discovered",
     "file": "shared/npcCompanionExtensions.ts"

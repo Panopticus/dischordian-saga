@@ -63,3 +63,25 @@ describe("listSceneIds", () => {
     expect(ids).toContain("codex_unlock_default");
   });
 });
+
+describe("per-act coverage — every act has at least an intro cue declared", () => {
+  // Bucket B audit closed the per-act gap. Acts 1/3/6/7 had hero
+  // cues; the polish pass added Acts 2/4/4.5/5 to bring every act
+  // up to at least one declared scene cue.
+  const REQUIRED_ACT_INTROS = [
+    "act_1_intro",
+    "act_2_intro",
+    "act_3_intro",
+    "act_4_intro",
+    "act_4_5_intro",
+    "act_5_intro",
+    "act_6_silence_in_heaven",
+    "act_7_fall_of_new_babylon",
+  ];
+
+  for (const sceneId of REQUIRED_ACT_INTROS) {
+    it(`has an intro cue for ${sceneId}`, () => {
+      expect(getSceneMusicCue(sceneId)).toBeDefined();
+    });
+  }
+});

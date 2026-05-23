@@ -1,7 +1,7 @@
 [
   {
     "id": "hierophant.first_meeting.root",
-    "text": "[The Hierophant does not look up. The pen continues — a name is being written. A small silence. Then another name. The chamber waits to see what kind of visitor you canonically are.]",
+    "text": "The Hierophant does not look up. The pen continues — a name is being written. A small silence. Then another name. The chamber waits to see what kind of visitor you canonically are.",
     "context": "first_meeting.hierophant-first-meeting",
     "emotion": "first_meeting",
     "file": "shared/npcs/dialogTrees/wraith_calder/first_meeting.ts",
@@ -10,7 +10,8 @@
       "treeId": "hierophant-first-meeting",
       "nodeId": "root",
       "requiresRevealStage": "post_arena"
-    }
+    },
+    "directionNotes": "[The Hierophant does not look up. The pen continues — a name is being written. A small silence. Then another name. The chamber waits to see what kind of visitor you canonically are.]"
   },
   {
     "id": "hierophant.first_meeting.silence_held",
@@ -68,7 +69,7 @@
   },
   {
     "id": "hierophant.first_meeting.terminal",
-    "text": "[The pen returns to the page. The next canonical-name canonically begins. The chamber is canonical-quiet again. You may stay; you may leave; the canonical-work canonically continues either way.]",
+    "text": "The pen returns to the page. The next canonical-name canonically begins. The chamber is canonical-quiet again. You may stay; you may leave; the canonical-work canonically continues either way.",
     "context": "first_meeting.hierophant-first-meeting",
     "emotion": "first_meeting",
     "file": "shared/npcs/dialogTrees/wraith_calder/first_meeting.ts",
@@ -77,7 +78,8 @@
       "treeId": "hierophant-first-meeting",
       "nodeId": "terminal",
       "requiresRevealStage": "post_arena"
-    }
+    },
+    "directionNotes": "[The pen returns to the page. The next canonical-name canonically begins. The chamber is canonical-quiet again. You may stay; you may leave; the canonical-work canonically continues either way.]"
   },
   {
     "id": "wraith.post_recruit.root",

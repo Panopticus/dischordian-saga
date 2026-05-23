@@ -35,6 +35,10 @@ import { dischordiaSounds } from "./SoundManager";
 import { cardVfxUrl, type CardVfxId } from "@shared/aaaArtArchive";
 import { dispatchEngineEventVfx } from "./engineEventVfx";
 import {
+  hierarchyMechanicVfxForCard,
+  type HierarchyMechanicVfxTrigger,
+} from "@shared/expansionArt/hierarchyMechanicsVfxMap";
+import {
   Swords, Heart, Zap, RotateCcw, SkipForward, Shield,
   Crosshair, Move, Sparkles, BookOpen, MessageCircle,
 } from "lucide-react";
@@ -233,6 +237,22 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
     setCardVfx({ id, key: cardVfxKeyRef.current });
     window.setTimeout(() => setCardVfx(null), durationMs);
   }, []);
+  // Producer-rendered hierarchy_mechanics VFX overlay. Distinct from
+  // cardVfx (which renders a PNG glow) — these are 4-6s mp4 clips
+  // bound to specific s2_hierarchy cards via hierarchyMechanicsVfxMap.
+  // Keyframe webp is used as the poster while the video buffers.
+  const [hierarchyVfx, setHierarchyVfx] = useState<
+    { trigger: HierarchyMechanicVfxTrigger; key: number } | null
+  >(null);
+  const hierarchyVfxKeyRef = useRef(0);
+  const triggerHierarchyVfx = useCallback(
+    (trigger: HierarchyMechanicVfxTrigger, durationMs = 1400) => {
+      hierarchyVfxKeyRef.current += 1;
+      setHierarchyVfx({ trigger, key: hierarchyVfxKeyRef.current });
+      window.setTimeout(() => setHierarchyVfx(null), durationMs);
+    },
+    [],
+  );
   /** Push the engine's GameEvent stream through the per-tile / SFX
    *  dispatcher. The inline triggerCardVfx() calls in player click
    *  handlers below cover the screen-level overlays for player
@@ -498,8 +518,19 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
       if (newSignatureTriggers.length > 0) {
         setSignatureCinematicQueue((prev) => [...prev, ...newSignatureTriggers]);
       }
+      // Bucket B — hierarchy_mechanics VFX. 3 producer-rendered mp4s
+      // were declared in cinematicsManifest but never triggered;
+      // hierarchyMechanicsVfxMap binds each to a specific s2_hierarchy
+      // card (perf-review wraith / quarterly forecaster / CFO debt
+      // collector). The brief overlay reads under the signature-
+      // cinematic queue so the queue still wins on simultaneous fires.
+      for (const ev of result.events) {
+        if (ev.type !== "card_played") continue;
+        const fx = hierarchyMechanicVfxForCard(ev.cardDefId);
+        if (fx) triggerHierarchyVfx(fx);
+      }
     },
-    [gameState],
+    [gameState, triggerHierarchyVfx],
   );
 
   // Initialize game — uses the shared tcg-core reducer via TcgClient.
@@ -1620,6 +1651,33 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
             animate={{ opacity: 1, scale: 1.05 }}
             exit={{ opacity: 0, scale: 1.15 }}
             transition={{ duration: 0.22, ease: "easeOut" }}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Hierarchy_mechanics producer VFX — short mp4 burst at board
+          center for the 3 bound s2_hierarchy cards. Plays muted +
+          inline so it doesn't gate audio focus or require interaction. */}
+      <AnimatePresence>
+        {hierarchyVfx && (
+          <motion.video
+            key={`hierarchyvfx-${hierarchyVfx.key}`}
+            src={hierarchyVfx.trigger.videoUrl}
+            poster={hierarchyVfx.trigger.keyframeUrl}
+            autoPlay
+            muted
+            playsInline
+            className="absolute left-1/2 top-1/2 z-40 pointer-events-none"
+            style={{
+              width: "45%",
+              maxWidth: 620,
+              transform: "translate(-50%, -50%)",
+              mixBlendMode: "screen",
+            }}
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 1.1 }}
+            transition={{ duration: 0.25, ease: "easeOut" }}
           />
         )}
       </AnimatePresence>
