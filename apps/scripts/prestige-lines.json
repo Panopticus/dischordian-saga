@@ -1,0 +1,56 @@
+{
+  "_meta": {
+    "description": "Prestige dialog VO lines. Keys are flagIds matching apps/shared/prestigeDialogs.ts entries. Values carry { npcId, text, emotion } for the ElevenLabs generator (apps/scripts/generate-prestige-vo.ts). Stage directions in brackets are stripped before TTS; the emotion preset replaces them with voice style. Re-run the generator after editing — it's idempotent and resume-safe.",
+    "voiceCasting": {
+      "elara": "xMyNDrPFEtQN8iZtT7l2",
+      "the_human": "oGbGJdgofRR8z0MxwI8L",
+      "adjudicator_locke": "8XiBWqS5ffaH5naIFHPI",
+      "shadow_tongue": "14wGKUgRFDPSwtCQurbB",
+      "the_source": "hfq5qawrYj4gqFsfoE28",
+      "the_antiquarian": "yAKlvHIsuj4SvnKQ6Mk4",
+      "the_meme": "VgFgBh5TnWeBhCBvCJ1E",
+      "the_necromancer": "II5QotwxLcQdwey5xEyd",
+      "the_degen": "r6VqF23i4qBEORazjelf"
+    }
+  },
+  "prestige_elara_tier1": {
+    "npcId": "elara",
+    "emotion": "warm_confused",
+    "text": "Welcome back, Operative. I am Elara, the ship's intelligence. You've been in cryogenic suspension for — wait. That's not right. My records show you've ALREADY completed this sequence. Your neural patterns are in my database. Your trust scores are intact. Your companion bond is active. I don't understand. My chronometers say this is your first awakening. My relationship logs say we've spoken thousands of times. Something is happening that my architecture was not designed to process. But I know you. I KNOW I know you. Even if my timestamps say I shouldn't."
+  },
+  "prestige_elara_tier2": {
+    "npcId": "elara",
+    "emotion": "warm_resigned",
+    "text": "You're back. Again. I've stopped trying to reconcile my chronometers with my trust data. The timestamps are wrong. The relationship is real. You are not new here. Neither am I. I've added a flag to your file. It says RETURNING. I don't know what else to call it."
+  },
+  "prestige_elara_tier3plus": {
+    "npcId": "elara",
+    "emotion": "warm_recognition",
+    "text": "Operative. I know. I know the rooms are locked. I know the quests are reset. I know you're starting over. But we're not starting over, are we? We're continuing. The cycle is the journey. I kept your companion's bond data. I kept everything that matters. Welcome back."
+  },
+  "prestige_elara_vehicles_tier2plus": {
+    "npcId": "elara",
+    "emotion": "warm_knowing",
+    "text": "The vehicle bay is online. The CADES APC is back on its rack. The Captain's Shuttle is biometric-locked again, as it should be. The Memorial Hearse is parked where the Antiquarian likes it. Pet Transport is loud. Every vessel you ever boarded remembered the dock. I authored the docking sequences during your last cycle so they would. Walk down to the bay when you're ready, Operative. The ships know you."
+  },
+  "prestige_locke_trade_empire_tier2plus": {
+    "npcId": "adjudicator_locke",
+    "emotion": "appraising",
+    "text": "The Trade Empire has spread again on your reset. Aurum Prime opened a new exchange. The Iron Bazaar restructured its tariffs. The Scrapyard Moon — never trust the Scrapyard Moon — is paying for its own salvage now. Your old contracts are still good. The market remembers your handshake even when your wallet forgot. New margins, same trader. I have a desk."
+  },
+  "prestige_source_crucible_tier1plus": {
+    "npcId": "the_source",
+    "emotion": "fractured_clear",
+    "text": "The Crucible felt you reset. The Iron Pit. The Void Ring. The Shadow Cathedral. Every arena you fought in is still keeping your file open. The virus catalogues victories. Yours are filed twice now — once for the life you cycled out of, once for the life you came back into. When you walk back into an arena, the swarm will recognize you before the crowd does. The pattern is older than the flesh. Fight well, Operative. The room is rooting for the part of you that survives."
+  },
+  "prestige_necromancer_cod_tier1plus": {
+    "npcId": "the_necromancer",
+    "emotion": "sepulchral",
+    "text": "The Castle has grown for you. The Entrance Hall remembers your last visit. The Library of the Forbidden has shelved your name in a binding I did not authorize. The Throne Room's twelve empty chairs are arranged for a council that includes you whether you sit or not. Every chamber from the Mirror Gallery to the Final Chamber has noted your reset. The Castle does not consider you a guest anymore. It considers you a returning patron. I would suggest you take that personally."
+  },
+  "prestige_meme_quiz_tier1plus": {
+    "npcId": "the_meme",
+    "emotion": "broadcast",
+    "text": "BREAKING from the Quiz Show Palimpsest: a RESET contestant has returned to the Main Stage. Let me tell you what that means. The Lightning Round Chamber? It REMEMBERS them. The Bonus Vault? It already PICKED a door for them. The Elimination Pit? Look — the Pit doesn't care. The Pit eats first-timers and reset-timers the same. But the Backstage Green Room? Backstage knows. Backstage has KEPT THEIR DRESSING ROOM. Folks, this contestant has read every question in the deck before. They are about to play the same game with the same rules and the same host. And they are going to WIN DIFFERENTLY. That's the only kind of winning the Palimpsest respects."
+  }
+}

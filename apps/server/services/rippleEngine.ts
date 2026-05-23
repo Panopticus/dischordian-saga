@@ -264,6 +264,23 @@ export interface SectorFirstEnteredEvent extends RippleEvent {
 }
 
 /**
+ * Room visited — emitted on every room visit (vehicles, destinations,
+ * Hellboxes, Ark rooms). The handler is idempotent on the
+ * `visited_<canonicalRoomId>` flag so the *flag* is set only once, but
+ * the *ripple* fires every visit (so transient surfaces — banter,
+ * world-mood ticks — can sample without storing N-visit state).
+ *
+ * Producer: discovery.recordRoomVisit mutation
+ * (apps/server/routers/discovery.ts).
+ */
+export interface RoomVisitedEvent extends RippleEvent {
+  canonicalRoomId: string;
+  category: "vehicle" | "destination_subzone" | "ark_room" | "hellbox" | "other";
+  /** True when this is the player's first visit (flag transitioned). */
+  isFirstVisit: boolean;
+}
+
+/**
  * Dream residue — emitted by Oracle dream-sequence resolution. Carries
  * (act, dream-id, instruction-residue) for Trade Empire mission-unlock
  * (per OCB-7 ticket).
@@ -1455,6 +1472,71 @@ on("sector_first_entered", async (ev) => {
     });
   } catch (err) {
     logger.warn("sector_first_entered handler failed", { err });
+  }
+});
+
+/**
+ * Room visited — primary handler.
+ *
+ * Sets the canonical `visited_<canonicalRoomId>` flag exactly once
+ * (idempotent on unique violation). Downstream surfaces consume the
+ * ripple directly (banter, world mood) or read the persistent flag
+ * (loredex unlocks — added in Phase C, prestige notification gating,
+ * etc.).
+ */
+on("room_visited", async (ev) => {
+  const { userId, canonicalRoomId, category, isFirstVisit } =
+    ev as RoomVisitedEvent;
+  if (!isFirstVisit) return;
+  try {
+    const db = await getDb();
+    if (!db) return;
+    const { npcPublicFlags } = await import("../../db/schema");
+    await db
+      .insert(npcPublicFlags)
+      .values({
+        userId,
+        flag: `visited_${canonicalRoomId}`,
+        setBy: `room_visit:${category}`,
+      })
+      .catch(() => {/* idempotent on uniq violation */});
+    logger.info("room_visited → public flag set", {
+      userId,
+      canonicalRoomId,
+      category,
+    });
+  } catch (err) {
+    logger.warn("room_visited handler failed", { err });
+  }
+});
+
+/**
+ * Room visited → loredex unlock. Looks up the bridged-space loredex
+ * entry in `visitLoredexUnlocks` and emits `loredex_entry_unlocked`
+ * for the existing pressure-tick handler. The client receives
+ * `firstVisit:true` from `recordRoomVisit` and surfaces the
+ * DiscoveryNotification, so this server handler covers only the
+ * server-side pressure contribution.
+ */
+on("room_visited", async (ev) => {
+  const { userId, canonicalRoomId, isFirstVisit } = ev as RoomVisitedEvent;
+  if (!isFirstVisit) return;
+  try {
+    const { visitLoredexUnlockFor } = await import(
+      "../../shared/visitLoredexUnlocks"
+    );
+    const unlock = visitLoredexUnlockFor(canonicalRoomId);
+    if (!unlock) return;
+    for (const entryId of unlock.entityIds) {
+      await emit("loredex_entry_unlocked", {
+        userId,
+        entryId,
+        entryType: "location",
+        source: "room_visit",
+      } as LoredexEntryUnlockedEvent);
+    }
+  } catch (err) {
+    logger.warn("room_visited → loredex handler failed", { err });
   }
 });
 

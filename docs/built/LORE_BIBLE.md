@@ -6,10 +6,10 @@
 
 - [Characters](#characters) (136)
 - [Factions](#factions) (17)
-- [Locations](#locations) (26)
+- [Locations](#locations) (86)
 - [Concepts](#concepts) (211)
 - [Events](#events) (45)
-- [Artifacts](#artifacts) (16)
+- [Artifacts](#artifacts) (23)
 - [Songs & Transmissions](#songs-transmissions) (118)
 
 ---
@@ -6816,6 +6816,636 @@ The Cursed Forest is a twisted region within the Matrix of Dreams where nature a
 
 ---
 
+## Castle of Death — Alchemy Lab
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+Glass vessels arranged with the careful disorder of someone trying to fail at immortality. The fume hood is older than the Castle.
+
+### Connections
+
+- Castle of Death
+- The Necromancer
+
+---
+
+## Castle of Death — Armory Of Legends
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+Weapons retired from the hands of heroes. The Castle's wards keep the swords from singing.
+
+### Connections
+
+- Castle of Death
+- The Necromancer
+
+---
+
+## Castle of Death — Ballroom Of Bones
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+A dance hall where the chandeliers are femurs and the orchestra never stops. The waltzes are very old and the dancers very patient.
+
+### Connections
+
+- Castle of Death
+- The Necromancer
+
+---
+
+## Castle of Death — Chapel Of False Saints
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+Stained glass depicting people who never existed in colors that should not exist. The pews are warm in winter and cold in summer.
+
+### Connections
+
+- Castle of Death
+- The Necromancer
+
+---
+
+## Castle of Death — Clocktower Mechanism
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+Brass gears the size of carriages turning a clock that has not kept correct time in centuries. The hour it shows is the hour someone died.
+
+### Connections
+
+- Castle of Death
+- The Necromancer
+
+---
+
+## Castle of Death — Crypt Of Ancestors
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+Stone sarcophagi arrayed in birth order. The Necromancer visits weekly to settle disputes among the dead.
+
+### Connections
+
+- Castle of Death
+- The Necromancer
+
+---
+
+## Castle of Death — Dining Hall Of Last Supper
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+A long table set for thirteen, perpetually. The food is always warm and never the same plate twice.
+
+### Connections
+
+- Castle of Death
+- The Necromancer
+
+---
+
+## Castle of Death — Entrance Hall
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+Black marble underfoot, a chandelier of antlers above. The first chamber any guest sees, and the last one any of them remember clearly.
+
+### Connections
+
+- Castle of Death
+- The Necromancer
+
+---
+
+## Castle of Death — Final Chamber Throne
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+The Castle's deepest seat. Anyone who reaches it learns whether the Necromancer asks them to sit or stand.
+
+### Connections
+
+- Castle of Death
+- The Necromancer
+
+---
+
+## Castle of Death — Flooded Dungeon
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+Knee-deep water, walls greened with algae. The cells are still locked from the inside.
+
+### Connections
+
+- Castle of Death
+- The Necromancer
+
+---
+
+## Castle of Death — Greenhouse Of Carnivores
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+Pitcher plants the size of barrels, a humidity that lives. The gardener counts visitors out as well as in.
+
+### Connections
+
+- Castle of Death
+- The Necromancer
+
+---
+
+## Castle of Death — Library Of Forbidden
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+A vault of grimoires the Castle's archivists swore not to read aloud. Some of the books still listen.
+
+### Connections
+
+- Castle of Death
+- The Necromancer
+
+---
+
+## Castle of Death — Mirror Gallery
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+A corridor lined with looking-glasses that do not all show the present. Visitors avoid eye contact with their own reflections here.
+
+### Connections
+
+- Castle of Death
+- The Necromancer
+
+---
+
+## Castle of Death — Music Room
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+A harpsichord that plays itself when nobody is listening. Servants leave bowls of seed out for the keys.
+
+### Connections
+
+- Castle of Death
+- The Necromancer
+
+---
+
+## Castle of Death — Observatory Of Doom
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+A telescope pointed at futures nobody asked to see. The observer's log shelf is longer than the room.
+
+### Connections
+
+- Castle of Death
+- The Necromancer
+
+---
+
+## Castle of Death — Poison Kitchen
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+Copper pots simmering with recipes that have outlived their cooks. The Necromancer's kitchen staff are exceedingly polite.
+
+### Connections
+
+- Castle of Death
+- The Necromancer
+
+---
+
+## Castle of Death — Portrait Gallery
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+Generations of the Castle's masters, eyes following the wrong direction. The Necromancer's portrait is always the most recent and never finished.
+
+### Connections
+
+- Castle of Death
+- The Necromancer
+
+---
+
+## Castle of Death — Servants Quarters
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+Narrow rooms where the staff sleep in shifts the living would call unkind. The bedclothes are always crisp.
+
+### Connections
+
+- Castle of Death
+- The Necromancer
+
+---
+
+## Castle of Death — Throne Room
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+A black-iron seat surrounded by twelve empty chairs. The Necromancer hosts council here when the Castle decides it wants advice.
+
+### Connections
+
+- Castle of Death
+- The Necromancer
+
+---
+
+## Castle of Death — Torture Garden
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+Hedges grown into instruments. The flowers bloom on a calendar of confession.
+
+### Connections
+
+- Castle of Death
+- The Necromancer
+
+---
+
+## Crucible — Acid Gardens
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+Foliage that bites back. Win conditions include 'still breathing'.
+
+### Connections
+
+- Crucible
+- The Source
+
+---
+
+## Crucible — Bone Garden
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+An arena floored with the cleaned remains of the failed. The Crucible's archivists insist this is decoration.
+
+### Connections
+
+- Crucible
+- The Source
+
+---
+
+## Crucible — Clockwork Maze
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+Walls that rotate on a schedule the arena's bookmakers have memorized. Contenders memorize too, slower.
+
+### Connections
+
+- Crucible
+- The Source
+
+---
+
+## Crucible — Crystal Cavern
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+A bout staged in echo. Sound here is a weapon and a tell.
+
+### Connections
+
+- Crucible
+- The Source
+
+---
+
+## Crucible — Frozen Colosseum
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+Ice underfoot, breath in the air, the audience layered in furs. The contender's heat is the only weather the arena knows.
+
+### Connections
+
+- Crucible
+- The Source
+
+---
+
+## Crucible — Gravity Well
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+An arena calibrated to make every step a calculation. The contender who stops thinking falls fastest.
+
+### Connections
+
+- Crucible
+- The Source
+
+---
+
+## Crucible — Iron Pit
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+The Crucible's introductory arena. Sand, walls, two doors — one for the contender, one for whatever comes out the other side.
+
+### Connections
+
+- Crucible
+- The Source
+
+---
+
+## Crucible — Living Forest
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+Trees that intervene. The Crucible licenses the woodland's grievances and offers them as ground rules.
+
+### Connections
+
+- Crucible
+- The Source
+
+---
+
+## Crucible — Mirror Dimension
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+An arena that doubles its opponents and halves its mercy. Contenders meet themselves and decide whose pride is heavier.
+
+### Connections
+
+- Crucible
+- The Source
+
+---
+
+## Crucible — Neon Undercity
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+A vertical bout in a city that forgot the sky. Sponsorship signs flicker in every fight.
+
+### Connections
+
+- Crucible
+- The Source
+
+---
+
+## Crucible — Shadow Cathedral
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+A consecrated ruin where the light only falls where the Crucible decides. Crowd noise is funneled by the architecture.
+
+### Connections
+
+- Crucible
+- The Source
+
+---
+
+## Crucible — Shipwreck Graveyard
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+An arena built across hulls that never finished sinking. Footing changes per round.
+
+### Connections
+
+- Crucible
+- The Source
+
+---
+
+## Crucible — Storm Spire
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+A platform at the lip of a constant storm. Lightning takes the slow.
+
+### Connections
+
+- Crucible
+- The Source
+
+---
+
+## Crucible — Void Ring
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+A circular platform suspended in nothing. Gravity is a tactical variable here.
+
+### Connections
+
+- Crucible
+- The Source
+
+---
+
+## Crucible — Volcanic Forge
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+A pit ringed with active vents. The bouts here are short for reasons of supply rather than skill.
+
+### Connections
+
+- Crucible
+- The Source
+
+---
+
 ## Inception Arks
 
 *Also known as: The Arks, Vessels of the Potentials*
@@ -6846,6 +7476,96 @@ Massive vessels designed by the Engineer and the Council of Harmony as a last re
 ### Dossier
 
 Eight strata of compacted dust beneath the Ark's lowest workshops. The founding charter sat in stratum six. Strata seven and eight closed over it after the burial — meaning two deliberate burials happened above it, one within living memory.
+
+---
+
+## Quiz Show — Backstage Green Room
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+Where the contestants wait. The catering is excellent. The previous show's contestants are sometimes still here.
+
+### Connections
+
+- Quiz Show Palimpsest
+- The Meme
+
+---
+
+## Quiz Show — Bonus Vault
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+A room of doors that open onto small fortunes. Contestants who choose well are encouraged not to choose again.
+
+### Connections
+
+- Quiz Show Palimpsest
+- The Meme
+
+---
+
+## Quiz Show — Elimination Pit
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+A drop chamber for the gracefully failed. The host is contractually obliged to wish them well.
+
+### Connections
+
+- Quiz Show Palimpsest
+- The Meme
+
+---
+
+## Quiz Show — Lightning Round Chamber
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+A timed booth. The clock here is faster than the player's pulse intends.
+
+### Connections
+
+- Quiz Show Palimpsest
+- The Meme
+
+---
+
+## Quiz Show — Main Stage
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+The Quiz Show Palimpsest's bright box. Cameras count down where the lights stop, and the host's smile does not waver.
+
+### Connections
+
+- Quiz Show Palimpsest
+- The Meme
 
 ---
 
@@ -6916,6 +7636,366 @@ Built by the first Panopticon as a tool of observation, it was corrupted into a 
 - [Apple music](TBD - Releases 7/30/26)
 - [Spotify](TBD - Releases 7/30/26)
 - [Tidal](https://tidal.com/browse/artist/49211320)
+
+---
+
+## Tower Defense — Clockwork City
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+A defensive grid that rebuilds itself between waves. The city's engineers were once attackers and remember.
+
+### Connections
+
+- Cades
+- Tower Defense
+
+---
+
+## Tower Defense — Crystal Mines
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+A defended industrial site. The mineshafts double as kill-corridors when the wave comes for the ore.
+
+### Connections
+
+- Cades
+- Tower Defense
+
+---
+
+## Tower Defense — Frozen Pass
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+A mountain corridor that has remembered every army that crossed it. Snow buries the noise of approach.
+
+### Connections
+
+- Cades
+- Tower Defense
+
+---
+
+## Tower Defense — Iron Fortress
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+The first defended position the campaign asks the player to hold. Walls high, gate narrow, courtyard small enough to know everyone in it.
+
+### Connections
+
+- Cades
+- Tower Defense
+
+---
+
+## Tower Defense — Jungle Temple
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+A defended ruin where the jungle is half the perimeter. Resupply lines are spoken of in past tense.
+
+### Connections
+
+- Cades
+- Tower Defense
+
+---
+
+## Tower Defense — Necropolis
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+Held in the name of the buried. The defenders are not always all currently alive.
+
+### Connections
+
+- Cades
+- Tower Defense
+
+---
+
+## Tower Defense — Sky Citadel
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+A fortress at altitude. The siege ladders here are gondolas, and the air thins faster than the line.
+
+### Connections
+
+- Cades
+- Tower Defense
+
+---
+
+## Tower Defense — Toxic Swamp
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+Defended by terrain as much as by garrison. The atmosphere itself is a counterattack.
+
+### Connections
+
+- Cades
+- Tower Defense
+
+---
+
+## Tower Defense — Void Station
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+An orbital fortress with thirty seconds of air between hull breach and resolution. The defenders rotate often.
+
+### Connections
+
+- Cades
+- Tower Defense
+
+---
+
+## Tower Defense — War Machine
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+A defensive installation that is mostly a single weapon. Hold the weapon, hold the field.
+
+### Connections
+
+- Cades
+- Tower Defense
+
+---
+
+## Trade Empire — Aurum Prime
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+The Trade Empire's gilded capital. Streets paved with assayed credit and traders who price their own children.
+
+### Connections
+
+- Locke
+- Trade Empire
+
+---
+
+## Trade Empire — Crystal Exchange
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+The Empire's hardest currency, traded by hand. The traders here count by feel.
+
+### Connections
+
+- Locke
+- Trade Empire
+
+---
+
+## Trade Empire — Data Haven
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+A sector that sells answers. The Empire's contracts are written here and the breaches are written elsewhere.
+
+### Connections
+
+- Locke
+- Trade Empire
+
+---
+
+## Trade Empire — Fuel Refinery
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+An orbital refinery whose burn-off lights the local night. Trade in fuel is brief and never sentimental.
+
+### Connections
+
+- Locke
+- Trade Empire
+
+---
+
+## Trade Empire — Garden World Agri
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+An agricultural colony that feeds three sectors. The fields are large enough to have weather of their own.
+
+### Connections
+
+- Locke
+- Trade Empire
+
+---
+
+## Trade Empire — Iron Bazaar
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+A market built around the ore that built the Empire. Bidding here is loud and the smelters never close.
+
+### Connections
+
+- Locke
+- Trade Empire
+
+---
+
+## Trade Empire — Resort World
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+A planet zoned entirely for leisure. The Empire's traders honeymoon here and convalesce here and occasionally retire here.
+
+### Connections
+
+- Locke
+- Trade Empire
+
+---
+
+## Trade Empire — Scrapyard Moon
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+A satellite whose surface is the wreck of a hundred trade wars. Salvage is the local industry; provenance, the local sin.
+
+### Connections
+
+- Locke
+- Trade Empire
+
+---
+
+## Trade Empire — Silk Nebula Port
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+A docking station for the longest haulers. Customs is conducted in seven dialects and three accents of silence.
+
+### Connections
+
+- Locke
+- Trade Empire
+
+---
+
+## Trade Empire — Void Market
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+| **Priority** | normal |
+
+### Dossier
+
+A floating market on the dark side of a gas giant. Reputation precedes you here and never quite catches up.
+
+### Connections
+
+- Locke
+- Trade Empire
 
 ---
 
@@ -11752,6 +12832,78 @@ In Epoch 2, long after the Authority's fall, the Potentials discovered these Sin
 
 ---
 
+## CADES APC
+
+| Field | Value |
+|-------|-------|
+| **Type** | Artifact |
+| **Priority** | normal |
+
+### Dossier
+
+A captured Trade Empire assault crawler reflagged for the CADES strike teams. The hull still carries the manufacturer's serial scored over by Cades's brand.
+
+### Connections
+
+- Cades
+- Trade Empire
+
+---
+
+## Captain's Shuttle
+
+| Field | Value |
+|-------|-------|
+| **Type** | Artifact |
+| **Priority** | normal |
+
+### Dossier
+
+The bridge officer's personal craft. Compact, fast, keyed to a single biometric lock — by design unflyable by anyone but its captain.
+
+### Connections
+
+- Elara
+- The Ark
+
+---
+
+## Combat Dropship
+
+| Field | Value |
+|-------|-------|
+| **Type** | Artifact |
+| **Priority** | normal |
+
+### Dossier
+
+An assault transport built for hot insertions. The interior smells of rebreather seals and the discipline of being too afraid to talk.
+
+### Connections
+
+- Cades
+- The Human
+
+---
+
+## Eidolon Vessel
+
+| Field | Value |
+|-------|-------|
+| **Type** | Artifact |
+| **Priority** | normal |
+
+### Dossier
+
+A ship whose substrate has bonded to its Eidolon. Pilots report the helm sometimes corrects them before they make the mistake.
+
+### Connections
+
+- Companion Bond
+- The Eidolon
+
+---
+
 ## Engineer Zero's Sigil
 
 | Field | Value |
@@ -11776,6 +12928,24 @@ The first imprint taken on the Ark, before the founding charter. The Architect's
 
 ---
 
+## Memorial Hearse
+
+| Field | Value |
+|-------|-------|
+| **Type** | Artifact |
+| **Priority** | normal |
+
+### Dossier
+
+A vehicle built to carry the dead. The Antiquarian's ledgers note how often it now carries the reset — those who came back from elsewhere.
+
+### Connections
+
+- Memorial Corridor
+- The Antiquarian
+
+---
+
 ## Module 17 Folio (Auro's Hand)
 
 | Field | Value |
@@ -11797,6 +12967,24 @@ Eleven hand-written pages: diagrams, drills, a self-test for Terminus feint reco
 ### Dossier
 
 An oil-burning lamp on Per. M.'s desk that has burned for an unbroken twenty-two epochs. Filament mineralised to the same chemistry as the seventh-signature wax, suggesting a forge temperature available only on the upper bands.
+
+---
+
+## Pet Transport Vessel
+
+| Field | Value |
+|-------|-------|
+| **Type** | Artifact |
+| **Priority** | normal |
+
+### Dossier
+
+A converted scout boat outfitted for living cargo. Its cabin is louder than the engines.
+
+### Connections
+
+- Pet Garden
+- The Ark
 
 ---
 
@@ -11898,6 +13086,24 @@ A parallel original of the founding charter, vellum cut from the same hide as th
 ### Dossier
 
 The Thalorian Vessel — Wraith Calder Arc reference. First unlocked in episode 'The Eighth Death' (wraith.e4). Episode context: The Sanctuary's Final Rite ended one body and seated the Hierophant. Wraith Calder remembers the rite as a release; the Hierophant remembers the rite as a coronation. Both memories are first-person. The case interrogates the seam: was the Eighth Death a death, or a passage? And if it was a passage, was it consented to?
+
+---
+
+## Trade Hub Cargo Vessel
+
+| Field | Value |
+|-------|-------|
+| **Type** | Artifact |
+| **Priority** | normal |
+
+### Dossier
+
+A wide-bellied freighter that runs the Trade Empire sectors. Whatever moves between the markets moves in one of these.
+
+### Connections
+
+- Locke
+- Trade Empire
 
 ---
 

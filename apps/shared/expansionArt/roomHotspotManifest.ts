@@ -6,18 +6,22 @@
  * `rooms_complete_library.zip` did NOT include per-room hotspot JSON
  * files — hotspot positioning is authored runtime-side.
  *
- * This manifest provides the data-only layer for hotspots on the
- * 105 deferred spaces (12 Hellboxes + 7 vehicles + 60 destinations +
- * 36 apprentice rooms) — anticipating the day producer-art lands
- * for those rooms, this is where their hotspots get authored.
+ * Post 2026-05-12 NEW_ART_{1,2} drop:
+ *   - The 12 Hellboxes ship through the primary roomArtManifest.
+ *   - The 7 vehicles + 60 destinations + 8 destination panoramas ship
+ *     through `newArtRoomBridge` (resolved by canonical space id).
+ *   - This manifest provides a sidecar hotspot layer for all of them
+ *     until per-space narrative-pass authoring lands precise affordances.
  *
- * For the 60 delivered rooms, hotspots remain inline in ROOM_DEFINITIONS
- * (GameContext.tsx); this manifest is a parallel store so the
+ * For the Ark rooms with hotspots inline in ROOM_DEFINITIONS
+ * (GameContext.tsx), this manifest is a parallel store so the
  * "every space has SOME hotspot affordance" parity gate can pass.
  *
  * Schema mirrors `HotspotDef` from GameContext.tsx but is data-only
  * (no React imports; safe to consume from server-side / parity gates).
  */
+
+import { NEW_ART_BRIDGED_ROOMS } from "./newArtRoomBridge";
 
 /**
  * Producer-style hotspot — bounding box at percentage coordinates
@@ -72,36 +76,170 @@ const DEFAULT_EXAMINE_HOTSPOT: RoomHotspotEntry = {
 };
 
 /**
- * The 105 deferred spaces from H.A coverage report — every space
- * gets at least a baseline default-examine hotspot until producer-
- * art + per-room narrative authoring lands.
- *
- * This list grows as additional deferred spaces are added.
+ * Vehicles ship with two affordances: a primary "Board" interaction
+ * (centered) and a secondary "Inspect" examine (lower-right). Producer
+ * art is centered on the vessel silhouette so a centered ~30%×30%
+ * box reliably covers the hull.
  */
-export const DEFERRED_SPACE_HOTSPOTS: readonly RoomHotspotsBlock[] = [
-  // 12 Hellboxes (per H.B coverage report)
-  { canonicalSpaceId: "hb.celebration_school", zipDir: null, hotspots: [DEFAULT_EXAMINE_HOTSPOT] },
-  { canonicalSpaceId: "hb.castle_of_death", zipDir: null, hotspots: [DEFAULT_EXAMINE_HOTSPOT] },
-  { canonicalSpaceId: "hb.quiz_show_palimpsest", zipDir: null, hotspots: [DEFAULT_EXAMINE_HOTSPOT] },
-  { canonicalSpaceId: "hb.mechronis_academy", zipDir: null, hotspots: [DEFAULT_EXAMINE_HOTSPOT] },
-  { canonicalSpaceId: "hb.universal_selector", zipDir: null, hotspots: [DEFAULT_EXAMINE_HOTSPOT] },
-  { canonicalSpaceId: "hb.dead_mans_circuit", zipDir: null, hotspots: [DEFAULT_EXAMINE_HOTSPOT] },
-  { canonicalSpaceId: "hb.degenerates_casino", zipDir: null, hotspots: [DEFAULT_EXAMINE_HOTSPOT] },
-  { canonicalSpaceId: "hb.editors_workshop", zipDir: null, hotspots: [DEFAULT_EXAMINE_HOTSPOT] },
-  { canonicalSpaceId: "hb.eternal_match", zipDir: null, hotspots: [DEFAULT_EXAMINE_HOTSPOT] },
-  { canonicalSpaceId: "hb.collected_souls", zipDir: null, hotspots: [DEFAULT_EXAMINE_HOTSPOT] },
-  { canonicalSpaceId: "hb.the_hive", zipDir: null, hotspots: [DEFAULT_EXAMINE_HOTSPOT] },
-  { canonicalSpaceId: "hb.dischordian_arena", zipDir: null, hotspots: [DEFAULT_EXAMINE_HOTSPOT] },
+function vehicleHotspots(name: string): readonly RoomHotspotEntry[] {
+  return [
+    {
+      id: "board",
+      name: `Board the ${name}`,
+      description: `Step aboard.`,
+      x: 35,
+      y: 35,
+      width: 30,
+      height: 30,
+      type: "interact",
+      action: "board_vehicle",
+    },
+    {
+      id: "inspect_hull",
+      name: "Inspect the hull",
+      description: "Read the markings, count the scars.",
+      x: 70,
+      y: 70,
+      width: 20,
+      height: 20,
+      type: "examine",
+    },
+  ];
+}
 
-  // 7 vehicles
-  { canonicalSpaceId: "veh.cades_apc", zipDir: null, hotspots: [DEFAULT_EXAMINE_HOTSPOT] },
-  { canonicalSpaceId: "veh.captains_shuttle", zipDir: null, hotspots: [DEFAULT_EXAMINE_HOTSPOT] },
-  { canonicalSpaceId: "veh.cargo_vessel", zipDir: null, hotspots: [DEFAULT_EXAMINE_HOTSPOT] },
-  { canonicalSpaceId: "veh.combat_dropship", zipDir: null, hotspots: [DEFAULT_EXAMINE_HOTSPOT] },
-  { canonicalSpaceId: "veh.pet_transport", zipDir: null, hotspots: [DEFAULT_EXAMINE_HOTSPOT] },
-  { canonicalSpaceId: "veh.eidolon_vessel", zipDir: null, hotspots: [DEFAULT_EXAMINE_HOTSPOT] },
-  { canonicalSpaceId: "veh.memorial_hearse", zipDir: null, hotspots: [DEFAULT_EXAMINE_HOTSPOT] },
-];
+/**
+ * Destination hotspot template — one primary action keyed to the
+ * destination category, plus an examine fallback. The producer art is
+ * a panoramic / establishing shot, so the primary affordance sits
+ * lower-center where the player's gaze lands.
+ */
+function destinationHotspots(
+  category: string,
+  zoneLabel: string,
+): readonly RoomHotspotEntry[] {
+  const primary = {
+    castle_of_death: { id: "investigate_chamber", name: "Investigate", description: "Step into the chamber.", action: "enter_zone" },
+    crucible: { id: "enter_arena", name: "Enter the arena", description: "Queue for the next bout.", action: "enter_zone" },
+    tower_defense: { id: "begin_defense", name: "Begin defense", description: "Take command of the perimeter.", action: "enter_zone" },
+    trade_empire: { id: "visit_sector", name: "Visit the sector", description: "Open the market.", action: "enter_zone" },
+    quiz_show: { id: "take_the_stage", name: "Take the stage", description: "The lights are on.", action: "enter_zone" },
+  }[category];
+
+  const primaryEntry: RoomHotspotEntry = primary
+    ? {
+        id: primary.id,
+        name: primary.name,
+        description: primary.description,
+        x: 35,
+        y: 50,
+        width: 30,
+        height: 30,
+        type: "interact",
+        action: primary.action,
+        notes: `category=${category}; zone=${zoneLabel}`,
+      }
+    : DEFAULT_EXAMINE_HOTSPOT;
+
+  return [
+    primaryEntry,
+    {
+      id: "survey",
+      name: "Survey the surroundings",
+      description: "Pan the horizon. Note what doesn't move.",
+      x: 5,
+      y: 5,
+      width: 20,
+      height: 20,
+      type: "examine",
+    },
+  ];
+}
+
+/**
+ * Panoramas are establishing vistas — a single "look" examine.
+ */
+function panoramaHotspots(label: string): readonly RoomHotspotEntry[] {
+  return [
+    {
+      id: "regard",
+      name: `Regard the ${label}`,
+      description: "Hold the view in mind. It will matter later.",
+      x: 30,
+      y: 30,
+      width: 40,
+      height: 40,
+      type: "examine",
+    },
+  ];
+}
+
+const VEHICLE_LABELS: ReadonlyMap<string, string> = new Map([
+  ["veh.cades_apc", "CADES APC"],
+  ["veh.captains_shuttle", "Captain's Shuttle"],
+  ["veh.cargo_vessel", "Cargo Vessel"],
+  ["veh.combat_dropship", "Combat Dropship"],
+  ["veh.pet_transport", "Pet Transport"],
+  ["veh.eidolon_vessel", "Eidolon Vessel"],
+  ["veh.memorial_hearse", "Memorial Hearse"],
+]);
+
+/**
+ * Bridged-space hotspots — every space that resolves through
+ * `newArtRoomBridge` or as a Hellbox in the primary manifest gets a
+ * sidecar hotspot block here. Derived structurally where possible;
+ * narrative-pass authoring will override entries on a case-by-case basis.
+ */
+export const DEFERRED_SPACE_HOTSPOTS: readonly RoomHotspotsBlock[] = (() => {
+  const blocks: RoomHotspotsBlock[] = [];
+
+  // 12 Hellboxes — primary art ships via roomArtManifest. The default
+  // examine hotspot remains the floor; per-Hellbox affordances land
+  // with narrative pass.
+  for (const id of [
+    "hb.celebration_school",
+    "hb.castle_of_death",
+    "hb.quiz_show_palimpsest",
+    "hb.mechronis_academy",
+    "hb.universal_selector",
+    "hb.dead_mans_circuit",
+    "hb.degenerates_casino",
+    "hb.editors_workshop",
+    "hb.eternal_match",
+    "hb.collected_souls",
+    "hb.the_hive",
+    "hb.dischordian_arena",
+  ]) {
+    blocks.push({ canonicalSpaceId: id, zipDir: null, hotspots: [DEFAULT_EXAMINE_HOTSPOT] });
+  }
+
+  // 7 vehicles — primary action "Board", secondary "Inspect hull".
+  for (const [id, label] of VEHICLE_LABELS) {
+    blocks.push({ canonicalSpaceId: id, zipDir: null, hotspots: vehicleHotspots(label) });
+  }
+
+  // Bridged destinations — derived from the NEW_ART bridge so this
+  // list stays in lockstep with the inventory. Avoids static
+  // enumeration of 60 entries.
+  for (const room of NEW_ART_BRIDGED_ROOMS) {
+    if (room.category === "destination_subzone") {
+      const [, cat, slug] = room.canonicalSpaceId.split(".");
+      blocks.push({
+        canonicalSpaceId: room.canonicalSpaceId,
+        zipDir: null,
+        hotspots: destinationHotspots(cat, slug),
+      });
+    } else if (room.category === "destination_panorama") {
+      const label = room.canonicalSpaceId.replace("dest.panorama.", "").replace(/_/g, " ");
+      blocks.push({
+        canonicalSpaceId: room.canonicalSpaceId,
+        zipDir: null,
+        hotspots: panoramaHotspots(label),
+      });
+    }
+  }
+
+  return Object.freeze(blocks);
+})();
 
 /** O(1) lookup by canonicalSpaceId. */
 export const DEFERRED_SPACE_HOTSPOTS_BY_ID: ReadonlyMap<
@@ -111,7 +249,8 @@ export const DEFERRED_SPACE_HOTSPOTS_BY_ID: ReadonlyMap<
   DEFERRED_SPACE_HOTSPOTS.map((b) => [b.canonicalSpaceId, b] as const),
 );
 
-/** Total deferred-space hotspot blocks (19 spaces stubbed at H.H). */
+/** Total bridged-space hotspot blocks (12 Hellboxes + 7 vehicles + 60
+ *  destinations + 8 panoramas = 87). */
 export const DEFERRED_SPACE_HOTSPOTS_TOTAL = DEFERRED_SPACE_HOTSPOTS.length;
 
 /** Lookup a space's hotspots; falls back to a single default-examine

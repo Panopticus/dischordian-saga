@@ -85,9 +85,31 @@ describe("roomArtManifest — Phase H.B", () => {
     );
   });
 
-  it("roomArtBaselineUrl returns undefined for a non-existent room (deferred space)", () => {
-    expect(roomArtBaselineUrl("hb.celebration_school")).toBeUndefined();
-    expect(roomArtBaselineUrl("veh.cades_apc")).toBeUndefined();
+  it("roomArtBaselineUrl resolves canonical Hellbox id via remap", () => {
+    // hb.celebration_school has zipDir "hellbox/celebration_school" in the manifest.
+    // The canonical-id path goes through ROOM_ART_CANONICAL_TO_ZIP.
+    const url = roomArtBaselineUrl("hb.celebration_school");
+    expect(url).toBe(
+      "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/hellbox/celebration_school/baseline.png",
+    );
+  });
+
+  it("roomArtBaselineUrl resolves veh.cades_apc via NEW_ART bridge", () => {
+    const url = roomArtBaselineUrl("veh.cades_apc");
+    expect(url).toBe(
+      "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/vehicles/cades_apc/exterior.png",
+    );
+  });
+
+  it("roomArtBaselineUrl resolves a destination subzone via NEW_ART bridge", () => {
+    const url = roomArtBaselineUrl("dest.crucible.cr01_iron_pit");
+    expect(url).toBe(
+      "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/destinations/crucible/cr01_iron_pit.png",
+    );
+  });
+
+  it("roomArtBaselineUrl returns undefined for an unknown space", () => {
+    expect(roomArtBaselineUrl("not_a_real_space")).toBeUndefined();
   });
 
   it("roomArtStateUrl returns the correct URL for cryo_bay TV-spreading", () => {
@@ -134,15 +156,15 @@ describe("roomArtManifest — Phase H.B", () => {
     expect(tvValues).toContain("spreading");
   });
 
-  it("coverage report after H2.A pass 3 — 142 zipDirs delivered, all 12 Hellboxes have art", () => {
+  it("coverage report — NEW_ART bridge delivers all 12 HB + 7 veh + 60 dest", () => {
     const report = roomArtCoverageReport();
-    expect(report.producerDelivered.length).toBeGreaterThanOrEqual(120);
+    // Spec-level aggregation: ~159 of 166 declared spaces have art
+    // (4 prefixes: ark, hb, dest, veh; sub-rooms collapse to parents).
+    expect(report.producerDelivered.length).toBeGreaterThanOrEqual(150);
     expect(report.producerNewNotInSpec.length).toBe(5); // pass 1 NEWs unchanged
-    // ALL 12 Hellboxes delivered as of pass 3
     expect(report.deferredHellboxes.length).toBe(0);
-    expect(report.deferredVehicles.length).toBe(7);
-    // 0 HB + 7 veh + 60 dest + ~10 apprentice/etc still deferred
-    expect(report.deferredCount).toBeLessThanOrEqual(85);
+    expect(report.deferredVehicles.length).toBe(0);
+    expect(report.deferredCount).toBe(0);
   });
 
   it("every entry has a unique synthetic id <zipDir>:<variantKey>", () => {

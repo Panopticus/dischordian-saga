@@ -122,8 +122,8 @@ describe("Anchor #4: End-of-Epoch-1 four-presences", () => {
     expect(anchor.preConditions.minAct).toBe(7);
   });
 
-  it("status is canonically deferred (Stage-4-weave-pending per Oracle §2.10)", () => {
-    expect(anchor.status).toBe("deferred");
+  it("status is canon-locked future-season (Stage-4-weave-pending per Oracle §2.10)", () => {
+    expect(anchor.status).toBe("deferred_future_season");
   });
 });
 
@@ -143,8 +143,8 @@ describe("anchorsInvolving / anchorsByStatus", () => {
     expect(specComplete.length).toBe(3);
   });
 
-  it("Deferred anchors include the Heart-of-Time", () => {
-    const deferred = anchorsByStatus("deferred");
+  it("Future-season anchors include the Heart-of-Time", () => {
+    const deferred = anchorsByStatus("deferred_future_season");
     expect(deferred.find(a => a.anchorId === "epoch1_heart_of_time_four_presences")).toBeDefined();
   });
 });

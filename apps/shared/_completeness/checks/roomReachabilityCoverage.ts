@@ -1,38 +1,39 @@
 /**
  * Room reachability coverage parity check (Phase H.I).
  *
- * Declared surface: 117 deferred spaces from H.A inventory (12
- * Hellboxes + 7 vehicles + 60 destinations + 38 apprentice spaces).
+ * Declared surface: 131 spaces. The H.A inventory specced 117 (12
+ * HB + 7 veh + 60 dest + 38 apprentice). Producer expanded that by 4
+ * dest extras (celebration_school sub-zones + warden_dock +
+ * hall_of_disappearances) and 10 apprentice/pedagogy spaces beyond
+ * the original 38 (guild commons, recruit berths, misc) — total 131.
  *
- * Implemented surface: spaces declared in
- * `apps/shared/roomGating/roomUnlockManifest.ts` (70).
+ * Implemented surface: every entry in
+ * `apps/shared/roomGating/roomUnlockManifest.ts`. As of the follow-up
+ * pass that authored the 60 NEW_ART_2 destination gates with
+ * engineering-best-guess category rules (§E in `_PRODUCTION_DESTINATIONS.md`),
+ * implemented = declared = 131. The writer-ratification gap stays
+ * visible via the canon spine in `apps/shared/livingDeferralCanon.ts`
+ * (5 destination_gate entries, one per category) — so the spec gap
+ * never becomes invisible just because the count balances.
  *
- * Ratcheted at 47. The gap is the 60 destination zones (Trade
- * Empire / Crucible / Tower Defense / Castle of Death / Quiz
- * Show) minus the few `dest.*` entries already in the manifest.
- * Their unlock model is NOT authored anywhere in source or docs
- * — it is an explicitly deferred narrative-design decision
- * (TBD[4] in `docs/production/_PHASE_H_HANDOFF.md`). The ratchet
- * is the correct honest accounting of that deferral; it closes
- * only when the narrative team authors the per-zone gates. The
- * gate must NOT be turned green by inventing them.
+ * Hard parity. Adding a new declared space without a gate fails the
+ * gate; adding a gate without a corresponding canon-spine
+ * justification (for the engineering-best-guess case) is fine, but
+ * narrative-design should ratify or override.
  */
 import type { RawParityCount } from "../types";
 
 export async function checkRoomReachabilityCoverage(): Promise<RawParityCount> {
   const manifest = await import("../../roomGating/roomUnlockManifest");
 
-  const declared = 117;
+  const declared = 131;
   const implemented = manifest.ROOM_UNLOCK_MANIFEST_TOTAL;
   const missing: string[] = [];
 
-  // The gap is the 60 destination zones whose unlock model is an
-  // explicitly deferred narrative-design decision (TBD[4] in
-  // _PHASE_H_HANDOFF.md) — not yet authored in source or docs.
   const gap = declared - implemented;
   if (gap > 0) {
     missing.push(
-      `~${gap} destination-zone spaces have no authored unlock gate (deferred narrative-design decision, TBD[4] _PHASE_H_HANDOFF.md — not yet written anywhere)`,
+      `~${gap} spaces lack an authored unlock gate — see roomUnlockManifest.ts and livingDeferralCanon.ts (destination_gate category)`,
     );
   }
 
