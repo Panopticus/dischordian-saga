@@ -6,6 +6,12 @@
 `art.axis12_state_coverage` — three RATCHET rows in
 `pnpm ship:check` (gaps 192 + 120 + 321 = **633 PNGs**).
 
+**Companion doc:** `docs/production/AXIS_STATE_ART_PROMPT_GUIDE.md`
+covers the exact pixel dimensions, the composition lock with the
+baseline, per-axis prompt vocabulary, and validation checklists.
+Read both — this brief is the *what / where*, the prompt guide
+is the *how to match*.
+
 ---
 
 ## What this unblocks
