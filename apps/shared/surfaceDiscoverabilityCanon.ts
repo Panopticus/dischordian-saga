@@ -246,6 +246,12 @@ export const SURFACE_REGISTRY: readonly SurfaceEntry[] = [
     "apps/shared/expansionArt/newArtRoomBridge.ts",
     "Destination Map hub — list of the 60 bridged destination zones",
   ),
+  phase(
+    "/chambers",
+    3,
+    "apps/shared/expansionArt/roomArtManifest.ts",
+    "Hellbox chambers hub — visit the 12 canonical Hellbox spaces",
+  ),
   phase("/matrix/:episodeId", 1, "apps/shared/episodeMysteries.ts", "Matrix School episodes"),
   phase("/mol-garath-audience", 3, SAGA, "Mol'Garath audience"),
   phase("/mol-garath-traps", 3, SAGA, "Mol'Garath traps feed"),
