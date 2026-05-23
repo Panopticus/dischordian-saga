@@ -170,11 +170,44 @@ jobs:
         # for THIS PR — it verifies the orphan bootstrap path. Once
         # the reconciliation lands, this flag should come down so
         # migrate failures fail the job again.
+        #
+        # Use `db:migrate` (not `db:migrate:prod`): the :prod alias is
+        # `guard-db-migrate-prod.ts && drizzle-kit migrate`, and the
+        # guard exit(2)s unless NODE_ENV=production. CI is non-prod, so
+        # :prod short-circuits the `&&` and drizzle-kit migrate NEVER
+        # runs — leaving an empty schema and failing the smoke check
+        # below. `db:migrate` is the unguarded alias the guard's own
+        # docstring directs non-prod environments to use.
         continue-on-error: true
-        run: pnpm db:migrate:prod
+        run: pnpm db:migrate
 
       - name: Run fresh-DB smoke test (orphan bootstraps + DDL assertions)
         run: pnpm db:smoke
+
+      - name: Reset DB then backfill full schema (drizzle-kit push)
+        # The journal covers only ~39 of ~80 migrations (see
+        # apps/db/migrations/README.md drift), so `drizzle-kit
+        # migrate` above leaves orphan-migration tables absent
+        # (dream_balance, trade_*, …) and the integration tests
+        # below fail with ER_NO_SUCH_TABLE. db:push builds the
+        # COMPLETE schema from schema.ts (team's documented non-prod
+        # workflow; guard-db-push only blocks prod / managed hosts —
+        # CI is 127.0.0.1, NODE_ENV unset → non-prod).
+        #
+        # CRITICAL: push MUST run against an EMPTY db. Against the
+        # partially-migrated db, drizzle-kit can't tell a new table
+        # from a rename of a soon-to-be-dropped one (linked_wallets
+        # / nft_* → academy_transcript) and HANGS on an interactive
+        # create-vs-rename prompt that NO flag suppresses (--force
+        # only covers data-loss; stdin redirection doesn't reach
+        # drizzle-kit's TTY prompt). db:smoke already asserted the
+        # migrate+bootstrap state, so drop+recreate the schema here;
+        # every diff is then an unambiguous CREATE and push runs
+        # non-interactively. Remove at journal cutover (README step 2).
+        run: |
+          mysql --protocol=tcp -h127.0.0.1 -P3306 -uroot -pci_smoke_pw \
+            -e "DROP DATABASE IF EXISTS dischordian_smoke; CREATE DATABASE dischordian_smoke;"
+          pnpm db:push --force
 
       - name: Run integration tests (router-level, real MySQL)
         # audit/C-09: closes the unit-test admission that "transactional
@@ -298,12 +331,22 @@ jobs:
           echo "::error::MySQL did not become ready in time"
           exit 1
 
-      - name: Apply migrations
-        # Same continue-on-error gate as the db-smoke job — see the
-        # journal-drift discussion above. The seed/server steps still
-        # run; missing tables surface as a Playwright spec failure.
-        continue-on-error: true
-        run: pnpm db:migrate:prod
+      - name: Build full schema (drizzle-kit push, empty DB)
+        # e2e does NOT test the migration path (that's db-smoke's
+        # job) — it just needs a correct, complete schema. The
+        # journal is drifted (apps/db/migrations/README.md), so build
+        # the schema straight from schema.ts via db:push (team's
+        # non-prod workflow; guard-db-push only blocks prod / managed
+        # hosts). Push MUST run against an empty DB — against a
+        # partially-migrated one drizzle-kit HANGS on an interactive
+        # create-vs-rename prompt no flag suppresses. There is no
+        # migrate step here, and we drop+recreate first as belt-and-
+        # suspenders, so every diff is an unambiguous CREATE and push
+        # is non-interactive. Remove at journal cutover (README step 2).
+        run: |
+          mysql --protocol=tcp -h127.0.0.1 -P3306 -uroot -pci_e2e_pw \
+            -e "DROP DATABASE IF EXISTS dischordian_e2e; CREATE DATABASE dischordian_e2e;"
+          pnpm db:push --force
 
       - name: Provision full schema (drizzle-kit push)
         # The e2e job runs the REAL server (`pnpm start` below), which
