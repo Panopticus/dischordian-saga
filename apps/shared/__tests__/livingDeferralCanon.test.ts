@@ -17,7 +17,7 @@ describe("livingDeferralCanon — well-formedness", () => {
   });
 
   it("every seamModule contains at least one file:line pointer", () => {
-    const fileLineRe = /[^\s:]+\.(ts|tsx|md):\d+/;
+    const fileLineRe = /[^\s:]+\.(ts|tsx|md|json):\d+/;
     for (const e of LIVING_DEFERRAL_CANON) {
       expect(e.seamModule).toMatch(fileLineRe);
     }

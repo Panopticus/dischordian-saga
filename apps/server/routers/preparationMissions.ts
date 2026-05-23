@@ -1,3 +1,8 @@
+// audit-allow-procs: all
+// Nexus Trial event surface — routes are authored ahead of the
+// client UI for the loyalty arc (NEXUS_TRIAL_PLAN.md Phase 3).
+// Remove the waiver when the client mounts the Preparation Missions
+// page.
 /* ═══════════════════════════════════════════════════════
    PREPARATION MISSIONS ROUTER — Nexus Trial loyalty arc
    docs/design/NEXUS_TRIAL_PLAN.md → Phase 3 (November)

@@ -1,3 +1,8 @@
+// audit-allow-procs: all
+// Live-event surface for the Nexus Trial — routes are authored
+// ahead of the client tribunal UI (NEXUS_TRIAL_PLAN.md Server
+// Architecture). Remove the waiver when the client mounts the
+// Trial page.
 /* ═══════════════════════════════════════════════════════
    NEXUS TRIAL ROUTER — Sprint 10
    docs/design/NEXUS_TRIAL_PLAN.md → Server Architecture

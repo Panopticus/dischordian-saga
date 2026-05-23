@@ -156,6 +156,23 @@ const FLAVOR_POOLS: Record<string, ReadonlyArray<string>> = {
     "What the school took, the school returns — calibrated.",
     "Mastery is the moment you stop choosing.",
   ],
+  // Third-sweep pool — act-exclusive rewards (cards gated to a
+  // specific act's completion). The boilerplate they all carried
+  // ("Earned at the gate. Forgotten by the hand that earned it.")
+  // was thematically apt but used identically across 28 cards.
+  act_exclusive: [
+    "A trophy keeps only what it can no longer pronounce.",
+    "Every act closes with a coin you cannot spend.",
+    "The reward arrives. The story it rewards has already left.",
+    "Carried out of the act like a witness who could not testify.",
+    "Some debts pay themselves in the next chapter's silence.",
+    "The act ends. The card remembers what the player did not.",
+    "Filed against the day. The day is already filed against you.",
+    "A keepsake whose worth is the loss it certifies.",
+    "Gate closed behind you. The card opens forward.",
+    "Won on the inside. Useful only on the way out.",
+    "What an act gives you, an act first asks for.",
+  ],
 };
 
 interface Replacement {
@@ -207,6 +224,8 @@ const ALLEGIANCE_OATH_BOILERPLATE_RE =
   /flavorText:\s*"The oath holds; the bearer remains\."/g;
 const CLASS_SIGNATURE_BOILERPLATE_RE =
   /flavorText:\s*"A class signature\.\s*The school speaks through every blade\."/g;
+const ACT_EXCLUSIVE_BOILERPLATE_RE =
+  /flavorText:\s*"Earned at the gate\. Forgotten by the hand that earned it\."/g;
 const ID_RE = /\bid:\s*"([^"]+)"/;
 
 function rewrite(text: string, filePath: string): { text: string; count: number } {
@@ -273,6 +292,11 @@ function rewrite(text: string, filePath: string): { text: string; count: number 
         re: CLASS_SIGNATURE_BOILERPLATE_RE,
         pool: "class_signature",
         literal: '"A class signature. The school speaks through every blade."',
+      },
+      {
+        re: ACT_EXCLUSIVE_BOILERPLATE_RE,
+        pool: "act_exclusive",
+        literal: '"Earned at the gate. Forgotten by the hand that earned it."',
       },
     ];
     for (const sweep of secondSweep) {

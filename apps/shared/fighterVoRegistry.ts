@@ -168,7 +168,9 @@ export const FIGHTER_VO_REGISTRY: Record<string, FighterVoRegistration> = {
     fighterId: "degen",
     load: makeLoader(() => import("./degenVoManifest.json")),
   },
-  // Task 3 additions — empty stubs, content pass will fill in
+  // Task 3 antagonists — populated by the content pass (collector
+  // got its act-1 taunts + guild-cutscene emote; architect got its
+  // full banter/dialogue/comment library).
   collector: {
     fighterId: "collector",
     load: makeLoader(() => import("./collectorVoManifest.json")),

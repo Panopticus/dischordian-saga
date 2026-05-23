@@ -65,12 +65,16 @@ describe("fighterVoRegistry — registry invariants", () => {
     expect(reg?.fighterId).toBe("collector");
   });
 
-  it("Task 3 stub manifests load without throwing", async () => {
+  it("Task 3 antagonist manifests load with content", async () => {
     const col = await getVoRegistration("collector")!.load();
     const arc = await getVoRegistration("architect")!.load();
-    // Stubs are shipped empty — the content pass fills them in.
+    // Filled by the content pass. Collector has act-1 taunts + a
+    // guild-cutscene emote; architect has the full banter / dialogue
+    // / comment library. Loaders must remain idempotent and non-throwing.
     expect(typeof col).toBe("object");
     expect(typeof arc).toBe("object");
+    expect(Object.keys(col).length).toBeGreaterThan(0);
+    expect(Object.keys(arc).length).toBeGreaterThan(0);
   });
 });
 
