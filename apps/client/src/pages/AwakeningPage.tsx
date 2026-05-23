@@ -503,10 +503,18 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
   // regardless of which step their saved state happens to be on.
   // Per-session (not per-game) so a player who refreshes mid-
   // creation isn't ambushed with the cinematic on every reload.
-  const SESSION_CINEMATIC_KEY = "awakening_cinematic_seen_this_session";
+  // _v2: the prior build burned this flag on every exit path —
+  // including the 90s safety timer and SKIP — so returning players
+  // arrived in tabs where the flag was set and short-circuited
+  // straight to Elara. Bumping the key invalidates that stale state
+  // so the corrected (natural-end-only) gate has a fresh slate.
+  const SESSION_CINEMATIC_KEY = "awakening_cinematic_seen_this_session_v2";
   const [showCinematic, setShowCinematic] = useState(() => {
     if (typeof window === "undefined") return true;
     try {
+      // Best-effort sweep of legacy keys so stale state from earlier
+      // builds can't keep suppressing the cinematic.
+      sessionStorage.removeItem("awakening_cinematic_seen_this_session");
       return sessionStorage.getItem(SESSION_CINEMATIC_KEY) !== "1";
     } catch {
       return true;
@@ -803,8 +811,10 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
     // gesture, the player gets no music at all. Try to start it here
     // (the cinematic dismiss click IS a user gesture); if autoplay is
     // still blocked, hook the next document interaction to retry.
+    // Volume matches AwakeningVOPlayer.THEME_BED_AFTER_VO so the bed
+    // is properly audible between VO lines instead of barely there.
     if (themeAudio && themeAudio.paused) {
-      themeAudio.volume = 0.06;
+      themeAudio.volume = 0.20;
       themeAudio.play().catch(() => {
         const retry = () => {
           themeAudio.play().catch(() => {});
@@ -841,7 +851,10 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
     let idx = Math.floor(Math.random() * AWAKENING_BED_URLS.length);
     const bed = new Audio(AWAKENING_BED_URLS[idx]);
     bed.preload = "auto";
-    bed.volume = 0.06;
+    // Match AwakeningVOPlayer.THEME_BED_AFTER_VO so the music is
+    // genuinely audible. AwakeningVOPlayer will duck to THEME_DUCKED
+    // (0.012) under each Elara line and restore to this level after.
+    bed.volume = 0.20;
     bed.addEventListener("ended", () => {
       idx = (idx + 1) % AWAKENING_BED_URLS.length;
       bed.src = AWAKENING_BED_URLS[idx];
