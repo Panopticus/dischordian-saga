@@ -7687,6 +7687,68 @@ export const trialTallies = mysqlTable("trial_tallies", {
 export type TrialTallyRow = typeof trialTallies.$inferSelect;
 
 /* ─────────────────────────────────────────────────────────────────
+ * TESTIMONY (Nexus Trial vote ingestion)
+ * Append-only. Every card-play during the Trial becomes one row.
+ * Idempotent: a unique `idempotencyKey` (`${matchId}:${turnIndex}
+ * :${cardIndex}`) lets the client retry without double-counting.
+ * The aggregation tick reads this table and updates trial_tallies.
+ * ───────────────────────────────────────────────────────────────── */
+export const testimony = mysqlTable("testimony", {
+  id: bigint("id", { mode: "number" }).autoincrement().primaryKey(),
+  trialId: int("trialId").notNull().references(() => trials.id, { onDelete: "cascade" }),
+  phase: mysqlEnum("phase", [
+    "charge",
+    "opening",
+    "evidence",
+    "cross_examination",
+    "confession",
+    "verdict",
+  ]).notNull(),
+  /** Idempotency key. Unique — second submit returns deduplicated. */
+  idempotencyKey: varchar("idempotencyKey", { length: 192 }).notNull().unique(),
+  playerId: int("playerId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  cardDefId: varchar("cardDefId", { length: 128 }).notNull(),
+  trialCategories: json("trialCategories").$type<string[]>().notNull(),
+  /** Buckets this play contributes to (e.g. "companion:elara",
+   *  "ballot:wraith_calder"). Computed server-side from cardDefId. */
+  buckets: json("buckets").$type<string[]>().notNull(),
+  /** Player's Witnessing weight × 100 at submit time. Aggregation
+   *  reads this verbatim (no per-tally recomputation). */
+  witnessingWeightX100: int("witnessingWeightX100").notNull().default(100),
+  submittedAt: timestamp("submittedAt").defaultNow().notNull(),
+}, (t) => ({
+  byTrialPhase: index("byTrialPhase").on(t.trialId, t.phase),
+  byPlayer: index("byPlayer").on(t.playerId, t.submittedAt),
+}));
+export type TestimonyRow = typeof testimony.$inferSelect;
+
+/* ─────────────────────────────────────────────────────────────────
+ * COMPANION SACRIFICE (Nexus Trial Confession close)
+ * Records which companion the Confession-phase vote sacrificed.
+ * One row when the Confession resolver fires at hour 60. Read by
+ * the romance-tag eligibility query so the freeze cutoff is
+ * canonical and player-side reads are deterministic.
+ *
+ * Per the plan: "Romance state is per-player, not server-canonical.
+ * The Trial outcome is canonical (companion X is sacrificed) but
+ * the romance tag is private (this player's farewell included
+ * the romance variant)." — this table is the canonical anchor;
+ * romance-tag eligibility joins against companion_relationships.updatedAt
+ * to enforce the freeze.
+ * ───────────────────────────────────────────────────────────────── */
+export const companionSacrifice = mysqlTable("companion_sacrifice", {
+  id: int("id").autoincrement().primaryKey(),
+  /** Which companion died. Unique — only one Confession resolution
+   *  per Trial. */
+  companion: mysqlEnum("companion", ["elara", "human"]).notNull().unique(),
+  trialId: int("trialId").notNull().references(() => trials.id, { onDelete: "cascade" }),
+  sacrificedAt: timestamp("sacrificedAt").defaultNow().notNull(),
+  /** Cinematic that fired. */
+  cinematicId: varchar("cinematicId", { length: 64 }).notNull(),
+});
+export type CompanionSacrificeRow = typeof companionSacrifice.$inferSelect;
+
+/* ─────────────────────────────────────────────────────────────────
  * PET BREEDING (docs/archive/2026-05-08-superseded/BREEDING_SYSTEM_ART_PROMPTS.md)
  * Pair-based breeding: parentA + parentB → offspring with combined
  * traits. `status` walks queued → incubating → ready → claimed/cancelled.

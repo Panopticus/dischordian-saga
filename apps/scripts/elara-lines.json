@@ -8292,34 +8292,47 @@
     "text": "Neural scan complete. Your biometric profile has been compiled, Operative.",
     "context": "character_sheet_intro",
     "emotion": "warm",
-    "file": "client/src/pages/CharacterSheetPage.tsx"
+    "file": "client/src/pages/CharacterSheetPage.tsx",
+    "authoredFrom": "ELARA_INTRO_LINES[0]"
   },
   {
     "id": "character_sheet_intro_2",
     "text": "This is your dossier — everything we know about what you are. Your species markers, your class aptitudes, your elemental affinity. I'll surface the rest as you need it.",
     "context": "character_sheet_intro",
     "emotion": "warm",
-    "file": "client/src/pages/CharacterSheetPage.tsx"
+    "file": "client/src/pages/CharacterSheetPage.tsx",
+    "authoredFrom": "ELARA_INTRO_LINES[1]"
   },
   {
     "id": "character_sheet_intro_3",
     "text": "I've cross-referenced your readings against the Ark's historical database. You are not a small signal. The Prophecy may have been right about you.",
     "context": "character_sheet_intro",
     "emotion": "warm",
-    "file": "client/src/pages/CharacterSheetPage.tsx"
+    "file": "client/src/pages/CharacterSheetPage.tsx",
+    "authoredFrom": "ELARA_INTRO_LINES[2]"
   },
   {
     "id": "character_sheet_intro_4",
     "text": "Sit with this. Let it be true for a moment. The deck plates outside this room remember things you don't, and you'll need to remember some of them back.",
     "context": "character_sheet_intro",
     "emotion": "warm",
-    "file": "client/src/pages/CharacterSheetPage.tsx"
+    "file": "client/src/pages/CharacterSheetPage.tsx",
+    "authoredFrom": "ELARA_INTRO_LINES[3]"
   },
   {
     "id": "character_sheet_intro_5",
     "text": "When you're ready — the Cryo Bay door is open. Walk through. I'll stay with you.",
     "context": "character_sheet_intro",
     "emotion": "warm",
-    "file": "client/src/pages/CharacterSheetPage.tsx"
+    "file": "client/src/pages/CharacterSheetPage.tsx",
+    "authoredFrom": "ELARA_INTRO_LINES[4]"
+  },
+  {
+    "id": "feature_pet_battles",
+    "text": "Your companion wants me to tell you something. They want to fight for you. Not against you. For you. Take them to the Arena.",
+    "context": "feature_unlock",
+    "emotion": "warm",
+    "file": "client/src/components/FeatureUnlockToast.tsx",
+    "authoredFrom": "featureRoadmap.ts unlockMessage (pet_battles) — original is first-person companion line; Elara relay because the toast always speaks through her hook"
   }
 ]

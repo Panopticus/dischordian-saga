@@ -1,7 +1,7 @@
 [
   {
     "id": "antiq_fulcrum",
-    "text": "I walk between moments. The Ages of this universe are chapters in a book I've read many times. You are standing at the fulcrum \u2014 and what you do next echoes in both directions.",
+    "text": "I walk between moments. The Ages of this universe are chapters in a book I've read many times. You are standing at the fulcrum — and what you do next echoes in both directions.",
     "context": "dialog",
     "emotion": "warm",
     "file": "client/src/game/antiquarianRelationship.ts"
@@ -15,14 +15,14 @@
   },
   {
     "id": "antiq_variations",
-    "text": "I've seen this moment before. Not exactly this moment \u2014 variations. In some timelines, the Potentials save everything. In others, The Source consumes all consciousness. In one... the Dreamer wakes up.",
+    "text": "I've seen this moment before. Not exactly this moment — variations. In some timelines, the Potentials save everything. In others, The Source consumes all consciousness. In one... the Dreamer wakes up.",
     "context": "dialog",
     "emotion": "wondering",
     "file": "client/src/game/antiquarianRelationship.ts"
   },
   {
     "id": "antiq_library",
-    "text": "Every CoNexus game in this library is a window into a real timeline. When you play them, you're not reading fiction \u2014 you're witnessing other versions of reality. Some of those realities are still happening.",
+    "text": "Every CoNexus game in this library is a window into a real timeline. When you play them, you're not reading fiction — you're witnessing other versions of reality. Some of those realities are still happening.",
     "context": "dialog",
     "emotion": "grave",
     "file": "client/src/game/antiquarianRelationship.ts"
@@ -36,14 +36,14 @@
   },
   {
     "id": "antiq_goggles",
-    "text": "The goggles I wear aren't a fashion choice. They filter time. Without them, I see every version of every moment simultaneously. The red glow isn't power \u2014 it's the weight of watching everything end, over and over.",
+    "text": "The goggles I wear aren't a fashion choice. They filter time. Without them, I see every version of every moment simultaneously. The red glow isn't power — it's the weight of watching everything end, over and over.",
     "context": "dialog",
     "emotion": "grave",
     "file": "client/src/game/antiquarianRelationship.ts"
   },
   {
     "id": "antiq_identity",
-    "text": "I am the Programmer. The third fragment \u2014 the witness who was meant to observe, never to interfere. But I've watched too many endings. This time, I'm breaking the rules. This time, I'm helping you write a different ending.",
+    "text": "I am the Programmer. The third fragment — the witness who was meant to observe, never to interfere. But I've watched too many endings. This time, I'm breaking the rules. This time, I'm helping you write a different ending.",
     "context": "dialog",
     "emotion": "whispered",
     "file": "client/src/game/antiquarianRelationship.ts"
@@ -54,5 +54,19 @@
     "context": "prestige",
     "emotion": "proud",
     "file": "shared/prestigeDialogs.ts"
+  },
+  {
+    "id": "feature_gamemasters_arena",
+    "text": "The Game Master left his world running. A clone hosts the show. You should see it. Bring a disposable clone body.",
+    "context": "feature_unlock",
+    "emotion": "dry",
+    "file": "client/src/components/FeatureUnlockToast.tsx"
+  },
+  {
+    "id": "feature_prestige",
+    "text": "You've reached the cycle's end. But you can choose to begin again — stronger, faster, remembering.",
+    "context": "feature_unlock",
+    "emotion": "reverent",
+    "file": "client/src/components/FeatureUnlockToast.tsx"
   }
 ]

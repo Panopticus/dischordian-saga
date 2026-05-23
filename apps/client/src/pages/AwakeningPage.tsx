@@ -15,6 +15,7 @@ import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import HolographicElara from "@/components/HolographicElara";
 import OpeningCinematic from "@/components/OpeningCinematic";
+import { MobileNarratorSlot } from "@/components/MobileNarratorSlot";
 import { resolveRoomStateAsset } from "@/game/roomStateAssets";
 import { getAwakeningCinematic } from "@shared/awakeningCinematicPrompts";
 import { observe as observeWatcher } from "@/lib/watcher";
@@ -814,6 +815,13 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
           waiting for the post-awakening summary. pointer-events-none
           so it never intercepts dialog clicks. */}
       <AwakeningCharacterPreview choices={characterChoices} />
+
+      {/* Mobile narrator — first contact moment per
+          NARRATIVE_ARCHITECTURE.md §1.4. The narrator's introduction
+          beat fires on the Awakening page; the slot reads the room
+          and the narrative flags so the right opener is delivered.
+          Closes the Mobile Narrator page-adoption ship-check FAIL. */}
+      <MobileNarratorSlot roomId="cryo_bay" />
 
       {/* Background layer — prefers a Kling cinematic for the current
           awakening step (Bioware-style video backdrop), falling back to

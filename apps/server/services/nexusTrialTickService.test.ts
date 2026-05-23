@@ -11,13 +11,20 @@
  *   - tick() is a no-op when there's no active trial.
  *   - getTrialStatus() returns the unavailable readout cleanly.
  */
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, beforeEach } from "vitest";
 import {
   loadActiveTrial,
   startTrial,
   tick,
   getTrialStatus,
+  _resetResolverStateForTests,
+  getLastResolverState,
 } from "./nexusTrialTickService";
+import {
+  createInMemoryPermadeathStore,
+  setPermadeathStore,
+  getPermadeathStore,
+} from "@shared/resurrectionProtocols";
 
 describe("nexusTrialTickService — DB-unavailable graceful fallback", () => {
   it("loadActiveTrial returns null when no DB is configured", async () => {
@@ -46,5 +53,23 @@ describe("nexusTrialTickService — DB-unavailable graceful fallback", () => {
     expect(result.transitioned).toBe(false);
     expect(result.closedTrial).toBe(false);
     expect(result.enteredPhase).toBeUndefined();
+  });
+});
+
+describe("nexusTrialTickService — resolver state hook", () => {
+  beforeEach(() => {
+    _resetResolverStateForTests();
+    setPermadeathStore(createInMemoryPermadeathStore());
+  });
+
+  it("starts with no resolver cache populated", () => {
+    expect(getLastResolverState()).toEqual({
+      lastBallotWinner: null,
+      lastCompanionSacrifice: null,
+    });
+  });
+
+  it("permadeath store is empty by default (no NPCs flipped)", () => {
+    expect(getPermadeathStore().listPermadead()).toEqual([]);
   });
 });

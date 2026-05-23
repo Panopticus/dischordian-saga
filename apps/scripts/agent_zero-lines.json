@@ -159,5 +159,12 @@
     "context": "battle_reaction",
     "emotion": "rare_warmth",
     "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "feature_terminus_swarm",
+    "text": "The Armory's defense grid is operational. Someone should stress-test it. Someone like you.",
+    "context": "feature_unlock",
+    "emotion": "neutral",
+    "file": "client/src/components/FeatureUnlockToast.tsx"
   }
 ]

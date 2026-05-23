@@ -62,6 +62,11 @@ describe("reservedCards — registry audit", () => {
     "s1_imprint_foucault_t3",
     "s1_imprint_foucault_t4",
     "s1_imprint_foucault_t5",
+    // Nexus Trial Season 2 unlocks — granted via the Wave-2 patch
+    // (the_humans_chip: romanced players whose Human was sacrificed;
+    //  the_politicians_pin: all players on full_return resolution).
+    "the_humans_chip",
+    "the_politicians_pin",
   ];
 
   it("the canonical reserved set matches expectation", () => {
