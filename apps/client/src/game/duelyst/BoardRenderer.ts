@@ -565,6 +565,142 @@ export class BoardRenderer {
     }
   }
 
+  /* ═══ ENGINE-EVENT VFX ═══
+     Per-tile effects fired from engineEventVfx.ts in response to the
+     reducer's GameEvent stream. The state-diff path in update() covers
+     summon/hit/death/damage-number/heal-number; everything below covers
+     events the diff alone can't observe (heals, buffs, debuffs, keyword
+     grants, teleports, pushes, resurrections, artifact lifecycle). */
+
+  /** Heal: green ascending sparkles + soft ring. */
+  playHealEffect(row: number, col: number): void {
+    if (!this.initialized) return;
+    const cx = this.tileCX(col), cy = this.tileCY(row);
+    for (let i = 0; i < 10; i++) {
+      const ox = (Math.random() - 0.5) * TILE_W * 0.5;
+      const vy = -0.8 - Math.random() * 1.2;
+      this.spawnParticle(cx + ox, cy + TILE_H * 0.2, 0, vy, 0x44ff88, 26 + Math.random() * 12, 2.5, -0.02);
+    }
+    const ring = new Graphics();
+    ring.circle(cx, cy, 8);
+    ring.stroke({ color: 0x88ffaa, width: 2, alpha: 0.7 });
+    this.effectsContainer.addChild(ring);
+    let frame = 0;
+    const animate = () => {
+      frame++;
+      ring.clear();
+      ring.circle(cx, cy, 8 + frame * 2);
+      ring.stroke({ color: 0x88ffaa, width: 2, alpha: 0.7 * (1 - frame / 14) });
+      if (frame < 14) requestAnimationFrame(animate);
+      else this.effectsContainer.removeChild(ring);
+    };
+    requestAnimationFrame(animate);
+  }
+
+  /** Buff: gold sparkles + warm upward shimmer. */
+  playBuffEffect(row: number, col: number): void {
+    if (!this.initialized) return;
+    const cx = this.tileCX(col), cy = this.tileCY(row);
+    for (let i = 0; i < 12; i++) {
+      const angle = Math.PI * (1.1 + Math.random() * 0.8); // upward arc
+      const speed = 1 + Math.random() * 2;
+      this.spawnParticle(cx, cy, Math.cos(angle) * speed, Math.sin(angle) * speed, 0xffd34d, 22 + Math.random() * 10, 2.5, -0.01);
+    }
+  }
+
+  /** Debuff: smoky purple downward drift. */
+  playDebuffEffect(row: number, col: number): void {
+    if (!this.initialized) return;
+    const cx = this.tileCX(col), cy = this.tileCY(row);
+    for (let i = 0; i < 10; i++) {
+      const ox = (Math.random() - 0.5) * TILE_W * 0.5;
+      const oy = (Math.random() - 0.5) * TILE_H * 0.3;
+      this.spawnParticle(cx + ox, cy + oy, (Math.random() - 0.5) * 0.4, 0.4 + Math.random() * 0.8, 0xaa44ff, 28 + Math.random() * 10, 3, 0.02);
+    }
+  }
+
+  /** Keyword grant/remove: quick coloured pulse on the tile. */
+  playKeywordPulse(row: number, col: number, color: number): void {
+    if (!this.initialized) return;
+    const cx = this.tileCX(col), cy = this.tileCY(row);
+    const ring = new Graphics();
+    ring.circle(cx, cy, 6);
+    ring.stroke({ color, width: 3, alpha: 0.9 });
+    this.effectsContainer.addChild(ring);
+    let frame = 0;
+    const animate = () => {
+      frame++;
+      ring.clear();
+      ring.circle(cx, cy, 6 + frame * 3);
+      ring.stroke({ color, width: 3, alpha: 0.9 * (1 - frame / 12) });
+      if (frame < 12) requestAnimationFrame(animate);
+      else this.effectsContainer.removeChild(ring);
+    };
+    requestAnimationFrame(animate);
+    for (let i = 0; i < 4; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      this.spawnParticle(cx, cy, Math.cos(angle) * 1.6, Math.sin(angle) * 1.6, color, 14, 2, 0);
+    }
+  }
+
+  /** Teleport: vertical streaks fading in at the arrival tile. */
+  playTeleportEffect(row: number, col: number): void {
+    if (!this.initialized) return;
+    const cx = this.tileCX(col), cy = this.tileCY(row);
+    for (let i = 0; i < 14; i++) {
+      const ox = (Math.random() - 0.5) * TILE_W * 0.7;
+      this.spawnParticle(cx + ox, cy + TILE_H * 0.4, 0, -2 - Math.random(), 0x88ddff, 18 + Math.random() * 8, 2, 0);
+    }
+    const flash = new Graphics();
+    flash.circle(cx, cy, TILE_W * 0.4);
+    flash.fill({ color: 0x88ddff, alpha: 0.5 });
+    this.effectsContainer.addChild(flash);
+    let frame = 0;
+    const animate = () => {
+      frame++;
+      flash.alpha = 0.5 * (1 - frame / 10);
+      flash.scale.set(1 + frame * 0.06);
+      if (frame < 10) requestAnimationFrame(animate);
+      else this.effectsContainer.removeChild(flash);
+    };
+    requestAnimationFrame(animate);
+  }
+
+  /** Push: dust trail emanating from the destination tile. */
+  playPushEffect(row: number, col: number): void {
+    if (!this.initialized) return;
+    const cx = this.tileCX(col), cy = this.tileCY(row);
+    for (let i = 0; i < 8; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const speed = 0.8 + Math.random() * 1.4;
+      this.spawnParticle(cx, cy, Math.cos(angle) * speed, Math.sin(angle) * speed, 0xbfa074, 22 + Math.random() * 8, 3, 0);
+    }
+  }
+
+  /** Resurrection: gold motes rising from the tile + bright halo. */
+  playResurrectEffect(row: number, col: number): void {
+    if (!this.initialized) return;
+    const cx = this.tileCX(col), cy = this.tileCY(row);
+    for (let i = 0; i < 18; i++) {
+      const ox = (Math.random() - 0.5) * TILE_W * 0.6;
+      const vy = -1 - Math.random() * 1.5;
+      this.spawnParticle(cx + ox, cy + TILE_H * 0.3, (Math.random() - 0.5) * 0.3, vy, 0xfff0aa, 32 + Math.random() * 12, 2.5, -0.03);
+    }
+    const halo = new Graphics();
+    halo.circle(cx, cy, TILE_W * 0.5);
+    halo.fill({ color: 0xfff0aa, alpha: 0.45 });
+    this.effectsContainer.addChild(halo);
+    let frame = 0;
+    const animate = () => {
+      frame++;
+      halo.alpha = 0.45 * (1 - frame / 20);
+      halo.scale.set(1 + frame * 0.04);
+      if (frame < 20) requestAnimationFrame(animate);
+      else this.effectsContainer.removeChild(halo);
+    };
+    requestAnimationFrame(animate);
+  }
+
   /* ═══ UNIT IMAGES ═══ */
 
   private async loadUnitImage(container: Container, url: string, unit: BoardUnit): Promise<void> {
