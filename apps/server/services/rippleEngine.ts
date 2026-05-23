@@ -1510,6 +1510,36 @@ on("room_visited", async (ev) => {
   }
 });
 
+/**
+ * Room visited → loredex unlock. Looks up the bridged-space loredex
+ * entry in `visitLoredexUnlocks` and emits `loredex_entry_unlocked`
+ * for the existing pressure-tick handler. The client receives
+ * `firstVisit:true` from `recordRoomVisit` and surfaces the
+ * DiscoveryNotification, so this server handler covers only the
+ * server-side pressure contribution.
+ */
+on("room_visited", async (ev) => {
+  const { userId, canonicalRoomId, isFirstVisit } = ev as RoomVisitedEvent;
+  if (!isFirstVisit) return;
+  try {
+    const { visitLoredexUnlockFor } = await import(
+      "../../shared/visitLoredexUnlocks"
+    );
+    const unlock = visitLoredexUnlockFor(canonicalRoomId);
+    if (!unlock) return;
+    for (const entryId of unlock.entityIds) {
+      await emit("loredex_entry_unlocked", {
+        userId,
+        entryId,
+        entryType: "location",
+        source: "room_visit",
+      } as LoredexEntryUnlockedEvent);
+    }
+  } catch (err) {
+    logger.warn("room_visited → loredex handler failed", { err });
+  }
+});
+
 /* ═══════════════════════════════════════════════════════
    SEARCH RATE-LIMIT BUCKETS
 

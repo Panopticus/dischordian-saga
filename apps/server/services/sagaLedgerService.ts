@@ -117,6 +117,8 @@ export const SAGA_EVENT_HUMANIZERS: Record<
     `A duel against another operative ended in ${s(p, "result", "combat")}.`,
   raid_boss_damaged: () => `You struck the raid boss.`,
   raid_boss_defeated: () => `You helped bring down the raid boss.`,
+  room_visited: (p) =>
+    `You walked into ${s(p, "canonicalRoomId", "a new space")}.`,
   route_milestone: (p) =>
     `You reached ${s(p, "milestone", "a milestone")} on your route.`,
   seal_broken: (p) => `You broke the ${s(p, "seal", "seal")}.`,
