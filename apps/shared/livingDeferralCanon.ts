@@ -42,7 +42,8 @@ export type DeferralStatus =
 export type DeferralCategory =
   | "bonus_intro"
   | "weave_anchor"
-  | "destination_gate";
+  | "destination_gate"
+  | "vo_manifest";
 
 export interface DeferredSurface {
   /** Canonical id matching the surface's own typed key. */
@@ -156,6 +157,23 @@ export const LIVING_DEFERRAL_CANON: readonly DeferredSurface[] = [
       "Writer ratification (engineering best-guess: { type: 'act_progress', act: 5 } per §E.3).",
   },
   {
+    id: "act_4_5_vo_manifest",
+    category: "vo_manifest",
+    status: "deferred_authoring",
+    seamModule:
+      "apps/shared/act4_5VoManifest.json:1 (empty manifest) + " +
+      "apps/scripts/generate-act-vo.ts:1 (generator awaits Act 4.5 lines)",
+    seamIsIntentional: true,
+    diegeticHandle:
+      "The Dead Man's Circuit is an optional Act 4.5 arc; on the " +
+      "current loop the player may not enter the cellblock at all. " +
+      "Lines are authored only when narrative-design commits the " +
+      "branch as canon for that loop.",
+    blockedOn:
+      "Writer-authored apps/scripts/act4_5-vo-lines.json; once it " +
+      "exists, `pnpm vo:act4_5` produces the manifest.",
+  },
+  {
     id: "dest_trade_empire_unlock_model",
     category: "destination_gate",
     status: "deferred_narrative_design",
@@ -192,7 +210,7 @@ export function getLivingDeferralCoverage(): {
     "deferred_future_season",
     "deferred_narrative_design",
   ];
-  const fileLineRe = /^[^\s:]+\.(ts|tsx|md):\d+/;
+  const fileLineRe = /^[^\s:]+\.(ts|tsx|md|json):\d+/;
   return {
     declared: LIVING_DEFERRAL_CANON.length,
     classified: LIVING_DEFERRAL_CANON.filter(
