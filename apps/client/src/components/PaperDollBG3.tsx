@@ -360,19 +360,24 @@ function PlaceholderRect({ slot, layerZ, tint }: PlaceholderRectProps) {
 
 /**
  * Returns true iff the DRESSUP_V2 feature flag is currently enabled
- * for this browser. Callers can gate component imports off this —
- * the flag flips default once the real PNG catalog ships and the
- * renderer switches off placeholder rectangles.
+ * for this browser. The real PNG catalog (species bodies + every
+ * class set at common rarity) is shipped on the CDN, so the default
+ * is ON: a fresh operative sees a race body in a complete base outfit
+ * rather than the procedural SVG fallback. Setting DRESSUP_V2="off"
+ * in localStorage (or VITE_DRESSUP_V2="off" at build time) opts back
+ * into the legacy renderer for debugging.
  */
 export function isDressupV2Enabled(): boolean {
   if (typeof window === "undefined") return false;
-  // Build-time override wins.
   const buildFlag = (import.meta as unknown as { env?: Record<string, string> })
     .env?.VITE_DRESSUP_V2;
+  if (buildFlag === "off") return false;
   if (buildFlag === "on") return true;
   try {
-    return window.localStorage.getItem("DRESSUP_V2") === "on";
+    const stored = window.localStorage.getItem("DRESSUP_V2");
+    if (stored === "off") return false;
+    return true;
   } catch {
-    return false;
+    return true;
   }
 }

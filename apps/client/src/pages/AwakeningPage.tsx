@@ -14,8 +14,7 @@ import { useLocation } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import HolographicElara from "@/components/HolographicElara";
-import OpeningCinematic from "@/components/OpeningCinematic";
-import { MobileNarratorSlot } from "@/components/MobileNarratorSlot";
+import OpeningCinematic, { AWAKENING_BED_URLS } from "@/components/OpeningCinematic";
 import { resolveRoomStateAsset } from "@/game/roomStateAssets";
 import { getAwakeningCinematic } from "@shared/awakeningCinematicPrompts";
 import { observe as observeWatcher } from "@/lib/watcher";
@@ -771,16 +770,22 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
   // (seen on some mobile browsers where the suspended context's resume
   // promise never settles). Without this, showCinematic stayed true and
   // the game never advanced past the faded-out cinematic.
-  const handleCinematicComplete = useCallback((themeAudio: HTMLAudioElement | null, _reachedEndNaturally: boolean) => {
+  const handleCinematicComplete = useCallback((themeAudio: HTMLAudioElement | null, reachedEndNaturally: boolean) => {
     themeAudioRef.current = themeAudio;
     setShowCinematic(false);
-    // Mark this browser session as having seen the cinematic so a
-    // mid-creation refresh doesn't replay it. Session-scoped so a
-    // fresh tab / new browser session still gets the ceremony.
-    try {
-      sessionStorage.setItem(SESSION_CINEMATIC_KEY, "1");
-    } catch {
-      /* private mode — fall back to component-state-only */
+    // Only burn the session flag when the cinematic ACTUALLY finished.
+    // SKIP, safety-timer, and load-error paths leave the flag unset so a
+    // refresh gives the player a real chance to see it. Without this
+    // gate, a first-paint where the video stalled (90s absolute fallback
+    // fires) would silently mark the player as "has seen the cinematic"
+    // for the rest of the session, and subsequent re-mounts would short
+    // straight to Elara's first line.
+    if (reachedEndNaturally) {
+      try {
+        sessionStorage.setItem(SESSION_CINEMATIC_KEY, "1");
+      } catch {
+        /* private mode — fall back to component-state-only */
+      }
     }
     // Returning players whose awakeningStep is already past BLACKOUT
     // miss the BLACKOUT fade-in effect (it's gated on the step). Jump
@@ -790,7 +795,28 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
       setScreenOpacity(1);
       setHeartbeat(false);
     }
-    void _reachedEndNaturally;
+    // Ensure the saga-theme bed is actually audible. OpeningCinematic
+    // creates the Audio element regardless of whether BEGIN was clicked,
+    // but in the SKIP / safety-timer / load-error paths the element
+    // arrives PAUSED at volume 0. AwakeningVOPlayer only nudges it when
+    // Elara's first VO line fires — and if that VO is also waiting on a
+    // gesture, the player gets no music at all. Try to start it here
+    // (the cinematic dismiss click IS a user gesture); if autoplay is
+    // still blocked, hook the next document interaction to retry.
+    if (themeAudio && themeAudio.paused) {
+      themeAudio.volume = 0.06;
+      themeAudio.play().catch(() => {
+        const retry = () => {
+          themeAudio.play().catch(() => {});
+          document.removeEventListener("click", retry);
+          document.removeEventListener("touchstart", retry);
+          document.removeEventListener("keydown", retry);
+        };
+        document.addEventListener("click", retry, { once: true });
+        document.addEventListener("touchstart", retry, { once: true });
+        document.addEventListener("keydown", retry, { once: true });
+      });
+    }
     // Initialize audio context from the cinematic user interaction — fire
     // and forget; never block the UI transition on this.
     if (!audioInitialized) {
@@ -801,7 +827,39 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
         })
         .catch(() => { /* audio blocked — game still advances */ });
     }
-  }, [audioInitialized, initAudio, setRoomAmbience]);
+  }, [audioInitialized, initAudio, setRoomAmbience, awakeningStep]);
+
+  // Build a saga-theme bed when the cinematic is bypassed entirely
+  // (e.g. session-flag set, returning player). Without this the only
+  // owner of the bed Audio element is OpeningCinematic, so a player
+  // who's already seen the cinematic this session gets character
+  // creation in silence. We construct it on mount, then attempt to
+  // start playback either now or on the next user gesture.
+  useEffect(() => {
+    if (showCinematic) return;
+    if (themeAudioRef.current) return;
+    let idx = Math.floor(Math.random() * AWAKENING_BED_URLS.length);
+    const bed = new Audio(AWAKENING_BED_URLS[idx]);
+    bed.preload = "auto";
+    bed.volume = 0.06;
+    bed.addEventListener("ended", () => {
+      idx = (idx + 1) % AWAKENING_BED_URLS.length;
+      bed.src = AWAKENING_BED_URLS[idx];
+      bed.play().catch(() => {});
+    });
+    themeAudioRef.current = bed;
+    bed.play().catch(() => {
+      const retry = () => {
+        bed.play().catch(() => {});
+        document.removeEventListener("click", retry);
+        document.removeEventListener("touchstart", retry);
+        document.removeEventListener("keydown", retry);
+      };
+      document.addEventListener("click", retry, { once: true });
+      document.addEventListener("touchstart", retry, { once: true });
+      document.addEventListener("keydown", retry, { once: true });
+    });
+  }, [showCinematic]);
 
   // Fade out theme music when Awakening completes
   useEffect(() => {
@@ -856,12 +914,11 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
           so it never intercepts dialog clicks. */}
       <AwakeningCharacterPreview choices={characterChoices} />
 
-      {/* Mobile narrator — first contact moment per
-          NARRATIVE_ARCHITECTURE.md §1.4. The narrator's introduction
-          beat fires on the Awakening page; the slot reads the room
-          and the narrative flags so the right opener is delivered.
-          Closes the Mobile Narrator page-adoption ship-check FAIL. */}
-      <MobileNarratorSlot roomId="cryo_bay" />
+      {/* Mobile narrator is intentionally NOT rendered during Awakening.
+          First contact (§1.4) reveals bond tiers, locked abilities, and
+          The Human's existence — beats that belong AFTER cryo, once the
+          player has actually woken up. The slot mounts on the Ark
+          exploration view, not here. */}
 
       {/* Background layer — prefers a Kling cinematic for the current
           awakening step (Bioware-style video backdrop), falling back to
@@ -947,8 +1004,9 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
         </div>
       )}
 
-      {/* Skip Awakening button — always visible */}
-      <div className="absolute top-4 right-4 z-50">
+      {/* Skip Awakening button — pinned top-LEFT so it doesn't fight
+          the dossier card (AwakeningCharacterPreview is fixed top-right). */}
+      <div className="fixed top-4 left-4 z-50">
         <button
           onClick={() => setAwakeningStep("COMPLETE")}
           className="px-3 py-1.5 rounded-lg bg-black/40 backdrop-blur-sm border border-white/10 text-white/25 hover:text-white/50 font-mono text-xs transition-colors"

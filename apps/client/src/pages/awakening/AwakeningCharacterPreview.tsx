@@ -25,6 +25,7 @@ import {
   ChevronDown, ChevronUp,
 } from "lucide-react";
 import type { ComponentType } from "react";
+import { bodyArtUrl, type BodySpecies } from "@/game/paperDoll/bodyArt";
 
 interface AwakeningCharacterPreviewProps {
   choices: CharacterChoices;
@@ -109,14 +110,23 @@ export default function AwakeningCharacterPreview({ choices }: AwakeningCharacte
           style={{ background: aura }}
         >
           <div
-            className="w-7 h-7 sm:w-10 sm:h-10 rounded-full flex items-center justify-center border-2 transition-colors"
+            className="w-7 h-7 sm:w-10 sm:h-10 rounded-full flex items-center justify-center border-2 transition-colors overflow-hidden"
             style={{
               background: `color-mix(in oklch, ${portraitAccent} 18%, transparent)`,
               borderColor: `color-mix(in oklch, ${portraitAccent} 60%, transparent)`,
               boxShadow: `0 0 12px color-mix(in oklch, ${portraitAccent} 40%, transparent)`,
             }}
           >
-            <Sparkles size={14} style={{ color: portraitAccent }} />
+            {choices.species && SPECIES_META[choices.species] ? (
+              <img
+                src={bodyArtUrl(choices.species as BodySpecies)}
+                alt={`${SPECIES_META[choices.species].label} silhouette`}
+                className="w-full h-full object-cover"
+                style={{ objectPosition: "center 20%" }}
+              />
+            ) : (
+              <Sparkles size={14} style={{ color: portraitAccent }} />
+            )}
           </div>
         </div>
         {expanded && (

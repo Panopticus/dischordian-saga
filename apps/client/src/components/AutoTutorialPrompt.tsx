@@ -72,7 +72,7 @@ export default function AutoTutorialPrompt({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 80, scale: 0.95 }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className="fixed bottom-32 left-4 right-4 sm:left-auto sm:right-4 sm:bottom-4 sm:w-96 z-[44]"
+            className="fixed bottom-32 left-4 right-4 sm:left-auto sm:right-4 sm:bottom-24 sm:w-96 z-[44]"
           >
             <div className="relative void-surface border-primary/30 backdrop-blur-xl overflow-hidden shadow-2xl shadow-primary/10">
               {/* Glow accent line */}
