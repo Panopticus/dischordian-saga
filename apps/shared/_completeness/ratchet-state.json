@@ -33,7 +33,7 @@
     "art.axis11_state_coverage": 120,
     "art.axis12_state_coverage": 321,
     "art.hotspot_coverage": 30,
-    "art.room_reachability_coverage": 46,
+    "art.room_reachability_coverage": 0,
     "nemesis.archetype_pair_dialog_coverage": 0,
     "nemesis.apprentice_pair_dialog_coverage": 0,
     "nemesis.axis_conflict_deepening": 0,

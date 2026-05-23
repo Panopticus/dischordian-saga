@@ -93,6 +93,82 @@ export const LIVING_DEFERRAL_CANON: readonly DeferredSurface[] = [
     blockedOn:
       "Stage-4 weave renderer + Enigma roster canonization (Phase 5+).",
   },
+  // ─── Destination unlock gates — per-category writer-ratification ───
+  // The 60 NEW_ART_2 destination zones ship with engineering-best-guess
+  // gates in `roomUnlockManifest.ts`. The category rule for each is
+  // sourced from `_PRODUCTION_DESTINATIONS.md` §E. Writer ratifies
+  // (keep, refine per-zone, or replace category-wide).
+  {
+    id: "dest_castle_of_death_unlock_model",
+    category: "destination_gate",
+    status: "deferred_narrative_design",
+    seamModule:
+      "apps/shared/roomGating/roomUnlockManifest.ts:155 (Castle of Death ×20) + " +
+      "apps/shared/_completeness/checks/roomReachabilityCoverage.ts:1-30",
+    seamIsIntentional: true,
+    diegeticHandle:
+      "The Castle of Death only opens to those the Necromancer's guests " +
+      "would recognize as guests — namely, anyone who has crossed the " +
+      "threshold of Hellbox 2 and survived the introductions.",
+    blockedOn:
+      "Writer ratification (engineering best-guess: { type: 'hellbox_unlocked', hellbox: 2 } per §E.4).",
+  },
+  {
+    id: "dest_quiz_show_unlock_model",
+    category: "destination_gate",
+    status: "deferred_narrative_design",
+    seamModule:
+      "apps/shared/roomGating/roomUnlockManifest.ts:177 (Quiz Show ×5) + " +
+      "apps/shared/_completeness/checks/roomReachabilityCoverage.ts:1-30",
+    seamIsIntentional: true,
+    diegeticHandle:
+      "The Quiz Show Palimpsest is invitation-only. The invitation arrives " +
+      "the moment Hellbox 3 acknowledges you as a contestant — not before.",
+    blockedOn:
+      "Writer ratification (engineering best-guess: { type: 'hellbox_unlocked', hellbox: 3 } per §E.5).",
+  },
+  {
+    id: "dest_crucible_unlock_model",
+    category: "destination_gate",
+    status: "deferred_narrative_design",
+    seamModule:
+      "apps/shared/roomGating/roomUnlockManifest.ts:184 (Crucible ×15) + " +
+      "apps/shared/_completeness/checks/roomReachabilityCoverage.ts:1-30",
+    seamIsIntentional: true,
+    diegeticHandle:
+      "The Crucible is a meritocracy of recognition. The Tier-5 arenas " +
+      "register a contender only once the saga has named them — Act 3.",
+    blockedOn:
+      "Writer ratification (engineering best-guess: { type: 'act_progress', act: 3 } per §E.2).",
+  },
+  {
+    id: "dest_tower_defense_unlock_model",
+    category: "destination_gate",
+    status: "deferred_narrative_design",
+    seamModule:
+      "apps/shared/roomGating/roomUnlockManifest.ts:200 (Tower Defense ×10) + " +
+      "apps/shared/_completeness/checks/roomReachabilityCoverage.ts:1-30",
+    seamIsIntentional: true,
+    diegeticHandle:
+      "Military installations open to those with strategic standing. " +
+      "The recruitment campaign at Act 5 is when the perimeter unlocks.",
+    blockedOn:
+      "Writer ratification (engineering best-guess: { type: 'act_progress', act: 5 } per §E.3).",
+  },
+  {
+    id: "dest_trade_empire_unlock_model",
+    category: "destination_gate",
+    status: "deferred_narrative_design",
+    seamModule:
+      "apps/shared/roomGating/roomUnlockManifest.ts:211 (Trade Empire ×10) + " +
+      "apps/shared/_completeness/checks/roomReachabilityCoverage.ts:1-30",
+    seamIsIntentional: true,
+    diegeticHandle:
+      "Trade routes exist but stay sealed to outsiders. First planetfall " +
+      "at Act 2 is the diegetic moment the sectors recognize a trader.",
+    blockedOn:
+      "Writer ratification (engineering best-guess: { type: 'act_progress', act: 2 } per §E.1).",
+  },
 ];
 
 export const LIVING_DEFERRAL_BY_ID: ReadonlyMap<string, DeferredSurface> = new Map(
