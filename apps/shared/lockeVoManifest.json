@@ -1,11 +1,14 @@
 {
+  "feature_bounties": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Locke+Voices/feature_unlock/feature_bounties.mp3",
+  "feature_casino": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Locke+Voices/feature_unlock/feature_casino.mp3",
+  "feature_dead_mans_circuit": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Locke+Voices/feature_unlock/feature_dead_mans_circuit.mp3",
   "locke_babylon": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Locke+Voices/dialog/locke_babylon.mp3",
   "locke_beat_h_first_message": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Prelude%20Voices/locke/locke_beat_h_first_message.mp3",
-  "locke_tutor_mission_board_intro": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Locke+Voices/tutor/locke_tutor_mission_board_intro.mp3",
   "locke_detective": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Locke+Voices/dialog/locke_detective.mp3",
   "locke_endgame": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Locke+Voices/dialog/locke_endgame.mp3",
   "locke_intro": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Locke+Voices/dialog/locke_intro.mp3",
   "locke_network": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Locke+Voices/dialog/locke_network.mp3",
   "locke_prestige": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Locke+Voices/prestige/locke_prestige.mp3",
+  "locke_tutor_mission_board_intro": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Locke+Voices/tutor/locke_tutor_mission_board_intro.mp3",
   "locke_virus": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Locke+Voices/dialog/locke_virus.mp3"
 }

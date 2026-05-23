@@ -80,5 +80,7 @@
   "antiq_prestige": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Antiquarian+Voices/prestige/antiq_prestige.mp3",
   "antiq_programmer": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Antiquarian+Voices/dialog/antiq_programmer.mp3",
   "antiq_variations": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Antiquarian+Voices/dialog/antiq_variations.mp3",
-  "antiquarian_first_contact": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Antiquarian%20Voices/first_contact/antiquarian_first_contact.mp3"
+  "antiquarian_first_contact": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Antiquarian%20Voices/first_contact/antiquarian_first_contact.mp3",
+  "feature_gamemasters_arena": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Antiquarian+Voices/feature_unlock/feature_gamemasters_arena.mp3",
+  "feature_prestige": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Antiquarian+Voices/feature_unlock/feature_prestige.mp3"
 }
