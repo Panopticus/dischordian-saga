@@ -43,6 +43,7 @@
     "vo:npc-first-meet": "tsx apps/scripts/generate-npc-first-meet-vo.ts",
     "vo:room-mystery": "tsx apps/scripts/generate-room-mystery-vo.ts",
     "vo:first-contact": "tsx apps/scripts/generate-first-contact-vo.ts",
+    "vo:nexus-trial": "tsx apps/scripts/generate-nexus-trial-vo.ts",
     "vo:loredex": "tsx apps/scripts/generate-loredex-vo.ts",
     "vo:shadow-tongue-stings": "tsx apps/scripts/generate-shadow-tongue-stings-vo.ts",
     "vo:all": "bash apps/scripts/run-prelude-vo.sh && bash apps/scripts/run-act1-opponent-vo.sh && bash apps/scripts/run-companion-vo.sh",
