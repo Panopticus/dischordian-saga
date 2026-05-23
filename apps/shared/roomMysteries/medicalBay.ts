@@ -47,6 +47,11 @@ export const MEDICAL_BAY_MYSTERY: RoomMysteryModule<MedicalBayHotspotId> = {
         narration:
           "You request the scan's discontinuity layer. The suite returns a single feature — a cellular rest-mark dated to Severance Year 1, Lap 73. The mark is the Broker's first death. The Broker has been working through the second life since the first ended on the lane.",
       },
+      talk: {
+        narration:
+          "You read the calibration report aloud — substrate human, history layered, continuity discontinuous. The Broker's volunteered scan accepts the reading without commentary. He did not consent to interpretation, only to measurement; speaking the measurement back to the suite is the most honest report the room can produce.",
+        voId: "elara.medical-bay.severance-broker-quantum-imaging.talk",
+      },
     },
     /* ─── advocate.blood_weave · e2 (Empire-of-Shadows zero-casualty record) ─── */
     "advocate-empire-zero-casualty": {
@@ -58,6 +63,16 @@ export const MEDICAL_BAY_MYSTERY: RoomMysteryModule<MedicalBayHotspotId> = {
           episodeId: "advocate.blood_weave.e2",
           cluesFound: ["adv.e2.empire_casualty_zero"],
         },
+      },
+      use: {
+        narration:
+          "You request the substrate-cost ledger for the seven-dimensions siege. The console returns a single charged column — the Advocate's own substrate balance, debited by the exact sum the defenders' columns are credited. Conservation of substrate, applied in one direction. She paid the bill for every defender she sheltered. The ledger balances.",
+        voId: "elara.medical-bay.advocate-empire-zero-casualty.use",
+      },
+      talk: {
+        narration:
+          "You read the footnote aloud. The casualty-archive's audio register catches the reading and offers, automatically, the original recorded voice of the Empire's chief medic filing the report: she is reading the same sentence. The footnote was authored to be read aloud. Both readings are now on record.",
+        voId: "elara.medical-bay.advocate-empire-zero-casualty.talk",
       },
     },
     /* ─── akai_shi.red_death · e1 (Thought-Virus consumption telemetry) ─── */
@@ -74,6 +89,16 @@ export const MEDICAL_BAY_MYSTERY: RoomMysteryModule<MedicalBayHotspotId> = {
       interrogate: {
         narration:
           "You ask the console for the cost of the resistance. The telemetry returns the trade-off: every hour Akai Shi held against the Virus burned a measurable fraction of her healing reserve. By the seventh hour her healing band was depleted. She could not have saved herself, but she could buy the squad time to choose. The mercy was her last act of healing — given to the squad, not to herself.",
+      },
+      use: {
+        narration:
+          "You overlay her curve against the chronicle's prior record-holders. The next-longest resistance is forty minutes; Akai Shi's curve runs to seven hours. The previous record was held by a healer she trained. The fact that her own record more than tenfold exceeds her student's is, on the medical record, the most quietly devastating data point in the file.",
+        voId: "elara.medical-bay.akai-virus-telemetry.use",
+      },
+      talk: {
+        narration:
+          "You say her name aloud at the console. The neural-archive flags it with the timestamp; the bay's grief-protocol — a Lyra Vox subsystem — does not erase names of the dead spoken in this room. The catalogue keeps every utterance. Akai Shi has been said here often.",
+        voId: "elara.medical-bay.akai-virus-telemetry.talk",
       },
     },
     "bio-bed": {

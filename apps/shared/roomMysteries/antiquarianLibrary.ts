@@ -103,6 +103,11 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
         narration:
           "You shift the glass and turn the fragment under the catalog's reading lamp. The wax-blister catches the light at an angle, and the thumb-print proves too small at every angle. It is not a child's thumb either — the proportions are wrong. Whoever sealed the seventh signature pressed a print that does not match any living human geometry.",
       },
+      talk: {
+        narration:
+          "You read the six visible signatures aloud — Almir, the three sisters of House Quill, Engineer Zero, the Advocate. The reading table's audio register catches the recital and leaves a pause where the seventh would be. The pause is the chronicle's only spoken acknowledgment of the silence the charter has been carrying for eight epochs.",
+        voId: "elara.antiquarian-library.charter-silt-fragment.talk",
+      },
     },
     /* ─── charter.missing_signatory · e2 ─── */
     "charter-advocate-signature": {
@@ -119,6 +124,16 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
         narration:
           "You read the Advocate's marginalia aloud. 'Six speak; one listens; one of us is the silence.' The cipher-den's prior translations had this as poetic register. The fragment in your hand says otherwise. The Advocate was counting heads in the moment the seventh signature got covered, and the Advocate signed anyway.",
       },
+      use: {
+        narration:
+          "You compare the rubbing's two counter-signatures against the Advocate's standard signature catalogue. The doubled marking is unique to this entry. Across all of her documented signings, she counter-signed exactly once — here, on the charter, in the moment the seventh signature was being sealed. The doubling was the gesture of choosing to be counted twice rather than to name the silence.",
+        voId: "elara.antiquarian-library.charter-advocate-signature.use",
+      },
+      talk: {
+        narration:
+          "You read the marginal line aloud — 'a thing made by seven, kept by six, and carried by all of us.' The reading table's audio register notes the recital. The line has been spoken in this library twice across eight epochs; both readings have arrived at the same conclusion. The Advocate's roster-note is settled by repetition, not by argument.",
+        voId: "elara.antiquarian-library.charter-advocate-signature.talk",
+      },
     },
     /* ─── mechronis.missing_professor · e1 (lectern) ─── */
     "tarn-empty-lectern": {
@@ -134,6 +149,11 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
       use: {
         narration:
           "You touch the rim of the glass. Cold to the lip. The drawer below the lectern's slope opens to the catch — empty. The lecture binder Tarn carried from the Dean's office at second bell has not been here since the Dean watched her walk away with it.",
+      },
+      talk: {
+        narration:
+          "You speak from the lectern's position. The library's acoustics carry the speech to every seat — Tarn's design, fourteen years' refinement. The room is set for an address. The address has not come. Your speech, in her position, in her acoustic field, is the closest the library has had to a Tarn lecture this morning. The substitution is small and quiet.",
+        voId: "elara.antiquarian-library.tarn-empty-lectern.talk",
       },
     },
     /* ─── mechronis.missing_professor · e1 (robe) ─── */

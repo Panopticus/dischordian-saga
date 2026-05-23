@@ -32,6 +32,16 @@ export const ENGINEERING_CORE_MYSTERY: RoomMysteryModule<EngineeringCoreHotspotI
           cluesFound: ["charter2.e3.house_vyn"],
         },
       },
+      use: {
+        narration:
+          "You pull the Vyn cultivation log. Four epochs of growth cycles, none of them with a registered charter-bearer. The Vyns have kept the lower-deck hydroponics alive without authorisation — the gardens have been off-the-books since the erasure, and they are still producing. The scrubber edited the chronicle. He did not edit the soil.",
+        voId: "elara.engineering-core.charter2-house-vyn.use",
+      },
+      talk: {
+        narration:
+          "You read the family name aloud at the console. The hydroponics array's audio register catches the name — the same scrubber who erased the tax record did not have access to this subsystem. The Vyn name is preserved in the irrigation cadence, in the cycling timestamps, in every nutrient log. The system has been remembering them quietly.",
+        voId: "elara.engineering-core.charter2-house-vyn.talk",
+      },
     },
     /* ─── charter.missing_signatory · e2 (Engineer Zero's signature) ─── */
     "charter-signatory-engineer-zero": {
@@ -43,6 +53,16 @@ export const ENGINEERING_CORE_MYSTERY: RoomMysteryModule<EngineeringCoreHotspotI
           episodeId: "charter.missing_signatory.e2",
           cluesFound: ["charter.e2.signatory_engineer_zero"],
         },
+      },
+      use: {
+        narration:
+          "You lift the corner where the bar runs into the wax. The bar is not a flourish — it is a continuation of an underlying weld-mark Engineer Zero used to certify load-bearing assemblies. He signed the charter with the same stroke he used to sign a structural component. The signature is engineering, not penmanship.",
+        voId: "elara.engineering-core.charter-signatory-engineer-zero.use",
+      },
+      talk: {
+        narration:
+          "You read the initial aloud — Z, bar. The bench's response is a single tone, low and steady, which the founding-records system reserves for verified signatures. Engineer Zero's mark passes verification on the chronicle's own instrument. Whatever else has been edited, the signature has not.",
+        voId: "elara.engineering-core.charter-signatory-engineer-zero.talk",
       },
     },
     /* ─── resurrectionist.cycle_walker · color clues ─── */
@@ -56,6 +76,16 @@ export const ENGINEERING_CORE_MYSTERY: RoomMysteryModule<EngineeringCoreHotspotI
           cluesFound: ["resur.e3.protocol_activation_timestamp"],
         },
       },
+      use: {
+        narration:
+          "You request the bench's coincidence tolerance for two-event matching. The instrument reports its threshold — events must occur within fifteen substrate-microseconds to register as coincident. The Plague Dragon's death-instant and the protocol activation are six microseconds apart. The reading is well inside coincidence range. Coincidence does not mean unrelated; coincidence means the bench cannot rule on which caused which.",
+        voId: "elara.engineering-core.resur-protocol-activation-timestamp.use",
+      },
+      talk: {
+        narration:
+          "You read the cult annotation aloud — 'unrelated administrative event.' The bench's audio register marks the sentence with the standard chronicle-deferral flag, which the Antiquarian's reading discipline interprets as 'do not accept; do not refute; preserve for later'. The annotation has been preserved exactly that way for an epoch. The bench is patient.",
+        voId: "elara.engineering-core.resur-protocol-activation-timestamp.talk",
+      },
     },
     "resur-matrix-escape-signature": {
       look: {
@@ -66,6 +96,16 @@ export const ENGINEERING_CORE_MYSTERY: RoomMysteryModule<EngineeringCoreHotspotI
           episodeId: "resurrectionist.cycle_walker.e4",
           cluesFound: ["resur.e4.matrix_escape_signature"],
         },
+      },
+      use: {
+        narration:
+          "You request the bench's three-of-four match probability across the chronicle's known cipher-adopting parties. The instrument returns a single tail: the only documented party whose fragment usage approaches three of four is the Resurrectionist himself. The annotation's plural reading is statistically empty. The collision is, by the instrument's measure, an authoring signature.",
+        voId: "elara.engineering-core.resur-matrix-escape-signature.use",
+      },
+      talk: {
+        narration:
+          "You read the cult annotation aloud — 'many parties have adopted fragments of his cipher.' The bench's audio register catches the recital and flags it for chronicle review. The plural is doing the work the singular would not bear. Spoken aloud, the editorial reach is audible.",
+        voId: "elara.engineering-core.resur-matrix-escape-signature.talk",
       },
     },
     /* ─── advocate.blood_weave · e2 (Zyr'Koth's Severance Protocol lineage note) ─── */
@@ -78,6 +118,16 @@ export const ENGINEERING_CORE_MYSTERY: RoomMysteryModule<EngineeringCoreHotspotI
           episodeId: "advocate.blood_weave.e2",
           cluesFound: ["adv.e2.zyrkoth_severance_protocol_lineage"],
         },
+      },
+      use: {
+        narration:
+          "You request the substrate-consumption signature on both instruments. The bench overlays them — identical molecular cadence, identical cellular target, identical exhaustion curve. The defensive and the offensive variants share their cost-substrate. Whoever wove either was paying with the same currency. The lineage note declines to name the currency because the bench can read it directly.",
+        voId: "elara.engineering-core.advocate-zyrkoth-protocol-lineage.use",
+      },
+      talk: {
+        narration:
+          "You read the closing sentence aloud — the note does not name the substrate's specific composition. The bench's substrate-imaging stage, unprompted, displays the molecular formula the note refuses. The composition is not classified. The composition is unspoken. The two are different protocols; the lineage note keeps the second.",
+        voId: "elara.engineering-core.advocate-zyrkoth-protocol-lineage.talk",
       },
     },
     /* ─── storm.architect_of_flux · e1 (flux signature) ─── */
@@ -95,6 +145,11 @@ export const ENGINEERING_CORE_MYSTERY: RoomMysteryModule<EngineeringCoreHotspotI
         narration:
           "You compare the signature against the bench's natural-cosmic baseline. The mismatch is categorical — the signature is engineered, not weathered. The Antiquarian's library carries 4,300 years of natural cosmic-instability readings; none match this signature. The flux is authored. The author is named only by convention, which is the chronicle's confession of its own limit.",
       },
+      talk: {
+        narration:
+          "You name the signature aloud as the convention has it — 'Storm-class.' The bench's calibration register notes the speech and offers, automatically, the convention's history: the name was assigned in epoch one, by an Architect who needed a label and was clear about the choice's limits. The convention has survived four millennia of replacements proposed and refused.",
+        voId: "elara.engineering-core.storm-flux-signature.talk",
+      },
     },
     /* ─── storm.architect_of_flux · e2 (cosmic energy-balance audit) ─── */
     "storm-energy-balance-audit": {
@@ -110,6 +165,16 @@ export const ENGINEERING_CORE_MYSTERY: RoomMysteryModule<EngineeringCoreHotspotI
       interrogate: {
         narration:
           "You ask the audit for the framework's derivation. The cult-archivists cite the Polarity canon — the Storm and the Silence as opposite poles whose interaction creates the universe's power. The audit instrumented the canon and found numbers consistent with it. The chronicle reads canon as engineering.",
+      },
+      use: {
+        narration:
+          "You request the audit's residual error term. The bench reports the interaction-product accounts for every measured cosmic-scale energy contribution to within the instrument's measurement floor. There is no third source. The two-pole model is complete on the bench's evidence; if a third party contributes, it does so below the chronicle's ability to detect.",
+        voId: "elara.engineering-core.storm-energy-balance-audit.use",
+      },
+      talk: {
+        narration:
+          "You read the audit's net positive aloud. The bench's energy-balance register catches the recital with a chime — the chime is reserved for findings the cult-archivists' framework cannot author away. The chronicle has the reading on record now, in your voice, with the chime as witness.",
+        voId: "elara.engineering-core.storm-energy-balance-audit.talk",
       },
     },
     "reactor-coil": {

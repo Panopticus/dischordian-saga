@@ -37,6 +37,16 @@ export const GUILD_SANCTUM_MYSTERY: RoomMysteryModule<GuildSanctumHotspotId> = {
           cluesFound: ["resur.e2.degens_open_ledger_line"],
         },
       },
+      use: {
+        narration:
+          "You compare the two 'no fee' entries' hands against the Degen's standard clerk-roster. Neither hand matches any of the casino's documented copyists. Both are unattributed. The ledger admits two unaccountable amendments in a single page — the only such page in the casino's four-epoch run.",
+        voId: "elara.guild-sanctum.resur-degens-open-ledger-line.use",
+      },
+      talk: {
+        narration:
+          "You read the cult annotation aloud — 'copyist's pleasantry.' The console's audio register catches the recital and offers, by contrast, the Degen's standing policy on ledger amendments: every modification is signed; no exceptions. The annotation explains an exception that does not, on the Degen's own rules, exist.",
+        voId: "elara.guild-sanctum.resur-degens-open-ledger-line.talk",
+      },
     },
     "resur-molvereth-contract-clause": {
       look: {
@@ -48,6 +58,16 @@ export const GUILD_SANCTUM_MYSTERY: RoomMysteryModule<GuildSanctumHotspotId> = {
           cluesFound: ["resur.e4.molvereth_contract_clause"],
         },
       },
+      use: {
+        narration:
+          "You request the contract's metaphor-density ratio against Mol'Vereth's other documented clauses. The bench returns the comparison — every other Mol'Vereth clause in the archive uses literal terms; this one is, on the cult annotation, the only metaphor he ever wrote. A demon with a hundred percent literal-clause history producing a single metaphorical clause is a category-violation the annotation does not explain.",
+        voId: "elara.guild-sanctum.resur-molvereth-contract-clause.use",
+      },
+      talk: {
+        narration:
+          "You read the clause's operative sentence aloud — 'the cycle walker rides the Ark.' The sanctum's audio register notes that the sentence has been spoken in this chamber forty-three times across the Ark's run, exclusively at moments of casino-trustee transition. The clause is read as ritual, not metaphor, by every reader except the cult-archivist annotating it.",
+        voId: "elara.guild-sanctum.resur-molvereth-contract-clause.talk",
+      },
     },
     "resur-degens-pending-settlement": {
       look: {
@@ -58,6 +78,16 @@ export const GUILD_SANCTUM_MYSTERY: RoomMysteryModule<GuildSanctumHotspotId> = {
           episodeId: "resurrectionist.cycle_walker.e5",
           cluesFound: ["resur.e5.degens_pending_settlement"],
         },
+      },
+      use: {
+        narration:
+          "You pull the witness-night logbook for the period since the line was opened. Every Severance night Vex Solène's Ark has been in the casino's territorial range is marked TBD. The settlement is not late; it is awaiting a witness who has not arrived. The Degen has been holding the table open for a hundred years.",
+        voId: "elara.guild-sanctum.resur-degens-pending-settlement.use",
+      },
+      talk: {
+        narration:
+          "You read the Ark number aloud — 1047. The casino-ledger console flags the reading and offers, automatically, the Resurrectionist's last documented utterance: the same four digits, spoken on the instant of his vanishing. The chronicle has both readings now, two centuries apart, the same syllables.",
+        voId: "elara.guild-sanctum.resur-degens-pending-settlement.talk",
       },
     },
     /* ─── advocate.blood_weave · e4 (Xeth'Raal's debt ledger — Advocate entry) ─── */
@@ -71,6 +101,16 @@ export const GUILD_SANCTUM_MYSTERY: RoomMysteryModule<GuildSanctumHotspotId> = {
           cluesFound: ["adv.e4.xethraal_debt_ledger"],
         },
       },
+      use: {
+        narration:
+          "You request the ledger's mathematical structure of the debt. The instrument resolves it: principal — the Advocate's spent humanity. Interest — accrual without basis, because the principal is non-recoverable and so the debt is, in accounting terms, a perpetuity. Xeth'Raal designed an instrument that bills forever against a payment that already happened. The elegance the cult-archivist credits him with is the instrument's refusal to ever close.",
+        voId: "elara.guild-sanctum.advocate-xethraal-debt-ledger.use",
+      },
+      talk: {
+        narration:
+          "You read the entry aloud. The debt-archive console's audio register annotates the recital with the Hierarchy's standing procedure on Advocate-class debts — the entries are read aloud by Hierarchy clerks at every annual audit. Your reading is, in that procedural sense, the same act the Hierarchy performs by ritual. The room cannot tell, by the recital alone, on which side of the instrument you stand.",
+        voId: "elara.guild-sanctum.advocate-xethraal-debt-ledger.talk",
+      },
     },
     /* ─── wolf.anara_hunt · e5 (Hunt-the-Hero minigame entry state) ─── */
     "wolf-minigame-entry-state": {
@@ -82,6 +122,16 @@ export const GUILD_SANCTUM_MYSTERY: RoomMysteryModule<GuildSanctumHotspotId> = {
           episodeId: "wolf.anara_hunt.e5",
           cluesFound: ["wolf.e5.minigame_entry_state"],
         },
+      },
+      use: {
+        narration:
+          "You commit the handover. The board's three switch-states lock to whatever the player has chosen across E2, E3, and E4 — irreversible, signed, on the chronicle. The minigame's seed is now fixed. The next hero to enter the Hall will encounter the state the player set; the Wolf will encounter it too.",
+        voId: "elara.guild-sanctum.wolf-minigame-entry-state.use",
+      },
+      talk: {
+        narration:
+          "You speak the handover summary aloud — investigation closed, gameplay opening, three switch-states committed. The sanctum's audio register catches the recital with a chime that marks an arc's seal. The chime has been heard in this room six times in the chronicle's run; each chime preceded a hero-hunt the chronicle was not equipped to author from outside.",
+        voId: "elara.guild-sanctum.wolf-minigame-entry-state.talk",
       },
     },
     /* ─── wolf.anara_hunt · e5 (the Wolf, present, in the Hall) ─── */
@@ -95,6 +145,16 @@ export const GUILD_SANCTUM_MYSTERY: RoomMysteryModule<GuildSanctumHotspotId> = {
           cluesFound: ["wolf.e5.the_wolf_present"],
         },
       },
+      use: {
+        narration:
+          "You zoom the chronicle window. The cloak's lining carries the medic's prayer in her own hand; the Wolf has been reading it for an unmeasured duration. His posture has not changed in the cycles since he picked it up. He is not deciding. He has decided. He is allowing himself the courtesy of reading the prayer through before he acts on the decision either way.",
+        voId: "elara.guild-sanctum.wolf-present-in-hall.use",
+      },
+      talk: {
+        narration:
+          "You speak across the chronicle window. The Wolf cannot hear; the window is one-way. But the sanctum's audio register catches the speech and files it as part of the case's closing dossier. Anything you say at this moment becomes part of the record the next reader will inherit. He does not have to listen for your words to matter.",
+        voId: "elara.guild-sanctum.wolf-present-in-hall.talk",
+      },
     },
     /* ─── storm.architect_of_flux · e3 (Degen's house-advantage anomaly) ─── */
     "storm-degens-house-advantage-anomaly": {
@@ -106,6 +166,16 @@ export const GUILD_SANCTUM_MYSTERY: RoomMysteryModule<GuildSanctumHotspotId> = {
           episodeId: "storm.architect_of_flux.e3",
           cluesFound: ["storm.e3.degens_house_advantage"],
         },
+      },
+      use: {
+        narration:
+          "You plot the advantage curve against the Storm's documented flux signature. The anti-correlation is precise — every flux peak lines up with a house-advantage trough; every flux trough with a recovery. The Degen was running the casino against the Storm's rhythm by deliberate arrangement, not coincidence. The patron paid losses up front to receive the gains on the back end. Both halves balance to within a single cycle's accuracy.",
+        voId: "elara.guild-sanctum.storm-degens-house-advantage-anomaly.use",
+      },
+      talk: {
+        narration:
+          "You read the annotation aloud — 'patron arrangement — Storm-class.' The accounting console flags the recital as the only instance of the phrase being spoken outside the Degen's own ledger-keeping. The Degen has been the sole speaker of the phrase for centuries. The arrangement was discrete enough that no one else has had occasion to name it.",
+        voId: "elara.guild-sanctum.storm-degens-house-advantage-anomaly.talk",
       },
     },
     "sigil-altar": {
@@ -272,6 +342,11 @@ export const GUILD_SANCTUM_MYSTERY: RoomMysteryModule<GuildSanctumHotspotId> = {
           voId: "human.guild-sanctum.the-advocates-blind-spot.use",
         },
       },
+      talk: {
+        narration:
+          "You read the two findings aloud, in order. The sanctum's audio register marks the recital as the first time both clues have been spoken consecutively in this chamber. The chronicle has held them as parallel facts; speaking them together as one finding is itself a small revision of the record. The room files the consolidation under its standing rule that a synthesis spoken on the altar is on the altar.",
+        voId: "elara.guild-sanctum.the-advocates-blind-spot.talk",
+      },
     },
     // Zyr'Koth arc: the sanctum is where speech is witnessed by
     // every prior alliance — the room whose logic is that to
@@ -349,6 +424,11 @@ export const GUILD_SANCTUM_MYSTERY: RoomMysteryModule<GuildSanctumHotspotId> = {
           },
           voId: "human.guild-sanctum.what-telling-the-advocate-costs.use",
         },
+      },
+      talk: {
+        narration:
+          "You read the choice aloud — to tell her, or to let her keep the last frame. The altar receives the recital with the chime reserved for decisions that are not yet decisions. Speaking the question changes nothing on the record; the room's discipline is that an unanswered question can be carried by the speaker without binding the chronicle. The sentence you have not yet spoken is the one that would.",
+        voId: "elara.guild-sanctum.what-telling-the-advocate-costs.talk",
       },
     },
     // Syl'Vex arc: the sanctum is the room where allegiances are
@@ -665,6 +745,11 @@ export const GUILD_SANCTUM_MYSTERY: RoomMysteryModule<GuildSanctumHotspotId> = {
           },
           voId: "human.guild-sanctum.the-binding-chains-cost.use",
         },
+      },
+      talk: {
+        narration:
+          "You read the cost aloud — humanity, spent into the weave, not recoverable. The sanctum's altar holds the recital the way it holds every alliance signed at a price the signatory paid in full: engraved without consolation, kept on the record so the next reader inherits the full rate rather than a softened summary. The Advocate's bill is now spoken in the room where speaking is binding. The chronicle's accounting is complete.",
+        voId: "elara.guild-sanctum.the-binding-chains-cost.talk",
       },
     },
   },

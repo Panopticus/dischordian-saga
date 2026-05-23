@@ -67,6 +67,11 @@ export const COMMS_ARRAY_MYSTERY: RoomMysteryModule<
         narration:
           "You queue the forty recordings and compare them. The cadence is identical across forty years. The vu-meter's stress patterns at 'someone has to pick it up' are the same in every recording. Vex has been repeating, not interpreting, the line. The line is older than Vex's tenure.",
       },
+      talk: {
+        narration:
+          "You read Vex's opening line aloud. The broadcast desk's vu-meter catches your delivery and aligns it against the forty archived recordings; your stress pattern lands within tolerance of the canonical cadence. The line teaches its reader its rhythm. Whoever first authored it has been teaching readers for four decades.",
+        voId: "elara.comms-array.severance-vex-opening-line.talk",
+      },
     },
     /* ─── severance.bound_champion · e3 (Year One lap record) ─── */
     "severance-year-one-lap-record": {
@@ -82,6 +87,16 @@ export const COMMS_ARRAY_MYSTERY: RoomMysteryModule<
       interrogate: {
         narration:
           "You ask the desk for the original recording of the lane-entry. The broadcast returns a thirty-second clip: a figure entering the lane after the champion fell, kneeling beside the body, picking up something the recording cannot resolve. The figure does not speak. The figure's silhouette matches the Broker's posture in present-day Nilmorg.",
+      },
+      use: {
+        narration:
+          "You request the archive's challenge-history on the redaction. The desk returns one entry — a query forty seasons ago that received no response and has not been refiled. The redaction has been functionally unchallenged for the lifetime of the casino's record. The challenge that did exist was filed by a clerk who was not employed the next season.",
+        voId: "elara.comms-array.severance-year-one-lap-record.use",
+      },
+      talk: {
+        narration:
+          "You speak the champion's name aloud. The desk's audio register flags the recital and offers, by procedural reflex, the lane-entry witness's redaction slot — empty, the standard placeholder tone. The two names should be read in sequence; one is honoured and one is unsaid. The room's acoustics carry both halves of the pause.",
+        voId: "elara.comms-array.severance-year-one-lap-record.talk",
       },
     },
     /* ─── severance.bound_champion · e4 (Vex's confession) ─── */
@@ -99,6 +114,11 @@ export const COMMS_ARRAY_MYSTERY: RoomMysteryModule<
         narration:
           "You ask the comms-array for the response chain after the confession aired. The desk returns the list — Auditor Klessa's affirmation, the Broker's silence, the Architect's one-line acknowledgment. Three of the four witnesses to forty seasons of recruitment have now confirmed it on record. The fourth witness has been doing the recruitment by sitting in chair one.",
       },
+      talk: {
+        narration:
+          "You read the confession's central admission aloud — 'I have spoken it forty times into rooms that were full of people who heard it as theatre.' The broadcast desk catches the recital and routes it, automatically, to the same all-sectors distribution list Vex's confession used. The line is now broadcast a second time, in your voice, with the same audience.",
+        voId: "elara.comms-array.severance-vex-confession.talk",
+      },
     },
     /* ─── mechronis.missing_professor · e3 (vote audio) ─── */
     "tarn-erasure-vote-audio": {
@@ -114,6 +134,11 @@ export const COMMS_ARRAY_MYSTERY: RoomMysteryModule<
       use: {
         narration:
           "You queue the audio at the war-room's clock. The first aye lands at minute eighteen; the second at minute twenty-three; the third at minute twenty-nine. Each speaker waited approximately five minutes after the previous aye, listening for the no that did not come. The vote took eleven minutes longer than any other faculty vote in the recorder's history.",
+      },
+      talk: {
+        narration:
+          "You play the three ayes aloud in sequence. The transmission desk's audio register marks the recital and offers, automatically, the silences between them at the same volume. Spoken back, the vote's eleven-minute extension is hearable as held breath — each speaker was, in turn, the only one who could have said no.",
+        voId: "elara.comms-array.tarn-erasure-vote-audio.talk",
       },
     },
     /* ─── mechronis.missing_professor · e3 (silence hour before the vote) ─── */
@@ -131,6 +156,16 @@ export const COMMS_ARRAY_MYSTERY: RoomMysteryModule<
         narration:
           "You ask the comms-array whether any of the three left and returned. The recorder shows no break in the audio's room-tone. None of the three left. The silence was held by all three for the full hour. Each faculty head later admitted, on the cipher-den's record, that they had been waiting for one of the others to be the first to refuse.",
       },
+      use: {
+        narration:
+          "You scrub the fifty-one minutes for any vocal sub-event. The recorder catches breath-shifts at minute twelve, minute twenty-eight, and minute forty-one. Each shift is consistent with a speaker drawing breath to speak and choosing not to. The silence is not absence; it is three near-refusals held by three speakers, in sequence, each one not the one who spoke.",
+        voId: "elara.comms-array.tarn-faculty-silence-hour.use",
+      },
+      talk: {
+        narration:
+          "You read the pin-marker's annotation aloud. The recorder's room-tone, played back beneath your reading, holds the same ventilation hum the original hour did. The silence is portable. It carries here, from there, intact. The comms-array's discipline is that recordings sound the way they sounded.",
+        voId: "elara.comms-array.tarn-faculty-silence-hour.talk",
+      },
     },
     /* ─── charter.missing_signatory · e1 (lower-deck bell log) ─── */
     "charter-bell-log": {
@@ -142,6 +177,16 @@ export const COMMS_ARRAY_MYSTERY: RoomMysteryModule<
           episodeId: "charter.missing_signatory.e1",
           cluesFound: ["charter.e1.bell_log"],
         },
+      },
+      use: {
+        narration:
+          "You request the second bell-pull's date. The log returns a sealed entry — the date is on the record but the seal has not been broken. The chronicle has been carrying the entry without reading it for an entire century. The Antiquarian's signature against the third pull does not unseal the second.",
+        voId: "elara.comms-array.charter-bell-log.use",
+      },
+      talk: {
+        narration:
+          "You read the three signatures aloud — first signatory, sealed, the Antiquarian. The maintenance-broadcast shelf's audio register catches the recital and the bell-log's standing protocol responds with the lower-deck bell's standing tone, three rings, one for each pull. The third ring matches the bell heard this morning. The chronicle is now in sync with its own log.",
+        voId: "elara.comms-array.charter-bell-log.talk",
       },
     },
     /* ─── severance.bound_champion · e2 (Auditor Klessa — first witness) ─── */
@@ -155,6 +200,16 @@ export const COMMS_ARRAY_MYSTERY: RoomMysteryModule<
           cluesFound: ["severance.e2.first_witness"],
         },
       },
+      use: {
+        narration:
+          "You request the board's record of Klessa's candles. The desk returns forty entries — one candle per Severance, no exceptions, no replacements when extinguished by wind or by hand. Klessa's witnessing is a discipline she has performed in public, on the record, forty consecutive times. She has not missed a year.",
+        voId: "elara.comms-array.severance-first-witness-klessa.use",
+      },
+      talk: {
+        narration:
+          "You speak Klessa's title aloud — first witness. The witness-attendance board's audio register catches the recital and offers, by procedural reflex, the spoken-name slot from each of the forty Severances. Klessa's candle was lit at every one. The slot remains open at this season's finals night, candle ready, name pending.",
+        voId: "elara.comms-array.severance-first-witness-klessa.talk",
+      },
     },
     /* ─── memorial.seven_watchers · e5 (first trumpet sounds, briefly) ─── */
     "watchers-first-trumpet": {
@@ -166,6 +221,16 @@ export const COMMS_ARRAY_MYSTERY: RoomMysteryModule<
           episodeId: "memorial.seven_watchers.e5",
           cluesFound: ["watchers.e5.first_trumpet_sounds"],
         },
+      },
+      use: {
+        narration:
+          "You request the trumpet's harmonic signature. The intercept board returns the frequency profile — clean, unmodulated, band-three's signature pitch. The trumpet is not a transmission carrying a message; it is the trumpet itself, sounding because it is allowed to sound. Twenty-two seconds is the canonical first-sounding interval. The scaffold has been honoured exactly.",
+        voId: "elara.comms-array.watchers-first-trumpet.use",
+      },
+      talk: {
+        narration:
+          "You speak Idris's name into the intercept channel. The board does not broadcast; the band is one-way receive. But the name is now on the comms-array's record as the first speech in response to the first trumpet. The chronicle's reply has been registered. The trumpet has been answered.",
+        voId: "elara.comms-array.watchers-first-trumpet.talk",
       },
     },
     /* ─── akai_shi.red_death · color clues ─── */
@@ -179,6 +244,16 @@ export const COMMS_ARRAY_MYSTERY: RoomMysteryModule<
           cluesFound: ["akai.e4.akais_voice_recorded"],
         },
       },
+      use: {
+        narration:
+          "You scrub the recording's audio for ambient artefacts. The Matrix's residual hum sits beneath her voice at exactly the frequency the construct's own discipline calls 'witnessing tone' — the hum the Matrix produces when it is recording rather than performing. The Matrix was on her side. The recording was not eavesdropping; it was attestation.",
+        voId: "elara.comms-array.akai-voice-mid-hunt.use",
+      },
+      talk: {
+        narration:
+          "You read her closing sentence aloud — 'I will know when it is done. I will tell him then.' The intercept board's archive flags the recital; the same sentence has been read here three times since the field-recording was filed, once by the Antiquarian himself. The promise is being kept by the chronicle's readers in her absence.",
+        voId: "elara.comms-array.akai-voice-mid-hunt.talk",
+      },
     },
     "akai-word-to-the-chronicle": {
       look: {
@@ -189,6 +264,16 @@ export const COMMS_ARRAY_MYSTERY: RoomMysteryModule<
           episodeId: "akai_shi.red_death.e5",
           cluesFound: ["akai.e5.akais_word_to_the_chronicle"],
         },
+      },
+      use: {
+        narration:
+          "You request the chronicle's acknowledgment of receipt. The desk returns a single chime — the Antiquarian's own filing tone, signed in his own hand. The Red Death's word reached its addressee. The case is now closed at both ends of the message.",
+        voId: "elara.comms-array.akai-word-to-the-chronicle.use",
+      },
+      talk: {
+        narration:
+          "You read the closing phrase aloud — 'we just lived with which kind.' The recent-recordings board's archive catches the recital and notes that the line has been read in this chamber the canonical seven times since the message was pinned. The seven readings match the seven seconds the Necromancer carried it for. The numerology was not deliberate. It is on the record anyway.",
+        voId: "elara.comms-array.akai-word-to-the-chronicle.talk",
       },
     },
     /* ─── advocate.blood_weave · color clues ─── */
@@ -202,6 +287,16 @@ export const COMMS_ARRAY_MYSTERY: RoomMysteryModule<
           cluesFound: ["adv.e1.advocate_broadcast_register_three"],
         },
       },
+      use: {
+        narration:
+          "You request the broadcast's liturgical cadence analysis. The desk overlays it against the Advocate's prayer-recordings — the cadence matches exactly. Register three is not rhetoric; it is the same vocal posture she uses when she is at the altar of her own charter. The broadcast was, by her own standard, a prayer the Empire was permitted to overhear.",
+        voId: "elara.comms-array.advocate-register-three-broadcast.use",
+      },
+      talk: {
+        narration:
+          "You read the closing line aloud — 'the chronicle's most-permissive front.' The Empire-of-Shadows transmission shelf's audio register catches the recital and offers, by reflex, the Empire's own prayer-response cadence at register-three's standard call-and-answer interval. The room provides the response the broadcast was originally given on its first transmission.",
+        voId: "elara.comms-array.advocate-register-three-broadcast.talk",
+      },
     },
     "advocate-defection-response": {
       look: {
@@ -212,6 +307,16 @@ export const COMMS_ARRAY_MYSTERY: RoomMysteryModule<
           episodeId: "advocate.blood_weave.e3",
           cluesFound: ["adv.e3.advocates_response_to_defections"],
         },
+      },
+      use: {
+        narration:
+          "You request the broadcast's audience analysis. The desk returns the figures — the response reached every Empire signatory and zero Hierarchy outposts. The Advocate did not broadcast to the converts; she broadcast to the Empire's witnesses, naming the converts as still sheltered. The transmission's purpose was to keep the charter intact on the record, not to retrieve anyone.",
+        voId: "elara.comms-array.advocate-defection-response.use",
+      },
+      talk: {
+        narration:
+          "You read 'they walk under my charter still' aloud. The transmission shelf's audio register flags the recital; the same sentence has been read here forty-three times across nine epochs, by readers cross-referencing the doctrine. The Advocate's position has been studied at the chronicle's reading volume, by the chronicle's readers, on the chronicle's own equipment. It is, by use, settled.",
+        voId: "elara.comms-array.advocate-defection-response.talk",
       },
     },
     "advocate-walk-in-power-lyric": {
@@ -224,6 +329,16 @@ export const COMMS_ARRAY_MYSTERY: RoomMysteryModule<
           cluesFound: ["adv.e4.walk_in_power_lyric_record"],
         },
       },
+      use: {
+        narration:
+          "You request the lyric's broadcast count across the Empire era. The desk returns a number that bracket-rounds to a million plays. 'Walk in Power' is the most-broadcast resistance anthem in the chronicle's record. The Advocate's loss is named in the chorus of a song the Empire's listeners learned by heart; the loss is on the record at the volume of public memory, not archival deference.",
+        voId: "elara.comms-array.advocate-walk-in-power-lyric.use",
+      },
+      talk: {
+        narration:
+          "You sing — quietly — the chorus's central refusal. The album-records shelf's audio register catches the recital and offers, automatically, the Human's duet part at the standard interval. The room briefly carries both voices, one century later, in your single attempt. The duet was always meant to be shared.",
+        voId: "elara.comms-array.advocate-walk-in-power-lyric.talk",
+      },
     },
     "advocate-position-current-broadcast": {
       look: {
@@ -234,6 +349,16 @@ export const COMMS_ARRAY_MYSTERY: RoomMysteryModule<
           episodeId: "advocate.blood_weave.e5",
           cluesFound: ["adv.e5.advocate_position_current"],
         },
+      },
+      use: {
+        narration:
+          "You request the broadcast's timestamp against the Advocate's last documented appearance. The desk returns the interval — the broadcast is the most recent confirmation she is operational. Her continuance is documented; her completeness is not. The chronicle's two reads on her status are now both on the record, neither contradicting.",
+        voId: "elara.comms-array.advocate-position-current-broadcast.use",
+      },
+      talk: {
+        narration:
+          "You read 'I continue' aloud. The most-recent-broadcasts shelf catches the recital. The Advocate's standing transmission protocol is that the phrase, spoken in this room by a registered reader, registers as a witness to her continuance. The chronicle now holds your witness alongside her own.",
+        voId: "elara.comms-array.advocate-position-current-broadcast.talk",
       },
     },
     /* ─── storm.architect_of_flux · color clues ─── */
@@ -247,6 +372,16 @@ export const COMMS_ARRAY_MYSTERY: RoomMysteryModule<
           cluesFound: ["storm.e4.storm_voice_fragment"],
         },
       },
+      use: {
+        narration:
+          "You request the fragment's interference-pattern profile. The intercept board returns the signature — the Storm's voice is carried by the same flux signature his calms are made of. He does not transmit; the calm itself transmits, and his voice is what the calm sounds like when the chronicle is patient enough to listen.",
+        voId: "elara.comms-array.storm-voice-fragment.use",
+      },
+      talk: {
+        narration:
+          "You read 'I only ensure the planning can happen' aloud. The flux-frequency board's audio register notes that this sentence, in your voice, lands within the canonical Storm-calm planning window. The recital is, in effect, planning. The Storm is permitting it. The chronicle does not need to name what is planned.",
+        voId: "elara.comms-array.storm-voice-fragment.talk",
+      },
     },
     "storm-closing-transmission": {
       look: {
@@ -257,6 +392,16 @@ export const COMMS_ARRAY_MYSTERY: RoomMysteryModule<
           episodeId: "storm.architect_of_flux.e5",
           cluesFound: ["storm.e5.closing_storm_transmission"],
         },
+      },
+      use: {
+        narration:
+          "You request the signature verification. The intercept board returns the match — the Storm's flux signature on the closing transmission is identical to the signature on every uncorrelated calm. The closing is not a courtesy; it is a continuation of the same signal the Storm has been transmitting for centuries. The case closes. The Storm does not.",
+        voId: "elara.comms-array.storm-closing-transmission.use",
+      },
+      talk: {
+        narration:
+          "You read the closing line aloud — the case will close on the correct side of that difference. The voice-fragment shelf's audio register acknowledges the recital with the Storm's standard receipt tone: a low, sustained hum at the flux signature's resonant frequency. The closing has been witnessed. The chronicle has filed it correctly.",
+        voId: "elara.comms-array.storm-closing-transmission.talk",
       },
     },
     /* ─── mechronis.chained_lesson · e1 (Lyra's fourteen-minute call) ─── */
@@ -269,6 +414,16 @@ export const COMMS_ARRAY_MYSTERY: RoomMysteryModule<
           episodeId: "mechronis.chained_lesson.e1",
           cluesFound: ["chained.e1.lyra_call"],
         },
+      },
+      use: {
+        narration:
+          "You request the call's full duration. The voice-channel desk returns fourteen minutes thirty seconds — the call continued for thirty seconds after Lyra's reported lines. The remaining audio is the recipient's silence and Lyra's breathing. Lyra waited on the line for an answer that did not come. She did not press.",
+        voId: "elara.comms-array.chained-lyra-call-fourteen-minutes.use",
+      },
+      talk: {
+        narration:
+          "You read 'they want it from you' aloud. The voice-channel desk's audio register notes that the sentence has been read here exactly once before, by Tarn, in the week the case opened. Tarn carried the line into the curriculum-archive. Your reading is the second voice the line has had in two centuries.",
+        voId: "elara.comms-array.chained-lyra-call-fourteen-minutes.talk",
       },
     },
     /* ─── memorial.seven_watchers · e1 (silence-break event log) ─── */
@@ -286,6 +441,11 @@ export const COMMS_ARRAY_MYSTERY: RoomMysteryModule<
         narration:
           "You request the array's confidence on the timing. The desk returns the metadata: the six channels opened within 0.4 seconds of each other and closed within 0.2 seconds of each other. The Watchers' silence-break was coordinated to a tighter tolerance than any broadcast the array has ever logged.",
       },
+      talk: {
+        narration:
+          "You read the seventh's log entry aloud — 'active signal, no carrier.' The transmission desk catches the recital with the chime reserved for verified attestations. The seventh's silence has now been spoken about in this room by the chronicle's reader; the silence was present, it was registered, and its presence is on the record in your voice.",
+        voId: "elara.comms-array.watchers-silence-break-log.talk",
+      },
     },
     /* ─── wolf.anara_hunt · e1 (meme-show transmission) ─── */
     "wolf-meme-show-transmission": {
@@ -301,6 +461,11 @@ export const COMMS_ARRAY_MYSTERY: RoomMysteryModule<
       use: {
         narration:
           "You request the comms-array's transmission origin trace. The signal routes through Locke's interception channel — the adjudicar pinned it for the chronicler's attention. Locke has not commented on the content. Locke has commented on the timing: the transmission landed forty-seven minutes after the first empty chair was reported. Someone outside the chronicle knew what was happening inside Anara before the chronicler did.",
+      },
+      talk: {
+        narration:
+          "You read 'a predator wearing trust like a mask' aloud. The intercept board's audio register flags the recital — the line has been broadcast on the meme-show twice tonight already. Your reading is the third utterance in the chronicle's run. The room is now repeating, on a closed channel, what the Inventor said on an open one.",
+        voId: "elara.comms-array.wolf-meme-show-transmission.talk",
       },
     },
     /* ─── akai_shi.red_death · e1 (Akai Shi's last recorded words) ─── */
@@ -318,6 +483,11 @@ export const COMMS_ARRAY_MYSTERY: RoomMysteryModule<
         narration:
           "You request the recording's full unedited duration. The desk returns the timeline: Akai Shi's words sit at the forty-seven-second mark before intercept; the remaining thirty seconds are silence held by a being who had decided. The squad's other channels are quiet during this window — the squad heard her and held the line.",
       },
+      talk: {
+        narration:
+          "You read her closing line aloud — 'it was always going to be a mercy. We just have to live with which kind.' The Thaloria-archive shelf's audio register notes the recital and offers, by archival protocol, the squad's standing acknowledgment cadence: the same six-second silence each squad member held when the recording originally played. The chronicle keeps the silence with you for the full count.",
+        voId: "elara.comms-array.akai-last-recorded-words.talk",
+      },
     },
     /* ─── resurrectionist.cycle_walker · e3 (Host wyrmhole signature) ─── */
     "resur-host-wyrmhole-signature": {
@@ -333,6 +503,11 @@ export const COMMS_ARRAY_MYSTERY: RoomMysteryModule<
       use: {
         narration:
           "You request the bench's cross-reference for the wyrmhole signature. The desk returns three other recorded Host-wyrmhole signatures — all earlier, all on cosmic-scale incursions. The Plague Dragon's signature is the most recent and the most precisely matched. The Host engineered the breach; the Virus crossed; the Dragon was the carrier the Virus rode.",
+      },
+      talk: {
+        narration:
+          "You name the three actors aloud — Host, Virus, Dragon. The signal-analysis bench's audio register catches the recital and offers, automatically, the chronicle's standing reading-protocol for settled incursions: the three names spoken in order register as a faction-witness acknowledgment. The case-opening has been witnessed by the room's instrument and the room's reader at the same instant.",
+        voId: "elara.comms-array.resur-host-wyrmhole-signature.talk",
       },
     },
     "radio-console": {
@@ -779,6 +954,16 @@ export const COMMS_ARRAY_MYSTERY: RoomMysteryModule<
           voId: "human.comms-array.dead-drop-cadence-log.look",
         },
       },
+      use: {
+        narration:
+          "You request the manifest log's longest equivalent unbroken cadence. The relay returns one comparable record — the Authority's own quartermaster channel, also eleven centuries continuous. The two cadences are the only two of their length in the chronicle's recorded shipping data. The dead-drop is, by infrastructural measure, Authority-scaled.",
+        voId: "elara.comms-array.dead-drop-cadence-log.use",
+      },
+      talk: {
+        narration:
+          "You read the customs declaration aloud — 'archival reference materials, no commercial value.' The manifest channel catches the recital; the same declaration has been spoken in this room exactly once per century by the relay's standing audit-readers. Your reading is the eleventh. The cadence is preserved by reading as much as by shipping.",
+        voId: "elara.comms-array.dead-drop-cadence-log.talk",
+      },
     },
     // Ith'Rael arc: the comms-array is canonically where scrubbed
     // signatures resurface. The Shadow Tongue is an editing
@@ -971,6 +1156,11 @@ export const COMMS_ARRAY_MYSTERY: RoomMysteryModule<
           },
           voId: "human.comms-array.miras-dual-thread-transmission.use",
         },
+      },
+      talk: {
+        narration:
+          "You read 'I refuse the question. I am both' aloud. The personal channel's audio register catches the recital and offers, by the Insurgency's standing anti-coercion protocol, the Weave's parallel teaching at the same cadence. The two doctrines speak the same sentence in different vocabularies. Both readings are on the record. The convert is on both registers, by both teachings, by her own re-choice.",
+        voId: "elara.comms-array.miras-dual-thread-transmission.talk",
       },
     },
   },

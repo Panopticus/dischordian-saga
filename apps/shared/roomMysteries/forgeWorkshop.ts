@@ -35,6 +35,11 @@ export const FORGE_WORKSHOP_MYSTERY: RoomMysteryModule<ForgeWorkshopHotspotId> =
         narration:
           "You flip the notebook open at the spine fold. Half-erased pencil lines on the inside cover read 'I keep this so I know what to charge them if they ever ask.' The Academy has not asked. The Trade Empire has been paying Auro for a job adjacent to this one for nine years. The notebook has not been entered on either ledger.",
       },
+      talk: {
+        narration:
+          "You read the twelve names aloud, in tally order. The side-room's acoustics are designed for small instruction — each name carries cleanly to the three chairs and no further. Auro teaches with the door closed. The list has been spoken in this room before, on every off-shift, in her own voice.",
+        voId: "elara.forge-workshop.chained-auro-tally.talk",
+      },
     },
     /* ─── advocate.blood_weave · e2 (Blood Weave partial specification) ─── */
     "advocate-weave-specification": {
@@ -51,6 +56,11 @@ export const FORGE_WORKSHOP_MYSTERY: RoomMysteryModule<ForgeWorkshopHotspotId> =
         narration:
           "You ask the bench whether the Weave can be replicated by a different weaver. The reader returns the spec's footnote: 'the Weave is keyed to its weaver's substrate. another weaver would weave a different fabric.' The Advocate's Weave is uniquely hers; no successor can wear her chains forward.",
       },
+      talk: {
+        narration:
+          "You read the operational core aloud — energy in is the weaver's own substrate, energy out is chains that bind. The bench's reader catches the recital and offers, by contrast, the Zyr'Koth research footnote: the Hierarchy attempted to derive a Weave variant that drew on someone else's substrate. They failed seven times. The Weave does not delegate its cost.",
+        voId: "elara.forge-workshop.advocate-weave-specification.talk",
+      },
     },
     /* ─── severance.infernal_clause · e3 (blank-backed pages archive) ─── */
     "infernal-blank-pages-archive": {
@@ -62,6 +72,16 @@ export const FORGE_WORKSHOP_MYSTERY: RoomMysteryModule<ForgeWorkshopHotspotId> =
           episodeId: "severance.infernal_clause.e3",
           cluesFound: ["infernal.e3.blank_pages_archive"],
         },
+      },
+      use: {
+        narration:
+          "You inspect the paper-stocks. The back-stock — where the clauses live — is heavier, finer-grained, sourced from a mill the chronicle traces to one supplier in epoch one. The front-stock varies season by season. The writer prepared the clauses with a single batch of paper bought ahead. The contracts came to the clauses, not the other way around.",
+        voId: "elara.forge-workshop.infernal-blank-pages-archive.use",
+      },
+      talk: {
+        narration:
+          "You read the box's label aloud — PRELIMINARIES. The word does not capture what the box is for. A preliminary is a draft; these are finished clauses awaiting their contracts. The forge-workshop's acoustics swallow the label without correction. The chronicle's vocabulary has been edited by who got there first.",
+        voId: "elara.forge-workshop.infernal-blank-pages-archive.talk",
       },
     },
     /* ─── charter.second_signatory · color clues ─── */
@@ -75,6 +95,16 @@ export const FORGE_WORKSHOP_MYSTERY: RoomMysteryModule<ForgeWorkshopHotspotId> =
           cluesFound: ["charter2.e2.solven_workshop"],
         },
       },
+      use: {
+        narration:
+          "You open the appointment book and scan the dates. The cadence is exact — one appointment every nine days, every nine days for three epochs, no gaps. The archivist is not making appointments to use the workshop. The archivist is making appointments to prevent anyone else from using the workshop. The space is being held by booking, not by occupancy.",
+        voId: "elara.forge-workshop.charter2-solven-workshop.use",
+      },
+      talk: {
+        narration:
+          "You read the archivist's name aloud — the same hand signs the tax registry, signs every appointment in this book, signs the workshop's maintenance log. One person holds three keys. The chronicle's deferral on the Solven workshop is an instrument; the instrument has a single point of failure, and her signature is on every page of it.",
+        voId: "elara.forge-workshop.charter2-solven-workshop.talk",
+      },
     },
     "charter2-house-othisen": {
       look: {
@@ -85,6 +115,16 @@ export const FORGE_WORKSHOP_MYSTERY: RoomMysteryModule<ForgeWorkshopHotspotId> =
           episodeId: "charter.second_signatory.e3",
           cluesFound: ["charter2.e3.house_othisen"],
         },
+      },
+      use: {
+        narration:
+          "You inspect a component on the assembly bench — a small-engine impeller, freshly machined. The Othisen maker's mark is stamped on the inner ring, where the Trade Empire's quality-inspectors do not look. The Empire's outer plate carries the Empire's mark; the Othisens have been signing their own work, internally, for three epochs. The erasure was clean from one angle. From the inside of the part, it is loud.",
+        voId: "elara.forge-workshop.charter2-house-othisen.use",
+      },
+      talk: {
+        narration:
+          "You speak the family name aloud — Othisen. The workshop's acoustic register notes that the name has been said in this corridor four hundred and seventeen times across three epochs, almost exclusively by Othisens themselves. The erasure is a public-facing edit. The internal name has never been edited out.",
+        voId: "elara.forge-workshop.charter2-house-othisen.talk",
       },
     },
     /* ─── mechronis.chained_lesson · color clues ─── */
@@ -98,6 +138,16 @@ export const FORGE_WORKSHOP_MYSTERY: RoomMysteryModule<ForgeWorkshopHotspotId> =
           cluesFound: ["chained.e3.auro_side_room"],
         },
       },
+      use: {
+        narration:
+          "You sit in one of the three chairs. The seat is shaped to the wear-pattern of a particular apprentice; the next chair carries a different shape; the third, a third. Auro's three regular students have left their seats marked. The diorama is set at a specific moment in the Terminus engagement — the moment the curriculum she rejected says nothing useful happens.",
+        voId: "elara.forge-workshop.chained-auro-side-room.use",
+      },
+      talk: {
+        narration:
+          "You greet the empty chairs. The side-room's acoustics are designed for three students and one teacher; a fourth voice carries softly. You are not, strictly, intruding — you are sitting in the seat the curriculum reserved for the case that was never opened. The room accepts the seating without comment.",
+        voId: "elara.forge-workshop.chained-auro-side-room.talk",
+      },
     },
     "chained-tarn-letter-to-the-case": {
       look: {
@@ -108,6 +158,16 @@ export const FORGE_WORKSHOP_MYSTERY: RoomMysteryModule<ForgeWorkshopHotspotId> =
           episodeId: "mechronis.chained_lesson.e4",
           cluesFound: ["chained.e4.tarn_message_to_player"],
         },
+      },
+      use: {
+        narration:
+          "You break the seal. The letter unfolds into three pages — the visible quote is the last paragraph. The earlier pages are the argument from Year 1, transcribed in Tarn's own hand, with marginalia from Year 8 amendments and a final dated note from Year 14. The letter is a complete authoring history of the case Tarn refused to close. He has handed you the working file.",
+        voId: "elara.forge-workshop.chained-tarn-letter-to-the-case.use",
+      },
+      talk: {
+        narration:
+          "You read the closing sentence aloud — 'both can be true.' The forge-workshop's acoustic register catches it; the same sentence has been spoken in this room exactly once before, in Tarn's own voice, on the day he sealed the letter. He read it aloud to himself before signing it. The chronicle has both readings.",
+        voId: "elara.forge-workshop.chained-tarn-letter-to-the-case.talk",
       },
     },
     anvil: {

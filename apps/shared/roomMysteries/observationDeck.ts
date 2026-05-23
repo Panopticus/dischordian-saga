@@ -51,6 +51,16 @@ export const OBSERVATION_DECK_MYSTERY: RoomMysteryModule<
           cluesFound: ["charter.e4.upper_band_calibration"],
         },
       },
+      use: {
+        narration:
+          "You place the wafer in the reference cradle. The bench's calibration loop locks immediately; the wafer is not a sample, it is a key. Whoever folded it into the letter expected the recipient to have this bench, in this room, with this access. The chain of custody implied by the slip's shape is its own evidence.",
+        voId: "elara.observation-deck.charter-upper-band-calibration.use",
+      },
+      talk: {
+        narration:
+          "You speak the initials aloud — Per. M. The bench's recording register flags the speech as the second time this set of initials has been voiced in the room. The first instance is unattributed; the timestamp predates your tenure. Someone before you was working this case at this bench.",
+        voId: "elara.observation-deck.charter-upper-band-calibration.talk",
+      },
     },
     /* ─── resurrectionist.cycle_walker · e5 (Dreamer's Shield diagnostic) ─── */
     "resur-shield-diagnostic": {
@@ -62,6 +72,16 @@ export const OBSERVATION_DECK_MYSTERY: RoomMysteryModule<
           episodeId: "resurrectionist.cycle_walker.e5",
           cluesFound: ["resur.e5.shield_diagnostic"],
         },
+      },
+      use: {
+        narration:
+          "You re-run the diagnostic on a different instrument calibrated by a non-cult reader. The reading does not change. The signature reads from inside the protected volume regardless of who holds the meter. The cult's instrumentation-error annotation is, by any reasonable reading, not an error.",
+        voId: "elara.observation-deck.resur-shield-diagnostic.use",
+      },
+      talk: {
+        narration:
+          "You read the cult-curated annotation aloud. The phrasing is careful — it does not deny the reading, it explains it. A careful explanation written in advance is, in chronicler's craft, indistinguishable from a careful cover. The console preserves the annotation without commentary. The chronicle is asked to do the commentary.",
+        voId: "elara.observation-deck.resur-shield-diagnostic.talk",
       },
     },
     /* ─── akai_shi.red_death · e4 (Matrix cycle-fold anomalies) ─── */
@@ -79,6 +99,11 @@ export const OBSERVATION_DECK_MYSTERY: RoomMysteryModule<
         narration:
           "You scrub the telemetry's fold-points. Seven folds, seven retreat chambers, seven encounters with the Red Death. The Necromancer's evasion craft is sophisticated; the Red Death is not chasing him through it — she is standing at every exit before he arrives. The fold-anomalies are the receipt of an evasion that has been pre-positioned against.",
       },
+      talk: {
+        narration:
+          "You read each of the seven fold-points aloud, in chronological order. The console's audio register catches the cadence and offers, unprompted, a parallel reading of the Necromancer's own incantation at each fold — recovered from the Matrix at the time of the fold-event. The two voices, his and yours, are in time. The room is not editorialising. It is showing you the alignment.",
+        voId: "elara.observation-deck.akai-cycle-fold-anomalies.talk",
+      },
     },
     /* ─── storm.architect_of_flux · e1 (five-century weather telemetry) ─── */
     "storm-weather-telemetry": {
@@ -95,6 +120,11 @@ export const OBSERVATION_DECK_MYSTERY: RoomMysteryModule<
         narration:
           "You scrub the timeline back five centuries. The crossing-maintenance is consistent across the entire record. The Storm is not making weather; the Storm is enforcing that weather happens. The chronicle does not stagnate at either pole because the Storm refuses the stagnation.",
       },
+      talk: {
+        narration:
+          "You read the principle aloud: he maintains the crossing, not the poles. The console's archive notes that the same sentence has been spoken in this room before, by an Antiquarian's intern whose name is no longer attached to a personnel record. The reading has been arrived at independently more than once. That is the chronicle's quiet way of approving an interpretation.",
+        voId: "elara.observation-deck.storm-weather-telemetry.talk",
+      },
     },
     /* ─── storm.architect_of_flux · e4 (full register of nine calms) ─── */
     "storm-full-calms-register": {
@@ -110,6 +140,16 @@ export const OBSERVATION_DECK_MYSTERY: RoomMysteryModule<
       interrogate: {
         narration:
           "You ask the register what triggered the most recent calm. The console returns a list of cosmic-scale planning requests filed in the corresponding interval: the Apprentice cohort's first muster; a redacted second event. The Storm answers planning requests. The chronicle does not always record what the calms were used for.",
+      },
+      use: {
+        narration:
+          "You correlate the nine calms against the chronicle's documented planning windows. Seven calms align with a known planning request. Two do not — the windows are clean, no filed request, no recorded event. The Storm extended a planning courtesy that the chronicle was either not present for or not permitted to record.",
+        voId: "elara.observation-deck.storm-full-calms-register.use",
+      },
+      talk: {
+        narration:
+          "You read the marginal note aloud. The phrase 'when planning is asked for' lands differently spoken than read — the verb 'asked' carries the weight. The Storm is not granting calms by schedule; he is granting them on request. Whoever knows to ask, gets quiet weather. The register is, in effect, a list of every cosmic-scale planner the chronicle has implicitly catalogued.",
+        voId: "elara.observation-deck.storm-full-calms-register.talk",
       },
     },
     "panoramic-viewport": {
