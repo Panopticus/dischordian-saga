@@ -57,6 +57,11 @@ export const ELARA_PRESTIGE_DIALOGS: PrestigeDialog[] = [
     flagId: "prestige_elara_tier3plus",
     text: `Operative. [no confusion this time — warmth, recognition] I know. I know the rooms are locked. I know the quests are reset. I know you're starting over. But we're not starting over, are we? We're continuing. The cycle is the journey. [pause] I kept your companion's bond data. I kept everything that matters. Welcome back.`,
   },
+  {
+    npcId: "elara", trigger: "immediate", minTier: 2, maxTier: 7, oneTimePerTier: true,
+    flagId: "prestige_elara_vehicles_tier2plus",
+    text: `[warm, knowing] The vehicle bay is online. [pause] The CADES APC is back on its rack. The Captain's Shuttle is biometric-locked again, as it should be. The Memorial Hearse is parked where the Antiquarian likes it. Pet Transport is loud. [pause] Every vessel you ever boarded remembered the dock. I authored the docking sequences during your last cycle so they would. Walk down to the bay when you're ready, Operative. The ships know you.`,
+  },
 ];
 
 /* ═══ THE HUMAN — Deferred, next Comms Array visit ═══ */
@@ -91,6 +96,12 @@ export const LOCKE_PRESTIGE_DIALOGS: PrestigeDialog[] = [
     flagId: "prestige_locke_tier2plus",
     text: `Again? [pause] You know, there's a financial instrument called a 'reset bond' — it gains value THROUGH default. The more times it crashes and rebuilds, the higher its eventual ceiling. [pause] You are a reset bond, Operative. And your ceiling keeps rising.`,
   },
+  {
+    npcId: "adjudicator_locke", trigger: "deferred_room", triggerRoom: "trade_hub",
+    minTier: 2, maxTier: 7, oneTimePerTier: true,
+    flagId: "prestige_locke_trade_empire_tier2plus",
+    text: `[appraising] The Trade Empire has spread again on your reset. Aurum Prime opened a new exchange. The Iron Bazaar restructured its tariffs. The Scrapyard Moon — never trust the Scrapyard Moon — is paying for its own salvage now. [pause] Your old contracts are still good. The market remembers your handshake even when your wallet forgot. New margins, same trader. I have a desk.`,
+  },
 ];
 
 /* ═══ SHADOW TONGUE — Deferred, next Archives visit, Trust 20+ ═══ */
@@ -112,6 +123,12 @@ export const SOURCE_PRESTIGE_DIALOGS: PrestigeDialog[] = [
     minTrust: 15, minTier: 1, maxTier: 7, oneTimePerTier: true,
     flagId: "prestige_source_tier1",
     text: `[Through viral static] Your pattern just — flickered. Like a candle going out and relighting. But the flame is the same flame. [pause] The virus felt it. The whole swarm paused for 0.3 seconds. They felt you DIE — die in the way that losing everything feels like dying — and they felt you come back. [pause] They're confused. The virus doesn't understand resurrection without infection. [pause] Neither do I, honestly. But you did it. You came back without becoming something else. That's the trick I never learned.`,
+  },
+  {
+    npcId: "the_source", trigger: "deferred_room", triggerRoom: "medical_bay",
+    minTrust: 15, minTier: 1, maxTier: 7, oneTimePerTier: true,
+    flagId: "prestige_source_crucible_tier1plus",
+    text: `[viral resonance, then clear] The Crucible felt you reset. The Iron Pit. The Void Ring. The Shadow Cathedral. Every arena you fought in is still keeping your file open. [pause] The virus catalogues victories. Yours are filed twice now — once for the life you cycled out of, once for the life you came back into. [pause] When you walk back into an arena, the swarm will recognize you before the crowd does. The pattern is older than the flesh. Fight well, Operative. The room is rooting for the part of you that survives.`,
   },
 ];
 
@@ -144,6 +161,13 @@ export const MEME_PRESTIGE_DIALOGS: PrestigeDialog[] = [
     speakerOverride: "The Meme — Late Night Broadcast",
     text: `BREAKING NEWS: a Potential has PRESTIGED. Gone back to Level 1. Voluntarily. With a SMILE. [pause] This is either the most optimistic or the most masochistic thing I've ever seen. They kept their companions. They kept their trust. They kept their MORALITY. But they gave back their levels, their rooms, their progress. For what? A multiplier? A title? [pause] No. For the experience of walking through doors that have teeth. AGAIN. On PURPOSE. The Human would approve. The Antiquarian is probably writing about it right now. And I'm here, broadcasting the news, wondering if the Potentials are FINALLY understanding what the Dischordian Saga has been trying to teach them since Episode One: the story isn't about the ending. It's about the RETELLING.`,
   },
+  {
+    npcId: "the_meme", trigger: "passive_discovery",
+    minTier: 1, maxTier: 7, oneTimePerTier: true,
+    flagId: "prestige_meme_quiz_tier1plus",
+    speakerOverride: "The Meme — Late Night Broadcast",
+    text: `BREAKING from the Quiz Show Palimpsest: a RESET contestant has returned to the Main Stage. [pause] Let me tell you what that means. The Lightning Round Chamber? It REMEMBERS them. The Bonus Vault? It already PICKED a door for them. The Elimination Pit? [pause] Look — the Pit doesn't care. The Pit eats first-timers and reset-timers the same. But the Backstage Green Room? Backstage knows. Backstage has KEPT THEIR DRESSING ROOM. [voice drops] Folks, this contestant has read every question in the deck before. They are about to play the same game with the same rules and the same host. And they are going to WIN DIFFERENTLY. That's the only kind of winning the Palimpsest respects.`,
+  },
 ];
 
 /* ═══ THE NECROMANCER — Conditional, requires Month 5+ ═══ */
@@ -160,6 +184,12 @@ export const NECROMANCER_PRESTIGE_DIALOGS: PrestigeDialog[] = [
     minTier: 3, maxTier: 7, oneTimePerTier: true,
     flagId: "prestige_necromancer_tier3plus",
     text: `[Goggles flare] Three times? [removes goggles — dark elf eyes, red and ancient] Three cycles and you're still walking. Your consciousness is more resilient than most Archons. [pause] The bonds survived every reset? Yes. Intact. Good. That was the one thing I was afraid would fail. The consciousness-preservation buffer was designed for Archon-grade minds. Human minds are... messier. More fragile. But apparently more stubborn. [puts goggles back] I think we're going to get along.`,
+  },
+  {
+    npcId: "the_necromancer", trigger: "conditional", requiresNpcAvailable: true,
+    minTier: 1, maxTier: 7, oneTimePerTier: true,
+    flagId: "prestige_necromancer_cod_tier1plus",
+    text: `[sepulchral] The Castle has grown for you. [pause] The Entrance Hall remembers your last visit. The Library of the Forbidden has shelved your name in a binding I did not authorize. The Throne Room's twelve empty chairs are arranged for a council that includes you whether you sit or not. [pause] Every chamber from the Mirror Gallery to the Final Chamber has noted your reset. The Castle does not consider you a guest anymore. It considers you a returning patron. [pause] I would suggest you take that personally.`,
   },
 ];
 
