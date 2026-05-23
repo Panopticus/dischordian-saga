@@ -182,6 +182,166 @@ const PER_SPACE_BEATS: ReadonlyMap<
         prose:
           "The Iron Pit is the Crucible's introduction. Sand, walls, two doors. The crowd is patient — they have seen this gate open many times — but the patience is not for you. It is for whatever leaves through the other door.",
         continueVerb: "Step onto the sand",
+        continueRoute: "/duelyst-pvp",
+      },
+    },
+  ],
+  [
+    "dest.crucible.cr12_neon_undercity",
+    {
+      enter_arena: {
+        prose:
+          "The Neon Undercity fights up. Sponsor signs flicker across thirty floors of city that forgot the sky. Every round you climb is a story the swarm files. Begin at the bottom; the bottom is older than the rest.",
+        continueVerb: "Begin the ascent",
+        continueRoute: "/duelyst-pvp",
+      },
+    },
+  ],
+  [
+    "dest.crucible.cr15_living_forest",
+    {
+      enter_arena: {
+        prose:
+          "The Living Forest intervenes. The Crucible licenses the woodland's grievances and offers them as ground rules; the trees are now your second opponent. The Source's swarm rustles between the leaves and approves of nothing in particular.",
+        continueVerb: "Enter the wood",
+        continueRoute: "/duelyst-pvp",
+      },
+    },
+  ],
+  [
+    "dest.castle_of_death.cod07_library_of_forbidden",
+    {
+      investigate_chamber: {
+        prose:
+          "The Library of the Forbidden has shelved your name in a binding the Necromancer did not authorize. The grimoires recognize you as a returning patron. The volume on the lectern is open to a page that was waiting.",
+        continueVerb: "Read the open page",
+      },
+    },
+  ],
+  [
+    "dest.castle_of_death.cod14_dining_hall_of_last_supper",
+    {
+      investigate_chamber: {
+        prose:
+          "Thirteen places set, perpetually. The food is always warm and never the same plate twice. The host's chair is empty. The first guest to sit at the empty chair becomes the meal — that is the only rule the hall enforces. Eat carefully.",
+        continueVerb: "Take a chair (not that one)",
+      },
+    },
+  ],
+  [
+    "dest.castle_of_death.cod11_crypt_of_ancestors",
+    {
+      investigate_chamber: {
+        prose:
+          "Stone sarcophagi arrayed in birth order. The Necromancer visits weekly to settle disputes among the dead — the disputes are real, the resolutions older than the Castle. The lid you are about to touch has been touched before by someone with your hand.",
+        continueVerb: "Touch the lid",
+      },
+    },
+  ],
+  [
+    "dest.tower_defense.td10_war_machine",
+    {
+      begin_defense: {
+        prose:
+          "The War Machine is one weapon shaped like a fortress. Hold the weapon and you hold the field. Lose the weapon and the field rewrites itself around the loser. Cades' campaign notes flag this position as 'decisive in either direction.'",
+        continueVerb: "Take the weapon",
+        continueRoute: "/terminus-swarm",
+      },
+    },
+  ],
+  [
+    "dest.tower_defense.td07_sky_citadel",
+    {
+      begin_defense: {
+        prose:
+          "The Sky Citadel is altitude as defense. Siege ladders here are gondolas. The air thins faster than the line. The garrison rotates often because the garrison rotates often. Climb until the city below resolves into a map.",
+        continueVerb: "Climb to the perimeter",
+        continueRoute: "/terminus-swarm",
+      },
+    },
+  ],
+  [
+    "dest.trade_empire.te01_aurum_prime",
+    {
+      visit_sector: {
+        prose:
+          "Aurum Prime is the Empire's gilded capital. Locke meets you at the docking ring — the same docking ring, on every loop — and the same handshake closes. The assayed-credit booths in the central plaza already know your seat number.",
+        continueVerb: "Find your seat",
+        continueRoute: "/trade-empire/hub",
+      },
+    },
+  ],
+  [
+    "dest.trade_empire.te04_scrapyard_moon",
+    {
+      visit_sector: {
+        prose:
+          "The Scrapyard Moon's surface is the wreck of a hundred trade wars. Provenance is the local sin and salvage the local industry. Locke's standing advice on the Scrapyard Moon: never trust it. Walk it anyway.",
+        continueVerb: "Walk the wrecks",
+        continueRoute: "/trade-empire/hub",
+      },
+    },
+  ],
+  [
+    "dest.trade_empire.te09_data_haven",
+    {
+      visit_sector: {
+        prose:
+          "The Data Haven sells answers. The Empire's contracts are written here and the breaches are written elsewhere, both by the same hand. The clerk at the desk knew you would arrive on this loop because the clerk reads ahead.",
+        continueVerb: "Buy a question",
+        continueRoute: "/trade-empire/hub",
+      },
+    },
+  ],
+  [
+    "dest.quiz_show.qs04_elimination_pit",
+    {
+      take_the_stage: {
+        prose:
+          "The Elimination Pit is the Palimpsest's least cinematic surface. The host wishes you well on the way down — they are contractually obliged. The Pit doesn't care whether you are a first-timer or a reset-timer; it eats either at the same rate.",
+        continueVerb: "Drop in",
+      },
+    },
+  ],
+  [
+    "dest.quiz_show.qs05_backstage_green_room",
+    {
+      take_the_stage: {
+        prose:
+          "Backstage knows. Backstage has kept your dressing room. The catering is excellent. The previous show's contestants are sometimes still here. The Meme's booth is one panel over and the wall is thinner than you think.",
+        continueVerb: "Take the dressing room",
+      },
+    },
+  ],
+  [
+    "veh.captains_shuttle",
+    {
+      board: {
+        prose:
+          "The Captain's Shuttle is biometric-locked to a single hand. Yours. Elara has already cleared the dock; the autopilot waits on a name it has been told. Whatever you take this craft to, you take alone.",
+        continueVerb: "Sit at the helm",
+      },
+    },
+  ],
+  [
+    "veh.combat_dropship",
+    {
+      board: {
+        prose:
+          "The dropship interior smells of rebreather seals and the discipline of being too afraid to talk. Cades is at the loadmaster's station, not looking up. The drop sequence engages when you sit. There is no countdown — the countdown started before you boarded.",
+        continueVerb: "Sit",
+        continueRoute: "/terminus-swarm",
+      },
+    },
+  ],
+  [
+    "veh.cargo_vessel",
+    {
+      board: {
+        prose:
+          "The cargo vessel's belly is wide and warm and full of the Empire's small fortunes. Locke's manifest is bookmarked at your name. Whatever moves between the markets moves in here, and you are now what moves with it.",
+        continueVerb: "Open the manifest",
+        continueRoute: "/trade-empire/hub",
       },
     },
   ],

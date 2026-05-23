@@ -34,7 +34,10 @@ describe("livingDeferralCanon — well-formedness", () => {
   });
 
   it("known canon entries are present", () => {
-    expect(LIVING_DEFERRAL_BY_ID.has("ch20_conexus_BONUS")).toBe(true);
+    // ch20_conexus_BONUS was resolved 2026-05-23 — Option A from the
+    // ratification brief shipped (act_7_complete → authority_alignment_aligned).
+    // The entry's slot in the canon array is a comment block; the
+    // canon now tracks the heart-of-time + destination-gate + VO-manifest entries.
     expect(
       LIVING_DEFERRAL_BY_ID.has("epoch1_heart_of_time_four_presences"),
     ).toBe(true);

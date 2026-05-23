@@ -1348,6 +1348,14 @@ export function useNarrativeIntegration() {
     if (act7Gate.readyToFire) {
       setNarrativeFlag("act_7_complete", true);
       setNarrativeFlag("narrative_spine_complete", true);
+      // Authority alignment lands at Act-7 close per Option A in
+      // docs/production/AUTHORITY_ALIGNMENT_RATIFICATION.md.
+      // Fires the ch20_conexus_BONUS chapter intro for every player
+      // who closes the spine. If the writer wants the Conexus to
+      // discriminate further (Option B threshold or Option C dialog
+      // commitment), this line is the single revert site — replace
+      // the setter with whatever signal the writer chooses.
+      setNarrativeFlag("authority_alignment_aligned", true);
       toast.info("Act 7 — The Convergence", {
         description:
           "I've been waiting a very long time to say that to someone. The cycle closes.",
