@@ -70,14 +70,15 @@ export const LIVING_DEFERRAL_CANON: readonly DeferredSurface[] = [
     status: "deferred_authoring",
     seamModule:
       "apps/shared/bonusChapterIntroTriggers.ts:73 (DEFERRED_BONUS_INTRO_IDS) + " +
-      "apps/shared/storyEncounterChapterIntros.ts:29-33 (canon-gap note)",
+      "apps/shared/storyEncounterChapterIntros.ts:29-33 (canon-gap note) + " +
+      "docs/production/AUTHORITY_ALIGNMENT_RATIFICATION.md:1 (writer brief)",
     seamIsIntentional: true,
     diegeticHandle:
       "Authority alignment is in flux on the player's current loop — " +
       "the Conexus does not testify until the loop chooses an Authority.",
     blockedOn:
-      "AuthorityAlignment enum + producer (writer to ratify; engineering " +
-      "best-guess gate row landed against `authority_alignment_aligned`).",
+      "Writer picks A/B/C in docs/production/AUTHORITY_ALIGNMENT_RATIFICATION.md " +
+      "(engineering best-guess gate row landed against authority_alignment_aligned).",
   },
   {
     id: "epoch1_heart_of_time_four_presences",
