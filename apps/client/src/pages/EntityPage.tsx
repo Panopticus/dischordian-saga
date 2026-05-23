@@ -20,6 +20,7 @@ import { usePageMeta } from "@/hooks/usePageMeta";
 import ShareButton from "@/components/ShareButton";
 import ZoomableImage from "@/components/ZoomableImage";
 import { applyOverrideToBio, getLoredexOverride } from "@/game/loredexRewrite";
+import { canonicalRoomIdFor } from "@shared/visitLoredexUnlocks";
 
 const TYPE_ICONS: Record<string, typeof Users> = {
   character: Users,
@@ -255,6 +256,30 @@ export default function EntityPage() {
             </button>
           </motion.section>
         )}
+
+        {/* ═══ VISIT (bridged vehicles + destinations) ═══ */}
+        {(() => {
+          const canonical = canonicalRoomIdFor(entry.id);
+          if (!canonical) return null;
+          return (
+            <motion.section
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.22 }}
+              className="void-surface p-5"
+            >
+              <h2 className="font-display text-xs font-bold tracking-[0.2em] text-accent mb-3 flex items-center gap-2">
+                <MapPin size={13} /> WALK INTO IT
+              </h2>
+              <Link
+                href={`/space/${canonical}`}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-primary/10 border border-primary/30 text-primary text-sm font-mono hover:bg-primary/20 transition-all hover-lift"
+              >
+                <ChevronRight size={14} /> Visit {entry.name}
+              </Link>
+            </motion.section>
+          );
+        })()}
 
         {/* ═══ HISTORY ═══ */}
         {entry.history && (

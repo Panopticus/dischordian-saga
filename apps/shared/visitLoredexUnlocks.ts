@@ -64,9 +64,30 @@ const BY_ROOM: ReadonlyMap<string, VisitLoredexUnlock> = new Map(
   VISIT_LOREDEX_UNLOCKS.map((u) => [u.canonicalRoomId, u] as const),
 );
 
+const BY_LOREDEX_ID: ReadonlyMap<string, string> = (() => {
+  const out = new Map<string, string>();
+  for (const u of VISIT_LOREDEX_UNLOCKS) {
+    for (const entityId of u.entityIds) {
+      out.set(entityId, u.canonicalRoomId);
+    }
+  }
+  return out;
+})();
+
 /** Resolve a visit unlock for the given canonical room id, or undefined. */
 export function visitLoredexUnlockFor(
   canonicalRoomId: string,
 ): VisitLoredexUnlock | undefined {
   return BY_ROOM.get(canonicalRoomId);
+}
+
+/**
+ * Resolve the canonical room id for a loredex entity id, or undefined.
+ * Used by the EntityPage to surface a "Visit" affordance on bridged
+ * vehicle / destination entries.
+ */
+export function canonicalRoomIdFor(
+  loredexEntityId: string,
+): string | undefined {
+  return BY_LOREDEX_ID.get(loredexEntityId);
 }
