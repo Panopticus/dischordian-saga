@@ -39,6 +39,121 @@
     "text": "Your biosignature is reading outside every classification I have on file — and right now, knowing exactly what walked out of that pod is the difference between sending you down that corridor and sealing you back in for your own protection. Help me here. What do you remember being?",
     "lang": "en"
   },
+  "act4_5_antiquarian_companion_framing": {
+    "text": "Note for the archive — this run is being logged under the deferred-canon protocol. The artefacts of Act four point five resolve to the cycle and not to the saga. Subsequent loops will inherit the consequences as flavour rather than as fact. The Library will preserve them all the same.",
+    "lang": "en",
+    "speaker": "the_antiquarian"
+  },
+  "act4_5_clone_final_word": {
+    "text": "If we meet here again — and we will — I will be one loop older and you will be the same age. That is the deal. I will hold the line for both of us. Until then. Drive carefully on the way out. The third corner is always the third corner.",
+    "lang": "en",
+    "speaker": "dmc_clone_companion"
+  },
+  "act4_5_clone_first_entry": {
+    "text": "I have... been here before. The lights. The smell of the track. The sound of the announcer. I do not remember winning. I do not remember losing. I remember the corner — the third corner — and the way the wall comes up to meet you if you trust the line. That is all I have. It may be enough.",
+    "lang": "en",
+    "speaker": "dmc_clone_companion"
+  },
+  "act4_5_clone_identity_shift": {
+    "text": "Something shifted. I do not know whether it shifted in you or in me. I am the part of you the Circuit lets keep its name across the reset. That used to feel like a punishment. Tonight it feels like a job. I think I would like to do it well, if you do not mind.",
+    "lang": "en",
+    "speaker": "dmc_clone_companion"
+  },
+  "act4_5_clone_phase_final_lap": {
+    "text": "Final lap. The Circuit does not care which of us is driving. It only cares whether the body in the seat finishes the loop. That is a kindness — most houses do not extend it. Take the racing line and let the corner come.",
+    "lang": "en",
+    "speaker": "dmc_clone_companion"
+  },
+  "act4_5_clone_phase_midfield": {
+    "text": "Middle of the pack is where the Circuit reads you. Nilmorg's odds shift now, not at the start, not at the end. The cars around you are not your opponents — they are the survey instrument. Hold your line and the Circuit will tell you what it thinks you are.",
+    "lang": "en",
+    "speaker": "dmc_clone_companion"
+  },
+  "act4_5_clone_phase_opening": {
+    "text": "The grid is hot already. Don't redline the start. We — you — burned a stage-one drive doing that the last time. I think it was the last time. I cannot keep the loops straight in my head. Just don't redline the start.",
+    "lang": "en",
+    "speaker": "dmc_clone_companion"
+  },
+  "act4_5_clone_post_race_loss": {
+    "text": "We lost. You lost. The pronoun matters this time — I want it to be mine, not yours, because the reset is coming and I would rather carry the loss than leave it for you. Take the next run lighter. The Circuit does not hold grudges. Neither, I am learning, do I.",
+    "lang": "en",
+    "speaker": "dmc_clone_companion"
+  },
+  "act4_5_clone_post_race_win": {
+    "text": "You won. We won. The pronoun does not survive the corner — the result does. I am told the reset will scrub the trophy from the case and the time from the board. It will not scrub the way you took the third corner. That stays in the body. That stays.",
+    "lang": "en",
+    "speaker": "dmc_clone_companion"
+  },
+  "act4_5_degen_cash_out": {
+    "text": "Cashing out? Already? Look at you — disciplined. That's rarer in here than a winning hand. I'll tally the wager and we'll call it square. The thing you put down stays with me until the next reset, and then it's nobody's. That's the contract.",
+    "lang": "en",
+    "speaker": "degen"
+  },
+  "act4_5_degen_casino_exit_loss": {
+    "text": "Hey. Hey — look at me. You walked in light, you walk out lighter. That's the whole job. The version of you you left on the table is in good hands. The reset will scrub it, you won't remember the loss, and the part you keep is the part that learned. Most houses don't do that for you. I do.",
+    "lang": "en",
+    "speaker": "degen"
+  },
+  "act4_5_degen_casino_exit_win": {
+    "text": "Hah! The house lost a hand. Mark the day. Take the chip — it's worthless outside the door, but it remembers you came through. Walk slow on the way out, kid. The exit's longer than the entry. They always are.",
+    "lang": "en",
+    "speaker": "degen"
+  },
+  "act4_5_degen_casino_welcome": {
+    "text": "Ohhh, new blood. New ODDS. Step in, step in — the only honest house in the loop, and the only loop with a house. The drinks are free, the chairs are paid for in installments, and the door — you'll find — only locks the one way. Welcome to Degen's.",
+    "lang": "en",
+    "speaker": "degen"
+  },
+  "act4_5_degen_draw_a_card": {
+    "text": "Card off the top, kid. Don't peek. The deck is fairer than the dealer and the dealer is fairer than the game. That's a sentence I've said for two hundred years and nobody's caught the trick in it yet. Go on. Flip it.",
+    "lang": "en",
+    "speaker": "degen"
+  },
+  "act4_5_degen_place_a_bet": {
+    "text": "Now, the wager. We don't take chips here — chips remember. We take the version of you that thinks it can walk out the door whole. Put it on the table. Tell me what you're risking. The house likes specifics.",
+    "lang": "en",
+    "speaker": "degen"
+  },
+  "act4_5_elara_companion_framing": {
+    "text": "I am authorised to log this run but not to sanction it. If you ask me a direct question on the Circuit floor, I will answer truthfully — and the log will reflect that I answered. The Circuit's rule that nothing here counts does not apply to my truthful answers. Be aware.",
+    "lang": "en",
+    "speaker": "elara"
+  },
+  "act4_5_elara_wager_consequence": {
+    "text": "Wager committed. The Circuit has accepted the offering. I am marking the moment in the dispatch log as a discretionary expense against the operative's psychic budget. The accountants will not see it. I will.",
+    "lang": "en",
+    "speaker": "elara"
+  },
+  "act4_5_human_companion_framing": {
+    "text": "I've been down here before. Twice. Once under my own name, once under nobody's. The Circuit doesn't notice the difference and the Casino noticed it both times. That tells you which one of them is the honest house.",
+    "lang": "en",
+    "speaker": "human"
+  },
+  "act4_5_human_wager_consequence": {
+    "text": "That one's gone now. Not erased — gone, the way a bet is gone the moment the cards turn. You won't remember the specifics after the reset; you'll remember the texture of having spent it. That residue is what we're actually paying with down here.",
+    "lang": "en",
+    "speaker": "human"
+  },
+  "act4_5_narrator_wager_consequence": {
+    "text": "The wager registers. Identity-chain consequence: provisional. Reset-scope: confirmed. The operative is now one commitment poorer and one commitment honest. The ledger is, as always, balanced by definition.",
+    "lang": "en",
+    "speaker": "narrator"
+  },
+  "act4_5_reflection_casino_resolved": {
+    "text": "The Casino settles its tab with you. You walked the floor, you played the hand, you spoke to the man at the door. Whether you won or lost the room is not the question — the question is whether you'd recognise yourself if you met yourself again here. The reset thinks no. I am not so sure.",
+    "lang": "en",
+    "speaker": "human"
+  },
+  "act4_5_reflection_circuit_resolved": {
+    "text": "The Circuit closes its books on you, operative. Whatever route you took through the Dead Man's track, the Circuit considers it a complete run. The next reset will scrub the specifics. I will retain the heading. You are dismissed with the satisfaction of having finished a thing that does not officially exist.",
+    "lang": "en",
+    "speaker": "elara"
+  },
+  "act4_5_reflection_walk_away": {
+    "text": "The operative declines the wager and walks. The Circuit registers the refusal as a valid outcome — a thing not all houses do. Act four point five closes without commitment. The next reset will arrive on schedule, will scrub nothing, and will preserve the silence intact.",
+    "lang": "en",
+    "speaker": "narrator"
+  },
   "act4_5_starter_dmc_intro": {
     "text": "Act four point five. Optional. The cycle's permission slip. Whatever you commit to here will be canon for this loop and erased by the next reset — that is the contract.",
     "lang": "en",

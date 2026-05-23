@@ -151,8 +151,10 @@ export const LIVING_DEFERRAL_CANON: readonly DeferredSurface[] = [
     category: "vo_manifest",
     status: "deferred_authoring",
     seamModule:
-      "apps/shared/act4_5VoManifest.json:1 (empty manifest) + " +
-      "apps/scripts/act4_5-vo-lines.json:1 (schema-valid starter, 3 entries) + " +
+      "apps/shared/act4_5VoManifest.json:1 (empty manifest — awaiting " +
+      "generation pass) + " +
+      "apps/scripts/act4_5-vo-lines.json:1 (26 authored lines across " +
+      "all three surfaces in the brief) + " +
       "docs/production/ACT_4_5_VO_AUTHORING_BRIEF.md:1 (writer brief)",
     seamIsIntentional: true,
     diegeticHandle:
@@ -161,10 +163,11 @@ export const LIVING_DEFERRAL_CANON: readonly DeferredSurface[] = [
       "Lines are authored only when narrative-design commits the " +
       "branch as canon for that loop.",
     blockedOn:
-      "Writer extends apps/scripts/act4_5-vo-lines.json past the " +
-      "3 example entries (~26 lines per ACT_4_5_VO_AUTHORING_BRIEF.md); " +
-      "then `pnpm tsx apps/scripts/generate-act-vo.ts --act 4.5` " +
-      "produces the manifest.",
+      "Lines are authored. Awaiting an ELEVENLABS_API_KEY-bearing " +
+      "generation pass: `pnpm tsx apps/scripts/generate-act-vo.ts " +
+      "--act 4.5` will populate apps/shared/act4_5VoManifest.json " +
+      "with S3-hosted URLs. Casino UI page (separate scope) is the " +
+      "final gating item before this canon entry retires.",
   },
   {
     id: "dest_trade_empire_unlock_model",
