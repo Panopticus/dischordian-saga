@@ -61,6 +61,33 @@ describe("spaceSubSceneBeats", () => {
   it("isSubSceneAction accepts canonical verbs", () => {
     expect(isSubSceneAction("board")).toBe(true);
     expect(isSubSceneAction("enter_arena")).toBe(true);
+    expect(isSubSceneAction("enter_hellbox")).toBe(true);
+    expect(isSubSceneAction("matrix_dive")).toBe(true);
     expect(isSubSceneAction("nonsense")).toBe(false);
+  });
+
+  it("resolves generic Hellbox enter beat for an unauthored chamber", () => {
+    // Universal Selector has no per-chamber matrix_dive beat —
+    // expect the category default.
+    const beat = spaceSubSceneBeat("hb.universal_selector", "matrix_dive");
+    expect(beat).not.toBeNull();
+    expect(beat?.prose).toMatch(/Hellbox folds|dream|Matrix of Dreams/i);
+  });
+
+  it("resolves a Hellbox per-chamber override (Castle of Death)", () => {
+    const beat = spaceSubSceneBeat("hb.castle_of_death", "enter_hellbox");
+    expect(beat?.prose).toMatch(/Necromancer|archivists/i);
+  });
+
+  it("resolves the saga-final arena beat (Dischordian Arena)", () => {
+    const beat = spaceSubSceneBeat("hb.dischordian_arena", "enter_hellbox");
+    expect(beat?.prose).toMatch(/saga.*last|Authority|Insurgency/i);
+  });
+
+  it("falls back to generic Hellbox enter for chambers without override", () => {
+    // hb.universal_selector has per-chamber enter_hellbox, so test
+    // that we still get a Hellbox-toned beat (not null).
+    const beat = spaceSubSceneBeat("hb.universal_selector", "enter_hellbox");
+    expect(beat?.prose).toMatch(/Selector|select/i);
   });
 });

@@ -209,7 +209,36 @@ export const DEFERRED_SPACE_HOTSPOTS: readonly RoomHotspotsBlock[] = (() => {
     "hb.the_hive",
     "hb.dischordian_arena",
   ]) {
-    blocks.push({ canonicalSpaceId: id, zipDir: null, hotspots: [DEFAULT_EXAMINE_HOTSPOT] });
+    blocks.push({
+      canonicalSpaceId: id,
+      zipDir: null,
+      hotspots: [
+        {
+          id: "enter_hellbox",
+          name: "Enter the chamber",
+          description:
+            "Cross the threshold. The Hellbox receives visitors on its own schedule.",
+          x: 38,
+          y: 42,
+          width: 24,
+          height: 22,
+          type: "door",
+          action: "enter_hellbox",
+        },
+        {
+          id: "matrix_dive",
+          name: "Matrix of Dreams",
+          description: "Submit to the level the Hellbox has chosen tonight.",
+          x: 70,
+          y: 70,
+          width: 18,
+          height: 16,
+          type: "interact",
+          action: "matrix_dive",
+        },
+        DEFAULT_EXAMINE_HOTSPOT,
+      ],
+    });
   }
 
   // 7 vehicles — primary action "Board", secondary "Inspect hull".

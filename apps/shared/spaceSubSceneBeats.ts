@@ -25,7 +25,9 @@ export type SubSceneAction =
   | "enter_arena"
   | "begin_defense"
   | "visit_sector"
-  | "take_the_stage";
+  | "take_the_stage"
+  | "enter_hellbox"
+  | "matrix_dive";
 
 /** Beat shape. */
 export interface SpaceSubSceneBeat {
@@ -77,6 +79,20 @@ const QUIZ_SHOW_BEAT: SpaceSubSceneBeat = {
   continueVerb: "Take the stage",
 };
 
+/* ─── Hellbox category beats ─── */
+
+const HELLBOX_GENERIC_ENTER_BEAT: SpaceSubSceneBeat = {
+  prose:
+    "The Hellbox door does not so much open as agree to admit you. Inside, the geometry is honest about itself — it is not a room, it is a lesson with walls. Find your footing. The lesson begins when you breathe.",
+  continueVerb: "Breathe",
+};
+
+const HELLBOX_MATRIX_DIVE_BEAT: SpaceSubSceneBeat = {
+  prose:
+    "The Hellbox folds itself around you. The Matrix of Dreams resolves into a level the room has chosen for you tonight. Whatever the school is, the school is paying attention. Step into the dream.",
+  continueVerb: "Step into the dream",
+};
+
 /** Default beat by (canonical prefix or category, action). */
 function defaultBeat(
   canonicalSpaceId: string,
@@ -99,6 +115,10 @@ function defaultBeat(
   }
   if (canonicalSpaceId.startsWith("dest.quiz_show.")) {
     if (action === "take_the_stage") return QUIZ_SHOW_BEAT;
+  }
+  if (canonicalSpaceId.startsWith("hb.")) {
+    if (action === "enter_hellbox") return HELLBOX_GENERIC_ENTER_BEAT;
+    if (action === "matrix_dive") return HELLBOX_MATRIX_DIVE_BEAT;
   }
   return null;
 }
@@ -163,6 +183,140 @@ const PER_SPACE_BEATS: ReadonlyMap<
       },
     },
   ],
+
+  // ─── Hellbox per-chamber overrides ───
+
+  [
+    "hb.celebration_school",
+    {
+      enter_hellbox: {
+        prose:
+          "Welcome to Celebration. The bunting is older than the building. The Eyes Above know you are here — they have been waiting since the rampart-arrival cinematic looped you through this gate before. Smile when the school smiles. It will be marking attendance.",
+        continueVerb: "Smile",
+      },
+      matrix_dive: HELLBOX_MATRIX_DIVE_BEAT,
+    },
+  ],
+  [
+    "hb.castle_of_death",
+    {
+      enter_hellbox: {
+        prose:
+          "The Castle of Death receives you on its own schedule. The Necromancer's archivists have already opened a file under your name; it is not the first file with your name in it. Walk the entrance hall. Decline nothing.",
+        continueVerb: "Walk in",
+      },
+      matrix_dive: HELLBOX_MATRIX_DIVE_BEAT,
+    },
+  ],
+  [
+    "hb.quiz_show_palimpsest",
+    {
+      enter_hellbox: {
+        prose:
+          "Backstage at the Palimpsest. The contestant clipboards are clipped to the wall in a private order. Your dressing room has been left unlocked. The Meme's broadcast booth is one panel over and the wall is thinner than you think.",
+        continueVerb: "Find your dressing room",
+      },
+      matrix_dive: HELLBOX_MATRIX_DIVE_BEAT,
+    },
+  ],
+  [
+    "hb.mechronis_academy",
+    {
+      enter_hellbox: {
+        prose:
+          "The Mechronis Academy is cold the way clocks are cold. Tutors are not present; the building does the teaching. Find the seat the curriculum has chosen for you. The tutorial begins when you stop looking for the tutor.",
+        continueVerb: "Take a seat",
+      },
+      matrix_dive: HELLBOX_MATRIX_DIVE_BEAT,
+    },
+  ],
+  [
+    "hb.universal_selector",
+    {
+      enter_hellbox: {
+        prose:
+          "The Universal Selector is not a room you enter so much as a question you submit to. It will pick which Hellbox is the lesson tonight. The Selector has selected you many times. It will be brief.",
+        continueVerb: "Submit",
+      },
+    },
+  ],
+  [
+    "hb.dead_mans_circuit",
+    {
+      enter_hellbox: {
+        prose:
+          "The Dead Man's Circuit is an optional path the saga did not promise to ratify. The cellblock receives a visitor who may not be on the manifest. The corridor lights are dim and deferential. Walk like you do not need permission.",
+        continueVerb: "Walk the corridor",
+      },
+      matrix_dive: HELLBOX_MATRIX_DIVE_BEAT,
+    },
+  ],
+  [
+    "hb.degenerates_casino",
+    {
+      enter_hellbox: {
+        prose:
+          "The Degenerate's Casino is louder than you remember and quieter than you expect. The Degen leans across a craps table, gold eye and purple eye both tracking you. Your luck is layered. The house knows. The house always knows.",
+        continueVerb: "Place your first bet",
+      },
+      matrix_dive: HELLBOX_MATRIX_DIVE_BEAT,
+    },
+  ],
+  [
+    "hb.editors_workshop",
+    {
+      enter_hellbox: {
+        prose:
+          "The Editor's Workshop smells of ink that has been edited backwards. Shadow Tongue is here, even if you cannot see them. The manuscripts on the worktable include yours. Pick one up. It will have been written.",
+        continueVerb: "Pick up the manuscript",
+      },
+      matrix_dive: HELLBOX_MATRIX_DIVE_BEAT,
+    },
+  ],
+  [
+    "hb.eternal_match",
+    {
+      enter_hellbox: {
+        prose:
+          "The Eternal Match is the room you have already lost in, in a future timeline. The Game Master nods once. The chess clock is set to the only duration that matters: the rest of this cycle. Sit down. Move first.",
+        continueVerb: "Move first",
+      },
+      matrix_dive: HELLBOX_MATRIX_DIVE_BEAT,
+    },
+  ],
+  [
+    "hb.collected_souls",
+    {
+      enter_hellbox: {
+        prose:
+          "The Hall of Collected Souls is quieter than any room in the saga. The Collector has filed every visitor — including the visitor you used to be. Acknowledge nothing. Walk through.",
+        continueVerb: "Walk through",
+      },
+      matrix_dive: HELLBOX_MATRIX_DIVE_BEAT,
+    },
+  ],
+  [
+    "hb.the_hive",
+    {
+      enter_hellbox: {
+        prose:
+          "The Hive's chorus reaches you before the door does. The Source's swarm parts around your shape — not because it must, because it remembers. Walk into the resonance. The pattern is older than the flesh.",
+        continueVerb: "Walk into the resonance",
+      },
+      matrix_dive: HELLBOX_MATRIX_DIVE_BEAT,
+    },
+  ],
+  [
+    "hb.dischordian_arena",
+    {
+      enter_hellbox: {
+        prose:
+          "The Dischordian Arena is the saga's last room. Every Authority and every Insurgency you have negotiated with has a seat here. The arena does not warm up. It receives. Step onto the floor.",
+        continueVerb: "Step onto the floor",
+      },
+      matrix_dive: HELLBOX_MATRIX_DIVE_BEAT,
+    },
+  ],
 ]);
 
 /**
@@ -186,6 +340,8 @@ export function isSubSceneAction(s: string): s is SubSceneAction {
     s === "enter_arena" ||
     s === "begin_defense" ||
     s === "visit_sector" ||
-    s === "take_the_stage"
+    s === "take_the_stage" ||
+    s === "enter_hellbox" ||
+    s === "matrix_dive"
   );
 }
