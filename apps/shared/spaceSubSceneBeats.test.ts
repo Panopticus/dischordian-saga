@@ -61,6 +61,70 @@ describe("spaceSubSceneBeats", () => {
   it("isSubSceneAction accepts canonical verbs", () => {
     expect(isSubSceneAction("board")).toBe(true);
     expect(isSubSceneAction("enter_arena")).toBe(true);
+    expect(isSubSceneAction("enter_hellbox")).toBe(true);
+    expect(isSubSceneAction("matrix_dive")).toBe(true);
     expect(isSubSceneAction("nonsense")).toBe(false);
+  });
+
+  it("resolves generic Hellbox enter beat for an unauthored chamber", () => {
+    // Universal Selector has no per-chamber matrix_dive beat —
+    // expect the category default.
+    const beat = spaceSubSceneBeat("hb.universal_selector", "matrix_dive");
+    expect(beat).not.toBeNull();
+    expect(beat?.prose).toMatch(/Hellbox folds|dream|Matrix of Dreams/i);
+  });
+
+  it("resolves a Hellbox per-chamber override (Castle of Death)", () => {
+    const beat = spaceSubSceneBeat("hb.castle_of_death", "enter_hellbox");
+    expect(beat?.prose).toMatch(/Necromancer|archivists/i);
+  });
+
+  it("resolves the saga-final arena beat (Dischordian Arena)", () => {
+    const beat = spaceSubSceneBeat("hb.dischordian_arena", "enter_hellbox");
+    expect(beat?.prose).toMatch(/saga.*last|Authority|Insurgency/i);
+  });
+
+  it("falls back to generic Hellbox enter for chambers without override", () => {
+    // hb.universal_selector has per-chamber enter_hellbox, so test
+    // that we still get a Hellbox-toned beat (not null).
+    const beat = spaceSubSceneBeat("hb.universal_selector", "enter_hellbox");
+    expect(beat?.prose).toMatch(/Selector|select/i);
+  });
+
+  it("routes Crucible enter_arena to the PvP queue", () => {
+    const beat = spaceSubSceneBeat(
+      "dest.crucible.cr05_shadow_cathedral",
+      "enter_arena",
+    );
+    expect(beat?.continueRoute).toBe("/duelyst-pvp");
+  });
+
+  it("routes Tower Defense begin_defense to the swarm campaign", () => {
+    const beat = spaceSubSceneBeat(
+      "dest.tower_defense.td04_void_station",
+      "begin_defense",
+    );
+    expect(beat?.continueRoute).toBe("/terminus-swarm");
+  });
+
+  it("routes Trade Empire visit_sector to the trade hub", () => {
+    const beat = spaceSubSceneBeat(
+      "dest.trade_empire.te01_aurum_prime",
+      "visit_sector",
+    );
+    expect(beat?.continueRoute).toBe("/trade-empire/hub");
+  });
+
+  it("routes vehicle board to the fleet manifest", () => {
+    const beat = spaceSubSceneBeat("veh.cades_apc", "board");
+    expect(beat?.continueRoute).toBe("/trade-empire/hub");
+  });
+
+  it("Castle of Death investigate stays in the sub-scene (no route)", () => {
+    const beat = spaceSubSceneBeat(
+      "dest.castle_of_death.cod07_library_of_forbidden",
+      "investigate_chamber",
+    );
+    expect(beat?.continueRoute).toBeUndefined();
   });
 });

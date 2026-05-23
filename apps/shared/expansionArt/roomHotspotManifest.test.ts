@@ -8,9 +8,13 @@ import {
 } from "./roomHotspotManifest";
 
 describe("roomHotspotManifest — Phase H.H", () => {
-  it("covers 12 Hellboxes + 7 vehicles + 60 destinations + 8 panoramas = 87 spaces", () => {
-    expect(DEFERRED_SPACE_HOTSPOTS_TOTAL).toBe(87);
-    expect(DEFERRED_SPACE_HOTSPOTS.length).toBe(87);
+  it("covers 12 Hellboxes + 7 vehicles + 60 destinations + 8 panoramas + 45 ark stubs = 132 spaces", () => {
+    // 12 + 7 + 60 + 8 + 45 = 132. The 45 ark stubs land bespoke
+    // hotspot blocks for apprentice/pedagogy/commons/berth/guild/
+    // game-master spaces beyond the H.A producer delivery — see
+    // hotspotCoverage.ts for the spec-level aggregation logic.
+    expect(DEFERRED_SPACE_HOTSPOTS_TOTAL).toBe(132);
+    expect(DEFERRED_SPACE_HOTSPOTS.length).toBe(132);
   });
 
   it("every bridged space has at least one hotspot", () => {
@@ -28,11 +32,14 @@ describe("roomHotspotManifest — Phase H.H", () => {
     expect(DEFERRED_SPACE_HOTSPOTS_BY_ID.has("dest.crucible.cr01_iron_pit")).toBe(true);
   });
 
-  it("hotspotsForSpace returns the canonical hotspots for a Hellbox", () => {
+  it("hotspotsForSpace returns enter_hellbox + matrix_dive + examine for a Hellbox", () => {
     const hotspots = hotspotsForSpace("hb.celebration_school");
-    expect(hotspots.length).toBe(1);
-    expect(hotspots[0].id).toBe("examine_room");
-    expect(hotspots[0].type).toBe("examine");
+    expect(hotspots.length).toBe(3);
+    expect(hotspots.map((h) => h.id).sort()).toEqual(
+      ["enter_hellbox", "examine_room", "matrix_dive"].sort(),
+    );
+    expect(hotspots.find((h) => h.id === "enter_hellbox")?.type).toBe("door");
+    expect(hotspots.find((h) => h.id === "matrix_dive")?.type).toBe("interact");
   });
 
   it("vehicles get a Board interact + hull examine", () => {

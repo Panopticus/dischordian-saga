@@ -133,7 +133,9 @@ export default function SpaceSubScenePage() {
           <div className="flex flex-wrap gap-3">
             <button
               type="button"
-              onClick={() => navigate(`/space/${canonicalId}`)}
+              onClick={() =>
+                navigate(beat.continueRoute ?? `/space/${canonicalId}`)
+              }
               className="px-4 py-2 rounded font-mono text-xs"
               style={{
                 background: "color-mix(in oklch, var(--electric-blue) 20%, transparent)",
