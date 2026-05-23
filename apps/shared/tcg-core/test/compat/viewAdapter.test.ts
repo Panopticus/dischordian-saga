@@ -99,10 +99,12 @@ describe("adaptTcgStateToLegacyView", () => {
     );
     if (antInHand) {
       expect(antInHand.name).toBe("The Antiquarian");
-      // Registry keys image URLs by card id (e.g. /art/cards/s1_char_018.webp),
-      // not by display name. Assert the adapter plumbed the registry through
-      // by checking the card id is in the path.
-      expect(antInHand.imageUrl).toContain("s1_char_018");
+      // The adapter must plumb the registry's `art` field through to
+      // `imageUrl`. Assert against the registry entry rather than a
+      // hardcoded slug — the file slug-vs-descriptive rename in
+      // PR #710 made the older toContain("s1_char_018") assumption
+      // stale.
+      expect(antInHand.imageUrl).toBe(registry.get("s1_char_018")?.art);
     }
   });
 

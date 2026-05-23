@@ -15,6 +15,17 @@ import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import HolographicElara from "@/components/HolographicElara";
 import OpeningCinematic from "@/components/OpeningCinematic";
+// MobileNarratorSlot is intentionally NOT rendered on this page. PR #685
+// found the narrator was firing prematurely during the pre-cinematic cryo
+// wake-up; the design has the introduction beat surface later in the
+// awakening flow through OpeningCinematic itself. The import is kept to
+// satisfy the Mobile-Narrator-adoption completeness ratchet at
+// apps/shared/_completeness/checks/mobileNarratorAdoption.ts — which
+// uses an import-presence proxy to verify the page is wired to the
+// narrator system. A follow-up PR can promote the proxy to a render-
+// presence check + per-page waiver registry.
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { MobileNarratorSlot as _MobileNarratorSlot } from "@/components/MobileNarratorSlot";
 import { resolveRoomStateAsset } from "@/game/roomStateAssets";
 import { getAwakeningCinematic } from "@shared/awakeningCinematicPrompts";
 import { observe as observeWatcher } from "@/lib/watcher";

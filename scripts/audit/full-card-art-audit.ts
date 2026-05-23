@@ -123,7 +123,6 @@ const liveCap = Number(args.find((a) => a.startsWith("--live-head="))?.split("="
 type Status = "OK_inventory" | "MISSING_manifest" | "needs_live" | "OK_live" | "MISSING_live";
 const status = new Map<number, Status>();
 
-let live = 0;
 const liveQueue: number[] = [];
 for (let i = 0; i < refs.length; i++) {
   const r = refs[i];
@@ -212,7 +211,7 @@ function extractCardMeta(src: string, defPath: string, raw: string, cdnKey: stri
   // boundary. Card-def style across every multi-card file in the
   // repo uses 2-space indent for the outer object.
   const out: Missing[] = [];
-  const idMatches = [...src.matchAll(/^  id:\s*"([^"]+)"/gm)];
+  const idMatches = [...src.matchAll(/^ {2}id:\s*"([^"]+)"/gm)];
   // Build slices [from, to)
   const slices: Array<{ id: string; body: string }> = [];
   for (let i = 0; i < idMatches.length; i++) {

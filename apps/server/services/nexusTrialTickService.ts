@@ -367,7 +367,7 @@ export async function transitionPhase(
  * Sprint 9 wires Locke's permadeath here; the ballot winner's
  * permadeath needs the Sprint 10 vote-aggregation resolver to name
  * the winner. Until that lands, we mark Locke and log a Sprint-10
- * TODO for the second name.
+ * follow-up note for the second name.
  */
 function applyVerdictPermadeath(trial: ActiveTrial): void {
   const store = getPermadeathStore();

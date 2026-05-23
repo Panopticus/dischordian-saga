@@ -7,6 +7,12 @@
      - start:      mark a mission in_progress
      - complete:   apply evaluation, persist new state
 
+   audit-allow-proc: list start complete submit
+   (The client consumers land in Sprints 6 & 8 alongside the
+   individual mission UIs; the server-side contract stands up
+   first so the mission gameplay code can author against a
+   stable router. Removing this waiver becomes a Sprint 8 task.)
+
    All protected — preparation is per-player; anonymous
    callers shouldn't be able to advance someone else's
    ladder. Per-IP rate limits come from the Express gateway.

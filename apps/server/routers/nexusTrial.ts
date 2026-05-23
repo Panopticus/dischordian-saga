@@ -6,6 +6,14 @@
      - status:           current Trial state (public)
      - submitTestimony:  idempotent card-play submission
      - leaderboard:      polled tallies for the panel
+     - permadeath:       Sprint 9 ballot-loser resolver
+
+   audit-allow-proc: status submitTestimony leaderboard permadeath
+   (The client consumers land alongside the Trial UI sprint
+   that follows the Sprint 10 server foundation; the
+   server-side contract is published first so the UI sprint
+   can author against a stable router. Removing this waiver
+   becomes part of that UI sprint's checklist.)
 
    submitTestimony is protected (per-player auth) so a
    malicious client can't impersonate another player's
