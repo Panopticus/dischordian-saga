@@ -60,6 +60,8 @@ import { join } from "node:path";
 import { pipeline } from "node:stream/promises";
 import type { Readable } from "node:stream";
 
+import { parseProducerFilename } from "./_phase_h/_filename_normalisers";
+
 import {
   ROOM_ART_ENTRIES,
   roomArtByAxis,
@@ -198,17 +200,26 @@ function listZipEntries(localPath: string): string[] {
  *    cryo_bay_state_tv_clean.png          (flat with concatenated id)
  *    state_tv_clean.png                    (flat, room from caller — we skip these)
  */
-function generateCandidates(zipEntry: string): string[] {
+function generateCandidates(zipEntry: string, zipKey?: string): string[] {
   const out: string[] = [];
-  // 1. Already CDN-shaped: starts with "art/"
+  // 1. Producer-pack normaliser. The shared registry in
+  //    apps/scripts/_phase_h/_filename_normalisers.ts knows the
+  //    file-naming convention for each ZIP family and emits the
+  //    canonical relPath directly. This is the right answer for
+  //    every ZIP we've registered a convention for.
+  if (zipKey) {
+    const parsed = parseProducerFilename(zipKey, zipEntry);
+    if (parsed) out.push(parsed.canonicalRelPath);
+  }
+  // 2. Already CDN-shaped: starts with "art/"
   if (zipEntry.startsWith("art/")) out.push(zipEntry);
-  // 2. Last two components: <room>/<file>
+  // 3. Last two components: <room>/<file>
   const parts = zipEntry.split("/").filter(p => p.length > 0);
   if (parts.length >= 2) {
     const tail = parts.slice(-2).join("/");
     out.push(`art/rooms/${tail}`);
   }
-  // 3. Strip leading "rooms/" prefix if present
+  // 4. Strip leading "rooms/" prefix if present
   if (zipEntry.startsWith("rooms/")) {
     out.push(`art/${zipEntry}`);
   }
@@ -236,7 +247,7 @@ async function auditZip(
   const unmatched: string[] = [];
 
   for (const entry of entries) {
-    const candidates = generateCandidates(entry);
+    const candidates = generateCandidates(entry, key);
     let hit: Gap | undefined;
     for (const c of candidates) {
       const g = gapByRelPath.get(c);
