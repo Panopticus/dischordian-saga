@@ -33,6 +33,7 @@ import { observe as observeWatcher } from "@/lib/watcher";
 import { summarizeTrial, trialToCombatBuff, type TrialHistoryEntry, type TrialCombatBuff } from "@shared/celebrationTrial";
 import { dischordiaSounds } from "./SoundManager";
 import { cardVfxUrl, type CardVfxId } from "@shared/aaaArtArchive";
+import { dispatchEngineEventVfx } from "./engineEventVfx";
 import {
   Swords, Heart, Zap, RotateCcw, SkipForward, Shield,
   Crosshair, Move, Sparkles, BookOpen, MessageCircle,
@@ -232,6 +233,26 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
     setCardVfx({ id, key: cardVfxKeyRef.current });
     window.setTimeout(() => setCardVfx(null), durationMs);
   }, []);
+  /** Push the engine's GameEvent stream through the per-tile / SFX
+   *  dispatcher. The inline triggerCardVfx() calls in player click
+   *  handlers below cover the screen-level overlays for player
+   *  actions; the dispatcher fills the rest — heal sparkles, buff /
+   *  debuff per-tile particles, keyword pulses, teleports, pushes,
+   *  resurrections, and the full screen-overlay set for OPPONENT
+   *  (AI) actions which previously had no VFX wiring at all. */
+  const processEngineEvents = useCallback(
+    (result: TcgDispatchResult, actor: "player" | "opponent") => {
+      if (!result.events || result.events.length === 0) return;
+      dispatchEngineEventVfx(result.events, {
+        state: asGameState(result.viewState),
+        triggerCardVfx,
+        playSfx: (s) => dischordiaSounds.play(s),
+        renderer: rendererRef.current,
+        actor,
+      });
+    },
+    [triggerCardVfx],
+  );
   // Guard so combat_low_hp dispatches once per HP-threshold-crossing,
   // not on every re-render while HP sits below the threshold.
   const lowHpDispatchedRef = useRef(false);
@@ -1151,6 +1172,7 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
       if (moves.some(([r, c]) => r === row && c === col)) {
         const result = tcgClientRef.current!.dispatch({ type: "move", unitId: selectedUnit, toRow: row, toCol: col });
         setGameState(asGameState(result.viewState));
+        processEngineEvents(result, "player");
         addLog(`Moved unit to (${row}, ${col})`, "move");
         dischordiaSounds.play("card_play");
         if (isTutorial) setLastActionType("move");
@@ -1168,6 +1190,7 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
           const result = tcgClientRef.current!.dispatch({ type: "play_card", cardIndex: selectedCard, row, col });
           setGameState(asGameState(result.viewState));
           processTrialDispatchResult(result);
+          processEngineEvents(result, "player");
           if (result.ok) cardsPlayedRef.current += 1;
           addLog(`Summoned ${card.name} at (${row}, ${col})`, "spell");
           dischordiaSounds.play("unit_summon");
@@ -1198,6 +1221,7 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
         const attacker = findUnit(gameState, selectedUnit);
         const result = tcgClientRef.current!.dispatch({ type: "attack", attackerId: selectedUnit, targetId: unitId });
         setGameState(asGameState(result.viewState));
+        processEngineEvents(result, "player");
         addLog(`${attacker?.card.name} attacks ${unit.card.name}!`, "attack");
         dischordiaSounds.play("attack_hit");
         if (attacker) rendererRef.current?.showDamageNumber(unit.row, unit.col, attacker.currentAttack);
@@ -1223,6 +1247,7 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
         const result = tcgClientRef.current!.dispatch({ type: "play_card", cardIndex: selectedCard, row: unit.row, col: unit.col, targetId: unitId });
         setGameState(asGameState(result.viewState));
         processTrialDispatchResult(result);
+        processEngineEvents(result, "player");
         if (result.ok) cardsPlayedRef.current += 1;
         addLog(`Cast ${card.name} on ${unit.card.name}`, "spell");
         // Targeted spell — buff if same-side, debuff/curse otherwise.
@@ -1290,6 +1315,7 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
         const result = tcgClientRef.current!.dispatch({ type: "play_card", cardIndex: index, row: 0, col: 0 });
         setGameState(asGameState(result.viewState));
         processTrialDispatchResult(result);
+        processEngineEvents(result, "player");
         if (result.ok) cardsPlayedRef.current += 1;
         addLog(`Cast ${card.name}`, "spell");
         clearSelection();
@@ -1303,6 +1329,7 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
       const result = tcgClientRef.current!.dispatch({ type: "play_card", cardIndex: index, row: 0, col: 0 });
       setGameState(asGameState(result.viewState));
       processTrialDispatchResult(result);
+      processEngineEvents(result, "player");
       if (result.ok) cardsPlayedRef.current += 1;
       addLog(`Equipped ${card.name}`, "spell");
       dischordiaSounds.play("card_play");
@@ -1334,6 +1361,7 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
     const endResult = client.dispatch({ type: "end_turn" });
     const state = asGameState(endResult.viewState);
     setGameState(state);
+    processEngineEvents(endResult, "player");
     setPhase("ai_turn");
     addLog("Your turn ended. AI is thinking...", "system");
     dischordiaSounds.play("turn_end");
@@ -1360,6 +1388,7 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
         const result = client.dispatchOpponent(action as unknown as Record<string, unknown>);
         const currentView = asGameState(result.viewState);
         setGameState(currentView);
+        processEngineEvents(result, "opponent");
 
         if (action.type === "attack") { addLog(`AI attacks!`, "attack"); dischordiaSounds.play("attack_hit"); }
         else if (action.type === "play_card") { addLog(`AI plays a card`, "spell"); dischordiaSounds.play("unit_summon"); }
@@ -1387,19 +1416,21 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
     const card = gameState.players[0].hand[index];
     const result = tcgClientRef.current.dispatch({ type: "replace_card", cardIndex: index });
     setGameState(asGameState(result.viewState));
+    processEngineEvents(result, "player");
     addLog(`Replaced ${card?.name}`, "info");
     dischordiaSounds.play("card_draw");
     triggerCardVfx("card_draw_glow", 500);
-  }, [gameState, addLog, triggerCardVfx]);
+  }, [gameState, addLog, triggerCardVfx, processEngineEvents]);
 
   const handleBBS = useCallback(() => {
     if (!gameState || gameState.players[0].bloodbornUsed || gameState.players[0].mana < 1 || !tcgClientRef.current) return;
     const result = tcgClientRef.current.dispatch({ type: "bloodborn_spell" });
     setGameState(asGameState(result.viewState));
+    processEngineEvents(result, "player");
     addLog(`Used Bloodborn Spell!`, "spell");
     dischordiaSounds.play("spell_cast");
     triggerCardVfx("card_void_drain", 600);
-  }, [gameState, addLog, triggerCardVfx]);
+  }, [gameState, addLog, triggerCardVfx, processEngineEvents]);
 
   const clearSelection = () => {
     setSelectedUnit(null);
