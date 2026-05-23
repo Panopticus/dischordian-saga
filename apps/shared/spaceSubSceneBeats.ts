@@ -489,6 +489,516 @@ const PER_SPACE_BEATS: ReadonlyMap<
       matrix_dive: HELLBOX_MATRIX_DIVE_BEAT,
     },
   ],
+
+  // ─── Remaining vehicles (2) ───
+  [
+    "veh.cades_apc",
+    {
+      board: {
+        prose:
+          "The CADES APC's interior smells of welded scars and re-applied paint — every dent has a story Cades will not tell. The manufacturer's serial under the dashboard is the original; the brand over it is hers. The harness fits you because Cades expected you.",
+        continueVerb: "Strap in",
+        continueRoute: "/terminus-swarm",
+      },
+    },
+  ],
+  [
+    "veh.pet_transport",
+    {
+      board: {
+        prose:
+          "The pet transport is louder than its engines suggest. Something behind the lattice rebreather grille is humming a tune from a saga older than the Ark. Find a seat that isn't taken; most seats are taken.",
+        continueVerb: "Find a seat",
+      },
+    },
+  ],
+
+  // ─── Castle of Death — remaining 16 chambers ───
+  [
+    "dest.castle_of_death.cod01_entrance_hall",
+    {
+      investigate_chamber: {
+        prose:
+          "The Entrance Hall is the Necromancer's threshold rite. Black marble. Antler chandelier. The first chamber any guest sees, and the last one most remember clearly. Cross slowly — the floor catalogues your weight.",
+        continueVerb: "Cross",
+      },
+    },
+  ],
+  [
+    "dest.castle_of_death.cod02_poison_kitchen",
+    {
+      investigate_chamber: {
+        prose:
+          "The Poison Kitchen's copper pots simmer with recipes that have outlived their cooks. The staff are exceedingly polite. The sample-tasting tradition is alive and well; do not refuse the offered spoon.",
+        continueVerb: "Take the spoon",
+      },
+    },
+  ],
+  [
+    "dest.castle_of_death.cod03_mirror_gallery",
+    {
+      investigate_chamber: {
+        prose:
+          "The Mirror Gallery's glass does not all show the present. The third frame from the left shows you arriving. The seventh shows you leaving. The mirror you cannot find is the one that shows what happened between.",
+        continueVerb: "Avoid your own eye",
+      },
+    },
+  ],
+  [
+    "dest.castle_of_death.cod04_clocktower_mechanism",
+    {
+      investigate_chamber: {
+        prose:
+          "The Clocktower's brass gears the size of carriages turn a clock that has not kept correct time in centuries. The hour it shows is the hour someone died. The hour it shows now is one you have not lived through yet.",
+        continueVerb: "Read the hour",
+      },
+    },
+  ],
+  [
+    "dest.castle_of_death.cod05_flooded_dungeon",
+    {
+      investigate_chamber: {
+        prose:
+          "Knee-deep water. Walls greened with algae. The cells are still locked — from the inside. Whoever last occupied each cell decided the water was preferable to the door.",
+        continueVerb: "Wade",
+      },
+    },
+  ],
+  [
+    "dest.castle_of_death.cod06_throne_room",
+    {
+      investigate_chamber: {
+        prose:
+          "The Throne Room's black-iron seat is surrounded by twelve empty chairs. The Necromancer hosts council here when the Castle decides it wants advice. The Castle has not asked for your advice yet. It is, however, listening.",
+        continueVerb: "Wait",
+      },
+    },
+  ],
+  [
+    "dest.castle_of_death.cod08_torture_garden",
+    {
+      investigate_chamber: {
+        prose:
+          "Hedges grown into instruments. The flowers bloom on a calendar of confession. The gardener bows once and waits for you to choose which row to walk. Choose a row that already has footprints; the others are starts.",
+        continueVerb: "Take the footprint row",
+      },
+    },
+  ],
+  [
+    "dest.castle_of_death.cod09_ballroom_of_bones",
+    {
+      investigate_chamber: {
+        prose:
+          "The Ballroom of Bones. Femur chandeliers. An orchestra that never stops. The waltzes are very old; the dancers very patient. The seat reserved for new arrivals has your name carved into the chair-back. The carving is fresh.",
+        continueVerb: "Find your seat",
+      },
+    },
+  ],
+  [
+    "dest.castle_of_death.cod10_observatory_of_doom",
+    {
+      investigate_chamber: {
+        prose:
+          "The Observatory of Doom is a telescope pointed at futures nobody asked to see. The log shelf is longer than the room. The latest entry includes your full name and the next four things you will do — if you bother to read it before you do them.",
+        continueVerb: "Read the latest entry",
+      },
+    },
+  ],
+  [
+    "dest.castle_of_death.cod12_alchemy_lab",
+    {
+      investigate_chamber: {
+        prose:
+          "The Alchemy Lab is the careful disorder of someone trying and failing at immortality. The fume hood is older than the Castle. The recipe on the chalkboard is missing one ingredient; the recipe knows which one.",
+        continueVerb: "Read the chalkboard",
+      },
+    },
+  ],
+  [
+    "dest.castle_of_death.cod13_armory_of_legends",
+    {
+      investigate_chamber: {
+        prose:
+          "The Armory of Legends. Weapons retired from the hands of heroes. The Castle's wards keep the swords from singing — most of the time. The blade on the third rack hums when you approach. It does not hum for anyone else.",
+        continueVerb: "Approach the third rack",
+      },
+    },
+  ],
+  [
+    "dest.castle_of_death.cod15_music_room",
+    {
+      investigate_chamber: {
+        prose:
+          "The Music Room's harpsichord plays itself when nobody is listening. Servants leave bowls of seed out for the keys. You can sit at the bench, but the harpsichord will pretend not to notice; that is the etiquette.",
+        continueVerb: "Sit at the bench",
+      },
+    },
+  ],
+  [
+    "dest.castle_of_death.cod16_servants_quarters",
+    {
+      investigate_chamber: {
+        prose:
+          "The Servants' Quarters. Narrow rooms. Crisp bedclothes. The staff sleep in shifts the living would call unkind. Do not assume they are asleep.",
+        continueVerb: "Tread softly",
+      },
+    },
+  ],
+  [
+    "dest.castle_of_death.cod17_greenhouse_of_carnivores",
+    {
+      investigate_chamber: {
+        prose:
+          "The Greenhouse of Carnivores. Pitcher plants the size of barrels. Humidity that has its own opinion. The gardener counts visitors out as well as in. The count today does not yet include you.",
+        continueVerb: "Enter the heat",
+      },
+    },
+  ],
+  [
+    "dest.castle_of_death.cod18_chapel_of_false_saints",
+    {
+      investigate_chamber: {
+        prose:
+          "The Chapel of False Saints. Stained glass in colors that should not exist. The saints depicted never lived. The pews are warm in winter and cold in summer; the pew that is wrong for the season is the one waiting for you.",
+        continueVerb: "Find the wrong pew",
+      },
+    },
+  ],
+  [
+    "dest.castle_of_death.cod19_portrait_gallery",
+    {
+      investigate_chamber: {
+        prose:
+          "The Portrait Gallery. Generations of the Castle's masters, eyes following the wrong direction. The Necromancer's portrait is always the most recent and never finished. Today, the brushstrokes are still wet.",
+        continueVerb: "Look at the wet paint",
+      },
+    },
+  ],
+
+  // ─── Crucible — remaining 12 arenas ───
+  [
+    "dest.crucible.cr02_void_ring",
+    {
+      enter_arena: {
+        prose:
+          "The Void Ring is a circular platform suspended in nothing. Gravity is a tactical variable here. The crowd is at infinity. The crowd is patient.",
+        continueVerb: "Step onto the platform",
+        continueRoute: "/duelyst-pvp",
+      },
+    },
+  ],
+  [
+    "dest.crucible.cr03_acid_gardens",
+    {
+      enter_arena: {
+        prose:
+          "The Acid Gardens — foliage that bites back. Win conditions include 'still breathing.' The leaves rustle in a chemistry you cannot smell yet but will.",
+        continueVerb: "Step between the rows",
+        continueRoute: "/duelyst-pvp",
+      },
+    },
+  ],
+  [
+    "dest.crucible.cr04_clockwork_maze",
+    {
+      enter_arena: {
+        prose:
+          "The Clockwork Maze. Walls rotate on a schedule the arena's bookmakers have memorized. Contenders memorize too, slower. The schedule for tonight has a deliberate inversion; the bookmakers know which corridor closes early.",
+        continueVerb: "Enter the maze",
+        continueRoute: "/duelyst-pvp",
+      },
+    },
+  ],
+  [
+    "dest.crucible.cr05_shadow_cathedral",
+    {
+      enter_arena: {
+        prose:
+          "The Shadow Cathedral. A consecrated ruin where the light only falls where the Crucible decides. Crowd noise funnels by architecture. The acoustic favors quiet contenders.",
+        continueVerb: "Enter the dark nave",
+        continueRoute: "/duelyst-pvp",
+      },
+    },
+  ],
+  [
+    "dest.crucible.cr06_frozen_colosseum",
+    {
+      enter_arena: {
+        prose:
+          "The Frozen Colosseum. Ice underfoot. Breath in the air. The audience layered in furs. The contender's heat is the only weather the arena knows; warm yourself by moving.",
+        continueVerb: "Step onto the ice",
+        continueRoute: "/duelyst-pvp",
+      },
+    },
+  ],
+  [
+    "dest.crucible.cr07_volcanic_forge",
+    {
+      enter_arena: {
+        prose:
+          "The Volcanic Forge. A pit ringed with active vents. The bouts here are short for reasons of supply rather than skill. The match-clock is the vent's pressure gauge.",
+        continueVerb: "Watch the gauge",
+        continueRoute: "/duelyst-pvp",
+      },
+    },
+  ],
+  [
+    "dest.crucible.cr08_gravity_well",
+    {
+      enter_arena: {
+        prose:
+          "The Gravity Well. Every step a calculation. The contender who stops thinking falls fastest. The well does not care which way is down — it cares which way you decided.",
+        continueVerb: "Pick a down",
+        continueRoute: "/duelyst-pvp",
+      },
+    },
+  ],
+  [
+    "dest.crucible.cr09_mirror_dimension",
+    {
+      enter_arena: {
+        prose:
+          "The Mirror Dimension doubles its opponents and halves its mercy. You meet yourself. The mirror has a slight delay; whichever of you flinches first explains a great deal about the other.",
+        continueVerb: "Meet yourself",
+        continueRoute: "/duelyst-pvp",
+      },
+    },
+  ],
+  [
+    "dest.crucible.cr10_storm_spire",
+    {
+      enter_arena: {
+        prose:
+          "The Storm Spire. A platform at the lip of a constant storm. Lightning takes the slow. The bookmakers' first wager is which contender remembers to keep moving.",
+        continueVerb: "Move",
+        continueRoute: "/duelyst-pvp",
+      },
+    },
+  ],
+  [
+    "dest.crucible.cr11_bone_garden",
+    {
+      enter_arena: {
+        prose:
+          "The Bone Garden is floored with the cleaned remains of the failed. The Crucible's archivists insist this is decoration. The archivists are technically correct.",
+        continueVerb: "Cross the bone path",
+        continueRoute: "/duelyst-pvp",
+      },
+    },
+  ],
+  [
+    "dest.crucible.cr13_crystal_cavern",
+    {
+      enter_arena: {
+        prose:
+          "The Crystal Cavern stages a bout in echo. Sound is a weapon and a tell. The cavern's resonance reveals which contender's heart is louder. Yours is.",
+        continueVerb: "Listen",
+        continueRoute: "/duelyst-pvp",
+      },
+    },
+  ],
+  [
+    "dest.crucible.cr14_shipwreck_graveyard",
+    {
+      enter_arena: {
+        prose:
+          "The Shipwreck Graveyard. Footing changes per round; the hulls were arranged by a curator with a sense of pacing. The hull you're standing on now is the one with the most-ringed deck-bell. Ring it before you fight.",
+        continueVerb: "Ring the bell",
+        continueRoute: "/duelyst-pvp",
+      },
+    },
+  ],
+
+  // ─── Tower Defense — remaining 8 positions ───
+  [
+    "dest.tower_defense.td01_iron_fortress",
+    {
+      begin_defense: {
+        prose:
+          "The Iron Fortress is the first defended position the campaign asks you to hold. Walls high. Gate narrow. Courtyard small enough to know every face. The garrison are veterans of holding rooms slightly larger than they prefer.",
+        continueVerb: "Hold the gate",
+        continueRoute: "/terminus-swarm",
+      },
+    },
+  ],
+  [
+    "dest.tower_defense.td02_frozen_pass",
+    {
+      begin_defense: {
+        prose:
+          "The Frozen Pass remembers every army that crossed it. Snow buries the noise of approach. Your scouts report nothing because the snow ate the report.",
+        continueVerb: "Set the line",
+        continueRoute: "/terminus-swarm",
+      },
+    },
+  ],
+  [
+    "dest.tower_defense.td03_jungle_temple",
+    {
+      begin_defense: {
+        prose:
+          "The Jungle Temple is half-perimeter, half-vegetation. Resupply lines are spoken of in past tense. The temple's name in the old tongue is 'place where the jungle agrees not to enter'. The agreement is being renegotiated.",
+        continueVerb: "Take the keep",
+        continueRoute: "/terminus-swarm",
+      },
+    },
+  ],
+  [
+    "dest.tower_defense.td04_void_station",
+    {
+      begin_defense: {
+        prose:
+          "The Void Station — orbital. Thirty seconds of air between hull breach and resolution. The defenders rotate often because the defenders need to. Yours is the rotation arriving on shift.",
+        continueVerb: "Take the rotation",
+        continueRoute: "/terminus-swarm",
+      },
+    },
+  ],
+  [
+    "dest.tower_defense.td05_clockwork_city",
+    {
+      begin_defense: {
+        prose:
+          "The Clockwork City rebuilds between waves. The city's engineers were once attackers and remember the angles. They have prepared kindly bottlenecks for the new arrivals.",
+        continueVerb: "Hold the bottleneck",
+        continueRoute: "/terminus-swarm",
+      },
+    },
+  ],
+  [
+    "dest.tower_defense.td06_necropolis",
+    {
+      begin_defense: {
+        prose:
+          "The Necropolis is held in the name of the buried. The defenders are not always all currently alive. The garrison roll-call includes seven names you cannot ask after; they will answer anyway when their position is called.",
+        continueVerb: "Answer roll",
+        continueRoute: "/terminus-swarm",
+      },
+    },
+  ],
+  [
+    "dest.tower_defense.td08_toxic_swamp",
+    {
+      begin_defense: {
+        prose:
+          "The Toxic Swamp is defended by terrain. The atmosphere is a counterattack. Your rebreathers are calibrated for the wrong toxin; this is intentional, and a story you will be told if you survive long enough to ask.",
+        continueVerb: "Take the high ground",
+        continueRoute: "/terminus-swarm",
+      },
+    },
+  ],
+  [
+    "dest.tower_defense.td09_crystal_mines",
+    {
+      begin_defense: {
+        prose:
+          "The Crystal Mines. A defended industrial site. The mineshafts double as kill-corridors when the wave comes for the ore. The ore prefers being mined; that is to its advantage, and yours.",
+        continueVerb: "Walk the shaft",
+        continueRoute: "/terminus-swarm",
+      },
+    },
+  ],
+
+  // ─── Trade Empire — remaining 7 sectors ───
+  [
+    "dest.trade_empire.te02_iron_bazaar",
+    {
+      visit_sector: {
+        prose:
+          "The Iron Bazaar is built around the ore that built the Empire. Bidding is loud. The smelters never close. The price on tonight's board is one Locke considers fair, which means it is.",
+        continueVerb: "Bid",
+        continueRoute: "/trade-empire/hub",
+      },
+    },
+  ],
+  [
+    "dest.trade_empire.te03_silk_nebula_port",
+    {
+      visit_sector: {
+        prose:
+          "The Silk Nebula Port docks the longest haulers. Customs is conducted in seven dialects and three accents of silence. Your manifest is recognized at the gate; the gate has been waiting for someone with your manifest.",
+        continueVerb: "Clear customs",
+        continueRoute: "/trade-empire/hub",
+      },
+    },
+  ],
+  [
+    "dest.trade_empire.te05_crystal_exchange",
+    {
+      visit_sector: {
+        prose:
+          "The Crystal Exchange — the Empire's hardest currency, traded by hand. The traders count by feel. Your hand has not learned the count yet; the hand learns by being closed around the wrong number first.",
+        continueVerb: "Hold a crystal",
+        continueRoute: "/trade-empire/hub",
+      },
+    },
+  ],
+  [
+    "dest.trade_empire.te06_void_market",
+    {
+      visit_sector: {
+        prose:
+          "The Void Market — a floating market on the dark side of a gas giant. Reputation precedes you and never quite catches up. The first stall you visit is the stall that decides which reputation arrived.",
+        continueVerb: "Approach the first stall",
+        continueRoute: "/trade-empire/hub",
+      },
+    },
+  ],
+  [
+    "dest.trade_empire.te07_garden_world_agri",
+    {
+      visit_sector: {
+        prose:
+          "The Garden-World feeds three sectors. The fields are large enough to have weather. The farmer at the bay-door has a clipboard with your face on it; the photo is from a previous loop.",
+        continueVerb: "Sign the clipboard",
+        continueRoute: "/trade-empire/hub",
+      },
+    },
+  ],
+  [
+    "dest.trade_empire.te08_fuel_refinery",
+    {
+      visit_sector: {
+        prose:
+          "The Fuel Refinery's burn-off lights the local night. Trade in fuel is brief and never sentimental. The transaction you came to make has already been priced, twice — once by Locke, once by the Refinery; the second price is the one that matters.",
+        continueVerb: "Take the second price",
+        continueRoute: "/trade-empire/hub",
+      },
+    },
+  ],
+  [
+    "dest.trade_empire.te10_resort_world",
+    {
+      visit_sector: {
+        prose:
+          "The Resort World is a planet zoned for leisure. The Empire's traders honeymoon here and convalesce here. The pool you are walking past contains a trader who is doing both at once.",
+        continueVerb: "Walk past the pool",
+        continueRoute: "/trade-empire/hub",
+      },
+    },
+  ],
+
+  // ─── Quiz Show — remaining 2 set pieces ───
+  [
+    "dest.quiz_show.qs02_lightning_round_chamber",
+    {
+      take_the_stage: {
+        prose:
+          "The Lightning Round Chamber. The clock is faster than your pulse intends. The host's smile is contractual. The buzzer in front of you was pressed earlier tonight by someone whose name the audience cannot remember.",
+        continueVerb: "Reach for the buzzer",
+      },
+    },
+  ],
+  [
+    "dest.quiz_show.qs03_bonus_vault",
+    {
+      take_the_stage: {
+        prose:
+          "The Bonus Vault. A room of doors that open onto small fortunes. The Palimpsest encourages contestants who choose well not to choose again. The door already chosen for you is the one with the slight breeze under it.",
+        continueVerb: "Take the breezy door",
+      },
+    },
+  ],
 ]);
 
 /**

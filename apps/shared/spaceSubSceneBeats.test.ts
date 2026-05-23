@@ -28,11 +28,13 @@ describe("spaceSubSceneBeats", () => {
   });
 
   it("resolves a Crucible enter_arena beat", () => {
+    // The Shadow Cathedral has a per-arena bespoke override — assert
+    // it speaks to the cathedral's specific acoustic/architecture.
     const beat = spaceSubSceneBeat(
       "dest.crucible.cr05_shadow_cathedral",
       "enter_arena",
     );
-    expect(beat?.prose).toMatch(/arena|swarm|Source/i);
+    expect(beat?.prose).toMatch(/Cathedral|consecrated|nave|crowd/i);
   });
 
   it("resolves a Trade Empire visit_sector beat", () => {
@@ -115,9 +117,17 @@ describe("spaceSubSceneBeats", () => {
     expect(beat?.continueRoute).toBe("/trade-empire/hub");
   });
 
-  it("routes vehicle board to the fleet manifest", () => {
-    const beat = spaceSubSceneBeat("veh.cades_apc", "board");
-    expect(beat?.continueRoute).toBe("/trade-empire/hub");
+  it("routes vehicle board to a downstream surface (trade or swarm)", () => {
+    // pet_transport is the only vehicle still using the category
+    // default; bespoke vehicles route to category-appropriate
+    // gameplay (combat dropship + cades_apc → swarm; cargo_vessel →
+    // trade hub; pet_transport stays narrative).
+    const cargo = spaceSubSceneBeat("veh.cargo_vessel", "board");
+    expect(cargo?.continueRoute).toBe("/trade-empire/hub");
+    const cades = spaceSubSceneBeat("veh.cades_apc", "board");
+    expect(cades?.continueRoute).toBe("/terminus-swarm");
+    const pet = spaceSubSceneBeat("veh.pet_transport", "board");
+    expect(pet?.continueRoute).toBeUndefined();
   });
 
   it("Castle of Death investigate stays in the sub-scene (no route)", () => {
@@ -194,5 +204,98 @@ describe("spaceSubSceneBeats", () => {
     const dropship = spaceSubSceneBeat("veh.combat_dropship", "board");
     expect(dropship?.continueRoute).toBe("/terminus-swarm");
     expect(dropship?.prose).toMatch(/Cades|dropship|countdown/i);
+  });
+
+  it("every bridged vehicle has a board beat", () => {
+    const VEHICLES = [
+      "veh.cades_apc",
+      "veh.captains_shuttle",
+      "veh.cargo_vessel",
+      "veh.combat_dropship",
+      "veh.eidolon_vessel",
+      "veh.memorial_hearse",
+      "veh.pet_transport",
+    ];
+    for (const v of VEHICLES) {
+      const beat = spaceSubSceneBeat(v, "board");
+      expect(beat, `missing board beat for ${v}`).not.toBeNull();
+      expect(beat?.prose.length).toBeGreaterThan(50);
+    }
+  });
+
+  it("every Castle of Death chamber has an investigate beat", () => {
+    for (let i = 1; i <= 20; i++) {
+      const slug =
+        i.toString().padStart(2, "0") +
+        [
+          "_entrance_hall",
+          "_poison_kitchen",
+          "_mirror_gallery",
+          "_clocktower_mechanism",
+          "_flooded_dungeon",
+          "_throne_room",
+          "_library_of_forbidden",
+          "_torture_garden",
+          "_ballroom_of_bones",
+          "_observatory_of_doom",
+          "_crypt_of_ancestors",
+          "_alchemy_lab",
+          "_armory_of_legends",
+          "_dining_hall_of_last_supper",
+          "_music_room",
+          "_servants_quarters",
+          "_greenhouse_of_carnivores",
+          "_chapel_of_false_saints",
+          "_portrait_gallery",
+          "_final_chamber_throne",
+        ][i - 1];
+      const id = `dest.castle_of_death.cod${slug}`;
+      const beat = spaceSubSceneBeat(id, "investigate_chamber");
+      expect(beat, `missing investigate beat for ${id}`).not.toBeNull();
+    }
+  });
+
+  it("every Crucible arena has an enter_arena beat that routes to PvP", () => {
+    for (let i = 1; i <= 15; i++) {
+      const beat = spaceSubSceneBeat(
+        `dest.crucible.cr${i.toString().padStart(2, "0")}_x`,
+        "enter_arena",
+      );
+      // Either bespoke per-arena or the category default — both ok.
+      expect(beat).not.toBeNull();
+      expect(beat?.continueRoute).toBe("/duelyst-pvp");
+    }
+  });
+
+  it("every Tower Defense position has a begin_defense beat routing /terminus-swarm", () => {
+    for (let i = 1; i <= 10; i++) {
+      const beat = spaceSubSceneBeat(
+        `dest.tower_defense.td${i.toString().padStart(2, "0")}_x`,
+        "begin_defense",
+      );
+      expect(beat).not.toBeNull();
+      expect(beat?.continueRoute).toBe("/terminus-swarm");
+    }
+  });
+
+  it("every Trade Empire sector has a visit_sector beat routing /trade-empire/hub", () => {
+    for (let i = 1; i <= 10; i++) {
+      const beat = spaceSubSceneBeat(
+        `dest.trade_empire.te${i.toString().padStart(2, "0")}_x`,
+        "visit_sector",
+      );
+      expect(beat).not.toBeNull();
+      expect(beat?.continueRoute).toBe("/trade-empire/hub");
+    }
+  });
+
+  it("every Quiz Show set piece has a take_the_stage beat", () => {
+    for (let i = 1; i <= 5; i++) {
+      const beat = spaceSubSceneBeat(
+        `dest.quiz_show.qs${i.toString().padStart(2, "0")}_x`,
+        "take_the_stage",
+      );
+      expect(beat).not.toBeNull();
+    }
   });
 });

@@ -7,10 +7,13 @@ import {
 describe("degenPazaakMilestones — threshold ratchets", () => {
   it("declares the three canonical milestones in ascending order", () => {
     expect(DEGEN_PAZAAK_MILESTONES.map((m) => m.wins)).toEqual([1, 5, 10]);
-    expect(DEGEN_PAZAAK_MILESTONES.map((m) => m.flag)).toEqual([
-      "degen_pazaak_wins_1",
-      "degen_pazaak_wins_5",
-      "degen_pazaak_wins_10",
+    // Each milestone now carries a flags array — the 5-win milestone
+    // lands both the Degen quiet-moment and the Act 4.5 casino-track
+    // completion flags in the same tick.
+    expect(DEGEN_PAZAAK_MILESTONES.map((m) => m.flags)).toEqual([
+      ["degen_pazaak_wins_1"],
+      ["degen_pazaak_wins_5", "act_4_5_casino_complete"],
+      ["degen_pazaak_wins_10"],
     ]);
   });
 
@@ -31,16 +34,20 @@ describe("degenPazaakMilestones — threshold ratchets", () => {
     expect(milestonesCrossed(2, 4)).toEqual([]);
   });
 
-  it("fires the 5-win flag exactly on the crossing win", () => {
-    expect(milestonesCrossed(4, 5)).toEqual(["degen_pazaak_wins_5"]);
+  it("fires both the 5-win flag and Act 4.5 casino completion at 5 wins", () => {
+    expect(milestonesCrossed(4, 5)).toEqual([
+      "degen_pazaak_wins_5",
+      "act_4_5_casino_complete",
+    ]);
     expect(milestonesCrossed(5, 6)).toEqual([]);
   });
 
-  it("fires multiple milestones if a single win crosses more than one threshold", () => {
+  it("fires every milestone's flags if a single win crosses more than one threshold", () => {
     // Edge case: a big batch update could vault from 0 → 10.
     expect(milestonesCrossed(0, 10)).toEqual([
       "degen_pazaak_wins_1",
       "degen_pazaak_wins_5",
+      "act_4_5_casino_complete",
       "degen_pazaak_wins_10",
     ]);
   });
