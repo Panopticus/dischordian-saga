@@ -8,13 +8,15 @@ import {
 } from "./roomHotspotManifest";
 
 describe("roomHotspotManifest — Phase H.H", () => {
-  it("covers 12 Hellboxes + 7 vehicles + 60 destinations + 8 panoramas + 45 ark stubs = 132 spaces", () => {
-    // 12 + 7 + 60 + 8 + 45 = 132. The 45 ark stubs land bespoke
-    // hotspot blocks for apprentice/pedagogy/commons/berth/guild/
-    // game-master spaces beyond the H.A producer delivery — see
-    // hotspotCoverage.ts for the spec-level aggregation logic.
-    expect(DEFERRED_SPACE_HOTSPOTS_TOTAL).toBe(132);
-    expect(DEFERRED_SPACE_HOTSPOTS.length).toBe(132);
+  it("covers 12 Hellboxes + 7 vehicles + 60 destinations + 8 panoramas + 45 ark stubs + 19 PART II spec-level rooms = 151 spaces", () => {
+    // 12 + 7 + 60 + 8 + 45 + 19 = 151. The 45 + 19 ark stubs land
+    // bespoke hotspot blocks for apprentice/pedagogy/commons/berth/
+    // guild/game-master spaces beyond the H.A producer delivery, plus
+    // the 19 PART II §2.x spec-level rooms added to close the
+    // art.hotspot_coverage ratchet — see hotspotCoverage.ts for the
+    // spec-level aggregation logic.
+    expect(DEFERRED_SPACE_HOTSPOTS_TOTAL).toBe(151);
+    expect(DEFERRED_SPACE_HOTSPOTS.length).toBe(151);
   });
 
   it("every bridged space has at least one hotspot", () => {

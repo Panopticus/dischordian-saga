@@ -27,6 +27,16 @@ export const ORDER_TRIBUNAL_MYSTERY: RoomMysteryModule<OrderTribunalHotspotId> =
           cluesFound: ["wolf.e1.judge_audit"],
         },
       },
+      use: {
+        narration:
+          "You query the entry's amendment history. There is none. The Judge has not edited the closing note in the cycles since it was written. 'The work was clean' is a sentence He has chosen, in the face of every subsequent revelation, not to soften.",
+        voId: "elara.order-tribunal.wolf-judge-audit-trail.use",
+      },
+      talk: {
+        narration:
+          "You read the closing note aloud. The audit chamber's acoustics are designed for testimony — a single clear sentence carries to the back wall without amplification. 'The work was clean' carries. The chamber receives the reading the way it receives every reading, without comment.",
+        voId: "elara.order-tribunal.wolf-judge-audit-trail.talk",
+      },
     },
     /* ─── wolf.anara_hunt · e3 (Judge's clarification of audit) ─── */
     "wolf-judge-clarification": {
@@ -43,6 +53,16 @@ export const ORDER_TRIBUNAL_MYSTERY: RoomMysteryModule<OrderTribunalHotspotId> =
         narration:
           "You ask the tribunal whether the Judge consents to His audit being re-opened. The clerk returns the Judge's standing register entry: 'My audit is closed. The case is the chronicler's. I performed my office. The reanimation was not my office.' The Judge has drawn the boundary. The chronicler is past the boundary now.",
       },
+      use: {
+        narration:
+          "You request the clarification's filing-stamp record. The stamp dates the document to seven cycles after the original audit closure — a delay the Judge does not explain. He waited. The wait is itself part of the clarification, recorded in the gap between events the document refuses to narrate.",
+        voId: "elara.order-tribunal.wolf-judge-clarification.use",
+      },
+      talk: {
+        narration:
+          "You read the Judge's clarification aloud, sentence by sentence. The cadence is His own — His scribe has matched the speech rhythm to the page. Read at speaking pace, the document takes exactly the time required to render a verdict in a small case. He has filed His clarification as a verdict against Himself.",
+        voId: "elara.order-tribunal.wolf-judge-clarification.talk",
+      },
     },
     /* ─── storm.architect_of_flux · e2 (Judge's arbitration register) ─── */
     "storm-judges-arbitration-register": {
@@ -58,6 +78,16 @@ export const ORDER_TRIBUNAL_MYSTERY: RoomMysteryModule<OrderTribunalHotspotId> =
       interrogate: {
         narration:
           "You ask the register for the Judge's reasoning on any one arbitration. The clerk returns a single passage, recurring across the seven: 'the elimination of either pole is the elimination of the energy. The energy is the chronicle's permission to be at all. I will not arbitrate against the permission.' The Judge has been keeping the polarity for arbitrations the chronicle does not document. The seven on record may be a partial accounting.",
+      },
+      use: {
+        narration:
+          "You cross-reference the seven dates against the standing weather log on the observation deck. Each arbitration coincides with a regional storm-front whose intensity falls within the Storm's measured operational band. The Judge arbitrated to keep both poles intact in the same cycles the Storm was actively asserting one of them. The Judge already knew.",
+        voId: "elara.order-tribunal.storm-judges-arbitration-register.use",
+      },
+      talk: {
+        narration:
+          "You read 'keep the polarity' aloud at the bench. The phrase carries across the chamber as a Judge's pronouncement would — without inflection, without commentary. Two characters on the wood listen. Neither was there for any of the seven; both have inherited the standing.",
+        voId: "elara.order-tribunal.storm-judges-arbitration-register.talk",
       },
     },
     "judges-bench": {

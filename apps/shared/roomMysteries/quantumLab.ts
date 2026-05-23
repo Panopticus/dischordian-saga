@@ -35,6 +35,11 @@ export const QUANTUM_LAB_MYSTERY: RoomMysteryModule<QuantumLabHotspotId> = {
         narration:
           "You request the lab's spectral signature match. The mineralisation profile matches three other artefacts in the lab's reference library — all of them upper-band-origin objects the Architect has filed under 'restricted provenance.' The wax-thumb on the charter was sealed using materials only the upper bands could provide. The sealer was either there or briefed by something that was.",
       },
+      talk: {
+        narration:
+          "You read the mineralisation profile aloud. The lab's tone-recognition substrate flags the recital as the third time the profile has been spoken in this chamber — once by an Antiquarian, once by the senior charter-archivist, and now by you. Three independent readers, one finding, no published report. The case has been deferred at every prior reading.",
+        voId: "elara.quantum-lab.charter-wax-mineralisation-analysis.talk",
+      },
     },
     /* ─── severance.bound_champion · e2 (bond's internal log stack) ─── */
     "severance-bond-internal-log": {
@@ -50,6 +55,16 @@ export const QUANTUM_LAB_MYSTERY: RoomMysteryModule<QuantumLabHotspotId> = {
       interrogate: {
         narration:
           "You ask the lab to play the most recent whisper. The sieve resolves it: a single name, spoken in the Broker's voice, at the moment the Year 39 champion's bond was poured. The Broker has been whispering the inheritor's name into the bond at every Severance — the Broker is the keeper of the spoken chain.",
+      },
+      use: {
+        narration:
+          "You request the full stack ordered by season. Forty-one names; the bond's substrate keeps each whisper as a discrete crystalline event. You note the cadence — one whisper per Severance, no exceptions, no doubled entries. The Broker has never missed an inheritance. The chain is complete in the bond and absent from the public record. He is the only point of failure for a forty-season memory.",
+        voId: "elara.quantum-lab.severance-bond-internal-log.use",
+      },
+      talk: {
+        narration:
+          "You speak into the stasis cradle. The bond does not amplify, but the lab's sieve catches every word and offers, by way of comparison, a frequency match against the forty-one prior whispers. Your voice does not match any of them. The chain is closed to additions from outside the Broker's line. You can read it. You cannot add to it.",
+        voId: "elara.quantum-lab.severance-bond-internal-log.talk",
       },
     },
     /* ─── charter.second_signatory · e1 (parallel-vellum analysis) ─── */
@@ -67,6 +82,11 @@ export const QUANTUM_LAB_MYSTERY: RoomMysteryModule<QuantumLabHotspotId> = {
         narration:
           "You request the lab's hide-fibre alignment scan. The two vellums share twelve grain-lines that mate at the cut edge — they were once adjacent panels on the same hide. The founders cut the hide in half and drafted the two parallel originals from the same animal. The pair-authorship was as deliberate as the parchment was shared.",
       },
+      talk: {
+        narration:
+          "You read the alignment scan aloud — twelve grain-lines, one hide, two parallel originals. The lab's parallel-stage hums in acknowledgement; the imaging table is calibrated against truths spoken in its presence. The reading is now part of the chronicle of the comparison, not just its result.",
+        voId: "elara.quantum-lab.charter2-vellum-comparison.talk",
+      },
     },
     /* ─── severance.infernal_clause · e3 (quantum-dating results) ─── */
     "infernal-quantum-dating": {
@@ -83,6 +103,11 @@ export const QUANTUM_LAB_MYSTERY: RoomMysteryModule<QuantumLabHotspotId> = {
         narration:
           "You request the lab's confidence interval on the dating. The instrument reports ±0.4 days at the seven-day window's bounds. The window is sharp. The writer began on day four and finished on day ten. Forty clauses in seven days; the lab's tightest precision says exactly that.",
       },
+      talk: {
+        narration:
+          "You read the writer's productivity aloud — forty clauses in seven days, each anticipating a contract not yet signed. The dating stage's audio register notes that no prior reader has spoken the cadence as a single sentence. The pattern was present in the data; the reading consolidates it into a finding.",
+        voId: "elara.quantum-lab.infernal-quantum-dating.talk",
+      },
     },
     /* ─── akai_shi.red_death · e4 (Matrix entry signature) ─── */
     "akai-matrix-entry-fold": {
@@ -94,6 +119,16 @@ export const QUANTUM_LAB_MYSTERY: RoomMysteryModule<QuantumLabHotspotId> = {
           episodeId: "akai_shi.red_death.e4",
           cluesFound: ["akai.e4.matrix_entry_signature"],
         },
+      },
+      use: {
+        narration:
+          "You replay the entry signature against the Game Master's original threat-vector model. The model returns null — the fold the Red Death used is not a category the model can recognise. The instrument is not malfunctioning. The instrument is reporting, accurately, that the construct's architects were blind to the kind of passage she crossed.",
+        voId: "elara.quantum-lab.akai-matrix-entry-fold.use",
+      },
+      talk: {
+        narration:
+          "You speak the timestamp aloud — Day 14 of Fracture, Year 117,046. The fold-analysis stage flags the recital and offers, automatically, the Matrix's surface-layer ledger entry for that day. The ledger reads 'no anomalous entry recorded.' She crossed without leaving the kind of trace the Matrix was looking for. The lab catches what the Matrix did not.",
+        voId: "elara.quantum-lab.akai-matrix-entry-fold.talk",
       },
     },
     /* ─── akai_shi.red_death · e2 (Red Death energy signature) ─── */
@@ -111,6 +146,11 @@ export const QUANTUM_LAB_MYSTERY: RoomMysteryModule<QuantumLabHotspotId> = {
         narration:
           "You request the lab's comparison against the Resurrectionist's known signatures. The stage returns the match: the time-displacement frequency carries the Cycle Walker's authoring signature, fingerprinted across the substitution. The Resurrectionist authored the swap deliberately, trading one capacity for the other. The trade is permanent.",
       },
+      talk: {
+        narration:
+          "You read the lab's report aloud: cannot heal, can move through time, one swapped for the other. The frequency-band stage holds the signature steady while you speak; the substitution does not flicker. The trade is, by every measurement the lab can take, permanent and authored. The chronicle has the file now in spoken form.",
+        voId: "elara.quantum-lab.akai-red-death-energy-signature.talk",
+      },
     },
     /* ─── akai_shi.red_death · e3 (Necromancer evasion log) ─── */
     "akai-necromancer-evasion-log": {
@@ -126,6 +166,16 @@ export const QUANTUM_LAB_MYSTERY: RoomMysteryModule<QuantumLabHotspotId> = {
       interrogate: {
         narration:
           "You ask the lab for the Game Master's design notes on the Matrix's un-territorial property. The stage returns a single page from the Game Master's research — a footnote: 'the construct's geometry resists chronicle-space tracking. only time-displacement could violate the property. no time-displaced agent exists in canon. the property is therefore safe.' The Game Master did not anticipate the Resurrectionist building one.",
+      },
+      use: {
+        narration:
+          "You scrub the evasion log against the lab's chronicle-space ledger. Every entry the Necromancer left is plotted; every plot point sits inside the Matrix's un-territorial fold. From outside the fold, the points are non-coincident. From inside, they form a path. The log shows a path the chronicle could not see until now.",
+        voId: "elara.quantum-lab.akai-necromancer-evasion-log.use",
+      },
+      talk: {
+        narration:
+          "You read the annotation aloud: the gap in the canon's space is what the Red Death was built to enter. The lab's evasion-log archives the recital with a timestamp; the sentence has been read by the room before, in the Resurrectionist's own voice. Two voices, the same sentence. The chronicle records both readings as one finding.",
+        voId: "elara.quantum-lab.akai-necromancer-evasion-log.talk",
       },
     },
     "entanglement-rig": {

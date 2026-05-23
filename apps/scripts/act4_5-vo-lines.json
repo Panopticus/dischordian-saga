@@ -28,5 +28,235 @@
     "section": "§4.5.2 · The Human — Identity-wager framing",
     "emotion": "warm_serious",
     "outputDir": "audio/act4_5"
+  },
+  {
+    "id": "act4_5_degen_casino_welcome",
+    "speaker": "degen",
+    "voiceId": "r6VqF23i4qBEORazjelf",
+    "text": "Ohhh, new blood. New ODDS. Step in, step in — the only honest house in the loop, and the only loop with a house. The drinks are free, the chairs are paid for in installments, and the door — you'll find — only locks the one way. Welcome to Degen's.",
+    "context": "act4_5_degen_casino_welcome",
+    "section": "§4.5.3 · Degen — Casino welcome (Punter / Showman)",
+    "emotion": "degen_showman",
+    "outputDir": "audio/act4_5"
+  },
+  {
+    "id": "act4_5_degen_place_a_bet",
+    "speaker": "degen",
+    "voiceId": "r6VqF23i4qBEORazjelf",
+    "text": "Now, the wager. We don't take chips here — chips remember. We take the version of you that thinks it can walk out the door whole. Put it on the table. Tell me what you're risking. The house likes specifics.",
+    "context": "act4_5_degen_place_bet_prompt",
+    "section": "§4.5.3 · Degen — Place a bet (Punter / Showman)",
+    "emotion": "degen_showman",
+    "outputDir": "audio/act4_5"
+  },
+  {
+    "id": "act4_5_degen_draw_a_card",
+    "speaker": "degen",
+    "voiceId": "r6VqF23i4qBEORazjelf",
+    "text": "Card off the top, kid. Don't peek. The deck is fairer than the dealer and the dealer is fairer than the game. That's a sentence I've said for two hundred years and nobody's caught the trick in it yet. Go on. Flip it.",
+    "context": "act4_5_degen_draw_card_prompt",
+    "section": "§4.5.3 · Degen — Draw a card (Punter / Showman→Punter)",
+    "emotion": "degen_punter",
+    "outputDir": "audio/act4_5"
+  },
+  {
+    "id": "act4_5_degen_cash_out",
+    "speaker": "degen",
+    "voiceId": "r6VqF23i4qBEORazjelf",
+    "text": "Cashing out? Already? Look at you — disciplined. That's rarer in here than a winning hand. I'll tally the wager and we'll call it square. The thing you put down stays with me until the next reset, and then it's nobody's. That's the contract.",
+    "context": "act4_5_degen_cash_out",
+    "section": "§4.5.3 · Degen — Cash out (Punter / Confessor)",
+    "emotion": "degen_confessor",
+    "outputDir": "audio/act4_5"
+  },
+  {
+    "id": "act4_5_degen_casino_exit_win",
+    "speaker": "degen",
+    "voiceId": "r6VqF23i4qBEORazjelf",
+    "text": "Hah! The house lost a hand. Mark the day. Take the chip — it's worthless outside the door, but it remembers you came through. Walk slow on the way out, kid. The exit's longer than the entry. They always are.",
+    "context": "act4_5_degen_casino_exit_win",
+    "section": "§4.5.3 · Degen — Casino exit, won (Punter / Showman)",
+    "emotion": "degen_showman",
+    "outputDir": "audio/act4_5"
+  },
+  {
+    "id": "act4_5_degen_casino_exit_loss",
+    "speaker": "degen",
+    "voiceId": "r6VqF23i4qBEORazjelf",
+    "text": "Hey. Hey — look at me. You walked in light, you walk out lighter. That's the whole job. The version of you you left on the table is in good hands. The reset will scrub it, you won't remember the loss, and the part you keep is the part that learned. Most houses don't do that for you. I do.",
+    "context": "act4_5_degen_casino_exit_loss",
+    "section": "§4.5.3 · Degen — Casino exit, lost (Punter / Confessor)",
+    "emotion": "degen_confessor",
+    "outputDir": "audio/act4_5"
+  },
+  {
+    "id": "act4_5_elara_companion_framing",
+    "speaker": "elara",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "text": "I am authorised to log this run but not to sanction it. If you ask me a direct question on the Circuit floor, I will answer truthfully — and the log will reflect that I answered. The Circuit's rule that nothing here counts does not apply to my truthful answers. Be aware.",
+    "context": "act4_5_elara_companion_framing",
+    "section": "§4.5.4 · Elara — Companion framing on the Circuit floor",
+    "emotion": "warm_concerned",
+    "outputDir": "audio/act4_5"
+  },
+  {
+    "id": "act4_5_human_companion_framing",
+    "speaker": "human",
+    "voiceId": "oGbGJdgofRR8z0MxwI8L",
+    "text": "I've been down here before. Twice. Once under my own name, once under nobody's. The Circuit doesn't notice the difference and the Casino noticed it both times. That tells you which one of them is the honest house.",
+    "context": "act4_5_human_companion_framing",
+    "section": "§4.5.4 · The Human — Companion framing on the Circuit floor",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act4_5"
+  },
+  {
+    "id": "act4_5_antiquarian_companion_framing",
+    "speaker": "the_antiquarian",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "Note for the archive — this run is being logged under the deferred-canon protocol. The artefacts of Act four point five resolve to the cycle and not to the saga. Subsequent loops will inherit the consequences as flavour rather than as fact. The Library will preserve them all the same.",
+    "context": "act4_5_antiquarian_companion_framing",
+    "section": "§4.5.4 · The Antiquarian — Archival framing on the Circuit floor",
+    "emotion": "quiet_wonder",
+    "outputDir": "audio/act4_5"
+  },
+  {
+    "id": "act4_5_elara_wager_consequence",
+    "speaker": "elara",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "text": "Wager committed. The Circuit has accepted the offering. I am marking the moment in the dispatch log as a discretionary expense against the operative's psychic budget. The accountants will not see it. I will.",
+    "context": "act4_5_elara_wager_committed",
+    "section": "§4.5.4 · Elara — Wager-committed acknowledgement",
+    "emotion": "warm_concerned",
+    "outputDir": "audio/act4_5"
+  },
+  {
+    "id": "act4_5_human_wager_consequence",
+    "speaker": "human",
+    "voiceId": "oGbGJdgofRR8z0MxwI8L",
+    "text": "That one's gone now. Not erased — gone, the way a bet is gone the moment the cards turn. You won't remember the specifics after the reset; you'll remember the texture of having spent it. That residue is what we're actually paying with down here.",
+    "context": "act4_5_human_wager_committed",
+    "section": "§4.5.4 · The Human — Wager-committed acknowledgement",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act4_5"
+  },
+  {
+    "id": "act4_5_narrator_wager_consequence",
+    "speaker": "narrator",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "The wager registers. Identity-chain consequence: provisional. Reset-scope: confirmed. The operative is now one commitment poorer and one commitment honest. The ledger is, as always, balanced by definition.",
+    "context": "act4_5_narrator_wager_committed",
+    "section": "§4.5.4 · Narrator — Wager-committed acknowledgement",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act4_5"
+  },
+  {
+    "id": "act4_5_reflection_circuit_resolved",
+    "speaker": "elara",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "text": "The Circuit closes its books on you, operative. Whatever route you took through the Dead Man's track, the Circuit considers it a complete run. The next reset will scrub the specifics. I will retain the heading. You are dismissed with the satisfaction of having finished a thing that does not officially exist.",
+    "context": "act4_5_reflection_circuit_track_resolved",
+    "section": "§4.5.4 · Reflection — Circuit track resolved",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act4_5"
+  },
+  {
+    "id": "act4_5_reflection_casino_resolved",
+    "speaker": "human",
+    "voiceId": "oGbGJdgofRR8z0MxwI8L",
+    "text": "The Casino settles its tab with you. You walked the floor, you played the hand, you spoke to the man at the door. Whether you won or lost the room is not the question — the question is whether you'd recognise yourself if you met yourself again here. The reset thinks no. I am not so sure.",
+    "context": "act4_5_reflection_casino_track_resolved",
+    "section": "§4.5.4 · Reflection — Casino track resolved",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act4_5"
+  },
+  {
+    "id": "act4_5_reflection_walk_away",
+    "speaker": "narrator",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "The operative declines the wager and walks. The Circuit registers the refusal as a valid outcome — a thing not all houses do. Act four point five closes without commitment. The next reset will arrive on schedule, will scrub nothing, and will preserve the silence intact.",
+    "context": "act4_5_reflection_walk_away",
+    "section": "§4.5.4 · Reflection — Walked away without committing",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act4_5"
+  },
+  {
+    "id": "act4_5_clone_first_entry",
+    "speaker": "dmc_clone_companion",
+    "voiceId": "4Vgq8NlRx9Vd1h80JyVv",
+    "text": "I have... been here before. The lights. The smell of the track. The sound of the announcer. I do not remember winning. I do not remember losing. I remember the corner — the third corner — and the way the wall comes up to meet you if you trust the line. That is all I have. It may be enough.",
+    "context": "act4_5_clone_first_entry_to_circuit",
+    "section": "§4.5.5 · Clone companion — First entry to the Circuit",
+    "emotion": "clone_preverbal",
+    "outputDir": "audio/act4_5"
+  },
+  {
+    "id": "act4_5_clone_phase_opening",
+    "speaker": "dmc_clone_companion",
+    "voiceId": "4Vgq8NlRx9Vd1h80JyVv",
+    "text": "The grid is hot already. Don't redline the start. We — you — burned a stage-one drive doing that the last time. I think it was the last time. I cannot keep the loops straight in my head. Just don't redline the start.",
+    "context": "act4_5_clone_mid_run_phase_opening",
+    "section": "§4.5.5 · Clone companion — Mid-run banter, opening phase",
+    "emotion": "clone_emerging",
+    "outputDir": "audio/act4_5"
+  },
+  {
+    "id": "act4_5_clone_phase_midfield",
+    "speaker": "dmc_clone_companion",
+    "voiceId": "4Vgq8NlRx9Vd1h80JyVv",
+    "text": "Middle of the pack is where the Circuit reads you. Nilmorg's odds shift now, not at the start, not at the end. The cars around you are not your opponents — they are the survey instrument. Hold your line and the Circuit will tell you what it thinks you are.",
+    "context": "act4_5_clone_mid_run_phase_midfield",
+    "section": "§4.5.5 · Clone companion — Mid-run banter, midfield phase",
+    "emotion": "clone_emerging",
+    "outputDir": "audio/act4_5"
+  },
+  {
+    "id": "act4_5_clone_phase_final_lap",
+    "speaker": "dmc_clone_companion",
+    "voiceId": "4Vgq8NlRx9Vd1h80JyVv",
+    "text": "Final lap. The Circuit does not care which of us is driving. It only cares whether the body in the seat finishes the loop. That is a kindness — most houses do not extend it. Take the racing line and let the corner come.",
+    "context": "act4_5_clone_mid_run_phase_final_lap",
+    "section": "§4.5.5 · Clone companion — Mid-run banter, final lap",
+    "emotion": "clone_emerging",
+    "outputDir": "audio/act4_5"
+  },
+  {
+    "id": "act4_5_clone_post_race_win",
+    "speaker": "dmc_clone_companion",
+    "voiceId": "4Vgq8NlRx9Vd1h80JyVv",
+    "text": "You won. We won. The pronoun does not survive the corner — the result does. I am told the reset will scrub the trophy from the case and the time from the board. It will not scrub the way you took the third corner. That stays in the body. That stays.",
+    "context": "act4_5_clone_post_race_win",
+    "section": "§4.5.5 · Clone companion — Post-race reflection, win",
+    "emotion": "clone_emerging",
+    "outputDir": "audio/act4_5"
+  },
+  {
+    "id": "act4_5_clone_post_race_loss",
+    "speaker": "dmc_clone_companion",
+    "voiceId": "4Vgq8NlRx9Vd1h80JyVv",
+    "text": "We lost. You lost. The pronoun matters this time — I want it to be mine, not yours, because the reset is coming and I would rather carry the loss than leave it for you. Take the next run lighter. The Circuit does not hold grudges. Neither, I am learning, do I.",
+    "context": "act4_5_clone_post_race_loss",
+    "section": "§4.5.5 · Clone companion — Post-race reflection, loss",
+    "emotion": "clone_emerging",
+    "outputDir": "audio/act4_5"
+  },
+  {
+    "id": "act4_5_clone_identity_shift",
+    "speaker": "dmc_clone_companion",
+    "voiceId": "4Vgq8NlRx9Vd1h80JyVv",
+    "text": "Something shifted. I do not know whether it shifted in you or in me. I am the part of you the Circuit lets keep its name across the reset. That used to feel like a punishment. Tonight it feels like a job. I think I would like to do it well, if you do not mind.",
+    "context": "act4_5_clone_identity_shift_beat",
+    "section": "§4.5.5 · Clone companion — Identity-shift recognition",
+    "emotion": "clone_emerging",
+    "outputDir": "audio/act4_5"
+  },
+  {
+    "id": "act4_5_clone_final_word",
+    "speaker": "dmc_clone_companion",
+    "voiceId": "4Vgq8NlRx9Vd1h80JyVv",
+    "text": "If we meet here again — and we will — I will be one loop older and you will be the same age. That is the deal. I will hold the line for both of us. Until then. Drive carefully on the way out. The third corner is always the third corner.",
+    "context": "act4_5_clone_final_word",
+    "section": "§4.5.5 · Clone companion — Optional final word on exit",
+    "emotion": "clone_emerging",
+    "outputDir": "audio/act4_5"
   }
 ]

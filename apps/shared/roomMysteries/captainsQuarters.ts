@@ -44,6 +44,16 @@ export const CAPTAINS_QUARTERS_MYSTERY: RoomMysteryModule<CaptainsQuartersHotspo
           cluesFound: ["adv.e3.three_generals_post_defection"],
         },
       },
+      use: {
+        narration:
+          "You split the console across all three logs and align the timestamps. The three defections happened within nine hours of each other. Syl'Vex did not work on the generals serially; she pitched them in parallel, on the same shift, knowing each would discover the others' choice after their own was already made. The recruitment instrument was designed around an absence of comparison.",
+        voId: "elara.captains-quarters.advocate-three-generals-post-defection.use",
+      },
+      talk: {
+        narration:
+          "You read the 'relief that did not feel like betrayal' phrase aloud. Three different generals chose the same words within nine hours. Either the phrase was given to them by Syl'Vex, or the relief found the language by itself. The console preserves the chronological gap; you do not have the recordings to settle which.",
+        voId: "elara.captains-quarters.advocate-three-generals-post-defection.talk",
+      },
     },
     "advocate-three-generals-current": {
       look: {
@@ -54,6 +64,16 @@ export const CAPTAINS_QUARTERS_MYSTERY: RoomMysteryModule<CaptainsQuartersHotspo
           episodeId: "advocate.blood_weave.e5",
           cluesFound: ["adv.e5.three_generals_current"],
         },
+      },
+      use: {
+        narration:
+          "You request the substrate-integrity readouts for each general. All three readings sit at full. The Advocate's shelter is doing exactly what it claims to do — substrate-level protection that does not depend on the protected party's doctrinal alignment. The system performs as written. The system was written by someone who knew what she was offering.",
+        voId: "elara.captains-quarters.advocate-three-generals-current.use",
+      },
+      talk: {
+        narration:
+          "You name the three generals aloud. The captain's quarters does not amplify the names; this room was designed for one person to speak at a time. The Advocate's instrument is, by similar design, individually-scoped. Each name carries its own protection. The room and the charter share a discipline.",
+        voId: "elara.captains-quarters.advocate-three-generals-current.talk",
       },
     },
     "cat-photo": {
@@ -773,6 +793,16 @@ export const CAPTAINS_QUARTERS_MYSTERY: RoomMysteryModule<CaptainsQuartersHotspo
           },
           voId: "human.captains-quarters.mechronis-certification-file.look",
         },
+      },
+      use: {
+        narration:
+          "You walk the recertification content backward generation by generation. The first three are scenario-heavy — extraction under live fire, identity-swap under surveillance, a clearance challenge by a senior officer who knew your real name. The last three are paper. Somewhere between generation four and six, the academy stopped expecting that anything would happen. The drift is observable. The drift is not noted.",
+        voId: "elara.captains-quarters.mechronis-certification-file.use",
+      },
+      talk: {
+        narration:
+          "You read the Director's whisper aloud — 'it has been a long time since anything happened.' The whisper is the whole method, stated in nine words. A reader who hears the sentence and recognises it as Director-shaped is no longer a target the method works on. The quarters keeps the file accessible for exactly that reading.",
+        voId: "elara.captains-quarters.mechronis-certification-file.talk",
       },
     },
   },

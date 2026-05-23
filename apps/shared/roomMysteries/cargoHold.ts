@@ -36,6 +36,16 @@ export const CARGO_HOLD_MYSTERY: RoomMysteryModule<CargoHoldHotspotId> = {
           cluesFound: ["charter2.e3.house_marek"],
         },
       },
+      use: {
+        narration:
+          "You lift the Marek ledger from its corner. The leather is older than the binding repairs; the binding repairs are older than the most recent erasure. The page that should carry the charter signature is intact in fibre but smooth in ink — the scrubber lifted the surface without disturbing the substrate. Professional work.",
+        voId: "elara.cargo-hold.charter2-house-marek.use",
+      },
+      talk: {
+        narration:
+          "You read the ledger's surviving headings aloud. Three families, one tool-room, four epochs. The cargo-hold's acoustics swallow the names; the names belong on a workshop's threshold, not in a warehouse. You will say them again, properly, when you reach the workshop they have been edited out of.",
+        voId: "elara.cargo-hold.charter2-house-marek.talk",
+      },
     },
     /* ─── resurrectionist.cycle_walker · e2 (Inception Ark passenger manifest) ─── */
     "resur-ark-passenger-manifest": {
@@ -47,6 +57,16 @@ export const CARGO_HOLD_MYSTERY: RoomMysteryModule<CargoHoldHotspotId> = {
           episodeId: "resurrectionist.cycle_walker.e2",
           cluesFound: ["resur.e2.ark_passenger_manifest"],
         },
+      },
+      use: {
+        narration:
+          "You hold the manifest against the cargo-hold's overhead lamp. The black bar carries an embossing the redactor's ink did not flatten — a faint cartouche at the eighth position. The cartouche is the cult's house-mark for a passenger they were obligated to carry and forbidden to name. The seal is consistent with the Resurrectionist's earliest documented signatures.",
+        voId: "elara.cargo-hold.resur-ark-passenger-manifest.use",
+      },
+      talk: {
+        narration:
+          "You read the seven visible names. The cargo-hold has heard a great many manifest-readings; it accepts another without comment. The eighth position remains a black bar. You leave a pause for it anyway, the way a courtroom leaves a pause for a witness who was never called.",
+        voId: "elara.cargo-hold.resur-ark-passenger-manifest.talk",
       },
     },
     "rubber-chicken": {

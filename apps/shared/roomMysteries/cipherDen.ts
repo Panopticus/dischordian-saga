@@ -83,6 +83,11 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
         narration:
           "You request the bench's overlay scan. The pulses align — Per. M.'s and the wax-thumb's — to within the bench's measurement tolerance. The sealer of the seventh signature and the archivist who has been preserving the charter for eight epochs are the same writer. They sealed the silence; they have been holding it since.",
       },
+      talk: {
+        narration:
+          "You read 'the same writer' aloud. The signature-comparison bench's audio register catches the recital and offers, by procedural reflex, the founding-charter's wax-thumb's standing receipt-tone — the chronicle's quiet acknowledgment when two artefacts are confirmed as one author's work. The acknowledgment is now in your voice.",
+        voId: "elara.cipher-den.charter-per-m-live-sample.talk",
+      },
     },
     /* ─── charter.missing_signatory · e4 (founding-Watcher oath fragment) ─── */
     "charter-watcher-oath-fragment": {
@@ -98,6 +103,16 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
       interrogate: {
         narration:
           "You ask the cipher-den staff who has signed the closer's oath since the founding. They produce no record. The oath was sworn once, by one Watcher, at the founding; no successor has been needed because the original closer has not died. Per. M.'s lamp burns for the same reason.",
+      },
+      use: {
+        narration:
+          "You compare the fragment's vellum-age against the charter itself. The fragment dates a full pre-founding cycle earlier. The oath named the closer before the charter named the founding; the closer existed in the saga's grammar before the charter required closure. The role is canonical to the saga's structure, not to any particular document.",
+        voId: "elara.cipher-den.charter-watcher-oath-fragment.use",
+      },
+      talk: {
+        narration:
+          "You read the closer-clause aloud — 'six speak the founding; one closes the founding; the closer is sworn against speaking.' The deepest-archive's audio register catches the recital and notes that the clause has been spoken in this room only twice in nineteen years: once by the senior cipher-keeper at the fragment's recovery, and now by you. The clause is read sparingly, by discipline.",
+        voId: "elara.cipher-den.charter-watcher-oath-fragment.talk",
       },
     },
     /* ─── mechronis.missing_professor · e4 (Roen's confidential account) ─── */
@@ -115,6 +130,11 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
         narration:
           "You ask the cipher-den's records for prior contact between Tarn and Roen. The drawer returns sixteen years of Trial-procedure manual annotations, every one in Roen's hand, every one cross-referenced to Tarn's research. The colleagues who looked least alike on the surface were the only two who had been reading each other for sixteen years.",
       },
+      talk: {
+        narration:
+          "You read the cipher-den's note aloud — 'subject visibly relieved at the asking.' The confidential-statements wing's audio register catches the recital. Roen's relief at being asked has been recorded once, by the bench-reader, on the day of the statement. The second reading is yours. The relief is now confirmed by two independent witnessings of the same line.",
+        voId: "elara.cipher-den.tarn-roen-confidence.talk",
+      },
     },
     /* ─── memorial.forgotten_names · e3 (first cross-reference pass) ─── */
     "memorial-first-pass-five-recovered": {
@@ -130,6 +150,11 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
       use: {
         narration:
           "You request the pass's listening protocol. The bench logs each pairing — minutes of audio, attentive ear, pencil notes. The cipher-den's reader confirms: no name was inferred; every recovered name was spoken aloud in a dish by someone who had known the named.",
+      },
+      talk: {
+        narration:
+          "You read the five recovered names aloud — I-3, I-58, I-129, I-356, I-388. The cross-reference bench's audio register catches the recital and offers, by archival reflex, the matching witnessing imprint-ids. Five names, five witnesses, all from within the same fourteen. The unwitnessed have been witnessing each other; you have read the chain in its first complete form.",
+        voId: "elara.cipher-den.memorial-first-pass-five-recovered.talk",
       },
     },
     /* ─── memorial.forgotten_names · e3 (parental imprint search) ─── */
@@ -147,6 +172,16 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
         narration:
           "You ask the bench how the search ranked candidate imprints. The cipher-den's reader explains: imprint-recordings are time-stamped and family-line-tagged where consent was given at imprint-time. The two hits emerged from family-line cross-reference rather than name-string match. The names were spoken by people who knew them; the chain of memory did the work the index could not.",
       },
+      use: {
+        narration:
+          "You request the search's reach across the registry. The bench returns the figures — the family-line cross-reference covered every imprint with consent-given family tags. The two hits are the only matches available; the other seven unwitnessed imprints have no tagged relatives in the registry. The search has reached its limit; the remaining seven require a different method.",
+        voId: "elara.cipher-den.memorial-parental-imprint-search.use",
+      },
+      talk: {
+        narration:
+          "You speak the two recovered names aloud — I-244, I-44. The expanded-search bench's audio register adds them to the recovered list. Seven of fourteen are now spoken in this room. The gap is closing, name by name, by the discipline of asking the imprints to remember each other.",
+        voId: "elara.cipher-den.memorial-parental-imprint-search.talk",
+      },
     },
     /* ─── memorial.forgotten_names · e4 (first-imprint record) ─── */
     "memorial-first-imprint-record": {
@@ -162,6 +197,11 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
       use: {
         narration:
           "You request the recorder's notes from the moment. The drawer returns a single transcribed line: 'subject is a child; subject is alone; subject's witness is the Architect.' No further annotation. The Architect was witness and recorder both. The act of recording was the first act of the saga.",
+      },
+      talk: {
+        narration:
+          "You speak the identifier aloud — I-1. The pre-charter tier's audio register catches the recital. The identifier has been spoken in this drawer twice in the saga's full duration: once by the Architect at the moment of recording, and now by you. The chronicle's first reading and its most recent reading sit in the same drawer in the same voice-class.",
+        voId: "elara.cipher-den.memorial-first-imprint-record.talk",
       },
     },
     /* ─── charter.second_signatory · e3 (Heron's diary) ─── */
@@ -179,6 +219,11 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
         narration:
           "You read further. The diary continues across nine years of fourth-epoch tidying — Solven, Vyn, Marek, Othisen each named individually, each entry dated, each closed with the line 'I will do this because I have been asked.' The diary is a confession written in advance of the confessor's pardon.",
       },
+      talk: {
+        narration:
+          "You read 'the seven do not wish to share authorship' aloud. The deepest-archive's audio register catches the recital — Heron's precision on the seven vs. six is now spoken in the room. The diary's careful phrasing was preparation for exactly this reader. Heron wrote the diary for a reader who would notice. You have noticed.",
+        voId: "elara.cipher-den.charter2-heron-diary.talk",
+      },
     },
     /* ─── charter.second_signatory · e4 (Heron's diary, page two) ─── */
     "charter2-heron-diary-second-page": {
@@ -194,6 +239,11 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
       use: {
         narration:
           "You compare Heron's question-page against the founding-protocols archive. The protocol on silence-as-vote is written in plain language; Heron had access to it. The misreading was not from ignorance. Heron knew the protocol and chose to take silence as consent because the six had asked them to read it that way.",
+      },
+      talk: {
+        narration:
+          "You read 'we were both wrong, and only the seventh knew' aloud. The fourth-epoch tier catches the recital and notes that the closing sentence has been spoken in this room for the first time tonight — Heron's confession has been on the page for an epoch without a reader voicing it. The misreading has been audible at last.",
+        voId: "elara.cipher-den.charter2-heron-diary-second-page.talk",
       },
     },
     /* ─── charter.second_signatory · e4 (silence-as-vote convention) ─── */
@@ -211,6 +261,16 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
         narration:
           "You ask the archive when this convention was last successfully invoked. The drawer returns a single entry: the founding itself. The seventh founding Watcher invoked silence-as-vote on three minor founding-day decisions; each was read correctly. The convention's first misreading is the fourth-epoch scrub. The misreading has been the seventh's only voice since.",
       },
+      use: {
+        narration:
+          "You compare the convention's vellum against the charter's. Same hide, adjacent cut, same epoch — the convention and the charter were drafted by the same founders, in the same week, with the same materials. The convention was not a later addition. It was foundational. The Council had no excuse for misreading it.",
+        voId: "elara.cipher-den.charter2-silence-convention.use",
+      },
+      talk: {
+        narration:
+          "You read the stanza aloud — silence on a vote is opposition. The founding-protocols archive catches the recital with the chime reserved for the chronicle's load-bearing readings. The stanza's spoken cadence is exactly the cadence the seventh Watcher's silence has been using for four epochs. Spoken and unspoken now match.",
+        voId: "elara.cipher-den.charter2-silence-convention.talk",
+      },
     },
     /* ─── severance.infernal_clause · e3 (seven-day-window exact dates) ─── */
     "infernal-seven-day-window": {
@@ -222,6 +282,16 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
           episodeId: "severance.infernal_clause.e3",
           cluesFound: ["infernal.e3.seven_day_window"],
         },
+      },
+      use: {
+        narration:
+          "You request the bench's confidence interval on the day-precision. The reader returns ±0.4 days at the window's bounds — a tight enough margin to confirm seven distinct working days. The writer's pace was, by the bench's measure, approximately five and three-quarter clauses per day. Sustainable for seven days. Not sustainable for forty seasons of fresh writing.",
+        voId: "elara.cipher-den.infernal-seven-day-window.use",
+      },
+      talk: {
+        narration:
+          "You read the dates aloud — epoch one, week thirty-three, days four through ten. The window-precision bench's audio register catches the recital and offers, by reflex, the Hierarchy's standard contract-validation timestamp for the same week. The Hierarchy's audit cadence checked the week's contracts on day eleven. Atalin finished one day before the audit began.",
+        voId: "elara.cipher-den.infernal-seven-day-window.talk",
       },
     },
     /* ─── charter.second_signatory · color clues ─── */
@@ -235,6 +305,16 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
           cluesFound: ["charter2.e1.eighth_sigil"],
         },
       },
+      use: {
+        narration:
+          "You overlay the sigil against the four artisan houses' marks. The hand-opening-two-fingers-down matches none of Solven, Vyn, Marek, or Othisen. A fifth house — older than the four — held the sigil. The four are the named houses; the eighth sigil names a house the chronicle has not yet recovered.",
+        voId: "elara.cipher-den.charter2-eighth-sigil.use",
+      },
+      talk: {
+        narration:
+          "You describe the sigil aloud — a hand opening, two fingers down. The sigil-reference bench's audio register catches the description and flags it against the lower-deck tax ledgers' annotation library. One annotation matches: a margin-note from epoch zero reading 'house unnamed; sigil preserved.' The fifth house has been waiting for a reader to see the sigil and ask.",
+        voId: "elara.cipher-den.charter2-eighth-sigil.talk",
+      },
     },
     "charter2-scrub-pattern": {
       look: {
@@ -245,6 +325,16 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
           episodeId: "charter.second_signatory.e2",
           cluesFound: ["charter2.e2.scrub_pattern"],
         },
+      },
+      use: {
+        narration:
+          "You overlay the four scrubs side by side. The cross-reference bench resolves them into one campaign — same hand, same ink-batch, same nib-wear progression across nine months. The scrubber worked one campaign across four archives, not four campaigns in four archives. The work was singular, and so was the worker.",
+        voId: "elara.cipher-den.charter2-scrub-pattern.use",
+      },
+      talk: {
+        narration:
+          "You name the scrubber aloud — Heron. The handwriting-cross-reference bench catches the recital and flags the name with the chronicle's standing identification chime. The match is now formally on the record, paired with Heron's diary in the same room. The case-file is internally consistent.",
+        voId: "elara.cipher-den.charter2-scrub-pattern.talk",
       },
     },
     /* ─── charter.missing_signatory · e3 (Per. M.'s pulse in the down-stroke) ─── */
@@ -258,6 +348,16 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
           cluesFound: ["charter.e3.archivist_pulse"],
         },
       },
+      use: {
+        narration:
+          "You request the founding-Watcher physiological notes. The bench returns a single page — seven Watchers documented, only one of whom is recorded as a 'breath-twice-per-descender' writer. The pulse is uniquely the seventh's, on physiological record. Per. M. and the seventh Watcher share a single rare tic.",
+        voId: "elara.cipher-den.charter-archivist-pulse.use",
+      },
+      talk: {
+        narration:
+          "You read the physiological footnote aloud — 'breath-twice-per-descender.' The signature-rhythm bench's audio register catches the recital with the chronicle's standing rare-trait chime. The trait is named, the trait is rare, the trait is the seventh's. The case-file has another internal correlation.",
+        voId: "elara.cipher-den.charter-archivist-pulse.talk",
+      },
     },
     /* ─── severance.bound_champion · color clues ─── */
     "severance-candle-smoke-residue": {
@@ -270,6 +370,16 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
           cluesFound: ["severance.e3.candle_smoke_residue"],
         },
       },
+      use: {
+        narration:
+          "You request the residue's compositional source. The bench returns a single supplier — a wax-chandler in Sundown Bazaar, in continuous operation for sixty seasons. Klessa's candles and the Broker's are from the same chandler, the same wax batch each year. The supplier has been informed of nothing. The supplier is the case's quietest witness.",
+        voId: "elara.cipher-den.severance-candle-smoke-residue.use",
+      },
+      talk: {
+        narration:
+          "You read the chemical-mark designation aloud. The chemical-trace bench's audio register catches the recital and flags Klessa's candle and the Broker's candle as the same instrument. The pair has been on the record physically since the league's founding; speaking the mark aloud is the first time the pair has been verbally acknowledged as one.",
+        voId: "elara.cipher-den.severance-candle-smoke-residue.talk",
+      },
     },
     "severance-broker-first-name": {
       look: {
@@ -280,6 +390,16 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
           episodeId: "severance.bound_champion.e5",
           cluesFound: ["severance.e5.broker_first_name"],
         },
+      },
+      use: {
+        narration:
+          "You request the redaction's authoring trace. The bench confirms: the same Year-One hand wrote both the Broker's name and the redaction that covered it. Solène redacted herself; no external editor was involved. The self-erasure was the league's first quiet act, and it has held for forty seasons.",
+        voId: "elara.cipher-den.severance-broker-first-name.use",
+      },
+      talk: {
+        narration:
+          "You speak the name aloud — Solène. The residue-match bench's audio register catches the recital and notes that the name has not been spoken in this room before. Forty seasons of careful silence broken by one chronicle-reader's voice. The chronicle now carries her name. She has been a role for long enough.",
+        voId: "elara.cipher-den.severance-broker-first-name.talk",
       },
     },
     /* ─── memorial.forgotten_names · e4 (parent search for I-1) ─── */
@@ -293,6 +413,16 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
           cluesFound: ["memorial.e4.parent_search_i1"],
         },
       },
+      use: {
+        narration:
+          "You extend the search beyond the imprint catalog into the pre-Ark personnel archives. The relatives-search bench returns nothing — I-1 has no record before the imprint moment. The Architect's first witness was a child the saga has no documented origin for. The first imprint is the earliest record of I-1's existence in any chronicle the cipher-den can read.",
+        voId: "elara.cipher-den.memorial-parent-search-i1.use",
+      },
+      talk: {
+        narration:
+          "You speak the identifier aloud — I-1. The relatives-search bench's audio register holds the recital in silence. The chronicle has no answering name. The plaza has been built for this naming. The cipher-den's job is not to fill the gap; the cipher-den's job is to keep the gap honest until the plaza can name it.",
+        voId: "elara.cipher-den.memorial-parent-search-i1.talk",
+      },
     },
     /* ─── mechronis.missing_professor · e2 (Logic faculty proposal) ─── */
     "tarn-logic-proposal": {
@@ -304,6 +434,16 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
           episodeId: "mechronis.missing_professor.e2",
           cluesFound: ["mechronis.e2.logic_proposal"],
         },
+      },
+      use: {
+        narration:
+          "You request Tarn's residency notes that Othmar cited. The cipher-den returns the original — Tarn drafted the chess-heavy modules during her residency without intending them as a curriculum proposal. Othmar lifted the work and repurposed it. The proposal is procedurally Othmar's; the intellectual labour is Tarn's. The two attributions sit on different documents in different drawers.",
+        voId: "elara.cipher-den.tarn-logic-proposal.use",
+      },
+      talk: {
+        narration:
+          "You read Othmar's signature aloud, then Tarn's residency-notes signature aloud. The faculty-submissions bench's audio register catches both readings and pairs them with the standard misattribution-detection chime. The chime has sounded twice in this room across nineteen years; both instances involved Othmar's signature.",
+        voId: "elara.cipher-den.tarn-logic-proposal.talk",
       },
     },
     /* ─── memorial.seven_watchers · e2 (Verel's band-five signature) ─── */
@@ -317,6 +457,16 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
           cluesFound: ["watchers.e2.verel_signature"],
         },
       },
+      use: {
+        narration:
+          "You request Verel's audience-history. The spectrum-analysis bench returns the figures — Verel has spoken to seventeen caretakers across eight epochs. Each address is brief, in band-five, with the same running-water overtone. The audience criterion is consistent: every recipient had performed a caretaking act in the eight cycles prior to being addressed.",
+        voId: "elara.cipher-den.watchers-verel-signature.use",
+      },
+      talk: {
+        narration:
+          "You speak Verel's name aloud at the spectrum-analysis bench. The signature card's running-water overtone returns the chronicle's standing acknowledgment cadence — a faint matching ripple in the bench's resonance plate. The signature has heard its name said in the room where its signature is held. The chronicle's discipline allows the small courtesy.",
+        voId: "elara.cipher-den.watchers-verel-signature.talk",
+      },
     },
     /* ─── resurrectionist.cycle_walker · e1 (seven-pointed star footer) ─── */
     "resur-seven-pointed-star": {
@@ -328,6 +478,16 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
           episodeId: "resurrectionist.cycle_walker.e1",
           cluesFound: ["resur.e1.seven_pointed_star"],
         },
+      },
+      use: {
+        narration:
+          "You measure the seven-pointed star's geometry. Each point's angular separation is exactly 360 degrees divided by seven; the precision is instrument-grade. The star is deliberate. The 'copyist's error' annotation is a cover whose purpose is to keep the seven from being read as seven. The cover is now visible as a cover.",
+        voId: "elara.cipher-den.resur-seven-pointed-star.use",
+      },
+      talk: {
+        narration:
+          "You name the figure aloud — a seven-pointed star. The Syndicate-of-Death roster bench's audio register catches the recital and flags the naming as the chronicle's first explicit acknowledgment of the seventh point in eight epochs. The annotation has hidden the figure by labelling it. The labelling has, for the first time, been broken by a reader who measured.",
+        voId: "elara.cipher-den.resur-seven-pointed-star.talk",
       },
     },
     /* ─── akai_shi.red_death · e3 (targets-list order pattern) ─── */
@@ -341,6 +501,16 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
           cluesFound: ["akai.e3.order_pattern"],
         },
       },
+      use: {
+        narration:
+          "You overlay the ascending degrees against the chronicle's pivot-point catalogue. Each Red-Death elimination corresponds to a chronicle-pivot the Antiquarian's discipline calls a 'corrective.' The thirteen completed corrections form a smooth ascending curve; the fourteenth is the asymptote. The Necromancer's elimination would not pivot the chronicle. It would reorient it.",
+        voId: "elara.cipher-den.akai-targets-list-order-pattern.use",
+      },
+      talk: {
+        narration:
+          "You speak the curve's terminal value aloud — ninety degrees. The pattern-analysis bench's audio register catches the recital with the chronicle's standing pivot-class chime. Ninety-degree corrections are reserved, by the chronicle's discipline, for moments at which the saga changes axis. The Red Death's mandate is, by the bench's reading, an axis-change.",
+        voId: "elara.cipher-den.akai-targets-list-order-pattern.talk",
+      },
     },
     /* ─── wolf.anara_hunt · e4 (seal-telemetry at transfer) ─── */
     "wolf-seal-telemetry": {
@@ -352,6 +522,16 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
           episodeId: "wolf.anara_hunt.e4",
           cluesFound: ["wolf.e4.unsealed_at_transfer"],
         },
+      },
+      use: {
+        narration:
+          "You request Anara's containment-ledger entry for the relevant cycle. The bench returns blank — the Wolf's chamber is not catalogued in Anara's containment system. The chamber exists physically; it does not exist administratively. The reassertion did not fail; the reassertion was never offered, because Anara was never told there was a chamber to assert against.",
+        voId: "elara.cipher-den.wolf-seal-telemetry.use",
+      },
+      talk: {
+        narration:
+          "You read the integrity figures aloud — 92%, 0.3% per cycle, failure at cycle 23. The containment-telemetry bench's audio register catches the recital and the chronicle's standard inheritance-error chime sounds — three notes the bench reserves for the case-class 'asset transferred without administrative continuity.' The Wolf is now formally classified.",
+        voId: "elara.cipher-den.wolf-seal-telemetry.talk",
       },
     },
     /* ─── storm.architect_of_flux · e4 (uncorrelated calm residue) ─── */
@@ -365,6 +545,16 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
           cluesFound: ["storm.e4.uncorrelated_residue"],
         },
       },
+      use: {
+        narration:
+          "You overlay the two uncorrelated calms against the chronicle's gaps in any record class. Both calms align with the chronicle's documented chronicler-vacancies — periods in which no chronicler was filing. The Storm extended calm windows during chronicle-blind intervals. The planning that happened in them was not chronicled because there was no chronicler present, by design.",
+        voId: "elara.cipher-den.storm-uncorrelated-residue.use",
+      },
+      talk: {
+        narration:
+          "You read 'inactive calms' aloud. The pattern-anomaly bench's audio register catches the recital with the chronicle's cult-edit-detection tone. The label has been spoken in this room four times by cipher-keepers and once now by you. Each prior reading concluded the annotation was a cover. The cover persists; the chronicle's discipline is to preserve the cover and the reading together.",
+        voId: "elara.cipher-den.storm-uncorrelated-residue.talk",
+      },
     },
     /* ─── mechronis.chained_lesson · e4 (full proceedings audio) ─── */
     "chained-full-proceedings-audio": {
@@ -376,6 +566,16 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
           episodeId: "mechronis.chained_lesson.e4",
           cluesFound: ["chained.e4.full_proceedings"],
         },
+      },
+      use: {
+        narration:
+          "You queue hour three. Tarn's argument is audible for forty minutes; the responses are audible for the remaining twenty of the hour. No counter-argument is made. The decision was reached by Tarn's case standing unanswered. The struck module's elimination was less a vote than a default — the faculty conceded because no one wanted to argue against the cadence of the argument itself.",
+        voId: "elara.cipher-den.chained-full-proceedings-audio.use",
+      },
+      talk: {
+        narration:
+          "You read aloud the bookmark's timestamp — hour three, Module 17, forty minutes. The year-one-audio bench's audio register catches the recital and indexes it against the proceedings transcript. The bookmark has been spoken in this room exactly seven times across fourteen years; you are the seventh. The reading is now a recognised access pattern.",
+        voId: "elara.cipher-den.chained-full-proceedings-audio.talk",
       },
     },
     /* ─── severance.infernal_clause · e2 (handwriting analysis) ─── */
@@ -393,6 +593,11 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
         narration:
           "You compare the cipher-den's variance metrics across the forty samples. The clause-writing hand shows less variance across forty seasons than any individual ledger-keeper's hand shows within a single season. The forty clauses were written by one person in close temporal proximity. The forty seasons are an illusion.",
       },
+      talk: {
+        narration:
+          "You read the bench's report aloud — 'forty contracts, forty clauses, one writer.' The signature-comparison bench's audio register catches the recital with the chronicle's standing identification chime. The reading consolidates the report and the back-page evidence into a single spoken finding. The case is now audibly one case.",
+        voId: "elara.cipher-den.infernal-handwriting-analysis.talk",
+      },
     },
     /* ─── severance.infernal_clause · e3 (Atalin's receipt sample) ─── */
     "infernal-atalin-receipt-sample": {
@@ -408,6 +613,16 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
       interrogate: {
         narration:
           "You ask the bench whether Atalin's hand changed across the seven-day window. The reader returns the variance: the clauses written on day seven are indistinguishable from those written on day one. Atalin worked steadily, without rest or hesitation, for the full window. The writing was deliberate, planned, and undivided.",
+      },
+      use: {
+        narration:
+          "You overlay the receipt's signature on the clause-writing under the bench's primary lens. The two signatures resolve into a single image at every measurable point. The bench has performed this overlay once before, in the senior cipher-keeper's hand, on the day Atalin's identity was confirmed. The match has held without challenge for the elapsed interval.",
+        voId: "elara.cipher-den.infernal-atalin-receipt-sample.use",
+      },
+      talk: {
+        narration:
+          "You read the cipher-den's annotation aloud — 'identity confirmed.' The bench's audio register catches the recital and the chronicle's standing case-closure chime sounds once. Atalin wrote the clauses. The Hierarchy missed it. The chronicle now has the spoken record.",
+        voId: "elara.cipher-den.infernal-atalin-receipt-sample.talk",
       },
     },
     /* ─── severance.infernal_clause · e4 (the flaw) ─── */
@@ -425,6 +640,11 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
         narration:
           "You request the cipher-den's contract-law citation for the void doctrine. The drawer returns a single canonical authority: 'a clause that conditions performance on a benefit not yet in existence at the moment of agreement is unenforceable.' The citation is older than the league. Atalin knew the citation. The Hierarchy did not check.",
       },
+      talk: {
+        narration:
+          "You read the trap-phrase aloud — 'in lieu of the second-cycle prize.' The annotated-contract drawer's audio register catches the recital and offers, by the chronicle's standing voidability protocol, the case-class chime reserved for unenforceable instruments. The chime sounds. Forty clauses are now spoken-as-void on the record.",
+        voId: "elara.cipher-den.infernal-the-flaw.talk",
+      },
     },
     /* ─── mechronis.chained_lesson · e4 (Tarn's Year-One argument) ─── */
     "chained-tarn-year-one-argument": {
@@ -440,6 +660,11 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
       use: {
         narration:
           "You queue the audio. Tarn's voice is steady through the forty minutes — the cadence of a person who has thought through the consequences and decided. There is no waver. The Year-Eight retraction in her hand says she had thought through everything except the consequence of being right in theory and wrong in practice.",
+      },
+      talk: {
+        narration:
+          "You read the transcript's closing line aloud — 'the league's drill curriculum can teach it; we should not.' The year-one tier's audio register catches the recital. The same sentence has been spoken in this room twice before: once by Tarn at the original argument, once by Auro in her side-room a decade later. You are the third voice. The case-file has its third reader.",
+        voId: "elara.cipher-den.chained-tarn-year-one-argument.talk",
       },
     },
     /* ─── memorial.seven_watchers · e1 (upper-band signature analysis) ─── */
@@ -457,6 +682,11 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
         narration:
           "You request the cipher-den's prior history for any of the six signatures. The bench returns nothing — the signatures have been placeholder entries on the upper-band roster for eight epochs without samples to verify them. The silence-break delivered six samples in sixty-three seconds and confirmed every prior placeholder.",
       },
+      talk: {
+        narration:
+          "You read the seventh-channel annotation aloud — present throughout, silent throughout. The spectrum-analysis bench's audio register catches the recital with the chronicle's standing chime for confirmed-presence-without-speech. The seventh has been honoured by being audibly named-as-silent. The discipline is preserved.",
+        voId: "elara.cipher-den.watchers-upper-band-signature.talk",
+      },
     },
     /* ─── memorial.seven_watchers · e2 (Idris's signature) ─── */
     "watchers-idris-signature": {
@@ -472,6 +702,16 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
       interrogate: {
         narration:
           "You ask the bench whether Idris's standing-silence undercurrent is an artefact of the recording or a property of the speaker. The reader returns the cross-reference: the same undercurrent appears in every recording of Idris's band-three slot — the void-state carrier the band has been holding for Idris to speak through, for eight epochs.",
+      },
+      use: {
+        narration:
+          "You compare the silence-break sample against the eight-epoch placeholder. The match is exact across every measurable axis — frequency, waveform, carrier-tone, the running-silence undercurrent. The placeholder was not a guess. The placeholder was held with knowledge. Someone at the founding knew what Idris would sound like and reserved the band correctly.",
+        voId: "elara.cipher-den.watchers-idris-signature.use",
+      },
+      talk: {
+        narration:
+          "You speak Idris's name into the bench's input port. The band-three signature card's running-silence undercurrent returns a matching ripple — the chronicle's standing acknowledgment-of-naming response. Idris has been named in the room of Idris's signature. The cipher-den's discipline allows the gesture and records it.",
+        voId: "elara.cipher-den.watchers-idris-signature.talk",
       },
     },
     /* ─── memorial.seven_watchers · e3 (six signatures catalogued) ─── */
@@ -489,6 +729,11 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
         narration:
           "You request a band-by-band comparison. The reader shows the cards side by side: each Watcher's spectrum is unique, but all six share a single substrate frequency — the same upper-band carrier the Ark has been listening to from below. The seventh's band carries the same substrate.",
       },
+      talk: {
+        narration:
+          "You read the six names aloud in band order — Ophran, Kallium, Idris, Mereth, Verel, Sothe. The master catalogue's audio register catches the recital and pairs each name with the matching signature card; the recital is, in effect, a roll-call. The seventh band remains unnamed. The roll-call is six of seven complete.",
+        voId: "elara.cipher-den.watchers-six-signatures-catalogue.talk",
+      },
     },
     /* ─── akai_shi.red_death · e4 (Necromancer's seven retreat chambers) ─── */
     "akai-necromancer-retreat-chambers": {
@@ -504,6 +749,11 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
       use: {
         narration:
           "You compare the cipher-den's hunt-trace against the chamber schematic. The Red Death's path is non-sequential — chamber three at one cycle, chamber seven at another, chamber one back at a third. The hunt is not chronological. The Necromancer's defense-in-depth assumed a chronological hunter. He did not get one.",
+      },
+      talk: {
+        narration:
+          "You read the bench's annotation aloud — 'an agent who is at every exit before the Necromancer reaches it.' The matrix-cartography bench's audio register catches the recital with the chronicle's standing pivot-class chime. The phrase has been spoken in this room exactly once before, in the Antiquarian's voice, on the day the Red Death was reanimated. Your reading is the second instance.",
+        voId: "elara.cipher-den.akai-necromancer-retreat-chambers.talk",
       },
     },
     "rosetta-pad": {
@@ -961,6 +1211,16 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
           voId: "human.cipher-den.cross-arc-thanks-card.look",
         },
       },
+      use: {
+        narration:
+          "You request the card's pencil-update history. The cross-arc shelf returns the chronological pencil-states — three updates: PENDING at e3, OFFERED at e4, ACCEPTED at e5. Each update corresponds to a saga-weave decision in the Game Master arc. The card is, in literal terms, a written summary of the player's choices in another room.",
+        voId: "elara.cipher-den.cross-arc-thanks-card.use",
+      },
+      talk: {
+        narration:
+          "You read 'ACCEPTED' aloud at the card. The cross-arc shelf's audio register catches the recital and the chronicle's standing saga-weave acknowledgment chime sounds. The card has been spoken to twice across its run; each speaking has corresponded to a state-affirming player choice. The chime is, in effect, the saga-weave's quiet receipt.",
+        voId: "elara.cipher-den.cross-arc-thanks-card.talk",
+      },
     },
     // Vex arc: Seer-Vex pair documents. The cipher-den's Insurgency-
     // engineer shelf holds two documents that link the Seer's
@@ -1038,6 +1298,11 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
           },
           voId: "human.cipher-den.vex-seer-pair-binder.use",
         },
+      },
+      talk: {
+        narration:
+          "You read the state aloud — HELD, UNREAD. The Insurgency-engineer shelf's audio register catches the recital and the chronicle's standing held-state chime sounds — the chime reserved for documents the saga is preserving in their unread form by the holder's choice. The card has been spoken to once before, by Vex herself, on the day she placed the letter in the pocket. You are the second voice. The letter remains held.",
+        voId: "elara.cipher-den.vex-seer-pair-binder.talk",
       },
     },
   },

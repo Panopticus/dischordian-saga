@@ -214,6 +214,39 @@ const SPEAKER_SETTINGS: Record<string, Settings> = {
     text_prefix:
       "*demonic bureaucrat, Master of R'lyeh; reptilian and ancient, infernal corporate logic; cold humour at mortal suffering, treats the galaxy as a hostile-acquisition target* ",
   },
+  // ─── Act 4.5 (Dead Man's Circuit + Degen's Casino) speakers ───
+  degen: {
+    // The Degen — Showman/Punter/Confessor triple-mode casino host.
+    // Bible: apps/shared/npcs/bibles/the_degen.md. Voice id mirrors the
+    // prestige generator's casting (generate_vo_gaps.py:63-110). High
+    // style (animated showman cadence), lower stability to let the
+    // Punter and Confessor phases push variance through; per-line
+    // emotion nudges (degen_showman / degen_punter / degen_confessor)
+    // pull the dial toward whichever phase the beat is written in.
+    stability: 0.4,
+    similarity_boost: 0.78,
+    style: 0.55,
+    use_speaker_boost: true,
+    text_prefix:
+      "*Vegas-by-way-of-Times-Square casino host, hoarse-warm masculine, eats syllables on the showman beats and elongates vowels on the confessor beats; switches phase mid-sentence without warning; the house edge is the only thing he never jokes about* ",
+  },
+  dmc_clone_companion: {
+    // DMC clone companion — the apprentice's own clone, pre-verbal
+    // early in the run and gradually emerging into language as the
+    // identity-chain accumulates. Bible:
+    // apps/shared/npcs/bibles/dmc_clone_companion.md. High stability
+    // (slow careful delivery — listening more than speaking), low
+    // style (restrained, never theatrical). The text_prefix carries
+    // the "voice through a wall" framing; emotion nudges
+    // (clone_preverbal / clone_emerging) push toward whispered or
+    // formed speech per the beat's place in the arc.
+    stability: 0.75,
+    similarity_boost: 0.8,
+    style: 0.15,
+    use_speaker_boost: true,
+    text_prefix:
+      "*voice of the apprentice's own clone — soft, near, recorded as if standing one shoulder back; words come in shorter phrases than the original, with longer rests between; never raises the voice, never finishes a sentence the original already started* ",
+  },
 };
 
 /**
@@ -235,6 +268,42 @@ const EMOTION_NUDGES: Partial<Record<string, Partial<Settings>>> = {
     stability: 0.7,
     style: 0.15,
   },
+  // ─── Act 4.5 emotion nudges ───
+  degen_showman: {
+    // Punter-phase: the house is open, the lights are loud, the odds
+    // are honest. Push style higher; let the cadence run hot.
+    stability: 0.35,
+    style: 0.7,
+  },
+  degen_punter: {
+    // Mid-table — neither sales pitch nor confession. Sits right on
+    // the baseline; included as an explicit marker so writers can
+    // tag the phase without nudging the dial.
+    stability: 0.4,
+    style: 0.55,
+  },
+  degen_confessor: {
+    // Late-table or post-loss: the showman drops, the punter quiets,
+    // the man underneath answers the question honestly. Lower style,
+    // higher stability — a different person inside the same voice.
+    stability: 0.6,
+    style: 0.25,
+  },
+  clone_preverbal: {
+    // First-encounter beats. Whisper-adjacent, longer pauses, fewer
+    // formed words. The companion is finding the language by the
+    // end of the line, not at the start of it.
+    stability: 0.85,
+    style: 0.1,
+    text_prefix:
+      "*halting, soft, words found one at a time as if remembered rather than formed; heavy breath between phrases* ",
+  },
+  clone_emerging: {
+    // Mid-arc and after. The voice has settled. Still careful, still
+    // unhurried, but the sentences finish.
+    stability: 0.7,
+    style: 0.2,
+  },
 };
 
 interface VoLine {
@@ -251,13 +320,18 @@ interface VoLine {
 const PUBLIC_ROOT = join(__dirname, "..", "client", "public");
 
 function pathsForAct(actKey: string) {
+  // Both filenames use the underscore form (act4_5-vo-lines.json,
+  // act4_5VoManifest.json) so the file system sees one consistent
+  // naming convention; only the s3Prefix carries the dotted form
+  // because S3 has no path-segment ambiguity.
+  const fsKey = actKey.replace(".", "_");
   return {
-    linesFile: join(__dirname, `act${actKey}-vo-lines.json`),
+    linesFile: join(__dirname, `act${fsKey}-vo-lines.json`),
     manifestPath: join(
       __dirname,
       "..",
       "shared",
-      `act${actKey.replace(".", "_")}VoManifest.json`,
+      `act${fsKey}VoManifest.json`,
     ),
     s3Prefix: `Act ${actKey} Voices`,
   };

@@ -29,6 +29,16 @@ export const SOCIAL_HUB_MYSTERY: RoomMysteryModule<SocialHubHotspotId> = {
         narration:
           "You ask the hub for the general's recorded response. The board returns a three-line answer: 'I am tired. I will accept the seat. I will not retract my Advocate's shelter.' The general kept their Empire-of-Shadows shelter even while accepting Syl'Vex's recruitment. The Advocate's charter is unconditional. The mirror cannot break it.",
       },
+      use: {
+        narration:
+          "You unpin the transcript, turn it over. The Hierarchy's filing stamp on the reverse names the general who accepted — and beneath that, in a different ink, a hand has added the date the general's Advocate-shelter renewal cleared. The two systems were keeping parallel files on the same person. Neither system flagged the redundancy.",
+        voId: "elara.social-hub.advocate-sylvex-recruitment-pitch.use",
+      },
+      talk: {
+        narration:
+          "You read the pitch aloud. The cadence is calmer than its content suggests — Syl'Vex's gift is to make a coercive offer sound like a kindness. The hub's recovered audio strata, if you trigger them, return the original recording at the same volume you read it; the room becomes briefly bilingual, your voice and his, the same sentence.",
+        voId: "elara.social-hub.advocate-sylvex-recruitment-pitch.talk",
+      },
     },
     "bulletin-board": {
       look: {

@@ -98,6 +98,11 @@ export const ARCHIVES_MYSTERY: RoomMysteryModule<
         narration:
           "You measure the stratum-six band with the archives' brass calipers. The thickness is consistent with a burial timed to coincide with the closing of an epoch — the kind of deliberate concealment a librarian performs when they want a thing kept but not lost. The second burial above it is shallower; the second burier was in more of a hurry.",
       },
+      talk: {
+        narration:
+          "You read the stratum count aloud — eight layers, one document, two deliberate burials. The Foundation-tier wing's audio register catches the recital and notes that the count has been spoken in this room exactly three times since extraction, by three different readers, with no disagreement on the eight.",
+        voId: "elara.archives.charter-silt-stratigraphy.talk",
+      },
     },
     /* ─── charter.missing_signatory · e3 (Per. M.'s preservation orders) ─── */
     "charter-per-m-preservation-orders": {
@@ -113,6 +118,16 @@ export const ARCHIVES_MYSTERY: RoomMysteryModule<
       interrogate: {
         narration:
           "You ask the archive's curator for Per. M.'s tenure record. The drawer returns nothing — no start date, no payroll entry, no termination notice. The same Per. M. signed an order this morning and forty-two earlier ones across eight epochs. The curator has been signing receipts to Per. M. for nineteen years without ever asking who they are.",
+      },
+      use: {
+        narration:
+          "You pull a recent order and a Year-One order side by side. The signatures align under the archives' overlay glass to within an ink-stroke's variance. The hand has not aged. The hand has not been replaced. The hand has been here the whole time.",
+        voId: "elara.archives.charter-per-m-preservation-orders.use",
+      },
+      talk: {
+        narration:
+          "You read 'Per. M.' aloud. The standing-order vault's audio register accepts the recital without comment — the name has been spoken in this vault many times across eight epochs, always to no answer. The vault is silent on every speaker. Per. M. signs; Per. M. does not respond to being named.",
+        voId: "elara.archives.charter-per-m-preservation-orders.talk",
       },
     },
     /* ─── severance.bound_champion · e1 (empty inheritance-protocol vault) ─── */
@@ -130,6 +145,11 @@ export const ARCHIVES_MYSTERY: RoomMysteryModule<
         narration:
           "You request the vault's reading history. The drawer returns a single annotation, in the original archivist's hand: 'kept open for the procedure when it is written.' The slot has been waiting for forty seasons for someone to fill it.",
       },
+      talk: {
+        narration:
+          "You read the archivist's annotation aloud. The Severance-tier vault's audio register catches the recital and offers, by ritual, the standard request-for-procedure cadence the chronicle uses when reopening dormant intake slots. The request is, technically, now active. No procedure follows.",
+        voId: "elara.archives.severance-no-protocol-on-file.talk",
+      },
     },
     /* ─── severance.bound_champion · e2 (forty sealed season envelopes) ─── */
     "severance-forty-season-envelopes": {
@@ -146,6 +166,16 @@ export const ARCHIVES_MYSTERY: RoomMysteryModule<
         narration:
           "You ask the archive whether any envelope was ever opened by another reader. The drawer logs three attempts in forty seasons; each one returned the envelope unopened. The seals are unbroken; the names remain in the bond, not in the paperwork.",
       },
+      use: {
+        narration:
+          "You lift the most recent envelope without breaking the seal. The wax carries Vex's signet over the league's secondary mark. The envelope is heavier than its contents suggest — Vex's discipline includes a small weight inside each envelope to prevent quiet substitution. The forty are tamper-resistant by design.",
+        voId: "elara.archives.severance-forty-season-envelopes.use",
+      },
+      talk: {
+        narration:
+          "You read 'inheritor accepted' aloud, once. The envelope-stack's audio register notes the recital and the standard Severance protocol annotates it: forty acceptances have been spoken in this room in sequence by the chronicle's readers; you have spoken the forty-first. The bond carries one more witness than the ledger does.",
+        voId: "elara.archives.severance-forty-season-envelopes.talk",
+      },
     },
     /* ─── severance.infernal_clause · color clues ─── */
     "infernal-envelope-set": {
@@ -158,6 +188,16 @@ export const ARCHIVES_MYSTERY: RoomMysteryModule<
           cluesFound: ["infernal.e2.envelope_set"],
         },
       },
+      use: {
+        narration:
+          "You spread the forty envelopes across the audit table. Forty contracts, forty backs, forty clauses — the back-pages all in the same paper-stock, the front-pages in forty different stocks. The clauses are a single set authored once; the contracts are forty different agreements written to them.",
+        voId: "elara.archives.infernal-envelope-set.use",
+      },
+      talk: {
+        narration:
+          "You name the count aloud — forty. The audit-evidence drawer's register catches the recital and offers, by reflex, the matching back-page cadence: forty clauses, forty seasons, one writer. The number has been spoken in this room before, but never with the matching back-page reading at the same time. The pairing is the case's first synthesis.",
+        voId: "elara.archives.infernal-envelope-set.talk",
+      },
     },
     "infernal-atalin-history": {
       look: {
@@ -169,6 +209,16 @@ export const ARCHIVES_MYSTERY: RoomMysteryModule<
           cluesFound: ["infernal.e3.atalin_history"],
         },
       },
+      use: {
+        narration:
+          "You request Atalin's Hierarchy ledger-keeper file. The personnel tier returns a parallel record — Atalin held both posts simultaneously for the first season, then released the league post and continued the Hierarchy one. The dismissal was not a failure. It was a deliberate consolidation. Atalin chose the Hierarchy desk; the league desk was the practice run.",
+        voId: "elara.archives.infernal-atalin-history.use",
+      },
+      talk: {
+        narration:
+          "You read the cause of departure aloud — 'inability to satisfy the Hierarchy ledger-keeper's role concurrently.' The personnel-archive tier flags the recital; the same sentence has been read here twice before by cipher-den auditors and once by Vex Maestro herself. The dismissal-text is a careful misdirection that has held for forty seasons.",
+        voId: "elara.archives.infernal-atalin-history.talk",
+      },
     },
     "infernal-box-owner": {
       look: {
@@ -179,6 +229,16 @@ export const ARCHIVES_MYSTERY: RoomMysteryModule<
           episodeId: "severance.infernal_clause.e3",
           cluesFound: ["infernal.e3.box_owner"],
         },
+      },
+      use: {
+        narration:
+          "You request the box's access log. The annex returns no further entries — the box has been logged to Atalin for forty seasons and accessed by no one. The clauses sat in their working bench across the league's entire run with their author the only person who could open the box. The rotation system afterward was an administrative cover.",
+        voId: "elara.archives.infernal-box-owner.use",
+      },
+      talk: {
+        narration:
+          "You read the owner's name aloud. The annex log's audio register catches the recital and notes that Atalin's name has been spoken in this room exactly forty times across forty seasons — once per Severance, by the rotating ledger-keeper, in the routine box-inspection check that confirms the lock has not been challenged. Forty inspections, forty confirmations, one owner.",
+        voId: "elara.archives.infernal-box-owner.talk",
       },
     },
     /* ─── charter.second_signatory · color clues ─── */
@@ -192,6 +252,16 @@ export const ARCHIVES_MYSTERY: RoomMysteryModule<
           cluesFound: ["charter2.e2.solven_tax_records"],
         },
       },
+      use: {
+        narration:
+          "You compare the epoch-four redaction's hand against the seventh-signature scrub. The two hands match — same down-stroke, same iron-gall ink-blend, same archival training. One librarian erased both records. The chronicle's missing signatory and the Solven's arrears are the same person's editorial work.",
+        voId: "elara.archives.charter2-solven-tax-records.use",
+      },
+      talk: {
+        narration:
+          "You read 'in arrears, year unknown' aloud. The tax-registry tier's audio register catches the phrase and flags it as the canonical scrubber's deferred-erasure idiom — the same phrasing appears across thirty-one of the chronicle's other deferred edits. The hand has a vocabulary. The vocabulary is consistent. The vocabulary is on the record now in your voice.",
+        voId: "elara.archives.charter2-solven-tax-records.talk",
+      },
     },
     "charter2-scrubber-personnel": {
       look: {
@@ -202,6 +272,16 @@ export const ARCHIVES_MYSTERY: RoomMysteryModule<
           episodeId: "charter.second_signatory.e3",
           cluesFound: ["charter2.e3.scrubber_personnel"],
         },
+      },
+      use: {
+        narration:
+          "You request Heron's nine-year output. The personnel tier returns a list — every redaction, every replacement entry, every 'in arrears' substitution dated to Heron's tenure. The list is two hundred and forty pages. Heron did not erase a single record; Heron erased an entire signatory's institutional footprint across nine years of patient work.",
+        voId: "elara.archives.charter2-scrubber-personnel.use",
+      },
+      talk: {
+        narration:
+          "You speak Heron's name aloud. The personnel-archive tier's audio register notes the recital and offers, by archival reflex, the standing-orders shelf's corresponding 'Per. M.' filename. The two names appear in the same room, by the same instrument, at the same speaker's request. The chronicle has been quietly correlating them for centuries.",
+        voId: "elara.archives.charter2-scrubber-personnel.talk",
       },
     },
     /* ─── memorial.forgotten_names · color clues ─── */
@@ -215,6 +295,16 @@ export const ARCHIVES_MYSTERY: RoomMysteryModule<
           cluesFound: ["memorial.e2.imprint_log"],
         },
       },
+      use: {
+        narration:
+          "You turn the leather log to the fourteen unnamed entries. Each witness slot is the same dimensions — a single line for a single signature. The keeper has prepared the page identically for every one. The fourteen are not lost; they are waiting in a uniform format, ready for inscription, by a system that refused to fill the slot without a living witness.",
+        voId: "elara.archives.memorial-imprint-log.use",
+      },
+      talk: {
+        narration:
+          "You speak the imprint-keeper's discipline aloud — a witness slot is filled by a living hand, not by an editor. The Memorial-tier sub-drawer accepts the recital. The discipline has held for two and a half centuries. The fourteen slots remain empty by the same discipline. The book is what the discipline preserved by being patient.",
+        voId: "elara.archives.memorial-imprint-log.talk",
+      },
     },
     "memorial-three-elders": {
       look: {
@@ -225,6 +315,16 @@ export const ARCHIVES_MYSTERY: RoomMysteryModule<
           episodeId: "memorial.forgotten_names.e3",
           cluesFound: ["memorial.e3.three_elders"],
         },
+      },
+      use: {
+        narration:
+          "You request the three elders' personal-correspondence files. The long-wait register returns three sealed letters, one per elder, addressed 'to the witness who eventually asks.' The elders did not refuse to be named; they refused to be named without being asked, and they left letters so the asking could be substantive when it came.",
+        voId: "elara.archives.memorial-three-elders.use",
+      },
+      talk: {
+        narration:
+          "You speak the three imprint-ids aloud — I-155, I-202, I-301. The long-wait register's audio register catches the recital and marks each id with a small flag: the asking has been done. The letters are now technically askable. The keeper's discipline is that the question must come first; you have just asked.",
+        voId: "elara.archives.memorial-three-elders.talk",
       },
     },
     /* ─── mechronis.missing_professor · color clues ─── */
@@ -238,6 +338,16 @@ export const ARCHIVES_MYSTERY: RoomMysteryModule<
           cluesFound: ["mechronis.e1.absent_notes"],
         },
       },
+      use: {
+        narration:
+          "You inspect the lectern's drawer. The standing impression of the binder's spine is visible in the wood — Tarn placed her binder in the same spot every lecture for fourteen years. The wood has memorised the binder's shape. The drawer holds the absence as a positive form.",
+        voId: "elara.archives.tarn-absent-notes.use",
+      },
+      talk: {
+        narration:
+          "You read the archive's note aloud — 'binder removed at second bell; not recovered at the lectern.' The drawer's audio register catches the recital; the sentence has been read here twice before, both times by faculty who later resigned. The phrasing has a small downstream history. You are the third reader. You have not yet decided what to do with what you read.",
+        voId: "elara.archives.tarn-absent-notes.talk",
+      },
     },
     "tarn-erasure-protocol": {
       look: {
@@ -248,6 +358,16 @@ export const ARCHIVES_MYSTERY: RoomMysteryModule<
           episodeId: "mechronis.missing_professor.e3",
           cluesFound: ["mechronis.e3.erasure_protocol"],
         },
+      },
+      use: {
+        narration:
+          "You request the protocol's authorship history. The annex returns a single drafter — a Council clerk whose own name has been edited out of the protocol's signature line. The instrument was authored by someone whose work the instrument itself was then used on. The protocol is recursive in its scrubbing.",
+        voId: "elara.archives.tarn-erasure-protocol.use",
+      },
+      talk: {
+        narration:
+          "You read the three steps aloud. The meeting-minutes annex's audio register flags the recital; the three steps have been spoken in this annex four times in twenty years, always by a faculty member discovering the protocol for the first time. You are the fourth such reader. The discovery has a fixed cadence.",
+        voId: "elara.archives.tarn-erasure-protocol.talk",
       },
     },
     "tarn-missing-invitation": {
@@ -260,6 +380,16 @@ export const ARCHIVES_MYSTERY: RoomMysteryModule<
           cluesFound: ["mechronis.e3.tarn_invitation"],
         },
       },
+      use: {
+        narration:
+          "You lift the unsent invitation. The Dean's name is printed in the signature line; the ink has not been laid. The invitation reads, in the body, as procedurally complete — every blank filled except the one the Dean would fill last. The Dean drafted to step two and stopped at the signature.",
+        voId: "elara.archives.tarn-missing-invitation.use",
+      },
+      talk: {
+        narration:
+          "You read the invitation aloud. The Dean's office records' audio register catches the recital — the invitation has been read once before, by the drafter, on the night it was drafted. Your reading is the second voice. Both readings are now on the record. The invitation has been spoken into existence; it has not been delivered.",
+        voId: "elara.archives.tarn-missing-invitation.talk",
+      },
     },
     "tarn-letter-to-dean": {
       look: {
@@ -270,6 +400,16 @@ export const ARCHIVES_MYSTERY: RoomMysteryModule<
           episodeId: "mechronis.missing_professor.e4",
           cluesFound: ["mechronis.e4.tarn_letter_to_dean"],
         },
+      },
+      use: {
+        narration:
+          "You break the seal. Three pages, in Tarn's own hand, spaced for the Dean's reading pace. Tarn knew the Dean would read the letter slowly; she wrote it so each paragraph would settle before the next was reached. The letter is not a confession; it is a careful handover.",
+        voId: "elara.archives.tarn-letter-to-dean.use",
+      },
+      talk: {
+        narration:
+          "You read the letter's closing paragraph aloud. The classified-correspondence shelf's audio register catches the recital — Tarn's letter has been read by exactly one prior reader, on the day it was filed. The first reader was the Dean. You are the second. Tarn wrote the letter for two readers and trusted the archive to find the second one.",
+        voId: "elara.archives.tarn-letter-to-dean.talk",
       },
     },
     /* ─── resurrectionist.cycle_walker · e1 (twin glyph beside the name) ─── */
@@ -283,6 +423,16 @@ export const ARCHIVES_MYSTERY: RoomMysteryModule<
           cluesFound: ["resur.e1.twin_glyph"],
         },
       },
+      use: {
+        narration:
+          "You request the Antiquarian's pre-Empire field notes on the glyph. The reference tier returns a dated sketch — the same two-crescent figure with the central axis drawn long, dimensioned, and labelled in his own hand: 'paired principles, mirrored, joined.' The 'death-bound' reading is the cult's overlay. The original archaeological reading is paired.",
+        voId: "elara.archives.resur-twin-glyph.use",
+      },
+      talk: {
+        narration:
+          "You speak both glosses aloud — 'death-bound' and 'twin-bound.' The Ne-Yon-glyph reference tier's audio register marks the contrast with the cult-edit flag the chronicle uses when two readings of one symbol disagree. The two glosses are now on the record in your voice, paired the way the glyph itself reads under the Antiquarian's pen.",
+        voId: "elara.archives.resur-twin-glyph.talk",
+      },
     },
     /* ─── akai_shi.red_death · e2 (Akai Shi body-recovery manifest) ─── */
     "akai-recovery-manifest": {
@@ -294,6 +444,16 @@ export const ARCHIVES_MYSTERY: RoomMysteryModule<
           episodeId: "akai_shi.red_death.e2",
           cluesFound: ["akai.e2.recovery_manifest"],
         },
+      },
+      use: {
+        narration:
+          "You compare Akai Shi's entry to the other Thaloria-fallen entries. Forty-six Potentials in the engagement; forty-five preserved through the standard protocol; one collected externally, by the only external agent canonical record permits. The exception is singular. The deferral is the chronicle's single Resurrectionist-class accommodation in the entire Thaloria tier.",
+        voId: "elara.archives.akai-recovery-manifest.use",
+      },
+      talk: {
+        narration:
+          "You read the deferral aloud. The Thaloria-recovery tier's audio register catches the recital and offers, by archival reflex, the chronicle's standing protocol on deferrals — they remain in force until explicitly retracted by their original requester. The Resurrectionist has not retracted. The deferral has not been retracted. The exception persists.",
+        voId: "elara.archives.akai-recovery-manifest.talk",
       },
     },
     /* ─── advocate.blood_weave · e1 (shelter records) ─── */
@@ -307,6 +467,16 @@ export const ARCHIVES_MYSTERY: RoomMysteryModule<
           cluesFound: ["adv.e1.shelter_records"],
         },
       },
+      use: {
+        narration:
+          "You request the records' completeness ratio. The Empire-tier returns the figure — the surviving records cover roughly fourteen percent of the documented total. The other eighty-six percent are lost to the Empire's collapse. The Advocate's defensive system was, on the surviving evidence alone, at minimum five times the scale the chronicle has been quietly assuming.",
+        voId: "elara.archives.advocate-shelter-records.use",
+      },
+      talk: {
+        narration:
+          "You read 'every soul that requested it' aloud. The Empire-of-Shadows tier's audio register catches the recital; the chronicle's standing protocol on the phrase is that it carries the Advocate's own canonical charter-language. Reading it in this room registers as a procedural acknowledgment of the charter's continuing effect. The shelter still holds for the surviving records' subjects.",
+        voId: "elara.archives.advocate-shelter-records.talk",
+      },
     },
     /* ─── storm.architect_of_flux · color clues ─── */
     "storm-calm-intervals": {
@@ -319,6 +489,16 @@ export const ARCHIVES_MYSTERY: RoomMysteryModule<
           cluesFound: ["storm.e1.calm_intervals"],
         },
       },
+      use: {
+        narration:
+          "You overlay the calm-interval dates against the chronicle's documented planning records. Every calm aligns with a cosmic-scale planning window. Every flux peak aligns with the planning's consequence. The pattern is not annotated because no chronicler has been allowed to annotate it — the chronicle does not name a benefactor it has not asked.",
+        voId: "elara.archives.storm-calm-intervals.use",
+      },
+      talk: {
+        narration:
+          "You read 'each calm is followed by the most active flux period in the surrounding decade' aloud. The cosmic-weather tier's audio register catches the recital — the sentence has not been spoken in the archive before. The pattern has been visible in the data for an epoch. Your voice is its first articulation.",
+        voId: "elara.archives.storm-calm-intervals.talk",
+      },
     },
     "storm-final-correlation-table": {
       look: {
@@ -329,6 +509,16 @@ export const ARCHIVES_MYSTERY: RoomMysteryModule<
           episodeId: "storm.architect_of_flux.e5",
           cluesFound: ["storm.e5.final_correlation_table"],
         },
+      },
+      use: {
+        narration:
+          "You request the table's residual error. The closing-record shelf returns a single figure — the seven peaks account for one hundred percent of the chronicle's marked consequential decades to within the instrument's measurement floor. There are no consequential decades the Storm did not permit. The table is, by its own arithmetic, complete.",
+        voId: "elara.archives.storm-final-correlation-table.use",
+      },
+      talk: {
+        narration:
+          "You read the Antiquarian's reading aloud — 'the Storm's work is the chronicle's permission to be consequential at all.' The closing-record shelf catches the recital with the chime reserved for the chronicle's load-bearing findings. The Antiquarian's sentence has been spoken twice in this room; once by him, once now by you. Both readings are filed as canon.",
+        voId: "elara.archives.storm-final-correlation-table.talk",
       },
     },
     /* ─── mechronis.chained_lesson · color clues ─── */
@@ -342,6 +532,16 @@ export const ARCHIVES_MYSTERY: RoomMysteryModule<
           cluesFound: ["chained.e2.failure_log"],
         },
       },
+      use: {
+        narration:
+          "You sort the thirty-one entries by date. The first six are from Year 1; the next nine from Years 2 through 5; the final sixteen from Years 6 onward, after Auro's name first appeared on the prospective-faculty list. The curriculum's failure to integrate her reading is not abstract — sixteen of the thirty-one entries are losses the curriculum had nine years to prevent.",
+        voId: "elara.archives.chained-failure-log.use",
+      },
+      talk: {
+        narration:
+          "You read the thirty-one names aloud. The apprentice-affairs tier's audio register catches the recital and offers, by procedural reflex, the closing-rite cadence the case will eventually require. The thirty-one names have been read here in this order once before — by the Antiquarian, in rehearsal for the rite. You have read them in the same order he did, second.",
+        voId: "elara.archives.chained-failure-log.talk",
+      },
     },
     "chained-dean-annotation-record": {
       look: {
@@ -353,6 +553,16 @@ export const ARCHIVES_MYSTERY: RoomMysteryModule<
           cluesFound: ["chained.e3.dean_did_not_offer"],
         },
       },
+      use: {
+        narration:
+          "You request the curriculum-vote calendar. The prospective-faculty records return the schedule — nine years of curriculum votes, each preceded by the Dean's same annotation, each closing without amendment. The Dean has been deferring to a vote that the Dean has been scheduling and that the Dean has been declining to bring to readiness.",
+        voId: "elara.archives.chained-dean-annotation-record.use",
+      },
+      talk: {
+        narration:
+          "You read the annotation aloud — 'we have a curriculum vote to consider; we do not amend the curriculum mid-year.' The prospective-faculty tier's audio register notes the recital. The sentence has been read here nine times by the Dean themselves and once by an apprentice's advocate the previous year. Both readers reached the same place; the sentence's function is to defer.",
+        voId: "elara.archives.chained-dean-annotation-record.talk",
+      },
     },
     "chained-thirty-one-names-read": {
       look: {
@@ -363,6 +573,16 @@ export const ARCHIVES_MYSTERY: RoomMysteryModule<
           episodeId: "mechronis.chained_lesson.e5",
           cluesFound: ["chained.e5.thirty_one_named"],
         },
+      },
+      use: {
+        narration:
+          "You request the rite-record's accompanying silences. The shelf returns the timing — each of the sixteen silences is allocated the same duration as the longest spoken note (twenty-seven seconds). The chronicle's discipline is that silence is the loudest grammar; the rite enforces the duration so the spoken and the unspoken receive equal acoustic weight.",
+        voId: "elara.archives.chained-thirty-one-names-read.use",
+      },
+      talk: {
+        narration:
+          "You read one of the spoken notes aloud at the prescribed cadence. The rite-record shelf's audio register catches the recital and answers, automatically, with the matching silence of equal duration. The two readings are paired — yours, then the chronicle's silence — and the pair takes its place in the record beside the original rite. You have rehearsed the closing rite without intending to.",
+        voId: "elara.archives.chained-thirty-one-names-read.talk",
       },
     },
     /* ─── mechronis.missing_professor · e2 (binder page 14) ─── */
@@ -380,6 +600,11 @@ export const ARCHIVES_MYSTERY: RoomMysteryModule<
         narration:
           "You request the archives' provenance scan for the page. The retrieval log shows it was found face-up in the festival hall's recycling bin at first bell — fifteen minutes before the address was scheduled to begin. Tarn placed it where the festival staff would find it before the lectern would have to be opened.",
       },
+      talk: {
+        narration:
+          "You read 'I will not be teaching this year' aloud. The lost-and-found drawer's audio register catches the recital; the same sentence has been spoken in this room exactly once before, by the Dean, on the morning the binder was retrieved. Tarn wrote a line that her absence would force two readers to speak. Both readings are now on the record.",
+        voId: "elara.archives.tarn-binder-page-14.talk",
+      },
     },
     /* ─── memorial.forgotten_names · e1 (fourteen unwitnessed list) ─── */
     "memorial-fourteen-unwitnessed-list": {
@@ -395,6 +620,11 @@ export const ARCHIVES_MYSTERY: RoomMysteryModule<
       use: {
         narration:
           "You request the archives' cross-reference between the fourteen ids and the wider imprint registry. The drawer returns a single annotation: 'no witnesses listed in any active registry entry; check imprint-room dishes for self-naming or in-group reference.' The list is the start of the search, not the answer.",
+      },
+      talk: {
+        narration:
+          "You read the fourteen imprint-ids aloud in order. The Memorial-tier drawer's audio register catches the recital and notes that the full ordered reading has occurred in this room exactly fourteen times across the chronicle's run — once per imprint, by the witness who eventually inscribed each. The next reading will, by the same cadence, accompany an inscription. Yours has not. The drawer waits.",
+        voId: "elara.archives.memorial-fourteen-unwitnessed-list.talk",
       },
     },
     /* ─── wolf.anara_hunt · e3 (Crucible resurrection record) ─── */
@@ -412,6 +642,11 @@ export const ARCHIVES_MYSTERY: RoomMysteryModule<
         narration:
           "You request the Crucible's full Lycos file. Three folders surface: 'destruction' (closed by the Judge), 'preservation' (closed by the Crucible's standard process), and 'reanimation' (closed by the Resurrectionist). Each Ne-Yon's authorship sits behind a different page of the same chronicle. The Judge and the Resurrectionist were not asked to consent to each other's work. The Crucible filed both as routine.",
       },
+      talk: {
+        narration:
+          "You read the resurrection log's signing entry aloud — 'subject preserved across destruction event Day 15 of Resonance Year 100,001; substrate matched on Quarchon resurrection-protocol descendant; reanimation successful.' The Crucible-inheritance tier's audio register catches the recital and acknowledges the routine procedural cadence. The chronicle has no protocol for objecting to a routine the parties to it never consulted each other on.",
+        voId: "elara.archives.wolf-crucible-resurrection-record.talk",
+      },
     },
     /* ─── wolf.anara_hunt · e4 (Crucible inheritance manifest) ─── */
     "wolf-crucible-inheritance-manifest": {
@@ -427,6 +662,16 @@ export const ARCHIVES_MYSTERY: RoomMysteryModule<
       interrogate: {
         narration:
           "You ask the manifest for the un-itemized line's detail. The drawer returns nothing — the inheritance log was archived at the line-item level, not the contents level. The Crucible's records would have had the detail; the Crucible no longer exists. The Antiquarian inherited a sealed package and did not open it. The package contained the Wolf.",
+      },
+      use: {
+        narration:
+          "You pull the manifest's complete inventory. Every line item is itemized to the contents level except 'preserved instruments (sealed).' The audit-blind discipline applied to one entry in a manifest of two thousand. The exception is the case. The chronicler's signing-off pattern across the rest of the manifest is consistent and careful; the exception is the only place his care broke.",
+        voId: "elara.archives.wolf-crucible-inheritance-manifest.use",
+      },
+      talk: {
+        narration:
+          "You read 'preserved instruments (sealed)' aloud. The inheritance manifest's audio register catches the recital — the phrase has been spoken in this room exactly once before, in the Antiquarian's voice, on the day he signed the manifest. He read the phrase aloud and signed beneath it. You are reading what he read. Your voice now stands beside his on the same line.",
+        voId: "elara.archives.wolf-crucible-inheritance-manifest.talk",
       },
     },
     /* ─── akai_shi.red_death · e3 (Necromancer's targets-list dossier) ─── */
@@ -444,6 +689,16 @@ export const ARCHIVES_MYSTERY: RoomMysteryModule<
         narration:
           "You ask the drawer for the dossier's classification rationale. The archive returns the Antiquarian's marginal note: 'subject is the only target whose elimination requires extra-canonical instrumentation. all other targets are conventionally addressable. this one is not.' The Necromancer is the case the Resurrectionist made the Red Death to close.",
       },
+      use: {
+        narration:
+          "You stack the dossier against the other thirteen targets-list entries. Each of the thirteen has a chronological date; the Necromancer's slot has a placeholder symbol the chronicle uses for cases held open by design. The Red Death's mandate is not incomplete — it is structured. The thirteen completed cases are the cadence; the fourteenth is the destination.",
+        voId: "elara.archives.akai-necromancer-dossier.use",
+      },
+      talk: {
+        narration:
+          "You read the Antiquarian's note aloud — 'the Red Death's primary work.' The Necromancer-affairs tier's audio register catches the recital and offers, by archival reflex, the canonical Resurrectionist-class case-opening cadence: when the primary work is named aloud in a chronicle reading-room, the case is marked active. The dossier has been marked active eleven times across centuries; you are the eleventh.",
+        voId: "elara.archives.akai-necromancer-dossier.talk",
+      },
     },
     /* ─── resurrectionist.cycle_walker · e1 (Matrix energy ledger) ─── */
     "resur-matrix-energy-ledger": {
@@ -459,6 +714,11 @@ export const ARCHIVES_MYSTERY: RoomMysteryModule<
       use: {
         narration:
           "You re-sum the ledger's columns by hand. The imprints-only aggregate runs 14% short of the total energy draw across the maintenance era. The 14% sat in a separate column the editor's hand bracketed and labelled 'transient.' Transient draws do not run consistently for the entire Matrix-of-Dreams maintenance era.",
+      },
+      talk: {
+        narration:
+          "You read the cult annotation aloud — 'imprint-load aggregate; nothing of consequence.' The Matrix-of-Dreams tier's audio register flags the recital with the chronicle's standing cult-edit-detection tone. The phrase has been spoken in this room twice before; both prior readings concluded with the same arithmetic finding. The cult's reading has been three-times-refuted by the chronicle's own readers.",
+        voId: "elara.archives.resur-matrix-energy-ledger.talk",
       },
     },
     /* ─── resurrectionist.cycle_walker · e2 (protocol authoring signature) ─── */
@@ -476,6 +736,16 @@ export const ARCHIVES_MYSTERY: RoomMysteryModule<
         narration:
           "You ask the drawer how the post-vanishing protocols were activated. The archives return the cult-curated annotation: 'queued ahead — the Resurrectionist signed extensively before his vanishing, leaving a deep activation reserve.' The reserve, if extant, is not separately documented. The cult's reading is the only reading the chronicle offers.",
       },
+      use: {
+        narration:
+          "You overlay the post-vanishing protocols' signatures against the pre-vanishing ones. The cipher is identical, ink-stroke for ink-stroke. The signatures could be queued-ahead — or they could be ongoing. The ink-analysis the chronicle would need is not in the drawer; the cult retained custody of the testing samples. The ambiguity is preserved by procedure, not by data.",
+        voId: "elara.archives.resur-protocol-authoring-signature.use",
+      },
+      talk: {
+        narration:
+          "You read the cult-annotation aloud — 'queued ahead.' The protocol-archive drawer's audio register catches the recital and notes that the phrase has been read here forty-three times across nine epochs, exclusively at moments when a new post-vanishing protocol fired. Forty-three reassurances, none of them independently verifiable. The chronicle's standard has been to accept the reading and move on.",
+        voId: "elara.archives.resur-protocol-authoring-signature.talk",
+      },
     },
     /* ─── storm.architect_of_flux · e3 (Inventor's heist window) ─── */
     "storm-inventors-heist-window": {
@@ -491,6 +761,11 @@ export const ARCHIVES_MYSTERY: RoomMysteryModule<
       use: {
         narration:
           "You request the heist's preparation log. Forty-three operational decisions, each predicated on stable cosmic conditions, each stamped with a calm-interval timestamp. The Inventor did not plan past the calm. The Inventor planned WITHIN the calm. The Storm authored the window; the Inventor authored the heist; the credit reads forward.",
+      },
+      talk: {
+        narration:
+          "You read the Inventor's opening line aloud — 'the Storm's grace allowed the window.' The Inventor-arc tier's audio register flags the recital. The phrase is one of three the chronicle's record-keepers have annotated as load-bearing case-canon — meaning it carries the case's full weight when spoken in the archive. The other two phrases have been read across centuries. This one has waited longer.",
+        voId: "elara.archives.storm-inventors-heist-window.talk",
       },
     },
     "data-banks": {

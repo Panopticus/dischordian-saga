@@ -163,6 +163,11 @@ export const ENGINEERING_MYSTERY: RoomMysteryModule<EngineeringHotspotId, Engine
         narration:
           "You scroll the healer's recent-edit log. The draft on the Quarchon Potential was opened, edited, and saved fourteen times across the week before her disappearance. The other forty-two cases in her catalogue were closed and filed. She was returning to one case alone, late at night, week after week, until the case came back for her.",
       },
+      talk: {
+        narration:
+          "You read the draft summary aloud. The console's text-to-speech subsystem reads the redaction as a silence the same length as the missing name — three syllables of nothing in the middle of a clinical sentence. The room's archive learns the shape of an unsaid name the way a tongue learns the shape of a missing tooth.",
+        voId: "elara.engineering.wolf-host-residue-files.talk",
+      },
     },
     /* ─── wolf.anara_hunt · e4 (Anara architectural blind spot) ─── */
     "wolf-anara-architecture-blind-spot": {
@@ -178,6 +183,16 @@ export const ENGINEERING_MYSTERY: RoomMysteryModule<EngineeringHotspotId, Engine
       interrogate: {
         narration:
           "You ask the schematic for any internal containment-renewal trigger. The console returns one entry, struck through in red. 'Trigger considered Year 100,000 A.A.; not implemented; flagged as architectural over-engineering.' The Antiquarian considered the very feature whose absence is the design flaw and chose not to build it. The reason given on the strike-through annotation: 'a family home should not require its members to renew their welcome.'",
+      },
+      use: {
+        narration:
+          "You overlay the threat-vector map onto Anara's floor plan. Every arrow points inward at the perimeter; none point outward from any interior node. The visualisation is its own indictment — a fortress designed with one door, locked from the inside, by the people the fortress was meant to protect from each other.",
+        voId: "elara.engineering.wolf-anara-architecture-blind-spot.use",
+      },
+      talk: {
+        narration:
+          "You read the senior engineer's annotation aloud. The console's archive flags the reading as the third time this week the annotation has been spoken in the room. The engineer's habit is to read it on her own, late, alone. The fact that two other readers have arrived independently is, in its way, the system's first internal audit.",
+        voId: "elara.engineering.wolf-anara-architecture-blind-spot.talk",
       },
     },
     "reactor-core": {
@@ -797,6 +812,16 @@ export const ENGINEERING_MYSTERY: RoomMysteryModule<EngineeringHotspotId, Engine
           },
           voId: "human.engineering.kell-physical-residue-bench.look",
         },
+      },
+      use: {
+        narration:
+          "You set a hand on the worn grain where Marion Kell's forearm rested ten thousand evenings. The wood is warm at the depth of the wear-line; the bench has been recently in use. Engineering has not retired the workstation. Whoever keeps the bench unmoved also keeps it usable — quiet preservation, not quiet mourning.",
+        voId: "elara.engineering.kell-physical-residue-bench.use",
+      },
+      talk: {
+        narration:
+          "You speak her name aloud at the bench. The room does not return an echo — engineering's acoustic dampening was Kell's own design. But the bench listens; a place that has been spoken to enough times retains, in some unmeasurable physical sense, the habit of being addressed. Three syllables. Worth saying.",
+        voId: "elara.engineering.kell-physical-residue-bench.talk",
       },
     },
   },

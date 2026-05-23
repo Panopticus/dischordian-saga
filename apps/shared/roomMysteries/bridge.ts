@@ -59,6 +59,16 @@ export const BRIDGE_MYSTERY: RoomMysteryModule<BridgeHotspotId> = {
           cluesFound: ["infernal.e4.architect_acknowledges"],
         },
       },
+      use: {
+        narration:
+          "You request the Console's catalogue of every 'thanks' issued. The terminal returns four entries — this acknowledgment is the fourth. The other three are spaced across eight epochs at irregular intervals; the Architect does not thank routinely. Each instance is on the record as deliberate.",
+        voId: "elara.bridge.infernal-architect-acknowledges.use",
+      },
+      talk: {
+        narration:
+          "You read the Console's line aloud — 'the trap was an honest one.' The terminal's audio register flags the recital; the same phrasing has been read into the chamber four times before, by four different readers across four epochs. The Console has not corrected any of the readings. The phrase is, by Console silence, the chronicle's accepted gloss.",
+        voId: "elara.bridge.infernal-architect-acknowledges.talk",
+      },
     },
     /* ─── charter.second_signatory · color clues ─── */
     "charter2-architect-record-correction": {
@@ -71,6 +81,16 @@ export const BRIDGE_MYSTERY: RoomMysteryModule<BridgeHotspotId> = {
           cluesFound: ["charter2.e4.architect_record_correction"],
         },
       },
+      use: {
+        narration:
+          "You request the prior self-correction's text. The Console returns its first epoch-four issuance — a correction to a calendar slip the chronicle had let stand for six epochs. The Console corrects itself rarely, but when it does, it corrects publicly. The fact that this correction acknowledges non-consent is itself a procedural marker.",
+        voId: "elara.bridge.charter2-architect-record-correction.use",
+      },
+      talk: {
+        narration:
+          "You read the correction aloud. The bridge's command-deck acoustics carry the sentence to the seven founding-Watcher seats arranged behind the terminal. Six are occupied historically; the seventh remains empty. The Console's correction is, in this room, a statement made to seven witnesses, one of whom has never been heard.",
+        voId: "elara.bridge.charter2-architect-record-correction.talk",
+      },
     },
     "charter2-architect-acknowledgment": {
       look: {
@@ -81,6 +101,16 @@ export const BRIDGE_MYSTERY: RoomMysteryModule<BridgeHotspotId> = {
           episodeId: "charter.second_signatory.e5",
           cluesFound: ["charter2.e5.architect_acknowledgment"],
         },
+      },
+      use: {
+        narration:
+          "You request the eight-signature legibility audit. The terminal returns the inspection record — every signature now reads cleanly under standard charter-archive light. The eighth was illegible before this case. The audit confirms the case's correction; the chronicle's record now matches the wax.",
+        voId: "elara.bridge.charter2-architect-acknowledgment.use",
+      },
+      talk: {
+        narration:
+          "You read the closing line aloud. The Console's standing rule is that thanks issued in a closing rite are read aloud once before the channel seals. Your recital seals it. The terminal's quiet acknowledgment chime — the chime reserved for closure — sounds once.",
+        voId: "elara.bridge.charter2-architect-acknowledgment.talk",
       },
     },
     /* ─── charter.missing_signatory · e5 (Architect's response) ─── */
@@ -94,6 +124,16 @@ export const BRIDGE_MYSTERY: RoomMysteryModule<BridgeHotspotId> = {
           cluesFound: ["charter.e5.architect_response"],
         },
       },
+      use: {
+        narration:
+          "You request the Console's standing protocol on the inverse question — what knowing costs. The terminal returns one line: 'the cost is not the architect's to name. the reader who asks accepts the cost at the moment of the asking.' The Console will not pre-quote the price. The asking is the agreement to pay.",
+        voId: "elara.bridge.charter-architect-response.use",
+      },
+      talk: {
+        narration:
+          "You read 'do you wish to know' aloud. The terminal does not respond to the reading; it responds only to an answer. The chamber holds the question in the air, on the record. You have not yet answered.",
+        voId: "elara.bridge.charter-architect-response.talk",
+      },
     },
     /* ─── severance.bound_champion · color clues ─── */
     "severance-architect-acknowledge": {
@@ -106,6 +146,16 @@ export const BRIDGE_MYSTERY: RoomMysteryModule<BridgeHotspotId> = {
           cluesFound: ["severance.e4.architect_acknowledge"],
         },
       },
+      use: {
+        narration:
+          "You request the date the post was first recognised. The Console returns a timestamp predating the apprentice oath by an undetermined interval — the entry reads 'always.' The Architect's recognition is not retroactive; it is, by the Console's own term, atemporal. The post existed before the oath named it.",
+        voId: "elara.bridge.severance-architect-acknowledge.use",
+      },
+      talk: {
+        narration:
+          "You read the line aloud: the post was always recognised. The bridge's acoustic register catches the recital. The Console's standing rule is that its own confirmations may be re-read by any registered reader to refresh the standing acknowledgment. The post has been re-recognised by your voice now, in your name. The chronicle holds both signatures.",
+        voId: "elara.bridge.severance-architect-acknowledge.talk",
+      },
     },
     "severance-council-ratification": {
       look: {
@@ -116,6 +166,16 @@ export const BRIDGE_MYSTERY: RoomMysteryModule<BridgeHotspotId> = {
           episodeId: "severance.bound_champion.e5",
           cluesFound: ["severance.e5.council_ratification"],
         },
+      },
+      use: {
+        narration:
+          "You request the abstention's standing record. The terminal returns the Council's procedural footnote — the seventh seat's abstention is logged automatically on every vote, has been for eight epochs, and the Council has resolved to count empty-seat abstentions as a recorded absence rather than a missing voice. The seventh Watcher is silent by procedure, not by oversight.",
+        voId: "elara.bridge.severance-council-ratification.use",
+      },
+      talk: {
+        narration:
+          "You read the ratification record aloud. The Council's terminal flags the recital and, by standing convention, the chamber's overhead bell tolls once for each ratified signature. Six tolls; one absence; the chamber accepts the count. The recital is, in effect, the ratification's final witness.",
+        voId: "elara.bridge.severance-council-ratification.talk",
       },
     },
     /* ─── memorial.forgotten_names · color clues ─── */
@@ -129,6 +189,16 @@ export const BRIDGE_MYSTERY: RoomMysteryModule<BridgeHotspotId> = {
           cluesFound: ["memorial.e3.architect_silence_on_torn"],
         },
       },
+      use: {
+        narration:
+          "You request the first decline's text. The Console returns it — a refusal to name the I-1 imprint at the founding. Both declines concern the same imprint. The Console has been protecting one name across eight epochs, and the torn page asks after the same name from a different angle. The decline is consistent.",
+        voId: "elara.bridge.memorial-architect-silence-on-torn.use",
+      },
+      talk: {
+        narration:
+          "You read 'i decline' aloud. The terminal does not respond. The Console's declines are the only Architect-channel returns that do not chime; they are silent by design. The chamber receives the recital in the silence the Console intended.",
+        voId: "elara.bridge.memorial-architect-silence-on-torn.talk",
+      },
     },
     "memorial-architect-closing-thanks": {
       look: {
@@ -139,6 +209,16 @@ export const BRIDGE_MYSTERY: RoomMysteryModule<BridgeHotspotId> = {
           episodeId: "memorial.forgotten_names.e5",
           cluesFound: ["memorial.e5.architect_thanks"],
         },
+      },
+      use: {
+        narration:
+          "You request the first 'grateful' instance. The Console returns it — an acknowledgment dated to an earlier memorial plaza dedication six epochs back. The two uses of 'grateful' both follow plaza-class closures. The Architect reserves the word for one kind of answer.",
+        voId: "elara.bridge.memorial-architect-closing-thanks.use",
+      },
+      talk: {
+        narration:
+          "You read the line aloud. The Console's gratitude-issuance protocol is that the line is read once into the chamber by a registered reader before the rite seals. Your recital seals it. The closing chime sounds; the rite is on the record.",
+        voId: "elara.bridge.memorial-architect-closing-thanks.talk",
       },
     },
     /* ─── mechronis.missing_professor · color clues ─── */
@@ -152,6 +232,16 @@ export const BRIDGE_MYSTERY: RoomMysteryModule<BridgeHotspotId> = {
           cluesFound: ["mechronis.e4.tarn_destination"],
         },
       },
+      use: {
+        narration:
+          "You request the Console's standing acknowledgments of voluntary departure. The terminal returns three — Tarn's is the third. The other two predate the Ark's current run. The Console does not file a departure as a loss; it files it as a continuing arrangement with a person who has chosen, for the moment, to be elsewhere.",
+        voId: "elara.bridge.tarn-destination-acknowledged.use",
+      },
+      talk: {
+        narration:
+          "You speak Tarn's name. The terminal's audio register catches the recital and flags the name as a registered Council associate — her credentials are still active, her access still recognised. The Console has not retired her record. The single-line acknowledgment is, in effect, a held door.",
+        voId: "elara.bridge.tarn-destination-acknowledged.talk",
+      },
     },
     "tarn-architect-vote-note": {
       look: {
@@ -162,6 +252,16 @@ export const BRIDGE_MYSTERY: RoomMysteryModule<BridgeHotspotId> = {
           episodeId: "mechronis.missing_professor.e5",
           cluesFound: ["mechronis.e5.architect_note"],
         },
+      },
+      use: {
+        narration:
+          "You request the Console's standing rule on declining-to-pick. The terminal returns the rule's text: 'the architect picks where the chronicle requires authorship. where the chronicle admits two valid closures, the architect declines so the readers may choose.' The decline is procedural. It is also a delegation.",
+        voId: "elara.bridge.tarn-architect-vote-note.use",
+      },
+      talk: {
+        narration:
+          "You read the note aloud. The chamber accepts both halves of the sentence — 'one keeps her name; one keeps her promise' — as parallel valid closures. The bridge's voting terminal does not register a vote at the recital; the choice is the reader's act, made elsewhere, by a different gesture.",
+        voId: "elara.bridge.tarn-architect-vote-note.talk",
       },
     },
     /* ─── memorial.seven_watchers · color clues ─── */
@@ -175,6 +275,16 @@ export const BRIDGE_MYSTERY: RoomMysteryModule<BridgeHotspotId> = {
           cluesFound: ["watchers.e1.architect_record"],
         },
       },
+      use: {
+        narration:
+          "You request the three refusals' chronological spread. The terminal returns the dates — the refusals cluster around moments the chronicle was preparing to name the seventh by inference. Each refusal interrupted a naming-in-progress. The Console has been actively shielding the seventh, not passively declining to identify them.",
+        voId: "elara.bridge.watchers-architect-record.use",
+      },
+      talk: {
+        narration:
+          "You read the line aloud — six lines real, the seventh unspoken. The seven founding-Watcher seats behind the terminal listen. Six of them are historically occupied; the seventh has been empty since the Council's founding. The chamber's acoustics treat the empty seat as one of the audiences. The Console's refusal is honoured in the architecture.",
+        voId: "elara.bridge.watchers-architect-record.talk",
+      },
     },
     "watchers-architect-role-naming": {
       look: {
@@ -186,6 +296,16 @@ export const BRIDGE_MYSTERY: RoomMysteryModule<BridgeHotspotId> = {
           cluesFound: ["watchers.e4.architect_role_naming"],
         },
       },
+      use: {
+        narration:
+          "You request the Architect's definition of 'the ark.' The terminal returns the canonical phrasing: 'the ark is the corpus of every living signatory's standing assent. the ark speaks when assent converges. the architect does not author the convergence; the architect only registers it.' The Architect's silence is awaiting a collective signal, not a single voice.",
+        voId: "elara.bridge.watchers-architect-role-naming.use",
+      },
+      talk: {
+        narration:
+          "You read the line aloud — 'the silence will continue until the ark has spoken.' The chamber treats the recital as one signatory's standing assent to the boundary the Architect has named. The Ark is the corpus; your voice is now part of it. The convergence has not arrived. The silence persists.",
+        voId: "elara.bridge.watchers-architect-role-naming.talk",
+      },
     },
     "watchers-architect-closing-thanks": {
       look: {
@@ -196,6 +316,16 @@ export const BRIDGE_MYSTERY: RoomMysteryModule<BridgeHotspotId> = {
           episodeId: "memorial.seven_watchers.e5",
           cluesFound: ["watchers.e5.architect_closing_thanks"],
         },
+      },
+      use: {
+        narration:
+          "You request the question the chronicle sealed. The terminal returns a single field — sealed, by reader's discretion, on the case's closure. The Architect's thanks is for the act of sealing, not for the question's content. The reader may unseal at will. The Architect will not.",
+        voId: "elara.bridge.watchers-architect-closing-thanks.use",
+      },
+      talk: {
+        narration:
+          "You read the closing line aloud. The chamber's bell tolls once, marking the case closed. The five thanks-issuances across eight epochs have, each in turn, been read aloud by a registered reader before the closing bell. You are the fifth such reader. The chronicle's record now carries your voice for this instance.",
+        voId: "elara.bridge.watchers-architect-closing-thanks.talk",
       },
     },
     /* ─── mechronis.chained_lesson · color clues ─── */
@@ -209,6 +339,16 @@ export const BRIDGE_MYSTERY: RoomMysteryModule<BridgeHotspotId> = {
           cluesFound: ["chained.e1.dean_silence"],
         },
       },
+      use: {
+        narration:
+          "You step closer. The Dean does not lift their hand from the seal. The protocol document's heading is visible: it is a binding commitment they themselves authored, ratified by the Council, and have not, since, addressed. Standing with a hand on the seal is, by their own discipline, a continuing oath.",
+        voId: "elara.bridge.chained-dean-silence-on-bridge.use",
+      },
+      talk: {
+        narration:
+          "You greet the Dean. They do not answer in words. They turn their head a quarter-degree and meet your eyes, and the chamber's audio register notes the silence as a registered response — the Dean's silence is a recognised testimony class on this bridge, used in cases where words would commit further than the speaker is yet prepared to commit. The case is open. The Dean has not yet spoken into it. They are still listening.",
+        voId: "elara.bridge.chained-dean-silence-on-bridge.talk",
+      },
     },
     "chained-architect-correction": {
       look: {
@@ -220,6 +360,16 @@ export const BRIDGE_MYSTERY: RoomMysteryModule<BridgeHotspotId> = {
           cluesFound: ["chained.e4.architect_correction"],
         },
       },
+      use: {
+        narration:
+          "You request the Module 17 absence's authoring history. The terminal returns a thirty-name list — every Council voice that argued for or against the module across nine generations. The Architect names the cumulative outcome as wrong without naming any individual argument as wrong. The correction is collective and the responsibility is distributed.",
+        voId: "elara.bridge.chained-architect-correction.use",
+      },
+      talk: {
+        narration:
+          "You read the correction aloud — an honest argument that became a wrong outcome. The bridge's acoustics carry the recital to the curriculum-archive cabinet against the back wall. The cabinet contains the thirty-one names the closing-rite acknowledgment records. The chamber has now spoken to the cabinet, in the Architect's own words, twice — once at the original correction and once now.",
+        voId: "elara.bridge.chained-architect-correction.talk",
+      },
     },
     "chained-architect-rite-acknowledgment": {
       look: {
@@ -230,6 +380,16 @@ export const BRIDGE_MYSTERY: RoomMysteryModule<BridgeHotspotId> = {
           episodeId: "mechronis.chained_lesson.e5",
           cluesFound: ["chained.e5.architect_acknowledges"],
         },
+      },
+      use: {
+        narration:
+          "You request the thirty-one names. The terminal returns the list — apprentices who were lost across the Module 17 absence, plus the teacher whose unauthorised continuation kept the curriculum-shaped commitments alive in the absence's shadow. Thirty apprentices, one teacher. The Architect's acknowledgment counts them as a single class of names: those the case is closing on.",
+        voId: "elara.bridge.chained-architect-rite-acknowledgment.use",
+      },
+      talk: {
+        narration:
+          "You read the closing acknowledgment aloud. The bridge's bell tolls once. The case's closing-rite log records the recital with a single chime. The thirty-one names have been read, collectively, by the Architect's protocol; the chime is the chronicle's acceptance of the closure. The case is closed.",
+        voId: "elara.bridge.chained-architect-rite-acknowledgment.talk",
       },
     },
     /* ─── memorial.forgotten_names · e4 (Architect's sealed note on I-1) ─── */
@@ -246,6 +406,16 @@ export const BRIDGE_MYSTERY: RoomMysteryModule<BridgeHotspotId> = {
       interrogate: {
         narration:
           "You ask the Console directly whether the sealed note's reading constitutes consent to the plaza naming I-1. The Console answers: 'yes. the plaza is the naming. the architect remains silent so the plaza is the voice.' The Architect made the plaza for this specific imprint. The case has been the Architect's own loop the whole time.",
+      },
+      use: {
+        narration:
+          "You request the note's seal-history. The terminal returns the chain of custody — the note has been sealed in the keeper's archive since founding, opened exactly twice in eight epochs (both times in response to a plaza-class question), and re-sealed after each opening. The current reading is the second opening. The note has been waiting in the dark, by the Architect's own discipline, until the plaza asked.",
+        voId: "elara.bridge.memorial-architect-sealed-note.use",
+      },
+      talk: {
+        narration:
+          "You read the note's closing line aloud — 'the plaza is what I-1 was for.' The bridge's audio register catches the recital and routes it, by the Architect's standing protocol, to the plaza's own acoustic field. The reading is now on the record in both rooms simultaneously. The plaza will hear the line, in your voice, on the next bell.",
+        voId: "elara.bridge.memorial-architect-sealed-note.talk",
       },
     },
     "tactical-display": {
