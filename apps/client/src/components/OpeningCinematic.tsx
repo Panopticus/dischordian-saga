@@ -12,8 +12,15 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { TITLE_T01_LOREDEX_ENTRY } from "@/lib/titleT01Entry";
+import { assetUrl } from "@/lib/assetUrl";
 
-const CINEMATIC_VIDEO = "https://dgrsart.s3.us-east-2.amazonaws.com/Videos/Dischordia%20Elara%20Open.mp4";
+// Public-CDN convention (apps/client/public/videos mirrors to
+// dgrsart cdn/client-public/videos). The original URL pointed at a
+// private S3 prefix (s3://dgrsart/Videos/...) which 403'd to public
+// readers and dropped the player straight into the BLACKOUT card.
+// Source asset lives under apps/client/public/videos/opening/ and
+// reaches the CDN via `pnpm assets:upload`.
+const CINEMATIC_VIDEO = assetUrl("videos/opening/dischordia-elara-open.mp4");
 /** Rotating saga-theme bed — the same four tracks SagaThemeBGM
  *  cycles through. Picking randomly and cycling on `ended` means
  *  Elara's opening, the cryo-pod cinematic, and the character-
