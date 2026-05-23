@@ -228,6 +228,12 @@ export const SURFACE_REGISTRY: readonly SurfaceEntry[] = [
   act("/act2-opening", 2),
   util("/engineers-bench"),
   mode("/hellbox", "hellbox", { sagaPhase: 3 }),
+  phase(
+    "/space/:canonicalId",
+    2,
+    "apps/shared/roomGating/roomUnlockManifest.ts",
+    "bridged spaces — vehicles, destination subzones, panoramas (NEW_ART_2)",
+  ),
   phase("/matrix/:episodeId", 1, "apps/shared/episodeMysteries.ts", "Matrix School episodes"),
   phase("/mol-garath-audience", 3, SAGA, "Mol'Garath audience"),
   phase("/mol-garath-traps", 3, SAGA, "Mol'Garath traps feed"),

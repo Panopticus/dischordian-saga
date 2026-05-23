@@ -8,6 +8,11 @@
  * subscriber payload and asserts the claimed productId is present
  * (non_subscriptions or subscriptions) before granting.
  *
+ * Scanned across both the router and the verifier service — the
+ * router calls the dispatcher in `apps/server/services/iapVerifiers.ts`
+ * (C-03 fallbacks for Apple + Google live there too) and either file
+ * may carry the ownership invariants.
+ *
  * Hard parity: the verify mutation must parse the subscriber payload
  * and gate fulfilment on the claimed product being present — a
  * refactor can't silently revert to trusting the status code.
@@ -17,35 +22,40 @@ import * as path from "node:path";
 import { REPO_ROOT } from "../scanner";
 import type { RawParityCount } from "../types";
 
-const FILE = "apps/server/routers/iapReceipt.ts";
+const FILES = [
+  "apps/server/routers/iapReceipt.ts",
+  "apps/server/services/iapVerifiers.ts",
+];
 
 export function checkIapReceiptOwnership(): RawParityCount {
-  const abs = path.join(REPO_ROOT, FILE);
-  const src = fs.existsSync(abs) ? fs.readFileSync(abs, "utf-8") : "";
+  const sources = FILES.map((f) => {
+    const abs = path.join(REPO_ROOT, f);
+    return fs.existsSync(abs) ? fs.readFileSync(abs, "utf-8") : "";
+  });
+  const corpus = sources.join("\n");
   const missing: string[] = [];
 
   const parsesSubscriber =
-    /response\.json\(\)/.test(src) && /subscriber/.test(src);
+    /response\.json\(\)/.test(corpus) && /subscriber/.test(corpus);
   const checksProductPresence =
-    /non_subscriptions/.test(src) &&
-    /subscriptions/.test(src) &&
-    /input\.productId/.test(src);
-  const rejectsAbsent =
-    /Receipt did not contain a purchase of/.test(src);
+    /non_subscriptions/.test(corpus) &&
+    /subscriptions/.test(corpus) &&
+    /input\.productId|productId/.test(corpus);
+  const rejectsAbsent = /did not contain a purchase of/.test(corpus);
 
   if (!parsesSubscriber) {
     missing.push(
-      `${FILE}: verify no longer parses the RevenueCat subscriber payload`,
+      `${FILES.join(" + ")}: verify no longer parses the RevenueCat subscriber payload`,
     );
   }
   if (!checksProductPresence) {
     missing.push(
-      `${FILE}: verify no longer checks the claimed productId against non_subscriptions/subscriptions`,
+      `${FILES.join(" + ")}: verify no longer checks the claimed productId against non_subscriptions/subscriptions`,
     );
   }
   if (!rejectsAbsent) {
     missing.push(
-      `${FILE}: verify no longer rejects a 200 whose subscriber lacks the claimed product`,
+      `${FILES.join(" + ")}: verify no longer rejects a 200 whose subscriber lacks the claimed product`,
     );
   }
 
