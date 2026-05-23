@@ -112,6 +112,7 @@ import ImmersiveModeManager from "./components/ImmersiveModeManager";
 import { DischordiaCycleSync } from "./components/DischordiaCycleSync";
 import { useTitleEarnedToasts } from "./hooks/useTitleEarnedToasts";
 import { useDreamerRelayHints } from "./hooks/useDreamerRelayHints";
+import { useLoadingScreenSong } from "./hooks/useLoadingScreenSong";
 import { ForgivenessChoicePanel } from "./components/ForgivenessChoicePanel";
 import { Act1ClosingChoicePanel } from "./components/Act1ClosingChoicePanel";
 import { useElaraTTS } from "./hooks/useElaraTTS";
@@ -627,6 +628,16 @@ function Router() {
   );
 }
 
+/* Cold-boot title song mount. Tries to play The Enigma's Lament
+   under the loading screen for returning players (those who have
+   already watched the meme opening cinematic — the dischordia
+   opening). One-shot per browser session; stops on the first user
+   interaction. See useLoadingScreenSong for the full rationale. */
+function ColdBootSongHost() {
+  useLoadingScreenSong({ enabled: true });
+  return null;
+}
+
 /* ─── AUTH GATE ───
    Always shows TitlePage first (unless user has opted in to
    skipTitle). The title is a living threshold: authed users
@@ -637,9 +648,12 @@ function AuthGate() {
   const { loading } = useAuth();
   if (loading) return <PageLoader />;
   return (
-    <TitleGate renderTitle={onDismiss => <TitlePage onDismiss={onDismiss} />}>
-      <GameGate />
-    </TitleGate>
+    <>
+      <ColdBootSongHost />
+      <TitleGate renderTitle={onDismiss => <TitlePage onDismiss={onDismiss} />}>
+        <GameGate />
+      </TitleGate>
+    </>
   );
 }
 
