@@ -186,6 +186,60 @@ export const discoveryRouter = router({
       return { unlocked: newlyUnlocked };
     }),
 
+  /* ─── RECORD ROOM VISIT (canonical-id keyed) ─── */
+  /**
+   * Record that the player has entered a canonical space. Idempotent —
+   * the `visited_<canonicalRoomId>` flag is set exactly once via the
+   * `room_visited` ripple handler in rippleEngine.ts. Every call also
+   * feeds an exploration pressure tick (visit cadence drives the
+   * Conquest-axis world mood).
+   *
+   * `category` is purely a routing hint for downstream handlers
+   * (loredex unlocks, companion banter, etc.) — the underlying flag
+   * is keyed on the canonical id.
+   */
+  recordRoomVisit: protectedProcedure
+    .input(
+      z.object({
+        canonicalRoomId: z.string().min(1).max(120),
+        category: z
+          .enum(["vehicle", "destination_subzone", "ark_room", "hellbox", "other"])
+          .default("other"),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) return { firstVisit: false };
+
+      const { npcPublicFlags } = await import("../../db/schema");
+      const flag = `visited_${input.canonicalRoomId}`;
+
+      // Check existing flag before insert so we can report firstVisit.
+      // The ripple handler is also idempotent; this query lets us
+      // return useful state to the client without racing the handler.
+      const existing = await db
+        .select({ id: npcPublicFlags.id })
+        .from(npcPublicFlags)
+        .where(and(eq(npcPublicFlags.userId, ctx.user.id), eq(npcPublicFlags.flag, flag)))
+        .limit(1);
+
+      const firstVisit = existing.length === 0;
+
+      await ripple.emit("room_visited", {
+        userId: ctx.user.id,
+        canonicalRoomId: input.canonicalRoomId,
+        category: input.category,
+        isFirstVisit: firstVisit,
+      });
+
+      // Every visit feeds exploration pressure (Conquest tilt).
+      pressureService
+        .recordAction(ctx.user.id, "room_visited")
+        .catch(() => {});
+
+      return { firstVisit };
+    }),
+
   /* ─── GET DISCOVERY PROGRESS ─── */
   getProgress: protectedProcedure.query(async ({ ctx }) => {
     const db = await getDb();

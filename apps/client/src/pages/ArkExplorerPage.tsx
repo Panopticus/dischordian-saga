@@ -1195,6 +1195,20 @@ export default function ArkExplorerPage() {
     }
   }, [state.currentRoomId]);
 
+  // Record room visit on the server — sets `visited_<canonical>` flag once,
+  // emits a `room_visited` ripple event every visit (for transient banter,
+  // mood ticks, loredex auto-unlocks). Ark currentRoomId is kebab-cased
+  // (`cryo-bay`); the canonical id is `ark.<snake_case>`. Hellbox /
+  // vehicle / destination nav lands when those spaces have a dedicated
+  // UI; their categories will route through the same mutation.
+  const recordRoomVisit = trpc.discovery.recordRoomVisit.useMutation();
+  useEffect(() => {
+    if (!state.currentRoomId) return;
+    const canonicalRoomId = `ark.${state.currentRoomId.replace(/-/g, "_")}`;
+    recordRoomVisit.mutate({ canonicalRoomId, category: "ark_room" });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.currentRoomId]);
+
   // Inner voice whisper on room entry — skill voices comment on surroundings
   const [voiceWhisper, setVoiceWhisper] = useState<VoiceUtterance | null>(null);
   useEffect(() => {
