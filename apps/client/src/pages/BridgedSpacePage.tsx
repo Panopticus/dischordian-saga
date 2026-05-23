@@ -18,8 +18,9 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { Link, useRoute } from "wouter";
-import { ChevronLeft, Lock, X, BookOpen } from "lucide-react";
+import { ChevronLeft, Lock, X, BookOpen, ArrowRight } from "lucide-react";
 import type { RoomHotspotEntry } from "@shared/expansionArt/roomHotspotManifest";
+import { isSubSceneAction, spaceSubSceneBeat } from "@shared/spaceSubSceneBeats";
 
 import { useGame } from "@/contexts/GameContext";
 import { trpc } from "@/lib/trpc";
@@ -299,18 +300,37 @@ export default function BridgedSpacePage() {
             <p className="text-sm leading-relaxed opacity-90 mb-5">
               {openHotspot.description}
             </p>
-            {dossierEntityId && (
-              <Link
-                href={`/entity/${dossierEntityId}`}
-                className="inline-flex items-center gap-2 px-3 py-2 rounded font-mono text-xs"
-                style={{
-                  background: "color-mix(in oklch, var(--electric-blue) 15%, transparent)",
-                  border: "1px solid color-mix(in oklch, var(--electric-blue) 40%, transparent)",
-                }}
-              >
-                <BookOpen size={12} /> Read dossier on {name}
-              </Link>
-            )}
+            <div className="flex flex-wrap gap-3">
+              {(() => {
+                const action = openHotspot.action ?? openHotspot.id;
+                if (!isSubSceneAction(action)) return null;
+                if (!spaceSubSceneBeat(canonicalId, action)) return null;
+                return (
+                  <Link
+                    href={`/space/${canonicalId}/${action}`}
+                    className="inline-flex items-center gap-2 px-3 py-2 rounded font-mono text-xs"
+                    style={{
+                      background: "color-mix(in oklch, var(--electric-blue) 20%, transparent)",
+                      border: "1px solid color-mix(in oklch, var(--electric-blue) 50%, transparent)",
+                    }}
+                  >
+                    <ArrowRight size={12} /> Step inside
+                  </Link>
+                );
+              })()}
+              {dossierEntityId && (
+                <Link
+                  href={`/entity/${dossierEntityId}`}
+                  className="inline-flex items-center gap-2 px-3 py-2 rounded font-mono text-xs"
+                  style={{
+                    background: "color-mix(in oklch, var(--electric-blue) 15%, transparent)",
+                    border: "1px solid color-mix(in oklch, var(--electric-blue) 40%, transparent)",
+                  }}
+                >
+                  <BookOpen size={12} /> Read dossier on {name}
+                </Link>
+              )}
+            </div>
           </div>
         </div>
       )}

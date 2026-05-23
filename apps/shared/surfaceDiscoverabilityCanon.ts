@@ -235,6 +235,12 @@ export const SURFACE_REGISTRY: readonly SurfaceEntry[] = [
     "bridged spaces — vehicles, destination subzones, panoramas (NEW_ART_2)",
   ),
   phase(
+    "/space/:canonicalId/:action",
+    2,
+    "apps/shared/spaceSubSceneBeats.ts",
+    "bridged-space sub-scene — focused approach-beat for an actionable hotspot",
+  ),
+  phase(
     "/vessels",
     2,
     "apps/shared/expansionArt/newArtRoomBridge.ts",
