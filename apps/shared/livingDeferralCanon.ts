@@ -163,7 +163,8 @@ export const LIVING_DEFERRAL_CANON: readonly DeferredSurface[] = [
     status: "deferred_authoring",
     seamModule:
       "apps/shared/act4_5VoManifest.json:1 (empty manifest) + " +
-      "apps/scripts/generate-act-vo.ts:1 (generator awaits Act 4.5 lines)",
+      "apps/scripts/act4_5-vo-lines.json:1 (schema-valid starter, 3 entries) + " +
+      "docs/production/ACT_4_5_VO_AUTHORING_BRIEF.md:1 (writer brief)",
     seamIsIntentional: true,
     diegeticHandle:
       "The Dead Man's Circuit is an optional Act 4.5 arc; on the " +
@@ -171,8 +172,10 @@ export const LIVING_DEFERRAL_CANON: readonly DeferredSurface[] = [
       "Lines are authored only when narrative-design commits the " +
       "branch as canon for that loop.",
     blockedOn:
-      "Writer-authored apps/scripts/act4_5-vo-lines.json; once it " +
-      "exists, `pnpm vo:act4_5` produces the manifest.",
+      "Writer extends apps/scripts/act4_5-vo-lines.json past the " +
+      "3 example entries (~26 lines per ACT_4_5_VO_AUTHORING_BRIEF.md); " +
+      "then `pnpm tsx apps/scripts/generate-act-vo.ts --act 4.5` " +
+      "produces the manifest.",
   },
   {
     id: "dest_trade_empire_unlock_model",

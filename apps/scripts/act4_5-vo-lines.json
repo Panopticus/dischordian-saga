@@ -1,0 +1,32 @@
+[
+  {
+    "id": "act4_5_starter_dmc_intro",
+    "speaker": "narrator",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "Act four point five. Optional. The cycle's permission slip. Whatever you commit to here will be canon for this loop and erased by the next reset — that is the contract.",
+    "context": "act4_5_optional_arc_intro",
+    "section": "§4.5.0 · Act 4.5 — Identity-chain framing",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act4_5"
+  },
+  {
+    "id": "act4_5_starter_elara_dmc_warning",
+    "speaker": "elara",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "text": "Operative, the Dead Man's Circuit is logged but unsanctioned. Nothing you do down there appears on your service record. The data, however, will appear on mine.",
+    "context": "act4_5_dmc_dispatch_warning",
+    "section": "§4.5.1 · Elara — Dispatch warning",
+    "emotion": "warm_concerned",
+    "outputDir": "audio/act4_5"
+  },
+  {
+    "id": "act4_5_starter_human_identity_wager",
+    "speaker": "human",
+    "voiceId": "oGbGJdgofRR8z0MxwI8L",
+    "text": "Whatever you wager down here, you wager with the part of you that doesn't need a record. That's the only part the Circuit accepts as currency. Spend it carefully — or spend it well, which is not the same thing.",
+    "context": "act4_5_identity_wager_invitation",
+    "section": "§4.5.2 · The Human — Identity-wager framing",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act4_5"
+  }
+]
