@@ -58,7 +58,7 @@ export function CampaignObjectiveTracker(): ReactElement | null {
         animate={{ opacity: 1, x: 0 }}
         exit={{ opacity: 0, x: -12 }}
         transition={{ duration: 0.3 }}
-        className="pointer-events-auto fixed bottom-6 left-6 z-50 max-w-sm rounded-md border border-cyan-500/40 bg-slate-950/85 p-3 shadow-md backdrop-blur"
+        className="pointer-events-auto fixed bottom-24 left-6 z-50 max-w-sm rounded-md border border-cyan-500/40 bg-slate-950/85 p-3 shadow-md backdrop-blur"
         data-testid="campaign-objective-tracker"
       >
         <div className="flex items-center justify-between gap-3">
