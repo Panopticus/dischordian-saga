@@ -108,6 +108,21 @@ describe("pickBonusChapterIntroToFire", () => {
     expect(r?.def.id).toBe("ch20_conexus_BONUS");
   });
 
+  it("ch20_conexus_BONUS fires on Option A — co-emission with act_7_complete", () => {
+    // Mirrors the production-side hook in useNarrativeIntegration.ts:1349
+    // where both flags are set in the same tick when the act-7 gate
+    // resolves.
+    const r = pickBonusChapterIntroToFire({
+      narrativeAct: 7,
+      flags: {
+        act_7_complete: true,
+        authority_alignment_aligned: true,
+        narrative_spine_complete: true,
+      },
+    });
+    expect(r?.def.id).toBe("ch20_conexus_BONUS");
+  });
+
   it("ch20_conexus_BONUS does not fire without the Authority-aligned flag", () => {
     // None of the older candidate flags is the producer; only the
     // canonical authority_alignment_aligned flag triggers the row.

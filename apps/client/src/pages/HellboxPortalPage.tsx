@@ -109,8 +109,17 @@ export default function HellboxPortalPage() {
           <ChevronLeft size={18} />
           <span>Medbay</span>
         </Link>
-        <div className="text-zinc-500 text-sm tabular-nums">
-          {model.totalCompleted} / {model.totalEpisodes} chambers walked
+        <div className="flex items-center gap-4 text-sm">
+          <Link
+            href="/chambers"
+            className="text-zinc-400 hover:text-zinc-100 transition-colors"
+            title="Walk the 12 Hellboxes as canonical rooms (art + hotspots) rather than play a Matrix episode."
+          >
+            Walk the chambers ›
+          </Link>
+          <span className="text-zinc-500 tabular-nums">
+            {model.totalCompleted} / {model.totalEpisodes} chambers walked
+          </span>
         </div>
       </header>
 

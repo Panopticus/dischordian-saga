@@ -90,16 +90,16 @@ export const BONUS_CHAPTER_INTRO_GATES: readonly BonusChapterIntroGate[] = [
   },
   {
     introId: "ch20_conexus_BONUS",
-    // Engineering best-guess gate: fires when Act-7 resolution lands
-    // the player on the Authority's canon-favorable side. The flag
-    // setter is intentionally absent today (writer ratifies the
-    // {@link AuthorityAlignment} enum + setter location). The canon
-    // spine entry in apps/shared/livingDeferralCanon.ts records the
-    // spec gap; this row prevents the producer MP4 from sitting
-    // structurally orphaned once the setter lands.
+    // Engineering ships Option A from
+    // docs/production/AUTHORITY_ALIGNMENT_RATIFICATION.md — fires
+    // when Act-7 closes (useNarrativeIntegration.ts sets the flag
+    // alongside act_7_complete). The writer can switch this to
+    // Option B (faction-meter threshold) or Option C (Convergence
+    // Seat dialog commitment) by changing the setter site; the
+    // gate row stays the same.
     triggerFlag: AUTHORITY_ALIGNMENT_ALIGNED_FLAG,
     minAct: 7,
-    writerReview: true,
+    writerReview: false,
   },
 ];
 

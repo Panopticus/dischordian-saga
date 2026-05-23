@@ -64,22 +64,11 @@ export interface DeferredSurface {
 }
 
 export const LIVING_DEFERRAL_CANON: readonly DeferredSurface[] = [
-  {
-    id: "ch20_conexus_BONUS",
-    category: "bonus_intro",
-    status: "deferred_authoring",
-    seamModule:
-      "apps/shared/bonusChapterIntroTriggers.ts:73 (DEFERRED_BONUS_INTRO_IDS) + " +
-      "apps/shared/storyEncounterChapterIntros.ts:29-33 (canon-gap note) + " +
-      "docs/production/AUTHORITY_ALIGNMENT_RATIFICATION.md:1 (writer brief)",
-    seamIsIntentional: true,
-    diegeticHandle:
-      "Authority alignment is in flux on the player's current loop — " +
-      "the Conexus does not testify until the loop chooses an Authority.",
-    blockedOn:
-      "Writer picks A/B/C in docs/production/AUTHORITY_ALIGNMENT_RATIFICATION.md " +
-      "(engineering best-guess gate row landed against authority_alignment_aligned).",
-  },
+  // ch20_conexus_BONUS — RESOLVED 2026-05-23. Engineering shipped
+  // Option A from AUTHORITY_ALIGNMENT_RATIFICATION.md (fires at
+  // act_7_complete in useNarrativeIntegration.ts:1349). Writer
+  // can later switch to Option B or C by replacing the setter; the
+  // gate row in bonusChapterIntroTriggers.ts stays unchanged.
   {
     id: "epoch1_heart_of_time_four_presences",
     category: "weave_anchor",
