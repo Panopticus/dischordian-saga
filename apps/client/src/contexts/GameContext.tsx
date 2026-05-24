@@ -1593,41 +1593,119 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "narrative_event", value: "power_grid_restored" },
     connections: ["observation-deck", "armory", "forge-workshop"],
     hotspots: [
-      // Mystery wiring — wolf.anara_hunt · e2 + e4 (healer's research + Anara design flaw)
-      { id: "wolf-host-residue-files", name: "Healer's Host-Residue Research", description: "On engineering's medical-archive console: the healer's preserved files. One draft entry on a Quarchon Potential, edited fourteen times across the week she disappeared.", x: 6, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:engineering:wolf-host-residue-files" },
-      { id: "wolf-anara-architecture-blind-spot", name: "Anara Architectural Schematic", description: "On the containment-systems console: Anara's schematics expose the single design assumption — outside is threat, inside is family. The family has eaten the chronicler.", x: 14, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:engineering:wolf-anara-architecture-blind-spot" },
-      // Realigned 2026-04-25 for the AAA Final engineering render —
-      // industrial workshop with back-wall reactor machinery (ENGINEERING
-      // signage + glowing core), twin rows of workstation seats on left
-      // and right, central floor strip leading to a back-wall doorway
-      // (Forge), and side-edge exits to Observation and Armory.
-      { id: "crafting-bench", name: "Crafting Workbench", description: "A workbench with tools for card crafting and fusion experiments.", x: 12, y: 50, width: 22, height: 32, type: "terminal", action: "/research-lab", elaraDialog: "The crafting workbench. Here you can fuse cards together to create more powerful versions. The recipes were developed by the Ark's engineers — combine the right elements and you might create something legendary." },
-      // Mystery overlay — apps/shared/roomMysteries/engineering.ts
-      // The crafting-bench above retains /research-lab as its primary
-      // action; this small sub-rectangle dispatches the verb-coin's
-      // authored mystery responses (the abandoned mid-fusion job).
-      { id: "mystery-crafting-bench", name: "Bench Tool Layout", description: "The tools on the bench, set up for a fusion job that was never started. Worn to a left-handed engineer's thumb.", x: 8, y: 84, width: 6, height: 6, type: "interact", action: "room-mystery:engineering:crafting-bench" },
-      // Engineering mystery hotspots — see apps/shared/roomMysteries/engineering.ts.
-      // First Look on either of these (or the etched-formula easter
-      // egg below) logs a clue and flips `engineering_first_clue_found`
-      // (Tier 0 → 1).
-      { id: "reactor-core", name: "Reactor Core", description: "The Ark's main power source. It pulses with an otherworldly blue light.", x: 38, y: 18, width: 24, height: 38, type: "examine", action: "room-mystery:engineering:reactor-core", elaraDialog: "The reactor core. It runs on a substance the engineers called 'Dream' — a crystallized form of quantum consciousness. It's the same resource that powers your abilities. The core is running at 34% capacity. We're losing power slowly." },
-      { id: "blueprints", name: "Holographic Blueprints", description: "Floating schematics showing card designs and weapon systems.", x: 66, y: 50, width: 22, height: 32, type: "examine", action: "room-mystery:engineering:blueprints", elaraDialog: "Card schematics. The engineers were designing new card types before... before they stopped. Some of these designs are brilliant. Legendary-tier cards that could turn the tide of any battle." },
-      { id: "research-station", name: "Research Station", description: "An interactive research terminal with puzzles and experiments.", x: 40, y: 65, width: 20, height: 22, type: "terminal", action: "/research-minigame", elaraDialog: "The Research Station. Solve engineering puzzles and conduct experiments to unlock new card recipes and crafting techniques. The harder the puzzle, the rarer the reward." },
-      { id: "door-observation", name: "Observation Deck", description: "Return to the Observation Deck.", x: 1, y: 30, width: 8, height: 50, type: "door", action: "observation-deck" },
-      { id: "door-armory", name: "Armory Access", description: "A reinforced door leading to the Armory.", x: 91, y: 30, width: 8, height: 50, type: "door", action: "armory" },
-      { id: "door-forge", name: "Forge Workshop", description: "A heavy blast door with heat warnings. The air shimmers.", x: 44, y: 32, width: 12, height: 22, type: "door", action: "forge-workshop" },
-      { id: "egg-eng-formula", name: "Etched Formula", description: "A mathematical formula scratched into the reactor housing.", x: 50, y: 24, width: 4, height: 4, type: "examine", action: "room-mystery:engineering:egg-eng-formula", elaraDialog: "Someone etched a formula into the reactor housing. It's a dimensional resonance equation — the kind used to calculate jumps between parallel universes. But there's an extra variable I've never seen: Ψ-null. The null consciousness coefficient. This formula could theoretically open a door to... nowhere. The space between spaces. Where the Source dwells." },
-      { id: "instruction-manual", name: "Ark Instruction Manual", description: "A thick paper manual on the workbench. Cracked spine, hand-stamped dedications.", x: 28, y: 70, width: 5, height: 6, type: "examine", action: "room-mystery:engineering:instruction-manual", elaraDialog: "INCEPTION ARK 1047 — QUICK START GUIDE. Page 1: Step 1, Don't let it get stolen. The author had a sense of humour and a complete absence of optimism." },
-      { id: "egg-warlord-residue", name: "Bio-Scanner Anomaly", description: "The bio-scanner flickers with an unidentified neural signature embedded in the bulkhead.", x: 70, y: 76, width: 4, height: 4, type: "item", action: "warlord-residue", elaraDialog: "[SIGNAL DISTORTION] The bio-scanners are detecting... no. That can't be right. There's a neural signature embedded in the bulkhead plating itself. Not organic, not synthetic — something in between. The Warlord's consciousness was so powerful that it left an imprint on the ship's physical structure. Dr. Lyra Vox commanded this vessel while the Warlord used her as a host body. The walls literally remember their master. {playerName}, this ship has a darker history than I initially disclosed. The Warlord didn't just pass through here — this was a command vessel." },
-      // Schematic pad — small rectangle on the workbench surface for
-      // the indigo-overlayered reactor blueprint per the
-      // engineering:edited-schematics art. Sits adjacent to the
-      // crafting-bench but is its own clickable so the ST beat doesn't
-      // collide with the /research-lab dispatch.
-      { id: "schematic-pad", name: "Reactor Schematic Pad", description: "An unrolled blueprint on the workbench. The lines are double-registered — warm-gold underneath, indigo on top, with three connection points subtly redirected.", x: 16, y: 78, width: 14, height: 10, type: "interact", action: "room-mystery:engineering:schematic-pad" },
-      // Mystery wiring — Ith'Rael arc Marion Kell physical-residue bench
-      { id: "kell-physical-residue-bench", name: "Kell's Residue Bench", description: "A side bench kept unmoved for centuries — Marion Kell's old workbench. The grain, the mug-rings, the undusted rectangle the Shadow Tongue never touched.", x: 40, y: 84, width: 7, height: 8, type: "interact", action: "room-mystery:engineering:kell-physical-residue-bench" },
+      // Re-anchored 2026-05-24 against the AAA Final engineering render
+      // (art/rooms/engineering_bay/baseline.png) after a 14-variant audit
+      // pass (baseline + 13 state overlays: act_tier_3, battlepass_winter,
+      // cycle_longnight, epoch_shadowtongue, faction_insurgency,
+      // governance_quarantine, investigation_tier, lore_shadowtongue_
+      // complete, morality_dark, trust_shadowtongue, tv_spreading,
+      // unlock_chaos, unlock_crafting). Layout is consistent across
+      // every variant — landmarks don't shift — so baseline anchoring
+      // works universally.
+      //
+      // NOTE: The previous plan flagged engineering as "placeholder art /
+      // defer" — actually the AAA Final art IS delivered (under the
+      // `engineering_bay` zipDir, not `engineering`). It's an industrial
+      // forge/workshop, not a reactor room as the description suggests.
+      // The "reactor core" hotspot accurately anchors on the central
+      // forge fire even though the visual content is forge-orange, not
+      // reactor-blue.
+      //
+      // The 2026-04-25 anchoring described "back-wall reactor machinery
+      // with ENGINEERING signage" — the AAA Final has neither. It's
+      // an industrial forge with central archway holding a glowing
+      // forge fire over an anvil, twin wall workstations flanking
+      // foreground workbenches, and a holographic blueprint desk on
+      // the right.
+      //
+      // Major re-anchors:
+      //   • wolf-host-residue-files (was 6,8 in upper-left blank wall) →
+      //     left-wall multi-screen workstation (1,35,8,8)
+      //   • wolf-anara-architecture-blind-spot (was 14,8) → adjacent
+      //     to wolf-host-residue-files on left workstation (1,46,8,8)
+      //   • crafting-bench (was 12,50,22,32 sprawling across left
+      //     workstation + nothing visible) → left foreground workbench
+      //     (15,68,28,28)
+      //   • blueprints (was 66,50,22,32 on right workstation area) →
+      //     visible holographic blueprint desk at right-center
+      //     (55,30,17,28)
+      //   • research-station (was 40,65,20,22) → right foreground
+      //     workbench (55,68,25,28)
+      //   • door-forge (was 44,32,12,22 conflicting with reactor-core
+      //     area) → small visible door to LEFT of forge archway
+      //     (33,27,5,32) so it doesn't steal clicks from the forge
+      //     examine
+      //   • door-observation, door-armory kept as invisible/narrow
+      //     bands on far-left/far-right edges
+      //
+      // Visible landmarks, left-to-right + foreground-to-back:
+      //   • left-wall multi-screen workstation (purple/cyan displays)
+      //     (`wolf-host-residue-files`, `wolf-anara-architecture-
+      //     blind-spot`)
+      //   • small doorway between left workstation and forge archway
+      //     (`door-forge`)
+      //   • central archway with forge fire + anvil — chamber center
+      //     (`reactor-core`, `egg-eng-formula`)
+      //   • holographic blueprint desk — right-center
+      //     (`blueprints`)
+      //   • multi-bench foreground workshop area —
+      //     (`crafting-bench` left, `research-station` right,
+      //     plus `mystery-crafting-bench`, `instruction-manual`,
+      //     `schematic-pad`, `kell-physical-residue-bench`)
+      //   • right-wall multi-screen workstation (green/cyan)
+      //     (`egg-warlord-residue` for the bulkhead neural anomaly)
+      //
+      // Render order: container hotspots authored FIRST; small sub-
+      // rectangles (mystery rects, item hotspots, easter eggs) authored
+      // AFTER so they win clicks on specific bench / forge / console
+      // surfaces.
+      //
+      // Verify with /ark?debug-hotspots=1 or, for drag-to-place
+      // editing, /ark?author-hotspots=1.
+
+      // ── FEATURE / CONTAINER HOTSPOTS ──
+      { id: "reactor-core", name: "Reactor Core", description: "The central archway holds the chamber's heart — a glowing forge fire above an anvil pedestal, fed by power conduits running into the back wall. The engineers called it the Ark's reactor.", x: 40, y: 22, width: 16, height: 38, type: "examine", action: "room-mystery:engineering:reactor-core", elaraDialog: "The reactor core. It runs on a substance the engineers called 'Dream' — a crystallized form of quantum consciousness. It's the same resource that powers your abilities. The core is running at 34% capacity. We're losing power slowly." },
+      { id: "crafting-bench", name: "Crafting Workbench", description: "The left foreground workbench, laid out with tools for card crafting and fusion experiments.", x: 15, y: 68, width: 28, height: 28, type: "terminal", action: "/research-lab", elaraDialog: "The crafting workbench. Here you can fuse cards together to create more powerful versions. The recipes were developed by the Ark's engineers — combine the right elements and you might create something legendary." },
+      { id: "blueprints", name: "Holographic Blueprints", description: "A cyan holographic blueprint floats above a brass desk at right-center — schematics for card designs and weapon systems the engineers never finished.", x: 55, y: 30, width: 17, height: 28, type: "examine", action: "room-mystery:engineering:blueprints", elaraDialog: "Card schematics. The engineers were designing new card types before... before they stopped. Some of these designs are brilliant. Legendary-tier cards that could turn the tide of any battle." },
+      { id: "research-station", name: "Research Station", description: "The right foreground workbench — an interactive research terminal with puzzles and experiments.", x: 55, y: 68, width: 25, height: 28, type: "terminal", action: "/research-minigame", elaraDialog: "The Research Station. Solve engineering puzzles and conduct experiments to unlock new card recipes and crafting techniques. The harder the puzzle, the rarer the reward." },
+
+      // ── DOORS ──
+      // door-forge anchors on the small doorway to the LEFT of the forge
+      // archway so it doesn't steal clicks from the reactor-core examine.
+      // The actual forge fire stays accessible via reactor-core; the
+      // door-forge is the maintenance doorway beside it.
+      { id: "door-forge", name: "Forge Workshop", description: "A heavy blast door to the left of the central forge. Heat warnings; the air shimmers.", x: 33, y: 27, width: 5, height: 32, type: "door", action: "forge-workshop" },
+      { id: "door-observation", name: "Observation Deck", description: "Return to the Observation Deck.", x: 0, y: 50, width: 4, height: 40, type: "door", action: "observation-deck" },
+      { id: "door-armory", name: "Armory Access", description: "A reinforced door at the right edge leading to the Armory.", x: 95, y: 30, width: 4, height: 45, type: "door", action: "armory" },
+
+      // ── LEFT-WALL WORKSTATION MYSTERY RECTS (wolf arc) ──
+      // The left-wall multi-screen workstation hosts the medical-archive
+      // and containment-systems consoles described in the wolf arc.
+      { id: "wolf-host-residue-files", name: "Healer's Host-Residue Research", description: "On engineering's medical-archive console (left workstation, top screen): the healer's preserved files. One draft entry on a Quarchon Potential, edited fourteen times across the week she disappeared.", x: 1, y: 35, width: 8, height: 8, type: "interact", action: "room-mystery:engineering:wolf-host-residue-files" },
+      { id: "wolf-anara-architecture-blind-spot", name: "Anara Architectural Schematic", description: "On the containment-systems console (left workstation, lower screen): Anara's schematics expose the single design assumption — outside is threat, inside is family. The family has eaten the chronicler.", x: 1, y: 46, width: 8, height: 8, type: "interact", action: "room-mystery:engineering:wolf-anara-architecture-blind-spot" },
+
+      // ── FORGE-AREA SUB-RECT (etched formula easter egg) ──
+      // Authored AFTER reactor-core so it wins clicks on the specific
+      // formula etched into the reactor housing.
+      { id: "egg-eng-formula", name: "Etched Formula", description: "A mathematical formula scratched into the reactor housing above the forge.", x: 47, y: 28, width: 4, height: 4, type: "examine", action: "room-mystery:engineering:egg-eng-formula", elaraDialog: "Someone etched a formula into the reactor housing. It's a dimensional resonance equation — the kind used to calculate jumps between parallel universes. But there's an extra variable I've never seen: Ψ-null. The null consciousness coefficient. This formula could theoretically open a door to... nowhere. The space between spaces. Where the Source dwells." },
+
+      // ── WORKBENCH SUB-RECTS (foreground bench items) ──
+      // Authored AFTER crafting-bench + research-station so they win
+      // clicks on specific items laid out across the benches.
+      { id: "mystery-crafting-bench", name: "Bench Tool Layout", description: "The tools on the left workbench, set up for a fusion job that was never started. Worn to a left-handed engineer's thumb.", x: 20, y: 80, width: 6, height: 6, type: "interact", action: "room-mystery:engineering:crafting-bench" },
+      { id: "instruction-manual", name: "Ark Instruction Manual", description: "A thick paper manual on the left workbench. Cracked spine, hand-stamped dedications.", x: 28, y: 80, width: 5, height: 6, type: "examine", action: "room-mystery:engineering:instruction-manual", elaraDialog: "INCEPTION ARK 1047 — QUICK START GUIDE. Page 1: Step 1, Don't let it get stolen. The author had a sense of humour and a complete absence of optimism." },
+      { id: "schematic-pad", name: "Reactor Schematic Pad", description: "An unrolled blueprint on the left workbench. The lines are double-registered — warm-gold underneath, indigo on top, with three connection points subtly redirected.", x: 17, y: 88, width: 12, height: 7, type: "interact", action: "room-mystery:engineering:schematic-pad" },
+      // Mystery wiring — Ith'Rael arc: Marion Kell physical-residue bench
+      // Anchored on the small side-bench between the right foreground
+      // workbench and the right-wall workstation, where centuries-old
+      // untouched grain would be visible.
+      { id: "kell-physical-residue-bench", name: "Kell's Residue Bench", description: "A side bench kept unmoved for centuries — Marion Kell's old workbench. The grain, the mug-rings, the undusted rectangle the Shadow Tongue never touched.", x: 63, y: 80, width: 7, height: 8, type: "interact", action: "room-mystery:engineering:kell-physical-residue-bench" },
+
+      // ── RIGHT-WALL BULKHEAD EGG ──
+      // Anchored on the right-wall workstation's lower bulkhead area
+      // where the Warlord's neural residue would register on the
+      // bio-scanner panel.
+      { id: "egg-warlord-residue", name: "Bio-Scanner Anomaly", description: "The bio-scanner panel on the right-wall workstation flickers with an unidentified neural signature embedded in the bulkhead plating behind it.", x: 88, y: 60, width: 5, height: 6, type: "item", action: "warlord-residue", elaraDialog: "[SIGNAL DISTORTION] The bio-scanners are detecting... no. That can't be right. There's a neural signature embedded in the bulkhead plating itself. Not organic, not synthetic — something in between. The Warlord's consciousness was so powerful that it left an imprint on the ship's physical structure. Dr. Lyra Vox commanded this vessel while the Warlord used her as a host body. The walls literally remember their master. {playerName}, this ship has a darker history than I initially disclosed. The Warlord didn't just pass through here — this was a command vessel." },
     ],
   },
   {
