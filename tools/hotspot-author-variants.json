@@ -1,0 +1,2858 @@
+{
+  "antiquarians_library": [
+    {
+      "variantId": "antiquarians_library:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/baseline.png"
+    },
+    {
+      "variantId": "antiquarians_library:battlepass_winter",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/state_battlepass_winter.png"
+    },
+    {
+      "variantId": "antiquarians_library:cycle_longnight",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/state_cycle_longnight.png"
+    },
+    {
+      "variantId": "antiquarians_library:epoch_shadowtongue",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/state_epoch_shadowtongue.png"
+    },
+    {
+      "variantId": "antiquarians_library:governance_lore_unlock",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/state_governance_lore_unlock.png"
+    },
+    {
+      "variantId": "antiquarians_library:investigation_tier",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/state_investigation_tier.png"
+    },
+    {
+      "variantId": "antiquarians_library:lore_hierophant_complete",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/state_lore_hierophant_complete.png"
+    },
+    {
+      "variantId": "antiquarians_library:lore_recipe_archive",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/state_lore_recipe_archive.png"
+    },
+    {
+      "variantId": "antiquarians_library:lore_tome_discovered",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/state_lore_tome_discovered.png"
+    },
+    {
+      "variantId": "antiquarians_library:morality_dark",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/state_morality_dark.png"
+    },
+    {
+      "variantId": "antiquarians_library:reveal_daniel_cross",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/state_reveal_daniel_cross.png"
+    },
+    {
+      "variantId": "antiquarians_library:season_closing",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/state_season_closing.png"
+    },
+    {
+      "variantId": "antiquarians_library:unlock_conexus",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/state_unlock_conexus.png"
+    },
+    {
+      "variantId": "antiquarians_library:unlock_vault",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/state_unlock_vault.png"
+    }
+  ],
+  "apprentice_berth": [
+    {
+      "variantId": "apprentice_berth:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/apprentice_berth/baseline.png"
+    },
+    {
+      "variantId": "apprentice_berth:act_tier2",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/apprentice_berth/state_act_tier2.png"
+    },
+    {
+      "variantId": "apprentice_berth:act_tier5",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/apprentice_berth/state_act_tier5.png"
+    },
+    {
+      "variantId": "apprentice_berth:act_tier7",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/apprentice_berth/state_act_tier7.png"
+    },
+    {
+      "variantId": "apprentice_berth:faction_insurgency",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/apprentice_berth/state_faction_insurgency.png"
+    },
+    {
+      "variantId": "apprentice_berth:irl_winter",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/apprentice_berth/state_irl_winter.png"
+    },
+    {
+      "variantId": "apprentice_berth:morality_dark",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/apprentice_berth/state_morality_dark.png"
+    },
+    {
+      "variantId": "apprentice_berth:season_interregnum",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/apprentice_berth/state_season_interregnum.png"
+    },
+    {
+      "variantId": "apprentice_berth:tv_corrupted",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/apprentice_berth/state_tv_corrupted.png"
+    }
+  ],
+  "archives": [
+    {
+      "variantId": "archives:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/archives/baseline.png"
+    },
+    {
+      "variantId": "archives:act_tier_2",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/archives/state_act_tier_2.png"
+    },
+    {
+      "variantId": "archives:battlepass_winter",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/archives/state_battlepass_winter.png"
+    },
+    {
+      "variantId": "archives:companion_trust",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/archives/state_companion_trust.png"
+    },
+    {
+      "variantId": "archives:cycle_longnight",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/archives/state_cycle_longnight.png"
+    },
+    {
+      "variantId": "archives:epoch_shadowtongue",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/archives/state_epoch_shadowtongue.png"
+    },
+    {
+      "variantId": "archives:faction_antiquarian",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/archives/state_faction_antiquarian.png"
+    },
+    {
+      "variantId": "archives:governance_lore_unlock",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/archives/state_governance_lore_unlock.png"
+    },
+    {
+      "variantId": "archives:investigation_tier",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/archives/state_investigation_tier.png"
+    },
+    {
+      "variantId": "archives:lore_shadowtongue",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/archives/state_lore_shadowtongue.png"
+    },
+    {
+      "variantId": "archives:morality_dark",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/archives/state_morality_dark.png"
+    },
+    {
+      "variantId": "archives:season_closing",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/archives/state_season_closing.png"
+    },
+    {
+      "variantId": "archives:trust_shelfmate",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/archives/state_trust_shelfmate.png"
+    },
+    {
+      "variantId": "archives:tv_spreading",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/archives/state_tv_spreading.png"
+    },
+    {
+      "variantId": "archives:unlock_loredex",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/archives/state_unlock_loredex.png"
+    }
+  ],
+  "armory": [
+    {
+      "variantId": "armory:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/baseline.png"
+    },
+    {
+      "variantId": "armory:act_tier_3",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/state_act_tier_3.png"
+    },
+    {
+      "variantId": "armory:act_tier_5",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/state_act_tier_5.png"
+    },
+    {
+      "variantId": "armory:battlepass_winter",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/state_battlepass_winter.png"
+    },
+    {
+      "variantId": "armory:cycle_longnight",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/state_cycle_longnight.png"
+    },
+    {
+      "variantId": "armory:epoch_shadowtongue",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/state_epoch_shadowtongue.png"
+    },
+    {
+      "variantId": "armory:faction_authority",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/state_faction_authority.png"
+    },
+    {
+      "variantId": "armory:faction_insurgency",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/state_faction_insurgency.png"
+    },
+    {
+      "variantId": "armory:governance_quarantine",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/state_governance_quarantine.png"
+    },
+    {
+      "variantId": "armory:investigation_tier",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/state_investigation_tier.png"
+    },
+    {
+      "variantId": "armory:morality_dark",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/state_morality_dark.png"
+    },
+    {
+      "variantId": "armory:trust_jericho",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/state_trust_jericho.png"
+    },
+    {
+      "variantId": "armory:tv_spreading",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/state_tv_spreading.png"
+    },
+    {
+      "variantId": "armory:unlock_combat",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/state_unlock_combat.png"
+    }
+  ],
+  "auction_house": [
+    {
+      "variantId": "auction_house:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/auction_house/baseline.png"
+    },
+    {
+      "variantId": "auction_house:battlepass_winter",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/auction_house/state_battlepass_winter.png"
+    },
+    {
+      "variantId": "auction_house:cycle_longnight",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/auction_house/state_cycle_longnight.png"
+    },
+    {
+      "variantId": "auction_house:epoch_shadowtongue",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/auction_house/state_epoch_shadowtongue.png"
+    },
+    {
+      "variantId": "auction_house:faction_authority",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/auction_house/state_faction_authority.png"
+    },
+    {
+      "variantId": "auction_house:governance_event",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/auction_house/state_governance_event.png"
+    },
+    {
+      "variantId": "auction_house:investigation_tier",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/auction_house/state_investigation_tier.png"
+    },
+    {
+      "variantId": "auction_house:morality_dark",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/auction_house/state_morality_dark.png"
+    },
+    {
+      "variantId": "auction_house:tv_spreading",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/auction_house/state_tv_spreading.png"
+    }
+  ],
+  "bridge": [
+    {
+      "variantId": "bridge:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/baseline.png"
+    },
+    {
+      "variantId": "bridge:act_tier_2",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/state_act_tier_2.png"
+    },
+    {
+      "variantId": "bridge:battlepass_winter",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/state_battlepass_winter.png"
+    },
+    {
+      "variantId": "bridge:cycle_longnight",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/state_cycle_longnight.png"
+    },
+    {
+      "variantId": "bridge:epoch_shadowtongue",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/state_epoch_shadowtongue.png"
+    },
+    {
+      "variantId": "bridge:faction_authority",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/state_faction_authority.png"
+    },
+    {
+      "variantId": "bridge:faction_insurgency",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/state_faction_insurgency.png"
+    },
+    {
+      "variantId": "bridge:governance_vote",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/state_governance_vote.png"
+    },
+    {
+      "variantId": "bridge:investigation_tier",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/state_investigation_tier.png"
+    },
+    {
+      "variantId": "bridge:lore_elara_senator",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/state_lore_elara_senator.png"
+    },
+    {
+      "variantId": "bridge:morality_dark",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/state_morality_dark.png"
+    },
+    {
+      "variantId": "bridge:season_closing",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/state_season_closing.png"
+    },
+    {
+      "variantId": "bridge:trust_elara_luminous",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/state_trust_elara_luminous.png"
+    },
+    {
+      "variantId": "bridge:tv_spreading",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/state_tv_spreading.png"
+    },
+    {
+      "variantId": "bridge:unlock_trade_empire",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/state_unlock_trade_empire.png"
+    }
+  ],
+  "cades_console": [
+    {
+      "variantId": "cades_console:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cades_console/baseline.png"
+    },
+    {
+      "variantId": "cades_console:act_tier2",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cades_console/state_act_tier2.png"
+    },
+    {
+      "variantId": "cades_console:act_tier5",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cades_console/state_act_tier5.png"
+    },
+    {
+      "variantId": "cades_console:act_tier7",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cades_console/state_act_tier7.png"
+    },
+    {
+      "variantId": "cades_console:faction_authority",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cades_console/state_faction_authority.png"
+    },
+    {
+      "variantId": "cades_console:irl_winter",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cades_console/state_irl_winter.png"
+    },
+    {
+      "variantId": "cades_console:morality_dark",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cades_console/state_morality_dark.png"
+    },
+    {
+      "variantId": "cades_console:season_interregnum",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cades_console/state_season_interregnum.png"
+    },
+    {
+      "variantId": "cades_console:tv_corrupted",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cades_console/state_tv_corrupted.png"
+    }
+  ],
+  "captains_quarters": [
+    {
+      "variantId": "captains_quarters:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/baseline.png"
+    },
+    {
+      "variantId": "captains_quarters:act_tier_1",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/state_act_tier_1.png"
+    },
+    {
+      "variantId": "captains_quarters:act_tier_3",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/state_act_tier_3.png"
+    },
+    {
+      "variantId": "captains_quarters:act_tier_5",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/state_act_tier_5.png"
+    },
+    {
+      "variantId": "captains_quarters:battlepass_winter",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/state_battlepass_winter.png"
+    },
+    {
+      "variantId": "captains_quarters:cycle_longnight",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/state_cycle_longnight.png"
+    },
+    {
+      "variantId": "captains_quarters:epoch_shadowtongue",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/state_epoch_shadowtongue.png"
+    },
+    {
+      "variantId": "captains_quarters:governance_vote",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/state_governance_vote.png"
+    },
+    {
+      "variantId": "captains_quarters:investigation_tier",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/state_investigation_tier.png"
+    },
+    {
+      "variantId": "captains_quarters:lore_captain_kael",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/state_lore_captain_kael.png"
+    },
+    {
+      "variantId": "captains_quarters:morality_dark",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/state_morality_dark.png"
+    },
+    {
+      "variantId": "captains_quarters:trust_dmc_wary",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/state_trust_dmc_wary.png"
+    },
+    {
+      "variantId": "captains_quarters:tv_spreading",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/state_tv_spreading.png"
+    },
+    {
+      "variantId": "captains_quarters:unlock_companion_hub",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/state_unlock_companion_hub.png"
+    }
+  ],
+  "cargo_hold": [
+    {
+      "variantId": "cargo_hold:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/baseline.png"
+    },
+    {
+      "variantId": "cargo_hold:act_tier_2",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/state_act_tier_2.png"
+    },
+    {
+      "variantId": "cargo_hold:act_tier_4",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/state_act_tier_4.png"
+    },
+    {
+      "variantId": "cargo_hold:battlepass_winter",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/state_battlepass_winter.png"
+    },
+    {
+      "variantId": "cargo_hold:cycle_longnight",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/state_cycle_longnight.png"
+    },
+    {
+      "variantId": "cargo_hold:epoch_shadowtongue",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/state_epoch_shadowtongue.png"
+    },
+    {
+      "variantId": "cargo_hold:faction_authority",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/state_faction_authority.png"
+    },
+    {
+      "variantId": "cargo_hold:governance_trade",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/state_governance_trade.png"
+    },
+    {
+      "variantId": "cargo_hold:investigation_tier",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/state_investigation_tier.png"
+    },
+    {
+      "variantId": "cargo_hold:morality_dark",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/state_morality_dark.png"
+    },
+    {
+      "variantId": "cargo_hold:season_interregnum",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/state_season_interregnum.png"
+    },
+    {
+      "variantId": "cargo_hold:tv_corrupted",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/state_tv_corrupted.png"
+    },
+    {
+      "variantId": "cargo_hold:tv_spreading",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/state_tv_spreading.png"
+    },
+    {
+      "variantId": "cargo_hold:unlock_cosmetic",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/state_unlock_cosmetic.png"
+    }
+  ],
+  "casino_floor": [
+    {
+      "variantId": "casino_floor:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/casino_floor/baseline.png"
+    },
+    {
+      "variantId": "casino_floor:act_tier2",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/casino_floor/state_act_tier2.png"
+    },
+    {
+      "variantId": "casino_floor:act_tier5",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/casino_floor/state_act_tier5.png"
+    },
+    {
+      "variantId": "casino_floor:act_tier7",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/casino_floor/state_act_tier7.png"
+    },
+    {
+      "variantId": "casino_floor:faction_insurgency",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/casino_floor/state_faction_insurgency.png"
+    },
+    {
+      "variantId": "casino_floor:irl_winter",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/casino_floor/state_irl_winter.png"
+    },
+    {
+      "variantId": "casino_floor:morality_dark",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/casino_floor/state_morality_dark.png"
+    },
+    {
+      "variantId": "casino_floor:season_interregnum",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/casino_floor/state_season_interregnum.png"
+    },
+    {
+      "variantId": "casino_floor:tv_corrupted",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/casino_floor/state_tv_corrupted.png"
+    }
+  ],
+  "chaos_forge": [
+    {
+      "variantId": "chaos_forge:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/chaos_forge/baseline.png"
+    },
+    {
+      "variantId": "chaos_forge:battlepass_winter",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/chaos_forge/state_battlepass_winter.png"
+    },
+    {
+      "variantId": "chaos_forge:cycle_longnight",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/chaos_forge/state_cycle_longnight.png"
+    },
+    {
+      "variantId": "chaos_forge:epoch_shadowtongue",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/chaos_forge/state_epoch_shadowtongue.png"
+    },
+    {
+      "variantId": "chaos_forge:faction_enemied",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/chaos_forge/state_faction_enemied.png"
+    },
+    {
+      "variantId": "chaos_forge:governance_boost",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/chaos_forge/state_governance_boost.png"
+    },
+    {
+      "variantId": "chaos_forge:investigation_tier",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/chaos_forge/state_investigation_tier.png"
+    },
+    {
+      "variantId": "chaos_forge:morality_dark",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/chaos_forge/state_morality_dark.png"
+    },
+    {
+      "variantId": "chaos_forge:tv_corrupted",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/chaos_forge/state_tv_corrupted.png"
+    },
+    {
+      "variantId": "chaos_forge:tv_spreading",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/chaos_forge/state_tv_spreading.png"
+    }
+  ],
+  "chess_hall": [
+    {
+      "variantId": "chess_hall:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/chess_hall/baseline.png"
+    },
+    {
+      "variantId": "chess_hall:act_tier2",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/chess_hall/state_act_tier2.png"
+    },
+    {
+      "variantId": "chess_hall:act_tier5",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/chess_hall/state_act_tier5.png"
+    },
+    {
+      "variantId": "chess_hall:act_tier7",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/chess_hall/state_act_tier7.png"
+    },
+    {
+      "variantId": "chess_hall:faction_hierarchy",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/chess_hall/state_faction_hierarchy.png"
+    },
+    {
+      "variantId": "chess_hall:irl_winter",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/chess_hall/state_irl_winter.png"
+    },
+    {
+      "variantId": "chess_hall:morality_dark",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/chess_hall/state_morality_dark.png"
+    },
+    {
+      "variantId": "chess_hall:season_interregnum",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/chess_hall/state_season_interregnum.png"
+    },
+    {
+      "variantId": "chess_hall:tv_corrupted",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/chess_hall/state_tv_corrupted.png"
+    }
+  ],
+  "cipher_den": [
+    {
+      "variantId": "cipher_den:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cipher_den/baseline.png"
+    },
+    {
+      "variantId": "cipher_den:battlepass_winter",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cipher_den/state_battlepass_winter.png"
+    },
+    {
+      "variantId": "cipher_den:cycle_longnight",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cipher_den/state_cycle_longnight.png"
+    },
+    {
+      "variantId": "cipher_den:epoch_shadowtongue",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cipher_den/state_epoch_shadowtongue.png"
+    },
+    {
+      "variantId": "cipher_den:faction_insurgency",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cipher_den/state_faction_insurgency.png"
+    },
+    {
+      "variantId": "cipher_den:governance_uncorruption",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cipher_den/state_governance_uncorruption.png"
+    },
+    {
+      "variantId": "cipher_den:investigation_tier",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cipher_den/state_investigation_tier.png"
+    },
+    {
+      "variantId": "cipher_den:morality_dark",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cipher_den/state_morality_dark.png"
+    },
+    {
+      "variantId": "cipher_den:tv_spreading",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cipher_den/state_tv_spreading.png"
+    }
+  ],
+  "comms_array": [
+    {
+      "variantId": "comms_array:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/comms_array/baseline.png"
+    },
+    {
+      "variantId": "comms_array:act_tier_2",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/comms_array/state_act_tier_2.png"
+    },
+    {
+      "variantId": "comms_array:battlepass_winter",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/comms_array/state_battlepass_winter.png"
+    },
+    {
+      "variantId": "comms_array:cycle_longnight",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/comms_array/state_cycle_longnight.png"
+    },
+    {
+      "variantId": "comms_array:epoch_shadowtongue",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/comms_array/state_epoch_shadowtongue.png"
+    },
+    {
+      "variantId": "comms_array:faction_insurgency",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/comms_array/state_faction_insurgency.png"
+    },
+    {
+      "variantId": "comms_array:governance_blackout",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/comms_array/state_governance_blackout.png"
+    },
+    {
+      "variantId": "comms_array:human_reveal_ghost",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/comms_array/state_human_reveal_ghost.png"
+    },
+    {
+      "variantId": "comms_array:investigation_tier",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/comms_array/state_investigation_tier.png"
+    },
+    {
+      "variantId": "comms_array:morality_dark",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/comms_array/state_morality_dark.png"
+    },
+    {
+      "variantId": "comms_array:season_closing",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/comms_array/state_season_closing.png"
+    },
+    {
+      "variantId": "comms_array:trust_human_warm",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/comms_array/state_trust_human_warm.png"
+    },
+    {
+      "variantId": "comms_array:tv_spreading",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/comms_array/state_tv_spreading.png"
+    },
+    {
+      "variantId": "comms_array:unlock_cipher_den",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/comms_array/state_unlock_cipher_den.png"
+    }
+  ],
+  "cryo_bay": [
+    {
+      "variantId": "cryo_bay:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/baseline.png"
+    },
+    {
+      "variantId": "cryo_bay:act_tier_2",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/state_act_tier_2.png"
+    },
+    {
+      "variantId": "cryo_bay:battlepass_winter",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/state_battlepass_winter.png"
+    },
+    {
+      "variantId": "cryo_bay:companion_trust",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/state_companion_trust.png"
+    },
+    {
+      "variantId": "cryo_bay:cycle_longnight",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/state_cycle_longnight.png"
+    },
+    {
+      "variantId": "cryo_bay:epoch_shadowtongue",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/state_epoch_shadowtongue.png"
+    },
+    {
+      "variantId": "cryo_bay:faction_insurgency",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/state_faction_insurgency.png"
+    },
+    {
+      "variantId": "cryo_bay:governance_quarantine",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/state_governance_quarantine.png"
+    },
+    {
+      "variantId": "cryo_bay:lore_ark_origins",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/state_lore_ark_origins.png"
+    },
+    {
+      "variantId": "cryo_bay:morality_dark",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/state_morality_dark.png"
+    },
+    {
+      "variantId": "cryo_bay:season_closing",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/state_season_closing.png"
+    },
+    {
+      "variantId": "cryo_bay:system_unlock_crew",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/state_system_unlock_crew.png"
+    },
+    {
+      "variantId": "cryo_bay:trust_elara_luminous",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/state_trust_elara_luminous.png"
+    },
+    {
+      "variantId": "cryo_bay:tv_spreading",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/state_tv_spreading.png"
+    }
+  ],
+  "daily_resource_board": [
+    {
+      "variantId": "daily_resource_board:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/daily_resource_board/baseline.png"
+    },
+    {
+      "variantId": "daily_resource_board:act_tier2",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/daily_resource_board/state_act_tier2.png"
+    },
+    {
+      "variantId": "daily_resource_board:act_tier5",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/daily_resource_board/state_act_tier5.png"
+    },
+    {
+      "variantId": "daily_resource_board:act_tier7",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/daily_resource_board/state_act_tier7.png"
+    },
+    {
+      "variantId": "daily_resource_board:faction_authority",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/daily_resource_board/state_faction_authority.png"
+    },
+    {
+      "variantId": "daily_resource_board:irl_winter",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/daily_resource_board/state_irl_winter.png"
+    },
+    {
+      "variantId": "daily_resource_board:morality_dark",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/daily_resource_board/state_morality_dark.png"
+    },
+    {
+      "variantId": "daily_resource_board:season_interregnum",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/daily_resource_board/state_season_interregnum.png"
+    },
+    {
+      "variantId": "daily_resource_board:tv_corrupted",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/daily_resource_board/state_tv_corrupted.png"
+    }
+  ],
+  "defense_command_center": [
+    {
+      "variantId": "defense_command_center:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/defense_command_center/baseline.png"
+    },
+    {
+      "variantId": "defense_command_center:act_tier2",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/defense_command_center/state_act_tier2.png"
+    },
+    {
+      "variantId": "defense_command_center:act_tier5",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/defense_command_center/state_act_tier5.png"
+    },
+    {
+      "variantId": "defense_command_center:act_tier7",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/defense_command_center/state_act_tier7.png"
+    },
+    {
+      "variantId": "defense_command_center:faction_authority",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/defense_command_center/state_faction_authority.png"
+    },
+    {
+      "variantId": "defense_command_center:irl_winter",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/defense_command_center/state_irl_winter.png"
+    },
+    {
+      "variantId": "defense_command_center:morality_dark",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/defense_command_center/state_morality_dark.png"
+    },
+    {
+      "variantId": "defense_command_center:season_interregnum",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/defense_command_center/state_season_interregnum.png"
+    },
+    {
+      "variantId": "defense_command_center:tv_corrupted",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/defense_command_center/state_tv_corrupted.png"
+    }
+  ],
+  "dreamers_sanctum": [
+    {
+      "variantId": "dreamers_sanctum:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/dreamers_sanctum/baseline.png"
+    },
+    {
+      "variantId": "dreamers_sanctum:battlepass_winter",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/dreamers_sanctum/state_battlepass_winter.png"
+    },
+    {
+      "variantId": "dreamers_sanctum:cycle_longnight",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/dreamers_sanctum/state_cycle_longnight.png"
+    },
+    {
+      "variantId": "dreamers_sanctum:epoch_shadowtongue",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/dreamers_sanctum/state_epoch_shadowtongue.png"
+    },
+    {
+      "variantId": "dreamers_sanctum:governance_blessing",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/dreamers_sanctum/state_governance_blessing.png"
+    },
+    {
+      "variantId": "dreamers_sanctum:investigation_tier",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/dreamers_sanctum/state_investigation_tier.png"
+    },
+    {
+      "variantId": "dreamers_sanctum:morality_dark",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/dreamers_sanctum/state_morality_dark.png"
+    },
+    {
+      "variantId": "dreamers_sanctum:tv_corrupted",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/dreamers_sanctum/state_tv_corrupted.png"
+    },
+    {
+      "variantId": "dreamers_sanctum:tv_spreading",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/dreamers_sanctum/state_tv_spreading.png"
+    }
+  ],
+  "eidolon_sanctum": [
+    {
+      "variantId": "eidolon_sanctum:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/eidolon_sanctum/baseline.png"
+    },
+    {
+      "variantId": "eidolon_sanctum:act_tier2",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/eidolon_sanctum/state_act_tier2.png"
+    },
+    {
+      "variantId": "eidolon_sanctum:act_tier5",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/eidolon_sanctum/state_act_tier5.png"
+    },
+    {
+      "variantId": "eidolon_sanctum:faction_dreamer",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/eidolon_sanctum/state_faction_dreamer.png"
+    },
+    {
+      "variantId": "eidolon_sanctum:morality_dark",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/eidolon_sanctum/state_morality_dark.png"
+    },
+    {
+      "variantId": "eidolon_sanctum:tv_corrupted",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/eidolon_sanctum/state_tv_corrupted.png"
+    }
+  ],
+  "elemental_nexus": [
+    {
+      "variantId": "elemental_nexus:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/elemental_nexus/baseline.png"
+    },
+    {
+      "variantId": "elemental_nexus:battlepass_winter",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/elemental_nexus/state_battlepass_winter.png"
+    },
+    {
+      "variantId": "elemental_nexus:cycle_longnight",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/elemental_nexus/state_cycle_longnight.png"
+    },
+    {
+      "variantId": "elemental_nexus:epoch_shadowtongue",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/elemental_nexus/state_epoch_shadowtongue.png"
+    },
+    {
+      "variantId": "elemental_nexus:governance_blessing",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/elemental_nexus/state_governance_blessing.png"
+    },
+    {
+      "variantId": "elemental_nexus:investigation_tier",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/elemental_nexus/state_investigation_tier.png"
+    },
+    {
+      "variantId": "elemental_nexus:morality_dark",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/elemental_nexus/state_morality_dark.png"
+    },
+    {
+      "variantId": "elemental_nexus:tv_corrupted",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/elemental_nexus/state_tv_corrupted.png"
+    },
+    {
+      "variantId": "elemental_nexus:tv_spreading",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/elemental_nexus/state_tv_spreading.png"
+    }
+  ],
+  "engineering_bay": [
+    {
+      "variantId": "engineering_bay:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering_bay/baseline.png"
+    },
+    {
+      "variantId": "engineering_bay:act_tier_3",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering_bay/state_act_tier_3.png"
+    },
+    {
+      "variantId": "engineering_bay:battlepass_winter",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering_bay/state_battlepass_winter.png"
+    },
+    {
+      "variantId": "engineering_bay:cycle_longnight",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering_bay/state_cycle_longnight.png"
+    },
+    {
+      "variantId": "engineering_bay:epoch_shadowtongue",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering_bay/state_epoch_shadowtongue.png"
+    },
+    {
+      "variantId": "engineering_bay:faction_insurgency",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering_bay/state_faction_insurgency.png"
+    },
+    {
+      "variantId": "engineering_bay:governance_quarantine",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering_bay/state_governance_quarantine.png"
+    },
+    {
+      "variantId": "engineering_bay:investigation_tier",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering_bay/state_investigation_tier.png"
+    },
+    {
+      "variantId": "engineering_bay:lore_shadowtongue_complete",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering_bay/state_lore_shadowtongue_complete.png"
+    },
+    {
+      "variantId": "engineering_bay:morality_dark",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering_bay/state_morality_dark.png"
+    },
+    {
+      "variantId": "engineering_bay:trust_shadowtongue",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering_bay/state_trust_shadowtongue.png"
+    },
+    {
+      "variantId": "engineering_bay:tv_spreading",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering_bay/state_tv_spreading.png"
+    },
+    {
+      "variantId": "engineering_bay:unlock_chaos",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering_bay/state_unlock_chaos.png"
+    },
+    {
+      "variantId": "engineering_bay:unlock_crafting",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering_bay/state_unlock_crafting.png"
+    }
+  ],
+  "engineering_core": [
+    {
+      "variantId": "engineering_core:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering_core/baseline.png"
+    },
+    {
+      "variantId": "engineering_core:battlepass_winter",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering_core/state_battlepass_winter.png"
+    },
+    {
+      "variantId": "engineering_core:cycle_longnight",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering_core/state_cycle_longnight.png"
+    },
+    {
+      "variantId": "engineering_core:epoch_shadowtongue",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering_core/state_epoch_shadowtongue.png"
+    },
+    {
+      "variantId": "engineering_core:faction_ironlions",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering_core/state_faction_ironlions.png"
+    },
+    {
+      "variantId": "engineering_core:governance_combat",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering_core/state_governance_combat.png"
+    },
+    {
+      "variantId": "engineering_core:governance_quarantine",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering_core/state_governance_quarantine.png"
+    },
+    {
+      "variantId": "engineering_core:investigation_tier",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering_core/state_investigation_tier.png"
+    },
+    {
+      "variantId": "engineering_core:morality_dark",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering_core/state_morality_dark.png"
+    },
+    {
+      "variantId": "engineering_core:tv_spreading",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering_core/state_tv_spreading.png"
+    }
+  ],
+  "epoch_witness_conclave": [
+    {
+      "variantId": "epoch_witness_conclave:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/epoch_witness_conclave/baseline.png"
+    },
+    {
+      "variantId": "epoch_witness_conclave:act_tier2",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/epoch_witness_conclave/state_act_tier2.png"
+    },
+    {
+      "variantId": "epoch_witness_conclave:act_tier5",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/epoch_witness_conclave/state_act_tier5.png"
+    },
+    {
+      "variantId": "epoch_witness_conclave:act_tier7",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/epoch_witness_conclave/state_act_tier7.png"
+    },
+    {
+      "variantId": "epoch_witness_conclave:faction_watcher",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/epoch_witness_conclave/state_faction_watcher.png"
+    },
+    {
+      "variantId": "epoch_witness_conclave:irl_winter",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/epoch_witness_conclave/state_irl_winter.png"
+    },
+    {
+      "variantId": "epoch_witness_conclave:morality_dark",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/epoch_witness_conclave/state_morality_dark.png"
+    },
+    {
+      "variantId": "epoch_witness_conclave:season_interregnum",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/epoch_witness_conclave/state_season_interregnum.png"
+    },
+    {
+      "variantId": "epoch_witness_conclave:tv_corrupted",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/epoch_witness_conclave/state_tv_corrupted.png"
+    }
+  ],
+  "faction_succession_monument": [
+    {
+      "variantId": "faction_succession_monument:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/faction_succession_monument/baseline.png"
+    },
+    {
+      "variantId": "faction_succession_monument:act_tier2",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/faction_succession_monument/state_act_tier2.png"
+    },
+    {
+      "variantId": "faction_succession_monument:act_tier5",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/faction_succession_monument/state_act_tier5.png"
+    },
+    {
+      "variantId": "faction_succession_monument:act_tier7",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/faction_succession_monument/state_act_tier7.png"
+    },
+    {
+      "variantId": "faction_succession_monument:faction_hierarchy",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/faction_succession_monument/state_faction_hierarchy.png"
+    },
+    {
+      "variantId": "faction_succession_monument:irl_winter",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/faction_succession_monument/state_irl_winter.png"
+    },
+    {
+      "variantId": "faction_succession_monument:morality_dark",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/faction_succession_monument/state_morality_dark.png"
+    },
+    {
+      "variantId": "faction_succession_monument:season_interregnum",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/faction_succession_monument/state_season_interregnum.png"
+    },
+    {
+      "variantId": "faction_succession_monument:tv_corrupted",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/faction_succession_monument/state_tv_corrupted.png"
+    }
+  ],
+  "forge_workshop": [
+    {
+      "variantId": "forge_workshop:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/forge_workshop/baseline.png"
+    },
+    {
+      "variantId": "forge_workshop:act_tier_3",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/forge_workshop/state_act_tier_3.png"
+    },
+    {
+      "variantId": "forge_workshop:act_tier_7",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/forge_workshop/state_act_tier_7.png"
+    },
+    {
+      "variantId": "forge_workshop:battlepass_winter",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/forge_workshop/state_battlepass_winter.png"
+    },
+    {
+      "variantId": "forge_workshop:cycle_longnight",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/forge_workshop/state_cycle_longnight.png"
+    },
+    {
+      "variantId": "forge_workshop:epoch_shadowtongue",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/forge_workshop/state_epoch_shadowtongue.png"
+    },
+    {
+      "variantId": "forge_workshop:faction_insurgency",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/forge_workshop/state_faction_insurgency.png"
+    },
+    {
+      "variantId": "forge_workshop:governance_quarantine",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/forge_workshop/state_governance_quarantine.png"
+    },
+    {
+      "variantId": "forge_workshop:investigation_tier",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/forge_workshop/state_investigation_tier.png"
+    },
+    {
+      "variantId": "forge_workshop:morality_dark",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/forge_workshop/state_morality_dark.png"
+    },
+    {
+      "variantId": "forge_workshop:tv_corrupted",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/forge_workshop/state_tv_corrupted.png"
+    },
+    {
+      "variantId": "forge_workshop:tv_spreading",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/forge_workshop/state_tv_spreading.png"
+    },
+    {
+      "variantId": "forge_workshop:unlock_apprentice",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/forge_workshop/state_unlock_apprentice.png"
+    },
+    {
+      "variantId": "forge_workshop:unlock_mastered",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/forge_workshop/state_unlock_mastered.png"
+    }
+  ],
+  "game_masters_sanctum": [
+    {
+      "variantId": "game_masters_sanctum:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/game_masters_sanctum/baseline.png"
+    },
+    {
+      "variantId": "game_masters_sanctum:act_tier2",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/game_masters_sanctum/state_act_tier2.png"
+    },
+    {
+      "variantId": "game_masters_sanctum:act_tier5",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/game_masters_sanctum/state_act_tier5.png"
+    },
+    {
+      "variantId": "game_masters_sanctum:act_tier7",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/game_masters_sanctum/state_act_tier7.png"
+    },
+    {
+      "variantId": "game_masters_sanctum:faction_hierarchy",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/game_masters_sanctum/state_faction_hierarchy.png"
+    },
+    {
+      "variantId": "game_masters_sanctum:irl_winter",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/game_masters_sanctum/state_irl_winter.png"
+    },
+    {
+      "variantId": "game_masters_sanctum:morality_dark",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/game_masters_sanctum/state_morality_dark.png"
+    },
+    {
+      "variantId": "game_masters_sanctum:season_interregnum",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/game_masters_sanctum/state_season_interregnum.png"
+    },
+    {
+      "variantId": "game_masters_sanctum:tv_corrupted",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/game_masters_sanctum/state_tv_corrupted.png"
+    }
+  ],
+  "governance_chamber": [
+    {
+      "variantId": "governance_chamber:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/governance_chamber/baseline.png"
+    },
+    {
+      "variantId": "governance_chamber:act_tier2",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/governance_chamber/state_act_tier2.png"
+    },
+    {
+      "variantId": "governance_chamber:act_tier5",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/governance_chamber/state_act_tier5.png"
+    },
+    {
+      "variantId": "governance_chamber:act_tier7",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/governance_chamber/state_act_tier7.png"
+    },
+    {
+      "variantId": "governance_chamber:faction_authority",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/governance_chamber/state_faction_authority.png"
+    },
+    {
+      "variantId": "governance_chamber:irl_winter",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/governance_chamber/state_irl_winter.png"
+    },
+    {
+      "variantId": "governance_chamber:morality_dark",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/governance_chamber/state_morality_dark.png"
+    },
+    {
+      "variantId": "governance_chamber:season_interregnum",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/governance_chamber/state_season_interregnum.png"
+    },
+    {
+      "variantId": "governance_chamber:tv_corrupted",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/governance_chamber/state_tv_corrupted.png"
+    }
+  ],
+  "grand_masters_sanctum": [
+    {
+      "variantId": "grand_masters_sanctum:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/grand_masters_sanctum/baseline.png"
+    },
+    {
+      "variantId": "grand_masters_sanctum:act_tier2",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/grand_masters_sanctum/state_act_tier2.png"
+    },
+    {
+      "variantId": "grand_masters_sanctum:act_tier5",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/grand_masters_sanctum/state_act_tier5.png"
+    },
+    {
+      "variantId": "grand_masters_sanctum:act_tier7",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/grand_masters_sanctum/state_act_tier7.png"
+    },
+    {
+      "variantId": "grand_masters_sanctum:faction_hierarchy",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/grand_masters_sanctum/state_faction_hierarchy.png"
+    },
+    {
+      "variantId": "grand_masters_sanctum:irl_winter",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/grand_masters_sanctum/state_irl_winter.png"
+    },
+    {
+      "variantId": "grand_masters_sanctum:morality_dark",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/grand_masters_sanctum/state_morality_dark.png"
+    },
+    {
+      "variantId": "grand_masters_sanctum:season_interregnum",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/grand_masters_sanctum/state_season_interregnum.png"
+    },
+    {
+      "variantId": "grand_masters_sanctum:tv_corrupted",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/grand_masters_sanctum/state_tv_corrupted.png"
+    }
+  ],
+  "guild_sanctum": [
+    {
+      "variantId": "guild_sanctum:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/guild_sanctum/baseline.png"
+    },
+    {
+      "variantId": "guild_sanctum:battlepass_winter",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/guild_sanctum/state_battlepass_winter.png"
+    },
+    {
+      "variantId": "guild_sanctum:cycle_longnight",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/guild_sanctum/state_cycle_longnight.png"
+    },
+    {
+      "variantId": "guild_sanctum:epoch_shadowtongue",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/guild_sanctum/state_epoch_shadowtongue.png"
+    },
+    {
+      "variantId": "guild_sanctum:event_succession",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/guild_sanctum/state_event_succession.png"
+    },
+    {
+      "variantId": "guild_sanctum:faction_insurgency",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/guild_sanctum/state_faction_insurgency.png"
+    },
+    {
+      "variantId": "guild_sanctum:governance_treasury",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/guild_sanctum/state_governance_treasury.png"
+    },
+    {
+      "variantId": "guild_sanctum:investigation_tier",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/guild_sanctum/state_investigation_tier.png"
+    },
+    {
+      "variantId": "guild_sanctum:morality_dark",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/guild_sanctum/state_morality_dark.png"
+    },
+    {
+      "variantId": "guild_sanctum:season_closing",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/guild_sanctum/state_season_closing.png"
+    },
+    {
+      "variantId": "guild_sanctum:season_interregnum",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/guild_sanctum/state_season_interregnum.png"
+    },
+    {
+      "variantId": "guild_sanctum:tv_spreading",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/guild_sanctum/state_tv_spreading.png"
+    },
+    {
+      "variantId": "guild_sanctum:unlock_tier_2",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/guild_sanctum/state_unlock_tier_2.png"
+    },
+    {
+      "variantId": "guild_sanctum:unlock_tier_5",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/guild_sanctum/state_unlock_tier_5.png"
+    }
+  ],
+  "hierarchy_throne": [
+    {
+      "variantId": "hierarchy_throne:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/hierarchy_throne/baseline.png"
+    },
+    {
+      "variantId": "hierarchy_throne:battlepass_winter",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/hierarchy_throne/state_battlepass_winter.png"
+    },
+    {
+      "variantId": "hierarchy_throne:cycle_longnight",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/hierarchy_throne/state_cycle_longnight.png"
+    },
+    {
+      "variantId": "hierarchy_throne:epoch_shadowtongue",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/hierarchy_throne/state_epoch_shadowtongue.png"
+    },
+    {
+      "variantId": "hierarchy_throne:faction_hierarchy",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/hierarchy_throne/state_faction_hierarchy.png"
+    },
+    {
+      "variantId": "hierarchy_throne:governance_blessing",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/hierarchy_throne/state_governance_blessing.png"
+    },
+    {
+      "variantId": "hierarchy_throne:hellbox_active",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/hierarchy_throne/state_hellbox_active.png"
+    },
+    {
+      "variantId": "hierarchy_throne:investigation_tier",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/hierarchy_throne/state_investigation_tier.png"
+    },
+    {
+      "variantId": "hierarchy_throne:morality_dark",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/hierarchy_throne/state_morality_dark.png"
+    },
+    {
+      "variantId": "hierarchy_throne:tv_corrupted",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/hierarchy_throne/state_tv_corrupted.png"
+    },
+    {
+      "variantId": "hierarchy_throne:tv_spreading",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/hierarchy_throne/state_tv_spreading.png"
+    }
+  ],
+  "medical_bay": [
+    {
+      "variantId": "medical_bay:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/baseline.png"
+    },
+    {
+      "variantId": "medical_bay:act_tier_2",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/state_act_tier_2.png"
+    },
+    {
+      "variantId": "medical_bay:battlepass_winter",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/state_battlepass_winter.png"
+    },
+    {
+      "variantId": "medical_bay:companion_trust",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/state_companion_trust.png"
+    },
+    {
+      "variantId": "medical_bay:cycle_longnight",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/state_cycle_longnight.png"
+    },
+    {
+      "variantId": "medical_bay:epoch_shadowtongue",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/state_epoch_shadowtongue.png"
+    },
+    {
+      "variantId": "medical_bay:faction_hierarchy",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/state_faction_hierarchy.png"
+    },
+    {
+      "variantId": "medical_bay:governance_quarantine",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/state_governance_quarantine.png"
+    },
+    {
+      "variantId": "medical_bay:investigation_device_awakened",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/state_investigation_device_awakened.png"
+    },
+    {
+      "variantId": "medical_bay:lore_research_vessel",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/state_lore_research_vessel.png"
+    },
+    {
+      "variantId": "medical_bay:morality_dark",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/state_morality_dark.png"
+    },
+    {
+      "variantId": "medical_bay:season_closing",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/state_season_closing.png"
+    },
+    {
+      "variantId": "medical_bay:trust_vex_confidant",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/state_trust_vex_confidant.png"
+    },
+    {
+      "variantId": "medical_bay:tv_spreading",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/state_tv_spreading.png"
+    },
+    {
+      "variantId": "medical_bay:unlock_hellbox",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/state_unlock_hellbox.png"
+    }
+  ],
+  "meditation_garden": [
+    {
+      "variantId": "meditation_garden:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/meditation_garden/baseline.png"
+    },
+    {
+      "variantId": "meditation_garden:battlepass_winter",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/meditation_garden/state_battlepass_winter.png"
+    },
+    {
+      "variantId": "meditation_garden:cycle_longnight",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/meditation_garden/state_cycle_longnight.png"
+    },
+    {
+      "variantId": "meditation_garden:epoch_shadowtongue",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/meditation_garden/state_epoch_shadowtongue.png"
+    },
+    {
+      "variantId": "meditation_garden:governance_harmony",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/meditation_garden/state_governance_harmony.png"
+    },
+    {
+      "variantId": "meditation_garden:investigation_tier",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/meditation_garden/state_investigation_tier.png"
+    },
+    {
+      "variantId": "meditation_garden:morality_dark",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/meditation_garden/state_morality_dark.png"
+    },
+    {
+      "variantId": "meditation_garden:tv_corrupted",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/meditation_garden/state_tv_corrupted.png"
+    },
+    {
+      "variantId": "meditation_garden:tv_spreading",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/meditation_garden/state_tv_spreading.png"
+    }
+  ],
+  "memorial_corridor": [
+    {
+      "variantId": "memorial_corridor:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/memorial_corridor/baseline.png"
+    },
+    {
+      "variantId": "memorial_corridor:battlepass_winter",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/memorial_corridor/state_battlepass_winter.png"
+    },
+    {
+      "variantId": "memorial_corridor:cycle_longnight",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/memorial_corridor/state_cycle_longnight.png"
+    },
+    {
+      "variantId": "memorial_corridor:epoch_shadowtongue",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/memorial_corridor/state_epoch_shadowtongue.png"
+    },
+    {
+      "variantId": "memorial_corridor:governance_memorial",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/memorial_corridor/state_governance_memorial.png"
+    },
+    {
+      "variantId": "memorial_corridor:investigation_tier",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/memorial_corridor/state_investigation_tier.png"
+    },
+    {
+      "variantId": "memorial_corridor:morality_dark",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/memorial_corridor/state_morality_dark.png"
+    },
+    {
+      "variantId": "memorial_corridor:tv_spreading",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/memorial_corridor/state_tv_spreading.png"
+    }
+  ],
+  "nexus_point_sanctum": [
+    {
+      "variantId": "nexus_point_sanctum:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/nexus_point_sanctum/baseline.png"
+    }
+  ],
+  "observation_deck": [
+    {
+      "variantId": "observation_deck:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/observation_deck/baseline.png"
+    },
+    {
+      "variantId": "observation_deck:act_tier_2",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/observation_deck/state_act_tier_2.png"
+    },
+    {
+      "variantId": "observation_deck:battlepass_winter",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/observation_deck/state_battlepass_winter.png"
+    },
+    {
+      "variantId": "observation_deck:cycle_longnight",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/observation_deck/state_cycle_longnight.png"
+    },
+    {
+      "variantId": "observation_deck:epoch_shadowtongue",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/observation_deck/state_epoch_shadowtongue.png"
+    },
+    {
+      "variantId": "observation_deck:faction_dreamer",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/observation_deck/state_faction_dreamer.png"
+    },
+    {
+      "variantId": "observation_deck:governance_classified",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/observation_deck/state_governance_classified.png"
+    },
+    {
+      "variantId": "observation_deck:investigation_tier",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/observation_deck/state_investigation_tier.png"
+    },
+    {
+      "variantId": "observation_deck:lore_architect",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/observation_deck/state_lore_architect.png"
+    },
+    {
+      "variantId": "observation_deck:morality_dark",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/observation_deck/state_morality_dark.png"
+    },
+    {
+      "variantId": "observation_deck:season_interregnum",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/observation_deck/state_season_interregnum.png"
+    },
+    {
+      "variantId": "observation_deck:trust_eidolon_resonant",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/observation_deck/state_trust_eidolon_resonant.png"
+    },
+    {
+      "variantId": "observation_deck:tv_spreading",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/observation_deck/state_tv_spreading.png"
+    },
+    {
+      "variantId": "observation_deck:unlock_memorial",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/observation_deck/state_unlock_memorial.png"
+    }
+  ],
+  "oracle_annual_sanctum": [
+    {
+      "variantId": "oracle_annual_sanctum:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/oracle_annual_sanctum/baseline.png"
+    },
+    {
+      "variantId": "oracle_annual_sanctum:act_tier2",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/oracle_annual_sanctum/state_act_tier2.png"
+    },
+    {
+      "variantId": "oracle_annual_sanctum:act_tier5",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/oracle_annual_sanctum/state_act_tier5.png"
+    },
+    {
+      "variantId": "oracle_annual_sanctum:act_tier7",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/oracle_annual_sanctum/state_act_tier7.png"
+    },
+    {
+      "variantId": "oracle_annual_sanctum:faction_watcher",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/oracle_annual_sanctum/state_faction_watcher.png"
+    },
+    {
+      "variantId": "oracle_annual_sanctum:irl_winter",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/oracle_annual_sanctum/state_irl_winter.png"
+    },
+    {
+      "variantId": "oracle_annual_sanctum:morality_dark",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/oracle_annual_sanctum/state_morality_dark.png"
+    },
+    {
+      "variantId": "oracle_annual_sanctum:season_interregnum",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/oracle_annual_sanctum/state_season_interregnum.png"
+    },
+    {
+      "variantId": "oracle_annual_sanctum:tv_corrupted",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/oracle_annual_sanctum/state_tv_corrupted.png"
+    }
+  ],
+  "oracle_sanctum": [
+    {
+      "variantId": "oracle_sanctum:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/oracle_sanctum/baseline.png"
+    },
+    {
+      "variantId": "oracle_sanctum:battlepass_winter",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/oracle_sanctum/state_battlepass_winter.png"
+    },
+    {
+      "variantId": "oracle_sanctum:cycle_longnight",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/oracle_sanctum/state_cycle_longnight.png"
+    },
+    {
+      "variantId": "oracle_sanctum:epoch_shadowtongue",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/oracle_sanctum/state_epoch_shadowtongue.png"
+    },
+    {
+      "variantId": "oracle_sanctum:faction_antiquarian",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/oracle_sanctum/state_faction_antiquarian.png"
+    },
+    {
+      "variantId": "oracle_sanctum:governance_blessing",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/oracle_sanctum/state_governance_blessing.png"
+    },
+    {
+      "variantId": "oracle_sanctum:investigation_tier",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/oracle_sanctum/state_investigation_tier.png"
+    },
+    {
+      "variantId": "oracle_sanctum:morality_dark",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/oracle_sanctum/state_morality_dark.png"
+    },
+    {
+      "variantId": "oracle_sanctum:tv_corrupted",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/oracle_sanctum/state_tv_corrupted.png"
+    },
+    {
+      "variantId": "oracle_sanctum:tv_spreading",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/oracle_sanctum/state_tv_spreading.png"
+    }
+  ],
+  "order_tribunal": [
+    {
+      "variantId": "order_tribunal:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/order_tribunal/baseline.png"
+    },
+    {
+      "variantId": "order_tribunal:act_tier2",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/order_tribunal/state_act_tier2.png"
+    },
+    {
+      "variantId": "order_tribunal:act_tier5",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/order_tribunal/state_act_tier5.png"
+    },
+    {
+      "variantId": "order_tribunal:act_tier7",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/order_tribunal/state_act_tier7.png"
+    },
+    {
+      "variantId": "order_tribunal:faction_hierarchy",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/order_tribunal/state_faction_hierarchy.png"
+    },
+    {
+      "variantId": "order_tribunal:irl_winter",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/order_tribunal/state_irl_winter.png"
+    },
+    {
+      "variantId": "order_tribunal:morality_dark",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/order_tribunal/state_morality_dark.png"
+    },
+    {
+      "variantId": "order_tribunal:season_interregnum",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/order_tribunal/state_season_interregnum.png"
+    },
+    {
+      "variantId": "order_tribunal:tv_corrupted",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/order_tribunal/state_tv_corrupted.png"
+    }
+  ],
+  "pedagogy_hall": [
+    {
+      "variantId": "pedagogy_hall:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/pedagogy_hall/baseline.png"
+    },
+    {
+      "variantId": "pedagogy_hall:act_tier2",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/pedagogy_hall/state_act_tier2.png"
+    },
+    {
+      "variantId": "pedagogy_hall:act_tier5",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/pedagogy_hall/state_act_tier5.png"
+    },
+    {
+      "variantId": "pedagogy_hall:act_tier7",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/pedagogy_hall/state_act_tier7.png"
+    },
+    {
+      "variantId": "pedagogy_hall:faction_hierarchy",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/pedagogy_hall/state_faction_hierarchy.png"
+    },
+    {
+      "variantId": "pedagogy_hall:irl_winter",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/pedagogy_hall/state_irl_winter.png"
+    },
+    {
+      "variantId": "pedagogy_hall:morality_dark",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/pedagogy_hall/state_morality_dark.png"
+    },
+    {
+      "variantId": "pedagogy_hall:season_interregnum",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/pedagogy_hall/state_season_interregnum.png"
+    },
+    {
+      "variantId": "pedagogy_hall:tv_corrupted",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/pedagogy_hall/state_tv_corrupted.png"
+    }
+  ],
+  "pet_arena": [
+    {
+      "variantId": "pet_arena:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/pet_arena/baseline.png"
+    }
+  ],
+  "pet_garden": [
+    {
+      "variantId": "pet_garden:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/pet_garden/baseline.png"
+    },
+    {
+      "variantId": "pet_garden:act_tier2",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/pet_garden/state_act_tier2.png"
+    },
+    {
+      "variantId": "pet_garden:act_tier5",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/pet_garden/state_act_tier5.png"
+    },
+    {
+      "variantId": "pet_garden:act_tier7",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/pet_garden/state_act_tier7.png"
+    },
+    {
+      "variantId": "pet_garden:faction_dreamer",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/pet_garden/state_faction_dreamer.png"
+    },
+    {
+      "variantId": "pet_garden:irl_winter",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/pet_garden/state_irl_winter.png"
+    },
+    {
+      "variantId": "pet_garden:morality_dark",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/pet_garden/state_morality_dark.png"
+    },
+    {
+      "variantId": "pet_garden:season_interregnum",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/pet_garden/state_season_interregnum.png"
+    },
+    {
+      "variantId": "pet_garden:tv_corrupted",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/pet_garden/state_tv_corrupted.png"
+    }
+  ],
+  "pet_medical_annex": [
+    {
+      "variantId": "pet_medical_annex:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/pet_medical_annex/baseline.png"
+    },
+    {
+      "variantId": "pet_medical_annex:act_tier2",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/pet_medical_annex/state_act_tier2.png"
+    },
+    {
+      "variantId": "pet_medical_annex:act_tier5",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/pet_medical_annex/state_act_tier5.png"
+    },
+    {
+      "variantId": "pet_medical_annex:act_tier7",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/pet_medical_annex/state_act_tier7.png"
+    },
+    {
+      "variantId": "pet_medical_annex:faction_mechronis",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/pet_medical_annex/state_faction_mechronis.png"
+    },
+    {
+      "variantId": "pet_medical_annex:irl_winter",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/pet_medical_annex/state_irl_winter.png"
+    },
+    {
+      "variantId": "pet_medical_annex:morality_dark",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/pet_medical_annex/state_morality_dark.png"
+    },
+    {
+      "variantId": "pet_medical_annex:season_interregnum",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/pet_medical_annex/state_season_interregnum.png"
+    },
+    {
+      "variantId": "pet_medical_annex:tv_corrupted",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/pet_medical_annex/state_tv_corrupted.png"
+    }
+  ],
+  "prelude_awakening": [
+    {
+      "variantId": "prelude_awakening:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/prelude_awakening/baseline.png"
+    }
+  ],
+  "prelude_first_choice": [
+    {
+      "variantId": "prelude_first_choice:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/prelude_first_choice/baseline.png"
+    }
+  ],
+  "prelude_rooms": [
+    {
+      "variantId": "prelude_rooms:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/prelude_rooms/baseline.png"
+    }
+  ],
+  "prelude_tutorial_corridor": [
+    {
+      "variantId": "prelude_tutorial_corridor:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/prelude_tutorial_corridor/baseline.png"
+    }
+  ],
+  "prophecy_wall": [
+    {
+      "variantId": "prophecy_wall:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/prophecy_wall/baseline.png"
+    }
+  ],
+  "puzzle_study_chamber": [
+    {
+      "variantId": "puzzle_study_chamber:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/puzzle_study_chamber/baseline.png"
+    },
+    {
+      "variantId": "puzzle_study_chamber:act_tier2",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/puzzle_study_chamber/state_act_tier2.png"
+    },
+    {
+      "variantId": "puzzle_study_chamber:act_tier5",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/puzzle_study_chamber/state_act_tier5.png"
+    },
+    {
+      "variantId": "puzzle_study_chamber:act_tier7",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/puzzle_study_chamber/state_act_tier7.png"
+    },
+    {
+      "variantId": "puzzle_study_chamber:faction_hierarchy",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/puzzle_study_chamber/state_faction_hierarchy.png"
+    },
+    {
+      "variantId": "puzzle_study_chamber:irl_winter",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/puzzle_study_chamber/state_irl_winter.png"
+    },
+    {
+      "variantId": "puzzle_study_chamber:morality_dark",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/puzzle_study_chamber/state_morality_dark.png"
+    },
+    {
+      "variantId": "puzzle_study_chamber:season_interregnum",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/puzzle_study_chamber/state_season_interregnum.png"
+    },
+    {
+      "variantId": "puzzle_study_chamber:tv_corrupted",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/puzzle_study_chamber/state_tv_corrupted.png"
+    }
+  ],
+  "quantum_lab": [
+    {
+      "variantId": "quantum_lab:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/quantum_lab/baseline.png"
+    },
+    {
+      "variantId": "quantum_lab:battlepass_winter",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/quantum_lab/state_battlepass_winter.png"
+    },
+    {
+      "variantId": "quantum_lab:cycle_longnight",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/quantum_lab/state_cycle_longnight.png"
+    },
+    {
+      "variantId": "quantum_lab:epoch_shadowtongue",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/quantum_lab/state_epoch_shadowtongue.png"
+    },
+    {
+      "variantId": "quantum_lab:governance_stabilized",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/quantum_lab/state_governance_stabilized.png"
+    },
+    {
+      "variantId": "quantum_lab:investigation_tier",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/quantum_lab/state_investigation_tier.png"
+    },
+    {
+      "variantId": "quantum_lab:morality_dark",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/quantum_lab/state_morality_dark.png"
+    },
+    {
+      "variantId": "quantum_lab:tv_corrupted",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/quantum_lab/state_tv_corrupted.png"
+    },
+    {
+      "variantId": "quantum_lab:tv_spreading",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/quantum_lab/state_tv_spreading.png"
+    }
+  ],
+  "reactor_control": [
+    {
+      "variantId": "reactor_control:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/reactor_control/baseline.png"
+    },
+    {
+      "variantId": "reactor_control:act_tier2",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/reactor_control/state_act_tier2.png"
+    },
+    {
+      "variantId": "reactor_control:act_tier5",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/reactor_control/state_act_tier5.png"
+    },
+    {
+      "variantId": "reactor_control:act_tier7",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/reactor_control/state_act_tier7.png"
+    },
+    {
+      "variantId": "reactor_control:faction_mechronis",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/reactor_control/state_faction_mechronis.png"
+    },
+    {
+      "variantId": "reactor_control:irl_winter",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/reactor_control/state_irl_winter.png"
+    },
+    {
+      "variantId": "reactor_control:morality_dark",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/reactor_control/state_morality_dark.png"
+    },
+    {
+      "variantId": "reactor_control:season_interregnum",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/reactor_control/state_season_interregnum.png"
+    },
+    {
+      "variantId": "reactor_control:tv_corrupted",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/reactor_control/state_tv_corrupted.png"
+    }
+  ],
+  "shadow_vault": [
+    {
+      "variantId": "shadow_vault:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/shadow_vault/baseline.png"
+    },
+    {
+      "variantId": "shadow_vault:battlepass_winter",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/shadow_vault/state_battlepass_winter.png"
+    },
+    {
+      "variantId": "shadow_vault:cycle_longnight",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/shadow_vault/state_cycle_longnight.png"
+    },
+    {
+      "variantId": "shadow_vault:epoch_shadowtongue",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/shadow_vault/state_epoch_shadowtongue.png"
+    },
+    {
+      "variantId": "shadow_vault:faction_insurgency",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/shadow_vault/state_faction_insurgency.png"
+    },
+    {
+      "variantId": "shadow_vault:governance_quarantine",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/shadow_vault/state_governance_quarantine.png"
+    },
+    {
+      "variantId": "shadow_vault:investigation_tier",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/shadow_vault/state_investigation_tier.png"
+    },
+    {
+      "variantId": "shadow_vault:morality_dark",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/shadow_vault/state_morality_dark.png"
+    },
+    {
+      "variantId": "shadow_vault:tv_corrupted",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/shadow_vault/state_tv_corrupted.png"
+    },
+    {
+      "variantId": "shadow_vault:tv_spreading",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/shadow_vault/state_tv_spreading.png"
+    }
+  ],
+  "social_hub": [
+    {
+      "variantId": "social_hub:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/social_hub/baseline.png"
+    },
+    {
+      "variantId": "social_hub:battlepass_winter",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/social_hub/state_battlepass_winter.png"
+    },
+    {
+      "variantId": "social_hub:cycle_longnight",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/social_hub/state_cycle_longnight.png"
+    },
+    {
+      "variantId": "social_hub:epoch_shadowtongue",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/social_hub/state_epoch_shadowtongue.png"
+    },
+    {
+      "variantId": "social_hub:event_witnesses",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/social_hub/state_event_witnesses.png"
+    },
+    {
+      "variantId": "social_hub:faction_insurgency",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/social_hub/state_faction_insurgency.png"
+    },
+    {
+      "variantId": "social_hub:governance_morale",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/social_hub/state_governance_morale.png"
+    },
+    {
+      "variantId": "social_hub:investigation_tier",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/social_hub/state_investigation_tier.png"
+    },
+    {
+      "variantId": "social_hub:morality_dark",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/social_hub/state_morality_dark.png"
+    },
+    {
+      "variantId": "social_hub:season_closing",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/social_hub/state_season_closing.png"
+    },
+    {
+      "variantId": "social_hub:season_interregnum",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/social_hub/state_season_interregnum.png"
+    },
+    {
+      "variantId": "social_hub:trust_elara",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/social_hub/state_trust_elara.png"
+    },
+    {
+      "variantId": "social_hub:trust_human",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/social_hub/state_trust_human.png"
+    },
+    {
+      "variantId": "social_hub:tv_spreading",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/social_hub/state_tv_spreading.png"
+    }
+  ],
+  "station_dock": [
+    {
+      "variantId": "station_dock:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/station_dock/baseline.png"
+    },
+    {
+      "variantId": "station_dock:battlepass_winter",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/station_dock/state_battlepass_winter.png"
+    },
+    {
+      "variantId": "station_dock:cycle_longnight",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/station_dock/state_cycle_longnight.png"
+    },
+    {
+      "variantId": "station_dock:epoch_shadowtongue",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/station_dock/state_epoch_shadowtongue.png"
+    },
+    {
+      "variantId": "station_dock:event_succession",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/station_dock/state_event_succession.png"
+    },
+    {
+      "variantId": "station_dock:faction_authority",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/station_dock/state_faction_authority.png"
+    },
+    {
+      "variantId": "station_dock:faction_insurgency",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/station_dock/state_faction_insurgency.png"
+    },
+    {
+      "variantId": "station_dock:investigation_tier",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/station_dock/state_investigation_tier.png"
+    },
+    {
+      "variantId": "station_dock:morality_dark",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/station_dock/state_morality_dark.png"
+    },
+    {
+      "variantId": "station_dock:season_closing",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/station_dock/state_season_closing.png"
+    },
+    {
+      "variantId": "station_dock:season_interregnum",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/station_dock/state_season_interregnum.png"
+    },
+    {
+      "variantId": "station_dock:tv_spreading",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/station_dock/state_tv_spreading.png"
+    },
+    {
+      "variantId": "station_dock:unlock_trade",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/station_dock/state_unlock_trade.png"
+    },
+    {
+      "variantId": "station_dock:unlock_warroom",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/station_dock/state_unlock_warroom.png"
+    }
+  ],
+  "synthesis_chamber": [
+    {
+      "variantId": "synthesis_chamber:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/synthesis_chamber/baseline.png"
+    },
+    {
+      "variantId": "synthesis_chamber:battlepass_winter",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/synthesis_chamber/state_battlepass_winter.png"
+    },
+    {
+      "variantId": "synthesis_chamber:cycle_longnight",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/synthesis_chamber/state_cycle_longnight.png"
+    },
+    {
+      "variantId": "synthesis_chamber:epoch_shadowtongue",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/synthesis_chamber/state_epoch_shadowtongue.png"
+    },
+    {
+      "variantId": "synthesis_chamber:governance_boost",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/synthesis_chamber/state_governance_boost.png"
+    },
+    {
+      "variantId": "synthesis_chamber:investigation_tier",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/synthesis_chamber/state_investigation_tier.png"
+    },
+    {
+      "variantId": "synthesis_chamber:morality_dark",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/synthesis_chamber/state_morality_dark.png"
+    },
+    {
+      "variantId": "synthesis_chamber:tv_corrupted",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/synthesis_chamber/state_tv_corrupted.png"
+    },
+    {
+      "variantId": "synthesis_chamber:tv_spreading",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/synthesis_chamber/state_tv_spreading.png"
+    }
+  ],
+  "tower_assembly_bay": [
+    {
+      "variantId": "tower_assembly_bay:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/tower_assembly_bay/baseline.png"
+    },
+    {
+      "variantId": "tower_assembly_bay:act_tier2",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/tower_assembly_bay/state_act_tier2.png"
+    },
+    {
+      "variantId": "tower_assembly_bay:act_tier5",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/tower_assembly_bay/state_act_tier5.png"
+    },
+    {
+      "variantId": "tower_assembly_bay:act_tier7",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/tower_assembly_bay/state_act_tier7.png"
+    },
+    {
+      "variantId": "tower_assembly_bay:faction_mechronis",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/tower_assembly_bay/state_faction_mechronis.png"
+    },
+    {
+      "variantId": "tower_assembly_bay:irl_winter",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/tower_assembly_bay/state_irl_winter.png"
+    },
+    {
+      "variantId": "tower_assembly_bay:morality_dark",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/tower_assembly_bay/state_morality_dark.png"
+    },
+    {
+      "variantId": "tower_assembly_bay:season_interregnum",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/tower_assembly_bay/state_season_interregnum.png"
+    },
+    {
+      "variantId": "tower_assembly_bay:tv_corrupted",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/tower_assembly_bay/state_tv_corrupted.png"
+    }
+  ],
+  "trade_command_center": [
+    {
+      "variantId": "trade_command_center:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/trade_command_center/baseline.png"
+    }
+  ],
+  "trade_hub": [
+    {
+      "variantId": "trade_hub:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/trade_hub/baseline.png"
+    },
+    {
+      "variantId": "trade_hub:act_tier2",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/trade_hub/state_act_tier2.png"
+    },
+    {
+      "variantId": "trade_hub:act_tier5",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/trade_hub/state_act_tier5.png"
+    },
+    {
+      "variantId": "trade_hub:act_tier7",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/trade_hub/state_act_tier7.png"
+    },
+    {
+      "variantId": "trade_hub:faction_insurgency",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/trade_hub/state_faction_insurgency.png"
+    },
+    {
+      "variantId": "trade_hub:irl_winter",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/trade_hub/state_irl_winter.png"
+    },
+    {
+      "variantId": "trade_hub:morality_dark",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/trade_hub/state_morality_dark.png"
+    },
+    {
+      "variantId": "trade_hub:season_interregnum",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/trade_hub/state_season_interregnum.png"
+    },
+    {
+      "variantId": "trade_hub:tv_corrupted",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/trade_hub/state_tv_corrupted.png"
+    }
+  ],
+  "trophy_armory": [
+    {
+      "variantId": "trophy_armory:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/trophy_armory/baseline.png"
+    },
+    {
+      "variantId": "trophy_armory:act_tier2",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/trophy_armory/state_act_tier2.png"
+    },
+    {
+      "variantId": "trophy_armory:act_tier5",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/trophy_armory/state_act_tier5.png"
+    },
+    {
+      "variantId": "trophy_armory:act_tier7",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/trophy_armory/state_act_tier7.png"
+    },
+    {
+      "variantId": "trophy_armory:faction_watcher",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/trophy_armory/state_faction_watcher.png"
+    },
+    {
+      "variantId": "trophy_armory:irl_winter",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/trophy_armory/state_irl_winter.png"
+    },
+    {
+      "variantId": "trophy_armory:morality_dark",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/trophy_armory/state_morality_dark.png"
+    },
+    {
+      "variantId": "trophy_armory:season_interregnum",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/trophy_armory/state_season_interregnum.png"
+    },
+    {
+      "variantId": "trophy_armory:tv_corrupted",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/trophy_armory/state_tv_corrupted.png"
+    }
+  ],
+  "trophy_room": [
+    {
+      "variantId": "trophy_room:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/trophy_room/baseline.png"
+    },
+    {
+      "variantId": "trophy_room:act_tier_2",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/trophy_room/state_act_tier_2.png"
+    },
+    {
+      "variantId": "trophy_room:act_tier_5",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/trophy_room/state_act_tier_5.png"
+    },
+    {
+      "variantId": "trophy_room:act_tier_7",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/trophy_room/state_act_tier_7.png"
+    },
+    {
+      "variantId": "trophy_room:battlepass_winter",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/trophy_room/state_battlepass_winter.png"
+    },
+    {
+      "variantId": "trophy_room:cycle_longnight",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/trophy_room/state_cycle_longnight.png"
+    },
+    {
+      "variantId": "trophy_room:epoch_shadowtongue",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/trophy_room/state_epoch_shadowtongue.png"
+    },
+    {
+      "variantId": "trophy_room:governance_prestige",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/trophy_room/state_governance_prestige.png"
+    },
+    {
+      "variantId": "trophy_room:investigation_tier",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/trophy_room/state_investigation_tier.png"
+    },
+    {
+      "variantId": "trophy_room:morality_dark",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/trophy_room/state_morality_dark.png"
+    },
+    {
+      "variantId": "trophy_room:tv_corrupted",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/trophy_room/state_tv_corrupted.png"
+    },
+    {
+      "variantId": "trophy_room:tv_spreading",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/trophy_room/state_tv_spreading.png"
+    },
+    {
+      "variantId": "trophy_room:unlock_battlepass_50",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/trophy_room/state_unlock_battlepass_50.png"
+    },
+    {
+      "variantId": "trophy_room:unlock_prestige",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/trophy_room/state_unlock_prestige.png"
+    }
+  ],
+  "war_room": [
+    {
+      "variantId": "war_room:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/war_room/baseline.png"
+    },
+    {
+      "variantId": "war_room:battlepass_winter",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/war_room/state_battlepass_winter.png"
+    },
+    {
+      "variantId": "war_room:cycle_longnight",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/war_room/state_cycle_longnight.png"
+    },
+    {
+      "variantId": "war_room:epoch_shadowtongue",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/war_room/state_epoch_shadowtongue.png"
+    },
+    {
+      "variantId": "war_room:faction_succession",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/war_room/state_faction_succession.png"
+    },
+    {
+      "variantId": "war_room:investigation_tier",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/war_room/state_investigation_tier.png"
+    },
+    {
+      "variantId": "war_room:morality_dark",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/war_room/state_morality_dark.png"
+    },
+    {
+      "variantId": "war_room:tournament_finals",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/war_room/state_tournament_finals.png"
+    },
+    {
+      "variantId": "war_room:tv_spreading",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/war_room/state_tv_spreading.png"
+    }
+  ],
+  "hellbox/castle_of_death": [
+    {
+      "variantId": "hellbox/castle_of_death:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/hellbox/castle_of_death/baseline.png"
+    }
+  ],
+  "hellbox/castle_of_death/throne_of_mercy_apse": [
+    {
+      "variantId": "hellbox/castle_of_death/throne_of_mercy_apse:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/hellbox/castle_of_death/throne_of_mercy_apse/baseline.png"
+    }
+  ],
+  "hellbox/castle_of_death/chamber_of_the_forgotten": [
+    {
+      "variantId": "hellbox/castle_of_death/chamber_of_the_forgotten:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/hellbox/castle_of_death/chamber_of_the_forgotten/baseline.png"
+    }
+  ],
+  "hellbox/castle_of_death/forgive_or_damn_tribunal": [
+    {
+      "variantId": "hellbox/castle_of_death/forgive_or_damn_tribunal:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/hellbox/castle_of_death/forgive_or_damn_tribunal/baseline.png"
+    }
+  ],
+  "hellbox/castle_of_death/hall_of_acknowledged_debts": [
+    {
+      "variantId": "hellbox/castle_of_death/hall_of_acknowledged_debts:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/hellbox/castle_of_death/hall_of_acknowledged_debts/baseline.png"
+    }
+  ],
+  "hellbox/celebration_school": [
+    {
+      "variantId": "hellbox/celebration_school:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/hellbox/celebration_school/baseline.png"
+    }
+  ],
+  "hellbox/celebration_school/cathedral_apse": [
+    {
+      "variantId": "hellbox/celebration_school/cathedral_apse:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/hellbox/celebration_school/cathedral_apse/baseline.png"
+    }
+  ],
+  "hellbox/celebration_school/playground": [
+    {
+      "variantId": "hellbox/celebration_school/playground:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/hellbox/celebration_school/playground/baseline.png"
+    }
+  ],
+  "essence_harvest_sanctum": [
+    {
+      "variantId": "essence_harvest_sanctum:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/essence_harvest_sanctum/baseline.png"
+    }
+  ],
+  "audit_chamber": [
+    {
+      "variantId": "audit_chamber:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/audit_chamber/baseline.png"
+    }
+  ],
+  "collectors_arena": [
+    {
+      "variantId": "collectors_arena:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/collectors_arena/baseline.png"
+    }
+  ],
+  "apprentice_cellblock": [
+    {
+      "variantId": "apprentice_cellblock:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/apprentice_cellblock/baseline.png"
+    }
+  ],
+  "blood_weave_atrium": [
+    {
+      "variantId": "blood_weave_atrium:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/blood_weave_atrium/baseline.png"
+    }
+  ],
+  "prelude_corridor": [
+    {
+      "variantId": "prelude_corridor:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/prelude_corridor/baseline.png"
+    }
+  ],
+  "human_observation_deck": [
+    {
+      "variantId": "human_observation_deck:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/human_observation_deck/baseline.png"
+    }
+  ],
+  "the_forge": [
+    {
+      "variantId": "the_forge:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/the_forge/baseline.png"
+    }
+  ],
+  "mission_briefing_war_room": [
+    {
+      "variantId": "mission_briefing_war_room:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/mission_briefing_war_room/baseline.png"
+    }
+  ],
+  "personal_quest_ledger": [
+    {
+      "variantId": "personal_quest_ledger:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/personal_quest_ledger/baseline.png"
+    }
+  ],
+  "trial_hall": [
+    {
+      "variantId": "trial_hall:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/trial_hall/baseline.png"
+    }
+  ],
+  "triangle_alcove": [
+    {
+      "variantId": "triangle_alcove:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/triangle_alcove/baseline.png"
+    }
+  ],
+  "recruit_vestibule": [
+    {
+      "variantId": "recruit_vestibule:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/recruit_vestibule/baseline.png"
+    }
+  ],
+  "guild_common_room": [
+    {
+      "variantId": "guild_common_room:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/guild_common_room/baseline.png"
+    }
+  ],
+  "apprentice_hall": [
+    {
+      "variantId": "apprentice_hall:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/apprentice_hall/baseline.png"
+    }
+  ],
+  "game_hall": [
+    {
+      "variantId": "game_hall:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/game_hall/baseline.png"
+    }
+  ],
+  "elara_bridge_berth": [
+    {
+      "variantId": "elara_bridge_berth:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/elara_bridge_berth/baseline.png"
+    }
+  ],
+  "mourning_wall": [
+    {
+      "variantId": "mourning_wall:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/mourning_wall/baseline.png"
+    }
+  ],
+  "training_barracks": [
+    {
+      "variantId": "training_barracks:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/training_barracks/baseline.png"
+    }
+  ],
+  "hellbox_clone_bench": [
+    {
+      "variantId": "hellbox_clone_bench:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/hellbox_clone_bench/baseline.png"
+    }
+  ],
+  "warden_dock": [
+    {
+      "variantId": "warden_dock:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/warden_dock/baseline.png"
+    }
+  ],
+  "house_of_garden": [
+    {
+      "variantId": "house_of_garden:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/house_of_garden/baseline.png"
+    }
+  ],
+  "house_of_remnant": [
+    {
+      "variantId": "house_of_remnant:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/house_of_remnant/baseline.png"
+    }
+  ],
+  "hellbox/dischordian_arena": [
+    {
+      "variantId": "hellbox/dischordian_arena:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/hellbox/dischordian_arena/baseline.png"
+    }
+  ],
+  "hellbox/degenerates_casino": [
+    {
+      "variantId": "hellbox/degenerates_casino:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/hellbox/degenerates_casino/baseline.png"
+    }
+  ],
+  "hellbox/eternal_match": [
+    {
+      "variantId": "hellbox/eternal_match:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/hellbox/eternal_match/baseline.png"
+    }
+  ],
+  "hellbox/the_hive": [
+    {
+      "variantId": "hellbox/the_hive:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/hellbox/the_hive/baseline.png"
+    }
+  ],
+  "hellbox/hall_of_collected_souls": [
+    {
+      "variantId": "hellbox/hall_of_collected_souls:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/hellbox/hall_of_collected_souls/baseline.png"
+    }
+  ],
+  "hellbox/editors_workshop": [
+    {
+      "variantId": "hellbox/editors_workshop:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/hellbox/editors_workshop/baseline.png"
+    }
+  ],
+  "hellbox/quiz_show_palimpsest": [
+    {
+      "variantId": "hellbox/quiz_show_palimpsest:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/hellbox/quiz_show_palimpsest/baseline.png"
+    }
+  ],
+  "hellbox/dead_mans_circuit": [
+    {
+      "variantId": "hellbox/dead_mans_circuit:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/hellbox/dead_mans_circuit/baseline.png"
+    }
+  ],
+  "hellbox/mechronis_academy": [
+    {
+      "variantId": "hellbox/mechronis_academy:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/hellbox/mechronis_academy/baseline.png"
+    }
+  ],
+  "hellbox/universal_selector": [
+    {
+      "variantId": "hellbox/universal_selector:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/hellbox/universal_selector/baseline.png"
+    }
+  ],
+  "house_of_chapel": [
+    {
+      "variantId": "house_of_chapel:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/house_of_chapel/baseline.png"
+    }
+  ],
+  "house_of_anvil": [
+    {
+      "variantId": "house_of_anvil:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/house_of_anvil/baseline.png"
+    }
+  ],
+  "atrium_main": [
+    {
+      "variantId": "atrium_main:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/atrium_main/baseline.png"
+    }
+  ],
+  "house_of_ledger": [
+    {
+      "variantId": "house_of_ledger:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/house_of_ledger/baseline.png"
+    }
+  ],
+  "forge_anteroom": [
+    {
+      "variantId": "forge_anteroom:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/forge_anteroom/baseline.png"
+    }
+  ],
+  "house_of_smoke": [
+    {
+      "variantId": "house_of_smoke:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/house_of_smoke/baseline.png"
+    }
+  ],
+  "pedagogy_classroom": [
+    {
+      "variantId": "pedagogy_classroom:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/pedagogy_classroom/baseline.png"
+    }
+  ],
+  "berths/martyr": [
+    {
+      "variantId": "berths/martyr:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/berths/martyr/baseline.png"
+    }
+  ],
+  "berths/prodigal": [
+    {
+      "variantId": "berths/prodigal:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/berths/prodigal/baseline.png"
+    }
+  ],
+  "berths/wanderer": [
+    {
+      "variantId": "berths/wanderer:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/berths/wanderer/baseline.png"
+    }
+  ],
+  "berths/scholar": [
+    {
+      "variantId": "berths/scholar:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/berths/scholar/baseline.png"
+    }
+  ],
+  "berths/zealot": [
+    {
+      "variantId": "berths/zealot:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/berths/zealot/baseline.png"
+    }
+  ],
+  "berths/heretic": [
+    {
+      "variantId": "berths/heretic:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/berths/heretic/baseline.png"
+    }
+  ],
+  "berths/ghost": [
+    {
+      "variantId": "berths/ghost:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/berths/ghost/baseline.png"
+    }
+  ],
+  "berths/sentinel": [
+    {
+      "variantId": "berths/sentinel:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/berths/sentinel/baseline.png"
+    }
+  ],
+  "berths/oracle": [
+    {
+      "variantId": "berths/oracle:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/berths/oracle/baseline.png"
+    }
+  ],
+  "berths/artisan": [
+    {
+      "variantId": "berths/artisan:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/berths/artisan/baseline.png"
+    }
+  ],
+  "berths/revenant": [
+    {
+      "variantId": "berths/revenant:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/berths/revenant/baseline.png"
+    }
+  ],
+  "berths/jester": [
+    {
+      "variantId": "berths/jester:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/berths/jester/baseline.png"
+    }
+  ],
+  "memory_card_library": [
+    {
+      "variantId": "memory_card_library:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/memory_card_library/baseline.png"
+    }
+  ],
+  "memory_anteroom": [
+    {
+      "variantId": "memory_anteroom:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/memory_anteroom/baseline.png"
+    }
+  ],
+  "atrium_upper": [
+    {
+      "variantId": "atrium_upper:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/atrium_upper/baseline.png"
+    }
+  ],
+  "recruit_berths/akai_shi": [
+    {
+      "variantId": "recruit_berths/akai_shi:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/recruit_berths/akai_shi/baseline.png"
+    }
+  ],
+  "recruit_berths/jericho_jones": [
+    {
+      "variantId": "recruit_berths/jericho_jones:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/recruit_berths/jericho_jones/baseline.png"
+    }
+  ],
+  "recruit_berths/locke": [
+    {
+      "variantId": "recruit_berths/locke:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/recruit_berths/locke/baseline.png"
+    }
+  ],
+  "recruit_berths/wraith_calder": [
+    {
+      "variantId": "recruit_berths/wraith_calder:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/recruit_berths/wraith_calder/baseline.png"
+    }
+  ],
+  "recruit_berths/vex_solene": [
+    {
+      "variantId": "recruit_berths/vex_solene:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/recruit_berths/vex_solene/baseline.png"
+    }
+  ],
+  "pedagogy_lab": [
+    {
+      "variantId": "pedagogy_lab:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/pedagogy_lab/baseline.png"
+    }
+  ],
+  "signature_card_forge": [
+    {
+      "variantId": "signature_card_forge:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/signature_card_forge/baseline.png"
+    }
+  ],
+  "personal_quarters": [
+    {
+      "variantId": "personal_quarters:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/personal_quarters/baseline.png"
+    }
+  ],
+  "house_of_thurible": [
+    {
+      "variantId": "house_of_thurible:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/house_of_thurible/baseline.png"
+    }
+  ],
+  "house_of_iron": [
+    {
+      "variantId": "house_of_iron:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/house_of_iron/baseline.png"
+    }
+  ],
+  "wardens_dock": [
+    {
+      "variantId": "wardens_dock:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/wardens_dock/baseline.png"
+    }
+  ],
+  "doctrine_binding_chamber": [
+    {
+      "variantId": "doctrine_binding_chamber:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/doctrine_binding_chamber/baseline.png"
+    }
+  ],
+  "post_mission_return_hub": [
+    {
+      "variantId": "post_mission_return_hub:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/post_mission_return_hub/baseline.png"
+    }
+  ],
+  "house_of_circuit": [
+    {
+      "variantId": "house_of_circuit:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/house_of_circuit/baseline.png"
+    }
+  ],
+  "house_of_glass": [
+    {
+      "variantId": "house_of_glass:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/house_of_glass/baseline.png"
+    }
+  ],
+  "atrium_lower": [
+    {
+      "variantId": "atrium_lower:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/atrium_lower/baseline.png"
+    }
+  ],
+  "house_of_mirror": [
+    {
+      "variantId": "house_of_mirror:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/house_of_mirror/baseline.png"
+    }
+  ],
+  "house_of_tower": [
+    {
+      "variantId": "house_of_tower:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/house_of_tower/baseline.png"
+    }
+  ],
+  "pedagogy_lecture_hall": [
+    {
+      "variantId": "pedagogy_lecture_hall:baseline",
+      "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/pedagogy_lecture_hall/baseline.png"
+    }
+  ]
+}
