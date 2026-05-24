@@ -1721,35 +1721,94 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "room_visited", value: "engineering" },
     connections: ["engineering"],
     hotspots: [
-      // Mystery wiring — mechronis.chained_lesson · e3 (Auro's
-      // tally-notebook of the twelve apprentices she has held)
-      { id: "chained-auro-tally", name: "Auro's Twelve-Apprentice Notebook", description: "A small leather notebook hanging from a peg in Sergeant Auro's side-room. Twelve names, forty-three waves held without further loss, nine years of work the Academy never paid for.", x: 6, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:forge-workshop:chained-auro-tally" },
-      // Mystery wiring — severance.infernal_clause · e3 (blank-backed pages archive)
-      { id: "infernal-blank-pages-archive", name: "PRELIMINARIES Box — Blank-Backed Pages", description: "Down the forge-workshop sub-corridor: forty unsigned blank-backed contract pages in a box labelled 'PRELIMINARIES.' Different paper-stock from the fronts.", x: 46, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:forge-workshop:infernal-blank-pages-archive" },
-      // Mystery wiring — charter.second_signatory · color (forge-workshop)
-      { id: "charter2-solven-workshop", name: "Solven Workshop — Sector 8 Corridor 3", description: "The Solven workshop: empty but maintained. 'Open by appointment.' The appointment book is full, every entry signed by the same archivist who keeps the tax registry.", x: 30, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:forge-workshop:charter2-solven-workshop" },
-      { id: "charter2-house-othisen", name: "House Othisen — Small-Engine Assemblers", description: "Down the forge-workshop sub-corridor: Othisens assembling Trade Empire circuit-racer components for three epochs without recognition. Their charter clause was the longest of the four; the erasure was the cleanest.", x: 38, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:forge-workshop:charter2-house-othisen" },
-      // Mystery wiring — mechronis.chained_lesson · color clues (forge-workshop)
-      { id: "chained-auro-side-room", name: "Auro's Side-Room (Sub-Corridor Seven)", description: "Whiteboard, three chairs, a one-to-forty Terminus diorama. Where Auro teaches the module the Academy refuses to.", x: 14, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:forge-workshop:chained-auro-side-room" },
-      { id: "chained-tarn-letter-to-the-case", name: "Tarn's Letter to the Case", description: "On Auro's bench: a sealed letter Tarn left behind, addressed 'whoever finds this case' — naming the case as the reader's.", x: 22, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:forge-workshop:chained-tarn-letter-to-the-case" },
-      // Mystery wiring — advocate.blood_weave · e2 (Blood Weave specification)
-      { id: "advocate-weave-specification", name: "Blood Weave Partial Specification", description: "On the bench: the partial spec from Zyr'Koth's research archive. Multi-layer fabric, weaver-substrate intake, defensive-chain output; no regeneration; every binding consumes the weaver.", x: 13, y: 19, width: 6, height: 6, type: "interact", action: "room-mystery:forge-workshop:advocate-weave-specification" },
-      // Realigned 2026-04-25 against the delivered render — central
-      // forge with prismatic rainbow flames erupting upward, five
-      // element-themed anvils flanking it (purple/void, blue/water,
-      // green/earth on the left; gold/fire, magenta/cyber on the
-      // right), holographic schematic display panels mounted above the
-      // anvils on each wall, weapon racks at the far edges, archway
-      // pathway on the foreground floor.
-      { id: "central-forge", name: "Prismatic Forge", description: "The main crafting station. Prismatic flames shift color based on what's being forged.", x: 38, y: 18, width: 24, height: 70, type: "terminal", action: "/forge", elaraDialog: "The Prismatic Forge. Its flames change color based on the materials you feed it — blue for void metal, green for crystal shards, gold for legendary essence. Step up to the forge and I'll guide you through the crafting process. Every item you create here provides real combat advantages in the Arena, strategic bonuses in Card Battles, and trade benefits in the Empire." },
-      { id: "material-vault", name: "Material Vault", description: "Secured storage for crafting materials. Organized by source and rarity.", x: 0, y: 30, width: 12, height: 50, type: "examine", elaraDialog: "The Material Vault. Your crafting materials are stored here — battle shards from Arena victories, trade metals from the Empire, card essence from sacrificed cards, and ark fragments from exploration. The vault automatically sorts by rarity. I'd recommend stockpiling before attempting any epic-tier recipes." },
-      { id: "recipe-archive", name: "Recipe Archive", description: "Holographic schematics showing all known crafting recipes.", x: 12, y: 28, width: 18, height: 28, type: "terminal", action: "/forge", elaraDialog: "The Recipe Archive. Every known crafting recipe is catalogued here — weapons, armor, potions, ship upgrades, and card enhancements. Some recipes are locked behind skill levels. The more you craft in a discipline, the more advanced recipes become available. Master all five disciplines and you'll unlock the legendary-tier recipes." },
-      { id: "skill-totems", name: "Skill Totems", description: "Five crystalline totems representing the crafting disciplines.", x: 62, y: 28, width: 38, height: 50, type: "examine", elaraDialog: "The Skill Totems — one for each crafting discipline. Weaponsmithing, Armorsmithing, Enchanting, Alchemy, and Engineering. They glow brighter as your skill increases. Touch one to see your progress. The engineers who built this place believed that mastery of all five disciplines was the key to creating the ultimate weapon — one that could end the war between the Architect and the Source." },
-      { id: "door-engineering-forge", name: "Return to Engineering", description: "The blast door back to the Engineering Bay.", x: 38, y: 90, width: 24, height: 10, type: "door", action: "engineering" },
-      // Mystery wiring — apps/shared/roomMysteries/forgeWorkshop.ts
-      { id: "anvil", name: "Anvil", description: "Centuries-old hardened brass on a steel base. The face is dished from a working life longer than most stars.", x: 14, y: 60, width: 16, height: 24, type: "interact", action: "room-mystery:forge-workshop:anvil" },
-      { id: "schema-rack", name: "Schema Rack", description: "Rolled diagrams along the back wall — weapon designs, armour patterns, prosthetic schematics. Most in Lyra's hand. A few in another.", x: 14, y: 6, width: 22, height: 18, type: "interact", action: "room-mystery:forge-workshop:schema-rack" },
-      { id: "kiln", name: "Kiln", description: "Brass-bound clay, fired thousands of times. Cold now, but the chimney smells faintly of bay leaf.", x: 64, y: 80, width: 18, height: 14, type: "interact", action: "room-mystery:forge-workshop:kiln" },
+      // Re-anchored 2026-05-24 against the AAA Final forge-workshop
+      // render (art/rooms/forge_workshop/baseline.png) after a 14-
+      // variant audit pass (baseline + 13 state overlays: act_tier_3,
+      // act_tier_7, battlepass_winter, cycle_longnight, epoch_
+      // shadowtongue, faction_insurgency, governance_quarantine,
+      // investigation_tier, morality_dark, tv_corrupted, tv_spreading,
+      // unlock_apprentice, unlock_mastered). Layout is consistent
+      // across every variant — landmarks don't shift — so baseline
+      // anchoring works universally.
+      //
+      // The 2026-04-25 anchoring described a "central forge with
+      // prismatic rainbow flames" + "five element-themed anvils
+      // flanking it" + "holographic schematic display panels" — the
+      // AAA Final has none of that. It's a stone-and-brass forge with
+      // orange fire in the central archway, a quenching pool in the
+      // left foreground, a scroll/cabinet rack on the far-left wall,
+      // a tool/diagram wall behind+right of the forge, and a TALL
+      // CARVED BRASS THRONE dominating the right half (the Master
+      // Craftsman's seat — fits the "skill totems" framing if read
+      // as a single master-tier seat rather than five totems).
+      //
+      // Major re-anchors:
+      //   • central-forge (was 38,18,24,70 too narrow + too tall) →
+      //     actual visible forge fire chamber (28,22,27,50)
+      //   • material-vault (was 0,30,12,50) → left scroll rack +
+      //     cabinet (0,25,18,40)
+      //   • recipe-archive (was 12,28,18,28 overlapping vault) →
+      //     tool wall behind/right of forge (47,38,15,22)
+      //   • skill-totems (was 62,28,38,50 sprawling) → the carved
+      //     master craftsman's throne at right (75,22,24,68)
+      //   • anvil (was 14,60,16,24 on quench pool) → anvil at foot
+      //     of forge (47,58,13,15)
+      //   • schema-rack (was 14,6,22,18 on blank ceiling) → left
+      //     scroll rack with rolled diagrams (0,25,10,35) — as a
+      //     sub-area of material-vault
+      //   • kiln (was 64,80,18,14 on blank floor) → the actual
+      //     quenching pool in left foreground (5,72,28,22)
+      //   • door-engineering-forge kept at bottom foreground center
+      //     (no visible door; walkout path)
+      //   • all 7 architect-channel mystery rects redistributed
+      //     from y=8/y=19 (blank wall) onto visible surfaces:
+      //     workbench, cabinet, throne area
+      //
+      // Visible landmarks, left-to-right + foreground-to-back:
+      //   • far-left scroll rack (rolled diagrams) — `material-vault`
+      //     parent + `schema-rack` sub-rect
+      //   • left cabinet — sub-area of material-vault
+      //   • quenching pool with purple-blue liquid — left foreground
+      //     (`kiln`)
+      //   • central stone-and-brass forge with orange fire chamber —
+      //     chamber center (`central-forge`)
+      //   • anvil pedestal at foot of forge — chamber center
+      //     foreground (`anvil`)
+      //   • tool/diagram wall right-of-forge — (`recipe-archive`)
+      //   • tall carved brass throne — right wall (`skill-totems`)
+      //
+      // Verify with /ark?debug-hotspots=1 or, for drag-to-place
+      // editing, /ark?author-hotspots=1.
+
+      // ── FEATURE / CONTAINER HOTSPOTS ──
+      { id: "central-forge", name: "Prismatic Forge", description: "The main crafting station — stone-and-brass furnace with the forge fire chamber glowing orange. Step up to the bellows to begin a craft.", x: 28, y: 22, width: 27, height: 50, type: "terminal", action: "/forge", elaraDialog: "The Prismatic Forge. Its flames change color based on the materials you feed it — blue for void metal, green for crystal shards, gold for legendary essence. Step up to the forge and I'll guide you through the crafting process. Every item you create here provides real combat advantages in the Arena, strategic bonuses in Card Battles, and trade benefits in the Empire." },
+      { id: "material-vault", name: "Material Vault", description: "The far-left wall is a stacked storage system: a round rack of rolled scrolls + a dark cabinet behind. Secured storage for crafting materials, organised by source and rarity.", x: 0, y: 25, width: 18, height: 40, type: "examine", elaraDialog: "The Material Vault. Your crafting materials are stored here — battle shards from Arena victories, trade metals from the Empire, card essence from sacrificed cards, and ark fragments from exploration. The vault automatically sorts by rarity. I'd recommend stockpiling before attempting any epic-tier recipes." },
+      { id: "recipe-archive", name: "Recipe Archive", description: "The tool wall right of the forge — hammers, tongs, and rolled schematic panels mounted in brass brackets. Every known crafting recipe is catalogued here.", x: 47, y: 38, width: 15, height: 22, type: "terminal", action: "/forge", elaraDialog: "The Recipe Archive. Every known crafting recipe is catalogued here — weapons, armor, potions, ship upgrades, and card enhancements. Some recipes are locked behind skill levels. The more you craft in a discipline, the more advanced recipes become available. Master all five disciplines and you'll unlock the legendary-tier recipes." },
+      { id: "skill-totems", name: "Skill Totems", description: "The tall carved brass throne at the right wall — five totem-medallions worked into the headrest and arms, one for each crafting discipline. Touch one to see your progress.", x: 75, y: 22, width: 24, height: 68, type: "examine", elaraDialog: "The Skill Totems — one for each crafting discipline. Weaponsmithing, Armorsmithing, Enchanting, Alchemy, and Engineering. They glow brighter as your skill increases. Touch one to see your progress. The engineers who built this place believed that mastery of all five disciplines was the key to creating the ultimate weapon — one that could end the war between the Architect and the Source." },
+      { id: "door-engineering-forge", name: "Return to Engineering", description: "The blast door back to the Engineering Bay — walk out through the foreground.", x: 40, y: 93, width: 20, height: 6, type: "door", action: "engineering" },
+
+      // ── FORGE-AREA MYSTERY SUB-RECTS ──
+      // Authored AFTER central-forge so they win clicks on the anvil
+      // pedestal + tool/diagram wall + quenching pool.
+      { id: "anvil", name: "Anvil", description: "The anvil at the foot of the forge — centuries-old hardened brass on a steel base. The face is dished from a working life longer than most stars.", x: 47, y: 58, width: 13, height: 15, type: "interact", action: "room-mystery:forge-workshop:anvil" },
+      { id: "schema-rack", name: "Schema Rack", description: "Rolled diagrams in the far-left scroll rack — weapon designs, armour patterns, prosthetic schematics. Most in Lyra's hand. A few in another.", x: 0, y: 28, width: 10, height: 32, type: "interact", action: "room-mystery:forge-workshop:schema-rack" },
+      { id: "kiln", name: "Kiln", description: "The quenching pool in the left foreground — brass-bound clay rim around a hot bath. Cold now, but the chimney smells faintly of bay leaf.", x: 5, y: 72, width: 28, height: 22, type: "interact", action: "room-mystery:forge-workshop:kiln" },
+
+      // ── ARCHITECT-CHANNEL MYSTERY RECTS (7) ──
+      // Redistributed from the previous y=8/y=19 blank-wall band onto
+      // visible surfaces around the workbench, cabinet, and throne.
+      // Auro's side-room mysteries cluster on the cabinet (the
+      // "side-room" reads as the small partitioned cabinet beside
+      // the scroll rack); Solven/Othisen workshops on the throne
+      // (architect's seat area); Tarn's letter + Blood Weave spec on
+      // the recipe-archive tool wall.
+      { id: "chained-auro-tally", name: "Auro's Twelve-Apprentice Notebook", description: "A small leather notebook hanging from a peg on the cabinet beside the scroll rack. Twelve names, forty-three waves held without further loss, nine years of work the Academy never paid for.", x: 12, y: 36, width: 5, height: 6, type: "interact", action: "room-mystery:forge-workshop:chained-auro-tally" },
+      { id: "chained-auro-side-room", name: "Auro's Side-Room (Sub-Corridor Seven)", description: "The cabinet's interior panel — whiteboard, three chairs, a one-to-forty Terminus diorama. Where Auro teaches the module the Academy refuses to.", x: 12, y: 45, width: 5, height: 6, type: "interact", action: "room-mystery:forge-workshop:chained-auro-side-room" },
+      { id: "chained-tarn-letter-to-the-case", name: "Tarn's Letter to the Case", description: "On the recipe-archive tool wall: a sealed letter Tarn left behind, addressed 'whoever finds this case' — naming the case as the reader's.", x: 49, y: 41, width: 5, height: 5, type: "interact", action: "room-mystery:forge-workshop:chained-tarn-letter-to-the-case" },
+      { id: "advocate-weave-specification", name: "Blood Weave Partial Specification", description: "On the recipe-archive tool wall: the partial spec from Zyr'Koth's research archive. Multi-layer fabric, weaver-substrate intake, defensive-chain output; no regeneration; every binding consumes the weaver.", x: 55, y: 41, width: 5, height: 5, type: "interact", action: "room-mystery:forge-workshop:advocate-weave-specification" },
+      { id: "infernal-blank-pages-archive", name: "PRELIMINARIES Box — Blank-Backed Pages", description: "On a low shelf inside the material-vault cabinet: forty unsigned blank-backed contract pages in a box labelled 'PRELIMINARIES.' Different paper-stock from the fronts.", x: 12, y: 54, width: 5, height: 5, type: "interact", action: "room-mystery:forge-workshop:infernal-blank-pages-archive" },
+      { id: "charter2-solven-workshop", name: "Solven Workshop — Sector 8 Corridor 3", description: "On the throne's right-arm plaque: the Solven workshop record — empty but maintained, 'Open by appointment.' The appointment book is full, every entry signed by the same archivist who keeps the tax registry.", x: 77, y: 50, width: 5, height: 6, type: "interact", action: "room-mystery:forge-workshop:charter2-solven-workshop" },
+      { id: "charter2-house-othisen", name: "House Othisen — Small-Engine Assemblers", description: "On the throne's left-arm plaque: House Othisen's assembly record — Trade Empire circuit-racer components for three epochs without recognition. Their charter clause was the longest of the four; the erasure was the cleanest.", x: 88, y: 50, width: 5, height: 6, type: "interact", action: "room-mystery:forge-workshop:charter2-house-othisen" },
     ],
   },
   {
