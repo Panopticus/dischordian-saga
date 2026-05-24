@@ -1852,7 +1852,16 @@ export default function ArkExplorerPage() {
       }
       case "terminal": {
         if (audioReady) playSFX("terminal_access");
-        if (hotspot.elaraDialog) setElaraText(hotspot.elaraDialog);
+        // Route through narrateElara so the popup picks up the per-hotspot
+        // elaraDialogVoId and Elara actually speaks the line. Bare
+        // setElaraText was rendering text-only with no audio — the bug
+        // the player saw as "Elara's VO isn't playing in the cryo bay".
+        if (hotspot.elaraDialog) {
+          narrateElara({
+            text: hotspot.elaraDialog,
+            voId: hotspot.elaraDialogVoId,
+          });
+        }
         if (hotspot.action) {
           const route = resolveActionRoute(hotspot.action, state.narrativeFlags);
           if (route) setTimeout(() => navigate(route), 800);
@@ -1867,7 +1876,10 @@ export default function ArkExplorerPage() {
           notify("loot-drop", "Item Collected!", hotspot.name);
           if (hotspot.elaraDialog) {
             if (audioReady) playSFX("dialog_open");
-            setElaraText(hotspot.elaraDialog);
+            narrateElara({
+              text: hotspot.elaraDialog,
+              voId: hotspot.elaraDialogVoId,
+            });
           }
         } else {
           notify("info", "Already collected", hotspot.name);
@@ -1906,7 +1918,10 @@ export default function ArkExplorerPage() {
         if (hotspot.action === "nav-calibration") {
           if (fastTravelUnlocked) {
             notify("info", "Navigation system already calibrated", "Fast-travel is online. Use the NAV tab on the right.");
-            if (hotspot.elaraDialog) setElaraText("The navigation system is already online. Use the NAV panel on the right side of your screen to jump to any discovered room.");
+            if (hotspot.elaraDialog) narrateElara({
+              text: "The navigation system is already online. Use the NAV panel on the right side of your screen to jump to any discovered room.",
+              voId: hotspot.elaraDialogVoId,
+            });
           } else {
             if (audioReady) playSFX("terminal_access");
             setShowNavPuzzle(true);
@@ -1917,12 +1932,15 @@ export default function ArkExplorerPage() {
           const alreadyDonated = !!state.narrativeFlags["donated_dna_sample"];
           const alreadyRefused = !!state.narrativeFlags["refused_dna_sample"];
           if (alreadyDonated) {
-            setElaraText("The device is silent now. Whatever it took, it has. Whatever it gave, we already carry.");
+            narrateElara({ text: "The device is silent now. Whatever it took, it has. Whatever it gave, we already carry." });
           } else if (alreadyRefused) {
-            setElaraText("You already stepped back from this once. The needle-port is closed. Leave it that way.");
+            narrateElara({ text: "You already stepped back from this once. The needle-port is closed. Leave it that way." });
           } else {
             if (audioReady) playSFX("terminal_access");
-            if (hotspot.elaraDialog) setElaraText(hotspot.elaraDialog);
+            if (hotspot.elaraDialog) narrateElara({
+              text: hotspot.elaraDialog,
+              voId: hotspot.elaraDialogVoId,
+            });
             setShowDnaDeviceOffer(true);
           }
           break;
@@ -2283,8 +2301,16 @@ export default function ArkExplorerPage() {
                 their unconditional slot since by the time the player
                 reaches them the prologue framing is already done. */}
             {witnessingNarratorRoomId &&
+              // Cryo Bay gate hardened: the narrator slot pulls dialog lines
+              // that name "the other one" (the Human), shows BOND chips, and
+              // surfaces locked-callback debug labels — none of which read
+              // diegetically before the Human is canonically revealed. Hold
+              // it back until `first_human_revealed` flips. Other rooms keep
+              // their existing gate. The slot still has its own per-session
+              // dismiss; we just stop opening it before there's a fiction
+              // for it to belong to.
               (witnessingNarratorRoomId !== "cryo_bay" ||
-                !!state.narrativeFlags?.cryo_mystery_first_clue_found) && (
+                !!state.narrativeFlags?.first_human_revealed) && (
               <MobileNarratorSlot
                 roomId={witnessingNarratorRoomId}
                 flags={witnessingBeatFlags}

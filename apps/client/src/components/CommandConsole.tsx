@@ -28,6 +28,11 @@ import { Progress } from "@/components/ui/progress";
 
 const ARK_CONTROL_ROOM = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/ark_control_room_04cb4fe3.png";
 
+/* Routes that own the full viewport: the room art IS the UI, so the
+   shell's header / sidebar / mobile-bottom-nav must step aside. A
+   one-tap reveal pill in the top-right brings them back on demand. */
+const IMMERSIVE_ROUTES = ["/ark", "/awakening", "/fight", "/terminus-swarm"];
+
 /* ─── SYSTEM DEFINITIONS ─── 
    Each system maps to a ship room and its feature routes.
    The "deck" groups them visually. */
@@ -409,6 +414,16 @@ function DreamHUD() {
 export default function CommandConsole({ children, elaraTTS }: { children: ReactNode; elaraTTS?: any }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [location, navigate] = useLocation();
+  const isImmersive = useMemo(
+    () => IMMERSIVE_ROUTES.some(r => location === r || location.startsWith(r + "/")),
+    [location],
+  );
+  // When the player wants the HUD back on an immersive route, this
+  // overrides isImmersive for the rest of the visit. Resets when they
+  // leave the route so the next /ark visit re-enters full immersion.
+  const [hudRevealed, setHudRevealed] = useState(false);
+  useEffect(() => { setHudRevealed(false); }, [isImmersive]);
+  const chromeHidden = isImmersive && !hudRevealed;
   const { stats, discoveryProgress } = useLoredex();
   const { showPlayer } = usePlayer();
   const gam = useGamification();
@@ -462,7 +477,29 @@ export default function CommandConsole({ children, elaraTTS }: { children: React
         }} />
       </div>
 
+      {/* HUD-reveal pill — only visible on immersive routes with chrome
+          stripped. Tap once to bring header + sidebar + bottom nav back
+          for the rest of the visit; navigating away resets the toggle. */}
+      {chromeHidden && (
+        <button
+          type="button"
+          onClick={() => setHudRevealed(true)}
+          aria-label="Show HUD"
+          className="fixed top-2 right-2 z-[60] flex items-center gap-1.5 px-2.5 py-1 rounded-full backdrop-blur-md transition-opacity hover:opacity-100"
+          style={{
+            background: "color-mix(in srgb, var(--bg-void) 55%, transparent)",
+            border: "1px solid color-mix(in oklch, var(--energy-primary) 25%, transparent)",
+            color: "var(--neon-cyan)",
+            opacity: 0.55,
+          }}
+        >
+          <Maximize2 size={11} />
+          <span className="font-mono text-[9px] tracking-[0.25em]">HUD</span>
+        </button>
+      )}
+
       {/* ═══ TOP HEADER BAR — ARK COMMAND STRIP ═══ */}
+      {!chromeHidden && (
       <header className="fixed top-0 left-0 right-0 z-50 h-12 flex items-center px-3 sm:px-4"
         style={{
           background: "linear-gradient(180deg, var(--bg-void) 0%, var(--bg-overlay) 100%)",
@@ -536,9 +573,17 @@ export default function CommandConsole({ children, elaraTTS }: { children: React
           <Settings size={16} className="text-muted-foreground/60 group-hover:text-muted-foreground/80 transition-colors" />
         </Link>
       </header>
+      )}
 
-      <div className="flex pt-12 relative z-10" style={{ minHeight: "calc(100dvh - 3rem)" }}>
+      <div
+        className="flex relative z-10"
+        style={{
+          minHeight: chromeHidden ? "100dvh" : "calc(100dvh - 3rem)",
+          paddingTop: chromeHidden ? 0 : "3rem",
+        }}
+      >
         {/* ═══ SIDEBAR — SHIP SYSTEMS PANEL ═══ */}
+        {!chromeHidden && (
         <aside
           className={`fixed lg:sticky top-12 left-0 z-40 h-[calc(100dvh-3rem)] w-64 overflow-y-auto transition-transform duration-300 ${
             sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
@@ -653,6 +698,7 @@ export default function CommandConsole({ children, elaraTTS }: { children: React
             </div>
           </div>
         </aside>
+        )}
 
         {/* Sidebar overlay on mobile */}
         <AnimatePresence>
@@ -670,13 +716,16 @@ export default function CommandConsole({ children, elaraTTS }: { children: React
 
         {/* ═══ MAIN CONTENT ═══ */}
         <main
-          className={`flex-1 lg:ml-0 transition-all relative ${showPlayer ? "pb-48 sm:pb-20" : "pb-24 sm:pb-0"}`}
+          className={`flex-1 lg:ml-0 transition-all relative ${
+            chromeHidden ? "pb-0" : (showPlayer ? "pb-48 sm:pb-20" : "pb-24 sm:pb-0")
+          }`}
         >
           {children}
         </main>
       </div>
 
       {/* ═══ MOBILE BOTTOM NAV — SHIP SYSTEMS STRIP ═══ */}
+      {!chromeHidden && (
       <nav className={`fixed left-0 right-0 z-[49] sm:hidden safe-area-bottom transition-all ${showPlayer ? "bottom-[60px]" : "bottom-0"}`}
         style={{
           background: "linear-gradient(0deg, var(--bg-void) 0%, var(--bg-overlay) 100%)",
@@ -728,6 +777,7 @@ export default function CommandConsole({ children, elaraTTS }: { children: React
             })}
         </div>
       </nav>
+      )}
     </div>
   );
 }
