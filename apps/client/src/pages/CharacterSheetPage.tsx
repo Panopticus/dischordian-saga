@@ -854,7 +854,7 @@ export default function CharacterSheetPage() {
                 transition={{ delay: 1.5 }}
                 className="font-mono text-[10px] text-muted-foreground/35 mt-6 tracking-wider"
               >
-                {isTyping ? "CLICK TO SKIP" : narrativeStep < ELARA_INTRO_LINES.length - 1 ? "CLICK TO CONTINUE" : "CLICK TO VIEW NEURAL IMPRINT"}
+                {isTyping ? "▸ SKIP" : narrativeStep < ELARA_INTRO_LINES.length - 1 ? "▸ CONTINUE" : "▸ VIEW NEURAL IMPRINT"}
               </motion.p>
             </div>
           </motion.div>

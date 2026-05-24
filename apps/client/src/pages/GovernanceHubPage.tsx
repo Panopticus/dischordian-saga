@@ -42,6 +42,9 @@ import { getDailyVote, generateVoterName } from "@shared/governance";
 import { PalimpsestMeterPanel } from "@/components/PalimpsestMeterPanel";
 import { usePalimpsest } from "@/hooks/usePalimpsest";
 import { SagaStatusPanel } from "@/components/SagaStatusPanel";
+import { ENGINEER_GOVERNANCE_VOTES } from "@shared/engineerGovernanceVotes";
+import { useGame } from "@/contexts/GameContext";
+import EngineerVoteOverlay from "@/components/EngineerVoteOverlay";
 
 /* ─── ICON MAP (for dynamic metric rendering) ─── */
 const ICON_MAP: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
@@ -540,6 +543,68 @@ function DailyMicroVotes() {
   );
 }
 
+/* ─── ENGINEER EPISODE-VOTE PANEL ─── */
+/* Backup surfacing for the post-episode governance votes. The first
+   time an episode airs (via EngineerRecordingDiscoveryModal), the
+   vote is offered immediately on the post-credits chrome via
+   EngineerVoteOverlay. If the player skips that or dismisses
+   without voting, the vote still lives here — every engineer
+   governance vote whose `requiresFlag` is set and the player
+   hasn't cast yet shows up in this panel, with a button that
+   re-opens the same vote modal. */
+function EngineerEpisodeVotesPanel() {
+  const { state } = useGame();
+  const narrativeFlags = state.narrativeFlags;
+  const store = useGovernanceStore();
+  const [openVoteId, setOpenVoteId] = useState<string | null>(null);
+
+  const pending = useMemo(() => {
+    return ENGINEER_GOVERNANCE_VOTES.filter((vote) => {
+      if (!narrativeFlags?.[vote.requiresFlag]) return false;
+      if (store.getPlayerVote(vote.id)) return false;
+      return true;
+    });
+  }, [narrativeFlags, store]);
+
+  if (pending.length === 0) return null;
+
+  return (
+    <>
+      <div className="void-elevated p-4 mt-4">
+        <div className="font-mono text-[8px] uppercase tracking-[0.3em] void-text-accent mb-2 flex items-center gap-1">
+          <Radio size={9} /> PENDING EPISODE VOTES
+        </div>
+        <p className="font-mono text-[9px] text-muted-foreground/60 mb-3 leading-relaxed">
+          The transmission decoded, the question stayed open. Cast when ready.
+        </p>
+        <div className="space-y-2">
+          {pending.map((vote) => (
+            <button
+              key={vote.id}
+              onClick={() => setOpenVoteId(vote.id)}
+              className="w-full text-left p-3 rounded border border-emerald-500/30 bg-emerald-950/15 hover:border-emerald-400/60 hover:bg-emerald-900/30 transition-all"
+            >
+              <div className="font-display text-[11px] font-bold tracking-wider text-emerald-100 mb-1">
+                {vote.question}
+              </div>
+              <div className="font-mono text-[8px] text-emerald-300/60">
+                Proposed by {vote.proposedBy} · {vote.options.length} options
+              </div>
+            </button>
+          ))}
+        </div>
+      </div>
+      {openVoteId && (
+        <EngineerVoteOverlay
+          key={openVoteId}
+          voteId={openVoteId}
+          onClose={() => setOpenVoteId(null)}
+        />
+      )}
+    </>
+  );
+}
+
 /* ─── UPCOMING EVENTS BAR ─── */
 function UpcomingEventsBar() {
   const store = useGovernanceStore();
@@ -767,6 +832,7 @@ export default function GovernanceHubPage() {
               {mobileTab === "daily" && (
                 <motion.div key="daily" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
                   <DailyMicroVotes />
+                  <EngineerEpisodeVotesPanel />
                 </motion.div>
               )}
               {mobileTab === "chronicle" && (
@@ -795,10 +861,11 @@ export default function GovernanceHubPage() {
               <ChroniclePanel />
             </div>
 
-            {/* CENTER — Active Vote + Daily + Palimpsest */}
+            {/* CENTER — Active Vote + Daily + Episode Backup + Palimpsest */}
             <div>
               <ActiveVotePanel />
               <DailyMicroVotes />
+              <EngineerEpisodeVotesPanel />
               <div className="mt-4">
                 <PalimpsestMeterPanel state={palimpsestState} />
               </div>

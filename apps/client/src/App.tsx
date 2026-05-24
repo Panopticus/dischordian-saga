@@ -85,6 +85,7 @@ import QuestTracker from "./components/QuestTracker";
 import { RunTrackerOverlayMount } from "./components/RunTrackerOverlay";
 import QuestRewardSystem from "./components/QuestRewardSystem";
 import ElaraDialog from "./components/ElaraDialog";
+import ElaraPortraitDock from "./components/ElaraPortraitDock";
 import CharacterWidget from "./components/CharacterWidget";
 import { CutsceneRouter } from "./components/cutscenes/CutsceneRouter";
 import { HumanLifeVideoOverlay } from "./components/cutscenes/HumanLifeVideoOverlay";
@@ -910,6 +911,7 @@ function GameGate() {
       <TradeNotificationWatcher />
       <UniverseAtmosphere />
       <ElaraDialog elaraTTS={elaraTTS} />
+      <ElaraPortraitDock />
       <CompanionHost />
       <CharacterWidget />
       <CutsceneRouter />

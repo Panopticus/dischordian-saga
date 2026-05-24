@@ -59,6 +59,7 @@ export const QUESTLINE_REGISTRY: readonly QuestlineRegistryEntry[] = [
   { module: "questlineQuarchonCh2", title: "Quarchon — Chapter 2", status: "authored" },
   { module: "questlineQuarchonCh3", title: "Quarchon — Chapter 3", status: "authored" },
   { module: "questlineElementResolutions", title: "DeMagi Ch4 — Element Resolutions (support)", status: "support" },
+  { module: "questlineStabilizeElara", title: "Stabilize Elara's Thought Matrix", status: "authored" },
 ] as const;
 
 export function getQuestlineRegistryCoverage(): {

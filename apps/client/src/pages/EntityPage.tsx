@@ -11,6 +11,9 @@ import {
 import { playSlideshow } from "@/stores/witnessingStore";
 import { ALBUM1_T01_SLIDESHOW } from "@shared/songSlideshows";
 import { DREAM_ENIGMAS_LAMENT_ID } from "@/lib/dreams";
+import DischordianSagaEpisodePlayer from "@/components/DischordianSagaEpisodePlayer";
+import DischordiaOpeningCinematic from "@/components/DischordiaOpeningCinematic";
+import { DSAGA_EPISODES, type DischordianSagaEpisode } from "@shared/dischordianSagaEpisodes";
 import StoryArc from "@/components/StoryArc";
 import RelationshipMiniGraph from "@/components/RelationshipMiniGraph";
 import { RedactedLoredexEntry } from "@/components/RedactedLoredexEntry";
@@ -29,6 +32,7 @@ const TYPE_ICONS: Record<string, typeof Users> = {
   concept: Eye,
   song: Music,
   dream: Moon,
+  episode: Video,
 };
 
 const BADGE_CLASS: Record<string, string> = {
@@ -38,6 +42,7 @@ const BADGE_CLASS: Record<string, string> = {
   song: "badge-song",
   concept: "badge-concept",
   dream: "badge-concept",
+  episode: "badge-song",
 };
 
 /** Map a dream Loredex id to the slideshow def it replays. Keep this
@@ -47,6 +52,18 @@ const DREAM_SLIDESHOWS: Record<string, typeof ALBUM1_T01_SLIDESHOW> = {
   [DREAM_ENIGMAS_LAMENT_ID]: ALBUM1_T01_SLIDESHOW,
 };
 
+/** Map an episode Loredex id to the DischordianSagaEpisode it replays.
+ *  Adding a new episode means: (a) extend DSAGA_EPISODES, (b) add a
+ *  Loredex entry, (c) add a row here. Kept as a flat object lookup so
+ *  authors can scan it. */
+const EPISODE_LOREDEX_TO_EPISODE: Record<string, DischordianSagaEpisode> = (() => {
+  const out: Record<string, DischordianSagaEpisode> = {};
+  for (const ep of DSAGA_EPISODES) {
+    out[`dsaga_s${String(ep.season).padStart(2, "0")}e${String(ep.episode).padStart(2, "0")}`] = ep;
+  }
+  return out;
+})();
+
 export default function EntityPage() {
   const [, params] = useRoute("/entity/:id");
   const { getEntryById, getRelated, getSongsForCharacter, discoverEntry, relationships, getAliases } = useLoredex();
@@ -55,6 +72,13 @@ export default function EntityPage() {
   const trackedRef = useRef<string | null>(null);
 
   const entry = params?.id ? getEntryById(params.id) : undefined;
+
+  // Replay-mount state for Dischordian Saga episodes (mounted only
+  // when the user clicks "Replay Episode") and the pre-login title
+  // sequence (mounted only when the user clicks "Replay Title
+  // Sequence" on the Dischordia Opening dream entry).
+  const [replayEpisode, setReplayEpisode] = useState<DischordianSagaEpisode | null>(null);
+  const [replayTitleCinematic, setReplayTitleCinematic] = useState(false);
 
   // For meta description, prefer the rewritten bio if one exists. This
   // runs before the early-return so we need to tolerate a missing entry.
@@ -247,14 +271,62 @@ export default function EntityPage() {
               The first transmission you witnessed. Replay it from the
               Loredex any time — the song and the slideshow play in full.
             </p>
+            <div className="flex flex-wrap gap-2">
+              <button
+                type="button"
+                onClick={() => playSlideshow(DREAM_SLIDESHOWS[entry.id]!)}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-primary/10 border border-primary/30 text-primary text-sm font-mono hover:bg-primary/20 transition-all hover-lift"
+              >
+                <Play size={14} /> ▸ REPLAY DREAM
+              </button>
+              {entry.id === DREAM_ENIGMAS_LAMENT_ID && (
+                <button
+                  type="button"
+                  onClick={() => setReplayTitleCinematic(true)}
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-emerald-500/10 border border-emerald-400/40 text-emerald-200 text-sm font-mono hover:bg-emerald-500/20 transition-all hover-lift"
+                >
+                  <Play size={14} /> ▸ REPLAY TITLE SEQUENCE
+                </button>
+              )}
+            </div>
+          </motion.section>
+        )}
+
+        {/* ═══ EPISODE REPLAY ═══ */}
+        {entry.type === "episode" && EPISODE_LOREDEX_TO_EPISODE[entry.id] && (
+          <motion.section
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.22 }}
+            className="void-surface border-primary/20 p-5"
+          >
+            <h2 className="font-display text-xs font-bold tracking-[0.2em] text-primary mb-3 flex items-center gap-2">
+              <Video size={13} /> REPLAY EPISODE
+            </h2>
+            <p className="text-xs text-foreground/70 leading-relaxed mb-4">
+              Re-broadcast the episode in full. Skips the post-episode
+              governance vote — that's only offered once, when the
+              transmission first decodes.
+            </p>
             <button
               type="button"
-              onClick={() => playSlideshow(DREAM_SLIDESHOWS[entry.id]!)}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-primary/10 border border-primary/30 text-primary text-sm font-mono hover:bg-primary/20 transition-all hover-lift"
+              onClick={() => setReplayEpisode(EPISODE_LOREDEX_TO_EPISODE[entry.id]!)}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-emerald-500/10 border border-emerald-400/40 text-emerald-200 text-sm font-mono hover:bg-emerald-500/20 transition-all hover-lift"
             >
-              <Play size={14} /> ▸ REPLAY DREAM
+              <Play size={14} /> ▸ REPLAY {EPISODE_LOREDEX_TO_EPISODE[entry.id]!.title.toUpperCase()}
             </button>
           </motion.section>
+        )}
+
+        {replayEpisode && (
+          <DischordianSagaEpisodePlayer
+            episode={replayEpisode}
+            isReplay
+            onComplete={() => setReplayEpisode(null)}
+          />
+        )}
+        {replayTitleCinematic && (
+          <DischordiaOpeningCinematic onComplete={() => setReplayTitleCinematic(false)} />
         )}
 
         {/* ═══ VISIT (bridged vehicles + destinations) ═══ */}

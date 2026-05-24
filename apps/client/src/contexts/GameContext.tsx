@@ -432,6 +432,17 @@ export interface HotspotDef {
    *  useDialogVO. Value is a FactionNPCId (kept as string here to
    *  avoid a circular import; runtime narrows on use). */
   npcId?: string;
+  /** Optional per-tier escalation lines. The handler in
+   *  ArkExplorerPage consults `getVisitTier()` from
+   *  apps/shared/hotspotVisitTiers.ts on every click and substitutes
+   *  the tier's response (looked up in
+   *  apps/shared/elaraHotspotResponses.ts) for the default
+   *  `elaraDialog` when one applies. Tiers are an alternative to
+   *  the heavier `room-mystery:*` system — they exist for
+   *  ambient/light hotspots that want a 3-line riff rather than a
+   *  full investigative branch. Sorted ascending by
+   *  requiredVisitCount. */
+  tiers?: readonly import("@shared/hotspotVisitTiers").HotspotVisitTier[];
 }
 
 export const ROOM_DEFINITIONS: RoomDef[] = [
@@ -518,12 +529,22 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
         ],
       },
       { id: "cryo-terminal", name: "Cryo Terminal", description: "An arcade-style terminal on the far-left wall displaying your character data and vital statistics.", x: 0, y: 38, width: 8, height: 17.1, type: "terminal", action: "/character-sheet", elaraDialog: "This terminal has your biometric data — your species markers, class aptitudes, everything we determined during your awakening. You can review your Citizen profile here.",
+        tiers: [
+          { id: "tier_cryo_terminal_t2", requiredVisitCount: 2, responseId: "hs_cryobay_terminal_t2" },
+          { id: "tier_cryo_terminal_t3", requiredVisitCount: 3, responseId: "hs_cryobay_terminal_t3" },
+          { id: "tier_cryo_terminal_t5", requiredVisitCount: 5, responseId: "hs_cryobay_terminal_t5_stutter" },
+        ],
         elaraDialogVoId: "room.cryo-bay.hotspot.cryo-terminal.elara",
       },
       { id: "cryo-terminal-2", name: "Diagnostics Kiosk", description: "A second arcade-style terminal directly beside the first. Status pages scroll past too fast to read.", x: 11.2, y: 37.1, width: 6.8, height: 14.8, type: "terminal", action: "/profile", elaraDialog: "That kiosk was the medical officer's station. It still cycles, but the data feed itself is sealed. We can mirror your Citizen profile here while we figure out what they were watching.",
         elaraDialogVoId: "room.cryo-bay.hotspot.cryo-terminal-2.elara",
       },
       { id: "antiquarian-tome", name: "Tome on the Pedestal", description: "An old, leather-bound volume rests open on a low pedestal between the diagnostic kiosks and the tilted pods — the Antiquarian's mark glints faintly on the cover.", x: 22.6, y: 47, width: 4.1, height: 4.1, type: "item", action: "tome-antiquarian-cryo", elaraDialog: "The Antiquarian's Library found this for you and delivered it here. I'd read it somewhere quieter than the chamber it's pointing at.",
+        tiers: [
+          { id: "tier_cryo_tome_t2", requiredVisitCount: 2, responseId: "hs_cryobay_tome_t2" },
+          { id: "tier_cryo_tome_t3", requiredVisitCount: 3, responseId: "hs_cryobay_tome_t3" },
+          { id: "tier_cryo_tome_t5", requiredVisitCount: 5, responseId: "hs_cryobay_tome_t5_stutter" },
+        ],
         elaraDialogVoId: "room.cryo-bay.hotspot.antiquarian-tome.elara",
       },
       { id: "door-medical", name: "Medical Bay Door", description: "A reinforced door leading to the Medical Bay. Green status light.", x: 77.1, y: 30.4, width: 7.3, height: 18, type: "door", action: "medical-bay" },
@@ -536,12 +557,21 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       // click inside the seal hits the seal first (later entries
       // z-stack above).
       { id: "candle-ring", name: "Lit Candles (Left)", description: "A small flame at the left edge of the central floor seal — recently lit.", x: 41.3, y: 43.8, width: 1.6, height: 5, type: "examine", elaraDialog: "The wax is still soft. Whoever lit these was here within the hour. It wasn't me, and it wasn't you, which leaves a question I would rather not answer alone.",
+        tiers: [
+          { id: "tier_cryo_candle_t2", requiredVisitCount: 2, responseId: "hs_cryobay_candle_t2" },
+          { id: "tier_cryo_candle_t3", requiredVisitCount: 3, responseId: "hs_cryobay_candle_t3" },
+        ],
         elaraDialogVoId: "room.cryo-bay.hotspot.candle-ring.elara",
       },
       { id: "candle-ring-2", name: "Lit Candles (Right)", description: "A small flame at the right edge of the central floor seal — recently lit, twin to the left.", x: 57, y: 43.7, width: 1.6, height: 5, type: "examine", elaraDialog: "The wax is still soft. Whoever lit these was here within the hour. It wasn't me, and it wasn't you, which leaves a question I would rather not answer alone.",
         elaraDialogVoId: "room.cryo-bay.hotspot.candle-ring.elara",
       },
       { id: "ark-seal", name: "Inception Ark Seal", description: "An eight-pointed compass star inlaid in gold across the chamber's center. The candles encircle it like wards.", x: 43.6, y: 53.8, width: 12.8, height: 11.5, type: "examine", elaraDialog: "The First Wave knelt here before they walked out. The seal isn't decoration — it's a binding, an oath taken in the chamber that made them. The candles say someone is still keeping the rite.",
+        tiers: [
+          { id: "tier_cryo_seal_t2", requiredVisitCount: 2, responseId: "hs_cryobay_seal_t2" },
+          { id: "tier_cryo_seal_t3", requiredVisitCount: 3, responseId: "hs_cryobay_seal_t3" },
+          { id: "tier_cryo_seal_t5", requiredVisitCount: 5, responseId: "hs_cryobay_seal_t5_stutter" },
+        ],
         elaraDialogVoId: "room.cryo-bay.hotspot.ark-seal.elara",
       },
       { id: "data-crystal", name: "Data Crystal", description: "A small glinting crystal hidden on the floor in the shadows beneath your cryo pod.", x: 66.7, y: 59.1, width: 2.5, height: 2.8, type: "item", action: "data-crystal-alpha", elaraDialog: "A hidden data crystal! You've certainly got a keen eye. These were used by the first wave to store personal logs. This one might contain information about what happened after they woke up.",
@@ -664,6 +694,11 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       // ── BACKDROP + WALLS ──
       { id: "aetheric-arch", name: "Aetheric Crown Window", description: "A stained-glass arch dominates the back wall — a phoenix-form Aetheric Crown rendered in gold and amber light. The glass is intact; the light source behind it is not the sun.", x: 57.6, y: 18.5, width: 13.6, height: 17, type: "examine", elaraDialog: "The Aetheric Crown. This window is the chamber's spine — every wake-cycle the first crew started here, and most of them started kneeling. Whatever lit it then is still lighting it now.",
         elaraDialogVoId: "room.medical-bay.hotspot.aetheric-arch.elara",
+        tiers: [
+          { id: "tier_med_arch_t2", requiredVisitCount: 2, responseId: "hs_medbay_arch_t2" },
+          { id: "tier_med_arch_t3", requiredVisitCount: 3, responseId: "hs_medbay_arch_t3" },
+          { id: "tier_med_arch_t5", requiredVisitCount: 5, responseId: "hs_medbay_arch_t5_stutter" },
+        ],
         responses: [
           { id: "human.medical-bay.aetheric-arch.acknowledge", label: "Acknowledged.", closesDialog: true },
           {
@@ -709,10 +744,24 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       // Mystery wiring — Necromancer arc: the Silence's vacated body, catalogued under the Resurrectionist's Samsara-machine taxonomy
       { id: "the-silences-vacated-body", name: "The Silence's Vacated Body (Catalog)", description: "A drawer in the body-catalog indexed to the Resurrectionist's Samsara-machine taxonomy — the Silence's body, tagged 'available' at the moment of her going.", x: 80.1, y: 42.3, width: 3.8, height: 8.6, type: "interact", action: "room-mystery:medical-bay:the-silences-vacated-body" },
       { id: "egg-med-vial", name: "Unlabeled Vial", description: "A tiny vial of shimmering black liquid hidden behind the cabinet.", x: 85.3, y: 67.7, width: 3, height: 4, type: "item", action: "void-essence-sample", elaraDialog: "That vial... the liquid inside is moving on its own. The molecular structure doesn't match anything in my database. It's not from any known universe. The label has been torn off, but there's a serial number: VE-001. 'VE' — Void Essence? This shouldn't exist on this ship." },
+      // Stabilize-Elara questline Chapter 1: Darren Fessler's personal-
+      // effects locker. The artifact inside is Shadow-Tongue-immune by
+      // canon — Darren's habit of writing meaningful sentences in the
+      // un-indexable layer is the reason. Hotspot fires only when the
+      // questline is active (elara_degradation_revealed); ArkExplorerPage's
+      // item handler intercepts the action and sets
+      // `darren_artifact_recovered`. See apps/shared/questlineStabilizeElara.ts.
+      { id: "darren-personal-effects-locker", name: "Darren Fessler's Personal Effects", description: "A narrow personal-effects drawer in the right-wall cabinet, labeled D. FESSLER · MAINT in old serif. Inside: a folded scrap of paper that does not register on any scanner Elara has tried.", x: 80.1, y: 53.0, width: 3.8, height: 8.6, type: "item", action: "darren-fessler-artifact", elaraDialog: "There. The drawer says D. Fessler — maintenance, decades-out-of-date. Take what's inside; do not unfold it. Whatever it is, my registry does not see it. That is — for the first time today — exactly what I needed.",
+        elaraDialogVoId: "room.medical-bay.hotspot.darren-personal-effects-locker.elara",
+      },
 
       // ── LEFT MID-DISTANCE WORKBENCH ──
       { id: "medical-log", name: "Medical Log", description: "A data pad rests on the left-side workbench, screen still faintly lit.", x: 29.7, y: 53.1, width: 3, height: 3.4, type: "item", action: "medical-log-001", elaraDialog: "The last medical officer's log. Dated... I can't read the timestamp. But the entries describe patients with unusual symptoms. Nightmares. Voices. Something about 'the signal.'",
         elaraDialogVoId: "room.medical-bay.hotspot.medical-log.elara",
+        tiers: [
+          { id: "tier_med_log_t2", requiredVisitCount: 2, responseId: "hs_medbay_log_t2" },
+          { id: "tier_med_log_t3", requiredVisitCount: 3, responseId: "hs_medbay_log_t3" },
+        ],
         responses: [
           { id: "human.medical-bay.medical-log.take", label: "Take the log.", closesDialog: true },
           {
@@ -903,6 +952,11 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
 
       // ── FEATURE / CONTAINER HOTSPOTS (authored first) ──
       { id: "tactical-display", name: "Tactical Display", description: "A massive corkboard on the right wall, layered with photographs and red string — the living web of intelligence the first crew began to assemble.", x: 78, y: 22, width: 21, height: 50, type: "terminal", action: "/board", elaraDialog: "The Conspiracy Board. Every entity, every faction, every connection we've mapped in the Dischordian Saga. It's a web of alliances, betrayals, and secrets. The more you explore, the more connections you'll uncover.",
+        tiers: [
+          { id: "tier_bridge_tactical_t2", requiredVisitCount: 2, responseId: "hs_bridge_tactical_t2" },
+          { id: "tier_bridge_tactical_t3", requiredVisitCount: 3, responseId: "hs_bridge_tactical_t3" },
+          { id: "tier_bridge_tactical_t5", requiredVisitCount: 5, responseId: "hs_bridge_tactical_t5_stutter" },
+        ],
         elaraDialogVoId: "room.bridge.hotspot.tactical-display.elara",
       },
       { id: "war-map-display", name: "War Map", description: "The lower section of the Conspiracy Board — pinned faction territories and conflict zones, threaded together in red.", x: 78, y: 72, width: 21, height: 18, type: "terminal", action: "/war-map", elaraDialog: "The War Map. Faction territories, conflict zones, and strategic objectives are all tracked here. When faction wars erupt, this is where commanders plan their campaigns." },
@@ -934,10 +988,23 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
         elaraDialogVoId: "room.bridge.hotspot.nav-console.elara",
       },
       { id: "diplomacy-table", name: "Diplomacy Table", description: "An eight-pointed compass star inlaid in the chamber floor — the round table where holographic faction representatives convene.", x: 39, y: 60, width: 24, height: 32, type: "terminal", action: "/diplomacy", elaraDialog: "The Diplomacy Table. Negotiate with factions, forge alliances, or declare rivalries. Every diplomatic decision shifts the balance of power across the Saga. Choose your allies carefully.",
+        tiers: [
+          { id: "tier_bridge_diplomacy_t2", requiredVisitCount: 2, responseId: "hs_bridge_diplomacy_t2" },
+          { id: "tier_bridge_diplomacy_t3", requiredVisitCount: 3, responseId: "hs_bridge_diplomacy_t3" },
+        ],
         elaraDialogVoId: "room.bridge.hotspot.diplomacy-table.elara",
       },
       { id: "quest-board", name: "Mission Board", description: "A small holographic strategy table beside the dais — chess-like pieces represent active operations and quest objectives.", x: 62, y: 55, width: 16, height: 35, type: "terminal", action: "/quests", elaraDialog: "The Mission Board. Active operations and quest objectives are tracked here. Complete missions to earn rewards, uncover lore, and advance the story. Some missions are time-sensitive — the Saga doesn't wait for anyone.",
         elaraDialogVoId: "room.bridge.hotspot.quest-board.elara",
+      },
+      // Stabilize-Elara questline Chapter 2: the war-table slot. With the
+      // Darren artifact in inventory and the matrix not yet stabilized,
+      // clicking this surface completes the chapter and sets
+      // `elara_matrix_stabilized_v1`. Without the artifact, Elara explains
+      // what's needed. ArkExplorerPage's interact handler dispatches on
+      // this action id.
+      { id: "darren-artifact-receptacle", name: "War-Table Stabilizer Slot", description: "A bare brass plate set into the diplomacy table's rim, polished smooth as if by repeated use. The plate is not connected to anything on a scanner.", x: 50.5, y: 73, width: 4.0, height: 5.0, type: "interact", action: "bridge-war-table-stabilize", elaraDialog: "Place it on the plate. The plate is one of the few surfaces on this ship I cannot reach into. That is the point.",
+        elaraDialogVoId: "room.bridge.hotspot.darren-artifact-receptacle.elara",
       },
 
       // ── DOORS ──

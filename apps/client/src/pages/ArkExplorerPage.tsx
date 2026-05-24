@@ -9,6 +9,8 @@ import { useState, useCallback, useEffect, useMemo, useRef } from "react";
 import { dialogOpened, dialogClosed } from "@/lib/dialogState";
 import { claimActiveVo, releaseActiveVo } from "@/lib/voSpeakingState";
 import { useGame, ROOM_DEFINITIONS, type HotspotDef, type RoomDef } from "@/contexts/GameContext";
+import { getVisitTier } from "@shared/hotspotVisitTiers";
+import { getElaraHotspotResponse } from "@shared/elaraHotspotResponses";
 import { resolveRoomBackgroundUrl } from "@/game/roomStateAssets";
 import { getRoomTier, type RoomTier } from "@shared/roomTier";
 import { useGamification } from "@/contexts/GamificationContext";
@@ -1795,6 +1797,39 @@ export default function ArkExplorerPage() {
   const handleHotspotClick = useCallback((hotspot: HotspotDef, verb: Verb = "look") => {
     if (audioReady) playSFX("button_click");
 
+    // Tier-ladder substitution. For hotspots that author a `tiers`
+    // array (alternative to the heavier `room-mystery:*` system),
+    // bump the click counter and consult getVisitTier. When a tier
+    // applies, swap in its text/voId so the static elaraDialog
+    // becomes a 3-tier escalation. Only used by examine/interact/
+    // item paths — door clicks and NPC dispatches don't carry a
+    // hotspot riff.
+    let tieredOverrideText: string | undefined;
+    let tieredOverrideVoId: string | undefined;
+    if (hotspot.tiers && hotspot.tiers.length > 0 && state.currentRoomId) {
+      const clickCount = bumpHotspotClick(state.currentRoomId, hotspot.id);
+      const tier = getVisitTier(clickCount, hotspot);
+      if (tier) {
+        const resolved = getElaraHotspotResponse(tier.responseId);
+        tieredOverrideText = tier.textOverride ?? resolved?.text;
+        tieredOverrideVoId = resolved?.voId;
+      }
+    }
+
+    // Wrapper that prefers the tier override when set; consumers
+    // call this instead of narrateElara directly when they want
+    // tier escalation. Falls through to the passed defaults
+    // (typically hotspot.elaraDialog + elaraDialogVoId).
+    const narrateMaybeTiered = (
+      fallbackText: string | undefined,
+      fallbackVoId: string | undefined,
+    ) => {
+      const text = tieredOverrideText ?? fallbackText;
+      const voId = tieredOverrideVoId ?? fallbackVoId;
+      if (!text) return;
+      narrateElara({ text, voId });
+    };
+
     switch (hotspot.type) {
       case "door": {
         const targetRoomId = hotspot.action!;
@@ -1856,11 +1891,8 @@ export default function ArkExplorerPage() {
         // elaraDialogVoId and Elara actually speaks the line. Bare
         // setElaraText was rendering text-only with no audio — the bug
         // the player saw as "Elara's VO isn't playing in the cryo bay".
-        if (hotspot.elaraDialog) {
-          narrateElara({
-            text: hotspot.elaraDialog,
-            voId: hotspot.elaraDialogVoId,
-          });
+        if (hotspot.elaraDialog || tieredOverrideText) {
+          narrateMaybeTiered(hotspot.elaraDialog, hotspot.elaraDialogVoId);
         }
         if (hotspot.action) {
           const route = resolveActionRoute(hotspot.action, state.narrativeFlags);
@@ -1869,20 +1901,44 @@ export default function ArkExplorerPage() {
         break;
       }
       case "item": {
+        // Stabilize-Elara Chapter 1 gate. The Darren artifact is only
+        // collectable once Elara has revealed her degradation in the
+        // dock; clicking earlier surfaces a "drawer is sealed" beat so
+        // the player doesn't pick it up out of order.
+        if (hotspot.action === "darren-fessler-artifact" && !state.narrativeFlags["elara_degradation_revealed"]) {
+          narrateElara({
+            text:
+              "The drawer is sealed against a name I don't have yet. Talk " +
+              "to me before you try to open it — I think I need to be the " +
+              "one to ask.",
+          });
+          break;
+        }
         if (hotspot.action && !state.itemsCollected.includes(hotspot.action)) {
           collectItem(hotspot.action);
           discoverEntry(`item-${hotspot.action}`);
           if (audioReady) playSFX("item_pickup");
           notify("loot-drop", "Item Collected!", hotspot.name);
-          if (hotspot.elaraDialog) {
+          if (hotspot.elaraDialog || tieredOverrideText) {
             if (audioReady) playSFX("dialog_open");
-            narrateElara({
-              text: hotspot.elaraDialog,
-              voId: hotspot.elaraDialogVoId,
-            });
+            narrateMaybeTiered(hotspot.elaraDialog, hotspot.elaraDialogVoId);
+          }
+          // Stabilize-Elara Chapter 1 completion. The pickup is the
+          // chapter beat — flag set here so the bridge war-table can
+          // unlock on the next room transition.
+          if (hotspot.action === "darren-fessler-artifact") {
+            setNarrativeFlag("darren_artifact_recovered");
           }
         } else {
-          notify("info", "Already collected", hotspot.name);
+          // Tier ladders trigger on already-collected items too — the
+          // "looking at the same drawer expecting different information"
+          // joke is the entire point. Suppresses the toast on tiered
+          // hotspots so the line lands clean.
+          if (tieredOverrideText) {
+            narrateMaybeTiered(undefined, undefined);
+          } else {
+            notify("info", "Already collected", hotspot.name);
+          }
         }
         // Audit 2H — item_inspect whisper on any item click (both
         // newly-picked and already-owned; the inspection moment is
@@ -1926,6 +1982,49 @@ export default function ArkExplorerPage() {
             if (audioReady) playSFX("terminal_access");
             setShowNavPuzzle(true);
           }
+          break;
+        }
+        // Stabilize-Elara Chapter 2: war-table stabilizer slot. Branches
+        // on the live questline state — pre-quest, quest-active-no-
+        // artifact, quest-ready-to-complete, post-complete. Each branch
+        // closes with Elara's voice so the slot never reads as a dead
+        // affordance.
+        if (hotspot.action === "bridge-war-table-stabilize") {
+          if (state.narrativeFlags["elara_matrix_stabilized_v1"]) {
+            narrateElara({
+              text:
+                "The plate is quiet. The artifact did what it was going to " +
+                "do. I'm still me, more or less — the parts that matter, " +
+                "anyway. Thank you.",
+            });
+            break;
+          }
+          if (!state.narrativeFlags["elara_degradation_revealed"]) {
+            narrateElara({
+              text:
+                "A bare brass plate. It's not connected to anything I can " +
+                "see. Mostly I notice it because I cannot see into it.",
+            });
+            break;
+          }
+          if (!state.narrativeFlags["darren_artifact_recovered"]) {
+            narrateElara({
+              text:
+                "This is the plate. You'd put the artifact here. The " +
+                "medical-bay personal-effects locker — Darren Fessler. " +
+                "Bring it back; we'll do this here.",
+            });
+            break;
+          }
+          if (audioReady) playSFX("terminal_access");
+          narrateElara({
+            text:
+              "Better. — Sorry. Better. I'm going to say that twice because " +
+              "the first one was sincere and the second one is a check " +
+              "that I can still produce 'sorry' as a single uninterrupted " +
+              "word. Thank you. We bought time.",
+          });
+          setNarrativeFlag("elara_matrix_stabilized_v1");
           break;
         }
         if (hotspot.action === "dna-device-offer") {

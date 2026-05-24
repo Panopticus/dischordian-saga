@@ -74,3 +74,54 @@ live in `apps/client/public/art/rooms/mystery-states/`. Transcoded from
 | necropolis | https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/necropolis_bg-FGT6JpTpUEJS36iuVerv7R.webp |
 | digital-void | https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/digital-void_bg-MXXbEFzrcPU2f6iCeSDG2N.webp |
 | resistance-base | https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/resistance-base_bg-FfKoe3Z7EovPpm24P7DcoX.webp |
+
+---
+
+## TODO_PRODUCTION — Dischordian Saga Episode Videos
+
+The in-fiction "Dischordian Saga" episodes play diegetically when their
+trigger flag fires. Registry: `apps/shared/dischordianSagaEpisodes.ts`.
+The episode player (`apps/client/src/components/DischordianSagaEpisodePlayer.tsx`)
+detects `durationSec: null` as the signal to render a diegetic
+"signal received, decoding in progress" fallback — gameplay path is never
+blocked while an episode is in production.
+
+### S01E01 — "Awakenings" — SHIPPED
+
+| Field | Value |
+|-------|-------|
+| Slug | `awakenings` |
+| Trigger flag | `engineer_recording_3_discovered` |
+| Paired recording | Engineer Recording 3 (`holo_worlds_i_saved`) |
+| Paired vote | `engineer_vote_thought_vs_violence` (opens on episode dismissal) |
+| Video path | `cdn/client-public/videos/episodes/1.1-awakenings.mp4` |
+| Public URL | `https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/videos/episodes/1.1-awakenings.mp4` |
+| Captions path | `cdn/client-public/captions/episodes/s01e01.vtt` *(TODO — not yet authored)* |
+| Duration | 246 s (4m 06s) |
+| Audio bed | Producer-mixed; embedded in MP4 |
+
+**Source:** Copied 2026-05-24 from the producer drop at `s3://dgrsart/Videos/1.1 Awakenings.mp4` into the public CDN prefix via `aws s3 cp`. Player is wired through `DSAGA_EPISODES[0]` in `apps/shared/dischordianSagaEpisodes.ts` and the in-game flow is: Engineer Recording 3 discovery → `EngineerRecordingDiscoveryModal` detects the paired episode → mounts `DischordianSagaEpisodePlayer` full-screen → on dismissal `EngineerVoteOverlay` opens the Choose Violence vote directly.
+
+**In-fiction synopsis:** The Engineer's third recording, broadcast in full: an invisible network of survivors his class never wrote down, the worlds he fixed instead of broke, and the question the Potentials must answer before the cycle closes — patience or violence.
+
+**Follow-ups:** Author the VTT captions and upload to the captions path above. (The player does not yet render a `<track>` element; that wiring is queued as a separate accessibility pass.)
+
+### S01E03 — "Terminus Swarm" — SHIPPED
+
+| Field | Value |
+|-------|-------|
+| Slug | `terminus-swarm` |
+| Trigger flag | `engineer_recording_5_discovered` |
+| Paired recording | Engineer Recording 5 (`holo_which_ark` — "Which Ark to Steal") |
+| Paired vote | `engineer_vote_kaels_choice` (opens on episode dismissal) |
+| Video path | `cdn/client-public/videos/episodes/1.3-terminus-swarm.mp4` |
+| Public URL | `https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/videos/episodes/1.3-terminus-swarm.mp4` |
+| Captions path | `cdn/client-public/captions/episodes/s01e03.vtt` *(TODO — not yet authored)* |
+| Duration | 132 s (2m 12s) |
+| Audio bed | Producer-mixed; embedded in MP4 |
+
+**Source:** Copied 2026-05-24 from the producer drop at `s3://dgrsart/Videos/1.3 Terminus Swarm.mp4`. Pairs structurally with Engineer Recording 5 (the Panopticon orbital coordinates / Kael's choice beat); the episode opens immediately before the player casts the Kael's Choice vote (vote 5 in `engineerGovernanceVotes.ts`).
+
+**In-fiction synopsis:** Coordinates, betrayed. The Engineer's fifth recording — the Panopticon's 43-day orbital window, the bench tuned to Kael's voice from a New Babylon cell, the Ark that has to be stolen and the friend who never got to choose. The Potentials vote on whether one mind has the right to decide another's path, even toward freedom.
+
+**S01E02 — TBD.** The producer drop does not (yet) include a 1.2 episode; the slot is reserved by the convention of the `DSAGA_EPISODES` array. When 1.2 ships, append it to the array — the player handles non-contiguous episode numbers transparently.

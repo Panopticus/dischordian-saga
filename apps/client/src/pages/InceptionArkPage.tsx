@@ -600,7 +600,7 @@ export default function InceptionArkPage() {
                                 </Link>
                               ) : (
                                 <button className="px-4 py-2 rounded-md border border-border/30 font-mono text-xs text-muted-foreground/60">
-                                  EXPLORE (Coming Soon)
+                                  SEALED — UNDER QUARANTINE
                                 </button>
                               )}
                             </>
