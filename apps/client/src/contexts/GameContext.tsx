@@ -891,48 +891,93 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "room_visited", value: "cryo-bay" },
     connections: ["cryo-bay", "archives", "comms-array"],
     hotspots: [
-      // Mystery wiring — severance.infernal_clause · e4 (Architect's acknowledgment)
-      { id: "infernal-architect-acknowledges", name: "Architect — Trap-Acknowledgment", description: "On the Architect-channel terminal: 'noted. the clauses are void. the trap was an honest one. the architect thanks the writer.' Fourth use of 'thanks' in eight epochs.", x: 46, y: 16, width: 6, height: 6, type: "interact", action: "room-mystery:bridge:infernal-architect-acknowledges" },
-      // Mystery wiring — charter.second_signatory · color (bridge)
-      { id: "charter2-architect-record-correction", name: "Architect Record Correction — Seventh's No", description: "On the Architect-channel: the eighth-epoch record correction — 'the seventh founding watcher did not consent to the fourth-epoch scrub. the record is corrected.'", x: 30, y: 16, width: 6, height: 6, type: "interact", action: "room-mystery:bridge:charter2-architect-record-correction" },
-      { id: "charter2-architect-acknowledgment", name: "Architect Closing — Eight Signatures Legible", description: "On the closing-rite Architect-channel: 'the founding now has eight signatures legible. the silence remains. the architect notes the correction with thanks.' Third use of 'thanks' in eight epochs.", x: 38, y: 16, width: 6, height: 6, type: "interact", action: "room-mystery:bridge:charter2-architect-acknowledgment" },
-      // Mystery wiring — charter.missing_signatory · e5 (Architect's response)
-      { id: "charter-architect-response", name: "Architect's Recovery Response", description: "On the Architect-channel terminal: 'Do you wish to know.' An invitation, not an interrogation. The Console does not answer the inverse — what knowing costs.", x: 22, y: 16, width: 6, height: 6, type: "interact", action: "room-mystery:bridge:charter-architect-response" },
-      // Mystery wiring — severance.bound_champion · color (bridge)
-      { id: "severance-architect-acknowledge", name: "Architect — Apprentice Oath Acknowledgment", description: "On the Nilmorg Architect-channel: 'noted. the post is recognised. the post was always recognised.' The Console did not need a vote.", x: 6, y: 16, width: 6, height: 6, type: "interact", action: "room-mystery:bridge:severance-architect-acknowledge" },
-      { id: "severance-council-ratification", name: "Council Ratification — Inheritance Protocol", description: "On the Council-vote terminal: ratified unanimously, with one abstention — the seventh founding Watcher's empty seat.", x: 14, y: 16, width: 6, height: 6, type: "interact", action: "room-mystery:bridge:severance-council-ratification" },
-      // Mystery wiring — memorial.forgotten_names · color (bridge)
-      { id: "memorial-architect-silence-on-torn", name: "Architect Silence — Torn Page", description: "On the Architect-channel terminal: asked to identify the torn-page imprint, the Console returns 'i decline.' Second decline in eight epochs.", x: 78, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:bridge:memorial-architect-silence-on-torn" },
-      { id: "memorial-architect-closing-thanks", name: "Architect's Closing — Grateful", description: "On the closing-rite Architect-channel: 'noted. the plaza was the answer. the architect is grateful.' Second use of 'grateful' in eight epochs.", x: 86, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:bridge:memorial-architect-closing-thanks" },
-      // Mystery wiring — mechronis.missing_professor · color (bridge)
-      { id: "tarn-destination-acknowledged", name: "Architect's Record — Tarn's Departure", description: "On the Architect-channel terminal: 'noted. she may return at her own discretion.' Tarn has left the Ark; Roen knows where but will not say.", x: 62, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:bridge:tarn-destination-acknowledged" },
-      { id: "tarn-architect-vote-note", name: "Architect — Closing-Rite Marginal Note", description: "Pinned to the Architect-channel for the closing rite: 'either choice closes the case. one keeps her name; one keeps her promise. the architect will not pick.'", x: 70, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:bridge:tarn-architect-vote-note" },
-      // Mystery wiring — memorial.seven_watchers · color (bridge)
-      { id: "watchers-architect-record", name: "Architect's Silence-Break Record", description: "On the Architect-channel terminal: 'six watchers have spoken to six audiences. each line is real. the seventh has not spoken. the architect will not name the seventh.'", x: 38, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:bridge:watchers-architect-record" },
-      { id: "watchers-architect-role-naming", name: "Architect — Seventh-Role Boundary", description: "Pinned to the Architect-channel: 'the role waits to be named by the Ark itself, not by the architect. the silence will continue until the ark has spoken.'", x: 46, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:bridge:watchers-architect-role-naming" },
-      { id: "watchers-architect-closing-thanks", name: "Architect's Closing Thanks", description: "On the closing-rite log: 'six Watchers spoken; one silent; the architect thanks the players for asking the question they sealed.' Fifth use of 'thanks' in eight epochs.", x: 54, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:bridge:watchers-architect-closing-thanks" },
-      // Mystery wiring — mechronis.chained_lesson · color (bridge)
-      { id: "chained-dean-silence-on-bridge", name: "Dean's Silence on the Bridge", description: "On the command-deck pedestal: the Dean's hand resting on the apprentice-protection-protocol document. Ratified, sealed, untouched since.", x: 14, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:bridge:chained-dean-silence-on-bridge" },
-      { id: "chained-architect-correction", name: "Architect Correction — Module 17", description: "On the Architect-channel terminal: 'the absence of Module 17 was an honest argument that became a wrong outcome. the architect will not vote on the amendment.'", x: 22, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:bridge:chained-architect-correction" },
-      { id: "chained-architect-rite-acknowledgment", name: "Architect Closing-Rite Acknowledgment", description: "On the closing-rite log: 'the architect notes the thirty-one names. the architect notes the teacher who taught anyway. the case is closed.'", x: 30, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:bridge:chained-architect-rite-acknowledgment" },
-      // Mystery wiring — memorial.forgotten_names · e4 (Architect's sealed note)
-      { id: "memorial-architect-sealed-note", name: "Architect's Sealed Note on I-1", description: "On the Architect-channel terminal: the keeper's sealed note opened only when the plaza asks. 'I-1 is the imprint that began the Ark. I will not name them. The plaza may.'", x: 6, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:bridge:memorial-architect-sealed-note" },
-      { id: "sealed-memory-board", name: "Sealed Memory Board", description: "The Editor sealed memories out of the record. Solve the boards to un-redact them.", x: 14, y: 70, width: 14, height: 14, type: "terminal", action: "/conspiracy-board", elaraDialog: "Not the open Conspiracy Board — the sealed ones. The Editor redacted seven memories out of the saga's record. Each board you solve un-redacts a cutscene and a Soul Stone." },
-      // Realigned 2026-04-25 for the AAA Final bridge render — central
-      // wheel/portal back-wall display (the Conspiracy Board), flanking
-      // viewport windows, twin console+chair workstations in foreground.
-      { id: "tactical-display", name: "Tactical Display", description: "A massive holographic display showing connections between entities, factions, and events.", x: 37, y: 18, width: 26, height: 50, type: "terminal", action: "/board", elaraDialog: "The Conspiracy Board. Every entity, every faction, every connection we've mapped in the Dischordian Saga. It's a web of alliances, betrayals, and secrets. The more you explore, the more connections you'll uncover.",
+      // Re-anchored 2026-05-24 against the AAA Final bridge render
+      // (art/rooms/bridge/baseline.png) after a 15-variant audit pass
+      // (baseline + 14 state overlays: act_tier_2, battlepass_winter,
+      // cycle_longnight, epoch_shadowtongue, faction_authority,
+      // faction_insurgency, governance_vote, investigation_tier,
+      // lore_elara_senator, morality_dark, season_closing, trust_
+      // elara_luminous, tv_spreading, unlock_trade_empire). Layout is
+      // consistent across every variant — landmarks don't shift — so
+      // baseline anchoring works universally.
+      //
+      // The 2026-04-25 anchoring was built against a completely
+      // different render and had ~10 major misplacements:
+      //   • tactical-display (Conspiracy Board) was anchored on the
+      //     central VIEWPORT — actual board is the right-wall corkboard
+      //   • captains-chair was on the right wall — actually on the
+      //     central raised dais
+      //   • nav-console was on the left wall — actually a foreground
+      //     holographic orb console at left-center
+      //   • door-cryo, door-archives, door-comms anchored on empty
+      //     floor / wall — only door-cryo has a visible doorway (left
+      //     wall, arched, blue-glow); the other two transitions are
+      //     implied / off-screen
+      //   • all 17 Architect-channel mystery rectangles were anchored
+      //     at y=8 and y=16 (near the ceiling) on blank wall area
+      //   • shadow-tongue-annotations was on the viewport
+      //   • captains-master-key + egg-bridge-log + captains-coffee
+      //     were on the right-wall area where the chair USED to be —
+      //     re-anchored to the central dais where the chair actually is
+      //   • npc-elara was at center-top — moved beside captain's chair
+      //
+      // Visible landmarks, left-to-right + foreground-to-back:
+      //   • three stacked arcade-style Architect-channel terminals —
+      //     far-left wall (`guild-console` on the mid terminal +
+      //     `sealed-memory-board` on the bottom terminal; the top
+      //     terminal hosts mystery rectangles only)
+      //   • arched left-wall door with blue keypad glow — left wall
+      //     (`door-cryo`, stairs down to Deck 1)
+      //   • holographic Navigation Console with floating green orb —
+      //     foreground left-center (`nav-console`,
+      //     `mystery-nav-console`, `egg-infected-starmap`)
+      //   • massive viewport showing space + planets — back center
+      //     (decorative, no hotspot)
+      //   • Captain's chair on raised dais — chamber center
+      //     (`captains-chair`, `captains-master-key`,
+      //     `egg-bridge-log`, `captains-coffee`)
+      //   • floor compass-star inlay — chamber center floor
+      //     (`diplomacy-table`)
+      //   • chess/strategy table with pieces — right-center
+      //     foreground (`war-map-display`, `quest-board`,
+      //     `mystery-diplomacy-table`)
+      //   • Conspiracy Board corkboard with photos + red threads —
+      //     right wall (`tactical-display`,
+      //     `mystery-tactical-display`, `shadow-tongue-annotations`,
+      //     and most of the Architect-channel mystery rectangles)
+      //   • floating cyan banner-scroll / timeline ticker — top-right
+      //     ceiling (`timeline-projector`, `mystery-timeline-projector`)
+      //   • chandelier — overhead center (decorative)
+      //
+      // Render order: large container hotspots (tactical-display,
+      // captains-chair, nav-console, guild-console, sealed-memory-
+      // board, war-map-display, diplomacy-table) authored FIRST; small
+      // sub-rectangles (mystery rects, item hotspots, NPC) authored
+      // AFTER so they win clicks on their specific landmarks.
+      // `npc-elara` is authored LAST so the holographic projection
+      // wins clicks when manifested.
+      //
+      // Verify with /ark?debug-hotspots=1 or, for drag-to-place
+      // editing, /ark?author-hotspots=1.
+
+      // ── FEATURE / CONTAINER HOTSPOTS (authored first) ──
+      { id: "tactical-display", name: "Tactical Display", description: "A massive corkboard on the right wall, layered with photographs and red string — the living web of intelligence the first crew began to assemble.", x: 78, y: 22, width: 21, height: 50, type: "terminal", action: "/board", elaraDialog: "The Conspiracy Board. Every entity, every faction, every connection we've mapped in the Dischordian Saga. It's a web of alliances, betrayals, and secrets. The more you explore, the more connections you'll uncover.",
         elaraDialogVoId: "room.bridge.hotspot.tactical-display.elara",
       },
-      { id: "timeline-projector", name: "Timeline Projector", description: "A holographic projector showing the Ages of the Dischordian Saga.", x: 74, y: 14, width: 18, height: 32, type: "terminal", action: "/saga-timeline", elaraDialog: "The Timeline Projector. It maps the entire history of the Dischordian Saga across the Ages — from the Age of Privacy through the Fall of Reality and beyond. Each era tells a different chapter of the story.",
+      { id: "war-map-display", name: "War Map", description: "The lower section of the Conspiracy Board — pinned faction territories and conflict zones, threaded together in red.", x: 78, y: 72, width: 21, height: 18, type: "terminal", action: "/war-map", elaraDialog: "The War Map. Faction territories, conflict zones, and strategic objectives are all tracked here. When faction wars erupt, this is where commanders plan their campaigns." },
+      { id: "timeline-projector", name: "Timeline Projector", description: "A floating cyan banner-scroll near the top-right ceiling — a holographic timeline of the Ages of the Dischordian Saga.", x: 72, y: 8, width: 22, height: 24, type: "terminal", action: "/saga-timeline", elaraDialog: "The Timeline Projector. It maps the entire history of the Dischordian Saga across the Ages — from the Age of Privacy through the Fall of Reality and beyond. Each era tells a different chapter of the story.",
         elaraDialogVoId: "room.bridge.hotspot.timeline-projector.elara",
       },
+      { id: "guild-console", name: "Guild Registry", description: "The middle terminal in the far-left Architect-channel column. A console for managing guild operations and alliances.", x: 0, y: 48, width: 15, height: 15, type: "terminal", action: "/guild", elaraDialog: "The Guild Registry. Form alliances with other Potentials, coordinate operations, and compete for dominance. Guilds that work together can tackle challenges no individual could face alone.",
+        elaraDialogVoId: "room.bridge.hotspot.guild-console.elara",
+      },
+      { id: "sealed-memory-board", name: "Sealed Memory Board", description: "The bottom terminal in the far-left Architect-channel column. The Editor sealed memories out of the record; this terminal queues the sealed boards.", x: 0, y: 63, width: 15, height: 15, type: "terminal", action: "/conspiracy-board", elaraDialog: "Not the open Conspiracy Board — the sealed ones. The Editor redacted seven memories out of the saga's record. Each board you solve un-redacts a cutscene and a Soul Stone." },
       // Bridge mystery hotspots — see apps/shared/roomMysteries/bridge.ts.
       // Look on captains-chair / nav-console examine logs a clue and
       // flips `bridge_first_clue_found` (Tier 0 → 1). The nav console's
       // existing nav-calibration interact action runs separately on
       // `use` and unlocks fast travel.
-      { id: "captains-chair", name: "Captain's Chair", description: "The command chair sits empty. A personal data pad is wedged in the armrest.", x: 74, y: 60, width: 18, height: 24, type: "examine", action: "room-mystery:bridge:captains-chair", elaraDialog: "The Captain's chair. Dr. Lyra Vox designed the neural nanobot network that runs every system on this ship. She was the last to sit here before ordering the emergency cryo protocol. Something about her doesn't add up — a neuropsychologist with that level of access to the ship's core systems. Her personal log might still be in the armrest terminal.",
+      { id: "captains-chair", name: "Captain's Chair", description: "The command chair sits empty on the raised central dais, facing the viewport. A personal data pad is wedged in the armrest.", x: 45, y: 22, width: 14, height: 38, type: "examine", action: "room-mystery:bridge:captains-chair", elaraDialog: "The Captain's chair. Dr. Lyra Vox designed the neural nanobot network that runs every system on this ship. She was the last to sit here before ordering the emergency cryo protocol. Something about her doesn't add up — a neuropsychologist with that level of access to the ship's core systems. Her personal log might still be in the armrest terminal.",
         elaraDialogVoId: "room.bridge.hotspot.captains-chair.elara",
         responses: [
           { id: "human.bridge.captains-chair.acknowledge", label: "Noted.", closesDialog: true },
@@ -944,49 +989,93 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
           },
         ],
       },
-      { id: "nav-console", name: "Navigation Console", description: "Star charts and route calculations. An alien glyph interface awaits calibration.", x: 8, y: 56, width: 22, height: 26, type: "interact", action: "nav-calibration", elaraDialog: "The navigation console. It controls the Ark's fast-travel system, but the interface uses alien glyph sequences for authentication. Match the symbol pattern to bring the navigation grid online — then you can jump to any room you've already discovered.",
+      { id: "nav-console", name: "Navigation Console", description: "A foreground holographic console at left-center. A green-cyan star-map orb hovers above its base. An alien glyph interface awaits calibration.", x: 17, y: 70, width: 22, height: 25, type: "interact", action: "nav-calibration", elaraDialog: "The navigation console. It controls the Ark's fast-travel system, but the interface uses alien glyph sequences for authentication. Match the symbol pattern to bring the navigation grid online — then you can jump to any room you've already discovered.",
         elaraDialogVoId: "room.bridge.hotspot.nav-console.elara",
       },
-      { id: "quest-board", name: "Mission Board", description: "A holographic board displaying active missions and quest objectives.", x: 70, y: 56, width: 22, height: 26, type: "terminal", action: "/quests", elaraDialog: "The Mission Board. Active operations and quest objectives are tracked here. Complete missions to earn rewards, uncover lore, and advance the story. Some missions are time-sensitive — the Saga doesn't wait for anyone.",
-        elaraDialogVoId: "room.bridge.hotspot.quest-board.elara",
-      },
-      { id: "guild-console", name: "Guild Registry", description: "A console for managing guild operations and alliances.", x: 10, y: 16, width: 16, height: 30, type: "terminal", action: "/guild", elaraDialog: "The Guild Registry. Form alliances with other Potentials, coordinate operations, and compete for dominance. Guilds that work together can tackle challenges no individual could face alone.",
-        elaraDialogVoId: "room.bridge.hotspot.guild-console.elara",
-      },
-      { id: "diplomacy-table", name: "Diplomacy Table", description: "A round table with holographic faction representatives.", x: 40, y: 76, width: 22, height: 18, type: "terminal", action: "/diplomacy", elaraDialog: "The Diplomacy Table. Negotiate with factions, forge alliances, or declare rivalries. Every diplomatic decision shifts the balance of power across the Saga. Choose your allies carefully.",
+      { id: "diplomacy-table", name: "Diplomacy Table", description: "An eight-pointed compass star inlaid in the chamber floor — the round table where holographic faction representatives convene.", x: 39, y: 60, width: 24, height: 32, type: "terminal", action: "/diplomacy", elaraDialog: "The Diplomacy Table. Negotiate with factions, forge alliances, or declare rivalries. Every diplomatic decision shifts the balance of power across the Saga. Choose your allies carefully.",
         elaraDialogVoId: "room.bridge.hotspot.diplomacy-table.elara",
       },
-      { id: "war-map-display", name: "War Map", description: "A strategic overlay showing faction territories and conflict zones.", x: 60, y: 86, width: 16, height: 12, type: "terminal", action: "/war-map", elaraDialog: "The War Map. Faction territories, conflict zones, and strategic objectives are all tracked here. When faction wars erupt, this is where commanders plan their campaigns." },
-      { id: "door-archives", name: "Archives Access", description: "A secured door leading to the Archives.", x: 88, y: 60, width: 10, height: 36, type: "door", action: "archives" },
-      { id: "door-cryo", name: "Cryo Bay Stairs", description: "Stairs leading down to Deck 1.", x: 2, y: 60, width: 10, height: 36, type: "door", action: "cryo-bay" },
-      { id: "door-comms", name: "Comms Array Corridor", description: "A corridor leading to the Communications Array.", x: 38, y: 92, width: 24, height: 7, type: "door", action: "comms-array" },
-      { id: "captains-master-key", name: "Captain's Master Key", description: "A heavy magnetic key hidden in a compartment beneath the captain's armrest.", x: 78, y: 74, width: 4, height: 5, type: "item", action: "captains-master-key", elaraDialog: "The Captain's Master Key! It was hidden in a compartment beneath the armrest — exactly where a commander would keep their most important tool. This key opens the Captain's Quarters, the most restricted area on the ship. Whatever secrets Dr. Lyra Vox was hiding, they're behind that door." },
-      { id: "egg-bridge-log", name: "Hidden Data Chip", description: "A micro data chip wedged into the captain's armrest.", x: 80, y: 70, width: 3, height: 4, type: "item", action: "captains-final-log", elaraDialog: "A hidden data chip! Someone concealed this in the armrest before the ship was stolen. Let me decrypt it... 'If you're reading this, the mind swap was successful. I am not who you think I am. The Engineer lives. Find the yellow coats.' The Engineer... hiding among the Potentials? And those yellow coats — that's the Warlord's signature. This changes everything." },
-      { id: "egg-infected-starmap", name: "Corrupted Star Chart", description: "A star chart with routes that weren't in the original navigation database. The coordinates pulse with a sickly amber glow.", x: 18, y: 22, width: 5, height: 5, type: "item", action: "infected-starmap", elaraDialog: "[SIGNAL CORRUPTION] These coordinates... they weren't programmed by the crew. The Warlord, through Dr. Vox, uploaded a secondary route map into the navigation core. The routes connect every Inception Ark in the fleet — a delivery network. When Kael stole this ship, the Warlord let him go — because Kael was already Patient Zero, infected through Project Vector. The Thought Virus was in HIM. Every Ark this ship contacted, every port it docked at, every signal it broadcast — the virus spread from Kael's infected body through the ship's systems into every network it touched. Kael thought he was escaping. He was being deployed. The Recruiter became the delivery mechanism for the very weapon he was fighting against." },
-      // Shadow Tongue annotations — visible only after shadow_tongue_evidence
-      // flag set AND room tier >= 2. The runtime gate handles visibility;
-      // this rectangle covers the floating indigo marginalia at three
-      // tactical-display nodes per the bridge:annotations-visible art.
-      { id: "shadow-tongue-annotations", name: "Indigo Marginalia", description: "Faint indigo annotations float at three of the Conspiracy Board's nodes — marginalia in someone else's hand, timestamped to your current shift.", x: 35, y: 12, width: 30, height: 10, type: "interact", action: "room-mystery:bridge:shadow-tongue-annotations" },
-      // Mystery overlay sub-rectangles — apps/shared/roomMysteries/bridge.ts
+      { id: "quest-board", name: "Mission Board", description: "A small holographic strategy table beside the dais — chess-like pieces represent active operations and quest objectives.", x: 62, y: 55, width: 16, height: 35, type: "terminal", action: "/quests", elaraDialog: "The Mission Board. Active operations and quest objectives are tracked here. Complete missions to earn rewards, uncover lore, and advance the story. Some missions are time-sensitive — the Saga doesn't wait for anyone.",
+        elaraDialogVoId: "room.bridge.hotspot.quest-board.elara",
+      },
+
+      // ── DOORS ──
+      // door-cryo is the only visible doorway in the bridge art (left
+      // wall, arched, blue-keypad glow). The archives and comms-array
+      // transitions are implied — kept as invisible clickable bands
+      // on the far-right edge (archives) and bottom floor (comms).
+      { id: "door-cryo", name: "Cryo Bay Stairs", description: "An arched left-wall door with a blue keypad. Stairs leading down to Deck 1.", x: 16, y: 30, width: 10, height: 48, type: "door", action: "cryo-bay" },
+      { id: "door-archives", name: "Archives Access", description: "A secured passage leading to the Archives.", x: 95, y: 30, width: 5, height: 50, type: "door", action: "archives" },
+      { id: "door-comms", name: "Comms Array Corridor", description: "A corridor leading to the Communications Array.", x: 38, y: 95, width: 26, height: 4, type: "door", action: "comms-array" },
+
+      // ── SHADOW TONGUE ANNOTATIONS ──
+      // Visible only after shadow_tongue_evidence flag set AND room
+      // tier >= 2. The runtime gate handles visibility; this rectangle
+      // covers the floating indigo marginalia at three Conspiracy
+      // Board nodes per the bridge:annotations-visible art. Authored
+      // AFTER tactical-display so it wins clicks on its sub-area.
+      { id: "shadow-tongue-annotations", name: "Indigo Marginalia", description: "Faint indigo annotations float at three of the Conspiracy Board's nodes — marginalia in someone else's hand, timestamped to your current shift.", x: 86, y: 22, width: 13, height: 15, type: "interact", action: "room-mystery:bridge:shadow-tongue-annotations" },
+
+      // ── ARCHITECT-CHANNEL MYSTERY TERMINALS (17 small rectangles) ──
+      // Distributed across visible terminal screens and corkboard
+      // surfaces. Each represents reading a specific Architect-channel
+      // entry. Authored AFTER their container hotspots so they win
+      // clicks on the specific lines/notes.
+      //
+      // Top-left terminal (no feature hotspot above it):
+      { id: "severance-architect-acknowledge", name: "Architect — Apprentice Oath Acknowledgment", description: "On the Nilmorg Architect-channel: 'noted. the post is recognised. the post was always recognised.' The Console did not need a vote.", x: 1, y: 32, width: 6, height: 6, type: "interact", action: "room-mystery:bridge:severance-architect-acknowledge" },
+      { id: "severance-council-ratification", name: "Council Ratification — Inheritance Protocol", description: "On the Council-vote terminal: ratified unanimously, with one abstention — the seventh founding Watcher's empty seat.", x: 8, y: 32, width: 6, height: 6, type: "interact", action: "room-mystery:bridge:severance-council-ratification" },
+      { id: "charter-architect-response", name: "Architect's Recovery Response", description: "On the Architect-channel terminal: 'Do you wish to know.' An invitation, not an interrogation. The Console does not answer the inverse — what knowing costs.", x: 1, y: 40, width: 6, height: 6, type: "interact", action: "room-mystery:bridge:charter-architect-response" },
+      { id: "charter2-architect-record-correction", name: "Architect Record Correction — Seventh's No", description: "On the Architect-channel: the eighth-epoch record correction — 'the seventh founding watcher did not consent to the fourth-epoch scrub. the record is corrected.'", x: 8, y: 40, width: 6, height: 6, type: "interact", action: "room-mystery:bridge:charter2-architect-record-correction" },
+      //
+      // Mid-left terminal (guild-console parent — these win sub-clicks):
+      { id: "charter2-architect-acknowledgment", name: "Architect Closing — Eight Signatures Legible", description: "On the closing-rite Architect-channel: 'the founding now has eight signatures legible. the silence remains. the architect notes the correction with thanks.' Third use of 'thanks' in eight epochs.", x: 1, y: 50, width: 6, height: 5, type: "interact", action: "room-mystery:bridge:charter2-architect-acknowledgment" },
+      { id: "infernal-architect-acknowledges", name: "Architect — Trap-Acknowledgment", description: "On the Architect-channel terminal: 'noted. the clauses are void. the trap was an honest one. the architect thanks the writer.' Fourth use of 'thanks' in eight epochs.", x: 8, y: 50, width: 6, height: 5, type: "interact", action: "room-mystery:bridge:infernal-architect-acknowledges" },
+      { id: "chained-dean-silence-on-bridge", name: "Dean's Silence on the Bridge", description: "On the command-deck pedestal: the Dean's hand resting on the apprentice-protection-protocol document. Ratified, sealed, untouched since.", x: 1, y: 56, width: 6, height: 5, type: "interact", action: "room-mystery:bridge:chained-dean-silence-on-bridge" },
+      { id: "chained-architect-correction", name: "Architect Correction — Module 17", description: "On the Architect-channel terminal: 'the absence of Module 17 was an honest argument that became a wrong outcome. the architect will not vote on the amendment.'", x: 8, y: 56, width: 6, height: 5, type: "interact", action: "room-mystery:bridge:chained-architect-correction" },
+      //
+      // Bottom-left terminal (sealed-memory-board parent — these win sub-clicks):
+      { id: "chained-architect-rite-acknowledgment", name: "Architect Closing-Rite Acknowledgment", description: "On the closing-rite log: 'the architect notes the thirty-one names. the architect notes the teacher who taught anyway. the case is closed.'", x: 1, y: 65, width: 6, height: 5, type: "interact", action: "room-mystery:bridge:chained-architect-rite-acknowledgment" },
+      { id: "watchers-architect-record", name: "Architect's Silence-Break Record", description: "On the Architect-channel terminal: 'six watchers have spoken to six audiences. each line is real. the seventh has not spoken. the architect will not name the seventh.'", x: 8, y: 65, width: 6, height: 5, type: "interact", action: "room-mystery:bridge:watchers-architect-record" },
+      { id: "watchers-architect-role-naming", name: "Architect — Seventh-Role Boundary", description: "Pinned to the Architect-channel: 'the role waits to be named by the Ark itself, not by the architect. the silence will continue until the ark has spoken.'", x: 1, y: 71, width: 6, height: 5, type: "interact", action: "room-mystery:bridge:watchers-architect-role-naming" },
+      //
+      // Right corkboard (tactical-display parent — these win sub-clicks):
+      { id: "watchers-architect-closing-thanks", name: "Architect's Closing Thanks", description: "On the closing-rite log: 'six Watchers spoken; one silent; the architect thanks the players for asking the question they sealed.' Fifth use of 'thanks' in eight epochs.", x: 79, y: 40, width: 5, height: 5, type: "interact", action: "room-mystery:bridge:watchers-architect-closing-thanks" },
+      { id: "tarn-destination-acknowledged", name: "Architect's Record — Tarn's Departure", description: "On the Architect-channel terminal: 'noted. she may return at her own discretion.' Tarn has left the Ark; Roen knows where but will not say.", x: 85, y: 40, width: 5, height: 5, type: "interact", action: "room-mystery:bridge:tarn-destination-acknowledged" },
+      { id: "tarn-architect-vote-note", name: "Architect — Closing-Rite Marginal Note", description: "Pinned to the Architect-channel for the closing rite: 'either choice closes the case. one keeps her name; one keeps her promise. the architect will not pick.'", x: 91, y: 40, width: 5, height: 5, type: "interact", action: "room-mystery:bridge:tarn-architect-vote-note" },
+      { id: "memorial-architect-silence-on-torn", name: "Architect Silence — Torn Page", description: "On the Architect-channel terminal: asked to identify the torn-page imprint, the Console returns 'i decline.' Second decline in eight epochs.", x: 79, y: 47, width: 5, height: 5, type: "interact", action: "room-mystery:bridge:memorial-architect-silence-on-torn" },
+      { id: "memorial-architect-closing-thanks", name: "Architect's Closing — Grateful", description: "On the closing-rite Architect-channel: 'noted. the plaza was the answer. the architect is grateful.' Second use of 'grateful' in eight epochs.", x: 85, y: 47, width: 5, height: 5, type: "interact", action: "room-mystery:bridge:memorial-architect-closing-thanks" },
+      { id: "memorial-architect-sealed-note", name: "Architect's Sealed Note on I-1", description: "On the Architect-channel terminal: the keeper's sealed note opened only when the plaza asks. 'I-1 is the imprint that began the Ark. I will not name them. The plaza may.'", x: 91, y: 47, width: 5, height: 5, type: "interact", action: "room-mystery:bridge:memorial-architect-sealed-note" },
+
+      // ── MYSTERY OVERLAY SUB-RECTANGLES (verb-coin sub-targets) ──
       // The feature-route hotspots above (tactical-display → /board,
-      // timeline-projector → /saga-timeline, nav-console → puzzle modal,
-      // diplomacy-table → /diplomacy) keep their primary actions; small
-      // adjacent rectangles below dispatch the verb-coin's authored
-      // mystery responses without stealing the feature route.
-      { id: "mystery-tactical-display", name: "Conspiracy Marginalia", description: "Faint annotations along the Conspiracy Board's edge — read carefully and the editor's voice resolves.", x: 37, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:bridge:tactical-display" },
-      { id: "mystery-timeline-projector", name: "Timeline Drift", description: "The two post-launch entries on the Timeline Projector's lower edge drift one minute forward on every read.", x: 92, y: 14, width: 6, height: 8, type: "interact", action: "room-mystery:bridge:timeline-projector" },
-      { id: "mystery-nav-console", name: "Nav Console Sequence", description: "The previous crew's last unfinished glyph entry, frozen mid-attempt.", x: 4, y: 84, width: 6, height: 6, type: "interact", action: "room-mystery:bridge:nav-console" },
-      { id: "mystery-diplomacy-table", name: "Empty Delegate Seat", description: "The chair beside the empty seat at the Diplomacy Table — pulled out by Lyra's hand, in the seconds before the cryo order.", x: 64, y: 78, width: 6, height: 8, type: "interact", action: "room-mystery:bridge:diplomacy-table" },
-      { id: "captains-coffee", name: "Captain's Coffee", description: "A mug, half-full, on the command console. Two and a half centuries old. The handle still points toward the chair.", x: 60, y: 60, width: 6, height: 8, type: "interact", action: "room-mystery:bridge:captains-coffee" },
-      // ── NPC presence (Phase C) ──
+      // timeline-projector → /saga-timeline, nav-console → puzzle
+      // modal, diplomacy-table → /diplomacy) keep their primary
+      // actions; these small adjacent rectangles dispatch the verb-
+      // coin's authored mystery responses without stealing the
+      // feature route. Authored AFTER their parents so they win
+      // clicks on the specific marginalia / sequence / etc.
+      { id: "mystery-tactical-display", name: "Conspiracy Marginalia", description: "Faint annotations along the Conspiracy Board's edge — read carefully and the editor's voice resolves.", x: 79, y: 55, width: 6, height: 6, type: "interact", action: "room-mystery:bridge:tactical-display" },
+      { id: "mystery-timeline-projector", name: "Timeline Drift", description: "The two post-launch entries on the Timeline Projector's lower edge drift one minute forward on every read.", x: 88, y: 22, width: 6, height: 6, type: "interact", action: "room-mystery:bridge:timeline-projector" },
+      { id: "mystery-nav-console", name: "Nav Console Sequence", description: "The previous crew's last unfinished glyph entry, frozen mid-attempt.", x: 30, y: 88, width: 6, height: 5, type: "interact", action: "room-mystery:bridge:nav-console" },
+      { id: "mystery-diplomacy-table", name: "Empty Delegate Seat", description: "The chair beside the empty seat at the Diplomacy Table — pulled out by Lyra's hand, in the seconds before the cryo order.", x: 64, y: 80, width: 6, height: 8, type: "interact", action: "room-mystery:bridge:diplomacy-table" },
+      { id: "captains-coffee", name: "Captain's Coffee", description: "A mug, half-full, on the dais beside the captain's chair. Two and a half centuries old. The handle still points toward the chair.", x: 40, y: 50, width: 5, height: 7, type: "interact", action: "room-mystery:bridge:captains-coffee" },
+
+      // ── ITEM HOTSPOTS (on captain's chair area + nav console) ──
+      // Authored AFTER captains-chair so they win clicks on the
+      // armrest compartment / wedged data chip.
+      { id: "captains-master-key", name: "Captain's Master Key", description: "A heavy magnetic key hidden in a compartment beneath the captain's armrest.", x: 50, y: 50, width: 4, height: 5, type: "item", action: "captains-master-key", elaraDialog: "The Captain's Master Key! It was hidden in a compartment beneath the armrest — exactly where a commander would keep their most important tool. This key opens the Captain's Quarters, the most restricted area on the ship. Whatever secrets Dr. Lyra Vox was hiding, they're behind that door." },
+      { id: "egg-bridge-log", name: "Hidden Data Chip", description: "A micro data chip wedged into the captain's armrest.", x: 54, y: 38, width: 3, height: 4, type: "item", action: "captains-final-log", elaraDialog: "A hidden data chip! Someone concealed this in the armrest before the ship was stolen. Let me decrypt it... 'If you're reading this, the mind swap was successful. I am not who you think I am. The Engineer lives. Find the yellow coats.' The Engineer... hiding among the Potentials? And those yellow coats — that's the Warlord's signature. This changes everything." },
+      { id: "egg-infected-starmap", name: "Corrupted Star Chart", description: "A star chart with routes that weren't in the original navigation database, etched into the nav-console's orb. The coordinates pulse with a sickly amber glow.", x: 28, y: 76, width: 5, height: 5, type: "item", action: "infected-starmap", elaraDialog: "[SIGNAL CORRUPTION] These coordinates... they weren't programmed by the crew. The Warlord, through Dr. Vox, uploaded a secondary route map into the navigation core. The routes connect every Inception Ark in the fleet — a delivery network. When Kael stole this ship, the Warlord let him go — because Kael was already Patient Zero, infected through Project Vector. The Thought Virus was in HIM. Every Ark this ship contacted, every port it docked at, every signal it broadcast — the virus spread from Kael's infected body through the ship's systems into every network it touched. Kael thought he was escaping. He was being deployed. The Recruiter became the delivery mechanism for the very weapon he was fighting against." },
+
+      // ── NPC PRESENCE (Phase C) ──
       // Elara's holographic projection. Faction NPC primaryRoom = "bridge".
       // Renders her bust portrait in-room and routes the `talk` verb to
       // NPCDialog with buildFirstContactScene("elara") so VO plays via
-      // useDialogVO without any extra hookup. Placed between the tactical
-      // display and the foreground row so she doesn't overlap the
-      // captain's chair / nav-console rectangles.
-      { id: "npc-elara", name: "Elara (Holographic)", description: "Elara's holographic projection flickers near the central display. She seems to be waiting for you to address her directly.", x: 46, y: 42, width: 10, height: 16, type: "npc", action: "npc:elara", npcId: "elara" },
+      // useDialogVO without any extra hookup. Placed beside the
+      // captain's chair on the central dais — visible without
+      // overlapping the chair / nav-console rectangles.
+      { id: "npc-elara", name: "Elara (Holographic)", description: "Elara's holographic projection flickers beside the captain's chair. She seems to be waiting for you to address her directly.", x: 60, y: 26, width: 7, height: 18, type: "npc", action: "npc:elara", npcId: "elara" },
     ],
   },
   {
