@@ -1825,28 +1825,92 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "narrative_event", value: "combat_systems_online" },
     connections: ["engineering", "cargo-hold"],
     hotspots: [
-      // Realigned 2026-04-25 for the AAA Final armory render — a long
-      // corridor lined with weapon-rack lockers on both side walls, a
-      // central pathway with glowing floor strips, and a central
-      // workbench / arena at the far end beneath a back-wall fixture.
-      { id: "combat-arena", name: "Combat Arena", description: "A holographic combat simulation arena for training.", x: 38, y: 32, width: 24, height: 32, type: "terminal", action: "/fight", elaraDialog: "The combat arena. Step inside and I'll generate holographic opponents based on known entities from the Dischordian Saga. It's the safest way to test your abilities... relatively safe." },
-      { id: "card-battle-station", name: "Card Battle Station", description: "A tactical display for card game warfare.", x: 38, y: 64, width: 24, height: 18, type: "terminal", action: "/battle", elaraDialog: "The card battle station. Here you can engage in strategic card warfare — deploying your deck against AI opponents or other Potentials. Every victory earns you rewards and moves you closer to understanding the true nature of the conflict." },
-      { id: "weapon-rack", name: "Weapon Rack", description: "Futuristic weapons behind locked glass cases.", x: 6, y: 22, width: 24, height: 50, type: "examine", elaraDialog: "The weapon racks. Plasma swords, energy shields, cloaking devices... most are locked behind security glass. You'll need to prove yourself in combat before I can authorize access to the heavier ordnance." },
-      { id: "quiz-terminal", name: "Knowledge Terminal", description: "A terminal that tests your knowledge of the Dischordian lore.", x: 70, y: 22, width: 24, height: 50, type: "terminal", action: "/quiz", elaraDialog: "The Knowledge Terminal. It tests your understanding of the Dischordian Saga. Answer correctly and you'll earn rewards. Get them wrong and... well, there are no penalties. But I'll be disappointed." },
-      { id: "chess-table", name: "Strategy Table", description: "An ornate chess board with holographic pieces depicting Dischordian characters.", x: 8, y: 76, width: 14, height: 16, type: "terminal", action: "/chess", elaraDialog: "The Strategy Table. A chess variant using characters from the Dischordian Saga as pieces. Each character has unique abilities that modify the classic rules. It's not just a game — it's a test of tactical thinking. The AI opponent adapts to your skill level." },
-      { id: "spectator-screen", name: "Spectator Screen", description: "A large screen showing live battles between other Potentials.", x: 78, y: 76, width: 14, height: 16, type: "terminal", action: "/spectate", elaraDialog: "The Spectator Screen. Watch live battles between other Potentials. Study their strategies, learn from their mistakes, and prepare for your own encounters." },
-      { id: "door-engineering", name: "Engineering Bay", description: "Return to Engineering.", x: 44, y: 28, width: 12, height: 22, type: "door", action: "engineering" },
-      { id: "door-cargo", name: "Cargo Hold", description: "Stairs leading down to the Cargo Hold.", x: 42, y: 86, width: 16, height: 12, type: "door", action: "cargo-hold" },
-      { id: "egg-armory-dogtag", name: "Fallen Dog Tag", description: "A military dog tag wedged between floor plates.", x: 34, y: 80, width: 3, height: 4, type: "item", action: "agent-zero-dogtag", elaraDialog: "A dog tag. Name: CLASSIFIED. Rank: Assassin, First Class. Unit: Insurgency Special Operations. Callsign: 'Agent Zero.' But wait — the biometric data on the tag doesn't match Agent Zero's profile. It matches... the Engineer. The mind swap. The Engineer is walking around in Agent Zero's body, hiding among the Potentials. On THIS ship." },
-      { id: "motivational-poster", name: "Motivational Poster", description: "A faded poster showing a sunset with the text 'HANG IN THERE!' Signed in the corner: Iron Lion.", x: 88, y: 14, width: 5, height: 6, type: "examine", action: "room-mystery:armory:motivational-poster", elaraDialog: "Iron Lion's poster. He printed thousands of these. Most of them are gone. This one isn't. There is a cat in the bottom corner that I did not, until today, register." },
-      // Phase C extension — Agent Zero NPC presence in his canonical
-      // primaryRoom (per apps/client/src/game/factionNPCs.ts). The
-      // armory is the deck where Iron Lion's lineage of soldiers
-      // gathers, and Agent Zero — the Engineer-in-disguise discovered
-      // via the egg-armory-dogtag clue — manifests here once that
-      // clue has been logged. See ArkExplorerPage's npc-hotspot
-      // render path for the bust-portrait dispatch.
-      { id: "npc-agent-zero", name: "Agent Zero", description: "A figure leaning against the rifle racks. Insurgency uniform, dog-tag at the throat, eyes that have already counted every exit.", x: 26, y: 50, width: 8, height: 16, type: "npc", action: "npc:agent_zero", npcId: "agent_zero" },
+      // Re-anchored 2026-05-24 against the AAA Final armory render
+      // (art/rooms/armory/baseline.png) after a 14-variant audit pass
+      // (baseline + 13 state overlays). Layout consistent across all.
+      //
+      // The 2026-04-25 anchoring described "a long corridor lined with
+      // weapon-rack lockers on both side walls, central pathway with
+      // glowing floor strips, central workbench/arena at the far end"
+      // — the AAA Final is different: a chamber-style armory with a
+      // far-left corkboard of mission cards, a free-standing glass
+      // weapon case left-center, a wall-mounted weapon rack with
+      // rifles back-center, a raised circular armor-dais with purple-
+      // glow mannequins center-back, and a tool workbench on the
+      // right foreground.
+      //
+      // Major re-anchors:
+      //   • combat-arena (was 38,32,24,32 on the wall weapon rack) →
+      //     central armor dais (50,25,22,55) — the actual visible
+      //     training platform
+      //   • weapon-rack (was 6,22,24,50 on the corkboard) →
+      //     glass display case + wall weapon rack (15,20,35,55)
+      //   • quiz-terminal (was 70,22,24,50) → far-left corkboard
+      //     of pinned cards (0,20,15,55)
+      //   • card-battle-station (was 38,64,24,18 in middle floor)
+      //     → right workbench left half (74,62,13,17)
+      //   • chess-table (was 8,76,14,16 on floor) → right workbench
+      //     right half (87,62,11,17)
+      //   • spectator-screen (was 78,76,14,16 on floor edge) →
+      //     right workbench front edge (74,82,24,12)
+      //   • door-engineering (was 44,28,12,22 conflicting with arena)
+      //     → back archway above dais (52,20,18,10)
+      //   • door-cargo (was 42,86,16,12 on dais base) → invisible
+      //     bottom-foreground walk-out (40,93,20,5)
+      //   • npc-agent-zero (was 26,50,8,16) → beside wall weapon rack
+      //     (38,50,8,18) where the "leaning against the rifle racks"
+      //     description fits
+      //   • motivational-poster (was 88,14,5,6 on blank back-wall)
+      //     → top of corkboard area (4,18,5,6) where the "faded
+      //     poster" sits among the mission cards
+      //
+      // Visible landmarks, left-to-right + foreground-to-back:
+      //   • far-left corkboard with pinned mission cards — left wall
+      //     (`quiz-terminal`, `motivational-poster`)
+      //   • free-standing glass weapon case — left-center
+      //     (`weapon-rack` — left half)
+      //   • wall-mounted weapon rack with rifles — center-back
+      //     (`weapon-rack` — right half; `npc-agent-zero` leans
+      //     against this)
+      //   • raised circular armor dais with mannequins — chamber
+      //     center (`combat-arena`)
+      //   • back archway above dais — center-back (`door-engineering`)
+      //   • right tool workbench with components — right foreground
+      //     (`card-battle-station`, `chess-table`, `spectator-screen`)
+      //   • floor between dais and foreground — (`egg-armory-dogtag`)
+      //
+      // Render order: container hotspots authored FIRST; small sub-
+      // rectangles authored AFTER so they win clicks on specific
+      // surfaces. NPC authored last so projection wins on overlap.
+      //
+      // Verify with /ark?debug-hotspots=1 or /ark?author-hotspots=1.
+
+      // ── FEATURE / CONTAINER HOTSPOTS ──
+      { id: "weapon-rack", name: "Weapon Rack", description: "A free-standing glass display case in the left-center holds high-grade weapons, with a wall-mounted rifle rack behind it. Most are locked behind security glass.", x: 15, y: 20, width: 35, height: 55, type: "examine", elaraDialog: "The weapon racks. Plasma swords, energy shields, cloaking devices... most are locked behind security glass. You'll need to prove yourself in combat before I can authorize access to the heavier ordnance." },
+      { id: "combat-arena", name: "Combat Arena", description: "The raised circular armor dais at chamber center, ringed by a purple-glow aura. A holographic combat simulation arena for training.", x: 50, y: 25, width: 22, height: 55, type: "terminal", action: "/fight", elaraDialog: "The combat arena. Step inside and I'll generate holographic opponents based on known entities from the Dischordian Saga. It's the safest way to test your abilities... relatively safe." },
+      { id: "quiz-terminal", name: "Knowledge Terminal", description: "The far-left corkboard of pinned mission cards — a terminal disguised as a duty board that tests your knowledge of the Dischordian lore.", x: 0, y: 20, width: 15, height: 55, type: "terminal", action: "/quiz", elaraDialog: "The Knowledge Terminal. It tests your understanding of the Dischordian Saga. Answer correctly and you'll earn rewards. Get them wrong and... well, there are no penalties. But I'll be disappointed." },
+      { id: "card-battle-station", name: "Card Battle Station", description: "The left half of the right-side tool workbench — a tactical display surface for card game warfare.", x: 74, y: 62, width: 13, height: 17, type: "terminal", action: "/battle", elaraDialog: "The card battle station. Here you can engage in strategic card warfare — deploying your deck against AI opponents or other Potentials. Every victory earns you rewards and moves you closer to understanding the true nature of the conflict." },
+      { id: "chess-table", name: "Strategy Table", description: "The right half of the right-side tool workbench — an ornate chess board with holographic pieces depicting Dischordian characters.", x: 87, y: 62, width: 11, height: 17, type: "terminal", action: "/chess", elaraDialog: "The Strategy Table. A chess variant using characters from the Dischordian Saga as pieces. Each character has unique abilities that modify the classic rules. It's not just a game — it's a test of tactical thinking. The AI opponent adapts to your skill level." },
+      { id: "spectator-screen", name: "Spectator Screen", description: "The front edge of the right-side workbench — a wide screen showing live battles between other Potentials.", x: 74, y: 82, width: 24, height: 12, type: "terminal", action: "/spectate", elaraDialog: "The Spectator Screen. Watch live battles between other Potentials. Study their strategies, learn from their mistakes, and prepare for your own encounters." },
+
+      // ── DOORS ──
+      // door-engineering anchors on the back archway visible above the
+      // dais. door-cargo has no visible representation — anchored as
+      // an invisible click band on the bottom foreground.
+      { id: "door-engineering", name: "Engineering Bay", description: "The back archway above the dais — return to Engineering.", x: 52, y: 20, width: 18, height: 10, type: "door", action: "engineering" },
+      { id: "door-cargo", name: "Cargo Hold", description: "Stairs leading down to the Cargo Hold.", x: 40, y: 93, width: 20, height: 5, type: "door", action: "cargo-hold" },
+
+      // ── SUB-RECTS (egg + mystery + NPC) ──
+      // Authored AFTER container hotspots so they win clicks on
+      // specific items.
+      { id: "egg-armory-dogtag", name: "Fallen Dog Tag", description: "A military dog tag wedged between the floor plates at the base of the dais.", x: 35, y: 88, width: 3, height: 4, type: "item", action: "agent-zero-dogtag", elaraDialog: "A dog tag. Name: CLASSIFIED. Rank: Assassin, First Class. Unit: Insurgency Special Operations. Callsign: 'Agent Zero.' But wait — the biometric data on the tag doesn't match Agent Zero's profile. It matches... the Engineer. The mind swap. The Engineer is walking around in Agent Zero's body, hiding among the Potentials. On THIS ship." },
+      { id: "motivational-poster", name: "Motivational Poster", description: "Pinned to the top corner of the left-wall corkboard — a faded poster showing a sunset with the text 'HANG IN THERE!' Signed in the corner: Iron Lion.", x: 4, y: 18, width: 5, height: 6, type: "examine", action: "room-mystery:armory:motivational-poster", elaraDialog: "Iron Lion's poster. He printed thousands of these. Most of them are gone. This one isn't. There is a cat in the bottom corner that I did not, until today, register." },
+
+      // ── NPC PRESENCE (Phase C) ──
+      // Agent Zero NPC primaryRoom = armory (factionNPCs.ts). Manifests
+      // here once the egg-armory-dogtag clue has been logged. Authored
+      // LAST so the projection wins clicks when manifested.
+      { id: "npc-agent-zero", name: "Agent Zero", description: "A figure leaning against the wall-mounted rifle rack. Insurgency uniform, dog-tag at the throat, eyes that have already counted every exit.", x: 38, y: 50, width: 8, height: 18, type: "npc", action: "npc:agent_zero", npcId: "agent_zero" },
     ],
   },
   {
