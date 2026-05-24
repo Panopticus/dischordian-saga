@@ -1465,33 +1465,118 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "specific_item", value: "observation-keycard" },
     connections: ["comms-array", "engineering"],
     hotspots: [
-      // Mystery wiring — charter.missing_signatory · e4 (upper-band calibration slip)
-      { id: "charter-upper-band-calibration", name: "Upper-Band Calibration Slip", description: "On the upper-band reference bench: a wafer of metal calibrated to the upper-band frequency, folded into the founding-Watcher's letter. Per. M. had access to the upper bands.", x: 30, y: 27, width: 6, height: 6, type: "interact", action: "room-mystery:observation-deck:charter-upper-band-calibration" },
-      // Mystery wiring — resurrectionist.cycle_walker · e5 (Dreamer's Shield diagnostic)
-      { id: "resur-shield-diagnostic", name: "Dreamer's Shield — Diagnostic Reading", description: "On the cosmic-archaeology console: the Shield's barrier does not register the Virus's signature as fully excluded; the signature reads, faintly, FROM INSIDE the protected volume. The cult calls it instrumentation error.", x: 14, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:observation-deck:resur-shield-diagnostic" },
-      // Mystery wiring — akai_shi.red_death · e4 (Matrix cycle-fold anomalies)
-      { id: "akai-cycle-fold-anomalies", name: "Matrix Cycle-Fold Anomalies", description: "On the Matrix-telemetry console: discontinuous folds during the Red Death's hunt. Seven folds, seven retreat chambers, seven encounters. The Necromancer running into his own decisions.", x: 6, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:observation-deck:akai-cycle-fold-anomalies" },
-      // Mystery wiring — storm.architect_of_flux · e1 + e4 (weather + calms)
-      { id: "storm-weather-telemetry", name: "Five-Century Cosmic-Weather Console", description: "On the cosmic-weather console: five centuries of slow oscillation between two equilibria, with Storm-active intervals pinned exactly to the mid-line crossings.", x: 13, y: 19, width: 6, height: 6, type: "interact", action: "room-mystery:observation-deck:storm-weather-telemetry" },
-      { id: "storm-full-calms-register", name: "Register of Nine Calms", description: "Pinned beside the telemetry: the full register of nine documented calm intervals — seven to nine cosmic-cycles each, each one a permission interval.", x: 21, y: 19, width: 6, height: 6, type: "interact", action: "room-mystery:observation-deck:storm-full-calms-register" },
-      // Realigned 2026-04-25 against the actual delivered art (the
-      // Vortex-rift / telescope / communion-bench prompt was an earlier
-      // brief; the shipped render is a lounge: bar with backlit shelves
-      // on the left, sectional couch + glass coffee table foreground-
-      // centre, bioluminescent cylindrical aquariums in the corners,
-      // an audio-spectrum visualiser integrated into the right side of
-      // the viewport, nebula + ceiling skylight panels filling the upper
-      // two-thirds.
-      { id: "music-terminal", name: "Music Terminal", description: "A sophisticated music system with the complete discography of Malkia Ukweli & the Panopticon.", x: 62, y: 55, width: 28, height: 22, type: "terminal", action: "/discography", elaraDialog: "The complete discography. Four albums spanning the entire narrative — Dischordian Logic, The Age of Privacy, The Book of Daniel 2:47, and the upcoming Silence in Heaven. Every song is a piece of the puzzle." },
+      // Re-anchored 2026-05-24 against the AAA Final observation-deck
+      // render (art/rooms/observation_deck/baseline.png) after a 14-
+      // variant audit pass (baseline + 13 state overlays: act_tier_2,
+      // battlepass_winter, cycle_longnight, epoch_shadowtongue,
+      // faction_dreamer, governance_classified, investigation_tier,
+      // lore_architect, morality_dark, season_interregnum, trust_
+      // eidolon_resonant, tv_spreading, unlock_memorial). Layout is
+      // consistent across every variant — landmarks don't shift — so
+      // baseline anchoring works universally.
+      //
+      // The 2026-04-25 anchoring described the lounge layout correctly
+      // (bar shelves left, sectional couch, glass coffee table, etc.)
+      // but anchored several hotspots on blank or wrong surfaces:
+      //   • viewport extended x=30-95, y=2-72 — captured the right
+      //     aquarium-pillar + back-wall trophy area outside the
+      //     actual viewport bounds
+      //   • music-terminal at (62,55,28,22) overlapped the viewport
+      //     glass and didn't land on the visible globe-table
+      //   • crew-memorial at (6,24,24,36) sprawled across the bar
+      //     shelves + couch area despite no visible memorial wall
+      //     in the art
+      //   • all 5 architect-channel mystery rects were anchored at
+      //     y=8/19/27 in the upper-left blank wall area where there
+      //     are no visible consoles
+      //   • door-comms at (1,80,18,18) overlapped the visible couch
+      //
+      // Major re-anchors:
+      //   • viewport tightened to (25,22,50,50) — only the actual
+      //     panoramic viewport (stars + planet)
+      //   • music-terminal → bot-right globe-table (78,65,18,20)
+      //   • crew-memorial → small framed plaque on far-left wall
+      //     (1,25,8,15) — the only decorative wall fixture matching
+      //     "memorial with names etched in light"
+      //   • purification-crystal-cradle → pedestal beneath the globe
+      //     (80,85,16,8) — the "empty cradle" mentioned in description
+      //   • bond-resonance-altar → floor compass-star inlay
+      //     (40,88,20,10) — matches "low circular altar set into the
+      //     floor"
+      //   • 5 architect-channel mystery rects redistributed: 1 on
+      //     bar shelves (charter-upper-band-calibration), 3 sub-rects
+      //     on viewport (akai-cycle-fold-anomalies, storm-weather-
+      //     telemetry, storm-full-calms-register — each described as
+      //     "console" displaying celestial data, the viewport itself
+      //     reads as the cosmic display), 1 sub-rect on globe-table
+      //     (resur-shield-diagnostic — cosmic-archaeology console)
+      //   • door-comms moved to invisible bottom-left walk-out
+      //     (5,92,15,6) so it doesn't conflict with couch
+      //
+      // Visible landmarks, left-to-right + foreground-to-back:
+      //   • far-left bar shelves with backlit bottles — left wall
+      //     (`charter-upper-band-calibration` mystery rect)
+      //   • small framed plaque — left wall upper (`crew-memorial`)
+      //   • small left-corner bench — left foreground (decorative)
+      //   • panoramic viewport with stars + planet — center back
+      //     (`viewport` + `egg-obs-constellation` +
+      //     `akai-cycle-fold-anomalies` + `storm-weather-telemetry` +
+      //     `storm-full-calms-register`)
+      //   • glass coffee table with brass music player — center
+      //     foreground (decorative; music-terminal is on the
+      //     right globe-table instead)
+      //   • red curved sectional couch — center foreground
+      //     (decorative)
+      //   • floor compass-star inlay — chamber center floor
+      //     (`bond-resonance-altar`)
+      //   • right purple-bioluminescent aquarium pillar — right
+      //     wall (decorative)
+      //   • right globe-table with glowing orb — right foreground
+      //     (`music-terminal`, `resur-shield-diagnostic`,
+      //     `purification-crystal-cradle`)
+      //
+      // Render order: container hotspots authored FIRST; small sub-
+      // rectangles (mystery rects, egg, items) authored AFTER so
+      // they win clicks on specific surfaces.
+      //
+      // Verify with /ark?debug-hotspots=1 or, for drag-to-place
+      // editing, /ark?author-hotspots=1.
+
+      // ── FEATURE / CONTAINER HOTSPOTS ──
+      { id: "crew-memorial", name: "Crew Memorial", description: "A small framed plaque on the far-left wall, names etched in soft light. The crew who didn't make it.", x: 1, y: 25, width: 8, height: 15, type: "examine", elaraDialog: "A memorial for the crew members who didn't survive the journey. One thousand and forty-seven names. They gave their lives to keep the Ark running while the Potentials slept. I remember every one of them." },
       // Phase G — wire the panoramic viewport to the observation-deck
       // mystery module so Look/Use/Talk all route through the verb coin.
-      { id: "viewport", name: "Panoramic Viewport", description: "The vast expanse of space stretches before you. The stars look... wrong.", x: 30, y: 2, width: 65, height: 70, type: "interact", action: "room-mystery:observation-deck:panoramic-viewport", elaraDialog: "Look at the stars. They're beautiful, aren't they? But they're wrong. The constellations don't match any known configuration from any of the mapped universes. Either we've traveled very, very far... or we're somewhere that shouldn't exist." },
-      { id: "purification-crystal-cradle", name: "Crystal Cradle", description: "An empty cradle-pedestal stage-right. A brass plaque reads, in Lyra's hand: 'For the crystal that has not yet been chosen.'", x: 80, y: 78, width: 12, height: 14, type: "interact", action: "room-mystery:observation-deck:purification-crystal-cradle" },
-      { id: "bond-resonance-altar", name: "Bond Resonance Altar", description: "A low circular altar set into the floor's hex tiling. Brass-rimmed, oxblood-leather kneeler.", x: 40, y: 80, width: 18, height: 14, type: "interact", action: "room-mystery:observation-deck:bond-resonance-altar" },
-      { id: "crew-memorial", name: "Crew Memorial", description: "A small memorial with names etched in light. The crew who didn't make it.", x: 6, y: 24, width: 24, height: 36, type: "examine", elaraDialog: "A memorial for the crew members who didn't survive the journey. One thousand and forty-seven names. They gave their lives to keep the Ark running while the Potentials slept. I remember every one of them." },
-      { id: "door-comms", name: "Comms Array", description: "Return to the Communications Array.", x: 1, y: 80, width: 18, height: 18, type: "door", action: "comms-array" },
+      { id: "viewport", name: "Panoramic Viewport", description: "The vast expanse of space stretches before you through a curved glass wall — stars, a small distant planet, the chamber's only window onto the void.", x: 25, y: 22, width: 50, height: 50, type: "interact", action: "room-mystery:observation-deck:panoramic-viewport", elaraDialog: "Look at the stars. They're beautiful, aren't they? But they're wrong. The constellations don't match any known configuration from any of the mapped universes. Either we've traveled very, very far... or we're somewhere that shouldn't exist." },
+      { id: "music-terminal", name: "Music Terminal", description: "A glowing earth-globe on a brass-rimmed table at right-foreground. The complete discography of Malkia Ukweli & the Panopticon is keyed into its base.", x: 78, y: 65, width: 18, height: 20, type: "terminal", action: "/discography", elaraDialog: "The complete discography. Four albums spanning the entire narrative — Dischordian Logic, The Age of Privacy, The Book of Daniel 2:47, and the upcoming Silence in Heaven. Every song is a piece of the puzzle." },
+      { id: "bond-resonance-altar", name: "Bond Resonance Altar", description: "A low circular altar set into the floor's compass-star tiling — brass-rimmed, oxblood-leather kneeler.", x: 40, y: 88, width: 20, height: 10, type: "interact", action: "room-mystery:observation-deck:bond-resonance-altar" },
+      { id: "purification-crystal-cradle", name: "Crystal Cradle", description: "The pedestal beneath the globe-table. A brass plaque reads, in Lyra's hand: 'For the crystal that has not yet been chosen.'", x: 80, y: 85, width: 16, height: 8, type: "interact", action: "room-mystery:observation-deck:purification-crystal-cradle" },
+
+      // ── DOORS ──
+      // door-comms is the player's walk-out path (no visible door in
+      // the art); kept as a narrow invisible band on the bottom-left
+      // floor so it doesn't conflict with the visible couch.
+      // door-engineering is the maintenance hatch — no visible door
+      // either; invisible right edge band.
+      { id: "door-comms", name: "Comms Array", description: "Return to the Communications Array.", x: 5, y: 92, width: 15, height: 6, type: "door", action: "comms-array" },
       { id: "door-engineering", name: "Engineering Access", description: "A maintenance hatch leading down to Engineering.", x: 95, y: 30, width: 5, height: 55, type: "door", action: "engineering" },
-      { id: "egg-obs-constellation", name: "Strange Constellation", description: "A pattern of stars that seems to form a face.", x: 44, y: 8, width: 5, height: 6, type: "examine", elaraDialog: "Do you see it? That cluster of stars... if you connect them, they form a face. Not just any face — it looks like the Watcher. The all-seeing eye of the Panopticon's surveillance network. But we're light-years from Panopticon space. How can the stars themselves form his likeness? Unless... the stars were arranged. By someone with the power to move suns." },
+
+      // ── VIEWPORT SUB-RECTS ──
+      // The viewport itself acts as the cosmic display — each mystery
+      // rect represents a specific celestial reading visible in the
+      // star-field. Authored AFTER viewport so they win clicks on
+      // specific star clusters.
+      { id: "egg-obs-constellation", name: "Strange Constellation", description: "A pattern of stars in the viewport's upper-left that seems to form a face.", x: 28, y: 24, width: 5, height: 6, type: "examine", elaraDialog: "Do you see it? That cluster of stars... if you connect them, they form a face. Not just any face — it looks like the Watcher. The all-seeing eye of the Panopticon's surveillance network. But we're light-years from Panopticon space. How can the stars themselves form his likeness? Unless... the stars were arranged. By someone with the power to move suns." },
+      { id: "akai-cycle-fold-anomalies", name: "Matrix Cycle-Fold Anomalies", description: "Telemetry overlaid on the viewport's left quadrant — discontinuous folds during the Red Death's hunt. Seven folds, seven retreat chambers, seven encounters. The Necromancer running into his own decisions.", x: 34, y: 28, width: 6, height: 5, type: "interact", action: "room-mystery:observation-deck:akai-cycle-fold-anomalies" },
+      { id: "storm-weather-telemetry", name: "Five-Century Cosmic-Weather Console", description: "Telemetry overlaid on the viewport center — five centuries of slow oscillation between two equilibria, with Storm-active intervals pinned exactly to the mid-line crossings.", x: 46, y: 28, width: 6, height: 5, type: "interact", action: "room-mystery:observation-deck:storm-weather-telemetry" },
+      { id: "storm-full-calms-register", name: "Register of Nine Calms", description: "Pinned beside the telemetry on the viewport's right quadrant — the full register of nine documented calm intervals; each one a permission interval.", x: 60, y: 28, width: 6, height: 5, type: "interact", action: "room-mystery:observation-deck:storm-full-calms-register" },
+
+      // ── LEFT-WALL MYSTERY RECT (architect channel on bar shelves) ──
+      { id: "charter-upper-band-calibration", name: "Upper-Band Calibration Slip", description: "On the upper-band reference shelf, tucked between the bar's backlit bottles: a wafer of metal calibrated to the upper-band frequency, folded into the founding-Watcher's letter. Per. M. had access to the upper bands.", x: 1, y: 50, width: 5, height: 5, type: "interact", action: "room-mystery:observation-deck:charter-upper-band-calibration" },
+
+      // ── GLOBE-TABLE MYSTERY SUB-RECT (cosmic-archaeology console) ──
+      // Authored AFTER music-terminal so it wins clicks on the
+      // specific archaeology readout on the globe.
+      { id: "resur-shield-diagnostic", name: "Dreamer's Shield — Diagnostic Reading", description: "On the globe-table's cosmic-archaeology readout: the Shield's barrier does not register the Virus's signature as fully excluded; the signature reads, faintly, FROM INSIDE the protected volume. The cult calls it instrumentation error.", x: 82, y: 68, width: 5, height: 5, type: "interact", action: "room-mystery:observation-deck:resur-shield-diagnostic" },
     ],
   },
   {
