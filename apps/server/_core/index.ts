@@ -736,6 +736,9 @@ async function startServer() {
     // Soul Stones drop rates, and the GlobalAlignmentMeter component.
     // Hourly is plenty — the meter shifts on the order of days, and the
     // try/catch ensures a stuck recompute never kills the other ticks.
+    const { bootstrapGlobalAlignmentTable } = await import(
+      "../services/globalAlignmentBootstrap"
+    );
     const { recomputeGlobalAlignment } = await import(
       "../services/globalAlignmentService"
     );
@@ -744,9 +747,14 @@ async function startServer() {
         console.error("[GlobalAlignment] recompute tick error:", e),
       );
     }, ONE_HOUR_MS);
-    recomputeGlobalAlignment().catch(e =>
-      console.error("[GlobalAlignment] initial recompute error:", e),
-    );
+    // Ensure the singleton table+row exist before the first recompute;
+    // migration 0075 is journaled but the journal has drifted, so on
+    // DBs where drizzle-kit skipped it the table is missing entirely.
+    bootstrapGlobalAlignmentTable()
+      .then(() => recomputeGlobalAlignment())
+      .catch(e =>
+        console.error("[GlobalAlignment] initial recompute error:", e),
+      );
 
     // Soul Stones — weekly soft-cap reset. Per
     // docs/design/SOUL_STONES_SYSTEM.md §1.2, combat-source drops
