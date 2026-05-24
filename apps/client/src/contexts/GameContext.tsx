@@ -517,7 +517,7 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
           },
         ],
       },
-      { id: "cryo-terminal", name: "Cryo Terminal", description: "An arcade-style terminal on the far-left wall displaying your character data and vital statistics.", x: 0, y: 38, width: 8, height: 34, type: "terminal", action: "/character-sheet", elaraDialog: "This terminal has your biometric data — your species markers, class aptitudes, everything we determined during your awakening. You can review your Citizen profile here.",
+      { id: "cryo-terminal", name: "Cryo Terminal", description: "An arcade-style terminal on the far-left wall displaying your character data and vital statistics.", x: 0, y: 38, width: 8, height: 17.1, type: "terminal", action: "/character-sheet", elaraDialog: "This terminal has your biometric data — your species markers, class aptitudes, everything we determined during your awakening. You can review your Citizen profile here.",
         elaraDialogVoId: "room.cryo-bay.hotspot.cryo-terminal.elara",
       },
       { id: "cryo-terminal-2", name: "Diagnostics Kiosk", description: "A second arcade-style terminal directly beside the first. Status pages scroll past too fast to read.", x: 11.2, y: 37.1, width: 6.8, height: 14.8, type: "terminal", action: "/profile", elaraDialog: "That kiosk was the medical officer's station. It still cycles, but the data feed itself is sealed. We can mirror your Citizen profile here while we figure out what they were watching.",

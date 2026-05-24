@@ -61,7 +61,7 @@
         "x": 0,
         "y": 38,
         "width": 8,
-        "height": 34,
+        "height": 17.1,
         "type": "terminal",
         "action": "/character-sheet",
         "elaraDialog": "This terminal has your biometric data — your species markers, class aptitudes, everything we determined during your awakening. You can review your Citizen profile here.",
