@@ -74,3 +74,38 @@ live in `apps/client/public/art/rooms/mystery-states/`. Transcoded from
 | necropolis | https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/necropolis_bg-FGT6JpTpUEJS36iuVerv7R.webp |
 | digital-void | https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/digital-void_bg-MXXbEFzrcPU2f6iCeSDG2N.webp |
 | resistance-base | https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/resistance-base_bg-FfKoe3Z7EovPpm24P7DcoX.webp |
+
+---
+
+## TODO_PRODUCTION — Dischordian Saga Episode Videos
+
+The in-fiction "Dischordian Saga" episodes play diegetically when their
+trigger flag fires. Registry: `apps/shared/dischordianSagaEpisodes.ts`.
+The episode player (`apps/client/src/components/DischordianSagaEpisodePlayer.tsx`)
+detects `durationSec: null` as the signal to render a diegetic
+"signal received, decoding in progress" fallback — gameplay path is never
+blocked while an episode is in production.
+
+### S01E01 — "The Worlds I Saved"
+
+| Field | Value |
+|-------|-------|
+| Slug | `the-worlds-i-saved` |
+| Trigger flag | `engineer_recording_3_discovered` |
+| Paired recording | Engineer Recording 3 (`holo_worlds_i_saved`) |
+| Paired vote | `engineer_vote_thought_vs_violence` (opens on episode dismissal) |
+| Video path | `cdn/client-public/videos/episodes/s01e01-the-worlds-i-saved.mp4` |
+| Captions path | `cdn/client-public/captions/episodes/s01e01.vtt` |
+| Target duration | ~3–5 minutes (TBD with producer) |
+| Audio bed | TBD — episodes ship with their own mix, no separate music cue from client |
+
+**In-fiction synopsis (for production brief):** The Engineer's third
+recording, broadcast in full: an invisible network of survivors his class
+never wrote down, the worlds he fixed instead of broke, and the question
+the Potentials must answer before the cycle closes — patience or violence.
+
+**Production gating:** once the MP4 ships and the captions are uploaded,
+update `DSAGA_EPISODES[0].durationSec` in
+`apps/shared/dischordianSagaEpisodes.ts` to the real runtime. That flips
+the player out of fallback mode automatically — no other client change
+required.

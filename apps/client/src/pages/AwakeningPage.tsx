@@ -359,7 +359,7 @@ function ElaraDialogBox({
                 onClick={onContinue}
                 className="font-mono text-xs text-[var(--neon-cyan)]/60 hover:text-[var(--neon-cyan)] transition-colors flex items-center gap-1"
               >
-                <span className="animate-pulse">&gt;</span> Click to continue...
+                <span className="animate-pulse">&gt;</span> // continue
               </button>
             ) : !done ? (
               <button
@@ -468,7 +468,7 @@ function AttributeAllocator({
 
 /* ─── MAIN AWAKENING PAGE ─── */
 export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
-  const { state, advanceAwakening, setCharacterChoice, completeAwakening, setAwakeningStep } = useGame();
+  const { state, advanceAwakening, setCharacterChoice, completeAwakening, setAwakeningStep, setNarrativeFlag } = useGame();
   const { discoverEntry } = useGamification();
   const { initAudio, setRoomAmbience, playSFX, audioReady } = useSound();
   const player = usePlayer();
@@ -1022,16 +1022,18 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
         </div>
       )}
 
-      {/* Skip Awakening button — pinned top-LEFT so it doesn't fight
-          the dossier card (AwakeningCharacterPreview is fixed top-right). */}
-      <div className="fixed top-4 left-4 z-50">
-        <button
-          onClick={() => setAwakeningStep("COMPLETE")}
-          className="px-3 py-1.5 rounded-lg bg-black/40 backdrop-blur-sm border border-white/10 text-white/25 hover:text-white/50 font-mono text-xs transition-colors"
-        >
-          SKIP AWAKENING ▶▶
-        </button>
-      </div>
+      {/* Emergency override — diegetic name, only visible under ?debug=1.
+          Removes the 4th-wall "Skip Awakening" dev button from normal play. */}
+      {typeof window !== "undefined" && new URLSearchParams(window.location.search).has("debug") && (
+        <div className="fixed top-4 left-4 z-50">
+          <button
+            onClick={() => setAwakeningStep("COMPLETE")}
+            className="px-3 py-1.5 rounded-lg bg-black/40 backdrop-blur-sm border border-white/10 text-white/25 hover:text-white/50 font-mono text-xs transition-colors"
+          >
+            EMERGENCY OVERRIDE ▶▶
+          </button>
+        </div>
+      )}
 
       {/* Content */}
       <div className="relative z-30 w-full min-h-screen flex flex-col items-center justify-center p-3 sm:p-8 py-16 sm:py-8 pb-20 sm:pb-8" style={{ width: "100%" }}>
@@ -1067,7 +1069,13 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
             <ElaraDialogBox
               key="intro"
               text={STEP_DIALOG.ELARA_INTRO ?? ""}
-              onContinue={() => setAwakeningStep("SPECIES_QUESTION")}
+              onContinue={() => {
+                // First moment the player has actually met
+                // Elara — flips the gate the global
+                // ElaraPortraitDock reads to start surfacing.
+                setNarrativeFlag("met_elara");
+                setAwakeningStep("SPECIES_QUESTION");
+              }}
               voAudioUrl={STEP_VO_AUDIO.ELARA_INTRO}
               themeAudio={themeAudioRef.current}
             />

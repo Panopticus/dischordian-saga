@@ -25,6 +25,12 @@ import {
   ENGINEER_RECORDINGS,
   type HoloRecording,
 } from "@shared/engineerRecordings";
+import {
+  findEpisodeForRecording,
+  episodeSeenFlag,
+} from "@shared/dischordianSagaEpisodes";
+import DischordianSagaEpisodePlayer from "@/components/DischordianSagaEpisodePlayer";
+import EngineerVoteOverlay from "@/components/EngineerVoteOverlay";
 
 export default function EngineerRecordingDiscoveryModal() {
   const { state } = useGame();
@@ -70,9 +76,48 @@ export default function EngineerRecordingDiscoveryModal() {
     setQueue((prev) => prev.slice(1));
   }
 
+  // Dischordian Saga episode interception: if the active
+  // recording is paired with an episode AND the player
+  // hasn't seen the episode on this device yet, play the
+  // episode first. The companion vote opens immediately
+  // on episode dismissal. The text-only recording modal
+  // is suppressed in that case — Recording 3's content
+  // *is* the episode, and the in-fiction artifact has
+  // already been delivered.
+  const pairedEpisode = active
+    ? findEpisodeForRecording(active.id)
+    : null;
+  const episodeAlreadySeen =
+    pairedEpisode && typeof window !== "undefined"
+      ? window.localStorage.getItem(episodeSeenFlag(pairedEpisode)) === "1"
+      : false;
+  const playingEpisodeFor = pairedEpisode && !episodeAlreadySeen ? pairedEpisode : null;
+  const [voteOverlayOpen, setVoteOverlayOpen] = useState(false);
+
   return (
     <AnimatePresence>
-      {active && (
+      {playingEpisodeFor && (
+        <DischordianSagaEpisodePlayer
+          key={`episode-${playingEpisodeFor.slug}`}
+          episode={playingEpisodeFor}
+          onComplete={() => {
+            // Suppress the text-only recording modal for
+            // this recording — the episode covered it —
+            // and open the vote overlay directly.
+            if (active) shownThisSessionRef.current.add(active.id);
+            setQueue((prev) => prev.slice(1));
+            if (playingEpisodeFor.voteId) setVoteOverlayOpen(true);
+          }}
+        />
+      )}
+      {voteOverlayOpen && pairedEpisode?.voteId && (
+        <EngineerVoteOverlay
+          key={`vote-${pairedEpisode.voteId}`}
+          voteId={pairedEpisode.voteId}
+          onClose={() => setVoteOverlayOpen(false)}
+        />
+      )}
+      {active && !playingEpisodeFor && (
         <motion.div
           key={active.id}
           className="fixed inset-0 z-[120] flex items-center justify-center bg-stone-950/85 backdrop-blur-sm px-4"

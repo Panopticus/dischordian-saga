@@ -211,7 +211,7 @@ export default function ContentRoadmap({ onClose, onPin, isPinned = false }: Con
                   : "text-white/30 hover:text-white/50"
               }`}
             >
-              {tab === "seasons" ? "SEASONS" : "COMING SOON"}
+              {tab === "seasons" ? "SEASONS" : "AWAITING DISCLOSURE"}
             </button>
           ))}
         </div>
