@@ -2792,21 +2792,34 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "chain_complete", value: "chaos_chain" },
     connections: ["engineering"],
     hotspots: [
-      // Realigned 2026-04-25 against the delivered render — three
-      // chained-and-suspended weapon racks above the centre, three
-      // open braziers burning purple/orange/green flames at mid-floor
-      // level, a central holographic blueprint slab arcing red
-      // lightning, an "ANARCHIST" red graffiti sigil on the back-left
-      // wall, scrawled chaos equations covering the back-right wall,
-      // a metal grate-and-light-strip floor stage in the foreground.
-      { id: "reality-forges", name: "Reality Forges", description: "Forges burning with flames of different colors, each one warping reality around it.", x: 12, y: 38, width: 76, height: 42, type: "examine", elaraDialog: "The Reality Forges. Each one burns a different fuel — compressed probability, crystallized paradox, liquefied déjà vu. The Meme used them to forge weapons that shouldn't exist. A sword that cuts through time. A shield that reflects consequences. A bomb that erases the concept of a specific idea. Chaos isn't destruction — it's unlimited creativity." },
-      { id: "chaos-equations", name: "Chaos Equations", description: "Brilliant equations scrawled on the walls alongside anarchist graffiti.", x: 75, y: 8, width: 22, height: 55, type: "examine", elaraDialog: "The equations of chaos. They look like madness, but each one solves an impossible problem. How to travel faster than light without a ship. How to exist in two places simultaneously. How to make a joke so funny it literally rewrites reality. The Meme was a genius — they just expressed their genius through destruction and humor rather than order and logic." },
-      { id: "door-engineering-chaos", name: "Return to Engineering Bay", description: "A jagged hole blasted through the wall leading back to Engineering.", x: 38, y: 88, width: 24, height: 12, type: "door", action: "engineering" },
-      // Phase: room-mystery reachability — wire authored verb-coin
-      // responses (apps/shared/roomMysteries/chaosForge.ts) to
-      // clickable rectangles. Positions chosen to clear existing art.
-      { id: "chaos-anvil", name: "Chaos Anvil", description: "An asymmetric anvil heavier on the left than the right. Strikes ring different harmonics depending on where they land.", x: 4, y: 8, width: 10, height: 14, type: "interact", action: "room-mystery:chaos-forge:chaos-anvil" },
-      { id: "entropy-vat", name: "Entropy Vat", description: "A copper-rimmed bath of seething oil that never settles. Used for tempering — and, by deliberate design, for refusing the smith their certainty.", x: 4, y: 76, width: 10, height: 12, type: "interact", action: "room-mystery:chaos-forge:entropy-vat" },
+      // Re-anchored 2026-05-24 against the AAA Final chaos-forge render
+      // (art/rooms/chaos_forge/baseline.png) after a 10-variant audit.
+      // The 2026-04-25 anchoring described "three suspended weapon
+      // racks + three braziers + central holographic blueprint slab"
+      // — actual AAA Final has three CAULDRONS with colored flames
+      // (yellow left, red center, cyan right), a central anvil
+      // pedestal with glowing core, a crystal shelf far-left, and a
+      // keyhole-vault door far-right.
+      //
+      // Major re-anchors:
+      //   • reality-forges (was 12,38,76,42 sprawling) → tightened to
+      //     the three actual cauldrons (15,35,68,35)
+      //   • chaos-equations (was 75,8,22,55 on right wall) → central
+      //     red-cauldron + back-wall graffiti area (38,28,22,22)
+      //   • chaos-anvil (was 4,8 in blank corner) → visible central
+      //     anvil pedestal (40,72,18,20)
+      //   • entropy-vat (was 4,76 in blank corner) → left-most
+      //     cauldron with yellow flame "tempering bath" (15,55,17,22)
+      //   • door-engineering-chaos (was bottom-center floor) →
+      //     visible keyhole-vault door far-right (88,35,10,45)
+      //
+      // Verify with /ark?debug-hotspots=1 or /ark?author-hotspots=1.
+
+      { id: "reality-forges", name: "Reality Forges", description: "Three cauldrons burn with flames of different colors — yellow probability, red paradox, cyan déjà vu — each warping reality around it.", x: 15, y: 35, width: 68, height: 35, type: "examine", elaraDialog: "The Reality Forges. Each one burns a different fuel — compressed probability, crystallized paradox, liquefied déjà vu. The Meme used them to forge weapons that shouldn't exist. A sword that cuts through time. A shield that reflects consequences. A bomb that erases the concept of a specific idea. Chaos isn't destruction — it's unlimited creativity." },
+      { id: "chaos-equations", name: "Chaos Equations", description: "The back wall behind the central red cauldron — brilliant equations scrawled alongside anarchist graffiti.", x: 38, y: 28, width: 22, height: 22, type: "examine", elaraDialog: "The equations of chaos. They look like madness, but each one solves an impossible problem. How to travel faster than light without a ship. How to exist in two places simultaneously. How to make a joke so funny it literally rewrites reality. The Meme was a genius — they just expressed their genius through destruction and humor rather than order and logic." },
+      { id: "door-engineering-chaos", name: "Return to Engineering Bay", description: "A keyhole-vault door on the far-right wall leading back to Engineering.", x: 88, y: 35, width: 10, height: 45, type: "door", action: "engineering" },
+      { id: "chaos-anvil", name: "Chaos Anvil", description: "The central anvil pedestal at chamber center — asymmetric, heavier on the left than the right. Strikes ring different harmonics depending on where they land.", x: 40, y: 72, width: 18, height: 20, type: "interact", action: "room-mystery:chaos-forge:chaos-anvil" },
+      { id: "entropy-vat", name: "Entropy Vat", description: "The left-most cauldron with yellow flames — a copper-rimmed bath of seething oil that never settles. Used for tempering — and, by deliberate design, for refusing the smith their certainty.", x: 15, y: 55, width: 17, height: 22, type: "interact", action: "room-mystery:chaos-forge:entropy-vat" },
     ],
   },
   /* ═══ SPECIES-UNLOCKED HIDDEN ROOMS ═══ */
@@ -2823,19 +2836,36 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "chain_complete", value: "demagi_chain" },
     connections: ["observation-deck"],
     hotspots: [
-      // Realigned 2026-04-25 against the delivered render — gothic
-      // chamber flanked by four elemental columns (fire on far-left,
-      // earth/vines mid-left, air/cloud mid-right, water on far-right),
-      // central white-star convergence portal above a stepped altar,
-      // arched stained-glass windows with constellations behind the
-      // columns, glowing rune script + circular floor plates on a
-      // mirror-finish foreground floor.
-      { id: "convergence-point", name: "Convergence Point", description: "The center where all four elements merge into pure white energy.", x: 42, y: 18, width: 18, height: 50, type: "examine", elaraDialog: "The Convergence Point. Where fire, water, earth, and air become one. The DeMagi believed that all of reality was built from these four elements in different combinations. At the convergence, you can feel the truth of it — everything is connected, everything is one. The power here is immense. The DeMagi who built this room could reshape matter with a thought." },
-      { id: "demagi-runes", name: "DeMagi Runes", description: "Ancient runes carved into the floor, glowing with shifting elemental colors.", x: 8, y: 78, width: 84, height: 22, type: "examine", elaraDialog: "Ancient DeMagi script. These runes predate the Ark by millennia. They describe the Elemental Covenant — the agreement between the DeMagi and the elements themselves. In exchange for the power to command fire, water, earth, and air, the DeMagi swore to maintain the balance of nature across every world they touched. Your heritage carries that oath." },
-      { id: "door-observation-nexus", name: "Return to Observation Deck", description: "The elemental gateway back to the Observation Deck.", x: 42, y: 50, width: 16, height: 28, type: "door", action: "observation-deck" },
-      // Mystery wiring — apps/shared/roomMysteries/elementalNexus.ts
-      { id: "elemental-orrery", name: "Elemental Orrery", description: "A brass-armatured model of the eight elemental relations — four DeMagi, four Quarchon — orbiting an empty centre.", x: 64, y: 16, width: 14, height: 22, type: "interact", action: "room-mystery:elemental-nexus:elemental-orrery" },
-      { id: "node-pillar", name: "Node Pillar", description: "A fluted brass column with eight horizontal slots. Three hold etched-glass element-discs; five are empty.", x: 76, y: 18, width: 8, height: 30, type: "interact", action: "room-mystery:elemental-nexus:node-pillar" },
+      // Re-anchored 2026-05-24 against the AAA Final elemental-nexus
+      // render after a 9-variant audit. The 2026-04-25 anchoring
+      // described "gothic chamber with stained-glass constellations" —
+      // actual art is a brass chamber with 4 elemental pillars across
+      // the back wall (violet/cosmic, orb/spirit, cyan-water, green-
+      // air with swirl), a tall central fire-flame on a pedestal,
+      // a circular compass-rose floor with DeMagi runes, a purple
+      // sphere on the left-foreground, a golden sphere on the right-
+      // foreground.
+      //
+      // Major re-anchors:
+      //   • convergence-point (was 42,18,18,50) → tightened to the
+      //     central flame pedestal (40,18,18,40)
+      //   • demagi-runes (was 8,78,84,22 on floor edge) → the
+      //     compass-rose floor with rune ring (15,55,70,38)
+      //   • door-observation-nexus (was overlapping convergence) →
+      //     invisible bottom-center walk-out
+      //   • elemental-orrery (was 64,16,14,22) → right-foreground
+      //     golden sphere on stand (80,58,18,30) — brass-armatured
+      //     model fits
+      //   • node-pillar (was 76,18,8,30) → far-right elemental pillar
+      //     with green/air-swirl element (78,8,15,42)
+      //
+      // Verify with /ark?debug-hotspots=1 or /ark?author-hotspots=1.
+
+      { id: "convergence-point", name: "Convergence Point", description: "The central flame on a tall pedestal between the four pillars — where fire, water, earth, and air merge into pure white energy.", x: 40, y: 18, width: 18, height: 40, type: "examine", elaraDialog: "The Convergence Point. Where fire, water, earth, and air become one. The DeMagi believed that all of reality was built from these four elements in different combinations. At the convergence, you can feel the truth of it — everything is connected, everything is one. The power here is immense. The DeMagi who built this room could reshape matter with a thought." },
+      { id: "demagi-runes", name: "DeMagi Runes", description: "The compass-rose floor ringed in glowing rune script — ancient DeMagi carving in shifting elemental colors.", x: 15, y: 55, width: 70, height: 38, type: "examine", elaraDialog: "Ancient DeMagi script. These runes predate the Ark by millennia. They describe the Elemental Covenant — the agreement between the DeMagi and the elements themselves. In exchange for the power to command fire, water, earth, and air, the DeMagi swore to maintain the balance of nature across every world they touched. Your heritage carries that oath." },
+      { id: "door-observation-nexus", name: "Return to Observation Deck", description: "The elemental gateway back to the Observation Deck.", x: 40, y: 92, width: 20, height: 6, type: "door", action: "observation-deck" },
+      { id: "elemental-orrery", name: "Elemental Orrery", description: "The brass-armatured golden sphere on the right-foreground stand — a model of the eight elemental relations (four DeMagi, four Quarchon) orbiting an empty centre.", x: 80, y: 58, width: 18, height: 30, type: "interact", action: "room-mystery:elemental-nexus:elemental-orrery" },
+      { id: "node-pillar", name: "Node Pillar", description: "The far-right elemental pillar with green/air-swirl element-discs — a fluted brass column with eight horizontal slots. Three hold etched-glass discs; five are empty.", x: 78, y: 8, width: 15, height: 42, type: "interact", action: "room-mystery:elemental-nexus:node-pillar" },
     ],
   },
   {
