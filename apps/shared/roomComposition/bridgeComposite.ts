@@ -99,7 +99,7 @@ function pickBase(g: CompositeGameSlice): typeof BRIDGE_BASE_IDS[number] {
   const f = g.narrativeFlags;
   const tier = deriveActTier(g);
   const cycle = deriveCyclePhase(g);
-  const tv = deriveTVInfection(g);
+  const tv = deriveTVInfection(g, "bridge");
 
   // Epoch + corruption + finale states win over normal tier/cycle.
   if (f.grand_edit_active) return "bridge_base_t2_epoch_grand_edit";

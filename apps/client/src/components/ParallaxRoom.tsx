@@ -36,6 +36,12 @@ export interface ParallaxLayer {
   src: string;
   /** Depth factor: positive = foreground (moves more), negative = background (inverted) */
   depth: number;
+  /** Optional CSS `filter` string applied to this layer only. Used by
+   *  the room-composition system (apps/shared/roomComposition) to grade
+   *  sprite overlays into a base render with non-default lighting (e.g.
+   *  long-night cycle, morality-dark, TV-corrupted) without shifting
+   *  the base itself. Leave undefined for no filter. */
+  filter?: string;
 }
 
 interface ParallaxRoomProps {
@@ -257,17 +263,21 @@ export default function ParallaxRoom({
     height: "100%",
   };
 
-  const layerStyle = (index: number): CSSProperties => ({
-    position: "absolute",
-    inset: `-${MAX_OFFSET}px`,
-    willChange: "transform",
-    backgroundImage: `url(${layers[index]?.src})`,
-    backgroundSize: fit,
-    backgroundPosition: "center",
-    backgroundRepeat: "no-repeat",
-    zIndex: index,
-    transform: "translate3d(0, 0, 0)",
-  });
+  const layerStyle = (index: number): CSSProperties => {
+    const layer = layers[index];
+    return {
+      position: "absolute",
+      inset: `-${MAX_OFFSET}px`,
+      willChange: "transform",
+      backgroundImage: `url(${layer?.src})`,
+      backgroundSize: fit,
+      backgroundPosition: "center",
+      backgroundRepeat: "no-repeat",
+      zIndex: index,
+      transform: "translate3d(0, 0, 0)",
+      ...(layer?.filter ? { filter: layer.filter } : {}),
+    };
+  };
 
   return (
     <div

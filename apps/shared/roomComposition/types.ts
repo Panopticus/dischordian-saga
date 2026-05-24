@@ -63,6 +63,12 @@ export interface CompositeGameSlice {
   readonly factionReputation?: Readonly<Record<string, number>>;
   /** IRL season for chandelier/trinket dressings. */
   readonly irlSeason?: "spring" | "summer" | "autumn" | "winter";
+  /** Wall-clock override for cycle-phase derivation. The client hook
+   *  (`useRoomComposite`) injects `new Date()` so production gets
+   *  wall-clock lighting variation; tests + replays pin a fixed date
+   *  for determinism. When undefined AND no `cycle_phase_*` flag is
+   *  set, deriveCyclePhase returns "balanced" (no time-of-day shift). */
+  readonly now?: Date;
 }
 
 /** Cycle-phase derivation — pulled from narrative flags so the resolver
@@ -143,30 +149,80 @@ const FACTION_ALIASES: Readonly<Record<string, readonly string[]>> = {
   dreamers: ["dreamers", "dreamer_shield"],
 };
 
-/** Derive cycle-phase from narrative flags. */
-export function deriveCyclePhase(g: CompositeGameSlice): CyclePhase {
+/** Derive cycle-phase from narrative flags. Falls back to the wall-clock
+ *  `currentPhase()` from apps/shared/timeOfDay.ts so resolvers light up
+ *  even when the game logic hasn't started writing explicit phase flags.
+ *
+ *  Flag → phase mapping (highest priority):
+ *    cycle_phase_dawn → "dawn"
+ *    cycle_phase_dimming → "dimming"
+ *    cycle_phase_long_night → "longNight"
+ *
+ *  timeOfDay fallback:
+ *    dawn → "dawn"
+ *    midday → "balanced"
+ *    dusk → "dimming"
+ *    nightwatch → "longNight" */
+import { currentPhase, type DayPhase } from "@shared/timeOfDay";
+
+export function deriveCyclePhase(g: CompositeGameSlice, now?: Date): CyclePhase {
   const f = g.narrativeFlags;
   if (f.cycle_phase_long_night) return "longNight";
   if (f.cycle_phase_dimming) return "dimming";
   if (f.cycle_phase_dawn) return "dawn";
-  return "balanced";
+  // Fall back to the supplied wall clock (via `now` arg or g.now). When
+  // neither is supplied, return "balanced" so default tests stay
+  // deterministic — production callers (useRoomComposite) inject
+  // `new Date()` so the lighting actually moves.
+  const clock = now ?? g.now;
+  if (!clock) return "balanced";
+  return wallClockToCyclePhase(currentPhase(clock));
 }
 
-/** Derive TV-infection level from narrative flags. */
-export function deriveTVInfection(g: CompositeGameSlice): TVInfection {
+function wallClockToCyclePhase(phase: DayPhase): CyclePhase {
+  switch (phase) {
+    case "dawn": return "dawn";
+    case "midday": return "balanced";
+    case "dusk": return "dimming";
+    case "nightwatch": return "longNight";
+  }
+}
+
+/** Derive TV-infection level. Tries the explicit `tv_infection_*` flags
+ *  first; falls back to the Phase H axis 9 resolver
+ *  (`apps/shared/roomVariants/axis9Resolver.ts`) when a `zipDir` is
+ *  supplied — that resolver reads the canonical `tv_phase_<n>` global
+ *  flag and `room_<zipDir>_tv_<state>` per-room overrides. */
+import { resolveAxis9State } from "@shared/roomVariants/axis9Resolver";
+
+export function deriveTVInfection(
+  g: CompositeGameSlice,
+  zipDir?: string,
+): TVInfection {
   const f = g.narrativeFlags;
   if (f.tv_infection_quarantined) return "quarantined";
   if (f.tv_infection_corrupted) return "corrupted";
   if (f.tv_infection_spreading) return "spreading";
   if (f.tv_infection_exposed) return "exposed";
+  if (zipDir) {
+    return resolveAxis9State({ narrativeFlags: f }, zipDir);
+  }
   return "clean";
 }
 
-/** Derive the highest reached act tier from narrative flags. */
+/** Derive the highest reached act tier from narrative flags. Recognises
+ *  both the canonical `act_N_complete` flag family (set when a player
+ *  completes Act N — they're now in Act N+1) and a forward-looking
+ *  `act_tier_N_reached` family for explicit overrides. */
 export function deriveActTier(g: CompositeGameSlice): number {
   const f = g.narrativeFlags;
+  // Explicit overrides win.
   for (let n = 7; n >= 1; n--) {
     if (f[`act_tier_${n}_reached`]) return n;
+  }
+  // Canonical act_N_complete → reached tier N+1; capped at 7 (finale).
+  for (let n = 7; n >= 1; n--) {
+    if (f[`act_${n}_complete`]) return Math.min(n + 1, 7);
   }
   return 0;
 }

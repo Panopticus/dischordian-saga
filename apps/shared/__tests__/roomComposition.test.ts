@@ -18,6 +18,7 @@ import {
   resolveRoomCompositeUrls,
   type CompositeGameSlice,
 } from "../roomComposition";
+import { deriveActTier, deriveCyclePhase, deriveTVInfection } from "../roomComposition/types";
 import { PUBLIC_ASSET_BASE } from "../lib/assetUrl";
 
 const emptyGame: CompositeGameSlice = { narrativeFlags: {} };
@@ -435,6 +436,95 @@ describe("roomComposition / engineering", () => {
     }));
     expect(c.sprites).toContain("sp52_mezz2_pod_zero_anomaly");
     expect(c.sprites).toContain("sp73_cogsworth_at_mezzanine_diagnostic");
+  });
+});
+
+describe("roomComposition / derive bridges", () => {
+  it("deriveActTier bridges the existing act_N_complete flag family", () => {
+    // act_1_complete → reached tier 2 (you finished Act 1, now in Act 2).
+    expect(deriveActTier(game({ narrativeFlags: { act_1_complete: true } }))).toBe(2);
+    expect(deriveActTier(game({ narrativeFlags: { act_5_complete: true } }))).toBe(6);
+    // Act 6 complete reads as tier 7 (final state); Act 7 complete also caps at 7.
+    expect(deriveActTier(game({ narrativeFlags: { act_6_complete: true } }))).toBe(7);
+    expect(deriveActTier(game({ narrativeFlags: { act_7_complete: true } }))).toBe(7);
+  });
+
+  it("deriveActTier prefers explicit act_tier_N_reached override", () => {
+    expect(
+      deriveActTier(
+        game({
+          narrativeFlags: { act_1_complete: true, act_tier_5_reached: true },
+        }),
+      ),
+    ).toBe(5);
+  });
+
+  it("deriveCyclePhase falls back to the wall-clock when no flag override", () => {
+    // Midday on the wall clock — no flag override — should read as the
+    // balanced default phase.
+    const midday = new Date("2026-05-24T12:00:00");
+    expect(deriveCyclePhase(emptyGame, midday)).toBe("balanced");
+    // 03:00 → nightwatch → "longNight".
+    const night = new Date("2026-05-24T03:00:00");
+    expect(deriveCyclePhase(emptyGame, night)).toBe("longNight");
+    // Dawn flag still wins.
+    expect(
+      deriveCyclePhase(
+        game({ narrativeFlags: { cycle_phase_dawn: true } }),
+        night,
+      ),
+    ).toBe("dawn");
+  });
+
+  it("deriveTVInfection bridges the Phase H axis 9 resolver via zipDir", () => {
+    // No flag, no zipDir → clean.
+    expect(deriveTVInfection(emptyGame)).toBe("clean");
+    // Global tv_phase_2 → spreading via Phase H resolver.
+    expect(
+      deriveTVInfection(
+        game({ narrativeFlags: { tv_phase_2: true } }),
+        "cryo_bay",
+      ),
+    ).toBe("spreading");
+    // Per-room override wins.
+    expect(
+      deriveTVInfection(
+        game({ narrativeFlags: { room_cryo_bay_tv_quarantined: true } }),
+        "cryo_bay",
+      ),
+    ).toBe("quarantined");
+    // Direct tv_infection_* flag still wins highest priority.
+    expect(
+      deriveTVInfection(
+        game({
+          narrativeFlags: {
+            tv_infection_corrupted: true,
+            tv_phase_1: true,
+          },
+        }),
+        "cryo_bay",
+      ),
+    ).toBe("corrupted");
+  });
+
+  it("act_N_complete from existing game logic drives the act-7 finale base", () => {
+    // Bridge: act_6_complete → tier 7 → t2_act7_finale base picks.
+    const c = resolveBridgeComposite(
+      game({
+        narrativeFlags: {
+          fast_travel_unlocked: true,
+          act_6_complete: true,
+        },
+      }),
+    );
+    expect(c.base).toBe("bridge_base_t2_act7_finale");
+  });
+
+  it("Phase H tv_phase global flag bleeds through to the bridge resolver", () => {
+    const c = resolveBridgeComposite(
+      game({ narrativeFlags: { fast_travel_unlocked: true, tv_phase_3: true } }),
+    );
+    expect(c.base).toBe("bridge_base_t2_tv_corrupted");
   });
 });
 

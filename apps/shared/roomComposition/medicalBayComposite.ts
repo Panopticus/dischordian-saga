@@ -119,7 +119,7 @@ function pickBase(g: CompositeGameSlice): MedBaseId {
   const f = g.narrativeFlags;
   const tier = deriveActTier(g);
   const cycle = deriveCyclePhase(g);
-  const tv = deriveTVInfection(g);
+  const tv = deriveTVInfection(g, "medical_bay");
 
   if (f.hellbox1_transit_active) return "medical_bay_base_hellbox1_transit";
   if (f.grand_edit_active) return "medical_bay_base_epoch_grand_edit";

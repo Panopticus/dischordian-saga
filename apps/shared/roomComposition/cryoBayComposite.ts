@@ -115,7 +115,7 @@ function pickBase(g: CompositeGameSlice): CryoBaseId {
   const f = g.narrativeFlags;
   const tier = deriveActTier(g);
   const cycle = deriveCyclePhase(g);
-  const tv = deriveTVInfection(g);
+  const tv = deriveTVInfection(g, "cryo_bay");
 
   if (f.long_sleep_ending) return "cryo_bay_base_long_sleep_ending";
   if (f.grand_edit_active) return "cryo_bay_base_epoch_grand_edit";

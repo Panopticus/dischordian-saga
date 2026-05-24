@@ -131,7 +131,7 @@ function pickBase(g: CompositeGameSlice): EngBaseId {
   const f = g.narrativeFlags;
   const tier = deriveActTier(g);
   const cycle = deriveCyclePhase(g);
-  const tv = deriveTVInfection(g);
+  const tv = deriveTVInfection(g, "engineering");
 
   // HB4 transit + epoch + corruption + finale states override tier/cycle.
   if (f.hellbox_4_transit_active) return "engineering_base_hb4_transit";

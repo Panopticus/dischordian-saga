@@ -22,9 +22,13 @@ import {
 export type UseRoomCompositeGameSlice = CompositeGameSlice;
 
 export interface RoomCompositeRender {
-  /** Layers in z-order (low → high). Base first, then sprites. */
-  readonly layers: readonly { src: string; depth: number }[];
-  /** Optional CSS filter for the sprite layers (skip the base). */
+  /** Layers in z-order (low → high). Base first (no filter), then sprites
+   *  (each carries the optional lighting filter so they grade to match
+   *  the base they're composited over). */
+  readonly layers: readonly { src: string; depth: number; filter?: string }[];
+  /** Optional CSS filter for the sprite layers — also attached to each
+   *  sprite layer's `filter` field above. Exposed here for inspection /
+   *  alternate renderers. */
   readonly spriteFilter?: string;
   /** True when the room is wired for composite rendering. */
   readonly composited: boolean;
@@ -46,15 +50,33 @@ export function useRoomComposite(
   // Depend on individual fields rather than the `game` object so a
   // parent re-render with the same data doesn't bust the memo. The
   // resolver is pure over these inputs.
+  //
+  // Wall-clock cycle-phase variation: we bucket `now` to the start of
+  // the current hour so the memo only re-fires once per hour rather
+  // than on every render. The four-phase day boundary is hour-aligned
+  // anyway, so this introduces no visible delay.
+  const hourBucket = useMemo(() => {
+    const d = new Date();
+    d.setMinutes(0, 0, 0);
+    return d.getTime();
+  }, []);
   return useMemo(() => {
     if (!hasRoomComposite(roomId)) return EMPTY;
-    const resolved = resolveRoomCompositeUrls(roomId, game);
+    const resolved = resolveRoomCompositeUrls(roomId, {
+      ...game,
+      now: game.now ?? new Date(hourBucket),
+    });
     if (!resolved) return EMPTY;
-    const layers: { src: string; depth: number }[] = [
+    const filter = resolved.filter;
+    const layers: { src: string; depth: number; filter?: string }[] = [
       { src: resolved.base, depth: -0.3 },
-      ...resolved.sprites.map((src) => ({ src, depth: 0 })),
+      ...resolved.sprites.map((src) => ({
+        src,
+        depth: 0,
+        ...(filter ? { filter } : {}),
+      })),
     ];
-    return { layers, spriteFilter: resolved.filter, composited: true };
+    return { layers, spriteFilter: filter, composited: true };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     roomId,
@@ -63,5 +85,7 @@ export function useRoomComposite(
     game.elaraTrust,
     game.factionReputation,
     game.irlSeason,
+    game.now,
+    hourBucket,
   ]);
 }
