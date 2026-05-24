@@ -1927,26 +1927,88 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "narrative_event", value: "cargo_bay_pressurized" },
     connections: ["armory", "captains-quarters"],
     hotspots: [
-      // Realigned 2026-04-25 for the AAA Final cargo-hold render — a
-      // cargo bay with stacked containers lining both side walls, a
-      // shaft of light streaming down through a ceiling hole onto a
-      // central container in the foreground, dim corridors receding at
-      // the far edges.
-      { id: "trade-terminal", name: "Trade Empire Terminal", description: "The main terminal for the interstellar trade simulation.", x: 62, y: 30, width: 24, height: 36, type: "terminal", action: "/trade-empire", elaraDialog: "Trade Empire. An interstellar trade simulation based on the actual trade routes of the Dischordian universe. Buy low, sell high, avoid pirates, and build your trading empire. The credits you earn here are real — they can be spent in the store." },
-      { id: "store-counter", name: "Requisitions Counter", description: "A trading post where you can buy items with Dream tokens and credits.", x: 14, y: 30, width: 24, height: 36, type: "terminal", action: "/store", elaraDialog: "The Requisitions Counter. You can spend your Dream tokens and credits here on upgrades, card packs, cosmetics, and more. Some items are only available through the store." },
-      { id: "marketplace-board", name: "Marketplace Board", description: "A bustling exchange board showing buy and sell orders from Potentials across the Ark.", x: 42, y: 14, width: 18, height: 24, type: "terminal", action: "/marketplace", elaraDialog: "The Marketplace. A peer-to-peer exchange where Potentials trade cards, materials, and equipment. Prices fluctuate based on supply and demand. A shrewd trader can make a fortune here." },
-      { id: "inventory-locker", name: "Personal Locker", description: "A secured locker containing your collected items and equipment.", x: 8, y: 20, width: 12, height: 18, type: "terminal", action: "/inventory", elaraDialog: "Your personal inventory locker. Everything you've collected — weapons, armor, materials, consumables, and artifacts — is stored here. Organize your gear before heading into battle." },
-      { id: "fleet-dock", name: "Fleet Docking Bay", description: "A viewport showing the Ark's auxiliary fleet of smaller vessels.", x: 80, y: 20, width: 12, height: 18, type: "terminal", action: "/fleet", elaraDialog: "The Fleet Docking Bay. Your auxiliary vessels are moored here — scout ships, cargo haulers, and combat frigates. Manage your fleet to expand your reach across the trade routes and war zones of the Saga." },
-      { id: "mystery-crate", name: "Sealed Crate", description: "A large crate with claw marks on it. Something was trying to get in... or out.", x: 42, y: 60, width: 16, height: 22, type: "examine", elaraDialog: "That crate... the claw marks are on the inside. Something was sealed in there and tried to get out. The manifest says it contained 'biological samples from Sector 7.' I've locked it down. Don't touch it." },
-      { id: "door-armory", name: "Armory Stairs", description: "Stairs leading up to the Armory.", x: 1, y: 35, width: 6, height: 40, type: "door", action: "armory" },
-      { id: "door-captains", name: "Captain's Quarters", description: "A restricted access corridor to the Captain's Quarters.", x: 93, y: 35, width: 6, height: 40, type: "door", action: "captains-quarters" },
-      { id: "egg-cargo-manifest", name: "Torn Manifest Page", description: "A torn page from the original cargo manifest, hidden under a crate.", x: 48, y: 84, width: 4, height: 5, type: "item", action: "classified-manifest-page", elaraDialog: "A torn manifest page. Most of it is redacted, but one entry is legible: 'Container 7-Omega: BIOLOGICAL — Clone Template, Oracle-class. STATUS: Active. HANDLER: The Collector.' A clone template of the Oracle... on our ship. The False Prophet was made from an Oracle clone. Is there another one here? Is it awake?" },
-      // Mystery wiring — charter.second_signatory · e3 (House Marek workshops)
-      { id: "charter2-house-marek", name: "House Marek — Toolmakers' Workshops", description: "In the House-Marek workshops sub-corridor: three families, one tool-room, four epochs of continuous output. Same scrubber's hand on the charter-signature erasure.", x: 14, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:cargo-hold:charter2-house-marek" },
-      // Mystery wiring — resurrectionist.cycle_walker · e2 (Ark passenger manifest)
-      { id: "resur-ark-passenger-manifest", name: "Inception Ark Passenger Manifest (Redacted)", description: "In the passenger-records crate: seven names visible; eighth name redacted to a black bar of structural length. Not a casual erasure; a positioned occupant.", x: 6, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:cargo-hold:resur-ark-passenger-manifest" },
-      { id: "rubber-chicken", name: "Rubber Chicken", description: "A rubber chicken with a pulley in the middle. Why is this on a spaceship?", x: 22, y: 80, width: 4, height: 5, type: "examine", action: "room-mystery:cargo-hold:rubber-chicken", elaraDialog: "It's a rubber chicken with a pulley in the middle. I have no tactical assessment. I've failed you as an AI. Also — it has been here longer than any human I have ever known. Take that how you want." },
-      { id: "the-cursed-forest-depot", name: "The Cursed-Forest Depot Placard", description: "A captured Hierarchy operations placard wired to the central container — Fenra's domain filed not as a battlefield but as a logistics hub, the throughput corrupted souls, the depot dying under its own load.", x: 30, y: 80, width: 4, height: 5, type: "interact", action: "room-mystery:cargo-hold:the-cursed-forest-depot" },
+      // Re-anchored 2026-05-24 against the AAA Final cargo-hold render
+      // (art/rooms/cargo_hold/baseline.png) after a 14-variant audit
+      // pass (baseline + 13 state overlays). Layout consistent across
+      // all variants.
+      //
+      // The 2026-04-25 anchoring described "stacked containers lining
+      // both side walls + shaft of light onto a central container" —
+      // the AAA Final is different: vaulted-rib ceiling, left + right
+      // walls of recessed display-case lockers, a stack of blue brass-
+      // cornered crates left-center, a raised circular dais with
+      // mannequin + ringed flags chamber-center, a red-curtained
+      // trading alcove right-of-center, and a small foreground table
+      // with a glowing blue orb at left-foreground.
+      //
+      // Major re-anchors:
+      //   • trade-terminal (was 62,30,24,36 on alcove) → central
+      //     dais with mannequin + flag-ring (40,25,22,50)
+      //   • store-counter (was 14,30,24,36 on crate stack) → red-
+      //     curtained trading alcove right-of-center (60,35,18,45)
+      //   • marketplace-board (was 42,14,18,24 on blank ceiling) →
+      //     ringed flags above the dais (37,22,28,8)
+      //   • inventory-locker (was 8,20,12,18) → left-wall recessed
+      //     display cases (0,25,14,50)
+      //   • fleet-dock (was 80,20,12,18) → right-wall recessed
+      //     display cases (85,25,14,50)
+      //   • mystery-crate (was 42,60,16,22 on dais) → the actual
+      //     blue brass-cornered crate stack left-center (15,30,28,50)
+      //   • door-armory, door-captains kept on far-left/far-right
+      //     edges as invisible click bands (no visible doors)
+      //   • egg-cargo-manifest, rubber-chicken, the-cursed-forest-
+      //     depot kept in foreground area but tightened against
+      //     visible surfaces
+      //   • 2 architect-channel mysteries (charter2-house-marek,
+      //     resur-ark-passenger-manifest) moved from y=8 blank
+      //     wall onto crate stack sub-rects
+      //
+      // Visible landmarks, left-to-right + foreground-to-back:
+      //   • left-wall recessed display-case lockers — (`inventory-
+      //     locker`)
+      //   • stack of blue brass-cornered crates — left-center
+      //     (`mystery-crate` + `charter2-house-marek` +
+      //     `resur-ark-passenger-manifest` + `the-cursed-forest-
+      //     depot`)
+      //   • small foreground table with glowing blue orb — left-
+      //     foreground (`rubber-chicken`)
+      //   • raised circular dais with mannequin + flag-ring —
+      //     chamber center (`trade-terminal`, `marketplace-board`)
+      //   • floor compass-star inlay — foreground center
+      //     (`egg-cargo-manifest`)
+      //   • red-curtained trading alcove — right-of-center
+      //     (`store-counter`)
+      //   • right-wall recessed display-case lockers — (`fleet-dock`)
+      //
+      // Verify with /ark?debug-hotspots=1 or /ark?author-hotspots=1.
+
+      // ── FEATURE / CONTAINER HOTSPOTS ──
+      { id: "trade-terminal", name: "Trade Empire Terminal", description: "The raised central dais with a mannequin standing in the middle of a flag-ring — the main terminal for the interstellar trade simulation.", x: 40, y: 25, width: 22, height: 50, type: "terminal", action: "/trade-empire", elaraDialog: "Trade Empire. An interstellar trade simulation based on the actual trade routes of the Dischordian universe. Buy low, sell high, avoid pirates, and build your trading empire. The credits you earn here are real — they can be spent in the store." },
+      { id: "store-counter", name: "Requisitions Counter", description: "The red-curtained trading alcove right-of-center — a trading post where you can buy items with Dream tokens and credits.", x: 60, y: 35, width: 18, height: 45, type: "terminal", action: "/store", elaraDialog: "The Requisitions Counter. You can spend your Dream tokens and credits here on upgrades, card packs, cosmetics, and more. Some items are only available through the store." },
+      { id: "marketplace-board", name: "Marketplace Board", description: "The ring of small flags above the central dais — a bustling exchange board showing buy and sell orders from Potentials across the Ark.", x: 37, y: 22, width: 28, height: 8, type: "terminal", action: "/marketplace", elaraDialog: "The Marketplace. A peer-to-peer exchange where Potentials trade cards, materials, and equipment. Prices fluctuate based on supply and demand. A shrewd trader can make a fortune here." },
+      { id: "inventory-locker", name: "Personal Locker", description: "The left-wall recessed display cases — your secured locker containing collected items and equipment.", x: 0, y: 25, width: 14, height: 50, type: "terminal", action: "/inventory", elaraDialog: "Your personal inventory locker. Everything you've collected — weapons, armor, materials, consumables, and artifacts — is stored here. Organize your gear before heading into battle." },
+      { id: "fleet-dock", name: "Fleet Docking Bay", description: "The right-wall recessed display cases — a viewport showing the Ark's auxiliary fleet of smaller vessels.", x: 85, y: 25, width: 14, height: 50, type: "terminal", action: "/fleet", elaraDialog: "The Fleet Docking Bay. Your auxiliary vessels are moored here — scout ships, cargo haulers, and combat frigates. Manage your fleet to expand your reach across the trade routes and war zones of the Saga." },
+      { id: "mystery-crate", name: "Sealed Crate", description: "The stack of blue brass-cornered crates at left-center. The largest crate has claw marks on it — something was trying to get in... or out.", x: 15, y: 30, width: 28, height: 50, type: "examine", elaraDialog: "That crate... the claw marks are on the inside. Something was sealed in there and tried to get out. The manifest says it contained 'biological samples from Sector 7.' I've locked it down. Don't touch it." },
+
+      // ── DOORS ──
+      { id: "door-armory", name: "Armory Stairs", description: "Stairs leading up to the Armory.", x: 0, y: 78, width: 5, height: 18, type: "door", action: "armory" },
+      { id: "door-captains", name: "Captain's Quarters", description: "A restricted access corridor to the Captain's Quarters.", x: 95, y: 78, width: 5, height: 18, type: "door", action: "captains-quarters" },
+
+      // ── CRATE-STACK MYSTERY SUB-RECTS ──
+      // The visible blue crate stack hosts the architect-channel
+      // mysteries (passenger manifest, House Marek workshop log) and
+      // the Hierarchy Cursed-Forest depot placard. Authored AFTER
+      // mystery-crate so they win clicks on specific crate faces.
+      { id: "resur-ark-passenger-manifest", name: "Inception Ark Passenger Manifest (Redacted)", description: "On the top crate's lid: the passenger-records page — seven names visible; eighth name redacted to a black bar of structural length. Not a casual erasure; a positioned occupant.", x: 18, y: 35, width: 5, height: 5, type: "interact", action: "room-mystery:cargo-hold:resur-ark-passenger-manifest" },
+      { id: "charter2-house-marek", name: "House Marek — Toolmakers' Workshops", description: "On a side-crate stencilled 'HOUSE MAREK': three families, one tool-room, four epochs of continuous output. Same scrubber's hand on the charter-signature erasure.", x: 30, y: 35, width: 5, height: 5, type: "interact", action: "room-mystery:cargo-hold:charter2-house-marek" },
+      { id: "the-cursed-forest-depot", name: "The Cursed-Forest Depot Placard", description: "A captured Hierarchy operations placard wired to the central crate — Fenra's domain filed not as a battlefield but as a logistics hub, the throughput corrupted souls, the depot dying under its own load.", x: 25, y: 55, width: 6, height: 6, type: "interact", action: "room-mystery:cargo-hold:the-cursed-forest-depot" },
+
+      // ── FOREGROUND ITEMS ──
+      // rubber-chicken on the small foreground-left table with the
+      // glowing blue orb; egg-cargo-manifest on the floor compass-
+      // star inlay between dais and foreground.
+      { id: "rubber-chicken", name: "Rubber Chicken", description: "Hanging from the edge of the small foreground table with the glowing blue orb: a rubber chicken with a pulley in the middle. Why is this on a spaceship?", x: 17, y: 78, width: 5, height: 6, type: "examine", action: "room-mystery:cargo-hold:rubber-chicken", elaraDialog: "It's a rubber chicken with a pulley in the middle. I have no tactical assessment. I've failed you as an AI. Also — it has been here longer than any human I have ever known. Take that how you want." },
+      { id: "egg-cargo-manifest", name: "Torn Manifest Page", description: "A torn page from the original cargo manifest, half-hidden beneath the central floor compass-star.", x: 50, y: 88, width: 4, height: 5, type: "item", action: "classified-manifest-page", elaraDialog: "A torn manifest page. Most of it is redacted, but one entry is legible: 'Container 7-Omega: BIOLOGICAL — Clone Template, Oracle-class. STATUS: Active. HANDLER: The Collector.' A clone template of the Oracle... on our ship. The False Prophet was made from an Oracle clone. Is there another one here? Is it awake?" },
     ],
   },
   {
