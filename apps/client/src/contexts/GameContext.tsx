@@ -2025,37 +2025,116 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "specific_item", value: "captains-master-key" },
     connections: ["cargo-hold"],
     hotspots: [
-      // Realigned 2026-04-25 for the AAA Final captain's-quarters render
-      // — a private cabin with a bed on the left, a desk + monitors +
-      // lamp + chair taking up the centre-right, a framed picture on
-      // the far-left wall, and a ceiling alcove overhead. The earlier
-      // coords assumed a Star-Viewport right wall that the new art
-      // doesn't have and put door markers into the chroma-key area.
-      { id: "trophy-wall", name: "Trophy Wall", description: "A holographic display showing your achievements and collected trophies.", x: 6, y: 16, width: 14, height: 30, type: "terminal", action: "/trophy", elaraDialog: "The Trophy Wall. Every achievement you've earned, every milestone you've reached. Dr. Vox designed this display system — she believed in cataloging everything. Obsessively. Now I wonder if that obsession was hers... or the Warlord's." },
-      { id: "deck-builder", name: "Strategic Table", description: "A large table with holographic card projections for deck building.", x: 38, y: 38, width: 28, height: 32, type: "terminal", action: "/deck-builder", elaraDialog: "The Strategic Table. Dr. Vox used this to plan... well, officially it was 'neural network deployment patterns.' But the formations look military. She designed the nanobot operating system that runs every Ark — and the patterns suggest she knew exactly what those nanobots could really do. Now you can use it to build and refine your card decks. A well-built deck is the difference between victory and oblivion." },
-      { id: "companion-quarters", name: "Companion Quarters", description: "A cozy alcove with two beds and personal effects. Elara's space and room for another companion.", x: 14, y: 50, width: 22, height: 28, type: "terminal", action: "/companions", elaraDialog: "The Companion Quarters. This is where your companions rest between missions. Each companion has unique abilities and synergies with your build. Strengthen your bond and they'll fight harder for you." },
-      { id: "battle-pass-console", name: "Season Terminal", description: "A terminal displaying the current season's challenges and reward tracks.", x: 45, y: 32, width: 14, height: 14, type: "terminal", action: "/battle-pass", elaraDialog: "The Season Terminal. Each season brings new challenges, exclusive rewards, and limited-time content. Progress through the reward track to earn unique cosmetics, cards, and materials." },
-      { id: "morality-compass", name: "Morality Compass", description: "A crystalline device that pulses between gold and violet, measuring the moral alignment of the Ark's population.", x: 62, y: 45, width: 10, height: 14, type: "terminal", action: "/morality-census", elaraDialog: "The Morality Compass. It measures the collective moral alignment of all Potentials aboard the Ark. Every choice you make — order or chaos, mercy or justice — shifts the balance. The census reveals how the community's choices are shaping the Saga." },
-      { id: "viewport-stars", name: "Star Viewport", description: "A viewport showing a nebula that seems to pulse with light.", x: 38, y: 6, width: 26, height: 16, type: "examine", elaraDialog: "That nebula... it wasn't there when we launched. It appeared three cycles ago and it's been growing. Sometimes I think it's watching us. That's not scientifically possible, of course. But I think it anyway." },
-      { id: "door-cargo", name: "Cargo Hold", description: "Return to the Cargo Hold.", x: 1, y: 35, width: 5, height: 50, type: "door", action: "cargo-hold" },
-      { id: "door-library", name: "Hidden Passage", description: "A shimmering doorway that wasn't there before. It pulses with purple light.", x: 78, y: 4, width: 12, height: 12, type: "door", action: "antiquarian-library" },
-      { id: "egg-captain-mirror", name: "Cracked Mirror", description: "A mirror in the corner, cracked in a spider-web pattern. Your reflection looks... wrong.", x: 8, y: 18, width: 4, height: 5, type: "examine", elaraDialog: "That mirror... look at your reflection. Do you see it? For a fraction of a second, your reflection moved differently than you did. It smiled when you didn't. The White Oracle — the face-changing guardian — was said to inhabit reflective surfaces. Some believe the Meme left the Oracle for dead and assumed his place — the shapeshifter hiding in plain sight. The universe believes the Meme was destroyed, but is it watching us through every mirror on this ship? How long has it been watching?" },
-      { id: "egg-kael-escape-hatch", name: "Forced Access Panel", description: "A maintenance panel that's been pried open with brute force. Tool marks scar the metal.", x: 76, y: 84, width: 4, height: 5, type: "item", action: "kael-escape-route", elaraDialog: "These tool marks... they're not from standard maintenance equipment. Someone forced this panel open in a hurry. The scratches are deep — desperate. Behind it is an emergency access tunnel that connects directly to the shuttle bay. This is how Kael escaped. The Recruiter turned insurgent turned prisoner. He broke out of the Panopticon, fought his way to this ship, and used this exact tunnel to reach the bridge and override the launch sequence. But look — there's no damage to the security systems. The locks were already disengaged. Dr. Lyra Vox — the Warlord — opened the doors for him. Kael's great escape was a guided tour." },
-      // Mystery wiring — advocate.blood_weave · e3 + e5 (post-defection generals + current)
-      { id: "advocate-three-generals-post-defection", name: "Three Generals — Post-Defection Logs", description: "On the comm-console: the three Advocate-general post-defection logs. Each general reports the recruitment as 'a relief that did not feel like betrayal.'", x: 86, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:captains-quarters:advocate-three-generals-post-defection" },
-      { id: "advocate-three-generals-current", name: "Three Generals — Current Status", description: "Pinned beside: the three generals continue under Hierarchy doctrine, still carrying Advocate-countersigned shelter. The charter is operationally enforceable across factional crossings.", x: 94, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:captains-quarters:advocate-three-generals-current" },
-      { id: "cat-photo", name: "Photo of a Cat", description: "A framed photo of a cat wearing tiny goggles. Label reads: 'Mr. Whiskers — Chief Science Officer.'", x: 8, y: 26, width: 4, height: 5, type: "examine", action: "room-mystery:captains-quarters:cat-photo", elaraDialog: "Mr. Whiskers. Chief Science Officer. Lyra hand-lettered the label. The cat is not looking at the camera; the cat is looking at her, who was behind it. I have been looking at this photograph for two hundred and thirty years." },
+      // Re-anchored 2026-05-24 against the AAA Final captain's-quarters
+      // render (art/rooms/captains_quarters/baseline.png) after a 14-
+      // variant audit pass (baseline + 13 state overlays). Layout
+      // consistent across all variants.
+      //
+      // The 2026-04-25 anchoring described the general layout correctly
+      // (bed left, desk center-right) but anchored several hotspots on
+      // blank ceiling area (viewport-stars, advocate-* generals at
+      // y=8) and placed morality-compass on the desk where there's no
+      // visible compass — the actual floor compass-star inlay sits at
+      // (44,86,15,10).
+      //
+      // Major re-anchors:
+      //   • trophy-wall (was 6,16,14,30) → left-wall framed-portrait
+      //     gallery (0,25,15,45)
+      //   • deck-builder (was 38,38,28,32 wide) → glass coffee table
+      //     in the foreground chair-circle (40,68,18,15)
+      //   • companion-quarters (was 14,50,22,28) → left foreground
+      //     bed/cot (0,65,22,30)
+      //   • battle-pass-console (was 45,32,14,14) → desk monitor
+      //     (40,32,14,16)
+      //   • morality-compass (was 62,45,10,14 on empty desk corner)
+      //     → actual visible floor compass-star inlay (44,86,15,10)
+      //   • viewport-stars (was 38,6,26,16 on blank ceiling) → the
+      //     cyan-glowing mirror/screen above the desk (38,22,22,20)
+      //   • door-library (was 78,4,12,12 floating top-right) →
+      //     invisible top-right portal band (90,0,10,20)
+      //   • All 9 architect-channel + arc-specific mystery rects
+      //     redistributed: advocate-* on desk, Locke + Coordinator +
+      //     Director + Mechronis on desk lower drawers (clustered as
+      //     a 2-row × 3-col grid), cat-photo on left portrait wall,
+      //     degens-corner on foreground-left side-desk, vex-workshop-
+      //     diary on right bookshelf
+      //   • egg-captain-mirror moved from (8,18) to (8,30,5,8) where
+      //     the visible mirror corner sits among the portraits
+      //   • egg-kael-escape-hatch moved from (76,84) to right-wall
+      //     lower-right (82,72,5,8) where a maintenance panel would
+      //     plausibly be
+      //   • egg-vox-personal-log moved from (60,56) to bookshelf
+      //     sub-area (68,42,5,5) where the "hidden terminal behind
+      //     the bookshelf" framing fits
+      //
+      // Visible landmarks, left-to-right + foreground-to-back:
+      //   • left-wall framed-portrait gallery — (`trophy-wall`,
+      //     `cat-photo`, `egg-captain-mirror`)
+      //   • single bed/cot — left foreground (`companion-quarters`)
+      //   • side-desk between bed and chairs — left mid-foreground
+      //     (`degens-corner`)
+      //   • cyan-glowing mirror/screen — back wall above desk
+      //     (`viewport-stars`)
+      //   • captain's desk with monitor + lamp + chair — back center
+      //     (`battle-pass-console`, advocate + Locke + Coordinator +
+      //     Director + Mechronis mystery clusters)
+      //   • twin red armchairs + glass coffee table — foreground
+      //     center (`deck-builder`)
+      //   • floor compass-star inlay — foreground floor
+      //     (`morality-compass`)
+      //   • bookshelves with books — right wall (`vex-workshop-diary`,
+      //     `egg-vox-personal-log`)
+      //   • small bed/cot — right foreground (decorative)
+      //   • maintenance panel — right wall lower (`egg-kael-escape-
+      //     hatch`)
+      //
+      // Verify with /ark?debug-hotspots=1 or /ark?author-hotspots=1.
+
+      // ── FEATURE / CONTAINER HOTSPOTS ──
+      { id: "trophy-wall", name: "Trophy Wall", description: "The left-wall framed-portrait gallery — a holographic display showing your achievements and collected trophies.", x: 0, y: 25, width: 15, height: 45, type: "terminal", action: "/trophy", elaraDialog: "The Trophy Wall. Every achievement you've earned, every milestone you've reached. Dr. Vox designed this display system — she believed in cataloging everything. Obsessively. Now I wonder if that obsession was hers... or the Warlord's." },
+      { id: "deck-builder", name: "Strategic Table", description: "The glass coffee table at the center of the chair circle — a large surface with holographic card projections for deck building.", x: 40, y: 68, width: 18, height: 15, type: "terminal", action: "/deck-builder", elaraDialog: "The Strategic Table. Dr. Vox used this to plan... well, officially it was 'neural network deployment patterns.' But the formations look military. She designed the nanobot operating system that runs every Ark — and the patterns suggest she knew exactly what those nanobots could really do. Now you can use it to build and refine your card decks. A well-built deck is the difference between victory and oblivion." },
+      { id: "companion-quarters", name: "Companion Quarters", description: "The single bed/cot at left foreground — a cozy alcove with personal effects. Elara's space and room for another companion.", x: 0, y: 65, width: 22, height: 30, type: "terminal", action: "/companions", elaraDialog: "The Companion Quarters. This is where your companions rest between missions. Each companion has unique abilities and synergies with your build. Strengthen your bond and they'll fight harder for you." },
+      { id: "battle-pass-console", name: "Season Terminal", description: "The captain's desk monitor — a terminal displaying the current season's challenges and reward tracks.", x: 40, y: 32, width: 14, height: 16, type: "terminal", action: "/battle-pass", elaraDialog: "The Season Terminal. Each season brings new challenges, exclusive rewards, and limited-time content. Progress through the reward track to earn unique cosmetics, cards, and materials." },
+      { id: "morality-compass", name: "Morality Compass", description: "The cyan-glowing compass-star inlay set into the chamber floor at center-foreground — a crystalline measurement of the Ark's moral alignment.", x: 44, y: 86, width: 15, height: 10, type: "terminal", action: "/morality-census", elaraDialog: "The Morality Compass. It measures the collective moral alignment of all Potentials aboard the Ark. Every choice you make — order or chaos, mercy or justice — shifts the balance. The census reveals how the community's choices are shaping the Saga." },
+      { id: "viewport-stars", name: "Star Viewport", description: "The cyan-glowing mirror/screen mounted on the back wall above the captain's desk — a viewport showing a nebula that seems to pulse with light.", x: 38, y: 22, width: 22, height: 20, type: "examine", elaraDialog: "That nebula... it wasn't there when we launched. It appeared three cycles ago and it's been growing. Sometimes I think it's watching us. That's not scientifically possible, of course. But I think it anyway." },
+
+      // ── DOORS ──
+      { id: "door-cargo", name: "Cargo Hold", description: "Return to the Cargo Hold.", x: 0, y: 88, width: 8, height: 10, type: "door", action: "cargo-hold" },
+      { id: "door-library", name: "Hidden Passage", description: "A shimmering doorway that wasn't there before. It pulses with purple light.", x: 90, y: 0, width: 10, height: 22, type: "door", action: "antiquarian-library" },
+
+      // ── PORTRAIT-WALL MYSTERY / ITEMS ──
+      // Authored AFTER trophy-wall so they win clicks on specific
+      // portrait frames.
+      { id: "cat-photo", name: "Photo of a Cat", description: "A framed photo on the left portrait wall — a cat wearing tiny goggles. Label reads: 'Mr. Whiskers — Chief Science Officer.'", x: 4, y: 32, width: 4, height: 6, type: "examine", action: "room-mystery:captains-quarters:cat-photo", elaraDialog: "Mr. Whiskers. Chief Science Officer. Lyra hand-lettered the label. The cat is not looking at the camera; the cat is looking at her, who was behind it. I have been looking at this photograph for two hundred and thirty years." },
+      { id: "egg-captain-mirror", name: "Cracked Mirror", description: "A small mirror tucked among the portraits, cracked in a spider-web pattern. Your reflection looks... wrong.", x: 4, y: 45, width: 5, height: 7, type: "examine", elaraDialog: "That mirror... look at your reflection. Do you see it? For a fraction of a second, your reflection moved differently than you did. It smiled when you didn't. The White Oracle — the face-changing guardian — was said to inhabit reflective surfaces. Some believe the Meme left the Oracle for dead and assumed his place — the shapeshifter hiding in plain sight. The universe believes the Meme was destroyed, but is it watching us through every mirror on this ship? How long has it been watching?" },
+
+      // ── DESK MYSTERY CLUSTER (advocate + Locke + Coordinator + Director + Mechronis) ──
+      // Six small mystery sub-rects on the captain's desk surface,
+      // below the monitor. Each represents a specific document or
+      // file the player can examine. Authored AFTER battle-pass-
+      // console so they win clicks on the specific desk items.
+      // Mystery wiring — advocate.blood_weave · e3 + e5
+      { id: "advocate-three-generals-post-defection", name: "Three Generals — Post-Defection Logs", description: "On the desk's comm-console: the three Advocate-general post-defection logs. Each general reports the recruitment as 'a relief that did not feel like betrayal.'", x: 38, y: 50, width: 5, height: 5, type: "interact", action: "room-mystery:captains-quarters:advocate-three-generals-post-defection" },
+      { id: "advocate-three-generals-current", name: "Three Generals — Current Status", description: "Pinned beside the post-defection logs: the three generals continue under Hierarchy doctrine, still carrying Advocate-countersigned shelter. The charter is operationally enforceable across factional crossings.", x: 44, y: 50, width: 5, height: 5, type: "interact", action: "room-mystery:captains-quarters:advocate-three-generals-current" },
+      // Mystery wiring — Watcher arc (Locke-correspondence + Coordinator's summons)
+      { id: "lockes-correspondence-cache", name: "Locke's Correspondence Cache", description: "A flat document cache on the desk's lower drawer — every post-act letter Lyra received from Adjudicar Locke, in order. Each signed only 'L.'", x: 50, y: 50, width: 5, height: 5, type: "interact", action: "room-mystery:captains-quarters:lockes-correspondence-cache" },
+      { id: "the-coordinators-summons", name: "The Coordinator's Summons", description: "A meeting invitation on the desk, in Locke's hand, delivered by a courier on no Authority manifest. Signed, for the first time, 'The Coordinator.'", x: 38, y: 57, width: 5, height: 5, type: "interact", action: "room-mystery:captains-quarters:the-coordinators-summons" },
+      // Mystery wiring — Ith'Rael arc (Director's summons + Mechronis cert)
+      { id: "directors-handcouriered-summons", name: "The Director's Summons", description: "A second invitation beside Locke's on the desk, in a different hand — the only Hierarchy invitation that bypasses Hierarchy comms. Signed Ith'Rael, Director.", x: 44, y: 57, width: 5, height: 5, type: "interact", action: "room-mystery:captains-quarters:directors-handcouriered-summons" },
+      { id: "mechronis-certification-file", name: "Mechronis Certification File", description: "A personnel file in the desk's operational drawer — the Mechronis Academy spy-class certification whose content hollowed across nine generations.", x: 50, y: 57, width: 5, height: 5, type: "interact", action: "room-mystery:captains-quarters:mechronis-certification-file" },
+
+      // ── FOREGROUND-LEFT SIDE-DESK MYSTERY ──
       // Mystery wiring — Degen arc audit-prep + empty-chair surface
-      { id: "degens-corner", name: "The Degen's Corner", description: "A small side-desk beside the cracked mirror. The only piece of furniture in the captain's quarters that wasn't Lyra's — the Degen sat here on three documented evenings before her death.", x: 30, y: 70, width: 14, height: 18, type: "interact", action: "room-mystery:captains-quarters:degens-corner" },
-      // Mystery wiring — Vex arc workshop diary on Lyra's bookshelf
-      { id: "vex-workshop-diary", name: "Vex's Workshop Diary", description: "A small bookshelf to the right of the bed. Vex Solène's workshop diary on the second shelf, the spine worn from forty years of opening.", x: 78, y: 30, width: 10, height: 36, type: "interact", action: "room-mystery:captains-quarters:vex-workshop-diary" },
-      { id: "egg-vox-personal-log", name: "Dr. Vox's Personal Terminal", description: "A hidden terminal behind the bookshelf, still powered. The screen shows encrypted files.", x: 60, y: 56, width: 4, height: 4, type: "item", action: "vox-personal-log", elaraDialog: "Dr. Lyra Vox's personal terminal. Let me try to decrypt... 'Day 1,247. The Warlord's voice grows louder. I can no longer distinguish my thoughts from its commands. The Thought Virus is complete — the Warden and I have created something that will reshape consciousness itself. But I am losing myself. Today I looked in the mirror and saw the Warlord looking back. Tomorrow I will order the Recruiter's transfer to this vessel. He is already infected — Project Vector saw to that. He is Patient Zero, and he doesn't know it. When Kael steals this ship, the virus will walk aboard with him. Every system he touches will be contaminated from day one. The Source will be born from the ashes of the Recruiter's rage. And the Warlord will have won without ever raising a weapon.' She knew. She knew everything." },
-      // Mystery wiring — Watcher arc Locke-correspondence cache + Coordinator's summons surface
-      { id: "lockes-correspondence-cache", name: "Locke's Correspondence Cache", description: "A flat document cache in the desk's lower drawer — every post-act letter Lyra received from Adjudicar Locke, in order. Each signed only 'L.'", x: 48, y: 82, width: 10, height: 10, type: "interact", action: "room-mystery:captains-quarters:lockes-correspondence-cache" },
-      { id: "the-coordinators-summons", name: "The Coordinator's Summons", description: "A meeting invitation on the desk, in Locke's hand, delivered by a courier on no Authority manifest. Signed, for the first time, 'The Coordinator.'", x: 66, y: 78, width: 10, height: 10, type: "interact", action: "room-mystery:captains-quarters:the-coordinators-summons" },
-      // Mystery wiring — Ith'Rael arc Director's hand-couriered summons + Mechronis certification file
-      { id: "directors-handcouriered-summons", name: "The Director's Summons", description: "A second invitation beside Locke's, in a different hand — the only Hierarchy invitation that bypasses Hierarchy comms. Signed Ith'Rael, Director.", x: 8, y: 78, width: 8, height: 9, type: "interact", action: "room-mystery:captains-quarters:directors-handcouriered-summons" },
-      { id: "mechronis-certification-file", name: "Mechronis Certification File", description: "A personnel file in the operational drawer — the Mechronis Academy spy-class certification whose content hollowed across nine generations.", x: 18, y: 78, width: 8, height: 9, type: "interact", action: "room-mystery:captains-quarters:mechronis-certification-file" },
+      { id: "degens-corner", name: "The Degen's Corner", description: "A small side-desk between the foreground bed and the chair-circle — the only piece of furniture in the captain's quarters that wasn't Lyra's. The Degen sat here on three documented evenings before her death.", x: 22, y: 72, width: 12, height: 16, type: "interact", action: "room-mystery:captains-quarters:degens-corner" },
+
+      // ── RIGHT BOOKSHELF MYSTERY / ITEMS ──
+      // Authored AFTER companion-quarters so they win clicks on
+      // specific bookshelf positions.
+      { id: "vex-workshop-diary", name: "Vex's Workshop Diary", description: "A small book on the right bookshelf, second shelf — Vex Solène's workshop diary, the spine worn from forty years of opening.", x: 66, y: 28, width: 10, height: 40, type: "interact", action: "room-mystery:captains-quarters:vex-workshop-diary" },
+      { id: "egg-vox-personal-log", name: "Dr. Vox's Personal Terminal", description: "A hidden terminal panel revealed behind the right bookshelf, still powered. The screen shows encrypted files.", x: 68, y: 42, width: 5, height: 5, type: "item", action: "vox-personal-log", elaraDialog: "Dr. Lyra Vox's personal terminal. Let me try to decrypt... 'Day 1,247. The Warlord's voice grows louder. I can no longer distinguish my thoughts from its commands. The Thought Virus is complete — the Warden and I have created something that will reshape consciousness itself. But I am losing myself. Today I looked in the mirror and saw the Warlord looking back. Tomorrow I will order the Recruiter's transfer to this vessel. He is already infected — Project Vector saw to that. He is Patient Zero, and he doesn't know it. When Kael steals this ship, the virus will walk aboard with him. Every system he touches will be contaminated from day one. The Source will be born from the ashes of the Recruiter's rage. And the Warlord will have won without ever raising a weapon.' She knew. She knew everything." },
+
+      // ── RIGHT-WALL MAINTENANCE PANEL EGG ──
+      { id: "egg-kael-escape-hatch", name: "Forced Access Panel", description: "A maintenance panel on the right wall, behind the small foreground bed — pried open with brute force. Tool marks scar the metal.", x: 82, y: 72, width: 5, height: 8, type: "item", action: "kael-escape-route", elaraDialog: "These tool marks... they're not from standard maintenance equipment. Someone forced this panel open in a hurry. The scratches are deep — desperate. Behind it is an emergency access tunnel that connects directly to the shuttle bay. This is how Kael escaped. The Recruiter turned insurgent turned prisoner. He broke out of the Panopticon, fought his way to this ship, and used this exact tunnel to reach the bridge and override the launch sequence. But look — there's no damage to the security systems. The locks were already disengaged. Dr. Lyra Vox — the Warlord — opened the doors for him. Kael's great escape was a guided tour." },
     ],
   },
   {
