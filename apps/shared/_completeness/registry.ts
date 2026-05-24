@@ -78,6 +78,7 @@ import { checkApprenticeWardenCoverage } from "./checks/apprenticeWardenCoverage
 import { checkApprenticePedagogyAssetCoverage } from "./checks/apprenticePedagogyAssetCoverage";
 import { checkBerthCoverage } from "./checks/berthCoverage";
 import { checkRoomAssetCoverage } from "./checks/roomAssetCoverage";
+import { checkRoomCompositionCoverage } from "./checks/roomCompositionCoverage";
 import { checkAxis9StateCoverage } from "./checks/axis9StateCoverage";
 import { checkAxis11StateCoverage } from "./checks/axis11StateCoverage";
 import { checkAxis12StateCoverage } from "./checks/axis12StateCoverage";
@@ -730,6 +731,21 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
       "Every space specced in docs/production/_PRODUCTION_FINAL.md PARTs III–VIII should have at least a baseline.png in the producer-art room library (apps/shared/expansionArt/roomArtManifest.ts). Gap shrinks as subsequent producer passthroughs land; cannot regress. Initial state: 166 declared / 60 implemented (36 %); 106 deferred.",
     check: () => checkRoomAssetCoverage(),
     ratchet: { target: 0 },
+  },
+  {
+    // Phase J — Composite room rendering (base + sprite stack).
+    // Three rooms wired today (bridge, cryo-bay, medical-bay) with
+    // 15+13+12 bases and 58+83+88 sprites = 269 assets total.
+    // Hard parity — every id the resolvers emit must live in the
+    // catalog (and on CDN). The resolver unit tests pin this
+    // invariant; this entry surfaces the surface area in ship:check
+    // so adding a new composite room (engineering, observation deck)
+    // is visible in the table.
+    id: "art.room_composition_coverage",
+    name: "Room composite rendering (Phase J)",
+    description:
+      "Every base/sprite asset id emitted by `apps/shared/roomComposition/*` resolvers must exist in the per-room catalog (and on CDN). Three rooms wired today: bridge (15 bases + 58 sprites), cryo-bay (13 + 83), medical-bay (12 + 88) = 269 assets. New composite rooms drop in by importing their catalog into the facade.",
+    check: () => checkRoomCompositionCoverage(),
   },
   {
     // Phase H.D — Axis 9 TV-infection state coverage.

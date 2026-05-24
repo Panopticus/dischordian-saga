@@ -77,6 +77,7 @@ import ParallaxRoom from "@/components/ParallaxRoom";
 import HotspotAuthor from "@/components/HotspotAuthor";
 import CinematicGate from "@/components/CinematicGate";
 import { useRoomArt } from "@/game/useRoomArt";
+import { useRoomComposite } from "@/game/useRoomComposite";
 import {
   pickActiveRoomCutscene,
   type CutsceneDispatchSlice,
@@ -450,6 +451,19 @@ function RoomScene({
     gameStateForArt.narrativeFlags,
     room.imageUrl,
   );
+  // Phase J — composite resolver for the load-bearing rooms (bridge,
+  // cryo-bay, medical-bay). Returns a base render + sprite stack when
+  // the room is wired; .composited=false otherwise. When composited
+  // wins, the Phase H + Phase F cascades below are skipped.
+  const composite = useRoomComposite(room.id, {
+    narrativeFlags: gameStateForArt.narrativeFlags,
+    moralityScore: (gameStateForArt as { moralityScore?: number })
+      .moralityScore,
+    elaraTrust: gameStateForArt.elaraTrust,
+    factionReputation: (
+      gameStateForArt as { factionReputation?: Record<string, number> }
+    ).factionReputation,
+  });
   // Phase H — producer-art composite resolver. Maps room.id ("cryo-bay")
   // to producer zipDir ("cryo_bay"); when the manifest has the room,
   // returns the full layer stack (baseline + axis 9/11/12/13 overlays).
@@ -459,9 +473,11 @@ function RoomScene({
   const producerArtLayers = useRoomArt(room.id.replace(/-/g, "_"), {
     narrativeFlags: gameStateForArt.narrativeFlags,
   });
-  const roomLayers = producerArtLayers.length > 0
-    ? producerArtLayers
-    : [{ src: roomArtUrl, depth: -0.3 }];
+  const roomLayers = composite.composited
+    ? composite.layers
+    : producerArtLayers.length > 0
+      ? producerArtLayers
+      : [{ src: roomArtUrl, depth: -0.3 }];
   const roomTier = getRoomTier(room.id, {
     narrativeFlags: gameStateForArt.narrativeFlags,
   });
