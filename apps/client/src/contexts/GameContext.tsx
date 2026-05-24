@@ -1593,41 +1593,119 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "narrative_event", value: "power_grid_restored" },
     connections: ["observation-deck", "armory", "forge-workshop"],
     hotspots: [
-      // Mystery wiring — wolf.anara_hunt · e2 + e4 (healer's research + Anara design flaw)
-      { id: "wolf-host-residue-files", name: "Healer's Host-Residue Research", description: "On engineering's medical-archive console: the healer's preserved files. One draft entry on a Quarchon Potential, edited fourteen times across the week she disappeared.", x: 6, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:engineering:wolf-host-residue-files" },
-      { id: "wolf-anara-architecture-blind-spot", name: "Anara Architectural Schematic", description: "On the containment-systems console: Anara's schematics expose the single design assumption — outside is threat, inside is family. The family has eaten the chronicler.", x: 14, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:engineering:wolf-anara-architecture-blind-spot" },
-      // Realigned 2026-04-25 for the AAA Final engineering render —
-      // industrial workshop with back-wall reactor machinery (ENGINEERING
-      // signage + glowing core), twin rows of workstation seats on left
-      // and right, central floor strip leading to a back-wall doorway
-      // (Forge), and side-edge exits to Observation and Armory.
-      { id: "crafting-bench", name: "Crafting Workbench", description: "A workbench with tools for card crafting and fusion experiments.", x: 12, y: 50, width: 22, height: 32, type: "terminal", action: "/research-lab", elaraDialog: "The crafting workbench. Here you can fuse cards together to create more powerful versions. The recipes were developed by the Ark's engineers — combine the right elements and you might create something legendary." },
-      // Mystery overlay — apps/shared/roomMysteries/engineering.ts
-      // The crafting-bench above retains /research-lab as its primary
-      // action; this small sub-rectangle dispatches the verb-coin's
-      // authored mystery responses (the abandoned mid-fusion job).
-      { id: "mystery-crafting-bench", name: "Bench Tool Layout", description: "The tools on the bench, set up for a fusion job that was never started. Worn to a left-handed engineer's thumb.", x: 8, y: 84, width: 6, height: 6, type: "interact", action: "room-mystery:engineering:crafting-bench" },
-      // Engineering mystery hotspots — see apps/shared/roomMysteries/engineering.ts.
-      // First Look on either of these (or the etched-formula easter
-      // egg below) logs a clue and flips `engineering_first_clue_found`
-      // (Tier 0 → 1).
-      { id: "reactor-core", name: "Reactor Core", description: "The Ark's main power source. It pulses with an otherworldly blue light.", x: 38, y: 18, width: 24, height: 38, type: "examine", action: "room-mystery:engineering:reactor-core", elaraDialog: "The reactor core. It runs on a substance the engineers called 'Dream' — a crystallized form of quantum consciousness. It's the same resource that powers your abilities. The core is running at 34% capacity. We're losing power slowly." },
-      { id: "blueprints", name: "Holographic Blueprints", description: "Floating schematics showing card designs and weapon systems.", x: 66, y: 50, width: 22, height: 32, type: "examine", action: "room-mystery:engineering:blueprints", elaraDialog: "Card schematics. The engineers were designing new card types before... before they stopped. Some of these designs are brilliant. Legendary-tier cards that could turn the tide of any battle." },
-      { id: "research-station", name: "Research Station", description: "An interactive research terminal with puzzles and experiments.", x: 40, y: 65, width: 20, height: 22, type: "terminal", action: "/research-minigame", elaraDialog: "The Research Station. Solve engineering puzzles and conduct experiments to unlock new card recipes and crafting techniques. The harder the puzzle, the rarer the reward." },
-      { id: "door-observation", name: "Observation Deck", description: "Return to the Observation Deck.", x: 1, y: 30, width: 8, height: 50, type: "door", action: "observation-deck" },
-      { id: "door-armory", name: "Armory Access", description: "A reinforced door leading to the Armory.", x: 91, y: 30, width: 8, height: 50, type: "door", action: "armory" },
-      { id: "door-forge", name: "Forge Workshop", description: "A heavy blast door with heat warnings. The air shimmers.", x: 44, y: 32, width: 12, height: 22, type: "door", action: "forge-workshop" },
-      { id: "egg-eng-formula", name: "Etched Formula", description: "A mathematical formula scratched into the reactor housing.", x: 50, y: 24, width: 4, height: 4, type: "examine", action: "room-mystery:engineering:egg-eng-formula", elaraDialog: "Someone etched a formula into the reactor housing. It's a dimensional resonance equation — the kind used to calculate jumps between parallel universes. But there's an extra variable I've never seen: Ψ-null. The null consciousness coefficient. This formula could theoretically open a door to... nowhere. The space between spaces. Where the Source dwells." },
-      { id: "instruction-manual", name: "Ark Instruction Manual", description: "A thick paper manual on the workbench. Cracked spine, hand-stamped dedications.", x: 28, y: 70, width: 5, height: 6, type: "examine", action: "room-mystery:engineering:instruction-manual", elaraDialog: "INCEPTION ARK 1047 — QUICK START GUIDE. Page 1: Step 1, Don't let it get stolen. The author had a sense of humour and a complete absence of optimism." },
-      { id: "egg-warlord-residue", name: "Bio-Scanner Anomaly", description: "The bio-scanner flickers with an unidentified neural signature embedded in the bulkhead.", x: 70, y: 76, width: 4, height: 4, type: "item", action: "warlord-residue", elaraDialog: "[SIGNAL DISTORTION] The bio-scanners are detecting... no. That can't be right. There's a neural signature embedded in the bulkhead plating itself. Not organic, not synthetic — something in between. The Warlord's consciousness was so powerful that it left an imprint on the ship's physical structure. Dr. Lyra Vox commanded this vessel while the Warlord used her as a host body. The walls literally remember their master. {playerName}, this ship has a darker history than I initially disclosed. The Warlord didn't just pass through here — this was a command vessel." },
-      // Schematic pad — small rectangle on the workbench surface for
-      // the indigo-overlayered reactor blueprint per the
-      // engineering:edited-schematics art. Sits adjacent to the
-      // crafting-bench but is its own clickable so the ST beat doesn't
-      // collide with the /research-lab dispatch.
-      { id: "schematic-pad", name: "Reactor Schematic Pad", description: "An unrolled blueprint on the workbench. The lines are double-registered — warm-gold underneath, indigo on top, with three connection points subtly redirected.", x: 16, y: 78, width: 14, height: 10, type: "interact", action: "room-mystery:engineering:schematic-pad" },
-      // Mystery wiring — Ith'Rael arc Marion Kell physical-residue bench
-      { id: "kell-physical-residue-bench", name: "Kell's Residue Bench", description: "A side bench kept unmoved for centuries — Marion Kell's old workbench. The grain, the mug-rings, the undusted rectangle the Shadow Tongue never touched.", x: 40, y: 84, width: 7, height: 8, type: "interact", action: "room-mystery:engineering:kell-physical-residue-bench" },
+      // Re-anchored 2026-05-24 against the AAA Final engineering render
+      // (art/rooms/engineering_bay/baseline.png) after a 14-variant audit
+      // pass (baseline + 13 state overlays: act_tier_3, battlepass_winter,
+      // cycle_longnight, epoch_shadowtongue, faction_insurgency,
+      // governance_quarantine, investigation_tier, lore_shadowtongue_
+      // complete, morality_dark, trust_shadowtongue, tv_spreading,
+      // unlock_chaos, unlock_crafting). Layout is consistent across
+      // every variant — landmarks don't shift — so baseline anchoring
+      // works universally.
+      //
+      // NOTE: The previous plan flagged engineering as "placeholder art /
+      // defer" — actually the AAA Final art IS delivered (under the
+      // `engineering_bay` zipDir, not `engineering`). It's an industrial
+      // forge/workshop, not a reactor room as the description suggests.
+      // The "reactor core" hotspot accurately anchors on the central
+      // forge fire even though the visual content is forge-orange, not
+      // reactor-blue.
+      //
+      // The 2026-04-25 anchoring described "back-wall reactor machinery
+      // with ENGINEERING signage" — the AAA Final has neither. It's
+      // an industrial forge with central archway holding a glowing
+      // forge fire over an anvil, twin wall workstations flanking
+      // foreground workbenches, and a holographic blueprint desk on
+      // the right.
+      //
+      // Major re-anchors:
+      //   • wolf-host-residue-files (was 6,8 in upper-left blank wall) →
+      //     left-wall multi-screen workstation (1,35,8,8)
+      //   • wolf-anara-architecture-blind-spot (was 14,8) → adjacent
+      //     to wolf-host-residue-files on left workstation (1,46,8,8)
+      //   • crafting-bench (was 12,50,22,32 sprawling across left
+      //     workstation + nothing visible) → left foreground workbench
+      //     (15,68,28,28)
+      //   • blueprints (was 66,50,22,32 on right workstation area) →
+      //     visible holographic blueprint desk at right-center
+      //     (55,30,17,28)
+      //   • research-station (was 40,65,20,22) → right foreground
+      //     workbench (55,68,25,28)
+      //   • door-forge (was 44,32,12,22 conflicting with reactor-core
+      //     area) → small visible door to LEFT of forge archway
+      //     (33,27,5,32) so it doesn't steal clicks from the forge
+      //     examine
+      //   • door-observation, door-armory kept as invisible/narrow
+      //     bands on far-left/far-right edges
+      //
+      // Visible landmarks, left-to-right + foreground-to-back:
+      //   • left-wall multi-screen workstation (purple/cyan displays)
+      //     (`wolf-host-residue-files`, `wolf-anara-architecture-
+      //     blind-spot`)
+      //   • small doorway between left workstation and forge archway
+      //     (`door-forge`)
+      //   • central archway with forge fire + anvil — chamber center
+      //     (`reactor-core`, `egg-eng-formula`)
+      //   • holographic blueprint desk — right-center
+      //     (`blueprints`)
+      //   • multi-bench foreground workshop area —
+      //     (`crafting-bench` left, `research-station` right,
+      //     plus `mystery-crafting-bench`, `instruction-manual`,
+      //     `schematic-pad`, `kell-physical-residue-bench`)
+      //   • right-wall multi-screen workstation (green/cyan)
+      //     (`egg-warlord-residue` for the bulkhead neural anomaly)
+      //
+      // Render order: container hotspots authored FIRST; small sub-
+      // rectangles (mystery rects, item hotspots, easter eggs) authored
+      // AFTER so they win clicks on specific bench / forge / console
+      // surfaces.
+      //
+      // Verify with /ark?debug-hotspots=1 or, for drag-to-place
+      // editing, /ark?author-hotspots=1.
+
+      // ── FEATURE / CONTAINER HOTSPOTS ──
+      { id: "reactor-core", name: "Reactor Core", description: "The central archway holds the chamber's heart — a glowing forge fire above an anvil pedestal, fed by power conduits running into the back wall. The engineers called it the Ark's reactor.", x: 40, y: 22, width: 16, height: 38, type: "examine", action: "room-mystery:engineering:reactor-core", elaraDialog: "The reactor core. It runs on a substance the engineers called 'Dream' — a crystallized form of quantum consciousness. It's the same resource that powers your abilities. The core is running at 34% capacity. We're losing power slowly." },
+      { id: "crafting-bench", name: "Crafting Workbench", description: "The left foreground workbench, laid out with tools for card crafting and fusion experiments.", x: 15, y: 68, width: 28, height: 28, type: "terminal", action: "/research-lab", elaraDialog: "The crafting workbench. Here you can fuse cards together to create more powerful versions. The recipes were developed by the Ark's engineers — combine the right elements and you might create something legendary." },
+      { id: "blueprints", name: "Holographic Blueprints", description: "A cyan holographic blueprint floats above a brass desk at right-center — schematics for card designs and weapon systems the engineers never finished.", x: 55, y: 30, width: 17, height: 28, type: "examine", action: "room-mystery:engineering:blueprints", elaraDialog: "Card schematics. The engineers were designing new card types before... before they stopped. Some of these designs are brilliant. Legendary-tier cards that could turn the tide of any battle." },
+      { id: "research-station", name: "Research Station", description: "The right foreground workbench — an interactive research terminal with puzzles and experiments.", x: 55, y: 68, width: 25, height: 28, type: "terminal", action: "/research-minigame", elaraDialog: "The Research Station. Solve engineering puzzles and conduct experiments to unlock new card recipes and crafting techniques. The harder the puzzle, the rarer the reward." },
+
+      // ── DOORS ──
+      // door-forge anchors on the small doorway to the LEFT of the forge
+      // archway so it doesn't steal clicks from the reactor-core examine.
+      // The actual forge fire stays accessible via reactor-core; the
+      // door-forge is the maintenance doorway beside it.
+      { id: "door-forge", name: "Forge Workshop", description: "A heavy blast door to the left of the central forge. Heat warnings; the air shimmers.", x: 33, y: 27, width: 5, height: 32, type: "door", action: "forge-workshop" },
+      { id: "door-observation", name: "Observation Deck", description: "Return to the Observation Deck.", x: 0, y: 50, width: 4, height: 40, type: "door", action: "observation-deck" },
+      { id: "door-armory", name: "Armory Access", description: "A reinforced door at the right edge leading to the Armory.", x: 95, y: 30, width: 4, height: 45, type: "door", action: "armory" },
+
+      // ── LEFT-WALL WORKSTATION MYSTERY RECTS (wolf arc) ──
+      // The left-wall multi-screen workstation hosts the medical-archive
+      // and containment-systems consoles described in the wolf arc.
+      { id: "wolf-host-residue-files", name: "Healer's Host-Residue Research", description: "On engineering's medical-archive console (left workstation, top screen): the healer's preserved files. One draft entry on a Quarchon Potential, edited fourteen times across the week she disappeared.", x: 1, y: 35, width: 8, height: 8, type: "interact", action: "room-mystery:engineering:wolf-host-residue-files" },
+      { id: "wolf-anara-architecture-blind-spot", name: "Anara Architectural Schematic", description: "On the containment-systems console (left workstation, lower screen): Anara's schematics expose the single design assumption — outside is threat, inside is family. The family has eaten the chronicler.", x: 1, y: 46, width: 8, height: 8, type: "interact", action: "room-mystery:engineering:wolf-anara-architecture-blind-spot" },
+
+      // ── FORGE-AREA SUB-RECT (etched formula easter egg) ──
+      // Authored AFTER reactor-core so it wins clicks on the specific
+      // formula etched into the reactor housing.
+      { id: "egg-eng-formula", name: "Etched Formula", description: "A mathematical formula scratched into the reactor housing above the forge.", x: 47, y: 28, width: 4, height: 4, type: "examine", action: "room-mystery:engineering:egg-eng-formula", elaraDialog: "Someone etched a formula into the reactor housing. It's a dimensional resonance equation — the kind used to calculate jumps between parallel universes. But there's an extra variable I've never seen: Ψ-null. The null consciousness coefficient. This formula could theoretically open a door to... nowhere. The space between spaces. Where the Source dwells." },
+
+      // ── WORKBENCH SUB-RECTS (foreground bench items) ──
+      // Authored AFTER crafting-bench + research-station so they win
+      // clicks on specific items laid out across the benches.
+      { id: "mystery-crafting-bench", name: "Bench Tool Layout", description: "The tools on the left workbench, set up for a fusion job that was never started. Worn to a left-handed engineer's thumb.", x: 20, y: 80, width: 6, height: 6, type: "interact", action: "room-mystery:engineering:crafting-bench" },
+      { id: "instruction-manual", name: "Ark Instruction Manual", description: "A thick paper manual on the left workbench. Cracked spine, hand-stamped dedications.", x: 28, y: 80, width: 5, height: 6, type: "examine", action: "room-mystery:engineering:instruction-manual", elaraDialog: "INCEPTION ARK 1047 — QUICK START GUIDE. Page 1: Step 1, Don't let it get stolen. The author had a sense of humour and a complete absence of optimism." },
+      { id: "schematic-pad", name: "Reactor Schematic Pad", description: "An unrolled blueprint on the left workbench. The lines are double-registered — warm-gold underneath, indigo on top, with three connection points subtly redirected.", x: 17, y: 88, width: 12, height: 7, type: "interact", action: "room-mystery:engineering:schematic-pad" },
+      // Mystery wiring — Ith'Rael arc: Marion Kell physical-residue bench
+      // Anchored on the small side-bench between the right foreground
+      // workbench and the right-wall workstation, where centuries-old
+      // untouched grain would be visible.
+      { id: "kell-physical-residue-bench", name: "Kell's Residue Bench", description: "A side bench kept unmoved for centuries — Marion Kell's old workbench. The grain, the mug-rings, the undusted rectangle the Shadow Tongue never touched.", x: 63, y: 80, width: 7, height: 8, type: "interact", action: "room-mystery:engineering:kell-physical-residue-bench" },
+
+      // ── RIGHT-WALL BULKHEAD EGG ──
+      // Anchored on the right-wall workstation's lower bulkhead area
+      // where the Warlord's neural residue would register on the
+      // bio-scanner panel.
+      { id: "egg-warlord-residue", name: "Bio-Scanner Anomaly", description: "The bio-scanner panel on the right-wall workstation flickers with an unidentified neural signature embedded in the bulkhead plating behind it.", x: 88, y: 60, width: 5, height: 6, type: "item", action: "warlord-residue", elaraDialog: "[SIGNAL DISTORTION] The bio-scanners are detecting... no. That can't be right. There's a neural signature embedded in the bulkhead plating itself. Not organic, not synthetic — something in between. The Warlord's consciousness was so powerful that it left an imprint on the ship's physical structure. Dr. Lyra Vox commanded this vessel while the Warlord used her as a host body. The walls literally remember their master. {playerName}, this ship has a darker history than I initially disclosed. The Warlord didn't just pass through here — this was a command vessel." },
     ],
   },
   {
@@ -1643,35 +1721,94 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "room_visited", value: "engineering" },
     connections: ["engineering"],
     hotspots: [
-      // Mystery wiring — mechronis.chained_lesson · e3 (Auro's
-      // tally-notebook of the twelve apprentices she has held)
-      { id: "chained-auro-tally", name: "Auro's Twelve-Apprentice Notebook", description: "A small leather notebook hanging from a peg in Sergeant Auro's side-room. Twelve names, forty-three waves held without further loss, nine years of work the Academy never paid for.", x: 6, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:forge-workshop:chained-auro-tally" },
-      // Mystery wiring — severance.infernal_clause · e3 (blank-backed pages archive)
-      { id: "infernal-blank-pages-archive", name: "PRELIMINARIES Box — Blank-Backed Pages", description: "Down the forge-workshop sub-corridor: forty unsigned blank-backed contract pages in a box labelled 'PRELIMINARIES.' Different paper-stock from the fronts.", x: 46, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:forge-workshop:infernal-blank-pages-archive" },
-      // Mystery wiring — charter.second_signatory · color (forge-workshop)
-      { id: "charter2-solven-workshop", name: "Solven Workshop — Sector 8 Corridor 3", description: "The Solven workshop: empty but maintained. 'Open by appointment.' The appointment book is full, every entry signed by the same archivist who keeps the tax registry.", x: 30, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:forge-workshop:charter2-solven-workshop" },
-      { id: "charter2-house-othisen", name: "House Othisen — Small-Engine Assemblers", description: "Down the forge-workshop sub-corridor: Othisens assembling Trade Empire circuit-racer components for three epochs without recognition. Their charter clause was the longest of the four; the erasure was the cleanest.", x: 38, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:forge-workshop:charter2-house-othisen" },
-      // Mystery wiring — mechronis.chained_lesson · color clues (forge-workshop)
-      { id: "chained-auro-side-room", name: "Auro's Side-Room (Sub-Corridor Seven)", description: "Whiteboard, three chairs, a one-to-forty Terminus diorama. Where Auro teaches the module the Academy refuses to.", x: 14, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:forge-workshop:chained-auro-side-room" },
-      { id: "chained-tarn-letter-to-the-case", name: "Tarn's Letter to the Case", description: "On Auro's bench: a sealed letter Tarn left behind, addressed 'whoever finds this case' — naming the case as the reader's.", x: 22, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:forge-workshop:chained-tarn-letter-to-the-case" },
-      // Mystery wiring — advocate.blood_weave · e2 (Blood Weave specification)
-      { id: "advocate-weave-specification", name: "Blood Weave Partial Specification", description: "On the bench: the partial spec from Zyr'Koth's research archive. Multi-layer fabric, weaver-substrate intake, defensive-chain output; no regeneration; every binding consumes the weaver.", x: 13, y: 19, width: 6, height: 6, type: "interact", action: "room-mystery:forge-workshop:advocate-weave-specification" },
-      // Realigned 2026-04-25 against the delivered render — central
-      // forge with prismatic rainbow flames erupting upward, five
-      // element-themed anvils flanking it (purple/void, blue/water,
-      // green/earth on the left; gold/fire, magenta/cyber on the
-      // right), holographic schematic display panels mounted above the
-      // anvils on each wall, weapon racks at the far edges, archway
-      // pathway on the foreground floor.
-      { id: "central-forge", name: "Prismatic Forge", description: "The main crafting station. Prismatic flames shift color based on what's being forged.", x: 38, y: 18, width: 24, height: 70, type: "terminal", action: "/forge", elaraDialog: "The Prismatic Forge. Its flames change color based on the materials you feed it — blue for void metal, green for crystal shards, gold for legendary essence. Step up to the forge and I'll guide you through the crafting process. Every item you create here provides real combat advantages in the Arena, strategic bonuses in Card Battles, and trade benefits in the Empire." },
-      { id: "material-vault", name: "Material Vault", description: "Secured storage for crafting materials. Organized by source and rarity.", x: 0, y: 30, width: 12, height: 50, type: "examine", elaraDialog: "The Material Vault. Your crafting materials are stored here — battle shards from Arena victories, trade metals from the Empire, card essence from sacrificed cards, and ark fragments from exploration. The vault automatically sorts by rarity. I'd recommend stockpiling before attempting any epic-tier recipes." },
-      { id: "recipe-archive", name: "Recipe Archive", description: "Holographic schematics showing all known crafting recipes.", x: 12, y: 28, width: 18, height: 28, type: "terminal", action: "/forge", elaraDialog: "The Recipe Archive. Every known crafting recipe is catalogued here — weapons, armor, potions, ship upgrades, and card enhancements. Some recipes are locked behind skill levels. The more you craft in a discipline, the more advanced recipes become available. Master all five disciplines and you'll unlock the legendary-tier recipes." },
-      { id: "skill-totems", name: "Skill Totems", description: "Five crystalline totems representing the crafting disciplines.", x: 62, y: 28, width: 38, height: 50, type: "examine", elaraDialog: "The Skill Totems — one for each crafting discipline. Weaponsmithing, Armorsmithing, Enchanting, Alchemy, and Engineering. They glow brighter as your skill increases. Touch one to see your progress. The engineers who built this place believed that mastery of all five disciplines was the key to creating the ultimate weapon — one that could end the war between the Architect and the Source." },
-      { id: "door-engineering-forge", name: "Return to Engineering", description: "The blast door back to the Engineering Bay.", x: 38, y: 90, width: 24, height: 10, type: "door", action: "engineering" },
-      // Mystery wiring — apps/shared/roomMysteries/forgeWorkshop.ts
-      { id: "anvil", name: "Anvil", description: "Centuries-old hardened brass on a steel base. The face is dished from a working life longer than most stars.", x: 14, y: 60, width: 16, height: 24, type: "interact", action: "room-mystery:forge-workshop:anvil" },
-      { id: "schema-rack", name: "Schema Rack", description: "Rolled diagrams along the back wall — weapon designs, armour patterns, prosthetic schematics. Most in Lyra's hand. A few in another.", x: 14, y: 6, width: 22, height: 18, type: "interact", action: "room-mystery:forge-workshop:schema-rack" },
-      { id: "kiln", name: "Kiln", description: "Brass-bound clay, fired thousands of times. Cold now, but the chimney smells faintly of bay leaf.", x: 64, y: 80, width: 18, height: 14, type: "interact", action: "room-mystery:forge-workshop:kiln" },
+      // Re-anchored 2026-05-24 against the AAA Final forge-workshop
+      // render (art/rooms/forge_workshop/baseline.png) after a 14-
+      // variant audit pass (baseline + 13 state overlays: act_tier_3,
+      // act_tier_7, battlepass_winter, cycle_longnight, epoch_
+      // shadowtongue, faction_insurgency, governance_quarantine,
+      // investigation_tier, morality_dark, tv_corrupted, tv_spreading,
+      // unlock_apprentice, unlock_mastered). Layout is consistent
+      // across every variant — landmarks don't shift — so baseline
+      // anchoring works universally.
+      //
+      // The 2026-04-25 anchoring described a "central forge with
+      // prismatic rainbow flames" + "five element-themed anvils
+      // flanking it" + "holographic schematic display panels" — the
+      // AAA Final has none of that. It's a stone-and-brass forge with
+      // orange fire in the central archway, a quenching pool in the
+      // left foreground, a scroll/cabinet rack on the far-left wall,
+      // a tool/diagram wall behind+right of the forge, and a TALL
+      // CARVED BRASS THRONE dominating the right half (the Master
+      // Craftsman's seat — fits the "skill totems" framing if read
+      // as a single master-tier seat rather than five totems).
+      //
+      // Major re-anchors:
+      //   • central-forge (was 38,18,24,70 too narrow + too tall) →
+      //     actual visible forge fire chamber (28,22,27,50)
+      //   • material-vault (was 0,30,12,50) → left scroll rack +
+      //     cabinet (0,25,18,40)
+      //   • recipe-archive (was 12,28,18,28 overlapping vault) →
+      //     tool wall behind/right of forge (47,38,15,22)
+      //   • skill-totems (was 62,28,38,50 sprawling) → the carved
+      //     master craftsman's throne at right (75,22,24,68)
+      //   • anvil (was 14,60,16,24 on quench pool) → anvil at foot
+      //     of forge (47,58,13,15)
+      //   • schema-rack (was 14,6,22,18 on blank ceiling) → left
+      //     scroll rack with rolled diagrams (0,25,10,35) — as a
+      //     sub-area of material-vault
+      //   • kiln (was 64,80,18,14 on blank floor) → the actual
+      //     quenching pool in left foreground (5,72,28,22)
+      //   • door-engineering-forge kept at bottom foreground center
+      //     (no visible door; walkout path)
+      //   • all 7 architect-channel mystery rects redistributed
+      //     from y=8/y=19 (blank wall) onto visible surfaces:
+      //     workbench, cabinet, throne area
+      //
+      // Visible landmarks, left-to-right + foreground-to-back:
+      //   • far-left scroll rack (rolled diagrams) — `material-vault`
+      //     parent + `schema-rack` sub-rect
+      //   • left cabinet — sub-area of material-vault
+      //   • quenching pool with purple-blue liquid — left foreground
+      //     (`kiln`)
+      //   • central stone-and-brass forge with orange fire chamber —
+      //     chamber center (`central-forge`)
+      //   • anvil pedestal at foot of forge — chamber center
+      //     foreground (`anvil`)
+      //   • tool/diagram wall right-of-forge — (`recipe-archive`)
+      //   • tall carved brass throne — right wall (`skill-totems`)
+      //
+      // Verify with /ark?debug-hotspots=1 or, for drag-to-place
+      // editing, /ark?author-hotspots=1.
+
+      // ── FEATURE / CONTAINER HOTSPOTS ──
+      { id: "central-forge", name: "Prismatic Forge", description: "The main crafting station — stone-and-brass furnace with the forge fire chamber glowing orange. Step up to the bellows to begin a craft.", x: 28, y: 22, width: 27, height: 50, type: "terminal", action: "/forge", elaraDialog: "The Prismatic Forge. Its flames change color based on the materials you feed it — blue for void metal, green for crystal shards, gold for legendary essence. Step up to the forge and I'll guide you through the crafting process. Every item you create here provides real combat advantages in the Arena, strategic bonuses in Card Battles, and trade benefits in the Empire." },
+      { id: "material-vault", name: "Material Vault", description: "The far-left wall is a stacked storage system: a round rack of rolled scrolls + a dark cabinet behind. Secured storage for crafting materials, organised by source and rarity.", x: 0, y: 25, width: 18, height: 40, type: "examine", elaraDialog: "The Material Vault. Your crafting materials are stored here — battle shards from Arena victories, trade metals from the Empire, card essence from sacrificed cards, and ark fragments from exploration. The vault automatically sorts by rarity. I'd recommend stockpiling before attempting any epic-tier recipes." },
+      { id: "recipe-archive", name: "Recipe Archive", description: "The tool wall right of the forge — hammers, tongs, and rolled schematic panels mounted in brass brackets. Every known crafting recipe is catalogued here.", x: 47, y: 38, width: 15, height: 22, type: "terminal", action: "/forge", elaraDialog: "The Recipe Archive. Every known crafting recipe is catalogued here — weapons, armor, potions, ship upgrades, and card enhancements. Some recipes are locked behind skill levels. The more you craft in a discipline, the more advanced recipes become available. Master all five disciplines and you'll unlock the legendary-tier recipes." },
+      { id: "skill-totems", name: "Skill Totems", description: "The tall carved brass throne at the right wall — five totem-medallions worked into the headrest and arms, one for each crafting discipline. Touch one to see your progress.", x: 75, y: 22, width: 24, height: 68, type: "examine", elaraDialog: "The Skill Totems — one for each crafting discipline. Weaponsmithing, Armorsmithing, Enchanting, Alchemy, and Engineering. They glow brighter as your skill increases. Touch one to see your progress. The engineers who built this place believed that mastery of all five disciplines was the key to creating the ultimate weapon — one that could end the war between the Architect and the Source." },
+      { id: "door-engineering-forge", name: "Return to Engineering", description: "The blast door back to the Engineering Bay — walk out through the foreground.", x: 40, y: 93, width: 20, height: 6, type: "door", action: "engineering" },
+
+      // ── FORGE-AREA MYSTERY SUB-RECTS ──
+      // Authored AFTER central-forge so they win clicks on the anvil
+      // pedestal + tool/diagram wall + quenching pool.
+      { id: "anvil", name: "Anvil", description: "The anvil at the foot of the forge — centuries-old hardened brass on a steel base. The face is dished from a working life longer than most stars.", x: 47, y: 58, width: 13, height: 15, type: "interact", action: "room-mystery:forge-workshop:anvil" },
+      { id: "schema-rack", name: "Schema Rack", description: "Rolled diagrams in the far-left scroll rack — weapon designs, armour patterns, prosthetic schematics. Most in Lyra's hand. A few in another.", x: 0, y: 28, width: 10, height: 32, type: "interact", action: "room-mystery:forge-workshop:schema-rack" },
+      { id: "kiln", name: "Kiln", description: "The quenching pool in the left foreground — brass-bound clay rim around a hot bath. Cold now, but the chimney smells faintly of bay leaf.", x: 5, y: 72, width: 28, height: 22, type: "interact", action: "room-mystery:forge-workshop:kiln" },
+
+      // ── ARCHITECT-CHANNEL MYSTERY RECTS (7) ──
+      // Redistributed from the previous y=8/y=19 blank-wall band onto
+      // visible surfaces around the workbench, cabinet, and throne.
+      // Auro's side-room mysteries cluster on the cabinet (the
+      // "side-room" reads as the small partitioned cabinet beside
+      // the scroll rack); Solven/Othisen workshops on the throne
+      // (architect's seat area); Tarn's letter + Blood Weave spec on
+      // the recipe-archive tool wall.
+      { id: "chained-auro-tally", name: "Auro's Twelve-Apprentice Notebook", description: "A small leather notebook hanging from a peg on the cabinet beside the scroll rack. Twelve names, forty-three waves held without further loss, nine years of work the Academy never paid for.", x: 12, y: 36, width: 5, height: 6, type: "interact", action: "room-mystery:forge-workshop:chained-auro-tally" },
+      { id: "chained-auro-side-room", name: "Auro's Side-Room (Sub-Corridor Seven)", description: "The cabinet's interior panel — whiteboard, three chairs, a one-to-forty Terminus diorama. Where Auro teaches the module the Academy refuses to.", x: 12, y: 45, width: 5, height: 6, type: "interact", action: "room-mystery:forge-workshop:chained-auro-side-room" },
+      { id: "chained-tarn-letter-to-the-case", name: "Tarn's Letter to the Case", description: "On the recipe-archive tool wall: a sealed letter Tarn left behind, addressed 'whoever finds this case' — naming the case as the reader's.", x: 49, y: 41, width: 5, height: 5, type: "interact", action: "room-mystery:forge-workshop:chained-tarn-letter-to-the-case" },
+      { id: "advocate-weave-specification", name: "Blood Weave Partial Specification", description: "On the recipe-archive tool wall: the partial spec from Zyr'Koth's research archive. Multi-layer fabric, weaver-substrate intake, defensive-chain output; no regeneration; every binding consumes the weaver.", x: 55, y: 41, width: 5, height: 5, type: "interact", action: "room-mystery:forge-workshop:advocate-weave-specification" },
+      { id: "infernal-blank-pages-archive", name: "PRELIMINARIES Box — Blank-Backed Pages", description: "On a low shelf inside the material-vault cabinet: forty unsigned blank-backed contract pages in a box labelled 'PRELIMINARIES.' Different paper-stock from the fronts.", x: 12, y: 54, width: 5, height: 5, type: "interact", action: "room-mystery:forge-workshop:infernal-blank-pages-archive" },
+      { id: "charter2-solven-workshop", name: "Solven Workshop — Sector 8 Corridor 3", description: "On the throne's right-arm plaque: the Solven workshop record — empty but maintained, 'Open by appointment.' The appointment book is full, every entry signed by the same archivist who keeps the tax registry.", x: 77, y: 50, width: 5, height: 6, type: "interact", action: "room-mystery:forge-workshop:charter2-solven-workshop" },
+      { id: "charter2-house-othisen", name: "House Othisen — Small-Engine Assemblers", description: "On the throne's left-arm plaque: House Othisen's assembly record — Trade Empire circuit-racer components for three epochs without recognition. Their charter clause was the longest of the four; the erasure was the cleanest.", x: 88, y: 50, width: 5, height: 6, type: "interact", action: "room-mystery:forge-workshop:charter2-house-othisen" },
     ],
   },
   {
@@ -1688,28 +1825,92 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "narrative_event", value: "combat_systems_online" },
     connections: ["engineering", "cargo-hold"],
     hotspots: [
-      // Realigned 2026-04-25 for the AAA Final armory render — a long
-      // corridor lined with weapon-rack lockers on both side walls, a
-      // central pathway with glowing floor strips, and a central
-      // workbench / arena at the far end beneath a back-wall fixture.
-      { id: "combat-arena", name: "Combat Arena", description: "A holographic combat simulation arena for training.", x: 38, y: 32, width: 24, height: 32, type: "terminal", action: "/fight", elaraDialog: "The combat arena. Step inside and I'll generate holographic opponents based on known entities from the Dischordian Saga. It's the safest way to test your abilities... relatively safe." },
-      { id: "card-battle-station", name: "Card Battle Station", description: "A tactical display for card game warfare.", x: 38, y: 64, width: 24, height: 18, type: "terminal", action: "/battle", elaraDialog: "The card battle station. Here you can engage in strategic card warfare — deploying your deck against AI opponents or other Potentials. Every victory earns you rewards and moves you closer to understanding the true nature of the conflict." },
-      { id: "weapon-rack", name: "Weapon Rack", description: "Futuristic weapons behind locked glass cases.", x: 6, y: 22, width: 24, height: 50, type: "examine", elaraDialog: "The weapon racks. Plasma swords, energy shields, cloaking devices... most are locked behind security glass. You'll need to prove yourself in combat before I can authorize access to the heavier ordnance." },
-      { id: "quiz-terminal", name: "Knowledge Terminal", description: "A terminal that tests your knowledge of the Dischordian lore.", x: 70, y: 22, width: 24, height: 50, type: "terminal", action: "/quiz", elaraDialog: "The Knowledge Terminal. It tests your understanding of the Dischordian Saga. Answer correctly and you'll earn rewards. Get them wrong and... well, there are no penalties. But I'll be disappointed." },
-      { id: "chess-table", name: "Strategy Table", description: "An ornate chess board with holographic pieces depicting Dischordian characters.", x: 8, y: 76, width: 14, height: 16, type: "terminal", action: "/chess", elaraDialog: "The Strategy Table. A chess variant using characters from the Dischordian Saga as pieces. Each character has unique abilities that modify the classic rules. It's not just a game — it's a test of tactical thinking. The AI opponent adapts to your skill level." },
-      { id: "spectator-screen", name: "Spectator Screen", description: "A large screen showing live battles between other Potentials.", x: 78, y: 76, width: 14, height: 16, type: "terminal", action: "/spectate", elaraDialog: "The Spectator Screen. Watch live battles between other Potentials. Study their strategies, learn from their mistakes, and prepare for your own encounters." },
-      { id: "door-engineering", name: "Engineering Bay", description: "Return to Engineering.", x: 44, y: 28, width: 12, height: 22, type: "door", action: "engineering" },
-      { id: "door-cargo", name: "Cargo Hold", description: "Stairs leading down to the Cargo Hold.", x: 42, y: 86, width: 16, height: 12, type: "door", action: "cargo-hold" },
-      { id: "egg-armory-dogtag", name: "Fallen Dog Tag", description: "A military dog tag wedged between floor plates.", x: 34, y: 80, width: 3, height: 4, type: "item", action: "agent-zero-dogtag", elaraDialog: "A dog tag. Name: CLASSIFIED. Rank: Assassin, First Class. Unit: Insurgency Special Operations. Callsign: 'Agent Zero.' But wait — the biometric data on the tag doesn't match Agent Zero's profile. It matches... the Engineer. The mind swap. The Engineer is walking around in Agent Zero's body, hiding among the Potentials. On THIS ship." },
-      { id: "motivational-poster", name: "Motivational Poster", description: "A faded poster showing a sunset with the text 'HANG IN THERE!' Signed in the corner: Iron Lion.", x: 88, y: 14, width: 5, height: 6, type: "examine", action: "room-mystery:armory:motivational-poster", elaraDialog: "Iron Lion's poster. He printed thousands of these. Most of them are gone. This one isn't. There is a cat in the bottom corner that I did not, until today, register." },
-      // Phase C extension — Agent Zero NPC presence in his canonical
-      // primaryRoom (per apps/client/src/game/factionNPCs.ts). The
-      // armory is the deck where Iron Lion's lineage of soldiers
-      // gathers, and Agent Zero — the Engineer-in-disguise discovered
-      // via the egg-armory-dogtag clue — manifests here once that
-      // clue has been logged. See ArkExplorerPage's npc-hotspot
-      // render path for the bust-portrait dispatch.
-      { id: "npc-agent-zero", name: "Agent Zero", description: "A figure leaning against the rifle racks. Insurgency uniform, dog-tag at the throat, eyes that have already counted every exit.", x: 26, y: 50, width: 8, height: 16, type: "npc", action: "npc:agent_zero", npcId: "agent_zero" },
+      // Re-anchored 2026-05-24 against the AAA Final armory render
+      // (art/rooms/armory/baseline.png) after a 14-variant audit pass
+      // (baseline + 13 state overlays). Layout consistent across all.
+      //
+      // The 2026-04-25 anchoring described "a long corridor lined with
+      // weapon-rack lockers on both side walls, central pathway with
+      // glowing floor strips, central workbench/arena at the far end"
+      // — the AAA Final is different: a chamber-style armory with a
+      // far-left corkboard of mission cards, a free-standing glass
+      // weapon case left-center, a wall-mounted weapon rack with
+      // rifles back-center, a raised circular armor-dais with purple-
+      // glow mannequins center-back, and a tool workbench on the
+      // right foreground.
+      //
+      // Major re-anchors:
+      //   • combat-arena (was 38,32,24,32 on the wall weapon rack) →
+      //     central armor dais (50,25,22,55) — the actual visible
+      //     training platform
+      //   • weapon-rack (was 6,22,24,50 on the corkboard) →
+      //     glass display case + wall weapon rack (15,20,35,55)
+      //   • quiz-terminal (was 70,22,24,50) → far-left corkboard
+      //     of pinned cards (0,20,15,55)
+      //   • card-battle-station (was 38,64,24,18 in middle floor)
+      //     → right workbench left half (74,62,13,17)
+      //   • chess-table (was 8,76,14,16 on floor) → right workbench
+      //     right half (87,62,11,17)
+      //   • spectator-screen (was 78,76,14,16 on floor edge) →
+      //     right workbench front edge (74,82,24,12)
+      //   • door-engineering (was 44,28,12,22 conflicting with arena)
+      //     → back archway above dais (52,20,18,10)
+      //   • door-cargo (was 42,86,16,12 on dais base) → invisible
+      //     bottom-foreground walk-out (40,93,20,5)
+      //   • npc-agent-zero (was 26,50,8,16) → beside wall weapon rack
+      //     (38,50,8,18) where the "leaning against the rifle racks"
+      //     description fits
+      //   • motivational-poster (was 88,14,5,6 on blank back-wall)
+      //     → top of corkboard area (4,18,5,6) where the "faded
+      //     poster" sits among the mission cards
+      //
+      // Visible landmarks, left-to-right + foreground-to-back:
+      //   • far-left corkboard with pinned mission cards — left wall
+      //     (`quiz-terminal`, `motivational-poster`)
+      //   • free-standing glass weapon case — left-center
+      //     (`weapon-rack` — left half)
+      //   • wall-mounted weapon rack with rifles — center-back
+      //     (`weapon-rack` — right half; `npc-agent-zero` leans
+      //     against this)
+      //   • raised circular armor dais with mannequins — chamber
+      //     center (`combat-arena`)
+      //   • back archway above dais — center-back (`door-engineering`)
+      //   • right tool workbench with components — right foreground
+      //     (`card-battle-station`, `chess-table`, `spectator-screen`)
+      //   • floor between dais and foreground — (`egg-armory-dogtag`)
+      //
+      // Render order: container hotspots authored FIRST; small sub-
+      // rectangles authored AFTER so they win clicks on specific
+      // surfaces. NPC authored last so projection wins on overlap.
+      //
+      // Verify with /ark?debug-hotspots=1 or /ark?author-hotspots=1.
+
+      // ── FEATURE / CONTAINER HOTSPOTS ──
+      { id: "weapon-rack", name: "Weapon Rack", description: "A free-standing glass display case in the left-center holds high-grade weapons, with a wall-mounted rifle rack behind it. Most are locked behind security glass.", x: 15, y: 20, width: 35, height: 55, type: "examine", elaraDialog: "The weapon racks. Plasma swords, energy shields, cloaking devices... most are locked behind security glass. You'll need to prove yourself in combat before I can authorize access to the heavier ordnance." },
+      { id: "combat-arena", name: "Combat Arena", description: "The raised circular armor dais at chamber center, ringed by a purple-glow aura. A holographic combat simulation arena for training.", x: 50, y: 25, width: 22, height: 55, type: "terminal", action: "/fight", elaraDialog: "The combat arena. Step inside and I'll generate holographic opponents based on known entities from the Dischordian Saga. It's the safest way to test your abilities... relatively safe." },
+      { id: "quiz-terminal", name: "Knowledge Terminal", description: "The far-left corkboard of pinned mission cards — a terminal disguised as a duty board that tests your knowledge of the Dischordian lore.", x: 0, y: 20, width: 15, height: 55, type: "terminal", action: "/quiz", elaraDialog: "The Knowledge Terminal. It tests your understanding of the Dischordian Saga. Answer correctly and you'll earn rewards. Get them wrong and... well, there are no penalties. But I'll be disappointed." },
+      { id: "card-battle-station", name: "Card Battle Station", description: "The left half of the right-side tool workbench — a tactical display surface for card game warfare.", x: 74, y: 62, width: 13, height: 17, type: "terminal", action: "/battle", elaraDialog: "The card battle station. Here you can engage in strategic card warfare — deploying your deck against AI opponents or other Potentials. Every victory earns you rewards and moves you closer to understanding the true nature of the conflict." },
+      { id: "chess-table", name: "Strategy Table", description: "The right half of the right-side tool workbench — an ornate chess board with holographic pieces depicting Dischordian characters.", x: 87, y: 62, width: 11, height: 17, type: "terminal", action: "/chess", elaraDialog: "The Strategy Table. A chess variant using characters from the Dischordian Saga as pieces. Each character has unique abilities that modify the classic rules. It's not just a game — it's a test of tactical thinking. The AI opponent adapts to your skill level." },
+      { id: "spectator-screen", name: "Spectator Screen", description: "The front edge of the right-side workbench — a wide screen showing live battles between other Potentials.", x: 74, y: 82, width: 24, height: 12, type: "terminal", action: "/spectate", elaraDialog: "The Spectator Screen. Watch live battles between other Potentials. Study their strategies, learn from their mistakes, and prepare for your own encounters." },
+
+      // ── DOORS ──
+      // door-engineering anchors on the back archway visible above the
+      // dais. door-cargo has no visible representation — anchored as
+      // an invisible click band on the bottom foreground.
+      { id: "door-engineering", name: "Engineering Bay", description: "The back archway above the dais — return to Engineering.", x: 52, y: 20, width: 18, height: 10, type: "door", action: "engineering" },
+      { id: "door-cargo", name: "Cargo Hold", description: "Stairs leading down to the Cargo Hold.", x: 40, y: 93, width: 20, height: 5, type: "door", action: "cargo-hold" },
+
+      // ── SUB-RECTS (egg + mystery + NPC) ──
+      // Authored AFTER container hotspots so they win clicks on
+      // specific items.
+      { id: "egg-armory-dogtag", name: "Fallen Dog Tag", description: "A military dog tag wedged between the floor plates at the base of the dais.", x: 35, y: 88, width: 3, height: 4, type: "item", action: "agent-zero-dogtag", elaraDialog: "A dog tag. Name: CLASSIFIED. Rank: Assassin, First Class. Unit: Insurgency Special Operations. Callsign: 'Agent Zero.' But wait — the biometric data on the tag doesn't match Agent Zero's profile. It matches... the Engineer. The mind swap. The Engineer is walking around in Agent Zero's body, hiding among the Potentials. On THIS ship." },
+      { id: "motivational-poster", name: "Motivational Poster", description: "Pinned to the top corner of the left-wall corkboard — a faded poster showing a sunset with the text 'HANG IN THERE!' Signed in the corner: Iron Lion.", x: 4, y: 18, width: 5, height: 6, type: "examine", action: "room-mystery:armory:motivational-poster", elaraDialog: "Iron Lion's poster. He printed thousands of these. Most of them are gone. This one isn't. There is a cat in the bottom corner that I did not, until today, register." },
+
+      // ── NPC PRESENCE (Phase C) ──
+      // Agent Zero NPC primaryRoom = armory (factionNPCs.ts). Manifests
+      // here once the egg-armory-dogtag clue has been logged. Authored
+      // LAST so the projection wins clicks when manifested.
+      { id: "npc-agent-zero", name: "Agent Zero", description: "A figure leaning against the wall-mounted rifle rack. Insurgency uniform, dog-tag at the throat, eyes that have already counted every exit.", x: 38, y: 50, width: 8, height: 18, type: "npc", action: "npc:agent_zero", npcId: "agent_zero" },
     ],
   },
   {
@@ -1726,26 +1927,88 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "narrative_event", value: "cargo_bay_pressurized" },
     connections: ["armory", "captains-quarters"],
     hotspots: [
-      // Realigned 2026-04-25 for the AAA Final cargo-hold render — a
-      // cargo bay with stacked containers lining both side walls, a
-      // shaft of light streaming down through a ceiling hole onto a
-      // central container in the foreground, dim corridors receding at
-      // the far edges.
-      { id: "trade-terminal", name: "Trade Empire Terminal", description: "The main terminal for the interstellar trade simulation.", x: 62, y: 30, width: 24, height: 36, type: "terminal", action: "/trade-empire", elaraDialog: "Trade Empire. An interstellar trade simulation based on the actual trade routes of the Dischordian universe. Buy low, sell high, avoid pirates, and build your trading empire. The credits you earn here are real — they can be spent in the store." },
-      { id: "store-counter", name: "Requisitions Counter", description: "A trading post where you can buy items with Dream tokens and credits.", x: 14, y: 30, width: 24, height: 36, type: "terminal", action: "/store", elaraDialog: "The Requisitions Counter. You can spend your Dream tokens and credits here on upgrades, card packs, cosmetics, and more. Some items are only available through the store." },
-      { id: "marketplace-board", name: "Marketplace Board", description: "A bustling exchange board showing buy and sell orders from Potentials across the Ark.", x: 42, y: 14, width: 18, height: 24, type: "terminal", action: "/marketplace", elaraDialog: "The Marketplace. A peer-to-peer exchange where Potentials trade cards, materials, and equipment. Prices fluctuate based on supply and demand. A shrewd trader can make a fortune here." },
-      { id: "inventory-locker", name: "Personal Locker", description: "A secured locker containing your collected items and equipment.", x: 8, y: 20, width: 12, height: 18, type: "terminal", action: "/inventory", elaraDialog: "Your personal inventory locker. Everything you've collected — weapons, armor, materials, consumables, and artifacts — is stored here. Organize your gear before heading into battle." },
-      { id: "fleet-dock", name: "Fleet Docking Bay", description: "A viewport showing the Ark's auxiliary fleet of smaller vessels.", x: 80, y: 20, width: 12, height: 18, type: "terminal", action: "/fleet", elaraDialog: "The Fleet Docking Bay. Your auxiliary vessels are moored here — scout ships, cargo haulers, and combat frigates. Manage your fleet to expand your reach across the trade routes and war zones of the Saga." },
-      { id: "mystery-crate", name: "Sealed Crate", description: "A large crate with claw marks on it. Something was trying to get in... or out.", x: 42, y: 60, width: 16, height: 22, type: "examine", elaraDialog: "That crate... the claw marks are on the inside. Something was sealed in there and tried to get out. The manifest says it contained 'biological samples from Sector 7.' I've locked it down. Don't touch it." },
-      { id: "door-armory", name: "Armory Stairs", description: "Stairs leading up to the Armory.", x: 1, y: 35, width: 6, height: 40, type: "door", action: "armory" },
-      { id: "door-captains", name: "Captain's Quarters", description: "A restricted access corridor to the Captain's Quarters.", x: 93, y: 35, width: 6, height: 40, type: "door", action: "captains-quarters" },
-      { id: "egg-cargo-manifest", name: "Torn Manifest Page", description: "A torn page from the original cargo manifest, hidden under a crate.", x: 48, y: 84, width: 4, height: 5, type: "item", action: "classified-manifest-page", elaraDialog: "A torn manifest page. Most of it is redacted, but one entry is legible: 'Container 7-Omega: BIOLOGICAL — Clone Template, Oracle-class. STATUS: Active. HANDLER: The Collector.' A clone template of the Oracle... on our ship. The False Prophet was made from an Oracle clone. Is there another one here? Is it awake?" },
-      // Mystery wiring — charter.second_signatory · e3 (House Marek workshops)
-      { id: "charter2-house-marek", name: "House Marek — Toolmakers' Workshops", description: "In the House-Marek workshops sub-corridor: three families, one tool-room, four epochs of continuous output. Same scrubber's hand on the charter-signature erasure.", x: 14, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:cargo-hold:charter2-house-marek" },
-      // Mystery wiring — resurrectionist.cycle_walker · e2 (Ark passenger manifest)
-      { id: "resur-ark-passenger-manifest", name: "Inception Ark Passenger Manifest (Redacted)", description: "In the passenger-records crate: seven names visible; eighth name redacted to a black bar of structural length. Not a casual erasure; a positioned occupant.", x: 6, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:cargo-hold:resur-ark-passenger-manifest" },
-      { id: "rubber-chicken", name: "Rubber Chicken", description: "A rubber chicken with a pulley in the middle. Why is this on a spaceship?", x: 22, y: 80, width: 4, height: 5, type: "examine", action: "room-mystery:cargo-hold:rubber-chicken", elaraDialog: "It's a rubber chicken with a pulley in the middle. I have no tactical assessment. I've failed you as an AI. Also — it has been here longer than any human I have ever known. Take that how you want." },
-      { id: "the-cursed-forest-depot", name: "The Cursed-Forest Depot Placard", description: "A captured Hierarchy operations placard wired to the central container — Fenra's domain filed not as a battlefield but as a logistics hub, the throughput corrupted souls, the depot dying under its own load.", x: 30, y: 80, width: 4, height: 5, type: "interact", action: "room-mystery:cargo-hold:the-cursed-forest-depot" },
+      // Re-anchored 2026-05-24 against the AAA Final cargo-hold render
+      // (art/rooms/cargo_hold/baseline.png) after a 14-variant audit
+      // pass (baseline + 13 state overlays). Layout consistent across
+      // all variants.
+      //
+      // The 2026-04-25 anchoring described "stacked containers lining
+      // both side walls + shaft of light onto a central container" —
+      // the AAA Final is different: vaulted-rib ceiling, left + right
+      // walls of recessed display-case lockers, a stack of blue brass-
+      // cornered crates left-center, a raised circular dais with
+      // mannequin + ringed flags chamber-center, a red-curtained
+      // trading alcove right-of-center, and a small foreground table
+      // with a glowing blue orb at left-foreground.
+      //
+      // Major re-anchors:
+      //   • trade-terminal (was 62,30,24,36 on alcove) → central
+      //     dais with mannequin + flag-ring (40,25,22,50)
+      //   • store-counter (was 14,30,24,36 on crate stack) → red-
+      //     curtained trading alcove right-of-center (60,35,18,45)
+      //   • marketplace-board (was 42,14,18,24 on blank ceiling) →
+      //     ringed flags above the dais (37,22,28,8)
+      //   • inventory-locker (was 8,20,12,18) → left-wall recessed
+      //     display cases (0,25,14,50)
+      //   • fleet-dock (was 80,20,12,18) → right-wall recessed
+      //     display cases (85,25,14,50)
+      //   • mystery-crate (was 42,60,16,22 on dais) → the actual
+      //     blue brass-cornered crate stack left-center (15,30,28,50)
+      //   • door-armory, door-captains kept on far-left/far-right
+      //     edges as invisible click bands (no visible doors)
+      //   • egg-cargo-manifest, rubber-chicken, the-cursed-forest-
+      //     depot kept in foreground area but tightened against
+      //     visible surfaces
+      //   • 2 architect-channel mysteries (charter2-house-marek,
+      //     resur-ark-passenger-manifest) moved from y=8 blank
+      //     wall onto crate stack sub-rects
+      //
+      // Visible landmarks, left-to-right + foreground-to-back:
+      //   • left-wall recessed display-case lockers — (`inventory-
+      //     locker`)
+      //   • stack of blue brass-cornered crates — left-center
+      //     (`mystery-crate` + `charter2-house-marek` +
+      //     `resur-ark-passenger-manifest` + `the-cursed-forest-
+      //     depot`)
+      //   • small foreground table with glowing blue orb — left-
+      //     foreground (`rubber-chicken`)
+      //   • raised circular dais with mannequin + flag-ring —
+      //     chamber center (`trade-terminal`, `marketplace-board`)
+      //   • floor compass-star inlay — foreground center
+      //     (`egg-cargo-manifest`)
+      //   • red-curtained trading alcove — right-of-center
+      //     (`store-counter`)
+      //   • right-wall recessed display-case lockers — (`fleet-dock`)
+      //
+      // Verify with /ark?debug-hotspots=1 or /ark?author-hotspots=1.
+
+      // ── FEATURE / CONTAINER HOTSPOTS ──
+      { id: "trade-terminal", name: "Trade Empire Terminal", description: "The raised central dais with a mannequin standing in the middle of a flag-ring — the main terminal for the interstellar trade simulation.", x: 40, y: 25, width: 22, height: 50, type: "terminal", action: "/trade-empire", elaraDialog: "Trade Empire. An interstellar trade simulation based on the actual trade routes of the Dischordian universe. Buy low, sell high, avoid pirates, and build your trading empire. The credits you earn here are real — they can be spent in the store." },
+      { id: "store-counter", name: "Requisitions Counter", description: "The red-curtained trading alcove right-of-center — a trading post where you can buy items with Dream tokens and credits.", x: 60, y: 35, width: 18, height: 45, type: "terminal", action: "/store", elaraDialog: "The Requisitions Counter. You can spend your Dream tokens and credits here on upgrades, card packs, cosmetics, and more. Some items are only available through the store." },
+      { id: "marketplace-board", name: "Marketplace Board", description: "The ring of small flags above the central dais — a bustling exchange board showing buy and sell orders from Potentials across the Ark.", x: 37, y: 22, width: 28, height: 8, type: "terminal", action: "/marketplace", elaraDialog: "The Marketplace. A peer-to-peer exchange where Potentials trade cards, materials, and equipment. Prices fluctuate based on supply and demand. A shrewd trader can make a fortune here." },
+      { id: "inventory-locker", name: "Personal Locker", description: "The left-wall recessed display cases — your secured locker containing collected items and equipment.", x: 0, y: 25, width: 14, height: 50, type: "terminal", action: "/inventory", elaraDialog: "Your personal inventory locker. Everything you've collected — weapons, armor, materials, consumables, and artifacts — is stored here. Organize your gear before heading into battle." },
+      { id: "fleet-dock", name: "Fleet Docking Bay", description: "The right-wall recessed display cases — a viewport showing the Ark's auxiliary fleet of smaller vessels.", x: 85, y: 25, width: 14, height: 50, type: "terminal", action: "/fleet", elaraDialog: "The Fleet Docking Bay. Your auxiliary vessels are moored here — scout ships, cargo haulers, and combat frigates. Manage your fleet to expand your reach across the trade routes and war zones of the Saga." },
+      { id: "mystery-crate", name: "Sealed Crate", description: "The stack of blue brass-cornered crates at left-center. The largest crate has claw marks on it — something was trying to get in... or out.", x: 15, y: 30, width: 28, height: 50, type: "examine", elaraDialog: "That crate... the claw marks are on the inside. Something was sealed in there and tried to get out. The manifest says it contained 'biological samples from Sector 7.' I've locked it down. Don't touch it." },
+
+      // ── DOORS ──
+      { id: "door-armory", name: "Armory Stairs", description: "Stairs leading up to the Armory.", x: 0, y: 78, width: 5, height: 18, type: "door", action: "armory" },
+      { id: "door-captains", name: "Captain's Quarters", description: "A restricted access corridor to the Captain's Quarters.", x: 95, y: 78, width: 5, height: 18, type: "door", action: "captains-quarters" },
+
+      // ── CRATE-STACK MYSTERY SUB-RECTS ──
+      // The visible blue crate stack hosts the architect-channel
+      // mysteries (passenger manifest, House Marek workshop log) and
+      // the Hierarchy Cursed-Forest depot placard. Authored AFTER
+      // mystery-crate so they win clicks on specific crate faces.
+      { id: "resur-ark-passenger-manifest", name: "Inception Ark Passenger Manifest (Redacted)", description: "On the top crate's lid: the passenger-records page — seven names visible; eighth name redacted to a black bar of structural length. Not a casual erasure; a positioned occupant.", x: 18, y: 35, width: 5, height: 5, type: "interact", action: "room-mystery:cargo-hold:resur-ark-passenger-manifest" },
+      { id: "charter2-house-marek", name: "House Marek — Toolmakers' Workshops", description: "On a side-crate stencilled 'HOUSE MAREK': three families, one tool-room, four epochs of continuous output. Same scrubber's hand on the charter-signature erasure.", x: 30, y: 35, width: 5, height: 5, type: "interact", action: "room-mystery:cargo-hold:charter2-house-marek" },
+      { id: "the-cursed-forest-depot", name: "The Cursed-Forest Depot Placard", description: "A captured Hierarchy operations placard wired to the central crate — Fenra's domain filed not as a battlefield but as a logistics hub, the throughput corrupted souls, the depot dying under its own load.", x: 25, y: 55, width: 6, height: 6, type: "interact", action: "room-mystery:cargo-hold:the-cursed-forest-depot" },
+
+      // ── FOREGROUND ITEMS ──
+      // rubber-chicken on the small foreground-left table with the
+      // glowing blue orb; egg-cargo-manifest on the floor compass-
+      // star inlay between dais and foreground.
+      { id: "rubber-chicken", name: "Rubber Chicken", description: "Hanging from the edge of the small foreground table with the glowing blue orb: a rubber chicken with a pulley in the middle. Why is this on a spaceship?", x: 17, y: 78, width: 5, height: 6, type: "examine", action: "room-mystery:cargo-hold:rubber-chicken", elaraDialog: "It's a rubber chicken with a pulley in the middle. I have no tactical assessment. I've failed you as an AI. Also — it has been here longer than any human I have ever known. Take that how you want." },
+      { id: "egg-cargo-manifest", name: "Torn Manifest Page", description: "A torn page from the original cargo manifest, half-hidden beneath the central floor compass-star.", x: 50, y: 88, width: 4, height: 5, type: "item", action: "classified-manifest-page", elaraDialog: "A torn manifest page. Most of it is redacted, but one entry is legible: 'Container 7-Omega: BIOLOGICAL — Clone Template, Oracle-class. STATUS: Active. HANDLER: The Collector.' A clone template of the Oracle... on our ship. The False Prophet was made from an Oracle clone. Is there another one here? Is it awake?" },
     ],
   },
   {
@@ -1762,37 +2025,116 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "specific_item", value: "captains-master-key" },
     connections: ["cargo-hold"],
     hotspots: [
-      // Realigned 2026-04-25 for the AAA Final captain's-quarters render
-      // — a private cabin with a bed on the left, a desk + monitors +
-      // lamp + chair taking up the centre-right, a framed picture on
-      // the far-left wall, and a ceiling alcove overhead. The earlier
-      // coords assumed a Star-Viewport right wall that the new art
-      // doesn't have and put door markers into the chroma-key area.
-      { id: "trophy-wall", name: "Trophy Wall", description: "A holographic display showing your achievements and collected trophies.", x: 6, y: 16, width: 14, height: 30, type: "terminal", action: "/trophy", elaraDialog: "The Trophy Wall. Every achievement you've earned, every milestone you've reached. Dr. Vox designed this display system — she believed in cataloging everything. Obsessively. Now I wonder if that obsession was hers... or the Warlord's." },
-      { id: "deck-builder", name: "Strategic Table", description: "A large table with holographic card projections for deck building.", x: 38, y: 38, width: 28, height: 32, type: "terminal", action: "/deck-builder", elaraDialog: "The Strategic Table. Dr. Vox used this to plan... well, officially it was 'neural network deployment patterns.' But the formations look military. She designed the nanobot operating system that runs every Ark — and the patterns suggest she knew exactly what those nanobots could really do. Now you can use it to build and refine your card decks. A well-built deck is the difference between victory and oblivion." },
-      { id: "companion-quarters", name: "Companion Quarters", description: "A cozy alcove with two beds and personal effects. Elara's space and room for another companion.", x: 14, y: 50, width: 22, height: 28, type: "terminal", action: "/companions", elaraDialog: "The Companion Quarters. This is where your companions rest between missions. Each companion has unique abilities and synergies with your build. Strengthen your bond and they'll fight harder for you." },
-      { id: "battle-pass-console", name: "Season Terminal", description: "A terminal displaying the current season's challenges and reward tracks.", x: 45, y: 32, width: 14, height: 14, type: "terminal", action: "/battle-pass", elaraDialog: "The Season Terminal. Each season brings new challenges, exclusive rewards, and limited-time content. Progress through the reward track to earn unique cosmetics, cards, and materials." },
-      { id: "morality-compass", name: "Morality Compass", description: "A crystalline device that pulses between gold and violet, measuring the moral alignment of the Ark's population.", x: 62, y: 45, width: 10, height: 14, type: "terminal", action: "/morality-census", elaraDialog: "The Morality Compass. It measures the collective moral alignment of all Potentials aboard the Ark. Every choice you make — order or chaos, mercy or justice — shifts the balance. The census reveals how the community's choices are shaping the Saga." },
-      { id: "viewport-stars", name: "Star Viewport", description: "A viewport showing a nebula that seems to pulse with light.", x: 38, y: 6, width: 26, height: 16, type: "examine", elaraDialog: "That nebula... it wasn't there when we launched. It appeared three cycles ago and it's been growing. Sometimes I think it's watching us. That's not scientifically possible, of course. But I think it anyway." },
-      { id: "door-cargo", name: "Cargo Hold", description: "Return to the Cargo Hold.", x: 1, y: 35, width: 5, height: 50, type: "door", action: "cargo-hold" },
-      { id: "door-library", name: "Hidden Passage", description: "A shimmering doorway that wasn't there before. It pulses with purple light.", x: 78, y: 4, width: 12, height: 12, type: "door", action: "antiquarian-library" },
-      { id: "egg-captain-mirror", name: "Cracked Mirror", description: "A mirror in the corner, cracked in a spider-web pattern. Your reflection looks... wrong.", x: 8, y: 18, width: 4, height: 5, type: "examine", elaraDialog: "That mirror... look at your reflection. Do you see it? For a fraction of a second, your reflection moved differently than you did. It smiled when you didn't. The White Oracle — the face-changing guardian — was said to inhabit reflective surfaces. Some believe the Meme left the Oracle for dead and assumed his place — the shapeshifter hiding in plain sight. The universe believes the Meme was destroyed, but is it watching us through every mirror on this ship? How long has it been watching?" },
-      { id: "egg-kael-escape-hatch", name: "Forced Access Panel", description: "A maintenance panel that's been pried open with brute force. Tool marks scar the metal.", x: 76, y: 84, width: 4, height: 5, type: "item", action: "kael-escape-route", elaraDialog: "These tool marks... they're not from standard maintenance equipment. Someone forced this panel open in a hurry. The scratches are deep — desperate. Behind it is an emergency access tunnel that connects directly to the shuttle bay. This is how Kael escaped. The Recruiter turned insurgent turned prisoner. He broke out of the Panopticon, fought his way to this ship, and used this exact tunnel to reach the bridge and override the launch sequence. But look — there's no damage to the security systems. The locks were already disengaged. Dr. Lyra Vox — the Warlord — opened the doors for him. Kael's great escape was a guided tour." },
-      // Mystery wiring — advocate.blood_weave · e3 + e5 (post-defection generals + current)
-      { id: "advocate-three-generals-post-defection", name: "Three Generals — Post-Defection Logs", description: "On the comm-console: the three Advocate-general post-defection logs. Each general reports the recruitment as 'a relief that did not feel like betrayal.'", x: 86, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:captains-quarters:advocate-three-generals-post-defection" },
-      { id: "advocate-three-generals-current", name: "Three Generals — Current Status", description: "Pinned beside: the three generals continue under Hierarchy doctrine, still carrying Advocate-countersigned shelter. The charter is operationally enforceable across factional crossings.", x: 94, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:captains-quarters:advocate-three-generals-current" },
-      { id: "cat-photo", name: "Photo of a Cat", description: "A framed photo of a cat wearing tiny goggles. Label reads: 'Mr. Whiskers — Chief Science Officer.'", x: 8, y: 26, width: 4, height: 5, type: "examine", action: "room-mystery:captains-quarters:cat-photo", elaraDialog: "Mr. Whiskers. Chief Science Officer. Lyra hand-lettered the label. The cat is not looking at the camera; the cat is looking at her, who was behind it. I have been looking at this photograph for two hundred and thirty years." },
+      // Re-anchored 2026-05-24 against the AAA Final captain's-quarters
+      // render (art/rooms/captains_quarters/baseline.png) after a 14-
+      // variant audit pass (baseline + 13 state overlays). Layout
+      // consistent across all variants.
+      //
+      // The 2026-04-25 anchoring described the general layout correctly
+      // (bed left, desk center-right) but anchored several hotspots on
+      // blank ceiling area (viewport-stars, advocate-* generals at
+      // y=8) and placed morality-compass on the desk where there's no
+      // visible compass — the actual floor compass-star inlay sits at
+      // (44,86,15,10).
+      //
+      // Major re-anchors:
+      //   • trophy-wall (was 6,16,14,30) → left-wall framed-portrait
+      //     gallery (0,25,15,45)
+      //   • deck-builder (was 38,38,28,32 wide) → glass coffee table
+      //     in the foreground chair-circle (40,68,18,15)
+      //   • companion-quarters (was 14,50,22,28) → left foreground
+      //     bed/cot (0,65,22,30)
+      //   • battle-pass-console (was 45,32,14,14) → desk monitor
+      //     (40,32,14,16)
+      //   • morality-compass (was 62,45,10,14 on empty desk corner)
+      //     → actual visible floor compass-star inlay (44,86,15,10)
+      //   • viewport-stars (was 38,6,26,16 on blank ceiling) → the
+      //     cyan-glowing mirror/screen above the desk (38,22,22,20)
+      //   • door-library (was 78,4,12,12 floating top-right) →
+      //     invisible top-right portal band (90,0,10,20)
+      //   • All 9 architect-channel + arc-specific mystery rects
+      //     redistributed: advocate-* on desk, Locke + Coordinator +
+      //     Director + Mechronis on desk lower drawers (clustered as
+      //     a 2-row × 3-col grid), cat-photo on left portrait wall,
+      //     degens-corner on foreground-left side-desk, vex-workshop-
+      //     diary on right bookshelf
+      //   • egg-captain-mirror moved from (8,18) to (8,30,5,8) where
+      //     the visible mirror corner sits among the portraits
+      //   • egg-kael-escape-hatch moved from (76,84) to right-wall
+      //     lower-right (82,72,5,8) where a maintenance panel would
+      //     plausibly be
+      //   • egg-vox-personal-log moved from (60,56) to bookshelf
+      //     sub-area (68,42,5,5) where the "hidden terminal behind
+      //     the bookshelf" framing fits
+      //
+      // Visible landmarks, left-to-right + foreground-to-back:
+      //   • left-wall framed-portrait gallery — (`trophy-wall`,
+      //     `cat-photo`, `egg-captain-mirror`)
+      //   • single bed/cot — left foreground (`companion-quarters`)
+      //   • side-desk between bed and chairs — left mid-foreground
+      //     (`degens-corner`)
+      //   • cyan-glowing mirror/screen — back wall above desk
+      //     (`viewport-stars`)
+      //   • captain's desk with monitor + lamp + chair — back center
+      //     (`battle-pass-console`, advocate + Locke + Coordinator +
+      //     Director + Mechronis mystery clusters)
+      //   • twin red armchairs + glass coffee table — foreground
+      //     center (`deck-builder`)
+      //   • floor compass-star inlay — foreground floor
+      //     (`morality-compass`)
+      //   • bookshelves with books — right wall (`vex-workshop-diary`,
+      //     `egg-vox-personal-log`)
+      //   • small bed/cot — right foreground (decorative)
+      //   • maintenance panel — right wall lower (`egg-kael-escape-
+      //     hatch`)
+      //
+      // Verify with /ark?debug-hotspots=1 or /ark?author-hotspots=1.
+
+      // ── FEATURE / CONTAINER HOTSPOTS ──
+      { id: "trophy-wall", name: "Trophy Wall", description: "The left-wall framed-portrait gallery — a holographic display showing your achievements and collected trophies.", x: 0, y: 25, width: 15, height: 45, type: "terminal", action: "/trophy", elaraDialog: "The Trophy Wall. Every achievement you've earned, every milestone you've reached. Dr. Vox designed this display system — she believed in cataloging everything. Obsessively. Now I wonder if that obsession was hers... or the Warlord's." },
+      { id: "deck-builder", name: "Strategic Table", description: "The glass coffee table at the center of the chair circle — a large surface with holographic card projections for deck building.", x: 40, y: 68, width: 18, height: 15, type: "terminal", action: "/deck-builder", elaraDialog: "The Strategic Table. Dr. Vox used this to plan... well, officially it was 'neural network deployment patterns.' But the formations look military. She designed the nanobot operating system that runs every Ark — and the patterns suggest she knew exactly what those nanobots could really do. Now you can use it to build and refine your card decks. A well-built deck is the difference between victory and oblivion." },
+      { id: "companion-quarters", name: "Companion Quarters", description: "The single bed/cot at left foreground — a cozy alcove with personal effects. Elara's space and room for another companion.", x: 0, y: 65, width: 22, height: 30, type: "terminal", action: "/companions", elaraDialog: "The Companion Quarters. This is where your companions rest between missions. Each companion has unique abilities and synergies with your build. Strengthen your bond and they'll fight harder for you." },
+      { id: "battle-pass-console", name: "Season Terminal", description: "The captain's desk monitor — a terminal displaying the current season's challenges and reward tracks.", x: 40, y: 32, width: 14, height: 16, type: "terminal", action: "/battle-pass", elaraDialog: "The Season Terminal. Each season brings new challenges, exclusive rewards, and limited-time content. Progress through the reward track to earn unique cosmetics, cards, and materials." },
+      { id: "morality-compass", name: "Morality Compass", description: "The cyan-glowing compass-star inlay set into the chamber floor at center-foreground — a crystalline measurement of the Ark's moral alignment.", x: 44, y: 86, width: 15, height: 10, type: "terminal", action: "/morality-census", elaraDialog: "The Morality Compass. It measures the collective moral alignment of all Potentials aboard the Ark. Every choice you make — order or chaos, mercy or justice — shifts the balance. The census reveals how the community's choices are shaping the Saga." },
+      { id: "viewport-stars", name: "Star Viewport", description: "The cyan-glowing mirror/screen mounted on the back wall above the captain's desk — a viewport showing a nebula that seems to pulse with light.", x: 38, y: 22, width: 22, height: 20, type: "examine", elaraDialog: "That nebula... it wasn't there when we launched. It appeared three cycles ago and it's been growing. Sometimes I think it's watching us. That's not scientifically possible, of course. But I think it anyway." },
+
+      // ── DOORS ──
+      { id: "door-cargo", name: "Cargo Hold", description: "Return to the Cargo Hold.", x: 0, y: 88, width: 8, height: 10, type: "door", action: "cargo-hold" },
+      { id: "door-library", name: "Hidden Passage", description: "A shimmering doorway that wasn't there before. It pulses with purple light.", x: 90, y: 0, width: 10, height: 22, type: "door", action: "antiquarian-library" },
+
+      // ── PORTRAIT-WALL MYSTERY / ITEMS ──
+      // Authored AFTER trophy-wall so they win clicks on specific
+      // portrait frames.
+      { id: "cat-photo", name: "Photo of a Cat", description: "A framed photo on the left portrait wall — a cat wearing tiny goggles. Label reads: 'Mr. Whiskers — Chief Science Officer.'", x: 4, y: 32, width: 4, height: 6, type: "examine", action: "room-mystery:captains-quarters:cat-photo", elaraDialog: "Mr. Whiskers. Chief Science Officer. Lyra hand-lettered the label. The cat is not looking at the camera; the cat is looking at her, who was behind it. I have been looking at this photograph for two hundred and thirty years." },
+      { id: "egg-captain-mirror", name: "Cracked Mirror", description: "A small mirror tucked among the portraits, cracked in a spider-web pattern. Your reflection looks... wrong.", x: 4, y: 45, width: 5, height: 7, type: "examine", elaraDialog: "That mirror... look at your reflection. Do you see it? For a fraction of a second, your reflection moved differently than you did. It smiled when you didn't. The White Oracle — the face-changing guardian — was said to inhabit reflective surfaces. Some believe the Meme left the Oracle for dead and assumed his place — the shapeshifter hiding in plain sight. The universe believes the Meme was destroyed, but is it watching us through every mirror on this ship? How long has it been watching?" },
+
+      // ── DESK MYSTERY CLUSTER (advocate + Locke + Coordinator + Director + Mechronis) ──
+      // Six small mystery sub-rects on the captain's desk surface,
+      // below the monitor. Each represents a specific document or
+      // file the player can examine. Authored AFTER battle-pass-
+      // console so they win clicks on the specific desk items.
+      // Mystery wiring — advocate.blood_weave · e3 + e5
+      { id: "advocate-three-generals-post-defection", name: "Three Generals — Post-Defection Logs", description: "On the desk's comm-console: the three Advocate-general post-defection logs. Each general reports the recruitment as 'a relief that did not feel like betrayal.'", x: 38, y: 50, width: 5, height: 5, type: "interact", action: "room-mystery:captains-quarters:advocate-three-generals-post-defection" },
+      { id: "advocate-three-generals-current", name: "Three Generals — Current Status", description: "Pinned beside the post-defection logs: the three generals continue under Hierarchy doctrine, still carrying Advocate-countersigned shelter. The charter is operationally enforceable across factional crossings.", x: 44, y: 50, width: 5, height: 5, type: "interact", action: "room-mystery:captains-quarters:advocate-three-generals-current" },
+      // Mystery wiring — Watcher arc (Locke-correspondence + Coordinator's summons)
+      { id: "lockes-correspondence-cache", name: "Locke's Correspondence Cache", description: "A flat document cache on the desk's lower drawer — every post-act letter Lyra received from Adjudicar Locke, in order. Each signed only 'L.'", x: 50, y: 50, width: 5, height: 5, type: "interact", action: "room-mystery:captains-quarters:lockes-correspondence-cache" },
+      { id: "the-coordinators-summons", name: "The Coordinator's Summons", description: "A meeting invitation on the desk, in Locke's hand, delivered by a courier on no Authority manifest. Signed, for the first time, 'The Coordinator.'", x: 38, y: 57, width: 5, height: 5, type: "interact", action: "room-mystery:captains-quarters:the-coordinators-summons" },
+      // Mystery wiring — Ith'Rael arc (Director's summons + Mechronis cert)
+      { id: "directors-handcouriered-summons", name: "The Director's Summons", description: "A second invitation beside Locke's on the desk, in a different hand — the only Hierarchy invitation that bypasses Hierarchy comms. Signed Ith'Rael, Director.", x: 44, y: 57, width: 5, height: 5, type: "interact", action: "room-mystery:captains-quarters:directors-handcouriered-summons" },
+      { id: "mechronis-certification-file", name: "Mechronis Certification File", description: "A personnel file in the desk's operational drawer — the Mechronis Academy spy-class certification whose content hollowed across nine generations.", x: 50, y: 57, width: 5, height: 5, type: "interact", action: "room-mystery:captains-quarters:mechronis-certification-file" },
+
+      // ── FOREGROUND-LEFT SIDE-DESK MYSTERY ──
       // Mystery wiring — Degen arc audit-prep + empty-chair surface
-      { id: "degens-corner", name: "The Degen's Corner", description: "A small side-desk beside the cracked mirror. The only piece of furniture in the captain's quarters that wasn't Lyra's — the Degen sat here on three documented evenings before her death.", x: 30, y: 70, width: 14, height: 18, type: "interact", action: "room-mystery:captains-quarters:degens-corner" },
-      // Mystery wiring — Vex arc workshop diary on Lyra's bookshelf
-      { id: "vex-workshop-diary", name: "Vex's Workshop Diary", description: "A small bookshelf to the right of the bed. Vex Solène's workshop diary on the second shelf, the spine worn from forty years of opening.", x: 78, y: 30, width: 10, height: 36, type: "interact", action: "room-mystery:captains-quarters:vex-workshop-diary" },
-      { id: "egg-vox-personal-log", name: "Dr. Vox's Personal Terminal", description: "A hidden terminal behind the bookshelf, still powered. The screen shows encrypted files.", x: 60, y: 56, width: 4, height: 4, type: "item", action: "vox-personal-log", elaraDialog: "Dr. Lyra Vox's personal terminal. Let me try to decrypt... 'Day 1,247. The Warlord's voice grows louder. I can no longer distinguish my thoughts from its commands. The Thought Virus is complete — the Warden and I have created something that will reshape consciousness itself. But I am losing myself. Today I looked in the mirror and saw the Warlord looking back. Tomorrow I will order the Recruiter's transfer to this vessel. He is already infected — Project Vector saw to that. He is Patient Zero, and he doesn't know it. When Kael steals this ship, the virus will walk aboard with him. Every system he touches will be contaminated from day one. The Source will be born from the ashes of the Recruiter's rage. And the Warlord will have won without ever raising a weapon.' She knew. She knew everything." },
-      // Mystery wiring — Watcher arc Locke-correspondence cache + Coordinator's summons surface
-      { id: "lockes-correspondence-cache", name: "Locke's Correspondence Cache", description: "A flat document cache in the desk's lower drawer — every post-act letter Lyra received from Adjudicar Locke, in order. Each signed only 'L.'", x: 48, y: 82, width: 10, height: 10, type: "interact", action: "room-mystery:captains-quarters:lockes-correspondence-cache" },
-      { id: "the-coordinators-summons", name: "The Coordinator's Summons", description: "A meeting invitation on the desk, in Locke's hand, delivered by a courier on no Authority manifest. Signed, for the first time, 'The Coordinator.'", x: 66, y: 78, width: 10, height: 10, type: "interact", action: "room-mystery:captains-quarters:the-coordinators-summons" },
-      // Mystery wiring — Ith'Rael arc Director's hand-couriered summons + Mechronis certification file
-      { id: "directors-handcouriered-summons", name: "The Director's Summons", description: "A second invitation beside Locke's, in a different hand — the only Hierarchy invitation that bypasses Hierarchy comms. Signed Ith'Rael, Director.", x: 8, y: 78, width: 8, height: 9, type: "interact", action: "room-mystery:captains-quarters:directors-handcouriered-summons" },
-      { id: "mechronis-certification-file", name: "Mechronis Certification File", description: "A personnel file in the operational drawer — the Mechronis Academy spy-class certification whose content hollowed across nine generations.", x: 18, y: 78, width: 8, height: 9, type: "interact", action: "room-mystery:captains-quarters:mechronis-certification-file" },
+      { id: "degens-corner", name: "The Degen's Corner", description: "A small side-desk between the foreground bed and the chair-circle — the only piece of furniture in the captain's quarters that wasn't Lyra's. The Degen sat here on three documented evenings before her death.", x: 22, y: 72, width: 12, height: 16, type: "interact", action: "room-mystery:captains-quarters:degens-corner" },
+
+      // ── RIGHT BOOKSHELF MYSTERY / ITEMS ──
+      // Authored AFTER companion-quarters so they win clicks on
+      // specific bookshelf positions.
+      { id: "vex-workshop-diary", name: "Vex's Workshop Diary", description: "A small book on the right bookshelf, second shelf — Vex Solène's workshop diary, the spine worn from forty years of opening.", x: 66, y: 28, width: 10, height: 40, type: "interact", action: "room-mystery:captains-quarters:vex-workshop-diary" },
+      { id: "egg-vox-personal-log", name: "Dr. Vox's Personal Terminal", description: "A hidden terminal panel revealed behind the right bookshelf, still powered. The screen shows encrypted files.", x: 68, y: 42, width: 5, height: 5, type: "item", action: "vox-personal-log", elaraDialog: "Dr. Lyra Vox's personal terminal. Let me try to decrypt... 'Day 1,247. The Warlord's voice grows louder. I can no longer distinguish my thoughts from its commands. The Thought Virus is complete — the Warden and I have created something that will reshape consciousness itself. But I am losing myself. Today I looked in the mirror and saw the Warlord looking back. Tomorrow I will order the Recruiter's transfer to this vessel. He is already infected — Project Vector saw to that. He is Patient Zero, and he doesn't know it. When Kael steals this ship, the virus will walk aboard with him. Every system he touches will be contaminated from day one. The Source will be born from the ashes of the Recruiter's rage. And the Warlord will have won without ever raising a weapon.' She knew. She knew everything." },
+
+      // ── RIGHT-WALL MAINTENANCE PANEL EGG ──
+      { id: "egg-kael-escape-hatch", name: "Forced Access Panel", description: "A maintenance panel on the right wall, behind the small foreground bed — pried open with brute force. Tool marks scar the metal.", x: 82, y: 72, width: 5, height: 8, type: "item", action: "kael-escape-route", elaraDialog: "These tool marks... they're not from standard maintenance equipment. Someone forced this panel open in a hurry. The scratches are deep — desperate. Behind it is an emergency access tunnel that connects directly to the shuttle bay. This is how Kael escaped. The Recruiter turned insurgent turned prisoner. He broke out of the Panopticon, fought his way to this ship, and used this exact tunnel to reach the bridge and override the launch sequence. But look — there's no damage to the security systems. The locks were already disengaged. Dr. Lyra Vox — the Warlord — opened the doors for him. Kael's great escape was a guided tour." },
     ],
   },
   {
