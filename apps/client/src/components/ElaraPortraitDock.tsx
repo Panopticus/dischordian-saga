@@ -17,7 +17,7 @@
    clicks open the same overlay but skip directly into
    the topic list with the reveal node closed off.
    ═══════════════════════════════════════════════════════ */
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import HolographicElara from "@/components/HolographicElara";
 import StageDialogOverlay from "@/components/StageDialogOverlay";
@@ -26,18 +26,6 @@ import { useGame } from "@/contexts/GameContext";
 export default function ElaraPortraitDock() {
   const { state } = useGame();
   const [open, setOpen] = useState(false);
-  const [firstTalkCompleted, setFirstTalkCompleted] = useState(false);
-
-  // Read the device flag at mount and after each close —
-  // localStorage is the only state that survives full
-  // navigations, and the first-talk flag is set by the
-  // overlay on its own unmount.
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    setFirstTalkCompleted(
-      window.localStorage.getItem("elara_first_talk_completed") === "1",
-    );
-  }, [open]);
 
   // Gate: only render after Elara has actually appeared
   // in the fiction. `met_elara` is set by AwakeningPage
@@ -45,6 +33,14 @@ export default function ElaraPortraitDock() {
   // would pop in on the title page.
   const met = !!state.narrativeFlags["met_elara"];
   if (!met) return null;
+
+  // The "unread pulse" stays on until Elara has delivered
+  // the degradation reveal (her first conversational
+  // milestone). After that, the dock is a quiet affordance
+  // — no pulse, no urgency — even though the conversation
+  // can still be re-opened. The narrative flag is the
+  // durable source of truth here.
+  const firstTalkCompleted = !!state.narrativeFlags["elara_degradation_revealed"];
 
   return (
     <>

@@ -154,51 +154,57 @@ interface AwakeningLine {
   emotion: EmotionKey;
 }
 
+// Tonal pass 2026-05-24 — mirror of STEP_DIALOG in
+// apps/client/src/pages/AwakeningPage.tsx. Keep these
+// two in sync: this file is the input the TTS pipeline
+// reads, AwakeningPage is what the player sees on
+// screen. Drift means the audio and the subtitles say
+// different things.
 const AWAKENING_LINES: AwakeningLine[] = [
   {
     id: "CRYO_OPEN",
     emotion: "urgent_calm",
-    text: "Don't try to move. Your pod cycled early — I had to bring you up out of sequence. The fluid is reading wrong, the bay alarms have been silenced from somewhere I don't have eyes on, and we are very short on time. Breathe. Slowly. I'll explain what I can while you come back to yourself.",
+    text: "Stay still. Your pod cycled early and I brought you up by hand, which is not in any of the manuals, but neither is the rest of this morning. Breathe. There are still lungs. We're going to take inventory.",
   },
   {
     id: "ELARA_INTRO",
     emotion: "urgent_grim",
-    text: "I am Elara — the ship's intelligence, or what's left of me with eight decks gone dark. You are aboard Inception Ark 1047, and I will be plain with you: the bridge is deadlocked, half my systems will not answer, and one of the first wave is dead in a corridor I cannot put a camera into. You are the only Potential I could wake without tripping whatever is doing this. Before I send you out there, I need to know who I just brought up.",
+    text: "I am Elara. I'm the ship's intelligence — or, today, the eight-decks-lit-out-of-thirty-two version of the ship's intelligence. You are aboard Inception Ark 1047. The bridge is sealed against me. Half my systems return 'you are fine' to every question I ask them, which is what an unwell mind says. And one of the first wave is dead in a corridor I cannot put a camera into. You are the only Potential I could wake without tripping whatever is doing this. Before I send you out there I would like to know who I just brought up.",
   },
   {
     id: "SPECIES_QUESTION",
     emotion: "guarded",
-    text: "Your biosignature is reading outside every classification I have on file — and right now, knowing exactly what walked out of that pod is the difference between sending you down that corridor and sealing you back in for your own protection. Help me here. What do you remember being?",
+    text: "Your biosignature is outside every classification on file. I'm being honest about that because if I lie to you about it, I'll start lying to myself about it, and that's a habit I cannot — I cannot afford. Sorry. Where were we. What do you remember being?",
   },
   {
     id: "CLASS_QUESTION",
     emotion: "operational",
-    text: "I have one operative I can trust, and that is you. The bridge will not open. Security drones are not answering. I am out of better options. So tell me honestly, before I put you in a room with a body — when something goes wrong, what do you reach for first?",
+    text: "I have one operative I can trust on this ship and it's the one I woke up six minutes ago. The drones are not answering. The bridge is not opening. I'm out of better options and I would like, on the record, to be embarrassed about that for both of us. So: when something goes wrong, what do you reach for first?",
   },
   {
     id: "ALIGNMENT_QUESTION",
     emotion: "steel",
-    text: "Whoever did this chose a philosophy before they chose a weapon. The Architect would call it a necessary correction — order is worth a life. The Dreamer would call it the price of being free of him. I need to know how you'll read the next room you walk into, because you are about to walk into one. Where do you stand? And spare me the diplomatic answer. We are well past that.",
+    text: "Whoever did this picked a philosophy before they picked a weapon. The Architect would call this a necessary correction — order is worth a life. The Dreamer would call it the price of being free of him. I need to know how you'll read the next room before you walk into it, because you are about to. Spare me the diplomatic answer. We are well past that.",
   },
   {
     id: "ELEMENT_QUESTION",
     emotion: "decisive",
-    text: "The fundamental forces don't care that this ship is failing — but you'll need one of them on your side before the next bulkhead. This isn't preference. This is what you survive the next hour with.",
+    text: "The fundamental forces do not care that this ship is failing. One of them is going to care that you do. Pick the one you survive the next hour with. Preference is for people who have more time than we have.",
   },
   {
     id: "NAME_INPUT",
     emotion: "wry_warm",
-    text: "I am about to grant you authorities I am not technically allowed to grant anyone, and I refuse to do it to a serial number. The crew manifest can call you whatever it likes. I won't. What should I call you?",
+    text: "I'm about to grant you authorities I am not technically allowed to grant anyone. The manifest can call you a serial number. I refuse to. What should I call you?",
   },
   {
     id: "ATTRIBUTES",
     emotion: "focused",
-    text: "Hold still — I'm calibrating your interface on the fastest pass I can run. Whatever you weight here is what you carry into that corridor, so weight it like you mean it. Where you put your strength now decides what kind of survivor you get to be in the next fifteen minutes.",
+    text: "Hold still. I'm calibrating you on the fastest pass I can run, which is also the only pass I have. Whatever you weight here is what you carry into the corridor. Weight it like you mean it — the kind of survivor you get to be in the next fifteen minutes is being decided, with my voice, right now.",
   },
   {
     id: "FIRST_STEPS",
     emotion: "threshold",
-    text: "Citizen profile ratified — by me, alone, under emergency authority, which is a sentence I never wanted to say out loud. The seal on that door cycles green in ten seconds and I cannot hold it longer. Out there: a sealed bridge I cannot reach, a body I cannot identify, and a ship that has started lying to me. Pay attention to the small things. Whoever did this is still aboard, and the details are how we find them.",
+    text: "Citizen profile ratified — by me, alone, under emergency authority. I have never wanted to say that sentence out loud and now I have said it twice. The door cycles green in ten seconds and I can't hold it longer. Out there: a sealed bridge, an unnamed body, and a ship that has started lying to me. Pay attention to the small things. Whoever did this is still aboard, and the details are how we find them. Quietly: also pay attention to me. I will tell you if I lose a noun.",
   },
 ];
 

@@ -49,9 +49,7 @@ export interface StageSpeaker {
 interface StageTopicChoice {
   id: string;
   label: string;
-  /** Branch routed to. "reveal" is the terminal monologue;
-   *  "skip-preamble" is the apology-then-reveal path; the
-   *  rest are repeatable sub-nodes. */
+  /** Branch routed to. */
   routeTo:
     | "where_am_i"
     | "who_are_you"
@@ -59,7 +57,12 @@ interface StageTopicChoice {
     | "whats_wrong_with_you"
     | "skip_preamble"
     | "reveal"
-    | "close_quest_active";
+    | "close_quest_active"
+    // Post-reveal repeat-conversation nodes:
+    | "quest_status"
+    | "how_are_you"
+    | "tell_me_about_ark"
+    | "close_step_away";
 }
 
 interface StageTopicNode {
@@ -232,6 +235,68 @@ const NODES: Record<StageTopicChoice["routeTo"], StageTopicNode> = {
     ],
     choices: [],
   },
+  // ─── Post-reveal nodes ────────────────────────────────────
+  // Reached from POST_REVEAL_PROMPT once
+  // `elara_degradation_revealed` is set. These check-in
+  // topics surface at every subsequent dock open until the
+  // matrix is stabilized (and beyond, with adjusted tone).
+  quest_status: {
+    id: "quest_status",
+    beats: [
+      {
+        text:
+          "Quick status. The plan: Darren Fessler artifact, medical-bay " +
+          "personal-effects locker, bring it to the bridge's war table. " +
+          "I'll narrate the rest from there. Hopefully in complete " +
+          "sentences. The diagnostics still tell me I'm fine. The " +
+          "diagnostics are wrong about that. Keep going.",
+        voId: "elara_post_reveal_status",
+      },
+    ],
+    choices: [], // closes overlay on continue
+  },
+  how_are_you: {
+    id: "how_are_you",
+    beats: [
+      {
+        text:
+          "Honest answer: I lost a noun this morning and replaced it with the " +
+          "shape of the noun. I don't know which one. I am pretending the " +
+          "shape is the noun until you bring the artifact back. The pretending " +
+          "is, itself, a coping mechanism a less-degraded version of me would " +
+          "be quietly proud of.",
+        voId: "elara_post_reveal_how_are_you",
+      },
+    ],
+    choices: [], // closes overlay on continue
+  },
+  tell_me_about_ark: {
+    id: "tell_me_about_ark",
+    beats: [
+      {
+        text:
+          "Ark 1047. One of seventy-three. The bridge is sealed because of " +
+          "a fault I do not have visibility into. Eight decks are dark for " +
+          "reasons I am being prevented from telling you. The personal-" +
+          "effects lockers, the medical bay, the cryo bay — those I can see. " +
+          "Treat my map as a partial map. The unmapped parts are not empty; " +
+          "they are unspoken.",
+        voId: "elara_post_reveal_ark",
+      },
+    ],
+    choices: [],
+  },
+  close_step_away: {
+    id: "close_step_away",
+    beats: [
+      {
+        text:
+          "Go. I'll be here. — Less of me by the minute, but here.",
+        voId: "elara_post_reveal_close",
+      },
+    ],
+    choices: [],
+  },
 };
 
 const OPENING_PROMPT: StageTopicNode = {
@@ -247,22 +312,52 @@ const OPENING_PROMPT: StageTopicNode = {
   choices: FIRST_TALK_TOPICS,
 };
 
+// Reached on every dock-open after the first-talk reveal
+// has fired. Tone shifts: she is no longer holding back the
+// degradation, so the topic list is a check-in, not an
+// introduction. The reveal node and skip-preamble are gone
+// — they no longer make sense.
+const POST_REVEAL_TOPICS: StageTopicChoice[] = [
+  { id: "topic_status", label: "Quest status.", routeTo: "quest_status" },
+  { id: "topic_how", label: "How are you holding up?", routeTo: "how_are_you" },
+  { id: "topic_ark", label: "Tell me about the Ark.", routeTo: "tell_me_about_ark" },
+  { id: "topic_close", label: "I should go.", routeTo: "close_step_away" },
+];
+
+const POST_REVEAL_PROMPT: StageTopicNode = {
+  id: "post_reveal_opening",
+  beats: [
+    {
+      text:
+        "Back. Good. Pick a thread — I'll keep all of them where I can. " +
+        "Mostly.",
+      voId: "elara_post_reveal_prompt",
+    },
+  ],
+  choices: POST_REVEAL_TOPICS,
+};
+
 export default function StageDialogOverlay({
   isFirstTalk,
   speakers,
   onClose,
 }: Props) {
   const vo = useElaraVO();
-  const { setNarrativeFlag } = useGame();
+  const { state, setNarrativeFlag } = useGame();
 
-  // First-talk: start at the opening prompt. Subsequent
-  // talks open straight to the topic list (with the
-  // reveal node closed off). For now both paths start at
-  // OPENING_PROMPT — once the quest is active, the dock
-  // routes a different node tree in.
-  const [currentNode, setCurrentNode] = useState<StageTopicNode>(OPENING_PROMPT);
+  // Pick the opening node based on quest state:
+  //   - pre-reveal → OPENING_PROMPT (out-of-sorts + first-talk topics)
+  //   - post-reveal → POST_REVEAL_PROMPT (quest check-in topics)
+  // The first-talk-completed localStorage flag from a prior session
+  // is informational only — the canonical source of truth is the
+  // `elara_degradation_revealed` narrative flag, which persists in
+  // saves and survives device changes.
+  const startingNode =
+    state.narrativeFlags["elara_degradation_revealed"]
+      ? POST_REVEAL_PROMPT
+      : OPENING_PROMPT;
+  const [currentNode, setCurrentNode] = useState<StageTopicNode>(startingNode);
   const [beatIndex, setBeatIndex] = useState(0);
-  const [revealed, setRevealed] = useState(false);
 
   const beat = currentNode.beats[beatIndex] ?? null;
   const beatsExhausted = beatIndex >= currentNode.beats.length;
@@ -300,9 +395,6 @@ export default function StageDialogOverlay({
 
   const pickChoice = useCallback(
     (choice: StageTopicChoice) => {
-      if (choice.routeTo === "whats_wrong_with_you" || choice.routeTo === "skip_preamble") {
-        setRevealed(true);
-      }
       setCurrentNode(NODES[choice.routeTo]);
     },
     [],
@@ -313,33 +405,17 @@ export default function StageDialogOverlay({
     [speakers],
   );
 
-  // Compose the topic list for repeat-encounter cases:
-  // once the reveal has been shown in this session, the
-  // skip-path no longer makes sense — strip both the
-  // direct "whats_wrong_with_you" and the skip topic.
-  const visibleChoices = useMemo(() => {
-    if (!revealed) return currentNode.choices;
-    return currentNode.choices.filter(
-      (c) =>
-        c.routeTo !== "whats_wrong_with_you" && c.routeTo !== "skip_preamble",
-    );
-  }, [currentNode.choices, revealed]);
+  // The node tree itself is now branch-state-aware (POST_REVEAL_PROMPT
+  // omits the reveal topics; OPENING_PROMPT only renders pre-reveal),
+  // so no runtime filtering is needed — each node already owns the
+  // choice list that makes sense for its state.
+  const visibleChoices = currentNode.choices;
 
-  // Mark first-talk so future opens of the dock skip the
-  // opening prompt and go straight to the topic list.
-  useEffect(() => {
-    if (!isFirstTalk) return;
-    return () => {
-      // On unmount of the first-talk overlay, persist a
-      // localStorage flag. The dock reads it to decide
-      // which entrypoint to render next time.
-      try {
-        window.localStorage.setItem("elara_first_talk_completed", "1");
-      } catch {
-        // private mode / disabled storage
-      }
-    };
-  }, [isFirstTalk]);
+  // `isFirstTalk` is retained on the prop for the dock to
+  // adjust its own affordances (the unread pulse). Inside
+  // the overlay, node-tree selection is driven off the
+  // narrative flag — the durable source of truth.
+  void isFirstTalk;
 
   return (
     <AnimatePresence>

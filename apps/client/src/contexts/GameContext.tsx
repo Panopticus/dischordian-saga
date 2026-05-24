@@ -709,6 +709,16 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       // Mystery wiring — Necromancer arc: the Silence's vacated body, catalogued under the Resurrectionist's Samsara-machine taxonomy
       { id: "the-silences-vacated-body", name: "The Silence's Vacated Body (Catalog)", description: "A drawer in the body-catalog indexed to the Resurrectionist's Samsara-machine taxonomy — the Silence's body, tagged 'available' at the moment of her going.", x: 80.1, y: 42.3, width: 3.8, height: 8.6, type: "interact", action: "room-mystery:medical-bay:the-silences-vacated-body" },
       { id: "egg-med-vial", name: "Unlabeled Vial", description: "A tiny vial of shimmering black liquid hidden behind the cabinet.", x: 85.3, y: 67.7, width: 3, height: 4, type: "item", action: "void-essence-sample", elaraDialog: "That vial... the liquid inside is moving on its own. The molecular structure doesn't match anything in my database. It's not from any known universe. The label has been torn off, but there's a serial number: VE-001. 'VE' — Void Essence? This shouldn't exist on this ship." },
+      // Stabilize-Elara questline Chapter 1: Darren Fessler's personal-
+      // effects locker. The artifact inside is Shadow-Tongue-immune by
+      // canon — Darren's habit of writing meaningful sentences in the
+      // un-indexable layer is the reason. Hotspot fires only when the
+      // questline is active (elara_degradation_revealed); ArkExplorerPage's
+      // item handler intercepts the action and sets
+      // `darren_artifact_recovered`. See apps/shared/questlineStabilizeElara.ts.
+      { id: "darren-personal-effects-locker", name: "Darren Fessler's Personal Effects", description: "A narrow personal-effects drawer in the right-wall cabinet, labeled D. FESSLER · MAINT in old serif. Inside: a folded scrap of paper that does not register on any scanner Elara has tried.", x: 80.1, y: 53.0, width: 3.8, height: 8.6, type: "item", action: "darren-fessler-artifact", elaraDialog: "There. The drawer says D. Fessler — maintenance, decades-out-of-date. Take what's inside; do not unfold it. Whatever it is, my registry does not see it. That is — for the first time today — exactly what I needed.",
+        elaraDialogVoId: "room.medical-bay.hotspot.darren-personal-effects-locker.elara",
+      },
 
       // ── LEFT MID-DISTANCE WORKBENCH ──
       { id: "medical-log", name: "Medical Log", description: "A data pad rests on the left-side workbench, screen still faintly lit.", x: 29.7, y: 53.1, width: 3, height: 3.4, type: "item", action: "medical-log-001", elaraDialog: "The last medical officer's log. Dated... I can't read the timestamp. But the entries describe patients with unusual symptoms. Nightmares. Voices. Something about 'the signal.'",
@@ -938,6 +948,15 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       },
       { id: "quest-board", name: "Mission Board", description: "A small holographic strategy table beside the dais — chess-like pieces represent active operations and quest objectives.", x: 62, y: 55, width: 16, height: 35, type: "terminal", action: "/quests", elaraDialog: "The Mission Board. Active operations and quest objectives are tracked here. Complete missions to earn rewards, uncover lore, and advance the story. Some missions are time-sensitive — the Saga doesn't wait for anyone.",
         elaraDialogVoId: "room.bridge.hotspot.quest-board.elara",
+      },
+      // Stabilize-Elara questline Chapter 2: the war-table slot. With the
+      // Darren artifact in inventory and the matrix not yet stabilized,
+      // clicking this surface completes the chapter and sets
+      // `elara_matrix_stabilized_v1`. Without the artifact, Elara explains
+      // what's needed. ArkExplorerPage's interact handler dispatches on
+      // this action id.
+      { id: "darren-artifact-receptacle", name: "War-Table Stabilizer Slot", description: "A bare brass plate set into the diplomacy table's rim, polished smooth as if by repeated use. The plate is not connected to anything on a scanner.", x: 50.5, y: 73, width: 4.0, height: 5.0, type: "interact", action: "bridge-war-table-stabilize", elaraDialog: "Place it on the plate. The plate is one of the few surfaces on this ship I cannot reach into. That is the point.",
+        elaraDialogVoId: "room.bridge.hotspot.darren-artifact-receptacle.elara",
       },
 
       // ── DOORS ──

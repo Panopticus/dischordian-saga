@@ -1869,6 +1869,19 @@ export default function ArkExplorerPage() {
         break;
       }
       case "item": {
+        // Stabilize-Elara Chapter 1 gate. The Darren artifact is only
+        // collectable once Elara has revealed her degradation in the
+        // dock; clicking earlier surfaces a "drawer is sealed" beat so
+        // the player doesn't pick it up out of order.
+        if (hotspot.action === "darren-fessler-artifact" && !state.narrativeFlags["elara_degradation_revealed"]) {
+          narrateElara({
+            text:
+              "The drawer is sealed against a name I don't have yet. Talk " +
+              "to me before you try to open it — I think I need to be the " +
+              "one to ask.",
+          });
+          break;
+        }
         if (hotspot.action && !state.itemsCollected.includes(hotspot.action)) {
           collectItem(hotspot.action);
           discoverEntry(`item-${hotspot.action}`);
@@ -1880,6 +1893,12 @@ export default function ArkExplorerPage() {
               text: hotspot.elaraDialog,
               voId: hotspot.elaraDialogVoId,
             });
+          }
+          // Stabilize-Elara Chapter 1 completion. The pickup is the
+          // chapter beat — flag set here so the bridge war-table can
+          // unlock on the next room transition.
+          if (hotspot.action === "darren-fessler-artifact") {
+            setNarrativeFlag("darren_artifact_recovered");
           }
         } else {
           notify("info", "Already collected", hotspot.name);
@@ -1926,6 +1945,49 @@ export default function ArkExplorerPage() {
             if (audioReady) playSFX("terminal_access");
             setShowNavPuzzle(true);
           }
+          break;
+        }
+        // Stabilize-Elara Chapter 2: war-table stabilizer slot. Branches
+        // on the live questline state — pre-quest, quest-active-no-
+        // artifact, quest-ready-to-complete, post-complete. Each branch
+        // closes with Elara's voice so the slot never reads as a dead
+        // affordance.
+        if (hotspot.action === "bridge-war-table-stabilize") {
+          if (state.narrativeFlags["elara_matrix_stabilized_v1"]) {
+            narrateElara({
+              text:
+                "The plate is quiet. The artifact did what it was going to " +
+                "do. I'm still me, more or less — the parts that matter, " +
+                "anyway. Thank you.",
+            });
+            break;
+          }
+          if (!state.narrativeFlags["elara_degradation_revealed"]) {
+            narrateElara({
+              text:
+                "A bare brass plate. It's not connected to anything I can " +
+                "see. Mostly I notice it because I cannot see into it.",
+            });
+            break;
+          }
+          if (!state.narrativeFlags["darren_artifact_recovered"]) {
+            narrateElara({
+              text:
+                "This is the plate. You'd put the artifact here. The " +
+                "medical-bay personal-effects locker — Darren Fessler. " +
+                "Bring it back; we'll do this here.",
+            });
+            break;
+          }
+          if (audioReady) playSFX("terminal_access");
+          narrateElara({
+            text:
+              "Better. — Sorry. Better. I'm going to say that twice because " +
+              "the first one was sincere and the second one is a check " +
+              "that I can still produce 'sorry' as a single uninterrupted " +
+              "word. Thank you. We bought time.",
+          });
+          setNarrativeFlag("elara_matrix_stabilized_v1");
           break;
         }
         if (hotspot.action === "dna-device-offer") {

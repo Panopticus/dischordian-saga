@@ -71,6 +71,25 @@ export const DSAGA_EPISODES: readonly DischordianSagaEpisode[] = [
       "fixed instead of broke, and the question the Potentials must " +
       "answer before the cycle closes — patience or violence.",
   },
+  {
+    season: 1,
+    episode: 3,
+    slug: "terminus-swarm",
+    title: "Terminus Swarm",
+    videoPath: "videos/episodes/1.3-terminus-swarm.mp4",
+    durationSec: 132,
+    triggerFlag: "engineer_recording_5_discovered",
+    voteId: "engineer_vote_kaels_choice",
+    captionsPath: "captions/episodes/s01e03.vtt",
+    pairedRecordingId: "holo_which_ark",
+    synopsis:
+      "Coordinates, betrayed: the Engineer's fifth recording — the " +
+      "Panopticon's 43-day orbital window, the bench tuned to Kael's " +
+      "voice from a New Babylon cell, the Ark that has to be stolen and " +
+      "the friend who never got to choose. The Potentials vote on " +
+      "whether one mind has the right to decide another's path, even " +
+      "toward freedom.",
+  },
 ] as const;
 
 export type DischordianSagaEpisodeSlug = (typeof DSAGA_EPISODES)[number]["slug"];

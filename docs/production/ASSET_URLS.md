@@ -105,3 +105,23 @@ blocked while an episode is in production.
 **In-fiction synopsis:** The Engineer's third recording, broadcast in full: an invisible network of survivors his class never wrote down, the worlds he fixed instead of broke, and the question the Potentials must answer before the cycle closes — patience or violence.
 
 **Follow-ups:** Author the VTT captions and upload to the captions path above. (The player does not yet render a `<track>` element; that wiring is queued as a separate accessibility pass.)
+
+### S01E03 — "Terminus Swarm" — SHIPPED
+
+| Field | Value |
+|-------|-------|
+| Slug | `terminus-swarm` |
+| Trigger flag | `engineer_recording_5_discovered` |
+| Paired recording | Engineer Recording 5 (`holo_which_ark` — "Which Ark to Steal") |
+| Paired vote | `engineer_vote_kaels_choice` (opens on episode dismissal) |
+| Video path | `cdn/client-public/videos/episodes/1.3-terminus-swarm.mp4` |
+| Public URL | `https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/videos/episodes/1.3-terminus-swarm.mp4` |
+| Captions path | `cdn/client-public/captions/episodes/s01e03.vtt` *(TODO — not yet authored)* |
+| Duration | 132 s (2m 12s) |
+| Audio bed | Producer-mixed; embedded in MP4 |
+
+**Source:** Copied 2026-05-24 from the producer drop at `s3://dgrsart/Videos/1.3 Terminus Swarm.mp4`. Pairs structurally with Engineer Recording 5 (the Panopticon orbital coordinates / Kael's choice beat); the episode opens immediately before the player casts the Kael's Choice vote (vote 5 in `engineerGovernanceVotes.ts`).
+
+**In-fiction synopsis:** Coordinates, betrayed. The Engineer's fifth recording — the Panopticon's 43-day orbital window, the bench tuned to Kael's voice from a New Babylon cell, the Ark that has to be stolen and the friend who never got to choose. The Potentials vote on whether one mind has the right to decide another's path, even toward freedom.
+
+**S01E02 — TBD.** The producer drop does not (yet) include a 1.2 episode; the slot is reserved by the convention of the `DSAGA_EPISODES` array. When 1.2 ships, append it to the array — the player handles non-contiguous episode numbers transparently.
