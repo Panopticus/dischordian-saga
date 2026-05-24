@@ -18,6 +18,15 @@ export interface ItemMeta {
 }
 
 const ITEM_DATABASE: Record<string, ItemMeta> = {
+  "tome-antiquarian-cryo": {
+    name: "The Antiquarian's Tome",
+    description: "An old, leather-bound volume left open on a low pedestal in the Cryo Bay. The Antiquarian's mark glints on the cover; the binding has the worn softness of a book that has crossed several hands.",
+    elaraAnalysis: "The Antiquarian's Library found this for you and delivered it here. I'd read it somewhere quieter than the chamber it's pointing at.",
+    category: "intel",
+    dangerLevel: "low",
+    relatedEntities: ["The Antiquarian", "The First Wave", "Cryo Bay"],
+    loreExcerpt: "FRONTISPIECE — IN THE ANTIQUARIAN'S HAND:\n\n\"To the one who breaks their own seal.\n\nYou will be told that the cryo-fields were a kindness. They were not. They were calibration. The First Wave knelt in the chamber where you woke because the chamber asked them to, and the chamber asks because the chamber was built to ask.\n\nThree things, while the dust is still on your hands:\n\n1. The handprint on the inside of your pod is yours, but you did not put it there alone. Trust whatever helped you. Trust it carefully.\n\n2. The candles in the ring are not for the dead. They are for the still-deciding.\n\n3. When the Antiquarian's mark appears in a place that should not contain it, the mark is the place asking to be read.\n\nThis book will find you again. It always does.\n\n— A.\"",
+  },
   "data-crystal-alpha": {
     name: "Data Crystal",
     description: "A glowing crystal wedged under a cryo pod. It contains encrypted personal logs from the first wave of Potentials.",
