@@ -1092,87 +1092,184 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "room_visited", value: "bridge" },
     connections: ["bridge"],
     hotspots: [
-      // Mystery wiring — charter.missing_signatory · e1 + e3
-      { id: "charter-silt-stratigraphy", name: "Charter Silt-Core Extraction", description: "The lower-deck silt-core on a brass tripod in the Foundation-tier wing — eight strata, the charter sitting in stratum six, two later burials closed over it.", x: 6, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:archives:charter-silt-stratigraphy" },
-      { id: "charter-per-m-preservation-orders", name: "Per. M.'s Preservation-Order File", description: "Forty-three preservation orders on the standing-order vault, one identical signature across eight epochs: 'Per. M.' The inks shift; the hand does not.", x: 14, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:archives:charter-per-m-preservation-orders" },
-      // Mystery wiring — severance.bound_champion · e1 + e2 (empty protocol + sealed envelopes)
-      { id: "severance-no-protocol-on-file", name: "Empty Inheritance-Protocol Vault", description: "In the Severance-tier records: the inheritance-protocol vault, empty since the league's founding. The slot exists; the protocol does not.", x: 13, y: 19, width: 6, height: 6, type: "interact", action: "room-mystery:archives:severance-no-protocol-on-file" },
-      { id: "severance-forty-season-envelopes", name: "Forty Sealed Season Envelopes", description: "Beside the empty vault: forty sealed envelopes, one per Severance. Each contains an attendance list, a death certificate, and Vex Maestro's one-line 'inheritor accepted.' No name on any of them.", x: 21, y: 19, width: 6, height: 6, type: "interact", action: "room-mystery:archives:severance-forty-season-envelopes" },
-      // Mystery wiring — severance.infernal_clause · color (archives)
-      { id: "infernal-envelope-set", name: "Forty Envelopes — Solène's Archive", description: "In the audit-evidence drawer: forty envelopes, one per season, pulled from Solène's back-room archive. Each contract has a back. Every back has a clause.", x: 70, y: 40, width: 6, height: 6, type: "interact", action: "room-mystery:archives:infernal-envelope-set" },
-      { id: "infernal-atalin-history", name: "Atalin's Personnel History", description: "In the personnel-archive tier: hired two weeks before the first season, dismissed two weeks after. Cause: 'inability to satisfy the Hierarchy ledger-keeper's role concurrently.'", x: 78, y: 40, width: 6, height: 6, type: "interact", action: "room-mystery:archives:infernal-atalin-history" },
-      { id: "infernal-box-owner", name: "Forge-Workshop Box Ownership Log", description: "In the forge-workshop annex log: the PRELIMINARIES box logged to Atalin, ledger-keeper, Year One. One season; never replaced.", x: 86, y: 40, width: 6, height: 6, type: "interact", action: "room-mystery:archives:infernal-box-owner" },
-      // Mystery wiring — charter.second_signatory · color (archives)
-      { id: "charter2-solven-tax-records", name: "Solven Tax Records — Epoch-Four Redaction", description: "In the tax-registry tier: three epochs of careful payments; epoch four shows the redaction — every Solven entry struck through, replaced with 'in arrears, year unknown.'", x: 54, y: 40, width: 6, height: 6, type: "interact", action: "room-mystery:archives:charter2-solven-tax-records" },
-      { id: "charter2-scrubber-personnel", name: "Heron — Council Archivist Personnel File", description: "In the personnel-archive tier: a Council archivist named Heron — fourth-epoch, retired in the fifth, dead in the sixth. One assignment: 'tidy the founding records.' Nine years.", x: 62, y: 40, width: 6, height: 6, type: "interact", action: "room-mystery:archives:charter2-scrubber-personnel" },
-      // Mystery wiring — memorial.forgotten_names · color (archives)
-      { id: "memorial-imprint-log", name: "Imprint-Keeper's Leather-Bound Log", description: "In the Memorial-tier sub-drawer: the leather-bound imprint log. The fourteen entries are the only ones with no inscribed name; each waits for a witness slot.", x: 38, y: 40, width: 6, height: 6, type: "interact", action: "room-mystery:archives:memorial-imprint-log" },
-      { id: "memorial-three-elders", name: "Three Elders Who Refused — Long-Wait Register", description: "In the long-wait register: I-155, I-202, I-301 each refused to name themselves at the moment of imprinting. All three on the unwitnessed list for over a decade.", x: 46, y: 40, width: 6, height: 6, type: "interact", action: "room-mystery:archives:memorial-three-elders" },
-      // Mystery wiring — mechronis.missing_professor · color (archives)
-      { id: "tarn-absent-notes", name: "Lectern Drawer — Empty (Tarn's Binder Missing)", description: "In the lost-and-found drawer: Tarn's lecture binder is missing from the lectern's drawer. Removed at second bell; not recovered at the lectern.", x: 6, y: 40, width: 6, height: 6, type: "interact", action: "room-mystery:archives:tarn-absent-notes" },
-      { id: "tarn-erasure-protocol", name: "Faculty Erasure Protocol", description: "In the meeting-minutes annex: 'Step one: omit the professor's name. Step two: invite as contributor, not faculty member. Step three: if declined, proceed.' Tarn was never invited to step two.", x: 14, y: 40, width: 6, height: 6, type: "interact", action: "room-mystery:archives:tarn-erasure-protocol" },
-      { id: "tarn-missing-invitation", name: "Unsent Invitation to Tarn", description: "Beside the protocol: an unsent invitation drafted but never delivered. The Dean's signature is absent. The invitation has been sitting in the outbox for six days.", x: 22, y: 40, width: 6, height: 6, type: "interact", action: "room-mystery:archives:tarn-missing-invitation" },
-      { id: "tarn-letter-to-dean", name: "Tarn's Letter to the Dean", description: "On the classified-correspondence shelf: Tarn's sealed letter to the Dean. Explains the request to Roen, the planned silence, the Dean's choice now.", x: 30, y: 40, width: 6, height: 6, type: "interact", action: "room-mystery:archives:tarn-letter-to-dean" },
-      // Mystery wiring — resurrectionist.cycle_walker · e1 (twin glyph reference)
-      { id: "resur-twin-glyph", name: "Resurrectionist Twin-Glyph Reference", description: "In the Ne-Yon-glyph reference tier: two mirrored crescents joined at a central axis. The cult reads 'death-bound'; the pre-Empire archaeology reads 'twin-bound.' Two readings; one editorial.", x: 84, y: 30, width: 6, height: 6, type: "interact", action: "room-mystery:archives:resur-twin-glyph" },
-      // Mystery wiring — akai_shi.red_death · e2 (recovery manifest)
-      { id: "akai-recovery-manifest", name: "Akai Shi's Body-Recovery Manifest", description: "In the Thaloria-recovery tier: collected by external agent — Resurrectionist Ne-Yon — within the same engagement cycle. Antiquarian's library entry deferred at the Resurrectionist's request.", x: 76, y: 30, width: 6, height: 6, type: "interact", action: "room-mystery:archives:akai-recovery-manifest" },
-      // Mystery wiring — advocate.blood_weave · e1 (Empire shelter records)
-      { id: "advocate-shelter-records", name: "Empire of Shadows — Shelter Records", description: "In the Empire-of-Shadows tier: partial shelter-records from three Empire dimensions. Soul-names, dates, Blood-Weave binding signatures. Totals run to the millions.", x: 68, y: 30, width: 6, height: 6, type: "interact", action: "room-mystery:archives:advocate-shelter-records" },
-      // Mystery wiring — storm.architect_of_flux · color (archives)
-      { id: "storm-calm-intervals", name: "Documented Calm Intervals (Two)", description: "In the cosmic-weather tier: two equilibrium-crossing flatten periods. First calm — Second Fall. Second calm — Casino Heist's planning window. Each followed by the decade's peak flux.", x: 52, y: 30, width: 6, height: 6, type: "interact", action: "room-mystery:archives:storm-calm-intervals" },
-      { id: "storm-final-correlation-table", name: "Storm Case-Closure Correlation Table", description: "On the closing-record shelf: seven peak flux periods, seven calms, seven cosmic-consequential moments. The Storm's work as the chronicle's permission to be consequential.", x: 60, y: 30, width: 6, height: 6, type: "interact", action: "room-mystery:archives:storm-final-correlation-table" },
-      // Mystery wiring — mechronis.chained_lesson · color (archives)
-      { id: "chained-failure-log", name: "Apprentice-Failure Log", description: "In the apprentice-affairs tier: thirty-one entries. Each error shares a common shape — each apprentice mistook a Terminus formation feint for an actual approach.", x: 28, y: 30, width: 6, height: 6, type: "interact", action: "room-mystery:archives:chained-failure-log" },
-      { id: "chained-dean-annotation-record", name: "Dean's Nine-Year Annotation Record", description: "Beside the failure log: the Dean's prospective-faculty records — Auro's name on the list since Year 6, with the same annotation dated nine times.", x: 36, y: 30, width: 6, height: 6, type: "interact", action: "room-mystery:archives:chained-dean-annotation-record" },
-      { id: "chained-thirty-one-names-read", name: "Thirty-One Names Read at Rite", description: "On the rite-record shelf: the transcript of the thirty-one apprentice-failure names read aloud. Fifteen sent notes; sixteen sent silence. Both are read.", x: 44, y: 30, width: 6, height: 6, type: "interact", action: "room-mystery:archives:chained-thirty-one-names-read" },
-      // Mystery wiring — mechronis.missing_professor · e2 (binder page 14)
-      { id: "tarn-binder-page-14", name: "Tarn's Binder, Page 14 of 22", description: "In the lost-and-found drawer — the page of Tarn's lecture binder pulled from the festival hall's recycling bin. The equinox-address opening, in her own hand: 'I will not be teaching this year.'", x: 20, y: 30, width: 6, height: 6, type: "interact", action: "room-mystery:archives:tarn-binder-page-14" },
-      // Mystery wiring — memorial.forgotten_names · e1 (fourteen unwitnessed list)
-      { id: "memorial-fourteen-unwitnessed-list", name: "Fourteen-Imprint Unwitnessed Index", description: "In the Memorial-tier drawer: the list of fourteen imprints whose witnesses no longer live. By imprint-id only, the start of the plaza's search.", x: 27, y: 41, width: 6, height: 6, type: "interact", action: "room-mystery:archives:memorial-fourteen-unwitnessed-list" },
-      // Mystery wiring — wolf.anara_hunt · e3 + e4 (Crucible records + inheritance)
-      { id: "wolf-crucible-resurrection-record", name: "Crucible Resurrection Record", description: "In the Crucible-inheritance tier: the Year 128,652 A.A. log naming Lycos preserved-and-reanimated, with the Resurrectionist's seal in the corner.", x: 34, y: 52, width: 6, height: 6, type: "interact", action: "room-mystery:archives:wolf-crucible-resurrection-record" },
-      { id: "wolf-crucible-inheritance-manifest", name: "Crucible Inheritance Manifest", description: "The inheritance manifest: the un-itemized line 'preserved instruments (sealed)' the Antiquarian moved into Anara without audit.", x: 42, y: 52, width: 6, height: 6, type: "interact", action: "room-mystery:archives:wolf-crucible-inheritance-manifest" },
-      // Mystery wiring — akai_shi.red_death · e3 (Necromancer's targets-list dossier)
-      { id: "akai-necromancer-dossier", name: "Necromancer — Targets-List Dossier", description: "In the Necromancer-affairs tier: the dossier on the Architect's tenth-created Archon. The only entry on the Red Death's targets list whose date of elimination is blank.", x: 41, y: 63, width: 6, height: 6, type: "interact", action: "room-mystery:archives:akai-necromancer-dossier" },
-      // Mystery wiring — resurrectionist.cycle_walker · e1 + e2 (Matrix ledger + authoring chain)
-      { id: "resur-matrix-energy-ledger", name: "Matrix of Dreams — Energy Ledger Fragment", description: "In the Matrix-of-Dreams maintenance-era tier: the partial ledger. A sustained energy draw from an unnamed internal source, the editor's hand bracketing the 14% the imprints cannot account for.", x: 48, y: 74, width: 6, height: 6, type: "interact", action: "room-mystery:archives:resur-matrix-energy-ledger" },
-      { id: "resur-protocol-authoring-signature", name: "Resurrection-Protocol Authoring Chain", description: "Beside the Matrix ledger: every canonical resurrection-protocol signed in the Resurrectionist's four-part cipher — Sanctuary, Red Death, Anara — firing in his hand long after his canonical vanishing.", x: 56, y: 74, width: 6, height: 6, type: "interact", action: "room-mystery:archives:resur-protocol-authoring-signature" },
-      // Mystery wiring — storm.architect_of_flux · e3 (Inventor's heist window)
-      { id: "storm-inventors-heist-window", name: "Inventor's Casino Heist Accounting", description: "In the Inventor-arc tier: the Casino Heist's post-event accounting, opening line in the Inventor's hand: 'the Storm's grace allowed the window.'", x: 55, y: 85, width: 6, height: 6, type: "interact", action: "room-mystery:archives:storm-inventors-heist-window" },
-      { id: "clue-journal-desk", name: "Clue Journal", description: "Ten investigative arcs. The Two Witnesses record what you deduce.", x: 30, y: 84, width: 14, height: 12, type: "terminal", action: "/clue-journal", elaraDialog: "The Clue Journal. Ten arcs, the_watcher through fenra. The Two Witnesses log every reading you file — the canon is partly written by what you conclude." },
-      // Realigned 2026-04-25 for the AAA Final archives render — circular
-      // chamber with a raised central platform holding a glowing data orb,
-      // an orange-glowing archway centre-back (the Bridge exit), panel
-      // displays running left and right along the curved back wall, and
-      // podium pedestals arranged around the platform.
-      { id: "search-terminal", name: "Search Terminal", description: "A powerful database terminal that can search across all known entities.", x: 42, y: 38, width: 16, height: 30, type: "terminal", action: "/search", elaraDialog: "The main search terminal. Type any name, alias, or keyword and it will scan our entire database. Characters, locations, factions, songs — everything is indexed and cross-referenced." },
-      { id: "codex-shelf", name: "The Codex", description: "Ancient tomes and data crystals containing deep lore.", x: 65, y: 22, width: 22, height: 38, type: "terminal", action: "/codex", elaraDialog: "The Codex. These are the deeper lore entries — the histories, the prophecies, the classified files. Some entries are locked until you discover enough connections to piece them together." },
-      { id: "data-banks", name: "Data Banks", description: "Rows of humming data storage units containing centuries of records.", x: 13, y: 22, width: 22, height: 38, type: "examine", action: "room-mystery:archives:data-banks", elaraDialog: "Petabytes of data. Ship logs, personnel records, scientific research, intercepted transmissions. Most of it is corrupted or encrypted. I'm still trying to recover what I can." },
-      { id: "archive-crystal", name: "Encoded Crystal", description: "A crystal pulsing with amber light, partially decoded.", x: 55, y: 70, width: 7, height: 8, type: "item", action: "archive-crystal-beta", elaraDialog: "Another data crystal. This one has partial decryption — it seems to contain information about the Panopticon's surveillance network. The Architect's eyes were everywhere." },
-      { id: "door-bridge", name: "Bridge Door", description: "Return to the Command Bridge.", x: 54, y: 38, width: 10, height: 30, type: "door", action: "bridge" },
-      { id: "egg-archive-tome", name: "Unmarked Tome", description: "A book with no title, bound in material that feels warm to the touch.", x: 85, y: 70, width: 4, height: 6, type: "examine", action: "room-mystery:archives:egg-archive-tome", elaraDialog: "This book... it's not in any catalog. The binding material is organic — it's warm, like skin. The pages contain a prophecy written in a language I can't translate, but one word repeats: 'Dischord.' And at the very end, a drawing of seven seals. The Book of Revelation speaks of seven seals. Silence in Heaven follows the opening of the seventh." },
-      // ─── Shadow Tongue hotspots (2026-04-30 AAA Final drop) ───
-      // Authored against `archives:corrupted` art (apps/shared/roomMediaPrompts.ts).
-      // Layout per the prompt body:
-      //   • left-wall scroll rack: x≈4-12, y≈25-65
-      //   • lectern centre-foreground with indigo halo
-      //   • rewritten ledger on the lectern's small side-shelf
-      //   • freestanding glass cabinet stage-right with hand-stitched label
-      // Verify with /ark?debug-hotspots=1 if rectangles drift against the
-      // delivered render. Rectangles intentionally avoid overlap with the
-      // existing data-banks (left-back x:13, y:22) and codex-shelf (right-back).
-      { id: "corrupted-scroll-rack", name: "Corrupted Scroll Rack", description: "Twenty-eight scrolls behind frosted glass, each in two registers — warm-gold underlayer and a slightly out-of-register indigo overlayer.", x: 4, y: 64, width: 9, height: 22, type: "interact", action: "room-mystery:archives:corrupted-scroll-rack" },
-      { id: "rewritten-ledger", name: "Rewritten Ledger", description: "An open ledger on the lectern's side-shelf — two entries scrubbed to blanks, one margin annotation surviving in your own younger hand.", x: 32, y: 68, width: 8, height: 10, type: "interact", action: "room-mystery:archives:rewritten-ledger" },
-      { id: "indigo-glow-lectern", name: "Indigo-Glow Lectern", description: "The lectern's stone base is ringed in a faint halo in the colour you cannot name. Someone is logged in right now.", x: 42, y: 60, width: 16, height: 30, type: "interact", action: "room-mystery:archives:indigo-glow-lectern" },
-      { id: "unnameable-hue-cabinet", name: "Unnameable-Hue Cabinet", description: "A freestanding glass cabinet stage-right with a hand-stitched label dyed in an unnameable hue. One scroll inside is undyed and untouched.", x: 88, y: 30, width: 10, height: 38, type: "interact", action: "room-mystery:archives:unnameable-hue-cabinet" },
-      // ── NPC presence (Phase C) ──
+      // Re-anchored 2026-05-24 against the AAA Final archives render
+      // (art/rooms/archives/baseline.png) after a 15-variant audit pass
+      // (baseline + 14 state overlays: act_tier_2, battlepass_winter,
+      // companion_trust, cycle_longnight, epoch_shadowtongue, faction_
+      // antiquarian, governance_lore_unlock, investigation_tier, lore_
+      // shadowtongue, morality_dark, season_closing, trust_shelfmate,
+      // tv_spreading, unlock_loredex). Layout is consistent across
+      // every variant — landmarks don't shift — so baseline anchoring
+      // works universally.
+      //
+      // The 2026-04-25 anchoring described a "circular chamber with a
+      // raised central platform" and an "orange-glowing archway centre-
+      // back (the Bridge exit)" — that's not the AAA Final art. The
+      // actual chamber is a gothic vaulted library: drawer catalog
+      // along the left wall, fresco panels in the left-mid arches,
+      // a floating celestial-orb at center-back over a stone pedestal,
+      // a tall glass cabinet + armillary sphere right-of-center, a
+      // long wooden reading table with brass lamps across the
+      // foreground, and floor-to-ceiling cyan-lit bookshelves with a
+      // rolling ladder along the right wall.
+      //
+      // Major re-anchors:
+      //   • search-terminal (was floating at 42,38 on empty central
+      //     air) → anchored on the celestial-orb pedestal
+      //   • codex-shelf (was 65,22 on a back wall area) → anchored on
+      //     the right-wall bookshelves
+      //   • data-banks (was 13,22 in the upper-left) → anchored on
+      //     the left-wall drawer catalog full height
+      //   • door-bridge (was 54,38 on the orb area) → anchored at
+      //     foreground bottom as the player's walk-out path (no
+      //     visible door in the art; this is an implied exit)
+      //   • all 31 Architect-channel mystery rectangles were
+      //     scattered across the upper half of the screen at y=8/19/
+      //     30/40/41 with rows that didn't map to anything visible.
+      //     Redistributed onto the visible drawer wall (3-column ×
+      //     8-row grid, 22 rects) + right bookshelves (5 rects) +
+      //     center-cabinet area (4 rects). Each anchor describes a
+      //     "tier" / "drawer" / "shelf" so placing them on the
+      //     visible catalog & bookshelf surfaces matches the prose.
+      //   • Shadow Tongue rectangles (corrupted-scroll-rack,
+      //     rewritten-ledger, indigo-glow-lectern, unnameable-hue-
+      //     cabinet) re-anchored against actual visible surfaces;
+      //     the previously-cited "lectern centre-foreground" doesn't
+      //     exist in the baseline art, so indigo-glow-lectern moved
+      //     onto the orb pedestal base (where the Shadow Tongue NPC
+      //     would plausibly "log in")
+      //   • npc-antiquarian (was at 47,80 in the table-chair area) →
+      //     moved beside the orb at center where his description
+      //     places him
+      //   • npc-shadow-tongue stays on the lectern area (now the
+      //     orb pedestal base)
+      //
+      // Visible landmarks, left-to-right + foreground-to-back:
+      //   • left-wall drawer catalog — far-left, full height
+      //     (`data-banks` + 22 mystery sub-rects + `corrupted-
+      //     scroll-rack`)
+      //   • fresco / tapestry panels — left-mid wall (decorative)
+      //   • floating celestial-orb on stone pedestal — center back
+      //     (`search-terminal`, `indigo-glow-lectern`,
+      //     `npc-shadow-tongue`)
+      //   • tall glass cabinet — center-right (`unnameable-hue-
+      //     cabinet` + central-area mystery sub-rects)
+      //   • armillary sphere on stand — right-of-center (decorative)
+      //   • long wooden reading table with brass lamps — foreground
+      //     center (`rewritten-ledger`, `clue-journal-desk`,
+      //     `archive-crystal`)
+      //   • floor-to-ceiling bookshelves + rolling ladder — right
+      //     wall (`codex-shelf` + 5 shelf mystery sub-rects +
+      //     `egg-archive-tome`)
+      //   • foreground-right framed botanical illustration
+      //     (decorative)
+      //
+      // Render order: container hotspots authored FIRST; small sub-
+      // rectangles (mystery rects, item hotspots, NPCs) authored
+      // AFTER so they win clicks on specific drawers / shelves /
+      // tomes. NPCs authored last so projections win clicks when
+      // manifested.
+      //
+      // Verify with /ark?debug-hotspots=1 or, for drag-to-place
+      // editing, /ark?author-hotspots=1.
+
+      // ── FEATURE / CONTAINER HOTSPOTS ──
+      { id: "data-banks", name: "Data Banks", description: "The far-left wall is a floor-to-ceiling catalog drawer system — every drawer a tier of the Saga's record. Petabytes of data.", x: 0, y: 18, width: 14, height: 70, type: "examine", action: "room-mystery:archives:data-banks", elaraDialog: "Petabytes of data. Ship logs, personnel records, scientific research, intercepted transmissions. Most of it is corrupted or encrypted. I'm still trying to recover what I can." },
+      { id: "codex-shelf", name: "The Codex", description: "Floor-to-ceiling cyan-lit bookshelves along the right wall, scaled by a rolling ladder. Ancient tomes and data crystals containing deep lore.", x: 70, y: 5, width: 28, height: 78, type: "terminal", action: "/codex", elaraDialog: "The Codex. These are the deeper lore entries — the histories, the prophecies, the classified files. Some entries are locked until you discover enough connections to piece them together." },
+      { id: "search-terminal", name: "Search Terminal", description: "A floating celestial orb on a stone pedestal at center-back — the chamber's database query interface. Speak any name, alias, or keyword and the orb scans every indexed record.", x: 33, y: 28, width: 18, height: 32, type: "terminal", action: "/search", elaraDialog: "The main search terminal. Type any name, alias, or keyword and it will scan our entire database. Characters, locations, factions, songs — everything is indexed and cross-referenced." },
+      { id: "clue-journal-desk", name: "Clue Journal", description: "An open journal at the center of the reading table. Ten investigative arcs; the Two Witnesses record what you deduce.", x: 25, y: 78, width: 14, height: 12, type: "terminal", action: "/clue-journal", elaraDialog: "The Clue Journal. Ten arcs, the_watcher through fenra. The Two Witnesses log every reading you file — the canon is partly written by what you conclude." },
+
+      // ── DOORS ──
+      // No visible door in the archives art — the Bridge is reached by
+      // walking back out the way the player entered. Anchored as an
+      // invisible click band along the foreground bottom of the table.
+      { id: "door-bridge", name: "Bridge Door", description: "Return to the Command Bridge.", x: 40, y: 94, width: 20, height: 5, type: "door", action: "bridge" },
+
+      // ── ITEM HOTSPOTS ──
+      { id: "archive-crystal", name: "Encoded Crystal", description: "A crystal pulsing with amber light, set on the reading table beside one of the brass lamps.", x: 48, y: 70, width: 6, height: 7, type: "item", action: "archive-crystal-beta", elaraDialog: "Another data crystal. This one has partial decryption — it seems to contain information about the Panopticon's surveillance network. The Architect's eyes were everywhere." },
+      { id: "egg-archive-tome", name: "Unmarked Tome", description: "A book with no title, sitting on an upper shelf of the right-wall stacks. The binding material is organic and warm to the touch.", x: 88, y: 18, width: 5, height: 8, type: "examine", action: "room-mystery:archives:egg-archive-tome", elaraDialog: "This book... it's not in any catalog. The binding material is organic — it's warm, like skin. The pages contain a prophecy written in a language I can't translate, but one word repeats: 'Dischord.' And at the very end, a drawing of seven seals. The Book of Revelation speaks of seven seals. Silence in Heaven follows the opening of the seventh." },
+
+      // ── SHADOW TONGUE HOTSPOTS (2026-04-30 AAA Final drop) ──
+      // Re-anchored 2026-05-24 against the actual visible surfaces:
+      //   • corrupted-scroll-rack: lower portion of the left drawer
+      //     wall (the "scroll rack behind frosted glass" reads as the
+      //     lower drawer-bay glass fronts)
+      //   • rewritten-ledger: on the reading table foreground
+      //   • indigo-glow-lectern: the stone pedestal beneath the
+      //     celestial orb (the chamber's actual login point — no
+      //     freestanding lectern is visible)
+      //   • unnameable-hue-cabinet: the tall glass cabinet right-of-
+      //     center (the only freestanding glass cabinet in the art)
+      { id: "corrupted-scroll-rack", name: "Corrupted Scroll Rack", description: "The lower bay of the left-wall drawer catalog — twenty-eight scrolls behind frosted glass, each in two registers: warm-gold underlayer and a slightly out-of-register indigo overlayer.", x: 0, y: 72, width: 14, height: 16, type: "interact", action: "room-mystery:archives:corrupted-scroll-rack" },
+      { id: "rewritten-ledger", name: "Rewritten Ledger", description: "An open ledger on the reading table — two entries scrubbed to blanks, one margin annotation surviving in your own younger hand.", x: 18, y: 73, width: 7, height: 8, type: "interact", action: "room-mystery:archives:rewritten-ledger" },
+      { id: "indigo-glow-lectern", name: "Indigo-Glow Lectern", description: "The orb's stone pedestal at center-back is ringed in a faint halo in the colour you cannot name. Someone is logged in right now.", x: 36, y: 56, width: 12, height: 14, type: "interact", action: "room-mystery:archives:indigo-glow-lectern" },
+      { id: "unnameable-hue-cabinet", name: "Unnameable-Hue Cabinet", description: "The tall glass cabinet right-of-center — a hand-stitched label dyed in an unnameable hue. One scroll inside is undyed and untouched.", x: 49, y: 25, width: 11, height: 38, type: "interact", action: "room-mystery:archives:unnameable-hue-cabinet" },
+
+      // ── ARCHITECT-CHANNEL MYSTERY DRAWERS (left drawer wall, 22 rects) ──
+      // 3-column × 8-row grid of 4×5 sub-rectangles on the left-wall
+      // drawer catalog. Each represents pulling a specific drawer:
+      // Foundation-tier wing, Severance-tier records, Memorial-tier
+      // sub-drawer, etc. Authored AFTER data-banks so they win clicks
+      // on the specific drawer rows.
+      //
+      // Row 1 (y=20) — Charter / Severance foundation
+      { id: "charter-silt-stratigraphy", name: "Charter Silt-Core Extraction", description: "The lower-deck silt-core on a brass tripod in the Foundation-tier wing — eight strata, the charter sitting in stratum six, two later burials closed over it.", x: 1, y: 20, width: 4, height: 5, type: "interact", action: "room-mystery:archives:charter-silt-stratigraphy" },
+      { id: "charter-per-m-preservation-orders", name: "Per. M.'s Preservation-Order File", description: "Forty-three preservation orders on the standing-order vault, one identical signature across eight epochs: 'Per. M.' The inks shift; the hand does not.", x: 5, y: 20, width: 4, height: 5, type: "interact", action: "room-mystery:archives:charter-per-m-preservation-orders" },
+      { id: "severance-no-protocol-on-file", name: "Empty Inheritance-Protocol Vault", description: "In the Severance-tier records: the inheritance-protocol vault, empty since the league's founding. The slot exists; the protocol does not.", x: 9, y: 20, width: 4, height: 5, type: "interact", action: "room-mystery:archives:severance-no-protocol-on-file" },
+      // Row 2 (y=27) — Severance / Infernal envelopes
+      { id: "severance-forty-season-envelopes", name: "Forty Sealed Season Envelopes", description: "Beside the empty vault: forty sealed envelopes, one per Severance. Each contains an attendance list, a death certificate, and Vex Maestro's one-line 'inheritor accepted.' No name on any of them.", x: 1, y: 27, width: 4, height: 5, type: "interact", action: "room-mystery:archives:severance-forty-season-envelopes" },
+      { id: "infernal-envelope-set", name: "Forty Envelopes — Solène's Archive", description: "In the audit-evidence drawer: forty envelopes, one per season, pulled from Solène's back-room archive. Each contract has a back. Every back has a clause.", x: 5, y: 27, width: 4, height: 5, type: "interact", action: "room-mystery:archives:infernal-envelope-set" },
+      { id: "infernal-atalin-history", name: "Atalin's Personnel History", description: "In the personnel-archive tier: hired two weeks before the first season, dismissed two weeks after. Cause: 'inability to satisfy the Hierarchy ledger-keeper's role concurrently.'", x: 9, y: 27, width: 4, height: 5, type: "interact", action: "room-mystery:archives:infernal-atalin-history" },
+      // Row 3 (y=34) — Charter2 / Memorial
+      { id: "charter2-solven-tax-records", name: "Solven Tax Records — Epoch-Four Redaction", description: "In the tax-registry tier: three epochs of careful payments; epoch four shows the redaction — every Solven entry struck through, replaced with 'in arrears, year unknown.'", x: 1, y: 34, width: 4, height: 5, type: "interact", action: "room-mystery:archives:charter2-solven-tax-records" },
+      { id: "charter2-scrubber-personnel", name: "Heron — Council Archivist Personnel File", description: "In the personnel-archive tier: a Council archivist named Heron — fourth-epoch, retired in the fifth, dead in the sixth. One assignment: 'tidy the founding records.' Nine years.", x: 5, y: 34, width: 4, height: 5, type: "interact", action: "room-mystery:archives:charter2-scrubber-personnel" },
+      { id: "memorial-imprint-log", name: "Imprint-Keeper's Leather-Bound Log", description: "In the Memorial-tier sub-drawer: the leather-bound imprint log. The fourteen entries are the only ones with no inscribed name; each waits for a witness slot.", x: 9, y: 34, width: 4, height: 5, type: "interact", action: "room-mystery:archives:memorial-imprint-log" },
+      // Row 4 (y=41) — Memorial / Tarn (faculty erasure)
+      { id: "memorial-three-elders", name: "Three Elders Who Refused — Long-Wait Register", description: "In the long-wait register: I-155, I-202, I-301 each refused to name themselves at the moment of imprinting. All three on the unwitnessed list for over a decade.", x: 1, y: 41, width: 4, height: 5, type: "interact", action: "room-mystery:archives:memorial-three-elders" },
+      { id: "tarn-absent-notes", name: "Lectern Drawer — Empty (Tarn's Binder Missing)", description: "In the lost-and-found drawer: Tarn's lecture binder is missing from the lectern's drawer. Removed at second bell; not recovered at the lectern.", x: 5, y: 41, width: 4, height: 5, type: "interact", action: "room-mystery:archives:tarn-absent-notes" },
+      { id: "tarn-erasure-protocol", name: "Faculty Erasure Protocol", description: "In the meeting-minutes annex: 'Step one: omit the professor's name. Step two: invite as contributor, not faculty member. Step three: if declined, proceed.' Tarn was never invited to step two.", x: 9, y: 41, width: 4, height: 5, type: "interact", action: "room-mystery:archives:tarn-erasure-protocol" },
+      // Row 5 (y=48) — Tarn / Akai / Advocate
+      { id: "tarn-missing-invitation", name: "Unsent Invitation to Tarn", description: "Beside the protocol: an unsent invitation drafted but never delivered. The Dean's signature is absent. The invitation has been sitting in the outbox for six days.", x: 1, y: 48, width: 4, height: 5, type: "interact", action: "room-mystery:archives:tarn-missing-invitation" },
+      { id: "akai-recovery-manifest", name: "Akai Shi's Body-Recovery Manifest", description: "In the Thaloria-recovery tier: collected by external agent — Resurrectionist Ne-Yon — within the same engagement cycle. Antiquarian's library entry deferred at the Resurrectionist's request.", x: 5, y: 48, width: 4, height: 5, type: "interact", action: "room-mystery:archives:akai-recovery-manifest" },
+      { id: "advocate-shelter-records", name: "Empire of Shadows — Shelter Records", description: "In the Empire-of-Shadows tier: partial shelter-records from three Empire dimensions. Soul-names, dates, Blood-Weave binding signatures. Totals run to the millions.", x: 9, y: 48, width: 4, height: 5, type: "interact", action: "room-mystery:archives:advocate-shelter-records" },
+      // Row 6 (y=55) — Storm / Chained
+      { id: "storm-calm-intervals", name: "Documented Calm Intervals (Two)", description: "In the cosmic-weather tier: two equilibrium-crossing flatten periods. First calm — Second Fall. Second calm — Casino Heist's planning window. Each followed by the decade's peak flux.", x: 1, y: 55, width: 4, height: 5, type: "interact", action: "room-mystery:archives:storm-calm-intervals" },
+      { id: "chained-failure-log", name: "Apprentice-Failure Log", description: "In the apprentice-affairs tier: thirty-one entries. Each error shares a common shape — each apprentice mistook a Terminus formation feint for an actual approach.", x: 5, y: 55, width: 4, height: 5, type: "interact", action: "room-mystery:archives:chained-failure-log" },
+      { id: "chained-dean-annotation-record", name: "Dean's Nine-Year Annotation Record", description: "Beside the failure log: the Dean's prospective-faculty records — Auro's name on the list since Year 6, with the same annotation dated nine times.", x: 9, y: 55, width: 4, height: 5, type: "interact", action: "room-mystery:archives:chained-dean-annotation-record" },
+      // Row 7 (y=62) — Tarn binder / Memorial 14 / Wolf
+      { id: "tarn-binder-page-14", name: "Tarn's Binder, Page 14 of 22", description: "In the lost-and-found drawer — the page of Tarn's lecture binder pulled from the festival hall's recycling bin. The equinox-address opening, in her own hand: 'I will not be teaching this year.'", x: 1, y: 62, width: 4, height: 5, type: "interact", action: "room-mystery:archives:tarn-binder-page-14" },
+      { id: "memorial-fourteen-unwitnessed-list", name: "Fourteen-Imprint Unwitnessed Index", description: "In the Memorial-tier drawer: the list of fourteen imprints whose witnesses no longer live. By imprint-id only, the start of the plaza's search.", x: 5, y: 62, width: 4, height: 5, type: "interact", action: "room-mystery:archives:memorial-fourteen-unwitnessed-list" },
+      { id: "wolf-crucible-resurrection-record", name: "Crucible Resurrection Record", description: "In the Crucible-inheritance tier: the Year 128,652 A.A. log naming Lycos preserved-and-reanimated, with the Resurrectionist's seal in the corner.", x: 9, y: 62, width: 4, height: 5, type: "interact", action: "room-mystery:archives:wolf-crucible-resurrection-record" },
+      // Row 8 (y=69) — Wolf inheritance / Akai dossier / Matrix ledger
+      { id: "wolf-crucible-inheritance-manifest", name: "Crucible Inheritance Manifest", description: "The inheritance manifest: the un-itemized line 'preserved instruments (sealed)' the Antiquarian moved into Anara without audit.", x: 1, y: 69, width: 4, height: 5, type: "interact", action: "room-mystery:archives:wolf-crucible-inheritance-manifest" },
+      { id: "akai-necromancer-dossier", name: "Necromancer — Targets-List Dossier", description: "In the Necromancer-affairs tier: the dossier on the Architect's tenth-created Archon. The only entry on the Red Death's targets list whose date of elimination is blank.", x: 5, y: 69, width: 4, height: 5, type: "interact", action: "room-mystery:archives:akai-necromancer-dossier" },
+      { id: "resur-matrix-energy-ledger", name: "Matrix of Dreams — Energy Ledger Fragment", description: "In the Matrix-of-Dreams maintenance-era tier: the partial ledger. A sustained energy draw from an unnamed internal source, the editor's hand bracketing the 14% the imprints cannot account for.", x: 9, y: 69, width: 4, height: 5, type: "interact", action: "room-mystery:archives:resur-matrix-energy-ledger" },
+
+      // ── RIGHT BOOKSHELF MYSTERIES (5 shelf rects) ──
+      // Authored AFTER codex-shelf so they win clicks on specific
+      // shelf positions (each is described as being on a particular
+      // shelf — "closing-record shelf", "rite-record shelf", etc.).
+      { id: "tarn-letter-to-dean", name: "Tarn's Letter to the Dean", description: "On the classified-correspondence shelf: Tarn's sealed letter to the Dean. Explains the request to Roen, the planned silence, the Dean's choice now.", x: 72, y: 10, width: 5, height: 6, type: "interact", action: "room-mystery:archives:tarn-letter-to-dean" },
+      { id: "chained-thirty-one-names-read", name: "Thirty-One Names Read at Rite", description: "On the rite-record shelf: the transcript of the thirty-one apprentice-failure names read aloud. Fifteen sent notes; sixteen sent silence. Both are read.", x: 78, y: 10, width: 5, height: 6, type: "interact", action: "room-mystery:archives:chained-thirty-one-names-read" },
+      { id: "storm-final-correlation-table", name: "Storm Case-Closure Correlation Table", description: "On the closing-record shelf: seven peak flux periods, seven calms, seven cosmic-consequential moments. The Storm's work as the chronicle's permission to be consequential.", x: 84, y: 10, width: 5, height: 6, type: "interact", action: "room-mystery:archives:storm-final-correlation-table" },
+      { id: "infernal-box-owner", name: "Forge-Workshop Box Ownership Log", description: "In the forge-workshop annex log: the PRELIMINARIES box logged to Atalin, ledger-keeper, Year One. One season; never replaced.", x: 72, y: 28, width: 5, height: 6, type: "interact", action: "room-mystery:archives:infernal-box-owner" },
+      { id: "resur-protocol-authoring-signature", name: "Resurrection-Protocol Authoring Chain", description: "On the cult-protocols shelf: every canonical resurrection-protocol signed in the Resurrectionist's four-part cipher — Sanctuary, Red Death, Anara — firing in his hand long after his canonical vanishing.", x: 78, y: 28, width: 5, height: 6, type: "interact", action: "room-mystery:archives:resur-protocol-authoring-signature" },
+
+      // ── CENTER-CABINET / ORB-AREA MYSTERIES (3 rects) ──
+      // Authored AFTER unnameable-hue-cabinet + search-terminal so
+      // they win clicks on specific cabinet shelves / artefacts.
+      { id: "resur-twin-glyph", name: "Resurrectionist Twin-Glyph Reference", description: "In the Ne-Yon-glyph reference tier: two mirrored crescents joined at a central axis. The cult reads 'death-bound'; the pre-Empire archaeology reads 'twin-bound.' Two readings; one editorial.", x: 50, y: 30, width: 5, height: 5, type: "interact", action: "room-mystery:archives:resur-twin-glyph" },
+      { id: "storm-inventors-heist-window", name: "Inventor's Casino Heist Accounting", description: "On a shelf inside the freestanding glass cabinet: the Casino Heist's post-event accounting, opening line in the Inventor's hand: 'the Storm's grace allowed the window.'", x: 50, y: 40, width: 5, height: 5, type: "interact", action: "room-mystery:archives:storm-inventors-heist-window" },
+
+      // ── NPC PRESENCE (Phase C) ──
       // The Antiquarian — primaryRoom in factionNPCs.ts. A temporal echo
-      // hovering near the central platform; talk routes to NPCDialog.
-      { id: "npc-antiquarian", name: "The Antiquarian", description: "A figure half-out-of-time stands beside the data orb, removing his goggles to look at you.", x: 47, y: 80, width: 8, height: 14, type: "npc", action: "npc:the_antiquarian", npcId: "the_antiquarian" },
+      // beside the celestial orb at center-back. Talk routes to NPCDialog.
+      { id: "npc-antiquarian", name: "The Antiquarian", description: "A figure half-out-of-time stands beside the orb, removing his goggles to look at you.", x: 51, y: 38, width: 7, height: 18, type: "npc", action: "npc:the_antiquarian", npcId: "the_antiquarian" },
       // Shadow Tongue — secondaryRoom = archives. Manifests as a possessed
-      // system; visible at the lectern when he's currently logged in.
-      { id: "npc-shadow-tongue", name: "Shadow Tongue (Presence)", description: "The lectern's indigo halo deepens. A reflection in the glass cabinet doesn't match yours. Someone else is editing — right now.", x: 42, y: 50, width: 6, height: 10, type: "npc", action: "npc:shadow_tongue", npcId: "shadow_tongue" },
+      // system; visible at the orb pedestal when he's currently logged in.
+      // Authored AFTER indigo-glow-lectern so the NPC wins clicks on the
+      // pedestal area when manifested.
+      { id: "npc-shadow-tongue", name: "Shadow Tongue (Presence)", description: "The orb pedestal's indigo halo deepens. A reflection in the cabinet glass doesn't match yours. Someone else is editing — right now.", x: 38, y: 58, width: 8, height: 10, type: "npc", action: "npc:shadow_tongue", npcId: "shadow_tongue" },
     ],
   },
   {
